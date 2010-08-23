@@ -1,0 +1,311 @@
+<html>
+<head>
+</head>
+
+<body>
+    <center><h1>Mantis UserGuide</h1></center>
+
+<br><br><br><br>
+
+<br><br>	
+
+    <table border="1">
+        <tbody>
+    	<tr>
+    		<td bgcolor="#fcbdbd"><b>New</b></td>
+    	</tr>
+    	<tr>
+    		<td>Description</td>
+    		<td>le manager crée une nouvelle fiche a partir de TC</td>
+    	</tr>
+    	<tr>
+    		<td>quand</td>
+    		<td>dès que la fiche TC apparait</td>
+    	</tr>
+    	<tr>
+    		<td>qui</td>
+    		<td>le manager</td>
+    	</tr>
+    	<tr>
+    		<td>champs a remplir</td>
+    		<td>
+                <table border="0">
+                <tr><td><b>Category</b></td></tr>
+                <tr><td><b>Severity</b></td></tr>
+                <tr><td><b>Priority</b></td></tr>
+                <tr><td><b>assigned to :</b></td><td>CoDev (ou personne)</td></tr>
+                <tr><td><b>ETA :</b></td><td>indicateur de difficulté</td></tr>
+                <tr><td><b>Summary</b></td></tr>
+                <tr><td><b>Descriptionription</b></td></tr>
+                <tr><td><b>TC :</b></td><td>le numero de fiche TeleLogic</td></tr>
+                <tr><td><b>Release :</b></td>
+                    <td>[GEMS/1.5.1] [GEMS/1.6] [GEMS/1.7] [OLTP/3.5.0] [OLTP/3.6.0] [OLTP/3.7.0] [OLTP/3.9.0]</td>
+                </tr>
+                <tr><td><b>Dead Line :</b></td><td>Date butoire de livraison</td></tr>
+                </table>
+            </td>
+    	</tr>
+    	<tr>
+    		<td>actions autres</td>
+    		<td>.</td>
+    	</tr>
+        </tbody>
+    </table>
+
+<br><br>
+
+    <table border="1">
+        <tbody>
+    	<tr>
+    		<td bgcolor="#ffcd85">New -> <b>Acknoledged</b></td>
+    	</tr>
+    	<tr>
+    		<td>Description</td>
+    		<td>début de l'analyse</td>
+    	</tr>
+    	<tr>
+    		<td>quand</td>
+    		<td>lorsque je commence a etudier la fiche</td>
+    	</tr>
+    	<tr>
+    		<td>qui</td>
+    		<td>la personne qui fait l'analyse</td>
+    	</tr>
+    	<tr>
+    		<td>champs a remplir</td>
+    		<td><b>assigned to:</b> la personne qui fait l'analyse (moi)</td>
+    	</tr>
+    	<tr>
+    		<td>actions autres</td>
+    		<td>.</td>
+    	</tr>
+        </tbody>
+    </table>
+
+<br><br>
+
+    <table border="1">
+        <tbody>
+    	<tr>
+    		<td bgcolor="#e3b7eb">Acknoledged -> <b>Feedback</b></td>
+    	</tr>
+    	<tr>
+    		<td>Description</td>
+    		<td>Lors de l'analyse, des points ont besoins d'etre eclaircis.</td>
+    	</tr>
+    	<tr>
+    		<td>quand</td>
+    		<td>lorsque des questions doivent etre poses a la FDJ ou a Atos pendant l'analyse  </td>
+    	</tr>
+    	<tr>
+    		<td>qui</td>
+    		<td>la personne qui fait l'analyse (moi)</td>
+    	</tr>
+    	<tr>
+    		<td>champs a remplir</td>
+    		<td>
+                <table border="0">
+                    <tr><td><b>assigned to :</b></td><td>la personne qui sait repondre (fdj, ou autre)</td></tr>
+                    <tr><td><b>Notes :</b></td><td>la liste des points a eclaircir</td></tr>
+                </table>
+            </td>
+    	</tr>
+    	<tr>
+    		<td>actions autres</td>
+    		<td>cliquer sur le bouton <b>"Monitor</b> pour suivre le bug</td>
+    	</tr>
+        </tbody>
+    </table>
+
+<br><br>
+
+    <table border="1">
+        <tbody>
+    	<tr>
+    		<td BGCOLOR="#fff494">Acknoledged -> <b>Analyzed</b></td>
+    	</tr>
+    	<tr>
+    		<td>Description</td>
+    		<td>l'analyse est terminee, il faut que la FDJ (ou le manager) accepte les modifications. </td>
+    	</tr>
+    	<tr>
+    		<td>quand</td>
+    		<td>lorsque l'analyse est terminee.</td>
+    	</tr>
+    	<tr>
+    		<td>qui</td>
+    		<td>la personne qui a fait l'analyse (moi)</td>
+    	</tr>
+    	<tr>
+    		<td>champs a remplir</td>
+    		<td>
+                <table border="0">
+                    <tr><td><b>assigned to :</b></td><td>fdj</td></tr>
+                    <tr><td><b>Est. Effort (BI) :</b></td><td>le temps necessaire a la correction de la fiche, tests inclus.</td></tr>
+                    <tr><td><b>Remaining (RAE) :</b></td><td>le reste a faire. a ce stade il est egal a BI.</td></tr>
+                </table>
+            </td>
+    	</tr>
+    	<tr>
+    		<td>actions autres</td>
+    		<td>.</td>
+    	</tr>
+        </tbody>
+    </table>
+
+<br><br>
+
+
+    <table border="1">
+        <tbody>
+    	<tr>
+    		<td BGCOLOR="#FF6A6E">Analyzed -> <b>Accepted</b></td>
+    	</tr>
+    	<tr>
+    		<td>Description</td>
+    		<td>la FDJ est ok avec la modif et la charge estimee.</td>
+    	</tr>
+    	<tr>
+    		<td>quand</td>
+    		<td>.</td>
+    	</tr>
+    	<tr>
+    		<td>qui</td>
+    		<td>fdj</td>
+    	</tr>
+    	<tr>
+    		<td>champs a remplir</td>
+    		<td><b>assigned to :</b>CoDev
+            </td>
+    	</tr>
+    	<tr>
+    		<td>actions autres</td>
+    		<td>.</td>
+    	</tr>
+        </tbody>
+    </table>
+
+<br><br>
+
+    <table border="1">
+        <tbody>
+    	<tr>
+    		<td BGCOLOR="#c2dfff">Accepted -> <b>Openned</b></td>
+    	</tr>
+    	<tr>
+    		<td>Description</td>
+    		<td>debut du dev</td>
+    	</tr>
+    	<tr>
+    		<td>quand</td>
+    		<td>lorsque commence la réalisation du dev.</td>
+    	</tr>
+    	<tr>
+    		<td>qui</td>
+    		<td>le developeur (moi)</td>
+    	</tr>
+    	<tr>
+    		<td>champs a remplir</td>
+    		<td>.</td>
+    	</tr>
+    	<tr>
+    		<td>actions autres</td>
+    		<td>au fil du developpement, tenir a jour les champs :<br>
+                <b>Remaining (RAE)</b></td>
+    	</tr>
+        </tbody>
+    </table>
+
+<br><br>
+
+    <table border="1">
+        <tbody>
+    	<tr>
+    		<td bgcolor="#8080ff">Openned -> <b>Deferred</b></td>
+    	</tr>
+    	<tr>
+    		<td>Description</td>
+    		<td>Le dev sur cette fiche doit etre temporairement interrompu.<br>
+                (Exemple: raison technique ou info manquante)</td>
+    	</tr>
+    	<tr>
+    		<td>quand</td>
+    		<td>pendant le développement</td>
+    	</tr>
+    	<tr>
+    		<td>qui</td>
+    		<td>le developeur</td>
+    	</tr>
+    	<tr>
+    		<td>champs a remplir</td>
+            <td><b>assigned to</b> : fdj</td>
+    	</tr>
+    	<tr>
+    		<td>actions autres</td>
+    		<td>cliquer sur le bouton <b>"Monitor"</b> pour suivre le bug</td>
+    	</tr>
+        </tbody>
+    </table>
+
+<br><br>
+
+    <table border="1">
+        <tbody>
+    	<tr>
+    		<td bgcolor="#d2f5b0">Openned -> <b>Resolved</b></td>
+    	</tr>
+    	<tr>
+    		<td>Description</td>
+    		<td>fin du dev et des tests, la FDJ doit valider la correction</td>
+    	</tr>
+    	<tr>
+    		<td>quand</td>
+    		<td>a la fin des tests, du commit Continuous et de la fiche de livraison</td>
+    	</tr>
+    	<tr>
+    		<td>qui</td>
+    		<td>le developeur</td>
+    	</tr>
+    	<tr>
+    		<td>champs a remplir</td>
+    		<td>
+                <table border="0">
+                    <tr><td><b>assigned to :</b></td><td>fdj</td></tr>
+                    <tr><td><b>Remaining (RAE) :</b></td><td>0</td></tr>
+                </table>
+            </td>
+    	</tr>
+    	<tr>
+    		<td>actions autres</td>
+    		<td>.</td>
+    	</tr>
+        </tbody>
+    </table>
+<br><br>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+</body>
+
+
+</html>

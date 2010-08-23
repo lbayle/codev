@@ -1,0 +1,15 @@
+
+
+
+
+** TimeTracking - User
+
+- the task does not apear in the task list :
+  be sure that you have the proper rights to work on this project.
+  check mantis_project_user_list_table.
+
+
+** TimeTracking - TeamLeader
+
+
+
