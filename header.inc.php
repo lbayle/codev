@@ -46,7 +46,7 @@ td {
 }
 
 #login {
-  text-align: right;
+  text-align: left;
 }
 #menu {
 }
@@ -55,6 +55,20 @@ td {
   margin: 0;
   padding: 0;
 }
+
+#menu table {
+  border: 1px solid black;
+  width: 100%
+}
+#menu td {
+  background-color: #e8e8e8;
+  border: 0px solid white;
+  font-family : Verdana,Arial,Helvetica,sans-serif;
+  white-space : nowrap;
+  text-align : center;
+  font-size: 11px;
+}
+
 #mantis, #timetracking, #reports {
   padding: 5px;
   margin: 5px;

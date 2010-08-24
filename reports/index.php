@@ -2,11 +2,11 @@
 
 <?php include '../header.inc.php'; ?>
 
+<?php include '../login.inc.php'; ?>
+<?php include '../menu.inc.php'; ?>
+
 <h1>Mantis reports</h1>
 
-<?php include '../login.inc.php'; ?>
-
-<?php include '../menu.inc.php'; ?>
 
 <div id="content">
 

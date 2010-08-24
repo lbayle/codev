@@ -9,11 +9,11 @@ if (!isset($_SESSION['userid'])) {
 
 <?php include '../header.inc.php'; ?>
 
+<?php include '../login.inc.php'; ?>
+<?php include '../menu.inc.php'; ?>
+
 <h1>Activit&eacute; Hebdo</h1>
 
-<?php include '../login.inc.php'; ?>
-
-<?php include '../menu.inc.php'; ?>
 
 <script language="JavaScript">
   function submitForm() {

@@ -2,11 +2,11 @@
 
 <?php include '../header.inc.php'; ?>
 
+<?php include '../login.inc.php'; ?>
+<?php include '../menu.inc.php'; ?>
+
 <h1>Indicateurs de production</h1>
 
-<?php include '../login.inc.php'; ?>
-
-<?php include '../menu.inc.php'; ?>
 
 <script language="JavaScript">
   function submitForm() {
@@ -141,7 +141,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td title='ResolvedIssues * IssueDifficulty / prodDaysFDJ'>Productivity Rate</td>\n";
   echo "<td>".number_format($productivityRate, 2)."</td>\n";
-  echo "<td>nombre de bugs resolus par jour</td>\n";
+  echo "<td>nombre de bugs resolus par jour. Les bugs réouverts ne sont pas comptabilis&eacute;s</td>\n";
   echo "<td>nbResolvedIssues * IssueDifficulty / prodDaysFDJ</td>\n";
   echo "</tr>\n";
 

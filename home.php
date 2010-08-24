@@ -2,9 +2,11 @@
 
 <?php include 'header.inc.php'; ?>
 
+<?php include 'login.inc.php'; ?>
+<?php include 'menu.inc.php'; ?>
+
 <h1>Bienvenu sur le serveur CoDev</h1>
 
-<?php include 'login.inc.php'; ?>
 
 <div id="content" class="center">
 

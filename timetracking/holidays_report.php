@@ -2,11 +2,10 @@
 
 <?php include '../header.inc.php'; ?>
 
-<h1>Pr&eacute;vision cong&eacute;s</h1>
-
 <?php include '../login.inc.php'; ?>
-
 <?php include '../menu.inc.php'; ?>
+
+<h1>Pr&eacute;vision cong&eacute;s</h1>
 
 <script language="JavaScript">
  function submitForm() {
