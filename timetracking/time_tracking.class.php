@@ -208,7 +208,8 @@ class TimeTracking {
        if ($formatedProjList != "") { $formatedProjList .= ', ';}
        $formatedProjList .= $prid;
     }
-
+    // all bugs which status changed to 'resolved' whthin the timestamp
+    // and that have not been re-opened since then.
     $query = "SELECT mantis_bug_table.id ,".
                     "mantis_bug_table.eta, ".
                     "mantis_bug_history_table.new_value, ".
@@ -230,7 +231,7 @@ class TimeTracking {
     while($row = mysql_fetch_object($result)) {
     	
     	if (!in_array ($row->id, $resolvedList)) {
-         if (isset($_GET['debug'])) { echo "getProductivRate Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F", $row->date_modified)."<br/>"; }
+         if (isset($_GET['debug'])) { echo "getProductivRate Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified)."<br/>"; }
       
          $resolvedList[] = $row->id;
          $productivityRate += $ETA_balance[$row->eta];
