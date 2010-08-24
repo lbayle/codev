@@ -152,8 +152,7 @@ function displayTimetrackingTuples($userid) {
       echo "<td>\n";
       $trackDescription = "$formatedDate | $row->bugid ($issue->tcId) | $formatedJobName | $row->duration | $formatedSummary";
       echo "<a title='delete this row' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."')\" ><img border='0' src='b_drop.png'></a>\n";
-      //echo "<a title='Edit Mantis Issue' href='http://55.7.137.27/mantis/view.php?id=$row->bugid' target='_blank'><img border='0' src='b_edit.png'></a>";
-      echo "<a title='Edit Mantis Issue' href='http://55.7.137.27/mantis/view.php?id=$row->bugid' target='_blank'><img border='0' src='../../mantis/images/favicon.ico'></a>";
+      echo "<a title='Edit Mantis Issue' href='http://".$_SERVER['HTTP_HOST']."/mantis/view.php?id=$row->bugid' target='_blank'><img border='0' src='http://".$_SERVER['HTTP_HOST']."/mantis/images/favicon.ico'></a>";
       
       echo "</td>\n";
       echo "<td>".$cosmeticDate."</td>\n";

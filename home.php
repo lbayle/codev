@@ -9,7 +9,7 @@
 <div id="content" class="center">
 
 <div id="mantis">
-<a href="http://55.7.137.27/mantis.php"><img src="images/Mantis_Main.jpg" alt="Mantis" width="200" height="120" /></a>
+<?php echo "<a href='http://".$_SERVER['HTTP_HOST']."/mantis.php'><img src='images/Mantis_Main.jpg' alt='Mantis' width='200' height='120' /></a>" ?>
 <a href="./doc/AOI-DOC-Cycle_dev-v2.1.png"><img src="images/Mantis_Cycle_de_vie.jpg" alt="Cycle de vie" width="200" height="120" /></a>
 <a href="./doc/mantis_userguide.html"><img src="images/Mantis_User_guide.jpg" alt="User Guide" width="200" height="120" /></a>
 </div>

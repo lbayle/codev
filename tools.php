@@ -5,6 +5,26 @@
 // toolbox
 // LoB 17 May 2010
 
+// example: http://127.0.0.1/codev/
+// example: http://55.7.137.27/louis/codev/
+function getServerRootURL() {
+	
+	#if (isset($_GET['debug'])) {
+   #foreach($_SERVER as $key => $value) {
+   #   echo "_SERVER key=$key val=$value<br/>";
+   #}
+   
+   $rootURL = "http://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
+   if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
+   $rootURL = str_replace("/timetracking", "", $rootURL);   
+   $rootURL = str_replace("/reports", "", $rootURL);   
+   $rootURL = str_replace("/doc", "", $rootURL);   
+   $rootURL = str_replace("/images", "", $rootURL);   
+   $rootURL = str_replace("/calendar", "", $rootURL);   
+   
+   if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
+   return $rootURL;
+}
 
 // ---------------------------
 // Cette fonction transforme de ce format: 2008-09-04 11:13:18 en celui-ci : 1204456892
