@@ -178,8 +178,10 @@ class Issue {
   }
         
   // ----------------------------------
-  // if NEG, then good
+  // if NEG, then we saved time 
+  // if 0, then just in time
   // if POS, then there is a drift !
+  
   // REM if EffortEstim = 0 then Drift = 0
   public function getDrift() {
   	 global $status_resolved;
@@ -193,7 +195,7 @@ class Issue {
       $derive = $this->elapsed - ($this->EffortEstim - $this->remaining);
     }
       
-    //echo "DEBUG bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive $derive<br/>";
+    if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive $derive (elapsed $this->elapsed - estim $this->EffortEstim)<br/>";}
     return $derive;
   }
 

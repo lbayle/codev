@@ -297,14 +297,23 @@ echo "du ".date("Y-m-d  -  H:i:s", $startTimestamp)."&nbsp;";
 echo "au ".date("Y-m-d  -  H:i:s", $endTimestamp)."<br/>";
 echo "<br/>";
    
+echo "<br/>";
 displayWorkingDaysPerJob($timeTracking);
 
+echo "<br/>";
+echo "<br/>";
 displayWorkingDaysPerProject($timeTracking);
 
+echo "<br/>";
+echo "<br/>";
 displayProjectDetails($timeTracking);
 
+echo "<br/>";
+echo "<br/>";
 displayRates($timeTracking);
         
+echo "<br/>";
+echo "<br/>";
 displayCheckWarnings($timeTracking);
 
 ?>

@@ -42,12 +42,18 @@ $periodStatsReport->computeReport();
 
 // ---------- DISPLAY -------------
 $periodStatsReport->displayHTMLReport();
+
+echo "<br/>";
+echo "<br/>";
 $issueTracking->forseingTableDisplay();
+
+echo "<br/>";
+echo "<br/>";
 $issueTracking->durationsTableDisplay();
 
 // ---------- CSV -------------
-$issueTracking->durationsTableToCSV("E:\\FDJ_Mantis_reports\\".date("Ymd", time())."_durations.csv");
-$issueTracking->estimationsToCSV("E:\\FDJ_Mantis_reports\\".date("Ymd", time())."_estimations.csv");
+#$issueTracking->durationsTableToCSV("E:\\FDJ_Mantis_reports\\".date("Ymd", time())."_durations.csv");
+#$issueTracking->estimationsToCSV("E:\\FDJ_Mantis_reports\\".date("Ymd", time())."_estimations.csv");
 
 // Fermeture de la connexion
 mysql_close($link);

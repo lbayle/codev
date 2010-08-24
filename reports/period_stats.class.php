@@ -183,7 +183,7 @@ class PeriodStats {
           $issue = new Issue($bugId1);
                                         
           $derive += $issue->getDrift();
-          if (isset($_GET['debug'])) { echo "getDrift($status,$bugId1,proj$issue->projectId)=".$issue->getDrift()."<br/>"; }
+          if (isset($_GET['debug'])) { echo "PeriodStats->getDrift($status,$bugId1,proj$issue->projectId)=".$issue->getDrift()."<br/>"; }
         }
       }
     }
