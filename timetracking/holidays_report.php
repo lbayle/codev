@@ -58,7 +58,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
   $nbDaysInMonth = date("t", $monthTimestamp);
 
   echo "<div align='center'>\n";
-  echo "<table>\n";
+  echo "<table width='80%'>\n";
   echo "<caption>$monthFormated</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
@@ -90,7 +90,8 @@ function displayHolidaysMonth($month, $year, $teamid) {
               
     for ($i = 1; $i <= $nbDaysInMonth; $i++) {        
       if (NULL != $daysOf[$i]) {
-        echo "<td style='background-color: #c8e8c8; text-align: center;'>".$daysOf[$i]."</td>\n";
+      	
+        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$daysOf[$i]."</td>\n";
       } else {
         $timestamp = mktime(0, 0, 0, $month, $i, $year);
         $dayOfWeek = date("N", $timestamp);
@@ -107,6 +108,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
     echo "</tr>\n";
   }
   echo "</table>\n";
+  echo "<br/><br/>\n";
   echo "<div>\n";
 }
 

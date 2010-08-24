@@ -31,6 +31,8 @@ table {
 caption {
   font-size: larger;
   font-weight: bold;
+  text-align: left;
+  
 }
 th {
   background-color: #c8c8e8;
