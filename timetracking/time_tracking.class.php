@@ -17,6 +17,7 @@ class TimeTracking {
   var $prodProjectList;     // list of projects that are considered as not beeing sideTasks
   var $sideTaskprojectList;
 
+  // ----------------------------------------------
   public function TimeTracking($startTimestamp, $endTimestamp, $team_id = -1) {
 
     $this->startTimestamp = $startTimestamp;
@@ -29,6 +30,7 @@ class TimeTracking {
       $this->initialize();
   }
 
+  // ----------------------------------------------
   public function initialize() {     
     $this->prodProjectList     = array();
     $this->sideTaskprojectList = array();
@@ -45,11 +47,13 @@ class TimeTracking {
     }
   }
              
+  // ----------------------------------------------
   // Returns the number of days worked by the team within the timestamp
   public function getProdDays() {
     return $this->getProductionDays($this->prodProjectList);
   }
    
+  // ----------------------------------------------
   // Returns the number of days worked by the team within the timestamp
   private function getProductionDays($projects) {
     $prodDays = 0;
@@ -73,6 +77,7 @@ class TimeTracking {
     return $prodDays;
   }
         
+  // ----------------------------------------------
   // Returns the number of days spent on side tasks 
   public function getProdDaysSideTasks() {   
     $prodDays = 0;
@@ -97,6 +102,7 @@ class TimeTracking {
     return $prodDays;
   }
 
+  // ----------------------------------------------
   public function getProductionDaysForecast() {
     global $globalHolidaysList;
         
@@ -135,60 +141,24 @@ class TimeTracking {
     return $teamProdDaysForecast;
   }
    
+  // ----------------------------------------------
   public function getProductivityRateSideTasks() {
     return $this->getProductivRate($this->sideTaskprojectList);
   }
    
+  // ----------------------------------------------
   public function getProductivityRate() {
-    return $this->getProductivRate2($this->prodProjectList);
+    return $this->getProductivRate($this->prodProjectList);
   }
    
-  // Returns an indication on how many Issues are Resolved in a given timestamp
+  // ----------------------------------------------
+  // Returns an indication on how many Issues are Resolved in a given timestamp.
+  // REM: an issue that has been reopened before endTimestamp will NOT be recorded.
+    
   // ProductivityRate = nbResolvedIssues * IssueDifficulty / prodDays
 
   // $projects: $prodProjectList or $sideTaskprojectList or your own selection.
   private function getProductivRate($projects) {        
-    global $status_resolved;
-    global $status_closed;
-    global $ETA_balance;
-
-    $prodDays = $this->getProductionDays($projects);
-
-    $productivityRate = 0;
-
-    // Find all Resolved/Closed issue found in that timestamp
-    $query = "SELECT id, eta, project_id FROM `mantis_bug_table` ".
-      "WHERE date_submitted >= $this->startTimestamp AND date_submitted < $this->endTimestamp ".
-      "AND (status = $status_resolved OR status = $status_closed)".
-      "ORDER BY id";
-    $result = mysql_query($query) or die("Query failed: $query");
-
-    while($row = mysql_fetch_object($result))
-    {
-      // Count only issues within $projects
-      if (in_array ($row->project_id, $projects)) {
-        $productivityRate += $ETA_balance[$row->eta];
-        if (isset($_GET['debug'])) { 
-          echo "id=$row->id eta=$row->eta project=$row->project_id balance=".$ETA_balance[$row->eta]." sum=$productivityRate<br/>";
-        }
-      }
-    }
-         
-    if (0 != $prodDays) {
-      $productivityRate /= $prodDays;
-    } else {
-      $productivityRate = 0;  
-    }
-
-    return $productivityRate;
-  }
-
-  // ==========================
-  // Returns an indication on how many Issues are Resolved in a given timestamp
-  // ProductivityRate = nbResolvedIssues * IssueDifficulty / prodDays
-
-  // $projects: $prodProjectList or $sideTaskprojectList or your own selection.
-  private function getProductivRate2($projects) {        
     global $status_resolved;
     global $status_closed;
     global $ETA_balance;
@@ -201,15 +171,12 @@ class TimeTracking {
     	return 0;
     }
     
-
-    
     // --------
     foreach ($projects as $prid) {
        if ($formatedProjList != "") { $formatedProjList .= ', ';}
        $formatedProjList .= $prid;
     }
     // all bugs which status changed to 'resolved' whthin the timestamp
-    // and that have not been re-opened since then.
     $query = "SELECT mantis_bug_table.id ,".
                     "mantis_bug_table.eta, ".
                     "mantis_bug_history_table.new_value, ".
@@ -222,7 +189,6 @@ class TimeTracking {
       "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
       "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
       "AND mantis_bug_history_table.new_value = $status_resolved ".
-      "AND (mantis_bug_table.status = $status_resolved OR mantis_bug_table.status = $status_closed) ".
       "ORDER BY mantis_bug_table.id DESC";
     if (isset($_GET['debug'])) { echo "getProductivRate QUERY = $query <br/>"; }
     
@@ -230,13 +196,21 @@ class TimeTracking {
     
     while($row = mysql_fetch_object($result)) {
     	
-    	if (!in_array ($row->id, $resolvedList)) {
-         if (isset($_GET['debug'])) { echo "getProductivRate Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified)."<br/>"; }
-      
-         $resolvedList[] = $row->id;
-         $productivityRate += $ETA_balance[$row->eta];
-    	}
-    
+    	// check if the bug has been reopened before endTimestamp
+      $issue = new Issue($row->id);
+      $latestStatus = $issue->getStatus($this->endTimestamp);
+    	if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
+
+    		// remove doubloons    		
+	      if (!in_array ($row->id, $resolvedList)) {
+	         if (isset($_GET['debug'])) { echo "getProductivRate Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified)."<br/>"; }
+	      
+	         $resolvedList[] = $row->id;
+	         $productivityRate += $ETA_balance[$row->eta];
+	      }
+    	} else {
+    		if (isset($_GET['debug'])) { echo "getProductivRate ----REOPENED---- : bugid = $row->id<br/>"; }
+    	} 
     	
     }
     
@@ -247,17 +221,8 @@ class TimeTracking {
 
     return $productivityRate;
   }
-  // ==========================
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  // ----------------------------------------------
   // Returns an indication on how sideTasks slows down the Production
   // prodRate = nbDays spend on projects / total prodDays * 100
 
@@ -277,6 +242,7 @@ class TimeTracking {
     return $prodRate;
   }
         
+  // ----------------------------------------------
   // Returns an indication on how Environmental problems slow down the production.
   // EnvProblems can be : Citrix Falldow, Continuous pbs, VMS shutdown, SSL connection loss, etc.
 
@@ -324,6 +290,7 @@ class TimeTracking {
     return $systemDisponibilityRate;
   }
 
+  // ----------------------------------------------
   public function getWorkingDaysPerJob($job_id) {
     $workingDaysPerJob = 0;
 
@@ -342,6 +309,7 @@ class TimeTracking {
     return $workingDaysPerJob;
   }
         
+  // ----------------------------------------------
   public function getWorkingDaysPerProject($project_id) {
     $workingDaysPerProject = 0;
 
@@ -364,6 +332,7 @@ class TimeTracking {
     return $workingDaysPerProject;
   }
 
+  // ----------------------------------------------
   // Returns an array of (date => duration) containing all days where duration != 1
   public function checkCompleteDays($userid, $isStrictlyTimestamp = FALSE) {
     $incompleteDays = array();
@@ -396,6 +365,7 @@ class TimeTracking {
     return $incompleteDays;
   }
 
+  // ----------------------------------------------
   // Find days which are not 'sat' or 'sun' and that have no timeTrack entry.
   public function checkMissingDays($userid) {
     global $globalHolidaysList;
@@ -438,6 +408,7 @@ class TimeTracking {
     return $missingDays;
   }
 
+  // ----------------------------------------------
   public function getProjectDetails($project_id) {
     $durationPerCategory = array();
 
@@ -455,6 +426,7 @@ class TimeTracking {
     return $durationPerCategory;
   }
 
+  // ----------------------------------------------
   // Returns a multiple array containing duration for each day of the week.
   // WARNING: the timestamp must NOT exceed 1 week.
 
