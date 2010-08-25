@@ -65,6 +65,11 @@ function displayIssueGeneralInfo($issue) {
   echo "<table>\n";
 
   echo "<tr>\n";
+  echo "<th>Status</th>\n";
+  echo "<td>".$issue->getCurrentStatusName()."</td>\n";
+  echo "</tr>\n";
+   
+  echo "<tr>\n";
   echo "<th>Estimated</th>\n";
   echo "<td>$issue->EffortEstim</td>\n";
   echo "</tr>\n";
@@ -106,7 +111,7 @@ function displayMonth($month, $year, $issue) {
   $nbDaysInMonth = date("t", $monthTimestamp);
 
   echo "<div class='center'>\n";
-  echo "<table>\n";
+  echo "<table width='70%'>\n";
   echo "<caption>$monthFormated</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
@@ -133,7 +138,7 @@ function displayMonth($month, $year, $issue) {
         
       if (NULL != $tracksByDate[$todayTimestamp]) {
         $tt = new TimeTrack($tracksByDate[$todayTimestamp]);
-        echo "<td style='background-color: #c8e8c8; text-align: center;'>".$tt->duration."</td>\n";
+        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$tt->duration."</td>\n";
       } else {
         // if weekend or holiday, display gray
         if (($dayOfWeek > 5) || 
@@ -147,6 +152,7 @@ function displayMonth($month, $year, $issue) {
     echo "</tr>\n";
   }
   echo "</table>\n";
+  echo "<br/><br/>\n";
 }
 
 // ================ MAIN =================
@@ -164,9 +170,11 @@ displayIssueSelectionForm($session_user, $bug_id);
 if ("displayBug" == $action) {
   $issue = new Issue ($bug_id);
         
+  echo "<br/><br/>\n";
   echo "<br/>";
   displayIssueGeneralInfo($issue);
-
+  echo "<br/><br/>\n";
+  
   for ($i = 1; $i <= 12; $i++) {
     displayMonth($i, $year, $issue);
   }

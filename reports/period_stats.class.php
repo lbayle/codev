@@ -113,7 +113,8 @@ class PeriodStats {
 
   // REM: sideTaskprojects are excluded
   private function countIssues_other() {
-    //$query = "SELECT id FROM `mantis_bug_table`";
+
+  	 // select all but SuiviOp.
     $query = "SELECT mantis_bug_table.id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
