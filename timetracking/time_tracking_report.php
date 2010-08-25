@@ -91,7 +91,7 @@ function displayRates ($timeTracking) {
          
   $prodDays                = $timeTracking->getProdDays();
   $sideProdDays            = $timeTracking->getProdDaysSideTasks();
-  $productivityRate        = $timeTracking->getProductivityRate();
+  $productivityRateETA     = $timeTracking->getProductivityRate();
   $efficiencyRate          = $timeTracking->getEfficiencyRate();
   $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
@@ -153,12 +153,12 @@ function displayRates ($timeTracking) {
 
   echo "<tr>\n";
   echo "<td title='ResolvedIssues * IssueDifficulty / prodDaysFDJ'>Productivity Rate</td>\n";
-  echo "<td>".number_format($productivityRate, 2)."</td>\n";
+  echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
   echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
             "- Le temps passé sur un bug est pondéré par un indicateur de difficult&eacute;: ".
-            "EffortEstim (temps estim&eacute; apres analyse)<br/>".
+            "ETA (temps estim&eacute; AVANT analyse)<br/>".
             "- Les bugs réouverts ne sont pas comptabilis&eacute;s</td>\n";
-  echo "<td title='nbResolvedIssues * SUM(IssueDifficulty) / prodDaysFDJ'>nbResolvedIssues * EffortEstim / prodDaysFDJ</td>\n";
+  echo "<td title='nbResolvedIssues * SUM(IssueDifficulty) / prodDaysFDJ'>nbResolvedIssues * ETA / prodDaysFDJ</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
