@@ -175,7 +175,7 @@ function displayRates ($timeTracking) {
 
 // --------------------------------
 function displayWorkingDaysPerJob($timeTracking) {
-  echo "<table>\n";
+  echo "<table width='300'>\n";
   echo "<caption>Charge par poste</caption>\n";
   echo "<tr>\n";
   echo "<th>Poste</th>\n";
@@ -196,7 +196,7 @@ function displayWorkingDaysPerJob($timeTracking) {
 }
 
 function displayWorkingDaysPerProject($timeTracking) {
-  echo "<table>\n";
+  echo "<table width='300'>\n";
   echo "<caption>Charge par projet</caption>\n";
   echo "<tr>\n";
   echo "<th>Projet</th>\n";
@@ -217,7 +217,7 @@ function displayWorkingDaysPerProject($timeTracking) {
 }
 
 function displayProjectDetails($timeTracking) {
-  echo "<table>\n";
+  echo "<table width='300'>\n";
   echo "<caption>Detail Suivi Op.</caption>\n";
   echo "<tr>\n";
   echo "<th>Projet</th>\n";

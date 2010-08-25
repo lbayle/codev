@@ -15,14 +15,14 @@ function getServerRootURL() {
    #}
    
    $rootURL = "http://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
-   if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
+   #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    $rootURL = str_replace("/timetracking", "", $rootURL);   
    $rootURL = str_replace("/reports", "", $rootURL);   
    $rootURL = str_replace("/doc", "", $rootURL);   
    $rootURL = str_replace("/images", "", $rootURL);   
    $rootURL = str_replace("/calendar", "", $rootURL);   
    
-   if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
+   #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;
 }
 

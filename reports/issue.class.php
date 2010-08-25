@@ -290,16 +290,7 @@ class Issue {
          if (isset($_GET['debug'])) { echo "issue->getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !<br/>"; }
          return -1;
       }
-
-
-
-
-
-
-
-
    }
-
 
 
    // ----------------------------------------------

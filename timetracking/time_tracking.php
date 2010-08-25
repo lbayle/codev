@@ -210,8 +210,9 @@ if ($_POST[nextForm] == "addTrackForm") {
 
   displayWeekDetails($weekid, $weekDates, $userid, $timeTracking);
    
+   echo "<div class='center'>";
   displayCheckWarnings($userid);
-   
+   echo "</div>";
   displayTimetrackingTuples($userid);
 }
 
