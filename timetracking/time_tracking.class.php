@@ -209,7 +209,7 @@ class TimeTracking {
 	         $productivityRate += $ETA_balance[$row->eta];
 	      }
     	} else {
-    		if (isset($_GET['debug'])) { echo "getProductivRate ----REOPENED---- : bugid = $row->id<br/>"; }
+    		if (isset($_GET['debug'])) { echo "getProductivRate REOPENED : bugid = $row->id<br/>"; }
     	} 
     	
     }
