@@ -210,6 +210,28 @@ class Issue {
       return $derive;
    }
 
+   // ----------------------------------
+   // if NEG, then we saved time
+   // if 0, then just in time
+   // if POS, then there is a drift !
+
+   // REM if ETA = 0 then Drift = 0
+   public function getDriftETA() {
+      global $status_resolved;
+      global $status_closed;
+
+      if (0 == $this->eta) { return 0; }
+
+      if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
+         $derive = $this->elapsed - $this->eta;
+      } else {
+         $derive = $this->elapsed - ($this->eta - $this->remaining);
+      }
+
+      if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive $derive (elapsed $this->elapsed - estim $this->EffortEstim)<br/>";}
+      return $derive;
+   }
+
    // ----------------------------------------------
    public function getTimeTracks($user_id = NULL) {
       $timeTracks = array();
