@@ -99,7 +99,6 @@ function displayRates ($timeTracking) {
   $periodStats = new PeriodStats($timeTracking->startTimestamp, $timeTracking->endTimestamp);
         
   $derive = $periodStats->getDrift($status_resolved) + $periodStats->getDrift($status_closed);
-  $derive = - $derive;
         
   echo "<table>\n";
   echo "<caption>Indicateurs de productivit&eacute;</caption>\n";
@@ -139,19 +138,12 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='ResolvedIssues * IssueDifficulty / prodDaysFDJ'>Productivity Rate</td>\n";
-  echo "<td>".number_format($productivityRate, 2)."</td>\n";
-  echo "<td>nombre de bugs resolus par jour. Les bugs réouverts ne sont pas comptabilis&eacute;s</td>\n";
-  echo "<td>nbResolvedIssues * IssueDifficulty / prodDaysFDJ</td>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
   echo "<td title='Days spend on FDJ projects / total prodDays * 100'>Efficiency Rate</td>\n";
   echo "<td>".number_format($efficiencyRate, 2)."%</td>\n";
   echo "<td>temps quotidien pass&eacute; &agrave; la resolution de bugs</td>\n";
   echo "<td>prodDaysFDJ / total prodDays * 100</td>\n";
   echo "</tr>\n";
-
+  
   echo "<tr>\n";
   echo "<td>System Disponibility</td>\n";
   echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
@@ -160,10 +152,20 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='si n&eacute;gatif, nous sommes en avance sur le planing'>D&eacute;rive</td>\n";
-  echo "<td>".number_format($derive, 1)."</td>\n";
-  echo "<td title='si n&eacute;gatif, nous sommes en avance sur le planing'>nb jours de d&eacute;passement sur les fiches Resolved/Closed</td>\n";
-  echo "<td></td>\n";
+  echo "<td title='ResolvedIssues * IssueDifficulty / prodDaysFDJ'>Productivity Rate</td>\n";
+  echo "<td>".number_format($productivityRate, 2)."</td>\n";
+  echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
+            "- Le temps passé sur un bug est pondéré par un indicateur de difficult&eacute;: ".
+            "EffortEstim (temps estim&eacute; apres analyse)<br/>".
+            "- Les bugs réouverts ne sont pas comptabilis&eacute;s</td>\n";
+  echo "<td title='nbResolvedIssues * SUM(IssueDifficulty) / prodDaysFDJ'>nbResolvedIssues * EffortEstim / prodDaysFDJ</td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td title='si n&eacute;gatif, avance sur le planing'>D&eacute;rive</td>\n";
+  echo "<td title='si n&eacute;gatif, avance sur le planing'>".number_format($derive, 2)."</td>\n";
+  echo "<td>nb jours de d&eacute;passement sur les fiches Resolved/Closed</td>\n";
+  echo "<td>elapsed - (EffortEstim - remaining)</td>\n";
   echo "</tr>\n";
         
   echo "</table>\n";
