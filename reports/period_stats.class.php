@@ -215,6 +215,13 @@ class PeriodStats {
     $nbDriftsEqualETA = 0;
     $nbDriftsPosETA   = 0;
     
+    $driftNeg   = 0;
+    $driftEqual = 0;
+    $driftPos   = 0;
+    $driftNegETA   = 0;
+    $driftEqualETA = 0;
+    $driftPosETA   = 0;
+    
     $query = "SELECT mantis_bug_table.id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
@@ -250,19 +257,24 @@ class PeriodStats {
           // get drift stats. equal is when drif = +-1
           if ($issueDrift < -1) {
             $nbDriftsNeg++;
+            $driftNeg += $issueDrift;
           } elseif ($issueDrift > 1){
             $nbDriftsPos++;
+            $driftPos += $issueDrift;
           } else {
-            if (isset($_GET['debug'])) { echo "PeriodStats->getDrift EQUAL : $issueDrift<br/>";}
             $nbDriftsEqual++;
+            $driftEqual += $issueDrift;
           }
 
           if ($issueDriftETA < -1) {
             $nbDriftsNegETA++;
+            $driftNegETA += $issueDriftETA;
           } elseif ($issueDriftETA > 1){
             $nbDriftsPosETA++;
+            $driftPosETA += $issueDriftETA;
           } else {
             $nbDriftsEqualETA++;
+            $driftEqualETA += $issueDriftETA;
           }
         
         }
@@ -281,8 +293,14 @@ class PeriodStats {
     }
     
     $driftStats = array();
-    $driftStats["drift"]            = $derive;
-    $driftStats["driftETA"]         = $deriveETA;
+    $driftStats["totalDrift"]       = $derive;
+    $driftStats["totalDriftETA"]    = $deriveETA;
+    $driftStats["driftPos"]         = $driftPos;
+    $driftStats["driftEqual"]       = $driftEqual;
+    $driftStats["driftNeg"]         = $driftNeg;
+    $driftStats["driftPosETA"]      = $driftPosETA;
+    $driftStats["driftEqualETA"]    = $driftEqualETA;
+    $driftStats["driftNegETA"]      = $driftNegETA;
     $driftStats["nbDriftsPos"]      = $nbDriftsPos;
     $driftStats["nbDriftsEqual"]    = $nbDriftsEqual;
     $driftStats["nbDriftsNeg"]      = $nbDriftsNeg;
