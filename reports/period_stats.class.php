@@ -159,7 +159,8 @@ class PeriodStats {
     global $statusNames;
                 
     $derive = 0;
-
+    $deriveETA = 0;
+    
     $query = "SELECT mantis_bug_table.id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
@@ -183,13 +184,16 @@ class PeriodStats {
         if ($row2->new_value == $status) {
           $issue = new Issue($bugId1);
                                         
-          $derive += $issue->getDrift();
+          $derive    += $issue->getDrift();
+          $deriveETA += $issue->getDriftETA();
           if (isset($_GET['debug'])) { echo "PeriodStats->getDrift($status,$bugId1,proj$issue->projectId)=".$issue->getDrift()."<br/>"; }
+          if (isset($_GET['debug'])) { echo "PeriodStats->getDriftETA($status,$bugId1,proj$issue->projectId)=".$issue->getDriftETA()."<br/>"; }
         }
       }
     }
     if (isset($_GET['debug'])) { 
       echo ("derive totale ($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $derive<br/>");
+      echo ("derive totale ETA($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $deriveETA<br/>");
     }
     return $derive;
   }
