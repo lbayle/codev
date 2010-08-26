@@ -202,24 +202,24 @@ function displayDriftStats ($timeTracking) {
   
   echo "<tr>\n";
   echo "<td>nbre bugs en D&eacute;rive</td>\n";
-  echo "<td><table width='100%'><tr><td>".($driftStatsResolved["nbDriftsPosETA"] + $driftStatsClosed["nbDriftsPosETA"])."</td> <td class='right'>(".($driftStatsResolved["driftPosETA"] + $driftStatsClosed["driftPosETA"]).")</td></tr></table></td>\n";
-  echo "<td><table width='100%'><tr><td>".($driftStatsResolved["nbDriftsPos"] + $driftStatsClosed["nbDriftsPos"])."</td> <td class='right'>(".($driftStatsResolved["driftPos"] + $driftStatsClosed["driftPos"]).")</td></tr></table></td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsPosETA"] + $driftStatsClosed["nbDriftsPosETA"])."<span class='floatr'>(".($driftStatsResolved["driftPosETA"] + $driftStatsClosed["driftPosETA"]).")</span></td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsPos"] + $driftStatsClosed["nbDriftsPos"])."<span class='floatr'>(".($driftStatsResolved["driftPos"] + $driftStatsClosed["driftPos"]).")</span></td>\n";
   echo "<td></td>\n";
   echo "<td>sum(derive) < -1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>nbre bugs &agrave; l'&eacute;quilibre</td>\n";
-  echo "<td><table width='100%'><tr><td>".($driftStatsResolved["nbDriftsEqualETA"] + $driftStatsClosed["nbDriftsEqualETA"])."</td> <td class='right'>(".($driftStatsResolved["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</td></tr></table></td>\n";
-  echo "<td><table width='100%'><tr><td>".($driftStatsResolved["nbDriftsEqual"] + $driftStatsClosed["nbDriftsEqual"])."</td> <td class='right'>(".($driftStatsResolved["driftEqual"] + $driftStatsClosed["driftEqual"]).")</td></tr></table></td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsEqualETA"] + $driftStatsClosed["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStatsResolved["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsEqual"] + $driftStatsClosed["nbDriftsEqual"])."<span class='floatr'>(".($driftStatsResolved["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   echo "<td>Nbre de bugs r&eacute;solus dans les temps</td>\n";
   echo "<td> -1 <= sum(derive) <= 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>nbre bugs en avance</td>\n";
-  echo "<td><table width='100%'><tr><td>".($driftStatsResolved["nbDriftsNegETA"] + $driftStatsClosed["nbDriftsNegETA"])."</td> <td class='right'>(".($driftStatsResolved["driftNegETA"] + $driftStatsClosed["driftNegETA"]).")</td></tr></table></td>\n";
-  echo "<td><table width='100%'><tr><td>".($driftStatsResolved["nbDriftsNeg"] + $driftStatsClosed["nbDriftsNeg"])."</td> <td class='right'>(".($driftStatsResolved["driftNeg"] + $driftStatsClosed["driftNeg"]).")</td></tr></table></td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsNegETA"] + $driftStatsClosed["nbDriftsNegETA"])."<span class='floatr'>(".($driftStatsResolved["driftNegETA"] + $driftStatsClosed["driftNegETA"]).")</span></td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsNeg"] + $driftStatsClosed["nbDriftsNeg"])."<span class='floatr'>(".($driftStatsResolved["driftNeg"] + $driftStatsClosed["driftNeg"]).")</span></td>\n";
   echo "<td></td>\n";
   echo "<td>sum(derive) > 1</td>\n";
   echo "</tr>\n";
@@ -350,11 +350,11 @@ echo "au ".date("Y-m-d  -  H:i:s", $endTimestamp)."<br/><br/>\n";
 
 // Display on 3 columns
 echo "<div class=\"float\">\n";
-displayWorkingDaysPerProject($timeTracking);
+displayWorkingDaysPerJob($timeTracking);
 echo "</div>\n";
 
 echo "<div class=\"float\">\n";
-displayWorkingDaysPerJob($timeTracking);
+displayWorkingDaysPerProject($timeTracking);
 echo "</div>\n";
 
 echo "<div class=\"float\">\n";
