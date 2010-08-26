@@ -342,9 +342,9 @@ class TimeTracking {
     if ($isStrictlyTimestamp) {
       $query     = "SELECT date, duration FROM `codev_timetracking_table` ".
         "WHERE userid = $userid AND date >= $this->startTimestamp AND date < $this->endTimestamp ".
-        "ORDER BY date DESC";
+        "ORDER BY date";
     } else {
-      $query     = "SELECT date, duration FROM `codev_timetracking_table` WHERE userid = $userid ORDER BY date DESC";
+      $query     = "SELECT date, duration FROM `codev_timetracking_table` WHERE userid = $userid ORDER BY date";
     }
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
@@ -386,7 +386,8 @@ class TimeTracking {
     $startDayOfYear = date("z", $startT);   
     $endDayOfYear   = date("z", $this->endTimestamp);
 
-    for ($i = $endDayOfYear; $i >= $startDayOfYear; $i--) {
+    //for ($i = $endDayOfYear; $i >= $startDayOfYear; $i--) {
+    for ($i = $startDayOfYear; $i <= $endDayOfYear; $i++) {
         
       $timestamp = dayofyear2timestamp($i);
       $dayOfWeek = date("N",$timestamp);

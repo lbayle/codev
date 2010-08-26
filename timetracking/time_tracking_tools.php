@@ -98,7 +98,7 @@ function displayCheckWarnings($userid, $isStrictlyTimestamp = FALSE) {
    foreach ($incompleteDays as $date => $value) {
       $formatedDate = date("Y-m-d", $date);
       $color = ($date >= ($endTimestamp + (24 * 60 * 60))) ? "blue": "red"; // tomorow is blue
-      echo "<br/><span style='color:$color' width='70'>$formatedDate incompl&egrave;te (".$value." jour)</span>\n";
+      echo "<br/><span style='color:$color' width='70'>$formatedDate incomplet (manque ".(1-$value)." jour)</span>\n";
    }
    
    $missingDays = $timeTracking->checkMissingDays($userid);
