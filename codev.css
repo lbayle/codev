@@ -82,3 +82,12 @@ td {
   text-align: right;
 }
 
+.float {
+  float: left;
+  //width: 30%;
+  margin-right: 1em;
+}
+
+.spacer {
+  clear: both;
+}
