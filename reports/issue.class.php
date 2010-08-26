@@ -206,7 +206,7 @@ class Issue {
          $derive = $this->elapsed - ($this->EffortEstim - $this->remaining);
       }
 
-      if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive $derive (elapsed $this->elapsed - estim $this->EffortEstim)<br/>";}
+      if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $this->EffortEstim)<br/>";}
       return $derive;
    }
 
@@ -219,16 +219,17 @@ class Issue {
    public function getDriftETA() {
       global $status_resolved;
       global $status_closed;
+      global $ETA_balance;
 
-      if (0 == $this->eta) { return 0; }
+      #if (0 == $this->eta) { return 0; }
 
       if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
-         $derive = $this->elapsed - $this->eta;
+         $derive = $this->elapsed - $ETA_balance[$this->eta];
       } else {
-         $derive = $this->elapsed - ($this->eta - $this->remaining);
+         $derive = $this->elapsed - ($ETA_balance[$this->eta] - $this->remaining);
       }
 
-      if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive $derive (elapsed $this->elapsed - estim $this->EffortEstim)<br/>";}
+      if (isset($_GET['debug'])) {echo "issue->getDriftETA(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$ETA_balance[$this->eta].")<br/>";}
       return $derive;
    }
 

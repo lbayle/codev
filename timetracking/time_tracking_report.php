@@ -86,19 +86,14 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
 }
 
 function displayRates ($timeTracking) {
-  global $status_resolved;
-  global $status_closed;
          
   $prodDays                = $timeTracking->getProdDays();
   $sideProdDays            = $timeTracking->getProdDaysSideTasks();
-  $productivityRateETA     = $timeTracking->getProductivityRate();
+  $productivityRateETA     = $timeTracking->getProductivityRate("ETA");
+  $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
   $efficiencyRate          = $timeTracking->getEfficiencyRate();
   $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
-        
-  $periodStats = new PeriodStats($timeTracking->startTimestamp, $timeTracking->endTimestamp);
-        
-  $derive = $periodStats->getDrift($status_resolved) + $periodStats->getDrift($status_closed);
         
   echo "<table>\n";
   echo "<caption>Indicateurs de productivit&eacute;</caption>\n";
@@ -152,7 +147,7 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='ResolvedIssues * IssueDifficulty / prodDaysFDJ'>Productivity Rate</td>\n";
+  echo "<td title='ResolvedIssues * IssueDifficulty / prodDaysFDJ'>Productivity Rate ETA</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
   echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
             "- Le temps passé sur un bug est pondéré par un indicateur de difficult&eacute;: ".
@@ -162,12 +157,15 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='si n&eacute;gatif, avance sur le planing'>D&eacute;rive</td>\n";
-  echo "<td title='si n&eacute;gatif, avance sur le planing'>".number_format($derive, 2)."</td>\n";
-  echo "<td>nb jours de d&eacute;passement sur les fiches Resolved/Closed</td>\n";
-  echo "<td>elapsed - (EffortEstim - remaining)</td>\n";
+  echo "<td title='ResolvedIssues * IssueDifficulty / prodDaysFDJ'>Productivity Rate</td>\n";
+  echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
+  echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
+            "- Le temps passé sur un bug est pondéré par un indicateur de difficult&eacute;: ".
+            "EffortEstim (temps estim&eacute; APRES analyse)<br/>".
+            "- Les bugs réouverts ne sont pas comptabilis&eacute;s</td>\n";
+  echo "<td title='nbResolvedIssues * SUM(IssueDifficulty) / prodDaysFDJ'>nbResolvedIssues * EffortEstim / prodDaysFDJ</td>\n";
   echo "</tr>\n";
-        
+
   echo "</table>\n";
 
   //echo "<br/>SideTasks<br/>";
@@ -175,6 +173,58 @@ function displayRates ($timeTracking) {
   //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
 }
 
+function displayDriftStats ($timeTracking) {
+  global $status_resolved;
+  global $status_closed;
+         
+  $periodStats = new PeriodStats($timeTracking->startTimestamp, $timeTracking->endTimestamp);
+  $driftStatsResolved = $periodStats->getDriftStats($status_resolved);
+  $driftStatsClosed   = $periodStats->getDriftStats($status_closed);
+  
+  
+  echo "<table>\n";
+  echo "<caption>D&eacute;rives</caption>\n";
+  echo "<tr>\n";
+  echo "<th></th>\n";
+  echo "<th>ETA</th>\n";
+  echo "<th>EffortEstim (BI)</th>\n";
+  echo "<th>Description</th>\n";
+  echo "<th>Formule</th>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td title='si n&eacute;gatif, avance sur le planing'>D&eacute;rive</td>\n";
+  echo "<td title='elapsed - (ETA - remaining)'>".number_format($driftStatsResolved["driftETA"] + $driftStatsClosed["driftETA"], 2)."</td>\n";
+  echo "<td title='elapsed - (EffortEstim - remaining)'>".number_format($driftStatsResolved["drift"] + $driftStatsClosed["drift"], 2)."</td>\n";
+  echo "<td>nb jours de d&eacute;passement sur les fiches Resolved/Closed.<br/>- Si négatif, avance sur le planing</td>\n";
+  echo "<td>elapsed - (EffortEstim - remaining)</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "<td>nbre bugs en D&eacute;rive</td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsPosETA"] + $driftStatsClosed["nbDriftsPosETA"])."</td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsPos"] + $driftStatsClosed["nbDriftsPos"])."</td>\n";
+  echo "<td></td>\n";
+  echo "<td>sum(derive) < -1</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "<td>nbre bugs &agrave; l'&eacute;quilibre</td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsEqualETA"] + $driftStatsClosed["nbDriftsEqualETA"])."</td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsEqual"] + $driftStatsClosed["nbDriftsEqual"])."</td>\n";
+  echo "<td>Nbre de bugs r&eacute;solus dans les temps</td>\n";
+  echo "<td> -1 <= sum(derive) <= 1</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "<td>nbre bugs en avance</td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsNegETA"] + $driftStatsClosed["nbDriftsNegETA"])."</td>\n";
+  echo "<td>".($driftStatsResolved["nbDriftsNeg"] + $driftStatsClosed["nbDriftsNeg"])."</td>\n";
+  echo "<td></td>\n";
+  echo "<td>sum(derive) > 1</td>\n";
+  echo "</tr>\n";
+  echo "</table>\n";
+}
 // --------------------------------
 function displayWorkingDaysPerJob($timeTracking) {
   echo "<table width='300'>\n";
@@ -314,6 +364,10 @@ echo "<br/>";
 echo "<br/>";
 displayRates($timeTracking);
         
+echo "<br/>";
+echo "<br/>";
+displayDriftStats($timeTracking);
+
 echo "<br/>";
 echo "<br/>";
 displayCheckWarnings($timeTracking);

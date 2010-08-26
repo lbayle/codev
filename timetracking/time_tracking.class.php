@@ -147,8 +147,8 @@ class TimeTracking {
   }
    
   // ----------------------------------------------
-  public function getProductivityRate() {
-    return $this->getProductivRate($this->prodProjectList);
+  public function getProductivityRate($balanceType = "ETA") {
+    return $this->getProductivRate($this->prodProjectList, $balanceType);
   }
    
   // ----------------------------------------------
@@ -158,7 +158,7 @@ class TimeTracking {
   // ProductivityRate = nbResolvedIssues * IssueDifficulty / prodDays
 
   // $projects: $prodProjectList or $sideTaskprojectList or your own selection.
-  private function getProductivRate($projects) {        
+  private function getProductivRate($projects, $balanceType = "ETA") {        
     global $status_resolved;
     global $status_closed;
     global $ETA_balance;
@@ -181,15 +181,19 @@ class TimeTracking {
                     "mantis_bug_table.eta, ".
                     "mantis_bug_history_table.new_value, ".
                     "mantis_bug_history_table.old_value, ".
-                    "mantis_bug_history_table.date_modified ".
-      "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
-      "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
-      "AND mantis_bug_table.project_id IN ($formatedProjList)".
-      "AND mantis_bug_history_table.field_name='status' ".
-      "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
-      "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-      "AND mantis_bug_history_table.new_value = $status_resolved ".
-      "ORDER BY mantis_bug_table.id DESC";
+                    "mantis_bug_history_table.date_modified, ".
+                    "mantis_custom_field_string_table.value AS effort_estim ".
+             "FROM `mantis_bug_table`, `mantis_bug_history_table`, `mantis_custom_field_string_table`".
+             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+             "AND   mantis_bug_table.id = mantis_custom_field_string_table.bug_id ".
+             "AND mantis_bug_table.project_id IN ($formatedProjList)".
+             "AND mantis_bug_history_table.field_name='status' ".
+             "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+             "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+             "AND mantis_bug_history_table.new_value = $status_resolved ".
+             "AND mantis_custom_field_string_table.field_id = 3 ".  # field_id = 3 => EffortEstim
+             "ORDER BY mantis_bug_table.id DESC";
+    
     if (isset($_GET['debug'])) { echo "getProductivRate QUERY = $query <br/>"; }
     
     $result = mysql_query($query) or die("Query failed: $query");
@@ -203,10 +207,17 @@ class TimeTracking {
 
     		// remove doubloons    		
 	      if (!in_array ($row->id, $resolvedList)) {
-	         if (isset($_GET['debug'])) { echo "getProductivRate Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified)."<br/>"; }
+	         if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$row->effort_estim<br/>"; }
 	      
 	         $resolvedList[] = $row->id;
-	         $productivityRate += $ETA_balance[$row->eta];
+	         
+	         if ("ETA" == $balanceType) {
+               if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$ETA_balance[$row->eta]." = ".($productivityRate + $ETA_balance[$row->eta])."<br/>";}
+	         	$productivityRate += $ETA_balance[$row->eta];
+	         } else {
+               if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + $row->effort_estim = ".($productivityRate + $row->effort_estim)."<br/>";}
+	         	$productivityRate += $row->effort_estim;
+	         }
 	      }
     	} else {
     		if (isset($_GET['debug'])) { echo "getProductivRate REOPENED : bugid = $row->id<br/>"; }
