@@ -344,32 +344,32 @@ $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
         
 setInfoForm($teamid, $date1, $date2);
 
-echo "<br/>";
+echo "<br/>\n";
 echo "du ".date("Y-m-d  -  H:i:s", $startTimestamp)."&nbsp;";
-echo "au ".date("Y-m-d  -  H:i:s", $endTimestamp)."<br/>";
-echo "<br/>";
-   
-echo "<br/>";
-displayWorkingDaysPerJob($timeTracking);
+echo "au ".date("Y-m-d  -  H:i:s", $endTimestamp)."<br/><br/>\n";
 
-echo "<br/>";
-echo "<br/>";
+// Display on 3 columns
+echo "<div class=\"float\">\n";
 displayWorkingDaysPerProject($timeTracking);
+echo "</div>\n";
 
-echo "<br/>";
-echo "<br/>";
+echo "<div class=\"float\">\n";
+displayWorkingDaysPerJob($timeTracking);
+echo "</div>\n";
+
+echo "<div class=\"float\">\n";
 displayProjectDetails($timeTracking);
+echo "</div>\n";
 
-echo "<br/>";
-echo "<br/>";
+echo "<div class=\"spacer\"> </div>\n";
+
+echo "<br/><br/>\n";
 displayRates($timeTracking);
         
-echo "<br/>";
-echo "<br/>";
+echo "<br/><br/>\n";
 displayDriftStats($timeTracking);
 
-echo "<br/>";
-echo "<br/>";
+echo "<br/><br/>\n";
 displayCheckWarnings($timeTracking);
 
 ?>
