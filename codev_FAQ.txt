@@ -13,12 +13,14 @@
   + phpMyAdmin 3.2.x
   + Mantis 1.2.x
   + Git 1.7.x
+  + eclipse-php (optional)
 
 - Windows XP
   + XAMPP Lite 1.7.3
   + Mantis 1.2.x
-  + Git 1.7.x
+  + Git (msysgit) 1.7.0.2
   + Diffuse 0.4.3 (optional)
+  + eclipse-php-galileo (optional)
 
 ** TimeTracking - User
 
