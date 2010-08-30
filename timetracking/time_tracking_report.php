@@ -218,7 +218,11 @@ function displayDriftStats ($timeTracking) {
   echo "<td>nbre bugs &agrave; l'&eacute;quilibre</td>\n";
   echo "<td>".($driftStats_new["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsEqual"])."<span class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
-  echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
+  if (isset($_GET['debug'])) {
+   echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
+  } else {
+   echo "<td>Bugs livres dans les temps.</td>\n";
+  }
   echo "<td> -1 <= sum(derive) <= 1</td>\n";
   echo "</tr>\n";
   

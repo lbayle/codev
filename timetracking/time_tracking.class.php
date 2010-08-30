@@ -241,7 +241,11 @@ class TimeTracking {
     // -------
     if (isset($_GET['debug'])) { echo "getProductivRate: productivityRate (elapsed) = $productivityRate / $totalElapse, nbBugs=".count($resolvedList)."<br/>"; }
     
-    $productivityRate /= $totalElapsed;
+    if (0 != $totalElapsed) {
+      $productivityRate /= $totalElapsed;
+    } else {
+    	$productivityRate = 0;
+    }
     
     return $productivityRate;
   }
