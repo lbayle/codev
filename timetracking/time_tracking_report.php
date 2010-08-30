@@ -211,7 +211,7 @@ function displayDriftStats ($timeTracking) {
   echo "<td>".($driftStats_new["nbDriftsPosETA"])."<span class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsPos"])."<span class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
   echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
-  echo "<td>sum(derive) > 1</td>\n";
+  echo "<td>derive > 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
@@ -223,7 +223,7 @@ function displayDriftStats ($timeTracking) {
   } else {
    echo "<td>Bugs livres dans les temps.</td>\n";
   }
-  echo "<td> -1 <= sum(derive) <= 1</td>\n";
+  echo "<td> -1 <= derive <= 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
@@ -231,7 +231,7 @@ function displayDriftStats ($timeTracking) {
   echo "<td>".($driftStats_new["nbDriftsNegETA"])."<span class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsNeg"])."<span class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
   echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
-  echo "<td>sum(derive) < -1</td>\n";
+  echo "<td>derive < -1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
 }

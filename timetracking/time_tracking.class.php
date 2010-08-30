@@ -188,6 +188,12 @@ class TimeTracking {
        if ($formatedProjList != "") { $formatedProjList .= ', ';}
        $formatedProjList .= $prid;
     }
+    
+    if ("" == $formatedProjList) {
+    	echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
+    	return 0;
+    }
+    
     // all bugs which status changed to 'resolved' whthin the timestamp
     $query = "SELECT mantis_bug_table.id ,".
                     "mantis_bug_table.eta, ".
@@ -195,10 +201,10 @@ class TimeTracking {
                     "mantis_bug_history_table.old_value, ".
                     "mantis_bug_history_table.date_modified, ".
                     "mantis_custom_field_string_table.value AS effort_estim ".
-             "FROM `mantis_bug_table`, `mantis_bug_history_table`, `mantis_custom_field_string_table`".
+             "FROM `mantis_bug_table`, `mantis_bug_history_table`, `mantis_custom_field_string_table` ".
              "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
              "AND   mantis_bug_table.id = mantis_custom_field_string_table.bug_id ".
-             "AND mantis_bug_table.project_id IN ($formatedProjList)".
+             "AND mantis_bug_table.project_id IN ($formatedProjList) ".
              "AND mantis_bug_history_table.field_name='status' ".
              "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
              "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
@@ -283,6 +289,12 @@ class TimeTracking {
        if ($formatedProjList != "") { $formatedProjList .= ', ';}
        $formatedProjList .= $prid;
     }
+    
+    if ("" == $formatedProjList) {
+      echo "<div style='color:red'>ERROR getDriftStatistics: no project defined for this team !<br/></div>";
+      return 0;
+    }
+    
     // all bugs which status changed to 'resolved' whthin the timestamp
     $query = "SELECT mantis_bug_table.id, ".
                     "mantis_bug_history_table.new_value, ".
