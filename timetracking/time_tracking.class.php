@@ -153,9 +153,12 @@ class TimeTracking {
    
   // ----------------------------------------------
   // Returns an indication on how many Issues are Resolved in a given timestamp.
+
   // REM: an issue that has been reopened before endTimestamp will NOT be recorded.
+  // (For the bugs that where re-opened, the EffortEstim may not have been re-estimated,
+  // and thus the result is not reliable.) 
     
-  // ProductivityRate = nbResolvedIssues * IssueDifficulty / prodDays
+  // ProductivityRate = nbResolvedIssues * IssueDifficulty / elapsed
 
   // $projects: $prodProjectList or $sideTaskprojectList or your own selection.
   private function getProductivRate($projects, $balanceType = "ETA") {        
@@ -165,11 +168,7 @@ class TimeTracking {
     
     $resolvedList = array();
     $productivityRate = 0;
-    
-    $prodDays = $this->getProductionDays($projects);
-    if (0 == $prodDays) {
-    	return 0;
-    }
+    $totalElapsed = 0;
     
     // --------
     foreach ($projects as $prid) {
@@ -207,9 +206,10 @@ class TimeTracking {
 
     		// remove doubloons    		
 	      if (!in_array ($row->id, $resolvedList)) {
-	         if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$row->effort_estim<br/>"; }
+	         if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$row->effort_estim, elapsed = $issue->elapsed<br/>"; }
 	      
 	         $resolvedList[] = $row->id;
+	         $totalElapsed += $issue->elapsed;
 	         
 	         if ("ETA" == $balanceType) {
                if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$ETA_balance[$row->eta]." = ".($productivityRate + $ETA_balance[$row->eta])."<br/>";}
@@ -226,10 +226,10 @@ class TimeTracking {
     }
     
     // -------
-    if (isset($_GET['debug'])) { echo "getProductivRate: productivityRate = $productivityRate / $prodDays<br/>"; }
+    if (isset($_GET['debug'])) { echo "getProductivRate: productivityRate (elapsed) = $productivityRate / $totalElapsed<br/>"; }
     
-    $productivityRate /= $prodDays;
-
+    $productivityRate /= $totalElapsed;
+    
     return $productivityRate;
   }
   

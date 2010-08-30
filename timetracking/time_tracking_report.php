@@ -152,18 +152,18 @@ function displayRates ($timeTracking) {
   echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
             "- Le temps passé sur un bug est pondéré par un indicateur de difficult&eacute;: ".
             "ETA (temps estim&eacute; AVANT analyse)<br/>".
-            "- Les bugs réouverts ne sont pas comptabilis&eacute;s</td>\n";
-  echo "<td title='nbResolvedIssues * sum(IssueDifficulty) / prodDaysFDJ'>nbResolvedIssues * sum(ETA) / prodDaysFDJ</td>\n";
+            "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode. Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s</td>\n";
+  echo "<td title='nbResolvedIssues * sum(IssueDifficulty) / elapsed'>nbResolvedIssues * sum(ETA) / elapsed</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>Productivity Rate</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
   echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
-            "- Le temps passé sur un bug est pondéré par un indicateur de difficult&eacute;: ".
+            "- Le temps passé sur un bug est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ".
             "EffortEstim (temps estim&eacute; APRES analyse)<br/>".
-            "- Les bugs réouverts ne sont pas comptabilis&eacute;s</td>\n";
-  echo "<td title='nbResolvedIssues * sum(IssueDifficulty) / prodDaysFDJ'>nbResolvedIssues * sum(EffortEstim) / prodDaysFDJ</td>\n";
+            "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode. Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s</td>\n";
+    echo "<td title='nbResolvedIssues * sum(IssueDifficulty) / elapsed'>nbResolvedIssues * sum(EffortEstim) / elapsed</td>\n";
   echo "</tr>\n";
 
   echo "</table>\n";
@@ -196,7 +196,10 @@ function displayDriftStats ($timeTracking) {
   echo "<td title='si n&eacute;gatif, avance sur le planing'>D&eacute;rive</td>\n";
   echo "<td title='elapsed - (ETA - remaining)'>".number_format($driftStatsResolved["totalDriftETA"] + $driftStatsClosed["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - (EffortEstim - remaining)'>".number_format($driftStatsResolved["totalDrift"] + $driftStatsClosed["totalDrift"], 2)."</td>\n";
-  echo "<td>Nb jours de d&eacute;passement sur les fiches Resolved/Closed.<br/>- Si négatif, avance sur le planing<br/>- Si l'estimation est bonne ce nbre doit tendre vers 1.</td>\n";
+  echo "<td>Nb jours de d&eacute;passement sur toutes les fiches qui ont chang&eacute; d'etat sur la p&eacute;riode.<br/>".
+       "- Si négatif, avance sur le planing<br/>".
+       "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
+       "- Le remaining n'est pas pris en compte pour les Resolved/Closed.</td>\n";
   echo "<td>elapsed - (EffortEstim - remaining)</td>\n";
   echo "</tr>\n";
   
