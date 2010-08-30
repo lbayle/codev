@@ -274,7 +274,6 @@ class TimeTracking {
     $driftEqualETA = 0;
     $driftPosETA   = 0;
     
-    
     // --------
     foreach ($projects as $prid) {
        if ($formatedProjList != "") { $formatedProjList .= ', ';}
@@ -325,12 +324,22 @@ class TimeTracking {
             if ($issueDrift < -1) {
               $nbDriftsNeg++;
               $driftNeg += $issueDrift;
+
+              if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
+              $formatedBugidNegList .= $row->id;
+
             } elseif ($issueDrift > 1){
               $nbDriftsPos++;
               $driftPos += $issueDrift;
+              
+              if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
+              $formatedBugidPosList .= $row->id;
             } else {
               $nbDriftsEqual++;
               $driftEqual += $issueDrift;
+              
+              if ($formatedBugidEqualList != "") { $formatedBugidEqualList .= ', '; }
+              $formatedBugidEqualList .= $row->id;
             }
 
             if ($issueDriftETA < -1) {
@@ -379,6 +388,11 @@ class TimeTracking {
     $driftStats["nbDriftsPosETA"]   = $nbDriftsPosETA;
     $driftStats["nbDriftsEqualETA"] = $nbDriftsEqualETA;
     $driftStats["nbDriftsNegETA"]   = $nbDriftsNegETA;
+    $driftStats["formatedBugidPosList"]   = $formatedBugidPosList;
+    $driftStats["formatedBugidEqualList"] = $formatedBugidEqualList;
+    $driftStats["formatedBugidNegList"]   = $formatedBugidNegList;
+    
+    
     
     return $driftStats;
   }
