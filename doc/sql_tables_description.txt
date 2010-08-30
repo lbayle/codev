@@ -1,0 +1,43 @@
+### codev_timetracking_table
+
+### codev_job_table
+
+### codev_team_table
+une 'team' est un groupe de personnes travaillant sur un meme projet.
+une team a un 'team leader'. Le team leader a la possibilité de modifier
+le CRA des autres membres de l'equipe.
+
+
+### codev_team_user_table
+un utilisateur peut faire partie de plusieurs equipes
+
+### codev_team_project_table
+une equipe peut travailler sur plusieurs projets
+REM: Le champ 'type' pourrait etre ajouté a la table 'mantis_project_table' 
+mais pour ne pas modifier les tables mantis, il a ete rajouté ici.
+
+### codev_team_project_type_table
+description des types de projets.
+- le type '0' pour les projets normaux
+- le type '1' pour décrire les projet de "Suivi Opérationnel".
+chaque team doit posseder un projet de type '1' pour pouvoir
+imputer les taches n'ayant pas de rapport direct avec un projet.
+exemple: absences, reunions, indisponibilité reseau, etc. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
