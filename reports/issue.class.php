@@ -71,7 +71,7 @@ class Issue {
 
       $this->tcId     = $this->getTC();
 
-      $this->elapsed += $this->getElapsed(); // compute elapsed from TimeTracking info + deprecated custom field
+      $this->elapsed += $this->getElapsed(); // compute  + (deprecated custom field) + (elapsed from TimeTracking)
 
       // Prepare fields
       $this->statusList = array();
@@ -193,6 +193,9 @@ class Issue {
    // if 0, then just in time
    // if POS, then there is a drift !
 
+   // elapsed - (EffortEstim - remaining)
+   // if bug is Resolved/Closed, then remaining is not used.
+
    // REM if EffortEstim = 0 then Drift = 0
    public function getDrift() {
       global $status_resolved;
@@ -215,6 +218,9 @@ class Issue {
    // if 0, then just in time
    // if POS, then there is a drift !
 
+   // elapsed - (ETA - remaining)
+   // if bug is Resolved/Closed, then remaining is not used.
+   
    // REM if ETA = 0 then Drift = 0
    public function getDriftETA() {
       global $status_resolved;

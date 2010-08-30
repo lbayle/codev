@@ -150,6 +150,7 @@ function displayRates ($timeTracking) {
   echo "<td>Productivity Rate ETA</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
   echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
+            "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
             "- Le temps passé sur un bug est pondéré par un indicateur de difficult&eacute;: ".
             "ETA (temps estim&eacute; AVANT analyse)<br/>".
             "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode. Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s</td>\n";
@@ -160,6 +161,7 @@ function displayRates ($timeTracking) {
   echo "<td>Productivity Rate</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
   echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
+            "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
             "- Le temps passé sur un bug est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ".
             "EffortEstim (temps estim&eacute; APRES analyse)<br/>".
             "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode. Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s</td>\n";
@@ -173,13 +175,12 @@ function displayRates ($timeTracking) {
   //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
 }
 
+
 function displayDriftStats ($timeTracking) {
   global $status_resolved;
   global $status_closed;
          
-  $periodStats = new PeriodStats($timeTracking->startTimestamp, $timeTracking->endTimestamp);
-  $driftStatsResolved = $periodStats->getDriftStats($status_resolved);
-  $driftStatsClosed   = $periodStats->getDriftStats($status_closed);
+  $driftStats_new = $timeTracking->getDriftStats();
   
   
   echo "<table>\n";
@@ -194,40 +195,42 @@ function displayDriftStats ($timeTracking) {
 
   echo "<tr>\n";
   echo "<td title='si n&eacute;gatif, avance sur le planing'>D&eacute;rive</td>\n";
-  echo "<td title='elapsed - (ETA - remaining)'>".number_format($driftStatsResolved["totalDriftETA"] + $driftStatsClosed["totalDriftETA"], 2)."</td>\n";
-  echo "<td title='elapsed - (EffortEstim - remaining)'>".number_format($driftStatsResolved["totalDrift"] + $driftStatsClosed["totalDrift"], 2)."</td>\n";
-  echo "<td>Nb jours de d&eacute;passement sur toutes les fiches qui ont chang&eacute; d'etat sur la p&eacute;riode.<br/>".
-       "- Si négatif, avance sur le planing<br/>".
-       "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
-       "- Le remaining n'est pas pris en compte pour les Resolved/Closed.</td>\n";
-  echo "<td>elapsed - (EffortEstim - remaining)</td>\n";
+  echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
+  echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
+  echo "<td>Nb jours de d&eacute;passement<br/>".
+            "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode.<br/>".
+            "- Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s.</td>\n";
+            "- Si négatif, avance sur le planing.</td>\n";
+  echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>nbre bugs en D&eacute;rive</td>\n";
-  echo "<td>".($driftStatsResolved["nbDriftsPosETA"] + $driftStatsClosed["nbDriftsPosETA"])."<span class='floatr'>(".($driftStatsResolved["driftPosETA"] + $driftStatsClosed["driftPosETA"]).")</span></td>\n";
-  echo "<td>".($driftStatsResolved["nbDriftsPos"] + $driftStatsClosed["nbDriftsPos"])."<span class='floatr'>(".($driftStatsResolved["driftPos"] + $driftStatsClosed["driftPos"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsPosETA"])."<span class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsPos"])."<span class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
   echo "<td></td>\n";
   echo "<td>sum(derive) < -1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>nbre bugs &agrave; l'&eacute;quilibre</td>\n";
-  echo "<td>".($driftStatsResolved["nbDriftsEqualETA"] + $driftStatsClosed["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStatsResolved["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
-  echo "<td>".($driftStatsResolved["nbDriftsEqual"] + $driftStatsClosed["nbDriftsEqual"])."<span class='floatr'>(".($driftStatsResolved["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsEqual"])."<span class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   echo "<td>Nbre de bugs r&eacute;solus dans les temps</td>\n";
   echo "<td> -1 <= sum(derive) <= 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>nbre bugs en avance</td>\n";
-  echo "<td>".($driftStatsResolved["nbDriftsNegETA"] + $driftStatsClosed["nbDriftsNegETA"])."<span class='floatr'>(".($driftStatsResolved["driftNegETA"] + $driftStatsClosed["driftNegETA"]).")</span></td>\n";
-  echo "<td>".($driftStatsResolved["nbDriftsNeg"] + $driftStatsClosed["nbDriftsNeg"])."<span class='floatr'>(".($driftStatsResolved["driftNeg"] + $driftStatsClosed["driftNeg"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsNegETA"])."<span class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsNeg"])."<span class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
   echo "<td></td>\n";
   echo "<td>sum(derive) > 1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
 }
+
+
 // --------------------------------
 function displayWorkingDaysPerJob($timeTracking) {
   echo "<table width='300'>\n";

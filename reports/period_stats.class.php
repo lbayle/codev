@@ -14,6 +14,7 @@ class PeriodStats {
   // REM: $statusIssueList is an array containing lists of bugIds
   var $statusIssueList;
 
+  // -------------------------------------------------
   public function PeriodStats($startTimestamp, $endTimestamp) {
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp = $endTimestamp;
@@ -25,16 +26,19 @@ class PeriodStats {
     //echo "this->endTimestamp = $this->endTimestamp<br/>";
   }
 
+  // -------------------------------------------------
   // Returns a list of bugId which status is $status
   public function getIssueList($status) {
     return $this->statusIssueList[$status];
   }
 
+  // -------------------------------------------------
   // Returns the number of issues which status is $status
   public function getNbIssues($status) {
     return count($this->statusIssueList[$status]);
   }
 
+  // -------------------------------------------------
   public function computeStats() {
     global $status_new;
     global $status_feedback;
@@ -74,6 +78,7 @@ class PeriodStats {
     $this->countIssues_other();
   }
 
+  // -------------------------------------------------
   // Count the nb of issues submitted in [startTimestamp, endTimestamp]
   // REM: sideTaskprojects are excluded
   private function countIssues_submitted() {
@@ -99,6 +104,7 @@ class PeriodStats {
     return $count_new;
   }
 
+  // -------------------------------------------------
   // Count the nb of 'new' issues in [startTimestamp, endTimestamp]
   private function countIssues_new() {
     global $status_new;
@@ -111,6 +117,7 @@ class PeriodStats {
     return $count_new;
   }
 
+  // -------------------------------------------------
   // REM: sideTaskprojects are excluded
   private function countIssues_other() {
 
@@ -152,165 +159,6 @@ class PeriodStats {
       }
     }*/
   }
-      
-  // -------------------------------------------------
-  // Find all issues at $status within timestamp, and compute total Drift
-  // REM: sideTaskprojects are excluded
-  public function getDrift($status) {          
-    global $statusNames;
-                
-    $derive = 0;
-
-    $query = "SELECT mantis_bug_table.id ".
-      "FROM `mantis_bug_table`, `codev_team_project_table` ".
-      "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
-      "AND codev_team_project_table.type = 0";
-                        
-    $result = mysql_query($query) or die("Query failed: $query");
-
-    // For each bugId
-    while($row = mysql_fetch_object($result))
-    {
-      $bugId1 = $row->id;
-      // Find most recent transitions where $startTimestamp <= date < $endTimestamp
-      $query2 = "SELECT bug_id, new_value, old_value, date_modified FROM `mantis_bug_history_table` ".
-        "WHERE field_name='status' AND bug_id =$bugId1 ".
-        "AND date_modified >= $this->startTimestamp AND date_modified < $this->endTimestamp ORDER BY id DESC";
-      $result2 = mysql_query($query2) or die("Query failed: $query2");
-
-      if (0 != mysql_num_rows($result2)) {
-        $row2 = mysql_fetch_object($result2);
-
-        if ($row2->new_value == $status) {
-          $issue = new Issue($bugId1);
-
-          // -- compute total drift
-          $issueDrift = $issue->getDrift();
-          $derive    += $issueDrift;
-          if (isset($_GET['debug'])) { echo "PeriodStats->getDrift($status,$bugId1,proj$issue->projectId)=".$issueDrift."<br/>"; }
-        }
-      }
-    }
-    if (isset($_GET['debug'])) { 
-      echo ("derive totale ($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $derive<br/>");
-    }
-    
-    
-    return $derive;
-  }
-
-  // -------------------------------------------------
-  // Find all issues at $status within timestamp, and compute total Drift
-  // REM: sideTaskprojects are excluded
-  public function getDriftStats($status) {          
-    global $statusNames;
-                
-    $derive = 0;
-    $deriveETA = 0;
-
-    $nbDriftsNeg   = 0;
-    $nbDriftsEqual = 0;
-    $nbDriftsPos   = 0;
-    $nbDriftsNegETA   = 0;
-    $nbDriftsEqualETA = 0;
-    $nbDriftsPosETA   = 0;
-    
-    $driftNeg   = 0;
-    $driftEqual = 0;
-    $driftPos   = 0;
-    $driftNegETA   = 0;
-    $driftEqualETA = 0;
-    $driftPosETA   = 0;
-    
-    $query = "SELECT mantis_bug_table.id ".
-      "FROM `mantis_bug_table`, `codev_team_project_table` ".
-      "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
-      "AND codev_team_project_table.type = 0";
-                        
-    $result = mysql_query($query) or die("Query failed: $query");
-
-    // For each bugId
-    while($row = mysql_fetch_object($result))
-    {
-      $bugId1 = $row->id;
-      // Find most recent transitions where $startTimestamp <= date < $endTimestamp
-      $query2 = "SELECT bug_id, new_value, old_value, date_modified FROM `mantis_bug_history_table` ".
-        "WHERE field_name='status' AND bug_id =$bugId1 ".
-        "AND date_modified >= $this->startTimestamp AND date_modified < $this->endTimestamp ORDER BY id DESC";
-      $result2 = mysql_query($query2) or die("Query failed: $query2");
-
-      if (0 != mysql_num_rows($result2)) {
-        $row2 = mysql_fetch_object($result2);
-
-        if ($row2->new_value == $status) {
-          $issue = new Issue($bugId1);
-
-          // -- compute total drift
-          $issueDrift = $issue->getDrift();
-          $derive    += $issueDrift;
-          if (isset($_GET['debug'])) { echo "PeriodStats->getDrift($status,$bugId1,proj$issue->projectId)=".$issueDrift."<br/>"; }
-          
-          $issueDriftETA = $issue->getDriftETA();
-          $deriveETA += $issueDriftETA;
-          if (isset($_GET['debug'])) { echo "PeriodStats->getDriftETA($status,$bugId1,proj$issue->projectId)=".$issueDriftETA."<br/>"; }
-          
-          // get drift stats. equal is when drif = +-1
-          if ($issueDrift < -1) {
-            $nbDriftsNeg++;
-            $driftNeg += $issueDrift;
-          } elseif ($issueDrift > 1){
-            $nbDriftsPos++;
-            $driftPos += $issueDrift;
-          } else {
-            $nbDriftsEqual++;
-            $driftEqual += $issueDrift;
-          }
-
-          if ($issueDriftETA < -1) {
-            $nbDriftsNegETA++;
-            $driftNegETA += $issueDriftETA;
-          } elseif ($issueDriftETA > 1){
-            $nbDriftsPosETA++;
-            $driftPosETA += $issueDriftETA;
-          } else {
-            $nbDriftsEqualETA++;
-            $driftEqualETA += $issueDriftETA;
-          }
-        
-        }
-      }
-    }
-    if (isset($_GET['debug'])) { 
-      echo ("derive totale ($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $derive<br/>");
-      echo ("derive totale ETA($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $deriveETA<br/>");
-      
-      echo("Nbre Bugs en dérive        : $nbDriftsPos<br/>");
-      echo("Nbre Bugs a l'equilibre    : $nbDriftsEqual<br/>");
-      echo("Nbre Bugs en avance        : $nbDriftsNeg<br/>");
-      echo("Nbre Bugs en dérive     ETA: $nbDriftsPosETA<br/>");
-      echo("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA<br/>");
-      echo("Nbre Bugs en avance     ETA: $nbDriftsNegETA<br/>");
-    }
-    
-    $driftStats = array();
-    $driftStats["totalDrift"]       = $derive;
-    $driftStats["totalDriftETA"]    = $deriveETA;
-    $driftStats["driftPos"]         = $driftPos;
-    $driftStats["driftEqual"]       = $driftEqual;
-    $driftStats["driftNeg"]         = $driftNeg;
-    $driftStats["driftPosETA"]      = $driftPosETA;
-    $driftStats["driftEqualETA"]    = $driftEqualETA;
-    $driftStats["driftNegETA"]      = $driftNegETA;
-    $driftStats["nbDriftsPos"]      = $nbDriftsPos;
-    $driftStats["nbDriftsEqual"]    = $nbDriftsEqual;
-    $driftStats["nbDriftsNeg"]      = $nbDriftsNeg;
-    $driftStats["nbDriftsPosETA"]   = $nbDriftsPosETA;
-    $driftStats["nbDriftsEqualETA"] = $nbDriftsEqualETA;
-    $driftStats["nbDriftsNegETA"]   = $nbDriftsNegETA;
-    
-    
-    return $driftStats;
-  }
   
   
   // -------------------------------------------------
@@ -324,8 +172,6 @@ class PeriodStats {
     global $status_openned;
     global $status_resolved;
     global $status_closed;
-
-    $derive = $this->getDrift($status_resolved) + $this->getDrift($status_closed);
 
     $tableLine = "<tr>\n";
     $tableLine .= "<td>".date("F Y", $this->startTimestamp)."</td>\n";
@@ -348,7 +194,6 @@ class PeriodStats {
     $tableLine .= "<td>$res</td>\n";
     $res = $this->statusCountList[$status_closed];
     $tableLine .= "<td>$res</td>\n";
-    $tableLine .= "<td>$derive</td>\n";
     $tableLine .= "</tr>\n";
                  
     return $tableLine;             

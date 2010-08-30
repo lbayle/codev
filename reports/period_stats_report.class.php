@@ -44,12 +44,11 @@ class PeriodStatsReport {
     echo "<th>New</th>\n";
     echo "<th>Acknowledge</th>\n";
     echo "<th>Feedback</th>\n";
-    echo "<th>Analyze</th>\n";
+    echo "<th>Analyzed</th>\n";
     echo "<th>Accepted</th>\n";
     echo "<th>Openned</th>\n";
     echo "<th>Resolved</th>\n";
     echo "<th>Closed</th>\n";
-    echo "<th title='total d&eacute;rives sur les Resolved/Closed SAUF SuiviOp. (si N&eacute;gatif, avance sur le planing)' >D&eacute;rive</th>\n";
     echo "</tr>\n";
     foreach ($this->periodStatsList as $date => $ps) {
       echo $ps->displayOneLineHtmlTable();

@@ -39,6 +39,7 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
+    	// TODO use codev_team_project_type_table ?
       if (0 == $row->type) {
         $this->prodProjectList[]     = $row->project_id;
       } else {
@@ -150,6 +151,18 @@ class TimeTracking {
   public function getProductivityRate($balanceType = "ETA") {
     return $this->getProductivRate($this->prodProjectList, $balanceType);
   }
+  
+  // ----------------------------------------------
+  public function getDriftStatsSideTasks() {
+    return $this->getDriftStatistics($this->sideTaskprojectList);
+  }
+   
+  // ----------------------------------------------
+  public function getDriftStats() {
+    return $this->getDriftStatistics($this->prodProjectList, $balanceType);
+  }
+  
+  
    
   // ----------------------------------------------
   // Returns an indication on how many Issues are Resolved in a given timestamp.
@@ -226,12 +239,150 @@ class TimeTracking {
     }
     
     // -------
-    if (isset($_GET['debug'])) { echo "getProductivRate: productivityRate (elapsed) = $productivityRate / $totalElapsed<br/>"; }
+    if (isset($_GET['debug'])) { echo "getProductivRate: productivityRate (elapsed) = $productivityRate / $totalElapse, nbBugs=".count($resolvedList)."<br/>"; }
     
     $productivityRate /= $totalElapsed;
     
     return $productivityRate;
   }
+
+  
+  // -------------------------------------------------
+  // tous les bugs de la periode qui sont passes a resolved
+  // qui n'ont pas ere reouverts dans cette meme periode
+  private function getDriftStatistics($projects) {          
+    global $statusNames;
+    global $status_resolved;
+    global $status_closed;
+    
+    $resolvedList = array();
+    
+    $derive = 0;
+    $deriveETA = 0;
+
+    $nbDriftsNeg   = 0;
+    $nbDriftsEqual = 0;
+    $nbDriftsPos   = 0;
+    $nbDriftsNegETA   = 0;
+    $nbDriftsEqualETA = 0;
+    $nbDriftsPosETA   = 0;
+    
+    $driftNeg   = 0;
+    $driftEqual = 0;
+    $driftPos   = 0;
+    $driftNegETA   = 0;
+    $driftEqualETA = 0;
+    $driftPosETA   = 0;
+    
+    
+    // --------
+    foreach ($projects as $prid) {
+       if ($formatedProjList != "") { $formatedProjList .= ', ';}
+       $formatedProjList .= $prid;
+    }
+    // all bugs which status changed to 'resolved' whthin the timestamp
+    $query = "SELECT mantis_bug_table.id, ".
+                    "mantis_bug_history_table.new_value, ".
+                    "mantis_bug_history_table.old_value, ".
+                    "mantis_bug_history_table.date_modified, ".
+                    "mantis_custom_field_string_table.value AS effort_estim ".
+             "FROM `mantis_bug_table`, `mantis_bug_history_table`, `mantis_custom_field_string_table` ".
+             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+             "AND   mantis_bug_table.id = mantis_custom_field_string_table.bug_id ".
+             "AND mantis_bug_table.project_id IN ($formatedProjList) ".
+             "AND mantis_bug_history_table.field_name='status' ".
+             "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+             "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+             "AND mantis_bug_history_table.new_value = $status_resolved ".
+             "AND mantis_custom_field_string_table.field_id = 3 ".  # field_id = 3 => EffortEstim
+             "ORDER BY mantis_bug_table.id DESC";
+    
+    if (isset($_GET['debug'])) { echo "getDrift_new QUERY = $query <br/>"; }
+    
+    $result = mysql_query($query) or die("Query FAILED: $query");
+    
+    while($row = mysql_fetch_object($result)) {
+      
+      // check if the bug has been reopened before endTimestamp
+      $issue = new Issue($row->id);
+      $latestStatus = $issue->getStatus($this->endTimestamp);
+      if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
+
+         // remove doubloons        
+         if (!in_array ($row->id, $resolvedList)) {
+         
+            $resolvedList[] = $row->id;
+            
+            // -- compute total drift
+            $issueDrift     = $issue->getDrift();
+            $derive        += $issueDrift;
+            $issueDriftETA  = $issue->getDriftETA();
+            $deriveETA     += $issueDriftETA;
+
+            if (isset($_GET['debug'])) { echo "TimeTracking->getDriftStatistics() Found : bugid=$row->id, proj=$issue->projectId, old_status=$row->old_value, new_status=$row->new_value, date_modified=".date("d F Y", $row->date_modified).", effortEstim=$row->effort_estim, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA<br/>"; }
+            
+            // get drift stats. equal is when drif = +-1
+            if ($issueDrift < -1) {
+              $nbDriftsNeg++;
+              $driftNeg += $issueDrift;
+            } elseif ($issueDrift > 1){
+              $nbDriftsPos++;
+              $driftPos += $issueDrift;
+            } else {
+              $nbDriftsEqual++;
+              $driftEqual += $issueDrift;
+            }
+
+            if ($issueDriftETA < -1) {
+              $nbDriftsNegETA++;
+              $driftNegETA += $issueDriftETA;
+            } elseif ($issueDriftETA > 1){
+              $nbDriftsPosETA++;
+              $driftPosETA += $issueDriftETA;
+            } else {
+              $nbDriftsEqualETA++;
+              $driftEqualETA += $issueDriftETA;
+            }
+            
+         }
+      } else {
+         if (isset($_GET['debug'])) { echo "TimeTracking->getDriftStatistics() REOPENED : bugid = $row->id<br/>"; }
+      } 
+      
+    }
+    
+    
+    if (isset($_GET['debug'])) { 
+      echo ("derive totale ($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $derive<br/>");
+      echo ("derive totale ETA($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $deriveETA<br/>");
+      
+      echo("Nbre Bugs en dérive        : $nbDriftsPos<br/>");
+      echo("Nbre Bugs a l'equilibre    : $nbDriftsEqual<br/>");
+      echo("Nbre Bugs en avance        : $nbDriftsNeg<br/>");
+      echo("Nbre Bugs en dérive     ETA: $nbDriftsPosETA<br/>");
+      echo("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA<br/>");
+      echo("Nbre Bugs en avance     ETA: $nbDriftsNegETA<br/>");
+    }
+    
+    $driftStats = array();
+    $driftStats["totalDrift"]       = $derive;
+    $driftStats["totalDriftETA"]    = $deriveETA;
+    $driftStats["driftPos"]         = $driftPos;
+    $driftStats["driftEqual"]       = $driftEqual;
+    $driftStats["driftNeg"]         = $driftNeg;
+    $driftStats["driftPosETA"]      = $driftPosETA;
+    $driftStats["driftEqualETA"]    = $driftEqualETA;
+    $driftStats["driftNegETA"]      = $driftNegETA;
+    $driftStats["nbDriftsPos"]      = $nbDriftsPos;
+    $driftStats["nbDriftsEqual"]    = $nbDriftsEqual;
+    $driftStats["nbDriftsNeg"]      = $nbDriftsNeg;
+    $driftStats["nbDriftsPosETA"]   = $nbDriftsPosETA;
+    $driftStats["nbDriftsEqualETA"] = $nbDriftsEqualETA;
+    $driftStats["nbDriftsNegETA"]   = $nbDriftsNegETA;
+    
+    return $driftStats;
+  }
+  
   
   // ----------------------------------------------
   // Returns an indication on how sideTasks slows down the Production
