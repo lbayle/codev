@@ -6,11 +6,11 @@ include_once "tools.php";
 //
 // MAIN
 //
-echo "<div id='login'>";
+echo "<div id='login'>\n";
 if (isset($_SESSION['userid'])) {
-  echo "Logged in as <a href='".getServerRootURL()."/logout.php' title='logout'>".$_SESSION['username']."</a> (".$_SESSION['realname'].").\n";
+  echo "Logged in as ".$_SESSION['username']." (".$_SESSION['realname'].") <span class='floatr'><a href='".getServerRootURL()."/logout.php' title='logout'>logout</a></span>\n";
 } else {
-  echo "<a href='".getServerRootURL()."/login.php' title='login'>Logged out</a> !\n";
+  echo "Logged out ! <span class='floatr'><a href='".getServerRootURL()."/login.php'>Login</a></span>\n";
 }
 echo "</div>";
    
