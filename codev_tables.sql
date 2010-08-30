@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `codev_job_table` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
--- Structure de la table `codev_team`
+-- Structure de la table `codev_team_table`
 
-CREATE TABLE IF NOT EXISTS `codev_team` (
+CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `id`          int(10)        NOT NULL AUTO_INCREMENT,
   `name`        varchar(15)    NOT NULL,
   `description` varchar(255)   DEFAULT NULL,
@@ -87,6 +87,22 @@ INSERT INTO `codev_team_project_table` (`id`, `project_id`, `team_id`, `type`) V
 (7, 12, 1, 0),
 (8, 15, 1, 0),
 (9, 11, 1, 1);
+
+
+
+-- --------------------------------------------------------
+-- Create Project Type (used in codev_team_project_table)
+CREATE TABLE IF NOT EXISTS `codev_team_project_type_table` (
+  `id`      int(10) NOT NULL AUTO_INCREMENT,
+  `name`    varchar(30) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+
+INSERT INTO `codev_team_project_type_table` (`id`, `name`) VALUES
+(0, 'Project'),
+(1, 'SideTasks');
 
 -- --------------------------------------------------------
 -- Create Mantis CoDev user
