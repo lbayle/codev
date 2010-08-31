@@ -11,9 +11,8 @@ if (!isset($_SESSION['userid'])) {
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
 <br/>
+<h1>CoDev Administration : Team Creation</h1>
 <?php include 'menu_admin.inc.php'; ?>
-
-<h1>CoDev Admin : Team Creation</h1>
 
 <script language="JavaScript">
 
@@ -49,9 +48,7 @@ include_once "../auth/user.class.php";
 
 // -----------------------------
 function displayCreateTeamForm() {
-  echo("<h1>New Team Creation</h1>\n");
-        
-#  echo("<form action='edit_team.php' method='post' name='teamCreationForm'>\n");
+
   echo("<form action='create_team.php' method='post' name='teamCreationForm'>\n");
   echo("Team Name: <input name='team_name' type='text' id='team_name'>\n");
   
@@ -110,7 +107,6 @@ $teamleader_id = $_POST[teamleader_id];
 
 #unset($_SESSION['teamid']);
 
-echo "action = $action<br/>";
 
 if ("addTeam" == $action) {
 	echo "Create $team_name !<br/>";

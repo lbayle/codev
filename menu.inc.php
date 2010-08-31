@@ -23,6 +23,8 @@
       <a href='".getServerRootURL()."/doc/AOI-DOC-Cycle_dev-v2.1.png' title='Cycle de vie'>Cycle flow</a>
       |
       <a href='".getServerRootURL()."/doc/mantis_userguide.html' title='Aide'>User Guide</a>
+      |
+      <a href='".getServerRootURL()."/admin/index.php' title='CoDev Administration'>Admin</a>
       </td>
    </tr>
 </table>"

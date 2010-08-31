@@ -11,9 +11,8 @@ if (!isset($_SESSION['userid'])) {
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
 <br/>
+<h1>CoDev Administration : Team Edition</h1>
 <?php include 'menu_admin.inc.php'; ?>
-
-<h1>CoDev Admin : Team Edition</h1>
 
 
 <script language="JavaScript">
@@ -190,16 +189,8 @@ if ("" != $teamid) {
    	
    }
    	
-   
-   
-   
-   
 }
 
-
-
-
-
-
-
 ?>
+
+<?php include '../footer.inc.php'; ?>
