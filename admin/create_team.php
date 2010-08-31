@@ -8,8 +8,10 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php include '../header.inc.php'; ?>
-
 <?php include '../login.inc.php'; ?>
+<?php include '../menu.inc.php'; ?>
+<br/>
+<?php include 'menu_admin.inc.php'; ?>
 
 <h1>CoDev Admin : Team Creation</h1>
 

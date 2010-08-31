@@ -21,6 +21,7 @@ function getServerRootURL() {
    $rootURL = str_replace("/doc", "", $rootURL);   
    $rootURL = str_replace("/images", "", $rootURL);   
    $rootURL = str_replace("/calendar", "", $rootURL);   
+   $rootURL = str_replace("/admin", "", $rootURL);   
    
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;

@@ -8,8 +8,10 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php include '../header.inc.php'; ?>
-
 <?php include '../login.inc.php'; ?>
+<?php include '../menu.inc.php'; ?>
+<br/>
+<?php include 'menu_admin.inc.php'; ?>
 
 <h1>CoDev Admin : Team Edition</h1>
 
@@ -66,6 +68,83 @@ function setTeamForm($originPage, $defaultSelection) {
 }
 
 
+
+function displayTeamMemberTuples($teamid) {
+   // Display previous entries
+   echo "<div>\n";
+   echo "<table>\n";
+   echo "<caption>Team Members</caption>\n";   
+   echo "<tr>\n";
+   echo "<th></th>\n";
+   echo "<th>login</th>\n";
+   echo "<th>Nom</th>\n";
+   echo "<th>Date d'arivee</th>\n";
+   echo "</tr>\n";
+
+   $query     = "SELECT codev_team_user_table.id, codev_team_user_table.user_id, codev_team_user_table.team_id, ".
+                       "codev_team_user_table.arrival_date, mantis_user_table.username, mantis_user_table.realname ".
+                "FROM `codev_team_user_table`, `mantis_user_table` ".
+                "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
+                "AND codev_team_user_table.team_id=$teamid ".
+                "ORDER BY mantis_user_table.username DESC";
+   $result    = mysql_query($query) or die("Query failed: $query");
+   while($row = mysql_fetch_object($result))
+   {
+      echo "<tr>\n";
+      echo "<td>\n";
+      echo "<a title='delete this row' href=\"javascript: removeTeamMember('".$row->id."', '__description__')\" ><img src='../images/b_drop.png'></a>\n";
+      echo "</td>\n";
+      echo "<td>".$row->username."</td>\n";
+      echo "<td>".$row->realname."</td>\n";
+      echo "<td>".date("Y-m-d", $row->arrival_date)."</td>\n";
+
+      echo "</tr>\n";
+   }
+   echo "</table>\n";
+   echo "<div>\n";
+}
+
+
+function displayTeamProjectTuples($teamid) {
+   // Display previous entries
+   echo "<div>\n";
+   echo "<table>\n";
+   echo "<caption>Team Projects</caption>\n";   
+   echo "<tr>\n";
+   echo "<th></th>\n";
+   echo "<th>Nom</th>\n";
+   echo "<th>Description</th>\n";
+   echo "<th>Type</th>\n";
+   echo "</tr>\n";
+
+   $query     = "SELECT codev_team_project_table.id, codev_team_project_type_table.name AS type_name, codev_team_project_table.type, ".
+                       "mantis_project_table.name, mantis_project_table.description ".
+                "FROM `codev_team_project_table`, `mantis_project_table`, `codev_team_project_type_table` ".
+                "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
+                "AND codev_team_project_type_table.id = codev_team_project_table.type ".
+                "AND codev_team_project_table.team_id=$teamid ".
+                "ORDER BY mantis_project_table.name DESC";
+   $result    = mysql_query($query) or die("Query failed: $query");
+   while($row = mysql_fetch_object($result))
+   {
+      echo "<tr>\n";
+      echo "<td>\n";
+      // if SuiviOp do not allow tu delete
+      if (0 == $row->type) {
+         echo "<a title='delete this row' href=\"javascript: removeTeamMember('".$row->id."', '__description__')\" ><img src='../images/b_drop.png'></a>\n";
+      }
+      echo "</td>\n";
+      echo "<td>".$row->name."</td>\n";
+      echo "<td>".$row->description."</td>\n";
+      echo "<td>".$row->type_name."</td>\n";
+
+      echo "</tr>\n";
+   }
+   echo "</table>\n";
+   echo "<div>\n";
+}
+
+
 // ================ MAIN =================
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
@@ -94,10 +173,27 @@ echo "<br/>\n";
 
 if ("" != $teamid) {
 
-#if ($_POST[nextForm] == "editTeamForm") {
-   echo "editTeamForm teamid=".$teamid."<br/>";
-#}
-
+   echo "<br/>\n";
+   echo "<br/>\n";
+   
+   displayTeamMemberTuples($teamid);
+   
+   echo "<br/>\n";
+   echo "<br/>\n";
+   displayTeamProjectTuples($teamid);
+   
+   
+   
+   if ($_POST[action] == "addTeamMember") {
+   	
+   } elseif ($_POST[action] == "addTeamProject") {
+   	
+   }
+   	
+   
+   
+   
+   
 }
 
 
