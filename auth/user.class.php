@@ -87,8 +87,8 @@ class User {
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
-         $teamList[] = $row->id;
-         #echo "getLeadedTeamList FOUND $row->id<br>";
+         $teamList[$row->id] = $row->name;
+         #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
       }
       
       return $teamList;

@@ -105,6 +105,9 @@ $team_name = $_POST[team_name];
 $team_desc = $_POST[team_desc];
 $teamleader_id = $_POST[teamleader_id];
 
+
+#unset($_SESSION['teamid']);
+
 echo "action = $action<br/>";
 
 if ("addTeam" == $action) {
@@ -118,15 +121,19 @@ if ("addTeam" == $action) {
    // --- add default SuiviOp project
    $query = "SELECT id FROM `codev_team_table` WHERE name = '$team_name';";
    $result = mysql_query($query) or die("Query failed: $query");
-   $team_id = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "-1";
+   $teamid = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "-1";
    
-   echo "teamId = $team_id !<br/>";
+   echo "teamId = $teamid !<br/>";
    
-   if (-1 != $team_id) {
+   if (-1 != $teamid) {
 	   // TODO replace 11 par SuiviOp
 	   // TODO replace 1 with  codev_team_project_type_table 
-	   $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('11','$team_id','1');";
+	   $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('11','$teamid','1');";
 	   mysql_query($query) or die("Query failed: $query");
+	   
+	   $_SESSION['teamid'] = $teamid;
+	   
+	   echo ("<script> parent.location.replace('./edit_team.php'); </script>"); 
    }
    
 } elseif ("editTeam" == $action) {

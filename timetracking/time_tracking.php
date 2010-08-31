@@ -82,7 +82,7 @@ function setUserForm($originPage) {
    
   // separate list elements with ', '
   $formatedTeamString = "";
-  foreach ($teamList as $tid) {
+  foreach ($teamList as $tid => $tname) {
     if ($formatedTeamString != "") { $formatedTeamString .= ', ';}
     $formatedTeamString .= $tid;
   }
