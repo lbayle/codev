@@ -125,7 +125,7 @@ function displayTimetrackingTuples($userid) {
    echo "<th>Categorie</th>\n";
    echo "<th>Status</th>\n";
    echo "<th>Effort Estim&eacute;</th>\n";
-   echo "<th>RAE</th>\n";
+   echo "<th title='Remaining'>RAE</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT id, bugid, jobid, date, duration FROM `codev_timetracking_table` WHERE userid=$userid ORDER BY date DESC";
@@ -146,7 +146,7 @@ function displayTimetrackingTuples($userid) {
       $cosmeticDate    = date("Y-m-d (l)", $row->date);
       $formatedJobName = str_replace("'", "\'", $jobName);
       $formatedSummary = str_replace("'", "\'", $issue->summary);
-      $formatedSummary = str_replace('"', "\'", $issue->summary);
+      $formatedSummary = str_replace('"', "\'", $formatedSummary);
       
       echo "<tr>\n";
       echo "<td>\n";
@@ -194,11 +194,11 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking) {
    echo "<tr>\n";
    echo "<th>Tache</th>\n";
    echo "<th>Poste</th>\n";
-   echo "<th width='80'>Lundi<br/>".date("d F", $weekDates[1])."</th>\n";
-   echo "<th width='80'>Mardi<br/>".date("d F", $weekDates[2])."</th>\n";
-   echo "<th width='80'>Mercredi<br/>".date("d F", $weekDates[3])."</th>\n";
-   echo "<th width='80'>Jeudi<br/>".date("d F", $weekDates[4])."</th>\n";
-   echo "<th width='80'>Vendredi<br/>".date("d F", $weekDates[5])."</th>\n";
+   echo "<th width='80'>Lundi<br/>".date("d M", $weekDates[1])."</th>\n";
+   echo "<th width='80'>Mardi<br/>".date("d M", $weekDates[2])."</th>\n";
+   echo "<th width='80'>Mercredi<br/>".date("d M", $weekDates[3])."</th>\n";
+   echo "<th width='80'>Jeudi<br/>".date("d M", $weekDates[4])."</th>\n";
+   echo "<th width='80'>Vendredi<br/>".date("d M", $weekDates[5])."</th>\n";
    echo "</tr>\n";
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = new Issue($bugid);
