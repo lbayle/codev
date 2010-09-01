@@ -1,5 +1,12 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
+<?php
+if (!isset($_SESSION['userid'])) {
+  echo ("Sorry, you need to <a href='../login.php'\">login</a> to access this page.");
+  exit;
+} 
+?>
+
 <?php include '../header.inc.php'; ?>
 
 <?php include '../login.inc.php'; ?>
@@ -58,7 +65,15 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   }
   
   echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
-  $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
+  
+  // show only teams where i am member of or TeamLeader
+  $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name ".
+           "FROM `codev_team_table`, `codev_team_user_table` ".
+           "WHERE codev_team_table.id = codev_team_user_table.team_id ".
+           "AND (codev_team_table.leader_id   = ".$_SESSION['userid'].
+           " OR codev_team_user_table.user_id = ".$_SESSION['userid'].
+           ") ORDER BY name";
+
   $result = mysql_query($query) or die("Query failed: $query");
    
   while($row = mysql_fetch_object($result))
@@ -69,6 +84,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
       echo "<option value='".$row->id."'>".$row->name."</option>\n";
     }
   }
+ 
   echo "</select>\n";
 
   echo "&nbsp;Date d&eacute;but: "; $myCalendar1->writeScript();
@@ -336,7 +352,7 @@ function displayCheckWarnings($timeTracking) {
 
 // =========== MAIN ==========
 $year = date('Y');
-$defaultTeam = $_SESSION[teamid];
+$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 
 // Connect DB
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
@@ -364,33 +380,36 @@ $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
         
 setInfoForm($teamid, $date1, $date2);
 
-echo "<br/>\n";
-echo "du ".date("Y-m-d  -  H:i:s", $startTimestamp)."&nbsp;";
-echo "au ".date("Y-m-d  -  H:i:s", $endTimestamp)."<br/><br/>\n";
+if (0 != $teamid) {
 
-// Display on 3 columns
-echo "<div class=\"float\">\n";
-displayWorkingDaysPerJob($timeTracking);
-echo "</div>\n";
-
-echo "<div class=\"float\">\n";
-displayWorkingDaysPerProject($timeTracking);
-echo "</div>\n";
-
-echo "<div class=\"float\">\n";
-displayProjectDetails($timeTracking);
-echo "</div>\n";
-
-echo "<div class=\"spacer\"> </div>\n";
-
-echo "<br/><br/>\n";
-displayRates($timeTracking);
-        
-echo "<br/><br/>\n";
-displayDriftStats($timeTracking);
-
-echo "<br/><br/>\n";
-displayCheckWarnings($timeTracking);
+	echo "<br/>\n";
+	echo "du ".date("Y-m-d  -  H:i:s", $startTimestamp)."&nbsp;";
+	echo "au ".date("Y-m-d  -  H:i:s", $endTimestamp)."<br/><br/>\n";
+	
+	// Display on 3 columns
+	echo "<div class=\"float\">\n";
+	displayWorkingDaysPerJob($timeTracking);
+	echo "</div>\n";
+	
+	echo "<div class=\"float\">\n";
+	displayWorkingDaysPerProject($timeTracking);
+	echo "</div>\n";
+	
+	echo "<div class=\"float\">\n";
+	displayProjectDetails($timeTracking);
+	echo "</div>\n";
+	
+	echo "<div class=\"spacer\"> </div>\n";
+	
+	echo "<br/><br/>\n";
+	displayRates($timeTracking);
+	        
+	echo "<br/><br/>\n";
+	displayDriftStats($timeTracking);
+	
+	echo "<br/><br/>\n";
+	displayCheckWarnings($timeTracking);
+}
 
 ?>
 
