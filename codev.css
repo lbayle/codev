@@ -2,19 +2,17 @@
 
 
 body {
-  //font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
   color: black;
   background-color: white;
-  font-size: 11px; 
+  font-size: 12px; 
 }
 h1 {
-  font-family : tahoma;
-  //font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif;
   text-align: center;
 }
 img {
   border: 0;
-  margin: 10px;
+  margin: 0;
 }
 table {
   border: 1px solid black;
@@ -60,7 +58,7 @@ td {
   font-family : Verdana,Arial,Helvetica,sans-serif;
   white-space : nowrap;
   text-align : center;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 #mantis, #timetracking, #reports {
