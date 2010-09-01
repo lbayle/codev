@@ -311,29 +311,37 @@ if (isset($_POST[f_teamid])) {
 	$teamid = $_POST[f_teamid];
 	$_SESSION['teamid'] = $teamid;
 } else {
-   $teamid = $_SESSION['teamid'];
+   $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 }
-
-#echo "session_team=".$_SESSION['teamid']."<br/>";
 
 // --- show team selection form
 setTeamForm("edit_team.php", $teamid);
 echo "<br/>\n";
-echo "<hr/>\n";
 echo "<br/>\n";
 echo "<br/>\n";
 
 
-if ("" != $teamid) {
 
-   echo "<br/>\n";
-   echo "<br/>\n";
-   $defaultDate  = date("Y-m-d", time());
+
+
+if (0 != $teamid) {
+
+	// --- display current Team
+	$query = "SELECT name, description FROM `codev_team_table` WHERE id = $teamid";
+	$result = mysql_query($query) or die("Query failed: $query");
+	$teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "UNDEFINED";
+	echo "<h1 title='team_id = $teamid'>".$teamName." team</h1><br/>";
+
+//	echo "<br/>\n";
+//   echo "<br/>\n";
+echo "<hr align='left' width='20%'/>\n";
+	$defaultDate  = date("Y-m-d", time());
    addTeamMemberForm("edit_team.php", $defaultDate);   
    displayTeamMemberTuples($teamid);
    
    echo "<br/>\n";
    echo "<br/>\n";
+echo "<hr align='left' width='20%'/>\n";
    addTeamProjectForm($originPage);
    displayTeamProjectTuples($teamid);
    

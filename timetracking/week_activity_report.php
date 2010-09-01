@@ -137,7 +137,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
 
 // ================ MAIN =================
 $year = date('Y');
-$defaultTeam = $_SESSION[teamid];
+$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
