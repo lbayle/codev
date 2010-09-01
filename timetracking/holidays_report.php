@@ -114,13 +114,14 @@ function displayHolidaysMonth($month, $year, $teamid) {
 
 // ================ MAIN =================
 $year = date('Y');
-$defaultTeam = 1;
+$defaultTeam = $_SESSION[teamid];;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
+$_SESSION[teamid] = $teamid;
 
 displayHolidaysReportForm($teamid);
 

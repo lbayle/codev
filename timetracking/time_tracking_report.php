@@ -268,7 +268,11 @@ function displayWorkingDaysPerProject($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  $query     = "SELECT id, name FROM `mantis_project_table` ORDER BY name";
+  $query     = "SELECT mantis_project_table.id, mantis_project_table.name ".
+               "FROM `mantis_project_table`, `codev_team_project_table` ".
+               "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
+               "AND codev_team_project_table.team_id = $timeTracking->team_id ".
+               " ORDER BY name";
   $result    = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
@@ -332,6 +336,7 @@ function displayCheckWarnings($timeTracking) {
 
 // =========== MAIN ==========
 $year = date('Y');
+$defaultTeam = $_SESSION[teamid];
 
 // Connect DB
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
@@ -340,7 +345,10 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 
 $weekDates      = week_dates(date('W'),$year);
 
-$teamid = isset($_POST[teamid]) ? $_POST[teamid] : 1;
+$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
+$_SESSION[teamid] = $teamid;
+
+
 $date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
 $date2  = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $weekDates[5]);
 

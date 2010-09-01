@@ -137,7 +137,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
 
 // ================ MAIN =================
 $year = date('Y');
-$defaultTeam = 0;
+$defaultTeam = $_SESSION[teamid];
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
@@ -145,8 +145,10 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 
 $action = $_POST[action];
 $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
+
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
-   
+$_SESSION[teamid] = $teamid;
+
 $weekDates      = week_dates($weekid,$year);
    
 $startTimestamp = $weekDates[1];        
