@@ -79,10 +79,11 @@ class TimeTracking {
   }
         
   // ----------------------------------------------
-  // Returns the number of days spent on side tasks 
+  // Returns the number of days spent on side tasks EXCEPT Vacations 
   public function getProdDaysSideTasks() {   
     $prodDays = 0;
 
+    // select tasks within timestamp, where user is in the team
     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
       "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
@@ -95,8 +96,7 @@ class TimeTracking {
       $timeTrack = new TimeTrack($row->id);
             
       // Count only the time spent on $projects
-      if ((in_array ($timeTrack->projectId, $this->sideTaskprojectList)) &&
-          (!$timeTrack->isVacation())) {
+      if ((in_array ($timeTrack->projectId, $this->sideTaskprojectList)) && (!$timeTrack->isVacation())) {
         $prodDays += $timeTrack->duration;
       }
     }
@@ -605,9 +605,13 @@ class TimeTracking {
   public function getProjectDetails($project_id) {
     $durationPerCategory = array();
 
-    // Find nb hours spent on the given project
-    $query     = "SELECT bugid, duration FROM `codev_timetracking_table` ".
-      "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ";
+    // Find nb hours spent on the given project by this team
+    $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.duration ".
+                 "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
+                 "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
+                 "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
+                 "AND    codev_team_user_table.team_id = $this->team_id";
+
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -618,7 +622,7 @@ class TimeTracking {
     }
     return $durationPerCategory;
   }
-
+  
   // ----------------------------------------------
   // Returns a multiple array containing duration for each day of the week.
   // WARNING: the timestamp must NOT exceed 1 week.
