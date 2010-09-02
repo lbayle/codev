@@ -3,86 +3,6 @@
 <?php
 include_once "../auth/user.class.php";
 
-function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $originPage) {
-   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
-
-   $myCalendar = new tc_calendar("date1", true, false);
-   $myCalendar->setIcon("calendar/images/iconCalendar.gif");
-   $myCalendar->setDate($defaultDay, $defaultMonth, $defaultYear);
-   $myCalendar->setPath("calendar/");
-   $myCalendar->setYearInterval(2010, 2015);
-   $myCalendar->dateAllow('2010-01-01', '2015-12-31');
-   $myCalendar->setDateFormat('Y-m-d');
-   $myCalendar->startMonday(true);
-
-   $query = "SELECT realname FROM `mantis_user_table` WHERE id = $userid";
-   $result = mysql_query($query) or die("Query failed: $query");
-   $userName    = mysql_result($result, 0);
-
-   // Display form
-   echo "<h2>Saisie des Temps : $userName</h2>\n";
-
-   echo "<div style='text-align: center;'>";
-
-   echo "<form name='form1' method='post' Action='$originPage'>\n";
-
-   echo "Date: "; $myCalendar->writeScript();
-
-   // This filters the bugid list to shorten the 'bugid' Select.
-   $user1 = new User($_SESSION['userid']);
-   $taskList = $user1->getPossibleWorkingTasksList();
-
-   echo "&nbsp;Task: <select name='bugid' style='width: 600px;'>\n";
-   foreach ($taskList as $bid)
-   {
-      $issue = new Issue ($bid);
-      if ($bid == $defaultBugid) {
-         echo "<option selected value='".$bid."'>".$bid." / $issue->tcId : $issue->summary</option>\n";
-      } else {
-         echo "<option value='".$bid."'>".$bid." / $issue->tcId : $issue->summary</option>\n";
-      }
-   }
-   echo "</select>\n";
-   
-   echo "Poste: <select name='job'>\n";
-   echo "<option value='0'></option>\n";
-   $query     = "SELECT id, name FROM `codev_job_table`";
-   $result    = mysql_query($query) or die("Query failed: $query");
-   while($row = mysql_fetch_object($result))
-   {
-      echo "<option value='".$row->id."'>".$row->name."</option>\n";
-   }
-   echo "</select>\n";
-
-   echo "Duration: <select name='duree'>\n";
-   echo "<option value='0'></option>\n";
-   echo "<option value='1'>1</option>\n";
-   echo "<option value='0.9'>0.9</option>\n";
-   echo "<option value='0.8'>0.8</option>\n";
-   echo "<option value='0.75'>0.75</option>\n";
-   echo "<option value='0.7'>0.7</option>\n";
-   echo "<option value='0.6'>0.6</option>\n";
-   echo "<option value='0.5'>0.5 (4h)</option>\n";
-   echo "<option value='0.4'>0.4 (3h)</option>\n";
-   echo "<option value='0.3'>0.3 (2h 30)</option>\n";
-   echo "<option value='0.25'>0.25 (2h)</option>\n";
-   echo "<option value='0.2'>0.2 (1h 30)</option>\n";
-   echo "<option value='0.1'>0.1 (1h)</option>\n";
-   echo "</select>\n";
-
-   echo "<input type=button name='btAddTrack' value='Ajouter' onClick='javascript: addTrack()'>\n";
-
-   echo "<input type=hidden name=userid  value=$userid>\n";
-   echo "<input type=hidden name=weekid  value=$weekid>\n";
-   echo "<input type=hidden name=trackid value=unknown1>\n";
-
-   echo "<input type=hidden name=action       value=noAction>\n";
-   echo "<input type=hidden name=currentForm  value=addTrackForm>\n";
-   echo "<input type=hidden name=nextForm     value=addTrackForm>\n";
-   echo "</form>\n";
-   
-   echo "</div>";
-}
 
 function displayCheckWarnings($userid, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
@@ -147,15 +67,15 @@ function displayTimetrackingTuples($userid) {
       $formatedJobName = str_replace("'", "\'", $jobName);
       $formatedSummary = str_replace("'", "\'", $issue->summary);
       $formatedSummary = str_replace('"', "\'", $formatedSummary);
+      $trackDescription = "$formatedDate | $row->bugid ($issue->tcId) | $formatedJobName | $row->duration | $formatedSummary";
       
       echo "<tr>\n";
-      echo "<td>\n";
-      $trackDescription = "$formatedDate | $row->bugid ($issue->tcId) | $formatedJobName | $row->duration | $formatedSummary";
+      echo "<td width=40>\n";
       echo "<a title='delete this row' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."')\" ><img border='0' src='b_drop.png'></a>\n";
       echo "<a title='Edit Mantis Issue' href='http://".$_SERVER['HTTP_HOST']."/mantis/view.php?id=$row->bugid' target='_blank'><img border='0' src='http://".$_SERVER['HTTP_HOST']."/mantis/images/favicon.ico'></a>";
       
       echo "</td>\n";
-      echo "<td>".$cosmeticDate."</td>\n";
+      echo "<td width=170>".$cosmeticDate."</td>\n";
       echo "<td>".$row->bugid."</td>\n";
       echo "<td>".$issue->tcId."</td>\n";
       echo "<td>".$row->duration."</td>\n";
