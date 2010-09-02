@@ -321,6 +321,8 @@ if ($_POST[nextForm] == "addTrackForm") {
     
   } elseif ("setProjectid" == $action) {
   	 $defaultProjectid  = $_POST[projectid];
+  	 $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
+  	 $defaultDate = $formatedDate;
   	 
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";
