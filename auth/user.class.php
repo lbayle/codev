@@ -94,6 +94,7 @@ class User {
       return $teamList;
    }
 
+   // --------------------
    public function getProjectList() {
       
       $projList = array();
@@ -105,11 +106,14 @@ class User {
          $formatedTeamList .= $tid;
       }
       
-      $query = "SELECT DISTINCT project_id FROM `codev_team_project_table` WHERE team_id IN ($formatedTeamList)";
+      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
+               "FROM `codev_team_project_table`, `mantis_project_table`".
+               "WHERE codev_team_project_table.team_id IN ($formatedTeamList)".
+               "AND codev_team_project_table.project_id = mantis_project_table.id";
       
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-      	$projList[] = $row->project_id;
+      	$projList[$row->project_id] = $row->name;
       }
       return $projList;
    }
@@ -129,7 +133,7 @@ class User {
    		return array();
    	}
    	
-	   foreach ($projList as $prid)
+	   foreach ($projList as $prid => $prname)
 	   {
 	      if ($formatedProjList != "") { $formatedProjList .= ', ';}
 	      $formatedProjList .= $prid;
