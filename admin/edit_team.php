@@ -88,9 +88,7 @@ include_once "../tools.php";
 include_once "../auth/user.class.php";
 require_once('../timetracking/calendar/classes/tc_calendar.php');
 
-function setTeamForm($originPage, $defaultSelection) {
-  $session_user = new User($_SESSION['userid']);
-  $teamList = $session_user->getLeadedTeamList();
+function setTeamForm($originPage, $defaultSelection, $teamList) {
    
   // create form
   echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
@@ -314,14 +312,18 @@ if (isset($_POST[f_teamid])) {
    $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 }
 
+$session_user = new User($_SESSION['userid']);
+$teamList = $session_user->getLeadedTeamList();
+
 // --- show team selection form
-setTeamForm("edit_team.php", $teamid);
+setTeamForm("edit_team.php", $teamid, $teamList);
 echo "<br/>\n";
 echo "<br/>\n";
 echo "<br/>\n";
 
 
-
+// if user is not Leader of any team, do not display current team page
+if (0 == count($teamList)) { $teamid = 0;}
 
 
 if (0 != $teamid) {
