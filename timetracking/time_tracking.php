@@ -79,6 +79,7 @@ if (!isset($_SESSION['userid'])) {
 include_once "../constants.php";
 include_once "../tools.php";
 include_once "../reports/issue.class.php";
+include_once "../reports/project.class.php";
 include_once "../auth/user.class.php";
 include_once "time_tracking.class.php";
 include_once "time_tracking_tools.php";
@@ -193,13 +194,16 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    
    
    #echo "Poste: ";
+   $project1 = new Project($defaultProjectid);
+   $jobList = $project1->getJobList();
+   
    echo "<select name='job' title='Poste'>\n";
-   echo "<option value='0'></option>\n";
-   $query     = "SELECT id, name FROM `codev_job_table`";
-   $result    = mysql_query($query) or die("Query failed: $query");
-   while($row = mysql_fetch_object($result))
+   if (1 != count($jobList)) {
+      echo "<option value='0'></option>\n";
+   }
+   foreach ($jobList as $jid => $jname)
    {
-      echo "<option value='".$row->id."'>".$row->name."</option>\n";
+      echo "<option value='".$jid."'>$jname</option>\n";
    }
    echo "</select>\n";
 
