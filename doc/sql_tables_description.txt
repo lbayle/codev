@@ -1,6 +1,13 @@
 ### codev_timetracking_table
 
 ### codev_job_table
+afin de détailler le temps passé sur une tache (analyse, dev, ...)
+un certain nbre de 'jobs' ou 'postes' ont ete définis.
+- Les postes peuvent etre atribués a un projet donné ou etre
+communs a tous les (dans ce cas, le projectid = 0).
+- Les projets de type 'SideTasks' (comme SuiviOp) n'ont pas acces
+aux postes communs.
+
 
 ### codev_team_table
 une 'team' est un groupe de personnes travaillant sur un meme projet.
@@ -19,11 +26,16 @@ mais pour ne pas modifier les tables mantis, il a ete rajouté ici.
 ### codev_team_project_type_table
 description des types de projets.
 - le type '0' pour les projets normaux
-- le type '1' pour décrire les projet de "Suivi Opérationnel".
-chaque team doit posseder un projet de type '1' pour pouvoir
+- le type '1' pour décrire les projet de SideTasks (Suivi Opérationnel).
+chaque team doit posseder au moins un projet de type '1' pour pouvoir
 imputer les taches n'ayant pas de rapport direct avec un projet.
 exemple: absences, reunions, indisponibilité reseau, etc. 
 
+Il est conseillé que toutes les team utilisent le meme projet SideTask
+de maniere a pouvoir modifier les teams facilement.
+un inconvenient quand meme: si une personne fait partie de plusieurs
+teams, alors ses SideTasks seront comptabilisés dans les stats des deux
+teams (donc en double). 
 
 
 
