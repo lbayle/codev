@@ -35,7 +35,8 @@ Il est conseillé que toutes les team utilisent le meme projet SideTask
 de maniere a pouvoir modifier les teams facilement.
 un inconvenient quand meme: si une personne fait partie de plusieurs
 teams, alors ses SideTasks seront comptabilisés dans les stats des deux
-teams (donc en double). 
+teams (donc en double). Dans ce cas, il faut definir un projet SideTask
+par team.
 
 
 

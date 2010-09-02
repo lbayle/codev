@@ -154,16 +154,17 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    #echo "Date: \n"; 
    $myCalendar->writeScript();
 
-   $user1 = new User($_SESSION['userid']);
+   $user1    = new User($userid);
+   $project1 = new Project($defaultProjectid);
    
    // Project list
-   $projList = $user1->getProjectList();
    echo "&nbsp;";
    echo "&nbsp;";
    #echo "Project: \n";
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='Projet'>\n";
    echo "<option value='0'></option>\n";
    
+   $projList = $user1->getProjectList();
    foreach ($projList as $pid => $pname)
    {
       if ($pid == $defaultProjectid) {
@@ -174,27 +175,26 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    }
    echo "</select>\n";
 
+   
    // Task list
    echo "&nbsp;";
    #echo "Task: \n";
    echo "<select name='bugid' style='width: 600px;' title='Tache'>\n";
    echo "<option value='0'></option>\n";
-   
-   $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id=$defaultProjectid ORDER BY id DESC";
-   $result = mysql_query($query) or die("Query failed: $query");
-   while($row = mysql_fetch_object($result)) {
-      $issue = new Issue ($row->id);
-      if ($row->id == $defaultBugid) {
-         echo "<option selected value='".$row->id."'>".$row->id." / $issue->tcId : $issue->summary</option>\n";
+
+   $issueList = $project1->getIssueList();
+   foreach ($issueList as $bugid) {
+         $issue = new Issue ($bugid);
+      if ($bugid == $defaultBugid) {
+         echo "<option selected value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       } else {
-         echo "<option value='".$row->id."'>".$row->id." / $issue->tcId : $issue->summary</option>\n";
+         echo "<option value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       }
    }
    echo "</select>\n";
    
    
    #echo "Poste: ";
-   $project1 = new Project($defaultProjectid);
    $jobList = $project1->getJobList();
    
    echo "<select name='job' title='Poste'>\n";

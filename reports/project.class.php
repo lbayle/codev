@@ -35,7 +35,7 @@ class Project {
       $this->description = $row->description;
       $this->type        = $row->type;
       
-      $this->jobList     = $this->getJobList();
+      #$this->jobList     = $this->getJobList();
    	
    }
    
@@ -72,7 +72,24 @@ class Project {
       return $jobList;
    }
    
-	
+   // -----------------------------------------------
+   public function getIssueList() {
+   	
+   	$issueList = array();
+   	
+	   $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id=$this->id ORDER BY id DESC";
+	   $result = mysql_query($query) or die("Query failed: $query");
+	   while($row = mysql_fetch_object($result)) {
+	   	$issueList[] = $row->id;
+	   }
+	   return $issueList;
+   }
+   
+   
+   // -----------------------------------------------
+   public function isSideTasksProject() {
+		return (1 == $this->type);
+	}
 }
 
 ?>
