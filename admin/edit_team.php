@@ -79,6 +79,21 @@ if (!isset($_SESSION['userid'])) {
      }
    }
   
+  function updateTeamLeader(){
+     // check fields
+     foundError = 0;
+     msgString = "Les champs suivants ont ete oublies:\n\n"
+         
+     if (0 == document.forms["updateTeamLeaderForm"].f_leaderid.value)  { msgString += "Team Leader\n"; ++foundError; }
+                    
+     if (0 == foundError) {
+       document.forms["updateTeamLeaderForm"].action.value="updateTeamLeader";
+       document.forms["updateTeamLeaderForm"].submit();
+     } else {
+       alert(msgString);    
+     }    
+   }
+
 </script>
 
 
@@ -115,14 +130,52 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
   echo "</form>\n";
 }
 
+// ----------------------------------------------------
+function updateTeamLeaderForm($teamid, $originPage) {
+   echo "<div>\n";
+   echo "<h2>Team Leader</h2>\n";
 
+   $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
+   $result = mysql_query($query) or die("Query failed: $query");
+   $leaderid  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+   
+   
+   
+   echo "<form id='updateTeamLeaderForm' name='updateTeamLeaderForm' method='post' Action='$originPage'>\n";
+   
+   echo "Leader: <select name='f_leaderid'>\n";
+
+   $query     = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
+   $result    = mysql_query($query) or die("Query failed: $query");
+   while($row = mysql_fetch_object($result))
+   {
+      if ($row->id == $leaderid) {
+	      echo "<option selected value='".$row->id."'>".$row->username."</option>\n";
+      } else {
+	      echo "<option value='".$row->id."'>".$row->username."</option>\n";
+	   }
+   }
+   echo "</select>\n";
+   
+   echo "<input type=button name='btUpdateTeamLeader' value='Update' onClick='javascript: updateTeamLeader()'>\n";
+
+   echo "<input type=hidden name=action       value=noAction>\n";
+   
+   echo "</form>\n";
+	echo "</div>\n";
+   
+	
+	
+	
+	
+}
 
 // ----------------------------------------------------
 function displayTeamMemberTuples($teamid) {
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
-   echo "<caption>Team Members</caption>\n";   
+   #echo "<caption>Team Members</caption>\n";   
    echo "<tr>\n";
    echo "<th></th>\n";
    echo "<th>login</th>\n";
@@ -169,7 +222,7 @@ function addTeamMemberForm($originPage, $defaultDate) {
    $myCalendar->startMonday(true);
 
    // Display form
-   echo "<h2>Add Team Member:</h2>\n";
+   echo "<h2>Team Members</h2>\n";
 
    #echo "<div style='text-align: center;'>";
    echo "<div>";
@@ -212,7 +265,7 @@ function displayTeamProjectTuples($teamid) {
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
-   echo "<caption>Team Projects</caption>\n";   
+   #echo "<caption>Team Projects</caption>\n";   
    echo "<tr>\n";
    echo "<th></th>\n";
    echo "<th>Nom</th>\n";
@@ -251,7 +304,7 @@ function displayTeamProjectTuples($teamid) {
 function addTeamProjectForm($originPage) {
    
    // Display form
-   echo "<h2>Add Team Project:</h2>\n";
+   echo "<h2>Team Projects</h2>\n";
 
    #echo "<div style='text-align: center;'>";
    echo "<div>";
@@ -298,6 +351,9 @@ function addTeamProjectForm($originPage) {
 
 // ================ MAIN =================
 
+// TODO get admin teamid from DB
+$admin_teamid = 3;
+
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
 mysql_select_db($db_mantis_database) or die("Could not select database");
@@ -312,8 +368,20 @@ if (isset($_POST[f_teamid])) {
    $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 }
 
+// leadedTeams only, except Admins: they can edit all teams
 $session_user = new User($_SESSION['userid']);
-$teamList = $session_user->getLeadedTeamList();
+
+if ($session_user->isTeamMember($admin_teamid)) {
+	$teamList = array();
+   $query     = "SELECT id, name FROM `codev_team_table` ORDER BY name";
+   $result    = mysql_query($query) or die("Query failed: $query");
+   while($row = mysql_fetch_object($result))
+   {
+      $teamList[$row->id] = $row->name;
+   }
+} else {
+   $teamList = $session_user->getLeadedTeamList();
+}
 
 // --- show team selection form
 setTeamForm("edit_team.php", $teamid, $teamList);
@@ -334,21 +402,25 @@ if (0 != $teamid) {
 	$teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "UNDEFINED";
 	echo "<h1 title='team_id = $teamid'>".$teamName." team</h1><br/>";
 
-//	echo "<br/>\n";
-//   echo "<br/>\n";
-echo "<hr align='left' width='20%'/>\n";
+   echo "<hr align='left' width='20%'/>\n";
+   updateTeamLeaderForm($teamid, $originPage);
+	
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "<hr align='left' width='20%'/>\n";
 	$defaultDate  = date("Y-m-d", time());
    addTeamMemberForm("edit_team.php", $defaultDate);   
    displayTeamMemberTuples($teamid);
    
+   
    echo "<br/>\n";
    echo "<br/>\n";
-echo "<hr align='left' width='20%'/>\n";
+   echo "<hr align='left' width='20%'/>\n";
    addTeamProjectForm($originPage);
    displayTeamProjectTuples($teamid);
    
    
-   
+   // ----------- actions ----------
    if ($_POST[action] == "addTeamMember") {
       
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
@@ -396,7 +468,18 @@ echo "<hr align='left' width='20%'/>\n";
 
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
+
+   } elseif ($_POST[action] == "updateTeamLeader") {
+   	
+      $leaderid = $_POST[f_leaderid];
+   	$query = "UPDATE `codev_team_table` SET leader_id = $leaderid WHERE id = $teamid;";
+      mysql_query($query) or die("Query failed: $query");
+   	
+      // reload page
+      echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
+
    }
+   
 
    
 }
