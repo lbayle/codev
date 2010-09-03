@@ -10,6 +10,7 @@
 <script language="JavaScript">
  function submitForm() {
    document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+   document.forms["form1"].year.value = document.getElementById('yearSelector').value;
    document.forms["form1"].action.value = "displayHolidays";
    document.forms["form1"].submit();
  }
@@ -23,7 +24,9 @@ include_once "../constants.php";
 include_once "../tools.php";
 include_once "holidays.class.php";
 
-function  displayHolidaysReportForm($teamid) {
+// ---------------------------------------------
+
+function  displayHolidaysReportForm($teamid, $curYear) {
   echo "<form id='form1' name='form1' method='post' action='holidays_report.php'>\n";
 
   echo "Team: \n";
@@ -41,8 +44,21 @@ function  displayHolidaysReportForm($teamid) {
   }
   echo "</select>\n";
    
-  echo "<input type=hidden name=teamid  value=1>\n";
+  echo "Year: \n";
+  echo "<select id='yearSelector' name='yearSelector' onchange='javascript: submitForm()'>\n";
+  for ($y = ($curYear -2); $y <= ($curYear +2); $y++) {
+
+  	 if ($y == $curYear) {
+      echo "<option selected value='".$y."'>".$y."</option>\n";
+    } else {
+      echo "<option value='".$y."'>".$y."</option>\n";
+    }
+  }
+  echo "</select>\n";
    
+  echo "<input type=hidden name=teamid  value=1>\n";
+  echo "<input type=hidden name=year    value=2010>\n";
+  
   echo "<input type=hidden name=action       value=noAction>\n";
   echo "<input type=hidden name=currentForm  value=displayHolidays>\n";
   echo "<input type=hidden name=nextForm     value=displayHolidays>\n";
@@ -113,7 +129,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
 }
 
 // ================ MAIN =================
-$year = date('Y');
+$year = isset($_POST[year]) ? $_POST[year] : date('Y');
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
@@ -123,7 +139,8 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
 
-displayHolidaysReportForm($teamid);
+displayHolidaysReportForm($teamid, $year);
+$_POST[year] = $year;
 
 for ($i = 1; $i <= 12; $i++) {
   displayHolidaysMonth($i, $year, $teamid);
