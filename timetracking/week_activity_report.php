@@ -40,7 +40,7 @@ function  displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking)
         
   echo "<form id='form1' name='form1' method='post' action='week_activity_report.php'>\n";
 
-  echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
+  echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
 
   $query = "SELECT id, name FROM `codev_team_table` WHERE leader_id = ".$_SESSION['userid']." ORDER BY name";
   $result = mysql_query($query) or die("Query failed: $query");
@@ -56,7 +56,7 @@ function  displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking)
   }
   echo "</select>\n";
 
-  echo "Week: <select id='weekidSelector' name='weekidSelector'>\n";
+  echo "Week: <select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
   for ($i = 1; $i <= 53; $i++)
   {
     $wDates      = week_dates($i,date('Y'));
@@ -68,8 +68,6 @@ function  displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking)
     }
   }
   echo "</select>\n";
-
-  echo "<input type=button value='Envoyer' onClick='javascript: submitForm()'>\n";
 
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
@@ -101,18 +99,18 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   //$thisWeekId=date("W");
         
   $weekTracks = $timeTracking->getWeekDetails($userid);
-  echo "<table width='100%'>\n";
+  echo "<table width='95%'>\n";
   //echo "<caption><b>Semaine $weekid</b> (du ".date("Y-m-d", $weekDates[1])." au ".date("Y-m-d", $weekDates[5]).")</caption>\n";
   echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
   echo "<th width='50%'>Tache</th>\n";
   echo "<th width='7%'>Projet</th>\n";
   echo "<th width='10%'>Poste</th>\n";
-  echo "<th width='10'>Lundi<br>".date("d F", $weekDates[1])."</th>\n";
-  echo "<th width='10'>Mardi<br/>".date("d F", $weekDates[2])."</th>\n";
-  echo "<th width='10'>Mercredi<br/>".date("d F", $weekDates[3])."</th>\n";
-  echo "<th width='10'>Jeudi<br/>".date("d F", $weekDates[4])."</th>\n";
-  echo "<th width='10'>Vendredi<br/>".date("d F", $weekDates[5])."</th>\n";
+  echo "<th width='10'>Lundi<br>".date("d M", $weekDates[1])."</th>\n";
+  echo "<th width='10'>Mardi<br/>".date("d M", $weekDates[2])."</th>\n";
+  echo "<th width='10'>Mercredi<br/>".date("d M", $weekDates[3])."</th>\n";
+  echo "<th width='10'>Jeudi<br/>".date("d M", $weekDates[4])."</th>\n";
+  echo "<th width='10'>Vendredi<br/>".date("d M", $weekDates[5])."</th>\n";
   echo "</tr>\n";
   foreach ($weekTracks as $bugid => $jobList) {
     $issue = new Issue($bugid);
@@ -157,7 +155,7 @@ $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
 displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
    
-//displayCheckWarnings($userid);
+//displayCheckWarnings($userid, $teamid);
 ?>
 
 </div>

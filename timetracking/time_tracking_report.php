@@ -130,7 +130,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>Production Days : SuiviOp</td>\n";
   echo "<td>$sideProdDays</td>\n";
-  echo "<td>nombre de jours pass&eacute;s sur les taches annexes</td>\n";
+  echo "<td>nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s)</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 

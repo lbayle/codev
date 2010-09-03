@@ -3,7 +3,7 @@
 <div id="menu">
 
 <?php echo "   
-<table>
+<table class='menu'>
    <tr>
       <td class='menu'><a href='".getServerRootURL()."/home.php' title='Acceuil'>Home</a></td>
       

@@ -103,6 +103,7 @@ class Issue {
       global $vacationCategory;
       global $vacationProject;
 
+      // TODO DEPRECATED $vacationProject, $vacationCategory
       if (($this->projectId == $vacationProject) &&
       ($this->categoryId == $vacationCategory)) {
          return true;

@@ -35,6 +35,7 @@ class User {
    }
 
    // --------------------
+   // if no team specified, choose the oldest arrival date
    public function getArrivalDate($team_id = NULL) {
       
    	$arrival_date = time();

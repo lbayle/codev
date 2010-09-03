@@ -18,11 +18,11 @@ class TimeTracking {
   var $sideTaskprojectList;
 
   // ----------------------------------------------
-  public function TimeTracking($startTimestamp, $endTimestamp, $team_id = -1) {
+  public function TimeTracking($startTimestamp, $endTimestamp, $team_id = NULL) {
 
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp   = $endTimestamp;
-    $this->team_id       = $team_id;
+    $this->team_id       = (isset($team_id)) ? $team_id : -1;
       
     #if (-1 == $team_id) {
       #       echo "WARN: TimeTracking->team_id not set !<br>";

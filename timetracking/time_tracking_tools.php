@@ -4,13 +4,13 @@
 include_once "../auth/user.class.php";
 
 
-function displayCheckWarnings($userid, $isStrictlyTimestamp = FALSE) {
+function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
    $user1 = new User($userid);
 	
-   $startTimestamp = $user1->getArrivalDate();
+   $startTimestamp = $user1->getArrivalDate($team_id);
    $endTimestamp   = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
+   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $team_id);
 
    $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
 
