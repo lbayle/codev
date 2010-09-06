@@ -51,19 +51,6 @@ function  displayWeekActivityReport($userid, $teamid, $weekid, $weekDates, $time
       echo "<option value='".$tid."'>".$tname."</option>\n";
     }
   }
-/*  
-  $query = "SELECT id, name FROM `codev_team_table` WHERE leader_id = ".$_SESSION['userid']." ORDER BY name";
-  $result = mysql_query($query) or die("Query failed: $query");
-  while($row = mysql_fetch_object($result))
-  {
-    // show only teams where logged user is teamLeader
-    if ($row->id == $teamid) {
-      echo "<option selected value='".$row->id."'>".$row->name."</option>\n";
-    } else {
-      echo "<option value='".$row->id."'>".$row->name."</option>\n";
-    }
-  }
-*/
   echo "</select>\n";
 
   
