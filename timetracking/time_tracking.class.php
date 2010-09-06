@@ -39,7 +39,7 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-    	// TODO use codev_team_project_type_table ?
+      // TODO use codev_team_project_type_table ?
       if (0 == $row->type) {
         $this->prodProjectList[]     = $row->project_id;
       } else {
@@ -185,57 +185,57 @@ class TimeTracking {
     
     // --------
     foreach ($projects as $prid) {
-       if ($formatedProjList != "") { $formatedProjList .= ', ';}
-       $formatedProjList .= $prid;
+      if ($formatedProjList != "") { $formatedProjList .= ', ';}
+      $formatedProjList .= $prid;
     }
     // all bugs which status changed to 'resolved' whthin the timestamp
     $query = "SELECT mantis_bug_table.id ,".
-                    "mantis_bug_table.eta, ".
-                    "mantis_bug_history_table.new_value, ".
-                    "mantis_bug_history_table.old_value, ".
-                    "mantis_bug_history_table.date_modified, ".
-                    "mantis_custom_field_string_table.value AS effort_estim ".
-             "FROM `mantis_bug_table`, `mantis_bug_history_table`, `mantis_custom_field_string_table`".
-             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
-             "AND   mantis_bug_table.id = mantis_custom_field_string_table.bug_id ".
-             "AND mantis_bug_table.project_id IN ($formatedProjList)".
-             "AND mantis_bug_history_table.field_name='status' ".
-             "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
-             "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-             "AND mantis_bug_history_table.new_value = $status_resolved ".
-             "AND mantis_custom_field_string_table.field_id = 3 ".  # field_id = 3 => EffortEstim
-             "ORDER BY mantis_bug_table.id DESC";
+      "mantis_bug_table.eta, ".
+      "mantis_bug_history_table.new_value, ".
+      "mantis_bug_history_table.old_value, ".
+      "mantis_bug_history_table.date_modified, ".
+      "mantis_custom_field_string_table.value AS effort_estim ".
+      "FROM `mantis_bug_table`, `mantis_bug_history_table`, `mantis_custom_field_string_table`".
+      "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+      "AND   mantis_bug_table.id = mantis_custom_field_string_table.bug_id ".
+      "AND mantis_bug_table.project_id IN ($formatedProjList)".
+      "AND mantis_bug_history_table.field_name='status' ".
+      "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+      "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+      "AND mantis_bug_history_table.new_value = $status_resolved ".
+      "AND mantis_custom_field_string_table.field_id = 3 ".  # field_id = 3 => EffortEstim
+      "ORDER BY mantis_bug_table.id DESC";
     
     if (isset($_GET['debug'])) { echo "getProductivRate QUERY = $query <br/>"; }
     
     $result = mysql_query($query) or die("Query failed: $query");
     
     while($row = mysql_fetch_object($result)) {
-    	
-    	// check if the bug has been reopened before endTimestamp
+        
+      // check if the bug has been reopened before endTimestamp
       $issue = new Issue($row->id);
       $latestStatus = $issue->getStatus($this->endTimestamp);
-    	if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
+      if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
 
-    		// remove doubloons    		
-	      if (!in_array ($row->id, $resolvedList)) {
-	         if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$row->effort_estim, elapsed = $issue->elapsed<br/>"; }
-	      
-	         $resolvedList[] = $row->id;
-	         $totalElapsed += $issue->elapsed;
-	         
-	         if ("ETA" == $balanceType) {
-               if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$ETA_balance[$row->eta]." = ".($productivityRate + $ETA_balance[$row->eta])."<br/>";}
-	         	$productivityRate += $ETA_balance[$row->eta];
-	         } else {
-               if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + $row->effort_estim = ".($productivityRate + $row->effort_estim)."<br/>";}
-	         	$productivityRate += $row->effort_estim;
-	         }
-	      }
-    	} else {
-    		if (isset($_GET['debug'])) { echo "getProductivRate REOPENED : bugid = $row->id<br/>"; }
-    	} 
-    	
+        // remove doubloons             
+        if (!in_array ($row->id, $resolvedList)) {
+          if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$row->effort_estim, elapsed = $issue->elapsed<br/>"; }
+              
+          $resolvedList[] = $row->id;
+          $totalElapsed += $issue->elapsed;
+                 
+          if ("ETA" == $balanceType) {
+            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$ETA_balance[$row->eta]." = ".($productivityRate + $ETA_balance[$row->eta])."<br/>";}
+            $productivityRate += $ETA_balance[$row->eta];
+          } else {
+            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + $row->effort_estim = ".($productivityRate + $row->effort_estim)."<br/>";}
+            $productivityRate += $row->effort_estim;
+          }
+        }
+      } else {
+        if (isset($_GET['debug'])) { echo "getProductivRate REOPENED : bugid = $row->id<br/>"; }
+      } 
+        
     }
     
     // -------
@@ -277,25 +277,25 @@ class TimeTracking {
     
     // --------
     foreach ($projects as $prid) {
-       if ($formatedProjList != "") { $formatedProjList .= ', ';}
-       $formatedProjList .= $prid;
+      if ($formatedProjList != "") { $formatedProjList .= ', ';}
+      $formatedProjList .= $prid;
     }
     // all bugs which status changed to 'resolved' whthin the timestamp
     $query = "SELECT mantis_bug_table.id, ".
-                    "mantis_bug_history_table.new_value, ".
-                    "mantis_bug_history_table.old_value, ".
-                    "mantis_bug_history_table.date_modified, ".
-                    "mantis_custom_field_string_table.value AS effort_estim ".
-             "FROM `mantis_bug_table`, `mantis_bug_history_table`, `mantis_custom_field_string_table` ".
-             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
-             "AND   mantis_bug_table.id = mantis_custom_field_string_table.bug_id ".
-             "AND mantis_bug_table.project_id IN ($formatedProjList) ".
-             "AND mantis_bug_history_table.field_name='status' ".
-             "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
-             "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-             "AND mantis_bug_history_table.new_value = $status_resolved ".
-             "AND mantis_custom_field_string_table.field_id = 3 ".  # field_id = 3 => EffortEstim
-             "ORDER BY mantis_bug_table.id DESC";
+      "mantis_bug_history_table.new_value, ".
+      "mantis_bug_history_table.old_value, ".
+      "mantis_bug_history_table.date_modified, ".
+      "mantis_custom_field_string_table.value AS effort_estim ".
+      "FROM `mantis_bug_table`, `mantis_bug_history_table`, `mantis_custom_field_string_table` ".
+      "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+      "AND   mantis_bug_table.id = mantis_custom_field_string_table.bug_id ".
+      "AND mantis_bug_table.project_id IN ($formatedProjList) ".
+      "AND mantis_bug_history_table.field_name='status' ".
+      "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+      "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+      "AND mantis_bug_history_table.new_value = $status_resolved ".
+      "AND mantis_custom_field_string_table.field_id = 3 ".  # field_id = 3 => EffortEstim
+      "ORDER BY mantis_bug_table.id DESC";
     
     if (isset($_GET['debug'])) { echo "getDrift_new QUERY = $query <br/>"; }
     
@@ -308,45 +308,45 @@ class TimeTracking {
       $latestStatus = $issue->getStatus($this->endTimestamp);
       if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
 
-         // remove doubloons        
-         if (!in_array ($row->id, $resolvedList)) {
+        // remove doubloons        
+        if (!in_array ($row->id, $resolvedList)) {
          
-            $resolvedList[] = $row->id;
+          $resolvedList[] = $row->id;
             
-            // -- compute total drift
-            $issueDrift     = $issue->getDrift();
-            $derive        += $issueDrift;
-            $issueDriftETA  = $issue->getDriftETA();
-            $deriveETA     += $issueDriftETA;
+          // -- compute total drift
+          $issueDrift     = $issue->getDrift();
+          $derive        += $issueDrift;
+          $issueDriftETA  = $issue->getDriftETA();
+          $deriveETA     += $issueDriftETA;
 
-            if (isset($_GET['debug'])) { echo "TimeTracking->getDriftStatistics() Found : bugid=$row->id, proj=$issue->projectId, old_status=$row->old_value, new_status=$row->new_value, date_modified=".date("d F Y", $row->date_modified).", effortEstim=$row->effort_estim, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA<br/>"; }
+          if (isset($_GET['debug'])) { echo "TimeTracking->getDriftStatistics() Found : bugid=$row->id, proj=$issue->projectId, old_status=$row->old_value, new_status=$row->new_value, date_modified=".date("d F Y", $row->date_modified).", effortEstim=$row->effort_estim, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA<br/>"; }
             
-            // get drift stats. equal is when drif = +-1
-            if ($issueDrift < -1) {
-              $nbDriftsNeg++;
-              $driftNeg += $issueDrift;
-            } elseif ($issueDrift > 1){
-              $nbDriftsPos++;
-              $driftPos += $issueDrift;
-            } else {
-              $nbDriftsEqual++;
-              $driftEqual += $issueDrift;
-            }
+          // get drift stats. equal is when drif = +-1
+          if ($issueDrift < -1) {
+            $nbDriftsNeg++;
+            $driftNeg += $issueDrift;
+          } elseif ($issueDrift > 1){
+            $nbDriftsPos++;
+            $driftPos += $issueDrift;
+          } else {
+            $nbDriftsEqual++;
+            $driftEqual += $issueDrift;
+          }
 
-            if ($issueDriftETA < -1) {
-              $nbDriftsNegETA++;
-              $driftNegETA += $issueDriftETA;
-            } elseif ($issueDriftETA > 1){
-              $nbDriftsPosETA++;
-              $driftPosETA += $issueDriftETA;
-            } else {
-              $nbDriftsEqualETA++;
-              $driftEqualETA += $issueDriftETA;
-            }
+          if ($issueDriftETA < -1) {
+            $nbDriftsNegETA++;
+            $driftNegETA += $issueDriftETA;
+          } elseif ($issueDriftETA > 1){
+            $nbDriftsPosETA++;
+            $driftPosETA += $issueDriftETA;
+          } else {
+            $nbDriftsEqualETA++;
+            $driftEqualETA += $issueDriftETA;
+          }
             
-         }
+        }
       } else {
-         if (isset($_GET['debug'])) { echo "TimeTracking->getDriftStatistics() REOPENED : bugid = $row->id<br/>"; }
+        if (isset($_GET['debug'])) { echo "TimeTracking->getDriftStatistics() REOPENED : bugid = $row->id<br/>"; }
       } 
       
     }
