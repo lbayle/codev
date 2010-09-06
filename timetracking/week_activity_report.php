@@ -133,6 +133,35 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "</table>\n";
 }
 
+function displayCheckWarnings($timeTracking) {
+  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
+    "FROM  `codev_team_user_table`, `mantis_user_table` ".
+    "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
+    "AND    codev_team_user_table.user_id = mantis_user_table.id ".
+    "ORDER BY mantis_user_table.username";   
+   
+  $result = mysql_query($query) or die("Query failed: $query");
+   
+  echo "<p style='color:red'>\n";
+   
+  while($row = mysql_fetch_object($result))
+  {
+    $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
+    foreach ($incompleteDays as $date => $value) {
+      $formatedDate = date("Y-m-d", $date);
+      echo "<br/>$row->username: $formatedDate incomplet (manque ".(1-$value)." jour).\n";
+    }
+                   
+    $missingDays = $timeTracking->checkMissingDays($row->user_id);
+    foreach ($missingDays as $date) {
+      $formatedDate = date("Y-m-d", $date);
+      echo "<br/>$row->username: $formatedDate non d&eacute;finie.\n";
+    }
+  }
+  echo "</p>\n";
+}
+
+
 // ================ MAIN =================
 $year = date('Y');
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
@@ -155,7 +184,9 @@ $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
 displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
    
-//displayCheckWarnings($userid, $teamid);
+echo "<br/><br/>\n";
+displayCheckWarnings($timeTracking);
+
 ?>
 
 </div>

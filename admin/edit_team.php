@@ -11,7 +11,7 @@ if (!isset($_SESSION['userid'])) {
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
 <br/>
-<h1>CoDev Administration : Team Edition</h1>
+<h1>CoDev Administration</h1>
 <?php include 'menu_admin.inc.php'; ?>
 
 
@@ -106,7 +106,8 @@ require_once('../timetracking/calendar/classes/tc_calendar.php');
 function setTeamForm($originPage, $defaultSelection, $teamList) {
    
   // create form
-  echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
+  echo "<div align=center>\n";
+  echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage' onchange='javascript: submitTeam()'>\n";
 
   echo "Team :\n";
   echo "<select name='f_teamid'>\n";
@@ -122,12 +123,11 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
   }
   echo "</select>\n";
 
-  echo "<input type=button value='Select' onClick='javascript: submitTeam()'>\n";
-   
   echo "<input type=hidden name=currentForm value=teamSelectForm>\n";
   echo "<input type=hidden name=nextForm    value=editTeamForm>\n";
 
   echo "</form>\n";
+  echo "</div>\n";
 }
 
 // ----------------------------------------------------
@@ -384,7 +384,9 @@ if ($session_user->isTeamMember($admin_teamid)) {
 }
 
 // --- show team selection form
+echo "<h1>Team Edition</h1><br/>";
 setTeamForm("edit_team.php", $teamid, $teamList);
+
 echo "<br/>\n";
 echo "<br/>\n";
 echo "<br/>\n";
@@ -400,7 +402,7 @@ if (0 != $teamid) {
 	$query = "SELECT name, description FROM `codev_team_table` WHERE id = $teamid";
 	$result = mysql_query($query) or die("Query failed: $query");
 	$teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "UNDEFINED";
-	echo "<h1 title='team_id = $teamid'>".$teamName." team</h1><br/>";
+	echo "<span title='team_id = $teamid'>Current Team: ".$teamName."</span><br/>";
 
    echo "<hr align='left' width='20%'/>\n";
    updateTeamLeaderForm($teamid, $originPage);
