@@ -35,16 +35,25 @@ include_once "../reports/issue.class.php";
 include_once "../auth/user.class.php";
 include_once "time_tracking.class.php";
 
-function  displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) {
-  #$user = new User($_SESSION['userid']);
-        
+function  displayWeekActivityReport($userid, $teamid, $weekid, $weekDates, $timeTracking) {
+
+	$user = new User($userid);
+	
   echo "<form id='form1' name='form1' method='post' action='week_activity_report.php'>\n";
 
+  // -----------
   echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
-
+  echo "<option value='0'></option>\n";
+  foreach ($user->getLeadedTeamList() as $tid => $tname) {
+    if ($tid == $teamid) {
+  	   echo "<option selected value='".$tid."'>".$tname."</option>\n";
+    } else {
+      echo "<option value='".$tid."'>".$tname."</option>\n";
+    }
+  }
+/*  
   $query = "SELECT id, name FROM `codev_team_table` WHERE leader_id = ".$_SESSION['userid']." ORDER BY name";
   $result = mysql_query($query) or die("Query failed: $query");
-   
   while($row = mysql_fetch_object($result))
   {
     // show only teams where logged user is teamLeader
@@ -54,8 +63,11 @@ function  displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking)
       echo "<option value='".$row->id."'>".$row->name."</option>\n";
     }
   }
+*/
   echo "</select>\n";
 
+  
+  // -----------
   echo "Week: <select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
   for ($i = 1; $i <= 53; $i++)
   {
@@ -165,6 +177,7 @@ function displayCheckWarnings($timeTracking) {
 // ================ MAIN =================
 $year = date('Y');
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+$userid = $_SESSION['userid'];
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
@@ -182,7 +195,7 @@ $startTimestamp = $weekDates[1];
 $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
 $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
+displayWeekActivityReport($userid, $teamid, $weekid, $weekDates, $timeTracking);
    
 echo "<br/><br/>\n";
 displayCheckWarnings($timeTracking);
