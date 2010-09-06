@@ -18,7 +18,11 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
    foreach ($incompleteDays as $date => $value) {
       $formatedDate = date("Y-m-d", $date);
       $color = ($date >= ($endTimestamp + (24 * 60 * 60))) ? "blue": "red"; // tomorow is blue
-      echo "<br/><span style='color:$color' width='70'>$formatedDate incomplet (manque ".(1-$value)." jour)</span>\n";
+      if ($value < 1) {
+        echo "<br/><span style='color:$color' width='70'>$formatedDate incomplet (manque ".(1-$value)." jour)</span>\n";
+      } else {
+        echo "<br/><span style='color:$color' width='70'>$formatedDate incoh&eacute;rent (".($value)." jour)</span>\n";
+      }
    }
    
    $missingDays = $timeTracking->checkMissingDays($userid);

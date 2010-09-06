@@ -338,7 +338,11 @@ function displayCheckWarnings($timeTracking) {
     $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
     foreach ($incompleteDays as $date => $value) {
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/>$row->username: $formatedDate incomplet (manque ".(1-$value)." jour).\n";
+      if ($value < 1) {
+        echo "<br/>$row->username: $formatedDate incomplet (manque ".(1-$value)." jour).\n";
+      } else {
+        echo "<br/>$row->username: $formatedDate incoh&eacute;rent (".($value)." jour).\n";
+      }
     }
                    
     $missingDays = $timeTracking->checkMissingDays($row->user_id);
