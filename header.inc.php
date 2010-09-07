@@ -19,5 +19,5 @@
 
 <body>
 <div align=left style=''>
-<?php echo "<img border=0 src='".getServerRootURL()."/images/codev_logo_02.png' alt='Codev TimeTracking'/>"?>
+<?php echo "<img border=0 src='".getServerRootURL()."/images/clock_logo_06.png' alt='Codev TimeTracking'/>"?>
 </div>
