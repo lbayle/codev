@@ -94,12 +94,13 @@ $g_time_tracking_stopwatch = OFF;
 $g_time_tracking_with_billing = OFF;
 
 # ========= LoB CoDev config ==========
-$g_status_enum_string	= '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,90:closed';
+$g_status_enum_string	= '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed';
 
-$g_status_colors['accepted'] = '#FF6A6E';
-$g_status_colors['analyzed'] = '#fff494';
-$g_status_colors['openned']  = '#c2dfff';
-$g_status_colors['deferred'] = '#8080ff';
+$g_status_colors['accepted']  = '#FF6A6E';
+$g_status_colors['analyzed']  = '#fff494';
+$g_status_colors['openned']   = '#c2dfff';
+$g_status_colors['deferred']  = '#8080ff';
+$g_status_colors['delivered'] = '#9EDB63';
 
 
 ?>
