@@ -41,7 +41,7 @@ if (!isset($_SESSION['userid'])) {
     foundError = 0;
     msgString = "Les champs suivants ont ete oublies:\n\n"
         
-    if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
+    //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
     if (0 == document.forms["form1"].bugid.value)     { msgString += "Tache\n"; ++foundError; }
     if (0 == document.forms["form1"].job.value)       { msgString += "Poste\n";  ++foundError; }
     if (0 == document.forms["form1"].duree.value)     { msgString += "Duree\n";  ++foundError; }
@@ -162,7 +162,7 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    echo "&nbsp;";
    #echo "Project: \n";
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='Projet'>\n";
-   echo "<option value='0'></option>\n";
+   echo "<option value='0'>(tous)</option>\n";
    
    $projList = $user1->getProjectList();
    foreach ($projList as $pid => $pname)
@@ -175,14 +175,33 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    }
    echo "</select>\n";
 
-   
-   // Task list
    echo "&nbsp;";
-   #echo "Task: \n";
+   
+   // --- Task list
+   if (0 != $project1->id) {
+      $issueList = $project1->getIssueList();
+   } else {
+   	// no project specified: show all tasks
+      $issueList = array();
+   	foreach ($projList as $prid => $pname) {
+	      if ($formatedProjList != "") { $formatedProjList .= ', ';}
+	      $formatedProjList .= $prid;
+	    }
+       $query  = "SELECT id ".
+                 "FROM `mantis_bug_table` ".
+                 "WHERE project_id IN ($formatedProjList) ".
+                 "ORDER BY id DESC";
+       $result = mysql_query($query) or die("Query failed: $query");
+         if (0 != mysql_num_rows($result)) {
+            while($row = mysql_fetch_object($result))
+            {
+               $issueList[] = $row->id;
+            }
+       }
+   }
    echo "<select name='bugid' style='width: 600px;' title='Tache'>\n";
    echo "<option value='0'></option>\n";
 
-   $issueList = $project1->getIssueList();
    foreach ($issueList as $bugid) {
          $issue = new Issue ($bugid);
       if ($bugid == $defaultBugid) {
@@ -194,10 +213,20 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    echo "</select>\n";
    
    
-   #echo "Poste: ";
-   $jobList = $project1->getJobList();
-   
-   echo "<select name='job' title='Poste'>\n";
+   // --- Job list
+   if (0 != $project1->id) {
+      $jobList = $project1->getJobList();
+   } else {
+      $query  = "SELECT id, name FROM `codev_job_table` ";
+   	$result = mysql_query($query) or die("Query failed: $query");
+         if (0 != mysql_num_rows($result)) {
+            while($row = mysql_fetch_object($result))
+            {
+               $jobList[$row->id] = $row->name;
+            }
+       }
+   }
+   echo "<select name='job' title='Poste' style='width: 100px;' >\n";
    if (1 != count($jobList)) {
       echo "<option value='0'></option>\n";
    }
@@ -207,7 +236,7 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    }
    echo "</select>\n";
 
-   #echo "Duration:\n";
+   // --- Duration list
    echo " <select name='duree' title='Dur&eacute;e (en jours)'>\n";
    echo "<option value='0'></option>\n";
    echo "<option value='1'>1</option>\n";
