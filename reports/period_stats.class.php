@@ -88,7 +88,7 @@ class PeriodStats {
     $this->statusCountList["submitted"] = 0;
 
     // sideTaskprojects are excluded (type != 0)
-    $query = "SELECT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
+    $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
       "AND mantis_bug_table.project_id = codev_team_project_table.project_id ".
