@@ -36,6 +36,16 @@ class PeriodStatsReport {
   }
 
   function displayHTMLReport() {
+    global $status_new;
+    global $status_feedback;
+    global $status_ack;
+    global $status_analyzed;
+    global $status_accepted;
+    global $status_openned;
+    global $status_resolved;
+    global $status_delivered;
+    global $status_closed;
+  	
     echo "<table>\n";
     echo "<caption title='Bilan mensuel SAUF SuiviOp.'>Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)</caption>";
     echo "<tr>\n";
@@ -52,7 +62,21 @@ class PeriodStatsReport {
     echo "<th>Closed</th>\n";
     echo "</tr>\n";
     foreach ($this->periodStatsList as $date => $ps) {
-      echo $ps->displayOneLineHtmlTable();
+      
+	    $tableLine = "<tr>\n";
+	    $tableLine .= "<td>".date("F Y", $ps->startTimestamp)."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList["submitted"]."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList[$status_new]."</td>\n"; // TODO new
+	    $tableLine .= "<td>".$ps->statusCountList[$status_ack]."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList[$status_feedback]."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList[$status_analyzed]."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList[$status_accepted]."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList[$status_openned]."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList[$status_resolved]."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList[$status_delivered]."</td>\n";
+	    $tableLine .= "<td>".$ps->statusCountList[$status_closed]."</td>\n";
+	    $tableLine .= "</tr>\n";
+	    echo "$tableLine";
     }
     echo "</table>\n";
   }

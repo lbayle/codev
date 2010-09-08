@@ -163,47 +163,6 @@ class PeriodStats {
     }*/
   }
   
-  
-  // -------------------------------------------------
-  // Returns a string containing an html table line with the counts
-  public function displayOneLineHtmlTable() {           
-    global $status_new;
-    global $status_feedback;
-    global $status_ack;
-    global $status_analyzed;
-    global $status_accepted;
-    global $status_openned;
-    global $status_resolved;
-    global $status_delivered;
-    global $status_closed;
-
-    $tableLine = "<tr>\n";
-    $tableLine .= "<td>".date("F Y", $this->startTimestamp)."</td>\n";
-
-    $res = $this->statusCountList["submitted"];
-    $tableLine .= "<td>$res</td>\n";
-    $res = $this->statusCountList[$status_new];
-    $tableLine .= "<td>$res</td>\n"; // TODO new
-    $res = $this->statusCountList[$status_ack];
-    $tableLine .= "<td>$res</td>\n";
-    $res = $this->statusCountList[$status_feedback];
-    $tableLine .= "<td>$res</td>\n";
-    $res = $this->statusCountList[$status_analyzed];
-    $tableLine .= "<td>$res</td>\n";
-    $res = $this->statusCountList[$status_accepted];
-    $tableLine .= "<td>$res</td>\n";
-    $res = $this->statusCountList[$status_openned];
-    $tableLine .= "<td>$res</td>\n";
-    $res = $this->statusCountList[$status_resolved];
-    $tableLine .= "<td>$res</td>\n";
-    $res = $this->statusCountList[$status_delivered];
-    $tableLine .= "<td>$res</td>\n";
-    $res = $this->statusCountList[$status_closed];
-    $tableLine .= "<td>$res</td>\n";
-    $tableLine .= "</tr>\n";
-                 
-    return $tableLine;             
-  }
 } // end class PeriodStats
 
 ?>
