@@ -85,16 +85,18 @@ function displayCreateTeamForm() {
 
 // ================ MAIN =================
 
+// TODO get admin teamid from DB
+//$admin_teamid = 3;
+
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 
-// ---- if not codev admin (team 3) then stop now.
+// ---- if not codev admin then stop now.
 // REM: who is allowed to create a new team ? anyone ?
-// TODO replace 3 with a query to codev admin teamId
 #$session_user = new User($_SESSION['userid']);
-#if (false == $session_user->isTeamMember(3)) {
+#if (false == $session_user->isTeamMember($admin_teamid)) {
 #  echo ("Sorry, you need to be Codev Administrator to access this page.");
 #  exit;
 #}

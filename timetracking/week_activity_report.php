@@ -37,7 +37,7 @@ include_once "time_tracking.class.php";
 
 function  displayWeekActivityReport($userid, $teamid, $weekid, $weekDates, $timeTracking) {
 
-	$user = new User($userid);
+  $user = new User($userid);
 	
   echo "<form id='form1' name='form1' method='post' action='week_activity_report.php'>\n";
 

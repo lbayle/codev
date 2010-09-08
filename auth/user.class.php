@@ -110,7 +110,8 @@ class User {
       $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
                "FROM `codev_team_project_table`, `mantis_project_table`".
                "WHERE codev_team_project_table.team_id IN ($formatedTeamList)".
-               "AND codev_team_project_table.project_id = mantis_project_table.id";
+               "AND codev_team_project_table.project_id = mantis_project_table.id ".
+               "ORDER BY mantis_project_table.name";
       
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
