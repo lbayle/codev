@@ -19,9 +19,9 @@
   $s_deferred_bug_title = 'Deferred';
   $s_email_notification_title_for_status_bug_deferred = 'The developpement has been STOPPED temporarily.';
   
-  $s_deferred_bug_button = 'Issue Delivered';
-  $s_deferred_bug_title = 'Delivered';
-  $s_email_notification_title_for_status_bug_deferred = 'The issue has been assigned to an FDL-Issue.';
+  $s_delivered_bug_button = 'Issue Delivered';
+  $s_delivered_bug_title = 'Delivered';
+  $s_email_notification_title_for_status_bug_delivered = 'The issue has been assigned to an FDL-Issue.';
   
   $s_eta_enum_string = '10:none,20:< 1 day,30:2-3 days,40:<1 week,50:< 15 days,60:> 15 days';
 ?>
