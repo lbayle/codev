@@ -48,6 +48,7 @@ class PeriodStatsReport {
     echo "<th>Accepted</th>\n";
     echo "<th>Openned</th>\n";
     echo "<th>Resolved</th>\n";
+    echo "<th>Delivered</th>\n";
     echo "<th>Closed</th>\n";
     echo "</tr>\n";
     foreach ($this->periodStatsList as $date => $ps) {

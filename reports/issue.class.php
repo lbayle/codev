@@ -361,6 +361,7 @@ class Issue {
       global $status_openned;
       global $status_deferred;
       global $status_resolved;
+      global $status_delivered;
       global $status_closed;
 
       $this->statusList[$status_new]      = new Status($status_new, $this->getDuration_new());
@@ -371,6 +372,7 @@ class Issue {
       $this->statusList[$status_openned]  = new Status($status_openned,  $this->getDuration_other($status_openned));
       $this->statusList[$status_deferred] = new Status($status_deferred, $this->getDuration_other($status_deferred));
       $this->statusList[$status_resolved] = new Status($status_resolved, $this->getDuration_other($status_resolved));
+      $this->statusList[$status_delivered] = new Status($status_delivered, $this->getDuration_other($status_delivered));
       $this->statusList[$status_closed]   = new Status($status_closed,   $this->getDuration_other($status_closed));
 
       //echo "computeDurations: duration new = ".$this->statusList[$status_new]->duration."<br/>";
@@ -432,6 +434,7 @@ class Issue {
       global $status_openned;
       global $status_deferred;
       global $status_resolved;
+      global $status_delivered;
       global $status_closed;
 
       $current_date = time();
@@ -441,7 +444,11 @@ class Issue {
       //  -- the end_date   is transition where old_value = status, or current date if no transition found.
 
       // Find start_date
-      $query = "SELECT id, date_modified, old_value, new_value FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND (new_value=$status OR old_value=$status) ORDER BY id";
+      $query = "SELECT id, date_modified, old_value, new_value ".
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND (new_value=$status OR old_value=$status) ORDER BY id";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {

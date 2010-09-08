@@ -18,6 +18,7 @@ class IssueFDJ extends Issue {
     global $status_openned;
     global $status_deferred;
     global $status_resolved;
+    global $status_delivered;
     global $status_closed;
     global $status_feedback_ATOS;
     global $status_feedback_FDJ;
@@ -31,6 +32,7 @@ class IssueFDJ extends Issue {
     $this->statusList[$status_openned]  = new Status($status_openned,  $this->getDuration_other($status_openned));
     $this->statusList[$status_deferred] = new Status($status_deferred, $this->getDuration_other($status_deferred));
     $this->statusList[$status_resolved] = new Status($status_resolved, $this->getDuration_other($status_resolved));
+    $this->statusList[$status_delivered] = new Status($status_delivered, $this->getDuration_other($status_delivered));
     $this->statusList[$status_closed]   = new Status($status_closed,   $this->getDuration_other($status_closed));
 
     //echo "computeDurations: duration new = ".$this->statusList[$status_new]->duration."<br/>";
@@ -51,7 +53,12 @@ class IssueFDJ extends Issue {
     //  -- the end_date   is transition where old_value = status, or current date if no transition found.
 
     // Find start_date
-    $query = "SELECT id, date_modified, old_value, new_value FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND (new_value=$status_feedback OR old_value=$status_feedback) ORDER BY id ASC";
+    $query = "SELECT id, date_modified, old_value, new_value ".
+             "FROM `mantis_bug_history_table` ".
+             "WHERE bug_id=$this->bugId ".
+             "AND field_name = 'status' ".
+             "AND (new_value=$status_feedback OR old_value=$status_feedback) ".
+             "ORDER BY id ASC";
     $result = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -74,7 +81,12 @@ class IssueFDJ extends Issue {
 
       // Determinate to whom it was assigned
       //   -- find the last handler_id change before $end_id
-      $query2 = "SELECT id, date_modified, old_value, new_value  FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name='handler_id' $sql_condition ORDER BY id DESC";
+      $query2 = "SELECT id, date_modified, old_value, new_value ".
+                "FROM `mantis_bug_history_table` ".
+                "WHERE bug_id=$this->bugId ".
+                "AND field_name='handler_id' ".
+                $sql_condition.
+                " ORDER BY id DESC";
       $result2 = mysql_query($query2) or die("Query failed: $query2");
 
       // the list is in reverse order so the first one is the latest assignment.

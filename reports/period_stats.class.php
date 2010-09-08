@@ -47,6 +47,7 @@ class PeriodStats {
     global $status_accepted;
     global $status_openned;
     global $status_resolved;
+    global $status_delivered;
     global $status_closed;
 
     //$this->statusCountList[$status_feedback_ATOS] = 0;
@@ -60,6 +61,7 @@ class PeriodStats {
     $this->statusCountList[$status_accepted] = 0;
     $this->statusCountList[$status_openned]  = 0;
     $this->statusCountList[$status_resolved] = 0;
+    $this->statusCountList[$status_delivered] = 0;
     $this->statusCountList[$status_closed]   = 0;
 
     $this->statusIssueList["submitted"]      = array();
@@ -70,6 +72,7 @@ class PeriodStats {
     $this->statusIssueList[$status_accepted] = array();
     $this->statusIssueList[$status_openned]  = array();
     $this->statusIssueList[$status_resolved] = array();
+    $this->statusIssueList[$status_delivered] = array();
     $this->statusIssueList[$status_closed]   = array();
 
     // Compute stats
@@ -171,6 +174,7 @@ class PeriodStats {
     global $status_accepted;
     global $status_openned;
     global $status_resolved;
+    global $status_delivered;
     global $status_closed;
 
     $tableLine = "<tr>\n";
@@ -191,6 +195,8 @@ class PeriodStats {
     $res = $this->statusCountList[$status_openned];
     $tableLine .= "<td>$res</td>\n";
     $res = $this->statusCountList[$status_resolved];
+    $tableLine .= "<td>$res</td>\n";
+    $res = $this->statusCountList[$status_delivered];
     $tableLine .= "<td>$res</td>\n";
     $res = $this->statusCountList[$status_closed];
     $tableLine .= "<td>$res</td>\n";

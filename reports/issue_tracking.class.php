@@ -24,6 +24,7 @@ class IssueTracking {
     global $status_openned;
     global $status_deferred;
     global $status_resolved;
+    global $status_delivered;
     global $status_closed;
         
     $this->displayedStatusList = array($status_new, 
@@ -34,6 +35,7 @@ class IssueTracking {
                                        $status_openned,
                                        $status_deferred,
                                        $status_resolved,
+                                       $status_delivered,
                                        $status_closed);
         
     $query = "SELECT id FROM `mantis_bug_table` ORDER BY id DESC";
@@ -152,80 +154,6 @@ class IssueTracking {
     echo "</table>\n";
   }
 
-  public function durationsTableToCSV($fileName) {
-    global $status_new;
-    global $status_feedback;
-    global $status_ack;
-    global $status_analyzed;
-    global $status_accepted;
-    global $status_openned;
-    global $status_resolved;
-    global $status_closed;
-    global $status_feedback_ATOS;
-    global $status_feedback_FDJ;
-
-    $fieldSep = ';';
-
-    // Open file in 'overwrite mode'
-    $fh = fopen($fileName, 'w') or die("can't open file");
-
-    $stringData = "Fiche TC".$fieldSep."Description".$fieldSep."New".$fieldSep.
-      "Acknowledge".$fieldSep."Feedback ATOS".$fieldSep."Feedback FDJ".$fieldSep."Analyze".$fieldSep."Accepted".$fieldSep."Openned".$fieldSep."Resolved".$fieldSep."Closed\n";
-    fwrite($fh, $stringData);
-
-    foreach ($this->issueList as $bugId => $tmpIssue) {
-      $stringData  = $tmpIssue->tcId.$fieldSep;
-      $stringData .= $tmpIssue->summary.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_new]->duration.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_ack]->duration.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_feedback_ATOS]->duration.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_feedback_FDJ]->duration.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_analyzed]->duration.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_accepted]->duration.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_openned]->duration.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_resolved]->duration.$fieldSep;
-      $stringData .= $tmpIssue->statusList[$status_closed]->duration."\n";
-
-      fwrite($fh, $stringData);
-    }
-    fclose($fh);
-  }    
-    
-  public function estimationsToCSV($fileName) {
-    $fieldSep = ';';
-
-    // Open file in 'overwrite mode'
-    $fh = fopen($fileName, 'w') or die("can't open file");
-
-    $stringData = "Fiche TC".$fieldSep."Description".$fieldSep."Date Submission".$fieldSep.
-      "Difficulty".$fieldSep."EffortEstim".$fieldSep."Elapsed".$fieldSep.
-      "Remaining".$fieldSep."Current Status".$fieldSep."Release".$fieldSep."Derive\n";
-    fwrite($fh, $stringData);
-
-    foreach ($this->issueList as $bugId => $tmpIssue) {
-      $stringData  = $tmpIssue->tcId.$fieldSep;
-      $stringData .= $tmpIssue->summary.$fieldSep;
-
-      $stringData .= date("d F Y", $tmpIssue->dateSubmission).$fieldSep;
-         
-      if ("(select)" == $tmpIssue->difficulty) {
-        $stringData .= "".$fieldSep;
-      } else {
-        $stringData .= $tmpIssue->difficulty.$fieldSep;
-      }
-         
-      $stringData .= $tmpIssue->EffortEstim.$fieldSep;
-      $stringData .= $tmpIssue->elapsed.$fieldSep;
-      $stringData .= $tmpIssue->remaining.$fieldSep;
-      $stringData .= $tmpIssue->getCurrentStatusName().$fieldSep;
-      $stringData .= ($tmpIssue->EffortEstim - $tmpIssue->elapsed - $tmpIssue->remaining).$fieldSep;
-      $stringData .= $tmpIssue->release."\n";
-
-      fwrite($fh, $stringData);
-    }
-
-    fclose($fh);
-  }    
   
 } // end class IssueTracking
 

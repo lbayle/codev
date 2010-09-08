@@ -26,6 +26,7 @@
   $status_openned  = 50;
   $status_deferred = 55;
   $status_resolved = 80;
+  $status_delivered = 85;
   $status_closed   = 90;
   
   // FDJ specificities
@@ -42,6 +43,7 @@
                        $status_openned  => "Openned",
                        $status_deferred => "Deferred",
                        $status_resolved => "Resolved",
+                       $status_delivered => "Delivered",
                        $status_closed   => "Closed");
 
   // FDJ specificities

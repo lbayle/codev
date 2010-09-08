@@ -17,6 +17,7 @@ class IssueTrackingFDJ extends IssueTracking {
     global $status_openned;
     global $status_deferred;
     global $status_resolved;
+    global $status_delivered;
     global $status_closed;
     global $status_feedback_ATOS;
     global $status_feedback_FDJ;
@@ -30,6 +31,7 @@ class IssueTrackingFDJ extends IssueTracking {
                                        $status_openned,
                                        $status_deferred,
                                        $status_resolved,
+                                       $status_delivered,
                                        $status_closed);
       
     $query = "SELECT id FROM `mantis_bug_table` ORDER BY id DESC";
