@@ -310,7 +310,8 @@ if ($_POST[nextForm] == "addTrackForm") {
     $bugid     = $_POST[bugid];
     $job       = $_POST[job];
     $duration  = $_POST[duree];
-      
+    $defaultProjectid  = $_POST[projectid];
+        
     // save to DB
     $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
     mysql_query($query) or die("Query failed: $query");
