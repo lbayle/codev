@@ -13,17 +13,19 @@ class PeriodStats {
   // The bugIds of issues which current state are 'status' within the timestamp
   // REM: $statusIssueList is an array containing lists of bugIds
   var $statusIssueList;
+  
+  // The projects NOT listed here will be excluded from statistics
+  var $projectList;
+  
 
   // -------------------------------------------------
   public function PeriodStats($startTimestamp, $endTimestamp) {
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp = $endTimestamp;
 
-    $this->statusCountList = array();
-    $this->statusIssueList = array();
-
-    //echo "this->startTimestamp = $this->startTimestamp<br/>";
-    //echo "this->endTimestamp = $this->endTimestamp<br/>";
+    $this->statusCountList     = array();
+    $this->statusIssueList     = array();
+    $this->projectList = array();
   }
 
   // -------------------------------------------------
@@ -84,6 +86,7 @@ class PeriodStats {
   // -------------------------------------------------
   // Count the nb of issues submitted in [startTimestamp, endTimestamp]
   // REM: sideTaskprojects are excluded
+  // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
   private function countIssues_submitted() {
     $this->statusCountList["submitted"] = 0;
 
@@ -92,8 +95,15 @@ class PeriodStats {
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
       "AND mantis_bug_table.project_id = codev_team_project_table.project_id ".
-      "AND codev_team_project_table.type = 0";
-                
+      "AND codev_team_project_table.type = 0 ";
+
+    // Only for specified Projects   
+    if ((isset($this->projectList)) && (0 != count($this->projectList))) {
+        	$formatedProjects = simpleListToSQLFormatedString($this->projectList);
+    	$query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
+    }
+    if (isset($_GET['debug_sql'])) { echo "countIssues_submitted(): query = $query<br/>"; }
+    
     $result = mysql_query($query) or die("Query failed: $query");
 
     while($row = mysql_fetch_object($result))
@@ -101,7 +111,9 @@ class PeriodStats {
       $this->statusCountList["submitted"]++;
       $this->statusIssueList["submitted"][] = $row->id;
                         
-      //echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
+      if (isset($_GET['debug'])) { 
+      	echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
+      }
     }
 
     return $count_new;
@@ -122,14 +134,22 @@ class PeriodStats {
 
   // -------------------------------------------------
   // REM: sideTaskprojects are excluded
+  // REM: excludedProjects are excluded
   private function countIssues_other() {
 
-  	 // select all but SuiviOp.
+  	 // select all but SideTasks (type != 0)
     $query = "SELECT mantis_bug_table.id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
-      "AND codev_team_project_table.type = 0";
-                        
+      "AND codev_team_project_table.type = 0 ";
+
+    // Only for specified Projects   
+        if ((isset($this->projectList)) && (0 != count($this->projectList))) {
+         $formatedProjects = simpleListToSQLFormatedString($this->projectList);
+      $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
+    }
+        if (isset($_GET['debug_sql'])) {	echo "countIssues_other(): query = $query<br/>"; }
+    
     $result = mysql_query($query) or die("Query failed: $query");
 
     // For each bugId
@@ -153,14 +173,14 @@ class PeriodStats {
         $this->statusIssueList[$row2->new_value][] = $bugId1;
       }
     }
-    /*if (isset($_GET['debug'])) {
+    if (isset($_GET['debug'])) {
       echo "date < ".date("m Y", $this->endTimestamp)."<br/>";
       foreach ($this->statusIssueList as $state => $bugList) {
         foreach ($bugList as $bug) {
           echo "#$bug ($state)<br/>";
         }
       }
-    }*/
+    }
   }
   
 } // end class PeriodStats

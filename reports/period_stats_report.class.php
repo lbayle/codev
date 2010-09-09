@@ -11,15 +11,24 @@ class PeriodStatsReport {
   var $start_year;
   var $start_day;
   var $periodStatsList;
+  
+  var $teamid;
 
-  public function PeriodStatsReport($start_year) {
+  public function PeriodStatsReport($start_year, $teamid) {
     $this->start_year = $start_year;
     $this->start_day = 1;
     $this->periodStatsList = array();
+    
+    // TODO create a team selector !
+    $this->teamid = $teamid;
+    
   }
 
   // Compute monthly reports for the complete year
   public function computeReport() {
+  	
+  	global $excludedProjectList;
+  	
     $now = time();
 
     for ($start_month=1; $start_month<13; $start_month++) {
@@ -29,6 +38,21 @@ class PeriodStatsReport {
       if ($startTimestamp > $now) { break;}
 
       $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
+      
+      // only projects for specified team
+      $projectList = array();
+      $query = "SELECT project_id ".
+               "FROM `codev_team_project_table` ".
+               "WHERE team_id = $this->teamid";
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result)) {
+      	$projectList[] = $row->project_id;
+      }
+      // TODO remove FDL project
+      
+      $periodStats->projectList = $projectList;
+      
+      
       $periodStats->computeStats();
 
       $this->periodStatsList[$startTimestamp] = $periodStats;

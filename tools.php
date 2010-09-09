@@ -167,5 +167,24 @@ function dayofyear2timestamp( $tDay) {
    return( $timestamp ); 
 }
 
+// ---------------------------
+// used to convert an array() to a comma separated string used in SQL requests
+function simpleListToSQLFormatedString($myArray) {
+     foreach ($myArray as $id) {
+         if ($formatedList != "") { $formatedList .= ', ';}
+         $formatedList .= $id;
+     }
+	return $formatedList;
+}
+
+// ---------------------------
+// used to convert an array() to a comma separated string used in SQL requests
+function valuedListToSQLFormatedString($myArray) {
+     foreach ($myArray as $id => $value) {
+         if ($formatedList != "") { $formatedList .= ', ';}
+         $formatedList .= $id;
+     }
+   return $formatedList;
+}
 
 ?>
