@@ -110,7 +110,7 @@ $periodStatsReport->displayHTMLReport();
 
 echo "<br/>";
 echo "<br/>";
-$issueTracking = new IssueTrackingFDJ();
+$issueTracking = new IssueTrackingFDJ($teamid);
 $issueTracking->initialize();
 $issueTracking->forseingTableDisplay();
 

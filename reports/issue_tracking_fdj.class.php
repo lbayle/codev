@@ -34,7 +34,34 @@ class IssueTrackingFDJ extends IssueTracking {
                                        $status_delivered,
                                        $status_closed);
       
-    $query = "SELECT id FROM `mantis_bug_table` ORDER BY id DESC";
+      // only projects for specified team
+      $projectList = array();
+      $query = "SELECT project_id ".
+               "FROM `codev_team_project_table` ".
+               "WHERE team_id = $this->teamid";
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result)) {
+         $projectList[] = $row->project_id;
+      }
+      // TODO remove FDL project
+                                       
+                                       
+      // sideTaskprojects are excluded (type != 0)
+      $query = "SELECT DISTINCT mantis_bug_table.id ".
+               "FROM `mantis_bug_table`, `codev_team_project_table` ".
+               "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
+               "AND codev_team_project_table.type = 0 ";
+
+      // Only for specified Projects   
+      if ((isset($projectList)) && (0 != count($projectList))) {
+         $formatedProjects = simpleListToSQLFormatedString($projectList);
+         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
+      }
+                                       
+      $query .= " ORDER BY mantis_bug_table.id DESC";
+      
+                                       
+    //$query = "SELECT id FROM `mantis_bug_table` ORDER BY id DESC";
     $result = mysql_query($query) or die("Query failed: $query");
 
     while($row = mysql_fetch_object($result))
