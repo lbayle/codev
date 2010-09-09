@@ -66,25 +66,15 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   
   echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
   
-  // show only teams where i am member of or TeamLeader
-  $query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name ".
-           "FROM `codev_team_table`, `codev_team_user_table` ".
-           "WHERE codev_team_table.id = codev_team_user_table.team_id ".
-           "AND (codev_team_table.leader_id   = ".$_SESSION['userid'].
-           " OR codev_team_user_table.user_id = ".$_SESSION['userid'].
-           ") ORDER BY name";
-
-  $result = mysql_query($query) or die("Query failed: $query");
-   
-  while($row = mysql_fetch_object($result))
-  {
-    if ($row->id == $teamid) {
-      echo "<option selected value='".$row->id."'>".$row->name."</option>\n";
+  $session_user = new User($_SESSION['userid']);
+  $teamList = $session_user->getMemberAndLeadedTeamList();
+  foreach($teamList as $tid => $tname) {
+    if ($tid == $teamid) {
+      echo "<option selected value='".$tid."'>".$tname."</option>\n";
     } else {
-      echo "<option value='".$row->id."'>".$row->name."</option>\n";
+      echo "<option value='".$tid."'>".$tname."</option>\n";
     }
   }
- 
   echo "</select>\n";
 
   echo "&nbsp;Date d&eacute;but: "; $myCalendar1->writeScript();

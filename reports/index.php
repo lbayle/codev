@@ -78,12 +78,21 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 // TODO: get values from HTML fields
 $start_year = date('Y');
 
+/*
 if (isset($_POST[teamid])) {
    $teamid = $_POST[teamid];
    $_SESSION['teamid'] = $teamid;
 } else {
    $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 }
+*/
+
+$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
+$_SESSION[teamid] = $teamid;
+
+
+
 
 // Connect DB
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
@@ -92,7 +101,8 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 
 
 $session_user = new User($_SESSION['userid']);
-$teamList = $session_user->getLeadedTeamList();
+$teamList = $session_user->getMemberAndLeadedTeamList();
+
 
 $bugList = array();
 
@@ -104,24 +114,23 @@ setTeamForm("index.php", $teamid, $teamList);
 echo "<br/>";
 echo "<br/>";
 
-$periodStatsReport = new PeriodStatsReport($start_year, $teamid);
-$periodStatsReport->computeReport();
-$periodStatsReport->displayHTMLReport();
+if (0 != $teamid) {
 
-echo "<br/>";
-echo "<br/>";
-$issueTracking = new IssueTrackingFDJ($teamid);
-$issueTracking->initialize();
-$issueTracking->forseingTableDisplay();
+	$periodStatsReport = new PeriodStatsReport($start_year, $teamid);
+	$periodStatsReport->computeReport();
+	$periodStatsReport->displayHTMLReport();
+	
+	echo "<br/>";
+	echo "<br/>";
+	$issueTracking = new IssueTrackingFDJ($teamid);
+	$issueTracking->initialize();
+	$issueTracking->forseingTableDisplay();
+	
+	echo "<br/>";
+	echo "<br/>";
+	$issueTracking->durationsTableDisplay();
 
-echo "<br/>";
-echo "<br/>";
-$issueTracking->durationsTableDisplay();
-
-// ---------- CSV -------------
-#$issueTracking->durationsTableToCSV("E:\\FDJ_Mantis_reports\\".date("Ymd", time())."_durations.csv");
-#$issueTracking->estimationsToCSV("E:\\FDJ_Mantis_reports\\".date("Ymd", time())."_estimations.csv");
-
+}
 // Fermeture de la connexion
 mysql_close($link);
 //exit;

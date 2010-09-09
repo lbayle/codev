@@ -19,9 +19,7 @@ class PeriodStatsReport {
     $this->start_day = 1;
     $this->periodStatsList = array();
     
-    // TODO create a team selector !
     $this->teamid = $teamid;
-    
   }
 
   // Compute monthly reports for the complete year

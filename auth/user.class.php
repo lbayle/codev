@@ -95,6 +95,27 @@ class User {
       return $teamList;
    }
 
+   // returns teams where i am member of or TeamLeader
+   public function getMemberAndLeadedTeamList() {
+      $teamList = array();
+   	$query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name ".
+           "FROM `codev_team_table`, `codev_team_user_table` ".
+           "WHERE codev_team_table.id = codev_team_user_table.team_id ".
+           "AND (codev_team_table.leader_id   = ".$this->id.
+           " OR codev_team_user_table.user_id = ".$this->id.
+           ") ORDER BY name";
+
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         $teamList[$row->id] = $row->name;
+         #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
+      }
+      
+      return $teamList;
+   	
+   }
+   
    // --------------------
    public function getProjectList() {
       
