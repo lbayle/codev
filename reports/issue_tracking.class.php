@@ -126,25 +126,7 @@ class IssueTracking {
         echo "<td>".$tmpIssue->getCurrentStatusName()."</td>\n";
         echo "<td>".$tmpIssue->release."</td>\n";
         $derive = $tmpIssue->getDrift();
-        if (0 < $derive) {
-            if (($status_resolved  != $tmpIssue->currentStatus) && 
-                ($status_delivered != $tmpIssue->currentStatus) &&
-                ($status_closed    != $tmpIssue->currentStatus)) {
-              echo "<td style='background-color: #ff6a6e;'>".($derive)."</td>\n";
-            } else {
-              echo "<td style='background-color: #fcbdbd;'>".($derive)."</td>\n";
-            }
-        } elseif (0 > $derive) {
-          if (($status_resolved != $tmpIssue->currentStatus) && 
-              ($status_delivered != $tmpIssue->currentStatus) &&
-              ($status_closed   != $tmpIssue->currentStatus)) {
-            echo "<td style='background-color: #61ed66;'>".($derive)."</td>\n";
-          } else {
-            echo "<td style='background-color: #bdfcbd;'>".($derive)."</td>\n";
-          }
-        } else {
-          echo "<td>".($derive)."</td>\n";
-        }
+        echo "<td style='background-color: ".$tmpIssue->getDriftColor($derive)."'>".($derive)."</td>\n";
         echo "</tr>\n";
       }
     }

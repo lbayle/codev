@@ -189,6 +189,37 @@ class Issue {
       return $elapsed;
    }
 
+   // returns an HTML color string "#ff6a6e;" depending on pos/neg drift and current status.
+   // returns NULL if $drift=0
+   public function getDriftColor($drift) {
+    global $status_delivered;
+    global $status_resolved;
+    global $status_closed;
+   	
+        if (0 < $drift) {
+            if (($status_resolved  != $this->currentStatus) && 
+                ($status_delivered != $this->currentStatus) &&
+                ($status_closed    != $this->currentStatus)) {
+              $color = "#ff6a6e;";
+            } else {
+              $color = "#fcbdbd;";
+            }
+        } elseif (0 > $drift) {
+          if (($status_resolved != $this->currentStatus) && 
+              ($status_delivered != $this->currentStatus) &&
+              ($status_closed   != $this->currentStatus)) {
+              $color = "#61ed66;";
+              } else {
+              $color = "#bdfcbd;";
+              }
+        } else {
+          $color = NULL;
+        }
+     
+   	return $color;
+   }
+   
+   
    // ----------------------------------
    // if NEG, then we saved time
    // if 0, then just in time

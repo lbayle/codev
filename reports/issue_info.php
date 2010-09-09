@@ -89,7 +89,8 @@ function displayIssueGeneralInfo($issue) {
    
   echo "<tr>\n";
   echo "<th>Drift</th>\n";
-  echo "<td>".$issue->getDrift()."</td>\n";
+  $derive = $issue->getDrift();
+  echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
   echo "</tr>\n";
    
   echo "</table>\n";      
