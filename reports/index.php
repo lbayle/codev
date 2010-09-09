@@ -78,20 +78,10 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 // TODO: get values from HTML fields
 $start_year = date('Y');
 
-/*
-if (isset($_POST[teamid])) {
-   $teamid = $_POST[teamid];
-   $_SESSION['teamid'] = $teamid;
-} else {
-   $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
-}
-*/
 
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
-
-
 
 
 // Connect DB
@@ -120,16 +110,18 @@ if (0 != $teamid) {
 	$periodStatsReport->computeReport();
 	$periodStatsReport->displayHTMLReport();
 	
+   echo "<br/>";
 	echo "<br/>";
 	echo "<br/>";
 	$issueTracking = new IssueTrackingFDJ($teamid);
 	$issueTracking->initialize();
 	$issueTracking->forseingTableDisplay();
 	
+   echo "<br/>";
 	echo "<br/>";
 	echo "<br/>";
 	$issueTracking->durationsTableDisplay();
-
+	
 }
 // Fermeture de la connexion
 mysql_close($link);

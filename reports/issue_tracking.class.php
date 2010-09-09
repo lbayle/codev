@@ -143,13 +143,16 @@ class IssueTracking {
         echo "</tr>\n";
       }
     }
+    echo "</table>\n";
   }
     
   // ------------------------------------------
   // Table Repartition du temps par status
   public function durationsTableDisplay() {
     global $statusNames;
-        
+    
+    echo "<div>\n";
+    
     echo "<table>\n";
     echo "<caption>R&eacute;partition du temps par status</caption>";
     echo "<tr>\n";
@@ -181,6 +184,7 @@ class IssueTracking {
       }
     }
     echo "</table>\n";
+    echo "</div>\n";
   }
 
   
