@@ -79,7 +79,10 @@
   
   // nb of hours worked in a day                       
   $nbWorkingHoursADay = 8; 
-                       
+
+  
+  $FDLProject       = 18; 
+  
   // TODO DEPRECATED $IncidentProject doit etre trouve dans  'codev_team_project_table'
   $IncidentProject  = 11;  // "SuiviOp"        in table mantis_project_table
   $IncidentCategory = 19;  // "Incidents"      in table mantis_category_table
@@ -106,5 +109,9 @@
                                "2010-12-25", // noel
                                #"2010-12-31"  // RTT employeur  
   );
+  
+  
+  // the projects listed here will be excluded from PeriodStatsReport 
+  $periodStatsExcludedProjectList = array($FDLProject);
   
 ?>

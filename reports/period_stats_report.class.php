@@ -25,7 +25,7 @@ class PeriodStatsReport {
   // Compute monthly reports for the complete year
   public function computeReport() {
   	
-  	global $excludedProjectList;
+  	global $periodStatsExcludedProjectList;
   	
     $now = time();
 
@@ -37,14 +37,17 @@ class PeriodStatsReport {
 
       $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
       
-      // only projects for specified team
+      // only projects for specified team, except excluded projects
       $projectList = array();
       $query = "SELECT project_id ".
                "FROM `codev_team_project_table` ".
                "WHERE team_id = $this->teamid";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-      	$projectList[] = $row->project_id;
+      	
+      	if (! in_array($row->project_id, $periodStatsExcludedProjectList))  {
+      		$projectList[] = $row->project_id; 
+      	}
       }
       // TODO remove FDL project
       
@@ -72,7 +75,7 @@ class PeriodStatsReport {
     echo "<caption title='Bilan mensuel SAUF SuiviOp.'>Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)</caption>";
     echo "<tr>\n";
     echo "<th>Date</th>\n";
-    echo "<th title='Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp.'>Nb soumissions</th>\n";
+    echo "<th title='Nbre de fiches cr&eacute;&eacute;es SAUF (SuiviOp, FDL)'>Nb soumissions</th>\n";
     echo "<th>New</th>\n";
     echo "<th>Acknowledge</th>\n";
     echo "<th>Feedback</th>\n";
