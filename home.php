@@ -1,11 +1,12 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
-<?php include 'header.inc.php'; ?>
+<?php
+   $_POST[page_name] = "Bienvenu sur le serveur CoDev"; 
+   include 'header.inc.php'; 
+?>
 
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
-
-<h1>Bienvenu sur le serveur CoDev</h1>
 
 
 <div id="homepage_list"  class="left">

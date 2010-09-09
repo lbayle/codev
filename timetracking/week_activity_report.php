@@ -7,12 +7,13 @@ if (!isset($_SESSION['userid'])) {
 } 
 ?>
 
-<?php include '../header.inc.php'; ?>
+<?php
+   $_POST[page_name] = "Activit&eacute; Hebdo"; 
+   include '../header.inc.php'; 
+?>
 
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
-
-<h1>Activit&eacute; Hebdo</h1>
 
 
 <script language="JavaScript">

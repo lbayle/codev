@@ -7,13 +7,13 @@ if (!isset($_SESSION['userid'])) {
 } 
 ?>
 
-<?php include '../header.inc.php'; ?>
+<?php
+   $_POST[page_name] = "Saisie des CRA"; 
+   include '../header.inc.php'; 
+?>
 
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
-
-<h1>CRA</h1>
-
 
 <script language="JavaScript">
   function submitUser(){
@@ -106,6 +106,7 @@ function setUserForm($originPage) {
     "ORDER BY mantis_user_table.username";
 
   // create form
+  echo "<div align=center>";
   echo "<form id='formUserAndPeriodSelect' name='formUserAndPeriodSelect' method='post' action='$originPage'>\n";
 
   echo "Nom :\n";
@@ -131,6 +132,7 @@ function setUserForm($originPage) {
   echo "<input type=hidden name=nextForm    value=addTrackForm>\n";
 
   echo "</form>\n";
+  echo "</div>";
 }
 
 // --------------------------------------------------------------

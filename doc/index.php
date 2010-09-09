@@ -10,10 +10,12 @@ if (!isset($_SESSION['userid'])) {
 */
 ?>
 
-<?php include '../header.inc.php'; ?>
+<?php
+   $_POST[page_name] = "Centre de Documentation"; 
+   include '../header.inc.php'; 
+?>
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
 <br/>
-<h1>CoDev Documentation Center</h1>
 <?php include 'menu_doc.inc.php'; ?>
 

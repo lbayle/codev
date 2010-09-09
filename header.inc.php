@@ -18,6 +18,23 @@
 </head>
 
 <body>
-<div align=left style=''>
+<div id='header'>
+
+<table id='header'>
+<tr>
+<td width=300>
 <?php echo "<img border=0 src='".getServerRootURL()."/images/clock_logo_06.png' alt='Codev TimeTracking'/>"?>
+</td>
+<td>
+<?php
+   $page_name = isset($_POST[page_name]) ? $_POST[page_name] : "";
+   echo"<h1>$page_name</h1>";    
+?>
+
+</td>
+<td width=300>
+</td>
+</tr>
+</table>
+
 </div>

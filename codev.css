@@ -42,6 +42,22 @@ td {
   padding: 4px;
 }
 
+#header table {
+  border: 1px solid white; 
+  width: 100%
+}
+#header td {
+  background-color: white;
+  border: 0px solid white;
+  font-family : Verdana,Arial,Helvetica,sans-serif;
+  white-space : nowrap;
+  text-align : center;
+  font-size: 12px;
+  padding: 0px;
+}
+
+
+
 #homepage_list {
   font-size: larger;
   font-weight: bold;

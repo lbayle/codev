@@ -1,11 +1,13 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
-<?php include '../header.inc.php'; ?>
+<?php
+   $_POST[page_name] = "Pr&eacute;vision cong&eacute;s"; 
+   include '../header.inc.php'; 
+?>
 
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
 
-<h1>Pr&eacute;vision cong&eacute;s</h1>
 
 <script language="JavaScript">
  function submitForm() {

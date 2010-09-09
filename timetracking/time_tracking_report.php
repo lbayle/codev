@@ -7,12 +7,13 @@ if (!isset($_SESSION['userid'])) {
 } 
 ?>
 
-<?php include '../header.inc.php'; ?>
+<?php
+   $_POST[page_name] = "Indicateurs de production"; 
+   include '../header.inc.php'; 
+?>
 
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
-
-<h1>Indicateurs de production</h1>
 
 
 <script language="JavaScript">

@@ -7,12 +7,13 @@ if (!isset($_SESSION['userid'])) {
 } 
 ?>
 
-<?php include '../header.inc.php'; ?>
+<?php
+   $_POST[page_name] = "Suivi des fiches Mantis"; 
+   include '../header.inc.php'; 
+?>
 
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
-
-<h1>Mantis reports</h1>
 
 <script language="JavaScript">
   function submitTeam() {
