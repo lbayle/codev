@@ -189,13 +189,19 @@ class Issue {
       return $elapsed;
    }
 
+   // ----------------------------------------------
    // returns an HTML color string "#ff6a6e;" depending on pos/neg drift and current status.
    // returns NULL if $drift=0
-   public function getDriftColor($drift) {
+   // REM: if $drift is not specified, then $this->drift is used ()
+   public function getDriftColor($drift = NULL) {
     global $status_delivered;
     global $status_resolved;
     global $status_closed;
    	
+     if (!isset($drift)) {
+     	   $drift = $this->getDrift();
+     }
+    
         if (0 < $drift) {
             if (($status_resolved  != $this->currentStatus) && 
                 ($status_delivered != $this->currentStatus) &&
