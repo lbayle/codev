@@ -39,7 +39,14 @@ td {
 
 #login {
   text-align: left;
+  padding: 4px;
 }
+
+#homepage_list {
+  font-size: larger;
+  font-weight: bold;
+}
+
 #menu {
 }
 #menu ul { /* remove bullets and list indents */
