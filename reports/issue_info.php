@@ -34,7 +34,8 @@ include_once "../timetracking/time_track.class.php";
 include_once "../auth/user.class.php";
 
 function displayIssueSelectionForm($user_id, $defaultBugid) {
-  echo "<form id='form1' name='form1' method='post' action='issue_info.php'>\n";
+   echo "<div align=center>\n";
+	echo "<form id='form1' name='form1' method='post' action='issue_info.php'>\n";
 
   echo "Task: \n";
    
@@ -59,6 +60,7 @@ function displayIssueSelectionForm($user_id, $defaultBugid) {
   echo "<input type=hidden name=bugid  value=$defaultBugid>\n";
    
   echo "</form>\n";
+  echo "</div>\n";
 }
    
 function displayIssueGeneralInfo($issue) {      
