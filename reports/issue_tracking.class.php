@@ -81,6 +81,7 @@ class IssueTracking {
   // ------------------------------------------
   // Table Avancement / fiche
   public function forseingTableDisplay() {
+    global $status_delivered;
     global $status_resolved;
     global $status_closed;
 
@@ -124,14 +125,16 @@ class IssueTracking {
         echo "<td>".$tmpIssue->release."</td>\n";
         $derive = $tmpIssue->getDrift();
         if (0 < $derive) {
-            if (($status_resolved != $tmpIssue->currentStatus) && 
-                ($status_closed   != $tmpIssue->currentStatus)) {
+            if (($status_resolved  != $tmpIssue->currentStatus) && 
+                ($status_delivered != $tmpIssue->currentStatus) &&
+                ($status_closed    != $tmpIssue->currentStatus)) {
               echo "<td style='background-color: #ff6a6e;'>".($derive)."</td>\n";
             } else {
               echo "<td style='background-color: #fcbdbd;'>".($derive)."</td>\n";
             }
         } elseif (0 > $derive) {
           if (($status_resolved != $tmpIssue->currentStatus) && 
+              ($status_delivered != $tmpIssue->currentStatus) &&
               ($status_closed   != $tmpIssue->currentStatus)) {
             echo "<td style='background-color: #61ed66;'>".($derive)."</td>\n";
           } else {
