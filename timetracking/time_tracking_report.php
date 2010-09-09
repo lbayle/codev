@@ -57,6 +57,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   $myCalendar2->setDateFormat('Y-m-d');
   $myCalendar2->startMonday(true);
 
+  echo "<div class=center>";
   // Create form
   if (isset($_GET['debug'])) {
       echo "<form id='form1' name='form1' method='post' action='time_tracking_report.php?debug'>\n";
@@ -89,6 +90,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   echo "<input type=hidden name=nextAction    value=timeTrackingReport>\n";
 
   echo "</form>\n";
+  echo "</div>";
 }
 
 function displayRates ($timeTracking) {
@@ -373,6 +375,7 @@ $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
         
 setInfoForm($teamid, $date1, $date2);
+echo "<br/><br/>\n";
 
 if (0 != $teamid) {
 

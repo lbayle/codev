@@ -107,7 +107,7 @@ class IssueTracking {
         echo "<td>$tmpIssue->bugId</td>\n";
         echo "<td>$tmpIssue->tcId</td>\n";
         echo "<td>$tmpIssue->summary</td>\n";
-        echo "<td>".date("d F Y", $tmpIssue->dateSubmission)."</td>\n";
+        echo "<td>".date("d M Y", $tmpIssue->dateSubmission)."</td>\n";
         /*
           if ("(select)" == $tmpIssue->difficulty) {
           $res = ".";
