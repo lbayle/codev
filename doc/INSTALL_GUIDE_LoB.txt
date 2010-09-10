@@ -1,0 +1,71 @@
+
+0) guides
+http://www.howtoforge.com/installing-apache2-with-php5-and-mysql-support-on-fedora-13-lamp
+http://www.howtoforge.com/mantis-installation-on-fedora
+http://dev.mysql.com/doc/refman/5.0/en/batch-commands.html
+/opt/mantis/doc/INSTALL
+
+1) installer les softs
+   yum install httpd php phpmyadmin
+   /opt/mantis
+   /opt/codev
+
+2) donner les droits en lecture (sinon Error 403 Forbidden !!)
+chmod -R 755 /opt/mantis
+chmod -R 755 /opt/codev
+cd /var/www/http
+ln -s /opt/mantis
+ln -s /opt/codev
+
+4) create mysql user and tables for Mantis and CoDev-Timetracking
+mysql --user=root --password=xxxxxx mysql
+CREATE USER 'codev'@'localhost' IDENTIFIED BY 'codev';
+GRANT ALL PRIVILEGES ON *.* TO 'codev'@'localhost' WITH GRANT OPTION;
+exit
+mysql --user=codev --password=codev mysql  < /opt/codev/codev_tables.sql
+
+
+2) /etc/httpd/conf/httpd.conf
+   ServerName codevserver:80
+
+   REM: Demarrage de httpd : httpd: Could not reliably determine the server's fully qualified domain name, using ::1 for ServerName
+        -> Dans le fichier httpd.conf d'apache, renseigne le champ ServerName. 
+
+2) service httpd restart
+   si wifi (NetworkManager) le service doit etre demare apres le reseau
+   il faut donc le redemarrer a la main.
+
+
+3) http://localhost
+   verifier que la page de garde apache s'affiche.
+
+   REM: You don't have permission to access /mantis/ on this server
+chmod -R 755
+
+
+
+
+4) acces aux sites
+copier mantis.conf et codev.conf dans /etc/httpd/conf.d
+
+5) /opt/mantis/config_inc.php
+$g_db_username   = "admin";
+$g_db_password   = "admin";
+$g_send_reset_password = OFF;
+$g_validate_email = OFF;
+date_default_timezone_set('Europe/Paris'); 
+
+
+6) service httpd restart
+redemarer le service pour que apache trouve les sites mantis et codev
+
+7) premier demarage de mantis
+http://localhost/mantis/admin/check.php
+http://path/to/mantisbt/admin/install.php
+
+8) preparer la base codev
+executer le script codev_tables.sql
+
+
+
+
