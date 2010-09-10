@@ -2,7 +2,7 @@
 
 <?php
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../login.php'\">login</a> to access this page.");
+  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
   exit;
 } 
 ?>

@@ -23,7 +23,7 @@
 <table id='header'>
 <tr>
 <td width=300>
-<?php echo "<a href='".getServerRootURL()."/home.php'><img src='".getServerRootURL()."/images/clock_logo_06.png' /></a>";?>
+<?php echo "<a href='".getServerRootURL()."/'><img src='".getServerRootURL()."/images/clock_logo_06.png' /></a>";?>
 
 
 </td>

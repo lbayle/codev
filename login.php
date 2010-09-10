@@ -1,6 +1,12 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
-<?php include 'header.inc.php'; ?>
+<?php
+   $_POST[page_name] = "CoDev Login"; 
+   include 'header.inc.php'; 
+?>
+
+<?php include 'login.inc.php'; ?>
+<?php include 'menu.inc.php'; ?>
 
 <?php
 
@@ -8,8 +14,8 @@ include_once "constants.php";
 
 // -----------------------------
 function displayLoginForm() {
-  echo("<h1>CoDev Login</h1>\n");
-        
+
+  echo "<div align=center>\n";      
   echo("<form action='login.php' method='post' name='loginForm'>\n");
   echo("Login: <input name='codev_login' type='text' id='codev_login'>\n");
   echo("Password: <input name='codev_passwd' type='password' id='codev_passwd'>\n");
@@ -20,6 +26,7 @@ function displayLoginForm() {
   echo "<input type=hidden name=nextForm    value=loginForm>\n";
      
   echo("</form>\n");
+  echo "</div>\n";      
 }
 
 //  
@@ -51,7 +58,10 @@ if ("pleaseLogin" == $action) {
     echo "login failed !<br />";
   }
 } else {
-  displayLoginForm();
+   echo "<br />";
+   echo "<br />";
+   echo "<br />";
+   displayLoginForm();
 }
 #}
    
