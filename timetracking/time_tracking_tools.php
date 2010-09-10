@@ -43,9 +43,9 @@ function displayTimetrackingTuples($userid) {
    echo "<th>Mantis</th>\n";
    echo "<th>Fiche TC</th>\n";
    echo "<th>Duree</th>\n";
+   echo "<th>Projet</th>\n";
    echo "<th>Description</th>\n";
    echo "<th>Poste</th>\n";
-   echo "<th>Projet</th>\n";
    echo "<th>Categorie</th>\n";
    echo "<th>Status</th>\n";
    echo "<th>Effort Estim&eacute;</th>\n";
@@ -83,9 +83,9 @@ function displayTimetrackingTuples($userid) {
       echo "<td>".$row->bugid."</td>\n";
       echo "<td>".$issue->tcId."</td>\n";
       echo "<td>".$row->duration."</td>\n";
+      echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$issue->summary."</td>\n";
       echo "<td>".$jobName."</td>\n";
-      echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$issue->getCategoryName()."</td>\n";
       echo "<td>".$issue->getCurrentStatusName()."</td>\n";
       echo "<td>".$issue->EffortEstim."</td>\n";

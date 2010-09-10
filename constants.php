@@ -9,6 +9,9 @@
 #define("TAMERE", "tamere et mescouilles");
 # echo TAMERE;
 
+
+   $codevVersion = "v0.99.0 (09 Sept 2010)";
+
 	// Mantis DB infomation.
 	$db_mantis_host		=	'localhost';
 	$db_mantis_user		=	'codev';

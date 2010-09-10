@@ -17,3 +17,9 @@ if (!isset($_SESSION['userid'])) {
 <br/>
 <?php include 'menu_admin.inc.php'; ?>
 
+<?php
+   global $codevVersion;
+   echo "<div align=center>"; 
+   echo "<b>CoDev-TimeTracking</b> $codevVersion </br>";  
+   echo "</div>"; 
+?>

@@ -23,7 +23,9 @@
 <table id='header'>
 <tr>
 <td width=300>
-<?php echo "<img border=0 src='".getServerRootURL()."/images/clock_logo_06.png' alt='Codev TimeTracking'/>"?>
+<?php echo "<a href='".getServerRootURL()."/home.php'><img src='".getServerRootURL()."/images/clock_logo_06.png' /></a>";?>
+
+
 </td>
 <td>
 <?php

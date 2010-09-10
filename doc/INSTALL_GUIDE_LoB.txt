@@ -5,17 +5,21 @@ http://www.howtoforge.com/mantis-installation-on-fedora
 http://dev.mysql.com/doc/refman/5.0/en/batch-commands.html
 /opt/mantis/doc/INSTALL
 
-1) installer les softs
-   yum install httpd php phpmyadmin
-   /opt/mantis
-   /opt/codev
+1) installer les softs (sur Fedora 13)
+   yum install git gitosis
+   yum install httpd php php-pdo php-mysql php-gd mysql mysql-server phpmyadmin
+   cd /opt
+   unzip /tmp/mantisbt-1.2.2.zip 
+   ln -s mantisbt-1.2.2 mantis
+   tar xvzf /tmp/codev.tgz
+   git clone /opt/codev.git
 
 2) donner les droits en lecture (sinon Error 403 Forbidden !!)
-chmod -R 755 /opt/mantis
-chmod -R 755 /opt/codev
-cd /var/www/http
-ln -s /opt/mantis
-ln -s /opt/codev
+   chmod -R 755 /opt/mantis
+   chmod -R 755 /opt/codev
+   cd /var/www/http
+   ln -s /opt/mantis
+   ln -s /opt/codev
 
 
 2) /etc/httpd/conf/httpd.conf
