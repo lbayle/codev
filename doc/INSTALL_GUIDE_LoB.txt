@@ -17,13 +17,6 @@ cd /var/www/http
 ln -s /opt/mantis
 ln -s /opt/codev
 
-4) create mysql user and tables for Mantis and CoDev-Timetracking
-mysql --user=root --password=xxxxxx mysql
-CREATE USER 'codev'@'localhost' IDENTIFIED BY 'codev';
-GRANT ALL PRIVILEGES ON *.* TO 'codev'@'localhost' WITH GRANT OPTION;
-exit
-mysql --user=codev --password=codev mysql  < /opt/codev/codev_tables.sql
-
 
 2) /etc/httpd/conf/httpd.conf
    ServerName codevserver:80
@@ -59,12 +52,21 @@ date_default_timezone_set('Europe/Paris');
 6) service httpd restart
 redemarer le service pour que apache trouve les sites mantis et codev
 
+7) creer un utilisateur mysql pour mantis et codev
+mysql --user=root --password=xxxxxx mysql
+CREATE USER 'mantisdbuser'@'localhost' IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON *.* TO 'codev'@'localhost' WITH GRANT OPTION;
+CREATE USER 'codev'@'localhost' IDENTIFIED BY 'codev';
+GRANT ALL PRIVILEGES ON *.* TO 'codev'@'localhost' WITH GRANT OPTION;
+exit
+
+
 7) premier demarage de mantis
 http://localhost/mantis/admin/check.php
 http://path/to/mantisbt/admin/install.php
 
 8) preparer la base codev
-executer le script codev_tables.sql
+mysql --user=codev --password=codev mysql  < /opt/codev/codev_tables.sql
 
 
 
