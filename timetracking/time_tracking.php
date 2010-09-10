@@ -56,11 +56,12 @@ if (!isset($_SESSION['userid'])) {
     }    
   }
 
-  function deleteTrack(id, description){
+  function deleteTrack(trackid, description, bugid){
     confirmString = "D&eacute;sirez-vous vraiment supprimer cette ligne ?\n\n" + description;
     if (confirm(confirmString)) {
       document.forms["form1"].action.value="deleteTrack";
-      document.forms["form1"].trackid.value=id;
+      document.forms["form1"].trackid.value=trackid;
+      document.forms["form1"].bugid.value=bugid;
       document.forms["form1"].submit();
     }
   }
@@ -353,7 +354,12 @@ if ($_POST[nextForm] == "addTrackForm") {
     $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
     mysql_query($query) or die("Query failed: $query");
     
+    // pre-set form fields
+    $defaultBugid     = $_POST[bugid];
+    
   } elseif ("setProjectid" == $action) {
+
+  	 // pre-set form fields
   	 $defaultProjectid  = $_POST[projectid];
   	 $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
   	 $defaultDate = $formatedDate;
