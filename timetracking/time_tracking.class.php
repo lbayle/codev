@@ -3,7 +3,6 @@
 // -- TimeTracking facilities --
 
 include_once "time_track.class.php";
-include_once "holidays.class.php";
 include_once "../reports/issue.class.php";
 include_once "../auth/user.class.php";
 

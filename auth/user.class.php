@@ -4,6 +4,7 @@
 
 // LoB 23 Jun 2010
 
+include_once "../reports/issue.class.php";
 
 // =======================================
 class User {
@@ -25,6 +26,7 @@ class User {
 	}
 	
    // --------------------
+   // TODO add $startTimestamp=NULL, $endTimestamp=NULL
    public function isTeamMember($team_id) {
       
       $query = "SELECT COUNT(id) FROM `codev_team_user_table` WHERE team_id = $team_id AND user_id = $this->id";
@@ -81,7 +83,7 @@ class User {
       
       return $departureDate;
    }
-   
+
    // --------------------
    public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
     $daysOf = array();  // day => duration

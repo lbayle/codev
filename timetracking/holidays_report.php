@@ -24,7 +24,7 @@
 
 include_once "../constants.php";
 include_once "../tools.php";
-include_once "holidays.class.php";
+include_once "../auth/user.class.php";
 
 // ---------------------------------------------
 
@@ -75,6 +75,9 @@ function displayHolidaysMonth($month, $year, $teamid) {
   $monthFormated = date("F Y", $monthTimestamp); 
   $nbDaysInMonth = date("t", $monthTimestamp);
 
+  $startT = mktime(0, 0, 0, $month, 1, $year);
+  $endT   = mktime(23, 59, 59, $month, 31, $year);
+  
   echo "<div align='center'>\n";
   echo "<table width='80%'>\n";
   echo "<caption>$monthFormated</caption>\n";
@@ -100,9 +103,10 @@ function displayHolidaysMonth($month, $year, $teamid) {
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
-    $holidays = new Holidays($row->user_id, $year);
-    $daysOf = $holidays->getDaysOfInMonth($month);
-              
+
+  	$user1 = new User($row->user_id);
+   $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+    
     echo "<tr>\n";
     echo "<td>$row->username</td>\n";
               
