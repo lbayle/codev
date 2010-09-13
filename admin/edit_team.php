@@ -48,6 +48,23 @@ if (!isset($_SESSION['userid'])) {
      }    
    }
 
+  function setMemberDepartureDate(){
+     // check fields
+     foundError = 0;
+     msgString = "Les champs suivants ont ete oublies:\n\n"
+         
+     if (0 == document.forms["addTeamMemberForm"].f_memberid.value)  { msgString += "Team Member\n"; ++foundError; }
+                    
+     if (0 == foundError) {
+       document.forms["addTeamMemberForm"].action.value="setMemberDepartureDate";
+       document.forms["addTeamMemberForm"].submit();
+     } else {
+       alert(msgString);    
+     }    
+   }
+
+  
+  
   function addTeamProject(){
      // check fields
      foundError = 0;
@@ -183,10 +200,11 @@ function displayTeamMemberTuples($teamid) {
    echo "<th>login</th>\n";
    echo "<th>Nom</th>\n";
    echo "<th title='Date d arivee dans l equipe'>Date d'arivee</th>\n";
+   echo "<th title='Date dde depart de l equipe'>Date de depart</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT codev_team_user_table.id, codev_team_user_table.user_id, codev_team_user_table.team_id, ".
-                       "codev_team_user_table.arrival_date, mantis_user_table.username, mantis_user_table.realname ".
+                       "codev_team_user_table.arrival_date, codev_team_user_table.departure_date, mantis_user_table.username, mantis_user_table.realname ".
                 "FROM `codev_team_user_table`, `mantis_user_table` ".
                 "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
                 "AND codev_team_user_table.team_id=$teamid ".
@@ -198,10 +216,15 @@ function displayTeamMemberTuples($teamid) {
       echo "<td>\n";
       echo "<a title='delete this row' href=\"javascript: removeTeamMember('".$row->id."', '$row->username')\" ><img src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
-      echo "<td>".$row->username."</td>\n";
+      echo "<td title='$row->user_id'>".$row->username."</td>\n";
       echo "<td>".$row->realname."</td>\n";
       echo "<td>".date("Y-m-d", $row->arrival_date)."</td>\n";
-
+      if (0 != $row->departure_date) {
+         echo "<td>".date("Y-m-d", $row->departure_date)."</td>\n";
+      } else {
+      	echo "<td></td>";
+      }
+      
       echo "</tr>\n";
    }
    echo "</table>\n";
@@ -223,6 +246,15 @@ function addTeamMemberForm($originPage, $defaultDate) {
    $myCalendar->setDateFormat('Y-m-d');
    $myCalendar->startMonday(true);
 
+   $myCalendar2 = new tc_calendar("date2", true, false);
+   $myCalendar2->setIcon("../timetracking/calendar/images/iconCalendar.gif");
+   $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
+   $myCalendar2->setPath("../timetracking/calendar/");
+   $myCalendar2->setYearInterval(2010, 2015);
+   $myCalendar2->dateAllow('2010-01-01', '2015-12-31');
+   $myCalendar2->setDateFormat('Y-m-d');
+   $myCalendar2->startMonday(true);
+   
    // Display form
    echo "<h2>Team Members</h2>\n";
 
@@ -242,11 +274,15 @@ function addTeamMemberForm($originPage, $defaultDate) {
    }
    echo "</select>\n";
    
-   echo "Arrival Date: "; $myCalendar->writeScript();
+   echo " Arrival-Date: "; $myCalendar->writeScript();
    
 
-   echo "<input type=button name='btAddMember' value='Add' onClick='javascript: addTeamMember()'>\n";
-
+   echo "<input type=button name='btAddMember' value='Add User' onClick='javascript: addTeamMember()'>\n";
+   echo "<br/>";
+   
+   echo " Departure-Date: "; $myCalendar2->writeScript();
+   echo "<input type=button name='btSetMemberDepartureDate' value='set Departure Date' onClick='javascript: setMemberDepartureDate()'>\n";
+   
    echo "<input type=hidden name=action       value=noAction>\n";
    echo "<input type=hidden name=currentForm  value=addTeamMemberForm>\n";
    echo "<input type=hidden name=nextForm     value=addTeamMemberForm>\n";
@@ -428,20 +464,30 @@ if (0 != $teamid) {
    if ($_POST[action] == "addTeamMember") {
       
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
-    $timestamp = date2timestamp($formatedDate);
+    $arrivalTimestamp = date2timestamp($formatedDate);
     $memberid = $_POST[f_memberid];
     
     // TODO check if not already in table !
     
     // save to DB
-    $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`) VALUES ('$memberid','$teamid','$timestamp');";
+    $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`) VALUES ('$memberid','$teamid','$arrivalTimestamp', '0');";
     mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
     
     // reload page
     echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
     
+   } elseif ($_POST[action] == "setMemberDepartureDate") {
+    
+      $formatedDate      = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
+      $departureTimestamp = date2timestamp($formatedDate);
+      $memberid = $_POST[f_memberid];
+
+      $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $teamid;";
+      mysql_query($query) or die("Query failed: $query");
       
-   	
+      // reload page
+      echo ("<script> parent.location.replace('edit_team.php'); </script>");
+       
    } elseif ($_POST[action] == "addTeamProject") {
    	
       $projectid = $_POST[f_projectid];

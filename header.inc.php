@@ -8,11 +8,11 @@
 <title>CoDev Server</title>
 <meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
 
-<link href='calendar/calendar.css' rel='stylesheet' type='text/css' />
-<script language='javascript' src='calendar/calendar.js'></script>
-
-
-<?php echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />"?>
+<?php 
+   echo "<link href='".getServerRootURL()."/timetracking/calendar/calendar.css' rel='stylesheet' type='text/css' />";
+   echo "<script language='javascript' src='".getServerRootURL()."/timetracking/calendar/calendar.js'></script>";
+   echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />";
+?>
 
 
 </head>
