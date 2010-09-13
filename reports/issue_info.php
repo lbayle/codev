@@ -131,18 +131,25 @@ function displayMonth($month, $year, $issue) {
    
   $userList = $issue->getInvolvedUsers();
   foreach ($userList as $uid => $username) {
-    $tracksByDate = array_flip($issue->getTimeTracks($uid));
-        
+    
+    // build $durationByDate[] for this user	
+    $userTimeTracks = $issue->getTimeTracks($uid);
+    $durationByDate = array();
+    foreach ($userTimeTracks as $tid => $tdate) {
+      $tt = new TimeTrack($tid);
+    	$durationByDate[$tdate] += $tt->duration;
+   }
+
+   // ------
     echo "<tr>\n";
     echo "<td>$username</td>\n";
         
     for ($i = 1; $i <= $nbDaysInMonth; $i++) {
       $todayTimestamp = mktime(0, 0, 0, $month, $i, $year);
       $dayOfWeek = date("N", $todayTimestamp);
-        
-      if (NULL != $tracksByDate[$todayTimestamp]) {
-        $tt = new TimeTrack($tracksByDate[$todayTimestamp]);
-        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$tt->duration."</td>\n";
+      
+      if (NULL != $durationByDate[$todayTimestamp]) {
+        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$durationByDate[$todayTimestamp]."</td>\n";
       } else {
         // if weekend or holiday, display gray
         if (($dayOfWeek > 5) || 
