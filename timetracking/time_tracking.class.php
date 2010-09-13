@@ -108,16 +108,6 @@ class TimeTracking {
     global $globalHolidaysList;
         
     $teamProdDaysForecast = 0;
-    $nbOpenDaysInPeriod = 0;
-        
-    for ($i = $this->startTimestamp; $i <= $this->endTimestamp; $i += (60 * 60 * 24)) {
-      $dayOfWeek = date("N", $i);
-                
-      if (($dayOfWeek < 6) && (!in_array(date("Y-m-d", $i), $globalHolidaysList))) { 
-        $nbOpenDaysInPeriod++; 
-      }
-    }
-    //echo "DEBUG nbOpenDaysInPeriod = $nbOpenDaysInPeriod<br/>";
         
     // For all the users of the team
     $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
@@ -129,19 +119,17 @@ class TimeTracking {
     $result = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      $holidays = new Holidays($row->user_id, 1900); // year unused
-      $daysOf = $holidays->getDaysOfInPeriod($this->startTimestamp, $this->endTimestamp);
-                 
-      $nbDaysOf = 0;
-      foreach ($daysOf as $day => $value) { $nbDaysOf += $value; }
-                 
-      $teamProdDaysForecast += $nbOpenDaysInPeriod - $nbDaysOf;
-      //echo "DEBUG user $row->user_id vacation = $nbDaysOf teamProdDaysForecast $teamProdDaysForecast <br/>";
+    	$user = new User($row->user_id);
+      $teamProdDaysForecast += $user->getProductionDaysForecast($this->startTimestamp, $this->endTimestamp, $this->team_id);
+      
     }
 
     return $teamProdDaysForecast;
   }
-   
+  
+  
+  
+  
   // ----------------------------------------------
   public function getProductivityRateSideTasks() {
     return $this->getProductivRate($this->sideTaskprojectList);
