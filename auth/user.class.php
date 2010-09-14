@@ -27,9 +27,16 @@ class User {
 	
    // --------------------
    // TODO add $startTimestamp=NULL, $endTimestamp=NULL
-   public function isTeamMember($team_id) {
+   public function isTeamMember($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
       
-      $query = "SELECT COUNT(id) FROM `codev_team_user_table` WHERE team_id = $team_id AND user_id = $this->id";
+      $query = "SELECT COUNT(id) FROM `codev_team_user_table` WHERE team_id = $team_id AND user_id = $this->id ";
+      
+      if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
+      	$query .= "AND arrival_date < $endTimestamp AND ".
+      	          "(departure_date >= $startTimestamp OR departure_date = 0)";
+          // REM: if departure_date = 0, then user stays until the end of the world. 
+      }
+      
       $result = mysql_query($query) or die("Query failed: $query");
       $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
       
@@ -114,7 +121,7 @@ class User {
    	
    	if ($arrivalDate   > $endTimestamp)   return 0;
    	
-   	// TODO DEBUG if not specified, $departureDate = $endTimestamp
+   	// if not specified, $departureDate = $endTimestamp
    	if (0 == $departureDate) {$departureDate = $endTimestamp; }
 
    	if ($departureDate < $startTimestamp) return 0;

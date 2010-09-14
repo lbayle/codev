@@ -36,18 +36,17 @@ include_once "../reports/issue.class.php";
 include_once "../auth/user.class.php";
 include_once "time_tracking.class.php";
 
-function  displayWeekActivityReport($userid, $teamid, $weekid, $weekDates, $timeTracking) {
+function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
 
-  $user = new User($userid);
-	
+  echo "<div>\n";
   echo "<form id='form1' name='form1' method='post' action='week_activity_report.php'>\n";
 
   // -----------
   echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
   echo "<option value='0'></option>\n";
-  foreach ($user->getLeadedTeamList() as $tid => $tname) {
+  foreach ($leadedTeamList as $tid => $tname) {
     if ($tid == $teamid) {
-  	   echo "<option selected value='".$tid."'>".$tname."</option>\n";
+      echo "<option selected value='".$tid."'>".$tname."</option>\n";
     } else {
       echo "<option value='".$tid."'>".$tname."</option>\n";
     }
@@ -69,6 +68,21 @@ function  displayWeekActivityReport($userid, $teamid, $weekid, $weekDates, $time
   }
   echo "</select>\n";
 
+  echo "<input type=hidden name=teamid  value=1>\n";
+  echo "<input type=hidden name=weekid  value=".date('W').">\n";
+   
+  echo "<input type=hidden name=action       value=noAction>\n";
+  echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
+  echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
+  echo "</form>\n";
+  echo "</div>\n";
+}
+
+
+function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) {
+
+  echo "<div>\n";
+  
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $teamid ".
@@ -79,19 +93,20 @@ function  displayWeekActivityReport($userid, $teamid, $weekid, $weekDates, $time
    
   while($row = mysql_fetch_object($result))
   {
-    echo "<div align='center'>\n";
-    echo "<br/>";
-    displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname);
-    echo "</div>";
+  	// if user was working on the project during the timestamp
+  	$user = new User($row->user_id);
+  	if ($user->isTeamMember($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) {
+  		
+	    echo "<div align='center'>\n";
+	    echo "<br/>";
+	    displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname);
+	    echo "</div>";
+  	}
+  	
   }
    
-  echo "<input type=hidden name=teamid  value=1>\n";
-  echo "<input type=hidden name=weekid  value=".date('W').">\n";
-   
-  echo "<input type=hidden name=action       value=noAction>\n";
-  echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
-  echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
-  echo "</form>\n";
+  echo "</div>\n";
+  
 }
 
 function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname) {
@@ -164,29 +179,54 @@ function displayCheckWarnings($timeTracking) {
 
 // ================ MAIN =================
 $year = date('Y');
-$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+
 $userid = $_SESSION['userid'];
 
+// use the teamid set in the form, if not defined (first page call) use session teamid
+if (isset($_POST[teamid])) {
+   $teamid = $_POST[teamid];
+   $_SESSION['teamid'] = $teamid;
+} else {
+   $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+}
+
+// ---------
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
+
+// ------
+
+$user = new User($userid);
+$leadedTeamList = $user->getLeadedTeamList();
+
+if (0 == count($leadedTeamList)) {
+	echo "Sorry, you need to be TeamLeader to access this page.";
+	exit;
+}
+
+// ------
+
 $action = $_POST[action];
 $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
-$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
-$_SESSION[teamid] = $teamid;
+displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid);
 
-$weekDates      = week_dates($weekid,$year);
-   
-$startTimestamp = $weekDates[1];        
-$endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
-$timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+if (NULL != $leadedTeamList[$teamid]) {
 
-displayWeekActivityReport($userid, $teamid, $weekid, $weekDates, $timeTracking);
+   $weekDates      = week_dates($weekid,$year);
+	$startTimestamp = $weekDates[1];        
+   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+	
+	displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
+
+   echo "<br/><br/>\n";
+   displayCheckWarnings($timeTracking);
+}
+
    
-echo "<br/><br/>\n";
-displayCheckWarnings($timeTracking);
 
 ?>
 
