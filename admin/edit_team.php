@@ -259,11 +259,19 @@ function addTeamMemberForm($originPage, $defaultDate) {
    echo "<h2>Team Members</h2>\n";
 
    #echo "<div style='text-align: center;'>";
-   echo "<div>";
+   echo "<div>\n";
    
    echo "<form id='addTeamMemberForm' name='addTeamMemberForm' method='post' Action='$originPage'>\n";
 
-   echo "Member: <select name='f_memberid'>\n";
+   
+   
+   echo "<table class='invisible'>\n";
+   echo "<tr>\n";
+   echo "   <td>\n";
+   echo "Member: \n";
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "<select  style='width:100%' name='f_memberid'>\n";
    echo "<option value='0'></option>\n";
    
    $query     = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
@@ -273,15 +281,30 @@ function addTeamMemberForm($originPage, $defaultDate) {
       echo "<option value='".$row->id."'>".$row->username."</option>\n";
    }
    echo "</select>\n";
-   
-   echo " Arrival-Date: "; $myCalendar->writeScript();
-   
-
-   echo "<input type=button name='btAddMember' value='Add User' onClick='javascript: addTeamMember()'>\n";
-   echo "<br/>";
-   
-   echo " Departure-Date: "; $myCalendar2->writeScript();
-   echo "<input type=button name='btSetMemberDepartureDate' value='set Departure Date' onClick='javascript: setMemberDepartureDate()'>\n";
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "   </td>\n";
+   echo "</tr>\n";
+   echo "<tr>\n";
+   echo "   <td>Arrival-Date</td>\n";
+   echo "   <td>\n";
+   $myCalendar->writeScript();
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "       <input style='width:100%' type=button name='btAddMember' value='Add User' onClick='javascript: addTeamMember()'>\n";
+   echo "   </td>\n";
+   echo "</tr>\n";
+   echo "<tr>\n";
+   echo "   <td>Departure-Date</td>\n";
+   echo "   <td>\n";
+   $myCalendar2->writeScript();
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "        <input type=button name='btSetMemberDepartureDate' value='set Departure Date' onClick='javascript: setMemberDepartureDate()'>\n";
+   echo "   </td>\n";
+   echo "</tr>\n";
+   echo "</table>\n";
+            
    
    echo "<input type=hidden name=action       value=noAction>\n";
    echo "<input type=hidden name=currentForm  value=addTeamMemberForm>\n";
@@ -294,7 +317,7 @@ function addTeamMemberForm($originPage, $defaultDate) {
    echo "   <input type=hidden name=f_memberid   value='0'>\n";
    echo "</form>\n";
    
-   echo "</div>";
+   echo "</div>\n";
 }
 
 
@@ -345,7 +368,7 @@ function addTeamProjectForm($originPage) {
    echo "<h2>Team Projects</h2>\n";
 
    #echo "<div style='text-align: center;'>";
-   echo "<div>";
+   echo "<div>\n";
    
    echo "<form id='addTeamProjectForm' name='addTeamProjectForm' method='post' Action='$originPage'>\n";
 
@@ -383,7 +406,7 @@ function addTeamProjectForm($originPage) {
    echo "   <input type=hidden name=f_projectid   value='0'>\n";
    echo "</form>\n";
    
-   echo "</div>";
+   echo "</div>\n";
 }
 
 
@@ -450,6 +473,8 @@ if (0 != $teamid) {
    echo "<hr align='left' width='20%'/>\n";
 	$defaultDate  = date("Y-m-d", time());
    addTeamMemberForm("edit_team.php", $defaultDate);   
+   echo "<br/>\n";
+   echo "<br/>\n";
    displayTeamMemberTuples($teamid);
    
    
@@ -457,6 +482,8 @@ if (0 != $teamid) {
    echo "<br/>\n";
    echo "<hr align='left' width='20%'/>\n";
    addTeamProjectForm($originPage);
+   echo "<br/>\n";
+   echo "<br/>\n";
    displayTeamProjectTuples($teamid);
    
    

@@ -56,6 +56,20 @@ td {
   padding: 0px;
 }
 
+table.invisible {
+  border: 0;
+  background-color: white; 
+}
+table.invisible td {
+  background-color: white;
+  border: 0px solid white;
+  font-family : Verdana,Arial,Helvetica,sans-serif;
+  white-space : nowrap;
+  text-align : left;
+  font-size: 12px;
+  padding: 3px;
+}
+
 
 
 #homepage_list {
