@@ -113,6 +113,13 @@ if (!isset($_SESSION['userid'])) {
      }    
    }
 
+  function deleteTeam(description){
+     confirmString = "Desirez-vous vraiment supprimer definitivement l'equipe '" + description + "' ?";
+     if (confirm(confirmString)) {
+       document.forms["deleteTeamForm"].action.value="deleteTeam";
+       document.forms["deleteTeamForm"].submit();
+     }
+   }
 </script>
 
 
@@ -410,6 +417,18 @@ function addTeamProjectForm($originPage) {
 }
 
 
+function deleteTeamForm($originPage, $teamName, $teamid) {
+   echo "<div>\n";
+   
+   echo "<form id='deleteTeamProjectForm' name='deleteTeamForm' method='post' Action='$originPage'>\n";
+   echo "Delete team $teamName ? ";
+   echo "   <input type=button name='btDeleteTeam' value='Delete' onClick=\"javascript: deleteTeam('".$teamName."')\">\n";
+   echo "   <input type=hidden name=action       value=noAction>\n";
+   echo "</form>\n";
+   echo "</div>\n";
+   
+}
+
 // ================ MAIN =================
 
 // TODO get admin teamid from DB
@@ -486,6 +505,12 @@ if (0 != $teamid) {
    echo "<br/>\n";
    displayTeamProjectTuples($teamid);
    
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "<hr align='left' width='20%'/>\n";
+   deleteTeamForm($originPage, $teamName, $teamid);
+   
+   
    
    // ----------- actions ----------
    if ($_POST[action] == "addTeamMember") {
@@ -555,6 +580,24 @@ if (0 != $teamid) {
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
 
+   } elseif ($_POST[action] == "deleteTeam") {
+   	$teamidToDelete=$teamid;
+
+      $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
+      mysql_query($query) or die("Query failed: $query");
+   	
+      $query = "DELETE FROM `codev_team_user_table` WHERE team_id = $teamidToDelete;";
+      mysql_query($query) or die("Query failed: $query");
+      
+      $query = "DELETE FROM `codev_team_table` WHERE id = $teamidToDelete;";
+      mysql_query($query) or die("Query failed: $query");
+      
+   	unset($_SESSION['teamid']);
+   	unset($_POST[f_teamid]);
+   	unset($teamid);
+
+   	// reload page
+      echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
    }
    
 
