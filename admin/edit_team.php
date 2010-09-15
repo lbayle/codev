@@ -394,7 +394,18 @@ function addTeamProjectForm($originPage) {
    $result    = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {
-      echo "<option value='".$row->id."'>".$row->name."</option>\n";
+      echo "   <option value='".$row->id."'>".$row->name."</option>\n";
+   }
+   echo "</select>\n";
+   
+   echo "Type: <select name='project_type'>\n";
+   $query     = "SELECT DISTINCT id, name ".
+                "FROM `codev_team_project_type_table` ".
+                "ORDER BY id";
+   $result    = mysql_query($query) or die("Query failed: $query");
+   while($row = mysql_fetch_object($result))
+   {
+      echo "   <option value='".$row->id."'>".$row->name."</option>\n";
    }
    echo "</select>\n";
    
@@ -483,7 +494,8 @@ if (0 != $teamid) {
 	$result = mysql_query($query) or die("Query failed: $query");
 	$teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "UNDEFINED";
 	echo "<span title='team_id = $teamid'>Current Team: ".$teamName."</span><br/>";
-
+   //echo "<span>Description: ".$teamDesc."</span><br/>";
+	
    echo "<hr align='left' width='20%'/>\n";
    updateTeamLeaderForm($teamid, $originPage);
 	
@@ -543,7 +555,7 @@ if (0 != $teamid) {
    } elseif ($_POST[action] == "addTeamProject") {
    	
       $projectid = $_POST[f_projectid];
-      $projecttype= 0;
+      $projecttype= $_POST[project_type];
     
       // TODO check if not already in table !
     
