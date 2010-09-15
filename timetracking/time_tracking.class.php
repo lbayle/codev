@@ -546,18 +546,26 @@ class TimeTracking {
     $missingDays = array();
 
     $user1 = new User($userid);
-    $arrivalTimestamp = $user1->getArrivalDate();      
-      
-    if ($arrivalTimestamp > $this->endTimestamp) {
+    
+    if ( ! $user1->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
       // User was not yet present
       return $missingDays;
     }
-      
-    // User arrived after $this->startTimestamp
+
+    $arrivalTimestamp   = $user1->getArrivalDate($this->team_id);      
+    $departureTimestamp = $user1->getDepartureDate($this->team_id);
+    
+    // reduce timestamp if needed
     $startT = ($arrivalTimestamp > $this->startTimestamp) ? $arrivalTimestamp : $this->startTimestamp;
-      
+    
+    $endT = $this->endTimestamp;
+    if ((0 != $departureTimestamp) &&($departureTimestamp < $this->endTimestamp)) {
+       $endT   = $departureTimestamp;
+    }
+    
+    // Julien calendar format (0.. 365)
     $startDayOfYear = date("z", $startT);   
-    $endDayOfYear   = date("z", $this->endTimestamp);
+    $endDayOfYear   = date("z", $endT);
 
     //for ($i = $endDayOfYear; $i >= $startDayOfYear; $i--) {
     for ($i = $startDayOfYear; $i <= $endDayOfYear; $i++) {
