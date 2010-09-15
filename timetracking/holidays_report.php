@@ -94,7 +94,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
   echo "</tr>\n";
 
   // USER
-  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
+  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $teamid ".
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
@@ -103,31 +103,35 @@ function displayHolidaysMonth($month, $year, $teamid) {
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
-
-  	$user1 = new User($row->user_id);
-   $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
-    
-    echo "<tr>\n";
-    echo "<td>$row->username</td>\n";
-              
-    for ($i = 1; $i <= $nbDaysInMonth; $i++) {        
-      if (NULL != $daysOf[$i]) {
-      	
-        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$daysOf[$i]."</td>\n";
-      } else {
-        $timestamp = mktime(0, 0, 0, $month, $i, $year);
-        $dayOfWeek = date("N", $timestamp);
-                        
-        // If weekend or holiday, display gray
-        if (($dayOfWeek > 5) || 
-            (in_array(date("Y-m-d", $timestamp), $globalHolidaysList))) { 
-          echo "<td style='background-color: #d8d8d8;'></td>\n";
-        } else {
-          echo "<td></td>\n";
-        }
-      }
-    }
-    echo "</tr>\n";
+	  	$user1 = new User($row->user_id);
+	  	
+	   // if user was working on the project within the timestamp
+	   if ($user1->isTeamMember($teamid, $startT, $endT)) {
+	  	
+		   $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+		    
+		    echo "<tr>\n";
+		    echo "<td title='$row->realname'>$row->username</td>\n";
+		              
+		    for ($i = 1; $i <= $nbDaysInMonth; $i++) {        
+		      if (NULL != $daysOf[$i]) {
+		      	
+		        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$daysOf[$i]."</td>\n";
+		      } else {
+		        $timestamp = mktime(0, 0, 0, $month, $i, $year);
+		        $dayOfWeek = date("N", $timestamp);
+		                        
+		        // If weekend or holiday, display gray
+		        if (($dayOfWeek > 5) || 
+		            (in_array(date("Y-m-d", $timestamp), $globalHolidaysList))) { 
+		          echo "<td style='background-color: #d8d8d8;'></td>\n";
+		        } else {
+		          echo "<td></td>\n";
+		        }
+		      }
+		    }
+		    echo "</tr>\n";
+	   }    
   }
   echo "</table>\n";
   echo "<br/><br/>\n";
