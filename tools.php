@@ -22,6 +22,7 @@ function getServerRootURL() {
    $rootURL = str_replace("/images", "", $rootURL);   
    $rootURL = str_replace("/calendar", "", $rootURL);   
    $rootURL = str_replace("/admin", "", $rootURL);   
+   $rootURL = str_replace("/tools", "", $rootURL);   
    
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;
@@ -170,7 +171,8 @@ function dayofyear2timestamp( $tDay) {
 // ---------------------------
 // used to convert an array() to a comma separated string used in SQL requests
 function simpleListToSQLFormatedString($myArray) {
-     foreach ($myArray as $id) {
+   $formatedList = "";
+	foreach ($myArray as $id) {
          if ($formatedList != "") { $formatedList .= ', ';}
          $formatedList .= $id;
      }
@@ -180,6 +182,7 @@ function simpleListToSQLFormatedString($myArray) {
 // ---------------------------
 // used to convert an array() to a comma separated string used in SQL requests
 function valuedListToSQLFormatedString($myArray) {
+	  $formatedList = "";
      foreach ($myArray as $id => $value) {
          if ($formatedList != "") { $formatedList .= ', ';}
          $formatedList .= $id;

@@ -95,12 +95,8 @@ function setUserForm($originPage) {
   $teamList = $session_user->getLeadedTeamList();
    
   // separate list elements with ', '
-  $formatedTeamString = "";
-  foreach ($teamList as $tid => $tname) {
-    if ($formatedTeamString != "") { $formatedTeamString .= ', ';}
-    $formatedTeamString .= $tid;
-  }
-      
+  $formatedTeamString = valuedListToSQLFormatedString($teamList);
+  
   // show only users from the teams that I lead.
   $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username, mantis_user_table.realname ".
     "FROM `mantis_user_table`, `codev_team_user_table` ".
@@ -186,12 +182,10 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    if (0 != $project1->id) {
       $issueList = $project1->getIssueList();
    } else {
-   	// no project specified: show all tasks
-      $issueList = array();
-   	foreach ($projList as $prid => $pname) {
-	      if ($formatedProjList != "") { $formatedProjList .= ', ';}
-	      $formatedProjList .= $prid;
-	    }
+   	 // no project specified: show all tasks
+       $issueList = array();
+	    $formatedProjList = valuedListToSQLFormatedString($projList);
+	    
        $query  = "SELECT id ".
                  "FROM `mantis_bug_table` ".
                  "WHERE project_id IN ($formatedProjList) ".

@@ -215,11 +215,7 @@ class User {
       $projList = array();
    	
       $teamList = $this->getTeamList();
-      foreach ($teamList as $tid => $tname)
-      {
-         if ($formatedTeamList != "") { $formatedTeamList .= ', ';}
-         $formatedTeamList .= $tid;
-      }
+      $formatedTeamList = valuedListToSQLFormatedString($teamList);
       
       $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
                "FROM `codev_team_project_table`, `mantis_project_table`".
@@ -249,11 +245,7 @@ class User {
    		return array();
    	}
    	
-	   foreach ($projList as $prid => $prname)
-	   {
-	      if ($formatedProjList != "") { $formatedProjList .= ', ';}
-	      $formatedProjList .= $prid;
-	   }
+      $formatedProjList = valuedListToSQLFormatedString($projList);
 	   
    	
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id IN ($formatedProjList) ORDER BY id DESC";

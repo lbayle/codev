@@ -171,11 +171,8 @@ class TimeTracking {
     $totalElapsed = 0;
     
     // --------
-    foreach ($projects as $prid) {
-      if ($formatedProjList != "") { $formatedProjList .= ', ';}
-      $formatedProjList .= $prid;
-    }
-    
+    $formatedProjList = simpleListToSQLFormatedString($projects);
+        
     if ("" == $formatedProjList) {
     	echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
     	return 0;
@@ -272,10 +269,7 @@ class TimeTracking {
     $driftPosETA   = 0;
     
     // --------
-    foreach ($projects as $prid) {
-      if ($formatedProjList != "") { $formatedProjList .= ', ';}
-      $formatedProjList .= $prid;
-    }
+    $formatedProjList = simpleListToSQLFormatedString($projects);
     
     if ("" == $formatedProjList) {
       echo "<div style='color:red'>ERROR getDriftStatistics: no project defined for this team !<br/></div>";
