@@ -31,6 +31,7 @@ if (!isset($_SESSION['userid'])) {
 include_once "../constants.php";
 include_once "../tools.php";
 include_once "../reports/period_stats.class.php";
+include_once "../reports/project.class.php";
 
 include_once "time_tracking.class.php";
 require_once('calendar/classes/tc_calendar.php');
@@ -293,22 +294,39 @@ function displayWorkingDaysPerProject($timeTracking) {
   echo "</table>\n";
 }
 
-function displayProjectDetails($timeTracking) {
+function displaySideTalksProjectDetails($timeTracking) {
+	
+  $durationPerCategory = array();
+  $stProjList = "";
+  
+  // find all sideTasksProjects (type = 1)
+  $query     = "SELECT project_id ".
+               "FROM `codev_team_project_table` ".
+               "WHERE team_id = $timeTracking->team_id ".
+               "AND type = 1";
+  $result = mysql_query($query) or die("Query failed: $query");
+  while($row = mysql_fetch_object($result))
+  {
+  	  $durPerCat = $timeTracking->getProjectDetails($row->project_id);
+  	  foreach ($durPerCat as $catName => $duration)
+     {
+     	   $durationPerCategory[$catName] += $duration;
+     }
+     
+     $proj = new Project($row->project_id);
+     $stProjList[] = $proj->name;
+     
+  }
+  $formatedProjList = simpleListToSQLFormatedString($stProjList);
+	
   echo "<table width='300'>\n";
-  echo "<caption>Detail Suivi Op.</caption>\n";
+  echo "<caption title='Projets: $formatedProjList'>Detail SuiviOp</caption>\n";
   echo "<tr>\n";
-  echo "<th>Projet</th>\n";
+  echo "<th>Categorie</th>\n";
   echo "<th>Nb jours</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  // TODO '11' must be replaced by a query in codev_team_project_table to
-  // find the proj with type=1 that is associated to that team.
-
-  // Faire une boucle sur tous les SideTasksProjects de la team
-  // et ajouter les duration pour chaque categorie
-  
-  $durationPerCategory = $timeTracking->getProjectDetails(11);  // 11 = Suivi Op.
   foreach ($durationPerCategory as $catName => $duration)
   {
     echo "<tr bgcolor='white'>\n";
@@ -398,7 +416,7 @@ if (0 != $teamid) {
 	echo "</div>\n";
 	
 	echo "<div class=\"float\">\n";
-	displayProjectDetails($timeTracking);
+	displaySideTalksProjectDetails($timeTracking);
 	echo "</div>\n";
 	
 	echo "<div class=\"spacer\"> </div>\n";
