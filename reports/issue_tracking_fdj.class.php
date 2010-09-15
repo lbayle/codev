@@ -71,7 +71,7 @@ class IssueTrackingFDJ extends IssueTracking {
       $this->issueList[$row->id] = $issue; 
     }
   }
-}
+} // class
 
 ?>
 

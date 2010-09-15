@@ -303,7 +303,11 @@ function displayProjectDetails($timeTracking) {
 
   echo "<tr>\n";
   // TODO '11' must be replaced by a query in codev_team_project_table to
-  // find the proj with type=1 that is associated to that team. 
+  // find the proj with type=1 that is associated to that team.
+
+  // Faire une boucle sur tous les SideTasksProjects de la team
+  // et ajouter les duration pour chaque categorie
+  
   $durationPerCategory = $timeTracking->getProjectDetails(11);  // 11 = Suivi Op.
   foreach ($durationPerCategory as $catName => $duration)
   {
@@ -381,8 +385,8 @@ echo "<br/><br/>\n";
 if (0 != $teamid) {
 
 	echo "<br/>\n";
-	echo "du ".date("Y-m-d  -  H:i:s", $startTimestamp)."&nbsp;";
-	echo "au ".date("Y-m-d  -  H:i:s", $endTimestamp)."<br/><br/>\n";
+	echo "du ".date("Y-m-d  (H:i)", $startTimestamp)."&nbsp;<br/>";
+	echo "au ".date("Y-m-d  (H:i)", $endTimestamp)."<br/><br/>\n";
 	
 	// Display on 3 columns
 	echo "<div class=\"float\">\n";
