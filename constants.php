@@ -55,13 +55,9 @@
   
   // all FDJ users
   // used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)  
-  // TODO DEPRECATED
-  $users_FDJ = array(3,   // qualif
-                     4,   // preq
-                     12,  // golivier 
-                     14,  // ogueneau
-                     15); // fdj
-
+  $FDJ_teamid = 21;                     
+                     
+                     
   // unfortunately the status names are not a table in Mantis:
   // REM: $g_eta_enum_string in mantis/config_inc.php
   $ETA_names = array(10 => "none", 
@@ -96,6 +92,10 @@
   $vacationProject  = 11;  // "SuiviOp"        in table mantis_project_table
   $vacationCategory = 17;  // Inactivite
   
+  // TODO find a way to get 11 from db tables
+  $defaultSideTaskProject = 11; // "SuiviOp"
+  
+  $admin_teamid = 3;
   
   // timestamps of holidays (national, religious, etc.)
   // REM: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong.

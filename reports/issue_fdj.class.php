@@ -6,6 +6,7 @@
 
 include_once "../constants.php";
 include_once "issue.class.php";
+include_once "../auth/user.class.php";
 
 class IssueFDJ extends Issue {
 
@@ -24,8 +25,9 @@ class IssueFDJ extends Issue {
     global $status_feedback_FDJ;
 
     $this->statusList[$status_new]      = new Status($status_new, $this->getDuration_new());
-    $this->statusList[$status_feedback_ATOS] = new Status($status_feedback_ATOS, $this->getDuration_feedback("ATOS"));
-    $this->statusList[$status_feedback_FDJ]  = new Status($status_feedback_FDJ,  $this->getDuration_feedback("FDJ"));
+    $formatedDateList = $this->getDuration_feedback();
+    $this->statusList[$status_feedback_ATOS] = new Status($status_feedback_ATOS, $formatedDateList[$status_feedback_ATOS]);
+    $this->statusList[$status_feedback_FDJ]  = new Status($status_feedback_FDJ,  $formatedDateList[$status_feedback_FDJ]);
     $this->statusList[$status_ack]      = new Status($status_ack,      $this->getDuration_other($status_ack));
     $this->statusList[$status_analyzed] = new Status($status_analyzed, $this->getDuration_other($status_analyzed));
     $this->statusList[$status_accepted] = new Status($status_accepted, $this->getDuration_other($status_accepted));
@@ -41,9 +43,12 @@ class IssueFDJ extends Issue {
   // Feedback is special: it must be separated in two groups:
   // -- feedback assigned to 'ATOS'
   // -- feedback assigned to 'FDJ'
-  private function getDuration_feedback ($user) {
-    global $status_feedback;
-    global $users_FDJ;   // all fdj users    DEPRECATED
+  private function getDuration_feedback() {
+    
+  	 global $status_feedback_ATOS;
+    global $status_feedback_FDJ;
+  	 global $status_feedback;
+    global $FDJ_teamid;
       
     $time_atos = 0;
     $time_fdj = 0;
@@ -127,8 +132,9 @@ class IssueFDJ extends Issue {
           //echo "previous assign id = $row2->id &nbsp;&nbsp;&nbsp;&nbsp; date=$row2->date_modified &nbsp;&nbsp;&nbsp;&nbsp; handler_id=$handler_id <br/>";
         }
       }
-      if (in_array ($handler_id, $users_FDJ)) {
-        //echo "user $handler_id is FDJ<br/>";
+      $user1 = new User($handler_id);
+      if ($user1->isTeamMember($FDJ_teamid)) {
+        //echo "user $handler_id is FDJ (team $FDJ_teamid)<br/>";
         $time_fdj = $time_fdj + $intervale;
       } else {
         //echo "user $handler_id is ATOS<br/>";
@@ -136,12 +142,12 @@ class IssueFDJ extends Issue {
       }
     }
 
-    if ("FDJ" == $user) {
-      $formated_date = $time_fdj;
-    } else {
-      $formated_date = $time_atos;
-    }
-    return $formated_date;
+    $formatedDateList = array();
+    $formatedDateList[$status_feedback_ATOS] = $time_atos;
+    $formatedDateList[$status_feedback_FDJ]  = $time_fdj;
+    
+    return $formatedDateList;
+    
   }  // getDuration_feedback
 
 }
