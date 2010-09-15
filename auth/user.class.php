@@ -26,7 +26,6 @@ class User {
 	}
 	
    // --------------------
-   // TODO add $startTimestamp=NULL, $endTimestamp=NULL
    public function isTeamMember($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
       
       $query = "SELECT COUNT(id) FROM `codev_team_user_table` WHERE team_id = $team_id AND user_id = $this->id ";
