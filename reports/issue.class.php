@@ -64,14 +64,13 @@ class Issue {
             case 2: $this->release     = $row->value; break;
             case 3: $this->EffortEstim = $row->value; break;
             case 4: $this->remaining   = $row->value; break;
-            case 5: $this->elapsed     = $row->value; break;  // deprecated: this is now stored in the TimeTracking table
             case 6: $this->difficulty  = $row->value; break;
          }
       }
 
-      $this->tcId     = $this->getTC();
+      $this->tcId    = $this->getTC();
 
-      $this->elapsed += $this->getElapsed(); // compute  + (deprecated custom field) + (elapsed from TimeTracking)
+      $this->elapsed = $this->getElapsed();
 
       // Prepare fields
       $this->statusList = array();

@@ -94,7 +94,7 @@ class IssueTracking {
     echo "<th>Date Submission</th>\n";
     echo "<th>ETA</th>\n";
     echo "<th>Effort Estim</th>\n";
-    echo "<th title='Est effort from TimeTracking + deprecated mantis custom field'>Elapsed</th>\n";
+    echo "<th title='Est effort from TimeTracking'>Elapsed</th>\n";
     echo "<th>Remaining</th>\n";
     echo "<th>Current Status</th>\n";
     echo "<th>Release</th>\n";
