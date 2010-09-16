@@ -320,7 +320,7 @@ function displaySideTalksProjectDetails($timeTracking) {
   $formatedProjList = simpleListToSQLFormatedString($stProjList);
 	
   echo "<table width='300'>\n";
-  echo "<caption title='Projets: $formatedProjList'>Detail SuiviOp</caption>\n";
+  echo "<caption title='Projets: $formatedProjList'>Detail Gestion de Projet</caption>\n";
   echo "<tr>\n";
   echo "<th>Categorie</th>\n";
   echo "<th>Nb jours</th>\n";

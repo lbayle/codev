@@ -45,11 +45,11 @@ class PeriodStatsReport {
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
       	
+         // remove FDL project
       	if (! in_array($row->project_id, $periodStatsExcludedProjectList))  {
       		$projectList[] = $row->project_id; 
       	}
       }
-      // TODO remove FDL project
       
       $periodStats->projectList = $projectList;
       

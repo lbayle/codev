@@ -53,9 +53,6 @@
   $statusNames[$status_feedback_ATOS] = "feedback_ATOS";
   $statusNames[$status_feedback_FDJ]  = "feedback_FDJ";
   
-  // all FDJ users
-  // used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)  
-  $FDJ_teamid = 21;                     
                      
                      
   // unfortunately the status names are not a table in Mantis:
@@ -76,11 +73,6 @@
                        50 => 10,  // < 15 days
                        60 => 15); // > 15 days
   
-  // nb of hours worked in a day                       
-  $nbWorkingHoursADay = 8; 
-
-  
-  $FDLProject       = 18; 
   
   // TODO DEPRECATED $IncidentProject doit etre trouve dans  'codev_team_project_table'
   $IncidentProject  = 11;  // "SuiviOp"        in table mantis_project_table
@@ -92,10 +84,15 @@
   $vacationProject  = 11;  // "SuiviOp"        in table mantis_project_table
   $vacationCategory = 17;  // Inactivite
   
-  // TODO find a way to get 11 from db tables
   $defaultSideTaskProject = 11; // "SuiviOp"
-  
+  $FDLProject       = 18; 
+
+  // users allowed to do CoDev administration
   $admin_teamid = 3;
+  
+  // all FDJ users
+  // used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)  
+  $FDJ_teamid = 21;                     
   
   // timestamps of holidays (national, religious, etc.)
   // REM: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong.

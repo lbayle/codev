@@ -442,8 +442,7 @@ function deleteTeamForm($originPage, $teamName, $teamid) {
 
 // ================ MAIN =================
 
-// TODO get admin teamid from DB
-$admin_teamid = 3;
+global $admin_teamid;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");

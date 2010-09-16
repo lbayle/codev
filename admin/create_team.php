@@ -88,10 +88,12 @@ function displayCreateTeamForm() {
 
 // ================ MAIN =================
 
-// TODO get admin teamid from DB
 global $admin_teamid;
-
 global $defaultSideTaskProject;
+
+// TODO replace 1 with  codev_team_project_type_table 
+$sideTaskProjectType = 1;
+
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
@@ -131,8 +133,7 @@ if ("addTeam" == $action) {
    echo "teamId = $teamid !<br/>";
    
    if (-1 != $teamid) {
-	   // TODO replace 1 with  codev_team_project_type_table 
-	   $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$defaultSideTaskProject','$teamid','1');";
+	   $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$defaultSideTaskProject','$teamid','$sideTaskProjectType');";
 	   mysql_query($query) or die("Query failed: $query");
 	   
 	   $_SESSION['teamid'] = $teamid;
