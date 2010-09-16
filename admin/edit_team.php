@@ -330,6 +330,9 @@ function addTeamMemberForm($originPage, $defaultDate) {
 
 // ----------------------------------------------------
 function displayTeamProjectTuples($teamid) {
+	
+	global $workingProjectType;
+	
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -354,7 +357,7 @@ function displayTeamProjectTuples($teamid) {
       echo "<tr>\n";
       echo "<td>\n";
       // if SuiviOp do not allow tu delete
-      if (0 == $row->type) {
+      if ($workingProjectType == $row->type) {
          echo "<a title='delete this row' href=\"javascript: removeTeamProject('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
       }
       echo "</td>\n";

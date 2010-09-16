@@ -30,7 +30,10 @@ class TimeTracking {
   }
 
   // ----------------------------------------------
-  public function initialize() {     
+  public function initialize() {  
+
+  	global $workingProjectType;
+  	
     $this->prodProjectList     = array();
     $this->sideTaskprojectList = array();
                 
@@ -39,7 +42,7 @@ class TimeTracking {
     while($row = mysql_fetch_object($result))
     {
       // TODO use codev_team_project_type_table ?
-      if (0 == $row->type) {
+      if ($workingProjectType == $row->type) {
         $this->prodProjectList[]     = $row->project_id;
       } else {
         $this->sideTaskprojectList[] = $row->project_id;

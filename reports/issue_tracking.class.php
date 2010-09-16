@@ -29,7 +29,9 @@ class IssueTracking {
     global $status_resolved;
     global $status_delivered;
     global $status_closed;
-        
+    
+    global $workingProjectType;
+    
     $this->displayedStatusList = array($status_new, 
                                        $status_ack, 
                                        $status_feedback, 
@@ -54,11 +56,11 @@ class IssueTracking {
       // TODO remove FDL project
                                        
                                        
-      // sideTaskprojects are excluded (type != 0)
+      // sideTaskprojects are excluded
       $query = "SELECT DISTINCT mantis_bug_table.id ".
                "FROM `mantis_bug_table`, `codev_team_project_table` ".
                "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
-               "AND codev_team_project_table.type = 0 ";
+               "AND codev_team_project_table.type = $workingProjectType ";
 
       // Only for specified Projects   
       if ((isset($projectList)) && (0 != count($projectList))) {

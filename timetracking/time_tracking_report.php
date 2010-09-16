@@ -295,6 +295,7 @@ function displayWorkingDaysPerProject($timeTracking) {
 }
 
 function displaySideTalksProjectDetails($timeTracking) {
+  global $sideTaskProjectType;
 	
   $durationPerCategory = array();
   $stProjList = "";
@@ -303,7 +304,7 @@ function displaySideTalksProjectDetails($timeTracking) {
   $query     = "SELECT project_id ".
                "FROM `codev_team_project_table` ".
                "WHERE team_id = $timeTracking->team_id ".
-               "AND type = 1";
+               "AND type = $sideTaskProjectType";
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {

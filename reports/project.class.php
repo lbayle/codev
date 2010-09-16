@@ -44,15 +44,17 @@ class Project {
    // if type=1 (SideTask) than only jobs for SideTasks are displayed.
    // if type=0 (Project) then all jobs which codev_job_table.projectid = $this->id OR 0 (common jobs)  
    public function getJobList() {
+   	global $workingProjectType;
+   	global $sideTaskProjectType;
    	
    	$jobList = array();
    	 
    	if (O != $this->id) {
-	   	if (1 == $this->type) {
+	   	if ($sideTaskProjectType == $this->type) {
 		      $query  = "SELECT id, name ".
 		                "FROM `codev_job_table` ".
 		                "WHERE codev_job_table.projectid = $this->id";
-	   	} elseif (0 == $this->type) {
+	   	} elseif ($workingProjectType == $this->type) {
 	   		// all other projects
 	         $query  = "SELECT id, name ".
 	                   "FROM `codev_job_table` ".
@@ -88,7 +90,9 @@ class Project {
    
    // -----------------------------------------------
    public function isSideTasksProject() {
-		return (1 == $this->type);
+   	global $sideTaskProjectType;
+   	
+		return ($sideTaskProjectType == $this->type);
 	}
 }
 
