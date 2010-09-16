@@ -82,12 +82,14 @@ class Issue {
    public function isSideTaskIssue() {
       global $docCategory;
       global $toolsCategory;
-
+      global $workingProjectType;
+      global $sideTaskProjectType;
+      
       $query  = "SELECT type FROM `codev_team_project_table` WHERE project_id = $this->projectId";
       $result = mysql_query($query) or die("Query failed: $query");
-      $type    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "0";
+      $type    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $workingProjectType;
 
-      if ((0 != $type) &&
+      if (($sideTaskProjectType == $type) &&
       ($docCategory != $this->categoryId) &&
       ($toolsCategory != $this->categoryId)) {
 
@@ -102,7 +104,6 @@ class Issue {
       global $vacationCategory;
       global $vacationProject;
 
-      // TODO DEPRECATED $vacationProject, $vacationCategory
       if (($this->projectId == $vacationProject) &&
       ($this->categoryId == $vacationCategory)) {
          return true;

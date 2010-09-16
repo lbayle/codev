@@ -91,8 +91,7 @@ function displayCreateTeamForm() {
 global $admin_teamid;
 global $defaultSideTaskProject;
 
-// TODO replace 1 with  codev_team_project_type_table 
-$sideTaskProjectType = 1;
+global $sideTaskProjectType;
 
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 

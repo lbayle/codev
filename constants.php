@@ -32,7 +32,7 @@
   $status_delivered = 85;
   $status_closed   = 90;
   
-  // FDJ specificities
+  // CoDev FDJ specificities (not defined in Mantis)
   $status_feedback_ATOS = 21;
   $status_feedback_FDJ  = 22;
   
@@ -49,12 +49,13 @@
                        $status_delivered => "Delivered",
                        $status_closed   => "Closed");
 
-  // FDJ specificities
+  // CoDev FDJ specificities (not defined in Mantis)
   $statusNames[$status_feedback_ATOS] = "feedback_ATOS";
   $statusNames[$status_feedback_FDJ]  = "feedback_FDJ";
   
                      
                      
+  // ---
   // unfortunately the status names are not a table in Mantis:
   // REM: $g_eta_enum_string in mantis/config_inc.php
   $ETA_names = array(10 => "none", 
@@ -73,27 +74,36 @@
                        50 => 10,  // < 15 days
                        60 => 15); // > 15 days
   
+                       
+                       
+                       
+  // ---
+  $workingProjectType  = 0;     // normal projects are type 0 (defined in codev_team_project_type_table)
+  $sideTaskProjectType = 1;     // SuiviOp must be type 1  (defined in codev_team_project_type_table)
+  $defaultSideTaskProject = 11; // "SuiviOp" in table mantis_project_table
+  $FDLProject       = 18;
+
   
+  // ---
   // TODO DEPRECATED $IncidentProject doit etre trouve dans  'codev_team_project_table'
-  $IncidentProject  = 11;  // "SuiviOp"        in table mantis_project_table
+  $IncidentProject  = $defaultSideTaskProject;
   $IncidentCategory = 19;  // "Incidents"      in table mantis_category_table
 
   $docCategory      = 16;  // "Capitalisation" in table mantis_category_table
   $toolsCategory    = 18;  // "Outillage"      in table mantis_category_table
   
-  $vacationProject  = 11;  // "SuiviOp"        in table mantis_project_table
+  $vacationProject  = $defaultSideTaskProject;
   $vacationCategory = 17;  // Inactivite
   
-  $defaultSideTaskProject = 11; // "SuiviOp"
-  $FDLProject       = 18; 
-
-  // users allowed to do CoDev administration
-  $admin_teamid = 3;
   
-  // all FDJ users
-  // used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)  
-  $FDJ_teamid = 21;                     
   
+  // ---
+  $admin_teamid = 3; // users allowed to do CoDev administration
+  $FDJ_teamid = 21;  // all FDJ users : used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)                     
+  
+  
+  
+  // ---
   // timestamps of holidays (national, religious, etc.)
   // REM: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong.
   $globalHolidaysList = array("2010-01-01", // reveillon
@@ -113,5 +123,7 @@
   
   // the projects listed here will be excluded from PeriodStatsReport 
   $periodStatsExcludedProjectList = array($FDLProject);
+  
+  
   
 ?>
