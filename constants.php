@@ -93,6 +93,11 @@
   // ---
   $workingProjectType  = 0;     // normal projects are type 0 (defined in codev_team_project_type_table)
   $sideTaskProjectType = 1;     // SuiviOp must be type 1  (defined in codev_team_project_type_table)
+  $projectType_names = array($workingProjectType => "Project",
+                             $sideTaskProjectType => "SideTasks");
+  
+  
+  
   $defaultSideTaskProject = 11; // "SuiviOp" in table mantis_project_table
   $FDLProject       = 18;
 

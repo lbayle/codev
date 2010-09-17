@@ -357,6 +357,7 @@ function addTeamMemberForm($originPage, $defaultDate) {
 function displayTeamProjectTuples($teamid) {
 	
 	global $workingProjectType;
+	global $projectType_names;
 	
    // Display previous entries
    echo "<div>\n";
@@ -369,11 +370,10 @@ function displayTeamProjectTuples($teamid) {
    echo "<th>Type</th>\n";
    echo "</tr>\n";
 
-   $query     = "SELECT codev_team_project_table.id, codev_team_project_type_table.name AS type_name, codev_team_project_table.type, ".
+   $query     = "SELECT codev_team_project_table.id, codev_team_project_table.type, ".
                        "mantis_project_table.name, mantis_project_table.description ".
-                "FROM `codev_team_project_table`, `mantis_project_table`, `codev_team_project_type_table` ".
+                "FROM `codev_team_project_table`, `mantis_project_table` ".
                 "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-                "AND codev_team_project_type_table.id = codev_team_project_table.type ".
                 "AND codev_team_project_table.team_id=$teamid ".
                 "ORDER BY mantis_project_table.name";
    $result    = mysql_query($query) or die("Query failed: $query");
@@ -388,7 +388,7 @@ function displayTeamProjectTuples($teamid) {
       echo "</td>\n";
       echo "<td>".$row->name."</td>\n";
       echo "<td>".$row->description."</td>\n";
-      echo "<td>".$row->type_name."</td>\n";
+      echo "<td>".$projectType_names[$row->type]."</td>\n";
 
       echo "</tr>\n";
    }
@@ -398,6 +398,8 @@ function displayTeamProjectTuples($teamid) {
 
 // ----------------------------------------------------
 function addTeamProjectForm($originPage) {
+	
+   global $projectType_names;
    
    // Display form
    echo "<h2>Team Projects</h2>\n";
@@ -427,13 +429,8 @@ function addTeamProjectForm($originPage) {
    echo "</select>\n";
    
    echo "Type: <select name='project_type'>\n";
-   $query     = "SELECT DISTINCT id, name ".
-                "FROM `codev_team_project_type_table` ".
-                "ORDER BY id";
-   $result    = mysql_query($query) or die("Query failed: $query");
-   while($row = mysql_fetch_object($result))
-   {
-      echo "   <option value='".$row->id."'>".$row->name."</option>\n";
+   foreach ($projectType_names as $pt_id => $pt_name) {
+      echo "   <option value='$pt_id'>$pt_name</option>\n";
    }
    echo "</select>\n";
    
