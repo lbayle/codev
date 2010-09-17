@@ -101,6 +101,9 @@
   $admin_teamid = 3; // users allowed to do CoDev administration
   $FDJ_teamid = 21;  // all FDJ users : used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)                     
   
+  // ---
+  // the projects listed here will be excluded from PeriodStatsReport 
+  $periodStatsExcludedProjectList = array($FDLProject);
   
   
   // ---
@@ -121,8 +124,6 @@
   );
   
   
-  // the projects listed here will be excluded from PeriodStatsReport 
-  $periodStatsExcludedProjectList = array($FDLProject);
   
   
   

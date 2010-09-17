@@ -31,6 +31,7 @@ class IssueTracking {
     global $status_closed;
     
     global $workingProjectType;
+    global $periodStatsExcludedProjectList;
     
     $this->displayedStatusList = array($status_new, 
                                        $status_ack, 
@@ -51,9 +52,12 @@ class IssueTracking {
                "WHERE team_id = $this->teamid";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-         $projectList[] = $row->project_id;
+         // remove FDL project
+      	if (! in_array($row->project_id, $periodStatsExcludedProjectList))  {
+            $projectList[] = $row->project_id;
+      	} else {
+         }
       }
-      // TODO remove FDL project
                                        
                                        
       // sideTaskprojects are excluded
