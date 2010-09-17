@@ -73,10 +73,12 @@
                        40 => 5,   // < 1 week
                        50 => 10,  // < 15 days
                        60 => 15); // > 15 days
-  
-                       
-                       
-                       
+
+  // this is the custom field added to mantis issues for TimeTracking
+  $estimEffortCustomField = 3; // in mantis_custom_field_table
+  $remainingCustomField   = 4; // in mantis_custom_field_table
+
+
   // ---
   $workingProjectType  = 0;     // normal projects are type 0 (defined in codev_team_project_type_table)
   $sideTaskProjectType = 1;     // SuiviOp must be type 1  (defined in codev_team_project_type_table)
@@ -87,10 +89,10 @@
   // ---
   // TODO DEPRECATED $IncidentProject doit etre trouve dans  'codev_team_project_table'
   $IncidentProject  = $defaultSideTaskProject;
-  $IncidentCategory = 19;  // "Incidents"      in table mantis_category_table
+  $IncidentCategory = 19;  // "Incidents"      in mantis_category_table
 
-  $docCategory      = 16;  // "Capitalisation" in table mantis_category_table
-  $toolsCategory    = 18;  // "Outillage"      in table mantis_category_table
+  $docCategory      = 16;  // "Capitalisation" in mantis_category_table
+  $toolsCategory    = 18;  // "Outillage"      in mantis_category_table
   
   $vacationProject  = $defaultSideTaskProject;
   $vacationCategory = 17;  // Inactivite

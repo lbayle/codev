@@ -41,7 +41,6 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      // TODO use codev_team_project_type_table ?
       if ($workingProjectType == $row->type) {
         $this->prodProjectList[]     = $row->project_id;
       } else {
@@ -168,6 +167,7 @@ class TimeTracking {
     global $status_resolved;
     global $status_closed;
     global $ETA_balance;
+    global $estimEffortCustomField;
     
     $resolvedList = array();
     $productivityRate = 0;
@@ -196,7 +196,7 @@ class TimeTracking {
              "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
              "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
              "AND mantis_bug_history_table.new_value = $status_resolved ".
-             "AND mantis_custom_field_string_table.field_id = 3 ".  # field_id = 3 => EffortEstim
+             "AND mantis_custom_field_string_table.field_id = $estimEffortCustomField ".
              "ORDER BY mantis_bug_table.id DESC";
     
     if (isset($_GET['debug'])) { echo "getProductivRate QUERY = $query <br/>"; }
@@ -251,6 +251,7 @@ class TimeTracking {
     global $statusNames;
     global $status_resolved;
     global $status_closed;
+    global $estimEffortCustomField;
     
     $resolvedList = array();
     
@@ -293,7 +294,7 @@ class TimeTracking {
       "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
       "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
       "AND mantis_bug_history_table.new_value = $status_resolved ".
-      "AND mantis_custom_field_string_table.field_id = 3 ".  # field_id = 3 => EffortEstim
+      "AND mantis_custom_field_string_table.field_id = $estimEffortCustomField ".
       "ORDER BY mantis_bug_table.id DESC";
     
     if (isset($_GET['debug'])) { echo "getDrift_new QUERY = $query <br/>"; }

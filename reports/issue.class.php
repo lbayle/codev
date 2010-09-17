@@ -363,6 +363,9 @@ class Issue {
    // ----------------------------------------------
    // updates DB with new value
    public function setRemaining($remaining) {
+   	
+   	global $remainingCustomField;
+   	
       $old_remaining = $this->remaining;
 
       //echo "DEBUG setRemaining old_value=$old_remaining   new_value=$remaining<br/>";
@@ -370,13 +373,13 @@ class Issue {
       // TODO: get field name from DB
       $field_name = "Remaining (RAE)";
 
-      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = 4";
+      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
       $result = mysql_query($query) or die("Query failed: $query");
       if (0 != mysql_num_rows($result)) {
 
-         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$remaining' WHERE bug_id=$this->bugId AND field_id = 4";
+         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$remaining' WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
       } else {
-         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('4', '$this->bugId', '$remaining');";
+         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$remainingCustomField', '$this->bugId', '$remaining');";
       }
       $result    = mysql_query($query2) or die("Query failed: $query2");
       $this->remaining = $remaining;
