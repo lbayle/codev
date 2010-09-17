@@ -198,6 +198,9 @@ function updateTeamLeaderForm($teamid, $originPage) {
 
 // ----------------------------------------------------
 function displayTeamMemberTuples($teamid) {
+	
+	global $access_level_names;
+	
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -208,9 +211,10 @@ function displayTeamMemberTuples($teamid) {
    echo "<th>Nom</th>\n";
    echo "<th title='Date d arivee dans l equipe'>Date d'arivee</th>\n";
    echo "<th title='Date dde depart de l equipe'>Date de depart</th>\n";
+   echo "<th>Type</th>\n";
    echo "</tr>\n";
 
-   $query     = "SELECT codev_team_user_table.id, codev_team_user_table.user_id, codev_team_user_table.team_id, ".
+   $query     = "SELECT codev_team_user_table.id, codev_team_user_table.user_id, codev_team_user_table.team_id, codev_team_user_table.access_level, ".
                        "codev_team_user_table.arrival_date, codev_team_user_table.departure_date, mantis_user_table.username, mantis_user_table.realname ".
                 "FROM `codev_team_user_table`, `mantis_user_table` ".
                 "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
@@ -231,6 +235,7 @@ function displayTeamMemberTuples($teamid) {
       } else {
       	echo "<td></td>";
       }
+      echo "<td>".$access_level_names[$row->access_level]."</td>";
       
       echo "</tr>\n";
    }
@@ -241,6 +246,7 @@ function displayTeamMemberTuples($teamid) {
 
 // ----------------------------------------------------
 function addTeamMemberForm($originPage, $defaultDate) {
+   global $access_level_names;
    
 	list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
@@ -292,6 +298,25 @@ function addTeamMemberForm($originPage, $defaultDate) {
    echo "   <td>\n";
    echo "   </td>\n";
    echo "</tr>\n";
+   // -------
+   echo "<tr>\n";
+   echo "   <td>\n";
+   echo "Type: \n";
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "<select  style='width:100%' name='member_access'>\n";
+
+   foreach ($access_level_names as $ac_id => $ac_name)
+   {
+      echo "<option value='$ac_id'>$ac_name</option>\n";
+   }
+   echo "</select>\n";
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "   </td>\n";
+   echo "</tr>\n";
+   
+   // -------
    echo "<tr>\n";
    echo "   <td>Arrival-Date</td>\n";
    echo "   <td>\n";
@@ -532,11 +557,12 @@ if (0 != $teamid) {
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
     $arrivalTimestamp = date2timestamp($formatedDate);
     $memberid = $_POST[f_memberid];
+    $memberAccess = $_POST[member_access];
     
     // TODO check if not already in table !
     
     // save to DB
-    $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`) VALUES ('$memberid','$teamid','$arrivalTimestamp', '0');";
+    $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) VALUES ('$memberid','$teamid','$arrivalTimestamp', '0', '$memberAccess');";
     mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
     
     // reload page

@@ -10,7 +10,7 @@
 # echo TAMERE;
 
 
-   $codevVersion = "v0.99.0 (09 Sept 2010)";
+   $codevVersion = "v0.99.1 (17 Sept 2010)";
 
 	// Mantis DB infomation.
 	$db_mantis_host		=	'localhost';
@@ -74,6 +74,15 @@
                        50 => 10,  // < 15 days
                        60 => 15); // > 15 days
 
+  // ---
+  // il peut y avoir plusieurs observer
+  // il n'y a qu'un seul teamLeader
+  // un observer ne fait jamais partie de l'equipe
+  $accessLevel_dev      = 10;    // in table codev_team_user_table
+  $accessLevel_observer = 20;    // in table codev_team_user_table
+  $access_level_names = array($accessLevel_dev      => "Developper", // can modify, can NOT view stats
+                              $accessLevel_observer => "Observer");  // can NOT modify, can view stats  
+                       
   // this is the custom field added to mantis issues for TimeTracking
   $tcCustomField          = 1; // in mantis_custom_field_table
   $releaseCustomField     = 2; // in mantis_custom_field_table
@@ -126,7 +135,6 @@
                                "2010-12-25", // noel
                                #"2010-12-31"  // RTT employeur  
   );
-  
   
   
   
