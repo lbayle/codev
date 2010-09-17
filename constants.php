@@ -75,10 +75,12 @@
                        60 => 15); // > 15 days
 
   // this is the custom field added to mantis issues for TimeTracking
+  $tcCustomField          = 1; // in mantis_custom_field_table
+  $releaseCustomField     = 2; // in mantis_custom_field_table
   $estimEffortCustomField = 3; // in mantis_custom_field_table
   $remainingCustomField   = 4; // in mantis_custom_field_table
-
-
+  $deadLineCustomField    = 8; // in mantis_custom_field_table
+  
   // ---
   $workingProjectType  = 0;     // normal projects are type 0 (defined in codev_team_project_type_table)
   $sideTaskProjectType = 1;     // SuiviOp must be type 1  (defined in codev_team_project_type_table)

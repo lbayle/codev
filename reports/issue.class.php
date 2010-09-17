@@ -22,7 +22,6 @@ class Issue {
    var $categoryId;
    var $eta;
    var $summary;
-   var $difficulty;
    var $dateSubmission;
    var $remaining;
    var $elapsed;
@@ -60,11 +59,10 @@ class Issue {
       while($row = mysql_fetch_object($result2))
       {
          switch ($row->field_id) {
-            case 1: $this->tcId        = $row->value; break;
-            case 2: $this->release     = $row->value; break;
-            case 3: $this->EffortEstim = $row->value; break;
-            case 4: $this->remaining   = $row->value; break;
-            case 6: $this->difficulty  = $row->value; break;
+            case $tcCustomField:          $this->tcId        = $row->value; break;
+            case $releaseCustomField:     $this->release     = $row->value; break;
+            case $estimEffortCustomField: $this->EffortEstim = $row->value; break;
+            case $remainingCustomField:   $this->remaining   = $row->value; break;
          }
       }
 

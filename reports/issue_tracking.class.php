@@ -117,14 +117,6 @@ class IssueTracking {
         echo "<td>$tmpIssue->tcId</td>\n";
         echo "<td>$tmpIssue->summary</td>\n";
         echo "<td>".date("d M Y", $tmpIssue->dateSubmission)."</td>\n";
-        /*
-          if ("(select)" == $tmpIssue->difficulty) {
-          $res = ".";
-          } else {
-          $res = $tmpIssue->difficulty;
-          }
-          echo "\t\t<td>$res</td>\n";
-        */
         echo "<td>".$tmpIssue->getEtaName()."</td>\n";
         echo "<td>".$tmpIssue->EffortEstim."</td>\n";
         echo "<td>".$tmpIssue->elapsed."</td>\n";
