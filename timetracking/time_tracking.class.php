@@ -546,19 +546,25 @@ class TimeTracking {
   // Find days which are not 'sat' or 'sun' and that have no timeTrack entry.
   public function checkMissingDays($userid) {
     global $globalHolidaysList;
-                
+    
     $missingDays = array();
 
     $user1 = new User($userid);
-    
-    if ( ! $user1->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
-      // User was not yet present
-      return $missingDays;
-    }
 
-    $arrivalTimestamp   = $user1->getArrivalDate($this->team_id);      
-    $departureTimestamp = $user1->getDepartureDate($this->team_id);
-    
+    // REM: if $this->team_id not set, then team_id = -1
+    if ($this->team_id > 0) {
+	    if ( ! $user1->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
+	      // User was not yet present
+	      return $missingDays;
+	    }
+
+      $arrivalTimestamp   = $user1->getArrivalDate($this->team_id);      
+      $departureTimestamp = $user1->getDepartureDate($this->team_id);
+    } else {
+      $arrivalTimestamp   = $user1->getArrivalDate();      
+      $departureTimestamp = $user1->getDepartureDate();
+    	
+    }
     // reduce timestamp if needed
     $startT = ($arrivalTimestamp > $this->startTimestamp) ? $arrivalTimestamp : $this->startTimestamp;
     
@@ -566,7 +572,7 @@ class TimeTracking {
     if ((0 != $departureTimestamp) &&($departureTimestamp < $this->endTimestamp)) {
        $endT   = $departureTimestamp;
     }
-    
+
     // Julien calendar format (0.. 365)
     $startDayOfYear = date("z", $startT);   
     $endDayOfYear   = date("z", $endT);
