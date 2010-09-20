@@ -552,7 +552,7 @@ class TimeTracking {
     $user1 = new User($userid);
 
     // REM: if $this->team_id not set, then team_id = -1
-    if ($this->team_id > 0) {
+    if ($this->team_id >= 0) {
 	    if ( ! $user1->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
 	      // User was not yet present
 	      return $missingDays;

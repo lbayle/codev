@@ -357,6 +357,7 @@ function addTeamMemberForm($originPage, $defaultDate) {
 function displayTeamProjectTuples($teamid) {
 	
 	global $workingProjectType;
+	global $defaultSideTaskProject;
 	global $projectType_names;
 	
    // Display previous entries
@@ -371,7 +372,7 @@ function displayTeamProjectTuples($teamid) {
    echo "</tr>\n";
 
    $query     = "SELECT codev_team_project_table.id, codev_team_project_table.type, ".
-                       "mantis_project_table.name, mantis_project_table.description ".
+                       "mantis_project_table.id AS project_id, mantis_project_table.name, mantis_project_table.description ".
                 "FROM `codev_team_project_table`, `mantis_project_table` ".
                 "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
                 "AND codev_team_project_table.team_id=$teamid ".
@@ -382,7 +383,7 @@ function displayTeamProjectTuples($teamid) {
       echo "<tr>\n";
       echo "<td>\n";
       // if SuiviOp do not allow tu delete
-      if ($workingProjectType == $row->type) {
+      if ($defaultSideTaskProject != $row->project_id) {
          echo "<a title='delete this row' href=\"javascript: removeTeamProject('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
       }
       echo "</td>\n";
