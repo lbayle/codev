@@ -39,6 +39,12 @@ class Issue {
 
    // ----------------------------------------------
    public function initialize() {
+   	
+   	global $tcCustomField;
+   	global $releaseCustomField;
+   	global $estimEffortCustomField;
+   	global $remainingCustomField;
+   	
       // Get issue info
       $query = "SELECT id, summary, status, date_submitted, project_id, category_id, eta ".
       "FROM `mantis_bug_table` ".
