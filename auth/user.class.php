@@ -121,8 +121,10 @@ class User {
    public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
     $daysOf = array();  // day => duration
       
-    $query     = "SELECT bugid, date, duration FROM `codev_timetracking_table` ".
-      "WHERE date >= $startTimestamp AND date < $endTimestamp AND userid = $this->id";
+    $query     = "SELECT bugid, date, duration ".
+                 "FROM `codev_timetracking_table` ".
+                 "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
+                 "AND userid = $this->id";
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result)) {
          
@@ -160,16 +162,15 @@ class User {
       // get $nbOpenDaysInPeriod
       for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
         $dayOfWeek = date("N", $i);
-                
         if (($dayOfWeek < 6) && (!in_array(date("Y-m-d", $i), $globalHolidaysList))) { 
-          $nbOpenDaysInPeriod++; 
+        	$nbOpenDaysInPeriod++; 
         }
       }
       
       $nbDaysOf = array_sum($this->getDaysOfInPeriod($startT, $endT));
       $prodDaysForecast = $nbOpenDaysInPeriod - $nbDaysOf;
       
-      //echo "user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - $nbDaysOf) = $prodDaysForecast <br/>";
+      #echo "user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - $nbDaysOf) = $prodDaysForecast <br/>";
       
       return $prodDaysForecast;
    }
