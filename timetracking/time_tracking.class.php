@@ -107,6 +107,7 @@ class TimeTracking {
   // ----------------------------------------------
   public function getProductionDaysForecast() {
     global $globalHolidaysList;
+    global $accessLevel_dev;
         
     $teamProdDaysForecast = 0;
         
@@ -114,9 +115,10 @@ class TimeTracking {
     $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
       "FROM  `codev_team_user_table`, `mantis_user_table` ".
       "WHERE  codev_team_user_table.team_id = $this->team_id ".
+      "AND    codev_team_user_table.access_level = $accessLevel_dev ".
       "AND    codev_team_user_table.user_id = mantis_user_table.id ".
       "ORDER BY mantis_user_table.username";   
-   
+    
     $result = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
