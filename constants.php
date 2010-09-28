@@ -6,12 +6,13 @@
   // LoB 17 May 2010
 
 
-#define("TAMERE", "tamere et mescouilles");
-# echo TAMERE;
 
+   $codevVersion = "v0.99.1 (28 Sept 2010)";
 
-   $codevVersion = "v0.99.1 (17 Sept 2010)";
-
+   $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
+                                "v0.99.1" => "(28 Sept 2010) - jobs management");
+   
+   
 	// Mantis DB infomation.
 	$db_mantis_host		=	'localhost';
 	$db_mantis_user		=	'codev';
@@ -91,12 +92,17 @@
   $deadLineCustomField    = 8; // in mantis_custom_field_table
   
   // ---
-  $workingProjectType  = 0;     // normal projects are type 0 (defined in codev_team_project_type_table)
-  $sideTaskProjectType = 1;     // SuiviOp must be type 1  (defined in codev_team_project_type_table)
+  $workingProjectType  = 0;     // normal projects are type 0
+  $sideTaskProjectType = 1;     // SuiviOp must be type 1
   $projectType_names = array($workingProjectType => "Project",
                              $sideTaskProjectType => "SideTasks");
   
-  
+  // ---
+  $commonJobType  = 0;     // jobs common to all projects are type 0
+  $assignedJobType = 1;     // jobs specific to one or more projects are type 1
+  $jobType_names = array($commonJobType => "Common",
+                         $assignedJobType => "Assigned");
+                             
   
   $defaultSideTaskProject = 11; // "SuiviOp" in table mantis_project_table
   $FDLProject       = 18;

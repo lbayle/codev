@@ -42,23 +42,29 @@ class Project {
    // -----------------------------------------------
    // Job list depends on project type:
    // if type=1 (SideTask) than only jobs for SideTasks are displayed.
-   // if type=0 (Project) then all jobs which codev_job_table.projectid = $this->id OR 0 (common jobs)  
+   // if type=0 (Project) then all jobs which codev_project_job_table.project_id = $this->id
+   //                     OR codev_job_table.type = $commonJobType (common jobs)  
    public function getJobList() {
    	global $workingProjectType;
    	global $sideTaskProjectType;
+   	global $commonJobType;
    	
    	$jobList = array();
    	 
    	if (O != $this->id) {
 	   	if ($sideTaskProjectType == $this->type) {
-		      $query  = "SELECT id, name ".
-		                "FROM `codev_job_table` ".
-		                "WHERE codev_job_table.projectid = $this->id";
+		      $query  = "SELECT codev_job_table.id, codev_job_table.name ".
+		                "FROM `codev_job_table`, `codev_project_job_table` ".
+		                "WHERE codev_job_table.id = codev_project_job_table.job_id ".
+		                "AND codev_project_job_table.project_id = $this->id";
 	   	} elseif ($workingProjectType == $this->type) {
 	   		// all other projects
-	         $query  = "SELECT id, name ".
+	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
 	                   "FROM `codev_job_table` ".
-	                   "WHERE (codev_job_table.projectid = $this->id OR codev_job_table.projectid = 0)";
+	                   "LEFT OUTER JOIN  `codev_project_job_table` ".
+	                   "ON codev_job_table.id = codev_project_job_table.job_id ".
+	                   "WHERE (codev_job_table.type = $commonJobType OR codev_project_job_table.project_id = $this->id)";
+	                   
 	   	} else {
 	   		echo "ERROR Project.getJobList(): unknown project type !";
 	   		exit;
