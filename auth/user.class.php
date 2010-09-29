@@ -181,18 +181,21 @@ class User {
    // --------------------
 	// returns the teams i'm member of.
 	public function getTeamList() {
-		
+		global $accessLevel_dev;
+
 		$teamList = array();
 		
       $query = "SELECT codev_team_table.id, codev_team_table.name ".
                "FROM `codev_team_user_table`, `codev_team_table` ".
                "WHERE codev_team_user_table.user_id = $this->id ".
                "AND   codev_team_user_table.team_id = codev_team_table.id ".
+               "AND   codev_team_user_table.access_level = $accessLevel_dev ".
                "ORDER BY codev_team_table.name";
       $result = mysql_query($query) or die("Query failed: $query");
 		while($row = mysql_fetch_object($result))
       {
       	$teamList[$row->id] = $row->name;
+         #echo "getTeamList FOUND $row->id - $row->name<br/>";
       }
       
       return $teamList;
@@ -215,27 +218,29 @@ class User {
       return $teamList;
    }
 
-   // returns teams where i am member of or TeamLeader
-   public function getMemberAndLeadedTeamList() {
+   // --------------------
+   // returns the teams i'm observer of.
+   public function getObservedTeamList() {
+      global $accessLevel_observer;
+      
       $teamList = array();
-   	$query = "SELECT DISTINCT codev_team_table.id, codev_team_table.name ".
-           "FROM `codev_team_table`, `codev_team_user_table` ".
-           "WHERE codev_team_table.id = codev_team_user_table.team_id ".
-           "AND (codev_team_table.leader_id   = ".$this->id.
-           " OR codev_team_user_table.user_id = ".$this->id.
-           ") ORDER BY name";
-
+      
+      $query = "SELECT codev_team_table.id, codev_team_table.name ".
+               "FROM `codev_team_user_table`, `codev_team_table` ".
+               "WHERE codev_team_user_table.user_id = $this->id ".
+               "AND   codev_team_user_table.team_id = codev_team_table.id ".
+               "AND   codev_team_user_table.access_level = $accessLevel_observer ".
+      "ORDER BY codev_team_table.name";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
          $teamList[$row->id] = $row->name;
-         #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
+         #echo "getObservedTeamList FOUND $row->id - $row->name<br/>";
       }
       
       return $teamList;
-   	
    }
-   
+
    // --------------------
    public function getProjectList() {
       

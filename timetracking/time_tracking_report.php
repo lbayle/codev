@@ -70,7 +70,11 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
   
   $session_user = new User($_SESSION['userid']);
-  $teamList = $session_user->getMemberAndLeadedTeamList();
+  $mTeamList = $session_user->getTeamList();
+  $lTeamList = $session_user->getLeadedTeamList();
+  $oTeamList = $session_user->getObservedTeamList();
+  $teamList = $mTeamList + $lTeamList + $oTeamList;
+
   foreach($teamList as $tid => $tname) {
     if ($tid == $teamid) {
       echo "<option selected value='".$tid."'>".$tname."</option>\n";

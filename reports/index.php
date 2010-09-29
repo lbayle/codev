@@ -92,11 +92,18 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 
 
 $session_user = new User($_SESSION['userid']);
-$teamList = $session_user->getMemberAndLeadedTeamList();
 
 
-$bugList = array();
+$mTeamList = $session_user->getTeamList();
+$lTeamList = $session_user->getLeadedTeamList();
+$oTeamList = $session_user->getObservedTeamList();
+$teamList = $mTeamList + $lTeamList + $oTeamList; 
 
+// if current team is not in allowed list, do not display
+if (NULL == $teamList[$teamid]) {
+	echo "$teamid NOT allowed<br/>";
+	$teamid = 0;
+}
 
 // ---------- DISPLAY -------------
 
