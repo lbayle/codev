@@ -199,10 +199,12 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 // ------
 
 $user = new User($userid);
-$leadedTeamList = $user->getLeadedTeamList();
+$mTeamList = $user->getTeamList();    // are team members allowed to see other member's timeTracking ?
+$lTeamList = $user->getLeadedTeamList();
+$teamList = $mTeamList + $lTeamList;
 
-if (0 == count($leadedTeamList)) {
-	echo "Sorry, you need to be TeamLeader to access this page.";
+if (0 == count($teamList)) {
+	echo "Sorry, you do NOT have to access this page.";
 	exit;
 }
 
@@ -211,9 +213,9 @@ if (0 == count($leadedTeamList)) {
 $action = $_POST[action];
 $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
-displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid);
+displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
 
-if (NULL != $leadedTeamList[$teamid]) {
+if (NULL != $teamList[$teamid]) {
 
    $weekDates      = week_dates($weekid,$year);
 	$startTimestamp = $weekDates[1];        
