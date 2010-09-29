@@ -259,13 +259,13 @@ function displayAssignedJobTuples() {
       echo "<tr>\n";
       echo "<td>\n";
       // if SuiviOp do not allow tu delete
-      $desc = $row->id." - ".$plist[$row->project_id];
+      $desc = $row->job_name." - ".$plist[$row->project_id];
       $desc = str_replace("'", "\'", $desc);
       $desc = str_replace('"', "\'", $desc);
       
       echo "<a title='delete Project Association' href=\"javascript: deleteJobProjectAssociation('$row->id','$desc')\" ><img src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
-      echo "<td title='$row->id'>".$row->job_name."</td>\n";
+      echo "<td title='$row->job_id'>".$row->job_name."</td>\n";
       echo "<td title='$row->project_id'>".$plist[$row->project_id]."</td>\n";
    
       echo "</tr>\n";
@@ -329,7 +329,6 @@ echo "<br/>";
       
       $job_name = $_POST[job_name];
       $job_type = $_POST[job_type];
-      $project_id = 0;  // TODO DEPRECATED field
 
       // TODO check if not already in table !
     
@@ -376,13 +375,6 @@ echo "<br/>";
       echo ("<script> parent.location.replace('edit_jobs.php'); </script>"); 
     
    }
-
-
-
-
-
-
-
 
 ?>
 

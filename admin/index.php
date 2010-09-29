@@ -20,6 +20,6 @@ if (!isset($_SESSION['userid'])) {
 <?php
    global $codevVersion;
    echo "<div align=center>"; 
-   echo "<b>CoDev-TimeTracking</b> $codevVersion </br>";  
+   echo "$codevVersion </br>";  
    echo "</div>"; 
 ?>
