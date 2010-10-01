@@ -124,7 +124,6 @@ class TimeTracking {
     {
     	$user = new User($row->user_id);
       $teamProdDaysForecast += $user->getProductionDaysForecast($this->startTimestamp, $this->endTimestamp, $this->team_id);
-      
     }
 
     return $teamProdDaysForecast;

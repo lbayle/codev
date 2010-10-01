@@ -204,7 +204,7 @@ $lTeamList = $user->getLeadedTeamList();
 $teamList = $mTeamList + $lTeamList;
 
 if (0 == count($teamList)) {
-	echo "Sorry, you do NOT have to access this page.";
+	echo "Sorry, you do NOT have access to this page.";
 	exit;
 }
 
