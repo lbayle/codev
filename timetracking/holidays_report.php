@@ -76,7 +76,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
   $nbDaysInMonth = date("t", $monthTimestamp);
 
   $startT = mktime(0, 0, 0, $month, 1, $year);
-  $endT   = mktime(23, 59, 59, $month, 31, $year);
+  $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
   
   echo "<div align='center'>\n";
   echo "<table width='80%'>\n";
