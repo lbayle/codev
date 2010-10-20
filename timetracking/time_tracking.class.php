@@ -233,7 +233,7 @@ class TimeTracking {
     }
     
     // -------
-    if (isset($_GET['debug'])) { echo "getProductivRate: productivityRate (elapsed) = $productivityRate / $totalElapse, nbBugs=".count($resolvedList)."<br/>"; }
+    if (isset($_GET['debug'])) { echo "getProductivRate: productivityRate ($balanceType) = $productivityRate / $totalElapsed, nbBugs=".count($resolvedList)."<br/>"; }
     
     if (0 != $totalElapsed) {
       $productivityRate /= $totalElapsed;
@@ -617,6 +617,9 @@ class TimeTracking {
     {
       $issue = new Issue($row->bugid);
       if ($issue->projectId  == $project_id) {
+        if (isset($_GET['debug'])) {
+          echo "".$issue->getCategoryName().": $row->bugid\n";
+        }
         $durationPerCategory[$issue->getCategoryName()] += $row->duration;
       }
     }
