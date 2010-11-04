@@ -10,12 +10,64 @@ include_once "../reports/issue.class.php";
 class User {
 
 	var $id;
+	var $name;
 	
    // --------------------
 	public function User($user_id) {
 	  $this->id = $user_id;	
 	}
 	
+   // --------------------
+	public function getFirstname() {
+		
+		if (NULL == $name) {
+         $query = "SELECT mantis_user_table.realname ".
+                  "FROM  `mantis_user_table` ".
+                  "WHERE  id = $this->id";
+         $result = mysql_query($query) or die("Query failed: $query");
+         $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "(unknown $this->id)";
+		}
+		
+		$tok = strtok($this->name, " "); // 1st token: firstname
+		
+      return $tok;
+	}
+	
+   // --------------------
+	public function getLastname() {
+      if (NULL == $name) {
+         $query = "SELECT mantis_user_table.realname ".
+                  "FROM  `mantis_user_table` ".
+                  "WHERE  id = $this->id";
+         $result = mysql_query($query) or die("Query failed: $query");
+         $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "unknown $this->id";
+      }
+      
+      $tok = strtok($this->name, " ");  // 1st token: firstname
+      $tok = strtok(" ");  // 2nd token: lastname
+      
+      return $tok;
+   }
+	
+   // --------------------
+   // retourne le trigramme. ex: Louis BAYLE => LBA
+   public function getShortname() {
+      if (NULL == $name) {
+         $query = "SELECT mantis_user_table.realname ".
+                  "FROM  `mantis_user_table` ".
+                  "WHERE  id = $this->id";
+         $result = mysql_query($query) or die("Query failed: $query");
+         $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "unknown $this->id";
+      }
+      
+      $tok1 = strtok($this->name, " ");  // 1st token: firstname
+      $tok2 = strtok(" ");  // 2nd token: lastname
+      
+      $trigramme = $tok1[0].$tok2[0].$tok2[1]; 
+      return $trigramme;
+   }
+   
+   
    // --------------------
 	public function isTeamLeader($team_id) {
 		$query = "SELECT leader_id FROM `codev_team_table` WHERE id = $team_id";
@@ -118,6 +170,7 @@ class User {
    }
 
    // --------------------
+   // REM: period cannot exceed 1 month.
    public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
     $daysOf = array();  // day => duration
       
