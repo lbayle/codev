@@ -102,7 +102,7 @@ if ("dateToTimestamp" == $action) {
 	}
 	
 } elseif ("timestampToDate" == $action) {
-	echo "<br/>$timestamp => ".date("Y-m-d", $timestamp)."<br/>";
+	echo "<br/>$timestamp => ".date("Y-m-d H:i:s", $timestamp)."<br/>";
 }
 
 
