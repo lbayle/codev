@@ -152,18 +152,29 @@ function dayofyear2date( $tDay, $tFormat = 'Y-m-d' ) {
 	$day = ( $day == 0 ) ? $day : $day - 1; 
 	$offset = intval( intval( $tDay ) * 86400 ); 
 	$str = date( $tFormat, strtotime( 'Jan 1, ' . date( 'Y' ) ) + $offset ); 
-	return( $str ); 
+	return( $str );
 }
 
 // ---------------------------
 function dayofyear2timestamp( $tDay) { 
+   date_default_timezone_set("Europe/Paris");  // GMT, UTC, DST or Europe/Paris
+
    $day = intval( $tDay ); 
    $day = ( $day == 0 ) ? $day : $day - 1; 
-   $offset = intval( intval( $tDay ) * 86400 ); 
-   $timestamp = strtotime( 'Jan 1, ' . date( 'Y' ) ) + $offset; 
+   $offset = intval( intval( $tDay ) * 86400 );
+   $timestamp = strtotime( 'Jan 1, ' . date( 'Y' ) ) + $offset;  // ATTN.: fix next year (2011)!!!
 
-   $timestamp -= (60 * 60);
-   #echo "DEBUG dayofyear2timestamp $tDay = ".date("Y-m-d H:i:s", $timestamp)."<br>";
+   // Compute current date from day of year (tDay), replace call to dayofyear2date?
+   $date = new DateTime(date('Y').'-01-01');
+   $date->add(new DateInterval("P".$day."D"));
+
+   //$season = ($date->format('I') == 1) ? "summer" : "winter";
+   //echo "DEBUG date=".$date->format('Y-m-d')." (".$season.") <br>";
+   if($date->format('I') == 1) {
+     $timestamp -= (60 * 60);  // -1 hour in summer
+   }
+   
+   //echo "DEBUG dayofyear2timestamp $tDay = ".date("Y-m-d H:i:s", $timestamp)."<br>";
    
    return( $timestamp ); 
 }
