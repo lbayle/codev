@@ -18,6 +18,8 @@
       |
       <a href='".getServerRootURL()."/timetracking/productivity_report.php' title='Indicateurs de production'>Productivity Reports</a>
       |
+      <a href='".getServerRootURL()."/timetracking/proj_management_report.php' title='Indicateurs de gestion de projet'>Project Management</a>
+      |
       <a href='".getServerRootURL()."/timetracking/week_activity_report.php' title='Activit&eacute; hebdo'>Weekly activities</a>
       |
       <a href='".getServerRootURL()."/reports/issue_info.php' title='Activit&eacute; par t&acirc;che'>Task tracking</a>

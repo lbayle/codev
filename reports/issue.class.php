@@ -23,12 +23,19 @@ class Issue {
    var $eta;
    var $summary;
    var $dateSubmission;
-   var $remaining;
+   var $remaining;    // RAE 
    var $elapsed;
-   var $EffortEstim;
+   var $EffortEstim;  // BI
+   var $effortAdd;    // BS
    var $currentStatus;
    var $release;
-
+   var $deadLine;
+   var $deliveryDate;
+   var $priority;
+   var $handlerId;
+   var $resolution;
+   
+   
    var $statusList; // array of statusInfo elements
 
    // ----------------------------------------------
@@ -44,9 +51,12 @@ class Issue {
    	global $releaseCustomField;
    	global $estimEffortCustomField;
    	global $remainingCustomField;
+   	global $addEffortCustomField;
+   	global $deadLineCustomField;
+   	global $deliveryDateCustomField;
    	
       // Get issue info
-      $query = "SELECT id, summary, status, date_submitted, project_id, category_id, eta ".
+      $query = "SELECT id, summary, status, date_submitted, project_id, category_id, eta, priority, handler_id, resolution ".
       "FROM `mantis_bug_table` ".
       "WHERE id = $this->bugId";
       $result = mysql_query($query) or die("Query failed: $query");
@@ -58,7 +68,10 @@ class Issue {
       $this->projectId       = $row->project_id;
       $this->categoryId      = $row->category_id;
       $this->eta             = $row->eta;
-
+      $this->priority        = $row->priority;
+      $this->handlerId       = $row->handler_id;
+      $this->resolution      = $row->resolution;
+      
       // Get custom fields
       $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
       $result2 = mysql_query($query2) or die("Query failed: $query2");
@@ -69,6 +82,11 @@ class Issue {
             case $releaseCustomField:     $this->release     = $row->value; break;
             case $estimEffortCustomField: $this->EffortEstim = $row->value; break;
             case $remainingCustomField:   $this->remaining   = $row->value; break;
+            case $addEffortCustomField:   $this->effortAdd   = $row->value; break;
+            case $deadLineCustomField:    $this->deadLine    = $row->value; break;
+            case $deliveryDateCustomField: $this->deliveryDate = $row->value; break;
+            
+            
          }
       }
 
@@ -155,6 +173,20 @@ class Issue {
       global $ETA_names;
 
       return $ETA_names[$this->eta];
+   }
+
+   // ----------------------------------------------
+   public function getPriorityName() {
+      global $priorityNames;
+
+      return $priorityNames[$this->priority];
+   }
+
+   // ----------------------------------------------
+   public function getResolutionName() {
+      global $resolutionNames;
+
+      return $resolutionNames[$this->resolution];
    }
 
    // ----------------------------------------------

@@ -62,9 +62,9 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   echo "<div class=center>";
   // Create form
   if (isset($_GET['debug'])) {
-      echo "<form id='form1' name='form1' method='post' action='time_tracking_report.php?debug'>\n";
+      echo "<form id='form1' name='form1' method='post' action='productivity_report.php?debug'>\n";
   } else {
-  	   echo "<form id='form1' name='form1' method='post' action='time_tracking_report.php'>\n";
+  	   echo "<form id='form1' name='form1' method='post' action='productivity_report.php'>\n";
   }
   
   echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";

@@ -56,8 +56,33 @@
   $statusNames[$status_feedback_ATOS] = "feedback_ATOS";
   $statusNames[$status_feedback_FDJ]  = "feedback_FDJ";
   
+
+  // ---
+  // unfortunately the priority names are not a table in Mantis:
+  // REM: $s_priority_enum_string in mantis/lang/strings_english.txt
+  $priorityNames = array(10 => "none",
+                     20 => "low",
+                     30 => "normal",
+                     40 => "high",
+                     50 => "urgent",
+                     60 => "immediate");
+  
+
                      
-                     
+  // ---
+  // unfortunately the priority names are not a table in Mantis:
+  // REM: $s_resolution_enum_string in mantis/lang/strings_english.txt
+  $resolutionNames = array(10 => "open",
+                     20 => "fixed",
+                     30 => "reopened",
+                     40 => "unable to reproduce",
+                     50 => "not fixable",
+                     60 => "duplicate",
+                     70 => "no change required",
+                     80 => "suspended",
+                     90 => "won\'t fix");
+
+
   // ---
   // unfortunately the status names are not a table in Mantis:
   // REM: $g_eta_enum_string in mantis/config_inc.php
@@ -89,9 +114,11 @@
   // this is the custom field added to mantis issues for TimeTracking
   $tcCustomField          = 1; // in mantis_custom_field_table
   $releaseCustomField     = 2; // in mantis_custom_field_table
-  $estimEffortCustomField = 3; // in mantis_custom_field_table
-  $remainingCustomField   = 4; // in mantis_custom_field_table
+  $estimEffortCustomField = 3; // in mantis_custom_field_table BI
+  $remainingCustomField   = 4; // in mantis_custom_field_table RAE
   $deadLineCustomField    = 8; // in mantis_custom_field_table
+  $addEffortCustomField   = 10; // in mantis_custom_field_table BS
+  $deliveryDateCustomField = 11; // in mantis_custom_field_table
   
   // ---
   $workingProjectType   = 0;     // normal projects are type 0
