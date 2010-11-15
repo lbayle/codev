@@ -251,6 +251,8 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
 $year = isset($_POST[year]) ? $_POST[year] : date('Y');
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 
+global $codevReportsDir;
+
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
 mysql_select_db($db_mantis_database) or die("Could not select database");
@@ -266,7 +268,7 @@ for ($i = 1; $i <= 12; $i++) {
 }
 
 for ($i = 1; $i <= 12; $i++) {
-  exportHolidaystoCSV($i, $year, $teamid, "E:\Share\FDJ\Codev_Reports");
+  exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
 }
 ?>
 

@@ -12,6 +12,8 @@
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management");
    
+   $codevReportsDir = "E:\Share\FDJ\Codev_Reports";
+      
    
 	// Mantis DB infomation.
 	$db_mantis_host		=	'localhost';
@@ -78,7 +80,7 @@
   // ---
   // il peut y avoir plusieurs observer
   // il n'y a qu'un seul teamLeader
-  // un observer ne fait jamais partie de l'equipe
+  // un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
   $accessLevel_dev      = 10;    // in table codev_team_user_table
   $accessLevel_observer = 20;    // in table codev_team_user_table
   $access_level_names = array($accessLevel_dev      => "Developper", // can modify, can NOT view stats
@@ -92,9 +94,11 @@
   $deadLineCustomField    = 8; // in mantis_custom_field_table
   
   // ---
-  $workingProjectType  = 0;     // normal projects are type 0
-  $sideTaskProjectType = 1;     // SuiviOp must be type 1
+  $workingProjectType   = 0;     // normal projects are type 0
+  $sideTaskProjectType  = 1;     // SuiviOp must be type 1
+  $noCommonProjectType  = 2;     // projects which jave only assignedJobs (no common jobs) 
   $projectType_names = array($workingProjectType => "Project",
+                             $noCommonProjectType => "Project (no common jobs)",
                              $sideTaskProjectType => "SideTasks");
   
   // ---
