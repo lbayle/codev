@@ -52,6 +52,9 @@ class User {
    // --------------------
    // retourne le trigramme. ex: Louis BAYLE => LBA
    public function getShortname() {
+   	
+   	if (0 == $this->id) { return "";	}
+   	
       if (NULL == $name) {
          $query = "SELECT mantis_user_table.realname ".
                   "FROM  `mantis_user_table` ".
@@ -63,7 +66,11 @@ class User {
       $tok1 = strtok($this->name, " ");  // 1st token: firstname
       $tok2 = strtok(" ");  // 2nd token: lastname
       
-      $trigramme = $tok1[0].$tok2[0].$tok2[1]; 
+      if (false == $tok2) {
+      	$trigramme = $tok1[0].$tok1[1].$tok1[2];
+      } else {
+         $trigramme = $tok1[0].$tok2[0].$tok2[1];
+      } 
       return $trigramme;
    }
    
