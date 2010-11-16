@@ -34,6 +34,7 @@ include_once "../reports/issue.class.php";
 include_once "../timetracking/time_track.class.php";
 include_once "../auth/user.class.php";
 
+// ---------------------------------------------------------------
 function displayIssueSelectionForm($user_id, $defaultBugid) {
    echo "<div align=center>\n";
 	echo "<form id='form1' name='form1' method='post' action='issue_info.php'>\n";
@@ -64,6 +65,7 @@ function displayIssueSelectionForm($user_id, $defaultBugid) {
   echo "</div>\n";
 }
    
+// ---------------------------------------------------------------
 function displayIssueGeneralInfo($issue) {      
   echo "<table>\n";
 
@@ -96,9 +98,16 @@ function displayIssueGeneralInfo($issue) {
   echo "</table>\n";      
 }
 
+
+// ---------------------------------------------------------------
 function displayMonth($month, $year, $issue) {
   global $globalHolidaysList;
-   
+  global $job_study;
+  global $job_analyse;
+  global $job_dev;  
+  global $job_test;
+  global $job_none;
+  
   // if no work done this month, do not display month
   $trackList = $issue->getTimeTracks();
   $found = 0;
@@ -135,10 +144,28 @@ function displayMonth($month, $year, $issue) {
     // build $durationByDate[] for this user	
     $userTimeTracks = $issue->getTimeTracks($uid);
     $durationByDate = array();
+    $jobColorByDate = array();
     foreach ($userTimeTracks as $tid => $tdate) {
       $tt = new TimeTrack($tid);
     	$durationByDate[$tdate] += $tt->duration;
-   }
+    	
+    	switch ($tt->jobId) {
+    		case $job_study:
+            $jobColorByDate[$tdate] = "#ffcd85";
+    			break;
+         case $job_analyse:
+            $jobColorByDate[$tdate] = "#fff494";
+         	break;
+  	      case $job_dev:
+            $jobColorByDate[$tdate] = "#c2dfff";
+  	      	break;
+  		   case $job_test:
+            $jobColorByDate[$tdate] = "#92C5FC";
+  		   	break;
+  			case $job_none:
+    		   $jobColorByDate[$tdate] = "#A8FFBD";
+    	}		
+    }
 
    // ------
     echo "<tr>\n";
@@ -149,7 +176,7 @@ function displayMonth($month, $year, $issue) {
       $dayOfWeek = date("N", $todayTimestamp);
       
       if (NULL != $durationByDate[$todayTimestamp]) {
-        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$durationByDate[$todayTimestamp]."</td>\n";
+        echo "<td style='background-color: ".$jobColorByDate[$todayTimestamp]."; text-align: center;'>".$durationByDate[$todayTimestamp]."</td>\n";
       } else {
         // if weekend or holiday, display gray
         if (($dayOfWeek > 5) || 
@@ -165,6 +192,9 @@ function displayMonth($month, $year, $issue) {
   echo "</table>\n";
   echo "<br/><br/>\n";
 }
+
+
+
 
 // ================ MAIN =================
 $year = date('Y');
@@ -189,6 +219,8 @@ if ("displayBug" == $action) {
   for ($i = 1; $i <= 12; $i++) {
     displayMonth($i, $year, $issue);
   }
+
+  echo "<br/><br/>\n";
 }
 
 ?>
