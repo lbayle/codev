@@ -22,6 +22,8 @@ if (!isset($_SESSION['userid'])) {
      // TODO: check teamid presence
        document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
        document.forms["form1"].weekid.value = document.getElementById('weekidSelector').value;
+       document.forms["form1"].year.value   = document.getElementById('yearSelector').value;
+       
        document.forms["form1"].action.value = "exportManagementReport";
        document.forms["form1"].submit();
   }
@@ -42,7 +44,7 @@ include_once "time_tracking.class.php";
 require_once('calendar/classes/tc_calendar.php');
 
 // -----------------------------------------------
-function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
+function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear) {
 
   echo "<div>\n";
   echo "<form id='form1' name='form1' method='post' action='proj_management_report.php'>\n";
@@ -76,12 +78,28 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
   }
   echo "</select>\n";
 
+  
+  // -----------
+  echo "Year: \n";
+  echo "<select id='yearSelector' name='yearSelector'>\n";
+  for ($y = ($curYear -2); $y <= ($curYear +2); $y++) {
+
+    if ($y == $curYear) {
+      echo "<option selected value='".$y."'>".$y."</option>\n";
+    } else {
+      echo "<option value='".$y."'>".$y."</option>\n";
+    }
+  }
+  echo "</select>\n";
+  
+  
   echo "&nbsp;<input type=button value='Envoyer' onClick='javascript:submitWeekActivityForm()'>\n";
   
   
   echo "<input type=hidden name=teamid  value=0>\n";
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
-   
+  echo "<input type=hidden name=year    value=".date('Y').">\n";
+  
   echo "<input type=hidden name=action       value=noAction>\n";
   echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
   echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
@@ -373,7 +391,7 @@ function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracki
   $result = mysql_query($query) or die("Query failed: $query");
   $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
   
-  $myFile = $path."\AOI-PIL-CRA_".$teamName."_W".$weekid.".csv";
+  $myFile = $path."\AOI-PIL-CRA_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".$weekid.".csv";
   $fh = fopen($myFile, 'w');
   
   $stringData = "Tache".$sepChar.   
@@ -447,9 +465,6 @@ function exportWeekDetailsToCSV($weekid, $weekDates, $userid, $timeTracking, $re
 // =========== MAIN ==========
 global $codevReportsDir;
 
-$year = date('Y');
-//$year = isset($_POST[year]) ? $_POST[year] : date('Y');
-
 
 $userid = $_SESSION['userid'];
 $action = $_POST[action];
@@ -458,6 +473,7 @@ $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
 
+$year = isset($_POST[year]) ? $_POST[year] : date('Y');
 
 
 // Connect DB
@@ -471,7 +487,7 @@ $teamList = $user->getLeadedTeamList();
 $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
 // ----
-displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
+displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
 
 echo "<br/><br/>\n";
 
