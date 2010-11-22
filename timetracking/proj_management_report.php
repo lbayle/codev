@@ -17,19 +17,14 @@ if (!isset($_SESSION['userid'])) {
 
 
 <script language="JavaScript">
-  function submitForm() {
-    document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-    document.forms["form1"].action.value = "timeTrackingReport";
-    document.forms["form1"].submit();
- }
 
   function submitWeekActivityForm() {
      // TODO: check teamid presence
        document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
        document.forms["form1"].weekid.value = document.getElementById('weekidSelector').value;
-       document.forms["form1"].action.value = "updateWeekDisplay";
+       document.forms["form1"].action.value = "exportManagementReport";
        document.forms["form1"].submit();
-     }
+  }
 
   
 </script>
@@ -47,52 +42,14 @@ include_once "time_tracking.class.php";
 require_once('calendar/classes/tc_calendar.php');
 
 // -----------------------------------------------
-function setInfoForm($teamid) {
-
-  echo "<div class=center>";
-  // Create form
-  if (isset($_GET['debug'])) {
-      echo "<form id='form1' name='form1' method='post' action='proj_management_report.php?debug'>\n";
-  } else {
-  	   echo "<form id='form1' name='form1' method='post' action='proj_management_report.php'>\n";
-  }
-  
-  echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
-  
-  $session_user = new User($_SESSION['userid']);
-  $mTeamList = $session_user->getTeamList();
-  $lTeamList = $session_user->getLeadedTeamList();
-  $oTeamList = $session_user->getObservedTeamList();
-  $teamList = $mTeamList + $lTeamList + $oTeamList;
-
-  foreach($teamList as $tid => $tname) {
-    if ($tid == $teamid) {
-      echo "<option selected value='".$tid."'>".$tname."</option>\n";
-    } else {
-      echo "<option value='".$tid."'>".$tname."</option>\n";
-    }
-  }
-  echo "</select>\n";
-
-  echo "&nbsp;<input type=button value='Envoyer' onClick='javascript: submitForm()'>\n";
-
-  echo "<input type=hidden name=teamid  value=1>\n";
-        
-  echo "<input type=hidden name=currentAction value=setInfoForm>\n";
-  echo "<input type=hidden name=nextAction    value=timeTrackingReport>\n";
-
-  echo "</form>\n";
-  echo "</div>";
-}
-
-// -----------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
 
   echo "<div>\n";
   echo "<form id='form1' name='form1' method='post' action='proj_management_report.php'>\n";
 
   // -----------
-  echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript:submitWeekActivityForm()'>\n";
+  //echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript:submitWeekActivityForm()'>\n";
+  echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
   echo "<option value='0'></option>\n";
   foreach ($leadedTeamList as $tid => $tname) {
     if ($tid == $teamid) {
@@ -105,7 +62,8 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
 
   
   // -----------
-  echo "Week: <select id='weekidSelector' name='weekidSelector' onchange='javascript:submitWeekActivityForm()'>\n";
+  //echo "Week: <select id='weekidSelector' name='weekidSelector' onchange='javascript:submitWeekActivityForm()'>\n";
+  echo "Week: <select id='weekidSelector' name='weekidSelector'>\n";
   for ($i = 1; $i <= 53; $i++)
   {
     $wDates      = week_dates($i,date('Y'));
@@ -118,7 +76,10 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
   }
   echo "</select>\n";
 
-  echo "<input type=hidden name=teamid  value=1>\n";
+  echo "&nbsp;<input type=button value='Envoyer' onClick='javascript:submitWeekActivityForm()'>\n";
+  
+  
+  echo "<input type=hidden name=teamid  value=0>\n";
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
    
   echo "<input type=hidden name=action       value=noAction>\n";
@@ -491,6 +452,7 @@ $year = date('Y');
 
 
 $userid = $_SESSION['userid'];
+$action = $_POST[action];
 
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
@@ -504,62 +466,62 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 
-        
-//setInfoForm($teamid);
-   $user = new User($userid);
-//   $mTeamList = $user->getTeamList();    // are team members allowed to see other member's timeTracking ?
-   $lTeamList = $user->getLeadedTeamList();
-   $teamList = /* $mTeamList + */ $lTeamList;
-   $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
-   
-   displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
+$user = new User($userid);
+$teamList = $user->getLeadedTeamList();
+$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
-
+// ----
+displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
 
 echo "<br/><br/>\n";
 
-if (0 != $teamid) {
+if ("exportManagementReport" == $action) {
 
+
+	if (0 != $teamid) {
+	
 	echo "<br/>\n";
-
+   echo "Team: ".$teamList[$teamid]."<br/>\n";
+	echo "<br/>\n";
+	
 	// ----
-
-   echo "- Export Managed Issues to CSV...<br/>\n";
-   flush(); // envoyer tout l'affichage courant au navigateur 
-   
-   //displayManagedIssues();
+	
+	   echo "- Export Managed Issues to CSV...<br/>\n";
+	   flush(); // envoyer tout l'affichage courant au navigateur 
+	   
+	   //displayManagedIssues();
 	exportManagedIssuesToCSV($codevReportsDir);
 	
-   // ----
-
-   echo "- Export Holidays to CSV...<br/>\n";
-   flush(); // envoyer tout l'affichage courant au navigateur 
-   for ($i = 1; $i <= 12; $i++) {
-      exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
-   }
-   
-   // -----------------------------
-   
-   echo "- Export Week $weekid Activity to CSV...<br/>\n";
-   flush(); // envoyer tout l'affichage courant au navigateur 
-   
-   $weekDates      = week_dates($weekid,$year);
-   $startTimestamp = $weekDates[1];        
-   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
-   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-   
-   exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
-   
-   
-   echo "<br/>\n";
-   echo "<br/>\n";
-   echo "Done.<br/>\n";
-   echo "<br/>\n";
-   echo "Results in : $codevReportsDir<br/>\n";
-   
-   
+	   // ----
+	
+	   echo "- Export $year Holidays to CSV...<br/>\n";
+	   flush(); // envoyer tout l'affichage courant au navigateur 
+	   for ($i = 1; $i <= 12; $i++) {
+	      exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
+	   }
+	   
+	   // -----------------------------
+	   
+	   echo "- Export Week $weekid Activity to CSV...<br/>\n";
+	   flush(); // envoyer tout l'affichage courant au navigateur 
+	   
+	   $weekDates      = week_dates($weekid,$year);
+	   $startTimestamp = $weekDates[1];        
+	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+	   
+	   exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
+	   
+	   
+	   echo "<br/>\n";
+	   echo "<br/>\n";
+	   echo "Done.<br/>\n";
+	   echo "<br/>\n";
+	   echo "Results in : $codevReportsDir<br/>\n";
+	   
+	   
+	}
 }
-
 ?>
 
 </div>
