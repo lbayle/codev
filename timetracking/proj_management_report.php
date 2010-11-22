@@ -267,6 +267,7 @@ function exportManagedIssuesToCSV($path="") {
             
       }
   fclose($fh);
+  return $myFile;
 }
 
 // ---------------------------------------------
@@ -374,6 +375,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
       }    
   }
   fclose($fh);
+  return $myFile;
 }
 
 
@@ -425,7 +427,7 @@ function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracki
    
   }
   fclose($fh);
-  
+  return $myFile;
 }
 
 // ---------------------------------------------
@@ -496,37 +498,40 @@ if ("exportManagementReport" == $action) {
 
 	if (0 != $teamid) {
 	
-	echo "<br/>\n";
-   echo "Team: ".$teamList[$teamid]."<br/>\n";
-	echo "<br/>\n";
+	   echo "<br/>\n";
+      echo "Team: ".$teamList[$teamid]."<br/>\n";
+	   echo "<br/>\n";
 	
-	// ----
-	
-	   echo "- Export Managed Issues to CSV...<br/>\n";
+      // -----------------------------
+	   echo "<b>- Export Managed Issues...</b><br/>\n";
 	   flush(); // envoyer tout l'affichage courant au navigateur 
 	   
 	   //displayManagedIssues();
-	exportManagedIssuesToCSV($codevReportsDir);
-	
-	   // ----
-	
-	   echo "- Export $year Holidays to CSV...<br/>\n";
+	   $filename = exportManagedIssuesToCSV($codevReportsDir);
+      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+      flush(); 
+	   
+      // -----------------------------
+      echo "<b>- Export Week $weekid Activity...</b><br/>\n";
+      flush(); // envoyer tout l'affichage courant au navigateur 
+      
+      $weekDates      = week_dates($weekid,$year);
+      $startTimestamp = $weekDates[1];        
+      $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+      $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+      
+      $filename = exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
+      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+      flush(); 
+      
+      // -----------------------------
+      echo "<b>- Export $year Holidays...</b><br/>\n";
 	   flush(); // envoyer tout l'affichage courant au navigateur 
 	   for ($i = 1; $i <= 12; $i++) {
-	      exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
+	      $filename = exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
+         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+         flush(); 
 	   }
-	   
-	   // -----------------------------
-	   
-	   echo "- Export Week $weekid Activity to CSV...<br/>\n";
-	   flush(); // envoyer tout l'affichage courant au navigateur 
-	   
-	   $weekDates      = week_dates($weekid,$year);
-	   $startTimestamp = $weekDates[1];        
-	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
-	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-	   
-	   exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
 	   
 	   
 	   echo "<br/>\n";
