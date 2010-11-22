@@ -80,7 +80,7 @@ function displayTimetrackingTuples($userid) {
       
       echo "</td>\n";
       echo "<td width=170>".$cosmeticDate."</td>\n";
-      echo "<td>".$row->bugid."</td>\n";
+      echo "<td><a href='http://".$_SERVER['HTTP_HOST']."/mantis/view.php?id=$row->bugid'>$row->bugid</a></td>\n";
       echo "<td>".$issue->tcId."</td>\n";
       echo "<td>".$row->duration."</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";

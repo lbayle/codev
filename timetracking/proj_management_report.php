@@ -243,11 +243,8 @@ function exportManagedIssuesToCSV($path="") {
                  "BS".$sepChar.
                  "RAE".$sepChar.
                  "Dead line".$sepChar.
-                 "Delivery Date".$sepChar.
-                 "Analyse start".$sepChar.
-                 "Analyse stop".$sepChar.
-                 "Dev start".$sepChar.
-                 "Dev stop"."\n";
+                 "Delivery Date".
+                 "\n";
    fwrite($fh, $stringData);
    
    
@@ -285,11 +282,8 @@ function exportManagedIssuesToCSV($path="") {
 			                 $issue->effortAdd.$sepChar.
 			                 $issue->remaining.$sepChar.
 			                 $deadLine.$sepChar.
-			                 $deliveryDate.$sepChar.
-			                 "-".$sepChar.
-			                 "-".$sepChar.
-                          "-".$sepChar.
-			                 "-\n";
+			                 $deliveryDate.
+			                 "\n";
 			   fwrite($fh, $stringData);
             
       }
@@ -513,9 +507,9 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
         
 //setInfoForm($teamid);
    $user = new User($userid);
-   $mTeamList = $user->getTeamList();    // are team members allowed to see other member's timeTracking ?
+//   $mTeamList = $user->getTeamList();    // are team members allowed to see other member's timeTracking ?
    $lTeamList = $user->getLeadedTeamList();
-   $teamList = $mTeamList + $lTeamList;
+   $teamList = /* $mTeamList + */ $lTeamList;
    $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
    
    displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
