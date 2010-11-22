@@ -524,16 +524,24 @@ if (0 != $teamid) {
 
 	// ----
 
-	displayManagedIssues();
+   echo "- Export Managed Issues to CSV...<br/>\n";
+   flush(); // envoyer tout l'affichage courant au navigateur 
+   
+   //displayManagedIssues();
 	exportManagedIssuesToCSV($codevReportsDir);
 	
    // ----
 
-	for ($i = 1; $i <= 12; $i++) {
+   echo "- Export Holidays to CSV...<br/>\n";
+   flush(); // envoyer tout l'affichage courant au navigateur 
+   for ($i = 1; $i <= 12; $i++) {
       exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
    }
    
    // -----------------------------
+   
+   echo "- Export Week $weekid Activity to CSV...<br/>\n";
+   flush(); // envoyer tout l'affichage courant au navigateur 
    
    $weekDates      = week_dates($weekid,$year);
    $startTimestamp = $weekDates[1];        
@@ -543,7 +551,11 @@ if (0 != $teamid) {
    exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
    
    
-   
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "Done.<br/>\n";
+   echo "<br/>\n";
+   echo "Results in : $codevReportsDir<br/>\n";
    
    
 }
