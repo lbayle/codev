@@ -205,29 +205,27 @@ $teamList = $mTeamList + $lTeamList;
 
 if (0 == count($teamList)) {
 	echo "Sorry, you do NOT have access to this page.";
-	exit;
-}
 
-// ------
+} else {
 
-$action = $_POST[action];
-$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
-
-displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
-
-if (NULL != $teamList[$teamid]) {
-
-   $weekDates      = week_dates($weekid,$year);
-	$startTimestamp = $weekDates[1];        
-   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
-   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+	$action = $_POST[action];
+	$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 	
-	displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
-
-   echo "<br/><br/>\n";
-   displayCheckWarnings($timeTracking);
+	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
+	
+	if (NULL != $teamList[$teamid]) {
+	
+	   $weekDates      = week_dates($weekid,$year);
+		$startTimestamp = $weekDates[1];        
+	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+		
+		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
+	
+	   echo "<br/><br/>\n";
+	   displayCheckWarnings($timeTracking);
+	}
 }
-
    
 
 ?>

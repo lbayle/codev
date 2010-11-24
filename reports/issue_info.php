@@ -35,14 +35,14 @@ include_once "../timetracking/time_track.class.php";
 include_once "../auth/user.class.php";
 
 // ---------------------------------------------------------------
-function displayIssueSelectionForm($user_id, $defaultBugid) {
+function displayIssueSelectionForm($user1, $defaultBugid) {
    echo "<div align=center>\n";
 	echo "<form id='form1' name='form1' method='post' action='issue_info.php'>\n";
 
   echo "Task: \n";
    
   // This filters the bugid list to shorten the 'bugid' Select.
-  $user1 = new User($user_id);
+  //$user1 = new User($user_id);
   $taskList = $user1->getPossibleWorkingTasksList();
   echo "<select id='bugidSelector' name='bugidSelector'>\n";
   foreach ($taskList as $bid)
@@ -203,26 +203,37 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die(
 mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql_error());
 
 $action = $_POST[action];
-$session_user = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
+$session_userid = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
 $bug_id = isset($_POST[bugid])  ? $_POST[bugid]  : 0;
 
-displayIssueSelectionForm($session_user, $bug_id);
+$user = new User($session_userid);
 
-if ("displayBug" == $action) {
-  $issue = new Issue ($bug_id);
-        
-  echo "<br/><br/>\n";
-  echo "<br/>";
-  displayIssueGeneralInfo($issue);
-  echo "<br/><br/>\n";
-  
-  for ($i = 1; $i <= 12; $i++) {
-    displayMonth($i, $year, $issue);
-  }
 
-  echo "<br/><br/>\n";
+$teamList = $user->getTeamList();
+if (0 == count($teamList)) {
+   echo "<div id='content'' class='center'>";
+	echo ("Sorry, you need to be member of a Team to access this page.");
+   echo "</div>";
+
+} else {
+
+	displayIssueSelectionForm($user, $bug_id);
+	
+	if ("displayBug" == $action) {
+	  $issue = new Issue ($bug_id);
+	        
+	  echo "<br/><br/>\n";
+	  echo "<br/>";
+	  displayIssueGeneralInfo($issue);
+	  echo "<br/><br/>\n";
+	  
+	  for ($i = 1; $i <= 12; $i++) {
+	    displayMonth($i, $year, $issue);
+	  }
+	
+	  echo "<br/><br/>\n";
+	}
 }
-
 ?>
 
 </div>

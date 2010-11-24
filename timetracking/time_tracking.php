@@ -290,9 +290,9 @@ if (!isset($_POST[nextForm])) {
    if (0 != count($teamList)) {
   	   $_POST[nextForm] = "addTrackForm";
    } else {
-      echo ("Sorry, you need to be member of a Team to access this page.");
-   	$_POST[nextForm] = "noAction";
-   	
+      echo "<div id='content'' class='center'>";
+   	echo ("Sorry, you need to be member of a Team to access this page.");
+      echo "</div>";
    }
   }
 }

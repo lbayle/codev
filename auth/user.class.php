@@ -302,22 +302,29 @@ class User {
    }
 
    // --------------------
-   public function getProjectList() {
+   public function getProjectList($teamList = NULL) {
       
       $projList = array();
    	
-      $teamList = $this->getTeamList();
-      $formatedTeamList = valuedListToSQLFormatedString($teamList);
-      
-      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
-               "FROM `codev_team_project_table`, `mantis_project_table`".
-               "WHERE codev_team_project_table.team_id IN ($formatedTeamList)".
-               "AND codev_team_project_table.project_id = mantis_project_table.id ".
-               "ORDER BY mantis_project_table.name";
-      
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result)) {
-      	$projList[$row->project_id] = $row->name;
+      if (NULL == $teamList) {
+      	// if not specified, get projects from the teams I'm member of.
+         $teamList = $this->getTeamList();
+      }
+      if (0 != count($teamList)) {
+	      $formatedTeamList = valuedListToSQLFormatedString($teamList);
+	      
+	      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
+	               "FROM `codev_team_project_table`, `mantis_project_table`".
+	               "WHERE codev_team_project_table.team_id IN ($formatedTeamList) ".
+	               "AND codev_team_project_table.project_id = mantis_project_table.id ".
+	               "ORDER BY mantis_project_table.name";
+	      
+	      $result = mysql_query($query) or die("Query failed: $query");
+	      while($row = mysql_fetch_object($result)) {
+	      	$projList[$row->project_id] = $row->name;
+	      }
+      } else {
+         echo "<div style='color:red'>ERROR: User is not member of any team !</div><br>";
       }
       return $projList;
    }
@@ -333,7 +340,7 @@ class User {
    	$projList = $this->getProjectList();
    	
    	if (0 == count($projList)) {
-   		echo "<div style='color:red'>ERROR: no project associated to this team !</div><br><br>";
+   		echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
    		return array();
    	}
    	

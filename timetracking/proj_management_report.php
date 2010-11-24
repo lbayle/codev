@@ -488,61 +488,74 @@ $user = new User($userid);
 $teamList = $user->getLeadedTeamList();
 $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
-// ----
-displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
-
-echo "<br/><br/>\n";
-
-if ("exportManagementReport" == $action) {
 
 
-	if (0 != $teamid) {
+if (0 == count($teamList)) {
+   echo "<div id='content'' class='center'>";
+	echo "Sorry, you do NOT have access to this page.";
+   echo "</div>";
 	
-	   echo "<br/>\n";
-      echo "Team: ".$teamList[$teamid]."<br/>\n";
-	   echo "<br/>\n";
+} else {
+
+	// ----
+	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
 	
-      // -----------------------------
-	   echo "<b>- Export Managed Issues...</b><br/>\n";
-	   flush(); // envoyer tout l'affichage courant au navigateur 
-	   
-	   //displayManagedIssues();
-	   $filename = exportManagedIssuesToCSV($codevReportsDir);
-      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-      flush(); 
-	   
-      // -----------------------------
-      echo "<b>- Export Week $weekid Activity...</b><br/>\n";
-      flush(); // envoyer tout l'affichage courant au navigateur 
-      
-      $weekDates      = week_dates($weekid,$year);
-      $startTimestamp = $weekDates[1];        
-      $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
-      $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-      
-      $filename = exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
-      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-      flush(); 
-      
-      // -----------------------------
-      echo "<b>- Export $year Holidays...</b><br/>\n";
-	   flush(); // envoyer tout l'affichage courant au navigateur 
-	   for ($i = 1; $i <= 12; $i++) {
-	      $filename = exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
-         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-         flush(); 
-	   }
-	   
-	   
-	   echo "<br/>\n";
-	   echo "<br/>\n";
-	   echo "Done.<br/>\n";
-	   echo "<br/>\n";
-	   echo "Results in : $codevReportsDir<br/>\n";
-	   
-	   
+	echo "<br/><br/>\n";
+	
+	if ("exportManagementReport" == $action) {
+	
+	
+		if (0 != $teamid) {
+		
+		   echo "<br/>\n";
+	      echo "Team: ".$teamList[$teamid]."<br/>\n";
+		   echo "<br/>\n";
+		
+	      // -----------------------------
+		   echo "<b>- Export Managed Issues...</b><br/>\n";
+		   flush(); // envoyer tout l'affichage courant au navigateur 
+		   
+		   //displayManagedIssues();
+		   $filename = exportManagedIssuesToCSV($codevReportsDir);
+	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+	      flush(); 
+		   
+	      // -----------------------------
+	      echo "<br/>\n";
+	      echo "<b>- Export Week $weekid Activity...</b><br/>\n";
+	      flush(); // envoyer tout l'affichage courant au navigateur 
+	      
+	      $weekDates      = week_dates($weekid,$year);
+	      $startTimestamp = $weekDates[1];        
+	      $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+	      $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+	      
+	      $filename = exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
+	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+	      flush(); 
+	      
+	      // -----------------------------
+	      echo "<br/>\n";
+	      echo "<b>- Export $year Holidays...</b><br/>\n";
+		   flush(); // envoyer tout l'affichage courant au navigateur 
+		   for ($i = 1; $i <= 12; $i++) {
+		      $filename = exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
+	         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+	         flush(); 
+		   }
+		   
+		   
+		   echo "<br/>\n";
+		   echo "<br/>\n";
+		   echo "Done.<br/>\n";
+		   echo "<br/>\n";
+		   echo "Results in : $codevReportsDir<br/>\n";
+		   
+		   
+		}
 	}
 }
+
 ?>
 
 </div>
