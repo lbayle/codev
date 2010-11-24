@@ -286,7 +286,14 @@ if (!isset($_POST[nextForm])) {
     // User is TeamLeader, let him choose the user he wants to manage
     setUserForm("time_tracking.php");
   } else {
-    $_POST[nextForm] = "addTrackForm";
+   $teamList = $session_user->getTeamList();
+   if (0 != count($teamList)) {
+  	   $_POST[nextForm] = "addTrackForm";
+   } else {
+      echo ("Sorry, you need to be member of a Team to access this page.");
+   	$_POST[nextForm] = "noAction";
+   	
+   }
   }
 }
 
