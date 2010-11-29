@@ -129,6 +129,28 @@ class User {
    }
    
    // --------------------
+   public function isTeamManager($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
+      
+      global $accessLevel_manager;
+      
+      $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
+               "WHERE team_id = $team_id ".
+               "AND user_id = $this->id ".
+               "AND access_level = $accessLevel_manager ";
+      
+      if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
+         $query .= "AND arrival_date < $endTimestamp AND ".
+                   "(departure_date >= $startTimestamp OR departure_date = 0)";
+          // REM: if departure_date = 0, then user stays until the end of the world. 
+      }
+      
+      $result = mysql_query($query) or die("Query failed: $query");
+      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+      
+      return (0 != $nbTuples);
+   }
+
+   // --------------------
    // if no team specified, choose the oldest arrival date
    public function getArrivalDate($team_id = NULL) {
       
@@ -296,6 +318,29 @@ class User {
       {
          $teamList[$row->id] = $row->name;
          #echo "getObservedTeamList FOUND $row->id - $row->name<br/>";
+      }
+      
+      return $teamList;
+   }
+
+   // --------------------
+   // returns the teams i'm observer of.
+   public function getManagedTeamList() {
+      global $accessLevel_manager;
+      
+      $teamList = array();
+      
+      $query = "SELECT codev_team_table.id, codev_team_table.name ".
+               "FROM `codev_team_user_table`, `codev_team_table` ".
+               "WHERE codev_team_user_table.user_id = $this->id ".
+               "AND   codev_team_user_table.team_id = codev_team_table.id ".
+               "AND   codev_team_user_table.access_level = $accessLevel_manager ".
+      "ORDER BY codev_team_table.name";
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         $teamList[$row->id] = $row->name;
+         #echo "getManagedTeamList FOUND $row->id - $row->name<br/>";
       }
       
       return $teamList;

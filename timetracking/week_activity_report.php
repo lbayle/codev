@@ -95,7 +95,8 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) 
   {
   	// if user was working on the project during the timestamp
   	$user = new User($row->user_id);
-  	if ($user->isTeamMember($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) {
+  	if (($user->isTeamMember($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
+       ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
   		
 	    echo "<div align='center'>\n";
 	    echo "<br/>";
@@ -201,7 +202,8 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 $user = new User($userid);
 $mTeamList = $user->getTeamList();    // are team members allowed to see other member's timeTracking ?
 $lTeamList = $user->getLeadedTeamList();
-$teamList = $mTeamList + $lTeamList;
+$managedTeamList = $user->getManagedTeamList();
+$teamList = $mTeamList + $lTeamList + $managedTeamList;
 
 if (0 == count($teamList)) {
 	echo "Sorry, you do NOT have access to this page.";

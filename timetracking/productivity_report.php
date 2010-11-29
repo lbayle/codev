@@ -142,7 +142,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td title='Production Days : forecast'>Capacit&eacute; de production</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
-  echo "<td>pr&eacute;vision de capacit&eacute; (en fonction des cong&eacute;s)</td>\n";
+  echo "<td title='Developpeurs seulement !'>pr&eacute;vision de capacit&eacute; (en fonction des cong&eacute;s)</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 

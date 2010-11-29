@@ -108,7 +108,8 @@ class TimeTracking {
   public function getProductionDaysForecast() {
     global $globalHolidaysList;
     global $accessLevel_dev;
-        
+    global $accessLevel_manager;
+    
     $teamProdDaysForecast = 0;
         
     // For all the users of the team
@@ -116,6 +117,7 @@ class TimeTracking {
       "FROM  `codev_team_user_table`, `mantis_user_table` ".
       "WHERE  codev_team_user_table.team_id = $this->team_id ".
       "AND    codev_team_user_table.access_level = $accessLevel_dev ".
+      //"AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager)".
       "AND    codev_team_user_table.user_id = mantis_user_table.id ".
       "ORDER BY mantis_user_table.username";   
     
@@ -554,8 +556,9 @@ class TimeTracking {
 
     // REM: if $this->team_id not set, then team_id = -1
     if ($this->team_id >= 0) {
-	    if ( ! $user1->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
-	      // User was not yet present
+	    if (( ! $user1->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
+          ( ! $user1->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
+	    	// User was not yet present
 	      return $missingDays;
 	    }
 

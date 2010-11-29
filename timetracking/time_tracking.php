@@ -280,13 +280,19 @@ $userid = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
 $session_user = new User($_SESSION['userid']);
 $teamList = $session_user->getLeadedTeamList();
 
+
+
 // if first call to this page
 if (!isset($_POST[nextForm])) {
   if (0 != count($teamList)) {
     // User is TeamLeader, let him choose the user he wants to manage
     setUserForm("time_tracking.php");
   } else {
-   $teamList = $session_user->getTeamList();
+  	// developper & manager can add timeTracks
+   $mTeamList = $session_user->getTeamList();
+   $managedTeamList = $session_user->getManagedTeamList();
+   $teamList = $mTeamList + $managedTeamList; 
+   
    if (0 != count($teamList)) {
   	   $_POST[nextForm] = "addTrackForm";
    } else {
