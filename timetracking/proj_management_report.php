@@ -487,7 +487,9 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 
 
 $user = new User($userid);
-$teamList = $user->getLeadedTeamList();
+$lTeamList = $user->getLeadedTeamList();
+$managedTeamList = $user->getManagedTeamList();
+$teamList = $lTeamList + $managedTeamList;
 $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
 

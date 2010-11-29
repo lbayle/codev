@@ -73,7 +73,8 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   $mTeamList = $session_user->getTeamList();
   $lTeamList = $session_user->getLeadedTeamList();
   $oTeamList = $session_user->getObservedTeamList();
-  $teamList = $mTeamList + $lTeamList + $oTeamList;
+  $managedTeamList = $session_user->getManagedTeamList();
+  $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
   foreach($teamList as $tid => $tname) {
     if ($tid == $teamid) {
