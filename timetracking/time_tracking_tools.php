@@ -117,6 +117,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking) {
    echo "<table>\n";
    echo "<tr>\n";
    echo "<th>Tache</th>\n";
+   echo "<th>RAE</th>\n";
    echo "<th>Poste</th>\n";
    echo "<th width='80'>Lundi<br/>".date("d M", $weekDates[1])."</th>\n";
    echo "<th width='80'>Mardi<br/>".date("d M", $weekDates[2])."</th>\n";
@@ -134,6 +135,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking) {
          
          echo "<tr>\n";
          echo "<td>$bugid / ".$issue->tcId." : ".$issue->summary."</td>\n";
+         echo "<td>".$issue->remaining."</td>\n";
          echo "<td>".$jobName."</td>\n";
          for ($i = 1; $i <= 5; $i++) {
             echo "<td>".$dayList[$i]."</td>\n";

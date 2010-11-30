@@ -120,6 +120,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
   echo "<th width='50%'>Tache</th>\n";
+  echo "<th width='3'>RAE</th>\n";
   echo "<th width='7%'>Projet</th>\n";
   echo "<th width='10%'>Poste</th>\n";
   echo "<th width='10'>Lundi<br>".date("d M", $weekDates[1])."</th>\n";
@@ -138,6 +139,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
                 
       echo "<tr>\n";
       echo "<td>$bugid / ".$issue->tcId." : ".$issue->summary."</td>\n";
+      echo "<td>".$issue->remaining."</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$jobName."</td>\n";
       for ($i = 1; $i <= 5; $i++) {

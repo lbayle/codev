@@ -37,7 +37,7 @@ if (!isset($_SESSION['userid'])) {
     document.forms["form1"].action.value="updateWeekDisplay";
     document.forms["form1"].submit();
   }
-    
+
   function addTrack(){
     // check fields
     foundError = 0;
