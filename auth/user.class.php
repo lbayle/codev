@@ -369,20 +369,21 @@ class User {
 	      	$projList[$row->project_id] = $row->name;
 	      }
       } else {
-         echo "<div style='color:red'>ERROR: User is not member of any team !</div><br>";
+      	// this happens if User is not a Developper (Manager or Observer)
+         //echo "<div style='color:red'>ERROR: User is not member of any team !</div><br>";
       }
       return $projList;
    }
    
-   
    // returns the tasks I can work on.
    // depending on: the projects associated to this user in mantis_project_user_list_table.
    // this list is displayed in timeTracking.php
-   public function getPossibleWorkingTasksList() {
+   public function getPossibleWorkingTasksList($projList = NULL) {
    	
    	$issueList = array();
-   	
-   	$projList = $this->getProjectList();
+   	if (NULL == $projList) {
+   	  $projList = $this->getProjectList();
+   	}
    	
    	if (0 == count($projList)) {
    		echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";

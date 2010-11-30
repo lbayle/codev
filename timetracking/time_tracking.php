@@ -161,18 +161,30 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    // Project list
    echo "&nbsp;";
    echo "&nbsp;";
-   #echo "Project: \n";
+
+   // --- Project List
+   // All projects from teams where I'm a Developper
+   $devProjList = $user1->getProjectList(); 
+   
+   // SideTasksProjects from Teams where I'm a Manager
+   $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
+   foreach ($managedProjList as $pid => $pname) {
+   	// we want only SideTasks of projects that I manage
+   	$tmpPrj = new Project($pid);
+      if (!$tmpPrj->isSideTasksProject()) { unset($managedProjList[$pid]); }
+   }
+   
+   $projList = $devProjList + $managedProjList;
+   
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='Projet'>\n";
    echo "<option value='0'>(tous)</option>\n";
-   
-   $projList = $user1->getProjectList();
    foreach ($projList as $pid => $pname)
    {
       if ($pid == $defaultProjectid) {
          echo "<option selected value='".$pid."'>$pname</option>\n";
       } else {
          echo "<option value='".$pid."'>$pname</option>\n";
-               }
+      }
    }
    echo "</select>\n";
 
