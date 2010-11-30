@@ -44,6 +44,11 @@ function displayIssueSelectionForm($user1, $defaultBugid) {
   // This filters the bugid list to shorten the 'bugid' Select.
   //$user1 = new User($user_id);
   $taskList = $user1->getPossibleWorkingTasksList();
+  
+  $managedProjTaskList = $user1->getPossibleWorkingTasksList($user1->getProjectList($user1->getManagedTeamList()));
+  
+  $taskList += $managedProjTaskList;
+  
   echo "<select id='bugidSelector' name='bugidSelector'>\n";
   foreach ($taskList as $bid)
   {
@@ -209,7 +214,10 @@ $bug_id = isset($_POST[bugid])  ? $_POST[bugid]  : 0;
 $user = new User($session_userid);
 
 
-$teamList = $user->getTeamList();
+$lTeamList = $user->getLeadedTeamList();
+$managedTeamList = $user->getManagedTeamList();
+$teamList = $lTeamList + $managedTeamList;
+
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
 	echo ("Sorry, you need to be member of a Team to access this page.");

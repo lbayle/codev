@@ -386,7 +386,8 @@ class User {
    	}
    	
    	if (0 == count($projList)) {
-   		echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
+   		// this happens if User is not a Developper (Manager or Observer)
+   		//echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
    		return array();
    	}
    	
