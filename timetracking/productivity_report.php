@@ -182,7 +182,7 @@ function displayRates ($timeTracking) {
             "EffortEstim (temps estim&eacute; APRES analyse)<br/>".
             "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode.<br/>".
             "- Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s</td>\n";
-    echo "<td>sum(EffortEstim) / sum(elapsed)</td>\n";
+    echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
   echo "</table>\n";
@@ -205,7 +205,7 @@ function displayDriftStats ($timeTracking) {
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='AVANT analyse'>ETA</th>\n";
-  echo "<th width='100' title='APRES analyse'>EffortEstim (BI)</th>\n";
+  echo "<th width='100' title='APRES analyse'>EffortEstim <br/>(BI + BS)</th>\n";
   echo "<th>Description</th>\n";
   echo "<th>Formule</th>\n";
   echo "</tr>\n";

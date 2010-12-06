@@ -99,7 +99,7 @@ class IssueTracking {
     echo "<th>Description</th>\n";
     echo "<th>Date Submission</th>\n";
     echo "<th>ETA</th>\n";
-    echo "<th>Effort Estim</th>\n";
+    echo "<th title='BI + BS'>Effort Estim</th>\n";
     echo "<th title='Est effort from TimeTracking'>Elapsed</th>\n";
     echo "<th>Remaining</th>\n";
     echo "<th>Current Status</th>\n";
@@ -118,7 +118,7 @@ class IssueTracking {
         echo "<td>$tmpIssue->summary</td>\n";
         echo "<td>".date("d M Y", $tmpIssue->dateSubmission)."</td>\n";
         echo "<td>".$tmpIssue->getEtaName()."</td>\n";
-        echo "<td>".$tmpIssue->EffortEstim."</td>\n";
+        echo "<td title='$tmpIssue->effortEstim + $tmpIssue->effortAdd'>".($tmpIssue->effortEstim + $tmpIssue->effortAdd)."</td>\n";
         echo "<td>".$tmpIssue->elapsed."</td>\n";
         echo "<td>".$tmpIssue->remaining."</td>\n";
         echo "<td>".$tmpIssue->getCurrentStatusName()."</td>\n";

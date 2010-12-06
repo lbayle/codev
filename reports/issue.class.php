@@ -25,7 +25,7 @@ class Issue {
    var $dateSubmission;
    var $remaining;    // RAE 
    var $elapsed;
-   var $EffortEstim;  // BI
+   var $effortEstim;  // BI
    var $effortAdd;    // BS
    var $currentStatus;
    var $release;
@@ -80,7 +80,7 @@ class Issue {
          switch ($row->field_id) {
             case $tcCustomField:          $this->tcId        = $row->value; break;
             case $releaseCustomField:     $this->release     = $row->value; break;
-            case $estimEffortCustomField: $this->EffortEstim = $row->value; break;
+            case $estimEffortCustomField: $this->effortEstim = $row->value; break;
             case $remainingCustomField:   $this->remaining   = $row->value; break;
             case $addEffortCustomField:   $this->effortAdd   = $row->value; break;
             case $deadLineCustomField:    $this->deadLine    = $row->value; break;
@@ -267,7 +267,7 @@ class Issue {
    // if 0, then just in time
    // if POS, then there is a drift !
 
-   // elapsed - (EffortEstim - remaining)
+   // elapsed - (effortEstim - remaining)
    // if bug is Resolved/Closed, then remaining is not used.
 
    // REM if EffortEstim = 0 then Drift = 0
@@ -275,15 +275,17 @@ class Issue {
       global $status_resolved;
       global $status_closed;
 
-      if (0 == $this->EffortEstim) { return 0; }
+      $totalEstim = $this->effortEstim + $this->effortAdd;
+      
+      if (0 == $totalEstim) { return 0; }
 
       if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
-         $derive = $this->elapsed - $this->EffortEstim;
+         $derive = $this->elapsed - $totalEstim;
       } else {
-         $derive = $this->elapsed - ($this->EffortEstim - $this->remaining);
+         $derive = $this->elapsed - ($totalEstim - $this->remaining);
       }
 
-      if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $this->EffortEstim)<br/>";}
+      if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)<br/>";}
       return $derive;
    }
 

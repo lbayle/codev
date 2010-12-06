@@ -166,7 +166,7 @@ function displayManagedIssues() {
 			  echo "   <td>".$issue->getCurrentStatusName()."</td>\n";
 			  echo "   <td>".$issue->getResolutionName()."</td>\n";
 			  echo "   <td>".$issue->getEtaName()."</td>\n";
-			  echo "   <td>$issue->EffortEstim</td>\n";
+			  echo "   <td>$issue->effortEstim</td>\n";
 			  echo "   <td>$issue->effortAdd</td>\n";
 			  echo "   <td>$issue->remaining</td>\n";
 			  if (NULL != $issue->deadLine) {
@@ -257,7 +257,7 @@ function exportManagedIssuesToCSV($path="") {
 			                 $issue->getCurrentStatusName().$sepChar.
 			                 $issue->getResolutionName().$sepChar.
 			                 $issue->getEtaName().$sepChar.
-			                 $issue->EffortEstim.$sepChar.
+			                 $issue->effortEstim.$sepChar.
 			                 $issue->effortAdd.$sepChar.
 			                 $issue->remaining.$sepChar.
 			                 $deadLine.$sepChar.
@@ -541,8 +541,17 @@ if (0 == count($teamList)) {
 	      // -----------------------------
 	      echo "<br/>\n";
 	      echo "<b>- Export $year Holidays...</b><br/>\n";
-		   flush(); // envoyer tout l'affichage courant au navigateur 
-		   for ($i = 1; $i <= 12; $i++) {
+		   flush(); // envoyer tout l'affichage courant au navigateur
+		   
+		   // reduce scope to enhance speed
+		   $startMonth = 1;
+		   /*
+		   if ($year == date('Y')) {
+		       $startMonth= date("m");
+		       if ($startMonth > 1) { $startMonth -= 1; } // previous month may be usefull
+		   }
+		   */ 
+		   for ($i = $startMonth; $i <= 12; $i++) {
 		      $filename = exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
 	         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
 	         flush(); 

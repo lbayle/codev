@@ -48,7 +48,7 @@ function displayTimetrackingTuples($userid) {
    echo "<th>Poste</th>\n";
    echo "<th>Categorie</th>\n";
    echo "<th>Status</th>\n";
-   echo "<th>Effort Estim&eacute;</th>\n";
+   echo "<th title='BI + BS'>Effort Estim&eacute;</th>\n";
    echo "<th title='Remaining'>RAE</th>\n";
    echo "</tr>\n";
 
@@ -73,6 +73,8 @@ function displayTimetrackingTuples($userid) {
       $formatedSummary = str_replace('"', "\'", $formatedSummary);
       $trackDescription = "$formatedDate | $row->bugid ($issue->tcId) | $formatedJobName | $row->duration | $formatedSummary";
       
+      $totalEstim = $issue->effortEstim + $issue->effortAdd;
+      
       echo "<tr>\n";
       echo "<td width=40>\n";
       echo "<a title='delete this row' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."', '".$row->bugid."')\" ><img border='0' src='b_drop.png'></a>\n";
@@ -88,7 +90,7 @@ function displayTimetrackingTuples($userid) {
       echo "<td>".$jobName."</td>\n";
       echo "<td>".$issue->getCategoryName()."</td>\n";
       echo "<td>".$issue->getCurrentStatusName()."</td>\n";
-      echo "<td>".$issue->EffortEstim."</td>\n";
+      echo "<td title='$issue->effortEstim + $issue->effortAdd'>".$totalEstim."</td>\n";
       echo "<td>".$issue->remaining."</td>\n";
 
       echo "</tr>\n";
