@@ -76,7 +76,7 @@ function displayIssueGeneralInfo($issue) {
    
   echo "<tr>\n";
   echo "<th title='BI + BS'>Estimated</th>\n";
-  echo "<td title='$issue->effortEstim + $tmpIssue->effortAdd'>".($issue->effortEstim + $tmpIssue->effortAdd)."</td>\n";
+  echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
