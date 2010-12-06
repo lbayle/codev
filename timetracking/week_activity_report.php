@@ -95,7 +95,8 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) 
   {
   	// if user was working on the project during the timestamp
   	$user = new User($row->user_id);
-  	if ($user->isTeamMember($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) {
+  	if (($user->isTeamMember($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
+       ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
   		
 	    echo "<div align='center'>\n";
 	    echo "<br/>";
@@ -119,6 +120,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
   echo "<th width='50%'>Tache</th>\n";
+  echo "<th width='3'>RAE</th>\n";
   echo "<th width='7%'>Projet</th>\n";
   echo "<th width='10%'>Poste</th>\n";
   echo "<th width='10'>Lundi<br>".date("d M", $weekDates[1])."</th>\n";
@@ -137,6 +139,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
                 
       echo "<tr>\n";
       echo "<td>$bugid / ".$issue->tcId." : ".$issue->summary."</td>\n";
+      echo "<td>".$issue->remaining."</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$jobName."</td>\n";
       for ($i = 1; $i <= 5; $i++) {
@@ -201,33 +204,32 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 $user = new User($userid);
 $mTeamList = $user->getTeamList();    // are team members allowed to see other member's timeTracking ?
 $lTeamList = $user->getLeadedTeamList();
-$teamList = $mTeamList + $lTeamList;
+$managedTeamList = $user->getManagedTeamList();
+$teamList = $mTeamList + $lTeamList + $managedTeamList;
 
 if (0 == count($teamList)) {
 	echo "Sorry, you do NOT have access to this page.";
-	exit;
-}
 
-// ------
+} else {
 
-$action = $_POST[action];
-$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
-
-displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
-
-if (NULL != $teamList[$teamid]) {
-
-   $weekDates      = week_dates($weekid,$year);
-	$startTimestamp = $weekDates[1];        
-   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
-   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+	$action = $_POST[action];
+	$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 	
-	displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
-
-   echo "<br/><br/>\n";
-   displayCheckWarnings($timeTracking);
+	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
+	
+	if (NULL != $teamList[$teamid]) {
+	
+	   $weekDates      = week_dates($weekid,$year);
+		$startTimestamp = $weekDates[1];        
+	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+		
+		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
+	
+	   echo "<br/><br/>\n";
+	   displayCheckWarnings($timeTracking);
+	}
 }
-
    
 
 ?>

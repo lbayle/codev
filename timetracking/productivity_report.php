@@ -62,9 +62,9 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   echo "<div class=center>";
   // Create form
   if (isset($_GET['debug'])) {
-      echo "<form id='form1' name='form1' method='post' action='time_tracking_report.php?debug'>\n";
+      echo "<form id='form1' name='form1' method='post' action='productivity_report.php?debug'>\n";
   } else {
-  	   echo "<form id='form1' name='form1' method='post' action='time_tracking_report.php'>\n";
+  	   echo "<form id='form1' name='form1' method='post' action='productivity_report.php'>\n";
   }
   
   echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
@@ -73,7 +73,8 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   $mTeamList = $session_user->getTeamList();
   $lTeamList = $session_user->getLeadedTeamList();
   $oTeamList = $session_user->getObservedTeamList();
-  $teamList = $mTeamList + $lTeamList + $oTeamList;
+  $managedTeamList = $session_user->getManagedTeamList();
+  $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
   foreach($teamList as $tid => $tname) {
     if ($tid == $teamid) {
@@ -142,7 +143,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td title='Production Days : forecast'>Capacit&eacute; de production</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
-  echo "<td>pr&eacute;vision de capacit&eacute; (en fonction des cong&eacute;s)</td>\n";
+  echo "<td title='Developpeurs seulement !'>pr&eacute;vision de capacit&eacute; (en fonction des cong&eacute;s)</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
@@ -181,7 +182,7 @@ function displayRates ($timeTracking) {
             "EffortEstim (temps estim&eacute; APRES analyse)<br/>".
             "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode.<br/>".
             "- Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s</td>\n";
-    echo "<td>sum(EffortEstim) / sum(elapsed)</td>\n";
+    echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
   echo "</table>\n";
@@ -204,7 +205,7 @@ function displayDriftStats ($timeTracking) {
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='AVANT analyse'>ETA</th>\n";
-  echo "<th width='100' title='APRES analyse'>EffortEstim (BI)</th>\n";
+  echo "<th width='100' title='APRES analyse'>EffortEstim <br/>(BI + BS)</th>\n";
   echo "<th>Description</th>\n";
   echo "<th>Formule</th>\n";
   echo "</tr>\n";

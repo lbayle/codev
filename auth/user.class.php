@@ -52,6 +52,9 @@ class User {
    // --------------------
    // retourne le trigramme. ex: Louis BAYLE => LBA
    public function getShortname() {
+   	
+   	if (0 == $this->id) { return "";	}
+   	
       if (NULL == $name) {
          $query = "SELECT mantis_user_table.realname ".
                   "FROM  `mantis_user_table` ".
@@ -63,7 +66,11 @@ class User {
       $tok1 = strtok($this->name, " ");  // 1st token: firstname
       $tok2 = strtok(" ");  // 2nd token: lastname
       
-      $trigramme = $tok1[0].$tok2[0].$tok2[1]; 
+      if (false == $tok2) {
+      	$trigramme = $tok1[0].$tok1[1].$tok1[2];
+      } else {
+         $trigramme = $tok1[0].$tok2[0].$tok2[1];
+      } 
       return $trigramme;
    }
    
@@ -121,6 +128,28 @@ class User {
       return (0 != $nbTuples);
    }
    
+   // --------------------
+   public function isTeamManager($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
+      
+      global $accessLevel_manager;
+      
+      $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
+               "WHERE team_id = $team_id ".
+               "AND user_id = $this->id ".
+               "AND access_level = $accessLevel_manager ";
+      
+      if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
+         $query .= "AND arrival_date < $endTimestamp AND ".
+                   "(departure_date >= $startTimestamp OR departure_date = 0)";
+          // REM: if departure_date = 0, then user stays until the end of the world. 
+      }
+      
+      $result = mysql_query($query) or die("Query failed: $query");
+      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+      
+      return (0 != $nbTuples);
+   }
+
    // --------------------
    // if no team specified, choose the oldest arrival date
    public function getArrivalDate($team_id = NULL) {
@@ -295,38 +324,70 @@ class User {
    }
 
    // --------------------
-   public function getProjectList() {
+   // returns the teams i'm observer of.
+   public function getManagedTeamList() {
+      global $accessLevel_manager;
+      
+      $teamList = array();
+      
+      $query = "SELECT codev_team_table.id, codev_team_table.name ".
+               "FROM `codev_team_user_table`, `codev_team_table` ".
+               "WHERE codev_team_user_table.user_id = $this->id ".
+               "AND   codev_team_user_table.team_id = codev_team_table.id ".
+               "AND   codev_team_user_table.access_level = $accessLevel_manager ".
+      "ORDER BY codev_team_table.name";
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         $teamList[$row->id] = $row->name;
+         #echo "getManagedTeamList FOUND $row->id - $row->name<br/>";
+      }
+      
+      return $teamList;
+   }
+
+   // --------------------
+   public function getProjectList($teamList = NULL) {
       
       $projList = array();
    	
-      $teamList = $this->getTeamList();
-      $formatedTeamList = valuedListToSQLFormatedString($teamList);
-      
-      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
-               "FROM `codev_team_project_table`, `mantis_project_table`".
-               "WHERE codev_team_project_table.team_id IN ($formatedTeamList)".
-               "AND codev_team_project_table.project_id = mantis_project_table.id ".
-               "ORDER BY mantis_project_table.name";
-      
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result)) {
-      	$projList[$row->project_id] = $row->name;
+      if (NULL == $teamList) {
+      	// if not specified, get projects from the teams I'm member of.
+         $teamList = $this->getTeamList();
+      }
+      if (0 != count($teamList)) {
+	      $formatedTeamList = valuedListToSQLFormatedString($teamList);
+	      
+	      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
+	               "FROM `codev_team_project_table`, `mantis_project_table`".
+	               "WHERE codev_team_project_table.team_id IN ($formatedTeamList) ".
+	               "AND codev_team_project_table.project_id = mantis_project_table.id ".
+	               "ORDER BY mantis_project_table.name";
+	      
+	      $result = mysql_query($query) or die("Query failed: $query");
+	      while($row = mysql_fetch_object($result)) {
+	      	$projList[$row->project_id] = $row->name;
+	      }
+      } else {
+      	// this happens if User is not a Developper (Manager or Observer)
+         //echo "<div style='color:red'>ERROR: User is not member of any team !</div><br>";
       }
       return $projList;
    }
    
-   
    // returns the tasks I can work on.
    // depending on: the projects associated to this user in mantis_project_user_list_table.
    // this list is displayed in timeTracking.php
-   public function getPossibleWorkingTasksList() {
+   public function getPossibleWorkingTasksList($projList = NULL) {
    	
    	$issueList = array();
-   	
-   	$projList = $this->getProjectList();
+   	if (NULL == $projList) {
+   	  $projList = $this->getProjectList();
+   	}
    	
    	if (0 == count($projList)) {
-   		echo "<div style='color:red'>ERROR: no project associated to this team !</div><br><br>";
+   		// this happens if User is not a Developper (Manager or Observer)
+   		//echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
    		return array();
    	}
    	

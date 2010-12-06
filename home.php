@@ -89,7 +89,7 @@ if (!isset($_SESSION['userid'])) {
    </li>
    <br/>
    <li>
-      <?php echo "<a href='".getServerRootURL()."/timetracking/time_tracking_report.php'>Indicateurs de production</a>";?>
+      <?php echo "<a href='".getServerRootURL()."/timetracking/productivity_report.php'>Indicateurs de production</a>";?>
    </li>
    <br/>
    <li>

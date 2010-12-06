@@ -97,7 +97,8 @@ $session_user = new User($_SESSION['userid']);
 $mTeamList = $session_user->getTeamList();
 $lTeamList = $session_user->getLeadedTeamList();
 $oTeamList = $session_user->getObservedTeamList();
-$teamList = $mTeamList + $lTeamList + $oTeamList; 
+$managedTeamList = $session_user->getManagedTeamList();
+$teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList; 
 
 // if current team is not in allowed list, do not display
 if (NULL == $teamList[$teamid]) {

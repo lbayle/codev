@@ -16,7 +16,9 @@
       </td>
       <td><a href='".getServerRootURL()."/reports/' title=''>Mantis Reports</a>
       |
-      <a href='".getServerRootURL()."/timetracking/time_tracking_report.php' title='Indicateurs de production'>Productivity indicators</a>
+      <a href='".getServerRootURL()."/timetracking/productivity_report.php' title='Indicateurs de production'>Productivity Reports</a>
+      |
+      <a href='".getServerRootURL()."/timetracking/proj_management_report.php' title='Indicateurs de gestion de projet'>Project Management</a>
       |
       <a href='".getServerRootURL()."/timetracking/week_activity_report.php' title='Activit&eacute; hebdo'>Weekly activities</a>
       |

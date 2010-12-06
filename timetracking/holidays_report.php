@@ -107,8 +107,9 @@ function displayHolidaysMonth($month, $year, $teamid) {
 	  	$user1 = new User($row->user_id);
 	  	
 	   // if user was working on the project within the timestamp
-	   if ($user1->isTeamMember($teamid, $startT, $endT)) {
-	  	
+	   if (($user1->isTeamMember($teamid, $startT, $endT)) || 
+          ($user1->isTeamManager($teamid, $startT, $endT))) {
+	   	
 		   $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
 		    
 		    echo "<tr>\n";
@@ -174,8 +175,9 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
       $user1 = new User($row->user_id);
       
       // if user was working on the project within the timestamp
-      if ($user1->isTeamMember($teamid, $startT, $endT)) {
-      
+      if (($user1->isTeamMember($teamid, $startT, $endT)) || 
+          ($user1->isTeamManager($teamid, $startT, $endT))) {
+            
          $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
           
            // concatenate days 
@@ -251,6 +253,8 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
 $year = isset($_POST[year]) ? $_POST[year] : date('Y');
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 
+global $codevReportsDir;
+
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
 mysql_select_db($db_mantis_database) or die("Could not select database");
@@ -264,10 +268,11 @@ $_POST[year] = $year;
 for ($i = 1; $i <= 12; $i++) {
   displayHolidaysMonth($i, $year, $teamid);
 }
-
+/*
 for ($i = 1; $i <= 12; $i++) {
-  exportHolidaystoCSV($i, $year, $teamid, "E:\Share\FDJ\Codev_Reports");
+  exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
 }
+*/
 ?>
 
 </div>

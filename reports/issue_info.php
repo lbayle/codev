@@ -34,15 +34,21 @@ include_once "../reports/issue.class.php";
 include_once "../timetracking/time_track.class.php";
 include_once "../auth/user.class.php";
 
-function displayIssueSelectionForm($user_id, $defaultBugid) {
+// ---------------------------------------------------------------
+function displayIssueSelectionForm($user1, $defaultBugid) {
    echo "<div align=center>\n";
 	echo "<form id='form1' name='form1' method='post' action='issue_info.php'>\n";
 
   echo "Task: \n";
    
   // This filters the bugid list to shorten the 'bugid' Select.
-  $user1 = new User($user_id);
+  //$user1 = new User($user_id);
   $taskList = $user1->getPossibleWorkingTasksList();
+  
+  $managedProjTaskList = $user1->getPossibleWorkingTasksList($user1->getProjectList($user1->getManagedTeamList()));
+  
+  $taskList += $managedProjTaskList;
+  
   echo "<select id='bugidSelector' name='bugidSelector'>\n";
   foreach ($taskList as $bid)
   {
@@ -64,6 +70,7 @@ function displayIssueSelectionForm($user_id, $defaultBugid) {
   echo "</div>\n";
 }
    
+// ---------------------------------------------------------------
 function displayIssueGeneralInfo($issue) {      
   echo "<table>\n";
 
@@ -73,8 +80,8 @@ function displayIssueGeneralInfo($issue) {
   echo "</tr>\n";
    
   echo "<tr>\n";
-  echo "<th>Estimated</th>\n";
-  echo "<td>$issue->EffortEstim</td>\n";
+  echo "<th title='BI + BS'>Estimated</th>\n";
+  echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
@@ -96,9 +103,16 @@ function displayIssueGeneralInfo($issue) {
   echo "</table>\n";      
 }
 
+
+// ---------------------------------------------------------------
 function displayMonth($month, $year, $issue) {
   global $globalHolidaysList;
-   
+  global $job_study;
+  global $job_analyse;
+  global $job_dev;  
+  global $job_test;
+  global $job_none;
+  
   // if no work done this month, do not display month
   $trackList = $issue->getTimeTracks();
   $found = 0;
@@ -135,10 +149,28 @@ function displayMonth($month, $year, $issue) {
     // build $durationByDate[] for this user	
     $userTimeTracks = $issue->getTimeTracks($uid);
     $durationByDate = array();
+    $jobColorByDate = array();
     foreach ($userTimeTracks as $tid => $tdate) {
       $tt = new TimeTrack($tid);
     	$durationByDate[$tdate] += $tt->duration;
-   }
+    	
+    	switch ($tt->jobId) {
+    		case $job_study:
+            $jobColorByDate[$tdate] = "#ffcd85";
+    			break;
+         case $job_analyse:
+            $jobColorByDate[$tdate] = "#fff494";
+         	break;
+  	      case $job_dev:
+            $jobColorByDate[$tdate] = "#c2dfff";
+  	      	break;
+  		   case $job_test:
+            $jobColorByDate[$tdate] = "#92C5FC";
+  		   	break;
+  			case $job_none:
+    		   $jobColorByDate[$tdate] = "#A8FFBD";
+    	}		
+    }
 
    // ------
     echo "<tr>\n";
@@ -149,7 +181,7 @@ function displayMonth($month, $year, $issue) {
       $dayOfWeek = date("N", $todayTimestamp);
       
       if (NULL != $durationByDate[$todayTimestamp]) {
-        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$durationByDate[$todayTimestamp]."</td>\n";
+        echo "<td style='background-color: ".$jobColorByDate[$todayTimestamp]."; text-align: center;'>".$durationByDate[$todayTimestamp]."</td>\n";
       } else {
         // if weekend or holiday, display gray
         if (($dayOfWeek > 5) || 
@@ -166,6 +198,9 @@ function displayMonth($month, $year, $issue) {
   echo "<br/><br/>\n";
 }
 
+
+
+
 // ================ MAIN =================
 $year = date('Y');
 
@@ -173,24 +208,40 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die(
 mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql_error());
 
 $action = $_POST[action];
-$session_user = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
+$session_userid = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
 $bug_id = isset($_POST[bugid])  ? $_POST[bugid]  : 0;
 
-displayIssueSelectionForm($session_user, $bug_id);
+$user = new User($session_userid);
 
-if ("displayBug" == $action) {
-  $issue = new Issue ($bug_id);
-        
-  echo "<br/><br/>\n";
-  echo "<br/>";
-  displayIssueGeneralInfo($issue);
-  echo "<br/><br/>\n";
-  
-  for ($i = 1; $i <= 12; $i++) {
-    displayMonth($i, $year, $issue);
-  }
+
+$lTeamList = $user->getLeadedTeamList();
+$managedTeamList = $user->getManagedTeamList();
+$teamList = $lTeamList + $managedTeamList;
+
+if (0 == count($teamList)) {
+   echo "<div id='content'' class='center'>";
+	echo ("Sorry, you need to be member of a Team to access this page.");
+   echo "</div>";
+
+} else {
+
+	displayIssueSelectionForm($user, $bug_id);
+	
+	if ("displayBug" == $action) {
+	  $issue = new Issue ($bug_id);
+	        
+	  echo "<br/><br/>\n";
+	  echo "<br/>";
+	  displayIssueGeneralInfo($issue);
+	  echo "<br/><br/>\n";
+	  
+	  for ($i = 1; $i <= 12; $i++) {
+	    displayMonth($i, $year, $issue);
+	  }
+	
+	  echo "<br/><br/>\n";
+	}
 }
-
 ?>
 
 </div>

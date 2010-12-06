@@ -12,6 +12,8 @@
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management");
    
+   $codevReportsDir = "E:\Share\FDJ\Codev_Reports";
+      
    
 	// Mantis DB infomation.
 	$db_mantis_host		=	'localhost';
@@ -32,6 +34,13 @@
   $status_resolved = 80;
   $status_delivered = 85;
   $status_closed   = 90;
+  
+  // jobs as defined in codev_job_table
+  $job_study   = 1;
+  $job_analyse = 2;
+  $job_dev     = 3;  
+  $job_test    = 4;
+  $job_none    = 10;
   
   // CoDev FDJ specificities (not defined in Mantis)
   $status_feedback_ATOS = 21;
@@ -54,8 +63,33 @@
   $statusNames[$status_feedback_ATOS] = "feedback_ATOS";
   $statusNames[$status_feedback_FDJ]  = "feedback_FDJ";
   
+
+  // ---
+  // unfortunately the priority names are not a table in Mantis:
+  // REM: $s_priority_enum_string in mantis/lang/strings_english.txt
+  $priorityNames = array(10 => "none",
+                     20 => "low",
+                     30 => "normal",
+                     40 => "high",
+                     50 => "urgent",
+                     60 => "immediate");
+  
+
                      
-                     
+  // ---
+  // unfortunately the priority names are not a table in Mantis:
+  // REM: $s_resolution_enum_string in mantis/lang/strings_english.txt
+  $resolutionNames = array(10 => "open",
+                     20 => "fixed",
+                     30 => "reopened",
+                     40 => "unable to reproduce",
+                     50 => "not fixable",
+                     60 => "duplicate",
+                     70 => "no change required",
+                     80 => "suspended",
+                     90 => "won\'t fix");
+
+
   // ---
   // unfortunately the status names are not a table in Mantis:
   // REM: $g_eta_enum_string in mantis/config_inc.php
@@ -78,23 +112,29 @@
   // ---
   // il peut y avoir plusieurs observer
   // il n'y a qu'un seul teamLeader
-  // un observer ne fait jamais partie de l'equipe
+  // un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
   $accessLevel_dev      = 10;    // in table codev_team_user_table
   $accessLevel_observer = 20;    // in table codev_team_user_table
+  $accessLevel_manager  = 30;    // in table codev_team_user_table TODO
   $access_level_names = array($accessLevel_dev      => "Developper", // can modify, can NOT view stats
-                              $accessLevel_observer => "Observer");  // can NOT modify, can view stats  
-                       
+                              $accessLevel_observer => "Observer",  // can NOT modify, can view stats  
+                              $accessLevel_manager  => "Manager");  // can modify, can view stats, TODO resource NOT in statistics    
+                              
   // this is the custom field added to mantis issues for TimeTracking
   $tcCustomField          = 1; // in mantis_custom_field_table
   $releaseCustomField     = 2; // in mantis_custom_field_table
-  $estimEffortCustomField = 3; // in mantis_custom_field_table
-  $remainingCustomField   = 4; // in mantis_custom_field_table
+  $estimEffortCustomField = 3; // in mantis_custom_field_table BI
+  $remainingCustomField   = 4; // in mantis_custom_field_table RAE
   $deadLineCustomField    = 8; // in mantis_custom_field_table
+  $addEffortCustomField   = 10; // in mantis_custom_field_table BS
+  $deliveryDateCustomField = 11; // in mantis_custom_field_table
   
   // ---
-  $workingProjectType  = 0;     // normal projects are type 0
-  $sideTaskProjectType = 1;     // SuiviOp must be type 1
+  $workingProjectType   = 0;     // normal projects are type 0
+  $sideTaskProjectType  = 1;     // SuiviOp must be type 1
+  $noCommonProjectType  = 2;     // projects which jave only assignedJobs (no common jobs) 
   $projectType_names = array($workingProjectType => "Project",
+                             $noCommonProjectType => "Project (no common jobs)",
                              $sideTaskProjectType => "SideTasks");
   
   // ---
