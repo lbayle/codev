@@ -248,7 +248,6 @@ class TimeTracking {
     global $statusNames;
     global $status_resolved;
     global $status_closed;
-    global $estimEffortCustomField;
     
     $resolvedList = array();
     
