@@ -12,7 +12,7 @@
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management");
    
-   $codevReportsDir = "E:\Share\FDJ\Codev_Reports";
+   $codevReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
       
    
 	// Mantis DB infomation.
