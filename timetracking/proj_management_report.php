@@ -194,13 +194,13 @@ function displayManagedIssues() {
 }
 
 // ---------------------------------------------------------------
-function exportManagedIssuesToCSV($path="") {
+function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
    
    global $status_resolved;
    global $status_delivered;
    global $status_closed;
 
-  $sepChar=';';
+   $sepChar=';';
    
    $myFile = $path."\AOI-PIL-Mantis_".date("Ymd").".csv";
    $fh = fopen($myFile, 'w');
@@ -225,7 +225,6 @@ function exportManagedIssuesToCSV($path="") {
                  "Delivery Date".
                  "\n";
    fwrite($fh, $stringData);
-   
    
    // for all issues with status !=  {resolved, closed}
    
@@ -266,6 +265,36 @@ function exportManagedIssuesToCSV($path="") {
 			   fwrite($fh, $stringData);
             
       }
+
+  // Add resolved issues modified into the period
+  $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE status IN ($status_resolved,$status_delivered,$status_closed) AND last_updated > $startTimestamp AND last_updated < $endTimestamp ORDER BY id DESC";
+  $result = mysql_query($query) or die("Query failed: $query");
+  while($row = mysql_fetch_object($result)) {
+    $issue = new Issue($row->id);
+    $user = new User($issue->handlerId);
+          
+    // write data
+    $stringData = $issue->bugId.$sepChar.   
+                  $issue->getTC().$sepChar.
+                  $issue->getProjectName().$sepChar.
+                  $issue->release.$sepChar.
+                  $user->getShortname().$sepChar.
+                  $issue->getPriorityName().$sepChar.
+                  $issue->getCategoryName().$sepChar.
+		  date("d/m/Y", $issue->dateSubmission).$sepChar.
+		  $issue->summary.$sepChar.
+		  $issue->getCurrentStatusName().$sepChar.
+		  $issue->getResolutionName().$sepChar.
+		  $issue->getEtaName().$sepChar.
+		  $issue->effortEstim.$sepChar.
+		  $issue->effortAdd.$sepChar.
+		  $issue->remaining.$sepChar.
+		  $deadLine.$sepChar.
+		  $deliveryDate.
+		  "\n";
+    fwrite($fh, $stringData);
+  }
+
   fclose($fh);
   return $myFile;
 }
@@ -509,18 +538,23 @@ if (0 == count($teamList)) {
 	if ("exportManagementReport" == $action) {
 	
 	
-		if (0 != $teamid) {
+          if (0 != $teamid) {
 		
 		   echo "<br/>\n";
 	      echo "Team: ".$teamList[$teamid]."<br/>\n";
 		   echo "<br/>\n";
 		
+	      $weekDates      = week_dates($weekid,$year);
+	      $startTimestamp = $weekDates[1];        
+	      $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+	      $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+
 	      // -----------------------------
 		   echo "<b>- Export Managed Issues...</b><br/>\n";
 		   flush(); // envoyer tout l'affichage courant au navigateur 
 		   
 		   //displayManagedIssues();
-		   $filename = exportManagedIssuesToCSV($codevReportsDir);
+		   $filename = exportManagedIssuesToCSV($codevReportsDir, $startTimestamp, $endTimestamp);
 	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
 	      flush(); 
 		   
@@ -529,10 +563,6 @@ if (0 == count($teamList)) {
 	      echo "<b>- Export Week $weekid Activity...</b><br/>\n";
 	      flush(); // envoyer tout l'affichage courant au navigateur 
 	      
-	      $weekDates      = week_dates($weekid,$year);
-	      $startTimestamp = $weekDates[1];        
-	      $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
-	      $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 	      
 	      $filename = exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
 	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
