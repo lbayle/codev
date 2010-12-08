@@ -7,10 +7,11 @@
 
 
 
-   $codevVersion = "v0.99.1 (28 Sept 2010)";
+   $codevVersion = "v0.99.2 (08 Dec 2010)";
 
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
-                                "v0.99.1" => "(28 Sept 2010) - jobs management");
+                                "v0.99.1" => "(28 Sept 2010) - jobs management",
+                                "v0.99.2" => "(08 Dec  2010) - Project Management");
    
    $codevReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
       
@@ -41,6 +42,13 @@
   $job_dev     = 3;  
   $job_test    = 4;
   $job_none    = 10;
+  
+  // job colors in issue_info page
+  $job_colors = array($job_study   => "#ffcd85",
+                      $job_analyse => "#fff494",
+                      $job_dev     => "#c2dfff",
+                      $job_test    => "#92C5FC",
+                      $job_none    => "#A8FFBD");
   
   // CoDev FDJ specificities (not defined in Mantis)
   $status_feedback_ATOS = 21;

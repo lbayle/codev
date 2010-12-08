@@ -112,6 +112,7 @@ function displayMonth($month, $year, $issue) {
   global $job_dev;  
   global $job_test;
   global $job_none;
+  global $job_colors;
   
   // if no work done this month, do not display month
   $trackList = $issue->getTimeTracks();
@@ -153,23 +154,7 @@ function displayMonth($month, $year, $issue) {
     foreach ($userTimeTracks as $tid => $tdate) {
       $tt = new TimeTrack($tid);
     	$durationByDate[$tdate] += $tt->duration;
-    	
-    	switch ($tt->jobId) {
-    		case $job_study:
-            $jobColorByDate[$tdate] = "#ffcd85";
-    			break;
-         case $job_analyse:
-            $jobColorByDate[$tdate] = "#fff494";
-         	break;
-  	      case $job_dev:
-            $jobColorByDate[$tdate] = "#c2dfff";
-  	      	break;
-  		   case $job_test:
-            $jobColorByDate[$tdate] = "#92C5FC";
-  		   	break;
-  			case $job_none:
-    		   $jobColorByDate[$tdate] = "#A8FFBD";
-    	}		
+    	$jobColorByDate[$tdate] = $job_colors[$tt->jobId];
     }
 
    // ------

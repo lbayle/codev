@@ -1,0 +1,4 @@
+- ajouter affichage derives fiches en cours dans prodStats
+- timeTracking: filtrer les timeTracks de la semaine en cours (et plus recents ?)
+- manager: ne pas inclure dans les statistiques
+
