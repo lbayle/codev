@@ -32,7 +32,7 @@ class TimeTracking {
   // ----------------------------------------------
   public function initialize() {  
 
-  	global $workingProjectType;
+  	global $sideTaskProjectType;
   	
     $this->prodProjectList     = array();
     $this->sideTaskprojectList = array();
@@ -41,10 +41,10 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      if ($workingProjectType == $row->type) {
-        $this->prodProjectList[]     = $row->project_id;
-      } else {
+      if ($sideTaskProjectType == $row->type) {
         $this->sideTaskprojectList[] = $row->project_id;
+      } else {
+        $this->prodProjectList[]     = $row->project_id;
       }
     }
   }
@@ -144,14 +144,10 @@ class TimeTracking {
     return $this->getProductivRate($this->prodProjectList, $balanceType);
   }
   
-  // ----------------------------------------------
-  public function getDriftStatsSideTasks() {
-    return $this->getDriftStatistics($this->sideTaskprojectList);
-  }
    
   // ----------------------------------------------
   public function getDriftStats() {
-    return $this->getDriftStatistics($this->prodProjectList, $balanceType);
+    return $this->getDriftStatistics($this->prodProjectList);
   }
   
   public function getResolvedDriftStats() {
