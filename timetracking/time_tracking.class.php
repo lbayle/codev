@@ -154,6 +154,9 @@ class TimeTracking {
     return $this->getDriftStatistics($this->prodProjectList, $balanceType);
   }
   
+  public function getResolvedDriftStats() {
+    return $this->getResolvedDriftStatistics($this->prodProjectList);
+  }
   
    
   // ----------------------------------------------
@@ -243,38 +246,22 @@ class TimeTracking {
   }
 
   
-  // -------------------------------------------------
+  
+    // -------------------------------------------------
   // tous les bugs de la periode qui sont passes a resolved
   // qui n'ont pas ere reouverts dans cette meme periode
-  private function getDriftStatistics($projects) {          
-    global $statusNames;
+  private function getResolvedDriftStatistics($projects) {          
     global $status_resolved;
     global $status_closed;
-    
-    $resolvedList = array();
-    
-    $derive = 0;
-    $deriveETA = 0;
 
-    $nbDriftsNeg   = 0;
-    $nbDriftsEqual = 0;
-    $nbDriftsPos   = 0;
-    $nbDriftsNegETA   = 0;
-    $nbDriftsEqualETA = 0;
-    $nbDriftsPosETA   = 0;
-    
-    $driftNeg   = 0;
-    $driftEqual = 0;
-    $driftPos   = 0;
-    $driftNegETA   = 0;
-    $driftEqualETA = 0;
-    $driftPosETA   = 0;
+    $resolvedList = array();
+    $issueList = array();    
     
     // --------
     $formatedProjList = simpleListToSQLFormatedString($projects);
     
     if ("" == $formatedProjList) {
-      echo "<div style='color:red'>ERROR getDriftStatistics: no project defined for this team !<br/></div>";
+      echo "<div style='color:red'>ERROR getResolvedDriftStatistics: no project defined for this team !<br/></div>";
       return 0;
     }
     
@@ -297,24 +284,72 @@ class TimeTracking {
     $result = mysql_query($query) or die("Query FAILED: $query");
     
     while($row = mysql_fetch_object($result)) {
+      $issue = new Issue($row->id);
       
       // check if the bug has been reopened before endTimestamp
-      $issue = new Issue($row->id);
       $latestStatus = $issue->getStatus($this->endTimestamp);
       if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
-
+      	
         // remove doubloons        
-        if (!in_array ($row->id, $resolvedList)) {
+        if (!in_array ($issue->bugId, $resolvedList)) {
          
-          $resolvedList[] = $row->id;
-            
+          $resolvedList[] = $issue->bugId;
+          $issueList[] = $issue;
+        }
+      } else {
+        if (isset($_GET['debug'])) { echo "TimeTracking->getResolvedDriftStatistics() REOPENED : bugid = $issue->bugId<br/>"; }
+      } 
+    }
+    return $this->getIssuesDriftStats($issueList);
+  }
+  
+  
+  
+  
+  // -------------------------------------------------
+  // Drift Stats on a given Issue.class List
+  private function getIssuesDriftStats($issueList) {
+  	
+    global $statusNames;
+    
+    
+    $derive = 0;
+    $deriveETA = 0;
+
+    $nbDriftsNeg   = 0;
+    $nbDriftsEqual = 0;
+    $nbDriftsPos   = 0;
+    $nbDriftsNegETA   = 0;
+    $nbDriftsEqualETA = 0;
+    $nbDriftsPosETA   = 0;
+    
+    $driftNeg   = 0;
+    $driftEqual = 0;
+    $driftPos   = 0;
+    $driftNegETA   = 0;
+    $driftEqualETA = 0;
+    $driftPosETA   = 0;
+    
+    
+    if (NULL == $issueList) {
+      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
+      return 0;
+    }
+    if ("" == $issueList) {
+      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is undefined !<br/></div>";
+      return 0;
+    }
+    
+
+    foreach ($issueList as $issue) {
+    	
           // -- compute total drift
           $issueDrift     = $issue->getDrift();
           $derive        += $issueDrift;
           $issueDriftETA  = $issue->getDriftETA();
           $deriveETA     += $issueDriftETA;
 
-          if (isset($_GET['debug'])) { echo "TimeTracking->getDriftStatistics() Found : bugid=$row->id, proj=$issue->projectId, old_status=$row->old_value, new_status=$row->new_value, date_modified=".date("d F Y", $row->date_modified).", effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA<br/>"; }
+          if (isset($_GET['debug'])) { echo "TimeTracking->getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA<br/>"; }
             
             // get drift stats. equal is when drif = +-1
             if ($issueDrift < -1) {
@@ -322,20 +357,20 @@ class TimeTracking {
               $driftNeg += $issueDrift;
 
               if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
-              $formatedBugidNegList .= $row->id;
+              $formatedBugidNegList .= $issue->bugId;
 
             } elseif ($issueDrift > 1){
               $nbDriftsPos++;
               $driftPos += $issueDrift;
               
               if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
-              $formatedBugidPosList .= $row->id;
+              $formatedBugidPosList .= $issue->bugId;
             } else {
               $nbDriftsEqual++;
               $driftEqual += $issueDrift;
               
               if ($formatedBugidEqualList != "") { $formatedBugidEqualList .= ', '; }
-              $formatedBugidEqualList .= $row->id;
+              $formatedBugidEqualList .= $issue->bugId;
             }
 
             if ($issueDriftETA < -1) {
@@ -348,13 +383,7 @@ class TimeTracking {
               $nbDriftsEqualETA++;
               $driftEqualETA += $issueDriftETA;
             }
-            
-        }
-      } else {
-        if (isset($_GET['debug'])) { echo "TimeTracking->getDriftStatistics() REOPENED : bugid = $row->id<br/>"; }
-      } 
-      
-    }
+    } // foreach
     
     
     if (isset($_GET['debug'])) { 

@@ -197,11 +197,12 @@ function displayDriftStats ($timeTracking) {
   global $status_resolved;
   global $status_closed;
          
-  $driftStats_new = $timeTracking->getDriftStats();
+  $driftStats_new = $timeTracking->getResolvedDriftStats();
+  //$driftStats_new = $timeTracking->getDriftStats(); // TODO
   
   
   echo "<table>\n";
-  echo "<caption>D&eacute;rives</caption>\n";
+  echo "<caption>D&eacute;rives (Resolved)</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='AVANT analyse'>ETA</th>\n";
