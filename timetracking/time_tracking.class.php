@@ -304,7 +304,7 @@ class TimeTracking {
   
   // -------------------------------------------------
   // Drift Stats on a given Issue.class List
-  private function getIssuesDriftStats($issueList) {
+  public function getIssuesDriftStats($issueList) {
   	
     global $statusNames;
     
@@ -331,8 +331,8 @@ class TimeTracking {
       echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
       return 0;
     }
-    if ("" == $issueList) {
-      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is undefined !<br/></div>";
+    if (0== count($issueList)) {
+      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is empty !<br/></div>";
       return 0;
     }
     

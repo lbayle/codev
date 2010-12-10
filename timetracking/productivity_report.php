@@ -36,6 +36,7 @@ include_once "../reports/project.class.php";
 include_once "time_tracking.class.php";
 require_once('calendar/classes/tc_calendar.php');
 
+// -----------------------------------------------
 function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
            
@@ -100,6 +101,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
   echo "</div>";
 }
 
+// -----------------------------------------------
 function displayRates ($timeTracking) {
          
   $prodDays                = $timeTracking->getProdDays();
@@ -193,7 +195,9 @@ function displayRates ($timeTracking) {
 }
 
 
-function displayDriftStats ($timeTracking) {
+// -----------------------------------------------
+// display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
+function displayResolvedDriftStats ($timeTracking) {
   global $status_resolved;
   global $status_closed;
          
@@ -202,7 +206,7 @@ function displayDriftStats ($timeTracking) {
   
   
   echo "<table>\n";
-  echo "<caption>D&eacute;rives (Resolved)</caption>\n";
+  echo "<caption>D&eacute;rives - Resolved dans la p&eacute;riode</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='AVANT analyse'>ETA</th>\n";
@@ -217,8 +221,88 @@ function displayDriftStats ($timeTracking) {
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
   echo "<td>Nb jours de d&eacute;passement<br/>".
             "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode.<br/>".
-            "- Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s.</td>\n";
+            "- Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s.<br/>\n".
             "- Si négatif, avance sur le planing.</td>\n";
+  echo "<td>elapsed - EffortEstim</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "<td>nbre bugs en D&eacute;rive</td>\n";
+  echo "<td>".($driftStats_new["nbDriftsPosETA"])."<span class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsPos"])."<span class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
+  echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
+  echo "<td>derive > 1</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "<td>nbre bugs &agrave; l'&eacute;quilibre</td>\n";
+  echo "<td>".($driftStats_new["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsEqual"])."<span class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
+  if (isset($_GET['debug'])) {
+   echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
+  } else {
+   echo "<td>Bugs livres dans les temps.</td>\n";
+  }
+  echo "<td> -1 <= derive <= 1</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "<td>nbre bugs en avance</td>\n";
+  echo "<td>".($driftStats_new["nbDriftsNegETA"])."<span class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
+  echo "<td>".($driftStats_new["nbDriftsNeg"])."<span class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
+  echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
+  echo "<td>derive < -1</td>\n";
+  echo "</tr>\n";
+  echo "</table>\n";
+}
+
+
+
+// -----------------------------------------------
+// display Drifts for Issues that are CURRENTLY OPENED 
+function displayCurrentDriftStats ($timeTracking) {
+
+   global $status_resolved;
+   global $status_delivered;
+   global $status_closed;
+	  
+    // ---- get Issues that are not Resolved/Closed   
+    $formatedProdProjectList = simpleListToSQLFormatedString($timeTracking->prodProjectList);
+    $issueList = array();
+    
+    $query = "SELECT DISTINCT id ".
+               "FROM `mantis_bug_table` ".
+               "WHERE status NOT IN ($status_resolved,$status_delivered,$status_closed) ".
+               "AND project_id IN ($formatedProdProjectList)".
+               "ORDER BY id DESC";
+    $result = mysql_query($query) or die("Query failed: $query");
+    while($row = mysql_fetch_object($result)) {
+            $issue = new Issue($row->id);
+            $user = new User($issue->handlerId);
+            
+            $issueList[] = $issue;
+            
+    }
+
+    $driftStats_new = $timeTracking->getIssuesDriftStats($issueList);
+  
+  
+  echo "<table>\n";
+  echo "<caption>D&eacute;rives - En cours &agrave; ce jour</caption>\n";
+  echo "<tr>\n";
+  echo "<th></th>\n";
+  echo "<th width='100' title='AVANT analyse'>ETA</th>\n";
+  echo "<th width='100' title='APRES analyse'>EffortEstim <br/>(BI + BS)</th>\n";
+  echo "<th>Description</th>\n";
+  echo "<th>Formule</th>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td title='si n&eacute;gatif, avance sur le planing'>D&eacute;rive</td>\n";
+  echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
+  echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
+  echo "<td>Nb jours de d&eacute;passement<br/>".
+            "- Le calcul est fait sur les fiches NON Resolved/Closed au ".date("Y-m-d").".<br/>";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
   
@@ -275,6 +359,7 @@ function displayWorkingDaysPerJob($timeTracking) {
   echo "</table>\n";
 }
 
+// -----------------------------------------------
 function displayWorkingDaysPerProject($timeTracking) {
   echo "<table width='300'>\n";
   echo "<caption>Charge par projet</caption>\n";
@@ -300,6 +385,7 @@ function displayWorkingDaysPerProject($timeTracking) {
   echo "</table>\n";
 }
 
+// -----------------------------------------------
 function displaySideTalksProjectDetails($timeTracking) {
   global $sideTaskProjectType;
 	
@@ -344,6 +430,7 @@ function displaySideTalksProjectDetails($timeTracking) {
   echo "</table>\n";
 }
 
+// -----------------------------------------------
 function displayCheckWarnings($timeTracking) {
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
@@ -432,8 +519,11 @@ if (0 != $teamid) {
 	displayRates($timeTracking);
 	        
 	echo "<br/><br/>\n";
-	displayDriftStats($timeTracking);
+	displayResolvedDriftStats($timeTracking);
 	
+   echo "<br/><br/>\n";
+   displayCurrentDriftStats($timeTracking);
+   
 	echo "<br/><br/>\n";
 	displayCheckWarnings($timeTracking);
 }
