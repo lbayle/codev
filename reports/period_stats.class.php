@@ -17,15 +17,27 @@ class PeriodStats {
   // The projects NOT listed here will be excluded from statistics
   var $projectList;
   
-
+  // The Projects which type is NOT listed here will be excluded from statistics
+  var $projectTypeList;
+  
   // -------------------------------------------------
   public function PeriodStats($startTimestamp, $endTimestamp) {
+  	 
+  	global $workingProjectType;
+  	global $noCommonProjectType;
+  	
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp = $endTimestamp;
 
     $this->statusCountList     = array();
     $this->statusIssueList     = array();
     $this->projectList = array();
+    
+    $this->projectTypeList = array();
+    
+    // default values
+    $this->projectTypeList[] = $workingProjectType;
+    $this->projectTypeList[] = $noCommonProjectType;
   }
 
   // -------------------------------------------------
@@ -85,19 +97,20 @@ class PeriodStats {
 
   // -------------------------------------------------
   // Count the nb of issues submitted in [startTimestamp, endTimestamp]
-  // REM: sideTaskprojects are excluded
+  // REM: select only projectTypes in $projectTypeList
   // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
   private function countIssues_submitted() {
-  	 global $workingProjectType;
   	
     $this->statusCountList["submitted"] = 0;
+
+    $formatedProjectTypes = simpleListToSQLFormatedString($this->projectTypeList);
 
     // sideTaskprojects are excluded
     $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
       "AND mantis_bug_table.project_id = codev_team_project_table.project_id ".
-      "AND codev_team_project_table.type = $workingProjectType ";
+      "AND codev_team_project_table.type IN ($formatedProjectTypes) ";
 
     // Only for specified Projects   
     if ((isset($this->projectList)) && (0 != count($this->projectList))) {
@@ -135,16 +148,18 @@ class PeriodStats {
   }
 
   // -------------------------------------------------
-  // REM: sideTaskprojects are excluded
-  // REM: excludedProjects are excluded
-  private function countIssues_other() {
-    global $workingProjectType;
+  // REM: select only projectTypes in $projectTypeList
+  // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
+    private function countIssues_other() {
+    
+    $formatedProjectTypes = simpleListToSQLFormatedString($this->projectTypeList);
+    
     
   	 // select all but SideTasks
     $query = "SELECT mantis_bug_table.id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
-      "AND codev_team_project_table.type = $workingProjectType ";
+      "AND codev_team_project_table.type IN ($formatedProjectTypes) ";
 
     // Only for specified Projects   
         if ((isset($this->projectList)) && (0 != count($this->projectList))) {
