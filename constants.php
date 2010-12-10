@@ -140,7 +140,8 @@
   // ---
   $workingProjectType   = 0;     // normal projects are type 0
   $sideTaskProjectType  = 1;     // SuiviOp must be type 1
-  $noCommonProjectType  = 2;     // projects which jave only assignedJobs (no common jobs) 
+  $noCommonProjectType  = 2;     // projects which jave only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
+
   $projectType_names = array($workingProjectType => "Project",
                              $noCommonProjectType => "Project (no common jobs)",
                              $sideTaskProjectType => "SideTasks");

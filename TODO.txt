@@ -1,4 +1,15 @@
+TODO
 - ajouter affichage derives fiches en cours dans prodStats
 - timeTracking: filtrer les timeTracks de la semaine en cours (et plus recents ?)
 - manager: ne pas inclure dans les statistiques
+- noCommonProjectType: comment on s'en sert dans les stats ?
 
+BUGS
+
+
+ARCHI
+- actuellement, un job est associé a un projet, mais un job n'est-il pas plutot associé a un Team ?
+ex: sur le projet X, l'equipe PROSYS va faire des job de Dev, mais l'equipe AtosTest ne doit pas pouvoir faire du Dev dessus.
+mais pour les SideTasksProjects, les job associes ne sont pas du Dev et ne sont pas lies a un Team !
+-> donc un job est bel et bien associé a un projet, on fait confiance a AtosTest pour ne pas imputer du Dev, par contre
+   imputer du Dev sur un SideTaskProject n'a aucun sens donc interdit... 
