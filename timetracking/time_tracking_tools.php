@@ -32,7 +32,7 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
    }
 }
 
-function displayTimetrackingTuples($userid) {
+function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
    // Display previous entries
    echo "<div align='center'>\n";
    echo "<table>\n";
@@ -52,7 +52,13 @@ function displayTimetrackingTuples($userid) {
    echo "<th title='Remaining'>RAE</th>\n";
    echo "</tr>\n";
 
-   $query     = "SELECT id, bugid, jobid, date, duration FROM `codev_timetracking_table` WHERE userid=$userid ORDER BY date DESC";
+   $query     = "SELECT id, bugid, jobid, date, duration ".
+                "FROM `codev_timetracking_table` ".
+                "WHERE userid=$userid ";
+   
+   if (NULL != $startTimestamp) { $query .= "AND date >= $startTimestamp "; }
+   if (NULL != $endTimestamp)   { $query .= "AND date <= $endTimestamp "; }
+   $query .= "ORDER BY date DESC";
    $result    = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {
@@ -76,9 +82,10 @@ function displayTimetrackingTuples($userid) {
       $totalEstim = $issue->effortEstim + $issue->effortAdd;
       
       echo "<tr>\n";
-      echo "<td width=40>\n";
+      //echo "<td width=40>\n";
+      echo "<td>\n";
       echo "<a title='delete this row' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."', '".$row->bugid."')\" ><img border='0' src='b_drop.png'></a>\n";
-      echo "<a title='Edit Mantis Issue' href='http://".$_SERVER['HTTP_HOST']."/mantis/view.php?id=$row->bugid' target='_blank'><img border='0' src='http://".$_SERVER['HTTP_HOST']."/mantis/images/favicon.ico'></a>";
+      //echo "<a title='Edit Mantis Issue' href='http://".$_SERVER['HTTP_HOST']."/mantis/view.php?id=$row->bugid' target='_blank'><img border='0' src='http://".$_SERVER['HTTP_HOST']."/mantis/images/favicon.ico'></a>";
       
       echo "</td>\n";
       echo "<td width=170>".$cosmeticDate."</td>\n";

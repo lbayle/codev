@@ -405,7 +405,7 @@ if ($_POST[nextForm] == "addTrackForm") {
   echo "<div class='center'>";
   displayCheckWarnings($userid);
   echo "</div>";
-  displayTimetrackingTuples($userid);
+  displayTimetrackingTuples($userid, $startTimestamp);
 }
 
 ?>
