@@ -106,13 +106,16 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
    echo "<div>\n";
 }
 
-function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking) {
-   echo "<div align='center'>\n";
+function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYear=NULL) {
+
+	if (NULL == $curYear) { $year = date('Y'); }
+	
+	echo "<div align='center'>\n";
    echo "<br/>Semaine \n";
-   echo "<select name='weekidSelector' onchange='javascript: submitWeekid(this)'>\n";
+   echo "<select id='weekidSelector' name='weekidSelector' onchange='javascript: submitWeekid()'>\n";
    for ($i = 1; $i <= 53; $i++)
    {
-      $wDates      = week_dates($i,date('Y'));
+      $wDates      = week_dates($i,$curYear);
       
       if ($i == $weekid) {
         echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
@@ -121,6 +124,16 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking) {
       }
    }
    echo "</select>\n";
+  echo "<select id='yearSelector' name='yearSelector' onchange='javascript: submitWeekid()'>\n";
+  for ($y = ($curYear -1); $y <= ($curYear +1); $y++) {
+
+    if ($y == $curYear) {
+      echo "<option selected value='".$y."'>".$y."</option>\n";
+    } else {
+      echo "<option value='".$y."'>".$y."</option>\n";
+    }
+  }
+  echo "</select>\n";
    
    $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table>\n";

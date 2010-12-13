@@ -32,8 +32,9 @@ if (!isset($_SESSION['userid'])) {
     }    
   }
     
-  function submitWeekid(selector){
-    document.forms["form1"].weekid.value = selector.value;
+  function submitWeekid() {
+    document.forms["form1"].weekid.value = document.getElementById('weekidSelector').value;
+    document.forms["form1"].year.value = document.getElementById('yearSelector').value;
     document.forms["form1"].action.value="updateWeekDisplay";
     document.forms["form1"].submit();
   }
@@ -126,7 +127,8 @@ function setUserForm($originPage) {
   echo "<input type=button value='Envoyer' onClick='javascript: submitUser()'>\n";
    
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
-   
+  echo "<input type=hidden name=year    value=".date('Y').">\n";
+  
   echo "<input type=hidden name=currentForm value=setUserAndPeriodForm>\n";
   echo "<input type=hidden name=nextForm    value=addTrackForm>\n";
 
@@ -135,7 +137,7 @@ function setUserForm($originPage) {
 }
 
 // --------------------------------------------------------------
-function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultProjectid, $originPage) {
+function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $defaultProjectid, $originPage) {
    
    list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
@@ -267,6 +269,7 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
    echo "<input type=button name='btAddTrack' value='Ajouter' onClick='javascript: addTrack()'>\n";
 
    echo "<input type=hidden name=userid    value=$userid>\n";
+   echo "<input type=hidden name=year      value=$curYear>\n";
    echo "<input type=hidden name=weekid    value=$weekid>\n";
    echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
    echo "<input type=hidden name=trackid   value=unknown1>\n";
@@ -281,7 +284,8 @@ function addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultPro
 
 
 // ================ MAIN =================
-$year = date('Y');
+//$year = date('Y');
+$year = isset($_POST[year]) ? $_POST[year] : date('Y');
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die("Impossible de se connecter");
@@ -318,7 +322,7 @@ if (!isset($_POST[nextForm])) {
 if ($_POST[nextForm] == "addTrackForm") {
   $action = $_POST[action];
   $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
-   
+  
   $defaultDate  = $formatedDate= date("Y-m-d", time());
   $defaultBugid = 0;
   $defaultProjectid=0;
@@ -397,10 +401,10 @@ if ($_POST[nextForm] == "addTrackForm") {
   
   // display Track Form
   echo "<br/>";
-  addTrackForm($weekid, $userid, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
+  addTrackForm($weekid, $year, $userid, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
   echo "<br/>";
    
-  displayWeekDetails($weekid, $weekDates, $userid, $timeTracking);
+  displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $year);
    
   echo "<div class='center'>";
   displayCheckWarnings($userid);
