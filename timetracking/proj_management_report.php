@@ -46,7 +46,7 @@ require_once('calendar/classes/tc_calendar.php');
 // -----------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear) {
 
-  echo "<div>\n";
+  echo "<div align='center'>\n";
   echo "<form id='form1' name='form1' method='post' action='proj_management_report.php'>\n";
 
   // -----------
@@ -107,90 +107,6 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 }
 
 
-// ---------------------------------------------------------------
-function displayManagedIssues() {
-	
-	global $status_resolved;
-	global $status_delivered;
-   global $status_closed;
-
-   
-  echo "<div class='center'>\n";
-  echo "<table width='70%'>\n";
-  echo "<caption>Detailed Info</caption>\n";
-  echo "<tr>\n";
-  echo "   <th>m_id</th>\n";
-  echo "   <th>tc_id</th>\n";
-  echo "   <th>Project</th>\n";
-  echo "   <th>Release</th>\n";
-  echo "   <th>Assigned to</th>\n";
-  echo "   <th>Priority</th>\n";
-  echo "   <th>Category</th>\n";
-  echo "   <th>Submitted</th>\n";
-  echo "   <th>Summary</th>\n";
-  echo "   <th>Status</th>\n";
-  echo "   <th>Resolution</th>\n";
-  echo "   <th>ETA</th>\n";
-  echo "   <th>BI</th>\n";
-  echo "   <th>BS</th>\n";
-  echo "   <th>RAE</th>\n";
-  echo "   <th>Dead line</th>\n";
-  echo "   <th>Delivery Date</th>\n";
-  echo "   <th>Analyse start</th>\n";
-  echo "   <th>Analyse stop</th>\n";
-  echo "   <th>Dev start</th>\n";
-  echo "   <th>Dev stop</th>\n";
-  echo "</tr>\n";
-  
-   
-   
-	// for all issues with status !=  {resolved, closed}
-	
-      $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE status NOT IN ($status_resolved,$status_delivered,$status_closed) ORDER BY id DESC";
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result)) {
-            $issue = new Issue($row->id);
-         	$user = new User($issue->handlerId);
-
-			  echo "<tr>\n";
-			  echo "   <td>$issue->bugId</td>\n";
-			  echo "   <td>".$issue->getTC()."</td>\n";
-			  echo "   <td>".$issue->getProjectName()."</td>\n";
-			  echo "   <td>$issue->release</td>\n";
-			  echo "   <td>".$user->getShortname()."</td>\n";
-			  echo "   <td>".$issue->getPriorityName()."</td>\n";
-			  echo "   <td>".$issue->getCategoryName()."</td>\n";
-			  echo "   <td>".date("d/m/Y", $issue->dateSubmission)."</td>\n";
-			  echo "   <td>$issue->summary</td>\n";
-			  echo "   <td>".$issue->getCurrentStatusName()."</td>\n";
-			  echo "   <td>".$issue->getResolutionName()."</td>\n";
-			  echo "   <td>".$issue->getEtaName()."</td>\n";
-			  echo "   <td>$issue->effortEstim</td>\n";
-			  echo "   <td>$issue->effortAdd</td>\n";
-			  echo "   <td>$issue->remaining</td>\n";
-			  if (NULL != $issue->deadLine) {
-	           echo "   <td>".date("d/m/Y", $issue->deadLine)."</td>\n";
-			  } else {
-              echo "   <td></td>\n";
-			  }
-           if (NULL != $issue->deliveryDate) {
-			     echo "   <td>".date("d/m/Y", $issue->deliveryDate)."</td>\n";
-           } else {
-              echo "   <td></td>\n";
-           }
-           echo "   <td></td>\n";
-           echo "   <td></td>\n";
-           echo "   <td></td>\n";
-           echo "   <td></td>\n";
-           echo "</tr>\n";
-  
-            
-      }
-  echo "</table>\n";
-      
-	
-	
-}
 
 // ---------------------------------------------------------------
 function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
@@ -572,8 +488,10 @@ if (0 == count($teamList)) {
 	if ("exportManagementReport" == $action) {
 	
 	
-          if (0 != $teamid) {
-		
+      if (0 != $teamid) {
+
+      	echo "<br/>\n";
+      	echo "<hr/>";
 		   echo "<br/>\n";
 	      echo "Team: ".$teamList[$teamid]."<br/>\n";
 		   echo "<br/>\n";
@@ -587,7 +505,6 @@ if (0 == count($teamList)) {
 		   echo "<b>- Export Managed Issues...</b><br/>\n";
 		   flush(); // envoyer tout l'affichage courant au navigateur 
 		   
-		   //displayManagedIssues();
 		   $filename = exportManagedIssuesToCSV($codevReportsDir, $startTimestamp, $endTimestamp);
 	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
 	      flush(); 
