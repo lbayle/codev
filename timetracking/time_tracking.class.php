@@ -674,6 +674,44 @@ class TimeTracking {
     return $weekTracks;
   }
  
+     // -----------------------------------------------
+   // return TimeTracks created by the team during the timestamp
+   // returns : $projectTracks[projectid][bugid][jobid] = duration
+   public function getProjectTracks() {
+      
+      $projectTracks = array();
+
+    // For all bugs in timestamp
+    $query     = "SELECT  mantis_bug_table.project_id, codev_timetracking_table.bugid, codev_timetracking_table.jobid, duration ".
+                 "FROM `codev_timetracking_table`, `codev_team_user_table`, `mantis_bug_table`, `codev_job_table`, `mantis_project_table` ".
+                 "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
+                 "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
+                 "AND   codev_team_user_table.team_id = $this->team_id ".
+                 "AND   mantis_bug_table.id     = codev_timetracking_table.bugid ".
+                 "AND   mantis_project_table.id = mantis_bug_table.project_id ".
+                 "AND   codev_job_table.id      = codev_timetracking_table.jobid ".
+                 "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name";
+    
+    $result    = mysql_query($query) or die("Query failed: $query");
+    while($row = mysql_fetch_object($result))
+    {
+      if (NULL == $projectTracks[$row->project_id]) {
+        $projectTracks[$row->project_id] = array(); // create array for bug_id
+        $projectTracks[$row->project_id][$row->bugid] = array(); // create array for jobs
+      }
+      if (NULL == $projectTracks[$row->project_id][$row->bugid]) {
+        $projectTracks[$row->project_id][$row->bugid] = array(); // create array for new jobs
+      }
+      $projectTracks[$row->project_id][$row->bugid][$row->jobid] += $row->duration;
+    }      
+      
+    return $projectTracks;
+   }
+   
+   
+  
+  
+  
 } // class TimeTracking
 
 ?>

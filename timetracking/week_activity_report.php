@@ -33,9 +33,11 @@ if (!isset($_SESSION['userid'])) {
 include_once "../constants.php";
 include_once "../tools.php";
 include_once "../reports/issue.class.php";
+include_once "../reports/project.class.php";
 include_once "../auth/user.class.php";
 include_once "time_tracking.class.php";
 
+// ------------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
 
   echo "<div>\n";
@@ -79,6 +81,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
 }
 
 
+// ------------------------------------------------
 function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) {
 
   echo "<div>\n";
@@ -110,6 +113,7 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) 
   
 }
 
+// ------------------------------------------------
 function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname) {
   // PERIOD week
   //$thisWeekId=date("W");
@@ -150,6 +154,49 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   }   
   echo "</table>\n";
 }
+
+
+// ------------------------------------------------
+function displayProjectActivityReport($timeTracking) {
+
+   // $projectTracks[projectid][bugid][jobid] = duration
+   $projectTracks = $timeTracking->getProjectTracks();   
+   
+  echo "<div>\n";
+  
+  foreach ($projectTracks as $projectId => $bugList) {
+   
+     // write table header
+     $project = new Project($projectId);
+     echo "<table width='95%'>\n";
+     echo "<caption>".$project->name."</caption>\n";
+     echo "<tr>\n";
+     echo "<th width='50%'>Tache</th>\n";
+     
+     $jobList = $project->getJobList();
+     foreach($jobList as $jobId => $jobName) {
+         echo "<th width='10%'>$jobName</th>\n";
+     }
+     echo "</tr>\n";
+      
+     // write table content (by bugid)
+     foreach ($bugList as $bugid => $jobs) {
+         $issue = new Issue($bugid);
+      
+         echo "<tr>\n";
+         echo "<td>$bugid / ".$issue->tcId." : ".$issue->summary."</td>\n";
+         
+         foreach($jobList as $jobId => $jobName) {
+            echo "<td width='10%'>".$jobs[$jobId]."</td>\n";
+         }
+         echo "</tr>\n";
+     }
+     echo "</table>\n";
+  }
+  echo "</div>\n";
+}
+
+
 
 function displayCheckWarnings($timeTracking) {
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
@@ -225,9 +272,16 @@ if (0 == count($teamList)) {
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 		
 		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
-	
-	   echo "<br/><br/>\n";
-	   displayCheckWarnings($timeTracking);
+      
+      echo "<br/><br/>\n";
+      displayCheckWarnings($timeTracking);
+		
+      echo "<br/><br/>\n";
+		//echo "<hr align='left' width='50%'/>\n";
+      echo "<hr/>\n";
+		echo "<br/><br/>\n";
+      displayProjectActivityReport($timeTracking);
+		
 	}
 }
    

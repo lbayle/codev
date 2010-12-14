@@ -302,7 +302,7 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
 // ---------------------------------------------
 // format: nom;prenom;trigramme;date de debut;date de fin;nb jours
 // format date: "jj/mm/aa"
-function exportHolidaystoCSV($month, $year, $teamid, $path="") {
+function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
 
   $sepChar=';';
   
@@ -312,10 +312,6 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
   $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
    
    // create filename & open file
-   $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
-   $result = mysql_query($query) or die("Query failed: $query");
-   $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
-   
    $myFile = $path."\AOI-PIL-Holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
    $fh = fopen($myFile, 'w');
 
@@ -414,15 +410,11 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
 
 
 // ---------------------------------------------
-function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $path="") {
+function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $teamName, $path="") {
 
   $sepChar=';';
 
   // create filename & open file
-  $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
-  $result = mysql_query($query) or die("Query failed: $query");
-  $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
-  
   $myFile = $path."\AOI-PIL-CRA_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".$weekid.".csv";
   $fh = fopen($myFile, 'w');
   
@@ -490,8 +482,47 @@ function exportWeekDetailsToCSV($weekid, $weekDates, $userid, $timeTracking, $re
 }
 
 
+// ------------------------------------------------
+function exportProjectActivityToCSV($timeTracking, $teamName, $path="") {
 
+  $sepChar=';';
+	
+  $myFile = $path."\AOI-PIL-Projects_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".$weekid.".csv";
+  $fh = fopen($myFile, 'w');
+  
+  // $projectTracks[projectid][bugid][jobid] = duration
+  $projectTracks = $timeTracking->getProjectTracks();   
+   
+  foreach ($projectTracks as $projectId => $bugList) {
+   
+     // write table header
+     $project = new Project($projectId);
+     $stringData = $project->name."\n";
 
+     $stringData .="Tache".$sepChar;
+     $jobList = $project->getJobList();
+     foreach($jobList as $jobId => $jobName) {
+        $stringData .= $jobName.$sepChar;
+     }
+     $stringData .="\n";
+      
+     // write table content (by bugid)
+     foreach ($bugList as $bugid => $jobs) {
+         $issue = new Issue($bugid);
+      
+         $stringData .= "$bugid / ".$issue->tcId." : ".$issue->summary.$sepChar;
+         
+         foreach($jobList as $jobId => $jobName) {
+            $stringData .= $jobs[$jobId].$sepChar;
+         }
+         $stringData .="\n";
+     }
+     $stringData .="\n";
+     fwrite($fh, $stringData);
+  }
+  fclose($fh);
+  return $myFile;
+}
 
 
 
@@ -521,6 +552,9 @@ $managedTeamList = $user->getManagedTeamList();
 $teamList = $lTeamList + $managedTeamList;
 $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
+$query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
+$result = mysql_query($query) or die("Query failed: $query");
+$teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
 
 
 if (0 == count($teamList)) {
@@ -564,7 +598,7 @@ if (0 == count($teamList)) {
 	      flush(); // envoyer tout l'affichage courant au navigateur 
 	      
 	      
-	      $filename = exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $codevReportsDir);
+	      $filename = exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracking, $teamName, $codevReportsDir);
 	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
 	      flush(); 
 	      
@@ -582,11 +616,17 @@ if (0 == count($teamList)) {
 		   }
 		   */ 
 		   for ($i = $startMonth; $i <= 12; $i++) {
-		      $filename = exportHolidaystoCSV($i, $year, $teamid, $codevReportsDir);
+		      $filename = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
 	         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
 	         flush(); 
 		   }
 		   
+         // -----------------------------
+         echo "<br/>\n";
+         echo "<b>- Export Projects Activity...</b><br/>\n";
+		   $filename = exportProjectActivityToCSV($timeTracking, $teamName, $codevReportsDir);
+         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+		   flush(); 
 		   
 		   echo "<br/>\n";
 		   echo "<br/>\n";

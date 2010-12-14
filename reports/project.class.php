@@ -85,14 +85,16 @@ class Project {
    	
    	$issueList = array();
    	
-	   $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id=$this->id ORDER BY id DESC";
+	   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+	            "WHERE project_id=$this->id ".
+	            "ORDER BY id DESC";
+	   
 	   $result = mysql_query($query) or die("Query failed: $query");
 	   while($row = mysql_fetch_object($result)) {
 	   	$issueList[] = $row->id;
 	   }
 	   return $issueList;
    }
-   
    
    // -----------------------------------------------
    public function isSideTasksProject() {
