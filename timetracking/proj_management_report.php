@@ -148,7 +148,7 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
       while($row = mysql_fetch_object($result)) {
             $issue = new Issue($row->id);
             $user = new User($issue->handlerId);
-           
+
             $deadLine = "";
             if (NULL != $issue->deadLine) {
              $deadLine = date("d/m/Y", $issue->deadLine);
@@ -157,7 +157,8 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
             if (NULL != $issue->deliveryDate) {
              $deliveryDate = date("d/m/Y", $issue->deliveryDate);
             }
-            
+                  
+                        
 			   // write data
 			   $stringData = $issue->bugId.$sepChar.   
 			                 $issue->getTC().$sepChar.
@@ -187,7 +188,12 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
   while($row = mysql_fetch_object($result)) {
     $issue = new Issue($row->id);
     $user = new User($issue->handlerId);
-          
+
+    $deliveryDate = "";
+    if (NULL != $issue->deliveryDate) {
+      $deliveryDate = date("d/m/Y", $issue->deliveryDate);
+    }
+    
     // write data
     $stringData = $issue->bugId.$sepChar.   
                   $issue->getTC().$sepChar.
