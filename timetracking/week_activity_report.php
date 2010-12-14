@@ -124,7 +124,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
   echo "<th width='50%'>Tache</th>\n";
-  echo "<th width='3'>RAE</th>\n";
+  //echo "<th width='3'>RAE</th>\n";
   echo "<th width='7%'>Projet</th>\n";
   echo "<th width='10%'>Poste</th>\n";
   echo "<th width='10'>Lundi<br>".date("d M", $weekDates[1])."</th>\n";
@@ -143,7 +143,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
                 
       echo "<tr>\n";
       echo "<td>$bugid / ".$issue->tcId." : ".$issue->summary."</td>\n";
-      echo "<td>".$issue->remaining."</td>\n";
+      //echo "<td>".$issue->remaining."</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$jobName."</td>\n";
       for ($i = 1; $i <= 5; $i++) {
@@ -283,7 +283,7 @@ if (0 == count($teamList)) {
 	   
 	   
       echo "<br/>\n";
-	   echo "<hr/>\n";
+	   echo "<hr width='95%'/>\n";
 	   echo "<a name='tagTeamMember'><h2>Par Team Member</h2></a>\n";
 		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
       
@@ -292,7 +292,7 @@ if (0 == count($teamList)) {
 		
       echo "<br/><br/>\n";
 		//echo "<hr align='left' width='50%'/>\n";
-      echo "<hr/>\n";
+      echo "<hr width='95%'/>\n";
       echo "<a name='tagProject'><h2>Par Projet</h2></a>\n";
       displayProjectActivityReport($timeTracking);
 		

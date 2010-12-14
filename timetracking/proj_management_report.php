@@ -500,6 +500,7 @@ function exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $path="")
      $stringData = $project->name."\n";
 
      $stringData .="Tache".$sepChar;
+     $stringData .="RAE".$sepChar;
      $jobList = $project->getJobList();
      foreach($jobList as $jobId => $jobName) {
         $stringData .= $jobName.$sepChar;
@@ -511,7 +512,7 @@ function exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $path="")
          $issue = new Issue($bugid);
       
          $stringData .= "$bugid / ".$issue->tcId." : ".$issue->summary.$sepChar;
-         
+         $stringData .= $issue->remaining.$sepChar;
          foreach($jobList as $jobId => $jobName) {
             $stringData .= $jobs[$jobId].$sepChar;
          }
