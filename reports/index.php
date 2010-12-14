@@ -110,27 +110,48 @@ if (NULL == $teamList[$teamid]) {
 
 setTeamForm("index.php", $teamid, $teamList);
 
-echo "<br/>";
-echo "<br/>";
-
 if (0 != $teamid) {
 
-	$periodStatsReport = new PeriodStatsReport($start_year, $teamid);
+   echo "<div align='left'>\n";
+   echo "<ul>\n";
+   echo "   <li><a href='#tagPeriodStats'>Bilan mensuel</a></li>\n";
+   echo "   <li><a href='#tagForseingTable'>Avancement par fiche</a></li>\n";
+   echo "   <li><a href='#tagDurations'>Repartition du temps par status</a></li>\n";
+   echo "</ul><br/>\n";
+   echo "</div>\n";
+      
+      
+   echo "<a name='tagPeriodStats'></a>\n";
+   echo "<br/>\n";
+   echo "<hr/>\n";
+   echo "<br/>\n";
+   $periodStatsReport = new PeriodStatsReport($start_year, $teamid);
 	$periodStatsReport->computeReport();
 	$periodStatsReport->displayHTMLReport();
 	
    echo "<br/>";
 	echo "<br/>";
 	echo "<br/>";
-	$issueTracking = new IssueTrackingFDJ($teamid);
+   echo "<a name='tagForseingTable'></a>\n";
+   echo "<br/>\n";
+   echo "<hr/>\n";
+   echo "<br/>\n";
+   $issueTracking = new IssueTrackingFDJ($teamid);
 	$issueTracking->initialize();
 	$issueTracking->forseingTableDisplay();
 	
    echo "<br/>";
 	echo "<br/>";
 	echo "<br/>";
-	$issueTracking->durationsTableDisplay();
-	
+   echo "<a name='tagDurations'></a>\n";
+   echo "<br/>\n";
+   echo "<hr/>\n";
+   echo "<br/>\n";
+   $issueTracking->durationsTableDisplay();
+
+   echo "<br/>\n";
+   echo "<br/>\n";
+   
 }
 // Fermeture de la connexion
 mysql_close($link);

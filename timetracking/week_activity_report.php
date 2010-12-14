@@ -173,10 +173,11 @@ function displayProjectActivityReport($timeTracking) {
      echo "<caption>".$project->name."</caption>\n";
      echo "<tr>\n";
      echo "<th width='50%'>Tache</th>\n";
+     echo "<th width='2%'>RAE</th>\n";
      
      $jobList = $project->getJobList();
      foreach($jobList as $jobId => $jobName) {
-         echo "<th width='10%'>$jobName</th>\n";
+         echo "<th>$jobName</th>\n";
      }
      echo "</tr>\n";
       
@@ -186,6 +187,7 @@ function displayProjectActivityReport($timeTracking) {
       
          echo "<tr>\n";
          echo "<td>$bugid / ".$issue->tcId." : ".$issue->summary."</td>\n";
+         echo "<td>".$issue->remaining."</td>\n";
          
          foreach($jobList as $jobId => $jobName) {
             echo "<td width='10%'>".$jobs[$jobId]."</td>\n";
@@ -272,9 +274,17 @@ if (0 == count($teamList)) {
 	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 		
-      echo "<br/><br/>\n";
+      echo "<div align='left'>\n";
+	   echo "<ul>\n";
+      echo "   <li><a href='#tagTeamMember'>Par Team Member</a></li>\n";
+      echo "   <li><a href='#tagProject'>Par Projet</a></li>\n";
+	   echo "</ul><br/>\n";
+      echo "</div>\n";
+	   
+	   
+      echo "<br/>\n";
 	   echo "<hr/>\n";
-	   echo "<h2>Par Team Member</h2>\n";
+	   echo "<a name='tagTeamMember'><h2>Par Team Member</h2></a>\n";
 		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
       
       echo "<br/><br/>\n";
@@ -283,7 +293,7 @@ if (0 == count($teamList)) {
       echo "<br/><br/>\n";
 		//echo "<hr align='left' width='50%'/>\n";
       echo "<hr/>\n";
-      echo "<h2>Par Projet</h2>\n";
+      echo "<a name='tagProject'><h2>Par Projet</h2></a>\n";
       displayProjectActivityReport($timeTracking);
 		
 	}
