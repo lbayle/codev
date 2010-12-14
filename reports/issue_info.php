@@ -19,9 +19,18 @@ if (!isset($_SESSION['userid'])) {
 <script language="JavaScript">
   function submitForm() {
     document.forms["form1"].bugid.value = document.getElementById('bugidSelector').value;
+    document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
     document.forms["form1"].action.value = "displayBug";
     document.forms["form1"].submit();
   }
+
+  function setProjectid() {
+     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
+     document.forms["form1"].action.value="setProjectid";
+     document.forms["form1"].submit();
+  }
+
+  
 </script>
 
 <div id="content">
@@ -31,6 +40,7 @@ if (!isset($_SESSION['userid'])) {
 include_once "../constants.php";
 include_once "../tools.php";
 include_once "../reports/issue.class.php";
+include_once "../reports/project.class.php";
 include_once "../timetracking/time_track.class.php";
 include_once "../auth/user.class.php";
 
@@ -69,7 +79,87 @@ function displayIssueSelectionForm($user1, $defaultBugid) {
   echo "</form>\n";
   echo "</div>\n";
 }
+
+// --------------------------------------------------------------
+function displayIssueSelectionForm2($user1, $defaultBugid, $defaultProjectid) {
    
+   // Display form
+   echo "<div style='text-align: center;'>";
+   echo "<form name='form1' method='post' Action='issue_info.php'>\n";
+
+   $project1 = new Project($defaultProjectid);
+   
+   // Project list
+   echo "&nbsp;";
+   echo "&nbsp;";
+
+   // --- Project List
+   // All projects from teams where I'm a Developper
+   $devProjList = $user1->getProjectList(); 
+   
+   // All projects from Teams where I'm a Manager
+   $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
+   
+   $projList = $devProjList + $managedProjList;
+   
+   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='Projet'>\n";
+   echo "<option value='0'>(tous)</option>\n";
+   foreach ($projList as $pid => $pname)
+   {
+      if ($pid == $defaultProjectid) {
+         echo "<option selected value='".$pid."'>$pname</option>\n";
+      } else {
+         echo "<option value='".$pid."'>$pname</option>\n";
+      }
+   }
+   echo "</select>\n";
+
+   echo "&nbsp;";
+   
+   // --- Task list
+   if (0 != $project1->id) {
+      $issueList = $project1->getIssueList();
+   } else {
+       // no project specified: show all tasks
+       $issueList = array();
+       $formatedProjList = valuedListToSQLFormatedString($projList);
+       
+       $query  = "SELECT id ".
+                 "FROM `mantis_bug_table` ".
+                 "WHERE project_id IN ($formatedProjList) ".
+                 "ORDER BY id DESC";
+       $result = mysql_query($query) or die("Query failed: $query");
+         if (0 != mysql_num_rows($result)) {
+            while($row = mysql_fetch_object($result))
+            {
+               $issueList[] = $row->id;
+            }
+       }
+   }
+   echo "<select id='bugidSelector' name='bugidSelector' style='width: 600px;' title='Tache'>\n";
+   echo "<option value='0'></option>\n";
+
+   foreach ($issueList as $bugid) {
+         $issue = new Issue ($bugid);
+      if ($bugid == $defaultBugid) {
+         echo "<option selected value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
+      } else {
+         echo "<option value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
+      }
+   }
+   echo "</select>\n";
+   
+   echo "<input type=button value='Envoyer' onClick='javascript: submitForm()'>\n";
+   
+   echo "<input type=hidden name=bugid  value=$defaultBugid>\n";
+   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
+   echo "<input type=hidden name=action       value=noAction>\n";
+   echo "</form>\n";
+   
+   echo "</div>";
+}
+
+
 // ---------------------------------------------------------------
 function displayIssueGeneralInfo($issue) {      
   echo "<table>\n";
@@ -192,12 +282,12 @@ $year = date('Y');
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die("Could not connect database : ".mysql_error());
 mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql_error());
 
-$action = $_POST[action];
-$session_userid = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
-$bug_id = isset($_POST[bugid])  ? $_POST[bugid]  : 0;
+$action           = $_POST[action];
+$session_userid   = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
+$bug_id           = isset($_POST[bugid])  ? $_POST[bugid]  : 0;
+$defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
 
 $user = new User($session_userid);
-
 
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
@@ -210,7 +300,7 @@ if (0 == count($teamList)) {
 
 } else {
 
-	displayIssueSelectionForm($user, $bug_id);
+	displayIssueSelectionForm2($user, $bug_id, $defaultProjectid);
 	
 	if ("displayBug" == $action) {
 	  $issue = new Issue ($bug_id);
@@ -225,7 +315,12 @@ if (0 == count($teamList)) {
 	  }
 	
 	  echo "<br/><br/>\n";
-	}
+	} elseif ("setProjectid" == $action) {
+
+    // pre-set form fields
+    $defaultProjectid  = $_POST[projectid];
+	} 
+	
 }
 ?>
 

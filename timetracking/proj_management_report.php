@@ -80,7 +80,6 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 
   
   // -----------
-  echo "Year: \n";
   echo "<select id='yearSelector' name='yearSelector'>\n";
   for ($y = ($curYear -2); $y <= ($curYear +2); $y++) {
 
