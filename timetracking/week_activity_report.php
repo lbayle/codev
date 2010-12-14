@@ -162,12 +162,13 @@ function displayProjectActivityReport($timeTracking) {
    // $projectTracks[projectid][bugid][jobid] = duration
    $projectTracks = $timeTracking->getProjectTracks();   
    
-  echo "<div>\n";
+  echo "<div align='center'>\n";
   
   foreach ($projectTracks as $projectId => $bugList) {
    
      // write table header
      $project = new Project($projectId);
+     echo "<br/>\n";
      echo "<table width='95%'>\n";
      echo "<caption>".$project->name."</caption>\n";
      echo "<tr>\n";
@@ -271,6 +272,9 @@ if (0 == count($teamList)) {
 	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 		
+      echo "<br/><br/>\n";
+	   echo "<hr/>\n";
+	   echo "<h2>Par Team Member</h2>\n";
 		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
       
       echo "<br/><br/>\n";
@@ -279,7 +283,7 @@ if (0 == count($teamList)) {
       echo "<br/><br/>\n";
 		//echo "<hr align='left' width='50%'/>\n";
       echo "<hr/>\n";
-		echo "<br/><br/>\n";
+      echo "<h2>Par Projet</h2>\n";
       displayProjectActivityReport($timeTracking);
 		
 	}
