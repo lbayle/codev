@@ -483,7 +483,7 @@ function exportWeekDetailsToCSV($weekid, $weekDates, $userid, $timeTracking, $re
 
 
 // ------------------------------------------------
-function exportProjectActivityToCSV($timeTracking, $teamName, $path="") {
+function exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $path="") {
 
   $sepChar=';';
 	
@@ -594,7 +594,7 @@ if (0 == count($teamList)) {
 		   
 	      // -----------------------------
 	      echo "<br/>\n";
-	      echo "<b>- Export Week $weekid Activity...</b><br/>\n";
+	      echo "<b>- Export Week $weekid Member Activity...</b><br/>\n";
 	      flush(); // envoyer tout l'affichage courant au navigateur 
 	      
 	      
@@ -602,7 +602,16 @@ if (0 == count($teamList)) {
 	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
 	      flush(); 
 	      
-	      // -----------------------------
+         // -----------------------------
+         echo "<br/>\n";
+         echo "<b>- Export Week $weekid Projects Activity...</b><br/>\n";
+         flush(); 
+         
+         $filename = exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $codevReportsDir);
+         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+         flush(); 
+	      
+         // -----------------------------
 	      echo "<br/>\n";
 	      echo "<b>- Export $year Holidays...</b><br/>\n";
 		   flush(); // envoyer tout l'affichage courant au navigateur
@@ -621,12 +630,6 @@ if (0 == count($teamList)) {
 	         flush(); 
 		   }
 		   
-         // -----------------------------
-         echo "<br/>\n";
-         echo "<b>- Export Projects Activity...</b><br/>\n";
-		   $filename = exportProjectActivityToCSV($timeTracking, $teamName, $codevReportsDir);
-         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-		   flush(); 
 		   
 		   echo "<br/>\n";
 		   echo "<br/>\n";
