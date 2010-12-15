@@ -120,13 +120,17 @@
   // ---
   // il peut y avoir plusieurs observer
   // il n'y a qu'un seul teamLeader
+  // il peut y avoir plusieurs managers, mais ils ne peuvent imputer que sur des SideTasks 
   // un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
+  
   $accessLevel_dev      = 10;    // in table codev_team_user_table
   $accessLevel_observer = 20;    // in table codev_team_user_table
+  //$accessLevel_teamleader = 25;    // REM: NOT USED FOR NOW !!
   $accessLevel_manager  = 30;    // in table codev_team_user_table TODO
   $access_level_names = array($accessLevel_dev      => "Developper", // can modify, can NOT view stats
                               $accessLevel_observer => "Observer",  // can NOT modify, can view stats  
-                              $accessLevel_manager  => "Manager");  // can modify, can view stats, TODO resource NOT in statistics    
+                              //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?   
+                              $accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
                               
   // this is the custom field added to mantis issues for TimeTracking
   $tcCustomField          = 1; // in mantis_custom_field_table
@@ -158,7 +162,6 @@
 
   
   // ---
-  // TODO DEPRECATED $IncidentProject doit etre trouve dans  'codev_team_project_table'
   $IncidentProject  = $defaultSideTaskProject;
   $IncidentCategory = 19;  // "Incidents"      in mantis_category_table
 

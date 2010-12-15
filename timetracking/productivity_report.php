@@ -105,7 +105,8 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
 function displayRates ($timeTracking) {
          
   $prodDays                = $timeTracking->getProdDays();
-  $sideProdDays            = $timeTracking->getProdDaysSideTasks();
+  $sideProdDaysDevel       = $timeTracking->getProdDaysSideTasks(true);
+  $sideProdDaysManagers    = $timeTracking->getProdDaysSideTasks(false) - $timeTracking->getProdDaysSideTasks(true);
   $productivityRateETA     = $timeTracking->getProductivityRate("ETA");
   $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
   $efficiencyRate          = $timeTracking->getEfficiencyRate();
@@ -129,15 +130,22 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Production Days : SuiviOp</td>\n";
-  echo "<td>$sideProdDays</td>\n";
-  echo "<td>nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s)</td>\n";
+  echo "<td>Production Days : SuiviOp Dev</td>\n";
+  echo "<td>$sideProdDaysDevel</td>\n";
+  echo "<td>nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) par les Developers</td>\n";
+  echo "<td></td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td>Production Days : SuiviOp Managers</td>\n";
+  echo "<td>$sideProdDaysManagers</td>\n";
+  echo "<td>nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) par les Managers</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>Production Days : total</td>\n";
-  echo "<td>".($sideProdDays + $prodDays)."</td>\n";
+  echo "<td>".($sideProdDaysDevel + $sideProdDaysManagers + $prodDays)."</td>\n";
   echo "<td>nombre de jours factur&eacute;s</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
@@ -152,7 +160,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td title='Days spend on FDJ projects / total prodDays * 100'>Efficiency Rate</td>\n";
   echo "<td>".number_format($efficiencyRate, 2)."%</td>\n";
-  echo "<td>temps quotidien pass&eacute; &agrave; la resolution de bugs</td>\n";
+  echo "<td title='Developpeurs seulement !'>temps quotidien pass&eacute; &agrave; la resolution de bugs</td>\n";
   echo "<td>prodDaysFDJ / total prodDays * 100</td>\n";
   echo "</tr>\n";
   

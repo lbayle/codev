@@ -80,8 +80,11 @@ class TimeTracking {
   }
         
   // ----------------------------------------------
-  // Returns the number of days spent on side tasks EXCEPT Vacations 
-  public function getProdDaysSideTasks() {   
+  /** Returns the number of days spent on side tasks EXCEPT Vacations
+   * 
+   * @param $isDeveloppersOnly : do not include time spent by Managers (default = false)
+   */ 
+  public function getProdDaysSideTasks($isDeveloppersOnly = false) {   
     $prodDays = 0;
 
     // select tasks within timestamp, where user is in the team
@@ -95,7 +98,15 @@ class TimeTracking {
     while($row = mysql_fetch_object($result))
     {
       $timeTrack = new TimeTrack($row->id);
-            
+
+      // do not include Managers
+      if (true == $isDeveloppersOnly) {
+      	$user = new User($timeTrack->userId);
+      	if (false == $user->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
+      		continue; // skip this timeTrack
+      	}
+      }
+      
       // Count only the time spent on $projects
       if ((in_array ($timeTrack->projectId, $this->sideTaskprojectList)) && (!$timeTrack->isVacation())) {
         $prodDays += $timeTrack->duration;
@@ -420,14 +431,15 @@ class TimeTracking {
   
   
   // ----------------------------------------------
-  // Returns an indication on how sideTasks slows down the Production
-  // prodRate = nbDays spend on projects / total prodDays * 100
+  /** 
+   Returns an indication on how sideTasks slows down the Production
+   prodRate = nbDays spend on projects / total prodDays * 100
+   REM only Developpers, no managers !
 
-  // projects: list of projects that are considered as not beeing sideTasks
-  // prodDays: the number of days worked by the team within the timestamp
+  */
   public function getEfficiencyRate() {       
     $prodDays      =             $this->getProdDays();
-    $totalProdDays = $prodDays + $this->getProdDaysSideTasks();
+    $totalProdDays = $prodDays + $this->getProdDaysSideTasks(true);  // only developpers !
 
     // REM x100 for percentage
     if (0 != $totalProdDays) {
@@ -442,10 +454,6 @@ class TimeTracking {
   // ----------------------------------------------
   // Returns an indication on how Environmental problems slow down the production.
   // EnvProblems can be : Citrix Falldow, Continuous pbs, VMS shutdown, SSL connection loss, etc.
-
-  // A specific task is created in $EnvPbProjectName each time production is stopped.
-  // The Est.Effort (BI) field contains the total amount of hours lost by the team
-  // during this System breakdown.
 
   // systemDisponibilityRate = 100 - (nb breakdown hours / prodHours)
   public function getSystemDisponibilityRate() {
