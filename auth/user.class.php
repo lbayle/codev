@@ -50,7 +50,7 @@ class User {
    }
 	
    // --------------------
-   // retourne le trigramme. ex: Louis BAYLE => LBA
+   /** retourne le trigramme. ex: Louis BAYLE => LBA */
    public function getShortname() {
    	
    	if (0 == $this->id) { return "";	}
@@ -102,12 +102,12 @@ class User {
       
       $result = mysql_query($query) or die("Query failed: $query");
       $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-      
+
       return (0 != $nbTuples);
    }
 
    // --------------------
-   // TODO isTeamObserver not used for now
+   // REM isTeamObserver not used for now
    public function isTeamObserver($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
       global $accessLevel_observer;
       
@@ -151,7 +151,7 @@ class User {
    }
 
    // --------------------
-   // if no team specified, choose the oldest arrival date
+   /** if no team specified, choose the oldest arrival date */
    public function getArrivalDate($team_id = NULL) {
       
    	$arrival_date = time();
@@ -175,7 +175,7 @@ class User {
    }
 
    // --------------------
-   // if no team specified, choose the most future departureDate
+   /** if no team specified, choose the most future departureDate */
    public function getDepartureDate($team_id = NULL) {
    	
    	$departureDate = 0;
@@ -199,7 +199,7 @@ class User {
    }
 
    // --------------------
-   // REM: period cannot exceed 1 month.
+   /** REM: period cannot exceed 1 month. */
    public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
     $daysOf = array();  // day => duration
       
@@ -261,29 +261,6 @@ class User {
    
    
    // --------------------
-	// returns the teams i'm member of.
-	public function getTeamList() {
-		global $accessLevel_dev;
-
-		$teamList = array();
-		
-      $query = "SELECT codev_team_table.id, codev_team_table.name ".
-               "FROM `codev_team_user_table`, `codev_team_table` ".
-               "WHERE codev_team_user_table.user_id = $this->id ".
-               "AND   codev_team_user_table.team_id = codev_team_table.id ".
-               "AND   codev_team_user_table.access_level = $accessLevel_dev ".
-               "ORDER BY codev_team_table.name";
-      $result = mysql_query($query) or die("Query failed: $query");
-		while($row = mysql_fetch_object($result))
-      {
-      	$teamList[$row->id] = $row->name;
-         #echo "getTeamList FOUND $row->id - $row->name<br/>";
-      }
-      
-      return $teamList;
-	}
-
-   // --------------------
    // returns the teams i'm leader of.
    public function getLeadedTeamList() {
       
@@ -301,51 +278,53 @@ class User {
    }
 
    // --------------------
-   // returns the teams i'm observer of.
-   public function getObservedTeamList() {
-      global $accessLevel_observer;
-      
-      $teamList = array();
-      
-      $query = "SELECT codev_team_table.id, codev_team_table.name ".
-               "FROM `codev_team_user_table`, `codev_team_table` ".
-               "WHERE codev_team_user_table.user_id = $this->id ".
-               "AND   codev_team_user_table.team_id = codev_team_table.id ".
-               "AND   codev_team_user_table.access_level = $accessLevel_observer ".
-      "ORDER BY codev_team_table.name";
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result))
-      {
-         $teamList[$row->id] = $row->name;
-         #echo "getObservedTeamList FOUND $row->id - $row->name<br/>";
-      }
-      
-      return $teamList;
+   // returns the teams i'm member of.
+   public function getDevTeamList() {
+      global $accessLevel_dev;
+      return $this->getTeamList($accessLevel_dev);
    }
 
    // --------------------
    // returns the teams i'm observer of.
+   public function getObservedTeamList() {
+      global $accessLevel_observer;
+      return $this->getTeamList($accessLevel_observer);
+   }
+
+   // --------------------
+   // returns the teams i'm Manager of.
    public function getManagedTeamList() {
       global $accessLevel_manager;
+      return $this->getTeamList($accessLevel_manager);
+   }
+   
+   // --------------------
+   // returns the teams
+   public function getTeamList($accessLevel = NULL) {
+      global $accessLevel_dev;
+      global $access_level_names;
       
+   	if (NULL == $accessLevel) { $accessLevel = $accessLevel_dev; }
+   	
       $teamList = array();
       
       $query = "SELECT codev_team_table.id, codev_team_table.name ".
                "FROM `codev_team_user_table`, `codev_team_table` ".
                "WHERE codev_team_user_table.user_id = $this->id ".
                "AND   codev_team_user_table.team_id = codev_team_table.id ".
-               "AND   codev_team_user_table.access_level = $accessLevel_manager ".
+               "AND   codev_team_user_table.access_level = $accessLevel ".
       "ORDER BY codev_team_table.name";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
          $teamList[$row->id] = $row->name;
-         #echo "getManagedTeamList FOUND $row->id - $row->name<br/>";
+         #echo "getTeamList(".$access_level_names[$accessLevel].") FOUND $row->id - $row->name<br/>";
       }
       
       return $teamList;
    }
-
+   
+   
    // --------------------
    public function getProjectList($teamList = NULL) {
       
