@@ -106,7 +106,7 @@ function displayRates ($timeTracking) {
          
   $prodDays                = $timeTracking->getProdDays();
   $sideProdDaysDevel       = $timeTracking->getProdDaysSideTasks(true);
-  $sideProdDaysManagers    = $timeTracking->getProdDaysSideTasks(false) - $timeTracking->getProdDaysSideTasks(true);
+  $sideProdDaysManagers    = $timeTracking->getProdDaysSideTasks(false) - $sideProdDaysDevel;
   $productivityRateETA     = $timeTracking->getProductivityRate("ETA");
   $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
   $efficiencyRate          = $timeTracking->getEfficiencyRate();
@@ -123,7 +123,7 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Production Days : FDJ</td>\n";
+  echo "<td>Production Days : Projects</td>\n";
   echo "<td>$prodDays</td>\n";
   echo "<td>nombre de jours pass&eacute;s sur les projets FDJ</td>\n";
   echo "<td></td>\n";
@@ -151,16 +151,16 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='Production Days : forecast'>Capacit&eacute; de production</td>\n";
+  echo "<td>Capacit&eacute; de production</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
-  echo "<td title='Developpeurs seulement !'>pr&eacute;vision de capacit&eacute; (en fonction des cong&eacute;s)</td>\n";
+  echo "<td>pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs seuls)</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='Days spend on FDJ projects / total prodDays * 100'>Efficiency Rate</td>\n";
+  echo "<td>Efficiency Rate</td>\n";
   echo "<td>".number_format($efficiencyRate, 2)."%</td>\n";
-  echo "<td title='Developpeurs seulement !'>temps quotidien pass&eacute; &agrave; la resolution de bugs</td>\n";
+  echo "<td>temps quotidien pass&eacute; &agrave; la resolution de bugs (d&eacute;veloppeurs seuls)</td>\n";
   echo "<td>prodDaysFDJ / total prodDays * 100</td>\n";
   echo "</tr>\n";
   
