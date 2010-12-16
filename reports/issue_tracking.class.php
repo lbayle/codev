@@ -111,9 +111,7 @@ class IssueTracking {
       // REM do not display SuiviOp tasks
       if (!$tmpIssue->isSideTaskIssue()) {
         echo "<tr>\n";
-        echo "<td width='55'>".
-             "<a title='Edit Mantis Issue' href='http://".$_SERVER['HTTP_HOST']."/mantis/view.php?id=$bugId' target='_blank'><img border='0' src='http://".$_SERVER['HTTP_HOST']."/mantis/images/favicon.ico'></a>".
-             "&nbsp;&nbsp;".$tmpIssue->bugId."</td>\n";
+        echo "<td width='55'>".mantisIssueURL($bugId)."</td>\n";
         echo "<td>$tmpIssue->tcId</td>\n";
         echo "<td>$tmpIssue->summary</td>\n";
         echo "<td>".date("d M Y", $tmpIssue->dateSubmission)."</td>\n";
@@ -153,7 +151,7 @@ class IssueTracking {
       // REM do not display SuiviOp tasks
       if (!$tmpIssue->isSideTaskIssue()) {
         echo "<tr>\n";
-        echo "<td>$tmpIssue->bugId</td>\n";
+        echo "<td>".mantisIssueURL($tmpIssue->bugId)."</td>\n";
         echo "<td>$tmpIssue->tcId</td>\n";
         echo "<td>$tmpIssue->summary</td>\n";
         

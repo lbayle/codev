@@ -85,11 +85,9 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
       //echo "<td width=40>\n";
       echo "<td>\n";
       echo "<a title='delete this row' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."', '".$row->bugid."')\" ><img border='0' src='b_drop.png'></a>\n";
-      //echo "<a title='Edit Mantis Issue' href='http://".$_SERVER['HTTP_HOST']."/mantis/view.php?id=$row->bugid' target='_blank'><img border='0' src='http://".$_SERVER['HTTP_HOST']."/mantis/images/favicon.ico'></a>";
-      
       echo "</td>\n";
       echo "<td width=170>".$cosmeticDate."</td>\n";
-      echo "<td><a href='http://".$_SERVER['HTTP_HOST']."/mantis/view.php?id=$row->bugid'>$row->bugid</a></td>\n";
+      echo "<td>".mantisIssueURL($row->bugid)."</td>\n";
       echo "<td>".$issue->tcId."</td>\n";
       echo "<td>".$row->duration."</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";

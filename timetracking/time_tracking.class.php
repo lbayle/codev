@@ -364,20 +364,20 @@ class TimeTracking {
               $driftNeg += $issueDrift;
 
               if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
-              $formatedBugidNegList .= $issue->bugId;
+              $formatedBugidNegList .= mantisIssueURL($issue->bugId);
 
             } elseif ($issueDrift > 1){
               $nbDriftsPos++;
               $driftPos += $issueDrift;
               
               if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
-              $formatedBugidPosList .= $issue->bugId;
+              $formatedBugidPosList .= mantisIssueURL($issue->bugId);
             } else {
               $nbDriftsEqual++;
               $driftEqual += $issueDrift;
               
               if ($formatedBugidEqualList != "") { $formatedBugidEqualList .= ', '; }
-              $formatedBugidEqualList .= $issue->bugId;
+              $formatedBugidEqualList .= mantisIssueURL($issue->bugId);
             }
 
             if ($issueDriftETA < -1) {

@@ -28,6 +28,15 @@ function getServerRootURL() {
    return $rootURL;
 }
 
+/**
+ * returns an HTML link to the Mantis page for Issue $bugid
+ * @param int $bugid issue id in mantis DB
+ */
+function mantisIssueURL($bugid) {
+	global $mantisURL;
+	return "<a  title='Edit Mantis Issue $bugid' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
+}
+
 // ---------------------------
 // Cette fonction transforme de ce format: 2008-09-04 11:13:18 en celui-ci : 1204456892
 function datetime2timestamp($string) {

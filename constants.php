@@ -15,6 +15,7 @@
    
    $codevReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
       
+   $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
    
 	// Mantis DB infomation.
 	$db_mantis_host		=	'localhost';
