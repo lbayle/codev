@@ -85,58 +85,34 @@ class User {
 	}
 	
    // --------------------
-   public function isTeamMember($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
-      
-   	global $accessLevel_dev;
-   	
-      $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
-               "WHERE team_id = $team_id ".
-               "AND user_id = $this->id ".
-               "AND access_level = $accessLevel_dev ";
-      
-      if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
-      	$query .= "AND arrival_date < $endTimestamp AND ".
-      	          "(departure_date >= $startTimestamp OR departure_date = 0)";
-          // REM: if departure_date = 0, then user stays until the end of the world. 
-      }
-      
-      $result = mysql_query($query) or die("Query failed: $query");
-      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-
-      return (0 != $nbTuples);
+   public function isTeamDeveloper($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
+      global $accessLevel_dev;
+   	return $this->isTeamMember($team_id, $accessLevel_dev, $startTimestamp, $endTimestamp);
    }
 
    // --------------------
    // REM isTeamObserver not used for now
    public function isTeamObserver($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
       global $accessLevel_observer;
-      
-      $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
-               "WHERE team_id = $team_id ".
-               "AND user_id = $this->id ".
-               "AND access_level = $accessLevel_observer ";
-      
-      if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
-         $query .= "AND arrival_date < $endTimestamp AND ".
-                   "(departure_date >= $startTimestamp OR departure_date = 0)";
-          // REM: if departure_date = 0, then user stays until the end of the world. 
-      }
-      
-      $result = mysql_query($query) or die("Query failed: $query");
-      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-      
-      return (0 != $nbTuples);
+      return $this->isTeamMember($team_id, $accessLevel_observer, $startTimestamp, $endTimestamp);
    }
    
    // --------------------
    public function isTeamManager($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
-      
       global $accessLevel_manager;
+      return $this->isTeamMember($team_id, $accessLevel_manager, $startTimestamp, $endTimestamp);
+   }
+
+   // --------------------
+   public function isTeamMember($team_id, $accessLevel=NULL, $startTimestamp=NULL, $endTimestamp=NULL) {
+      global $accessLevel_dev;
+      
+      if (NULL == $accessLevel) { $accessLevel = $accessLevel_dev; }
       
       $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
                "WHERE team_id = $team_id ".
                "AND user_id = $this->id ".
-               "AND access_level = $accessLevel_manager ";
+               "AND access_level = $accessLevel ";
       
       if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
          $query .= "AND arrival_date < $endTimestamp AND ".
@@ -146,10 +122,12 @@ class User {
       
       $result = mysql_query($query) or die("Query failed: $query");
       $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-      
+
       return (0 != $nbTuples);
    }
 
+   
+   
    // --------------------
    /** if no team specified, choose the oldest arrival date */
    public function getArrivalDate($team_id = NULL) {

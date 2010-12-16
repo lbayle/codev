@@ -102,7 +102,7 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 // ---- if not codev admin then stop now.
 // REM: who is allowed to create a new team ? anyone ?
 #$session_user = new User($_SESSION['userid']);
-#if (false == $session_user->isTeamMember($admin_teamid)) {
+#if (false == $session_user->isTeamDeveloper($admin_teamid)) {
 #  echo ("Sorry, you need to be Codev Administrator to access this page.");
 #  exit;
 #}

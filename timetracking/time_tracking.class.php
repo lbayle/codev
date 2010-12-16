@@ -102,7 +102,7 @@ class TimeTracking {
       // do not include Managers
       if (true == $isDeveloppersOnly) {
       	$user = new User($timeTrack->userId);
-      	if (false == $user->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
+      	if (false == $user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
       		continue; // skip this timeTrack
       	}
       }
@@ -581,7 +581,7 @@ class TimeTracking {
 
     // REM: if $this->team_id not set, then team_id = -1
     if ($this->team_id >= 0) {
-	    if (( ! $user1->isTeamMember($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
+	    if (( ! $user1->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
           ( ! $user1->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
 	    	// User was not yet present
 	      return $missingDays;

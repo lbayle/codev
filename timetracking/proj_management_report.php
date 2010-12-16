@@ -250,7 +250,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
       $user1 = new User($row->user_id);
       
       // if user was working on the project within the timestamp
-      if (($user1->isTeamMember($teamid, $startT, $endT)) ||
+      if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
           ($user1->isTeamManager($teamid, $startT, $endT))) {
       	
          $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
@@ -363,7 +363,7 @@ function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracki
   {
       // if user was working on the project during the timestamp
       $user = new User($row->user_id);
-      if (($user->isTeamMember($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) || 
+      if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) || 
           ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
       	
          exportWeekDetailsToCSV($weekid, $weekDates, $row->user_id, $timeTracking, $user->getShortname(),$fh);
@@ -533,7 +533,7 @@ if (0 == count($teamList)) {
          $filename = exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $codevReportsDir);
          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
          flush(); 
-	      
+
          // -----------------------------
 	      echo "<br/>\n";
 	      echo "<b>- Export $year Holidays...</b><br/>\n";
@@ -550,6 +550,7 @@ if (0 == count($teamList)) {
 		   for ($i = $startMonth; $i <= 12; $i++) {
 		      $filename = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
 	         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+	         //echo "<a href='$filename'>$filename</a><br/>\n"; 
 	         flush(); 
 		   }
 		   

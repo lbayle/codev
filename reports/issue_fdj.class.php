@@ -133,7 +133,7 @@ class IssueFDJ extends Issue {
         }
       }
       $user1 = new User($handler_id);
-      if ($user1->isTeamMember($FDJ_teamid)) {
+      if ($user1->isTeamDeveloper($FDJ_teamid)) {
         //echo "user $handler_id is FDJ (team $FDJ_teamid)<br/>";
         $time_fdj = $time_fdj + $intervale;
       } else {

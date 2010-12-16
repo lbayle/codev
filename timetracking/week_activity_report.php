@@ -98,7 +98,7 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) 
   {
   	// if user was working on the project during the timestamp
   	$user = new User($row->user_id);
-  	if (($user->isTeamMember($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
+  	if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
        ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
   		
 	    echo "<div align='center'>\n";

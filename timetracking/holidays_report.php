@@ -107,7 +107,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
 	  	$user1 = new User($row->user_id);
 	  	
 	   // if user was working on the project within the timestamp
-	   if (($user1->isTeamMember($teamid, $startT, $endT)) || 
+	   if (($user1->isTeamDeveloper($teamid, $startT, $endT)) || 
           ($user1->isTeamManager($teamid, $startT, $endT))) {
 	   	
 		   $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
@@ -175,7 +175,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
       $user1 = new User($row->user_id);
       
       // if user was working on the project within the timestamp
-      if (($user1->isTeamMember($teamid, $startT, $endT)) || 
+      if (($user1->isTeamDeveloper($teamid, $startT, $endT)) || 
           ($user1->isTeamManager($teamid, $startT, $endT))) {
             
          $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
