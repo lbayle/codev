@@ -167,15 +167,17 @@ class TimeTracking {
   
    
   // ----------------------------------------------
-  // Returns an indication on how many Issues are Resolved in a given timestamp.
+  /** Returns an indication on how many Issues are Resolved in a given timestamp.
 
-  // REM: an issue that has been reopened before endTimestamp will NOT be recorded.
-  // (For the bugs that where re-opened, the EffortEstim may not have been re-estimated,
-  // and thus the result is not reliable.) 
+   REM: an issue that has been reopened before endTimestamp will NOT be recorded.
+   (For the bugs that where re-opened, the EffortEstim may not have been re-estimated,
+   and thus the result is not reliable.) 
     
-  // ProductivityRate = nbResolvedIssues * IssueDifficulty / elapsed
+   ProductivityRate = nbResolvedIssues * IssueDifficulty / elapsed
 
-  // $projects: $prodProjectList or $sideTaskprojectList or your own selection.
+   @param projects: $prodProjectList or $sideTaskprojectList or your own selection.
+   @param balanceType: "ETA" or "EffortEstim"
+   */
   private function getProductivRate($projects, $balanceType = "ETA") {        
     global $status_resolved;
     global $status_closed;
@@ -630,6 +632,10 @@ class TimeTracking {
   }
 
   // ----------------------------------------------
+  /**
+   * returns $durationPerCategory[CategoryName][bugid] = duration
+   * @param int $project_id
+   */
   public function getProjectDetails($project_id) {
     $durationPerCategory = array();
 
@@ -648,7 +654,11 @@ class TimeTracking {
         if (isset($_GET['debug'])) {
           echo "".$issue->getCategoryName().": $row->bugid\n";
         }
-        $durationPerCategory[$issue->getCategoryName()] += $row->duration;
+        
+        if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
+        	   $durationPerCategory[$issue->getCategoryName()] = array();
+        }
+        $durationPerCategory[$issue->getCategoryName()][$row->bugid]= $row->duration;
       }
     }
     return $durationPerCategory;

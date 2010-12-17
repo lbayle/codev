@@ -125,7 +125,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>Production Days : Projects</td>\n";
   echo "<td>$prodDays</td>\n";
-  echo "<td>nombre de jours pass&eacute;s sur les projets FDJ</td>\n";
+  echo "<td>nombre de jours pass&eacute;s en d&eacute;veloppement sur les projets</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
@@ -160,15 +160,15 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>Efficiency Rate</td>\n";
   echo "<td>".number_format($efficiencyRate, 2)."%</td>\n";
-  echo "<td>temps quotidien pass&eacute; &agrave; la resolution de bugs (d&eacute;veloppeurs seuls)</td>\n";
-  echo "<td>prodDaysFDJ / total prodDays * 100</td>\n";
+  echo "<td>temps consomm&eacute; en d&eacute;veloppement (d&eacute;veloppeurs seuls)</td>\n";
+  echo "<td>ProjProdDays / TotalProdDays * 100</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>System Disponibility</td>\n";
   echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
   echo "<td>disponibilit&eacute; de la plateforme de develomppement</td>\n";
-  echo "<td>100 - (nb breakdown days / prodDays)</td>\n";
+  echo "<td>100 - (breakdownDays / prodDays)</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -396,8 +396,9 @@ function displayWorkingDaysPerProject($timeTracking) {
 // -----------------------------------------------
 function displaySideTalksProjectDetails($timeTracking) {
   global $sideTaskProjectType;
-	
+   
   $durationPerCategory = array();
+  $formatedBugsPerCategory = array();
   $stProjList = "";
   
   // find all sideTasksProjects (type = 1)
@@ -408,10 +409,15 @@ function displaySideTalksProjectDetails($timeTracking) {
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
-  	  $durPerCat = $timeTracking->getProjectDetails($row->project_id);
-  	  foreach ($durPerCat as $catName => $duration)
+     $durPerCat = $timeTracking->getProjectDetails($row->project_id);
+     foreach ($durPerCat as $catName => $bugList)
      {
-     	   $durationPerCategory[$catName] += $duration;
+     	   foreach ($bugList as $bugid => $duration) {
+     	   	$durationPerCategory[$catName] += $duration;
+     	   	
+     	   	if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
+            $formatedBugsPerCategory[$catName] .= mantisIssueURL($bugid);
+     	   }
      }
      
      $proj = new Project($row->project_id);
@@ -419,12 +425,15 @@ function displaySideTalksProjectDetails($timeTracking) {
      
   }
   $formatedProjList = simpleListToSQLFormatedString($stProjList);
-	
+  
+  $formatedBugList = "";
+  
   echo "<table width='300'>\n";
   echo "<caption title='Projets: $formatedProjList'>Detail Gestion de Projet</caption>\n";
   echo "<tr>\n";
   echo "<th>Categorie</th>\n";
   echo "<th>Nb jours</th>\n";
+  echo "<th>bugs</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -433,6 +442,7 @@ function displaySideTalksProjectDetails($timeTracking) {
     echo "<tr bgcolor='white'>\n";
     echo "<td>$catName</td>\n";
     echo "<td>$duration</td>\n";
+    echo "<td>".$formatedBugsPerCategory[$catName]."</td>\n";
     echo "</tr>\n";
   }
   echo "</table>\n";
