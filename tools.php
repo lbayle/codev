@@ -35,7 +35,11 @@ function getServerRootURL() {
 function mantisIssueURL($bugid, $title=NULL) {
 	global $mantisURL;
 	if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
-	return "<a  title='$title' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
+	
+	$formatedTitle = str_replace("'", " ", $title);
+   $formatedTitle = str_replace("\"", " ", $formatedTitle);
+	
+	return "<a  title='$formatedTitle' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
 }
 
 // ---------------------------
