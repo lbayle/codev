@@ -416,7 +416,8 @@ function displaySideTalksProjectDetails($timeTracking) {
      	   	$durationPerCategory[$catName] += $duration;
      	   	
      	   	if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
-            $formatedBugsPerCategory[$catName] .= mantisIssueURL($bugid);
+     	   	$issue = new Issue($bugid);
+            $formatedBugsPerCategory[$catName] .= mantisIssueURL($bugid, $issue->summary);
      	   }
      }
      
