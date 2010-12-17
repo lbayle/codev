@@ -32,9 +32,10 @@ function getServerRootURL() {
  * returns an HTML link to the Mantis page for Issue $bugid
  * @param int $bugid issue id in mantis DB
  */
-function mantisIssueURL($bugid) {
+function mantisIssueURL($bugid, $title=NULL) {
 	global $mantisURL;
-	return "<a  title='Edit Mantis Issue $bugid' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
+	if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
+	return "<a  title='$title' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
 }
 
 // ---------------------------

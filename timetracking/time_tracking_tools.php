@@ -154,7 +154,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
          $jobName = mysql_result($result3, 0);
          
          echo "<tr>\n";
-         echo "<td>$bugid / ".$issue->tcId." : ".$issue->summary."</td>\n";
+         echo "<td>".mantisIssueURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
          echo "<td>".$jobName."</td>\n";
          for ($i = 1; $i <= 5; $i++) {
