@@ -652,13 +652,13 @@ class TimeTracking {
       $issue = new Issue($row->bugid);
       if ($issue->projectId  == $project_id) {
         if (isset($_GET['debug'])) {
-          echo "".$issue->getCategoryName().": $row->bugid\n";
+          echo "project[$project_id][".$issue->getCategoryName()."]( bug $row->bugid) = $row->duration<br/>\n";
         }
         
         if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
         	   $durationPerCategory[$issue->getCategoryName()] = array();
         }
-        $durationPerCategory[$issue->getCategoryName()][$row->bugid]= $row->duration;
+        $durationPerCategory[$issue->getCategoryName()][$row->bugid]+= $row->duration;
       }
     }
     return $durationPerCategory;
