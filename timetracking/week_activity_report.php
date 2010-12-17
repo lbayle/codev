@@ -172,26 +172,29 @@ function displayProjectActivityReport($timeTracking) {
      echo "<table width='95%'>\n";
      echo "<caption>".$project->name."</caption>\n";
      echo "<tr>\n";
-     echo "<th width='50%'>Tache</th>\n";
-     echo "<th width='2%'>RAE</th>\n";
+     echo "  <th width='50%'>Tache</th>\n";
+     echo "  <th width='2%'>RAE</th>\n";
      
      $jobList = $project->getJobList();
      foreach($jobList as $jobId => $jobName) {
-         echo "<th>$jobName</th>\n";
+         echo "  <th>$jobName</th>\n";
      }
+     echo "  <th width='2%' title='Total time spent on this issue'>Total</th>\n";
      echo "</tr>\n";
       
      // write table content (by bugid)
      foreach ($bugList as $bugid => $jobs) {
          $issue = new Issue($bugid);
-      
+         $totalTime = 0;
          echo "<tr>\n";
          echo "<td>".mantisIssueURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
          
          foreach($jobList as $jobId => $jobName) {
             echo "<td width='10%'>".$jobs[$jobId]."</td>\n";
+            $totalTime += $jobs[$jobId];
          }
+         echo "<td>".$totalTime."</td>\n";
          echo "</tr>\n";
      }
      echo "</table>\n";
