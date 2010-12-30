@@ -150,23 +150,24 @@ class PeriodStats {
   // -------------------------------------------------
   // REM: select only projectTypes in $projectTypeList
   // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
-    private function countIssues_other() {
+  private function countIssues_other() {
     
     $formatedProjectTypes = simpleListToSQLFormatedString($this->projectTypeList);
     
     
-  	 // select all but SideTasks
-    $query = "SELECT mantis_bug_table.id ".
+  	 // select all but SideTasks & rem 'doublons'
+    $query = "SELECT DISTINCT mantis_bug_table.id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
       "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
       "AND codev_team_project_table.type IN ($formatedProjectTypes) ";
+
 
     // Only for specified Projects   
         if ((isset($this->projectList)) && (0 != count($this->projectList))) {
          $formatedProjects = simpleListToSQLFormatedString($this->projectList);
       $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
     }
-        if (isset($_GET['debug_sql'])) {	echo "countIssues_other(): query = $query<br/>"; }
+        if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
     
     $result = mysql_query($query) or die("Query failed: $query");
 
