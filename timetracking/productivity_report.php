@@ -386,7 +386,10 @@ function displayWorkingDaysPerProject($timeTracking) {
   while($row = mysql_fetch_object($result))
   {
     echo "<tr>\n";
-    echo "<td>$row->name</td>\n";
+    echo "<td>";
+    echo "$row->name\n";
+    if (isset($_GET['debug'])) { echo " (".$row->id.")"; }
+    echo "</td>\n";
     echo "<td>".$timeTracking->getWorkingDaysPerProject($row->id)."</td>\n";
     echo "</tr>\n";
   }

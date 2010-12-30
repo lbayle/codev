@@ -534,6 +534,7 @@ class TimeTracking {
    
       if ($issue->projectId  == $project_id) {
         $workingDaysPerProject += $row->duration;
+        if (isset($_GET['debug'])) { echo "proj$project_id=".$row->bugid."<br/>"; }
       }
     }
     return $workingDaysPerProject;
