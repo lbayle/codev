@@ -22,7 +22,6 @@ caption {
   font-size: larger;
   font-weight: bold;
   text-align: left;
-  
 }
 th {
   background-color: #c8c8e8;
@@ -129,4 +128,10 @@ table.invisible td {
 
 .spacer {
   clear: both;
+}
+
+.caption_font {
+  font-size: larger;
+  font-weight: bold;
+  text-align: left;
 }

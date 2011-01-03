@@ -22,6 +22,13 @@ if (!isset($_SESSION['userid'])) {
     document.forms["form1"].action.value = "timeTrackingReport";
     document.forms["form1"].submit();
  }
+
+  function setProjectid() {
+     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
+     document.forms["form1"].action.value="setProjectid";
+     document.forms["form1"].submit();
+  }
 </script>
 
 <div id="content">
@@ -37,7 +44,7 @@ include_once "time_tracking.class.php";
 require_once('calendar/classes/tc_calendar.php');
 
 // -----------------------------------------------
-function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
+function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
            
   $myCalendar1 = new tc_calendar("date1", true, false);
@@ -92,14 +99,68 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2) {
 
   echo "&nbsp;<input type=button value='Envoyer' onClick='javascript: submitForm()'>\n";
 
-  echo "<input type=hidden name=teamid  value=1>\n";
-        
+  echo "<input type=hidden name=teamid  value=$teamid>\n";
+  echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
+  
   echo "<input type=hidden name=currentAction value=setInfoForm>\n";
   echo "<input type=hidden name=nextAction    value=timeTrackingReport>\n";
 
   echo "</form>\n";
   echo "</div>";
 }
+
+
+
+
+// ---------------------------------------------------------------
+function setProjectSelectionForm($teamid, $defaultProjectid) {
+   
+   // Display form
+   echo "<div style='text-align: left;'>";
+  if (isset($_GET['debug'])) {
+      echo "<form id='projectSelectionForm' name='projectSelectionForm' method='post' action='productivity_report.php?debug'>\n";
+  } else {
+      echo "<form id='projectSelectionForm' name='projectSelectionForm' method='post' action='productivity_report.php'>\n";
+  }
+
+  $project1 = new Project($defaultProjectid);
+   
+   // --- Project List
+   $query  = "SELECT mantis_project_table.id, mantis_project_table.name ".
+                 "FROM `codev_team_project_table`, `mantis_project_table` ".
+                 "WHERE codev_team_project_table.team_id = $teamid ".
+                 "AND codev_team_project_table.project_id = mantis_project_table.id ".
+                 "ORDER BY mantis_project_table.name";
+       $result = mysql_query($query) or die("Query failed: $query");
+         if (0 != mysql_num_rows($result)) {
+            while($row = mysql_fetch_object($result))
+            {
+               $projList[$row->id] = $row->name;
+            }
+       }
+   echo "<span class='caption_font'>Detail Projet </span>\n";       
+   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='Projet'>\n";
+   echo "<option value='0'> </option>\n";
+   foreach ($projList as $pid => $pname)
+   {
+      if ($pid == $defaultProjectid) {
+         echo "<option selected value='".$pid."'>$pname</option>\n";
+      } else {
+         echo "<option value='".$pid."'>$pname</option>\n";
+      }
+   }
+   echo "</select>\n";
+
+   echo "<input type=hidden name=teamid     value=$teamid>\n";
+   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
+   echo "<input type=hidden name=action    value=noAction>\n";
+   echo "</form>\n";
+   
+   echo "</div>\n";
+}
+
+
+
 
 // -----------------------------------------------
 function displayRates ($timeTracking) {
@@ -453,6 +514,45 @@ function displaySideTalksProjectDetails($timeTracking) {
 }
 
 // -----------------------------------------------
+function displayProjectDetails($timeTracking, $projectId) {
+   
+  $durationPerCategory = array();
+  $formatedBugsPerCategory = array();
+  
+  $durPerCat = $timeTracking->getProjectDetails($projectId);
+  foreach ($durPerCat as $catName => $bugList)
+  {
+      foreach ($bugList as $bugid => $duration) {
+         $durationPerCategory[$catName] += $duration;
+         
+         if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
+         $issue = new Issue($bugid);
+         $formatedBugsPerCategory[$catName] .= mantisIssueURL($bugid, $issue->summary);
+      }
+  }
+     
+  $proj = new Project($projectId);
+  echo "<table width='300'>\n";
+  //echo "<caption>Detail Projet ".$proj->name."</caption>\n";
+  echo "<tr>\n";
+  echo "<th>Categorie</th>\n";
+  echo "<th>Nb jours</th>\n";
+  echo "<th>bugs</th>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  foreach ($durationPerCategory as $catName => $duration)
+  {
+    echo "<tr bgcolor='white'>\n";
+    echo "<td>$catName</td>\n";
+    echo "<td>$duration</td>\n";
+    echo "<td>".$formatedBugsPerCategory[$catName]."</td>\n";
+    echo "</tr>\n";
+  }
+  echo "</table>\n";
+}
+
+// -----------------------------------------------
 function displayCheckWarnings($timeTracking) {
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
@@ -487,7 +587,11 @@ function displayCheckWarnings($timeTracking) {
 
 // =========== MAIN ==========
 $year = date('Y');
+
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
+$_SESSION[teamid] = $teamid;
+
 
 // Connect DB
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
@@ -496,9 +600,8 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 
 $weekDates      = week_dates(date('W'),$year);
 
-$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
-$_SESSION[teamid] = $teamid;
-
+$action           = $_POST[action];
+$defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
 
 $date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
 $date2  = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $weekDates[5]);
@@ -513,8 +616,9 @@ $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
 $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
         
-setInfoForm($teamid, $date1, $date2);
+setInfoForm($teamid, $date1, $date2, $defaultProjectid);
 echo "<br/><br/>\n";
+
 
 if (0 != $teamid) {
 
@@ -534,6 +638,14 @@ if (0 != $teamid) {
 	echo "<div class=\"float\">\n";
 	displaySideTalksProjectDetails($timeTracking);
 	echo "</div>\n";
+
+   echo "<div class=\"float\">\n";
+   setProjectSelectionForm($teamid, $defaultProjectid);
+   $defaultProjectid  = $_POST[projectid];
+   if (0 != $defaultProjectid) {
+      displayProjectDetails($timeTracking, $defaultProjectid);
+   }
+   echo "</div>\n";
 	
 	echo "<div class=\"spacer\"> </div>\n";
 	
