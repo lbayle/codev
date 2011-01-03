@@ -29,33 +29,35 @@ class PeriodStatsReport {
   	
     $now = time();
 
-    for ($start_month=1; $start_month<13; $start_month++) {
-      $startTimestamp = mktime(0, 0, 1, $start_month, $this->start_day, $this->start_year);
-      $endTimestamp   = mktime(0, 0, 1, ($start_month + 1), $this->start_day, $this->start_year);
-
-      if ($startTimestamp > $now) { break; }
-
-      $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
-      
-      // only projects for specified team, except excluded projects
-      $projectList = array();
-      $query = "SELECT project_id ".
-               "FROM `codev_team_project_table` ".
-               "WHERE team_id = $this->teamid";
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result)) {
-      	
-        // remove FDL project
-      	if (! in_array($row->project_id, $periodStatsExcludedProjectList))  {
-      		$projectList[] = $row->project_id; 
-      	}
-      }
-      
-      $periodStats->projectList = $projectList;
-      
-      $periodStats->computeStats();
-
-      $this->periodStatsList[$startTimestamp] = $periodStats;
+    
+    for ($y = $this->start_year; $y <= date('Y'); $y++) {
+    
+	    for ($start_month=1; $start_month<13; $start_month++) {
+	      $startTimestamp = mktime(0, 0, 1, $start_month, $this->start_day, $y);
+	      $endTimestamp   = mktime(0, 0, 1, ($start_month + 1), $this->start_day, $y);
+	
+	      if ($startTimestamp > $now) { break; }
+	
+	      $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
+	      
+	      // only projects for specified team, except excluded projects
+	      $projectList = array();
+	      $query = "SELECT project_id ".
+	               "FROM `codev_team_project_table` ".
+	               "WHERE team_id = $this->teamid";
+	      $result = mysql_query($query) or die("Query failed: $query");
+	      while($row = mysql_fetch_object($result)) {
+	      
+	        // remove FDL project
+	        if (! in_array($row->project_id, $periodStatsExcludedProjectList))  {
+	           $projectList[] = $row->project_id; 
+	        }
+	      }
+	      
+	      $periodStats->projectList = $projectList;
+	      $periodStats->computeStats();
+	      $this->periodStatsList[$startTimestamp] = $periodStats;
+	    }
     }
   }
 
@@ -88,6 +90,7 @@ class PeriodStatsReport {
     echo "<th>Resolved</th>\n";
     echo "<th>Delivered</th>\n";
     echo "<th>Closed</th>\n";
+    echo "<th title='Nbre de fiches r&eacute;solues SAUF SuiviOp' et non reouvertes>Delta Resolved</th>\n";
     echo "<th title='Nbre de fiches r&eacute;solues SAUF SuiviOp'>Nb resolutions</th>\n";
     echo "</tr>\n";
 
@@ -112,6 +115,7 @@ class PeriodStatsReport {
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_resolved]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_delivered]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_closed]."</td>\n";
+      $tableLine .= "<td class=\"right\">".$ps->statusCountList["delta_resolved"]."</td>\n";
       $tableLine .= "<td class=\"right\">".$nb_resolutions."</td>\n";
       $tableLine .= "</tr>\n";
       echo "$tableLine";

@@ -77,7 +77,7 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 
 // ================ MAIN ================
 // TODO: get values from HTML fields
-$start_year = date('Y');
+$start_year = date('Y') -1;
 
 
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;

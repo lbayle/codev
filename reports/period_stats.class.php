@@ -77,7 +77,8 @@ class PeriodStats {
     $this->statusCountList[$status_resolved] = 0;
     $this->statusCountList[$status_delivered] = 0;
     $this->statusCountList[$status_closed]   = 0;
-
+    $this->statusIssueList["delta_resolved"] = 0;
+    
     $this->statusIssueList["submitted"]      = array();
     $this->statusIssueList[$status_new]      = array();
     $this->statusIssueList[$status_feedback] = array();
@@ -88,11 +89,13 @@ class PeriodStats {
     $this->statusIssueList[$status_resolved] = array();
     $this->statusIssueList[$status_delivered] = array();
     $this->statusIssueList[$status_closed]   = array();
-
+    $this->statusIssueList["delta_resolved"] = array();
+    
     // Compute stats
     $this->countIssues_submitted();
     $this->statusCountList[$status_new] = $this->countIssues_new();
     $this->countIssues_other();
+    $this->statusCountList["delta_resolved"] = $this->countIssues_deltaResolved();
   }
 
   // -------------------------------------------------
@@ -131,7 +134,7 @@ class PeriodStats {
       }
     }
 
-    return $count_new;
+    //return $count_new;
   }
 
   // -------------------------------------------------
@@ -201,6 +204,66 @@ class PeriodStats {
       }
     }
   }
+  
+  
+  // -------------------------------------------------
+  // REM returns the number of issues resolved in that period
+  // reopened issues are excluded
+  function countIssues_deltaResolved() {
+
+  	 global $status_resolved;
+    global $status_closed;
+
+    $resolvedList = array();
+    $issueList = array();    
+  	
+    $formatedProjectTypes = simpleListToSQLFormatedString($this->projectTypeList);
+  	
+    // all bugs which status changed to 'resolved' whthin the timestamp
+    $query = "SELECT mantis_bug_table.id, ".
+      "mantis_bug_history_table.new_value, ".
+      "mantis_bug_history_table.old_value, ".
+      "mantis_bug_history_table.date_modified ".
+      "FROM `mantis_bug_table`, `mantis_bug_history_table`, `codev_team_project_table` ".
+      
+      "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+      "AND   mantis_bug_table.project_id = codev_team_project_table.project_id ".
+      "AND codev_team_project_table.type IN ($formatedProjectTypes) ".
+      
+      "AND mantis_bug_history_table.field_name='status' ".
+      "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+      "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+      "AND mantis_bug_history_table.new_value = $status_resolved ".
+      "ORDER BY mantis_bug_table.id DESC";
+    
+    if (isset($_GET['debug'])) { echo "countIssues_deltaResolved QUERY = $query <br/>"; }
+    
+    $result = mysql_query($query) or die("Query FAILED: $query");
+    
+    while($row = mysql_fetch_object($result)) {
+      $issue = new Issue($row->id);
+      
+      // check if the bug has been reopened before endTimestamp
+      $latestStatus = $issue->getStatus($this->endTimestamp);
+      if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
+         
+        // remove doubloons        
+        if (!in_array ($issue->bugId, $resolvedList)) {
+         
+          $resolvedList[] = $issue->bugId;
+          $issueList[] = $issue;
+        }
+      } else {
+        if (isset($_GET['debug'])) { echo "PeriodStats->countIssues_deltaResolved() REOPENED : bugid = $issue->bugId<br/>"; }
+      } 
+    }
+    
+    return count($issueList);
+  }  
+  
+  
+  
+  
   
 } // end class PeriodStats
 
