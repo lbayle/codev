@@ -45,43 +45,7 @@ include_once "../timetracking/time_track.class.php";
 include_once "../auth/user.class.php";
 
 // ---------------------------------------------------------------
-function displayIssueSelectionForm($user1, $defaultBugid) {
-   echo "<div align=center>\n";
-	echo "<form id='form1' name='form1' method='post' action='issue_info.php'>\n";
-
-  echo "Task: \n";
-   
-  // This filters the bugid list to shorten the 'bugid' Select.
-  //$user1 = new User($user_id);
-  $taskList = $user1->getPossibleWorkingTasksList();
-  
-  $managedProjTaskList = $user1->getPossibleWorkingTasksList($user1->getProjectList($user1->getManagedTeamList()));
-  
-  $taskList += $managedProjTaskList;
-  
-  echo "<select id='bugidSelector' name='bugidSelector'>\n";
-  foreach ($taskList as $bid)
-  {
-    $issue = new Issue ($bid);
-    if ($bid == $defaultBugid) {
-      echo "<option selected value='".$bid."'>".$bid." / $issue->tcId : $issue->summary</option>\n";
-    } else {
-      echo "<option value='".$bid."'>".$bid." / $issue->tcId : $issue->summary</option>\n";
-    }
-  }
-  echo "</select>\n";
-   
-  echo "<input type=button value='Envoyer' onClick='javascript: submitForm()'>\n";
-   
-  echo "<input type=hidden name=action value=noAction>\n";
-  echo "<input type=hidden name=bugid  value=$defaultBugid>\n";
-   
-  echo "</form>\n";
-  echo "</div>\n";
-}
-
-// --------------------------------------------------------------
-function displayIssueSelectionForm2($user1, $defaultBugid, $defaultProjectid) {
+function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
    
    // Display form
    echo "<div style='text-align: center;'>";
@@ -300,7 +264,7 @@ if (0 == count($teamList)) {
 
 } else {
 
-	displayIssueSelectionForm2($user, $bug_id, $defaultProjectid);
+	displayIssueSelectionForm($user, $bug_id, $defaultProjectid);
 	
 	if ("displayBug" == $action) {
 	  $issue = new Issue ($bug_id);
