@@ -1,9 +1,6 @@
 TODO
-- ajouter affichage derives fiches en cours dans prodStats
-- timeTracking: filtrer les timeTracks de la semaine en cours (et plus recents ?)
-- manager: ne pas inclure dans les statistiques
-- noCommonProjectType: comment on s'en sert dans les stats ?
-
+- meilleure gestion des connexions/deconnexions a MySQL
+- tableau recapitulatif du previsionnel par membre de l'equippe: nbre de fiches affectees, total du RAE 
 BUGS
 
 
