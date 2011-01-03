@@ -172,7 +172,8 @@ function displayMonth($month, $year, $issue) {
   $trackList = $issue->getTimeTracks();
   $found = 0;
   foreach ($trackList as $tid => $tdate) {
-    if ($month == date('m', $tdate)) {
+    if (($month == date('m', $tdate)) && 
+        ($year  == date('Y', $tdate))) {
       $found += 1;
       break; 
     }
@@ -274,8 +275,10 @@ if (0 == count($teamList)) {
 	  displayIssueGeneralInfo($issue);
 	  echo "<br/><br/>\n";
 	  
-	  for ($i = 1; $i <= 12; $i++) {
-	    displayMonth($i, $year, $issue);
+	  for ($y = date('Y', $issue->dateSubmission); $y <= $year; $y++) {
+         for ($m = 1; $m <= 12; $m++) {
+            displayMonth($m, $y, $issue);
+         }
 	  }
 	
 	  echo "<br/><br/>\n";
