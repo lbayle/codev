@@ -336,7 +336,7 @@ function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracki
   $sepChar=';';
 
   // create filename & open file
-  $myFile = $path."\AOI-PIL-CRA_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".$weekid.".csv";
+  $myFile = $path."\AOI-PIL-CRA_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
   $fh = fopen($myFile, 'w');
   
   $stringData = "Tache".$sepChar.   
@@ -408,7 +408,7 @@ function exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $path="")
 
   $sepChar=';';
 	
-  $myFile = $path."\AOI-PIL-Projects_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".$weekid.".csv";
+  $myFile = $path."\AOI-PIL-Projects_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
   $fh = fopen($myFile, 'w');
   
   // $projectTracks[projectid][bugid][jobid] = duration
