@@ -235,24 +235,24 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>Productivity Rate ETA</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
-  echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
+  echo "<td>Nombre moyen de fiches resolues par jour.<br/>".
             "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
-            "- Le temps passé sur un bug est pondéré par un indicateur de difficult&eacute;: ".
+            "- Le temps passé sur une fiche est pondéré par un indicateur de difficult&eacute;: ".
             "ETA (temps estim&eacute; AVANT analyse)<br/>".
-            "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode.<br/>".
-            "- Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s</td>\n";
+            "- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.<br/>".
+            "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;s</td>\n";
   echo "<td>sum(ETA) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>Productivity Rate</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
-  echo "<td>Nombre moyen de bugs resolus par jour.<br/>".
+  echo "<td>Nombre moyen de fiches resolues par jour.<br/>".
             "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
-            "- Le temps passé sur un bug est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ".
+            "- Le temps passé sur une fiche est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ".
             "EffortEstim (temps estim&eacute; APRES analyse)<br/>".
-            "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode.<br/>".
-            "- Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s</td>\n";
+            "- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.<br/>".
+            "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es</td>\n";
     echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
@@ -289,37 +289,37 @@ function displayResolvedDriftStats ($timeTracking) {
   echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
   echo "<td>Nb jours de d&eacute;passement<br/>".
-            "- Le calcul est fait sur les Resolved/Closed dans la p&eacute;riode.<br/>".
-            "- Les bugs r&eacute;ouverts ne sont pas comptabilis&eacute;s.<br/>\n".
+            "- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.<br/>".
+            "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es.<br/>\n".
             "- Si négatif, avance sur le planing.</td>\n";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre bugs en D&eacute;rive</td>\n";
+  echo "<td>nbre Fiches en D&eacute;rive</td>\n";
   echo "<td>".($driftStats_new["nbDriftsPosETA"])."<span class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsPos"])."<span class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
-  echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
+  echo "<td title='Liste des Fiches pour EffortEstim'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
   echo "<td>derive > 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre bugs &agrave; l'&eacute;quilibre</td>\n";
+  echo "<td>nbre Fiches &agrave; l'&eacute;quilibre</td>\n";
   echo "<td>".($driftStats_new["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsEqual"])."<span class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   if (isset($_GET['debug'])) {
-   echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
+   echo "<td title='Liste des fiches pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
   } else {
-   echo "<td>Bugs livres dans les temps.</td>\n";
+   echo "<td>Fiches livres dans les temps.</td>\n";
   }
   echo "<td> -1 <= derive <= 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre bugs en avance</td>\n";
+  echo "<td>nbre Fiches en avance</td>\n";
   echo "<td>".($driftStats_new["nbDriftsNegETA"])."<span class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsNeg"])."<span class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
-  echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
+  echo "<td title='Liste des fiches pour EffortEstim'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
   echo "<td>derive < -1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
@@ -376,30 +376,30 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre bugs en D&eacute;rive</td>\n";
+  echo "<td>nbre Fiches en D&eacute;rive</td>\n";
   echo "<td>".($driftStats_new["nbDriftsPosETA"])."<span class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsPos"])."<span class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
-  echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
+  echo "<td title='Liste des Fiches pour EffortEstim'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
   echo "<td>derive > 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre bugs &agrave; l'&eacute;quilibre</td>\n";
+  echo "<td>nbre Fiches &agrave; l'&eacute;quilibre</td>\n";
   echo "<td>".($driftStats_new["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsEqual"])."<span class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   if (isset($_GET['debug'])) {
-   echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
+   echo "<td title='Liste des Fiches pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
   } else {
-   echo "<td>Bugs livres dans les temps.</td>\n";
+   echo "<td>Fiches livres dans les temps.</td>\n";
   }
   echo "<td> -1 <= derive <= 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre bugs en avance</td>\n";
+  echo "<td>nbre Fiches en avance</td>\n";
   echo "<td>".($driftStats_new["nbDriftsNegETA"])."<span class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
   echo "<td>".($driftStats_new["nbDriftsNeg"])."<span class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
-  echo "<td title='Liste des bugs pour EffortEstim'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
+  echo "<td title='Liste des Fiches pour EffortEstim'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
   echo "<td>derive < -1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
@@ -498,7 +498,7 @@ function displaySideTalksProjectDetails($timeTracking) {
   echo "<tr>\n";
   echo "<th>Categorie</th>\n";
   echo "<th>Nb jours</th>\n";
-  echo "<th>bugs</th>\n";
+  echo "<th>Fiches</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -537,7 +537,7 @@ function displayProjectDetails($timeTracking, $projectId) {
   echo "<tr>\n";
   echo "<th>Categorie</th>\n";
   echo "<th>Nb jours</th>\n";
-  echo "<th>bugs</th>\n";
+  echo "<th>Fiches</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
