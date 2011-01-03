@@ -106,7 +106,7 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
 
 function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYear=NULL) {
 
-	if (NULL == $curYear) { $year = date('Y'); }
+	if (NULL == $curYear) { $curYear = date('Y'); }
 	
 	echo "<div align='center'>\n";
    echo "<br/>Semaine \n";

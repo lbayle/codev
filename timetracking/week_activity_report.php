@@ -21,6 +21,7 @@ if (!isset($_SESSION['userid'])) {
   // TODO: check teamid presence
     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
     document.forms["form1"].weekid.value = document.getElementById('weekidSelector').value;
+    document.forms["form1"].year.value   = document.getElementById('yearSelector').value;
     document.forms["form1"].action.value = "updateWeekDisplay";
     document.forms["form1"].submit();
   }
@@ -38,8 +39,10 @@ include_once "../auth/user.class.php";
 include_once "time_tracking.class.php";
 
 // ------------------------------------------------
-function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
+function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear=NULL) {
 
+  if (NULL == $curYear) { $curYear = date('Y'); }
+	
   echo "<div>\n";
   echo "<form id='form1' name='form1' method='post' action='week_activity_report.php'>\n";
 
@@ -60,7 +63,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
   echo "Week: <select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
   for ($i = 1; $i <= 53; $i++)
   {
-    $wDates      = week_dates($i,date('Y'));
+    $wDates      = week_dates($i,$curYear);
         
     if ($i == $weekid) {
       echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
@@ -69,10 +72,21 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid) {
     }
   }
   echo "</select>\n";
+  echo "<select id='yearSelector' name='yearSelector' onchange='javascript: submitForm()'>\n";
+  for ($y = ($curYear -1); $y <= ($curYear +1); $y++) {
 
+    if ($y == $curYear) {
+      echo "<option selected value='".$y."'>".$y."</option>\n";
+    } else {
+      echo "<option value='".$y."'>".$y."</option>\n";
+    }
+  }
+  echo "</select>\n";
+  
   echo "<input type=hidden name=teamid  value=1>\n";
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
-   
+  echo "<input type=hidden name=year    value=$curYear>\n";
+  
   echo "<input type=hidden name=action       value=noAction>\n";
   echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
   echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
@@ -234,7 +248,7 @@ function displayCheckWarnings($timeTracking) {
 
 
 // ================ MAIN =================
-$year = date('Y');
+$year = isset($_POST[year]) ? $_POST[year] : date('Y');
 
 $userid = $_SESSION['userid'];
 
@@ -268,7 +282,7 @@ if (0 == count($teamList)) {
 	$action = $_POST[action];
 	$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 	
-	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid);
+	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
 	
 	if (NULL != $teamList[$teamid]) {
 	
