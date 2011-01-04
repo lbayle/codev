@@ -73,6 +73,14 @@ if (!isset($_SESSION['userid'])) {
     document.forms["form1"].submit();
   }
 
+  function setBugId() {
+     // if projectId not set: do it, to update categories
+     if (0 == document.getElementById('projectidSelector').value) {
+        document.forms["form1"].action.value="setBugId";
+        document.forms["form1"].submit();
+     }
+   }
+
   
 </script>
 
@@ -212,7 +220,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
             }
        }
    }
-   echo "<select name='bugid' style='width: 600px;' title='Tache'>\n";
+   echo "<select name='bugid' style='width: 600px;' onchange='javascript: setBugId()' title='Tache'>\n";
    echo "<option value='0'></option>\n";
 
    foreach ($issueList as $bugid) {
@@ -387,6 +395,16 @@ if ($_POST[nextForm] == "addTrackForm") {
   	 $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
   	 $defaultDate = $formatedDate;
   	 
+  } elseif ("setBugId" == $action) {
+
+    // --- pre-set form fields
+  	 // find ProjectId to update categories
+    $defaultBugid     = $_POST[bugid];
+  	 $issue = new Issue($defaultBugid);
+    $defaultProjectid  = $issue->projectId;
+    $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
+    $defaultDate = $formatedDate;
+    
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";
   } else {
