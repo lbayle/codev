@@ -1,0 +1,34 @@
+*** Glossaire
+MantisIssue | Tache : 
+
+
+
+
+*** Team Description
+
+** Team Leader
+- Le team leader a les droits d'admin sur le Team (ajout de membres, projets, etc)
+- Il a les droits pour acceder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Export to CSV | Weekly activities | Task tracking
+- Il peut saisire des TimeTracks pour tous les membres de son equipe.
+- Ses propres TimeTracks ne sont pas pris en compte dans les stats, pour cela il faut qu'il se declare comme membre de l'equipe (Dev ou Manager).
+
+
+** Team Developper
+- Il a les droits pour acceder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Weekly activities | Task tracking
+- Il peut saisire ses propres TimeTracks.
+
+** Team Manager
+- Il a les droits pour acceder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Export to CSV | Weekly activities | Task tracking
+- Il peut saisire ses propres TimeTracks: il n'a acces qu'aux SideTasksProjects (Suivi Op.).
+
+
+*** Projets
+Un Projet est défini dans mantis.
+Un TeamMember peut imputer sur differentes taches du projet (MantisIssues).
+Un TeamMember peut effectuer plusieurs types d'actions sur une Tache (Poste|Job). 
+
+- Type
+Il existe 3 types de Projets: SideTasks | Project | Project (no common Jobs)
+
+
+- Poste (Job)
