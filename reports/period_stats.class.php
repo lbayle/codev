@@ -168,7 +168,7 @@ class PeriodStats {
     // Only for specified Projects   
         if ((isset($this->projectList)) && (0 != count($this->projectList))) {
          $formatedProjects = simpleListToSQLFormatedString($this->projectList);
-      $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
+      $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
     }
         if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
     
@@ -233,8 +233,16 @@ class PeriodStats {
       "AND mantis_bug_history_table.field_name='status' ".
       "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
       "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-      "AND mantis_bug_history_table.new_value = $status_resolved ".
-      "ORDER BY mantis_bug_table.id DESC";
+      "AND mantis_bug_history_table.new_value = $status_resolved ";
+    
+    // Only for specified Projects   
+    if ((isset($this->projectList)) && (0 != count($this->projectList))) {
+         $formatedProjects = simpleListToSQLFormatedString($this->projectList);
+      $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
+    }
+    
+    $query .= "ORDER BY mantis_bug_table.id DESC";
+    
     
     if (isset($_GET['debug'])) { echo "countIssues_deltaResolved QUERY = $query <br/>"; }
     
