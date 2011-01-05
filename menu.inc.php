@@ -13,6 +13,8 @@
       <a href='".getServerRootURL()."/timetracking/time_tracking.php' title=''>Time Tracking</a>
       |
       <a href='".getServerRootURL()."/timetracking/holidays_report.php' title='Vacances'>Holidays Reports</a>
+      |
+      <a href='".getServerRootURL()."/tools/check.php' title='Consistency Check'>Check</a>
       </td>
       <td><a href='".getServerRootURL()."/reports/' title=''>Mantis Reports</a>
       |

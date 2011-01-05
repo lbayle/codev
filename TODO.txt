@@ -1,6 +1,12 @@
 TODO
 - meilleure gestion des connexions/deconnexions a MySQL
 - tableau recapitulatif du previsionnel par membre de l'equippe: nbre de fiches affectees, total du RAE 
+- creer une alerte pour les incoherences:
+     + fiches resolved dont le RAE != 0
+     + fiches analyzed dont BI et RAE non renseignes
+     + ...
+- creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
+
 BUGS
 
 

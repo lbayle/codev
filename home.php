@@ -22,23 +22,6 @@ function displayLoginForm() {
   echo "<div align=center>\n";      
   echo("<form action='login.php' method='post' name='loginForm'>\n");
 
-/*  
-  echo("<table id='header'>");
-  echo("<tr>");
-  echo("<td align=left>Login :</td>");
-  echo("<td><input name='codev_login' type='text' id='codev_login'></td>");
-  echo("</tr>");
-  echo("<tr>");
-  echo("<td align=left>Password :</td>");
-  echo("<td><input name='codev_passwd' type='password' id='codev_passwd'></td>\n");
-  echo("</tr>");
-  echo("<tr>");
-  echo("<td></td>");
-  echo("<td align=right><input type='submit' name='Submit' value='Login'></td>\n");
-  echo("</tr>");
-  echo("");
-  echo("</table>");
-*/  
   echo("Login: <input name='codev_login' type='text' id='codev_login'>\n");
   echo("Password: <input name='codev_passwd' type='password' id='codev_passwd'>\n");
   echo("<input type='submit' name='Submit' value='Login'>\n");
