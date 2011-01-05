@@ -32,7 +32,7 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 $userid = $_SESSION['userid'];
 
 
-$ccheck = new ConsistencyCheck($userid);
+$ccheck = new ConsistencyCheck();
 
 //$cerrList = ;
 $cerrList1 = $ccheck->checkAnalyzed();
@@ -41,7 +41,7 @@ $cerrList = array_merge($cerrList1, $cerrList2);
 
    echo "<div align='left'>\n";
    echo "<table>\n";
-   echo "<caption>Errors:</caption>\n";   
+   echo "<caption>Erreurs dans les fiches Mantis</caption>\n";   
    echo "<tr>\n";
    echo "<th>User</th>\n";
    echo "<th>Issue</th>\n";

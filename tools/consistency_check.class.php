@@ -26,18 +26,9 @@ class ConsistencyError {
 
 
 class ConsistencyCheck {
-   var $userId;
-  
   
    // ----------------------------------------------
-   public function ConsistencyCheck($userId) {
-  	   $this->userId = $userId;
-  	   
-  	   $this->initialize();
-   }
-  
-   // ----------------------------------------------
-   public function initialize() {  
+   public function ConsistencyCheck() {
    }
   
    // ----------------------------------------------
@@ -57,7 +48,7 @@ class ConsistencyCheck {
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
-      $query = "SELECT id AS bug_id ".
+      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
         "WHERE status in ($status_analyzed, $status_accepted, $status_openned, $status_deferred) ".
         "ORDER BY bug_id DESC";
@@ -67,17 +58,19 @@ class ConsistencyCheck {
       {
       	$issue = new Issue($row->bug_id);
       	
-      	if (!isset($issue->effortEstim)) {
-      	  $cerrList[] = new ConsistencyError($row->bug_id, $this->userId, $row->date_modified, "BI not set !");
-      	}
          if (NULL == $issue->effortEstim) {
-           $cerrList[] = new ConsistencyError($row->bug_id, $this->userId, $row->date_modified, "BI is NULL !");
-         }
-      	if (0 == $issue->effortEstim) {
-           $cerrList[] = new ConsistencyError($row->bug_id, $this->userId, $row->date_modified, "BI = 0 !");
+           $cerrList[] = new ConsistencyError($row->bug_id, 
+                                              $row->handler_id, 
+                                              $row->status,
+                                              $row->last_updated, 
+                                              "BI not set !");
          }
       	if (NULL == $issue->remaining) {
-           $cerrList[] = new ConsistencyError($row->bug_id, $this->userId, $row->date_modified, "Remaining not set !");
+           $cerrList[] = new ConsistencyError($row->bug_id, 
+                                              $row->handler_id,
+                                              $row->status,
+                                              $row->last_updated, 
+                                              "Remaining not set !");
          }
       }
       
@@ -112,7 +105,11 @@ class ConsistencyCheck {
       	$issue = new Issue($row->bug_id);
          
          if (0 != $issue->remaining) {
-           $cerrList[] = new ConsistencyError($row->bug_id, $row->handler_id, $row->status, $row->last_updated, "Remaining = $issue->remaining &nbsp;&nbsp; (should be 0)");
+           $cerrList[] = new ConsistencyError($row->bug_id, 
+                                              $row->handler_id, 
+                                              $row->status, 
+                                              $row->last_updated, 
+                                              "Remaining = $issue->remaining &nbsp;&nbsp; (should be 0)");
          }
       }
       
