@@ -20,15 +20,24 @@ if (!isset($_SESSION['userid'])) {
 <?php 
 
 include_once 'consistency_check.class.php'; 
+include_once '../auth/user.class.php'; 
 
 
-$ccheck = new ConsistencyCheck($_SESSION['userid']);
+// ================ MAIN =================
+
+$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
+  or die("Impossible de se connecter");
+mysql_select_db($db_mantis_database) or die("Could not select database");
+
+$userid = $_SESSION['userid'];
+
+
+$ccheck = new ConsistencyCheck($userid);
 
 //$cerrList = ;
-$cerrList1 = $ccheck->checkBI();
-$cerrList2 = $ccheck->checkRAE();
-$cerrList3 = $ccheck->checkResolved();
-$cerrList = array_merge($cerrList1, $cerrList2, $cerrList3);
+$cerrList1 = $ccheck->checkAnalyzed();
+$cerrList2 = $ccheck->checkResolved();
+$cerrList = array_merge($cerrList1, $cerrList2);
 
    echo "<div align='left'>\n";
    echo "<table>\n";
@@ -36,13 +45,18 @@ $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3);
    echo "<tr>\n";
    echo "<th>User</th>\n";
    echo "<th>Issue</th>\n";
+   echo "<th title='last modification date'>Date</th>\n";
+   echo "<th>Status</th>\n";
    echo "<th>Error Description</th>\n";
    echo "</tr>\n";
    foreach ($cerrList as $cerr) {
          
+   	$user = new User($cerr->userId);
        echo "<tr>\n";
-       echo "<td>$cerr->userId</td>\n";
+       echo "<td>".$user->getName()."</td>\n";
        echo "<td>".mantisIssueURL($cerr->bugId)."</td>\n";
+       echo "<td>".date("Y-m-d", $cerr->timestamp)."</td>\n";
+       echo "<td>".$statusNames[$cerr->status]."</td>\n";
        echo "<td>$cerr->desc</td>\n";
        echo "</tr>\n";
    }

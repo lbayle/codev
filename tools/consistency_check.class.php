@@ -13,11 +13,14 @@ class ConsistencyError {
 	var $teamId;
 	var $desc;
    var $timestamp;
-	
-	public function ConsistencyError($bugId, $userId, $desc) {
-		$this->bugId  = $bugId;
-      $this->userId = $userId;
-	   $this->desc   = $desc;
+   var $status;
+   
+	public function ConsistencyError($bugId, $userId, $status, $timestamp, $desc) {
+		$this->bugId     = $bugId;
+      $this->userId    = $userId;
+      $this->status = $status;
+      $this->timestamp = $timestamp;
+      $this->desc      = $desc;
 	}
 }
 
@@ -39,27 +42,84 @@ class ConsistencyCheck {
   
    // ----------------------------------------------
    // fiches analyzed dont BI non renseignes
-   public function checkBI() {
-      $cerrList = array();
-  	   $cerrList[] = new ConsistencyError(332, 7, "DEBUG tamere BI");
-      $cerrList[] = new ConsistencyError(330, 8, "DEBUG tamere BI");
-  	   return $cerrList;
-   }
-   // ----------------------------------------------
    // fiches analyzed dont RAE non renseignes
-   public function checkRAE() {
+   public function checkAnalyzed() {
+   	
+   	global $status_analyzed;
+      global $status_accepted;
+      global $status_openned;
+      global $status_deferred;
+      global $status_resolved;
+      global $status_delivered;
+      global $status_closed;
+   	
+   	
       $cerrList = array();
-      $cerrList[] = new ConsistencyError(123, 5, "DEBUG tamere RAE missing");
+
+      // select all issues which current status is 'analyzed'
+      $query = "SELECT id AS bug_id ".
+        "FROM `mantis_bug_table` ".
+        "WHERE status in ($status_analyzed, $status_accepted, $status_openned, $status_deferred) ".
+        "ORDER BY bug_id DESC";
+      
+      $result    = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+      	$issue = new Issue($row->bug_id);
+      	
+      	if (!isset($issue->effortEstim)) {
+      	  $cerrList[] = new ConsistencyError($row->bug_id, $this->userId, $row->date_modified, "BI not set !");
+      	}
+         if (NULL == $issue->effortEstim) {
+           $cerrList[] = new ConsistencyError($row->bug_id, $this->userId, $row->date_modified, "BI is NULL !");
+         }
+      	if (0 == $issue->effortEstim) {
+           $cerrList[] = new ConsistencyError($row->bug_id, $this->userId, $row->date_modified, "BI = 0 !");
+         }
+      	if (NULL == $issue->remaining) {
+           $cerrList[] = new ConsistencyError($row->bug_id, $this->userId, $row->date_modified, "Remaining not set !");
+         }
+      }
+      
+      
+      // check if fields correctly set
+      
       return $cerrList;
    }
    
    // ----------------------------------------------
    // fiches resolved dont le RAE != 0
    public function checkResolved() {
+      
+   	global $statusNames;
+   	global $status_resolved;
+      global $status_delivered;
+      global $status_closed;
+      
+      
       $cerrList = array();
-      $cerrList[] = new ConsistencyError(222, 6, "DEBUG tamere RAE NOT null");
+
+      // select all issues which current status is 'analyzed'
+      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+        "FROM `mantis_bug_table` ".
+        "WHERE status in ($status_resolved, $status_delivered, $status_closed) ".
+        "ORDER BY last_updated DESC, bug_id DESC";
+      
+      $result    = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         // check if fields correctly set
+      	$issue = new Issue($row->bug_id);
+         
+         if (0 != $issue->remaining) {
+           $cerrList[] = new ConsistencyError($row->bug_id, $row->handler_id, $row->status, $row->last_updated, "Remaining = $issue->remaining &nbsp;&nbsp; (should be 0)");
+         }
+      }
+      
+      
+      
       return $cerrList;
-   }
+  	}
   
 }
 

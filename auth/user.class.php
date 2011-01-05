@@ -18,6 +18,20 @@ class User {
 	}
 	
    // --------------------
+	public function getName() {
+      
+      if (NULL == $name) {
+         $query = "SELECT mantis_user_table.username ".
+                  "FROM  `mantis_user_table` ".
+                  "WHERE  id = $this->id";
+         $result = mysql_query($query) or die("Query failed: $query");
+         $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "(unknown $this->id)";
+      }
+      return $this->name;
+   }
+	
+	
+	// --------------------
 	public function getFirstname() {
 		
 		if (NULL == $name) {
