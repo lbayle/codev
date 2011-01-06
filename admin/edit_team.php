@@ -188,6 +188,11 @@ function updateTeamLeaderForm($teamid, $originPage) {
    echo "<input type=hidden name=action       value=noAction>\n";
    
    echo "</form>\n";
+   
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be included in the team's productivity report.</br>\n";
+   
 	echo "</div>\n";
    
 	
