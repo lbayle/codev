@@ -63,14 +63,14 @@ class ConsistencyCheck {
                                               $row->handler_id, 
                                               $row->status,
                                               $row->last_updated, 
-                                              "BI not set !");
+                                              "BI non renseign&eacute;: il doit &ecirc;tre &eacute;gal &agrave; temps(Analyse + Dev + Tests)");
          }
       	if (NULL == $issue->remaining) {
            $cerrList[] = new ConsistencyError($row->bug_id, 
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated, 
-                                              "Remaining not set !");
+                                              "RAE non renseign&eacute;: il doit &ecirc;tre &eacute;gal &agrave; temps(BI - Analyse)");
          }
          if ($status_analyzed == $row->status) {
              $user = new User($row->handler_id);
@@ -79,7 +79,7 @@ class ConsistencyCheck {
                                                  $row->handler_id,
                                                  $row->status,
                                                  $row->last_updated, 
-                                                 "Should be assigned to FDJ");
+                                                 "Apr&egrave;s l'analyse, une fiche doit &ecirc;tre assign&eacute;e &agrave; 'FDJ' pour validation");
              }
          	
          }
@@ -120,7 +120,7 @@ class ConsistencyCheck {
                                               $row->handler_id, 
                                               $row->status, 
                                               $row->last_updated, 
-                                              "Remaining = $issue->remaining &nbsp;&nbsp; (should be 0)");
+                                              "Le RAE devrait &ecirc;tre = 0  (et non ".$issue->remaining.")");
          }
       }
       

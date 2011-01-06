@@ -39,28 +39,32 @@ $cerrList1 = $ccheck->checkAnalyzed();
 $cerrList2 = $ccheck->checkResolved();
 $cerrList = array_merge($cerrList1, $cerrList2);
 
-   echo "<div align='left'>\n";
-   echo "<table>\n";
-   echo "<caption>Erreurs dans les fiches Mantis</caption>\n";   
-   echo "<tr>\n";
-   echo "<th>User</th>\n";
-   echo "<th>Issue</th>\n";
-   echo "<th title='last modification date'>Date</th>\n";
-   echo "<th>Status</th>\n";
-   echo "<th>Error Description</th>\n";
-   echo "</tr>\n";
-   foreach ($cerrList as $cerr) {
-         
-   	$user = new User($cerr->userId);
-       echo "<tr>\n";
-       echo "<td>".$user->getName()."</td>\n";
-       echo "<td>".mantisIssueURL($cerr->bugId)."</td>\n";
-       echo "<td>".date("Y-m-d", $cerr->timestamp)."</td>\n";
-       echo "<td>".$statusNames[$cerr->status]."</td>\n";
-       echo "<td>$cerr->desc</td>\n";
-       echo "</tr>\n";
+   if (0 == count($cerrList)) {
+   	echo "Pas d'erreur.</br>\n";
+   } else {
+
+	   echo "<div align='left'>\n";
+	   echo "<table>\n";
+	   echo "<caption>Erreurs dans les fiches Mantis</caption>\n";   
+	   echo "<tr>\n";
+	   echo "<th>User</th>\n";
+	   echo "<th>Issue</th>\n";
+	   echo "<th title='last modification date'>Date</th>\n";
+	   echo "<th>Status</th>\n";
+	   echo "<th>Error Description</th>\n";
+	   echo "</tr>\n";
+	   foreach ($cerrList as $cerr) {
+	         
+	   	$user = new User($cerr->userId);
+	       echo "<tr>\n";
+	       echo "<td>".$user->getName()."</td>\n";
+	       echo "<td>".mantisIssueURL($cerr->bugId)."</td>\n";
+	       echo "<td>".date("Y-m-d", $cerr->timestamp)."</td>\n";
+	       echo "<td>".$statusNames[$cerr->status]."</td>\n";
+	       echo "<td>$cerr->desc</td>\n";
+	       echo "</tr>\n";
+	   }
    }
-   
    
    
    
