@@ -43,7 +43,7 @@ class ConsistencyCheck {
       global $status_resolved;
       global $status_delivered;
       global $status_closed;
-   	
+   	global $FDJ_teamid;
    	
       $cerrList = array();
 
@@ -71,6 +71,17 @@ class ConsistencyCheck {
                                               $row->status,
                                               $row->last_updated, 
                                               "Remaining not set !");
+         }
+         if ($status_analyzed == $row->status) {
+             $user = new User($row->handler_id);
+             if (! $user->isTeamMember($FDJ_teamid)) {
+              $cerrList[] = new ConsistencyError($row->bug_id, 
+                                                 $row->handler_id,
+                                                 $row->status,
+                                                 $row->last_updated, 
+                                                 "Should be assigned to FDJ");
+             }
+         	
          }
       }
       
