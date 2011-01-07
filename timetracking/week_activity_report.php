@@ -117,6 +117,7 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) 
   		
 	    echo "<div align='left'>\n";
 	    echo "<br/>";
+       echo "<br/>";
 	    displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
 	    echo "</div>";
   	}
@@ -133,7 +134,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   //$thisWeekId=date("W");
         
   $weekTracks = $timeTracking->getWeekDetails($userid);
-  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; charge = $workload<br/>\n";       
+  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='somme(RAE) des fiches en cours'>charge = $workload</span><br/>\n";       
   echo "<table width='95%'>\n";
   //echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
