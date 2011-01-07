@@ -17,6 +17,7 @@ if (!isset($_SESSION['userid'])) {
 <?php include '../login.inc.php'; ?>
 <?php include '../menu.inc.php'; ?>
 
+<div id="content">
 <?php 
 
 include_once 'consistency_check.class.php'; 
@@ -70,3 +71,6 @@ $cerrList = array_merge($cerrList1, $cerrList2);
    
    
 ?>
+</div>
+
+<?php include '../footer.inc.php'; ?>

@@ -346,6 +346,7 @@ class User {
       return $projList;
    }
    
+   // --------------------
    // returns the tasks I can work on.
    // depending on: the projects associated to this user in mantis_project_user_list_table.
    // this list is displayed in timeTracking.php
@@ -374,6 +375,48 @@ class User {
    	return $issueList;
    }
    
+   // --------------------
+   /**
+    * sum the RAE of all the opened Issues assigned to me.
+    */
+   public function getWorkload($projList = NULL) {
+
+      global $status_resolved;
+      global $status_delivered;
+      global $status_closed;
+   	
+      $totalRemaining = 0;
+
+      if (NULL == $projList) {
+        $projList = $this->getProjectList();
+      }
+      
+      if (0 == count($projList)) {
+         // this happens if User is not a Developper (Manager or Observer)
+         //echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
+         return $totalRemaining;
+      }
+      
+      $formatedProjList = valuedListToSQLFormatedString($projList);
+      
+   	// find all issues i'm working on
+      $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+               "WHERE project_id IN ($formatedProjList) ".
+               "AND handler_id = $this->id ".
+               "AND status NOT IN ($status_resolved, $status_delivered, $status_closed) ".
+               "ORDER BY id DESC";
+      
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result)) {
+            $issue = new Issue($row->id);
+            if (NULL != $issue->remaining) {
+            	$totalRemaining += $issue->remaining;
+            }
+      }
+   	
+   	
+   	return $totalRemaining;
+   }
 }
 
 

@@ -115,9 +115,9 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) 
   	if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
        ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
   		
-	    echo "<div align='center'>\n";
+	    echo "<div align='left'>\n";
 	    echo "<br/>";
-	    displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname);
+	    displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
 	    echo "</div>";
   	}
   	
@@ -128,17 +128,16 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) 
 }
 
 // ------------------------------------------------
-function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname) {
+function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
   // PERIOD week
   //$thisWeekId=date("W");
         
   $weekTracks = $timeTracking->getWeekDetails($userid);
+  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; charge = $workload<br/>\n";       
   echo "<table width='95%'>\n";
-  //echo "<caption><b>Semaine $weekid</b> (du ".date("Y-m-d", $weekDates[1])." au ".date("Y-m-d", $weekDates[5]).")</caption>\n";
-  echo "<caption>".$realname."</caption>\n";
+  //echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
   echo "<th width='50%'>Tache</th>\n";
-  //echo "<th width='3'>RAE</th>\n";
   echo "<th width='7%'>Projet</th>\n";
   echo "<th width='10%'>Poste</th>\n";
   echo "<th width='10'>Lundi<br>".date("d M", $weekDates[1])."</th>\n";
@@ -157,7 +156,6 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
                 
       echo "<tr>\n";
       echo "<td>".mantisIssueURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-      //echo "<td>".$issue->remaining."</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$jobName."</td>\n";
       for ($i = 1; $i <= 5; $i++) {
