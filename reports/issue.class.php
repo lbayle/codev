@@ -31,6 +31,7 @@ class Issue {
    var $release;
    var $deadLine;
    var $deliveryDate;
+   var $deliveryId; // FDL
    var $priority;
    var $handlerId;
    var $resolution;
@@ -54,6 +55,7 @@ class Issue {
    	global $addEffortCustomField;
    	global $deadLineCustomField;
    	global $deliveryDateCustomField;
+      global $deliveryIdCustomField;
    	
       // Get issue info
       $query = "SELECT id, summary, status, date_submitted, project_id, category_id, eta, priority, handler_id, resolution ".
@@ -85,7 +87,7 @@ class Issue {
             case $addEffortCustomField:   $this->effortAdd   = $row->value; break;
             case $deadLineCustomField:    $this->deadLine    = $row->value; break;
             case $deliveryDateCustomField: $this->deliveryDate = $row->value; break;
-            
+            case $deliveryIdCustomField:  $this->deliveryId  = $row->value; break;
             
          }
       }

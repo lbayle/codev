@@ -35,10 +35,7 @@ $userid = $_SESSION['userid'];
 
 $ccheck = new ConsistencyCheck();
 
-//$cerrList = ;
-$cerrList1 = $ccheck->checkAnalyzed();
-$cerrList2 = $ccheck->checkResolved();
-$cerrList = array_merge($cerrList1, $cerrList2);
+$cerrList = $ccheck->check();
 
    if (0 == count($cerrList)) {
    	echo "Pas d'erreur.</br>\n";

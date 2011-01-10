@@ -32,6 +32,59 @@ class ConsistencyCheck {
    }
   
    // ----------------------------------------------
+   /**
+    * perform all consistency checks
+    */
+   public function check() {
+      
+      $cerrList1 = $this->checkAnalyzed();
+      $cerrList2 = $this->checkResolved();
+      $cerrList3 = $this->checkDeliveryDate();
+
+      $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3);
+      return $cerrList;
+   }
+   
+   
+   // ----------------------------------------------
+   /**
+    * if $deliveryIssueCustomField is specified, then $deliveryDateCustomField should also be specified.
+    */
+   public function checkDeliveryDate() {
+      global $status_resolved;
+      global $status_delivered;
+      global $status_closed;
+   	
+      global $deliveryIdCustomField; // in mantis_custom_field_table 'FDL'
+      global $deliveryDateCustomField; // in mantis_custom_field_table  'Liv. Date'
+      
+      $cerrList = array();
+      
+      // select all issues which current status is 'analyzed'
+      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+        "FROM `mantis_bug_table` ".
+        "WHERE status in ($status_resolved, $status_delivered, $status_closed) ".
+        "ORDER BY bug_id DESC";
+      
+      $result    = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         $issue = new Issue($row->bug_id);
+         
+         if ((NULL != $issue->deliveryId) &&  
+         	 (NULL == $issue->deliveryDate)) {
+               $cerrList[] = new ConsistencyError($row->bug_id, 
+                                              $row->handler_id, 
+                                              $row->status,
+                                              $row->last_updated, 
+                                              "Date de livraison non renseign&eacute;: si une fiche de livraison est sp&eacute;cifi&eacute;e, alors une date doit y &ecirc;tre associ&eacute;e");
+         }
+      }
+      return $cerrList;
+      
+   }
+   
+   // ----------------------------------------------
    // fiches analyzed dont BI non renseignes
    // fiches analyzed dont RAE non renseignes
    public function checkAnalyzed() {

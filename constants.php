@@ -141,6 +141,7 @@
   $remainingCustomField   = 4; // in mantis_custom_field_table RAE
   $deadLineCustomField    = 8; // in mantis_custom_field_table
   $addEffortCustomField   = 10; // in mantis_custom_field_table BS
+  $deliveryIdCustomField = 9; // in mantis_custom_field_table FDL (id of the associated Delivery Issue)
   $deliveryDateCustomField = 11; // in mantis_custom_field_table
   
   // ---
