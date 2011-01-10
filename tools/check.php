@@ -43,7 +43,7 @@ $cerrList = $ccheck->check();
 
 	   echo "<div align='left'>\n";
 	   echo "<table>\n";
-	   echo "<caption>Erreurs dans les fiches Mantis</caption>\n";   
+	   echo "<caption>".count($cerrList)." Erreur(s) dans les fiches Mantis</caption>\n";   
 	   echo "<tr>\n";
 	   echo "<th>User</th>\n";
 	   echo "<th>Issue</th>\n";
@@ -62,6 +62,8 @@ $cerrList = $ccheck->check();
 	       echo "<td>$cerr->desc</td>\n";
 	       echo "</tr>\n";
 	   }
+      echo "</table>\n";
+      echo "</div>\n";
    }
    
    
