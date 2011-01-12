@@ -15,6 +15,8 @@ class ConsistencyError {
    var $timestamp;
    var $status;
    
+   var $severity; // unused
+   
 	public function ConsistencyError($bugId, $userId, $status, $timestamp, $desc) {
 		$this->bugId     = $bugId;
       $this->userId    = $userId;
@@ -26,9 +28,16 @@ class ConsistencyError {
 
 
 class ConsistencyCheck {
-  
+   
+	var $projectList;
+   
    // ----------------------------------------------
-   public function ConsistencyCheck() {
+   public function ConsistencyCheck($projectList = NULL) {
+   	if (NULL != $projectList) { 
+   		$this->projectList = $projectList; 
+   	} else {
+   		 $projectList = array();
+   	}
    }
   
    // ----------------------------------------------
@@ -63,8 +72,14 @@ class ConsistencyCheck {
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status in ($status_resolved, $status_delivered, $status_closed) ".
-        "ORDER BY bug_id DESC";
+        "WHERE status in ($status_resolved, $status_delivered, $status_closed) ";
+      
+      if (0 != count($this->projectList)) {
+      	$formatedProjects = valuedListToSQLFormatedString($this->projectList);
+      	$query .= "AND project_id IN ($formatedProjects) ";
+      }
+      
+       $query .="ORDER BY last_updated DESC, bug_id DESC";
       
       $result    = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
@@ -103,9 +118,15 @@ class ConsistencyCheck {
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status in ($status_analyzed, $status_accepted, $status_openned, $status_deferred) ".
-        "ORDER BY bug_id DESC";
+        "WHERE status in ($status_analyzed, $status_accepted, $status_openned, $status_deferred) ";
       
+      if (0 != count($this->projectList)) {
+         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $query .= "AND project_id IN ($formatedProjects) ";
+      }
+      
+      $query .="ORDER BY last_updated DESC, bug_id DESC";
+            
       $result    = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
@@ -159,9 +180,15 @@ class ConsistencyCheck {
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status in ($status_resolved, $status_delivered, $status_closed) ".
-        "ORDER BY last_updated DESC, bug_id DESC";
+        "WHERE status in ($status_resolved, $status_delivered, $status_closed) ";
       
+      if (0 != count($this->projectList)) {
+         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $query .= "AND project_id IN ($formatedProjects) ";
+      }
+      
+      $query .="ORDER BY last_updated DESC, bug_id DESC";
+            
       $result    = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {

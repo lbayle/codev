@@ -31,9 +31,16 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 $userid = $_SESSION['userid'];
+$sessionUser = new User($userid);
 
+// get projects i'm involved in (dev, Leader, Manager)
+$devTeamList = $sessionUser->getDevTeamList();
+$leadedTeamList = $sessionUser->getLeadedTeamList();
+$managedTeamList = $sessionUser->getManagedTeamList();
+$teamList = $devTeamList + $leadedTeamList + $managedTeamList; 
+$projectList = $sessionUser->getProjectList($teamList);
 
-$ccheck = new ConsistencyCheck();
+$ccheck = new ConsistencyCheck($projectList);
 
 $cerrList = $ccheck->check();
 
