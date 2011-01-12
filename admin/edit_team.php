@@ -503,6 +503,7 @@ if ($session_user->isTeamMember($admin_teamid)) {
 } else {
    $teamList = $session_user->getLeadedTeamList();
 }
+if (NULL == $teamList[$teamid]) { $teamid = 0;}
 
 // --- show team selection form
 echo "<h1>Team Edition</h1><br/>";
