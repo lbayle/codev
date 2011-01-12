@@ -504,6 +504,9 @@ if ($session_user->isTeamMember($admin_teamid)) {
    $teamList = $session_user->getLeadedTeamList();
 }
 
+//  if user is not Leader of $_SESSION[teamid], do not display current team page 
+if (NULL == $teamList[$teamid]) { $teamid = 0;}
+
 // --- show team selection form
 echo "<h1>Team Edition</h1><br/>";
 setTeamForm("edit_team.php", $teamid, $teamList);
