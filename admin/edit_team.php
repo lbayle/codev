@@ -503,7 +503,6 @@ if ($session_user->isTeamMember($admin_teamid)) {
 } else {
    $teamList = $session_user->getLeadedTeamList();
 }
-if (NULL == $teamList[$teamid]) { $teamid = 0;}
 
 //  if user is not Leader of $_SESSION[teamid], do not display current team page 
 if (NULL == $teamList[$teamid]) { $teamid = 0;}
