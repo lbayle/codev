@@ -5,7 +5,7 @@
 
 <head>
 
-<title>CoDev Server</title>
+<title>CoDev TimeTracking</title>
 <meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
 
 <?php 
