@@ -272,6 +272,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    echo "<option value='0.25'>0.25 (2h)</option>\n";
    echo "<option value='0.2'>0.2 (1h 30)</option>\n";
    echo "<option value='0.1'>0.1 (1h)</option>\n";
+   echo "<option value='0.05'>0.05 (30min)</option>\n";
    echo "</select>\n";
 
    echo "<input type=button name='btAddTrack' value='Ajouter' onClick='javascript: addTrack()'>\n";
@@ -387,6 +388,7 @@ if ($_POST[nextForm] == "addTrackForm") {
     
     // pre-set form fields
     $defaultBugid     = $_POST[bugid];
+    $defaultProjectid  = $issue->projectId;
     
   } elseif ("setProjectid" == $action) {
 
