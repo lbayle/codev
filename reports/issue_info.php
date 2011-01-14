@@ -254,9 +254,10 @@ $defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
 
 $user = new User($session_userid);
 
+$dTeamList = $user->getDevTeamList();
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
-$teamList = $lTeamList + $managedTeamList;
+$teamList = $dTeamList + $lTeamList + $managedTeamList;
 
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
