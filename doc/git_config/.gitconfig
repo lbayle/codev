@@ -1,0 +1,37 @@
+[gui]
+	recentrepo = Z:/louis/codev
+[user]
+	name = Louis BAYLE
+	email = lbayle.work@gmail.com
+
+[core]
+	pager = less -FRSX
+	editor = vim
+
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+
+[diff]
+	renames = true
+	tool = diffmerge
+
+[difftool]
+	prompt = false
+
+[difftool "diffmerge"]
+	cmd = diffmerge $LOCAL $REMOTE
+
+[merge]
+	tool = diffmerge
+
+[mergetool]
+	keepBackup = false
+
+[mergetool "diffmerge"]
+	cmd = diffmerge --merge --result=$MERGED $LOCAL $BASE $REMOTE
+	trustExitCode = true
+
+
