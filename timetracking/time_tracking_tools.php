@@ -49,7 +49,7 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
    echo "<th>Categorie</th>\n";
    echo "<th>Status</th>\n";
    echo "<th title='BI + BS'>Effort Estim&eacute;</th>\n";
-   echo "<th title='Remaining'>RAE</th>\n";
+   //echo "<th title='Remaining'>RAE</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT id, bugid, jobid, date, duration ".
@@ -96,7 +96,7 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
       echo "<td>".$issue->getCategoryName()."</td>\n";
       echo "<td>".$issue->getCurrentStatusName()."</td>\n";
       echo "<td title='$issue->effortEstim + $issue->effortAdd'>".$totalEstim."</td>\n";
-      echo "<td>".$issue->remaining."</td>\n";
+      //echo "<td>".$issue->remaining."</td>\n";
 
       echo "</tr>\n";
    }

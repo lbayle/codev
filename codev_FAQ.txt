@@ -18,8 +18,8 @@
 - Windows XP
   + XAMPP Lite 1.7.3
   + Mantis 1.2.x
-  + Git (msysgit) 1.7.0.2
-  + Diffuse 0.4.3 (optional)
+  + Git (msysgit) 1.7.3.1
+  + DiffMerge 3.3 (optional)
   + eclipse-php-galileo (optional)
 
 ** TimeTracking - User

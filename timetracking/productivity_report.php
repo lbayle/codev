@@ -297,16 +297,16 @@ function displayResolvedDriftStats ($timeTracking) {
   
   echo "<tr>\n";
   echo "<td>nbre Fiches en D&eacute;rive</td>\n";
-  echo "<td>".($driftStats_new["nbDriftsPosETA"])."<span class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
-  echo "<td>".($driftStats_new["nbDriftsPos"])."<span class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsPosETA"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsPos"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
   echo "<td title='Liste des Fiches pour EffortEstim'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
   echo "<td>derive > 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>nbre Fiches &agrave; l'&eacute;quilibre</td>\n";
-  echo "<td>".($driftStats_new["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
-  echo "<td>".($driftStats_new["nbDriftsEqual"])."<span class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsEqualETA"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsEqual"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   if (isset($_GET['debug'])) {
    echo "<td title='Liste des fiches pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
   } else {
@@ -317,8 +317,8 @@ function displayResolvedDriftStats ($timeTracking) {
   
   echo "<tr>\n";
   echo "<td>nbre Fiches en avance</td>\n";
-  echo "<td>".($driftStats_new["nbDriftsNegETA"])."<span class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
-  echo "<td>".($driftStats_new["nbDriftsNeg"])."<span class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsNegETA"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsNeg"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
   echo "<td title='Liste des fiches pour EffortEstim'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
   echo "<td>derive < -1</td>\n";
   echo "</tr>\n";
@@ -377,16 +377,16 @@ function displayCurrentDriftStats ($timeTracking) {
   
   echo "<tr>\n";
   echo "<td>nbre Fiches en D&eacute;rive</td>\n";
-  echo "<td>".($driftStats_new["nbDriftsPosETA"])."<span class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
-  echo "<td>".($driftStats_new["nbDriftsPos"])."<span class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsPosETA"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsPos"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
   echo "<td title='Liste des Fiches pour EffortEstim'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
   echo "<td>derive > 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>nbre Fiches &agrave; l'&eacute;quilibre</td>\n";
-  echo "<td>".($driftStats_new["nbDriftsEqualETA"])."<span class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
-  echo "<td>".($driftStats_new["nbDriftsEqual"])."<span class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsEqualETA"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsEqual"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   if (isset($_GET['debug'])) {
    echo "<td title='Liste des Fiches pour EffortEstim'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
   } else {
@@ -397,8 +397,8 @@ function displayCurrentDriftStats ($timeTracking) {
   
   echo "<tr>\n";
   echo "<td>nbre Fiches en avance</td>\n";
-  echo "<td>".($driftStats_new["nbDriftsNegETA"])."<span class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
-  echo "<td>".($driftStats_new["nbDriftsNeg"])."<span class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsNegETA"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
+  echo "<td title='nb fiches'>".($driftStats_new["nbDriftsNeg"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
   echo "<td title='Liste des Fiches pour EffortEstim'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
   echo "<td>derive < -1</td>\n";
   echo "</tr>\n";
