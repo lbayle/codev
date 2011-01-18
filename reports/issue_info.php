@@ -249,8 +249,16 @@ mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql
 
 $action           = $_POST[action];
 $session_userid   = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
-$bug_id           = isset($_POST[bugid])  ? $_POST[bugid]  : 0;
+$bug_id           = isset($_POST[bugid])  ? $_POST[bugid] : 0;
 $defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
+
+
+// if bugid is set in the URL, display directly
+ if (isset($_GET['bugid'])) {
+ 	$bug_id = $_GET['bugid'];
+ 	$action = "displayBug";
+ }
+
 
 $user = new User($session_userid);
 

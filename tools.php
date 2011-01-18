@@ -30,6 +30,7 @@ function getServerRootURL() {
 
 /**
  * returns an HTML link to the Mantis page for Issue $bugid
+ * ex: http://172.24.209.4/mantis/view.php?id=400
  * @param int $bugid issue id in mantis DB
  */
 function mantisIssueURL($bugid, $title=NULL) {
@@ -40,6 +41,21 @@ function mantisIssueURL($bugid, $title=NULL) {
    $formatedTitle = str_replace("\"", " ", $formatedTitle);
 	
 	return "<a  title='$formatedTitle' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
+}
+
+/**
+ * returns an HTML link to the TaskInfo page for Issue $bugid
+ * ex: http://172.24.209.4/codev/reports/issue_info.php?bugid=60
+ * @param int $bugid issue id in mantis DB
+ */
+function issueInfoURL($bugid, $title=NULL) {
+   global $mantisURL;
+   if (NULL==$title) { $title = "View info for Issue $bugid"; }
+   
+   $formatedTitle = str_replace("'", " ", $title);
+   $formatedTitle = str_replace("\"", " ", $formatedTitle);
+   
+   return "<a  title='$formatedTitle' href='".getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
 }
 
 // ---------------------------
