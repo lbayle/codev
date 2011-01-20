@@ -697,6 +697,8 @@ class TimeTracking {
    // return TimeTracks created by the team during the timestamp
    // returns : $projectTracks[projectid][bugid][jobid] = duration
    public function getProjectTracks() {
+      global $accessLevel_dev;
+      global $accessLevel_manager;
       
       $projectTracks = array();
 
@@ -706,6 +708,7 @@ class TimeTracking {
                  "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
                  "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
                  "AND   codev_team_user_table.team_id = $this->team_id ".
+                 "AND   codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
                  "AND   mantis_bug_table.id     = codev_timetracking_table.bugid ".
                  "AND   mantis_project_table.id = mantis_bug_table.project_id ".
                  "AND   codev_job_table.id      = codev_timetracking_table.jobid ".
