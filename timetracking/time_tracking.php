@@ -100,6 +100,9 @@ require_once('calendar/classes/tc_calendar.php');
 
 // --------------------------------------------------------------
 function setUserForm($originPage) {
+  global $accessLevel_dev;
+  global $accessLevel_manager;
+	
   $session_user = new User($_SESSION['userid']);
   $teamList = $session_user->getLeadedTeamList();
    
@@ -110,7 +113,8 @@ function setUserForm($originPage) {
   $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username, mantis_user_table.realname ".
     "FROM `mantis_user_table`, `codev_team_user_table` ".
     "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
-    "AND codev_team_user_table.team_id IN ($formatedTeamString) ".
+    "AND   codev_team_user_table.team_id IN ($formatedTeamString) ".
+    "AND   codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
     "ORDER BY mantis_user_table.username";
 
   // create form
