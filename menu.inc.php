@@ -5,7 +5,7 @@
 <?php echo "   
 <table class='menu'>
    <tr>
-      <td class='menu'><a href='".getServerRootURL()."/home.php' title='Acceuil'>Home</a></td>
+      <td class='menu'><a href='".getServerRootURL()."/index.php' title='Acceuil'>Home</a></td>
       
       <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis.php' title='MantisBT'>Mantis</a></td>
       
@@ -24,7 +24,9 @@
       |
       <a href='".getServerRootURL()."/timetracking/week_activity_report.php' title='Activit&eacute; hebdo'>Weekly activities</a>
       |
-      <a href='".getServerRootURL()."/reports/issue_info.php' title='Activit&eacute; par t&acirc;che'>Task tracking</a>
+      <a href='".getServerRootURL()."/reports/issue_info.php' title='Activit&eacute; par t&acirc;che'>Task info</a>
+      |
+      <a href='".getServerRootURL()."/reports/team_info.php' title='Activit&eacute; de l equipe'>Team info</a>
       </td>
       <td>
       <a href='".getServerRootURL()."/doc/index.php' title='Documentation'>Doc</a>
