@@ -15,6 +15,7 @@
 
 include_once 'consistency_check.class.php'; 
 include_once 'user.class.php';
+include_once 'issue.class.php';
 
 
 // -----------------------------
@@ -54,7 +55,7 @@ function displayLinks() {
    echo "   </li>\n";
    echo "</ul>\n";
  
-   echo "<br/>\n";
+   //echo "<br/>\n";
    echo "<br/>\n";
    echo "<br/>\n";
 
@@ -106,7 +107,8 @@ function displayConsistencyErrors($sessionUser) {
 
          if ($sessionUser->id == $cerr->userId) {
             $user = new User($cerr->userId);
-            echo "ERREUR Mantis: <span style='color:red'>".mantisIssueURL($cerr->bugId)."&nbsp;&nbsp;".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span><br/>\n";
+            $issue = new Issue($cerr->bugId);
+            echo "ERREUR Fiche ".mantisIssueURL($cerr->bugId, $issue->summary)." : &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span><br/>\n";
          }
       }
       echo "</div>\n";
