@@ -39,10 +39,10 @@ if (!isset($_SESSION['userid'])) {
 
 include_once "../constants.php";
 include_once "../tools.php";
-include_once "../reports/issue.class.php";
-include_once "../reports/project.class.php";
-include_once "../timetracking/time_track.class.php";
-include_once "../auth/user.class.php";
+include_once "issue.class.php";
+include_once "project.class.php";
+include_once "time_track.class.php";
+include_once "user.class.php";
 
 // ---------------------------------------------------------------
 function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {

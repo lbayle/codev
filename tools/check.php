@@ -21,7 +21,7 @@ if (!isset($_SESSION['userid'])) {
 <?php 
 
 include_once 'consistency_check.class.php'; 
-include_once '../auth/user.class.php'; 
+include_once 'user.class.php'; 
 
 
 // ================ MAIN =================

@@ -4,7 +4,7 @@
 
 // LoB 23 Jun 2010
 
-include_once "../reports/issue.class.php";
+include_once "issue.class.php";
 
 // =======================================
 class User {

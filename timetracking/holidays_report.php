@@ -24,7 +24,7 @@
 
 include_once "../constants.php";
 include_once "../tools.php";
-include_once "../auth/user.class.php";
+include_once "user.class.php";
 
 // ---------------------------------------------
 

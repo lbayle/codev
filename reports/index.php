@@ -40,7 +40,7 @@ if (!isset($_SESSION['userid'])) {
 //
 include_once "../constants.php";
 include_once "../tools.php";
-include_once "../auth/user.class.php";
+include_once "user.class.php";
 include_once "issue.class.php";
 include_once "period_stats_report.class.php";
 include_once "issue_tracking.class.php";

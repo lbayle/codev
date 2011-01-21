@@ -3,8 +3,8 @@
 // -- TimeTracking facilities --
 
 include_once "time_track.class.php";
-include_once "../reports/issue.class.php";
-include_once "../auth/user.class.php";
+include_once "issue.class.php";
+include_once "user.class.php";
 
 class TimeTracking {
   var $startTimestamp;

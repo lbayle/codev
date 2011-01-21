@@ -1,7 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
-include_once "../auth/user.class.php";
+include_once "user.class.php";
 
 
 function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {

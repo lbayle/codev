@@ -37,8 +37,8 @@ if (!isset($_SESSION['userid'])) {
 
 include_once "../constants.php";
 include_once "../tools.php";
-include_once "../reports/period_stats.class.php";
-include_once "../reports/project.class.php";
+include_once "period_stats.class.php";
+include_once "project.class.php";
 
 include_once "time_tracking.class.php";
 require_once('calendar/classes/tc_calendar.php');

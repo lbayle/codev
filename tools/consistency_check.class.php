@@ -3,8 +3,8 @@
 
 //include_once "constants.php";
 //include_once "tools.php";
-include_once "../reports/issue.class.php";
-include_once "../auth/user.class.php";
+include_once "issue.class.php";
+include_once "user.class.php";
 
 class ConsistencyError {
 	

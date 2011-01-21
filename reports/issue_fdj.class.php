@@ -6,7 +6,7 @@
 
 include_once "../constants.php";
 include_once "issue.class.php";
-include_once "../auth/user.class.php";
+include_once "user.class.php";
 
 class IssueFDJ extends Issue {
 
