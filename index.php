@@ -68,7 +68,7 @@ function displayLinks() {
    echo "   </li>\n";
    echo "<br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/timetracking/productivity_report.php'>Indicateurs de production</a>";
+   echo "        <a href='".getServerRootURL()."/reports/productivity_report.php'>Indicateurs de production</a>";
    echo "   </li>\n";
    echo "<br/>\n";
    echo "   <li>\n";

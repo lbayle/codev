@@ -16,17 +16,16 @@
       |
       <a href='".getServerRootURL()."/tools/check.php' title='Consistency Check'>Check</a>
       </td>
-      <td><a href='".getServerRootURL()."/reports/' title=''>Mantis Reports</a>
+      <td>
+      <a href='".getServerRootURL()."/reports/issue_info.php' title='Activit&eacute; par t&acirc;che'>Task info</a>
       |
-      <a href='".getServerRootURL()."/timetracking/productivity_report.php' title='Indicateurs de production'>Productivity Reports</a>
+      <a href='".getServerRootURL()."/reports/' title=''>Mantis Reports</a>
       |
-      <a href='".getServerRootURL()."/timetracking/proj_management_report.php' title='Raports pour la gestion de projet'>Export to CSV</a>
+      <a href='".getServerRootURL()."/reports/productivity_report.php' title='Indicateurs de production'>Productivity Reports</a>
       |
       <a href='".getServerRootURL()."/timetracking/week_activity_report.php' title='Activit&eacute; hebdo'>Weekly activities</a>
       |
-      <a href='".getServerRootURL()."/reports/issue_info.php' title='Activit&eacute; par t&acirc;che'>Task info</a>
-      |
-      <a href='".getServerRootURL()."/reports/team_info.php' title='Activit&eacute; de l equipe'>Team info</a>
+      <a href='".getServerRootURL()."/reports/proj_management_report.php' title='Raports pour la gestion de projet'>Export to CSV</a>
       </td>
       <td>
       <a href='".getServerRootURL()."/doc/index.php' title='Documentation'>Doc</a>
