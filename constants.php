@@ -7,13 +7,14 @@
 
 
 
-   $codevVersion = "v0.99.4 (13 Jan 2011)";
+   $codevVersion = "v0.99.5 (21 Jan 2011)";
 
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management",
                                 "v0.99.2" => "(08 Dec  2010) - Project Management",
                                 "v0.99.3" => "(03 Jan  2011) - fix new year problems",
-                                "v0.99.4" => "(13 Jan  2011) - ConsistencyCheck");
+                                "v0.99.4" => "(13 Jan  2011) - ConsistencyCheck",
+                                "v0.99.5" => "(21 Jan  2011) - Update directory structure & Apache config");
    
    $codevReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
       
