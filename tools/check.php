@@ -56,6 +56,7 @@ $cerrList = $ccheck->check();
 	   echo "<th>Issue</th>\n";
 	   echo "<th title='last modification date'>Date</th>\n";
 	   echo "<th>Status</th>\n";
+      echo "<th>Level</th>\n";
 	   echo "<th>Error Description</th>\n";
 	   echo "</tr>\n";
 	   foreach ($cerrList as $cerr) {
@@ -66,6 +67,7 @@ $cerrList = $ccheck->check();
 	       echo "<td>".mantisIssueURL($cerr->bugId)."</td>\n";
 	       echo "<td>".date("Y-m-d", $cerr->timestamp)."</td>\n";
 	       echo "<td>".$statusNames[$cerr->status]."</td>\n";
+          echo "<td>$cerr->severity</td>\n";
 	       echo "<td>$cerr->desc</td>\n";
 	       echo "</tr>\n";
 	   }
