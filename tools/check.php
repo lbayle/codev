@@ -61,10 +61,11 @@ $cerrList = $ccheck->check();
 	   echo "</tr>\n";
 	   foreach ($cerrList as $cerr) {
 	         
-	   	$user = new User($cerr->userId);
-	       echo "<tr>\n";
+	   	 $user = new User($cerr->userId);
+          $issue = new Issue($cerr->bugId);
+	   	 echo "<tr>\n";
 	       echo "<td>".$user->getName()."</td>\n";
-	       echo "<td>".mantisIssueURL($cerr->bugId)."</td>\n";
+	       echo "<td>".mantisIssueURL($cerr->bugId, $issue->summary)."</td>\n";
 	       echo "<td>".date("Y-m-d", $cerr->timestamp)."</td>\n";
 	       echo "<td>".$statusNames[$cerr->status]."</td>\n";
           echo "<td>$cerr->severity</td>\n";
