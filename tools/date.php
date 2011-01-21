@@ -2,7 +2,7 @@
 
 include_once "../constants.php";
 include_once "../tools.php";
-require_once('../timetracking/calendar/classes/tc_calendar.php');
+require_once('tc_calendar.php');
 
    $_POST[page_name] = "Date converstion"; 
    include '../header.inc.php'; 
@@ -33,9 +33,9 @@ function setCalendarToDateForm($defaultDate1) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
            
   $myCalendar1 = new tc_calendar("date1", true, false);
-  $myCalendar1->setIcon("../timetracking/calendar/images/iconCalendar.gif");
+  $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
-  $myCalendar1->setPath("../timetracking/calendar/");
+  $myCalendar1->setPath("../calendar/");
   $myCalendar1->setYearInterval(2010, 2025);
   $myCalendar1->dateAllow('2010-01-01', '2015-12-31');
   $myCalendar1->setDateFormat('Y-m-d');

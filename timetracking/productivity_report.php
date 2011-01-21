@@ -41,16 +41,16 @@ include_once "period_stats.class.php";
 include_once "project.class.php";
 
 include_once "time_tracking.class.php";
-require_once('calendar/classes/tc_calendar.php');
+require_once('tc_calendar.php');
 
 // -----------------------------------------------
 function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
            
   $myCalendar1 = new tc_calendar("date1", true, false);
-  $myCalendar1->setIcon("calendar/images/iconCalendar.gif");
+  $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
-  $myCalendar1->setPath("calendar/");
+  $myCalendar1->setPath("../calendar/");
   $myCalendar1->setYearInterval(2010, 2015);
   $myCalendar1->dateAllow('2010-01-01', '2015-12-31');
   $myCalendar1->setDateFormat('Y-m-d');
@@ -59,9 +59,9 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate2);
         
   $myCalendar2 = new tc_calendar("date2", true, false);
-  $myCalendar2->setIcon("calendar/images/iconCalendar.gif");
+  $myCalendar2->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
-  $myCalendar2->setPath("calendar/");
+  $myCalendar2->setPath("../calendar/");
   $myCalendar2->setYearInterval(2010, 2015);
   $myCalendar2->dateAllow('2010-01-01', '2015-12-31');
   $myCalendar2->setDateFormat('Y-m-d');

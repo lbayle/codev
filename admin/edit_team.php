@@ -126,8 +126,8 @@ if (!isset($_SESSION['userid'])) {
 <?php
 include_once "../constants.php";
 include_once "../tools.php";
-include_once "../auth/user.class.php";
-require_once('../timetracking/calendar/classes/tc_calendar.php');
+include_once "user.class.php";
+require_once('tc_calendar.php');
 
 function setTeamForm($originPage, $defaultSelection, $teamList) {
    
@@ -256,18 +256,18 @@ function addTeamMemberForm($originPage, $defaultDate) {
 	list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
    $myCalendar = new tc_calendar("date1", true, false);
-   $myCalendar->setIcon("../timetracking/calendar/images/iconCalendar.gif");
+   $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
    $myCalendar->setDate($defaultDay, $defaultMonth, $defaultYear);
-   $myCalendar->setPath("../timetracking/calendar/");
+   $myCalendar->setPath("../calendar/");
    $myCalendar->setYearInterval(2010, 2015);
    $myCalendar->dateAllow('2010-01-01', '2015-12-31');
    $myCalendar->setDateFormat('Y-m-d');
    $myCalendar->startMonday(true);
 
    $myCalendar2 = new tc_calendar("date2", true, false);
-   $myCalendar2->setIcon("../timetracking/calendar/images/iconCalendar.gif");
+   $myCalendar2->setIcon("../calendar/images/iconCalendar.gif");
    $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
-   $myCalendar2->setPath("../timetracking/calendar/");
+   $myCalendar2->setPath("../calendar/");
    $myCalendar2->setYearInterval(2010, 2015);
    $myCalendar2->dateAllow('2010-01-01', '2015-12-31');
    $myCalendar2->setDateFormat('Y-m-d');

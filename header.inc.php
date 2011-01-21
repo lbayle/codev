@@ -9,8 +9,8 @@
 <meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
 
 <?php 
-   echo "<link href='".getServerRootURL()."/timetracking/calendar/calendar.css' rel='stylesheet' type='text/css' />";
-   echo "<script language='javascript' src='".getServerRootURL()."/timetracking/calendar/calendar.js'></script>";
+   echo "<link href='".getServerRootURL()."/calendar/calendar.css' rel='stylesheet' type='text/css' />";
+   echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>";
    echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />";
 ?>
 

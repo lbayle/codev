@@ -73,8 +73,8 @@ function deleteJobProjectAssociation(id, description){
 <?php
 include_once "../constants.php";
 include_once "../tools.php";
-include_once "../auth/user.class.php";
-require_once('../timetracking/calendar/classes/tc_calendar.php');
+include_once "user.class.php";
+require_once('tc_calendar.php');
 
 
 // ----------------------------------------------------

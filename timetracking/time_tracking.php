@@ -96,7 +96,7 @@ include_once "user.class.php";
 include_once "time_tracking.class.php";
 include_once "time_tracking_tools.php";
 
-require_once('calendar/classes/tc_calendar.php');
+require_once('tc_calendar.php');
 
 // --------------------------------------------------------------
 function setUserForm($originPage) {
@@ -154,9 +154,9 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
    $myCalendar = new tc_calendar("date1", true, false);
-   $myCalendar->setIcon("calendar/images/iconCalendar.gif");
+   $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
    $myCalendar->setDate($defaultDay, $defaultMonth, $defaultYear);
-   $myCalendar->setPath("calendar/");
+   $myCalendar->setPath("../calendar/");
    $myCalendar->setYearInterval(2010, 2015);
    $myCalendar->dateAllow('2010-01-01', '2015-12-31');
    $myCalendar->setDateFormat('Y-m-d');

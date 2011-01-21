@@ -41,7 +41,7 @@ include_once "period_stats.class.php";
 include_once "project.class.php";
 
 include_once "time_tracking.class.php";
-require_once('calendar/classes/tc_calendar.php');
+require_once('tc_calendar.php');
 
 // -----------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear) {
