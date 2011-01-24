@@ -17,9 +17,9 @@ function displayLoginForm() {
 
   echo "<div align=center>\n";      
   echo("<form action='login.php' method='post' name='loginForm'>\n");
-  echo("Login: <input name='codev_login' type='text' id='codev_login'>\n");
-  echo("Password: <input name='codev_passwd' type='password' id='codev_passwd'>\n");
-  echo("<input type='submit' name='Submit' value='Login'>\n");
+  echo(T_("Login").": <input name='codev_login' type='text' id='codev_login'>\n");
+  echo(T_("Password").": <input name='codev_passwd' type='password' id='codev_passwd'>\n");
+  echo("<input type='submit' name='Submit' value='".T_("Login")."'>\n");
      
   echo "<input type=hidden name=action      value=pleaseLogin>\n";
   echo "<input type=hidden name=currentForm value=loginForm>\n";
@@ -33,8 +33,8 @@ function displayLoginForm() {
 // MAIN
 //
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die("Impossible de se connecter");
-mysql_select_db($db_mantis_database) or die("Could not select database");
+  or die(T_("Could not connect to DB"));
+mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
 $action = $_POST[action];
 $user = $_POST[codev_login];
