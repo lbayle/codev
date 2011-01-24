@@ -1,6 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
+   include 'i18n.inc.php';
    $_POST[page_name] = "Bienvenu sur le serveur CoDev"; 
    include 'header.inc.php'; 
 ?>
@@ -47,11 +48,11 @@ function displayLinks() {
    echo "   </li>\n";
    echo "   <br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/timetracking/time_tracking.php'>Saisie des CRA</a>";
+   echo "        <a href='".getServerRootURL()."/timetracking/time_tracking.php'>"._("Timetracking")."</a>"; // Saisie des CRA
    echo "   </li>\n";
    echo "   <br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/timetracking/holidays_report.php'>Affichage des cong&eacute;s</a>";
+   echo "        <a href='".getServerRootURL()."/timetracking/holidays_report.php'>"._("Holidays")."</a>"; // Affichage des cong&eacute;s
    echo "   </li>\n";
    echo "</ul>\n";
  
@@ -61,19 +62,19 @@ function displayLinks() {
 
    echo "<ul>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/reports'>Suivi des fiches Mantis</a>";
+   echo "        <a href='".getServerRootURL()."/reports'>"._("Mantis Reports")."</a>"; // Suivi des fiches Mantis
    echo "   </li>\n";
    echo "   <br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/timetracking/week_activity_report.php'>Activit&eacute; hebdomadaire</a>";
+   echo "        <a href='".getServerRootURL()."/timetracking/week_activity_report.php'>"._("Weekly activity")."</a>"; // Activit&eacute; hebdomadaire
    echo "   </li>\n";
    echo "<br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/reports/productivity_report.php'>Indicateurs de production</a>";
+   echo "        <a href='".getServerRootURL()."/reports/productivity_report.php'>"._("Productivity Reports")."</a>"; // Indicateurs de production
    echo "   </li>\n";
    echo "<br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/reports/issue_info.php'>Informations sur une fiche</a>";
+   echo "        <a href='".getServerRootURL()."/reports/issue_info.php'>"._("Task info")."</a>"; // Informations sur une fiche
    echo "   </li>\n";
    echo "</ul>\n";
    echo "</div>\n";
@@ -108,7 +109,7 @@ function displayConsistencyErrors($sessionUser) {
          if ($sessionUser->id == $cerr->userId) {
             $user = new User($cerr->userId);
             $issue = new Issue($cerr->bugId);
-            echo "ERREUR Fiche ".mantisIssueURL($cerr->bugId, $issue->summary)." : &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span><br/>\n";
+            echo _("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)." : &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span><br/>\n";
          }
       }
       echo "</div>\n";
@@ -124,8 +125,8 @@ if (!isset($_SESSION['userid'])) {
 } else {
 
    $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-      or die("Impossible de se connecter");
-   mysql_select_db($db_mantis_database) or die("Could not select database");
+      or die(_("Could not connect to DB"));
+   mysql_select_db($db_mantis_database) or die(_("Could not select database"));
 
    $userid = $_SESSION['userid'];
    $sessionUser = new User($userid);
