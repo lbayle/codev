@@ -2,11 +2,8 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
-msgid ""
-msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-25 14:22+0100\n"
+"POT-Creation-Date: 2011-01-25 14:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +33,7 @@ msgid "Desirez-vous vraiment supprimer definitivement l'equipe '"
 msgstr ""
 
 #: index.php:51
-msgid "Timetracking"
+msgid "Time Tracking"
 msgstr "Saisie des CRA"
 
 #: index.php:55

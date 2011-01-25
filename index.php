@@ -1,7 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
-   include 'i18n.inc.php';
+   include './i18n/i18n.inc.php';
    $_POST[page_name] = "Bienvenu sur le serveur CoDev"; 
    include 'header.inc.php'; 
 ?>
@@ -48,7 +48,7 @@ function displayLinks() {
    echo "   </li>\n";
    echo "   <br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/timetracking/time_tracking.php'>".T_("Timetracking")."</a>"; // Saisie des CRA
+   echo "        <a href='".getServerRootURL()."/timetracking/time_tracking.php'>".T_("Time Tracking")."</a>"; // Saisie des CRA
    echo "   </li>\n";
    echo "   <br/>\n";
    echo "   <li>\n";
