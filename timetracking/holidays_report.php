@@ -1,6 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
+   include_once 'i18n.inc.php';
    $_POST[page_name] = "Pr&eacute;vision cong&eacute;s"; 
    include '../header.inc.php'; 
 ?>

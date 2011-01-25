@@ -8,6 +8,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
+   include_once 'i18n.inc.php';
    $_POST[page_name] = "Indicateurs de production"; 
    include '../header.inc.php'; 
 ?>

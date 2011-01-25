@@ -1,7 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
-   include './i18n/i18n.inc.php';
+   include 'i18n.inc.php';
    $_POST[page_name] = "Bienvenu sur le serveur CoDev"; 
    include 'header.inc.php'; 
 ?>
