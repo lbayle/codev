@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-25 13:40+0100\n"
+"POT-Creation-Date: 2011-01-25 14:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,14 +71,14 @@ msgstr ""
 msgid "Could not select database"
 msgstr ""
 
-#: index.php:139
-msgid "Hello world"
-msgstr ""
-
 #: login.php:20 login.php:22
 msgid "Login"
 msgstr ""
 
 #: login.php:21
 msgid "Password"
+msgstr ""
+
+#: login.php:58
+msgid "login failed !"
 msgstr ""

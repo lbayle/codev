@@ -55,7 +55,7 @@ if ("pleaseLogin" == $action) {
 
     echo ("<script> parent.location.replace('../codev'); </script>");                  
   } else {
-    echo "login failed !<br />";
+    echo T_("login failed !")."<br />";
   }
 } else {
    echo "<br />";
