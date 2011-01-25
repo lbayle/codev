@@ -24,22 +24,16 @@ CheckArgs ()
    do
       case $1 in
 
-         --new | -n )
-            doNew="Yes"
-            ;;
-
          --locale | -l )
-	    shift
+	        shift
             LOCALE="$1"
             ;;
 
          --compile | -c )
-	    shift
             doCompile="Yes"
             ;;
 
          --template | -t )
-	    shift
             doTemplate="Yes"
             ;;
 
@@ -81,7 +75,7 @@ f_genFileList ()
   echo "" > $FILE_LIST # clear
 
   #for i in $dirList
-  for i in admin classes reports timetracking tools
+  for i in admin classes reports timetracking tools $(ls *.php)
   do
     find "$i" -iname "*.php" -print0 | while IFS= read -rd $'\0' f
     do
@@ -101,7 +95,7 @@ f_genFileList ()
   done < $FILE_LIST
   
   # ---
-  echo "  - $(cat $FILE_LIST | wc -l ) .php files found"
+  echo "  - nb php files found: $(cat $FILE_LIST | wc -l )"
 
   rm $FILE_LIST
 }
@@ -111,21 +105,31 @@ f_genFileList ()
 # usage: f_createTemplateFile <locale>
 f_createTemplateFile ()
 {
-  local tmpPoFile="/tmp/${PRJ_NAME}.${LOCALE}.po.tmp"
-  local TEMPLATE_FILE=${PRJ_NAME}.po.template
+  local tmpPoFile=".tmp_${PRJ_NAME}.${LOCALE}.po"
+  local TEMPLATE_FILE="${PRJ_NAME}.po.template"
 
+  rm -f ${TEMPLATE_FILE}
+  
   echo "  - parse php files and create template"
-  xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -L PHP -o $TEMPLATE_FILE $SRC_FILE
-  #xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -o $TEMPLATE_FILE $SRC_FILES
 
-  if [ -f ${FILE_PO} ]
+  #xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -L PHP -o ${TEMPLATE_FILE} $SRC_FILES
+  xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -o ${TEMPLATE_FILE} $SRC_FILES
+  
+  if [ ! -f ${TEMPLATE_FILE} ]  
   then
-      echo "  - merge with existing ${FILE_PO}"
-      msgmerge -o ${tmpPoFile} ${FILE_PO} $TEMPLATE_FILE
-      mv ${tmpPoFile} ${FILE_PO}
+    echo "ERROR: template file ${TEMPLATE_FILE} not found !"
+    exit 1
   else
+    if [ -f ${FILE_PO} ]
+    then
+      echo "  - merge ${TEMPLATE_FILE} with existing ${FILE_PO} to ${tmpPoFile}"
+      msgmerge -o ${tmpPoFile} ${FILE_PO} ${TEMPLATE_FILE}
+      mv ${tmpPoFile} ${FILE_PO}
+    else
       mv ${TEMPLATE_FILE} ${FILE_PO}
+    fi
   fi
+  
 }
 
 f_compileTemplateFile ()
@@ -141,9 +145,10 @@ f_compileTemplateFile ()
 # get the name of the HOST if exists in command line argument
 CheckArgs $@
 
-#DIR_LIST="admin classes reports timetracking tools"
+#DIR_LIST="admin classes reports timetracking tools $(ls *.php)"
 
 DIR_LOCALE="./i18n/locale/${LOCALE}/LC_MESSAGES"
+mkdir -p "$DIR_LOCALE"
 
 FILE_PO="${DIR_LOCALE}/${PRJ_NAME}.po"
 FILE_MO="${DIR_LOCALE}/${PRJ_NAME}.mo"

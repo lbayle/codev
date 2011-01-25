@@ -6,13 +6,34 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-24 13:56+0100\n"
+"POT-Creation-Date: 2011-01-25 13:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: admin/edit_team.php:24
+msgid "Les champs suivants ont &eacute;t&eacute; oubli&eacute;s:"
+msgstr ""
+
+#: admin/edit_team.php:39 admin/edit_team.php:54 admin/edit_team.php:71
+#: admin/edit_team.php:104
+msgid "Les champs suivants ont ete oublies:"
+msgstr ""
+
+#: admin/edit_team.php:84
+msgid "Desirez-vous vraiment supprimer ce membre de l'equipe ?"
+msgstr ""
+
+#: admin/edit_team.php:93
+msgid "Desirez-vous vraiment supprimer ce Projet de l'equipe ?"
+msgstr ""
+
+#: admin/edit_team.php:117
+msgid "Desirez-vous vraiment supprimer definitivement l'equipe '"
+msgstr ""
 
 #: index.php:51
 msgid "Timetracking"
@@ -42,10 +63,22 @@ msgstr "Informations sur une fiche"
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
-#: index.php:128
+#: index.php:128 login.php:36
 msgid "Could not connect to DB"
 msgstr ""
 
-#: index.php:129
+#: index.php:129 login.php:37
 msgid "Could not select database"
+msgstr ""
+
+#: index.php:139
+msgid "Hello world"
+msgstr ""
+
+#: login.php:20 login.php:22
+msgid "Login"
+msgstr ""
+
+#: login.php:21
+msgid "Password"
 msgstr ""

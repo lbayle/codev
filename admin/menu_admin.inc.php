@@ -5,14 +5,14 @@
 <?php echo "   
 <table>
    <tr>
-      <td><a href='".getServerRootURL()."/admin/create_team.php' title=''>Create Team</a>
+      <td><a href='".getServerRootURL()."/admin/create_team.php' title=''>".T_("Create Team")."</a>
       |
-      <a href='".getServerRootURL()."/admin/edit_team.php' title=''>Edit Team</a>
+      <a href='".getServerRootURL()."/admin/edit_team.php' title=''>".T_("Edit Team")."</a>
       |
-      <a href='".getServerRootURL()."/admin/edit_jobs.php' title=''>Edit Jobs</a>
+      <a href='".getServerRootURL()."/admin/edit_jobs.php' title=''>".T_("Edit Jobs")."</a>
       </td>
       <td>
-      <a href='".getServerRootURL()."/doc/codev_adminguide.html' title='Aide Admin'>Admin Guide</a>
+      <a href='".getServerRootURL()."/doc/codev_adminguide.html' title='Aide Admin'>".T_("Admin Guide")."</a>
       </td>
    </tr>
 </table>"
