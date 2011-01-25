@@ -1,8 +1,13 @@
-<?php include_once "../tools.php"; ?>
+<?php 
+   include_once '../i18n/i18n.inc.php';
+   include_once "../tools.php";
+?>
 
 <div id="menu">
 
-<?php echo "   
+<?php 
+
+echo "   
 <table>
    <tr>
       <td><a href='".getServerRootURL()."/admin/create_team.php' title=''>".T_("Create Team")."</a>

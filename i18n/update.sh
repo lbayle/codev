@@ -85,10 +85,6 @@ f_genFileList ()
   done
 
   # ---
-  #TODO add php files from root dir
-
-
-  # ---
   while read filename
   do
     SRC_FILES="$SRC_FILES $filename"
@@ -105,28 +101,42 @@ f_genFileList ()
 # usage: f_createTemplateFile <locale>
 f_createTemplateFile ()
 {
-  local tmpPoFile=".tmp_${PRJ_NAME}.${LOCALE}.po"
-  local TEMPLATE_FILE="${PRJ_NAME}.po.template"
+  local mergedPoFile=".${PRJ_NAME}.po.merge_${LOCALE}"
+  local templatePoFile=".${PRJ_NAME}.po.template"
 
-  rm -f ${TEMPLATE_FILE}
+  rm -f ${mergedPoFile}
+  rm -f ${templatePoFile}
   
   echo "  - parse php files and create template"
 
-  #xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -L PHP -o ${TEMPLATE_FILE} $SRC_FILES
-  xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -o ${TEMPLATE_FILE} $SRC_FILES
+  #xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -L PHP -o ${templatePoFile} $SRC_FILES
+  xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -o ${templatePoFile} $SRC_FILES
   
-  if [ ! -f ${TEMPLATE_FILE} ]  
+  if [ ! -f ${templatePoFile} ]  
   then
-    echo "ERROR: template file ${TEMPLATE_FILE} not found !"
+    echo "ERROR: template file ${templatePoFile} not found !"
     exit 1
   else
     if [ -f ${FILE_PO} ]
     then
-      echo "  - merge ${TEMPLATE_FILE} with existing ${FILE_PO} to ${tmpPoFile}"
-      msgmerge -o ${tmpPoFile} ${FILE_PO} ${TEMPLATE_FILE}
-      mv ${tmpPoFile} ${FILE_PO}
+      echo "  - merge with existing ${FILE_PO}"
+      msgmerge -o ${mergedPoFile} ${FILE_PO} ${templatePoFile}
+      retCode=$?
+      if [ 0 -ne $retCode ]
+      then
+        echo "ERROR $retCode: merge failed !"
+        exit 1
+      fi
+      mv ${mergedPoFile} ${FILE_PO}
+      retCode=$?
+      if [ 0 -ne $retCode ]
+      then
+        echo "ERROR $retCode: mv ${mergedPoFile} ${FILE_PO}"
+        exit 1
+      fi
+      rm -f ${templatePoFile}
     else
-      mv ${TEMPLATE_FILE} ${FILE_PO}
+      mv ${templatePoFile} ${FILE_PO}
     fi
   fi
   

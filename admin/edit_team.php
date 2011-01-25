@@ -8,6 +8,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
+   include_once '../i18n/i18n.inc.php';
    $_POST[page_name] = "CoDev Administration : Team Edition"; 
    include '../header.inc.php'; 
 ?>
@@ -21,7 +22,7 @@ if (!isset($_SESSION['userid'])) {
   function submitTeam(){
     // check fields
     foundError = 0;
-    msgString = T_("Les champs suivants ont &eacute;t&eacute; oubli&eacute;s:") + "\n\n"
+    msgString = T_("Some fields are missing:") + "\n\n"
         
     if (0 == document.forms["teamSelectForm"].f_teamid.value)  { msgString += "Team\n"; ++foundError; }
                    
@@ -36,7 +37,7 @@ if (!isset($_SESSION['userid'])) {
   function addTeamMember(){
      // check fields
      foundError = 0;
-     msgString = T_("Les champs suivants ont ete oublies:") + "\n\n"
+     msgString = T_("Some fields are missing:") + "\n\n"
          
      if (0 == document.forms["addTeamMemberForm"].f_memberid.value)  { msgString += "Team Member\n"; ++foundError; }
                     
@@ -51,7 +52,7 @@ if (!isset($_SESSION['userid'])) {
   function setMemberDepartureDate(){
      // check fields
      foundError = 0;
-     msgString = T_("Les champs suivants ont ete oublies:") + "\n\n"
+     msgString = T_("Some fields are missing:") + "\n\n"
          
      if (0 == document.forms["addTeamMemberForm"].f_memberid.value)  { msgString += "Team Member\n"; ++foundError; }
                     
@@ -68,7 +69,7 @@ if (!isset($_SESSION['userid'])) {
   function addTeamProject(){
      // check fields
      foundError = 0;
-     msgString = T_("Les champs suivants ont ete oublies:") + "\n\n"
+     msgString = T_("Some fields are missing:") + "\n\n"
          
      if (0 == document.forms["addTeamProjectForm"].f_projectid.value)  { msgString += "Project\n"; ++foundError; }
                     

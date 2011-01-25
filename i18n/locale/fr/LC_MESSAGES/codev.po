@@ -2,8 +2,11 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
+msgid ""
+msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-25 14:27+0100\n"
+"POT-Creation-Date: 2011-01-25 16:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,24 +14,24 @@
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin/edit_team.php:24
-msgid "Les champs suivants ont &eacute;t&eacute; oubli&eacute;s:"
-msgstr ""
+#: admin/edit_team.php:25 admin/edit_team.php:40 admin/edit_team.php:55
+#: admin/edit_team.php:72
+msgid "Some fields are missing:"
+msgstr "Les champs suivants ont ete oublies:"
 
-#: admin/edit_team.php:39 admin/edit_team.php:54 admin/edit_team.php:71
-#: admin/edit_team.php:104
-msgid "Les champs suivants ont ete oublies:"
-msgstr ""
-
-#: admin/edit_team.php:84
+#: admin/edit_team.php:85
 msgid "Desirez-vous vraiment supprimer ce membre de l'equipe ?"
 msgstr ""
 
-#: admin/edit_team.php:93
+#: admin/edit_team.php:94
 msgid "Desirez-vous vraiment supprimer ce Projet de l'equipe ?"
 msgstr ""
 
-#: admin/edit_team.php:117
+#: admin/edit_team.php:105
+msgid "Les champs suivants ont ete oublies:"
+msgstr ""
+
+#: admin/edit_team.php:118
 msgid "Desirez-vous vraiment supprimer definitivement l'equipe '"
 msgstr ""
 
