@@ -1,17 +1,18 @@
 <?php
-require_once('./i18n/php-gettext/gettext.inc');
+require_once('gettext.inc');
 
 # REM: http://localhost/index.php?locale=en   will give you english 
 #      http://localhost/index.php?locale=fr   will give you french
 
 
-$locale = BP_LANG;
+$locale = fr;
 $textdomain="codev";
 
 if (empty($locale))
    $locale = 'fr';
 if (isset($_GET['locale']) && !empty($_GET['locale']))
    $locale = $_GET['locale'];
+
 putenv('LANGUAGE='.$locale);
 putenv('LANG='.$locale);
 putenv('LC_ALL='.$locale);
