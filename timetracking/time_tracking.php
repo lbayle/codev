@@ -4,15 +4,15 @@
 include_once "../tools.php";
 if (!isset($_SESSION['userid'])) {
   echo ("Sorry, you need to <a href='../'>login</a> to access this page.");
-  
+
   exit;
-} 
+}
 ?>
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "Saisie des CRA"; 
-   include '../header.inc.php'; 
+   $_POST[page_name] = T_("Saisie des CRA");
+   include '../header.inc.php';
 ?>
 
 <?php include '../login.inc.php'; ?>
@@ -23,16 +23,16 @@ if (!isset($_SESSION['userid'])) {
     // check fields
     foundError = 0;
     msgString = "Les champs suivants ont ete oublies:\n\n"
-        
+
     if (0 == document.forms["formUserAndPeriodSelect"].userid.value)  { msgString += "Nom\n"; ++foundError; }
-                   
+
     if (0 == foundError) {
       document.forms["formUserAndPeriodSelect"].submit();
     } else {
-      alert(msgString);    
-    }    
+      alert(msgString);
+    }
   }
-    
+
   function submitWeekid() {
     document.forms["form1"].weekid.value = document.getElementById('weekidSelector').value;
     document.forms["form1"].year.value = document.getElementById('yearSelector').value;
@@ -44,18 +44,18 @@ if (!isset($_SESSION['userid'])) {
     // check fields
     foundError = 0;
     msgString = "Les champs suivants ont ete oublies:\n\n"
-        
+
     //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
     if (0 == document.forms["form1"].bugid.value)     { msgString += "Tache\n"; ++foundError; }
     if (0 == document.forms["form1"].job.value)       { msgString += "Poste\n";  ++foundError; }
     if (0 == document.forms["form1"].duree.value)     { msgString += "Duree\n";  ++foundError; }
-                   
+
     if (0 == foundError) {
       document.forms["form1"].action.value="addTrack";
       document.forms["form1"].submit();
     } else {
-      alert(msgString);    
-    }    
+      alert(msgString);
+    }
   }
 
   function deleteTrack(trackid, description, bugid){
@@ -82,12 +82,12 @@ if (!isset($_SESSION['userid'])) {
      }
    }
 
-  
+
 </script>
 
 <div id="content">
 
-<?php 
+<?php
 
 include_once "../constants.php";
 include_once "../tools.php";
@@ -103,13 +103,13 @@ require_once('tc_calendar.php');
 function setUserForm($originPage) {
   global $accessLevel_dev;
   global $accessLevel_manager;
-	
+
   $session_user = new User($_SESSION['userid']);
   $teamList = $session_user->getLeadedTeamList();
-   
+
   // separate list elements with ', '
   $formatedTeamString = valuedListToSQLFormatedString($teamList);
-  
+
   // show only users from the teams that I lead.
   $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username, mantis_user_table.realname ".
     "FROM `mantis_user_table`, `codev_team_user_table` ".
@@ -122,10 +122,10 @@ function setUserForm($originPage) {
   echo "<div align=center>";
   echo "<form id='formUserAndPeriodSelect' name='formUserAndPeriodSelect' method='post' action='$originPage'>\n";
 
-  echo "Nom :\n";
+  echo T_("Nom :")."\n";
   echo "<select name='userid'>\n";
   echo "<option value='0'></option>\n";
-   
+
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
@@ -138,10 +138,10 @@ function setUserForm($originPage) {
   echo "</select>\n";
 
   echo "<input type=button value='Envoyer' onClick='javascript: submitUser()'>\n";
-   
+
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
   echo "<input type=hidden name=year    value=".date('Y').">\n";
-  
+
   echo "<input type=hidden name=currentForm value=setUserAndPeriodForm>\n";
   echo "<input type=hidden name=nextForm    value=addTrackForm>\n";
 
@@ -151,7 +151,7 @@ function setUserForm($originPage) {
 
 // --------------------------------------------------------------
 function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $defaultProjectid, $originPage) {
-   
+
    list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
    $myCalendar = new tc_calendar("date1", true, false);
@@ -167,20 +167,20 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' Action='$originPage'>\n";
 
-   #echo "Date: \n"; 
+   #echo "Date: \n";
    $myCalendar->writeScript();
 
    $user1    = new User($userid);
    $project1 = new Project($defaultProjectid);
-   
+
    // Project list
    echo "&nbsp;";
    echo "&nbsp;";
 
    // --- Project List
    // All projects from teams where I'm a Developper
-   $devProjList = $user1->getProjectList(); 
-   
+   $devProjList = $user1->getProjectList();
+
    // SideTasksProjects from Teams where I'm a Manager
    $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
    foreach ($managedProjList as $pid => $pname) {
@@ -188,11 +188,11 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    	$tmpPrj = new Project($pid);
       if (!$tmpPrj->isSideTasksProject()) { unset($managedProjList[$pid]); }
    }
-   
+
    $projList = $devProjList + $managedProjList;
-   
-   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='Projet'>\n";
-   echo "<option value='0'>(tous)</option>\n";
+
+   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Projet")."'>\n";
+   echo "<option value='0'>".T_("(tous)")."</option>\n";
    foreach ($projList as $pid => $pname)
    {
       if ($pid == $defaultProjectid) {
@@ -204,7 +204,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    echo "</select>\n";
 
    echo "&nbsp;";
-   
+
    // --- Task list
    if (0 != $project1->id) {
       $issueList = $project1->getIssueList();
@@ -212,7 +212,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    	 // no project specified: show all tasks
        $issueList = array();
 	    $formatedProjList = valuedListToSQLFormatedString($projList);
-	    
+
        $query  = "SELECT id ".
                  "FROM `mantis_bug_table` ".
                  "WHERE project_id IN ($formatedProjList) ".
@@ -225,7 +225,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
             }
        }
    }
-   echo "<select name='bugid' style='width: 600px;' onchange='javascript: setBugId()' title='Tache'>\n";
+   echo "<select name='bugid' style='width: 600px;' onchange='javascript: setBugId()' title='".T_("Tache")."'>\n";
    echo "<option value='0'></option>\n";
 
    foreach ($issueList as $bugid) {
@@ -237,8 +237,8 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
       }
    }
    echo "</select>\n";
-   
-   
+
+
    // --- Job list
    if (0 != $project1->id) {
       $jobList = $project1->getJobList();
@@ -252,7 +252,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
             }
        }
    }
-   echo "<select name='job' title='Poste' style='width: 100px;' >\n";
+   echo "<select name='job' title='".T_("Poste")."' style='width: 100px;' >\n";
    if (1 != count($jobList)) {
       echo "<option value='0'></option>\n";
    }
@@ -263,7 +263,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    echo "</select>\n";
 
    // --- Duration list
-   echo " <select name='duree' title='Dur&eacute;e (en jours)'>\n";
+   echo " <select name='duree' title='".T_("Dur&eacute;e (en jours)")."'>\n";
    echo "<option value='0'></option>\n";
    echo "<option value='1'>1</option>\n";
    echo "<option value='0.9'>0.9</option>\n";
@@ -280,7 +280,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    echo "<option value='0.05'>0.05 (30min)</option>\n";
    echo "</select>\n";
 
-   echo "<input type=button name='btAddTrack' value='Ajouter' onClick='javascript: addTrack()'>\n";
+   echo "<input type=button name='btAddTrack' value='".T_("Ajouter")."' onClick='javascript: addTrack()'>\n";
 
    echo "<input type=hidden name=userid    value=$userid>\n";
    echo "<input type=hidden name=year      value=$curYear>\n";
@@ -292,7 +292,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    echo "<input type=hidden name=currentForm  value=addTrackForm>\n";
    echo "<input type=hidden name=nextForm     value=addTrackForm>\n";
    echo "</form>\n";
-   
+
    echo "</div>";
 }
 
@@ -301,7 +301,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
 //$year = date('Y');
 $year = isset($_POST[year]) ? $_POST[year] : date('Y');
 
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
+$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
   or die("Impossible de se connecter");
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
@@ -321,13 +321,13 @@ if (!isset($_POST[nextForm])) {
   	// developper & manager can add timeTracks
    $mTeamList = $session_user->getTeamList();
    $managedTeamList = $session_user->getManagedTeamList();
-   $teamList = $mTeamList + $managedTeamList; 
-   
+   $teamList = $mTeamList + $managedTeamList;
+
    if (0 != count($teamList)) {
   	   $_POST[nextForm] = "addTrackForm";
    } else {
       echo "<div id='content'' class='center'>";
-   	echo ("Sorry, you need to be member of a Team to access this page.");
+   	echo (T_("Sorry, you need to be member of a Team to access this page."));
       echo "</div>";
    }
   }
@@ -336,14 +336,14 @@ if (!isset($_POST[nextForm])) {
 if ($_POST[nextForm] == "addTrackForm") {
   $action = $_POST[action];
   $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
-  
+
   $defaultDate  = $formatedDate= date("Y-m-d", time());
   $defaultBugid = 0;
   $defaultProjectid=0;
-           
+
   $weekDates      = week_dates($weekid,$year);
-  $startTimestamp = $weekDates[1];        
-  $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+  $startTimestamp = $weekDates[1];
+  $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
 
   if ("addTrack" == $action) {
@@ -390,18 +390,18 @@ if ($_POST[nextForm] == "addTrackForm") {
     // delete track
     $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
     mysql_query($query) or die("Query failed: $query");
-    
+
     // pre-set form fields
     $defaultBugid     = $_POST[bugid];
     $defaultProjectid  = $issue->projectId;
-    
+
   } elseif ("setProjectid" == $action) {
 
   	 // pre-set form fields
   	 $defaultProjectid  = $_POST[projectid];
   	 $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
   	 $defaultDate = $formatedDate;
-  	 
+
   } elseif ("setBugId" == $action) {
 
     // --- pre-set form fields
@@ -411,7 +411,7 @@ if ($_POST[nextForm] == "addTrackForm") {
     $defaultProjectid  = $issue->projectId;
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
     $defaultDate = $formatedDate;
-    
+
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";
   } else {
@@ -423,14 +423,14 @@ if ($_POST[nextForm] == "addTrackForm") {
   $result = mysql_query($query) or die("Query failed: $query");
   $userName    = mysql_result($result, 0);
   echo "<h2 style='text-align: center;'>$userName</h2>\n";
-  
+
   // display Track Form
   echo "<br/>";
   addTrackForm($weekid, $year, $userid, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
   echo "<br/>";
-   
+
   displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $year);
-   
+
   echo "<div class='center'>";
   displayCheckWarnings($userid);
   echo "</div>";

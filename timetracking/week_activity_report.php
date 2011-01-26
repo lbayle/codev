@@ -4,13 +4,13 @@
 if (!isset($_SESSION['userid'])) {
   echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
   exit;
-} 
+}
 ?>
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "Activit&eacute; Hebdo"; 
-   include '../header.inc.php'; 
+   $_POST[page_name] = T_("Activit&eacute; Hebdo");
+   include '../header.inc.php';
 ?>
 
 <?php include '../login.inc.php'; ?>
@@ -30,7 +30,7 @@ if (!isset($_SESSION['userid'])) {
 
 <div id="content" class="center">
 
-<?php 
+<?php
 
 include_once "../constants.php";
 include_once "../tools.php";
@@ -43,12 +43,12 @@ include_once "time_tracking.class.php";
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear=NULL) {
 
   if (NULL == $curYear) { $curYear = date('Y'); }
-	
+
   echo "<div>\n";
   echo "<form id='form1' name='form1' method='post' action='week_activity_report.php'>\n";
 
   // -----------
-  echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
+  echo T_("Team:")." <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
   echo "<option value='0'></option>\n";
   foreach ($leadedTeamList as $tid => $tname) {
     if ($tid == $teamid) {
@@ -59,13 +59,13 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   }
   echo "</select>\n";
 
-  
+
   // -----------
-  echo "Week: <select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
+  echo T_("Week:")." <select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
   for ($i = 1; $i <= 53; $i++)
   {
     $wDates      = week_dates($i,$curYear);
-        
+
     if ($i == $weekid) {
       echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
     } else {
@@ -83,11 +83,11 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
     }
   }
   echo "</select>\n";
-  
+
   echo "<input type=hidden name=teamid  value=1>\n";
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
   echo "<input type=hidden name=year    value=$curYear>\n";
-  
+
   echo "<input type=hidden name=action       value=noAction>\n";
   echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
   echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
@@ -100,62 +100,62 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) {
 
   echo "<div>\n";
-  
+
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $teamid ".
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.realname";   
-   
+    "ORDER BY mantis_user_table.realname";
+
   $result = mysql_query($query) or die("Query failed: $query");
-   
+
   while($row = mysql_fetch_object($result))
   {
   	// if user was working on the project during the timestamp
   	$user = new User($row->user_id);
   	if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
        ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
-  		
+
 	    echo "<div align='left'>\n";
 	    echo "<br/>";
        echo "<br/>";
 	    displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
 	    echo "</div>";
   	}
-  	
+
   }
-   
+
   echo "</div>\n";
-  
+
 }
 
 // ------------------------------------------------
 function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
   // PERIOD week
   //$thisWeekId=date("W");
-        
+
   $weekTracks = $timeTracking->getWeekDetails($userid);
-  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='somme(RAE) des fiches en cours'>charge = $workload</span><br/>\n";       
+  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='".T_("somme(RAE) des fiches en cours")."'>".T_("charge")." = $workload</span><br/>\n";
   echo "<table width='95%'>\n";
   //echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
-  echo "<th width='50%'>Tache</th>\n";
-  echo "<th width='7%'>Projet</th>\n";
-  echo "<th width='10%'>Poste</th>\n";
-  echo "<th width='10'>Lundi<br>".date("d M", $weekDates[1])."</th>\n";
-  echo "<th width='10'>Mardi<br/>".date("d M", $weekDates[2])."</th>\n";
-  echo "<th width='10'>Mercredi<br/>".date("d M", $weekDates[3])."</th>\n";
-  echo "<th width='10'>Jeudi<br/>".date("d M", $weekDates[4])."</th>\n";
-  echo "<th width='10'>Vendredi<br/>".date("d M", $weekDates[5])."</th>\n";
+  echo "<th width='50%'>".T_("Tache")."</th>\n";
+  echo "<th width='7%'>".T_("Projet")."</th>\n";
+  echo "<th width='10%'>".T_("Poste")."</th>\n";
+  echo "<th width='10'>".T_("Lundi")."<br>".date("d M", $weekDates[1])."</th>\n";
+  echo "<th width='10'>".T_("Mardi")."<br/>".date("d M", $weekDates[2])."</th>\n";
+  echo "<th width='10'>".T_("Mercredi")."<br/>".date("d M", $weekDates[3])."</th>\n";
+  echo "<th width='10'>".T_("Jeudi")."<br/>".date("d M", $weekDates[4])."</th>\n";
+  echo "<th width='10'>".T_("Vendredi")."<br/>".date("d M", $weekDates[5])."</th>\n";
   echo "</tr>\n";
   foreach ($weekTracks as $bugid => $jobList) {
     $issue = new Issue($bugid);
     foreach ($jobList as $jobid => $dayList) {
-                
+
       $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
       $result3 = mysql_query($query3) or die("Query failed: $query3");
       $jobName = mysql_result($result3, 0);
-                
+
       echo "<tr>\n";
       echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
@@ -165,7 +165,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
       }
       echo "</tr>\n";
     }
-  }   
+  }
   echo "</table>\n";
 }
 
@@ -174,28 +174,28 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
 function displayProjectActivityReport($timeTracking) {
 
    // $projectTracks[projectid][bugid][jobid] = duration
-   $projectTracks = $timeTracking->getProjectTracks();   
-   
+   $projectTracks = $timeTracking->getProjectTracks();
+
   echo "<div align='center'>\n";
-  
+
   foreach ($projectTracks as $projectId => $bugList) {
-   
+
      // write table header
      $project = new Project($projectId);
      echo "<br/>\n";
      echo "<table width='95%'>\n";
      echo "<caption>".$project->name."</caption>\n";
      echo "<tr>\n";
-     echo "  <th width='50%'>Tache</th>\n";
-     echo "  <th width='2%'>RAE</th>\n";
-     
+     echo "  <th width='50%'>".T_("Tache")."</th>\n";
+     echo "  <th width='2%'>".T_("RAE")."</th>\n";
+
      $jobList = $project->getJobList();
      foreach($jobList as $jobId => $jobName) {
          echo "  <th>$jobName</th>\n";
      }
-     echo "  <th width='2%' title='Total time spent on this issue'>Total</th>\n";
+     echo "  <th width='2%' title='".T_("Total time spent on this issue")."'>".T_("Total")."</th>\n";
      echo "</tr>\n";
-      
+
      // write table content (by bugid)
      foreach ($bugList as $bugid => $jobs) {
          $issue = new Issue($bugid);
@@ -203,7 +203,7 @@ function displayProjectActivityReport($timeTracking) {
          echo "<tr>\n";
          echo "<td>".mantisIssueURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
-         
+
          foreach($jobList as $jobId => $jobName) {
             echo "<td width='10%'>".$jobs[$jobId]."</td>\n";
             $totalTime += $jobs[$jobId];
@@ -223,24 +223,24 @@ function displayCheckWarnings($timeTracking) {
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.username";   
-   
+    "ORDER BY mantis_user_table.username";
+
   $result = mysql_query($query) or die("Query failed: $query");
-   
+
   echo "<p style='color:red'>\n";
-   
+
   while($row = mysql_fetch_object($result))
   {
     $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
     foreach ($incompleteDays as $date => $value) {
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/>$row->username: $formatedDate incomplet (manque ".(1-$value)." jour).\n";
+      echo "<br/>$row->username: $formatedDate ".T_("incomplet (manque ").(1-$value).T_(" jour).")."\n";
     }
-                   
+
     $missingDays = $timeTracking->checkMissingDays($row->user_id);
     foreach ($missingDays as $date) {
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/>$row->username: $formatedDate non d&eacute;finie.\n";
+      echo "<br/>$row->username: $formatedDate ".T_("non d&eacute;finie.")."\n";
     }
   }
   echo "</p>\n";
@@ -261,7 +261,7 @@ if (isset($_POST[teamid])) {
 }
 
 // ---------
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
+$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
   or die("Impossible de se connecter");
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
@@ -275,47 +275,47 @@ $managedTeamList = $user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
 if (0 == count($teamList)) {
-	echo "Sorry, you do NOT have access to this page.";
+	echo T_("Sorry, you do NOT have access to this page.");
 
 } else {
 
 	$action = $_POST[action];
 	$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
-	
+
 	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
-	
+
 	if (NULL != $teamList[$teamid]) {
-	
+
 	   $weekDates      = week_dates($weekid,$year);
-		$startTimestamp = $weekDates[1];        
-	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
+		$startTimestamp = $weekDates[1];
+	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-		
+
       echo "<div align='left'>\n";
 	   echo "<ul>\n";
-      echo "   <li><a href='#tagTeamMember'>Par Team Member</a></li>\n";
-      echo "   <li><a href='#tagProject'>Par Projet</a></li>\n";
+      echo "   <li><a href='#tagTeamMember'>".T_("Par Team Member")."</a></li>\n";
+      echo "   <li><a href='#tagProject'>".T_("Par Projet")."</a></li>\n";
 	   echo "</ul><br/>\n";
       echo "</div>\n";
-	   
-	   
+
+
       echo "<br/>\n";
 	   echo "<hr width='95%'/>\n";
-	   echo "<a name='tagTeamMember'><h2>Par Team Member</h2></a>\n";
+	   echo "<a name='tagTeamMember'><h2>".T_("Par Team Member")."</h2></a>\n";
 		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
-      
+
       echo "<br/><br/>\n";
       displayCheckWarnings($timeTracking);
-		
+
       echo "<br/><br/>\n";
 		//echo "<hr align='left' width='50%'/>\n";
       echo "<hr width='95%'/>\n";
-      echo "<a name='tagProject'><h2>Par Projet</h2></a>\n";
+      echo "<a name='tagProject'><h2>".T_("Par Projet")."</h2></a>\n";
       displayProjectActivityReport($timeTracking);
-		
+
 	}
 }
-   
+
 
 ?>
 

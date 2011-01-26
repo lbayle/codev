@@ -6,13 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-25 16:45+0100\n"
+"POT-Creation-Date: 2011-01-26 10:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
+"Language: \n"
 
 #: admin/edit_team.php:25 admin/edit_team.php:40 admin/edit_team.php:55
 #: admin/edit_team.php:72
@@ -33,6 +35,199 @@ msgstr ""
 
 #: admin/edit_team.php:118
 msgid "Desirez-vous vraiment supprimer definitivement l'equipe '"
+msgstr ""
+
+#: timetracking/holidays_report.php:5
+msgid "Pr&eacute;vision cong&eacute;s"
+msgstr ""
+
+#: timetracking/holidays_report.php:159 timetracking/holidays_report.php:173
+msgid "Query failed:"
+msgstr ""
+
+#: index.php:128 login.php:37 timetracking/holidays_report.php:260
+msgid "Could not connect to DB"
+msgstr ""
+
+#: index.php:129 login.php:38 timetracking/holidays_report.php:261
+msgid "Could not select database"
+msgstr ""
+
+#: timetracking/time_tracking.php:14
+msgid "Saisie des CRA"
+msgstr ""
+
+#: timetracking/time_tracking.php:125
+msgid "Nom :"
+msgstr ""
+
+#: timetracking/time_tracking.php:194 timetracking/time_tracking_tools.php:46
+#: timetracking/week_activity_report.php:143
+msgid "Projet"
+msgstr ""
+
+#: timetracking/time_tracking.php:195
+msgid "(tous)"
+msgstr ""
+
+#: timetracking/time_tracking.php:228 timetracking/time_tracking_tools.php:139
+#: timetracking/week_activity_report.php:142
+#: timetracking/week_activity_report.php:189
+msgid "Tache"
+msgstr ""
+
+#: timetracking/time_tracking.php:255 timetracking/time_tracking_tools.php:48
+#: timetracking/time_tracking_tools.php:141
+#: timetracking/week_activity_report.php:144
+msgid "Poste"
+msgstr ""
+
+#: timetracking/time_tracking.php:266
+msgid "Dur&eacute;e (en jours)"
+msgstr ""
+
+#: timetracking/time_tracking.php:283
+msgid "Ajouter"
+msgstr ""
+
+#: timetracking/time_tracking.php:330
+msgid "Sorry, you need to be member of a Team to access this page."
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:22
+#: timetracking/week_activity_report.php:237
+msgid "incomplet (manque "
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:22
+#: timetracking/time_tracking_tools.php:24
+msgid " jour)"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:31
+#: timetracking/week_activity_report.php:243
+msgid "non d&eacute;finie."
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:39
+msgid "Imputations"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:42
+msgid "Date"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:44
+msgid "Fiche TC"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:45
+msgid "Duree"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:47
+msgid "Description"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:49
+msgid "Categorie"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:50
+msgid "Status"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:51
+msgid "Effort Estim&eacute;"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:52
+#: timetracking/time_tracking_tools.php:140
+#: timetracking/week_activity_report.php:190
+msgid "RAE"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:87
+msgid "delete this row"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:112
+msgid "Semaine"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:142
+#: timetracking/week_activity_report.php:145
+msgid "Lundi"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:143
+#: timetracking/week_activity_report.php:146
+msgid "Mardi"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:144
+#: timetracking/week_activity_report.php:147
+msgid "Mercredi"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:145
+#: timetracking/week_activity_report.php:148
+msgid "Jeudi"
+msgstr ""
+
+#: timetracking/time_tracking_tools.php:146
+#: timetracking/week_activity_report.php:149
+msgid "Vendredi"
+msgstr ""
+
+#: timetracking/week_activity_report.php:12
+msgid "Activit&eacute; Hebdo"
+msgstr ""
+
+#: timetracking/week_activity_report.php:51
+msgid "Team:"
+msgstr ""
+
+#: timetracking/week_activity_report.php:64
+msgid "Week:"
+msgstr ""
+
+#: timetracking/week_activity_report.php:138
+msgid "somme(RAE) des fiches en cours"
+msgstr ""
+
+#: timetracking/week_activity_report.php:138
+msgid "charge"
+msgstr ""
+
+#: timetracking/week_activity_report.php:196
+msgid "Total time spent on this issue"
+msgstr ""
+
+#: timetracking/week_activity_report.php:196
+msgid "Total"
+msgstr ""
+
+#: timetracking/week_activity_report.php:237
+msgid " jour)."
+msgstr ""
+
+#: timetracking/week_activity_report.php:278
+msgid "Sorry, you do NOT have access to this page."
+msgstr ""
+
+#: timetracking/week_activity_report.php:296
+#: timetracking/week_activity_report.php:304
+msgid "Par Team Member"
+msgstr ""
+
+#: timetracking/week_activity_report.php:297
+#: timetracking/week_activity_report.php:313
+msgid "Par Projet"
+msgstr ""
+
+#: index.php:5
+msgid "Bienvenu sur le serveur CoDev"
 msgstr ""
 
 #: index.php:51
@@ -63,22 +258,27 @@ msgstr "Informations sur une fiche"
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
-#: index.php:128 login.php:36
-msgid "Could not connect to DB"
+#: login.php:5
+msgid "CoDev Login"
 msgstr ""
 
-#: index.php:129 login.php:37
-msgid "Could not select database"
-msgstr ""
-
-#: login.php:20 login.php:22
+#: login.php:21 login.php:23
 msgid "Login"
 msgstr ""
 
-#: login.php:21
+#: login.php:22
 msgid "Password"
 msgstr ""
 
-#: login.php:58
+#: login.php:59
 msgid "login failed !"
 msgstr ""
+
+#~ msgid "Home"
+#~ msgstr "Acceuil"
+
+#~ msgid "Holidays Reports"
+#~ msgstr "Vacances"
+
+#~ msgid "Weekly activities"
+#~ msgstr "Activit&eacute; hebdomadaire"

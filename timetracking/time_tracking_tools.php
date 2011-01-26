@@ -7,7 +7,7 @@ include_once "user.class.php";
 function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
    $user1 = new User($userid);
-	
+
    $startTimestamp = $user1->getArrivalDate($team_id);
    $endTimestamp   = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
    $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $team_id);
@@ -19,16 +19,16 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
       $formatedDate = date("Y-m-d", $date);
       $color = ($date >= ($endTimestamp + (24 * 60 * 60))) ? "blue": "red"; // tomorow is blue
       if ($value < 1) {
-        echo "<br/><span style='color:$color' width='70'>$formatedDate incomplet (manque ".(1-$value)." jour)</span>\n";
+        echo "<br/><span style='color:$color' width='70'>$formatedDate ".T_("incomplet (manque ").(1-$value).T_(" jour)")."</span>\n";
       } else {
-        echo "<br/><span style='color:$color' width='70'>$formatedDate incoh&eacute;rent (".($value)." jour)</span>\n";
+        echo "<br/><span style='color:$color' width='70'>$formatedDate incoh&eacute;rent (".($value).T_(" jour)")."</span>\n";
       }
    }
-   
+
    $missingDays = $timeTracking->checkMissingDays($userid);
    foreach ($missingDays as $date) {
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/><span style='color:red' width='70'>$formatedDate non d&eacute;finie.</span>\n";
+      echo "<br/><span style='color:red' width='70'>$formatedDate ".T_("non d&eacute;finie.")."</span>\n";
    }
 }
 
@@ -36,26 +36,26 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
    // Display previous entries
    echo "<div align='center'>\n";
    echo "<table>\n";
-   echo "<caption>Imputations</caption>\n";   
+   echo "<caption>".T_("Imputations")."</caption>\n";
    echo "<tr>\n";
    echo "<th></th>\n";
-   echo "<th>Date</th>\n";
+   echo "<th>".T_("Date")."</th>\n";
    echo "<th>Mantis</th>\n";
-   echo "<th>Fiche TC</th>\n";
-   echo "<th>Duree</th>\n";
-   echo "<th>Projet</th>\n";
-   echo "<th>Description</th>\n";
-   echo "<th>Poste</th>\n";
-   echo "<th>Categorie</th>\n";
-   echo "<th>Status</th>\n";
-   echo "<th title='BI + BS'>Effort Estim&eacute;</th>\n";
-   echo "<th title='Remaining'>RAE</th>\n";
+   echo "<th>".T_("Fiche TC")."</th>\n";
+   echo "<th>".T_("Duree")."</th>\n";
+   echo "<th>".T_("Projet")."</th>\n";
+   echo "<th>".T_("Description")."</th>\n";
+   echo "<th>".T_("Poste")."</th>\n";
+   echo "<th>".T_("Categorie")."</th>\n";
+   echo "<th>".T_("Status")."</th>\n";
+   echo "<th title='BI + BS'>".T_("Effort Estim&eacute;")."</th>\n";
+   echo "<th title='Remaining'>".T_("RAE")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT id, bugid, jobid, date, duration ".
                 "FROM `codev_timetracking_table` ".
                 "WHERE userid=$userid ";
-   
+
    if (NULL != $startTimestamp) { $query .= "AND date >= $startTimestamp "; }
    if (NULL != $endTimestamp)   { $query .= "AND date <= $endTimestamp "; }
    $query .= "ORDER BY date DESC";
@@ -67,7 +67,7 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
       $result2 = mysql_query($query2) or die("Query failed: $query2");
       $row2 = mysql_fetch_object($result2);
       $issue = new Issue ($row->bugid);
-         
+
       // get general information
       $query3  = "SELECT name FROM `codev_job_table` WHERE id=$row->jobid";
       $result3 = mysql_query($query3) or die("Query failed: $query3");
@@ -78,13 +78,13 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
       $formatedSummary = str_replace("'", "\'", $issue->summary);
       $formatedSummary = str_replace('"', "\'", $formatedSummary);
       $trackDescription = "$formatedDate | $row->bugid ($issue->tcId) | $formatedJobName | $row->duration | $formatedSummary";
-      
+
       $totalEstim = $issue->effortEstim + $issue->effortAdd;
-      
+
       echo "<tr>\n";
       //echo "<td width=40>\n";
       echo "<td>\n";
-      echo "<a title='delete this row' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."', '".$row->bugid."')\" ><img border='0' src='b_drop.png'></a>\n";
+      echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."', '".$row->bugid."')\" ><img border='0' src='b_drop.png'></a>\n";
       echo "</td>\n";
       echo "<td width=170>".$cosmeticDate."</td>\n";
       echo "<td>".mantisIssueURL($row->bugid)."</td>\n";
@@ -107,14 +107,14 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
 function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYear=NULL) {
 
 	if (NULL == $curYear) { $curYear = date('Y'); }
-	
+
 	echo "<div align='center'>\n";
-   echo "<br/>Semaine \n";
+   echo "<br/>".T_("Semaine")." \n";
    echo "<select id='weekidSelector' name='weekidSelector' onchange='javascript: submitWeekid()'>\n";
    for ($i = 1; $i <= 53; $i++)
    {
       $wDates      = week_dates($i,$curYear);
-      
+
       if ($i == $weekid) {
         echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
       } else {
@@ -132,27 +132,27 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
     }
   }
   echo "</select>\n";
-   
+
    $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table>\n";
    echo "<tr>\n";
-   echo "<th>Tache</th>\n";
-   echo "<th>RAE</th>\n";
-   echo "<th>Poste</th>\n";
-   echo "<th width='80'>Lundi<br/>".date("d M", $weekDates[1])."</th>\n";
-   echo "<th width='80'>Mardi<br/>".date("d M", $weekDates[2])."</th>\n";
-   echo "<th width='80'>Mercredi<br/>".date("d M", $weekDates[3])."</th>\n";
-   echo "<th width='80'>Jeudi<br/>".date("d M", $weekDates[4])."</th>\n";
-   echo "<th width='80'>Vendredi<br/>".date("d M", $weekDates[5])."</th>\n";
+   echo "<th>".T_("Tache")."</th>\n";
+   echo "<th>".T_("RAE")."</th>\n";
+   echo "<th>".T_("Poste")."</th>\n";
+   echo "<th width='80'>".T_("Lundi")."<br/>".date("d M", $weekDates[1])."</th>\n";
+   echo "<th width='80'>".T_("Mardi")."<br/>".date("d M", $weekDates[2])."</th>\n";
+   echo "<th width='80'>".T_("Mercredi")."<br/>".date("d M", $weekDates[3])."</th>\n";
+   echo "<th width='80'>".T_("Jeudi")."<br/>".date("d M", $weekDates[4])."</th>\n";
+   echo "<th width='80'>".T_("Vendredi")."<br/>".date("d M", $weekDates[5])."</th>\n";
    echo "</tr>\n";
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = new Issue($bugid);
       foreach ($jobList as $jobid => $dayList) {
-         
+
          $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
          $result3 = mysql_query($query3) or die("Query failed: $query3");
          $jobName = mysql_result($result3, 0);
-         
+
          echo "<tr>\n";
          echo "<td>".mantisIssueURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
@@ -162,7 +162,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
          }
          echo "</tr>\n";
       }
-   }   
+   }
    echo " </table>\n";
    echo "</div>\n";
 }

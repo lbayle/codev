@@ -2,7 +2,7 @@
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "CoDev Login"; 
+   $_POST[page_name] = T_("CoDev Login"); 
    include 'header.inc.php'; 
 ?>
 

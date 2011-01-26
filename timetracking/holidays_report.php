@@ -1,8 +1,8 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
-   include_once 'i18n.inc.php';
-   $_POST[page_name] = "Pr&eacute;vision cong&eacute;s"; 
+   include_once 'i18n.inc.php'; 
+   $_POST[page_name] = T_("Pr&eacute;vision cong&eacute;s"); 
    include '../header.inc.php'; 
 ?>
 
@@ -156,7 +156,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
    
    // create filename & open file
    $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
-   $result = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query) or die(T_("Query failed:")." $query");
    $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
    
    $myFile = $path."\holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
@@ -170,7 +170,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
     "ORDER BY mantis_user_table.username";
 
   
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query) or die(T_("Query failed:")." $query");
   while($row = mysql_fetch_object($result))
   {
       $user1 = new User($row->user_id);
@@ -257,8 +257,8 @@ $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 global $codevReportsDir;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die("Impossible de se connecter");
-mysql_select_db($db_mantis_database) or die("Could not select database");
+  or die(T_("Could not connect to DB"));
+mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
