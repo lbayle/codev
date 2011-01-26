@@ -18,6 +18,18 @@ include_once 'consistency_check.class.php';
 include_once 'user.class.php';
 include_once 'issue.class.php';
 
+function disclaimer () {
+	$useragent = $_SERVER["HTTP_USER_AGENT"];
+
+   if (preg_match("|MSIE ([0-9].[0-9]{1,2})|",$useragent,$matched)) {
+      $browser_version=$matched[1];
+      $browser = "IE";
+      echo "<span style='color:red'>\n";
+      echo T_("IE may not correctly display this website,<br/>");
+      echo T_("please consider using a standard complient web-browser.<br/>");
+      echo "</span>\n";
+   }
+}
 
 // -----------------------------
 function displayLoginForm() {
@@ -131,6 +143,8 @@ if (!isset($_SESSION['userid'])) {
    $userid = $_SESSION['userid'];
    $sessionUser = new User($userid);
 
+   disclaimer();
+   
    displayLinks();
    
    displayConsistencyErrors($sessionUser);

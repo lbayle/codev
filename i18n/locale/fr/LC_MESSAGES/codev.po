@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-26 10:16+0100\n"
+"POT-Creation-Date: 2011-01-26 10:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,11 +45,11 @@ msgstr ""
 msgid "Query failed:"
 msgstr ""
 
-#: index.php:128 login.php:37 timetracking/holidays_report.php:260
+#: index.php:140 login.php:37 timetracking/holidays_report.php:260
 msgid "Could not connect to DB"
 msgstr ""
 
-#: index.php:129 login.php:38 timetracking/holidays_report.php:261
+#: index.php:141 login.php:38 timetracking/holidays_report.php:261
 msgid "Could not select database"
 msgstr ""
 
@@ -230,31 +230,41 @@ msgstr ""
 msgid "Bienvenu sur le serveur CoDev"
 msgstr ""
 
-#: index.php:51
+#: index.php:28
+msgid "IE may not correctly display this website,<br/>"
+msgstr "Il se peut que IE n'affiche pas correctement ce site,<br/>"
+
+#: index.php:29
+msgid "please consider using a standard complient web-browser.<br/>"
+msgstr ""
+"en cas de problemes, veuillez utiliser un navigateur respectant les "
+"standards du web."
+
+#: index.php:63
 msgid "Time Tracking"
 msgstr "Saisie des CRA"
 
-#: index.php:55
+#: index.php:67
 msgid "Holidays"
 msgstr "Suivi des Conges"
 
-#: index.php:65
+#: index.php:77
 msgid "Mantis Reports"
 msgstr "Suivi des fiches Mantis"
 
-#: index.php:69
+#: index.php:81
 msgid "Weekly activity"
 msgstr "Activit&eacute; hebdomadaire"
 
-#: index.php:73
+#: index.php:85
 msgid "Productivity Reports"
 msgstr "Indicateurs de production"
 
-#: index.php:77
+#: index.php:89
 msgid "Task info"
 msgstr "Informations sur une fiche"
 
-#: index.php:112
+#: index.php:124
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
