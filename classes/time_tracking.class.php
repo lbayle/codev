@@ -612,7 +612,7 @@ class TimeTracking {
     //for ($i = $endDayOfYear; $i >= $startDayOfYear; $i--) {
     for ($i = $startDayOfYear; $i <= $endDayOfYear; $i++) {
         
-      $timestamp = dayofyear2timestamp($i);
+      $timestamp = dayofyear2timestamp($i, date("Y", $startT));
       $dayOfWeek = date("N",$timestamp);
 
       // monday to friday
@@ -623,7 +623,7 @@ class TimeTracking {
         $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
             
         if (0 == $nbTuples) {
-          //echo "missingDays ".dayofyear2date($i)." <br/>";
+          //echo "missingDays ".dayofyear2date($i, $startT)." <br/>";
           $missingDays[] = $timestamp;
         }
       }
