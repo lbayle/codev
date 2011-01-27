@@ -235,7 +235,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>Productivity Rate ETA</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
-  echo "<td>Nombre moyen de fiches resolues par jour.<br/>".
+  echo "<td>".
             "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
             "- Le temps passé sur une fiche est pondéré par un indicateur de difficult&eacute;: ".
             "ETA (temps estim&eacute; AVANT analyse)<br/>".
@@ -247,7 +247,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>Productivity Rate</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
-  echo "<td>Nombre moyen de fiches resolues par jour.<br/>".
+  echo "<td>".
             "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
             "- Le temps passé sur une fiche est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ".
             "EffortEstim (temps estim&eacute; APRES analyse)<br/>".
