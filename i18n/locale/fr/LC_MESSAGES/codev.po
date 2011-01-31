@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-26 10:52+0100\n"
+"POT-Creation-Date: 2011-01-31 14:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: timetracking/time_tracking.php:330
 msgid "Sorry, you need to be member of a Team to access this page."
-msgstr ""
+msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
 
 #: timetracking/time_tracking_tools.php:22
 #: timetracking/week_activity_report.php:237
@@ -186,11 +186,11 @@ msgstr ""
 
 #: timetracking/week_activity_report.php:51
 msgid "Team:"
-msgstr ""
+msgstr "Equipe:"
 
 #: timetracking/week_activity_report.php:64
 msgid "Week:"
-msgstr ""
+msgstr "Semaine:"
 
 #: timetracking/week_activity_report.php:138
 msgid "somme(RAE) des fiches en cours"
@@ -261,7 +261,8 @@ msgid "Productivity Reports"
 msgstr "Indicateurs de production"
 
 #: index.php:89
-msgid "Task info"
+#, fuzzy
+msgid "Task information"
 msgstr "Informations sur une fiche"
 
 #: index.php:124
@@ -274,15 +275,18 @@ msgstr ""
 
 #: login.php:21 login.php:23
 msgid "Login"
-msgstr ""
+msgstr "Utilisateur"
 
 #: login.php:22
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: login.php:59
 msgid "login failed !"
 msgstr ""
+
+#~ msgid "Task info"
+#~ msgstr "Info Fiche"
 
 #~ msgid "Home"
 #~ msgstr "Acceuil"

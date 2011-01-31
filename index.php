@@ -86,7 +86,7 @@ function displayLinks() {
    echo "   </li>\n";
    echo "<br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/reports/issue_info.php'>".T_("Task info")."</a>"; // Informations sur une fiche
+   echo "        <a href='".getServerRootURL()."/reports/issue_info.php'>".T_("Task information")."</a>"; // Info fiche
    echo "   </li>\n";
    echo "</ul>\n";
    echo "</div>\n";

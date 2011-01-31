@@ -16,6 +16,7 @@ if (isset($_SESSION['locale']) && !empty($_SESSION['locale'])) {
 	$locale =$_SESSION['locale'];
 }
 
+#echo "DEBUG locale=$locale<br/>\n";
 
 putenv('LANGUAGE='.$locale);
 putenv('LANG='.$locale);
@@ -24,7 +25,9 @@ putenv('LC_MESSAGES='.$locale);
 T_setlocale(LC_ALL,$locale);
 T_setlocale(LC_CTYPE,$locale);
 
-$locales_dir = './i18n/locale';
+$locales_dir = (true == file_exists ( './i18n/locale' )) ? './i18n/locale' : $locales_dir = '../i18n/locale';
+
+
 T_bindtextdomain($textdomain,$locales_dir);
 T_bind_textdomain_codeset($textdomain, 'UTF-8'); 
 T_textdomain($textdomain);

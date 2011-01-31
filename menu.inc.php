@@ -5,7 +5,8 @@
 
 <div id="menu">
 
-<?php echo "
+<?php 
+echo "
 <table class='menu'>
    <tr>
       <td class='menu'><a href='".getServerRootURL()."/index.php' title='Acceuil'>".T_("Home")."</a></td>
