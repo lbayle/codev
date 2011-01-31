@@ -279,7 +279,7 @@ class ConsistencyCheck {
     * an ETA should be defined when creating an Issue
     */
    public function checkETA() {
-      
+   	
    	$cerrList = array();
    	
    	// select all issues
@@ -299,7 +299,8 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = new Issue($row->bug_id);
          
-         if ( (NULL == $issue->eta) || (0 == $issue->eta)) {
+         if ( (NULL == $issue->eta) || (10 == $issue->eta)) {   // 10 == none
+         	
            $cerr = new ConsistencyError($row->bug_id, 
                                               $row->handler_id, 
                                               $row->status, 
