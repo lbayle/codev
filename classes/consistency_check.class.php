@@ -50,7 +50,8 @@ class ConsistencyCheck {
       $cerrList2 = $this->checkResolved();
       $cerrList3 = $this->checkDeliveryDate();
       $cerrList4 = $this->checkBadRAE();
-      $cerrList = array_merge($cerrList1, $cerrList2, $cerrList4, $cerrList3);
+      $cerrList5 = $this->checkETA();
+      $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3, $cerrList4, $cerrList5);
       return $cerrList;
    }
    
@@ -272,6 +273,49 @@ class ConsistencyCheck {
       return $cerrList;
   		
    }
+   
+   // ----------------------------------------------
+   /**
+    * an ETA should be defined when creating an Issue
+    */
+   public function checkETA() {
+      
+   	$cerrList = array();
+   	
+   	// select all issues
+      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+        "FROM `mantis_bug_table` ";
+      
+      if (0 != count($this->projectList)) {
+         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $query .= "WHERE project_id IN ($formatedProjects) ";
+      }
+      
+      $query .="ORDER BY last_updated DESC, bug_id DESC";
+            
+      $result    = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         // check if fields correctly set
+         $issue = new Issue($row->bug_id);
+         
+         if ( (NULL == $issue->eta) || (0 == $issue->eta)) {
+           $cerr = new ConsistencyError($row->bug_id, 
+                                              $row->handler_id, 
+                                              $row->status, 
+                                              $row->last_updated, 
+                                              "ETA not set.");
+            $cerr->severity = "Error";                                  
+            $cerrList[] = $cerr;                                              
+         }
+      }
+      
+      
+      
+      return $cerrList;
+   	
+   }
+   
 }
 
 
