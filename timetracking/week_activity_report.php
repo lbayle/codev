@@ -142,11 +142,11 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<th width='50%'>".T_("Tache")."</th>\n";
   echo "<th width='7%'>".T_("Projet")."</th>\n";
   echo "<th width='10%'>".T_("Poste")."</th>\n";
-  echo "<th width='10'>".T_("Lundi")."<br>".date("d M", $weekDates[1])."</th>\n";
-  echo "<th width='10'>".T_("Mardi")."<br/>".date("d M", $weekDates[2])."</th>\n";
-  echo "<th width='10'>".T_("Mercredi")."<br/>".date("d M", $weekDates[3])."</th>\n";
-  echo "<th width='10'>".T_("Jeudi")."<br/>".date("d M", $weekDates[4])."</th>\n";
-  echo "<th width='10'>".T_("Vendredi")."<br/>".date("d M", $weekDates[5])."</th>\n";
+  echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
+  echo "<th width='10'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
+  echo "<th width='10'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
+  echo "<th width='10'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
+  echo "<th width='10'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
   echo "</tr>\n";
   foreach ($weekTracks as $bugid => $jobList) {
     $issue = new Issue($bugid);

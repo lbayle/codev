@@ -344,11 +344,11 @@ function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracki
                 "Poste".$sepChar.
                 "Description".$sepChar.
                 "Resource".$sepChar.
-                "Lundi ".date("d/m", $weekDates[1]).$sepChar.
-                "Mardi ".date("d/m", $weekDates[2]).$sepChar.
-                "Mercredi ".date("d/m", $weekDates[3]).$sepChar.
-                "Jeudi ".date("d/m", $weekDates[4]).$sepChar.
-                "Vendredi ".date("d/m", $weekDates[5])."\n";
+                T_("Monday")." ".date("d/m", $weekDates[1]).$sepChar.
+                T_("Tuesday")." ".date("d/m", $weekDates[2]).$sepChar.
+                T_("Wednesday")." ".date("d/m", $weekDates[3]).$sepChar.
+                T_("Thursday")." ".date("d/m", $weekDates[4]).$sepChar.
+                T_("Friday")." ".date("d/m", $weekDates[5])."\n";
   fwrite($fh, $stringData);
   
 	

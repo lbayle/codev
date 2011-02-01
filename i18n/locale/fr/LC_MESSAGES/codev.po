@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-01-31 14:26+0100\n"
+"POT-Creation-Date: 2011-02-01 14:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,25 +21,212 @@ msgstr ""
 msgid "Some fields are missing:"
 msgstr "Les champs suivants ont ete oublies:"
 
-#: admin/edit_team.php:85
-msgid "Desirez-vous vraiment supprimer ce membre de l'equipe ?"
+#: reports/issue_info.php:70 reports/productivity_report.php:143
+#: timetracking/time_tracking_tools.php:46
+msgid "Project"
 msgstr ""
 
-#: admin/edit_team.php:94
-msgid "Desirez-vous vraiment supprimer ce Projet de l'equipe ?"
+#: reports/productivity_report.php:142
+msgid "Project Detail"
 msgstr ""
 
-#: admin/edit_team.php:105
-msgid "Les champs suivants ont ete oublies:"
+#: reports/productivity_report.php:179
+msgid "Indicateurs de productivit&eacute;"
 msgstr ""
 
-#: admin/edit_team.php:118
-msgid "Desirez-vous vraiment supprimer definitivement l'equipe '"
+#: reports/productivity_report.php:181
+msgid "Indicator"
 msgstr ""
+
+#: reports/productivity_report.php:182
+msgid "Value"
+msgstr ""
+
+#: reports/productivity_report.php:183 timetracking/time_tracking_tools.php:47
+msgid "Description"
+msgstr ""
+
+#: reports/productivity_report.php:184
+msgid "Formula"
+msgstr ""
+
+#: reports/productivity_report.php:188
+msgid "Production Days : Projects"
+msgstr ""
+
+#: reports/productivity_report.php:190
+msgid "nombre de jours pass&eacute;s en d&eacute;veloppement sur les projets"
+msgstr ""
+
+#: reports/productivity_report.php:195
+msgid "Production Days : SuiviOp Dev"
+msgstr ""
+
+#: reports/productivity_report.php:197
+msgid ""
+"nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) "
+"par les Developers"
+msgstr ""
+
+#: reports/productivity_report.php:202
+msgid "Production Days : SuiviOp Managers"
+msgstr ""
+
+#: reports/productivity_report.php:204
+msgid ""
+"nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) "
+"par les Managers"
+msgstr ""
+
+#: reports/productivity_report.php:209
+msgid "Production Days : total"
+msgstr ""
+
+#: reports/productivity_report.php:211
+msgid "nombre de jours factur&eacute;s"
+msgstr ""
+
+#: reports/productivity_report.php:216
+msgid "Capacit&eacute; de production"
+msgstr ""
+
+#: reports/productivity_report.php:218
+msgid ""
+"pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs "
+"seuls)"
+msgstr ""
+
+#: reports/productivity_report.php:223
+msgid "Efficiency Rate"
+msgstr ""
+
+#: reports/productivity_report.php:225
+msgid ""
+"temps consomm&eacute; en d&eacute;veloppement (d&eacute;veloppeurs seuls)"
+msgstr ""
+
+#: reports/productivity_report.php:230
+msgid "System Disponibility"
+msgstr ""
+
+#: reports/productivity_report.php:232
+msgid "disponibilit&eacute; de la plateforme de develomppement"
+msgstr ""
+
+#: reports/productivity_report.php:237
+#, fuzzy
+msgid "Productivity Rate ETA"
+msgstr "Indicateurs de production"
+
+#: reports/productivity_report.php:239 reports/productivity_report.php:251
+msgid "Nombre moyen de fiches resolues par jour."
+msgstr ""
+
+#: reports/productivity_report.php:240 reports/productivity_report.php:252
+msgid "- Si l'estimation est bonne ce nbre doit tendre vers 1."
+msgstr ""
+
+#: reports/productivity_report.php:241
+msgid "- Le temps passé sur une fiche est pondéré par un indicateur de difficult&eacute;: "
+msgstr ""
+
+#: reports/productivity_report.php:242
+msgid "ETA (temps estim&eacute; AVANT analyse)"
+msgstr ""
+
+#: reports/productivity_report.php:243 reports/productivity_report.php:255
+msgid ""
+"- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode."
+msgstr ""
+
+#: reports/productivity_report.php:244
+msgid "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;s"
+msgstr ""
+
+#: reports/productivity_report.php:249
+#, fuzzy
+msgid "Productivity Rate"
+msgstr "Indicateurs de production"
+
+#: reports/productivity_report.php:253
+msgid "- Le temps passé sur une fiche est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: "
+msgstr ""
+
+#: reports/productivity_report.php:254
+msgid "EffortEstim (temps estim&eacute; APRES analyse)"
+msgstr ""
+
+#: reports/productivity_report.php:256
+msgid "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
+msgstr ""
+
+#: reports/productivity_report.php:413
+msgid "Load per Job"
+msgstr "Charge par poste"
+
+#: reports/productivity_report.php:415 timetracking/time_tracking_tools.php:48
+msgid "Job"
+msgstr "Poste"
+
+#: reports/productivity_report.php:416 reports/productivity_report.php:501
+#: reports/productivity_report.php:540
+msgid "Nb Days"
+msgstr "Nb Jours"
+
+#: reports/productivity_report.php:498
+msgid "Detail Gestion de Projet"
+msgstr ""
+
+#: reports/productivity_report.php:500 reports/productivity_report.php:539
+#: timetracking/time_tracking_tools.php:49
+msgid "Category"
+msgstr "Cat&eacute;gorie"
+
+#: reports/productivity_report.php:502 reports/productivity_report.php:541
+msgid "Tasks"
+msgstr ""
+
+#: reports/productivity_report.php:574
+msgid "incomplet (manque"
+msgstr ""
+
+#: reports/productivity_report.php:576
+msgid "incoh&eacute;rent"
+msgstr ""
+
+#: reports/proj_management_report.php:347
+#: timetracking/time_tracking_tools.php:142
+#: timetracking/week_activity_report.php:145
+msgid "Monday"
+msgstr "Lundi"
+
+#: reports/proj_management_report.php:348
+#: timetracking/time_tracking_tools.php:143
+#: timetracking/week_activity_report.php:146
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: reports/proj_management_report.php:349
+#: timetracking/time_tracking_tools.php:144
+#: timetracking/week_activity_report.php:147
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: reports/proj_management_report.php:350
+#: timetracking/time_tracking_tools.php:145
+#: timetracking/week_activity_report.php:148
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: reports/proj_management_report.php:351
+#: timetracking/time_tracking_tools.php:146
+#: timetracking/week_activity_report.php:149
+msgid "Friday"
+msgstr "Vendredi"
 
 #: timetracking/holidays_report.php:5
-msgid "Pr&eacute;vision cong&eacute;s"
-msgstr ""
+msgid "Holidays Report"
+msgstr "Pr&eacute;vision cong&eacute;s"
 
 #: timetracking/holidays_report.php:159 timetracking/holidays_report.php:173
 msgid "Query failed:"
@@ -53,18 +240,18 @@ msgstr ""
 msgid "Could not select database"
 msgstr ""
 
-#: timetracking/time_tracking.php:14
-msgid "Saisie des CRA"
-msgstr ""
+#: index.php:63 timetracking/time_tracking.php:14
+msgid "Time Tracking"
+msgstr "Saisie des CRA"
 
 #: timetracking/time_tracking.php:125
 msgid "Nom :"
 msgstr ""
 
-#: timetracking/time_tracking.php:194 timetracking/time_tracking_tools.php:46
+#: timetracking/time_tracking.php:194
 #: timetracking/week_activity_report.php:143
 msgid "Projet"
-msgstr ""
+msgstr "Projet"
 
 #: timetracking/time_tracking.php:195
 msgid "(tous)"
@@ -76,8 +263,7 @@ msgstr ""
 msgid "Tache"
 msgstr ""
 
-#: timetracking/time_tracking.php:255 timetracking/time_tracking_tools.php:48
-#: timetracking/time_tracking_tools.php:141
+#: timetracking/time_tracking.php:255 timetracking/time_tracking_tools.php:141
 #: timetracking/week_activity_report.php:144
 msgid "Poste"
 msgstr ""
@@ -118,19 +304,11 @@ msgid "Date"
 msgstr ""
 
 #: timetracking/time_tracking_tools.php:44
-msgid "Fiche TC"
+msgid "TC Issue"
 msgstr ""
 
 #: timetracking/time_tracking_tools.php:45
-msgid "Duree"
-msgstr ""
-
-#: timetracking/time_tracking_tools.php:47
-msgid "Description"
-msgstr ""
-
-#: timetracking/time_tracking_tools.php:49
-msgid "Categorie"
+msgid "Duration"
 msgstr ""
 
 #: timetracking/time_tracking_tools.php:50
@@ -138,8 +316,12 @@ msgid "Status"
 msgstr ""
 
 #: timetracking/time_tracking_tools.php:51
-msgid "Effort Estim&eacute;"
-msgstr ""
+msgid "Load Estimation"
+msgstr "Effort Estim&eacute;"
+
+#: timetracking/time_tracking_tools.php:52
+msgid "Remaining"
+msgstr "Reste a engager"
 
 #: timetracking/time_tracking_tools.php:52
 #: timetracking/time_tracking_tools.php:140
@@ -153,31 +335,6 @@ msgstr ""
 
 #: timetracking/time_tracking_tools.php:112
 msgid "Semaine"
-msgstr ""
-
-#: timetracking/time_tracking_tools.php:142
-#: timetracking/week_activity_report.php:145
-msgid "Lundi"
-msgstr ""
-
-#: timetracking/time_tracking_tools.php:143
-#: timetracking/week_activity_report.php:146
-msgid "Mardi"
-msgstr ""
-
-#: timetracking/time_tracking_tools.php:144
-#: timetracking/week_activity_report.php:147
-msgid "Mercredi"
-msgstr ""
-
-#: timetracking/time_tracking_tools.php:145
-#: timetracking/week_activity_report.php:148
-msgid "Jeudi"
-msgstr ""
-
-#: timetracking/time_tracking_tools.php:146
-#: timetracking/week_activity_report.php:149
-msgid "Vendredi"
 msgstr ""
 
 #: timetracking/week_activity_report.php:12
@@ -240,17 +397,13 @@ msgstr ""
 "en cas de problemes, veuillez utiliser un navigateur respectant les "
 "standards du web."
 
-#: index.php:63
-msgid "Time Tracking"
-msgstr "Saisie des CRA"
-
 #: index.php:67
 msgid "Holidays"
 msgstr "Suivi des Conges"
 
 #: index.php:77
 msgid "Mantis Reports"
-msgstr "Suivi des fiches Mantis"
+msgstr "Suivi Mantis"
 
 #: index.php:81
 msgid "Weekly activity"

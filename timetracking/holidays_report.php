@@ -2,7 +2,7 @@
 
 <?php
    include_once 'i18n.inc.php'; 
-   $_POST[page_name] = T_("Pr&eacute;vision cong&eacute;s"); 
+   $_POST[page_name] = T_("Holidays Report"); 
    include '../header.inc.php'; 
 ?>
 

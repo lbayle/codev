@@ -139,8 +139,8 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
                $projList[$row->id] = $row->name;
             }
        }
-   echo "<span class='caption_font'>Detail Projet </span>\n";       
-   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='Projet'>\n";
+   echo "<span class='caption_font'>".T_("Project Detail")." </span>\n";       
+   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
    echo "<option value='0'> </option>\n";
    foreach ($projList as $pid => $pname)
    {
@@ -176,84 +176,84 @@ function displayRates ($timeTracking) {
   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
         
   echo "<table>\n";
-  echo "<caption>Indicateurs de productivit&eacute;</caption>\n";
+  echo "<caption>".T_("Indicateurs de productivit&eacute;")."</caption>\n";
   echo "<tr>\n";
-  echo "<th>Indicateur</th>\n";
-  echo "<th>Valeur</th>\n";
-  echo "<th>Description</th>\n";
-  echo "<th>Formule</th>\n";
+  echo "<th>".T_("Indicator")."</th>\n";
+  echo "<th>".T_("Value")."</th>\n";
+  echo "<th>".T_("Description")."</th>\n";
+  echo "<th>".T_("Formula")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Production Days : Projects</td>\n";
+  echo "<td>".T_("Production Days : Projects")."</td>\n";
   echo "<td>$prodDays</td>\n";
-  echo "<td>nombre de jours pass&eacute;s en d&eacute;veloppement sur les projets</td>\n";
+  echo "<td>".T_("nombre de jours pass&eacute;s en d&eacute;veloppement sur les projets")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Production Days : SuiviOp Dev</td>\n";
+  echo "<td>".T_("Production Days : SuiviOp Dev")."</td>\n";
   echo "<td>$sideProdDaysDevel</td>\n";
-  echo "<td>nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) par les Developers</td>\n";
+  echo "<td>".T_("nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) par les Developers")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Production Days : SuiviOp Managers</td>\n";
+  echo "<td>".T_("Production Days : SuiviOp Managers")."</td>\n";
   echo "<td>$sideProdDaysManagers</td>\n";
-  echo "<td>nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) par les Managers</td>\n";
+  echo "<td>".T_("nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) par les Managers")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Production Days : total</td>\n";
+  echo "<td>".T_("Production Days : total")."</td>\n";
   echo "<td>".($sideProdDaysDevel + $sideProdDaysManagers + $prodDays)."</td>\n";
-  echo "<td>nombre de jours factur&eacute;s</td>\n";
+  echo "<td>".T_("nombre de jours factur&eacute;s")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Capacit&eacute; de production</td>\n";
+  echo "<td>".T_("Capacit&eacute; de production")."</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
-  echo "<td>pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs seuls)</td>\n";
+  echo "<td>".T_("pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs seuls)")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Efficiency Rate</td>\n";
+  echo "<td>".T_("Efficiency Rate")."</td>\n";
   echo "<td>".number_format($efficiencyRate, 2)."%</td>\n";
-  echo "<td>temps consomm&eacute; en d&eacute;veloppement (d&eacute;veloppeurs seuls)</td>\n";
+  echo "<td>".T_("temps consomm&eacute; en d&eacute;veloppement (d&eacute;veloppeurs seuls)")."</td>\n";
   echo "<td>ProjProdDays / TotalProdDays * 100</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>System Disponibility</td>\n";
+  echo "<td>".T_("System Disponibility")."</td>\n";
   echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
-  echo "<td>disponibilit&eacute; de la plateforme de develomppement</td>\n";
+  echo "<td>".T_("disponibilit&eacute; de la plateforme de develomppement")."</td>\n";
   echo "<td>100 - (breakdownDays / prodDays)</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Productivity Rate ETA</td>\n";
+  echo "<td>".T_("Productivity Rate ETA")."</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
-  echo "<td>Nombre moyen de fiches resolues par jour.<br/>".
-            "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
-            "- Le temps passé sur une fiche est pondéré par un indicateur de difficult&eacute;: ".
-            "ETA (temps estim&eacute; AVANT analyse)<br/>".
-            "- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.<br/>".
-            "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;s</td>\n";
+  echo "<td>".T_("Nombre moyen de fiches resolues par jour.")."<br/>".
+            T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
+            T_("- Le temps passé sur une fiche est pondéré par un indicateur de difficult&eacute;: ").
+            T_("ETA (temps estim&eacute; AVANT analyse)")."<br/>".
+            T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
+            T_("- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;s")."</td>\n";
   echo "<td>sum(ETA) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>Productivity Rate</td>\n";
+  echo "<td>".T_("Productivity Rate")."</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
-  echo "<td>Nombre moyen de fiches resolues par jour.<br/>".
-            "- Si l'estimation est bonne ce nbre doit tendre vers 1.<br/>".
-            "- Le temps passé sur une fiche est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ".
-            "EffortEstim (temps estim&eacute; APRES analyse)<br/>".
-            "- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.<br/>".
-            "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es</td>\n";
+  echo "<td>".T_("Nombre moyen de fiches resolues par jour.")."<br/>".
+            T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
+            T_("- Le temps passé sur une fiche est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ").
+            T_("EffortEstim (temps estim&eacute; APRES analyse)")."<br/>".
+            T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
+            T_("- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es")."</td>\n";
     echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
@@ -410,10 +410,10 @@ function displayCurrentDriftStats ($timeTracking) {
 // --------------------------------
 function displayWorkingDaysPerJob($timeTracking) {
   echo "<table width='300'>\n";
-  echo "<caption>Charge par poste</caption>\n";
+  echo "<caption>".T_("Load per Job")."</caption>\n";
   echo "<tr>\n";
-  echo "<th>Poste</th>\n";
-  echo "<th>Nb jours</th>\n";
+  echo "<th>".T_("Job")."</th>\n";
+  echo "<th>".T_("Nb Days")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -495,11 +495,11 @@ function displaySideTalksProjectDetails($timeTracking) {
   $formatedBugList = "";
   
   echo "<table width='300'>\n";
-  echo "<caption title='Projets: $formatedProjList'>Detail Gestion de Projet</caption>\n";
+  echo "<caption title='Projets: $formatedProjList'>".T_("Detail Gestion de Projet")."</caption>\n";
   echo "<tr>\n";
-  echo "<th>Categorie</th>\n";
-  echo "<th>Nb jours</th>\n";
-  echo "<th>Fiches</th>\n";
+  echo "<th>".T_("Category")."</th>\n";
+  echo "<th>".T_("Nb Days")."</th>\n";
+  echo "<th>".T_("Tasks")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -534,11 +534,11 @@ function displayProjectDetails($timeTracking, $projectId) {
      
   $proj = new Project($projectId);
   echo "<table width='300'>\n";
-  //echo "<caption>Detail Projet ".$proj->name."</caption>\n";
+  //echo "<caption>".T_("Project Detail")." ".$proj->name."</caption>\n";
   echo "<tr>\n";
-  echo "<th>Categorie</th>\n";
-  echo "<th>Nb jours</th>\n";
-  echo "<th>Fiches</th>\n";
+  echo "<th>".T_("Category")."</th>\n";
+  echo "<th>".T_("Nb Days")."</th>\n";
+  echo "<th>".T_("Tasks")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -571,9 +571,9 @@ function displayCheckWarnings($timeTracking) {
     foreach ($incompleteDays as $date => $value) {
       $formatedDate = date("Y-m-d", $date);
       if ($value < 1) {
-        echo "<br/>$row->username: $formatedDate incomplet (manque ".(1-$value)." jour).\n";
+        echo "<br/>$row->username: $formatedDate ".T_("incomplet (manque")." ".(1-$value)." jour).\n";
       } else {
-        echo "<br/>$row->username: $formatedDate incoh&eacute;rent (".($value)." jour).\n";
+        echo "<br/>$row->username: $formatedDate ".T_("incoh&eacute;rent")." (".($value)." jour).\n";
       }
     }
                    

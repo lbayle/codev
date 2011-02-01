@@ -67,7 +67,7 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
    
    $projList = $devProjList + $managedProjList;
    
-   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='Projet'>\n";
+   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
    echo "<option value='0'>(tous)</option>\n";
    foreach ($projList as $pid => $pname)
    {

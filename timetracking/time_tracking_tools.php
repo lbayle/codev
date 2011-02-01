@@ -41,15 +41,15 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
    echo "<th></th>\n";
    echo "<th>".T_("Date")."</th>\n";
    echo "<th>Mantis</th>\n";
-   echo "<th>".T_("Fiche TC")."</th>\n";
-   echo "<th>".T_("Duree")."</th>\n";
-   echo "<th>".T_("Projet")."</th>\n";
+   echo "<th>".T_("TC Issue")."</th>\n";
+   echo "<th>".T_("Duration")."</th>\n";
+   echo "<th>".T_("Project")."</th>\n";
    echo "<th>".T_("Description")."</th>\n";
-   echo "<th>".T_("Poste")."</th>\n";
-   echo "<th>".T_("Categorie")."</th>\n";
+   echo "<th>".T_("Job")."</th>\n";
+   echo "<th>".T_("Category")."</th>\n";
    echo "<th>".T_("Status")."</th>\n";
-   echo "<th title='BI + BS'>".T_("Effort Estim&eacute;")."</th>\n";
-   echo "<th title='Remaining'>".T_("RAE")."</th>\n";
+   echo "<th title='BI + BS'>".T_("Load Estimation")."</th>\n";
+   echo "<th title='".T_("Remaining")."'>".T_("RAE")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT id, bugid, jobid, date, duration ".
@@ -139,11 +139,11 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    echo "<th>".T_("Tache")."</th>\n";
    echo "<th>".T_("RAE")."</th>\n";
    echo "<th>".T_("Poste")."</th>\n";
-   echo "<th width='80'>".T_("Lundi")."<br/>".date("d M", $weekDates[1])."</th>\n";
-   echo "<th width='80'>".T_("Mardi")."<br/>".date("d M", $weekDates[2])."</th>\n";
-   echo "<th width='80'>".T_("Mercredi")."<br/>".date("d M", $weekDates[3])."</th>\n";
-   echo "<th width='80'>".T_("Jeudi")."<br/>".date("d M", $weekDates[4])."</th>\n";
-   echo "<th width='80'>".T_("Vendredi")."<br/>".date("d M", $weekDates[5])."</th>\n";
+   echo "<th width='80'>".T_("Monday")."<br/>".date("d M", $weekDates[1])."</th>\n";
+   echo "<th width='80'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
+   echo "<th width='80'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
+   echo "<th width='80'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
+   echo "<th width='80'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
    echo "</tr>\n";
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = new Issue($bugid);

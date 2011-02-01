@@ -11,7 +11,7 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = T_("Saisie des CRA");
+   $_POST[page_name] = T_("Time Tracking");
    include '../header.inc.php';
 ?>
 

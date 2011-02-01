@@ -157,21 +157,21 @@ function week_dates($week, $year)
 	if(date("w",$mon_mktime)>1)
 	$decalage = ((date("w",$mon_mktime)-1)*60*60*24);
 
-	$lundi = $mon_mktime - $decalage;
+	$monday = $mon_mktime - $decalage;
 
 	# WARNING: there is a curious bug, the minutes are not set to '0' ?!?
-	$lundi   = mktime(0, 0, 0, date("m", $lundi), date("d", $lundi), date("Y", $lundi)); 
-   #echo "MONDAY = ".date("Y-m-d H:m:s",$lundi)."<br>";
+	$monday   = mktime(0, 0, 0, date("m", $monday), date("d", $monday), date("Y", $monday)); 
+   #echo "MONDAY = ".date("Y-m-d H:m:s",$monday)."<br>";
    
    
    $week_dates = array();
-   $week_dates[1] = $lundi; // Monday
-   $week_dates[2] = strtotime("+1 day",$lundi); // Tuesday
-   $week_dates[3] = strtotime("+2 day",$lundi); // Wednesday
-   $week_dates[4] = strtotime("+3 day",$lundi); // Thursday
-   $week_dates[5] = strtotime("+4 day",$lundi); // Friday
-   $week_dates[6] = strtotime("+5 day",$lundi); // Saturday
-   $week_dates[7] = strtotime("+6 day",$lundi); // Sunday
+   $week_dates[1] = $monday; // Monday
+   $week_dates[2] = strtotime("+1 day",$monday); // Tuesday
+   $week_dates[3] = strtotime("+2 day",$monday); // Wednesday
+   $week_dates[4] = strtotime("+3 day",$monday); // Thursday
+   $week_dates[5] = strtotime("+4 day",$monday); // Friday
+   $week_dates[6] = strtotime("+5 day",$monday); // Saturday
+   $week_dates[7] = strtotime("+6 day",$monday); // Sunday
 
    
    return $week_dates;

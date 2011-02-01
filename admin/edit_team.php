@@ -82,7 +82,7 @@ if (!isset($_SESSION['userid'])) {
    }
 
   function removeTeamMember(id, description){
-     confirmString = T_("Desirez-vous vraiment supprimer ce membre de l'equipe ?") + "\n\n" + description;
+     confirmString = "Desirez-vous vraiment supprimer ce membre de l'equipe ?" + "\n\n" + description;
      if (confirm(confirmString)) {
        document.forms["removeTeamMemberForm"].action.value="removeTeamMember";
        document.forms["removeTeamMemberForm"].f_memberid.value=id;
@@ -91,7 +91,7 @@ if (!isset($_SESSION['userid'])) {
    }
   
   function removeTeamProject(id, description){
-     confirmString = T_("Desirez-vous vraiment supprimer ce Projet de l'equipe ?") + "\n\n" + description;
+     confirmString = "Desirez-vous vraiment supprimer ce Projet de l'equipe ?" + "\n\n" + description;
      if (confirm(confirmString)) {
        document.forms["removeTeamProjectForm"].action.value="removeTeamProject";
        document.forms["removeTeamProjectForm"].f_projectid.value=id;
@@ -102,7 +102,7 @@ if (!isset($_SESSION['userid'])) {
   function updateTeamLeader(){
      // check fields
      foundError = 0;
-     msgString = T_("Les champs suivants ont ete oublies:") + "\n\n"
+     msgString = "Les champs suivants ont ete oublies:" + "\n\n"
          
      if (0 == document.forms["updateTeamLeaderForm"].f_leaderid.value)  { msgString += "Team Leader\n"; ++foundError; }
                     
@@ -115,7 +115,7 @@ if (!isset($_SESSION['userid'])) {
    }
 
   function deleteTeam(description){
-     confirmString = T_("Desirez-vous vraiment supprimer definitivement l'equipe '") + description + "' ?";
+     confirmString = "Desirez-vous vraiment supprimer definitivement l'equipe '" + description + "' ?";
      if (confirm(confirmString)) {
        document.forms["deleteTeamForm"].action.value="deleteTeam";
        document.forms["deleteTeamForm"].submit();
