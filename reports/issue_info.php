@@ -44,6 +44,7 @@ include_once "issue.class.php";
 include_once "project.class.php";
 include_once "time_track.class.php";
 include_once "user.class.php";
+include_once "jobs.class.php";
 
 // ---------------------------------------------------------------
 function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
@@ -158,7 +159,39 @@ function displayIssueGeneralInfo($issue) {
   echo "</table>\n";      
 }
 
+// ---------------------------------------------------------------
+function displayJobDetails($issue) {
+   
+	global $job_colors;
+	
+	$timeTracks = $issue->getTimeTracks();
+   $durationByJob = array();
+   $jobs = new Jobs();
+   
+   echo "<table>\n";
+   echo "<tr>\n";
+   echo "<th>Job</th>\n";
+   echo "<th>Nb Days</th>\n";
+   echo "<th>% Total</th>\n";
+   echo "</tr>\n";
 
+   foreach ($timeTracks as $tid => $tdate) {
+      $tt = new TimeTrack($tid);
+      $durationByJob[$tt->jobId] += $tt->duration;
+      $totalDuration += $tt->duration;
+   }
+  
+   #sort($durationByJob);
+   foreach ($durationByJob as $jid => $duration) {
+      echo "<tr>\n";
+      echo "   <td style='background-color: ".$job_colors[$jid]."'>".$jobs->getJobName($jid)."</td>\n";
+      echo "<td>$duration</td>\n";
+      echo "<td>".number_format(($duration*100 / $totalDuration), 2)." %</td>\n";
+      echo "</tr>\n";
+   }
+  echo "</table>\n";      
+  
+}
 // ---------------------------------------------------------------
 function displayMonth($month, $year, $issue) {
   global $globalHolidaysList;
@@ -285,6 +318,9 @@ if (0 == count($teamList)) {
 	  displayIssueGeneralInfo($issue);
 	  echo "<br/><br/>\n";
 	  
+	  displayJobDetails($issue);
+     echo "<br/><br/>\n";
+     
 	  for ($y = date('Y', $issue->dateSubmission); $y <= $year; $y++) {
          for ($m = 1; $m <= 12; $m++) {
             displayMonth($m, $y, $issue);

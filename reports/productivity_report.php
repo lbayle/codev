@@ -236,8 +236,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>".T_("Productivity Rate ETA")."</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
-  echo "<td>".T_("Nombre moyen de fiches resolues par jour.")."<br/>".
-            T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
+  echo "<td>".T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
             T_("- Le temps passé sur une fiche est pondéré par un indicateur de difficult&eacute;: ").
             T_("ETA (temps estim&eacute; AVANT analyse)")."<br/>".
             T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
@@ -248,13 +247,12 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>".T_("Productivity Rate")."</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
-  echo "<td>".T_("Nombre moyen de fiches resolues par jour.")."<br/>".
-            T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
+  echo "<td>".T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
             T_("- Le temps passé sur une fiche est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ").
             T_("EffortEstim (temps estim&eacute; APRES analyse)")."<br/>".
             T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
             T_("- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es")."</td>\n";
-    echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
+  echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
   echo "</table>\n";
