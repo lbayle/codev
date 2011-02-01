@@ -5,6 +5,7 @@
 //include_once "tools.php";
 include_once "issue.class.php";
 include_once "user.class.php";
+include_once "project.class.php";
 
 class ConsistencyError {
 	
@@ -286,9 +287,26 @@ class ConsistencyCheck {
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ";
       
+      
+      
+      
       if (0 != count($this->projectList)) {
-         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         
+      	// --- except SideTasksProjects (they don't have an ETA field)
+      	$prjListNoSideTasks = $this->projectList; // copy
+         foreach ($prjListNoSideTasks as $id => $name) {
+         	$p = new Project($id);
+         	if (true == $p->isSideTasksProject()) {
+               unset($prjListNoSideTasks[$id]);
+         	}
+         }
+      	
+      	
+      	
+         $formatedProjects = valuedListToSQLFormatedString($prjListNoSideTasks);
          $query .= "WHERE project_id IN ($formatedProjects) ";
+      } else {
+      	// TODO except SideTasksProjects
       }
       
       $query .="ORDER BY last_updated DESC, bug_id DESC";
