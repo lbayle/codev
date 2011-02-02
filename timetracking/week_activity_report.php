@@ -139,9 +139,9 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<table width='95%'>\n";
   //echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
-  echo "<th width='50%'>".T_("Tache")."</th>\n";
-  echo "<th width='7%'>".T_("Projet")."</th>\n";
-  echo "<th width='10%'>".T_("Poste")."</th>\n";
+  echo "<th width='50%'>".T_("Task")."</th>\n";
+  echo "<th width='7%'>".T_("Project")."</th>\n";
+  echo "<th width='10%'>".T_("Job")."</th>\n";
   echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
   echo "<th width='10'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
   echo "<th width='10'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
@@ -262,7 +262,7 @@ if (isset($_POST[teamid])) {
 
 // ---------
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
-  or die("Impossible de se connecter");
+  or die(T_("Could not connect to DB"));
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 
@@ -294,14 +294,14 @@ if (0 == count($teamList)) {
       echo "<div align='left'>\n";
 	   echo "<ul>\n";
       echo "   <li><a href='#tagTeamMember'>".T_("Par Team Member")."</a></li>\n";
-      echo "   <li><a href='#tagProject'>".T_("Par Projet")."</a></li>\n";
+      echo "   <li><a href='#tagProject'>".T_("By Project")."</a></li>\n";
 	   echo "</ul><br/>\n";
       echo "</div>\n";
 
 
       echo "<br/>\n";
 	   echo "<hr width='95%'/>\n";
-	   echo "<a name='tagTeamMember'><h2>".T_("Par Team Member")."</h2></a>\n";
+	   echo "<a name='tagTeamMember'><h2>".T_("By Team Member")."</h2></a>\n";
 		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
 
       echo "<br/><br/>\n";
@@ -310,7 +310,7 @@ if (0 == count($teamList)) {
       echo "<br/><br/>\n";
 		//echo "<hr align='left' width='50%'/>\n";
       echo "<hr width='95%'/>\n";
-      echo "<a name='tagProject'><h2>".T_("Par Projet")."</h2></a>\n";
+      echo "<a name='tagProject'><h2>".T_("By Project")."</h2></a>\n";
       displayProjectActivityReport($timeTracking);
 
 	}

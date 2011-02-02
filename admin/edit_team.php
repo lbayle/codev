@@ -9,7 +9,7 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "CoDev Administration : Team Edition"; 
+   $_POST[page_name] = T_("CoDev Administration : Team Edition"); 
    include '../header.inc.php'; 
 ?>
 <?php include '../login.inc.php'; ?>
@@ -22,7 +22,7 @@ if (!isset($_SESSION['userid'])) {
   function submitTeam(){
     // check fields
     foundError = 0;
-    msgString = T_("Some fields are missing:") + "\n\n"
+    msgString = "Some fields are missing:" + "\n\n"
         
     if (0 == document.forms["teamSelectForm"].f_teamid.value)  { msgString += "Team\n"; ++foundError; }
                    
@@ -37,7 +37,7 @@ if (!isset($_SESSION['userid'])) {
   function addTeamMember(){
      // check fields
      foundError = 0;
-     msgString = T_("Some fields are missing:") + "\n\n"
+     msgString = "Some fields are missing:" + "\n\n"
          
      if (0 == document.forms["addTeamMemberForm"].f_memberid.value)  { msgString += "Team Member\n"; ++foundError; }
                     
@@ -69,7 +69,7 @@ if (!isset($_SESSION['userid'])) {
   function addTeamProject(){
      // check fields
      foundError = 0;
-     msgString = T_("Some fields are missing:") + "\n\n"
+     msgString = "Some fields are missing:" + "\n\n"
          
      if (0 == document.forms["addTeamProjectForm"].f_projectid.value)  { msgString += "Project\n"; ++foundError; }
                     
@@ -160,7 +160,7 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 // ----------------------------------------------------
 function updateTeamLeaderForm($teamid, $originPage) {
    echo "<div>\n";
-   echo "<h2>Team Leader</h2>\n";
+   echo "<h2>".T_("Team Leader")."</h2>\n";
 
    $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
    $result = mysql_query($query) or die("Query failed: $query");
@@ -184,7 +184,7 @@ function updateTeamLeaderForm($teamid, $originPage) {
    }
    echo "</select>\n";
    
-   echo "<input type=button name='btUpdateTeamLeader' value='Update' onClick='javascript: updateTeamLeader()'>\n";
+   echo "<input type=button name='btUpdateTeamLeader' value='".T_("Update")."' onClick='javascript: updateTeamLeader()'>\n";
 
    echo "<input type=hidden name=action       value=noAction>\n";
    
@@ -192,7 +192,7 @@ function updateTeamLeaderForm($teamid, $originPage) {
    
    echo "<br/>\n";
    echo "<br/>\n";
-   echo "Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be included in the team's productivity report.</br>\n";
+   echo T_("Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be included in the team's productivity report.")."</br>\n";
    
 	echo "</div>\n";
    
@@ -213,11 +213,11 @@ function displayTeamMemberTuples($teamid) {
    #echo "<caption>Team Members</caption>\n";   
    echo "<tr>\n";
    echo "<th></th>\n";
-   echo "<th>login</th>\n";
-   echo "<th>Nom</th>\n";
-   echo "<th title='Date d arivee dans l equipe'>Date d'arivee</th>\n";
-   echo "<th title='Date dde depart de l equipe'>Date de depart</th>\n";
-   echo "<th>Type</th>\n";
+   echo "<th>".T_("login")."</th>\n";
+   echo "<th>".T_("Name")."</th>\n";
+   echo "<th title='".T_("Date d arivee dans l equipe")."'>".T_("Arrival Date")."</th>\n";
+   echo "<th title='".T_("Date de depart de l equipe")."'>".T_("Departure Date")."</th>\n";
+   echo "<th>".T_("Type")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT codev_team_user_table.id, codev_team_user_table.user_id, codev_team_user_table.team_id, codev_team_user_table.access_level, ".
@@ -231,7 +231,7 @@ function displayTeamMemberTuples($teamid) {
    {
       echo "<tr>\n";
       echo "<td>\n";
-      echo "<a title='delete this row' href=\"javascript: removeTeamMember('".$row->id."', '$row->username')\" ><img src='../images/b_drop.png'></a>\n";
+      echo "<a title='".T_("delete this row")."' href=\"javascript: removeTeamMember('".$row->id."', '$row->username')\" ><img src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
       echo "<td title='$row->user_id'>".$row->username."</td>\n";
       echo "<td>".$row->realname."</td>\n";
@@ -275,7 +275,7 @@ function addTeamMemberForm($originPage, $defaultDate) {
    $myCalendar2->startMonday(true);
    
    // Display form
-   echo "<h2>Team Members</h2>\n";
+   echo "<h2>".T_("Team Members")."</h2>\n";
 
    #echo "<div style='text-align: center;'>";
    echo "<div>\n";
@@ -287,7 +287,7 @@ function addTeamMemberForm($originPage, $defaultDate) {
    echo "<table class='invisible'>\n";
    echo "<tr>\n";
    echo "   <td>\n";
-   echo "Member: \n";
+   echo T_("Member").": \n";
    echo "   </td>\n";
    echo "   <td>\n";
    echo "<select  style='width:100%' name='f_memberid'>\n";
@@ -324,21 +324,21 @@ function addTeamMemberForm($originPage, $defaultDate) {
    
    // -------
    echo "<tr>\n";
-   echo "   <td>Arrival-Date</td>\n";
+   echo "   <td>".T_("Arrival-Date")."</td>\n";
    echo "   <td>\n";
    $myCalendar->writeScript();
    echo "   </td>\n";
    echo "   <td>\n";
-   echo "       <input style='width:100%' type=button name='btAddMember' value='Add User' onClick='javascript: addTeamMember()'>\n";
+   echo "       <input style='width:100%' type=button name='btAddMember' value='".T_("Add User")."' onClick='javascript: addTeamMember()'>\n";
    echo "   </td>\n";
    echo "</tr>\n";
    echo "<tr>\n";
-   echo "   <td>Departure-Date</td>\n";
+   echo "   <td>".T_("Departure-Date")."</td>\n";
    echo "   <td>\n";
    $myCalendar2->writeScript();
    echo "   </td>\n";
    echo "   <td>\n";
-   echo "        <input type=button name='btSetMemberDepartureDate' value='set Departure Date' onClick='javascript: setMemberDepartureDate()'>\n";
+   echo "        <input type=button name='btSetMemberDepartureDate' value='".T_("set Departure Date")."' onClick='javascript: setMemberDepartureDate()'>\n";
    echo "   </td>\n";
    echo "</tr>\n";
    echo "</table>\n";
@@ -372,9 +372,9 @@ function displayTeamProjectTuples($teamid) {
    #echo "<caption>Team Projects</caption>\n";   
    echo "<tr>\n";
    echo "<th></th>\n";
-   echo "<th>Nom</th>\n";
-   echo "<th>Description</th>\n";
-   echo "<th>Type</th>\n";
+   echo "<th>".T_("Name")."</th>\n";
+   echo "<th>".T_("Description")."</th>\n";
+   echo "<th>".T_("Type")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT codev_team_project_table.id, codev_team_project_table.type, ".
@@ -390,7 +390,7 @@ function displayTeamProjectTuples($teamid) {
       echo "<td>\n";
       // if SuiviOp do not allow tu delete
       if ($defaultSideTaskProject != $row->project_id) {
-         echo "<a title='delete this row' href=\"javascript: removeTeamProject('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
+         echo "<a title='".T_("delete this row")."' href=\"javascript: removeTeamProject('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
       }
       echo "</td>\n";
       echo "<td>".$row->name."</td>\n";
@@ -409,7 +409,7 @@ function addTeamProjectForm($originPage) {
    global $projectType_names;
    
    // Display form
-   echo "<h2>Team Projects</h2>\n";
+   echo "<h2>".T_("Team Projects")."</h2>\n";
 
    #echo "<div style='text-align: center;'>";
    echo "<div>\n";
@@ -443,7 +443,7 @@ function addTeamProjectForm($originPage) {
    
    
 
-   echo "<input type=button name='btAddProject' value='Add' onClick='javascript: addTeamProject()'>\n";
+   echo "<input type=button name='btAddProject' value='".T_("Add")."' onClick='javascript: addTeamProject()'>\n";
 
    echo "<input type=hidden name=action       value=noAction>\n";
    echo "<input type=hidden name=currentForm  value=addTeamProjectForm>\n";
@@ -464,8 +464,8 @@ function deleteTeamForm($originPage, $teamName, $teamid) {
    echo "<div>\n";
    
    echo "<form id='deleteTeamProjectForm' name='deleteTeamForm' method='post' Action='$originPage'>\n";
-   echo "Delete team $teamName ? ";
-   echo "   <input type=button name='btDeleteTeam' value='Delete' onClick=\"javascript: deleteTeam('".$teamName."')\">\n";
+   echo T_("Delete team")." $teamName ? ";
+   echo "   <input type=button name='btDeleteTeam' value='".T_("Delete")."' onClick=\"javascript: deleteTeam('".$teamName."')\">\n";
    echo "   <input type=hidden name=action       value=noAction>\n";
    echo "</form>\n";
    echo "</div>\n";
@@ -477,8 +477,8 @@ function deleteTeamForm($originPage, $teamName, $teamid) {
 global $admin_teamid;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die("Impossible de se connecter");
-mysql_select_db($db_mantis_database) or die("Could not select database");
+  or die(T_("Could not connect to DB"));
+mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
 
 
@@ -509,7 +509,7 @@ if ($session_user->isTeamMember($admin_teamid)) {
 if (NULL == $teamList[$teamid]) { $teamid = 0;}
 
 // --- show team selection form
-echo "<h1>Team Edition</h1><br/>";
+echo "<h1>".T_("Team Edition")."</h1><br/>";
 setTeamForm("edit_team.php", $teamid, $teamList);
 
 echo "<br/>\n";
@@ -527,7 +527,7 @@ if (0 != $teamid) {
 	$query = "SELECT name, description FROM `codev_team_table` WHERE id = $teamid";
 	$result = mysql_query($query) or die("Query failed: $query");
 	$teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "UNDEFINED";
-	echo "<span title='team_id = $teamid'>Current Team: ".$teamName."</span><br/>";
+	echo "<span title='team_id = $teamid'>".T_("Current Team: ").$teamName."</span><br/>";
    //echo "<span>Description: ".$teamDesc."</span><br/>";
 	
    echo "<hr align='left' width='20%'/>\n";
