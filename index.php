@@ -2,7 +2,7 @@
 
 <?php
    include 'i18n.inc.php';
-   $_POST[page_name] = T_("Bienvenu sur le serveur CoDev"); 
+   $_POST[page_name] = T_("Welcome"); 
    include 'header.inc.php'; 
 ?>
 

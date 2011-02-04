@@ -1,14 +1,14 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
-if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'\">login</a> to access this page.");
-  exit;
-}
+   include_once 'i18n.inc.php';
+   if (!isset($_SESSION['userid'])) {
+      echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
+      exit;
+   }
 ?>
 
 <?php
-   include_once 'i18n.inc.php';
    $_POST[page_name] = T_("Weekly activities");
    include '../header.inc.php';
 ?>
@@ -234,13 +234,13 @@ function displayCheckWarnings($timeTracking) {
     $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
     foreach ($incompleteDays as $date => $value) {
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/>$row->username: $formatedDate ".T_("incomplet (manque ").(1-$value).T_(" jour).")."\n";
+      echo "<br/>$row->username: $formatedDate ".T_("incomplete (missing ").(1-$value).T_(" days").").\n";
     }
 
     $missingDays = $timeTracking->checkMissingDays($row->user_id);
     foreach ($missingDays as $date) {
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/>$row->username: $formatedDate ".T_("non d&eacute;finie.")."\n";
+      echo "<br/>$row->username: $formatedDate ".T_("not defined.")."\n";
     }
   }
   echo "</p>\n";

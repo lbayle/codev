@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-03 15:21+0100\n"
+"POT-Creation-Date: 2011-02-04 15:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,15 +141,15 @@ msgstr "Editer l'&eacute;quipe"
 msgid "Current Team: "
 msgstr "Equipe actuellement affichee: "
 
-#: reports/issue_info.php:5 reports/productivity_report.php:5
-#: timetracking/week_activity_report.php:5
-#, fuzzy
-msgid "Sorry, you need to <a href='../'\">login</a> to access this page."
-msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
+#: reports/issue_info.php:5 reports/productivity_report.php:6
+#: timetracking/time_tracking.php:7 timetracking/week_activity_report.php:6
+#: tools/check.php:7
+msgid "Sorry, you need to <a href='../'>login</a> to access this page."
+msgstr "Vous devez vous <a href='../'>logger</a> pour acceder a cette page."
 
 #: reports/issue_info.php:12
-msgid "Activit&eacute; par t&acirc;che"
-msgstr ""
+msgid "Activity by task"
+msgstr "Activit&eacute; par t&acirc;che"
 
 #: reports/issue_info.php:71 reports/productivity_report.php:143
 #: reports/productivity_report.php:435 timetracking/time_tracking.php:194
@@ -166,7 +166,7 @@ msgstr "(tous)"
 #: reports/proj_management_report.php:424 timetracking/time_tracking.php:228
 #: timetracking/time_tracking_tools.php:139
 #: timetracking/week_activity_report.php:142
-#: timetracking/week_activity_report.php:189
+#: timetracking/week_activity_report.php:189 tools/check.php:57
 msgid "Task"
 msgstr "Fiches"
 
@@ -175,6 +175,7 @@ msgid "Send"
 msgstr "Envoyer"
 
 #: reports/issue_info.php:134 timetracking/time_tracking_tools.php:50
+#: tools/check.php:59
 msgid "Status"
 msgstr ""
 
@@ -559,6 +560,7 @@ msgid "Duration (in days)"
 msgstr "Dur&eacute;e (en jours)"
 
 #: timetracking/time_tracking_tools.php:22
+#: timetracking/week_activity_report.php:237
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
@@ -572,6 +574,7 @@ msgid "inconsistent"
 msgstr "incoh&eacute;rent"
 
 #: timetracking/time_tracking_tools.php:31
+#: timetracking/week_activity_report.php:243
 msgid "not defined."
 msgstr "non d&eacute;fini"
 
@@ -597,9 +600,8 @@ msgstr "Effort Estim&eacute;"
 
 #: timetracking/time_tracking_tools.php:112
 #: timetracking/week_activity_report.php:64
-#, fuzzy
 msgid "Week"
-msgstr "Semaine:"
+msgstr "Semaine"
 
 #: timetracking/week_activity_report.php:12
 msgid "Weekly activities"
@@ -622,16 +624,8 @@ msgid "Total"
 msgstr ""
 
 #: timetracking/week_activity_report.php:237
-msgid "incomplet (manque "
-msgstr ""
-
-#: timetracking/week_activity_report.php:237
-msgid " jour)."
-msgstr ""
-
-#: timetracking/week_activity_report.php:243
-msgid "non d&eacute;finie."
-msgstr ""
+msgid " days"
+msgstr "jours"
 
 #: timetracking/week_activity_report.php:296
 #: timetracking/week_activity_report.php:304
@@ -643,9 +637,33 @@ msgstr "Par Team Member"
 msgid "By Project"
 msgstr "Par Projet"
 
-#: index.php:5
-msgid "Bienvenu sur le serveur CoDev"
+#: tools/check.php:14
+msgid "Consistency Check"
 msgstr ""
+
+#: tools/check.php:54
+msgid " Error(s) in Mantis Tasks"
+msgstr " Erreur(s) dans les fiches Mantis"
+
+#: tools/check.php:56
+msgid "User"
+msgstr "Utilisateur"
+
+#: tools/check.php:58
+msgid "last modification date"
+msgstr ""
+
+#: tools/check.php:60
+msgid "Level"
+msgstr ""
+
+#: tools/check.php:61
+msgid "Error Description"
+msgstr ""
+
+#: index.php:5
+msgid "Welcome"
+msgstr "Bienvenu sur le serveur CoDev"
 
 #: index.php:28
 msgid "IE may not correctly display this website,<br/>"

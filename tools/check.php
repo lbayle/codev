@@ -1,17 +1,17 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
+include_once 'i18n.inc.php';
 include_once "../tools.php";
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'>login</a> to access this page.");
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   
   exit;
 } 
 ?>
 
 <?php
-   include_once 'i18n.inc.php';
-   $_POST[page_name] = "Consistency Check"; 
+   $_POST[page_name] = T_("Consistency Check"); 
    include '../header.inc.php'; 
 ?>
 
@@ -51,14 +51,14 @@ $cerrList = $ccheck->check();
 
 	   echo "<div align='left'>\n";
 	   echo "<table>\n";
-	   echo "<caption>".count($cerrList)." Erreur(s) dans les fiches Mantis</caption>\n";   
+	   echo "<caption>".count($cerrList).T_(" Error(s) in Mantis Tasks")."</caption>\n";   
 	   echo "<tr>\n";
-	   echo "<th>User</th>\n";
-	   echo "<th>Issue</th>\n";
-	   echo "<th title='last modification date'>Date</th>\n";
-	   echo "<th>Status</th>\n";
-      echo "<th>Level</th>\n";
-	   echo "<th>Error Description</th>\n";
+	   echo "<th>".T_("User")."</th>\n";
+	   echo "<th>".T_("Task")."</th>\n";
+	   echo "<th title='".T_("last modification date")."'>Date</th>\n";
+	   echo "<th>".T_("Status")."</th>\n";
+      echo "<th>".T_("Level")."</th>\n";
+	   echo "<th>".T_("Error Description")."</th>\n";
 	   echo "</tr>\n";
 	   foreach ($cerrList as $cerr) {
 	         
