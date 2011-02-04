@@ -32,7 +32,7 @@ include_once "user.class.php";
 function  displayHolidaysReportForm($teamid, $curYear) {
   echo "<form id='form1' name='form1' method='post' action='holidays_report.php'>\n";
 
-  echo "Team: \n";
+  echo T_("Team").": \n";
   echo "<select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
   $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
   $result = mysql_query($query) or die("Query failed: $query");
@@ -47,7 +47,7 @@ function  displayHolidaysReportForm($teamid, $curYear) {
   }
   echo "</select>\n";
    
-  echo "Year: \n";
+  echo T_("Year").": \n";
   echo "<select id='yearSelector' name='yearSelector' onchange='javascript: submitForm()'>\n";
   for ($y = ($curYear -2); $y <= ($curYear +2); $y++) {
 

@@ -122,7 +122,7 @@ function setUserForm($originPage) {
   echo "<div align=center>";
   echo "<form id='formUserAndPeriodSelect' name='formUserAndPeriodSelect' method='post' action='$originPage'>\n";
 
-  echo T_("Nom :")."\n";
+  echo T_("Name")." :\n";
   echo "<select name='userid'>\n";
   echo "<option value='0'></option>\n";
 
@@ -137,7 +137,7 @@ function setUserForm($originPage) {
   }
   echo "</select>\n";
 
-  echo "<input type=button value='Envoyer' onClick='javascript: submitUser()'>\n";
+  echo "<input type=button value='".T_("Send")."' onClick='javascript: submitUser()'>\n";
 
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
   echo "<input type=hidden name=year    value=".date('Y').">\n";
@@ -192,7 +192,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    $projList = $devProjList + $managedProjList;
 
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
-   echo "<option value='0'>".T_("(tous)")."</option>\n";
+   echo "<option value='0'>".T_("(all)")."</option>\n";
    foreach ($projList as $pid => $pname)
    {
       if ($pid == $defaultProjectid) {
@@ -225,7 +225,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
             }
        }
    }
-   echo "<select name='bugid' style='width: 600px;' onchange='javascript: setBugId()' title='".T_("Tache")."'>\n";
+   echo "<select name='bugid' style='width: 600px;' onchange='javascript: setBugId()' title='".T_("Task")."'>\n";
    echo "<option value='0'></option>\n";
 
    foreach ($issueList as $bugid) {
@@ -252,7 +252,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
             }
        }
    }
-   echo "<select name='job' title='".T_("Poste")."' style='width: 100px;' >\n";
+   echo "<select name='job' title='".T_("Job")."' style='width: 100px;' >\n";
    if (1 != count($jobList)) {
       echo "<option value='0'></option>\n";
    }
@@ -263,7 +263,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    echo "</select>\n";
 
    // --- Duration list
-   echo " <select name='duree' title='".T_("Dur&eacute;e (en jours)")."'>\n";
+   echo " <select name='duree' title='".T_("Duration (in days)")."'>\n";
    echo "<option value='0'></option>\n";
    echo "<option value='1'>1</option>\n";
    echo "<option value='0.9'>0.9</option>\n";
@@ -280,7 +280,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    echo "<option value='0.05'>0.05 (30min)</option>\n";
    echo "</select>\n";
 
-   echo "<input type=button name='btAddTrack' value='".T_("Ajouter")."' onClick='javascript: addTrack()'>\n";
+   echo "<input type=button name='btAddTrack' value='".T_("Add")."' onClick='javascript: addTrack()'>\n";
 
    echo "<input type=hidden name=userid    value=$userid>\n";
    echo "<input type=hidden name=year      value=$curYear>\n";

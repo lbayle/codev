@@ -2,14 +2,14 @@
 
 <?php
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
+  echo T_("Sorry, you need to <a href='../'\">login</a> to access this page.");
   exit;
 }
 ?>
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "Activit&eacute; par t&acirc;che"; 
+   $_POST[page_name] = T_("Activit&eacute; par t&acirc;che"); 
    include '../header.inc.php'; 
 ?>
 
@@ -69,7 +69,7 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
    $projList = $devProjList + $managedProjList;
    
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
-   echo "<option value='0'>(tous)</option>\n";
+   echo "<option value='0'>".T_("(all)")."</option>\n";
    foreach ($projList as $pid => $pname)
    {
       if ($pid == $defaultProjectid) {
@@ -102,7 +102,7 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
             }
        }
    }
-   echo "<select id='bugidSelector' name='bugidSelector' style='width: 600px;' title='Tache'>\n";
+   echo "<select id='bugidSelector' name='bugidSelector' style='width: 600px;' title='".T_("Task")."'>\n";
    echo "<option value='0'></option>\n";
 
    foreach ($issueList as $bugid) {
@@ -115,7 +115,7 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
    }
    echo "</select>\n";
    
-   echo "<input type=button value='Envoyer' onClick='javascript: submitForm()'>\n";
+   echo "<input type=button value='".T_("Send")."' onClick='javascript: submitForm()'>\n";
    
    echo "<input type=hidden name=bugid  value=$defaultBugid>\n";
    echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
@@ -131,27 +131,27 @@ function displayIssueGeneralInfo($issue) {
   echo "<table>\n";
 
   echo "<tr>\n";
-  echo "<th>Status</th>\n";
+  echo "<th>".T_("Status")."</th>\n";
   echo "<td>".$issue->getCurrentStatusName()."</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
-  echo "<th title='BI + BS'>Estimated</th>\n";
+  echo "<th title='BI + BS'>".T_("Estimated")."</th>\n";
   echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
-  echo "<th>Elapsed</th>\n";
+  echo "<th>".T_("Elapsed")."</th>\n";
   echo "<td>".$issue->elapsed."</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
-  echo "<th>Remaining</th>\n";
+  echo "<th>".T_("Remaining")."</th>\n";
   echo "<td>$issue->remaining</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
-  echo "<th>Drift</th>\n";
+  echo "<th>".T_("Drift")."</th>\n";
   $derive = $issue->getDrift();
   echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
   echo "</tr>\n";
@@ -170,9 +170,9 @@ function displayJobDetails($issue) {
    
    echo "<table>\n";
    echo "<tr>\n";
-   echo "<th>Job</th>\n";
-   echo "<th>Nb Days</th>\n";
-   echo "<th>% Total</th>\n";
+   echo "<th>".T_("Job")."</th>\n";
+   echo "<th>".T_("Nb Days")."</th>\n";
+   echo "<th></th>\n";
    echo "</tr>\n";
 
    foreach ($timeTracks as $tid => $tdate) {
@@ -303,7 +303,7 @@ $teamList = $dTeamList + $lTeamList + $managedTeamList;
 
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
-	echo ("Sorry, you need to be member of a Team to access this page.");
+	echo T_("Sorry, you need to be member of a Team to access this page.");
    echo "</div>";
 
 } else {

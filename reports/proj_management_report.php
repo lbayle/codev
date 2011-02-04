@@ -52,7 +52,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 
   // -----------
   //echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript:submitWeekActivityForm()'>\n";
-  echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
+  echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
   echo "<option value='0'></option>\n";
   foreach ($leadedTeamList as $tid => $tname) {
     if ($tid == $teamid) {
@@ -340,10 +340,10 @@ function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracki
   $myFile = $path."\AOI-PIL-CRA_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
   $fh = fopen($myFile, 'w');
   
-  $stringData = "Tache".$sepChar.   
-                "Poste".$sepChar.
-                "Description".$sepChar.
-                "Resource".$sepChar.
+  $stringData = T_("Task").$sepChar.   
+                T_("Job").$sepChar.
+                T_("Description").$sepChar.
+                T_("Resource").$sepChar.
                 T_("Monday")." ".date("d/m", $weekDates[1]).$sepChar.
                 T_("Tuesday")." ".date("d/m", $weekDates[2]).$sepChar.
                 T_("Wednesday")." ".date("d/m", $weekDates[3]).$sepChar.
@@ -421,8 +421,8 @@ function exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $path="")
      $project = new Project($projectId);
      $stringData = $project->name."\n";
 
-     $stringData .="Tache".$sepChar;
-     $stringData .="RAE".$sepChar;
+     $stringData .=T_("Task").$sepChar;
+     $stringData .=T_("RAE").$sepChar;
      $jobList = $project->getJobList();
      foreach($jobList as $jobId => $jobName) {
         $stringData .= $jobName.$sepChar;
@@ -482,7 +482,7 @@ $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid
 
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
-	echo "Sorry, you do NOT have access to this page.";
+	echo T_("Sorry, you do NOT have access to this page.");
    echo "</div>";
 	
 } else {
@@ -500,7 +500,7 @@ if (0 == count($teamList)) {
       	echo "<br/>\n";
       	echo "<hr/>";
 		   echo "<br/>\n";
-	      echo "Team: ".$teamList[$teamid]."<br/>\n";
+	      echo T_("Team").": ".$teamList[$teamid]."<br/>\n";
 		   echo "<br/>\n";
 		
 	      $weekDates      = week_dates($weekid,$year);
@@ -509,7 +509,7 @@ if (0 == count($teamList)) {
 	      $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
 	      // -----------------------------
-		   echo "<b>- Export Managed Issues...</b><br/>\n";
+		   echo "<b>- ".T_("Export Managed Issues")."...</b><br/>\n";
 		   flush(); // envoyer tout l'affichage courant au navigateur 
 		   
 		   $filename = exportManagedIssuesToCSV($codevReportsDir, $startTimestamp, $endTimestamp);
@@ -518,7 +518,7 @@ if (0 == count($teamList)) {
 		   
 	      // -----------------------------
 	      echo "<br/>\n";
-	      echo "<b>- Export Week $weekid Member Activity...</b><br/>\n";
+	      echo "<b>- ".T_("Export Week $weekid Member Activity")."...</b><br/>\n";
 	      flush(); // envoyer tout l'affichage courant au navigateur 
 	      
 	      
@@ -528,7 +528,7 @@ if (0 == count($teamList)) {
 	      
          // -----------------------------
          echo "<br/>\n";
-         echo "<b>- Export Week $weekid Projects Activity...</b><br/>\n";
+         echo "<b>- ".T_("Export Week $weekid Projects Activity")."...</b><br/>\n";
          flush(); 
          
          $filename = exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $codevReportsDir);
@@ -537,7 +537,7 @@ if (0 == count($teamList)) {
 
          // -----------------------------
 	      echo "<br/>\n";
-	      echo "<b>- Export $year Holidays...</b><br/>\n";
+	      echo "<b>- ".T_("Export $year Holidays")."...</b><br/>\n";
 		   flush(); // envoyer tout l'affichage courant au navigateur
 		   
 		   // reduce scope to enhance speed
@@ -558,7 +558,7 @@ if (0 == count($teamList)) {
 		   
 		   echo "<br/>\n";
 		   echo "<br/>\n";
-		   echo "Done.<br/>\n";
+		   echo T_("Done").".<br/>\n";
 		   echo "<br/>\n";
 		   echo "Results in : $codevReportsDir<br/>\n";
 		   

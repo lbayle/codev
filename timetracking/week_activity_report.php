@@ -2,14 +2,14 @@
 
 <?php
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
+  echo T_("Sorry, you need to <a href='../'\">login</a> to access this page.");
   exit;
 }
 ?>
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = T_("Activit&eacute; Hebdo");
+   $_POST[page_name] = T_("Weekly activities");
    include '../header.inc.php';
 ?>
 
@@ -48,7 +48,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   echo "<form id='form1' name='form1' method='post' action='week_activity_report.php'>\n";
 
   // -----------
-  echo T_("Team:")." <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
+  echo T_("Team").": <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
   echo "<option value='0'></option>\n";
   foreach ($leadedTeamList as $tid => $tname) {
     if ($tid == $teamid) {
@@ -61,7 +61,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 
 
   // -----------
-  echo T_("Week:")." <select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
+  echo T_("Week").": <select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
   for ($i = 1; $i <= 53; $i++)
   {
     $wDates      = week_dates($i,$curYear);
@@ -186,7 +186,7 @@ function displayProjectActivityReport($timeTracking) {
      echo "<table width='95%'>\n";
      echo "<caption>".$project->name."</caption>\n";
      echo "<tr>\n";
-     echo "  <th width='50%'>".T_("Tache")."</th>\n";
+     echo "  <th width='50%'>".T_("Task")."</th>\n";
      echo "  <th width='2%'>".T_("RAE")."</th>\n";
 
      $jobList = $project->getJobList();
@@ -293,7 +293,7 @@ if (0 == count($teamList)) {
 
       echo "<div align='left'>\n";
 	   echo "<ul>\n";
-      echo "   <li><a href='#tagTeamMember'>".T_("Par Team Member")."</a></li>\n";
+      echo "   <li><a href='#tagTeamMember'>".T_("By Team Member")."</a></li>\n";
       echo "   <li><a href='#tagProject'>".T_("By Project")."</a></li>\n";
 	   echo "</ul><br/>\n";
       echo "</div>\n";

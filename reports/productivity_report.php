@@ -2,14 +2,14 @@
 
 <?php
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
+  echo T_("Sorry, you need to <a href='../'\">login</a> to access this page.");
   exit;
 } 
 ?>
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "Indicateurs de production"; 
+   $_POST[page_name] = T_("Indicateurs de production"); 
    include '../header.inc.php'; 
 ?>
 
@@ -76,7 +76,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   	   echo "<form id='form1' name='form1' method='post' action='productivity_report.php'>\n";
   }
   
-  echo "Team: <select id='teamidSelector' name='teamidSelector'>\n";
+  echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
   
   $session_user = new User($_SESSION['userid']);
   $mTeamList = $session_user->getTeamList();
@@ -94,11 +94,11 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   }
   echo "</select>\n";
 
-  echo "&nbsp;Date d&eacute;but: "; $myCalendar1->writeScript();
+  echo "&nbsp;".T_("Start Date").": "; $myCalendar1->writeScript();
 
-  echo "&nbsp;Date fin (inclu): "; $myCalendar2->writeScript();
+  echo "&nbsp; <span title='".T_("(included)")."'>".T_("End Date").": </span>"; $myCalendar2->writeScript();
 
-  echo "&nbsp;<input type=button value='Envoyer' onClick='javascript: submitForm()'>\n";
+  echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitForm()'>\n";
 
   echo "<input type=hidden name=teamid  value=$teamid>\n";
   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
@@ -208,12 +208,12 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>".T_("Production Days : total")."</td>\n";
   echo "<td>".($sideProdDaysDevel + $sideProdDaysManagers + $prodDays)."</td>\n";
-  echo "<td>".T_("nombre de jours factur&eacute;s")."</td>\n";
+  echo "<td>".T_("number of days billed")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Capacit&eacute; de production")."</td>\n";
+  echo "<td>".T_("Production capacity")."</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
   echo "<td>".T_("pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs seuls)")."</td>\n";
   echo "<td></td>\n";
@@ -288,38 +288,38 @@ function displayResolvedDriftStats ($timeTracking) {
   echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Nb jours de d&eacute;passement")."<br/>".
-            "- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.<br/>".
-            "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es.<br/>\n".
-            "- Si négatif, avance sur le planing.</td>\n";
+            T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
+            T_("- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es.")."<br/>\n".
+            T_("- Si négatif, avance sur le planing.")."</td>\n";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>".T_("nbre Fiches en D&eacute;rive")."</td>\n";
+  echo "<td>".T_("Tasks in drift")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
-  echo "<td>derive > 1</td>\n";
+  echo "<td>".T_("drift")." > 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>".T_("nbre Fiches &agrave; l'&eacute;quilibre")."</td>\n";
+  echo "<td>".T_("Tasks in time")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
   } else {
-   echo "<td>Fiches livres dans les temps.</td>\n";
+   echo "<td>".T_("Tasks delivered in time")."</td>\n";
   }
-  echo "<td> -1 <= derive <= 1</td>\n";
+  echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre Fiches en avance</td>\n";
+  echo "<td>".T_("Tasks ahead")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
-  echo "<td>derive < -1</td>\n";
+  echo "<td>".T_("drift")." < -1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
 }
@@ -362,7 +362,7 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "<th width='100' title='AVANT analyse'>ETA</th>\n";
   echo "<th width='100' title='APRES analyse'>EffortEstim <br/>(BI + BS)</th>\n";
   echo "<th>Description</th>\n";
-  echo "<th>Formule</th>\n";
+  echo "<th>".T_("Formula")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -375,31 +375,31 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre Fiches en D&eacute;rive</td>\n";
+  echo "<td>".T_("Tasks in drift")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
-  echo "<td>derive > 1</td>\n";
+  echo "<td>".T_("drift")." > 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre Fiches &agrave; l'&eacute;quilibre</td>\n";
+  echo "<td>".T_("Tasks in time")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
   } else {
-   echo "<td>Fiches livres dans les temps.</td>\n";
+   echo "<td>".T_("Tasks delivered in time")."</td>\n";
   }
-  echo "<td> -1 <= derive <= 1</td>\n";
+  echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>nbre Fiches en avance</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNeg"])."<span title='nb jours' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
+  echo "<td>".T_("Tasks ahead")."</td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
-  echo "<td>derive < -1</td>\n";
+  echo "<td>".T_("drift")." < -1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
 }

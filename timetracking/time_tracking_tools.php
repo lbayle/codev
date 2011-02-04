@@ -19,16 +19,16 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
       $formatedDate = date("Y-m-d", $date);
       $color = ($date >= ($endTimestamp + (24 * 60 * 60))) ? "blue": "red"; // tomorow is blue
       if ($value < 1) {
-        echo "<br/><span style='color:$color' width='70'>$formatedDate ".T_("incomplet (manque ").(1-$value).T_(" jour)")."</span>\n";
+        echo "<br/><span style='color:$color' width='70'>$formatedDate ".T_("incomplete (missing ").(1-$value)." ".T_("days").")</span>\n";
       } else {
-        echo "<br/><span style='color:$color' width='70'>$formatedDate incoh&eacute;rent (".($value).T_(" jour)")."</span>\n";
+        echo "<br/><span style='color:$color' width='70'>$formatedDate ".T_("inconsistent")." (".($value)." ".T_("days").")</span>\n";
       }
    }
 
    $missingDays = $timeTracking->checkMissingDays($userid);
    foreach ($missingDays as $date) {
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/><span style='color:red' width='70'>$formatedDate ".T_("non d&eacute;finie.")."</span>\n";
+      echo "<br/><span style='color:red' width='70'>$formatedDate ".T_("not defined.")."</span>\n";
    }
 }
 
@@ -109,7 +109,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 	if (NULL == $curYear) { $curYear = date('Y'); }
 
 	echo "<div align='center'>\n";
-   echo "<br/>".T_("Semaine")." \n";
+   echo "<br/>".T_("Week")." \n";
    echo "<select id='weekidSelector' name='weekidSelector' onchange='javascript: submitWeekid()'>\n";
    for ($i = 1; $i <= 53; $i++)
    {
@@ -136,9 +136,9 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table>\n";
    echo "<tr>\n";
-   echo "<th>".T_("Tache")."</th>\n";
+   echo "<th>".T_("Task")."</th>\n";
    echo "<th>".T_("RAE")."</th>\n";
-   echo "<th>".T_("Poste")."</th>\n";
+   echo "<th>".T_("Job")."</th>\n";
    echo "<th width='80'>".T_("Monday")."<br/>".date("d M", $weekDates[1])."</th>\n";
    echo "<th width='80'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
    echo "<th width='80'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
