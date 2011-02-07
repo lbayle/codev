@@ -43,6 +43,7 @@
   // jobs as defined in codev_job_table
   $job_study   = 1;
   $job_analyse = 2;
+  $job_doc     = 18;
   $job_dev     = 3;  
   $job_test    = 4;
   $job_none    = 10;
@@ -50,9 +51,10 @@
   // job colors in issue_info page
   $job_colors = array($job_study   => "#ffcd85",
                       $job_analyse => "#fff494",
+                      $job_doc     => "#E0F57A",
                       $job_dev     => "#c2dfff",
                       $job_test    => "#92C5FC",
-                      $job_none    => "#A8FFBD");
+                      $job_none    => "#FFCCFE");
   
   // CoDev FDJ specificities (not defined in Mantis)
   $status_feedback_ATOS = 21;
