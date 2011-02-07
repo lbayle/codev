@@ -187,21 +187,21 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>".T_("Production Days : Projects")."</td>\n";
   echo "<td>$prodDays</td>\n";
-  echo "<td>".T_("nombre de jours pass&eacute;s en d&eacute;veloppement sur les projets")."</td>\n";
+  echo "<td>".T_("days spent on projects")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Production Days : SuiviOp Dev")."</td>\n";
   echo "<td>$sideProdDaysDevel</td>\n";
-  echo "<td>".T_("nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) par les Developers")."</td>\n";
+  echo "<td>".T_("days spent on sideTasks (holidays not included, developpers only)")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Production Days : SuiviOp Managers")."</td>\n";
   echo "<td>$sideProdDaysManagers</td>\n";
-  echo "<td>".T_("nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) par les Managers")."</td>\n";
+  echo "<td>".T_("days spent on sideTasks (holidays not included, managers only)")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
@@ -213,21 +213,21 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Production capacity")."</td>\n";
+  echo "<td>".T_("Available Workload")."</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
-  echo "<td>".T_("pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs seuls)")."</td>\n";
+  echo "<td>".T_("Workload Forecasting (holidays not included, developpers only)")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Efficiency Rate")."</td>\n";
   echo "<td>".number_format($efficiencyRate, 2)."%</td>\n";
-  echo "<td>".T_("temps consomm&eacute; en d&eacute;veloppement (d&eacute;veloppeurs seuls)")."</td>\n";
+  echo "<td>".T_("Development workload (developpers only)")."</td>\n";
   echo "<td>ProjProdDays / TotalProdDays * 100</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
-  echo "<td>".T_("System Disponibility")."</td>\n";
+  echo "<td>".T_("System Availability")."</td>\n";
   echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
   echo "<td>".T_("disponibilit&eacute; de la plateforme de develomppement")."</td>\n";
   echo "<td>100 - (breakdownDays / prodDays)</td>\n";
@@ -236,7 +236,8 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>".T_("Productivity Rate ETA")."</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
-  echo "<td>".T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
+  echo "<td>".T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.").
+            T_(" A negative number means a lower efficiency.")."<br/>".
             T_("- Le temps passé sur une fiche est pondéré par un indicateur de difficult&eacute;: ").
             T_("ETA (temps estim&eacute; AVANT analyse)")."<br/>".
             T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
@@ -248,6 +249,7 @@ function displayRates ($timeTracking) {
   echo "<td>".T_("Productivity Rate")."</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
   echo "<td>".T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
+            T_("- Un nbre n&eacute;gatif signifie un moins bon rendement.")."<br/>".
             T_("- Le temps passé sur une fiche est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ").
             T_("EffortEstim (temps estim&eacute; APRES analyse)")."<br/>".
             T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
@@ -569,16 +571,16 @@ function displayCheckWarnings($timeTracking) {
     foreach ($incompleteDays as $date => $value) {
       $formatedDate = date("Y-m-d", $date);
       if ($value < 1) {
-        echo "<br/>$row->username: $formatedDate ".T_("incomplet (manque")." ".(1-$value)." jour).\n";
+        echo "<br/>$row->username: $formatedDate ".T_("incomplete (missing ")." ".(1-$value)." jour).\n";
       } else {
-        echo "<br/>$row->username: $formatedDate ".T_("incoh&eacute;rent")." (".($value)." jour).\n";
+        echo "<br/>$row->username: $formatedDate ".T_("inconsistent")." (".($value)." jour).\n";
       }
     }
                    
     $missingDays = $timeTracking->checkMissingDays($row->user_id);
     foreach ($missingDays as $date) {
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/>$row->username: $formatedDate non d&eacute;finie.\n";
+      echo "<br/>$row->username: $formatedDate ".T_("not defined.")."\n";
     }
   }
   echo "</p>\n";

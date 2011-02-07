@@ -137,7 +137,7 @@ function setUserForm($originPage) {
   }
   echo "</select>\n";
 
-  echo "<input type=button value='".T_("Send")."' onClick='javascript: submitUser()'>\n";
+  echo "<input type=button value='".T_("Jump")."' onClick='javascript: submitUser()'>\n";
 
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
   echo "<input type=hidden name=year    value=".date('Y').">\n";

@@ -115,7 +115,7 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
    }
    echo "</select>\n";
    
-   echo "<input type=button value='".T_("Send")."' onClick='javascript: submitForm()'>\n";
+   echo "<input type=button value='".T_("Jump")."' onClick='javascript: submitForm()'>\n";
    
    echo "<input type=hidden name=bugid  value=$defaultBugid>\n";
    echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
