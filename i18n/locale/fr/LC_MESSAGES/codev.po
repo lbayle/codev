@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-07 17:47+0100\n"
+"POT-Creation-Date: 2011-02-08 13:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,13 +16,76 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Language: \n"
 
-#: admin/create_team.php:99 admin/edit_jobs.php:292 admin/edit_team.php:480
+#: admin/create_team.php:99 admin/edit_jobs.php:298 admin/edit_team.php:480
 #: index.php:140 login.php:37 reports/graph_report.php:16 reports/index.php:91
 #: reports/productivity_report.php:599 reports/proj_management_report.php:468
 #: timetracking/holidays_report.php:260 timetracking/time_tracking.php:305
 #: timetracking/week_activity_report.php:265 tools/check.php:31
 msgid "Could not connect to DB"
 msgstr ""
+
+#: admin/edit_jobs.php:7 admin/edit_team.php:6 reports/issue_info.php:5
+#: reports/productivity_report.php:6 timetracking/time_tracking.php:7
+#: timetracking/week_activity_report.php:6 tools/check.php:7
+msgid "Sorry, you need to <a href='../'>login</a> to access this page."
+msgstr "Vous devez vous <a href='../'>logger</a> pour acceder a cette page."
+
+#: admin/edit_jobs.php:13
+msgid "CoDev Administration : Jobs Edition"
+msgstr "Administration CoDev : Edition Postes"
+
+#: admin/edit_jobs.php:132 admin/edit_jobs.php:163 admin/edit_jobs.php:255
+msgid "Job Name"
+msgstr "Nom du Poste"
+
+#: admin/edit_jobs.php:134 admin/edit_jobs.php:164 admin/edit_team.php:220
+#: admin/edit_team.php:377
+msgid "Type"
+msgstr ""
+
+#: admin/edit_jobs.php:140 admin/edit_jobs.php:165
+msgid "Color"
+msgstr "Couleur"
+
+#: admin/edit_jobs.php:144
+msgid "open a colorPicker in a new Tab"
+msgstr "Ouvrir un selecteur de couleur dans un nouvel onglet"
+
+#: admin/edit_jobs.php:185
+msgid "delete Job"
+msgstr "&eacute;ffacer ce Poste"
+
+#: admin/edit_jobs.php:216 reports/issue_info.php:171
+#: reports/productivity_report.php:415 reports/proj_management_report.php:344
+#: timetracking/time_tracking.php:255 timetracking/time_tracking_tools.php:48
+#: timetracking/time_tracking_tools.php:141
+#: timetracking/week_activity_report.php:144
+msgid "Job"
+msgstr "Poste"
+
+#: admin/edit_jobs.php:223 admin/edit_jobs.php:256 reports/issue_info.php:71
+#: reports/productivity_report.php:143 reports/productivity_report.php:437
+#: timetracking/time_tracking.php:194 timetracking/time_tracking_tools.php:46
+#: timetracking/week_activity_report.php:143
+msgid "Project"
+msgstr "Projet"
+
+#: admin/edit_jobs.php:273
+msgid "delete Project Association"
+msgstr "supprimer l'association au Projet"
+
+#: admin/edit_jobs.php:299 admin/edit_team.php:481 index.php:141 login.php:38
+#: timetracking/holidays_report.php:261
+msgid "Could not select database"
+msgstr ""
+
+#: admin/edit_jobs.php:306
+msgid "Sorry, you need to be in the admin-team to access this page."
+msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
+
+#: admin/edit_jobs.php:319
+msgid "Job Assignations"
+msgstr "Assignations de Postes"
 
 #: admin/edit_team.php:12
 msgid "CoDev Administration : Team Edition"
@@ -72,10 +135,6 @@ msgstr ""
 #: admin/edit_team.php:219
 msgid "Departure Date"
 msgstr "Date de d&eacute;part"
-
-#: admin/edit_team.php:220 admin/edit_team.php:377
-msgid "Type"
-msgstr ""
 
 #: admin/edit_team.php:234 admin/edit_team.php:393
 #: timetracking/time_tracking_tools.php:87
@@ -128,11 +187,6 @@ msgstr "Supprimer l'&eacute;quipe"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: admin/edit_team.php:481 index.php:141 login.php:38
-#: timetracking/holidays_report.php:261
-msgid "Could not select database"
-msgstr ""
-
 #: admin/edit_team.php:512
 msgid "Team Edition"
 msgstr "Editer l'&eacute;quipe"
@@ -141,22 +195,9 @@ msgstr "Editer l'&eacute;quipe"
 msgid "Current Team: "
 msgstr "Equipe actuellement affichee: "
 
-#: reports/issue_info.php:5 reports/productivity_report.php:6
-#: timetracking/time_tracking.php:7 timetracking/week_activity_report.php:6
-#: tools/check.php:7
-msgid "Sorry, you need to <a href='../'>login</a> to access this page."
-msgstr "Vous devez vous <a href='../'>logger</a> pour acceder a cette page."
-
 #: reports/issue_info.php:12
 msgid "Activity by task"
 msgstr "Activit&eacute; par t&acirc;che"
-
-#: reports/issue_info.php:71 reports/productivity_report.php:143
-#: reports/productivity_report.php:437 timetracking/time_tracking.php:194
-#: timetracking/time_tracking_tools.php:46
-#: timetracking/week_activity_report.php:143
-msgid "Project"
-msgstr "Projet"
 
 #: reports/issue_info.php:72 timetracking/time_tracking.php:195
 msgid "(all)"
@@ -195,21 +236,13 @@ msgstr "Reste &agrave; engager"
 msgid "Drift"
 msgstr "D&eacute;rive"
 
-#: reports/issue_info.php:173 reports/productivity_report.php:415
-#: reports/proj_management_report.php:344 timetracking/time_tracking.php:255
-#: timetracking/time_tracking_tools.php:48
-#: timetracking/time_tracking_tools.php:141
-#: timetracking/week_activity_report.php:144
-msgid "Job"
-msgstr "Poste"
-
-#: reports/issue_info.php:174 reports/productivity_report.php:416
+#: reports/issue_info.php:172 reports/productivity_report.php:416
 #: reports/productivity_report.php:438 reports/productivity_report.php:501
 #: reports/productivity_report.php:540
 msgid "Nb Days"
 msgstr "Nb Jours"
 
-#: reports/issue_info.php:306 timetracking/time_tracking.php:330
+#: reports/issue_info.php:305 timetracking/time_tracking.php:330
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
 
@@ -713,6 +746,10 @@ msgstr "Mot de passe"
 #: login.php:59
 msgid "login failed !"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Sorry, you need to <a href='../'\">login</a> to access this page."
+#~ msgstr "Vous devez vous <a href='../'>logger</a> pour acceder a cette page."
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"

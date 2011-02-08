@@ -1,15 +1,16 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
 <?php
+include_once 'i18n.inc.php';
+
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
 } 
 ?>
 
 <?php
-   include_once 'i18n.inc.php';
-   $_POST[page_name] = "CoDev Administration : Jobs Edition"; 
+   $_POST[page_name] = T_("CoDev Administration : Jobs Edition"); 
    include '../header.inc.php'; 
 ?>
 <?php include '../login.inc.php'; ?>
@@ -128,19 +129,19 @@ function addJobForm($originPage) {
    
    echo "<form id='addJobForm' name='addJobForm' method='post' Action='$originPage'>\n";
 
-  echo("   Job Name: <input name='job_name' type='text' id='job_name'>\n");
+  echo("   ".T_("Job Name").": <input name='job_name' type='text' id='job_name'>\n");
       
-   echo "   Type: <select name='job_type'>\n";
+   echo "   ".T_("Type").": <select name='job_type'>\n";
    foreach ($jobType_names as $jid => $jname) {
       echo "      <option value='$jid'>$jname</option>\n";
    }
    echo "   </select>\n";
       
-   echo("   Color: <input name='job_color' type='text' id='job_color' value='#000000' size='6'>\n");
+   echo("   ".T_("Color").": <input name='job_color' type='text' id='job_color' value='#000000' size='6'>\n");
 
    echo "   <input type=button name='btAddJob' value='Add' onClick='javascript: addJob()'>\n";
 
-   echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='open a colorPicker in a new Tab'>ColorPicker</A>";
+   echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
    
    echo "   <input type=hidden name=action       value=noAction>\n";
    echo "</form>\n";
@@ -159,9 +160,9 @@ function displayJobTuples() {
    //echo "<caption>Jobs</caption>\n";   
    echo "<tr>\n";
    echo "<th></th>\n";
-   echo "<th>Job Name</th>\n";
-   echo "<th>Type</th>\n";
-   echo "<th>".("Color")."</th>\n";
+   echo "<th>".T_("Job Name")."</th>\n";
+   echo "<th>".T_("Type")."</th>\n";
+   echo "<th>".T_("Color")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT * ".
@@ -181,7 +182,7 @@ function displayJobTuples() {
       $nbTuples  = (0 != mysql_num_rows($result2)) ? mysql_result($result2, 0) : 0;
       
       if (0 == $nbTuples) {
-         echo "<a title='delete Job' href=\"javascript: deleteJob('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
+         echo "<a title='".T_("delete Job")."' href=\"javascript: deleteJob('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
       }
       echo "</td>\n";
       echo "<td title='$row->id'>".$row->name."</td>\n";
@@ -212,14 +213,14 @@ function addJobProjectAssociationForm($originPage) {
    
    echo "<form id='addJobProjectAssociationForm' name='addJobProjectAssociationForm' method='post' Action='$originPage'>\n";
 
-   echo "Job: <select name='job_id'>\n";
+   echo T_("Job").":   <select name='job_id'>\n";
    echo "   <option value='0'></option>\n";
    foreach($jlist as $jid => $jname) {
       echo "   <option value='".$jid."'>".$jname."</option>\n";
    }
    echo "</select>\n";
    
-   echo "Project: <select name='project_id'>\n";
+   echo T_("Project").": <select name='project_id'>\n";
    echo "   <option value='0'></option>\n";
    foreach($plist as $pid => $pname) {
       echo "   <option value='".$pid."'>".$pname."</option>\n";
@@ -251,8 +252,8 @@ function displayAssignedJobTuples() {
    //echo "<caption>Assigned Jobs</caption>\n";   
    echo "<tr>\n";
    echo "<th></th>\n";
-   echo "<th>Job Name</th>\n";
-   echo "<th>Project</th>\n";
+   echo "<th>".T_("Job Name")."</th>\n";
+   echo "<th>".T_("Project")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT codev_project_job_table.id, codev_project_job_table.project_id, codev_project_job_table.job_id, codev_job_table.name AS job_name ".
@@ -269,7 +270,7 @@ function displayAssignedJobTuples() {
       $desc = str_replace("'", "\'", $desc);
       $desc = str_replace('"', "\'", $desc);
       
-      echo "<a title='delete Project Association' href=\"javascript: deleteJobProjectAssociation('$row->id','$desc')\" ><img src='../images/b_drop.png'></a>\n";
+      echo "<a title='".T_("delete Project Association")."' href=\"javascript: deleteJobProjectAssociation('$row->id','$desc')\" ><img src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
       echo "<td title='$row->job_id'>".$row->job_name."</td>\n";
       echo "<td title='$row->project_id'>".$plist[$row->project_id]."</td>\n";
@@ -295,14 +296,14 @@ global $admin_teamid;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die(T_("Could not connect to DB"));
-mysql_select_db($db_mantis_database) or die("Could not select database");
+mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
 
 // Admins only
 $session_user = new User($_SESSION['userid']);
 
 if (!$session_user->isTeamMember($admin_teamid)) {
-	echo "Sorry, you need to be in the admin-team to access this page.";
+	echo T_("Sorry, you need to be in the admin-team to access this page.");
 	exit;
 }
 
@@ -315,7 +316,7 @@ echo "<br/>";
 echo "<br/>";
 echo "<br/>";
 echo "<hr align='left' width='20%'/>\n";
-echo "<h2 title = 'Job-Projects Associations'>Job Assignations</h2>\n";
+echo "<h2 title = 'Job-Projects Associations'>".T_("Job Assignations")."</h2>\n";
 addJobProjectAssociationForm("edit_jobs.php");
 echo "<br/>";
 displayAssignedJobTuples();
