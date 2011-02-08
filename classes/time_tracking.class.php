@@ -50,22 +50,30 @@ class TimeTracking {
   }
              
   // ----------------------------------------------
-  // Returns the number of days worked by the team within the timestamp
+  /** 
+   * Returns the number of days worked by the team within the timestamp
+   */
   public function getProdDays() {
     return $this->getProductionDays($this->prodProjectList);
   }
    
   // ----------------------------------------------
-  // Returns the number of days worked by the team within the timestamp
+  /**
+   * Returns the number of days worked by the team within the timestamp
+   * - Developpers only !
+   */ 
   private function getProductionDays($projects) {
+  	
+  	 global $accessLevel_dev;
     $prodDays = 0;
 
     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
       "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND    codev_team_user_table.team_id = $this->team_id";
-      
+      "AND    codev_team_user_table.team_id = $this->team_id ".
+      "AND    codev_team_user_table.access_level = $accessLevel_dev ";
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -81,19 +89,22 @@ class TimeTracking {
         
   // ----------------------------------------------
   /** Returns the number of days spent on side tasks EXCEPT Vacations
+   * - Observers excluded
    * 
    * @param $isDeveloppersOnly : do not include time spent by Managers (default = false)
    */ 
   public function getProdDaysSideTasks($isDeveloppersOnly = false) {   
-    $prodDays = 0;
-
+   global $accessLevel_observer;
+   $prodDays = 0;
+  	
     // select tasks within timestamp, where user is in the team
     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
       "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND    codev_team_user_table.team_id = $this->team_id";
-      
+      "AND    codev_team_user_table.team_id = $this->team_id ".
+      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -461,6 +472,7 @@ class TimeTracking {
   public function getSystemDisponibilityRate() {
     global $IncidentProject;  // SuiviOp
     global $IncidentCategory;  // SuiviOp.Incidents
+    global $accessLevel_observer;
       
     // The total time spent by the team doing nothing because of incidents
     $teamIncidentDays = 0;
@@ -470,7 +482,9 @@ class TimeTracking {
       "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND    codev_team_user_table.team_id = $this->team_id";
+      "AND    codev_team_user_table.team_id = $this->team_id ".
+      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -499,6 +513,7 @@ class TimeTracking {
 
   // ----------------------------------------------
   public function getWorkingDaysPerJob($job_id) {
+  	 global $accessLevel_observer;
     $workingDaysPerJob = 0;
 
     $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
@@ -506,8 +521,9 @@ class TimeTracking {
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_timetracking_table.jobid = $job_id ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND    codev_team_user_table.team_id = $this->team_id";
-      
+      "AND    codev_team_user_table.team_id = $this->team_id ".
+      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -518,15 +534,17 @@ class TimeTracking {
         
   // ----------------------------------------------
   public function getWorkingDaysPerProject($project_id) {
-    $workingDaysPerProject = 0;
+    global $accessLevel_observer;
+  	 $workingDaysPerProject = 0;
 
     // Find nb hours spent on the given project
     $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
       "FROM `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
-      "AND   codev_team_user_table.team_id = $this->team_id";
-
+      "AND   codev_team_user_table.team_id = $this->team_id ".
+      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -638,6 +656,7 @@ class TimeTracking {
    * @param int $project_id
    */
   public function getProjectDetails($project_id) {
+  	 global $accessLevel_observer;
     $durationPerCategory = array();
 
     // Find nb hours spent on the given project by this team
@@ -645,8 +664,9 @@ class TimeTracking {
                  "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
                  "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
                  "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
-                 "AND    codev_team_user_table.team_id = $this->team_id";
-
+                 "AND    codev_team_user_table.team_id = $this->team_id ".
+                 "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {

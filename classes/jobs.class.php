@@ -9,11 +9,13 @@ class Job {
    var $id;
    var $name;
    var $type;
+   var $color;
    
-    public function Job($id, $name, $type) {
-    	$this->id   = $id;
-      $this->name = $name;
-      $this->type = $type;
+    public function Job($id, $name, $type, $color) {
+    	$this->id    = $id;
+      $this->name  = $name;
+      $this->type  = $type;
+      $this->color = $color;
     }
 }
 
@@ -32,7 +34,7 @@ class Jobs {
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
-      	$j = new Job($row->id, $row->name, $row->type);
+      	$j = new Job($row->id, $row->name, $row->type, $row->color);
          $this->jobList[$row->id] = $j;
       }
    }
@@ -41,5 +43,12 @@ class Jobs {
    	return $this->jobList[$id]->name;
    }
 
+   public function getJobColor($id) {
+      return $this->jobList[$id]->color;
+   }
+
+   public function getJobType($id) {
+      return $this->jobList[$id]->type;
+   }
 }
 ?>

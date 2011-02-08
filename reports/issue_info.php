@@ -162,8 +162,6 @@ function displayIssueGeneralInfo($issue) {
 // ---------------------------------------------------------------
 function displayJobDetails($issue) {
    
-	global $job_colors;
-	
 	$timeTracks = $issue->getTimeTracks();
    $durationByJob = array();
    $jobs = new Jobs();
@@ -184,7 +182,7 @@ function displayJobDetails($issue) {
    #sort($durationByJob);
    foreach ($durationByJob as $jid => $duration) {
       echo "<tr>\n";
-      echo "   <td style='background-color: ".$job_colors[$jid]."'>".$jobs->getJobName($jid)."</td>\n";
+      echo "   <td style='background-color: ".$jobs->getJobColor($jid)."'>".$jobs->getJobName($jid)."</td>\n";
       echo "<td>$duration</td>\n";
       echo "<td>".number_format(($duration*100 / $totalDuration), 2)." %</td>\n";
       echo "</tr>\n";
@@ -200,7 +198,8 @@ function displayMonth($month, $year, $issue) {
   global $job_dev;  
   global $job_test;
   global $job_none;
-  global $job_colors;
+  
+  $jobs = new Jobs();
   
   // if no work done this month, do not display month
   $trackList = $issue->getTimeTracks();
@@ -243,7 +242,7 @@ function displayMonth($month, $year, $issue) {
     foreach ($userTimeTracks as $tid => $tdate) {
       $tt = new TimeTrack($tid);
     	$durationByDate[$tdate] += $tt->duration;
-    	$jobColorByDate[$tdate] = $job_colors[$tt->jobId];
+    	$jobColorByDate[$tdate] = $jobs->getJobColor($tt->jobId);
     }
 
    // ------
