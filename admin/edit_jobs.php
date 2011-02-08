@@ -25,6 +25,7 @@ function addJob() {
      msgString = "Les champs suivants ont ete oublies:\n\n"
          
      if ("" == document.forms["addJobForm"].job_name.value)      { msgString += "Job Name\n"; ++foundError; }
+     if ("" == document.forms["addJobForm"].job_color.value)     { msgString += "Job Color\n"; ++foundError; }
                     
      if (0 == foundError) {
        document.forms["addJobForm"].action.value="addJob";
@@ -134,10 +135,12 @@ function addJobForm($originPage) {
    }
    echo "   </select>\n";
       
-   
+   echo("   Color: <input name='job_color' type='text' id='job_color' value='#000000' size='6'>\n");
 
    echo "   <input type=button name='btAddJob' value='Add' onClick='javascript: addJob()'>\n";
 
+   echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='open a colorPicker in a new Tab'>ColorPicker</A>";
+   
    echo "   <input type=hidden name=action       value=noAction>\n";
    echo "</form>\n";
 
@@ -157,9 +160,10 @@ function displayJobTuples() {
    echo "<th></th>\n";
    echo "<th>Job Name</th>\n";
    echo "<th>Type</th>\n";
+   echo "<th>".("Color")."</th>\n";
    echo "</tr>\n";
 
-   $query     = "SELECT id, name, type ".
+   $query     = "SELECT * ".
                 "FROM `codev_job_table` ".
                 "ORDER BY name";
    $result    = mysql_query($query) or die("Query failed: $query");
@@ -181,7 +185,8 @@ function displayJobTuples() {
       echo "</td>\n";
       echo "<td title='$row->id'>".$row->name."</td>\n";
       echo "<td title='$row->type'>".$jobType_names[$row->type]."</td>\n";
-
+      echo "<td style='background-color: ".$row->color."';>".$row->color."</td>\n";
+      
       echo "</tr>\n";
    }
    echo "</table>\n";
@@ -329,11 +334,12 @@ echo "<br/>";
       
       $job_name = $_POST[job_name];
       $job_type = $_POST[job_type];
-
+      $job_color = $_POST[job_color];
+      
       // TODO check if not already in table !
     
       // save to DB
-      $query = "INSERT INTO `codev_job_table`  (`name`, `type`) VALUES ('$job_name','$job_type');";
+      $query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$job_name','$job_type','$job_color');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
     
       // reload page
