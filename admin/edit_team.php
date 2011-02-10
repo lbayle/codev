@@ -52,7 +52,7 @@ if (!isset($_SESSION['userid'])) {
   function setMemberDepartureDate(){
      // check fields
      foundError = 0;
-     msgString = T_("Some fields are missing:") + "\n\n"
+     msgString = "Some fields are missing:" + "\n\n"
          
      if (0 == document.forms["addTeamMemberForm"].f_memberid.value)  { msgString += "Team Member\n"; ++foundError; }
                     
