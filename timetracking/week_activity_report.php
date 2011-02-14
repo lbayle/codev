@@ -135,7 +135,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   //$thisWeekId=date("W");
 
   $weekTracks = $timeTracking->getWeekDetails($userid);
-  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='".T_("somme(RAE) des fiches en cours")."'>".T_("charge")." = $workload</span><br/>\n";
+  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='".T_("sum(Remaining) of current tasks")."'>".T_("workload")." = $workload</span><br/>\n";
   echo "<table width='95%'>\n";
   //echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";

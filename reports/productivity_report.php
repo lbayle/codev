@@ -229,31 +229,28 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>".T_("System Availability")."</td>\n";
   echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
-  echo "<td>".T_("disponibilit&eacute; de la plateforme de develomppement")."</td>\n";
+  echo "<td>".T_("Platform Availability")."</td>\n";
   echo "<td>100 - (breakdownDays / prodDays)</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Productivity Rate ETA")."</td>\n";
+  echo "<td title='".T_("BEFORE analysis")."'>".T_("Productivity Rate ETA")."</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
-  echo "<td>".T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.").
-            T_(" A negative number means a lower efficiency.")."<br/>".
-            T_("- Le temps passé sur une fiche est pondéré par un indicateur de difficult&eacute;: ").
-            T_("ETA (temps estim&eacute; AVANT analyse)")."<br/>".
-            T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
-            T_("- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;s")."</td>\n";
-  echo "<td>sum(ETA) / sum(elapsed)</td>\n";
+  echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
+            T_("- A number below 1 means a lesser efficiency.")."<br/>".
+            T_("- Time spent on a task is balanced by a toughness indicator")."<br/>".
+            T_("- Computed on task Resolved/Closed in the given period")."<br/>".
+            T_("- Reopened tasks are not taken into account")."</td>\n";
+  echo "<td>sum(ETA_balance) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Productivity Rate")."</td>\n";
+  echo "<td title='".T_("AFTER analysis")."'>".T_("Productivity Rate")."</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
-  echo "<td>".T_("- Si l'estimation est bonne ce nbre doit tendre vers 1.")."<br/>".
-            T_("- Un nbre n&eacute;gatif signifie un moins bon rendement.")."<br/>".
-            T_("- Le temps passé sur une fiche est pond&eacute;r&eacute; par un indicateur de difficult&eacute;: ").
-            T_("EffortEstim (temps estim&eacute; APRES analyse)")."<br/>".
-            T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
-            T_("- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es")."</td>\n";
+  echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
+            T_("- A number below 1 means a lesser efficiency.")."<br/>".
+            T_("- Computed on task Resolved/Closed in the given period")."<br/>".
+            T_("- Reopened tasks are not taken into account")."</td>\n";
   echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
@@ -279,8 +276,8 @@ function displayResolvedDriftStats ($timeTracking) {
   echo "<caption>".T_("D&eacute;rives - Resolved dans la p&eacute;riode")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
-  echo "<th width='100' title='".T_("AVANT analyse")."'>ETA</th>\n";
-  echo "<th width='100' title='".T_("APRES analyse")."'>EffortEstim <br/>(BI + BS)</th>\n";
+  echo "<th width='100' title='".T_("BEFORE analysis")."'>ETA</th>\n";
+  echo "<th width='100' title='".T_("AFTER analysis")."'>EffortEstim <br/>(BI + BS)</th>\n";
   echo "<th>".T_("Description")."</th>\n";
   echo "<th>".T_("Formula")."</th>\n";
   echo "</tr>\n";
@@ -289,9 +286,9 @@ function displayResolvedDriftStats ($timeTracking) {
   echo "<td title='".T_("si n&eacute;gatif, avance sur le planing")."'>D&eacute;rive</td>\n";
   echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
-  echo "<td>".T_("Nb jours de d&eacute;passement")."<br/>".
-            T_("- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode.")."<br/>".
-            T_("- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es.")."<br/>\n".
+  echo "<td>".T_("Overflow day quantity")."<br/>".
+            T_("- Computed on task Resolved/Closed in the given period")."<br/>".
+            T_("- Reopened tasks are not taken into account")."<br/>\n".
             T_("- Si négatif, avance sur le planing.")."</td>\n";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
