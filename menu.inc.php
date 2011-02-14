@@ -11,7 +11,7 @@ echo ("
    <tr>
       <td class='menu'><a href='".getServerRootURL()."/index.php'>".T_("Home")."</a></td>
 
-      <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis.php' title='MantisBT'>Mantis</a></td>
+      <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis' title='MantisBT'>Mantis</a></td>
 
       <td>
       <a href='".getServerRootURL()."/timetracking/time_tracking.php' title=''>".T_("Time Tracking")."</a>

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-08 13:32+0100\n"
+"POT-Creation-Date: 2011-02-14 10:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Could not connect to DB"
 msgstr ""
 
-#: admin/edit_jobs.php:7 admin/edit_team.php:6 reports/issue_info.php:5
+#: admin/edit_jobs.php:7 admin/edit_team.php:6 reports/issue_info.php:6
 #: reports/productivity_report.php:6 timetracking/time_tracking.php:7
 #: timetracking/week_activity_report.php:6 tools/check.php:7
 msgid "Sorry, you need to <a href='../'>login</a> to access this page."
@@ -90,10 +90,6 @@ msgstr "Assignations de Postes"
 #: admin/edit_team.php:12
 msgid "CoDev Administration : Team Edition"
 msgstr "Administration CoDev : Edition Team"
-
-#: admin/edit_team.php:55
-msgid "Some fields are missing:"
-msgstr "Les champs suivants ont ete oublies:"
 
 #: admin/edit_team.php:163
 msgid "Team Leader"
@@ -194,6 +190,57 @@ msgstr "Editer l'&eacute;quipe"
 #: admin/edit_team.php:530
 msgid "Current Team: "
 msgstr "Equipe actuellement affichee: "
+
+#: classes/consistency_check.class.php:97
+msgid ""
+"Delivery date not specified: If a delivery sheet is specified, then a "
+"Delivery Date is requested."
+msgstr ""
+"Date de livraison non renseign&eacute;: si une fiche de livraison est "
+"sp&eacute;cifi&eacute;e, alors une date doit y &ecirc;tre associ&eacute;e"
+
+#: classes/consistency_check.class.php:98
+#: classes/consistency_check.class.php:145
+#: classes/consistency_check.class.php:154
+#: classes/consistency_check.class.php:165
+#: classes/consistency_check.class.php:216
+#: classes/consistency_check.class.php:327
+msgid "Error"
+msgstr "Erreur"
+
+#: classes/consistency_check.class.php:144
+msgid "BI not specified: BI = Time(Analysis + Dev + Tests)"
+msgstr ""
+"BI non renseign&eacute;: il doit &ecirc;tre &eacute;gal &agrave; temps"
+"(Analyse + Dev + Tests)"
+
+#: classes/consistency_check.class.php:153
+msgid "Remaining not specified: Remaining = Time(BI - Analysis)"
+msgstr ""
+"RAE non renseign&eacute;: il doit &ecirc;tre &eacute;gal &agrave; temps(BI - "
+"Analyse)"
+
+#: classes/consistency_check.class.php:164
+msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
+msgstr ""
+"Apr&egrave;s l'analyse, une fiche doit &ecirc;tre assign&eacute;e &agrave; "
+"'FDJ' pour validation"
+
+#: classes/consistency_check.class.php:215
+msgid "Remaining should be 0 (not $issue->remaining)."
+msgstr "Le RAE devrait &ecirc;tre = 0  (et non $issue->remaining)."
+
+#: classes/consistency_check.class.php:266
+msgid "Remaining == 0: Remaining may not be up to date."
+msgstr "RAE == 0: Il se peut que le RAE ne soit pas &agrave; jour."
+
+#: classes/consistency_check.class.php:267
+msgid "Warning"
+msgstr "Alerte"
+
+#: classes/consistency_check.class.php:326
+msgid "ETA not set."
+msgstr "ETA non sp&eacute;cifi&eacute;"
 
 #: reports/issue_info.php:12
 msgid "Activity by task"
@@ -673,6 +720,10 @@ msgstr "Par Projet"
 msgid "Consistency Check"
 msgstr ""
 
+#: tools/check.php:49
+msgid "No Error."
+msgstr "Pas d'Erreur"
+
 #: tools/check.php:54
 msgid " Error(s) in Mantis Tasks"
 msgstr " Erreur(s) dans les fiches Mantis"
@@ -747,9 +798,8 @@ msgstr "Mot de passe"
 msgid "login failed !"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Sorry, you need to <a href='../'\">login</a> to access this page."
-#~ msgstr "Vous devez vous <a href='../'>logger</a> pour acceder a cette page."
+#~ msgid "Some fields are missing:"
+#~ msgstr "Les champs suivants ont ete oublies:"
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"

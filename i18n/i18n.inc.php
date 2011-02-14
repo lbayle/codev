@@ -25,6 +25,10 @@ putenv('LC_MESSAGES='.$locale);
 T_setlocale(LC_ALL,$locale);
 T_setlocale(LC_CTYPE,$locale);
 
+# we want 3.5 always to be displayed '3.5' and not '3,5'
+T_setlocale(LC_NUMERIC,"en-US");
+
+
 $locales_dir = (true == file_exists ( './i18n/locale' )) ? './i18n/locale' : $locales_dir = '../i18n/locale';
 
 

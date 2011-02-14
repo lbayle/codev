@@ -46,7 +46,7 @@ $ccheck = new ConsistencyCheck($projectList);
 $cerrList = $ccheck->check();
 
    if (0 == count($cerrList)) {
-   	echo "Pas d'erreur.</br>\n";
+   	echo T_("No Error.")."</br>\n";
    } else {
 
 	   echo "<div align='left'>\n";

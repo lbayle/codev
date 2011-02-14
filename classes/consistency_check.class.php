@@ -94,8 +94,8 @@ class ConsistencyCheck {
                                               $row->handler_id, 
                                               $row->status,
                                               $row->last_updated, 
-                                              "Date de livraison non renseign&eacute;: si une fiche de livraison est sp&eacute;cifi&eacute;e, alors une date doit y &ecirc;tre associ&eacute;e");
-               $cerr->severity = "Error";                                  
+                                              T_("Delivery date not specified: If a delivery sheet is specified, then a Delivery Date is requested."));
+               $cerr->severity = T_("Error");                                  
                $cerrList[] = $cerr;                                              
          	 }
       }
@@ -141,8 +141,8 @@ class ConsistencyCheck {
                                               $row->handler_id, 
                                               $row->status,
                                               $row->last_updated, 
-                                              "BI non renseign&eacute;: il doit &ecirc;tre &eacute;gal &agrave; temps(Analyse + Dev + Tests)");
-            $cerr->severity = "Error";                                  
+                                              T_("BI not specified: BI = Time(Analysis + Dev + Tests)"));
+            $cerr->severity = T_("Error");                                  
             $cerrList[] = $cerr;                                              
          }
       	if (NULL == $issue->remaining) {
@@ -150,8 +150,8 @@ class ConsistencyCheck {
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated, 
-                                              "RAE non renseign&eacute;: il doit &ecirc;tre &eacute;gal &agrave; temps(BI - Analyse)");
-            $cerr->severity = "Error";                                  
+                                              T_("Remaining not specified: Remaining = Time(BI - Analysis)"));
+            $cerr->severity = T_("Error");                                  
             $cerrList[] = $cerr;                                              
       	}
          if ($status_analyzed == $row->status) {
@@ -161,8 +161,8 @@ class ConsistencyCheck {
                                                  $row->handler_id,
                                                  $row->status,
                                                  $row->last_updated, 
-                                                 "Apr&egrave;s l'analyse, une fiche doit &ecirc;tre assign&eacute;e &agrave; 'FDJ' pour validation");
-               $cerr->severity = "Error";                                  
+                                                 T_("Once analysed, a Task must be assigned to 'FDJ' for validation"));
+               $cerr->severity = T_("Error");                                  
                $cerrList[] = $cerr;                                              
              }
          	
@@ -212,8 +212,8 @@ class ConsistencyCheck {
                                               $row->handler_id, 
                                               $row->status, 
                                               $row->last_updated, 
-                                              "Le RAE devrait &ecirc;tre = 0  (et non ".$issue->remaining.")");
-            $cerr->severity = "Error";                                  
+                                              T_("Remaining should be 0 (not $issue->remaining)."));
+            $cerr->severity = T_("Error");                                  
             $cerrList[] = $cerr;                                              
          }
       }
@@ -263,8 +263,8 @@ class ConsistencyCheck {
                                               $row->handler_id, 
                                               $row->status, 
                                               $row->last_updated, 
-                                              "RAE == 0: Il se peut que le RAE ne soit pas &agrave; jour.");
-            $cerr->severity = "Warning";                                  
+                                              T_("Remaining == 0: Remaining may not be up to date."));
+            $cerr->severity = T_("Warning");                                  
             $cerrList[] = $cerr;                                              
          }
       }
@@ -323,8 +323,8 @@ class ConsistencyCheck {
                                               $row->handler_id, 
                                               $row->status, 
                                               $row->last_updated, 
-                                              "ETA not set.");
-            $cerr->severity = "Error";                                  
+                                              T_("ETA not set."));
+            $cerr->severity = T_("Error");                                  
             $cerrList[] = $cerr;                                              
          }
       }
