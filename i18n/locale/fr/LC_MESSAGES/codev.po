@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-14 13:54+0100\n"
+"POT-Creation-Date: 2011-02-15 09:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -448,17 +448,13 @@ msgstr "Taux de productivit&eacute;"
 msgid "D&eacute;rives - Resolved dans la p&eacute;riode"
 msgstr ""
 
-#: reports/productivity_report.php:286
-msgid "si n&eacute;gatif, avance sur le planing"
-msgstr ""
+#: reports/productivity_report.php:286 reports/productivity_report.php:292
+msgid "If < 0 then ahead on planning."
+msgstr "Si n&eacute;gatif, avance sur le planing."
 
 #: reports/productivity_report.php:289
 msgid "Overflow day quantity"
 msgstr "Nb jours de d&eacute;passement"
-
-#: reports/productivity_report.php:292
-msgid "- Si négatif, avance sur le planing."
-msgstr ""
 
 #: reports/productivity_report.php:297 reports/productivity_report.php:377
 msgid "Tasks in drift"

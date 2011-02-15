@@ -283,13 +283,13 @@ function displayResolvedDriftStats ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='".T_("si n&eacute;gatif, avance sur le planing")."'>D&eacute;rive</td>\n";
+  echo "<td title='".T_("If < 0 then ahead on planning.")."'>D&eacute;rive</td>\n";
   echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Overflow day quantity")."<br/>".
             T_("- Computed on task Resolved/Closed in the given period")."<br/>".
             T_("- Reopened tasks are not taken into account")."<br/>\n".
-            T_("- Si négatif, avance sur le planing.")."</td>\n";
+            "- ".T_("If < 0 then ahead on planning.")."</td>\n";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
   
