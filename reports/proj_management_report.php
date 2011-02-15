@@ -11,7 +11,7 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "Project Management"; 
+   $_POST[page_name] = T_("Project Management"); 
    include 'header.inc.php'; 
 ?>
 
@@ -68,7 +68,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   
   // -----------
   //echo "Week: <select id='weekidSelector' name='weekidSelector' onchange='javascript:submitWeekActivityForm()'>\n";
-  echo "Week: <select id='weekidSelector' name='weekidSelector'>\n";
+  echo T_("Week").": <select id='weekidSelector' name='weekidSelector'>\n";
   for ($i = 1; $i <= 53; $i++)
   {
     $wDates      = week_dates($i,date('Y'));
@@ -520,7 +520,7 @@ if (0 == count($teamList)) {
 		   
 	      // -----------------------------
 	      echo "<br/>\n";
-	      echo "<b>- ".T_("Export Week $weekid Member Activity")."...</b><br/>\n";
+	      echo "<b>- ".T_("Export Week ").$weekid.T_(" Member Activity")."...</b><br/>\n";
 	      flush(); // envoyer tout l'affichage courant au navigateur 
 	      
 	      
@@ -530,7 +530,7 @@ if (0 == count($teamList)) {
 	      
          // -----------------------------
          echo "<br/>\n";
-         echo "<b>- ".T_("Export Week $weekid Projects Activity")."...</b><br/>\n";
+         echo "<b>- ".T_("Export Week ").$weekid.T_(" Projects Activity")."...</b><br/>\n";
          flush(); 
          
          $filename = exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $codevReportsDir);
@@ -539,7 +539,7 @@ if (0 == count($teamList)) {
 
          // -----------------------------
 	      echo "<br/>\n";
-	      echo "<b>- ".T_("Export $year Holidays")."...</b><br/>\n";
+	      echo "<b>- ".T_("Export Holidays ").$year."...</b><br/>\n";
 		   flush(); // envoyer tout l'affichage courant au navigateur
 		   
 		   // reduce scope to enhance speed
@@ -562,7 +562,7 @@ if (0 == count($teamList)) {
 		   echo "<br/>\n";
 		   echo T_("Done").".<br/>\n";
 		   echo "<br/>\n";
-		   echo "Results in : $codevReportsDir<br/>\n";
+		   echo T_("Results in : ").$codevReportsDir."<br/>\n";
 		   
 		   
 		}

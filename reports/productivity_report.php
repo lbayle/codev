@@ -11,7 +11,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("Indicateurs de production"); 
+   $_POST[page_name] = T_("Productivity Report"); 
    include 'header.inc.php'; 
 ?>
 
@@ -275,7 +275,7 @@ function displayResolvedDriftStats ($timeTracking) {
   
   
   echo "<table>\n";
-  echo "<caption>".T_("D&eacute;rives - Resolved dans la p&eacute;riode")."</caption>\n";
+  echo "<caption>".T_("Drift - Tasks resolved in the period")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='".T_("BEFORE analysis")."'>ETA</th>\n";
@@ -285,7 +285,7 @@ function displayResolvedDriftStats ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='".T_("If < 0 then ahead on planning.")."'>D&eacute;rive</td>\n";
+  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("Drift")."</td>\n";
   echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Overflow day quantity")."<br/>".
@@ -357,21 +357,21 @@ function displayCurrentDriftStats ($timeTracking) {
   
   
   echo "<table>\n";
-  echo "<caption>D&eacute;rives - En cours &agrave; ce jour</caption>\n";
+  echo "<caption>".T_("Drift - Today opened Tasks")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
-  echo "<th width='100' title='AVANT analyse'>ETA</th>\n";
-  echo "<th width='100' title='APRES analyse'>EffortEstim <br/>(BI + BS)</th>\n";
-  echo "<th>Description</th>\n";
+  echo "<th width='100' title='".T_("BEFORE analysis")."'>ETA</th>\n";
+  echo "<th width='100' title='".T_("AFTER analysis")."'>EffortEstim <br/>(BI + BS)</th>\n";
+  echo "<th>".T_("Description")."</th>\n";
   echo "<th>".T_("Formula")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='si n&eacute;gatif, avance sur le planing'>D&eacute;rive</td>\n";
+  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("Drift")."</td>\n";
   echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
-  echo "<td>Nb jours de d&eacute;passement<br/>".
-            "- Le calcul est fait sur les fiches NON Resolved/Closed au ".date("Y-m-d").".<br/>";
+  echo "<td>".T_("Overflow day quantity")."<br/>".
+            "- ".T_("Computed on task NOT Resolved/Closed on ").date("Y-m-d").".<br/>";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
   
