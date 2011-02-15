@@ -1,5 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
+<?php include_once 'path.inc.php'; ?>
+
 <?php
    $_POST[page_name] = "Bienvenu sur le serveur CoDev"; 
    include 'header.inc.php'; 
