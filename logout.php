@@ -1,8 +1,12 @@
 <?php  if (!isset($_SESSION)) { session_start(); } ?>
 
-<?php 
+<?php
+include_once 'path.inc.php';
 include_once 'i18n.inc.php';
 include 'header.inc.php'; 
+
+
+
 include_once "constants.php";
 
 unset($_SESSION['userid']);

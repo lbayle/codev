@@ -1,4 +1,7 @@
-<?php include_once "../tools.php"; ?>
+
+<?php include_once '../path.inc.php'; ?>
+
+<?php include_once "tools.php"; ?>
 
 <div id="menu">
 

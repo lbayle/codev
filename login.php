@@ -1,5 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
+<?php include_once 'path.inc.php'; ?>
+
 <?php
    include_once 'i18n.inc.php';
    $_POST[page_name] = T_("CoDev Login"); 

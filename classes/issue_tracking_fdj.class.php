@@ -60,7 +60,7 @@ class IssueTrackingFDJ extends IssueTracking {
 
       // Only for specified Projects   
       if ((isset($projectList)) && (0 != count($projectList))) {
-         $formatedProjects = simpleListToSQLFormatedString($projectList);
+         $formatedProjects = implode( ', ', $projectList );
          $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
       }
                                        

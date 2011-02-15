@@ -1,5 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
+<?php include_once '../path.inc.php'; ?>
+
 <?php
 if (!isset($_SESSION['userid'])) {
   echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
@@ -10,11 +12,11 @@ if (!isset($_SESSION['userid'])) {
 <?php
    include_once 'i18n.inc.php';
    $_POST[page_name] = "CoDev Administration : Team Creation"; 
-   include '../header.inc.php'; 
+   include 'header.inc.php'; 
 ?>
 
-<?php include '../login.inc.php'; ?>
-<?php include '../menu.inc.php'; ?>
+<?php include 'login.inc.php'; ?>
+<?php include 'menu.inc.php'; ?>
 <br/>
 <?php include 'menu_admin.inc.php'; ?>
 
@@ -45,8 +47,8 @@ function addTeam(){
 
 
 <?php 
-include_once "../constants.php";
-include_once "../tools.php";
+include_once "constants.php";
+include_once "tools.php";
 include_once "user.class.php";
 
 
@@ -164,4 +166,4 @@ if ("addTeam" == $action) {
 ?>
 </div>
 
-<?php include '../footer.inc.php'; ?>
+<?php include 'footer.inc.php'; ?>

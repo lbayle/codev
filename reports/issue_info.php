@@ -1,5 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
+<?php include_once '../path.inc.php'; ?>
+
 <?php
 include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
@@ -10,11 +12,11 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
    $_POST[page_name] = T_("Activity by task"); 
-   include '../header.inc.php'; 
+   include 'header.inc.php'; 
 ?>
 
-<?php include '../login.inc.php'; ?>
-<?php include '../menu.inc.php'; ?>
+<?php include 'login.inc.php'; ?>
+<?php include 'menu.inc.php'; ?>
 
 
 <script language="JavaScript">
@@ -38,8 +40,8 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
 
-include_once "../constants.php";
-include_once "../tools.php";
+include_once "constants.php";
+include_once "tools.php";
 include_once "issue.class.php";
 include_once "project.class.php";
 include_once "time_track.class.php";
@@ -338,4 +340,4 @@ if (0 == count($teamList)) {
 
 </div>
 
-<?php include '../footer.inc.php'; ?>
+<?php include 'footer.inc.php'; ?>

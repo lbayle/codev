@@ -1,5 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
+<?php include_once '../path.inc.php'; ?>
+
 <?php
 include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
@@ -10,10 +12,10 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
    $_POST[page_name] = T_("CoDev Administration : Team Edition"); 
-   include '../header.inc.php'; 
+   include 'header.inc.php'; 
 ?>
-<?php include '../login.inc.php'; ?>
-<?php include '../menu.inc.php'; ?>
+<?php include 'login.inc.php'; ?>
+<?php include 'menu.inc.php'; ?>
 <br/>
 <?php include 'menu_admin.inc.php'; ?>
 
@@ -125,8 +127,8 @@ if (!isset($_SESSION['userid'])) {
 
 
 <?php
-include_once "../constants.php";
-include_once "../tools.php";
+include_once "constants.php";
+include_once "tools.php";
 include_once "user.class.php";
 require_once('tc_calendar.php');
 
@@ -653,4 +655,4 @@ if (0 != $teamid) {
 
 ?>
 
-<?php include '../footer.inc.php'; ?>
+<?php include 'footer.inc.php'; ?>
