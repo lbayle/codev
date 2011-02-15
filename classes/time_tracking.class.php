@@ -199,7 +199,7 @@ class TimeTracking {
     $totalElapsed = 0;
     
     // --------
-    $formatedProjList = simpleListToSQLFormatedString($projects);
+    $formatedProjList = implode( ', ', $projects );
         
     if ("" == $formatedProjList) {
     	echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
@@ -278,7 +278,7 @@ class TimeTracking {
     $issueList = array();    
     
     // --------
-    $formatedProjList = simpleListToSQLFormatedString($projects);
+    $formatedProjList = implode( ', ', $projects );
     
     if ("" == $formatedProjList) {
       echo "<div style='color:red'>ERROR getResolvedDriftStatistics: no project defined for this team !<br/></div>";
