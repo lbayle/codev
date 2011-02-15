@@ -339,6 +339,28 @@ class Issue {
    }
 
    // ----------------------------------------------
+   /**
+    * returns the date of the oldest TimeTrack
+    * @param unknown_type $user_id
+    */
+   public function getStartTimestamp($user_id = NULL) {
+      $timeTracks = array();
+
+      $query     = "SELECT id, date FROM `codev_timetracking_table` ".
+      "WHERE bugid=$this->bugId ";
+
+      if (isset($user_id)) {
+         $query .= "AND userid = $user_id";
+      }
+      $query .= " ORDER BY date";
+
+      $result    = mysql_query($query) or die("Query failed: $query");
+      $row = mysql_fetch_object($result);
+
+      return $row->date;
+   }
+   
+   // ----------------------------------------------
    public function getInvolvedUsers($team_id = NULL) {
       $userList = array();
 

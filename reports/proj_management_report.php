@@ -123,23 +123,26 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
    $fh = fopen($myFile, 'w');
   
    // write header
-   $stringData = "m_id".$sepChar.   
+   $stringData = "Project".$sepChar.
+                 "m_id".$sepChar.   
                  "tc_id".$sepChar.
-                 "Project".$sepChar.
-                 "Release".$sepChar.
-                 "Assigned to".$sepChar.
-                 "Priority".$sepChar.
-                 "Category".$sepChar.
-                 "Submitted".$sepChar.
                  "Summary".$sepChar.
                  "Status".$sepChar.
+                 "Submitted".$sepChar.
+                 "Start date".$sepChar.
+                 "Dead line".$sepChar.
+                 "Release".$sepChar.
+                 "Priority".$sepChar.
+                 "Category".$sepChar.
                  "Resolution".$sepChar.
                  "ETA".$sepChar.
                  "BI".$sepChar.
                  "BS".$sepChar.
+                 "Elapsed".$sepChar.
                  "RAE".$sepChar.
-                 "Dead line".$sepChar.
-                 "Delivery Date".
+                 "Delivery Date".$sepChar.
+                 "Delivery Sheet".$sepChar.
+                 "Assigned to".$sepChar.
                  "\n";
    fwrite($fh, $stringData);
    
@@ -159,27 +162,37 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
             if (NULL != $issue->deliveryDate) {
              $deliveryDate = date("d/m/Y", $issue->deliveryDate);
             }
-                  
-                        
+            
+            // remove sepChar from summary text
+            $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+            
+            $startDate="";
+            if (NULL != ($d = $issue->getStartTimestamp())) {
+               $startDate = date("d/m/Y", $d);
+            }
+            
 			   // write data
-			   $stringData = $issue->bugId.$sepChar.   
+			   $stringData = $issue->getProjectName().$sepChar.
+			                 $issue->bugId.$sepChar.   
 			                 $issue->getTC().$sepChar.
-			                 $issue->getProjectName().$sepChar.
-			                 $issue->release.$sepChar.
-			                 $user->getShortname().$sepChar.
+                          $formatedSummary.$sepChar.
+                          $issue->getCurrentStatusName().$sepChar.
+                          date("d/m/Y", $issue->dateSubmission).$sepChar.
+                          $startDate.$sepChar.
+                          $deadLine.$sepChar.
+                          $issue->release.$sepChar.
 			                 $issue->getPriorityName().$sepChar.
 			                 $issue->getCategoryName().$sepChar.
-			                 date("d/m/Y", $issue->dateSubmission).$sepChar.
-			                 $issue->summary.$sepChar.
-			                 $issue->getCurrentStatusName().$sepChar.
 			                 $issue->getResolutionName().$sepChar.
 			                 $issue->getEtaName().$sepChar.
 			                 $issue->effortEstim.$sepChar.
 			                 $issue->effortAdd.$sepChar.
+                          $issue->elapsed.$sepChar.
 			                 $issue->remaining.$sepChar.
-			                 $deadLine.$sepChar.
-			                 $deliveryDate.
-			                 "\n";
+			                 $deliveryDate.$sepChar.
+                          $issue->deliveryId.$sepChar.
+                          $user->getShortname().
+                          "\n";
 			   fwrite($fh, $stringData);
             
       }
@@ -196,24 +209,35 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
       $deliveryDate = date("d/m/Y", $issue->deliveryDate);
     }
     
+    // remove sepChar from summary text
+    $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+    
+    $startDate="";
+    if (NULL != ($d = $issue->getStartTimestamp())) {
+      $startDate = date("d/m/Y", $d);
+    }
+    
     // write data
-    $stringData = $issue->bugId.$sepChar.   
-                  $issue->getTC().$sepChar.
-                  $issue->getProjectName().$sepChar.
-                  $issue->release.$sepChar.
-                  $user->getShortname().$sepChar.
-                  $issue->getPriorityName().$sepChar.
-                  $issue->getCategoryName().$sepChar.
-		  date("d/m/Y", $issue->dateSubmission).$sepChar.
-		  $issue->summary.$sepChar.
-		  $issue->getCurrentStatusName().$sepChar.
+    $stringData = $issue->getProjectName().$sepChar.
+        $issue->bugId.$sepChar.   
+        $issue->getTC().$sepChar.
+        $formatedSummary.$sepChar.
+        $issue->getCurrentStatusName().$sepChar.
+        date("d/m/Y", $issue->dateSubmission).$sepChar.
+        $startDate.$sepChar.
+        $deadLine.$sepChar.
+        $issue->release.$sepChar.
+        $issue->getPriorityName().$sepChar.
+        $issue->getCategoryName().$sepChar.
 		  $issue->getResolutionName().$sepChar.
 		  $issue->getEtaName().$sepChar.
 		  $issue->effortEstim.$sepChar.
 		  $issue->effortAdd.$sepChar.
+        $issue->elapsed.$sepChar.
 		  $issue->remaining.$sepChar.
-		  $deadLine.$sepChar.
-		  $deliveryDate.
+		  $deliveryDate.$sepChar.
+        $issue->deliveryId.$sepChar.
+		  $user->getShortname().
 		  "\n";
     fwrite($fh, $stringData);
   }
