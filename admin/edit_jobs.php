@@ -297,7 +297,7 @@ function displayAssignedJobTuples() {
 global $admin_teamid;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die(T_("Could not connect to DB"));
+  or die(T_("Could not connect to database"));
 mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
 
@@ -309,7 +309,7 @@ if (!$session_user->isTeamMember($admin_teamid)) {
 	exit;
 }
 
-echo "<h2>Jobs</h2>\n";
+echo "<h2>".T_("Jobs")."</h2>\n";
 addJobForm("edit_jobs.php");
 echo "<br/>";
 displayJobTuples();

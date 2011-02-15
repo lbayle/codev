@@ -3,14 +3,14 @@
 <?php include_once '../path.inc.php'; ?>
 
 <?php
+include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
 } 
 ?>
 
 <?php
-   include_once 'i18n.inc.php';
    $_POST[page_name] = T_("Project Management"); 
    include 'header.inc.php'; 
 ?>
@@ -467,7 +467,7 @@ $year = isset($_POST[year]) ? $_POST[year] : date('Y');
 
 // Connect DB
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die(T_("Could not connect to DB"));
+  or die(T_("Could not connect to database"));
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 

@@ -75,7 +75,7 @@ f_genFileList ()
   echo "" > $FILE_LIST # clear
 
   #for i in $dirList
-  for i in admin classes reports timetracking tools $(ls *.php)
+  for i in admin classes reports timetracking tools include doc $(ls *.php)
   do
     find "$i" -iname "*.php" -print0 | while IFS= read -rd $'\0' f
     do

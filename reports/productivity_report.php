@@ -178,7 +178,7 @@ function displayRates ($timeTracking) {
   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
         
   echo "<table>\n";
-  echo "<caption>".T_("Indicateurs de productivit&eacute;")."</caption>\n";
+  echo "<caption>".T_("Productivity indicators")."</caption>\n";
   echo "<tr>\n";
   echo "<th>".T_("Indicator")."</th>\n";
   echo "<th>".T_("Value")."</th>\n";
@@ -595,7 +595,7 @@ $_SESSION[teamid] = $teamid;
 
 // Connect DB
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die(T_("Could not connect to DB"));
+  or die(T_("Could not connect to database"));
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 $weekDates      = week_dates(date('W'),$year);

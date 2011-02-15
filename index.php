@@ -139,7 +139,7 @@ if (!isset($_SESSION['userid'])) {
 } else {
 
    $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-      or die(T_("Could not connect to DB"));
+      or die(T_("Could not connect to database"));
    mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
    $userid = $_SESSION['userid'];

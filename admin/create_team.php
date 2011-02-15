@@ -4,14 +4,14 @@
 
 <?php
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
 } 
 ?>
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "CoDev Administration : Team Creation"; 
+   $_POST[page_name] = T_("CoDev Administration : Team Creation"); 
    include 'header.inc.php'; 
 ?>
 
@@ -55,13 +55,13 @@ include_once "user.class.php";
 // -----------------------------
 function displayCreateTeamForm() {
 
-  echo("<form action='create_team.php' method='post' name='teamCreationForm'>\n");
-  echo("Team Name: <input name='team_name' type='text' id='team_name'>\n");
+  echo "<form action='create_team.php' method='post' name='teamCreationForm'>\n";
+  echo T_("Team Name").": <input name='team_name' type='text' id='team_name'>\n";
   
   $query = "SELECT DISTINCT id, username, realname FROM `mantis_user_table` ORDER BY username";
   
   
-  echo "Team Leader : <select name='teamleader_id'>\n";
+  echo T_("Team Leader")." : <select name='teamleader_id'>\n";
   echo "<option value='0'></option>\n";
    
   $result = mysql_query($query) or die("Query failed: $query");
@@ -70,9 +70,9 @@ function displayCreateTeamForm() {
   }
   echo "</select>\n";
   
-  echo("Description: <input name='team_desc' type='text' id='team_desc'>\n");
+  echo T_("Description").": <input name='team_desc' type='text' id='team_desc'>\n";
   
-  echo "<input type=button value='Create Team' onClick='javascript: addTeam()'>\n";
+  echo "<input type=button value='".T_("Create")."' onClick='javascript: addTeam()'>\n";
   
   #echo("<input type='submit' name='Submit' value='Create Team'>\n");
      
@@ -98,8 +98,8 @@ global $sideTaskProjectType;
 
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die(T_("Could not connect to DB"));
-mysql_select_db($db_mantis_database) or die("Could not select database");
+  or die(T_("Could not connect to database"));
+mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
 
 // ---- if not codev admin then stop now.
@@ -120,7 +120,7 @@ $teamleader_id = $_POST[teamleader_id];
 
 
 if ("addTeam" == $action) {
-	echo "Create $team_name !<br/>";
+	echo T_("Create")." $team_name !<br/>";
 	
    // --- save to DB
    $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`) VALUES ('$team_name','$team_desc','$teamleader_id');";
@@ -144,7 +144,7 @@ if ("addTeam" == $action) {
    }
    
 } elseif ("editTeam" == $action) {
-   echo "Create and go to Edit<br/>";
+   echo T_("Create and go to Edit")."<br/>";
 
 }else if ("noAction" == $action) {
     echo "browserRefresh<br/>";

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-15 14:19+0100\n"
+"POT-Creation-Date: 2011-02-15 14:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,19 +16,52 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Language: \n"
 
+#: admin/create_team.php:7 admin/edit_jobs.php:9 admin/edit_team.php:8
+#: reports/issue_info.php:8 reports/productivity_report.php:8
+#: reports/proj_management_report.php:8 timetracking/time_tracking.php:9
+#: timetracking/week_activity_report.php:8 tools/check.php:9
+msgid "Sorry, you need to <a href='../'>login</a> to access this page."
+msgstr "Vous devez vous <a href='../'>logger</a> pour acceder a cette page."
+
+#: admin/create_team.php:14
+msgid "CoDev Administration : Team Creation"
+msgstr "Administration CoDev : Creation Equipe"
+
+#: admin/create_team.php:59
+msgid "Team Name"
+msgstr "Nom de l'equipe"
+
+#: admin/create_team.php:64 admin/edit_team.php:165
+msgid "Team Leader"
+msgstr "Team Leader"
+
+#: admin/create_team.php:73 admin/edit_team.php:378
+#: reports/productivity_report.php:185 reports/productivity_report.php:283
+#: reports/productivity_report.php:365 reports/proj_management_report.php:347
+#: timetracking/time_tracking_tools.php:49
+msgid "Description"
+msgstr "Description"
+
+#: admin/create_team.php:75 admin/create_team.php:123
+msgid "Create"
+msgstr "Cr&eacute;er"
+
 #: admin/create_team.php:101 admin/edit_jobs.php:300 admin/edit_team.php:482
 #: index.php:142 login.php:39 reports/graph_report.php:16 reports/index.php:93
 #: reports/productivity_report.php:598 reports/proj_management_report.php:470
 #: timetracking/holidays_report.php:262 timetracking/time_tracking.php:306
 #: timetracking/week_activity_report.php:267 tools/check.php:33
-msgid "Could not connect to DB"
+msgid "Could not connect to database"
 msgstr ""
 
-#: admin/edit_jobs.php:9 admin/edit_team.php:8 reports/issue_info.php:8
-#: reports/productivity_report.php:8 timetracking/time_tracking.php:9
-#: timetracking/week_activity_report.php:8 tools/check.php:9
-msgid "Sorry, you need to <a href='../'>login</a> to access this page."
-msgstr "Vous devez vous <a href='../'>logger</a> pour acceder a cette page."
+#: admin/create_team.php:102 admin/edit_jobs.php:301 admin/edit_team.php:483
+#: index.php:143 login.php:40 timetracking/holidays_report.php:263
+msgid "Could not select database"
+msgstr ""
+
+#: admin/create_team.php:147
+msgid "Create and go to Edit"
+msgstr "Creer et Editer"
 
 #: admin/edit_jobs.php:15
 msgid "CoDev Administration : Jobs Edition"
@@ -41,7 +74,7 @@ msgstr "Nom du Poste"
 #: admin/edit_jobs.php:136 admin/edit_jobs.php:166 admin/edit_team.php:222
 #: admin/edit_team.php:379
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: admin/edit_jobs.php:142 admin/edit_jobs.php:167
 msgid "Color"
@@ -74,14 +107,13 @@ msgstr "Projet"
 msgid "delete Project Association"
 msgstr "supprimer l'association au Projet"
 
-#: admin/edit_jobs.php:301 admin/edit_team.php:483 index.php:143 login.php:40
-#: timetracking/holidays_report.php:263
-msgid "Could not select database"
-msgstr ""
-
 #: admin/edit_jobs.php:308
 msgid "Sorry, you need to be in the admin-team to access this page."
 msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
+
+#: admin/edit_jobs.php:312
+msgid "Jobs"
+msgstr "Postes"
 
 #: admin/edit_jobs.php:321
 msgid "Job Assignations"
@@ -89,11 +121,7 @@ msgstr "Assignations de Postes"
 
 #: admin/edit_team.php:14
 msgid "CoDev Administration : Team Edition"
-msgstr "Administration CoDev : Edition Team"
-
-#: admin/edit_team.php:165
-msgid "Team Leader"
-msgstr ""
+msgstr "Administration CoDev : Edition Equipe"
 
 #: admin/edit_team.php:189
 msgid "Update"
@@ -109,7 +137,7 @@ msgstr ""
 
 #: admin/edit_team.php:218
 msgid "login"
-msgstr ""
+msgstr "login"
 
 #: admin/edit_team.php:219 admin/edit_team.php:377
 #: timetracking/time_tracking.php:126
@@ -160,13 +188,6 @@ msgstr "Date de d&eacute;part"
 #: admin/edit_team.php:343
 msgid "set Departure Date"
 msgstr "maj date de d&eacute;part"
-
-#: admin/edit_team.php:378 reports/productivity_report.php:185
-#: reports/productivity_report.php:283 reports/productivity_report.php:365
-#: reports/proj_management_report.php:347
-#: timetracking/time_tracking_tools.php:49
-msgid "Description"
-msgstr ""
 
 #: admin/edit_team.php:414
 msgid "Team Projects"
@@ -326,8 +347,8 @@ msgid "Project Detail"
 msgstr "Detail du Projet"
 
 #: reports/productivity_report.php:181
-msgid "Indicateurs de productivit&eacute;"
-msgstr ""
+msgid "Productivity indicators"
+msgstr "Indicateurs de productivit&eacute;"
 
 #: reports/productivity_report.php:183
 msgid "Indicator"

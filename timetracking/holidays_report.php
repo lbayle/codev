@@ -259,7 +259,7 @@ $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 global $codevReportsDir;
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die(T_("Could not connect to DB"));
+  or die(T_("Could not connect to database"));
 mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
