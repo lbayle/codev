@@ -134,7 +134,7 @@
                               
   // this is the custom field added to mantis issues for TimeTracking
   $tcCustomField          = 1; // in mantis_custom_field_table
-  $releaseCustomField     = 2; // in mantis_custom_field_table
+  $releaseCustomField     = 2; // in mantis_custom_field_table DEPRECATED
   $estimEffortCustomField = 3; // in mantis_custom_field_table BI
   $remainingCustomField   = 4; // in mantis_custom_field_table RAE
   $deadLineCustomField    = 8; // in mantis_custom_field_table

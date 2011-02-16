@@ -103,7 +103,7 @@ class IssueTracking {
     echo "<th title='".T_("Est effort from TimeTracking")."'>".T_("Elapsed")."</th>\n";
     echo "<th>".T_("Remaining")."</th>\n";
     echo "<th>".T_("Current Status")."</th>\n";
-    echo "<th>".T_("Release")."</th>\n";
+    echo "<th>".T_("Product Version")."</th>\n";
     echo "<th>".T_("Drift")."</th>\n";
     echo "</tr>\n";
   
@@ -120,7 +120,7 @@ class IssueTracking {
         echo "<td>".$tmpIssue->elapsed."</td>\n";
         echo "<td>".$tmpIssue->remaining."</td>\n";
         echo "<td>".$tmpIssue->getCurrentStatusName()."</td>\n";
-        echo "<td>".$tmpIssue->release."</td>\n";
+        echo "<td>".$tmpIssue->version."</td>\n";
         $derive = $tmpIssue->getDrift();
         echo "<td style='background-color: ".$tmpIssue->getDriftColor($derive)."'>".($derive)."</td>\n";
         echo "</tr>\n";

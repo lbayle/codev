@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-16 14:38+0100\n"
+"POT-Creation-Date: 2011-02-16 16:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -308,8 +308,8 @@ msgid "Current Status"
 msgstr "Statut actuel"
 
 #: classes/issue_tracking.class.php:106 reports/proj_management_report.php:136
-msgid "Release"
-msgstr "Release"
+msgid "Product Version"
+msgstr "Version Produit"
 
 #: classes/issue_tracking.class.php:107 reports/issue_info.php:156
 #: reports/productivity_report.php:288 reports/productivity_report.php:370
@@ -909,6 +909,9 @@ msgstr "Mot de passe"
 #: login.php:61
 msgid "login failed !"
 msgstr ""
+
+#~ msgid "Release"
+#~ msgstr "Release"
 
 #~ msgid "Export Week $weekid Member Activity"
 #~ msgstr "Export Semaine $weekid Activit&eacute; Equipe"

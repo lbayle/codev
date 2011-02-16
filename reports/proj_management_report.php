@@ -133,7 +133,7 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
                  T_("Submitted").$sepChar.
                  T_("Start date").$sepChar.
                  T_("Dead line").$sepChar.
-                 T_("Release").$sepChar.
+                 T_("Product Version").$sepChar.
                  T_("Priority").$sepChar.
                  "Category".$sepChar.
                  T_("Resolution").$sepChar.
@@ -182,7 +182,7 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
                           date("d/m/Y", $issue->dateSubmission).$sepChar.
                           $startDate.$sepChar.
                           $deadLine.$sepChar.
-                          $issue->release.$sepChar.
+                          $issue->version.$sepChar.
 			                 $issue->getPriorityName().$sepChar.
 			                 $issue->getCategoryName().$sepChar.
 			                 $issue->getResolutionName().$sepChar.
@@ -228,7 +228,7 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
         date("d/m/Y", $issue->dateSubmission).$sepChar.
         $startDate.$sepChar.
         $deadLine.$sepChar.
-        $issue->release.$sepChar.
+        $issue->version.$sepChar.
         $issue->getPriorityName().$sepChar.
         $issue->getCategoryName().$sepChar.
 		  $issue->getResolutionName().$sepChar.

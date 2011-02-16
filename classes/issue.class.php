@@ -28,13 +28,14 @@ class Issue {
    var $effortEstim;  // BI
    var $effortAdd;    // BS
    var $currentStatus;
-   var $release;
+   var $release;      // DEPRECATED Product Version
    var $deadLine;
    var $deliveryDate;
    var $deliveryId; // FDL
    var $priority;
    var $handlerId;
    var $resolution;
+   var $version;  // Product Version
    
    
    var $statusList; // array of statusInfo elements
@@ -49,7 +50,7 @@ class Issue {
    public function initialize() {
    	
    	global $tcCustomField;
-   	global $releaseCustomField;
+   	global $releaseCustomField; // DEPRECATED
    	global $estimEffortCustomField;
    	global $remainingCustomField;
    	global $addEffortCustomField;
@@ -58,7 +59,7 @@ class Issue {
       global $deliveryIdCustomField;
    	
       // Get issue info
-      $query = "SELECT id, summary, status, date_submitted, project_id, category_id, eta, priority, handler_id, resolution ".
+      $query = "SELECT * ".
       "FROM `mantis_bug_table` ".
       "WHERE id = $this->bugId";
       $result = mysql_query($query) or die("Query failed: $query");
@@ -73,6 +74,7 @@ class Issue {
       $this->priority        = $row->priority;
       $this->handlerId       = $row->handler_id;
       $this->resolution      = $row->resolution;
+      $this->version         = $row->version;
       
       // Get custom fields
       $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
@@ -81,7 +83,7 @@ class Issue {
       {
          switch ($row->field_id) {
             case $tcCustomField:          $this->tcId        = $row->value; break;
-            case $releaseCustomField:     $this->release     = $row->value; break;
+            case $releaseCustomField:     $this->release     = $row->value; break; // DEPRECATED
             case $estimEffortCustomField: $this->effortEstim = $row->value; break;
             case $remainingCustomField:   $this->remaining   = $row->value; break;
             case $addEffortCustomField:   $this->effortAdd   = $row->value; break;
