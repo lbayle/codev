@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-16 16:15+0100\n"
+"POT-Creation-Date: 2011-02-16 17:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,11 +16,13 @@ msgstr ""
 "Language: \n"
 
 #: admin/create_team.php:7 admin/edit_jobs.php:9 admin/edit_team.php:8
-#: reports/issue_info.php:8 reports/productivity_report.php:8
-#: reports/proj_management_report.php:8 timetracking/time_tracking.php:9
-#: timetracking/week_activity_report.php:8 tools/check.php:9
+#: admin/index.php:10 reports/issue_info.php:8
+#: reports/productivity_report.php:8 reports/proj_management_report.php:8
+#: timetracking/time_tracking.php:9 timetracking/week_activity_report.php:8
+#: tools/check.php:9
 msgid "Sorry, you need to <a href='../'>login</a> to access this page."
-msgstr "Vous devez vous <a href='../'>logger</a> pour acceder a cette page."
+msgstr ""
+"Vous devez vous <a href='../'>identifier</a> pour acceder a cette page."
 
 #: admin/create_team.php:14
 msgid "CoDev Administration : Team Creation"
@@ -138,7 +140,7 @@ msgstr ""
 
 #: admin/edit_team.php:218
 msgid "login"
-msgstr "login"
+msgstr "identifiant"
 
 #: admin/edit_team.php:219 admin/edit_team.php:377
 #: timetracking/time_tracking.php:126
@@ -856,6 +858,22 @@ msgstr "S&eacute;v&eacute;rit&eacute;"
 msgid "Error Description"
 msgstr "Description de l'erreur"
 
+#: include/login.inc.php:12
+msgid "Logged in as "
+msgstr "Connecté sous "
+
+#: include/login.inc.php:12
+msgid "log out"
+msgstr "d&eacute;connection"
+
+#: include/login.inc.php:14
+msgid "Logged out !"
+msgstr "d&eacute;connect&eacute; !"
+
+#: include/login.inc.php:14
+msgid "log in"
+msgstr "connection"
+
 #: index.php:7
 msgid "Welcome"
 msgstr "Bienvenu sur le serveur CoDev"
@@ -896,11 +914,11 @@ msgstr "ERREUR Fiche "
 
 #: login.php:7
 msgid "CoDev Login"
-msgstr ""
+msgstr "Identifiant CoDev"
 
 #: login.php:23 login.php:25
 msgid "Login"
-msgstr "Utilisateur"
+msgstr "Identifiant"
 
 #: login.php:24
 msgid "Password"
@@ -908,7 +926,12 @@ msgstr "Mot de passe"
 
 #: login.php:61
 msgid "login failed !"
-msgstr ""
+msgstr "l'identification a &eacute;chou&eacute;e !"
+
+#, fuzzy
+#~ msgid "Sorry, you need to <a href='../'\">login</a> to access this page."
+#~ msgstr ""
+#~ "Vous devez vous <a href='../'>identifier</a> pour acceder a cette page."
 
 #~ msgid "Release"
 #~ msgstr "Release"

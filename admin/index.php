@@ -1,10 +1,13 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
-<?php include_once '../path.inc.php'; ?>
+<?php 
+   include_once '../path.inc.php'; 
+   include_once 'i18n.inc.php';
+?>
 
 <?php
 if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
 } 
 ?>
