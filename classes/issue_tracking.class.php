@@ -1,7 +1,7 @@
 <?php
 
 // -- Issues tracking
-
+include_once "i18n.inc.php";
 include_once "issue.class.php";
 
 class IssueTracking {
@@ -92,19 +92,19 @@ class IssueTracking {
     global $status_closed;
 
     echo "<table>\n";
-    echo "<caption>Avancement / fiche</caption>";
+    echo "<caption>".T_("Progress / Task")."</caption>";
     echo "<tr>\n";
-    echo "<th>Mantis</th>\n";
-    echo "<th>Fiche TC</th>\n";
-    echo "<th>Description</th>\n";
-    echo "<th>Date Submission</th>\n";
-    echo "<th>ETA</th>\n";
-    echo "<th title='BI + BS'>Effort Estim</th>\n";
-    echo "<th title='Est effort from TimeTracking'>Elapsed</th>\n";
-    echo "<th>Remaining</th>\n";
-    echo "<th>Current Status</th>\n";
-    echo "<th>Release</th>\n";
-    echo "<th>Derive</th>\n";
+    echo "<th>".T_("Mantis")."</th>\n";
+    echo "<th>".T_("TC Issue")."</th>\n";
+    echo "<th>".T_("Description")."</th>\n";
+    echo "<th>".T_("Submission Date")."</th>\n";
+    echo "<th>".T_("ETA")."</th>\n";
+    echo "<th title='BI + BS'>".T_("Effort Estim")."</th>\n";
+    echo "<th title='".T_("Est effort from TimeTracking")."'>".T_("Elapsed")."</th>\n";
+    echo "<th>".T_("Remaining")."</th>\n";
+    echo "<th>".T_("Current Status")."</th>\n";
+    echo "<th>".T_("Release")."</th>\n";
+    echo "<th>".T_("Drift")."</th>\n";
     echo "</tr>\n";
   
     foreach ($this->issueList as $bugId => $tmpIssue) {
@@ -137,11 +137,11 @@ class IssueTracking {
     echo "<div>\n";
     
     echo "<table>\n";
-    echo "<caption>R&eacute;partition du temps par status</caption>";
+    echo "<caption>".T_("Time allocation by status")."</caption>";
     echo "<tr>\n";
     echo "<th>Mantis</th>\n";
-    echo "<th>Fiche TC</th>\n";
-    echo "<th>Description</th>\n";
+    echo "<th>".T_("TC Issue")."</th>\n";
+    echo "<th>".T_("Description")."</th>\n";
     foreach($this->displayedStatusList as $status) {
       echo "<th>".$statusNames[$status]."</th>\n";
     }

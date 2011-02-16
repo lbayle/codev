@@ -2,11 +2,10 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-15 14:45+0100\n"
+"POT-Creation-Date: 2011-02-16 10:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,6 +35,7 @@ msgid "Team Leader"
 msgstr "Team Leader"
 
 #: admin/create_team.php:73 admin/edit_team.php:378
+#: classes/issue_tracking.class.php:99 classes/issue_tracking.class.php:144
 #: reports/productivity_report.php:185 reports/productivity_report.php:283
 #: reports/productivity_report.php:365 reports/proj_management_report.php:347
 #: timetracking/time_tracking_tools.php:49
@@ -52,12 +52,12 @@ msgstr "Cr&eacute;er"
 #: timetracking/holidays_report.php:262 timetracking/time_tracking.php:306
 #: timetracking/week_activity_report.php:267 tools/check.php:33
 msgid "Could not connect to database"
-msgstr ""
+msgstr "Connexion impossible a la base de donnees"
 
 #: admin/create_team.php:102 admin/edit_jobs.php:301 admin/edit_team.php:483
 #: index.php:143 login.php:40 timetracking/holidays_report.php:263
 msgid "Could not select database"
-msgstr ""
+msgstr "Impossible de selectionner la base de donnees"
 
 #: admin/create_team.php:147
 msgid "Create and go to Edit"
@@ -167,7 +167,7 @@ msgstr "&eacute;ffacer cette ligne"
 
 #: admin/edit_team.php:280
 msgid "Team Members"
-msgstr ""
+msgstr "Membres de l'&eacute;quipe"
 
 #: admin/edit_team.php:292
 msgid "Member"
@@ -264,6 +264,61 @@ msgstr "Alerte"
 msgid "ETA not set."
 msgstr "ETA non sp&eacute;cifi&eacute;"
 
+#: classes/issue_tracking.class.php:95
+msgid "Progress / Task"
+msgstr "Avancement / fiche"
+
+#: classes/issue_tracking.class.php:97
+msgid "Mantis"
+msgstr "Mantis"
+
+#: classes/issue_tracking.class.php:98 classes/issue_tracking.class.php:143
+#: timetracking/time_tracking_tools.php:46
+msgid "TC Issue"
+msgstr "Fiche TC"
+
+#: classes/issue_tracking.class.php:100
+msgid "Submission Date"
+msgstr "Date Soumission"
+
+#: classes/issue_tracking.class.php:101
+msgid "ETA"
+msgstr "ETA"
+
+#: classes/issue_tracking.class.php:102
+msgid "Effort Estim"
+msgstr "Effort Estim"
+
+#: classes/issue_tracking.class.php:103
+msgid "Est effort from TimeTracking"
+msgstr ""
+
+#: classes/issue_tracking.class.php:103 reports/issue_info.php:146
+msgid "Elapsed"
+msgstr "&eacute;coul&eacute;"
+
+#: classes/issue_tracking.class.php:104 reports/issue_info.php:151
+#: timetracking/time_tracking_tools.php:54
+msgid "Remaining"
+msgstr "Reste &agrave; engager"
+
+#: classes/issue_tracking.class.php:105
+msgid "Current Status"
+msgstr "Statut actuel"
+
+#: classes/issue_tracking.class.php:106
+msgid "Release"
+msgstr "Release"
+
+#: classes/issue_tracking.class.php:107 reports/issue_info.php:156
+#: reports/productivity_report.php:288 reports/productivity_report.php:370
+msgid "Drift"
+msgstr "D&eacute;rive"
+
+#: classes/issue_tracking.class.php:140
+msgid "Time allocation by status"
+msgstr "R&eacute;partition du temps par status"
+
 #: reports/issue_info.php:14
 msgid "Activity by task"
 msgstr "Activit&eacute; par t&acirc;che"
@@ -292,19 +347,6 @@ msgstr "Statut"
 #: reports/issue_info.php:141
 msgid "Estimated"
 msgstr "Estim&eacute;"
-
-#: reports/issue_info.php:146
-msgid "Elapsed"
-msgstr "&eacute;coul&eacute;"
-
-#: reports/issue_info.php:151 timetracking/time_tracking_tools.php:54
-msgid "Remaining"
-msgstr "Reste &agrave; engager"
-
-#: reports/issue_info.php:156 reports/productivity_report.php:288
-#: reports/productivity_report.php:370
-msgid "Drift"
-msgstr "D&eacute;rive"
 
 #: reports/issue_info.php:174 reports/productivity_report.php:415
 #: reports/productivity_report.php:437 reports/productivity_report.php:500
@@ -624,7 +666,7 @@ msgstr "Vendredi"
 #: timetracking/time_tracking_tools.php:142
 #: timetracking/week_activity_report.php:192
 msgid "RAE"
-msgstr "Remaining"
+msgstr "RAE"
 
 #: reports/proj_management_report.php:487
 #: timetracking/week_activity_report.php:280
@@ -692,10 +734,6 @@ msgstr "Imputations"
 #: timetracking/time_tracking_tools.php:44
 msgid "Date"
 msgstr "Date"
-
-#: timetracking/time_tracking_tools.php:46
-msgid "TC Issue"
-msgstr "Fiche TC"
 
 #: timetracking/time_tracking_tools.php:47
 msgid "Duration"
