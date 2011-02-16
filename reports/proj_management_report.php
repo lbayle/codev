@@ -124,26 +124,27 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
    $fh = fopen($myFile, 'w');
   
    // write header
-   $stringData = "Project".$sepChar.
-                 "m_id".$sepChar.   
-                 "tc_id".$sepChar.
-                 "Summary".$sepChar.
-                 "Status".$sepChar.
-                 "Submitted".$sepChar.
-                 "Start date".$sepChar.
-                 "Dead line".$sepChar.
-                 "Release".$sepChar.
-                 "Priority".$sepChar.
+   // WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
+   $stringData = T_("Project").$sepChar.
+                 T_("m_id").$sepChar.   
+                 T_("tc_id").$sepChar.
+                 T_("Summary").$sepChar.
+                 T_("Status").$sepChar.
+                 T_("Submitted").$sepChar.
+                 T_("Start date").$sepChar.
+                 T_("Dead line").$sepChar.
+                 T_("Release").$sepChar.
+                 T_("Priority").$sepChar.
                  "Category".$sepChar.
-                 "Resolution".$sepChar.
-                 "ETA".$sepChar.
-                 "BI".$sepChar.
-                 "BS".$sepChar.
+                 T_("Resolution").$sepChar.
+                 T_("ETA").$sepChar.
+                 T_("BI").$sepChar.
+                 T_("BS").$sepChar.
                  "Elapsed".$sepChar.
-                 "RAE".$sepChar.
-                 "Delivery Date".$sepChar.
-                 "Delivery Sheet".$sepChar.
-                 "Assigned to".$sepChar.
+                 T_("RAE").$sepChar.
+                 T_("Delivery Date").$sepChar.
+                 T_("Delivery Sheet").$sepChar.
+                 T_("Assigned to").$sepChar.
                  "\n";
    fwrite($fh, $stringData);
    
@@ -369,7 +370,7 @@ function exportWeekActivityReportToCSV($teamid, $weekid, $weekDates, $timeTracki
   $stringData = T_("Task").$sepChar.   
                 T_("Job").$sepChar.
                 T_("Description").$sepChar.
-                T_("Resource").$sepChar.
+                T_("Assigned to").$sepChar.
                 T_("Monday")." ".date("d/m", $weekDates[1]).$sepChar.
                 T_("Tuesday")." ".date("d/m", $weekDates[2]).$sepChar.
                 T_("Wednesday")." ".date("d/m", $weekDates[3]).$sepChar.

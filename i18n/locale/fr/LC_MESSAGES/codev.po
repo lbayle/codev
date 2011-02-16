@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-16 10:54+0100\n"
+"POT-Creation-Date: 2011-02-16 14:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr "Team Leader"
 #: admin/create_team.php:73 admin/edit_team.php:378
 #: classes/issue_tracking.class.php:99 classes/issue_tracking.class.php:144
 #: reports/productivity_report.php:185 reports/productivity_report.php:283
-#: reports/productivity_report.php:365 reports/proj_management_report.php:347
+#: reports/productivity_report.php:365 reports/proj_management_report.php:372
 #: timetracking/time_tracking_tools.php:49
 msgid "Description"
 msgstr "Description"
@@ -48,7 +48,7 @@ msgstr "Cr&eacute;er"
 
 #: admin/create_team.php:101 admin/edit_jobs.php:300 admin/edit_team.php:482
 #: index.php:142 login.php:39 reports/graph_report.php:16 reports/index.php:93
-#: reports/productivity_report.php:598 reports/proj_management_report.php:470
+#: reports/productivity_report.php:598 reports/proj_management_report.php:495
 #: timetracking/holidays_report.php:262 timetracking/time_tracking.php:306
 #: timetracking/week_activity_report.php:267 tools/check.php:33
 msgid "Could not connect to database"
@@ -89,7 +89,7 @@ msgid "delete Job"
 msgstr "&eacute;ffacer ce Poste"
 
 #: admin/edit_jobs.php:218 reports/issue_info.php:173
-#: reports/productivity_report.php:414 reports/proj_management_report.php:346
+#: reports/productivity_report.php:414 reports/proj_management_report.php:371
 #: timetracking/time_tracking.php:256 timetracking/time_tracking_tools.php:50
 #: timetracking/time_tracking_tools.php:143
 #: timetracking/week_activity_report.php:146
@@ -98,7 +98,8 @@ msgstr "Poste"
 
 #: admin/edit_jobs.php:225 admin/edit_jobs.php:258 reports/issue_info.php:73
 #: reports/productivity_report.php:145 reports/productivity_report.php:436
-#: timetracking/time_tracking.php:195 timetracking/time_tracking_tools.php:48
+#: reports/proj_management_report.php:128 timetracking/time_tracking.php:195
+#: timetracking/time_tracking_tools.php:48
 #: timetracking/week_activity_report.php:145
 msgid "Project"
 msgstr "Projet"
@@ -279,9 +280,9 @@ msgstr "Fiche TC"
 
 #: classes/issue_tracking.class.php:100
 msgid "Submission Date"
-msgstr "Date Soumission"
+msgstr "Date R&eacute;ception"
 
-#: classes/issue_tracking.class.php:101
+#: classes/issue_tracking.class.php:101 reports/proj_management_report.php:140
 msgid "ETA"
 msgstr "ETA"
 
@@ -306,7 +307,7 @@ msgstr "Reste &agrave; engager"
 msgid "Current Status"
 msgstr "Statut actuel"
 
-#: classes/issue_tracking.class.php:106
+#: classes/issue_tracking.class.php:106 reports/proj_management_report.php:136
 msgid "Release"
 msgstr "Release"
 
@@ -327,8 +328,8 @@ msgstr "Activit&eacute; par t&acirc;che"
 msgid "(all)"
 msgstr "(tous)"
 
-#: reports/issue_info.php:107 reports/proj_management_report.php:345
-#: reports/proj_management_report.php:426 timetracking/time_tracking.php:229
+#: reports/issue_info.php:107 reports/proj_management_report.php:370
+#: reports/proj_management_report.php:451 timetracking/time_tracking.php:229
 #: timetracking/time_tracking_tools.php:141
 #: timetracking/week_activity_report.php:144
 #: timetracking/week_activity_report.php:191 tools/check.php:59
@@ -339,8 +340,8 @@ msgstr "Fiches"
 msgid "Jump"
 msgstr "Envoyer"
 
-#: reports/issue_info.php:136 timetracking/time_tracking_tools.php:52
-#: tools/check.php:61
+#: reports/issue_info.php:136 reports/proj_management_report.php:132
+#: timetracking/time_tracking_tools.php:52 tools/check.php:61
 msgid "Status"
 msgstr "Statut"
 
@@ -363,7 +364,7 @@ msgid "Productivity Report"
 msgstr "Indicateurs de production"
 
 #: reports/productivity_report.php:81 reports/proj_management_report.php:57
-#: reports/proj_management_report.php:505 timetracking/holidays_report.php:37
+#: reports/proj_management_report.php:530 timetracking/holidays_report.php:37
 #: timetracking/week_activity_report.php:53
 msgid "Team"
 msgstr "Equipe"
@@ -627,78 +628,128 @@ msgstr "Gestion de Projet"
 msgid "Week"
 msgstr "Semaine"
 
-#: reports/proj_management_report.php:348
-msgid "Resource"
+#: reports/proj_management_report.php:129
+msgid "m_id"
+msgstr "Fiche Mantis"
+
+#: reports/proj_management_report.php:130
+msgid "tc_id"
+msgstr "Fiche TC"
+
+#: reports/proj_management_report.php:131
+msgid "Summary"
+msgstr "Description"
+
+#: reports/proj_management_report.php:133
+msgid "Submitted"
+msgstr "Reception"
+
+#: reports/proj_management_report.php:134
+msgid "Start date"
+msgstr "Date Debut"
+
+#: reports/proj_management_report.php:135
+msgid "Dead line"
+msgstr "Jalon"
+
+#: reports/proj_management_report.php:137
+msgid "Priority"
+msgstr "Priorite"
+
+#: reports/proj_management_report.php:139
+msgid "Resolution"
 msgstr ""
 
-#: reports/proj_management_report.php:349
-#: timetracking/time_tracking_tools.php:144
-#: timetracking/week_activity_report.php:147
-msgid "Monday"
-msgstr "Lundi"
+#: reports/proj_management_report.php:141
+msgid "BI"
+msgstr "BI"
 
-#: reports/proj_management_report.php:350
-#: timetracking/time_tracking_tools.php:145
-#: timetracking/week_activity_report.php:148
-msgid "Tuesday"
-msgstr "Mardi"
+#: reports/proj_management_report.php:142
+msgid "BS"
+msgstr "BS"
 
-#: reports/proj_management_report.php:351
-#: timetracking/time_tracking_tools.php:146
-#: timetracking/week_activity_report.php:149
-msgid "Wednesday"
-msgstr "Mercredi"
-
-#: reports/proj_management_report.php:352
-#: timetracking/time_tracking_tools.php:147
-#: timetracking/week_activity_report.php:150
-msgid "Thursday"
-msgstr "Jeudi"
-
-#: reports/proj_management_report.php:353
-#: timetracking/time_tracking_tools.php:148
-#: timetracking/week_activity_report.php:151
-msgid "Friday"
-msgstr "Vendredi"
-
-#: reports/proj_management_report.php:427
+#: reports/proj_management_report.php:144
+#: reports/proj_management_report.php:452
 #: timetracking/time_tracking_tools.php:54
 #: timetracking/time_tracking_tools.php:142
 #: timetracking/week_activity_report.php:192
 msgid "RAE"
 msgstr "RAE"
 
-#: reports/proj_management_report.php:487
+#: reports/proj_management_report.php:145
+msgid "Delivery Date"
+msgstr "Date Livraison"
+
+#: reports/proj_management_report.php:146
+msgid "Delivery Sheet"
+msgstr "FDL"
+
+#: reports/proj_management_report.php:147
+#: reports/proj_management_report.php:373
+msgid "Assigned to"
+msgstr "Ressource"
+
+#: reports/proj_management_report.php:374
+#: timetracking/time_tracking_tools.php:144
+#: timetracking/week_activity_report.php:147
+msgid "Monday"
+msgstr "Lundi"
+
+#: reports/proj_management_report.php:375
+#: timetracking/time_tracking_tools.php:145
+#: timetracking/week_activity_report.php:148
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: reports/proj_management_report.php:376
+#: timetracking/time_tracking_tools.php:146
+#: timetracking/week_activity_report.php:149
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: reports/proj_management_report.php:377
+#: timetracking/time_tracking_tools.php:147
+#: timetracking/week_activity_report.php:150
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: reports/proj_management_report.php:378
+#: timetracking/time_tracking_tools.php:148
+#: timetracking/week_activity_report.php:151
+msgid "Friday"
+msgstr "Vendredi"
+
+#: reports/proj_management_report.php:512
 #: timetracking/week_activity_report.php:280
 msgid "Sorry, you do NOT have access to this page."
 msgstr "d&eacute;sol&eacute;, vous n'avez pas acces a cette page."
 
-#: reports/proj_management_report.php:514
+#: reports/proj_management_report.php:539
 msgid "Export Managed Issues"
 msgstr "Export Fiches Mantis en cours"
 
-#: reports/proj_management_report.php:523
-#: reports/proj_management_report.php:533
+#: reports/proj_management_report.php:548
+#: reports/proj_management_report.php:558
 msgid "Export Week "
 msgstr "Export Semaine "
 
-#: reports/proj_management_report.php:523
+#: reports/proj_management_report.php:548
 msgid " Member Activity"
 msgstr " Activit&eacute; Equipe"
 
-#: reports/proj_management_report.php:533
+#: reports/proj_management_report.php:558
 msgid " Projects Activity"
 msgstr " Activit&eacute; Projets"
 
-#: reports/proj_management_report.php:542
+#: reports/proj_management_report.php:567
 msgid "Export Holidays "
 msgstr "Export Vacances "
 
-#: reports/proj_management_report.php:563
+#: reports/proj_management_report.php:588
 msgid "Done"
 msgstr "Termin&eacute;"
 
-#: reports/proj_management_report.php:565
+#: reports/proj_management_report.php:590
 msgid "Results in : "
 msgstr "R&eacute;sultats dans : "
 
