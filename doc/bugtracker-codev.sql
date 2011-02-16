@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Serveur: localhost
--- Généré le : Mar 08 Février 2011 à 15:26
+-- Généré le : Mer 16 Février 2011 à 17:50
 -- Version du serveur: 5.1.41
 -- Version de PHP: 5.3.1
 
@@ -25,7 +25,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Structure de la table `codev_job_table`
 --
 
-DROP TABLE IF EXISTS `codev_job_table`;
 CREATE TABLE IF NOT EXISTS `codev_job_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -52,7 +51,6 @@ INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
 -- Structure de la table `codev_project_job_table`
 --
 
-DROP TABLE IF EXISTS `codev_project_job_table`;
 CREATE TABLE IF NOT EXISTS `codev_project_job_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `project_id` int(10) NOT NULL,
@@ -73,14 +71,13 @@ INSERT INTO `codev_project_job_table` (`id`, `project_id`, `job_id`) VALUES
 -- Structure de la table `codev_team_project_table`
 --
 
-DROP TABLE IF EXISTS `codev_team_project_table`;
 CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `project_id` int(10) NOT NULL,
   `team_id` int(10) NOT NULL,
   `type` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=105 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=107 ;
 
 --
 -- Contenu de la table `codev_team_project_table`
@@ -134,6 +131,8 @@ INSERT INTO `codev_team_project_table` (`id`, `project_id`, `team_id`, `type`) V
 (92, 5, 26, 0),
 (93, 16, 26, 0),
 (94, 17, 26, 0),
+(106, 21, 1, 0),
+(105, 21, 26, 0),
 (98, 20, 1, 0),
 (99, 20, 26, 0),
 (100, 19, 26, 0);
@@ -144,7 +143,6 @@ INSERT INTO `codev_team_project_table` (`id`, `project_id`, `team_id`, `type`) V
 -- Structure de la table `codev_team_table`
 --
 
-DROP TABLE IF EXISTS `codev_team_table`;
 CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(15) NOT NULL,
@@ -174,7 +172,6 @@ INSERT INTO `codev_team_table` (`id`, `name`, `description`, `leader_id`) VALUES
 -- Structure de la table `codev_team_user_table`
 --
 
-DROP TABLE IF EXISTS `codev_team_user_table`;
 CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,
@@ -251,7 +248,6 @@ INSERT INTO `codev_team_user_table` (`id`, `user_id`, `team_id`, `access_level`,
 -- Structure de la table `codev_timetracking_table`
 --
 
-DROP TABLE IF EXISTS `codev_timetracking_table`;
 CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `userid` int(10) NOT NULL,
@@ -260,46 +256,112 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   `date` int(10) DEFAULT NULL,
   `duration` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3436 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3647 ;
 
---
--- Contenu de la table `codev_timetracking_table`
---
-
--- INSERT INTO `codev_timetracking_table` (`id`, `userid`, `bugid`, `jobid`, `date`, `duration`) VALUES
--- (26, 7, 52, 10, 1275429600, 1),
--- (3434, 5, 62, 10, 1297119600, 0.2);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `mantis_custom_field_table`
+-- Contenu de la table `mantis_custom_field_project_table`
 --
 
--- DROP TABLE IF EXISTS `mantis_custom_field_table`;
--- CREATE TABLE IF NOT EXISTS `mantis_custom_field_table` (
---   `id` int(11) NOT NULL AUTO_INCREMENT,
---   `name` varchar(64) NOT NULL DEFAULT '',
---   `type` smallint(6) NOT NULL DEFAULT '0',
---   `possible_values` text NOT NULL,
---   `default_value` varchar(255) NOT NULL DEFAULT '',
---   `valid_regexp` varchar(255) NOT NULL DEFAULT '',
---   `access_level_r` smallint(6) NOT NULL DEFAULT '0',
---   `access_level_rw` smallint(6) NOT NULL DEFAULT '0',
---   `length_min` int(11) NOT NULL DEFAULT '0',
---   `length_max` int(11) NOT NULL DEFAULT '0',
---   `require_report` tinyint(4) NOT NULL DEFAULT '0',
---   `require_update` tinyint(4) NOT NULL DEFAULT '0',
---   `display_report` tinyint(4) NOT NULL DEFAULT '0',
---   `display_update` tinyint(4) NOT NULL DEFAULT '1',
---   `require_resolved` tinyint(4) NOT NULL DEFAULT '0',
---   `display_resolved` tinyint(4) NOT NULL DEFAULT '0',
---   `display_closed` tinyint(4) NOT NULL DEFAULT '0',
---   `require_closed` tinyint(4) NOT NULL DEFAULT '0',
---   `filter_by` tinyint(4) NOT NULL DEFAULT '1',
---   PRIMARY KEY (`id`),
---   KEY `idx_custom_field_name` (`name`)
--- ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) VALUES
+(1, 1, 0),
+(1, 2, 0),
+(1, 4, 0),
+(1, 3, 0),
+(1, 5, 0),
+(1, 6, 0),
+(3, 1, 2),
+(4, 1, 4),
+(3, 2, 2),
+(4, 2, 4),
+(3, 4, 2),
+(4, 4, 4),
+(3, 6, 2),
+(4, 6, 4),
+(3, 3, 2),
+(4, 3, 4),
+(3, 5, 2),
+(4, 5, 4),
+(1, 12, 0),
+(3, 12, 2),
+(4, 12, 4),
+(8, 1, 0),
+(1, 15, 0),
+(3, 15, 2),
+(4, 15, 4),
+(4, 11, 0),
+(3, 11, 0),
+(8, 2, 0),
+(8, 12, 0),
+(8, 15, 0),
+(8, 4, 0),
+(8, 6, 0),
+(8, 3, 0),
+(8, 5, 0),
+(8, 16, 0),
+(1, 16, 0),
+(3, 16, 2),
+(4, 16, 4),
+(1, 18, 0),
+(9, 1, 5),
+(9, 2, 5),
+(9, 12, 5),
+(9, 15, 5),
+(9, 4, 5),
+(9, 6, 5),
+(9, 3, 5),
+(9, 5, 5),
+(9, 16, 5),
+(10, 1, 3),
+(10, 2, 3),
+(10, 12, 3),
+(10, 15, 3),
+(10, 4, 3),
+(10, 6, 3),
+(10, 3, 3),
+(10, 5, 3),
+(10, 16, 3),
+(10, 11, 3),
+(11, 1, 5),
+(11, 2, 5),
+(11, 12, 5),
+(11, 15, 5),
+(11, 4, 5),
+(11, 6, 5),
+(11, 3, 5),
+(11, 5, 5),
+(11, 16, 5),
+(11, 11, 5),
+(10, 17, 0),
+(3, 17, 0),
+(4, 17, 0),
+(8, 17, 0),
+(8, 19, 0),
+(1, 19, 0),
+(3, 19, 2),
+(10, 19, 3),
+(4, 19, 4),
+(9, 19, 5),
+(11, 19, 5),
+(8, 20, 0),
+(1, 20, 0),
+(3, 20, 2),
+(10, 20, 3),
+(4, 20, 4),
+(9, 20, 5),
+(11, 20, 5),
+(8, 21, 0),
+(1, 21, 0),
+(3, 21, 2),
+(10, 21, 3),
+(4, 21, 4),
+(9, 21, 5),
+(11, 21, 5);
+
+
+-- --------------------------------------------------------
 
 --
 -- Contenu de la table `mantis_custom_field_table`
@@ -307,7 +369,6 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
 
 INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`, `default_value`, `valid_regexp`, `access_level_r`, `access_level_rw`, `length_min`, `length_max`, `require_report`, `require_update`, `display_report`, `display_update`, `require_resolved`, `display_resolved`, `display_closed`, `require_closed`, `filter_by`) VALUES
 (1, 'TC', 0, '', '', '(tcp1b[12]_)?[0-9]{1,5}', 10, 25, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1),
-(2, 'Release', 3, '(select)|GEMS/1.5.1|GEMS/1.6|GEMS/1.7|P1012_GEMS/1.8|P1103_GEMS/1.9|P1106_GEMS/1.9.2|P1106_GEMS/1.10|OLTP/3.5.0|OLTP/3.6.0|OLTP/3.7.0|P1012_OLTP/3.8.0|P1106_OLTP/3.9.0|P1103_OLTP/3.9.1|P1106_OLTP/3.9.2|P1109_OLTP/3.10.0|JTR_SSCC/1.10|OLTP_Prod', '(select)', '', 10, 25, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1),
 (3, 'Est. Effort (BI)', 1, '', '', '', 10, 40, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1),
 (4, 'Remaining (RAE)', 1, '', '', '', 10, 40, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1),
 (8, 'Dead Line', 8, '', '', '', 10, 55, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1),
@@ -316,27 +377,6 @@ INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`
 (11, 'Liv. Date', 8, '', '', '', 10, 55, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1);
 
 -- --------------------------------------------------------
-
---
--- Structure de la table `mantis_project_table`
---
-
--- DROP TABLE IF EXISTS `mantis_project_table`;
--- CREATE TABLE IF NOT EXISTS `mantis_project_table` (
---   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
---   `name` varchar(128) NOT NULL DEFAULT '',
---   `status` smallint(6) NOT NULL DEFAULT '10',
---   `enabled` tinyint(4) NOT NULL DEFAULT '1',
---   `view_state` smallint(6) NOT NULL DEFAULT '10',
---   `access_min` smallint(6) NOT NULL DEFAULT '10',
---   `file_path` varchar(250) NOT NULL DEFAULT '',
---   `description` longtext NOT NULL,
---   `category_id` int(10) unsigned NOT NULL DEFAULT '1',
---   `inherit_global` int(10) unsigned NOT NULL DEFAULT '0',
---   PRIMARY KEY (`id`),
---   UNIQUE KEY `idx_project_name` (`name`),
---   KEY `idx_project_view` (`view_state`)
--- ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- Contenu de la table `mantis_project_table`
@@ -360,19 +400,6 @@ INSERT INTO `mantis_project_table` (`id`, `name`, `status`, `enabled`, `view_sta
 (21, 'Sport', 10, 1, 10, 10, '', 'Extension offre sport réseau.', 1, 1);
 
 -- --------------------------------------------------------
-
---
--- Structure de la table `mantis_project_user_list_table`
---
-
--- DROP TABLE IF EXISTS `mantis_project_user_list_table`;
--- CREATE TABLE IF NOT EXISTS `mantis_project_user_list_table` (
---   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
---   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
---   `access_level` smallint(6) NOT NULL DEFAULT '10',
---   PRIMARY KEY (`project_id`,`user_id`),
---   KEY `idx_project_user` (`user_id`)
--- ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `mantis_project_user_list_table`
@@ -434,62 +461,37 @@ INSERT INTO `mantis_project_user_list_table` (`project_id`, `user_id`, `access_l
 (17, 16, 55),
 (17, 21, 55);
 
+
 -- --------------------------------------------------------
 
---
--- Structure de la table `mantis_user_table`
---
-
--- DROP TABLE IF EXISTS `mantis_user_table`;
--- CREATE TABLE IF NOT EXISTS `mantis_user_table` (
---   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
---   `username` varchar(32) NOT NULL DEFAULT '',
---   `realname` varchar(64) NOT NULL DEFAULT '',
---   `email` varchar(64) NOT NULL DEFAULT '',
---   `password` varchar(32) NOT NULL DEFAULT '',
---   `enabled` tinyint(4) NOT NULL DEFAULT '1',
---   `protected` tinyint(4) NOT NULL DEFAULT '0',
---   `access_level` smallint(6) NOT NULL DEFAULT '10',
---   `login_count` int(11) NOT NULL DEFAULT '0',
---   `lost_password_request_count` smallint(6) NOT NULL DEFAULT '0',
---   `failed_login_count` smallint(6) NOT NULL DEFAULT '0',
---   `cookie_string` varchar(64) NOT NULL DEFAULT '',
---   `last_visit` int(10) unsigned NOT NULL DEFAULT '1',
---   `date_created` int(10) unsigned NOT NULL DEFAULT '1',
---   PRIMARY KEY (`id`),
---   UNIQUE KEY `idx_user_cookie_string` (`cookie_string`),
---   UNIQUE KEY `idx_user_username` (`username`),
---   KEY `idx_enable` (`enabled`),
---   KEY `idx_access` (`access_level`)
--- ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 --
 -- Contenu de la table `mantis_user_table`
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`, `last_visit`, `date_created`) VALUES
-(1, 'administrator', 'administrator', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 57, 0, 0, '2eaf0f02c475b359318a87988342c3c32fc634ac03eb8dfaa24ec99ef8046214', 1297163850, 1272555040),
-(2, 'mnavarro', 'Mikaël NAVARRO', 'mikael.navarro@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 240, 0, 0, '11cabc1f68e9f33c5cc44be68ad7f31897bfe84d77dbfdd0d07d06007cee886f', 1297175150, 1272609634),
-(3, 'qualif', 'Qualification', 'mosi@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 130, 0, 0, 'e2d3d4a08d60c35c322ff71130a5e43743173f3de6979e2256878e7ae7aab689', 1296659939, 1272610523),
-(4, 'preq', 'PreQual', 'preq@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 25, 0, 0, 'c3de616cddf08ced072f09a0eab293408854d073c75eaa1f2dcadfc6e0a991f1', 1294306975, 1272610558),
-(5, 'sberal', 'Sébastien BERAL', 'sebastien.beral@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 8, 0, 0, '76aa39c680026f4c401e052699286bc5538f25fb5a752502f7ee016de25dad64', 1297173798, 1272610576),
+(1, 'administrator', 'administrator', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 60, 0, 0, '2eaf0f02c475b359318a87988342c3c32fc634ac03eb8dfaa24ec99ef8046214', 1297873597, 1272555040),
+(2, 'mnavarro', 'Mikaël NAVARRO', 'mikael.navarro@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 250, 0, 0, '11cabc1f68e9f33c5cc44be68ad7f31897bfe84d77dbfdd0d07d06007cee886f', 1297871722, 1272609634),
+(3, 'qualif', 'Qualification', 'mosi@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 138, 0, 0, 'e2d3d4a08d60c35c322ff71130a5e43743173f3de6979e2256878e7ae7aab689', 1297781394, 1272610523),
+(4, 'preq', 'PreQual', 'preq@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 26, 0, 0, 'c3de616cddf08ced072f09a0eab293408854d073c75eaa1f2dcadfc6e0a991f1', 1297341417, 1272610558),
+(5, 'sberal', 'Sébastien BERAL', 'sebastien.beral@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 9, 0, 0, '76aa39c680026f4c401e052699286bc5538f25fb5a752502f7ee016de25dad64', 1297868944, 1272610576),
 (6, 'vcastelin', 'Vincent CASTELIN', 'vincent.castelin@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 44, 0, 0, 'a51edcc9a9846fdea46fa06f5e8bef4033e4f4fa1f3162904a44afb2f2fab084', 1285597326, 1272610608),
-(7, 'lbayle', 'Louis BAYLE', 'lbayle.work@gmail.com', 'caf671ca0104ebfca4cd4b6f4b345e8e', 1, 0, 55, 43, 0, 0, 'f10234a5a2a8eee74e4a44f82fec7a9c8461efea4c2f77030b4a9d08051b88d7', 1297163821, 1272610636),
+(7, 'lbayle', 'Louis BAYLE', 'lbayle.work@gmail.com', 'caf671ca0104ebfca4cd4b6f4b345e8e', 1, 0, 55, 46, 0, 0, 'f10234a5a2a8eee74e4a44f82fec7a9c8461efea4c2f77030b4a9d08051b88d7', 1297870812, 1272610636),
 (8, 'cmaruejols', 'Christophe MARUEJOLS', 'christophe.maruejols@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 28, 0, 0, '26d616184948cf6d3530de8ba53fec739213325b38ed738d1f1e5fbf0c9bc8b1', 1284542987, 1272610681),
-(9, 'afebvre', 'Anne FEBVRE', 'anne.febvre@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 74, 0, 0, '464319d0c4e9a12a95836ac3335d94da0cb9a3d32b96175643983f83519325e3', 1297093598, 1272610824),
-(10, 'mdoan', 'Marie DOAN', 'marie.doan@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 10, 0, 0, '71a5b5f6087385d8c2053927e7c52ec61501f5540b4037358834c133717a5433', 1297173854, 1272610890),
-(11, 'nladraa', 'Nadia LADRAA', 'nadia.ladraa@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 50, 0, 0, '08db035be4a8389fabfd3cb0d2cd6ef693f7a3fd55c7e7563d0364cb4798fd08', 1297152704, 1272610921),
+(9, 'afebvre', 'Anne FEBVRE', 'anne.febvre@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 76, 0, 0, '464319d0c4e9a12a95836ac3335d94da0cb9a3d32b96175643983f83519325e3', 1297868964, 1272610824),
+(10, 'mdoan', 'Marie DOAN', 'marie.doan@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 11, 0, 0, '71a5b5f6087385d8c2053927e7c52ec61501f5540b4037358834c133717a5433', 1297873446, 1272610890),
+(11, 'nladraa', 'Nadia LADRAA', 'nadia.ladraa@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 52, 0, 0, '08db035be4a8389fabfd3cb0d2cd6ef693f7a3fd55c7e7563d0364cb4798fd08', 1297355244, 1272610921),
 (12, 'golivier', 'Gisèle OLIVIER', 'golivier@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 33, 0, 0, '5403f2e529dd027e20097d7940426851a3486f593c903952db77a94a2b61dbfa', 1296808929, 1272610952),
-(13, 'codev', 'CoDev', 'codev-atos@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 90, 130, 0, 0, '1df9e6d3be53458cb27290265f204d93a1a6b233624860466a3975c11a292b22', 1297070405, 1272611005),
+(13, 'codev', 'CoDev', 'codev-atos@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 90, 141, 0, 0, '1df9e6d3be53458cb27290265f204d93a1a6b233624860466a3975c11a292b22', 1297871633, 1272611005),
 (14, 'ogueneau', 'Olivier GUENEAU', 'ogueneau@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 40, 11, 0, 0, 'e741de824bed998a1c47e4f12d71a151cb729f0256553ebc39af26631c729bbc', 1294648654, 1272613873),
 (15, 'fdj', 'FdJ', 'fdj@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 40, 0, 0, 0, 'd209db61f82e9f412d606f823c81bb13b3679e465b81e6c32aad076fa893a07e', 1272619824, 1272619824),
-(16, 'cpatin', 'Carole PATIN', 'carole.patin@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 19, 0, 0, '9e6f44c13a312b84fc53ddca867ddfe1b0ba47405b73bee6173766ef04443bda', 1297156050, 1278570124),
+(16, 'cpatin', 'Carole PATIN', 'carole.patin@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 20, 0, 0, '9e6f44c13a312b84fc53ddca867ddfe1b0ba47405b73bee6173766ef04443bda', 1297694602, 1278570124),
 (17, 'ktan', 'Karter TAN', 'ktan@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 11, 0, 0, 'd7ac61539229d09f5d80aa7886c5de4d3e0933bfc7ceb37104fc9e9c43a9301d', 1294839655, 1280836945),
 (18, 'jjulien', 'Jerôme JULIEN', 'jerome.julien@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 54, 0, 0, 'bc0e96ed1f1cebf863f284ac53e59b147168aaed411d880d71e4551855ade549', 1295620236, 1284363725),
-(19, 'jbaldaccini', 'Jessica BALDACCINI', 'jessica.baldaccini@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 43, 0, 0, 'bba760e39d75ed9ea5484e94dbc537d92a7ece826bc810d861fbbaf4485cfef5', 1297156747, 1284363879),
-(20, 'lachaibou', 'Lyna ACHAIBOU', 'lyna.achaibou@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 50, 0, 0, '1f28b703895404d6eb00ff6d512ee13a91102671069215c21d61126803ca2dbb', 1297097781, 1284364052),
-(21, 'tuzieblo', 'Tomasz UZIEBLO', 'tomasz.uzieblo@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 29, 0, 0, 'cc2162a91a787c1998e720fdad3d051148b18227ae253ccc22e39ffadfebfdc6', 1297156240, 1290073340),
-(22, 'mbastide', 'Marie BASTIDE', 'marie.bastide@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 38, 0, 0, '5b9d06a658c4dc21fac7b494b79b505155dd0bc8f87de8d0e3f0817d90df1bfe', 1297175040, 1290517904);
+(19, 'jbaldaccini', 'Jessica BALDACCINI', 'jessica.baldaccini@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 43, 0, 0, 'bba760e39d75ed9ea5484e94dbc537d92a7ece826bc810d861fbbaf4485cfef5', 1297874586, 1284363879),
+(20, 'lachaibou', 'Lyna ACHAIBOU', 'lyna.achaibou@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 53, 0, 0, '1f28b703895404d6eb00ff6d512ee13a91102671069215c21d61126803ca2dbb', 1297873180, 1284364052),
+(21, 'tuzieblo', 'Tomasz UZIEBLO', 'tomasz.uzieblo@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 34, 0, 0, 'cc2162a91a787c1998e720fdad3d051148b18227ae253ccc22e39ffadfebfdc6', 1297871935, 1290073340),
+(22, 'mbastide', 'Marie BASTIDE', 'marie.bastide@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 48, 0, 0, '5b9d06a658c4dc21fac7b494b79b505155dd0bc8f87de8d0e3f0817d90df1bfe', 1297789718, 1290517904);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
