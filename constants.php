@@ -184,6 +184,7 @@
   
   
   // ---
+  // TODO put DaysOff in DB
   // timestamps of holidays (national, religious, etc.)
   // REM: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong.
   $globalHolidaysList = array("2010-01-01", // reveillon
@@ -197,7 +198,15 @@
                                #"2010-11-12", // RTT employeur  
                                #"2010-12-24", // RTT employeur  
                                "2010-12-25", // noel
-                               #"2010-12-31"  // RTT employeur  
+                               #"2010-12-31"  // RTT employeur
+                               "2011-01-01", // reveillon  
+                               "2011-04-25", // lundi paques
+                               "2011-05-01", // fete du travail
+                               "2011-06-02", // ascension
+                               "2011-07-14", // 14 juillet   
+                               "2011-11-01", // toussaint   
+                               "2011-11-11", // armistice  
+                               "2011-12-25", // noel
   );
   
   
