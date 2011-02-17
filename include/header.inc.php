@@ -1,4 +1,7 @@
-<?php include_once "tools.php"; ?>
+<?php 
+   include_once "constants.php"; 
+   include_once "tools.php"; 
+   ?>
 
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
@@ -23,7 +26,9 @@
 <table id='header'>
 <tr>
 <td width=300>
-<?php echo "<a href='".getServerRootURL()."/'><img src='".getServerRootURL()."/images/clock_logo_06.png' /></a>";?>
+<?php
+   echo "<a href='".getServerRootURL()."/'><img title='$codevVersion' src='".getServerRootURL()."/images/clock_logo_06.png' /></a>";
+?>
 
 
 </td>

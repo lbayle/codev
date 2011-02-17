@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-17 10:50+0100\n"
+"POT-Creation-Date: 2011-02-17 15:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -871,7 +871,7 @@ msgstr "d&eacute;connexion"
 msgid "Logged out !"
 msgstr "d&eacute;connect&eacute; !"
 
-#: include/login.inc.php:14
+#: include/login.inc.php:14 index.php:44
 msgid "log in"
 msgstr "connexion"
 
@@ -889,7 +889,7 @@ msgstr ""
 "en cas de problemes, veuillez utiliser un navigateur respectant les "
 "standards du web."
 
-#: index.php:42 index.php:44 login.php:23 login.php:25
+#: index.php:42 login.php:23 login.php:25
 msgid "Login"
 msgstr "Identifiant"
 
@@ -899,7 +899,7 @@ msgstr "Mot de passe"
 
 #: index.php:69
 msgid "Holidays"
-msgstr "Suivi des Conges"
+msgstr "Suivi des Cong&egrave;s"
 
 #: index.php:79
 msgid "Mantis Reports"
