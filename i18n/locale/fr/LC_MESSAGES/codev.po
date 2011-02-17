@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-16 17:26+0100\n"
+"POT-Creation-Date: 2011-02-17 09:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,8 @@ msgstr ""
 #: tools/check.php:9
 msgid "Sorry, you need to <a href='../'>login</a> to access this page."
 msgstr ""
-"Vous devez vous <a href='../'>identifier</a> pour acceder a cette page."
+"Vous devez vous <a href='../'>identifier</a> pour acc&eacute;der &agrave; "
+"cette page."
 
 #: admin/create_team.php:14
 msgid "CoDev Administration : Team Creation"
