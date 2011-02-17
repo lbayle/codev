@@ -30,6 +30,29 @@ function getServerRootURL() {
 }
 
 /**
+ * returns current URL (complete, with ?params=<value>) 
+ */
+function getCurrentURL() {
+ $pageURL = 'http';
+ if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+ $pageURL .= "://";
+ if ($_SERVER["SERVER_PORT"] != "80") {
+  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+ } else {
+  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+ }
+ return $pageURL;
+}
+
+/**
+ * returns current URL (no params)
+ */
+function curPageName() {
+ return substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
+}
+
+
+/**
  * returns an HTML link to the Mantis page for Issue $bugid
  * ex: http://172.24.209.4/mantis/view.php?id=400
  * @param int $bugid issue id in mantis DB

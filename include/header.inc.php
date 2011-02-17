@@ -35,6 +35,9 @@
 
 </td>
 <td width=300>
+<?php echo "<a href='".curPageName()."?locale=fr'><img title='Francais' src='".getServerRootURL()."/images/drapeau_fr.jpg' /></a>";?>
+&nbsp;
+<?php echo "<a href='".curPageName()."?locale=en'><img title='English' src='".getServerRootURL()."/images/drapeau_gb.jpg' /></a>";?>
 </td>
 </tr>
 </table>
