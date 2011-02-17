@@ -39,9 +39,9 @@ function displayLoginForm() {
   echo "<div align=center>\n";      
   echo("<form action='login.php' method='post' name='loginForm'>\n");
 
-  echo("Login: <input name='codev_login' type='text' id='codev_login'>\n");
-  echo("Password: <input name='codev_passwd' type='password' id='codev_passwd'>\n");
-  echo("<input type='submit' name='Submit' value='Login'>\n");
+  echo T_("Login").": <input name='codev_login' type='text' id='codev_login'>\n";
+  echo T_("Password").": <input name='codev_passwd' type='password' id='codev_passwd'>\n";
+  echo "<input type='submit' name='Submit' value='".T_("log in")."'>\n";
      
   echo "<input type=hidden name=action      value=pleaseLogin>\n";
   echo "<input type=hidden name=currentForm value=loginForm>\n";

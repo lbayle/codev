@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-17 09:23+0100\n"
+"POT-Creation-Date: 2011-02-17 10:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -865,7 +865,7 @@ msgstr "Connecté sous "
 
 #: include/login.inc.php:12
 msgid "log out"
-msgstr "d&eacute;connection"
+msgstr "d&eacute;connexion"
 
 #: include/login.inc.php:14
 msgid "Logged out !"
@@ -873,7 +873,7 @@ msgstr "d&eacute;connect&eacute; !"
 
 #: include/login.inc.php:14
 msgid "log in"
-msgstr "connection"
+msgstr "connexion"
 
 #: index.php:7
 msgid "Welcome"
@@ -888,6 +888,14 @@ msgid "please consider using a standard complient web-browser.<br/>"
 msgstr ""
 "en cas de problemes, veuillez utiliser un navigateur respectant les "
 "standards du web."
+
+#: index.php:42 index.php:44 login.php:23 login.php:25
+msgid "Login"
+msgstr "Identifiant"
+
+#: index.php:43 login.php:24
+msgid "Password"
+msgstr "Mot de passe"
 
 #: index.php:69
 msgid "Holidays"
@@ -915,15 +923,7 @@ msgstr "ERREUR Fiche "
 
 #: login.php:7
 msgid "CoDev Login"
-msgstr "Identifiant CoDev"
-
-#: login.php:23 login.php:25
-msgid "Login"
-msgstr "Identifiant"
-
-#: login.php:24
-msgid "Password"
-msgstr "Mot de passe"
+msgstr "Connexion CoDev"
 
 #: login.php:61
 msgid "login failed !"
