@@ -7,6 +7,9 @@
 <html>
 
 <head>
+<?php 
+   echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' >";
+?>
 
 <title>CoDev TimeTracking</title>
 <meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
