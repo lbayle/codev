@@ -5,6 +5,7 @@
 include_once "time_track.class.php";
 include_once "issue.class.php";
 include_once "user.class.php";
+include_once "holidays.class.php";
 
 class TimeTracking {
   var $startTimestamp;
@@ -128,7 +129,6 @@ class TimeTracking {
 
   // ----------------------------------------------
   public function getProductionDaysForecast() {
-    global $globalHolidaysList;
     global $accessLevel_dev;
     global $accessLevel_manager;
     
@@ -594,7 +594,8 @@ class TimeTracking {
   // ----------------------------------------------
   // Find days which are not 'sat' or 'sun' and that have no timeTrack entry.
   public function checkMissingDays($userid) {
-    global $globalHolidaysList;
+    
+    $holidays = new Holidays();
     
     $missingDays = array();
 
@@ -627,19 +628,20 @@ class TimeTracking {
     $startDayOfYear = date("z", $startT);   
     $endDayOfYear   = date("z", $endT);
 
+    #echo "startDayOfYear $startDayOfYear -  ".date("d M Y", $startT)." ------ endDayOfYear   $endDayOfYear   -  ".date("d M Y", $endT)."<br/>";    
+        
     //for ($i = $endDayOfYear; $i >= $startDayOfYear; $i--) {
     for ($i = $startDayOfYear; $i <= $endDayOfYear; $i++) {
-        
+    	
       $timestamp = dayofyear2timestamp($i, date("Y", $startT));
-      $dayOfWeek = date("N",$timestamp);
 
       // monday to friday
-      if (($dayOfWeek < 6) && (!in_array(date("Y-m-d", $timestamp), $globalHolidaysList))) {                 
-                
+      $h = $holidays->isHoliday($timestamp);
+      if (NULL == $h) {
         $query     = "SELECT COUNT(date) FROM `codev_timetracking_table` WHERE userid = $userid AND date = $timestamp";
         $result    = mysql_query($query) or die("Query failed: $query");
         $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-            
+    
         if (0 == $nbTuples) {
           //echo "missingDays ".dayofyear2date($i, $startT)." <br/>";
           $missingDays[] = $timestamp;

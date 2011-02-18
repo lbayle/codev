@@ -5,6 +5,7 @@
 // LoB 23 Jun 2010
 
 include_once "issue.class.php";
+include_once "holidays.class.php";
 
 // =======================================
 class User {
@@ -213,8 +214,9 @@ class User {
    
    // --------------------
    public function getProductionDaysForecast($startTimestamp, $endTimestamp, $team_id = NULL) {
-      global $globalHolidaysList;
-   	
+
+      $holidays = new Holidays();
+      
       $prodDaysForecast = 0;
       $nbOpenDaysInPeriod = 0;
       
@@ -235,8 +237,8 @@ class User {
      
       // get $nbOpenDaysInPeriod
       for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
-        $dayOfWeek = date("N", $i);
-        if (($dayOfWeek < 6) && (!in_array(date("Y-m-d", $i), $globalHolidaysList))) { 
+         // monday to friday
+         if (NULL == $holidays->isHoliday($i)) {
         	$nbOpenDaysInPeriod++; 
         }
       }

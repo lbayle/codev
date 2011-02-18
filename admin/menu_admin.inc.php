@@ -18,6 +18,8 @@ echo "
       <a href='".getServerRootURL()."/admin/edit_team.php' title=''>".T_("Edit Team")."</a>
       |
       <a href='".getServerRootURL()."/admin/edit_jobs.php' title=''>".T_("Edit Jobs")."</a>
+      |
+      <a href='".getServerRootURL()."/admin/edit_holidays.php' title=''>".T_("Edit Holidays")."</a>
       </td>
       <td>
       <a href='".getServerRootURL()."/doc/codev_adminguide.html' title='Aide Admin'>".T_("Admin Guide")."</a>

@@ -47,6 +47,7 @@ include_once "project.class.php";
 include_once "time_track.class.php";
 include_once "user.class.php";
 include_once "jobs.class.php";
+include_once "holidays.class.php";
 
 // ---------------------------------------------------------------
 function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
@@ -194,7 +195,8 @@ function displayJobDetails($issue) {
 }
 // ---------------------------------------------------------------
 function displayMonth($month, $year, $issue) {
-  global $globalHolidaysList;
+
+  $holidays = new Holidays();
   
   $jobs = new Jobs();
   
@@ -254,11 +256,11 @@ function displayMonth($month, $year, $issue) {
         echo "<td style='background-color: ".$jobColorByDate[$todayTimestamp]."; text-align: center;'>".$durationByDate[$todayTimestamp]."</td>\n";
       } else {
         // if weekend or holiday, display gray
-        if (($dayOfWeek > 5) || 
-            (in_array(date("Y-m-d", $todayTimestamp), $globalHolidaysList))) { 
-          echo "<td style='background-color: #d8d8d8;'></td>\n";
+        $h = $holidays->isHoliday($todayTimestamp);
+        if (NULL != $h) {
+            echo "<td style='background-color: $holidays->defaultColor;' title='$h->description'></td>\n";
         } else {
-          echo "<td></td>\n";
+            echo "<td></td>\n";
         }
       }
     }

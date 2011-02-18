@@ -28,6 +28,7 @@
 include_once "constants.php";
 include_once "tools.php";
 include_once "user.class.php";
+include_once "holidays.class.php";
 
 // ---------------------------------------------
 
@@ -73,8 +74,9 @@ function  displayHolidaysReportForm($teamid, $curYear) {
 
 // ---------------------------------------------
 function displayHolidaysMonth($month, $year, $teamid) {
-  global $globalHolidaysList;
-        
+  
+  $holidays = new Holidays();
+  
   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
   $monthFormated = date("F Y", $monthTimestamp); 
   $nbDaysInMonth = date("t", $monthTimestamp);
@@ -123,16 +125,15 @@ function displayHolidaysMonth($month, $year, $teamid) {
 		      	
 		        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$daysOf[$i]."</td>\n";
 		      } else {
-		        $timestamp = mktime(0, 0, 0, $month, $i, $year);
-		        $dayOfWeek = date("N", $timestamp);
-		                        
-		        // If weekend or holiday, display gray
-		        if (($dayOfWeek > 5) || 
-		            (in_array(date("Y-m-d", $timestamp), $globalHolidaysList))) { 
-		          echo "<td style='background-color: #d8d8d8;'></td>\n";
-		        } else {
-		          echo "<td></td>\n";
-		        }
+		      	
+              // If weekend or holiday, display gray
+               $timestamp = mktime(0, 0, 0, $month, $i, $year);
+		      	$h = $holidays->isHoliday($timestamp);
+		         if (NULL != $h) {
+                   echo "<td style='background-color: $h->color;' title='$h->description'></td>\n";
+		         } else {
+                   echo "<td></td>\n";
+		         }
 		      }
 		    }
 		    echo "</tr>\n";
