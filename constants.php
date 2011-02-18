@@ -42,14 +42,6 @@
   $status_delivered = 85;
   $status_closed   = 90;
   
-  // jobs as defined in codev_job_table
-  $job_study   = 1;
-  $job_analyse = 2;
-  $job_doc     = 18;
-  $job_dev     = 3;  
-  $job_test    = 4;
-  $job_none    = 10;
-  
   // CoDev FDJ specificities (not defined in Mantis)
   $status_feedback_ATOS = 21;
   $status_feedback_FDJ  = 22;

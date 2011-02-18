@@ -6,7 +6,7 @@
 <div id="menu">
 
 <?php 
-echo ("
+echo "
 <table class='menu'>
    <tr>
       <td class='menu'><a href='".getServerRootURL()."/index.php'>".T_("Home")."</a></td>
@@ -37,7 +37,7 @@ echo ("
       <a href='".getServerRootURL()."/admin/index.php' title='".T_("CoDev Administration")."'>Admin</a>
       </td>
    </tr>
-</table>");
+</table>";
 ?>
 <br/>
 <br/>

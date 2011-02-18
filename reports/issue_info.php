@@ -195,11 +195,6 @@ function displayJobDetails($issue) {
 // ---------------------------------------------------------------
 function displayMonth($month, $year, $issue) {
   global $globalHolidaysList;
-  global $job_study;
-  global $job_analyse;
-  global $job_dev;  
-  global $job_test;
-  global $job_none;
   
   $jobs = new Jobs();
   
