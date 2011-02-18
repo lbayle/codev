@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-17 15:13+0100\n"
+"POT-Creation-Date: 2011-02-18 18:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Language: \n"
 
-#: admin/create_team.php:7 admin/edit_jobs.php:9 admin/edit_team.php:8
-#: admin/index.php:10 reports/issue_info.php:8
+#: admin/create_team.php:7 admin/edit_holidays.php:9 admin/edit_jobs.php:9
+#: admin/edit_team.php:8 admin/index.php:10 reports/issue_info.php:8
 #: reports/productivity_report.php:8 reports/proj_management_report.php:8
 #: timetracking/time_tracking.php:9 timetracking/week_activity_report.php:8
 #: tools/check.php:9
@@ -37,7 +37,8 @@ msgstr "Nom de l'equipe"
 msgid "Team Leader"
 msgstr "Team Leader"
 
-#: admin/create_team.php:73 admin/edit_team.php:378
+#: admin/create_team.php:73 admin/edit_holidays.php:86
+#: admin/edit_holidays.php:110 admin/edit_team.php:378
 #: classes/issue_tracking.class.php:99 classes/issue_tracking.class.php:144
 #: reports/productivity_report.php:185 reports/productivity_report.php:283
 #: reports/productivity_report.php:365 reports/proj_management_report.php:372
@@ -49,22 +50,59 @@ msgstr "Description"
 msgid "Create"
 msgstr "Cr&eacute;er"
 
-#: admin/create_team.php:101 admin/edit_jobs.php:300 admin/edit_team.php:482
-#: index.php:142 login.php:39 reports/graph_report.php:16 reports/index.php:93
+#: admin/create_team.php:101 admin/edit_holidays.php:155
+#: admin/edit_jobs.php:300 admin/edit_team.php:482 index.php:142 login.php:39
+#: reports/graph_report.php:16 reports/index.php:93
 #: reports/productivity_report.php:598 reports/proj_management_report.php:495
-#: timetracking/holidays_report.php:262 timetracking/time_tracking.php:306
+#: timetracking/holidays_report.php:263 timetracking/time_tracking.php:306
 #: timetracking/week_activity_report.php:267 tools/check.php:33
 msgid "Could not connect to database"
 msgstr "Connexion impossible a la base de donnees"
 
-#: admin/create_team.php:102 admin/edit_jobs.php:301 admin/edit_team.php:483
-#: index.php:143 login.php:40 timetracking/holidays_report.php:263
+#: admin/create_team.php:102 admin/edit_holidays.php:156
+#: admin/edit_jobs.php:301 admin/edit_team.php:483 index.php:143 login.php:40
+#: timetracking/holidays_report.php:264
 msgid "Could not select database"
 msgstr "Impossible de selectionner la base de donnees"
 
 #: admin/create_team.php:147
 msgid "Create and go to Edit"
 msgstr "Creer et Editer"
+
+#: admin/edit_holidays.php:15
+msgid "CoDev Administration : Fixed Holidays"
+msgstr "Administration CoDev : Cong&eacute;s"
+
+#: admin/edit_holidays.php:83 admin/edit_holidays.php:109
+#: timetracking/time_tracking_tools.php:44
+msgid "Date"
+msgstr "Date"
+
+#: admin/edit_holidays.php:88 admin/edit_holidays.php:111
+#: admin/edit_jobs.php:142 admin/edit_jobs.php:167
+msgid "Color"
+msgstr "Couleur"
+
+#: admin/edit_holidays.php:90 admin/edit_jobs.php:144 admin/edit_jobs.php:235
+#: admin/edit_team.php:448 timetracking/time_tracking.php:284
+msgid "Add"
+msgstr "Ajouter"
+
+#: admin/edit_holidays.php:92 admin/edit_jobs.php:146
+msgid "open a colorPicker in a new Tab"
+msgstr "Ouvrir un selecteur de couleur dans un nouvel onglet"
+
+#: admin/edit_holidays.php:126
+msgid "delete Holiday"
+msgstr "&eacute;ffacer cette date"
+
+#: admin/edit_holidays.php:163 admin/edit_jobs.php:308
+msgid "Sorry, you need to be in the admin-team to access this page."
+msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
+
+#: admin/edit_holidays.php:167
+msgid "Add fixed holidays"
+msgstr "Ajout de Cong&eacute;s"
 
 #: admin/edit_jobs.php:15
 msgid "CoDev Administration : Jobs Edition"
@@ -79,19 +117,11 @@ msgstr "Nom du Poste"
 msgid "Type"
 msgstr "Type"
 
-#: admin/edit_jobs.php:142 admin/edit_jobs.php:167
-msgid "Color"
-msgstr "Couleur"
-
-#: admin/edit_jobs.php:146
-msgid "open a colorPicker in a new Tab"
-msgstr "Ouvrir un selecteur de couleur dans un nouvel onglet"
-
 #: admin/edit_jobs.php:187
 msgid "delete Job"
 msgstr "&eacute;ffacer ce Poste"
 
-#: admin/edit_jobs.php:218 reports/issue_info.php:173
+#: admin/edit_jobs.php:218 reports/issue_info.php:174
 #: reports/productivity_report.php:414 reports/proj_management_report.php:371
 #: timetracking/time_tracking.php:256 timetracking/time_tracking_tools.php:50
 #: timetracking/time_tracking_tools.php:143
@@ -99,7 +129,7 @@ msgstr "&eacute;ffacer ce Poste"
 msgid "Job"
 msgstr "Poste"
 
-#: admin/edit_jobs.php:225 admin/edit_jobs.php:258 reports/issue_info.php:73
+#: admin/edit_jobs.php:225 admin/edit_jobs.php:258 reports/issue_info.php:74
 #: reports/productivity_report.php:145 reports/productivity_report.php:436
 #: reports/proj_management_report.php:128 timetracking/time_tracking.php:195
 #: timetracking/time_tracking_tools.php:48
@@ -110,10 +140,6 @@ msgstr "Projet"
 #: admin/edit_jobs.php:275
 msgid "delete Project Association"
 msgstr "supprimer l'association au Projet"
-
-#: admin/edit_jobs.php:308
-msgid "Sorry, you need to be in the admin-team to access this page."
-msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
 
 #: admin/edit_jobs.php:312
 msgid "Jobs"
@@ -196,10 +222,6 @@ msgstr "maj date de d&eacute;part"
 #: admin/edit_team.php:414
 msgid "Team Projects"
 msgstr "Projets de l'&eacute;quipe"
-
-#: admin/edit_team.php:448 timetracking/time_tracking.php:284
-msgid "Add"
-msgstr "Ajouter"
 
 #: admin/edit_team.php:469
 msgid "Delete team"
@@ -297,11 +319,11 @@ msgstr "Effort Estim"
 msgid "Est effort from TimeTracking"
 msgstr ""
 
-#: classes/issue_tracking.class.php:103 reports/issue_info.php:146
+#: classes/issue_tracking.class.php:103 reports/issue_info.php:147
 msgid "Elapsed"
 msgstr "&eacute;coul&eacute;"
 
-#: classes/issue_tracking.class.php:104 reports/issue_info.php:151
+#: classes/issue_tracking.class.php:104 reports/issue_info.php:152
 #: timetracking/time_tracking_tools.php:54
 msgid "Remaining"
 msgstr "Reste &agrave; engager"
@@ -314,7 +336,7 @@ msgstr "Statut actuel"
 msgid "Product Version"
 msgstr "Version Produit"
 
-#: classes/issue_tracking.class.php:107 reports/issue_info.php:156
+#: classes/issue_tracking.class.php:107 reports/issue_info.php:157
 #: reports/productivity_report.php:288 reports/productivity_report.php:370
 msgid "Drift"
 msgstr "D&eacute;rive"
@@ -327,11 +349,11 @@ msgstr "R&eacute;partition du temps par status"
 msgid "Activity by task"
 msgstr "Activit&eacute; par t&acirc;che"
 
-#: reports/issue_info.php:74 timetracking/time_tracking.php:196
+#: reports/issue_info.php:75 timetracking/time_tracking.php:196
 msgid "(all)"
 msgstr "(tous)"
 
-#: reports/issue_info.php:107 reports/proj_management_report.php:370
+#: reports/issue_info.php:108 reports/proj_management_report.php:370
 #: reports/proj_management_report.php:451 timetracking/time_tracking.php:229
 #: timetracking/time_tracking_tools.php:141
 #: timetracking/week_activity_report.php:144
@@ -339,26 +361,26 @@ msgstr "(tous)"
 msgid "Task"
 msgstr "Fiches"
 
-#: reports/issue_info.php:120 timetracking/time_tracking.php:141
+#: reports/issue_info.php:121 timetracking/time_tracking.php:141
 msgid "Jump"
 msgstr "Envoyer"
 
-#: reports/issue_info.php:136 reports/proj_management_report.php:132
+#: reports/issue_info.php:137 reports/proj_management_report.php:132
 #: timetracking/time_tracking_tools.php:52 tools/check.php:61
 msgid "Status"
 msgstr "Statut"
 
-#: reports/issue_info.php:141
+#: reports/issue_info.php:142
 msgid "Estimated"
 msgstr "Estim&eacute;"
 
-#: reports/issue_info.php:174 reports/productivity_report.php:415
+#: reports/issue_info.php:175 reports/productivity_report.php:415
 #: reports/productivity_report.php:437 reports/productivity_report.php:500
 #: reports/productivity_report.php:539
 msgid "Nb Days"
 msgstr "Nb Jours"
 
-#: reports/issue_info.php:307 timetracking/time_tracking.php:331
+#: reports/issue_info.php:304 timetracking/time_tracking.php:331
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
 
@@ -367,7 +389,7 @@ msgid "Productivity Report"
 msgstr "Indicateurs de production"
 
 #: reports/productivity_report.php:81 reports/proj_management_report.php:57
-#: reports/proj_management_report.php:530 timetracking/holidays_report.php:37
+#: reports/proj_management_report.php:530 timetracking/holidays_report.php:38
 #: timetracking/week_activity_report.php:53
 msgid "Team"
 msgstr "Equipe"
@@ -661,7 +683,7 @@ msgstr "Priorite"
 
 #: reports/proj_management_report.php:139
 msgid "Resolution"
-msgstr ""
+msgstr "Resolution"
 
 #: reports/proj_management_report.php:141
 msgid "BI"
@@ -760,13 +782,13 @@ msgstr "R&eacute;sultats dans : "
 msgid "Holidays Report"
 msgstr "Pr&eacute;vision cong&eacute;s"
 
-#: timetracking/holidays_report.php:52
+#: timetracking/holidays_report.php:53
 msgid "Year"
 msgstr "Ann&eacute;e"
 
-#: timetracking/holidays_report.php:161 timetracking/holidays_report.php:175
+#: timetracking/holidays_report.php:162 timetracking/holidays_report.php:176
 msgid "Query failed:"
-msgstr ""
+msgstr "Query failed:"
 
 #: index.php:65 timetracking/time_tracking.php:16
 msgid "Time Tracking"
@@ -784,10 +806,6 @@ msgstr "jours"
 #: timetracking/time_tracking_tools.php:41
 msgid "Imputations"
 msgstr "Imputations"
-
-#: timetracking/time_tracking_tools.php:44
-msgid "Date"
-msgstr "Date"
 
 #: timetracking/time_tracking_tools.php:47
 msgid "Duration"
@@ -899,7 +917,7 @@ msgstr "Mot de passe"
 
 #: index.php:69
 msgid "Holidays"
-msgstr "Suivi des Cong&egrave;s"
+msgstr "Suivi des Cong&eacute;s"
 
 #: index.php:79
 msgid "Mantis Reports"
@@ -928,14 +946,6 @@ msgstr "Connexion CoDev"
 #: login.php:61
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
-
-#, fuzzy
-#~ msgid "Sorry, you need to <a href='../'\">login</a> to access this page."
-#~ msgstr ""
-#~ "Vous devez vous <a href='../'>identifier</a> pour acceder a cette page."
-
-#~ msgid "Release"
-#~ msgstr "Release"
 
 #~ msgid "Export Week $weekid Member Activity"
 #~ msgstr "Export Semaine $weekid Activit&eacute; Equipe"

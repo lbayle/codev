@@ -141,7 +141,7 @@ function addJobForm($originPage) {
       
    echo("   ".T_("Color").": <input name='job_color' type='text' id='job_color' value='#000000' size='6'>\n");
 
-   echo "   <input type=button name='btAddJob' value='Add' onClick='javascript: addJob()'>\n";
+   echo "   <input type=button name='btAddJob' value='".T_("Add")."' onClick='javascript: addJob()'>\n";
 
    echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
    
@@ -232,7 +232,7 @@ function addJobProjectAssociationForm($originPage) {
    
    
 
-   echo "<input type=button name='btAddAssociation' value='Add' onClick='javascript: addJobProjectAssociation()'>\n";
+   echo "<input type=button name='btAddAssociation' value='".T_("Add")."' onClick='javascript: addJobProjectAssociation()'>\n";
 
    echo "   <input type=hidden name=action  value=noAction>\n";
    echo "</form>\n";
