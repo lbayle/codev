@@ -19,6 +19,32 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Base de données: `bugtracker`
 --
 
+--
+-- Structure de la table `codev_holidays_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `date` int(10) NOT NULL,
+  `description` varchar(50) DEFAULT NULL,
+  `color` varchar(7) NOT NULL DEFAULT '#D8D8D8',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Fixed Holidays (national, religious, etc.)' AUTO_INCREMENT=15 ;
+
+--
+-- Contenu de la table `codev_holidays_table`
+--
+
+INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
+(6, 1303682400, 'lundi de paques', '#58CC77'),
+(7, 1304200800, 'fete du travail', '#D8D8D8'),
+(8, 1306965600, 'ascension', '#58CC77'),
+(9, 1310594400, 'fete nationale', '#58CC77'),
+(10, 1320102000, 'toussaints', '#58CC77'),
+(11, 1320966000, 'armistice', '#58CC77'),
+(12, 1324767600, 'noel', '#D8D8D8'),
+(14, 1293836400, 'Reveillon', '#D8D8D8');
+
 -- --------------------------------------------------------
 
 --
