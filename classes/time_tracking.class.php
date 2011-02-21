@@ -592,7 +592,7 @@ class TimeTracking {
   }
 
   // ----------------------------------------------
-  // Find days which are not 'sat' or 'sun' and that have no timeTrack entry.
+  // Find days which are not 'sat' or 'sun' or FixedHoliday and that have no timeTrack entry.
   public function checkMissingDays($userid) {
     
     $holidays = new Holidays();
@@ -624,17 +624,9 @@ class TimeTracking {
        $endT   = $departureTimestamp;
     }
 
-    // Julien calendar format (0.. 365)
-    $startDayOfYear = date("z", $startT);   
-    $endDayOfYear   = date("z", $endT);
-
-    #echo "startDayOfYear $startDayOfYear -  ".date("d M Y", $startT)." ------ endDayOfYear   $endDayOfYear   -  ".date("d M Y", $endT)."<br/>";    
-        
-    //for ($i = $endDayOfYear; $i >= $startDayOfYear; $i--) {
-    for ($i = $startDayOfYear; $i <= $endDayOfYear; $i++) {
+    $timestamp = $startT;
+    while ($timestamp <= $endT) {
     	
-      $timestamp = dayofyear2timestamp($i, date("Y", $startT));
-
       // monday to friday
       $h = $holidays->isHoliday($timestamp);
       if (NULL == $h) {
@@ -643,15 +635,16 @@ class TimeTracking {
         $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
     
         if (0 == $nbTuples) {
-          //echo "missingDays ".dayofyear2date($i, $startT)." <br/>";
           $missingDays[] = $timestamp;
         }
       }
+      $timestamp = strtotime("+1 day",$timestamp);;
     }
 
     return $missingDays;
   }
 
+  
   // ----------------------------------------------
   /**
    * returns $durationPerCategory[CategoryName][bugid] = duration
