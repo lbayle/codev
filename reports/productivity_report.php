@@ -336,7 +336,7 @@ function displayCurrentDriftStats ($timeTracking) {
    global $status_closed;
 	  
     // ---- get Issues that are not Resolved/Closed   
-    $formatedProdProjectList = simpleListToSQLFormatedString($timeTracking->prodProjectList);
+    $formatedProdProjectList = implode( ', ', $timeTracking->prodProjectList);
     $issueList = array();
     
     $query = "SELECT DISTINCT id ".
@@ -489,7 +489,7 @@ function displaySideTalksProjectDetails($timeTracking) {
      $stProjList[] = $proj->name;
      
   }
-  $formatedProjList = simpleListToSQLFormatedString($stProjList);
+  $formatedProjList = implode( ', ', $stProjList);
   
   $formatedBugList = "";
   

@@ -106,7 +106,7 @@ class PeriodStats {
   	
     $this->statusCountList["submitted"] = 0;
 
-    $formatedProjectTypes = simpleListToSQLFormatedString($this->projectTypeList);
+    $formatedProjectTypes = implode( ', ', $this->projectTypeList);
 
     // sideTaskprojects are excluded
     $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
@@ -117,7 +117,7 @@ class PeriodStats {
 
     // Only for specified Projects   
     if ((isset($this->projectList)) && (0 != count($this->projectList))) {
-        	$formatedProjects = simpleListToSQLFormatedString($this->projectList);
+        	$formatedProjects = implode( ', ', $this->projectList);
     	$query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
     }
     if (isset($_GET['debug_sql'])) { echo "countIssues_submitted(): query = $query<br/>"; }
@@ -155,7 +155,7 @@ class PeriodStats {
   // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
   private function countIssues_other() {
     
-    $formatedProjectTypes = simpleListToSQLFormatedString($this->projectTypeList);
+    $formatedProjectTypes = implode( ', ', $this->projectTypeList);
     
     
   	 // select all but SideTasks & rem 'doublons'
@@ -167,7 +167,7 @@ class PeriodStats {
 
     // Only for specified Projects   
         if ((isset($this->projectList)) && (0 != count($this->projectList))) {
-         $formatedProjects = simpleListToSQLFormatedString($this->projectList);
+         $formatedProjects = implode( ', ', $this->projectList);
       $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
     }
         if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
@@ -217,7 +217,7 @@ class PeriodStats {
     $resolvedList = array();
     $issueList = array();    
   	
-    $formatedProjectTypes = simpleListToSQLFormatedString($this->projectTypeList);
+    $formatedProjectTypes = implode( ', ', $this->projectTypeList);
   	
     // all bugs which status changed to 'resolved' whthin the timestamp
     $query = "SELECT mantis_bug_table.id, ".
@@ -237,7 +237,7 @@ class PeriodStats {
     
     // Only for specified Projects   
     if ((isset($this->projectList)) && (0 != count($this->projectList))) {
-         $formatedProjects = simpleListToSQLFormatedString($this->projectList);
+         $formatedProjects = implode( ', ', $this->projectList);
       $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
     }
     
