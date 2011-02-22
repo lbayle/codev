@@ -4,8 +4,6 @@
 // Status & Issue classes
 
 include_once "period_stats.class.php";
-//require_once "../Artichow/LinePlot.class.php";
-//require_once "../Artichow/Graph.class.php";
 
 class PeriodStatsReport {
   var $start_year;
@@ -111,7 +109,7 @@ class PeriodStatsReport {
     }
     echo "</table>\n";
   }
-
+  
 } // end class PeriodStatsReport
 
 ?>

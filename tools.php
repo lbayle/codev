@@ -279,7 +279,7 @@ function doubleExplode ($del1, $del2, $array){
    }
    $afinal = array();
    for ( $i = 0; $i <= count($array3); $i += 2) {
-      if($array3[$i]!=""){
+      if($array3[$i]!="") {
          $afinal[trim($array3[$i])] = trim($array3[$i+1]);
       }
    }
