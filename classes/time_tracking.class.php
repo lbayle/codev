@@ -410,10 +410,10 @@ class TimeTracking {
       echo ("derive totale ($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $derive<br/>");
       echo ("derive totale ETA($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $deriveETA<br/>");
       
-      echo("Nbre Bugs en dérive        : $nbDriftsPos<br/>");
+      echo("Nbre Bugs en derive        : $nbDriftsPos<br/>");
       echo("Nbre Bugs a l'equilibre    : $nbDriftsEqual<br/>");
       echo("Nbre Bugs en avance        : $nbDriftsNeg<br/>");
-      echo("Nbre Bugs en dérive     ETA: $nbDriftsPosETA<br/>");
+      echo("Nbre Bugs en derive     ETA: $nbDriftsPosETA<br/>");
       echo("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA<br/>");
       echo("Nbre Bugs en avance     ETA: $nbDriftsNegETA<br/>");
     }

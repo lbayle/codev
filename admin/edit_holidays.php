@@ -115,7 +115,7 @@ function displayHolidaysTuples() {
    
    $query     = "SELECT * ".
                 "FROM `codev_holidays_table` ".
-                "ORDER BY date";
+                "ORDER BY date DESC";
    $result    = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {

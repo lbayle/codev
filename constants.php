@@ -5,6 +5,7 @@
   // constants
   // LoB 17 May 2010
 
+   include_once "tools.php";
 
 
    $codevVersion = "v0.99.6 (16 Feb 2011)";
@@ -29,35 +30,44 @@
 	$db_mantis_database	=	'bugtracker';
 
   // mantis defs
-  define ("STATUS_NEW", 10);
 
-  $status_new      = 10;
-  $status_feedback = 20;
-  $status_ack      = 30;
-  $status_analyzed = 40;
-  $status_accepted = 45;
-  $status_openned  = 50;
-  $status_deferred = 55;
-  $status_resolved = 80;
-  $status_delivered = 85;
-  $status_closed   = 90;
+  // --- Mantis Values ---
+  // Unfortunately the following values are not in Mantis database, you'll have to manualy copy those
+  // definition if you customized them.
+  
+  // Values copied from: mantis/config_inc.php
+  $g_status_enum_string = "10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed";
+  $g_eta_enum_string    = '10:none,20:< 1 day,30:2-3 days,40:<1 week,50:< 15 days,60:> 15 days';
+  
+  // Values copied from:  mantis/lang/strings_english.txt
+  #$s_priority_enum_string   = '10:none,20:low,30:normal,40:high,50:urgent,60:immediate';
+  #$s_resolution_enum_string = '10:open,20:fixed,30:reopened,40:unable to reproduce,50:not fixable,60:duplicate,70:no change required,80:suspended,90:won\'t fix';
+  $s_priority_enum_string = '10:aucune,20:basse,30:normale,40:elevee,50:urgente,60:immediate';
+  $s_resolution_enum_string = '10:ouvert,20:resolu,30:rouvert,40:impossible a reproduire,50:impossible a corriger,60:doublon,70:pas un bogue,80:suspendu,90:ne sera pas resolu';
+  
+  $statusNames     = doubleExplode(':', ',', $g_status_enum_string);
+  $ETA_names       = doubleExplode(':', ',', $g_eta_enum_string);
+  $priorityNames   = doubleExplode(':', ',', $s_priority_enum_string);
+  $resolutionNames = doubleExplode(':', ',', $s_resolution_enum_string);
+  
+  
+  // --- STATUS ---
+  // REM: see $g_status_enum_string defined in previous section
+  $status_new       = 10;
+  $status_feedback  = 20;
+  $status_ack       = 30;
+  $status_analyzed  = 40;
+  $status_accepted  = 45;  // CoDev FDJ specific, defined in Mantis
+  $status_openned   = 50;
+  $status_deferred  = 55;
+  $status_resolved  = 80;
+  $status_delivered = 85;  // CoDev FDJ specific, defined in Mantis
+  $status_closed    = 90;
   
   // CoDev FDJ specificities (not defined in Mantis)
   $status_feedback_ATOS = 21;
   $status_feedback_FDJ  = 22;
   
-  // unfortunately the status names are not a table in Mantis:
-  // REM: $g_status_enum_string in mantis/config_inc.php
-  $statusNames = array($status_new      => "New",
-                       $status_feedback => "Feedback",
-                       $status_ack      => "Acknowledged",
-                       $status_analyzed => "Analyzed",
-                       $status_accepted => "Accepted",
-                       $status_openned  => "Openned",
-                       $status_deferred => "Deferred",
-                       $status_resolved => "Resolved",
-                       $status_delivered => "Delivered",
-                       $status_closed   => "Closed");
 
   // CoDev FDJ specificities (not defined in Mantis)
   $statusNames[$status_feedback_ATOS] = "feedback_ATOS";
@@ -65,43 +75,7 @@
   
 
   // ---
-  // unfortunately the priority names are not a table in Mantis:
-  // REM: $s_priority_enum_string in mantis/lang/strings_english.txt
-  $priorityNames = array(10 => "none",
-                     20 => "low",
-                     30 => "normal",
-                     40 => "high",
-                     50 => "urgent",
-                     60 => "immediate");
-  
-
-                     
-  // ---
-  // unfortunately the priority names are not a table in Mantis:
-  // REM: $s_resolution_enum_string in mantis/lang/strings_english.txt
-  $resolutionNames = array(10 => "open",
-                     20 => "fixed",
-                     30 => "reopened",
-                     40 => "unable to reproduce",
-                     50 => "not fixable",
-                     60 => "duplicate",
-                     70 => "no change required",
-                     80 => "suspended",
-                     90 => "won\'t fix");
-
-
-  // ---
-  // unfortunately the status names are not a table in Mantis:
-  // REM: $g_eta_enum_string in mantis/config_inc.php
-  $ETA_names = array(10 => "none", 
-                     20 => "< 1 day",
-                     30 => "2-3 days",
-                     40 => "< 1 week",
-                     50 => "< 15 days",
-                     60 => "> 15 days");
-  
-                          
-  // ponderation des fiches en fonction de la difficulte.
+  // toughness indicator to compute "Productivity Rate ETA"
   $ETA_balance = array(10 => 1,   // none 
                        20 => 1,   // < 1 day
                        30 => 3,   // 2-3 days
@@ -125,12 +99,12 @@
                               $accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
                               
   // this is the custom field added to mantis issues for TimeTracking
-  $tcCustomField          = 1; // in mantis_custom_field_table
-  $estimEffortCustomField = 3; // in mantis_custom_field_table BI
-  $remainingCustomField   = 4; // in mantis_custom_field_table RAE
-  $deadLineCustomField    = 8; // in mantis_custom_field_table
-  $addEffortCustomField   = 10; // in mantis_custom_field_table BS
-  $deliveryIdCustomField = 9; // in mantis_custom_field_table FDL (id of the associated Delivery Issue)
+  $tcCustomField           = 1; // in mantis_custom_field_table
+  $estimEffortCustomField  = 3; // in mantis_custom_field_table BI
+  $remainingCustomField    = 4; // in mantis_custom_field_table RAE
+  $deadLineCustomField     = 8; // in mantis_custom_field_table
+  $addEffortCustomField    = 10; // in mantis_custom_field_table BS
+  $deliveryIdCustomField   = 9; // in mantis_custom_field_table FDL (id of the associated Delivery Issue)
   $deliveryDateCustomField = 11; // in mantis_custom_field_table
   
   // ---
@@ -143,7 +117,7 @@
                              $sideTaskProjectType => "SideTasks");
   
   // ---
-  $commonJobType  = 0;     // jobs common to all projects are type 0
+  $commonJobType   = 0;     // jobs common to all projects are type 0
   $assignedJobType = 1;     // jobs specific to one or more projects are type 1
   $jobType_names = array($commonJobType => "Common",
                          $assignedJobType => "Assigned");
