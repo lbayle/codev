@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-18 18:09+0100\n"
+"POT-Creation-Date: 2011-02-22 10:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,6 +103,12 @@ msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
 #: admin/edit_holidays.php:167
 msgid "Add fixed holidays"
 msgstr "Ajout de Cong&eacute;s"
+
+#: admin/edit_holidays.php:169
+msgid "In here you can set National Days, religious holidays, etc."
+msgstr ""
+"Ajoutez ici les f&ecirc;tes nationales, f&ecirc;tes religieuses ou la "
+"fermeture annuelle de l'&eacute;tablissement."
 
 #: admin/edit_jobs.php:15
 msgid "CoDev Administration : Jobs Edition"
@@ -412,7 +418,7 @@ msgstr "Calculer"
 
 #: reports/productivity_report.php:144
 msgid "Project Detail"
-msgstr "Detail du Projet"
+msgstr "D&eacute;tail du Projet"
 
 #: reports/productivity_report.php:181
 msgid "Productivity indicators"
@@ -447,7 +453,7 @@ msgstr "Jours de Production : SuiviOp Dev"
 msgid "days spent on sideTasks (holidays not included, developpers only)"
 msgstr ""
 "nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s) "
-"par les Developeurs"
+"par les D&eacute;velopeurs"
 
 #: reports/productivity_report.php:204
 msgid "Production Days : SuiviOp Managers"
@@ -488,11 +494,11 @@ msgstr ""
 
 #: reports/productivity_report.php:232
 msgid "System Availability"
-msgstr "Disponibilit&eacute; Systeme"
+msgstr "Disponibilit&eacute; Syst&egrave;me"
 
 #: reports/productivity_report.php:234
 msgid "Platform Availability"
-msgstr "disponibilit&eacute; de la plateforme de develomppement"
+msgstr "disponibilit&eacute; de la plateforme de d&eacute;velopement"
 
 #: reports/productivity_report.php:239 reports/productivity_report.php:281
 #: reports/productivity_report.php:363
@@ -521,12 +527,13 @@ msgstr ""
 #: reports/productivity_report.php:292
 msgid "- Computed on task Resolved/Closed in the given period"
 msgstr ""
-"- Le calcul est fait sur les fiches Resolved/Closed dans la p&eacute;riode."
+"- Le calcul est fait sur les fiches R&eacute;solues/Ferm&eacute;es dans la "
+"p&eacute;riode."
 
 #: reports/productivity_report.php:245 reports/productivity_report.php:255
 #: reports/productivity_report.php:293
 msgid "- Reopened tasks are not taken into account"
-msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;s"
+msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
 
 #: reports/productivity_report.php:250 reports/productivity_report.php:282
 #: reports/productivity_report.php:364
@@ -539,7 +546,7 @@ msgstr "Taux de productivit&eacute;"
 
 #: reports/productivity_report.php:278
 msgid "Drift - Tasks resolved in the period"
-msgstr "D&eacute;rives - Resolved dans la p&eacute;riode"
+msgstr "D&eacute;rives - R&eacute;solues dans la p&eacute;riode"
 
 #: reports/productivity_report.php:288 reports/productivity_report.php:294
 #: reports/productivity_report.php:370
@@ -602,7 +609,7 @@ msgstr "D&eacute;rives - En cours &agrave; ce jour"
 
 #: reports/productivity_report.php:374
 msgid "Computed on task NOT Resolved/Closed on "
-msgstr "Le calcul est fait sur les fiches NON Resolved/Closed au "
+msgstr "Le calcul est fait sur les fiches NON Resolues/Ferm&eacute;es au "
 
 #: reports/productivity_report.php:412
 msgid "Load per Job"
@@ -618,7 +625,7 @@ msgstr "Projets"
 
 #: reports/productivity_report.php:497
 msgid "Project Management Detail"
-msgstr "Detail Gestion de Projet"
+msgstr "D&eacute;tail Gestion de Projet"
 
 #: reports/productivity_report.php:499 reports/productivity_report.php:538
 #: timetracking/time_tracking_tools.php:51
@@ -895,7 +902,7 @@ msgstr "connexion"
 
 #: index.php:7
 msgid "Welcome"
-msgstr "Bienvenu sur le serveur CoDev"
+msgstr "Bienvenue sur le serveur CoDev"
 
 #: index.php:30
 msgid "IE may not correctly display this website,<br/>"

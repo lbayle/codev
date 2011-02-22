@@ -166,6 +166,12 @@ if (!$session_user->isTeamMember($admin_teamid)) {
 
 echo "<h2>".T_("Add fixed holidays")."</h2>\n";
 echo "<br/>";
+echo T_("In here you can set National Days, religious holidays, etc.")."<br/>";
+echo "<br/>";
+#echo T_("Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong.");
+echo "<br/>";
+echo "<br/>";
+echo "<br/>";
 addHolidayForm("edit_holidays.php", $defaultDate);
 echo "<br/>";
 echo "<br/>";

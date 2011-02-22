@@ -253,4 +253,47 @@ function valuedListToSQLFormatedString($myArray) {
    return $formatedList;
 }
 
+
+
+// ---------------------------
+/**
+ * 
+ * explode string to 2-dimentionnal array
+ * 
+ * Usage:
+ * $myArray = doubleExplode(':', ',', "key:value,key2:value2");
+ * 
+ * Example:
+ * '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed'
+ * 
+ * Array
+ * (
+ *    [10] => 'new'
+ *    [20] => 'feedback'
+ *    [30] => 'acknowledged'
+ *    ...
+ *  )
+
+ * @param char   $del1        delimiter for key:value
+ * @param char   $del2        delimiter for couples (key,value)
+ * @param string $array       the string to explode
+ */
+function doubleExplode ($del1, $del2, $array){
+   $array1 = explode("$del1", $array);
+   foreach($array1 as $key=>$value){
+      $array2 = explode("$del2", $value);
+      foreach($array2 as $key2=>$value2){
+         $array3[] = $value2; 
+      }
+   }
+   $afinal = array();
+   for ( $i = 0; $i <= count($array3); $i += 2) {
+      if($array3[$i]!=""){
+         $afinal[trim($array3[$i])] = trim($array3[$i+1]);
+      }
+   }
+   return $afinal;
+}
+
+
 ?>
