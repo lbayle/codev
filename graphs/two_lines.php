@@ -16,11 +16,13 @@ function plotOne($values, $color) {
    $plot->grid->setBackgroundColor(new Color(235, 235, 180, 60)); // Change grid background color
    $plot->grid->hide(TRUE);
 
-   # write value on each point
-   #$plot->label->set($values);
-   #$plot->label->setFormat('%d');
-   #$plot->label->setBackgroundColor(new Color(240, 240, 240, 15));
-   #$plot->label->setPadding(5, 3, 1, 1);
+   if (isset($_GET["displayPointLabels"])) {
+      # write value on each point
+      $plot->label->set($values);
+      $plot->label->setFormat('%d');
+      $plot->label->setBackgroundColor(new Color(240, 240, 240, 15));
+      $plot->label->setPadding(5, 3, 1, 1);
+   }
 
    #$plot->yAxis->label->hide(TRUE);
    #$plot->xAxis->label->hide(TRUE);

@@ -59,7 +59,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    echo "<h2>".T_("Submitted / Resolved")."</h2>\n";
    
    echo "<div class=\"float\">\n";
-   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
    echo "</div>\n";
 /*   
    echo "<div class=\"float\">\n";
