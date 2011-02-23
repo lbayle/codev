@@ -84,7 +84,7 @@ class PeriodStatsReport {
     echo "<th>Resolved</th>\n";
     echo "<th>Delivered</th>\n";
     echo "<th>Closed</th>\n";
-    echo "<th title='Nbre de fiches r&eacute;solues SAUF SuiviOp' et non reouvertes>Delta Resolved</th>\n";
+    echo "<th title='Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'>Delta Resolved</th>\n";
     echo "</tr>\n";
 
     foreach ($this->periodStatsList as $date => $ps) {
