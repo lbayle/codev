@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-22 10:11+0100\n"
+"POT-Creation-Date: 2011-02-23 17:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 #: admin/create_team.php:7 admin/edit_holidays.php:9 admin/edit_jobs.php:9
 #: admin/edit_team.php:8 admin/index.php:10 reports/issue_info.php:8
 #: reports/productivity_report.php:8 reports/proj_management_report.php:8
-#: timetracking/time_tracking.php:9 timetracking/week_activity_report.php:8
-#: tools/check.php:9
+#: reports/statistics.php:8 timetracking/time_tracking.php:9
+#: timetracking/week_activity_report.php:8 tools/check.php:9
 msgid "Sorry, you need to <a href='../'>login</a> to access this page."
 msgstr ""
 "Vous devez vous <a href='../'>identifier</a> pour acc&eacute;der &agrave; "
@@ -52,8 +52,8 @@ msgstr "Cr&eacute;er"
 
 #: admin/create_team.php:101 admin/edit_holidays.php:155
 #: admin/edit_jobs.php:300 admin/edit_team.php:482 index.php:142 login.php:39
-#: reports/graph_report.php:16 reports/index.php:93
-#: reports/productivity_report.php:598 reports/proj_management_report.php:495
+#: reports/mantis_reports.php:93 reports/productivity_report.php:598
+#: reports/proj_management_report.php:495 reports/statistics.php:142
 #: timetracking/holidays_report.php:263 timetracking/time_tracking.php:306
 #: timetracking/week_activity_report.php:267 tools/check.php:33
 msgid "Could not connect to database"
@@ -784,6 +784,35 @@ msgstr "Termin&eacute;"
 #: reports/proj_management_report.php:590
 msgid "Results in : "
 msgstr "R&eacute;sultats dans : "
+
+#: reports/statistics.php:14
+msgid "Statistics"
+msgstr "Statistiques"
+
+#: reports/statistics.php:35 reports/statistics.php:59
+#: reports/statistics.php:67
+msgid "Submitted / Resolved"
+msgstr "Recues / Resolues"
+
+#: reports/statistics.php:70
+msgid "Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL"
+msgstr ""
+
+#: reports/statistics.php:70
+msgid "Nb submissions"
+msgstr "Nb Recues"
+
+#: reports/statistics.php:71
+msgid "Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'"
+msgstr ""
+
+#: reports/statistics.php:71
+msgid "Nb Resolved"
+msgstr "Nb Resolues"
+
+#: reports/statistics.php:121
+msgid "Drifts"
+msgstr "D&eacute;rives"
 
 #: timetracking/holidays_report.php:7
 msgid "Holidays Report"
