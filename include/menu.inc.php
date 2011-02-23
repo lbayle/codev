@@ -23,11 +23,13 @@ echo "
       <td>
       <a href='".getServerRootURL()."/reports/issue_info.php' title='".T_("Task Information")."'>".T_("Task info")."</a>
       |
-      <a href='".getServerRootURL()."/reports/' title=''>".T_("Mantis Reports")."</a>
+      <a href='".getServerRootURL()."/timetracking/week_activity_report.php' title='".T_("Weekly activities")."'>".T_("Weekly activities")."</a>
       |
       <a href='".getServerRootURL()."/reports/productivity_report.php' title='".T_("Statistics")."'>".T_("Productivity Reports")."</a>
       |
-      <a href='".getServerRootURL()."/timetracking/week_activity_report.php' title='".T_("Weekly activities")."'>".T_("Weekly activities")."</a>
+      <a href='".getServerRootURL()."/reports/statistics.php' title=''>".T_("Statistics")."</a>
+      |
+      <a href='".getServerRootURL()."/reports/mantis_reports.php' title=''>".T_("Mantis Reports")."</a>
       |
       <a href='".getServerRootURL()."/reports/proj_management_report.php' title='".T_("Project Management Reports")."'>".T_("Export to CSV")."</a>
       </td>

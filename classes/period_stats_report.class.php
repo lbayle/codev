@@ -74,7 +74,7 @@ class PeriodStatsReport {
     echo "<caption title='Bilan mensuel SAUF SuiviOp.'>Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)</caption>";
     echo "<tr>\n";
     echo "<th>Date</th>\n";
-    echo "<th title='Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL'>Nb submissions</th>\n";
+    #echo "<th title='Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL'>Nb submissions</th>\n";
     echo "<th>New</th>\n";
     echo "<th>Acknowledge</th>\n";
     echo "<th>Feedback</th>\n";
@@ -84,7 +84,7 @@ class PeriodStatsReport {
     echo "<th>Resolved</th>\n";
     echo "<th>Delivered</th>\n";
     echo "<th>Closed</th>\n";
-    echo "<th title='Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'>Delta Resolved</th>\n";
+    #echo "<th title='Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'>Delta Resolved</th>\n";
     echo "</tr>\n";
 
     foreach ($this->periodStatsList as $date => $ps) {
@@ -92,7 +92,7 @@ class PeriodStatsReport {
       // Disp
       $tableLine = "<tr>\n";
       $tableLine .= "<td class=\"right\">".date("F Y", $date)."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList["submitted"]."</td>\n";
+      #$tableLine .= "<td class=\"right\">".$ps->statusCountList["submitted"]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_new]."</td>\n";  // TODO new
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_ack]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_feedback]."</td>\n";
@@ -102,7 +102,7 @@ class PeriodStatsReport {
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_resolved]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_delivered]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_closed]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList["delta_resolved"]."</td>\n";
+      #$tableLine .= "<td class=\"right\">".$ps->statusCountList["delta_resolved"]."</td>\n";
       $tableLine .= "</tr>\n";
       echo "$tableLine";
       

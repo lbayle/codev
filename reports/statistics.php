@@ -28,27 +28,26 @@ include_once "issue.class.php";
 
 function displaySubmittedResolved($periodStatsReport, $width, $height) {
 	
-   #$submitted = $periodStatsReport->getStatus("submitted");
-   #$resolved  = $periodStatsReport->getStatus("delta_resolved");
+   $submitted = $periodStatsReport->getStatus("submitted");
+   $resolved  = $periodStatsReport->getStatus("delta_resolved");
 
    $graph_title="title=".T_("Submitted / Resolved");
    $graph_width="width=$width";
    $graph_height="height=$height";
 
 
-   #$val1 = array_values($submitted);
-   $val1 = array(4, 2, 5, 3, 3, 6, 7, 6, 5, 4, 3, 2);
+   $val1 = array_values($submitted);
+   #$val1 = array(4, 2, 5, 3, 3, 6, 7, 6, 5, 4, 3, 2);
    $strVal1 = "leg1=Submitted&x1=".implode(':', $val1);
 
-   #$val2 = array_values($resolved);
-   $val2 = array(3, 8, 15, 6, 2, 1, 3, 2, 5, 7, 6, 6);
+   $val2 = array_values($resolved);
+   #$val2 = array(3, 8, 15, 6, 2, 1, 3, 2, 5, 7, 6, 6);
    $strVal2 = "leg2=Resolved&x2=".implode(':', $val2);
 
-   $bottomLabel = array("jan", "feb", "mar", "apr");
-   #$bottomLabel = array();
-   #foreach ($submitted as $date => $val) {
-   #   $bottomLabel[] = date("M y", $date);
-   #}
+   $bottomLabel = array();
+   foreach ($submitted as $date => $val) {
+      $bottomLabel[] = date("M y", $date);
+   }
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
 
    #$leftLabel = array(0, 10, 20, 30, 40);
@@ -61,7 +60,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    echo "<div class=\"float\">\n";
    echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
    echo "</div>\n";
-/*   
+   
    echo "<div class=\"float\">\n";
    echo "<table>\n";
    echo "<caption title='".T_("Submitted / Resolved")."'</caption>";
@@ -79,7 +78,6 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    }
    echo "</table>\n";
    echo "</div>\n";
-*/   
    echo "</div>\n";
    
    echo "<div class=\"spacer\"> </div>\n";
@@ -113,7 +111,7 @@ mysql_select_db($db_mantis_database) or die("Could not select database");
 
 // ---- Submitted / Resolved
 $periodStatsReport = new PeriodStatsReport($start_year, $teamid);
-#$periodStatsReport->computeReport();
+$periodStatsReport->computeReport();
 displaySubmittedResolved($periodStatsReport, 1000, 300);
 
 // --------- Drifts
