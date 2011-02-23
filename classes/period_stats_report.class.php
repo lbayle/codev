@@ -110,6 +110,17 @@ class PeriodStatsReport {
     echo "</table>\n";
   }
   
+  public function getStatus($status) {
+      $sub = array();
+  	   
+      foreach ($this->periodStatsList as $date => $ps) {
+      	$sub[$date] = $ps->statusCountList[$status];
+    	
+      }
+  	   return $sub;
+  }
+  
+  
 } // end class PeriodStatsReport
 
 ?>

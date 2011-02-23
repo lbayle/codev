@@ -1,6 +1,10 @@
 <?php 
 require_once "../artichow/LinePlot.class.php";
 
+
+# WARNING: Never ever put an 'echo' in this file, the graph won't be displayed !
+
+
 function plotOne($values, $color) {
 
    $plot = new LinePlot($values);
@@ -34,7 +38,8 @@ function plotOne($values, $color) {
 
 $graph = new Graph(600, 300);
 $graph->setAntiAliasing(TRUE);
-$graph->title->set("Evolution des Derives");
+$graph_title = isset($_GET['title']) ? $_GET['title'] : "unknown";
+$graph->title->set($graph_title);
 
 
 
@@ -51,23 +56,45 @@ $group->setPadding(NULL, 150, NULL, NULL);
 $group->axis->left->label->hide(TRUE);
 $group->axis->bottom->label->hide(TRUE);
 
+$strY = isset($_GET['y']) ? $_GET['y'] : NULL;
+$y = explode(':', $strY);
+
 
 // --------------------------------
-$val1 = array(1, 2, 5, 1, 3, 8, 7, 6, 2, -4);
+$legend1 = isset($_GET['leg1']) ? $_GET['leg1'] : "unknown";
+$strVal1 = isset($_GET['x1']) ? $_GET['x1'] : array();
+$val1 = explode(':', $strVal1);
 $color1 = new Color(255, 0, 0, 15);
 $plot1 = plotOne($val1, $color1);
 
 $group->add($plot1);
-$group->legend->add($plot1, "EffortEstim", Legend::LINE);
+$group->legend->add($plot1, $legend1, Legend::LINE);
 
 // --------------------------------
-$val2 = array(3, 8, 7, 6, 2, -4, 0, 2, 8, 7);
-$color2 = new Color(0, 255, 0, 0);
-$plot2 = plotOne($val2, $color2);
+$legend2 = isset($_GET['leg2']) ? $_GET['leg2'] : NULL;
+$strVal2 = isset($_GET['x2']) ? $_GET['x2'] : array();
 
-$group->add($plot2);
-$group->legend->add($plot2, "ETA", Legend::LINE);
+if (isset($legend2)) {
+   $val2 = explode(':', $strVal2);
+   $color2 = new Color(0, 255, 0, 0);
+   $plot2 = plotOne($val2, $color2);
 
+   $group->add($plot2);
+   $group->legend->add($plot2, $legend2, Legend::LINE);
+}
+
+// --------------------------------
+$legend3 = isset($_GET['leg3']) ? $_GET['leg3'] : NULL;
+$strVal3 = isset($_GET['x3']) ? $_GET['x3'] : array();
+
+if (isset($legend3)) {
+   $val3 = explode(':', $strVal3);
+   $color3 = new Color(0, 255, 0, 0);
+   $plot3 = plotOne($val3, $color3);
+
+   $group->add($plot3);
+   $group->legend->add($plot3, $legend3, Legend::LINE);
+}
 
 // ------------------------------
 

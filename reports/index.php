@@ -105,7 +105,7 @@ $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
 // if current team is not in allowed list, do not display
 if (NULL == $teamList[$teamid]) {
-	echo "$teamid NOT allowed<br/>";
+	#echo "$teamid NOT allowed<br/>";
 	$teamid = 0;
 }
 
