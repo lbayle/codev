@@ -7,13 +7,15 @@ include_once "period_stats.class.php";
 
 class PeriodStatsReport {
   var $start_year;
+  var $start_month;
   var $start_day;
   var $periodStatsList;
   
   var $teamid;
 
-  public function PeriodStatsReport($start_year, $teamid) {
+  public function PeriodStatsReport($start_year, $start_month, $teamid) {
     $this->start_year = $start_year;
+    $this->start_month = $start_month;
     $this->start_day = 1;
     $this->periodStatsList = array();
     
@@ -26,13 +28,13 @@ class PeriodStatsReport {
     global $periodStatsExcludedProjectList;
   	
     $now = time();
-
+    $startM = $this->start_month;
     
     for ($y = $this->start_year; $y <= date('Y'); $y++) {
     
-	    for ($start_month=1; $start_month<13; $start_month++) {
-	      $startTimestamp = mktime(0, 0, 1, $start_month, $this->start_day, $y);
-	      $endTimestamp   = mktime(0, 0, 1, ($start_month + 1), $this->start_day, $y);
+	    for ($month=$startM; $month<13; $month++) {
+	      $startTimestamp = mktime(0, 0, 1, $month, $this->start_day, $y);
+	      $endTimestamp   = mktime(0, 0, 1, ($month + 1), $this->start_day, $y);
 	
 	      if ($startTimestamp > $now) { break; }
 	
@@ -56,6 +58,7 @@ class PeriodStatsReport {
 	      $periodStats->computeStats();
 	      $this->periodStatsList[$startTimestamp] = $periodStats;
 	    }
+	    $startM = 1;
     }
   }
 

@@ -79,8 +79,8 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 
 
 // ================ MAIN ================
-// TODO: get values from HTML fields
-$start_year = date('Y') -1;
+$start_year = date('Y') -1; // TODO CoDev install date !
+$start_month = 6; // TODO CoDev install date !
 
 
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
@@ -128,7 +128,7 @@ if (0 != $teamid) {
    echo "<br/>\n";
    echo "<hr/>\n";
    echo "<br/>\n";
-   $periodStatsReport = new PeriodStatsReport($start_year, $teamid);
+   $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $teamid);
 	$periodStatsReport->computeReport();
 	$periodStatsReport->displayHTMLReport();
 	
