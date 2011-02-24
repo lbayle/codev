@@ -71,25 +71,24 @@ function displayLinks() {
    echo "</ul>\n";
  
    //echo "<br/>\n";
-   echo "<br/>\n";
+   //echo "<br/>\n";
    echo "<br/>\n";
 
    echo "<ul>\n";
-   echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/reports'>".T_("Mantis Reports")."</a>"; // Suivi des fiches Mantis
-   echo "   </li>\n";
-   echo "   <br/>\n";
-   echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/timetracking/week_activity_report.php'>".T_("Weekly activity")."</a>"; // Activit&eacute; hebdomadaire
-   echo "   </li>\n";
-   echo "<br/>\n";
-   echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/reports/productivity_report.php'>".T_("Productivity Reports")."</a>"; // Indicateurs de production
-   echo "   </li>\n";
    echo "<br/>\n";
    echo "   <li>\n";
    echo "        <a href='".getServerRootURL()."/reports/issue_info.php'>".T_("Task information")."</a>"; // Info fiche
    echo "   </li>\n";
+   echo "<br/>\n";
+   echo "   <li>\n";
+   echo "        <a href='".getServerRootURL()."/timetracking/week_activity_report.php'>".T_("Weekly activity")."</a>"; // Activit&eacute; hebdomadaire
+   echo "   </li>\n";
+/*
+   echo "<br/>\n";
+   echo "   <li>\n";
+   echo "        <a href='".getServerRootURL()."/reports/productivity_report.php'>".T_("Productivity Reports")."</a>"; // Indicateurs de production
+   echo "   </li>\n";
+*/   
    echo "</ul>\n";
    echo "</div>\n";
    
@@ -148,6 +147,8 @@ if (!isset($_SESSION['userid'])) {
    disclaimer();
    
    displayLinks();
+   
+   echo "<br/>\n";
    
    displayConsistencyErrors($sessionUser);
 }
