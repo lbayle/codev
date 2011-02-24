@@ -17,9 +17,12 @@ function plotOne($values, $color) {
    $plot->grid->hide(TRUE);
 
    if (isset($_GET["displayPointLabels"])) {
+   	
+   	$format = isset($_GET["pointFormat"]) ? $_GET["pointFormat"] : "%d";
+   	
       # write value on each point
       $plot->label->set($values);
-      $plot->label->setFormat('%d');
+      $plot->label->setFormat($format);
       $plot->label->setBackgroundColor(new Color(240, 240, 240, 15));
       $plot->label->setPadding(5, 3, 1, 1);
    }

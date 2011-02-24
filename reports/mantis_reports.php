@@ -111,7 +111,7 @@ if (NULL == $teamList[$teamid]) {
 
 // ---------- DISPLAY -------------
 
-setTeamForm("index.php", $teamid, $teamList);
+setTeamForm("mantis_reports.php", $teamid, $teamList);
 
 if (0 != $teamid) {
 
