@@ -2,10 +2,12 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: reports/statistics.php:178 reports/statistics.php:179
+#: reports/statistics.php:229 reports/statistics.php:230
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-25 10:04+0100\n"
+"POT-Creation-Date: 2011-02-25 11:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,7 +55,7 @@ msgstr "Cr&eacute;er"
 #: admin/create_team.php:101 admin/edit_holidays.php:155
 #: admin/edit_jobs.php:300 admin/edit_team.php:482 index.php:141 login.php:39
 #: reports/mantis_reports.php:93 reports/productivity_report.php:598
-#: reports/proj_management_report.php:495 reports/statistics.php:254
+#: reports/proj_management_report.php:495 reports/statistics.php:293
 #: timetracking/holidays_report.php:263 timetracking/time_tracking.php:306
 #: timetracking/week_activity_report.php:267 tools/check.php:33
 msgid "Could not connect to database"
@@ -314,6 +316,7 @@ msgid "Submission Date"
 msgstr "Date R&eacute;ception"
 
 #: classes/issue_tracking.class.php:101 reports/proj_management_report.php:140
+#: reports/statistics.php:178
 msgid "ETA"
 msgstr "ETA"
 
@@ -541,8 +544,8 @@ msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
 msgid "AFTER analysis"
 msgstr "APRES analyse"
 
-#: reports/productivity_report.php:250 reports/statistics.php:201
-#: reports/statistics.php:288
+#: reports/productivity_report.php:250 reports/statistics.php:220
+#: reports/statistics.php:226 reports/statistics.php:327
 msgid "Productivity Rate"
 msgstr "Taux de productivit&eacute;"
 
@@ -753,7 +756,7 @@ msgstr "Jeudi"
 msgid "Friday"
 msgstr "Vendredi"
 
-#: reports/proj_management_report.php:512 reports/statistics.php:268
+#: reports/proj_management_report.php:512 reports/statistics.php:307
 #: timetracking/week_activity_report.php:280
 msgid "Sorry, you do NOT have access to this page."
 msgstr "d&eacute;sol&eacute;, vous n'avez pas acces a cette page."
@@ -795,7 +798,7 @@ msgstr "Statistiques"
 msgid "Start Year"
 msgstr "Date D&eacute;but"
 
-#: reports/statistics.php:117
+#: reports/statistics.php:117 reports/statistics.php:325
 msgid "Submitted / Resolved Issues"
 msgstr "Fiches Re&ccedil;ues / R&eacute;solues"
 
@@ -808,20 +811,28 @@ msgid "Nb submissions"
 msgstr "Nb Re&ccedil;ues"
 
 #: reports/statistics.php:129
-msgid "Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'"
+msgid "Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes"
 msgstr ""
 
 #: reports/statistics.php:129
 msgid "Nb Resolved"
 msgstr "Nb R&eacute;solues"
 
-#: reports/statistics.php:169 reports/statistics.php:287
+#: reports/statistics.php:169 reports/statistics.php:326
 msgid "Drifts"
 msgstr "D&eacute;rives"
 
-#: reports/statistics.php:286
-msgid "Submitted / Resolved Tasks"
-msgstr "Taches Re&ccedil;ues / R&eacute;solues"
+#: reports/statistics.php:179
+msgid "EffortEstim"
+msgstr "EffortEstim"
+
+#: reports/statistics.php:229
+msgid "Prod Rate ETA"
+msgstr "Taux de prod ETA"
+
+#: reports/statistics.php:230
+msgid "Prod Rate"
+msgstr "Taux de prod"
 
 #: timetracking/holidays_report.php:7
 msgid "Holidays Report"
@@ -983,6 +994,9 @@ msgstr "Connexion CoDev"
 #: login.php:61
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
+
+#~ msgid "Submitted / Resolved Tasks"
+#~ msgstr "Taches Re&ccedil;ues / R&eacute;solues"
 
 #~ msgid "Submitted / Resolved"
 #~ msgstr "Re&ccedil;ues / R;&eacute;solues"

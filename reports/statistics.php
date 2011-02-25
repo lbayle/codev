@@ -126,7 +126,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    echo "<tr>\n";
    echo "<th>Date</th>\n";
    echo "<th title='".T_("Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL")."'>".T_("Nb submissions")."</th>\n";
-   echo "<th title='".T_("Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'").">".T_("Nb Resolved")."</th>\n";
+   echo "<th title='".T_("Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes")."'>".T_("Nb Resolved")."</th>\n";
    echo "</tr>\n";
    foreach ($submitted as $date => $val) {
       echo "<tr>\n";
@@ -168,7 +168,26 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height) {
    echo "<div>\n";
    echo "<h2>".T_("Drifts")."</h2>\n";
    echo "<div class=\"float\">\n";
-   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   echo "</div>\n";
+   echo "<div class=\"float\">\n";
+   echo "<table>\n";
+   echo "<caption title='".("Drifts")."'</caption>";
+   echo "<tr>\n";
+   echo "<th>Date</th>\n";
+   echo "<th title='".T_("")."'>".T_("ETA")."</th>\n";
+   echo "<th title='".T_("")."'>".T_("EffortEstim")."</th>\n";
+   echo "</tr>\n";
+   $i = 0;
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      echo "<tr>\n";
+      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".$val1[$i]."</td>\n";
+      echo "<td class=\"right\">".$val2[$i]."</td>\n";
+      echo "</tr>\n";
+      $i++;
+   }
+   echo "</table>\n";
    echo "</div>\n";
    echo "</div>\n";
    
@@ -201,6 +220,25 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
    echo "<h2>".T_("Productivity Rate")."</h2>\n";
    echo "<div class=\"float\">\n";
    echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   echo "</div>\n";
+   echo "<div class=\"float\">\n";
+   echo "<table>\n";
+   echo "<caption title='".T_("Productivity Rate")."'</caption>";
+   echo "<tr>\n";
+   echo "<th>Date</th>\n";
+   echo "<th title='".T_("")."'>".T_("Prod Rate ETA")."</th>\n";
+   echo "<th title='".T_("")."'>".T_("Prod Rate")."</th>\n";
+   echo "</tr>\n";
+   $i = 0;
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      echo "<tr>\n";
+      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".number_format($val1[$i], 2)."</td>\n";
+      echo "<td class=\"right\">".number_format($val2[$i], 2)."</td>\n";
+      echo "</tr>\n";
+      $i++;
+   }
+   echo "</table>\n";
    echo "</div>\n";
    echo "</div>\n";
    
@@ -241,7 +279,7 @@ $default_month = 6;           // TODO CoDev install date !
 $start_day = 1;               // TODO CoDev install date !
 
 $start_year  = isset($_POST[year]) ? $_POST[year] : $default_year;
-$start_month = isset($_POST[year]) ? 1 : $default_month;
+$start_month = ($start_year == $default_year) ? $default_month : 1;
 
 
 $userid = $_SESSION['userid'];
@@ -290,8 +328,6 @@ if (0 == count($teamList)) {
          echo "</ul><br/>\n";
          echo "</div>\n";
       
-      echo "DEBUG year = $start_year<br/>";
-      	
          // ---- Submitted / Resolved
          echo "<br/>\n";
          echo "<hr/>\n";
