@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-02-23 17:47+0100\n"
+"POT-Creation-Date: 2011-02-25 10:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,16 +51,16 @@ msgid "Create"
 msgstr "Cr&eacute;er"
 
 #: admin/create_team.php:101 admin/edit_holidays.php:155
-#: admin/edit_jobs.php:300 admin/edit_team.php:482 index.php:142 login.php:39
+#: admin/edit_jobs.php:300 admin/edit_team.php:482 index.php:141 login.php:39
 #: reports/mantis_reports.php:93 reports/productivity_report.php:598
-#: reports/proj_management_report.php:495 reports/statistics.php:142
+#: reports/proj_management_report.php:495 reports/statistics.php:254
 #: timetracking/holidays_report.php:263 timetracking/time_tracking.php:306
 #: timetracking/week_activity_report.php:267 tools/check.php:33
 msgid "Could not connect to database"
 msgstr "Connexion impossible a la base de donnees"
 
 #: admin/create_team.php:102 admin/edit_holidays.php:156
-#: admin/edit_jobs.php:301 admin/edit_team.php:483 index.php:143 login.php:40
+#: admin/edit_jobs.php:301 admin/edit_team.php:483 index.php:142 login.php:40
 #: timetracking/holidays_report.php:264
 msgid "Could not select database"
 msgstr "Impossible de selectionner la base de donnees"
@@ -395,7 +395,8 @@ msgid "Productivity Report"
 msgstr "Indicateurs de production"
 
 #: reports/productivity_report.php:81 reports/proj_management_report.php:57
-#: reports/proj_management_report.php:530 timetracking/holidays_report.php:38
+#: reports/proj_management_report.php:530 reports/statistics.php:52
+#: timetracking/holidays_report.php:38
 #: timetracking/week_activity_report.php:53
 msgid "Team"
 msgstr "Equipe"
@@ -412,7 +413,7 @@ msgstr "(inclu)"
 msgid "End Date"
 msgstr "Date Fin"
 
-#: reports/productivity_report.php:103
+#: reports/productivity_report.php:103 reports/statistics.php:76
 msgid "Compute"
 msgstr "Calculer"
 
@@ -540,7 +541,8 @@ msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
 msgid "AFTER analysis"
 msgstr "APRES analyse"
 
-#: reports/productivity_report.php:250
+#: reports/productivity_report.php:250 reports/statistics.php:201
+#: reports/statistics.php:288
 msgid "Productivity Rate"
 msgstr "Taux de productivit&eacute;"
 
@@ -751,7 +753,7 @@ msgstr "Jeudi"
 msgid "Friday"
 msgstr "Vendredi"
 
-#: reports/proj_management_report.php:512
+#: reports/proj_management_report.php:512 reports/statistics.php:268
 #: timetracking/week_activity_report.php:280
 msgid "Sorry, you do NOT have access to this page."
 msgstr "d&eacute;sol&eacute;, vous n'avez pas acces a cette page."
@@ -789,30 +791,37 @@ msgstr "R&eacute;sultats dans : "
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: reports/statistics.php:35 reports/statistics.php:59
-#: reports/statistics.php:67
-msgid "Submitted / Resolved"
-msgstr "Recues / Resolues"
+#: reports/statistics.php:64
+msgid "Start Year"
+msgstr "Date D&eacute;but"
 
-#: reports/statistics.php:70
+#: reports/statistics.php:117
+msgid "Submitted / Resolved Issues"
+msgstr "Fiches Re&ccedil;ues / R&eacute;solues"
+
+#: reports/statistics.php:128
 msgid "Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL"
 msgstr ""
 
-#: reports/statistics.php:70
+#: reports/statistics.php:128
 msgid "Nb submissions"
-msgstr "Nb Recues"
+msgstr "Nb Re&ccedil;ues"
 
-#: reports/statistics.php:71
+#: reports/statistics.php:129
 msgid "Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'"
 msgstr ""
 
-#: reports/statistics.php:71
+#: reports/statistics.php:129
 msgid "Nb Resolved"
-msgstr "Nb Resolues"
+msgstr "Nb R&eacute;solues"
 
-#: reports/statistics.php:121
+#: reports/statistics.php:169 reports/statistics.php:287
 msgid "Drifts"
 msgstr "D&eacute;rives"
+
+#: reports/statistics.php:286
+msgid "Submitted / Resolved Tasks"
+msgstr "Taches Re&ccedil;ues / R&eacute;solues"
 
 #: timetracking/holidays_report.php:7
 msgid "Holidays Report"
@@ -955,23 +964,15 @@ msgstr "Mot de passe"
 msgid "Holidays"
 msgstr "Suivi des Cong&eacute;s"
 
-#: index.php:79
-msgid "Mantis Reports"
-msgstr "Suivi Mantis"
-
-#: index.php:83
-msgid "Weekly activity"
-msgstr "Activit&eacute; hebdomadaire"
-
-#: index.php:87
-msgid "Productivity Reports"
-msgstr "Indicateurs de production"
-
-#: index.php:91
+#: index.php:80
 msgid "Task information"
 msgstr "Informations sur une fiche"
 
-#: index.php:126
+#: index.php:84
+msgid "Weekly activity"
+msgstr "Activit&eacute; hebdomadaire"
+
+#: index.php:125
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
@@ -982,6 +983,15 @@ msgstr "Connexion CoDev"
 #: login.php:61
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
+
+#~ msgid "Submitted / Resolved"
+#~ msgstr "Re&ccedil;ues / R;&eacute;solues"
+
+#~ msgid "Mantis Reports"
+#~ msgstr "Suivi Mantis"
+
+#~ msgid "Productivity Reports"
+#~ msgstr "Indicateurs de production"
 
 #~ msgid "Export Week $weekid Member Activity"
 #~ msgstr "Export Semaine $weekid Activit&eacute; Equipe"

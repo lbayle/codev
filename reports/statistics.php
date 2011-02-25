@@ -90,7 +90,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    $submitted = $periodStatsReport->getStatus("submitted");
    $resolved  = $periodStatsReport->getStatus("delta_resolved");
 
-   $graph_title="title=".T_("Submitted / Resolved");
+   $graph_title="title=".("Submitted / Resolved Issues");
    $graph_width="width=$width";
    $graph_height="height=$height";
 
@@ -114,7 +114,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
 
    // ---------
    echo "<div>\n";
-   echo "<h2>".T_("Submitted / Resolved")."</h2>\n";
+   echo "<h2>".T_("Submitted / Resolved Issues")."</h2>\n";
    
    echo "<div class=\"float\">\n";
    echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
@@ -122,7 +122,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    
    echo "<div class=\"float\">\n";
    echo "<table>\n";
-   echo "<caption title='".T_("Submitted / Resolved")."'</caption>";
+   echo "<caption title='".("Submitted / Resolved")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
    echo "<th title='".T_("Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL")."'>".T_("Nb submissions")."</th>\n";
@@ -283,7 +283,7 @@ if (0 == count($teamList)) {
       	
          echo "<div align='left'>\n";
          echo "<ul>\n";
-         echo "   <li><a href='#tagSubmittedResolved'>".T_("Submitted / Resolved Tasks")."</a></li>\n";
+         echo "   <li><a href='#tagSubmittedResolved'>".T_("Submitted / Resolved Issues")."</a></li>\n";
          echo "   <li><a href='#tagResolvedDrift'>".T_("Drifts")."</a></li>\n";
          echo "   <li><a href='#tagProductivityRate'>".T_("Productivity Rate")."</a></li>\n";
          echo "</ul><br/>\n";
