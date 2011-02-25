@@ -43,7 +43,7 @@ include_once "time_tracking.class.php";
 
 
 
-function setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $startYear) {
+function setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $startYear, $curYear) {
    
   // create form
   echo "<div align=center>\n";
@@ -237,10 +237,11 @@ function createTimeTeackingList($start_day, $start_month, $start_year, $teamid) 
 # ================ MAIN ================
 
 $default_year = date('Y') -1; // TODO CoDev install date !
-$start_month = 6;             // TODO CoDev install date !
+$default_month = 6;           // TODO CoDev install date !
 $start_day = 1;               // TODO CoDev install date !
 
-$start_year = isset($_POST[year]) ? $_POST[year] : $default_year;
+$start_year  = isset($_POST[year]) ? $_POST[year] : $default_year;
+$start_month = isset($_POST[year]) ? 1 : $default_month;
 
 
 $userid = $_SESSION['userid'];
@@ -271,7 +272,7 @@ if (0 == count($teamList)) {
 } else {
 
    // ----- selection Form
-   setTeamAndStartSelectionForm("statistics.php", $teamid, $teamList, $default_year);
+   setTeamAndStartSelectionForm("statistics.php", $teamid, $teamList, $default_year, $start_year);
 
    
    if ("displayStats" == $action) {
@@ -289,7 +290,7 @@ if (0 == count($teamList)) {
          echo "</ul><br/>\n";
          echo "</div>\n";
       
-      
+      echo "DEBUG year = $start_year<br/>";
       	
          // ---- Submitted / Resolved
          echo "<br/>\n";
