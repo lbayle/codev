@@ -244,6 +244,55 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
    
 }
 
+function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
+   
+   $start_day = 1; 
+   $now = time();
+   
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+   
+         $driftStats_new = $timeTracking->getResolvedDriftStats();
+         
+         $val1[] = $timeTracking->getEfficiencyRate();
+         $val2[] = $timeTracking->getSystemDisponibilityRate();
+         $bottomLabel[] = date("M y", $startTimestamp);
+   }
+   $graph_title="title=".("Efficiency");
+   $graph_width="width=$width";
+   $graph_height="height=$height";
+   
+   $strVal1 = "leg1=% Efficiency&x1=".implode(':', $val1);
+   $strVal2 = "leg2=% Sys Disp&x2=".implode(':', $val2);
+   $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
+   
+   echo "<div>\n";
+   echo "<h2>".T_("Efficiency and System Disponibility")."</h2>\n";
+   echo "<div class=\"float\">\n";
+   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   echo "</div>\n";
+   echo "<div class=\"float\">\n";
+   echo "<table>\n";
+   echo "<caption title='".T_("Sys Disp.")."'</caption>";
+   echo "<tr>\n";
+   echo "<th>Date</th>\n";
+   echo "<th title='".T_("")."'>".T_("Efficiency")."</th>\n";
+   echo "<th title='".T_("")."'>".T_("Sys Disp")."</th>\n";
+   echo "</tr>\n";
+   $i = 0;
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      echo "<tr>\n";
+      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".number_format($val1[$i], 2)."%</td>\n";
+      echo "<td class=\"right\">".number_format($val2[$i], 2)."%</td>\n";
+      echo "</tr>\n";
+      $i++;
+   }
+   echo "</table>\n";
+   echo "</div>\n";
+   echo "</div>\n";
+   
+}
+
 
 
 function createTimeTeackingList($start_day, $start_month, $start_year, $teamid) {
@@ -325,6 +374,7 @@ if (0 == count($teamList)) {
          echo "   <li><a href='#tagSubmittedResolved'>".T_("Submitted / Resolved Issues")."</a></li>\n";
          echo "   <li><a href='#tagResolvedDrift'>".T_("Drifts")."</a></li>\n";
          echo "   <li><a href='#tagProductivityRate'>".T_("Productivity Rate")."</a></li>\n";
+         echo "   <li><a href='#tagEfficiencyRate'>".T_("Efficiency - System Disponibility")."</a></li>\n";
          echo "</ul><br/>\n";
          echo "</div>\n";
       
@@ -361,6 +411,19 @@ if (0 == count($teamList)) {
          displayProductivityRateGraph ($timeTrackingTable, 1000, 300);
 
          echo "<div class=\"spacer\"> </div>\n";
+         
+         
+         // --------- EfficiencyRate
+         echo "<br/>\n";
+         echo "<hr/>\n";
+         echo "<br/>\n";
+         echo "<a name='tagEfficiencyRate'></a>\n";
+         displayEfficiencyGraph ($timeTrackingTable, 1000, 300);
+
+         echo "<div class=\"spacer\"> </div>\n";
+         
+         
+         
       }
    }
 }
