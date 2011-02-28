@@ -388,7 +388,7 @@ if (0 == count($teamList)) {
          echo "<a name='tagSubmittedResolved'></a>\n";
          $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $start_day, $teamid);
          $periodStatsReport->computeReport();
-         displaySubmittedResolved($periodStatsReport, 1000, 300);
+         displaySubmittedResolved($periodStatsReport, 800, 300);
 
          echo "<div class=\"spacer\"> </div>\n";
 
@@ -401,7 +401,7 @@ if (0 == count($teamList)) {
          echo "<hr/>\n";
          echo "<br/>\n";
          echo "<a name='tagResolvedDrift'></a>\n";
-         displayResolvedDriftGraph ($timeTrackingTable, 1000, 300);
+         displayResolvedDriftGraph ($timeTrackingTable, 800, 300);
 
          echo "<div class=\"spacer\"> </div>\n";
          
@@ -411,7 +411,7 @@ if (0 == count($teamList)) {
          echo "<hr/>\n";
          echo "<br/>\n";
          echo "<a name='tagProductivityRate'></a>\n";
-         displayProductivityRateGraph ($timeTrackingTable, 1000, 300);
+         displayProductivityRateGraph ($timeTrackingTable, 800, 300);
 
          echo "<div class=\"spacer\"> </div>\n";
          
@@ -421,7 +421,7 @@ if (0 == count($teamList)) {
          echo "<hr/>\n";
          echo "<br/>\n";
          echo "<a name='tagEfficiencyRate'></a>\n";
-         displayEfficiencyGraph ($timeTrackingTable, 1000, 300);
+         displayEfficiencyGraph ($timeTrackingTable, 800, 300);
 
          echo "<div class=\"spacer\"> </div>\n";
          
