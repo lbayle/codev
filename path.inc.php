@@ -4,9 +4,9 @@ define ( 'BASE_PATH' , realpath( dirname(__FILE__) ) );
 
 $codevPathInclude  = BASE_PATH . DIRECTORY_SEPARATOR . 'include';
 $codevPathClasses  = BASE_PATH . DIRECTORY_SEPARATOR . 'classes';
-$codevPathCalendar = BASE_PATH . DIRECTORY_SEPARATOR. 'calendar' . DIRECTORY_SEPARATOR . 'classes';
+$codevPathCalendar = BASE_PATH . DIRECTORY_SEPARATOR . 'calendar' . DIRECTORY_SEPARATOR . 'classes';
 $codevPathi18n     = BASE_PATH . DIRECTORY_SEPARATOR . 'i18n';
-$codevPathi18n     = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
+$codevPathGraphs   = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
 
 $path = array(
    BASE_PATH,
@@ -14,6 +14,7 @@ $path = array(
    $codevPathClasses,
    $codevPathCalendar,
    $codevPathi18n,
+   $codevPathGraphs,
    get_include_path()
    );
 
@@ -43,6 +44,7 @@ function getServerRootURL() {
    $rootURL = str_replace("/calendar", "", $rootURL);   
    $rootURL = str_replace("/admin", "", $rootURL);   
    $rootURL = str_replace("/tools", "", $rootURL);   
+   $rootURL = str_replace("/i18n", "", $rootURL);   
    $rootURL = str_replace("/graphs", "", $rootURL);   
    
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
