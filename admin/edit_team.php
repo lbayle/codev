@@ -106,11 +106,11 @@ if (!isset($_SESSION['userid'])) {
      foundError = 0;
      msgString = "Les champs suivants ont ete oublies:" + "\n\n"
          
-     if (0 == document.forms["updateTeamLeaderForm"].f_leaderid.value)  { msgString += "Team Leader\n"; ++foundError; }
+     if (0 == document.forms["updateTeamInfoForm"].f_leaderid.value)  { msgString += "Team Leader\n"; ++foundError; }
                     
      if (0 == foundError) {
-       document.forms["updateTeamLeaderForm"].action.value="updateTeamLeader";
-       document.forms["updateTeamLeaderForm"].submit();
+       document.forms["updateTeamInfoForm"].action.value="updateTeamLeader";
+       document.forms["updateTeamInfoForm"].submit();
      } else {
        alert(msgString);    
      }    
@@ -123,6 +123,15 @@ if (!isset($_SESSION['userid'])) {
        document.forms["deleteTeamForm"].submit();
      }
    }
+
+  
+  function updateTeamCreationDate(){
+         
+       document.forms["updateTeamInfoForm"].action.value="updateTeamCreationDate";
+       document.forms["updateTeamInfoForm"].submit();
+   }
+
+  
 </script>
 
 
@@ -130,6 +139,7 @@ if (!isset($_SESSION['userid'])) {
 include_once "constants.php";
 include_once "tools.php";
 include_once "user.class.php";
+include_once "team.class.php";
 require_once('tc_calendar.php');
 
 function setTeamForm($originPage, $defaultSelection, $teamList) {
@@ -159,50 +169,89 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
   echo "</div>\n";
 }
 
-// ----------------------------------------------------
-function updateTeamLeaderForm($teamid, $originPage) {
-   echo "<div>\n";
-   echo "<h2>".T_("Team Leader")."</h2>\n";
 
-   $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
+// ----------------------------------------------------
+function updateTeamInfoForm($team, $originPage) {
+   echo "<div>\n";
+   
+   $defaultDay   = date("d", $team->creation_date);
+   $defaultMonth = date("m", $team->creation_date);
+   $defaultYear  = date("Y", $team->creation_date);
+   
+   $myCalendar = new tc_calendar("date_createTeam", true, false);
+   $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
+   $myCalendar->setDate($defaultDay, $defaultMonth, $defaultYear);
+   $myCalendar->setPath("../calendar/");
+   $myCalendar->setYearInterval(2010, 2015);
+   $myCalendar->dateAllow('2010-01-01', '2015-12-31');
+   $myCalendar->setDateFormat('Y-m-d');
+   $myCalendar->startMonday(true);
+   
+   
+   echo "<h2>".T_("Team")." $team->name</h2>\n";
+   #echo "<span>$team->description</span><br/>";
+   echo "<br/>\n";
+   
+   $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $team->id";
    $result = mysql_query($query) or die("Query failed: $query");
    $leaderid  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
    
+   echo "<form id='updateTeamInfoForm' name='updateTeamInfoForm' method='post' Action='$originPage'>\n";
    
+   echo "<table class='invisible'>\n";
    
-   echo "<form id='updateTeamLeaderForm' name='updateTeamLeaderForm' method='post' Action='$originPage'>\n";
-   
-   echo "Leader: <select name='f_leaderid'>\n";
+   echo "<tr>\n";
+   echo "   <td>\n";
+   echo "       ".T_("Leader");
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "<select style='width:100%' name='f_leaderid'>\n";
 
    $query     = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
    $result    = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {
       if ($row->id == $leaderid) {
-	      echo "<option selected value='".$row->id."'>".$row->username."</option>\n";
+         echo "<option selected value='".$row->id."'>".$row->username."</option>\n";
       } else {
-	      echo "<option value='".$row->id."'>".$row->username."</option>\n";
-	   }
+         echo "<option value='".$row->id."'>".$row->username."</option>\n";
+      }
    }
    echo "</select>\n";
-   
+   echo "   </td>\n";
+   echo "   <td>\n";
    echo "<input type=button name='btUpdateTeamLeader' value='".T_("Update")."' onClick='javascript: updateTeamLeader()'>\n";
-
+   echo "   </td>\n";
+   
+   
+   echo "</tr>\n";
+   echo "<tr>\n";
+   echo "   <td>".T_("Creation Date")."</td>\n";
+   echo "   <td>\n";
+   $myCalendar->writeScript();
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "       <input style='width:100%' type=button name='btupdateTeamCreationDate' value='".T_("Update")."' onClick='javascript: updateTeamCreationDate()'>\n";
+   echo "   </td>\n";
+   echo "</tr>\n";
+   echo "</table>\n";
+   
+   
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo T_("Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be included in the team's productivity report.")."</br>\n";
+   
+   
    echo "<input type=hidden name=action       value=noAction>\n";
    
    echo "</form>\n";
    
    echo "<br/>\n";
    echo "<br/>\n";
-   echo T_("Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be included in the team's productivity report.")."</br>\n";
    
-	echo "</div>\n";
-   
-	
-	
-	
-	
+   echo "</div>\n";
 }
+
 
 // ----------------------------------------------------
 function displayTeamMemberTuples($teamid) {
@@ -525,16 +574,19 @@ if (0 == count($teamList)) { $teamid = 0;}
 
 if (0 != $teamid) {
 
+    $team = new Team($teamid);
+	
 	// --- display current Team
-	$query = "SELECT name, description FROM `codev_team_table` WHERE id = $teamid";
-	$result = mysql_query($query) or die("Query failed: $query");
-	$teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "UNDEFINED";
-	echo "<span title='team_id = $teamid'>".T_("Current Team: ").$teamName."</span><br/>";
-   //echo "<span>Description: ".$teamDesc."</span><br/>";
+	$teamName  = $team->name;
+	#echo "<span title='team_id = $teamid'>".T_("Current Team: ").$teamName."</span><br/>";
 	
    echo "<hr align='left' width='20%'/>\n";
-   updateTeamLeaderForm($teamid, $originPage);
+   #updateTeamLeaderForm($teamid, $originPage);
 	
+   #echo "<br/>\n";
+   #echo "<br/>\n";
+   updateTeamInfoForm($team, $originPage);
+   
    echo "<br/>\n";
    echo "<br/>\n";
    echo "<hr align='left' width='20%'/>\n";
@@ -571,8 +623,7 @@ if (0 != $teamid) {
     // TODO check if not already in table !
     
     // save to DB
-    $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) VALUES ('$memberid','$teamid','$arrivalTimestamp', '0', '$memberAccess');";
-    mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+    $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
     
     // reload page
     echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
@@ -647,6 +698,16 @@ if (0 != $teamid) {
 
    	// reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
+   
+   } elseif ($_POST[action] == "updateTeamCreationDate") {
+      
+   	$formatedDate = isset($_REQUEST["date_createTeam"]) ? $_REQUEST["date_createTeam"] : "";
+      $date_create = date2timestamp($formatedDate);
+      $team->setCreationDate($date_create);
+
+      // reload page
+      echo ("<script> parent.location.replace('edit_team.php'); </script>");
+   	
    }
    
 

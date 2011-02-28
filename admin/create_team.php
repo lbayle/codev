@@ -50,6 +50,7 @@ function addTeam(){
 include_once "constants.php";
 include_once "tools.php";
 include_once "user.class.php";
+include_once "team.class.php";
 
 
 // -----------------------------
@@ -122,17 +123,18 @@ $teamleader_id = $_POST[teamleader_id];
 if ("addTeam" == $action) {
 	echo T_("Create")." $team_name !<br/>";
 	
-   // --- save to DB
-   $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`) VALUES ('$team_name','$team_desc','$teamleader_id');";
-   mysql_query($query) or die("Query failed: $query");
 	
+	$formatedDate  = date("Y-m-d", time());
+	$now = date2timestamp($formatedDate);
+
+	// --- save to DB
+   Team::create($team_name, $team_desc, $teamleader_id, $now);
+
+   $teamid = Team::getIdFromName($team_name);
+   echo "teamId = $teamid !<br/>";
+   
    
    // --- add default SuiviOp project
-   $query = "SELECT id FROM `codev_team_table` WHERE name = '$team_name';";
-   $result = mysql_query($query) or die("Query failed: $query");
-   $teamid = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "-1";
-   
-   echo "teamId = $teamid !<br/>";
    
    if (-1 != $teamid) {
 	   $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$defaultSideTaskProject','$teamid','$sideTaskProjectType');";
