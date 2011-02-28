@@ -13,10 +13,10 @@ class PeriodStatsReport {
   
   var $teamid;
 
-  public function PeriodStatsReport($start_year, $start_month, $teamid) {
+  public function PeriodStatsReport($start_year, $start_month, $start_say, $teamid) {
     $this->start_year = $start_year;
     $this->start_month = $start_month;
-    $this->start_day = 1;
+    $this->start_day = $start_say;
     $this->periodStatsList = array();
     
     $this->teamid = $teamid;
@@ -29,12 +29,13 @@ class PeriodStatsReport {
   	
     $now = time();
     $startM = $this->start_month;
+    $startD = $this->start_day;
     
     for ($y = $this->start_year; $y <= date('Y'); $y++) {
     
 	    for ($month=$startM; $month<13; $month++) {
-	      $startTimestamp = mktime(0, 0, 1, $month, $this->start_day, $y);
-	      $endTimestamp   = mktime(0, 0, 1, ($month + 1), $this->start_day, $y);
+	      $startTimestamp = mktime(0, 0, 1, $month, $startD, $y);
+	      $endTimestamp   = mktime(0, 0, 1, ($month + 1), $startD, $y);
 	
 	      if ($startTimestamp > $now) { break; }
 	
@@ -57,6 +58,7 @@ class PeriodStatsReport {
 	      $periodStats->projectList = $projectList;
 	      $periodStats->computeStats();
 	      $this->periodStatsList[$startTimestamp] = $periodStats;
+	      $startD = 1;
 	    }
 	    $startM = 1;
     }

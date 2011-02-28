@@ -39,6 +39,7 @@ if (!isset($_SESSION['userid'])) {
    
 include_once "period_stats_report.class.php";
 include_once "issue.class.php";
+include_once "team.class.php";
 include_once "time_tracking.class.php";
 
 
@@ -300,12 +301,14 @@ function createTimeTeackingList($start_day, $start_month, $start_year, $teamid) 
    $now = time();
    $timeTrackingTable = array();
    
+   $day = $start_day;
+   
    for ($y = $start_year; $y <= date('Y'); $y++) {
       
       for ($month=$start_month; $month<13; $month++) {
          
-         $startTimestamp = mktime(0, 0, 1, $month, $start_day, $y);
-         $endTimestamp   = mktime(0, 0, 1, ($month + 1), $start_day, $y);
+         $startTimestamp = mktime(0, 0, 1, $month, $day, $y);
+         $endTimestamp   = mktime(0, 0, 1, ($month + 1), $day, $y);
    
          if ($startTimestamp > $now) { break; }
          
@@ -313,22 +316,15 @@ function createTimeTeackingList($start_day, $start_month, $start_year, $teamid) 
          $timeTrackingTable[$startTimestamp] = $timeTracking;
          
          #echo "DEBUG: ETA=".$driftStats_new['totalDriftETA']." Eff=".$driftStats_new['totalDrift']." date=".date('M y', $startTimestamp)."<br/>\n";
+         $day   = 1;
       }
       $start_month = 1;
-      $start_day   = 1;
    }
 	return $timeTrackingTable;
 }
 
 # ======================================
 # ================ MAIN ================
-
-$default_year = date('Y') -1; // TODO CoDev install date !
-$default_month = 6;           // TODO CoDev install date !
-$start_day = 1;               // TODO CoDev install date !
-
-$start_year  = isset($_POST[year]) ? $_POST[year] : $default_year;
-$start_month = ($start_year == $default_year) ? $default_month : 1;
 
 
 $userid = $_SESSION['userid'];
@@ -349,6 +345,13 @@ $lTeamList = $session_user->getLeadedTeamList();
 $oTeamList = $session_user->getObservedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList; 
+
+$team = new Team($teamid);
+$default_year = date("Y", $team->date);
+$start_year  = isset($_POST[year]) ? $_POST[year] : $default_year;
+$start_month = ($start_year == $default_year) ? date("m", $team->date) : 1;
+$start_day   = ($start_year == $default_year) ? date("d", $team->date) : 1;
+
 
 
 if (0 == count($teamList)) {
@@ -383,7 +386,7 @@ if (0 == count($teamList)) {
          echo "<hr/>\n";
          echo "<br/>\n";
          echo "<a name='tagSubmittedResolved'></a>\n";
-         $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $teamid);
+         $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $start_day, $teamid);
          $periodStatsReport->computeReport();
          displaySubmittedResolved($periodStatsReport, 1000, 300);
 

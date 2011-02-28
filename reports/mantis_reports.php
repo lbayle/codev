@@ -79,9 +79,6 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 
 
 // ================ MAIN ================
-$start_year = date('Y') -1; // TODO CoDev install date !
-$start_month = 6; // TODO CoDev install date !
-
 
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
@@ -115,6 +112,11 @@ setTeamForm("mantis_reports.php", $teamid, $teamList);
 
 if (0 != $teamid) {
 
+	$team= new Team($teamid);
+   $start_year  = date("Y", $team->date);
+   $start_month = date("m", $team->date);
+   $start_day   = date("d", $team->date);
+	
    echo "<div align='left'>\n";
    echo "<ul>\n";
    echo "   <li><a href='#tagPeriodStats'>Bilan mensuel</a></li>\n";
@@ -128,7 +130,7 @@ if (0 != $teamid) {
    echo "<br/>\n";
    echo "<hr/>\n";
    echo "<br/>\n";
-   $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $teamid);
+   $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $start_day, $teamid);
 	$periodStatsReport->computeReport();
 	$periodStatsReport->displayHTMLReport();
 	

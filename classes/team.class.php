@@ -7,7 +7,7 @@ class Team {
 	var $name;
 	var $description;
 	var $leader_id;
-	var $creation_date;
+	var $date;
 	
 	/**
 	 * 
@@ -31,17 +31,17 @@ class Team {
       $this->name           = $row->name;
       $this->description    = $row->description;
       $this->leader_id      = $row->leader_id;
-      $this->creation_date  = $row->date;
+      $this->date           = $row->date;
 		
 	}
 
 	/**
 	 * STATIC insert new team in DB 
 	 * 
-	 * Team::create($name, $description, $leader_id, $creation_date);
+	 * Team::create($name, $description, $leader_id, $date);
 	 */
-	public static function create($name, $description, $leader_id, $creation_date) {
-      $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$name','$description','$leader_id', '$creation_date');";
+	public static function create($name, $description, $leader_id, $date) {
+      $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$name','$description','$leader_id', '$date');";
       mysql_query($query) or die("Query failed: $query");
       
 	}
