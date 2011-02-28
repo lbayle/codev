@@ -284,7 +284,7 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
       echo "<tr>\n";
       echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".number_format($val1[$i], 2)."%</td>\n";
-      echo "<td class=\"right\">".number_format($val2[$i], 2)."%</td>\n";
+      echo "<td class=\"right\">".number_format($val2[$i], 3)."%</td>\n";
       echo "</tr>\n";
       $i++;
    }
