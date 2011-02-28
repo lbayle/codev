@@ -174,9 +174,9 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 function updateTeamInfoForm($team, $originPage) {
    echo "<div>\n";
    
-   $defaultDay   = date("d", $team->creation_date);
-   $defaultMonth = date("m", $team->creation_date);
-   $defaultYear  = date("Y", $team->creation_date);
+   $defaultDay   = date("d", $team->date);
+   $defaultMonth = date("m", $team->date);
+   $defaultYear  = date("Y", $team->date);
    
    $myCalendar = new tc_calendar("date_createTeam", true, false);
    $myCalendar->setIcon("../calendar/images/iconCalendar.gif");
@@ -581,10 +581,6 @@ if (0 != $teamid) {
 	#echo "<span title='team_id = $teamid'>".T_("Current Team: ").$teamName."</span><br/>";
 	
    echo "<hr align='left' width='20%'/>\n";
-   #updateTeamLeaderForm($teamid, $originPage);
-	
-   #echo "<br/>\n";
-   #echo "<br/>\n";
    updateTeamInfoForm($team, $originPage);
    
    echo "<br/>\n";
