@@ -24,7 +24,7 @@ if (!isset($_SESSION['userid'])) {
   function submitTeam(){
     // check fields
     foundError = 0;
-    msgString = "Some fields are missing:" + "\n\n"
+    msgString = "Some fields are missing:" + "\n\n";
         
     if (0 == document.forms["teamSelectForm"].f_teamid.value)  { msgString += "Team\n"; ++foundError; }
                    
@@ -39,7 +39,7 @@ if (!isset($_SESSION['userid'])) {
   function addTeamMember(){
      // check fields
      foundError = 0;
-     msgString = "Some fields are missing:" + "\n\n"
+     msgString = "Some fields are missing:" + "\n\n";
          
      if (0 == document.forms["addTeamMemberForm"].f_memberid.value)  { msgString += "Team Member\n"; ++foundError; }
                     
@@ -54,7 +54,7 @@ if (!isset($_SESSION['userid'])) {
   function setMemberDepartureDate(){
      // check fields
      foundError = 0;
-     msgString = "Some fields are missing:" + "\n\n"
+     msgString = "Some fields are missing:" + "\n\n";
          
      if (0 == document.forms["addTeamMemberForm"].f_memberid.value)  { msgString += "Team Member\n"; ++foundError; }
                     
@@ -71,7 +71,7 @@ if (!isset($_SESSION['userid'])) {
   function addTeamProject(){
      // check fields
      foundError = 0;
-     msgString = "Some fields are missing:" + "\n\n"
+     msgString = "Some fields are missing:" + "\n\n";
          
      if (0 == document.forms["addTeamProjectForm"].f_projectid.value)  { msgString += "Project\n"; ++foundError; }
                     
@@ -104,7 +104,7 @@ if (!isset($_SESSION['userid'])) {
   function updateTeamLeader(){
      // check fields
      foundError = 0;
-     msgString = "Les champs suivants ont ete oublies:" + "\n\n"
+     msgString = "Les champs suivants ont ete oublies:" + "\n\n";
          
      if (0 == document.forms["updateTeamInfoForm"].f_leaderid.value)  { msgString += "Team Leader\n"; ++foundError; }
                     
@@ -192,10 +192,6 @@ function updateTeamInfoForm($team, $originPage) {
    #echo "<span>$team->description</span><br/>";
    echo "<br/>\n";
    
-   $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $team->id";
-   $result = mysql_query($query) or die("Query failed: $query");
-   $leaderid  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-   
    echo "<form id='updateTeamInfoForm' name='updateTeamInfoForm' method='post' Action='$originPage'>\n";
    
    echo "<table class='invisible'>\n";
@@ -211,7 +207,7 @@ function updateTeamInfoForm($team, $originPage) {
    $result    = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {
-      if ($row->id == $leaderid) {
+      if ($row->id == $team->leader_id) {
          echo "<option selected value='".$row->id."'>".$row->username."</option>\n";
       } else {
          echo "<option value='".$row->id."'>".$row->username."</option>\n";
@@ -297,7 +293,7 @@ function displayTeamMemberTuples($teamid) {
       echo "</tr>\n";
    }
    echo "</table>\n";
-   echo "<div>\n";
+   echo "</div>\n";
 }
 
 
@@ -451,7 +447,7 @@ function displayTeamProjectTuples($teamid) {
       echo "</tr>\n";
    }
    echo "</table>\n";
-   echo "<div>\n";
+   echo "</div>\n";
 }
 
 // ----------------------------------------------------
@@ -459,11 +455,11 @@ function addTeamProjectForm($originPage) {
 	
    global $projectType_names;
    
-   // Display form
-   echo "<h2>".T_("Team Projects")."</h2>\n";
 
    #echo "<div style='text-align: center;'>";
    echo "<div>\n";
+
+   echo "<h2>".T_("Team Projects")."</h2>\n";
    
    echo "<form id='addTeamProjectForm' name='addTeamProjectForm' method='post' Action='$originPage'>\n";
 
@@ -582,28 +578,42 @@ if (0 != $teamid) {
 	
    echo "<hr align='left' width='20%'/>\n";
    updateTeamInfoForm($team, $originPage);
+
+   #echo "<div>\n";
    
    echo "<br/>\n";
    echo "<br/>\n";
    echo "<hr align='left' width='20%'/>\n";
+   
+   #echo "<div class=\"float\">\n";
 	$defaultDate  = date("Y-m-d", time());
    addTeamMemberForm("edit_team.php", $defaultDate);   
    echo "<br/>\n";
    echo "<br/>\n";
    displayTeamMemberTuples($teamid);
+   #echo "</div>\n";
    
    
    echo "<br/>\n";
    echo "<br/>\n";
    echo "<hr align='left' width='20%'/>\n";
+   
+   #echo "<div class=\"float\">\n";
    addTeamProjectForm($originPage);
    echo "<br/>\n";
    echo "<br/>\n";
    displayTeamProjectTuples($teamid);
+   #echo "</div>\n";
+   
+   #echo "</div>\n";
+   
+   #echo "<div class=\"spacer\"> </div>\n";
+   
    
    echo "<br/>\n";
    echo "<br/>\n";
    echo "<hr align='left' width='20%'/>\n";
+   echo "<br/>\n";
    deleteTeamForm($originPage, $teamName, $teamid);
    
    

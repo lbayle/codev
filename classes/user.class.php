@@ -5,6 +5,7 @@
 // LoB 23 Jun 2010
 
 include_once "issue.class.php";
+include_once "team.class.php";
 include_once "holidays.class.php";
 
 // =======================================
@@ -89,13 +90,18 @@ class User {
       return $trigramme;
    }
    
-   
-   // --------------------
-	public function isTeamLeader($team_id) {
-		$query = "SELECT leader_id FROM `codev_team_table` WHERE id = $team_id";
+  // --------------------
+   public function getRealname() {
+      $query = "SELECT realname FROM `mantis_user_table` WHERE id = $this->id";
       $result = mysql_query($query) or die("Query failed: $query");
-      $leaderid = mysql_result($result, 0);
-      
+      $userName    = mysql_result($result, 0);
+      return $userName;
+   }
+   
+   
+  // --------------------
+	public function isTeamLeader($team_id) {
+      $leaderid = Team::getLeaderId($team_id);
 		return ($leaderid == $this->id);
 	}
 	

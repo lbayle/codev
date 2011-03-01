@@ -151,7 +151,7 @@ function setUserForm($originPage) {
 }
 
 // --------------------------------------------------------------
-function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $defaultProjectid, $originPage) {
+function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $defaultProjectid, $originPage) {
 
    list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
@@ -171,7 +171,6 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
    #echo "Date: \n";
    $myCalendar->writeScript();
 
-   $user1    = new User($userid);
    $project1 = new Project($defaultProjectid);
 
    // Project list
@@ -283,7 +282,7 @@ function addTrackForm($weekid, $curYear, $userid, $defaultDate, $defaultBugid, $
 
    echo "<input type=button name='btAddTrack' value='".T_("Add")."' onClick='javascript: addTrack()'>\n";
 
-   echo "<input type=hidden name=userid    value=$userid>\n";
+   echo "<input type=hidden name=userid    value=$user1->id>\n";
    echo "<input type=hidden name=year      value=$curYear>\n";
    echo "<input type=hidden name=weekid    value=$weekid>\n";
    echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
@@ -307,6 +306,7 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 $userid = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
+$managed_user = new User($userid);
 
 $session_user = new User($_SESSION['userid']);
 $teamList = $session_user->getLeadedTeamList();
@@ -356,8 +356,7 @@ if ($_POST[nextForm] == "addTrackForm") {
     $defaultProjectid  = $_POST[projectid];
 
     // save to DB
-    $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
-    mysql_query($query) or die("Query failed: $query");
+    TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
 
     // decrease remaining (only if 'remaining' already has a value)
     $issue = new Issue ($bugid);
@@ -387,11 +386,11 @@ if ($_POST[nextForm] == "addTrackForm") {
       $remaining = $issue->remaining + $duration;
       $issue->setRemaining($remaining);
     }
-
+   
     // delete track
     $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
     mysql_query($query) or die("Query failed: $query");
-
+    
     // pre-set form fields
     $defaultBugid     = $_POST[bugid];
     $defaultProjectid  = $issue->projectId;
@@ -420,17 +419,16 @@ if ($_POST[nextForm] == "addTrackForm") {
   }
 
   // Display user name
-  $query = "SELECT realname FROM `mantis_user_table` WHERE id = $userid";
-  $result = mysql_query($query) or die("Query failed: $query");
-  $userName    = mysql_result($result, 0);
+  
+  $userName = $managed_user->getRealname();
   echo "<h2 style='text-align: center;'>$userName</h2>\n";
 
   // display Track Form
   echo "<br/>";
-  addTrackForm($weekid, $year, $userid, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
+  addTrackForm($weekid, $year, $managed_user, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
   echo "<br/>";
 
-  displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $year);
+  displayWeekDetails($weekid, $weekDates, $managed_user->id, $timeTracking, $year);
 
   echo "<div class='center'>";
   displayCheckWarnings($userid);

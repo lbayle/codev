@@ -58,6 +58,15 @@ class Team {
       return $teamid;
 	}
 	
+	public static function getLeaderId($teamid) { 
+	   $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
+      $result = mysql_query($query) or die("Query failed: $query");
+      $leaderid  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+      
+      return $leaderid;
+	}
+	
+	
 	/**
 	 * 
 	 * @param unknown_type $memberid

@@ -61,6 +61,45 @@ class TimeTrack {
     return false;
   }
 
+  /**
+   * 
+   * @param unknown_type $userid
+   * @param unknown_type $bugid
+   * @param unknown_type $job
+   * @param unknown_type $timestamp
+   * @param unknown_type $duration
+   */
+  public static function create($userid, $bugid, $job, $timestamp, $duration) {
+    $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
+    mysql_query($query) or die("Query failed: $query");
+  	
+  }
+
+  /**
+   * update Remaining and delete TimeTrack 
+   * @param unknown_type $trackid
+   */
+  public static function delete($trackid) {
+  	
+    // increase remaining (only if 'remaining' already has a value)
+    $query = "SELECT bugid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
+    $result = mysql_query($query) or die("Query failed: $query");
+    while($row = mysql_fetch_object($result))
+    { // REM: only one line in result, while should be optimized
+      $bugid = $row->bugid;
+      $duration = $row->duration;
+    }
+    $issue = new Issue ($bugid);
+    if (NULL != $issue->remaining) {
+      $remaining = $issue->remaining + $duration;
+      $issue->setRemaining($remaining);
+    }
+  	
+    // delete track
+    $query2 = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
+    mysql_query($query2) or die("Query failed: $query2");
+  }
+    
 } // class TimeTrack
 
 ?>
