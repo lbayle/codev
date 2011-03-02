@@ -481,7 +481,7 @@ function displaySideTalksProjectDetails($timeTracking) {
      	   	
      	   	if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
      	   	$issue = new Issue($bugid);
-            $formatedBugsPerCategory[$catName] .= mantisIssueURL($bugid, $issue->summary);
+            $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
      	   }
      }
      
@@ -527,7 +527,7 @@ function displayProjectDetails($timeTracking, $projectId) {
          
          if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
          $issue = new Issue($bugid);
-         $formatedBugsPerCategory[$catName] .= mantisIssueURL($bugid, $issue->summary);
+         $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
       }
   }
      
