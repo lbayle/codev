@@ -70,6 +70,9 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
    $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
    
    $projList = $devProjList + $managedProjList;
+   #echo "<table class='invisible'>\n";
+   #echo "<tr>\n";
+   #echo "<td>\n";
    
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
    echo "<option value='0'>".T_("(all)")."</option>\n";
@@ -82,8 +85,9 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
       }
    }
    echo "</select>\n";
-
-   echo "&nbsp;";
+   #echo "</td>\n";
+   
+   #echo "&nbsp;";
    
    // --- Task list
    if (0 != $project1->id) {
@@ -105,6 +109,7 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
             }
        }
    }
+   #echo "<td>\n";
    echo "<select id='bugidSelector' name='bugidSelector' style='width: 600px;' title='".T_("Task")."'>\n";
    echo "<option value='0'></option>\n";
 
@@ -117,8 +122,21 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
       }
    }
    echo "</select>\n";
+   #echo "</td>\n";
    
+   #echo "<td>\n";
    echo "<input type=button value='".T_("Jump")."' onClick='javascript: submitForm()'>\n";
+   #echo "</td>\n";
+/*   
+   if (0 != $defaultBugid) {
+      #echo "<td>\n";
+   	echo "&nbsp;";
+   	echo "".mantisIssueURL($defaultBugid, NULL, TRUE);
+      #echo "</td>\n";
+   }
+*/   
+   #echo "</tr>\n";
+   #echo "</table>\n";
    
    echo "<input type=hidden name=bugid  value=$defaultBugid>\n";
    echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
@@ -312,8 +330,17 @@ if (0 == count($teamList)) {
 	  $issue = new Issue ($bug_id);
 	        
 	  echo "<br/><br/>\n";
-	  echo "<br/>";
-	  displayIssueGeneralInfo($issue);
+     echo "<div id='content'' class='center'>";
+	  echo "<hr width='95%'/>\n";
+     echo "<br/>";
+     echo "<h2>$issue->summary</h2>\n";  
+     echo "".mantisIssueURL($issue->bugId)." / $issue->tcId\n";  
+     echo "</div>";
+     echo "<br/>";
+     echo "<br/>";
+     echo "<br/>";
+     echo "<br/>";
+     displayIssueGeneralInfo($issue);
 	  echo "<br/><br/>\n";
 	  
 	  displayJobDetails($issue);

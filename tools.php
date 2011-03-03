@@ -34,14 +34,21 @@ function curPageName() {
  * ex: http://172.24.209.4/mantis/view.php?id=400
  * @param int $bugid issue id in mantis DB
  */
-function mantisIssueURL($bugid, $title=NULL) {
+function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE) {
 	global $mantisURL;
 	if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
 	
 	$formatedTitle = str_replace("'", " ", $title);
    $formatedTitle = str_replace("\"", " ", $formatedTitle);
 	
-	return "<a  title='$formatedTitle' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
+   if (FALSE == $isIcon) {
+      $url = "<a  title='$formatedTitle' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
+   } else {
+      $url = "<a href='$mantisURL/view.php?id=$bugid'><img title='$formatedTitle' src='$mantisURL/images/favicon.ico' /></a>";
+   }
+   
+   return $url; 
+	
 }
 
 /**
