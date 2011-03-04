@@ -5,6 +5,7 @@
 include_once "time_track.class.php";
 include_once "issue.class.php";
 include_once "user.class.php";
+include_once "team.class.php";
 include_once "holidays.class.php";
 
 class TimeTracking {
@@ -681,16 +682,36 @@ class TimeTracking {
   }
   
   // ----------------------------------------------
-  // Returns a multiple array containing duration for each day of the week.
-  // WARNING: the timestamp must NOT exceed 1 week.
+  // 
+  // 
 
-  // returns : $weekTracks[bugid][jobid][dayOfWeek] = duration
-  public function getWeekDetails($userid) {       
+  // 
+  /**
+   * Returns a multiple array containing duration for each day of the week.
+   * WARNING: the timestamp must NOT exceed 1 week.
+   * 
+   * returns : $weekTracks[bugid][jobid][dayOfWeek] = duration
+   * 
+   * @param unknown_type $userid
+   * @param unknown_type $isTeamProjOnly if TRUE, return only tracks from projects associated to the team 
+   */
+  public function getWeekDetails($userid, $isTeamProjOnly=false) {       
     $weekTracks = array();
                 
     // For all bugs in timestamp
-    $query     = "SELECT bugid, jobid, date, duration FROM `codev_timetracking_table` ".
-      "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp AND userid = $userid";
+    $query     = "SELECT bugid, jobid, date, duration ".
+                 "FROM `codev_timetracking_table`, `mantis_bug_table`, `mantis_project_table` ".
+                 "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
+                 "AND userid = $userid ";
+    
+    if (false != $isTeamProjOnly) {
+    	$projList = Team::getProjectList($this->team_id);
+    	$formatedProjList = valuedListToSQLFormatedString($projList);
+      $query.=   "AND mantis_bug_table.id     = codev_timetracking_table.bugid ".
+                 "AND mantis_project_table.id = mantis_bug_table.project_id ".
+    	           "AND mantis_bug_table.project_id in ($formatedProjList)";
+    }
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -711,7 +732,7 @@ class TimeTracking {
      // -----------------------------------------------
    // return TimeTracks created by the team during the timestamp
    // returns : $projectTracks[projectid][bugid][jobid] = duration
-   public function getProjectTracks() {
+   public function getProjectTracks($isTeamProjOnly=false) {
       global $accessLevel_dev;
       global $accessLevel_manager;
       
@@ -726,8 +747,15 @@ class TimeTracking {
                  "AND   codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
                  "AND   mantis_bug_table.id     = codev_timetracking_table.bugid ".
                  "AND   mantis_project_table.id = mantis_bug_table.project_id ".
-                 "AND   codev_job_table.id      = codev_timetracking_table.jobid ".
-                 "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name";
+                 "AND   codev_job_table.id      = codev_timetracking_table.jobid ";
+    
+    if (false != $isTeamProjOnly) {
+      $projList = Team::getProjectList($this->team_id);
+      $formatedProjList = valuedListToSQLFormatedString($projList);
+    	$query.= "AND mantis_bug_table.project_id in ($formatedProjList) ";
+    }
+    
+    $query.= "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name";
     
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))

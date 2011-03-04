@@ -136,7 +136,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   // PERIOD week
   //$thisWeekId=date("W");
 
-  $weekTracks = $timeTracking->getWeekDetails($userid);
+  $weekTracks = $timeTracking->getWeekDetails($userid, true);
   echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='".T_("sum(Remaining) of current tasks")."'>".T_("workload")." = $workload</span><br/>\n";
   echo "<table width='95%'>\n";
   //echo "<caption>".$realname."</caption>\n";
@@ -176,7 +176,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
 function displayProjectActivityReport($timeTracking) {
 
    // $projectTracks[projectid][bugid][jobid] = duration
-   $projectTracks = $timeTracking->getProjectTracks();
+   $projectTracks = $timeTracking->getProjectTracks(true);
 
   echo "<div align='center'>\n";
 
@@ -227,6 +227,8 @@ function displayCheckWarnings($timeTracking) {
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
     "ORDER BY mantis_user_table.username";
 
+  // TODO AND user is not Observer
+  
   $result = mysql_query($query) or die("Query failed: $query");
 
   echo "<p style='color:red'>\n";

@@ -66,6 +66,23 @@ class Team {
       return $leaderid;
 	}
 	
+	public static function getProjectList($teamid) {
+		
+		$projList = array();
+		
+      $query     = "SELECT codev_team_project_table.project_id, mantis_project_table.name ".
+                "FROM `codev_team_project_table`, `mantis_project_table` ".
+                "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
+                "AND codev_team_project_table.team_id=$teamid ".
+                "ORDER BY mantis_project_table.name";
+      $result    = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+      	$projList[$row->project_id] = $row->name;
+      }
+      
+		return $projList;
+	}
 	
 	/**
 	 * 
