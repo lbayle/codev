@@ -698,20 +698,25 @@ class TimeTracking {
   public function getWeekDetails($userid, $isTeamProjOnly=false) {       
     $weekTracks = array();
                 
-    // For all bugs in timestamp
-    $query     = "SELECT bugid, jobid, date, duration ".
-                 "FROM `codev_timetracking_table`, `mantis_bug_table`, `mantis_project_table` ".
-                 "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
-                 "AND userid = $userid ";
-    
-    if (false != $isTeamProjOnly) {
+    if (false == $isTeamProjOnly) {
+      // For all bugs in timestamp
+      $query     = "SELECT bugid, jobid, date, duration ".
+                   "FROM `codev_timetracking_table` ".
+                   "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
+                   "AND userid = $userid ";
+    	
+    } else {
     	$projList = Team::getProjectList($this->team_id);
     	$formatedProjList = valuedListToSQLFormatedString($projList);
-      $query.=   "AND mantis_bug_table.id     = codev_timetracking_table.bugid ".
-                 "AND mantis_project_table.id = mantis_bug_table.project_id ".
-    	           "AND mantis_bug_table.project_id in ($formatedProjList)";
+      $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.jobid, codev_timetracking_table.date, codev_timetracking_table.duration ".
+                   "FROM `codev_timetracking_table`, `mantis_bug_table`, `mantis_project_table` ".
+                   "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
+                   "AND userid = $userid ".
+    	             "AND mantis_bug_table.id     = codev_timetracking_table.bugid ".
+                   "AND mantis_project_table.id = mantis_bug_table.project_id ".
+    	             "AND mantis_bug_table.project_id in ($formatedProjList)";
+    	
     }
-    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
