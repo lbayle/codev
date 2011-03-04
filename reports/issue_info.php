@@ -149,31 +149,40 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
 
 // ---------------------------------------------------------------
 function displayIssueGeneralInfo($issue) {      
+  
+  echo "<br/>\n";
+  echo "<br/>\n";
+  
   echo "<table>\n";
-
   echo "<tr>\n";
-  echo "<th>".T_("Status")."</th>\n";
-  echo "<td>".$issue->getCurrentStatusName()."</td>\n";
-  echo "</tr>\n";
-   
+  echo "  <th>".T_("Duration")."</th>\n";
+  echo "  <th title='".T_("BEFORE analysis")."'>".T_("ETA")."</th>\n";
+  echo "  <th title='".T_("AFTER analysis")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
+  echo "  </tr>\n";
+  
   echo "<tr>\n";
-  echo "<th title='BI + BS'>".T_("Estimated")."</th>\n";
+  echo "<td title='BI + BS'>".T_("Estimated")."</th>\n";
+  echo "<td>".$issue->getEtaName()."</td>\n";
   echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
-  echo "<th>".T_("Elapsed")."</th>\n";
+  echo "<td>".T_("Elapsed")."</td>\n";
+  echo "<td></td>\n";
   echo "<td>".$issue->elapsed."</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
-  echo "<th>".T_("Remaining")."</th>\n";
+  echo "<td>".T_("Remaining")."</td>\n";
+  echo "<td></td>\n";
   echo "<td>$issue->remaining</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
-  echo "<th>".T_("Drift")."</th>\n";
+  echo "<td>".T_("Drift")."</td>\n";
+  $deriveETA = $issue->getDriftETA();
   $derive = $issue->getDrift();
+  echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".$deriveETA."</td>\n";
   echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
   echo "</tr>\n";
    
@@ -331,10 +340,12 @@ if (0 == count($teamList)) {
 	        
 	  echo "<br/><br/>\n";
      echo "<div id='content'' class='center'>";
-	  echo "<hr width='95%'/>\n";
+	  echo "<hr width='80%'/>\n";
      echo "<br/>";
      echo "<h2>$issue->summary</h2>\n";  
-     echo "".mantisIssueURL($issue->bugId)." / $issue->tcId\n";  
+     echo "".mantisIssueURL($issue->bugId)." / <span title='".T_("TC issue")."'>$issue->tcId</span><br/>\n";  
+     echo "<br/>";
+     echo "<b>".$issue->getCurrentStatusName()."</b>\n";
      echo "</div>";
      echo "<br/>";
      echo "<br/>";

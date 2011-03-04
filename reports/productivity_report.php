@@ -360,8 +360,8 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "<caption>".T_("Drift - Today opened Tasks")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
-  echo "<th width='100' title='".T_("BEFORE analysis")."'>ETA</th>\n";
-  echo "<th width='100' title='".T_("AFTER analysis")."'>EffortEstim <br/>(BI + BS)</th>\n";
+  echo "<th width='100' title='".T_("BEFORE analysis")."'>".T_("ETA")."</th>\n";
+  echo "<th width='100' title='".T_("AFTER analysis")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
   echo "<th>".T_("Description")."</th>\n";
   echo "<th>".T_("Formula")."</th>\n";
   echo "</tr>\n";
