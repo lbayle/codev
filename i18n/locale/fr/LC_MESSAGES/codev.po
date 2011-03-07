@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-04 13:18+0100\n"
+"POT-Creation-Date: 2011-03-07 15:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgid "Team Leader"
 msgstr "Team Leader"
 
 #: admin/create_team.php:74 admin/edit_holidays.php:86
-#: admin/edit_holidays.php:110 admin/edit_team.php:423
+#: admin/edit_holidays.php:110 admin/edit_team.php:465
 #: classes/issue_tracking.class.php:99 classes/issue_tracking.class.php:144
 #: reports/productivity_report.php:185 reports/productivity_report.php:283
 #: reports/productivity_report.php:365 reports/proj_management_report.php:372
@@ -52,16 +52,16 @@ msgid "Create"
 msgstr "Cr&eacute;er"
 
 #: admin/create_team.php:102 admin/edit_holidays.php:155
-#: admin/edit_jobs.php:300 admin/edit_team.php:527 index.php:141 login.php:39
+#: admin/edit_jobs.php:300 admin/edit_team.php:569 index.php:141 login.php:39
 #: reports/mantis_reports.php:90 reports/productivity_report.php:598
 #: reports/proj_management_report.php:495 reports/statistics.php:338
 #: timetracking/holidays_report.php:263 timetracking/time_tracking.php:305
-#: timetracking/week_activity_report.php:267 tools/check.php:33
+#: timetracking/week_activity_report.php:269 tools/check.php:33
 msgid "Could not connect to database"
 msgstr "Connexion impossible a la base de donnees"
 
 #: admin/create_team.php:103 admin/edit_holidays.php:156
-#: admin/edit_jobs.php:301 admin/edit_team.php:528 index.php:142 login.php:40
+#: admin/edit_jobs.php:301 admin/edit_team.php:570 index.php:142 login.php:40
 #: timetracking/holidays_report.php:264
 msgid "Could not select database"
 msgstr "Impossible de selectionner la base de donnees"
@@ -85,7 +85,7 @@ msgid "Color"
 msgstr "Couleur"
 
 #: admin/edit_holidays.php:90 admin/edit_jobs.php:144 admin/edit_jobs.php:235
-#: admin/edit_team.php:493 timetracking/time_tracking.php:283
+#: admin/edit_team.php:535 timetracking/time_tracking.php:283
 msgid "Add"
 msgstr "Ajouter"
 
@@ -119,8 +119,8 @@ msgstr "Administration CoDev : Edition Postes"
 msgid "Job Name"
 msgstr "Nom du Poste"
 
-#: admin/edit_jobs.php:136 admin/edit_jobs.php:166 admin/edit_team.php:267
-#: admin/edit_team.php:424
+#: admin/edit_jobs.php:136 admin/edit_jobs.php:166 admin/edit_team.php:284
+#: admin/edit_team.php:466
 msgid "Type"
 msgstr "Type"
 
@@ -160,7 +160,7 @@ msgstr "Assignations de Postes"
 msgid "CoDev Administration : Team Edition"
 msgstr "Administration CoDev : Edition Equipe"
 
-#: admin/edit_team.php:191 reports/productivity_report.php:81
+#: admin/edit_team.php:208 reports/productivity_report.php:81
 #: reports/proj_management_report.php:57
 #: reports/proj_management_report.php:530 reports/statistics.php:53
 #: timetracking/holidays_report.php:38
@@ -168,19 +168,19 @@ msgstr "Administration CoDev : Edition Equipe"
 msgid "Team"
 msgstr "Equipe"
 
-#: admin/edit_team.php:201
+#: admin/edit_team.php:218
 msgid "Leader"
 msgstr "Team Leader"
 
-#: admin/edit_team.php:219 admin/edit_team.php:230
+#: admin/edit_team.php:236 admin/edit_team.php:247
 msgid "Update"
 msgstr "Mise a jour"
 
-#: admin/edit_team.php:225
+#: admin/edit_team.php:242
 msgid "Creation Date"
 msgstr "Date de cr&eacute;ation"
 
-#: admin/edit_team.php:238
+#: admin/edit_team.php:255
 msgid ""
 "Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be "
 "included in the team's productivity report."
@@ -188,73 +188,81 @@ msgstr ""
 "Note: Un <i>TeamLeader</i> doit egalement etre declare comme <i>TeamMember</"
 "i> pour etre pris en compte dans les indicateurs de production."
 
-#: admin/edit_team.php:263
+#: admin/edit_team.php:280
 msgid "login"
 msgstr "identifiant"
 
-#: admin/edit_team.php:264 admin/edit_team.php:422
+#: admin/edit_team.php:281 admin/edit_team.php:464
 #: timetracking/time_tracking.php:126
 msgid "Name"
 msgstr "Nom"
 
-#: admin/edit_team.php:265
+#: admin/edit_team.php:282
 msgid "Date d arivee dans l equipe"
 msgstr ""
 
-#: admin/edit_team.php:265
+#: admin/edit_team.php:282
 msgid "Arrival Date"
 msgstr "Date d'arriv&eacute;e"
 
-#: admin/edit_team.php:266
+#: admin/edit_team.php:283
 msgid "Date de depart de l equipe"
 msgstr ""
 
-#: admin/edit_team.php:266
+#: admin/edit_team.php:283
 msgid "Departure Date"
 msgstr "Date de d&eacute;part"
 
-#: admin/edit_team.php:281 admin/edit_team.php:440
+#: admin/edit_team.php:298 admin/edit_team.php:482
 #: timetracking/time_tracking_tools.php:89
 msgid "delete this row"
 msgstr "&eacute;ffacer cette ligne"
 
-#: admin/edit_team.php:325
+#: admin/edit_team.php:342
 msgid "Team Members"
 msgstr "Membres de l'&eacute;quipe"
 
-#: admin/edit_team.php:337
+#: admin/edit_team.php:354
 msgid "Member"
 msgstr "Membre"
 
-#: admin/edit_team.php:374
+#: admin/edit_team.php:391
 msgid "Arrival-Date"
 msgstr "Date d'arriv&eacute;e"
 
-#: admin/edit_team.php:379
+#: admin/edit_team.php:396
 msgid "Add User"
 msgstr "Ajout Utilisateur"
 
-#: admin/edit_team.php:383
+#: admin/edit_team.php:400
 msgid "Departure-Date"
 msgstr "Date de d&eacute;part"
 
-#: admin/edit_team.php:388
+#: admin/edit_team.php:405
 msgid "set Departure Date"
 msgstr "maj date de d&eacute;part"
 
-#: admin/edit_team.php:462
+#: admin/edit_team.php:417
+msgid "Import all users from team "
+msgstr "Importer les membres de l'&eacute;quipe "
+
+#: admin/edit_team.php:430
+msgid "Import"
+msgstr "Importer"
+
+#: admin/edit_team.php:504
 msgid "Team Projects"
 msgstr "Projets de l'&eacute;quipe"
 
-#: admin/edit_team.php:514
+#: admin/edit_team.php:556
 msgid "Delete team"
 msgstr "Supprimer l'&eacute;quipe"
 
-#: admin/edit_team.php:515
+#: admin/edit_team.php:557
 msgid "Delete"
 msgstr "Supprimer"
 
-#: admin/edit_team.php:559
+#: admin/edit_team.php:601
 msgid "Team Edition"
 msgstr "Editer l'&eacute;quipe"
 
@@ -654,7 +662,7 @@ msgid "Tasks"
 msgstr "Fiches"
 
 #: reports/productivity_report.php:573 timetracking/time_tracking_tools.php:24
-#: timetracking/week_activity_report.php:239
+#: timetracking/week_activity_report.php:241
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
@@ -663,7 +671,7 @@ msgid "inconsistent"
 msgstr "incoh&eacute;rent"
 
 #: reports/productivity_report.php:582 timetracking/time_tracking_tools.php:33
-#: timetracking/week_activity_report.php:245
+#: timetracking/week_activity_report.php:247
 msgid "not defined."
 msgstr "non d&eacute;fini"
 
@@ -774,7 +782,7 @@ msgid "Friday"
 msgstr "Vendredi"
 
 #: reports/proj_management_report.php:512 reports/statistics.php:359
-#: timetracking/week_activity_report.php:280
+#: timetracking/week_activity_report.php:282
 msgid "Sorry, you do NOT have access to this page."
 msgstr "d&eacute;sol&eacute;, vous n'avez pas acces a cette page."
 
@@ -924,17 +932,17 @@ msgstr "Temps total pass&eacute; sur cette Fiche"
 msgid "Total"
 msgstr "Total"
 
-#: timetracking/week_activity_report.php:239
+#: timetracking/week_activity_report.php:241
 msgid " days"
 msgstr "jours"
 
-#: timetracking/week_activity_report.php:298
-#: timetracking/week_activity_report.php:306
+#: timetracking/week_activity_report.php:300
+#: timetracking/week_activity_report.php:308
 msgid "By Team Member"
 msgstr "Par Team Member"
 
-#: timetracking/week_activity_report.php:299
-#: timetracking/week_activity_report.php:315
+#: timetracking/week_activity_report.php:301
+#: timetracking/week_activity_report.php:317
 msgid "By Project"
 msgstr "Par Projet"
 

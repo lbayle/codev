@@ -51,6 +51,23 @@ if (!isset($_SESSION['userid'])) {
      }    
    }
 
+  function addMembersFrom(){
+     // check fields
+     foundError = 0;
+     msgString = "Some fields are missing:" + "\n\n";
+         
+     if (0 == document.forms["addTeamMemberForm"].f_src_teamid.value)  { msgString += "Source Team\n"; ++foundError; }
+                    
+     if (0 == foundError) {
+       document.forms["addTeamMemberForm"].action.value="addMembersFrom";
+       document.forms["addTeamMemberForm"].submit();
+     } else {
+       alert(msgString);    
+     }    
+   }
+  
+
+  
   function setMemberDepartureDate(){
      // check fields
      foundError = 0;
@@ -188,7 +205,7 @@ function updateTeamInfoForm($team, $originPage) {
    $myCalendar->startMonday(true);
    
    
-   echo "<h2>".T_("Team")." $team->name</h2>\n";
+   echo "<h2 title='$team->id'>".T_("Team")." $team->name</h2>\n";
    #echo "<span>$team->description</span><br/>";
    echo "<br/>\n";
    
@@ -298,7 +315,7 @@ function displayTeamMemberTuples($teamid) {
 
 
 // ----------------------------------------------------
-function addTeamMemberForm($originPage, $defaultDate) {
+function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
    global $access_level_names;
    
 	list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
@@ -389,7 +406,32 @@ function addTeamMemberForm($originPage, $defaultDate) {
    echo "   </td>\n";
    echo "</tr>\n";
    echo "</table>\n";
-            
+
+   echo "<br/>\n";
+   echo "<br/>\n";
+   
+   // import from other team
+   echo "<table class='invisible'>\n";
+   echo "<tr>\n";
+   echo "   <td>\n";
+   echo T_("Import all users from team ")." \n";
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "<select name='f_src_teamid'>\n";
+   echo "  <option value='0'></option>\n";
+   foreach ($teamList as $tid => $tname) {
+      if ($tid != $teamid) {
+         echo "  <option value='".$tid."'>".$tname."</option>\n";
+      }
+   }
+   echo "</select>\n";
+   echo "   </td>\n";
+   echo "   <td>\n";
+   echo "        <input type=button name='btAddMembersFrom' value='".T_("Import")."' onClick='javascript: addMembersFrom()'>\n";
+   echo "   </td>\n";
+   echo "</tr>\n";
+   echo "</table>\n";
+   
    
    echo "<input type=hidden name=action       value=noAction>\n";
    echo "<input type=hidden name=currentForm  value=addTeamMemberForm>\n";
@@ -398,8 +440,8 @@ function addTeamMemberForm($originPage, $defaultDate) {
    
    
    echo "<form id='removeTeamMemberForm' name='removeTeamMemberForm' method='post' Action='$originPage'>\n";
-   echo "   <input type=hidden name=action       value=noAction>\n";
-   echo "   <input type=hidden name=f_memberid   value='0'>\n";
+   echo "   <input type=hidden name=action         value=noAction>\n";
+   echo "   <input type=hidden name=f_memberid     value='0'>\n";
    echo "</form>\n";
    
    echo "</div>\n";
@@ -440,7 +482,7 @@ function displayTeamProjectTuples($teamid) {
          echo "<a title='".T_("delete this row")."' href=\"javascript: removeTeamProject('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
       }
       echo "</td>\n";
-      echo "<td>".$row->name."</td>\n";
+      echo "<td title='$row->project_id'>".$row->name."</td>\n";
       echo "<td>".$row->description."</td>\n";
       echo "<td>".$projectType_names[$row->type]."</td>\n";
 
@@ -451,11 +493,14 @@ function displayTeamProjectTuples($teamid) {
 }
 
 // ----------------------------------------------------
-function addTeamProjectForm($originPage) {
+function addTeamProjectForm($teamid, $originPage) {
 	
    global $projectType_names;
    
 
+   $curProjList=Team::getProjectList($teamid);
+   $formatedCurProjList=valuedListToSQLFormatedString($curProjList);
+   
    #echo "<div style='text-align: center;'>";
    echo "<div>\n";
 
@@ -465,15 +510,11 @@ function addTeamProjectForm($originPage) {
 
    echo "Project: <select name='f_projectid'>\n";
    echo "<option value='0'></option>\n";
-/*   
+
    $query     = "SELECT DISTINCT mantis_project_table.id, mantis_project_table.name, mantis_project_table.description ".
                 "FROM `mantis_project_table`, `codev_team_project_table` ".
                 "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-                "AND codev_team_project_table.type = 0 ".
-                "ORDER BY name";
-*/                
-   $query     = "SELECT DISTINCT mantis_project_table.id, mantis_project_table.name, mantis_project_table.description ".
-                "FROM `mantis_project_table` ".
+                "AND mantis_project_table.id NOT IN ($formatedCurProjList) ".
                 "ORDER BY name";
    $result    = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
@@ -587,7 +628,7 @@ if (0 != $teamid) {
    
    #echo "<div class=\"float\">\n";
 	$defaultDate  = date("Y-m-d", time());
-   addTeamMemberForm("edit_team.php", $defaultDate);   
+   addTeamMemberForm("edit_team.php", $defaultDate, $teamid, $teamList);   
    echo "<br/>\n";
    echo "<br/>\n";
    displayTeamMemberTuples($teamid);
@@ -599,7 +640,7 @@ if (0 != $teamid) {
    echo "<hr align='left' width='20%'/>\n";
    
    #echo "<div class=\"float\">\n";
-   addTeamProjectForm($originPage);
+   addTeamProjectForm($teamid, $originPage);
    echo "<br/>\n";
    echo "<br/>\n";
    displayTeamProjectTuples($teamid);
@@ -626,10 +667,19 @@ if (0 != $teamid) {
     $memberid = $_POST[f_memberid];
     $memberAccess = $_POST[member_access];
     
-    // TODO check if not already in table !
-    
     // save to DB
     $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
+    
+    // reload page
+    echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
+    
+   } elseif ($_POST[action] == "addMembersFrom") {
+      
+    $src_teamid = $_POST[f_src_teamid];
+    
+    // add all members declared in Team $src_teamid (same dates, same access)
+    // except if already declared
+    $team->addMembersFrom($src_teamid);
     
     // reload page
     echo ("<script> parent.location.replace('edit_team.php'); </script>"); 
@@ -640,8 +690,7 @@ if (0 != $teamid) {
       $departureTimestamp = date2timestamp($formatedDate);
       $memberid = $_POST[f_memberid];
 
-      $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $teamid;";
-      mysql_query($query) or die("Query failed: $query");
+      $team->setMemberDepartureDate($memberid, $departureTimestamp);
       
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
@@ -651,11 +700,8 @@ if (0 != $teamid) {
       $projectid = $_POST[f_projectid];
       $projecttype= $_POST[project_type];
     
-      // TODO check if not already in table !
-    
       // save to DB
-      $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$projectid','$teamid','$projecttype');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+      $team->addProject($projectid, $projecttype);
     
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>"); 

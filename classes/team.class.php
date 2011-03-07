@@ -97,6 +97,47 @@ class Team {
 	}
 	
 	
+	public function setMemberDepartureDate($memberid, $departureTimestamp) {
+	  $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
+      mysql_query($query) or die("Query failed: $query");
+	}
+	
+	
+	/**
+	 * add all members declared in Team $src_teamid (same dates, same access)
+	 * users already declared are omitted 
+	 * 
+	 * @param unknown_type $src_teamid
+	 */
+   public function addMembersFrom($src_teamid) {
+   	
+   	$query = "SELECT * from `codev_team_user_table` WHERE team_id = $src_teamid ";
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+      	$user = new User($row->user_id);
+      	if (! $user->isTeamMember($this->id)) {
+            $this->addMember($row->user_id,$row->arrival_date, $row->access_level);
+            
+            if (NULL != $row->departure_date) {
+            	$this->setMemberDepartureDate($row->user_id, $row->departure_date);
+            }
+      	}
+      }
+   	
+   }	
+	
+   /**
+    * 
+    * @param unknown_type $projectid
+    * @param unknown_type $projecttype
+    */
+   public function addProject($projectid, $projecttype) {
+      $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$projectid','$this->id','$projecttype');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+   }
+   
+   
 	/**
 	 * 
 	 * @param unknown_type $date_create

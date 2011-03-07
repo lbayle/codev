@@ -128,12 +128,13 @@ class User {
    public function isTeamMember($team_id, $accessLevel=NULL, $startTimestamp=NULL, $endTimestamp=NULL) {
       global $accessLevel_dev;
       
-      if (NULL == $accessLevel) { $accessLevel = $accessLevel_dev; }
-      
       $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
                "WHERE team_id = $team_id ".
-               "AND user_id = $this->id ".
-               "AND access_level = $accessLevel ";
+               "AND user_id = $this->id ";
+      
+      if (NULL != $accessLevel) {
+         $query .= "AND access_level = $accessLevel ";
+      }
       
       if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
          $query .= "AND arrival_date < $endTimestamp AND ".
