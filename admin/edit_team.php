@@ -338,6 +338,10 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
    $myCalendar2->setDateFormat('Y-m-d');
    $myCalendar2->startMonday(true);
    
+   
+   //$teamMembers = Team::getMemberList($teamid);
+   //$formatedTeamMembers = valuedListToSQLFormatedString($teamMembers);
+   
    // Display form
    echo "<h2>".T_("Team Members")."</h2>\n";
 
@@ -357,7 +361,9 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
    echo "<select  style='width:100%' name='f_memberid'>\n";
    echo "<option value='0'></option>\n";
    
-   $query     = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
+   $query     = "SELECT id, username FROM `mantis_user_table` ".
+                //"WHERE id NOT IN ($formatedTeamMembers) ".
+                "ORDER BY username";
    $result    = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {

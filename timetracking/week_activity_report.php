@@ -227,7 +227,7 @@ function displayCheckWarnings($timeTracking) {
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
     "ORDER BY mantis_user_table.username";
 
-  // TODO AND user is not Observer
+  // FIXME AND user is not Observer
   
   $result = mysql_query($query) or die("Query failed: $query");
 

@@ -1,9 +1,11 @@
 TODO
 - meilleure gestion des connexions/deconnexions a MySQL
-- tableau recapitulatif du previsionnel (charge) par membre de l'equippe: nbre de fiches affectees, total du RAE 
 - creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
+- Doc: expliquer creation des projets SideTasks dans mantis
+- Admin Project: SideTask category assignment
 
 BUGS
+- Weekly report: y'a un TODO important qui traine
 
 
 ARCHI

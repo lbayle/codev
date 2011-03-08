@@ -150,6 +150,8 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
 // ---------------------------------------------------------------
 function displayIssueGeneralInfo($issue) {      
   
+   global $ETA_balance;
+	
   echo "<br/>\n";
   echo "<br/>\n";
   
@@ -162,7 +164,7 @@ function displayIssueGeneralInfo($issue) {
   
   echo "<tr>\n";
   echo "<td title='BI + BS'>".T_("Estimated")."</th>\n";
-  echo "<td>".$issue->getEtaName()."</td>\n";
+  echo "<td title='".$ETA_balance[$issue->eta]."'>".$issue->getEtaName()."</td>\n";
   echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
    
