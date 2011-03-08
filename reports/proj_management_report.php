@@ -461,8 +461,10 @@ function exportProjectActivityToCSV($timeTracking, $weekid, $teamName, $path="")
      // write table content (by bugid)
      foreach ($bugList as $bugid => $jobs) {
          $issue = new Issue($bugid);
-      
-         $stringData .= "$bugid / ".$issue->tcId." : ".$issue->summary.$sepChar;
+         // remove sepChar from summary text
+         $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+         
+         $stringData .= "$bugid / ".$issue->tcId." : ".$formatedSummary.$sepChar;
          $stringData .= $issue->remaining.$sepChar;
          foreach($jobList as $jobId => $jobName) {
             $stringData .= $jobs[$jobId].$sepChar;
