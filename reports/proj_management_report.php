@@ -410,16 +410,18 @@ function exportWeekDetailsToCSV($weekid, $weekDates, $userid, $timeTracking, $re
   $weekTracks = $timeTracking->getWeekDetails($userid);
   foreach ($weekTracks as $bugid => $jobList) {
     $issue = new Issue($bugid);
+    
+    // remove sepChar from summary text
+    $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+    
     foreach ($jobList as $jobid => $dayList) {
                 
       $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
       $result3 = mysql_query($query3) or die("Query failed: $query3");
       $jobName = mysql_result($result3, 0);
-
-      
       $stringData = $bugid.$sepChar.   
                     $jobName.$sepChar.
-                    $issue->summary.$sepChar.
+                    $formatedSummary.$sepChar.
                     $realname.$sepChar;
       for ($i = 1; $i <= 4; $i++) {
         $stringData .= $dayList[$i].$sepChar;
