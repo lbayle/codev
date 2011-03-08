@@ -49,16 +49,8 @@ class TimeTrack {
     $this->categoryId = $row2->category_id;
                 
     //echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
-  }
-        
-  public function isVacation() {
-    global $vacationCategory;
-    global $vacationProject;
-                
-    if (($this->projectId == $vacationProject) && ($this->categoryId == $vacationCategory)) {
-      return true;
-    }
-    return false;
+     
+
   }
 
   /**

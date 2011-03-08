@@ -120,8 +120,8 @@ class TimeTracking {
       	}
       }
       
-      // Count only the time spent on $projects
-      if ((in_array ($timeTrack->projectId, $this->sideTaskprojectList)) && (!$timeTrack->isVacation())) {
+      $issue = new Issue($row->bugid);
+      if ((in_array ($issue->projectId, $this->sideTaskprojectList)) && (!$issue->isVacation())) {
         $prodDays += $timeTrack->duration;
       }
     }
@@ -471,8 +471,6 @@ class TimeTracking {
 
   // systemDisponibilityRate = 100 - (nb breakdown hours / prodHours)
   public function getSystemDisponibilityRate() {
-    global $IncidentProject;  // SuiviOp
-    global $IncidentCategory;  // SuiviOp.Incidents
     global $accessLevel_observer;
       
     // The total time spent by the team doing nothing because of incidents
@@ -490,12 +488,11 @@ class TimeTracking {
     while($row = mysql_fetch_object($result))
     {
       $issue = new Issue($row->bugid);
-   
-      if (($issue->projectId  == $IncidentProject) &&
-          ($issue->categoryId == $IncidentCategory)) {
-                  
-        $teamIncidentDays += $row->duration;
-        //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
+      
+      if ($issue->isIncident()) {          	
+
+      	$teamIncidentDays += $row->duration;
+         //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
       }
     }
 

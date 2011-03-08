@@ -128,17 +128,6 @@
   $FDLProject       = 18;
 
   
-  // ---
-  $IncidentProject  = $defaultSideTaskProject;
-  $IncidentCategory = 19;  // "Incidents"      in mantis_category_table
-
-  $docCategory      = 16;  // "Capitalisation" in mantis_category_table
-  $toolsCategory    = 18;  // "Outillage"      in mantis_category_table
-  
-  $vacationProject  = $defaultSideTaskProject;
-  $vacationCategory = 17;  // Inactivite
-  
-  
   
   // ---
   $admin_teamid = 3; // users allowed to do CoDev administration

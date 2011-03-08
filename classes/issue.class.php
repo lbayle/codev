@@ -2,6 +2,9 @@
 
 <?php
 
+include_once "project.class.php";
+
+
 // -- COMPUTE DURATIONS --
 // Status & Issue classes
 
@@ -106,19 +109,13 @@ class Issue {
    // Ex: vacation or Incident tasks are not production issues.
    //     but tools and doc are production issues.
    public function isSideTaskIssue() {
-      global $docCategory;
-      global $toolsCategory;
-      global $workingProjectType;
-      global $sideTaskProjectType;
       
-      $query  = "SELECT type FROM `codev_team_project_table` WHERE project_id = $this->projectId";
-      $result = mysql_query($query) or die("Query failed: $query");
-      $type    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $workingProjectType;
-
-      if (($sideTaskProjectType == $type) &&
-      ($docCategory != $this->categoryId) &&
-      ($toolsCategory != $this->categoryId)) {
-
+      $project = new Project($this->projectId);
+      
+      if (($project->isSideTasksProject()) && 
+          ($project->getToolsCategoryId() != $this->categoryId) && 
+          ($project->getDocCategoryId()   != $this->categoryId)) {
+         
          //echo "DEBUG $this->bugId is a sideTask.   type=$type<br/>";
          return true;
       }
@@ -127,16 +124,33 @@ class Issue {
 
    // ----------------------------------------------
    public function isVacation() {
-      global $vacationCategory;
-      global $vacationProject;
 
-      if (($this->projectId == $vacationProject) &&
-      ($this->categoryId == $vacationCategory)) {
+      $project = new Project($this->projectId);
+      
+      if (($project->isSideTasksProject()) && 
+          ($project->getAbsenceCategoryId() == $this->categoryId)) { 
+         
+         //echo "DEBUG $this->bugId is a sideTask.<br/>";
          return true;
       }
       return false;
    }
 
+   // ----------------------------------------------
+   public function isIncident() {
+
+      $project = new Project($this->projectId);
+      
+      if (($project->isSideTasksProject()) && 
+          ($project->getIncidentCategoryId() == $this->categoryId)) { 
+         
+         //echo "DEBUG $this->bugId is a Incident.<br/>";
+         return true;
+      }
+      return false;
+   }
+   
+   
    // ----------------------------------------------
    public function getTC() {
       $query  = "SELECT value FROM `mantis_custom_field_string_table` WHERE field_id='1' AND bug_id=$this->bugId";

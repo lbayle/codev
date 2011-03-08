@@ -12,17 +12,20 @@ class Project {
 	var $description;
 	var $type;
 	var $jobList;
-	
+	var $categoryList;
+      
 	// -----------------------------------------------
 	public function Project($id) {
       $this->id = $id;
-      
+
       $this->initialize();
    }
 
    // -----------------------------------------------
    public function initialize() {
       
+   	global $sideTaskProjectType;
+   	
    	$query  = "SELECT mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
    	          "FROM `mantis_project_table`, `codev_team_project_table` ".
    	          "WHERE mantis_project_table.id = $this->id ".
@@ -34,6 +37,20 @@ class Project {
       $this->name        = $row->name;
       $this->description = $row->description;
       $this->type        = $row->type;
+      
+      // ---- if SideTaskProject get categories
+      if ( $this->type == $sideTaskProjectType) {
+         $query  = "SELECT * FROM `codev_sidetasks_category_table` ";
+         $result = mysql_query($query) or die("Query failed: $query");
+         $row = mysql_fetch_object($result);
+      
+         $this->categoryList = array();
+         $this->categoryList["management"] = $row->cat_management;
+         $this->categoryList["incident"]   = $row->cat_incident;
+         $this->categoryList["absence"]    = $row->cat_absence;
+         $this->categoryList["tools"]      = $row->cat_tools;
+         $this->categoryList["doc"]        = $row->cat_doc;
+      }
       
       #$this->jobList     = $this->getJobList();
    	
@@ -102,6 +119,30 @@ class Project {
    	
 		return ($sideTaskProjectType == $this->type);
 	}
+
+	
+   // -----------------------------------------------
+	public function getManagementCategoryId() {
+		if (NULL == $this->categoryList) return NULL;
+   	return $this->categoryList["management"];
+   }
+   public function getIncidentCategoryId() {
+      if (NULL == $this->categoryList) return NULL;
+   	return $this->categoryList["incident"];
+   }
+   public function getAbsenceCategoryId() {
+      if (NULL == $this->categoryList) return NULL;
+   	return $this->categoryList["absence"];
+   }
+   public function getToolsCategoryId() {
+      if (NULL == $this->categoryList) return NULL;
+   	return $this->categoryList["tools"];
+   }
+   public function getDocCategoryId() {
+      if (NULL == $this->categoryList) return NULL;
+   	return $this->categoryList["doc"];
+   }
+   
 }
 
 ?>
