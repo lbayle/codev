@@ -84,6 +84,24 @@ class Team {
 		return $projList;
 	}
 	
+   public static function getMemberList($teamid) {
+      
+      $mList = array();
+      
+      $query  = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
+                "FROM `codev_team_user_table`, `mantis_user_table` ".
+                "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
+                "AND codev_team_user_table.team_id=$teamid ".
+                "ORDER BY mantis_user_table.username";
+      $result    = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         $mList[$row->user_id] = $row->username;
+      }
+      
+      return $mList;
+   }
+   
 	/**
 	 * 
 	 * @param unknown_type $memberid
