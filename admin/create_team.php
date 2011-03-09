@@ -57,22 +57,94 @@ include_once "team.class.php";
 function displayCreateTeamForm() {
 
   echo "<form action='create_team.php' method='post' name='teamCreationForm'>\n";
-  echo T_("Team Name").": <input name='team_name' type='text' id='team_name'>\n";
   
+  
+  // ----------- Team Info
+  echo "<hr align='left' width='20%'/>\n";
+  echo "<h2>".T_("Team Info")."</h2>\n";
+  echo "<table class='invisible'>\n";
+  echo "  <tr>\n";
+  echo "    <td>".T_("Team Name")."</td>\n";
+  echo "    <td><input size='30' name='team_name' type='text' id='team_name'> <span style='color:red'>*</span></td>\n";
+  echo "  </tr>\n";
+  echo "  <tr>\n";
+  echo "    <td>".T_("Description")."</td>\n";
+  echo "    <td><input size='100' name='team_desc' type='text' id='team_desc'> <span style='color:red'>*</span></td>\n";
+  echo "  </tr>\n";
+  echo "  <tr>\n"; 
+  echo "    <td>".T_("Team Leader")."</td>\n";
+  echo "    <td>\n";
   $query = "SELECT DISTINCT id, username, realname FROM `mantis_user_table` ORDER BY username";
-  
-  
-  echo T_("Team Leader")." : <select name='teamleader_id'>\n";
-  echo "<option value='0'></option>\n";
-   
+  echo "      <select name='teamleader_id'>\n";
+  echo "        <option value='0'></option>\n";
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
-  {  echo "<option value='".$row->id."'>$row->username</option>\n";
+  {  echo "        <option value='".$row->id."'>$row->username</option>\n";
   }
-  echo "</select>\n";
+  echo "      </select>\n";
+  echo "      <span style='color:red'>*</span>";
+  echo "    </td>\n";
+  echo "  </tr>\n";
+  echo "</table>\n";
+
+  echo "  <br/>\n";
+  echo "  <br/>\n";
+  // ----------- associated SideTaskProject
   
-  echo T_("Description").": <input name='team_desc' type='text' id='team_desc'>\n";
+  echo "<hr align='left' width='20%'/>\n";
+  echo "<h2>".T_("SideTasks Project")."</h2>\n";
+  echo "<input type=CHECKBOX CHECKED name='cb_createSideTaskProj' id='cb_createSideTaskProj'>".T_("Create Associated SideTask Project")."</input>\n";
   
+  
+  echo "<ul>\n";
+  echo "<li>".T_("Project Name")."  <input size='30' type='text' name='stproj_name'  id='stproj_name'> <span style='color:red'>*</span></li>\n";
+  
+  echo "  <br/>\n";
+
+  echo "<li>".T_("Categories")."<br/>\n";
+  echo "<table class='invisible'>\n";
+  echo "  <tr>\n";
+  echo "    <td><input type=CHECKBOX CHECKED DISABLED name='cb_catProjManagement' id='cb_catProjManagement'>".T_("ProjectManagement")."</input></td>\n";
+  echo "    <td><input size='30' type='text' value='".T_("Project Management")."' name='cat_projManagement'  id='cat_projManagement'>\n";
+  echo "    <span style='color:red'>*</span></td>\n";
+  echo "  </tr>\n";
+/*
+  echo "  <tr>\n";
+  echo "    <td><input type=CHECKBOX CHECKED name='cb_catAbsence' id='cb_catAbsence'>".T_("Absence")."</input></td>\n";
+  echo "    <td><input type='text' value='".T_("Absence")."' name='cat_absence'  id='cat_absence'></td>\n";
+  echo "  </tr>\n";
+*/  
+  echo "  <tr>\n";
+  echo "    <td><input type=CHECKBOX CHECKED name='cb_catIncident' id='cb_catIncident'>".T_("Incident")."</input></td>\n";
+  echo "    <td><input size='30' type='text' value='".T_("Network Disruption")."' name='cat_incident'  id='cat_incident'></td>\n";
+  echo "  </tr>\n";
+  echo "  <tr>\n";
+  echo "    <td><input type=CHECKBOX CHECKED name='cb_catTools' id='cb_catTools'>".T_("Tools")."</input></td>\n";
+  echo "    <td><input size='30' type='text' value='".T_("System Administration")."' name='cat_tools'  id='cat_tools'></td>\n";
+  echo "  </tr>\n";
+  echo "  <tr>\n";
+  echo "    <td><input type=CHECKBOX CHECKED name='cb_catDoc' id='cb_catDoc'>".T_("Documentation")."</input></td>\n";
+  echo "    <td><input size='30' type='text' value='".T_("Wiki update")."' name='cat_doc'  id='cat_doc'></td>\n";
+  echo "  </tr>\n";
+  echo "</table>\n";
+  
+  echo "  <br/>\n";
+  
+  
+  echo "</li>\n";
+  echo "<li>".T_("Default SideTasks")."<br/>\n";
+  echo "<table class='invisible'>\n";
+  echo "  <tr>\n";
+  echo "    <td><input type=CHECKBOX CHECKED name='cb_taskProjManagement' id='cb_taskProjManagement'>".T_("ProjectManagement")."</input></td>\n";
+  echo "    <td><input size='30' type='text' name='task_projManagement'  id='task_projManagement' value='(generic) $teamName Project Management'></td>\n";
+  echo "  </tr>\n";
+  echo "</table>\n";
+  echo "</li>\n";
+  echo "</ul>\n";
+  
+  
+  echo "  <br/>\n";
+  echo "  <br/>\n";
   echo "<input type=button value='".T_("Create")."' onClick='javascript: addTeam()'>\n";
   
   #echo("<input type='submit' name='Submit' value='Create Team'>\n");
