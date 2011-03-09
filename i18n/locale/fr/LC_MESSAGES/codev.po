@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-08 14:44+0100\n"
+"POT-Creation-Date: 2011-03-09 10:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,16 +198,16 @@ msgid "Name"
 msgstr "Nom"
 
 #: admin/edit_team.php:282
-msgid "Date d arivee dans l equipe"
-msgstr ""
+msgid "Arrival date in the team"
+msgstr "Date d'arriv&eacute;e dans l'&eacute;quipe"
 
 #: admin/edit_team.php:282
 msgid "Arrival Date"
 msgstr "Date d'arriv&eacute;e"
 
 #: admin/edit_team.php:283
-msgid "Date de depart de l equipe"
-msgstr ""
+msgid "Departure date from the team"
+msgstr "Date de d&eacute;part de l'&eacute;quipe"
 
 #: admin/edit_team.php:283
 msgid "Departure Date"
@@ -1035,15 +1035,6 @@ msgstr "Connexion CoDev"
 #: login.php:61
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
-
-#~ msgid "Current Team: "
-#~ msgstr "Equipe actuellement affichee: "
-
-#~ msgid "Submitted / Resolved Tasks"
-#~ msgstr "Taches Re&ccedil;ues / R&eacute;solues"
-
-#~ msgid "Submitted / Resolved"
-#~ msgstr "Re&ccedil;ues / R;&eacute;solues"
 
 #~ msgid "Mantis Reports"
 #~ msgstr "Suivi Mantis"

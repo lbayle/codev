@@ -279,8 +279,8 @@ function displayTeamMemberTuples($teamid) {
    echo "<th></th>\n";
    echo "<th>".T_("login")."</th>\n";
    echo "<th>".T_("Name")."</th>\n";
-   echo "<th title='".T_("Date d arivee dans l equipe")."'>".T_("Arrival Date")."</th>\n";
-   echo "<th title='".T_("Date de depart de l equipe")."'>".T_("Departure Date")."</th>\n";
+   echo "<th title='".T_("Arrival date in the team")."'>".T_("Arrival Date")."</th>\n";
+   echo "<th title='".T_("Departure date from the team")."'>".T_("Departure Date")."</th>\n";
    echo "<th>".T_("Type")."</th>\n";
    echo "</tr>\n";
 
