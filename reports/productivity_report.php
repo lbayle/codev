@@ -271,7 +271,6 @@ function displayResolvedDriftStats ($timeTracking) {
   global $status_closed;
          
   $driftStats_new = $timeTracking->getResolvedDriftStats();
-  //$driftStats_new = $timeTracking->getDriftStats(); // TODO
   
   
   echo "<table>\n";

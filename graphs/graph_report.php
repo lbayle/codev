@@ -99,7 +99,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
 
 # ====================================
 
-$start_year = date('Y') -1; // TODO
+$start_year = date('Y') -1; 
 
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;

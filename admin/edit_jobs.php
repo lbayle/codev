@@ -131,7 +131,7 @@ function addJobForm($originPage) {
    
    echo "<form id='addJobForm' name='addJobForm' method='post' Action='$originPage'>\n";
 
-  echo("   ".T_("Job Name").": <input name='job_name' type='text' id='job_name'>\n");
+  echo("   ".T_("Job Name").": <input name='job_name' size='30' type='text' id='job_name'>\n");
       
    echo "   ".T_("Type").": <select name='job_type'>\n";
    foreach ($jobType_names as $jid => $jname) {
