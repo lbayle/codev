@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-09 10:10+0100\n"
+"POT-Creation-Date: 2011-03-11 16:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin/create_team.php:7 admin/edit_holidays.php:9 admin/edit_jobs.php:9
+#: admin/create_team.php:8 admin/edit_holidays.php:9 admin/edit_jobs.php:9
 #: admin/edit_team.php:8 admin/index.php:10 reports/issue_info.php:8
 #: reports/productivity_report.php:8 reports/proj_management_report.php:8
 #: reports/statistics.php:8 timetracking/time_tracking.php:9
@@ -28,17 +28,17 @@ msgstr ""
 
 #: admin/create_team.php:14
 msgid "CoDev Administration : Team Creation"
-msgstr "Administration CoDev : Creation Equipe"
+msgstr "Administration CoDev : Creation &Eacute;quipe"
 
-#: admin/create_team.php:60
+#: admin/create_team.php:78
+msgid "Team Info"
+msgstr "Description de l'&Eacute;quipe"
+
+#: admin/create_team.php:81
 msgid "Team Name"
-msgstr "Nom de l'equipe"
+msgstr "Nom de l'&eacute;quipe"
 
-#: admin/create_team.php:65
-msgid "Team Leader"
-msgstr "Team Leader"
-
-#: admin/create_team.php:74 admin/edit_holidays.php:86
+#: admin/create_team.php:85 admin/edit_holidays.php:86
 #: admin/edit_holidays.php:110 admin/edit_team.php:471
 #: classes/issue_tracking.class.php:99 classes/issue_tracking.class.php:144
 #: reports/productivity_report.php:185 reports/productivity_report.php:283
@@ -47,28 +47,109 @@ msgstr "Team Leader"
 msgid "Description"
 msgstr "Description"
 
-#: admin/create_team.php:76 admin/create_team.php:124
+#: admin/create_team.php:89
+msgid "Team Leader"
+msgstr "Team Leader"
+
+#: admin/create_team.php:114
+msgid "SideTasks Project"
+msgstr "Projets de SuiviOp"
+
+#: admin/create_team.php:117
+msgid "Add common SideTasks Project"
+msgstr "Ajouter le projet de SuiviOp commun"
+
+#: admin/create_team.php:123
+msgid "Create specific SideTask Project"
+msgstr "Creer un Projets de SuiviOp Sp&eacute;cifique"
+
+#: admin/create_team.php:129
+msgid "Project Name"
+msgstr "Nom du Projet"
+
+#: admin/create_team.php:133
+msgid "Categories"
+msgstr "Cat&eacute;gories"
+
+#: admin/create_team.php:138
+msgid "This category is declared in CommonSideTaskProject"
+msgstr ""
+"Cette cat&eacute;gorie est d&eacute;finie dans le projet SuiviOp commun"
+
+#: admin/create_team.php:138
+msgid "Inactivity"
+msgstr "Inactivit&eacute;"
+
+#: admin/create_team.php:142 admin/create_team.php:175
+#: admin/create_team.php:183
+msgid "ProjectManagement"
+msgstr "Gestion de Projet"
+
+#: admin/create_team.php:149 admin/create_team.php:190
+#: admin/create_team.php:236
+msgid "Incident"
+msgstr "Incident"
+
+#: admin/create_team.php:155 admin/create_team.php:196
+#: admin/create_team.php:237
+msgid "Tools"
+msgstr "Outillage"
+
+#: admin/create_team.php:161 admin/create_team.php:202
+#: admin/create_team.php:238
+msgid "Documentation"
+msgstr "Documentation"
+
+#: admin/create_team.php:170
+msgid "Default SideTasks"
+msgstr "Taches de SuiviOp"
+
+#: admin/create_team.php:214 admin/create_team.php:302
 msgid "Create"
 msgstr "Cr&eacute;er"
 
-#: admin/create_team.php:102 admin/edit_holidays.php:155
+#: admin/create_team.php:235 reports/proj_management_report.php:14
+msgid "Project Management"
+msgstr "Gestion de Projet"
+
+#: admin/create_team.php:243 admin/edit_holidays.php:155
 #: admin/edit_jobs.php:300 admin/edit_team.php:574 index.php:141 login.php:39
 #: reports/mantis_reports.php:90 reports/productivity_report.php:598
 #: reports/proj_management_report.php:499 reports/statistics.php:338
 #: timetracking/holidays_report.php:263 timetracking/time_tracking.php:305
 #: timetracking/week_activity_report.php:269 tools/check.php:33
 msgid "Could not connect to database"
-msgstr "Connexion impossible a la base de donnees"
+msgstr "Connexion impossible &agrave; la base de donn&eacute;es"
 
-#: admin/create_team.php:103 admin/edit_holidays.php:156
+#: admin/create_team.php:244 admin/edit_holidays.php:156
 #: admin/edit_jobs.php:301 admin/edit_team.php:575 index.php:142 login.php:40
 #: timetracking/holidays_report.php:264
 msgid "Could not select database"
-msgstr "Impossible de selectionner la base de donnees"
+msgstr "Impossible de selectionner la base de donn&eacute;es"
 
-#: admin/create_team.php:149
+#: admin/create_team.php:291
+msgid "(generic) Project Management"
+msgstr "(generique) Gestion de Projet"
+
+#: admin/create_team.php:292
+msgid "(generic) Meeting"
+msgstr "(generique) R&eacute;union"
+
+#: admin/create_team.php:293
+msgid "(generic) Dev Platform is down"
+msgstr "(generique) Indisponibilit&eacute; plateforme de Dev"
+
+#: admin/create_team.php:294
+msgid "(generic) Compilation Scripts"
+msgstr "(generique) Scripts de compilation"
+
+#: admin/create_team.php:295
+msgid "(generic) Wiki Update"
+msgstr "(generique) Mise &agrave; jour du Wiki"
+
+#: admin/create_team.php:337
 msgid "Create and go to Edit"
-msgstr "Creer et Editer"
+msgstr "Creer et &Eacute;diter"
 
 #: admin/edit_holidays.php:15
 msgid "CoDev Administration : Fixed Holidays"
@@ -99,7 +180,9 @@ msgstr "&eacute;ffacer cette date"
 
 #: admin/edit_holidays.php:163 admin/edit_jobs.php:308
 msgid "Sorry, you need to be in the admin-team to access this page."
-msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
+msgstr ""
+"Vous devez faire partie de l'&eacute;quipe d'admin pour acceder &agrave; "
+"cette page."
 
 #: admin/edit_holidays.php:167
 msgid "Add fixed holidays"
@@ -158,7 +241,7 @@ msgstr "Assignations de Postes"
 
 #: admin/edit_team.php:14
 msgid "CoDev Administration : Team Edition"
-msgstr "Administration CoDev : Edition Equipe"
+msgstr "Administration CoDev : &Eacute;dition &Eacute;quipe"
 
 #: admin/edit_team.php:208 reports/productivity_report.php:81
 #: reports/proj_management_report.php:57
@@ -166,7 +249,7 @@ msgstr "Administration CoDev : Edition Equipe"
 #: timetracking/holidays_report.php:38
 #: timetracking/week_activity_report.php:53
 msgid "Team"
-msgstr "Equipe"
+msgstr "&Eacute;quipe"
 
 #: admin/edit_team.php:218
 msgid "Leader"
@@ -174,7 +257,7 @@ msgstr "Team Leader"
 
 #: admin/edit_team.php:236 admin/edit_team.php:247
 msgid "Update"
-msgstr "Mise a jour"
+msgstr "Mise &agrave; jour"
 
 #: admin/edit_team.php:242
 msgid "Creation Date"
@@ -185,8 +268,9 @@ msgid ""
 "Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be "
 "included in the team's productivity report."
 msgstr ""
-"Note: Un <i>TeamLeader</i> doit egalement etre declare comme <i>TeamMember</"
-"i> pour etre pris en compte dans les indicateurs de production."
+"Note: Un <i>TeamLeader</i> doit egalement etre d&eacute;clar&eacute; comme "
+"<i>TeamMember</i> pour etre pris en compte dans les indicateurs de "
+"production."
 
 #: admin/edit_team.php:280
 msgid "login"
@@ -264,7 +348,7 @@ msgstr "Supprimer"
 
 #: admin/edit_team.php:606
 msgid "Team Edition"
-msgstr "Editer l'&eacute;quipe"
+msgstr "&Eacute;diter l'&eacute;quipe"
 
 #: classes/consistency_check.class.php:97
 msgid ""
@@ -424,7 +508,9 @@ msgstr "Nb Jours"
 
 #: reports/issue_info.php:333 timetracking/time_tracking.php:331
 msgid "Sorry, you need to be member of a Team to access this page."
-msgstr "Vous devez faire partie de l'equipe d'admin pour acceder a cette page."
+msgstr ""
+"Vous devez faire partie de l'&eacute;quipe d'admin pour acceder &agrave; "
+"cette page."
 
 #: reports/issue_info.php:348
 msgid "TC issue"
@@ -675,10 +761,6 @@ msgstr "incoh&eacute;rent"
 msgid "not defined."
 msgstr "non d&eacute;fini"
 
-#: reports/proj_management_report.php:14
-msgid "Project Management"
-msgstr "Gestion de Projet"
-
 #: reports/proj_management_report.php:71
 #: timetracking/time_tracking_tools.php:114
 #: timetracking/week_activity_report.php:66
@@ -784,7 +866,7 @@ msgstr "Vendredi"
 #: reports/proj_management_report.php:516 reports/statistics.php:359
 #: timetracking/week_activity_report.php:282
 msgid "Sorry, you do NOT have access to this page."
-msgstr "d&eacute;sol&eacute;, vous n'avez pas acces a cette page."
+msgstr "d&eacute;sol&eacute;, vous n'avez pas acces &agrave; cette page."
 
 #: reports/proj_management_report.php:543
 msgid "Export Managed Issues"
@@ -797,7 +879,7 @@ msgstr "Export Semaine "
 
 #: reports/proj_management_report.php:552
 msgid " Member Activity"
-msgstr " Activit&eacute; Equipe"
+msgstr " Activit&eacute; &Eacute;quipe"
 
 #: reports/proj_management_report.php:562
 msgid " Projects Activity"
@@ -865,7 +947,7 @@ msgstr "Taux d'efficacit&eacute; et Disponibilit&eacute; syst&egrave;me"
 
 #: reports/statistics.php:276
 msgid "Sys Disp."
-msgstr ""
+msgstr "Disp Sys"
 
 #: reports/statistics.php:279
 msgid "Efficiency"
@@ -1043,7 +1125,7 @@ msgstr "l'identification a &eacute;chou&eacute;e !"
 #~ msgstr "Indicateurs de production"
 
 #~ msgid "Export Week $weekid Member Activity"
-#~ msgstr "Export Semaine $weekid Activit&eacute; Equipe"
+#~ msgstr "Export Semaine $weekid Activit&eacute; Eacute;quipe"
 
 #~ msgid "Some fields are missing:"
 #~ msgstr "Les champs suivants ont ete oublies:"
