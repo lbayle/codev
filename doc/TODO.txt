@@ -4,6 +4,12 @@ TODO
 - Doc: expliquer creation des projets SideTasks dans mantis
 - Admin Project: SideTask category assignment
 
+
+- install page
+creation CommonSideTasks project
+creation equipe admin
+
+
 BUGS
 - Weekly report: y'a un TODO important qui traine
 
