@@ -54,7 +54,7 @@ function addPlot($group, $legName, $valName, $color) {
 
 $graph_width = isset($_GET['width']) ? $_GET['width'] : 600;
 $graph_height = isset($_GET['height']) ? $_GET['height'] : 300;
-$graph = new Graph($graph_width, $graph_height); // TODO
+$graph = new Graph($graph_width, $graph_height);
 $graph->setAntiAliasing(TRUE);
 $graph_title = isset($_GET['title']) ? $_GET['title'] : "unknown";
 $graph->title->set($graph_title);

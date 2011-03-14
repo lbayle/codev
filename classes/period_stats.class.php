@@ -146,7 +146,7 @@ class PeriodStats {
       
     $this->statusCountList[$status_new] = 0;
       
-    // TODO 
+    // TODO countIssues_new()
     return $count_new;
   }
 

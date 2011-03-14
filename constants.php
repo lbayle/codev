@@ -93,7 +93,7 @@
   $accessLevel_dev      = 10;    // in table codev_team_user_table
   $accessLevel_observer = 20;    // in table codev_team_user_table
   //$accessLevel_teamleader = 25;    // REM: NOT USED FOR NOW !!
-  $accessLevel_manager  = 30;    // in table codev_team_user_table TODO
+  $accessLevel_manager  = 30;    // in table codev_team_user_table 
   $access_level_names = array($accessLevel_dev      => "Developper", // can modify, can NOT view stats
                               $accessLevel_observer => "Observer",  // can NOT modify, can view stats  
                               //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?   

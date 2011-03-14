@@ -97,8 +97,7 @@ class PeriodStatsReport {
       // Disp
       $tableLine = "<tr>\n";
       $tableLine .= "<td class=\"right\">".date("F Y", $date)."</td>\n";
-      #$tableLine .= "<td class=\"right\">".$ps->statusCountList["submitted"]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_new]."</td>\n";  // TODO new
+      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_new]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_ack]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_feedback]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_analyzed]."</td>\n";
@@ -107,7 +106,6 @@ class PeriodStatsReport {
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_resolved]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_delivered]."</td>\n";
       $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_closed]."</td>\n";
-      #$tableLine .= "<td class=\"right\">".$ps->statusCountList["delta_resolved"]."</td>\n";
       $tableLine .= "</tr>\n";
       echo "$tableLine";
       
