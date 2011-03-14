@@ -128,7 +128,7 @@ class Issue {
       $project = new Project($this->projectId);
       
       if (($project->isSideTasksProject()) && 
-          ($project->getAbsenceCategoryId() == $this->categoryId)) { 
+          ($project->getInactivityCategoryId() == $this->categoryId)) { 
          
          //echo "DEBUG $this->bugId is a sideTask.<br/>";
          return true;

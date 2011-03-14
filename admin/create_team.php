@@ -229,7 +229,6 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 
 global $admin_teamid;
 global $defaultSideTaskProject;
-
 global $sideTaskProjectType;
 
 $cat_projManagement = T_("Project Management");
@@ -285,7 +284,7 @@ if ("false" == $is_modified) {
    $isTaskTools          = $_POST[cb_taskTools];
    $isTaskDoc            = $_POST[cb_taskDoc];
       
-   $stproj_name = ("" == $team_name) ? $defaultSideTaskProjectName : "$team_name SideTasks";        	
+   $stproj_name = ("" == $team_name) ? $defaultSideTaskProjectName : "$team_name ".T_("SideTasks");        	
 }
 
 $task_projManagement = isset($_POST[task_projManagement]) ? $_POST[task_projManagement] : T_("(generic) Project Management");
@@ -296,7 +295,6 @@ $task_doc = isset($_POST[task_doc]) ? $_POST[task_doc] : T_("(generic) Wiki Upda
 
 
 #unset($_SESSION['teamid']);
-
 
 if ("addTeam" == $action) {
 	echo T_("Create")." $team_name !<br/>";
@@ -318,17 +316,34 @@ if ("addTeam" == $action) {
    
    if (-1 != $teamid) {
    	
-   	$team = new Team($teamid);
+      $team = new Team($teamid);
    	
       // 2) --- add default SideTaskProject
-   	$query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$defaultSideTaskProject','$teamid','$sideTaskProjectType');";
-	   mysql_query($query) or die("Query failed: $query");
+      $team->addCommonSideTaskProject();
+      
 	   
-      // 3) --- add <team> SideTaskProject
-	   
-      // 4) --- add default SideTasks
-	   
-      // 5) --- open EditTeam Page
+      if ($isCreateSTProj) {
+         
+      	// 3) --- add <team> SideTaskProject
+      	$stproj_id = $team->createSideTaskProject($stproj_name);
+	     
+         // 4) --- add SideTaskProject Categories
+      	Project::addCategoryProjManagement($stproj_id, $cat_projManagement);
+	     
+	     if ($isCatIncident) {
+            Project::addCategoryIncident($stproj_id, $cat_incident);
+	     }
+        if ($isCatTools) {
+            Project::addCategoryTools($stproj_id, $cat_tools);
+        }
+        if ($isCatDoc) {
+            Project::addCategoryDoc($stproj_id, $cat_doc);
+        }
+        
+        // 5) --- add SideTaskProject default SideTasks
+      }
+      
+      // 6) --- open EditTeam Page
 	   $_SESSION['teamid'] = $teamid;
 	   echo ("<script> parent.location.replace('./edit_team.php'); </script>"); 
    }

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-11 16:24+0100\n"
+"POT-Creation-Date: 2011-03-14 10:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: admin/create_team.php:14
 msgid "CoDev Administration : Team Creation"
-msgstr "Administration CoDev : Creation &Eacute;quipe"
+msgstr "Administration CoDev : Cr&eacute;ation &Eacute;quipe"
 
 #: admin/create_team.php:78
 msgid "Team Info"
@@ -86,17 +86,17 @@ msgid "ProjectManagement"
 msgstr "Gestion de Projet"
 
 #: admin/create_team.php:149 admin/create_team.php:190
-#: admin/create_team.php:236
+#: admin/create_team.php:235
 msgid "Incident"
 msgstr "Incident"
 
 #: admin/create_team.php:155 admin/create_team.php:196
-#: admin/create_team.php:237
+#: admin/create_team.php:236
 msgid "Tools"
 msgstr "Outillage"
 
 #: admin/create_team.php:161 admin/create_team.php:202
-#: admin/create_team.php:238
+#: admin/create_team.php:237
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -104,15 +104,15 @@ msgstr "Documentation"
 msgid "Default SideTasks"
 msgstr "Taches de SuiviOp"
 
-#: admin/create_team.php:214 admin/create_team.php:302
+#: admin/create_team.php:214 admin/create_team.php:300
 msgid "Create"
 msgstr "Cr&eacute;er"
 
-#: admin/create_team.php:235 reports/proj_management_report.php:14
+#: admin/create_team.php:234 reports/proj_management_report.php:14
 msgid "Project Management"
 msgstr "Gestion de Projet"
 
-#: admin/create_team.php:243 admin/edit_holidays.php:155
+#: admin/create_team.php:242 admin/edit_holidays.php:155
 #: admin/edit_jobs.php:300 admin/edit_team.php:574 index.php:141 login.php:39
 #: reports/mantis_reports.php:90 reports/productivity_report.php:598
 #: reports/proj_management_report.php:499 reports/statistics.php:338
@@ -121,33 +121,37 @@ msgstr "Gestion de Projet"
 msgid "Could not connect to database"
 msgstr "Connexion impossible &agrave; la base de donn&eacute;es"
 
-#: admin/create_team.php:244 admin/edit_holidays.php:156
+#: admin/create_team.php:243 admin/edit_holidays.php:156
 #: admin/edit_jobs.php:301 admin/edit_team.php:575 index.php:142 login.php:40
 #: timetracking/holidays_report.php:264
 msgid "Could not select database"
 msgstr "Impossible de selectionner la base de donn&eacute;es"
 
-#: admin/create_team.php:291
+#: admin/create_team.php:287
+msgid "SideTasks"
+msgstr "SuiviOp"
+
+#: admin/create_team.php:290
 msgid "(generic) Project Management"
 msgstr "(generique) Gestion de Projet"
 
-#: admin/create_team.php:292
+#: admin/create_team.php:291
 msgid "(generic) Meeting"
 msgstr "(generique) R&eacute;union"
 
-#: admin/create_team.php:293
+#: admin/create_team.php:292
 msgid "(generic) Dev Platform is down"
 msgstr "(generique) Indisponibilit&eacute; plateforme de Dev"
 
-#: admin/create_team.php:294
+#: admin/create_team.php:293
 msgid "(generic) Compilation Scripts"
 msgstr "(generique) Scripts de compilation"
 
-#: admin/create_team.php:295
+#: admin/create_team.php:294
 msgid "(generic) Wiki Update"
 msgstr "(generique) Mise &agrave; jour du Wiki"
 
-#: admin/create_team.php:337
+#: admin/create_team.php:352
 msgid "Create and go to Edit"
 msgstr "Creer et &Eacute;diter"
 
@@ -1117,6 +1121,21 @@ msgstr "Connexion CoDev"
 #: login.php:61
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#~ msgid "gettext-version"
+#~ msgstr ""
+#~ "Project-Id-Version: PACKAGE VERSION\n"
+#~ "POT-Creation-Date: 2011-03-14 10:08+0100\n"
+#~ "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+#~ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+#~ "Language-Team: LANGUAGE <LL@li.org>\n"
+#~ "MIME-Version: 1.0\n"
+#~ "Content-Type: text/plain; charset=CHARSET\n"
+#~ "Content-Transfer-Encoding: 8bit\n"
 
 #~ msgid "Mantis Reports"
 #~ msgstr "Suivi Mantis"
