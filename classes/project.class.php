@@ -63,50 +63,100 @@ class Project {
       #$this->jobList     = $this->getJobList();
    }
 
+   // -----------------------------------------------
+   /**
+    * 
+    * @param unknown_type $projectName
+    */
+   public static function createSideTaskProject($projectName) {
+      
+      // check if name exists
+      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
+      $result = mysql_query($query) or die("Query failed: $query");
+      $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
+      if (-1 != $projectid) {
+         echo "ERROR: Project name already exists ($projectName)<br/>\n";
+         return -1;
+      }
+   	
+      // create new Project     
+      $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
+               "VALUES ('$projectName','50','1','10','10','$projectDesc','1','0');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      
+      // get projectid
+      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
+      $result = mysql_query($query) or die("Query failed: $query");
+      $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
+   	
+      return $projectid;
+   }
+   
    
    // -----------------------------------------------
-   public static function addCategoryProjManagement($id, $catName) {
-   	echo "DEBUG addCategoryProjManagement : Project::keyProjManagement = ".Project::$keyProjManagement."<br/>";
-      Project::addCategory($id, Project::$keyProjManagement, $catName);
+   public function addCategoryProjManagement($catName) {
+      $this->addCategory(Project::$keyProjManagement, $catName);
    }
-   public static function addCategoryInactivity($id, $catName) {
-      Project::addCategory($id, Project::$keyInactivity, $catName);
+   public function addCategoryInactivity($catName) {
+      $this->addCategory(Project::$keyInactivity, $catName);
    }
-   public static function addCategoryIncident($id, $catName) {
-      Project::addCategory($id, Project::$keyIncident, $catName);
+   public function addCategoryIncident($catName) {
+      $this->addCategory(Project::$keyIncident, $catName);
    }
-   public static function addCategoryTools($id, $catName) {
-      Project::addCategory($id, Project::$keyTools, $catName);
+   public function addCategoryTools($catName) {
+      $this->addCategory(Project::$keyTools, $catName);
    }
-   public static function addCategoryDoc($id, $catName) {
-      Project::addCategory($id, Project::$keyDoc, $catName);
+   public function addCategoryDoc($catName) {
+      $this->addCategory(Project::$keyDoc, $catName);
    }
    
    // -----------------------------------------------
    /**
     * WARN: the $catKey is the name of the field in codev_sidetasks_category_table
-    * @param int $id
     * @param string $catKey in (Project::$keyProjManagement, Project::$keyIncident, Project::$keyInactivity, Project::$keyTools, Project::$keyDoc
     * @param string $catName
     */
-   private static function addCategory($projectid, $catKey, $catName) {
+   private function addCategory($catKey, $catName) {
 
    	// create category for SideTask Project
-      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$projectid','0','$catName', '0');";
+      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$catName', '0');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
       // get new category id
-      $query  = "SELECT id FROM `mantis_category_table` WHERE name='$catName'";
+      $query  = "SELECT id FROM `mantis_category_table` WHERE name='$catName' AND project_id='$this->id'";
       $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $catId    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
       
       // update codev_sidetasks_category_table
       if (-1 != $catId) {
-         $query = "UPDATE `codev_sidetasks_category_table` SET $catKey = $catId WHERE project_id = $projectid";
+         $query = "UPDATE `codev_sidetasks_category_table` SET $catKey = $catId WHERE project_id = $this->id";
          mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       }
    }
 
+   
+   // -----------------------------------------------
+   public function addIssueProjManagement($issueName) {
+      $this->addSideTaskIssue(Project::$keyProjManagement, $issueName);
+   }
+   public function addIssueInactivity($issueName) {
+      $this->addSideTaskIssue(Project::$keyInactivity, $issueName);
+   }
+   public static function addIssueIncident($issueName) {
+      $this->addSideTaskIssue(Project::$keyIncident, $issueName);
+   }
+   public function addIssueTools($issueName) {
+      $this->addSideTaskIssue(Project::$keyTools, $issueName);
+   }
+   public function addIssueDoc($issueName) {
+      $this->addSideTaskIssue(Project::$keyDoc, $issueName);
+   }
+   
+   // -----------------------------------------------
+   private function addSideTaskIssue($catKey, $issueName, $issueDesc = "") {
+   	// TODO
+   }   
+   
    
    // -----------------------------------------------
    // Job list depends on project type:

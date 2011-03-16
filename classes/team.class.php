@@ -178,18 +178,9 @@ class Team {
       global $sideTaskProjectType;
       
       $projectDesc = "CoDev SideTaskProject for team $this->name";
-      // check if name exists
-      
-      // create new Project     
-      $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
-               "VALUES ('$projectName','50','1','50','10','$projectDesc','1','0');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-      
-      // get projectid
-      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
-      $result = mysql_query($query) or die("Query failed: $query");
-      $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
-      
+
+      $projectid = Project::createSideTaskProject($projectName);
+
       if (-1 != $projectid) {
       	
          // add new SideTaskProj to the team
