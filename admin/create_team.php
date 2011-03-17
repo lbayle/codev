@@ -356,13 +356,13 @@ if ("addTeam" == $action) {
                $stproj->addIssueProjManagement($task_meeting);
             }
             if ($isTaskIncident) {
-               $stproj->addIssueProjIncident($task_incident);
+               $stproj->addIssueIncident($task_incident);
             }
             if ($isTaskTools) {
-               $stproj->addIssueProjTools($task_tools);
+               $stproj->addIssueTools($task_tools);
             }
             if ($isTaskOther) {
-               $stproj->addIssueProjDoc($task_other1);
+               $stproj->addIssueOther($task_other1);
             }
             
             // 6) --- open EditTeam Page

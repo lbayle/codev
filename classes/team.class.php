@@ -191,6 +191,8 @@ class Team {
          // create entry in codev_sidetasks_category_table
          $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
          mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      } else {
+      	die("ERROR: createSideTaskProject !!!<br/>");
       }
       
       return $projectid;
