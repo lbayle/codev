@@ -135,3 +135,8 @@ table.invisible td {
   font-weight: bold;
   text-align: left;
 }
+
+.help_font {
+  font-style: italic;
+  color: grey;
+}

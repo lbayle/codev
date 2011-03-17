@@ -138,6 +138,11 @@
   $periodStatsExcludedProjectList = array($FDLProject);
   
   
+  // ---
+  // codev_config_table types
+  $configType_int      = 1;
+  $configType_string   = 2;
+  $configType_keyValue = 3;
   
   
 ?>

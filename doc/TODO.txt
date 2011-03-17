@@ -8,8 +8,16 @@ TODO
 
 
 - install page
-creation CommonSideTasks project
+creation DB
+creation des custom fields dans mantis
+init des codev_constants
+creation CommonSideTasks project & categories
 creation equipe admin
+creation side tasks
+
+
+- Gestion de differents workflow ?!?
+
 
 
 BUGS

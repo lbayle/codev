@@ -154,7 +154,7 @@ class Project {
    
    // -----------------------------------------------
    private function addSideTaskIssue($catKey, $issueName, $issueDesc = "") {
-   	// TODO
+   	// TODO addSideTaskIssue
    }   
    
    

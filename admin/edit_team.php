@@ -252,7 +252,7 @@ function updateTeamInfoForm($team, $originPage) {
    
    echo "<br/>\n";
    echo "<br/>\n";
-   echo T_("Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be included in the team's productivity report.")."</br>\n";
+   echo "<span class='help_font'>".T_("Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be included in the team's productivity report.")."</span></br>\n";
    
    
    echo "<input type=hidden name=action       value=noAction>\n";

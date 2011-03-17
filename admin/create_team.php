@@ -66,7 +66,7 @@ include_once "team.class.php";
 function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
                                $isCreateSTProj, $stproj_name,
                                $isCatIncident, $isCatTools, $isCatOther, 
-                               $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskDoc,
+                               $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskOther,
                                $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
                                $is_modified = "false"
                                ) {
@@ -141,24 +141,28 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <tr>\n";
   echo "    <td><input type=CHECKBOX CHECKED DISABLED name='cb_catProjManagement' id='cb_catProjManagement'>".T_("ProjectManagement")."</input>\n";
   echo "    <span style='color:red'>*</span></td>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Meeting, Pre-sales, ProjectManagement, ...").")</span></td>\n";
   echo "  </tr>\n";
 
   echo "  <tr>\n";
   $isChecked = $isCatIncident ? "CHECKED" : "";
   echo "    <td><input type=CHECKBOX $isChecked name='cb_catIncident' id='cb_catIncident'>".
        T_("Incident")."</input></td>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Server or Platform down, ...").")</span></td>\n";
   echo "  </tr>\n";
 
   echo "  <tr>\n";
   $isChecked = $isCatTools ? "CHECKED" : "";
   echo "    <td><input type=CHECKBOX $isChecked  name='cb_catTools' id='cb_catTools'>".
        T_("Tools")."</input></td>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Sys. Admin, Scritps, ...").")</span></td>\n";
   echo "  </tr>\n";
 
   echo "  <tr>\n";
   $isChecked = $isCatOther ? "CHECKED" : "";
   echo "    <td><input type=CHECKBOX $isChecked name='cb_catOther' id='cb_catOther' >".
-       T_("Other Internals")."</input></td>\n";
+       T_("Other")."</input></td>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Support, Doc, Training, Wiki, ...").")</span></td>\n";
   echo "  </tr>\n";
   
   echo "</table>\n";
@@ -197,9 +201,9 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "    <td><input size='100' type='text' name='task_tools'  id='task_tools' value='$task_tools'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
-  $isChecked = $isTaskDoc ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked name='cb_taskDoc' id='cb_taskDoc'>".
-       T_("Other Internals")."</input></td>\n";
+  $isChecked = $isTaskOther ? "CHECKED" : "";
+  echo "    <td><input type=CHECKBOX $isChecked name='cb_taskOther' id='cb_taskOther'>".
+       T_("Other")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_other1'  id='task_other1' value='$task_other1'></td>\n";
   echo "  </tr>\n";
   echo "</table>\n";
@@ -234,9 +238,9 @@ global $sideTaskProjectType;
 $cat_projManagement = T_("Project Management");
 $cat_incident       = T_("Incident");
 $cat_tools          = T_("Tools");
-$cat_other            = T_("Other Internals");
+$cat_other            = T_("Other");
 
-$defaultSideTaskProjectName = "SideTasks my_team";
+$defaultSideTaskProjectName = T_("SideTasks")." my_team";
 
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die(T_("Could not connect to database"));
@@ -264,12 +268,12 @@ if ("false" == $is_modified) {
    $isCreateSTProj       = true;
    $isCatIncident        = true;
    $isCatTools           = true;
-   $isCatOther             = true;
+   $isCatOther           = true;
    $isTaskProjManagement = true;
    $isTaskMeeting        = true;
    $isTaskIncident       = false;
    $isTaskTools          = false;
-   $isTaskDoc            = false;
+   $isTaskOther          = false;
    
    $stproj_name = $defaultSideTaskProjectName;
    
@@ -282,7 +286,7 @@ if ("false" == $is_modified) {
    $isTaskMeeting        = $_POST[cb_taskMeeting];
    $isTaskIncident       = $_POST[cb_taskIncident];
    $isTaskTools          = $_POST[cb_taskTools];
-   $isTaskDoc            = $_POST[cb_taskDoc];
+   $isTaskOther          = $_POST[cb_taskOther];
       
    $stproj_name = ("" == $team_name) ? $defaultSideTaskProjectName : T_("SideTasks")." $team_name";        	
 }
@@ -357,7 +361,7 @@ if ("addTeam" == $action) {
             if ($isTaskTools) {
                $stproj->addIssueProjTools($task_tools);
             }
-            if ($isTaskDoc) {
+            if ($isTaskOther) {
                $stproj->addIssueProjDoc($task_other1);
             }
             
@@ -381,7 +385,7 @@ if ("addTeam" == $action) {
    displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
                          $isCreateSTProj, $stproj_name,
                          $isCatIncident, $isCatTools, $isCatOther,
-                         $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskDoc,
+                         $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskOther,
                          $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
                          $is_modified);
 #}

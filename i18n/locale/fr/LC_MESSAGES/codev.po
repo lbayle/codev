@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-14 10:26+0100\n"
+"POT-Creation-Date: 2011-03-17 11:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,8 +41,8 @@ msgstr "Nom de l'&eacute;quipe"
 #: admin/create_team.php:85 admin/edit_holidays.php:86
 #: admin/edit_holidays.php:110 admin/edit_team.php:471
 #: classes/issue_tracking.class.php:99 classes/issue_tracking.class.php:144
-#: reports/productivity_report.php:185 reports/productivity_report.php:283
-#: reports/productivity_report.php:365 reports/proj_management_report.php:372
+#: reports/productivity_report.php:185 reports/productivity_report.php:282
+#: reports/productivity_report.php:364 reports/proj_management_report.php:372
 #: timetracking/time_tracking_tools.php:49
 msgid "Description"
 msgstr "Description"
@@ -61,7 +61,7 @@ msgstr "Ajouter le projet de SuiviOp commun"
 
 #: admin/create_team.php:123
 msgid "Create specific SideTask Project"
-msgstr "Creer un Projets de SuiviOp Sp&eacute;cifique"
+msgstr "Creer un projet de SuiviOp Sp&eacute;cifique"
 
 #: admin/create_team.php:129
 msgid "Project Name"
@@ -80,78 +80,94 @@ msgstr ""
 msgid "Inactivity"
 msgstr "Inactivit&eacute;"
 
-#: admin/create_team.php:142 admin/create_team.php:175
-#: admin/create_team.php:183
+#: admin/create_team.php:142 admin/create_team.php:179
+#: admin/create_team.php:187
 msgid "ProjectManagement"
 msgstr "Gestion de Projet"
 
-#: admin/create_team.php:149 admin/create_team.php:190
-#: admin/create_team.php:235
+#: admin/create_team.php:144
+msgid "Meeting, Pre-sales, ProjectManagement, ..."
+msgstr "R&eacute;union, Avant-vente, Suivi de projet, ..."
+
+#: admin/create_team.php:150 admin/create_team.php:194
+#: admin/create_team.php:239
 msgid "Incident"
 msgstr "Incident"
 
-#: admin/create_team.php:155 admin/create_team.php:196
-#: admin/create_team.php:236
+#: admin/create_team.php:151
+msgid "Server or Platform down, ..."
+msgstr "Serveur inaccessible, ..."
+
+#: admin/create_team.php:157 admin/create_team.php:200
+#: admin/create_team.php:240
 msgid "Tools"
 msgstr "Outillage"
 
-#: admin/create_team.php:161 admin/create_team.php:202
-#: admin/create_team.php:237
-msgid "Documentation"
-msgstr "Documentation"
+#: admin/create_team.php:158
+msgid "Sys. Admin, Scritps, ..."
+msgstr "Admin Sys, Scripts, ..."
 
-#: admin/create_team.php:170
+#: admin/create_team.php:164 admin/create_team.php:206
+#: admin/create_team.php:241
+msgid "Other"
+msgstr "Autre"
+
+#: admin/create_team.php:165
+msgid "Support, Doc, Training, Wiki, ..."
+msgstr "Support, Doc, Formation, Wiki, ..."
+
+#: admin/create_team.php:174
 msgid "Default SideTasks"
 msgstr "Taches de SuiviOp"
 
-#: admin/create_team.php:214 admin/create_team.php:300
+#: admin/create_team.php:218 admin/create_team.php:304
 msgid "Create"
 msgstr "Cr&eacute;er"
 
-#: admin/create_team.php:234 reports/proj_management_report.php:14
+#: admin/create_team.php:238 reports/proj_management_report.php:14
 msgid "Project Management"
 msgstr "Gestion de Projet"
 
-#: admin/create_team.php:242 admin/edit_holidays.php:155
+#: admin/create_team.php:243 admin/create_team.php:291
+msgid "SideTasks"
+msgstr "SuiviOp"
+
+#: admin/create_team.php:246 admin/edit_holidays.php:155
 #: admin/edit_jobs.php:300 admin/edit_team.php:574 index.php:141 login.php:39
-#: reports/mantis_reports.php:90 reports/productivity_report.php:598
+#: reports/mantis_reports.php:90 reports/productivity_report.php:597
 #: reports/proj_management_report.php:499 reports/statistics.php:338
 #: timetracking/holidays_report.php:263 timetracking/time_tracking.php:305
 #: timetracking/week_activity_report.php:269 tools/check.php:33
 msgid "Could not connect to database"
 msgstr "Connexion impossible &agrave; la base de donn&eacute;es"
 
-#: admin/create_team.php:243 admin/edit_holidays.php:156
+#: admin/create_team.php:247 admin/edit_holidays.php:156
 #: admin/edit_jobs.php:301 admin/edit_team.php:575 index.php:142 login.php:40
 #: timetracking/holidays_report.php:264
 msgid "Could not select database"
 msgstr "Impossible de selectionner la base de donn&eacute;es"
 
-#: admin/create_team.php:287
-msgid "SideTasks"
-msgstr "SuiviOp"
-
-#: admin/create_team.php:290
+#: admin/create_team.php:294
 msgid "(generic) Project Management"
 msgstr "(generique) Gestion de Projet"
 
-#: admin/create_team.php:291
+#: admin/create_team.php:295
 msgid "(generic) Meeting"
 msgstr "(generique) R&eacute;union"
 
-#: admin/create_team.php:292
+#: admin/create_team.php:296
 msgid "(generic) Dev Platform is down"
 msgstr "(generique) Indisponibilit&eacute; plateforme de Dev"
 
-#: admin/create_team.php:293
+#: admin/create_team.php:297
 msgid "(generic) Compilation Scripts"
 msgstr "(generique) Scripts de compilation"
 
-#: admin/create_team.php:294
-msgid "(generic) Wiki Update"
-msgstr "(generique) Mise &agrave; jour du Wiki"
+#: admin/create_team.php:298
+msgid "(generic) Internal Support"
+msgstr "(generique) Support interne"
 
-#: admin/create_team.php:352
+#: admin/create_team.php:377
 msgid "Create and go to Edit"
 msgstr "Creer et &Eacute;diter"
 
@@ -216,7 +232,7 @@ msgid "delete Job"
 msgstr "&eacute;ffacer ce Poste"
 
 #: admin/edit_jobs.php:218 reports/issue_info.php:203
-#: reports/productivity_report.php:414 reports/proj_management_report.php:371
+#: reports/productivity_report.php:413 reports/proj_management_report.php:371
 #: timetracking/time_tracking.php:255 timetracking/time_tracking_tools.php:50
 #: timetracking/time_tracking_tools.php:143
 #: timetracking/week_activity_report.php:146
@@ -224,7 +240,7 @@ msgid "Job"
 msgstr "Poste"
 
 #: admin/edit_jobs.php:225 admin/edit_jobs.php:258 reports/issue_info.php:77
-#: reports/productivity_report.php:145 reports/productivity_report.php:436
+#: reports/productivity_report.php:145 reports/productivity_report.php:435
 #: reports/proj_management_report.php:128 timetracking/time_tracking.php:194
 #: timetracking/time_tracking_tools.php:48
 #: timetracking/week_activity_report.php:145
@@ -423,7 +439,7 @@ msgid "Submission Date"
 msgstr "Date R&eacute;ception"
 
 #: classes/issue_tracking.class.php:101 reports/issue_info.php:161
-#: reports/productivity_report.php:363 reports/proj_management_report.php:140
+#: reports/productivity_report.php:362 reports/proj_management_report.php:140
 #: reports/statistics.php:179
 msgid "ETA"
 msgstr "ETA"
@@ -454,7 +470,7 @@ msgid "Product Version"
 msgstr "Version Produit"
 
 #: classes/issue_tracking.class.php:107 reports/issue_info.php:184
-#: reports/productivity_report.php:288 reports/productivity_report.php:370
+#: reports/productivity_report.php:287 reports/productivity_report.php:369
 msgid "Drift"
 msgstr "D&eacute;rive"
 
@@ -487,16 +503,16 @@ msgid "Duration"
 msgstr "Dur&eacute;e"
 
 #: reports/issue_info.php:161 reports/productivity_report.php:239
-#: reports/productivity_report.php:281 reports/productivity_report.php:363
+#: reports/productivity_report.php:280 reports/productivity_report.php:362
 msgid "BEFORE analysis"
 msgstr "AVANT analyse"
 
 #: reports/issue_info.php:162 reports/productivity_report.php:250
-#: reports/productivity_report.php:282 reports/productivity_report.php:364
+#: reports/productivity_report.php:281 reports/productivity_report.php:363
 msgid "AFTER analysis"
 msgstr "APRES analyse"
 
-#: reports/issue_info.php:162 reports/productivity_report.php:364
+#: reports/issue_info.php:162 reports/productivity_report.php:363
 msgid "EffortEstim <br/>(BI + BS)"
 msgstr "EffortEstim <br/>(BI + BS)"
 
@@ -504,9 +520,9 @@ msgstr "EffortEstim <br/>(BI + BS)"
 msgid "Estimated"
 msgstr "Estim&eacute;"
 
-#: reports/issue_info.php:204 reports/productivity_report.php:415
-#: reports/productivity_report.php:437 reports/productivity_report.php:500
-#: reports/productivity_report.php:539
+#: reports/issue_info.php:204 reports/productivity_report.php:414
+#: reports/productivity_report.php:436 reports/productivity_report.php:499
+#: reports/productivity_report.php:538
 msgid "Nb Days"
 msgstr "Nb Jours"
 
@@ -556,8 +572,8 @@ msgstr "Indicateur"
 msgid "Value"
 msgstr "Valeur"
 
-#: reports/productivity_report.php:186 reports/productivity_report.php:284
-#: reports/productivity_report.php:366
+#: reports/productivity_report.php:186 reports/productivity_report.php:283
+#: reports/productivity_report.php:365
 msgid "Formula"
 msgstr "Formule"
 
@@ -643,14 +659,14 @@ msgstr ""
 "indicateur de difficult&eacute;"
 
 #: reports/productivity_report.php:244 reports/productivity_report.php:254
-#: reports/productivity_report.php:292
+#: reports/productivity_report.php:291
 msgid "- Computed on task Resolved/Closed in the given period"
 msgstr ""
 "- Le calcul est fait sur les fiches R&eacute;solues/Ferm&eacute;es dans la "
 "p&eacute;riode."
 
 #: reports/productivity_report.php:245 reports/productivity_report.php:255
-#: reports/productivity_report.php:293
+#: reports/productivity_report.php:292
 msgid "- Reopened tasks are not taken into account"
 msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
 
@@ -659,108 +675,108 @@ msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
 msgid "Productivity Rate"
 msgstr "Taux de productivit&eacute;"
 
-#: reports/productivity_report.php:278
+#: reports/productivity_report.php:277
 msgid "Drift - Tasks resolved in the period"
 msgstr "D&eacute;rives - R&eacute;solues dans la p&eacute;riode"
 
-#: reports/productivity_report.php:288 reports/productivity_report.php:294
-#: reports/productivity_report.php:370
+#: reports/productivity_report.php:287 reports/productivity_report.php:293
+#: reports/productivity_report.php:369
 msgid "If < 0 then ahead on planning."
 msgstr "Si n&eacute;gatif, avance sur le planing."
 
-#: reports/productivity_report.php:291 reports/productivity_report.php:373
+#: reports/productivity_report.php:290 reports/productivity_report.php:372
 msgid "Overflow day quantity"
 msgstr "Nb jours de d&eacute;passement"
 
-#: reports/productivity_report.php:299 reports/productivity_report.php:379
+#: reports/productivity_report.php:298 reports/productivity_report.php:378
 msgid "Tasks in drift"
 msgstr "Fiches en d&eacute;rive"
 
-#: reports/productivity_report.php:300 reports/productivity_report.php:301
-#: reports/productivity_report.php:308 reports/productivity_report.php:309
-#: reports/productivity_report.php:320 reports/productivity_report.php:321
-#: reports/productivity_report.php:380 reports/productivity_report.php:381
-#: reports/productivity_report.php:388 reports/productivity_report.php:389
-#: reports/productivity_report.php:400 reports/productivity_report.php:401
+#: reports/productivity_report.php:299 reports/productivity_report.php:300
+#: reports/productivity_report.php:307 reports/productivity_report.php:308
+#: reports/productivity_report.php:319 reports/productivity_report.php:320
+#: reports/productivity_report.php:379 reports/productivity_report.php:380
+#: reports/productivity_report.php:387 reports/productivity_report.php:388
+#: reports/productivity_report.php:399 reports/productivity_report.php:400
 msgid "nb tasks"
 msgstr "nb fiches"
 
-#: reports/productivity_report.php:300 reports/productivity_report.php:301
-#: reports/productivity_report.php:308 reports/productivity_report.php:309
-#: reports/productivity_report.php:320 reports/productivity_report.php:321
-#: reports/productivity_report.php:380 reports/productivity_report.php:381
-#: reports/productivity_report.php:388 reports/productivity_report.php:389
-#: reports/productivity_report.php:400 reports/productivity_report.php:401
+#: reports/productivity_report.php:299 reports/productivity_report.php:300
+#: reports/productivity_report.php:307 reports/productivity_report.php:308
+#: reports/productivity_report.php:319 reports/productivity_report.php:320
+#: reports/productivity_report.php:379 reports/productivity_report.php:380
+#: reports/productivity_report.php:387 reports/productivity_report.php:388
+#: reports/productivity_report.php:399 reports/productivity_report.php:400
 msgid "nb days"
 msgstr "nb jours"
 
-#: reports/productivity_report.php:302 reports/productivity_report.php:311
-#: reports/productivity_report.php:322 reports/productivity_report.php:382
-#: reports/productivity_report.php:391 reports/productivity_report.php:402
+#: reports/productivity_report.php:301 reports/productivity_report.php:310
+#: reports/productivity_report.php:321 reports/productivity_report.php:381
+#: reports/productivity_report.php:390 reports/productivity_report.php:401
 msgid "Task list for EffortEstim"
 msgstr "Liste des Fiches pour EffortEstim"
 
-#: reports/productivity_report.php:303 reports/productivity_report.php:315
-#: reports/productivity_report.php:323 reports/productivity_report.php:383
-#: reports/productivity_report.php:395 reports/productivity_report.php:403
+#: reports/productivity_report.php:302 reports/productivity_report.php:314
+#: reports/productivity_report.php:322 reports/productivity_report.php:382
+#: reports/productivity_report.php:394 reports/productivity_report.php:402
 msgid "drift"
 msgstr "d&eacute;rive"
 
-#: reports/productivity_report.php:307 reports/productivity_report.php:387
+#: reports/productivity_report.php:306 reports/productivity_report.php:386
 msgid "Tasks in time"
 msgstr "Fiches &agrave; l'&eacute;quilibre"
 
-#: reports/productivity_report.php:313 reports/productivity_report.php:393
+#: reports/productivity_report.php:312 reports/productivity_report.php:392
 msgid "Tasks delivered in time"
 msgstr "Fiches livr&eacute;es dans les temps."
 
-#: reports/productivity_report.php:319 reports/productivity_report.php:399
+#: reports/productivity_report.php:318 reports/productivity_report.php:398
 msgid "Tasks ahead"
 msgstr "Fiches en avance"
 
-#: reports/productivity_report.php:360
+#: reports/productivity_report.php:359
 msgid "Drift - Today opened Tasks"
 msgstr "D&eacute;rives - En cours &agrave; ce jour"
 
-#: reports/productivity_report.php:374
+#: reports/productivity_report.php:373
 msgid "Computed on task NOT Resolved/Closed on "
 msgstr "Le calcul est fait sur les fiches NON Resolues/Ferm&eacute;es au "
 
-#: reports/productivity_report.php:412
+#: reports/productivity_report.php:411
 msgid "Load per Job"
 msgstr "Charge par Poste"
 
-#: reports/productivity_report.php:434
+#: reports/productivity_report.php:433
 msgid "Load per Project"
 msgstr "Charge par Projet"
 
-#: reports/productivity_report.php:497
+#: reports/productivity_report.php:496
 msgid "Projects"
 msgstr "Projets"
 
-#: reports/productivity_report.php:497
+#: reports/productivity_report.php:496
 msgid "Project Management Detail"
 msgstr "D&eacute;tail Gestion de Projet"
 
-#: reports/productivity_report.php:499 reports/productivity_report.php:538
+#: reports/productivity_report.php:498 reports/productivity_report.php:537
 #: timetracking/time_tracking_tools.php:51
 msgid "Category"
 msgstr "Cat&eacute;gorie"
 
-#: reports/productivity_report.php:501 reports/productivity_report.php:540
+#: reports/productivity_report.php:500 reports/productivity_report.php:539
 msgid "Tasks"
 msgstr "Fiches"
 
-#: reports/productivity_report.php:573 timetracking/time_tracking_tools.php:24
+#: reports/productivity_report.php:572 timetracking/time_tracking_tools.php:24
 #: timetracking/week_activity_report.php:241
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
-#: reports/productivity_report.php:575 timetracking/time_tracking_tools.php:26
+#: reports/productivity_report.php:574 timetracking/time_tracking_tools.php:26
 msgid "inconsistent"
 msgstr "incoh&eacute;rent"
 
-#: reports/productivity_report.php:582 timetracking/time_tracking_tools.php:33
+#: reports/productivity_report.php:581 timetracking/time_tracking_tools.php:33
 #: timetracking/week_activity_report.php:247
 msgid "not defined."
 msgstr "non d&eacute;fini"
@@ -1121,6 +1137,12 @@ msgstr "Connexion CoDev"
 #: login.php:61
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
+
+#~ msgid "Documentation"
+#~ msgstr "Documentation"
+
+#~ msgid "(generic) Wiki Update"
+#~ msgstr "(generique) Mise &agrave; jour du Wiki"
 
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Free Software Foundation, Inc.
