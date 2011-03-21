@@ -12,7 +12,7 @@ class Project {
    public static $keyIncident       = "cat_incident";
    public static $keyInactivity     = "cat_absence";
    public static $keyTools          = "cat_tools";
-   public static $keyOther          = "cat_doc";
+   public static $keyOther          = "cat_workshop";
    
 	var $id;
 	var $name;
@@ -57,7 +57,7 @@ class Project {
          $this->categoryList[Project::$keyIncident]       = $row->cat_incident;
          $this->categoryList[Project::$keyInactivity]     = $row->cat_absence;
          $this->categoryList[Project::$keyTools]          = $row->cat_tools;
-         $this->categoryList[Project::$keyOther]          = $row->cat_doc;
+         $this->categoryList[Project::$keyOther]          = $row->cat_workshop;
       }
       
       #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";

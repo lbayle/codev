@@ -23,6 +23,7 @@ creation side tasks
 BUGS
 - Weekly report: y'a un TODO important qui traine
 - stats: annee de depart a re-initialiser quand on change de team
+- createTeam: la modification du nom du projet SuiviOp n'est pas prise en compte.
 
 ARCHI
 - actuellement, un job est associé a un projet, mais un job n'est-il pas plutot associé a un Team ?

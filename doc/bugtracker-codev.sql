@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Serveur: localhost
--- Généré le : Jeu 10 Mars 2011 à 09:57
+-- Généré le : Lun 21 Mars 2011 à 12:08
 -- Version du serveur: 5.1.41
 -- Version de PHP: 5.3.1
 
@@ -26,9 +26,10 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `codev_config_table` (
-  `config_id` varchar(15) NOT NULL,
+  `config_id` varchar(50) NOT NULL,
   `value` longtext NOT NULL,
   `type` int(10) DEFAULT NULL,
+  `user_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`config_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -36,6 +37,13 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 -- Contenu de la table `codev_config_table`
 --
 
+INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `user_id`) VALUES
+('defaultSideTaskProject', '11', 1, NULL),
+('adminTeamId', '3', 1, NULL),
+('g_status_enum_string', '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed', 3, NULL),
+('g_eta_enum_string', '10:none,20:< 1 day,30:2-3 days,40:<1 week,50:< 15 days,60:> 15 days', 3, NULL),
+('s_priority_enum_string', '10:aucune,20:basse,30:normale,40:elevee,50:urgente,60:immediate', 3, NULL),
+('s_resolution_enum_string', '10:ouvert,20:resolu,30:rouvert,40:impossible a reproduire,50:impossible a corriger,60:doublon,70:pas un bogue,80:suspendu,90:ne sera pas resolu', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -139,21 +147,21 @@ INSERT INTO `codev_project_job_table` (`id`, `project_id`, `job_id`) VALUES
 CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `project_id` int(10) NOT NULL,
-  `cat_management` int(10) NOT NULL,
+  `cat_management` int(10) DEFAULT NULL,
   `cat_incident` int(10) DEFAULT NULL,
   `cat_absence` int(10) DEFAULT NULL,
   `cat_tools` int(11) DEFAULT NULL,
-  `cat_doc` int(10) DEFAULT NULL,
+  `cat_workshop` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `project_id` (`project_id`),
   KEY `project_id_2` (`project_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Contenu de la table `codev_sidetasks_category_table`
 --
 
-INSERT INTO `codev_sidetasks_category_table` (`id`, `project_id`, `cat_management`, `cat_incident`, `cat_absence`, `cat_tools`, `cat_doc`) VALUES
+INSERT INTO `codev_sidetasks_category_table` (`id`, `project_id`, `cat_management`, `cat_incident`, `cat_absence`, `cat_tools`, `cat_workshop`) VALUES
 (1, 11, 15, 19, 17, 18, 16),
 (2, 23, 35, 33, NULL, 31, 34),
 (3, 24, 40, 38, NULL, 39, 36);
@@ -170,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   `team_id` int(10) NOT NULL,
   `type` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=150 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=177 ;
 
 --
 -- Contenu de la table `codev_team_project_table`
@@ -252,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `date` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
 
 --
 -- Contenu de la table `codev_team_table`
@@ -281,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
   `arrival_date` int(10) unsigned NOT NULL,
   `departure_date` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=146 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=149 ;
 
 --
 -- Contenu de la table `codev_team_user_table`
@@ -344,7 +352,10 @@ INSERT INTO `codev_team_user_table` (`id`, `user_id`, `team_id`, `access_level`,
 (101, 12, 26, 20, 1275256800, 0),
 (111, 10, 34, 10, 1298934000, 0),
 (112, 9, 34, 10, 1298934000, 0),
-(132, 16, 35, 10, 1278540000, 0);
+(132, 16, 35, 10, 1278540000, 0),
+(146, 23, 26, 10, 1300143600, 0),
+(147, 23, 35, 10, 1300143600, 0),
+(148, 23, 1, 10, 1300143600, 0);
 
 -- --------------------------------------------------------
 
@@ -363,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   KEY `bugid` (`bugid`),
   KEY `userid` (`userid`),
   KEY `date` (`date`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4039 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4277 ;
 
 
 -- --------------------------------------------------------
@@ -478,7 +489,7 @@ INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`
 (3, 'Est. Effort (BI)', 1, '', '', '', 10, 40, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1),
 (4, 'Remaining (RAE)', 1, '', '', '', 10, 40, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1),
 (8, 'Dead Line', 8, '', '', '', 10, 25, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1),
-(9, 'FDL', 1, '', '', '', 10, 55, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1),
+(9, 'FDL', 0, '', '', '', 10, 55, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1),
 (10, 'Budget supp. (BS)', 1, '', '', '', 10, 55, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1),
 (11, 'Liv. Date', 8, '', '', '', 10, 55, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1);
 
@@ -501,7 +512,7 @@ INSERT INTO `mantis_project_table` (`id`, `name`, `status`, `enabled`, `view_sta
 (12, 'CAYMAN', 10, 0, 10, 10, '', 'Afficheur Point de Vente.', 1, 1),
 (16, 'ROMA', 10, 1, 10, 10, '', 'Evolutions Euromillions.', 1, 1),
 (15, 'LotoFoot', 10, 1, 10, 10, '', 'Suppression N Mise LF7&15.', 1, 1),
-(19, 'Amigo', 10, 1, 10, 10, '', 'Cappuccino multiple.', 1, 1),
+(19, 'Amigo', 10, 1, 10, 10, '', '', 1, 1),
 (20, 'Promo', 10, 1, 10, 10, '', 'Mécanismes promotionnels temps réels.', 1, 1),
 (21, 'MIXN', 10, 1, 10, 10, '', 'Extension offre sport réseau.', 1, 1),
 (22, 'FDJ', 50, 0, 10, 10, '', 'MetaProject for all FDJ Projects\r\n', 1, 0),
@@ -580,28 +591,29 @@ INSERT INTO `mantis_project_user_list_table` (`project_id`, `user_id`, `access_l
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`, `last_visit`, `date_created`) VALUES
-(1, 'administrator', 'administrator', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 71, 0, 0, '2eaf0f02c475b359318a87988342c3c32fc634ac03eb8dfaa24ec99ef8046214', 1299584907, 1272555040),
-(2, 'mnavarro', 'Mikaël NAVARRO', 'mikael.navarro@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 268, 0, 0, '11cabc1f68e9f33c5cc44be68ad7f31897bfe84d77dbfdd0d07d06007cee886f', 1299747325, 1272609634),
-(3, 'qualif', 'Qualification', 'mosi@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 158, 0, 0, 'e2d3d4a08d60c35c322ff71130a5e43743173f3de6979e2256878e7ae7aab689', 1299682519, 1272610523),
+(1, 'administrator', 'administrator', 'root@localhost', '63a9f0ea7bb98050796b649e85481845', 1, 0, 90, 84, 0, 0, '2eaf0f02c475b359318a87988342c3c32fc634ac03eb8dfaa24ec99ef8046214', 1300704268, 1272555040),
+(2, 'mnavarro', 'Mikaël NAVARRO', 'mikael.navarro@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 270, 0, 0, '11cabc1f68e9f33c5cc44be68ad7f31897bfe84d77dbfdd0d07d06007cee886f', 1300704831, 1272609634),
+(3, 'qualif', 'Qualification', 'mosi@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 164, 0, 0, 'e2d3d4a08d60c35c322ff71130a5e43743173f3de6979e2256878e7ae7aab689', 1300460890, 1272610523),
 (4, 'preq', 'PreQual', 'preq@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 30, 0, 0, 'c3de616cddf08ced072f09a0eab293408854d073c75eaa1f2dcadfc6e0a991f1', 1299230365, 1272610558),
 (5, 'sberal', 'Sébastien BERAL', 'sebastien.beral@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 10, 0, 0, '76aa39c680026f4c401e052699286bc5538f25fb5a752502f7ee016de25dad64', 1299081978, 1272610576),
 (6, 'vcastelin', 'Vincent CASTELIN', 'vincent.castelin@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 44, 0, 0, 'a51edcc9a9846fdea46fa06f5e8bef4033e4f4fa1f3162904a44afb2f2fab084', 1285597326, 1272610608),
-(7, 'lbayle', 'Louis BAYLE', 'lbayle.work@gmail.com', 'caf671ca0104ebfca4cd4b6f4b345e8e', 1, 0, 55, 57, 0, 0, 'f10234a5a2a8eee74e4a44f82fec7a9c8461efea4c2f77030b4a9d08051b88d7', 1299689626, 1272610636),
+(7, 'lbayle', 'Louis BAYLE', 'lbayle.work@gmail.com', 'caf671ca0104ebfca4cd4b6f4b345e8e', 1, 0, 55, 62, 0, 0, 'f10234a5a2a8eee74e4a44f82fec7a9c8461efea4c2f77030b4a9d08051b88d7', 1300704504, 1272610636),
 (8, 'cmaruejols', 'Christophe MARUEJOLS', 'christophe.maruejols@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 28, 0, 0, '26d616184948cf6d3530de8ba53fec739213325b38ed738d1f1e5fbf0c9bc8b1', 1284542987, 1272610681),
-(9, 'afebvre', 'Anne FEBVRE', 'anne.febvre@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 79, 0, 0, '464319d0c4e9a12a95836ac3335d94da0cb9a3d32b96175643983f83519325e3', 1299745983, 1272610824),
-(10, 'mdoan', 'Marie DOAN', 'marie.doan@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 15, 0, 0, '71a5b5f6087385d8c2053927e7c52ec61501f5540b4037358834c133717a5433', 1299746629, 1272610890),
-(11, 'nladraa', 'Nadia LADRAA', 'nadia.ladraa@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 64, 0, 0, '08db035be4a8389fabfd3cb0d2cd6ef693f7a3fd55c7e7563d0364cb4798fd08', 1299745434, 1272610921),
+(9, 'afebvre', 'Anne FEBVRE', 'anne.febvre@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 81, 0, 0, '464319d0c4e9a12a95836ac3335d94da0cb9a3d32b96175643983f83519325e3', 1300705138, 1272610824),
+(10, 'mdoan', 'Marie DOAN', 'marie.doan@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 17, 0, 0, '71a5b5f6087385d8c2053927e7c52ec61501f5540b4037358834c133717a5433', 1300705615, 1272610890),
+(11, 'nladraa', 'Nadia LADRAA', 'nadia.ladraa@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 70, 0, 0, '08db035be4a8389fabfd3cb0d2cd6ef693f7a3fd55c7e7563d0364cb4798fd08', 1300464146, 1272610921),
 (12, 'golivier', 'Gisèle OLIVIER', 'golivier@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 34, 0, 0, '5403f2e529dd027e20097d7940426851a3486f593c903952db77a94a2b61dbfa', 1299585289, 1272610952),
-(13, 'codev', 'CoDev', 'codev-atos@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 90, 158, 0, 0, '1df9e6d3be53458cb27290265f204d93a1a6b233624860466a3975c11a292b22', 1299513877, 1272611005),
+(13, 'codev', 'CoDev', 'codev-atos@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 90, 159, 0, 0, '1df9e6d3be53458cb27290265f204d93a1a6b233624860466a3975c11a292b22', 1299765866, 1272611005),
 (14, 'ogueneau', 'Olivier GUENEAU', 'ogueneau@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 40, 11, 0, 0, 'e741de824bed998a1c47e4f12d71a151cb729f0256553ebc39af26631c729bbc', 1294648654, 1272613873),
 (15, 'fdj', 'FdJ', 'fdj@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 40, 0, 0, 0, 'd209db61f82e9f412d606f823c81bb13b3679e465b81e6c32aad076fa893a07e', 1272619824, 1272619824),
-(16, 'cpatin', 'Carole PATIN', 'carole.patin@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 24, 0, 0, '9e6f44c13a312b84fc53ddca867ddfe1b0ba47405b73bee6173766ef04443bda', 1299592845, 1278570124),
+(16, 'cpatin', 'Carole PATIN', 'carole.patin@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 28, 0, 0, '9e6f44c13a312b84fc53ddca867ddfe1b0ba47405b73bee6173766ef04443bda', 1300704801, 1278570124),
 (17, 'ktan', 'Karter TAN', 'ktan@lfdj.fr', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 25, 11, 0, 0, 'd7ac61539229d09f5d80aa7886c5de4d3e0933bfc7ceb37104fc9e9c43a9301d', 1294839655, 1280836945),
 (18, 'jjulien', 'Jerôme JULIEN', 'jerome.julien@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 54, 0, 0, 'bc0e96ed1f1cebf863f284ac53e59b147168aaed411d880d71e4551855ade549', 1295620236, 1284363725),
-(19, 'jbaldaccini', 'Jessica BALDACCINI', 'jessica.baldaccini@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 44, 0, 0, 'bba760e39d75ed9ea5484e94dbc537d92a7ece826bc810d861fbbaf4485cfef5', 1299745427, 1284363879),
-(20, 'lachaibou', 'Lyna ACHAIBOU', 'lyna.achaibou@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 66, 0, 0, '1f28b703895404d6eb00ff6d512ee13a91102671069215c21d61126803ca2dbb', 1299747112, 1284364052),
-(21, 'tuzieblo', 'Tomasz UZIEBLO', 'tomasz.uzieblo@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 36, 0, 0, 'cc2162a91a787c1998e720fdad3d051148b18227ae253ccc22e39ffadfebfdc6', 1299746986, 1290073340),
-(22, 'mbastide', 'Marie BASTIDE', 'marie.bastide@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 72, 0, 0, '5b9d06a658c4dc21fac7b494b79b505155dd0bc8f87de8d0e3f0817d90df1bfe', 1299747406, 1290517904);
+(19, 'jbaldaccini', 'Jessica BALDACCINI', 'jessica.baldaccini@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 46, 0, 0, 'bba760e39d75ed9ea5484e94dbc537d92a7ece826bc810d861fbbaf4485cfef5', 1300704673, 1284363879),
+(20, 'lachaibou', 'Lyna ACHAIBOU', 'lyna.achaibou@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 71, 0, 0, '1f28b703895404d6eb00ff6d512ee13a91102671069215c21d61126803ca2dbb', 1300701387, 1284364052),
+(21, 'tuzieblo', 'Tomasz UZIEBLO', 'tomasz.uzieblo@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 36, 0, 0, 'cc2162a91a787c1998e720fdad3d051148b18227ae253ccc22e39ffadfebfdc6', 1300703095, 1290073340),
+(22, 'mbastide', 'Marie BASTIDE', 'marie.bastide@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 70, 79, 0, 0, '5b9d06a658c4dc21fac7b494b79b505155dd0bc8f87de8d0e3f0817d90df1bfe', 1300704298, 1290517904),
+(23, 'melodie', 'Melodie Jacques-Felix-Alexandre', 'melodie.Jacques-Felix-Alexandre@atosorigin.com', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, 55, 3, 0, 0, 'e8a653ab933856fcb3072d6501b052b913f6e6020accf90e2941d1ac9cf2034b', 1300374718, 1300181333);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
