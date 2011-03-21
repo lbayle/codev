@@ -104,7 +104,7 @@ class Project {
    public function addCategoryTools($catName) {
       return $this->addCategory(Project::$keyTools, $catName);
    }
-   public function addCategoryDoc($catName) {
+   public function addCategoryOther($catName) {
       return $this->addCategory(Project::$keyOther, $catName);
    }
    

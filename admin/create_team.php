@@ -139,7 +139,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  </tr>\n";
   
   echo "  <tr>\n";
-  echo "    <td><input type=CHECKBOX CHECKED DISABLED name='cb_catProjManagement' id='cb_catProjManagement'>".T_("ProjectManagement")."</input>\n";
+  echo "    <td><input type=CHECKBOX CHECKED DISABLED name='cb_catProjManagement' id='cb_catProjManagement'>".T_("Project Management")."</input>\n";
   echo "    <span style='color:red'>*</span></td>\n";
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Meeting, Pre-sales, ProjectManagement, ...").")</span></td>\n";
   echo "  </tr>\n";
@@ -161,7 +161,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <tr>\n";
   $isChecked = $isCatOther ? "CHECKED" : "";
   echo "    <td><input type=CHECKBOX $isChecked name='cb_catOther' id='cb_catOther' >".
-       T_("Other")."</input></td>\n";
+       T_("Team Workshop")."</input></td>\n";
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Support, Doc, Training, Wiki, ...").")</span></td>\n";
   echo "  </tr>\n";
   
@@ -176,7 +176,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <tr>\n";
   $isChecked = $isTaskProjManagement ? "CHECKED" : "";
   echo "    <td><input type=CHECKBOX $isChecked name='cb_taskProjManagement' id='cb_taskProjManagement'>".
-       T_("ProjectManagement")."</input></td>\n";
+       T_("Project Management")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_projManagement'  id='task_projManagement' value='$task_projManagement'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
@@ -184,7 +184,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <tr>\n";
   $isChecked = $isTaskMeeting ? "CHECKED" : "";
   echo "    <td><input type=CHECKBOX $isChecked name='cb_taskMeeting' id='cb_taskMeeting'>".
-       T_("ProjectManagement")."</input></td>\n";
+       T_("Project Management")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_meeting'  id='task_meeting' value='$task_meeting'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
@@ -203,7 +203,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <tr>\n";
   $isChecked = $isTaskOther ? "CHECKED" : "";
   echo "    <td><input type=CHECKBOX $isChecked name='cb_taskOther' id='cb_taskOther'>".
-       T_("Other")."</input></td>\n";
+       T_("Team Workshop")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_other1'  id='task_other1' value='$task_other1'></td>\n";
   echo "  </tr>\n";
   echo "</table>\n";
@@ -238,7 +238,7 @@ global $sideTaskProjectType;
 $cat_projManagement = T_("Project Management");
 $cat_incident       = T_("Incident");
 $cat_tools          = T_("Tools");
-$cat_other            = T_("Other");
+$cat_other          = T_("Team Workshop");
 
 $defaultSideTaskProjectName = T_("SideTasks")." my_team";
 
@@ -301,24 +301,17 @@ $task_other1 = isset($_POST[task_other1]) ? $_POST[task_other1] : T_("(generic) 
 #unset($_SESSION['teamid']);
 
 if ("addTeam" == $action) {
-	echo T_("Create")." $team_name !<br/>";
+	#echo T_("Create")." $team_name !<br/>";
 	
 	
 	$formatedDate  = date("Y-m-d", time());
 	$now = date2timestamp($formatedDate);
 
-	// TODO check if Team name exists !
-   // TODO check if SideProject name exists !
-	
 	// 1) --- create new Team
-   Team::create($team_name, $team_desc, $teamleader_id, $now);
-
-   $teamid = Team::getIdFromName($team_name);
-   echo "teamId = $teamid !<br/>";
+   $teamid = Team::create($team_name, $team_desc, $teamleader_id, $now);
+   #echo "teamId = $teamid !<br/>";
    
-   
-   
-   if (-1 != $teamid) {
+   if ($teamid > 0) {
    	
       $team = new Team($teamid);
    	
@@ -345,7 +338,7 @@ if ("addTeam" == $action) {
                $stproj->addCategoryTools($cat_tools);
             }
             if ($isCatOther) {
-               $stproj->addCategoryDoc($cat_other);
+               $stproj->addCategoryOther($cat_other);
             }
         
             // 5) --- add SideTaskProject default SideTasks

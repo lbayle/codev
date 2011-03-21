@@ -9,6 +9,7 @@ class Team {
 	var $leader_id;
 	var $date;
 	
+   // -------------------------------------------------------
 	/**
 	 * 
 	 * @param unknown_type $teamid
@@ -19,6 +20,7 @@ class Team {
 		 $this->initialize();
 	}
 	
+   // -------------------------------------------------------
 	/**
 	 * 
 	 */
@@ -35,29 +37,45 @@ class Team {
 		
 	}
 
+   // -------------------------------------------------------
 	/**
 	 * STATIC insert new team in DB 
 	 * 
 	 * Team::create($name, $description, $leader_id, $date);
+	 * 
+    * @return the team id or -1 if not found 
 	 */
 	public static function create($name, $description, $leader_id, $date) {
-      $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$name','$description','$leader_id', '$date');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-      
+		
+      // check if Team name exists !
+		$teamid = Team::getIdFromName($name);
+		
+		if ($teamid < 0) { 
+		   // create team
+         $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$name','$description','$leader_id', '$date');";
+         mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+         $teamid = mysql_insert_id();
+		} else {
+			echo "<span style='color:red'>ERROR: Team name '$name' already exists !</span>";
+			$teamid = -1;
+		}
+      return $teamid;
 	}
 	
+   // -------------------------------------------------------
 	/**
-	 * 
 	 * @param unknown_type $name
+    * @return the team id or -1 if not found 
 	 */
 	public static function getIdFromName($name) {
       $query = "SELECT id FROM `codev_team_table` WHERE name = '$name';";
       $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-      $teamid = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "-1";
+      $teamid = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : (-1);
 		
       return $teamid;
 	}
 	
+   // -------------------------------------------------------
 	public static function getLeaderId($teamid) { 
 	   $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
       $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
@@ -66,6 +84,7 @@ class Team {
       return $leaderid;
 	}
 	
+   // -------------------------------------------------------
 	public static function getProjectList($teamid) {
 		
 		$projList = array();
@@ -84,7 +103,8 @@ class Team {
 		return $projList;
 	}
 	
-   public static function getMemberList($teamid) {
+   // -------------------------------------------------------
+	public static function getMemberList($teamid) {
       
       $mList = array();
       
@@ -102,7 +122,8 @@ class Team {
       return $mList;
    }
    
-	/**
+   // -------------------------------------------------------
+   /**
 	 * 
 	 * @param unknown_type $memberid
 	 * @param unknown_type $arrivalTimestamp
@@ -115,12 +136,14 @@ class Team {
 	}
 	
 	
+   // -------------------------------------------------------
 	public function setMemberDepartureDate($memberid, $departureTimestamp) {
 	  $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 	}
 	
 	
+   // -------------------------------------------------------
 	/**
 	 * add all members declared in Team $src_teamid (same dates, same access)
 	 * users already declared are omitted 
@@ -145,6 +168,7 @@ class Team {
    	
    }	
 	
+   // -------------------------------------------------------
    /**
     * 
     * @param unknown_type $projectid
@@ -155,6 +179,7 @@ class Team {
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
    }
    
+   // -------------------------------------------------------
    /**
     * 
     */
@@ -169,6 +194,7 @@ class Team {
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
    }
    
+   // -------------------------------------------------------
    /**
     * 
     * @param unknown_type $projectName
@@ -198,7 +224,7 @@ class Team {
       return $projectid;
    }
    
-   
+   // -------------------------------------------------------
 	/**
 	 * 
 	 * @param unknown_type $date_create
