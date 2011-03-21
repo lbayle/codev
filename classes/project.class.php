@@ -72,6 +72,13 @@ class Project {
     */
    public static function createSideTaskProject($projectName) {
       
+      global $estimEffortCustomField;
+      global $addEffortCustomField;
+      global $remainingCustomField;
+      global $deadLineCustomField;
+      global $deliveryDateCustomField;
+   	
+   	
       // check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = mysql_query($query) or die("Query failed: $query");
@@ -86,6 +93,16 @@ class Project {
                "VALUES ('$projectName','50','1','10','10','$projectDesc','1','0');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $projectid = mysql_insert_id();
+      
+      
+      // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
+      $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
+               "VALUES ('$estimEffortCustomField',  '$projectid','0'), ".
+                      "('$addEffortCustomField',    '$projectid','1'), ".
+                      "('$remainingCustomField',    '$projectid','2'), ".
+                      "('$deadLineCustomField',     '$projectid','3'), ".
+                      "('$deliveryDateCustomField', '$projectid','5');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       
       return $projectid;
    }
