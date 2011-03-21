@@ -126,7 +126,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   $isDisplayed = $isCreateSTProj ? "" : "display:none";
   echo "<div style='$isDisplayed'>\n";
   echo "<ul>\n";
-  echo "<li><b>".T_("Project Name")."</b>  <input size='30' value='$stproj_name' type='text' name='stproj_name'  id='stproj_name'> <span style='color:red'>*</span></li>\n";
+  echo "<li><b>".T_("Project Name")."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input size='30' value='$stproj_name' type='text' name='stproj_name'  id='stproj_name'> <span style='color:red'>*</span></li>\n";
   
   echo "  <br/>\n";
 
@@ -134,33 +134,33 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "<table class='invisible'>\n";
   
   echo "  <tr>\n";
-  echo "    <td><input type=CHECKBOX DISABLED name='cb_catInactivity' id='cb_catInactivity'>".
+  echo "    <td width='150'><input type=CHECKBOX DISABLED name='cb_catInactivity' id='cb_catInactivity'>".
        "<span title='".T_("This category is declared in CommonSideTaskProject")."' style='color:lightgrey'>".T_("Inactivity")."</span></input></td>\n";
   echo "  </tr>\n";
   
   echo "  <tr>\n";
-  echo "    <td><input type=CHECKBOX CHECKED DISABLED name='cb_catProjManagement' id='cb_catProjManagement'>".T_("Project Management")."</input>\n";
+  echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_catProjManagement' id='cb_catProjManagement'>".T_("Project Management")."</input>\n";
   echo "    <span style='color:red'>*</span></td>\n";
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Meeting, Pre-sales, ProjectManagement, ...").")</span></td>\n";
   echo "  </tr>\n";
 
   echo "  <tr>\n";
   $isChecked = $isCatIncident ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked name='cb_catIncident' id='cb_catIncident'>".
+  echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_catIncident' id='cb_catIncident'>".
        T_("Incident")."</input></td>\n";
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Server or Platform down, ...").")</span></td>\n";
   echo "  </tr>\n";
 
   echo "  <tr>\n";
   $isChecked = $isCatTools ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked  name='cb_catTools' id='cb_catTools'>".
+  echo "    <td width='150'><input type=CHECKBOX $isChecked  name='cb_catTools' id='cb_catTools'>".
        T_("Tools")."</input></td>\n";
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Sys. Admin, Scritps, ...").")</span></td>\n";
   echo "  </tr>\n";
 
   echo "  <tr>\n";
   $isChecked = $isCatOther ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked name='cb_catOther' id='cb_catOther' >".
+  echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_catOther' id='cb_catOther' >".
        T_("Team Workshop")."</input></td>\n";
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Support, Doc, Training, Wiki, ...").")</span></td>\n";
   echo "  </tr>\n";
@@ -171,11 +171,22 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   
   
   echo "</li>\n";
+  echo "<li><b>".T_("Custom Fields")."</b><br/>\n";
+  
+  echo "<table class='invisible'>\n";
+  echo "  <tr>\n";
+  echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_customFields' id='cb_customFields'>".T_("CoDev custom fields")."</input>\n";
+  echo "    <span style='color:red'>*</span></td>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("EffortEstim, AddEffort, Remaining, DeadLine, DeliveryDate").")</span></td>\n";
+  echo "  </tr>\n";
+  echo "</table>\n";
+  echo "  <br/>\n";
+  echo "</li>\n";
   echo "<li><b>".T_("Default SideTasks")."</b><br/>\n";
   echo "<table class='invisible'>\n";
   echo "  <tr>\n";
   $isChecked = $isTaskProjManagement ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked name='cb_taskProjManagement' id='cb_taskProjManagement'>".
+  echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskProjManagement' id='cb_taskProjManagement'>".
        T_("Project Management")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_projManagement'  id='task_projManagement' value='$task_projManagement'></td>\n";
   echo "  </tr>\n";
@@ -183,26 +194,26 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 
   echo "  <tr>\n";
   $isChecked = $isTaskMeeting ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked name='cb_taskMeeting' id='cb_taskMeeting'>".
+  echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskMeeting' id='cb_taskMeeting'>".
        T_("Project Management")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_meeting'  id='task_meeting' value='$task_meeting'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
   
   $isChecked = $isTaskIncident ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked name='cb_taskIncident' id='cb_taskIncident'>".
+  echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskIncident' id='cb_taskIncident'>".
        T_("Incident")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_incident'  id='task_' value='$task_incident'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
   $isChecked = $isTaskTools ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked name='cb_taskTools' id='cb_taskTools'>".
+  echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskTools' id='cb_taskTools'>".
        T_("Tools")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_tools'  id='task_tools' value='$task_tools'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
   $isChecked = $isTaskOther ? "CHECKED" : "";
-  echo "    <td><input type=CHECKBOX $isChecked name='cb_taskOther' id='cb_taskOther'>".
+  echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskOther' id='cb_taskOther'>".
        T_("Team Workshop")."</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_other1'  id='task_other1' value='$task_other1'></td>\n";
   echo "  </tr>\n";

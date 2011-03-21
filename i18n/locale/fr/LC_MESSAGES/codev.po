@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-21 11:21+0100\n"
+"POT-Creation-Date: 2011-03-21 14:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,8 +80,8 @@ msgstr ""
 msgid "Inactivity"
 msgstr "Inactivit&eacute;"
 
-#: admin/create_team.php:142 admin/create_team.php:179
-#: admin/create_team.php:187 admin/create_team.php:238
+#: admin/create_team.php:142 admin/create_team.php:190
+#: admin/create_team.php:198 admin/create_team.php:249
 #: reports/proj_management_report.php:14
 msgid "Project Management"
 msgstr "Gestion de Projet"
@@ -90,8 +90,8 @@ msgstr "Gestion de Projet"
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
 msgstr "R&eacute;union, Avant-vente, Suivi de projet, ..."
 
-#: admin/create_team.php:150 admin/create_team.php:194
-#: admin/create_team.php:239
+#: admin/create_team.php:150 admin/create_team.php:205
+#: admin/create_team.php:250
 msgid "Incident"
 msgstr "Incident"
 
@@ -99,8 +99,8 @@ msgstr "Incident"
 msgid "Server or Platform down, ..."
 msgstr "Serveur inaccessible, ..."
 
-#: admin/create_team.php:157 admin/create_team.php:200
-#: admin/create_team.php:240
+#: admin/create_team.php:157 admin/create_team.php:211
+#: admin/create_team.php:251
 msgid "Tools"
 msgstr "Outillage"
 
@@ -108,8 +108,8 @@ msgstr "Outillage"
 msgid "Sys. Admin, Scritps, ..."
 msgstr "Admin Sys, Scripts, ..."
 
-#: admin/create_team.php:164 admin/create_team.php:206
-#: admin/create_team.php:241
+#: admin/create_team.php:164 admin/create_team.php:217
+#: admin/create_team.php:252
 msgid "Team Workshop"
 msgstr "Capitalisation"
 
@@ -118,18 +118,30 @@ msgid "Support, Doc, Training, Wiki, ..."
 msgstr "Support, Doc, Formation, Wiki, ..."
 
 #: admin/create_team.php:174
+msgid "Custom Fields"
+msgstr "Champs personnalis&eacute;s"
+
+#: admin/create_team.php:178
+msgid "CoDev custom fields"
+msgstr "Champs CoDev"
+
+#: admin/create_team.php:180
+msgid "EffortEstim, AddEffort, Remaining, DeadLine, DeliveryDate"
+msgstr "BI, BS, RAE, DeadLine, Date de Livraison"
+
+#: admin/create_team.php:185
 msgid "Default SideTasks"
 msgstr "Taches de SuiviOp"
 
-#: admin/create_team.php:218
+#: admin/create_team.php:229
 msgid "Create"
 msgstr "Cr&eacute;er"
 
-#: admin/create_team.php:243 admin/create_team.php:291
+#: admin/create_team.php:254 admin/create_team.php:302
 msgid "SideTasks"
 msgstr "SuiviOp"
 
-#: admin/create_team.php:246 admin/edit_holidays.php:155
+#: admin/create_team.php:257 admin/edit_holidays.php:155
 #: admin/edit_jobs.php:300 admin/edit_team.php:574 index.php:141 login.php:39
 #: reports/mantis_reports.php:90 reports/productivity_report.php:597
 #: reports/proj_management_report.php:499 reports/statistics.php:338
@@ -138,33 +150,33 @@ msgstr "SuiviOp"
 msgid "Could not connect to database"
 msgstr "Connexion impossible &agrave; la base de donn&eacute;es"
 
-#: admin/create_team.php:247 admin/edit_holidays.php:156
+#: admin/create_team.php:258 admin/edit_holidays.php:156
 #: admin/edit_jobs.php:301 admin/edit_team.php:575 index.php:142 login.php:40
 #: timetracking/holidays_report.php:264
 msgid "Could not select database"
 msgstr "Impossible de selectionner la base de donn&eacute;es"
 
-#: admin/create_team.php:294
+#: admin/create_team.php:305
 msgid "(generic) Project Management"
 msgstr "(generique) Gestion de Projet"
 
-#: admin/create_team.php:295
+#: admin/create_team.php:306
 msgid "(generic) Meeting"
 msgstr "(generique) R&eacute;union"
 
-#: admin/create_team.php:296
+#: admin/create_team.php:307
 msgid "(generic) Dev Platform is down"
 msgstr "(generique) Indisponibilit&eacute; plateforme de Dev"
 
-#: admin/create_team.php:297
+#: admin/create_team.php:308
 msgid "(generic) Compilation Scripts"
 msgstr "(generique) Scripts de compilation"
 
-#: admin/create_team.php:298
+#: admin/create_team.php:309
 msgid "(generic) Internal Support"
 msgstr "(generique) Support interne"
 
-#: admin/create_team.php:370
+#: admin/create_team.php:381
 msgid "Create and go to Edit"
 msgstr "Creer et &Eacute;diter"
 
