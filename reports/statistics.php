@@ -220,7 +220,13 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
    echo "<div>\n";
    echo "<h2>".T_("Productivity Rate")."</h2>\n";
    echo "<div class=\"float\">\n";
-   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+/*
+   echo "<span class='help_font'>\n";
+   echo T_("")."<br/>\n";
+   echo "</span>\n";
+   echo "<br/>\n";
+*/   
+   echo "<img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
@@ -269,6 +275,10 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
    echo "<div>\n";
    echo "<h2>".T_("Efficiency and System Disponibility")."</h2>\n";
    echo "<div class=\"float\">\n";
+   echo "<span class='help_font'>\n";
+   echo T_("Efficiency Rate").": ".T_("Exclude side tasks to get the percent of time spent working on the projects")."<br/>\n";
+   echo "</span>\n";
+   echo "<br/>\n";
    echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
    echo "</div>\n";
    echo "<div class=\"float\">\n";

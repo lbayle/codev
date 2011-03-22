@@ -1,7 +1,7 @@
 TODO
 - meilleure gestion des connexions/deconnexions a MySQL
+- possibililité d'avoir les tables codev dans une autre base que 'bugtracker' (mantis)  
 - creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
-- Doc: expliquer creation des projets SideTasks dans mantis
 - Admin Project: SideTask category assignment
 - Singleton pour constants, et stockage prefs dans DB
 - Securisation du site (index.html, .htaccess, 404, ...)
@@ -25,9 +25,5 @@ BUGS
 - stats: annee de depart a re-initialiser quand on change de team
 - createTeam: la modification du nom du projet SuiviOp n'est pas prise en compte.
 
-ARCHI
-- actuellement, un job est associé a un projet, mais un job n'est-il pas plutot associé a un Team ?
-ex: sur le projet X, l'equipe PROSYS va faire des job de Dev, mais l'equipe AtosTest ne doit pas pouvoir faire du Dev dessus.
-mais pour les SideTasksProjects, les job associes ne sont pas du Dev et ne sont pas lies a un Team !
-reponse: donc un job est bel et bien associé a un projet, on fait confiance a AtosTest pour ne pas imputer du Dev, par contre
-   imputer du Dev sur un SideTaskProject n'a aucun sens donc interdit... 
+
+
