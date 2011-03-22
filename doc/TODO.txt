@@ -14,7 +14,7 @@ init des codev_constants
 creation CommonSideTasks project & categories
 creation equipe admin
 creation side tasks
-
+creation des jobs & specificites pour support
 
 - Gestion de differents workflow ?!?
 

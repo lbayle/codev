@@ -176,7 +176,9 @@ function displayRates ($timeTracking) {
   $efficiencyRate          = $timeTracking->getEfficiencyRate();
   $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
-        
+  $prodRateNoSupportETA    = $timeTracking->getProductivityRateNoSupport("ETA");
+  $prodRateNoSupportBI     = $timeTracking->getProductivityRateNoSupport("EffortEstim");
+  
   echo "<table>\n";
   echo "<caption>".T_("Productivity indicators")."</caption>\n";
   echo "<tr>\n";
@@ -247,6 +249,13 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
+  echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod Rate NoSupport ETA")."</td>\n";
+  echo "<td>".number_format($prodRateNoSupportETA, 2)."</td>\n";
+  echo "<td></td>\n";
+  echo "<td></td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
   echo "<td title='".T_("AFTER analysis")."'>".T_("Productivity Rate")."</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
   echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
@@ -256,6 +265,14 @@ function displayRates ($timeTracking) {
   echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
   echo "</tr>\n";
 
+  echo "<tr>\n";
+  echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod Rate NoSupport")."</td>\n";
+  echo "<td>".number_format($prodRateNoSupportBI, 2)."</td>\n";
+  echo "<td></td>\n";
+  echo "<td></td>\n";
+  echo "</tr>\n";
+
+  
   echo "</table>\n";
 
   //echo "<br/>SideTasks<br/>";

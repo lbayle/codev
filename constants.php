@@ -83,7 +83,11 @@
                        40 => 5,   // < 1 week
                        50 => 10,  // < 15 days
                        60 => 15); // > 15 days
-
+  
+  //$eta_balance_string = '10:1,20:1,30:3,40:5,50:10,60:15';
+  //$ETA_balance = doubleExplode(':', ',', $eta_balance_string);
+  
+                       
   // ---
   // il peut y avoir plusieurs observer
   // il n'y a qu'un seul teamLeader
@@ -122,7 +126,8 @@
   $assignedJobType = 1;     // jobs specific to one or more projects are type 1
   $jobType_names = array($commonJobType => "Common",
                          $assignedJobType => "Assigned");
-                             
+
+  $job_support = 23; // jobid in codev_job_table corresponding to the 'Support' job (used to compute drifts)                         
   
   $defaultSideTaskProject = 11; // "SuiviOp" in table mantis_project_table
   $FDLProject       = 18;

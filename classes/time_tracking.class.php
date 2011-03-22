@@ -158,16 +158,20 @@ class TimeTracking {
   
   
   // ----------------------------------------------
+/*  
   public function getProductivityRateSideTasks() {
     return $this->getProductivRate($this->sideTaskprojectList);
   }
-   
+*/   
   // ----------------------------------------------
   public function getProductivityRate($balanceType = "ETA") {
-    return $this->getProductivRate($this->prodProjectList, $balanceType);
+    return $this->getProductivRate($this->prodProjectList, $balanceType, true);
   }
   
-   
+  public function getProductivityRateNoSupport($balanceType = "ETA") {
+    return $this->getProductivRate($this->prodProjectList, $balanceType, false);
+  }
+  
   // ----------------------------------------------
   public function getDriftStats() {
     return $this->getDriftStatistics($this->prodProjectList);
@@ -190,10 +194,11 @@ class TimeTracking {
    @param projects: $prodProjectList or $sideTaskprojectList or your own selection.
    @param balanceType: "ETA" or "EffortEstim"
    */
-  private function getProductivRate($projects, $balanceType = "ETA") {        
+  private function getProductivRate($projects, $balanceType = "ETA", $withSupport = true) {        
     global $status_resolved;
     global $status_closed;
     global $ETA_balance;
+    global $job_support;
     
     $resolvedList = array();
     $productivityRate = 0;
@@ -238,13 +243,18 @@ class TimeTracking {
           if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed<br/>"; }
               
           $resolvedList[] = $row->id;
-          $totalElapsed += $issue->elapsed;
+          
+          if ($withSupport) {
+            $totalElapsed += $issue->elapsed;
+          } else {
+            $totalElapsed += $issue->elapsed - $issue->getElapsed($job_support);
+          }
                  
           if ("ETA" == $balanceType) {
-            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$ETA_balance[$row->eta]." = ".($productivityRate + $ETA_balance[$row->eta])."<br/>";}
+            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$ETA_balance[$row->eta]." = ".($productivityRate + $ETA_balance[$row->eta])."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
             $productivityRate += $ETA_balance[$row->eta];
           } else {
-            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ($issue->effortEstim + $issue->effortAdd) = ".($productivityRate + $issue->effortEstim + $issue->effortAdd)."<br/>";}
+            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ($issue->effortEstim + $issue->effortAdd) = ".($productivityRate + $issue->effortEstim + $issue->effortAdd)."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
             $productivityRate += $issue->effortEstim + $issue->effortAdd;
           }
         }

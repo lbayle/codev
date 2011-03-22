@@ -50,5 +50,10 @@ class Jobs {
    public function getJobType($id) {
       return $this->jobList[$id]->type;
    }
+
+   public function isSupport($id) {
+   	global $job_support;
+      return ($this->id == $job_support);
+   }
 }
 ?>

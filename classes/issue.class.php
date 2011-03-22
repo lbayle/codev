@@ -20,27 +20,28 @@ class Status {
 
 class Issue {
    var $bugId;      // mantis id
-   var $tcId;       // TelelogicChange id
    var $projectId;  // Capu, peterpan, etc.
    var $categoryId;
    var $eta;
    var $summary;
    var $dateSubmission;
-   var $remaining;    // RAE 
-   var $elapsed;
-   var $effortEstim;  // BI
-   var $effortAdd;    // BS
    var $currentStatus;
-   var $release;      // DEPRECATED Product Version
-   var $deadLine;
-   var $deliveryDate;
-   var $deliveryId; // FDL
    var $priority;
    var $handlerId;
    var $resolution;
    var $version;  // Product Version
+
+   // -- CoDev custom fields
+   var $tcId;         // TelelogicChange id
+   var $remaining;    // RAE 
+   var $effortEstim;  // BI
+   var $effortAdd;    // BS
+   var $deadLine;
+   var $deliveryDate;
+   var $deliveryId;   // TODO FDL (FDJ specific) 
    
-   
+   // -- computed fields
+   var $elapsed;    // total time spent on this issue
    var $statusList; // array of statusInfo elements
 
    // ----------------------------------------------
@@ -53,7 +54,6 @@ class Issue {
    public function initialize() {
    	
    	global $tcCustomField;
-   	global $releaseCustomField; // DEPRECATED
    	global $estimEffortCustomField;
    	global $remainingCustomField;
    	global $addEffortCustomField;
@@ -86,7 +86,6 @@ class Issue {
       {
          switch ($row->field_id) {
             case $tcCustomField:          $this->tcId        = $row->value; break;
-            case $releaseCustomField:     $this->release     = $row->value; break; // DEPRECATED
             case $estimEffortCustomField: $this->effortEstim = $row->value; break;
             case $remainingCustomField:   $this->remaining   = $row->value; break;
             case $addEffortCustomField:   $this->effortAdd   = $row->value; break;
@@ -207,12 +206,22 @@ class Issue {
       return $resolutionNames[$this->resolution];
    }
 
+   
    // ----------------------------------------------
-   // Get elapsed from TimeTracking
-   public function getElapsed() {
+   /**
+    * Get elapsed from TimeTracking
+    * @param unknown_type $job_id   if no category specified, then all category.
+    */
+   public function getElapsed($job_id = NULL) {  // TODO $doRefresh = false
+   	
       $elapsed = 0;
 
       $query     = "SELECT duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId";
+      
+      if (isset($job_id)) {
+         $query .= " AND jobid = $job_id";
+      }
+            
       $result    = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
@@ -221,10 +230,14 @@ class Issue {
 
       return $elapsed;
    }
-
+   
+   
+   
+   
    // ----------------------------------------------
    // Returns how many time has already been spent on this task
    // REM: if no category specified, then all category.
+/*   
    public function getElapsed2($startTimestamp, $endTimestamp, $job_id = NULL) {
       $elapsed = 0;
 
@@ -242,7 +255,7 @@ class Issue {
 
       return $elapsed;
    }
-
+*/
    // ----------------------------------------------
    // returns an HTML color string "#ff6a6e;" depending on pos/neg drift and current status.
    // returns NULL if $drift=0
