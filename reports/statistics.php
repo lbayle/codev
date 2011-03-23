@@ -143,22 +143,23 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    
 }
 
-function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displayNoSupport = false) {
+function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displayWithSupport = false) {
    
    $start_day = 1; 
 	$now = time();
    
 	foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
 	
-         $driftStats_new = $timeTracking->getResolvedDriftStats();
-         if ($displayNoSupport) {
-         	$driftStats_noSupport = $timeTracking->getResolvedDriftStats(false);
+         // REM: the 'normal' drifts do NOT include support
+		   $driftStats_new = $timeTracking->getResolvedDriftStats(false);
+         if ($displayWithSupport) {
+         	$driftStats_withSupport = $timeTracking->getResolvedDriftStats(true);
          }
          
          $val1[] = $driftStats_new["totalDriftETA"] ? $driftStats_new["totalDriftETA"] : 0;
          $val2[] = $driftStats_new["totalDrift"] ? $driftStats_new["totalDrift"] : 0;
-         if ($displayNoSupport) {
-            $val3[] = $driftStats_noSupport["totalDrift"] ? $driftStats_noSupport["totalDrift"] : 0;;
+         if ($displayWithSupport) {
+            $val3[] = $driftStats_withSupport["totalDrift"] ? $driftStats_withSupport["totalDrift"] : 0;;
          }
          $bottomLabel[] = date("M y", $startTimestamp);
          
@@ -170,15 +171,15 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    
    $strVal1 = "leg1=ETA&x1=".implode(':', $val1);
    $strVal2 = "leg2=EffortEstim&x2=".implode(':', $val2);
-   if ($displayNoSupport) {
-      $strVal3 = "leg3=No Support&x3=".implode(':', $val3);
+   if ($displayWithSupport) {
+      $strVal3 = "leg3=With Support&x3=".implode(':', $val3);
    }
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
    
    echo "<div>\n";
    echo "<h2>".T_("Drifts")."</h2>\n";
    echo "<div class=\"float\">\n";
-   if ($displayNoSupport) {
+   if ($displayWithSupport) {
       echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3'/>";
    } else {
       echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
@@ -191,8 +192,8 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    echo "<th>Date</th>\n";
    echo "<th title='".T_("")."'>".T_("ETA")."</th>\n";
    echo "<th title='".T_("")."'>".T_("EffortEstim")."</th>\n";
-   if ($displayNoSupport) {
-      echo "<th title='".T_("")."'>".T_("No Support")."</th>\n";
+   if ($displayWithSupport) {
+      echo "<th title='".T_("")."'>".T_("With support")."</th>\n";
    }
    echo "</tr>\n";
    $i = 0;
@@ -201,7 +202,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
       echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".$val1[$i]."</td>\n";
       echo "<td class=\"right\">".$val2[$i]."</td>\n";
-      if ($displayNoSupport) {
+      if ($displayWithSupport) {
          echo "<td class=\"right\">".$val3[$i]."</td>\n";
       }
       echo "</tr>\n";
@@ -220,9 +221,8 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $dis
    
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
    
-         $driftStats_new = $timeTracking->getResolvedDriftStats();
-         
-         $val1[] = $timeTracking->getProductivityRate("ETA");
+         // REM: the 'normal' ProductivityRate DO include support
+   	   $val1[] = $timeTracking->getProductivityRate("ETA");
          $val2[] = $timeTracking->getProductivityRate("EffortEstim");
          if ($displayNoSupport) {
             $val3[] = $timeTracking->getProductivityRateNoSupport("EffortEstim");
