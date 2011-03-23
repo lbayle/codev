@@ -298,6 +298,9 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
 
 
 // ================ MAIN =================
+
+global $job_support;
+
 //$year = date('Y');
 $year = isset($_POST[year]) ? $_POST[year] : date('Y');
 
@@ -358,14 +361,18 @@ if ($_POST[nextForm] == "addTrackForm") {
     // save to DB
     TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
 
-    // decrease remaining (only if 'remaining' already has a value)
-    $issue = new Issue ($bugid);
-    if (NULL != $issue->remaining) {
-      $remaining = $issue->remaining - $duration;
-      if ($remaining < 0) { $remaining = 0; }
-      $issue->setRemaining($remaining);
+    
+    // do NOT decrease remaining if job is job_support !
+    if ($job != $job_support) {
+      // decrease remaining (only if 'remaining' already has a value)
+      $issue = new Issue ($bugid);
+      if (NULL != $issue->remaining) {
+         $remaining = $issue->remaining - $duration;
+         if ($remaining < 0) { $remaining = 0; }
+         $issue->setRemaining($remaining);
+      }
     }
-
+    
     // pre-set form fields
     $defaultDate  = $formatedDate;
     $defaultBugid = $bugid;
@@ -374,19 +381,24 @@ if ($_POST[nextForm] == "addTrackForm") {
     $trackid  = $_POST[trackid];
 
     // increase remaining (only if 'remaining' already has a value)
-    $query = "SELECT bugid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
+    $query = "SELECT bugid, jobid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
     $result = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     { // REM: only one line in result, while should be optimized
       $bugid = $row->bugid;
       $duration = $row->duration;
+      $job = $row->jobid;
     }
+    
     $issue = new Issue ($bugid);
-    if (NULL != $issue->remaining) {
-      $remaining = $issue->remaining + $duration;
-      $issue->setRemaining($remaining);
+    // do NOT decrease remaining if job is job_support !
+    if ($job != $job_support) {
+      if (NULL != $issue->remaining) {
+         $remaining = $issue->remaining + $duration;
+         $issue->setRemaining($remaining);
+      }
     }
-   
+    
     // delete track
     $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
     mysql_query($query) or die("Query failed: $query");
