@@ -266,7 +266,7 @@ class Issue {
     global $status_closed;
    	
      if (!isset($drift)) {
-     	   $drift = $this->getDrift();
+     	   $drift = $this->getDrift(false);
      }
     
         if (0 < $drift) {

@@ -121,7 +121,7 @@ class IssueTracking {
         echo "<td>".$tmpIssue->remaining."</td>\n";
         echo "<td>".$tmpIssue->getCurrentStatusName()."</td>\n";
         echo "<td>".$tmpIssue->version."</td>\n";
-        $derive = $tmpIssue->getDrift();
+        $derive = $tmpIssue->getDrift(false);
         echo "<td style='background-color: ".$tmpIssue->getDriftColor($derive)."'>".($derive)."</td>\n";
         echo "</tr>\n";
       }

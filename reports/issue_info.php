@@ -151,6 +151,7 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
 function displayIssueGeneralInfo($issue) {      
   
    global $ETA_balance;
+	global $job_support;
 	
   echo "<br/>\n";
   echo "<br/>\n";
@@ -171,7 +172,7 @@ function displayIssueGeneralInfo($issue) {
   echo "<tr>\n";
   echo "<td>".T_("Elapsed")."</td>\n";
   echo "<td></td>\n";
-  echo "<td>".$issue->elapsed."</td>\n";
+  echo "<td title='".T_("Support NOT included")."'>".($issue->elapsed - $issue->getElapsed($job_support))."</td>\n";
   echo "</tr>\n";
    
   echo "<tr>\n";
@@ -182,12 +183,19 @@ function displayIssueGeneralInfo($issue) {
    
   echo "<tr>\n";
   echo "<td>".T_("Drift")."</td>\n";
+  $deriveETA = $issue->getDriftETA(false);
+  $derive = $issue->getDrift(false);
+  echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".$deriveETA."</td>\n";
+  echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
+  echo "</tr>\n";
+   
+  echo "<tr>\n";
+  echo "<td>".T_("Drift +Support")."</td>\n";
   $deriveETA = $issue->getDriftETA();
   $derive = $issue->getDrift();
   echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".$deriveETA."</td>\n";
   echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
   echo "</tr>\n";
-   
   echo "</table>\n";      
 }
 
