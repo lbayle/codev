@@ -287,7 +287,7 @@ function displayResolvedDriftStats ($timeTracking) {
   global $status_resolved;
   global $status_closed;
          
-  $driftStats_new = $timeTracking->getResolvedDriftStats();
+  $driftStats_new = $timeTracking->getResolvedDriftStats(false); // false: do not include job_support
   
   
   echo "<table>\n";

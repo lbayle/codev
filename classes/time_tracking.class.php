@@ -177,8 +177,8 @@ class TimeTracking {
     return $this->getDriftStatistics($this->prodProjectList);
   }
   
-  public function getResolvedDriftStats() {
-    return $this->getResolvedDriftStatistics($this->prodProjectList);
+  public function getResolvedDriftStats($withSupport = true) {
+    return $this->getResolvedDriftStatistics($this->prodProjectList, $withSupport);
   }
   
    
@@ -281,7 +281,7 @@ class TimeTracking {
     // -------------------------------------------------
   // tous les bugs de la periode qui sont passes a resolved
   // qui n'ont pas ere reouverts dans cette meme periode
-  private function getResolvedDriftStatistics($projects) {          
+  private function getResolvedDriftStatistics($projects, $withSupport = true) {          
     global $status_resolved;
     global $status_closed;
 
@@ -331,7 +331,7 @@ class TimeTracking {
         if (isset($_GET['debug'])) { echo "TimeTracking->getResolvedDriftStatistics() REOPENED : bugid = $issue->bugId<br/>"; }
       } 
     }
-    return $this->getIssuesDriftStats($issueList);
+    return $this->getIssuesDriftStats($issueList, $withSupport);
   }
   
   
@@ -339,7 +339,7 @@ class TimeTracking {
   
   // -------------------------------------------------
   // Drift Stats on a given Issue.class List
-  public function getIssuesDriftStats($issueList) {
+  public function getIssuesDriftStats($issueList, $withSupport = true) {
   	
     global $statusNames;
     
@@ -375,9 +375,9 @@ class TimeTracking {
     foreach ($issueList as $issue) {
     	
           // -- compute total drift
-          $issueDrift     = $issue->getDrift();
+          $issueDrift     = $issue->getDrift($withSupport);
           $derive        += $issueDrift;
-          $issueDriftETA  = $issue->getDriftETA();
+          $issueDriftETA  = $issue->getDriftETA($withSupport);
           $deriveETA     += $issueDriftETA;
 
           if (isset($_GET['debug'])) { echo "TimeTracking->getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA<br/>"; }

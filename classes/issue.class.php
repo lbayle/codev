@@ -302,18 +302,25 @@ class Issue {
    // if bug is Resolved/Closed, then remaining is not used.
 
    // REM if EffortEstim = 0 then Drift = 0
-   public function getDrift() {
+   public function getDrift($withSupport = true) {
       global $status_resolved;
       global $status_closed;
+      global $job_support;
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
+      
+      if ($withSupport) {
+      	$myElapsed = $this->elapsed;
+      } else {
+      	$myElapsed = $this->elapsed - $this->getElapsed($job_support);
+      }
       
       if (0 == $totalEstim) { return 0; }
 
       if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
-         $derive = $this->elapsed - $totalEstim;
+         $derive = $myElapsed - $totalEstim;
       } else {
-         $derive = $this->elapsed - ($totalEstim - $this->remaining);
+         $derive = $myElapsed - ($totalEstim - $this->remaining);
       }
 
       if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)<br/>";}
@@ -329,17 +336,25 @@ class Issue {
    // if bug is Resolved/Closed, then remaining is not used.
    
    // REM if ETA = 0 then Drift = 0
-   public function getDriftETA() {
+   public function getDriftETA($withSupport = true) {
       global $status_resolved;
       global $status_closed;
       global $ETA_balance;
-
+      global $job_support;
+      
       #if (0 == $this->eta) { return 0; }
 
-      if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
-         $derive = $this->elapsed - $ETA_balance[$this->eta];
+      if ($withSupport) {
+         $myElapsed = $this->elapsed;
       } else {
-         $derive = $this->elapsed - ($ETA_balance[$this->eta] - $this->remaining);
+         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
+      }
+      
+      
+      if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
+         $derive = $myElapsed - $ETA_balance[$this->eta];
+      } else {
+         $derive = $myElapsed - ($ETA_balance[$this->eta] - $this->remaining);
       }
 
       if (isset($_GET['debug'])) {echo "issue->getDriftETA(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$ETA_balance[$this->eta].")<br/>";}
