@@ -194,7 +194,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height) {
    
 }
 
-function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
+function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $displayNoSupport = false) {
    
    $start_day = 1; 
    $now = time();
@@ -205,6 +205,9 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
          
          $val1[] = $timeTracking->getProductivityRate("ETA");
          $val2[] = $timeTracking->getProductivityRate("EffortEstim");
+         if ($displayNoSupport) {
+            $val3[] = $timeTracking->getProductivityRateNoSupport("EffortEstim");
+         }
          $bottomLabel[] = date("M y", $startTimestamp);
          
          #echo "DEBUG: ETA=".$driftStats_new['totalDriftETA']." Eff=".$driftStats_new['totalDrift']." date=".date('M y', $startTimestamp)."<br/>\n";
@@ -215,6 +218,9 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
    
    $strVal1 = "leg1=Prod Rate ETA&x1=".implode(':', $val1);
    $strVal2 = "leg2=Prod Rate&x2=".implode(':', $val2);
+   if ($displayNoSupport) {
+      $strVal3 = "leg3=No Support&x3=".implode(':', $val3);
+   }
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
    
    echo "<div>\n";
@@ -225,8 +231,12 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
    echo T_("")."<br/>\n";
    echo "</span>\n";
    echo "<br/>\n";
-*/   
-   echo "<img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+*/  
+   if ($displayNoSupport) { 
+      echo "<img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3'/>";
+   } else {
+      echo "<img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   }
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
@@ -235,6 +245,9 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
    echo "<th>Date</th>\n";
    echo "<th title='".T_("")."'>".T_("Prod Rate ETA")."</th>\n";
    echo "<th title='".T_("")."'>".T_("Prod Rate")."</th>\n";
+   if ($displayNoSupport) {
+      echo "<th title='".T_("")."'>".T_("Prod Rate<br/>NoSupport")."</th>\n";
+   }
    echo "</tr>\n";
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
@@ -242,6 +255,9 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height) {
       echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".number_format($val1[$i], 2)."</td>\n";
       echo "<td class=\"right\">".number_format($val2[$i], 2)."</td>\n";
+      if ($displayNoSupport) { 
+         echo "<td class=\"right\">".number_format($val3[$i], 2)."</td>\n";
+      }
       echo "</tr>\n";
       $i++;
    }
@@ -344,6 +360,10 @@ $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
 
+// if 'support' is set in the URL, display graphs for 'with/without Support'
+$displayNoSupport  = isset($_GET['support']) ? true : false;
+$originPage = isset($_GET['support']) ? "statistics.php?support" : "statistics.php"; 
+
 // Connect DB
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die(T_("Could not connect to database"));
 mysql_select_db($db_mantis_database) or die("Could not select database");
@@ -372,7 +392,7 @@ if (0 == count($teamList)) {
 } else {
 
    // ----- selection Form
-   setTeamAndStartSelectionForm("statistics.php", $teamid, $teamList, $default_year, $start_year);
+   setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $default_year, $start_year);
 
    
    if ("displayStats" == $action) {
@@ -421,7 +441,7 @@ if (0 == count($teamList)) {
          echo "<hr/>\n";
          echo "<br/>\n";
          echo "<a name='tagProductivityRate'></a>\n";
-         displayProductivityRateGraph ($timeTrackingTable, 800, 300);
+         displayProductivityRateGraph ($timeTrackingTable, 800, 300, $displayNoSupport);
 
          echo "<div class=\"spacer\"> </div>\n";
          

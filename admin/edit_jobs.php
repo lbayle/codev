@@ -352,6 +352,8 @@ echo "<br/>";
    } elseif ($_POST[action] == "deleteJob") {
       $job_id = $_POST[job_id];
    	
+      // TODO delete Support job not allowed
+      
       $query = "DELETE FROM `codev_project_job_table` WHERE job_id = $job_id;";
       mysql_query($query) or die("Query failed: $query");
       
