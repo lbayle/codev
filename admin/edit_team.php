@@ -281,7 +281,7 @@ function displayTeamMemberTuples($teamid) {
    echo "<th>".T_("Name")."</th>\n";
    echo "<th title='".T_("Arrival date in the team")."'>".T_("Arrival Date")."</th>\n";
    echo "<th title='".T_("Departure date from the team")."'>".T_("Departure Date")."</th>\n";
-   echo "<th>".T_("Type")."</th>\n";
+   echo "<th>".T_("Role")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT codev_team_user_table.id, codev_team_user_table.user_id, codev_team_user_table.team_id, codev_team_user_table.access_level, ".
@@ -377,7 +377,7 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
    // -------
    echo "<tr>\n";
    echo "   <td>\n";
-   echo "Type: \n";
+   echo T_("Role").": \n";
    echo "   </td>\n";
    echo "   <td>\n";
    echo "<select  style='width:100%' name='member_access'>\n";
