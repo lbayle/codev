@@ -50,11 +50,11 @@ include_once "jobs.class.php";
 include_once "holidays.class.php";
 
 // ---------------------------------------------------------------
-function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
+function displayIssueSelectionForm($originPage, $user1, $defaultBugid, $defaultProjectid) {
    
    // Display form
    echo "<div style='text-align: center;'>";
-   echo "<form name='form1' method='post' Action='issue_info.php'>\n";
+   echo "<form name='form1' method='post' Action='$originPage'>\n";
 
    $project1 = new Project($defaultProjectid);
    
@@ -148,7 +148,7 @@ function displayIssueSelectionForm($user1, $defaultBugid, $defaultProjectid) {
 
 
 // ---------------------------------------------------------------
-function displayIssueGeneralInfo($issue) {      
+function displayIssueGeneralInfo($issue, $displaySupport=false ) {      
   
    global $ETA_balance;
 	global $job_support;
@@ -189,14 +189,17 @@ function displayIssueGeneralInfo($issue) {
   echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
   echo "</tr>\n";
    
-  echo "<tr>\n";
-  echo "<td>".T_("Drift +Support")."</td>\n";
-  $deriveETA = $issue->getDriftETA();
-  $derive = $issue->getDrift();
-  echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".$deriveETA."</td>\n";
-  echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
-  echo "</tr>\n";
-  echo "</table>\n";      
+  if ($displaySupport) {
+      echo "<tr>\n";
+      echo "<td>".T_("Drift +Support")."</td>\n";
+      $deriveETA = $issue->getDriftETA();
+      $derive = $issue->getDrift();
+      echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".$deriveETA."</td>\n";
+      echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
+      echo "</tr>\n";
+  }      
+  echo "</table>\n";
+  
 }
 
 // ---------------------------------------------------------------
@@ -313,6 +316,11 @@ function displayMonth($month, $year, $issue) {
 // ================ MAIN =================
 $year = date('Y');
 
+// if 'support' is set in the URL, display graphs for 'with/without Support'
+$displaySupport  = isset($_GET['support']) ? true : false;
+$originPage = isset($_GET['support']) ? "issue_info.php?support" : "issue_info.php"; 
+
+
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die("Could not connect database : ".mysql_error());
 mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql_error());
 
@@ -343,7 +351,7 @@ if (0 == count($teamList)) {
 
 } else {
 
-	displayIssueSelectionForm($user, $bug_id, $defaultProjectid);
+	displayIssueSelectionForm($originPage, $user, $bug_id, $defaultProjectid);
 	
 	if ("displayBug" == $action) {
 	  $issue = new Issue ($bug_id);
@@ -361,7 +369,7 @@ if (0 == count($teamList)) {
      echo "<br/>";
      echo "<br/>";
      echo "<br/>";
-     displayIssueGeneralInfo($issue);
+     displayIssueGeneralInfo($issue, $displaySupport);
 	  echo "<br/><br/>\n";
 	  
 	  displayJobDetails($issue);
