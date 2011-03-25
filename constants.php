@@ -8,7 +8,7 @@
    include_once "tools.php";
 
 
-   $codevVersion = "v0.99.7 (25 Feb 2011)";
+   $codevVersion = "v0.99.8 (25 Mar 2011)";
 
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management",
@@ -17,7 +17,8 @@
                                 "v0.99.4" => "(13 Jan  2011) - ConsistencyCheck",
                                 "v0.99.5" => "(21 Jan  2011) - Update directory structure & Apache config",
                                 "v0.99.6" => "(16 Feb  2011) - i18n (internationalization)",
-                                "v0.99.7" => "(25 Feb  2011) - Graph & Statistics"
+                                "v0.99.7" => "(25 Feb  2011) - Graph & Statistics",
+                                "v0.99.8" => "(25 Mar  2011) - Add Job and specificities for 'support' + createTeam enhancements"
                                 );
    
    $codevReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
