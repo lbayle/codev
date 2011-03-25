@@ -2,14 +2,13 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: reports/statistics.php:193 reports/statistics.php:194
-#: reports/statistics.php:196 reports/statistics.php:265
-#: reports/statistics.php:266 reports/statistics.php:268
-#: reports/statistics.php:324 reports/statistics.php:325
+#: reports/statistics.php:199 reports/statistics.php:271
+#: reports/statistics.php:272 reports/statistics.php:274
+#: reports/statistics.php:330 reports/statistics.php:331
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-24 16:02+0100\n"
+"POT-Creation-Date: 2011-03-25 10:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,7 +144,7 @@ msgstr "SuiviOp"
 #: admin/create_team.php:257 admin/edit_holidays.php:155
 #: admin/edit_jobs.php:300 admin/edit_team.php:574 index.php:141 login.php:39
 #: reports/mantis_reports.php:90 reports/productivity_report.php:614
-#: reports/proj_management_report.php:499 reports/statistics.php:387
+#: reports/proj_management_report.php:499 reports/statistics.php:393
 #: timetracking/holidays_report.php:263 timetracking/time_tracking.php:308
 #: timetracking/week_activity_report.php:269 tools/check.php:33
 msgid "Could not connect to database"
@@ -453,7 +452,7 @@ msgstr "Date R&eacute;ception"
 
 #: classes/issue_tracking.class.php:101 reports/issue_info.php:162
 #: reports/productivity_report.php:379 reports/proj_management_report.php:140
-#: reports/statistics.php:193
+#: reports/statistics.php:199
 msgid "ETA"
 msgstr "ETA"
 
@@ -484,6 +483,7 @@ msgstr "Version Produit"
 
 #: classes/issue_tracking.class.php:107 reports/issue_info.php:185
 #: reports/productivity_report.php:304 reports/productivity_report.php:386
+#: reports/statistics.php:183
 msgid "Drift"
 msgstr "D&eacute;rive"
 
@@ -645,7 +645,7 @@ msgstr ""
 "pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs "
 "seuls)"
 
-#: reports/productivity_report.php:227 reports/statistics.php:314
+#: reports/productivity_report.php:227 reports/statistics.php:319
 msgid "Efficiency Rate"
 msgstr "Taux d'efficacit&eacute;"
 
@@ -696,9 +696,9 @@ msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
 msgid "Prod Rate NoSupport ETA"
 msgstr "Taux de prod (sans support) ETA"
 
-#: reports/productivity_report.php:259 reports/statistics.php:246
-#: reports/statistics.php:250 reports/statistics.php:262
-#: reports/statistics.php:428
+#: reports/productivity_report.php:259 reports/statistics.php:252
+#: reports/statistics.php:255 reports/statistics.php:268
+#: reports/statistics.php:434
 msgid "Productivity Rate"
 msgstr "Taux de productivit&eacute;"
 
@@ -914,7 +914,7 @@ msgstr "Jeudi"
 msgid "Friday"
 msgstr "Vendredi"
 
-#: reports/proj_management_report.php:516 reports/statistics.php:408
+#: reports/proj_management_report.php:516 reports/statistics.php:414
 #: timetracking/week_activity_report.php:282
 msgid "Sorry, you do NOT have access to this page."
 msgstr "d&eacute;sol&eacute;, vous n'avez pas acces &agrave; cette page."
@@ -956,7 +956,7 @@ msgstr "Statistiques"
 msgid "Start Year"
 msgstr "Date D&eacute;but"
 
-#: reports/statistics.php:118 reports/statistics.php:426
+#: reports/statistics.php:118 reports/statistics.php:432
 msgid "Submitted / Resolved Issues"
 msgstr "Fiches Re&ccedil;ues / R&eacute;solues"
 
@@ -976,56 +976,61 @@ msgstr ""
 msgid "Nb Resolved"
 msgstr "Nb R&eacute;solues"
 
-#: reports/statistics.php:180 reports/statistics.php:427
+#: reports/statistics.php:180 reports/statistics.php:433
 msgid "Drifts"
 msgstr "D&eacute;rives"
 
-#: reports/statistics.php:194
+#: reports/statistics.php:183
+msgid "Nbre de jours de depassement par rapport au budjet initial"
+msgstr "Nbre de jours de d&eacute;passement par rapport au budjet initial"
+
+#: reports/statistics.php:200
 msgid "EffortEstim"
 msgstr "EffortEstim"
 
-#: reports/statistics.php:196
+#: reports/statistics.php:202
 msgid "With support"
 msgstr "Support inclu"
 
-#: reports/statistics.php:250
+#: reports/statistics.php:255
 msgid "Rapport entre le budjet initial et le temps consome"
-msgstr "Rapport entre le budjet initial et le temps consomm&eacute;"
+msgstr ""
+"Rapport entre le budjet initial et le temps consomm&eacute; sur les fiches"
 
-#: reports/statistics.php:265
+#: reports/statistics.php:271
 msgid "Prod Rate ETA"
 msgstr "Taux de prod ETA"
 
-#: reports/statistics.php:266
+#: reports/statistics.php:272
 msgid "Prod Rate"
 msgstr "Taux de prod"
 
-#: reports/statistics.php:268
+#: reports/statistics.php:274
 msgid "No Support"
 msgstr "Sans Support"
 
-#: reports/statistics.php:311
+#: reports/statistics.php:317
 msgid "Efficiency and System Disponibility"
 msgstr "Taux d'efficacit&eacute; et Disponibilit&eacute; syst&egrave;me"
 
-#: reports/statistics.php:314
+#: reports/statistics.php:319
 msgid ""
 "Exclude side tasks to get the percent of time spent working on the projects"
-msgstr "Rapport entre le temps passé sur les fiches projet et le temps total engag&eacute; (SuiviOp inclu)."
+msgstr "Pourcentage de temps passé sur les fiches projet par rapport au temps total consomm&eacute; (SuiviOp inclu)."
 
-#: reports/statistics.php:321
+#: reports/statistics.php:327
 msgid "Sys Disp."
 msgstr "Disp Sys"
 
-#: reports/statistics.php:324
+#: reports/statistics.php:330
 msgid "Efficiency"
 msgstr "Taux d'efficacit&eacute;"
 
-#: reports/statistics.php:325
+#: reports/statistics.php:331
 msgid "Sys Disp"
 msgstr "Disp Sys"
 
-#: reports/statistics.php:429
+#: reports/statistics.php:435
 msgid "Efficiency - System Disponibility"
 msgstr "Taux d'efficacit&eacute; - Disponibilit&eacute; syst&egrave;me"
 

@@ -178,6 +178,12 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    
    echo "<div>\n";
    echo "<h2>".T_("Drifts")."</h2>\n";
+   
+   echo "<span class='help_font'>\n";
+   echo T_("Drift").": ".T_("Nbre de jours de depassement par rapport au budjet initial")."<br/>\n";
+   echo "</span>\n";
+   echo "<br/>\n";
+   
    echo "<div class=\"float\">\n";
    if ($displayWithSupport) {
       echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3'/>";
@@ -191,9 +197,9 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    echo "<tr>\n";
    echo "<th>Date</th>\n";
    echo "<th title='".T_("")."'>".T_("ETA")."</th>\n";
-   echo "<th title='".T_("")."'>".T_("EffortEstim")."</th>\n";
+   echo "<th title='"."BI + BS"."'>".T_("EffortEstim")."</th>\n";
    if ($displayWithSupport) {
-      echo "<th title='".T_("")."'>".T_("With support")."</th>\n";
+      echo "<th title='"."BI + BS"."'>".T_("With support")."</th>\n";
    }
    echo "</tr>\n";
    $i = 0;
@@ -244,12 +250,12 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $dis
    
    echo "<div>\n";
    echo "<h2>".T_("Productivity Rate")."</h2>\n";
-   echo "<div class=\"float\">\n";
-
+   
    echo "<span class='help_font'>\n";
    echo T_("Productivity Rate").": ".T_("Rapport entre le budjet initial et le temps consome")."<br/>\n";
       echo "</span>\n";
    echo "<br/>\n";
+   echo "<div class=\"float\">\n";
   
    if ($displayNoSupport) { 
       echo "<img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3'/>";
@@ -309,11 +315,11 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
    
    echo "<div>\n";
    echo "<h2>".T_("Efficiency and System Disponibility")."</h2>\n";
-   echo "<div class=\"float\">\n";
    echo "<span class='help_font'>\n";
    echo T_("Efficiency Rate").": ".T_("Exclude side tasks to get the percent of time spent working on the projects")."<br/>\n";
    echo "</span>\n";
    echo "<br/>\n";
+   echo "<div class=\"float\">\n";
    echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
    echo "</div>\n";
    echo "<div class=\"float\">\n";
