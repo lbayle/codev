@@ -203,7 +203,7 @@ function displayProjectActivityReport($timeTracking) {
          $issue = new Issue($bugid);
          $totalTime = 0;
          echo "<tr>\n";
-         echo "<td>".mantisIssueURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
+         echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
 
          foreach($jobList as $jobId => $jobName) {
