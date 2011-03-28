@@ -126,8 +126,8 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    echo "<caption title='".("Submitted / Resolved")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
-   echo "<th title='".T_("Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL")."'>".T_("Nb submissions")."</th>\n";
-   echo "<th title='".T_("Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes")."'>".T_("Nb Resolved")."</th>\n";
+   echo "<th title='".T_("Nb of submitted tasks EXCEPT SideTasks and FDL")."'>".T_("Nb submissions")."</th>\n";
+   echo "<th title='".T_("Nb of resolved tasks EXCEPT SideTasks and reopened tasks")."'>".T_("Nb Resolved")."</th>\n";
    echo "</tr>\n";
    foreach ($submitted as $date => $val) {
       echo "<tr>\n";
@@ -180,7 +180,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    echo "<h2>".T_("Drifts")."</h2>\n";
    
    echo "<span class='help_font'>\n";
-   echo T_("Drift").": ".T_("Nbre de jours de depassement par rapport au budjet initial")."<br/>\n";
+   echo T_("Drift").": ".T_("Overflow day quantity")."<br/>\n";
    echo "</span>\n";
    echo "<br/>\n";
    
@@ -252,7 +252,7 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $dis
    echo "<h2>".T_("Productivity Rate")."</h2>\n";
    
    echo "<span class='help_font'>\n";
-   echo T_("Productivity Rate").": ".T_("Rapport entre le budjet initial et le temps consome")."<br/>\n";
+   echo T_("Productivity Rate").": ".T_("Ratio between the estimated time and the elapsed time")."<br/>\n";
       echo "</span>\n";
    echo "<br/>\n";
    echo "<div class=\"float\">\n";

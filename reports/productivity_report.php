@@ -305,8 +305,9 @@ function displayResolvedDriftStats ($timeTracking) {
   echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Overflow day quantity")."<br/>".
-            T_("- Computed on task Resolved/Closed in the given period")."<br/>".
-            T_("- Reopened tasks are not taken into account")."<br/>\n".
+            "- ".T_("Computed on task Resolved/Closed in the given period")."<br/>".
+            "- ".T_("Reopened tasks are not taken into account")."<br/>\n".
+            "- ".T_("Support time is not taken into account")."<br/>\n".
             "- ".T_("If < 0 then ahead on planning.")."</td>\n";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
