@@ -514,15 +514,15 @@ function addTeamProjectForm($teamid, $originPage) {
    
    echo "<form id='addTeamProjectForm' name='addTeamProjectForm' method='post' Action='$originPage'>\n";
 
-   echo "Project: <select name='f_projectid'>\n";
-   echo "<option value='0'></option>\n";
 
    $query     = "SELECT DISTINCT mantis_project_table.id, mantis_project_table.name, mantis_project_table.description ".
-                "FROM `mantis_project_table`, `codev_team_project_table` ".
-                "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-                "AND mantis_project_table.id NOT IN ($formatedCurProjList) ".
+                "FROM `mantis_project_table` ".
+                "WHERE mantis_project_table.id NOT IN ($formatedCurProjList) ".
                 "ORDER BY name";
    $result    = mysql_query($query) or die("Query failed: $query");
+   
+   echo T_("Project").": <select name='f_projectid'>\n";
+   echo "<option value='0'></option>\n";
    while($row = mysql_fetch_object($result))
    {
       echo "   <option value='".$row->id."'>".$row->name."</option>\n";
