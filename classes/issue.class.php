@@ -361,6 +361,34 @@ class Issue {
       return $derive;
    }
 
+   
+   // ----------------------------------------------
+   /**
+    * check if the Issue has been delivered in time (before the  DeadLine)
+    * formula: (DeadLine - DeliveryDate)
+
+    * 
+    * @return int nb days drift
+    *         if <= 0, Issue delivered in time
+    *         if  > 0, Issue NOT delivered in time !
+    *         OR "Error" string if could not be determinated. REM: check with is_string($timeDrift)
+    */
+   public function getTimeDrift() {
+      
+   	if ((NULL != $this->deadLine) && (NULL != $this->deliveryDate)) {
+   		$timeDrift = $this->deliveryDate - $this->deadLine;
+   		
+   		// convert seconds to days (24 * 60 * 60) = 86400
+   		$timeDrift /=  86400 ;
+         #echo "DEBUG: TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift<br/>";
+   	} else {
+         $timeDrift = "Error";
+   		echo "WARNING: could not determinate TimeDrift for issue $this->bugId.<br/>";
+   	}
+   	return  $timeDrift;
+   }
+   
+   
    // ----------------------------------------------
    public function getTimeTracks($user_id = NULL) {
       $timeTracks = array();

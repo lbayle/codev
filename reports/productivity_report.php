@@ -287,8 +287,7 @@ function displayResolvedDriftStats ($timeTracking) {
   global $status_resolved;
   global $status_closed;
          
-  $driftStats_new = $timeTracking->getResolvedDriftStats(false); // false: do not include job_support
-  
+  $driftStats = $timeTracking->getResolvedDriftStats(false);
   
   echo "<table>\n";
   echo "<caption>".T_("Drift - Tasks resolved in the period")."</caption>\n";
@@ -302,8 +301,8 @@ function displayResolvedDriftStats ($timeTracking) {
 
   echo "<tr>\n";
   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("Drift")."</td>\n";
-  echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
-  echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
+  echo "<td title='elapsed - ETA'>".number_format($driftStats["totalDriftETA"], 2)."</td>\n";
+  echo "<td title='elapsed - EffortEstim'>".number_format($driftStats["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Overflow day quantity")."<br/>".
             "- ".T_("Computed on task Resolved/Closed in the given period")."<br/>".
             "- ".T_("Reopened tasks are not taken into account")."<br/>\n".
@@ -314,18 +313,18 @@ function displayResolvedDriftStats ($timeTracking) {
   
   echo "<tr>\n";
   echo "<td>".T_("Tasks in drift")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
-  echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftPosETA"]).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftPos"]).")</span></td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidPosList"]."</td>\n";
   echo "<td>".T_("drift")." > 1</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>".T_("Tasks in time")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
   if (isset($_GET['debug'])) {
-   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
+   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidEqualList"]."</td>\n";
   } else {
    echo "<td>".T_("Tasks delivered in time")."</td>\n";
   }
@@ -334,13 +333,49 @@ function displayResolvedDriftStats ($timeTracking) {
   
   echo "<tr>\n";
   echo "<td>".T_("Tasks ahead")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
-  echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftNegETA"]).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftNeg"]).")</span></td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidNegList"]."</td>\n";
   echo "<td>".T_("drift")." < -1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
 }
+
+
+// -----------------------------------------------
+// display TimeDrifts for Issues that have been marked as 'Resolved' durung the timestamp
+function displayTimeDriftStats ($timeTracking) {
+  global $status_resolved;
+  global $status_closed;
+         
+  $timeDriftStats = $timeTracking->getTimeDriftStats();  // all issues delivered within the period
+  
+  echo "<table>\n";
+  echo "<caption>".T_("TimeDrift - Tasks resolved in the period")."</caption>\n";
+  echo "<tr>\n";
+  echo "<th></th>\n";
+  echo "<th width='100'>".T_("Total")."</th>\n";
+  echo "<th>".T_("Description")."</th>\n";
+  echo "<th>".T_("Formula")."</th>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td>".T_("Tasks NOT delivered on time")."</td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($timeDriftStats["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($timeDriftStats["driftPos"]).")</span></td>\n";
+  echo "<td title='".T_("Tasks NOT delivered on time")."'>".$timeDriftStats["formatedBugidPosList"]."</td>\n";
+  echo "<td>DeliveryDate > DeadLine</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "<td>".T_("Tasks delivered on time")."</td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($timeDriftStats["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($timeDriftStats["driftNeg"]).")</span></td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$timeDriftStats["formatedBugidNegList"]."</td>\n";
+  echo "<td>DeliveryDate <= DeadLine</td>\n";
+  echo "</tr>\n";
+  echo "</table>\n";
+}
+
+
 
 
 
@@ -670,7 +705,11 @@ if (0 != $teamid) {
 	displayRates($timeTracking);
 	        
 	echo "<br/><br/>\n";
-	displayResolvedDriftStats($timeTracking);
+   displayTimeDriftStats ($timeTracking);
+   
+   echo "<br/><br/>\n";
+   displayResolvedDriftStats($timeTracking);
+	
 	
    echo "<br/><br/>\n";
    displayCurrentDriftStats($timeTracking);

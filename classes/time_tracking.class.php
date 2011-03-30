@@ -172,16 +172,7 @@ class TimeTracking {
     return $this->getProductivRate($this->prodProjectList, $balanceType, false);
   }
   
-  // ----------------------------------------------
-  public function getDriftStats() {
-    return $this->getDriftStatistics($this->prodProjectList);
-  }
   
-  public function getResolvedDriftStats($withSupport = true) {
-    return $this->getResolvedDriftStatistics($this->prodProjectList, $withSupport);
-  }
-  
-   
   // ----------------------------------------------
   /** Returns an indication on how many Issues are Resolved in a given timestamp.
 
@@ -277,11 +268,49 @@ class TimeTracking {
   }
 
   
+  // ----------------------------------------------
+  public function getResolvedDriftStats($withSupport = true) {
+    
+    $issueList = $this->getResolvedIssues($this->prodProjectList);
+    return $this->getIssuesDriftStats($issueList, $withSupport);
+    
+  }
   
-    // -------------------------------------------------
-  // tous les bugs de la periode qui sont passes a resolved
-  // qui n'ont pas ere reouverts dans cette meme periode
-  private function getResolvedDriftStatistics($projects, $withSupport = true) {          
+  // ----------------------------------------------
+  public function getTimeDriftStats() {
+
+    global $deliveryDateCustomField;
+
+    $issueList = array();
+  	
+    // all issues which deliveryDate is in the period.
+    $query = "SELECT bug_id FROM `mantis_custom_field_string_table` ".
+             "WHERE field_id = $deliveryDateCustomField ".
+             "AND value >= $this->startTimestamp ".
+             "AND value <  $this->endTimestamp ".
+             "ORDER BY bug_id ASC";
+    
+    $result = mysql_query($query) or die("Query FAILED: $query");
+    while($row = mysql_fetch_object($result)) {
+      $issue = new Issue($row->bug_id);
+      
+      // if a deadLine is specified
+      if (NULL != $issue->deadLine) {
+      	$issueList[] = $issue;
+      }
+    }
+    return $this->getIssuesTimeDriftStats($issueList);
+    
+  }
+  
+  // -------------------------------------------------
+  /**
+   * Returns all Issues resolved in the period and having not been re-opened
+   * 
+   * @param $projects  if NULL: prodProjectList
+   * @return a list of Issue class instances
+   */
+  public function getResolvedIssues($projects = NULL) {
     global $status_resolved;
     global $status_closed;
 
@@ -289,10 +318,11 @@ class TimeTracking {
     $issueList = array();    
     
     // --------
-    $formatedProjList = implode( ', ', $projects );
+    if (NULL == $projects) {$projects = $this->prodProjectList;}
+    $formatedProjList = implode( ', ', $projects);
     
     if ("" == $formatedProjList) {
-      echo "<div style='color:red'>ERROR getResolvedDriftStatistics: no project defined for this team !<br/></div>";
+      echo "<div style='color:red'>ERROR getResolvedIssues: no project defined for this team !<br/></div>";
       return 0;
     }
     
@@ -320,7 +350,7 @@ class TimeTracking {
       // check if the bug has been reopened before endTimestamp
       $latestStatus = $issue->getStatus($this->endTimestamp);
       if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
-      	
+         
         // remove doubloons        
         if (!in_array ($issue->bugId, $resolvedList)) {
          
@@ -328,12 +358,75 @@ class TimeTracking {
           $issueList[] = $issue;
         }
       } else {
-        if (isset($_GET['debug'])) { echo "TimeTracking->getResolvedDriftStatistics() REOPENED : bugid = $issue->bugId<br/>"; }
+        if (isset($_GET['debug'])) { echo "TimeTracking->getResolvedIssues() REOPENED : bugid = $issue->bugId<br/>"; }
       } 
     }
-    return $this->getIssuesDriftStats($issueList, $withSupport);
+    return $issueList;
   }
   
+  
+  
+  // ----------------------------------------------
+  /**
+   * return stars on which Issues where delivered after the DeadLine
+   */
+  public function getIssuesTimeDriftStats($issueList) {
+  	
+    $nbDriftsNeg   = 0;
+    $nbDriftsEqual = 0;
+    $nbDriftsPos   = 0;
+    
+    $driftNeg   = 0;
+    $driftEqual = 0;
+    $driftPos   = 0;
+  	  	
+    if (NULL == $issueList) {
+      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
+      return 0;
+    }
+    if (0== count($issueList)) {
+      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is empty !<br/></div>";
+      return 0;
+    }
+    
+
+    foreach ($issueList as $issue) {
+    	
+    	
+    	$issueDrift = $issue->getTimeDrift();  // returns an integer or an error string
+    	if (! is_string($issueDrift)) {
+      
+    		if ($issueDrift <= 0) {
+    	
+            $nbDriftsNeg++;
+            $driftNeg += $issueDrift;
+
+            if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
+            $formatedBugidNegList .= issueInfoURL($issue->bugId, $issue->summary);
+
+         } else {
+            $nbDriftsPos++;
+            $driftPos += $issueDrift;
+              
+            if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
+            $formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary);
+         }
+    	}
+    } // foreach
+    
+    $driftStats = array();
+    $driftStats["driftPos"]         = $driftPos;
+    $driftStats["driftEqual"]       = $driftEqual;
+    $driftStats["driftNeg"]         = $driftNeg;
+    $driftStats["nbDriftsPos"]      = $nbDriftsPos;
+    $driftStats["nbDriftsEqual"]    = $nbDriftsEqual;
+    $driftStats["nbDriftsNeg"]      = $nbDriftsNeg;
+    $driftStats["formatedBugidPosList"]   = $formatedBugidPosList;
+    $driftStats["formatedBugidEqualList"] = $formatedBugidEqualList;
+    $driftStats["formatedBugidNegList"]   = $formatedBugidNegList;
+    
+    return $driftStats;
+  }
   
   
   
