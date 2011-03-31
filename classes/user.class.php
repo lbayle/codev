@@ -8,6 +8,8 @@ include_once "issue.class.php";
 include_once "team.class.php";
 include_once "holidays.class.php";
 
+include_once "quicksort.php";
+
 // =======================================
 class User {
 
@@ -200,6 +202,7 @@ class User {
 
    // --------------------
    /** REM: period cannot exceed 1 month. */
+   // FIXME 1 month limit
    public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
     $daysOf = array();  // day => duration
       
@@ -426,9 +429,62 @@ class User {
    	
    	return $totalRemaining;
    }
-}
-
-
+   
+   
+   // --------------------
+   /**
+    * Returns the Issues assigned to me.
+    * the issue list is ordered by priority.
+    * 
+    * priority criteria are:
+    * - deadLine
+    * - priority
+    * 
+    * @return Issue list
+    */
+   public function getAssignedIssues($projList = NULL) {
+   	
+      global $status_resolved;
+      global $status_delivered;
+      global $status_closed;
+   	
+      $issueList = array();
+   	
+      if (NULL == $projList) {$projList = $this->getProjectList();}
+      $formatedProjList = valuedListToSQLFormatedString($projList);
+       	
+   	
+      $query = "SELECT DISTINCT mantis_bug_table.id AS bug_id ".
+               "FROM `mantis_bug_table` ".
+               "WHERE mantis_bug_table.project_id IN ($formatedProjList) ".
+               "AND mantis_bug_table.handler_id = $this->id ".
+               "AND mantis_bug_table.status NOT IN ($status_resolved, $status_delivered, $status_closed) ".
+               "ORDER BY id DESC";
+      
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result)) {
+            $issueList[] = new Issue($row->bug_id); 
+      }
+/*   	
+      echo "DEBUG List to sort:<br/>";
+      foreach ($issueList as $i) {
+      	echo "$i->bugId<br/>";
+      }
+*/      
+      // quickSort the list
+      $sortedList = qsort($issueList, "isHigherPriority");
+      #$sortedList = bubblesort1( $issueList );
+/*      
+   	echo "DEBUG after Sort<br/>";
+      foreach ($sortedList as $i) {
+         echo "$i->bugId<br/>";
+      }
+*/
+      return $sortedList;
+   }
+   
+   
+} // class
 
 
 ?>
