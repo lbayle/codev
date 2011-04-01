@@ -82,6 +82,27 @@ class Holidays {
       return NULL;   	
    }
    
+   /**
+    * 
+    * @param $startTimestamp
+    * @param $endTimestamp
+    */
+   public function getNbHolidays($startT, $endT) {
+      $nbHolidays = 0;
+   	
+      $timestamp = mktime(0, 0, 0, date("m", $startT), date("d", $startT), date("Y", $startT));
+    
+      while ($timestamp <= $endT) {
+      
+         $h = $this->isHoliday($timestamp);
+         if (NULL != $h) { $nbHolidays++; }
+      
+         $timestamp = strtotime("+1 day",$timestamp);;
+      }
+      
+   	#echo "DEBUG nbHolidays = $nbHolidays<br/>";
+   	return $nbHolidays;
+   }
    
 } // class
 

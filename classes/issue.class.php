@@ -366,9 +366,9 @@ class Issue {
    /**
     * check if the Issue has been delivered in time (before the  DeadLine)
     * formula: (DeadLine - DeliveryDate)
-
+    *
     * 
-    * @return int nb days drift
+    * @return int nb days drift (except holidays)
     *         if <= 0, Issue delivered in time
     *         if  > 0, Issue NOT delivered in time !
     *         OR "Error" string if could not be determinated. REM: check with is_string($timeDrift)
@@ -381,6 +381,15 @@ class Issue {
    		// convert seconds to days (24 * 60 * 60) = 86400
    		$timeDrift /=  86400 ;
          #echo "DEBUG: TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift<br/>";
+         
+   		// remove weekends & holidays
+   		$holidays = new Holidays();
+   		if ($this->deliveryDate < $this->deadLine) {
+   		    $nbHolidays = $holidays->getNbHolidays($this->deliveryDate, $this->deadLine);
+   		} else {
+             $nbHolidays = $holidays->getNbHolidays($this->deadLine, $this->deliveryDate);
+   		}
+   		$timeDrift -= $nbHolidays;
    	} else {
          $timeDrift = "Error";
    		echo "WARNING: could not determinate TimeDrift for issue $this->bugId.<br/>";
