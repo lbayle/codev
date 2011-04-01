@@ -11,7 +11,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("Project Management"); 
+   $_POST[page_name] = T_("Weekly CSV Report"); 
    include 'header.inc.php'; 
 ?>
 
