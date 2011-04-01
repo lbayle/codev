@@ -358,9 +358,10 @@ function createTimeTeackingList($start_day, $start_month, $start_year, $teamid) 
       
       for ($month=$start_month; $month<13; $month++) {
          
-         $startTimestamp = mktime(0, 0, 1, $month, $day, $y);
-         $endTimestamp   = mktime(0, 0, 1, ($month + 1), $day, $y);
-   
+         $startTimestamp = mktime(0, 0, 0, $month, $day, $y);
+         $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
+         $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
+      	   
          if ($startTimestamp > $now) { break; }
          
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
