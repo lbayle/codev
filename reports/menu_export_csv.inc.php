@@ -13,7 +13,7 @@
 echo "   
 <table>
    <tr>
-      <td><a href='".getServerRootURL()."/reports/proj_management_report.php' title=''>".T_("Weekly")."</a>
+      <td><a href='".getServerRootURL()."/reports/export_csv_weekly.php' title=''>".T_("Weekly")."</a>
       |
       <a href='".getServerRootURL()."/reports/export_csv_monthly.php' title=''>".T_("Monthly")."</a>
       </td>

@@ -54,7 +54,7 @@ require_once('tc_calendar.php');
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear) {
 
   echo "<div align='center'>\n";
-  echo "<form id='form1' name='form1' method='post' action='proj_management_report.php'>\n";
+  echo "<form id='form1' name='form1' method='post' action='export_csv_weekly.php'>\n";
 
   // -----------
   //echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript:submitWeekActivityForm()'>\n";

@@ -31,7 +31,7 @@ echo "
       |
       <a href='".getServerRootURL()."/reports/mantis_reports.php' title=''>".T_("Mantis Reports")."</a>
       |
-      <a href='".getServerRootURL()."/reports/proj_management_report.php' title='".T_("Project Management Reports")."'>".T_("Export to CSV")."</a>
+      <a href='".getServerRootURL()."/reports/export_csv_weekly.php' title='".T_("Project Management Reports")."'>".T_("Export to CSV")."</a>
       </td>
       <td>
       <a href='".getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a>
