@@ -44,9 +44,11 @@ include_once "constants.php";
 include_once "tools.php";
 include_once "period_stats.class.php";
 include_once "project.class.php";
+include_once 'export_csv_tools.php';
 
 include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
+
 
 // -----------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear) {
@@ -111,144 +113,6 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   echo "</div>\n";
 }
 
-
-
-// ---------------------------------------------------------------
-function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
-   
-   global $status_resolved;
-   global $status_delivered;
-   global $status_closed;
-
-   $sepChar=';';
-   
-   $myFile = $path."\AOI-PIL-Mantis_".date("Ymd").".csv";
-   $fh = fopen($myFile, 'w');
-  
-   // write header
-   // WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
-   $stringData = T_("Project").$sepChar.
-                 T_("m_id").$sepChar.   
-                 T_("tc_id").$sepChar.
-                 T_("Summary").$sepChar.
-                 T_("Status").$sepChar.
-                 T_("Submitted").$sepChar.
-                 T_("Start date").$sepChar.
-                 T_("Dead line").$sepChar.
-                 T_("Product Version").$sepChar.
-                 T_("Priority").$sepChar.
-                 "Category".$sepChar.
-                 T_("Resolution").$sepChar.
-                 T_("ETA").$sepChar.
-                 T_("BI").$sepChar.
-                 T_("BS").$sepChar.
-                 "Elapsed".$sepChar.
-                 T_("RAE").$sepChar.
-                 T_("Delivery Date").$sepChar.
-                 T_("Delivery Sheet").$sepChar.
-                 T_("Assigned to").$sepChar.
-                 "\n";
-   fwrite($fh, $stringData);
-   
-   // for all issues with status !=  {resolved, closed}
-   
-      $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE status NOT IN ($status_resolved,$status_delivered,$status_closed) ORDER BY id DESC";
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result)) {
-            $issue = new Issue($row->id);
-            $user = new User($issue->handlerId);
-
-            $deadLine = "";
-            if (NULL != $issue->deadLine) {
-             $deadLine = date("d/m/Y", $issue->deadLine);
-            }
-            $deliveryDate = "";
-            if (NULL != $issue->deliveryDate) {
-             $deliveryDate = date("d/m/Y", $issue->deliveryDate);
-            }
-            
-            // remove sepChar from summary text
-            $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
-            
-            $startDate="";
-            if (NULL != ($d = $issue->getStartTimestamp())) {
-               $startDate = date("d/m/Y", $d);
-            }
-            
-			   // write data
-			   $stringData = $issue->getProjectName().$sepChar.
-			                 $issue->bugId.$sepChar.   
-			                 $issue->getTC().$sepChar.
-                          $formatedSummary.$sepChar.
-                          $issue->getCurrentStatusName().$sepChar.
-                          date("d/m/Y", $issue->dateSubmission).$sepChar.
-                          $startDate.$sepChar.
-                          $deadLine.$sepChar.
-                          $issue->version.$sepChar.
-			                 $issue->getPriorityName().$sepChar.
-			                 $issue->getCategoryName().$sepChar.
-			                 $issue->getResolutionName().$sepChar.
-			                 $issue->getEtaName().$sepChar.
-			                 $issue->effortEstim.$sepChar.
-			                 $issue->effortAdd.$sepChar.
-                          $issue->elapsed.$sepChar.
-			                 $issue->remaining.$sepChar.
-			                 $deliveryDate.$sepChar.
-                          $issue->deliveryId.$sepChar.
-                          $user->getShortname().
-                          "\n";
-			   fwrite($fh, $stringData);
-            
-      }
-
-  // Add resolved issues modified into the period
-  $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE status IN ($status_resolved,$status_delivered,$status_closed) AND last_updated > $startTimestamp AND last_updated < $endTimestamp ORDER BY id DESC";
-  $result = mysql_query($query) or die("Query failed: $query");
-  while($row = mysql_fetch_object($result)) {
-    $issue = new Issue($row->id);
-    $user = new User($issue->handlerId);
-
-    $deliveryDate = "";
-    if (NULL != $issue->deliveryDate) {
-      $deliveryDate = date("d/m/Y", $issue->deliveryDate);
-    }
-    
-    // remove sepChar from summary text
-    $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
-    
-    $startDate="";
-    if (NULL != ($d = $issue->getStartTimestamp())) {
-      $startDate = date("d/m/Y", $d);
-    }
-    
-    // write data
-    $stringData = $issue->getProjectName().$sepChar.
-        $issue->bugId.$sepChar.   
-        $issue->getTC().$sepChar.
-        $formatedSummary.$sepChar.
-        $issue->getCurrentStatusName().$sepChar.
-        date("d/m/Y", $issue->dateSubmission).$sepChar.
-        $startDate.$sepChar.
-        $deadLine.$sepChar.
-        $issue->version.$sepChar.
-        $issue->getPriorityName().$sepChar.
-        $issue->getCategoryName().$sepChar.
-		  $issue->getResolutionName().$sepChar.
-		  $issue->getEtaName().$sepChar.
-		  $issue->effortEstim.$sepChar.
-		  $issue->effortAdd.$sepChar.
-        $issue->elapsed.$sepChar.
-		  $issue->remaining.$sepChar.
-		  $deliveryDate.$sepChar.
-        $issue->deliveryId.$sepChar.
-		  $user->getShortname().
-		  "\n";
-    fwrite($fh, $stringData);
-  }
-
-  fclose($fh);
-  return $myFile;
-}
 
 
 
@@ -326,51 +190,6 @@ function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
 }
 
 
-// ------------------------------------------------
-function exportProjectActivityToCSV($timeTracking, $myFile) {
-
-  $sepChar=';';
-	
-  $fh = fopen($myFile, 'w');
-  
-  // $projectTracks[projectid][bugid][jobid] = duration
-  $projectTracks = $timeTracking->getProjectTracks();   
-   
-  foreach ($projectTracks as $projectId => $bugList) {
-   
-     // write table header
-     $project = new Project($projectId);
-     $stringData = $project->name."\n";
-
-     $stringData .=T_("Task").$sepChar;
-     $stringData .=T_("RAE").$sepChar;
-     $jobList = $project->getJobList();
-     foreach($jobList as $jobId => $jobName) {
-        $stringData .= $jobName.$sepChar;
-     }
-     $stringData .="\n";
-      
-     // write table content (by bugid)
-     foreach ($bugList as $bugid => $jobs) {
-         $issue = new Issue($bugid);
-         // remove sepChar from summary text
-         $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
-         
-         $stringData .= "$bugid / ".$issue->tcId." : ".$formatedSummary.$sepChar;
-         $stringData .= $issue->remaining.$sepChar;
-         foreach($jobList as $jobId => $jobName) {
-            $stringData .= $jobs[$jobId].$sepChar;
-         }
-         $stringData .="\n";
-     }
-     $stringData .="\n";
-     fwrite($fh, $stringData);
-  }
-  fclose($fh);
-  return $myFile;
-}
-
-
 
 // =========== MAIN ==========
 global $codevReportsDir;
@@ -435,8 +254,9 @@ if (0 == count($teamList)) {
 		   echo "<b>- ".T_("Export Managed Issues")."...</b><br/>\n";
 		   flush(); // envoyer tout l'affichage courant au navigateur 
 		   
-		   $filename = exportManagedIssuesToCSV($codevReportsDir, $startTimestamp, $endTimestamp);
-	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+         $myFile = $path."\AOI-PIL-Mantis_".date("Ymd").".csv";
+		   $filename = exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile);
+	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
 	      flush(); 
 		   
 	      // -----------------------------
@@ -446,8 +266,8 @@ if (0 == count($teamList)) {
 	      
 	      
          $myFile = $codevReportsDir."\AOI-PIL-CRA_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
-	      $filename = exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile);
-	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+	      exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile);
+	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
 	      flush(); 
 	      
          // -----------------------------
