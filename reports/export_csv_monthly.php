@@ -23,14 +23,12 @@ if (!isset($_SESSION['userid'])) {
 
 <script language="JavaScript">
 
-  function submitWeekActivityForm() {
-     // TODO: check teamid presence
-       document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-       document.forms["form1"].weekid.value = document.getElementById('weekidSelector').value;
-       document.forms["form1"].year.value   = document.getElementById('yearSelector').value;
-       
-       document.forms["form1"].action.value = "exportManagementReport";
-       document.forms["form1"].submit();
+  function submitPeriodActivityForm() {
+
+     document.forms["form2"].teamid.value = document.getElementById('teamidSelector').value;
+     document.forms["form2"].action.value = "exportPeriod";
+
+     document.forms["form2"].submit();
   }
 
   
@@ -48,17 +46,39 @@ include_once "project.class.php";
 include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
 
+
 // -----------------------------------------------
-function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear) {
+function displayTeamAndPeriodSelectionForm($leadedTeamList, $teamid, $defaultDate1, $defaultDate2) {
+  
+  list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
+           
+  $myCalendar1 = new tc_calendar("date1", true, false);
+  $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
+  $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
+  $myCalendar1->setPath("../calendar/");
+  $myCalendar1->setYearInterval(2010, 2015);
+  $myCalendar1->dateAllow('2010-01-01', '2015-12-31');
+  $myCalendar1->setDateFormat('Y-m-d');
+  $myCalendar1->startMonday(true);
 
-  echo "<div align='center'>\n";
-  echo "<form id='form1' name='form1' method='post' action='proj_management_report.php'>\n";
+  list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate2);
+        
+  $myCalendar2 = new tc_calendar("date2", true, false);
+  $myCalendar2->setIcon("../calendar/images/iconCalendar.gif");
+  $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
+  $myCalendar2->setPath("../calendar/");
+  $myCalendar2->setYearInterval(2010, 2015);
+  $myCalendar2->dateAllow('2010-01-01', '2015-12-31');
+  $myCalendar2->setDateFormat('Y-m-d');
+  $myCalendar2->startMonday(true);
 
-  // -----------
-  //echo "Team: <select id='teamidSelector' name='teamidSelector' onchange='javascript:submitWeekActivityForm()'>\n";
+  echo "<div class=center>";
+  // Create form
+  echo "<form id='form2' name='form1' method='post' action='export_csv_monthly.php'>\n";
+  
   echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
-  echo "<option value='0'></option>\n";
-  foreach ($leadedTeamList as $tid => $tname) {
+   echo "<option value='0'></option>\n";
+   foreach ($leadedTeamList as $tid => $tname) {
     if ($tid == $teamid) {
       echo "<option selected value='".$tid."'>".$tname."</option>\n";
     } else {
@@ -67,50 +87,19 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   }
   echo "</select>\n";
 
-  
-  // -----------
-  //echo "Week: <select id='weekidSelector' name='weekidSelector' onchange='javascript:submitWeekActivityForm()'>\n";
-  echo T_("Week").": <select id='weekidSelector' name='weekidSelector'>\n";
-  for ($i = 1; $i <= 53; $i++)
-  {
-    $wDates      = week_dates($i,date('Y'));
-        
-    if ($i == $weekid) {
-      echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
-    } else {
-      echo "<option value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
-    }
-  }
-  echo "</select>\n";
+  echo "&nbsp;".T_("Start Date").": "; $myCalendar1->writeScript();
 
-  
-  // -----------
-  echo "<select id='yearSelector' name='yearSelector'>\n";
-  for ($y = ($curYear -2); $y <= ($curYear +2); $y++) {
+  echo "&nbsp; <span title='".T_("(included)")."'>".T_("End Date").": </span>"; $myCalendar2->writeScript();
 
-    if ($y == $curYear) {
-      echo "<option selected value='".$y."'>".$y."</option>\n";
-    } else {
-      echo "<option value='".$y."'>".$y."</option>\n";
-    }
-  }
-  echo "</select>\n";
-  
-  
-  echo "&nbsp;<input type=button value='Envoyer' onClick='javascript:submitWeekActivityForm()'>\n";
-  
-  
-  echo "<input type=hidden name=teamid  value=0>\n";
-  echo "<input type=hidden name=weekid  value=".date('W').">\n";
-  echo "<input type=hidden name=year    value=".date('Y').">\n";
+  echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitPeriodActivityForm()'>\n";
+
+  echo "<input type=hidden name=teamid  value=$teamid>\n";
   
   echo "<input type=hidden name=action       value=noAction>\n";
-  echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
-  echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
+  
   echo "</form>\n";
-  echo "</div>\n";
+  echo "</div>";
 }
-
 
 
 // ---------------------------------------------------------------
@@ -250,80 +239,111 @@ function exportManagedIssuesToCSV($path="", $startTimestamp, $endTimestamp) {
   return $myFile;
 }
 
-
-
 // ---------------------------------------------
-function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile) {
+// format: nom;prenom;trigramme;date de debut;date de fin;nb jours
+// format date: "jj/mm/aa"
+function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
 
   $sepChar=';';
+  
+  $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
+  $nbDaysInMonth = date("t", $monthTimestamp);
+  $startT = mktime(0, 0, 0, $month, 1, $year);
+  $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
+   
+   // create filename & open file
+   $myFile = $path."\AOI-PIL-Holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
+   $fh = fopen($myFile, 'w');
 
-  // create filename & open file
-  $fh = fopen($myFile, 'w');
-  
-  $stringData = T_("Task").$sepChar.   
-                T_("Job").$sepChar.
-                T_("Description").$sepChar.
-                T_("Assigned to").$sepChar.
-                T_("Monday")." ".date("d/m", $weekDates[1]).$sepChar.
-                T_("Tuesday")." ".date("d/m", $weekDates[2]).$sepChar.
-                T_("Wednesday")." ".date("d/m", $weekDates[3]).$sepChar.
-                T_("Thursday")." ".date("d/m", $weekDates[4]).$sepChar.
-                T_("Friday")." ".date("d/m", $weekDates[5])."\n";
-  fwrite($fh, $stringData);
-  
-	
-  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
+  // USER
+  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $teamid ".
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.realname";   
-   
+    "ORDER BY mantis_user_table.username";
+
+  
   $result = mysql_query($query) or die("Query failed: $query");
-   
   while($row = mysql_fetch_object($result))
   {
-      // if user was working on the project during the timestamp
-      $user = new User($row->user_id);
-      if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) || 
-          ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
+      $user1 = new User($row->user_id);
+      
+      // if user was working on the project within the timestamp
+      if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
+          ($user1->isTeamManager($teamid, $startT, $endT))) {
       	
-         exportWeekDetailsToCSV($row->user_id, $timeTracking, $user->getShortname(), $fh);
-      }
-   
+         $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+          
+           // concatenate days 
+         $startBlockTimestamp = 0;
+         $endBlockTimestamp = 0;
+         $blockSize = 0;
+         
+         for ($i = 1; $i <= $nbDaysInMonth; $i++) {        
+            if (NULL != $daysOf[$i]) {
+               
+               $evtTimestamp = mktime(0, 0, 0, $month, $i, $year);
+               
+               if (1 == $daysOf[$i]) {
+                  // do not write, concatenate evt to block
+                  if (0 == $startBlockTimestamp) {$startBlockTimestamp = $evtTimestamp; }
+                  $blockSize += 1;
+                  $endBlockTimestamp = $evtTimestamp;
+                  
+               } else {
+                  // write previous block if exist
+                  if (0 != $blockSize) {
+                     $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
+                             date("d/m/y", $startBlockTimestamp).$sepChar.
+                             date("d/m/y", $endBlockTimestamp).$sepChar.
+                             $blockSize."\n";   
+                     fwrite($fh, $stringData);
+                     $startBlockTimestamp = 0;
+                     $endBlockTimestamp = 0;
+                     $blockSize = 0;
+                  }
+                  
+                  // write current line ( < 1)
+                  $evtDate      = date("d/m/y", $evtTimestamp); 
+                  $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
+                             $evtDate.$sepChar.
+                             $evtDate.$sepChar.
+                             $daysOf[$i]."\n";   
+                  fwrite($fh, $stringData);
+               }              
+               
+               
+            } else {
+                  // write previous block if exist
+               if (0 != $blockSize) {
+                  $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
+                             date("d/m/y", $startBlockTimestamp).$sepChar.
+                             date("d/m/y", $endBlockTimestamp).$sepChar.
+                             $blockSize."\n";   
+                  fwrite($fh, $stringData);
+                  $startBlockTimestamp = 0;
+                  $endBlockTimestamp = 0;
+                  $blockSize = 0;
+               }
+               
+            }
+          }
+          if (0 != $blockSize) {
+                 $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
+                             date("d/m/y", $startBlockTimestamp).$sepChar.
+                             date("d/m/y", $endBlockTimestamp).$sepChar.
+                             $blockSize."\n";   
+                  fwrite($fh, $stringData);
+                  $startBlockTimestamp = 0;
+                  $endBlockTimestamp = 0;
+                  $blockSize = 0;
+          }
+      }    
   }
   fclose($fh);
   return $myFile;
 }
 
-// ---------------------------------------------
-function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
-  
-  $sepChar=';';
-	
-  $weekTracks = $timeTracking->getWeekDetails($userid);
-  foreach ($weekTracks as $bugid => $jobList) {
-    $issue = new Issue($bugid);
-    
-    // remove sepChar from summary text
-    $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
-    
-    foreach ($jobList as $jobid => $dayList) {
-                
-      $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-      $result3 = mysql_query($query3) or die("Query failed: $query3");
-      $jobName = mysql_result($result3, 0);
-      $stringData = $bugid.$sepChar.   
-                    $jobName.$sepChar.
-                    $formatedSummary.$sepChar.
-                    $realname.$sepChar;
-      for ($i = 1; $i <= 4; $i++) {
-        $stringData .= $dayList[$i].$sepChar;
-      }
-      $stringData .= $dayList[5]."\n";
-      fwrite($fh, $stringData);
-    }
-  }
-}
 
 
 // ------------------------------------------------
@@ -375,7 +395,6 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
 // =========== MAIN ==========
 global $codevReportsDir;
 
-
 $userid = $_SESSION['userid'];
 $action = $_POST[action];
 
@@ -383,25 +402,31 @@ $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
 
-$year = isset($_POST[year]) ? $_POST[year] : date('Y');
-
 
 // Connect DB
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
   or die(T_("Could not connect to database"));
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
-
+// team
 $user = new User($userid);
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
 $teamList = $lTeamList + $managedTeamList;
-$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
 $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
 $result = mysql_query($query) or die("Query failed: $query");
 $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
 
+
+// dates
+$month = date('m');
+$year = date('Y');
+$startTimestamp = mktime(0, 0, 0, $month, 1, $year);
+$nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
+$endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
+$date1          = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $startTimestamp);
+$date2          = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $endTimestamp);
 
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
@@ -410,65 +435,63 @@ if (0 == count($teamList)) {
 	
 } else {
 
-	// ----
-	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
+   displayTeamAndPeriodSelectionForm($teamList, $teamid, $date1, $date2);	
 	
 	echo "<br/><br/>\n";
 	
-	if ("exportManagementReport" == $action) {
-	
-	
-      if (0 != $teamid) {
+   if ("exportPeriod" == $action) {
 
-      	echo "<br/>\n";
-      	echo "<hr/>";
-		   echo "<br/>\n";
-	      echo T_("Team").": ".$teamList[$teamid]."<br/>\n";
-		   echo "<br/>\n";
+   	echo "<br/>\n";
+      echo "<hr/>";
+      echo "<br/>\n";
+      echo T_("Team").": ".$teamList[$teamid]."<br/>\n";
+      echo "<br/>\n";
+      
+   	if (0 != $teamid) {
 		
-	      $weekDates      = week_dates($weekid,$year);
-	      $startTimestamp = $weekDates[1];        
-	      $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5])); 
-	      $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+         $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-	      // -----------------------------
-		   echo "<b>- ".T_("Export Managed Issues")."...</b><br/>\n";
-		   flush(); // envoyer tout l'affichage courant au navigateur 
-		   
-		   $filename = exportManagedIssuesToCSV($codevReportsDir, $startTimestamp, $endTimestamp);
-	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-	      flush(); 
-		   
-	      // -----------------------------
-	      echo "<br/>\n";
-	      echo "<b>- ".T_("Export Week ").$weekid.T_(" Member Activity")."...</b><br/>\n";
-	      flush(); // envoyer tout l'affichage courant au navigateur 
-	      
-	      
-         $myFile = $codevReportsDir."\AOI-PIL-CRA_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
-	      $filename = exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile);
-	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-	      flush(); 
-	      
          // -----------------------------
-         echo "<br/>\n";
-         echo "<b>- ".T_("Export Week ").$weekid.T_(" Projects Activity")."...</b><br/>\n";
+         echo "<b>- ".T_("Export Managed Issues")."...</b><br/>\n";
+         flush(); // envoyer tout l'affichage courant au navigateur 
+         
+         $filename = exportManagedIssuesToCSV($codevReportsDir, $startTimestamp, $endTimestamp);
+         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
          flush(); 
          
-         $myFile = $codevReportsDir."\AOI-PIL-Projects_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
-         exportProjectActivityToCSV($timeTracking, $myFile);
-         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
+         // -----------------------------
+         echo "<br/>\n";
+         echo "<b>- ".T_("Export")." ".T_("Projects Activity")."...</b><br/>\n";
          flush(); 
+         
+         $myFile = $codevReportsDir."\AOI-PIL-Projects_".$teamName."_".date("Ymd", $timeTracking->startTimestamp)."-".date("Ymd", $timeTracking->endTimestamp).".csv";
+         
+         $filename = exportProjectActivityToCSV($timeTracking, $myFile);
+         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+         flush(); 
+         
+         // -----------------------------
+         echo "<br/>\n";
+         echo "<b>- ".T_("Export Holidays ").$year."...</b><br/>\n";
+         flush(); // envoyer tout l'affichage courant au navigateur
+         
+         // reduce scope to enhance speed
+         $startMonth = 1;
+         for ($i = $startMonth; $i <= 12; $i++) {
+            $filename = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
+            //echo "<a href='$filename'>$filename</a><br/>\n"; 
+            flush(); 
+         }
 
-		   echo "<br/>\n";
-		   echo "<br/>\n";
-		   echo T_("Done").".<br/>\n";
-		   echo "<br/>\n";
-		   echo T_("Results in : ").$codevReportsDir."<br/>\n";
-		   
-		   
-		}
-	}
+         echo "<br/>\n";
+         echo "<br/>\n";
+         echo T_("Done").".<br/>\n";
+         echo "<br/>\n";
+         echo T_("Results in : ").$codevReportsDir."<br/>\n";
+      }
+         
+   } // if action
 }
 
 ?>
