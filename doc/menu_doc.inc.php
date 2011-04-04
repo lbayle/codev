@@ -12,6 +12,8 @@
       <a href='".getServerRootURL()."/doc/AOI-DOC-Cycle_dev-v2.1.png' title='Cycle de vie'>Cycle flow</a>
       |
       <a href='".getServerRootURL()."/doc/mantis_userguide.html' title='Aide Mantis'>Mantis Status Transistions</a>
+      |
+      <a href='".getServerRootURL()."/doc/indicateurs_de_production.html'>Indicateurs de production</a>
       </td>
       <td>
       <a href='".getServerRootURL()."/doc/system_allocations.PNG' title='FDJ System Allocation'>FDJ System Allocation</a>
