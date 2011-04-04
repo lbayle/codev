@@ -198,13 +198,17 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
 /**
  * creates for each project a table with the following fields:
  * id | TC | startDate | endDate | status | total elapsed | elapsed + Remaining | elapsed in period | Remaining
- *    
+ * TOTAL    
  * @param unknown_type $timeTracking
  * @param unknown_type $myFile
  */
 function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
   $sepChar=';';
 
+  $totalElapsed       = 0;
+  $totalElapsedPeriod = 0;
+  $totalRemaining     = 0;
+  
   $fh = fopen($myFile, 'w');
   
   // returns : $projectTracks[projectid][bugid][jobid] = duration
@@ -252,10 +256,23 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
          
          $stringData .= $issue->remaining.$sepChar;
          $stringData .="\n";
+         
+         $totalElapsed       += $issue->elapsed;
+         $totalRemaining     += $issue->remaining;
+         $totalElapsedPeriod += $elapsedInPeriod;
      }
+
+     // total per project
+     $stringData .= T_("TOTAL").$sepChar.$sepChar.$sepChar.$sepChar.$sepChar.$sepChar;
+     $stringData .= $totalElapsed.$sepChar;
+     $stringData .= ($totalElapsed + $totalRemaining).$sepChar;
+     $stringData .= $totalElapsedPeriod.$sepChar;
+     $stringData .= $totalRemaining.$sepChar;
+     $stringData .= "\n";
+     
      $stringData .="\n";
      fwrite($fh, $stringData);
-  }
+  } // project
   fclose($fh);
   return $myFile;
      
