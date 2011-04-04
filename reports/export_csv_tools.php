@@ -13,7 +13,6 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
 
    $sepChar=';';
    
-   $myFile = $path."\AOI-PIL-Mantis_".date("Ymd").".csv";
    $fh = fopen($myFile, 'w');
   
    // write header
