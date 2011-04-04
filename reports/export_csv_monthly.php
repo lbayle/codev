@@ -201,7 +201,7 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<b>- ".T_("Export Holidays ").$year."...</b><br/>\n";
          flush(); // envoyer tout l'affichage courant au navigateur
-/*         
+         
          // reduce scope to enhance speed
          $startMonth = 1;
          for ($i = $startMonth; $i <= 12; $i++) {
@@ -210,7 +210,7 @@ if (0 == count($teamList)) {
             //echo "<a href='$filename'>$filename</a><br/>\n"; 
             flush(); 
          }
-*/
+
          echo "<br/>\n";
          echo "<br/>\n";
          echo T_("Done").".<br/>\n";
