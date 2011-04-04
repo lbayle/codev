@@ -145,6 +145,7 @@ if (isset($_REQUEST["date1"])) {
 if (isset($_REQUEST["date2"])) {
    $date2          = $_REQUEST["date2"];
    $endTimestamp   = date2timestamp($date2);
+   $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 } else {
    $nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
    $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
