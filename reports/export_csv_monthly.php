@@ -134,11 +134,24 @@ $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid
 // dates
 $month = date('m');
 $year = date('Y');
-$startTimestamp = mktime(0, 0, 0, $month, 1, $year);
-$nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
-$endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
-$date1          = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $startTimestamp);
-$date2          = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $endTimestamp);
+
+if (isset($_REQUEST["date1"])) {
+	$date1          = $_REQUEST["date1"];
+	$startTimestamp = date2timestamp($date1);
+} else {
+   $startTimestamp = mktime(0, 0, 0, $month, 1, $year);
+   $date1          = date("Y-m-d", $startTimestamp);
+}
+if (isset($_REQUEST["date2"])) {
+   $date2          = $_REQUEST["date2"];
+   $endTimestamp   = date2timestamp($date2);
+} else {
+   $nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
+   $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
+   $date2          = date("Y-m-d", $endTimestamp);
+   
+}
+
 
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
