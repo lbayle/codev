@@ -231,8 +231,30 @@ class Issue {
       return $elapsed;
    }
    
+   // ----------------------------------------------
+   /**
+    * returns the timestamp of the first TimeTrack
+    */
+   public function startDate() {
+   	
+   	$query = "SELECT MIN(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
+      $result = mysql_query($query) or die("Query failed: $query");
+      $startDate = mysql_result($result, 0);
+   	
+   	return $startDate;
+   }
    
-   
+   // ----------------------------------------------
+   /**
+    * returns the timestamp of the latest TimeTrack
+    */
+   public function endDate() {
+      
+   	$query = "SELECT MAX(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
+      $result = mysql_query($query) or die("Query failed: $query");
+      $endDate = mysql_result($result, 0);
+   	return $endDate;
+   }
    
    // ----------------------------------------------
    // Returns how many time has already been spent on this task

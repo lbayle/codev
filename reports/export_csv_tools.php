@@ -144,6 +144,13 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
 
 
 // ------------------------------------------------
+/**
+ * creates for each project a table with the following fields:
+ * TaskName | RAE | <Jobs>
+
+ * @param unknown_type $timeTracking
+ * @param unknown_type $myFile
+ */
 function exportProjectActivityToCSV($timeTracking, $myFile) {
 
   $sepChar=';';
@@ -186,6 +193,74 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
   fclose($fh);
   return $myFile;
 }
+
+// ---------------------------------------------
+/**
+ * creates for each project a table with the following fields:
+ * id | TC | startDate | endDate | status | total elapsed | elapsed + Remaining | elapsed in period | Remaining
+ *    
+ * @param unknown_type $timeTracking
+ * @param unknown_type $myFile
+ */
+function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
+  $sepChar=';';
+
+  $fh = fopen($myFile, 'w');
+  
+  // returns : $projectTracks[projectid][bugid][jobid] = duration
+  $projectTracks = $timeTracking->getProjectTracks();   
+   
+  foreach ($projectTracks as $projectId => $bugList) {
+   
+     // write table header
+     $project = new Project($projectId);
+     $stringData = $project->name."\n";
+     
+     $stringData .=T_("ID").$sepChar;
+     $stringData .=T_("Task").$sepChar;
+     $stringData .=T_("TC").$sepChar;
+     $stringData .=T_("Start date").$sepChar;
+     $stringData .=T_("End date").$sepChar;
+     $stringData .=T_("Status").$sepChar;
+     $stringData .=T_("Total elapsed").$sepChar;
+     $stringData .=T_("elapsed + Remaining").$sepChar;
+     $stringData .=T_("elapsed in period").$sepChar;
+     $stringData .=T_("RAE").$sepChar;
+     $stringData .="\n";
+     
+     // write table content (by bugid)
+     foreach ($bugList as $bugid => $jobs) {
+         $issue = new Issue($bugid);
+         // remove sepChar from summary text
+         $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+         
+         $stringData .= $bugid.$sepChar;
+         $stringData .= $formatedSummary.$sepChar;
+         $stringData .= $issue->tcId.$sepChar;
+         $stringData .= date("d/m/Y", $issue->startDate()).$sepChar;
+         $stringData .= date("d/m/Y", $issue->endDate()).$sepChar;
+         $stringData .= $issue->getCurrentStatusName().$sepChar;
+         $stringData .= $issue->elapsed.$sepChar;
+         $stringData .= ($issue->elapsed + $issue->remaining).$sepChar;
+         
+         // sum all job durations
+         $elapsedInPeriod = 0;
+         foreach($jobs as $jobId => $duration) {
+            $elapsedInPeriod += $duration;
+         }
+         $stringData .= $elapsedInPeriod.$sepChar;
+         
+         $stringData .= $issue->remaining.$sepChar;
+         $stringData .="\n";
+     }
+     $stringData .="\n";
+     fwrite($fh, $stringData);
+  }
+  fclose($fh);
+  return $myFile;
+     
+}
+
 
 
 // ---------------------------------------------
