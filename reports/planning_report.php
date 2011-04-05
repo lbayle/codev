@@ -21,12 +21,23 @@ if (!isset($_SESSION['userid'])) {
 
 <script language="JavaScript">
   function submitForm() {
-    document.forms["form1"].bugid.value = document.getElementById('bugidSelector').value;
-    document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
     document.forms["form1"].action.value = "displayBug";
     document.forms["form1"].submit();
   }
 
+  function submitTeam(){
+     // check fields
+     foundError = 0;
+     msgString = "Some fields are missing:" + "\n\n";
+         
+     if (0 == document.forms["teamSelectForm"].f_teamid.value)  { msgString += "Team\n"; ++foundError; }
+                    
+     if (0 == foundError) {
+       document.forms["teamSelectForm"].submit();
+     } else {
+       alert(msgString);    
+     }    
+   }
 
   
 </script>
@@ -42,6 +53,37 @@ include_once "user.class.php";
 include_once "scheduler.class.php";
 
 
+// -----------------------------------------
+function setTeamForm($originPage, $defaultSelection, $teamList) {
+   
+  // create form
+  echo "<div align=center>\n";
+  echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage' onchange='javascript: submitTeam()'>\n";
+
+  echo "Team :\n";
+  echo "<select name='f_teamid'>\n";
+  echo "<option value='0'></option>\n";
+
+   foreach ($teamList as $tid => $tname) {
+  
+    if ($tid == $defaultSelection) {
+      echo "<option selected value='".$tid."'>".$tname."</option>\n";
+    } else {
+      echo "<option value='".$tid."'>".$tname."</option>\n";
+    }
+  }
+  echo "</select>\n";
+
+  echo "<input type=hidden name=currentForm value=teamSelectForm>\n";
+  echo "<input type=hidden name=nextForm    value=editTeamForm>\n";
+
+  echo "</form>\n";
+  echo "</div>\n";
+}
+
+
+
+// -----------------------------------------
 function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	
    $totalPix = 0;
@@ -70,6 +112,7 @@ foreach($scheduledTaskList as $key => $scheduledTask) {
 	
 }
 
+// -----------------------------------------
 /**
  * 
  * @param $dayPixSize
@@ -99,7 +142,8 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    foreach($deadLines as $date => $isOnTime) {
       
    	$offset = ($date - $today) / 86400 ; // in days since today
-      
+      #echo "DEBUG deadline ".date("d/m/Y", $date)." offset = ($date - $today) $offset isOnTime=$scheduledTask->isOnTime<br/>";
+   	
       if ($offset >= 0) {
          $timeLineSize = ($offset * $dayPixSize) - ($imageWidth/2) - $curPos;
    
@@ -115,7 +159,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 
 
 
-// ------------------------------
+// -----------------------------------------
 function displayScheduledTaskTable($scheduledTaskList) {
 	
 echo "<table>\n";
@@ -127,7 +171,7 @@ echo "<table>\n";
    echo "<th>key</th>\n";
    echo "</tr>\n";
 
-foreach($scheduledTaskList as $key => $scheduledTask) {
+   foreach($scheduledTaskList as $key => $scheduledTask) {
 
    echo "<tr>\n";
    echo "<td>$scheduledTask->bugId</td>\n";
@@ -145,10 +189,48 @@ echo "</table>\n";
 	
 }
 
+// -----------------------------------------
+function displayTeam($teamid, $today, $graphSize) {
+	$scheduler = new Scheduler();
 
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
+	$allLists = array();
+	$teamMembers = Team::getMemberList($teamid);
+	
+	$nbDaysToDisplay = 0; 
+	foreach ($teamMembers as $id => $name) {
+	   $workload = 0;
+	   $user = new User($id);
+	   
+	   if (!$user->isTeamDeveloper($teamid)) { continue; }
+	   
+	   $scheduledTaskList = $scheduler->scheduleUser($user, $today);
+	   
+	   foreach($scheduledTaskList as $key => $scheduledTask) {
+	      $workload += $scheduledTask->duration;
+	   }
+	   $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
+	   
+	   $allLists[$user->getName()] = $scheduledTaskList;
+	}
+	
+	$dayPixSize = $graphSize / $nbDaysToDisplay;
+	
+	// display all team
+	echo "<table class='invisible'>\n";
+	foreach($allLists as $userName => $scheduledTaskList) {
+	
+	   echo "<tr valign='center'>\n";
+	   echo "<td>$userName</td>\n";
+	   echo "<td>";
+	   $deadLines = displayUserDeadLines($dayPixSize, $today, $scheduledTaskList);
+      if (0 != count($deadLines)) { echo "<br/>"; } // 
+	   displayUserSchedule($dayPixSize, $userName, $scheduledTaskList);
+	   echo "</td>\n";
+	   echo "</tr>\n";
+	}
+	echo "</table>\n";
+	
+}
 
 
 // ================ MAIN =================
@@ -164,60 +246,50 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die(
 mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql_error());
 
 
-#$user = new User(9); // afebvre
-#$user = new User(7); // lob
+// use the teamid set in the form, if not defined (first page call) use session teamid
+if (isset($_POST[f_teamid])) {
+   $teamid = $_POST[f_teamid];
+   $_SESSION['teamid'] = $teamid;
+} else {
+   $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+}
 
-$scheduler = new Scheduler();
+$session_user = new User($_SESSION['userid']);
 
+$dTeamList = $session_user->getDevTeamList();
+$lTeamList = $session_user->getLeadedTeamList();
+$managedTeamList = $session_user->getManagedTeamList();
+$teamList = $dTeamList + $lTeamList + $managedTeamList;
 
+//  if user is not Leader of $_SESSION[teamid], do not display current team page 
+if (NULL == $teamList[$teamid]) { $teamid = 0;}
 
+echo "<br/>";
+echo "<br/>";
+echo "<br/>";
 
-echo "<br/>\n";
-echo "<br/>\n";
+if (0 == count($teamList)) {
+   echo "<div id='content'' class='center'>";
+   echo T_("Sorry, you need to be member of a Team to access this page.");
+   echo "</div>";
 
-
-// ----------------------
-
-
-$allLists = array();
-$teamMembers = Team::getMemberList($teamid);
-
-$nbDaysToDisplay = 0; 
-foreach ($teamMembers as $id => $name) {
-	$workload = 0;
-	$user = new User($id);
-	
-	if (!$user->isTeamDeveloper($teamid)) { continue; }
-	
-   $scheduledTaskList = $scheduler->scheduleUser($user, $today);
-	
-   foreach($scheduledTaskList as $key => $scheduledTask) {
-   	$workload += $scheduledTask->duration;
-   }
-   $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
+} else {
+   setTeamForm("planning_report.php", $teamid, $teamList);
    
-   $allLists[$user->getName()] = $scheduledTaskList;
-}
-
-$dayPixSize = $graphSize / $nbDaysToDisplay;
-
-// display all team
-echo "<table class='invisible'>\n";
-foreach($allLists as $userName => $scheduledTaskList) {
-
-	echo "<tr>\n";
-   echo "<td>$userName</td>\n";
-   echo "<td ALIGN=LEFT>";
-   displayUserDeadLines($dayPixSize, $today, $scheduledTaskList); 
    echo "<br/>";
-   displayUserSchedule($dayPixSize, $userName, $scheduledTaskList);
-   echo "</td>\n";
-   echo "</tr>\n";
+   echo "<br/>";
+   echo "<hr width='80%'/>\n";
+   echo "<br/>";
+   echo "<br/>";
+   echo "<br/>";
+   
+   if (0 != $teamid) {
+      displayTeam($teamid, $today, $graphSize);
+   }
 }
-echo "</table>\n";
 
-
-
+echo "<br/>\n";
+echo "<br/>\n";
 ?>
 
 </div>
