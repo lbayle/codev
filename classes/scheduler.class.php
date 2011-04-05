@@ -15,7 +15,7 @@ class ScheduledTask {
 
    var $isOnTime;  // determinates the color
    var $info;
-   
+   var $nbDaysToDeadLine;
    
    function ScheduledTask($bugId, $deadLine, $duration) {
       $this->bugId = $bugId;
@@ -66,13 +66,15 @@ class Scheduler {
 			#echo "DEBUG issue $issue->bugId  Duration = $issueDuration<br/>";
 			
 			$currentST = new ScheduledTask($issue->bugId, $issue->deadLine, $issueDuration); 
+
+			$currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->deadLine);
+			
 			
          // check if onTime
 			if (NULL == $issue->deadLine) {
 				$currentST->isOnTime = true;
 			} else {
-            $nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->deadLine);
-            $currentST->isOnTime = (($sumDurations + $issueDuration) < $nbDaysToDeadLine) ? true : false;			
+            $currentST->isOnTime = (($sumDurations + $issueDuration) < $currentST->nbDaysToDeadLine) ? true : false;			
 			}
 			
          // add to list

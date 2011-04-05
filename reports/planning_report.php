@@ -126,6 +126,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    $imageHeight = 5;
    
 	$deadLines = array();
+	$nbDaysToDeadLines = array();
 	
 	foreach($scheduledTaskList as $key => $scheduledTask) {
       if (NULL != $scheduledTask->deadLine) {
@@ -133,7 +134,8 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
       	 if ((NULL == $isOnTime) || (true == $isOnTime)) {
       	 	// if already exists and not on time, do not overwrite.
       	 	$deadLines[$scheduledTask->deadLine] = $scheduledTask->isOnTime;
-            #echo "DEBUG ".date("d m Y", $scheduledTask->deadLine)." - ".date("d m Y", $today)." task $scheduledTask->bugId isOnTime=$scheduledTask->isOnTime<br/>";
+      	 	$nbDaysToDeadLines[$scheduledTask->deadLine] = $scheduledTask->nbDaysToDeadLine;
+            #echo "DEBUG ".date("d m Y", $scheduledTask->deadLine)." - ".date("d m Y", $today)." task $scheduledTask->bugId isOnTime=$scheduledTask->isOnTime nbDaysToDeadLine=$scheduledTask->nbDaysToDeadLine<br/>";
       	 }
       }
    }
@@ -141,8 +143,9 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    $curPos=0;
    foreach($deadLines as $date => $isOnTime) {
       
-   	$offset = ($date - $today) / 86400 ; // in days since today
-      #echo "DEBUG deadline ".date("d/m/Y", $date)." offset = ($date - $today) $offset isOnTime=$scheduledTask->isOnTime<br/>";
+   	$offset = $nbDaysToDeadLines[$date];
+   	#$offset = ($date - $today) / 86400 ; // in days since today
+      #echo "DEBUG deadline ".date("d/m/Y", $date)." offset = $offset isOnTime=$scheduledTask->isOnTime<br/>";
    	
       if ($offset >= 0) {
          $timeLineSize = ($offset * $dayPixSize) - ($imageWidth/2) - $curPos;
