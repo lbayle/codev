@@ -50,6 +50,16 @@ function qsort_partition($a,$l,$r,$lp,$rp,$f) {
     */
    function isHigherPriority($issueA, $issueB) {
       
+   	global $status_openned;
+   	
+   	// Tasks currently open are higher priority
+   	if ($issueA->status == $status_openned) {
+         return  true; 
+   	}
+      if ($issueB->status == $status_openned) {
+         return  true; 
+      }
+   	
       // the one that has NO deadLine is lower priority
       if ((NULL != $issueA->deadLine) && (NULL == $issueB->deadLine)) { 
          #echo "DEBUG isHigherPriority $issueA->bugId higher than $issueB->bugId (B no deadline)<br/>\n";
