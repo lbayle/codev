@@ -88,6 +88,7 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	
    $totalPix = 0;
    $sepWidth = 1;
+   $barHeight = 20;
    
    $images[true]  = "../images/schedTask_green.bmp";
    $images[false] = "../images/schedTask_red.bmp";
@@ -102,17 +103,20 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
       $totalPix += $taskPixSize;
    
       #echo "DEBUG scheduledTask $scheduledTask->bugId size = $taskPixSize<br/>";
-      $taskTitle= "task ".$scheduledTask->bugId.": ".$scheduledTask->duration." days";
+      $taskTitle= "".$scheduledTask->bugId.": ".$scheduledTask->summary." (".$scheduledTask->duration." days) ";
 	   if (NULL != $scheduledTask->deadLine) {
 	   	$taskTitle .= " deadLine = ".date("d/m/Y", $scheduledTask->deadLine);
 	   }
 	   
 	   if ($taskPixSize >= 4) { $taskPixSize -= 4; }  // border size
+
 	   
-	   echo "<IMG WIDTH='2' HEIGHT='20' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
-	   echo "<IMG WIDTH='$taskPixSize' HEIGHT='20' SRC='".$images_center[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
-	   echo "<IMG WIDTH='2' HEIGHT='20' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
-	   echo "<IMG WIDTH='$sepWidth' HEIGHT='20' SRC='../images/schedTask_white.bmp'>";
+	   
+	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
+      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img WIDTH='$taskPixSize' HEIGHT='$barHeight' title='$taskTitle' src='".$images_center[$scheduledTask->isOnTime]."' /></a>";
+	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
+
+	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/schedTask_white.bmp'>";
 	}
 	#echo "DEBUG totalPix    = $totalPix<br/>\n";
 	
