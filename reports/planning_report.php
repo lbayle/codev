@@ -60,7 +60,7 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
   echo "<div align=center>\n";
   echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage' onchange='javascript: submitTeam()'>\n";
 
-  echo "Team :\n";
+  echo T_("Team")." :\n";
   echo "<select name='f_teamid'>\n";
   echo "<option value='0'></option>\n";
 
@@ -103,18 +103,19 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
       $totalPix += $taskPixSize;
    
       #echo "DEBUG scheduledTask $scheduledTask->bugId size = $taskPixSize<br/>";
-      $taskTitle= "".$scheduledTask->bugId.": ".$scheduledTask->summary." (".$scheduledTask->duration." days) ";
+      $taskTitle= "".$scheduledTask->bugId.": ".$scheduledTask->summary." (".$scheduledTask->duration." ".T_("days").")";
 	   if (NULL != $scheduledTask->deadLine) {
-	   	$taskTitle .= " deadLine = ".date("d/m/Y", $scheduledTask->deadLine);
+	   	$taskTitle .= "  ".T_("deadLine")." = ".date("d/m/Y", $scheduledTask->deadLine);
 	   }
+	   $formatedTitle = str_replace("'", " ", $taskTitle);
+      $formatedTitle = str_replace("\"", " ", $formatedTitle);
 	   
 	   if ($taskPixSize >= 4) { $taskPixSize -= 4; }  // border size
-
 	   
 	   
-	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
-      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img WIDTH='$taskPixSize' HEIGHT='$barHeight' title='$taskTitle' src='".$images_center[$scheduledTask->isOnTime]."' /></a>";
-	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
+	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$formatedTitle'>";
+      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img WIDTH='$taskPixSize' HEIGHT='$barHeight' title='$formatedTitle' src='".$images_center[$scheduledTask->isOnTime]."' /></a>";
+	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$formatedTitle'>";
 
 	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/schedTask_white.bmp'>";
 	}
