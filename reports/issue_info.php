@@ -199,6 +199,35 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
       echo "</tr>\n";
   }      
   echo "</table>\n";
+
+  // TimeDrift
+  echo "<br/>\n";
+  echo "<br/>\n";
+  
+  echo "<table>\n";
+  echo "<tr>\n";
+  echo "  <th>".T_("Dates")."</th>\n";
+  echo "  <th></th>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "  <td>".T_("DeliveryDate")."</td>\n";
+  echo "  <td>".date("d M Y", $issue->deliveryDate)."</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "  <td>".T_("DeadLine")."</td>\n";
+  echo "  <td>".date("d M Y", $issue->deadLine)."</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
+  echo "  <td>".T_("Drift")."</td>\n";
+  $timeDrift=$issue->getTimeDrift();
+  echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>$timeDrift ".T_("days")."</td>\n";
+  echo "</tr>\n";
+  echo "</table>\n";
+  
+  
   
 }
 
