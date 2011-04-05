@@ -87,28 +87,34 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	
    $totalPix = 0;
-   $sepWidth = 1;
+   $sepWidth = 2;
    
    $images[true]  = "../images/schedTask_green.bmp";
    $images[false] = "../images/schedTask_red.bmp";
 
-
-#echo "".$userName."&nbsp; &nbsp;";
-foreach($scheduledTaskList as $key => $scheduledTask) {
+   $images_center[true]  = "../images/schedTask_green_center.bmp";
+   $images_center[false] = "../images/schedTask_red_center.bmp";
    
-   $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
-   $totalPix += $taskPixSize;
+   #echo "".$userName."&nbsp; &nbsp;";
+   foreach($scheduledTaskList as $key => $scheduledTask) {
    
-   #echo "DEBUG scheduledTask $scheduledTask->bugId size = $taskPixSize<br/>";
-   $taskTitle= "task ".$scheduledTask->bugId.": ".$scheduledTask->duration." days";
-   if (NULL != $scheduledTask->deadLine) {
-   	$taskTitle .= " deadLine = ".date("d/m/Y", $scheduledTask->deadLine);
-   }
+      $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
+      $totalPix += $taskPixSize;
    
-   echo "<IMG WIDTH='$taskPixSize' HEIGHT='20' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
-   echo "<IMG WIDTH='$sepWidth' HEIGHT='20' SRC='../images/schedTask_white.bmp'>";
-}
-#echo "DEBUG totalPix    = $totalPix<br/>\n";
+      #echo "DEBUG scheduledTask $scheduledTask->bugId size = $taskPixSize<br/>";
+      $taskTitle= "task ".$scheduledTask->bugId.": ".$scheduledTask->duration." days";
+	   if (NULL != $scheduledTask->deadLine) {
+	   	$taskTitle .= " deadLine = ".date("d/m/Y", $scheduledTask->deadLine);
+	   }
+	   
+	   if ($taskPixSize >= 4) { $taskPixSize -= 4; }  // border size
+	   
+	   echo "<IMG WIDTH='2' HEIGHT='20' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
+	   echo "<IMG WIDTH='$taskPixSize' HEIGHT='20' SRC='".$images_center[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
+	   echo "<IMG WIDTH='2' HEIGHT='20' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
+	   echo "<IMG WIDTH='$sepWidth' HEIGHT='20' SRC='../images/schedTask_white.bmp'>";
+	}
+	#echo "DEBUG totalPix    = $totalPix<br/>\n";
 	
 }
 

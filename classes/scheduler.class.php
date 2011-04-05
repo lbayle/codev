@@ -74,7 +74,7 @@ class Scheduler {
 			if (NULL == $issue->deadLine) {
 				$currentST->isOnTime = true;
 			} else {
-            $currentST->isOnTime = (($sumDurations + $issueDuration) < $currentST->nbDaysToDeadLine) ? true : false;			
+            $currentST->isOnTime = (($sumDurations + $issueDuration) <= $currentST->nbDaysToDeadLine) ? true : false;			
 			}
 			
          // add to list
