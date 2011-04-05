@@ -76,9 +76,10 @@ class Scheduler {
 			}
 			
          // add to list
-         $scheduledTaskList[$sumDurations] = $currentST;
-         
-         $sumDurations += $issueDuration;
+         if (0 != $issueDuration) {
+            $scheduledTaskList[$sumDurations] = $currentST;
+            $sumDurations += $issueDuration;
+         }
          
 		} // foreach task
 		

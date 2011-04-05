@@ -45,7 +45,8 @@ include_once "scheduler.class.php";
 function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	
    $totalPix = 0;
-
+   $sepWidth = 1;
+   
    $images[true]  = "../images/schedTask_green.bmp";
    $images[false] = "../images/schedTask_red.bmp";
 
@@ -56,12 +57,63 @@ foreach($scheduledTaskList as $key => $scheduledTask) {
    $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
    $totalPix += $taskPixSize;
    
-   echo "<IMG WIDTH='$taskPixSize' HEIGHT='20' SRC='".$images[$scheduledTask->isOnTime]."' ALT='Texte remplaçant l image' TITLE=' task ".$scheduledTask->bugId.": ".$scheduledTask->duration."j'>";
+   #echo "DEBUG scheduledTask $scheduledTask->bugId size = $taskPixSize<br/>";
+   $taskTitle= "task ".$scheduledTask->bugId.": ".$scheduledTask->duration." days";
+   if (NULL != $scheduledTask->deadLine) {
+   	$taskTitle .= " deadLine = ".date("d/m/Y", $scheduledTask->deadLine);
+   }
+   
+   echo "<IMG WIDTH='$taskPixSize' HEIGHT='20' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$taskTitle'>";
    echo "<IMG WIDTH='$sepWidth' HEIGHT='20' SRC='../images/schedTask_white.bmp'>";
 }
 #echo "DEBUG totalPix    = $totalPix<br/>\n";
 	
 }
+
+/**
+ * 
+ * @param $dayPixSize
+ * @param $scheduledTaskList
+ */
+function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
+   
+	$images[true]  = "../images/arrow_down_blue.PNG";
+   $images[false] = "../images/arrow_down_red.PNG";
+   $imageWidth = 10;
+   $imageHeight = 5;
+   
+	$deadLines = array();
+	
+	foreach($scheduledTaskList as $key => $scheduledTask) {
+      if (NULL != $scheduledTask->deadLine) {
+      	$isOnTime = $deadLines[$scheduledTask->deadLine];
+      	 if ((NULL == $isOnTime) || (true == $isOnTime)) {
+      	 	// if already exists and not on time, do not overwrite.
+      	 	$deadLines[$scheduledTask->deadLine] = $scheduledTask->isOnTime;
+            #echo "DEBUG ".date("d m Y", $scheduledTask->deadLine)." - ".date("d m Y", $today)." task $scheduledTask->bugId isOnTime=$scheduledTask->isOnTime<br/>";
+      	 }
+      }
+   }
+
+   $curPos=0;
+   foreach($deadLines as $date => $isOnTime) {
+      
+   	$offset = ($date - $today) / 86400 ; // in days since today
+      
+      if ($offset >= 0) {
+         $timeLineSize = ($offset * $dayPixSize) - ($imageWidth/2) - $curPos;
+   
+         echo "<IMG WIDTH='$timeLineSize' HEIGHT='$imageHeight' SRC='../images/time_line.jpg'>";
+         echo "<IMG SRC='".$images[$isOnTime]."' ALT='Texte remplaçant l image' TITLE='".date("d/m/Y", $date)." (+$offset days)'>";
+
+         $curPos += $timeLineSize + $imageWidth;
+      }
+   	
+   }
+	return $deadLines;
+}
+
+
 
 // ------------------------------
 function displayScheduledTaskTable($scheduledTaskList) {
@@ -102,7 +154,6 @@ echo "<br/>";
 // ================ MAIN =================
 
 $graphSize = 800;
-$sepWidth = 1;
 
 $teamid = 26; // codev
 
@@ -153,9 +204,12 @@ $dayPixSize = $graphSize / $nbDaysToDisplay;
 // display all team
 echo "<table class='invisible'>\n";
 foreach($allLists as $userName => $scheduledTaskList) {
-   echo "<tr>\n";
+
+	echo "<tr>\n";
    echo "<td>$userName</td>\n";
-   echo "<td>";
+   echo "<td ALIGN=LEFT>";
+   displayUserDeadLines($dayPixSize, $today, $scheduledTaskList); 
+   echo "<br/>";
    displayUserSchedule($dayPixSize, $userName, $scheduledTaskList);
    echo "</td>\n";
    echo "</tr>\n";
