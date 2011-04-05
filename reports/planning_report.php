@@ -87,7 +87,7 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	
    $totalPix = 0;
-   $sepWidth = 2;
+   $sepWidth = 1;
    
    $images[true]  = "../images/schedTask_green.bmp";
    $images[false] = "../images/schedTask_red.bmp";
@@ -211,6 +211,7 @@ function displayTeam($teamid, $today, $graphSize) {
 	   $user = new User($id);
 	   
 	   if (!$user->isTeamDeveloper($teamid)) { continue; }
+	   if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
 	   
 	   $scheduledTaskList = $scheduler->scheduleUser($user, $today);
 	   
