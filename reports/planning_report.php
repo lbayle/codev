@@ -90,11 +90,8 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
    $sepWidth = 1;
    $barHeight = 20;
    
-   $images[true]  = "../images/schedTask_green.bmp";
-   $images[false] = "../images/schedTask_red.bmp";
-
-   $images_center[true]  = "../images/schedTask_green_center.bmp";
-   $images_center[false] = "../images/schedTask_red_center.bmp";
+   $image_color[true]  = "green";
+   $image_color[false] = "red";
    
    #echo "".$userName."&nbsp; &nbsp;";
    foreach($scheduledTaskList as $key => $scheduledTask) {
@@ -114,7 +111,8 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	   
 	   
 	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$formatedTitle'>";
-      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img WIDTH='$taskPixSize' HEIGHT='$barHeight' title='$formatedTitle' src='".$images_center[$scheduledTask->isOnTime]."' /></a>";
+      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$taskPixSize&text=$scheduledTask->bugId&color=".$image_color[$scheduledTask->isOnTime]."' /></a>";
+      #echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img WIDTH='$taskPixSize' HEIGHT='$barHeight' title='$formatedTitle' src='".$images_center[$scheduledTask->isOnTime]."' /></a>";
 	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$formatedTitle'>";
 
 	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/schedTask_white.bmp'>";
