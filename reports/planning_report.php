@@ -20,23 +20,20 @@ if (!isset($_SESSION['userid'])) {
 
 
 <script language="JavaScript">
-  function submitForm() {
-    document.forms["form1"].action.value = "displayBug";
-    document.forms["form1"].submit();
-  }
 
   function submitTeam(){
-     // check fields
+
      foundError = 0;
      msgString = "Some fields are missing:" + "\n\n";
          
      if (0 == document.forms["teamSelectForm"].f_teamid.value)  { msgString += "Team\n"; ++foundError; }
                     
-     if (0 == foundError) {
-       document.forms["teamSelectForm"].submit();
-     } else {
+     if (0 != foundError) {
        alert(msgString);    
-     }    
+     }
+     document.forms["teamSelectForm"].action.value = "displayPlanning";
+     document.forms["teamSelectForm"].submit();
+         
    }
 
   
@@ -58,7 +55,7 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
    
   // create form
   echo "<div align=center>\n";
-  echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage' onchange='javascript: submitTeam()'>\n";
+  echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
 
   echo T_("Team")." :\n";
   echo "<select name='f_teamid'>\n";
@@ -74,9 +71,10 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
   }
   echo "</select>\n";
 
-  echo "<input type=hidden name=currentForm value=teamSelectForm>\n";
-  echo "<input type=hidden name=nextForm    value=editTeamForm>\n";
-
+   echo "<input type=button value='".T_("Update")."' onClick='javascript: submitTeam()'>\n";
+   
+   echo "<input type=hidden name=action value=noAction>\n";
+   
   echo "</form>\n";
   echo "</div>\n";
 }
@@ -255,6 +253,7 @@ $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die("Could not connect database : ".mysql_error());
 mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql_error());
 
+$action = $_POST[action];
 
 // use the teamid set in the form, if not defined (first page call) use session teamid
 if (isset($_POST[f_teamid])) {
@@ -286,15 +285,18 @@ if (0 == count($teamList)) {
 } else {
    setTeamForm("planning_report.php", $teamid, $teamList);
    
-   echo "<br/>";
-   echo "<br/>";
-   echo "<hr width='80%'/>\n";
-   echo "<br/>";
-   echo "<br/>";
-   echo "<br/>";
+   if ("displayPlanning" == $action) {
    
-   if (0 != $teamid) {
-      displayTeam($teamid, $today, $graphSize);
+      if (0 != $teamid) {
+         echo "<br/>";
+         echo "<br/>";
+		   echo "<hr width='80%'/>\n";
+		   echo "<br/>";
+		   echo "<br/>";
+		   echo "<br/>";
+   
+      	displayTeam($teamid, $today, $graphSize);
+      }
    }
 }
 

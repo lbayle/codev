@@ -212,18 +212,29 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
   
   echo "<tr>\n";
   echo "  <td>".T_("DeliveryDate")."</td>\n";
-  echo "  <td>".date("d M Y", $issue->deliveryDate)."</td>\n";
+  if (NULL != $issue->deliveryDate) {
+      echo "  <td>".date("d M Y", $issue->deliveryDate)."</td>\n";
+  } else {
+      echo "  <td></td>\n";
+  }
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "  <td>".T_("DeadLine")."</td>\n";
-  echo "  <td>".date("d M Y", $issue->deadLine)."</td>\n";
+  if (NULL != $issue->deadLine) {
+      echo "  <td>".date("d M Y", $issue->deadLine)."</td>\n";
+  } else {
+      echo "  <td></td>\n";
+  }
   echo "</tr>\n";
-  
   echo "<tr>\n";
   echo "  <td>".T_("Drift")."</td>\n";
   $timeDrift=$issue->getTimeDrift();
-  echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>$timeDrift ".T_("days")."</td>\n";
+  if (!is_string($timeDrift)) {
+      echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>$timeDrift ".T_("days")."</td>\n";
+  } else {
+      echo "  <td>&nbsp;&nbsp;&nbsp;</td>\n";
+  }
   echo "</tr>\n";
   echo "</table>\n";
   

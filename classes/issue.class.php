@@ -414,7 +414,7 @@ class Issue {
    		$timeDrift -= $nbHolidays;
    	} else {
          $timeDrift = "Error";
-   		echo "WARNING: could not determinate TimeDrift for issue $this->bugId.<br/>";
+   		#echo "WARNING: could not determinate TimeDrift for issue $this->bugId.<br/>";
    	}
    	return  $timeDrift;
    }
