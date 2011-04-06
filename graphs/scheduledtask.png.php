@@ -16,9 +16,9 @@ function gradiant($img,$color1,$color2)
         $sizeX = imagesx($img);
         
         $diffs = array(
-                (($color2[0]-$color1[0])/$size),
-                (($color2[1]-$color1[1])/$size),
-                (($color2[2]-$color1[2])/$size)
+                (($color2[0]-$color1[0])/($size/2)),
+                (($color2[1]-$color1[1])/($size/2)),
+                (($color2[2]-$color1[2])/($size/2))
         );
 
         for($i=0;$i<$size/2;$i++)
@@ -67,7 +67,7 @@ if ("red" == $color) {
 $im = gradiant($im, $border_color, array(255,255,255));
 
 // text size
-while ((imagefontwidth($font) * strlen($string) > ($width -(2*$border))) && ($font >= 1)) {
+while ((imagefontwidth($font) * strlen($string) > ($width -(2*$border))) && ($font > 1)) {
  $font -= 1;
 }
 
