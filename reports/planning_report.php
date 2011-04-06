@@ -110,12 +110,9 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	   if ($taskPixSize >= 4) { $taskPixSize -= 4; }  // border size
 	   
 	   
-	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$formatedTitle'>";
       echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$taskPixSize&text=$scheduledTask->bugId&color=".$image_color[$scheduledTask->isOnTime]."' /></a>";
-      #echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img WIDTH='$taskPixSize' HEIGHT='$barHeight' title='$formatedTitle' src='".$images_center[$scheduledTask->isOnTime]."' /></a>";
-	   echo "<IMG WIDTH='2' HEIGHT='$barHeight' SRC='".$images[$scheduledTask->isOnTime]."' TITLE='$formatedTitle'>";
 
-	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/schedTask_white.bmp'>";
+	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/white.png'>";
 	}
 	#echo "DEBUG totalPix    = $totalPix<br/>\n";
 	

@@ -1,27 +1,57 @@
 <?php
+header("Content-type: image/png");
 
 # creates a PNG file containing a barr with some text in it.
-
 # call with:
 # <img src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=345&color=red'/>"; 
 # <a href='./reports/issue_info.php?bugid=225'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=225&color=green' /></a>
-header("Content-type: image/png");
+
+
+
+
+// ----------------------------
+function gradiant($img,$color1,$color2)
+{
+        $size = imagesy($img);
+        $sizeX = imagesx($img);
+        
+        $diffs = array(
+                (($color2[0]-$color1[0])/$size),
+                (($color2[1]-$color1[1])/$size),
+                (($color2[2]-$color1[2])/$size)
+        );
+
+        for($i=0;$i<$size/2;$i++)
+        {
+                $r = $color1[0]+($diffs[0]*$i);
+                $g = $color1[1]+($diffs[1]*$i);
+                $b = $color1[2]+($diffs[2]*$i);
+                $color = imagecolorallocate($img,$r,$g,$b);
+                imagefilledrectangle($img, $i, $i, $sizeX-$i, $size-$i, $color);
+        }
+        return $img;
+}
+
+
+
+// ================ MAIN =================
+
 $string = $_GET['text'];
 $height = $_GET['height'];
 $width  = $_GET['width'];
 $color  = $_GET['color'];
 
-$border = 2;
+
 $font = 4;
 
 // Create the image
 $im = imagecreatetruecolor($width, $height);
 
-$white  = imagecolorallocate($im, 255, 255, 255);
-$grey   = imagecolorallocate($im, 128, 128, 128);
-$black  = imagecolorallocate($im, 0, 0, 0);
-$green  = imagecolorallocate($im, 128, 255, 159);
-$red    = imagecolorallocate($im, 255, 183, 183);
+$grey      = array(128, 128, 128);
+$black     = array(0, 0, 0);
+$green     = array(128, 255, 159);
+$red       = array(255, 183, 183);
+$textColor = imagecolorallocate($im, 0, 0, 0);
 
 if ("red" == $color) {
    $border_color = $red;
@@ -34,18 +64,8 @@ if ("red" == $color) {
 }
 
 // image color
-imagefilledrectangle($im, 0, 0, $width, $height, $border_color);
-imagefilledrectangle($im, $border, $border, imagesx($im)-$border-1, imagesy($im)-$border-1, $white);
+$im = gradiant($im, $border_color, array(255,255,255));
 
-/*
-imagesy($im)-$border-1, $red2);
-imagefilledrectangle($im, $border, (2*$border),
-imagesx($im)-$border-1, imagesy($im)-(2*$border)-1, $red3);
-imagefilledrectangle($im, $border, (3*$border),
-imagesx($im)-$border-1, imagesy($im)-(3*$border)-1, $red4);
-imagefilledrectangle($im, $border, (4*$border),
-imagesx($im)-$border-1, imagesy($im)-(4*$border)-1, $white);
-*/
 // text size
 while ((imagefontwidth($font) * strlen($string) > ($width -(2*$border))) && ($font >= 1)) {
  $font -= 1;
@@ -55,7 +75,7 @@ while ((imagefontwidth($font) * strlen($string) > ($width -(2*$border))) && ($fo
 if (imagefontwidth($font) * strlen($string) <= $width) {
  $px     = (imagesx($im) - imagefontwidth($font) * strlen($string)) / 2;
  $py     = (imagesy($im) - imagefontheight($font)) / 2;
- imagestring($im, $font, $px, $py, $string, $black);
+ imagestring($im, $font, $px, $py, $string, $textColor);
 }
 
 imagepng($im);
