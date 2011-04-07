@@ -129,7 +129,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 	$images[true]  = "../images/arrow_down_blue.PNG";
    $images[false] = "../images/arrow_down_red.PNG";
    $imageWidth = 10;
-   $imageHeight = 5;
+   $imageHeight = 7;
    
 	$deadLines = array();
 	$nbDaysToDeadLines = array();
