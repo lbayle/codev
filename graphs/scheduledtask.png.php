@@ -47,7 +47,7 @@ $font = 4;
 // Create the image
 $im = imagecreatetruecolor($width, $height);
 
-$grey      = array(128, 128, 128);
+$grey      = array(210, 210, 210);
 $black     = array(0, 0, 0);
 $green     = array(128, 255, 159);
 $red       = array(255, 183, 183);
@@ -67,7 +67,7 @@ if ("red" == $color) {
 $im = gradiant($im, $border_color, array(255,255,255));
 
 // text size
-while ((imagefontwidth($font) * strlen($string) > ($width -(2*$border))) && ($font > 1)) {
+while ((imagefontwidth($font) * strlen($string) > ($width)) && ($font > 1)) {
  $font -= 1;
 }
 

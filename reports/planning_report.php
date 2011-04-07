@@ -101,14 +101,16 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
       $taskTitle= "".$scheduledTask->bugId.": ".$scheduledTask->summary." (".$scheduledTask->duration." ".T_("days").")";
 	   if (NULL != $scheduledTask->deadLine) {
 	   	$taskTitle .= "  ".T_("deadLine")." = ".date("d/m/Y", $scheduledTask->deadLine);
+         $color = ($scheduledTask->isOnTime) ? "green" : "red"; 
+	   } else {
+	   	$color = "grey";
 	   }
 	   $formatedTitle = str_replace("'", " ", $taskTitle);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
+
+      
 	   
-	   if ($taskPixSize >= 4) { $taskPixSize -= 4; }  // border size
-	   
-	   
-      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$taskPixSize&text=$scheduledTask->bugId&color=".$image_color[$scheduledTask->isOnTime]."' /></a>";
+      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$taskPixSize&text=$scheduledTask->bugId&color=".$color."' /></a>";
 
 	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/white.png'>";
 	}
@@ -221,7 +223,7 @@ function displayTeam($teamid, $today, $graphSize) {
 	   $allLists[$user->getName()] = $scheduledTaskList;
 	}
 	
-	$dayPixSize = $graphSize / $nbDaysToDisplay;
+	$dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
 	
 	// display all team
 	echo "<table class='invisible'>\n";

@@ -215,7 +215,7 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
   if (NULL != $issue->deliveryDate) {
       echo "  <td>".date("d M Y", $issue->deliveryDate)."</td>\n";
   } else {
-      echo "  <td></td>\n";
+      echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }
   echo "</tr>\n";
   
@@ -224,7 +224,7 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
   if (NULL != $issue->deadLine) {
       echo "  <td>".date("d M Y", $issue->deadLine)."</td>\n";
   } else {
-      echo "  <td></td>\n";
+      echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }
   echo "</tr>\n";
   echo "<tr>\n";
@@ -233,7 +233,7 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
   if (!is_string($timeDrift)) {
       echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>$timeDrift ".T_("days")."</td>\n";
   } else {
-      echo "  <td>&nbsp;&nbsp;&nbsp;</td>\n";
+      echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }
   echo "</tr>\n";
   echo "</table>\n";
