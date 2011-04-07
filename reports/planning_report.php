@@ -202,7 +202,8 @@ echo "</table>\n";
 function displayTeam($teamid, $today, $graphSize) {
 	$scheduler = new Scheduler();
 
-	$allLists = array();
+	$allTasksLists = array();
+   $workloads = array();
 	$teamMembers = Team::getMemberList($teamid);
 	
 	$nbDaysToDisplay = 0; 
@@ -220,17 +221,18 @@ function displayTeam($teamid, $today, $graphSize) {
 	   }
 	   $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
 	   
-	   $allLists[$user->getName()] = $scheduledTaskList;
+	   $allTasksLists[$user->getName()] = $scheduledTaskList;
+	   $workloads[$user->getName()]     = $workload;
 	}
 	
 	$dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
 	
 	// display all team
 	echo "<table class='invisible'>\n";
-	foreach($allLists as $userName => $scheduledTaskList) {
+	foreach($allTasksLists as $userName => $scheduledTaskList) {
 	
 	   echo "<tr valign='center'>\n";
-	   echo "<td>$userName</td>\n";
+	   echo "<td title='".T_("workload")." = ".$workloads[$userName]." ".T_("days")."'>$userName</td>\n";
 	   echo "<td>";
 	   $deadLines = displayUserDeadLines($dayPixSize, $today, $scheduledTaskList);
       if (0 != count($deadLines)) { echo "<br/>"; } // 
