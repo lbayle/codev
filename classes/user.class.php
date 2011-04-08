@@ -226,8 +226,13 @@ class User {
   }
    
    // --------------------
-   public function getAstreintesInPeriod($startTimestamp, $endTimestamp) {
-    $daysOf = array();  // day => duration
+   /**
+    * 
+    * @param unknown_type $startTimestamp
+    * @param unknown_type $endTimestamp
+    */
+   public function getAstreintesInMonth($startTimestamp, $endTimestamp) {
+    $astreintes = array();  // day => duration
       
     $query     = "SELECT bugid, date, duration ".
                  "FROM `codev_timetracking_table` ".
@@ -238,11 +243,11 @@ class User {
          
       $issue = new Issue ($row->bugid);
       if ($issue->isAstreinte()) {
-        $daysOf[date("j", $row->date)] += $row->duration;
-        //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
+        $astreintes[date("j", $row->date)] += $row->duration;
+        //echo "DEBUG user $this->userid astreintes[".date("j", $row->date)."] = ".$astreintes[date("j", $row->date)]." (+$row->duration)<br/>";
       }
     }
-    return $daysOf;
+    return $astreintes;
   }
    
   // --------------------

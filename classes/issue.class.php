@@ -170,6 +170,19 @@ class Issue {
       return false;
    }
    
+   // ----------------------------------------------
+   public function isAstreinte() {
+
+   	global $astreintesTaskList;
+   	
+      if (in_array($this->bugId, $astreintesTaskList)) { 
+         
+         echo "DEBUG $this->bugId is an Astreinte.<br/>";
+         return true;
+      }
+      return false;
+   }
+
    
    // ----------------------------------------------
    public function getTC() {

@@ -52,6 +52,9 @@
   $priorityNames   = doubleExplode(':', ',', $s_priority_enum_string);
   $resolutionNames = doubleExplode(':', ',', $s_resolution_enum_string);
   
+  // ---
+  $astreintesTaskList = array(526); // fiches de SuiviOp:Inactivite qui sont des astreintes
+  
   
   // --- STATUS ---
   // REM: see $g_status_enum_string defined in previous section
@@ -133,8 +136,6 @@
   $defaultSideTaskProject = 11; // "SuiviOp" in table mantis_project_table
   $FDLProject       = 18;
 
-  
-  
   // ---
   $admin_teamid = 3; // users allowed to do CoDev administration
   $FDJ_teamid = 21;  // all FDJ users : used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)                     

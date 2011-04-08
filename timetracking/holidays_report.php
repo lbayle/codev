@@ -76,6 +76,9 @@ function  displayHolidaysReportForm($teamid, $curYear) {
 function displayHolidaysMonth($month, $year, $teamid) {
   
   $holidays = new Holidays();
+  $green="A8FFBD";
+  $yellow="F8FFA8";
+  $orange="FFC466";
   
   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
   $monthFormated = date("F Y", $monthTimestamp); 
@@ -117,13 +120,20 @@ function displayHolidaysMonth($month, $year, $teamid) {
 	   	
 		   $daysOf = $user1->getDaysOfInMonth($startT, $endT);
 		    
+		   $astreintes = $user1->getAstreintesInMonth($startT, $endT);
+		   
 		    echo "<tr>\n";
 		    echo "<td title='$row->realname'>$row->username</td>\n";
 		              
-		    for ($i = 1; $i <= $nbDaysInMonth; $i++) {        
-		      if (NULL != $daysOf[$i]) {
+		    for ($i = 1; $i <= $nbDaysInMonth; $i++) {
+
+		    	
+            if (NULL != $astreintes[$i]) {
+              echo "<td style='background-color: #$yellow; text-align: center;' title='".T_("Astreinte")."'>".$daysOf[$i]."</td>\n";
+            	
+            } elseif (NULL != $daysOf[$i]) {
 		      	
-		        echo "<td style='background-color: #A8FFBD; text-align: center;'>".$daysOf[$i]."</td>\n";
+		        echo "<td style='background-color: #$green; text-align: center;'>".$daysOf[$i]."</td>\n";
 		      } else {
 		      	
               // If weekend or holiday, display gray
