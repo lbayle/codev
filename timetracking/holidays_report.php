@@ -115,7 +115,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
 	   if (($user1->isTeamDeveloper($teamid, $startT, $endT)) || 
           ($user1->isTeamManager($teamid, $startT, $endT))) {
 	   	
-		   $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+		   $daysOf = $user1->getDaysOfInMonth($startT, $endT);
 		    
 		    echo "<tr>\n";
 		    echo "<td title='$row->realname'>$row->username</td>\n";
@@ -182,7 +182,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
       if (($user1->isTeamDeveloper($teamid, $startT, $endT)) || 
           ($user1->isTeamManager($teamid, $startT, $endT))) {
             
-         $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+         $daysOf = $user1->getDaysOfInMonth($startT, $endT);
           
            // concatenate days 
          $startBlockTimestamp = 0;

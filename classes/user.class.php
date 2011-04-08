@@ -201,9 +201,12 @@ class User {
    }
 
    // --------------------
-   /** REM: period cannot exceed 1 month. */
-   // FIXME 1 month limit
-   public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
+   /** 
+    * returns an array $daysOf[day] = $row->duration;
+    * where day in [1..31]
+    * REM: period cannot exceed 1 month. 
+    */
+   public function getDaysOfInMonth($startTimestamp, $endTimestamp) {
     $daysOf = array();  // day => duration
       
     $query     = "SELECT bugid, date, duration ".
@@ -223,6 +226,26 @@ class User {
   }
    
    // --------------------
+   public function getAstreintesInPeriod($startTimestamp, $endTimestamp) {
+    $daysOf = array();  // day => duration
+      
+    $query     = "SELECT bugid, date, duration ".
+                 "FROM `codev_timetracking_table` ".
+                 "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
+                 "AND userid = $this->id";
+    $result    = mysql_query($query) or die("Query failed: $query");
+    while($row = mysql_fetch_object($result)) {
+         
+      $issue = new Issue ($row->bugid);
+      if ($issue->isAstreinte()) {
+        $daysOf[date("j", $row->date)] += $row->duration;
+        //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
+      }
+    }
+    return $daysOf;
+  }
+   
+  // --------------------
    public function getProductionDaysForecast($startTimestamp, $endTimestamp, $team_id = NULL) {
 
       $holidays = new Holidays();
@@ -253,10 +276,10 @@ class User {
         }
       }
       
-      $nbDaysOf = array_sum($this->getDaysOfInPeriod($startT, $endT));
+      $nbDaysOf = array_sum($this->getDaysOfInMonth($startT, $endT));
       $prodDaysForecast = $nbOpenDaysInPeriod - $nbDaysOf;
       
-      #echo "user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - $nbDaysOf) = $prodDaysForecast <br/>";
+      #echo "user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - ".$nbDaysOf.") = $prodDaysForecast <br/>";
       
       return $prodDaysForecast;
    }

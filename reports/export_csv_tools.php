@@ -312,7 +312,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
       if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
           ($user1->isTeamManager($teamid, $startT, $endT))) {
          
-         $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+         $daysOf = $user1->getDaysOfInMonth($startT, $endT);
           
            // concatenate days 
          $startBlockTimestamp = 0;
