@@ -44,6 +44,10 @@ class Issue {
    var $elapsed;    // total time spent on this issue
    var $statusList; // array of statusInfo elements
 
+   // -- PRIVATE cached fields
+   var $project;    // NULL untill first call to getProject()
+   var $holidays;
+      
    // ----------------------------------------------
    public function Issue ($id) {
       $this->bugId = $id;
@@ -104,12 +108,29 @@ class Issue {
       $this->statusList = array();
    }
 
+   /**
+    * returns a Project class instance
+    */
+   public function getProject() {
+   	
+   	if (NULL == $this->project) {	$this->project = new Project($this->projectId); }
+   	return $this->project;
+   }
+   
+   /**
+    * returns a Holidays class instance
+    */
+   private function getHolidays() {
+   	if (NULL == $this->holidays) { $this->holidays = new Holidays(); }
+   	return $this->holidays;
+   }
+   
    // ----------------------------------------------
    // Ex: vacation or Incident tasks are not production issues.
    //     but tools and doc are production issues.
    public function isSideTaskIssue() {
       
-      $project = new Project($this->projectId);
+      $project = $this->getProject();
       
       if (($project->isSideTasksProject()) && 
           ($project->getToolsCategoryId() != $this->categoryId) && 
@@ -124,8 +145,8 @@ class Issue {
    // ----------------------------------------------
    public function isVacation() {
 
-      $project = new Project($this->projectId);
-      
+      $project = $this->getProject();
+   	      
       if (($project->isSideTasksProject()) && 
           ($project->getInactivityCategoryId() == $this->categoryId)) { 
          
@@ -138,8 +159,8 @@ class Issue {
    // ----------------------------------------------
    public function isIncident() {
 
-      $project = new Project($this->projectId);
-      
+      $project = $this->getProject();
+   	      
       if (($project->isSideTasksProject()) && 
           ($project->getIncidentCategoryId() == $this->categoryId)) { 
          
@@ -162,11 +183,17 @@ class Issue {
 
    // ----------------------------------------------
    public function getProjectName() {
+   	
+   	$project = $this->getProject();
+   	return $project->name;
+   	
+   	/*
       $query = "SELECT name FROM `mantis_project_table` WHERE id= $this->projectId";
       $result = mysql_query($query) or die("Query failed: $query");
       $projectName = mysql_result($result, 0);
-
+      
       return $projectName;
+      */
    }
 
    // ----------------------------------------------
@@ -405,7 +432,7 @@ class Issue {
          #echo "DEBUG: TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift<br/>";
          
    		// remove weekends & holidays
-   		$holidays = new Holidays();
+   		$holidays = $this->getHolidays();
    		if ($this->deliveryDate < $this->deadLine) {
    		    $nbHolidays = $holidays->getNbHolidays($this->deliveryDate, $this->deadLine);
    		} else {
