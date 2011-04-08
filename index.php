@@ -121,7 +121,7 @@ function displayConsistencyErrors($sessionUser) {
 
          if ($sessionUser->id == $cerr->userId) {
             $user = new User($cerr->userId);
-            $issue = new Issue($cerr->bugId);
+            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
             echo T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)." : &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span><br/>\n";
          }
       }

@@ -78,7 +78,7 @@ class IssueTracking {
 
     while($row = mysql_fetch_object($result))
     {
-      $issue = new Issue ($row->id);
+      $issue = IssueCache::getInstance()->getIssue($row->id);
       $issue->computeDurations();
       $this->issueList[$row->id] = $issue; 
     }

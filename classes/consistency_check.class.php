@@ -86,7 +86,7 @@ class ConsistencyCheck {
       $result    = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
-         $issue = new Issue($row->bug_id);
+         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
          
          if ((NULL != $issue->deliveryId) &&  
          	 (NULL == $issue->deliveryDate)) {
@@ -134,7 +134,7 @@ class ConsistencyCheck {
       $result    = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
-      	$issue = new Issue($row->bug_id);
+      	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
       	
          if (NULL == $issue->effortEstim) {
            $cerr = new ConsistencyError($row->bug_id, 
@@ -205,7 +205,7 @@ class ConsistencyCheck {
       while($row = mysql_fetch_object($result))
       {
          // check if fields correctly set
-      	$issue = new Issue($row->bug_id);
+      	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
          
          if (0 != $issue->remaining) {
            $cerr = new ConsistencyError($row->bug_id, 
@@ -256,7 +256,7 @@ class ConsistencyCheck {
       while($row = mysql_fetch_object($result))
       {
          // check if fields correctly set
-         $issue = new Issue($row->bug_id);
+         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
          
          if ($issue->remaining <= $min_remaining) {
            $cerr = new ConsistencyError($row->bug_id, 
@@ -315,7 +315,7 @@ class ConsistencyCheck {
       while($row = mysql_fetch_object($result))
       {
          // check if fields correctly set
-         $issue = new Issue($row->bug_id);
+         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
          
          if ( (NULL == $issue->eta) || (10 == $issue->eta)) {   // 10 == none
          	

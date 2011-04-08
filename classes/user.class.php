@@ -216,7 +216,7 @@ class User {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result)) {
          
-      $issue = new Issue ($row->bugid);
+      $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ($issue->isVacation()) {
         $daysOf[date("j", $row->date)] += $row->duration;
         //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
@@ -241,7 +241,7 @@ class User {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result)) {
          
-      $issue = new Issue ($row->bugid);
+      $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ($issue->isAstreinte()) {
         $astreintes[date("j", $row->date)] += $row->duration;
         //echo "DEBUG user $this->userid astreintes[".date("j", $row->date)."] = ".$astreintes[date("j", $row->date)]." (+$row->duration)<br/>";
@@ -448,7 +448,7 @@ class User {
       
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-            $issue = new Issue($row->id);
+            $issue = IssueCache::getInstance()->getIssue($row->id);
             if (NULL != $issue->remaining) {
             	$totalRemaining += $issue->remaining;
             }
@@ -491,7 +491,7 @@ class User {
       
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-            $issueList[] = new Issue($row->bug_id); 
+            $issueList[] = IssueCache::getInstance()->getIssue($row->bug_id); 
       }
 /*   	
       echo "DEBUG List to sort:<br/>";

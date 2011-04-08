@@ -249,7 +249,7 @@ class PeriodStats {
     $result = mysql_query($query) or die("Query FAILED: $query");
     
     while($row = mysql_fetch_object($result)) {
-      $issue = new Issue($row->id);
+      $issue = IssueCache::getInstance()->getIssue($row->id);
       
       // check if the bug has been reopened before endTimestamp
       $latestStatus = $issue->getStatus($this->endTimestamp);

@@ -81,7 +81,7 @@ class TimeTrack {
       $bugid = $row->bugid;
       $duration = $row->duration;
     }
-    $issue = new Issue ($bugid);
+    $issue = IssueCache::getInstance()->getIssue($bugid);
     if (NULL != $issue->remaining) {
       $remaining = $issue->remaining + $duration;
       $issue->setRemaining($remaining);

@@ -229,7 +229,7 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    echo "<option value='0'></option>\n";
 
    foreach ($issueList as $bugid) {
-         $issue = new Issue ($bugid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
       if ($bugid == $defaultBugid) {
          echo "<option selected value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       } else {
@@ -365,7 +365,7 @@ if ($_POST[nextForm] == "addTrackForm") {
     // do NOT decrease remaining if job is job_support !
     if ($job != $job_support) {
       // decrease remaining (only if 'remaining' already has a value)
-      $issue = new Issue ($bugid);
+      $issue = IssueCache::getInstance()->getIssue($bugid);
       if (NULL != $issue->remaining) {
          $remaining = $issue->remaining - $duration;
          if ($remaining < 0) { $remaining = 0; }
@@ -390,7 +390,7 @@ if ($_POST[nextForm] == "addTrackForm") {
       $job = $row->jobid;
     }
     
-    $issue = new Issue ($bugid);
+    $issue = IssueCache::getInstance()->getIssue($bugid);
     // do NOT decrease remaining if job is job_support !
     if ($job != $job_support) {
       if (NULL != $issue->remaining) {
@@ -419,7 +419,7 @@ if ($_POST[nextForm] == "addTrackForm") {
     // --- pre-set form fields
   	 // find ProjectId to update categories
     $defaultBugid     = $_POST[bugid];
-  	 $issue = new Issue($defaultBugid);
+  	 $issue = IssueCache::getInstance()->getIssue($defaultBugid);
     $defaultProjectid  = $issue->projectId;
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
     $defaultDate = $formatedDate;

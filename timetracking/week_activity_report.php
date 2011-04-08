@@ -151,7 +151,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<th width='10'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
   echo "</tr>\n";
   foreach ($weekTracks as $bugid => $jobList) {
-    $issue = new Issue($bugid);
+    $issue = IssueCache::getInstance()->getIssue($bugid);
     foreach ($jobList as $jobid => $dayList) {
 
       $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
@@ -200,7 +200,7 @@ function displayProjectActivityReport($timeTracking) {
 
      // write table content (by bugid)
      foreach ($bugList as $bugid => $jobs) {
-         $issue = new Issue($bugid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
          $totalTime = 0;
          echo "<tr>\n";
          echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";

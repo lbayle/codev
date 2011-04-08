@@ -45,7 +45,7 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE status NOT IN ($status_resolved,$status_delivered,$status_closed) ORDER BY id DESC";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-            $issue = new Issue($row->id);
+            $issue = IssueCache::getInstance()->getIssue($row->id);
             $user = new User($issue->handlerId);
 
             $deadLine = "";
@@ -95,7 +95,7 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
   $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE status IN ($status_resolved,$status_delivered,$status_closed) AND last_updated > $startTimestamp AND last_updated < $endTimestamp ORDER BY id DESC";
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result)) {
-    $issue = new Issue($row->id);
+    $issue = IssueCache::getInstance()->getIssue($row->id);
     $user = new User($issue->handlerId);
 
     $deliveryDate = "";
@@ -175,7 +175,7 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
       
      // write table content (by bugid)
      foreach ($bugList as $bugid => $jobs) {
-         $issue = new Issue($bugid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
          // remove sepChar from summary text
          $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
          
@@ -233,7 +233,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      
      // write table content (by bugid)
      foreach ($bugList as $bugid => $jobs) {
-         $issue = new Issue($bugid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
          // remove sepChar from summary text
          $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
          

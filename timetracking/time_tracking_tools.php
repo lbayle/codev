@@ -68,7 +68,7 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
       $query2  = "SELECT summary, status, date_submitted, project_id, category_id FROM `mantis_bug_table` WHERE id=$row->bugid";
       $result2 = mysql_query($query2) or die("Query failed: $query2");
       $row2 = mysql_fetch_object($result2);
-      $issue = new Issue ($row->bugid);
+      $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
       // get general information
       $query3  = "SELECT name FROM `codev_job_table` WHERE id=$row->jobid";
@@ -148,7 +148,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    echo "<th width='80'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
    echo "</tr>\n";
    foreach ($weekTracks as $bugid => $jobList) {
-      $issue = new Issue($bugid);
+      $issue = IssueCache::getInstance()->getIssue($bugid);
       foreach ($jobList as $jobid => $dayList) {
 
          $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";

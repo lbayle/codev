@@ -166,7 +166,7 @@ function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
 	
   $weekTracks = $timeTracking->getWeekDetails($userid);
   foreach ($weekTracks as $bugid => $jobList) {
-    $issue = new Issue($bugid);
+    $issue = IssueCache::getInstance()->getIssue($bugid);
     
     // remove sepChar from summary text
     $formatedSummary = str_replace("$sepChar", " ", $issue->summary);

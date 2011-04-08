@@ -398,7 +398,7 @@ function displayCurrentDriftStats ($timeTracking) {
                "ORDER BY id DESC";
     $result = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result)) {
-            $issue = new Issue($row->id);
+            $issue = IssueCache::getInstance()->getIssue($row->id);
             $user = new User($issue->handlerId);
             
             $issueList[] = $issue;
@@ -532,7 +532,7 @@ function displaySideTalksProjectDetails($timeTracking) {
      	   	$durationPerCategory[$catName] += $duration;
      	   	
      	   	if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
-     	   	$issue = new Issue($bugid);
+     	   	$issue = IssueCache::getInstance()->getIssue($bugid);
             $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
      	   }
      }
@@ -578,7 +578,7 @@ function displayProjectDetails($timeTracking, $projectId) {
          $durationPerCategory[$catName] += $duration;
          
          if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
-         $issue = new Issue($bugid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
          $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
       }
   }

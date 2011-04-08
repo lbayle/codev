@@ -4,9 +4,11 @@
 
 include_once "time_track.class.php";
 include_once "issue.class.php";
+#include_once "issue_cache.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 include_once "holidays.class.php";
+
 
 class TimeTracking {
   var $startTimestamp;
@@ -120,7 +122,7 @@ class TimeTracking {
       	}
       }
       
-      $issue = new Issue($row->bugid);
+      $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ((in_array ($issue->projectId, $this->sideTaskprojectList)) && (!$issue->isVacation())) {
         $prodDays += $timeTrack->duration;
       }
@@ -225,7 +227,7 @@ class TimeTracking {
     while($row = mysql_fetch_object($result)) {
         
       // check if the bug has been reopened before endTimestamp
-      $issue = new Issue($row->id);
+      $issue = IssueCache::getInstance()->getIssue($row->id);
       $latestStatus = $issue->getStatus($this->endTimestamp);
       if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
 
@@ -292,7 +294,7 @@ class TimeTracking {
     
     $result = mysql_query($query) or die("Query FAILED: $query");
     while($row = mysql_fetch_object($result)) {
-      $issue = new Issue($row->bug_id);
+      $issue = IssueCache::getInstance()->getIssue($row->bug_id);
       
       // if a deadLine is specified
       if (NULL != $issue->deadLine) {
@@ -345,7 +347,7 @@ class TimeTracking {
     $result = mysql_query($query) or die("Query FAILED: $query");
     
     while($row = mysql_fetch_object($result)) {
-      $issue = new Issue($row->id);
+      $issue = IssueCache::getInstance()->getIssue($row->id);
       
       // check if the bug has been reopened before endTimestamp
       $latestStatus = $issue->getStatus($this->endTimestamp);
@@ -590,7 +592,7 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      $issue = new Issue($row->bugid);
+      $issue = IssueCache::getInstance()->getIssue($row->bugid);
       
       if ($issue->isIncident()) {          	
 
@@ -649,7 +651,7 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      $issue = new Issue($row->bugid);
+      $issue = IssueCache::getInstance()->getIssue($row->bugid);
    
       if ($issue->projectId  == $project_id) {
         $workingDaysPerProject += $row->duration;
@@ -766,7 +768,7 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      $issue = new Issue($row->bugid);
+      $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ($issue->projectId  == $project_id) {
         if (isset($_GET['debug'])) {
           echo "project[$project_id][".$issue->getCategoryName()."]( bug $row->bugid) = $row->duration<br/>\n";
