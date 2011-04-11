@@ -181,7 +181,7 @@ if (0 == count($teamList)) {
          echo "<b>- ".T_("Export Managed Issues")."...</b><br/>\n";
          flush(); // envoyer tout l'affichage courant au navigateur 
          
-         $myFile = $path."\AOI-PIL-Mantis_".date("Ymd").".csv";
+         $myFile = $codevReportsDir."\AOI-PIL-Mantis_".date("Ymd").".csv";
          
          exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile);
          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
