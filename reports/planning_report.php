@@ -209,7 +209,7 @@ function displayTeam($teamid, $today, $graphSize) {
 	$nbDaysToDisplay = 0; 
 	foreach ($teamMembers as $id => $name) {
 	   $workload = 0;
-	   $user = new User($id);
+	   $user = UserCache::getInstance()->getUser($id);
 	   
 	   if (!$user->isTeamDeveloper($teamid)) { continue; }
 	   if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
@@ -267,7 +267,7 @@ if (isset($_POST[f_teamid])) {
    $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 }
 
-$session_user = new User($_SESSION['userid']);
+$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
 $dTeamList = $session_user->getDevTeamList();
 $lTeamList = $session_user->getLeadedTeamList();

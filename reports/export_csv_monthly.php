@@ -121,7 +121,7 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 // team
-$user = new User($userid);
+$user = UserCache::getInstance()->getUser($userid);
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
 $teamList = $lTeamList + $managedTeamList;

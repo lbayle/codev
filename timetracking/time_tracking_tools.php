@@ -8,7 +8,7 @@ include_once "user.class.php";
 
 function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
-   $user1 = new User($userid);
+   $user1 = UserCache::getInstance()->getUser($userid);
 
    $startTimestamp = $user1->getArrivalDate($team_id);
    $endTimestamp   = mktime(0, 0, 0, date("m"), date("d"), date("Y"));

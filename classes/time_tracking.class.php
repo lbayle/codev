@@ -115,7 +115,7 @@ class TimeTracking {
 
       // do not include Managers
       if (true == $isDeveloppersOnly) {
-      	$user = new User($timeTrack->userId);
+      	$user = UserCache::getInstance()->getUser($timeTrack->userId);
       	if (false == $user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
       		continue; // skip this timeTrack
       	}
@@ -148,7 +148,7 @@ class TimeTracking {
     $result = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-    	$user = new User($row->user_id);
+    	$user = UserCache::getInstance()->getUser($row->user_id);
       $teamProdDaysForecast += $user->getProductionDaysForecast($this->startTimestamp, $this->endTimestamp, $this->team_id);
     }
 
@@ -701,7 +701,7 @@ class TimeTracking {
     
     $missingDays = array();
 
-    $user1 = new User($userid);
+    $user1 = UserCache::getInstance()->getUser($userid);
 
     // REM: if $this->team_id not set, then team_id = -1
     if ($this->team_id >= 0) {

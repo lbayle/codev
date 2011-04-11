@@ -120,7 +120,7 @@ function displayConsistencyErrors($sessionUser) {
       foreach ($cerrList as $cerr) {
 
          if ($sessionUser->id == $cerr->userId) {
-            $user = new User($cerr->userId);
+            $user = UserCache::getInstance()->getUser($cerr->userId);
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
             echo T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)." : &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span><br/>\n";
          }
@@ -142,7 +142,7 @@ if (!isset($_SESSION['userid'])) {
    mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
 
    $userid = $_SESSION['userid'];
-   $sessionUser = new User($userid);
+   $sessionUser = UserCache::getInstance()->getUser($userid);
 
    disclaimer();
    

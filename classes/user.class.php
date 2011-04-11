@@ -4,6 +4,7 @@
 
 // LoB 23 Jun 2010
 
+include_once "user_cache.class.php";
 include_once "issue.class.php";
 include_once "team.class.php";
 include_once "holidays.class.php";

@@ -377,7 +377,7 @@ $defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
  }
 
 
-$user = new User($session_userid);
+$user = UserCache::getInstance()->getUser($session_userid);
 
 $dTeamList = $user->getDevTeamList();
 $lTeamList = $user->getLeadedTeamList();

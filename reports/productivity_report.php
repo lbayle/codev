@@ -80,7 +80,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   
   echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
   
-  $session_user = new User($_SESSION['userid']);
+  $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
   $mTeamList = $session_user->getTeamList();
   $lTeamList = $session_user->getLeadedTeamList();
   $oTeamList = $session_user->getObservedTeamList();
@@ -399,7 +399,7 @@ function displayCurrentDriftStats ($timeTracking) {
     $result = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id);
-            $user = new User($issue->handlerId);
+            $user = UserCache::getInstance()->getUser($issue->handlerId);
             
             $issueList[] = $issue;
             
@@ -721,5 +721,12 @@ if (0 != $teamid) {
 ?>
 
 </div>
+
+<?php
+# DEBUG 
+#IssueCache::getInstance()->displayStats();
+#echo "<br/>"; 
+#UserCache::getInstance()->displayStats(); 
+?>
 
 <?php include 'footer.inc.php'; ?>

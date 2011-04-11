@@ -46,7 +46,7 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id);
-            $user = new User($issue->handlerId);
+            $user = UserCache::getInstance()->getUser($issue->handlerId);
 
             $deadLine = "";
             if (NULL != $issue->deadLine) {
@@ -96,7 +96,7 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result)) {
     $issue = IssueCache::getInstance()->getIssue($row->id);
-    $user = new User($issue->handlerId);
+    $user = UserCache::getInstance()->getUser($issue->handlerId);
 
     $deliveryDate = "";
     if (NULL != $issue->deliveryDate) {
@@ -306,7 +306,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
-      $user1 = new User($row->user_id);
+      $user1 = UserCache::getInstance()->getUser($row->user_id);
       
       // if user was working on the project within the timestamp
       if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||

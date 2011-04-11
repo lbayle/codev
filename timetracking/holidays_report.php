@@ -112,7 +112,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
-	  	$user1 = new User($row->user_id);
+	  	$user1 = UserCache::getInstance()->getUser($row->user_id);
 	  	
 	   // if user was working on the project within the timestamp
 	   if (($user1->isTeamDeveloper($teamid, $startT, $endT)) || 
@@ -186,7 +186,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
   $result = mysql_query($query) or die(T_("Query failed:")." $query");
   while($row = mysql_fetch_object($result))
   {
-      $user1 = new User($row->user_id);
+      $user1 = UserCache::getInstance()->getUser($row->user_id);
       
       // if user was working on the project within the timestamp
       if (($user1->isTeamDeveloper($teamid, $startT, $endT)) || 

@@ -2,7 +2,7 @@
 
 <?php
 // ==============================================================
-class IssueCache {
+class UserCache {
    
     // instance de la classe
     private static $instance;
@@ -30,34 +30,33 @@ class IssueCache {
         return self::$instance;
     }
    
-
     /**
      * get Issue class instance
      * @param $bugId
      */
-    public function getIssue($bugId)
+    public function getUser($id)
     {
-        $issue = self::$objects[$bugId];
+        $object = self::$objects[$id];
         
-        if (NULL == $issue) {
-            self::$objects[$bugId] = new Issue($bugId);
-            $issue = self::$objects[$bugId];
-            
-            #echo "DEBUG: IssueCache add $bugId<br/>";
+        if (NULL == $object) {
+            self::$objects[$id] = new User($id);
+            $object = self::$objects[$id];
         } else {
-            self::$callCount[$bugId] += 1;
-        	   #echo "DEBUG: IssueCache called $bugId<br/>";
+            self::$callCount[$id] += 1;
         }
-        return $issue;
+        return $object;
     }
     
+    /**
+     * 
+     */
     public function displayStats() {
     	echo "=== ".self::$cacheName." Statistics ===<br/>\n";
     	echo "nb objects in cache : ".count(self::$callCount)."<br/>\n";
       echo "nb cache calls     : ".array_sum(self::$callCount)."<br/>\n";
       echo "<br/>\n";
-      foreach(self::$callCount as $bugId => $count) {
-      	echo "cache[$bugId] = $count<br/>\n";
+      foreach(self::$callCount as $id => $count) {
+      	echo "cache[$id] = $count<br/>\n";
       }
     	
     }

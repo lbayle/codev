@@ -155,7 +155,7 @@ class ConsistencyCheck {
             $cerrList[] = $cerr;                                              
       	}
          if ($status_analyzed == $row->status) {
-             $user = new User($row->handler_id);
+             $user = UserCache::getInstance()->getUser($row->handler_id);
              if (! $user->isTeamMember($FDJ_teamid)) {
               $cerr = new ConsistencyError($row->bug_id, 
                                                  $row->handler_id,

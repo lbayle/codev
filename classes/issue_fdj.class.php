@@ -132,7 +132,7 @@ class IssueFDJ extends Issue {
           //echo "previous assign id = $row2->id &nbsp;&nbsp;&nbsp;&nbsp; date=$row2->date_modified &nbsp;&nbsp;&nbsp;&nbsp; handler_id=$handler_id <br/>";
         }
       }
-      $user1 = new User($handler_id);
+      $user1 = UserCache::getInstance()->getUser($handler_id);
       if ($user1->isTeamDeveloper($FDJ_teamid)) {
         //echo "user $handler_id is FDJ (team $FDJ_teamid)<br/>";
         $time_fdj = $time_fdj + $intervale;

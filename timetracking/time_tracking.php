@@ -105,7 +105,7 @@ function setUserForm($originPage) {
   global $accessLevel_dev;
   global $accessLevel_manager;
 
-  $session_user = new User($_SESSION['userid']);
+  $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
   $teamList = $session_user->getLeadedTeamList();
 
   // separate list elements with ', '
@@ -309,9 +309,9 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 $userid = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
-$managed_user = new User($userid);
+$managed_user = UserCache::getInstance()->getUser($userid);
 
-$session_user = new User($_SESSION['userid']);
+$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 $teamList = $session_user->getLeadedTeamList();
 
 

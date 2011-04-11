@@ -156,7 +156,7 @@ class Team {
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
-      	$user = new User($row->user_id);
+      	$user = UserCache::getInstance()->getUser($row->user_id);
       	if (! $user->isTeamMember($this->id)) {
             $this->addMember($row->user_id,$row->arrival_date, $row->access_level);
             

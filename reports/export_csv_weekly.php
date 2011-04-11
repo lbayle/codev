@@ -147,7 +147,7 @@ function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFi
   while($row = mysql_fetch_object($result))
   {
       // if user was working on the project during the timestamp
-      $user = new User($row->user_id);
+      $user = UserCache::getInstance()->getUser($row->user_id);
       if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) || 
           ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
       	
@@ -211,7 +211,7 @@ $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
 mysql_select_db($db_mantis_database) or die("Could not select database");
 
 
-$user = new User($userid);
+$user = UserCache::getInstance()->getUser($userid);
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
 $teamList = $lTeamList + $managedTeamList;
