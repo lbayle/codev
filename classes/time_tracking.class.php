@@ -4,7 +4,6 @@
 
 include_once "time_track.class.php";
 include_once "issue.class.php";
-#include_once "issue_cache.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 include_once "holidays.class.php";
