@@ -273,7 +273,11 @@ class TimeTracking {
   public function getResolvedDriftStats($withSupport = true) {
     
     $issueList = $this->getResolvedIssues($this->prodProjectList);
-    return $this->getIssuesDriftStats($issueList, $withSupport);
+    if (0 != count($issueList)) {
+      return $this->getIssuesDriftStats($issueList, $withSupport);
+    } else {
+    	return array();
+    }
     
   }
   
@@ -300,7 +304,11 @@ class TimeTracking {
       	$issueList[] = $issue;
       }
     }
-    return $this->getIssuesTimeDriftStats($issueList);
+    if (0 != count($issueList)) {
+      return $this->getIssuesTimeDriftStats($issueList);
+    } else {
+    	return array();
+    }
     
   }
   
@@ -369,7 +377,7 @@ class TimeTracking {
   
   // ----------------------------------------------
   /**
-   * return stars on which Issues where delivered after the DeadLine
+   * return stats on which Issues where delivered after the DeadLine
    */
   public function getIssuesTimeDriftStats($issueList) {
   	
@@ -382,12 +390,12 @@ class TimeTracking {
     $driftPos   = 0;
   	  	
     if (NULL == $issueList) {
-      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
-      return 0;
+      echo "<div style='color:red'>ERROR getIssuesTimeDriftStats: Issue List is NULL !<br/></div>";
+      return array();
     }
     if (0== count($issueList)) {
-      echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is empty !<br/></div>";
-      return 0;
+      echo "<div style='color:red'>ERROR getIssuesTimeDriftStats: Issue List is empty !<br/></div>";
+      return array();
     }
     
 

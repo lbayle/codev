@@ -404,9 +404,11 @@ function displayCurrentDriftStats ($timeTracking) {
             $issueList[] = $issue;
             
     }
-
-    $driftStats_new = $timeTracking->getIssuesDriftStats($issueList);
-  
+    if (0 == count($issueList)) {
+      $driftStats_new = $timeTracking->getIssuesDriftStats($issueList);
+    } else {
+    	$driftStats_new = array();
+    }
   
   echo "<table>\n";
   echo "<caption>".T_("Drift - Today opened Tasks")."</caption>\n";
