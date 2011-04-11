@@ -11,7 +11,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("Weekly CSV Report"); 
+   $_POST[page_name] = T_("CSV Report"); 
    include 'header.inc.php'; 
 ?>
 
@@ -223,12 +223,15 @@ $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid
 
 
 if (0 == count($teamList)) {
-   echo "<div id='content'' class='center'>";
+   echo "<div id='content' class='center'>";
 	echo T_("Sorry, you do NOT have access to this page.");
    echo "</div>";
 	
 } else {
-
+   echo "<div class='center'>";
+	echo "<h2>".T_("Weekly report")."</h2><br/>";
+   echo "</div>";
+	
 	// ----
 	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
 	

@@ -11,7 +11,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("Monthly CSV Report"); 
+   $_POST[page_name] = T_("CSV Report"); 
    include 'header.inc.php'; 
 ?>
 
@@ -160,7 +160,10 @@ if (0 == count($teamList)) {
    echo "</div>";
 	
 } else {
-
+   echo "<div class='center'>";
+   echo "<h2>".T_("Monthly report")."</h2><br/>";
+   echo "</div>";
+		
    displayTeamAndPeriodSelectionForm($teamList, $teamid, $date1, $date2);	
 	
 	echo "<br/><br/>\n";

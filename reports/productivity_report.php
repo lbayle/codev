@@ -510,7 +510,7 @@ function displayWorkingDaysPerProject($timeTracking) {
 }
 
 // -----------------------------------------------
-function displaySideTalksProjectDetails($timeTracking) {
+function displaySideTasksProjectDetails($timeTracking) {
   global $sideTaskProjectType;
    
   $durationPerCategory = array();
@@ -688,7 +688,7 @@ if (0 != $teamid) {
 	echo "</div>\n";
 	
 	echo "<div class=\"float\">\n";
-	displaySideTalksProjectDetails($timeTracking);
+	displaySideTasksProjectDetails($timeTracking);
 	echo "</div>\n";
 
    echo "<div class=\"float\">\n";
