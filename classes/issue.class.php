@@ -48,7 +48,6 @@ class Issue {
    var $statusList; // array of statusInfo elements
 
    // -- PRIVATE cached fields
-   var $project;    // NULL untill first call to getProject()
    var $holidays;
       
    // ----------------------------------------------
@@ -112,15 +111,6 @@ class Issue {
    }
 
    /**
-    * returns a Project class instance
-    */
-   public function getProject() {
-   	
-   	if (NULL == $this->project) {	$this->project = new Project($this->projectId); }
-   	return $this->project;
-   }
-   
-   /**
     * returns a Holidays class instance
     */
    private function getHolidays() {
@@ -133,7 +123,7 @@ class Issue {
    //     but tools and doc are production issues.
    public function isSideTaskIssue() {
       
-      $project = $this->getProject();
+      $project = ProjectCache::getInstance()->getProject($this->projectId);
       
       if (($project->isSideTasksProject()) && 
           ($project->getToolsCategoryId() != $this->categoryId) && 
@@ -148,7 +138,7 @@ class Issue {
    // ----------------------------------------------
    public function isVacation() {
 
-      $project = $this->getProject();
+      $project = ProjectCache::getInstance()->getProject($this->projectId);
    	      
       if (($project->isSideTasksProject()) && 
           ($project->getInactivityCategoryId() == $this->categoryId)) { 
@@ -162,7 +152,7 @@ class Issue {
    // ----------------------------------------------
    public function isIncident() {
 
-      $project = $this->getProject();
+      $project = ProjectCache::getInstance()->getProject($this->projectId);
    	      
       if (($project->isSideTasksProject()) && 
           ($project->getIncidentCategoryId() == $this->categoryId)) { 
@@ -200,7 +190,7 @@ class Issue {
    // ----------------------------------------------
    public function getProjectName() {
    	
-   	$project = $this->getProject();
+   	$project = ProjectCache::getInstance()->getProject($this->projectId);
    	return $project->name;
    	
    	/*

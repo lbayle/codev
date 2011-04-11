@@ -2,7 +2,7 @@
 
 <?php
 
-
+include_once "project_cache.class.php";
 
 
 class Project {
@@ -23,6 +23,7 @@ class Project {
       
 	// -----------------------------------------------
 	public function Project($id) {
+		
       $this->id = $id;
 
       $this->initialize();

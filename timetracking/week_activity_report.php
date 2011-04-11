@@ -183,7 +183,7 @@ function displayProjectActivityReport($timeTracking) {
   foreach ($projectTracks as $projectId => $bugList) {
 
      // write table header
-     $project = new Project($projectId);
+     $project = ProjectCache::getInstance()->getProject($projectId);
      echo "<br/>\n";
      echo "<table width='95%'>\n";
      echo "<caption>".$project->name."</caption>\n";

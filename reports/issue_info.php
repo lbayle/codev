@@ -56,7 +56,7 @@ function displayIssueSelectionForm($originPage, $user1, $defaultBugid, $defaultP
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' Action='$originPage'>\n";
 
-   $project1 = new Project($defaultProjectid);
+   $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
    
    // Project list
    echo "&nbsp;";
@@ -257,7 +257,7 @@ function displayJobDetails($issue) {
    echo "</tr>\n";
 
    foreach ($timeTracks as $tid => $tdate) {
-      $tt = new TimeTrack($tid);
+      $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
       $durationByJob[$tt->jobId] += $tt->duration;
       $totalDuration += $tt->duration;
    }
@@ -319,7 +319,7 @@ function displayMonth($month, $year, $issue) {
     $durationByDate = array();
     $jobColorByDate = array();
     foreach ($userTimeTracks as $tid => $tdate) {
-      $tt = new TimeTrack($tid);
+      $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
     	$durationByDate[$tdate] += $tt->duration;
     	$jobColorByDate[$tdate] = $jobs->getJobColor($tt->jobId);
     }

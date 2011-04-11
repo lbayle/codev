@@ -80,7 +80,7 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      $timeTrack = new TimeTrack($row->id);
+      $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
             
       // Count only the time spent on $projects
       if (in_array ($timeTrack->projectId, $projects)) {
@@ -111,7 +111,7 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      $timeTrack = new TimeTrack($row->id);
+      $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
 
       // do not include Managers
       if (true == $isDeveloppersOnly) {

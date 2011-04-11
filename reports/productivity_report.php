@@ -126,7 +126,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
       echo "<form id='projectSelectionForm' name='projectSelectionForm' method='post' action='productivity_report.php'>\n";
   }
 
-  $project1 = new Project($defaultProjectid);
+  $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
    
    // --- Project List
    $query  = "SELECT mantis_project_table.id, mantis_project_table.name ".
@@ -539,7 +539,7 @@ function displaySideTasksProjectDetails($timeTracking) {
      	   }
      }
      
-     $proj = new Project($row->project_id);
+     $proj = ProjectCache::getInstance()->getProject($row->project_id);
      $stProjList[] = $proj->name;
      
   }
@@ -585,7 +585,7 @@ function displayProjectDetails($timeTracking, $projectId) {
       }
   }
      
-  $proj = new Project($projectId);
+  $proj = ProjectCache::getInstance()->getProject($projectId);
   echo "<table width='300'>\n";
   //echo "<caption>".T_("Project Detail")." ".$proj->name."</caption>\n";
   echo "<tr>\n";
@@ -729,6 +729,10 @@ if (0 != $teamid) {
 #IssueCache::getInstance()->displayStats();
 #echo "<br/>"; 
 #UserCache::getInstance()->displayStats(); 
+#echo "<br/>"; 
+#TimeTrackCache::getInstance()->displayStats(); 
+#echo "<br/>"; 
+#ProjectCache::getInstance()->displayStats(); 
 ?>
 
 <?php include 'footer.inc.php'; ?>

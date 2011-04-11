@@ -295,7 +295,7 @@ class ConsistencyCheck {
       	// --- except SideTasksProjects (they don't have an ETA field)
       	$prjListNoSideTasks = $this->projectList; // copy
          foreach ($prjListNoSideTasks as $id => $name) {
-         	$p = new Project($id);
+         	$p = ProjectCache::getInstance()->getProject($id);
          	if (true == $p->isSideTasksProject()) {
                unset($prjListNoSideTasks[$id]);
          	}

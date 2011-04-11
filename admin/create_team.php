@@ -337,7 +337,7 @@ if ("addTeam" == $action) {
       	if ($stproj_id < 0) {
       		die ("ERROR: SideTaskProject creation FAILED.<br/>\n");
       	} else {
-            $stproj = new Project($stproj_id);
+            $stproj = ProjectCache::getInstance()->getProject($stproj_id);
       	
             // 4) --- add SideTaskProject Categories
       	   $stproj->addCategoryProjManagement($cat_projManagement);

@@ -1,4 +1,5 @@
 <?php
+include_once "timetrack_cache.class.php";
 
 // -- TimeTrackTuple --
 

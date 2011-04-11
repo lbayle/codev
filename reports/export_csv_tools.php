@@ -162,7 +162,7 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
   foreach ($projectTracks as $projectId => $bugList) {
    
      // write table header
-     $project = new Project($projectId);
+     $project = ProjectCache::getInstance()->getProject($projectId);
      $stringData = $project->name."\n";
 
      $stringData .=T_("Task").$sepChar;
@@ -216,7 +216,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
   foreach ($projectTracks as $projectId => $bugList) {
    
      // write table header
-     $project = new Project($projectId);
+     $project = ProjectCache::getInstance()->getProject($projectId);
      $stringData = $project->name."\n";
      
      $stringData .=T_("ID").$sepChar;

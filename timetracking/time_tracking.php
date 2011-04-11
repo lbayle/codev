@@ -171,7 +171,7 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    #echo "Date: \n";
    $myCalendar->writeScript();
 
-   $project1 = new Project($defaultProjectid);
+   $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
 
    // Project list
    echo "&nbsp;";
@@ -185,7 +185,7 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
    foreach ($managedProjList as $pid => $pname) {
    	// we want only SideTasks of projects that I manage
-   	$tmpPrj = new Project($pid);
+   	$tmpPrj = ProjectCache::getInstance()->getProject($pid);
       if (!$tmpPrj->isSideTasksProject()) { unset($managedProjList[$pid]); }
    }
 
