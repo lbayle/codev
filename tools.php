@@ -270,5 +270,48 @@ function doubleExplode ($del1, $del2, $array){
    return $afinal;
 }
 
+// ------------------------------------------------------
+/**
+ * QuickSort function for Class instances
+ * NOTE: the classes must have a compareTo(objectB) method.
+ * 
+ * @param array of instances $a
+ */
+function qsort($a) {
+       qsort_do(&$a,0,Count($a)-1);
+       return $a;
+}
+
+function qsort_do($a,$l,$r) {
+       if ($l < $r) {
+               qsort_partition(&$a,$l,$r,&$lp,&$rp);
+               qsort_do(&$a,$l,$lp);
+               qsort_do(&$a,$rp,$r);
+       }
+}
+
+function qsort_partition($a,$l,$r,$lp,$rp) {
+       $i = $l+1;
+       $j = $l+1;
+       
+       while ($j <= $r) {
+               if ($a[$j]->compareTo($a[$l])) {
+                       $tmp = $a[$j];
+                       $a[$j] = $a[$i];
+                       $a[$i] = $tmp;
+                       $i++;
+               }
+               $j++;
+       }
+       
+       $x = $a[$l];
+       $a[$l] = $a[$i-1];
+       $a[$i-1] = $x;
+       
+       $lp = $i - 2;
+       $rp = $i;
+} 
+// ------------------------------------------------------
+
 
 ?>

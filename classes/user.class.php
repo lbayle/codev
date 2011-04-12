@@ -9,8 +9,6 @@ include_once "issue.class.php";
 include_once "team.class.php";
 include_once "holidays.class.php";
 
-include_once "quicksort.php";
-
 // =======================================
 class User {
 
@@ -501,8 +499,8 @@ class User {
       }
 */      
       // quickSort the list
-      $sortedList = qsort($issueList, "isHigherPriority");
-      #$sortedList = bubblesort1( $issueList );
+      $sortedList = qsort($issueList);
+      
 /*      
    	echo "DEBUG after Sort<br/>";
       foreach ($sortedList as $i) {
