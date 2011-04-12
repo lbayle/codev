@@ -29,6 +29,18 @@ class ScheduledTask {
    	return number_format(($this->duration * $dayPixSize), 0);
    }
    
+   public function getDescription() {
+   	$taskTitle= "";
+      $taskTitle .= $this->duration." ".T_("days");
+      $taskTitle .= " ($this->priorityName ";
+      if (NULL != $this->deadLine) {
+         $taskTitle .= ", ".date("d/m/Y", $this->deadLine);
+      }
+      $taskTitle .= ")       $this->summary";
+   	
+   	return $taskTitle;
+   }
+   
 }
 
 

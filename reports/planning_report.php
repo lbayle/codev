@@ -91,27 +91,19 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
    $image_color[true]  = "green";
    $image_color[false] = "red";
    
-   #echo "".$userName."&nbsp; &nbsp;";
    foreach($scheduledTaskList as $key => $scheduledTask) {
    
       $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
       $totalPix += $taskPixSize;
       
-      $taskTitle= "";
-      $taskTitle .= $scheduledTask->duration." ".T_("days");
-      $taskTitle .= " ($scheduledTask->priorityName ";
       if (NULL != $scheduledTask->deadLine) {
-         $taskTitle .= ", ".date("d/m/Y", $scheduledTask->deadLine);
          $color = ($scheduledTask->isOnTime) ? "green" : "red"; 
       } else {
          $color = "grey";
       }
-      $taskTitle .= ")       $scheduledTask->summary";
-      
+      $taskTitle = $scheduledTask->getDescription();
 	   $formatedTitle = str_replace("'", " ", $taskTitle);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
-
-      
 	   
       echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$taskPixSize&text=$scheduledTask->bugId&color=".$color."' /></a>";
 
