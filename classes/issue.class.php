@@ -726,40 +726,38 @@ class Issue {
       global $status_openned;
       
       // Tasks currently open are higher priority
-      if ($this->currentStatus != $issueB->currentStatus) {
-         if ($this->currentStatus == $status_openned) {
-            #echo "DEBUG isHigherPriority $this->bugId higher than $issueB->bugId (status_openned)<br/>\n";
+      if (($this->currentStatus == $status_openned) && ($issueB->currentStatus != $status_openned)) {
+            #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (status_openned)<br/>\n";
             return  true; 
-         }
-         if ($issueB->currentStatus == $status_openned) {
-            #echo "DEBUG isHigherPriority $issueB->bugId higher than $this->bugId (status_openned)<br/>\n";
-            return  true; 
-         }
+      }
+      if (($issueB->currentStatus == $status_openned) && ($this->currentStatus != $status_openned)) {
+            #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (status_openned)<br/>\n";
+            return  false; 
       }
       
       // the one that has NO deadLine is lower priority
       if ((NULL != $this->deadLine) && (NULL == $issueB->deadLine)) { 
-         #echo "DEBUG isHigherPriority $this->bugId higher than $issueB->bugId (B no deadline)<br/>\n";
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (B no deadline)<br/>\n";
          return  true; 
       }
       if ((NULL == $this->deadLine) && (NULL != $issueB->deadLine)) { 
-         #echo "DEBUG isHigherPriority $this->bugId lower than $issueB->bugId (A no deadline)<br/>\n";
+         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (A no deadline)<br/>\n";
          return  false; 
       }
 
       // the soonest deadLine has priority
       if ($this->deadLine < $issueB->deadLine) { 
-         #echo "DEBUG isHigherPriority $this->bugId higher than $issueB->bugId (deadline)<br/>\n";
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (deadline)<br/>\n";
          return  true; 
       }
       if ($this->deadLine > $issueB->deadLine) { 
-         #echo "DEBUG isHigherPriority $this->bugId lower than $issueB->bugId (deadline)<br/>\n";
+         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (deadline)<br/>\n";
          return  false; 
       }
       
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
-         #echo "DEBUG isHigherPriority $this->bugId higher than $issueB->bugId (priority attr)<br/>\n";
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (priority attr)<br/>\n";
          return  true; 
       }
             
@@ -767,7 +765,12 @@ class Issue {
       return false;
    }    
 
-   
+   function compareTo_($issueB) {
+      
+      global $status_openned;
+      
+      
+   }
    
 } // class issue
 

@@ -12,7 +12,8 @@ class ScheduledTask {
    var $bugId;
    var $duration;	     // in days
    var $deadLine;
-
+   var $priorityName;
+   
    var $isOnTime;  // determinates the color
    var $summary;
    var $nbDaysToDeadLine;
@@ -69,6 +70,7 @@ class Scheduler {
 
 			$currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->deadLine);
 			$currentST->summary = $issue->summary;
+         $currentST->priorityName = $issue->getPriorityName();
 			
          // check if onTime
 			if (NULL == $issue->deadLine) {

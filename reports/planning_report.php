@@ -96,15 +96,18 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
    
       $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
       $totalPix += $taskPixSize;
-   
-      #echo "DEBUG scheduledTask $scheduledTask->bugId size = $taskPixSize<br/>";
-      $taskTitle= "".$scheduledTask->bugId.": ".$scheduledTask->summary." (".$scheduledTask->duration." ".T_("days").")";
-	   if (NULL != $scheduledTask->deadLine) {
-	   	$taskTitle .= "  ".T_("deadLine")." = ".date("d/m/Y", $scheduledTask->deadLine);
+      
+      $taskTitle= "";
+      $taskTitle .= $scheduledTask->duration." ".T_("days");
+      $taskTitle .= " ($scheduledTask->priorityName ";
+      if (NULL != $scheduledTask->deadLine) {
+         $taskTitle .= ", ".date("d/m/Y", $scheduledTask->deadLine);
          $color = ($scheduledTask->isOnTime) ? "green" : "red"; 
-	   } else {
-	   	$color = "grey";
-	   }
+      } else {
+         $color = "grey";
+      }
+      $taskTitle .= ")       $scheduledTask->summary";
+      
 	   $formatedTitle = str_replace("'", " ", $taskTitle);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
 
