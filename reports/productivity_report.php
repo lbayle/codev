@@ -724,15 +724,4 @@ if (0 != $teamid) {
 
 </div>
 
-<?php
-# DEBUG 
-#IssueCache::getInstance()->displayStats();
-#echo "<br/>"; 
-#UserCache::getInstance()->displayStats(); 
-#echo "<br/>"; 
-#TimeTrackCache::getInstance()->displayStats(); 
-#echo "<br/>"; 
-#ProjectCache::getInstance()->displayStats(); 
-?>
-
 <?php include 'footer.inc.php'; ?>

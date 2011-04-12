@@ -50,17 +50,25 @@ class ProjectCache {
     /**
      * 
      */
-    public function displayStats() {
-    	echo "=== ".self::$cacheName." Statistics ===<br/>\n";
-    	echo "nb objects in cache : ".count(self::$callCount)."<br/>\n";
-      echo "nb cache calls     : ".array_sum(self::$callCount)."<br/>\n";
-      echo "<br/>\n";
-      foreach(self::$callCount as $id => $count) {
-      	echo "cache[$id] = $count<br/>\n";
+    public function displayStats($verbose = FALSE) {
+      
+      $nbObj   = count(self::$callCount);
+      $nbCalls = array_sum(self::$callCount);
+      
+      echo "=== ".self::$cacheName." Statistics ===<br/>\n";
+      echo "nb objects in cache = ".$nbObj."<br/>\n";
+      echo "nb cache calls      = ".$nbCalls."<br/>\n";
+      if (0 != $nbObj) {
+         echo "ratio               = 1:".number_format($nbCalls/$nbObj, 0)."<br/>\n";
       }
-    	
+      echo "<br/>\n";
+      if ($verbose) {
+         foreach(self::$callCount as $bugId => $count) {
+            echo "cache[$bugId] = $count<br/>\n";
+         }
+      }
     }
-    
+            
     
 } // class Cache
 
