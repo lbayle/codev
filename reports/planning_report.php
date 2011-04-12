@@ -134,6 +134,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 	$deadLines = array();
 	$nbDaysToDeadLines = array();
 	
+	// remove duplicate deadLines & set color
 	foreach($scheduledTaskList as $key => $scheduledTask) {
       if (NULL != $scheduledTask->deadLine) {
       	$isOnTime = $deadLines[$scheduledTask->deadLine];
@@ -145,12 +146,16 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
       	 }
       }
    }
+   
+   // sort deadLines by date ASC
+   ksort($deadLines);
 
+   // display deadLines
    $curPos=0;
    foreach($deadLines as $date => $isOnTime) {
       
    	$offset = $nbDaysToDeadLines[$date];
-   	#$offset = ($date - $today) / 86400 ; // in days since today
+   	
       #echo "DEBUG deadline ".date("d/m/Y", $date)." offset = $offset isOnTime=$scheduledTask->isOnTime<br/>";
    	
       if ($offset >= 0) {
