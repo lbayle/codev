@@ -48,6 +48,8 @@ include_once "tools.php";
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "scheduler.class.php";
+include_once 'consistency_check.class.php'; 
+include_once 'team.class.php'; 
 
 
 // -----------------------------------------
@@ -244,6 +246,46 @@ function displayTeam($teamid, $today, $graphSize) {
 	
 }
 
+// -----------------------------
+function displayConsistencyErrors($teamid) {
+
+   // get team's project list
+   #$devTeamList = $sessionUser->getDevTeamList();
+   #$leadedTeamList = $sessionUser->getLeadedTeamList();
+   #$managedTeamList = $sessionUser->getManagedTeamList();
+   #$teamList = $devTeamList + $leadedTeamList + $managedTeamList; 
+   #$projectList = $sessionUser->getProjectList($teamList);
+
+   $projectList = Team::getProjectList($teamid);
+   
+   $ccheck = new ConsistencyCheck($projectList);
+
+   $cerrList = $ccheck->checkBadRAE();
+
+   if (0 == count($cerrList)) {
+      #echo "Pas d'erreur.<br/>\n";
+   } else {
+      echo "<hr/>\n";
+      echo "<br/>\n";
+      echo "<br/>\n";
+   	
+      echo "<div align='left'>\n";
+      echo "<table class='invisible'>\n";
+      foreach ($cerrList as $cerr) {
+         $user = UserCache::getInstance()->getUser($cerr->userId);
+         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+      	echo "<tr>\n";
+         echo "<td>".T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
+         echo "<td>($user->name)</td>";
+         echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
+         echo "</tr>\n";
+      }
+      echo "</table>\n";
+      echo "</div>\n";
+   }
+   
+}
+
 
 // ================ MAIN =================
 
@@ -300,9 +342,17 @@ if (0 == count($teamList)) {
 		   echo "<br/>";
    
       	displayTeam($teamid, $today, $graphSize);
+      	
+         echo "<br/>\n";
+         echo "<br/>\n";
+         echo "<br/>\n";
+         displayConsistencyErrors($teamid);
+      	
       }
    }
+   
 }
+
 
 echo "<br/>\n";
 echo "<br/>\n";
