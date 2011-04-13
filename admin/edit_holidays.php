@@ -53,8 +53,6 @@ function deleteHoliday(id, description){
 
 
 <?php
-include_once "constants.php";
-include_once "tools.php";
 include_once "user.class.php";
 include_once "holidays.class.php";
 require_once('tc_calendar.php');
@@ -150,11 +148,6 @@ function displayHolidaysTuples() {
 global $admin_teamid;
 
 $defaultDate= date("Y-m-d", time());
-
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die(T_("Could not connect to database"));
-mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
-
 
 // Admins only
 $session_user = new User($_SESSION['userid']);

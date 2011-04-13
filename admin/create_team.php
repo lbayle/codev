@@ -52,8 +52,6 @@ function updateTeamCreationForm() {
 
 
 <?php 
-include_once "constants.php";
-include_once "tools.php";
 include_once "user.class.php";
 include_once "team.class.php";
 
@@ -252,11 +250,6 @@ $cat_tools          = T_("Tools");
 $cat_other          = T_("Team Workshop");
 
 $defaultSideTaskProjectName = T_("SideTasks")." my_team";
-
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die(T_("Could not connect to database"));
-mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
-
 
 // ---- if not codev admin then stop now.
 // REM: who is allowed to create a new team ? anyone ?

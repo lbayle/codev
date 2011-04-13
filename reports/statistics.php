@@ -390,10 +390,6 @@ $_SESSION[teamid] = $teamid;
 $displayNoSupport  = isset($_GET['support']) ? true : false;
 $originPage = isset($_GET['support']) ? "statistics.php?support" : "statistics.php"; 
 
-// Connect DB
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die(T_("Could not connect to database"));
-mysql_select_db($db_mantis_database) or die("Could not select database");
-
 
 $session_user = UserCache::getInstance()->getUser($userid);
 $mTeamList = $session_user->getTeamList();

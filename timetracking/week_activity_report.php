@@ -34,8 +34,6 @@
 
 <?php
 
-include_once "constants.php";
-include_once "tools.php";
 include_once "issue.class.php";
 include_once "project.class.php";
 include_once "user.class.php";
@@ -263,12 +261,6 @@ if (isset($_POST[teamid])) {
 } else {
    $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 }
-
-// ---------
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass)
-  or die(T_("Could not connect to database"));
-mysql_select_db($db_mantis_database) or die("Could not select database");
-
 
 // ------
 

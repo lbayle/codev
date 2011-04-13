@@ -3,8 +3,6 @@
 
 <?php
 
-include_once "constants.php";
-include_once "tools.php";
 require_once('tc_calendar.php');
 
    $_POST[page_name] = "Date converstion"; 

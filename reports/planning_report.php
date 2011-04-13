@@ -43,8 +43,6 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
 
-include_once "constants.php";
-include_once "tools.php";
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "scheduler.class.php";
@@ -253,9 +251,6 @@ $teamid = 26; // codev
 
 $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 
-
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die("Could not connect database : ".mysql_error());
-mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql_error());
 
 $action = $_POST[action];
 

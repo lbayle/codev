@@ -1,4 +1,5 @@
 <?php
+
 # DEBUG 
 #echo "<br/>"; 
 #IssueCache::getInstance()->displayStats();
@@ -8,6 +9,8 @@
 #ProjectCache::getInstance()->displayStats(); 
 #echo "<br/>"; 
 #TimeTrackCache::getInstance()->displayStats(); 
+
+mysql_close($bugtracker_link);
 ?>
 
 

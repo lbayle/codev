@@ -40,8 +40,6 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
 
-include_once "constants.php";
-include_once "tools.php";
 include_once "issue.class.php";
 include_once "project.class.php";
 include_once "time_track.class.php";
@@ -360,9 +358,6 @@ $year = date('Y');
 $displaySupport  = isset($_GET['support']) ? true : false;
 $originPage = isset($_GET['support']) ? "issue_info.php?support" : "issue_info.php"; 
 
-
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die("Could not connect database : ".mysql_error());
-mysql_select_db($db_mantis_database) or die("Could not select database : ".mysql_error());
 
 $action           = $_POST[action];
 $session_userid   = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];

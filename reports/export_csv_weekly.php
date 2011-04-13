@@ -40,8 +40,6 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
 
-include_once "constants.php";
-include_once "tools.php";
 include_once "period_stats.class.php";
 include_once "project.class.php";
 include_once 'export_csv_tools.php';
@@ -203,12 +201,6 @@ $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
 
 $year = isset($_POST[year]) ? $_POST[year] : date('Y');
-
-
-// Connect DB
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-  or die(T_("Could not connect to database"));
-mysql_select_db($db_mantis_database) or die("Could not select database");
 
 
 $user = UserCache::getInstance()->getUser($userid);

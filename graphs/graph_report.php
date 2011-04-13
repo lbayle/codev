@@ -106,11 +106,6 @@ $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
 
 
-// Connect DB
-$link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) or die(T_("Could not connect to database"));
-mysql_select_db($db_mantis_database) or die("Could not select database");
-
-
 // ---- Submitted / Resolved
 $periodStatsReport = new PeriodStatsReport($start_year, $teamid);
 #$periodStatsReport->computeReport();

@@ -1,8 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
 
-<?php include_once 'path.inc.php'; ?>
-
 <?php
+   include_once 'path.inc.php';
    include 'i18n.inc.php';
    $_POST[page_name] = T_("Welcome"); 
    include 'header.inc.php'; 
@@ -10,9 +9,6 @@
 
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
-
-
-
 
 <?php
 
@@ -137,11 +133,7 @@ if (!isset($_SESSION['userid'])) {
    displayLoginForm();
 } else {
 
-   $link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass) 
-      or die(T_("Could not connect to database"));
-   mysql_select_db($db_mantis_database) or die(T_("Could not select database"));
-
-   $userid = $_SESSION['userid'];
+	$userid = $_SESSION['userid'];
    $sessionUser = UserCache::getInstance()->getUser($userid);
 
    disclaimer();
