@@ -170,7 +170,7 @@ class Issue {
    	
       if (in_array($this->bugId, $astreintesTaskList)) { 
          
-         echo "DEBUG $this->bugId is an Astreinte.<br/>";
+         #echo "DEBUG $this->bugId is an Astreinte.<br/>";
          return true;
       }
       return false;
