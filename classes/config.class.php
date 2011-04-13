@@ -48,13 +48,14 @@ class Config {
    // --------------------------------------
    private function __construct() 
    {
-    	self::$configItems = array();
+      self::$configItems = array();
     	
       $query = "SELECT * FROM `codev_config_table`";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
-      	self::$configItems[$row->id] = new ConfigItem($row->id, $row->value, $row->type);
+      	#echo "DEBUG: Config:: $row->config_id<br/>";
+      	self::$configItems["$row->config_id"] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
     
         #echo "DEBUG: Config ready<br/>";

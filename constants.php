@@ -6,37 +6,28 @@
   // LoB 17 May 2010
 
    include_once "config.class.php"; 
-      
+
    $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
    
-	// Mantis DB infomation.
-	$db_mantis_host		=	'localhost';
-	$db_mantis_user		=	'codev';
-	$db_mantis_pass		=	'';
-	$db_mantis_database	=	'bugtracker';
 
-  // mantis defs
-
-  
   // --- STATUS ---
-  // REM: see $g_status_enum_string defined in previous section
-  $status_new       = 10;
-  $status_feedback  = 20;
-  $status_ack       = 30;
-  $status_analyzed  = 40;
-  $status_accepted  = 45;  // CoDev FDJ specific, defined in Mantis
-  $status_openned   = 50;
-  $status_deferred  = 55;
-  $status_resolved  = 80;
-  $status_delivered = 85;  // CoDev FDJ specific, defined in Mantis
-  $status_closed    = 90;
+  // REM: these vars are convenience access to Config::statusNames
+  $statusNames = Config::getInstance()->getValue("statusNames");
   
-  // CoDev FDJ specificities (not defined in Mantis)
+  $status_new       = array_search('new', $statusNames);
+  $status_feedback  = array_search('feedback', $statusNames);
+  $status_ack       = array_search('acknowledged', $statusNames);
+  $status_analyzed  = array_search('analyzed', $statusNames);
+  $status_accepted  = array_search('accepted', $statusNames);  // CoDev FDJ custom, defined in Mantis
+  $status_openned   = array_search('openned', $statusNames);
+  $status_deferred  = array_search('deferred', $statusNames);
+  $status_resolved  = array_search('resolved', $statusNames);
+  $status_delivered = array_search('delivered', $statusNames);  // CoDev FDJ custom, defined in Mantis
+  $status_closed    = array_search('closed', $statusNames);
+  
+  // CoDev FDJ custom (not defined in Mantis)
   $status_feedback_ATOS = 21;
   $status_feedback_FDJ  = 22;
-  
-
-  // CoDev FDJ specificities (not defined in Mantis)
   $statusNames[$status_feedback_ATOS] = "feedback_ATOS";
   $statusNames[$status_feedback_FDJ]  = "feedback_FDJ";
   
