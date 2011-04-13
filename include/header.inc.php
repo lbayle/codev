@@ -1,5 +1,6 @@
 <?php 
    include_once "tools.php"; 
+   include_once "internal_config.inc.php"; 
    include_once "constants.php"; 
 ?>
 

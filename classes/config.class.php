@@ -21,11 +21,16 @@ class ConfigItem {
    	$this->id    = $id;
       $this->type  = $type;
       
-      if (Config::configType_keyValue == $type) {
-         $this->value = doubleExplode(':', ',', $value);
-      } else {
-         $this->value = $value;
-      } 
+      switch ($type) {
+      	case Config::configType_keyValue :
+      		$this->value = doubleExplode(':', ',', $value);
+      		break;
+         case Config::configType_array :
+         	$this->value = explode(',', $value);
+            break;
+         default:
+         	$this->value = $value;
+      }
    }
 	
 }
@@ -35,7 +40,8 @@ class Config {
    const  configType_int      = 1;
    const  configType_string   = 2;
    const  configType_keyValue = 3;
-	
+   const  configType_array    = 4;
+   
    private static $instance;    // singleton instance
    private static $configItems;
     
