@@ -13,12 +13,13 @@ class ScheduledTask {
    var $duration;	     // in days
    var $deadLine;
    var $priorityName;
+   var $statusName;
    
    var $isOnTime;  // determinates the color
    var $summary;
    var $nbDaysToDeadLine;
    
-   function ScheduledTask($bugId, $deadLine, $duration) {
+   public function __construct($bugId, $deadLine, $duration) {
       $this->bugId = $bugId;
       $this->deadLine = $deadLine;
       $this->duration = $duration;
@@ -30,9 +31,11 @@ class ScheduledTask {
    }
    
    public function getDescription() {
+   	
    	$taskTitle= "";
       $taskTitle .= $this->duration." ".T_("days");
-      $taskTitle .= " ($this->priorityName ";
+      $taskTitle .= " ($this->priorityName";
+      $taskTitle .= ", $this->statusName";
       if (NULL != $this->deadLine) {
          $taskTitle .= ", ".date("d/m/Y", $this->deadLine);
       }
@@ -60,7 +63,8 @@ class Scheduler {
     */
 	public function scheduleUser($user, $today) {
 		
-		global $ETA_balance;
+      global $ETA_balance;
+      global $statusNames;
 		
 		$scheduledTaskList = array();
 
@@ -81,9 +85,10 @@ class Scheduler {
 			$currentST = new ScheduledTask($issue->bugId, $issue->deadLine, $issueDuration); 
 
 			$currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->deadLine);
-			$currentST->summary = $issue->summary;
-         $currentST->priorityName = $issue->getPriorityName();
-			
+			$currentST->summary          = $issue->summary;
+         $currentST->priorityName     = $issue->getPriorityName();
+         $currentST->statusName       = $statusNames[$issue->currentStatus];
+         
          // check if onTime
 			if (NULL == $issue->deadLine) {
 				$currentST->isOnTime = true;
