@@ -276,7 +276,7 @@ function displayConsistencyErrors($teamid) {
          $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
       	echo "<tr>\n";
          echo "<td>".T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
-         echo "<td>($user->name)</td>";
+         echo "<td>(".$user->getName().")</td>";
          echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
          echo "</tr>\n";
       }
