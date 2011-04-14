@@ -351,6 +351,43 @@ function displayMonth($month, $year, $issue) {
 }
 
 
+  // ------------------------------------------
+  // Table Repartition du temps par status
+  function displayDurationsPerStatus($issue) {
+    global $statusNames;
+    
+    $displayedStatusList = array_keys($statusNames);
+    sort($displayedStatusList);
+    
+    $issue->computeDurations ();
+    
+    echo "<div>\n";
+    
+    echo "<table>\n";
+    echo "<caption>".T_("Time allocation by status")."</caption>";
+    echo "<tr>\n";
+    foreach($displayedStatusList as $status) {
+      echo "<th>".$statusNames[$status]."</th>\n";
+    }
+    echo "</tr>\n";
+      
+      // REM do not display SuiviOp tasks
+      if (!$issue->isSideTaskIssue()) {
+        echo "<tr>\n";
+        foreach($displayedStatusList as $status) {
+          $res = getDurationLiteral($issue->statusList[$status]->duration);
+          if ($status == $issue->currentStatus) {
+            echo "<td>$res</td>\n";
+          } else {
+            echo "<td>$res</td>\n";
+          }
+        }
+        echo "</tr>\n";
+      }
+    echo "</table>\n";
+    echo "</div>\n";
+  }
+
 
 
 // ================ MAIN =================
@@ -428,6 +465,12 @@ if (0 == count($teamList)) {
     $defaultProjectid  = $_POST[projectid];
 	} 
 	
+	
+     echo "<br/>";
+     echo "<br/>";
+     echo "<hr/>";
+     echo "<br/>";
+	displayDurationsPerStatus($issue);
 }
 ?>
 
