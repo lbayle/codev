@@ -249,15 +249,7 @@ function displayTeam($teamid, $today, $graphSize) {
 // -----------------------------
 function displayConsistencyErrors($teamid) {
 
-   // get team's project list
-   #$devTeamList = $sessionUser->getDevTeamList();
-   #$leadedTeamList = $sessionUser->getLeadedTeamList();
-   #$managedTeamList = $sessionUser->getManagedTeamList();
-   #$teamList = $devTeamList + $leadedTeamList + $managedTeamList; 
-   #$projectList = $sessionUser->getProjectList($teamList);
-
    $projectList = Team::getProjectList($teamid);
-   
    $ccheck = new ConsistencyCheck($projectList);
 
    $cerrList = $ccheck->checkBadRAE();
@@ -273,12 +265,14 @@ function displayConsistencyErrors($teamid) {
       echo "<table class='invisible'>\n";
       foreach ($cerrList as $cerr) {
          $user = UserCache::getInstance()->getUser($cerr->userId);
-         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-      	echo "<tr>\n";
-         echo "<td>".T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
-         echo "<td>(".$user->getName().")</td>";
-         echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
-         echo "</tr>\n";
+         if ($user->isTeamMember($teamid)) {
+            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+      	   echo "<tr>\n";
+            echo "<td>".T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
+            echo "<td>(".$user->getName().")</td>";
+            echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
+            echo "</tr>\n";
+         }
       }
       echo "</table>\n";
       echo "</div>\n";
