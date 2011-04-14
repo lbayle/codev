@@ -49,6 +49,8 @@ include_once "user.class.php";
 include_once "jobs.class.php";
 include_once "holidays.class.php";
 
+include_once "issue_fdj.class.php";
+
 // ---------------------------------------------------------------
 function displayIssueSelectionForm($originPage, $user1, $defaultBugid, $defaultProjectid) {
    
@@ -153,9 +155,7 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
    global $ETA_balance;
 	global $job_support;
 	
-  echo "<br/>\n";
-  echo "<br/>\n";
-  
+  echo "<div>\n";
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Duration")."</th>\n";
@@ -199,11 +199,14 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
       echo "</tr>\n";
   }      
   echo "</table>\n";
-
-  // TimeDrift
-  echo "<br/>\n";
-  echo "<br/>\n";
+  echo "</div>\n";
   
+}
+
+// ---------------------------------------------------------------
+function displayTimeDrift($issue) {
+
+  echo "<div>\n";
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Dates")."</th>\n";
@@ -231,15 +234,14 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
   echo "  <td>".T_("Drift")."</td>\n";
   $timeDrift=$issue->getTimeDrift();
   if (!is_string($timeDrift)) {
-      echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>$timeDrift ".T_("days")."</td>\n";
+      echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>".number_format($timeDrift, 0)." ".T_("days")."</td>\n";
   } else {
       echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }
   echo "</tr>\n";
   echo "</table>\n";
-  
-  
-  
+  echo "</div>\n";
+	
 }
 
 // ---------------------------------------------------------------
@@ -249,6 +251,7 @@ function displayJobDetails($issue) {
    $durationByJob = array();
    $jobs = new Jobs();
    
+   echo "<div>\n";
    echo "<table>\n";
    echo "<tr>\n";
    echo "<th>".T_("Job")."</th>\n";
@@ -271,14 +274,17 @@ function displayJobDetails($issue) {
       echo "</tr>\n";
    }
   echo "</table>\n";      
-  
+  echo"</div>\n";
 }
+
+
 // ---------------------------------------------------------------
 function displayMonth($month, $year, $issue) {
 
   $holidays = new Holidays();
   
   $jobs = new Jobs();
+  $totalDuration = 0;
   
   // if no work done this month, do not display month
   $trackList = $issue->getTimeTracks();
@@ -287,7 +293,9 @@ function displayMonth($month, $year, $issue) {
     if (($month == date('m', $tdate)) && 
         ($year  == date('Y', $tdate))) {
       $found += 1;
-      break; 
+      
+      $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
+      $totalDuration += $tt->duration;
     }
   }
   if (0 == $found) { return; }
@@ -296,9 +304,9 @@ function displayMonth($month, $year, $issue) {
   $monthFormated = date("F Y", $monthTimestamp); 
   $nbDaysInMonth = date("t", $monthTimestamp);
 
-  echo "<div class='center'>\n";
+  echo "<div>\n";
+  echo "<span class='caption_font'>$monthFormated</span> &nbsp;&nbsp; <span>($totalDuration ".T_("days").")</span><br/>\n";
   echo "<table width='70%'>\n";
-  echo "<caption>$monthFormated</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   for ($i = 1; $i <= $nbDaysInMonth; $i++) {
@@ -353,37 +361,33 @@ function displayMonth($month, $year, $issue) {
 
   // ------------------------------------------
   // Table Repartition du temps par status
-  function displayDurationsPerStatus($issue) {
+  function displayDurationsByStatus($issue_) {
     global $statusNames;
     
-    $displayedStatusList = array_keys($statusNames);
-    sort($displayedStatusList);
+    # WARN: use of FDJ custom
+    $issue = new IssueFDJ($issue_->bugId);
     
     $issue->computeDurations ();
     
-    echo "<div>\n";
+    echo "<div class='float'>\n";
     
     echo "<table>\n";
     echo "<caption>".T_("Time allocation by status")."</caption>";
     echo "<tr>\n";
-    foreach($displayedStatusList as $status) {
-      echo "<th>".$statusNames[$status]."</th>\n";
+    foreach($issue->statusList as $status_id => $status) {
+      echo "<th>".$statusNames[$status_id]."</th>\n";
     }
     echo "</tr>\n";
       
-      // REM do not display SuiviOp tasks
-      if (!$issue->isSideTaskIssue()) {
-        echo "<tr>\n";
-        foreach($displayedStatusList as $status) {
-          $res = getDurationLiteral($issue->statusList[$status]->duration);
-          if ($status == $issue->currentStatus) {
-            echo "<td>$res</td>\n";
-          } else {
-            echo "<td>$res</td>\n";
-          }
-        }
-        echo "</tr>\n";
+    // REM do not display SuiviOp tasks
+    if (!$issue->isSideTaskIssue()) {
+      echo "<tr>\n";
+      foreach($issue->statusList as $status_id => $status) {
+         $res = getDurationLiteral($status->duration);
+         echo "<td>$res</td>\n";
       }
+      echo "</tr>\n";
+    }
     echo "</table>\n";
     echo "</div>\n";
   }
@@ -434,7 +438,8 @@ if (0 == count($teamList)) {
 	  $issue = new Issue ($bug_id);
 	        
 	  echo "<br/><br/>\n";
-     echo "<div id='content'' class='center'>";
+	  
+     echo "<div id='content' class='center'>";
 	  echo "<hr width='80%'/>\n";
      echo "<br/>";
      echo "<h2>$issue->summary</h2>\n";  
@@ -442,23 +447,63 @@ if (0 == count($teamList)) {
      echo "<br/>";
      echo "<b>".$issue->getCurrentStatusName()."</b>\n";
      echo "</div>";
-     echo "<br/>";
-     echo "<br/>";
-     echo "<br/>";
-     echo "<br/>";
-     displayIssueGeneralInfo($issue, $displaySupport);
-	  echo "<br/><br/>\n";
-	  
-	  displayJobDetails($issue);
-     echo "<br/><br/>\n";
      
-	  for ($y = date('Y', $issue->dateSubmission); $y <= $year; $y++) {
+     echo "<br/>";
+     echo "<br/>";
+     echo "<br/>";
+     echo "<br/>";
+     echo "<br/>";
+     echo "<br/>";
+     
+     // -------------
+     echo"<div>\n";
+     
+     echo "<span style='display: inline-block;'>\n";
+     displayIssueGeneralInfo($issue, $displaySupport);
+     echo "</span>";
+     
+     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+     
+     echo "<span style='display: inline-block;'>\n";
+     displayJobDetails($issue);
+     echo "</span>";
+     
+     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+     
+     echo "<span style='display: inline-block;'>\n";
+     displayTimeDrift($issue);
+     echo "</span>";
+     
+     echo"</div>\n";
+
+     // -------------
+	  echo"<div>\n";
+	  
+     echo "<br/>";
+	  echo "<br/>";
+	  echo "<br/>";
+     echo "<hr/>";
+     echo "<br/>";
+     
+     for ($y = date('Y', $issue->dateSubmission); $y <= $year; $y++) {
          for ($m = 1; $m <= 12; $m++) {
             displayMonth($m, $y, $issue);
          }
 	  }
-	
-	  echo "<br/><br/>\n";
+     echo"</div>\n";
+	  
+     echo"<div>\n";
+     echo "<br/>";
+     echo "<br/>";
+	  echo "<br/>";
+     echo "<br/>";
+     echo "<hr/>";
+     echo "<br/>";
+     displayDurationsByStatus($issue);
+     echo"</div>\n";
+     
 	} elseif ("setProjectid" == $action) {
 
     // pre-set form fields
@@ -466,12 +511,12 @@ if (0 == count($teamList)) {
 	} 
 	
 	
-     echo "<br/>";
-     echo "<br/>";
-     echo "<hr/>";
-     echo "<br/>";
-	displayDurationsPerStatus($issue);
 }
+echo "<br/>";
+echo "<br/>";
+echo "<br/>";
+echo "<br/>";
+
 ?>
 
 </div>
