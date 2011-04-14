@@ -13,7 +13,7 @@ include_once "holidays.class.php";
 class User {
 
 	var $id;
-	var $name;
+	private $name;
 	
    // --------------------
 	public function User($user_id) {
@@ -23,7 +23,7 @@ class User {
    // --------------------
 	public function getName() {
       
-      if (NULL == $name) {
+      if (NULL == $this->name) {
          $query = "SELECT mantis_user_table.username ".
                   "FROM  `mantis_user_table` ".
                   "WHERE  id = $this->id";
@@ -37,30 +37,14 @@ class User {
 	// --------------------
 	public function getFirstname() {
 		
-		if (NULL == $name) {
-         $query = "SELECT mantis_user_table.realname ".
-                  "FROM  `mantis_user_table` ".
-                  "WHERE  id = $this->id";
-         $result = mysql_query($query) or die("Query failed: $query");
-         $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "(unknown $this->id)";
-		}
-		
-		$tok = strtok($this->name, " "); // 1st token: firstname
-		
+		$tok = strtok($this->getName(), " "); // 1st token: firstname
       return $tok;
 	}
 	
    // --------------------
 	public function getLastname() {
-      if (NULL == $name) {
-         $query = "SELECT mantis_user_table.realname ".
-                  "FROM  `mantis_user_table` ".
-                  "WHERE  id = $this->id";
-         $result = mysql_query($query) or die("Query failed: $query");
-         $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "unknown $this->id";
-      }
       
-      $tok = strtok($this->name, " ");  // 1st token: firstname
+      $tok = strtok($this->getName(), " ");  // 1st token: firstname
       $tok = strtok(" ");  // 2nd token: lastname
       
       return $tok;
@@ -72,15 +56,7 @@ class User {
    	
    	if (0 == $this->id) { return "";	}
    	
-      if (NULL == $name) {
-         $query = "SELECT mantis_user_table.realname ".
-                  "FROM  `mantis_user_table` ".
-                  "WHERE  id = $this->id";
-         $result = mysql_query($query) or die("Query failed: $query");
-         $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "unknown $this->id";
-      }
-      
-      $tok1 = strtok($this->name, " ");  // 1st token: firstname
+      $tok1 = strtok($this->getName(), " ");  // 1st token: firstname
       $tok2 = strtok(" ");  // 2nd token: lastname
       
       if (false == $tok2) {
