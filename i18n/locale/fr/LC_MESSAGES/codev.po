@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-14 14:28+0200\n"
+"POT-Creation-Date: 2011-04-14 16:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -783,7 +783,7 @@ msgstr ""
 msgid "TC issue"
 msgstr "Fiche TC"
 
-#: reports/planning_report.php:14
+#: include/menu.inc.php:35 reports/planning_report.php:14
 msgid "Planning"
 msgstr "Planning"
 
@@ -1049,7 +1049,7 @@ msgstr "incoh&eacute;rent"
 msgid "not defined."
 msgstr "non d&eacute;fini"
 
-#: reports/statistics.php:14
+#: include/menu.inc.php:29 reports/statistics.php:14
 msgid "Statistics"
 msgstr "Statistiques"
 
@@ -1147,7 +1147,7 @@ msgstr "Astreinte"
 msgid "Query failed:"
 msgstr "Query failed:"
 
-#: index.php:65 timetracking/time_tracking.php:16
+#: include/menu.inc.php:16 index.php:65 timetracking/time_tracking.php:16
 msgid "Time Tracking"
 msgstr "Saisie des CRA"
 
@@ -1163,9 +1163,9 @@ msgstr "Imputations"
 msgid "Load Estimation"
 msgstr "Effort Estim&eacute;"
 
-#: timetracking/week_activity_report.php:14
+#: include/menu.inc.php:25 timetracking/week_activity_report.php:14
 msgid "Weekly activities"
-msgstr "Activit&eacute; hebdomadaire"
+msgstr "Activit&eacute; hebdo"
 
 #: timetracking/week_activity_report.php:140
 msgid "sum(Remaining) of current tasks"
@@ -1189,9 +1189,9 @@ msgstr "Par Team Member"
 msgid "By Project"
 msgstr "Par Projet"
 
-#: tools/check.php:16
+#: include/menu.inc.php:20 tools/check.php:16
 msgid "Consistency Check"
-msgstr "Test d'int&eacute;grit&eacute;"
+msgstr "Test d int&eacute;grit&eacute;"
 
 #: tools/check.php:51
 msgid "No Error."
@@ -1233,6 +1233,62 @@ msgstr "d&eacute;connect&eacute; !"
 msgid "log in"
 msgstr "connexion"
 
+#: include/menu.inc.php:11
+msgid "Home"
+msgstr "Acceuil"
+
+#: include/menu.inc.php:18
+msgid "Holidays Reports"
+msgstr "Suivi des Cong&eacute;s"
+
+#: include/menu.inc.php:18 index.php:69
+msgid "Holidays"
+msgstr "Absences"
+
+#: include/menu.inc.php:20
+msgid "Check"
+msgstr "Check"
+
+#: include/menu.inc.php:23
+msgid "Task Information"
+msgstr "Informations sur une fiche"
+
+#: include/menu.inc.php:23
+msgid "Task info"
+msgstr "Info fiche"
+
+#: include/menu.inc.php:25
+msgid "Team Weekly activities"
+msgstr "Activit&eacute; hebdomadaire de l &eacute;quipe"
+
+#: include/menu.inc.php:27
+msgid "Productivity Reports"
+msgstr "Indicateurs de production"
+
+#: include/menu.inc.php:27
+msgid "Productivity"
+msgstr "Productivit&eacute;"
+
+#: include/menu.inc.php:33
+msgid "Generate Excel Sheet"
+msgstr "Export fichier Excel"
+
+#: include/menu.inc.php:33
+msgid "Export to CSV"
+msgstr "Export CSV"
+
+#: include/menu.inc.php:35
+msgid "Check DeadLines (~Gant diagram)"
+msgstr "Respect des dates Jalon (~Diagramme de Gant)"
+
+#: include/menu.inc.php:38
+msgid "Documentation"
+msgstr "Documentation"
+
+#: include/menu.inc.php:40
+msgid "CoDev Administration"
+msgstr "Administration CoDev"
+
 #: index.php:7
 msgid "Welcome"
 msgstr "Bienvenue sur le serveur CoDev"
@@ -1255,10 +1311,6 @@ msgstr "Identifiant"
 msgid "Password"
 msgstr "Mot de passe"
 
-#: index.php:69
-msgid "Holidays"
-msgstr "Suivi des Cong&eacute;s"
-
 #: index.php:80
 msgid "Task information"
 msgstr "Informations sur une fiche"
@@ -1275,6 +1327,10 @@ msgstr "Connexion CoDev"
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
 
+#, fuzzy
+#~ msgid "Weekly"
+#~ msgstr "Semaine"
+
 #~ msgid "Nbre de jours de depassement par rapport au budjet initial"
 #~ msgstr "Nbre de jours de d&eacute;passement par rapport au budjet initial"
 
@@ -1287,9 +1343,6 @@ msgstr "l'identification a &eacute;chou&eacute;e !"
 #~ msgid "(generic) Wiki Update"
 #~ msgstr "(generique) Mise &agrave; jour du Wiki"
 
-#~ msgid "Productivity Reports"
-#~ msgstr "Indicateurs de production"
-
 #~ msgid "Export Week $weekid Member Activity"
 #~ msgstr "Export Semaine $weekid Activit&eacute; Eacute;quipe"
 
@@ -1298,9 +1351,3 @@ msgstr "l'identification a &eacute;chou&eacute;e !"
 
 #~ msgid "Send"
 #~ msgstr "Envoyer"
-
-#~ msgid "Home"
-#~ msgstr "Acceuil"
-
-#~ msgid "Holidays Reports"
-#~ msgstr "Vacances"
