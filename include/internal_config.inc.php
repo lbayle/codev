@@ -1,6 +1,6 @@
 <?php
-   #include_once "constants.php";
-   #include_once "tools.php";
+
+   include_once "config.class.php"; 
 
 
    $codevVersion = "v0.99.9 (11 Apr 2011)";
@@ -49,5 +49,50 @@
   $jobType_names = array($commonJobType => "Common",
                          $assignedJobType => "Assigned");
 
-                                
+
+  // ================== 
+
+  $admin_teamid = Config::getInstance()->getValue("adminTeamId"); // users allowed to do CoDev administration
+
+  $job_support = Config::getInstance()->getValue("job_support"); // jobid in codev_job_table corresponding to the 'Support' job (used to compute drifts)                         
+  
+  // this is the custom field added to mantis issues for TimeTracking
+  $tcCustomField           = Config::getInstance()->getValue("customField_TC");
+  $estimEffortCustomField  = Config::getInstance()->getValue("customField_effortEstim"); //  BI
+  $remainingCustomField    = Config::getInstance()->getValue("customField_remaining"); //  RAE
+  $deadLineCustomField     = Config::getInstance()->getValue("customField_deadLine");
+  $addEffortCustomField    = Config::getInstance()->getValue("customField_addEffort"); // BS
+  $deliveryIdCustomField   = Config::getInstance()->getValue("customField_deliveryId"); // FDL (id of the associated Delivery Issue)
+  $deliveryDateCustomField = Config::getInstance()->getValue("customField_deliveryDate");
+  
+  
+  // ---
+  // toughness indicator to compute "Productivity Rate ETA"
+  $ETA_balance = Config::getInstance()->getValue("ETA_balance");
+  $ETA_names   = Config::getInstance()->getValue("ETA_names");
+  
+  // ---
+  $astreintesTaskList = Config::getInstance()->getValue("astreintesTaskList"); // fiches de SuiviOp:Inactivite qui sont des astreintes
+                       
+  
+  // --- Mantis Values ---
+  // Unfortunately the following values are not in Mantis database, you'll have to manualy copy those
+  // definition if you customized them.
+  
+  $statusNames     = Config::getInstance()->getValue("statusNames");
+  
+  $priorityNames   = Config::getInstance()->getValue("priorityNames");
+  $resolutionNames = Config::getInstance()->getValue("resolutionNames");
+  // ---
+  
+  // ---
+  // the projects listed here will be excluded from PeriodStatsReport 
+  $periodStatsExcludedProjectList = Config::getInstance()->getValue("periodStatsExcludedProjectList");
+  
+  $defaultSideTaskProject = Config::getInstance()->getValue("defaultSideTaskProject"); // "SuiviOp" in table mantis_project_table
+  
+  $codevReportsDir = Config::getInstance()->getValue("codevReportsDir");
+  
+                         
+                         
 ?>
