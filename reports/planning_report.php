@@ -98,11 +98,19 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
       $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
       $totalPix += $taskPixSize;
       
+      // set color
       if (NULL != $scheduledTask->deadLine) {
-         $color = ($scheduledTask->isOnTime) ? "green" : "red"; 
+         $color = ($scheduledTask->isOnTime) ? "green" : "red";
+         
+         if (!$scheduledTask->isOnTime) {
+            $color = "red";	
+         } else {
+            $color = ($scheduledTask->isMonitored) ? "grey" : "green";
+         }
       } else {
-         $color = "grey";
+         $color = ($scheduledTask->isMonitored) ? "grey" : "blue";
       }
+      
       $taskTitle = $scheduledTask->getDescription();
 	   $formatedTitle = str_replace("'", " ", $taskTitle);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
@@ -216,7 +224,7 @@ function displayTeam($teamid, $today, $graphSize) {
 	   if (!$user->isTeamDeveloper($teamid)) { continue; }
 	   if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
 	   
-	   $scheduledTaskList = $scheduler->scheduleUser($user, $today);
+	   $scheduledTaskList = $scheduler->scheduleUser($user, $today, true);
 	   
 	   foreach($scheduledTaskList as $key => $scheduledTask) {
 	      $workload += $scheduledTask->duration;
@@ -283,7 +291,7 @@ function displayConsistencyErrors($teamid) {
 
 // ================ MAIN =================
 
-$graphSize = 800;
+$graphSize = 900;
 
 $teamid = 26; // codev
 
