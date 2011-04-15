@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-14 16:05+0200\n"
+"POT-Creation-Date: 2011-04-15 12:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -494,12 +494,16 @@ msgstr "D&eacute;rive"
 msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
-#: classes/scheduler.class.php:36 reports/issue_info.php:237
-#: reports/issue_info.php:308 reports/planning_report.php:237
+#: classes/scheduler.class.php:41 reports/issue_info.php:237
+#: reports/issue_info.php:308 reports/planning_report.php:245
 #: timetracking/time_tracking_tools.php:24
 #: timetracking/time_tracking_tools.php:26
 msgid "days"
 msgstr "jours"
+
+#: classes/scheduler.class.php:48
+msgid "monitored"
+msgstr "suivie"
 
 #: classes/time_tracking.class.php:421 reports/productivity_report.php:316
 #: reports/productivity_report.php:317 reports/productivity_report.php:324
@@ -514,7 +518,7 @@ msgstr "nb jours"
 
 #: reports/export_csv_monthly.php:14 reports/export_csv_weekly.php:14
 msgid "CSV Report"
-msgstr "Raport CSV"
+msgstr "Rapport CSV"
 
 #: reports/export_csv_monthly.php:91 reports/productivity_report.php:99
 msgid "Start Date"
@@ -540,7 +544,7 @@ msgstr "d&eacute;sol&eacute;, vous n'avez pas acces &agrave; cette page."
 
 #: reports/export_csv_monthly.php:164
 msgid "Monthly report"
-msgstr "Raport Mensuel"
+msgstr "Rapport Mensuel"
 
 #: reports/export_csv_monthly.php:184 reports/export_csv_weekly.php:257
 msgid "Export Managed Issues"
@@ -698,7 +702,7 @@ msgstr "Vendredi"
 
 #: reports/export_csv_weekly.php:232
 msgid "Weekly report"
-msgstr "Raport Hebdo"
+msgstr "Rapport Hebdo"
 
 #: reports/export_csv_weekly.php:267 reports/export_csv_weekly.php:278
 msgid "Export Week "
@@ -772,7 +776,7 @@ msgstr "Jalon"
 msgid "Nb Days"
 msgstr "Nb Jours"
 
-#: reports/issue_info.php:430 reports/planning_report.php:322
+#: reports/issue_info.php:430 reports/planning_report.php:326
 #: timetracking/time_tracking.php:334
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
@@ -787,11 +791,11 @@ msgstr "Fiche TC"
 msgid "Planning"
 msgstr "Planning"
 
-#: reports/planning_report.php:237 timetracking/week_activity_report.php:140
+#: reports/planning_report.php:245 timetracking/week_activity_report.php:140
 msgid "workload"
 msgstr "charge"
 
-#: index.php:125 reports/planning_report.php:271
+#: index.php:125 reports/planning_report.php:279
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 

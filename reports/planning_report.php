@@ -291,7 +291,7 @@ function displayConsistencyErrors($teamid) {
 
 // ================ MAIN =================
 
-$graphSize = 900;
+$graphSize = 1000;
 
 $teamid = 26; // codev
 
