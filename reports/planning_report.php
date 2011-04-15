@@ -321,10 +321,6 @@ $teamList = $dTeamList + $lTeamList + $managedTeamList;
 //  if user is not Leader of $_SESSION[teamid], do not display current team page 
 if (NULL == $teamList[$teamid]) { $teamid = 0;}
 
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
    echo T_("Sorry, you need to be member of a Team to access this page.");
@@ -336,7 +332,6 @@ if (0 == count($teamList)) {
    if ("displayPlanning" == $action) {
    
       if (0 != $teamid) {
-         echo "<br/>";
          echo "<br/>";
 		   echo "<hr width='80%'/>\n";
 		   echo "<br/>";
