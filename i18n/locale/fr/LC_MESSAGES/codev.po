@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-15 12:55+0200\n"
+"POT-Creation-Date: 2011-04-15 13:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -495,13 +495,13 @@ msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
 #: classes/scheduler.class.php:41 reports/issue_info.php:237
-#: reports/issue_info.php:308 reports/planning_report.php:245
+#: reports/issue_info.php:308 reports/planning_report.php:240
 #: timetracking/time_tracking_tools.php:24
 #: timetracking/time_tracking_tools.php:26
 msgid "days"
 msgstr "jours"
 
-#: classes/scheduler.class.php:48
+#: classes/scheduler.class.php:48 reports/planning_report.php:262
 msgid "monitored"
 msgstr "suivie"
 
@@ -776,7 +776,7 @@ msgstr "Jalon"
 msgid "Nb Days"
 msgstr "Nb Jours"
 
-#: reports/issue_info.php:430 reports/planning_report.php:326
+#: reports/issue_info.php:430 reports/planning_report.php:351
 #: timetracking/time_tracking.php:334
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
@@ -791,11 +791,23 @@ msgstr "Fiche TC"
 msgid "Planning"
 msgstr "Planning"
 
-#: reports/planning_report.php:245 timetracking/week_activity_report.php:140
+#: reports/planning_report.php:240 timetracking/week_activity_report.php:140
 msgid "workload"
 msgstr "charge"
 
-#: index.php:125 reports/planning_report.php:279
+#: reports/planning_report.php:259
+msgid "onTime"
+msgstr "dans les temps"
+
+#: reports/planning_report.php:260
+msgid "NOT onTime"
+msgstr "en retard"
+
+#: reports/planning_report.php:261
+msgid "no deadLine"
+msgstr "sans jalon"
+
+#: index.php:125 reports/planning_report.php:304
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 

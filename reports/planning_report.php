@@ -90,9 +90,6 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
    $sepWidth = 1;
    $barHeight = 20;
    
-   $image_color[true]  = "green";
-   $image_color[false] = "red";
-   
    foreach($scheduledTaskList as $key => $scheduledTask) {
    
       $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
@@ -176,8 +173,6 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 	return $deadLines;
 }
 
-
-
 // -----------------------------------------
 function displayScheduledTaskTable($scheduledTaskList) {
 	
@@ -253,6 +248,36 @@ function displayTeam($teamid, $today, $graphSize) {
 	echo "</table>\n";
 	
 }
+
+// -----------------------------------------
+function displayLegend() {
+
+   $barHeight = 14;
+   $barWidtht = 14;
+   
+   $colorTypes = array(
+     "green" => T_("onTime"),
+     "red"   => T_("NOT onTime"),
+     "blue"  => T_("no deadLine"),
+     "grey"  => T_("monitored"),
+   );
+   
+   echo "<div class='center'>\n";
+   echo "<table class='invisible'  width='500'>\n";
+   echo "<tr>\n";
+   
+   foreach ($colorTypes as $color => $type) {
+      echo "<td >\n";
+      echo "<img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$barWidtht&color=".$color."' />";
+      echo "&nbsp;&nbsp;$type";
+      echo "</td>\n";
+   }
+   echo "</tr>\n";
+   echo "<table>\n";
+   echo "</div>\n";
+   
+}
+
 
 // -----------------------------
 function displayConsistencyErrors($teamid) {
@@ -339,9 +364,11 @@ if (0 == count($teamList)) {
 		   echo "<br/>";
    
       	displayTeam($teamid, $today, $graphSize);
-      	
          echo "<br/>\n";
          echo "<br/>\n";
+         echo "<br/>\n";
+         echo "<br/>\n";
+         displayLegend();
          echo "<br/>\n";
          displayConsistencyErrors($teamid);
       	

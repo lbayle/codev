@@ -80,10 +80,12 @@ while ((imagefontwidth($font) * strlen($string) > ($width)) && ($font > 1)) {
 }
 
 // add text
-if (imagefontwidth($font) * strlen($string) <= $width) {
- $px     = (imagesx($im) - imagefontwidth($font) * strlen($string)) / 2;
- $py     = (imagesy($im) - imagefontheight($font)) / 2;
- imagestring($im, $font, $px, $py, $string, $textColor);
+if ($string) {
+   if (imagefontwidth($font) * strlen($string) <= $width) {
+      $px     = (imagesx($im) - imagefontwidth($font) * strlen($string)) / 2;
+      $py     = (imagesy($im) - imagefontheight($font)) / 2;
+      imagestring($im, $font, $px, $py, $string, $textColor);
+   }
 }
 
 imagepng($im);
