@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-18 11:52+0200\n"
+"POT-Creation-Date: 2011-04-18 12:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -495,13 +495,13 @@ msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
 #: classes/scheduler.class.php:41 reports/issue_info.php:237
-#: reports/issue_info.php:308 reports/planning_report.php:291
+#: reports/issue_info.php:308 reports/planning_report.php:306
 #: timetracking/time_tracking_tools.php:24
 #: timetracking/time_tracking_tools.php:26
 msgid "days"
 msgstr "jours"
 
-#: classes/scheduler.class.php:48 reports/planning_report.php:314
+#: classes/scheduler.class.php:48 reports/planning_report.php:329
 msgid "monitored"
 msgstr "suivie"
 
@@ -776,7 +776,7 @@ msgstr "Jalon"
 msgid "Nb Days"
 msgstr "Nb Jours"
 
-#: reports/issue_info.php:430 reports/planning_report.php:414
+#: reports/issue_info.php:430 reports/planning_report.php:429
 #: timetracking/time_tracking.php:334
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
@@ -791,27 +791,27 @@ msgstr "Fiche TC"
 msgid "Planning"
 msgstr "Planning"
 
-#: reports/planning_report.php:291 timetracking/week_activity_report.php:140
+#: reports/planning_report.php:306 timetracking/week_activity_report.php:140
 msgid "workload"
 msgstr "charge"
 
-#: reports/planning_report.php:311
+#: reports/planning_report.php:326
 msgid "onTime"
 msgstr "dans les temps"
 
-#: reports/planning_report.php:312
+#: reports/planning_report.php:327
 msgid "NOT onTime"
 msgstr "en retard"
 
-#: reports/planning_report.php:313
+#: reports/planning_report.php:328
 msgid "no deadLine"
 msgstr "sans date jalon"
 
-#: reports/planning_report.php:331
+#: reports/planning_report.php:346
 msgid "day"
 msgstr "jour"
 
-#: index.php:125 reports/planning_report.php:362
+#: index.php:125 reports/planning_report.php:377
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
@@ -1255,7 +1255,7 @@ msgstr "connexion"
 
 #: include/menu.inc.php:11
 msgid "Home"
-msgstr "Acceuil"
+msgstr "Accueil"
 
 #: include/menu.inc.php:18
 msgid "Holidays Reports"
