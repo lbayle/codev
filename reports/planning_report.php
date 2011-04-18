@@ -186,6 +186,14 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    // sort deadLines by date ASC
    ksort($deadLines);
 
+   // because the 'size' of the arrow, the first scheduledTask has been shifted
+   // we need to check if the $nbDays of the first deadLine = 0 
+   reset($deadLines);
+   if (0 != $nbDaysToDeadLines[key($deadLines)]) {
+            // align
+            echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
+   }
+    
    // display deadLines
    $curPos=0;
    foreach($deadLines as $date => $isOnTime) {
@@ -194,13 +202,20 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    	
       #echo "DEBUG deadline ".date("d/m/Y", $date)." offset = $offset isOnTime=$scheduledTask->isOnTime<br/>";
    	
-      if ($offset >= 0) {
-         $timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
-   
-         echo "<IMG WIDTH='$timeLineSize' HEIGHT='$imageHeight' SRC='../images/time_line.jpg'>";
+      if ($offset >= 0) { 
+      	if (0 != $offset) {
+      		// draw timeLine
+      		$timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
+            echo "<IMG WIDTH='$timeLineSize' HEIGHT='$imageHeight' SRC='../images/time_line.jpg'>";
+            
+            $curPos += $timeLineSize + $deadLineTriggerWidth;
+      	} else {
+      		$curPos += $deadLineTriggerWidth/2;
+      	}
+      	
+      	// drawArrow
          echo "<IMG SRC='".$images[$isOnTime]."' ALT='Texte remplaçant l image' TITLE='".date("d/m/Y", $date)." (+$offset days)'>";
 
-         $curPos += $timeLineSize + $deadLineTriggerWidth;
       }
    	
    }
