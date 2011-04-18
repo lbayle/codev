@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-15 13:50+0200\n"
+"POT-Creation-Date: 2011-04-18 11:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -274,7 +274,7 @@ msgstr "Administration CoDev : &Eacute;dition &Eacute;quipe"
 
 #: admin/edit_team.php:208 reports/export_csv_monthly.php:80
 #: reports/export_csv_monthly.php:176 reports/export_csv_weekly.php:61
-#: reports/export_csv_weekly.php:248 reports/planning_report.php:62
+#: reports/export_csv_weekly.php:248 reports/planning_report.php:92
 #: reports/productivity_report.php:81 reports/statistics.php:53
 #: timetracking/holidays_report.php:38
 #: timetracking/week_activity_report.php:53
@@ -286,7 +286,7 @@ msgid "Leader"
 msgstr "Team Leader"
 
 #: admin/edit_team.php:236 admin/edit_team.php:247
-#: reports/planning_report.php:76
+#: reports/planning_report.php:106
 msgid "Update"
 msgstr "Mise &agrave; jour"
 
@@ -495,13 +495,13 @@ msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
 #: classes/scheduler.class.php:41 reports/issue_info.php:237
-#: reports/issue_info.php:308 reports/planning_report.php:240
+#: reports/issue_info.php:308 reports/planning_report.php:291
 #: timetracking/time_tracking_tools.php:24
 #: timetracking/time_tracking_tools.php:26
 msgid "days"
 msgstr "jours"
 
-#: classes/scheduler.class.php:48 reports/planning_report.php:262
+#: classes/scheduler.class.php:48 reports/planning_report.php:314
 msgid "monitored"
 msgstr "suivie"
 
@@ -776,7 +776,7 @@ msgstr "Jalon"
 msgid "Nb Days"
 msgstr "Nb Jours"
 
-#: reports/issue_info.php:430 reports/planning_report.php:351
+#: reports/issue_info.php:430 reports/planning_report.php:414
 #: timetracking/time_tracking.php:334
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
@@ -787,27 +787,31 @@ msgstr ""
 msgid "TC issue"
 msgstr "Fiche TC"
 
-#: include/menu.inc.php:35 reports/planning_report.php:14
+#: include/menu.inc.php:35 reports/planning_report.php:41
 msgid "Planning"
 msgstr "Planning"
 
-#: reports/planning_report.php:240 timetracking/week_activity_report.php:140
+#: reports/planning_report.php:291 timetracking/week_activity_report.php:140
 msgid "workload"
 msgstr "charge"
 
-#: reports/planning_report.php:259
+#: reports/planning_report.php:311
 msgid "onTime"
 msgstr "dans les temps"
 
-#: reports/planning_report.php:260
+#: reports/planning_report.php:312
 msgid "NOT onTime"
 msgstr "en retard"
 
-#: reports/planning_report.php:261
+#: reports/planning_report.php:313
 msgid "no deadLine"
-msgstr "sans jalon"
+msgstr "sans date jalon"
 
-#: index.php:125 reports/planning_report.php:304
+#: reports/planning_report.php:331
+msgid "day"
+msgstr "jour"
+
+#: index.php:125 reports/planning_report.php:362
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 

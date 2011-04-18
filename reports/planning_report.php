@@ -11,6 +11,33 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
+// ----------
+// Getting the windows width and pass it to a php variable.
+// Because php is server side, and javascript is client side, they cannot share data easily.
+
+// 1. Load the page
+// 2. Look for screen size in query string.
+// 3. If not set, get screen size; reload the page
+// 4. When the page reloads, you will have both the screen width and height in the query string, which can be retrieved using php's $_GET.
+
+if(!isset($_GET[w])) {
+?>
+<script type="text/javascript">
+
+var myWidth = 0, myHeight = 0;
+myWidth = window.innerWidth;
+myHeight = window.innerHeight;
+document.location.href=location+"?w="+myWidth+"&h="+myHeight;
+
+</script>
+<?php
+exit();
+}
+// ----------
+?>
+
+
+<?php
    $_POST[page_name] = T_("Planning"); 
    include 'header.inc.php'; 
 ?>
@@ -57,8 +84,11 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
    
   // create form
   echo "<div align=center>\n";
-  echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
-
+  if (isset($_GET['w'])) {
+      echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage?w=".$_GET['w']."&h=".$_GET['h']."'>\n";
+  } else {
+      echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
+  }
   echo T_("Team")." :\n";
   echo "<select name='f_teamid'>\n";
   echo "<option value='0'></option>\n";
@@ -89,6 +119,9 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
    $totalPix = 0;
    $sepWidth = 1;
    $barHeight = 20;
+   $deadLineTriggerWidth = 10;
+   
+   echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
    
    foreach($scheduledTaskList as $key => $scheduledTask) {
    
@@ -112,7 +145,8 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	   $formatedTitle = str_replace("'", " ", $taskTitle);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
 	   
-      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$taskPixSize&text=$scheduledTask->bugId&color=".$color."' /></a>";
+      $drawnTaskPixSize = $taskPixSize - $sepWidth;
+      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$drawnTaskPixSize&text=$scheduledTask->bugId&color=".$color."' /></a>";
 
 	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/white.png'>";
 	}
@@ -130,7 +164,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    
 	$images[true]  = "../images/arrow_down_blue.PNG";
    $images[false] = "../images/arrow_down_red.PNG";
-   $imageWidth = 10;
+   $deadLineTriggerWidth = 10;
    $imageHeight = 7;
    
 	$deadLines = array();
@@ -161,12 +195,12 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
       #echo "DEBUG deadline ".date("d/m/Y", $date)." offset = $offset isOnTime=$scheduledTask->isOnTime<br/>";
    	
       if ($offset >= 0) {
-         $timeLineSize = ($offset * $dayPixSize) - ($imageWidth/2) - $curPos;
+         $timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
    
          echo "<IMG WIDTH='$timeLineSize' HEIGHT='$imageHeight' SRC='../images/time_line.jpg'>";
          echo "<IMG SRC='".$images[$isOnTime]."' ALT='Texte remplaçant l image' TITLE='".date("d/m/Y", $date)." (+$offset days)'>";
 
-         $curPos += $timeLineSize + $imageWidth;
+         $curPos += $timeLineSize + $deadLineTriggerWidth;
       }
    	
    }
@@ -205,8 +239,10 @@ echo "</table>\n";
 
 // -----------------------------------------
 function displayTeam($teamid, $today, $graphSize) {
-	$scheduler = new Scheduler();
-
+   
+	$deadLineTriggerWidth = 10;
+	
+   $scheduler = new Scheduler();
 	$allTasksLists = array();
    $workloads = array();
 	$teamMembers = Team::getMemberList($teamid);
@@ -231,9 +267,24 @@ function displayTeam($teamid, $today, $graphSize) {
 	}
 	
 	$dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
+	$dayPixSize = number_format($dayPixSize, 0);
+   #echo "DEBUG dayPixSize    = $dayPixSize<br/>\n";
 	
 	// display all team
 	echo "<table class='invisible'>\n";
+   
+   echo "<tr>\n";
+   echo "  <td ></td>\n";
+   echo "  <td >\n";
+   echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
+   for ($i = 0; $i < $nbDaysToDisplay; $i++) {
+      echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
+   	echo "<IMG WIDTH='".($dayPixSize-1)."' HEIGHT='7' SRC='../images/time_line.jpg'>";
+   }
+   echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
+   echo "</td >\n";
+   echo "</tr>\n";
+   
 	foreach($allTasksLists as $userName => $scheduledTaskList) {
 	
 	   echo "<tr valign='center'>\n";
@@ -247,10 +298,11 @@ function displayTeam($teamid, $today, $graphSize) {
 	}
 	echo "</table>\n";
 	
+	return $dayPixSize;
 }
 
 // -----------------------------------------
-function displayLegend() {
+function displayLegend($dayPixSize) {
 
    $barHeight = 14;
    $barWidtht = 14;
@@ -263,7 +315,7 @@ function displayLegend() {
    );
    
    echo "<div class='center'>\n";
-   echo "<table class='invisible'  width='500'>\n";
+   echo "<table class='invisible'  width='700'>\n";
    echo "<tr>\n";
    
    foreach ($colorTypes as $color => $type) {
@@ -272,6 +324,12 @@ function displayLegend() {
       echo "&nbsp;&nbsp;$type";
       echo "</td>\n";
    }
+   echo "  <td >\n";
+   echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
+   echo "<IMG WIDTH='".($dayPixSize-1)."' HEIGHT='7' SRC='../images/time_line.jpg'>";
+   echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
+   echo "&nbsp;&nbsp;1 ".T_("day")."\n";
+   echo "  </td >\n";
    echo "</tr>\n";
    echo "<table>\n";
    echo "</div>\n";
@@ -316,7 +374,12 @@ function displayConsistencyErrors($teamid) {
 
 // ================ MAIN =================
 
-$graphSize = 1000;
+
+$pageWidth = $_GET[w];
+$pageHeigh = $_GET[h];
+#echo "DEBUG pageWidth $pageWidth<br/>";
+
+$graphSize = ("undefined" != $pageWidth) ? $pageWidth -150 : 800;
 
 $teamid = 26; // codev
 
@@ -363,12 +426,12 @@ if (0 == count($teamList)) {
 		   echo "<br/>";
 		   echo "<br/>";
    
-      	displayTeam($teamid, $today, $graphSize);
+      	$dayPixSize = displayTeam($teamid, $today, $graphSize);
          echo "<br/>\n";
          echo "<br/>\n";
          echo "<br/>\n";
          echo "<br/>\n";
-         displayLegend();
+         displayLegend($dayPixSize);
          echo "<br/>\n";
          displayConsistencyErrors($teamid);
       	
