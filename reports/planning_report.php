@@ -27,7 +27,12 @@ if(!isset($_GET[w])) {
 var myWidth = 0, myHeight = 0;
 myWidth = window.innerWidth;
 myHeight = window.innerHeight;
-document.location.href=location+"?w="+myWidth+"&h="+myHeight;
+var l = location;
+if ("" == location.search) {
+   document.location.href=location+"?w="+myWidth+"&h="+myHeight;
+} else {
+   document.location.href=location+"&w="+myWidth+"&h="+myHeight;
+}   
 
 </script>
 <?php
