@@ -436,7 +436,8 @@ if (0 == count($teamList)) {
 	
 	if ("displayBug" == $action) {
 	  $issue = new Issue ($bug_id);
-	        
+     $handler = UserCache::getInstance()->getUser($issue->handlerId);
+	  
 	  echo "<br/><br/>\n";
 	  
      echo "<div id='content' class='center'>";
@@ -445,7 +446,7 @@ if (0 == count($teamList)) {
      echo "<h2>$issue->summary</h2>\n";  
      echo "".mantisIssueURL($issue->bugId)." / <span title='".T_("TC issue")."'>$issue->tcId</span><br/>\n";  
      echo "<br/>";
-     echo "<b>".$issue->getCurrentStatusName()."</b>\n";
+     echo "<b><span title='".T_("status")."'>".$issue->getCurrentStatusName()."</span> - <span title='".T_("assigned to")."'>".$handler->getName()."</span></b>\n";
      echo "</div>";
      
      echo "<br/>";

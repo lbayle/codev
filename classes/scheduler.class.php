@@ -14,6 +14,7 @@ class ScheduledTask {
    var $deadLine;
    var $priorityName;
    var $statusName;
+   var $handlerName;
    
    var $isOnTime;  // determinates the color
    var $summary;
@@ -45,7 +46,7 @@ class ScheduledTask {
          $taskTitle .= ", ".date("d/m/Y", $this->deadLine);
       }
       if ($this->isMonitored) {
-         $taskTitle .= ", ".T_("monitored");
+         $taskTitle .= ", ".T_("monitored")."-$this->handlerName";
       }
       $taskTitle .= ")       $this->summary";
    	
@@ -97,6 +98,9 @@ class Scheduler {
          $currentST->priorityName     = $issue->getPriorityName();
          $currentST->statusName       = $statusNames[$issue->currentStatus];
          
+         $handler = UserCache::getInstance()->getUser($issue->handlerId);
+         $currentST->handlerName = $handler->getName();
+         
          // check if onTime
 			if (NULL == $issue->deadLine) {
 				$currentST->isOnTime = true;
@@ -137,6 +141,9 @@ class Scheduler {
             $currentST->priorityName     = $issue->getPriorityName();
             $currentST->statusName       = $statusNames[$issue->currentStatus];
             $currentST->isMonitored      = true;
+            
+            $handler = UserCache::getInstance()->getUser($issue->handlerId);
+            $currentST->handlerName = $handler->getName();
             
             // check if onTime
             if (NULL == $issue->deadLine) {
