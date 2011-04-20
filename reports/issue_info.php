@@ -185,8 +185,8 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
   echo "<td>".T_("Drift")."</td>\n";
   $deriveETA = $issue->getDriftETA(false);
   $derive = $issue->getDrift(false);
-  echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".$deriveETA."</td>\n";
-  echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
+  echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".number_format($deriveETA, 2)."</td>\n";
+  echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".number_format($derive, 2)."</td>\n";
   echo "</tr>\n";
    
   if ($displaySupport) {
