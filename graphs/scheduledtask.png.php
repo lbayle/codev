@@ -51,6 +51,8 @@ $grey      = array(210, 210, 210);
 $black     = array(0, 0, 0);
 $green     = array(128, 255, 159);
 $red       = array(255, 183, 183);
+$orange    = array(255, 209, 84);
+$blue      = array(204, 218, 255);
 $textColor = imagecolorallocate($im, 0, 0, 0);
 
 if ("red" == $color) {
@@ -59,6 +61,12 @@ if ("red" == $color) {
    $border_color = $green;
 } else if ("grey" == $color) {
    $border_color = $grey;
+} else if ("orange" == $color) {
+   $border_color = $orange;
+} else if ("black" == $color) {
+   $border_color = $black;
+} else if ("blue" == $color) {
+   $border_color = $blue;
 } else {
    $border_color = $black;
 }
@@ -72,10 +80,12 @@ while ((imagefontwidth($font) * strlen($string) > ($width)) && ($font > 1)) {
 }
 
 // add text
-if (imagefontwidth($font) * strlen($string) <= $width) {
- $px     = (imagesx($im) - imagefontwidth($font) * strlen($string)) / 2;
- $py     = (imagesy($im) - imagefontheight($font)) / 2;
- imagestring($im, $font, $px, $py, $string, $textColor);
+if ($string) {
+   if (imagefontwidth($font) * strlen($string) <= $width) {
+      $px     = (imagesx($im) - imagefontwidth($font) * strlen($string)) / 2;
+      $py     = (imagesy($im) - imagefontheight($font)) / 2;
+      imagestring($im, $font, $px, $py, $string, $textColor);
+   }
 }
 
 imagepng($im);

@@ -440,6 +440,7 @@ class User {
     * the issue list is ordered by priority.
     * 
     * priority criteria are:
+    * - opened
     * - deadLine
     * - priority
     * 
@@ -486,6 +487,48 @@ class User {
       return $sortedList;
    }
    
+
+   // --------------------
+   /**
+    * Returns the Issues that I monitor.
+    * the issue list is ordered by priority.
+    * 
+    * priority criteria are:
+    * - opened
+    * - deadLine
+    * - priority
+    * 
+    * @return Issue list
+    */
+   public function getMonitoredIssues($projList = NULL) {
+      
+      global $status_resolved;
+      global $status_delivered;
+      global $status_closed;
+      
+      $issueList = array();
+      
+      if (NULL == $projList) {$projList = $this->getProjectList();}
+      $formatedProjList = valuedListToSQLFormatedString($projList);
+         
+      
+      $query = "SELECT DISTINCT bug_id ".
+               "FROM `mantis_bug_monitor_table` ".
+               "WHERE user_id = $this->id ".
+               "ORDER BY bug_id DESC";
+      
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result)) {
+      	  $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+      	  if (!in_array($issue->currentStatus, array($status_resolved, $status_delivered, $status_closed))) {
+               $issueList[] = $issue;
+      	  }  
+      }
+      // quickSort the list
+      $sortedList = qsort($issueList);
+
+      return $sortedList;
+   }
    
 } // class
 

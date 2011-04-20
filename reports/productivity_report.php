@@ -400,9 +400,9 @@ function displayCurrentDriftStats ($timeTracking) {
             $user = UserCache::getInstance()->getUser($issue->handlerId);
             
             $issueList[] = $issue;
-            
     }
-    if (0 == count($issueList)) {
+
+    if (0 != count($issueList)) {
       $driftStats_new = $timeTracking->getIssuesDriftStats($issueList);
     } else {
     	$driftStats_new = array();
