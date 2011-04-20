@@ -1,5 +1,12 @@
 <?php
 
+   /*
+    * The Variables in here are not expected to be changed in any way.
+    * 
+    * most of them are initialyzed from the 'codev_config_table'.
+    * 
+    */
+
    include_once "config.class.php"; 
 
 

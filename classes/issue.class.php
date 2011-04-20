@@ -594,29 +594,17 @@ class Issue {
    // ----------------------------------------------
    // Computes the lifeCycle of the issue (time spent on each status)
    public function computeDurations () {
-      global $status_new;
-      global $status_feedback;
-      global $status_ack;
-      global $status_analyzed;
-      global $status_accepted;
-      global $status_openned;
-      global $status_deferred;
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
-
-      $this->statusList[$status_new]      = new Status($status_new, $this->getDuration_new());
-      $this->statusList[$status_feedback] = new Status($status_feedback_ATOS, $this->getDuration_other($status_feedback));
-      $this->statusList[$status_ack]      = new Status($status_ack,      $this->getDuration_other($status_ack));
-      $this->statusList[$status_analyzed] = new Status($status_analyzed, $this->getDuration_other($status_analyzed));
-      $this->statusList[$status_accepted] = new Status($status_accepted, $this->getDuration_other($status_accepted));
-      $this->statusList[$status_openned]  = new Status($status_openned,  $this->getDuration_other($status_openned));
-      $this->statusList[$status_deferred] = new Status($status_deferred, $this->getDuration_other($status_deferred));
-      $this->statusList[$status_resolved] = new Status($status_resolved, $this->getDuration_other($status_resolved));
-      $this->statusList[$status_delivered] = new Status($status_delivered, $this->getDuration_other($status_delivered));
-      $this->statusList[$status_closed]   = new Status($status_closed,   $this->getDuration_other($status_closed));
-
-      //echo "computeDurations: duration new = ".$this->statusList[$status_new]->duration."<br/>";
+   	
+      $statusNames = Config::getInstance()->getValue("statusNames");
+      ksort($statusNames);
+  
+      foreach ($statusNames as $s => $sname) {
+         if ("new" == $sname) {
+            $this->statusList[$s] = new Status($s, $this->getDuration_new());
+         } else {
+            $this->statusList[$s] = new Status($s, $this->getDuration_other($s));
+         }
+      }
    }
 
    // ----------------------------------------------
@@ -666,17 +654,6 @@ class Issue {
    protected function getDuration_other ($status)
    {
       $time = 0;
-
-      global $status_new;
-      global $status_feedback;
-      global $status_ack;
-      global $status_analyzed;
-      global $status_accepted;
-      global $status_openned;
-      global $status_deferred;
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
 
       $current_date = time();
 

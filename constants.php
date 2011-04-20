@@ -1,8 +1,7 @@
 <?php
 
-  // MANTIS CoDev Reports/TimeTracking
+  // The Variables in here can be customized to your needs
   
-  // constants
   // LoB 17 May 2010
 
   include_once "config.class.php"; 
@@ -13,7 +12,6 @@
    
 
   // --- STATUS ---
-  // REM: these vars are convenience access to Config::statusNames
   $statusNames = Config::getInstance()->getValue("statusNames");
   
   $status_new       = array_search('new', $statusNames);
@@ -28,11 +26,8 @@
   $status_closed    = array_search('closed', $statusNames);
   
   // CoDev FDJ custom (not defined in Mantis)
-  $status_feedback_ATOS = 21;
-  $status_feedback_FDJ  = 22;
-  $statusNames[$status_feedback_ATOS] = "feedback_ATOS";
-  $statusNames[$status_feedback_FDJ]  = "feedback_FDJ";
+  $status_feedback_ATOS = array_search('feedback_ATOS', $statusNames);;
+  $status_feedback_FDJ  = array_search('feedback_FDJ', $statusNames);;
   
-  //$FDJ_teamid = Config::getInstance()->getValue("FDJ_teamid");  // all FDJ users : used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)                     
   
 ?>

@@ -24,7 +24,7 @@ class IssueTrackingFDJ extends IssueTracking {
     
     global $sideTaskProjectType;
     global $periodStatsExcludedProjectList;
-    
+/*    
     $this->displayedStatusList = array($status_new, 
                                        $status_ack, 
                                        $status_feedback_ATOS, 
@@ -36,7 +36,10 @@ class IssueTrackingFDJ extends IssueTracking {
                                        $status_resolved,
                                        $status_delivered,
                                        $status_closed);
-      
+*/      
+      $this->displayedStatusList = array_keys(Config::getInstance()->getValue("statusNames"));  
+      sort($this->displayedStatusList);                                     
+                                       
       // only projects for specified team
       $projectList = array();
       $query = "SELECT project_id ".
