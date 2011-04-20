@@ -48,7 +48,8 @@ class IssueFDJ extends Issue {
   	 global $status_feedback_ATOS;
     global $status_feedback_FDJ;
   	 global $status_feedback;
-    global $FDJ_teamid;
+    
+  	 $FDJ_teamid = Config::getInstance()->getValue("FDJ_teamid");
       
     $time_atos = 0;
     $time_fdj = 0;

@@ -79,7 +79,7 @@
   // Unfortunately the following values are not in Mantis database, you'll have to manualy copy those
   // definition if you customized them.
   
-  $statusNames     = Config::getInstance()->getValue("statusNames");
+  //$statusNames     = Config::getInstance()->getValue("statusNames");
   
   $priorityNames   = Config::getInstance()->getValue("priorityNames");
   $resolutionNames = Config::getInstance()->getValue("resolutionNames");

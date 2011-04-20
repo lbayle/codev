@@ -33,6 +33,6 @@
   $statusNames[$status_feedback_ATOS] = "feedback_ATOS";
   $statusNames[$status_feedback_FDJ]  = "feedback_FDJ";
   
-  $FDJ_teamid = Config::getInstance()->getValue("FDJ_teamid");  // all FDJ users : used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)                     
+  //$FDJ_teamid = Config::getInstance()->getValue("FDJ_teamid");  // all FDJ users : used for reports (to diff $status_feedback_ATOS from  $status_feedback_FDJ)                     
   
 ?>

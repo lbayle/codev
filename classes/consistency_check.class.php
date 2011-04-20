@@ -115,7 +115,7 @@ class ConsistencyCheck {
       global $status_resolved;
       global $status_delivered;
       global $status_closed;
-   	global $FDJ_teamid;
+   	$FDJ_teamid = Config::getInstance()->getValue("FDJ_teamid");
    	
       $cerrList = array();
 
