@@ -2,7 +2,7 @@
 
 <?php
 
-// -- FDJ specificities for IssueTracking
+// -- FDJ specificities for DurationsByStatus
 
 include_once "constants.php";
 include_once "issue.class.php";

@@ -44,8 +44,6 @@ if (!isset($_SESSION['userid'])) {
 include_once "user.class.php";
 include_once "issue.class.php";
 include_once "period_stats_report.class.php";
-include_once "issue_tracking.class.php";
-include_once "issue_tracking_fdj.class.php";
 
 
 function setTeamForm($originPage, $defaultSelection, $teamList) {
@@ -112,8 +110,6 @@ if (0 != $teamid) {
    echo "<div align='left'>\n";
    echo "<ul>\n";
    echo "   <li><a href='#tagPeriodStats'>Bilan mensuel</a></li>\n";
-   echo "   <li><a href='#tagForseingTable'>Avancement par fiche</a></li>\n";
-   echo "   <li><a href='#tagDurations'>Repartition du temps par status</a></li>\n";
    echo "</ul><br/>\n";
    echo "</div>\n";
       
@@ -126,33 +122,10 @@ if (0 != $teamid) {
 	$periodStatsReport->computeReport();
 	$periodStatsReport->displayHTMLReport();
 	
-   echo "<br/>";
-	echo "<br/>";
-	echo "<br/>";
-   echo "<a name='tagForseingTable'></a>\n";
-   echo "<br/>\n";
-   echo "<hr/>\n";
-   echo "<br/>\n";
-   $issueTracking = new IssueTrackingFDJ($teamid);
-	$issueTracking->initialize();
-	$issueTracking->forseingTableDisplay();
-	
-   echo "<br/>";
-	echo "<br/>";
-	echo "<br/>";
-   echo "<a name='tagDurations'></a>\n";
-   echo "<br/>\n";
-   echo "<hr/>\n";
-   echo "<br/>\n";
-   $issueTracking->durationsTableDisplay();
-
    echo "<br/>\n";
    echo "<br/>\n";
    
 }
-// Fermeture de la connexion
-mysql_close($link);
-//exit;
 ?>
 
 </div>
