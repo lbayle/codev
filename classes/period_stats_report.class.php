@@ -42,17 +42,16 @@ class PeriodStatsReport {
 	      $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
 	      
 	      // only projects for specified team, except excluded projects
+	      $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
+	      
 	      $projectList = array();
-	      $query = "SELECT project_id ".
-	               "FROM `codev_team_project_table` ".
-	               "WHERE team_id = $this->teamid";
+	      $query = "SELECT project_id FROM `codev_team_project_table` ".
+	               "WHERE team_id = $this->teamid ".
+	               "AND project_id NOT IN ($formatedExcludedProjects)";
+	      
 	      $result = mysql_query($query) or die("Query failed: $query");
 	      while($row = mysql_fetch_object($result)) {
-	      
-	        // remove FDL project
-	        if (! in_array($row->project_id, $periodStatsExcludedProjectList))  {
-	           $projectList[] = $row->project_id; 
-	        }
+            $projectList[] = $row->project_id; 
 	      }
 	      
 	      $periodStats->projectList = $projectList;
@@ -75,21 +74,18 @@ class PeriodStatsReport {
     global $status_delivered;
     global $status_closed;
   	
+    $statusNames = Config::getInstance()->getValue("statusNames");
+    ksort($statusNames);
+  
     echo "<table>\n";
     echo "<caption title='Bilan mensuel SAUF SuiviOp.'>Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)</caption>";
     echo "<tr>\n";
     echo "<th>Date</th>\n";
-    #echo "<th title='Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL'>Nb submissions</th>\n";
-    echo "<th>New</th>\n";
-    echo "<th>Acknowledge</th>\n";
-    echo "<th>Feedback</th>\n";
-    echo "<th>Analyzed</th>\n";
-    echo "<th>Accepted</th>\n";
-    echo "<th>Openned</th>\n";
-    echo "<th>Resolved</th>\n";
-    echo "<th>Delivered</th>\n";
-    echo "<th>Closed</th>\n";
-    #echo "<th title='Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'>Delta Resolved</th>\n";
+    echo "<th title='Nbre de fiches cr&eacute;&eacute;es SAUF SuiviOp, FDL'>Nb submissions</th>\n";
+    foreach ($statusNames as $s => $sname) {
+      echo "<th>$sname</th>\n";
+    }
+    echo "<th title='Nbre de fiches r&eacute;solues SAUF SuiviOp et non reouvertes'>Delta Resolved</th>\n";
     echo "</tr>\n";
 
     foreach ($this->periodStatsList as $date => $ps) {
@@ -97,15 +93,12 @@ class PeriodStatsReport {
       // Disp
       $tableLine = "<tr>\n";
       $tableLine .= "<td class=\"right\">".date("F Y", $date)."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_new]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_ack]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_feedback]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_analyzed]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_accepted]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_openned]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_resolved]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_delivered]."</td>\n";
-      $tableLine .= "<td class=\"right\">".$ps->statusCountList[$status_closed]."</td>\n";
+      
+      $tableLine .= "<td class=\"right\">".$ps->statusCountList["submitted"]."</td>\n";
+      foreach ($statusNames as $s => $sname) {
+         $tableLine .= "<td class=\"right\">".$ps->statusCountList[$s]."</td>\n";
+      }
+      $tableLine .= "<td class=\"right\">".$ps->statusCountList["delta_resolved"]."</td>\n";
       $tableLine .= "</tr>\n";
       echo "$tableLine";
       
