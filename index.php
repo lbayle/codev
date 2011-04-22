@@ -71,6 +71,10 @@ function displayLinks() {
    echo "<br/>\n";
 
    echo "<ul>\n";
+   echo "   <br/>\n";
+   echo "   <li>\n";
+   echo "        <a href='".getServerRootURL()."/reports/planning_report.php'>".T_("Planning")."</a>"; // Affichage du planning
+   echo "   </li>\n";
    echo "<br/>\n";
    echo "   <li>\n";
    echo "        <a href='".getServerRootURL()."/reports/issue_info.php'>".T_("Task information")."</a>"; // Info fiche
