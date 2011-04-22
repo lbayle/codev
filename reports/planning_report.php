@@ -82,6 +82,47 @@ include_once 'consistency_check.class.php';
 include_once 'team.class.php'; 
 
 
+class DeadLine {
+   public $date;
+   public $nbDaysToDeadLine;
+   public $isOnTime;
+   public $issueList;
+   
+   public function __construct($date, $nbDaysToDeadLine, $isOnTime) {
+      $this->date = $date;
+      $this->nbDaysToDeadLine = $nbDaysToDeadLine;
+      $this->isOnTime = $isOnTime;
+      $this->issueList = array();
+   }
+   
+   public function addIssue($bugId) {
+      $this->issueList[] = $bugId;
+   } 
+   
+   public function setIsOnTime($isOnTime) {
+      // if already exists and not on time, do not overwrite. 
+      if ((NULL == $isOnTime) || (true == $isOnTime)) {
+        $this->isOnTime = $isOnTime;
+      }
+   }
+   
+   public function toString() {
+      $string = "".date("d/m/Y", $this->date)." (+$this->nbDaysToDeadLine days)  ".T_("Tasks").": ";
+      
+      $count = 0;
+      foreach($this->issueList as $i) {
+         $count++;
+         $string .= "$i";
+         if($count != count($this->issueList)) {
+            $string .= ",";
+         }
+      }
+      return $string;
+   }
+}
+
+
+
 // -----------------------------------------
 function setTeamForm($originPage, $defaultSelection, $teamList) {
    
@@ -157,6 +198,8 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
 	
 }
 
+
+
 // -----------------------------------------
 /**
  * 
@@ -172,19 +215,25 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    
 	$deadLines = array();
 	$nbDaysToDeadLines = array();
-	
-	// remove duplicate deadLines & set color
+
+   // remove duplicate deadLines & set color
 	foreach($scheduledTaskList as $key => $scheduledTask) {
       if (NULL != $scheduledTask->deadLine) {
-      	$isOnTime = $deadLines[$scheduledTask->deadLine];
-      	 if ((NULL == $isOnTime) || (true == $isOnTime)) {
-      	 	// if already exists and not on time, do not overwrite.
-      	 	$deadLines[$scheduledTask->deadLine] = $scheduledTask->isOnTime;
-      	 	$nbDaysToDeadLines[$scheduledTask->deadLine] = $scheduledTask->nbDaysToDeadLine;
-            #echo "DEBUG ".date("d m Y", $scheduledTask->deadLine)." - ".date("d m Y", $today)." task $scheduledTask->bugId isOnTime=$scheduledTask->isOnTime nbDaysToDeadLine=$scheduledTask->nbDaysToDeadLine<br/>";
-      	 }
+      	
+		  if (NULL == $deadLines[$scheduledTask->deadLine]) {
+   		 $dline = new DeadLine($scheduledTask->deadLine, $scheduledTask->nbDaysToDeadLine, $scheduledTask->isOnTime);
+   		 $dline->addIssue($scheduledTask->bugId);
+   		 $deadLines[$scheduledTask->deadLine] = $dline;
+   	  } else {
+   		 $dline = $deadLines[$scheduledTask->deadLine];
+   		 $dline->setIsOnTime($scheduledTask->isOnTime);
+          $dline->addIssue($scheduledTask->bugId);
+   	  }
       }
    }
+
+   // well if no deadLines, ...
+   if (0 == count($deadLines)) { return $deadLines; }
    
    // sort deadLines by date ASC
    ksort($deadLines);
@@ -192,37 +241,37 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    // because the 'size' of the arrow, the first scheduledTask has been shifted
    // we need to check if the $nbDays of the first deadLine = 0 
    reset($deadLines);
-   if (0 != $nbDaysToDeadLines[key($deadLines)]) {
+   $dline = $deadLines[key($deadLines)];
+   
+   if (0 != $dline->nbDaysToDeadLine) {
             // align
             echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
    }
     
+   
    // display deadLines
    $curPos=0;
-   foreach($deadLines as $date => $isOnTime) {
+   foreach($deadLines as $date => $dline) {
+   	
+      $offset = $dline->nbDaysToDeadLine;
       
-   	$offset = $nbDaysToDeadLines[$date];
-   	
-      #echo "DEBUG deadline ".date("d/m/Y", $date)." offset = $offset isOnTime=$scheduledTask->isOnTime<br/>";
-   	
       if ($offset >= 0) { 
-      	if (0 != $offset) {
-      		// draw timeLine
-      		$timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
+         if (0 != $offset) {
+            // draw timeLine
+            $timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
             echo "<IMG WIDTH='$timeLineSize' HEIGHT='$imageHeight' SRC='../images/time_line.jpg'>";
             
             $curPos += $timeLineSize + $deadLineTriggerWidth;
-      	} else {
-      		$curPos += $deadLineTriggerWidth/2;
-      	}
-      	
-      	// drawArrow
-         echo "<IMG SRC='".$images[$isOnTime]."' ALT='Texte remplaçant l image' TITLE='".date("d/m/Y", $date)." (+$offset days)'>";
-
+         } else {
+            $curPos += $deadLineTriggerWidth/2;
+         }
+         
+         // drawArrow
+         echo "<IMG SRC='".$images[$dline->isOnTime]."' ALT='Texte remplaçant l image' TITLE='".$dline->toString()."'>";
       }
-   	
    }
-	return $deadLines;
+
+   return $deadLines;
 }
 
 // -----------------------------------------
