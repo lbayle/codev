@@ -81,7 +81,7 @@ function displayLinks() {
    echo "   </li>\n";
    echo "<br/>\n";
    echo "   <li>\n";
-   echo "        <a href='".getServerRootURL()."/timetracking/week_activity_report.php'>".T_("Weekly activity")."</a>"; // Activit&eacute; hebdomadaire
+   echo "        <a href='".getServerRootURL()."/timetracking/team_activity_report.php'>".T_("Weekly activity")."</a>"; // Activit&eacute; hebdomadaire
    echo "   </li>\n";
 /*
    echo "<br/>\n";

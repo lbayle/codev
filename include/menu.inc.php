@@ -22,7 +22,7 @@ echo "      </td>\n";
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/reports/issue_info.php' title='".T_("Task Information")."'>".T_("Task info")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/timetracking/week_activity_report.php' title='".T_("Team Weekly activities")."'>".T_("Weekly activities")."</a>\n";
+echo "      <a href='".getServerRootURL()."/timetracking/team_activity_report.php' title='".T_("Team Weekly activities")."'>".T_("Weekly activities")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/productivity_report.php' title='".T_("Productivity Reports")."'>".T_("Productivity")."</a>\n";
 echo "      |\n";

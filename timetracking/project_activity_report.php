@@ -17,6 +17,8 @@
 
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
+<br/>
+<?php include 'menu_week_activity.inc.php'; ?>
 
 
 <script language="JavaScript">
@@ -28,6 +30,16 @@
     document.forms["form1"].action.value = "updateWeekDisplay";
     document.forms["form1"].submit();
   }
+
+  function submitPeriodActivityForm() {
+
+     document.forms["form2"].teamid.value = document.getElementById('teamidSelector').value;
+     document.forms["form2"].action.value = "displayProjectActivity";
+
+     document.forms["form2"].submit();
+  }
+
+  
 </script>
 
 <div id="content" class="center">
@@ -38,6 +50,7 @@ include_once "issue.class.php";
 include_once "project.class.php";
 include_once "user.class.php";
 include_once "time_tracking.class.php";
+require_once('tc_calendar.php');
 
 // ------------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear=NULL) {
@@ -45,7 +58,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   if (NULL == $curYear) { $curYear = date('Y'); }
 
   echo "<div>\n";
-  echo "<form id='form1' name='form1' method='post' action='week_activity_report.php'>\n";
+  echo "<form id='form1' name='form1' method='post' action='project_activity_report.php'>\n";
 
   // -----------
   echo T_("Team").": <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
@@ -96,78 +109,60 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 }
 
 
-// ------------------------------------------------
-function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) {
+// -----------------------------------------------
+function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $defaultDate2) {
+  
+  list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
+           
+  $myCalendar1 = new tc_calendar("date1", true, false);
+  $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
+  $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
+  $myCalendar1->setPath("../calendar/");
+  $myCalendar1->setYearInterval(2010, 2015);
+  $myCalendar1->dateAllow('2010-01-01', '2015-12-31');
+  $myCalendar1->setDateFormat('Y-m-d');
+  $myCalendar1->startMonday(true);
 
-  echo "<div>\n";
+  list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate2);
+        
+  $myCalendar2 = new tc_calendar("date2", true, false);
+  $myCalendar2->setIcon("../calendar/images/iconCalendar.gif");
+  $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
+  $myCalendar2->setPath("../calendar/");
+  $myCalendar2->setYearInterval(2010, 2015);
+  $myCalendar2->dateAllow('2010-01-01', '2015-12-31');
+  $myCalendar2->setDateFormat('Y-m-d');
+  $myCalendar2->startMonday(true);
 
-  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
-    "FROM  `codev_team_user_table`, `mantis_user_table` ".
-    "WHERE  codev_team_user_table.team_id = $teamid ".
-    "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.realname";
-
-  $result = mysql_query($query) or die("Query failed: $query");
-
-  while($row = mysql_fetch_object($result))
-  {
-  	// if user was working on the project during the timestamp
-  	$user = UserCache::getInstance()->getUser($row->user_id);
-  	if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
-       ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
-
-	    echo "<div align='left'>\n";
-	    echo "<br/>";
-       echo "<br/>";
-	    displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
-	    echo "</div>";
-  	}
-
-  }
-
-  echo "</div>\n";
-
-}
-
-// ------------------------------------------------
-function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
-  // PERIOD week
-  //$thisWeekId=date("W");
-
-  $weekTracks = $timeTracking->getWeekDetails($userid, true);
-  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='".T_("sum(Remaining) of current tasks")."'>".T_("workload")." = $workload</span><br/>\n";
-  echo "<table width='95%'>\n";
-  //echo "<caption>".$realname."</caption>\n";
-  echo "<tr>\n";
-  echo "<th width='50%'>".T_("Task")."</th>\n";
-  echo "<th width='7%'>".T_("Project")."</th>\n";
-  echo "<th width='10%'>".T_("Job")."</th>\n";
-  echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
-  echo "<th width='10'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
-  echo "<th width='10'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
-  echo "<th width='10'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
-  echo "<th width='10'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
-  echo "</tr>\n";
-  foreach ($weekTracks as $bugid => $jobList) {
-    $issue = IssueCache::getInstance()->getIssue($bugid);
-    foreach ($jobList as $jobid => $dayList) {
-
-      $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-      $result3 = mysql_query($query3) or die("Query failed: $query3");
-      $jobName = mysql_result($result3, 0);
-
-      echo "<tr>\n";
-      echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-      echo "<td>".$issue->getProjectName()."</td>\n";
-      echo "<td>".$jobName."</td>\n";
-      for ($i = 1; $i <= 5; $i++) {
-        echo "<td>".$dayList[$i]."</td>\n";
-      }
-      echo "</tr>\n";
+  echo "<div class=center>";
+  // Create form
+  echo "<form id='form2' name='form1' method='post' action='project_activity_report.php'>\n";
+  
+  echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
+   echo "<option value='0'></option>\n";
+   foreach ($teamList as $tid => $tname) {
+    if ($tid == $teamid) {
+      echo "<option selected value='".$tid."'>".$tname."</option>\n";
+    } else {
+      echo "<option value='".$tid."'>".$tname."</option>\n";
     }
   }
-  echo "</table>\n";
+  echo "</select>\n";
+
+  echo "&nbsp;".T_("Start Date").": "; $myCalendar1->writeScript();
+
+  echo "&nbsp; <span title='".T_("(included)")."'>".T_("End Date").": </span>"; $myCalendar2->writeScript();
+
+  echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitPeriodActivityForm()'>\n";
+
+  echo "<input type=hidden name=teamid  value=$teamid>\n";
+  
+  echo "<input type=hidden name=action       value=noAction>\n";
+  
+  echo "</form>\n";
+  echo "</div>";
 }
+
 
 
 // ------------------------------------------------
@@ -253,63 +248,78 @@ function displayCheckWarnings($timeTracking) {
 $year = isset($_POST[year]) ? $_POST[year] : date('Y');
 
 $userid = $_SESSION['userid'];
+$action = $_POST[action];
+$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
 
-// use the teamid set in the form, if not defined (first page call) use session teamid
-if (isset($_POST[teamid])) {
-   $teamid = $_POST[teamid];
-   $_SESSION['teamid'] = $teamid;
-} else {
-   $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
-}
+$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
+$_SESSION[teamid] = $teamid;
 
-// ------
 
+// team
 $user = UserCache::getInstance()->getUser($userid);
-$mTeamList = $user->getTeamList();    // are team members allowed to see other member's timeTracking ?
+$mTeamList = $user->getTeamList();
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $managedTeamList;
+
+// dates
+$month = date('m');
+$year = date('Y');
+
+if (isset($_REQUEST["date1"])) {
+   $date1          = $_REQUEST["date1"];
+   $startTimestamp = date2timestamp($date1);
+} else {
+   #$startTimestamp = mktime(0, 0, 0, $month, 1, $year);
+   $weekDates      = week_dates($weekid,$year);
+   $startTimestamp = $weekDates[1];
+	
+   $date1          = date("Y-m-d", $startTimestamp);
+}
+if (isset($_REQUEST["date2"])) {
+   $date2          = $_REQUEST["date2"];
+   $endTimestamp   = date2timestamp($date2);
+   $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+} else {
+   #$nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
+   #$endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
+   
+   $weekDates      = week_dates($weekid,$year);
+   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
+	
+   $date2          = date("Y-m-d", $endTimestamp);
+   
+}
+
+// ------
 
 if (0 == count($teamList)) {
 	echo T_("Sorry, you do NOT have access to this page.");
 
 } else {
 
-	$action = $_POST[action];
-	$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
+   echo "<div class='center'>";
+   echo "<h2>".T_("Projects Activity")."</h2><br/>";
+   echo "</div>";
+	
+   displayTeamAndPeriodSelectionForm($teamList, $teamid, $date1, $date2);
 
-	displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
-
+   if ("displayProjectActivity" == $action) {
+   
 	if (NULL != $teamList[$teamid]) {
 
-	   $weekDates      = week_dates($weekid,$year);
-		$startTimestamp = $weekDates[1];
-	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-      echo "<div align='left'>\n";
-	   echo "<ul>\n";
-      echo "   <li><a href='#tagTeamMember'>".T_("By Team Member")."</a></li>\n";
-      echo "   <li><a href='#tagProject'>".T_("By Project")."</a></li>\n";
-	   echo "</ul><br/>\n";
-      echo "</div>\n";
-
-
-      echo "<br/>\n";
-	   echo "<hr width='95%'/>\n";
-	   echo "<a name='tagTeamMember'><h2>".T_("By Team Member")."</h2></a>\n";
-		displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
 
       echo "<br/><br/>\n";
-      displayCheckWarnings($timeTracking);
-
-      echo "<br/><br/>\n";
-		//echo "<hr align='left' width='50%'/>\n";
-      echo "<hr width='95%'/>\n";
-      echo "<a name='tagProject'><h2>".T_("By Project")."</h2></a>\n";
       displayProjectActivityReport($timeTracking);
-
 	}
+   } // if action
+   
+   echo "<br/><br/>\n";
+   echo "<br/><br/>\n";
+      
 }
 
 

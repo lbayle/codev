@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-22 09:41+0200\n"
+"POT-Creation-Date: 2011-04-22 16:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,8 @@ msgstr ""
 #: admin/edit_team.php:8 admin/index.php:10 reports/export_csv_monthly.php:8
 #: reports/export_csv_weekly.php:8 reports/issue_info.php:8
 #: reports/planning_report.php:8 reports/productivity_report.php:8
-#: reports/statistics.php:8 timetracking/time_tracking.php:9
+#: reports/statistics.php:8 timetracking/project_activity_report.php:8
+#: timetracking/team_activity_report.php:8 timetracking/time_tracking.php:9
 #: timetracking/week_activity_report.php:8 tools/check.php:9
 msgid "Sorry, you need to <a href='../'>login</a> to access this page."
 msgstr ""
@@ -225,17 +226,19 @@ msgstr "&eacute;ffacer ce Poste"
 
 #: admin/edit_jobs.php:216 reports/export_csv_weekly.php:126
 #: reports/issue_info.php:255 reports/productivity_report.php:466
+#: timetracking/team_activity_report.php:146
 #: timetracking/time_tracking.php:254 timetracking/time_tracking_tools.php:50
 #: timetracking/time_tracking_tools.php:143
-#: timetracking/week_activity_report.php:144
+#: timetracking/week_activity_report.php:146
 msgid "Job"
 msgstr "Poste"
 
 #: admin/edit_jobs.php:223 admin/edit_jobs.php:256 admin/edit_team.php:522
 #: reports/export_csv_tools.php:20 reports/issue_info.php:77
 #: reports/productivity_report.php:143 reports/productivity_report.php:488
+#: timetracking/team_activity_report.php:145
 #: timetracking/time_tracking.php:193 timetracking/time_tracking_tools.php:48
-#: timetracking/week_activity_report.php:143
+#: timetracking/week_activity_report.php:145
 msgid "Project"
 msgstr "Projet"
 
@@ -257,10 +260,13 @@ msgstr "Administration CoDev : &Eacute;dition &Eacute;quipe"
 
 #: admin/edit_team.php:206 reports/export_csv_monthly.php:78
 #: reports/export_csv_monthly.php:169 reports/export_csv_weekly.php:59
-#: reports/export_csv_weekly.php:240 reports/planning_report.php:95
+#: reports/export_csv_weekly.php:240 reports/planning_report.php:136
 #: reports/productivity_report.php:79 reports/statistics.php:53
 #: timetracking/holidays_report.php:36
-#: timetracking/week_activity_report.php:51
+#: timetracking/project_activity_report.php:64
+#: timetracking/project_activity_report.php:141
+#: timetracking/team_activity_report.php:53
+#: timetracking/week_activity_report.php:53
 msgid "Team"
 msgstr "&Eacute;quipe"
 
@@ -269,7 +275,7 @@ msgid "Leader"
 msgstr "Team Leader"
 
 #: admin/edit_team.php:234 admin/edit_team.php:245
-#: reports/planning_report.php:109
+#: reports/planning_report.php:150
 msgid "Update"
 msgstr "Mise &agrave; jour"
 
@@ -440,13 +446,13 @@ msgid "ETA not set."
 msgstr "ETA non sp&eacute;cifi&eacute;"
 
 #: classes/scheduler.class.php:42 reports/issue_info.php:235
-#: reports/issue_info.php:306 reports/planning_report.php:309
+#: reports/issue_info.php:306 reports/planning_report.php:358
 #: timetracking/time_tracking_tools.php:24
 #: timetracking/time_tracking_tools.php:26
 msgid "days"
 msgstr "jours"
 
-#: classes/scheduler.class.php:49 reports/planning_report.php:332
+#: classes/scheduler.class.php:49 reports/planning_report.php:381
 msgid "monitored"
 msgstr "suivie"
 
@@ -466,24 +472,29 @@ msgid "CSV Report"
 msgstr "Rapport CSV"
 
 #: reports/export_csv_monthly.php:89 reports/productivity_report.php:97
+#: timetracking/project_activity_report.php:152
 msgid "Start Date"
 msgstr "Date D&eacute;but"
 
 #: reports/export_csv_monthly.php:91 reports/productivity_report.php:99
+#: timetracking/project_activity_report.php:154
 msgid "(included)"
 msgstr "(inclu)"
 
 #: reports/export_csv_monthly.php:91 reports/productivity_report.php:99
+#: timetracking/project_activity_report.php:154
 msgid "End Date"
 msgstr "Date Fin"
 
 #: reports/export_csv_monthly.php:93 reports/productivity_report.php:101
-#: reports/statistics.php:77
+#: reports/statistics.php:77 timetracking/project_activity_report.php:156
 msgid "Compute"
 msgstr "Calculer"
 
 #: reports/export_csv_monthly.php:152 reports/export_csv_weekly.php:219
-#: reports/statistics.php:411 timetracking/week_activity_report.php:274
+#: reports/statistics.php:411 timetracking/project_activity_report.php:298
+#: timetracking/team_activity_report.php:230
+#: timetracking/week_activity_report.php:276
 msgid "Sorry, you do NOT have access to this page."
 msgstr "d&eacute;sol&eacute;, vous n'avez pas acces &agrave; cette page."
 
@@ -499,7 +510,8 @@ msgstr "Export Fiches Mantis en cours"
 msgid "Export"
 msgstr "Export"
 
-#: reports/export_csv_monthly.php:188
+#: include/menu_week_activity.inc.php:18 reports/export_csv_monthly.php:188
+#: timetracking/project_activity_report.php:303
 msgid "Projects Activity"
 msgstr "Activit&eacute; Projets"
 
@@ -570,9 +582,11 @@ msgid "BS"
 msgstr "BS"
 
 #: reports/export_csv_tools.php:36 reports/export_csv_tools.php:169
-#: reports/export_csv_tools.php:231 timetracking/time_tracking_tools.php:54
+#: reports/export_csv_tools.php:231
+#: timetracking/project_activity_report.php:185
+#: timetracking/time_tracking_tools.php:54
 #: timetracking/time_tracking_tools.php:142
-#: timetracking/week_activity_report.php:190
+#: timetracking/week_activity_report.php:192
 msgid "RAE"
 msgstr "RAE"
 
@@ -590,9 +604,11 @@ msgstr "Ressource"
 
 #: reports/export_csv_tools.php:168 reports/export_csv_tools.php:223
 #: reports/export_csv_weekly.php:125 reports/issue_info.php:113
+#: timetracking/project_activity_report.php:184
+#: timetracking/team_activity_report.php:144
 #: timetracking/time_tracking.php:227 timetracking/time_tracking_tools.php:141
-#: timetracking/week_activity_report.php:142
-#: timetracking/week_activity_report.php:189 tools/check.php:55
+#: timetracking/week_activity_report.php:144
+#: timetracking/week_activity_report.php:191 tools/check.php:55
 msgid "Task"
 msgstr "Fiche"
 
@@ -624,33 +640,41 @@ msgstr "consomm&eacute; dans la p&eacute;riode"
 msgid "TOTAL"
 msgstr "TOTAL"
 
-#: reports/export_csv_weekly.php:73 timetracking/time_tracking_tools.php:114
-#: timetracking/week_activity_report.php:64
+#: reports/export_csv_weekly.php:73
+#: timetracking/project_activity_report.php:77
+#: timetracking/team_activity_report.php:66
+#: timetracking/time_tracking_tools.php:114
+#: timetracking/week_activity_report.php:66
 msgid "Week"
 msgstr "Semaine"
 
-#: reports/export_csv_weekly.php:129 timetracking/time_tracking_tools.php:144
-#: timetracking/week_activity_report.php:145
+#: reports/export_csv_weekly.php:129 timetracking/team_activity_report.php:147
+#: timetracking/time_tracking_tools.php:144
+#: timetracking/week_activity_report.php:147
 msgid "Monday"
 msgstr "Lundi"
 
-#: reports/export_csv_weekly.php:130 timetracking/time_tracking_tools.php:145
-#: timetracking/week_activity_report.php:146
+#: reports/export_csv_weekly.php:130 timetracking/team_activity_report.php:148
+#: timetracking/time_tracking_tools.php:145
+#: timetracking/week_activity_report.php:148
 msgid "Tuesday"
 msgstr "Mardi"
 
-#: reports/export_csv_weekly.php:131 timetracking/time_tracking_tools.php:146
-#: timetracking/week_activity_report.php:147
+#: reports/export_csv_weekly.php:131 timetracking/team_activity_report.php:149
+#: timetracking/time_tracking_tools.php:146
+#: timetracking/week_activity_report.php:149
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: reports/export_csv_weekly.php:132 timetracking/time_tracking_tools.php:147
-#: timetracking/week_activity_report.php:148
+#: reports/export_csv_weekly.php:132 timetracking/team_activity_report.php:150
+#: timetracking/time_tracking_tools.php:147
+#: timetracking/week_activity_report.php:150
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: reports/export_csv_weekly.php:133 timetracking/time_tracking_tools.php:148
-#: timetracking/week_activity_report.php:149
+#: reports/export_csv_weekly.php:133 timetracking/team_activity_report.php:151
+#: timetracking/time_tracking_tools.php:148
+#: timetracking/week_activity_report.php:151
 msgid "Friday"
 msgstr "Vendredi"
 
@@ -748,7 +772,7 @@ msgstr "Nb Jours"
 msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
-#: reports/issue_info.php:425 reports/planning_report.php:429
+#: reports/issue_info.php:425 reports/planning_report.php:478
 #: timetracking/time_tracking.php:329
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
@@ -767,39 +791,37 @@ msgstr "statut"
 msgid "assigned to"
 msgstr "assign&eacute; &agrave;"
 
-#: reports/menu_export_csv.inc.php:16
-msgid "Weekly"
-msgstr "Hebdomadaire"
-
-#: reports/menu_export_csv.inc.php:18
-msgid "Monthly"
-msgstr "Mensuel"
-
 #: include/menu.inc.php:35 index.php:76 reports/planning_report.php:46
 msgid "Planning"
 msgstr "Planning"
 
-#: reports/planning_report.php:309 timetracking/week_activity_report.php:138
+#: reports/planning_report.php:110 reports/productivity_report.php:356
+#: reports/productivity_report.php:553 reports/productivity_report.php:592
+msgid "Tasks"
+msgstr "Fiches"
+
+#: reports/planning_report.php:358 timetracking/team_activity_report.php:140
+#: timetracking/week_activity_report.php:140
 msgid "workload"
 msgstr "charge"
 
-#: reports/planning_report.php:329
+#: reports/planning_report.php:378
 msgid "onTime"
 msgstr "dans les temps"
 
-#: reports/planning_report.php:330
+#: reports/planning_report.php:379
 msgid "NOT onTime"
 msgstr "en retard"
 
-#: reports/planning_report.php:331
+#: reports/planning_report.php:380
 msgid "no deadLine"
 msgstr "sans date jalon"
 
-#: reports/planning_report.php:349
+#: reports/planning_report.php:398
 msgid "day"
 msgstr "jour"
 
-#: index.php:125 reports/planning_report.php:380
+#: index.php:125 reports/planning_report.php:429
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
@@ -997,14 +1019,10 @@ msgid "Adherence to deadlines"
 msgstr "Respect des delais de livraison"
 
 #: reports/productivity_report.php:355
-#: timetracking/week_activity_report.php:196
+#: timetracking/project_activity_report.php:191
+#: timetracking/week_activity_report.php:198
 msgid "Total"
 msgstr "Total"
-
-#: reports/productivity_report.php:356 reports/productivity_report.php:553
-#: reports/productivity_report.php:592
-msgid "Tasks"
-msgstr "Fiches"
 
 #: reports/productivity_report.php:361 reports/productivity_report.php:363
 msgid "Tasks NOT delivered on time"
@@ -1043,8 +1061,11 @@ msgstr "D&eacute;tail Gestion de Projet"
 msgid "Category"
 msgstr "Cat&eacute;gorie"
 
-#: reports/productivity_report.php:625 timetracking/time_tracking_tools.php:24
-#: timetracking/week_activity_report.php:239
+#: reports/productivity_report.php:625
+#: timetracking/project_activity_report.php:234
+#: timetracking/team_activity_report.php:195
+#: timetracking/time_tracking_tools.php:24
+#: timetracking/week_activity_report.php:241
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
@@ -1052,8 +1073,11 @@ msgstr "incomplet (manque "
 msgid "inconsistent"
 msgstr "incoh&eacute;rent"
 
-#: reports/productivity_report.php:634 timetracking/time_tracking_tools.php:33
-#: timetracking/week_activity_report.php:245
+#: reports/productivity_report.php:634
+#: timetracking/project_activity_report.php:240
+#: timetracking/team_activity_report.php:201
+#: timetracking/time_tracking_tools.php:33
+#: timetracking/week_activity_report.php:247
 msgid "not defined."
 msgstr "non d&eacute;fini"
 
@@ -1155,6 +1179,32 @@ msgstr "Astreinte"
 msgid "Query failed:"
 msgstr "Query failed:"
 
+#: include/menu.inc.php:25 timetracking/project_activity_report.php:14
+#: timetracking/team_activity_report.php:14
+#: timetracking/week_activity_report.php:14
+msgid "Weekly activities"
+msgstr "Activit&eacute; hebdo"
+
+#: timetracking/project_activity_report.php:191
+#: timetracking/week_activity_report.php:198
+msgid "Total time spent on this issue"
+msgstr "Temps total pass&eacute; sur cette Fiche"
+
+#: timetracking/project_activity_report.php:234
+#: timetracking/team_activity_report.php:195
+#: timetracking/week_activity_report.php:241
+msgid " days"
+msgstr " jours"
+
+#: timetracking/team_activity_report.php:140
+#: timetracking/week_activity_report.php:140
+msgid "sum(Remaining) of current tasks"
+msgstr "somme(RAE) des fiches en cours"
+
+#: timetracking/team_activity_report.php:238
+msgid "Weekly Activity"
+msgstr "Activit&eacute; hebdomadaire"
+
 #: include/menu.inc.php:16 index.php:61 timetracking/time_tracking.php:16
 msgid "Time Tracking"
 msgstr "Saisie des CRA"
@@ -1175,29 +1225,13 @@ msgstr "Fiche TC"
 msgid "Load Estimation"
 msgstr "Effort Estim&eacute;"
 
-#: include/menu.inc.php:25 timetracking/week_activity_report.php:14
-msgid "Weekly activities"
-msgstr "Activit&eacute; hebdo"
-
-#: timetracking/week_activity_report.php:138
-msgid "sum(Remaining) of current tasks"
-msgstr "somme(RAE) des fiches en cours"
-
-#: timetracking/week_activity_report.php:196
-msgid "Total time spent on this issue"
-msgstr "Temps total pass&eacute; sur cette Fiche"
-
-#: timetracking/week_activity_report.php:239
-msgid " days"
-msgstr " jours"
-
-#: timetracking/week_activity_report.php:292
-#: timetracking/week_activity_report.php:300
+#: timetracking/week_activity_report.php:294
+#: timetracking/week_activity_report.php:302
 msgid "By Team Member"
 msgstr "Par Team Member"
 
-#: timetracking/week_activity_report.php:293
-#: timetracking/week_activity_report.php:309
+#: timetracking/week_activity_report.php:295
+#: timetracking/week_activity_report.php:311
 msgid "By Project"
 msgstr "Par Projet"
 
@@ -1300,6 +1334,18 @@ msgstr "Documentation"
 #: include/menu.inc.php:40
 msgid "CoDev Administration"
 msgstr "Administration CoDev"
+
+#: include/menu_export_csv.inc.php:16
+msgid "Weekly"
+msgstr "Hebdomadaire"
+
+#: include/menu_export_csv.inc.php:18
+msgid "Monthly"
+msgstr "Mensuel"
+
+#: include/menu_week_activity.inc.php:16
+msgid "Team Activity"
+msgstr " Activit&eacute; &Eacute;quipe"
 
 #: doc/menu_doc.inc.php:12
 msgid "Cycle flow"
