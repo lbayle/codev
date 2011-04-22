@@ -13,6 +13,10 @@ class PeriodStats {
   // The bugIds of issues which current state are 'status' within the timestamp
   // REM: $statusIssueList is an array containing lists of bugIds
   var $statusIssueList;
+
+  var $submittedList;
+  var $deltaResolvedList;
+  
   
   // The projects NOT listed here will be excluded from statistics
   var $projectList;
@@ -31,8 +35,10 @@ class PeriodStats {
 
     $this->statusCountList     = array();
     $this->statusIssueList     = array();
-    $this->projectList = array();
+
     
+    
+    $this->projectList     = array();
     $this->projectTypeList = array();
     
     // default values
@@ -55,57 +61,39 @@ class PeriodStats {
   // -------------------------------------------------
   public function computeStats() {
     global $status_new;
-    global $status_feedback;
-    global $status_ack;
-    global $status_analyzed;
-    global $status_accepted;
-    global $status_openned;
-    global $status_resolved;
-    global $status_delivered;
-    global $status_closed;
 
-    //$this->statusCountList[$status_feedback_ATOS] = 0;
-    //$this->statusCountList[$status_feedback_FDJ] = 0;
-
-    $this->statusCountList["submitted"]      = 0;
-    $this->statusCountList[$status_new]      = 0;
-    $this->statusCountList[$status_feedback] = 0;
-    $this->statusCountList[$status_ack]      = 0;
-    $this->statusCountList[$status_analyzed] = 0;
-    $this->statusCountList[$status_accepted] = 0;
-    $this->statusCountList[$status_openned]  = 0;
-    $this->statusCountList[$status_resolved] = 0;
-    $this->statusCountList[$status_delivered] = 0;
-    $this->statusCountList[$status_closed]   = 0;
-    $this->statusIssueList["delta_resolved"] = 0;
-    
-    $this->statusIssueList["submitted"]      = array();
-    $this->statusIssueList[$status_new]      = array();
-    $this->statusIssueList[$status_feedback] = array();
-    $this->statusIssueList[$status_ack]      = array();
-    $this->statusIssueList[$status_analyzed] = array();
-    $this->statusIssueList[$status_accepted] = array();
-    $this->statusIssueList[$status_openned]  = array();
-    $this->statusIssueList[$status_resolved] = array();
-    $this->statusIssueList[$status_delivered] = array();
-    $this->statusIssueList[$status_closed]   = array();
-    $this->statusIssueList["delta_resolved"] = array();
+    $statusNames = Config::getInstance()->getValue("statusNames");
+    ksort($statusNames);
+  
+    foreach ($statusNames as $s => $sname) {
+      $this->statusCountList[$s] = 0;
+      $this->statusIssueList[$s] = array();
+    }
     
     // Compute stats
-    $this->countIssues_submitted();
     $this->statusCountList[$status_new] = $this->countIssues_new();
     $this->countIssues_other();
-    $this->statusCountList["delta_resolved"] = $this->countIssues_deltaResolved();
   }
 
+  
+  // -------------------------------------------------
+  public function computeSubmittedResolved() {
+
+    // Compute SubmittedResolved
+    $this->submittedList     = $this->countIssues_submitted();
+    $this->deltaResolvedList = $this->countIssues_deltaResolved();
+  }
+  
+  
+  
   // -------------------------------------------------
   // Count the nb of issues submitted in [startTimestamp, endTimestamp]
   // REM: select only projectTypes in $projectTypeList
   // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
   private function countIssues_submitted() {
-  	
-    $this->statusCountList["submitted"] = 0;
 
+    $submittedList = array();
+  	
     $formatedProjectTypes = implode( ', ', $this->projectTypeList);
 
     // sideTaskprojects are excluded
@@ -126,15 +114,14 @@ class PeriodStats {
 
     while($row = mysql_fetch_object($result))
     {
-      $this->statusCountList["submitted"]++;
-      $this->statusIssueList["submitted"][] = $row->id;
+    	$submittedList[] = $row->id;
                         
       if (isset($_GET['debug'])) { 
       	echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
       }
     }
 
-    //return $count_new;
+    return count($submittedList);
   }
 
   // -------------------------------------------------

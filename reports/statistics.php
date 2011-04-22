@@ -88,8 +88,8 @@ function setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $startYea
 
 function displaySubmittedResolved($periodStatsReport, $width, $height) {
 	
-   $submitted = $periodStatsReport->getStatus("submitted");
-   $resolved  = $periodStatsReport->getStatus("delta_resolved");
+   $submitted = $periodStatsReport->getSubmitted();
+   $resolved  = $periodStatsReport->getDeltaResolved();
 
    $graph_title="title=".("Submitted / Resolved Issues");
    $graph_width="width=$width";
@@ -439,7 +439,7 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<a name='tagSubmittedResolved'></a>\n";
          $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $start_day, $teamid);
-         $periodStatsReport->computeReport();
+         $periodStatsReport->computeSubmittedResolved();
          displaySubmittedResolved($periodStatsReport, 800, 300);
 
          echo "<div class=\"spacer\"> </div>\n";

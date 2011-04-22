@@ -594,12 +594,13 @@ class Issue {
    // ----------------------------------------------
    // Computes the lifeCycle of the issue (time spent on each status)
    public function computeDurations () {
+   	global $status_new;
    	
       $statusNames = Config::getInstance()->getValue("statusNames");
       ksort($statusNames);
   
       foreach ($statusNames as $s => $sname) {
-         if ("new" == $sname) {
+         if ($status_new == $s) {
             $this->statusList[$s] = new Status($s, $this->getDuration_new());
          } else {
             $this->statusList[$s] = new Status($s, $this->getDuration_other($s));
