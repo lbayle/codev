@@ -10,22 +10,22 @@
 
 <?php 
 
-echo "   
-<table>
-   <tr>
-      <td><a href='".getServerRootURL()."/admin/create_team.php' title=''>".T_("Create Team")."</a>
-      |
-      <a href='".getServerRootURL()."/admin/edit_team.php' title=''>".T_("Edit Team")."</a>
-      |
-      <a href='".getServerRootURL()."/admin/edit_jobs.php' title=''>".T_("Edit Jobs")."</a>
-      |
-      <a href='".getServerRootURL()."/admin/edit_holidays.php' title=''>".T_("Edit Holidays")."</a>
-      </td>
-      <td>
-      <a href='".getServerRootURL()."/doc/codev_adminguide.html' title='Aide Admin'>".T_("Admin Guide")."</a>
-      </td>
-   </tr>
-</table>"
+   
+echo "<table>\n";
+echo "   <tr>\n";
+echo "      <td><a href='".getServerRootURL()."/admin/create_team.php'>".T_("Create Team")."</a>\n";
+echo "      |\n";
+echo "      <a href='".getServerRootURL()."/admin/edit_team.php'>".T_("Edit Team")."</a>\n";
+echo "      |\n";
+echo "      <a href='".getServerRootURL()."/admin/edit_jobs.php'>".T_("Edit Jobs")."</a>\n";
+echo "      |\n";
+echo "      <a href='".getServerRootURL()."/admin/edit_holidays.php'>".T_("Edit Holidays")."</a>\n";
+echo "      </td>\n";
+echo "      <td>\n";
+echo "      <a href='".getServerRootURL()."/doc/codev_adminguide.html'>".T_("Admin Guide")."</a>\n";
+echo "      </td>\n";
+echo "   </tr>\n";
+echo "</table>\n";
 ?>      
 <br/>
 <br/>

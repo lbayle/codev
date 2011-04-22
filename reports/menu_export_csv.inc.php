@@ -10,15 +10,15 @@
 
 <?php 
 
-echo "   
-<table>
-   <tr>
-      <td><a href='".getServerRootURL()."/reports/export_csv_weekly.php' title=''>".T_("Weekly")."</a>
-      |
-      <a href='".getServerRootURL()."/reports/export_csv_monthly.php' title=''>".T_("Monthly")."</a>
-      </td>
-   </tr>
-</table>"
+ 
+echo "<table>\n";
+echo "   <tr>\n";
+echo "      <td><a href='".getServerRootURL()."/reports/export_csv_weekly.php'>".T_("Weekly")."</a>\n";
+echo "      |\n";
+echo "      <a href='".getServerRootURL()."/reports/export_csv_monthly.php'>".T_("Monthly")."</a>\n";
+echo "      </td>\n";
+echo "   </tr>\n";
+echo "</table>\n";
 ?>      
 <br/>
 <br/>
