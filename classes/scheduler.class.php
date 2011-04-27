@@ -32,7 +32,7 @@ class ScheduledTask {
    }
    
    public function getPixSize($dayPixSize) {
-   	return number_format(($this->duration * $dayPixSize), 0);
+   	return number_format(($this->duration * $dayPixSize), 0, '.', '' );
    }
    
    public function getDescription() {
