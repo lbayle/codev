@@ -1,11 +1,10 @@
 TODO
-- meilleure gestion des connexions/deconnexions a MySQL
-- possibililité d'avoir les tables codev dans une autre base que 'bugtracker' (mantis)  
+
+- 'ETA' est un champ détourné, il faut le relacher et creer un autre customField 
+- possibililité d'avoir les tables codev dans une autre base que 'bugtracker' (mantis)  --> faisabilité ?  
 - creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
 - Admin Project: SideTask category assignment
-- Singleton pour constants, et stockage prefs dans DB
 - Securisation du site (index.html, .htaccess, 404, ...)
-
 
 - install page
 creation DB
