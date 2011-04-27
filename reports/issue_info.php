@@ -232,7 +232,7 @@ function displayTimeDrift($issue) {
   echo "  <td>".T_("Drift")."</td>\n";
   $timeDrift=$issue->getTimeDrift();
   if (!is_string($timeDrift)) {
-      echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>".number_format($timeDrift, 0)." ".T_("days")."</td>\n";
+      echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>".round($timeDrift)." ".T_("days")."</td>\n";
   } else {
       echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }

@@ -418,7 +418,7 @@ class TimeTracking {
             $driftPos += $issueDrift;
               
             if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
-            $formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary)."<span title='".T_("nb days")."'>(".number_format($issueDrift, 0).")<span>";
+            $formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary)."<span title='".T_("nb days")."'>(".round($issueDrift).")<span>";
          }
     	}
     } // foreach

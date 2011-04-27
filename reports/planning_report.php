@@ -334,7 +334,7 @@ function displayTeam($teamid, $today, $graphSize) {
 	}
 	
 	$dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
-	$dayPixSize = number_format($dayPixSize, 0);
+	$dayPixSize = round($dayPixSize);
    #echo "DEBUG dayPixSize    = $dayPixSize<br/>\n";
 	
 	// display all team

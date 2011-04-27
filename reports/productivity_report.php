@@ -359,14 +359,14 @@ function displayTimeDriftStats ($timeTracking) {
 
   echo "<tr>\n";
   echo "<td>".T_("Tasks NOT delivered on time")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($timeDriftStats["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".number_format($timeDriftStats["driftPos"], 0).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($timeDriftStats["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".round($timeDriftStats["driftPos"]).")</span></td>\n";
   echo "<td title='".T_("Tasks NOT delivered on time")."'>".$timeDriftStats["formatedBugidPosList"]."</td>\n";
   echo "<td>DeliveryDate > DeadLine</td>\n";
   echo "</tr>\n";
   
   echo "<tr>\n";
   echo "<td>".T_("Tasks delivered on time")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($timeDriftStats["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".number_format($timeDriftStats["driftNeg"], 0).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($timeDriftStats["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".round($timeDriftStats["driftNeg"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$timeDriftStats["formatedBugidNegList"]."</td>\n";
   echo "<td>DeliveryDate <= DeadLine</td>\n";
   echo "</tr>\n";

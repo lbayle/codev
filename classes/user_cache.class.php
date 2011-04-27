@@ -59,7 +59,7 @@ class UserCache {
       echo "nb objects in cache = ".$nbObj."<br/>\n";
       echo "nb cache calls      = ".$nbCalls."<br/>\n";
       if (0 != $nbObj) {
-         echo "ratio               = 1:".number_format($nbCalls/$nbObj, 0)."<br/>\n";
+         echo "ratio               = 1:".round($nbCalls/$nbObj)."<br/>\n";
       }
       echo "<br/>\n";
       if ($verbose) {
