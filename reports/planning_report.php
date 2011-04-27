@@ -85,8 +85,9 @@ include_once 'team.class.php';
 class DeadLine {
    public $date;
    public $nbDaysToDeadLine;
-   public $isOnTime;
+   public $isOnTime;    // true: ALL issues are on time
    public $issueList;
+   public $isMonitored; // true: deadLine concerns only Monitored issues
    
    public function __construct($date, $nbDaysToDeadLine, $isOnTime) {
       $this->date = $date;
@@ -105,6 +106,13 @@ class DeadLine {
         $this->isOnTime = $isOnTime;
       }
    }
+
+   public function setIsMonitored($isMonitored) {
+      // if already exists and not a monitored task, do not overwrite. 
+      if ((NULL == $isMonitored) || (true == $isMonitored)) {
+        $this->isMonitored = $isMonitored;
+      }
+   }
    
    public function toString() {
       $string = "".date("d/m/Y", $this->date)." (+$this->nbDaysToDeadLine days)  ".T_("Tasks").": ";
@@ -118,6 +126,22 @@ class DeadLine {
          }
       }
       return $string;
+   }
+   
+   /***
+    * depending on $isOnTime, $isMonitored returns 
+    * the path to the arrow image to be displayed (blue, red, grey)
+    */
+   public function getImageURL() {
+   	$image_isOnTime    = "../images/arrow_down_blue.PNG";
+      $image_isNotOnTime = "../images/arrow_down_red.PNG";
+   	$image_isMonitored = "../images/arrow_down_grey.PNG";
+   	
+   	if (!$this->isOnTime)   { return $image_isNotOnTime; }
+   	
+      if ($this->isMonitored) { return $image_isMonitored; }
+   	
+   	return $image_isOnTime;
    }
 }
 
@@ -208,8 +232,6 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
  */
 function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    
-	$images[true]  = "../images/arrow_down_blue.PNG";
-   $images[false] = "../images/arrow_down_red.PNG";
    $deadLineTriggerWidth = 10;
    $imageHeight = 7;
    
@@ -223,11 +245,13 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 		  if (NULL == $deadLines[$scheduledTask->deadLine]) {
    		 $dline = new DeadLine($scheduledTask->deadLine, $scheduledTask->nbDaysToDeadLine, $scheduledTask->isOnTime);
    		 $dline->addIssue($scheduledTask->bugId);
+   		 $dline->setIsMonitored($scheduledTask->isMonitored);
    		 $deadLines[$scheduledTask->deadLine] = $dline;
    	  } else {
    		 $dline = $deadLines[$scheduledTask->deadLine];
    		 $dline->setIsOnTime($scheduledTask->isOnTime);
           $dline->addIssue($scheduledTask->bugId);
+          $dline->setIsMonitored($scheduledTask->isMonitored);
    	  }
       }
    }
@@ -267,7 +291,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
          }
          
          // drawArrow
-         echo "<IMG SRC='".$images[$dline->isOnTime]."' ALT='Texte remplaçant l image' TITLE='".$dline->toString()."'>";
+         echo "<IMG SRC='".$dline->getImageURL()."' ALT='Texte remplaçant l image' TITLE='".$dline->toString()."'>";
       }
    }
 
