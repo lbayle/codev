@@ -89,10 +89,11 @@ class DeadLine {
    public $issueList;
    public $isMonitored; // true: deadLine concerns only Monitored issues
    
-   public function __construct($date, $nbDaysToDeadLine, $isOnTime) {
+   public function __construct($date, $nbDaysToDeadLine, $isOnTime, $isMonitored) {
       $this->date = $date;
       $this->nbDaysToDeadLine = $nbDaysToDeadLine;
       $this->isOnTime = $isOnTime;
+      $this->isMonitored = $isMonitored;
       $this->issueList = array();
    }
    
@@ -108,10 +109,15 @@ class DeadLine {
    }
 
    public function setIsMonitored($isMonitored) {
-      // if already exists and not a monitored task, do not overwrite. 
-      if ((NULL == $isMonitored) || (true == $isMonitored)) {
-        $this->isMonitored = $isMonitored;
-      }
+   	
+   	// non Monitored tasks have priority on deadLine status
+   	
+      // if not a monitored task, do not overwrite.
+      if (true == $this->isMonitored) { 
+      	$this->isMonitored = $isMonitored; 
+      } 
+      
+      
    }
    
    public function toString() {
@@ -243,9 +249,11 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
       if (NULL != $scheduledTask->deadLine) {
       	
 		  if (NULL == $deadLines[$scheduledTask->deadLine]) {
-   		 $dline = new DeadLine($scheduledTask->deadLine, $scheduledTask->nbDaysToDeadLine, $scheduledTask->isOnTime);
+   		 $dline = new DeadLine($scheduledTask->deadLine, 
+   		                       $scheduledTask->nbDaysToDeadLine, 
+   		                       $scheduledTask->isOnTime, 
+   		                       $scheduledTask->isMonitored);
    		 $dline->addIssue($scheduledTask->bugId);
-   		 $dline->setIsMonitored($scheduledTask->isMonitored);
    		 $deadLines[$scheduledTask->deadLine] = $dline;
    	  } else {
    		 $dline = $deadLines[$scheduledTask->deadLine];
