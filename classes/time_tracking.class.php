@@ -433,7 +433,6 @@ class TimeTracking {
     $driftStats["nbDriftsEqual"]    = $nbDriftsEqual;
     $driftStats["nbDriftsNeg"]      = $nbDriftsNeg;
     $driftStats["formatedBugidPosList"]   = $formatedBugidPosList;
-    $driftStats["formatedBugidEqualList"] = $formatedBugidEqualList;
     $driftStats["formatedBugidNegList"]   = $formatedBugidNegList;
     
     return $driftStats;
@@ -506,6 +505,9 @@ class TimeTracking {
               
               if ($formatedBugidEqualList != "") { $formatedBugidEqualList .= ', '; }
               $formatedBugidEqualList .= issueInfoURL($issue->bugId, $issue->summary);
+              
+              if ($bugidEqualList != "") { $bugidEqualList .= ', '; }
+              $bugidEqualList .= $issue->bugId;
             }
 
             if ($issueDriftETA < -1) {
@@ -551,6 +553,8 @@ class TimeTracking {
     $driftStats["formatedBugidPosList"]   = $formatedBugidPosList;
     $driftStats["formatedBugidEqualList"] = $formatedBugidEqualList;
     $driftStats["formatedBugidNegList"]   = $formatedBugidNegList;
+    $driftStats["bugidEqualList"]   = $bugidEqualList;
+    
     
     
     

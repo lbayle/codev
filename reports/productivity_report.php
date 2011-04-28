@@ -324,7 +324,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidEqualList"]."</td>\n";
   } else {
-   echo "<td>".T_("Tasks delivered in time")."</td>\n";
+   echo "<td title='".$driftStats["bugidEqualList"]."'>".T_("Tasks delivered in time")."</td>\n";
   }
   echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
@@ -442,7 +442,7 @@ function displayCurrentDriftStats ($timeTracking) {
   if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
   } else {
-   echo "<td>".T_("Tasks delivered in time")."</td>\n";
+   echo "<td title='".$driftStats_new["bugidEqualList"]."'>".T_("Tasks delivered in time")."</td>\n";
   }
   echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
