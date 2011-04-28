@@ -1,4 +1,20 @@
 <?php if (!isset($_SESSION)) { session_start(); } ?>
+<?php /*
+    This file is part of CoDev-Timetracking.
+
+    CoDev-Timetracking is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+*/ ?>
 
 <?php include_once '../path.inc.php'; ?>
 
@@ -324,7 +340,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidEqualList"]."</td>\n";
   } else {
-   echo "<td title='".$driftStats["bugidEqualList"]."'>".T_("Tasks delivered in time")."</td>\n";
+   echo "<td title='".$driftStats["bugidEqualList"]."'>".T_("Tasks resolved in time")."</td>\n";
   }
   echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
@@ -349,7 +365,7 @@ function displayTimeDriftStats ($timeTracking) {
   $timeDriftStats = $timeTracking->getTimeDriftStats();  // all issues delivered within the period
   
   echo "<table>\n";
-  echo "<caption>".T_("Adherence to deadlines")."</caption>\n";
+  echo "<caption title='".T_("Tasks having no deadLine are not reported here")."'>".T_("Adherence to deadlines")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100'>".T_("Total")."</th>\n";
@@ -442,7 +458,7 @@ function displayCurrentDriftStats ($timeTracking) {
   if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
   } else {
-   echo "<td title='".$driftStats_new["bugidEqualList"]."'>".T_("Tasks delivered in time")."</td>\n";
+   echo "<td title='".$driftStats_new["bugidEqualList"]."'>".T_("Tasks resolved in time")."</td>\n";
   }
   echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";

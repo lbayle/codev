@@ -9,6 +9,7 @@ TODO
 - install page
 creation DB
 creation des custom fields dans mantis
+creation projet CodevMetaProject contenant les custom fields
 init des codev_constants
 creation CommonSideTasks project & categories
 creation equipe admin
