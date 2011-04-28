@@ -284,8 +284,9 @@ function displayRates ($timeTracking) {
 function displayResolvedDriftStats ($timeTracking) {
   global $status_resolved;
   global $status_closed;
-         
-  $driftStats = $timeTracking->getResolvedDriftStats(false);
+
+  // true: include Support 
+  $driftStats = $timeTracking->getResolvedDriftStats(true);
   
   echo "<table>\n";
   echo "<caption>".T_("Drift - Tasks resolved in the period")."</caption>\n";
@@ -304,7 +305,7 @@ function displayResolvedDriftStats ($timeTracking) {
   echo "<td>".T_("Overflow day quantity")."<br/>".
             "- ".T_("Computed on task Resolved/Closed in the given period")."<br/>".
             "- ".T_("Reopened tasks are not taken into account")."<br/>\n".
-            "- ".T_("Support time is not taken into account")."<br/>\n".
+            #"- ".T_("Support time is not taken into account")."<br/>\n".
             "- ".T_("If < 0 then ahead on planning.")."</td>\n";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
