@@ -166,11 +166,13 @@ class TimeTracking {
 */   
   // ----------------------------------------------
   public function getProductivityRate($balanceType = "ETA") {
-    return $this->getProductivRate($this->prodProjectList, $balanceType, true);
+    $withSupport = true;  // include support in Drift
+  	 return $this->getProductivRate($this->prodProjectList, $balanceType, $withSupport);
   }
   
   public function getProductivityRateNoSupport($balanceType = "ETA") {
-    return $this->getProductivRate($this->prodProjectList, $balanceType, false);
+   $withSupport = false;  // do NOT include support in Drift
+  	return $this->getProductivRate($this->prodProjectList, $balanceType, $withSupport);
   }
   
   

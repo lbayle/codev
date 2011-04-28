@@ -148,7 +148,13 @@ function displayIssueSelectionForm($originPage, $user1, $defaultBugid, $defaultP
 
 
 // ---------------------------------------------------------------
-function displayIssueGeneralInfo($issue, $displaySupport=false ) {      
+/**
+ * 
+ * @param unknown_type $issue
+ * @param unknown_type $withSupport  if true: include support in Drift
+ * @param unknown_type $displaySupport
+ */
+function displayIssueGeneralInfo($issue, $withSupport, $displaySupport=false ) {      
   
    global $ETA_balance;
 	global $job_support;
@@ -170,7 +176,11 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
   echo "<tr>\n";
   echo "<td>".T_("Elapsed")."</td>\n";
   echo "<td></td>\n";
-  echo "<td title='".T_("Support NOT included")."'>".($issue->elapsed - $issue->getElapsed($job_support))."</td>\n";
+  if ($withSupport) {
+   echo "<td title='".T_("Support included")."'>".$issue->elapsed."</td>\n";
+  } else {
+   echo "<td title='".T_("Support NOT included")."'>".($issue->elapsed - $issue->getElapsed($job_support))."</td>\n";
+  }
   echo "</tr>\n";
    
   echo "<tr>\n";
@@ -181,17 +191,21 @@ function displayIssueGeneralInfo($issue, $displaySupport=false ) {
    
   echo "<tr>\n";
   echo "<td>".T_("Drift")."</td>\n";
-  $deriveETA = $issue->getDriftETA(false);
-  $derive = $issue->getDrift(false);
+  $deriveETA = $issue->getDriftETA($withSupport);
+  $derive = $issue->getDrift($withSupport);
   echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".number_format($deriveETA, 2)."</td>\n";
   echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".number_format($derive, 2)."</td>\n";
   echo "</tr>\n";
    
   if ($displaySupport) {
       echo "<tr>\n";
-      echo "<td>".T_("Drift +Support")."</td>\n";
-      $deriveETA = $issue->getDriftETA();
-      $derive = $issue->getDrift();
+      if ($withSupport) {
+         echo "<td>".T_("Drift -Support")."</td>\n";
+      } else {
+         echo "<td>".T_("Drift +Support")."</td>\n";
+      }
+      $deriveETA = $issue->getDriftETA(!$withSupport);
+      $derive = $issue->getDrift(!$withSupport);
       echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".$deriveETA."</td>\n";
       echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
       echo "</tr>\n";
@@ -400,6 +414,8 @@ $year = date('Y');
 $displaySupport  = isset($_GET['support']) ? true : false;
 $originPage = isset($_GET['support']) ? "issue_info.php?support" : "issue_info.php"; 
 
+$withSupport = true;  // include support in Drift
+   
 
 $action           = $_POST[action];
 $session_userid   = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
@@ -456,7 +472,7 @@ if (0 == count($teamList)) {
      echo"<div>\n";
      
      echo "<span style='display: inline-block;'>\n";
-     displayIssueGeneralInfo($issue, $displaySupport);
+     displayIssueGeneralInfo($issue, $withSupport, $displaySupport);
      echo "</span>";
      
      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

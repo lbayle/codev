@@ -281,12 +281,11 @@ function displayRates ($timeTracking) {
 
 // -----------------------------------------------
 // display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
-function displayResolvedDriftStats ($timeTracking) {
+function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   global $status_resolved;
   global $status_closed;
 
-  // true: include Support 
-  $driftStats = $timeTracking->getResolvedDriftStats(true);
+  $driftStats = $timeTracking->getResolvedDriftStats($withSupport);
   
   echo "<table>\n";
   echo "<caption>".T_("Drift - Tasks resolved in the period")."</caption>\n";
