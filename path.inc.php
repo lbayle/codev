@@ -23,6 +23,7 @@ $codevPathClasses  = BASE_PATH . DIRECTORY_SEPARATOR . 'classes';
 $codevPathCalendar = BASE_PATH . DIRECTORY_SEPARATOR . 'calendar' . DIRECTORY_SEPARATOR . 'classes';
 $codevPathi18n     = BASE_PATH . DIRECTORY_SEPARATOR . 'i18n';
 $codevPathGraphs   = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
+$codevPathInstall  = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
 
 $path = array(
    BASE_PATH,
@@ -31,6 +32,7 @@ $path = array(
    $codevPathCalendar,
    $codevPathi18n,
    $codevPathGraphs,
+   $codevPathInstall,
    get_include_path()
    );
 
@@ -62,6 +64,7 @@ function getServerRootURL() {
    $rootURL = str_replace("/tools", "", $rootURL);   
    $rootURL = str_replace("/i18n", "", $rootURL);   
    $rootURL = str_replace("/graphs", "", $rootURL);   
+   $rootURL = str_replace("/install", "", $rootURL);   
    
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;
