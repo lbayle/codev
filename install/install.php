@@ -38,10 +38,11 @@
    	echo $msg;
    	exit;
    } else {
-   	echo "DB connection OK";
+   	echo "DB connection OK<br/>";
    }
    
    
    $install->createMysqlConfigFile();
+   $install->createCustomFields();
    
 ?>

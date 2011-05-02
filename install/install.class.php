@@ -48,9 +48,20 @@ class Install {
    
    const FILENAME_MYSQL_CONFIG = "../include/mysql_config_inc2.php";
     
+   private $fieldList;
+   
    // --------------------------------------------------------
    public function __construct() 
    {
+   	// get existing Mantis custom fields
+      $this->fieldList = array();
+      $query = "SELECT id, name FROM `mantis_custom_field_table`";
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         $this->fieldList["$row->name"] = $row->id;
+      }
+      
    }
 
     
@@ -139,6 +150,83 @@ class Install {
          }
       }
       echo "done";
+	}
+	
+   // --------------------------------------------------------
+	/**
+	 * create a customField in Mantis (if not exist) & update codev_config_table
+	 * 
+	 * ex: $install->createCustomField("TC", 0, "customField_TC");
+	 * 
+	 * @param string $fieldName Mantis field name
+	 * @param int $fieldType Mantis field type
+	 * @param string $configId  codev_config_table.config_id 
+	 */
+	public function createCustomField($fieldName, $fieldType, $configId, $default_value=NULL, $possible_values=NULL) {
+
+      $access_level_r   = 10;
+      $access_level_rw  = 25;
+      $require_report   = 1;
+      $require_update   = 1;
+      $require_resolved = 0;
+      $require_closed   = 0;
+      $display_report   = 1;
+      $display_update   = 1;
+      $display_resolved = 0;
+      $display_closed   = 0;
+
+		//--------
+      $fieldId = $this->fieldList[$fieldName];
+      if (!$fieldId) {
+      	echo "DEBUG INSERT $fieldName<br/>";
+         $query2  = "INSERT INTO `mantis_custom_field_table` ".
+                    "(`name`, `type` ,`access_level_r`,`access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
+         if ($possible_values) {
+         	$query2 .= ", `possible_values`";
+         }
+         if ($default_value) {
+            $query2 .= ", `default_value`";
+         }
+         $query2 .= ") VALUES ('$fieldName', '$fieldType', '$access_level_r', '$access_level_rw', '$require_report', '$require_update', '$display_report', '$display_update', '$require_resolved', '$display_resolved', '$display_closed', '$require_closed'";
+         if ($possible_values) {
+            $query2 .= ", '$possible_values'";
+         }
+         if ($default_value) {
+            $query2 .= ", '$default_value'";
+         }
+         $query2 .= ");";
+         $result2  = mysql_query($query2) or die("Query failed: $query2");
+         $fieldId = mysql_insert_id();
+      }
+      Config::getInstance()->addValue($configId, $fieldId);
+      
+	}
+
+   // --------------------------------------------------------
+	/**
+	 * 
+	 */
+	public function createCustomFields() {
+		$this->createCustomField("TC",                               0, "customField_TC");
+      $this->createCustomField("Est. Effort (BI)",                 1, "customField_effortEstim");
+      $this->createCustomField("Remaining (RAE)",                  1, "customField_remaining");
+      $this->createCustomField("Budget supp. (BS)",                1, "customField_addEffort");
+      $this->createCustomField("Dead Line",                        8, "customField_deadLine");
+      $this->createCustomField("FDL",                              0, "customField_deliveryId");
+      $this->createCustomField("Liv. Date",                        8, "customField_deliveryDate");
+      $this->createCustomField("Preliminary Est. Effort (ex ETA)", 3, "customField_PrelEffortEstim", "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
+      
+	}
+	
+	
+	
+   // --------------------------------------------------------
+	public function createCommonSideTasksProject() {
+		
+		// create project
+		
+		// update defaultSideTaskProject in codev_config_table
+		
 	}
 	
 } // class
