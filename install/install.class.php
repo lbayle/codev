@@ -18,32 +18,6 @@
 <?php
 
 
-/*
- * 
- * Step 1
- * 
- * - [user] create DB config file & test connection
- * - [auto] create DB tables (from SQL file)
- * - [auto] create admin team
- * 
- * Step 2
- * 
- * - [auto] create custom fields & add to codev_config_table
- * - [auto] create CodevMetaProject (optional ?)
- * - [user] update codev_config_table with user prefs
- * - [user] 
- * 
- * - [user] create CommonSideTasks Project
- * - [auto] asign N/A job to commonSideTasks
- * - [user] create default side tasks
- * - [user] config astreintes
-
- * Step 3
- * - [user] create jobs
- * - [user] config support job
- * 
- */
-
 include_once 'project.class.php'; 
 
 
@@ -205,6 +179,8 @@ class Install {
          $result2  = mysql_query($query2) or die("Query failed: $query2");
          $fieldId = mysql_insert_id();
       }
+      
+      // add to codev_config_table
       Config::getInstance()->addValue($configId, $fieldId, Config::configType_int);
       
 	}
@@ -214,14 +190,21 @@ class Install {
 	 * 
 	 */
 	public function createCustomFields() {
-      $this->createCustomField("TC",                               0, "customField_TC");          // CoDev FDJ custom
-      $this->createCustomField("Est. Effort (BI)",                 1, "customField_effortEstim");
-      $this->createCustomField("Remaining (RAE)",                  1, "customField_remaining");
-      $this->createCustomField("Budget supp. (BS)",                1, "customField_addEffort");
-      $this->createCustomField("Dead Line",                        8, "customField_deadLine");
-      $this->createCustomField("FDL",                              0, "customField_deliveryId");  // CoDev FDJ custom
-      $this->createCustomField("Liv. Date",                        8, "customField_deliveryDate");
-      $this->createCustomField("Preliminary Est. Effort (ex ETA)", 3, "customField_PrelEffortEstim", "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
+		
+		// Mantis customFields types
+		$mType_string  = 0;
+      $mType_numeric = 1;
+      $mType_enum    = 3;
+      $mType_date    = 8;
+      
+      $this->createCustomField("TC",                               $mType_string,  "customField_TC");          // CoDev FDJ custom
+      $this->createCustomField("Est. Effort (BI)",                 $mType_numeric, "customField_effortEstim");
+      $this->createCustomField("Remaining (RAE)",                  $mType_numeric, "customField_remaining");
+      $this->createCustomField("Budget supp. (BS)",                $mType_numeric, "customField_addEffort");
+      $this->createCustomField("Dead Line",                        $mType_date,    "customField_deadLine");
+      $this->createCustomField("FDL",                              $mType_string,  "customField_deliveryId");  // CoDev FDJ custom
+      $this->createCustomField("Liv. Date",                        $mType_date,    "customField_deliveryDate");
+      $this->createCustomField("Preliminary Est. Effort (ex ETA)", $mType_enum,    "customField_PrelEffortEstim", "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
       
 	}
 	
@@ -229,6 +212,7 @@ class Install {
 	
    // --------------------------------------------------------
    /**
+    * create SideTasks Project and assign N/A Job
     * 
     * @param unknown_type $projectName
     */
@@ -241,12 +225,49 @@ class Install {
       Config::getInstance()->addValue("defaultSideTaskProject", $projectid, Config::configType_int ,T_("CoDev commonSideTasks Project"));
 		
       // assign N/A Job
-      #REM: N/A job is id=1, created by SQL file
+      #REM: N/A job_id = 1, created by SQL file
       $query  = "INSERT INTO `codev_project_job_table` (`project_id`, `job_id`) VALUES ('$projectid', '1');";
       $result = mysql_query($query) or die("Query failed: $query");
 		
       return $projectid;
 	}
+
+	
+	/**
+    * create Mantis codev user
+    * 
+    * this user has provileges to manage SideTask Projects
+	 * 
+	 */
+   public function createMantisUser($name = "codev", $password = NULL) {
+   	
+   	$leader_id = 0; // TODO
+   	
+   	return $leader_id;
+   }
+	 
+	
+	/**
+	 * create Admin team & add to codev_config_table
+	 * 
+	 */
+   public function createAdminTeam($name, $leader_id) {
+   	
+   	$formatedDate  = date("Y-m-d", time());
+      $today = date2timestamp($formatedDate);
+   	
+      // create admin team
+   	$teamId = Team::create($name, T_("CoDev admin team"), $leader_id, $today);
+   	
+   	
+      // add to codev_config_table
+   	Config::getInstance()->addValue("adminTeamId", $teamId, Config::configType_int);
+   	
+      return $teamId;
+   }
+	
+	
+	
 	
 } // class
 

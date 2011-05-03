@@ -27,22 +27,52 @@
 ?>
 
 <?php
-   echo "DEBUG include_once install.class.php<br/>";
+
+
+/*
+ * 
+ * 
+ * create MySQL 'codev' user with access SELECT, INSERT, UPDATE, DELETE, CREATE
+ * 
+ * Step 1
+ * 
+ * - [user] create DB config file & test connection        OK
+ * - [auto] create DB tables (from SQL file)               OK
+ * - [auto] create Mantis codev user (if necessary ?)
+ * - [auto] create admin team & add to codev_config_table  OK
+ * 
+ * Step 2
+ * 
+ * - [auto] create custom fields & add to codev_config_table  OK
+ * - [auto] create CodevMetaProject (optional ?)
+ * - [user] update codev_config_table with user prefs
+ * - [user] 
+ * 
+ * - [user] create CommonSideTasks Project                 OK
+ * - [auto] asign N/A job to commonSideTasks               OK
+ * - [user] create default side tasks
+ * - [user] config astreintes
+
+ * Step 3
+ * - [user] create jobs
+ * - [user] config support job
+ * - [user] add custom fields to existing projects
+ */
+
+
+
 
    include_once 'install.class.php'; 
    
    $sqlFile = "./bugtracker_install.sql";
-   
    
    $db_mantis_host     = 'localhost';
    $db_mantis_user     = 'codev';
    $db_mantis_pass     = '';
    $db_mantis_database = 'bugtracker2';   
 
-   echo "DEBUG new Install()<br/>";
    $install = new Install();
                                          
-   echo "DEBUG checkDBConnection<br/>";
    $msg = $install->checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
    
    if ($msg) {
@@ -53,7 +83,6 @@
    }
    
    
-   echo "DEBUG createMysqlConfigFile<br/>";
    $install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
    
    echo "DEBUG execSQLscript<br/>";
@@ -65,6 +94,13 @@
    echo "DEBUG createCommonSideTasksProject<br/>";
    $stproj_id = $install->createCommonSideTasksProject(T_("SideTasks"));
 
+   # TODO select Admin teamLeader from mantis user table
+   
+   echo "DEBUG createAdminTeam<br/>";
+   $adminTeamName = T_("admin");
+   $adminTeamLeader = 0;
+   $install->createAdminTeam($adminTeamName, $adminTeamLeader);   
+   
 
 /*   
          if ($stproj_id < 0) {
