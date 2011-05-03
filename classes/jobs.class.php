@@ -71,5 +71,22 @@ class Jobs {
    	global $job_support;
       return ($this->id == $job_support);
    }
+   
+   /**
+    * 
+    * @param unknown_type $job_name
+    * @param unknown_type $job_type
+    * @param unknown_type $job_color
+    */
+   public static function create($job_name, $job_type, $job_color) {
+      
+   	$query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$job_name','$job_type','$job_color');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+   	$job_id = mysql_insert_id();
+   	
+   	return $job_id;
+   }
+   
+   
 }
 ?>

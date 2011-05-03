@@ -352,9 +352,8 @@ echo "<br/>";
       // TODO check if not already in table !
     
       // save to DB
-      $query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$job_name','$job_type','$job_color');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
-    
+      $job_id = Jobs::create($job_name, $job_type, $job_color);
+          
       // reload page
       echo ("<script> parent.location.replace('edit_jobs.php'); </script>"); 
     
