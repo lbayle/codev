@@ -118,26 +118,32 @@ class Config {
       return $value;
    }
    
+   // --------------------------------------
    /**
-    * Add or update an Item 
+    * Add or update an Item (in DB and Cache)
+    * 
+    * Note: update does not change the type.
     * 
     * @param unknown_type $id
     * @param unknown_type $value
     */
    public static function addValue($id, $value, $type, $desc=NULL) {
 
-      $query = "SELECT * FROM `codev_config_table` WHERE config_id=$id";
+   	// add/update DB
+      $query = "SELECT * FROM `codev_config_table` WHERE config_id='$id'";
       $result = mysql_query($query) or die("Query failed: $query");
       if (0 != mysql_num_rows($result)) {
-         $query2 = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id=$id";
-         echo "DEBUG UPDATE Config::addValue $id: $value (t=$type)<br/>";
+         $query2 = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id='$id'";
+         echo "DEBUG UPDATE Config::addValue $id: $value (t=$type) $desc<br/>";
       } else {
          $query2 = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`) VALUES ('$id', '$value', '$type', '$desc');";
-         echo "DEBUG INSERT Config::addValue $id: $value (t=$type)<br/>";
+         echo "DEBUG INSERT Config::addValue $id: $value (t=$type) $desc<br/>";
       }
       $result    = mysql_query($query2) or die("Query failed: $query2");
-       
-       
+
+      // --- add/replace Cache
+      self::$configItems["$id"] = new ConfigItem($id, $value, $type);
+      
    }
    
 } // class

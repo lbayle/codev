@@ -34,6 +34,7 @@
  * - [user] 
  * 
  * - [user] create CommonSideTasks Project
+ * - [auto] asign N/A job to commonSideTasks
  * - [user] create default side tasks
  * - [user] config astreintes
 
@@ -42,6 +43,8 @@
  * - [user] config support job
  * 
  */
+
+include_once 'project.class.php'; 
 
 
 class Install {
@@ -198,7 +201,7 @@ class Install {
          $result2  = mysql_query($query2) or die("Query failed: $query2");
          $fieldId = mysql_insert_id();
       }
-      Config::getInstance()->addValue($configId, $fieldId);
+      Config::getInstance()->addValue($configId, $fieldId, Config::configType_int);
       
 	}
 
@@ -207,12 +210,12 @@ class Install {
 	 * 
 	 */
 	public function createCustomFields() {
-		$this->createCustomField("TC",                               0, "customField_TC");
+      $this->createCustomField("TC",                               0, "customField_TC");          // CoDev FDJ custom
       $this->createCustomField("Est. Effort (BI)",                 1, "customField_effortEstim");
       $this->createCustomField("Remaining (RAE)",                  1, "customField_remaining");
       $this->createCustomField("Budget supp. (BS)",                1, "customField_addEffort");
       $this->createCustomField("Dead Line",                        8, "customField_deadLine");
-      $this->createCustomField("FDL",                              0, "customField_deliveryId");
+      $this->createCustomField("FDL",                              0, "customField_deliveryId");  // CoDev FDJ custom
       $this->createCustomField("Liv. Date",                        8, "customField_deliveryDate");
       $this->createCustomField("Preliminary Est. Effort (ex ETA)", 3, "customField_PrelEffortEstim", "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
       
@@ -221,12 +224,24 @@ class Install {
 	
 	
    // --------------------------------------------------------
-	public function createCommonSideTasksProject() {
+   /**
+    * 
+    * @param unknown_type $projectName
+    */
+	public function createCommonSideTasksProject($projectName = "SideTasks") {
 		
 		// create project
+		$projectid = Project::createSideTaskProject($projectName);
 		
 		// update defaultSideTaskProject in codev_config_table
+      Config::getInstance()->addValue("defaultSideTaskProject", $projectid, Config::configType_int ,T_("CoDev commonSideTasks Project"));
 		
+      // assign N/A Job
+      #REM: N/A job is id=1, created by SQL file
+      $query  = "INSERT INTO `codev_project_job_table` (`project_id`, `job_id`) VALUES ('$projectid', '1');";
+      $result = mysql_query($query) or die("Query failed: $query");
+		
+      return $projectid;
 	}
 	
 } // class
