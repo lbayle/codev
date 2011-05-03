@@ -135,21 +135,21 @@ class Install {
     * 
     * @param $sqlFile
     */
-	public function execSQLscript($sqlFile) {
+	public function execSQLscript($sqlFile = "bugtracker_install.sql") {
  
       $requetes="";
  
-      $sql=file($sqlFile); // on charge le fichier SQL
-      foreach($sql as $l){ // on le lit
-         if (substr(trim($l),0,2)!="--"){ // suppression des commentaires
+      $sql=file($sqlFile); 
+      foreach($sql as $l){ 
+         if (substr(trim($l),0,2)!="--"){ // remove comments
             $requetes .= $l;
          }
       }
  
-      $reqs = split(";",$requetes);// on sépare les requêtes
-      foreach($reqs as $req){ // et on les éxécute
-         if (!mysql_query($req,$bdd) && trim($req)!=""){
-            die("ERROR : ".$req); // stop si erreur 
+      $reqs = split(";",$requetes);// identify single requests
+      foreach($reqs as $req){
+         if (!mysql_query($req,$bdd) && trim($req)!="") {
+            die("ERROR : ".$req); 
          }
       }
       echo "done";

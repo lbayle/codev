@@ -29,7 +29,9 @@
 
 <?php
    include_once 'install.class.php'; 
-
+   
+   $sqlFile = "./bugtracker_install.sql";
+   
    $install = new Install();
    
    $msg = $install->checkDBConnection();
@@ -43,6 +45,7 @@
    
    
    $install->createMysqlConfigFile();
+   $install->execSQLscript($sqlFile);
    $install->createCustomFields();
    $stproj_id = $install->createCommonSideTasksProject(T_("SideTasks"));
 /*   
