@@ -49,7 +49,7 @@ include_once 'project.class.php';
 
 class Install {
    
-   const FILENAME_MYSQL_CONFIG = "../include/mysql_config_inc.php";
+   const FILENAME_MYSQL_CONFIG = "../include/mysql_config.inc.php";
     
    private $fieldList;
    
@@ -142,8 +142,8 @@ class Install {
  
       $reqs = split(";",$requetes);// identify single requests
       foreach($reqs as $req){
-         if (!mysql_query($req,$bdd) && trim($req)!="") {
-            die("ERROR : ".$req); 
+         if (!mysql_query($req) && trim($req)!="") {
+            die("ERROR : ".$req." ---> ".mysql_error()); 
          }
       }
       echo "done";
