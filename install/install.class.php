@@ -49,7 +49,7 @@ include_once 'project.class.php';
 
 class Install {
    
-   const FILENAME_MYSQL_CONFIG = "../include/mysql_config_inc2.php";
+   const FILENAME_MYSQL_CONFIG = "../include/mysql_config_inc.php";
     
    private $fieldList;
    
@@ -58,12 +58,6 @@ class Install {
    {
    	// get existing Mantis custom fields
       $this->fieldList = array();
-      $query = "SELECT id, name FROM `mantis_custom_field_table`";
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result))
-      {
-         $this->fieldList["$row->name"] = $row->id;
-      }
       
    }
 
@@ -178,6 +172,16 @@ class Install {
       $display_resolved = 0;
       $display_closed   = 0;
 
+      
+      //--------
+      $query = "SELECT id, name FROM `mantis_custom_field_table`";
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+         $this->fieldList["$row->name"] = $row->id;
+      }
+      
+      
 		//--------
       $fieldId = $this->fieldList[$fieldName];
       if (!$fieldId) {

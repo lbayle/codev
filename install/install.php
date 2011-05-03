@@ -21,20 +21,29 @@
 
 <?php
    $_POST[page_name] = T_("Install"); 
-   include 'header.inc.php'; 
+   include 'install_header.inc.php';
+   
+   include 'install_menu.inc.php';
 ?>
 
-<?php include 'menu.inc.php'; ?>
-
-
 <?php
+   echo "DEBUG include_once install.class.php<br/>";
+
    include_once 'install.class.php'; 
    
    $sqlFile = "./bugtracker_install.sql";
    
-   $install = new Install();
    
-   $msg = $install->checkDBConnection();
+   $db_mantis_host     = 'localhost';
+   $db_mantis_user     = 'codev';
+   $db_mantis_pass     = '';
+   $db_mantis_database = 'bugtracker2';   
+
+   echo "DEBUG new Install()<br/>";
+   $install = new Install();
+                                         
+   echo "DEBUG checkDBConnection<br/>";
+   $msg = $install->checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
    
    if ($msg) {
    	echo $msg;
@@ -44,10 +53,19 @@
    }
    
    
-   $install->createMysqlConfigFile();
+   echo "DEBUG createMysqlConfigFile<br/>";
+   $install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+   
+   echo "DEBUG execSQLscript<br/>";
    $install->execSQLscript($sqlFile);
+   
+   echo "DEBUG createCustomFields<br/>";
    $install->createCustomFields();
+
+   echo "DEBUG createCommonSideTasksProject<br/>";
    $stproj_id = $install->createCommonSideTasksProject(T_("SideTasks"));
+
+
 /*   
          if ($stproj_id < 0) {
             die ("ERROR: CommonSideTaskProject creation FAILED.<br/>\n");
