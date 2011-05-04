@@ -26,6 +26,8 @@
 
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
+<br/>
+<?php include 'menu_holidays.inc.php'; ?>
 
 
 <script language="JavaScript">
