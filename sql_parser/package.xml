@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>SQL_Parser</name>
+ <channel>pear.php.net</channel>
+ <summary>An SQL parser</summary>
+ <description>This class is primarily an SQL parser, written with influences from a variety of sources (mSQL, CPAN&apos;s SQL-Statement, mySQL). It also includes a tokenizer (lexer) class and a reimplementation of the ctype extension in PHP.</description>
+ <lead>
+  <name>Sebastian Mendel</name>
+  <user>cybot</user>
+  <email>pear@sebastianmendel.de</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Brent Cook</name>
+  <user>busterb</user>
+  <email>busterbcook@yahoo.com</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Erich Enke</name>
+  <user>epte</user>
+  <email>erich.enke@gmail.com</email>
+  <active>no</active>
+ </lead>
+ <date>2010-10-06</date>
+ <time>21:44:47</time>
+ <version>
+  <release>0.6.0</release>
+  <api>0.6.0</api>
+ </version>
+ <stability>
+  <release>devel</release>
+  <api>devel</api>
+ </stability>
+ <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+ <notes>
+QA release
+    * Fixed bug in parsing default function arguments
+    * Added more test cases; tests no longer rely on Var_Dump for now
+    * Dialects can pass parser and lexer options to change behavior
+      beyond just keywords.
+    * Added lexer option to accept idents starting with a number
+Bug #4034 	Assignment of field = field not recognized 	busterb
+Bug #4035 	Update statements should recognize FROM clause 	cybot
+Bug #4036 	Implement Parser with Bridge design pattern 	 
+Bug #4054 	Parsing create: int(11) not recognized as type 	epte
+Bug #4058 	[Patch] Functions added to Dialect_MySQL 	busterb
+Bug #4059 	parseFieldList (or Options?) doesn&apos;t handle auto_increment 	 
+Bug #4066 	Functions are keywords 	busterb
+Bug #4067 	Dialect_Mysql.php needs tinyint in $types 	busterb
+Bug #4081 	[PATCH] Added tinyint to synonyms 	epte
+Bug #4082 	MySQL: PRIMARY KEY(id) line breaks 	epte
+Bug #4085 	Lexer should recognize identifier delimiters 	cybot
+Bug #4086 	(UN)LOCK TABLES statements not recognized (MySQL) 	cybot
+Bug #4087 	Comma not recognized after PRIMARY KEY statement 	cybot
+Bug #4088 	c-style block comments not handled 	cybot
+Bug #5755 	Cannot handle select in form of tablename.* 	epte
+Bug #6438 	Column list with &apos;*&apos; cannot have additional columns 	epte
+Bug #6439 	Improper handling of absolute column names eg: table.column 	epte
+Bug #11462 	generate_testcases.php does not correct split queries 	cybot
+Bug #11463 	int and string is a valid token after SELECT 	cybot
+Bug #11464 	FROM is not required for SELECT 	cybot
+Bug #11472 	comment handling for ANSI and MySQL 	cybot
+Bug #11544 	Arithmetic Operations in (), problem with update and in where clause 	cybot
+Bug #11679 	Wrong parsed select statement. 	cybot
+Bug #13403 	Parser does not accept arbitrary expressions in JOIN clauses 	cybot
+Bug #13404 	NOW() causes infinite loop 	cybot
+Bug #14744 	keyword parse problem 	doconnor
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="e87cf4791b0ac772d4291f63b1d5b423" name="SQL/Parser.php" role="php" />
+   <file baseinstalldir="/" md5sum="d7110a26dbf1283427d11e717f6235f2" name="SQL/Parser/Compiler.php" role="php" />
+   <file baseinstalldir="/" md5sum="d91da5e3391c188d7c1c817be17f1202" name="SQL/Parser/ctype.php" role="php" />
+   <file baseinstalldir="/" md5sum="29dac837bc279d069fa86db2b2620b0a" name="SQL/Parser/Lexer.php" role="php" />
+   <file baseinstalldir="/" md5sum="5717a0d0946d0c73b428329e3ba87644" name="SQL/Parser/Dialect/ANSI.php" role="php" />
+   <file baseinstalldir="/" md5sum="3f4ca0087fc18510ed25ae1f6bfe8642" name="SQL/Parser/Dialect/MySQL.php" role="php" />
+   <file baseinstalldir="/" md5sum="3cf446e3ad8fad2cddaf8d658ed37fa1" name="TODO" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.6.1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.1</release>
+    <api>0.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2002-09-30</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+Initial release as a stand-alone package. Lots of documentation is needed (e.g. grammar notes), but it is already pretty robust and easy to extend. The lexer could use some optimization for speed too.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2</release>
+    <api>0.2</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2002-12-18</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+* Add support for column and table aliases (thanks to Lauren Matheson)
+* Add support for null as a value type (thanks to Jason Pell)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3</release>
+    <api>0.3</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2003-04-14</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+This is an &apos;I&apos;m back&apos; release. Did you miss me?
+
+Mostly focusing on the Lexer this time.
+* Add support for pushing tokens back (Jason Pell)
+* Add support for # and -- comments (for real this time)
+* Add support for ellipsis tokens
+* Removed extraneous negative-number parsing
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4</release>
+    <api>0.4</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2003-12-21</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+Lexer:
+Fixed off-by-one error and other accesses of undefined memory
+Idents can be of the form aaa.bbb
+Parser:
+Can now parse table.field style field names
+Understand some forms of table alias
+Fix some bugs in error carret display
+Fix some references to undefined memory
+Handle some subselects
+Handle &apos;in&apos; and &apos;not in&apos; keywords for sets and subselects
+Use new features of Lexer
+Fix quantum comparisons in creates
+add support for &apos;group by&apos;
+Thanks to John Griffin for many of these fixes. There are many more
+left to merge in the next release - hopefully, it wont be too far
+in the future.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5</release>
+    <api>0.5</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2004-05-11</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+Parser:
+* More robust search clause parsing; now handles subsearches
+with parentheses in more cases (Brent Cook
+* Add more alias handling cases (John Griffin)
+* Handle ordinal functions in select project clauses correctly
+* Add explicit join support (John Griffin)
+* Add initial support for multiple SQL dialects (ANSI, MySQL)
+(John Griffin, Brent Cook)
+* Added SQL Compiler that takes a parse tree and generates a
+SQL statement (John Griffin)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6</release>
+    <api>0.6</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2010-02-15</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+Parser:
+    * Fixed bug in parsing default function arguments
+    * Added more test cases; tests no longer rely on Var_Dump for now
+    * Dialects can pass parser and lexer options to change behavior
+      beyond just keywords.
+    * Added lexer option to accept idents starting with a number
+    * (TODO) Added PHPDoc comments
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.0</release>
+    <api>0.6.0</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2010-10-06</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+QA release
+    * Fixed bug in parsing default function arguments
+    * Added more test cases; tests no longer rely on Var_Dump for now
+    * Dialects can pass parser and lexer options to change behavior
+      beyond just keywords.
+    * Added lexer option to accept idents starting with a number
+Bug #4034 	Assignment of field = field not recognized 	busterb
+Bug #4035 	Update statements should recognize FROM clause 	cybot
+Bug #4036 	Implement Parser with Bridge design pattern 	 
+Bug #4054 	Parsing create: int(11) not recognized as type 	epte
+Bug #4058 	[Patch] Functions added to Dialect_MySQL 	busterb
+Bug #4059 	parseFieldList (or Options?) doesn&apos;t handle auto_increment 	 
+Bug #4066 	Functions are keywords 	busterb
+Bug #4067 	Dialect_Mysql.php needs tinyint in $types 	busterb
+Bug #4081 	[PATCH] Added tinyint to synonyms 	epte
+Bug #4082 	MySQL: PRIMARY KEY(id) line breaks 	epte
+Bug #4085 	Lexer should recognize identifier delimiters 	cybot
+Bug #4086 	(UN)LOCK TABLES statements not recognized (MySQL) 	cybot
+Bug #4087 	Comma not recognized after PRIMARY KEY statement 	cybot
+Bug #4088 	c-style block comments not handled 	cybot
+Bug #5755 	Cannot handle select in form of tablename.* 	epte
+Bug #6438 	Column list with &apos;*&apos; cannot have additional columns 	epte
+Bug #6439 	Improper handling of absolute column names eg: table.column 	epte
+Bug #11462 	generate_testcases.php does not correct split queries 	cybot
+Bug #11463 	int and string is a valid token after SELECT 	cybot
+Bug #11464 	FROM is not required for SELECT 	cybot
+Bug #11472 	comment handling for ANSI and MySQL 	cybot
+Bug #11544 	Arithmetic Operations in (), problem with update and in where clause 	cybot
+Bug #11679 	Wrong parsed select statement. 	cybot
+Bug #13403 	Parser does not accept arbitrary expressions in JOIN clauses 	cybot
+Bug #13404 	NOW() causes infinite loop 	cybot
+Bug #14744 	keyword parse problem 	doconnor
+   </notes>
+  </release>
+ </changelog>
+</package>
