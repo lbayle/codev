@@ -19,6 +19,8 @@
 
 
 include_once 'project.class.php'; 
+include_once 'team.class.php'; 
+include_once 'config.class.php'; 
 
 
 class Install {
@@ -95,7 +97,8 @@ class Install {
       $stringData .= "?>\n";
       fwrite($fp, $stringData);
       fclose($fp);
-	}
+      echo "done<br/>";
+   }
 	
 	
    // --------------------------------------------------------
@@ -120,7 +123,7 @@ class Install {
             die("ERROR : ".$req." ---> ".mysql_error()); 
          }
       }
-      echo "done";
+      echo "done<br/>";
 	}
 	
    // --------------------------------------------------------
@@ -159,7 +162,6 @@ class Install {
 		//--------
       $fieldId = $this->fieldList[$fieldName];
       if (!$fieldId) {
-      	echo "DEBUG INSERT $fieldName<br/>";
          $query2  = "INSERT INTO `mantis_custom_field_table` ".
                     "(`name`, `type` ,`access_level_r`,`access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
          if ($possible_values) {
@@ -176,12 +178,21 @@ class Install {
             $query2 .= ", '$default_value'";
          }
          $query2 .= ");";
+
+      	 #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";
+
          $result2  = mysql_query($query2) or die("Query failed: $query2");
          $fieldId = mysql_insert_id();
+
+	     // add to codev_config_table
+      	 Config::getInstance()->addValue($configId, $fieldId, Config::configType_int);
+      
+         echo "custom field '$configId' created.<br/>";
+
+      } else {
+      	echo "custom field '$configId' already exists.<br/>";
       }
       
-      // add to codev_config_table
-      Config::getInstance()->addValue($configId, $fieldId, Config::configType_int);
       
 	}
 
@@ -191,20 +202,20 @@ class Install {
 	 */
 	public function createCustomFields() {
 		
-		// Mantis customFields types
-		$mType_string  = 0;
+	  // Mantis customFields types
+	  $mType_string  = 0;
       $mType_numeric = 1;
       $mType_enum    = 3;
       $mType_date    = 8;
       
       $this->createCustomField("TC",                               $mType_string,  "customField_TC");          // CoDev FDJ custom
+      $this->createCustomField("Preliminary Est. Effort (ex ETA)", $mType_enum,    "customField_PrelEffortEstim", "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
       $this->createCustomField("Est. Effort (BI)",                 $mType_numeric, "customField_effortEstim");
-      $this->createCustomField("Remaining (RAE)",                  $mType_numeric, "customField_remaining");
       $this->createCustomField("Budget supp. (BS)",                $mType_numeric, "customField_addEffort");
+      $this->createCustomField("Remaining (RAE)",                  $mType_numeric, "customField_remaining");
       $this->createCustomField("Dead Line",                        $mType_date,    "customField_deadLine");
       $this->createCustomField("FDL",                              $mType_string,  "customField_deliveryId");  // CoDev FDJ custom
       $this->createCustomField("Liv. Date",                        $mType_date,    "customField_deliveryDate");
-      $this->createCustomField("Preliminary Est. Effort (ex ETA)", $mType_enum,    "customField_PrelEffortEstim", "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
       
 	}
 	
@@ -216,19 +227,20 @@ class Install {
     * 
     * @param unknown_type $projectName
     */
-	public function createCommonSideTasksProject($projectName = "SideTasks") {
+	public function createCommonSideTasksProject($projectName = "SideTasks", $projectDesc = "CoDev commonSideTasks Project") {
 		
 		// create project
 		$projectid = Project::createSideTaskProject($projectName);
+	
+		if (-1 != $projectid) {	
+			// update defaultSideTaskProject in codev_config_table
+      		Config::getInstance()->addValue("defaultSideTaskProject", $projectid, Config::configType_int , $projectDesc);
 		
-		// update defaultSideTaskProject in codev_config_table
-      Config::getInstance()->addValue("defaultSideTaskProject", $projectid, Config::configType_int ,T_("CoDev commonSideTasks Project"));
-		
-      // assign N/A Job
-      #REM: N/A job_id = 1, created by SQL file
-      $query  = "INSERT INTO `codev_project_job_table` (`project_id`, `job_id`) VALUES ('$projectid', '1');";
-      $result = mysql_query($query) or die("Query failed: $query");
-		
+      		// assign N/A Job
+      		#REM: N/A job_id = 1, created by SQL file
+      		$query  = "INSERT INTO `codev_project_job_table` (`project_id`, `job_id`) VALUES ('$projectid', '1');";
+      		$result = mysql_query($query) or die("Query failed: $query");
+		}
       return $projectid;
 	}
 

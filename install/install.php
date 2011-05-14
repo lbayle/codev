@@ -69,7 +69,7 @@
    $db_mantis_host     = 'localhost';
    $db_mantis_user     = 'codev';
    $db_mantis_pass     = '';
-   $db_mantis_database = 'bugtracker2';   
+   $db_mantis_database = 'bugtracker';   
 
    $install = new Install();
                                          
@@ -92,13 +92,13 @@
    $install->createCustomFields();
 
    echo "DEBUG createCommonSideTasksProject<br/>";
-   $stproj_id = $install->createCommonSideTasksProject(T_("SideTasks"));
+   $stproj_id = $install->createCommonSideTasksProject(T_("SideTasks"), T_("CoDev commonSideTasks Project"));
 
    # TODO select Admin teamLeader from mantis user table
    
-   echo "DEBUG createAdminTeam<br/>";
    $adminTeamName = T_("admin");
    $adminTeamLeader = 0;
+   echo "DEBUG createAdminTeam  $adminTeamName  $adminTeamLeader<br/>";
    $install->createAdminTeam($adminTeamName, $adminTeamLeader);   
    
 

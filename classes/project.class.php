@@ -88,11 +88,11 @@ class Project {
     */
    public static function createSideTaskProject($projectName) {
       
-      global $estimEffortCustomField;
-      global $addEffortCustomField;
-      global $remainingCustomField;
-      global $deadLineCustomField;
-      global $deliveryDateCustomField;
+      $estimEffortCustomField  = Config::getInstance()->getValue("customField_effortEstim");
+      $addEffortCustomField    = Config::getInstance()->getValue("customField_addEffort");
+      $remainingCustomField    = Config::getInstance()->getValue("customField_remaining");
+      $deadLineCustomField     = Config::getInstance()->getValue("customField_deadLine");
+      $deliveryDateCustomField = Config::getInstance()->getValue("customField_deliveryDate");
    	
    	
       // check if name exists
