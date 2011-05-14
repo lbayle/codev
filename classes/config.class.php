@@ -134,10 +134,10 @@ class Config {
       $result = mysql_query($query) or die("Query failed: $query");
       if (0 != mysql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id='$id'";
-         echo "DEBUG UPDATE Config::addValue $id: $value (t=$type) $desc<br/>";
+         #echo "DEBUG UPDATE Config::addValue $id: $value (t=$type) $desc<br/>";
       } else {
          $query = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`) VALUES ('$id', '$value', '$type', '$desc');";
-         echo "DEBUG INSERT Config::addValue $id: $value (t=$type) $desc<br/>";
+         #echo "DEBUG INSERT Config::addValue $id: $value (t=$type) $desc<br/>";
       }
       
       $result    = mysql_query($query) or die("Query failed: $query");

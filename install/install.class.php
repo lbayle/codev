@@ -184,14 +184,14 @@ class Install {
          $result2  = mysql_query($query2) or die("Query failed: $query2");
          $fieldId = mysql_insert_id();
 
-	     // add to codev_config_table
-      	 Config::getInstance()->addValue($configId, $fieldId, Config::configType_int);
-      
          echo "custom field '$configId' created.<br/>";
 
       } else {
       	echo "custom field '$configId' already exists.<br/>";
       }
+      
+	  // add to codev_config_table
+      Config::getInstance()->addValue($configId, $fieldId, Config::configType_int);
       
       
 	}
@@ -265,16 +265,16 @@ class Install {
 	 */
    public function createAdminTeam($name, $leader_id) {
    	
-   	$formatedDate  = date("Y-m-d", time());
+   	  $formatedDate  = date("Y-m-d", time());
       $today = date2timestamp($formatedDate);
    	
       // create admin team
-   	$teamId = Team::create($name, T_("CoDev admin team"), $leader_id, $today);
+   	  $teamId = Team::create($name, T_("CoDev admin team"), $leader_id, $today);
    	
-   	
-      // add to codev_config_table
-   	Config::getInstance()->addValue("adminTeamId", $teamId, Config::configType_int);
-   	
+   	  if (-1 != $teamId) {
+         // add to codev_config_table
+   	     Config::getInstance()->addValue("adminTeamId", $teamId, Config::configType_int);
+      }
       return $teamId;
    }
 	
