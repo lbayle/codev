@@ -135,14 +135,14 @@ class Issue {
    
    // ----------------------------------------------
    // Ex: vacation or Incident tasks are not production issues.
-   //     but tools and doc are production issues.
+   //     but tools and workshop are production issues.
    public function isSideTaskIssue() {
       
       $project = ProjectCache::getInstance()->getProject($this->projectId);
       
       if (($project->isSideTasksProject()) && 
           ($project->getToolsCategoryId() != $this->categoryId) && 
-          ($project->getDocCategoryId()   != $this->categoryId)) {
+          ($project->getWorkshopCategoryId()   != $this->categoryId)) {
          
          //echo "DEBUG $this->bugId is a sideTask.   type=$type<br/>";
          return true;

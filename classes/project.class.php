@@ -27,7 +27,7 @@ class Project {
    public static $keyIncident       = "cat_incident";
    public static $keyInactivity     = "cat_absence";
    public static $keyTools          = "cat_tools";
-   public static $keyOther          = "cat_workshop";
+   public static $keyWorkshop          = "cat_workshop";
    
 	var $id;
 	var $name;
@@ -73,7 +73,7 @@ class Project {
          $this->categoryList[Project::$keyIncident]       = $row->cat_incident;
          $this->categoryList[Project::$keyInactivity]     = $row->cat_absence;
          $this->categoryList[Project::$keyTools]          = $row->cat_tools;
-         $this->categoryList[Project::$keyOther]          = $row->cat_workshop;
+         $this->categoryList[Project::$keyWorkshop]          = $row->cat_workshop;
       }
       
       #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
@@ -138,13 +138,13 @@ class Project {
       return $this->addCategory(Project::$keyTools, $catName);
    }
    public function addCategoryOther($catName) {
-      return $this->addCategory(Project::$keyOther, $catName);
+      return $this->addCategory(Project::$keyWorkshop, $catName);
    }
    
    // -----------------------------------------------
    /**
     * WARN: the $catKey is the name of the field in codev_sidetasks_category_table
-    * @param string $catKey in (Project::$keyProjManagement, Project::$keyIncident, Project::$keyInactivity, Project::$keyTools, Project::$keyOther
+    * @param string $catKey in (Project::$keyProjManagement, Project::$keyIncident, Project::$keyInactivity, Project::$keyTools, Project::$keyWorkshop
     * @param string $catName
     */
    private function addCategory($catKey, $catName) {
@@ -177,7 +177,7 @@ class Project {
       return $this->addSideTaskIssue(Project::$keyTools, $issueSummary, $issueDesc);
    }
    public function addIssueOther($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::$keyOther, $issueSummary, $issueDesc);
+      return $this->addSideTaskIssue(Project::$keyWorkshop, $issueSummary, $issueDesc);
    }
    
    // -----------------------------------------------
@@ -281,9 +281,9 @@ class Project {
       if (NULL == $this->categoryList) return NULL;
    	return $this->categoryList[Project::$keyTools];
    }
-   public function getDocCategoryId() {
+   public function getWorkshopCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-   	return $this->categoryList[Project::$keyOther];
+   	return $this->categoryList[Project::$keyWorkshop];
    }
    
 }
