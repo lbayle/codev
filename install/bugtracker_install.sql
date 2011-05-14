@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Serveur: localhost
--- genere le : Mar 03 Mai 2011 a  09:45
+-- genere le : Mar 03 Mai 2011 aï¿½ 09:45
 -- Version du serveur: 5.1.41
 -- Version de PHP: 5.3.1
 
@@ -24,6 +24,7 @@
 --
 -- Structure de la table `codev_config_table`
 --
+DROP TABLE `codev_config_table`;
 
 CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `config_id` varchar(50) NOT NULL,
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 --
 -- Structure de la table `codev_holidays_table`
 --
+DROP TABLE `codev_holidays_table`;
 
 CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -77,6 +79,8 @@ INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
 -- Structure de la table `codev_job_table`
 --
 
+DROP TABLE `codev_job_table`;
+
 CREATE TABLE IF NOT EXISTS `codev_job_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -97,6 +101,8 @@ INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
 -- Structure de la table `codev_project_job_table`
 --
 
+DROP TABLE `codev_project_job_table`;
+
 CREATE TABLE IF NOT EXISTS `codev_project_job_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `project_id` int(10) NOT NULL,
@@ -110,6 +116,8 @@ CREATE TABLE IF NOT EXISTS `codev_project_job_table` (
 --
 -- Structure de la table `codev_sidetasks_category_table`
 --
+
+DROP TABLE `codev_sidetasks_category_table`;
 
 CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -131,6 +139,8 @@ CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
 -- Structure de la table `codev_team_project_table`
 --
 
+DROP TABLE `codev_team_project_table`;
+
 CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `project_id` int(10) NOT NULL,
@@ -145,6 +155,8 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
 --
 -- Structure de la table `codev_team_table`
 --
+
+DROP TABLE `codev_team_table`;
 
 CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -163,6 +175,8 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
 -- Structure de la table `codev_team_user_table`
 --
 
+DROP TABLE `codev_team_user_table`;
+
 CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,
@@ -179,6 +193,8 @@ CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
 --
 -- Structure de la table `codev_timetracking_table`
 --
+
+DROP TABLE `codev_timetracking_table`;
 
 CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
