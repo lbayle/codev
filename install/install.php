@@ -20,9 +20,9 @@
 <?php include_once 'i18n.inc.php'; ?>
 
 <?php
-   $_POST[page_name] = T_("Install"); 
+   $_POST[page_name] = T_("Install");
    include 'install_header.inc.php';
-   
+
    include 'install_menu.inc.php';
 ?>
 
@@ -30,24 +30,24 @@
 
 
 /*
- * 
- * 
+ *
+ *
  * create MySQL 'codev' user with access SELECT, INSERT, UPDATE, DELETE, CREATE
- * 
+ *
  * Step 1
- * 
+ *
  * - [user] create DB config file & test connection        OK
  * - [auto] create DB tables (from SQL file)               OK
  * - [auto] create Mantis codev user (if necessary ?)
  * - [auto] create admin team & add to codev_config_table  OK
- * 
+ *
  * Step 2
- * 
+ *
  * - [auto] create custom fields & add to codev_config_table  OK
  * - [auto] create CodevMetaProject (optional ?)
  * - [user] update codev_config_table with user prefs
- * - [user] 
- * 
+ * - [user]
+ *
  * - [user] create CommonSideTasks Project                 OK
  * - [auto] asign N/A job to commonSideTasks               OK
  * - [user] create default side tasks
@@ -62,55 +62,16 @@
 
 
 
-   include_once 'install.class.php'; 
-   
-   $sqlFile = "./bugtracker_install.sql";
-   
-   $db_mantis_host     = 'localhost';
-   $db_mantis_user     = 'codev';
-   $db_mantis_pass     = '';
-   $db_mantis_database = 'bugtracker';   
 
-   $install = new Install();
-                                         
-   $msg = $install->checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
-   
-   if ($msg) {
-   	echo $msg;
-   	exit;
-   } else {
-   	echo "DB connection OK<br/>";
-   }
-   
-   
-   $install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
-   
-   echo "DEBUG execSQLscript<br/>";
-   $install->execSQLscript($sqlFile);
-   
-   echo "DEBUG createCustomFields<br/>";
-   $install->createCustomFields();
-
-   echo "DEBUG createCommonSideTasksProject<br/>";
-   $stproj_id = $install->createCommonSideTasksProject(T_("SideTasks"), T_("CoDev commonSideTasks Project"));
-
-   # TODO select Admin teamLeader from mantis user table
-   
-   $adminTeamName = T_("admin");
-   $adminTeamLeader = 0;
-   echo "DEBUG createAdminTeam  $adminTeamName  $adminTeamLeader<br/>";
-   $install->createAdminTeam($adminTeamName, $adminTeamLeader);   
-   
-
-/*   
+/*
          if ($stproj_id < 0) {
             die ("ERROR: CommonSideTaskProject creation FAILED.<br/>\n");
          } else {
             $stproj = ProjectCache::getInstance()->getProject($stproj_id);
-         
+
             // 4) --- add SideTaskProject Categories
             $stproj->addCategoryProjManagement($cat_projManagement);
-        
+
             if ($isCatIncident) {
                $stproj->addCategoryIncident($cat_incident);
             }
@@ -120,7 +81,7 @@
             if ($isCatOther) {
                $stproj->addCategoryOther($cat_workshop);
             }
-        
+
             // 5) --- add SideTaskProject default SideTasks
             if ($isTaskProjManagement) {
                $stproj->addIssueProjManagement($task_projManagement);
@@ -137,6 +98,6 @@
             if ($isTaskOther) {
                $stproj->addIssueOther($task_workshop1);
             }
-*/   
-   
+*/
+
 ?>

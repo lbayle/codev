@@ -18,12 +18,12 @@
 
    /*
     * The Variables in here are not expected to be changed in any way.
-    * 
+    *
     * most of them are initialyzed from the 'codev_config_table'.
-    * 
+    *
     */
 
-   include_once "config.class.php"; 
+   include_once "config.class.php";
 
 
    $codevVersion = "v0.99.9 (11 Apr 2011)";
@@ -40,23 +40,24 @@
                                 "v0.99.9" => "(11 Apr  2011) - Planning + enhance global performances"
                                 );
 
-                                
+
   // ---
   // il peut y avoir plusieurs observer
   // il n'y a qu'un seul teamLeader
-  // il peut y avoir plusieurs managers, mais ils ne peuvent imputer que sur des SideTasks 
+  // il peut y avoir plusieurs managers, mais ils ne peuvent imputer que sur des SideTasks
   // un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
-  
+
+  // TODO move to Team constants ?
   $accessLevel_dev      = 10;    // in table codev_team_user_table
   $accessLevel_observer = 20;    // in table codev_team_user_table
   //$accessLevel_teamleader = 25;    // REM: NOT USED FOR NOW !!
-  $accessLevel_manager  = 30;    // in table codev_team_user_table 
+  $accessLevel_manager  = 30;    // in table codev_team_user_table
   $access_level_names = array($accessLevel_dev      => "Developper", // can modify, can NOT view stats
-                              $accessLevel_observer => "Observer",  // can NOT modify, can view stats  
-                              //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?   
+                              $accessLevel_observer => "Observer",  // can NOT modify, can view stats
+                              //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
                               $accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
-                              
-  
+
+
   // ---
   $workingProjectType   = 0;     // normal projects are type 0
   $sideTaskProjectType  = 1;     // SuiviOp must be type 1
@@ -65,7 +66,7 @@
   $projectType_names = array($workingProjectType => "Project",
                              $noCommonProjectType => "Project (no common jobs)",
                              $sideTaskProjectType => "SideTasks");
-  
+
   // ---
   $commonJobType   = 0;     // jobs common to all projects are type 0
   $assignedJobType = 1;     // jobs specific to one or more projects are type 1
@@ -73,49 +74,49 @@
                          $assignedJobType => "Assigned");
 
 
-  // ================== 
+  // ==================
 
-  $admin_teamid = Config::getInstance()->getValue("adminTeamId"); // users allowed to do CoDev administration
+  $admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId); // users allowed to do CoDev administration
 
-  $job_support = Config::getInstance()->getValue("job_support"); // jobid in codev_job_table corresponding to the 'Support' job (used to compute drifts)                         
-  
+  $job_support = Config::getInstance()->getValue(Config::id_jobSupport); // jobid in codev_job_table corresponding to the 'Support' job (used to compute drifts)
+
   // this is the custom field added to mantis issues for TimeTracking
-  $tcCustomField           = Config::getInstance()->getValue("customField_TC");
-  $estimEffortCustomField  = Config::getInstance()->getValue("customField_effortEstim"); //  BI
-  $remainingCustomField    = Config::getInstance()->getValue("customField_remaining"); //  RAE
-  $deadLineCustomField     = Config::getInstance()->getValue("customField_deadLine");
-  $addEffortCustomField    = Config::getInstance()->getValue("customField_addEffort"); // BS
-  $deliveryIdCustomField   = Config::getInstance()->getValue("customField_deliveryId"); // FDL (id of the associated Delivery Issue)
-  $deliveryDateCustomField = Config::getInstance()->getValue("customField_deliveryDate");
-  
-  
+  $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_TC);
+  $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim); //  BI
+  $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining); //  RAE
+  $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
+  $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort); // BS
+  $deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId); // FDL (id of the associated Delivery Issue)
+  $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+
+
   // ---
   // toughness indicator to compute "Productivity Rate ETA"
   $ETA_balance = Config::getInstance()->getValue("ETA_balance");
   $ETA_names   = Config::getInstance()->getValue("ETA_names");
-  
+
   // ---
   $astreintesTaskList = Config::getInstance()->getValue("astreintesTaskList"); // fiches de SuiviOp:Inactivite qui sont des astreintes
-                       
-  
+
+
   // --- Mantis Values ---
   // Unfortunately the following values are not in Mantis database, you'll have to manualy copy those
   // definition if you customized them.
-  
+
   //$statusNames     = Config::getInstance()->getValue("statusNames");
-  
+
   $priorityNames   = Config::getInstance()->getValue("priorityNames");
   $resolutionNames = Config::getInstance()->getValue("resolutionNames");
   // ---
-  
+
   // ---
-  // the projects listed here will be excluded from PeriodStatsReport 
+  // the projects listed here will be excluded from PeriodStatsReport
   $periodStatsExcludedProjectList = Config::getInstance()->getValue("periodStatsExcludedProjectList");
-  
+
   $defaultSideTaskProject = Config::getInstance()->getValue("defaultSideTaskProject"); // "SuiviOp" in table mantis_project_table
-  
+
   $codevReportsDir = Config::getInstance()->getValue("codevReportsDir");
-  
-                         
-                         
+
+
+
 ?>

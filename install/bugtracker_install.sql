@@ -94,7 +94,8 @@ CREATE TABLE IF NOT EXISTS `codev_job_table` (
 --
 
 INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
-(1, 'N/A', 1, '#A8FFBD');
+(1, 'N/A', 1, '#A8FFBD'), 
+(2, 'Support', 0, '#A8FFBD');
 -- --------------------------------------------------------
 
 --

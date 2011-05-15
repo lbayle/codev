@@ -27,16 +27,16 @@
  */
 
 class ConfigItem {
-   
+
    public $id;
    public $value;
    public $type;
 
-	public function __construct($id, $value, $type) 
+	public function __construct($id, $value, $type)
    {
    	$this->id    = $id;
       $this->type  = $type;
-      
+
       switch ($type) {
       	case Config::configType_keyValue :
       		$this->value = doubleExplode(':', ',', $value);
@@ -48,24 +48,37 @@ class ConfigItem {
          	$this->value = $value;
       }
    }
-	
+
 }
 
 class Config {
-   
+
    const  configType_int      = 1;
    const  configType_string   = 2;
    const  configType_keyValue = 3;
    const  configType_array    = 4;
-   
+
+   // known Config ids
+   const id_defaultSideTaskProject   = "defaultSideTaskProject";
+   const id_jobSupport               = "job_support";
+   const id_adminTeamId              = "adminTeamId";
+   const id_statusNames              = "statusNames";
+   const id_customField_TC           = "customField_TC";
+   const id_customField_effortEstim  = "customField_effortEstim"; //  BI
+   const id_customField_remaining    = "customField_remaining"; //  RAE
+   const id_customField_deadLine     = "customField_deadLine";
+   const id_customField_addEffort    = "customField_addEffort"; // BS
+   const id_customField_deliveryId   = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
+   const id_customField_deliveryDate = "customField_deliveryDate";
+
    private static $instance;    // singleton instance
    private static $configItems;
-    
+
    // --------------------------------------
-   private function __construct() 
+   private function __construct()
    {
       self::$configItems = array();
-    	
+
       $query = "SELECT * FROM `codev_config_table`";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
@@ -73,7 +86,7 @@ class Config {
       	#echo "DEBUG: Config:: $row->config_id<br/>";
       	self::$configItems["$row->config_id"] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
-    
+
         #echo "DEBUG: Config ready<br/>";
    }
 
@@ -81,7 +94,7 @@ class Config {
    /**
     * get Singleton instance
     */
-   public static function getInstance() 
+   public static function getInstance()
    {
         if (!isset(self::$instance)) {
             $c = __CLASS__;
@@ -89,46 +102,46 @@ class Config {
         }
         return self::$instance;
    }
-   
+
    // --------------------------------------
    public static function getValue($id) {
-    	
+
     	$value == NULL;
     	$item = self::$configItems[$id];
-    	
-    	if (NULL != $item) {	
+
+    	if (NULL != $item) {
          $value = $item->value;
     	} else {
     		echo "DEBUG: Config::getValue($id): item not found !<br/>";
     	}
     	return $value;
    }
-    
+
    // --------------------------------------
    public static function getType($id) {
-      
+
       $type == NULL;
       $item = self::$configItems[$id];
-      
-      if (NULL != $item) { 
-         $type = $item->type; 
+
+      if (NULL != $item) {
+         $type = $item->type;
       } else {
          echo "DEBUG: Config::getType($id): item not found !<br/>";
       }
       return $value;
    }
-   
+
    // --------------------------------------
    /**
     * Add or update an Item (in DB and Cache)
-    * 
+    *
     * Note: update does not change the type.
-    * 
+    *
     * @param unknown_type $id
     * @param unknown_type $value
     */
    public static function addValue($id, $value, $type, $desc=NULL) {
-     
+
    	// add/update DB
       $query = "SELECT * FROM `codev_config_table` WHERE config_id='$id'";
       $result = mysql_query($query) or die("Query failed: $query");
@@ -139,14 +152,14 @@ class Config {
          $query = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`) VALUES ('$id', '$value', '$type', '$desc');";
          #echo "DEBUG INSERT Config::addValue $id: $value (t=$type) $desc<br/>";
       }
-      
+
       $result    = mysql_query($query) or die("Query failed: $query");
 
       // --- add/replace Cache
       self::$configItems["$id"] = new ConfigItem($id, $value, $type);
-      
+
    }
-   
+
 } // class
 
 ?>

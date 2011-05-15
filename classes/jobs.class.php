@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-<?php 
+<?php
 
 // MANTIS CoDev
 
@@ -26,7 +26,7 @@ class Job {
    var $name;
    var $type;
    var $color;
-   
+
     public function Job($id, $name, $type, $color) {
     	$this->id    = $id;
       $this->name  = $name;
@@ -40,12 +40,12 @@ class Job {
 class Jobs {
 
    var $jobList;
-   
+
    // --------------------
    public function Jobs() {
 
    	$this->jobList = array();
-   	
+
       $query = "SELECT * FROM `codev_job_table`";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
@@ -54,7 +54,7 @@ class Jobs {
          $this->jobList[$row->id] = $j;
       }
    }
-   
+
    public function getJobName($id) {
    	return $this->jobList[$id]->name;
    }
@@ -68,25 +68,25 @@ class Jobs {
    }
 
    public function isSupport($id) {
-   	global $job_support;
+   	  $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
       return ($this->id == $job_support);
    }
-   
+
    /**
-    * 
+    *
     * @param unknown_type $job_name
     * @param unknown_type $job_type
     * @param unknown_type $job_color
     */
    public static function create($job_name, $job_type, $job_color) {
-      
+
    	$query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$job_name','$job_type','$job_color');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
    	$job_id = mysql_insert_id();
-   	
+
    	return $job_id;
    }
-   
-   
+
+
 }
 ?>
