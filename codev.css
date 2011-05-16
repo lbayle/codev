@@ -7,6 +7,12 @@ body {
   background-color: white;
   font-size: 12px; 
 }
+code {
+  font-family: sans-serif;
+  color: black;
+  background-color: white;
+  font-size: 12px; 
+}
 h1 {
   text-align: center;
 }
