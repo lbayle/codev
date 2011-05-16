@@ -257,27 +257,12 @@ class Install {
 	}
 
 
-	/**
-    * create Mantis codev user
-    *
-    * this user has privileges to manage SideTask Projects
-	 *
-	 */
-   public function createMantisUser($name = "codev", $password = NULL) {
-
-   	$leader_id = 0; // TODO
-
-   	return $leader_id;
-   }
-
 
 	/**
 	 * create Admin team & add to codev_config_table
 	 *
 	 */
    public function createAdminTeam($name, $leader_id) {
-
-   	  global $accessLevel_dev;
 
    	  $now = time();
    	  $formatedDate  = date("Y-m-d", $now);
@@ -292,7 +277,7 @@ class Install {
 
    	     // add leader as member
    	     $adminTeam = new Team($teamId);
-   	     $adminTeam->addMember($leader_id, $now, $accessLevel_dev);
+   	     $adminTeam->addMember($leader_id, $now, Team::accessLevel_dev);
 
       }
       return $teamId;

@@ -54,6 +54,7 @@ function setDatabaseInfo(){
 <?php
 
 include_once 'install.class.php';
+include_once 'user.class.php';
 
 function displayStepInfo() {
    echo "<h2>".T_("Prerequisites")."</h2>\n";
@@ -67,6 +68,7 @@ function displayStepInfo() {
    echo "<li>Create CoDev database tables</li>";
    echo "<li>Add CoDev specific custom fields to Mantis</li>";
    echo "<li>Create CommonSideTasks Project</li>";
+   echo "<li>Create CoDev Admin team</li>";
    echo "</ul>\n";
    echo "";
 }
@@ -113,6 +115,9 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
 $originPage = "install_step1.php";
 $sqlFile    = "./bugtracker_install.sql";
 
+$adminTeamName = T_("admin");
+$adminTeamLeaderId = 1; // 1 is mantis administrator
+
 $db_mantis_host     = isset($_POST[db_mantis_host]) ?     $_POST[db_mantis_host]     : 'localhost';
 $db_mantis_database = isset($_POST[db_mantis_database]) ? $_POST[db_mantis_database] : 'bugtracker';
 $db_mantis_user     = isset($_POST[db_mantis_user]) ?     $_POST[db_mantis_user]     : 'codev';
@@ -147,6 +152,12 @@ if ("setDatabaseInfo" == $action) {
 
    	echo "DEBUG createCommonSideTasksProject<br/>";
    	$stproj_id = $install->createCommonSideTasksProject(T_("SideTasks"), T_("CoDev commonSideTasks Project"));
+
+	$adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
+    echo "DEBUG createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+    $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
+
+
    }
 
 }

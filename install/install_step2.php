@@ -61,38 +61,23 @@ function displayStepInfo() {
    echo "<br/>";
    echo "<h2>".T_("Actions")."</h2>\n";
    echo "<ul>\n";
-   echo "<li>create CoDev Admin team</li>";
    echo "<li>set CoDev preferences</li>";
   echo "</ul>\n";
    echo "";
 }
 
 
-function displayForm($originPage, $adminTeamName, $adminTeamLeaderId,
+function displayForm($originPage,
             $g_eta_enum_string, $eta_balance_string,
             $g_status_enum_string, $s_priority_enum_string, $s_resolution_enum_string) {
 
    echo "<form id='databaseForm' name='databaseForm' method='post' action='$originPage' >\n";
-
    echo "<hr align='left' width='20%'/>\n";
-   echo "<h2>".T_("CoDev administration")."</h2>\n";
+   echo "<h2>".T_("Confirm Mantis customizations")."</h2>\n";
 
    echo "<table class='invisible'>\n";
    echo "  <tr>\n";
-   echo "    <td width='120'>".T_("Admin team name")."</td>\n";
-   echo "    <td><input size='20' type='text' name='adminTeamName'  id='adminTeamName' value='$adminTeamName'></td>\n";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td width='120'>".T_("Admin team leader")."</td>\n";
-   echo "    <td><input size='20' type='text' name='adminTeamLeaderId'  id='adminTeamLeaderId' value='$adminTeamLeaderId'></td>\n";
-   echo "  </tr>\n";
-   echo "</table>\n";
-
-   echo "<hr align='left' width='20%'/>\n";
-   echo "<h2>".T_("Mantis ")."</h2>\n";
-
-   echo "<table class='invisible'>\n";
-   echo "  <tr>\n";
+/*
    echo "    <td width='120'>".T_("ETA names")."</td>\n";
    echo "    <td><code><input size='150' type='text' style='font-family: sans-serif' name='g_eta_enum_string'  id='$g_eta_enum_string' value='$g_eta_enum_string'></code></td>\n";
    echo "";
@@ -101,6 +86,7 @@ function displayForm($originPage, $adminTeamName, $adminTeamLeaderId,
    echo "    <td width='120'>".T_("ETA balance")."</td>\n";
    echo "    <td><input size='150' type='text' style='font-family: sans-serif' name='eta_balance_string'  id='eta_balance_string' value='$eta_balance_string'></td>\n";
    echo "  </tr>\n";
+*/
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("Priority")."</td>\n";
    echo "    <td><input size='150' type='text' style='font-family: sans-serif' name='s_priority_enum_string'  id='s_priority_enum_string' value='$s_priority_enum_string'></td>\n";
@@ -129,9 +115,6 @@ function displayForm($originPage, $adminTeamName, $adminTeamLeaderId,
 
 $originPage = "install_step2.php";
 
-$adminTeamName = T_("admin");
-$adminTeamLeaderId = 1; // 1 is mantis administrator
-
 // Values copied from:  mantis/lang/strings_english.txt
 #$s_priority_enum_string   = '10:none,20:low,30:normal,40:high,50:urgent,60:immediate';
 #$s_resolution_enum_string = '10:open,20:fixed,30:reopened,40:unable to reproduce,50:not fixable,60:duplicate,70:no change required,80:suspended,90:won\'t fix';
@@ -151,7 +134,7 @@ $action      = $_POST[action];
 
 displayStepInfo();
 
-displayForm($originPage, $adminTeamName, $adminTeamLeaderId,
+displayForm($originPage,
             $g_eta_enum_string, $eta_balance_string,
             $g_status_enum_string, $s_priority_enum_string, $s_resolution_enum_string);
 
@@ -160,10 +143,6 @@ if ("setDatabaseInfo" == $action) {
 
    $install = new Install();
 
-   $adminTeamName = T_("admin");
-   $adminTeamLeader = 1; // 1 is mantis administrator
-   echo "DEBUG createAdminTeam  $adminTeamName  $adminTeamLeader<br/>";
-   $install->createAdminTeam($adminTeamName, $adminTeamLeader);
 
 
 
