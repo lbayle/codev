@@ -244,11 +244,21 @@ class Install {
 		$projectid = Project::createSideTaskProject($projectName);
 
 		if (-1 != $projectid) {
-			// update defaultSideTaskProject in codev_config_table
-      		Config::getInstance()->addValue(Config::id_defaultSideTaskProject, $projectid, Config::configType_int , $projectDesc);
 
-      		// assign N/A Job
-      		#REM: N/A job_id = 1, created by SQL file
+		   // --- update defaultSideTaskProject in codev_config_table
+      	   Config::getInstance()->addValue(Config::id_defaultSideTaskProject, $projectid, Config::configType_int , $projectDesc);
+
+           $stproj = ProjectCache::getInstance()->getProject($projectid);
+
+           // --- add SideTaskProject Categories
+      	   $stproj->addCategoryInactivity(T_("Inactivity"));
+      	   $stproj->addCategoryProjManagement(T_("Project Management"));
+           $stproj->addCategoryIncident(T_("Incident"));
+           $stproj->addCategoryTools(T_("Tools"));
+           $stproj->addCategoryWorkshop(T_("Team Workshop")); // TODO is this Cat relevant for CommonSideTaskProj ?
+
+      		// --- assign SideTaskProject specific Job
+      		#REM: 'N/A' job_id = 1, created by SQL file
       		$job_NA = self::JOB_DEFAULT_SIDETASK;
       		$query  = "INSERT INTO `codev_project_job_table` (`project_id`, `job_id`) VALUES ('$projectid', '$job_NA');";
       		$result = mysql_query($query) or die("Query failed: $query");
