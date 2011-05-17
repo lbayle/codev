@@ -68,6 +68,8 @@ function updateTeamCreationForm() {
 
 
 <?php
+include_once "config.class.php";
+include_once "project.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 
@@ -256,9 +258,9 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 
 // ================ MAIN =================
 
-global $admin_teamid;
-global $defaultSideTaskProject;
-global $sideTaskProjectType;
+$admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
+$defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);
+$sideTaskProjectType    = Project::type_sideTaskProject;
 
 $cat_projManagement = T_("Project Management");
 $cat_incident       = T_("Incident");

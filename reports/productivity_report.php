@@ -23,12 +23,12 @@ include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
-} 
+}
 ?>
 
 <?php
-   $_POST[page_name] = T_("Productivity Report"); 
-   include 'header.inc.php'; 
+   $_POST[page_name] = T_("Productivity Report");
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
@@ -63,7 +63,7 @@ require_once('tc_calendar.php');
 // -----------------------------------------------
 function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
-           
+
   $myCalendar1 = new tc_calendar("date1", true, false);
   $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -74,7 +74,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   $myCalendar1->startMonday(true);
 
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate2);
-        
+
   $myCalendar2 = new tc_calendar("date2", true, false);
   $myCalendar2->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -91,9 +91,9 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   } else {
   	   echo "<form id='form1' name='form1' method='post' action='productivity_report.php'>\n";
   }
-  
+
   echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
-  
+
   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
   $mTeamList = $session_user->getTeamList();
   $lTeamList = $session_user->getLeadedTeamList();
@@ -118,7 +118,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
 
   echo "<input type=hidden name=teamid  value=$teamid>\n";
   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
-  
+
   echo "<input type=hidden name=currentAction value=setInfoForm>\n";
   echo "<input type=hidden name=nextAction    value=timeTrackingReport>\n";
 
@@ -131,7 +131,7 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
 
 // ---------------------------------------------------------------
 function setProjectSelectionForm($teamid, $defaultProjectid) {
-   
+
    // Display form
    echo "<div style='text-align: left;'>";
   if (isset($_GET['debug'])) {
@@ -141,7 +141,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
   }
 
   $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
-   
+
    // --- Project List
    $query  = "SELECT mantis_project_table.id, mantis_project_table.name ".
                  "FROM `codev_team_project_table`, `mantis_project_table` ".
@@ -155,7 +155,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
                $projList[$row->id] = $row->name;
             }
        }
-   echo "<span class='caption_font'>".T_("Project Detail")." </span>\n";       
+   echo "<span class='caption_font'>".T_("Project Detail")." </span>\n";
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
    echo "<option value='0'> </option>\n";
    foreach ($projList as $pid => $pname)
@@ -172,7 +172,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
    echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
    echo "<input type=hidden name=action    value=noAction>\n";
    echo "</form>\n";
-   
+
    echo "</div>\n";
 }
 
@@ -181,7 +181,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
 
 // -----------------------------------------------
 function displayRates ($timeTracking) {
-         
+
   $prodDays                = $timeTracking->getProdDays();
   $sideProdDaysDevel       = $timeTracking->getProdDaysSideTasks(true);
   $sideProdDaysManagers    = $timeTracking->getProdDaysSideTasks(false) - $sideProdDaysDevel;
@@ -192,7 +192,7 @@ function displayRates ($timeTracking) {
   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
 //  $prodRateNoSupportETA    = $timeTracking->getProductivityRateNoSupport("ETA");
 //  $prodRateNoSupportBI     = $timeTracking->getProductivityRateNoSupport("EffortEstim");
-  
+
   echo "<table>\n";
   echo "<caption>".T_("Productivity indicators")."</caption>\n";
   echo "<tr>\n";
@@ -243,7 +243,7 @@ function displayRates ($timeTracking) {
   echo "<td>".T_("Development workload (developpers only)")."</td>\n";
   echo "<td>ProjProdDays / TotalProdDays * 100</td>\n";
   echo "</tr>\n";
-  
+
   echo "<tr>\n";
   echo "<td>".T_("System Availability")."</td>\n";
   echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
@@ -286,7 +286,7 @@ function displayRates ($timeTracking) {
   echo "<td></td>\n";
   echo "</tr>\n";
 */
-  
+
   echo "</table>\n";
 
   //echo "<br/>SideTasks<br/>";
@@ -302,7 +302,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   global $status_closed;
 
   $driftStats = $timeTracking->getResolvedDriftStats($withSupport);
-  
+
   echo "<table>\n";
   echo "<caption>".T_("Drift - Tasks resolved in the period")."</caption>\n";
   echo "<tr>\n";
@@ -324,7 +324,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
             "- ".T_("If < 0 then ahead on planning.")."</td>\n";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
-  
+
   echo "<tr>\n";
   echo "<td>".T_("Tasks in drift")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftPosETA"]).")</span></td>\n";
@@ -332,7 +332,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidPosList"]."</td>\n";
   echo "<td>".T_("drift")." > 1</td>\n";
   echo "</tr>\n";
-  
+
   echo "<tr>\n";
   echo "<td>".T_("Tasks in time")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
@@ -344,7 +344,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   }
   echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
-  
+
   echo "<tr>\n";
   echo "<td>".T_("Tasks ahead")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftNegETA"]).")</span></td>\n";
@@ -361,9 +361,9 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
 function displayTimeDriftStats ($timeTracking) {
   global $status_resolved;
   global $status_closed;
-         
+
   $timeDriftStats = $timeTracking->getTimeDriftStats();  // all issues delivered within the period
-  
+
   echo "<table>\n";
   echo "<caption title='".T_("Tasks having no deadLine are not reported here")."'>".T_("Adherence to deadlines")."</caption>\n";
   echo "<tr>\n";
@@ -379,7 +379,7 @@ function displayTimeDriftStats ($timeTracking) {
   echo "<td title='".T_("Tasks NOT delivered on time")."'>".$timeDriftStats["formatedBugidPosList"]."</td>\n";
   echo "<td>DeliveryDate > DeadLine</td>\n";
   echo "</tr>\n";
-  
+
   echo "<tr>\n";
   echo "<td>".T_("Tasks delivered on time")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($timeDriftStats["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".round($timeDriftStats["driftNeg"]).")</span></td>\n";
@@ -394,17 +394,17 @@ function displayTimeDriftStats ($timeTracking) {
 
 
 // -----------------------------------------------
-// display Drifts for Issues that are CURRENTLY OPENED 
+// display Drifts for Issues that are CURRENTLY OPENED
 function displayCurrentDriftStats ($timeTracking) {
 
    global $status_resolved;
    global $status_delivered;
    global $status_closed;
-	  
-    // ---- get Issues that are not Resolved/Closed   
+
+    // ---- get Issues that are not Resolved/Closed
     $formatedProdProjectList = implode( ', ', $timeTracking->prodProjectList);
     $issueList = array();
-    
+
     $query = "SELECT DISTINCT id ".
                "FROM `mantis_bug_table` ".
                "WHERE status NOT IN ($status_resolved,$status_delivered,$status_closed) ".
@@ -414,7 +414,7 @@ function displayCurrentDriftStats ($timeTracking) {
     while($row = mysql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id);
             $user = UserCache::getInstance()->getUser($issue->handlerId);
-            
+
             $issueList[] = $issue;
     }
 
@@ -423,7 +423,7 @@ function displayCurrentDriftStats ($timeTracking) {
     } else {
     	$driftStats_new = array();
     }
-  
+
   echo "<table>\n";
   echo "<caption>".T_("Drift - Today opened Tasks")."</caption>\n";
   echo "<tr>\n";
@@ -442,7 +442,7 @@ function displayCurrentDriftStats ($timeTracking) {
             "- ".T_("Computed on task NOT Resolved/Closed on ").date("Y-m-d").".<br/>";
   echo "<td>elapsed - EffortEstim</td>\n";
   echo "</tr>\n";
-  
+
   echo "<tr>\n";
   echo "<td>".T_("Tasks in drift")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
@@ -450,7 +450,7 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
   echo "<td>".T_("drift")." > 1</td>\n";
   echo "</tr>\n";
-  
+
   echo "<tr>\n";
   echo "<td>".T_("Tasks in time")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
@@ -462,7 +462,7 @@ function displayCurrentDriftStats ($timeTracking) {
   }
   echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
-  
+
   echo "<tr>\n";
   echo "<td>".T_("Tasks ahead")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
@@ -527,12 +527,13 @@ function displayWorkingDaysPerProject($timeTracking) {
 
 // -----------------------------------------------
 function displaySideTasksProjectDetails($timeTracking) {
-  global $sideTaskProjectType;
-   
+
+  $sideTaskProjectType = Project::type_sideTaskProject;
+
   $durationPerCategory = array();
   $formatedBugsPerCategory = array();
   $stProjList = "";
-  
+
   // find all sideTasksProjects (type = 1)
   $query     = "SELECT project_id ".
                "FROM `codev_team_project_table` ".
@@ -546,21 +547,21 @@ function displaySideTasksProjectDetails($timeTracking) {
      {
      	   foreach ($bugList as $bugid => $duration) {
      	   	$durationPerCategory[$catName] += $duration;
-     	   	
+
      	   	if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
      	   	$issue = IssueCache::getInstance()->getIssue($bugid);
             $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
      	   }
      }
-     
+
      $proj = ProjectCache::getInstance()->getProject($row->project_id);
      $stProjList[] = $proj->name;
-     
+
   }
   $formatedProjList = implode( ', ', $stProjList);
-  
+
   $formatedBugList = "";
-  
+
   echo "<table width='300'>\n";
   echo "<caption title='".T_("Projects").": $formatedProjList'>".T_("Project Management Detail")."</caption>\n";
   echo "<tr>\n";
@@ -583,22 +584,22 @@ function displaySideTasksProjectDetails($timeTracking) {
 
 // -----------------------------------------------
 function displayProjectDetails($timeTracking, $projectId) {
-   
+
   $durationPerCategory = array();
   $formatedBugsPerCategory = array();
-  
+
   $durPerCat = $timeTracking->getProjectDetails($projectId);
   foreach ($durPerCat as $catName => $bugList)
   {
       foreach ($bugList as $bugid => $duration) {
          $durationPerCategory[$catName] += $duration;
-         
+
          if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
       }
   }
-     
+
   $proj = ProjectCache::getInstance()->getProject($projectId);
   echo "<table width='300'>\n";
   //echo "<caption>".T_("Project Detail")." ".$proj->name."</caption>\n";
@@ -626,12 +627,12 @@ function displayCheckWarnings($timeTracking) {
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.username";   
-   
+    "ORDER BY mantis_user_table.username";
+
   $result = mysql_query($query) or die("Query failed: $query");
-   
+
   echo "<p style='color:red'>\n";
-   
+
   while($row = mysql_fetch_object($result))
   {
     $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
@@ -643,7 +644,7 @@ function displayCheckWarnings($timeTracking) {
         echo "<br/>$row->username: $formatedDate ".T_("inconsistent")." (".($value)." jour).\n";
       }
     }
-                   
+
     $missingDays = $timeTracking->checkMissingDays($row->user_id);
     foreach ($missingDays as $date) {
       $formatedDate = date("Y-m-d", $date);
@@ -678,7 +679,7 @@ $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 //echo "DEBUG endTimestamp $endTimestamp  ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
 
 $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-        
+
 setInfoForm($teamid, $date1, $date2, $defaultProjectid);
 echo "<br/><br/>\n";
 
@@ -688,16 +689,16 @@ if (0 != $teamid) {
 	echo "<br/>\n";
 	echo "du ".date("Y-m-d  (H:i)", $startTimestamp)."&nbsp;<br/>";
 	echo "au ".date("Y-m-d  (H:i)", $endTimestamp)."<br/><br/>\n";
-	
+
 	// Display on 3 columns
 	echo "<div class=\"float\">\n";
 	displayWorkingDaysPerJob($timeTracking);
 	echo "</div>\n";
-	
+
 	echo "<div class=\"float\">\n";
 	displayWorkingDaysPerProject($timeTracking);
 	echo "</div>\n";
-	
+
 	echo "<div class=\"float\">\n";
 	displaySideTasksProjectDetails($timeTracking);
 	echo "</div>\n";
@@ -709,22 +710,22 @@ if (0 != $teamid) {
       displayProjectDetails($timeTracking, $defaultProjectid);
    }
    echo "</div>\n";
-	
+
 	echo "<div class=\"spacer\"> </div>\n";
-	
+
 	echo "<br/><br/>\n";
 	displayRates($timeTracking);
-	        
+
 	echo "<br/><br/>\n";
    displayTimeDriftStats ($timeTracking);
-   
+
    echo "<br/><br/>\n";
    displayResolvedDriftStats($timeTracking);
-	
-	
+
+
    echo "<br/><br/>\n";
    displayCurrentDriftStats($timeTracking);
-   
+
 	echo "<br/><br/>\n";
 	displayCheckWarnings($timeTracking);
 }

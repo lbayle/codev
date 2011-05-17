@@ -22,6 +22,10 @@
 
 // =======================================
 class Job {
+
+  const type_commonJob   = 0;     // jobs common to all projects are type 0
+  const type_assignedJob = 1;     // jobs specific to one or more projects are type 1
+
    var $id;
    var $name;
    var $type;

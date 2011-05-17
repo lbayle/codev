@@ -18,16 +18,22 @@
 <?php
 
 include_once "project_cache.class.php";
+include_once "jobs.class.php";
 
 
 class Project {
+
+  const type_workingProject   = 0;     // normal projects are type 0
+  const type_sideTaskProject  = 1;     // SuiviOp must be type 1
+  const type_noCommonProject  = 2;     // projects which jave only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
+
 
    // REM: the values are also the names of the fields in codev_sidetasks_category_table
    public static $keyProjManagement = "cat_management";
    public static $keyIncident       = "cat_incident";
    public static $keyInactivity     = "cat_absence";
    public static $keyTools          = "cat_tools";
-   public static $keyWorkshop          = "cat_workshop";
+   public static $keyWorkshop       = "cat_workshop";
 
 	var $id;
 	var $name;
@@ -47,8 +53,6 @@ class Project {
    // -----------------------------------------------
    public function initialize() {
 
-   	global $sideTaskProjectType;
-
    	$query  = "SELECT mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
    	          "FROM `mantis_project_table`, `codev_team_project_table` ".
    	          "WHERE mantis_project_table.id = $this->id ".
@@ -62,7 +66,7 @@ class Project {
       $this->type        = $row->type;
 
       // ---- if SideTaskProject get categories
-      if ( $this->type == $sideTaskProjectType) {
+      if ( $this->type == Project::type_sideTaskProject) {
 
          $query  = "SELECT * FROM `codev_sidetasks_category_table` WHERE project_id = $this->id ";
          $result = mysql_query($query) or die("Query failed: $query");
@@ -210,9 +214,9 @@ class Project {
    // if type=0 (Project) then all jobs which codev_project_job_table.project_id = $this->id
    //                     OR codev_job_table.type = $commonJobType (common jobs)
    public function getJobList() {
-   	global $workingProjectType;
-   	global $sideTaskProjectType;
-   	global $commonJobType;
+   	$workingProjectType  = Project::type_workingProject;
+   	$sideTaskProjectType = Project::type_sideTaskProject;
+   	$commonJobType       = Job::type_commonJob;
 
    	$jobList = array();
 
@@ -263,7 +267,7 @@ class Project {
 
    // -----------------------------------------------
    public function isSideTasksProject() {
-   	global $sideTaskProjectType;
+   	$sideTaskProjectType = Project::type_sideTaskProject;
 
 		return ($sideTaskProjectType == $this->type);
 	}

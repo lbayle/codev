@@ -206,8 +206,9 @@ class Team {
     */
    public function addCommonSideTaskProject() {
 
-      global $defaultSideTaskProject;
-      global $sideTaskProjectType;
+      $sideTaskProjectType = Project::type_sideTaskProject;
+
+      $defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);;
 
       // TODO check if not already in table !
 
@@ -222,7 +223,8 @@ class Team {
     * @return unknown_type $projectId
     */
    public function createSideTaskProject($projectName) {
-      global $sideTaskProjectType;
+
+      $sideTaskProjectType = Project::type_sideTaskProject;
 
       $projectDesc = "CoDev SideTaskProject for team $this->name";
 

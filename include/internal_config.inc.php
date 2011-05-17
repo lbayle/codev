@@ -47,7 +47,7 @@
   // il peut y avoir plusieurs managers, mais ils ne peuvent imputer que sur des SideTasks
   // un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
 
-  // TODO move to Team constants ?
+  // TODO move to Team constants !
   $accessLevel_dev      = 10;    // in table codev_team_user_table
   $accessLevel_observer = 20;    // in table codev_team_user_table
   //$accessLevel_teamleader = 25;    // REM: NOT USED FOR NOW !!
@@ -59,6 +59,7 @@
 
 
   // ---
+  // TODO move to Project constants !
   $workingProjectType   = 0;     // normal projects are type 0
   $sideTaskProjectType  = 1;     // SuiviOp must be type 1
   $noCommonProjectType  = 2;     // projects which jave only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
@@ -68,6 +69,7 @@
                              $sideTaskProjectType => "SideTasks");
 
   // ---
+  // TODO move to Job constants !
   $commonJobType   = 0;     // jobs common to all projects are type 0
   $assignedJobType = 1;     // jobs specific to one or more projects are type 1
   $jobType_names = array($commonJobType => "Common",
