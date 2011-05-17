@@ -28,17 +28,17 @@ class Project {
    public static $keyInactivity     = "cat_absence";
    public static $keyTools          = "cat_tools";
    public static $keyWorkshop          = "cat_workshop";
-   
+
 	var $id;
 	var $name;
 	var $description;
 	var $type;
 	var $jobList;
 	var $categoryList;
-      
+
 	// -----------------------------------------------
 	public function Project($id) {
-		
+
       $this->id = $id;
 
       $this->initialize();
@@ -46,28 +46,28 @@ class Project {
 
    // -----------------------------------------------
    public function initialize() {
-      
+
    	global $sideTaskProjectType;
-   	
+
    	$query  = "SELECT mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
    	          "FROM `mantis_project_table`, `codev_team_project_table` ".
    	          "WHERE mantis_project_table.id = $this->id ".
    	          "AND codev_team_project_table.project_id = $this->id ";
-   	
+
       $result = mysql_query($query) or die("Query failed: $query");
       $row = mysql_fetch_object($result);
-      
+
       $this->name        = $row->name;
       $this->description = $row->description;
       $this->type        = $row->type;
-      
+
       // ---- if SideTaskProject get categories
       if ( $this->type == $sideTaskProjectType) {
-      	
+
          $query  = "SELECT * FROM `codev_sidetasks_category_table` WHERE project_id = $this->id ";
          $result = mysql_query($query) or die("Query failed: $query");
          $row = mysql_fetch_object($result);
-      
+
          $this->categoryList = array();
          $this->categoryList[Project::$keyProjManagement] = $row->cat_management;
          $this->categoryList[Project::$keyIncident]       = $row->cat_incident;
@@ -75,26 +75,26 @@ class Project {
          $this->categoryList[Project::$keyTools]          = $row->cat_tools;
          $this->categoryList[Project::$keyWorkshop]          = $row->cat_workshop;
       }
-      
+
       #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
-      
+
       #$this->jobList     = $this->getJobList();
    }
 
    // -----------------------------------------------
    /**
-    * 
+    *
     * @param unknown_type $projectName
     */
    public static function createSideTaskProject($projectName) {
-      
+
       $estimEffortCustomField  = Config::getInstance()->getValue("customField_effortEstim");
       $addEffortCustomField    = Config::getInstance()->getValue("customField_addEffort");
       $remainingCustomField    = Config::getInstance()->getValue("customField_remaining");
       $deadLineCustomField     = Config::getInstance()->getValue("customField_deadLine");
       $deliveryDateCustomField = Config::getInstance()->getValue("customField_deliveryDate");
-   	
-   	
+
+
       // check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = mysql_query($query) or die("Query failed: $query");
@@ -103,14 +103,14 @@ class Project {
          echo "ERROR: Project name already exists ($projectName)<br/>\n";
          return -1;
       }
-   	
-      // create new Project     
+
+      // create new Project
       $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
                "VALUES ('$projectName','50','1','10','10','$projectDesc','1','0');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $projectid = mysql_insert_id();
-      
-      
+
+
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
                "VALUES ('$estimEffortCustomField',  '$projectid','0'), ".
@@ -119,11 +119,16 @@ class Project {
                       "('$deadLineCustomField',     '$projectid','3'), ".
                       "('$deliveryDateCustomField', '$projectid','5');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-      
+
+
+      // create entry in codev_sidetasks_category_table
+      $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+
       return $projectid;
    }
-   
-   
+
+
    // -----------------------------------------------
    public function addCategoryProjManagement($catName) {
       return $this->addCategory(Project::$keyProjManagement, $catName);
@@ -137,10 +142,10 @@ class Project {
    public function addCategoryTools($catName) {
       return $this->addCategory(Project::$keyTools, $catName);
    }
-   public function addCategoryOther($catName) {
+   public function addCategoryWorkshop($catName) {
       return $this->addCategory(Project::$keyWorkshop, $catName);
    }
-   
+
    // -----------------------------------------------
    /**
     * WARN: the $catKey is the name of the field in codev_sidetasks_category_table
@@ -156,13 +161,13 @@ class Project {
 
       $query = "UPDATE `codev_sidetasks_category_table` SET $catKey = $catId WHERE project_id = $this->id";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-      
+
       $this->categoryList[$catKey] = $catId;
-      
+
       return $catId;
    }
 
-   
+
    // -----------------------------------------------
    public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
       return $this->addSideTaskIssue(Project::$keyProjManagement, $issueSummary, $issueDesc);
@@ -176,41 +181,41 @@ class Project {
    public function addIssueTools($issueSummary, $issueDesc=" ") {
       return $this->addSideTaskIssue(Project::$keyTools, $issueSummary, $issueDesc);
    }
-   public function addIssueOther($issueSummary, $issueDesc=" ") {
+   public function addIssueWorkshop($issueSummary, $issueDesc=" ") {
       return $this->addSideTaskIssue(Project::$keyWorkshop, $issueSummary, $issueDesc);
    }
-   
+
    // -----------------------------------------------
    private function addSideTaskIssue($catKey, $issueSummary, $issueDesc) {
-      
+
    	global $status_closed;
    	$cat_id = $this->categoryList["$catKey"];
-   	
+
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$issueDesc');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
    	$bug_text_id = mysql_insert_id();
-   	
+
    	$query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`) ".
    	         "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$status_closed','$bug_text_id');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $bugt_id = mysql_insert_id();
-      
+
    	return $bugt_id;
-   }   
-   
-   
+   }
+
+
    // -----------------------------------------------
    // Job list depends on project type:
    // if type=1 (SideTask) than only jobs for SideTasks are displayed.
    // if type=0 (Project) then all jobs which codev_project_job_table.project_id = $this->id
-   //                     OR codev_job_table.type = $commonJobType (common jobs)  
+   //                     OR codev_job_table.type = $commonJobType (common jobs)
    public function getJobList() {
    	global $workingProjectType;
    	global $sideTaskProjectType;
    	global $commonJobType;
-   	
+
    	$jobList = array();
-   	 
+
    	if (0 != $this->id) {
 	   	if ($sideTaskProjectType == $this->type) {
 		      $query  = "SELECT codev_job_table.id, codev_job_table.name ".
@@ -224,7 +229,7 @@ class Project {
 	                   "LEFT OUTER JOIN  `codev_project_job_table` ".
 	                   "ON codev_job_table.id = codev_project_job_table.job_id ".
 	                   "WHERE (codev_job_table.type = $commonJobType OR codev_project_job_table.project_id = $this->id)";
-	                   
+
 	   	} else {
 	   		echo "ERROR Project.getJobList(): unknown project type !";
 	   		exit;
@@ -236,34 +241,34 @@ class Project {
 		         $jobList[$row->id] = $row->name;
 		      }
 	      }
-   	}   	
+   	}
       return $jobList;
    }
-   
+
    // -----------------------------------------------
    public function getIssueList() {
-   	
+
    	$issueList = array();
-   	
+
 	   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
 	            "WHERE project_id=$this->id ".
 	            "ORDER BY id DESC";
-	   
+
 	   $result = mysql_query($query) or die("Query failed: $query");
 	   while($row = mysql_fetch_object($result)) {
 	   	$issueList[] = $row->id;
 	   }
 	   return $issueList;
    }
-   
+
    // -----------------------------------------------
    public function isSideTasksProject() {
    	global $sideTaskProjectType;
-   	
+
 		return ($sideTaskProjectType == $this->type);
 	}
 
-	
+
    // -----------------------------------------------
 	public function getManagementCategoryId() {
 		if (NULL == $this->categoryList) return NULL;
@@ -285,7 +290,7 @@ class Project {
       if (NULL == $this->categoryList) return NULL;
    	return $this->categoryList[Project::$keyWorkshop];
    }
-   
+
 }
 
 ?>

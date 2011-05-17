@@ -79,7 +79,7 @@
                $stproj->addCategoryTools($cat_tools);
             }
             if ($isCatOther) {
-               $stproj->addCategoryOther($cat_workshop);
+               $stproj->addCategoryWorkshop($cat_workshop);
             }
 
             // 5) --- add SideTaskProject default SideTasks
@@ -96,7 +96,7 @@
                $stproj->addIssueTools($task_tools);
             }
             if ($isTaskOther) {
-               $stproj->addIssueOther($task_workshop1);
+               $stproj->addIssueWorkshop($task_workshop1);
             }
 */
 
