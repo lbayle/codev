@@ -35,6 +35,11 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
   PRIMARY KEY (`config_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
+INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
+('job_support', 2, 1);
+
+
 -- --------------------------------------------------------
 
 --
