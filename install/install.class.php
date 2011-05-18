@@ -202,7 +202,7 @@ class Install {
       }
 
 	  // add to codev_config_table
-      Config::getInstance()->addValue($configId, $fieldId, Config::configType_int);
+      Config::getInstance()->setValue($configId, $fieldId, Config::configType_int);
 
 
 	}
@@ -246,7 +246,7 @@ class Install {
 		if (-1 != $projectid) {
 
 		   // --- update defaultSideTaskProject in codev_config_table
-      	   Config::getInstance()->addValue(Config::id_defaultSideTaskProject, $projectid, Config::configType_int , $projectDesc);
+      	   Config::getInstance()->setValue(Config::id_defaultSideTaskProject, $projectid, Config::configType_int , $projectDesc);
 
            $stproj = ProjectCache::getInstance()->getProject($projectid);
 
@@ -283,11 +283,14 @@ class Install {
 
    	  if (-1 != $teamId) {
          // add to codev_config_table
-   	     Config::getInstance()->addValue(Config::id_adminTeamId, $teamId, Config::configType_int);
+   	     Config::getInstance()->setValue(Config::id_adminTeamId, $teamId, Config::configType_int);
 
    	     // add leader as member
    	     $adminTeam = new Team($teamId);
    	     $adminTeam->addMember($leader_id, $now, Team::accessLevel_dev);
+
+         // add default SideTaskProject
+         $adminTeam->addCommonSideTaskProject();
 
       }
       return $teamId;
@@ -295,9 +298,7 @@ class Install {
 
 	function setConfigItems() {
 
-	  // add to codev_config_table
-      Config::getInstance()->addValue(Config::id_jobSupport, Self::JOB_SUPPORT, Config::configType_int);
-
+      //Config::getInstance()->setValue(Config::id_astreintesTaskList, array(), Config::configType_array);
 
 	}
 

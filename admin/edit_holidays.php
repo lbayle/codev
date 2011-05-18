@@ -162,6 +162,10 @@ function addAstreinteForm($originPage) {
 // ----------------------------------------------------
 function displayAstreintesTuples() {
 
+   $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
+
+	if (NULL == $astreintesList) return;
+
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -172,7 +176,6 @@ function displayAstreintesTuples() {
    echo "<th>".T_("Description")."</th>\n";
    echo "</tr>\n";
 
-   $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
 
    foreach ($astreintesList as $bugid) {
 	  $issue = IssueCache::getInstance()->getIssue($bugid);

@@ -157,7 +157,8 @@ if ("setDatabaseInfo" == $action) {
     echo "DEBUG createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
     $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
-
+    //echo "DEBUG create default Config variables<br/>";
+    //$install->setConfigItems();
    }
 
 }

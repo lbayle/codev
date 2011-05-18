@@ -61,8 +61,6 @@
 
 
 
-
-
 /*
          if ($stproj_id < 0) {
             die ("ERROR: CommonSideTaskProject creation FAILED.<br/>\n");
