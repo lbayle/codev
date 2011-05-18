@@ -63,6 +63,7 @@ class Config {
    const id_jobSupport               = "job_support";
    const id_adminTeamId              = "adminTeamId";
    const id_statusNames              = "statusNames";
+   const id_astreintesTaskList       = "astreintesTaskList";
    const id_customField_TC           = "customField_TC";
    const id_customField_effortEstim  = "customField_effortEstim"; //  BI
    const id_customField_remaining    = "customField_remaining"; //  RAE
@@ -137,12 +138,14 @@ class Config {
     *
     * Note: update does not change the type.
     *
-    * @param unknown_type $id
-    * @param unknown_type $value
+    * @param string $id
+    * @param string $value
+    * @param int    $type
+    * @param string $desc
     */
-   public static function addValue($id, $value, $type, $desc=NULL) {
+   public static function setValue($id, $value, $type, $desc=NULL) {
 
-   	// add/update DB
+   	  // add/update DB
       $query = "SELECT * FROM `codev_config_table` WHERE config_id='$id'";
       $result = mysql_query($query) or die("Query failed: $query");
       if (0 != mysql_num_rows($result)) {
@@ -160,6 +163,23 @@ class Config {
 
    }
 
+   /**
+    * removes a ConfigItem from DB and Cache
+    */
+   public static function deleteValue($id) {
+
+	  if (NULL != self::$configItems[$id]) {
+
+         // delete from DB
+         $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id';";
+         mysql_query($query) or die("Query failed: $query");
+
+         // remove from cache
+	     unset(self::$configItems["$id"]);
+	  } else {
+	  	echo "DEBUG DELETE item not found in cache !<br/>";
+	  }
+   }
 } // class
 
 ?>
