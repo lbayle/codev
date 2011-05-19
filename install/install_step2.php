@@ -79,7 +79,7 @@ function displayForm($originPage,
    echo "  <tr>\n";
 /*
    echo "    <td width='120'>".T_("ETA names")."</td>\n";
-   echo "    <td><code><input size='150' type='text' style='font-family: sans-serif' name='g_eta_enum_string'  id='$g_eta_enum_string' value='$g_eta_enum_string'></code></td>\n";
+   echo "    <td><code><input size='150' type='text' style='font-family: sans-serif' name='g_eta_enum_string'  id='g_eta_enum_string' value='$g_eta_enum_string'></code></td>\n";
    echo "";
    echo "  </tr>\n";
    echo "  <tr>\n";
