@@ -219,7 +219,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   $isChecked = $isTaskIncident ? "CHECKED" : "";
   echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskIncident' id='cb_taskIncident'>".
        T_("Incident")."</input></td>\n";
-  echo "    <td><input size='100' type='text' name='task_incident'  id='task_' value='$task_incident'></td>\n";
+  echo "    <td><input size='100' type='text' name='task_incident'  id='task_incident' value='$task_incident'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
   $isChecked = $isTaskTools ? "CHECKED" : "";
