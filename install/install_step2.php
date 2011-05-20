@@ -103,7 +103,9 @@ function displayForm($originPage,
 
    echo "  <br/>\n";
    echo "  <br/>\n";
-   echo "<input type=button value='".T_("Proceed Step 2")."' onClick='javascript: setDatabaseInfo()'>\n";
+   echo "<div  style='text-align: center;'>\n";
+   echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 2")."' onClick='javascript: setDatabaseInfo()'>\n";
+   echo "</div>\n";
 
    echo "<input type=hidden name=action      value=noAction>\n";
 

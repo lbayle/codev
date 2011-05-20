@@ -146,3 +146,13 @@ table.invisible td {
   font-style: italic;
   color: grey;
 }
+
+.error_font {
+  font-style: italic;
+  color: red;
+}
+
+.success_font {
+  font-style: italic;
+  color: blue;
+}

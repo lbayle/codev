@@ -286,6 +286,8 @@ $team_name = isset($_POST[team_name]) ? $_POST[team_name] : "";
 $team_desc = isset($_POST[team_desc]) ? $_POST[team_desc] : "";
 $teamleader_id = isset($_POST[teamleader_id]) ? $_POST[teamleader_id] : "";
 
+// 'is_modified' is used because it's not possible to make a difference
+// between an unchecked checkBox and an unset checkbox variable
 if ("false" == $is_modified) {
    $isCreateSTProj       = true;
    $isCatIncident        = true;

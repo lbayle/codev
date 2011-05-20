@@ -302,7 +302,35 @@ class Install {
 
 	}
 
+	function checkReportsDir($codevReportsDir) {
 
+	  // Note: the 'ERROR' token in return string will be parsed, so
+	  //       do not remove it.
+
+	  // if path does not exist, try to create it
+	  if (FALSE == file_exists ($codevReportsDir)) {
+	  	if (!mkdir($codevReportsDir, 0755, true)) {
+           return(T_("ERROR").T_(": Could not create folder: $codevReportsDir"));
+        }
+	  }
+
+	  // create a test file to check write access to the directory
+	  $testFilename = $codevReportsDir . DIRECTORY_SEPARATOR . "test.txt";
+	  $fh = fopen($testFilename, 'w');
+	  if (FALSE == $fh) {
+	  	return (T_("ERROR").T_(": could not create test file: $testFilename"));
+	  }
+
+	  // write something to the file
+	  $stringData = date("Y-m-d G:i:s", time()) . " - This is a TEST file generated during CoDev installation, You can remove it.\n";
+      if (FALSE == fwrite($fh, $stringData)) {
+        fclose($fh);
+	  	return (T_("ERROR").T_(": could not write to test file: $testFilename"));
+      }
+
+	  fclose($fh);
+	  return "SUCCESS ! Please check that the following test file has been created:<br/><span style='font-family: sans-serif'>$testFilename</span>";
+	}
 
 
 } // class

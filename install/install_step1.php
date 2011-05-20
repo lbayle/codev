@@ -102,7 +102,9 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
 
    echo "  <br/>\n";
    echo "  <br/>\n";
-   echo "<input type=button value='".T_("Proceed Step 1")."' onClick='javascript: setDatabaseInfo()'>\n";
+   echo "<div  style='text-align: center;'>\n";
+   echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 1")."' onClick='javascript: setDatabaseInfo()'>\n";
+   echo "</div>\n";
 
    echo "<input type=hidden name=action      value=noAction>\n";
 

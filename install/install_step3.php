@@ -27,24 +27,11 @@
 ?>
 
 <script language="JavaScript">
-
-function setDatabaseInfo(){
-   // check fields
-   foundError = 0;
-   msgString = "The following fields are missing:\n\n"
-
-   if (0 == document.forms["databaseForm"].db_mantis_host.value)     { msgString += "Hostname\n"; ++foundError; }
-   if (0 == document.forms["databaseForm"].db_mantis_database.value)     { msgString += "Database\n"; ++foundError; }
-   if (0 == document.forms["databaseForm"].db_mantis_user.value)     { msgString += "User\n"; ++foundError; }
-   //if (0 == document.forms["databaseForm"].db_mantis_password.value)     { msgString += Password"\n"; ++foundError; }
-
-   if (0 == foundError) {
-     document.forms["databaseForm"].action.value="setDatabaseInfo";
-     document.forms["databaseForm"].submit();
-   } else {
-     alert(msgString);
-   }
- }
+function checkReportsDir() {
+     document.forms["form1"].action.value="checkReportsDir";
+     document.forms["form1"].is_modified.value= "true";
+     document.forms["form1"].submit();
+}
 
 </script>
 
@@ -70,18 +57,25 @@ function displayStepInfo() {
 }
 
 
-function displayForm($originPage, $defaultReportsDir,
+function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
                      $isTaskAstreinte, $isTaskIncident1, $isTaskTools1,
                      $task_leave, $task_astreinte, $task_incident1, $task_tools1,
                      $isJob1, $isJob2, $isJob3, $isJob4,
                      $job1, $job2, $job3, $job4, $job_support, $job_sideTasks,
                      $is_modified = "false") {
 
-   echo "<form id='reportsDirForm' name='reportsDirForm' method='post' action='$originPage' >\n";
+   echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
    echo "<hr align='left' width='20%'/>\n";
 
    // ------ Reports
    echo "<h2>".T_("Path for .CSV reports")."</h2>\n";
+   if (NULL != $checkReportsDirError) {
+   	  if (FALSE == strstr($checkReportsDirError, T_("ERROR"))) {
+      	echo "<span class='success_font'>$checkReportsDirError</span><br/>\n";
+   	  } else {
+      	echo "<span class='error_font'>$checkReportsDirError</span><br/>\n";
+   	  }
+   }
    echo "<code><input size='50' type='text' style='font-family: sans-serif' name='reportsDir'  id='reportsDir' value='$defaultReportsDir'></code></td>\n";
    echo "<input type=button value='".T_("Check")."' onClick='javascript: checkReportsDir()'>\n";
 
@@ -119,7 +113,7 @@ function displayForm($originPage, $defaultReportsDir,
   echo "</table>\n";
 
    // ------
-   echo "  <br/>\n";
+  echo "  <br/>\n";
   echo "<h2>".T_("Default Jobs")."</h2>\n";
   echo "<table class='invisible'>\n";
   echo "  <tr>\n";
@@ -162,16 +156,22 @@ function displayForm($originPage, $defaultReportsDir,
   echo "  </tr>\n";
   echo "</table>\n";
 
+   // ------ Add custom fields to existing projects
+  echo "  <br/>\n";
+  echo "<h2>".T_("Configure existing Projects")."</h2>\n";
 
 
-   echo "  <br/>\n";
-   echo "<input type=button value='".T_("Proceed Step 3")."' onClick='javascript: proceedStep3()'>\n";
+  echo "  <br/>\n";
+  echo "  <br/>\n";
+  echo "<div  style='text-align: center;'>\n";
+  echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 3")."' onClick='javascript: proceedStep3()'>\n";
+  echo "</div>\n";
 
-   // ------
-   echo "<input type=hidden name=action      value=noAction>\n";
-   echo "<input type=hidden name=is_modified value=$is_modified>\n";
+  // ------
+  echo "<input type=hidden name=action      value=noAction>\n";
+  echo "<input type=hidden name=is_modified value=$is_modified>\n";
 
-   echo "</form>";
+  echo "</form>";
 }
 
 // ================ MAIN =================
@@ -179,13 +179,19 @@ function displayForm($originPage, $defaultReportsDir,
 
 $originPage = "install_step3.php";
 
-$codevReportsDir      = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
+#$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
+$defaultReportsDir = "/tmp/codevReports";
 
 
-$action      = $_POST[action];
-$is_modified = isset($_POST[is_modified]) ? $_POST[is_modified] : "false";
 
 
+$action               = $_POST[action];
+$is_modified          = isset($_POST[is_modified]) ? $_POST[is_modified] : "false";
+$codevReportsDir      = isset($_POST[reportsDir]) ? $_POST[reportsDir] : $defaultReportsDir;
+
+
+// 'is_modified' is used because it's not possible to make a difference
+// between an unchecked checkBox and an unset checkbox variable
 if ("false" == $is_modified) {
 
    $isTaskAstreinte   = true;
@@ -197,6 +203,13 @@ if ("false" == $is_modified) {
    $isJob4 = true;;
 
 } else {
+   $isTaskAstreinte = $_POST[cb_taskAstreinte];
+   $isTaskIncident1 = $_POST[cb_taskIncident1];
+   $isTaskTools1    = $_POST[cb_taskTools1];
+   $isJob1   = $_POST[cb_job1];
+   $isJob2   = $_POST[cb_job2];
+   $isJob3   = $_POST[cb_job3];
+   $isJob4   = $_POST[cb_job4];
 }
 
 $task_leave     = isset($_POST[task_leave]) ? $_POST[task_leave] : T_("(generic) Absence");
@@ -210,9 +223,28 @@ $job4           = isset($_POST[job4]) ? $_POST[job4] : T_("Tests");
 $job_support    = "Support";
 $job_sideTasks  = "N/A";
 
+// ---
+if ("checkReportsDir" == $action) {
+
+   $install = new Install();
+   $checkReportsDirError = $install->checkReportsDir($codevReportsDir);
+
+
+} else if ("proceedStep3" == $action) {
+
+	// TODO do it !
+
+   // load next step page
+   #echo ("<script> parent.location.replace('$nextPage'); </script>");
+}
+
+
+
+
+// ----- DISPLAY PAGE
 displayStepInfo();
 
-displayForm($originPage, $codevReportsDir,
+displayForm($originPage, $codevReportsDir, $checkReportsDirError,
             $isTaskAstreinte, $isTaskIncident1, $isTaskTools1,
             $task_leave, $task_astreinte, $task_incident1, $task_tools1,
             $isJob1, $isJob2, $isJob3, $isJob4,
@@ -220,14 +252,6 @@ displayForm($originPage, $codevReportsDir,
             $is_modified);
 
 
-if ("checkReportsDir" == $action) {
-
-   $install = new Install();
-
-   $install->checkReportsDir($codevReportsDir);
-
-
-}
 
 ?>
 
