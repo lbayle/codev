@@ -46,26 +46,26 @@ set_include_path( $strPath );
 // example: http://127.0.0.1/codev/
 // example: http://55.7.137.27/louis/codev/
 function getServerRootURL() {
-   
+
    #if (isset($_GET['debug'])) {
    #foreach($_SERVER as $key => $value) {
    #   echo "_SERVER key=$key val=$value<br/>";
    #}
-   
-   $rootURL = "http://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
+
+   $rootURL = "https://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
-   $rootURL = str_replace("/classes", "", $rootURL);   
-   $rootURL = str_replace("/timetracking", "", $rootURL);   
-   $rootURL = str_replace("/reports", "", $rootURL);   
-   $rootURL = str_replace("/doc", "", $rootURL);   
-   $rootURL = str_replace("/images", "", $rootURL);   
-   $rootURL = str_replace("/calendar", "", $rootURL);   
-   $rootURL = str_replace("/admin", "", $rootURL);   
-   $rootURL = str_replace("/tools", "", $rootURL);   
-   $rootURL = str_replace("/i18n", "", $rootURL);   
-   $rootURL = str_replace("/graphs", "", $rootURL);   
-   $rootURL = str_replace("/install", "", $rootURL);   
-   
+   $rootURL = str_replace("/classes", "", $rootURL);
+   $rootURL = str_replace("/timetracking", "", $rootURL);
+   $rootURL = str_replace("/reports", "", $rootURL);
+   $rootURL = str_replace("/doc", "", $rootURL);
+   $rootURL = str_replace("/images", "", $rootURL);
+   $rootURL = str_replace("/calendar", "", $rootURL);
+   $rootURL = str_replace("/admin", "", $rootURL);
+   $rootURL = str_replace("/tools", "", $rootURL);
+   $rootURL = str_replace("/i18n", "", $rootURL);
+   $rootURL = str_replace("/graphs", "", $rootURL);
+   $rootURL = str_replace("/install", "", $rootURL);
+
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;
 }
