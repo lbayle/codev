@@ -60,8 +60,9 @@ function displayStepInfo() {
 function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
                      $isTaskAstreinte, $isTaskIncident1, $isTaskTools1,
                      $task_leave, $task_astreinte, $task_incident1, $task_tools1,
-                     $isJob1, $isJob2, $isJob3, $isJob4,
-                     $job1, $job2, $job3, $job4, $job_support, $job_sideTasks,
+                     $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
+                     $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
+                     $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
                      $is_modified = "false") {
 
    echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
@@ -121,9 +122,12 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
   echo "    <td>";
   echo "         <table class='invisible'><tr>";
   echo "            <td width='70'>$job_support</td>";
+
   echo "            <td><span class='help_font'>".T_("CoDev support management")."</span></td>";
   echo "         </tr></table>";
   echo "    </td>\n";
+  echo "    <td>".T_("Color").": <input name='jobSupport_color' id='jobSupport_color' type='text' value='$jobSupport_color' size='6' style='background-color: $jobSupport_color;'>";
+  echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
   echo "    <td width='10'><input type=CHECKBOX CHECKED DISABLED name='cb_job_support' id='cb_support'></input></td>\n";
@@ -133,26 +137,37 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
   echo "            <td><span class='help_font'>".T_("Specific to SideTasks")."</span></td>";
   echo "         </tr></table>";
   echo "    </td>\n";
+  echo "    <td>".T_("Color").": <input name='jobNA_color' id='jobNA_color' type='text' value='$jobNA_color' size='6' style='background-color: $jobNA_color;'></td>";
   echo "  </tr>\n";
 
   echo "  <tr>\n";
   $isChecked = $isJob1 ? "CHECKED" : "";
   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job1' id='cb_job1'></input></td>\n";
-  echo "    <td><input size='30' type='text' name='job1'  id='job1' value='$job1'></td>\n";
+  echo "    <td><input size='40' type='text' name='job1'  id='job1' value='$job1'></td>\n";
+  echo "    <td>".T_("Color").": <input name='job1_color' id='job1_color' type='text' value='$job1_color' size='6' style='background-color: $job1_color;'></td>";
+
   echo "  </tr>\n";
   echo "  <tr>\n";
   $isChecked = $isJob2 ? "CHECKED" : "";
   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job2' id='cb_job2'></input></td>\n";
-  echo "    <td><input size='30' type='text' name='job2'  id='job2' value='$job2'></td>\n";
+  echo "    <td><input size='40' type='text' name='job2'  id='job2' value='$job2'></td>\n";
+  echo "    <td>".T_("Color").": <input name='job2_color' id='job2_color' type='text' value='$job2_color' size='6' style='background-color: $job2_color;'></td>\n";
   echo "  </tr>\n";
   $isChecked = $isJob3 ? "CHECKED" : "";
   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job3' id='cb_job3'></input></td>\n";
-  echo "    <td><input size='30' type='text' name='job3'  id='job3' value='$job3'></td>\n";
+  echo "    <td><input size='40' type='text' name='job3'  id='job3' value='$job3'></td>\n";
+  echo "    <td>".T_("Color").": <input name='job3_color' id='job3_color' type='text' value='$job3_color' size='6' style='background-color: $job3_color;'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
   $isChecked = $isJob4 ? "CHECKED" : "";
   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job4' id='cb_job4'></input></td>\n";
-  echo "    <td><input size='30' type='text' name='job4'  id='job4' value='$job4'></td>\n";
+  echo "    <td><input size='40' type='text' name='job4'  id='job4' value='$job4'></td>\n";
+  echo "    <td>".T_("Color").": <input name='job4_color' id='job4_color' type='text' value='$job4_color' size='6' style='background-color: $job4_color;'></td>\n";
+  echo "  </tr>\n";
+  $isChecked = $isJob5 ? "CHECKED" : "";
+  echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_job5' id='cb_job5'></input></td>\n";
+  echo "    <td><input size='40' type='text' name='job5'  id='job5' value='$job5'></td>\n";
+  echo "    <td>".T_("Color").": <input name='job5_color' id='job5_color' type='text' value='$job5_color' size='6' style='background-color: $job5_color;'></td>\n";
   echo "  </tr>\n";
   echo "</table>\n";
 
@@ -201,6 +216,7 @@ if ("false" == $is_modified) {
    $isJob2 = true;;
    $isJob3 = true;;
    $isJob4 = true;;
+   $isJob5 = true;;
 
 } else {
    $isTaskAstreinte = $_POST[cb_taskAstreinte];
@@ -210,6 +226,7 @@ if ("false" == $is_modified) {
    $isJob2   = $_POST[cb_job2];
    $isJob3   = $_POST[cb_job3];
    $isJob4   = $_POST[cb_job4];
+   $isJob5   = $_POST[cb_job5];
 }
 
 $task_leave     = isset($_POST[task_leave]) ? $_POST[task_leave] : T_("(generic) Absence");
@@ -217,11 +234,19 @@ $task_astreinte = isset($_POST[task_astreinte]) ? $_POST[task_astreinte] : T_("(
 $task_incident1 = isset($_POST[task_incident1]) ? $_POST[task_incident1] : T_("(generic) Network is down");
 $task_tools1    = isset($_POST[task_tools1]) ? $_POST[task_tools1] : T_("(generic) Mantis/CoDev administration");
 $job1           = isset($_POST[job1]) ? $_POST[job1] : T_("Study of the existing");
-$job2           = isset($_POST[job2]) ? $_POST[job2] : T_("Analysis");
+$job2           = isset($_POST[job2]) ? $_POST[job2] : T_("Impact Analysis");
 $job3           = isset($_POST[job3]) ? $_POST[job3] : T_("Development");
 $job4           = isset($_POST[job4]) ? $_POST[job4] : T_("Tests");
+$job5           = isset($_POST[job5]) ? $_POST[job5] : T_("Documentation");
 $job_support    = "Support";
 $job_sideTasks  = "N/A";
+$job1_color       = isset($_POST[job1_color]) ? $_POST[job1_color] : "#FFF494";
+$job2_color       = isset($_POST[job2_color]) ? $_POST[job2_color] : "#FFCD85";
+$job3_color       = isset($_POST[job3_color]) ? $_POST[job3_color] : "#C2DFFF";
+$job4_color       = isset($_POST[job4_color]) ? $_POST[job4_color] : "#92C5FC";
+$job5_color       = isset($_POST[job5_color]) ? $_POST[job5_color] : "#E0F57A";
+$jobSupport_color = isset($_POST[jobSupport_color]) ? $_POST[jobSupport_color] : "#A8FFBD";
+$jobNA_color      = isset($_POST[jobNA_color]) ? $_POST[jobNA_color] : "#A8FFBD";
 
 // ---
 if ("checkReportsDir" == $action) {
@@ -247,8 +272,9 @@ displayStepInfo();
 displayForm($originPage, $codevReportsDir, $checkReportsDirError,
             $isTaskAstreinte, $isTaskIncident1, $isTaskTools1,
             $task_leave, $task_astreinte, $task_incident1, $task_tools1,
-            $isJob1, $isJob2, $isJob3, $isJob4,
-            $job1, $job2, $job3, $job4, $job_support, $job_sideTasks,
+            $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
+            $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
+            $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
             $is_modified);
 
 
