@@ -91,6 +91,14 @@ class Jobs {
    	return $job_id;
    }
 
+   /**
+    *
+    */
+   public static function addJobProjectAssociation($project_id, $job_id) {
+      $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
 
+
+   }
 }
 ?>

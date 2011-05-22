@@ -20,6 +20,7 @@
 
 include_once 'project.class.php';
 include_once 'team.class.php';
+include_once 'jobs.class.php';
 include_once 'config.class.php';
 
 
@@ -259,9 +260,7 @@ class Install {
 
       		// --- assign SideTaskProject specific Job
       		#REM: 'N/A' job_id = 1, created by SQL file
-      		$job_NA = self::JOB_DEFAULT_SIDETASK;
-      		$query  = "INSERT INTO `codev_project_job_table` (`project_id`, `job_id`) VALUES ('$projectid', '$job_NA');";
-      		$result = mysql_query($query) or die("Query failed: $query");
+      		Jobs::addJobProjectAssociation($projectid, self::JOB_DEFAULT_SIDETASK);
 		}
       return $projectid;
 	}

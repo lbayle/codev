@@ -60,42 +60,4 @@
  */
 
 
-
-/*
-         if ($stproj_id < 0) {
-            die ("ERROR: CommonSideTaskProject creation FAILED.<br/>\n");
-         } else {
-            $stproj = ProjectCache::getInstance()->getProject($stproj_id);
-
-            // 4) --- add SideTaskProject Categories
-            $stproj->addCategoryProjManagement($cat_projManagement);
-
-            if ($isCatIncident) {
-               $stproj->addCategoryIncident($cat_incident);
-            }
-            if ($isCatTools) {
-               $stproj->addCategoryTools($cat_tools);
-            }
-            if ($isCatOther) {
-               $stproj->addCategoryWorkshop($cat_workshop);
-            }
-
-            // 5) --- add SideTaskProject default SideTasks
-            if ($isTaskProjManagement) {
-               $stproj->addIssueProjManagement($task_projManagement);
-            }
-            if ($isTaskMeeting) {
-               $stproj->addIssueProjManagement($task_meeting);
-            }
-            if ($isTaskIncident) {
-               $stproj->addIssueIncident($task_incident);
-            }
-            if ($isTaskTools) {
-               $stproj->addIssueTools($task_tools);
-            }
-            if ($isTaskOther) {
-               $stproj->addIssueWorkshop($task_workshop1);
-            }
-*/
-
 ?>

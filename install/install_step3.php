@@ -23,6 +23,10 @@
    $_POST[page_name] = T_("Install - Step 3");
    include 'install_header.inc.php';
 
+   include_once "mysql_connect.inc.php";
+   include_once "internal_config.inc.php";
+   include_once "constants.php";
+
    include 'install_menu.inc.php';
 ?>
 
@@ -39,6 +43,12 @@ function refresh() {
      document.forms["form1"].submit();
 }
 
+function proceedStep3() {
+     document.forms["form1"].action.value="proceedStep3";
+     document.forms["form1"].is_modified.value= "true";
+     document.forms["form1"].submit();
+}
+
 </script>
 
 <div id="content">
@@ -47,6 +57,9 @@ function refresh() {
 <?php
 
 include_once 'install.class.php';
+include_once 'project.class.php';
+include_once 'jobs.class.php';
+#include_once 'config.class.php';
 
 function displayStepInfo() {
    echo "<h2>".T_("Prerequisites")."</h2>\n";
@@ -203,9 +216,6 @@ $originPage = "install_step3.php";
 #$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
 $defaultReportsDir = "/tmp/codevReports";
 
-
-
-
 $action               = $_POST[action];
 $is_modified          = isset($_POST[is_modified]) ? $_POST[is_modified] : "false";
 $codevReportsDir      = isset($_POST[reportsDir]) ? $_POST[reportsDir] : $defaultReportsDir;
@@ -265,6 +275,53 @@ if ("checkReportsDir" == $action) {
 
 	// TODO do it !
 
+    // Set path for .CSV reports (Excel)
+    echo "DEBUG add codevReportsDir<br/>";
+    $desc = T_("path for .CSV reports");
+    Config::getInstance()->setValue(Config::id_codevReportsDir, $codevReportsDir, Config::configType_string , $desc);
+
+    // Create default tasks
+    echo "DEBUG Create default tasks<br/>";
+    $stproj_id = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);
+    $stproj = ProjectCache::getInstance()->getProject($stproj_id);
+
+    $stproj->addIssueInactivity($task_leave);
+
+    if ($isTaskAstreinte) {
+       $stproj->addIssueInactivity($task_astreinte);
+    }
+    if ($isTaskIncident1) {
+       $stproj->addIssueIncident($task_incident1);
+    }
+    if ($isTaskTools1) {
+       $stproj->addIssueTools($task_tools1);
+    }
+
+    // Create default jobs
+    // Note: Support & N/A jobs already created by SQL file
+    // Note: N/A job association to defaultSideTaskProject already done in Install::createCommonSideTasksProject()
+
+    echo "DEBUG Create default jobs<br/>";
+    if ($isJob1) {
+		Jobs::create($job1, type_commonJob, $job1_color);
+    }
+    if ($isJob2) {
+		Jobs::create($job2, type_commonJob, $job2_color);
+    }
+    if ($isJob3) {
+		Jobs::create($job3, type_commonJob, $job3_color);
+    }
+    if ($isJob4) {
+		Jobs::create($job4, type_commonJob, $job4_color);
+    }
+    if ($isJob5) {
+		Jobs::create($job5, type_commonJob, $job5_color);
+    }
+
+    // Add custom fields to existing projects
+	// TODO
+
+    echo "DEBUG done.<br/>";
    // load next step page
    #echo ("<script> parent.location.replace('$nextPage'); </script>");
 }

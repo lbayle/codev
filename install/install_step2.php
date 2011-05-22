@@ -23,6 +23,10 @@
    $_POST[page_name] = T_("Install - Step 2");
    include 'install_header.inc.php';
 
+   include_once "mysql_connect.inc.php";
+   include_once "internal_config.inc.php";
+   include_once "constants.php";
+
    include 'install_menu.inc.php';
 ?>
 
