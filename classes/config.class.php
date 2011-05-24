@@ -34,7 +34,7 @@ class ConfigItem {
 
 	public function __construct($id, $value, $type)
    {
-   	$this->id    = $id;
+   	  $this->id    = $id;
       $this->type  = $type;
 
       switch ($type) {
@@ -48,6 +48,16 @@ class ConfigItem {
          	$this->value = $value;
       }
    }
+	/**
+	 *
+	 */
+	public function getArrayValueFromKey($key) {
+		return (Config::configType_keyValue == $this->type) ? $this->value[$key] : NULL;
+	}
+
+	public function getArrayKeyFromValue($value) {
+		return (Config::configType_keyValue == $this->type) ? array_search($value, $this->value) : NULL;
+	}
 
 }
 
@@ -66,27 +76,33 @@ class Config {
    const id_astreintesTaskList       = "astreintesTaskList";
    const id_codevReportsDir          = "codevReportsDir";
    const id_customField_TC           = "customField_TC";
+   const id_customField_PrelEffortEstim = "customField_PrelEffortEstim";  // ETA
    const id_customField_effortEstim  = "customField_effortEstim"; //  BI
    const id_customField_remaining    = "customField_remaining"; //  RAE
    const id_customField_deadLine     = "customField_deadLine";
    const id_customField_addEffort    = "customField_addEffort"; // BS
    const id_customField_deliveryId   = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
    const id_customField_deliveryDate = "customField_deliveryDate";
+   const id_priorityNames            = "priorityNames";
+   const id_resolutionNames          = "resolutionNames";
+
+   const id_ETA_names                = "ETA_names";   // to be replaced, see customField_PrelEffortEstim
+   const id_ETA_balance              = "ETA_balance"; // to be replaced, see customField_PrelEffortEstim
 
    private static $instance;    // singleton instance
-   private static $configItems;
+   private static $configVariables;
 
    // --------------------------------------
    private function __construct()
    {
-      self::$configItems = array();
+      self::$configVariables = array();
 
       $query = "SELECT * FROM `codev_config_table`";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
       	#echo "DEBUG: Config:: $row->config_id<br/>";
-      	self::$configItems["$row->config_id"] = new ConfigItem($row->config_id, $row->value, $row->type);
+      	self::$configVariables["$row->config_id"] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
 
         #echo "DEBUG: Config ready<br/>";
@@ -108,29 +124,65 @@ class Config {
    // --------------------------------------
    public static function getValue($id) {
 
-    	$value == NULL;
-    	$item = self::$configItems[$id];
+    	$value = NULL;
+    	$variable = self::$configVariables[$id];
 
-    	if (NULL != $item) {
-         $value = $item->value;
+    	if (NULL != $variable) {
+         $value = $variable->value;
     	} else {
-    		echo "DEBUG: Config::getValue($id): item not found !<br/>";
+    		echo "DEBUG: Config::getValue($id): variable not found !<br/>";
     	}
     	return $value;
    }
 
    // --------------------------------------
-   public static function getType($id) {
+   /**
+    * if the variable type is a configType_keyValue,
+    * returns the key for a given value.
+    */
+   public static function getVariableKeyFromValue($id, $value) {
 
-      $type == NULL;
-      $item = self::$configItems[$id];
+      $value = NULL;
+      $variable = self::$configVariables[$id];
 
-      if (NULL != $item) {
-         $type = $item->type;
+      if (NULL != $variable) {
+         $value = $variable->getArrayKeyFromValue($value);
       } else {
-         echo "DEBUG: Config::getType($id): item not found !<br/>";
+         echo "DEBUG: Config::getVariableKeyFromValue($id, $value): variable not found !<br/>";
       }
       return $value;
+   }
+
+   // --------------------------------------
+   /**
+    * if the variable type is a configType_keyValue,
+    * returns the value for a given key.
+    */
+   public static function getVariableValueFromKey($id, $key) {
+
+      $key = NULL;
+      $variable = self::$configVariables[$id];
+
+      if (NULL != $variable) {
+         $key = $variable->getArrayValueFromKey($value);
+      } else {
+         echo "DEBUG: Config::getVariableValueFromKey($id, $key): variable not found !<br/>";
+      }
+      return $key;
+   }
+
+   // --------------------------------------
+   public static function getType($id) {
+
+      $type = NULL;
+      $variable = self::$configVariables[$id];
+
+      if (NULL != $variable) {
+         $type = $variable->type;
+      } else {
+         echo "DEBUG: Config::getType($id): variable not found !<br/>";
+      }
+      return $type;
    }
 
    // --------------------------------------
@@ -160,7 +212,7 @@ class Config {
       $result    = mysql_query($query) or die("Query failed: $query");
 
       // --- add/replace Cache
-      self::$configItems["$id"] = new ConfigItem($id, $value, $type);
+      self::$configVariables["$id"] = new ConfigItem($id, $value, $type);
 
    }
 
@@ -169,16 +221,16 @@ class Config {
     */
    public static function deleteValue($id) {
 
-	  if (NULL != self::$configItems[$id]) {
+	  if (NULL != self::$configVariables[$id]) {
 
          // delete from DB
          $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id';";
          mysql_query($query) or die("Query failed: $query");
 
          // remove from cache
-	     unset(self::$configItems["$id"]);
+	     unset(self::$configVariables["$id"]);
 	  } else {
-	  	echo "DEBUG DELETE item not found in cache !<br/>";
+	  	echo "DEBUG DELETE variable not found in cache !<br/>";
 	  }
    }
 } // class

@@ -28,27 +28,16 @@
    include_once "constants.php";
 
    include 'install_menu.inc.php';
+
 ?>
 
 <script language="JavaScript">
 
-function setDatabaseInfo(){
-   // check fields
-   foundError = 0;
-   msgString = "The following fields are missing:\n\n"
+function proceedStep2() {
 
-   if (0 == document.forms["databaseForm"].db_mantis_host.value)     { msgString += "Hostname\n"; ++foundError; }
-   if (0 == document.forms["databaseForm"].db_mantis_database.value)     { msgString += "Database\n"; ++foundError; }
-   if (0 == document.forms["databaseForm"].db_mantis_user.value)     { msgString += "User\n"; ++foundError; }
-   //if (0 == document.forms["databaseForm"].db_mantis_password.value)     { msgString += Password"\n"; ++foundError; }
-
-   if (0 == foundError) {
-     document.forms["databaseForm"].action.value="setDatabaseInfo";
-     document.forms["databaseForm"].submit();
-   } else {
-     alert(msgString);
-   }
- }
+     document.forms["form2"].action.value="proceedStep2";
+     document.forms["form2"].submit();
+}
 
 </script>
 
@@ -75,13 +64,13 @@ function displayForm($originPage,
             $g_eta_enum_string, $eta_balance_string,
             $g_status_enum_string, $s_priority_enum_string, $s_resolution_enum_string) {
 
-   echo "<form id='databaseForm' name='databaseForm' method='post' action='$originPage' >\n";
+   echo "<form id='form2' name='form2' method='post' action='$originPage' >\n";
    echo "<hr align='left' width='20%'/>\n";
    echo "<h2>".T_("Confirm Mantis customizations")."</h2>\n";
 
    echo "<table class='invisible'>\n";
-   echo "  <tr>\n";
 /*
+   echo "  <tr>\n";
    echo "    <td width='120'>".T_("ETA names")."</td>\n";
    echo "    <td><code><input size='150' type='text' style='font-family: sans-serif' name='g_eta_enum_string'  id='g_eta_enum_string' value='$g_eta_enum_string'></code></td>\n";
    echo "";
@@ -108,7 +97,7 @@ function displayForm($originPage,
    echo "  <br/>\n";
    echo "  <br/>\n";
    echo "<div  style='text-align: center;'>\n";
-   echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 2")."' onClick='javascript: setDatabaseInfo()'>\n";
+   echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 2")."' onClick='javascript: proceedStep2()'>\n";
    echo "</div>\n";
 
    echo "<input type=hidden name=action      value=noAction>\n";
@@ -136,6 +125,7 @@ $g_status_enum_string = '10:new,20:feedback,30:acknowledged,40:analyzed,45:accep
 
 $action      = $_POST[action];
 
+
 displayStepInfo();
 
 displayForm($originPage,
@@ -143,12 +133,19 @@ displayForm($originPage,
             $g_status_enum_string, $s_priority_enum_string, $s_resolution_enum_string);
 
 
-if ("setDatabaseInfo" == $action) {
+if ("proceedStep2" == $action) {
 
-   $install = new Install();
+    echo "DEBUG add statusNames<br/>";
+    $desc = T_("status Names as defined in Mantis (g_status_enum_string)");
+    Config::getInstance()->setValue(Config::id_statusNames, $g_status_enum_string, Config::configType_keyValue , $desc);
 
+    echo "DEBUG add priorityNames<br/>";
+    $desc = T_("priority Names as defined in Mantis (s_priority_enum_string)");
+    Config::getInstance()->setValue(Config::id_priorityNames, $s_priority_enum_string, Config::configType_keyValue , $desc);
 
-
+    echo "DEBUG add resolutionNames<br/>";
+    $desc = T_("resolution Names as defined in Mantis (s_resolution_enum_string)");
+    Config::getInstance()->setValue(Config::id_resolutionNames, $s_resolution_enum_string, Config::configType_keyValue , $desc);
 
 }
 
