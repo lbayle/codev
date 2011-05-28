@@ -69,7 +69,7 @@ function displayForm($originPage,
    echo "<h2>".T_("Confirm Mantis customizations")."</h2>\n";
 
    echo "<table class='invisible'>\n";
-/*
+
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("ETA names")."</td>\n";
    echo "    <td><code><input size='150' type='text' style='font-family: sans-serif' name='g_eta_enum_string'  id='g_eta_enum_string' value='$g_eta_enum_string'></code></td>\n";
@@ -79,7 +79,7 @@ function displayForm($originPage,
    echo "    <td width='120'>".T_("ETA balance")."</td>\n";
    echo "    <td><input size='150' type='text' style='font-family: sans-serif' name='eta_balance_string'  id='eta_balance_string' value='$eta_balance_string'></td>\n";
    echo "  </tr>\n";
-*/
+
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("Priority")."</td>\n";
    echo "    <td><input size='150' type='text' style='font-family: sans-serif' name='s_priority_enum_string'  id='s_priority_enum_string' value='$s_priority_enum_string'></td>\n";
@@ -113,14 +113,18 @@ $originPage = "install_step2.php";
 // Values copied from:  mantis/lang/strings_english.txt
 #$s_priority_enum_string   = '10:none,20:low,30:normal,40:high,50:urgent,60:immediate';
 #$s_resolution_enum_string = '10:open,20:fixed,30:reopened,40:unable to reproduce,50:not fixable,60:duplicate,70:no change required,80:suspended,90:won\'t fix';
-$s_priority_enum_string = '10:aucune,20:basse,30:normale,40:elevee,50:urgente,60:immediate';
-$s_resolution_enum_string = '10:ouvert,20:resolu,30:rouvert,40:impossible a reproduire,50:impossible a corriger,60:doublon,70:pas un bogue,80:suspendu,90:ne sera pas resolu';
+
+
+$s_priority_enum_string = isset($_POST[s_priority_enum_string]) ? $_POST[s_priority_enum_string] : '10:aucune,20:basse,30:normale,40:elevee,50:urgente,60:immediate';
+$s_resolution_enum_string = isset($_POST[s_resolution_enum_string]) ? $_POST[s_resolution_enum_string] : '10:ouvert,20:resolu,30:rouvert,40:impossible a reproduire,50:impossible a corriger,60:doublon,70:pas un bogue,80:suspendu,90:ne sera pas resolu';
 
 // Values copied from: mantis/config_inc.php
-$g_eta_enum_string    = '10:none,20:< 1 day,30:2-3 days,40:<1 week,50:< 15 days,60:> 15 days';
-$eta_balance_string   = '10:1,20:1,30:3,40:5,50:10,60:15';
+$g_status_enum_string =  isset($_POST[g_status_enum_string]) ? $_POST[g_status_enum_string] : '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed';
 
-$g_status_enum_string = '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed';
+
+$g_eta_enum_string    = isset($_POST[g_eta_enum_string]) ? $_POST[g_eta_enum_string] : '10:none,20:< 1 day,30:2-3 days,40:<1 week,50:< 15 days,60:> 15 days';
+$eta_balance_string   =  isset($_POST[eta_balance_string]) ? $_POST[eta_balance_string] : '10:1,20:1,30:3,40:5,50:10,60:15';
+
 
 
 $action      = $_POST[action];
@@ -146,6 +150,16 @@ if ("proceedStep2" == $action) {
     echo "DEBUG add resolutionNames<br/>";
     $desc = T_("resolution Names as defined in Mantis (s_resolution_enum_string)");
     Config::getInstance()->setValue(Config::id_resolutionNames, $s_resolution_enum_string, Config::configType_keyValue , $desc);
+
+    // ------
+    echo "DEBUG add ETA<br/>";
+    $desc = T_("ETA as defined in Mantis (g_eta_enum_string)");
+    Config::getInstance()->setValue(Config::id_ETA_names, $g_eta_enum_string, Config::configType_keyValue , $desc);
+
+    echo "DEBUG add ETA balance<br/>";
+    $desc = T_("ETA balance");
+    Config::getInstance()->setValue(Config::id_ETA_balance, $eta_balance_string, Config::configType_keyValue , $desc);
+
 
 }
 
