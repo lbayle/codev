@@ -252,22 +252,24 @@ class Install {
       $attributes["display_closed"]   = 1;
 
 
-      $this->createCustomField("TC",                               $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
-      $this->createCustomField("Preliminary Est. Effort (ex ETA)", $mType_enum,    "customField_PrelEffortEstim", $attributes, "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
+      $attributes["require_report"]   = 1;
+      $attributes["display_report"]   = 1;
+      $this->createCustomField(T_("Preliminary Est. Effort (ex ETA)"), $mType_enum,    "customField_PrelEffortEstim", $attributes, "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
-      $this->createCustomField("Dead Line",                        $mType_date,    "customField_deadLine", $attributes);
+      $this->createCustomField(T_("Client bugId (TC)"),                $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
+      $this->createCustomField(T_("Dead Line"),                        $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
-      $this->createCustomField("Est. Effort (BI)",                 $mType_numeric, "customField_effortEstim", $attributes);
-      $this->createCustomField("Budget supp. (BS)",                $mType_numeric, "customField_addEffort", $attributes);
-      $this->createCustomField("Remaining (RAE)",                  $mType_numeric, "customField_remaining", $attributes);
+      $this->createCustomField(T_("Est. Effort (BI)"),                 $mType_numeric, "customField_effortEstim", $attributes);
+      $this->createCustomField(T_("Aditional Effort (BS)"),              $mType_numeric, "customField_addEffort", $attributes);
+      $this->createCustomField(T_("Remaining (RAE)"),                  $mType_numeric, "customField_remaining", $attributes);
 
       $attributes["require_resolved"] = 0;
-      $attributes["require_closed"]   = 1;
-      $this->createCustomField("FDL",                              $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-      $this->createCustomField("Liv. Date",                        $mType_date,    "customField_deliveryDate", $attributes);
+      $attributes["require_closed"]   = 0;
+      $this->createCustomField(T_("Delivery ticket (FDL)"),            $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
+      $this->createCustomField(T_("Delivery Date"),                    $mType_date,    "customField_deliveryDate", $attributes);
 
 	}
 
@@ -339,6 +341,9 @@ class Install {
 
       echo "DEBUG create Variable : ".Config::id_periodStatsExcludedProjectList."<br/>";
       Config::getInstance()->setValue(Config::id_periodStatsExcludedProjectList, NULL, Config::configType_array);
+
+      echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
+  	  Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, T_("Client teamId"));
 
 	}
 

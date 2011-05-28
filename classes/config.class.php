@@ -90,6 +90,8 @@ class Config {
    const id_ETA_names                = "ETA_names";   // to be replaced, see customField_PrelEffortEstim
    const id_ETA_balance              = "ETA_balance"; // to be replaced, see customField_PrelEffortEstim
 
+   const id_ClientTeamid             = "client_teamid"; // FDJ_teamid
+
    private static $instance;    // singleton instance
    private static $configVariables;
 

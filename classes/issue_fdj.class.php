@@ -34,27 +34,27 @@ class IssueFDJ extends Issue {
     global $status_feedback;
 
     parent::computeDurations();
-    
+
     // FDJ custom
     $formatedDateList = $this->getDuration_feedback();
     $this->statusList[$status_feedback_ATOS] = new Status($status_feedback_ATOS, $formatedDateList[$status_feedback_ATOS]);
     $this->statusList[$status_feedback_FDJ]  = new Status($status_feedback_FDJ,  $formatedDateList[$status_feedback_FDJ]);
     unset($this->statusList[$status_feedback]); // feedback has been splitted in ATOS/FDJ
     ksort($this->statusList);
-    
+
   }
-   
+
   // Feedback is special: it must be separated in two groups:
   // -- feedback assigned to 'ATOS'
   // -- feedback assigned to 'FDJ'
   private function getDuration_feedback() {
-    
+
   	 global $status_feedback_ATOS;
     global $status_feedback_FDJ;
   	 global $status_feedback;
-    
-  	 $FDJ_teamid = Config::getInstance()->getValue("FDJ_teamid");
-      
+
+  	 $FDJ_teamid = Config::getInstance()->getValue(Config::id_ClientTeamid);
+
     $time_atos = 0;
     $time_fdj = 0;
     $current_date = time();
@@ -114,20 +114,20 @@ class IssueFDJ extends Issue {
         // the problem is that if the user changes status and assigned_to at the same
         // time, the 'assigned to' action is logged before the 'change status'.
         //   => the latest 'assigned to' action belongs to the future 'change status' action.
-               
+
         // so if the next action is a 'change status' and the date is the same than the 'assigned to'
         // action, THEN we must take the previous 'assigned to' action in the list.
-               
+
         // Get the next action to check if it is a 'change status'
         $query3 = "SELECT id, date_modified, field_name FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND id > '$latest_assignTo_id' ORDER BY id ASC";
         $result3 = mysql_query($query3) or die("Query failed: $query3");
         $row3 = mysql_fetch_object($result3);
-               
+
         $next_action_date  = $row3->date_modified;
         $next_action_field = $row3->field_name;
 
         //echo "next action id = $row3->id &nbsp;&nbsp;&nbsp;&nbsp; date=$next_action_date field=$next_action_field<br/>";
-               
+
         if (($next_action_date == $latest_assignTo_date) && ($next_action_field == "status")) {
           // we want the previous assigned_to (note: the $result2 is order by DESC)
           //echo "we want previous assign<br/>";
@@ -150,9 +150,9 @@ class IssueFDJ extends Issue {
     $formatedDateList = array();
     $formatedDateList[$status_feedback_ATOS] = $time_atos;
     $formatedDateList[$status_feedback_FDJ]  = $time_fdj;
-    
+
     return $formatedDateList;
-    
+
   }  // getDuration_feedback
 
 }
