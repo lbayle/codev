@@ -39,10 +39,10 @@ class ConfigItem {
 
       switch ($type) {
       	case Config::configType_keyValue :
-      		$this->value = doubleExplode(':', ',', $value);
+      		$this->value = (NULL != $value) ? $this->value = doubleExplode(':', ',', $value) : NULL;
       		break;
          case Config::configType_array :
-         	$this->value = explode(',', $value);
+         	$this->value = (NULL != $value) ? $this->value = explode(',', $value) : NULL;
             break;
          default:
          	$this->value = $value;

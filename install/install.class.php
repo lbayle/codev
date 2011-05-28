@@ -260,11 +260,11 @@ class Install {
       $this->createCustomField("Dead Line",                        $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
-      $this->createCustomField("Budget supp. (BS)",                $mType_numeric, "customField_addEffort", $attributes);
       $this->createCustomField("Est. Effort (BI)",                 $mType_numeric, "customField_effortEstim", $attributes);
+      $this->createCustomField("Budget supp. (BS)",                $mType_numeric, "customField_addEffort", $attributes);
       $this->createCustomField("Remaining (RAE)",                  $mType_numeric, "customField_remaining", $attributes);
 
-      $attributes["require_resolved"] = 1;
+      $attributes["require_resolved"] = 0;
       $attributes["require_closed"]   = 1;
       $this->createCustomField("FDL",                              $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
       $this->createCustomField("Liv. Date",                        $mType_date,    "customField_deliveryDate", $attributes);
@@ -338,7 +338,7 @@ class Install {
 	function setConfigItems() {
 
       echo "DEBUG create Variable : ".Config::id_periodStatsExcludedProjectList."<br/>";
-      Config::getInstance()->setValue(Config::id_periodStatsExcludedProjectList, array(), Config::configType_array);
+      Config::getInstance()->setValue(Config::id_periodStatsExcludedProjectList, NULL, Config::configType_array);
 
 	}
 

@@ -26,7 +26,7 @@ class PeriodStatsReport {
   var $start_month;
   var $start_day;
   var $periodStatsList;
-  
+
   var $teamid;
 
   // --------------------------------------------
@@ -35,43 +35,46 @@ class PeriodStatsReport {
     $this->start_month = $start_month;
     $this->start_day = $start_say;
     $this->periodStatsList = array();
-    
+
     $this->teamid = $teamid;
   }
 
   // --------------------------------------------
   // Compute monthly reports for the complete year
   public function computeReport() {
-  	
-    global $periodStatsExcludedProjectList;
-  	
+
+    $periodStatsExcludedProjectList = Config::getInstance()->getValue(Config::id_periodStatsExcludedProjectList);
+
     $now = time();
     $startM = $this->start_month;
     $startD = $this->start_day;
-    
+
     for ($y = $this->start_year; $y <= date('Y'); $y++) {
-    
+
 	    for ($month=$startM; $month<13; $month++) {
 	      $startTimestamp = mktime(0, 0, 1, $month, $startD, $y);
 	      $endTimestamp   = mktime(0, 0, 1, ($month + 1), $startD, $y);
-	
+
 	      if ($startTimestamp > $now) { break; }
-	
+
 	      $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
-	      
-	      // only projects for specified team, except excluded projects
-	      $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
-	      
+
+
 	      $projectList = array();
 	      $query = "SELECT project_id FROM `codev_team_project_table` ".
-	               "WHERE team_id = $this->teamid ".
-	               "AND project_id NOT IN ($formatedExcludedProjects)";
-	      
+	               "WHERE team_id = $this->teamid ";
+
+	      // only projects for specified team, except excluded projects
+	      if ((NULL != $periodStatsExcludedProjectList) &&
+	          (0 != count($periodStatsExcludedProjectList))) {
+         	       $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
+	               $query .= "AND project_id NOT IN ($formatedExcludedProjects)";
+	      }
 	      $result = mysql_query($query) or die("Query failed: $query");
 	      while($row = mysql_fetch_object($result)) {
-            $projectList[] = $row->project_id; 
+            $projectList[] = $row->project_id;
 	      }
-	      
+
 	      $periodStats->projectList = $projectList;
 	      $periodStats->computeStats();
 	      $this->periodStatsList[$startTimestamp] = $periodStats;
@@ -81,40 +84,43 @@ class PeriodStatsReport {
     }
   }
 
-  
+
   // --------------------------------------------
   // Compute monthly reports for the complete year
   public function computeSubmittedResolved() {
-   
-    global $periodStatsExcludedProjectList;
-   
+
+    $periodStatsExcludedProjectList = Config::getInstance()->getValue(Config::id_periodStatsExcludedProjectList);
+
     $now = time();
     $startM = $this->start_month;
     $startD = $this->start_day;
-    
+
     for ($y = $this->start_year; $y <= date('Y'); $y++) {
-    
+
        for ($month=$startM; $month<13; $month++) {
          $startTimestamp = mktime(0, 0, 1, $month, $startD, $y);
          $endTimestamp   = mktime(0, 0, 1, ($month + 1), $startD, $y);
-   
+
          if ($startTimestamp > $now) { break; }
-   
+
          $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
-         
-         // only projects for specified team, except excluded projects
-         $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
-         
+
          $projectList = array();
          $query = "SELECT project_id FROM `codev_team_project_table` ".
-                  "WHERE team_id = $this->teamid ".
-                  "AND project_id NOT IN ($formatedExcludedProjects)";
-         
+                  "WHERE team_id = $this->teamid ";
+
+	      // only projects for specified team, except excluded projects
+	      if ((NULL != $periodStatsExcludedProjectList) &&
+	          (0 != count($periodStatsExcludedProjectList))) {
+         	       $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
+	               $query .= "AND project_id NOT IN ($formatedExcludedProjects)";
+	      }
+
          $result = mysql_query($query) or die("Query failed: $query");
          while($row = mysql_fetch_object($result)) {
-            $projectList[] = $row->project_id; 
+            $projectList[] = $row->project_id;
          }
-         
+
          $periodStats->projectList = $projectList;
          $periodStats->computeSubmittedResolved();
          $this->periodStatsList[$startTimestamp] = $periodStats;
@@ -123,48 +129,48 @@ class PeriodStatsReport {
        $startM = 1;
     }
   }
-  
-  
+
+
   // --------------------------------------------
   public function getStatus($status) {
       $sub = array();
-  	   
+
       foreach ($this->periodStatsList as $date => $ps) {
       	$sub[$date] = $ps->statusCountList[$status];
-    	
+
       }
   	   return $sub;
   }
-  
+
   // --------------------------------------------
   public function getSubmitted() {
       $sub = array();
-      
+
       foreach ($this->periodStatsList as $date => $ps) {
          $sub[$date] = $ps->submittedList;
-      
+
       }
       return $sub;
   }
-  
+
   // --------------------------------------------
   public function getDeltaResolved() {
       $sub = array();
-      
+
       foreach ($this->periodStatsList as $date => $ps) {
          $sub[$date] = $ps->deltaResolvedList;
-      
+
       }
       return $sub;
   }
-  
+
 
   // --------------------------------------------
   function displayHTMLReport() {
-   
+
     $statusNames = Config::getInstance()->getValue("statusNames");
     ksort($statusNames);
-  
+
     echo "<table>\n";
     echo "<caption title='Bilan mensuel SAUF SuiviOp.'>Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)</caption>";
     echo "<tr>\n";
@@ -179,17 +185,17 @@ class PeriodStatsReport {
       // Disp
       $tableLine = "<tr>\n";
       $tableLine .= "<td class=\"right\">".date("F Y", $date)."</td>\n";
-      
+
       foreach ($statusNames as $s => $sname) {
          $tableLine .= "<td class=\"right\">".$ps->statusCountList[$s]."</td>\n";
       }
       $tableLine .= "</tr>\n";
       echo "$tableLine";
-      
+
     }
     echo "</table>\n";
   }
-  
+
 } // end class PeriodStatsReport
 
 ?>
