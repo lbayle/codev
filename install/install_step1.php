@@ -160,7 +160,7 @@ if ("setDatabaseInfo" == $action) {
     $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
     //echo "DEBUG create default Config variables<br/>";
-    //$install->setConfigItems();
+    $install->setConfigItems();
    }
 
 }

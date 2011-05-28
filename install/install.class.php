@@ -148,18 +148,26 @@ class Install {
 	 * @param int $fieldType Mantis field type
 	 * @param string $configId  codev_config_table.config_id
 	 */
-	public function createCustomField($fieldName, $fieldType, $configId, $default_value=NULL, $possible_values=NULL) {
+	public function createCustomField($fieldName, $fieldType, $configId,
+	                                  $attributes=NULL, $default_value=NULL, $possible_values=NULL) {
 
-      $access_level_r   = 10;
-      $access_level_rw  = 25;
-      $require_report   = 1;
-      $require_update   = 1;
-      $require_resolved = 0;
-      $require_closed   = 0;
-      $display_report   = 1;
-      $display_update   = 1;
-      $display_resolved = 0;
-      $display_closed   = 0;
+	if (NULL == $attributes) {
+		$attributes = array();
+
+      $attributes["access_level_r"]   = 10;
+      $attributes["access_level_rw"]  = 25;
+      $attributes["require_report"]   = 1;
+      $attributes["require_update"]   = 1;
+      $attributes["require_resolved"] = 0;
+      $attributes["require_closed"]   = 0;
+      $attributes["display_report"]   = 1;
+      $attributes["display_update"]   = 1;
+      $attributes["display_resolved"] = 0;
+      $attributes["display_closed"]   = 0;
+
+	  echo "WARN: default attributes for CustomField $fieldName<br/>";
+	}
+
 
 
       //--------
@@ -175,14 +183,24 @@ class Install {
       $fieldId = $this->fieldList[$fieldName];
       if (!$fieldId) {
          $query2  = "INSERT INTO `mantis_custom_field_table` ".
-                    "(`name`, `type` ,`access_level_r`,`access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
+                    "(`name`, `type` ,`access_level_r`," .
+                    "                 `access_level_rw` ,`require_report` ,`require_update` ,`display_report` ,`display_update` ,`require_resolved` ,`display_resolved` ,`display_closed` ,`require_closed` ";
          if ($possible_values) {
          	$query2 .= ", `possible_values`";
          }
          if ($default_value) {
             $query2 .= ", `default_value`";
          }
-         $query2 .= ") VALUES ('$fieldName', '$fieldType', '$access_level_r', '$access_level_rw', '$require_report', '$require_update', '$display_report', '$display_update', '$require_resolved', '$display_resolved', '$display_closed', '$require_closed'";
+         $query2 .= ") VALUES ('$fieldName', '$fieldType', '".$attributes["access_level_r"]."', '".
+                                                              $attributes["access_level_rw"]."', '".
+                                                              $attributes["require_report"]."', '".
+                                                              $attributes["require_update"]."', '".
+                                                              $attributes["display_report"]."', '".
+                                                              $attributes["display_update"]."', '".
+                                                              $attributes["require_resolved"]."', '".
+                                                              $attributes["display_resolved"]."', '".
+                                                              $attributes["display_closed"]."', '".
+                                                              $attributes["require_closed"]."'";
          if ($possible_values) {
             $query2 .= ", '$possible_values'";
          }
@@ -220,14 +238,36 @@ class Install {
       $mType_enum    = 3;
       $mType_date    = 8;
 
-      $this->createCustomField("TC",                               $mType_string,  "customField_TC");          // CoDev FDJ custom
-      $this->createCustomField("Preliminary Est. Effort (ex ETA)", $mType_enum,    "customField_PrelEffortEstim", "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
-      $this->createCustomField("Est. Effort (BI)",                 $mType_numeric, "customField_effortEstim");
-      $this->createCustomField("Budget supp. (BS)",                $mType_numeric, "customField_addEffort");
-      $this->createCustomField("Remaining (RAE)",                  $mType_numeric, "customField_remaining");
-      $this->createCustomField("Dead Line",                        $mType_date,    "customField_deadLine");
-      $this->createCustomField("FDL",                              $mType_string,  "customField_deliveryId");  // CoDev FDJ custom
-      $this->createCustomField("Liv. Date",                        $mType_date,    "customField_deliveryDate");
+	  // default values, to be updated for each Field
+	  $attributes= array();
+      $attributes["access_level_r"]   = 10;
+      $attributes["access_level_rw"]  = 25;
+      $attributes["require_report"]   = 1;
+      $attributes["display_report"]   = 1;
+      $attributes["require_update"]   = 0;
+      $attributes["display_update"]   = 1;
+      $attributes["require_resolved"] = 0;
+      $attributes["display_resolved"] = 1;
+      $attributes["require_closed"]   = 0;
+      $attributes["display_closed"]   = 1;
+
+
+      $this->createCustomField("TC",                               $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
+      $this->createCustomField("Preliminary Est. Effort (ex ETA)", $mType_enum,    "customField_PrelEffortEstim", $attributes, "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
+
+      $attributes["require_report"]   = 0;
+      $attributes["display_report"]   = 1;
+      $this->createCustomField("Dead Line",                        $mType_date,    "customField_deadLine", $attributes);
+
+      $attributes["display_report"]   = 0;
+      $this->createCustomField("Budget supp. (BS)",                $mType_numeric, "customField_addEffort", $attributes);
+      $this->createCustomField("Est. Effort (BI)",                 $mType_numeric, "customField_effortEstim", $attributes);
+      $this->createCustomField("Remaining (RAE)",                  $mType_numeric, "customField_remaining", $attributes);
+
+      $attributes["require_resolved"] = 1;
+      $attributes["require_closed"]   = 1;
+      $this->createCustomField("FDL",                              $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
+      $this->createCustomField("Liv. Date",                        $mType_date,    "customField_deliveryDate", $attributes);
 
 	}
 
@@ -297,7 +337,8 @@ class Install {
 
 	function setConfigItems() {
 
-      //Config::getInstance()->setValue(Config::id_astreintesTaskList, array(), Config::configType_array);
+      echo "DEBUG create Variable : ".Config::id_periodStatsExcludedProjectList."<br/>";
+      Config::getInstance()->setValue(Config::id_periodStatsExcludedProjectList, array(), Config::configType_array);
 
 	}
 

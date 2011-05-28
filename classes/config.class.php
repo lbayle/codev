@@ -76,7 +76,7 @@ class Config {
    const id_astreintesTaskList       = "astreintesTaskList";
    const id_codevReportsDir          = "codevReportsDir";
    const id_customField_TC           = "customField_TC";
-   const id_customField_PrelEffortEstim = "customField_PrelEffortEstim";  // ETA
+   const id_customField_PrelEffortEstim = "customField_PrelEffortEstim";  // ex ETA
    const id_customField_effortEstim  = "customField_effortEstim"; //  BI
    const id_customField_remaining    = "customField_remaining"; //  RAE
    const id_customField_deadLine     = "customField_deadLine";
@@ -85,6 +85,7 @@ class Config {
    const id_customField_deliveryDate = "customField_deliveryDate";
    const id_priorityNames            = "priorityNames";
    const id_resolutionNames          = "resolutionNames";
+   const id_periodStatsExcludedProjectList = "periodStatsExcludedProjectList";
 
    const id_ETA_names                = "ETA_names";   // to be replaced, see customField_PrelEffortEstim
    const id_ETA_balance              = "ETA_balance"; // to be replaced, see customField_PrelEffortEstim
