@@ -92,11 +92,11 @@ class Project {
     */
    public static function createSideTaskProject($projectName) {
 
-      $estimEffortCustomField  = Config::getInstance()->getValue("customField_effortEstim");
-      $addEffortCustomField    = Config::getInstance()->getValue("customField_addEffort");
-      $remainingCustomField    = Config::getInstance()->getValue("customField_remaining");
-      $deadLineCustomField     = Config::getInstance()->getValue("customField_deadLine");
-      $deliveryDateCustomField = Config::getInstance()->getValue("customField_deliveryDate");
+      $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+      $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
+      $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
+      $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
+      $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 
 
       // check if name exists
@@ -117,11 +117,11 @@ class Project {
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
-               "VALUES ('$estimEffortCustomField',  '$projectid','0'), ".
-                      "('$addEffortCustomField',    '$projectid','1'), ".
-                      "('$remainingCustomField',    '$projectid','2'), ".
-                      "('$deadLineCustomField',     '$projectid','3'), ".
-                      "('$deliveryDateCustomField', '$projectid','5');";
+               "VALUES ('$estimEffortCustomField',  '$projectid','3'), ".
+                      "('$addEffortCustomField',    '$projectid','4'), ".
+                      "('$remainingCustomField',    '$projectid','5'), ".
+                      "('$deadLineCustomField',     '$projectid','6'), ".
+                      "('$deliveryDateCustomField', '$projectid','7');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
 
@@ -132,6 +132,55 @@ class Project {
       return $projectid;
    }
 
+   // -----------------------------------------------
+   /**
+    * Prepare a Mantis Project to be used with CoDev:
+    * - check/add association to CoDev customFields
+    */
+   public function prepareProjectToCodev() {
+
+      $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_TC);
+      $prelEffortEstim         = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
+      $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+      $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
+      $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
+      $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
+      $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+      $deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+
+      $existingFields = array();
+
+	  // find out which customFields are already associated
+	  $query = "SELECT field_id FROM `mantis_custom_field_project_table` WHERE 	project_id = $this->id";
+      $result = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+          $existingFields[] = $row->field_id;
+      }
+
+      $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
+               "VALUES ";
+
+	  $found = false;
+	  if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$this->id','1'),"; $found = true; }
+	  if (!in_array($prelEffortEstim, $existingFields))         { $query .= "('$prelEffortEstim',         '$this->id','2'),"; $found = true; }
+	  if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$this->id','3'),"; $found = true; }
+	  if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$this->id','4'),"; $found = true; }
+	  if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$this->id','5'),"; $found = true; }
+	  if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$this->id','6'),"; $found = true; }
+	  if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$this->id','7'),"; $found = true; }
+	  if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','8'),"; $found = true; }
+
+	  if ($found) {
+	  	  // replace last ',' with a ';' to finish query
+	  	  $pos = strlen($query) - 1;
+	  	  $query[$pos] = ';';
+
+         // add missing custom fields
+         mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	  }
+
+   }
 
    // -----------------------------------------------
    public function addCategoryProjManagement($catName) {
