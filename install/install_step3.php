@@ -320,6 +320,8 @@ if ("checkReportsDir" == $action) {
 
     // Add custom fields to existing projects
 	// TODO
+    //$project = ProjectCache::getInstance()->getProject($projectid);
+    //$project->prepareProjectToCodev();
 
     echo "DEBUG done.<br/>";
    // load next step page
