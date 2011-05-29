@@ -24,6 +24,7 @@
     */
 
    include_once "config.class.php";
+   include_once "config_mantis.class.php";
 
 
    $codevVersion = "v0.99.10 (28 May 2011)";
