@@ -68,7 +68,6 @@ function updateTeamCreationForm() {
 
 
 <?php
-include_once "config.class.php";
 include_once "project.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
