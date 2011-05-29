@@ -68,15 +68,10 @@ class Install {
       	return ("Could not select database: ". mysql_error());
       }
 
+      $database_version = ConfigMantis::getInstance()->getValue(ConfigMantis::id_database_version);
+      echo "DEBUG: Mantis database_version = $database_version<br/>";
 
-      $query = "SELECT value FROM `mantis_config_table` WHERE config_id = 'database_version'";
-      $result = mysql_query($query);
-      if (!$result) {
-         return ("Query failed : " . mysql_error());
-      }
-      $database_version  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
-
-      if (-1 == $database_version) {
+      if (NULL == $database_version) {
       	return "Could not get mantis_config_table.database_version";
       }
       return NULL;
