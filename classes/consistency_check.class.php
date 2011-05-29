@@ -78,19 +78,17 @@ class ConsistencyCheck {
     * if $deliveryIssueCustomField is specified, then $deliveryDateCustomField should also be specified.
     */
    public function checkDeliveryDate() {
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
 
-      global $deliveryIdCustomField; // in mantis_custom_field_table 'FDL'
-      global $deliveryDateCustomField; // in mantis_custom_field_table  'Liv. Date'
+      $deliveryIdCustomField     = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      $deliveryDateCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
 
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status in ($status_resolved, $status_delivered, $status_closed) ";
+        "WHERE status >= $resolved_status_threshold ";
 
       if (0 != count($this->projectList)) {
       	$formatedProjects = valuedListToSQLFormatedString($this->projectList);
@@ -199,17 +197,15 @@ class ConsistencyCheck {
    public function checkResolved() {
 
    	global $statusNames;
-   	global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
 
+      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
 
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status in ($status_resolved, $status_delivered, $status_closed) ";
+        "WHERE status >= $resolved_status_threshold ";
 
       if (0 != count($this->projectList)) {
          $formatedProjects = valuedListToSQLFormatedString($this->projectList);
@@ -250,17 +246,19 @@ class ConsistencyCheck {
       global $status_new;
       global $status_ack;
   		global $statusNames;
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
+
+      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+
       $min_remaining = 0;
+
 
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status NOT IN ($status_new, $status_ack, $status_resolved, $status_delivered, $status_closed) ";
+        "WHERE status NOT IN ($status_new, $status_ack) ".
+        "AND status < $resolved_status_threshold ";
 
       if (0 != count($this->projectList)) {
          $formatedProjects = valuedListToSQLFormatedString($this->projectList);

@@ -397,9 +397,7 @@ function displayTimeDriftStats ($timeTracking) {
 // display Drifts for Issues that are CURRENTLY OPENED
 function displayCurrentDriftStats ($timeTracking) {
 
-   global $status_resolved;
-   global $status_delivered;
-   global $status_closed;
+   $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
 
     // ---- get Issues that are not Resolved/Closed
     $formatedProdProjectList = implode( ', ', $timeTracking->prodProjectList);
@@ -407,7 +405,7 @@ function displayCurrentDriftStats ($timeTracking) {
 
     $query = "SELECT DISTINCT id ".
                "FROM `mantis_bug_table` ".
-               "WHERE status NOT IN ($status_resolved,$status_delivered,$status_closed) ".
+               "WHERE status < $resolved_status_threshold ".
                "AND project_id IN ($formatedProdProjectList)".
                "ORDER BY id DESC";
     $result = mysql_query($query) or die("Query failed: $query");

@@ -14,7 +14,7 @@
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-<?php 
+<?php
 
 // MANTIS CoDev User Authorization Management
 
@@ -30,15 +30,15 @@ class User {
 
 	var $id;
 	private $name;
-	
+
    // --------------------
 	public function User($user_id) {
-	  $this->id = $user_id;	
+	  $this->id = $user_id;
 	}
-	
+
    // --------------------
 	public function getName() {
-      
+
       if (NULL == $this->name) {
          $query = "SELECT mantis_user_table.username ".
                   "FROM  `mantis_user_table` ".
@@ -48,41 +48,41 @@ class User {
       }
       return $this->name;
    }
-	
-	
+
+
 	// --------------------
 	public function getFirstname() {
-		
+
 		$tok = strtok($this->getName(), " "); // 1st token: firstname
       return $tok;
 	}
-	
+
    // --------------------
 	public function getLastname() {
-      
+
       $tok = strtok($this->getName(), " ");  // 1st token: firstname
       $tok = strtok(" ");  // 2nd token: lastname
-      
+
       return $tok;
    }
-	
+
    // --------------------
    /** retourne le trigramme. ex: Louis BAYLE => LBA */
    public function getShortname() {
-   	
+
    	if (0 == $this->id) { return "";	}
-   	
+
       $tok1 = strtok($this->getName(), " ");  // 1st token: firstname
       $tok2 = strtok(" ");  // 2nd token: lastname
-      
+
       if (false == $tok2) {
       	$trigramme = $tok1[0].$tok1[1].$tok1[2];
       } else {
          $trigramme = $tok1[0].$tok2[0].$tok2[1];
-      } 
+      }
       return $trigramme;
    }
-   
+
   // --------------------
    public function getRealname() {
       $query = "SELECT realname FROM `mantis_user_table` WHERE id = $this->id";
@@ -90,14 +90,14 @@ class User {
       $userName    = mysql_result($result, 0);
       return $userName;
    }
-   
-   
+
+
   // --------------------
 	public function isTeamLeader($team_id) {
       $leaderid = Team::getLeaderId($team_id);
 		return ($leaderid == $this->id);
 	}
-	
+
    // --------------------
    public function isTeamDeveloper($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
       global $accessLevel_dev;
@@ -110,7 +110,7 @@ class User {
       global $accessLevel_observer;
       return $this->isTeamMember($team_id, $accessLevel_observer, $startTimestamp, $endTimestamp);
    }
-   
+
    // --------------------
    public function isTeamManager($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
       global $accessLevel_manager;
@@ -120,35 +120,35 @@ class User {
    // --------------------
    public function isTeamMember($team_id, $accessLevel=NULL, $startTimestamp=NULL, $endTimestamp=NULL) {
       global $accessLevel_dev;
-      
+
       $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
                "WHERE team_id = $team_id ".
                "AND user_id = $this->id ";
-      
+
       if (NULL != $accessLevel) {
          $query .= "AND access_level = $accessLevel ";
       }
-      
+
       if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
          $query .= "AND arrival_date < $endTimestamp AND ".
                    "(departure_date >= $startTimestamp OR departure_date = 0)";
-          // REM: if departure_date = 0, then user stays until the end of the world. 
+          // REM: if departure_date = 0, then user stays until the end of the world.
       }
-      
+
       $result = mysql_query($query) or die("Query failed: $query");
       $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
 
       return (0 != $nbTuples);
    }
 
-   
-   
+
+
    // --------------------
    /** if no team specified, choose the oldest arrival date */
    public function getArrivalDate($team_id = NULL) {
-      
+
    	$arrival_date = time();
-   	
+
       $query = "SELECT arrival_date FROM `codev_team_user_table` ".
                "WHERE user_id = $this->id ";
       if (isset($team_id)) {
@@ -161,18 +161,18 @@ class User {
       		$arrival_date = $row->arrival_date;
       	}
       }
-      
+
       //echo "DEBUG arrivalDate = ".date('Y - m - d', $arrival_date)."<br>";
-      
+
       return $arrival_date;
    }
 
    // --------------------
    /** if no team specified, choose the most future departureDate */
    public function getDepartureDate($team_id = NULL) {
-   	
+
    	$departureDate = 0;
-   	
+
       $query = "SELECT departure_date FROM `codev_team_user_table` ".
                "WHERE user_id = $this->id ";
       if (isset($team_id)) {
@@ -185,28 +185,28 @@ class User {
             $departureDate = $row->departure_date;
          }
       }
-      
+
       //echo "DEBUG departureDate = ".date('Y - m - d', $departureDate)."<br>";
-      
+
       return $departureDate;
    }
 
    // --------------------
-   /** 
+   /**
     * returns an array $daysOf[day] = $row->duration;
     * where day in [1..31]
-    * REM: period cannot exceed 1 month. 
+    * REM: period cannot exceed 1 month.
     */
    public function getDaysOfInMonth($startTimestamp, $endTimestamp) {
     $daysOf = array();  // day => duration
-      
+
     $query     = "SELECT bugid, date, duration ".
                  "FROM `codev_timetracking_table` ".
                  "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
                  "AND userid = $this->id";
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result)) {
-         
+
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ($issue->isVacation()) {
         $daysOf[date("j", $row->date)] += $row->duration;
@@ -215,23 +215,23 @@ class User {
     }
     return $daysOf;
   }
-   
+
    // --------------------
    /**
-    * 
+    *
     * @param unknown_type $startTimestamp
     * @param unknown_type $endTimestamp
     */
    public function getAstreintesInMonth($startTimestamp, $endTimestamp) {
     $astreintes = array();  // day => duration
-      
+
     $query     = "SELECT bugid, date, duration ".
                  "FROM `codev_timetracking_table` ".
                  "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
                  "AND userid = $this->id";
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result)) {
-         
+
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ($issue->isAstreinte()) {
         $astreintes[date("j", $row->date)] += $row->duration;
@@ -240,55 +240,55 @@ class User {
     }
     return $astreintes;
   }
-   
+
   // --------------------
    public function getProductionDaysForecast($startTimestamp, $endTimestamp, $team_id = NULL) {
 
       $holidays = new Holidays();
-      
+
       $prodDaysForecast = 0;
       $nbOpenDaysInPeriod = 0;
-      
+
    	$arrivalDate   = $this->getArrivalDate($team_id);
    	$departureDate = $this->getDepartureDate($team_id);
-   	
+
    	if ($arrivalDate   > $endTimestamp)   return 0;
-   	
+
    	// if not specified, $departureDate = $endTimestamp
    	if (0 == $departureDate) {$departureDate = $endTimestamp; }
 
    	if ($departureDate < $startTimestamp) return 0;
-   	
+
       // restrict timestamp to the period where the user is working on the project
       $startT = ($arrivalDate > $startTimestamp) ? $arrivalDate : $startTimestamp;
       $endT   = ($departureDate < $endTimestamp) ? $departureDate : $endTimestamp;
-   	
-     
+
+
       // get $nbOpenDaysInPeriod
       for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
          // monday to friday
          if (NULL == $holidays->isHoliday($i)) {
-        	$nbOpenDaysInPeriod++; 
+        	$nbOpenDaysInPeriod++;
         }
       }
-      
+
       $nbDaysOf = array_sum($this->getDaysOfInMonth($startT, $endT));
       $prodDaysForecast = $nbOpenDaysInPeriod - $nbDaysOf;
-      
+
       #echo "user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - ".$nbDaysOf.") = $prodDaysForecast <br/>";
-      
+
       return $prodDaysForecast;
    }
-   
-   
-   
-   
+
+
+
+
    // --------------------
    // returns the teams i'm leader of.
    public function getLeadedTeamList() {
-      
+
       $teamList = array();
-      
+
       $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id  ORDER BY name";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
@@ -296,7 +296,7 @@ class User {
          $teamList[$row->id] = $row->name;
          #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
       }
-      
+
       return $teamList;
    }
 
@@ -320,17 +320,17 @@ class User {
       global $accessLevel_manager;
       return $this->getTeamList($accessLevel_manager);
    }
-   
+
    // --------------------
    // returns the teams
    public function getTeamList($accessLevel = NULL) {
       global $accessLevel_dev;
       global $access_level_names;
-      
+
    	if (NULL == $accessLevel) { $accessLevel = $accessLevel_dev; }
-   	
+
       $teamList = array();
-      
+
       $query = "SELECT codev_team_table.id, codev_team_table.name ".
                "FROM `codev_team_user_table`, `codev_team_table` ".
                "WHERE codev_team_user_table.user_id = $this->id ".
@@ -343,29 +343,29 @@ class User {
          $teamList[$row->id] = $row->name;
          #echo "getTeamList(".$access_level_names[$accessLevel].") FOUND $row->id - $row->name<br/>";
       }
-      
+
       return $teamList;
    }
-   
-   
+
+
    // --------------------
    public function getProjectList($teamList = NULL) {
-      
+
       $projList = array();
-   	
+
       if (NULL == $teamList) {
       	// if not specified, get projects from the teams I'm member of.
          $teamList = $this->getTeamList();
       }
       if (0 != count($teamList)) {
 	      $formatedTeamList = valuedListToSQLFormatedString($teamList);
-	      
+
 	      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
 	               "FROM `codev_team_project_table`, `mantis_project_table`".
 	               "WHERE codev_team_project_table.team_id IN ($formatedTeamList) ".
 	               "AND codev_team_project_table.project_id = mantis_project_table.id ".
 	               "ORDER BY mantis_project_table.name";
-	      
+
 	      $result = mysql_query($query) or die("Query failed: $query");
 	      while($row = mysql_fetch_object($result)) {
 	      	$projList[$row->project_id] = $row->name;
@@ -376,67 +376,65 @@ class User {
       }
       return $projList;
    }
-   
+
    // --------------------
    // returns the tasks I can work on.
    // depending on: the projects associated to this user in mantis_project_user_list_table.
    // this list is displayed in timeTracking.php
    public function getPossibleWorkingTasksList($projList = NULL) {
-   	
+
    	$issueList = array();
    	if (NULL == $projList) {
    	  $projList = $this->getProjectList();
    	}
-   	
+
    	if (0 == count($projList)) {
    		// this happens if User is not a Developper (Manager or Observer)
    		//echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
    		return array();
    	}
-   	
+
       $formatedProjList = valuedListToSQLFormatedString($projList);
-	   
-   	
+
+
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id IN ($formatedProjList) ORDER BY id DESC";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
          	$issueList[] = $row->id;
       }
-   	
+
    	return $issueList;
    }
-   
+
    // --------------------
    /**
     * sum the RAE of all the opened Issues assigned to me.
     */
    public function getWorkload($projList = NULL) {
 
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
-   	
+      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+
       $totalRemaining = 0;
 
       if (NULL == $projList) {
         $projList = $this->getProjectList();
       }
-      
+
       if (0 == count($projList)) {
          // this happens if User is not a Developper (Manager or Observer)
          //echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
          return $totalRemaining;
       }
-      
+
       $formatedProjList = valuedListToSQLFormatedString($projList);
-      
+
    	// find all issues i'm working on
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
                "WHERE project_id IN ($formatedProjList) ".
                "AND handler_id = $this->id ".
-               "AND status NOT IN ($status_resolved, $status_delivered, $status_closed) ".
+               "AND status < $resolved_status_threshold ".
                "ORDER BY id DESC";
-      
+
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id);
@@ -444,57 +442,55 @@ class User {
             	$totalRemaining += $issue->remaining;
             }
       }
-   	
-   	
+
+
    	return $totalRemaining;
    }
-   
-   
+
+
    // --------------------
    /**
     * Returns the Issues assigned to me.
     * the issue list is ordered by priority.
-    * 
+    *
     * priority criteria are:
     * - opened
     * - deadLine
     * - priority
-    * 
+    *
     * @return Issue list
     */
    public function getAssignedIssues($projList = NULL) {
-   	
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
-   	
+
+      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+
       $issueList = array();
-   	
+
       if (NULL == $projList) {$projList = $this->getProjectList();}
       $formatedProjList = valuedListToSQLFormatedString($projList);
-       	
-   	
+
+
       $query = "SELECT DISTINCT mantis_bug_table.id AS bug_id ".
                "FROM `mantis_bug_table` ".
                "WHERE mantis_bug_table.project_id IN ($formatedProjList) ".
                "AND mantis_bug_table.handler_id = $this->id ".
-               "AND mantis_bug_table.status NOT IN ($status_resolved, $status_delivered, $status_closed) ".
+               "AND mantis_bug_table.status < $resolved_status_threshold) ".
                "ORDER BY id DESC";
-      
+
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-            $issueList[] = IssueCache::getInstance()->getIssue($row->bug_id); 
+            $issueList[] = IssueCache::getInstance()->getIssue($row->bug_id);
       }
-/*   	
+/*
       echo "DEBUG List to sort:<br/>";
       foreach ($issueList as $i) {
       	echo "$i->bugId<br/>";
       }
-*/      
+*/
       // quickSort the list
       $sortedList = qsort($issueList);
-      
-/*      
+
+/*
    	echo "DEBUG after Sort<br/>";
       foreach ($sortedList as $i) {
          echo "$i->bugId<br/>";
@@ -502,50 +498,48 @@ class User {
 */
       return $sortedList;
    }
-   
+
 
    // --------------------
    /**
     * Returns the Issues that I monitor.
     * the issue list is ordered by priority.
-    * 
+    *
     * priority criteria are:
     * - opened
     * - deadLine
     * - priority
-    * 
+    *
     * @return Issue list
     */
    public function getMonitoredIssues($projList = NULL) {
-      
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
-      
+
+      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+
       $issueList = array();
-      
+
       if (NULL == $projList) {$projList = $this->getProjectList();}
       $formatedProjList = valuedListToSQLFormatedString($projList);
-         
-      
+
+
       $query = "SELECT DISTINCT bug_id ".
                "FROM `mantis_bug_monitor_table` ".
                "WHERE user_id = $this->id ".
                "ORDER BY bug_id DESC";
-      
+
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
       	  $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-      	  if (!in_array($issue->currentStatus, array($status_resolved, $status_delivered, $status_closed))) {
+      	  if ( $issue->currentStatus < $resolved_status_threshold) {
                $issueList[] = $issue;
-      	  }  
+      	  }
       }
       // quickSort the list
       $sortedList = qsort($issueList);
 
       return $sortedList;
    }
-   
+
 } // class
 
 

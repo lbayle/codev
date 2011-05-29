@@ -22,19 +22,17 @@
 
 // ---------------------------------------------------------------
 function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
-   
-   global $status_resolved;
-   global $status_delivered;
-   global $status_closed;
+
+   $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
 
    $sepChar=';';
-   
+
    $fh = fopen($myFile, 'w');
-  
+
    // write header
    // WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
    $stringData = T_("Project").$sepChar.
-                 T_("m_id").$sepChar.   
+                 T_("m_id").$sepChar.
                  T_("tc_id").$sepChar.
                  T_("Summary").$sepChar.
                  T_("Status").$sepChar.
@@ -55,10 +53,12 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
                  T_("Assigned to").$sepChar.
                  "\n";
    fwrite($fh, $stringData);
-   
+
    // for all issues with status !=  {resolved, closed}
-   
-      $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE status NOT IN ($status_resolved,$status_delivered,$status_closed) ORDER BY id DESC";
+
+      $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+               "WHERE status < $resolved_status_threshold ".
+               "ORDER BY id DESC";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id);
@@ -72,18 +72,18 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
             if (NULL != $issue->deliveryDate) {
              $deliveryDate = date("d/m/Y", $issue->deliveryDate);
             }
-            
+
             // remove sepChar from summary text
             $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
-            
+
             $startDate="";
             if (NULL != ($d = $issue->getStartTimestamp())) {
                $startDate = date("d/m/Y", $d);
             }
-            
+
             // write data
             $stringData = $issue->getProjectName().$sepChar.
-                          $issue->bugId.$sepChar.   
+                          $issue->bugId.$sepChar.
                           $issue->getTC().$sepChar.
                           $formatedSummary.$sepChar.
                           $issue->getCurrentStatusName().$sepChar.
@@ -104,11 +104,15 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
                           $user->getShortname().
                           "\n";
             fwrite($fh, $stringData);
-            
+
       }
 
   // Add resolved issues modified into the period
-  $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE status IN ($status_resolved,$status_delivered,$status_closed) AND last_updated > $startTimestamp AND last_updated < $endTimestamp ORDER BY id DESC";
+  $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+           "WHERE status >= $resolved_status_threshold ".
+           "AND last_updated > $startTimestamp ".
+           "AND last_updated < $endTimestamp ".
+           "ORDER BY id DESC";
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result)) {
     $issue = IssueCache::getInstance()->getIssue($row->id);
@@ -118,18 +122,18 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
     if (NULL != $issue->deliveryDate) {
       $deliveryDate = date("d/m/Y", $issue->deliveryDate);
     }
-    
+
     // remove sepChar from summary text
     $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
-    
+
     $startDate="";
     if (NULL != ($d = $issue->getStartTimestamp())) {
       $startDate = date("d/m/Y", $d);
     }
-    
+
     // write data
     $stringData = $issue->getProjectName().$sepChar.
-        $issue->bugId.$sepChar.   
+        $issue->bugId.$sepChar.
         $issue->getTC().$sepChar.
         $formatedSummary.$sepChar.
         $issue->getCurrentStatusName().$sepChar.
@@ -169,14 +173,14 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
 function exportProjectActivityToCSV($timeTracking, $myFile) {
 
   $sepChar=';';
-   
+
   $fh = fopen($myFile, 'w');
-  
+
   // $projectTracks[projectid][bugid][jobid] = duration
-  $projectTracks = $timeTracking->getProjectTracks();   
-   
+  $projectTracks = $timeTracking->getProjectTracks();
+
   foreach ($projectTracks as $projectId => $bugList) {
-   
+
      // write table header
      $project = ProjectCache::getInstance()->getProject($projectId);
      $stringData = $project->name."\n";
@@ -188,13 +192,13 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
         $stringData .= $jobName.$sepChar;
      }
      $stringData .="\n";
-      
+
      // write table content (by bugid)
      foreach ($bugList as $bugid => $jobs) {
          $issue = IssueCache::getInstance()->getIssue($bugid);
          // remove sepChar from summary text
          $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
-         
+
          $stringData .= "$bugid / ".$issue->tcId." : ".$formatedSummary.$sepChar;
          $stringData .= $issue->remaining.$sepChar;
          foreach($jobList as $jobId => $jobName) {
@@ -213,7 +217,7 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
 /**
  * creates for each project a table with the following fields:
  * id | TC | startDate | endDate | status | total elapsed | elapsed + Remaining | elapsed in period | Remaining
- * TOTAL    
+ * TOTAL
  * @param unknown_type $timeTracking
  * @param unknown_type $myFile
  */
@@ -223,18 +227,18 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
   $totalElapsed       = 0;
   $totalElapsedPeriod = 0;
   $totalRemaining     = 0;
-  
+
   $fh = fopen($myFile, 'w');
-  
+
   // returns : $projectTracks[projectid][bugid][jobid] = duration
-  $projectTracks = $timeTracking->getProjectTracks();   
-   
+  $projectTracks = $timeTracking->getProjectTracks();
+
   foreach ($projectTracks as $projectId => $bugList) {
-   
+
      // write table header
      $project = ProjectCache::getInstance()->getProject($projectId);
      $stringData = $project->name."\n";
-     
+
      $stringData .=T_("ID").$sepChar;
      $stringData .=T_("Task").$sepChar;
      $stringData .=T_("TC").$sepChar;
@@ -246,13 +250,13 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      $stringData .=T_("elapsed in period").$sepChar;
      $stringData .=T_("RAE").$sepChar;
      $stringData .="\n";
-     
+
      // write table content (by bugid)
      foreach ($bugList as $bugid => $jobs) {
          $issue = IssueCache::getInstance()->getIssue($bugid);
          // remove sepChar from summary text
          $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
-         
+
          $stringData .= $bugid.$sepChar;
          $stringData .= $formatedSummary.$sepChar;
          $stringData .= $issue->tcId.$sepChar;
@@ -261,17 +265,17 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
          $stringData .= $issue->getCurrentStatusName().$sepChar;
          $stringData .= $issue->elapsed.$sepChar;
          $stringData .= ($issue->elapsed + $issue->remaining).$sepChar;
-         
+
          // sum all job durations
          $elapsedInPeriod = 0;
          foreach($jobs as $jobId => $duration) {
             $elapsedInPeriod += $duration;
          }
          $stringData .= $elapsedInPeriod.$sepChar;
-         
+
          $stringData .= $issue->remaining.$sepChar;
          $stringData .="\n";
-         
+
          $totalElapsed       += $issue->elapsed;
          $totalRemaining     += $issue->remaining;
          $totalElapsedPeriod += $elapsedInPeriod;
@@ -284,13 +288,13 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      $stringData .= $totalElapsedPeriod.$sepChar;
      $stringData .= $totalRemaining.$sepChar;
      $stringData .= "\n";
-     
+
      $stringData .="\n";
      fwrite($fh, $stringData);
   } // project
   fclose($fh);
   return $myFile;
-     
+
 }
 
 
@@ -301,12 +305,12 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
 function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
 
   $sepChar=';';
-  
+
   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
   $nbDaysInMonth = date("t", $monthTimestamp);
   $startT = mktime(0, 0, 0, $month, 1, $year);
   $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
-   
+
    // create filename & open file
    $myFile = $path."\AOI-PIL-Holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
    $fh = fopen($myFile, 'w');
@@ -318,83 +322,83 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
     "ORDER BY mantis_user_table.username";
 
-  
+
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
       $user1 = UserCache::getInstance()->getUser($row->user_id);
-      
+
       // if user was working on the project within the timestamp
       if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
           ($user1->isTeamManager($teamid, $startT, $endT))) {
-         
+
          $daysOf = $user1->getDaysOfInMonth($startT, $endT);
-          
-           // concatenate days 
+
+           // concatenate days
          $startBlockTimestamp = 0;
          $endBlockTimestamp = 0;
          $blockSize = 0;
-         
-         for ($i = 1; $i <= $nbDaysInMonth; $i++) {        
+
+         for ($i = 1; $i <= $nbDaysInMonth; $i++) {
             if (NULL != $daysOf[$i]) {
-               
+
                $evtTimestamp = mktime(0, 0, 0, $month, $i, $year);
-               
+
                if (1 == $daysOf[$i]) {
                   // do not write, concatenate evt to block
                   if (0 == $startBlockTimestamp) {$startBlockTimestamp = $evtTimestamp; }
                   $blockSize += 1;
                   $endBlockTimestamp = $evtTimestamp;
-                  
+
                } else {
                   // write previous block if exist
                   if (0 != $blockSize) {
                      $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
                              date("d/m/y", $startBlockTimestamp).$sepChar.
                              date("d/m/y", $endBlockTimestamp).$sepChar.
-                             $blockSize."\n";   
+                             $blockSize."\n";
                      fwrite($fh, $stringData);
                      $startBlockTimestamp = 0;
                      $endBlockTimestamp = 0;
                      $blockSize = 0;
                   }
-                  
+
                   // write current line ( < 1)
-                  $evtDate      = date("d/m/y", $evtTimestamp); 
+                  $evtDate      = date("d/m/y", $evtTimestamp);
                   $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
                              $evtDate.$sepChar.
                              $evtDate.$sepChar.
-                             $daysOf[$i]."\n";   
+                             $daysOf[$i]."\n";
                   fwrite($fh, $stringData);
-               }              
-               
-               
+               }
+
+
             } else {
                   // write previous block if exist
                if (0 != $blockSize) {
                   $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
                              date("d/m/y", $startBlockTimestamp).$sepChar.
                              date("d/m/y", $endBlockTimestamp).$sepChar.
-                             $blockSize."\n";   
+                             $blockSize."\n";
                   fwrite($fh, $stringData);
                   $startBlockTimestamp = 0;
                   $endBlockTimestamp = 0;
                   $blockSize = 0;
                }
-               
+
             }
           }
           if (0 != $blockSize) {
                  $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
                              date("d/m/y", $startBlockTimestamp).$sepChar.
                              date("d/m/y", $endBlockTimestamp).$sepChar.
-                             $blockSize."\n";   
+                             $blockSize."\n";
                   fwrite($fh, $stringData);
                   $startBlockTimestamp = 0;
                   $endBlockTimestamp = 0;
                   $blockSize = 0;
           }
-      }    
+      }
   }
   fclose($fh);
   return $myFile;

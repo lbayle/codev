@@ -49,7 +49,7 @@ class ConfigMantis {
    const  configType_int = 1;
 
    const id_database_version              = "database_version";
-   const id_bug_resolved_status_threshold = "bug_resolved_status_threshold";
+   const id_bugResolvedStatusThreshold    = "bug_resolved_status_threshold";
 
    private static $instance;    // singleton instance
    private static $configVariables;
