@@ -111,19 +111,28 @@ function displayForm($originPage,
 $originPage = "install_step2.php";
 
 // Values copied from:  mantis/lang/strings_english.txt
-#$s_priority_enum_string   = '10:none,20:low,30:normal,40:high,50:urgent,60:immediate';
-#$s_resolution_enum_string = '10:open,20:fixed,30:reopened,40:unable to reproduce,50:not fixable,60:duplicate,70:no change required,80:suspended,90:won\'t fix';
-
-
-$s_priority_enum_string = isset($_POST[s_priority_enum_string]) ? $_POST[s_priority_enum_string] : '10:aucune,20:basse,30:normale,40:elevee,50:urgente,60:immediate';
-$s_resolution_enum_string = isset($_POST[s_resolution_enum_string]) ? $_POST[s_resolution_enum_string] : '10:ouvert,20:resolu,30:rouvert,40:impossible a reproduire,50:impossible a corriger,60:doublon,70:pas un bogue,80:suspendu,90:ne sera pas resolu';
-
 // Values copied from: mantis/config_inc.php
-$g_status_enum_string =  isset($_POST[g_status_enum_string]) ? $_POST[g_status_enum_string] : '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed';
 
+// FDJ defaults
+//$default_priority   = '10:aucune,20:basse,30:normale,40:elevee,50:urgente,60:immediate';
+//$default_resolution = '10:ouvert,20:resolu,30:rouvert,40:impossible a reproduire,50:impossible a corriger,60:doublon,70:pas un bogue,80:suspendu,90:ne sera pas resolu';
+//$default_status     = '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed';
+//$default_eta        = "10:none,20:< 1 day,30:2-3 days,40:<1 week,50:< 15 days,60:> 15 days";
+//$default_eta_balance = "10:1,20:1,30:3,40:5,50:10,60:15";
 
-$g_eta_enum_string    = isset($_POST[g_eta_enum_string]) ? $_POST[g_eta_enum_string] : '10:none,20:< 1 day,30:2-3 days,40:<1 week,50:< 15 days,60:> 15 days';
-$eta_balance_string   =  isset($_POST[eta_balance_string]) ? $_POST[eta_balance_string] : '10:1,20:1,30:3,40:5,50:10,60:15';
+// Mantis defaults
+$default_priority    = "10:none,20:low,30:normal,40:high,50:urgent,60:immediate";
+$default_resolution  = "10:open,20:fixed,30:reopened,40:unable to reproduce,50:not fixable,60:duplicate,70:no change required,80:suspended,90:won\'t fix";
+$default_status      = "10:new,20:feedback,30:acknowledged,40:confirmed,50:assigned,80:resolved,90:closed";
+$default_eta         = "10:none,20:< 1 day,30:2-3 days,40:< 1 week,50:< 1 month,60:> 1 month";
+$default_eta_balance = "10:1,20:1,30:3,40:5,50:22,60:45";
+
+$s_priority_enum_string = isset($_POST[s_priority_enum_string]) ? $_POST[s_priority_enum_string] : $default_priority;
+$s_resolution_enum_string = isset($_POST[s_resolution_enum_string]) ? $_POST[s_resolution_enum_string] : $default_resolution;
+$g_status_enum_string =  isset($_POST[g_status_enum_string]) ? $_POST[g_status_enum_string] : $default_status;
+
+$g_eta_enum_string    = isset($_POST[g_eta_enum_string]) ? $_POST[g_eta_enum_string] : $default_eta;
+$eta_balance_string   =  isset($_POST[eta_balance_string]) ? $_POST[eta_balance_string] : $default_eta_balance;
 
 
 
