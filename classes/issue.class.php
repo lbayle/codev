@@ -368,9 +368,9 @@ class Issue {
 
    // REM if EffortEstim = 0 then Drift = 0
    public function getDrift($withSupport = true) {
-      global $status_resolved;
-      global $status_closed;
       global $job_support;
+
+     $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
@@ -382,7 +382,7 @@ class Issue {
 
       if (0 == $totalEstim) { return 0; }
 
-      if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
+	  if ($this->currentStatus >= $resolved_status_threshold) {
          $derive = $myElapsed - $totalEstim;
       } else {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
@@ -402,10 +402,10 @@ class Issue {
 
    // REM if ETA = 0 then Drift = 0
    public function getDriftETA($withSupport = true) {
-      global $status_resolved;
-      global $status_closed;
       global $ETA_balance;
       global $job_support;
+
+      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
 
       #if (0 == $this->eta) { return 0; }
 
@@ -416,7 +416,7 @@ class Issue {
       }
 
 
-      if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
+	  if ($this->currentStatus >= $resolved_status_threshold) {
          $derive = $myElapsed - $ETA_balance[$this->eta];
       } else {
          $derive = $myElapsed - ($ETA_balance[$this->eta] - $this->remaining);

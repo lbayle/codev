@@ -32,31 +32,31 @@ class PeriodStats {
 
   var $submittedList;
   var $deltaResolvedList;
-  
-  
+
+
   // The projects NOT listed here will be excluded from statistics
   var $projectList;
-  
+
   // The Projects which type is NOT listed here will be excluded from statistics
   var $projectTypeList;
-  
+
   // -------------------------------------------------
   public function PeriodStats($startTimestamp, $endTimestamp) {
-  	 
+
   	global $workingProjectType;
   	global $noCommonProjectType;
-  	
+
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp = $endTimestamp;
 
     $this->statusCountList     = array();
     $this->statusIssueList     = array();
 
-    
-    
+
+
     $this->projectList     = array();
     $this->projectTypeList = array();
-    
+
     // default values
     $this->projectTypeList[] = $workingProjectType;
     $this->projectTypeList[] = $noCommonProjectType;
@@ -80,18 +80,18 @@ class PeriodStats {
 
     $statusNames = Config::getInstance()->getValue("statusNames");
     ksort($statusNames);
-  
+
     foreach ($statusNames as $s => $sname) {
       $this->statusCountList[$s] = 0;
       $this->statusIssueList[$s] = array();
     }
-    
+
     // Compute stats
     $this->statusCountList[$status_new] = $this->countIssues_new();
     $this->countIssues_other();
   }
 
-  
+
   // -------------------------------------------------
   public function computeSubmittedResolved() {
 
@@ -99,17 +99,17 @@ class PeriodStats {
     $this->submittedList     = $this->countIssues_submitted();
     $this->deltaResolvedList = $this->countIssues_deltaResolved();
   }
-  
-  
-  
+
+
+
   // -------------------------------------------------
   // Count the nb of issues submitted in [startTimestamp, endTimestamp]
   // REM: select only projectTypes in $projectTypeList
-  // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
+  // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.
   private function countIssues_submitted() {
 
     $submittedList = array();
-  	
+
     $formatedProjectTypes = implode( ', ', $this->projectTypeList);
 
     // sideTaskprojects are excluded
@@ -119,20 +119,20 @@ class PeriodStats {
       "AND mantis_bug_table.project_id = codev_team_project_table.project_id ".
       "AND codev_team_project_table.type IN ($formatedProjectTypes) ";
 
-    // Only for specified Projects   
+    // Only for specified Projects
     if ((isset($this->projectList)) && (0 != count($this->projectList))) {
         	$formatedProjects = implode( ', ', $this->projectList);
     	$query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
     }
     if (isset($_GET['debug_sql'])) { echo "countIssues_submitted(): query = $query<br/>"; }
-    
+
     $result = mysql_query($query) or die("Query failed: $query");
 
     while($row = mysql_fetch_object($result))
     {
     	$submittedList[] = $row->id;
-                        
-      if (isset($_GET['debug'])) { 
+
+      if (isset($_GET['debug'])) {
       	echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
       }
     }
@@ -144,23 +144,23 @@ class PeriodStats {
   // Count the nb of 'new' issues in [startTimestamp, endTimestamp]
   private function countIssues_new() {
     global $status_new;
-      
+
     $count_new = -1;
-      
+
     $this->statusCountList[$status_new] = 0;
-      
+
     // TODO countIssues_new()
     return $count_new;
   }
 
   // -------------------------------------------------
   // REM: select only projectTypes in $projectTypeList
-  // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
+  // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.
   private function countIssues_other() {
-    
+
     $formatedProjectTypes = implode( ', ', $this->projectTypeList);
-    
-    
+
+
   	 // select all but SideTasks & rem 'doublons'
     $query = "SELECT DISTINCT mantis_bug_table.id ".
       "FROM `mantis_bug_table`, `codev_team_project_table` ".
@@ -168,13 +168,13 @@ class PeriodStats {
       "AND codev_team_project_table.type IN ($formatedProjectTypes) ";
 
 
-    // Only for specified Projects   
+    // Only for specified Projects
         if ((isset($this->projectList)) && (0 != count($this->projectList))) {
          $formatedProjects = implode( ', ', $this->projectList);
       $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
     }
         if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
-    
+
     $result = mysql_query($query) or die("Query failed: $query");
 
     // For each bugId
@@ -188,7 +188,7 @@ class PeriodStats {
         "AND bug_id =$bugId1 ".
         "AND date_modified < $this->endTimestamp ".
         "ORDER BY id DESC";
-                        
+
       $result2 = mysql_query($query2) or die("Query failed: $query2");
 
       if (0 != mysql_num_rows($result2)) {
@@ -207,75 +207,73 @@ class PeriodStats {
       }
     }
   }
-  
-  
+
+
   // -------------------------------------------------
   // REM returns the number of issues resolved in that period
   // reopened issues are excluded
   function countIssues_deltaResolved() {
 
-  	 global $status_resolved;
-    global $status_closed;
+    $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
 
     $resolvedList = array();
-    $issueList = array();    
-  	
+    $issueList = array();
+
     $formatedProjectTypes = implode( ', ', $this->projectTypeList);
-  	
+
     // all bugs which status changed to 'resolved' whthin the timestamp
     $query = "SELECT mantis_bug_table.id, ".
       "mantis_bug_history_table.new_value, ".
       "mantis_bug_history_table.old_value, ".
       "mantis_bug_history_table.date_modified ".
       "FROM `mantis_bug_table`, `mantis_bug_history_table`, `codev_team_project_table` ".
-      
+
       "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
       "AND   mantis_bug_table.project_id = codev_team_project_table.project_id ".
       "AND codev_team_project_table.type IN ($formatedProjectTypes) ".
-      
+
       "AND mantis_bug_history_table.field_name='status' ".
       "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
       "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-      "AND mantis_bug_history_table.new_value = $status_resolved ";
-    
-    // Only for specified Projects   
+      "AND mantis_bug_history_table.new_value = $resolved_status_threshold ";
+
+    // Only for specified Projects
     if ((isset($this->projectList)) && (0 != count($this->projectList))) {
          $formatedProjects = implode( ', ', $this->projectList);
       $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
     }
-    
+
     $query .= "ORDER BY mantis_bug_table.id DESC";
-    
-    
+
+
     if (isset($_GET['debug'])) { echo "countIssues_deltaResolved QUERY = $query <br/>"; }
-    
+
     $result = mysql_query($query) or die("Query FAILED: $query");
-    
+
     while($row = mysql_fetch_object($result)) {
       $issue = IssueCache::getInstance()->getIssue($row->id);
-      
+
       // check if the bug has been reopened before endTimestamp
       $latestStatus = $issue->getStatus($this->endTimestamp);
-      if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
-         
-        // remove doubloons        
+      if ($latestStatus >= $resolved_status_threshold) {
+        // remove doubloons
         if (!in_array ($issue->bugId, $resolvedList)) {
-         
+
           $resolvedList[] = $issue->bugId;
           $issueList[] = $issue;
         }
       } else {
         if (isset($_GET['debug'])) { echo "PeriodStats->countIssues_deltaResolved() REOPENED : bugid = $issue->bugId<br/>"; }
-      } 
+      }
     }
-    
+
     return count($issueList);
-  }  
-  
-  
-  
-  
-  
+  }
+
+
+
+
+
 } // end class PeriodStats
 
 ?>
