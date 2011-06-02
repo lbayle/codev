@@ -327,30 +327,25 @@ class Issue {
    }
 */
    // ----------------------------------------------
-   // returns an HTML color string "#ff6a6e;" depending on pos/neg drift and current status.
+   // returns an HTML color string "ff6a6e" depending on pos/neg drift and current status.
    // returns NULL if $drift=0
    // REM: if $drift is not specified, then $this->drift is used ()
    public function getDriftColor($drift = NULL) {
-    global $status_delivered;
-    global $status_resolved;
-    global $status_closed;
+
+     $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
 
      if (!isset($drift)) {
      	   $drift = $this->getDrift(false);
      }
 
         if (0 < $drift) {
-            if (($status_resolved  != $this->currentStatus) &&
-                ($status_delivered != $this->currentStatus) &&
-                ($status_closed    != $this->currentStatus)) {
+        	if ($this->currentStatus < $resolved_status_threshold) {
               $color = "ff6a6e";
             } else {
               $color = "fcbdbd";
             }
         } elseif (0 > $drift) {
-          if (($status_resolved != $this->currentStatus) &&
-              ($status_delivered != $this->currentStatus) &&
-              ($status_closed   != $this->currentStatus)) {
+        	if ($this->currentStatus < $resolved_status_threshold) {
               $color = "61ed66";
               } else {
               $color = "bdfcbd";
