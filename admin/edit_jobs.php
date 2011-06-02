@@ -154,7 +154,7 @@ function addJobForm($originPage) {
    }
    echo "   </select>\n";
 
-   echo("   ".T_("Color").": <input name='job_color' type='text' id='job_color' value='#000000' size='6'>\n");
+   echo("   ".T_("Color").": <input name='job_color' type='text' id='job_color' value='000000' size='6'>\n");
 
    echo "   <input type=button name='btAddJob' value='".T_("Add")."' onClick='javascript: addJob()'>\n";
 
@@ -204,7 +204,7 @@ function displayJobTuples() {
       echo "</td>\n";
       echo "<td title='$row->id'>".$row->name."</td>\n";
       echo "<td title='$row->type'>".$jobType_names[$row->type]."</td>\n";
-      echo "<td style='background-color: ".$row->color."';>".$row->color."</td>\n";
+      echo "<td style='background-color: #".$row->color.";'>".$row->color."</td>\n";
 
       echo "</tr>\n";
    }

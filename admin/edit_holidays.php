@@ -229,7 +229,7 @@ function addHolidayForm($originPage, $defaultDate) {
 
    echo("   ".T_("Description").": <input name='hol_desc' type='text' id='hol_desc'>\n");
 
-   echo("   ".T_("Color").": <input name='hol_color' type='text' id='hol_color' value='#D8D8D8' title='format: #D8D8D8' size='6'>\n");
+   echo("   ".T_("Color").": <input name='hol_color' type='text' id='hol_color' value='D8D8D8' title='format: D8D8D8' size='6'>\n");
 
    echo "   <input type=button name='btAddHoliday' value='".T_("Add")."' onClick='javascript: addHoliday()'>\n";
 
@@ -271,7 +271,7 @@ function displayHolidaysTuples() {
       echo "</td>\n";
       echo "<td title='$row->id'>".date("d M Y (D)", $row->date)."</td>\n";
       echo "<td title='$row->type'>".$row->description."</td>\n";
-      echo "<td style='background-color: ".$row->color."';>".$row->color."</td>\n";
+      echo "<td style='background-color: #".$row->color.";'>".$row->color."</td>\n";
 
       echo "</tr>\n";
    }

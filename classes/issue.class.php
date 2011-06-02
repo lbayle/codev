@@ -51,20 +51,20 @@ class Issue {
 
    // -- CoDev custom fields
    var $tcId;         // TelelogicChange id
-   var $remaining;    // RAE 
+   var $remaining;    // RAE
    var $effortEstim;  // BI
    var $effortAdd;    // BS
    var $deadLine;
    var $deliveryDate;
-   var $deliveryId;   // TODO FDL (FDJ specific) 
-   
+   var $deliveryId;   // TODO FDL (FDJ specific)
+
    // -- computed fields
    var $elapsed;    // total time spent on this issue
    var $statusList; // array of statusInfo elements
 
    // -- PRIVATE cached fields
    var $holidays;
-      
+
    // ----------------------------------------------
    public function Issue ($id) {
       $this->bugId = $id;
@@ -73,7 +73,7 @@ class Issue {
 
    // ----------------------------------------------
    public function initialize() {
-   	
+
    	global $tcCustomField;
    	global $estimEffortCustomField;
    	global $remainingCustomField;
@@ -81,7 +81,7 @@ class Issue {
    	global $deadLineCustomField;
    	global $deliveryDateCustomField;
       global $deliveryIdCustomField;
-   	
+
       // Get issue info
       $query = "SELECT * ".
       "FROM `mantis_bug_table` ".
@@ -99,7 +99,7 @@ class Issue {
       $this->handlerId       = $row->handler_id;
       $this->resolution      = $row->resolution;
       $this->version         = $row->version;
-      
+
       // Get custom fields
       $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
       $result2 = mysql_query($query2) or die("Query failed: $query2");
@@ -113,7 +113,7 @@ class Issue {
             case $deadLineCustomField:    $this->deadLine    = $row->value; break;
             case $deliveryDateCustomField: $this->deliveryDate = $row->value; break;
             case $deliveryIdCustomField:  $this->deliveryId  = $row->value; break;
-            
+
          }
       }
 
@@ -132,18 +132,18 @@ class Issue {
    	if (NULL == $this->holidays) { $this->holidays = new Holidays(); }
    	return $this->holidays;
    }
-   
+
    // ----------------------------------------------
    // Ex: vacation or Incident tasks are not production issues.
    //     but tools and workshop are production issues.
    public function isSideTaskIssue() {
-      
+
       $project = ProjectCache::getInstance()->getProject($this->projectId);
-      
-      if (($project->isSideTasksProject()) && 
-          ($project->getToolsCategoryId() != $this->categoryId) && 
+
+      if (($project->isSideTasksProject()) &&
+          ($project->getToolsCategoryId() != $this->categoryId) &&
           ($project->getWorkshopCategoryId()   != $this->categoryId)) {
-         
+
          //echo "DEBUG $this->bugId is a sideTask.   type=$type<br/>";
          return true;
       }
@@ -154,10 +154,10 @@ class Issue {
    public function isVacation() {
 
       $project = ProjectCache::getInstance()->getProject($this->projectId);
-   	      
-      if (($project->isSideTasksProject()) && 
-          ($project->getInactivityCategoryId() == $this->categoryId)) { 
-         
+
+      if (($project->isSideTasksProject()) &&
+          ($project->getInactivityCategoryId() == $this->categoryId)) {
+
          //echo "DEBUG $this->bugId is a sideTask.<br/>";
          return true;
       }
@@ -168,30 +168,30 @@ class Issue {
    public function isIncident() {
 
       $project = ProjectCache::getInstance()->getProject($this->projectId);
-   	      
-      if (($project->isSideTasksProject()) && 
-          ($project->getIncidentCategoryId() == $this->categoryId)) { 
-         
+
+      if (($project->isSideTasksProject()) &&
+          ($project->getIncidentCategoryId() == $this->categoryId)) {
+
          //echo "DEBUG $this->bugId is a Incident.<br/>";
          return true;
       }
       return false;
    }
-   
+
    // ----------------------------------------------
    public function isAstreinte() {
 
    	global $astreintesTaskList;
-   	
-      if (in_array($this->bugId, $astreintesTaskList)) { 
-         
+
+      if (in_array($this->bugId, $astreintesTaskList)) {
+
          #echo "DEBUG $this->bugId is an Astreinte.<br/>";
          return true;
       }
       return false;
    }
 
-   
+
    // ----------------------------------------------
    public function getTC() {
       $query  = "SELECT value FROM `mantis_custom_field_string_table` WHERE field_id='1' AND bug_id=$this->bugId";
@@ -204,15 +204,15 @@ class Issue {
 
    // ----------------------------------------------
    public function getProjectName() {
-   	
+
    	$project = ProjectCache::getInstance()->getProject($this->projectId);
    	return $project->name;
-   	
+
    	/*
       $query = "SELECT name FROM `mantis_project_table` WHERE id= $this->projectId";
       $result = mysql_query($query) or die("Query failed: $query");
       $projectName = mysql_result($result, 0);
-      
+
       return $projectName;
       */
    }
@@ -254,22 +254,22 @@ class Issue {
       return $resolutionNames[$this->resolution];
    }
 
-   
+
    // ----------------------------------------------
    /**
     * Get elapsed from TimeTracking
     * @param unknown_type $job_id   if no category specified, then all category.
     */
    public function getElapsed($job_id = NULL) {  // TODO $doRefresh = false
-   	
+
       $elapsed = 0;
 
       $query     = "SELECT duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId";
-      
+
       if (isset($job_id)) {
          $query .= " AND jobid = $job_id";
       }
-            
+
       $result    = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
@@ -278,36 +278,36 @@ class Issue {
 
       return $elapsed;
    }
-   
+
    // ----------------------------------------------
    /**
     * returns the timestamp of the first TimeTrack
     */
    public function startDate() {
-   	
+
    	$query = "SELECT MIN(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
       $result = mysql_query($query) or die("Query failed: $query");
       $startDate = mysql_result($result, 0);
-   	
+
    	return $startDate;
    }
-   
+
    // ----------------------------------------------
    /**
     * returns the timestamp of the latest TimeTrack
     */
    public function endDate() {
-      
+
    	$query = "SELECT MAX(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
       $result = mysql_query($query) or die("Query failed: $query");
       $endDate = mysql_result($result, 0);
    	return $endDate;
    }
-   
+
    // ----------------------------------------------
    // Returns how many time has already been spent on this task
    // REM: if no category specified, then all category.
-/*   
+/*
    public function getElapsed2($startTimestamp, $endTimestamp, $job_id = NULL) {
       $elapsed = 0;
 
@@ -334,35 +334,35 @@ class Issue {
     global $status_delivered;
     global $status_resolved;
     global $status_closed;
-   	
+
      if (!isset($drift)) {
      	   $drift = $this->getDrift(false);
      }
-    
+
         if (0 < $drift) {
-            if (($status_resolved  != $this->currentStatus) && 
+            if (($status_resolved  != $this->currentStatus) &&
                 ($status_delivered != $this->currentStatus) &&
                 ($status_closed    != $this->currentStatus)) {
-              $color = "#ff6a6e;";
+              $color = "ff6a6e";
             } else {
-              $color = "#fcbdbd;";
+              $color = "fcbdbd";
             }
         } elseif (0 > $drift) {
-          if (($status_resolved != $this->currentStatus) && 
+          if (($status_resolved != $this->currentStatus) &&
               ($status_delivered != $this->currentStatus) &&
               ($status_closed   != $this->currentStatus)) {
-              $color = "#61ed66;";
+              $color = "61ed66";
               } else {
-              $color = "#bdfcbd;";
+              $color = "bdfcbd";
               }
         } else {
           $color = NULL;
         }
-     
+
    	return $color;
    }
-   
-   
+
+
    // ----------------------------------
    // if NEG, then we saved time
    // if 0, then just in time
@@ -378,13 +378,13 @@ class Issue {
       global $job_support;
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
-      
+
       if ($withSupport) {
       	$myElapsed = $this->elapsed;
       } else {
       	$myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
-      
+
       if (0 == $totalEstim) { return 0; }
 
       if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
@@ -404,14 +404,14 @@ class Issue {
 
    // elapsed - (ETA - remaining)
    // if bug is Resolved/Closed, then remaining is not used.
-   
+
    // REM if ETA = 0 then Drift = 0
    public function getDriftETA($withSupport = true) {
       global $status_resolved;
       global $status_closed;
       global $ETA_balance;
       global $job_support;
-      
+
       #if (0 == $this->eta) { return 0; }
 
       if ($withSupport) {
@@ -419,8 +419,8 @@ class Issue {
       } else {
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
-      
-      
+
+
       if (($status_resolved == $this->currentStatus) || ($status_closed == $this->currentStatus)) {
          $derive = $myElapsed - $ETA_balance[$this->eta];
       } else {
@@ -431,27 +431,27 @@ class Issue {
       return $derive;
    }
 
-   
+
    // ----------------------------------------------
    /**
     * check if the Issue has been delivered in time (before the  DeadLine)
     * formula: (DeadLine - DeliveryDate)
     *
-    * 
+    *
     * @return int nb days drift (except holidays)
     *         if <= 0, Issue delivered in time
     *         if  > 0, Issue NOT delivered in time !
     *         OR "Error" string if could not be determinated. REM: check with is_string($timeDrift)
     */
    public function getTimeDrift() {
-      
+
    	if ((NULL != $this->deadLine) && (NULL != $this->deliveryDate)) {
    		$timeDrift = $this->deliveryDate - $this->deadLine;
-   		
+
    		// convert seconds to days (24 * 60 * 60) = 86400
    		$timeDrift /=  86400 ;
          #echo "DEBUG: TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift<br/>";
-         
+
    		// remove weekends & holidays
    		$holidays = $this->getHolidays();
    		if ($this->deliveryDate < $this->deadLine) {
@@ -466,8 +466,8 @@ class Issue {
    	}
    	return  $timeDrift;
    }
-   
-   
+
+
    // ----------------------------------------------
    public function getTimeTracks($user_id = NULL) {
       $timeTracks = array();
@@ -510,7 +510,7 @@ class Issue {
 
       return $row->date;
    }
-   
+
    // ----------------------------------------------
    public function getInvolvedUsers($team_id = NULL) {
       $userList = array();
@@ -526,7 +526,7 @@ class Issue {
       }
 
       $query .= " ORDER BY mantis_user_table.username";
-         
+
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
@@ -549,7 +549,7 @@ class Issue {
          if (isset($_GET['debug'])) { echo "issue->getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus<br/>"; }
          return $this->currentStatus;
       }
-         
+
       // if a timestamp is specified, find the latest status change (strictly) before this date
       $query = "SELECT new_value, old_value, date_modified ".
                 "FROM `mantis_bug_history_table` ".
@@ -576,18 +576,18 @@ class Issue {
    // ----------------------------------------------
    // updates DB with new value
    public function setRemaining($remaining) {
-   	
+
    	global $remainingCustomField;
-   	
+
       $old_remaining = $this->remaining;
 
       //echo "DEBUG setRemaining old_value=$old_remaining   new_value=$remaining<br/>";
 
-      // TODO should be done only once... in Constants singleton ? 
+      // TODO should be done only once... in Constants singleton ?
       $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$remainingCustomField'";
       $result = mysql_query($query) or die("Query failed: $query");
       $field_name    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "Remaining (RAE)";
-      
+
 
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
       $result = mysql_query($query) or die("Query failed: $query");
@@ -610,10 +610,10 @@ class Issue {
    // Computes the lifeCycle of the issue (time spent on each status)
    public function computeDurations () {
    	global $status_new;
-   	
+
       $statusNames = Config::getInstance()->getValue("statusNames");
       ksort($statusNames);
-  
+
       foreach ($statusNames as $s => $sname) {
          if ($status_new == $s) {
             $this->statusList[$s] = new Status($s, $this->getDuration_new());
@@ -706,65 +706,65 @@ class Issue {
       return $time;
    } // getDuration_other
 
-   
+
    // ----------------------------------------------
    /**
     * QuickSort compare method.
     * returns true if $this has higher priority than $issueB
-    * 
+    *
     * @param Issue $issueB the object to compare to
     */
    function compareTo($issueB) {
-      
+
       global $status_openned;
-      
+
       // Tasks currently open are higher priority
       if (($this->currentStatus == $status_openned) && ($issueB->currentStatus != $status_openned)) {
             #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (status_openned)<br/>\n";
-            return  true; 
+            return  true;
       }
       if (($issueB->currentStatus == $status_openned) && ($this->currentStatus != $status_openned)) {
             #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (status_openned)<br/>\n";
-            return  false; 
+            return  false;
       }
-      
+
       // the one that has NO deadLine is lower priority
-      if ((NULL != $this->deadLine) && (NULL == $issueB->deadLine)) { 
+      if ((NULL != $this->deadLine) && (NULL == $issueB->deadLine)) {
          #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (B no deadline)<br/>\n";
-         return  true; 
+         return  true;
       }
-      if ((NULL == $this->deadLine) && (NULL != $issueB->deadLine)) { 
+      if ((NULL == $this->deadLine) && (NULL != $issueB->deadLine)) {
          #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (A no deadline)<br/>\n";
-         return  false; 
+         return  false;
       }
 
       // the soonest deadLine has priority
-      if ($this->deadLine < $issueB->deadLine) { 
+      if ($this->deadLine < $issueB->deadLine) {
          #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (deadline)<br/>\n";
-         return  true; 
+         return  true;
       }
-      if ($this->deadLine > $issueB->deadLine) { 
+      if ($this->deadLine > $issueB->deadLine) {
          #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (deadline)<br/>\n";
-         return  false; 
+         return  false;
       }
-      
+
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
          #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (priority attr)<br/>\n";
-         return  true; 
+         return  true;
       }
-            
+
       #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (priority attr)<br/>\n";
       return false;
-   }    
+   }
 
    function compareTo_($issueB) {
-      
+
       global $status_openned;
-      
-      
+
+
    }
-   
+
 } // class issue
 
 ?>

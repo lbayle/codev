@@ -209,8 +209,8 @@ function displayIssueGeneralInfo($issue, $withSupport, $displaySupport=false ) {
   echo "<td>".T_("Drift")."</td>\n";
   $deriveETA = $issue->getDriftETA($withSupport);
   $derive = $issue->getDrift($withSupport);
-  echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".number_format($deriveETA, 2)."</td>\n";
-  echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".number_format($derive, 2)."</td>\n";
+  echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".number_format($deriveETA, 2)."</td>\n";
+  echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".number_format($derive, 2)."</td>\n";
   echo "</tr>\n";
 
   if ($displaySupport) {
@@ -222,8 +222,8 @@ function displayIssueGeneralInfo($issue, $withSupport, $displaySupport=false ) {
       }
       $deriveETA = $issue->getDriftETA(!$withSupport);
       $derive = $issue->getDrift(!$withSupport);
-      echo "<td style='background-color: ".$issue->getDriftColor($deriveETA)."'>".$deriveETA."</td>\n";
-      echo "<td style='background-color: ".$issue->getDriftColor($derive)."'>".$derive."</td>\n";
+      echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".$deriveETA."</td>\n";
+      echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".$derive."</td>\n";
       echo "</tr>\n";
   }
   echo "</table>\n";
@@ -263,7 +263,7 @@ function displayTimeDrift($issue) {
   echo "  <td>".T_("Drift")."</td>\n";
   $timeDrift=$issue->getTimeDrift();
   if (!is_string($timeDrift)) {
-      echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>".round($timeDrift)." ".T_("days")."</td>\n";
+      echo "  <td style='background-color: #".$issue->getDriftColor($timeDrift).";'>".round($timeDrift)." ".T_("days")."</td>\n";
   } else {
       echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }
@@ -297,7 +297,7 @@ function displayJobDetails($issue) {
    #sort($durationByJob);
    foreach ($durationByJob as $jid => $duration) {
       echo "<tr>\n";
-      echo "   <td style='background-color: ".$jobs->getJobColor($jid)."'>".$jobs->getJobName($jid)."</td>\n";
+      echo "   <td style='background-color: #".$jobs->getJobColor($jid).";'>".$jobs->getJobName($jid)."</td>\n";
       echo "<td>$duration</td>\n";
       echo "<td>".number_format(($duration*100 / $totalDuration), 2)." %</td>\n";
       echo "</tr>\n";
@@ -375,7 +375,7 @@ function displayMonth($month, $year, $issue) {
         // if weekend or holiday, display gray
         $h = $holidays->isHoliday($todayTimestamp);
         if (NULL != $h) {
-            echo "<td style='background-color: $holidays->defaultColor;' title='$h->description'></td>\n";
+            echo "<td style='background-color: #$holidays->defaultColor;' title='$h->description'></td>\n";
         } else {
             echo "<td></td>\n";
         }

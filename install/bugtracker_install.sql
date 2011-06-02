@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `date` int(10) NOT NULL,
   `description` varchar(50) DEFAULT NULL,
-  `color` varchar(7) NOT NULL DEFAULT '#D8D8D8',
+  `color` varchar(7) NOT NULL DEFAULT 'D8D8D8',
   PRIMARY KEY (`id`),
   KEY `date` (`date`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Fixed Holidays (national, religious, etc.)' AUTO_INCREMENT=36 ;
@@ -61,22 +61,22 @@ CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
 --
 
 INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
-(14, 1293836400, 'Reveillon', '#D8D8D8'),
-(25, 1335823200, 'fete du travail', '#58CC77'),
-(24, 1333922400, 'lundi de paques', '#58CC77'),
-(20, 1279058400, '	fete nationale', '#58CC77'),
-(21, 1288566000, 'toussaints', '#58CC77'),
-(22, 1289430000, 'armistice', '#58CC77'),
-(23, 1293231600, 'noel', '#D8D8D8'),
-(27, 1304805600, 'victoire 1945', '#D8D8D8'),
-(28, 1337205600, 'ascension', '#58CC77'),
-(29, 1307916000, 'pentecote', '#58CC77'),
-(30, 1342216800, 'fete nationale', '#D8D8D8'),
-(31, 1344981600, 'assomption', '#58CC77'),
-(32, 1313359200, 'assomption', '#58CC77'),
-(33, 1351724400, 'toussaint', '#58CC77'),
-(34, 1352588400, 'armistice', '#D8D8D8'),
-(35, 1356390000, 'noel', '#58CC77');
+(14, 1293836400, 'Reveillon', 'D8D8D8'),
+(25, 1335823200, 'fete du travail', '58CC77'),
+(24, 1333922400, 'lundi de paques', '58CC77'),
+(20, 1279058400, '	fete nationale', '58CC77'),
+(21, 1288566000, 'toussaints', '58CC77'),
+(22, 1289430000, 'armistice', '58CC77'),
+(23, 1293231600, 'noel', 'D8D8D8'),
+(27, 1304805600, 'victoire 1945', 'D8D8D8'),
+(28, 1337205600, 'ascension', '58CC77'),
+(29, 1307916000, 'pentecote', '58CC77'),
+(30, 1342216800, 'fete nationale', 'D8D8D8'),
+(31, 1344981600, 'assomption', '58CC77'),
+(32, 1313359200, 'assomption', '58CC77'),
+(33, 1351724400, 'toussaint', '58CC77'),
+(34, 1352588400, 'armistice', 'D8D8D8'),
+(35, 1356390000, 'noel', '58CC77');
 
 -- --------------------------------------------------------
 
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `codev_job_table` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `type` int(10) NOT NULL DEFAULT '0',
-  `color` varchar(7) CHARACTER SET utf8 DEFAULT '#000000',
+  `color` varchar(7) CHARACTER SET utf8 DEFAULT '000000',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
