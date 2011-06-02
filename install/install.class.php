@@ -323,7 +323,7 @@ class Install {
 
    	     // add leader as member
    	     $adminTeam = new Team($teamId);
-   	     $adminTeam->addMember($leader_id, $now, Team::accessLevel_dev);
+   	     $adminTeam->addMember($leader_id, $today, Team::accessLevel_dev);
 
          // add default SideTaskProject
          $adminTeam->addCommonSideTaskProject();
