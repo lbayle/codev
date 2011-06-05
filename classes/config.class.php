@@ -83,12 +83,13 @@ class Config {
    const id_customField_addEffort    = "customField_addEffort"; // BS
    const id_customField_deliveryId   = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
    const id_customField_deliveryDate = "customField_deliveryDate";
+   const id_prelEffortEstim_balance  = "prelEffortEstim_balance"; // ex ETA_balance
    const id_priorityNames            = "priorityNames";
    const id_resolutionNames          = "resolutionNames";
    const id_periodStatsExcludedProjectList = "periodStatsExcludedProjectList";
 
    const id_ETA_names                = "ETA_names";   // to be replaced, see customField_PrelEffortEstim
-   const id_ETA_balance              = "ETA_balance"; // to be replaced, see customField_PrelEffortEstim
+   const id_ETA_balance              = "ETA_balance"; // to be replaced, see prelEffortEstim_balance
 
    const id_ClientTeamid             = "client_teamid"; // FDJ_teamid
 

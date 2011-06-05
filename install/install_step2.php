@@ -61,24 +61,13 @@ function displayStepInfo() {
 
 
 function displayForm($originPage,
-            $g_eta_enum_string, $eta_balance_string,
-            $g_status_enum_string, $s_priority_enum_string, $s_resolution_enum_string) {
+                     $g_status_enum_string, $s_priority_enum_string, $s_resolution_enum_string) {
 
    echo "<form id='form2' name='form2' method='post' action='$originPage' >\n";
    echo "<hr align='left' width='20%'/>\n";
    echo "<h2>".T_("Confirm Mantis customizations")."</h2>\n";
 
    echo "<table class='invisible'>\n";
-
-   echo "  <tr>\n";
-   echo "    <td width='120'>".T_("ETA names")."</td>\n";
-   echo "    <td><code><input size='150' type='text' style='font-family: sans-serif' name='g_eta_enum_string'  id='g_eta_enum_string' value='$g_eta_enum_string'></code></td>\n";
-   echo "";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td width='120'>".T_("ETA balance")."</td>\n";
-   echo "    <td><input size='150' type='text' style='font-family: sans-serif' name='eta_balance_string'  id='eta_balance_string' value='$eta_balance_string'></td>\n";
-   echo "  </tr>\n";
 
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("Priority")."</td>\n";
@@ -94,8 +83,10 @@ function displayForm($originPage,
    echo "  </tr>\n";
    echo "</table>\n";
 
+   // ---
    echo "  <br/>\n";
    echo "  <br/>\n";
+
    echo "<div  style='text-align: center;'>\n";
    echo "<input type=button style='font-size:150%' value='".T_("Proceed Step 2")."' onClick='javascript: proceedStep2()'>\n";
    echo "</div>\n";
@@ -122,18 +113,12 @@ $originPage = "install_step2.php";
 
 // Mantis defaults
 $default_priority    = "10:none,20:low,30:normal,40:high,50:urgent,60:immediate";
-$default_resolution  = "10:open,20:fixed,30:reopened,40:unable to reproduce,50:not fixable,60:duplicate,70:no change required,80:suspended,90:won\'t fix";
+$default_resolution  = "10:open,20:fixed,30:reopened,40:unable to reproduce,50:not fixable,60:duplicate,70:no change required,80:suspended,90:won t fix";
 $default_status      = "10:new,20:feedback,30:acknowledged,40:confirmed,50:assigned,80:resolved,90:closed";
-$default_eta         = "10:none,20:< 1 day,30:2-3 days,40:< 1 week,50:< 1 month,60:> 1 month";
-$default_eta_balance = "10:1,20:1,30:3,40:5,50:22,60:45";
 
 $s_priority_enum_string = isset($_POST[s_priority_enum_string]) ? $_POST[s_priority_enum_string] : $default_priority;
 $s_resolution_enum_string = isset($_POST[s_resolution_enum_string]) ? $_POST[s_resolution_enum_string] : $default_resolution;
 $g_status_enum_string =  isset($_POST[g_status_enum_string]) ? $_POST[g_status_enum_string] : $default_status;
-
-$g_eta_enum_string    = isset($_POST[g_eta_enum_string]) ? $_POST[g_eta_enum_string] : $default_eta;
-$eta_balance_string   =  isset($_POST[eta_balance_string]) ? $_POST[eta_balance_string] : $default_eta_balance;
-
 
 
 $action      = $_POST[action];
@@ -142,7 +127,6 @@ $action      = $_POST[action];
 displayStepInfo();
 
 displayForm($originPage,
-            $g_eta_enum_string, $eta_balance_string,
             $g_status_enum_string, $s_priority_enum_string, $s_resolution_enum_string);
 
 

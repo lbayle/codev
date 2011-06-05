@@ -207,7 +207,6 @@ class TimeTracking {
   private function getProductivRate($projects, $balanceType = "ETA", $withSupport = true) {
     global $status_resolved;
     global $status_closed;
-    global $ETA_balance;
     global $job_support;
 
     $resolvedList = array();
@@ -250,7 +249,7 @@ class TimeTracking {
 
         // remove doubloons
         if (!in_array ($row->id, $resolvedList)) {
-          if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$ETA_balance[$row->eta]." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed<br/>"; }
+          if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$issue->prelEffortEstim." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed<br/>"; }
 
           $resolvedList[] = $row->id;
 
@@ -261,8 +260,8 @@ class TimeTracking {
           }
 
           if ("ETA" == $balanceType) {
-            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$ETA_balance[$row->eta]." = ".($productivityRate + $ETA_balance[$row->eta])."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
-            $productivityRate += $ETA_balance[$row->eta];
+            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$issue->prelEffortEstim." = ".($productivityRate + $issue->prelEffortEstim)."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
+            $productivityRate += $issue->prelEffortEstim;
           } else {
             if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ($issue->effortEstim + $issue->effortAdd) = ".($productivityRate + $issue->effortEstim + $issue->effortAdd)."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
             $productivityRate += $issue->effortEstim + $issue->effortAdd;

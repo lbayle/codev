@@ -95,11 +95,6 @@
 
 
   // ---
-  // toughness indicator to compute "Productivity Rate ETA"
-  $ETA_balance = Config::getInstance()->getValue("ETA_balance");
-  $ETA_names   = Config::getInstance()->getValue("ETA_names");
-
-  // ---
   $astreintesTaskList = Config::getInstance()->getValue("astreintesTaskList"); // fiches de SuiviOp:Inactivite qui sont des astreintes
 
 

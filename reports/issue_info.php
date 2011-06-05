@@ -172,8 +172,7 @@ function displayIssueSelectionForm($originPage, $user1, $defaultBugid, $defaultP
  */
 function displayIssueGeneralInfo($issue, $withSupport, $displaySupport=false ) {
 
-   global $ETA_balance;
-	global $job_support;
+  global $job_support;
 
   echo "<div>\n";
   echo "<table>\n";
@@ -185,7 +184,7 @@ function displayIssueGeneralInfo($issue, $withSupport, $displaySupport=false ) {
 
   echo "<tr>\n";
   echo "<td title='BI + BS'>".T_("Estimated")."</th>\n";
-  echo "<td title='".$ETA_balance[$issue->eta]."'>".$issue->getEtaName()."</td>\n";
+  echo "<td title='".$issue->prelEffortEstim."'>".$issue->prelEffortEstimName."</td>\n";
   echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
 

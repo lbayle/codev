@@ -32,6 +32,10 @@ class Install {
    const JOB_DEFAULT_SIDETASK = 1; // REM: N/A     job_id = 1, created by SQL file
    const JOB_SUPPORT          = 2; // REM: Support job_id = 2, created by SQL file
 
+   const PREL_EFFORT_ESTIM_POSSIBLE_VALUES = "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks";
+   const PREL_EFFORT_ESTIM_DEFAULT_VALUE   = "none";
+   const PREL_EFFORT_ESTIM_BALANCE         = "1,1,3,5,10,15";
+
    private $fieldList;
 
    // --------------------------------------------------------
@@ -249,22 +253,22 @@ class Install {
 
       $attributes["require_report"]   = 1;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("Preliminary Est. Effort (ex ETA)"), $mType_enum,    "customField_PrelEffortEstim", $attributes, "none", "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks");
+      $this->createCustomField(T_("Preliminary Est. Effort"), $mType_enum,    "customField_PrelEffortEstim", $attributes, self::PREL_EFFORT_ESTIM_DEFAULT_VALUE, self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES);
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("Client bugId (TC)"),                $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
-      $this->createCustomField(T_("Dead Line"),                        $mType_date,    "customField_deadLine", $attributes);
+      $this->createCustomField(T_("Client bugId (TC)"),       $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
+      $this->createCustomField(T_("Dead Line"),               $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
-      $this->createCustomField(T_("Est. Effort (BI)"),                 $mType_numeric, "customField_effortEstim", $attributes);
-      $this->createCustomField(T_("Aditional Effort (BS)"),              $mType_numeric, "customField_addEffort", $attributes);
-      $this->createCustomField(T_("Remaining (RAE)"),                  $mType_numeric, "customField_remaining", $attributes);
+      $this->createCustomField(T_("Est. Effort (BI)"),        $mType_numeric, "customField_effortEstim", $attributes);
+      $this->createCustomField(T_("Aditional Effort (BS)"),   $mType_numeric, "customField_addEffort", $attributes);
+      $this->createCustomField(T_("Remaining (RAE)"),         $mType_numeric, "customField_remaining", $attributes);
 
       $attributes["require_resolved"] = 0;
       $attributes["require_closed"]   = 0;
-      $this->createCustomField(T_("Delivery ticket (FDL)"),            $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-      $this->createCustomField(T_("Delivery Date"),                    $mType_date,    "customField_deliveryDate", $attributes);
+      $this->createCustomField(T_("Delivery ticket (FDL)"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
+      $this->createCustomField(T_("Delivery Date"),           $mType_date,    "customField_deliveryDate", $attributes);
 
 	}
 
@@ -339,6 +343,12 @@ class Install {
 
       echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
   	  Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, T_("Client teamId"));
+
+      echo "DEBUG create Variable : ".Config::id_prelEffortEstim_balance."<br/>";
+      Config::getInstance()->setValue(Config::id_prelEffortEstim_balance,
+                                      self::PREL_EFFORT_ESTIM_BALANCE,
+                                      Config::configType_array,
+                                      T_("Values (in days) for : ").self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES);
 
 	}
 

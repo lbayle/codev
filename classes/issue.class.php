@@ -37,10 +37,13 @@ class Status {
 
 // ==============================================================
 class Issue {
+
+   private static $PEE_balance;
+
    var $bugId;      // mantis id
    var $projectId;  // Capu, peterpan, etc.
    var $categoryId;
-   var $eta;
+   var $eta;        // DEPRECATED
    var $summary;
    var $dateSubmission;
    var $currentStatus;
@@ -49,9 +52,18 @@ class Issue {
    var $resolution;
    var $version;  // Product Version
 
+	/*
+	 * REM:
+	 * previous versions of CoDev used the mantis ETA field
+	 * to store the 'preliminary Effort Estimation'.
+	 * as ETA may already been used by existing projects for other purpose,
+	 * a 'prelEffortEstim' customField has been created to replace ETA.
+	 */
+
    // -- CoDev custom fields
    var $tcId;         // TelelogicChange id
    var $remaining;    // RAE
+   public $prelEffortEstimName;  // PreliminaryEffortEstim (ex ETA)
    var $effortEstim;  // BI
    var $effortAdd;    // BS
    var $deadLine;
@@ -61,6 +73,7 @@ class Issue {
    // -- computed fields
    var $elapsed;    // total time spent on this issue
    var $statusList; // array of statusInfo elements
+   public $prelEffortEstim;  // PreliminaryEffortEstim (ex ETA_balance value)
 
    // -- PRIVATE cached fields
    var $holidays;
@@ -68,8 +81,34 @@ class Issue {
    // ----------------------------------------------
    public function Issue ($id) {
       $this->bugId = $id;
+
+	  // --- init static variables
+	  Issue::getPrelEffortEstimValues();
+
       $this->initialize();
    }
+
+	public static function getPrelEffortEstimValues() {
+      if (NULL == self::$PEE_balance) {
+		 self::$PEE_balance = array();
+
+         $PEE_id  = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
+         $balance = Config::getInstance()->getValue(Config::id_prelEffortEstim_balance); // ex ETA_balance
+
+      	 $query = "SELECT possible_values FROM  `mantis_custom_field_table` WHERE  id = $PEE_id";
+         $result = mysql_query($query) or die("Query failed: $query");
+         $PEE_possible_values  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+		 if (NULL != $PEE_possible_values) {
+         	$PEE_possible_values = explode('|', $PEE_possible_values);
+		 	$i=0;
+		 	foreach ($PEE_possible_values as $value) {
+		    	self::$PEE_balance[$value] = $balance[$i];
+		    	$i++;
+		 	}
+		 }
+      }
+      return self::$PEE_balance;
+	}
 
    // ----------------------------------------------
    public function initialize() {
@@ -80,7 +119,8 @@ class Issue {
    	global $addEffortCustomField;
    	global $deadLineCustomField;
    	global $deliveryDateCustomField;
-      global $deliveryIdCustomField;
+    global $deliveryIdCustomField;
+    $prelEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
 
       // Get issue info
       $query = "SELECT * ".
@@ -94,7 +134,7 @@ class Issue {
       $this->dateSubmission  = $row->date_submitted;
       $this->projectId       = $row->project_id;
       $this->categoryId      = $row->category_id;
-      $this->eta             = $row->eta;
+      $this->eta             = $row->eta; // DEPRECATED
       $this->priority        = $row->priority;
       $this->handlerId       = $row->handler_id;
       $this->resolution      = $row->resolution;
@@ -106,14 +146,18 @@ class Issue {
       while($row = mysql_fetch_object($result2))
       {
          switch ($row->field_id) {
-            case $tcCustomField:          $this->tcId        = $row->value; break;
-            case $estimEffortCustomField: $this->effortEstim = $row->value; break;
-            case $remainingCustomField:   $this->remaining   = $row->value; break;
-            case $addEffortCustomField:   $this->effortAdd   = $row->value; break;
-            case $deadLineCustomField:    $this->deadLine    = $row->value; break;
-            case $deliveryDateCustomField: $this->deliveryDate = $row->value; break;
-            case $deliveryIdCustomField:  $this->deliveryId  = $row->value; break;
-
+            case $tcCustomField:              $this->tcId            = $row->value; break;
+            case $estimEffortCustomField:     $this->effortEstim     = $row->value; break;
+            case $remainingCustomField:       $this->remaining       = $row->value; break;
+            case $addEffortCustomField:       $this->effortAdd       = $row->value; break;
+            case $deadLineCustomField:        $this->deadLine        = $row->value; break;
+            case $deliveryDateCustomField:    $this->deliveryDate    = $row->value; break;
+            case $deliveryIdCustomField:      $this->deliveryId      = $row->value; break;
+            case $prelEffortEstimCustomField: {
+            	$this->prelEffortEstimName = $row->value;
+            	$this->prelEffortEstim     = self::$PEE_balance[$row->value];
+            	break;
+            }
          }
       }
 
@@ -124,6 +168,7 @@ class Issue {
       // Prepare fields
       $this->statusList = array();
    }
+
 
    /**
     * returns a Holidays class instance
@@ -233,12 +278,6 @@ class Issue {
       return $statusNames[$this->currentStatus];
    }
 
-   // ----------------------------------------------
-   public function getEtaName() {
-      global $ETA_names;
-
-      return $ETA_names[$this->eta];
-   }
 
    // ----------------------------------------------
    public function getPriorityName() {
@@ -402,7 +441,6 @@ class Issue {
 
    // REM if ETA = 0 then Drift = 0
    public function getDriftETA($withSupport = true) {
-      global $ETA_balance;
       global $job_support;
 
       $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
@@ -417,12 +455,12 @@ class Issue {
 
 
 	  if ($this->currentStatus >= $resolved_status_threshold) {
-         $derive = $myElapsed - $ETA_balance[$this->eta];
+         $derive = $myElapsed - $this->prelEffortEstim;
       } else {
-         $derive = $myElapsed - ($ETA_balance[$this->eta] - $this->remaining);
+         $derive = $myElapsed - ($this->prelEffortEstim - $this->remaining);
       }
 
-      if (isset($_GET['debug'])) {echo "issue->getDriftETA(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$ETA_balance[$this->eta].")<br/>";}
+      if (isset($_GET['debug'])) {echo "issue->getDriftETA(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->prelEffortEstim.")<br/>";}
       return $derive;
    }
 

@@ -94,7 +94,7 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
                           $issue->getPriorityName().$sepChar.
                           $issue->getCategoryName().$sepChar.
                           $issue->getResolutionName().$sepChar.
-                          $issue->getEtaName().$sepChar.
+                          $issue->prelEffortEstimName.$sepChar.
                           $issue->effortEstim.$sepChar.
                           $issue->effortAdd.$sepChar.
                           $issue->elapsed.$sepChar.
@@ -144,7 +144,7 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
         $issue->getPriorityName().$sepChar.
         $issue->getCategoryName().$sepChar.
         $issue->getResolutionName().$sepChar.
-        $issue->getEtaName().$sepChar.
+        $issue->prelEffortEstimName.$sepChar.
         $issue->effortEstim.$sepChar.
         $issue->effortAdd.$sepChar.
         $issue->elapsed.$sepChar.

@@ -332,7 +332,7 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
-         if ( (NULL == $issue->eta) || (10 == $issue->eta)) {   // 10 == none
+         if ( (NULL == $issue->prelEffortEstimName) || ('none' == $issue->prelEffortEstimName)) {
 
            $cerr = new ConsistencyError($row->bug_id,
                                               $row->handler_id,
