@@ -87,9 +87,9 @@ class Config {
    const id_priorityNames            = "priorityNames";
    const id_resolutionNames          = "resolutionNames";
    const id_periodStatsExcludedProjectList = "periodStatsExcludedProjectList";
-
-   const id_ETA_names                = "ETA_names";   // to be replaced, see customField_PrelEffortEstim
-   const id_ETA_balance              = "ETA_balance"; // to be replaced, see prelEffortEstim_balance
+   const id_mantisFile_strings       = "mantisFile_strings";
+   const id_mantisFile_custom_strings = "mantisFile_custom_strings";
+   const id_mantisFile_config_inc    = "mantisFile_config_inc";
 
    const id_ClientTeamid             = "client_teamid"; // FDJ_teamid
 
