@@ -124,6 +124,8 @@ $g_status_enum_string =  isset($_POST[g_status_enum_string]) ? $_POST[g_status_e
 $action      = $_POST[action];
 
 
+// TODO install should ask for mantis path instead of variables values !
+
 displayStepInfo();
 
 displayForm($originPage,
@@ -143,16 +145,6 @@ if ("proceedStep2" == $action) {
     echo "DEBUG add resolutionNames<br/>";
     $desc = T_("resolution Names as defined in Mantis (s_resolution_enum_string)");
     Config::getInstance()->setValue(Config::id_resolutionNames, $s_resolution_enum_string, Config::configType_keyValue , $desc);
-
-    // ------
-    echo "DEBUG add ETA<br/>";
-    $desc = T_("ETA as defined in Mantis (g_eta_enum_string)");
-    Config::getInstance()->setValue(Config::id_ETA_names, $g_eta_enum_string, Config::configType_keyValue , $desc);
-
-    echo "DEBUG add ETA balance<br/>";
-    $desc = T_("ETA balance");
-    Config::getInstance()->setValue(Config::id_ETA_balance, $eta_balance_string, Config::configType_keyValue , $desc);
-
 
 }
 
