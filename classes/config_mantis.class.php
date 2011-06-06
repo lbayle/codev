@@ -92,7 +92,7 @@ class ConfigMantis {
     	if (NULL != $variable) {
             $value = $variable->value;
     	} else {
-    		echo "DEBUG: ConfigMantis::getValue($id): variable not found !<br/>";
+    		echo "<span class='error_font'>WARN: ConfigMantis::getValue($id): variable not found !</span><br/>";
     	}
     	return $value;
    }
@@ -106,10 +106,47 @@ class ConfigMantis {
       if (NULL != $variable) {
          $type = $variable->type;
       } else {
-         echo "DEBUG: ConfigMantis::getType($id): variable not found !<br/>";
+         echo "<span class='error_font'>WARN: ConfigMantis::getType($id): variable not found !</span><br/>";
       }
       return $type;
    }
+
+   // --------------------------------------
+   public static function isValueDefined($id) {
+
+    	$variable = self::$configVariables[$id];
+
+    	return (NULL == $variable) ? FALSE : TRUE;
+   }
+
+   // --------------------------------------
+   /**
+    * Add Item in Cache and mantis DB (only if NOT exists).
+    *
+    * NOTE: the Mantis DB will NOT be modified if the value exists.
+    */
+   public static function setValue($config_id, $value, $type, $project_id = 0, $user_id = 0, $access_reqd = 90) {
+
+      $query = "SELECT * FROM `mantis_config_table` WHERE config_id='$config_id'";
+      $result = mysql_query($query) or die("Query failed: $query");
+      if (0 == mysql_num_rows($result)) {
+
+         echo "DEBUG INSERT ConfigMantis::setValue $config_id: $value (type=$type)<br/>";
+
+         // --- add to DB
+         $query = "INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) ".
+                  "VALUES ('$config_id', '$project_id', '$user_id', '$access_reqd', '$type', '$value');";
+         $result    = mysql_query($query) or die("Query failed: $query");
+
+
+         // --- add/replace Cache
+         self::$configVariables["$config_id"] = new ConfigMantisItem($config_id, $project_id, $user_id, $access_reqd, $type, $value);
+      } else {
+         echo "<span class='error_font'>WARN: ConfigMantis::setValue($config_id): variable already exists and will NOT be modified.</span><br/>";
+      }
+
+   }
+
 
 } // class
 
