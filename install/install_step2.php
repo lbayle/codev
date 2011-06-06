@@ -102,10 +102,6 @@ function displayForm($originPage,
 
 $originPage = "install_step2.php";
 
-// Values copied from:  mantis/lang/strings_english.txt
-// Values copied from: mantis/config_inc.php
-
-
 $default_filename_strings           = "/var/www/html/mantis/lang/strings_english.txt";
 $default_filename_custom_strings    = "/var/www/html/mantis/custom_strings_inc.php";
 $default_filename_config_inc        = "/var/www/html/mantis/config_inc.php";
