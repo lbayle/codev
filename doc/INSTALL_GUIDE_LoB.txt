@@ -96,8 +96,8 @@ http://localhost/mantis
 
 15) creer un utilisateur mysql pour codev
 mysql --user=root --password=xxxxxx mysql
-CREATE USER 'codev'@'localhost' IDENTIFIED BY 'secret';
-GRANT ALL PRIVILEGES ON bugtracker.* TO 'codev'@'localhost' WITH GRANT OPTION;
+CREATE USER 'codev' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON bugtracker.* TO 'codev' WITH GRANT OPTION;
 exit
 
 16) lancer l'install de CoDev

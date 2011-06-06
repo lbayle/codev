@@ -22,6 +22,7 @@ include_once 'project.class.php';
 include_once 'team.class.php';
 include_once 'jobs.class.php';
 include_once 'config.class.php';
+include_once 'config_mantis.class.php';
 
 
 class Install {
@@ -339,16 +340,23 @@ class Install {
 	function setConfigItems() {
 
       echo "DEBUG create Variable : ".Config::id_periodStatsExcludedProjectList."<br/>";
-      Config::getInstance()->setValue(Config::id_periodStatsExcludedProjectList, NULL, Config::configType_array);
+      $desc = T_("Projects NOT included in Statistics");
+      Config::getInstance()->setValue(Config::id_periodStatsExcludedProjectList, NULL, Config::configType_array, $desc);
+
+      echo "DEBUG create Variable : ".Config::id_astreintesTaskList."<br/>";
+      $desc = T_("The 'absence' SideTasks considered as astreinte");
+      Config::getInstance()->setValue(Config::id_astreintesTaskList, NULL, Config::configType_array, $desc);
 
       echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
-  	  Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, T_("Client teamId"));
+      $desc = T_("Client teamId");
+  	  Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
 
       echo "DEBUG create Variable : ".Config::id_prelEffortEstim_balance."<br/>";
+      $desc = T_("Values (in days) for : ").self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES;
       Config::getInstance()->setValue(Config::id_prelEffortEstim_balance,
                                       self::PREL_EFFORT_ESTIM_BALANCE,
                                       Config::configType_array,
-                                      T_("Values (in days) for : ").self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES);
+                                      $desc);
 
 	}
 
@@ -379,7 +387,7 @@ class Install {
       }
 
 	  fclose($fh);
-	  return "SUCCESS ! Please check that the following test file has been created:<br/><span style='font-family: sans-serif'>$testFilename</span>";
+	  return "SUCCESS ! Please check that the following test file has been created: <span style='font-family: sans-serif'>$testFilename</span>";
 	}
 
 

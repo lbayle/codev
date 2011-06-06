@@ -288,7 +288,8 @@ if ("checkReportsDir" == $action) {
     $stproj->addIssueInactivity($task_leave);
 
     if ($isTaskAstreinte) {
-       $stproj->addIssueInactivity($task_astreinte);
+       $bugt_id = $stproj->addIssueInactivity($task_astreinte);
+       Config::getInstance()->setValue(Config::id_astreintesTaskList, "$bugt_id", Config::configType_array);
     }
     if ($isTaskIncident1) {
        $stproj->addIssueIncident($task_incident1);

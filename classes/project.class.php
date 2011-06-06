@@ -223,10 +223,22 @@ class Project {
 
    // -----------------------------------------------
    public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::$keyProjManagement, $issueSummary, $issueDesc);
+   	  global $status_closed;
+      $bugt_id = $this->addSideTaskIssue(Project::$keyProjManagement, $issueSummary, $issueDesc);
+
+      $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
+      $result = mysql_query($query) or die("Query failed: $query");
+
+      return $bugt_id;
    }
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::$keyInactivity, $issueSummary, $issueDesc);
+   	  global $status_closed;
+      $bugt_id = $this->addSideTaskIssue(Project::$keyInactivity, $issueSummary, $issueDesc);
+
+      $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
+      $result = mysql_query($query) or die("Query failed: $query");
+
+      return $bugt_id;
    }
    public function addIssueIncident($issueSummary, $issueDesc=" ") {
       return $this->addSideTaskIssue(Project::$keyIncident, $issueSummary, $issueDesc);
@@ -241,15 +253,16 @@ class Project {
    // -----------------------------------------------
    private function addSideTaskIssue($catKey, $issueSummary, $issueDesc) {
 
-   	global $status_closed;
-   	$cat_id = $this->categoryList["$catKey"];
+   	  global $status_closed;
+   	  $cat_id = $this->categoryList["$catKey"];
+      $today  = date2timestamp(date("Y-m-d"));
 
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$issueDesc');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-   	$bug_text_id = mysql_insert_id();
+   	  $bug_text_id = mysql_insert_id();
 
-   	$query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`) ".
-   	         "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$status_closed','$bug_text_id');";
+   	  $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
+   	           "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $bugt_id = mysql_insert_id();
 
