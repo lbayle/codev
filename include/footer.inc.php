@@ -16,23 +16,28 @@
 */ ?>
 <?php
 
-# DEBUG 
-#echo "<br/>"; 
+# DEBUG
+#echo "<br/>";
 #IssueCache::getInstance()->displayStats();
-#echo "<br/>"; 
-#UserCache::getInstance()->displayStats(); 
-#echo "<br/>"; 
-#ProjectCache::getInstance()->displayStats(); 
-#echo "<br/>"; 
-#TimeTrackCache::getInstance()->displayStats(); 
+#echo "<br/>";
+#UserCache::getInstance()->displayStats();
+#echo "<br/>";
+#ProjectCache::getInstance()->displayStats();
+#echo "<br/>";
+#TimeTrackCache::getInstance()->displayStats();
 
 mysql_close($bugtracker_link);
 ?>
 
 
 <br/><hr />
-<address class="right">2010 &copy; ATOS Origin Integration</address>
-<address class="right">Designed for Firefox</address>
+<address class="right" title='Freedom is nothing else but a chance to be better. (Albert Camus)'>
+<?php
+   # La liberte n'offre qu'une chance d'etre meilleur, la servitude n'est que la certitude de devenir pire.  (Albert Camus)
+   echo "<a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' src='".getServerRootURL()."/images/copyleft.png' /></a>";
+   echo "2010-".date("Y")."&nbsp; Louis BAYLE<br/>Designed for Firefox";
+?>
+</address>
 
 </body>
 </html>
