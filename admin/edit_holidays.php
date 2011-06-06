@@ -381,7 +381,8 @@ echo "<br/>";
       $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
 	  if (NULL != $astreintesList) {
 		 if (1 == count($astreintesList)) {
-		 	Config::getInstance()->deleteValue(Config::id_astreintesTaskList);
+		 	#Config::getInstance()->deleteValue(Config::id_astreintesTaskList);
+	        Config::getInstance()->setValue(Config::id_astreintesTaskList, "", Config::configType_array);
 		 } else {
 		 	$key = array_search($astreinte_id, $astreintesList);
 		 	unset($astreintesList[$key]);
