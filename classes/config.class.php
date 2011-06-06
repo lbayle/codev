@@ -134,7 +134,7 @@ class Config {
     	if (NULL != $variable) {
          $value = $variable->value;
     	} else {
-    		echo "DEBUG: Config::getValue($id): variable not found !<br/>";
+    		echo "<span class='error_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
     	}
     	return $value;
    }
@@ -152,7 +152,7 @@ class Config {
       if (NULL != $variable) {
          $value = $variable->getArrayKeyFromValue($value);
       } else {
-         echo "DEBUG: Config::getVariableKeyFromValue($id, $value): variable not found !<br/>";
+         echo "<span class='error_font'>WARN: Config::getVariableKeyFromValue($id, $value): variable not found !</span><br/>";
       }
       return $value;
    }
@@ -170,7 +170,7 @@ class Config {
       if (NULL != $variable) {
          $key = $variable->getArrayValueFromKey($value);
       } else {
-         echo "DEBUG: Config::getVariableValueFromKey($id, $key): variable not found !<br/>";
+         echo "<span class='error_font'>WARN: Config::getVariableValueFromKey($id, $key): variable not found !</span><br/>";
       }
       return $key;
    }
@@ -184,7 +184,7 @@ class Config {
       if (NULL != $variable) {
          $type = $variable->type;
       } else {
-         echo "DEBUG: Config::getType($id): variable not found !<br/>";
+         echo "<span class='error_font'>WARN: Config::getType($id): variable not found !</span><br/>";
       }
       return $type;
    }
@@ -207,10 +207,10 @@ class Config {
       $result = mysql_query($query) or die("Query failed: $query");
       if (0 != mysql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id='$id'";
-         #echo "DEBUG UPDATE Config::addValue $id: $value (t=$type) $desc<br/>";
+         #echo "DEBUG UPDATE Config::setValue $id: $value (t=$type) $desc<br/>";
       } else {
          $query = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`) VALUES ('$id', '$value', '$type', '$desc');";
-         #echo "DEBUG INSERT Config::addValue $id: $value (t=$type) $desc<br/>";
+         #echo "DEBUG INSERT Config::setValue $id: $value (t=$type) $desc<br/>";
       }
 
       $result    = mysql_query($query) or die("Query failed: $query");
@@ -234,7 +234,7 @@ class Config {
          // remove from cache
 	     unset(self::$configVariables["$id"]);
 	  } else {
-	  	echo "DEBUG DELETE variable not found in cache !<br/>";
+	  	echo "DEBUG: DELETE variable not found in cache !<br/>";
 	  }
    }
 } // class
