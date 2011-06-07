@@ -1,0 +1,121 @@
+<?php /*
+    This file is part of CoDev-Timetracking.
+
+    CoDev-Timetracking is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CoDev-Timetracking is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+*/ ?>
+
+<?php
+
+// -- FDJ specificities due to != workflow
+
+include_once "consistency_check.class.php";
+
+include_once "constants.php";
+include_once "issue.class.php";
+include_once "user.class.php";
+
+class ConsistencyCheckFDJ extends ConsistencyCheck {
+
+
+   // ----------------------------------------------
+   /**
+    * perform all consistency checks
+    */
+   public function check() {
+
+      $cerrList_parent = parent::check();
+      $cerrList1 = $this->checkAnalyzed();
+      $cerrList = array_merge($cerrList_parent, $cerrList1);
+      return $cerrList;
+   }
+
+   // ----------------------------------------------
+   // fiches analyzed dont BI non renseignes
+   // fiches analyzed dont RAE non renseignes
+   public function checkAnalyzed() {
+
+   	global $status_analyzed;
+      global $status_accepted;
+      global $status_openned;
+      global $status_deferred;
+      global $status_resolved;
+      global $status_delivered;
+      global $status_closed;
+
+
+   	  $FDJ_teamid = Config::getInstance()->getValue(Config::id_ClientTeamid);
+
+      $cerrList = array();
+
+      // select all issues which current status is 'analyzed'
+      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+        "FROM `mantis_bug_table` ".
+        "WHERE status in ($status_analyzed, $status_accepted, $status_openned, $status_deferred) ";
+
+      if (0 != count($this->projectList)) {
+         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $query .= "AND project_id IN ($formatedProjects) ";
+      }
+
+      $query .="ORDER BY last_updated DESC, bug_id DESC";
+
+      $result    = mysql_query($query) or die("Query failed: $query");
+      while($row = mysql_fetch_object($result))
+      {
+      	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
+
+         if (NULL == $issue->effortEstim) {
+           $cerr = new ConsistencyError($row->bug_id,
+                                              $row->handler_id,
+                                              $row->status,
+                                              $row->last_updated,
+                                              T_("BI not specified: BI = Time(Analysis + Dev + Tests)"));
+            $cerr->severity = T_("Error");
+            $cerrList[] = $cerr;
+         }
+      	if (NULL == $issue->remaining) {
+           $cerr = new ConsistencyError($row->bug_id,
+                                              $row->handler_id,
+                                              $row->status,
+                                              $row->last_updated,
+                                              T_("Remaining not specified: Remaining = Time(BI - Analysis)"));
+            $cerr->severity = T_("Error");
+            $cerrList[] = $cerr;
+      	}
+         if ($status_analyzed == $row->status) {
+             $user = UserCache::getInstance()->getUser($row->handler_id);
+             if (! $user->isTeamMember($FDJ_teamid)) {
+              $cerr = new ConsistencyError($row->bug_id,
+                                                 $row->handler_id,
+                                                 $row->status,
+                                                 $row->last_updated,
+                                                 T_("Once analysed, a Task must be assigned to 'FDJ' for validation"));
+               $cerr->severity = T_("Error");
+               $cerrList[] = $cerr;
+             }
+
+         }
+      }
+
+
+      // check if fields correctly set
+
+      return $cerrList;
+   }
+
+
+
+
+}
+?>

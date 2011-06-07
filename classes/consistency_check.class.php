@@ -17,7 +17,7 @@
 <?php
 
 
-//include_once "constants.php";
+include_once "constants.php";
 //include_once "tools.php";
 include_once "issue.class.php";
 include_once "user.class.php";
@@ -49,7 +49,7 @@ class ConsistencyCheck {
 	var $projectList;
 
    // ----------------------------------------------
-   public function ConsistencyCheck($projectList = NULL) {
+   public function __construct($projectList = NULL) {
    	if (NULL != $projectList) {
    		$this->projectList = $projectList;
    	} else {
@@ -63,12 +63,11 @@ class ConsistencyCheck {
     */
    public function check() {
 
-      $cerrList1 = $this->checkAnalyzed();
       $cerrList2 = $this->checkResolved();
       $cerrList3 = $this->checkDeliveryDate();
-      $cerrList4 = $this->checkBadRAE();
-      $cerrList5 = $this->checkETA();
-      $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3, $cerrList4, $cerrList5);
+      $cerrList4 = $this->checkBadRemaining();
+      $cerrList5 = $this->checkPrelEffortEstim();
+      $cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
       return $cerrList;
    }
 
@@ -117,78 +116,6 @@ class ConsistencyCheck {
 
    }
 
-   // ----------------------------------------------
-   // fiches analyzed dont BI non renseignes
-   // fiches analyzed dont RAE non renseignes
-   public function checkAnalyzed() {
-
-   	global $status_analyzed;
-      global $status_accepted;
-      global $status_openned;
-      global $status_deferred;
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
-
-   	  $FDJ_teamid = Config::getInstance()->getValue(Config::id_ClientTeamid);
-
-      $cerrList = array();
-
-      // select all issues which current status is 'analyzed'
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-        "FROM `mantis_bug_table` ".
-        "WHERE status in ($status_analyzed, $status_accepted, $status_openned, $status_deferred) ";
-
-      if (0 != count($this->projectList)) {
-         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
-         $query .= "AND project_id IN ($formatedProjects) ";
-      }
-
-      $query .="ORDER BY last_updated DESC, bug_id DESC";
-
-      $result    = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result))
-      {
-      	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
-
-         if (NULL == $issue->effortEstim) {
-           $cerr = new ConsistencyError($row->bug_id,
-                                              $row->handler_id,
-                                              $row->status,
-                                              $row->last_updated,
-                                              T_("BI not specified: BI = Time(Analysis + Dev + Tests)"));
-            $cerr->severity = T_("Error");
-            $cerrList[] = $cerr;
-         }
-      	if (NULL == $issue->remaining) {
-           $cerr = new ConsistencyError($row->bug_id,
-                                              $row->handler_id,
-                                              $row->status,
-                                              $row->last_updated,
-                                              T_("Remaining not specified: Remaining = Time(BI - Analysis)"));
-            $cerr->severity = T_("Error");
-            $cerrList[] = $cerr;
-      	}
-         if ($status_analyzed == $row->status) {
-             $user = UserCache::getInstance()->getUser($row->handler_id);
-             if (! $user->isTeamMember($FDJ_teamid)) {
-              $cerr = new ConsistencyError($row->bug_id,
-                                                 $row->handler_id,
-                                                 $row->status,
-                                                 $row->last_updated,
-                                                 T_("Once analysed, a Task must be assigned to 'FDJ' for validation"));
-               $cerr->severity = T_("Error");
-               $cerrList[] = $cerr;
-             }
-
-         }
-      }
-
-
-      // check if fields correctly set
-
-      return $cerrList;
-   }
 
    // ----------------------------------------------
    /**
@@ -231,8 +158,6 @@ class ConsistencyCheck {
          }
       }
 
-
-
       return $cerrList;
   	}
 
@@ -242,7 +167,7 @@ class ConsistencyCheck {
    /**
     * fiches NOT resolved with RAE == 0
     */
-  	public function checkBadRAE() {
+  	public function checkBadRemaining() {
       global $status_new;
       global $status_ack;
   		global $statusNames;
@@ -284,26 +209,21 @@ class ConsistencyCheck {
          }
       }
 
-
-
       return $cerrList;
 
    }
 
    // ----------------------------------------------
    /**
-    * an ETA should be defined when creating an Issue
+    * a prelEffortEstim should be defined when creating an Issue
     */
-   public function checkETA() {
+   public function checkPrelEffortEstim() {
 
    	$cerrList = array();
 
    	// select all issues
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-        "FROM `mantis_bug_table` ";
-
-
-
+               "FROM `mantis_bug_table` ";
 
       if (0 != count($this->projectList)) {
 
@@ -315,8 +235,6 @@ class ConsistencyCheck {
                unset($prjListNoSideTasks[$id]);
          	}
          }
-
-
 
          $formatedProjects = valuedListToSQLFormatedString($prjListNoSideTasks);
          $query .= "WHERE project_id IN ($formatedProjects) ";
@@ -338,7 +256,7 @@ class ConsistencyCheck {
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated,
-                                              T_("ETA not set."));
+                                              T_("prelEffortEstim not set."));
             $cerr->severity = T_("Error");
             $cerrList[] = $cerr;
          }
