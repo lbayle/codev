@@ -63,11 +63,13 @@ class ConfigMantis {
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
+      	$key = $row->config_id."_".$row->project_id;
       	#echo "DEBUG: ConfigMantis:: $row->config_id = $row->value<br/>";
-      	self::$configVariables["$row->config_id"] = new ConfigMantisItem($row->config_id, $row->project_id, $row->user_id, $row->access_reqd, $row->type, $row->value);
+      	self::$configVariables["$key"] = new ConfigMantisItem($row->config_id, $row->project_id, $row->user_id, $row->access_reqd, $row->type, $row->value);
       }
 
         #echo "DEBUG: ConfigMantis ready<br/>";
+        #print_r(array_keys(self::$configVariables));
    }
 
    // ------------------------------------
@@ -84,39 +86,43 @@ class ConfigMantis {
    }
 
    // --------------------------------------
-   public static function getValue($id) {
+   public static function getValue($id, $project_id = 0) {
 
     	$value = NULL;
-    	$variable = self::$configVariables[$id];
+
+      	$key = $id."_".$project_id;
+    	$variable = self::$configVariables[$key];
 
     	if (NULL != $variable) {
             $value = $variable->value;
     	} else {
-    		echo "<span class='error_font'>WARN: ConfigMantis::getValue($id): variable not found !</span><br/>";
+    		echo "<span class='error_font'>WARN: ConfigMantis::getValue($id, $project_id): variable not found !</span><br/>";
     	}
     	return $value;
    }
 
    // --------------------------------------
-   public static function getType($id) {
+   public static function getType($id, $project_id = 0) {
 
       $type = NULL;
-      $variable = self::$configVariables[$id];
+      $key = $id."_".$project_id;
+      $variable = self::$configVariables[$key];
 
       if (NULL != $variable) {
          $type = $variable->type;
       } else {
-         echo "<span class='error_font'>WARN: ConfigMantis::getType($id): variable not found !</span><br/>";
+         echo "<span class='error_font'>WARN: ConfigMantis::getType($id, $project_id): variable not found !</span><br/>";
       }
       return $type;
    }
 
    // --------------------------------------
-   public static function isValueDefined($id) {
+   public static function isValueDefined($id, $project_id = 0) {
 
-    	$variable = self::$configVariables[$id];
+      $key = $id."_".$project_id;
+      $variable = self::$configVariables[$key];
 
-    	return (NULL == $variable) ? FALSE : TRUE;
+      return (NULL == $variable) ? FALSE : TRUE;
    }
 
    // --------------------------------------
@@ -127,7 +133,7 @@ class ConfigMantis {
     */
    public static function setValue($config_id, $value, $type, $project_id = 0, $user_id = 0, $access_reqd = 90) {
 
-      $query = "SELECT * FROM `mantis_config_table` WHERE config_id='$config_id'";
+      $query = "SELECT * FROM `mantis_config_table` WHERE config_id='$config_id' AND project_id='$project_id'";
       $result = mysql_query($query) or die("Query failed: $query");
       if (0 == mysql_num_rows($result)) {
 
@@ -140,9 +146,10 @@ class ConfigMantis {
 
 
          // --- add/replace Cache
-         self::$configVariables["$config_id"] = new ConfigMantisItem($config_id, $project_id, $user_id, $access_reqd, $type, $value);
+         $key = $config_id."_".$project_id;
+         self::$configVariables["$key"] = new ConfigMantisItem($config_id, $project_id, $user_id, $access_reqd, $type, $value);
       } else {
-         echo "<span class='error_font'>WARN: ConfigMantis::setValue($config_id): variable already exists and will NOT be modified.</span><br/>";
+         echo "<span class='error_font'>WARN: ConfigMantis::setValue($config_id, $project_id): variable already exists and will NOT be modified.</span><br/>";
       }
 
    }
