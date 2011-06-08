@@ -75,13 +75,8 @@ date_default_timezone_set('Europe/Paris');
 11) service httpd restart
 redemarer le service pour que apache trouve les sites mantis et codev
 
-12) creer un utilisateur mysql pour codev
-mysql --user=root --password=xxxxxx mysql
-CREATE USER 'codev'@'localhost' IDENTIFIED BY 'secret';
-GRANT ALL PRIVILEGES ON bugtracker.* TO 'codev'@'localhost' WITH GRANT OPTION;
-exit
 
-13) premier demarage de mantis
+12) premier demarage de mantis
 http://localhost/mantis/admin/check.php
 http://path/to/mantisbt/admin/install.php
 
@@ -89,11 +84,15 @@ REM: Checking Database Server Version -- BAD MySQL 4.1.0 or later is required fo
 I'm not sure about what happens, but the pb was solved once I created mysql 'mantis' user and 
 configured /opt/mantis/config_inc.php, 
 
-14) test mantis
+13) test mantis
 Mantis est maintenant installe.
 http://localhost/mantis
     * login  : administrator
     * passwd : root 
+
+14) -- IMPORTANT -- customize mantis
+You need to configure mantis BEFORE installing CoDev, so do it now !
+(Status, Workflow, Threshold, etc)
 
 15) creer un utilisateur mysql pour codev
 mysql --user=root --password=xxxxxx mysql
