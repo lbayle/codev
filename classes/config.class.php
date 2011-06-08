@@ -89,7 +89,8 @@ class Config {
    const id_periodStatsExcludedProjectList = "periodStatsExcludedProjectList";
    const id_mantisFile_strings       = "mantisFile_strings";
    const id_mantisFile_custom_strings = "mantisFile_custom_strings";
-   const id_mantisFile_config_inc    = "mantisFile_config_inc";
+   const id_mantisPath                = "mantisPath";
+   const id_bugResolvedStatusThreshold     = "bug_resolved_status_threshold";
 
    const id_ClientTeamid             = "client_teamid"; // FDJ_teamid
 

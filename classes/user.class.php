@@ -412,7 +412,7 @@ class User {
     */
    public function getWorkload($projList = NULL) {
 
-      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $totalRemaining = 0;
 
@@ -462,7 +462,7 @@ class User {
     */
    public function getAssignedIssues($projList = NULL) {
 
-      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $issueList = array();
 
@@ -514,7 +514,7 @@ class User {
     */
    public function getMonitoredIssues($projList = NULL) {
 
-      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $issueList = array();
 

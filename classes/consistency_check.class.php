@@ -80,7 +80,7 @@ class ConsistencyCheck {
 
       $deliveryIdCustomField     = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       $deliveryDateCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $cerrList = array();
 
@@ -125,7 +125,7 @@ class ConsistencyCheck {
 
    	global $statusNames;
 
-      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $cerrList = array();
 
@@ -172,7 +172,7 @@ class ConsistencyCheck {
       global $status_ack;
   		global $statusNames;
 
-      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $min_remaining = 0;
 

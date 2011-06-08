@@ -397,7 +397,7 @@ function displayTimeDriftStats ($timeTracking) {
 // display Drifts for Issues that are CURRENTLY OPENED
 function displayCurrentDriftStats ($timeTracking) {
 
-   $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+   $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
     // ---- get Issues that are not Resolved/Closed
     $formatedProdProjectList = implode( ', ', $timeTracking->prodProjectList);

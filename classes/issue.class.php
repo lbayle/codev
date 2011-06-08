@@ -371,7 +371,7 @@ class Issue {
    // REM: if $drift is not specified, then $this->drift is used ()
    public function getDriftColor($drift = NULL) {
 
-     $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+     $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
      if (!isset($drift)) {
      	   $drift = $this->getDrift(false);
@@ -409,7 +409,7 @@ class Issue {
    public function getDrift($withSupport = true) {
       global $job_support;
 
-     $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+     $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
@@ -443,7 +443,7 @@ class Issue {
    public function getDriftETA($withSupport = true) {
       global $job_support;
 
-      $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       #if (0 == $this->eta) { return 0; }
 

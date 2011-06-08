@@ -23,7 +23,7 @@
 // ---------------------------------------------------------------
 function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
 
-   $resolved_status_threshold = ConfigMantis::getInstance()->getValue(ConfigMantis::id_bugResolvedStatusThreshold);
+   $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
    $sepChar=';';
 
