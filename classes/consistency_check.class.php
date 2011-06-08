@@ -123,8 +123,6 @@ class ConsistencyCheck {
     */
    public function checkResolved() {
 
-   	global $statusNames;
-
       $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $cerrList = array();
@@ -170,7 +168,6 @@ class ConsistencyCheck {
   	public function checkBadRemaining() {
       global $status_new;
       global $status_ack;
-  		global $statusNames;
 
       $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 

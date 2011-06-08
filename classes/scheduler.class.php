@@ -109,24 +109,24 @@ class Scheduler {
 
 			$currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->deadLine);
 			$currentST->summary          = $issue->summary;
-         $currentST->priorityName     = $issue->getPriorityName();
-         $currentST->statusName       = $statusNames[$issue->currentStatus];
+            $currentST->priorityName     = $issue->getPriorityName();
+            $currentST->statusName       = $statusNames[$issue->currentStatus];
 
-         $handler = UserCache::getInstance()->getUser($issue->handlerId);
-         $currentST->handlerName = $handler->getName();
+            $handler = UserCache::getInstance()->getUser($issue->handlerId);
+            $currentST->handlerName = $handler->getName();
 
-         // check if onTime
+            // check if onTime
 			if (NULL == $issue->deadLine) {
 				$currentST->isOnTime = true;
 			} else {
             $currentST->isOnTime = (($sumDurations + $issueDuration) <= $currentST->nbDaysToDeadLine) ? true : false;
 			}
 
-         // add to list
-         if (0 != $issueDuration) {
-            $scheduledTaskList["$sumDurations"] = $currentST;
-            $sumDurations += $issueDuration;
-         }
+            // add to list
+            if (0 != $issueDuration) {
+               $scheduledTaskList["$sumDurations"] = $currentST;
+               $sumDurations += $issueDuration;
+            }
 
 		} // foreach task
 
@@ -173,8 +173,6 @@ class Scheduler {
             }
          } // foreach task
 		} // addMonitored
-
-
 
 		return $scheduledTaskList;
 	}

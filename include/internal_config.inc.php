@@ -95,26 +95,21 @@
 
 
   // ---
-  $astreintesTaskList = Config::getInstance()->getValue("astreintesTaskList"); // fiches de SuiviOp:Inactivite qui sont des astreintes
+  $astreintesTaskList = Config::getInstance()->getValue(Config::id_astreintesTaskList); // fiches de SuiviOp:Inactivite qui sont des astreintes
 
 
   // --- Mantis Values ---
-  // Unfortunately the following values are not in Mantis database, you'll have to manualy copy those
-  // definition if you customized them.
-
-  //$statusNames     = Config::getInstance()->getValue("statusNames");
-
-  $priorityNames   = Config::getInstance()->getValue("priorityNames");
-  $resolutionNames = Config::getInstance()->getValue("resolutionNames");
+  $priorityNames   = Config::getInstance()->getValue(Config::id_priorityNames);
+  $resolutionNames = Config::getInstance()->getValue(Config::id_resolutionNames);
   // ---
 
   // ---
   // the projects listed here will be excluded from PeriodStatsReport
-  $periodStatsExcludedProjectList = Config::getInstance()->getValue("periodStatsExcludedProjectList");
+  $periodStatsExcludedProjectList = Config::getInstance()->getValue(Config::id_periodStatsExcludedProjectList);
 
-  $defaultSideTaskProject = Config::getInstance()->getValue("defaultSideTaskProject"); // "SuiviOp" in table mantis_project_table
+  $defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSideTaskProject); // "SuiviOp" in table mantis_project_table
 
-  $codevReportsDir = Config::getInstance()->getValue("codevReportsDir");
+  $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
 
 
 

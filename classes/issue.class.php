@@ -791,12 +791,6 @@ class Issue {
       return false;
    }
 
-   function compareTo_($issueB) {
-
-      global $status_openned;
-
-
-   }
 
 } // class issue
 
