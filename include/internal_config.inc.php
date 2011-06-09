@@ -26,6 +26,7 @@
    include_once "config.class.php";
    include_once "config_mantis.class.php";
 
+   // CoDev project started on: 17 May 2010
 
    $codevVersion = "v0.99.10 (28 May 2011)";
 

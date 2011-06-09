@@ -45,13 +45,13 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
    // fiches analyzed dont RAE non renseignes
    public function checkAnalyzed() {
 
-   	global $status_analyzed;
-      global $status_accepted;
       global $status_openned;
-      global $status_deferred;
-      global $status_resolved;
-      global $status_delivered;
-      global $status_closed;
+
+	  // CoDev FDJ custom, defined in Mantis
+      $status_analyzed  = Config::getVariableKeyFromValue(Config::id_statusNames, 'analyzed');
+      $status_accepted  = Config::getVariableKeyFromValue(Config::id_statusNames, 'accepted');
+      $status_deferred  = Config::getVariableKeyFromValue(Config::id_statusNames, 'deferred');
+      $status_delivered = Config::getVariableKeyFromValue(Config::id_statusNames, 'delivered');
 
 
    	  $FDJ_teamid = Config::getInstance()->getValue(Config::id_ClientTeamid);

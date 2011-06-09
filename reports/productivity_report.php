@@ -298,8 +298,6 @@ function displayRates ($timeTracking) {
 // -----------------------------------------------
 // display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
 function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
-  global $status_resolved;
-  global $status_closed;
 
   $driftStats = $timeTracking->getResolvedDriftStats($withSupport);
 
@@ -359,8 +357,6 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
 // -----------------------------------------------
 // display TimeDrifts for Issues that have been marked as 'Resolved' durung the timestamp
 function displayTimeDriftStats ($timeTracking) {
-  global $status_resolved;
-  global $status_closed;
 
   $timeDriftStats = $timeTracking->getTimeDriftStats();  // all issues delivered within the period
 
