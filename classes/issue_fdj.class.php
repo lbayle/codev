@@ -29,9 +29,11 @@ class IssueFDJ extends Issue {
   // Computes the lifeCycle of the issue (time spent on each status)
   public function computeDurations () {
 
-    global $status_feedback_ATOS;
-    global $status_feedback_FDJ;
     global $status_feedback;
+
+    // FDJ custom status (not defined in Mantis)
+    $status_feedback_ATOS = Config::getVariableKeyFromValue(Config::id_statusNames, 'feedback_ATOS');
+    $status_feedback_FDJ = Config::getVariableKeyFromValue(Config::id_statusNames, 'feedback_FDJ');
 
     parent::computeDurations();
 
@@ -49,11 +51,13 @@ class IssueFDJ extends Issue {
   // -- feedback assigned to 'FDJ'
   private function getDuration_feedback() {
 
-  	 global $status_feedback_ATOS;
-    global $status_feedback_FDJ;
-  	 global $status_feedback;
+    global $status_feedback;
 
-  	 $FDJ_teamid = Config::getInstance()->getValue(Config::id_ClientTeamid);
+    // FDJ custom status (not defined in Mantis)
+    $status_feedback_ATOS = Config::getVariableKeyFromValue(Config::id_statusNames, 'feedback_ATOS');
+    $status_feedback_FDJ = Config::getVariableKeyFromValue(Config::id_statusNames, 'feedback_FDJ');
+
+  	$FDJ_teamid = Config::getInstance()->getValue(Config::id_ClientTeamid);
 
     $time_atos = 0;
     $time_fdj = 0;

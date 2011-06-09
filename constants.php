@@ -32,9 +32,7 @@
   // --- STATUS ---
   $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
 
-  #$status_new       = getVariableKeyFromValue(Config::id_statusNames, 'new');
   $status_new       = array_search('new', $statusNames);
-
   $status_feedback  = array_search('feedback', $statusNames);
   $status_ack       = array_search('acknowledged', $statusNames);
   $status_analyzed  = array_search('analyzed', $statusNames);
@@ -44,10 +42,5 @@
   $status_resolved  = array_search('resolved', $statusNames);
   $status_delivered = array_search('delivered', $statusNames);  // CoDev FDJ custom, defined in Mantis
   $status_closed    = array_search('closed', $statusNames);
-
-  // CoDev FDJ custom (not defined in Mantis)
-  $status_feedback_ATOS = array_search('feedback_ATOS', $statusNames);;
-  $status_feedback_FDJ  = array_search('feedback_FDJ', $statusNames);;
-
 
 ?>
