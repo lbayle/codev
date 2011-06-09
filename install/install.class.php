@@ -30,6 +30,8 @@ class Install {
    const FILENAME_MYSQL_CONFIG = "../include/mysql_config.inc.php";
    //const FILENAME_MYSQL_CONFIG = "/tmp/mysql_config.inc.php";
 
+   const FILENAME_CONSTANTS = "../constants.php";
+
    const JOB_DEFAULT_SIDETASK = 1; // REM: N/A     job_id = 1, created by SQL file
    const JOB_SUPPORT          = 2; // REM: Support job_id = 2, created by SQL file
 
@@ -108,7 +110,6 @@ class Install {
       	$stringData .= "?>\n";
       	fwrite($fp, $stringData);
       	fclose($fp);
-      	echo "done<br/>";
       }
    }
 
@@ -388,6 +389,46 @@ class Install {
 
 	  fclose($fh);
 	  return "SUCCESS ! Please check that the following test file has been created: <span style='font-family: sans-serif'>$testFilename</span>";
+	}
+
+    /**
+     * Creates constants.php that contains variable
+     * definitions that the codev admin may want to tune.
+     *
+     */
+	public function createConstantsFile($statusList) {
+
+      echo "create file ".self::FILENAME_CONSTANTS."<br/>";
+
+      // create/overwrite file
+      $fp = fopen(self::FILENAME_CONSTANTS, 'w');
+
+      if (FALSE == $fp) {
+      	echo "ERROR creating file ".self::FILENAME_CONSTANTS."<br/>";
+
+      } else {
+      	$stringData = "<?php\n";
+      	$stringData .= "   // This file is part of CoDev-Timetracking.\n";
+      	$stringData .= "  // - The Variables in here can be customized to your needs\n";
+      	$stringData .= "  // - This file has been generated during install on the ".date("D d M Y")."\n";
+      	$stringData .= "\n";
+      	$stringData .= "  include_once \"config.class.php\";\n";
+      	$stringData .= "\n";
+      	$stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
+      	$stringData .= "\n";
+      	$stringData .= "  // --- STATUS ---\n";
+      	$stringData .= "  \$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
+      	$stringData .= "\n";
+
+      	foreach($statusList as $s_name) {
+      	   // TODO stringFormat s_name
+      	   $stringData .= "  \$status_".$s_name."       = array_search('new', \$statusNames);\n";
+      	}
+      	$stringData .= "\n";
+      	$stringData .= "?>\n\n";
+      	fwrite($fp, $stringData);
+      	fclose($fp);
+      }
 	}
 
 
