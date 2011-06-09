@@ -56,7 +56,7 @@ class ConfigItem {
 	}
 
 	public function getArrayKeyFromValue($value) {
-		return (Config::configType_keyValue == $this->type) ? array_search($value, $this->value) : NULL;
+        return (Config::configType_keyValue == $this->type) ? array_search($value, $this->value) : NULL;
 	}
 
 }
@@ -144,18 +144,19 @@ class Config {
    /**
     * if the variable type is a configType_keyValue,
     * returns the key for a given value.
+    *
+    * example: $status_new = Config::getVariableKeyFromValue(Config::id_statusNames, 'new');
     */
    public static function getVariableKeyFromValue($id, $value) {
 
-      $value = NULL;
+      $key = NULL;
       $variable = self::$configVariables[$id];
-
       if (NULL != $variable) {
-         $value = $variable->getArrayKeyFromValue($value);
+         $key = $variable->getArrayKeyFromValue($value);
       } else {
          echo "<span class='error_font'>WARN: Config::getVariableKeyFromValue($id, $value): variable not found !</span><br/>";
       }
-      return $value;
+      return $key;
    }
 
    // --------------------------------------
