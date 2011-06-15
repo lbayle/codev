@@ -31,6 +31,7 @@ class Install {
    //const FILENAME_MYSQL_CONFIG = "/tmp/mysql_config.inc.php";
 
    const FILENAME_CONSTANTS = "../constants.php";
+   //const FILENAME_CONSTANTS = "/tmp/constants.php";
 
    const JOB_DEFAULT_SIDETASK = 1; // REM: N/A     job_id = 1, created by SQL file
    const JOB_SUPPORT          = 2; // REM: Support job_id = 2, created by SQL file
@@ -396,9 +397,11 @@ class Install {
      * definitions that the codev admin may want to tune.
      *
      */
-	public function createConstantsFile($statusList) {
+	public function createConstantsFile() {
 
       echo "create file ".self::FILENAME_CONSTANTS."<br/>";
+
+      $today  = date2timestamp(date("Y-m-d"));
 
       // create/overwrite file
       $fp = fopen(self::FILENAME_CONSTANTS, 'w');
@@ -414,15 +417,18 @@ class Install {
       	$stringData .= "\n";
       	$stringData .= "  include_once \"config.class.php\";\n";
       	$stringData .= "\n";
+      	$stringData .= "\$codevInstall_timestamp = ".$today.";\n";
+      	$stringData .= "\n";
       	$stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
       	$stringData .= "\n";
       	$stringData .= "  // --- STATUS ---\n";
       	$stringData .= "  \$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
       	$stringData .= "\n";
 
-      	foreach($statusList as $s_name) {
+		$statusList = Config::getInstance()->getValue(Config::id_statusNames);
+      	foreach($statusList as $key => $s_name) {
       	   // TODO stringFormat s_name
-      	   $stringData .= "  \$status_".$s_name."       = array_search('new', \$statusNames);\n";
+      	   $stringData .= "  \$status_".$s_name."       = array_search('".$s_name."', \$statusNames);\n";
       	}
       	$stringData .= "\n";
       	$stringData .= "?>\n\n";

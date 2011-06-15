@@ -1,16 +1,14 @@
 <?php
-   // This file is part of CoDev-Timetracking.
-
-  // - The Variables in here can be customized to your needs
-  // - This file has been generated at install_step2 on the <date>
+  // The Variables in here can be customized to your needs
 
   include_once "config.class.php";
 
+
   $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
 
-  $codevInstall_timestamp = 0;
-
   // --- STATUS ---
+  // REM: Mantis default statusNames = 10:new,20:feedback,30:acknowledged,40:confirmed,50:assigned,80:resolved,90:closed
+
   $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
 
   $status_new       = array_search('new', $statusNames);

@@ -167,7 +167,7 @@ class ConsistencyCheck {
     */
   	public function checkBadRemaining() {
       global $status_new;
-      global $status_ack;
+      global $status_acknowledged;
 
       $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
@@ -179,7 +179,7 @@ class ConsistencyCheck {
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status NOT IN ($status_new, $status_ack) ".
+        "WHERE status NOT IN ($status_new, $status_acknowledged) ".
         "AND status < $resolved_status_threshold ";
 
       if (0 != count($this->projectList)) {

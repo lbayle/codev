@@ -62,7 +62,7 @@ function displayStepInfo() {
    echo "<li>Set priority Names as defined in Mantis   (priority_enum_string)</li>";
    echo "<li>Set resolution Names as defined in Mantis (resolution_enum_string)</li>";
    echo "<li>Set bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)</li>";
-   echo "<li></li>";
+   echo "<li>Create constants.php</li>";
    echo "<li></li>";
    echo "</ul>\n";
    echo "";
@@ -204,6 +204,9 @@ if ("proceedStep2" == $action) {
     $desc = T_("bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)");
     Config::getInstance()->setValue(Config::id_bugResolvedStatusThreshold, "$bug_resolved_status_threshold", Config::configType_int , $desc);
 
+    echo "DEBUG create constants.php<br/>";
+    $install = new Install();
+    $install->createConstantsFile();
 
 }
 
