@@ -28,6 +28,11 @@ http://dev.mysql.com/doc/refman/5.0/en/batch-commands.html
 
    NOTE: if you installed codev in user space ( /home/username/public_html/codev ) then
    chmod o+x /home/username
+
+   WARNING:
+    depending on your HTTP server installation, the file may be created
+    by user 'apache', so be sure that this user has write access to the CoDev install directory
+  
    
 5) /etc/httpd/conf/httpd.conf
    ServerName codevserver:80

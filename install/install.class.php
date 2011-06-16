@@ -88,6 +88,10 @@ class Install {
    // --------------------------------------------------------
 	/**
 	 * updates mysql_config_inc.php with connection parameters
+	 *
+	 * WARN: depending on your HTTP server installation, the file may be created
+	 * by user 'apache', so be sure that this user has write access
+	 * to the CoDev install directory
 	 */
 	public function createMysqlConfigFile($db_mantis_host     = 'localhost',
 	                                      $db_mantis_user     = 'codev',
@@ -396,6 +400,9 @@ class Install {
      * Creates constants.php that contains variable
      * definitions that the codev admin may want to tune.
      *
+	 * WARN: depending on your HTTP server installation, the file may be created
+	 * by user 'apache', so be sure that this user has write access
+	 * to the CoDev install directory
      */
 	public function createConstantsFile() {
 
