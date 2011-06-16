@@ -188,7 +188,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
    $result = mysql_query($query) or die(T_("Query failed:")." $query");
    $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
 
-   $myFile = $path."\holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
+   $myFile = $path.DIRECTORY_SEPARATOR."holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
    $fh = fopen($myFile, 'w');
 
   // USER

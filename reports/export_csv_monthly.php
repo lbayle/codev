@@ -23,12 +23,12 @@ include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
-} 
+}
 ?>
 
 <?php
-   $_POST[page_name] = T_("CSV Report"); 
-   include 'header.inc.php'; 
+   $_POST[page_name] = T_("CSV Report");
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
@@ -47,7 +47,7 @@ if (!isset($_SESSION['userid'])) {
      document.forms["form2"].submit();
   }
 
-  
+
 </script>
 
 <div id="content">
@@ -64,9 +64,9 @@ require_once('tc_calendar.php');
 
 // -----------------------------------------------
 function displayTeamAndPeriodSelectionForm($leadedTeamList, $teamid, $defaultDate1, $defaultDate2) {
-  
+
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
-           
+
   $myCalendar1 = new tc_calendar("date1", true, false);
   $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -77,7 +77,7 @@ function displayTeamAndPeriodSelectionForm($leadedTeamList, $teamid, $defaultDat
   $myCalendar1->startMonday(true);
 
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate2);
-        
+
   $myCalendar2 = new tc_calendar("date2", true, false);
   $myCalendar2->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -90,7 +90,7 @@ function displayTeamAndPeriodSelectionForm($leadedTeamList, $teamid, $defaultDat
   echo "<div class=center>";
   // Create form
   echo "<form id='form2' name='form1' method='post' action='export_csv_monthly.php'>\n";
-  
+
   echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
    echo "<option value='0'></option>\n";
    foreach ($leadedTeamList as $tid => $tname) {
@@ -109,9 +109,9 @@ function displayTeamAndPeriodSelectionForm($leadedTeamList, $teamid, $defaultDat
   echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitPeriodActivityForm()'>\n";
 
   echo "<input type=hidden name=teamid  value=$teamid>\n";
-  
+
   echo "<input type=hidden name=action       value=noAction>\n";
-  
+
   echo "</form>\n";
   echo "</div>";
 }
@@ -159,7 +159,7 @@ if (isset($_REQUEST["date2"])) {
    $nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
    $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
    $date2          = date("Y-m-d", $endTimestamp);
-   
+
 }
 
 
@@ -167,16 +167,16 @@ if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
 	echo T_("Sorry, you do NOT have access to this page.");
    echo "</div>";
-	
+
 } else {
    echo "<div class='center'>";
    echo "<h2>".T_("Monthly report")."</h2><br/>";
    echo "</div>";
-		
-   displayTeamAndPeriodSelectionForm($teamList, $teamid, $date1, $date2);	
-	
+
+   displayTeamAndPeriodSelectionForm($teamList, $teamid, $date1, $date2);
+
 	echo "<br/><br/>\n";
-	
+
    if ("exportPeriod" == $action) {
 
    	echo "<br/>\n";
@@ -184,44 +184,44 @@ if (0 == count($teamList)) {
       echo "<br/>\n";
       echo T_("Team").": ".$teamList[$teamid]."<br/>\n";
       echo "<br/>\n";
-      
+
    	if (0 != $teamid) {
-		
+
          $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
          // -----------------------------
          echo "<b>- ".T_("Export Managed Issues")."...</b><br/>\n";
-         flush(); // envoyer tout l'affichage courant au navigateur 
-         
-         $myFile = $codevReportsDir."\AOI-PIL-Mantis_".date("Ymd").".csv";
-         
+         flush(); // envoyer tout l'affichage courant au navigateur
+
+         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR."AOI-PIL-Mantis_".date("Ymd").".csv";
+
          exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile);
          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
-         flush(); 
-         
+         flush();
+
          // -----------------------------
          echo "<br/>\n";
          echo "<b>- ".T_("Export")." ".T_("Projects Activity")."...</b><br/>\n";
-         flush(); 
-         
-         $myFile = $codevReportsDir."\AOI-PIL-Projects_".$teamName."_".date("Ymd", $timeTracking->startTimestamp)."-".date("Ymd", $timeTracking->endTimestamp).".csv";
+         flush();
+
+         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR."AOI-PIL-Projects_".$teamName."_".date("Ymd", $timeTracking->startTimestamp)."-".date("Ymd", $timeTracking->endTimestamp).".csv";
 
          exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
-         flush(); 
-         
+         flush();
+
          // -----------------------------
          echo "<br/>\n";
          echo "<b>- ".T_("Export Holidays ").$year."...</b><br/>\n";
          flush(); // envoyer tout l'affichage courant au navigateur
-         
+
          // reduce scope to enhance speed
          $startMonth = 1;
          for ($i = $startMonth; $i <= 12; $i++) {
             $filename = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
             echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-            //echo "<a href='$filename'>$filename</a><br/>\n"; 
-            flush(); 
+            //echo "<a href='$filename'>$filename</a><br/>\n";
+            flush();
          }
 
          echo "<br/>\n";
@@ -230,7 +230,7 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo T_("Results in : ").$codevReportsDir."<br/>\n";
       }
-         
+
    } // if action
 }
 

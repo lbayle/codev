@@ -312,7 +312,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
   $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
 
    // create filename & open file
-   $myFile = $path."\AOI-PIL-Holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
+   $myFile = $path.DIRECTORY_SEPARATOR."AOI-PIL-Holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
    $fh = fopen($myFile, 'w');
 
   // USER
