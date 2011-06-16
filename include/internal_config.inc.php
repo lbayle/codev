@@ -96,6 +96,7 @@
 
 
   // ---
+  // TODO translate astreinte = "on duty"
   $astreintesTaskList = Config::getInstance()->getValue(Config::id_astreintesTaskList); // fiches de SuiviOp:Inactivite qui sont des astreintes
 
 
