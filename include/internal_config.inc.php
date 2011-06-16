@@ -28,7 +28,7 @@
 
    // CoDev project started on: 17 May 2010
 
-   $codevVersion = "v0.99.10 (28 May 2011)";
+   $codevVersion = "v0.99.11 (16 Jun 2011)";
 
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management",
@@ -40,7 +40,8 @@
                                 "v0.99.7" => "(25 Feb  2011) - Graph & Statistics",
                                 "v0.99.8" => "(25 Mar  2011) - Add Job and specificities for 'support' + createTeam enhancements",
                                 "v0.99.9" => "(11 Apr  2011) - Planning + enhance global performances",
-                                "v0.99.10" => "(28 May  2011) - Install Procedure (unpolished)"
+                                "v0.99.10" => "(28 May  2011) - Install Procedure (unpolished)",
+                                "v0.99.11" => "(16 Jun  2011) - Replace ETA with Preliminary Est. Effort"
                                 );
 
 
