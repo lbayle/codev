@@ -59,13 +59,16 @@ class PeriodStatsReport {
 	
 	      $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
 	      
-	      // only projects for specified team, except excluded projects
-	      $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
-	      
 	      $projectList = array();
 	      $query = "SELECT project_id FROM `codev_team_project_table` ".
-	               "WHERE team_id = $this->teamid ".
-	               "AND project_id NOT IN ($formatedExcludedProjects)";
+                  "WHERE team_id = $this->teamid ";
+         
+         // only projects for specified team, except excluded projects
+         if ((NULL != $periodStatsExcludedProjectList) &&
+             (0 != count($periodStatsExcludedProjectList))) {
+                   $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
+                  $query .= "AND project_id NOT IN ($formatedExcludedProjects)";
+         }
 	      
 	      $result = mysql_query($query) or die("Query failed: $query");
 	      while($row = mysql_fetch_object($result)) {
@@ -102,13 +105,16 @@ class PeriodStatsReport {
    
          $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
          
-         // only projects for specified team, except excluded projects
-         $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
-         
          $projectList = array();
          $query = "SELECT project_id FROM `codev_team_project_table` ".
-                  "WHERE team_id = $this->teamid ".
-                  "AND project_id NOT IN ($formatedExcludedProjects)";
+                  "WHERE team_id = $this->teamid ";
+
+         // only projects for specified team, except excluded projects
+         if ((NULL != $periodStatsExcludedProjectList) &&
+             (0 != count($periodStatsExcludedProjectList))) {
+                   $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
+                  $query .= "AND project_id NOT IN ($formatedExcludedProjects)";
+         }
          
          $result = mysql_query($query) or die("Query failed: $query");
          while($row = mysql_fetch_object($result)) {
