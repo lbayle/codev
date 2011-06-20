@@ -450,7 +450,6 @@ class Issue {
    		
    		// convert seconds to days (24 * 60 * 60) = 86400
    		$timeDrift /=  86400 ;
-         #echo "DEBUG: TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift<br/>";
          
    		// remove weekends & holidays
    		$holidays = $this->getHolidays();
@@ -459,7 +458,14 @@ class Issue {
    		} else {
              $nbHolidays = $holidays->getNbHolidays($this->deadLine, $this->deliveryDate);
    		}
-   		$timeDrift -= $nbHolidays;
+         #echo "DEBUG: TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift (- $nbHolidays holidays)<br/>";
+
+         if ($timeDrift > 0) {
+            $timeDrift -= $nbHolidays;
+         } else {
+            $timeDrift += $nbHolidays;
+         }
+   		
    	} else {
          $timeDrift = "Error";
    		#echo "WARNING: could not determinate TimeDrift for issue $this->bugId.<br/>";
