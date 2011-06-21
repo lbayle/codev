@@ -58,6 +58,35 @@ if (!isset($_SESSION['userid'])) {
     document.forms["form1"].submit();
   }
 
+  function previousWeek() {
+     weekid = document.getElementById('weekidSelector').value;
+     year   = document.getElementById('yearSelector').value;
+
+     if (1 != weekid) {
+       document.forms["form1"].weekid.value = --weekid;
+       document.forms["form1"].year.value = year;
+     }
+     
+     document.forms["form1"].action.value="updateWeekDisplay";
+     document.forms["form1"].submit();
+   }
+  
+  function nextWeek() {
+     weekid = document.getElementById('weekidSelector').value;
+     year   = document.getElementById('yearSelector').value;
+
+     if (weekid <= 52) {
+       document.forms["form1"].weekid.value = ++weekid;
+       document.forms["form1"].year.value = year;
+     } else {
+        document.forms["form1"].weekid.value = 1;
+        document.forms["form1"].year.value = ++year;
+     }
+       
+     document.forms["form1"].action.value="updateWeekDisplay";
+     document.forms["form1"].submit();
+  }
+  
   function addTrack(){
     // check fields
     foundError = 0;
