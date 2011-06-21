@@ -114,7 +114,7 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
   echo "  <tr>\n";
   $isChecked = $isTaskAstreinte ? "CHECKED" : "";
   echo "    <td width='100'><input type=CHECKBOX $isChecked name='cb_taskAstreinte' id='cb_taskAstreinte'>".
-       T_("Astreinte")."</input></td>\n";
+       T_("OnDuty")."</input></td>\n";
   echo "    <td><input size='40' type='text' name='task_astreinte'  id='task_astreinte' value='$task_astreinte'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
@@ -246,7 +246,7 @@ if ("false" == $is_modified) {
 }
 
 $task_leave     = isset($_POST[task_leave]) ? $_POST[task_leave] : T_("(generic) Absence");
-$task_astreinte = isset($_POST[task_astreinte]) ? $_POST[task_astreinte] : T_("(generic) Astreinte");
+$task_astreinte = isset($_POST[task_astreinte]) ? $_POST[task_astreinte] : T_("(generic) On Duty");
 $task_incident1 = isset($_POST[task_incident1]) ? $_POST[task_incident1] : T_("(generic) Network is down");
 $task_tools1    = isset($_POST[task_tools1]) ? $_POST[task_tools1] : T_("(generic) Mantis/CoDev administration");
 $job1           = isset($_POST[job1]) ? $_POST[job1] : T_("Study of the existing");

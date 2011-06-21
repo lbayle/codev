@@ -186,7 +186,7 @@ function displayAstreintesTuples() {
 
       echo "<tr>\n";
       echo "<td>\n";
-      echo "<a title='".T_("delete Astreinte")."' href=\"javascript: deleteAstreinte('".$bugid."', '$deleteDesc')\" ><img src='../images/b_drop.png'></a>\n";
+      echo "<a title='".T_("delete OnDuty")."' href=\"javascript: deleteAstreinte('".$bugid."', '$deleteDesc')\" ><img src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
       echo "<td>$bugid</td>\n";
       echo "<td>$issue->summary</td>\n";
@@ -305,7 +305,7 @@ if (!$session_user->isTeamMember($admin_teamid)) {
    exit;
 }
 
-echo "<h2>".T_("Add Astreintes")."</h2>\n";
+echo "<h2>".T_("Add OnDuty holidays")."</h2>\n";
 echo "<br/>";
 echo T_("In here you can specify which inactivity tasks are also astreintes")."<br/>";
 echo "<br/>";

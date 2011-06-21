@@ -145,7 +145,7 @@ function displayHolidaysMonth($month, $year, $teamid) {
 
 
             if (NULL != $astreintes[$i]) {
-              echo "<td style='background-color: #$yellow; text-align: center;' title='".T_("Astreinte")."'>".$daysOf[$i]."</td>\n";
+              echo "<td style='background-color: #$yellow; text-align: center;' title='".T_("OnDuty")."'>".$daysOf[$i]."</td>\n";
 
             } elseif (NULL != $daysOf[$i]) {
 
