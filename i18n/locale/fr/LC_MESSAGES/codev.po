@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-06-21 14:12+0200\n"
+"POT-Creation-Date: 2011-06-22 10:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,7 +173,7 @@ msgstr "Administration CoDev : Cong&eacute;s"
 #: reports/export_csv_tools.php:243 reports/export_csv_weekly.php:141
 #: reports/issue_info.php:129 timetracking/project_activity_report.php:200
 #: timetracking/set_holidays.php:238 timetracking/team_activity_report.php:160
-#: timetracking/time_tracking.php:243 timetracking/time_tracking_tools.php:157
+#: timetracking/time_tracking.php:272 timetracking/time_tracking_tools.php:160
 #: tools/check.php:71
 msgid "Task"
 msgstr "Fiche"
@@ -186,7 +186,7 @@ msgstr ""
 #: admin/edit_holidays.php:152 admin/edit_holidays.php:234
 #: admin/edit_jobs.php:159 admin/edit_jobs.php:249 admin/edit_team.php:554
 #: include/menu_holidays.inc.php:34 timetracking/set_holidays.php:282
-#: timetracking/time_tracking.php:298
+#: timetracking/time_tracking.php:327
 msgid "Add"
 msgstr "Ajouter"
 
@@ -259,8 +259,8 @@ msgstr "&eacute;ffacer ce Poste"
 #: admin/edit_jobs.php:232 reports/export_csv_weekly.php:142
 #: reports/issue_info.php:285 reports/productivity_report.php:476
 #: timetracking/set_holidays.php:270 timetracking/team_activity_report.php:162
-#: timetracking/time_tracking.php:270 timetracking/time_tracking_tools.php:66
-#: timetracking/time_tracking_tools.php:159
+#: timetracking/time_tracking.php:299 timetracking/time_tracking_tools.php:66
+#: timetracking/time_tracking_tools.php:162
 msgid "Job"
 msgstr "Poste"
 
@@ -268,7 +268,7 @@ msgstr "Poste"
 #: reports/export_csv_tools.php:34 reports/issue_info.php:93
 #: reports/productivity_report.php:159 reports/productivity_report.php:498
 #: timetracking/set_holidays.php:204 timetracking/team_activity_report.php:161
-#: timetracking/time_tracking.php:209 timetracking/time_tracking_tools.php:64
+#: timetracking/time_tracking.php:238 timetracking/time_tracking_tools.php:64
 msgid "Project"
 msgstr "Projet"
 
@@ -326,7 +326,7 @@ msgid "login"
 msgstr "identifiant"
 
 #: admin/edit_team.php:295 admin/edit_team.php:484
-#: timetracking/set_holidays.php:124 timetracking/time_tracking.php:141
+#: timetracking/set_holidays.php:124 timetracking/time_tracking.php:170
 msgid "Name"
 msgstr "Nom"
 
@@ -613,7 +613,7 @@ msgstr "BS"
 #: reports/export_csv_tools.php:251
 #: timetracking/project_activity_report.php:201
 #: timetracking/time_tracking_tools.php:70
-#: timetracking/time_tracking_tools.php:158
+#: timetracking/time_tracking_tools.php:161
 msgid "RAE"
 msgstr "RAE"
 
@@ -660,32 +660,32 @@ msgstr "TOTAL"
 #: reports/export_csv_weekly.php:89
 #: timetracking/project_activity_report.php:93
 #: timetracking/team_activity_report.php:82
-#: timetracking/time_tracking_tools.php:130
+#: timetracking/time_tracking_tools.php:131
 msgid "Week"
 msgstr "Semaine"
 
 #: reports/export_csv_weekly.php:145 timetracking/team_activity_report.php:163
-#: timetracking/time_tracking_tools.php:160
+#: timetracking/time_tracking_tools.php:163
 msgid "Monday"
 msgstr "Lundi"
 
 #: reports/export_csv_weekly.php:146 timetracking/team_activity_report.php:164
-#: timetracking/time_tracking_tools.php:161
+#: timetracking/time_tracking_tools.php:164
 msgid "Tuesday"
 msgstr "Mardi"
 
 #: reports/export_csv_weekly.php:147 timetracking/team_activity_report.php:165
-#: timetracking/time_tracking_tools.php:162
+#: timetracking/time_tracking_tools.php:165
 msgid "Wednesday"
 msgstr "Mercredi"
 
 #: reports/export_csv_weekly.php:148 timetracking/team_activity_report.php:166
-#: timetracking/time_tracking_tools.php:163
+#: timetracking/time_tracking_tools.php:166
 msgid "Thursday"
 msgstr "Jeudi"
 
 #: reports/export_csv_weekly.php:149 timetracking/team_activity_report.php:167
-#: timetracking/time_tracking_tools.php:164
+#: timetracking/time_tracking_tools.php:167
 msgid "Friday"
 msgstr "Vendredi"
 
@@ -710,12 +710,12 @@ msgid "Activity by task"
 msgstr "Activit&eacute; par t&acirc;che"
 
 #: reports/issue_info.php:94 timetracking/set_holidays.php:205
-#: timetracking/time_tracking.php:210
+#: timetracking/time_tracking.php:239
 msgid "(all)"
 msgstr "(tous)"
 
 #: reports/issue_info.php:144 timetracking/set_holidays.php:139
-#: timetracking/time_tracking.php:156
+#: timetracking/time_tracking.php:185
 msgid "Jump"
 msgstr "Envoyer"
 
@@ -794,7 +794,7 @@ msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
 #: reports/issue_info.php:457 reports/planning_report.php:526
-#: timetracking/set_holidays.php:342 timetracking/time_tracking.php:345
+#: timetracking/set_holidays.php:342 timetracking/time_tracking.php:374
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
 "Vous devez faire partie de l'&eacute;quipe d'admin pour acceder &agrave; "
@@ -1230,7 +1230,7 @@ msgstr "Activit&eacute; hebdomadaire"
 msgid "Time Tracking"
 msgstr "Saisie des CRA"
 
-#: timetracking/time_tracking.php:281
+#: timetracking/time_tracking.php:310
 msgid "Duration (in days)"
 msgstr "Dur&eacute;e (en jours)"
 
@@ -1245,6 +1245,14 @@ msgstr "Fiche TC"
 #: timetracking/time_tracking_tools.php:69
 msgid "Load Estimation"
 msgstr "Effort Estim&eacute;"
+
+#: timetracking/time_tracking_tools.php:132
+msgid "Previous week"
+msgstr "Semaine pr&eacute;c&eacute;dente"
+
+#: timetracking/time_tracking_tools.php:155
+msgid "Next week"
+msgstr "Semaine suivante"
 
 #: include/menu.inc.php:41 tools/check.php:32
 msgid "Consistency Check"
