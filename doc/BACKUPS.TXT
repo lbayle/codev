@@ -1,0 +1,23 @@
+http://www.mantisbt.org/manual/manual.installation.backups.php
+
+
+It is recommended to backup your Mantis database on a regular basis. This is easy to accomplish using the mysqldump command:
+
+mysqldump -u<username> -p<password> <database name> > <output file>
+
+To restore a backup you will need to have a clean database. Then run:
+
+mysql -u<username> -p<password> <database name> < <input file>
+
+
+If you like to restore the database the command combination will produce an error because the tables allready exists.
+So add '--opt' to the mysqldump command and '--force' to the mysql command. (--force because of the commands for 
+mysql 4, they will produce warnings on 3.x and the command will exit)
+The '--opt' adds the 'DROP TABLES' command (and some other things) so that you can overwrite existing data with the dump.
+
+create backup:
+mysqldump --opt -u<username> -p<password> <database name> > <backup file>
+
+restore backup:
+mysql --force -u<username> -p<password> <database name> < <backup file>
+
