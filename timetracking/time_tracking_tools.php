@@ -127,8 +127,10 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 	if (NULL == $curYear) { $curYear = date('Y'); }
 
 	echo "<div align='center'>\n";
-   echo "<br/>".T_("Week")." \n";
-   echo "<select id='weekidSelector' name='weekidSelector' onchange='javascript: submitWeekid()'>\n";
+   echo "<br/>\n";
+   echo T_("Week")." \n";
+   echo "<input type=button title='".T_("Previous week")."' value='<<' onClick='javascript: previousWeek()'>\n";
+	echo "<select id='weekidSelector' name='weekidSelector' onchange='javascript: submitWeekid()'>\n";
    for ($i = 1; $i <= 53; $i++)
    {
       $wDates      = week_dates($i,$curYear);
@@ -150,6 +152,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
     }
   }
   echo "</select>\n";
+  echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
 
    $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table>\n";
