@@ -1,23 +1,19 @@
 http://www.mantisbt.org/manual/manual.installation.backups.php
+http://www.artiloo.com/forum/topic.php?val=8590_error+2006+mysql+server+has+gone+away
 
 
-It is recommended to backup your Mantis database on a regular basis. This is easy to accomplish using the mysqldump command:
-
-mysqldump -u<username> -p<password> <database name> > <output file>
-
-To restore a backup you will need to have a clean database. Then run:
-
-mysql -u<username> -p<password> <database name> < <input file>
+WARN: to restore big tables you need to modify your mysql config:
+edit C:\xampp\mysql\bin\my.ini
+# max_allowed_packet    = 1M
+max_allowed_packet      = 64M
 
 
-If you like to restore the database the command combination will produce an error because the tables allready exists.
-So add '--opt' to the mysqldump command and '--force' to the mysql command. (--force because of the commands for 
-mysql 4, they will produce warnings on 3.x and the command will exit)
-The '--opt' adds the 'DROP TABLES' command (and some other things) so that you can overwrite existing data with the dump.
 
-create backup:
-mysqldump --opt -u<username> -p<password> <database name> > <backup file>
+*** create backup
+use phpmyadmin or :
+mysqldump --opt -uroot -p<password> bugtracker > bugtracker.sql
 
-restore backup:
-mysql --force -u<username> -p<password> <database name> < <backup file>
+
+*** restore backup
+mysql --force -uroot -p<password> bugtracker < bugtracker.sql
 
