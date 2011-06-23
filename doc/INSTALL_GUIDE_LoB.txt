@@ -16,6 +16,11 @@ http://dev.mysql.com/doc/refman/5.0/en/batch-commands.html
 2) configurer mysql
    mysql_secure_installation
 
+2.1) configurer mysql
+   vi mysql/bin/my.ini
+#max_allowed_packet    = 1M
+max_allowed_packet      = 64M
+
 3) configurer le firewall pour autoriser HTTP et HTTPS
    system-config-firewall
 
