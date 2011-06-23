@@ -507,10 +507,10 @@ if (0 == count($teamList)) {
          echo "<div align='left'>\n";
          echo "<ul>\n";
          echo "   <li><a href='#tagSubmittedResolved'>".T_("Submitted / Resolved Issues")."</a></li>\n";
+         echo "   <li><a href='#tagTimeDrift'>".T_("Adherence to deadlines")."</a></li>\n";
          echo "   <li><a href='#tagResolvedDrift'>".T_("Drifts")."</a></li>\n";
-         echo "   <li><a href='#tagTimeDrift'>".T_("TimeDrifts")."</a></li>\n";
-         echo "   <li><a href='#tagProductivityRate'>".T_("Productivity Rate")."</a></li>\n";
          echo "   <li><a href='#tagEfficiencyRate'>".T_("Efficiency - System Disponibility")."</a></li>\n";
+         echo "   <li><a href='#tagProductivityRate'>".T_("Productivity Rate")."</a></li>\n";
          echo "</ul><br/>\n";
          echo "</div>\n";
       
@@ -546,6 +546,15 @@ if (0 == count($teamList)) {
 
          echo "<div class=\"spacer\"> </div>\n";
 
+         // --------- EfficiencyRate
+         echo "<br/>\n";
+         echo "<hr/>\n";
+         echo "<br/>\n";
+         echo "<a name='tagEfficiencyRate'></a>\n";
+         displayEfficiencyGraph ($timeTrackingTable, 800, 300);
+
+         echo "<div class=\"spacer\"> </div>\n";
+         
          // --------- ProductivityRate
          echo "<br/>\n";
          echo "<hr/>\n";
@@ -555,15 +564,6 @@ if (0 == count($teamList)) {
 
          echo "<div class=\"spacer\"> </div>\n";
          
-         
-         // --------- EfficiencyRate
-         echo "<br/>\n";
-         echo "<hr/>\n";
-         echo "<br/>\n";
-         echo "<a name='tagEfficiencyRate'></a>\n";
-         displayEfficiencyGraph ($timeTrackingTable, 800, 300);
-
-         echo "<div class=\"spacer\"> </div>\n";
          
          
          
