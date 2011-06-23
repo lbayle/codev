@@ -236,6 +236,71 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    
 }
 
+/**
+ * Display 'Adherence to deadlines' 
+ * in percent of tasks delivered before the deadLine.
+ *  
+ * @param unknown_type $timeTrackingTable
+ * @param unknown_type $width
+ * @param unknown_type $height
+ */
+function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
+   
+   $start_day = 1; 
+   $now = time();
+   
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      
+         // REM: the 'normal' drifts DO include support
+         $timeDriftStats = $timeTracking->getTimeDriftStats();
+         
+         $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
+         $val1[] = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
+
+         $bottomLabel[] = date("M y", $startTimestamp);
+         
+         #echo "DEBUG: nbDriftsNeg=".$timeDriftStats['nbDriftsNeg']." nbDriftsPos=".$timeDriftStats['nbDriftsPos']." date=".date('M y', $startTimestamp)."<br/>\n";
+         #echo "DEBUG: driftNeg=".$timeDriftStats['driftNeg']." driftPos=".$timeDriftStats['driftPos']." date=".date('M y', $startTimestamp)."<br/>\n";
+   }
+   $graph_title="title=".("Adherence to deadlines");
+   $graph_width="width=$width";
+   $graph_height="height=$height";
+   
+   $strVal1 = "leg1=% Tasks&x1=".implode(':', $val1);
+   $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
+   
+   echo "<div>\n";
+   echo "<h2>".T_("Adherence to deadlines")."</h2>\n";
+   
+   echo "<span class='help_font'>\n";
+   echo T_("% Tasks").": ".T_("Percentage of tasks delivered before the deadLine")."<br/>\n";
+   echo "</span>\n";
+   echo "<br/>\n";
+   
+   echo "<div class=\"float\">\n";
+   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   echo "</div>\n";
+   echo "<div class=\"float\">\n";
+   echo "<table>\n";
+   echo "<caption title='".("Adherence to deadlines")."'</caption>";
+   echo "<tr>\n";
+   echo "<th>Date</th>\n";
+   echo "<th title='".T_("% Tasks Delivered on time")."'>".T_("% Tasks")."</th>\n";
+   echo "</tr>\n";
+   $i = 0;
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      echo "<tr>\n";
+      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".number_format($val1[$i], 1)."%</td>\n";
+      echo "</tr>\n";
+      $i++;
+   }
+   echo "</table>\n";
+   echo "</div>\n";
+   echo "</div>\n";
+   
+}
+
 function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $displayNoSupport = false) {
    
    $start_day = 1; 
@@ -443,9 +508,10 @@ if (0 == count($teamList)) {
          echo "<div align='left'>\n";
          echo "<ul>\n";
          echo "   <li><a href='#tagSubmittedResolved'>".T_("Submitted / Resolved Issues")."</a></li>\n";
+         echo "   <li><a href='#tagTimeDrift'>".T_("Adherence to deadlines")."</a></li>\n";
          echo "   <li><a href='#tagResolvedDrift'>".T_("Drifts")."</a></li>\n";
-         echo "   <li><a href='#tagProductivityRate'>".T_("Productivity Rate")."</a></li>\n";
          echo "   <li><a href='#tagEfficiencyRate'>".T_("Efficiency - System Disponibility")."</a></li>\n";
+#         echo "   <li><a href='#tagProductivityRate'>".T_("Productivity Rate")."</a></li>\n";
          echo "</ul><br/>\n";
          echo "</div>\n";
       
@@ -468,18 +534,16 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<hr/>\n";
          echo "<br/>\n";
-         echo "<a name='tagResolvedDrift'></a>\n";
-         displayResolvedDriftGraph ($timeTrackingTable, 800, 300, $displayNoSupport);
-
+         echo "<a name='tagTimeDrift'></a>\n";
+         displayTimeDriftGraph ($timeTrackingTable, 800, 300);         
+         
          echo "<div class=\"spacer\"> </div>\n";
          
-         
-         // --------- ProductivityRate
          echo "<br/>\n";
          echo "<hr/>\n";
          echo "<br/>\n";
-         echo "<a name='tagProductivityRate'></a>\n";
-         displayProductivityRateGraph ($timeTrackingTable, 800, 300, $displayNoSupport);
+         echo "<a name='tagResolvedDrift'></a>\n";
+         displayResolvedDriftGraph ($timeTrackingTable, 800, 300, $displayNoSupport);
 
          echo "<div class=\"spacer\"> </div>\n";
          
@@ -493,7 +557,16 @@ if (0 == count($teamList)) {
 
          echo "<div class=\"spacer\"> </div>\n";
          
-         
+         // --------- ProductivityRate
+/*
+         echo "<br/>\n";
+         echo "<hr/>\n";
+         echo "<br/>\n";
+         echo "<a name='tagProductivityRate'></a>\n";
+         displayProductivityRateGraph ($timeTrackingTable, 800, 300, $displayNoSupport);
+
+         echo "<div class=\"spacer\"> </div>\n";
+*/         
          
       }
    }
