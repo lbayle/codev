@@ -6,72 +6,112 @@ http://dev.mysql.com/doc/refman/5.0/en/batch-commands.html
 /opt/mantis/doc/INSTALL
 
 1) installer les softs (sur Fedora 13)
-   yum install git gitosis
+   yum install git gitosis gitk
    yum install httpd php php-pdo php-mysql php-gd mysql mysql-server phpmyadmin
    cd /opt
-   unzip /tmp/mantisbt-1.2.2.zip 
-   ln -s mantisbt-1.2.2 mantis
-   tar xvzf /tmp/codev.tgz
-   git clone /opt/codev.git
+   unzip /tmp/mantisbt-1.2.2.zip
+   mv  /opt/mantisbt-1.2.2 /opt/mantis
+   git clone git@github.com:lbayle/codev.git
 
-2) donner les droits en lecture (sinon Error 403 Forbidden !!)
+2) configurer mysql
+   mysql_secure_installation
+
+2.1) configurer mysql
+   vi mysql/bin/my.ini
+#max_allowed_packet    = 1M
+max_allowed_packet      = 64M
+
+3) configurer le firewall pour autoriser HTTP et HTTPS
+   system-config-firewall
+
+4) donner les droits en lecture (sinon Error 403 Forbidden !!)
    chmod -R 755 /opt/mantis
    chmod -R 755 /opt/codev
-   cd /var/www/http
+   cd /var/www/html
    ln -s /opt/mantis
    ln -s /opt/codev
 
+   NOTE: if you installed codev in user space ( /home/username/public_html/codev ) then
+   chmod o+x /home/username
 
-2) /etc/httpd/conf/httpd.conf
+   WARNING:
+    depending on your HTTP server installation, the file may be created
+    by user 'apache', so be sure that this user has write access to the CoDev install directory
+  
+   
+5) /etc/httpd/conf/httpd.conf
    ServerName codevserver:80
 
-   REM: Demarrage de httpd : httpd: Could not reliably determine the server's fully qualified domain name, using ::1 for ServerName
+   REM: Demarrage de httpd: httpd: Could not reliably determine the server's fully qualified domain name, using ::1 for ServerName
         -> Dans le fichier httpd.conf d'apache, renseigne le champ ServerName. 
 
-2) service httpd restart
-   si wifi (NetworkManager) le service doit etre demare apres le reseau
+6) restart services 
+   service mysqld restart
+   service httpd  restart
+   NOTE: si wifi (NetworkManager) le service doit etre demare apres le reseau
    il faut donc le redemarrer a la main.
 
 
-3) http://localhost
+7) http://localhost
    verifier que la page de garde apache s'affiche.
 
    REM: You don't have permission to access /mantis/ on this server
-chmod -R 755
+   chmod -R 755
 
 
 
 
-4) acces aux sites
+8) acces aux sites
+DEPRECATED ?
 copier mantis.conf et codev.conf dans /etc/httpd/conf.d
 
-5) /opt/mantis/config_inc.php
-$g_db_username   = "admin";
-$g_db_password   = "admin";
+9) creer une BDD et un utilisateur mysql pour mantis
+  mysql --user=root --password=xxxxxx mysql
+mysql> create database bugtracker;
+mysql> CREATE USER 'mantis'@'localhost' IDENTIFIED BY 'secret';
+mysql> GRANT ALL PRIVILEGES ON bugtracker.* TO 'mantis'@'localhost' WITH GRANT OPTION;
+mysql> exit
+
+10) informer mantis de cet utilisateur
+   cp /opt/mantis/config_inc.php.sample /opt/mantis/config_inc.php
+   vi /opt/mantis/config_inc.php
+$g_db_username   = "mantis";
+$g_db_password   = "secret";
 $g_send_reset_password = OFF;
 $g_validate_email = OFF;
 date_default_timezone_set('Europe/Paris'); 
 
 
-6) service httpd restart
+11) service httpd restart
 redemarer le service pour que apache trouve les sites mantis et codev
 
-7) creer un utilisateur mysql pour mantis et codev
-mysql --user=root --password=xxxxxx mysql
-CREATE USER 'mantisdbuser'@'localhost' IDENTIFIED BY '';
-GRANT ALL PRIVILEGES ON *.* TO 'codev'@'localhost' WITH GRANT OPTION;
-CREATE USER 'codev'@'localhost' IDENTIFIED BY 'codev';
-GRANT ALL PRIVILEGES ON *.* TO 'codev'@'localhost' WITH GRANT OPTION;
-exit
 
-
-7) premier demarage de mantis
+12) premier demarage de mantis
 http://localhost/mantis/admin/check.php
 http://path/to/mantisbt/admin/install.php
 
-8) preparer la base codev
-mysql --user=codev --password=codev mysql  < /opt/codev/codev_tables.sql
+REM: Checking Database Server Version -- BAD MySQL 4.1.0 or later is required for installation.
+I'm not sure about what happens, but the pb was solved once I created mysql 'mantis' user and 
+configured /opt/mantis/config_inc.php, 
 
+13) test mantis
+Mantis est maintenant installe.
+http://localhost/mantis
+    * login  : administrator
+    * passwd : root 
+
+14) -- IMPORTANT -- customize mantis
+You need to configure mantis BEFORE installing CoDev, so do it now !
+(Status, Workflow, Threshold, etc)
+
+15) creer un utilisateur mysql pour codev
+mysql --user=root --password=xxxxxx mysql
+CREATE USER 'codev' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON bugtracker.* TO 'codev' WITH GRANT OPTION;
+exit
+
+16) lancer l'install de CoDev
+https://localhost/codev/install/install.php
 
 
 
