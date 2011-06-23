@@ -45,6 +45,13 @@ if (!isset($_SESSION['userid'])) {
        document.forms["form1"].submit();
   }
 
+  function updateYearSelector() {
+     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+     document.forms["form1"].year.value   = document.getElementById('yearSelector').value;
+     
+     document.forms["form1"].action.value = "noAction";
+     document.forms["form1"].submit();
+  }
   
 </script>
 
@@ -66,7 +73,7 @@ function setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $startYea
   echo "<div align=center>\n";
   echo "<form id='form1' name='form1' method='post' action='$originPage'>\n";
   
-  echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
+  echo T_("Team").": <select id='teamidSelector' name='teamidSelector' onchange='updateYearSelector()'>\n";
   echo "<option value='0'></option>\n";
   foreach ($teamList as $tid => $tname) {
     if ($tid == $teamid) {
