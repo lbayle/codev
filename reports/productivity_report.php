@@ -364,8 +364,12 @@ function displayTimeDriftStats ($timeTracking) {
          
   $timeDriftStats = $timeTracking->getTimeDriftStats();  // all issues delivered within the period
   
+  $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
+  $percent = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
+  
+  
   echo "<table>\n";
-  echo "<caption title='".T_("Tasks having no deadLine are not reported here")."'>".T_("Adherence to deadlines")."</caption>\n";
+  echo "<caption title='".T_("Tasks having no deadLine are not reported here")."'>".T_("Adherence to deadlines")."&nbsp;&nbsp;&nbsp;(".number_format($percent, 1)."%)</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100'>".T_("Total")."</th>\n";
