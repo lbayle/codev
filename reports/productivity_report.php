@@ -185,8 +185,8 @@ function displayRates ($timeTracking) {
   $prodDays                = $timeTracking->getProdDays();
   $sideProdDaysDevel       = $timeTracking->getProdDaysSideTasks(true);
   $sideProdDaysManagers    = $timeTracking->getProdDaysSideTasks(false) - $sideProdDaysDevel;
-  $productivityRateETA     = $timeTracking->getProductivityRate("ETA");
-  $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
+//  $productivityRateETA     = $timeTracking->getProductivityRate("ETA");
+//  $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
   $efficiencyRate          = $timeTracking->getEfficiencyRate();
   $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
@@ -251,6 +251,10 @@ function displayRates ($timeTracking) {
   echo "<td>100 - (breakdownDays / prodDays)</td>\n";
   echo "</tr>\n";
 
+/* productivityRate is not an 'efficient' indicator because it depends on the EffortEstim
+ * which is not a very credible value. It is also hard to understand and the value does not 
+ * fluctuate much. so let's get rid of it !
+ 
   echo "<tr>\n";
   echo "<td title='".T_("BEFORE analysis")."'>".T_("Productivity Rate ETA")."</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
@@ -261,14 +265,6 @@ function displayRates ($timeTracking) {
             T_("- Reopened tasks are not taken into account")."</td>\n";
   echo "<td>sum(ETA_balance) / sum(elapsed)</td>\n";
   echo "</tr>\n";
-/*
-  echo "<tr>\n";
-  echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod Rate NoSupport ETA")."</td>\n";
-  echo "<td>".number_format($prodRateNoSupportETA, 2)."</td>\n";
-  echo "<td></td>\n";
-  echo "<td></td>\n";
-  echo "</tr>\n";
-*/
   echo "<tr>\n";
   echo "<td title='".T_("AFTER analysis")."'>".T_("Productivity Rate")."</td>\n";
   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
@@ -278,15 +274,7 @@ function displayRates ($timeTracking) {
             T_("- Reopened tasks are not taken into account")."</td>\n";
   echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
   echo "</tr>\n";
-/*
-  echo "<tr>\n";
-  echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod Rate NoSupport")."</td>\n";
-  echo "<td>".number_format($prodRateNoSupportBI, 2)."</td>\n";
-  echo "<td></td>\n";
-  echo "<td></td>\n";
-  echo "</tr>\n";
 */
-
   echo "</table>\n";
 
   //echo "<br/>SideTasks<br/>";
