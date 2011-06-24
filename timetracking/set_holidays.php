@@ -374,7 +374,7 @@ if ($_POST[nextForm] == "addHolidaysForm") {
       	// TODO check existing timetracks on $timestamp and adjust duration
          $duration  = 1;
       	
-      	echo "TAMERE  ".date("Y-m-d", $timestamp)." duration $duration job $job<br/>";
+      	echo "INFO  ".date("Y-m-d", $timestamp)." duration $duration job $job<br/>";
     	   TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
       }
 
