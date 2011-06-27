@@ -408,14 +408,15 @@ class User {
    
    // --------------------
    /**
-    * sum the RAE of all the opened Issues assigned to me.
+    * sum the RAE (or ETA if no RAE defined) of all the opened Issues assigned to me.
     */
    public function getWorkload($projList = NULL) {
 
       global $status_resolved;
       global $status_delivered;
       global $status_closed;
-   	
+      global $ETA_balance;
+      
       $totalRemaining = 0;
 
       if (NULL == $projList) {
@@ -440,11 +441,13 @@ class User {
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id);
+            
             if (NULL != $issue->remaining) {
             	$totalRemaining += $issue->remaining;
+            } else if (NULL != $issue->eta) {
+            	$totalRemaining += $ETA_balance[$issue->eta];
             }
       }
-   	
    	
    	return $totalRemaining;
    }
