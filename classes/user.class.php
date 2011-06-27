@@ -408,7 +408,7 @@ class User {
 
    // --------------------
    /**
-    * sum the RAE of all the opened Issues assigned to me.
+    * sum the RAE (or prelEffortEstim if no RAE defined) of all the opened Issues assigned to me.
     */
    public function getWorkload($projList = NULL) {
 
@@ -440,6 +440,8 @@ class User {
             $issue = IssueCache::getInstance()->getIssue($row->id);
             if (NULL != $issue->remaining) {
             	$totalRemaining += $issue->remaining;
+            } else if (NULL != $issue->prelEffortEstim) {
+               $totalRemaining += $issue->prelEffortEstim;
             }
       }
 
