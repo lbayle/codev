@@ -294,14 +294,21 @@ class ConsistencyCheck {
    // ----------------------------------------------
    /**
     * an ETA should be defined when creating an Issue
+    * 
+    * Note: if closed or resolved, we don't care anymore
     */
    public function checkETA() {
+
+      global $status_resolved;
+      global $status_delivered;
+      global $status_closed;
    	
    	$cerrList = array();
    	
    	// select all issues
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-        "FROM `mantis_bug_table` ";
+        "FROM `mantis_bug_table` ".
+        "WHERE status NOT IN ($status_resolved, $status_delivered, $status_closed) ";
       
       
       
@@ -319,7 +326,7 @@ class ConsistencyCheck {
       	
       	if (0 != count($prjListNoSideTasks)) {
             $formatedProjects = valuedListToSQLFormatedString($prjListNoSideTasks);
-            $query .= "WHERE project_id IN ($formatedProjects) ";
+            $query .= "AND project_id IN ($formatedProjects) ";
       	}
       } else {
       	// TODO except SideTasksProjects
