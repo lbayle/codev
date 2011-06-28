@@ -36,6 +36,21 @@ td {
   padding: 0px 2px;
 }
 
+tr.row_even td {
+  background-color: #CFCFCF;
+  border: 0px solid white;
+  margin: 0;
+  padding: 0px 2px;
+}
+
+tr.row_odd td {
+  background-color: #e8e8e8;
+  border: 0px solid white;
+  margin: 0;
+  padding: 0px 2px;
+}
+
+
 #login {
   text-align: left;
   padding: 4px;
@@ -68,8 +83,6 @@ table.invisible td {
   font-size: 12px;
   padding: 3px;
 }
-
-
 
 #homepage_list {
   font-size: larger;
