@@ -266,7 +266,7 @@ if (0 == count($teamList)) {
 		   flush(); // envoyer tout l'affichage courant au navigateur 
 		   
          $myFile = $codevReportsDir."\AOI-PIL-Mantis_".date("Ymd").".csv";
-		   $filename = exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile);
+		   $filename = exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
 	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
 	      flush(); 
 		   
