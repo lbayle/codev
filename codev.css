@@ -35,6 +35,21 @@ th {
   margin: 0;
   padding: 0px 2px;
 }
+
+tr.row_even td {
+  background-color: #CFCFCF;
+  border: 0px solid white;
+  margin: 0;
+  padding: 0px 2px;
+}
+
+tr.row_odd td {
+  background-color: #e8e8e8;
+  border: 0px solid white;
+  margin: 0;
+  padding: 0px 2px;
+}
+
 td {
   background-color: #e8e8e8;
   border: 0px solid white;

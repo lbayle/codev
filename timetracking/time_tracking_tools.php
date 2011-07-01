@@ -51,6 +51,9 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
 }
 
 function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
+	
+	$curJulian = 0;
+	
    // Display previous entries
    echo "<div align='center'>\n";
    echo "<table>\n";
@@ -99,8 +102,20 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
 
       $totalEstim = $issue->effortEstim + $issue->effortAdd;
 
-      echo "<tr>\n";
-      //echo "<td width=40>\n";
+      // --- choose row color
+      if (0 == $curJulian) {
+        // set first day displayed
+        $tr_class = "row_odd";
+        $curJulian = $row->date;
+      }
+      if ($curJulian != $row->date) {
+        // day changed, swap row color
+        $tr_class = ($tr_class == "row_odd") ? "row_even" : "row_odd";
+        $curJulian = $row->date;
+      }
+
+      // --- display row
+      echo "<tr class ='$tr_class'>\n";
       echo "<td>\n";
       echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."', '".$row->bugid."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
