@@ -90,7 +90,7 @@ class ConsistencyCheck {
         "WHERE status >= $resolved_status_threshold ";
 
       if (0 != count($this->projectList)) {
-      	$formatedProjects = valuedListToSQLFormatedString($this->projectList);
+      	$formatedProjects = implode( ', ', array_keys($this->projectList));
       	$query .= "AND project_id IN ($formatedProjects) ";
       }
 
@@ -133,7 +133,7 @@ class ConsistencyCheck {
         "WHERE status >= $resolved_status_threshold ";
 
       if (0 != count($this->projectList)) {
-         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $formatedProjects = implode( ', ', array_keys($this->projectList));
          $query .= "AND project_id IN ($formatedProjects) ";
       }
 
@@ -183,7 +183,7 @@ class ConsistencyCheck {
         "AND status < $resolved_status_threshold ";
 
       if (0 != count($this->projectList)) {
-         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $formatedProjects = implode( ', ', array_keys($this->projectList));
          $query .= "AND project_id IN ($formatedProjects) ";
       }
 
@@ -237,7 +237,7 @@ class ConsistencyCheck {
          }
 
          if (0 != count($prjListNoSideTasks)) {
-             $formatedProjects = valuedListToSQLFormatedString($prjListNoSideTasks);
+             $formatedProjects = implode( ', ', array_keys($prjListNoSideTasks));
              $query .= "AND project_id IN ($formatedProjects) ";
          }
       } else {

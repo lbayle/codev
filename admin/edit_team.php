@@ -354,7 +354,7 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
 
 
    //$teamMembers = Team::getMemberList($teamid);
-   //$formatedTeamMembers = valuedListToSQLFormatedString($teamMembers);
+   //$formatedTeamMembers = implode( ', ', array_keys($teamMembers));
 
    // Display form
    echo "<h2>".T_("Team Members")."</h2>\n";
@@ -519,7 +519,7 @@ function addTeamProjectForm($teamid, $originPage) {
 
 
    $curProjList=Team::getProjectList($teamid);
-   $formatedCurProjList=valuedListToSQLFormatedString($curProjList);
+   $formatedCurProjList=implode( ', ', array_keys($curProjList));
 
    #echo "<div style='text-align: center;'>";
    echo "<div>\n";

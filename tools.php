@@ -232,19 +232,6 @@ function dayofyear2timestamp( $tDay, $year) {
 }
 
 // ---------------------------
-// used to convert an array() to a comma separated string used in SQL requests
-function valuedListToSQLFormatedString($myArray) {
-	  $formatedList = "";
-     foreach ($myArray as $id => $value) {
-         if ($formatedList != "") { $formatedList .= ', ';}
-         $formatedList .= $id;
-     }
-   return $formatedList;
-}
-
-
-
-// ---------------------------
 /**
  * 
  * explode string to 2-dimentionnal array

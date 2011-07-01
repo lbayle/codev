@@ -64,7 +64,7 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
         "WHERE status in ($status_analyzed, $status_accepted, $status_openned, $status_deferred) ";
 
       if (0 != count($this->projectList)) {
-         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $formatedProjects = implode( ', ', array_keys($this->projectList));
          $query .= "AND project_id IN ($formatedProjects) ";
       }
 

@@ -838,7 +838,7 @@ class TimeTracking {
 
     } else {
     	$projList = Team::getProjectList($this->team_id);
-    	$formatedProjList = valuedListToSQLFormatedString($projList);
+    	$formatedProjList = implode( ', ', array_keys($projList));
       $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.jobid, codev_timetracking_table.date, codev_timetracking_table.duration ".
                    "FROM `codev_timetracking_table`, `mantis_bug_table`, `mantis_project_table` ".
                    "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
@@ -887,7 +887,7 @@ class TimeTracking {
 
     if (false != $isTeamProjOnly) {
       $projList = Team::getProjectList($this->team_id);
-      $formatedProjList = valuedListToSQLFormatedString($projList);
+      $formatedProjList = implode( ', ', array_keys($projList));
     	$query.= "AND mantis_bug_table.project_id in ($formatedProjList) ";
     }
 
