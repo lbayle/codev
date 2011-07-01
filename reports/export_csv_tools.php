@@ -21,7 +21,7 @@
 <?php
 
 // ---------------------------------------------------------------
-function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
+function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile) {
 
    $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
@@ -54,11 +54,22 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
                  "\n";
    fwrite($fh, $stringData);
 
+   
+   // ---
+   $projList   = Team::getProjectList($teamid);
+   $formatedProjList = implode( ', ', array_keys($projList));
+   
+   // Note: if you filter on TeamMembers, you won't have issues temporarily affected to other teams
+   //$memberList = Team::getMemberList($teamid);
+   //$formatedMemberList = implode( ', ', array_keys($memberList));
+   
    // for all issues with status !=  {resolved, closed}
 
-      $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-               "WHERE status < $resolved_status_threshold ".
-               "ORDER BY id DESC";
+   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+            "WHERE status < $resolved_status_threshold ".
+            "AND project_id IN ($formatedProjList) ".
+            //"AND handler_id IN ($formatedMemberList) ".
+            "ORDER BY id DESC";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id);
@@ -110,6 +121,8 @@ function exportManagedIssuesToCSV($startTimestamp, $endTimestamp, $myFile) {
   // Add resolved issues modified into the period
   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
            "WHERE status >= $resolved_status_threshold ".
+           "AND project_id IN ($formatedProjList) ".
+           //"AND handler_id IN ($formatedMemberList) ".
            "AND last_updated > $startTimestamp ".
            "AND last_updated < $endTimestamp ".
            "ORDER BY id DESC";
