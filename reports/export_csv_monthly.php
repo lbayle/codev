@@ -190,7 +190,8 @@ if (0 == count($teamList)) {
          $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
          // -----------------------------
-         echo "<b>- ".T_("Export Managed Issues")."...</b><br/>\n";
+         echo "<span style='font-weight: bold;' title='".T_("Issues form Team projects, including issues assigned to other teams").
+              "'>- ".T_("Export Managed Issues")."...</span><br/>\n";
          flush(); // envoyer tout l'affichage courant au navigateur 
          
          $myFile = $codevReportsDir."\AOI-PIL-Mantis_".date("Ymd").".csv";
