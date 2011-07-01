@@ -111,7 +111,7 @@ function displayIssueSelectionForm($originPage, $user1, $defaultBugid, $defaultP
    } else {
        // no project specified: show all tasks
        $issueList = array();
-       $formatedProjList = valuedListToSQLFormatedString($projList);
+       $formatedProjList = implode( ', ', array_keys($projList));
        
        $query  = "SELECT id ".
                  "FROM `mantis_bug_table` ".

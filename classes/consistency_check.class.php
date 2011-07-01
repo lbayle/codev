@@ -93,7 +93,7 @@ class ConsistencyCheck {
         "WHERE status in ($status_resolved, $status_delivered, $status_closed) ";
       
       if (0 != count($this->projectList)) {
-      	$formatedProjects = valuedListToSQLFormatedString($this->projectList);
+      	$formatedProjects = implode( ', ', array_keys($this->projectList));
       	$query .= "AND project_id IN ($formatedProjects) ";
       }
       
@@ -141,7 +141,7 @@ class ConsistencyCheck {
         "WHERE status in ($status_analyzed, $status_accepted, $status_openned, $status_deferred) ";
       
       if (0 != count($this->projectList)) {
-         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $formatedProjects = implode( ', ', array_keys($this->projectList));
          $query .= "AND project_id IN ($formatedProjects) ";
       }
       
@@ -211,7 +211,7 @@ class ConsistencyCheck {
         "WHERE status in ($status_resolved, $status_delivered, $status_closed) ";
       
       if (0 != count($this->projectList)) {
-         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $formatedProjects = implode( ', ', array_keys($this->projectList));
          $query .= "AND project_id IN ($formatedProjects) ";
       }
       
@@ -262,7 +262,7 @@ class ConsistencyCheck {
         "WHERE status NOT IN ($status_new, $status_ack, $status_resolved, $status_delivered, $status_closed) ";
       
       if (0 != count($this->projectList)) {
-         $formatedProjects = valuedListToSQLFormatedString($this->projectList);
+         $formatedProjects = implode( ', ', array_keys($this->projectList));
          $query .= "AND project_id IN ($formatedProjects) ";
       }
       
@@ -325,7 +325,7 @@ class ConsistencyCheck {
          }
       	
       	if (0 != count($prjListNoSideTasks)) {
-            $formatedProjects = valuedListToSQLFormatedString($prjListNoSideTasks);
+            $formatedProjects = implode( ', ', array_keys($prjListNoSideTasks));
             $query .= "AND project_id IN ($formatedProjects) ";
       	}
       } else {

@@ -153,7 +153,7 @@ function setUserForm($originPage) {
   $teamList = $session_user->getLeadedTeamList();
 
   // separate list elements with ', '
-  $formatedTeamString = valuedListToSQLFormatedString($teamList);
+  $formatedTeamString = implode( ', ', array_keys($teamList));
 
   // show only users from the teams that I lead.
   $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username, mantis_user_table.realname ".
@@ -255,7 +255,7 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    } else {
    	 // no project specified: show all tasks
        $issueList = array();
-	    $formatedProjList = valuedListToSQLFormatedString($projList);
+	    $formatedProjList = implode( ', ', array_keys($projList));
 
        $query  = "SELECT id ".
                  "FROM `mantis_bug_table` ".

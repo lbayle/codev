@@ -358,7 +358,7 @@ class User {
          $teamList = $this->getTeamList();
       }
       if (0 != count($teamList)) {
-	      $formatedTeamList = valuedListToSQLFormatedString($teamList);
+	      $formatedTeamList = implode( ', ', array_keys($teamList));
 	      
 	      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
 	               "FROM `codev_team_project_table`, `mantis_project_table`".
@@ -394,7 +394,7 @@ class User {
    		return array();
    	}
    	
-      $formatedProjList = valuedListToSQLFormatedString($projList);
+      $formatedProjList = implode( ', ', array_keys($projList));
 	   
    	
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id IN ($formatedProjList) ORDER BY id DESC";
@@ -429,7 +429,7 @@ class User {
          return $totalRemaining;
       }
       
-      $formatedProjList = valuedListToSQLFormatedString($projList);
+      $formatedProjList = implode( ', ', array_keys($projList));
       
    	// find all issues i'm working on
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
@@ -474,7 +474,7 @@ class User {
       $issueList = array();
    	
       if (NULL == $projList) {$projList = $this->getProjectList();}
-      $formatedProjList = valuedListToSQLFormatedString($projList);
+      $formatedProjList = implode( ', ', array_keys($projList));
        	
    	
       $query = "SELECT DISTINCT mantis_bug_table.id AS bug_id ".
@@ -528,7 +528,7 @@ class User {
       $issueList = array();
       
       if (NULL == $projList) {$projList = $this->getProjectList();}
-      $formatedProjList = valuedListToSQLFormatedString($projList);
+      $formatedProjList = implode( ', ', array_keys($projList));
          
       
       $query = "SELECT DISTINCT bug_id ".
