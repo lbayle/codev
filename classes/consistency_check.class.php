@@ -218,10 +218,13 @@ class ConsistencyCheck {
 
    	$cerrList = array();
 
+      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
+
    	// select all issues
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-               "FROM `mantis_bug_table` ";
-
+               "FROM `mantis_bug_table` ".
+               "WHERE status < $resolved_status_threshold ";
+      
       if (0 != count($this->projectList)) {
 
       	// --- except SideTasksProjects (they don't have an ETA field)
@@ -235,7 +238,7 @@ class ConsistencyCheck {
 
          if (0 != count($prjListNoSideTasks)) {
              $formatedProjects = valuedListToSQLFormatedString($prjListNoSideTasks);
-             $query .= "WHERE project_id IN ($formatedProjects) ";
+             $query .= "AND project_id IN ($formatedProjects) ";
          }
       } else {
       	// TODO except SideTasksProjects
