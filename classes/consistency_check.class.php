@@ -233,8 +233,10 @@ class ConsistencyCheck {
          	}
          }
 
-         $formatedProjects = valuedListToSQLFormatedString($prjListNoSideTasks);
-         $query .= "WHERE project_id IN ($formatedProjects) ";
+         if (0 != count($prjListNoSideTasks)) {
+             $formatedProjects = valuedListToSQLFormatedString($prjListNoSideTasks);
+             $query .= "WHERE project_id IN ($formatedProjects) ";
+         }
       } else {
       	// TODO except SideTasksProjects
       }
