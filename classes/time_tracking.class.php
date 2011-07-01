@@ -317,7 +317,8 @@ class TimeTracking {
       $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
       // if a deadLine is specified
-      if (NULL != $issue->deadLine) {
+      if ((in_array($issue->projectId, $this->prodProjectList)) && 
+          (NULL != $issue->deadLine)) {
       	$issueList[] = $issue;
       }
     }
