@@ -237,6 +237,7 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
 function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
   $sepChar=';';
 
+  $totalEffortEstim   = 0;
   $totalElapsed       = 0;
   $totalElapsedPeriod = 0;
   $totalRemaining     = 0;
@@ -262,6 +263,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      $stringData .=T_("Start date").$sepChar;
      $stringData .=T_("End date").$sepChar;
      $stringData .=T_("Status").$sepChar;
+     $stringData .=T_("Total EffortEstim").$sepChar;
      $stringData .=T_("Total elapsed").$sepChar;
      $stringData .=T_("elapsed + Remaining").$sepChar;
      $stringData .=T_("elapsed in period").$sepChar;
@@ -280,6 +282,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
          $stringData .= date("d/m/Y", $issue->startDate()).$sepChar;
          $stringData .= date("d/m/Y", $issue->endDate()).$sepChar;
          $stringData .= $issue->getCurrentStatusName().$sepChar;
+         $stringData .= ($issue->effortEstim + $issue->effortAdd).$sepChar;
          $stringData .= $issue->elapsed.$sepChar;
          $stringData .= ($issue->elapsed + $issue->remaining).$sepChar;
 
@@ -293,6 +296,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
          $stringData .= $issue->remaining.$sepChar;
          $stringData .="\n";
 
+         $totalEffortEstim   += ($issue->effortEstim + $issue->effortAdd);
          $totalElapsed       += $issue->elapsed;
          $totalRemaining     += $issue->remaining;
          $totalElapsedPeriod += $elapsedInPeriod;
@@ -300,6 +304,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
 
      // total per project
      $stringData .= T_("TOTAL").$sepChar.$sepChar.$sepChar.$sepChar.$sepChar.$sepChar;
+     $stringData .= $totalEffortEstim.$sepChar;
      $stringData .= $totalElapsed.$sepChar;
      $stringData .= ($totalElapsed + $totalRemaining).$sepChar;
      $stringData .= $totalElapsedPeriod.$sepChar;
