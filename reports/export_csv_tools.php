@@ -257,17 +257,18 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      $project = ProjectCache::getInstance()->getProject($projectId);
      $stringData = $project->name."\n";
 
-     $stringData .=T_("ID").$sepChar;
-     $stringData .=T_("Task").$sepChar;
-     $stringData .=T_("TC").$sepChar;
-     $stringData .=T_("Start date").$sepChar;
-     $stringData .=T_("End date").$sepChar;
-     $stringData .=T_("Status").$sepChar;
-     $stringData .=T_("Total EffortEstim").$sepChar;
-     $stringData .=T_("Total elapsed").$sepChar;
-     $stringData .=T_("elapsed + Remaining").$sepChar;
-     $stringData .=T_("elapsed in period").$sepChar;
-     $stringData .=T_("RAE").$sepChar;
+     // WARNING i18n: HTML translation like french accents (eacute;) add an unwanted column sepChar (;)
+     $stringData .=("ID").$sepChar;
+     $stringData .=("Task").$sepChar;
+     $stringData .=("TC").$sepChar;
+     $stringData .=("Start date").$sepChar;
+     $stringData .=("End date").$sepChar;
+     $stringData .=("Status").$sepChar;
+     $stringData .=("Total EffortEstim").$sepChar;
+     $stringData .=("Total elapsed").$sepChar;
+     $stringData .=("elapsed + Remaining").$sepChar;
+     $stringData .=("elapsed in period").$sepChar;
+     $stringData .=("RAE").$sepChar;
      $stringData .="\n";
 
      // write table content (by bugid)
@@ -303,7 +304,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      }
 
      // total per project
-     $stringData .= T_("TOTAL").$sepChar.$sepChar.$sepChar.$sepChar.$sepChar.$sepChar;
+     $stringData .= ("TOTAL").$sepChar.$sepChar.$sepChar.$sepChar.$sepChar.$sepChar;
      $stringData .= $totalEffortEstim.$sepChar;
      $stringData .= $totalElapsed.$sepChar;
      $stringData .= ($totalElapsed + $totalRemaining).$sepChar;
