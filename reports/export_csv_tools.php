@@ -252,6 +252,10 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
    
   foreach ($projectTracks as $projectId => $bugList) {
    
+  	  $totalElapsed = 0;
+  	  $totalRemaining = 0;
+  	  $totalElapsedPeriod = 0;
+  	
      // write table header
      $project = ProjectCache::getInstance()->getProject($projectId);
      $stringData = $project->name."\n";
