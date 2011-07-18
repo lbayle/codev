@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-07-18 12:04+0200\n"
+"POT-Creation-Date: 2011-07-18 15:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,11 +40,11 @@ msgstr "Description de l'&Eacute;quipe"
 msgid "Team Name"
 msgstr "Nom de l'&eacute;quipe"
 
-#: admin/create_team.php:99 admin/edit_holidays.php:100
-#: admin/edit_holidays.php:124 admin/edit_team.php:485
-#: reports/export_csv_weekly.php:143 reports/productivity_report.php:201
-#: reports/productivity_report.php:312 reports/productivity_report.php:437
-#: timetracking/time_tracking_tools.php:68
+#: admin/create_team.php:99 admin/edit_holidays.php:172
+#: admin/edit_holidays.php:227 admin/edit_holidays.php:251
+#: admin/edit_team.php:485 reports/export_csv_weekly.php:143
+#: reports/productivity_report.php:201 reports/productivity_report.php:312
+#: reports/productivity_report.php:437 timetracking/time_tracking_tools.php:68
 msgid "Description"
 msgstr "Description"
 
@@ -169,41 +169,75 @@ msgstr "Creer et &Eacute;diter"
 msgid "CoDev Administration : Fixed Holidays"
 msgstr "Administration CoDev : Cong&eacute;s"
 
-#: admin/edit_holidays.php:97 admin/edit_holidays.php:123
+#: admin/edit_holidays.php:140 reports/export_csv_tools.php:205
+#: reports/export_csv_weekly.php:141 reports/issue_info.php:129
+#: timetracking/project_activity_report.php:200
+#: timetracking/set_holidays.php:238 timetracking/team_activity_report.php:160
+#: timetracking/time_tracking.php:272 timetracking/time_tracking_tools.php:176
+#: tools/check.php:71
+msgid "Task"
+msgstr "Fiche"
+
+#: admin/edit_holidays.php:142
+msgid "CommonSideTaskProject Inactivity tasks"
+msgstr ""
+"T&acirc;ches de la cat&eacute;gorie 'inactivit&eacute;' du projet SuiviOp "
+"commun"
+
+#: admin/edit_holidays.php:151 admin/edit_holidays.php:231
+#: admin/edit_jobs.php:159 admin/edit_jobs.php:250 admin/edit_team.php:554
+#: include/menu_holidays.inc.php:34 timetracking/set_holidays.php:282
+#: timetracking/time_tracking.php:327
+msgid "Add"
+msgstr "Ajouter"
+
+#: admin/edit_holidays.php:171
+msgid "Id"
+msgstr "Id"
+
+#: admin/edit_holidays.php:186
+msgid "delete Astreinte"
+msgstr "Suppression Astreinte"
+
+#: admin/edit_holidays.php:224 admin/edit_holidays.php:250
 #: timetracking/time_tracking_tools.php:63
 msgid "Date"
 msgstr "Date"
 
-#: admin/edit_holidays.php:102 admin/edit_holidays.php:125
+#: admin/edit_holidays.php:229 admin/edit_holidays.php:252
 #: admin/edit_jobs.php:157 admin/edit_jobs.php:182
 msgid "Color"
 msgstr "Couleur"
 
-#: admin/edit_holidays.php:104 admin/edit_jobs.php:159 admin/edit_jobs.php:250
-#: admin/edit_team.php:554 include/menu_holidays.inc.php:34
-#: timetracking/set_holidays.php:282 timetracking/time_tracking.php:327
-msgid "Add"
-msgstr "Ajouter"
-
-#: admin/edit_holidays.php:106 admin/edit_jobs.php:161
+#: admin/edit_holidays.php:233 admin/edit_jobs.php:161
 msgid "open a colorPicker in a new Tab"
 msgstr "Ouvrir un selecteur de couleur dans un nouvel onglet"
 
-#: admin/edit_holidays.php:140
+#: admin/edit_holidays.php:267
 msgid "delete Holiday"
 msgstr "&eacute;ffacer cette date"
 
-#: admin/edit_holidays.php:172 admin/edit_jobs.php:318
+#: admin/edit_holidays.php:301 admin/edit_jobs.php:318
 msgid "Sorry, you need to be in the admin-team to access this page."
 msgstr ""
 "Vous devez faire partie de l'&eacute;quipe d'admin pour acceder &agrave; "
 "cette page."
 
-#: admin/edit_holidays.php:176
+#: admin/edit_holidays.php:305
+msgid "Add Astreintes"
+msgstr "Ajout Astreinte"
+
+#: admin/edit_holidays.php:307
+msgid "In here you can specify which inactivity tasks are also astreintes"
+msgstr ""
+"Sp&eacute;cifiez ici les t&acirc;ches d'inactivit&eacute; qui seront des "
+"astreintes"
+
+#: admin/edit_holidays.php:315
 msgid "Add fixed holidays"
 msgstr "Ajout de Cong&eacute;s"
 
-#: admin/edit_holidays.php:178
+#: admin/edit_holidays.php:317
 msgid "In here you can set National Days, religious holidays, etc."
 msgstr ""
 "Ajoutez ici les f&ecirc;tes nationales, f&ecirc;tes religieuses ou la "
@@ -602,14 +636,6 @@ msgstr "FDL"
 #: reports/export_csv_tools.php:56 reports/export_csv_weekly.php:144
 msgid "Assigned to"
 msgstr "Ressource"
-
-#: reports/export_csv_tools.php:205 reports/export_csv_weekly.php:141
-#: reports/issue_info.php:129 timetracking/project_activity_report.php:200
-#: timetracking/set_holidays.php:238 timetracking/team_activity_report.php:160
-#: timetracking/time_tracking.php:272 timetracking/time_tracking_tools.php:176
-#: tools/check.php:71
-msgid "Task"
-msgstr "Fiche"
 
 #: reports/export_csv_weekly.php:89
 #: timetracking/project_activity_report.php:93
