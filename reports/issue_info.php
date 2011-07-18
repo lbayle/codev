@@ -438,15 +438,22 @@ $session_userid   = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid']
 $bug_id           = isset($_POST[bugid])  ? $_POST[bugid] : 0;
 $defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
 
+$user = UserCache::getInstance()->getUser($session_userid);
 
 // if bugid is set in the URL, display directly
  if (isset($_GET['bugid'])) {
  	$bug_id = $_GET['bugid'];
- 	$action = "displayBug";
+ 	
+   // user may not have the rights to see this bug (observers, ...) 	
+ 	$taskList = $user->getPossibleWorkingTasksList();
+ 	if (in_array($bug_id, $taskList)) {
+      $action = "displayBug";
+ 	} else {
+ 		$action = "notAllowed";
+ 	}
  }
 
 
-$user = UserCache::getInstance()->getUser($session_userid);
 
 $dTeamList = $user->getDevTeamList();
 $lTeamList = $user->getLeadedTeamList();
@@ -537,6 +544,13 @@ if (0 == count($teamList)) {
 
     // pre-set form fields
     $defaultProjectid  = $_POST[projectid];
+    
+	} elseif ("notAllowed" == $action) {
+		echo "<br/>";
+      echo "<br/>";
+      echo "<br/>";
+      echo "<br/>";
+      echo T_("Sorry, you are not allowed to view the details of this task")." (".mantisIssueURL($bug_id).").<br/>";
 	} 
 	
 	

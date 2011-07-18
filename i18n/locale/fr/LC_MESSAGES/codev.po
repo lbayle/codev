@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-07-01 09:29+0200\n"
+"POT-Creation-Date: 2011-07-18 12:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -542,8 +542,8 @@ msgstr "Fiche TC"
 msgid "Summary"
 msgstr "Description"
 
-#: reports/export_csv_tools.php:41 reports/export_csv_tools.php:264
-#: timetracking/time_tracking_tools.php:71 tools/check.php:73
+#: reports/export_csv_tools.php:41 timetracking/time_tracking_tools.php:71
+#: tools/check.php:73
 msgid "Status"
 msgstr "Statut"
 
@@ -551,7 +551,7 @@ msgstr "Statut"
 msgid "Submitted"
 msgstr "Reception"
 
-#: reports/export_csv_tools.php:43 reports/export_csv_tools.php:262
+#: reports/export_csv_tools.php:43
 msgid "Start date"
 msgstr "Date Debut"
 
@@ -585,7 +585,6 @@ msgid "BS"
 msgstr "BS"
 
 #: reports/export_csv_tools.php:53 reports/export_csv_tools.php:206
-#: reports/export_csv_tools.php:268
 #: timetracking/project_activity_report.php:201
 #: timetracking/time_tracking_tools.php:73
 #: timetracking/time_tracking_tools.php:177
@@ -604,42 +603,13 @@ msgstr "FDL"
 msgid "Assigned to"
 msgstr "Ressource"
 
-#: reports/export_csv_tools.php:205 reports/export_csv_tools.php:260
-#: reports/export_csv_weekly.php:141 reports/issue_info.php:129
-#: timetracking/project_activity_report.php:200
+#: reports/export_csv_tools.php:205 reports/export_csv_weekly.php:141
+#: reports/issue_info.php:129 timetracking/project_activity_report.php:200
 #: timetracking/set_holidays.php:238 timetracking/team_activity_report.php:160
 #: timetracking/time_tracking.php:272 timetracking/time_tracking_tools.php:176
 #: tools/check.php:71
 msgid "Task"
 msgstr "Fiche"
-
-#: reports/export_csv_tools.php:259
-msgid "ID"
-msgstr "ID"
-
-#: reports/export_csv_tools.php:261
-msgid "TC"
-msgstr "TC"
-
-#: reports/export_csv_tools.php:263
-msgid "End date"
-msgstr "Date Fin"
-
-#: reports/export_csv_tools.php:265
-msgid "Total elapsed"
-msgstr "Total consomm&eacute;"
-
-#: reports/export_csv_tools.php:266
-msgid "elapsed + Remaining"
-msgstr "Consomm&eacute; + RAE"
-
-#: reports/export_csv_tools.php:267
-msgid "elapsed in period"
-msgstr "consomm&eacute; dans la p&eacute;riode"
-
-#: reports/export_csv_tools.php:302
-msgid "TOTAL"
-msgstr "TOTAL"
 
 #: reports/export_csv_weekly.php:89
 #: timetracking/project_activity_report.php:93
@@ -781,26 +751,32 @@ msgstr "Nb Jours"
 msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
-#: reports/issue_info.php:458 reports/planning_report.php:526
+#: reports/issue_info.php:465 reports/planning_report.php:526
 #: timetracking/set_holidays.php:342 timetracking/time_tracking.php:374
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
 "Vous devez faire partie de l'&eacute;quipe d'admin pour acceder &agrave; "
 "cette page."
 
-#: reports/issue_info.php:475
+#: reports/issue_info.php:482
 msgid "TC issue"
 msgstr "Fiche TC"
 
-#: reports/issue_info.php:477
+#: reports/issue_info.php:484
 msgid "status"
 msgstr "statut"
 
-#: reports/issue_info.php:477
+#: reports/issue_info.php:484
 msgid "assigned to"
 msgstr "assign&eacute; &agrave;"
 
-#: include/menu.inc.php:51 index.php:93 reports/planning_report.php:62
+#: reports/issue_info.php:553
+msgid "Sorry, you are not allowed to view the details of this task"
+msgstr ""
+"D&eacute;sol&eacute;, vous n'&ecirc;tes pas autoris&eacute; &agrave; voir le "
+"d&eacute;tail de cette fiche"
+
+#: include/menu.inc.php:36 index.php:93 reports/planning_report.php:62
 msgid "Planning"
 msgstr "Planning"
 
@@ -1255,7 +1231,7 @@ msgstr "Semaine pr&eacute;c&eacute;dente"
 msgid "Next week"
 msgstr "Semaine suivante"
 
-#: include/menu.inc.php:36 tools/check.php:32
+#: include/menu.inc.php:51 tools/check.php:32
 msgid "Consistency Check"
 msgstr "Test d int&eacute;grit&eacute;"
 
@@ -1312,14 +1288,14 @@ msgid "Holidays"
 msgstr "Absences"
 
 #: include/menu.inc.php:36
-msgid "Check"
-msgstr "Check"
+msgid "Check DeadLines (~Gant diagram)"
+msgstr "Respect des dates Jalon (~Diagramme de Gant)"
 
-#: include/menu.inc.php:39
+#: include/menu.inc.php:38
 msgid "Task Information"
 msgstr "Informations sur une fiche"
 
-#: include/menu.inc.php:39
+#: include/menu.inc.php:38
 msgid "Task info"
 msgstr "Info fiche"
 
@@ -1344,8 +1320,8 @@ msgid "Export to CSV"
 msgstr "Export CSV"
 
 #: include/menu.inc.php:51
-msgid "Check DeadLines (~Gant diagram)"
-msgstr "Respect des dates Jalon (~Diagramme de Gant)"
+msgid "Check"
+msgstr "Check"
 
 #: include/menu.inc.php:54
 msgid "Documentation"
@@ -1428,6 +1404,27 @@ msgstr "Connexion CoDev"
 #: login.php:72
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "TC"
+#~ msgstr "TC"
+
+#~ msgid "End date"
+#~ msgstr "Date Fin"
+
+#~ msgid "Total elapsed"
+#~ msgstr "Total consomm&eacute;"
+
+#~ msgid "elapsed + Remaining"
+#~ msgstr "Consomm&eacute; + RAE"
+
+#~ msgid "elapsed in period"
+#~ msgstr "consomm&eacute; dans la p&eacute;riode"
+
+#~ msgid "TOTAL"
+#~ msgstr "TOTAL"
 
 #~ msgid "TimeDrifts"
 #~ msgstr "Non respect des deadLines"
