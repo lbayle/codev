@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-07-01 12:40+0200\n"
+"POT-Creation-Date: 2011-07-18 14:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -170,8 +170,8 @@ msgid "CoDev Administration : Holidays"
 msgstr "Administration CoDev : Cong&eacute;s"
 
 #: admin/edit_holidays.php:141 reports/export_csv_tools.php:201
-#: reports/export_csv_tools.php:256 reports/export_csv_weekly.php:141
-#: reports/issue_info.php:129 timetracking/project_activity_report.php:200
+#: reports/export_csv_weekly.php:141 reports/issue_info.php:129
+#: timetracking/project_activity_report.php:200
 #: timetracking/set_holidays.php:238 timetracking/team_activity_report.php:160
 #: timetracking/time_tracking.php:272 timetracking/time_tracking_tools.php:175
 #: tools/check.php:71
@@ -573,8 +573,8 @@ msgstr "Fiche TC"
 msgid "Summary"
 msgstr "Description"
 
-#: reports/export_csv_tools.php:38 reports/export_csv_tools.php:260
-#: timetracking/time_tracking_tools.php:71 tools/check.php:73
+#: reports/export_csv_tools.php:38 timetracking/time_tracking_tools.php:71
+#: tools/check.php:73
 msgid "Status"
 msgstr "Statut"
 
@@ -582,7 +582,7 @@ msgstr "Statut"
 msgid "Submitted"
 msgstr "Reception"
 
-#: reports/export_csv_tools.php:40 reports/export_csv_tools.php:258
+#: reports/export_csv_tools.php:40
 msgid "Start date"
 msgstr "Date Debut"
 
@@ -616,7 +616,6 @@ msgid "BS"
 msgstr "BS"
 
 #: reports/export_csv_tools.php:50 reports/export_csv_tools.php:202
-#: reports/export_csv_tools.php:264
 #: timetracking/project_activity_report.php:201
 #: timetracking/time_tracking_tools.php:73
 #: timetracking/time_tracking_tools.php:176
@@ -634,34 +633,6 @@ msgstr "FDL"
 #: reports/export_csv_tools.php:53 reports/export_csv_weekly.php:144
 msgid "Assigned to"
 msgstr "Ressource"
-
-#: reports/export_csv_tools.php:255
-msgid "ID"
-msgstr "ID"
-
-#: reports/export_csv_tools.php:257
-msgid "TC"
-msgstr "TC"
-
-#: reports/export_csv_tools.php:259
-msgid "End date"
-msgstr "Date Fin"
-
-#: reports/export_csv_tools.php:261
-msgid "Total elapsed"
-msgstr "Total consomm&eacute;"
-
-#: reports/export_csv_tools.php:262
-msgid "elapsed + Remaining"
-msgstr "Consomm&eacute; + RAE"
-
-#: reports/export_csv_tools.php:263
-msgid "elapsed in period"
-msgstr "consomm&eacute; dans la p&eacute;riode"
-
-#: reports/export_csv_tools.php:298
-msgid "TOTAL"
-msgstr "TOTAL"
 
 #: reports/export_csv_weekly.php:89
 #: timetracking/project_activity_report.php:93
@@ -799,24 +770,30 @@ msgstr "Nb Jours"
 msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
-#: reports/issue_info.php:457 reports/planning_report.php:526
+#: reports/issue_info.php:464 reports/planning_report.php:526
 #: timetracking/set_holidays.php:342 timetracking/time_tracking.php:374
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
 "Vous devez faire partie de l'&eacute;quipe d'admin pour acceder &agrave; "
 "cette page."
 
-#: reports/issue_info.php:474
+#: reports/issue_info.php:481
 msgid "TC issue"
 msgstr "Fiche TC"
 
-#: reports/issue_info.php:476
+#: reports/issue_info.php:483
 msgid "status"
 msgstr "statut"
 
-#: reports/issue_info.php:476
+#: reports/issue_info.php:483
 msgid "assigned to"
 msgstr "assign&eacute; &agrave;"
+
+#: reports/issue_info.php:551
+msgid "Sorry, you are not allowed to view the details of this task"
+msgstr ""
+"D&eacute;sol&eacute;, vous n'&ecirc;tes pas autoris&eacute; &agrave; voir le "
+"d&eacute;tail de cette fiche"
 
 #: include/menu.inc.php:36 index.php:93 reports/planning_report.php:62
 msgid "Planning"
@@ -1413,6 +1390,27 @@ msgstr "Connexion CoDev"
 #: login.php:72
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "TC"
+#~ msgstr "TC"
+
+#~ msgid "End date"
+#~ msgstr "Date Fin"
+
+#~ msgid "Total elapsed"
+#~ msgstr "Total consomm&eacute;"
+
+#~ msgid "elapsed + Remaining"
+#~ msgstr "Consomm&eacute; + RAE"
+
+#~ msgid "elapsed in period"
+#~ msgstr "consomm&eacute; dans la p&eacute;riode"
+
+#~ msgid "TOTAL"
+#~ msgstr "TOTAL"
 
 #~ msgid "Productivity Rate ETA"
 #~ msgstr "Taux de productivit&eacute; ETA"
