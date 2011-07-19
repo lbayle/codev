@@ -106,7 +106,7 @@ class PeriodStats {
   // Count the nb of issues submitted in [startTimestamp, endTimestamp]
   // REM: select only projectTypes in $projectTypeList
   // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.  
-  private function countIssues_submitted() {
+  public function countIssues_submitted() {
 
     $submittedList = array();
   	

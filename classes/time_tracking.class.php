@@ -910,9 +910,91 @@ class TimeTracking {
     return $projectTracks;
    }
    
+/**
+ * returns a list of all the tasks hving been reopened in the period
+ * @param unknown_type $projects
+ */
+public function getReopened($projects = NULL) {
+
+    global $resolution_reopened;    
+    global $resolution_fixed;
+    
+    
+    $reopenedList = array();
+    
+    // --------
+    if (NULL == $projects) {
+    	$projects = $this->prodProjectList;
+    }
+    
+    $formatedProjList = implode( ', ', $projects);
+
+    $formatedResolutionValues = "$resolution_fixed";
+    
+    if ("" == $formatedProjList) {
+      echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
+      return 0;
+    }
+    
+    // all bugs which resolution changed to 'reopened' whthin the timestamp
+    $query = "SELECT mantis_bug_table.id, ".
+                    "mantis_bug_history_table.new_value, ".
+                    "mantis_bug_history_table.old_value, ".
+                    "mantis_bug_history_table.date_modified ".
+             "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
+             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+             "AND mantis_bug_table.project_id IN ($formatedProjList) ".
+             "AND mantis_bug_history_table.field_name='resolution' ".
+             "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+             "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+             "AND mantis_bug_history_table.new_value = $resolution_reopened ".
+             "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
+             "ORDER BY mantis_bug_table.id DESC";
+    
+    if (isset($_GET['debug'])) { echo "getReopened QUERY = $query <br/>"; }
+    
+    $result = mysql_query($query) or die("Query failed: $query");
+    
+    while($row = mysql_fetch_object($result)) {
+    	if ( ! in_array($row->id, $reopenedList)) {
+    	    $reopenedList[] = $row->id;
+    	}
+    }
+    
+   return $reopenedList;
+}  
+
+
+public function getNbSubmitted() {
+	
+   $periodStats = new PeriodStats($this->startTimestamp, $this->endTimestamp);
+   $periodStats->projectList = $projects;
+	$countSubmitted = $periodStats->countIssues_submitted();
+	
+	return $countSubmitted;
+}
+
+/**
+ * 
+ * @param unknown_type $projects
+ */
+public function getReopenedRate($projects = NULL) {
+
+   // --------
+   if (NULL == $projects) {
+      $projects = $this->prodProjectList;
+   }
+	
+   $reopenedList = $this->getReopened($projects);
+   $countReopened = count($reopenedList);
+
+   $countSubmitted = $this->getNbSubmitted();
    
-  
-  
+	$rate=($countReopened / $countSubmitted);
+	return $rate;
+}
+
+
   
 } // class TimeTracking
 

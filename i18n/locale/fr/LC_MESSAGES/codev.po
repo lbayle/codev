@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-07-18 15:13+0200\n"
+"POT-Creation-Date: 2011-07-19 16:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -524,7 +524,7 @@ msgid "Compute"
 msgstr "Calculer"
 
 #: reports/export_csv_monthly.php:168 reports/export_csv_weekly.php:235
-#: reports/statistics.php:498 timetracking/project_activity_report.php:314
+#: reports/statistics.php:561 timetracking/project_activity_report.php:314
 #: timetracking/team_activity_report.php:246
 msgid "Sorry, you do NOT have access to this page."
 msgstr "d&eacute;sol&eacute;, vous n'avez pas acces &agrave; cette page."
@@ -808,6 +808,7 @@ msgstr "Planning"
 
 #: reports/planning_report.php:140 reports/productivity_report.php:376
 #: reports/productivity_report.php:573 reports/productivity_report.php:612
+#: reports/productivity_report.php:682
 msgid "Tasks"
 msgstr "Fiches"
 
@@ -857,6 +858,7 @@ msgstr "Valeur"
 
 #: reports/productivity_report.php:202 reports/productivity_report.php:313
 #: reports/productivity_report.php:377 reports/productivity_report.php:438
+#: reports/productivity_report.php:683
 msgid "Formula"
 msgstr "Formule"
 
@@ -953,7 +955,7 @@ msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
 
 #: reports/productivity_report.php:273 reports/statistics.php:339
 #: reports/statistics.php:342 reports/statistics.php:355
-#: reports/statistics.php:520
+#: reports/statistics.php:583
 msgid "Productivity Rate"
 msgstr "Taux de productivit&eacute;"
 
@@ -1025,7 +1027,7 @@ msgid "Tasks having no deadLine are not reported here"
 msgstr "LEs taches sans deadLine ne sont pas affich&eacute;es ici"
 
 #: reports/productivity_report.php:372 reports/statistics.php:279
-#: reports/statistics.php:517
+#: reports/statistics.php:580
 msgid "Adherence to deadlines"
 msgstr "Respect des delais de livraison"
 
@@ -1089,6 +1091,30 @@ msgstr "incoh&eacute;rent"
 msgid "not defined."
 msgstr "non d&eacute;fini"
 
+#: reports/productivity_report.php:677
+msgid "Reopened tasks"
+msgstr "Fiches r&eacute;ouvertes"
+
+#: reports/productivity_report.php:679
+msgid "nb submitted"
+msgstr "nb re&ccedil;ues"
+
+#: reports/productivity_report.php:680
+msgid "nb reopened"
+msgstr "nb r&eacute;ouvertes"
+
+#: reports/productivity_report.php:681
+msgid "nb reopened / nb submitted"
+msgstr "nb r&eacute;ouvertes / nb re&ccedil;ues"
+
+#: reports/productivity_report.php:681
+msgid "Rate"
+msgstr "Taux"
+
+#: reports/productivity_report.php:682
+msgid "tasks having been reopened in the period"
+msgstr "Fiches r&eacute;ouvertes dans la p&eacute;riode"
+
 #: include/menu.inc.php:45 reports/statistics.php:30
 msgid "Statistics"
 msgstr "Statistiques"
@@ -1097,7 +1123,7 @@ msgstr "Statistiques"
 msgid "Start Year"
 msgstr "Date D&eacute;but"
 
-#: reports/statistics.php:141 reports/statistics.php:516
+#: reports/statistics.php:141 reports/statistics.php:579
 msgid "Submitted / Resolved Issues"
 msgstr "Fiches Re&ccedil;ues / R&eacute;solues"
 
@@ -1117,7 +1143,7 @@ msgstr "Nbre de fiches r&eacute;solues SAUF SuiviOp et r&eacute;-ouvertes"
 msgid "Nb Resolved"
 msgstr "Nb R&eacute;solues"
 
-#: reports/statistics.php:203 reports/statistics.php:518
+#: reports/statistics.php:203 reports/statistics.php:581
 msgid "Drifts"
 msgstr "D&eacute;rives"
 
@@ -1175,7 +1201,21 @@ msgstr "Taux d'efficacit&eacute;"
 msgid "Sys Disp"
 msgstr "Disp Sys"
 
-#: reports/statistics.php:519
+#: reports/statistics.php:496 reports/statistics.php:511
+msgid "Reopened Rate"
+msgstr "Taux de Retour"
+
+#: reports/statistics.php:499 reports/statistics.php:511
+msgid "% Reopened"
+msgstr "% de retour"
+
+#: reports/statistics.php:499
+msgid "Percentage of submitted tasks having been reopened in the period"
+msgstr ""
+"Pourcentage de fiches r&eacute;ouvertes par rapport au nombre de fiches "
+"Re&ccedil;ues"
+
+#: reports/statistics.php:582
 msgid "Efficiency - System Disponibility"
 msgstr "Taux d'efficacit&eacute; - Disponibilit&eacute; syst&egrave;me"
 

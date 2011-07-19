@@ -28,7 +28,19 @@
    
   $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
    
-
+  
+  // --- RESOLUTION ---
+  // see mantis config file: core/constant_inc.php
+  //$resolution_open              = 10;
+  $resolution_fixed             = 20;
+  $resolution_reopened          = 30;
+  //$resolution_unableToDuplicate = 40;
+  //$resolution_notFixable        = 50;
+  //$resolution_duplicate         = 60;
+  //$resolution_notABug           = 70;
+  //$resolution_suspended         = 80;
+  //$resolution_wontFix           = 90;
+  
   // --- STATUS ---
   $statusNames = Config::getInstance()->getValue("statusNames");
   
