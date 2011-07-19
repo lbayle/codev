@@ -2,6 +2,43 @@
 MantisIssue | Fiche : 
 
 
+*** Mantis
+Peu de modifications ont été apportées à mantis pour le rendre compatible avec CoDev.
+
+** Custom Fields 
+La principale modification concerne l'ajout de champs ('custom fields') supplémentaires
+dans les fiches mantis:
+
+- ETA
+- Dead Line 
+- TC 
+- Est. Effort (BI) 
+- Budget supp. (BS) 
+- Remaining (RAE)  
+- FDL   
+- Liv. Date
+
+** CoDev MetaProject
+Pour faciliter la creation de nouveaux projets mantis, un meta projet "CoDev MetaProject" a été créé. C'est à ce projet que l'on
+a ajouté les 'Custom Fields' spécifiques a CoDev. Pour rendre un projet compatible avec CoDev il suffit de le faire hériter
+de ce meta-projet. 
+
+Note: pour la FDJ, des 'sous' metaProjets ont été créés, héritant de "CoDev MetaProject" et ajoutant des attributs
+spécifiques au dommaine d'activité en question: FDJ_GEMS, FDJ_PROSYS, FDJ_MULTIMEDIA 
+
+** Projets SuiviOp (SideTasks Projects)
+Il existe Un projet de suiviOp commun à toutes les equipes, qui contient les taches communes n'ayant
+pas de rapport avec les activités spécifiques à une équipe (Absence, visite medicale, alerte incendie, tremblement de terre)
+
+Chaque equipe a en plus un projet de suiviOp propre, qui sert a regrouper les taches annexes spécifiques a l'equipe
+(BDD hors service, reunion, scripts de compil, Formation VMS, ...) 
+
+** taches des projets SuiviOp
+Les tâches de ces projets (dont qq exemples sont cités ci-dessus) auront généralement un status à 'closed'
+car elles n'ont (sauf exception) pas de cycle de vie à respecter. Elles servent uniquement aux imputations dans CoDev et ne
+doivent pas perturber la vision des taches en cours dans mantis.
+
+
 
 
 *** Team Description
@@ -36,14 +73,49 @@ Il existe 3 types de Projets: SideTasks | Project | Project (no common Jobs)
 
 - SideTasks
   Designe les taches annexes aux projets. Ex: Absences, Panne Reseau, Visite Medicale, ...
-  il peut y avoir un ou plusieurs projets de type 'SideTasks': certains seront communs a toutes les equipes, d'autres spécifiques a l'equipe.  
+  il peut y avoir un ou plusieurs projets de type 'SideTasks': certains seront communs a toutes les equipes, d'autres spécifiques à l'equipe.  
   Attention: Si un TeamMember est membre de deux equipes, alors les imputations qu'il fera sur un projet 'SideTasks' 
-             commun a toutes les equipes (Ex: SuiviOp) seront comptabilisées dans les stats des deux equipes. 
+             commun à toutes les equipes (Ex: SuiviOp) seront comptabilisées dans les stats des deux equipes.
+  Les projets 'SideTasks' n'ont généralement qu'un seul poste, 'N/A'. 
   
 - Project
   Un projet classique.
+  Les postes 'communs' (common Jobs) lui sont automatiquement assignés.
+   
 
 - Project (no common Jobs)
-  Les 
+  Les postes 'communs' (common Jobs) ne sont pas disponibles lors des attributions. Il faut définir au moins
+  un poste spécifique (voir la page "Éditer Postes").
 
 ** Poste (Job)
+Définis dans la page "Admin/Éditer Postes", ils donnent la possibilité de définir le type d'activité qui a été
+faite sur le projet lors des imputations.
+On trouvera des postes communs (common Jobs), qui seront attribués à tous les projets suivis par CoDev Timetracking.
+On pourra définir des postes "Assigned", qu'il faudra ensuite assigner à des projets en particulier.
+
+** Catégories
+Il y a 5 catégories disponibles pour définir les taches. Actuellement nous n'avons pas identifié d'autres catégories necessaires
+à la gestion des tâches.
+
+- Inactivité
+Les taches d'inactivité désignent les absences ainsi que toutes les autres activités n'etant pas référencées dans
+d'autres projets gérés par CoDev Timetracking.
+
+- Gestion de Projet
+Principalement les taches du Chef de projet, ainsi que les réunions sur lesquelles imputent également les membres de l'équipe.
+ 
+- Incident
+On créera une tache Incident lorsqu'on ne peut imputer sur une tache projet pour une raison technique.
+ex: Panne réseau, build nocturne ko, etc.
+
+- Outillage
+Des taches annexes mais necessaires comme la mise en place de scripts de compilation, gestion de conf, administration système...
+
+- Capitalisation
+La mise à jour du WIKI ou la création de docs internes.
+
+
+
+ 
+
+

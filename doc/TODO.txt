@@ -1,28 +1,13 @@
 TODO
 
-- 'ETA' est un champ détourné, il faut le relacher et creer un autre customField 
 - possibililité d'avoir les tables codev dans une autre base que 'bugtracker' (mantis)  --> faisabilité ?  
 - creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
 - Admin Project: SideTask category assignment
 - Securisation du site (index.html, .htaccess, 404, ...)
 
-- install page
-creation DB
-creation des custom fields dans mantis
-creation projet CodevMetaProject contenant les custom fields
-init des codev_constants
-creation CommonSideTasks project & categories
-creation equipe admin
-creation side tasks
-creation des jobs & specificites pour support
-
-- Gestion de differents workflow ?!?
-
 
 
 BUGS
-- Weekly report: y'a un TODO important qui traine
-- stats: annee de depart a re-initialiser quand on change de team
 - createTeam: la modification du nom du projet SuiviOp n'est pas prise en compte.
 
 
