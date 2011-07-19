@@ -66,7 +66,7 @@ include_once "holidays.class.php";
 include_once "issue_fdj.class.php";
 
 // ---------------------------------------------------------------
-function displayIssueSelectionForm($originPage, $user1, $defaultBugid, $defaultProjectid) {
+function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid, $defaultProjectid) {
    
    // Display form
    echo "<div style='text-align: center;'>";
@@ -78,14 +78,6 @@ function displayIssueSelectionForm($originPage, $user1, $defaultBugid, $defaultP
    echo "&nbsp;";
    echo "&nbsp;";
 
-   // --- Project List
-   // All projects from teams where I'm a Developper
-   $devProjList = $user1->getProjectList(); 
-   
-   // All projects from Teams where I'm a Manager
-   $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
-   
-   $projList = $devProjList + $managedProjList;
    #echo "<table class='invisible'>\n";
    #echo "<tr>\n";
    #echo "<td>\n";
@@ -440,12 +432,18 @@ $defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
 
 $user = UserCache::getInstance()->getUser($session_userid);
 
+// --- define the list of tasks the user can display
+// All projects from teams where I'm a Developper or Manager (Observers not allowed)
+$devProjList     = $user->getProjectList();
+$managedProjList = $user->getProjectList($user->getManagedTeamList());
+$projList = $devProjList + $managedProjList;
+
+
 // if bugid is set in the URL, display directly
  if (isset($_GET['bugid'])) {
  	$bug_id = $_GET['bugid'];
  	
-   // user may not have the rights to see this bug (observers, ...) 	
- 	$taskList = $user->getPossibleWorkingTasksList();
+ 	$taskList = $user->getPossibleWorkingTasksList($projList);
  	if (in_array($bug_id, $taskList)) {
       $action = "displayBug";
  	} else {
@@ -467,7 +465,7 @@ if (0 == count($teamList)) {
 
 } else {
 
-	displayIssueSelectionForm($originPage, $user, $bug_id, $defaultProjectid);
+	displayIssueSelectionForm($originPage, $user, $projList, $bug_id, $defaultProjectid);
 	
 	if ("displayBug" == $action) {
 	  $issue = new Issue ($bug_id);
