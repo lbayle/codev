@@ -676,9 +676,9 @@ function displayReopenedStats ($timeTracking) {
   echo "<table>\n";
   echo "<caption>".T_("Reopened tasks")."</caption>\n";
   echo "<tr>\n";
-  echo "<th>".T_("nb submitted")."</th>\n";
-  echo "<th>".T_("nb reopened")."</th>\n";
-  echo "<th title='".T_("nb reopened / nb submitted")."'>".T_("Rate")."</th>\n";
+  echo "<th width='100'>".T_("nb submitted")."</th>\n";
+  echo "<th width='100'>".T_("nb reopened")."</th>\n";
+  echo "<th width='100' title='".T_("nb reopened / nb submitted")."'>".T_("Rate")."</th>\n";
   echo "<th width='400' title='".T_("tasks having been reopened in the period")."'>".T_("Tasks")."</th>\n";
   echo "<th>".T_("Formula")."</th>\n";
   echo "</tr>\n";

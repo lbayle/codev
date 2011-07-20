@@ -46,6 +46,41 @@
     document.forms["form1"].action.value = "updateWeekDisplay";
     document.forms["form1"].submit();
   }
+
+  function previousWeek() {
+     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+
+     weekid = document.getElementById('weekidSelector').value;
+     year   = document.getElementById('yearSelector').value;
+
+     if (1 != weekid) {
+       document.forms["form1"].weekid.value = --weekid;
+       document.forms["form1"].year.value = year;
+     }
+     
+     document.forms["form1"].action.value="updateWeekDisplay";
+     document.forms["form1"].submit();
+   }
+  
+  function nextWeek() {
+     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+
+     weekid = document.getElementById('weekidSelector').value;
+     year   = document.getElementById('yearSelector').value;
+
+     if (weekid <= 52) {
+       document.forms["form1"].weekid.value = ++weekid;
+       document.forms["form1"].year.value = year;
+     } else {
+        document.forms["form1"].weekid.value = 1;
+        document.forms["form1"].year.value = ++year;
+     }
+       
+     document.forms["form1"].action.value="updateWeekDisplay";
+     document.forms["form1"].submit();
+  }
+  
+
 </script>
 
 <div id="content" class="center">
@@ -79,7 +114,9 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 
 
   // -----------
-  echo T_("Week").": <select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
+  echo T_("Week")." \n";
+  echo "<input type=button title='".T_("Previous week")."' value='<<' onClick='javascript: previousWeek()'>\n";
+  echo "<select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
   for ($i = 1; $i <= 53; $i++)
   {
     $wDates      = week_dates($i,$curYear);
@@ -101,7 +138,8 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
     }
   }
   echo "</select>\n";
-
+  echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
+  
   echo "<input type=hidden name=teamid  value=1>\n";
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
   echo "<input type=hidden name=year    value=$curYear>\n";
