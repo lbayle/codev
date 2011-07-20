@@ -458,7 +458,7 @@ function displayConsistencyErrors($teamid) {
    $projectList = Team::getProjectList($teamid);
    $ccheck = new ConsistencyCheck($projectList);
 
-   $cerrList = $ccheck->checkBadRAE();
+   $cerrList = $ccheck->checkBadRemaining();
 
    if (0 == count($cerrList)) {
       #echo "Pas d'erreur.<br/>\n";

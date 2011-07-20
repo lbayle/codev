@@ -350,7 +350,7 @@ class Install {
       Config::getInstance()->setValue(Config::id_periodStatsExcludedProjectList, NULL, Config::configType_array, $desc);
 
       echo "DEBUG create Variable : ".Config::id_astreintesTaskList."<br/>";
-      $desc = T_("The 'absence' SideTasks considered as astreinte");
+      $desc = T_("The absence SideTasks considered as astreinte");
       Config::getInstance()->setValue(Config::id_astreintesTaskList, NULL, Config::configType_array, $desc);
 
       echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
@@ -420,7 +420,7 @@ class Install {
       	$stringData = "<?php\n";
       	$stringData .= "   // This file is part of CoDev-Timetracking.\n";
       	$stringData .= "  // - The Variables in here can be customized to your needs\n";
-      	$stringData .= "  // - This file has been generated during install on the ".date("D d M Y")."\n";
+      	$stringData .= "  // - This file has been generated during install on ".date("D d M Y H:i")."\n";
       	$stringData .= "\n";
       	$stringData .= "  include_once \"config.class.php\";\n";
       	$stringData .= "\n";
@@ -428,6 +428,12 @@ class Install {
       	$stringData .= "\n";
       	$stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
       	$stringData .= "\n";
+         $stringData .= "  // --- RESOLUTION ---\n";
+         $stringData .= "  # WARNING: watch out for i18n ! the values depend on what you defined in codev_config_table.resolutionNames\n"; 
+         $stringData .= "  \$resolution_fixed    = array_search('fixed',    \$resolutionNames);  # 20\n";
+         $stringData .= "  \$resolution_reopened = array_search('reopened', \$resolutionNames);  # 30;\n";
+         $stringData .= "\n";
+      	
       	$stringData .= "  // --- STATUS ---\n";
       	$stringData .= "  \$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
       	$stringData .= "\n";

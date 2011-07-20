@@ -6,6 +6,11 @@
 
   $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
 
+  // --- RESOLUTION ---
+  # WARNING: watch out for i18n ! the values depend on what you defined in codev_config_table.resolutionNames 
+  $resolution_fixed    = array_search('fixed',    $resolutionNames);  # 20
+  $resolution_reopened = array_search('reopened', $resolutionNames);  # 30;
+
   // --- STATUS ---
   // REM: Mantis default statusNames = 10:new,20:feedback,30:acknowledged,40:confirmed,50:assigned,80:resolved,90:closed
 
