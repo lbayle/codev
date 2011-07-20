@@ -639,6 +639,45 @@ function displayCheckWarnings($timeTracking) {
   echo "</p>\n";
 }
 
+// -----------------------------------------------
+// display the tasks having been reopened in the period
+function displayReopenedStats ($timeTracking) {
+
+  $submittedList   = $timeTracking->getSubmitted();
+  $reopenedList    = $timeTracking->getReopened();
+  $reopenedRate    = $timeTracking->getReopenedRate() * 100;  // x100 to get a percentage
+  
+  foreach ($reopenedList as $bug_id) {
+     $issue = IssueCache::getInstance()->getIssue($bug_id);
+     
+      if ($formatedTaskList != "") { $formatedTaskList .= ', '; }
+      $formatedTaskList .= issueInfoURL($issue->bugId, $issue->summary);
+   }
+
+  
+  echo "<table>\n";
+  echo "<caption>".T_("Reopened tasks")."</caption>\n";
+  echo "<tr>\n";
+  echo "<th>".T_("nb submitted")."</th>\n";
+  echo "<th>".T_("nb reopened")."</th>\n";
+  echo "<th title='".T_("nb reopened / nb submitted")."'>".T_("Rate")."</th>\n";
+  echo "<th width='400' title='".T_("tasks having been reopened in the period")."'>".T_("Tasks")."</th>\n";
+  echo "<th>".T_("Formula")."</th>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+
+  echo "<td>".count($submittedList)."</td>\n";
+  echo "<td>".count($reopenedList)."</td>\n";
+  echo "<td>".round($reopenedRate, 1)." %</td>\n";
+  echo "<td>$formatedTaskList</td>\n";
+  echo "<td>nb reopened / nb submitted</td>\n";
+  echo "</tr>\n";
+  echo "</table>\n";
+  
+}
+
+
 // =========== MAIN ==========
 $year = date('Y');
 
@@ -711,6 +750,10 @@ if (0 != $teamid) {
    echo "<br/><br/>\n";
    displayCurrentDriftStats($timeTracking);
 
+   echo "<br/><br/>\n";
+   displayReopenedStats($timeTracking);
+   
+   
 	echo "<br/><br/>\n";
 	displayCheckWarnings($timeTracking);
 }

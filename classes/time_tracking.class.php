@@ -813,10 +813,6 @@ class TimeTracking {
   }
 
   // ----------------------------------------------
-  //
-  //
-
-  //
   /**
    * Returns a multiple array containing duration for each day of the week.
    * WARNING: the timestamp must NOT exceed 1 week.
@@ -865,7 +861,7 @@ class TimeTracking {
     return $weekTracks;
   }
 
-     // -----------------------------------------------
+    // -----------------------------------------------
    // return TimeTracks created by the team during the timestamp
    // returns : $projectTracks[projectid][bugid][jobid] = duration
    public function getProjectTracks($isTeamProjOnly=false) {
@@ -909,10 +905,123 @@ class TimeTracking {
     return $projectTracks;
    }
 
+   
+  // ----------------------------------------------
+  /**
+   * returns a list of all the tasks hving been reopened in the period
+   * @param unknown_type $projects
+   */
+   public function getReopened($projects = NULL) {
 
+    global $resolution_fixed;     # 20
+    global $resolution_reopened;  # 30;
+    
+    $reopenedList = array();
+    
+    // --------
+    if (NULL == $projects) {
+       $projects = $this->prodProjectList;
+    }
+    
+    $formatedProjList = implode( ', ', $projects);
 
+    $formatedResolutionValues = "$resolution_fixed";
+    
+    if ("" == $formatedProjList) {
+       echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
+       return 0;
+    }
+    
+    // all bugs which resolution changed to 'reopened' whthin the timestamp
+    $query = "SELECT mantis_bug_table.id, ".
+                    "mantis_bug_history_table.new_value, ".
+                    "mantis_bug_history_table.old_value, ".
+                    "mantis_bug_history_table.date_modified ".
+             "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
+             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+             "AND mantis_bug_table.project_id IN ($formatedProjList) ".
+             "AND mantis_bug_history_table.field_name='resolution' ".
+             "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+             "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+             "AND mantis_bug_history_table.new_value = $resolution_reopened ".
+             "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
+             "ORDER BY mantis_bug_table.id DESC";
+    
+    if (isset($_GET['debug'])) { echo "getReopened QUERY = $query <br/>"; }
+    
+    $result = mysql_query($query) or die("Query failed: $query");
+    
+    while($row = mysql_fetch_object($result)) {
+       if ( ! in_array($row->id, $reopenedList)) {
+           $reopenedList[] = $row->id;
+       }
+    }
+    
+   return $reopenedList;
+   }  
+
+  // ----------------------------------------------
+  /**
+   * returns a list of bug_id that have been submitted in the period 
+   */
+   public function getSubmitted($projects = NULL) {
+  
+      $submittedList = array();
+
+      if (NULL == $projects) {
+         $projects = $this->prodProjectList;
+      }
+    
+      $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
+               "FROM `mantis_bug_table`, `codev_team_project_table` ".
+               "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
+               "AND mantis_bug_table.project_id = codev_team_project_table.project_id ";
+
+      // Only for specified Projects
+      if (0 != count($projects)) {
+         $formatedProjects = implode( ', ', $projects);
+         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
+      }
+      if (isset($_GET['debug_sql'])) { echo "getNbSubmitted(): query = $query<br/>"; }
+
+      $result = mysql_query($query) or die("Query failed: $query");
+
+      while($row = mysql_fetch_object($result))
+      {
+         $submittedList[] = $row->id;
+
+         if (isset($_GET['debug'])) {
+            echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
+         }
+      }
+
+      return $submittedList;
+   }
+
+  // ----------------------------------------------
+  /**
+   * $countReopened / $countSubmitted
+   * 
+   * @param unknown_type $projects
+   */
+   public function getReopenedRate($projects = NULL) {
+
+      if (NULL == $projects) {
+         $projects = $this->prodProjectList;
+      }
+
+      $reopenedList = $this->getReopened($projects);
+      $countReopened = count($reopenedList);
+
+      $countSubmitted = count($this->getSubmitted($projects));
+
+      $rate=($countReopened / $countSubmitted);
+      return $rate;
+   }
 
 
 } // class TimeTracking
 
 ?>
+
+

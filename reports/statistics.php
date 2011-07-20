@@ -463,6 +463,73 @@ function createTimeTeackingList($start_day, $start_month, $start_year, $teamid) 
 	return $timeTrackingTable;
 }
 
+/**
+ * 
+ * @param $timeTrackingTable
+ * @param $width
+ * @param $height
+ */
+function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
+
+   $start_day = 1; 
+   $now = time();
+   
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      
+         $nbReopened   = count($timeTracking->getReopened());
+         $reopenedRate = $timeTracking->getReopenedRate() * 100; // x100 to get a percentage
+         
+         $val1[] = $reopenedRate;
+         $val2[] = $nbReopened;
+
+         $bottomLabel[] = date("M y", $startTimestamp);
+         
+         #echo "DEBUG: nbDriftsNeg=".$timeDriftStats['nbDriftsNeg']." nbDriftsPos=".$timeDriftStats['nbDriftsPos']." date=".date('M y', $startTimestamp)."<br/>\n";
+         #echo "DEBUG: driftNeg=".$timeDriftStats['driftNeg']." driftPos=".$timeDriftStats['driftPos']." date=".date('M y', $startTimestamp)."<br/>\n";
+   }
+   $graph_title="title=".("Reopened Rate");
+   $graph_width="width=$width";
+   $graph_height="height=$height";
+   
+   $strVal1 = "leg1=% Reopened&x1=".implode(':', $val1);
+   $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
+   
+   echo "<div>\n";
+   echo "<h2>".T_("Reopened Rate")."</h2>\n";
+   
+   echo "<span class='help_font'>\n";
+   echo T_("% Reopened").": ".T_("Percentage of submitted tasks having been reopened in the period")."<br/>\n";
+   echo "</span>\n";
+   echo "<br/>\n";
+   
+   echo "<div class=\"float\">\n";
+   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1'/>";
+   echo "</div>\n";
+   echo "<div class=\"float\">\n";
+   echo "<table>\n";
+   echo "<caption title='".("Reopened Rate")."'</caption>";
+   echo "<tr>\n";
+   echo "<th>Date</th>\n";
+   echo "<th title='".T_("Reopened Rate")."'>".T_("% Reopened")."</th>\n";
+   echo "<th title='".T_("Nb Reopened")."'>".T_("Nb Reopened")."</th>\n";
+   echo "</tr>\n";
+   $i = 0;
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      echo "<tr>\n";
+      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".round($val1[$i], 1)."%</td>\n";
+      echo "<td class=\"right\">".$val2[$i]."</td>\n";
+      echo "</tr>\n";
+      $i++;
+   }
+   echo "</table>\n";
+   echo "</div>\n";
+   echo "</div>\n";
+  
+
+}
+
+
 # ======================================
 # ================ MAIN ================
 
@@ -530,7 +597,8 @@ if (0 == count($teamList)) {
          $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $start_day, $teamid);
          $periodStatsReport->computeSubmittedResolved();
          displaySubmittedResolved($periodStatsReport, 800, 300);
-
+         flush();
+         
          echo "<div class=\"spacer\"> </div>\n";
 
          echo "<br/>\n";
@@ -543,6 +611,7 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<a name='tagTimeDrift'></a>\n";
          displayTimeDriftGraph ($timeTrackingTable, 800, 300);         
+         flush();
          
          echo "<div class=\"spacer\"> </div>\n";
          
@@ -551,7 +620,8 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<a name='tagResolvedDrift'></a>\n";
          displayResolvedDriftGraph ($timeTrackingTable, 800, 300, $displayNoSupport);
-
+         flush();
+         
          echo "<div class=\"spacer\"> </div>\n";
          
          
@@ -561,8 +631,20 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<a name='tagEfficiencyRate'></a>\n";
          displayEfficiencyGraph ($timeTrackingTable, 800, 300);
-
+         flush();
+         
          echo "<div class=\"spacer\"> </div>\n";
+
+         // --------- ReopenedRate
+         echo "<br/>\n";
+         echo "<hr/>\n";
+         echo "<br/>\n";
+         echo "<a name='tagProductivityRate'></a>\n";
+         displayReopenedRateGraph ($timeTrackingTable, 800, 300);
+         flush();
+         
+         echo "<div class=\"spacer\"> </div>\n";
+         
          
          // --------- ProductivityRate
 /*
