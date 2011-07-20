@@ -30,16 +30,9 @@
    
   
   // --- RESOLUTION ---
-  // see mantis config file: core/constant_inc.php
-  //$resolution_open              = 10;
-  $resolution_fixed             = 20;
-  $resolution_reopened          = 30;
-  //$resolution_unableToDuplicate = 40;
-  //$resolution_notFixable        = 50;
-  //$resolution_duplicate         = 60;
-  //$resolution_notABug           = 70;
-  //$resolution_suspended         = 80;
-  //$resolution_wontFix           = 90;
+  # WARNING: watch out for i18n ! the values depend on what you defined in codev_config_table.resolutionNames 
+  $resolution_fixed    = array_search('resolu',    $resolutionNames);  # 20
+  $resolution_reopened = array_search('rouvert', $resolutionNames);  # 30;
   
   // --- STATUS ---
   $statusNames = Config::getInstance()->getValue("statusNames");

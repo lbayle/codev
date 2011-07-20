@@ -661,7 +661,7 @@ function displayCheckWarnings($timeTracking) {
 // display the tasks having been reopened in the period
 function displayReopenedStats ($timeTracking) {
 
-	$countSubmitted = $timeTracking->getNbSubmitted();
+	$submittedList = $timeTracking->getSubmitted();
 	$reopenedList   = $timeTracking->getReopened();
    $reopenedRate   = $timeTracking->getReopenedRate() * 100;  // x100 to get a percentage
 	
@@ -685,7 +685,7 @@ function displayReopenedStats ($timeTracking) {
 
   echo "<tr>\n";
 
-  echo "<td>".$countSubmitted."</td>\n";
+  echo "<td>".count($submittedList)."</td>\n";
   echo "<td>".count($reopenedList)."</td>\n";
   echo "<td>".round($reopenedRate, 1)." %</td>\n";
   echo "<td>$formatedTaskList</td>\n";

@@ -475,11 +475,12 @@ function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
    $now = time();
    
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-      
+         $nbReopened   = count($timeTracking->getReopened());
          $reopenedRate = $timeTracking->getReopenedRate() * 100; // x100 to get a percentage
          
          $val1[] = $reopenedRate;
-
+         $val2[] = $nbReopened;
+         
          $bottomLabel[] = date("M y", $startTimestamp);
          
          #echo "DEBUG: nbDriftsNeg=".$timeDriftStats['nbDriftsNeg']." nbDriftsPos=".$timeDriftStats['nbDriftsPos']." date=".date('M y', $startTimestamp)."<br/>\n";
@@ -509,12 +510,14 @@ function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
    echo "<tr>\n";
    echo "<th>Date</th>\n";
    echo "<th title='".T_("Reopened Rate")."'>".T_("% Reopened")."</th>\n";
+   echo "<th title='".T_("Nb Reopened Rate")."'>".T_("Nb Reopened")."</th>\n";
    echo "</tr>\n";
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
       echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".round($val1[$i], 1)."%</td>\n";
+      echo "<td class=\"right\">".$val2[$i]."</td>\n";
       echo "</tr>\n";
       $i++;
    }

@@ -866,7 +866,7 @@ class TimeTracking {
     return $weekTracks;
   }
  
-     // -----------------------------------------------
+   // -----------------------------------------------
    // return TimeTracks created by the team during the timestamp
    // returns : $projectTracks[projectid][bugid][jobid] = duration
    public function getProjectTracks($isTeamProjOnly=false) {
@@ -910,21 +910,22 @@ class TimeTracking {
     return $projectTracks;
    }
    
-/**
- * returns a list of all the tasks hving been reopened in the period
- * @param unknown_type $projects
- */
-public function getReopened($projects = NULL) {
+   
+   // -----------------------------------------------
+   /**
+   * returns a list of all the tasks hving been reopened in the period
+   * @param unknown_type $projects
+   */
+   public function getReopened($projects = NULL) {
 
-    global $resolution_reopened;    
-    global $resolution_fixed;
-    
+    global $resolution_fixed;     # 20
+    global $resolution_reopened;  # 30;
     
     $reopenedList = array();
     
     // --------
     if (NULL == $projects) {
-    	$projects = $this->prodProjectList;
+       $projects = $this->prodProjectList;
     }
     
     $formatedProjList = implode( ', ', $projects);
@@ -932,8 +933,8 @@ public function getReopened($projects = NULL) {
     $formatedResolutionValues = "$resolution_fixed";
     
     if ("" == $formatedProjList) {
-      echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
-      return 0;
+       echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
+       return 0;
     }
     
     // all bugs which resolution changed to 'reopened' whthin the timestamp
@@ -956,24 +957,57 @@ public function getReopened($projects = NULL) {
     $result = mysql_query($query) or die("Query failed: $query");
     
     while($row = mysql_fetch_object($result)) {
-    	if ( ! in_array($row->id, $reopenedList)) {
-    	    $reopenedList[] = $row->id;
-    	}
+       if ( ! in_array($row->id, $reopenedList)) {
+           $reopenedList[] = $row->id;
+       }
     }
     
    return $reopenedList;
-}  
+   }  
 
 
-public function getNbSubmitted() {
-	
-   $periodStats = new PeriodStats($this->startTimestamp, $this->endTimestamp);
-   $periodStats->projectList = $projects;
-	$countSubmitted = $periodStats->countIssues_submitted();
-	
-	return $countSubmitted;
-}
+  // ----------------------------------------------
+  /**
+   * returns a list of bug_id that have been submitted in the period 
+   */
+   public function getSubmitted($projects = NULL) {
+  
+//      $periodStats = new PeriodStats($this->startTimestamp, $this->endTimestamp);
+//      $periodStats->projectList = $projects;
+//      $countSubmitted = $periodStats->countIssues_submitted();
 
+      $submittedList = array();
+
+      if (NULL == $projects) {
+         $projects = $this->prodProjectList;
+      }
+    
+      $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
+               "FROM `mantis_bug_table`, `codev_team_project_table` ".
+               "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
+               "AND mantis_bug_table.project_id = codev_team_project_table.project_id ";
+
+      // Only for specified Projects
+      if (0 != count($projects)) {
+         $formatedProjects = implode( ', ', $projects);
+         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
+      }
+      if (isset($_GET['debug_sql'])) { echo "getNbSubmitted(): query = $query<br/>"; }
+
+      $result = mysql_query($query) or die("Query failed: $query");
+
+      while($row = mysql_fetch_object($result))
+      {
+         $submittedList[] = $row->id;
+
+         if (isset($_GET['debug'])) {
+            echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
+         }
+      }
+
+      return $submittedList;
+   }
+   
 /**
  * 
  * @param unknown_type $projects
@@ -988,7 +1022,7 @@ public function getReopenedRate($projects = NULL) {
    $reopenedList = $this->getReopened($projects);
    $countReopened = count($reopenedList);
 
-   $countSubmitted = $this->getNbSubmitted();
+   $countSubmitted = count($this->getSubmitted());
    
 	$rate=($countReopened / $countSubmitted);
 	return $rate;
