@@ -302,7 +302,7 @@ function displayJobDetails($issue) {
 // ---------------------------------------------------------------
 function displayMonth($month, $year, $issue) {
 
-  $holidays = new Holidays();
+  $holidays = Holidays::getInstance();
   
   $jobs = new Jobs();
   $totalDuration = 0;

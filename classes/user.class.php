@@ -244,7 +244,7 @@ class User {
   // --------------------
    public function getProductionDaysForecast($startTimestamp, $endTimestamp, $team_id = NULL) {
 
-      $holidays = new Holidays();
+      $holidays = Holidays::getInstance();
       
       $prodDaysForecast = 0;
       $nbOpenDaysInPeriod = 0;

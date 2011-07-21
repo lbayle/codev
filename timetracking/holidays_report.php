@@ -91,7 +91,7 @@ function  displayHolidaysReportForm($teamid, $curYear) {
 // ---------------------------------------------
 function displayHolidaysMonth($month, $year, $teamid) {
   
-  $holidays = new Holidays();
+  $holidays = Holidays::getInstance();
   $green="A8FFBD";
   $yellow="F8FFA8";
   $orange="FFC466";
