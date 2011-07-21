@@ -494,7 +494,7 @@ class Issue {
    	// Mantis stores submission date AND time. we want the date at midnight.
    	$submissionDate = date2timestamp(date("Y-m-d", $this->dateSubmission));
    	
-   	$h = new Holidays();
+   	$h = Holidays::getInstance();
    	$nbHolidays = $h->getNbHolidays($submissionDate, $this->deadLine);
 
    	$avalableWorkload  = ($this->deadLine - $submissionDate) / (60*60*24);

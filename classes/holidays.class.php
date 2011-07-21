@@ -45,7 +45,7 @@ class Holidays {
     private static $instance;
 	
     private static $HolidayList;
-    private static $defaultColor="#D8D8D8";
+    public static $defaultColor="#D8D8D8";
    
       // Un constructeur privé ; empêche la création directe d'objet
     private function __construct() 
