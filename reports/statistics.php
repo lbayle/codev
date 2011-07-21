@@ -528,6 +528,70 @@ function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
 
 }
 
+/**
+ * 
+ * @param $timeTrackingTable
+ * @param $width
+ * @param $height
+ */
+function displayDelayRateGraph ($timeTrackingTable, $width, $height) {
+
+   $start_day = 1; 
+   $now = time();
+   
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+         $delayRate = $timeTracking->getDelayRate() * 100; // x100 to get a percentage
+         
+         $val1[] = $delayRate;
+
+         
+         $bottomLabel[] = date("M y", $startTimestamp);
+         
+         #echo "DEBUG: nbDriftsNeg=".$timeDriftStats['nbDriftsNeg']." nbDriftsPos=".$timeDriftStats['nbDriftsPos']." date=".date('M y', $startTimestamp)."<br/>\n";
+         #echo "DEBUG: driftNeg=".$timeDriftStats['driftNeg']." driftPos=".$timeDriftStats['driftPos']." date=".date('M y', $startTimestamp)."<br/>\n";
+   }
+   $graph_title="title=".("Delay Rate");
+   $graph_width="width=$width";
+   $graph_height="height=$height";
+   
+   $strVal1 = "leg1=% Delay&x1=".implode(':', $val1);
+   $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
+   
+   echo "<div>\n";
+   echo "<h2>".T_("Delay Rate")."</h2>\n";
+   
+   echo "<span class='help_font'>\n";
+   echo T_("% Delay").": ".T_("Percentage of delay")."<br/>\n";
+   echo "</span>\n";
+   echo "<br/>\n";
+   
+   echo "<div class=\"float\">\n";
+   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1'/>";
+   echo "</div>\n";
+   echo "<div class=\"float\">\n";
+   echo "<table>\n";
+   echo "<caption title='".("Delay Rate")."'</caption>";
+   echo "<tr>\n";
+   echo "<th>Date</th>\n";
+   echo "<th title='".T_("Delay Rate")."'>".T_("% Delay")."</th>\n";
+ //  echo "<th title='".T_("Nb Reopened Rate")."'>".T_("Nb Reopened")."</th>\n";
+   echo "</tr>\n";
+   $i = 0;
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      echo "<tr>\n";
+      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".round($val1[$i], 1)."%</td>\n";
+  //    echo "<td class=\"right\">".$val2[$i]."</td>\n";
+      echo "</tr>\n";
+      $i++;
+   }
+   echo "</table>\n";
+   echo "</div>\n";
+   echo "</div>\n";
+	
+
+}
+
 # ======================================
 # ================ MAIN ================
 
@@ -651,6 +715,15 @@ if (0 == count($teamList)) {
          
          echo "<div class=\"spacer\"> </div>\n";
          
+         // --------- DelayRate
+         echo "<br/>\n";
+         echo "<hr/>\n";
+         echo "<br/>\n";
+         echo "<a name='tagDelayRate'></a>\n";
+         displayDelayRateGraph ($timeTrackingTable, 800, 300);
+         flush();
+         
+         echo "<div class=\"spacer\"> </div>\n";
          
          
          
