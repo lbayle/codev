@@ -237,7 +237,7 @@ class TimeTracking {
              "AND mantis_bug_history_table.new_value = $status_resolved ".
              "ORDER BY mantis_bug_table.id DESC";
     
-    if (isset($_GET['debug'])) { echo "getProductivRate QUERY = $query <br/>"; }
+    if (isset($_GET['debug_sql'])) { echo "getProductivRate QUERY = $query <br/>"; }
     
     $result = mysql_query($query) or die("Query failed: $query");
     
@@ -299,12 +299,10 @@ class TimeTracking {
     
   }
   
-  // ----------------------------------------------
-  public function getTimeDriftStats() {
-
+  //------------------------------------------------
+  public function getDeliveredIssueWithDeadLine() {
     global $deliveryDateCustomField;
-
-    $issueList = array();
+  	$issueList = array();
   	
     // all issues which deliveryDate is in the period.
     $query = "SELECT bug_id FROM `mantis_custom_field_string_table` ".
@@ -323,6 +321,16 @@ class TimeTracking {
       	$issueList[] = $issue;
       }
     }
+    return $issueList;
+  }
+  
+  
+  // ----------------------------------------------
+  public function getTimeDriftStats() {
+
+    
+
+    $issueList=$this->getDeliveredIssueWithDeadLine();
     if (0 != count($issueList)) {
       return $this->getIssuesTimeDriftStats($issueList);
     } else {
@@ -1028,6 +1036,32 @@ public function getReopenedRate($projects = NULL) {
 	return $rate;
 }
 
+   /**
+    * 
+    * @return 
+    */
+public function getDelayRate() {
+
+   // --------
+   $totalTimeDrift = 0;
+   $avalableWorkload = 0; // deadLine - dateSubmission - nb holidays in that period
+  
+   $issueList=$this->getDeliveredIssueWithDeadLine();
+   foreach ($issueList as $issue) {
+
+   	   $timeDrift = $issue->getTimeDrift();
+   	   if ($timeDrift > 0) {
+   	      $totalTimeDrift   += $timeDrift;
+          $avalableWorkload += $issue->getAvalableWorkload();
+   	      if (isset($_GET['debug'])) { echo "getDelayRate: issue $issue->bugId ".$timeDrift." / ".$issue->getAvalableWorkload()."<br/>";}
+   	   }
+    }
+   	if (isset($_GET['debug'])) { echo "getDelayRate: total ".$totalTimeDrift." / ".$avalableWorkload."<br/>";}
+    
+	$rate = (0 != $avalableWorkload) ? ($totalTimeDrift / $avalableWorkload) : 0;
+
+	return $rate;
+}
 
   
 } // class TimeTracking

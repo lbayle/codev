@@ -190,6 +190,8 @@ function displayRates ($timeTracking) {
   $efficiencyRate          = $timeTracking->getEfficiencyRate();
   $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
+  $delayRate               = $timeTracking->getDelayRate() *100; // *100 = percent
+  
 //  $prodRateNoSupportETA    = $timeTracking->getProductivityRateNoSupport("ETA");
 //  $prodRateNoSupportBI     = $timeTracking->getProductivityRateNoSupport("EffortEstim");
   
@@ -286,7 +288,14 @@ function displayRates ($timeTracking) {
   echo "<td></td>\n";
   echo "</tr>\n";
 */
-  
+  echo "<tr>\n";
+  echo "<td>".T_("Delay Rate")."</td>\n";
+  echo "<td>".number_format($delayRate, 2)." %</td>\n";
+  echo "<td>".T_("pourcentage du nbre de jours de retard par rapport au nbre de jours disponibles pour la correction")."<br/>".
+            T_("- Tient compte uniquement des fiches dont la date de livraison n'a pas été respectee")."<br/>\n".
+            T_("- The submission day is not included (bug may have been posted at 18:00)")."</td>";
+  echo "<td title='nbDays TimeDrift / (deadLine - dateSubmission) - holidays'>timeDrift / available workload</td>\n";
+  echo "</tr>\n";
   echo "</table>\n";
 
   //echo "<br/>SideTasks<br/>";

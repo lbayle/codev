@@ -473,6 +473,37 @@ class Issue {
    	return  $timeDrift;
    }
    
+   /**
+    * returns the number of days (holiday excluded) from the submission date
+    * to the deadLine.
+    * this represents the nb of days available to fix the bug
+    * 
+    * Note: The submission day is not included (bug may have been posted at 18:00)
+    * 
+    * formula: deadLine - dateSubmission - nb holidays in that period
+    * 
+    * @return nb of days or NULL if no deadLine specified.
+    */
+   public function getAvalableWorkload() {
+   	
+   	if (!isset($this->deadLine)) {
+   		echo "ERROR getAvalableWorkload: issue $this->bugId has no deadline $this->deadLine !<br/>";
+   		return NULL;
+   	}
+
+   	// Mantis stores submission date AND time. we want the date at midnight.
+   	$submissionDate = date2timestamp(date("Y-m-d", $this->dateSubmission));
+   	
+   	$h = new Holidays();
+   	$nbHolidays = $h->getNbHolidays($submissionDate, $this->deadLine);
+
+   	$avalableWorkload  = ($this->deadLine - $submissionDate) / (60*60*24);
+   	$avalableWorkload -= $nbHolidays; // remove weekEnds and other fixed holidays
+   	
+   	if (isset($_GET['debug'])) { echo "getAvalableWorkload: issue $this->bugId: period=".($this->deadLine - $submissionDate) / (60*60*24)." - $nbHolidays = $avalableWorkload<br/>";}
+   	
+   	return $avalableWorkload;
+   }
    
    // ----------------------------------------------
    public function getTimeTracks($user_id = NULL) {

@@ -234,6 +234,11 @@ function displayTimeDrift($issue) {
   echo "</tr>\n";
   
   echo "<tr>\n";
+  echo "  <td>".T_("Submitted")."</td>\n";
+  echo "  <td>".date("d M Y", $issue->dateSubmission)."</td>\n";
+  echo "</tr>\n";
+  
+  echo "<tr>\n";
   echo "  <td>".T_("DeadLine")."</td>\n";
   if (NULL != $issue->deadLine) {
       echo "  <td>".date("d M Y", $issue->deadLine)."</td>\n";
@@ -254,8 +259,23 @@ function displayTimeDrift($issue) {
   echo "<tr>\n";
   echo "  <td>".T_("Drift")."</td>\n";
   $timeDrift=$issue->getTimeDrift();
+  
   if (!is_string($timeDrift)) {
       echo "  <td style='background-color: ".$issue->getDriftColor($timeDrift)."'>".round($timeDrift)." ".T_("days")."</td>\n";
+  } else {
+      echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
+  }
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "  <td>".T_("Delay Rate")."</td>\n";
+  $avalableWorkload = $issue->getAvalableWorkload();
+  $timeDrift = $issue->getTimeDrift();
+  $rate = (0 != $avalableWorkload) ? ($timeDrift / $avalableWorkload): 0;
+  $rate *= 100; // percent
+  
+  if ((!is_string($timeDrift)) && ($timeDrift > 0)) {
+      echo "  <td title='$timeDrift / $avalableWorkload' style='background-color: ".$issue->getDriftColor($timeDrift)."'>".round($rate, 2)." %</td>\n";
   } else {
       echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }
