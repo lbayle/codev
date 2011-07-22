@@ -42,29 +42,50 @@ class Holiday {
 // =======================================
 class Holidays {
 
-   var $HolidayList;
-   var $defaultColor="D8D8D8";
-	// ---------------------------------------
-   public function Holidays() {
 
-   	$this->HolidayList = array();
 
+   // instance de la classe
+    private static $instance;
+	
+    private static $HolidayList;
+    public  static $defaultColor="D8D8D8";
+   
+      // Un constructeur privé ; empêche la création directe d'objet
+    private function __construct() 
+    {
+	  #echo "DEBUG Holiday construct<br/>";
+    	
+      self::$HolidayList = array();
+   	
       $query = "SELECT * FROM `codev_holidays_table`";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result))
       {
          $h = new Holiday($row->id, $row->date, $row->description, $row->color);
-         $this->HolidayList[$row->id] = $h;
+         self::$HolidayList[$row->id] = $h;
       }
-   }
+    }
 
+    // La méthode singleton
+    public static function getInstance() 
+    {
+    	#echo "DEBUG Holiday instance<br/>";
+        if (!isset(self::$instance)) {
+            $c = __CLASS__;
+            self::$instance = new $c;
+        }
+        return self::$instance;
+    }
+   
+	// ---------------------------------------
+ 
    /**
     *
     * @param unknown_type $timestamp
     */
    private function getHoliday($timestamp) {
-
-   	foreach ($this->HolidayList as $h) {
+   	
+   	foreach (self::$HolidayList as $h) {
    		if ($h->timestamp == $timestamp) {
             #echo "DEBUG Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description<br/>";
    			return $h;

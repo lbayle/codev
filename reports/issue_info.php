@@ -301,8 +301,8 @@ function displayJobDetails($issue) {
 // ---------------------------------------------------------------
 function displayMonth($month, $year, $issue) {
 
-  $holidays = new Holidays();
-
+  $holidays = Holidays::getInstance();
+  
   $jobs = new Jobs();
   $totalDuration = 0;
 
@@ -366,7 +366,7 @@ function displayMonth($month, $year, $issue) {
         // if weekend or holiday, display gray
         $h = $holidays->isHoliday($todayTimestamp);
         if (NULL != $h) {
-            echo "<td style='background-color: #$holidays->defaultColor;' title='$h->description'></td>\n";
+            echo "<td style='background-color: #".Holidays::$defaultColor.";' title='$h->description'></td>\n";
         } else {
             echo "<td></td>\n";
         }

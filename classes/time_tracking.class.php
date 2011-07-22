@@ -726,9 +726,9 @@ class TimeTracking {
   // ----------------------------------------------
   // Find days which are not 'sat' or 'sun' or FixedHoliday and that have no timeTrack entry.
   public function checkMissingDays($userid) {
-
-    $holidays = new Holidays();
-
+    
+    $holidays = Holidays::getInstance();
+    
     $missingDays = array();
 
     $user1 = UserCache::getInstance()->getUser($userid);

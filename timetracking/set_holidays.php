@@ -362,7 +362,7 @@ if ($_POST[nextForm] == "addHolidaysForm") {
     $bugid     = $_POST[bugid];
     $job       = $_POST[job];
     
-    $holydays = new Holidays();
+    $holydays = Holidays::getInstance();
     
     // save to DB
     $timestamp = $startTimestamp;

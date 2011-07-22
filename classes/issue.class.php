@@ -174,7 +174,7 @@ class Issue {
     * returns a Holidays class instance
     */
    private function getHolidays() {
-   	if (NULL == $this->holidays) { $this->holidays = new Holidays(); }
+   	if (NULL == $this->holidays) { $this->holidays = Holidays::getInstance(); }
    	return $this->holidays;
    }
 
