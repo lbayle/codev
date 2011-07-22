@@ -125,14 +125,6 @@ class Issue {
       $this->statusList = array();
    }
 
-   /**
-    * returns a Holidays class instance
-    */
-   private function getHolidays() {
-   	if (NULL == $this->holidays) { $this->holidays = Holidays::getInstance(); }
-   	return $this->holidays;
-   }
-   
    // ----------------------------------------------
    // Ex: vacation or Incident tasks are not production issues.
    //     but tools and doc are production issues.
@@ -452,7 +444,7 @@ class Issue {
    		$timeDrift /=  86400 ;
          
    		// remove weekends & holidays
-   		$holidays = $this->getHolidays();
+   		$holidays = Holidays::getInstance();
    		if ($this->deliveryDate < $this->deadLine) {
    		    $nbHolidays = $holidays->getNbHolidays($this->deliveryDate, $this->deadLine);
    		} else {
