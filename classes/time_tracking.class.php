@@ -647,19 +647,31 @@ class TimeTracking {
   public function getWorkingDaysPerJob($job_id) {
   	 global $accessLevel_observer;
     $workingDaysPerJob = 0;
-
+      
     $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
       "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_timetracking_table.jobid = $job_id ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
-
+      "AND    codev_team_user_table.access_level <> $accessLevel_observer ".
+      "AND    codev_timetracking_table.bugid IN ".
+      "(SELECT mantis_bug_table.id ".
+      "FROM `mantis_bug_table` , `codev_team_project_table` ".
+      "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
+      "AND codev_team_project_table.team_id =  $this->team_id) ";
+    
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
       $workingDaysPerJob += $row->duration;
+      
+      
+      // ---- DEBUG
+      //$u = UserCache::getInstance()->getUser($row->userid);
+      //$issue = IssueCache::getInstance()->getIssue($row->bugid);
+      //    echo "Debug -- getWorkingDaysPerJob -- workingDaysPerJob : team $this->team_id  job $job_id user $row->userid ".$u->getName()." bug $row->bugid ".$issue->summary." duration $row->duration<br/>";
     }
     return $workingDaysPerJob;
   }
