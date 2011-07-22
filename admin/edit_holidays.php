@@ -226,7 +226,7 @@ function addHolidayForm($originPage, $defaultDate) {
    
    echo("   ".T_("Description").": <input name='hol_desc' type='text' id='hol_desc'>\n");
    
-   echo("   ".T_("Color").": <input name='hol_color' type='text' id='hol_color' value='#D8D8D8' title='format: #D8D8D8' size='6'>\n");
+   echo("   ".T_("Color").": <input name='hol_color' type='text' id='hol_color' value='".Holidays::$defaultColor."' title='format: ".Holidays::$defaultColor."' size='6'>\n");
 
    echo "   <input type=button name='btAddHoliday' value='".T_("Add")."' onClick='javascript: addHoliday()'>\n";
 
