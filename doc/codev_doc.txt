@@ -19,18 +19,18 @@ dans les fiches mantis:
 - Liv. Date
 
 ** CoDev MetaProject
-Pour faciliter la creation de nouveaux projets mantis, un meta projet "CoDev MetaProject" a été créé. C'est à ce projet que l'on
-a ajouté les 'Custom Fields' spécifiques a CoDev. Pour rendre un projet compatible avec CoDev il suffit de le faire hériter
+Pour faciliter la création de nouveaux projets mantis, un meta projet "CoDev MetaProject" a été créé. C'est à ce projet que l'on
+a ajouté les 'Custom Fields' spécifiques à CoDev. Pour rendre un projet compatible avec CoDev il suffit de le faire hériter
 de ce meta-projet. 
 
 Note: pour la FDJ, des 'sous' metaProjets ont été créés, héritant de "CoDev MetaProject" et ajoutant des attributs
 spécifiques au dommaine d'activité en question: FDJ_GEMS, FDJ_PROSYS, FDJ_MULTIMEDIA 
 
 ** Projets SuiviOp (SideTasks Projects)
-Il existe Un projet de suiviOp commun à toutes les equipes, qui contient les taches communes n'ayant
+Il existe Un projet de suiviOp commun à toutes les équipes, qui contient les taches communes n'ayant
 pas de rapport avec les activités spécifiques à une équipe (Absence, visite medicale, alerte incendie, tremblement de terre)
 
-Chaque equipe a en plus un projet de suiviOp propre, qui sert a regrouper les taches annexes spécifiques a l'equipe
+Chaque équipe a en plus un projet de suiviOp propre, qui sert a regrouper les taches annexes spécifiques à l'équipe
 (BDD hors service, reunion, scripts de compil, Formation VMS, ...) 
 
 ** taches des projets SuiviOp
@@ -45,35 +45,35 @@ doivent pas perturber la vision des taches en cours dans mantis.
 
 ** Team Leader
 - Le team leader a les droits d'admin sur le Team (ajout de membres, projets, etc)
-- Il a les droits pour acceder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Export to CSV | Weekly activities | Task tracking | Admin
-- Il peut saisire des TimeTracks pour tous les membres de son equipe.
-- Ses propres TimeTracks ne sont pas pris en compte dans les stats, pour cela il faut qu'il se declare comme membre de l'equipe (Dev ou Manager).
+- Il a les droits pour accéder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Export to CSV | Weekly activities | Task tracking | Admin
+- Il peut saisir des TimeTracks pour tous les membres de son équipe.
+- Ses propres TimeTracks ne sont pas pris en compte dans les stats, pour cela il faut qu'il se declare comme membre de l'équipe (Dev ou Manager).
 
 
 ** Team Developper
-- Il a les droits pour acceder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Weekly activities | Task tracking
-- Il peut saisire ses propres TimeTracks.
+- Il a les droits pour accéder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Weekly activities | Task tracking
+- Il peut saisir ses propres TimeTracks.
 
 ** Team Manager
-- Il a les droits pour acceder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Export to CSV | Weekly activities | Task tracking
-- Il peut saisire ses propres TimeTracks: il n'a acces qu'aux SideTasksProjects (Suivi Op.).
+- Il a les droits pour accéder aux pages suivantes: Time Tracking | Holidays Reports | Mantis Reports | Productivity Reports | Export to CSV | Weekly activities | Task tracking
+- Il peut saisir ses propres TimeTracks: il n'a accès qu'aux SideTasksProjects (Suivi Op.).
 
 ** Team Observer
 - Ses propres TimeTracks ne sont pas pris en compte dans les stats
-- Il a les droits pour acceder aux pages suivantes: Holidays Reports | Mantis Reports | Productivity Reports
+- Il a les droits pour accéder aux pages suivantes: Holidays Reports | Mantis Reports | Productivity Reports
 
 
 *** Projets
 Un Projet est défini dans mantis.
-Un TeamMember peut imputer sur differentes taches du projet (MantisIssues).
+Un TeamMember peut imputer sur différentes taches du projet (MantisIssues).
 Un TeamMember peut effectuer plusieurs types d'actions sur une Tache (Poste|Job). 
 
 ** Type
 Il existe 3 types de Projets: SideTasks | Project | Project (no common Jobs)
 
 - SideTasks
-  Designe les taches annexes aux projets. Ex: Absences, Panne Reseau, Visite Medicale, ...
-  il peut y avoir un ou plusieurs projets de type 'SideTasks': certains seront communs a toutes les equipes, d'autres spécifiques à l'equipe.  
+  Désigne les taches annexes aux projets. Ex: Absences, Panne Reseau, Visite Medicale, ...
+  il peut y avoir un ou plusieurs projets de type 'SideTasks': certains seront communs à toutes les equipes, d'autres spécifiques à l'équipe.  
   Attention: Si un TeamMember est membre de deux equipes, alors les imputations qu'il fera sur un projet 'SideTasks' 
              commun à toutes les equipes (Ex: SuiviOp) seront comptabilisées dans les stats des deux equipes.
   Les projets 'SideTasks' n'ont généralement qu'un seul poste, 'N/A'. 
@@ -94,22 +94,22 @@ On trouvera des postes communs (common Jobs), qui seront attribués à tous les pr
 On pourra définir des postes "Assigned", qu'il faudra ensuite assigner à des projets en particulier.
 
 ** Catégories
-Il y a 5 catégories disponibles pour définir les taches. Actuellement nous n'avons pas identifié d'autres catégories necessaires
+Il y a 5 catégories disponibles pour définir les taches. Actuellement nous n'avons pas identifié d'autres catégories nécessaires
 à la gestion des tâches.
 
 - Inactivité
-Les taches d'inactivité désignent les absences ainsi que toutes les autres activités n'etant pas référencées dans
+Les taches d'inactivité désignent les absences ainsi que toutes les autres activités n'étant pas référencées dans
 d'autres projets gérés par CoDev Timetracking.
 
 - Gestion de Projet
 Principalement les taches du Chef de projet, ainsi que les réunions sur lesquelles imputent également les membres de l'équipe.
  
 - Incident
-On créera une tache Incident lorsqu'on ne peut imputer sur une tache projet pour une raison technique.
+On créera une tache Incident lorsqu'on ne peut pas imputer sur une tache projet pour une raison technique.
 ex: Panne réseau, build nocturne ko, etc.
 
 - Outillage
-Des taches annexes mais necessaires comme la mise en place de scripts de compilation, gestion de conf, administration système...
+Des taches annexes mais nécessaires comme la mise en place de scripts de compilation, gestion de conf, administration système...
 
 - Capitalisation
 La mise à jour du WIKI ou la création de docs internes.
