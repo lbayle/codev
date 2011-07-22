@@ -376,7 +376,7 @@ class TimeTracking {
       "AND mantis_bug_history_table.new_value = $status_resolved ".
       "ORDER BY mantis_bug_table.id DESC";
     
-    if (isset($_GET['debug'])) { echo "getDrift_new QUERY = $query <br/>"; }
+    if (isset($_GET['debug_sql'])) { echo "getResolvedIssues QUERY = $query <br/>"; }
     
     $result = mysql_query($query) or die("Query FAILED: $query");
     
@@ -960,7 +960,7 @@ class TimeTracking {
              "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
              "ORDER BY mantis_bug_table.id DESC";
     
-    if (isset($_GET['debug'])) { echo "getReopened QUERY = $query <br/>"; }
+    if (isset($_GET['debug_sql'])) { echo "getReopened QUERY = $query <br/>"; }
     
     $result = mysql_query($query) or die("Query failed: $query");
     
