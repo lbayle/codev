@@ -168,20 +168,27 @@ class User {
    }
 
    // --------------------
-   /** if no team specified, choose the most future departureDate */
+   /** if no team specified, choose the most future departureDate 
+    *  or '0' if still active in a team
+    *  */
    public function getDepartureDate($team_id = NULL) {
-
    	$departureDate = 0;
-
       $query = "SELECT departure_date FROM `codev_team_user_table` ".
                "WHERE user_id = $this->id ";
       if (isset($team_id)) {
                $query .= "AND team_id = $team_id";
       }
       $result = mysql_query($query) or die("Query failed: $query");
+
+      //search the departure date
+      // if the user is active in a team the departure date is '0'
       while($row = mysql_fetch_object($result))
       {
-         if ($row->departure_date > $departureDate) {
+      	if ((NULL==$row->departure_date )||(0==$row->departure_date )){
+      		$departureDate = 0;
+      		break;
+      	}
+      	if ($row->departure_date > $departureDate) {
             $departureDate = $row->departure_date;
          }
       }
