@@ -1052,33 +1052,45 @@ public function getReopenedRate($projects = NULL) {
 }
 
    /**
-    * 
+    * pourcentage du nbre de jours de retard par rapport au nbre de jours disponibles pour la correction
+    *  - Tient compte uniquement des fiches dont la date de livraison n'a pas été respectee
+    *  - The submission day is not included (bug may have been posted at 18:00)
+    *
     * @return 
     */
-public function getDelayRate() {
+   public function getDelayRate() {
 
-   // --------
-   $totalTimeDrift = 0;
-   $avalableWorkload = 0; // deadLine - dateSubmission - nb holidays in that period
-  
-   $issueList=$this->getDeliveredIssueWithDeadLine();
-   foreach ($issueList as $issue) {
+      // --------
+   	  $totalTimeDrift = 0;
+   	  $avalableWorkload = 0; // deadLine - dateSubmission - nb holidays in that period
+      $totalDelayRate = 0;
+      
+   	  $issueList=$this->getDeliveredIssueWithDeadLine();
+   
+      if (0 == count($issueList)) { return 0; }
+   
+      foreach ($issueList as $issue) {
 
-   	   $timeDrift = $issue->getTimeDrift();
-   	   if ($timeDrift > 0) {
-   	      $totalTimeDrift   += $timeDrift;
-          $avalableWorkload += $issue->getAvalableWorkload();
-   	      if (isset($_GET['debug'])) { echo "getDelayRate: issue $issue->bugId ".$timeDrift." / ".$issue->getAvalableWorkload()."<br/>";}
-   	   }
-    }
-   	if (isset($_GET['debug'])) { echo "getDelayRate: total ".$totalTimeDrift." / ".$avalableWorkload."<br/>";}
+   	     $timeDrift = $issue->getTimeDrift();
+   	     if ($timeDrift > 0) {
+   	   
+   	         $avalableWorkload = $issue->getAvalableWorkload();
+             $rate = (0 != $avalableWorkload) ? ($timeDrift / $avalableWorkload): 0;
+             $totalDelayRate += $rate;
+
+             if (isset($_GET['debug'])) { echo "getDelayRate: issue $issue->bugId ".$timeDrift." / ".$avalableWorkload." = ".$rate."<br/>";}
+   	     }   	   
+      }
+   	  if (isset($_GET['debug'])) { echo "getDelayRate: total ".$totalTimeDrift." / ".$avalableWorkload."<br/>";}
     
-	$rate = (0 != $avalableWorkload) ? ($totalTimeDrift / $avalableWorkload) : 0;
+	  $totalDelayRate /= count($issueList);
 
-	return $rate;
-}
+	  return $totalDelayRate;
+   }
 
-  
 } // class TimeTracking
 
 ?>
+
+
+

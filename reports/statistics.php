@@ -676,6 +676,17 @@ if (0 == count($teamList)) {
          
          echo "<div class=\"spacer\"> </div>\n";
          
+         // --------- DelayRate
+         echo "<br/>\n";
+         echo "<hr/>\n";
+         echo "<br/>\n";
+         echo "<a name='tagDelayRate'></a>\n";
+         displayDelayRateGraph ($timeTrackingTable, 800, 300);
+         flush();
+         
+         echo "<div class=\"spacer\"> </div>\n";
+         
+         // --------- ResolvedDrifts
          echo "<br/>\n";
          echo "<hr/>\n";
          echo "<br/>\n";
@@ -711,16 +722,6 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<a name='tagProductivityRate'></a>\n";
          displayReopenedRateGraph ($timeTrackingTable, 800, 300);
-         flush();
-         
-         echo "<div class=\"spacer\"> </div>\n";
-         
-         // --------- DelayRate
-         echo "<br/>\n";
-         echo "<hr/>\n";
-         echo "<br/>\n";
-         echo "<a name='tagDelayRate'></a>\n";
-         displayDelayRateGraph ($timeTrackingTable, 800, 300);
          flush();
          
          echo "<div class=\"spacer\"> </div>\n";
