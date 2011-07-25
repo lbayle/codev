@@ -1064,6 +1064,7 @@ public function getReopenedRate($projects = NULL) {
    	  $totalTimeDrift = 0;
    	  $avalableWorkload = 0; // deadLine - dateSubmission - nb holidays in that period
       $totalDelayRate = 0;
+      $nbIssues = 0;
       
    	  $issueList=$this->getDeliveredIssueWithDeadLine();
    
@@ -1077,13 +1078,13 @@ public function getReopenedRate($projects = NULL) {
    	         $avalableWorkload = $issue->getAvalableWorkload();
              $rate = (0 != $avalableWorkload) ? ($timeDrift / $avalableWorkload): 0;
              $totalDelayRate += $rate;
-
+             $nbIssues+=1;
              if (isset($_GET['debug'])) { echo "getDelayRate: issue $issue->bugId ".$timeDrift." / ".$avalableWorkload." = ".$rate."<br/>";}
    	     }   	   
       }
    	  if (isset($_GET['debug'])) { echo "getDelayRate: total ".$totalTimeDrift." / ".$avalableWorkload."<br/>";}
     
-	  $totalDelayRate /= count($issueList);
+	  $totalDelayRate = (0 != $nbIssues) ? $totalDelayRate/$nbIssues : 0;
 
 	  return $totalDelayRate;
    }
