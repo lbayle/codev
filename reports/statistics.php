@@ -510,7 +510,7 @@ function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
    echo "<tr>\n";
    echo "<th>Date</th>\n";
    echo "<th title='".T_("Reopened Rate")."'>".T_("% Reopened")."</th>\n";
-   echo "<th title='".T_("Nb Reopened Rate")."'>".T_("Nb Reopened")."</th>\n";
+   echo "<th title='".T_("Reopened Rate")."'>".T_("Nb Reopened")."</th>\n";
    echo "</tr>\n";
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
