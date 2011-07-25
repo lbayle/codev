@@ -235,7 +235,7 @@ class TimeTracking {
              "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
              "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
              "AND mantis_bug_history_table.new_value = $status_resolved ".
-             "ORDER BY mantis_bug_table.id DESC";
+             " ORDER BY mantis_bug_table.id DESC";
     
     if (isset($_GET['debug_sql'])) { echo "getProductivRate QUERY = $query <br/>"; }
     
@@ -374,7 +374,7 @@ class TimeTracking {
       "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
       "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
       "AND mantis_bug_history_table.new_value = $status_resolved ".
-      "ORDER BY mantis_bug_table.id DESC";
+      " ORDER BY mantis_bug_table.id DESC";
     
     if (isset($_GET['debug_sql'])) { echo "getResolvedIssues QUERY = $query <br/>"; }
     
@@ -971,7 +971,7 @@ class TimeTracking {
              "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
              "AND mantis_bug_history_table.new_value = $resolution_reopened ".
              "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
-             "ORDER BY mantis_bug_table.id DESC";
+             " ORDER BY mantis_bug_table.id DESC";
     
     if (isset($_GET['debug_sql'])) { echo "getReopened QUERY = $query <br/>"; }
     
@@ -1045,7 +1045,9 @@ public function getReopenedRate($projects = NULL) {
 
    $countSubmitted = count($this->getSubmitted());
    
-	$rate=($countReopened / $countSubmitted);
+   if (!$countSubmitted==0)	{
+       $rate=($countReopened / $countSubmitted);
+   }
 	return $rate;
 }
 

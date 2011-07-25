@@ -421,9 +421,10 @@ function displayCurrentDriftStats ($timeTracking) {
     $query = "SELECT DISTINCT id ".
                "FROM `mantis_bug_table` ".
                "WHERE status NOT IN ($status_resolved,$status_delivered,$status_closed) ".
-               "AND project_id IN ($formatedProdProjectList)".
+               "AND project_id IN ($formatedProdProjectList) ".
                "ORDER BY id DESC";
     $result = mysql_query($query) or die("Query failed: $query");
+    
     while($row = mysql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id);
             $user = UserCache::getInstance()->getUser($issue->handlerId);
@@ -552,6 +553,7 @@ function displaySideTasksProjectDetails($timeTracking) {
                "WHERE team_id = $timeTracking->team_id ".
                "AND type = $sideTaskProjectType";
   $result = mysql_query($query) or die("Query failed: $query");
+
   while($row = mysql_fetch_object($result))
   {
      $durPerCat = $timeTracking->getProjectDetails($row->project_id);
