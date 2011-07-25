@@ -1084,8 +1084,9 @@ public function getReopenedRate($projects = NULL) {
       }
    	  if (isset($_GET['debug'])) { echo "getDelayRate: total ".$totalTimeDrift." / ".$avalableWorkload."<br/>";}
     
-	  $totalDelayRate = (0 != $nbIssues) ? $totalDelayRate/$nbIssues : 0;
-
+	//  $totalDelayRate = (0 != $nbIssues) ? $totalDelayRate/$nbIssues : 0;
+      $totalDelayRate =  $totalDelayRate/count($issueList);
+      
 	  return $totalDelayRate;
    }
 
