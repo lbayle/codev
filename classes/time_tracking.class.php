@@ -344,9 +344,10 @@ class TimeTracking {
    * Returns all Issues resolved in the period and having not been re-opened
    * 
    * @param $projects  if NULL: prodProjectList
+   *         filterTC= True : only bug with TC bug associated
    * @return a list of Issue class instances
    */
-  public function getResolvedIssues($projects = NULL) {
+  public function getResolvedIssues($projects = NULL,$filterTC=true) {
     global $status_resolved;
     global $status_closed;
 
@@ -363,19 +364,34 @@ class TimeTracking {
     }
     
     // all bugs which status changed to 'resolved' whthin the timestamp
-    $query = "SELECT mantis_bug_table.id, ".
-      "mantis_bug_history_table.new_value, ".
-      "mantis_bug_history_table.old_value, ".
-      "mantis_bug_history_table.date_modified ".
-      "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
-      "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
-      "AND mantis_bug_table.project_id IN ($formatedProjList) ".
-      "AND mantis_bug_history_table.field_name='status' ".
-      "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
-      "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-      "AND mantis_bug_history_table.new_value = $status_resolved ".
-      " ORDER BY mantis_bug_table.id DESC";
+    if ($filterTC){ 
+           $query = "SELECT mantis_bug_table.id,mantis_bug_history_table.new_value, mantis_bug_history_table.old_value, ".
+                    "mantis_bug_history_table.date_modified , mantis_custom_field_string_table.value ".
+                    "FROM `mantis_bug_table`, `mantis_bug_history_table` , `mantis_custom_field_string_table`".
+                    "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+                    "AND mantis_bug_table.project_id IN ($formatedProjList) ".
+                    "AND mantis_bug_history_table.field_name='status' ".
+                    "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+                    "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+                    "AND mantis_bug_history_table.new_value = $status_resolved ".
+                    "AND mantis_custom_field_string_table.field_id = 1 ".
+                    "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id ".  
+                    "AND mantis_custom_field_string_table.value != '' AND RTRIM(mantis_custom_field_string_table.value) != '0'  ";
+                    " ORDER BY mantis_bug_table.id DESC";
+    }else{
+    	 $query = "SELECT mantis_bug_table.id,mantis_bug_history_table.new_value, mantis_bug_history_table.old_value, ".
+                  "mantis_bug_history_table.date_modified ".
+                  "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
+                  "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+                  "AND mantis_bug_table.project_id IN ($formatedProjList) ".
+                  "AND mantis_bug_history_table.field_name='status' ".
+                  "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+                  "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+                  "AND mantis_bug_history_table.new_value = $status_resolved ".
+                   " ORDER BY mantis_bug_table.id DESC";
+    }
     
+     
     if (isset($_GET['debug_sql'])) { echo "getResolvedIssues QUERY = $query <br/>"; }
     
     $result = mysql_query($query) or die("Query FAILED: $query");
@@ -990,8 +1006,9 @@ class TimeTracking {
   // ----------------------------------------------
   /**
    * returns a list of bug_id that have been submitted in the period 
+   * filterTC= True : only bug with TC bug associated
    */
-   public function getSubmitted($projects = NULL) {
+   public function getSubmitted($projects = NULL, $filterTC=true) {
   
 //      $periodStats = new PeriodStats($this->startTimestamp, $this->endTimestamp);
 //      $periodStats->projectList = $projects;
@@ -1005,16 +1022,23 @@ class TimeTracking {
          $projects = $this->prodProjectList;
       }
     
- 
-      $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
-      //$query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id,mantis_custom_field_string_table.value ".
-      //         "FROM `mantis_bug_table`, `codev_team_project_table`, `mantis_custom_field_string_table` ".
-               "FROM `mantis_bug_table`, `codev_team_project_table` ".
-      "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
-               "AND mantis_bug_table.project_id = codev_team_project_table.project_id ";
-     //          "AND mantis_custom_field_string_table.field_id = 1 ".
-     //          "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id " ;
-     //           "AND mantis_custom_field_string_table.value !=0 ";
+	  if ($filterTC){ 
+          $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id,mantis_custom_field_string_table.value ".
+                   "FROM `mantis_bug_table`, `codev_team_project_table`, `mantis_custom_field_string_table` ".
+                   "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
+                   "AND mantis_bug_table.project_id = codev_team_project_table.project_id ". 
+                   "AND mantis_custom_field_string_table.field_id = 1 ".
+                   "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id ".  
+                   "AND mantis_custom_field_string_table.value != '' AND RTRIM(mantis_custom_field_string_table.value) != '0'  ";
+	  }else{
+	  	$query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id,mantis_custom_field_string_table.value ".
+                   "FROM `mantis_bug_table`, `codev_team_project_table`, `mantis_custom_field_string_table` ".
+                   "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
+                   "AND mantis_bug_table.project_id = codev_team_project_table.project_id ". 
+                   "AND mantis_custom_field_string_table.field_id = 1 ".
+                   "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id ";  
+	  	
+	  }
 
       // Only for specified Projects
       if (0 != count($projects)) {
@@ -1025,7 +1049,7 @@ class TimeTracking {
 
       $result = mysql_query($query) or die("Query failed: $query");
       
-      if (isset($_GET['debug'])) {
+      if (isset($_GET['debug_sql'])) {
           echo "Query getSubmitted : $query <br/>";
       }
  
