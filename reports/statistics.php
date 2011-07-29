@@ -71,8 +71,11 @@ function setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $startYea
    
   // create form
   echo "<div align=center>\n";
-  echo "<form id='form1' name='form1' method='post' action='$originPage'>\n";
-  
+  if (isset($_GET['debug'])) {
+      echo "<form id='form1' name='form1' method='post' action='$originPage?debug'>\n";
+  } else {
+  	   echo "<form id='form1' name='form1' method='post' action='$originPage'>\n";
+  }
   echo T_("Team").": <select id='teamidSelector' name='teamidSelector' onchange='updateYearSelector()'>\n";
   echo "<option value='0'></option>\n";
   foreach ($teamList as $tid => $tname) {
@@ -109,26 +112,34 @@ function setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $startYea
 
 
 
-function displaySubmittedResolved($periodStatsReport, $width, $height) {
+function displaySubmittedResolved($timeTrackingTable, $width, $height) {
 	
-   $submitted = $periodStatsReport->getSubmitted();
-   $resolved  = $periodStatsReport->getDeltaResolved();
+   //$submitted = $periodStatsReport->getSubmitted();
+   //$resolved  = $periodStatsReport->getDeltaResolved();
 
+   $submittedList = array();
+   $resolvedList  = array();
+   foreach ($timeTrackingTable as $d => $tt) {
+   	  $submittedList[$d] = count($tt->getSubmitted());     // returns bug_id !
+   	  $resolvedList[$d]  = count($tt->getResolvedIssues()); // returns Issue instances !
+   }
+   
+   
    $graph_title="title=".("Submitted / Resolved Issues");
    $graph_width="width=$width";
    $graph_height="height=$height";
 
 
-   $val1 = array_values($submitted);
+   $val1 = array_values($submittedList);
    #$val1 = array(4, 2, 5, 3, 3, 6, 7, 6, 5, 4, 3, 2);
    $strVal1 = "leg1=Submitted&x1=".implode(':', $val1);
 
-   $val2 = array_values($resolved);
+   $val2 = array_values($resolvedList);
    #$val2 = array(3, 8, 15, 6, 2, 1, 3, 2, 5, 7, 6, 6);
    $strVal2 = "leg2=Resolved&x2=".implode(':', $val2);
 
    $bottomLabel = array();
-   foreach ($submitted as $date => $val) {
+   foreach ($submittedList as $date => $val) {
       $bottomLabel[] = date("M y", $date);
    }
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
@@ -152,11 +163,11 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    echo "<th title='".T_("Nb of submitted tasks EXCEPT SideTasks and FDL")."'>".T_("Nb submissions")."</th>\n";
    echo "<th title='".T_("Nb of resolved tasks EXCEPT SideTasks and reopened tasks")."'>".T_("Nb Resolved")."</th>\n";
    echo "</tr>\n";
-   foreach ($submitted as $date => $val) {
+   foreach ($submittedList as $date => $val) {
       echo "<tr>\n";
    	echo "<td class=\"right\">".date("F Y", $date)."</td>\n";
       echo "<td class=\"right\">".$val."</td>\n";
-      echo "<td class=\"right\">".$resolved[$date]."</td>\n";
+      echo "<td class=\"right\">".$resolvedList[$date]."</td>\n";
       echo "</tr>\n";
    }
    echo "</table>\n";
@@ -434,7 +445,7 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
 
 
 
-function createTimeTeackingList($start_day, $start_month, $start_year, $teamid) {
+function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) {
 
    $now = time();
    $timeTrackingTable = array();
@@ -448,7 +459,9 @@ function createTimeTeackingList($start_day, $start_month, $start_year, $teamid) 
          $startTimestamp = mktime(0, 0, 0, $month, $day, $y);
          $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
          $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
-      	   
+
+         #echo "DEBUG createTimeTrackingList: startTimestamp=".date("Y-m-d H:i:s", $startTimestamp)." endTimestamp=".date("Y-m-d H:i:s", $endTimestamp)." nbDays = $nbDaysInMonth<br/>";
+         
          if ($startTimestamp > $now) { break; }
          
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
@@ -638,7 +651,7 @@ if (0 == count($teamList)) {
    
       if (0 != $teamid) {
 
-      	$timeTrackingTable = createTimeTeackingList($start_day, $start_month, $start_year, $teamid);
+      	$timeTrackingTable = createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
       	
       	
          echo "<div align='left'>\n";
@@ -656,9 +669,8 @@ if (0 == count($teamList)) {
          echo "<hr/>\n";
          echo "<br/>\n";
          echo "<a name='tagSubmittedResolved'></a>\n";
-         $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $start_day, $teamid);
-         $periodStatsReport->computeSubmittedResolved();
-         displaySubmittedResolved($periodStatsReport, 800, 300);
+         displaySubmittedResolved($timeTrackingTable, 800, 300);
+         
          flush();
          echo "<div class=\"spacer\"> </div>\n";
 

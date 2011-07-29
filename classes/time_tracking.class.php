@@ -997,33 +997,45 @@ class TimeTracking {
 //      $periodStats->projectList = $projects;
 //      $countSubmitted = $periodStats->countIssues_submitted();
 
+   	  $custom_field_tc = 1 ; //table mantis_custom_field_table num champ TC
+   	  
       $submittedList = array();
 
       if (NULL == $projects) {
          $projects = $this->prodProjectList;
       }
     
+ 
       $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
+      //$query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id,mantis_custom_field_string_table.value ".
+      //         "FROM `mantis_bug_table`, `codev_team_project_table`, `mantis_custom_field_string_table` ".
                "FROM `mantis_bug_table`, `codev_team_project_table` ".
-               "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
+      "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
                "AND mantis_bug_table.project_id = codev_team_project_table.project_id ";
+     //          "AND mantis_custom_field_string_table.field_id = 1 ".
+     //          "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id " ;
+     //           "AND mantis_custom_field_string_table.value !=0 ";
 
       // Only for specified Projects
       if (0 != count($projects)) {
          $formatedProjects = implode( ', ', $projects);
-         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
+         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
       }
       if (isset($_GET['debug_sql'])) { echo "getNbSubmitted(): query = $query<br/>"; }
 
       $result = mysql_query($query) or die("Query failed: $query");
-
+      
+      if (isset($_GET['debug'])) {
+          echo "Query getSubmitted : $query <br/>";
+      }
+ 
       while($row = mysql_fetch_object($result))
       {
          $submittedList[] = $row->id;
 
-         if (isset($_GET['debug'])) {
-            echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
-         }
+          if (isset($_GET['debug'])) {
+              echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id  TC $row->value <br/>";
+          }
       }
 
       return $submittedList;
