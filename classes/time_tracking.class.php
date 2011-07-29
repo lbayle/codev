@@ -350,7 +350,8 @@ class TimeTracking {
   public function getResolvedIssues($projects = NULL,$filterTC=true) {
     global $status_resolved;
     global $status_closed;
-
+    global $tcCustomField;
+    
     $resolvedList = array();
     $issueList = array();    
     
@@ -374,21 +375,23 @@ class TimeTracking {
                     "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
                     "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
                     "AND mantis_bug_history_table.new_value = $status_resolved ".
-                    "AND mantis_custom_field_string_table.field_id = 1 ".
+                    "AND mantis_custom_field_string_table.field_id = $tcCustomField ".
                     "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id ".  
-                    "AND mantis_custom_field_string_table.value != '' AND RTRIM(mantis_custom_field_string_table.value) != '0'  ";
+                    "AND mantis_custom_field_string_table.value != '' AND RTRIM(mantis_custom_field_string_table.value) != '0'  ".
                     " ORDER BY mantis_bug_table.id DESC";
     }else{
-    	 $query = "SELECT mantis_bug_table.id,mantis_bug_history_table.new_value, mantis_bug_history_table.old_value, ".
-                  "mantis_bug_history_table.date_modified ".
-                  "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
-                  "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
-                  "AND mantis_bug_table.project_id IN ($formatedProjList) ".
-                  "AND mantis_bug_history_table.field_name='status' ".
-                  "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
-                  "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-                  "AND mantis_bug_history_table.new_value = $status_resolved ".
-                   " ORDER BY mantis_bug_table.id DESC";
+    	  $query = "SELECT mantis_bug_table.id,mantis_bug_history_table.new_value, mantis_bug_history_table.old_value, ".
+                    "mantis_bug_history_table.date_modified , mantis_custom_field_string_table.value ".
+                    "FROM `mantis_bug_table`, `mantis_bug_history_table` , `mantis_custom_field_string_table`".
+                    "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+                    "AND mantis_bug_table.project_id IN ($formatedProjList) ".
+                    "AND mantis_bug_history_table.field_name='status' ".
+                    "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
+                    "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
+                    "AND mantis_bug_history_table.new_value = $status_resolved ".
+                    "AND mantis_custom_field_string_table.field_id = $tcCustomField ".
+                    "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id ".  
+                    " ORDER BY mantis_bug_table.id DESC";
     }
     
      
@@ -1014,7 +1017,7 @@ class TimeTracking {
 //      $periodStats->projectList = $projects;
 //      $countSubmitted = $periodStats->countIssues_submitted();
 
-   	  $custom_field_tc = 1 ; //table mantis_custom_field_table num champ TC
+   	  global $tcCustomField; //table mantis_custom_field_table num champ TC
    	  
       $submittedList = array();
 
@@ -1027,7 +1030,7 @@ class TimeTracking {
                    "FROM `mantis_bug_table`, `codev_team_project_table`, `mantis_custom_field_string_table` ".
                    "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
                    "AND mantis_bug_table.project_id = codev_team_project_table.project_id ". 
-                   "AND mantis_custom_field_string_table.field_id = 1 ".
+                   "AND mantis_custom_field_string_table.field_id = $tcCustomField ".
                    "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id ".  
                    "AND mantis_custom_field_string_table.value != '' AND RTRIM(mantis_custom_field_string_table.value) != '0'  ";
 	  }else{
@@ -1035,7 +1038,7 @@ class TimeTracking {
                    "FROM `mantis_bug_table`, `codev_team_project_table`, `mantis_custom_field_string_table` ".
                    "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
                    "AND mantis_bug_table.project_id = codev_team_project_table.project_id ". 
-                   "AND mantis_custom_field_string_table.field_id = 1 ".
+                   "AND mantis_custom_field_string_table.field_id = $tcCustomField ".
                    "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id ";  
 	  	
 	  }
