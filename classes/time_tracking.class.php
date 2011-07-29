@@ -983,7 +983,7 @@ class TimeTracking {
       if (NULL == $projects) {
          $projects = $this->prodProjectList;
       }
-    
+ 
       $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
                "FROM `mantis_bug_table`, `codev_team_project_table` ".
                "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
@@ -992,12 +992,12 @@ class TimeTracking {
       // Only for specified Projects
       if (0 != count($projects)) {
          $formatedProjects = implode( ', ', $projects);
-         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects)";
+         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
       }
-      if (isset($_GET['debug_sql'])) { echo "getNbSubmitted(): query = $query<br/>"; }
+      if (isset($_GET['debug_sql'])) { echo "getSubmitted(): query = $query<br/>"; }
 
       $result = mysql_query($query) or die("Query failed: $query");
-
+      
       while($row = mysql_fetch_object($result))
       {
          $submittedList[] = $row->id;
