@@ -151,12 +151,14 @@ function displaySubmittedResolved($timeTrackingTable, $width, $height, $filterTC
    echo "<div>\n";
    echo "<h2>".T_("Submitted / Resolved Issues")."</h2>\n";
    
-   if (!$filterTC) {
-   	  echo "<span class='help_font'>\n";
-      echo T_("noFilterTC").": ".T_("includes internal tasks (TC='' or TC='0')")."<br/>\n";
-      echo "</span>\n";
-      echo "<br/>\n";
+   echo "<span class='help_font'>\n";
+   if ($filterTC) {
+      echo T_("Display all submitted/resolved tasks, except internal tasks.")."<br/>\n";
+   } else {
+      echo T_("noFilterTC").": ".T_("Display all submitted/resolved tasks, including internal tasks (TC='' or TC='0')")."<br/>\n";
    }
+   echo "</span>\n";
+   echo "<br/>\n";
    
    echo "<div class=\"float\">\n";
    echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
