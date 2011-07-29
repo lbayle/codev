@@ -86,58 +86,6 @@ class PeriodStatsReport {
 
 
   // --------------------------------------------
-  // Compute monthly reports for the complete year
-  public function computeSubmittedResolved() {
-
-    $periodStatsExcludedProjectList = Config::getInstance()->getValue(Config::id_periodStatsExcludedProjectList);
-
-    $now = time();
-    $startM = $this->start_month;
-    $startD = $this->start_day;
-
-    for ($y = $this->start_year; $y <= date('Y'); $y++) {
-
-       for ($month=$startM; $month<13; $month++) {
-         $startTimestamp = mktime(0, 0, 0, $month, $startD, $y);
-         $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
-         $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
-     
-          
-         if ($startTimestamp > $now) { break; }
-             if (isset($_GET['debug'])) {
-                 echo "DEBUG computeSubmittedResolved: startTimestamp=".date("Y-m-d H:i:s", $startTimestamp)." endTimestamp=".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
-       	
-             }
-         
-         $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
-
-         $projectList = array();
-         $query = "SELECT project_id FROM `codev_team_project_table` ".
-                  "WHERE team_id = $this->teamid ";
-
-	      // only projects for specified team, except excluded projects
-	      if ((NULL != $periodStatsExcludedProjectList) &&
-	          (0 != count($periodStatsExcludedProjectList))) {
-         	       $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
-	               $query .= "AND project_id NOT IN ($formatedExcludedProjects)";
-	      }
-
-         $result = mysql_query($query) or die("Query failed: $query");
-         while($row = mysql_fetch_object($result)) {
-            $projectList[] = $row->project_id;
-         }
-
-         $periodStats->projectList = $projectList;
-         $periodStats->computeSubmittedResolved();
-         $this->periodStatsList[$startTimestamp] = $periodStats;
-         $startD = 1;
-       }
-       $startM = 1;
-    }
-  }
-
-
-  // --------------------------------------------
   public function getStatus($status) {
       $sub = array();
 
@@ -147,29 +95,6 @@ class PeriodStatsReport {
       }
   	   return $sub;
   }
-
-  // --------------------------------------------
-  public function getSubmitted() {
-      $sub = array();
-
-      foreach ($this->periodStatsList as $date => $ps) {
-         $sub[$date] = $ps->submittedList;
-
-      }
-      return $sub;
-  }
-
-  // --------------------------------------------
-  public function getDeltaResolved() {
-      $sub = array();
-
-      foreach ($this->periodStatsList as $date => $ps) {
-         $sub[$date] = $ps->deltaResolvedList;
-
-      }
-      return $sub;
-  }
-
 
   // --------------------------------------------
   function displayHTMLReport() {
