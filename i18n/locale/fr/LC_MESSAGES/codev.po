@@ -2,13 +2,13 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: reports/statistics.php:222 reports/statistics.php:358
-#: reports/statistics.php:359 reports/statistics.php:361
-#: reports/statistics.php:417 reports/statistics.php:418
+#: reports/statistics.php:240 reports/statistics.php:376
+#: reports/statistics.php:377 reports/statistics.php:379
+#: reports/statistics.php:435 reports/statistics.php:436
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-07-25 15:08+0200\n"
+"POT-Creation-Date: 2011-07-29 15:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -294,7 +294,7 @@ msgstr "Administration CoDev : &Eacute;dition &Eacute;quipe"
 #: admin/edit_team.php:222 reports/export_csv_monthly.php:94
 #: reports/export_csv_monthly.php:185 reports/export_csv_weekly.php:75
 #: reports/export_csv_weekly.php:256 reports/planning_report.php:182
-#: reports/productivity_report.php:95 reports/statistics.php:76
+#: reports/productivity_report.php:95 reports/statistics.php:79
 #: timetracking/holidays_report.php:54
 #: timetracking/project_activity_report.php:80
 #: timetracking/project_activity_report.php:157
@@ -488,7 +488,7 @@ msgstr "jours"
 msgid "monitored"
 msgstr "suivie"
 
-#: classes/time_tracking.class.php:448 reports/productivity_report.php:339
+#: classes/time_tracking.class.php:467 reports/productivity_report.php:339
 #: reports/productivity_report.php:340 reports/productivity_report.php:347
 #: reports/productivity_report.php:348 reports/productivity_report.php:359
 #: reports/productivity_report.php:360 reports/productivity_report.php:391
@@ -519,12 +519,12 @@ msgid "End Date"
 msgstr "Date Fin"
 
 #: reports/export_csv_monthly.php:109 reports/productivity_report.php:117
-#: reports/statistics.php:100 timetracking/project_activity_report.php:172
+#: reports/statistics.php:103 timetracking/project_activity_report.php:172
 msgid "Compute"
 msgstr "Calculer"
 
 #: reports/export_csv_monthly.php:168 reports/export_csv_weekly.php:235
-#: reports/statistics.php:628 timetracking/project_activity_report.php:314
+#: reports/statistics.php:663 timetracking/project_activity_report.php:314
 #: timetracking/team_activity_report.php:284
 msgid "Sorry, you do NOT have access to this page."
 msgstr "d&eacute;sol&eacute;, vous n'avez pas acces &agrave; cette page."
@@ -606,7 +606,7 @@ msgid "Resolution"
 msgstr "Resolution"
 
 #: reports/export_csv_tools.php:49 reports/issue_info.php:174
-#: reports/productivity_report.php:445 reports/statistics.php:222
+#: reports/productivity_report.php:445 reports/statistics.php:240
 msgid "ETA"
 msgstr "ETA"
 
@@ -743,7 +743,7 @@ msgstr "Reste &agrave; engager"
 
 #: reports/issue_info.php:201 reports/issue_info.php:260
 #: reports/productivity_report.php:326 reports/productivity_report.php:452
-#: reports/statistics.php:206
+#: reports/statistics.php:224
 msgid "Drift"
 msgstr "D&eacute;rive"
 
@@ -768,7 +768,7 @@ msgid "DeliveryDate"
 msgstr "Date Livraison"
 
 #: reports/issue_info.php:271 reports/productivity_report.php:292
-#: reports/statistics.php:561 reports/statistics.php:576
+#: reports/statistics.php:581 reports/statistics.php:596
 msgid "Delay Rate"
 msgstr "Taux de retard"
 
@@ -913,7 +913,7 @@ msgstr ""
 "pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs "
 "seuls)"
 
-#: reports/productivity_report.php:243 reports/statistics.php:406
+#: reports/productivity_report.php:243 reports/statistics.php:424
 msgid "Efficiency Rate"
 msgstr "Taux d'efficacit&eacute;"
 
@@ -958,9 +958,9 @@ msgstr ""
 msgid "- Reopened tasks are not taken into account"
 msgstr "- Les fiches r&eacute;ouvertes ne sont pas comptabilis&eacute;es"
 
-#: reports/productivity_report.php:275 reports/statistics.php:339
-#: reports/statistics.php:342 reports/statistics.php:355
-#: reports/statistics.php:650
+#: reports/productivity_report.php:275 reports/statistics.php:357
+#: reports/statistics.php:360 reports/statistics.php:373
+#: reports/statistics.php:685
 msgid "Productivity Rate"
 msgstr "Taux de productivit&eacute;"
 
@@ -991,7 +991,7 @@ msgid "If < 0 then ahead on planning."
 msgstr "Si n&eacute;gatif, avance sur le planing."
 
 #: reports/productivity_report.php:329 reports/productivity_report.php:455
-#: reports/statistics.php:206
+#: reports/statistics.php:224
 msgid "Overflow day quantity"
 msgstr "Nbre de jours de d&eacute;passement par rapport au budjet initial"
 
@@ -1048,8 +1048,8 @@ msgstr "Fiches en avance"
 msgid "Tasks having no deadLine are not reported here"
 msgstr "LEs taches sans deadLine ne sont pas affich&eacute;es ici"
 
-#: reports/productivity_report.php:381 reports/statistics.php:279
-#: reports/statistics.php:647
+#: reports/productivity_report.php:381 reports/statistics.php:297
+#: reports/statistics.php:682
 msgid "Adherence to deadlines"
 msgstr "Respect des delais de livraison"
 
@@ -1141,116 +1141,124 @@ msgstr "Fiches r&eacute;ouvertes dans la p&eacute;riode"
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: reports/statistics.php:88
+#: reports/statistics.php:91
 msgid "Start Year"
 msgstr "Date D&eacute;but"
 
-#: reports/statistics.php:141 reports/statistics.php:646
+#: reports/statistics.php:152 reports/statistics.php:681
 msgid "Submitted / Resolved Issues"
 msgstr "Fiches Re&ccedil;ues / R&eacute;solues"
 
-#: reports/statistics.php:152
+#: reports/statistics.php:156
+msgid "noFilterTC"
+msgstr "noFilterTC"
+
+#: reports/statistics.php:156
+msgid "includes internal tasks (TC='' or TC='0')"
+msgstr "toutes les fiches y compris les fiches internes (TC='' ou TC='0')"
+
+#: reports/statistics.php:170
 msgid "Nb of submitted tasks EXCEPT SideTasks and FDL"
 msgstr "Nbre de fiches Re&ccedil;ues SAUF SuiviOp, FDL"
 
-#: reports/statistics.php:152
+#: reports/statistics.php:170
 msgid "Nb submissions"
 msgstr "Nb Re&ccedil;ues"
 
-#: reports/statistics.php:153
+#: reports/statistics.php:171
 msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
 msgstr "Nbre de fiches r&eacute;solues SAUF SuiviOp et r&eacute;-ouvertes"
 
-#: reports/statistics.php:153
+#: reports/statistics.php:171
 msgid "Nb Resolved"
 msgstr "Nb R&eacute;solues"
 
-#: reports/statistics.php:203 reports/statistics.php:648
+#: reports/statistics.php:221 reports/statistics.php:683
 msgid "Drifts"
 msgstr "D&eacute;rives"
 
-#: reports/statistics.php:223
+#: reports/statistics.php:241
 msgid "EffortEstim"
 msgstr "EffortEstim"
 
-#: reports/statistics.php:225 reports/statistics.php:361
+#: reports/statistics.php:243 reports/statistics.php:379
 msgid "No Support"
 msgstr "Sans Support"
 
-#: reports/statistics.php:282 reports/statistics.php:294
+#: reports/statistics.php:300 reports/statistics.php:312
 msgid "% Tasks"
 msgstr "% Fiches"
 
-#: reports/statistics.php:282
+#: reports/statistics.php:300
 msgid "Percentage of tasks delivered in time"
 msgstr "Pourcentage de Fiches livr&eacute;es &agrave; temps."
 
-#: reports/statistics.php:294
+#: reports/statistics.php:312
 msgid "% Tasks Delivered in time"
 msgstr "% de Fiches livr&eacute;es &agrave; temps."
 
-#: reports/statistics.php:342
+#: reports/statistics.php:360
 msgid "Ratio between the estimated time and the elapsed time"
 msgstr ""
 "Rapport entre le budjet initial et le temps consomm&eacute; sur les fiches"
 
-#: reports/statistics.php:358
+#: reports/statistics.php:376
 msgid "Prod Rate ETA"
 msgstr "Taux de prod ETA"
 
-#: reports/statistics.php:359
+#: reports/statistics.php:377
 msgid "Prod Rate"
 msgstr "Taux de prod"
 
-#: reports/statistics.php:404
+#: reports/statistics.php:422
 msgid "Efficiency and System Disponibility"
 msgstr "Taux d'efficacit&eacute; et Disponibilit&eacute; syst&egrave;me"
 
-#: reports/statistics.php:406
+#: reports/statistics.php:424
 msgid ""
 "Exclude side tasks to get the percent of time spent working on the projects"
 msgstr "Pourcentage de temps passé sur les fiches projet par rapport au temps total consomm&eacute; (SuiviOp inclu)."
 
-#: reports/statistics.php:414
+#: reports/statistics.php:432
 msgid "Sys Disp."
 msgstr "Disp Sys"
 
-#: reports/statistics.php:417
+#: reports/statistics.php:435
 msgid "Efficiency"
 msgstr "Taux d'efficacit&eacute;"
 
-#: reports/statistics.php:418
+#: reports/statistics.php:436
 msgid "Sys Disp"
 msgstr "Disp Sys"
 
-#: reports/statistics.php:497 reports/statistics.php:512
-#: reports/statistics.php:513
+#: reports/statistics.php:517 reports/statistics.php:532
+#: reports/statistics.php:533
 msgid "Reopened Rate"
 msgstr "Taux de Retour"
 
-#: reports/statistics.php:500 reports/statistics.php:512
+#: reports/statistics.php:520 reports/statistics.php:532
 msgid "% Reopened"
 msgstr "% de retour"
 
-#: reports/statistics.php:500
+#: reports/statistics.php:520
 msgid "Percentage of submitted tasks having been reopened in the period"
 msgstr ""
 "Pourcentage de fiches r&eacute;ouvertes par rapport au nombre de fiches "
 "Re&ccedil;ues"
 
-#: reports/statistics.php:513
+#: reports/statistics.php:533
 msgid "Nb Reopened"
 msgstr "Nb de retour"
 
-#: reports/statistics.php:564 reports/statistics.php:576
+#: reports/statistics.php:584 reports/statistics.php:596
 msgid "% Delay"
 msgstr "Taux de Retard"
 
-#: reports/statistics.php:564
+#: reports/statistics.php:584
 msgid "Percentage of delay"
 msgstr "Pourcentage de Retard"
 
-#: reports/statistics.php:649
+#: reports/statistics.php:684
 msgid "Efficiency - System Disponibility"
 msgstr "Taux d'efficacit&eacute; - Disponibilit&eacute; syst&egrave;me"
 

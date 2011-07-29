@@ -347,7 +347,7 @@ class TimeTracking {
    *         filterTC= True : only bug with TC bug associated
    * @return a list of Issue class instances
    */
-  public function getResolvedIssues($projects = NULL,$filterTC=true) {
+  public function getResolvedIssues($projects = NULL, $filterTC=true) {
     global $status_resolved;
     global $status_closed;
     global $tcCustomField;

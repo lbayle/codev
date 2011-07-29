@@ -112,7 +112,7 @@ function setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $startYea
 
 
 
-function displaySubmittedResolved($timeTrackingTable, $width, $height) {
+function displaySubmittedResolved($timeTrackingTable, $width, $height, $filterTC) {
 	
    //$submitted = $periodStatsReport->getSubmitted();
    //$resolved  = $periodStatsReport->getDeltaResolved();
@@ -120,8 +120,8 @@ function displaySubmittedResolved($timeTrackingTable, $width, $height) {
    $submittedList = array();
    $resolvedList  = array();
    foreach ($timeTrackingTable as $d => $tt) {
-   	  $submittedList[$d] = count($tt->getSubmitted());     // returns bug_id !
-   	  $resolvedList[$d]  = count($tt->getResolvedIssues()); // returns Issue instances !
+   	  $submittedList[$d] = count($tt->getSubmitted(NULL, $filterTC));     // returns bug_id !
+   	  $resolvedList[$d]  = count($tt->getResolvedIssues(NULL, $filterTC)); // returns Issue instances !
    }
    
    
@@ -150,6 +150,13 @@ function displaySubmittedResolved($timeTrackingTable, $width, $height) {
    // ---------
    echo "<div>\n";
    echo "<h2>".T_("Submitted / Resolved Issues")."</h2>\n";
+   
+   if (!$filterTC) {
+   	  echo "<span class='help_font'>\n";
+      echo T_("noFilterTC").": ".T_("includes internal tasks (TC='' or TC='0')")."<br/>\n";
+      echo "</span>\n";
+      echo "<br/>\n";
+   }
    
    echo "<div class=\"float\">\n";
    echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
@@ -608,6 +615,8 @@ function displayDelayRateGraph ($timeTrackingTable, $width, $height) {
 # ======================================
 # ================ MAIN ================
 
+$originPage = "statistics.php";
+$sepChar='?';
 
 $userid = $_SESSION['userid'];
 $action = $_POST[action];
@@ -617,9 +626,22 @@ $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
 $_SESSION[teamid] = $teamid;
 
 // if 'support' is set in the URL, display graphs for 'with/without Support'
-$displayNoSupport  = isset($_GET['support']) ? true : false;
-$originPage = isset($_GET['support']) ? "statistics.php?support" : "statistics.php"; 
+if (isset($_GET['support'])) {
+	$originPage = $originPage.$sepChar."support" ;
+	$sepChar='&';
+	$displayNoSupport = true;
+} else {
+	$displayNoSupport = false;
+}
 
+// if 'noFilterTC' is set in the URL, then Submitted/Resolved graph will include tasks with TC='0'
+if (isset($_GET['noFilterTC'])) {
+	$originPage = $originPage.$sepChar."noFilterTC"; 
+	$sepChar='&';
+	$filterTC = false;
+} else {
+	$filterTC = true;
+}
 
 $session_user = UserCache::getInstance()->getUser($userid);
 $mTeamList = $session_user->getTeamList();
@@ -669,7 +691,7 @@ if (0 == count($teamList)) {
          echo "<hr/>\n";
          echo "<br/>\n";
          echo "<a name='tagSubmittedResolved'></a>\n";
-         displaySubmittedResolved($timeTrackingTable, 800, 300);
+         displaySubmittedResolved($timeTrackingTable, 800, 300, $filterTC);
          
          flush();
          echo "<div class=\"spacer\"> </div>\n";
