@@ -127,15 +127,19 @@ class PeriodStats {
     if (isset($_GET['debug_sql'])) { echo "countIssues_submitted(): query = $query<br/>"; }
 
     $result = mysql_query($query) or die("Query failed: $query");
-
+    
+    if (isset($_GET['debug_sql'])) {
+        echo "Query countIssues_submitted : $query <br/>";
+    } 
+    
     while($row = mysql_fetch_object($result))
     {
     	$submittedList[] = $row->id;
-
-      if (isset($_GET['debug'])) {
-      	echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
+                        
+     if (isset($_GET['debug'])) { 
+      	echo "DEBUG submitted countIssues_submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
       }
-    }
+   }
 
     return count($submittedList);
   }

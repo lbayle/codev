@@ -98,11 +98,17 @@ class PeriodStatsReport {
     for ($y = $this->start_year; $y <= date('Y'); $y++) {
 
        for ($month=$startM; $month<13; $month++) {
-         $startTimestamp = mktime(0, 0, 1, $month, $startD, $y);
-         $endTimestamp   = mktime(0, 0, 1, ($month + 1), $startD, $y);
-
+         $startTimestamp = mktime(0, 0, 0, $month, $startD, $y);
+         $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
+         $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
+     
+          
          if ($startTimestamp > $now) { break; }
-
+             if (isset($_GET['debug'])) {
+                 echo "DEBUG computeSubmittedResolved: startTimestamp=".date("Y-m-d H:i:s", $startTimestamp)." endTimestamp=".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
+       	
+             }
+         
          $periodStats = new PeriodStats($startTimestamp, $endTimestamp);
 
          $projectList = array();
