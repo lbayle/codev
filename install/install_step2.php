@@ -24,6 +24,10 @@
    include 'install_header.inc.php';
 
    include_once "mysql_connect.inc.php";
+
+   include_once "config.class.php";
+   Config::getInstance()->setQuiet(true);
+
    include_once "internal_config.inc.php";
    include_once "constants.php";
 

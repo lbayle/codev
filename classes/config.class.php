@@ -97,6 +97,8 @@ class Config {
    private static $instance;    // singleton instance
    private static $configVariables;
 
+   private static $quiet; // do not display any warning message (used for install procedures only)
+
    // --------------------------------------
    private function __construct()
    {
@@ -127,6 +129,15 @@ class Config {
    }
 
    // --------------------------------------
+   /**
+    * If true, then no info/warning messages will be displayed.
+    * this shall only be set during install procedures.
+    */
+   public static function setQuiet($isQuiet = false) {
+   	  self::$quiet = $isQuiet;
+   }
+
+   // --------------------------------------
    public static function getValue($id) {
 
     	$value = NULL;
@@ -135,7 +146,9 @@ class Config {
     	if (NULL != $variable) {
          $value = $variable->value;
     	} else {
-    		echo "<span class='error_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
+    		if (!self::$quiet) {
+    		   echo "<span class='error_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
+    		}
     	}
     	return $value;
    }
@@ -154,7 +167,9 @@ class Config {
       if (NULL != $variable) {
          $key = $variable->getArrayKeyFromValue($value);
       } else {
-         echo "<span class='error_font'>WARN: Config::getVariableKeyFromValue($id, $value): variable not found !</span><br/>";
+      	if (!self::$quiet) {
+           echo "<span class='error_font'>WARN: Config::getVariableKeyFromValue($id, $value): variable not found !</span><br/>";
+      	}
       }
       return $key;
    }
@@ -172,7 +187,9 @@ class Config {
       if (NULL != $variable) {
          $key = $variable->getArrayValueFromKey($value);
       } else {
-         echo "<span class='error_font'>WARN: Config::getVariableValueFromKey($id, $key): variable not found !</span><br/>";
+      	 if (!self::$quiet) {
+            echo "<span class='error_font'>WARN: Config::getVariableValueFromKey($id, $key): variable not found !</span><br/>";
+      	 }
       }
       return $key;
    }
@@ -186,7 +203,9 @@ class Config {
       if (NULL != $variable) {
          $type = $variable->type;
       } else {
-         echo "<span class='error_font'>WARN: Config::getType($id): variable not found !</span><br/>";
+      	 if (!self::$quiet) {
+            echo "<span class='error_font'>WARN: Config::getType($id): variable not found !</span><br/>";
+      	 }
       }
       return $type;
    }
@@ -236,7 +255,7 @@ class Config {
          // remove from cache
 	     unset(self::$configVariables["$id"]);
 	  } else {
-	  	echo "DEBUG: DELETE variable not found in cache !<br/>";
+	  	echo "DEBUG: DELETE variable $id not found in cache !<br/>";
 	  }
    }
 } // class
