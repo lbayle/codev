@@ -283,8 +283,6 @@ function updateTeamInfoForm($team, $originPage) {
 // ----------------------------------------------------
 function displayTeamMemberTuples($teamid) {
 
-	global $access_level_names;
-
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -319,7 +317,7 @@ function displayTeamMemberTuples($teamid) {
       } else {
       	echo "<td></td>";
       }
-      echo "<td>".$access_level_names[$row->access_level]."</td>";
+      echo "<td>".Team::$accessLevelNames[$row->access_level]."</td>";
 
       echo "</tr>\n";
    }
@@ -330,7 +328,6 @@ function displayTeamMemberTuples($teamid) {
 
 // ----------------------------------------------------
 function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
-   global $access_level_names;
 
 	list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
@@ -396,7 +393,7 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
    echo "   <td>\n";
    echo "<select  style='width:100%' name='member_access'>\n";
 
-   foreach ($access_level_names as $ac_id => $ac_name)
+   foreach (Team::$accessLevelNames as $ac_id => $ac_name)
    {
       echo "<option value='$ac_id'>$ac_name</option>\n";
    }

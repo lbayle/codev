@@ -86,7 +86,6 @@ class Config {
    const id_prelEffortEstim_balance  = "prelEffortEstim_balance"; // ex ETA_balance
    const id_priorityNames            = "priorityNames";
    const id_resolutionNames          = "resolutionNames";
-   const id_periodStatsExcludedProjectList = "periodStatsExcludedProjectList";
    const id_mantisFile_strings       = "mantisFile_strings";
    const id_mantisFile_custom_strings = "mantisFile_custom_strings";
    const id_mantisPath                = "mantisPath";

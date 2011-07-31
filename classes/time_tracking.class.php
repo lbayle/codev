@@ -93,7 +93,7 @@ class TimeTracking {
    */
   private function getProductionDays($projects) {
 
-  	 global $accessLevel_dev;
+  	$accessLevel_dev = Team::accessLevel_dev;
     $prodDays = 0;
 
     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
@@ -123,7 +123,7 @@ class TimeTracking {
    * @param $isDeveloppersOnly : do not include time spent by Managers (default = false)
    */
   public function getProdDaysSideTasks($isDeveloppersOnly = false) {
-   global $accessLevel_observer;
+   $accessLevel_observer = Team::accessLevel_observer;
    $prodDays = 0;
 
     // select tasks within timestamp, where user is in the team
@@ -157,8 +157,8 @@ class TimeTracking {
 
   // ----------------------------------------------
   public function getProductionDaysForecast() {
-    global $accessLevel_dev;
-    global $accessLevel_manager;
+    $accessLevel_dev     = Team::accessLevel_dev;
+    $accessLevel_manager = Team::accessLevel_manager;
 
     $teamProdDaysForecast = 0;
 
@@ -615,7 +615,7 @@ class TimeTracking {
 
   // systemDisponibilityRate = 100 - (nb breakdown hours / prodHours)
   public function getSystemDisponibilityRate() {
-    global $accessLevel_observer;
+    $accessLevel_observer = Team::accessLevel_observer;
 
     // The total time spent by the team doing nothing because of incidents
     $teamIncidentDays = 0;
@@ -655,7 +655,7 @@ class TimeTracking {
 
   // ----------------------------------------------
   public function getWorkingDaysPerJob($job_id) {
-  	 global $accessLevel_observer;
+  	$accessLevel_observer = Team::accessLevel_observer;
     $workingDaysPerJob = 0;
 
     $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
@@ -688,7 +688,7 @@ class TimeTracking {
 
   // ----------------------------------------------
   public function getWorkingDaysPerProject($project_id) {
-    global $accessLevel_observer;
+     $accessLevel_observer = Team::accessLevel_observer;
   	 $workingDaysPerProject = 0;
 
     // Find nb hours spent on the given project
@@ -805,7 +805,7 @@ class TimeTracking {
    * @param int $project_id
    */
   public function getProjectDetails($project_id) {
-  	 global $accessLevel_observer;
+  	$accessLevel_observer = Team::accessLevel_observer;
     $durationPerCategory = array();
 
     // Find nb hours spent on the given project by this team
@@ -887,8 +887,8 @@ class TimeTracking {
    // return TimeTracks created by the team during the timestamp
    // returns : $projectTracks[projectid][bugid][jobid] = duration
    public function getProjectTracks($isTeamProjOnly=false) {
-      global $accessLevel_dev;
-      global $accessLevel_manager;
+      $accessLevel_dev     = Team::accessLevel_dev;
+      $accessLevel_manager = Team::accessLevel_manager;
 
       $projectTracks = array();
 

@@ -44,8 +44,6 @@ class PeriodStatsReport {
   // Compute monthly reports for the complete year
   public function computeReport() {
 
-    $periodStatsExcludedProjectList = Config::getInstance()->getValue(Config::id_periodStatsExcludedProjectList);
-
     $now = time();
     $startM = $this->start_month;
     $startD = $this->start_day;

@@ -146,8 +146,8 @@ require_once('tc_calendar.php');
 
 // --------------------------------------------------------------
 function setUserForm($originPage) {
-  global $accessLevel_dev;
-  global $accessLevel_manager;
+  $accessLevel_dev     = Team::accessLevel_dev;
+  $accessLevel_manager = Team::accessLevel_manager;
 
   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
   $teamList = $session_user->getLeadedTeamList();

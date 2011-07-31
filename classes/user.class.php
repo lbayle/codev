@@ -100,26 +100,22 @@ class User {
 
    // --------------------
    public function isTeamDeveloper($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
-      global $accessLevel_dev;
-   	return $this->isTeamMember($team_id, $accessLevel_dev, $startTimestamp, $endTimestamp);
+   	return $this->isTeamMember($team_id, Team::accessLevel_dev, $startTimestamp, $endTimestamp);
    }
 
    // --------------------
    // REM isTeamObserver not used for now
    public function isTeamObserver($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
-      global $accessLevel_observer;
-      return $this->isTeamMember($team_id, $accessLevel_observer, $startTimestamp, $endTimestamp);
+      return $this->isTeamMember($team_id, Team::accessLevel_observer, $startTimestamp, $endTimestamp);
    }
 
    // --------------------
    public function isTeamManager($team_id, $startTimestamp=NULL, $endTimestamp=NULL) {
-      global $accessLevel_manager;
-      return $this->isTeamMember($team_id, $accessLevel_manager, $startTimestamp, $endTimestamp);
+      return $this->isTeamMember($team_id, Team::accessLevel_manager, $startTimestamp, $endTimestamp);
    }
 
    // --------------------
    public function isTeamMember($team_id, $accessLevel=NULL, $startTimestamp=NULL, $endTimestamp=NULL) {
-      global $accessLevel_dev;
 
       $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
                "WHERE team_id = $team_id ".
@@ -310,31 +306,26 @@ class User {
    // --------------------
    // returns the teams i'm member of.
    public function getDevTeamList() {
-      global $accessLevel_dev;
-      return $this->getTeamList($accessLevel_dev);
+      return $this->getTeamList(Team::accessLevel_dev);
    }
 
    // --------------------
    // returns the teams i'm observer of.
    public function getObservedTeamList() {
-      global $accessLevel_observer;
-      return $this->getTeamList($accessLevel_observer);
+      return $this->getTeamList(Team::accessLevel_observer);
    }
 
    // --------------------
    // returns the teams i'm Manager of.
    public function getManagedTeamList() {
-      global $accessLevel_manager;
-      return $this->getTeamList($accessLevel_manager);
+      return $this->getTeamList(Team::accessLevel_manager);
    }
 
    // --------------------
    // returns the teams
    public function getTeamList($accessLevel = NULL) {
-      global $accessLevel_dev;
-      global $access_level_names;
 
-   	if (NULL == $accessLevel) { $accessLevel = $accessLevel_dev; }
+   	if (NULL == $accessLevel) { $accessLevel = Team::accessLevel_dev; }
 
       $teamList = array();
 
@@ -348,7 +339,7 @@ class User {
       while($row = mysql_fetch_object($result))
       {
          $teamList[$row->id] = $row->name;
-         #echo "getTeamList(".$access_level_names[$accessLevel].") FOUND $row->id - $row->name<br/>";
+         #echo "getTeamList(".Team::$accessLevelNames[$accessLevel].") FOUND $row->id - $row->name<br/>";
       }
 
       return $teamList;

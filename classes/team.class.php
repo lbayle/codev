@@ -20,10 +20,19 @@ include_once 'jobs.class.php';
 
 class Team {
 
+  // ---
+  // il peut y avoir plusieurs observer
+  // il n'y a qu'un seul teamLeader
+  // il peut y avoir plusieurs managers, mais ils ne peuvent imputer que sur des SideTasks
+  // un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
     const accessLevel_dev      = 10;    // in table codev_team_user_table
     const accessLevel_observer = 20;    // in table codev_team_user_table
     const accessLevel_manager  = 30;    // in table codev_team_user_table
 
+    public static $accessLevelNames = array(Team::accessLevel_dev      => "Developper", // can modify, can NOT view stats
+                              Team::accessLevel_observer => "Observer",  // can NOT modify, can view stats
+                              //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
+                              Team::accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
 
 	var $id;
 	var $name;

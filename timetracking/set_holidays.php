@@ -23,12 +23,12 @@ include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
-} 
+}
 ?>
 
 <?php
-   $_POST[page_name] = T_("Add Holidays"); 
-   include 'header.inc.php'; 
+   $_POST[page_name] = T_("Add Holidays");
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
@@ -66,7 +66,7 @@ function setProjectid() {
          document.forms["form1"].submit();
       }
     }
-  
+
    function addHolidays(){
 
       // TODO check date1 < date2
@@ -85,7 +85,7 @@ function setProjectid() {
         alert(msgString);
       }
     }
-  
+
 </script>
 
 <div id="content">
@@ -100,8 +100,8 @@ require_once('tc_calendar.php');
 
 // --------------------------------------------------------------
 function setUserForm($originPage) {
-  global $accessLevel_dev;
-  global $accessLevel_manager;
+  $accessLevel_dev     = Team::accessLevel_dev;
+  $accessLevel_manager = Team::accessLevel_manager;
 
   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
   $teamList = $session_user->getLeadedTeamList();
@@ -151,7 +151,7 @@ function setUserForm($originPage) {
 function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defaultBugid, $defaultProjectid, $originPage) {
 
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
-           
+
   $myCalendar1 = new tc_calendar("date1", true, false);
   $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -162,7 +162,7 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
   $myCalendar1->startMonday(true);
 
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate2);
-        
+
   $myCalendar2 = new tc_calendar("date2", true, false);
   $myCalendar2->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -171,7 +171,7 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
   $myCalendar2->dateAllow('2010-01-01', '2015-12-31');
   $myCalendar2->setDateFormat('Y-m-d');
   $myCalendar2->startMonday(true);
-	
+
    // Display form
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' Action='$originPage'>\n";
@@ -182,13 +182,13 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
    echo T_("To").": ";
    $myCalendar2->writeScript();
    $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
-   
+
    // Project list
    echo "&nbsp;";
    echo "&nbsp;";
    echo "&nbsp;";
    echo "&nbsp;";
-   
+
    // --- SideTasks Project List
    $devProjList = $user1->getProjectList();
    $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
@@ -199,8 +199,8 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
       $tmpPrj = ProjectCache::getInstance()->getProject($pid);
       if (!$tmpPrj->isSideTasksProject()) { unset($projList[$pid]); }
    }
-   
-   
+
+
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
    echo "<option value='0'>".T_("(all)")."</option>\n";
    foreach ($projList as $pid => $pname)
@@ -258,10 +258,10 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
    	$jobList = array();
    	foreach ($projList as $pid => $pname) {
    		$tmpPrj = ProjectCache::getInstance()->getProject($pid);
-   		$jobList += $tmpPrj->getJobList(); 
+   		$jobList += $tmpPrj->getJobList();
    	}
    }
-   
+
    // do not display selector if only one Job
    if (1 == count($jobList)) {
    	reset($jobList);
@@ -275,10 +275,10 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
       }
       echo "</select>";
    }
-   
+
    // ---
    echo "&nbsp;&nbsp;";
-   
+
    echo "<input type=button name='btAddHolidays' value='".T_("Add")."' onClick='javascript: addHolidays()'>\n";
 
    echo "<input type=hidden name=userid    value=$user1->id>\n";
@@ -347,43 +347,43 @@ if (!isset($_POST[nextForm])) {
 
 
 if ($_POST[nextForm] == "addHolidaysForm") {
-	
+
    $action = $_POST[action];
    $defaultDate  = $formatedDate= date("Y-m-d", time());
 
    $defaultBugid = isset($_POST[bugid]) ? $_POST[bugid] : 0;
    $defaultProjectid  = isset($_POST[projectid]) ? $_POST[projectid] : Config::getInstance()->getValue("defaultSideTaskProject");
 
-   
+
    if ("addHolidays" == $action) {
-   	
+
    	// TODO add tracks !
-   	
+
     $bugid     = $_POST[bugid];
     $job       = $_POST[job];
-    
+
     $holydays = Holidays::getInstance();
-    
+
     // save to DB
     $timestamp = $startTimestamp;
     while ($timestamp <= $endTimestamp) {
-      
+
       // check if not a fixed holiday
       if (!$holydays->isHoliday($timestamp)) {
-      	
+
       	// TODO check existing timetracks on $timestamp and adjust duration
          $duration  = 1;
-      	
+
       	echo "TAMERE  ".date("Y-m-d", $timestamp)." duration $duration job $job<br/>";
     	   TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
       }
 
     	$timestamp = strtotime("+1 day",$timestamp);;
     }
-    
-    
-    
-   
+
+
+
+
    } elseif ("setProjectid" == $action) {
 
     // pre-set form fields
@@ -400,7 +400,7 @@ if ($_POST[nextForm] == "addHolidaysForm") {
    }
 
    // --- display Add Form
-   
+
    $userName = $managed_user->getRealname();
    echo "<h2 style='text-align: center;'>$userName</h2>\n";
 
@@ -409,8 +409,8 @@ if ($_POST[nextForm] == "addHolidaysForm") {
    displayHolidaySelectionForm($managed_user, $date1, $date2, $defaultBugid, $defaultProjectid, $originPage);
    echo "<br/>";
 
-   
-	
+
+
 }
 
 

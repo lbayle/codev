@@ -342,10 +342,6 @@ class Install {
 
 	function setConfigItems() {
 
-      echo "DEBUG create Variable : ".Config::id_periodStatsExcludedProjectList."<br/>";
-      $desc = T_("Projects NOT included in Statistics");
-      Config::getInstance()->setValue(Config::id_periodStatsExcludedProjectList, NULL, Config::configType_array, $desc);
-
       echo "DEBUG create Variable : ".Config::id_astreintesTaskList."<br/>";
       $desc = T_("The absence SideTasks considered as astreinte");
       Config::getInstance()->setValue(Config::id_astreintesTaskList, NULL, Config::configType_array, $desc);
