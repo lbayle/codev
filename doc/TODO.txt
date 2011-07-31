@@ -4,7 +4,7 @@ TODO
 - creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
 - Admin Project: SideTask category assignment
 - Securisation du site (index.html, .htaccess, 404, ...)
-
+- CheckIntegrity: imputations les WE
 
 
 BUGS
