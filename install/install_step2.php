@@ -57,7 +57,7 @@ function displayStepInfo() {
    echo "<ul>\n";
    echo "<li>Step 1 finished.</li>";
    echo "<li>Mantis costomization done. (Status, Workflow, Threshold, etc)</li>";
-   echo "<li></li>";
+   echo "<li>Apache has write access to codev directory</li>";
    echo "</ul>\n";
    echo "<br/>";
    echo "<h2>".T_("Actions")."</h2>\n";

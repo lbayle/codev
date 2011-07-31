@@ -30,7 +30,7 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
    $_POST[page_name] = T_("Time Tracking");
-   include 'header.inc.php'; 
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
@@ -66,11 +66,11 @@ if (!isset($_SESSION['userid'])) {
        document.forms["form1"].weekid.value = --weekid;
        document.forms["form1"].year.value = year;
      }
-     
+
      document.forms["form1"].action.value="updateWeekDisplay";
      document.forms["form1"].submit();
    }
-  
+
   function nextWeek() {
      weekid = document.getElementById('weekidSelector').value;
      year   = document.getElementById('yearSelector').value;
@@ -82,11 +82,11 @@ if (!isset($_SESSION['userid'])) {
         document.forms["form1"].weekid.value = 1;
         document.forms["form1"].year.value = ++year;
      }
-       
+
      document.forms["form1"].action.value="updateWeekDisplay";
      document.forms["form1"].submit();
   }
-  
+
   function addTrack(){
     // check fields
     foundError = 0;
@@ -401,7 +401,7 @@ if ($_POST[nextForm] == "addTrackForm") {
     // save to DB
     TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
 
-    
+
     // do NOT decrease remaining if job is job_support !
     if ($job != $job_support) {
       // decrease remaining (only if 'remaining' already has a value)
@@ -412,7 +412,7 @@ if ($_POST[nextForm] == "addTrackForm") {
          $issue->setRemaining($remaining);
       }
     }
-    
+
     // pre-set form fields
     $defaultDate  = $formatedDate;
     $defaultBugid = $bugid;
@@ -429,7 +429,7 @@ if ($_POST[nextForm] == "addTrackForm") {
       $duration = $row->duration;
       $job = $row->jobid;
     }
-    
+
     $issue = IssueCache::getInstance()->getIssue($bugid);
     // do NOT decrease remaining if job is job_support !
     if ($job != $job_support) {
@@ -438,11 +438,11 @@ if ($_POST[nextForm] == "addTrackForm") {
          $issue->setRemaining($remaining);
       }
     }
-    
+
     // delete track
     $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
     mysql_query($query) or die("Query failed: $query");
-    
+
     // pre-set form fields
     $defaultBugid     = $_POST[bugid];
     $defaultProjectid  = $issue->projectId;
@@ -471,7 +471,7 @@ if ($_POST[nextForm] == "addTrackForm") {
   }
 
   // Display user name
-  
+
   $userName = $managed_user->getRealname();
   echo "<h2 style='text-align: center;'>$userName</h2>\n";
 
