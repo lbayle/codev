@@ -43,6 +43,9 @@ class Job {
 // =======================================
 class Jobs {
 
+   const JOB_NA      = 1; // REM: N/A     job_id = 1, created by SQL file at install
+   const JOB_SUPPORT = 2; // REM: Support job_id = 2, created by SQL file at install
+
    var $jobList;
 
    // --------------------

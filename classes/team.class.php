@@ -15,6 +15,7 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
 <?php
+include_once 'jobs.class.php';
 
 
 class Team {
@@ -247,6 +248,11 @@ class Team {
       } else {
       	die("ERROR: createSideTaskProject !!!<br/>");
       }
+
+      // --- assign SideTaskProject specific Job
+      #REM: 'N/A' job_id = 1, created by SQL file
+      Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
+
 
       return $projectid;
    }
