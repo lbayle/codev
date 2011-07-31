@@ -414,9 +414,15 @@ class Install {
       $fp = fopen(self::FILENAME_CONSTANTS, 'w');
 
       if (FALSE == $fp) {
-      	echo "ERROR creating file ".self::FILENAME_CONSTANTS."<br/>";
+      	echo "ERROR creating file ".self::FILENAME_CONSTANTS." (current dir=".getcwd().")<br/>";
 
-      } else {
+        // try to create a temporary file, for manual install...
+        $fp = fopen("/tmp/constants.php", 'w');
+        if (FALSE == $fp) {
+      	   return "ERROR";
+        }
+      }
+
       	$stringData = "<?php\n";
       	$stringData .= "   // This file is part of CoDev-Timetracking.\n";
       	$stringData .= "  // - The Variables in here can be customized to your needs\n";
@@ -428,12 +434,13 @@ class Install {
       	$stringData .= "\n";
       	$stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
       	$stringData .= "\n";
-         $stringData .= "  // --- RESOLUTION ---\n";
-         $stringData .= "  # WARNING: watch out for i18n ! the values depend on what you defined in codev_config_table.resolutionNames\n"; 
-         $stringData .= "  \$resolution_fixed    = array_search('fixed',    \$resolutionNames);  # 20\n";
-         $stringData .= "  \$resolution_reopened = array_search('reopened', \$resolutionNames);  # 30;\n";
-         $stringData .= "\n";
-      	
+        $stringData .= "  // --- RESOLUTION ---\n";
+        $stringData .= "  # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values\n";
+        $stringData .= "  # INFO: the values depend on what you defined in codev_config_table.resolutionNames\n";
+        $stringData .= "  \$resolution_fixed    = array_search('fixed',    \$resolutionNames);  # 20\n";
+        $stringData .= "  \$resolution_reopened = array_search('reopened', \$resolutionNames);  # 30;\n";
+        $stringData .= "\n";
+
       	$stringData .= "  // --- STATUS ---\n";
       	$stringData .= "  \$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
       	$stringData .= "\n";
@@ -448,7 +455,7 @@ class Install {
       	fwrite($fp, $stringData);
       	fclose($fp);
       }
-	}
+
 
 
 } // class
