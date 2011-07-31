@@ -20,6 +20,7 @@
 // Status & Issue classes
 
 include_once "period_stats.class.php";
+include_once "project.class.php";
 
 class PeriodStatsReport {
   var $start_year;
@@ -61,15 +62,12 @@ class PeriodStatsReport {
 
 
 	      $projectList = array();
-	      $query = "SELECT project_id FROM `codev_team_project_table` ".
-	               "WHERE team_id = $this->teamid ";
 
 	      // only projects for specified team, except excluded projects
-	      if ((NULL != $periodStatsExcludedProjectList) &&
-	          (0 != count($periodStatsExcludedProjectList))) {
-         	       $formatedExcludedProjects = implode( ', ', $periodStatsExcludedProjectList);
-	               $query .= "AND project_id NOT IN ($formatedExcludedProjects)";
-	      }
+	      $query = "SELECT project_id FROM `codev_team_project_table` ".
+	               "WHERE team_id = $this->teamid ".
+	               "AND codev_team_project_table.type <> ".Project::type_noStatsProject;
+
 	      $result = mysql_query($query) or die("Query failed: $query");
 	      while($row = mysql_fetch_object($result)) {
             $projectList[] = $row->project_id;

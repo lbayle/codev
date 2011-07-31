@@ -32,7 +32,7 @@ class TimeTracking {
 
   var $team_id;
 
-  var $prodProjectList;     // list of projects that are considered as not beeing sideTasks
+  var $prodProjectList;     // projects that are not sideTasks, and not in noStatsProject
   var $sideTaskprojectList;
 
   // ----------------------------------------------
@@ -60,11 +60,21 @@ class TimeTracking {
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
-      if ($sideTaskProjectType == $row->type) {
-        $this->sideTaskprojectList[] = $row->project_id;
-      } else {
-        $this->prodProjectList[]     = $row->project_id;
-      }
+    	switch ($row->type) {
+
+    	   case Project::type_sideTaskProject:
+    	      $this->sideTaskprojectList[] = $row->project_id;
+    	      break;
+    	   case Project::type_workingProject:  // no break;
+    	   case Project::type_noCommonProject:
+    	      $this->prodProjectList[]     = $row->project_id;
+              break;
+           case  Project::type_noStatsProject:
+              // known type, but nothing to do
+              break;
+           default:
+              echo "WARNING: Timetracking->initialize() unknown project type ($row->type) !<br/>";
+    	}
     }
   }
 
@@ -317,7 +327,7 @@ class TimeTracking {
       $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
       // if a deadLine is specified
-      if ((in_array($issue->projectId, $this->prodProjectList)) && 
+      if ((in_array($issue->projectId, $this->prodProjectList)) &&
           (NULL != $issue->deadLine)) {
       	$issueList[] = $issue;
       }
@@ -647,7 +657,7 @@ class TimeTracking {
   public function getWorkingDaysPerJob($job_id) {
   	 global $accessLevel_observer;
     $workingDaysPerJob = 0;
-      
+
     $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
       "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
@@ -660,14 +670,14 @@ class TimeTracking {
       "FROM `mantis_bug_table` , `codev_team_project_table` ".
       "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
       "AND codev_team_project_table.team_id =  $this->team_id) ";
-    
-    
+
+
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
       $workingDaysPerJob += $row->duration;
-      
-      
+
+
       // ---- DEBUG
       //$u = UserCache::getInstance()->getUser($row->userid);
       //$issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -738,9 +748,9 @@ class TimeTracking {
   // ----------------------------------------------
   // Find days which are not 'sat' or 'sun' or FixedHoliday and that have no timeTrack entry.
   public function checkMissingDays($userid) {
-    
+
     $holidays = Holidays::getInstance();
-    
+
     $missingDays = array();
 
     $user1 = UserCache::getInstance()->getUser($userid);
@@ -917,7 +927,7 @@ class TimeTracking {
     return $projectTracks;
    }
 
-   
+
   // ----------------------------------------------
   /**
    * returns a list of all the tasks hving been reopened in the period
@@ -927,23 +937,23 @@ class TimeTracking {
 
     global $resolution_fixed;     # 20
     global $resolution_reopened;  # 30;
-    
+
     $reopenedList = array();
-    
+
     // --------
     if (NULL == $projects) {
        $projects = $this->prodProjectList;
     }
-    
+
     $formatedProjList = implode( ', ', $projects);
 
     $formatedResolutionValues = "$resolution_fixed";
-    
+
     if ("" == $formatedProjList) {
        echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
        return 0;
     }
-    
+
     // all bugs which resolution changed to 'reopened' whthin the timestamp
     $query = "SELECT mantis_bug_table.id, ".
                     "mantis_bug_history_table.new_value, ".
@@ -958,32 +968,32 @@ class TimeTracking {
              "AND mantis_bug_history_table.new_value = $resolution_reopened ".
              "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
              "ORDER BY mantis_bug_table.id DESC";
-    
+
     if (isset($_GET['debug'])) { echo "getReopened QUERY = $query <br/>"; }
-    
+
     $result = mysql_query($query) or die("Query failed: $query");
-    
+
     while($row = mysql_fetch_object($result)) {
        if ( ! in_array($row->id, $reopenedList)) {
            $reopenedList[] = $row->id;
        }
     }
-    
+
    return $reopenedList;
-   }  
+   }
 
   // ----------------------------------------------
   /**
-   * returns a list of bug_id that have been submitted in the period 
+   * returns a list of bug_id that have been submitted in the period
    */
    public function getSubmitted($projects = NULL) {
-  
+
       $submittedList = array();
 
       if (NULL == $projects) {
          $projects = $this->prodProjectList;
       }
- 
+
       $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.date_submitted, mantis_bug_table.project_id ".
                "FROM `mantis_bug_table`, `codev_team_project_table` ".
                "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
@@ -997,7 +1007,7 @@ class TimeTracking {
       if (isset($_GET['debug_sql'])) { echo "getSubmitted(): query = $query<br/>"; }
 
       $result = mysql_query($query) or die("Query failed: $query");
-      
+
       while($row = mysql_fetch_object($result))
       {
          $submittedList[] = $row->id;
@@ -1013,7 +1023,7 @@ class TimeTracking {
   // ----------------------------------------------
   /**
    * $countReopened / $countSubmitted
-   * 
+   *
    * @param unknown_type $projects
    */
    public function getReopenedRate($projects = NULL) {
@@ -1028,7 +1038,7 @@ class TimeTracking {
       $countSubmitted = count($this->getSubmitted($projects));
 
       $rate=($countReopened / $countSubmitted);
-      if (!$countSubmitted==0)  {
+      if ($countSubmitted != 0)  {
         $rate=($countReopened / $countSubmitted);
       }
       return $rate;

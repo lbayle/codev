@@ -168,7 +168,7 @@ class User {
    }
 
    // --------------------
-   /** if no team specified, choose the most future departureDate 
+   /** if no team specified, choose the most future departureDate
     *  or '0' if still active in a team
     *  */
    public function getDepartureDate($team_id = NULL) {
@@ -252,7 +252,7 @@ class User {
    public function getProductionDaysForecast($startTimestamp, $endTimestamp, $team_id = NULL) {
 
       $holidays = Holidays::getInstance();
-      
+
       $prodDaysForecast = 0;
       $nbOpenDaysInPeriod = 0;
 
@@ -356,7 +356,14 @@ class User {
 
 
    // --------------------
-   public function getProjectList($teamList = NULL) {
+   /*
+    * returns an array of project_id=>project_name that the user is involved in,
+    * depending on the teams the user belongs to.
+    *
+    * @param teamList       if NULL then return projects from all the teams the user belongs to
+    * @param noStatsProject if false, the noStatsProject will not be returned in the list
+    */
+   public function getProjectList($teamList = NULL, $noStatsProject = true) {
 
       $projList = array();
 
@@ -370,8 +377,15 @@ class User {
 	      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
 	               "FROM `codev_team_project_table`, `mantis_project_table`".
 	               "WHERE codev_team_project_table.team_id IN ($formatedTeamList) ".
-	               "AND codev_team_project_table.project_id = mantis_project_table.id ".
-	               "ORDER BY mantis_project_table.name";
+	               "AND codev_team_project_table.project_id = mantis_project_table.id ";
+
+	      if (!$noStatsProject) {
+	      	 $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
+	      }
+
+	      $query .= "ORDER BY mantis_project_table.name";
+
+           if (isset($_GET['debug_sql'])) { echo "User.getProjectList(): query = $query<br/>"; }
 
 	      $result = mysql_query($query) or die("Query failed: $query");
 	      while($row = mysql_fetch_object($result)) {
@@ -381,6 +395,7 @@ class User {
       	// this happens if User is not a Developper (Manager or Observer)
          //echo "<div style='color:red'>ERROR: User is not member of any team !</div><br>";
       }
+
       return $projList;
    }
 

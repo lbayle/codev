@@ -25,7 +25,13 @@ class Project {
 
   const type_workingProject   = 0;     // normal projects are type 0
   const type_sideTaskProject  = 1;     // SuiviOp must be type 1
-  const type_noCommonProject  = 2;     // projects which jave only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
+  const type_noCommonProject  = 2;     // projects which have only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
+  const type_noStatsProject   = 3;     // projects that will be excluded from the statistics (ex: FDL)
+
+  public static $typeNames = array(Project::type_workingProject  => "Project",
+                                   Project::type_noCommonProject => "Project (no common jobs)",
+                                   Project::type_noStatsProject  => "Project (stats excluded)",
+                                   Project::type_sideTaskProject => "SideTasks");
 
 
    // REM: the values are also the names of the fields in codev_sidetasks_category_table
@@ -282,31 +288,38 @@ class Project {
 
    	$jobList = array();
 
+
+
    	if (0 != $this->id) {
-	   	if ($sideTaskProjectType == $this->type) {
-		      $query  = "SELECT codev_job_table.id, codev_job_table.name ".
-		                "FROM `codev_job_table`, `codev_project_job_table` ".
-		                "WHERE codev_job_table.id = codev_project_job_table.job_id ".
-		                "AND codev_project_job_table.project_id = $this->id";
-	   	} elseif ($workingProjectType == $this->type) {
-	   		// all other projects
+
+       switch ($this->type) {
+          case Project::type_sideTaskProject:
+	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
+		               "FROM `codev_job_table`, `codev_project_job_table` ".
+		               "WHERE codev_job_table.id = codev_project_job_table.job_id ".
+		               "AND codev_project_job_table.project_id = $this->id";
+             break;
+          case Project::type_workingProject:  // no break;
+          case Project::type_noCommonProject: // no break;
+          case Project::type_noStatsProject:
+	   	      // all other projects
 	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
 	                   "FROM `codev_job_table` ".
 	                   "LEFT OUTER JOIN  `codev_project_job_table` ".
 	                   "ON codev_job_table.id = codev_project_job_table.job_id ".
 	                   "WHERE (codev_job_table.type = $commonJobType OR codev_project_job_table.project_id = $this->id)";
+    	     break;
+	      default:
+	   	     echo "ERROR Project.getJobList(): unknown project type ($this->type) !";
+       }
 
-	   	} else {
-	   		echo "ERROR Project.getJobList(): unknown project type !";
-	   		exit;
-	   	}
-	      $result = mysql_query($query) or die("Query failed: $query");
+        $result = mysql_query($query) or die("Query failed: $query");
 	   	if (0 != mysql_num_rows($result)) {
 		   	while($row = mysql_fetch_object($result))
 		      {
 		         $jobList[$row->id] = $row->name;
 		      }
-	      }
+	    }
    	}
       return $jobList;
    }
@@ -332,6 +345,11 @@ class Project {
    	$sideTaskProjectType = Project::type_sideTaskProject;
 
 		return ($sideTaskProjectType == $this->type);
+	}
+
+   // -----------------------------------------------
+   public function isNoStatsProject() {
+		return (Project::type_noStatsProject == $this->type);
 	}
 
 

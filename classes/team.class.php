@@ -106,15 +106,22 @@ class Team {
 	}
 
    // -------------------------------------------------------
-	public static function getProjectList($teamid) {
+   public static function getProjectList($teamid, $noStatsProject = true) {
 
-		$projList = array();
+      $projList = array();
 
-      $query     = "SELECT codev_team_project_table.project_id, mantis_project_table.name ".
-                "FROM `codev_team_project_table`, `mantis_project_table` ".
-                "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-                "AND codev_team_project_table.team_id=$teamid ".
-                "ORDER BY mantis_project_table.name";
+      $query = "SELECT codev_team_project_table.project_id, mantis_project_table.name ".
+               "FROM `codev_team_project_table`, `mantis_project_table` ".
+               "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
+               "AND codev_team_project_table.team_id=$teamid ";
+
+	  if (!$noStatsProject) {
+	     $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
+	  }
+      $query .= "ORDER BY mantis_project_table.name";
+
+      if (isset($_GET['debug_sql'])) { echo "Team.getProjectList(): query = $query<br/>"; }
+
       $result    = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       while($row = mysql_fetch_object($result))
       {

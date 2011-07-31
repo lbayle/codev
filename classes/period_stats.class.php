@@ -16,6 +16,8 @@
 */ ?>
 <?php
 
+include_once "project.class.php";
+
 // -- CALCULATE DURATIONS --
 // Status & Issue classes
 
@@ -39,9 +41,6 @@ class PeriodStats {
   // -------------------------------------------------
   public function PeriodStats($startTimestamp, $endTimestamp) {
 
-  	global $workingProjectType;
-  	global $noCommonProjectType;
-
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp = $endTimestamp;
 
@@ -54,8 +53,8 @@ class PeriodStats {
     $this->projectTypeList = array();
 
     // default values
-    $this->projectTypeList[] = $workingProjectType;
-    $this->projectTypeList[] = $noCommonProjectType;
+    $this->projectTypeList[] = Project::type_workingProject;
+    $this->projectTypeList[] = Project::type_noCommonProject;
   }
 
   // -------------------------------------------------

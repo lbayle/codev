@@ -504,7 +504,7 @@ function displayTeamProjectTuples($teamid) {
       echo "</td>\n";
       echo "<td title='$row->project_id'>".$row->name."</td>\n";
       echo "<td>".$row->description."</td>\n";
-      echo "<td>".$projectType_names[$row->type]."</td>\n";
+      echo "<td>".Project::$typeNames[$row->type]."</td>\n";
 
       echo "</tr>\n";
    }
@@ -544,7 +544,7 @@ function addTeamProjectForm($teamid, $originPage) {
    echo "</select>\n";
 
    echo "Type: <select name='project_type'>\n";
-   foreach ($projectType_names as $pt_id => $pt_name) {
+   foreach (Project::$typeNames as $pt_id => $pt_name) {
       echo "   <option value='$pt_id'>$pt_name</option>\n";
    }
    echo "</select>\n";
