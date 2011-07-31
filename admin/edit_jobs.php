@@ -139,8 +139,6 @@ function getJobList($type = NULL) {
 // ----------------------------------------------------
 function addJobForm($originPage) {
 
-	global $jobType_names;
-
    #echo "<div style='text-align: center;'>";
    echo "<div>\n";
 
@@ -149,7 +147,7 @@ function addJobForm($originPage) {
   echo("   ".T_("Job Name").": <input name='job_name' size='30' type='text' id='job_name'>\n");
 
    echo "   ".T_("Type").": <select name='job_type'>\n";
-   foreach ($jobType_names as $jid => $jname) {
+   foreach (Job::$typeNames as $jid => $jname) {
       echo "      <option value='$jid'>$jname</option>\n";
    }
    echo "   </select>\n";
@@ -168,8 +166,6 @@ function addJobForm($originPage) {
 
 // ----------------------------------------------------
 function displayJobTuples() {
-
-   global $jobType_names;
 
    // Display previous entries
    echo "<div>\n";
@@ -203,7 +199,7 @@ function displayJobTuples() {
       }
       echo "</td>\n";
       echo "<td title='$row->id'>".$row->name."</td>\n";
-      echo "<td title='$row->type'>".$jobType_names[$row->type]."</td>\n";
+      echo "<td title='$row->type'>".Job::$typeNames[$row->type]."</td>\n";
       echo "<td style='background-color: #".$row->color.";'>".$row->color."</td>\n";
 
       echo "</tr>\n";

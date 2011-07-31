@@ -471,9 +471,7 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
 // ----------------------------------------------------
 function displayTeamProjectTuples($teamid) {
 
-	global $workingProjectType;
 	global $defaultSideTaskProject;
-	global $projectType_names;
 
    // Display previous entries
    echo "<div>\n";
@@ -514,9 +512,6 @@ function displayTeamProjectTuples($teamid) {
 
 // ----------------------------------------------------
 function addTeamProjectForm($teamid, $originPage) {
-
-   global $projectType_names;
-
 
    $curProjList=Team::getProjectList($teamid);
    $formatedCurProjList=implode( ', ', array_keys($curProjList));

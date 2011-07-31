@@ -280,10 +280,8 @@ class Project {
    // Job list depends on project type:
    // if type=1 (SideTask) than only jobs for SideTasks are displayed.
    // if type=0 (Project) then all jobs which codev_project_job_table.project_id = $this->id
-   //                     OR codev_job_table.type = $commonJobType (common jobs)
+   //                     OR codev_job_table.type = Job::type_commonJob (common jobs)
    public function getJobList() {
-   	$workingProjectType  = Project::type_workingProject;
-   	$sideTaskProjectType = Project::type_sideTaskProject;
    	$commonJobType       = Job::type_commonJob;
 
    	$jobList = array();
