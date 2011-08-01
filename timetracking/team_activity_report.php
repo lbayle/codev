@@ -239,6 +239,7 @@ function displayCheckWarnings($timeTracking) {
   
   $result = mysql_query($query) or die("Query failed: $query");
 
+  
   echo "<p style='color:red'>\n";
 
   while($row = mysql_fetch_object($result))
@@ -253,6 +254,12 @@ function displayCheckWarnings($timeTracking) {
     foreach ($missingDays as $date) {
       $formatedDate = date("Y-m-d", $date);
       echo "<br/>$row->username: $formatedDate ".T_("not defined.")."\n";
+    }
+    
+    $incompleteDaysOff = $timeTracking->checkCompleteDaysOff($row->user_id, TRUE);
+    foreach ($incompleteDaysOff as $date=> $value ) {
+      $formatedDate = date("Y-m-d", $date);
+      echo "<br/>$row->username: $formatedDate ".T_("day off worked")."\n";
     }
   }
   echo "</p>\n";
@@ -298,7 +305,9 @@ if (0 == count($teamList)) {
 
 	   $weekDates      = week_dates($weekid,$year);
 		$startTimestamp = $weekDates[1];
-	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
+//	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
+	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+	   
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
       echo "<br/><br/>\n";

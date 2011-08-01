@@ -745,6 +745,8 @@ class TimeTracking {
     } else {
       $query     = "SELECT date, duration FROM `codev_timetracking_table` WHERE userid = $userid ORDER BY date";
     }
+    
+   
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -817,6 +819,35 @@ class TimeTracking {
     return $missingDays;
   }
 
+  
+ // ----------------------------------------------
+  // Returns an array of (date => duration) containing all Saturday,Sunday, or day off with duration not null
+  public function checkCompleteDaysOff($userid, $isStrictlyTimestamp = FALSE) {
+    $incompleteDaysOff = array();
+    
+    // Get all dates that must be checked
+    if ($isStrictlyTimestamp) {
+      $query     = "SELECT date, duration FROM `codev_timetracking_table` ".
+        "WHERE userid = $userid AND date >= $this->startTimestamp AND date < $this->endTimestamp ".
+        "ORDER BY date";
+    } else {
+      $query     = "SELECT date, duration FROM `codev_timetracking_table` WHERE userid = $userid ORDER BY date";
+    }
+    
+    $result    = mysql_query($query) or die("Query failed: $query");
+    while($row = mysql_fetch_object($result))
+    {
+    	//date = saturday or sunday is dayOff  
+      if (((date('l',$row->date)=="Saturday")||(date('l',$row->date)=="Sunday"))&& ($row->duration > 0 ))  {
+         if (isset($_GET['debug'])) {echo "Debug DaysOFF = ".date('l',$row->date)." date = ".date("Y-m-d", $row->date)."<br/>";}
+          $incompleteDaysOff[$row->date] = $row->duration;
+      }
+    }
+
+
+  
+    return $incompleteDaysOff;
+  }
   
   // ----------------------------------------------
   /**

@@ -48,6 +48,14 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
       $formatedDate = date("Y-m-d", $date);
       echo "<br/><span style='color:red' width='70'>$formatedDate ".T_("not defined.")."</span>\n";
    }
+   
+   $incompleteDaysOff = $timeTracking->checkCompleteDaysOff($userid, $isStrictlyTimestamp);
+    
+   foreach ($incompleteDaysOff as $date=> $value ) {
+      $formatedDate = date("Y-m-d", $date);
+      echo "<br/><span style='color:red' width='70'>$formatedDate ".T_("day off worked")."</span>\n";
+   
+   }
 }
 
 function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
