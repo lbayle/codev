@@ -230,6 +230,8 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
   return $myFile;
 }
 
+
+
 // ---------------------------------------------
 /**
  * creates for each project a table with the following fields:
@@ -324,6 +326,91 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      
 }
 
+function exportProjectPreviousMonthlyActivityToCSV($timeTracking, $myFile) {
+  $sepChar=';';
+
+  $totalElapsed       = 0;
+  $totalElapsedPeriod = 0;
+  $totalRemaining     = 0;
+  
+  $fh = fopen($myFile, 'w');
+  
+  // returns : $projectTracks[projectid][bugid][jobid] = duration
+  $projectTracks = $timeTracking->getProjectTracksNotTermined();   
+   
+  foreach ($projectTracks as $projectId => $bugList) {
+   
+     $totalEffortEstim = 0;
+  	  $totalElapsed = 0;
+  	  $totalRemaining = 0;
+  	  $totalElapsedPeriod = 0;
+  	
+     // write table header
+     $project = ProjectCache::getInstance()->getProject($projectId);
+     $stringData = $project->name."\n";
+     
+     // WARN: HTML translation like french accents (eacute;) add an unwanted column sepChar (;)
+     $stringData .=("ID").$sepChar;
+     $stringData .=("Task").$sepChar;
+     $stringData .=("TC").$sepChar;
+     $stringData .=("Start date").$sepChar;
+     $stringData .=("End date").$sepChar;
+     $stringData .=("Status").$sepChar;
+     $stringData .=("Total EffortEstim").$sepChar;
+     $stringData .=("Total elapsed").$sepChar;
+     $stringData .=("elapsed + Remaining").$sepChar;
+     $stringData .=("elapsed in period").$sepChar;
+     $stringData .=("RAE").$sepChar;
+     $stringData .="\n";
+     
+     // write table content (by bugid)
+     foreach ($bugList as $bugid => $jobs) {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         // remove sepChar from summary text
+         $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+         
+         $stringData .= $bugid.$sepChar;
+         $stringData .= $formatedSummary.$sepChar;
+         $stringData .= $issue->tcId.$sepChar;
+         $stringData .= date("d/m/Y", $issue->startDate()).$sepChar;
+         $stringData .= date("d/m/Y", $issue->endDate()).$sepChar;
+         $stringData .= $issue->getCurrentStatusName().$sepChar;
+         $stringData .= ($issue->effortEstim + $issue->effortAdd).$sepChar;
+         $stringData .= $issue->elapsed.$sepChar;
+         $stringData .= ($issue->elapsed + $issue->remaining).$sepChar;
+         
+         // sum all job durations
+         $elapsedInPeriod = 0;
+         foreach($jobs as $jobId => $duration) {
+            $elapsedInPeriod += $duration;
+         }
+         $stringData .= $elapsedInPeriod.$sepChar;
+         
+         $stringData .= $issue->remaining.$sepChar;
+         $stringData .="\n";
+         
+         $totalEffortEstim   += ($issue->effortEstim + $issue->effortAdd);
+         $totalElapsed       += $issue->elapsed;
+         $totalRemaining     += $issue->remaining;
+         $totalElapsedPeriod += $elapsedInPeriod;
+     }
+
+     // total per project
+     $stringData .= ("TOTAL").$sepChar.$sepChar.$sepChar.$sepChar.$sepChar.$sepChar;
+     $stringData .= $totalEffortEstim.$sepChar;
+     $stringData .= $totalElapsed.$sepChar;
+     $stringData .= ($totalElapsed + $totalRemaining).$sepChar;
+     $stringData .= $totalElapsedPeriod.$sepChar;
+     $stringData .= $totalRemaining.$sepChar;
+     $stringData .= "\n";
+     
+     $stringData .="\n";
+     fwrite($fh, $stringData);
+  } // project
+  fclose($fh);
+  return $myFile;
+     
+}
 
 
 // ---------------------------------------------
