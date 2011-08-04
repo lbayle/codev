@@ -211,11 +211,6 @@ if (0 == count($teamList)) {
          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
          flush();
          
-         $myFile = $codevReportsDir."\AOI-PIL-ProjectsPrevious_".$teamName."_".date("Ymd", $timeTracking->startTimestamp)."-".date("Ymd", $timeTracking->endTimestamp).".csv";
-         exportProjectPreviousMonthlyActivityToCSV($timeTracking, $myFile);
-         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
-         flush(); 
-
  
          // -----------------------------
          echo "<br/>\n";

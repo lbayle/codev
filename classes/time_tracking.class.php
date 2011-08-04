@@ -940,9 +940,15 @@ class TimeTracking {
    // -----------------------------------------------
    // return TimeTracks created by the team during the timestamp
    // returns : $projectTracks[projectid][bugid][jobid] = duration
-   public function getProjectTracks($isTeamProjOnly=false) {
+  public function getProjectTracks($isTeamProjOnly=false) {
       global $accessLevel_dev;
       global $accessLevel_manager;
+      global $status_resolved;
+      global $status_closed;
+      global $status_deferred ;
+      global $status_delivered ;
+      global $tcCustomField;
+      
       
       
       $projectTracks = array();
@@ -956,74 +962,34 @@ class TimeTracking {
                  "AND   codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
                  "AND   mantis_bug_table.id     = codev_timetracking_table.bugid ".
                  "AND   mantis_project_table.id = mantis_bug_table.project_id ".
+                 "AND   codev_job_table.id      = codev_timetracking_table.jobid ";  
+    
+    // for all bug not closed,resolved ,delivered or deferred
+     $query2   = "SELECT  mantis_bug_table.project_id, codev_timetracking_table.bugid, codev_timetracking_table.jobid, duration ".
+                 "FROM `mantis_bug_table` ,  `mantis_custom_field_string_table`,`mantis_project_table` , `codev_timetracking_table` , `codev_team_user_table`, `codev_job_table` ".
+                 "WHERE mantis_bug_table.status NOT IN ($status_deferred,$status_resolved,$status_delivered,$status_closed) ".
+                 "AND mantis_custom_field_string_table.field_id = $tcCustomField ".
+                 "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id  ".  
+                 "AND mantis_custom_field_string_table.value != '' AND RTRIM(mantis_custom_field_string_table.value) != '0'  ".  
+                 "AND mantis_bug_table.project_id = mantis_project_table.id ".
+                 "AND   mantis_bug_table.id     = codev_timetracking_table.bugid ".
+                 "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
+                 "AND   codev_team_user_table.team_id = $this->team_id ".
+                 "AND   codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
                  "AND   codev_job_table.id      = codev_timetracking_table.jobid ";
     
-    
-   
-    
+     
     if (false != $isTeamProjOnly) {
       $projList = Team::getProjectList($this->team_id);
       $formatedProjList = implode( ', ', array_keys($projList));
-    	$query.= "AND mantis_bug_table.project_id in ($formatedProjList) ";
+      $query.= "AND mantis_bug_table.project_id in ($formatedProjList) ";
+      $query2.= "AND mantis_bug_table.project_id in ($formatedProjList) ";	
     }
     
     $query.= "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name ";
+    $query2.= "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name ";
    
-    
-    
-    $result    = mysql_query($query) or die("Query failed: $query");
-    while($row = mysql_fetch_object($result))
-    {
-      if (NULL == $projectTracks[$row->project_id]) {
-        $projectTracks[$row->project_id] = array(); // create array for bug_id
-        $projectTracks[$row->project_id][$row->bugid] = array(); // create array for jobs
-      }
-      if (NULL == $projectTracks[$row->project_id][$row->bugid]) {
-        $projectTracks[$row->project_id][$row->bugid] = array(); // create array for new jobs
-      }
-      $projectTracks[$row->project_id][$row->bugid][$row->jobid] += $row->duration;
-    }      
-      
-    return $projectTracks;
-   }
-   
-    // -----------------------------------------------
-   // return TimeTracks created by the team during the timestamp
-   // returns : $projectTracks[projectid][bugid][jobid] = duration
-   public function getProjectTracksNotTermined($isTeamProjOnly=false) {
-      global $accessLevel_dev;
-      global $accessLevel_manager;
-      global $status_resolved;
-      global $status_closed;
-      global $status_deferred ;
-      global $status_delivered ;
-      global $tcCustomField;
-      
-      
-      $projectTracks = array();
 
-    // For all bugs in timestamp
-      
-     $query      =  "SELECT  mantis_bug_table.project_id, codev_timetracking_table.bugid, codev_timetracking_table.jobid, duration ".
-                    "FROM `mantis_bug_table` ,  `mantis_custom_field_string_table`,`mantis_project_table` , `codev_timetracking_table`  ".
-                  "WHERE mantis_bug_table.status NOT IN ($status_deferred,$status_resolved,$status_delivered,$status_closed) ".
-                  "AND mantis_custom_field_string_table.field_id = $tcCustomField ".
-                  "AND mantis_custom_field_string_table.bug_id = mantis_bug_table.id  ".  
-                  "AND mantis_custom_field_string_table.value != '' AND RTRIM(mantis_custom_field_string_table.value) != '0'  ".  
-                  "AND mantis_bug_table.project_id = mantis_project_table.id ".
-                  "AND   mantis_bug_table.id     = codev_timetracking_table.bugid ";
-     
-   
-    
-    if (false != $isTeamProjOnly) {
-      $projList = Team::getProjectList($this->team_id);
-      $formatedProjList = implode( ', ', array_keys($projList));
-    	$query.= "AND mantis_bug_table.project_id in ($formatedProjList) ";
-    }
-    
-    $query.= "ORDER BY mantis_project_table.name, bugid DESC";
-   
-    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -1037,8 +1003,25 @@ class TimeTracking {
       $projectTracks[$row->project_id][$row->bugid][$row->jobid] += $row->duration;
     }      
       
+    // add all bug not closed,resolved ,delivered or deferred
+     
+    $result    = mysql_query($query2) or die("Query failed: $query2");
+    while($row = mysql_fetch_object($result))
+    {
+    
+     if (NULL == $projectTracks[$row->project_id]) {
+        $projectTracks[$row->project_id] = array(); // create array for bug_id
+        $projectTracks[$row->project_id][$row->bugid] = array(); // create array for jobs
+      }
+      if (NULL == $projectTracks[$row->project_id][$row->bugid]) {
+        $projectTracks[$row->project_id][$row->bugid] = array(); // create array for new jobs
+      }
+     }  
+     
     return $projectTracks;
    }
+   
+
    
    // -----------------------------------------------
    /**
