@@ -3,7 +3,7 @@ header("Content-type: image/png");
 
 # creates a PNG file containing a barr with some text in it.
 # call with:
-# <img src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=345&color=red'/>"; 
+# <img src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=345&color=red'/>";
 # <a href='./reports/issue_info.php?bugid=225'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=225&color=green' /></a>
 
 
@@ -24,13 +24,14 @@ header("Content-type: image/png");
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+include_once "../colors.php";
 
 // ----------------------------
 function gradiant($img,$color1,$color2)
 {
         $size = imagesy($img);
         $sizeX = imagesx($img);
-        
+
         $diffs = array(
                 (($color2[0]-$color1[0])/($size/2)),
                 (($color2[1]-$color1[1])/($size/2)),
@@ -63,12 +64,12 @@ $font = 4;
 // Create the image
 $im = imagecreatetruecolor($width, $height);
 
-$grey      = array(210, 210, 210);
-$black     = array(0, 0, 0);
-$green     = array(128, 255, 159);
-$red       = array(255, 183, 183);
-$orange    = array(255, 209, 84);
-$blue      = array(204, 218, 255);
+$grey      = $planning_grey;   # array(210, 210, 210);
+$black     = $planning_black;  # array(0, 0, 0);
+$green     = $planning_green;  # array(128, 255, 159);
+$red       = $planning_red;    # array(255, 183, 183);
+$orange    = $planning_orange; # array(255, 209, 84);
+$blue      = $planning_blue;   # array(204, 218, 255);
 $textColor = imagecolorallocate($im, 0, 0, 0);
 
 if ("red" == $color) {
