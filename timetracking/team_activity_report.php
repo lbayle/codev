@@ -28,7 +28,7 @@
 
 <?php
    $_POST[page_name] = T_("Weekly activities");
-   include 'header.inc.php'; 
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
@@ -57,11 +57,11 @@
        document.forms["form1"].weekid.value = --weekid;
        document.forms["form1"].year.value = year;
      }
-     
+
      document.forms["form1"].action.value="updateWeekDisplay";
      document.forms["form1"].submit();
    }
-  
+
   function nextWeek() {
      document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
 
@@ -75,11 +75,11 @@
         document.forms["form1"].weekid.value = 1;
         document.forms["form1"].year.value = ++year;
      }
-       
+
      document.forms["form1"].action.value="updateWeekDisplay";
      document.forms["form1"].submit();
   }
-  
+
 
 </script>
 
@@ -139,7 +139,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   }
   echo "</select>\n";
   echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
-  
+
   echo "<input type=hidden name=teamid  value=1>\n";
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
   echo "<input type=hidden name=year    value=$curYear>\n";
@@ -203,6 +203,8 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<th width='10'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
   echo "<th width='10'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
   echo "<th width='10'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
+  echo "<th width='10' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
+  echo "<th width='10' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
   echo "</tr>\n";
   foreach ($weekTracks as $bugid => $jobList) {
     $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -219,6 +221,9 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
       for ($i = 1; $i <= 5; $i++) {
         echo "<td>".$dayList[$i]."</td>\n";
       }
+         for ($i = 6; $i <= 7; $i++) {
+            echo "<td style='background-color: #D8D8D8;' >".$dayList[$i]."</td>\n";
+         }
       echo "</tr>\n";
     }
   }
@@ -236,7 +241,7 @@ function displayCheckWarnings($timeTracking) {
     "ORDER BY mantis_user_table.username";
 
   // FIXME AND user is not Observer
-  
+
   $result = mysql_query($query) or die("Query failed: $query");
 
   echo "<p style='color:red'>\n";
@@ -291,14 +296,14 @@ if (0 == count($teamList)) {
    echo "<div class='center'>";
    echo "<h2>".T_("Weekly Activity")."</h2><br/>";
    echo "</div>";
-	
+
    displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
 
 	if (NULL != $teamList[$teamid]) {
 
 	   $weekDates      = week_dates($weekid,$year);
 		$startTimestamp = $weekDates[1];
-	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
+	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
       echo "<br/><br/>\n";

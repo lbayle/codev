@@ -51,9 +51,9 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
 }
 
 function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
-	
+
 	$curJulian = 0;
-	
+
    // Display previous entries
    echo "<div align='center'>\n";
    echo "<table>\n";
@@ -180,6 +180,8 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    echo "<th width='80'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
    echo "<th width='80'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
    echo "<th width='80'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
+   echo "<th width='80' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
+   echo "<th width='80' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
    echo "</tr>\n";
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -195,6 +197,9 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
          echo "<td>".$jobName."</td>\n";
          for ($i = 1; $i <= 5; $i++) {
             echo "<td>".$dayList[$i]."</td>\n";
+         }
+         for ($i = 6; $i <= 7; $i++) {
+            echo "<td style='background-color: #D8D8D8;' >".$dayList[$i]."</td>\n";
          }
          echo "</tr>\n";
       }

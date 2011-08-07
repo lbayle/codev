@@ -387,7 +387,7 @@ if ($_POST[nextForm] == "addTrackForm") {
 
   $weekDates      = week_dates($weekid,$year);
   $startTimestamp = $weekDates[1];
-  $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
+  $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
 
   if ("addTrack" == $action) {
