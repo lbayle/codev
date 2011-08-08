@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `user_id` int(10) DEFAULT NULL,
   `desc` longtext,
   PRIMARY KEY (`config_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
   `color` varchar(7) NOT NULL DEFAULT 'D8D8D8',
   PRIMARY KEY (`id`),
   KEY `date` (`date`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Fixed Holidays (national, religious, etc.)' AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Fixed Holidays (national, religious, etc.)' AUTO_INCREMENT=36 ;
 
 --
 -- Contenu de la table `codev_holidays_table`
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `codev_job_table` (
   `type` int(10) NOT NULL DEFAULT '0',
   `color` varchar(7) CHARACTER SET utf8 DEFAULT '000000',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `codev_job_table`
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `codev_project_job_table` (
   `project_id` int(10) NOT NULL,
   `job_id` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 
 -- --------------------------------------------------------
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `project_id` (`project_id`),
   KEY `project_id_2` (`project_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
 
 
 -- --------------------------------------------------------
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   `team_id` int(10) NOT NULL,
   `type` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- --------------------------------------------------------
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `date` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- --------------------------------------------------------
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
   `arrival_date` int(10) unsigned NOT NULL,
   `departure_date` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- --------------------------------------------------------
@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   KEY `bugid` (`bugid`),
   KEY `userid` (`userid`),
   KEY `date` (`date`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 -- /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
