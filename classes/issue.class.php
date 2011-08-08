@@ -407,7 +407,6 @@ class Issue {
 
    // REM if EffortEstim = 0 then Drift = 0
    public function getDrift($withSupport = true) {
-      global $job_support;
 
      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
@@ -416,6 +415,7 @@ class Issue {
       if ($withSupport) {
       	$myElapsed = $this->elapsed;
       } else {
+        $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
       	$myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 
@@ -441,7 +441,6 @@ class Issue {
 
    // REM if ETA = 0 then Drift = 0
    public function getDriftETA($withSupport = true) {
-      global $job_support;
 
       $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
@@ -450,6 +449,7 @@ class Issue {
       if ($withSupport) {
          $myElapsed = $this->elapsed;
       } else {
+         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 

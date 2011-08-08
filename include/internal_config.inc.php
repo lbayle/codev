@@ -55,8 +55,6 @@
 
   $admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId); // users allowed to do CoDev administration
 
-  $job_support = Config::getInstance()->getValue(Config::id_jobSupport); // jobid in codev_job_table corresponding to the 'Support' job (used to compute drifts)
-
   // this is the custom field added to mantis issues for TimeTracking
   $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_TC);
   $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim); //  BI

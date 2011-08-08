@@ -343,7 +343,7 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
 
 // ================ MAIN =================
 
-global $job_support;
+$job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
 //$year = date('Y');
 $year = isset($_POST[year]) ? $_POST[year] : date('Y');

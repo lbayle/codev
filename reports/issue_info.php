@@ -162,9 +162,7 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
  * @param unknown_type $withSupport  if true: include support in Drift
  * @param unknown_type $displaySupport
  */
-function displayIssueGeneralInfo($issue, $withSupport, $displaySupport=false ) {
-
-  global $job_support;
+function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=false ) {
 
   echo "<div>\n";
   echo "<table>\n";
@@ -186,6 +184,7 @@ function displayIssueGeneralInfo($issue, $withSupport, $displaySupport=false ) {
   if ($withSupport) {
    echo "<td title='".T_("Support included")."'>".$issue->elapsed."</td>\n";
   } else {
+   $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
    echo "<td title='".T_("Support NOT included")."'>".($issue->elapsed - $issue->getElapsed($job_support))."</td>\n";
   }
   echo "</tr>\n";
@@ -302,7 +301,7 @@ function displayJobDetails($issue) {
 function displayMonth($month, $year, $issue) {
 
   $holidays = Holidays::getInstance();
-  
+
   $jobs = new Jobs();
   $totalDuration = 0;
 
@@ -442,7 +441,7 @@ $projList = $devProjList + $managedProjList;
  if (isset($_GET['bugid'])) {
  	$bug_id = $_GET['bugid'];
 
-   // user may not have the rights to see this bug (observers, ...)    
+   // user may not have the rights to see this bug (observers, ...)
  	$taskList = $user->getPossibleWorkingTasksList($projList);
  	if (in_array($bug_id, $taskList)) {
       $action = "displayBug";
@@ -466,7 +465,7 @@ if (0 == count($teamList)) {
 } else {
 
 	displayIssueSelectionForm($originPage, $user, $projList, $bug_id, $defaultProjectid);
-	
+
 	if ("displayBug" == $action) {
 	  $issue = new Issue ($bug_id);
      $handler = UserCache::getInstance()->getUser($issue->handlerId);

@@ -217,7 +217,7 @@ class TimeTracking {
   private function getProductivRate($projects, $balanceType = "ETA", $withSupport = true) {
     global $status_resolved;
     global $status_closed;
-    global $job_support;
+
 
     $resolvedList = array();
     $productivityRate = 0;
@@ -266,6 +266,7 @@ class TimeTracking {
           if ($withSupport) {
             $totalElapsed += $issue->elapsed;
           } else {
+            $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
             $totalElapsed += $issue->elapsed - $issue->getElapsed($job_support);
           }
 
