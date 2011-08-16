@@ -691,13 +691,14 @@ class Issue {
          // Bug has changed, search history for status changed
          $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='$status_new'";
          $result = mysql_query($query) or die("Query failed: $query");
-         while($row = mysql_fetch_object($result))
-         { // REM: only one line in result, while should be optimized
-            $date_modified = $row->date_modified;
-            //echo "&nbsp;&nbsp; end_date = $date_modified <br/>";
+         $date_modified    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+         
+         if (0 == $date_modified) {
+         	// some SideTasks, are created with status='closed' and have never been set to 'new'. 
+         	$time = 0;
+         } else {
+            $time = $date_modified - $date_submitted;
          }
-
-         $time= $date_modified - $date_submitted;
       }
 
       //echo "duration new $time<br/>";
