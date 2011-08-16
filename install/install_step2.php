@@ -29,7 +29,6 @@
    Config::getInstance()->setQuiet(true);
 
    include_once "internal_config.inc.php";
-   include_once "constants.php";
 
    include 'install_menu.inc.php';
 
