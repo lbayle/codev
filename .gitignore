@@ -2,4 +2,5 @@
 .settings
 *~
 constants.php
+include/mysql_config.inc.php
 
