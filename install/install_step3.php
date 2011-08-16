@@ -65,6 +65,7 @@ include_once 'project.class.php';
 include_once 'jobs.class.php';
 #include_once 'config.class.php';
 
+// ------------------------------------------------
 function displayStepInfo() {
    echo "<h2>".T_("Prerequisites")."</h2>\n";
    echo "Step 1,2 finished";
@@ -80,12 +81,14 @@ function displayStepInfo() {
 }
 
 
+// ------------------------------------------------
 function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
                      $isTaskAstreinte, $isTaskIncident1, $isTaskTools1,
                      $task_leave, $task_astreinte, $task_incident1, $task_tools1,
                      $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
                      $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
                      $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
+                     $projectList,
                      $is_modified = "false") {
 
    echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
@@ -197,7 +200,14 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
    // ------ Add custom fields to existing projects
   echo "  <br/>\n";
   echo "<h2>".T_("Configure existing Projects")."</h2>\n";
-
+  echo "<span class='help_font'>".T_("Select the projects to be managed with CoDev Timetracking")."</span><br/>\n";
+  echo "  <br/>\n";
+  
+  echo "<select name='projects[]' multiple size='5'>\n";
+  foreach ($projectList as $id => $name) {
+   echo "<option selected value='$id'>$name</option>\n";
+  }
+ echo "</select>\n";
 
   echo "  <br/>\n";
   echo "  <br/>\n";
@@ -210,6 +220,23 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
   echo "<input type=hidden name=is_modified value=$is_modified>\n";
 
   echo "</form>";
+}
+
+
+// ------------------------------------------------
+function getProjectList() {
+	$projectList = array();
+	
+	$query  = "SELECT id, name ".
+                "FROM `mantis_project_table` ";
+                #"WHERE mantis_project_table.id = $this->id ";
+	
+	$result = mysql_query($query) or die("Query failed: $query");
+   while($row = mysql_fetch_object($result))
+   {
+          $projectList[$row->id] = $row->name;
+   }
+	return $projectList;
 }
 
 // ================ MAIN =================
@@ -268,6 +295,9 @@ $job5_color       = isset($_POST[job5_color]) ? $_POST[job5_color] : "E0F57A";
 $jobSupport_color = isset($_POST[jobSupport_color]) ? $_POST[jobSupport_color] : "A8FFBD";
 $jobNA_color      = isset($_POST[jobNA_color]) ? $_POST[jobNA_color] : "A8FFBD";
 
+
+$projectList = getProjectList();
+
 // ---
 if ("checkReportsDir" == $action) {
 
@@ -324,12 +354,18 @@ if ("checkReportsDir" == $action) {
     }
 
     // Add custom fields to existing projects
-	// TODO
-    //$project = ProjectCache::getInstance()->getProject($projectid);
-    //$project->prepareProjectToCodev();
-
+    if(isset($_POST['projects']) && !empty($_POST['projects'])){
+       $selectedProjects = $_POST['projects'];
+       foreach($selectedProjects as $projectid){
+         $project = ProjectCache::getInstance()->getProject($projectid);
+       	echo "DEBUG prepare project: ".$project->name."<br/>";
+         $project->prepareProjectToCodev();
+       }
+    }
+    
     echo "DEBUG done.<br/>";
-   // load next step page
+
+    // load next step page
    #echo ("<script> parent.location.replace('$nextPage'); </script>");
 }
 
@@ -345,9 +381,8 @@ displayForm($originPage, $codevReportsDir, $checkReportsDirError,
             $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
             $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
             $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
+            $projectList,
             $is_modified);
-
-
 
 ?>
 
