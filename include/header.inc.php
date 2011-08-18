@@ -14,10 +14,10 @@
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-<?php 
+<?php
 
    # WARN: order of these includes is important.
-   include_once "tools.php"; 
+   include_once "tools.php";
    include_once "mysql_connect.inc.php";
    include_once "internal_config.inc.php";
    include_once "constants.php";
@@ -28,9 +28,15 @@
 
 <head>
 <title>CoDev TimeTracking</title>
-<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
 
-<?php 
+<?php
+#header( 'Content-Type: text/html; charset=utf-8' );
+?>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<?php
    echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";
    echo "<link href='".getServerRootURL()."/calendar/calendar.css' rel='stylesheet' type='text/css' />\n";
    echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>\n";
@@ -52,7 +58,7 @@
 <td>
 <?php
    $page_name = isset($_POST[page_name]) ? $_POST[page_name] : "";
-   echo"<h1>$page_name</h1>";    
+   echo"<h1>$page_name</h1>";
 ?>
 </td>
 <td width=300>
@@ -64,3 +70,4 @@
 </table>
 
 </div>
+
