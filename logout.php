@@ -19,7 +19,7 @@
 <?php
 include_once 'path.inc.php';
 include_once 'i18n.inc.php';
-include 'header.inc.php'; 
+include 'header.inc.php';
 
 
 
@@ -27,9 +27,11 @@ unset($_SESSION['userid']);
 unset($_SESSION['username']);
 unset($_SESSION['realname']);
 session_destroy();
-          
-echo ("<script> parent.location.replace('../codev'); </script>");
-       
+
+// load homepage
+echo '<script language="javascript"> window.location="',getServerRootURL(),'"; </script>';
+
+
 ?>
-     
+
 <?php include 'footer.inc.php'; ?>
