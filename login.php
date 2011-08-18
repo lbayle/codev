@@ -67,7 +67,7 @@ if ("pleaseLogin" == $action) {
     $_SESSION['username']=$row_login->username;
     $_SESSION['realname']=$row_login->realname;
 
-    echo ("<script> parent.location.replace('../codev'); </script>");                  
+    echo '<script language="javascript"> window.location="',getServerRootURL(),'"; </script>';
   } else {
     echo T_("login failed !")."<br />";
   }
