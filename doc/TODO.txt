@@ -1,13 +1,25 @@
 TODO
 
-- possibililité d'avoir les tables codev dans une autre base que 'bugtracker' (mantis)  --> faisabilité ?  
+- possibililitÃ© d'avoir les tables codev dans une autre base que 'bugtracker' (mantis)  --> faisabilitÃ© ?  
 - creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
 - Admin Project: SideTask category assignment
 - Securisation du site (index.html, .htaccess, 404, ...)
 - CheckIntegrity: imputations les WE
+- MAJOR: users should be able to quit a team and then come back !
 
+- add a 'preferences' page
+    - select indicators to be displayed (custo for each user)
+    - prefered language (get from mantis ?)
+    
+- admin tools page:
+    - quick sidetask creation ?
+    - prepareProjectToCodev (auto add custom fields)
+
+- install page
+    - explain the changes made to existing mantis DB (add custom fields)
 
 BUGS
+- createTeam: perte de focus quand on quite le champ 'team name'
 - createTeam: la modification du nom du projet SuiviOp n'est pas prise en compte.
 
 
