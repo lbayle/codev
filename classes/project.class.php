@@ -135,6 +135,15 @@ class Project {
       $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
+      // when creating an new issue, the status is set to 'closed' (most SideTasks have no workflow...)
+      #REM this function is called in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
+      $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
+      $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+               "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+
+
       return $projectid;
    }
 
