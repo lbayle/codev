@@ -202,7 +202,7 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
   echo "<h2>".T_("Configure existing Projects")."</h2>\n";
   echo "<span class='help_font'>".T_("Select the projects to be managed with CoDev Timetracking")."</span><br/>\n";
   echo "  <br/>\n";
-  
+
   echo "<select name='projects[]' multiple size='5'>\n";
   foreach ($projectList as $id => $name) {
    echo "<option selected value='$id'>$name</option>\n";
@@ -224,17 +224,24 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
 
 
 // ------------------------------------------------
+/**
+ * get all existing projects, except commonSideTasksProject
+ */
 function getProjectList() {
 	$projectList = array();
-	
+
+	$stproj_id = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);
+
 	$query  = "SELECT id, name ".
                 "FROM `mantis_project_table` ";
                 #"WHERE mantis_project_table.id = $this->id ";
-	
+
 	$result = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {
+   		if ($stproj_id != $row->id) {
           $projectList[$row->id] = $row->name;
+   		}
    }
 	return $projectList;
 }
@@ -362,7 +369,7 @@ if ("checkReportsDir" == $action) {
          $project->prepareProjectToCodev();
        }
     }
-    
+
     echo "DEBUG done.<br/>";
 
     // load next step page
