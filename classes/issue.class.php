@@ -40,17 +40,17 @@ class Issue {
 
    private static $PEE_balance;
 
-   var $bugId;      // mantis id
-   var $projectId;  // Capu, peterpan, etc.
-   var $categoryId;
-   var $eta;        // DEPRECATED
-   var $summary;
-   var $dateSubmission;
-   var $currentStatus;
-   var $priority;
-   var $handlerId;
-   var $resolution;
-   var $version;  // Product Version
+   public $bugId;      // mantis id
+   public $projectId;  // Capu, peterpan, etc.
+   public $categoryId;
+   public $eta;        // DEPRECATED
+   public $summary;
+   public $dateSubmission;
+   public $currentStatus;
+   public $priority;
+   public $handlerId;
+   public $resolution;
+   public $version;  // Product Version
 
 	/*
 	 * REM:
@@ -61,22 +61,22 @@ class Issue {
 	 */
 
    // -- CoDev custom fields
-   var $tcId;         // TelelogicChange id
-   var $remaining;    // RAE
+   public $tcId;         // TelelogicChange id
+   public $remaining;    // RAE
    public $prelEffortEstimName;  // PreliminaryEffortEstim (ex ETA)
-   var $effortEstim;  // BI
-   var $effortAdd;    // BS
-   var $deadLine;
-   var $deliveryDate;
-   var $deliveryId;   // TODO FDL (FDJ specific)
+   public $effortEstim;  // BI
+   public $effortAdd;    // BS
+   public $deadLine;
+   public $deliveryDate;
+   public $deliveryId;   // TODO FDL (FDJ specific)
 
    // -- computed fields
-   var $elapsed;    // total time spent on this issue
-   var $statusList; // array of statusInfo elements
+   public $elapsed;    // total time spent on this issue
+   public $statusList; // array of statusInfo elements
    public $prelEffortEstim;  // PreliminaryEffortEstim (ex ETA_balance value)
 
    // -- PRIVATE cached fields
-   var $holidays;
+   private $holidays;
 
    // ----------------------------------------------
    public function Issue ($id) {
