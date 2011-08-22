@@ -239,7 +239,11 @@ class Issue {
 
    // ----------------------------------------------
    public function getTC() {
-      $query  = "SELECT value FROM `mantis_custom_field_string_table` WHERE field_id='1' AND bug_id=$this->bugId";
+
+   	global $tcCustomField;
+
+      $query  = "SELECT value FROM `mantis_custom_field_string_table` WHERE field_id='$tcCustomField' AND bug_id=$this->bugId";
+      
       $result = mysql_query($query) or die("Query failed: $query");
 
       $tcId    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "";
