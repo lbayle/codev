@@ -155,9 +155,9 @@ class DeadLine {
     * the path to the arrow image to be displayed (blue, red, grey)
     */
    public function getImageURL() {
-   	$image_isOnTime    = "../images/arrow_down_blue.PNG";
-      $image_isNotOnTime = "../images/arrow_down_red.PNG";
-   	$image_isMonitored = "../images/arrow_down_grey.PNG";
+   	$image_isOnTime    = "../images/arrow_down_blue.png";
+      $image_isNotOnTime = "../images/arrow_down_red.png";
+   	$image_isMonitored = "../images/arrow_down_grey.png";
    	
    	if (!$this->isOnTime)   { return $image_isNotOnTime; }
    	
@@ -315,7 +315,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
          }
          
          // drawArrow
-         echo "<IMG SRC='".$dline->getImageURL()."' ALT='Texte remplaçant l image' TITLE='".$dline->toString()."'>";
+         echo "<IMG SRC='".$dline->getImageURL()."' ALT='Texte remplaï¿½ant l image' TITLE='".$dline->toString()."'>";
       }
    }
 
