@@ -45,7 +45,14 @@
 ?>
 </head>
 
-<body>
+<?php
+   if (isset($_POST[on_load_focus])) {
+      echo "<body onLoad='".$_POST[on_load_focus].".focus()' >\n";
+   } else {
+      echo "<body>\n";
+   }
+?>
+
 <div id='header'>
 
 <table id='header'>

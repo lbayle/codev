@@ -55,10 +55,11 @@ function addTeam(){
    }
  }
 
-function updateTeamCreationForm() {
+function updateTeamCreationForm(onLoadFocus) {
 
    document.forms["teamCreationForm"].action.value="updateTeamCreationForm";
    document.forms["teamCreationForm"].is_modified.value= "true";
+   document.forms["teamCreationForm"].on_load_focus.value = onLoadFocus;
    document.forms["teamCreationForm"].submit();
 }
 
@@ -94,7 +95,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "<table class='invisible'>\n";
   echo "  <tr>\n";
   echo "    <td>".T_("Team Name")."</td>\n";
-  echo "    <td><input size='30' value='$team_name' name='team_name' type='text' id='team_name' onblur='javascript: updateTeamCreationForm()'> <span style='color:red'>*</span></td>\n";
+  echo "    <td><input size='30' value='$team_name' name='team_name' type='text' id='team_name' onblur=\"javascript: updateTeamCreationForm('document.teamCreationForm.team_desc')\"> <span style='color:red'>*</span></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
   echo "    <td>".T_("Description")."</td>\n";
@@ -134,7 +135,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <br/>\n";
 
   $isChecked = $isCreateSTProj ? "CHECKED" : "";
-  echo "<input type=CHECKBOX $isChecked name='cb_createSideTaskProj' id='cb_createSideTaskProj' onChange='javascript: updateTeamCreationForm()' >".
+  echo "<input type=CHECKBOX $isChecked name='cb_createSideTaskProj' id='cb_createSideTaskProj' onChange=\"javascript: updateTeamCreationForm('document.teamCreationForm.cb_createSideTaskProj')\" >".
        T_("Create specific SideTask Project")."</input>\n";
 
 
@@ -243,8 +244,9 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <br/>\n";
   echo "<input type=button value='".T_("Create")."' onClick='javascript: addTeam()'>\n";
 
-  echo "<input type=hidden name=action      value=noAction>\n";
-  echo "<input type=hidden name=is_modified value=$is_modified>\n";
+  echo "<input type=hidden name=action        value=noAction>\n";
+  echo "<input type=hidden name=is_modified   value=$is_modified>\n";
+  echo "<input type=hidden name=on_load_focus value='team_name'>\n";
 
   echo("</form>\n");
 }
