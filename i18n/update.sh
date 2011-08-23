@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PRJ_NAME=codev
 
