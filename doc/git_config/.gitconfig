@@ -1,5 +1,5 @@
 [gui]
-	recentrepo = Z:/louis/codev
+	recentrepo = /opt/codev
 [user]
 	name = Louis BAYLE
 	email = lbayle.work@gmail.com
@@ -16,22 +16,15 @@
 
 [diff]
 	renames = true
-	tool = diffmerge
 
 [difftool]
-	prompt = false
-
-[difftool "diffmerge"]
-	cmd = diffmerge $LOCAL $REMOTE
+	prompt = true
+	cmd = diffuse $LOCAL $REMOTE
 
 [merge]
-	tool = diffmerge
+	tool = diffuse
 
 [mergetool]
 	keepBackup = false
-
-[mergetool "diffmerge"]
-	cmd = diffmerge --merge --result=$MERGED $LOCAL $BASE $REMOTE
-	trustExitCode = true
 
 
