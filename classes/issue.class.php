@@ -628,7 +628,7 @@ class Issue {
       // TODO should be done only once... in Constants singleton ?
       $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$remainingCustomField'";
       $result = mysql_query($query) or die("Query failed: $query");
-      $field_name    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "Remaining (RAE)";
+      $field_name    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "Remaining (RAF)";
 
 
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";

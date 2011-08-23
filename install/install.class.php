@@ -262,13 +262,13 @@ class Install {
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("Client bugId (TC)"),       $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
+      $this->createCustomField(T_("External ID (Ref.Ext)"),       $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
       $this->createCustomField(T_("Dead Line"),               $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
       $this->createCustomField(T_("Est. Effort (BI)"),        $mType_numeric, "customField_effortEstim", $attributes);
       $this->createCustomField(T_("Aditional Effort (BS)"),   $mType_numeric, "customField_addEffort", $attributes);
-      $this->createCustomField(T_("Remaining (RAE)"),         $mType_numeric, "customField_remaining", $attributes);
+      $this->createCustomField(T_("Remaining (RAF)"),         $mType_numeric, "customField_remaining", $attributes);
 
       $attributes["require_resolved"] = 0;
       $attributes["require_closed"]   = 0;

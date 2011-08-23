@@ -47,7 +47,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                  T_("BI").$sepChar.
                  T_("BS").$sepChar.
                  "Elapsed".$sepChar.
-                 T_("RAE").$sepChar.
+                 T_("RAF").$sepChar.
                  T_("Delivery Date").$sepChar.
                  T_("Delivery Sheet").$sepChar.
                  T_("Assigned to").$sepChar.
@@ -178,7 +178,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
 // ------------------------------------------------
 /**
  * creates for each project a table with the following fields:
- * TaskName | RAE | <Jobs>
+ * TaskName | RAF | <Jobs>
 
  * @param unknown_type $timeTracking
  * @param unknown_type $myFile
@@ -199,7 +199,7 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
      $stringData = $project->name."\n";
 
      $stringData .=T_("Task").$sepChar;
-     $stringData .=T_("RAE").$sepChar;
+     $stringData .=T_("RAF").$sepChar;
      $jobList = $project->getJobList();
      foreach($jobList as $jobId => $jobName) {
         $stringData .= $jobName.$sepChar;
@@ -268,7 +268,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      $stringData .=("Total elapsed").$sepChar;
      $stringData .=("elapsed + Remaining").$sepChar;
      $stringData .=("elapsed in period").$sepChar;
-     $stringData .=("RAE").$sepChar;
+     $stringData .=("RAF").$sepChar;
      $stringData .="\n";
 
      // write table content (by bugid)

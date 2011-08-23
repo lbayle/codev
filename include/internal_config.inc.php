@@ -58,7 +58,7 @@
   // this is the custom field added to mantis issues for TimeTracking
   $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_TC);
   $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim); //  BI
-  $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining); //  RAE
+  $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining); //  RAF
   $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
   $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort); // BS
   $deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId); // FDL (id of the associated Delivery Issue)

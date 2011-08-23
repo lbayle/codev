@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-23 15:42+0200\n"
+"POT-Creation-Date: 2011-08-23 16:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -357,7 +357,7 @@ msgstr "Champs CoDev"
 
 #: admin/create_team.php:196
 msgid "EffortEstim, AddEffort, Remaining, DeadLine, DeliveryDate"
-msgstr "BI, BS, RAE, DeadLine, Date de Livraison"
+msgstr "BI, BS, RAF, DeadLine, Date de Livraison"
 
 #: admin/create_team.php:201
 msgid "Default SideTasks"
@@ -446,7 +446,7 @@ msgstr "Erreur"
 
 #: classes/consistency_check.class.php:203
 msgid "Remaining == 0: Remaining may not be up to date."
-msgstr "RAE == 0: Il se peut que le RAE ne soit pas &agrave; jour."
+msgstr "RAF == 0: Il se peut que le RAF ne soit pas &agrave; jour."
 
 #: classes/consistency_check.class.php:204
 msgid "Warning"
@@ -465,7 +465,7 @@ msgstr ""
 #: classes/consistency_check_fdj.class.php:92
 msgid "Remaining not specified: Remaining = Time(BI - Analysis)"
 msgstr ""
-"RAE non renseign&eacute;: il doit &ecirc;tre &eacute;gal &agrave; temps(BI - "
+"RAF non renseign&eacute;: il doit &ecirc;tre &eacute;gal &agrave; temps(BI - "
 "Analyse)"
 
 #: classes/consistency_check_fdj.class.php:103
@@ -551,7 +551,7 @@ msgstr "Support NON inclus"
 
 #: reports/issue_info.php:193 timetracking/time_tracking_tools.php:73
 msgid "Remaining"
-msgstr "Reste &agrave; engager"
+msgstr "Reste &agrave; faire"
 
 #: reports/issue_info.php:199 reports/statistics.php:211
 #: reports/statistics.php:596
@@ -1182,8 +1182,8 @@ msgstr "BS"
 #: timetracking/time_tracking_tools.php:73
 #: timetracking/time_tracking_tools.php:176
 #: timetracking/project_activity_report.php:201
-msgid "RAE"
-msgstr "RAE"
+msgid "RAF"
+msgstr "RAF"
 
 #: reports/export_csv_tools.php:51
 msgid "Delivery Date"
@@ -1222,7 +1222,7 @@ msgstr "Semaine suivante"
 
 #: timetracking/team_activity_report.php:194
 msgid "sum(Remaining) of current tasks"
-msgstr "somme(RAE) des fiches en cours"
+msgstr "somme(RAF) des fiches en cours"
 
 #: timetracking/team_activity_report.php:206
 #: timetracking/time_tracking_tools.php:183
@@ -1479,7 +1479,7 @@ msgstr "l'identification a &eacute;chou&eacute;e !"
 #~ msgstr "Taux de prod ETA"
 
 #~ msgid "Remaining should be 0 (not $issue->remaining)."
-#~ msgstr "Le RAE devrait &ecirc;tre = 0  (et non $issue->remaining)."
+#~ msgstr "Le RAF devrait &ecirc;tre = 0  (et non $issue->remaining)."
 
 #~ msgid "TC"
 #~ msgstr "TC"
@@ -1491,7 +1491,7 @@ msgstr "l'identification a &eacute;chou&eacute;e !"
 #~ msgstr "Total consomm&eacute;"
 
 #~ msgid "elapsed + Remaining"
-#~ msgstr "Consomm&eacute; + RAE"
+#~ msgstr "Consomm&eacute; + RAF"
 
 #~ msgid "elapsed in period"
 #~ msgstr "consomm&eacute; dans la p&eacute;riode"

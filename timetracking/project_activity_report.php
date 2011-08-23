@@ -198,7 +198,7 @@ function displayProjectActivityReport($timeTracking) {
      echo "<caption>".$project->name."</caption>\n";
      echo "<tr>\n";
      echo "  <th width='50%'>".T_("Task")."</th>\n";
-     echo "  <th width='2%'>".T_("RAE")."</th>\n";
+     echo "  <th width='2%'>".T_("RAF")."</th>\n";
 
      $jobList = $project->getJobList();
      foreach($jobList as $jobId => $jobName) {

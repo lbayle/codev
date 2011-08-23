@@ -70,7 +70,7 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
    echo "<th>".T_("Category")."</th>\n";
    echo "<th>".T_("Status")."</th>\n";
    echo "<th title='BI + BS'>".T_("Load Estimation")."</th>\n";
-   echo "<th title='".T_("Remaining")."'>".T_("RAE")."</th>\n";
+   echo "<th title='".T_("Remaining")."'>".T_("RAF")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT id, bugid, jobid, date, duration ".
@@ -173,7 +173,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    echo "<table>\n";
    echo "<tr>\n";
    echo "<th>".T_("Task")."</th>\n";
-   echo "<th>".T_("RAE")."</th>\n";
+   echo "<th>".T_("RAF")."</th>\n";
    echo "<th>".T_("Job")."</th>\n";
    echo "<th width='80'>".T_("Monday")."<br/>".date("d M", $weekDates[1])."</th>\n";
    echo "<th width='80'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
