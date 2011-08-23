@@ -260,7 +260,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
      // WARNING i18n: HTML translation like french accents (eacute;) add an unwanted column sepChar (;)
      $stringData .=("ID").$sepChar;
      $stringData .=("Task").$sepChar;
-     $stringData .=("TC").$sepChar;
+     $stringData .=("Ext.ID").$sepChar;
      $stringData .=("Start date").$sepChar;
      $stringData .=("End date").$sepChar;
      $stringData .=("Status").$sepChar;
