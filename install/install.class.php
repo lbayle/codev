@@ -33,7 +33,8 @@ class Install {
    const FILENAME_CONSTANTS = "../constants.php";
    //const FILENAME_CONSTANTS = "/tmp/constants.php";
 
-   const PREL_EFFORT_ESTIM_POSSIBLE_VALUES = "none|< 1 day|2-3 days|< 1 week|< 2 weeks|> 2 weeks";
+   # WARNING Mantis BUG: Enum fields do not handle special chars like '<' or '>' 
+   const PREL_EFFORT_ESTIM_POSSIBLE_VALUES = "none|1 day|2-3 days|- 1 week|- 2 weeks|+ 2 weeks";
    const PREL_EFFORT_ESTIM_DEFAULT_VALUE   = "none";
    const PREL_EFFORT_ESTIM_BALANCE         = "1,1,3,5,10,15";
 
