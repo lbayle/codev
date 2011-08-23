@@ -153,15 +153,16 @@ class awGDDriver extends Driver {
 	
 	}
 	
+    # LoB http://trambo.blog.vectoris.fr/2010/04/15/php-artichow-missing-imageantialias/
 	public function setAntiAliasing($bool) {
 		
-		if(function_exists('imageantialias')) {
-			imageantialias($this->resource, (bool)$bool);
+	#	if(function_exists('imageantialias')) {
+	#		imageantialias($this->resource, (bool)$bool);
 
 			$this->antiAliasing = (bool)$bool;
-		} else {
-			awImage::drawErrorFile('missing-anti-aliasing');
-		}
+	#	} elseif($bool==true) {
+	#		awImage::drawErrorFile('missing-anti-aliasing');
+	#	}
 	}
 	
 	public function getColor(awColor $color) {
