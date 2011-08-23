@@ -256,14 +256,14 @@ function displayRates ($timeTracking) {
  * fluctuate much. so let's get rid of it !
  
   echo "<tr>\n";
-  echo "<td title='".T_("BEFORE analysis")."'>".T_("Productivity Rate ETA")."</td>\n";
+  echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod. Rate PrelEffortEstim")."</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
   echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
             T_("- A number below 1 means a lesser efficiency.")."<br/>".
             T_("- Time spent on a task is balanced by a toughness indicator")."<br/>".
             T_("- Computed on task Resolved/Closed in the given period")."<br/>".
             T_("- Reopened tasks are not taken into account")."</td>\n";
-  echo "<td>sum(ETA_balance) / sum(elapsed)</td>\n";
+  echo "<td>sum(PrelEffortEstim) / sum(elapsed)</td>\n";
   echo "</tr>\n";
   echo "<tr>\n";
   echo "<td title='".T_("AFTER analysis")."'>".T_("Productivity Rate")."</td>\n";
@@ -293,7 +293,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "<caption>".T_("Drift - Tasks resolved in the period")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
-  echo "<th width='100' title='".T_("BEFORE analysis")."'>ETA</th>\n";
+  echo "<th width='100' title='".T_("BEFORE analysis")."'>PrelEffortEstim</th>\n";
   echo "<th width='100' title='".T_("AFTER analysis")."'>EffortEstim <br/>(BI + BS)</th>\n";
   echo "<th>".T_("Description")."</th>\n";
   echo "<th>".T_("Formula")."</th>\n";
@@ -413,7 +413,7 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "<caption>".T_("Drift - Today opened Tasks")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
-  echo "<th width='100' title='".T_("BEFORE analysis")."'>".T_("ETA")."</th>\n";
+  echo "<th width='100' title='".T_("BEFORE analysis")."'>".T_("PrelEffortEstim")."</th>\n";
   echo "<th width='100' title='".T_("AFTER analysis")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
   echo "<th>".T_("Description")."</th>\n";
   echo "<th>".T_("Formula")."</th>\n";
