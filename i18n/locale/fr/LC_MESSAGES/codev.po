@@ -525,7 +525,7 @@ msgstr "Date Debut"
 
 #: reports/export_csv_tools.php:41
 msgid "Dead line"
-msgstr "Jalon"
+msgstr "Dead line"
 
 #: reports/export_csv_tools.php:42
 msgid "Product Version"
@@ -1013,7 +1013,7 @@ msgstr "Dates"
 
 #: reports/issue_info.php:235
 msgid "DeadLine"
-msgstr "Jalon"
+msgstr "DeadLine"
 
 #: reports/issue_info.php:244
 msgid "DeliveryDate"
@@ -1181,7 +1181,7 @@ msgstr "en retard"
 
 #: reports/planning_report.php:428
 msgid "no deadLine"
-msgstr "sans date jalon"
+msgstr "sans deadLine"
 
 #: reports/planning_report.php:446
 msgid "day"
@@ -1250,8 +1250,8 @@ msgid "Imputations"
 msgstr "Imputations"
 
 #: timetracking/time_tracking_tools.php:65
-msgid "TC Issue"
-msgstr "Fiche TC"
+msgid "Ext.ID"
+msgstr "Ref.Ext"
 
 #: timetracking/time_tracking_tools.php:72
 msgid "Load Estimation"
@@ -1354,8 +1354,8 @@ msgid "Holidays"
 msgstr "Absences"
 
 #: include/menu.inc.php:36
-msgid "Check DeadLines (~Gant diagram)"
-msgstr "Respect des dates Jalon (~Diagramme de Gant)"
+msgid "Check DeadLines"
+msgstr "Respect des DeadLines"
 
 #: include/menu.inc.php:38
 msgid "Task Information"
@@ -1450,6 +1450,9 @@ msgstr "Connexion CoDev"
 #: login.php:73
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
+
+#~ msgid "External ID"
+#~ msgstr "Reference externe"
 
 #~ msgid "Remaining should be 0 (not $issue->remaining)."
 #~ msgstr "Le RAE devrait &ecirc;tre = 0  (et non $issue->remaining)."

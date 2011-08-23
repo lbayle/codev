@@ -38,7 +38,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                  T_("Status").$sepChar.
                  T_("Submitted").$sepChar.
                  T_("Start date").$sepChar.
-                 T_("Dead line").$sepChar.
+                 T_("DeadLine").$sepChar.
                  T_("Product Version").$sepChar.
                  T_("Priority").$sepChar.
                  "Category".$sepChar.

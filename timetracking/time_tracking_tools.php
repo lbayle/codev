@@ -61,8 +61,8 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
    echo "<tr>\n";
    echo "<th></th>\n";
    echo "<th>".T_("Date")."</th>\n";
-   echo "<th>Mantis</th>\n";
-   echo "<th>".T_("TC Issue")."</th>\n";
+   echo "<th title='Mantis ID'>".T_("ID")."</th>\n";
+   echo "<th>".T_("Ext.ID")."</th>\n";
    echo "<th>".T_("Duration")."</th>\n";
    echo "<th>".T_("Project")."</th>\n";
    echo "<th>".T_("Description")."</th>\n";

@@ -476,7 +476,7 @@ if (0 == count($teamList)) {
 	  echo "<hr width='80%'/>\n";
      echo "<br/>";
      echo "<h2>$issue->summary</h2>\n";
-     echo "".mantisIssueURL($issue->bugId)." / <span title='".T_("TC issue")."'>$issue->tcId</span><br/>\n";
+     echo "".mantisIssueURL($issue->bugId)." / <span title='".T_("External ID")."'>$issue->tcId</span><br/>\n";
      echo "<br/>";
      echo "<b><span title='".T_("status")."'>".$issue->getCurrentStatusName()."</span> - <span title='".T_("assigned to")."'>".$handler->getName()."</span></b>\n";
      echo "</div>";

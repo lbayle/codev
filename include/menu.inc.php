@@ -33,7 +33,7 @@ echo "      <a href='".getServerRootURL()."/timetracking/time_tracking.php' titl
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/timetracking/holidays_report.php' title='".T_("Holidays Reports")."'>".T_("Holidays")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/reports/planning_report.php' title='".T_("Check DeadLines (~Gant diagram)")."'>".T_("Planning")."</a>\n";
+echo "      <a href='".getServerRootURL()."/reports/planning_report.php' title='".T_("Check DeadLines")."'>".T_("Planning")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/issue_info.php' title='".T_("Task Information")."'>".T_("Task info")."</a>\n";
 echo "      </td>\n";
