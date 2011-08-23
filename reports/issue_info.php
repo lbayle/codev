@@ -196,7 +196,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Drift")."</td>\n";
+  echo "<td>".T_("Effort Deviation")."</td>\n";
   $deriveETA = $issue->getDriftETA($withSupport);
   $derive = $issue->getDrift($withSupport);
   echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".number_format($deriveETA, 2)."</td>\n";
@@ -206,9 +206,9 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   if ($displaySupport) {
       echo "<tr>\n";
       if ($withSupport) {
-         echo "<td>".T_("Drift -Support")."</td>\n";
+         echo "<td>".T_("EffortDeviation -Support")."</td>\n";
       } else {
-         echo "<td>".T_("Drift +Support")."</td>\n";
+         echo "<td>".T_("EffortDeviation +Support")."</td>\n";
       }
       $deriveETA = $issue->getDriftETA(!$withSupport);
       $derive = $issue->getDrift(!$withSupport);
@@ -250,7 +250,7 @@ function displayTimeDrift($issue) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "  <td>".T_("Drift")."</td>\n";
+  echo "  <td>".T_("Deviation")."</td>\n";
   $timeDrift=$issue->getTimeDrift();
   if (!is_string($timeDrift)) {
       echo "  <td style='background-color: #".$issue->getDriftColor($timeDrift).";'>".round($timeDrift)." ".T_("days")."</td>\n";

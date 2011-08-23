@@ -290,7 +290,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   $driftStats = $timeTracking->getResolvedDriftStats($withSupport);
 
   echo "<table>\n";
-  echo "<caption>".T_("Drift - Tasks resolved in the period")."</caption>\n";
+  echo "<caption>".T_("EffortDeviation - Tasks resolved in the period")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='".T_("BEFORE analysis")."'>PrelEffortEstim</th>\n";
@@ -300,7 +300,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("Drift")."</td>\n";
+  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
   echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Overflow day quantity")."<br/>".
@@ -410,7 +410,7 @@ function displayCurrentDriftStats ($timeTracking) {
     }
 
   echo "<table>\n";
-  echo "<caption>".T_("Drift - Today opened Tasks")."</caption>\n";
+  echo "<caption>".T_("EffortDeviation - Today opened Tasks")."</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='".T_("BEFORE analysis")."'>".T_("PrelEffortEstim")."</th>\n";
@@ -420,7 +420,7 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("Drift")."</td>\n";
+  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
   echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Overflow day quantity")."<br/>".

@@ -196,7 +196,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
          
          #echo "DEBUG: PrelEffortEstim=".$driftStats_new['totalDriftETA']." Eff=".$driftStats_new['totalDrift']." date=".date('M y', $startTimestamp)."<br/>\n";
    }
-   $graph_title="title=".("Drifts");
+   $graph_title="title=".("Effort Deviation");
    $graph_width="width=$width";
    $graph_height="height=$height";
    
@@ -208,10 +208,10 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
    
    echo "<div>\n";
-   echo "<h2>".T_("Drifts")."</h2>\n";
+   echo "<h2>".T_("Effort Deviation")."</h2>\n";
    
    echo "<span class='help_font'>\n";
-   echo T_("Drift").": ".T_("Overflow day quantity")."<br/>\n";
+   echo T_("EffortDeviation").": ".T_("Overflow day quantity")."<br/>\n";
    echo "</span>\n";
    echo "<br/>\n";
    
@@ -224,7 +224,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
-   echo "<caption title='".("Drifts")."'</caption>";
+   echo "<caption title='".("Effort Deviation")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
    echo "<th title='".T_("")."'>".T_("PrelEffortEstim")."</th>\n";
@@ -593,7 +593,7 @@ if (0 == count($teamList)) {
          echo "<ul>\n";
          echo "   <li><a href='#tagSubmittedResolved'>".T_("Submitted / Resolved Issues")."</a></li>\n";
          echo "   <li><a href='#tagTimeDrift'>".T_("Adherence to deadlines")."</a></li>\n";
-         echo "   <li><a href='#tagResolvedDrift'>".T_("Drifts")."</a></li>\n";
+         echo "   <li><a href='#tagResolvedDrift'>".T_("Effort Deviation")."</a></li>\n";
          echo "   <li><a href='#tagEfficiencyRate'>".T_("Efficiency - System Disponibility")."</a></li>\n";
 #         echo "   <li><a href='#tagProductivityRate'>".T_("Productivity Rate")."</a></li>\n";
          echo "</ul><br/>\n";
