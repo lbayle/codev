@@ -98,7 +98,7 @@ class Scheduler {
       $sumDurations = 0;
 		foreach ($issueList as $issue) {
 
-			// determinate issue duration (Remaining, BI, ETA)
+			// determinate issue duration (Remaining, BI, PrelEffortEstim)
 			if       (NULL != $issue->remaining)   { $issueDuration = $issue->remaining; }
 			elseif   (NULL != $issue->effortEstim) { $issueDuration = $issue->effortEstim; }
 			else                                   { $issueDuration = $issue->prelEffortEstim; }
@@ -141,7 +141,7 @@ class Scheduler {
             }
 
 
-            // determinate issue duration (Remaining, BI, ETA)
+            // determinate issue duration (Remaining, BI, PrelEffortEstim)
             if       (NULL != $issue->remaining)   { $issueDuration = $issue->remaining; }
             elseif   (NULL != $issue->effortEstim) { $issueDuration = $issue->effortEstim; }
             else                                   { $issueDuration = $issue->prelEffortEstim; }

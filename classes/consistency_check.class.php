@@ -227,7 +227,7 @@ class ConsistencyCheck {
       
       if (0 != count($this->projectList)) {
 
-      	// --- except SideTasksProjects (they don't have an ETA field)
+      	// --- except SideTasksProjects (they don't have a PrelEffortEstim field)
       	$prjListNoSideTasks = $this->projectList; // copy
          foreach ($prjListNoSideTasks as $id => $name) {
          	$p = ProjectCache::getInstance()->getProject($id);

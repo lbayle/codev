@@ -440,10 +440,10 @@ class Issue {
    // if 0, then just in time
    // if POS, then there is a drift !
 
-   // elapsed - (ETA - remaining)
+   // elapsed - (PrelEffortEstim - remaining)
    // if bug is Resolved/Closed, then remaining is not used.
 
-   // REM if ETA = 0 then Drift = 0
+   // REM if PrelEffortEstim = 0 then Drift = 0
    public function getDriftETA($withSupport = true) {
 
       $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);

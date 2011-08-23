@@ -168,7 +168,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Duration")."</th>\n";
-  echo "  <th title='".T_("BEFORE analysis")."'>".T_("ETA")."</th>\n";
+  echo "  <th title='".T_("BEFORE analysis")."'>".T_("PrelEffortEstim")."</th>\n";
   echo "  <th title='".T_("AFTER analysis")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
   echo "  </tr>\n";
 

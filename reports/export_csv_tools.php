@@ -43,7 +43,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                  T_("Priority").$sepChar.
                  "Category".$sepChar.
                  T_("Resolution").$sepChar.
-                 T_("ETA").$sepChar.
+                 T_("PrelEffortEstim").$sepChar.
                  T_("BI").$sepChar.
                  T_("BS").$sepChar.
                  "Elapsed".$sepChar.

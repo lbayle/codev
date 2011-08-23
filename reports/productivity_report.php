@@ -301,7 +301,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
 
   echo "<tr>\n";
   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("Drift")."</td>\n";
-  echo "<td title='elapsed - ETA'>".number_format($driftStats["totalDriftETA"], 2)."</td>\n";
+  echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Overflow day quantity")."<br/>".
             "- ".T_("Computed on task Resolved/Closed in the given period")."<br/>".
@@ -421,7 +421,7 @@ function displayCurrentDriftStats ($timeTracking) {
 
   echo "<tr>\n";
   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("Drift")."</td>\n";
-  echo "<td title='elapsed - ETA'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
+  echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
   echo "<td>".T_("Overflow day quantity")."<br/>".
             "- ".T_("Computed on task NOT Resolved/Closed on ").date("Y-m-d").".<br/>";
