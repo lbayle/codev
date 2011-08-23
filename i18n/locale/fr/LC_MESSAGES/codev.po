@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-22 14:26+0200\n"
+"POT-Creation-Date: 2011-08-23 12:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,7 @@ msgstr "Id"
 
 #: admin/edit_holidays.php:176 admin/edit_holidays.php:230
 #: admin/edit_holidays.php:254 admin/edit_team.php:480
-#: admin/create_team.php:100 reports/export_csv_weekly.php:143
+#: admin/create_team.php:101 reports/export_csv_weekly.php:143
 #: reports/productivity_report.php:201 reports/productivity_report.php:298
 #: reports/productivity_report.php:418 timetracking/time_tracking_tools.php:68
 msgid "Description"
@@ -304,128 +304,128 @@ msgstr "Guide d'Admin"
 msgid "CoDev Administration : Team Creation"
 msgstr "Administration CoDev : Cr&eacute;ation &Eacute;quipe"
 
-#: admin/create_team.php:93
+#: admin/create_team.php:94
 msgid "Team Info"
 msgstr "Description de l'&Eacute;quipe"
 
-#: admin/create_team.php:96
+#: admin/create_team.php:97
 msgid "Team Name"
 msgstr "Nom de l'&eacute;quipe"
 
-#: admin/create_team.php:104
+#: admin/create_team.php:105
 msgid "Team Leader"
 msgstr "Team Leader"
 
-#: admin/create_team.php:129
+#: admin/create_team.php:130
 msgid "SideTasks Project"
 msgstr "Projets de SuiviOp"
 
-#: admin/create_team.php:132
+#: admin/create_team.php:133
 msgid "Add common SideTasks Project"
 msgstr "Ajouter le projet de SuiviOp commun"
 
-#: admin/create_team.php:138
+#: admin/create_team.php:139
 msgid "Create specific SideTask Project"
 msgstr "Creer un projet de SuiviOp Sp&eacute;cifique"
 
-#: admin/create_team.php:144
+#: admin/create_team.php:145
 msgid "Project Name"
 msgstr "Nom du Projet"
 
-#: admin/create_team.php:148
+#: admin/create_team.php:149
 msgid "Categories"
 msgstr "Cat&eacute;gories"
 
-#: admin/create_team.php:153
+#: admin/create_team.php:154
 msgid "This category is declared in CommonSideTaskProject"
 msgstr ""
 "Cette cat&eacute;gorie est d&eacute;finie dans le projet SuiviOp commun"
 
-#: admin/create_team.php:153
+#: admin/create_team.php:154
 msgid "Inactivity"
 msgstr "Inactivit&eacute;"
 
-#: admin/create_team.php:157 admin/create_team.php:205
-#: admin/create_team.php:213 admin/create_team.php:264
+#: admin/create_team.php:158 admin/create_team.php:206
+#: admin/create_team.php:214 admin/create_team.php:266
 msgid "Project Management"
 msgstr "Gestion de Projet"
 
-#: admin/create_team.php:159
+#: admin/create_team.php:160
 msgid "Meeting, Pre-sales, ProjectManagement, ..."
 msgstr "R&eacute;union, Avant-vente, Suivi de projet, ..."
 
-#: admin/create_team.php:165 admin/create_team.php:220
-#: admin/create_team.php:265
+#: admin/create_team.php:166 admin/create_team.php:221
+#: admin/create_team.php:267
 msgid "Incident"
 msgstr "Incident"
 
-#: admin/create_team.php:166
+#: admin/create_team.php:167
 msgid "Server or Platform down, ..."
 msgstr "Serveur inaccessible, ..."
 
-#: admin/create_team.php:172 admin/create_team.php:226
-#: admin/create_team.php:266
+#: admin/create_team.php:173 admin/create_team.php:227
+#: admin/create_team.php:268
 msgid "Tools"
 msgstr "Outillage"
 
-#: admin/create_team.php:173
+#: admin/create_team.php:174
 msgid "Sys. Admin, Scritps, ..."
 msgstr "Admin Sys, Scripts, ..."
 
-#: admin/create_team.php:179 admin/create_team.php:232
-#: admin/create_team.php:267
+#: admin/create_team.php:180 admin/create_team.php:233
+#: admin/create_team.php:269
 msgid "Team Workshop"
 msgstr "Capitalisation"
 
-#: admin/create_team.php:180
+#: admin/create_team.php:181
 msgid "Support, Doc, Training, Wiki, ..."
 msgstr "Support, Doc, Formation, Wiki, ..."
 
-#: admin/create_team.php:189
+#: admin/create_team.php:190
 msgid "Custom Fields"
 msgstr "Champs personnalis&eacute;s"
 
-#: admin/create_team.php:193
+#: admin/create_team.php:194
 msgid "CoDev custom fields"
 msgstr "Champs CoDev"
 
-#: admin/create_team.php:195
+#: admin/create_team.php:196
 msgid "EffortEstim, AddEffort, Remaining, DeadLine, DeliveryDate"
 msgstr "BI, BS, RAE, DeadLine, Date de Livraison"
 
-#: admin/create_team.php:200
+#: admin/create_team.php:201
 msgid "Default SideTasks"
 msgstr "Taches de SuiviOp"
 
-#: admin/create_team.php:244
+#: admin/create_team.php:245
 msgid "Create"
 msgstr "Cr&eacute;er"
 
-#: admin/create_team.php:269 admin/create_team.php:314
+#: admin/create_team.php:271 admin/create_team.php:316
 msgid "SideTasks"
 msgstr "SuiviOp"
 
-#: admin/create_team.php:317
+#: admin/create_team.php:319
 msgid "(generic) Project Management"
 msgstr "(generique) Gestion de Projet"
 
-#: admin/create_team.php:318
+#: admin/create_team.php:320
 msgid "(generic) Meeting"
 msgstr "(generique) R&eacute;union"
 
-#: admin/create_team.php:319
+#: admin/create_team.php:321
 msgid "(generic) Dev Platform is down"
 msgstr "(generique) Indisponibilit&eacute; plateforme de Dev"
 
-#: admin/create_team.php:320
+#: admin/create_team.php:322
 msgid "(generic) Compilation Scripts"
 msgstr "(generique) Scripts de compilation"
 
-#: admin/create_team.php:321
+#: admin/create_team.php:323
 msgid "(generic) Internal Support"
 msgstr "(generique) Support interne"
 
-#: admin/create_team.php:393
+#: admin/create_team.php:395
 msgid "Create and go to Edit"
 msgstr "Creer et &Eacute;diter"
 
@@ -523,9 +523,9 @@ msgstr "Reception"
 msgid "Start date"
 msgstr "Date Debut"
 
-#: reports/export_csv_tools.php:41
-msgid "Dead line"
-msgstr "Dead line"
+#: reports/export_csv_tools.php:41 reports/issue_info.php:235
+msgid "DeadLine"
+msgstr "DeadLine"
 
 #: reports/export_csv_tools.php:42
 msgid "Product Version"
@@ -541,8 +541,8 @@ msgstr "Resolution"
 
 #: reports/export_csv_tools.php:46 reports/productivity_report.php:416
 #: reports/issue_info.php:171 reports/statistics.php:230
-msgid "ETA"
-msgstr "ETA"
+msgid "PrelEffortEstim"
+msgstr "PrelEffortEstim"
 
 #: reports/export_csv_tools.php:47
 msgid "BI"
@@ -1011,10 +1011,6 @@ msgstr "D&eacute;rive +Support"
 msgid "Dates"
 msgstr "Dates"
 
-#: reports/issue_info.php:235
-msgid "DeadLine"
-msgstr "DeadLine"
-
 #: reports/issue_info.php:244
 msgid "DeliveryDate"
 msgstr "Date Livraison"
@@ -1031,8 +1027,8 @@ msgstr ""
 "cette page."
 
 #: reports/issue_info.php:479
-msgid "TC issue"
-msgstr "Fiche TC"
+msgid "External ID"
+msgstr "Reference externe"
 
 #: reports/issue_info.php:481
 msgid "status"
@@ -1111,8 +1107,8 @@ msgstr ""
 "Rapport entre le budjet initial et le temps consomm&eacute; sur les fiches"
 
 #: reports/statistics.php:367
-msgid "Prod Rate ETA"
-msgstr "Taux de prod ETA"
+msgid "Prod Rate PrelEffortEstim"
+msgstr "Taux de prod PrelEffortEstim"
 
 #: reports/statistics.php:368
 msgid "Prod Rate"
@@ -1248,6 +1244,10 @@ msgstr "Query failed:"
 #: timetracking/time_tracking_tools.php:60
 msgid "Imputations"
 msgstr "Imputations"
+
+#: timetracking/time_tracking_tools.php:64
+msgid "ID"
+msgstr "ID"
 
 #: timetracking/time_tracking_tools.php:65
 msgid "Ext.ID"
@@ -1451,14 +1451,20 @@ msgstr "Connexion CoDev"
 msgid "login failed !"
 msgstr "l'identification a &eacute;chou&eacute;e !"
 
-#~ msgid "External ID"
-#~ msgstr "Reference externe"
+#~ msgid "Dead line"
+#~ msgstr "Dead line"
+
+#~ msgid "ETA"
+#~ msgstr "ETA"
+
+#~ msgid "TC issue"
+#~ msgstr "Fiche TC"
+
+#~ msgid "Prod Rate ETA"
+#~ msgstr "Taux de prod ETA"
 
 #~ msgid "Remaining should be 0 (not $issue->remaining)."
 #~ msgstr "Le RAE devrait &ecirc;tre = 0  (et non $issue->remaining)."
-
-#~ msgid "ID"
-#~ msgstr "ID"
 
 #~ msgid "TC"
 #~ msgstr "TC"
