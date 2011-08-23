@@ -20,7 +20,7 @@
 <?php include_once 'i18n.inc.php'; ?>
 
 <?php
-   $_POST[page_name] = T_("Install - Step 2");
+   $_POST['page_name'] = T_("Install - Step 2");
    include 'install_header.inc.php';
 
    include_once "mysql_connect.inc.php";
@@ -118,11 +118,11 @@ $default_path_mantis                = "/var/www/html/mantis";
 $default_filename_strings           = "strings_english.txt";
 $default_filename_custom_strings    = "custom_strings_inc.php";
 
-$filename_strings        = isset($_POST[filename_strings]) ? $_POST[filename_strings] : $default_filename_strings;
-$filename_custom_strings = isset($_POST[filename_custom_strings]) ? $_POST[filename_custom_strings] : $default_filename_custom_strings;
-$path_mantis             = isset($_POST[path_mantis]) ? $_POST[path_mantis] : $default_path_mantis;
+$filename_strings        = isset($_POST['filename_strings']) ? $_POST['filename_strings'] : $default_filename_strings;
+$filename_custom_strings = isset($_POST['filename_custom_strings']) ? $_POST['filename_custom_strings'] : $default_filename_custom_strings;
+$path_mantis             = isset($_POST['path_mantis']) ? $_POST['path_mantis'] : $default_path_mantis;
 
-$action      = $_POST[action];
+$action      = isset($_POST['action']) ? $_POST['action'] : '';
 
 
 displayStepInfo();

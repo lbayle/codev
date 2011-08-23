@@ -51,7 +51,7 @@ class UserCache {
      */
     public function getUser($id)
     {
-        $object = self::$objects[$id];
+        $object = isset(self::$objects[$id]) ? self::$objects[$id]: NULL;
 
         if (NULL == $object) {
             self::$objects[$id] = new User($id);

@@ -20,7 +20,7 @@
 <?php include_once 'i18n.inc.php'; ?>
 
 <?php
-   $_POST[page_name] = T_("Install - Step 1");
+   $_POST['page_name'] = T_("Install - Step 1");
    include 'install_header.inc.php';
 
    include 'install_menu.inc.php';
@@ -120,12 +120,12 @@ $sqlFile    = "./bugtracker_install.sql";
 $adminTeamName = T_("admin");
 $adminTeamLeaderId = 1; // 1 is mantis administrator
 
-$db_mantis_host     = isset($_POST[db_mantis_host]) ?     $_POST[db_mantis_host]     : 'localhost';
-$db_mantis_database = isset($_POST[db_mantis_database]) ? $_POST[db_mantis_database] : 'bugtracker';
-$db_mantis_user     = isset($_POST[db_mantis_user]) ?     $_POST[db_mantis_user]     : 'codev';
-$db_mantis_pass     = isset($_POST[db_mantis_pass]) ?     $_POST[db_mantis_pass]     : '';
+$db_mantis_host     = isset($_POST['db_mantis_host']) ?     $_POST['db_mantis_host']     : 'localhost';
+$db_mantis_database = isset($_POST['db_mantis_database']) ? $_POST['db_mantis_database'] : 'bugtracker';
+$db_mantis_user     = isset($_POST['db_mantis_user']) ?     $_POST['db_mantis_user']     : 'codev';
+$db_mantis_pass     = isset($_POST['db_mantis_pass']) ?     $_POST['db_mantis_pass']     : '';
 
-$action      = $_POST[action];
+$action      = isset($_POST['action']) ? $_POST['action'] : '';
 
 displayStepInfo();
 

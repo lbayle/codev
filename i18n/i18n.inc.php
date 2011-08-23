@@ -1,11 +1,11 @@
 <?php
 require_once('gettext.inc');
 
-# REM: http://localhost/index.php?locale=en   will give you english 
+# REM: http://localhost/index.php?locale=en   will give you english
 #      http://localhost/index.php?locale=fr   will give you french
 
 
-$locale = fr; // BP_LANG
+$locale = "fr"; // BP_LANG
 $textdomain="codev";
 
 if (isset($_GET['locale']) && !empty($_GET['locale'])) {
@@ -33,7 +33,7 @@ $locales_dir = (true == file_exists ( './i18n/locale' )) ? './i18n/locale' : $lo
 
 
 T_bindtextdomain($textdomain,$locales_dir);
-T_bind_textdomain_codeset($textdomain, 'UTF-8'); 
+T_bind_textdomain_codeset($textdomain, 'UTF-8');
 T_textdomain($textdomain);
 
 

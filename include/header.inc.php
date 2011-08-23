@@ -46,8 +46,8 @@
 </head>
 
 <?php
-   if (isset($_POST[on_load_focus])) {
-      echo "<body onLoad='".$_POST[on_load_focus].".focus()' >\n";
+   if (isset($_POST['on_load_focus'])) {
+      echo "<body onLoad='".$_POST['on_load_focus'].".focus()' >\n";
    } else {
       echo "<body>\n";
    }
@@ -64,7 +64,7 @@
 </td>
 <td>
 <?php
-   $page_name = isset($_POST[page_name]) ? $_POST[page_name] : "";
+   $page_name = isset($_POST['page_name']) ? $_POST['page_name'] : "";
    echo"<h1>$page_name</h1>";
 ?>
 </td>

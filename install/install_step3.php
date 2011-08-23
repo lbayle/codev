@@ -20,7 +20,7 @@
 <?php include_once 'i18n.inc.php'; ?>
 
 <?php
-   $_POST[page_name] = T_("Install - Step 3");
+   $_POST['page_name'] = T_("Install - Step 3");
    include 'install_header.inc.php';
 
    include_once "mysql_connect.inc.php";
@@ -254,9 +254,9 @@ $originPage = "install_step3.php";
 #$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
 $defaultReportsDir = "/tmp/codevReports";
 
-$action               = $_POST[action];
-$is_modified          = isset($_POST[is_modified]) ? $_POST[is_modified] : "false";
-$codevReportsDir      = isset($_POST[reportsDir]) ? $_POST[reportsDir] : $defaultReportsDir;
+$action               = isset($_POST['action']) ? $_POST['action'] : '';
+$is_modified          = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
+$codevReportsDir      = isset($_POST['reportsDir']) ? $_POST['reportsDir'] : $defaultReportsDir;
 
 
 // 'is_modified' is used because it's not possible to make a difference
@@ -273,34 +273,34 @@ if ("false" == $is_modified) {
    $isJob5 = true;;
 
 } else {
-   $isTaskAstreinte = $_POST[cb_taskAstreinte];
-   $isTaskIncident1 = $_POST[cb_taskIncident1];
-   $isTaskTools1    = $_POST[cb_taskTools1];
-   $isJob1   = $_POST[cb_job1];
-   $isJob2   = $_POST[cb_job2];
-   $isJob3   = $_POST[cb_job3];
-   $isJob4   = $_POST[cb_job4];
-   $isJob5   = $_POST[cb_job5];
+   $isTaskAstreinte = $_POST['cb_taskAstreinte'];
+   $isTaskIncident1 = $_POST['cb_taskIncident1'];
+   $isTaskTools1    = $_POST['cb_taskTools1'];
+   $isJob1   = $_POST['cb_job1'];
+   $isJob2   = $_POST['cb_job2'];
+   $isJob3   = $_POST['cb_job3'];
+   $isJob4   = $_POST['cb_job4'];
+   $isJob5   = $_POST['cb_job5'];
 }
 
-$task_leave     = isset($_POST[task_leave]) ? $_POST[task_leave] : T_("(generic) Absence");
-$task_astreinte = isset($_POST[task_astreinte]) ? $_POST[task_astreinte] : T_("(generic) On Duty");
-$task_incident1 = isset($_POST[task_incident1]) ? $_POST[task_incident1] : T_("(generic) Network is down");
-$task_tools1    = isset($_POST[task_tools1]) ? $_POST[task_tools1] : T_("(generic) Mantis/CoDev administration");
-$job1           = isset($_POST[job1]) ? $_POST[job1] : T_("Study of the existing");
-$job2           = isset($_POST[job2]) ? $_POST[job2] : T_("Impact Analysis");
-$job3           = isset($_POST[job3]) ? $_POST[job3] : T_("Development");
-$job4           = isset($_POST[job4]) ? $_POST[job4] : T_("Tests");
-$job5           = isset($_POST[job5]) ? $_POST[job5] : T_("Documentation");
+$task_leave     = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("(generic) Absence");
+$task_astreinte = isset($_POST['task_astreinte']) ? $_POST['task_astreinte'] : T_("(generic) On Duty");
+$task_incident1 = isset($_POST['task_incident1']) ? $_POST['task_incident1'] : T_("(generic) Network is down");
+$task_tools1    = isset($_POST['task_tools1']) ? $_POST['task_tools1'] : T_("(generic) Mantis/CoDev administration");
+$job1           = isset($_POST['job1']) ? $_POST['job1'] : T_("Study of the existing");
+$job2           = isset($_POST['job2']) ? $_POST['job2'] : T_("Impact Analysis");
+$job3           = isset($_POST['job3']) ? $_POST['job3'] : T_("Development");
+$job4           = isset($_POST['job4']) ? $_POST['job4'] : T_("Tests");
+$job5           = isset($_POST['job5']) ? $_POST['job5'] : T_("Documentation");
 $job_support    = "Support";
 $job_sideTasks  = "N/A";
-$job1_color       = isset($_POST[job1_color]) ? $_POST[job1_color] : "FFF494";
-$job2_color       = isset($_POST[job2_color]) ? $_POST[job2_color] : "FFCD85";
-$job3_color       = isset($_POST[job3_color]) ? $_POST[job3_color] : "C2DFFF";
-$job4_color       = isset($_POST[job4_color]) ? $_POST[job4_color] : "92C5FC";
-$job5_color       = isset($_POST[job5_color]) ? $_POST[job5_color] : "E0F57A";
-$jobSupport_color = isset($_POST[jobSupport_color]) ? $_POST[jobSupport_color] : "A8FFBD";
-$jobNA_color      = isset($_POST[jobNA_color]) ? $_POST[jobNA_color] : "A8FFBD";
+$job1_color       = isset($_POST['job1_color']) ? $_POST['job1_color'] : "FFF494";
+$job2_color       = isset($_POST['job2_color']) ? $_POST['job2_color'] : "FFCD85";
+$job3_color       = isset($_POST['job3_color']) ? $_POST['job3_color'] : "C2DFFF";
+$job4_color       = isset($_POST['job4_color']) ? $_POST['job4_color'] : "92C5FC";
+$job5_color       = isset($_POST['job5_color']) ? $_POST['job5_color'] : "E0F57A";
+$jobSupport_color = isset($_POST['jobSupport_color']) ? $_POST['jobSupport_color'] : "A8FFBD";
+$jobNA_color      = isset($_POST['jobNA_color']) ? $_POST['jobNA_color'] : "A8FFBD";
 
 
 $projectList = getProjectList();

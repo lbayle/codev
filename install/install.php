@@ -20,7 +20,7 @@
 <?php include_once 'i18n.inc.php'; ?>
 
 <?php
-   $_POST[page_name] = T_("Install");
+   $_POST['page_name'] = T_("Install");
    include 'install_header.inc.php';
 
    include 'install_menu.inc.php';

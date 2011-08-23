@@ -20,7 +20,7 @@
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = T_("CoDev Login");
+   $_POST['page_name'] = T_("CoDev Login");
    include 'header.inc.php';
 ?>
 
@@ -50,9 +50,9 @@ function displayLoginForm() {
 // MAIN
 //
 
-$action = $_POST[action];
-$user = $_POST[codev_login];
-$password = md5($_POST[codev_passwd]);
+$action = isset($_POST['action']) ? $_POST['action'] : '';
+$user = $_POST['codev_login'];
+$password = md5($_POST['codev_passwd']);
 
 #if (isset($_SESSION['userid'])) {
 #    displayLogoutForm();

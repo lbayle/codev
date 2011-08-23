@@ -140,7 +140,7 @@ class Config {
    public static function getValue($id) {
 
     	$value = NULL;
-    	$variable = self::$configVariables[$id];
+    	$variable = isset(self::$configVariables[$id]) ? self::$configVariables[$id] : NULL;
 
     	if (NULL != $variable) {
          $value = $variable->value;

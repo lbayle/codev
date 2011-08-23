@@ -29,7 +29,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("Time Tracking");
+   $_POST['page_name'] = T_("Time Tracking");
    include 'header.inc.php';
 ?>
 
@@ -346,9 +346,9 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
 $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
 //$year = date('Y');
-$year = isset($_POST[year]) ? $_POST[year] : date('Y');
+$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
 
-$userid = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
+$userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
 $managed_user = UserCache::getInstance()->getUser($userid);
 
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
@@ -357,7 +357,7 @@ $teamList = $session_user->getLeadedTeamList();
 
 
 // if first call to this page
-if (!isset($_POST[nextForm])) {
+if (!isset($_POST['nextForm'])) {
   if (0 != count($teamList)) {
     // User is TeamLeader, let him choose the user he wants to manage
     setUserForm("time_tracking.php");
@@ -368,7 +368,7 @@ if (!isset($_POST[nextForm])) {
    $teamList = $mTeamList + $managedTeamList;
 
    if (0 != count($teamList)) {
-  	   $_POST[nextForm] = "addTrackForm";
+  	   $_POST['nextForm'] = "addTrackForm";
    } else {
       echo "<div id='content'' class='center'>";
    	echo (T_("Sorry, you need to be member of a Team to access this page."));
@@ -377,9 +377,9 @@ if (!isset($_POST[nextForm])) {
   }
 }
 
-if ($_POST[nextForm] == "addTrackForm") {
-  $action = $_POST[action];
-  $weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
+if ($_POST['nextForm'] == "addTrackForm") {
+  $action = $_POST['action'];
+  $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
   $defaultDate  = $formatedDate= date("Y-m-d", time());
   $defaultBugid = 0;
@@ -393,10 +393,10 @@ if ($_POST[nextForm] == "addTrackForm") {
   if ("addTrack" == $action) {
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
     $timestamp = date2timestamp($formatedDate);
-    $bugid     = $_POST[bugid];
-    $job       = $_POST[job];
-    $duration  = $_POST[duree];
-    $defaultProjectid  = $_POST[projectid];
+    $bugid     = $_POST['bugid'];
+    $job       = $_POST['job'];
+    $duration  = $_POST['duree'];
+    $defaultProjectid  = $_POST['projectid'];
 
     // save to DB
     TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
@@ -418,7 +418,7 @@ if ($_POST[nextForm] == "addTrackForm") {
     $defaultBugid = $bugid;
 
   } elseif ("deleteTrack" == $action) {
-    $trackid  = $_POST[trackid];
+    $trackid  = $_POST['trackid'];
 
     // increase remaining (only if 'remaining' already has a value)
     $query = "SELECT bugid, jobid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
@@ -444,13 +444,13 @@ if ($_POST[nextForm] == "addTrackForm") {
     mysql_query($query) or die("Query failed: $query");
 
     // pre-set form fields
-    $defaultBugid     = $_POST[bugid];
+    $defaultBugid     = $_POST['bugid'];
     $defaultProjectid  = $issue->projectId;
 
   } elseif ("setProjectid" == $action) {
 
   	 // pre-set form fields
-  	 $defaultProjectid  = $_POST[projectid];
+  	 $defaultProjectid  = $_POST['projectid'];
   	 $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
   	 $defaultDate = $formatedDate;
 
@@ -458,7 +458,7 @@ if ($_POST[nextForm] == "addTrackForm") {
 
     // --- pre-set form fields
   	 // find ProjectId to update categories
-    $defaultBugid     = $_POST[bugid];
+    $defaultBugid     = $_POST['bugid'];
   	 $issue = IssueCache::getInstance()->getIssue($defaultBugid);
     $defaultProjectid  = $issue->projectId;
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";

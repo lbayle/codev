@@ -20,8 +20,8 @@
 <?php
    include_once 'path.inc.php';
    include 'i18n.inc.php';
-   $_POST[page_name] = T_("Welcome"); 
-   include 'header.inc.php'; 
+   $_POST['page_name'] = T_("Welcome");
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
@@ -29,7 +29,7 @@
 
 <?php
 
-include_once 'consistency_check.class.php'; 
+include_once 'consistency_check.class.php';
 include_once 'user.class.php';
 include_once 'issue.class.php';
 
@@ -48,20 +48,20 @@ function disclaimer () {
 
 // -----------------------------
 function displayLoginForm() {
-        
-  echo "<div align=center>\n";      
+
+  echo "<div align=center>\n";
   echo("<form action='login.php' method='post' name='loginForm'>\n");
 
   echo T_("Login").": <input name='codev_login' type='text' id='codev_login'>\n";
   echo T_("Password").": <input name='codev_passwd' type='password' id='codev_passwd'>\n";
   echo "<input type='submit' name='Submit' value='".T_("log in")."'>\n";
-     
+
   echo "<input type=hidden name=action      value=pleaseLogin>\n";
   echo "<input type=hidden name=currentForm value=loginForm>\n";
   echo "<input type=hidden name=nextForm    value=loginForm>\n";
-     
+
   echo("</form>\n");
-  echo "</div>\n";      
+  echo "</div>\n";
 }
 
 function displayLinks() {
@@ -82,7 +82,7 @@ function displayLinks() {
    echo "        <a href='".getServerRootURL()."/timetracking/holidays_report.php'>".T_("Holidays")."</a>"; // Affichage des cong&eacute;s
    echo "   </li>\n";
    echo "</ul>\n";
- 
+
    //echo "<br/>\n";
    //echo "<br/>\n";
    echo "<br/>\n";
@@ -105,10 +105,10 @@ function displayLinks() {
    echo "   <li>\n";
    echo "        <a href='".getServerRootURL()."/reports/productivity_report.php'>".T_("Productivity Reports")."</a>"; // Indicateurs de production
    echo "   </li>\n";
-*/   
+*/
    echo "</ul>\n";
    echo "</div>\n";
-   
+
 }
 
 // -----------------------------
@@ -118,7 +118,7 @@ function displayConsistencyErrors($sessionUser) {
    $devTeamList = $sessionUser->getDevTeamList();
    $leadedTeamList = $sessionUser->getLeadedTeamList();
    $managedTeamList = $sessionUser->getManagedTeamList();
-   $teamList = $devTeamList + $leadedTeamList + $managedTeamList; 
+   $teamList = $devTeamList + $leadedTeamList + $managedTeamList;
    $projectList = $sessionUser->getProjectList($teamList);
 
    $ccheck = new ConsistencyCheck($projectList);
@@ -144,7 +144,7 @@ function displayConsistencyErrors($sessionUser) {
       }
       echo "</div>\n";
    }
-   
+
 }
 
 // ================ MAIN =================
@@ -158,11 +158,11 @@ if (!isset($_SESSION['userid'])) {
    $sessionUser = UserCache::getInstance()->getUser($userid);
 
    disclaimer();
-   
+
    displayLinks();
-   
+
    echo "<br/>\n";
-   
+
    displayConsistencyErrors($sessionUser);
 }
 
