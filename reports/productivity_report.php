@@ -27,7 +27,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("Productivity Report");
+   $_POST['page_name'] = T_("Productivity Report");
    include 'header.inc.php';
 ?>
 
@@ -252,9 +252,9 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 
 /* productivityRate is not an 'efficient' indicator because it depends on the EffortEstim
- * which is not a very credible value. It is also hard to understand and the value does not 
+ * which is not a very credible value. It is also hard to understand and the value does not
  * fluctuate much. so let's get rid of it !
- 
+
   echo "<tr>\n";
   echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod. Rate PrelEffortEstim")."</td>\n";
   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
@@ -350,7 +350,7 @@ function displayTimeDriftStats ($timeTracking) {
 
   $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
   $percent = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
-  
+
   echo "<table>\n";
   echo "<caption title='".T_("Tasks having no deadLine are not reported here")."'>".T_("Adherence to deadlines")."&nbsp;&nbsp;&nbsp;(".number_format($percent, 1)."%)</caption>\n";
   echo "<tr>\n";
@@ -646,15 +646,15 @@ function displayReopenedStats ($timeTracking) {
   $submittedList   = $timeTracking->getSubmitted();
   $reopenedList    = $timeTracking->getReopened();
   $reopenedRate    = $timeTracking->getReopenedRate() * 100;  // x100 to get a percentage
-  
+
   foreach ($reopenedList as $bug_id) {
      $issue = IssueCache::getInstance()->getIssue($bug_id);
-     
+
       if ($formatedTaskList != "") { $formatedTaskList .= ', '; }
       $formatedTaskList .= issueInfoURL($issue->bugId, $issue->summary);
    }
 
-  
+
   echo "<table>\n";
   echo "<caption>".T_("Reopened tasks")."</caption>\n";
   echo "<tr>\n";
@@ -674,22 +674,22 @@ function displayReopenedStats ($timeTracking) {
   echo "<td>nb reopened / nb submitted</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
-  
+
 }
 
 
 // =========== MAIN ==========
 $year = date('Y');
 
-$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
-$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
-$_SESSION[teamid] = $teamid;
+$defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+$teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
+$_SESSION['teamid'] = $teamid;
 
 
 $weekDates      = week_dates(date('W'),$year);
 
-$action           = $_POST[action];
-$defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
+$action           = isset($_POST['action']) ? $_POST['action'] : '';
+$defaultProjectid = isset($_POST['projectid']) ? $_POST['projectid'] : 0;
 
 $date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
 $date2  = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $weekDates[5]);
@@ -729,7 +729,7 @@ if (0 != $teamid) {
 
    echo "<div class=\"float\">\n";
    setProjectSelectionForm($teamid, $defaultProjectid);
-   $defaultProjectid  = $_POST[projectid];
+   $defaultProjectid  = $_POST['projectid'];
    if (0 != $defaultProjectid) {
       displayProjectDetails($timeTracking, $defaultProjectid);
    }
@@ -752,8 +752,8 @@ if (0 != $teamid) {
 
    echo "<br/><br/>\n";
    displayReopenedStats($timeTracking);
-   
-   
+
+
 	echo "<br/><br/>\n";
 	displayCheckWarnings($timeTracking);
 }

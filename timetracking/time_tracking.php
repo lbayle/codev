@@ -378,7 +378,7 @@ if (!isset($_POST['nextForm'])) {
 }
 
 if ($_POST['nextForm'] == "addTrackForm") {
-  $action = $_POST['action'];
+  $action = isset($_POST['action']) ? $_POST['action'] : '';
   $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
   $defaultDate  = $formatedDate= date("Y-m-d", time());

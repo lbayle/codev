@@ -28,7 +28,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("CoDev Administration : Jobs Edition");
+   $_POST['page_name'] = T_("CoDev Administration : Jobs Edition");
    include 'header.inc.php';
 ?>
 <?php include 'login.inc.php'; ?>
@@ -165,7 +165,7 @@ function addJobForm($originPage) {
 }
 
 // ----------------------------------------------------
-function displayJobTuples() {
+function displayJobTuples($originPage) {
 
    // Display previous entries
    echo "<div>\n";
@@ -254,7 +254,7 @@ function addJobProjectAssociationForm($originPage) {
 
 
 // ----------------------------------------------------
-function displayAssignedJobTuples() {
+function displayAssignedJobTuples($originPage) {
 
    $plist = getProjectList();
 
@@ -306,6 +306,10 @@ function displayAssignedJobTuples() {
 
 global $admin_teamid;
 
+$originPage = "edit_jobs.php";
+
+$action = isset($_POST['action']) ? $_POST['action'] : '';
+
 // Admins only
 $session_user = new User($_SESSION['userid']);
 
@@ -317,7 +321,7 @@ if (!$session_user->isTeamMember($admin_teamid)) {
 echo "<h2>".T_("Jobs")."</h2>\n";
 addJobForm("edit_jobs.php");
 echo "<br/>";
-displayJobTuples();
+displayJobTuples($originPage);
 
 echo "<br/>";
 echo "<br/>";
@@ -326,7 +330,7 @@ echo "<hr align='left' width='20%'/>\n";
 echo "<h2 title = 'Job-Projects Associations'>".T_("Job Assignations")."</h2>\n";
 addJobProjectAssociationForm("edit_jobs.php");
 echo "<br/>";
-displayAssignedJobTuples();
+displayAssignedJobTuples($originPage);
 echo "<br/>";
 echo "<br/>";
 echo "<br/>";
@@ -339,11 +343,11 @@ echo "<br/>";
 
 
    // ----------- actions ----------
-   if ($_POST[action] == "addJob") {
+   if ($action == "addJob") {
 
-      $job_name = $_POST[job_name];
-      $job_type = $_POST[job_type];
-      $job_color = $_POST[job_color];
+      $job_name = $_POST['job_name'];
+      $job_type = $_POST['job_type'];
+      $job_color = $_POST['job_color'];
 
       // TODO check if not already in table !
 
@@ -353,8 +357,8 @@ echo "<br/>";
       // reload page
       echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
 
-   } elseif ($_POST[action] == "deleteJob") {
-      $job_id = $_POST[job_id];
+   } elseif ($action == "deleteJob") {
+      $job_id = $_POST['job_id'];
 
       // TODO delete Support job not allowed
 
@@ -367,10 +371,10 @@ echo "<br/>";
       // reload page
       echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
 
-   } elseif ($_POST[action] == "addJobProjectAssociation") {
+   } elseif ($action == "addJobProjectAssociation") {
 
-      $project_id = $_POST[project_id];
-      $job_id     = $_POST[job_id];
+      $project_id = $_POST['project_id'];
+      $job_id     = $_POST['job_id'];
 
       // TODO check if not already in table !
 
@@ -381,8 +385,8 @@ echo "<br/>";
       // reload page
       echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
 
-   } elseif ($_POST[action] == "deleteJobProjectAssociation") {
-      $asso_id = $_POST[asso_id];
+   } elseif ($action == "deleteJobProjectAssociation") {
+      $asso_id = $_POST['asso_id'];
 
       $query = "DELETE FROM `codev_project_job_table` WHERE id = $asso_id;";
       mysql_query($query) or die("Query failed: $query");

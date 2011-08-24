@@ -16,8 +16,8 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
 
-<?php 
-   include_once '../path.inc.php'; 
+<?php
+   include_once '../path.inc.php';
    include_once 'i18n.inc.php';
 ?>
 
@@ -25,13 +25,13 @@
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
-} 
+}
 ?>
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = "CoDev Administration"; 
-   include 'header.inc.php'; 
+   $_POST['page_name'] = "CoDev Administration";
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
@@ -41,7 +41,7 @@ if (!isset($_SESSION['userid'])) {
 
 <?php
    global $codevVersion;
-   echo "<div align=center>"; 
-   echo "$codevVersion </br>";  
-   echo "</div>"; 
+   echo "<div align=center>";
+   echo "$codevVersion </br>";
+   echo "</div>";
 ?>

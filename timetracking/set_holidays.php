@@ -27,7 +27,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("Add Holidays");
+   $_POST['page_name'] = T_("Add Holidays");
    include 'header.inc.php';
 ?>
 
@@ -299,7 +299,7 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
 // =========== MAIN ==========
 $originPage = "set_holidays.php";
 
-$userid = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
+$userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
 $managed_user = UserCache::getInstance()->getUser($userid);
 
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
@@ -325,7 +325,7 @@ if (isset($_REQUEST["date2"])) {
 
 
 // if first call to this page
-if (!isset($_POST[nextForm])) {
+if (!isset($_POST['nextForm'])) {
   if (0 != count($teamList)) {
     // User is TeamLeader, let him choose the user he wants to manage
     setUserForm($originPage);
@@ -336,31 +336,28 @@ if (!isset($_POST[nextForm])) {
    $teamList = $mTeamList + $managedTeamList;
 
    if (0 != count($teamList)) {
-      $_POST[nextForm] = "addHolidaysForm";
+      $_POST['nextForm'] = "addHolidaysForm";
    } else {
       echo "<div id='content'' class='center'>";
       echo (T_("Sorry, you need to be member of a Team to access this page."));
       echo "</div>";
    }
   }
-}
+} else if ($_POST['nextForm'] == "addHolidaysForm") {
 
-
-if ($_POST[nextForm] == "addHolidaysForm") {
-
-   $action = $_POST[action];
+   $action = isset($_POST['action']) ? $_POST['action'] : '';
    $defaultDate  = $formatedDate= date("Y-m-d", time());
 
-   $defaultBugid = isset($_POST[bugid]) ? $_POST[bugid] : 0;
-   $defaultProjectid  = isset($_POST[projectid]) ? $_POST[projectid] : Config::getInstance()->getValue("defaultSideTaskProject");
+   $defaultBugid = isset($_POST['bugid']) ? $_POST['bugid'] : 0;
+   $defaultProjectid  = isset($_POST['projectid']) ? $_POST['projectid'] : Config::getInstance()->getValue("defaultSideTaskProject");
 
 
    if ("addHolidays" == $action) {
 
    	// TODO add tracks !
 
-    $bugid     = $_POST[bugid];
-    $job       = $_POST[job];
+    $bugid     = $_POST['bugid'];
+    $job       = $_POST['job'];
 
     $holydays = Holidays::getInstance();
 
@@ -374,7 +371,7 @@ if ($_POST[nextForm] == "addHolidaysForm") {
       	// TODO check existing timetracks on $timestamp and adjust duration
          $duration  = 1;
 
-      	echo "TAMERE  ".date("Y-m-d", $timestamp)." duration $duration job $job<br/>";
+      	echo "INFO  ".date("Y-m-d", $timestamp)." duration $duration job $job<br/>";
     	   TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
       }
 
@@ -387,13 +384,13 @@ if ($_POST[nextForm] == "addHolidaysForm") {
    } elseif ("setProjectid" == $action) {
 
     // pre-set form fields
-    $defaultProjectid  = $_POST[projectid];
+    $defaultProjectid  = $_POST['projectid'];
 
    } elseif ("setBugId" == $action) {
 
     // --- pre-set form fields
     // find ProjectId to update categories
-    $defaultBugid     = $_POST[bugid];
+    $defaultBugid     = $_POST['bugid'];
     $issue = IssueCache::getInstance()->getIssue($defaultBugid);
     $defaultProjectid  = $issue->projectId;
 
@@ -409,25 +406,7 @@ if ($_POST[nextForm] == "addHolidaysForm") {
    displayHolidaySelectionForm($managed_user, $date1, $date2, $defaultBugid, $defaultProjectid, $originPage);
    echo "<br/>";
 
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>
 </div>

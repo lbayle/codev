@@ -27,7 +27,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("Activity by task");
+   $_POST['page_name'] = T_("Activity by task");
    include 'header.inc.php';
 ?>
 
@@ -423,10 +423,10 @@ $originPage = isset($_GET['support']) ? "issue_info.php?support" : "issue_info.p
 $withSupport = true;  // include support in Drift
 
 
-$action           = $_POST[action];
-$session_userid   = isset($_POST[userid]) ? $_POST[userid] : $_SESSION['userid'];
-$bug_id           = isset($_POST[bugid])  ? $_POST[bugid] : 0;
-$defaultProjectid = isset($_POST[projectid]) ? $_POST[projectid] : 0;
+$action           = isset($_POST['action']) ? $_POST['action'] : '';
+$session_userid   = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
+$bug_id           = isset($_POST['bugid'])  ? $_POST['bugid'] : 0;
+$defaultProjectid = isset($_POST['projectid']) ? $_POST['projectid'] : 0;
 
 $user = UserCache::getInstance()->getUser($session_userid);
 
@@ -540,7 +540,7 @@ if (0 == count($teamList)) {
 	} elseif ("setProjectid" == $action) {
 
     // pre-set form fields
-    $defaultProjectid  = $_POST[projectid];
+    $defaultProjectid  = $_POST['projectid'];
   } elseif ("notAllowed" == $action) {
       echo "<br/>";
       echo "<br/>";

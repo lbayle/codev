@@ -18,25 +18,25 @@
 <?php
 // ==============================================================
 class ProjectCache {
-   
+
     // instance de la classe
     private static $instance;
     private static $objects;
     private static $callCount;
     private static $cacheName;
 
-    // Un constructeur privé ; empêche la création directe d'objet
-    private function __construct() 
+    // Un constructeur privï¿½ ; empï¿½che la crï¿½ation directe d'objet
+    private function __construct()
     {
         self::$objects = array();
         self::$callCount = array();
-        
+
         self::$cacheName = __CLASS__;
         #echo "DEBUG: Cache ready<br/>";
     }
 
-    // La méthode singleton
-    public static function getInstance() 
+    // La mï¿½thode singleton
+    public static function getInstance()
     {
         if (!isset(self::$instance)) {
             $c = __CLASS__;
@@ -44,15 +44,15 @@ class ProjectCache {
         }
         return self::$instance;
     }
-   
+
     /**
      * get Issue class instance
      * @param $bugId
      */
     public function getProject($id)
     {
-        $object = self::$objects[$id];
-        
+        $object = isset(self::$objects[$id]) ? self::$objects[$id] : NULL;
+
         if (NULL == $object) {
             self::$objects[$id] = new Project($id);
             $object = self::$objects[$id];
@@ -61,15 +61,15 @@ class ProjectCache {
         }
         return $object;
     }
-    
+
     /**
-     * 
+     *
      */
     public function displayStats($verbose = FALSE) {
-      
+
       $nbObj   = count(self::$callCount);
       $nbCalls = array_sum(self::$callCount);
-      
+
       echo "=== ".self::$cacheName." Statistics ===<br/>\n";
       echo "nb objects in cache = ".$nbObj."<br/>\n";
       echo "nb cache calls      = ".$nbCalls."<br/>\n";
@@ -83,8 +83,8 @@ class ProjectCache {
          }
       }
     }
-            
-    
+
+
 } // class Cache
 
 ?>

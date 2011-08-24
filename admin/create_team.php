@@ -27,7 +27,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("CoDev Administration : Team Creation");
+   $_POST['page_name'] = T_("CoDev Administration : Team Creation");
    include 'header.inc.php';
 ?>
 
@@ -278,14 +278,14 @@ $defaultSideTaskProjectName = T_("SideTasks")." my_team";
 #  exit;
 #}
 
-$action      = $_POST[action];
-$is_modified = isset($_POST[is_modified]) ? $_POST[is_modified] : "false";
+$action      = isset($_POST['action']) ? $_POST['action'] : '';
+$is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
 
 
 // Form user selections
-$team_name = isset($_POST[team_name]) ? $_POST[team_name] : "";
-$team_desc = isset($_POST[team_desc]) ? $_POST[team_desc] : "";
-$teamleader_id = isset($_POST[teamleader_id]) ? $_POST[teamleader_id] : "";
+$team_name = isset($_POST['team_name']) ? $_POST['team_name'] : "";
+$team_desc = isset($_POST['team_desc']) ? $_POST['team_desc'] : "";
+$teamleader_id = isset($_POST['teamleader_id']) ? $_POST['teamleader_id'] : "";
 
 // 'is_modified' is used because it's not possible to make a difference
 // between an unchecked checkBox and an unset checkbox variable
@@ -303,24 +303,24 @@ if ("false" == $is_modified) {
    $stproj_name = $defaultSideTaskProjectName;
 
 } else {
-   $isCreateSTProj       = $_POST[cb_createSideTaskProj];
-   $isCatIncident        = $_POST[cb_catIncident];
-   $isCatTools           = $_POST[cb_catTools];
-   $isCatOther           = $_POST[cb_catOther];
-   $isTaskProjManagement = $_POST[cb_taskProjManagement];
-   $isTaskMeeting        = $_POST[cb_taskMeeting];
-   $isTaskIncident       = $_POST[cb_taskIncident];
-   $isTaskTools          = $_POST[cb_taskTools];
-   $isTaskOther          = $_POST[cb_taskOther];
+   $isCreateSTProj       = $_POST['cb_createSideTaskProj'];
+   $isCatIncident        = $_POST['cb_catIncident'];
+   $isCatTools           = $_POST['cb_catTools'];
+   $isCatOther           = $_POST['cb_catOther'];
+   $isTaskProjManagement = $_POST['cb_taskProjManagement'];
+   $isTaskMeeting        = $_POST['cb_taskMeeting'];
+   $isTaskIncident       = $_POST['cb_taskIncident'];
+   $isTaskTools          = $_POST['cb_taskTools'];
+   $isTaskOther          = $_POST['cb_taskOther'];
 
    $stproj_name = ("" == $team_name) ? $defaultSideTaskProjectName : T_("SideTasks")." $team_name";
 }
 
-$task_projManagement = isset($_POST[task_projManagement]) ? $_POST[task_projManagement] : T_("(generic) Project Management");
-$task_meeting = isset($_POST[task_meeting]) ? $_POST[task_meeting] : T_("(generic) Meeting");
-$task_incident = isset($_POST[task_incident]) ? $_POST[task_incident] : T_("(generic) Dev Platform is down");
-$task_tools = isset($_POST[task_tools]) ? $_POST[task_tools] : T_("(generic) Compilation Scripts");
-$task_other1 = isset($_POST[task_other1]) ? $_POST[task_other1] : T_("(generic) Internal Support");
+$task_projManagement = isset($_POST['task_projManagement']) ? $_POST['task_projManagement'] : T_("(generic) Project Management");
+$task_meeting = isset($_POST['task_meeting']) ? $_POST['task_meeting'] : T_("(generic) Meeting");
+$task_incident = isset($_POST['task_incident']) ? $_POST['task_incident'] : T_("(generic) Dev Platform is down");
+$task_tools = isset($_POST['task_tools']) ? $_POST['task_tools'] : T_("(generic) Compilation Scripts");
+$task_other1 = isset($_POST['task_other1']) ? $_POST['task_other1'] : T_("(generic) Internal Support");
 
 
 #unset($_SESSION['teamid']);

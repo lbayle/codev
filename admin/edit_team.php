@@ -27,7 +27,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("CoDev Administration : Team Edition");
+   $_POST['page_name'] = T_("CoDev Administration : Team Edition");
    include 'header.inc.php';
 ?>
 <?php include 'login.inc.php'; ?>
@@ -576,13 +576,16 @@ function deleteTeamForm($originPage, $teamName, $teamid) {
 
 global $admin_teamid;
 
+$originPage="edit_team.php";
+
+$action = isset($_POST['action']) ? $_POST['action'] : '';
 
 // use the teamid set in the form, if not defined (first page call) use session teamid
-if (isset($_POST[f_teamid])) {
-	$teamid = $_POST[f_teamid];
+if (isset($_POST['f_teamid'])) {
+	$teamid = $_POST['f_teamid'];
 	$_SESSION['teamid'] = $teamid;
 } else {
-   $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+   $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 }
 
 // leadedTeams only, except Admins: they can edit all teams
@@ -667,12 +670,12 @@ if (0 != $teamid) {
 
 
    // ----------- actions ----------
-   if ($_POST[action] == "addTeamMember") {
+   if ($action == "addTeamMember") {
 
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
     $arrivalTimestamp = date2timestamp($formatedDate);
-    $memberid = $_POST[f_memberid];
-    $memberAccess = $_POST[member_access];
+    $memberid = $_POST['f_memberid'];
+    $memberAccess = $_POST['member_access'];
 
     // save to DB
     $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
@@ -680,9 +683,9 @@ if (0 != $teamid) {
     // reload page
     echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
-   } elseif ($_POST[action] == "addMembersFrom") {
+   } elseif ($action == "addMembersFrom") {
 
-    $src_teamid = $_POST[f_src_teamid];
+    $src_teamid = $_POST['f_src_teamid'];
 
     // add all members declared in Team $src_teamid (same dates, same access)
     // except if already declared
@@ -691,21 +694,21 @@ if (0 != $teamid) {
     // reload page
     echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
-   } elseif ($_POST[action] == "setMemberDepartureDate") {
+   } elseif ($action == "setMemberDepartureDate") {
 
       $formatedDate      = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : "";
       $departureTimestamp = date2timestamp($formatedDate);
-      $memberid = $_POST[f_memberid];
+      $memberid = $_POST['f_memberid'];
 
       $team->setMemberDepartureDate($memberid, $departureTimestamp);
 
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
-   } elseif ($_POST[action] == "addTeamProject") {
+   } elseif ($action == "addTeamProject") {
 
-      $projectid = $_POST[f_projectid];
-      $projecttype= $_POST[project_type];
+      $projectid = $_POST['f_projectid'];
+      $projecttype= $_POST['project_type'];
 
       // prepare Project to CoDev (associate with CoDev customFields if needed)
       $project = ProjectCache::getInstance()->getProject($projectid);
@@ -717,34 +720,34 @@ if (0 != $teamid) {
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
-   } elseif ($_POST[action] == "removeTeamMember") {
+   } elseif ($action == "removeTeamMember") {
 
-      $memberid = $_POST[f_memberid];
+      $memberid = $_POST['f_memberid'];
       $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
       mysql_query($query) or die("Query failed: $query");
 
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
-   } elseif ($_POST[action] == "removeTeamProject") {
+   } elseif ($action == "removeTeamProject") {
 
-      $projectid = $_POST[f_projectid];
+      $projectid = $_POST['f_projectid'];
       $query = "DELETE FROM `codev_team_project_table` WHERE id = $projectid;";
       mysql_query($query) or die("Query failed: $query");
 
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
-   } elseif ($_POST[action] == "updateTeamLeader") {
+   } elseif ($action == "updateTeamLeader") {
 
-      $leaderid = $_POST[f_leaderid];
+      $leaderid = $_POST['f_leaderid'];
    	$query = "UPDATE `codev_team_table` SET leader_id = $leaderid WHERE id = $teamid;";
       mysql_query($query) or die("Query failed: $query");
 
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
-   } elseif ($_POST[action] == "deleteTeam") {
+   } elseif ($action == "deleteTeam") {
    	$teamidToDelete=$teamid;
 
       $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
@@ -757,13 +760,13 @@ if (0 != $teamid) {
       mysql_query($query) or die("Query failed: $query");
 
    	unset($_SESSION['teamid']);
-   	unset($_POST[f_teamid]);
+   	unset($_POST['f_teamid']);
    	unset($teamid);
 
    	// reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
-   } elseif ($_POST[action] == "updateTeamCreationDate") {
+   } elseif ($action == "updateTeamCreationDate") {
 
    	$formatedDate = isset($_REQUEST["date_createTeam"]) ? $_REQUEST["date_createTeam"] : "";
       $date_create = date2timestamp($formatedDate);

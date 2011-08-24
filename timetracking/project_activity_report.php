@@ -27,8 +27,8 @@
 ?>
 
 <?php
-   $_POST[page_name] = T_("Weekly activities");
-   include 'header.inc.php'; 
+   $_POST['page_name'] = T_("Weekly activities");
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
@@ -55,7 +55,7 @@
      document.forms["form2"].submit();
   }
 
-  
+
 </script>
 
 <div id="content" class="center">
@@ -127,9 +127,9 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 
 // -----------------------------------------------
 function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $defaultDate2) {
-  
+
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
-           
+
   $myCalendar1 = new tc_calendar("date1", true, false);
   $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -140,7 +140,7 @@ function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $d
   $myCalendar1->startMonday(true);
 
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate2);
-        
+
   $myCalendar2 = new tc_calendar("date2", true, false);
   $myCalendar2->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar2->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -153,7 +153,7 @@ function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $d
   echo "<div class=center>";
   // Create form
   echo "<form id='form2' name='form1' method='post' action='project_activity_report.php'>\n";
-  
+
   echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
    echo "<option value='0'></option>\n";
    foreach ($teamList as $tid => $tname) {
@@ -172,9 +172,9 @@ function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $d
   echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitPeriodActivityForm()'>\n";
 
   echo "<input type=hidden name=teamid  value=$teamid>\n";
-  
+
   echo "<input type=hidden name=action       value=noAction>\n";
-  
+
   echo "</form>\n";
   echo "</div>";
 }
@@ -237,7 +237,7 @@ function displayCheckWarnings($timeTracking) {
     "ORDER BY mantis_user_table.username";
 
   // FIXME AND user is not Observer
-  
+
   $result = mysql_query($query) or die("Query failed: $query");
 
   echo "<p style='color:red'>\n";
@@ -261,15 +261,15 @@ function displayCheckWarnings($timeTracking) {
 
 
 // ================ MAIN =================
-$year = isset($_POST[year]) ? $_POST[year] : date('Y');
+$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
 
 $userid = $_SESSION['userid'];
-$action = $_POST[action];
-$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
+$action = isset($_POST['action']) ? $_POST['action'] : '';
+$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
-$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
-$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
-$_SESSION[teamid] = $teamid;
+$defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+$teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
+$_SESSION['teamid'] = $teamid;
 
 
 // team
@@ -290,7 +290,7 @@ if (isset($_REQUEST["date1"])) {
    #$startTimestamp = mktime(0, 0, 0, $month, 1, $year);
    $weekDates      = week_dates($weekid,$year);
    $startTimestamp = $weekDates[1];
-	
+
    $date1          = date("Y-m-d", $startTimestamp);
 }
 if (isset($_REQUEST["date2"])) {
@@ -300,12 +300,12 @@ if (isset($_REQUEST["date2"])) {
 } else {
    #$nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
    #$endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
-   
+
    $weekDates      = week_dates($weekid,$year);
    $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
-	
+
    $date2          = date("Y-m-d", $endTimestamp);
-   
+
 }
 
 // ------
@@ -318,11 +318,11 @@ if (0 == count($teamList)) {
    echo "<div class='center'>";
    echo "<h2>".T_("Projects Activity")."</h2><br/>";
    echo "</div>";
-	
+
    displayTeamAndPeriodSelectionForm($teamList, $teamid, $date1, $date2);
 
    if ("displayProjectActivity" == $action) {
-   
+
 	if (NULL != $teamList[$teamid]) {
 
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
@@ -332,10 +332,10 @@ if (0 == count($teamList)) {
       displayProjectActivityReport($timeTracking);
 	}
    } // if action
-   
+
    echo "<br/><br/>\n";
    echo "<br/><br/>\n";
-      
+
 }
 
 

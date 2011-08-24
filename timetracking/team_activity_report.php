@@ -27,7 +27,7 @@
 ?>
 
 <?php
-   $_POST[page_name] = T_("Weekly activities");
+   $_POST['page_name'] = T_("Weekly activities");
    include 'header.inc.php';
 ?>
 
@@ -265,16 +265,16 @@ function displayCheckWarnings($timeTracking) {
 
 
 // ================ MAIN =================
-$year = isset($_POST[year]) ? $_POST[year] : date('Y');
+$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
 
 $userid = $_SESSION['userid'];
 
 // use the teamid set in the form, if not defined (first page call) use session teamid
-if (isset($_POST[teamid])) {
-   $teamid = $_POST[teamid];
+if (isset($_POST['teamid'])) {
+   $teamid = $_POST['teamid'];
    $_SESSION['teamid'] = $teamid;
 } else {
-   $teamid = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+   $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 }
 
 // ------
@@ -290,8 +290,8 @@ if (0 == count($teamList)) {
 
 } else {
 
-	$action = $_POST[action];
-	$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
+	$action = isset($_POST['action']) ? $_POST['action'] : '';
+	$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
    echo "<div class='center'>";
    echo "<h2>".T_("Weekly Activity")."</h2><br/>";

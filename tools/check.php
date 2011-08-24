@@ -23,24 +23,24 @@ include_once 'i18n.inc.php';
 include_once "tools.php";
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-  
+
   exit;
-} 
+}
 ?>
 
 <?php
-   $_POST[page_name] = T_("Consistency Check"); 
-   include 'header.inc.php'; 
+   $_POST['page_name'] = T_("Consistency Check");
+   include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
 
 <div id="content">
-<?php 
+<?php
 
-include_once 'consistency_check.class.php'; 
-include_once 'user.class.php'; 
+include_once 'consistency_check.class.php';
+include_once 'user.class.php';
 
 
 // ================ MAIN =================
@@ -52,7 +52,7 @@ $sessionUser = new User($userid);
 $devTeamList = $sessionUser->getDevTeamList();
 $leadedTeamList = $sessionUser->getLeadedTeamList();
 $managedTeamList = $sessionUser->getManagedTeamList();
-$teamList = $devTeamList + $leadedTeamList + $managedTeamList; 
+$teamList = $devTeamList + $leadedTeamList + $managedTeamList;
 $projectList = $sessionUser->getProjectList($teamList);
 
 $ccheck = new ConsistencyCheck($projectList);
@@ -65,7 +65,7 @@ $cerrList = $ccheck->check();
 
 	   echo "<div align='left'>\n";
 	   echo "<table>\n";
-	   echo "<caption>".count($cerrList).T_(" Error(s) in Mantis Tasks")."</caption>\n";   
+	   echo "<caption>".count($cerrList).T_(" Error(s) in Mantis Tasks")."</caption>\n";
 	   echo "<tr>\n";
 	   echo "<th>".T_("User")."</th>\n";
 	   echo "<th>".T_("Task")."</th>\n";
@@ -75,7 +75,7 @@ $cerrList = $ccheck->check();
 	   echo "<th>".T_("Error Description")."</th>\n";
 	   echo "</tr>\n";
 	   foreach ($cerrList as $cerr) {
-	         
+
 	   	 $user = new User($cerr->userId);
           $issue = new Issue($cerr->bugId);
 	   	 echo "<tr>\n";
@@ -90,10 +90,10 @@ $cerrList = $ccheck->check();
       echo "</table>\n";
       echo "</div>\n";
    }
-   
-   
-   
-   
+
+
+
+
 ?>
 </div>
 

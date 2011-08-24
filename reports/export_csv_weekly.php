@@ -27,7 +27,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("CSV Report");
+   $_POST['page_name'] = T_("CSV Report");
    include 'header.inc.php';
 ?>
 
@@ -210,20 +210,20 @@ global $codevReportsDir;
 
 
 $userid = $_SESSION['userid'];
-$action = $_POST[action];
+$action = isset($_POST['action']) ? $_POST['action'] : '';
 
-$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
-$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
-$_SESSION[teamid] = $teamid;
+$defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+$teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
+$_SESSION['teamid'] = $teamid;
 
-$year = isset($_POST[year]) ? $_POST[year] : date('Y');
+$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
 
 
 $user = UserCache::getInstance()->getUser($userid);
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
 $teamList = $lTeamList + $managedTeamList;
-$weekid = isset($_POST[weekid]) ? $_POST[weekid] : date('W');
+$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
 $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
 $result = mysql_query($query) or die("Query failed: $query");

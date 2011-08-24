@@ -27,7 +27,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("CSV Report");
+   $_POST['page_name'] = T_("CSV Report");
    include 'header.inc.php';
 ?>
 
@@ -122,11 +122,11 @@ function displayTeamAndPeriodSelectionForm($leadedTeamList, $teamid, $defaultDat
 global $codevReportsDir;
 
 $userid = $_SESSION['userid'];
-$action = $_POST[action];
+$action = isset($_POST['action']) ? $_POST['action'] : '';
 
-$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
-$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
-$_SESSION[teamid] = $teamid;
+$defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+$teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
+$_SESSION['teamid'] = $teamid;
 
 
 // team

@@ -21,7 +21,7 @@
 
 
 /**
- * returns current URL (complete, with ?params=<value>) 
+ * returns current URL (complete, with ?params=<value>)
  */
 function getCurrentURL() {
  $pageURL = 'http';
@@ -51,18 +51,18 @@ function curPageName() {
 function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE) {
 	global $mantisURL;
 	if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
-	
+
 	$formatedTitle = str_replace("'", " ", $title);
    $formatedTitle = str_replace("\"", " ", $formatedTitle);
-	
+
    if (FALSE == $isIcon) {
       $url = "<a  title='$formatedTitle' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
    } else {
       $url = "<a href='$mantisURL/view.php?id=$bugid'><img title='$formatedTitle' src='$mantisURL/images/favicon.ico' /></a>";
    }
-   
-   return $url; 
-	
+
+   return $url;
+
 }
 
 /**
@@ -73,10 +73,10 @@ function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE) {
 function issueInfoURL($bugid, $title=NULL) {
    global $mantisURL;
    if (NULL==$title) { $title = "View info for Issue $bugid"; }
-   
+
    $formatedTitle = str_replace("'", " ", $title);
    $formatedTitle = str_replace("\"", " ", $formatedTitle);
-   
+
    return "<a  title='$formatedTitle' href='".getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
 }
 
@@ -181,10 +181,10 @@ function week_dates($week, $year)
 	$monday = $mon_mktime - $decalage;
 
 	# WARNING: there is a curious bug, the minutes are not set to '0' ?!?
-	$monday   = mktime(0, 0, 0, date("m", $monday), date("d", $monday), date("Y", $monday)); 
+	$monday   = mktime(0, 0, 0, date("m", $monday), date("d", $monday), date("Y", $monday));
    #echo "MONDAY = ".date("Y-m-d H:m:s",$monday)."<br>";
-   
-   
+
+
    $week_dates = array();
    $week_dates[1] = $monday; // Monday
    $week_dates[2] = strtotime("+1 day",$monday); // Tuesday
@@ -194,25 +194,25 @@ function week_dates($week, $year)
    $week_dates[6] = strtotime("+5 day",$monday); // Saturday
    $week_dates[7] = strtotime("+6 day",$monday); // Sunday
 
-   
+
    return $week_dates;
 }
 
 // ---------------------------
-function dayofyear2date( $tDay, $year, $tFormat = 'Y-m-d' ) { 
-	$day = intval( $tDay ); 
-	$day = ( $day == 0 ) ? $day : $day - 1; 
-	$offset = intval( intval( $tDay ) * 86400 ); 
-	$str = date( $tFormat, strtotime( 'Jan 1, ' . $year ) + $offset ); 
+function dayofyear2date( $tDay, $year, $tFormat = 'Y-m-d' ) {
+	$day = intval( $tDay );
+	$day = ( $day == 0 ) ? $day : $day - 1;
+	$offset = intval( intval( $tDay ) * 86400 );
+	$str = date( $tFormat, strtotime( 'Jan 1, ' . $year ) + $offset );
 	return( $str );
 }
 
 // ---------------------------
-function dayofyear2timestamp( $tDay, $year) { 
+function dayofyear2timestamp( $tDay, $year) {
    date_default_timezone_set("Europe/Paris");  // GMT, UTC, DST or Europe/Paris
 
-   $day = intval( $tDay ); 
-   $day = ( $day == 0 ) ? $day : $day - 1; 
+   $day = intval( $tDay );
+   $day = ( $day == 0 ) ? $day : $day - 1;
    $offset = intval( intval( $tDay ) * 86400 );
    $timestamp = strtotime( 'Jan 1, ' . $year ) + $offset;
 
@@ -225,23 +225,23 @@ function dayofyear2timestamp( $tDay, $year) {
    if($date->format('I') == 1) {
      $timestamp -= (60 * 60);  // -1 hour in summer
    }
-   
+
    #echo "DEBUG dayofyear2timestamp $tDay (year $year)= ".date("Y-m-d H:i:s", $timestamp)."<br/>";
-   
-   return( $timestamp ); 
+
+   return( $timestamp );
 }
 
 // ---------------------------
 /**
- * 
+ *
  * explode string to 2-dimentionnal array
- * 
+ *
  * Usage:
  * $myArray = doubleExplode(':', ',', "key:value,key2:value2");
- * 
+ *
  * Example:
  * '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed'
- * 
+ *
  * Array
  * (
  *    [10] => 'new'
@@ -255,15 +255,16 @@ function dayofyear2timestamp( $tDay, $year) {
  * @param string $array       the string to explode
  */
 function doubleExplode ($del1, $del2, $array){
+
    $array1 = explode("$del1", $array);
    foreach($array1 as $key=>$value){
       $array2 = explode("$del2", $value);
       foreach($array2 as $key2=>$value2){
-         $array3[] = $value2; 
+         $array3[] = $value2;
       }
    }
    $afinal = array();
-   for ( $i = 0; $i <= count($array3); $i += 2) {
+   for ( $i = 0; $i < count($array3); $i += 2) {
       if($array3[$i]!="") {
          $afinal[trim($array3[$i])] = trim($array3[$i+1]);
       }
@@ -275,7 +276,7 @@ function doubleExplode ($del1, $del2, $array){
 /**
  * QuickSort function for Class instances
  * NOTE: the classes must have a compareTo(objectB) method.
- * 
+ *
  * @param array of instances $a
  */
 function qsort($a) {
@@ -294,7 +295,7 @@ function qsort_do($a,$l,$r) {
 function qsort_partition($a,$l,$r,$lp,$rp) {
        $i = $l+1;
        $j = $l+1;
-       
+
        while ($j <= $r) {
                if ($a[$j]->compareTo($a[$l])) {
                        $tmp = $a[$j];
@@ -304,14 +305,14 @@ function qsort_partition($a,$l,$r,$lp,$rp) {
                }
                $j++;
        }
-       
+
        $x = $a[$l];
        $a[$l] = $a[$i-1];
        $a[$i-1] = $x;
-       
+
        $lp = $i - 2;
        $rp = $i;
-} 
+}
 // ------------------------------------------------------
 
 

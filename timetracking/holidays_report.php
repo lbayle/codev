@@ -20,7 +20,7 @@
 
 <?php
    include_once 'i18n.inc.php';
-   $_POST[page_name] = T_("Holidays Report");
+   $_POST['page_name'] = T_("Holidays Report");
    include 'header.inc.php';
 ?>
 
@@ -90,7 +90,7 @@ function  displayHolidaysReportForm($teamid, $curYear) {
 
 // ---------------------------------------------
 function displayHolidaysMonth($month, $year, $teamid) {
-  
+
   $holidays = Holidays::getInstance();
   $green="A8FFBD";
   $yellow="F8FFA8";
@@ -280,16 +280,16 @@ function exportHolidaystoCSV($month, $year, $teamid, $path="") {
 }
 
 // ================ MAIN =================
-$year = isset($_POST[year]) ? $_POST[year] : date('Y');
-$defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
+$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
+$defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 
 global $codevReportsDir;
 
-$teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;
-$_SESSION[teamid] = $teamid;
+$teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
+$_SESSION['teamid'] = $teamid;
 
 displayHolidaysReportForm($teamid, $year);
-$_POST[year] = $year;
+$_POST['year'] = $year;
 
 for ($i = 1; $i <= 12; $i++) {
   displayHolidaysMonth($i, $year, $teamid);
