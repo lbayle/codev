@@ -305,6 +305,7 @@ $jobNA_color      = isset($_POST['jobNA_color']) ? $_POST['jobNA_color'] : "A8FF
 
 $projectList = getProjectList();
 
+$checkReportsDirError = NULL;
 // ---
 if ("checkReportsDir" == $action) {
 
@@ -345,19 +346,19 @@ if ("checkReportsDir" == $action) {
 
     echo "DEBUG Create default jobs<br/>";
     if ($isJob1) {
-		Jobs::create($job1, type_commonJob, $job1_color);
+		Jobs::create($job1, Job::type_commonJob, $job1_color);
     }
     if ($isJob2) {
-		Jobs::create($job2, type_commonJob, $job2_color);
+		Jobs::create($job2, Job::type_commonJob, $job2_color);
     }
     if ($isJob3) {
-		Jobs::create($job3, type_commonJob, $job3_color);
+		Jobs::create($job3, Job::type_commonJob, $job3_color);
     }
     if ($isJob4) {
-		Jobs::create($job4, type_commonJob, $job4_color);
+		Jobs::create($job4, Job::type_commonJob, $job4_color);
     }
     if ($isJob5) {
-		Jobs::create($job5, type_commonJob, $job5_color);
+		Jobs::create($job5, Job::type_commonJob, $job5_color);
     }
 
     // Add custom fields to existing projects

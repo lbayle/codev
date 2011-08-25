@@ -1038,7 +1038,6 @@ class TimeTracking {
 
       $countSubmitted = count($this->getSubmitted($projects));
 
-      $rate=($countReopened / $countSubmitted);
       if ($countSubmitted != 0)  {
         $rate=($countReopened / $countSubmitted);
       }
