@@ -42,6 +42,20 @@ if (!isset($_SESSION['userid'])) {
 <?php
    global $codevVersion;
    echo "<div align=center>";
-   echo "$codevVersion </br>";
+   echo "$codevVersion </br>\n";
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "Please visit &nbsp; <a href='http://codevtt.org' target='_blank' >http://codevtt.org</a> &nbsp; for more information.";
    echo "</div>";
+
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "<br/>\n";
+   echo "<br/>\n";
 ?>
+
+<?php include 'footer.inc.php'; ?>
