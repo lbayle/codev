@@ -20,6 +20,12 @@
 
 <?php
    include_once 'i18n.inc.php';
+
+if (!isset($_SESSION['userid'])) {
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
+  exit;
+}
+
    $_POST['page_name'] = T_("Holidays Report");
    include 'header.inc.php';
 ?>

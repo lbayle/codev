@@ -15,7 +15,7 @@ $OpenSource_FR = "Un logiciel libre est un logiciel qui respecte le droit de lâ€
 ?>
 
 <?php
-   $_POST[page_name] = "Centre de Documentation";
+   $_POST['page_name'] = "Centre de Documentation";
    include 'header.inc.php';
 ?>
 <?php include 'login.inc.php'; ?>

@@ -28,7 +28,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST[page_name] = T_("CoDev Administration : Holidays");
+   $_POST['page_name'] = T_("CoDev Administration : Holidays");
    include 'header.inc.php';
 ?>
 <?php include 'login.inc.php'; ?>
@@ -297,6 +297,8 @@ $originPage = "edit_holidays.php";
 
 $defaultDate= date("Y-m-d", time());
 
+$action     = isset($_POST['action']) ? $_POST['action'] : '';
+
 // Admins only
 $session_user = new User($_SESSION['userid']);
 
@@ -336,14 +338,14 @@ echo "<br/>";
 
 
    // ----------- actions ----------
-   if ($_POST[action] == "addHoliday") {
+   if ($action == "addHoliday") {
 
       $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
       $timestamp = date2timestamp($formatedDate);
 
       $hol_date = $timestamp;
-      $hol_desc = $_POST[hol_desc];
-      $hol_color = $_POST[hol_color];
+      $hol_desc = $_POST['hol_desc'];
+      $hol_color = $_POST['hol_color'];
 
       // save to DB
       $query = "INSERT INTO `codev_holidays_table`  (`date`, `description`, `color`) VALUES ('$hol_date','$hol_desc','$hol_color');";
@@ -352,8 +354,8 @@ echo "<br/>";
       // reload page
       echo ("<script> parent.location.replace('$originPage'); </script>");
 
-   } elseif ($_POST[action] == "deleteHoliday") {
-      $hol_id = $_POST[hol_id];
+   } elseif ($action == "deleteHoliday") {
+      $hol_id = $_POST['hol_id'];
 
       $query = "DELETE FROM `codev_holidays_table` WHERE id = $hol_id;";
       mysql_query($query) or die("Query failed: $query");
@@ -361,8 +363,8 @@ echo "<br/>";
       // reload page
       echo ("<script> parent.location.replace('$originPage'); </script>");
 
-   } elseif ($_POST[action] == "addAstreinte") {
-      $astreinte_id = $_POST[astreinte_id];
+   } elseif ($action == "addAstreinte") {
+      $astreinte_id = $_POST['astreinte_id'];
       $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
 	  if (NULL == $astreintesList) {
 	  	 $formatedList = "$astreinte_id";
@@ -375,9 +377,9 @@ echo "<br/>";
       // reload page
       echo ("<script> parent.location.replace('$originPage'); </script>");
 
-   } elseif ($_POST[action] == "deleteAstreinte") {
+   } elseif ($action == "deleteAstreinte") {
 
-      $astreinte_id = $_POST[astreinte_id];
+      $astreinte_id = $_POST['astreinte_id'];
       $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
 	  if (NULL != $astreintesList) {
 		 if (1 == count($astreintesList)) {
