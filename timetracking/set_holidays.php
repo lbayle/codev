@@ -343,7 +343,9 @@ if (!isset($_POST['nextForm'])) {
       echo "</div>";
    }
   }
-} else if ($_POST['nextForm'] == "addHolidaysForm") {
+}
+
+if ($_POST['nextForm'] == "addHolidaysForm") {
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
    $defaultDate  = $formatedDate= date("Y-m-d", time());
