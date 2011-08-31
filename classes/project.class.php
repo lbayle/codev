@@ -306,8 +306,15 @@ class Project {
 		               "WHERE codev_job_table.id = codev_project_job_table.job_id ".
 		               "AND codev_project_job_table.project_id = $this->id";
              break;
+          case Project::type_noCommonProject:
+	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
+	                   "FROM `codev_job_table` ".
+	                   "LEFT OUTER JOIN  `codev_project_job_table` ".
+	                   "ON codev_job_table.id = codev_project_job_table.job_id ".
+	                   "WHERE (codev_project_job_table.project_id = $this->id)".
+                       "ORDER BY codev_job_table.name ASC";
+    	     break;
           case Project::type_workingProject:  // no break;
-          case Project::type_noCommonProject: // no break;
           case Project::type_noStatsProject:
 	   	      // all other projects
 	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
