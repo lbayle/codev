@@ -53,7 +53,7 @@ function gradiant($img,$color1,$color2)
 
 // ================ MAIN =================
 
-$string = $_GET['text'];
+$string = isset($_GET['text']) ? $_GET['text'] : NULL;
 $height = $_GET['height'];
 $width  = $_GET['width'];
 $color  = $_GET['color'];
