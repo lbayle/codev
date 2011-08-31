@@ -212,7 +212,11 @@ class User {
 
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ($issue->isVacation()) {
-        $daysOf[date("j", $row->date)] += $row->duration;
+      	if (isset($daysOf[date("j", $row->date)])) {
+           $daysOf[date("j", $row->date)] += $row->duration;
+      	} else {
+           $daysOf[date("j", $row->date)]  = $row->duration;
+      	}
         //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
       }
     }

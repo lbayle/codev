@@ -150,10 +150,10 @@ function displayHolidaysMonth($month, $year, $teamid) {
 		    for ($i = 1; $i <= $nbDaysInMonth; $i++) {
 
 
-            if (NULL != $astreintes[$i]) {
+            if (isset($astreintes["$i"]) && (NULL != $astreintes["$i"])) {
               echo "<td style='background-color: #$yellow; text-align: center;' title='".T_("OnDuty")."'>".$daysOf[$i]."</td>\n";
 
-            } elseif (NULL != $daysOf[$i]) {
+            } elseif (isset($daysOf["$i"]) && (NULL != $daysOf["$i"])) {
 
 		        echo "<td style='background-color: #$green; text-align: center;'>".$daysOf[$i]."</td>\n";
 		      } else {

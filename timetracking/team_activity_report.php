@@ -299,7 +299,7 @@ if (0 == count($teamList)) {
 
    displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
 
-	if (NULL != $teamList[$teamid]) {
+	if (isset($teamList["$teamid"]) && (NULL != $teamList["$teamid"])) {
 
 	   $weekDates      = week_dates($weekid,$year);
 		$startTimestamp = $weekDates[1];

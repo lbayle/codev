@@ -18,25 +18,25 @@
 <?php
 // ==============================================================
 class IssueCache {
-   
+
     // instance de la classe
     private static $instance;
     private static $objects;
     private static $callCount;
     private static $cacheName;
 
-    // Un constructeur privé ; empêche la création directe d'objet
-    private function __construct() 
+    // Un constructeur prive ; empeche la creation directe d'objet
+    private function __construct()
     {
         self::$objects = array();
         self::$callCount = array();
-        
+
         self::$cacheName = __CLASS__;
         #echo "DEBUG: Cache ready<br/>";
     }
 
-    // La méthode singleton
-    public static function getInstance() 
+    // La methode singleton
+    public static function getInstance()
     {
         if (!isset(self::$instance)) {
             $c = __CLASS__;
@@ -44,7 +44,7 @@ class IssueCache {
         }
         return self::$instance;
     }
-   
+
 
     /**
      * get Issue class instance
@@ -52,25 +52,29 @@ class IssueCache {
      */
     public function getIssue($bugId)
     {
-        $issue = self::$objects[$bugId];
-        
+        $issue = isset(self::$objects["$bugId"]) ? self::$objects["$bugId"] : NULL;
+
         if (NULL == $issue) {
-            self::$objects[$bugId] = new Issue($bugId);
-            $issue = self::$objects[$bugId];
-            
+            self::$objects["$bugId"] = new Issue($bugId);
+            $issue = self::$objects["$bugId"];
+
             #echo "DEBUG: IssueCache add $bugId<br/>";
         } else {
-            self::$callCount[$bugId] += 1;
+        	if (isset($callCount["$bugId"])) {
+               self::$callCount["$bugId"] += 1;
+        	} else {
+               self::$callCount["$bugId"] = 1;
+        	}
         	   #echo "DEBUG: IssueCache called $bugId<br/>";
         }
         return $issue;
     }
-    
+
     public function displayStats($verbose = FALSE) {
-      
+
       $nbObj   = count(self::$callCount);
       $nbCalls = array_sum(self::$callCount);
-      
+
       echo "=== ".self::$cacheName." Statistics ===<br/>\n";
       echo "nb objects in cache = ".$nbObj."<br/>\n";
       echo "nb cache calls      = ".$nbCalls."<br/>\n";
@@ -84,8 +88,8 @@ class IssueCache {
          }
       }
     }
-        
-    
+
+
 } // class Cache
 
 ?>

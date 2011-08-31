@@ -256,6 +256,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 
    $deadLineTriggerWidth = 10;
    $imageHeight = 7;
+   $barHeight = $imageHeight;
 
 	$deadLines = array();
 	$nbDaysToDeadLines = array();
@@ -264,15 +265,16 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 	foreach($scheduledTaskList as $key => $scheduledTask) {
       if (NULL != $scheduledTask->deadLine) {
 
-		  if (NULL == $deadLines[$scheduledTask->deadLine]) {
+		  if (!isset($deadLines["$scheduledTask->deadLine"]) ||
+		      (NULL == $deadLines["$scheduledTask->deadLine"])) {
    		 $dline = new DeadLine($scheduledTask->deadLine,
    		                       $scheduledTask->nbDaysToDeadLine,
    		                       $scheduledTask->isOnTime,
    		                       $scheduledTask->isMonitored);
    		 $dline->addIssue($scheduledTask->bugId);
-   		 $deadLines[$scheduledTask->deadLine] = $dline;
+   		 $deadLines["$scheduledTask->deadLine"] = $dline;
    	  } else {
-   		 $dline = $deadLines[$scheduledTask->deadLine];
+   		 $dline = $deadLines["$scheduledTask->deadLine"];
    		 $dline->setIsOnTime($scheduledTask->isOnTime);
           $dline->addIssue($scheduledTask->bugId);
           $dline->setIsMonitored($scheduledTask->isMonitored);
@@ -356,6 +358,7 @@ echo "</table>\n";
 function displayTeam($teamid, $today, $graphSize) {
 
 	$deadLineTriggerWidth = 10;
+    $barHeight = 1;
 
    $scheduler = new Scheduler();
 	$allTasksLists = array();
@@ -435,7 +438,7 @@ function displayLegend($dayPixSize) {
 
    foreach ($colorTypes as $color => $type) {
       echo "<td >\n";
-      echo "<img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$barWidtht&color=".$color."' />";
+      echo "<img src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$barWidtht&color=".$color."' />";
       echo "&nbsp;&nbsp;$type";
       echo "</td>\n";
    }
@@ -454,6 +457,8 @@ function displayLegend($dayPixSize) {
 
 // -----------------------------
 function displayConsistencyErrors($teamid) {
+
+   global $statusNames;
 
    $projectList = Team::getProjectList($teamid);
    $ccheck = new ConsistencyCheck($projectList);
@@ -476,7 +481,7 @@ function displayConsistencyErrors($teamid) {
       	   echo "<tr>\n";
             echo "<td>".T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
             echo "<td>(".$user->getName().")</td>";
-            echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames[$cerr->status]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
+            echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames["$cerr->status"]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
             echo "</tr>\n";
          }
       }
@@ -519,7 +524,7 @@ $managedTeamList = $session_user->getManagedTeamList();
 $teamList = $dTeamList + $lTeamList + $managedTeamList;
 
 //  if user is not Leader of $_SESSION[teamid], do not display current team page
-if (NULL == $teamList[$teamid]) { $teamid = 0;}
+if (!isset($teamList["$teamid"]) || (NULL == $teamList["$teamid"])) { $teamid = 0;}
 
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";

@@ -52,8 +52,7 @@ class Project {
 	public function Project($id) {
 
       $this->id = $id;
-
-      $this->initialize();
+	  if (0 != $id) { $this->initialize(); }
    }
 
    // -----------------------------------------------

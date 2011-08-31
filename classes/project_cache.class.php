@@ -25,7 +25,7 @@ class ProjectCache {
     private static $callCount;
     private static $cacheName;
 
-    // Un constructeur priv� ; emp�che la cr�ation directe d'objet
+    // Un constructeur prive ; empeche la creation directe d'objet
     private function __construct()
     {
         self::$objects = array();
@@ -35,7 +35,7 @@ class ProjectCache {
         #echo "DEBUG: Cache ready<br/>";
     }
 
-    // La m�thode singleton
+    // La methode singleton
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
@@ -51,13 +51,17 @@ class ProjectCache {
      */
     public function getProject($id)
     {
-        $object = isset(self::$objects[$id]) ? self::$objects[$id] : NULL;
+        $object = isset(self::$objects["$id"]) ? self::$objects["$id"] : NULL;
 
         if (NULL == $object) {
             self::$objects[$id] = new Project($id);
             $object = self::$objects[$id];
         } else {
-            self::$callCount[$id] += 1;
+        	if (isset(self::$callCount["$id"])) {
+               self::$callCount["$id"] += 1;
+        	} else {
+               self::$callCount["$id"] = 1;
+        	}
         }
         return $object;
     }

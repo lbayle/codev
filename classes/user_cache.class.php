@@ -57,7 +57,11 @@ class UserCache {
             self::$objects[$id] = new User($id);
             $object = self::$objects[$id];
         } else {
-            self::$callCount[$id] += 1;
+            if (isset(self::$callCount[$id])) {
+               self::$callCount[$id] += 1;
+            } else {
+               self::$callCount[$id] = 1;
+            }
         }
         return $object;
     }
