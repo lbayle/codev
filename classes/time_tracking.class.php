@@ -397,6 +397,7 @@ class TimeTracking {
      
     if (isset($_GET['debug_sql'])) { echo "getResolvedIssues QUERY = $query <br/>"; }
     
+   
     $result = mysql_query($query) or die("Query FAILED: $query");
     
     while($row = mysql_fetch_object($result)) {
@@ -536,18 +537,19 @@ class TimeTracking {
 
               if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
               $formatedBugidNegList .= issueInfoURL($issue->bugId, $issue->summary);
-
+              
             } elseif ($issueDrift > 1){
               $nbDriftsPos++;
               $driftPos += $issueDrift;
               
               if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
               $formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary);
+              
+              
             } else {
               $nbDriftsEqual++;
               $driftEqual += $issueDrift;
-              
-              if ($formatedBugidEqualList != "") { $formatedBugidEqualList .= ', '; }
+               if ($formatedBugidEqualList != "") { $formatedBugidEqualList .= ', '; }
               $formatedBugidEqualList .= issueInfoURL($issue->bugId, $issue->summary);
               
               if ($bugidEqualList != "") { $bugidEqualList .= ', '; }
@@ -600,8 +602,7 @@ class TimeTracking {
     $driftStats["bugidEqualList"]   = $bugidEqualList;
     
     
-    
-    
+        
     return $driftStats;
   }
   
@@ -646,6 +647,8 @@ class TimeTracking {
       "AND    codev_team_user_table.team_id = $this->team_id ".
       "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
     
+    
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -654,16 +657,17 @@ class TimeTracking {
       if ($issue->isIncident()) {          	
 
       	$teamIncidentDays += $row->duration;
-         //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
+       // echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentDays=$teamIncidentDays<br/>";
       }
     }
 
+    
     $prodDays  = $this->getProdDays();
 
-    //echo "DEBUG prodDays $prodDays teamIncidentDays $teamIncidentDays<br/>";
+   // echo "DEBUG prodDays $prodDays teamIncidentDays $teamIncidentDays<br/>";
 
     if (0 != $prodDays) {
-      $systemDisponibilityRate = 100 - ($teamIncidentDays / $prodDays);
+      $systemDisponibilityRate = 100 - (($teamIncidentDays / $prodDays)*100);
     } else {
       $systemDisponibilityRate = 0;
     }
