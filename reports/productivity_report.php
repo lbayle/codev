@@ -250,7 +250,7 @@ function displayRates ($timeTracking) {
   echo "<td>".T_("System Availability")."</td>\n";
   echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
   echo "<td>".T_("Platform Availability")."</td>\n";
-  echo "<td>100 - (breakdownDays / prodDays)</td>\n";
+  echo "<td>100 - ((breakdownDays / prodDays)*100)</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
