@@ -31,11 +31,11 @@ mysql_close($bugtracker_link);
 
 
 <br/><hr />
-<address class="right" title='Freedom is nothing else but a chance to be better. (Albert Camus)'>
+<address class="right">
 <?php
    # La liberte n'offre qu'une chance d'etre meilleur, la servitude n'est que la certitude de devenir pire.  (Albert Camus)
    echo "<a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' src='".getServerRootURL()."/images/copyleft.png' /></a>";
-   echo "2010-".date("Y")."&nbsp; Louis BAYLE<br/>Designed for Firefox";
+   echo "2010-".date("Y")."&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'>Louis BAYLE</span><br/>Designed for Firefox";
 ?>
 </address>
 

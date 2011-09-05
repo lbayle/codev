@@ -1,8 +1,7 @@
 TODO
 
 BUGS
-- 
-
+see http://codevtt.org/mantis   (login 'user1', no password)
 
 - terminology
 BI:       (Initial Effort)
@@ -15,7 +14,6 @@ RAF:      Estimated Effort (Remaining?)
 - Nice to Have
     - creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
     - Securisation du site (index.html, .htaccess, 404, ...)
-    - CheckIntegrity: imputations les WE
 
 - EditTeam
     - MAJOR: users should be able to quit a team and then come back !
@@ -29,7 +27,6 @@ RAF:      Estimated Effort (Remaining?)
     - Project: SideTask category assignment
     
 - admin tools page:
-    - quick sidetask creation ?
     - prepareProjectToCodev (auto add custom fields)
     - option: who is allowed to create a new team ?
 
