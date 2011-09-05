@@ -149,7 +149,9 @@ function displaySubmittedResolved($timeTrackingTable, $width, $height) {
    echo "<h2>".T_("Submitted / Resolved Issues")."</h2>\n";
 
    echo "<div class=\"float\">\n";
-   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2";
+   $graphURL = SmartUrlEncode($graphURL);
+   echo "    <img src='$graphURL'/>";
    echo "</div>\n";
 
    echo "<div class=\"float\">\n";
@@ -217,10 +219,13 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
 
    echo "<div class=\"float\">\n";
    if ($displayNoSupport) {
-      echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3'/>";
+      $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3";
    } else {
-      echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+      $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2";
    }
+   $graphURL = SmartUrlEncode($graphURL);
+   echo "    <img src='$graphURL'/>";
+
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
@@ -293,7 +298,9 @@ function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
    echo "<br/>\n";
 
    echo "<div class=\"float\">\n";
-   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2";
+   $graphURL = SmartUrlEncode($graphURL);
+   echo "    <img src='$graphURL'/>";
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
@@ -354,10 +361,13 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $dis
    echo "<div class=\"float\">\n";
 
    if ($displayNoSupport) {
-      echo "<img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3'/>";
+      $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3";
    } else {
-      echo "<img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+      $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2";
    }
+   $graphURL = SmartUrlEncode($graphURL);
+   echo "    <img src='$graphURL'/>";
+
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
@@ -416,7 +426,10 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
    echo "</span>\n";
    echo "<br/>\n";
    echo "<div class=\"float\">\n";
-   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2";
+   $graphURL = SmartUrlEncode($graphURL);
+   echo "    <img src='$graphURL'/>";
+
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
@@ -513,7 +526,9 @@ function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
    echo "<br/>\n";
 
    echo "<div class=\"float\">\n";
-   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1'/>";
+   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1";
+   $graphURL = SmartUrlEncode($graphURL);
+   echo "    <img src='$graphURL'/>";
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
