@@ -161,11 +161,12 @@ function addJobForm($originPage) {
    }
    echo "   </select>\n";
 
-   echo("   ".T_("Color").": <input name='job_color' type='text' id='job_color' value='000000' size='6'>\n");
+   echo("   ".T_("Color").": <input name='job_color' type='text' id='job_color' value='FFFFFF' size='6'>\n");
 
    echo "   <input type=button name='btAddJob' value='".T_("Add")."' onClick='javascript: addJob()'>\n";
 
-   echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
+   #echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
+   echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorschemer.com/online.html' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
 
    echo "   <input type=hidden name=action       value=noAction>\n";
    echo "</form>\n";

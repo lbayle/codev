@@ -233,7 +233,7 @@ function addHolidayForm($originPage, $defaultDate) {
 
    echo "   <input type=button name='btAddHoliday' value='".T_("Add")."' onClick='javascript: addHoliday()'>\n";
 
-   echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
+   echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorschemer.com/online.html' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
 
    echo "   <input type=hidden name=action       value=noAction>\n";
    echo "</form>\n";
