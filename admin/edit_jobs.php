@@ -64,12 +64,21 @@ function deleteJob(id, description){
    }
  }
 
+
 function addJobProjectAssociation() {
      // check fields
      foundError = 0;
      msgString = "Les champs suivants ont ete oublies:\n\n"
 
-     if (0 == document.forms["addJobProjectAssociationForm"].project_id.value)  { msgString += "Project\n"; ++foundError; }
+     foundProjects = 0;
+     var select = document.forms["addJobProjectAssociationForm"].elements['projects[]'];
+     for (var i = 0; i < select.options.length; i++) {
+	    if (select.options[i].selected) {
+	    	++foundProjects;
+	    }
+     }
+     if (0 == foundProjects)  { msgString += "Projects\n"; ++foundError; }
+
      if (0 == document.forms["addJobProjectAssociationForm"].job_id.value)      { msgString += "Job\n"; ++foundError; }
 
      if (0 == foundError) {
@@ -225,30 +234,36 @@ function addJobProjectAssociationForm($originPage) {
 
    echo "<form id='addJobProjectAssociationForm' name='addJobProjectAssociationForm' method='post' Action='$originPage'>\n";
 
-   echo T_("Job").":   <select name='job_id'>\n";
-   echo "   <option value='0'></option>\n";
+
+// -----------
+   echo "<table class='invisible'>\n";
+   echo "<tr>\n";
+   echo "  <td title='".T_("single selection")."'>".T_("Job").":</td>\n";
+   echo "  <td title='".T_("multiple selection")."'>".T_("Projects").":</td>\n";
+   echo "</tr>\n";
+   echo "<tr>\n";
+   echo "  <td>\n";
+   echo "<select name='job_id' size='5'>\n";
    foreach($jlist as $jid => $jname) {
       echo "   <option value='".$jid."'>".$jname."</option>\n";
    }
    echo "</select>\n";
-
-   echo T_("Project").": <select name='project_id'>\n";
-   echo "   <option value='0'></option>\n";
+   echo "  </td>\n";
+   echo "  <td>\n";
+   echo "<select name='projects[]' multiple size='5'>\n";
    foreach($plist as $pid => $pname) {
       echo "   <option value='".$pid."'>".$pname."</option>\n";
    }
    echo "</select>\n";
-
-
-
-
+   echo "  </td>\n";
+   echo "  <td>\n";
    echo "<input type=button name='btAddAssociation' value='".T_("Add")."' onClick='javascript: addJobProjectAssociation()'>\n";
+   echo "  </td>\n";
+   echo "</tr>\n";
+   echo "</table>\n";
 
    echo "   <input type=hidden name=action  value=noAction>\n";
    echo "</form>\n";
-
-
-
    echo "</div>\n";
 }
 
@@ -330,6 +345,7 @@ echo "<hr align='left' width='20%'/>\n";
 echo "<h2 title = 'Job-Projects Associations'>".T_("Job Assignations")."</h2>\n";
 addJobProjectAssociationForm("edit_jobs.php");
 echo "<br/>";
+echo "<br/>";
 displayAssignedJobTuples($originPage);
 echo "<br/>";
 echo "<br/>";
@@ -373,14 +389,18 @@ echo "<br/>";
 
    } elseif ($action == "addJobProjectAssociation") {
 
-      $project_id = $_POST['project_id'];
       $job_id     = $_POST['job_id'];
 
-      // TODO check if not already in table !
-
-      // save to DB
-      $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+      // Add Job to selected projects
+      if(isset($_POST['projects']) && !empty($_POST['projects'])){
+         $selectedProjects = $_POST['projects'];
+         foreach($selectedProjects as $project_id){
+            // TODO check if not already in table !
+            // save to DB
+            $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
+            mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+         }
+      }
 
       // reload page
       echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
