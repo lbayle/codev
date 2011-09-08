@@ -449,7 +449,7 @@ function displayLegend($dayPixSize) {
    echo "&nbsp;&nbsp;1 ".T_("day")."\n";
    echo "  </td >\n";
    echo "</tr>\n";
-   echo "<table>\n";
+   echo "</table>\n";
    echo "</div>\n";
 
 }
