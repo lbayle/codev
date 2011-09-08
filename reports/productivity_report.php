@@ -55,6 +55,7 @@ if (!isset($_SESSION['userid'])) {
 <?php
 
 include_once "period_stats.class.php";
+include_once "team.class.php";
 include_once "project.class.php";
 
 include_once "time_tracking.class.php";
@@ -460,7 +461,18 @@ function displayCurrentDriftStats ($timeTracking) {
 
 
 // --------------------------------
-function displayWorkingDaysPerJob($timeTracking) {
+function displayWorkingDaysPerJob($timeTracking, $teamid) {
+
+  // find out which jobs must be displayed
+  $projList = Team::getProjectList($teamid);
+  $jobList  = array();
+
+  foreach ($projList as $id => $pname) {
+     $p = ProjectCache::getInstance()->getProject($id);
+     $jl = $p->getJobList();
+     $jobList += $jl;
+  }
+
   echo "<table width='300'>\n";
   echo "<caption>".T_("Load per Job")."</caption>\n";
   echo "<tr>\n";
@@ -468,14 +480,10 @@ function displayWorkingDaysPerJob($timeTracking) {
   echo "<th>".T_("Nb Days")."</th>\n";
   echo "</tr>\n";
 
-  echo "<tr>\n";
-  $query     = "SELECT id, name FROM `codev_job_table`";
-  $result    = mysql_query($query) or die("Query failed: $query");
-  while($row = mysql_fetch_object($result))
-  {
+  foreach ($jobList as $id => $jname) {
     echo "<tr>\n";
-    echo "<td>$row->name</td>\n";
-    echo "<td>".$timeTracking->getWorkingDaysPerJob($row->id)."</td>\n";
+    echo "<td>$jname</td>\n";
+    echo "<td>".$timeTracking->getWorkingDaysPerJob($id)."</td>\n";
     echo "</tr>\n";
   }
   echo "</table>\n";
@@ -716,7 +724,7 @@ if (0 != $teamid) {
 
 	// Display on 3 columns
 	echo "<div class=\"float\">\n";
-	displayWorkingDaysPerJob($timeTracking);
+	displayWorkingDaysPerJob($timeTracking, $teamid);
 	echo "</div>\n";
 
 	echo "<div class=\"float\">\n";
