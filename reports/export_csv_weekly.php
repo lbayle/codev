@@ -228,6 +228,7 @@ $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
 $result = mysql_query($query) or die("Query failed: $query");
 $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
+$formatedteamName = str_replace(" ", "_", $teamName);
 
 
 if (0 == count($teamList)) {
@@ -266,7 +267,7 @@ if (0 == count($teamList)) {
               "'>- ".T_("Export Managed Issues")."...</span><br/>\n";
 	      flush(); // envoyer tout l'affichage courant au navigateur
 
-          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$teamName."_Mantis_".date("Ymd").".csv";
+          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
           exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
           echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
           echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
@@ -278,7 +279,7 @@ if (0 == count($teamList)) {
 	      flush(); // envoyer tout l'affichage courant au navigateur
 
 
-          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$teamName."_CRA_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
+          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
 	      exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile);
           echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
           echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
@@ -289,7 +290,7 @@ if (0 == count($teamList)) {
          echo "<b>- ".T_("Export Week ").$weekid.T_(" Projects Activity")."...</b><br/>\n";
          flush();
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$teamName."_projects_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
+         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_projects_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
          exportProjectActivityToCSV($timeTracking, $myFile);
          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
          echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
@@ -303,7 +304,7 @@ if (0 == count($teamList)) {
          // reduce scope to enhance speed
          $startMonth = 1;
          for ($i = $startMonth; $i <= 12; $i++) {
-            $myFile = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
+            $myFile = exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, $codevReportsDir);
             echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
             flush();
