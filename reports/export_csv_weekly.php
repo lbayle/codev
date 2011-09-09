@@ -253,7 +253,7 @@ if (0 == count($teamList)) {
       	echo "<br/>\n";
       	echo "<hr/>";
 		   echo "<br/>\n";
-	      echo T_("Team").": ".$teamList[$teamid]."<br/>\n";
+	       #echo T_("Team").": ".$teamList[$teamid]."<br/>\n";
 		   echo "<br/>\n";
 
 	      $weekDates      = week_dates($weekid,$year);
@@ -262,13 +262,14 @@ if (0 == count($teamList)) {
 	      $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
 	      // -----------------------------
-         echo "<span style='font-weight: bold;' title='".T_("Issues form Team projects, including issues assigned to other teams").
+          echo "<span style='font-weight: bold;' title='".T_("Issues form Team projects, including issues assigned to other teams").
               "'>- ".T_("Export Managed Issues")."...</span><br/>\n";
 	      flush(); // envoyer tout l'affichage courant au navigateur
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR."AOI-PIL-Mantis_".date("Ymd").".csv";
-		   $filename = exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
-	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
+          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$teamName."_Mantis_".date("Ymd").".csv";
+          exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
+          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
 	      flush();
 
 	      // -----------------------------
@@ -277,9 +278,10 @@ if (0 == count($teamList)) {
 	      flush(); // envoyer tout l'affichage courant au navigateur
 
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR."AOI-PIL-CRA_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
+          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$teamName."_CRA_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
 	      exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile);
-	      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
+          echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
 	      flush();
 
          // -----------------------------
@@ -287,9 +289,10 @@ if (0 == count($teamList)) {
          echo "<b>- ".T_("Export Week ").$weekid.T_(" Projects Activity")."...</b><br/>\n";
          flush();
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR."AOI-PIL-Projects_".$teamName."_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
+         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$teamName."_projects_".date("Y", $timeTracking->startTimestamp)."_W".sprintf('%02d',$weekid).".csv";
          exportProjectActivityToCSV($timeTracking, $myFile);
-         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
+         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+         echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
          flush();
 
          // -----------------------------
@@ -300,9 +303,9 @@ if (0 == count($teamList)) {
          // reduce scope to enhance speed
          $startMonth = 1;
          for ($i = $startMonth; $i <= 12; $i++) {
-            $filename = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
-            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-            //echo "<a href='$filename'>$filename</a><br/>\n";
+            $myFile = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
             flush();
          }
 

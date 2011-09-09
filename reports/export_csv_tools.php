@@ -54,15 +54,15 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                  "\n";
    fwrite($fh, $stringData);
 
-   
+
    // ---
    $projList   = Team::getProjectList($teamid);
    $formatedProjList = implode( ', ', array_keys($projList));
-   
+
    // Note: if you filter on TeamMembers, you won't have issues temporarily affected to other teams
    //$memberList = Team::getMemberList($teamid);
    //$formatedMemberList = implode( ', ', array_keys($memberList));
-   
+
    // for all issues with status !=  {resolved, closed}
 
    $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
@@ -335,7 +335,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
   $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
 
    // create filename & open file
-   $myFile = $path.DIRECTORY_SEPARATOR."AOI-PIL-Holidays_".$teamName."_".date("Ym", $monthTimestamp).".csv";
+   $myFile = $path.DIRECTORY_SEPARATOR.$teamName."_Holidays_".date("Ym", $monthTimestamp).".csv";
    $fh = fopen($myFile, 'w');
 
   // USER

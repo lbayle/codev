@@ -197,7 +197,8 @@ if (0 == count($teamList)) {
          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR."AOI-PIL-Mantis_".date("Ymd").".csv";
 
          exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
-         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
+         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+         echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
          flush();
 
          // -----------------------------
@@ -208,7 +209,8 @@ if (0 == count($teamList)) {
          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR."AOI-PIL-Projects_".$teamName."_".date("Ymd", $timeTracking->startTimestamp)."-".date("Ymd", $timeTracking->endTimestamp).".csv";
 
          exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
-         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$myFile<br/>\n";
+         echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+         echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
          flush();
 
          // -----------------------------
@@ -219,9 +221,9 @@ if (0 == count($teamList)) {
          // reduce scope to enhance speed
          $startMonth = 1;
          for ($i = $startMonth; $i <= 12; $i++) {
-            $filename = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
-            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$filename<br/>\n";
-            //echo "<a href='$filename'>$filename</a><br/>\n";
+            $myFile = exportHolidaystoCSV($i, $year, $teamid, $teamName, $codevReportsDir);
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<a href='".getServerRootURL()."/tools/download.php?f=".basename($myFile)."' target='_blank'>".basename($myFile)."</a><br/>\n";
             flush();
          }
 

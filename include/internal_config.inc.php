@@ -79,6 +79,7 @@
   $defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSideTaskProject); // "SuiviOp" in table mantis_project_table
 
   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
+  $_POST['codevReportsDir'] = $codevReportsDir; // used by tools/download.php
 
 
 
