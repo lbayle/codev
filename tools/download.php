@@ -30,7 +30,7 @@ define('BASE_DIR',$codevReportsDir);
 define('LOG_DOWNLOADS',true);
 
 // log file name
-define('LOG_FILE','/tmp/codevReports/downloads.log');
+define('LOG_FILE',$codevReportsDir.'downloads.log');
 
 // Allowed extensions list in format 'extension' => 'mime type'
 // If myme type is set to empty string then script will try to detect mime type
