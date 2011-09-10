@@ -1,0 +1,53 @@
+
+# LoB 11/9/2011
+# to change the mantis workflow you will need to modify 3 files:
+
+# **********************
+# *** config_inc.php ***
+# **********************
+# --- customize workflow ---
+# see also custom_constant_inc.php and custom_strings_inc.php
+$g_status_enum_string = '10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,85:delivered,90:closed';
+
+$g_status_colors['analyzed']  = '#fff494';
+$g_status_colors['open']   = '#c2dfff';
+$g_status_colors['delivered'] = '#9EDB63';
+
+$g_status_enum_workflow[NEW_]         ='20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved'; 
+$g_status_enum_workflow[FEEDBACK]     ='30:acknowledged,40:analyzed,50:open,80:resolved'; 
+$g_status_enum_workflow[ACKNOWLEDGED] ='20:feedback,40:analyzed,50:open,80:resolved'; 
+$g_status_enum_workflow[ANALYZED]     ='20:feedback,50:open,80:resolved';
+$g_status_enum_workflow[OPEN_]         ='20:feedback,80:resolved';
+$g_status_enum_workflow[RESOLVED]     ='20:feedback,85:delivered,90:closed'; 
+$g_status_enum_workflow[DELIVERED]    ='20:feedback,90:closed';
+$g_status_enum_workflow[CLOSED]       ='20:feedback';
+# --- END customize workflow ---
+
+
+# *******************************
+# *** custom_constant_inc.php ***
+# *******************************
+<?php
+define ( 'ANALYZED', 40 );
+define ( 'OPEN_', 50 );
+define ( 'DELIVERED', 85 );
+?>
+
+# *******************************
+# *** custom_strings_inc.php ***
+# *******************************
+<?php
+$s_status_enum_string = '10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,85:delivered,90:closed';
+
+$s_analyzed_bug_button = 'Issue Analyzed';
+$s_analyzed_bug_title = 'Analyzed';
+$s_email_notification_title_for_status_bug_analyzed = 'The following issue has been ANALYZED.';
+
+$s_openned_bug_button = 'Issue Openned';
+$s_openned_bug_title = 'Open';
+$s_email_notification_title_for_status_bug_openned = 'The following issue has been OPENNED.';
+
+$s_delivered_bug_button = 'Issue Delivered';
+$s_delivered_bug_title = 'Delivered';
+$s_email_notification_title_for_status_bug_delivered = 'The following issue has been DELIVERED';
+?>
