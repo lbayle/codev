@@ -1,7 +1,8 @@
 <?php
-  define('ANALYZED', 40);
-  define('ACCEPTED', 45);
-  define('OPENNED',  50);
-  define('DEFERRED', 55);
-  define('DELIVERED', 85);
+
+define ( 'ANALYZED', 40 );
+define ( 'OPEN_', 50 );
+define ( 'DELIVERED', 85 );
+
+
 ?>
