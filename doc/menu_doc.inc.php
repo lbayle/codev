@@ -5,13 +5,13 @@
 
 <div id="menu">
 
-<?php 
+<?php
 echo "<table>\n";
 echo "   <tr>\n";
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/doc/fdj/AOI-DOC-Cycle_dev-v2.1.png'>".T_("Cycle flow")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/doc/mantis_userguide.html'>".T_("Mantis Status Transistions")."</a>\n";
+echo "      <a href='".getServerRootURL()."/doc/fdj/mantis_userguide.html'>".T_("Mantis Status Transistions")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/doc/indicateurs_de_production.html'>".T_("Productivity Reports")."</a>\n";
 echo "      </td>\n";
@@ -25,7 +25,7 @@ echo "      <a href='".getServerRootURL()."/doc/codev_adminguide.html' >".T_("Ad
 echo "      </td>\n";
 echo "   </tr>\n";
 echo "</table>\n";
-?>      
+?>
 <br/>
 <br/>
 </div>
