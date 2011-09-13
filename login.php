@@ -67,6 +67,18 @@ if ("pleaseLogin" == $action) {
     $_SESSION['username']=$row_login->username;
     $_SESSION['realname']=$row_login->realname;
 
+/*
+    // TODO: remove hardcoded file path
+    // trace login
+    $logFile = "/homez.466/codevtt/codevttReports/login.log";
+    $ip=$_SERVER['REMOTE_ADDR'];
+    $str= date("Y-m-d H:i:s")." [$ip] ".$row_login->username." (".$row_login->realname.")";
+
+    $fh = fopen($logFile, 'a+');
+    fwrite($fh, $str);
+    fclose($fh);
+*/
+
     // load homepage
     echo '<script language="javascript"> window.location="',getServerRootURL(),'"; </script>';
   } else {
