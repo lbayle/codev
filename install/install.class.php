@@ -33,7 +33,7 @@ class Install {
    const FILENAME_CONSTANTS = "../constants.php";
    //const FILENAME_CONSTANTS = "/tmp/constants.php";
 
-   # WARNING Mantis BUG: Enum fields do not handle special chars like '<' or '>' 
+   # WARNING Mantis BUG: Enum fields do not handle special chars like '<' or '>'
    const PREL_EFFORT_ESTIM_POSSIBLE_VALUES = "none|1 day|2-3 days|- 1 week|- 2 weeks|+ 2 weeks";
    const PREL_EFFORT_ESTIM_DEFAULT_VALUE   = "none";
    const PREL_EFFORT_ESTIM_BALANCE         = "1,1,3,5,10,15";
@@ -436,6 +436,12 @@ class Install {
         $stringData .= "\n";
 
       	$stringData .= "  // --- STATUS ---\n";
+      	$stringData .= "  # WARNING: CodevTT uses some global variables for status.\n";
+      	$stringData .= "  #          Some of these variables are used in the code, so if they are not defined\n";
+      	$stringData .= "  #          in the mantis workflow, they need to be created. The mandatory variables are:\n";
+      	$stringData .= "  #           $status_new, $status_feedback, $status_acknowledged,\n";
+      	$stringData .= "  #           $status_openned, $status_resolved, $status_closed\n";
+        $stringData .= "\n";
       	$stringData .= "  \$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
       	$stringData .= "\n";
 
@@ -444,6 +450,10 @@ class Install {
       	   // TODO stringFormat s_name
       	   $stringData .= "  \$status_".$s_name."       = array_search('".$s_name."', \$statusNames);\n";
       	}
+
+        // TODO add equivalences for mandatory statusses not present in workflow (see mantis 131)
+        // ex: $status_openned = $status_assigned;
+
       	$stringData .= "\n";
       	$stringData .= "?>\n\n";
       	fwrite($fp, $stringData);
