@@ -177,6 +177,8 @@ function addJobForm($originPage) {
 // ----------------------------------------------------
 function displayJobTuples($originPage) {
 
+   $jobSupport = Config::getInstance()->getValue(Config::id_jobSupport);
+
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -204,7 +206,7 @@ function displayJobTuples($originPage) {
       $result2    = mysql_query($query2) or die("Query failed: $query2");
       $nbTuples  = (0 != mysql_num_rows($result2)) ? mysql_result($result2, 0) : 0;
 
-      if (0 == $nbTuples) {
+      if ((0 == $nbTuples) && ($jobSupport != $row->id)) {
          echo "<a title='".T_("delete Job")."' href=\"javascript: deleteJob('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
       }
       echo "</td>\n";
