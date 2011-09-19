@@ -45,12 +45,14 @@ $serialized = addCustomMenuItem(NULL, 'toto', 'http://toto.fr');
 echo "serialized=$serialized<br/>\n";
 $serialized = addCustomMenuItem($serialized, 'titi', 'http://titi.fr');
 echo "serialized=$serialized<br/>\n";
-$serialized = addCustomMenuItem($serialized, 'CodevTT', '../codev/index.php');
+#$serialized = addCustomMenuItem($serialized, 'CodevTT', '../codev/index.php');
+#echo "serialized=$serialized<br/>\n";
+
+
+$tok = strtok($_SERVER["SCRIPT_NAME"], "/");
+echo "../".$tok."/index.php<br/>\n";
+$serialized = addCustomMenuItem($serialized, 'CodevTT', '../'.$tok.'/index.php');
 echo "serialized=$serialized<br/>\n";
 
-
-//$install = new Install();
-//$serialized = $install->addCustomMenuItem('CodevTT', '../codev/index.php');
-//echo "serialized=$serialized<br/>\n";
 
 ?>

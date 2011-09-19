@@ -65,7 +65,8 @@ function displayStepInfo() {
    echo "<li>Set priority Names as defined in Mantis   (priority_enum_string)</li>";
    echo "<li>Set resolution Names as defined in Mantis (resolution_enum_string)</li>";
    echo "<li>Set bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)</li>";
-   echo "<li>Create constants.php</li>";
+   echo "<li>Genereate constants.php</li>";
+   echo "<li>Add 'CodevTT' to Mantis menu </li>";
    echo "<li></li>";
    echo "</ul>\n";
    echo "";
@@ -211,6 +212,9 @@ if ("proceedStep2" == $action) {
     $install = new Install();
     $install->createConstantsFile();
 
+    echo "DEBUG add CodevTT to Mantis menu<br/>";
+    $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
+    $install->addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
 }
 
 ?>
