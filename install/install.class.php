@@ -460,6 +460,43 @@ class Install {
       	fclose($fp);
       }
 
+    /**
+     * Add a new entry in MantisBT menu (main_menu_custom_options)
+     *
+     * ex: addCustomMenuItem('CodevTT', '../codev/index.php')
+     */
+    public function addCustomMenuItem($name, $url) {
+
+	    $pos = '10'; // invariant
+
+        // get current mantis custom menu entries
+        $query = "SELECT value FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
+        $result = mysql_query($query) or die("Query failed: $query");
+
+        $serialized  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+
+	    // add entry
+	    if ((NULL != $serialized) && ("" != $serialized)) {
+			$menuItems = unserialize($serialized);
+	    } else {
+	    	$menuItems = array();
+	    }
+
+		$menuItems[] = array($name, $pos, $url);
+	    $newSerialized = serialize($menuItems);
+
+        // update mantis menu
+        if (NULL != $serialized) {
+        	$query = "UPDATE `mantis_config_table` SET value = '$newSerialized' ".
+                     "WHERE config_id = 'main_menu_custom_options'";
+        } else {
+            $query = "INSERT INTO `mantis_config_table` (`config_id`, `value`, `type`, `access_reqd`) ".
+                     "VALUES ('main_menu_custom_options', '$newSerialized', '3', '90');";
+        }
+        $result    = mysql_query($query) or die("Query failed: $query");
+
+		return $newSerialized;
+	}
 
 
 } // class
