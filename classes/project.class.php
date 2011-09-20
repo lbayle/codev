@@ -142,6 +142,10 @@ class Project {
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
+      // Status to set auto-assigned issues to = closed
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+               "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
       return $projectid;
    }
