@@ -62,7 +62,7 @@ include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
 
 // -----------------------------------------------
-function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
+function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $defaultProjectid) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
 
   $myCalendar1 = new tc_calendar("date1", true, false);
@@ -94,13 +94,6 @@ function setInfoForm($teamid, $defaultDate1, $defaultDate2, $defaultProjectid) {
   }
 
   echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
-
-  $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-  $mTeamList = $session_user->getTeamList();
-  $lTeamList = $session_user->getLeadedTeamList();
-  $oTeamList = $session_user->getObservedTeamList();
-  $managedTeamList = $session_user->getManagedTeamList();
-  $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
   foreach($teamList as $tid => $tname) {
     if ($tid == $teamid) {
@@ -693,79 +686,94 @@ $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
 $_SESSION['teamid'] = $teamid;
 
+$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-$weekDates      = week_dates(date('W'),$year);
+$mTeamList = $session_user->getTeamList();
+$lTeamList = $session_user->getLeadedTeamList();
+$oTeamList = $session_user->getObservedTeamList();
+$managedTeamList = $session_user->getManagedTeamList();
+$teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
-$action           = isset($_POST['action']) ? $_POST['action'] : '';
-$defaultProjectid = isset($_POST['projectid']) ? $_POST['projectid'] : 0;
+if (0 == count($teamList)) {
+   echo "<div id='content'' class='center'>";
+	echo T_("Sorry, you need to be member of a Team to access this page.");
+   echo "</div>";
 
-$date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
-$date2  = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $weekDates[5]);
-
-$startTimestamp = date2timestamp($date1);
-$endTimestamp = date2timestamp($date2);
-
-$endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
-
-//echo "DEBUG startTimestamp $startTimestamp  ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
-//echo "DEBUG endTimestamp $endTimestamp  ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
-
-$timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-
-setInfoForm($teamid, $date1, $date2, $defaultProjectid);
-echo "<br/><br/>\n";
+} else {
 
 
-if (0 != $teamid) {
+	$weekDates      = week_dates(date('W'),$year);
 
-	echo "<br/>\n";
-	echo "du ".date("Y-m-d  (H:i)", $startTimestamp)."&nbsp;<br/>";
-	echo "au ".date("Y-m-d  (H:i)", $endTimestamp)."<br/><br/>\n";
+	$action           = isset($_POST['action']) ? $_POST['action'] : '';
+	$defaultProjectid = isset($_POST['projectid']) ? $_POST['projectid'] : 0;
 
-	// Display on 3 columns
-	echo "<div class=\"float\">\n";
-	displayWorkingDaysPerJob($timeTracking, $teamid);
-	echo "</div>\n";
+	$date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
+	$date2  = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $weekDates[5]);
 
-	echo "<div class=\"float\">\n";
-	displayWorkingDaysPerProject($timeTracking);
-	echo "</div>\n";
+	$startTimestamp = date2timestamp($date1);
+	$endTimestamp = date2timestamp($date2);
 
-	echo "<div class=\"float\">\n";
-	displaySideTasksProjectDetails($timeTracking);
-	echo "</div>\n";
+	$endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-   echo "<div class=\"float\">\n";
-   setProjectSelectionForm($teamid, $defaultProjectid);
-   $defaultProjectid  = $_POST['projectid'];
-   if (0 != $defaultProjectid) {
-      displayProjectDetails($timeTracking, $defaultProjectid);
-   }
-   echo "</div>\n";
+	//echo "DEBUG startTimestamp $startTimestamp  ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
+	//echo "DEBUG endTimestamp $endTimestamp  ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
 
-	echo "<div class=\"spacer\"> </div>\n";
+	$timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
+	setInfoForm($teamid, $teamList, $date1, $date2, $defaultProjectid);
 	echo "<br/><br/>\n";
-	displayRates($timeTracking);
-
-	echo "<br/><br/>\n";
-   displayTimeDriftStats ($timeTracking);
-
-   echo "<br/><br/>\n";
-   displayResolvedDriftStats($timeTracking);
 
 
-   echo "<br/><br/>\n";
-   displayCurrentDriftStats($timeTracking);
+	if (0 != $teamid) {
 
-   echo "<br/><br/>\n";
-   displayReopenedStats($timeTracking);
+		echo "<br/>\n";
+		echo "du ".date("Y-m-d  (H:i)", $startTimestamp)."&nbsp;<br/>";
+		echo "au ".date("Y-m-d  (H:i)", $endTimestamp)."<br/><br/>\n";
+
+		// Display on 3 columns
+		echo "<div class=\"float\">\n";
+		displayWorkingDaysPerJob($timeTracking, $teamid);
+		echo "</div>\n";
+
+		echo "<div class=\"float\">\n";
+		displayWorkingDaysPerProject($timeTracking);
+		echo "</div>\n";
+
+		echo "<div class=\"float\">\n";
+		displaySideTasksProjectDetails($timeTracking);
+		echo "</div>\n";
+
+	   echo "<div class=\"float\">\n";
+	   setProjectSelectionForm($teamid, $defaultProjectid);
+	   $defaultProjectid  = $_POST['projectid'];
+	   if (0 != $defaultProjectid) {
+	      displayProjectDetails($timeTracking, $defaultProjectid);
+	   }
+	   echo "</div>\n";
+
+		echo "<div class=\"spacer\"> </div>\n";
+
+		echo "<br/><br/>\n";
+		displayRates($timeTracking);
+
+		echo "<br/><br/>\n";
+	   displayTimeDriftStats ($timeTracking);
+
+	   echo "<br/><br/>\n";
+	   displayResolvedDriftStats($timeTracking);
 
 
-	echo "<br/><br/>\n";
-	displayCheckWarnings($timeTracking);
+	   echo "<br/><br/>\n";
+	   displayCurrentDriftStats($timeTracking);
+
+	   echo "<br/><br/>\n";
+	   displayReopenedStats($timeTracking);
+
+
+		echo "<br/><br/>\n";
+		displayCheckWarnings($timeTracking);
+	}
 }
-
 ?>
 
 </div>

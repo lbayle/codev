@@ -578,20 +578,18 @@ $oTeamList = $session_user->getObservedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
-$team = new Team($teamid);
-$default_year = date("Y", $team->date);
-$start_year  = isset($_POST['year']) ? $_POST['year'] : $default_year;
-$start_month = ($start_year == $default_year) ? date("m", $team->date) : 1;
-$start_day   = ($start_year == $default_year) ? date("d", $team->date) : 1;
-
-
-
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
    echo T_("Sorry, you do NOT have access to this page.");
    echo "</div>";
 
 } else {
+
+   $team = new Team($teamid);
+   $default_year = date("Y", $team->date);
+   $start_year  = isset($_POST['year']) ? $_POST['year'] : $default_year;
+   $start_month = ($start_year == $default_year) ? date("m", $team->date) : 1;
+   $start_day   = ($start_year == $default_year) ? date("d", $team->date) : 1;
 
    // ----- selection Form
    setTeamAndStartSelectionForm($originPage, $teamid, $teamList, $default_year, $start_year);
