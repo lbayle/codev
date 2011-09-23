@@ -1,0 +1,40 @@
+*** Relationships:
+choose name "constrained by", "wait for", "depends on", "needs to be resolved", 
+
+*** Issue
+   getConstrainList()
+   
+   estimatedArrivalTimestamp(estimatedStartTimestamp)
+     return timestamp;
+
+     en fonction: - estimatedStartTimestamp
+                  - RAF
+                  - hollidays
+     
+   getGanttActivity()
+      return of instance GanttActivity
+      
+*** User
+   getGanttActivities()
+      checks relationships (+ resolve circular relationships)
+      
+      computes estimatedStartTimestamp (depends on priority, estimatedArrivalDate of constrain relationships)
+      
+      - return array of ordered GanttActivity
+      
+
+      
+*** GantActivity
+   getJpganttItem()
+      return array(1,ACTYPE_NORMAL,"Label 2","2001-10-26","2001-11-13",'[KJ]')
+      
+*** GanttManager
+   - collects information to create a GanttGraph
+       - users = ACTYPE_GROUP
+       - constrains      
+   - check if some activities can be inserted in "holes" created by constrains.   
+   - generate a GanttGraph ready to be displayed
+      
+      
+      
+      
