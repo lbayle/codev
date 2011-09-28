@@ -52,6 +52,7 @@ class Issue {
    public $resolution;
    public $version;  // Product Version
 
+   private $relationships; // array[relationshipType][bugId]
 	/*
 	 * REM:
 	 * previous versions of CoDev used the mantis ETA field
@@ -167,6 +168,9 @@ class Issue {
 
       // Prepare fields
       $this->statusList = array();
+      $this->relationships = array();
+
+      //DEBUG $this->getRelationships(2500);
    }
 
 
@@ -243,7 +247,7 @@ class Issue {
    	global $tcCustomField;
 
       $query  = "SELECT value FROM `mantis_custom_field_string_table` WHERE field_id='$tcCustomField' AND bug_id=$this->bugId";
-      
+
       $result = mysql_query($query) or die("Query failed: $query");
 
       $tcId    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "";
@@ -320,6 +324,42 @@ class Issue {
       }
 
       return $elapsed;
+   }
+
+   /**
+    * get list of Relationships
+    */
+   public function getRelationships($type) {
+
+      // TODO
+      $complementaryType = (2500 == $type) ? 2501 : 2500;
+
+   	  if (NULL == $this->relationships[$type]) {
+         $this->relationships[$type] = array();
+
+   	     // normal
+         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
+                  "WHERE source_bug_id=$this->bugId ".
+                  "AND relationship_type = $type";
+         $result    = mysql_query($query) or die("Query failed: $query");
+         while($row = mysql_fetch_object($result))
+         {
+            echo "DEBUG relationships: [$type] $this->bugId -> $row->destination_bug_id </br>\n";
+            $this->relationships[$type][] = $row->destination_bug_id;
+         }
+         // complementary
+         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
+                  "WHERE destination_bug_id=$this->bugId ".
+                  "AND relationship_type = ".$complementaryType;
+         $result    = mysql_query($query) or die("Query failed: $query");
+         while($row = mysql_fetch_object($result))
+         {
+            echo "DEBUG relationshipsC: [$type] $this->bugId -> $row->source_bug_id </br>\n";
+            $this->relationships[$type][] = $row->source_bug_id;
+         }
+   	  }
+
+      return $this->relationships[$type];
    }
 
    // ----------------------------------------------
@@ -650,6 +690,7 @@ class Issue {
 
    // ----------------------------------------------
    // Computes the lifeCycle of the issue (time spent on each status)
+   // TODO: rename computeDurationsPerStatus
    public function computeDurations () {
    	global $status_new;
 
@@ -666,6 +707,7 @@ class Issue {
    }
 
    // ----------------------------------------------
+   // TODO: rename getDurationForStatusNew
    protected function getDuration_new ()
    {
       $time = 0;
@@ -696,9 +738,9 @@ class Issue {
          $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='$status_new'";
          $result = mysql_query($query) or die("Query failed: $query");
          $date_modified    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
-         
+
          if (0 == $date_modified) {
-         	// some SideTasks, are created with status='closed' and have never been set to 'new'. 
+         	// some SideTasks, are created with status='closed' and have never been set to 'new'.
          	$time = 0;
          } else {
             $time = $date_modified - $date_submitted;
@@ -710,6 +752,7 @@ class Issue {
    }
 
    // ----------------------------------------------
+   // TODO: rename getDurationForStatus
    protected function getDuration_other ($status)
    {
       $time = 0;
@@ -796,6 +839,9 @@ class Issue {
          #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (priority attr)<br/>\n";
          return  true;
       }
+
+      // TODO the IssueB constrains IssueX, and IssueA constrains nobody, then IssueB is higher priority
+
 
       #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (priority attr)<br/>\n";
       return false;
