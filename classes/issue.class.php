@@ -405,28 +405,6 @@ class Issue {
    }
 
    // ----------------------------------------------
-   // Returns how many time has already been spent on this task
-   // REM: if no category specified, then all category.
-/*
-   public function getElapsed2($startTimestamp, $endTimestamp, $job_id = NULL) {
-      $elapsed = 0;
-
-      $query     = "SELECT duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId ".
-      "AND  date >= $this->startTimestamp AND date < $this->endTimestamp ";
-
-      if (isset($job_id)) {
-         $query .= " AND jobid = $job_id";
-      }
-      $result    = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result))
-      {
-         $elapsed += $row->duration;
-      }
-
-      return $elapsed;
-   }
-*/
-   // ----------------------------------------------
    // returns an HTML color string "ff6a6e" depending on pos/neg drift and current status.
    // returns NULL if $drift=0
    // REM: if $drift is not specified, then $this->drift is used ()
@@ -737,19 +715,10 @@ class Issue {
       // -- the start_date is the bug creation date
       // -- the end_date   is transition where old_value = status or current_date if status unchanged.
 
-      $query = "SELECT status, date_submitted FROM `mantis_bug_table` WHERE id=$this->bugId";
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result))
-      { // REM: only one line in result, while should be optimized
-         $current_status = $row->status;
-         $date_submitted = $row->date_submitted;
-         //echo "&nbsp;&nbsp; start_date = $date_submitted (date_submitted)<br/>";
-      }
-
       // If status has not changed, then end_date is now.
-      if ($status_new == $current_status) {
+      if ($status_new == $this->currentStatus) {
          //echo "bug still in 'new' state<br/>";
-         $time = $current_date - $date_submitted;
+         $time = $current_date - $this->dateSubmission;
       } else {
          // Bug has changed, search history for status changed
          $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='$status_new'";
@@ -760,13 +729,14 @@ class Issue {
          	// some SideTasks, are created with status='closed' and have never been set to 'new'.
          	$time = 0;
          } else {
-            $time = $date_modified - $date_submitted;
+            $time = $date_modified - $this->dateSubmission;
          }
       }
 
       //echo "duration new $time<br/>";
       return $time;
    }
+
 
    // ----------------------------------------------
    // TODO: rename getDurationForStatus
@@ -958,6 +928,69 @@ class Issue {
       //echo "DEBUG $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]<br/>\n";
       return array($endTimestamp, $availTimeOnEndTimestamp);
    }
+
+   /**
+    * returns the timestamp of the first time that
+    * the issue switched to status 'status'
+    *
+    * @return timestamp or NULL if not found
+    */
+   public function getFirstStatusOccurrence($status) {
+
+      global $status_new;
+
+      if ($status_new == $status) {
+      	return $this->dateSubmission;
+      }
+
+      $query = "SELECT date_modified ".
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id";
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+/*
+      if (NULL == $timestamp) {
+         echo "DEBUG issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND ! <br/>\n";
+      } else {
+         echo "DEBUG issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp)."<br/>\n";
+      }
+*/
+      return $timestamp;
+   }
+
+   /**
+    * returns the timestamp of the latest time that
+    * the issue switched to status 'status'
+    *
+    * @return timestamp or NULL if not found
+    */
+   public function getLatestStatusOccurrence($status) {
+
+      global $status_new;
+
+      if ($status_new == $status) {
+      	return $this->dateSubmission;
+      }
+
+      $query = "SELECT date_modified ".
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id DESC";
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+/*
+      if (NULL == $timestamp) {
+         echo "DEBUG issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND ! <br/>\n";
+      } else {
+         echo "DEBUG issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp)."<br/>\n";
+      }
+*/
+      return $timestamp;
+   }
+
 
 } // class issue
 
