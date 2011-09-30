@@ -361,7 +361,7 @@ class Issue {
          $result    = mysql_query($query) or die("Query failed: $query");
          while($row = mysql_fetch_object($result))
          {
-            echo "DEBUG relationships: [$type] $this->bugId -> $row->destination_bug_id </br>\n";
+            #echo "DEBUG relationships: [$type] $this->bugId -> $row->destination_bug_id </br>\n";
             $this->relationships[$type][] = $row->destination_bug_id;
          }
          // complementary
@@ -371,7 +371,7 @@ class Issue {
          $result    = mysql_query($query) or die("Query failed: $query");
          while($row = mysql_fetch_object($result))
          {
-            echo "DEBUG relationshipsC: [$type] $this->bugId -> $row->source_bug_id </br>\n";
+            #echo "DEBUG relationshipsC: [$type] $this->bugId -> $row->source_bug_id </br>\n";
             $this->relationships[$type][] = $row->source_bug_id;
          }
    	  }
@@ -796,12 +796,12 @@ class Issue {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($this->bugId, $BconstrainsList)) {
       	// B constrains A
-         echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (B constrains A)<br/>\n";
+         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (B constrains A)<br/>\n";
       	return false;
       }
       if (in_array($issueB->bugId, $AconstrainsList)) {
       	// A constrains B
-         echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains B)<br/>\n";
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains B)<br/>\n";
       	return true;
       }
 
@@ -850,11 +850,11 @@ class Issue {
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
       	// A constrains more people, so A is higher priority
-         echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains more people)<br/>\n";
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains more people)<br/>\n";
       	return true;
       }
 
-      echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (B constrains more people)<br/>\n";
+      #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (B constrains more people)<br/>\n";
       return false;
    }
 

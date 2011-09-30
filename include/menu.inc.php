@@ -35,6 +35,8 @@ echo "      <a href='".getServerRootURL()."/timetracking/holidays_report.php' ti
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/planning_report.php' title='".T_("Check DeadLines")."'>".T_("Planning")."</a>\n";
 echo "      |\n";
+echo "      <a href='".getServerRootURL()."/reports/gantt_report.php' title='".T_("Gantt Chart")."'>".T_("Gantt")."</a>\n";
+echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/issue_info.php' title='".T_("Task Information")."'>".T_("Task info")."</a>\n";
 echo "      </td>\n";
 echo "      <td>\n";

@@ -559,6 +559,7 @@ class User {
       return $sortedList;
    }
 
+   // --------------------
    /**
     * check Timetracks & fixed holidays
     * and returns how many time is available for work on this day.
