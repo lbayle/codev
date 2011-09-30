@@ -339,7 +339,12 @@ class Issue {
    }
 
    /**
+    * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
+    *
     * get list of Relationships
+    *
+    * @param type = 2500 or 2501
+    * @return array(issue_id);
     */
    public function getRelationships($type) {
 
@@ -816,6 +821,21 @@ class Issue {
 
       global $status_openned;
 
+      // if IssueB constrains IssueA, then IssueB is higher priority
+      $AconstrainsList = $this->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      if (in_array($this->bugId, $BconstrainsList)) {
+      	// B constrains A
+         echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (B constrains A)<br/>\n";
+      	return false;
+      }
+      if (in_array($issueB->bugId, $AconstrainsList)) {
+      	// A constrains B
+         echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains B)<br/>\n";
+      	return true;
+      }
+
+
       // Tasks currently open are higher priority
       if (($this->currentStatus == $status_openned) && ($issueB->currentStatus != $status_openned)) {
             #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (status_openned)<br/>\n";
@@ -851,11 +871,20 @@ class Issue {
          #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (priority attr)<br/>\n";
          return  true;
       }
+      if ($this->priority < $issueB->priority) {
+         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (priority attr)<br/>\n";
+         return  false;
+      }
 
-      // TODO the IssueB constrains IssueX, and IssueA constrains nobody, then IssueB is higher priority
 
+      // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
+      if (count($AconstrainsList) > count($BconstrainsList)) {
+      	// A constrains more people, so A is higher priority
+         echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains more people)<br/>\n";
+      	return true;
+      }
 
-      #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (priority attr)<br/>\n";
+      echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (B constrains more people)<br/>\n";
       return false;
    }
 
