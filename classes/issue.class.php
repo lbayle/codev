@@ -63,7 +63,7 @@ class Issue {
 
    // -- CoDev custom fields
    public $tcId;         // TelelogicChange id
-   public $remaining;    // RAE
+   public $remaining;    // RAF
    public $prelEffortEstimName;  // PreliminaryEffortEstim (ex ETA)
    public $effortEstim;  // BI
    public $effortAdd;    // BS
@@ -324,6 +324,18 @@ class Issue {
       }
 
       return $elapsed;
+   }
+
+   /**
+    * Returns the nb of days needed to finish the issue.
+    * if the 'remaining' (RAF) field is not defined, return effortEstim or prelEffortEstim
+    */
+   public function getRemaining() {
+      // determinate issue duration (Remaining, BI, PrelEffortEstim)
+      if       (NULL != $this->remaining)   { $issueDuration = $this->remaining; }
+	  elseif   (NULL != $this->effortEstim) { $issueDuration = $this->effortEstim; }
+      else                                   { $issueDuration = $this->prelEffortEstim; }
+      return $issueDuration;
    }
 
    /**
@@ -847,6 +859,76 @@ class Issue {
       return false;
    }
 
+
+
+   /**
+    * Returns the Estimated Time of Arrival, depending on user's holidays and other timetracks
+    *
+    * @param $beginTimestamp              the start day
+    * @param $availTimeOnBeginTimestamp   On the start day, part of the day may already have
+    *                                     been spent on other issues. this param defines how much
+    *                                     time is left for this issue.
+    *                                     if NULL, use user->getAvailableTime($beginTimestamp)
+    * @param $userid                      if NULL, use assignedTo user
+    *
+    * @return array(endTimestamp, $availTimeOnEndTimestamp)
+    *          $availTimeOnEndTimestamp can be re-injected in the next call to this function
+    */
+   public function computeEstimatedTimeOfArrival($beginTimestamp, $availTimeOnBeginTimestamp=NULL, $userid=NULL) {
+
+      // find user in charge of this issue
+      if (NULL != $userid) {
+         $user = UserCache::getInstance()->getUser($userid);
+      } else {
+      	if (NULL != $this->handlerId) {
+      		$user = UserCache::getInstance()->getUser($this->handlerId);
+      	} else {
+      		// issue not assigned to anybody
+      		$user = NULL;
+      	}
+      }
+
+      // we need to be absolutely sure that time is 00:00:00
+      $timestamp = mktime(0, 0, 0, date("m", $beginTimestamp), date("d", $beginTimestamp), date("Y", $beginTimestamp));
+
+      $tmpDuration = $this->getRemaining();
+
+      //echo "DEBUG user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp)."<br/>";
+
+      // first day depends only on $availTimeOnBeginTimestamp
+      if (NULL == $availTimeOnBeginTimestamp) {
+         $availTime = $user->getAvailableTime($timestamp);
+      } else {
+         $availTime = $availTimeOnBeginTimestamp;
+      }
+      $tmpDuration -= $availTime;
+      //echo "DEBUG 1st ".date('Y-m-d', $timestamp)." tmpDuration (-$availTime) = $tmpDuration<br/>";
+
+      // --- next days
+      while ($tmpDuration > 0) {
+         $timestamp = strtotime("+1 day",$timestamp);
+
+         if (NULL != $user) {
+         	$availTime = $user->getAvailableTime($timestamp);
+         	$tmpDuration -= $availTime;
+            //echo "DEBUG ".date('Y-m-d', $timestamp)." tmpDuration = $tmpDuration<br/>";
+         } else {
+         	// if not assigned, just check for global holidays
+         	if (NULL == Holidays::getInstance()->isHoliday($timestamp)) {
+   	           $tmpDuration -= 1; // it's not a holiday, so complete day available.
+   	        }
+         }
+      }
+      $endTimestamp = $timestamp;
+
+      // if $tmpDuration < 0 this means that this issue will be finished before
+      // the end of the day. So the remaining time must be reported to be available
+      // fot the next issue to be worked on.
+      $availTimeOnEndTimestamp = abs($tmpDuration);
+
+      //echo "DEBUG $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]<br/>\n";
+      return array($endTimestamp, $availTimeOnEndTimestamp);
+   }
 
 } // class issue
 

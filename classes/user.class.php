@@ -563,11 +563,14 @@ class User {
     * check Timetracks & fixed holidays
     * and returns how many time is available for work on this day.
     */
-   public function getAvaiableTime($timestamp) {
+   public function getAvailableTime($timestamp) {
+
+      // we need to be absolutely sure that time is 00:00:00
+      $timestamp = mktime(0, 0, 0, date("m", $timestamp), date("d", $timestamp), date("Y", $timestamp));
 
    	  // if it's a holiday or a WE, then no work possible
       if(NULL != Holidays::getInstance()->isHoliday($timestamp)) {
-         //echo "DEBUG getAvaiableTime:".date('Y-m-d', $timestamp)." isHoliday<br/>\n";
+         //echo "DEBUG getAvailableTime:".date('Y-m-d', $timestamp)." isHoliday<br/>\n";
    	     return 0;
    	  }
 
@@ -580,12 +583,14 @@ class User {
 
       $data = mysql_fetch_array($result);
       $sum= round($data[0], 2);
+
       $availTime = (1 - $sum <= 0) ? 0 : (1 - $sum);
 
-      //echo "DEBUG getAvaiableTime ".date('Y-m-d', $timestamp).": TotalDurations=".$sum."  availTime=$availTime<br/>\n";
+      //echo "DEBUG getAvailableTime ".date('Y-m-d', $timestamp).": TotalDurations=".$sum."  availTime=$availTime<br/>\n";
       return $availTime;
-   }
 
+
+      }
 } // class
 
 
