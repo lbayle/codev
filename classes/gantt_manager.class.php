@@ -16,16 +16,22 @@
 */ ?>
 <?php
 
+require_once ('jpgraph.php');
+require_once ('jpgraph_gantt.php');
+
+
 class GanttActivity {
 
 	private $bugid;
+	private $userid;
    private $startTimestamp;
    private $endTimestamp;
 
 	private $color;
 
-	public function __construct($bugId, $startT, $endT) {
+	public function __construct($bugId, $userId, $startT, $endT) {
       $this->bugid = $bugId;
+      $this->userid = $userId;
       $this->startTimestamp = $startT;
       $this->endTimestamp = $endT;
 
@@ -36,8 +42,19 @@ class GanttActivity {
       $this->color = $color;
    }
 
+   public function getJPGraphData() {
+   	$user = UserCache::getInstance()->getUser($this->userid);
+
+   	return array(0,
+   	             ACTYPE_NORMAL,
+                   "   ".$this->bugid,
+                   date('Y-m-d', $this->startTimestamp),
+                   date('Y-m-d', $this->endTimestamp),
+                   $user->getName());
+   }
+
    public function toString() {
-   	return "issue $this->bugid  - ".date('Y-m-d', $this->startTimestamp)." - ".date('Y-m-d', $this->endTimestamp);
+   	return "issue $this->bugid  - ".date('Y-m-d', $this->startTimestamp)." - ".date('Y-m-d', $this->endTimestamp)." - ".$this->userid;
    }
 }
 
@@ -73,7 +90,7 @@ class GanttManager {
     */
    public function __construct($teamId, $startT=NULL, $endT=NULL) {
 
-      echo "GanttManager($teamId, ".date('Y-m-d', $startT).", ".date('Y-m-d', $endT).")<br/>";
+      //echo "GanttManager($teamId, ".date('Y-m-d', $startT).", ".date('Y-m-d', $endT).")<br/>";
       $this->teamid = $teamId;
       $this->startTimestamp = $startT;
       $this->endTimestamp = $endT;
@@ -117,7 +134,7 @@ class GanttManager {
       		$endDate = $issue->getLatestStatusOccurrence($status_closed);
       	}
 
-      	$activity = new GanttActivity($issue->bugId, $startDate, $endDate);
+      	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
 
       	//$activity->setColor($gantt_task_grey);
 
@@ -144,13 +161,13 @@ class GanttManager {
 
    }
 
-   public function getGanttGraph() {
+   public function getTeamActivities() {
 
-   	//echo "DEBUG getGanttGraph : getResolvedIssues<br/>\n";
       $resolvedIssuesList = $this->getResolvedIssues();
+
    	//echo "DEBUG getGanttGraph : dispatchResolvedIssues nbIssues=".count($resolvedIssuesList)."<br/>\n";
       $this->dispatchResolvedIssues($resolvedIssuesList);
-
+/*
    	//echo "DEBUG getGanttGraph : display nbUsers=".count($this->userActivityList)."<br/>\n";
       foreach($this->userActivityList as $userid => $activityList) {
       	$user = UserCache::getInstance()->getUser($userid);
@@ -159,7 +176,54 @@ class GanttManager {
       		echo $a->toString()."<br/>";
       	}
       }
+*/
+      return $this->userActivityList;
+   }
 
+   public function getGanttGraph() {
+
+   	$this->getTeamActivities();
+
+      $data = array();
+
+      foreach($this->userActivityList as $userid => $activityList) {
+      	//$data[] = ACTYPE_GROUP
+      	foreach($activityList as $a) {
+      		#echo $a->toString()."<br/>";
+            $data[] = $a->getJPGraphData();
+      	}
+      }
+
+      // ----
+      $constrains = array();
+      $progress = array();
+
+
+/* TEST
+$data = array(
+  array(0,ACTYPE_GROUP,    "Phase 1",        "2001-10-26","2001-11-23",''),
+  array(1,ACTYPE_NORMAL,   "  Label 2",      "2001-10-26","2001-11-16",''),
+  array(2,ACTYPE_NORMAL,   "  Label 3",      "2001-11-20","2001-11-22",''),
+  array(3,ACTYPE_MILESTONE,"  Phase 1 Done", "2001-11-23",'M2') );
+
+$constrains = array();
+$progress = array(array(1,0.4));
+*/
+      // ----
+   	$graph = new GanttGraph();
+
+      $graph->title->Set("Team XXX");
+
+      // Setup scale
+      $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
+      $graph->scale->week->SetStyle(WEEKSTYLE_FIRSTDAYWNBR);
+
+      // Add the specified activities
+      $graph->CreateSimple($data,$constrains,$progress);
+
+
+
+   	return $graph;
    }
 
 }
