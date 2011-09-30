@@ -862,7 +862,7 @@ class Issue {
 
 
    /**
-    * Returns the Estimated Time of Arrival, depending on user's holidays and other timetracks
+    * Returns the Estimated Date of Arrival, depending on user's holidays and other timetracks
     *
     * @param $beginTimestamp              the start day
     * @param $availTimeOnBeginTimestamp   On the start day, part of the day may already have
@@ -874,7 +874,7 @@ class Issue {
     * @return array(endTimestamp, $availTimeOnEndTimestamp)
     *          $availTimeOnEndTimestamp can be re-injected in the next call to this function
     */
-   public function computeEstimatedTimeOfArrival($beginTimestamp, $availTimeOnBeginTimestamp=NULL, $userid=NULL) {
+   public function computeEstimatedDateOfArrival($beginTimestamp, $availTimeOnBeginTimestamp=NULL, $userid=NULL) {
 
       // find user in charge of this issue
       if (NULL != $userid) {

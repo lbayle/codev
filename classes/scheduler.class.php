@@ -99,9 +99,7 @@ class Scheduler {
 		foreach ($issueList as $issue) {
 
 			// determinate issue duration (Remaining, BI, PrelEffortEstim)
-			if       (NULL != $issue->remaining)   { $issueDuration = $issue->remaining; }
-			elseif   (NULL != $issue->effortEstim) { $issueDuration = $issue->effortEstim; }
-			else                                   { $issueDuration = $issue->prelEffortEstim; }
+			$issueDuration = $issue->getRemaining();
 
 			#echo "DEBUG issue $issue->bugId  Duration = $issueDuration<br/>";
 
@@ -142,9 +140,7 @@ class Scheduler {
 
 
             // determinate issue duration (Remaining, BI, PrelEffortEstim)
-            if       (NULL != $issue->remaining)   { $issueDuration = $issue->remaining; }
-            elseif   (NULL != $issue->effortEstim) { $issueDuration = $issue->effortEstim; }
-            else                                   { $issueDuration = $issue->prelEffortEstim; }
+			$issueDuration = $issue->getRemaining();
 
             #echo "DEBUG Monitored issue $issue->bugId  Duration = $issueDuration<br/>";
 
