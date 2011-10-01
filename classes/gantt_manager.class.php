@@ -139,7 +139,7 @@ class GanttManager {
 
          if ($user->isTeamDeveloper($this->teamid)) {
       	   $issueList = $user->getAssignedIssues();
-      	   $teamIssueList += $issueList;
+      	   $teamIssueList = array_merge($teamIssueList, $issueList);
          }
       }
 
