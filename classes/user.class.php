@@ -559,6 +559,39 @@ class User {
       return $sortedList;
    }
 
+   // --------------------
+   /**
+    * check Timetracks & fixed holidays
+    * and returns how many time is available for work on this day.
+    */
+   public function getAvailableTime($timestamp) {
+
+      // we need to be absolutely sure that time is 00:00:00
+      $timestamp = mktime(0, 0, 0, date("m", $timestamp), date("d", $timestamp), date("Y", $timestamp));
+
+   	  // if it's a holiday or a WE, then no work possible
+      if(NULL != Holidays::getInstance()->isHoliday($timestamp)) {
+         //echo "DEBUG getAvailableTime:".date('Y-m-d', $timestamp)." isHoliday<br/>\n";
+   	     return 0;
+   	  }
+
+   	  // now check for Timetracks, the time left is free time to work
+      $query = "SELECT SUM(duration) ".
+               "FROM `codev_timetracking_table` ".
+               "WHERE userid = $this->id ".
+               "AND date = $timestamp";
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+
+      $data = mysql_fetch_array($result);
+      $sum= round($data[0], 2);
+
+      $availTime = (1 - $sum <= 0) ? 0 : (1 - $sum);
+
+      //echo "DEBUG getAvailableTime ".date('Y-m-d', $timestamp).": TotalDurations=".$sum."  availTime=$availTime<br/>\n";
+      return $availTime;
+
+
+      }
 } // class
 
 

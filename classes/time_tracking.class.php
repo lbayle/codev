@@ -17,6 +17,7 @@
 <?php
 
 // -- TimeTracking facilities --
+require_once "constants.php";
 
 include_once "time_track.class.php";
 include_once "issue.class.php";
@@ -248,7 +249,7 @@ class TimeTracking {
 
     if (isset($_GET['debug'])) { echo "getProductivRate QUERY = $query <br/>"; }
 
-    $result = mysql_query($query) or die("Query failed: $query");
+    $result = mysql_query($query) or die("<span style='color:red'>getProductivRate Query FAILED: $query <br/>".mysql_error()."</span>");
 
     while($row = mysql_fetch_object($result)) {
 
@@ -380,7 +381,7 @@ class TimeTracking {
 
     if (isset($_GET['debug'])) { echo "getDrift_new QUERY = $query <br/>"; }
 
-    $result = mysql_query($query) or die("Query FAILED: $query");
+    $result = mysql_query($query) or die("<span style='color:red'>getResolvedIssues Query FAILED: $query <br/>".mysql_error()."</span>");
 
     while($row = mysql_fetch_object($result)) {
       $issue = IssueCache::getInstance()->getIssue($row->id);
@@ -972,7 +973,7 @@ class TimeTracking {
 
     if (isset($_GET['debug'])) { echo "getReopened QUERY = $query <br/>"; }
 
-    $result = mysql_query($query) or die("Query failed: $query");
+    $result = mysql_query($query) or die("<span style='color:red'>getReopened Query FAILED: $query <br/>".mysql_error()."</span>");
 
     while($row = mysql_fetch_object($result)) {
        if ( ! in_array($row->id, $reopenedList)) {

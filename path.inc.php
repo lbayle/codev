@@ -24,6 +24,7 @@ $codevPathCalendar = BASE_PATH . DIRECTORY_SEPARATOR . 'calendar' . DIRECTORY_SE
 $codevPathi18n     = BASE_PATH . DIRECTORY_SEPARATOR . 'i18n';
 $codevPathGraphs   = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
 $codevPathInstall  = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
+$codevPathJPGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'jpgraph' . DIRECTORY_SEPARATOR . 'src';
 
 $path = array(
    BASE_PATH,
@@ -33,6 +34,7 @@ $path = array(
    $codevPathi18n,
    $codevPathGraphs,
    $codevPathInstall,
+   $codevPathJPGraphs,
    get_include_path()
    );
 

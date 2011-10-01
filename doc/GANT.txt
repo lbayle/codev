@@ -1,0 +1,56 @@
+*** Relationships:
+name: "constrained by" + "constrains"
+
+*** Issue
+   [TODO] getConstrainList()    
+   
+*** User
+   [EXISTS] getAssignedIssues()
+   [EXISTS] getMonitoredIssues()
+         
+*** TimeTracking
+   [EXISTS] getResolvedIssues()
+
+      
+*** [TODO] GanttActivity
+
+   setIssue()
+   setEstimatedBeginTimestamp()
+
+   getEstimatedEndTimestamp()
+     uses: - estimatedBeginTimestamp
+           - RAF
+           - hollidays
+     
+
+   getJPGraphItem()
+      return array(1,ACTYPE_NORMAL,"Label 2","2001-10-26","2001-11-13",'[lbayle]')
+
+
+      
+*** [TODO] GanttManager
+
+   getGanttGraph()
+      getTeamActivities()
+      create GanttGraph
+
+   getTeamActivities()
+      foreach (teamMember as user) {
+         create new ganttGroup(ACTYPE_GROUP, userid)
+         ganttGroup = getUserActivities(userid)
+         add group to TeamActivities
+      }
+
+   getUserActivities()
+      use list of: ResolvedIssues + AssignedIssues + Monitored Issues
+   
+      checks relationships (+ resolve circular relationships) : reorder if necessary
+      
+      foreach (ordered issueList) {
+         computes estimatedStartTimestamp (depends on priority, estimatedEndDate of previous Issue)
+         create GantActivity instance
+      }
+      
+      NICE TO HAVE: check if some activities can be inserted in "holes" created by constrains.
+
+      

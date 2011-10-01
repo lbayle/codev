@@ -317,7 +317,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
          }
 
          // drawArrow
-         echo "<IMG SRC='".$dline->getImageURL()."' ALT='Texte rempla�ant l image' TITLE='".$dline->toString()."'>";
+         echo "<IMG SRC='".$dline->getImageURL()."' ALT='Text replacing image' TITLE='".$dline->toString()."'>";
       }
    }
 

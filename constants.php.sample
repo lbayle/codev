@@ -3,6 +3,8 @@
   // - The Variables in here can be customized to your needs
   // - This file has been generated during install on <date>
 
+  date_default_timezone_set('Europe/Paris');
+
   include_once "config.class.php";
 
 $codevInstall_timestamp = 0;
@@ -25,5 +27,10 @@ $codevInstall_timestamp = 0;
   $status_assigned       = array_search('assigned', $statusNames);
   $status_resolved       = array_search('resolved', $statusNames);
   $status_closed       = array_search('closed', $statusNames);
+
+
+# Custom Relationships
+define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY',       2500 );
+define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',           2501 );
 
 ?>
