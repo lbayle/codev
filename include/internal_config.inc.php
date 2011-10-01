@@ -22,9 +22,7 @@
     * most of them are initialyzed from the 'codev_config_table'.
     *
     */
-
    include_once "config.class.php";
-   include_once "config_mantis.class.php";
 
    // CoDevTT project started on: 17 May 2010
 
