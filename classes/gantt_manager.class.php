@@ -21,7 +21,9 @@ require_once "mysql_config.inc.php";
 require_once "mysql_connect.inc.php";
 require_once "internal_config.inc.php";
 require_once "constants.php";
+
 require_once ('time_tracking.class.php');
+require_once ('team.class.php');
 
 require_once ('jpgraph.php');
 require_once ('jpgraph_gantt.php');
@@ -122,6 +124,31 @@ class GanttManager {
    }
 
    /**
+    * get sorted list of current issues
+    */
+   private function getCurrentIssues() {
+
+   	$teamIssueList = array();
+
+      $members = Team::getMemberList($this->teamid);
+      #$projects = Team::getProjectList($this->teamid);
+
+      // --- get all issues
+      foreach($members as $uid => $uname) {
+         $user = UserCache::getInstance()->getUser($uid);
+      	$issueList = $user->getAssignedIssues();
+
+      	$teamIssueList += $issueList;
+      }
+
+      // quickSort the list
+      $sortedList = qsort($teamIssueList);
+
+      return $teamIssueList;
+   }
+
+
+   /**
     * create a GanttActivity for each issue and dispatch it in $userActivityList[user]
     */
    private function dispatchResolvedIssues($resolvedIssuesList) {
@@ -156,18 +183,51 @@ class GanttManager {
 
    }
 
-   /**
-    * get sorted list of current issues
-    */
-   private function getCurrentIssues() {
 
-   }
 
    /**
-    *
-    */
-   private function dispatchCurrentIssues() {
+    *  STATUS   | BEGIN     | END
+    *  open     | firstAckD | now + getRemaining()
+    *  analyzed | firstAckD | now + getRemaining()
+    *  ack      | firstAckD | now + getRemaining()
+    *  feedback | now       | now + getRemaining()
+    *  new      | now       | now + getRemaining()
 
+    */
+   private function dispatchCurrentIssues($issueList) {
+   	global $status_acknowledged;
+   	global $status_new;
+
+      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
+
+      $today = $formatedDate  = date2timestamp(date("Y-m-d", time()));
+
+      $availTimeOnBeginTimestamp = 0;
+
+      foreach ($issueList as $issue) {
+
+			// find startDate
+      	$startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
+      	if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
+
+			// compute endDate
+			$arrivalInfo = $issue->computeEstimatedDateOfArrival($today, $availTimeOnBeginTimestamp);
+			$endDate = $arrivalInfo[0];
+			$availTimeOnBeginTimestamp = $arrivalInfo[1];
+
+			// userActivityList
+      	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
+
+      	//$activity->setColor($gantt_task_grey);
+
+      	if (NULL == $this->userActivityList[$issue->handlerId]) {
+      	   $this->userActivityList[$issue->handlerId] = array();
+      	}
+      	$this->userActivityList[$issue->handlerId][] = $activity;
+    	   #echo "DEBUG add to userActivityList[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
+      }
+
+      return $this->userActivityList;
    }
 
    public function getTeamActivities() {
@@ -176,6 +236,11 @@ class GanttManager {
 
    	//echo "DEBUG getGanttGraph : dispatchResolvedIssues nbIssues=".count($resolvedIssuesList)."<br/>\n";
       $this->dispatchResolvedIssues($resolvedIssuesList);
+
+      $currentIssuesList = $this->getCurrentIssues();
+      $this->dispatchCurrentIssues($currentIssuesList);
+
+
 
 /*
    	//echo "DEBUG getGanttGraph : display nbUsers=".count($this->userActivityList)."<br/>\n";
@@ -226,7 +291,8 @@ $progress = array(array(1,0.4));
       // ----
    	$graph = new GanttGraph();
 
-      $graph->title->Set("Team XXX");
+      $team = new Team($this->teamid);
+      $graph->title->Set("Team '".$team->name."'");
 
       // Setup scale
       $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
