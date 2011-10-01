@@ -136,9 +136,11 @@ class GanttManager {
       // --- get all issues
       foreach($members as $uid => $uname) {
          $user = UserCache::getInstance()->getUser($uid);
-      	$issueList = $user->getAssignedIssues();
 
-      	$teamIssueList += $issueList;
+         if ($user->isTeamDeveloper($this->teamid)) {
+      	   $issueList = $user->getAssignedIssues();
+      	   $teamIssueList += $issueList;
+         }
       }
 
       // quickSort the list
