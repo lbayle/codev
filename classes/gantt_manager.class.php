@@ -39,7 +39,7 @@ class GanttActivity {
 
    public $progress;
 
-	public function __construct($bugId, $userId, $startT, $endT, $progress=0) {
+   public function __construct($bugId, $userId, $startT, $endT, $progress=0) {
       $this->bugid = $bugId;
       $this->userid = $userId;
       $this->startTimestamp = $startT;
@@ -66,6 +66,24 @@ class GanttActivity {
 
    public function toString() {
    	return "issue $this->bugid  - ".date('Y-m-d', $this->startTimestamp)." - ".date('Y-m-d', $this->endTimestamp)." - ".$this->userid;
+   }
+
+      // ----------------------------------------------
+   /**
+    * QuickSort compare method.
+    * returns true if $this has higher priority than $activityB
+    *
+    * @param GanttActivity $activityB the object to compare to
+    */
+   function compareTo($activityB) {
+
+   	// the oldest activity should be in front of the list
+   	if ($this->endTimestamp > $activityB->endTimestamp) {
+           #echo "activity.compareTo FALSE  (".date('Y-m-d', $this->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")<br/>";
+   	   return false;
+   	}
+           #echo "activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")<br/>";
+        return true;
    }
 }
 
@@ -119,7 +137,10 @@ class GanttManager {
    	$tt = new TimeTracking($this->startTimestamp, $this->endTimestamp, $this->teamid);
    	$resolvedIssuesList = $tt->getResolvedIssues();
 
-   	return $resolvedIssuesList;
+      $sortedList = qsort($resolvedIssuesList);
+
+   	return $sortedList;
+   	#return $resolvedIssuesList;
 
    }
 
@@ -146,7 +167,7 @@ class GanttManager {
       // quickSort the list
       $sortedList = qsort($teamIssueList);
 
-      return $teamIssueList;
+      return $sortedList;
    }
 
 
@@ -173,6 +194,7 @@ class GanttManager {
       	}
 
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
+        $activity->progress = 1; // 100%
 
       	//$activity->setColor($gantt_task_grey);
 
@@ -219,6 +241,7 @@ class GanttManager {
 
 			// userActivityList
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
+        $activity->progress = 0; // (BI+BS - RAF) / (BI+BS)
 
       	//$activity->setColor($gantt_task_grey);
 
@@ -236,60 +259,44 @@ class GanttManager {
 
       $resolvedIssuesList = $this->getResolvedIssues();
 
-   	//echo "DEBUG getGanttGraph : dispatchResolvedIssues nbIssues=".count($resolvedIssuesList)."<br/>\n";
+      //echo "DEBUG getGanttGraph : dispatchResolvedIssues nbIssues=".count($resolvedIssuesList)."<br/>\n";
       $this->dispatchResolvedIssues($resolvedIssuesList);
 
       $currentIssuesList = $this->getCurrentIssues();
       $this->dispatchCurrentIssues($currentIssuesList);
 
 
-
-/*
-   	//echo "DEBUG getGanttGraph : display nbUsers=".count($this->userActivityList)."<br/>\n";
+      //echo "DEBUG getGanttGraph : display nbUsers=".count($this->userActivityList)."<br/>\n";
+      $mergedActivities = array();
       foreach($this->userActivityList as $userid => $activityList) {
-      	$user = UserCache::getInstance()->getUser($userid);
-      	echo "==== ".$user->getName()." activities: <br/>";
-      	foreach($activityList as $a) {
-      		echo $a->toString()."<br/>";
-      	}
+         $user = UserCache::getInstance()->getUser($userid);
+         #echo "==== ".$user->getName()." activities: <br/>";
+         $mergedActivities = array_merge($mergedActivities, $activityList);
+         
       }
-*/
-      return $this->userActivityList;
+
+      $sortedList = qsort($mergedActivities);
+
+      return $sortedList;
    }
 
    public function getGanttGraph() {
 
 
-   	$toto = $this->getTeamActivities();
-
-            $data = array();
-      $activityIdx = 0;
-
-      foreach($this->userActivityList as $userid => $activityList) {
-      	//$data[] = ACTYPE_GROUP
-      	foreach($activityList as $a) {
-      	   #echo $a->toString()."<br/>";
-            $data[] = $a->getJPGraphData($activityIdx);
-            ++$activityIdx;
-      	}
-      }
+      $teamActivities = $this->getTeamActivities();
 
       // ----
       $constrains = array();
       $progress = array();
+      $data = array();
 
+      $activityIdx = 0;
+      foreach($teamActivities as $a) {
+         $data[] = $a->getJPGraphData($activityIdx);
+         $progress[] = array($activityIdx, $a->progress);
+         ++$activityIdx;
+      }
 
-/*
-$data = array(
-  array(0,ACTYPE_GROUP,    "Phase 1",        "2001-10-26","2001-11-23",''),
-  array(1,ACTYPE_NORMAL,   "  Label 2",      "2001-10-26","2001-11-16",''),
-  array(2,ACTYPE_NORMAL,   "  Label 3",      "2001-11-20","2001-11-22",''),
-  array(3,ACTYPE_MILESTONE,"  Phase 1 Done", "2001-11-23",'M2') );
-
-
-$constrains = array();
-$progress = array(array(1,0.4));
-*/
       // ----
    	$graph = new GanttGraph();
 
