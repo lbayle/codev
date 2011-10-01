@@ -68,29 +68,16 @@ if (0 == count($teamList)) {
    echo "</div>";
 
 } else {
-   $startT = date2timestamp("2011-08-01");
+   $startT = date2timestamp("2011-07-01");
    $endT   = date2timestamp("2011-12-30");
-
-   //echo "AA teamid = $teamid<br/>";
-   //$gantManager = new GanttManager($teamid, $startT, $endT);
-   //$graph = $gantManager->getGanttGraph();
-
-   //echo "<img='data:image/png;base64,".$graph->Stroke()."' />";
 
    // draw graph
    $graphURL = getServerRootURL()."/graphs/gantt_graph.php?teamid=$teamid&startT=$startT&endT=$endT";
    $graphURL = SmartUrlEncode($graphURL);
    echo "<img src='$graphURL'/>";
 
-
-
    echo "<br/>\n";
    echo "<br/>\n";
-
-   $graphURL = getServerRootURL()."/graphs/jpgantt.php";
-   $graphURL = SmartUrlEncode($graphURL);
-   echo "    <img src='$graphURL'/>";
-
    echo "<br/>\n";
 
 

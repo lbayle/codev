@@ -17,6 +17,7 @@
 <?php
 
 // -- TimeTracking facilities --
+require_once "constants.php";
 
 include_once "time_track.class.php";
 include_once "issue.class.php";

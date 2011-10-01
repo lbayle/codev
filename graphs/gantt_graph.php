@@ -1,5 +1,4 @@
-<?php // content="text/plain; charset=utf-8"
-
+<?php
 # WARNING: Never ever put an 'echo' in this file, the graph won't be displayed !
 
 /*
@@ -20,17 +19,16 @@
 */
 
    # WARN: this avoids the display of some PHP errors...
-   error_reporting(E_ALL ^ E_NOTICE);
+#   error_reporting(E_ALL ^ E_NOTICE);
+?>
+<?php
+   error_reporting(0);
 date_default_timezone_set('Europe/Paris');
 
 
 require_once '../path.inc.php';
 
 require_once "tools.php";
-require_once "mysql_config.inc.php";
-require_once "mysql_connect.inc.php";
-require_once "internal_config.inc.php";
-#include_once "constants.php";
 
 require_once ('jpgraph.php');
 require_once ('jpgraph_gantt.php');
@@ -45,14 +43,13 @@ $teamid = isset($_GET['teamid']) ? $_GET['teamid'] : 2;
 $startT = isset($_GET['startT']) ? $_GET['startT'] : date2timestamp("2011-08-01");
 $endT   = isset($_GET['endT']) ? $_GET['endT'] : date2timestamp("011-12-30");
 
-/*
-$teamid = 2;
-$startT = date2timestamp("2011-08-01");
-$endT   = date2timestamp("2011-12-30");
-*/
-
 $gantManager = new GanttManager($teamid, $startT, $endT);
 $graph = $gantManager->getGanttGraph();
+
+// INFO: the following 2 lines are MANDATORY and fix the following error:
+// “The image <name> cannot be displayed because it contains errors”
+ob_clean();
+ob_end_clean();
 
 // display graph
 $graph->Stroke();

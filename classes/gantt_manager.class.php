@@ -16,8 +16,13 @@
 */ ?>
 <?php
 
-#require_once '../path.inc.php';
-#require_once ('time_tracking.class.php');
+require_once '../path.inc.php';
+require_once "mysql_config.inc.php";
+require_once "mysql_connect.inc.php";
+require_once "internal_config.inc.php";
+require_once "constants.php";
+require_once ('time_tracking.class.php');
+
 require_once ('jpgraph.php');
 require_once ('jpgraph_gantt.php');
 
@@ -111,6 +116,7 @@ class GanttManager {
 
    	$tt = new TimeTracking($this->startTimestamp, $this->endTimestamp, $this->teamid);
    	$resolvedIssuesList = $tt->getResolvedIssues();
+
    	return $resolvedIssuesList;
 
    }
@@ -125,7 +131,6 @@ class GanttManager {
    	global $gantt_task_grey;
 
       $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
 
       foreach ($resolvedIssuesList as $issue) {
 
@@ -146,9 +151,9 @@ class GanttManager {
       	   $this->userActivityList[$issue->handlerId] = array();
       	}
       	$this->userActivityList[$issue->handlerId][] = $activity;
-    	   //echo "DEBUG add to userActivityList[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
-
+    	   #echo "DEBUG add to userActivityList[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
       }
+
    }
 
    /**
@@ -171,6 +176,7 @@ class GanttManager {
 
    	//echo "DEBUG getGanttGraph : dispatchResolvedIssues nbIssues=".count($resolvedIssuesList)."<br/>\n";
       $this->dispatchResolvedIssues($resolvedIssuesList);
+
 /*
    	//echo "DEBUG getGanttGraph : display nbUsers=".count($this->userActivityList)."<br/>\n";
       foreach($this->userActivityList as $userid => $activityList) {
@@ -185,16 +191,17 @@ class GanttManager {
    }
 
    public function getGanttGraph() {
-/*
-   	$this->getTeamActivities();
 
-      $data = array();
+
+   	$toto = $this->getTeamActivities();
+
+            $data = array();
       $activityIdx = 0;
 
       foreach($this->userActivityList as $userid => $activityList) {
       	//$data[] = ACTYPE_GROUP
       	foreach($activityList as $a) {
-      		#echo $a->toString()."<br/>";
+      	   #echo $a->toString()."<br/>";
             $data[] = $a->getJPGraphData($activityIdx);
             ++$activityIdx;
       	}
@@ -203,18 +210,19 @@ class GanttManager {
       // ----
       $constrains = array();
       $progress = array();
-*/
 
 
+/*
 $data = array(
   array(0,ACTYPE_GROUP,    "Phase 1",        "2001-10-26","2001-11-23",''),
   array(1,ACTYPE_NORMAL,   "  Label 2",      "2001-10-26","2001-11-16",''),
   array(2,ACTYPE_NORMAL,   "  Label 3",      "2001-11-20","2001-11-22",''),
   array(3,ACTYPE_MILESTONE,"  Phase 1 Done", "2001-11-23",'M2') );
 
+
 $constrains = array();
 $progress = array(array(1,0.4));
-
+*/
       // ----
    	$graph = new GanttGraph();
 
