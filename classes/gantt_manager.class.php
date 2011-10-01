@@ -16,6 +16,8 @@
 */ ?>
 <?php
 
+#require_once '../path.inc.php';
+#require_once ('time_tracking.class.php');
 require_once ('jpgraph.php');
 require_once ('jpgraph_gantt.php');
 
@@ -26,15 +28,17 @@ class GanttActivity {
 	private $userid;
    private $startTimestamp;
    private $endTimestamp;
-
 	private $color;
 
-	public function __construct($bugId, $userId, $startT, $endT) {
+   public $progress;
+
+	public function __construct($bugId, $userId, $startT, $endT, $progress=0) {
       $this->bugid = $bugId;
       $this->userid = $userId;
       $this->startTimestamp = $startT;
       $this->endTimestamp = $endT;
 
+      $this->progress = $progress;
       //echo "GanttActivity ".$this->toString()."<br/>\n";
 	}
 
@@ -42,10 +46,10 @@ class GanttActivity {
       $this->color = $color;
    }
 
-   public function getJPGraphData() {
+   public function getJPGraphData($activityIdx) {
    	$user = UserCache::getInstance()->getUser($this->userid);
 
-   	return array(0,
+   	return array($activityIdx,
    	             ACTYPE_NORMAL,
                    "   ".$this->bugid,
                    date('Y-m-d', $this->startTimestamp),
@@ -181,25 +185,27 @@ class GanttManager {
    }
 
    public function getGanttGraph() {
-
+/*
    	$this->getTeamActivities();
 
       $data = array();
+      $activityIdx = 0;
 
       foreach($this->userActivityList as $userid => $activityList) {
       	//$data[] = ACTYPE_GROUP
       	foreach($activityList as $a) {
       		#echo $a->toString()."<br/>";
-            $data[] = $a->getJPGraphData();
+            $data[] = $a->getJPGraphData($activityIdx);
+            ++$activityIdx;
       	}
       }
 
       // ----
       $constrains = array();
       $progress = array();
+*/
 
 
-/* TEST
 $data = array(
   array(0,ACTYPE_GROUP,    "Phase 1",        "2001-10-26","2001-11-23",''),
   array(1,ACTYPE_NORMAL,   "  Label 2",      "2001-10-26","2001-11-16",''),
@@ -208,7 +214,7 @@ $data = array(
 
 $constrains = array();
 $progress = array(array(1,0.4));
-*/
+
       // ----
    	$graph = new GanttGraph();
 
@@ -220,8 +226,6 @@ $progress = array(array(1,0.4));
 
       // Add the specified activities
       $graph->CreateSimple($data,$constrains,$progress);
-
-
 
    	return $graph;
    }
