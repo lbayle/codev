@@ -210,34 +210,75 @@ class GanttManager {
 
 
    /**
-    *  STATUS   | BEGIN     | END
-    *  open     | firstAckD | now + getRemaining()
-    *  analyzed | firstAckD | now + getRemaining()
-    *  ack      | firstAckD | now + getRemaining()
-    *  feedback | now       | now + getRemaining()
-    *  new      | now       | now + getRemaining()
+    *  STATUS   | BEGIN                | END
+    *  open     | firstAckDate         | previousIssueEndDate + getRemaining()
+    *  analyzed | firstAckDate         | previousIssueEndDate + getRemaining()
+    *  ack      | firstAckDate         | previousIssueEndDate + getRemaining()
+    *  feedback | previousIssueEndDate | previousIssueEndDate + getRemaining()
+    *  new      | previousIssueEndDate | previousIssueEndDate + getRemaining()
 
     */
    private function dispatchCurrentIssues($issueList) {
    	global $status_acknowledged;
    	global $status_new;
+   	global $status_feedback;
 
       $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
-      $today = $formatedDate  = date2timestamp(date("Y-m-d", time()));
+
+      $userDispatchInfo = array(); // $userDispatchInfo[$issue->handlerId] = array(endTimestamp, $availTimeOnEndTimestamp)
+      $today = date2timestamp(date("Y-m-d", time()));
 
       $availTimeOnBeginTimestamp = 0;
 
       foreach ($issueList as $issue) {
 
-			// find startDate
-      	$startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
-      	if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
+         // --- init user history
+			if (NULL == $userDispatchInfo[$issue->handlerId]) {
+				$user = UserCache::getInstance()->getUser($issue->handlerId);
+			   $userDispatchInfo[$issue->handlerId] = array($today, $user->getAvailableTime($today));
+			}
 
-			// compute endDate
-			$arrivalInfo = $issue->computeEstimatedDateOfArrival($today, $availTimeOnBeginTimestamp);
-			$endDate = $arrivalInfo[0];
-			$availTimeOnBeginTimestamp = $arrivalInfo[1];
+			//the dateOfInsertion is the arrivalDate of the user's latest added Activity (or 'today' if none)
+			// but if the availableTime on dateOfInsertion is 0, then search the next 'free' day
+			while ( 0 == $userDispatchInfo[$issue->handlerId][1]) {
+				$dateOfInsertion = $userDispatchInfo[$issue->handlerId][0];
+				#echo "DEBUG no availableTime on dateOfInsertion ".date("Y-m-d", $dateOfInsertion)."<br/>";
+				$dateOfInsertion = strtotime("+1 day",$dateOfInsertion);
+            $userDispatchInfo[$issue->handlerId] = array($dateOfInsertion, $user->getAvailableTime($dateOfInsertion));
+			}
+
+			#echo "DEBUG issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[$issue->handlerId][0]).")= ".$userDispatchInfo[$issue->handlerId][1]."<br/>";
+
+			// --- find startDate
+			if ($issue->currentStatus > $status_feedback) {
+      	   $startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
+      	   if (NULL == $startDate) {
+      	   	$startDate = $issue->getFirstStatusOccurrence($issue->currentStatus); // TODO: wrong ! check all status
+      	   }
+      	   if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
+
+      	   // we got the start day (in the past) which is different from the endDate of previous activity.
+
+			} else {
+				// if status is new/feedback, we want the startDate to be the same as the endDate of previous activity.
+				$startDate = $userDispatchInfo[$issue->handlerId][0];
+			}
+
+
+
+         $tmpDate=$userDispatchInfo[$issue->handlerId][0]; // DEBUG
+
+
+			// --- compute endDate
+			// the arrivalDate depends on the dateOfInsertion and the available time on that day
+			$userDispatchInfo[$issue->handlerId] = $issue->computeEstimatedDateOfArrival($userDispatchInfo[$issue->handlerId][0],
+			                                                                             $userDispatchInfo[$issue->handlerId][1]);
+			$endDate = $userDispatchInfo[$issue->handlerId][0];
+
+
+			#echo "DEBUG issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $tmpDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getRemaining()."<br/>";
+			#echo "DEBUG issue $issue->bugId : left last Day = ".$userDispatchInfo[$issue->handlerId][1]."<br/>";
 
 			// userActivityList
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
@@ -272,7 +313,7 @@ class GanttManager {
          $user = UserCache::getInstance()->getUser($userid);
          #echo "==== ".$user->getName()." activities: <br/>";
          $mergedActivities = array_merge($mergedActivities, $activityList);
-         
+
       }
 
       $sortedList = qsort($mergedActivities);
