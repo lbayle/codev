@@ -39,14 +39,21 @@ class GanttActivity {
 
    public $progress;
 
-   public function __construct($bugId, $userId, $startT, $endT, $progress=0) {
+   public function __construct($bugId, $userId, $startT, $endT, $progress=NULL) {
       $this->bugid = $bugId;
       $this->userid = $userId;
       $this->startTimestamp = $startT;
       $this->endTimestamp = $endT;
 
-      $this->progress = $progress;
-      //echo "GanttActivity ".$this->toString()."<br/>\n";
+      if (NULL != $progress) {
+      	$this->progress = $progress;
+      } else {
+      	// (BI+BS - RAF) / (BI+BS)
+         $issue = IssueCache::getInstance()->getIssue($this->bugid);
+         $this->progress = $issue->getProgress();
+         //$this->progress = $progress;
+
+      }
 	}
 
    public function setColor($color) {
@@ -57,7 +64,7 @@ class GanttActivity {
    	$user = UserCache::getInstance()->getUser($this->userid);
       $issue = IssueCache::getInstance()->getIssue($this->bugid);
 
-   	$formattedActivityName = "[$this->bugid] ".substr($issue->summary, 0, 50);
+   	$formattedActivityName = substr("$this->bugid - $issue->summary", 0, 50);
 
    	return array($activityIdx,
    	             ACTYPE_NORMAL,
@@ -197,9 +204,6 @@ class GanttManager {
       	}
 
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
-        $activity->progress = 1; // 100%
-
-      	//$activity->setColor($gantt_task_grey);
 
       	if (NULL == $this->userActivityList[$issue->handlerId]) {
       	   $this->userActivityList[$issue->handlerId] = array();
@@ -285,7 +289,6 @@ class GanttManager {
 
 			// userActivityList
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
-        $activity->progress = 0; // (BI+BS - RAF) / (BI+BS)
 
       	//$activity->setColor($gantt_task_grey);
 

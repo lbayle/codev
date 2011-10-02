@@ -991,6 +991,43 @@ class Issue {
       return $timestamp;
    }
 
+   /**
+    * returns a progress rate (depending on Remaining)
+    * formula: (BI+BS - RAF) / (BI+BS)
+    *
+    * 1 = 100% finished
+    * 0.5 = 50% done
+    * 0 = 0% done
+    */
+   public function getProgress() {
+
+      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
+
+
+      if ($this->currentStatus >= $bug_resolved_status_threshold) {
+         return 1; // issue is finished
+      }
+
+      // totalEffort is (BI+BS) or if not exist, PEE
+      if (NULL != $this->effortEstim) {
+         $totalEffort = $this->effortEstim + $this->effortAdd;
+      } else {
+      	$totalEffort = $this->prelEffortEstimName;
+      }
+
+      // if no Remaining set, 0% done
+      if (NULL == $this->remaining) {
+      	return 0;
+      }
+
+      // nominal case
+      if ($this->remaining <= $totalEffort) {
+         $progress = ($totalEffort - $this->remaining) / $totalEffort;   // (T-R)/T
+      } else {
+      	$progress = $totalEffort / ($totalEffort - $this->remaining);   // T/(T+R)
+      }
+      return $progress;
+   }
 
 } // class issue
 
