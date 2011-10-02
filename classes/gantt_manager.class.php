@@ -55,10 +55,13 @@ class GanttActivity {
 
    public function getJPGraphData($activityIdx) {
    	$user = UserCache::getInstance()->getUser($this->userid);
+      $issue = IssueCache::getInstance()->getIssue($this->bugid);
+
+   	$formattedActivityName = "[$this->bugid] ".substr($issue->summary, 0, 50);
 
    	return array($activityIdx,
    	             ACTYPE_NORMAL,
-                   "   ".$this->bugid,
+                   $formattedActivityName,
                    date('Y-m-d', $this->startTimestamp),
                    date('Y-m-d', $this->endTimestamp),
                    $user->getName());
