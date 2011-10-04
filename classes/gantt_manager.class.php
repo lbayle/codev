@@ -31,13 +31,14 @@ require_once ('jpgraph_gantt.php');
 
 class GanttActivity {
 
-	private $bugid;
+	public $bugid;
 	private $userid;
    private $startTimestamp;
    private $endTimestamp;
 	private $color;
 
    public $progress;
+   public $activityIdx;  // index in jpgraph Data structure
 
    public function __construct($bugId, $userId, $startT, $endT, $progress=NULL) {
       $this->bugid = $bugId;
@@ -51,8 +52,6 @@ class GanttActivity {
       	// (BI+BS - RAF) / (BI+BS)
          $issue = IssueCache::getInstance()->getIssue($this->bugid);
          $this->progress = $issue->getProgress();
-         //$this->progress = $progress;
-
       }
 	}
 
@@ -61,6 +60,10 @@ class GanttActivity {
    }
 
    public function getJPGraphData($activityIdx) {
+
+      // save this for later, to compute constrains
+      $this->activityIdx = $activityIdx;
+
    	$user = UserCache::getInstance()->getUser($this->userid);
       $issue = IssueCache::getInstance()->getIssue($this->bugid);
 
@@ -135,6 +138,7 @@ class GanttManager {
       $this->endTimestamp = $endT;
 
       $this->userActivityList = array();   // $userActivityList[user][activity]
+      $this->constrainsList   = array();
   }
 
 
@@ -209,6 +213,7 @@ class GanttManager {
       	   $this->userActivityList[$issue->handlerId] = array();
       	}
       	$this->userActivityList[$issue->handlerId][] = $activity;
+
     	   #echo "DEBUG add to userActivityList[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
       }
 
@@ -296,6 +301,7 @@ class GanttManager {
       	   $this->userActivityList[$issue->handlerId] = array();
       	}
       	$this->userActivityList[$issue->handlerId][] = $activity;
+
     	   #echo "DEBUG add to userActivityList[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
       }
 
@@ -327,13 +333,33 @@ class GanttManager {
       return $sortedList;
    }
 
+   private function getConstrains($teamActivities, $issueActivityMapping) {
+
+      $constrains = array();
+
+      foreach($teamActivities as $a) {
+         $issue = IssueCache::getInstance()->getIssue($a->bugid);
+         $relationships = $issue->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+         foreach($relationships as $r) {
+             #echo "DEBUG Activity $a->activityIdx constrains ".$issueActivityMapping[$r]."<br/>";
+
+             $constrains[] = array($a->activityIdx, $issueActivityMapping[$r], CONSTRAIN_ENDSTART);
+         }
+      }
+      return $constrains;
+   }
+
+
+   /**
+    *
+    */
    public function getGanttGraph() {
 
 
       $teamActivities = $this->getTeamActivities();
 
       // ----
-      $constrains = array();
+      $issueActivityMapping = array();
       $progress = array();
       $data = array();
 
@@ -341,9 +367,15 @@ class GanttManager {
       foreach($teamActivities as $a) {
          $data[] = $a->getJPGraphData($activityIdx);
          $progress[] = array($activityIdx, $a->progress);
+
+         // mapping to ease constrains building
+         $issueActivityMapping[$a->bugid] = $activityIdx;
+
          ++$activityIdx;
       }
 
+      // ---
+      $constrains = $this->getConstrains($teamActivities, $issueActivityMapping);
       // ----
    	$graph = new GanttGraph();
 
