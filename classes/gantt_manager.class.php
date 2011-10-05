@@ -40,6 +40,7 @@ class GanttActivity {
    public $progress;
    public $activityIdx;  // index in jpgraph Data structure
 
+   // -----------------------------------------
    public function __construct($bugId, $userId, $startT, $endT, $progress=NULL) {
       $this->bugid = $bugId;
       $this->userid = $userId;
@@ -55,10 +56,12 @@ class GanttActivity {
       }
 	}
 
+   // -----------------------------------------
    public function setColor($color) {
       $this->color = $color;
    }
 
+   // -----------------------------------------
    public function getJPGraphData($activityIdx) {
 
       // save this for later, to compute constrains
@@ -77,6 +80,7 @@ class GanttActivity {
                    $user->getName());
    }
 
+   // -----------------------------------------
    public function toString() {
    	return "issue $this->bugid  - ".date('Y-m-d', $this->startTimestamp)." - ".date('Y-m-d', $this->endTimestamp)." - ".$this->userid;
    }
@@ -101,7 +105,7 @@ class GanttActivity {
 }
 
 
-
+// ==================================================================
 /**
 
 1) recupere la liste des taches finies (status >= bug_resolved_status_threshold)
@@ -125,6 +129,7 @@ class GanttManager {
   //
   private $userActivityList; // $userActivityList[user][activity]
 
+   // -----------------------------------------
    /**
     * @param $teamId
     * @param $startT  start timestamp. if NULL, then now
@@ -143,6 +148,7 @@ class GanttManager {
 
 
 
+   // -----------------------------------------
    /**
     * get tasks resolved in the period
     */
@@ -158,6 +164,7 @@ class GanttManager {
 
    }
 
+   // -----------------------------------------
    /**
     * get sorted list of current issues
     */
@@ -185,6 +192,7 @@ class GanttManager {
    }
 
 
+   // -----------------------------------------
    /**
     * create a GanttActivity for each issue and dispatch it in $userActivityList[user]
     */
@@ -219,8 +227,101 @@ class GanttManager {
 
    }
 
+   // -----------------------------------------
+   /**
+    * The remainingStartDate (RSD) is NOT the startDate of the issue.
+    *
+    * The StartDate (except for status=new) is in the past, it's the
+    * the date where the user started investigating on the issue.
+    *
+    * the RSD is a temporary date, used to determinate the endDate,
+    * depending on the remaining days to resolve the issue.
+    *
+    * Note: If status='new' then, StartDate == RSD.
+    *
+    * There are a fiew things to consider to compute the RSD:
+    * - arrivalDate of user's previous activity : nominal case
+    * - constrains can postpone the RSD if constrain date > prev arrivalDate
+    * - time left in prev arrivalDate (if 0, try next day)
+    *
+    * An optimization is mandatory because of constrains:
+    * if the RSD has been postponed because user1 is waiting for
+    * user2 to resolve the constraining activity. then, user1 should
+    * work on an other activity instead of hanging around.
+    *
+    * So the question is : which activity should user1 work on ?
+    * - the next assigned activity (highest priority) ?
+    * - use a best-fit or worst-fit algorithm ?
+    *
+    */
+   private function findRemainingStartDate($issue, $userDispatchInfo) {
+
+		$user = UserCache::getInstance()->getUser($issue->handlerId);
+
+		//the RSD is the arrivalDate of the user's latest added Activity
+		// but if the availableTime on RemainingStartDate is 0, then search the next 'free' day
+		while ( 0 == $userDispatchInfo[1]) {
+			$rsd = $userDispatchInfo[0];
+			#echo "DEBUG no availableTime on RemainingStartDate ".date("Y-m-d", $rsd)."<br/>";
+			$rsd = strtotime("+1 day",$rsd);
+         $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
+		}
+
+		#echo "DEBUG issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]."<br/>";
+      return $userDispatchInfo;
+   }
+
+   // -----------------------------------------
+   /**
+    * The startDate is the date where the user started investigating on the issue.
+    *
+    * This date depends on the currentStatus.
+    * If status is new then the user did not start investigations.
+    *
+    * Generaly, investigation starts when the user sets the status to
+    * 'acknowledge' for the first time. But depending on the workflow
+    * configuration, the 'ack' status may be skipped or not exist.
+    * so we'll search for the first changeStatus to a status which is:
+    * new > ourStatus > bug_resolved_status_threshold
+    *
+    * Now, what if currentStatus == 'Feedback' ?
+    * If status is feedback, then at least a minimum of investigation
+    * has been done to decide setting status to feedback, so i'd say
+    * that there is no special case for feedback.
+    *
+    *  STATUS   | START_DATE
+    *  new      | RemainingStartDate
+    *  feedback | firstDate of changeStatus to status > New
+    *  ack      | firstDate of changeStatus to status > New
+    *  analyzed | firstDate of changeStatus to status > New
+    *  open     | firstDate of changeStatus to status > New
+    */
+   private function findStartDate($issue, $remainingStartDate) {
+   	global $status_acknowledged;
+   	global $status_new;
+   	global $status_feedback;
+
+		if ($issue->currentStatus > $status_feedback) {
+
+			// NO, just look for first 'changeIssue' in history table !
+   	   $startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
+   	   if (NULL == $startDate) {
+   	   	$startDate = $issue->getFirstStatusOccurrence($issue->currentStatus); // TODO: wrong ! check all status
+   	   }
+   	   if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
+
+   	   // we got the start day (in the past) which is different from the endDate of previous activity.
+
+		} else {
+			// if status is new/feedback, we want the startDate to be the same as the endDate of previous activity.
+			$startDate = $remainingStartDate;
+		}
+
+      return $startDate;
+   }
 
 
+   // -----------------------------------------
    /**
     *  STATUS   | BEGIN                | END
     *  open     | firstAckDate         | previousIssueEndDate + getRemaining()
@@ -238,64 +339,40 @@ class GanttManager {
       $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
 
-      $userDispatchInfo = array(); // $userDispatchInfo[$issue->handlerId] = array(endTimestamp, $availTimeOnEndTimestamp)
+      $teamDispatchInfo = array(); // $teamDispatchInfo[userid] = array(endTimestamp, $availTimeOnEndTimestamp)
       $today = date2timestamp(date("Y-m-d", time()));
 
-      $availTimeOnBeginTimestamp = 0;
 
       foreach ($issueList as $issue) {
 
-         // --- init user history
-			if (NULL == $userDispatchInfo[$issue->handlerId]) {
-				$user = UserCache::getInstance()->getUser($issue->handlerId);
-			   $userDispatchInfo[$issue->handlerId] = array($today, $user->getAvailableTime($today));
+			$user = UserCache::getInstance()->getUser($issue->handlerId);
+
+	      // --- init user history
+			if (NULL == $teamDispatchInfo[$issue->handlerId]) {
+				// let's assume 'today' being the endTimestamp of previous activity
+			   $teamDispatchInfo[$issue->handlerId] = array($today, $user->getAvailableTime($today));
 			}
 
-			//the dateOfInsertion is the arrivalDate of the user's latest added Activity (or 'today' if none)
-			// but if the availableTime on dateOfInsertion is 0, then search the next 'free' day
-			while ( 0 == $userDispatchInfo[$issue->handlerId][1]) {
-				$dateOfInsertion = $userDispatchInfo[$issue->handlerId][0];
-				#echo "DEBUG no availableTime on dateOfInsertion ".date("Y-m-d", $dateOfInsertion)."<br/>";
-				$dateOfInsertion = strtotime("+1 day",$dateOfInsertion);
-            $userDispatchInfo[$issue->handlerId] = array($dateOfInsertion, $user->getAvailableTime($dateOfInsertion));
-			}
-
-			#echo "DEBUG issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[$issue->handlerId][0]).")= ".$userDispatchInfo[$issue->handlerId][1]."<br/>";
+			// --- find remainingStartDate
+         $teamDispatchInfo[$issue->handlerId] = $this->findRemainingStartDate($issue, $teamDispatchInfo[$issue->handlerId]);
+         $remainingStartDate = $teamDispatchInfo[$issue->handlerId][0];
 
 			// --- find startDate
-			if ($issue->currentStatus > $status_feedback) {
-      	   $startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
-      	   if (NULL == $startDate) {
-      	   	$startDate = $issue->getFirstStatusOccurrence($issue->currentStatus); // TODO: wrong ! check all status
-      	   }
-      	   if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
-
-      	   // we got the start day (in the past) which is different from the endDate of previous activity.
-
-			} else {
-				// if status is new/feedback, we want the startDate to be the same as the endDate of previous activity.
-				$startDate = $userDispatchInfo[$issue->handlerId][0];
-			}
-
-
-
-         $tmpDate=$userDispatchInfo[$issue->handlerId][0]; // DEBUG
-
+			$startDate = $this->findStartDate($issue, $remainingStartDate);
 
 			// --- compute endDate
 			// the arrivalDate depends on the dateOfInsertion and the available time on that day
-			$userDispatchInfo[$issue->handlerId] = $issue->computeEstimatedDateOfArrival($userDispatchInfo[$issue->handlerId][0],
-			                                                                             $userDispatchInfo[$issue->handlerId][1]);
-			$endDate = $userDispatchInfo[$issue->handlerId][0];
+			$teamDispatchInfo[$issue->handlerId] = $issue->computeEstimatedDateOfArrival($teamDispatchInfo[$issue->handlerId][0],
+			                                                                             $teamDispatchInfo[$issue->handlerId][1]);
+			$endDate = $teamDispatchInfo[$issue->handlerId][0];
 
 
-			#echo "DEBUG issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $tmpDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getRemaining()."<br/>";
-			#echo "DEBUG issue $issue->bugId : left last Day = ".$userDispatchInfo[$issue->handlerId][1]."<br/>";
+			#echo "DEBUG issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getRemaining()."<br/>";
+			#echo "DEBUG issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]."<br/>";
 
 			// userActivityList
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
 
-      	//$activity->setColor($gantt_task_grey);
 
       	if (NULL == $this->userActivityList[$issue->handlerId]) {
       	   $this->userActivityList[$issue->handlerId] = array();
@@ -308,6 +385,10 @@ class GanttManager {
       return $this->userActivityList;
    }
 
+   // -----------------------------------------
+   /**
+    *
+    */
    public function getTeamActivities() {
 
       $resolvedIssuesList = $this->getResolvedIssues();
