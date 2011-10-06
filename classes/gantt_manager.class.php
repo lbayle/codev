@@ -32,10 +32,10 @@ require_once ('jpgraph_gantt.php');
 class GanttActivity {
 
 	public $bugid;
-	private $userid;
-   private $startTimestamp;
-   private $endTimestamp;
-	private $color;
+	public $userid;
+   public $startTimestamp;
+   public $endTimestamp;
+	public $color;
 
    public $progress;
    public $activityIdx;  // index in jpgraph Data structure
@@ -127,7 +127,7 @@ class GanttManager {
   private $endTimestamp;
 
   //
-  private $userActivityList; // $userActivityList[user][activity]
+  private $teamActivityList; // $teamActivityList[user][activity]
 
    // -----------------------------------------
    /**
@@ -142,7 +142,7 @@ class GanttManager {
       $this->startTimestamp = $startT;
       $this->endTimestamp = $endT;
 
-      $this->userActivityList = array();   // $userActivityList[user][activity]
+      $this->activitiesByUser = array();   // $activitiesByUser[user][activity]
       $this->constrainsList   = array();
   }
 
@@ -194,7 +194,7 @@ class GanttManager {
 
    // -----------------------------------------
    /**
-    * create a GanttActivity for each issue and dispatch it in $userActivityList[user]
+    * create a GanttActivity for each issue and dispatch it in $activitiesByUser[user]
     */
    private function dispatchResolvedIssues($resolvedIssuesList) {
    	global $status_acknowledged;
@@ -217,12 +217,12 @@ class GanttManager {
 
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
 
-      	if (NULL == $this->userActivityList[$issue->handlerId]) {
-      	   $this->userActivityList[$issue->handlerId] = array();
+      	if (NULL == $this->activitiesByUser[$issue->handlerId]) {
+      	   $this->activitiesByUser[$issue->handlerId] = array();
       	}
-      	$this->userActivityList[$issue->handlerId][] = $activity;
+      	$this->activitiesByUser[$issue->handlerId][] = $activity;
 
-    	   #echo "DEBUG add to userActivityList[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
+    	   #echo "DEBUG add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
       }
 
    }
@@ -258,16 +258,40 @@ class GanttManager {
 
 		$user = UserCache::getInstance()->getUser($issue->handlerId);
 
+      $rsd = $userDispatchInfo[0]; // arrivalDate of the user's latest added Activity
+
+      // --- check relationships
+      // Note: if issue is constrained, then the constrained issue should already
+      //       have an Activity. the contrary would mean that there is a bug in our
+      //       sort algorithm...
+      $relationships = $issue->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY );
+
+      // find Activity
+      foreach ($this->activitiesByUser as $userActivityList) {
+         foreach ($userActivityList as $a) {
+         	if (in_array($a->bugid, $relationships)) {
+         		echo "DEBUG issue $issue->bugId (".date("Y-m-d", $rsd).") is constrained by $a->bugid (".date("Y-m-d", $a->endTimestamp).")<br/>";
+	         	if ($a->endTimestamp > $rsd) {
+	         	   echo "DEBUG issue $issue->bugId postponed for $a->bugid<br/>";
+	         	   $rsd = $a->endTimestamp;
+      $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
+
+	         	}
+         	}
+         }
+      }
+
+      // ---
 		//the RSD is the arrivalDate of the user's latest added Activity
-		// but if the availableTime on RemainingStartDate is 0, then search the next 'free' day
+		// but if the availableTime on RemainingStartDate is 0, then search for the next 'free' day
 		while ( 0 == $userDispatchInfo[1]) {
 			$rsd = $userDispatchInfo[0];
-			#echo "DEBUG no availableTime on RemainingStartDate ".date("Y-m-d", $rsd)."<br/>";
+			echo "DEBUG no availableTime on RemainingStartDate ".date("Y-m-d", $rsd)."<br/>";
 			$rsd = strtotime("+1 day",$rsd);
          $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
 		}
 
-		#echo "DEBUG issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]."<br/>";
+		echo "DEBUG issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]."<br/>";
       return $userDispatchInfo;
    }
 
@@ -276,13 +300,18 @@ class GanttManager {
     * The startDate is the date where the user started investigating on the issue.
     *
     * This date depends on the currentStatus.
-    * If status is new then the user did not start investigations.
     *
     * Generaly, investigation starts when the user sets the status to
     * 'acknowledge' for the first time. But depending on the workflow
     * configuration, the 'ack' status may be skipped or not exist.
     * so we'll search for the first changeStatus to a status which is:
     * new > ourStatus > bug_resolved_status_threshold
+    *
+    * If status is new then the user did not start investigations.
+    *
+    * If the issue has been created with a status > $new, then
+    * the startDate shall be the date of submission.
+    * (because work has already started).
     *
     * Now, what if currentStatus == 'Feedback' ?
     * If status is feedback, then at least a minimum of investigation
@@ -297,24 +326,24 @@ class GanttManager {
     *  open     | firstDate of changeStatus to status > New
     */
    private function findStartDate($issue, $remainingStartDate) {
-   	global $status_acknowledged;
    	global $status_new;
-   	global $status_feedback;
 
-		if ($issue->currentStatus > $status_feedback) {
+		if ($status_new == $issue->currentStatus) {
 
-			// NO, just look for first 'changeIssue' in history table !
-   	   $startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
-   	   if (NULL == $startDate) {
-   	   	$startDate = $issue->getFirstStatusOccurrence($issue->currentStatus); // TODO: wrong ! check all status
-   	   }
-   	   if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
-
-   	   // we got the start day (in the past) which is different from the endDate of previous activity.
+			// if status is new, we want the startDate to be the same as the endDate of previous activity.
+			$startDate = $remainingStartDate;
 
 		} else {
-			// if status is new/feedback, we want the startDate to be the same as the endDate of previous activity.
-			$startDate = $remainingStartDate;
+
+	      $query = "SELECT date_modified FROM `mantis_bug_history_table` ".
+	               "WHERE bug_id=$issue->bugId ".
+	               "AND field_name = 'status' ".
+	               "AND old_value=$status_new ORDER BY id DESC";
+	      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	      $startDate  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+
+         // this happens, if the issue has been created with a status != 'new'
+   	   if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
 		}
 
       return $startDate;
@@ -370,19 +399,19 @@ class GanttManager {
 			#echo "DEBUG issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getRemaining()."<br/>";
 			#echo "DEBUG issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]."<br/>";
 
-			// userActivityList
+			// activitiesByUser
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
 
 
-      	if (NULL == $this->userActivityList[$issue->handlerId]) {
-      	   $this->userActivityList[$issue->handlerId] = array();
+      	if (NULL == $this->activitiesByUser[$issue->handlerId]) {
+      	   $this->activitiesByUser[$issue->handlerId] = array();
       	}
-      	$this->userActivityList[$issue->handlerId][] = $activity;
+      	$this->activitiesByUser[$issue->handlerId][] = $activity;
 
-    	   #echo "DEBUG add to userActivityList[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
+    	   #echo "DEBUG add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)<br/>\n";
       }
 
-      return $this->userActivityList;
+      return $this->activitiesByUser;
    }
 
    // -----------------------------------------
@@ -400,9 +429,9 @@ class GanttManager {
       $this->dispatchCurrentIssues($currentIssuesList);
 
 
-      //echo "DEBUG getGanttGraph : display nbUsers=".count($this->userActivityList)."<br/>\n";
+      //echo "DEBUG getGanttGraph : display nbUsers=".count($this->activitiesByUser)."<br/>\n";
       $mergedActivities = array();
-      foreach($this->userActivityList as $userid => $activityList) {
+      foreach($this->activitiesByUser as $userid => $activityList) {
          $user = UserCache::getInstance()->getUser($userid);
          #echo "==== ".$user->getName()." activities: <br/>";
          $mergedActivities = array_merge($mergedActivities, $activityList);
@@ -420,11 +449,11 @@ class GanttManager {
 
       foreach($teamActivities as $a) {
          $issue = IssueCache::getInstance()->getIssue($a->bugid);
-         $relationships = $issue->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+         $relationships = $issue->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY );
          foreach($relationships as $r) {
-             #echo "DEBUG Activity $a->activityIdx constrains ".$issueActivityMapping[$r]."<br/>";
+             #echo "DEBUG Activity ".$issueActivityMapping[$r]." constrains $a->activityIdx<br/>";
 
-             $constrains[] = array($a->activityIdx, $issueActivityMapping[$r], CONSTRAIN_ENDSTART);
+             $constrains[] = array($issueActivityMapping[$r], $a->activityIdx, CONSTRAIN_ENDSTART);
          }
       }
       return $constrains;
@@ -469,7 +498,7 @@ class GanttManager {
 
       // Add the specified activities
       $graph->CreateSimple($data,$constrains,$progress);
-
+#exit;
    	return $graph;
    }
 
