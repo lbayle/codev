@@ -64,6 +64,9 @@ class GanttActivity {
    // -----------------------------------------
    public function getJPGraphData($activityIdx) {
 
+      global $statusNames;
+      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
+
       // save this for later, to compute constrains
       $this->activityIdx = $activityIdx;
 
@@ -72,12 +75,17 @@ class GanttActivity {
 
    	$formattedActivityName = substr("$this->bugid - $issue->summary", 0, 50);
 
+      $formatedActivityInfo = $user->getName();
+      if ($issue->currentStatus < $bug_resolved_status_threshold) {
+      	$formatedActivityInfo .= " (".$statusNames[$issue->currentStatus].")";
+      }
+
    	return array($activityIdx,
    	             ACTYPE_NORMAL,
                    $formattedActivityName,
                    date('Y-m-d', $this->startTimestamp),
                    date('Y-m-d', $this->endTimestamp),
-                   $user->getName());
+                   $formatedActivityInfo);
    }
 
    // -----------------------------------------
