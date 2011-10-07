@@ -39,7 +39,7 @@ require_once ('gantt_manager.class.php');
 # ###########################"
 
 
-$teamid = isset($_GET['teamid']) ? $_GET['teamid'] : 2;
+$teamid = isset($_GET['teamid']) ? $_GET['teamid'] : 26;
 $startT = isset($_GET['startT']) ? $_GET['startT'] : date2timestamp("2011-08-01");
 $endT   = isset($_GET['endT']) ? $_GET['endT'] : date2timestamp("011-12-30");
 

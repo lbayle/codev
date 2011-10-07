@@ -312,7 +312,30 @@ function qsort_partition($a,$l,$r,$lp,$rp) {
        $lp = $i - 2;
        $rp = $i;
 } 
+
 // ------------------------------------------------------
+/**
+ * Takes an URL as input and applies url encoding only to the parameter values
+ */
+function SmartUrlEncode($url){
+   if (strpos($url, '=') == false) {
+      return $url;
+   } else {
+      $startpos = strpos($url, "?");
+      $tmpurl=substr($url, 0 , $startpos+1);
+      $qryStr=substr($url, $startpos+1 );
 
-
+      $qryvalues=explode("&", $qryStr);
+      foreach($qryvalues as &$value) {
+         $buffer=explode("=", $value);
+         if (2 == count($buffer)) {
+            $buffer[1]=urlencode($buffer[1]);
+            $value = implode("=", $buffer);
+       }
+      }
+      $finalqrystr=implode("&amp;", &$qryvalues);
+      $finalURL=$tmpurl . $finalqrystr;
+      return $finalURL;
+   }
+}
 ?>
