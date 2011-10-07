@@ -206,7 +206,7 @@ class GanttManager {
     * create a GanttActivity for each issue and dispatch it in $activitiesByUser[user]
     */
    private function dispatchResolvedIssues($resolvedIssuesList) {
-   	global $status_acknowledged;
+   	global $status_ack;
    	global $status_new;
    	global $status_closed;
    	global $gantt_task_grey;
@@ -215,7 +215,8 @@ class GanttManager {
 
       foreach ($resolvedIssuesList as $issue) {
 
-      	$startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
+      	$startDate = $issue->getFirstStatusOccurrence($status_ack);
+
       	if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
 
       	$endDate = $issue->getLatestStatusOccurrence($bug_resolved_status_threshold);
@@ -370,7 +371,7 @@ class GanttManager {
 
     */
    private function dispatchCurrentIssues($issueList) {
-   	global $status_acknowledged;
+#   	global $status_ack;
    	global $status_new;
    	global $status_feedback;
 
@@ -473,7 +474,6 @@ class GanttManager {
     *
     */
    public function getGanttGraph() {
-
 
       $teamActivities = $this->getTeamActivities();
 

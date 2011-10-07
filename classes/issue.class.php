@@ -869,15 +869,7 @@ class Issue {
 
       #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (B constrains more people)<br/>\n";
       return false;
-         }    
-
-   function compareTo_($issueB) {
-      
-      global $status_openned;
-      
-      
-   }
-
+   }    
 
    /**
     * Returns the Estimated Date of Arrival, depending on user's holidays and other timetracks
@@ -949,6 +941,105 @@ class Issue {
    }
    
    
+   /**
+    * returns the timestamp of the first time that
+    * the issue switched to status 'status'
+    *
+    * @return timestamp or NULL if not found
+    */
+   public function getFirstStatusOccurrence($status) {
+
+      global $status_new;
+
+      if ($status_new == $status) {
+         return $this->dateSubmission;
+      }
+
+      $query = "SELECT date_modified ".
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id";
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+/*
+      if (NULL == $timestamp) {
+         echo "DEBUG issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND ! <br/>\n";
+      } else {
+         echo "DEBUG issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp)."<br/>\n";
+      }
+*/
+      return $timestamp;
+   }
+
+   /**
+    * returns the timestamp of the latest time that
+    * the issue switched to status 'status'
+    *
+    * @return timestamp or NULL if not found
+    */
+   public function getLatestStatusOccurrence($status) {
+
+      global $status_new;
+
+      if ($status_new == $status) {
+         return $this->dateSubmission;
+      }
+
+      $query = "SELECT date_modified ".
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id DESC";
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+/*
+      if (NULL == $timestamp) {
+         echo "DEBUG issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND ! <br/>\n";
+      } else {
+         echo "DEBUG issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp)."<br/>\n";
+      }
+*/
+      return $timestamp;
+   }
+
+   /**
+    * returns a progress rate (depending on Remaining)
+    * formula: (BI+BS - RAF) / (BI+BS)
+    *
+    * 1 = 100% finished
+    * 0.5 = 50% done
+    * 0 = 0% done
+    */
+   public function getProgress() {
+
+      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
+
+
+      if ($this->currentStatus >= $bug_resolved_status_threshold) {
+         return 1; // issue is finished
+      }
+
+      // totalEffort is (BI+BS) or if not exist, PEE
+      if (NULL != $this->effortEstim) {
+         $totalEffort = $this->effortEstim + $this->effortAdd;
+      } else {
+         $totalEffort = $this->eta;
+      }
+
+      // if no Remaining set, 0% done
+      if (NULL == $this->remaining) {
+         return 0;
+      }
+
+      // nominal case
+      if ($this->remaining <= $totalEffort) {
+         $progress = ($totalEffort - $this->remaining) / $totalEffort;   // (T-R)/T
+      } else {
+         $progress = $totalEffort / ($totalEffort - $this->remaining);   // T/(T+R)
+      }
+      return $progress;
+   }
    
    
 } // class issue
