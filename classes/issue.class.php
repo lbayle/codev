@@ -57,6 +57,8 @@ class Issue {
    var $deadLine;
    var $deliveryDate;
    var $deliveryId;   // TODO FDL (FDJ specific) 
+
+   private $relationships; // array[relationshipType][bugId]
    
    // -- computed fields
    var $elapsed;    // total time spent on this issue
@@ -123,6 +125,8 @@ class Issue {
 
       // Prepare fields
       $this->statusList = array();
+      $this->relationships = array();
+      
    }
 
    // ----------------------------------------------
@@ -269,6 +273,59 @@ class Issue {
       }
 
       return $elapsed;
+   }
+
+   /**
+    * Returns the nb of days needed to finish the issue.
+    * if the 'remaining' (RAF) field is not defined, return effortEstim or prelEffortEstim
+    */
+   public function getRemaining() {
+      // determinate issue duration (Remaining, BI, PrelEffortEstim)
+      if       (NULL != $this->remaining)   { $issueDuration = $this->remaining; }
+     elseif   (NULL != $this->effortEstim) { $issueDuration = $this->effortEstim; }
+      else                                   { $issueDuration = $this->eta; }
+      return $issueDuration;
+   }
+   
+   /**
+    * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
+    *
+    * get list of Relationships
+    *
+    * @param type = 2500 or 2501
+    * @return array(issue_id);
+    */
+   public function getRelationships($type) {
+
+      // TODO
+      $complementaryType = (2500 == $type) ? 2501 : 2500;
+
+        if (NULL == $this->relationships[$type]) {
+         $this->relationships[$type] = array();
+
+           // normal
+         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
+                  "WHERE source_bug_id=$this->bugId ".
+                  "AND relationship_type = $type";
+         $result    = mysql_query($query) or die("Query failed: $query");
+         while($row = mysql_fetch_object($result))
+         {
+            #echo "DEBUG relationships: [$type] $this->bugId -> $row->destination_bug_id </br>\n";
+            $this->relationships[$type][] = $row->destination_bug_id;
+         }
+         // complementary
+         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
+                  "WHERE destination_bug_id=$this->bugId ".
+                  "AND relationship_type = ".$complementaryType;
+         $result    = mysql_query($query) or die("Query failed: $query");
+         while($row = mysql_fetch_object($result))
+         {
+            #echo "DEBUG relationshipsC: [$type] $this->bugId -> $row->source_bug_id </br>\n";
+            $this->relationships[$type][] = $row->source_bug_id;
+         }
+        }
+
+      return $this->relationships[$type];
    }
    
    // ----------------------------------------------

@@ -52,5 +52,9 @@
   $status_feedback_ATOS = array_search('feedback_ATOS', $statusNames);;
   $status_feedback_FDJ  = array_search('feedback_FDJ', $statusNames);;
   
+
+  # Custom Relationships
+  define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY',       2500 );
+  define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',           2501 );
   
 ?>
