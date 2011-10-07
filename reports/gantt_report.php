@@ -151,8 +151,11 @@ if (0 == count($teamList)) {
 
    $defaultDate1 = 0; // 1971
    if (0 != $teamid) {
-      $team = new Team($teamid);
+/*
+   	$team = new Team($teamid);
       $defaultDate1 = $team->date;
+*/
+   	$defaultDate1 = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
       $defaultDate2 = mktime(0, 0, 0, date("m"), date("d"), date("Y")+1);
    }
 
