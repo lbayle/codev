@@ -24,7 +24,7 @@
 
   include_once "config.class.php"; 
 
-   
+  date_default_timezone_set('Europe/Paris');   
    
   $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
    
