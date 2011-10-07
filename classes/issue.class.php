@@ -803,6 +803,21 @@ class Issue {
    function compareTo($issueB) {
       
       global $status_openned;
+
+      // if IssueB constrains IssueA, then IssueB is higher priority
+      $AconstrainsList = $this->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      if (in_array($this->bugId, $BconstrainsList)) {
+         // B constrains A
+         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (B constrains A)<br/>\n";
+         return false;
+      }
+      if (in_array($issueB->bugId, $AconstrainsList)) {
+         // A constrains B
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains B)<br/>\n";
+         return true;
+      }
+      
       
       // Tasks currently open are higher priority
       if (($this->currentStatus == $status_openned) && ($issueB->currentStatus != $status_openned)) {
@@ -837,12 +852,24 @@ class Issue {
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
          #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (priority attr)<br/>\n";
-         return  true; 
+         return  true;
       }
-            
-      #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (priority attr)<br/>\n";
+      if ($this->priority < $issueB->priority) {
+         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (priority attr)<br/>\n";
+         return  false;
+      }
+
+
+      // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
+      if (count($AconstrainsList) > count($BconstrainsList)) {
+         // A constrains more people, so A is higher priority
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains more people)<br/>\n";
+         return true;
+      }
+
+      #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (B constrains more people)<br/>\n";
       return false;
-   }    
+         }    
 
    function compareTo_($issueB) {
       
