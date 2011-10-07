@@ -14,7 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-
 <?php
 
 include_once "project.class.php";
@@ -1045,4 +1044,3 @@ class Issue {
 } // class issue
 
 ?>
-

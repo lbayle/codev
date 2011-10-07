@@ -44,7 +44,10 @@ $startT = isset($_GET['startT']) ? $_GET['startT'] : date2timestamp("2011-08-01"
 $endT   = isset($_GET['endT']) ? $_GET['endT'] : date2timestamp("011-12-30");
 
 $gantManager = new GanttManager($teamid, $startT, $endT);
+
+
 $graph = $gantManager->getGanttGraph();
+
 
 // INFO: the following 2 lines are MANDATORY and fix the following error:
 // “The image <name> cannot be displayed because it contains errors”
