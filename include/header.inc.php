@@ -21,6 +21,7 @@
    include_once "mysql_connect.inc.php";
    include_once "internal_config.inc.php";
    include_once "constants.php";
+
 ?>
 
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
@@ -28,7 +29,7 @@
 
 <head>
 <title>CoDev TimeTracking</title>
-<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 
 <?php 
    echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";

@@ -23,4 +23,8 @@
    
    mysql_select_db($db_mantis_database) or die("Could not select database: ". mysql_error());
 
+mysql_query('SET CHARACTER SET utf8');
+mysql_query('SET NAMES utf8');
+
+
 ?>

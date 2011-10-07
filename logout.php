@@ -28,8 +28,8 @@ unset($_SESSION['username']);
 unset($_SESSION['realname']);
 session_destroy();
           
-echo ("<script> parent.location.replace('../codev'); </script>");
-       
+echo '<script language="javascript"> window.location="',getServerRootURL(),'"; </script>';
+
 ?>
      
 <?php include 'footer.inc.php'; ?>
