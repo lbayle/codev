@@ -500,6 +500,21 @@ class GanttManager {
 
       // Add the specified activities
       foreach($teamActivities as $a) {
+
+         // Shorten bar depending on gantt startDate
+         if ((NULL != $this->startTimestamp) &&
+             ($a->startTimestamp < $this->startTimestamp)) {
+            $a->startTimestamp = $this->startTimestamp;
+
+            $prefixBar = new GanttBar($a->activityIdx,
+                          "",
+                          date('Y-m-d', $this->startTimestamp - (60*60*24)),
+                          date('Y-m-d', $this->startTimestamp - (60*60*24)),
+                          "",10);
+            $prefixBar->SetBreakStyle(true,'dotted',2);
+            $graph->Add($prefixBar);
+         }
+
          $bar = $a->getJPGraphBar($issueActivityMapping);
          $graph->Add($bar);
       }
