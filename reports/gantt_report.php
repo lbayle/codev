@@ -149,12 +149,8 @@ if (0 == count($teamList)) {
 
 	$action = isset($_POST['action']) ? $_POST['action'] : '';
 
-   $defaultDate1 = 0; // 1971
-   if (0 != $teamid) {
-      $team = new Team($teamid);
-      $defaultDate1 = $team->date;
-      $defaultDate2 = mktime(0, 0, 0, date("m"), date("d"), date("Y")+1);
-   }
+   $defaultDate1 = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+   $defaultDate2 = mktime(0, 0, 0, date("m"), date("d"), date("Y")+1);
 
    if ($action == "teamChanged") {
    	$date1 = date("Y-m-d", $defaultDate1);
