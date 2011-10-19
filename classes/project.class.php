@@ -95,7 +95,7 @@ class Project {
     *
     * @param unknown_type $projectName
     */
-   public static function createSideTaskProject($projectName) {
+   public static function createExternalTasksProject($projectName) {
 
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
@@ -130,11 +130,7 @@ class Project {
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
 
-      // create entry in codev_sidetasks_category_table
-      $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-
-      // when creating an new issue, the status is set to 'closed' (most SideTasks have no workflow...)
+      // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
       #REM this function is called in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
       $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;

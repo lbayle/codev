@@ -82,8 +82,8 @@ include_once "team.class.php";
 function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
                                $isCreateSTProj, $stproj_name,
                                $isCatIncident, $isCatTools, $isCatOther,
-                               $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskOther,
-                               $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
+                               $isTaskLeave, $isTaskOnDuty, $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskOther,
+                               $task_leave, $task_onDuty, $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
                                $is_modified = "false"
                                ) {
 
@@ -150,8 +150,9 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "<table class='invisible'>\n";
 
   echo "  <tr>\n";
-  echo "    <td width='150'><input type=CHECKBOX DISABLED name='cb_catInactivity' id='cb_catInactivity'>".
-       "<span title='".T_("This category is declared in CommonSideTaskProject")."' style='color:lightgrey'>".T_("Inactivity")."</span></input></td>\n";
+  echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_catInactivity' id='cb_catInactivity'>".T_("Inactivity")."</span></input>\n";
+  echo "    <span style='color:red'>*</span></td>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Holidays, Leave, On Duty").")</span></td>\n";
   echo "  </tr>\n";
 
   echo "  <tr>\n";
@@ -201,6 +202,22 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "<li><b>".T_("Default SideTasks")."</b><br/>\n";
   echo "<table class='invisible'>\n";
   echo "  <tr>\n";
+
+  // ---
+  echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_taskLeave' id='cb_taskLeave'>".
+       T_("Inactivity")." (".T_("leave").")</input>";
+  echo "    <span style='color:red'>*</span></td>\n";
+  echo "    <td><input size='100' type='text' name='task_leave'  id='task_leave' value='$task_leave'></td>\n";
+  echo "  </tr>\n";
+  echo "  <tr>\n";
+
+  $isChecked = $isTaskOnDuty ? "CHECKED" : "";
+  echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskOnDuty' id='cb_taskOnDuty'>".
+       T_("Inactivity")." (".T_("on duty").")</input></td>\n";
+  echo "    <td><input size='100' type='text' name='task_onDuty'  id='task_onDuty' value='$task_onDuty'></td>\n";
+  echo "  </tr>\n";
+  echo "  <tr>\n";
+
   $isChecked = $isTaskProjManagement ? "CHECKED" : "";
   echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskProjManagement' id='cb_taskProjManagement'>".
        T_("Project Management")."</input></td>\n";
@@ -264,6 +281,7 @@ $defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSide
 $sideTaskProjectType    = Project::type_sideTaskProject;
 
 $cat_projManagement = T_("Project Management");
+$cat_inactivity     = T_("Inactivity");
 $cat_incident       = T_("Incident");
 $cat_tools          = T_("Tools");
 $cat_other          = T_("Team Workshop");
@@ -295,6 +313,8 @@ if ("false" == $is_modified) {
    $isCatTools           = true;
    $isCatOther           = true;
    $isTaskProjManagement = true;
+   $isTaskLeave          = true;
+   $isTaskOnDuty         = true;
    $isTaskMeeting        = true;
    $isTaskIncident       = false;
    $isTaskTools          = false;
@@ -307,6 +327,8 @@ if ("false" == $is_modified) {
    $isCatIncident        = $_POST['cb_catIncident'];
    $isCatTools           = $_POST['cb_catTools'];
    $isCatOther           = $_POST['cb_catOther'];
+   $isTaskLeave          = $_POST['cb_taskLeave'];
+   $isTaskOnDuty         = $_POST['cb_taskOnDuty'];
    $isTaskProjManagement = $_POST['cb_taskProjManagement'];
    $isTaskMeeting        = $_POST['cb_taskMeeting'];
    $isTaskIncident       = $_POST['cb_taskIncident'];
@@ -316,11 +338,13 @@ if ("false" == $is_modified) {
    $stproj_name = ("" == $team_name) ? $defaultSideTaskProjectName : T_("SideTasks")." $team_name";
 }
 
+$task_leave = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("(generic) Leave");
+$task_onDuty = isset($_POST['task_onDuty']) ? $_POST['task_onDuty'] : T_("(generic) Leave but on duty");
 $task_projManagement = isset($_POST['task_projManagement']) ? $_POST['task_projManagement'] : T_("(generic) Project Management");
 $task_meeting = isset($_POST['task_meeting']) ? $_POST['task_meeting'] : T_("(generic) Meeting");
-$task_incident = isset($_POST['task_incident']) ? $_POST['task_incident'] : T_("(generic) Dev Platform is down");
+$task_incident = isset($_POST['task_incident']) ? $_POST['task_incident'] : T_("(generic) Network is down");
 $task_tools = isset($_POST['task_tools']) ? $_POST['task_tools'] : T_("(generic) Compilation Scripts");
-$task_other1 = isset($_POST['task_other1']) ? $_POST['task_other1'] : T_("(generic) Internal Support");
+$task_other1 = isset($_POST['task_other1']) ? $_POST['task_other1'] : T_("(generic) Update team WIKI");
 
 
 #unset($_SESSION['teamid']);
@@ -356,6 +380,8 @@ if ("addTeam" == $action) {
             // 4) --- add SideTaskProject Categories
       	   $stproj->addCategoryProjManagement($cat_projManagement);
 
+            $stproj->addCategoryInactivity($cat_inactivity);
+
       	   if ($isCatIncident) {
                $stproj->addCategoryIncident($cat_incident);
 	         }
@@ -367,6 +393,9 @@ if ("addTeam" == $action) {
             }
 
             // 5) --- add SideTaskProject default SideTasks
+
+            $stproj->addIssueInactivity($task_leave);
+
             if ($isTaskProjManagement) {
         	      $stproj->addIssueProjManagement($task_projManagement);
             }
@@ -403,8 +432,8 @@ if ("addTeam" == $action) {
    displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
                          $isCreateSTProj, $stproj_name,
                          $isCatIncident, $isCatTools, $isCatOther,
-                         $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskOther,
-                         $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
+                         $isTaskLeave, $isTaskOnDuty, $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskOther,
+                         $task_leave, $task_onDuty, $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
                          $is_modified);
 #}
 
