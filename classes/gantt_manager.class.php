@@ -504,12 +504,12 @@ class GanttManager {
          // Shorten bar depending on gantt startDate
          if ((NULL != $this->startTimestamp) &&
              ($a->startTimestamp < $this->startTimestamp)) {
-            $a->startTimestamp = $this->startTimestamp;
+            $a->startTimestamp = $this->startTimestamp + (60*60*24);
 
             $prefixBar = new GanttBar($a->activityIdx,
                           "",
-                          date('Y-m-d', $this->startTimestamp - (60*60*24)),
-                          date('Y-m-d', $this->startTimestamp - (60*60*24)),
+                          date('Y-m-d', $this->startTimestamp),
+                          date('Y-m-d', $this->startTimestamp),
                           "",10);
             $prefixBar->SetBreakStyle(true,'dotted',1);
             $graph->Add($prefixBar);
