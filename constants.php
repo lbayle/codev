@@ -38,6 +38,7 @@
   $status_new       = array_search('new', $statusNames);
   $status_feedback  = array_search('feedback', $statusNames);
   $status_ack       = array_search('acknowledged', $statusNames);
+  $status_acknowledged  = array_search('acknowledged', $statusNames); // for compatibility with 'master' branch
   $status_analyzed  = array_search('analyzed', $statusNames);
   $status_accepted  = array_search('accepted', $statusNames);  // CoDev FDJ custom, defined in Mantis
   $status_openned   = array_search('openned', $statusNames);

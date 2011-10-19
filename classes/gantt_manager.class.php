@@ -54,6 +54,8 @@ class GanttActivity {
          $issue = IssueCache::getInstance()->getIssue($this->bugid);
          $this->progress = $issue->getProgress();
       }
+
+      $this->color = 'darkorange';
 	}
 
    // -----------------------------------------
@@ -62,31 +64,46 @@ class GanttActivity {
    }
 
    // -----------------------------------------
-   public function getJPGraphData($activityIdx) {
+   public function setActivityIdx($activityIdx) {
+   	$this->activityIdx = $activityIdx;
+   }
 
+
+   public function getJPGraphBar($issueActivityMapping) {
       global $statusNames;
       $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
-      // save this for later, to compute constrains
-      $this->activityIdx = $activityIdx;
 
    	$user = UserCache::getInstance()->getUser($this->userid);
       $issue = IssueCache::getInstance()->getIssue($this->bugid);
 
-   	$formattedActivityName = substr("$this->bugid - $issue->summary", 0, 50);
+   	$formatedActivityName = substr("$this->bugid - $issue->summary", 0, 50);
 
       $formatedActivityInfo = $user->getName();
       if ($issue->currentStatus < $bug_resolved_status_threshold) {
       	$formatedActivityInfo .= " (".$statusNames[$issue->currentStatus].")";
       }
 
-   	return array($activityIdx,
-   	             ACTYPE_NORMAL,
-                   $formattedActivityName,
-                   date('Y-m-d', $this->startTimestamp),
-                   date('Y-m-d', $this->endTimestamp),
-                   $formatedActivityInfo);
+      $bar = new GanttBar($this->activityIdx,
+                          $formatedActivityName,
+                          date('Y-m-d', $this->startTimestamp),
+                          date('Y-m-d', $this->endTimestamp),
+                          $formatedActivityInfo,10);
+
+      // --- colors
+      $bar->SetPattern(GANTT_SOLID, $this->color);
+      $bar->progress->Set($this->progress);
+      $bar->progress->SetPattern(GANTT_SOLID,"darkgreen");
+
+      // --- add constrains
+      $relationships = $issue->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      foreach($relationships as $bugid) {
+          // Add a constrain from the end of this activity to the start of the activity $bugid
+          $bar->SetConstrain($issueActivityMapping[$bugid], CONSTRAIN_ENDSTART);
+      }
+
+      return $bar;
    }
+
 
    // -----------------------------------------
    public function toString() {
@@ -205,7 +222,7 @@ class GanttManager {
     * create a GanttActivity for each issue and dispatch it in $activitiesByUser[user]
     */
    private function dispatchResolvedIssues($resolvedIssuesList) {
-   	global $status_ack;
+   	global $status_acknowledged;
    	global $status_new;
    	global $status_closed;
    	global $gantt_task_grey;
@@ -214,8 +231,7 @@ class GanttManager {
 
       foreach ($resolvedIssuesList as $issue) {
 
-      	$startDate = $issue->getFirstStatusOccurrence($status_ack);
-
+      	$startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
       	if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
 
       	$endDate = $issue->getLatestStatusOccurrence($bug_resolved_status_threshold);
@@ -370,7 +386,7 @@ class GanttManager {
 
     */
    private function dispatchCurrentIssues($issueList) {
-#   	global $status_ack;
+   	global $status_acknowledged;
    	global $status_new;
    	global $status_feedback;
 
@@ -452,48 +468,26 @@ class GanttManager {
       return $sortedList;
    }
 
-   private function getConstrains($teamActivities, $issueActivityMapping) {
-
-      $constrains = array();
-
-      foreach($teamActivities as $a) {
-         $issue = IssueCache::getInstance()->getIssue($a->bugid);
-         $relationships = $issue->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY );
-         foreach($relationships as $r) {
-             #echo "DEBUG Activity ".$issueActivityMapping[$r]." constrains $a->activityIdx<br/>";
-
-             $constrains[] = array($issueActivityMapping[$r], $a->activityIdx, CONSTRAIN_ENDSTART);
-         }
-      }
-      return $constrains;
-   }
-
 
    /**
     *
     */
    public function getGanttGraph() {
 
+      // mapping to ease constrains building
+      $issueActivityMapping = array();
+
       $teamActivities = $this->getTeamActivities();
 
-      // ----
-      $issueActivityMapping = array();
-      $progress = array();
-      $data = array();
-
+      // --- set activityIdx
       $activityIdx = 0;
       foreach($teamActivities as $a) {
-         $data[] = $a->getJPGraphData($activityIdx);
-         $progress[] = array($activityIdx, $a->progress);
+      	$a->setActivityIdx($activityIdx);
 
-         // mapping to ease constrains building
          $issueActivityMapping[$a->bugid] = $activityIdx;
-
          ++$activityIdx;
       }
 
-      // ---
-      $constrains = $this->getConstrains($teamActivities, $issueActivityMapping);
       // ----
    	$graph = new GanttGraph();
 
@@ -505,7 +499,26 @@ class GanttManager {
       $graph->scale->week->SetStyle(WEEKSTYLE_FIRSTDAYWNBR);
 
       // Add the specified activities
-      $graph->CreateSimple($data,$constrains,$progress);
+      foreach($teamActivities as $a) {
+
+         // Shorten bar depending on gantt startDate
+         if ((NULL != $this->startTimestamp) &&
+             ($a->startTimestamp < $this->startTimestamp)) {
+            $a->startTimestamp = $this->startTimestamp;
+
+            $prefixBar = new GanttBar($a->activityIdx,
+                          "",
+                          date('Y-m-d', $this->startTimestamp - (60*60*24)),
+                          date('Y-m-d', $this->startTimestamp - (60*60*24)),
+                          "",10);
+            $prefixBar->SetBreakStyle(true,'dotted',1);
+            $graph->Add($prefixBar);
+         }
+
+         $bar = $a->getJPGraphBar($issueActivityMapping);
+         $graph->Add($bar);
+      }
+
 #exit;
    	return $graph;
    }
