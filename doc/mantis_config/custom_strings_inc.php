@@ -24,4 +24,18 @@
   $s_email_notification_title_for_status_bug_delivered = 'The issue has been assigned to an FDL-Issue.';
   
   $s_eta_enum_string = '10:none,20:< 1 day,30:2-3 days,40:<1 week,50:< 15 days,60:> 15 days';
+  
+  $s_severity_enum_string = '10:question,50:minor,60:major,70:crash,80:block';
+  $s_resolution_enum_string = '10:open,20:fixed,30:reopened,40:unable to reproduce,50:not fixable,60:duplicate,70:not a bug,80:suspended,90:won\'t fix';
+
+
+
+  # Custom Relationships
+  $s_rel_constrained_by = 'constrained by';
+  $s_email_notification_title_for_action_constrained_by_relationship_added = 'Constrained-By Relationship Added';
+  $s_email_notification_title_for_action_constrained_by_relationship_deleted = 'Constrained-By Relationship Deleted';
+  $s_rel_constrains = 'constrains';
+  $s_email_notification_title_for_action_constrains_relationship_added = 'Constrains Relationship Added';
+  $s_email_notification_title_for_action_constrains_relationship_deleted = 'Constrains Relationship Deleted';
+
 ?>

@@ -43,6 +43,8 @@ echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/productivity_report.php' title='".T_("Productivity Reports")."'>".T_("Productivity")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/statistics.php' title=''>".T_("Statistics")."</a>\n";
+echo "      |\n";
+echo "      <a href='".getServerRootURL()."/reports/gantt_report.php' title='".T_("Gantt Chart")."'>".T_("Gantt")."</a>\n";
 #echo "      |\n";
 #echo "      <a href='".getServerRootURL()."/reports/mantis_reports.php' title=''>".T_("Mantis Reports")."</a>\n";
 echo "      |\n";

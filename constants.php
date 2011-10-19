@@ -1,4 +1,3 @@
-
 <?php /*
     This file is part of CoDev-Timetracking.
 
@@ -15,7 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-
 <?php
 
   // The Variables in here can be customized to your needs
@@ -24,7 +22,7 @@
 
   include_once "config.class.php"; 
 
-   
+  date_default_timezone_set('Europe/Paris');   
    
   $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
    
@@ -40,6 +38,7 @@
   $status_new       = array_search('new', $statusNames);
   $status_feedback  = array_search('feedback', $statusNames);
   $status_ack       = array_search('acknowledged', $statusNames);
+  $status_acknowledged  = array_search('acknowledged', $statusNames); // for compatibility with 'master' branch
   $status_analyzed  = array_search('analyzed', $statusNames);
   $status_accepted  = array_search('accepted', $statusNames);  // CoDev FDJ custom, defined in Mantis
   $status_openned   = array_search('openned', $statusNames);
@@ -52,5 +51,9 @@
   $status_feedback_ATOS = array_search('feedback_ATOS', $statusNames);;
   $status_feedback_FDJ  = array_search('feedback_FDJ', $statusNames);;
   
+
+  # Custom Relationships
+  define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY',       2500 );
+  define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',           2501 );
   
 ?>
