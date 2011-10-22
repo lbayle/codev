@@ -116,32 +116,6 @@ class Install {
       }
    }
 
-
-   // --------------------------------------------------------
-   /**
-    *
-    * @param $sqlFile
-    */
-	public function execSQLscript($sqlFile = "bugtracker_install.sql") {
-
-      $requetes="";
-
-      $sql=file($sqlFile);
-      foreach($sql as $l){
-         if (substr(trim($l),0,2)!="--"){ // remove comments
-            $requetes .= $l;
-         }
-      }
-
-      $reqs = split(";",$requetes);// identify single requests
-      foreach($reqs as $req){
-         if (!mysql_query($req) && trim($req)!="") {
-            die("ERROR : ".$req." ---> ".mysql_error());
-         }
-      }
-      echo "done<br/>";
-	}
-
    // --------------------------------------------------------
 	/**
 	 * create a customField in Mantis (if not exist) & update codev_config_table

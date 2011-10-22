@@ -147,7 +147,7 @@ if ("setDatabaseInfo" == $action) {
    	$install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
 
    	echo "DEBUG execSQLscript<br/>";
-   	$install->execSQLscript($sqlFile);
+   	execSQLscript($sqlFile);
 
    	echo "DEBUG createCustomFields<br/>";
    	$install->createCustomFields();
