@@ -134,15 +134,15 @@ displayForm($originPage,
 
 if ("proceedStep2" == $action) {
 
-    echo "DEBUG add filename_strings<br/>";
+    echo "DEBUG 1/9 add filename_strings<br/>";
     $desc = T_("Path to mantis config file: strings_english.txt");
     Config::getInstance()->setValue(Config::id_mantisFile_strings, $filename_strings, Config::configType_string , $desc);
 
-    echo "DEBUG add filename_custom_strings<br/>";
+    echo "DEBUG 2/9 add filename_custom_strings<br/>";
     $desc = T_("Path to mantis config file: custom_strings_inc.php");
     Config::getInstance()->setValue(Config::id_mantisFile_custom_strings, $filename_custom_strings, Config::configType_string , $desc);
 
-    echo "DEBUG add path_mantis<br/>";
+    echo "DEBUG 3/9 add path_mantis<br/>";
     $desc = T_("Path to mantis");
     Config::getInstance()->setValue(Config::id_mantisPath, $path_mantis, Config::configType_string , $desc);
 
@@ -189,30 +189,30 @@ if ("proceedStep2" == $action) {
     $priority_enum_string   = isset($g_priority_enum_string) ? $g_priority_enum_string : $s_priority_enum_string;
     $resolution_enum_string = isset($g_resolution_enum_string) ? $g_resolution_enum_string : $s_resolution_enum_string;
 
-    echo "DEBUG add statusNames<br/>";
+    echo "DEBUG 4/9 add statusNames<br/>";
     $desc = T_("status Names as defined in Mantis (status_enum_string)");
     Config::getInstance()->setValue(Config::id_statusNames, $status_enum_string, Config::configType_keyValue , $desc);
 
-    echo "DEBUG add priorityNames<br/>";
+    echo "DEBUG 5/9 add priorityNames<br/>";
     $desc = T_("priority Names as defined in Mantis (priority_enum_string)");
     $formatedString = str_replace("'", " ", $priority_enum_string);
     Config::getInstance()->setValue(Config::id_priorityNames, $formatedString, Config::configType_keyValue , $desc);
 
-    echo "DEBUG add resolutionNames<br/>";
+    echo "DEBUG 6/9 add resolutionNames<br/>";
     $desc = T_("resolution Names as defined in Mantis (resolution_enum_string)");
     $formatedString = str_replace("'", " ", $resolution_enum_string);
     Config::getInstance()->setValue(Config::id_resolutionNames, $formatedString, Config::configType_keyValue , $desc);
 
-    echo "DEBUG add bug_resolved_status_threshold<br/>";
+    echo "DEBUG 7/9 add bug_resolved_status_threshold<br/>";
     $bug_resolved_status_threshold = isset($g_bug_resolved_status_threshold) ? $g_bug_resolved_status_threshold : constant("RESOLVED");
     $desc = T_("bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)");
     Config::getInstance()->setValue(Config::id_bugResolvedStatusThreshold, "$bug_resolved_status_threshold", Config::configType_int , $desc);
 
-    echo "DEBUG create constants.php<br/>";
+    echo "DEBUG 8/9 create constants.php<br/>";
     $install = new Install();
     $install->createConstantsFile();
 
-    echo "DEBUG add CodevTT to Mantis menu<br/>";
+    echo "DEBUG 9/9 add CodevTT to Mantis menu<br/>";
     $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
     $install->addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
 }

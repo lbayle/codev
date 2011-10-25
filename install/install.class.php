@@ -321,7 +321,9 @@ class Install {
 
    	  if (-1 != $teamId) {
            // --- add to codev_config_table
+           Config::getInstance()->setQuiet(true);
    	     Config::getInstance()->setValue(Config::id_adminTeamId, $teamId, Config::configType_int);
+           Config::getInstance()->setQuiet(false);
 
            // add leader as member
    	     $adminTeam = new Team($teamId);

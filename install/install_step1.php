@@ -60,15 +60,16 @@ function displayStepInfo() {
    echo "<h2>".T_("Prerequisites")."</h2>\n";
    echo "<ul>\n";
    echo "<li>Successfully installed Mantis</li>";
+   echo "<li>user 'apache' has write access to CodevTT directory</li>";
    echo "<li>MySQL 'codev' user created with access to Mantis DB</li>";
    echo "</ul>\n";
    echo "<h2>".T_("Actions")."</h2>\n";
    echo "<ul>\n";
-   echo "<li>Create database configuration file for CoDev</li>";
-   echo "<li>Create CoDev database tables</li>";
-   echo "<li>Add CoDev specific custom fields to Mantis</li>";
-   echo "<li>Create CommonSideTasks Project</li>";
-   echo "<li>Create CoDev Admin team</li>";
+   echo "<li>Create database configuration file for CodevTT</li>";
+   echo "<li>Create CodevTT database tables</li>";
+   echo "<li>Add CodevTT specific custom fields to Mantis</li>";
+   echo "<li>Create ExternalTasks Project</li>";
+   echo "<li>Create CodevTT Admin team</li>";
    echo "</ul>\n";
    echo "";
 }

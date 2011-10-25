@@ -225,7 +225,7 @@ class Team {
 
       $extTasksProjectType = Project::type_noStatsProject;
 
-      $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);;
+      $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
       // TODO check if ExternalTasksProject not already in table !
 
@@ -261,7 +261,6 @@ class Team {
       // --- assign SideTaskProject specific Job
       #REM: 'N/A' job_id = 1, created by SQL file
       Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
-
 
       return $projectid;
    }
