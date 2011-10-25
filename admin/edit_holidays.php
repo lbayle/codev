@@ -105,6 +105,9 @@ include_once "holidays.class.php";
 require_once('tc_calendar.php');
 
 // ----------------------------------------------------
+/*
+ * TODO: to be moved to EditTeam page
+ *
 function addAstreinteForm($originPage) {
 
 
@@ -157,7 +160,7 @@ function addAstreinteForm($originPage) {
 
    echo "</div>\n";
 }
-
+*/
 
 // ----------------------------------------------------
 function displayAstreintesTuples() {
@@ -307,6 +310,7 @@ if (!$session_user->isTeamMember($admin_teamid)) {
    exit;
 }
 
+/*
 echo "<h2>".T_("Add OnDuty holidays")."</h2>\n";
 echo "<br/>";
 echo T_("In here you can specify which inactivity tasks are also astreintes")."<br/>";
@@ -316,7 +320,7 @@ echo "<br/>";
 displayAstreintesTuples();
 echo "<br/>";
 echo "<br/>";
-
+*/
 
 echo "<h2>".T_("Add fixed holidays")."</h2>\n";
 echo "<br/>";

@@ -69,7 +69,7 @@ class Config {
    const  configType_array    = 4;
 
    // known Config ids
-   const id_defaultSideTaskProject   = "defaultSideTaskProject";
+   const id_externalTasksProject    =  "externalTasksProject";
    const id_jobSupport               = "job_support";
    const id_adminTeamId              = "adminTeamId";
    const id_statusNames              = "statusNames";

@@ -320,15 +320,15 @@ class Install {
       $teamId = Team::create($name, T_("CoDevTT Administrators team"), $leader_id, $today);
 
    	  if (-1 != $teamId) {
-         // --- add to codev_config_table
+           // --- add to codev_config_table
    	     Config::getInstance()->setValue(Config::id_adminTeamId, $teamId, Config::configType_int);
 
            // add leader as member
    	     $adminTeam = new Team($teamId);
    	     $adminTeam->addMember($leader_id, $today, Team::accessLevel_dev);
 
-         // add default SideTaskProject
-         $adminTeam->addCommonSideTaskProject();
+           // add default ExternalTasksProject
+           $adminTeam->addExternalTasksProject();
 
             // --- add <team> SideTaskProject
             $stproj_id = $team->createSideTaskProject(T_("SideTasks")." $name");

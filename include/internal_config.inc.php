@@ -74,7 +74,7 @@
   $resolutionNames = Config::getInstance()->getValue(Config::id_resolutionNames);
 
   // ---
-  $defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSideTaskProject); // "SuiviOp" in table mantis_project_table
+  $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
   $_POST['codevReportsDir'] = $codevReportsDir; // used by tools/download.php

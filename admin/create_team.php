@@ -277,8 +277,6 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 // ================ MAIN =================
 
 $admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
-$defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);
-$sideTaskProjectType    = Project::type_sideTaskProject;
 
 $cat_projManagement = T_("Project Management");
 $cat_inactivity     = T_("Inactivity");
@@ -286,7 +284,7 @@ $cat_incident       = T_("Incident");
 $cat_tools          = T_("Tools");
 $cat_other          = T_("Team Workshop");
 
-$defaultSideTaskProjectName = T_("SideTasks")." my_team";
+$teamSideTaskProjectName = T_("SideTasks")." my_team";
 
 // ---- if not codev admin then stop now.
 // REM: who is allowed to create a new team ? anyone ?
@@ -320,7 +318,7 @@ if ("false" == $is_modified) {
    $isTaskTools          = false;
    $isTaskOther          = false;
 
-   $stproj_name = $defaultSideTaskProjectName;
+   $stproj_name = $teamSideTaskProjectName;
 
 } else {
    $isCreateSTProj       = $_POST['cb_createSideTaskProj'];
@@ -335,7 +333,7 @@ if ("false" == $is_modified) {
    $isTaskTools          = $_POST['cb_taskTools'];
    $isTaskOther          = $_POST['cb_taskOther'];
 
-   $stproj_name = ("" == $team_name) ? $defaultSideTaskProjectName : T_("SideTasks")." $team_name";
+   $stproj_name = ("" == $team_name) ? $teamSideTaskProjectName : T_("SideTasks")." $team_name";
 }
 
 $task_leave = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("(generic) Leave");
@@ -364,8 +362,8 @@ if ("addTeam" == $action) {
 
       $team = new Team($teamid);
 
-      // 2) --- add default SideTaskProject
-      $team->addCommonSideTaskProject();
+      // 2) --- add ExternalTasksProject
+      $team->addExternalTasksProject();
 
 
       if ($isCreateSTProj) {
