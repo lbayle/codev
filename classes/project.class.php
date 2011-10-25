@@ -97,12 +97,50 @@ class Project {
     */
    public static function createExternalTasksProject($projectName) {
 
+      //--- check if name exists
+      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
+      $result = mysql_query($query) or die("Query failed: $query");
+      $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
+      if (-1 != $projectid) {
+         echo "ERROR: Project name already exists ($projectName)<br/>\n";
+         return -1;
+      }
+
+      //--- create new Project
+      $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
+               "VALUES ('$projectName','50','1','10','10','$projectDesc','1','1');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $projectid = mysql_insert_id();
+
+
+      //--- when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
+      #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
+      $statusNames = NULL; # Config::getInstance()->getValue(Config::id_statusNames);
+      $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+               "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+
+      //--- Status to set auto-assigned issues to 'closed'
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+               "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+
+      return $projectid;
+   }
+
+   // -----------------------------------------------
+   /**
+    *
+    * @param unknown_type $projectName
+    */
+   public static function createSideTaskProject($projectName) {
+
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
       $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-
 
       // check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
@@ -119,7 +157,6 @@ class Project {
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $projectid = mysql_insert_id();
 
-
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
                "VALUES ('$estimEffortCustomField',  '$projectid','3'), ".
@@ -129,16 +166,15 @@ class Project {
                       "('$deliveryDateCustomField', '$projectid','7');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
-
       // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
-      #REM this function is called in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
+      #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
       $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
-      // Status to set auto-assigned issues to = closed
+      // Status to set auto-assigned issues to 'closed'
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
