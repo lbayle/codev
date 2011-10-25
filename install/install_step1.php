@@ -143,24 +143,24 @@ if ("setDatabaseInfo" == $action) {
    	exit;
    } else {
 
-   	echo "DEBUG createMysqlConfigFile<br/>";
+   	echo "DEBUG 1/6 createMysqlConfigFile<br/>";
    	$install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
 
-   	echo "DEBUG execSQLscript<br/>";
+   	echo "DEBUG 2/6 execSQLscript<br/>";
    	$install->execSQLscript($sqlFile);
 
-   	echo "DEBUG createCustomFields<br/>";
+   	echo "DEBUG 3/6 createCustomFields<br/>";
    	$install->createCustomFields();
 
-   	echo "DEBUG createExternalTasksProject<br/>";
+   	echo "DEBUG 4/6 createExternalTasksProject<br/>";
    	$extproj_id = $install->createExternalTasksProject(T_("ExternalTasks"), T_("CoDevTT ExternalTasks Project"));
 
-	$adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
-    echo "DEBUG createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
-    $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
+	   $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
+      echo "DEBUG 5/6 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+      $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
-    //echo "DEBUG create default Config variables<br/>";
-    $install->setConfigItems();
+      echo "DEBUG 6/6 create default Config variables<br/>";
+      $install->setConfigItems();
    }
 
 }

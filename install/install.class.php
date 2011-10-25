@@ -331,7 +331,7 @@ class Install {
            $adminTeam->addExternalTasksProject();
 
             // --- add <team> SideTaskProject
-            $stproj_id = $team->createSideTaskProject(T_("SideTasks")." $name");
+            $stproj_id = $adminTeam->createSideTaskProject(T_("SideTasks")." $name");
             if ($stproj_id < 0) {
                die ("ERROR: SideTaskProject creation FAILED.<br/>\n");
             } else {
