@@ -153,7 +153,7 @@ class Project {
     */
    public function prepareProjectToCodev() {
 
-      $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_TC);
+      $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $prelEffortEstim         = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);

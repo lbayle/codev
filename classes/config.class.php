@@ -75,7 +75,7 @@ class Config {
    const id_statusNames              = "statusNames";
    const id_astreintesTaskList       = "astreintesTaskList";
    const id_codevReportsDir          = "codevReportsDir";
-   const id_customField_TC           = "customField_TC";
+   const id_customField_ExtId           = "customField_ExtId";
    const id_customField_PrelEffortEstim = "customField_PrelEffortEstim";  // ex ETA
    const id_customField_effortEstim  = "customField_effortEstim"; //  BI
    const id_customField_remaining    = "customField_remaining"; //  RAE

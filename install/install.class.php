@@ -146,7 +146,7 @@ class Install {
 	/**
 	 * create a customField in Mantis (if not exist) & update codev_config_table
 	 *
-	 * ex: $install->createCustomField("TC", 0, "customField_TC");
+	 * ex: $install->createCustomField("ExtRef", 0, "customField_ExtId");
 	 *
 	 * @param string $fieldName Mantis field name
 	 * @param int $fieldType Mantis field type
@@ -262,7 +262,7 @@ class Install {
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("External ID (Ref.Ext)"),       $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
+      $this->createCustomField(T_("External ID (Ref.Ext)"),       $mType_string,  "customField_ExtId", $attributes);          // CoDev FDJ custom
       $this->createCustomField(T_("Dead Line"),               $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
