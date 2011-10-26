@@ -146,7 +146,7 @@ class Install {
 	/**
 	 * create a customField in Mantis (if not exist) & update codev_config_table
 	 *
-	 * ex: $install->createCustomField("TC", 0, "customField_TC");
+	 * ex: $install->createCustomField("ExtRef", 0, "customField_ExtId");
 	 *
 	 * @param string $fieldName Mantis field name
 	 * @param int $fieldType Mantis field type
@@ -262,7 +262,7 @@ class Install {
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("External ID (Ref.Ext)"),       $mType_string,  "customField_TC", $attributes);          // CoDev FDJ custom
+      $this->createCustomField(T_("External ID (Ref.Ext)"),       $mType_string,  "customField_ExtId", $attributes);          // CoDev FDJ custom
       $this->createCustomField(T_("Dead Line"),               $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
@@ -285,26 +285,19 @@ class Install {
     *
     * @param unknown_type $projectName
     */
-	public function createCommonSideTasksProject($projectName = "SideTasks", $projectDesc = "CoDev commonSideTasks Project") {
+	public function createExternalTasksProject($projectName = "ExternalTasks", $projectDesc = "CoDevTT ExternalTasks Project") {
 
 		// create project
-		$projectid = Project::createSideTaskProject($projectName);
+		$projectid = Project::createExternalTasksProject($projectName);
 
 		if (-1 != $projectid) {
 
-		   // --- update defaultSideTaskProject in codev_config_table
-      	   Config::getInstance()->setValue(Config::id_defaultSideTaskProject, $projectid, Config::configType_int , $projectDesc);
+		   // --- update ExternalTasksProject in codev_config_table
+      	   Config::getInstance()->setValue(Config::id_externalTasksProject, $projectid, Config::configType_int , $projectDesc);
 
            $stproj = ProjectCache::getInstance()->getProject($projectid);
 
-           // --- add SideTaskProject Categories
-      	   $stproj->addCategoryInactivity(T_("Inactivity"));
-      	   $stproj->addCategoryProjManagement(T_("Project Management"));
-           $stproj->addCategoryIncident(T_("Incident"));
-           $stproj->addCategoryTools(T_("Tools"));
-           $stproj->addCategoryWorkshop(T_("Team Workshop")); // TODO is this Cat relevant for CommonSideTaskProj ?
-
-      		// --- assign SideTaskProject specific Job
+      		// --- assign ExternalTasksProject specific Job
       		#REM: 'N/A' job_id = 1, created by SQL file
       		Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
 		}
@@ -319,24 +312,39 @@ class Install {
 	 */
    public function createAdminTeam($name, $leader_id) {
 
-   	  $now = time();
-   	  $formatedDate  = date("Y-m-d", $now);
+      $now = time();
+   	$formatedDate  = date("Y-m-d", $now);
       $today = date2timestamp($formatedDate);
 
       // create admin team
-   	  $teamId = Team::create($name, T_("CoDev admin team"), $leader_id, $today);
+      $teamId = Team::create($name, T_("CoDevTT Administrators team"), $leader_id, $today);
 
    	  if (-1 != $teamId) {
-         // add to codev_config_table
+           // --- add to codev_config_table
+           Config::getInstance()->setQuiet(true);
    	     Config::getInstance()->setValue(Config::id_adminTeamId, $teamId, Config::configType_int);
+           Config::getInstance()->setQuiet(false);
 
-   	     // add leader as member
+           // add leader as member
    	     $adminTeam = new Team($teamId);
    	     $adminTeam->addMember($leader_id, $today, Team::accessLevel_dev);
 
-         // add default SideTaskProject
-         $adminTeam->addCommonSideTaskProject();
+           // add default ExternalTasksProject
+           $adminTeam->addExternalTasksProject();
 
+            // --- add <team> SideTaskProject
+            $stproj_id = $adminTeam->createSideTaskProject(T_("SideTasks")." $name");
+            if ($stproj_id < 0) {
+               die ("ERROR: SideTaskProject creation FAILED.<br/>\n");
+            } else {
+               $stproj = ProjectCache::getInstance()->getProject($stproj_id);
+
+               $stproj->addCategoryInactivity(T_("Inactivity"));
+               $stproj->addCategoryTools(T_("Tools"));
+
+               $stproj->addIssueInactivity(T_("(generic) Leave"));
+               $stproj->addIssueTools(T_("(generic) Mantis/CoDevTT administration"));
+            }
       }
       return $teamId;
    }

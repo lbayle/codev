@@ -37,7 +37,7 @@ class Project {
    // REM: the values are also the names of the fields in codev_sidetasks_category_table
    public static $keyProjManagement = "cat_management";
    public static $keyIncident       = "cat_incident";
-   public static $keyInactivity     = "cat_absence";
+   public static $keyInactivity     = "cat_inactivity";
    public static $keyTools          = "cat_tools";
    public static $keyWorkshop       = "cat_workshop";
 
@@ -80,7 +80,7 @@ class Project {
          $this->categoryList = array();
          $this->categoryList[Project::$keyProjManagement] = $row->cat_management;
          $this->categoryList[Project::$keyIncident]       = $row->cat_incident;
-         $this->categoryList[Project::$keyInactivity]     = $row->cat_absence;
+         $this->categoryList[Project::$keyInactivity]     = $row->cat_inactivity;
          $this->categoryList[Project::$keyTools]          = $row->cat_tools;
          $this->categoryList[Project::$keyWorkshop]          = $row->cat_workshop;
       }
@@ -95,6 +95,45 @@ class Project {
     *
     * @param unknown_type $projectName
     */
+   public static function createExternalTasksProject($projectName) {
+
+      //--- check if name exists
+      $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
+      $result = mysql_query($query) or die("Query failed: $query");
+      $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
+      if (-1 != $projectid) {
+         echo "ERROR: Project name already exists ($projectName)<br/>\n";
+         return -1;
+      }
+
+      //--- create new Project
+      $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
+               "VALUES ('$projectName','50','1','10','10','$projectDesc','1','1');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $projectid = mysql_insert_id();
+
+
+      //--- when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
+      #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
+      $statusNames = NULL; # Config::getInstance()->getValue(Config::id_statusNames);
+      $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+               "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+
+      //--- Status to set auto-assigned issues to 'closed'
+      $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
+               "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+
+      return $projectid;
+   }
+
+   // -----------------------------------------------
+   /**
+    *
+    * @param unknown_type $projectName
+    */
    public static function createSideTaskProject($projectName) {
 
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
@@ -102,7 +141,6 @@ class Project {
       $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
       $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-
 
       // check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
@@ -119,7 +157,6 @@ class Project {
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $projectid = mysql_insert_id();
 
-
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
                "VALUES ('$estimEffortCustomField',  '$projectid','3'), ".
@@ -129,20 +166,15 @@ class Project {
                       "('$deliveryDateCustomField', '$projectid','7');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
-
-      // create entry in codev_sidetasks_category_table
-      $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-
-      // when creating an new issue, the status is set to 'closed' (most SideTasks have no workflow...)
-      #REM this function is called in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
+      // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
+      #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
       $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
-      // Status to set auto-assigned issues to = closed
+      // Status to set auto-assigned issues to 'closed'
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
@@ -152,19 +184,19 @@ class Project {
 
    // -----------------------------------------------
    /**
-    * Prepare a Mantis Project to be used with CoDev:
-    * - check/add association to CoDev customFields
+    * Prepare a Mantis Project to be used with CoDevTT:
+    * - check/add association to CoDevTT customFields
     */
    public function prepareProjectToCodev() {
 
-      $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_TC);
+      $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $prelEffortEstim         = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
       $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-      $deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      #$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
 
       $existingFields = array();
 
@@ -187,7 +219,7 @@ class Project {
 	  if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$this->id','105'),"; $found = true; }
 	  if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$this->id','106'),"; $found = true; }
 	  if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$this->id','107'),"; $found = true; }
-	  if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
+	  #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
 
 	  if ($found) {
 	  	  // replace last ',' with a ';' to finish query
@@ -281,6 +313,26 @@ class Project {
 
    	  $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
    	           "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $bugt_id = mysql_insert_id();
+
+   	return $bugt_id;
+   }
+
+   // -----------------------------------------------
+   /*
+    *
+    */
+   public function addIssue($cat_id, $issueSummary, $issueDesc, $issueStatus) {
+
+      $today  = date2timestamp(date("Y-m-d"));
+
+      $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$issueDesc');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+   	$bug_text_id = mysql_insert_id();
+
+   	$query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
+   	         "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$issueStatus','$bug_text_id', '$today', '$today');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $bugt_id = mysql_insert_id();
 

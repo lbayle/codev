@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA" name="genericModeling">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="UseCaseView"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_wSRJAHFzEduxYLkhQoh7Ag" name="LogicalView"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_ypXjQHFzEduxYLkhQoh7Ag" name="ComponentView">
+    <packagedElement xmi:type="uml:Component" xmi:id="_zwUu0HF0EduxYLkhQoh7Ag" name="Main"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_1coVEHFzEduxYLkhQoh7Ag" name="DeploymentView"/>
+</uml:Model>

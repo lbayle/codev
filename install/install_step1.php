@@ -60,15 +60,16 @@ function displayStepInfo() {
    echo "<h2>".T_("Prerequisites")."</h2>\n";
    echo "<ul>\n";
    echo "<li>Successfully installed Mantis</li>";
+   echo "<li>user 'apache' has write access to CodevTT directory</li>";
    echo "<li>MySQL 'codev' user created with access to Mantis DB</li>";
    echo "</ul>\n";
    echo "<h2>".T_("Actions")."</h2>\n";
    echo "<ul>\n";
-   echo "<li>Create database configuration file for CoDev</li>";
-   echo "<li>Create CoDev database tables</li>";
-   echo "<li>Add CoDev specific custom fields to Mantis</li>";
-   echo "<li>Create CommonSideTasks Project</li>";
-   echo "<li>Create CoDev Admin team</li>";
+   echo "<li>Create database configuration file for CodevTT</li>";
+   echo "<li>Create CodevTT database tables</li>";
+   echo "<li>Add CodevTT specific custom fields to Mantis</li>";
+   echo "<li>Create ExternalTasks Project</li>";
+   echo "<li>Create CodevTT Admin team</li>";
    echo "</ul>\n";
    echo "";
 }
@@ -143,24 +144,24 @@ if ("setDatabaseInfo" == $action) {
    	exit;
    } else {
 
-   	echo "DEBUG createMysqlConfigFile<br/>";
+   	echo "DEBUG 1/6 createMysqlConfigFile<br/>";
    	$install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
 
-   	echo "DEBUG execSQLscript<br/>";
+   	echo "DEBUG 2/6 execSQLscript<br/>";
    	$install->execSQLscript($sqlFile);
 
-   	echo "DEBUG createCustomFields<br/>";
+   	echo "DEBUG 3/6 createCustomFields<br/>";
    	$install->createCustomFields();
 
-   	echo "DEBUG createCommonSideTasksProject<br/>";
-   	$stproj_id = $install->createCommonSideTasksProject(T_("SideTasks"), T_("CoDev commonSideTasks Project"));
+   	echo "DEBUG 4/6 createExternalTasksProject<br/>";
+   	$extproj_id = $install->createExternalTasksProject(T_("ExternalTasks"), T_("CoDevTT ExternalTasks Project"));
 
-	$adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
-    echo "DEBUG createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
-    $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
+	   $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
+      echo "DEBUG 5/6 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+      $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
-    //echo "DEBUG create default Config variables<br/>";
-    $install->setConfigItems();
+      echo "DEBUG 6/6 create default Config variables<br/>";
+      $install->setConfigItems();
    }
 
 }

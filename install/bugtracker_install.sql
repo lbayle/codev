@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
   `project_id` int(10) NOT NULL,
   `cat_management` int(10) DEFAULT NULL,
   `cat_incident` int(10) DEFAULT NULL,
-  `cat_absence` int(10) DEFAULT NULL,
+  `cat_inactivity` int(10) DEFAULT NULL,
   `cat_tools` int(11) DEFAULT NULL,
   `cat_workshop` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
