@@ -203,7 +203,7 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
 
 // ------------------------------------------------
 /**
- * get all existing projects, except commonSideTasksProject
+ * get all existing projects, except ExternalTasksProject & SideTasksProjects
  */
 function getProjectList() {
 	$projectList = array();
@@ -217,9 +217,10 @@ function getProjectList() {
 	$result = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {
-   		if ($extproj_id != $row->id) {
+   	$p = ProjectCache::getInstance()->getProject($row->id);
+   	if (($extproj_id != $row->id) && (!$p->isSideTasksProject())) {
           $projectList[$row->id] = $row->name;
-   		}
+   	}
    }
 	return $projectList;
 }
@@ -285,12 +286,12 @@ if ("checkReportsDir" == $action) {
 } else if ("proceedStep3" == $action) {
 
     // Set path for .CSV reports (Excel)
-    echo "DEBUG add codevReportsDir<br/>";
+    echo "DEBUG 1/3 add codevReportsDir<br/>";
     $desc = T_("path for .CSV reports");
     Config::getInstance()->setValue(Config::id_codevReportsDir, $codevReportsDir, Config::configType_string , $desc);
 
     // Create default tasks
-    echo "DEBUG Create external tasks<br/>";
+    echo "DEBUG 2/3 Create external tasks<br/>";
     $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
     $extproj = ProjectCache::getInstance()->getProject($extproj_id);
 
@@ -301,7 +302,7 @@ if ("checkReportsDir" == $action) {
     // Note: Support & N/A jobs already created by SQL file
     // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
 
-    echo "DEBUG Create default jobs<br/>";
+    echo "DEBUG 3/3 Create default jobs<br/>";
     if ($isJob1) {
 		Jobs::create($job1, Job::type_commonJob, $job1_color);
     }
