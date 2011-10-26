@@ -221,15 +221,15 @@ class Team {
    /**
     *
     */
-   public function addCommonSideTaskProject() {
+   public function addExternalTasksProject() {
 
-      $sideTaskProjectType = Project::type_sideTaskProject;
+      $extTasksProjectType = Project::type_noStatsProject;
 
-      $defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);;
+      $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
-      // TODO check if not already in table !
+      // TODO check if ExternalTasksProject not already in table !
 
-      $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$defaultSideTaskProject','$this->id','$sideTaskProjectType');";
+      $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$externalTasksProject','$this->id','$extTasksProjectType');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
    }
 
@@ -261,7 +261,6 @@ class Team {
       // --- assign SideTaskProject specific Job
       #REM: 'N/A' job_id = 1, created by SQL file
       Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
-
 
       return $projectid;
    }

@@ -55,7 +55,7 @@
   $admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId); // users allowed to do CoDev administration
 
   // this is the custom field added to mantis issues for TimeTracking
-  $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_TC);
+  $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
   $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim); //  BI
   $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining); //  RAF
   $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
@@ -74,7 +74,7 @@
   $resolutionNames = Config::getInstance()->getValue(Config::id_resolutionNames);
 
   // ---
-  $defaultSideTaskProject = Config::getInstance()->getValue(Config::id_defaultSideTaskProject); // "SuiviOp" in table mantis_project_table
+  $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
   $_POST['codevReportsDir'] = $codevReportsDir; // used by tools/download.php

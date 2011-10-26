@@ -468,7 +468,7 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
 // ----------------------------------------------------
 function displayTeamProjectTuples($teamid) {
 
-	global $defaultSideTaskProject;
+	global $externalTasksProject;
 
    // Display previous entries
    echo "<div>\n";
@@ -492,8 +492,8 @@ function displayTeamProjectTuples($teamid) {
    {
       echo "<tr>\n";
       echo "<td>\n";
-      // if SuiviOp do not allow tu delete
-      if ($defaultSideTaskProject != $row->project_id) {
+      // if ExternalTasksProject do not allow to delete
+      if ($externalTasksProject != $row->project_id) {
          echo "<a title='".T_("delete this row")."' href=\"javascript: removeTeamProject('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
       }
       echo "</td>\n";

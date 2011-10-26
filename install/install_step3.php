@@ -83,8 +83,6 @@ function displayStepInfo() {
 
 // ------------------------------------------------
 function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
-                     $isTaskAstreinte, $isTaskIncident1, $isTaskTools1,
-                     $task_leave, $task_astreinte, $task_incident1, $task_tools1,
                      $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
                      $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
                      $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
@@ -109,36 +107,16 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
    echo "  <br/>\n";
    echo "  <br/>\n";
 
-   // ------ Default SideTasks
-  echo "<h2>".T_("Default SideTasks")."</h2>\n";
+   // ------ Default ExternalTasks
+/*
+  echo "<h2>".T_("Default ExternalTasks")."</h2>\n";
   echo "<table class='invisible'>\n";
   echo "  <tr>\n";
   echo "    <td width='100'><input type=CHECKBOX  CHECKED DISABLED name='cb_taskLeave' id='cb_taskLeave'>".
        T_("Absence")."</input></td>\n";
   echo "    <td><input size='40' type='text' name='task_leave'  id='task_leave' value='$task_leave'></td>\n";
   echo "  </tr>\n";
-
-  echo "  <tr>\n";
-  $isChecked = $isTaskAstreinte ? "CHECKED" : "";
-  echo "    <td width='100'><input type=CHECKBOX $isChecked name='cb_taskAstreinte' id='cb_taskAstreinte'>".
-       T_("OnDuty")."</input></td>\n";
-  echo "    <td><input size='40' type='text' name='task_astreinte'  id='task_astreinte' value='$task_astreinte'></td>\n";
-  echo "  </tr>\n";
-  echo "  <tr>\n";
-
-  $isChecked = $isTaskIncident1 ? "CHECKED" : "";
-  echo "    <td width='100'><input type=CHECKBOX $isChecked name='cb_taskIncident1' id='cb_taskIncident1'>".
-       T_("Incident")."</input></td>\n";
-  echo "    <td><input size='40' type='text' name='task_incident1'  id='task_incident1' value='$task_incident1'></td>\n";
-  echo "  </tr>\n";
-  echo "  <tr>\n";
-  $isChecked = $isTaskTools1 ? "CHECKED" : "";
-  echo "    <td width='100'><input type=CHECKBOX $isChecked name='cb_taskTools1' id='cb_taskTools1'>".
-       T_("Tools")."</input></td>\n";
-  echo "    <td><input size='40' type='text' name='task_tools1'  id='task_tools1' value='$task_tools1'></td>\n";
-  echo "  </tr>\n";
-  echo "</table>\n";
-
+*/
    // ------
   echo "  <br/>\n";
   echo "<h2>".T_("Default Jobs")."</h2>\n";
@@ -225,12 +203,12 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
 
 // ------------------------------------------------
 /**
- * get all existing projects, except commonSideTasksProject
+ * get all existing projects, except ExternalTasksProject & SideTasksProjects
  */
 function getProjectList() {
 	$projectList = array();
 
-	$stproj_id = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);
+	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
 	$query  = "SELECT id, name ".
                 "FROM `mantis_project_table` ";
@@ -239,9 +217,10 @@ function getProjectList() {
 	$result = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {
-   		if ($stproj_id != $row->id) {
+   	$p = ProjectCache::getInstance()->getProject($row->id);
+   	if (($extproj_id != $row->id) && (!$p->isSideTasksProject())) {
           $projectList[$row->id] = $row->name;
-   		}
+   	}
    }
 	return $projectList;
 }
@@ -263,9 +242,6 @@ $codevReportsDir      = isset($_POST['reportsDir']) ? $_POST['reportsDir'] : $de
 // between an unchecked checkBox and an unset checkbox variable
 if ("false" == $is_modified) {
 
-   $isTaskAstreinte   = true;
-   $isTaskIncident1   = true;
-   $isTaskTools1      = true;
    $isJob1 = true;;
    $isJob2 = true;;
    $isJob3 = true;;
@@ -273,9 +249,6 @@ if ("false" == $is_modified) {
    $isJob5 = true;;
 
 } else {
-   $isTaskAstreinte = $_POST['cb_taskAstreinte'];
-   $isTaskIncident1 = $_POST['cb_taskIncident1'];
-   $isTaskTools1    = $_POST['cb_taskTools1'];
    $isJob1   = $_POST['cb_job1'];
    $isJob2   = $_POST['cb_job2'];
    $isJob3   = $_POST['cb_job3'];
@@ -283,10 +256,7 @@ if ("false" == $is_modified) {
    $isJob5   = $_POST['cb_job5'];
 }
 
-$task_leave     = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("(generic) Absence");
-$task_astreinte = isset($_POST['task_astreinte']) ? $_POST['task_astreinte'] : T_("(generic) On Duty");
-$task_incident1 = isset($_POST['task_incident1']) ? $_POST['task_incident1'] : T_("(generic) Network is down");
-$task_tools1    = isset($_POST['task_tools1']) ? $_POST['task_tools1'] : T_("(generic) Mantis/CoDev administration");
+$task_otherActivity = isset($_POST['task_otherActivity']) ? $_POST['task_otherActivity'] : T_("(generic) other external activity");
 $job1           = isset($_POST['job1']) ? $_POST['job1'] : T_("Study of the existing");
 $job2           = isset($_POST['job2']) ? $_POST['job2'] : T_("Impact Analysis");
 $job3           = isset($_POST['job3']) ? $_POST['job3'] : T_("Development");
@@ -315,36 +285,24 @@ if ("checkReportsDir" == $action) {
 
 } else if ("proceedStep3" == $action) {
 
-	// TODO do it !
-
     // Set path for .CSV reports (Excel)
-    echo "DEBUG add codevReportsDir<br/>";
+    echo "DEBUG 1/3 add codevReportsDir<br/>";
     $desc = T_("path for .CSV reports");
     Config::getInstance()->setValue(Config::id_codevReportsDir, $codevReportsDir, Config::configType_string , $desc);
 
     // Create default tasks
-    echo "DEBUG Create default tasks<br/>";
-    $stproj_id = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);
-    $stproj = ProjectCache::getInstance()->getProject($stproj_id);
+    echo "DEBUG 2/3 Create external tasks<br/>";
+    $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+    $extproj = ProjectCache::getInstance()->getProject($extproj_id);
 
-    $stproj->addIssueInactivity($task_leave);
-
-    if ($isTaskAstreinte) {
-       $bugt_id = $stproj->addIssueInactivity($task_astreinte);
-       Config::getInstance()->setValue(Config::id_astreintesTaskList, "$bugt_id", Config::configType_array);
-    }
-    if ($isTaskIncident1) {
-       $stproj->addIssueIncident($task_incident1);
-    }
-    if ($isTaskTools1) {
-       $stproj->addIssueTools($task_tools1);
-    }
+    // cat="[All Projects] General", status="closed"
+    $extproj->addIssue(1, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
 
     // Create default jobs
     // Note: Support & N/A jobs already created by SQL file
-    // Note: N/A job association to defaultSideTaskProject already done in Install::createCommonSideTasksProject()
+    // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
 
-    echo "DEBUG Create default jobs<br/>";
+    echo "DEBUG 3/3 Create default jobs<br/>";
     if ($isJob1) {
 		Jobs::create($job1, Job::type_commonJob, $job1_color);
     }
@@ -384,8 +342,6 @@ if ("checkReportsDir" == $action) {
 displayStepInfo();
 
 displayForm($originPage, $codevReportsDir, $checkReportsDirError,
-            $isTaskAstreinte, $isTaskIncident1, $isTaskTools1,
-            $task_leave, $task_astreinte, $task_incident1, $task_tools1,
             $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
             $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
             $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
