@@ -184,8 +184,8 @@ class Project {
 
    // -----------------------------------------------
    /**
-    * Prepare a Mantis Project to be used with CoDev:
-    * - check/add association to CoDev customFields
+    * Prepare a Mantis Project to be used with CoDevTT:
+    * - check/add association to CoDevTT customFields
     */
    public function prepareProjectToCodev() {
 
@@ -196,7 +196,7 @@ class Project {
       $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
       $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-      $deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      #$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
 
       $existingFields = array();
 
@@ -219,7 +219,7 @@ class Project {
 	  if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$this->id','105'),"; $found = true; }
 	  if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$this->id','106'),"; $found = true; }
 	  if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$this->id','107'),"; $found = true; }
-	  if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
+	  #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
 
 	  if ($found) {
 	  	  // replace last ',' with a ';' to finish query
