@@ -27,7 +27,7 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST['page_name'] = T_("CoDev Administration : Team Creation");
+   $_POST['page_name'] = T_("CodevTT Administration : Team Creation");
    include 'header.inc.php';
 ?>
 
@@ -192,7 +192,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 
   echo "<table class='invisible'>\n";
   echo "  <tr>\n";
-  echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_customFields' id='cb_customFields'>".T_("CoDev custom fields")."</input>\n";
+  echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_customFields' id='cb_customFields'>".T_("CodevTT custom fields")."</input>\n";
   echo "    <span style='color:red'>*</span></td>\n";
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("EffortEstim, AddEffort, Remaining, DeadLine, DeliveryDate").")</span></td>\n";
   echo "  </tr>\n";
