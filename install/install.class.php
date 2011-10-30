@@ -435,6 +435,13 @@ class Install {
         // TODO add equivalences for mandatory statusses not present in workflow (see mantis 131)
         // ex: $status_openned = $status_assigned;
 
+         // Constrains
+      	$stringData .= "\n";
+         $stringData .= "# Custom Relationships\n";
+         $stringData .= "define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY',       2500 );\n";
+         $stringData .= "define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',           2501 );\n";
+
+
       	$stringData .= "\n";
       	$stringData .= "?>\n\n";
       	fwrite($fp, $stringData);

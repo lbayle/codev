@@ -149,7 +149,9 @@ if (0 == count($teamList)) {
 
 	$action = isset($_POST['action']) ? $_POST['action'] : '';
 
-   $defaultDate1 = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+	$weekDates      = week_dates(date('W'),date('Y'));
+
+   $defaultDate1 = mktime(0, 0, 0, date("m", $weekDates[1]), date("d", $weekDates[1]), date("Y", $weekDates[1]));
    $defaultDate2 = mktime(0, 0, 0, date("m"), date("d"), date("Y")+1);
 
    if ($action == "teamChanged") {
