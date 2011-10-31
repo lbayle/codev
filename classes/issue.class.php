@@ -48,6 +48,7 @@ class Issue {
    public $dateSubmission;
    public $currentStatus;
    public $priority;
+   public $severity;
    public $handlerId;
    public $resolution;
    public $version;  // Product Version
@@ -137,6 +138,7 @@ class Issue {
       $this->categoryId      = $row->category_id;
       $this->eta             = $row->eta; // DEPRECATED
       $this->priority        = $row->priority;
+      $this->severity        = $row->severity;
       $this->handlerId       = $row->handler_id;
       $this->resolution      = $row->resolution;
       $this->version         = $row->version;
@@ -846,7 +848,17 @@ class Issue {
          return  false;
       }
 
-
+      // if same deadLine, same priority: check severity attribute
+      if ($this->severity > $issueB->severity) {
+      	#echo "DEBUG isHigherSeverity $this->bugId > $issueB->bugId (severity attr)<br/>\n";
+      	return  true;
+      }
+      if ($this->severity < $issueB->severity) {
+      	#echo "DEBUG isHigherSeverity $this->bugId < $issueB->bugId (severity attr)<br/>\n";
+      	return  false;
+      }
+      
+      
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
       	// A constrains more people, so A is higher priority
