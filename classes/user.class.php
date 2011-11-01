@@ -249,6 +249,46 @@ class User {
   }
 
   // --------------------
+  /**
+   * concat durations of all ExternalTasksProject issues.
+   * 
+   * returns an array $extTasks[timestamp] = $row->duration;
+   *
+   */
+   public function getExternalTasksInPeriod($startTimestamp, $endTimestamp) {
+	  $extTasks = array();  // timestamp => duration
+	  
+	  $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+	  
+	  $query     = "SELECT bugid, date, duration ".
+                   "FROM `codev_timetracking_table` ".
+                   "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
+                   "AND userid = $this->id";
+     $result    = mysql_query($query) or die("Query failed: $query");
+
+     while($row = mysql_fetch_object($result)) {
+		  $issue = IssueCache::getInstance()->getIssue($row->bugid);
+		  if ($issue->projectId == $extTasksProjId) {
+			  if (isset($row->date)) {
+			     $extTasks[$row->date] += $row->duration;
+			  } else {
+			     $extTasks[$row->date]  = $row->duration;
+			  }
+		  	  echo "DEBUG user $this->userid ExternalTasks[".date("j", $row->date)."] = ".$extTasks[date("j", $row->date)]." (+$row->duration)<br/>";
+		  }
+	  }
+	  	return $extTasks;
+  }
+  
+  
+  // --------------------
+  /**
+   * Nb working days in the period (no holidays, no external tasks)
+   * 
+   * @param unknown_type $startTimestamp
+   * @param unknown_type $endTimestamp
+   * @param unknown_type $team_id
+   */
    public function getProductionDaysForecast($startTimestamp, $endTimestamp, $team_id = NULL) {
 
       $holidays = Holidays::getInstance();
@@ -275,13 +315,18 @@ class User {
       for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
          // monday to friday
          if (NULL == $holidays->isHoliday($i)) {
-        	$nbOpenDaysInPeriod++;
+            $nbOpenDaysInPeriod++;
         }
       }
 
       $nbDaysOf = array_sum($this->getDaysOfInMonth($startT, $endT));
       $prodDaysForecast = $nbOpenDaysInPeriod - $nbDaysOf;
 
+      // remove externalTasks timetracks
+      $nbExternal = array_sum($this->getExternalTasksInPeriod($startT, $endT));
+      $prodDaysForecast -= $nbExternal;
+      
+      
       #echo "user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - ".$nbDaysOf.") = $prodDaysForecast <br/>";
 
       return $prodDaysForecast;
