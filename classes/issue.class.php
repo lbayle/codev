@@ -284,8 +284,8 @@ class Issue {
    	   $result = mysql_query($query) or die("Query failed: $query");
    	   $targetVersionDate = mysql_result($result, 0);
    	   
-   	   echo "DEBUG: $this->bugId target_version date = ".date("Y-m-d", $targetVersionDate)."<br/>";
-   	   return $targetVersionDate;
+   	   #echo "DEBUG: $this->bugId target_version date = ".date("Y-m-d", $targetVersionDate)."<br/>";
+   	   return ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
    	}
    	
    	return NULL;
