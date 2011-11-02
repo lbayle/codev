@@ -270,7 +270,9 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
        }
    }
    echo "<select name='bugid' style='width: 600px;' onchange='javascript: setBugId()' title='".T_("Task")."'>\n";
-   echo "<option value='0'></option>\n";
+   if (1 != count($issueList)) {
+      echo "<option value='0'></option>\n";
+   }
 
    foreach ($issueList as $bugid) {
          $issue = IssueCache::getInstance()->getIssue($bugid);

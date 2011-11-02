@@ -274,7 +274,7 @@ class User {
 			  } else {
 			     $extTasks[$row->date]  = $row->duration;
 			  }
-		  	  echo "DEBUG user $this->userid ExternalTasks[".date("j", $row->date)."] = ".$extTasks[date("j", $row->date)]." (+$row->duration)<br/>";
+		  	  #echo "DEBUG user $this->id ExternalTasks[".date("j", $row->date)."] = ".$extTasks[date("j", $row->date)]." (+$row->duration)<br/>";
 		  }
 	  }
 	  	return $extTasks;
