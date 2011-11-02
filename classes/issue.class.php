@@ -81,6 +81,9 @@ class Issue {
    // -- PRIVATE cached fields
    private $holidays;
 
+   // other cache fields
+   public $bug_resolved_status_threshold;
+    
    // ----------------------------------------------
    public function Issue ($id) {
       $this->bugId = $id;
@@ -122,8 +125,8 @@ class Issue {
    	global $addEffortCustomField;
    	global $deadLineCustomField;
    	global $deliveryDateCustomField;
-    global $deliveryIdCustomField;
-    $prelEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
+      global $deliveryIdCustomField;
+      $prelEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
 
       // Get issue info
       $query = "SELECT * ".
@@ -171,6 +174,9 @@ class Issue {
       $this->elapsed = $this->getElapsed();
 
       $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
+      
+      $project = ProjectCache::getInstance()->getProject($this->projectId);
+      $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
       
       // Prepare fields
       $this->statusList = array();
@@ -446,20 +452,18 @@ class Issue {
    // REM: if $drift is not specified, then $this->drift is used ()
    public function getDriftColor($drift = NULL) {
 
-     $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
      if (!isset($drift)) {
      	   $drift = $this->getDrift(false);
      }
 
         if (0 < $drift) {
-        	if ($this->currentStatus < $resolved_status_threshold) {
+        	if ($this->currentStatus < $this->bug_resolved_status_threshold) {
               $color = "ff6a6e";
             } else {
               $color = "fcbdbd";
             }
         } elseif (0 > $drift) {
-        	if ($this->currentStatus < $resolved_status_threshold) {
+        	if ($this->currentStatus < $this->bug_resolved_status_threshold) {
               $color = "61ed66";
               } else {
               $color = "bdfcbd";
@@ -483,8 +487,6 @@ class Issue {
    // REM if EffortEstim = 0 then Drift = 0
    public function getDrift($withSupport = true) {
 
-     $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
       if ($withSupport) {
@@ -496,7 +498,7 @@ class Issue {
 
       if (0 == $totalEstim) { return 0; }
 
-	  if ($this->currentStatus >= $resolved_status_threshold) {
+	  if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          $derive = $myElapsed - $totalEstim;
       } else {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
@@ -517,8 +519,6 @@ class Issue {
    // REM if PrelEffortEstim = 0 then Drift = 0
    public function getDriftETA($withSupport = true) {
 
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
       #if (0 == $this->eta) { return 0; }
 
       if ($withSupport) {
@@ -529,7 +529,7 @@ class Issue {
       }
 
 
-	  if ($this->currentStatus >= $resolved_status_threshold) {
+	  if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          $derive = $myElapsed - $this->prelEffortEstim;
       } else {
          $derive = $myElapsed - ($this->prelEffortEstim - $this->remaining);
@@ -1047,10 +1047,7 @@ class Issue {
     */
    public function getProgress() {
 
-      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
-
-      if ($this->currentStatus >= $bug_resolved_status_threshold) {
+      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          return 1; // issue is finished
       }
 

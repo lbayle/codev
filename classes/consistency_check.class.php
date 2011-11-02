@@ -80,18 +80,16 @@ class ConsistencyCheck {
 
       $deliveryIdCustomField     = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       $deliveryDateCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-        "FROM `mantis_bug_table` ".
-        "WHERE status >= $resolved_status_threshold ";
+        "FROM `mantis_bug_table` ";
 
       if (0 != count($this->projectList)) {
       	$formatedProjects = implode( ', ', array_keys($this->projectList));
-      	$query .= "AND project_id IN ($formatedProjects) ";
+      	$query .= "WHERE project_id IN ($formatedProjects) ";
       }
 
        $query .="ORDER BY last_updated DESC, bug_id DESC";
@@ -101,7 +99,8 @@ class ConsistencyCheck {
       {
          $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
-         if ((NULL != $issue->deliveryId) &&
+         if (($issue->currentStatus >= $issue->bug_resolved_status_threshold) &&
+             (NULL != $issue->deliveryId) &&
          	 (NULL == $issue->deliveryDate)) {
                $cerr = new ConsistencyError($row->bug_id,
                                               $row->handler_id,
@@ -123,18 +122,15 @@ class ConsistencyCheck {
     */
    public function checkResolved() {
 
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-        "FROM `mantis_bug_table` ".
-        "WHERE status >= $resolved_status_threshold ";
+        "FROM `mantis_bug_table` ";
 
       if (0 != count($this->projectList)) {
          $formatedProjects = implode( ', ', array_keys($this->projectList));
-         $query .= "AND project_id IN ($formatedProjects) ";
+         $query .= "WHERE project_id IN ($formatedProjects) ";
       }
 
       $query .="ORDER BY last_updated DESC, bug_id DESC";
@@ -145,7 +141,8 @@ class ConsistencyCheck {
          // check if fields correctly set
       	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
-         if (0 != $issue->remaining) {
+         if (($issue->currentStatus >= $issue->bug_resolved_status_threshold) &&
+             (0 != $issue->remaining)) {
            $cerr = new ConsistencyError($row->bug_id,
                                               $row->handler_id,
                                               $row->status,
@@ -169,18 +166,14 @@ class ConsistencyCheck {
       global $status_new;
       global $status_acknowledged;
 
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
       $min_remaining = 0;
-
 
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status NOT IN ($status_new, $status_acknowledged) ".
-        "AND status < $resolved_status_threshold ";
+        "WHERE status NOT IN ($status_new, $status_acknowledged) ";
 
       if (0 != count($this->projectList)) {
          $formatedProjects = implode( ', ', array_keys($this->projectList));
@@ -195,7 +188,8 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
-         if ($issue->remaining <= $min_remaining) {
+         if (($issue->currentStatus < $issue->bug_resolved_status_threshold) &&
+             ($issue->remaining <= $min_remaining)) {
            $cerr = new ConsistencyError($row->bug_id,
                                               $row->handler_id,
                                               $row->status,
@@ -218,12 +212,9 @@ class ConsistencyCheck {
 
    	$cerrList = array();
 
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
    	// select all issues
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-               "FROM `mantis_bug_table` ".
-               "WHERE status < $resolved_status_threshold ";
+               "FROM `mantis_bug_table` ";
       
       if (0 != count($this->projectList)) {
 
@@ -238,7 +229,7 @@ class ConsistencyCheck {
 
          if (0 != count($prjListNoSideTasks)) {
              $formatedProjects = implode( ', ', array_keys($prjListNoSideTasks));
-             $query .= "AND project_id IN ($formatedProjects) ";
+             $query .= "WHERE project_id IN ($formatedProjects) ";
          }
       } else {
       	// TODO except SideTasksProjects
@@ -251,16 +242,18 @@ class ConsistencyCheck {
       {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-
-         if ( (NULL == $issue->prelEffortEstimName) || ('none' == $issue->prelEffortEstimName)) {
-
-           $cerr = new ConsistencyError($row->bug_id,
-                                              $row->handler_id,
-                                              $row->status,
-                                              $row->last_updated,
-                                              T_("prelEffortEstim not set."));
-            $cerr->severity = T_("Error");
-            $cerrList[] = $cerr;
+         if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
+	         if ((NULL   == $issue->prelEffortEstimName) || 
+	             ('none' == $issue->prelEffortEstimName)) {
+	
+	           $cerr = new ConsistencyError($row->bug_id,
+	                                              $row->handler_id,
+	                                              $row->status,
+	                                              $row->last_updated,
+	                                              T_("prelEffortEstim not set."));
+	            $cerr->severity = T_("Error");
+	            $cerrList[] = $cerr;
+	         }
          }
       }
 
