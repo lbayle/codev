@@ -64,7 +64,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
    // for all issues with status !=  {resolved, closed}
 
    $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-            "WHERE status < get_issue_resolved_status_threshold(id) ".
+            "WHERE status < get_project_resolved_status_threshold(project_id) ".
             "AND project_id IN ($formatedProjList) ".
             //"AND handler_id IN ($formatedMemberList) ".
             "ORDER BY id DESC";
@@ -119,7 +119,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
 
   // Add resolved issues modified into the period
   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-           "WHERE status >= get_issue_resolved_status_threshold(id) ".
+           "WHERE status >= get_project_resolved_status_threshold(project_id) ".
            "AND project_id IN ($formatedProjList) ".
            //"AND handler_id IN ($formatedMemberList) ".
            "AND last_updated > $startTimestamp ".

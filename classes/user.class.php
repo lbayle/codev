@@ -492,7 +492,7 @@ class User {
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
                "WHERE project_id IN ($formatedProjList) ".
                "AND handler_id = $this->id ".
-               "AND status < get_issue_resolved_status_threshold(id) ".
+               "AND status < get_project_resolved_status_threshold(project_id) ".
                "ORDER BY id DESC";
 
       $result = mysql_query($query) or die("Query failed: $query");
@@ -535,7 +535,7 @@ class User {
                "FROM `mantis_bug_table` ".
                "WHERE mantis_bug_table.project_id IN ($formatedProjList) ".
                "AND mantis_bug_table.handler_id = $this->id ".
-               "AND mantis_bug_table.status < get_issue_resolved_status_threshold(id)".
+               "AND mantis_bug_table.status < get_project_resolved_status_threshold(project_id)".
                "ORDER BY id DESC";
 
       $result = mysql_query($query) or die("Query failed: $query");

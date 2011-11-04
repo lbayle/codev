@@ -384,7 +384,7 @@ function displayCurrentDriftStats ($timeTracking) {
 
     $query = "SELECT DISTINCT id ".
                "FROM `mantis_bug_table` ".
-               "WHERE status < get_issue_resolved_status_threshold(id) ".
+               "WHERE status < get_project_resolved_status_threshold(project_id) ".
                "AND project_id IN ($formatedProdProjectList) ".
                "ORDER BY id DESC";
     $result = mysql_query($query) or die("Query failed: $query");

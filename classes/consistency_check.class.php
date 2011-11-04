@@ -86,7 +86,7 @@ class ConsistencyCheck {
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status >= get_issue_resolved_status_threshold(id) ";
+        "WHERE status >= get_project_resolved_status_threshold(project_id) ";
 
       if (0 != count($this->projectList)) {
       	$formatedProjects = implode( ', ', array_keys($this->projectList));
@@ -127,7 +127,7 @@ class ConsistencyCheck {
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
                "FROM `mantis_bug_table` ".
-               "WHERE status >= get_issue_resolved_status_threshold(id) ";
+               "WHERE status >= get_project_resolved_status_threshold(project_id) ";
 
       if (0 != count($this->projectList)) {
          $formatedProjects = implode( ', ', array_keys($this->projectList));
@@ -174,7 +174,7 @@ class ConsistencyCheck {
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
                "FROM `mantis_bug_table` ".
                "WHERE status NOT IN ($status_new, $status_acknowledged) ".
-               "AND status < get_issue_resolved_status_threshold(id) ";
+               "AND status < get_project_resolved_status_threshold(project_id) ";
       
       if (0 != count($this->projectList)) {
          $formatedProjects = implode( ', ', array_keys($this->projectList));
@@ -215,7 +215,7 @@ class ConsistencyCheck {
    	// select all issues
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
                "FROM `mantis_bug_table` ".
-               "WHERE status < get_issue_resolved_status_threshold(id) ";
+               "WHERE status < get_project_resolved_status_threshold(project_id) ";
       
       if (0 != count($this->projectList)) {
 
