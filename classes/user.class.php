@@ -492,18 +492,17 @@ class User {
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
                "WHERE project_id IN ($formatedProjList) ".
                "AND handler_id = $this->id ".
+               "AND status < get_issue_resolved_status_threshold(id) ".
                "ORDER BY id DESC";
 
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id);
          
-         if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
-            if (NULL != $issue->remaining) {
-            	$totalRemaining += $issue->remaining;
-            } else if (NULL != $issue->prelEffortEstim) {
-               $totalRemaining += $issue->prelEffortEstim;
-            }
+         if (NULL != $issue->remaining) {
+         	$totalRemaining += $issue->remaining;
+         } else if (NULL != $issue->prelEffortEstim) {
+            $totalRemaining += $issue->prelEffortEstim;
          }
       }
 
@@ -536,14 +535,13 @@ class User {
                "FROM `mantis_bug_table` ".
                "WHERE mantis_bug_table.project_id IN ($formatedProjList) ".
                "AND mantis_bug_table.handler_id = $this->id ".
+               "AND mantis_bug_table.status < get_issue_resolved_status_threshold(id)".
                "ORDER BY id DESC";
 
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
       	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
-      	if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
-            $issueList[] = $issue;
-      	}
+         $issueList[] = $issue;
       }
 /*
       echo "DEBUG List to sort:<br/>";

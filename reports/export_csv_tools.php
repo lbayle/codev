@@ -64,18 +64,14 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
    // for all issues with status !=  {resolved, closed}
 
    $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-            "WHERE project_id IN ($formatedProjList) ".
+            "WHERE status < get_issue_resolved_status_threshold(id) ".
+            "AND project_id IN ($formatedProjList) ".
             //"AND handler_id IN ($formatedMemberList) ".
             "ORDER BY id DESC";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-            $issue = IssueCache::getInstance()->getIssue($row->id);
-            
-            if ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
-            	// skip if resolved/closed
-            	continue;
-            }
-            
+
+      	   $issue = IssueCache::getInstance()->getIssue($row->id);
             $user = UserCache::getInstance()->getUser($issue->handlerId);
 
             $deadLine = "";
@@ -123,20 +119,16 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
 
   // Add resolved issues modified into the period
   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-           "WHERE project_id IN ($formatedProjList) ".
+           "WHERE status >= get_issue_resolved_status_threshold(id) ".
+           "AND project_id IN ($formatedProjList) ".
            //"AND handler_id IN ($formatedMemberList) ".
            "AND last_updated > $startTimestamp ".
            "AND last_updated < $endTimestamp ".
            "ORDER BY id DESC";
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result)) {
-    $issue = IssueCache::getInstance()->getIssue($row->id);
-    
-    if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
-    	# skip if not resolved/closed
-    	continue;
-    }
-    
+
+  	 $issue = IssueCache::getInstance()->getIssue($row->id);
     $user = UserCache::getInstance()->getUser($issue->handlerId);
 
     $deliveryDate = "";

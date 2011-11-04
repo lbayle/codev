@@ -87,18 +87,11 @@ class Project {
          $this->categoryList[Project::$keyWorkshop]          = $row->cat_workshop;
       }
 
-      // get $bug_resolved_status_threshold from Mantis config
-      $this->bug_resolved_status_threshold = NULL;
-      $query  = "SELECT project_id, value FROM `mantis_config_table` ".
-                "WHERE config_id = 'bug_resolved_status_threshold' ".
-                "AND project_id = $this->id ";
+      // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
+      $query  = "SELECT get_resolved_status_threshold($this->id) ";
       $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result))
-      {
-      		$this->bug_resolved_status_threshold = $row->value;
-            #echo "DEBUG $this->name FOUND bug_resolved_status_threshold = $this->bug_resolved_status_threshold<br>\n";
-      		break;
-      }
+      $this->bug_resolved_status_threshold = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+      #echo "DEBUG $this->name .bug_resolved_status_threshold = $this->bug_resolved_status_threshold<br>\n";
       
       #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
 
@@ -356,10 +349,6 @@ class Project {
 
    
    public function getBugResolvedStatusThreshold() {
-   	if (NULL == $this->bug_resolved_status_threshold) {
-   		#echo "DEBUG $this->name .getBugResolvedStatusThreshold() NOT FOUND<br>\n";
-   		return Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-   	}
    	#echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
    	return $this->bug_resolved_status_threshold;
    }
