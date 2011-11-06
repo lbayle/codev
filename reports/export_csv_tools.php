@@ -23,8 +23,6 @@
 // ---------------------------------------------------------------
 function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile) {
 
-   $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
    $sepChar=';';
 
    $fh = fopen($myFile, 'w');
@@ -66,13 +64,14 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
    // for all issues with status !=  {resolved, closed}
 
    $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-            "WHERE status < $resolved_status_threshold ".
+            "WHERE status < get_project_resolved_status_threshold(project_id) ".
             "AND project_id IN ($formatedProjList) ".
             //"AND handler_id IN ($formatedMemberList) ".
             "ORDER BY id DESC";
       $result = mysql_query($query) or die("Query failed: $query");
       while($row = mysql_fetch_object($result)) {
-            $issue = IssueCache::getInstance()->getIssue($row->id);
+
+      	   $issue = IssueCache::getInstance()->getIssue($row->id);
             $user = UserCache::getInstance()->getUser($issue->handlerId);
 
             $deadLine = "";
@@ -120,7 +119,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
 
   // Add resolved issues modified into the period
   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-           "WHERE status >= $resolved_status_threshold ".
+           "WHERE status >= get_project_resolved_status_threshold(project_id) ".
            "AND project_id IN ($formatedProjList) ".
            //"AND handler_id IN ($formatedMemberList) ".
            "AND last_updated > $startTimestamp ".
@@ -128,7 +127,8 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
            "ORDER BY id DESC";
   $result = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result)) {
-    $issue = IssueCache::getInstance()->getIssue($row->id);
+
+  	 $issue = IssueCache::getInstance()->getIssue($row->id);
     $user = UserCache::getInstance()->getUser($issue->handlerId);
 
     $deliveryDate = "";

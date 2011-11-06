@@ -25,10 +25,12 @@
 -- Structure de la table `codev_config_table`
 --
 CREATE TABLE IF NOT EXISTS `codev_config_table` (
-  `config_id` varchar(50) NOT NULL,
+  `config_id` varchar(64) NOT NULL,
   `value` longtext NOT NULL,
-  `type` int(10) DEFAULT NULL,
-  `user_id` int(10) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `project_id` int(11) DEFAULT NULL,
+  `access_reqd` int(11) DEFAULT NULL,
   `desc` longtext,
   PRIMARY KEY (`config_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

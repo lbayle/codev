@@ -116,7 +116,8 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
 
 
 $originPage = "install_step1.php";
-$sqlFile    = "./bugtracker_install.sql";
+$sqlFile_tables        = "./codevtt_tables.sql";
+$sqlFile_procedures    = "./codevtt_procedures.sql";
 
 $adminTeamName = T_("admin");
 $adminTeamLeaderId = 1; // 1 is mantis administrator
@@ -144,23 +145,26 @@ if ("setDatabaseInfo" == $action) {
    	exit;
    } else {
 
-   	echo "DEBUG 1/6 createMysqlConfigFile<br/>";
+   	echo "DEBUG 1/7 createMysqlConfigFile<br/>";
    	$install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
 
-   	echo "DEBUG execSQLscript<br/>";
-   	execSQLscript($sqlFile);
-
-   	echo "DEBUG 3/6 createCustomFields<br/>";
+   	echo "DEBUG 2/7 execSQLscript - create Tables<br/>";
+   	$install->execSQLscript($sqlFile_tables);
+   	
+   	echo "DEBUG 3/7 execSQLscript - create Procedures<br/>";
+   	$install->execSQLscript($sqlFile_procedures);
+   	
+   	echo "DEBUG 4/7 createCustomFields<br/>";
    	$install->createCustomFields();
 
-   	echo "DEBUG 4/6 createExternalTasksProject<br/>";
+   	echo "DEBUG 5/7 createExternalTasksProject<br/>";
    	$extproj_id = $install->createExternalTasksProject(T_("(generic) ExternalTasks"), T_("CodevTT ExternalTasks Project"));
 
 	   $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
-      echo "DEBUG 5/6 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+      echo "DEBUG 6/7 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
       $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
-      echo "DEBUG 6/6 create default Config variables<br/>";
+      echo "DEBUG 7/7 create default Config variables<br/>";
       $install->setConfigItems();
    }
 
