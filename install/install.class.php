@@ -258,7 +258,7 @@ class Install {
     *
     * @param unknown_type $projectName
     */
-	public function createExternalTasksProject($projectName = "ExternalTasks", $projectDesc = "CoDevTT ExternalTasks Project") {
+	public function createExternalTasksProject($projectName = "(generic) ExternalTasks", $projectDesc = "CoDevTT ExternalTasks Project") {
 
 		// create project
 		$projectid = Project::createExternalTasksProject($projectName);

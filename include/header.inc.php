@@ -29,7 +29,7 @@
 <html>
 
 <head>
-<title>CoDev TimeTracking</title>
+<title>CodevTT</title>
 
 <?php
 #header( 'Content-Type: text/html; charset=utf-8' );

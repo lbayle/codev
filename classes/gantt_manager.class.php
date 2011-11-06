@@ -295,9 +295,9 @@ class GanttManager {
       foreach ($this->activitiesByUser as $userActivityList) {
          foreach ($userActivityList as $a) {
          	if (in_array($a->bugid, $relationships)) {
-         		echo "DEBUG issue $issue->bugId (".date("Y-m-d", $rsd).") is constrained by $a->bugid (".date("Y-m-d", $a->endTimestamp).")<br/>";
+         		#echo "DEBUG issue $issue->bugId (".date("Y-m-d", $rsd).") is constrained by $a->bugid (".date("Y-m-d", $a->endTimestamp).")<br/>";
 	         	if ($a->endTimestamp > $rsd) {
-	         	   echo "DEBUG issue $issue->bugId postponed for $a->bugid<br/>";
+	         	   #echo "DEBUG issue $issue->bugId postponed for $a->bugid<br/>";
 	         	   $rsd = $a->endTimestamp;
       $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
 
@@ -311,12 +311,12 @@ class GanttManager {
 		// but if the availableTime on RemainingStartDate is 0, then search for the next 'free' day
 		while ( 0 == $userDispatchInfo[1]) {
 			$rsd = $userDispatchInfo[0];
-			echo "DEBUG no availableTime on RemainingStartDate ".date("Y-m-d", $rsd)."<br/>";
+			#echo "DEBUG no availableTime on RemainingStartDate ".date("Y-m-d", $rsd)."<br/>";
 			$rsd = strtotime("+1 day",$rsd);
          $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
 		}
 
-		echo "DEBUG issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]."<br/>";
+		#echo "DEBUG issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]."<br/>";
       return $userDispatchInfo;
    }
 

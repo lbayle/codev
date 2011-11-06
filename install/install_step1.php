@@ -154,7 +154,7 @@ if ("setDatabaseInfo" == $action) {
    	$install->createCustomFields();
 
    	echo "DEBUG 4/6 createExternalTasksProject<br/>";
-   	$extproj_id = $install->createExternalTasksProject(T_("ExternalTasks"), T_("CoDevTT ExternalTasks Project"));
+   	$extproj_id = $install->createExternalTasksProject(T_("(generic) ExternalTasks"), T_("CodevTT ExternalTasks Project"));
 
 	   $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
       echo "DEBUG 5/6 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";

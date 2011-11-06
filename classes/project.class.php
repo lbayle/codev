@@ -350,11 +350,16 @@ class Project {
 
    	$jobList = array();
 
-
-
+   	$type = $this->type;
+      
+   	// SPECIAL CASE: externalTasksProject is a type_noStatsProject that has only 'N/A' jobs
+      if ($this->id == Config::getInstance()->getValue(Config::id_externalTasksProject)) {
+      	$type = Project::type_sideTaskProject;
+      }
+   	
    	if (0 != $this->id) {
 
-       switch ($this->type) {
+       switch ($type) {
           case Project::type_sideTaskProject:
 	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
 		               "FROM `codev_job_table`, `codev_project_job_table` ".

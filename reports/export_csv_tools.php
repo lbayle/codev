@@ -76,8 +76,8 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
             $user = UserCache::getInstance()->getUser($issue->handlerId);
 
             $deadLine = "";
-            if (NULL != $issue->deadLine) {
-             $deadLine = date("d/m/Y", $issue->deadLine);
+            if (NULL != $issue->getDeadLine()) {
+             $deadLine = date("d/m/Y", $issue->getDeadLine());
             }
             $deliveryDate = "";
             if (NULL != $issue->deliveryDate) {

@@ -233,8 +233,8 @@ function displayTimeDrift($issue) {
 
   echo "<tr>\n";
   echo "  <td>".T_("DeadLine")."</td>\n";
-  if (NULL != $issue->deadLine) {
-      echo "  <td>".date("d M Y", $issue->deadLine)."</td>\n";
+  if (NULL != $issue->getDeadLine()) {
+      echo "  <td>".date("d M Y", $issue->getDeadLine())."</td>\n";
   } else {
       echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }

@@ -232,7 +232,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    echo "<caption title='".("Effort Deviation")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
-   echo "<th title='".T_("")."'>".T_("PrelEffortEstim")."</th>\n";
+   echo "<th title=''>".T_("PrelEffortEstim")."</th>\n";
    echo "<th title='"."BI + BS"."'>".T_("EffortEstim")."</th>\n";
    if ($displayNoSupport) {
       echo "<th title='"."BI + BS"."'>".T_("No Support")."</th>\n";
@@ -374,10 +374,10 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $dis
    echo "<caption title='".T_("Productivity Rate")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
-   echo "<th title='".T_("")."'>".T_("Prod Rate PrelEffortEstim")."</th>\n";
-   echo "<th title='".T_("")."'>".T_("Prod Rate")."</th>\n";
+   echo "<th title=''>".T_("Prod Rate PrelEffortEstim")."</th>\n";
+   echo "<th title=''>".T_("Prod Rate")."</th>\n";
    if ($displayNoSupport) {
-      echo "<th title='".T_("")."'>".T_("No Support")."</th>\n";
+      echo "<th title=''>".T_("No Support")."</th>\n";
    }
    echo "</tr>\n";
    $i = 0;
@@ -436,8 +436,8 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
    echo "<caption title='".T_("Sys Disp.")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
-   echo "<th title='".T_("")."'>".T_("Efficiency")."</th>\n";
-   echo "<th title='".T_("")."'>".T_("Sys Disp")."</th>\n";
+   echo "<th title=''>".T_("Efficiency")."</th>\n";
+   echo "<th title=''>".T_("Sys Disp")."</th>\n";
    echo "</tr>\n";
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {

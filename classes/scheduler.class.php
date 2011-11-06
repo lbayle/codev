@@ -103,9 +103,9 @@ class Scheduler {
 
 			#echo "DEBUG issue $issue->bugId  Duration = $issueDuration<br/>";
 
-			$currentST = new ScheduledTask($issue->bugId, $issue->deadLine, $issueDuration);
+			$currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
 
-			$currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->deadLine);
+			$currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->getDeadLine());
 			$currentST->summary          = $issue->summary;
             $currentST->priorityName     = $issue->getPriorityName();
             $currentST->statusName       = $statusNames[$issue->currentStatus];
@@ -114,7 +114,7 @@ class Scheduler {
             $currentST->handlerName = $handler->getName();
 
             // check if onTime
-			if (NULL == $issue->deadLine) {
+			if (NULL == $issue->getDeadLine()) {
 				$currentST->isOnTime = true;
 			} else {
             $currentST->isOnTime = (($sumDurations + $issueDuration) <= $currentST->nbDaysToDeadLine) ? true : false;
@@ -144,9 +144,9 @@ class Scheduler {
 
             #echo "DEBUG Monitored issue $issue->bugId  Duration = $issueDuration<br/>";
 
-            $currentST = new ScheduledTask($issue->bugId, $issue->deadLine, $issueDuration);
+            $currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
 
-            $currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->deadLine);
+            $currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->getDeadLine());
             $currentST->summary          = $issue->summary;
             $currentST->priorityName     = $issue->getPriorityName();
             $currentST->statusName       = $statusNames[$issue->currentStatus];
@@ -156,7 +156,7 @@ class Scheduler {
             $currentST->handlerName = $handler->getName();
 
             // check if onTime
-            if (NULL == $issue->deadLine) {
+            if (NULL == $issue->getDeadLine()) {
                $currentST->isOnTime = true;
             } else {
                $currentST->isOnTime = (($sumDurations + $issueDuration) <= $currentST->nbDaysToDeadLine) ? true : false;

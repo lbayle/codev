@@ -48,9 +48,11 @@ class Issue {
    public $dateSubmission;
    public $currentStatus;
    public $priority;
+   public $severity;
    public $handlerId;
    public $resolution;
    public $version;  // Product Version
+   private $target_version;
 
    private $relationships; // array[relationshipType][bugId]
 	/*
@@ -61,19 +63,19 @@ class Issue {
 	 * a 'prelEffortEstim' customField has been created to replace ETA.
 	 */
 
-   // -- CoDev custom fields
+   // -- CodevTT custom fields
    public $tcId;         // TelelogicChange id
    public $remaining;    // RAF
    public $prelEffortEstimName;  // PreliminaryEffortEstim (ex ETA)
    public $effortEstim;  // BI
    public $effortAdd;    // BS
-   public $deadLine;
+   private $deadLine;     // WARN: if not specified, TargetVersion_date must be returned !
    public $deliveryDate;
    public $deliveryId;   // TODO FDL (FDJ specific)
-
+     
    // -- computed fields
-   public $elapsed;    // total time spent on this issue
-   public $statusList; // array of statusInfo elements
+   public $elapsed;          // total time spent on this issue
+   public $statusList;       // array of statusInfo elements
    public $prelEffortEstim;  // PreliminaryEffortEstim (ex ETA_balance value)
 
    // -- PRIVATE cached fields
@@ -137,10 +139,12 @@ class Issue {
       $this->categoryId      = $row->category_id;
       $this->eta             = $row->eta; // DEPRECATED
       $this->priority        = $row->priority;
+      $this->severity        = $row->severity;
       $this->handlerId       = $row->handler_id;
       $this->resolution      = $row->resolution;
       $this->version         = $row->version;
-
+      $this->target_version  = $row->target_version;
+      
       // Get custom fields
       $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
       $result2 = mysql_query($query2) or die("Query failed: $query2");
@@ -166,6 +170,8 @@ class Issue {
 
       $this->elapsed = $this->getElapsed();
 
+      $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
+      
       // Prepare fields
       $this->statusList = array();
       $this->relationships = array();
@@ -255,6 +261,36 @@ class Issue {
       return $tcId;
    }
 
+   // ----------------------------------------------
+   /**
+    * Issue deadLine
+    * 
+    * if deadLineCustomField is set, return this value,
+    * else if TargetVersion date is specified return it,
+    * else return NULL
+    * 
+    */
+   public function getDeadLine() {
+   	
+   	// if exist return customField value 
+   	// REM: already set in initialize()
+   	if (NULL != $this->deadLine) { return $this->deadLine; }
+   	
+   	// check if 
+   	if (NULL != $this->target_version) {
+   	   $query = "SELECT date_order FROM `mantis_project_version_table` ".
+   	            "WHERE project_id=$this->projectId ".
+   	            "AND version='$this->target_version'";
+   	   $result = mysql_query($query) or die("Query failed: $query");
+   	   $targetVersionDate = mysql_result($result, 0);
+   	   
+   	   #echo "DEBUG: $this->bugId target_version date = ".date("Y-m-d", $targetVersionDate)."<br/>";
+   	   return ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
+   	}
+   	
+   	return NULL;
+   }
+   
    // ----------------------------------------------
    public function getProjectName() {
 
@@ -846,7 +882,17 @@ class Issue {
          return  false;
       }
 
-
+      // if same deadLine, same priority: check severity attribute
+      if ($this->severity > $issueB->severity) {
+      	#echo "DEBUG isHigherSeverity $this->bugId > $issueB->bugId (severity attr)<br/>\n";
+      	return  true;
+      }
+      if ($this->severity < $issueB->severity) {
+      	#echo "DEBUG isHigherSeverity $this->bugId < $issueB->bugId (severity attr)<br/>\n";
+      	return  false;
+      }
+      
+      
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
       	// A constrains more people, so A is higher priority

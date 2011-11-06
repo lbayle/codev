@@ -330,7 +330,7 @@ class TimeTracking {
 
       // if a deadLine is specified
       if ((in_array($issue->projectId, $this->prodProjectList)) &&
-          (NULL != $issue->deadLine)) {
+          (NULL != $issue->getDeadLine())) {
       	$issueList[] = $issue;
       }
     }

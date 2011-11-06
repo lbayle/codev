@@ -227,7 +227,7 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<td>".T_("Available Workload")."</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
-  echo "<td>".T_("Workload Forecasting (holidays not included, developpers only)")."</td>\n";
+  echo "<td>".T_("Workload Forecasting (holidays & externalTasks not included, developpers only)")."</td>\n";
   echo "<td></td>\n";
   echo "</tr>\n";
 
