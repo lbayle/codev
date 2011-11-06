@@ -47,7 +47,9 @@ class Project {
 	var $type;
 	var $jobList;
 	var $categoryList;
-
+	
+	private $bug_resolved_status_threshold;
+	
 	// -----------------------------------------------
 	public function Project($id) {
 
@@ -85,6 +87,12 @@ class Project {
          $this->categoryList[Project::$keyWorkshop]          = $row->cat_workshop;
       }
 
+      // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
+      $query  = "SELECT get_resolved_status_threshold($this->id) ";
+      $result = mysql_query($query) or die("Query failed: $query");
+      $this->bug_resolved_status_threshold = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+      #echo "DEBUG $this->name .bug_resolved_status_threshold = $this->bug_resolved_status_threshold<br>\n";
+      
       #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
 
       #$this->jobList     = $this->getJobList();
@@ -339,6 +347,11 @@ class Project {
    	return $bugt_id;
    }
 
+   
+   public function getBugResolvedStatusThreshold() {
+   	#echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
+   	return $this->bug_resolved_status_threshold;
+   }
 
    // -----------------------------------------------
    // Job list depends on project type:

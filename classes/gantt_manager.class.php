@@ -71,7 +71,6 @@ class GanttActivity {
 
    public function getJPGraphBar($issueActivityMapping) {
       global $statusNames;
-      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
    	$user = UserCache::getInstance()->getUser($this->userid);
       $issue = IssueCache::getInstance()->getIssue($this->bugid);
@@ -79,7 +78,7 @@ class GanttActivity {
    	$formatedActivityName = substr("$this->bugid - $issue->summary", 0, 50);
 
       $formatedActivityInfo = $user->getName();
-      if ($issue->currentStatus < $bug_resolved_status_threshold) {
+      if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
       	$formatedActivityInfo .= " (".$statusNames[$issue->currentStatus].")";
       }
 
@@ -227,14 +226,12 @@ class GanttManager {
    	global $status_closed;
    	global $gantt_task_grey;
 
-      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
       foreach ($resolvedIssuesList as $issue) {
 
       	$startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
       	if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
 
-      	$endDate = $issue->getLatestStatusOccurrence($bug_resolved_status_threshold);
+      	$endDate = $issue->getLatestStatusOccurrence($issue->bug_resolved_status_threshold);
       	if (NULL == $endDate) {
             // TODO: no, $status_closed is not the only one ! check for all status > $bug_resolved_status_threshold
       		$endDate = $issue->getLatestStatusOccurrence($status_closed);
@@ -389,9 +386,6 @@ class GanttManager {
    	global $status_acknowledged;
    	global $status_new;
    	global $status_feedback;
-
-      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
 
       $teamDispatchInfo = array(); // $teamDispatchInfo[userid] = array(endTimestamp, $availTimeOnEndTimestamp)
       $today = date2timestamp(date("Y-m-d", time()));

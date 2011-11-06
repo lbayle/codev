@@ -378,23 +378,20 @@ function displayTimeDriftStats ($timeTracking) {
 // display Drifts for Issues that are CURRENTLY OPENED
 function displayCurrentDriftStats ($timeTracking) {
 
-   $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
     // ---- get Issues that are not Resolved/Closed
     $formatedProdProjectList = implode( ', ', $timeTracking->prodProjectList);
     $issueList = array();
 
     $query = "SELECT DISTINCT id ".
                "FROM `mantis_bug_table` ".
-               "WHERE status < $resolved_status_threshold ".
+               "WHERE status < get_project_resolved_status_threshold(project_id) ".
                "AND project_id IN ($formatedProdProjectList) ".
                "ORDER BY id DESC";
     $result = mysql_query($query) or die("Query failed: $query");
-    while($row = mysql_fetch_object($result)) {
-            $issue = IssueCache::getInstance()->getIssue($row->id);
-            $user = UserCache::getInstance()->getUser($issue->handlerId);
 
-            $issueList[] = $issue;
+    while($row = mysql_fetch_object($result)) {
+       $issue = IssueCache::getInstance()->getIssue($row->id);
+       $issueList[] = $issue;
     }
 
     if (0 != count($issueList)) {

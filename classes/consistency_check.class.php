@@ -80,14 +80,13 @@ class ConsistencyCheck {
 
       $deliveryIdCustomField     = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       $deliveryDateCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
 
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
         "FROM `mantis_bug_table` ".
-        "WHERE status >= $resolved_status_threshold ";
+        "WHERE status >= get_project_resolved_status_threshold(project_id) ";
 
       if (0 != count($this->projectList)) {
       	$formatedProjects = implode( ', ', array_keys($this->projectList));
@@ -123,14 +122,12 @@ class ConsistencyCheck {
     */
    public function checkResolved() {
 
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
       $cerrList = array();
-
+      
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-        "FROM `mantis_bug_table` ".
-        "WHERE status >= $resolved_status_threshold ";
+               "FROM `mantis_bug_table` ".
+               "WHERE status >= get_project_resolved_status_threshold(project_id) ";
 
       if (0 != count($this->projectList)) {
          $formatedProjects = implode( ', ', array_keys($this->projectList));
@@ -169,19 +166,16 @@ class ConsistencyCheck {
       global $status_new;
       global $status_acknowledged;
 
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
       $min_remaining = 0;
-
 
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-        "FROM `mantis_bug_table` ".
-        "WHERE status NOT IN ($status_new, $status_acknowledged) ".
-        "AND status < $resolved_status_threshold ";
-
+               "FROM `mantis_bug_table` ".
+               "WHERE status NOT IN ($status_new, $status_acknowledged) ".
+               "AND status < get_project_resolved_status_threshold(project_id) ";
+      
       if (0 != count($this->projectList)) {
          $formatedProjects = implode( ', ', array_keys($this->projectList));
          $query .= "AND project_id IN ($formatedProjects) ";
@@ -218,12 +212,10 @@ class ConsistencyCheck {
 
    	$cerrList = array();
 
-      $resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-
    	// select all issues
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
                "FROM `mantis_bug_table` ".
-               "WHERE status < $resolved_status_threshold ";
+               "WHERE status < get_project_resolved_status_threshold(project_id) ";
       
       if (0 != count($this->projectList)) {
 
@@ -252,16 +244,18 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
-         if ( (NULL == $issue->prelEffortEstimName) || ('none' == $issue->prelEffortEstimName)) {
+	         if ((NULL   == $issue->prelEffortEstimName) || 
+	             ('none' == $issue->prelEffortEstimName)) {
+	
+	           $cerr = new ConsistencyError($row->bug_id,
+	                                              $row->handler_id,
+	                                              $row->status,
+	                                              $row->last_updated,
+	                                              T_("prelEffortEstim not set."));
+	            $cerr->severity = T_("Error");
+	            $cerrList[] = $cerr;
+	         }
 
-           $cerr = new ConsistencyError($row->bug_id,
-                                              $row->handler_id,
-                                              $row->status,
-                                              $row->last_updated,
-                                              T_("prelEffortEstim not set."));
-            $cerr->severity = T_("Error");
-            $cerrList[] = $cerr;
-         }
       }
 
 
