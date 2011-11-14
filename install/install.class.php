@@ -341,20 +341,20 @@ class Install {
 
 	}
 
-	function checkReportsDir($codevReportsDir) {
+	public static function checkWriteAccess($directory) {
 
 	  // Note: the 'ERROR' token in return string will be parsed, so
 	  //       do not remove it.
 
 	  // if path does not exist, try to create it
-	  if (FALSE == file_exists ($codevReportsDir)) {
-	  	if (!mkdir($codevReportsDir, 0755, true)) {
-           return(T_("ERROR").T_(": Could not create folder: $codevReportsDir"));
+	  if (FALSE == file_exists ($directory)) {
+	  	if (!mkdir($directory, 0755, true)) {
+           return(T_("ERROR").T_(": Could not create folder: $directory"));
         }
 	  }
 
 	  // create a test file to check write access to the directory
-	  $testFilename = $codevReportsDir . DIRECTORY_SEPARATOR . "test.txt";
+	  $testFilename = $directory . DIRECTORY_SEPARATOR . "test.txt";
 	  $fh = fopen($testFilename, 'w');
 	  if (FALSE == $fh) {
 	  	return (T_("ERROR").T_(": could not create test file: $testFilename"));

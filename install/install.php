@@ -15,10 +15,10 @@
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-
-<?php include_once '../path.inc.php'; ?>
-<?php include_once 'i18n.inc.php'; ?>
-
+<?php 
+ include_once '../path.inc.php'; 
+ include_once 'i18n.inc.php'; 
+?>
 <?php
    $_POST['page_name'] = T_("Install");
    include 'install_header.inc.php';
@@ -28,6 +28,32 @@
 
 <?php
 
+include_once 'install.class.php';
+
+
+
+// check CodevTT already installed
+ if (file_exists(Install::FILENAME_CONSTANTS) &&
+     file_exists(Install::FILENAME_MYSQL_CONFIG)) {
+ 	
+ 	include_once "mysql_connect.inc.php";
+ 	include_once "config.class.php";
+ 	include_once "internal_config.inc.php";
+ 	
+ 	echo "CodevTT $codevVersion already installed.<br/>";
+ 
+ } else 
+ {
+ 	
+ 	// check write access rights to codevTT directory
+ 	$testDir = "../";
+   $error = Install::checkWriteAccess($testDir);
+   if (TRUE == strstr($error, T_("ERROR"))) {
+      echo $error;
+      exit;
+   }
+ 	
+ }
 
 /*
  *

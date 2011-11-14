@@ -279,8 +279,7 @@ $checkReportsDirError = NULL;
 // ---
 if ("checkReportsDir" == $action) {
 
-   $install = new Install();
-   $checkReportsDirError = $install->checkReportsDir($codevReportsDir);
+   $checkReportsDirError = Install::checkWriteAccess($codevReportsDir);
 
 
 } else if ("proceedStep3" == $action) {
