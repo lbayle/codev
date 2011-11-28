@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-08-01 15:19+0200\n"
+"POT-Creation-Date: 2011-11-28 11:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,7 +172,7 @@ msgstr "Administration CoDev : Cong&eacute;s"
 #: admin/edit_holidays.php:140 reports/export_csv_tools.php:205
 #: reports/export_csv_weekly.php:141 reports/issue_info.php:121
 #: timetracking/project_activity_report.php:200
-#: timetracking/set_holidays.php:238 timetracking/team_activity_report.php:198
+#: timetracking/set_holidays.php:242 timetracking/team_activity_report.php:198
 #: timetracking/time_tracking.php:272 timetracking/time_tracking_tools.php:184
 #: tools/check.php:71
 msgid "Task"
@@ -186,7 +186,7 @@ msgstr ""
 
 #: admin/edit_holidays.php:151 admin/edit_holidays.php:231
 #: admin/edit_jobs.php:159 admin/edit_jobs.php:250 admin/edit_team.php:554
-#: include/menu_holidays.inc.php:34 timetracking/set_holidays.php:282
+#: include/menu_holidays.inc.php:34 timetracking/set_holidays.php:286
 #: timetracking/time_tracking.php:327
 msgid "Add"
 msgstr "Ajouter"
@@ -261,7 +261,7 @@ msgstr "&eacute;ffacer ce Poste"
 
 #: admin/edit_jobs.php:233 reports/export_csv_weekly.php:142
 #: reports/issue_info.php:298 reports/productivity_report.php:496
-#: timetracking/set_holidays.php:270 timetracking/team_activity_report.php:200
+#: timetracking/set_holidays.php:274 timetracking/team_activity_report.php:200
 #: timetracking/time_tracking.php:299 timetracking/time_tracking_tools.php:77
 #: timetracking/time_tracking_tools.php:186
 msgid "Job"
@@ -488,7 +488,7 @@ msgstr "jours"
 msgid "monitored"
 msgstr "suivie"
 
-#: classes/time_tracking.class.php:467 reports/productivity_report.php:339
+#: classes/time_tracking.class.php:483 reports/productivity_report.php:339
 #: reports/productivity_report.php:340 reports/productivity_report.php:347
 #: reports/productivity_report.php:348 reports/productivity_report.php:359
 #: reports/productivity_report.php:360 reports/productivity_report.php:391
@@ -552,15 +552,15 @@ msgstr "Export"
 msgid "Projects Activity"
 msgstr "Activit&eacute; Projets"
 
-#: reports/export_csv_monthly.php:216 reports/export_csv_weekly.php:297
+#: reports/export_csv_monthly.php:217 reports/export_csv_weekly.php:297
 msgid "Export Holidays "
 msgstr "Export Vacances "
 
-#: reports/export_csv_monthly.php:230 reports/export_csv_weekly.php:312
+#: reports/export_csv_monthly.php:231 reports/export_csv_weekly.php:312
 msgid "Done"
 msgstr "Termin&eacute;"
 
-#: reports/export_csv_monthly.php:232 reports/export_csv_weekly.php:314
+#: reports/export_csv_monthly.php:233 reports/export_csv_weekly.php:314
 msgid "Results in : "
 msgstr "R&eacute;sultats dans : "
 
@@ -783,7 +783,7 @@ msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
 #: reports/issue_info.php:484 reports/planning_report.php:526
-#: timetracking/set_holidays.php:342 timetracking/time_tracking.php:374
+#: timetracking/set_holidays.php:346 timetracking/time_tracking.php:374
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
 "Vous devez faire partie de l'&eacute;quipe d'admin pour acceder &agrave; "
@@ -1227,7 +1227,9 @@ msgstr "Taux d'efficacit&eacute; et Disponibilit&eacute; syst&egrave;me"
 #: reports/statistics.php:426
 msgid ""
 "Exclude side tasks to get the percent of time spent working on the projects"
-msgstr "Pourcentage de temps passé sur les fiches projet par rapport au temps total consomm&eacute; (SuiviOp inclu)."
+msgstr ""
+"Pourcentage de temps pass&eacute sur les fiches projet par rapport au temps "
+"total consomm&eacute; (SuiviOp inclu)."
 
 #: reports/statistics.php:434
 msgid "Sys Disp."
