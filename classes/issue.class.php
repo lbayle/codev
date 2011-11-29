@@ -14,7 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-
 <?php
 
 include_once "project.class.php";
@@ -57,6 +56,8 @@ class Issue {
    var $deadLine;
    var $deliveryDate;
    var $deliveryId;   // TODO FDL (FDJ specific) 
+
+   private $relationships; // array[relationshipType][bugId]
    
    // -- computed fields
    var $elapsed;    // total time spent on this issue
@@ -123,6 +124,8 @@ class Issue {
 
       // Prepare fields
       $this->statusList = array();
+      $this->relationships = array();
+      
    }
 
    // ----------------------------------------------
@@ -269,6 +272,59 @@ class Issue {
       }
 
       return $elapsed;
+   }
+
+   /**
+    * Returns the nb of days needed to finish the issue.
+    * if the 'remaining' (RAF) field is not defined, return effortEstim or prelEffortEstim
+    */
+   public function getRemaining() {
+      // determinate issue duration (Remaining, BI, PrelEffortEstim)
+      if       (NULL != $this->remaining)   { $issueDuration = $this->remaining; }
+     elseif   (NULL != $this->effortEstim) { $issueDuration = $this->effortEstim; }
+      else                                   { $issueDuration = $this->eta; }
+      return $issueDuration;
+   }
+   
+   /**
+    * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
+    *
+    * get list of Relationships
+    *
+    * @param type = 2500 or 2501
+    * @return array(issue_id);
+    */
+   public function getRelationships($type) {
+
+      // TODO
+      $complementaryType = (2500 == $type) ? 2501 : 2500;
+
+        if (NULL == $this->relationships[$type]) {
+         $this->relationships[$type] = array();
+
+           // normal
+         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
+                  "WHERE source_bug_id=$this->bugId ".
+                  "AND relationship_type = $type";
+         $result    = mysql_query($query) or die("Query failed: $query");
+         while($row = mysql_fetch_object($result))
+         {
+            #echo "DEBUG relationships: [$type] $this->bugId -> $row->destination_bug_id </br>\n";
+            $this->relationships[$type][] = $row->destination_bug_id;
+         }
+         // complementary
+         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
+                  "WHERE destination_bug_id=$this->bugId ".
+                  "AND relationship_type = ".$complementaryType;
+         $result    = mysql_query($query) or die("Query failed: $query");
+         while($row = mysql_fetch_object($result))
+         {
+            #echo "DEBUG relationshipsC: [$type] $this->bugId -> $row->source_bug_id </br>\n";
+            $this->relationships[$type][] = $row->source_bug_id;
+         }
+        }
+
+      return $this->relationships[$type];
    }
    
    // ----------------------------------------------
@@ -746,6 +802,21 @@ class Issue {
    function compareTo($issueB) {
       
       global $status_openned;
+
+      // if IssueB constrains IssueA, then IssueB is higher priority
+      $AconstrainsList = $this->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      if (in_array($this->bugId, $BconstrainsList)) {
+         // B constrains A
+         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (B constrains A)<br/>\n";
+         return false;
+      }
+      if (in_array($issueB->bugId, $AconstrainsList)) {
+         // A constrains B
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains B)<br/>\n";
+         return true;
+      }
+      
       
       // Tasks currently open are higher priority
       if (($this->currentStatus == $status_openned) && ($issueB->currentStatus != $status_openned)) {
@@ -780,21 +851,196 @@ class Issue {
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
          #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (priority attr)<br/>\n";
-         return  true; 
+         return  true;
       }
-            
-      #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (priority attr)<br/>\n";
+      if ($this->priority < $issueB->priority) {
+         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (priority attr)<br/>\n";
+         return  false;
+      }
+
+
+      // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
+      if (count($AconstrainsList) > count($BconstrainsList)) {
+         // A constrains more people, so A is higher priority
+         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains more people)<br/>\n";
+         return true;
+      }
+
+      #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (B constrains more people)<br/>\n";
       return false;
    }    
 
-   function compareTo_($issueB) {
-      
-      global $status_openned;
-      
-      
+   /**
+    * Returns the Estimated Date of Arrival, depending on user's holidays and other timetracks
+    *
+    * @param $beginTimestamp              the start day
+    * @param $availTimeOnBeginTimestamp   On the start day, part of the day may already have
+    *                                     been spent on other issues. this param defines how much
+    *                                     time is left for this issue.
+    *                                     if NULL, use user->getAvailableTime($beginTimestamp)
+    * @param $userid                      if NULL, use assignedTo user
+    *
+    * @return array(endTimestamp, $availTimeOnEndTimestamp)
+    *          $availTimeOnEndTimestamp can be re-injected in the next call to this function
+    */
+   public function computeEstimatedDateOfArrival($beginTimestamp, $availTimeOnBeginTimestamp=NULL, $userid=NULL) {
+
+      // find user in charge of this issue
+      if (NULL != $userid) {
+         $user = UserCache::getInstance()->getUser($userid);
+      } else {
+         if (NULL != $this->handlerId) {
+            $user = UserCache::getInstance()->getUser($this->handlerId);
+         } else {
+            // issue not assigned to anybody
+            $user = NULL;
+         }
+      }
+
+      // we need to be absolutely sure that time is 00:00:00
+      $timestamp = mktime(0, 0, 0, date("m", $beginTimestamp), date("d", $beginTimestamp), date("Y", $beginTimestamp));
+
+      $tmpDuration = $this->getRemaining();
+
+      //echo "DEBUG user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp)."<br/>";
+
+      // first day depends only on $availTimeOnBeginTimestamp
+      if (NULL == $availTimeOnBeginTimestamp) {
+         $availTime = $user->getAvailableTime($timestamp);
+      } else {
+         $availTime = $availTimeOnBeginTimestamp;
+      }
+      $tmpDuration -= $availTime;
+      //echo "DEBUG 1st ".date('Y-m-d', $timestamp)." tmpDuration (-$availTime) = $tmpDuration<br/>";
+
+      // --- next days
+      while ($tmpDuration > 0) {
+         $timestamp = strtotime("+1 day",$timestamp);
+
+         if (NULL != $user) {
+            $availTime = $user->getAvailableTime($timestamp);
+            $tmpDuration -= $availTime;
+            //echo "DEBUG ".date('Y-m-d', $timestamp)." tmpDuration = $tmpDuration<br/>";
+         } else {
+            // if not assigned, just check for global holidays
+            if (NULL == Holidays::getInstance()->isHoliday($timestamp)) {
+                 $tmpDuration -= 1; // it's not a holiday, so complete day available.
+              }
+         }
+      }
+      $endTimestamp = $timestamp;
+
+      // if $tmpDuration < 0 this means that this issue will be finished before
+      // the end of the day. So the remaining time must be reported to be available
+      // fot the next issue to be worked on.
+      $availTimeOnEndTimestamp = abs($tmpDuration);
+
+      //echo "DEBUG $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]<br/>\n";
+      return array($endTimestamp, $availTimeOnEndTimestamp);
    }
+   
+   
+   /**
+    * returns the timestamp of the first time that
+    * the issue switched to status 'status'
+    *
+    * @return timestamp or NULL if not found
+    */
+   public function getFirstStatusOccurrence($status) {
+
+      global $status_new;
+
+      if ($status_new == $status) {
+         return $this->dateSubmission;
+      }
+
+      $query = "SELECT date_modified ".
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id";
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+/*
+      if (NULL == $timestamp) {
+         echo "DEBUG issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND ! <br/>\n";
+      } else {
+         echo "DEBUG issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp)."<br/>\n";
+      }
+*/
+      return $timestamp;
+   }
+
+   /**
+    * returns the timestamp of the latest time that
+    * the issue switched to status 'status'
+    *
+    * @return timestamp or NULL if not found
+    */
+   public function getLatestStatusOccurrence($status) {
+
+      global $status_new;
+
+      if ($status_new == $status) {
+         return $this->dateSubmission;
+      }
+
+      $query = "SELECT date_modified ".
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id DESC";
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+/*
+      if (NULL == $timestamp) {
+         echo "DEBUG issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND ! <br/>\n";
+      } else {
+         echo "DEBUG issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp)."<br/>\n";
+      }
+*/
+      return $timestamp;
+   }
+
+   /**
+    * returns a progress rate (depending on Remaining)
+    * formula: (BI+BS - RAF) / (BI+BS)
+    *
+    * 1 = 100% finished
+    * 0.5 = 50% done
+    * 0 = 0% done
+    */
+   public function getProgress() {
+
+      $bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
+
+
+      if ($this->currentStatus >= $bug_resolved_status_threshold) {
+         return 1; // issue is finished
+      }
+
+      // totalEffort is (BI+BS) or if not exist, PEE
+      if (NULL != $this->effortEstim) {
+         $totalEffort = $this->effortEstim + $this->effortAdd;
+      } else {
+         $totalEffort = $this->eta;
+      }
+
+      // if no Remaining set, 0% done
+      if (NULL == $this->remaining) {
+         return 0;
+      }
+
+      // nominal case
+      if ($this->remaining <= $totalEffort) {
+         $progress = ($totalEffort - $this->remaining) / $totalEffort;   // (T-R)/T
+      } else {
+         $progress = $totalEffort / ($totalEffort - $this->remaining);   // T/(T+R)
+      }
+      return $progress;
+   }
+   
    
 } // class issue
 
 ?>
-

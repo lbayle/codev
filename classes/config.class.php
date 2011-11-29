@@ -57,6 +57,31 @@ class Config {
    const  configType_string   = 2;
    const  configType_keyValue = 3;
    const  configType_array    = 4;
+
+   // known Config ids
+   const id_defaultSideTaskProject   = "defaultSideTaskProject";
+   const id_jobSupport               = "job_support";
+   const id_adminTeamId              = "adminTeamId";
+   const id_statusNames              = "statusNames";
+   const id_astreintesTaskList       = "astreintesTaskList";
+   const id_codevReportsDir          = "codevReportsDir";
+   const id_customField_TC           = "customField_TC";
+   const id_customField_PrelEffortEstim = "customField_PrelEffortEstim";  // ex ETA
+   const id_customField_effortEstim  = "customField_effortEstim"; //  BI
+   const id_customField_remaining    = "customField_remaining"; //  RAE
+   const id_customField_deadLine     = "customField_deadLine";
+   const id_customField_addEffort    = "customField_addEffort"; // BS
+   const id_customField_deliveryId   = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
+   const id_customField_deliveryDate = "customField_deliveryDate";
+   const id_prelEffortEstim_balance  = "prelEffortEstim_balance"; // ex ETA_balance
+   const id_priorityNames            = "priorityNames";
+   const id_resolutionNames          = "resolutionNames";
+   const id_mantisFile_strings       = "mantisFile_strings";
+   const id_mantisFile_custom_strings = "mantisFile_custom_strings";
+   const id_mantisPath                = "mantisPath";
+   const id_bugResolvedStatusThreshold     = "bug_resolved_status_threshold";
+
+   const id_ClientTeamid             = "client_teamid"; // FDJ_teamid
    
    private static $instance;    // singleton instance
    private static $configItems;

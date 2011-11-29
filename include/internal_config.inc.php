@@ -26,7 +26,7 @@
    include_once "config.class.php"; 
 
 
-   $codevVersion = "v1.0.0 (29 Jul  2011)";
+   $codevVersion = "v1.0.1 (19 Oct  2011)";
 
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management",
@@ -38,7 +38,8 @@
                                 "v0.99.7" => "(25 Feb  2011) - Graph & Statistics",
                                 "v0.99.8" => "(25 Mar  2011) - Add Job and specificities for 'support' + createTeam enhancements",
                                 "v0.99.9" => "(11 Apr  2011) - Planning + enhance global performances",
-                                "v1.0.0" =>  "(29 Jul  2011) - Add indicators: ReopenedRate, DelayRate + noFilterTC + security + bugfixes"
+                                "v1.0.0" =>  "(29 Jul  2011) - Add indicators: ReopenedRate, DelayRate + noFilterTC + security + bugfixes",
+                                "v1.0.1" =>  "(19 Oct  2011) - Gantt (beta)"
                                 );
 
                                 

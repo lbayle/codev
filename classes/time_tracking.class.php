@@ -1247,6 +1247,3 @@ public function getReopenedRate($projects = NULL) {
 } // class TimeTracking
 
 ?>
-
-
-
