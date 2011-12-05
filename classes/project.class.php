@@ -88,7 +88,7 @@ class Project {
       }
 
       // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
-      $query  = "SELECT get_resolved_status_threshold($this->id) ";
+      $query  = "SELECT get_project_resolved_status_threshold($this->id) ";
       $result = mysql_query($query) or die("Query failed: $query");
       $this->bug_resolved_status_threshold = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
       #echo "DEBUG $this->name .bug_resolved_status_threshold = $this->bug_resolved_status_threshold<br>\n";
