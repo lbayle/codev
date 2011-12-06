@@ -350,3 +350,4 @@ displayForm($originPage, $codevReportsDir, $checkReportsDirError,
 
 ?>
 
+</div>

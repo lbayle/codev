@@ -36,6 +36,8 @@ echo "      |\n";
 echo "      <a href='".getServerRootURL()."/admin/edit_jobs.php'>".T_("Edit Jobs")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/admin/edit_holidays.php'>".T_("Edit Holidays")."</a>\n";
+echo "      |\n";
+echo "      <a href='".getServerRootURL()."/admin/prepare_project.php'>".T_("Prepare Projects")."</a>\n";
 echo "      </td>\n";
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/doc/codev_adminguide.html'>".T_("Admin Guide")."</a>\n";
