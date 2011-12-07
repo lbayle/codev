@@ -825,7 +825,7 @@ class Issue {
     */
    function compareTo($issueB) {
 
-      global $status_openned;
+      global $status_open;
 
       // if IssueB constrains IssueA, then IssueB is higher priority
       $AconstrainsList = $this->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
@@ -843,11 +843,11 @@ class Issue {
 
 
       // Tasks currently open are higher priority
-      if (($this->currentStatus == $status_openned) && ($issueB->currentStatus != $status_openned)) {
+      if (($this->currentStatus == $status_open) && ($issueB->currentStatus != $status_open)) {
             #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (status_openned)<br/>\n";
             return  true;
       }
-      if (($issueB->currentStatus == $status_openned) && ($this->currentStatus != $status_openned)) {
+      if (($issueB->currentStatus == $status_open) && ($this->currentStatus != $status_open)) {
             #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (status_openned)<br/>\n";
             return  false;
       }
