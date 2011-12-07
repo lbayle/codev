@@ -14,39 +14,32 @@
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-<?php 
-   include_once '../path.inc.php';
-   include_once 'i18n.inc.php';
+<?php
    include_once "tools.php";
+   include_once 'i18n.inc.php';
 ?>
-
-
 
 <div id="menu">
 
 <?php 
-
-   
-echo "<table>\n";
+echo "<table class='menu'>\n";
 echo "   <tr>\n";
-echo "      <td><a href='".getServerRootURL()."/admin/create_team.php'>".T_("Create Team")."</a>\n";
-echo "      |\n";
-echo "      <a href='".getServerRootURL()."/admin/edit_team.php'>".T_("Edit Team")."</a>\n";
-echo "      |\n";
-echo "      <a href='".getServerRootURL()."/admin/edit_jobs.php'>".T_("Edit Jobs")."</a>\n";
-echo "      |\n";
-echo "      <a href='".getServerRootURL()."/admin/edit_holidays.php'>".T_("Edit Holidays")."</a>\n";
-echo "      |\n";
-echo "      <a href='".getServerRootURL()."/admin/prepare_project.php'>".T_("Prepare Projects")."</a>\n";
-echo "      </td>\n";
 echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/doc/codev_adminguide.html'>".T_("Admin Guide")."</a>\n";
+echo "      <a href='".getServerRootURL()."/index.php' title=''>".T_("Home")."</a>\n";
+echo "      </td>\n";
+
+echo "      <td>\n";
+echo "      <a href='".getServerRootURL()."/install/install.php' title=''>".T_("Install")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/install/uninstall.php' title=''>".T_("Uninstall")."</a>\n";
 echo "      </td>\n";
-echo "   </tr>\n";
-echo "</table>\n";
-?>      
+
+echo "      <td>\n";
+echo "      <a href='".getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a>\n";
+echo "      </td>\n";
+echo "  </tr>\n";
+echo "</table>";
+?>
 <br/>
 <br/>
 </div>
