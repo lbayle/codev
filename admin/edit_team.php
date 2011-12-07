@@ -168,7 +168,7 @@ if (!isset($_SESSION['userid'])) {
 
 	     // check fields
 	     foundError = 0;
-	     msgString = "Missing field:\n\n"
+	     msgString = "Missing field:\n\n";
 
 	     if (0 == document.forms["addAstreinteForm"].astreinteSelector.value) {
 	     	msgString += "Inactivity task\n"; ++foundError;
