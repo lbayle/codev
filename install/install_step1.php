@@ -119,7 +119,7 @@ $originPage = "install_step1.php";
 $sqlFile_tables        = "./codevtt_tables.sql";
 $sqlFile_procedures    = "./codevtt_procedures.sql";
 
-$adminTeamName = T_("admin");
+$adminTeamName = T_("CodevTT admin");
 $adminTeamLeaderId = 1; // 1 is mantis administrator
 
 $db_mantis_host     = isset($_POST['db_mantis_host']) ?     $_POST['db_mantis_host']     : 'localhost';

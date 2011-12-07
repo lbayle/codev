@@ -20,7 +20,6 @@
 
 <?php
 include_once 'i18n.inc.php';
-include_once "tools.php";
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
 
@@ -33,6 +32,7 @@ if (!isset($_SESSION['userid'])) {
    include 'header.inc.php';
 ?>
 
+<?php include_once 'tools.php'; ?>
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
 
@@ -228,9 +228,9 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    // SideTasksProjects from Teams where I'm a Manager
    $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
    foreach ($managedProjList as $pid => $pname) {
-   	// we want only SideTasks of projects that I manage
+   	// we want only SideTasks and NoStatsProject of projects that I manage
    	$tmpPrj = ProjectCache::getInstance()->getProject($pid);
-      if (!$tmpPrj->isSideTasksProject()) { unset($managedProjList[$pid]); }
+      if (!$tmpPrj->isSideTasksProject() && !$tmpPrj->isNoStatsProject()) { unset($managedProjList[$pid]); }
    }
 
    $projList = $devProjList + $managedProjList;

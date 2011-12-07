@@ -206,7 +206,7 @@ if ("proceedStep2" == $action) {
     echo "DEBUG 7/9 add bug_resolved_status_threshold<br/>";
     $bug_resolved_status_threshold = isset($g_bug_resolved_status_threshold) ? $g_bug_resolved_status_threshold : constant("RESOLVED");
     $desc = T_("bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)");
-    Config::getInstance()->setValue(Config::id_bugResolvedStatusThreshold, "$bug_resolved_status_threshold", Config::configType_int , $desc);
+    Config::getInstance()->setValue(Config::id_bugResolvedStatusThreshold, "$bug_resolved_status_threshold", Config::configType_int , $desc, "0");
 
     echo "DEBUG 8/9 create constants.php<br/>";
     $install = new Install();

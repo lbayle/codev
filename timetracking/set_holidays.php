@@ -351,7 +351,7 @@ if ($_POST['nextForm'] == "addHolidaysForm") {
    $defaultDate  = $formatedDate= date("Y-m-d", time());
 
    $defaultBugid = isset($_POST['bugid']) ? $_POST['bugid'] : 0;
-   $defaultProjectid  = isset($_POST['projectid']) ? $_POST['projectid'] : Config::getInstance()->getValue("defaultSideTaskProject");
+   $defaultProjectid  = isset($_POST['projectid']) ? $_POST['projectid'] : 0;
 
 
    if ("addHolidays" == $action) {

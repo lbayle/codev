@@ -220,7 +220,7 @@ class Config {
     * @param int    $type
     * @param string $desc
     */
-   public static function setValue($id, $value, $type, $desc=NULL) {
+   public static function setValue($id, $value, $type, $desc=NULL, $project_id=NULL) {
 
    	  // add/update DB
       $query = "SELECT * FROM `codev_config_table` WHERE config_id='$id'";
@@ -229,7 +229,7 @@ class Config {
          $query = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id='$id'";
          #echo "DEBUG UPDATE Config::setValue $id: $value (t=$type) $desc<br/>";
       } else {
-         $query = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`) VALUES ('$id', '$value', '$type', '$desc');";
+         $query = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`, `project_id`) VALUES ('$id', '$value', '$type', '$desc', '$project_id');";
          #echo "DEBUG INSERT Config::setValue $id: $value (t=$type) $desc<br/>";
       }
 
