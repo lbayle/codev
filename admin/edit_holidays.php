@@ -39,35 +39,6 @@ if (!isset($_SESSION['userid'])) {
 
 <script language="JavaScript">
 
-function addAstreinte() {
-
-     // check fields
-     foundError = 0;
-     msgString = "Missing field:\n\n"
-
-     if (0 == document.forms["addAstreinteForm"].astreinteSelector.value) {
-     	msgString += "Inactivity task\n"; ++foundError;
-     }
-
-     if (0 == foundError) {
-       document.forms["addAstreinteForm"].astreinte_id.value = document.getElementById('astreinteSelector').value;
-       document.forms["addAstreinteForm"].action.value="addAstreinte";
-       document.forms["addAstreinteForm"].submit();
-     } else {
-       alert(msgString);
-     }
-
-   }
-
-function deleteAstreinte(id, description){
-   confirmString = "Cette tache ne sera plus consideree comme astreinte.\n" + description;
-   if (confirm(confirmString)) {
-     document.forms["deleteAstreinteForm"].action.value="deleteAstreinte";
-     document.forms["deleteAstreinteForm"].astreinte_id.value=id;
-     document.forms["deleteAstreinteForm"].submit();
-   }
- }
-
 function addHoliday() {
 
      // check fields
@@ -103,108 +74,6 @@ include_once "issue.class.php";
 include_once "user.class.php";
 include_once "holidays.class.php";
 require_once('tc_calendar.php');
-
-// ----------------------------------------------------
-/*
- * TODO: to be moved to EditTeam page
- *
-function addAstreinteForm($originPage) {
-
-
-   // get CommonSideTasksProject Inactivity Issues
-   $stproj_id = Config::getInstance()->getValue(Config::id_defaultSideTaskProject);
-   $stproj    = ProjectCache::getInstance()->getProject($stproj_id);
-   $inactivityCat_id = $stproj->getInactivityCategoryId();
-
-   $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
-
-
-   $issueList = array();
-   $query  = "SELECT id FROM `mantis_bug_table` ".
-             "WHERE project_id = $stproj_id AND category_id  = $inactivityCat_id ";
-   if (NULL != $astreintesList) {
-   	  $formatedAstreintesList = implode( ', ', $astreintesList);
-   	  $query .= "AND id NOT IN ($formatedAstreintesList) ";
-   }
-   $query .= "ORDER BY id";
-
-   $result = mysql_query($query) or die("Query failed: $query");
-   if (0 != mysql_num_rows($result)) {
-      while($row = mysql_fetch_object($result))
-      {
-         $issueList[] = $row->id;
-      }
-   }
-
-   // ---
-   echo "<div>\n";
-
-   echo "<form id='addAstreinteForm' name='addAstreinteForm' method='post' Action='$originPage'>\n";
-
-   echo("   ".T_("Task").": \n");
-
-   echo "   <select id='astreinteSelector' name='astreinteSelector' style='width: 600px;' title='".T_("CommonSideTaskProject Inactivity tasks")."'>\n";
-   echo "     <option value='0'></option>\n";
-   foreach ($issueList as $bugid) {
-         $issue = new Issue ($bugid);
-         echo "     <option value='".$bugid."'>".$bugid." : $issue->summary</option>\n";
-   }
-   echo "   </select>\n";
-
-
-   echo "   <input type=button name='btAddAstreinte' value='".T_("Add")."' onClick='javascript: addAstreinte()'>\n";
-   echo "   <input type=hidden name=action       value=noAction>\n";
-   echo "   <input type=hidden name=astreinte_id value=0>\n";
-
-   echo "</form>\n";
-
-   echo "</div>\n";
-}
-*/
-
-// ----------------------------------------------------
-function displayAstreintesTuples() {
-
-   $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
-
-	if (NULL == $astreintesList) return;
-
-   // Display previous entries
-   echo "<div>\n";
-   echo "<table>\n";
-   //echo "<caption>Astreintes</caption>\n";
-   echo "<tr>\n";
-   echo "<th></th>\n";
-   echo "<th>".T_("Id")."</th>\n";
-   echo "<th>".T_("Description")."</th>\n";
-   echo "</tr>\n";
-
-
-   foreach ($astreintesList as $bugid) {
-	  $issue = IssueCache::getInstance()->getIssue($bugid);
-
-   	  $deleteDesc = "$bugid - ".$issue->summary;
-      $deleteDesc = str_replace("'", "\'", $deleteDesc);
-      $deleteDesc = str_replace('"', "\'", $deleteDesc);
-
-      echo "<tr>\n";
-      echo "<td>\n";
-      echo "<a title='".T_("delete OnDuty")."' href=\"javascript: deleteAstreinte('".$bugid."', '$deleteDesc')\" ><img src='../images/b_drop.png'></a>\n";
-      echo "</td>\n";
-      echo "<td>$bugid</td>\n";
-      echo "<td>$issue->summary</td>\n";
-
-      echo "</tr>\n";
-   }
-   echo "</table>\n";
-
-   echo "<form id='deleteAstreinteForm' name='deleteAstreinteForm' method='post' Action='$originPage'>\n";
-   echo "   <input type=hidden name=action        value=noAction>\n";
-   echo "   <input type=hidden name=astreinte_id  value='0'>\n";
-   echo "</form>\n";
-
-   echo "<div>\n";
-}
 
 
 // ----------------------------------------------------
@@ -309,18 +178,6 @@ if (!$session_user->isTeamMember($admin_teamid)) {
    echo T_("Sorry, you need to be in the admin-team to access this page.");
    exit;
 }
-
-/*
-echo "<h2>".T_("Add OnDuty holidays")."</h2>\n";
-echo "<br/>";
-echo T_("In here you can specify which inactivity tasks are also astreintes")."<br/>";
-echo "<br/>";
-addAstreinteForm($originPage);
-echo "<br/>";
-displayAstreintesTuples();
-echo "<br/>";
-echo "<br/>";
-*/
 
 echo "<h2>".T_("Add fixed holidays")."</h2>\n";
 echo "<br/>";

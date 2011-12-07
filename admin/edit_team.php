@@ -164,11 +164,43 @@ if (!isset($_SESSION['userid'])) {
        document.forms["updateTeamInfoForm"].submit();
    }
 
+  function addAstreinte() {
+
+	     // check fields
+	     foundError = 0;
+	     msgString = "Missing field:\n\n"
+
+	     if (0 == document.forms["addAstreinteForm"].astreinteSelector.value) {
+	     	msgString += "Inactivity task\n"; ++foundError;
+	     }
+
+	     if (0 == foundError) {
+	       document.forms["addAstreinteForm"].astreinte_id.value = document.getElementById('astreinteSelector').value;
+	       document.forms["addAstreinteForm"].action.value="addAstreinte";
+	       document.forms["addAstreinteForm"].submit();
+	     } else {
+	       alert(msgString);
+	     }
+
+	   }
+
+	function deleteAstreinte(id, description){
+	   confirmString = "Cette tache ne sera plus consideree comme astreinte.\n" + description;
+	   if (confirm(confirmString)) {
+	     document.forms["deleteAstreinteForm"].action.value="deleteAstreinte";
+	     document.forms["deleteAstreinteForm"].astreinte_id.value=id;
+	     document.forms["deleteAstreinteForm"].submit();
+	   }
+	 }
+
 
 </script>
 
 
 <?php
+include_once "project.class.php";
+include_once "issue.class.php";
+include_once "holidays.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 require_once('tc_calendar.php');
@@ -572,6 +604,120 @@ function deleteTeamForm($originPage, $teamName, $teamid) {
 
 }
 
+// ----------------------------------------------------
+function addAstreinteForm($originPage, $teamid) {
+
+	$astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
+	
+	// --- get SideTasksProject Inactivity Issues
+	
+	$stprojList = array();
+	$projList = Team::getProjectList($teamid);
+	foreach ($projList as $pid => $pname) {
+		$p = ProjectCache::getInstance()->getProject($pid);
+		if ($p->isSideTasksProject()) {
+			#$stprojList[] = $pid;
+			$inactivityCatList[$pid] = $p->getInactivityCategoryId();
+		}
+	}
+	$formatedInactivityCatList=implode( ', ', array_keys($inactivityCatList));
+	
+	
+	$issueList = array();
+	$query  = "SELECT id, project_id, category_id FROM `mantis_bug_table` ".
+	          "WHERE project_id IN ($formatedInactivityCatList) ";
+	
+	if (NULL != $astreintesList) {
+	   $formatedAstreintesList = implode( ', ', $astreintesList);
+	   $query .= "AND id NOT IN ($formatedAstreintesList) ";
+	}
+	$query .= "ORDER BY id";
+	
+	if (isset($_GET['debug_sql'])) {echo "addAstreinteForm(): query = $query<br/>";}
+	
+	$result = mysql_query($query) or die("Query failed: $query");
+	if (0 != mysql_num_rows($result)) {
+	   while($row = mysql_fetch_object($result)) {
+	   	#echo "DEBUG $row->id cat $row->category_id inac[$row->project_id] = ".$inactivityCatList[$row->project_id]."</br>";
+	   	if ($row->category_id == $inactivityCatList[$row->project_id]) {
+	         $issueList[] = $row->id;
+	   	}
+	   }
+	}
+	
+	// ---
+	echo "<div>\n";
+	
+	echo "<form id='addAstreinteForm' name='addAstreinteForm' method='post' Action='$originPage'>\n";
+	
+	echo("   ".T_("Task").": \n");
+	
+	echo "   <select id='astreinteSelector' name='astreinteSelector' style='width: 600px;' title='".T_("Inactivity tasks")."'>\n";
+	echo "     <option value='0'></option>\n";
+	foreach ($issueList as $bugid) {
+		$issue = new Issue ($bugid);
+		echo "     <option value='".$bugid."'>".$bugid." : $issue->summary</option>\n";
+	}
+	echo "   </select>\n";
+	
+	
+	echo "   <input type=button name='btAddAstreinte' value='".T_("Add")."' onClick='javascript: addAstreinte()'>\n";
+	echo "   <input type=hidden name=action       value=noAction>\n";
+	echo "   <input type=hidden name=astreinte_id value=0>\n";
+	
+	echo "</form>\n";
+	
+	echo "</div>\n";
+}
+
+
+// ----------------------------------------------------
+function displayAstreintesTuples($teamid) {
+
+	$astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
+
+	if (NULL == $astreintesList) return;
+
+	// Display previous entries
+	echo "<div>\n";
+	echo "<table>\n";
+	//echo "<caption>Astreintes</caption>\n";
+	echo "<tr>\n";
+	echo "<th></th>\n";
+	echo "<th>".T_("Id")."</th>\n";
+	echo "<th>".T_("Description")."</th>\n";
+	echo "</tr>\n";
+
+
+	foreach ($astreintesList as $bugid) {
+		$issue = IssueCache::getInstance()->getIssue($bugid);
+
+		$deleteDesc = "$bugid - ".$issue->summary;
+		$deleteDesc = str_replace("'", "\'", $deleteDesc);
+		$deleteDesc = str_replace('"', "\'", $deleteDesc);
+
+		echo "<tr>\n";
+		echo "<td>\n";
+		echo "<a title='".T_("delete OnDuty")."' href=\"javascript: deleteAstreinte('".$bugid."', '$deleteDesc')\" ><img src='../images/b_drop.png'></a>\n";
+		echo "</td>\n";
+		echo "<td>$bugid</td>\n";
+		echo "<td>$issue->summary</td>\n";
+
+		echo "</tr>\n";
+   }
+   echo "</table>\n";
+
+   echo "<form id='deleteAstreinteForm' name='deleteAstreinteForm' method='post' Action='$originPage'>\n";
+		echo "   <input type=hidden name=action        value=noAction>\n";
+   echo "   <input type=hidden name=astreinte_id  value='0'>\n";
+   echo "</form>\n";
+
+   echo "<div>\n";
+}
+
+
+
+
 // ================ MAIN =================
 
 global $admin_teamid;
@@ -665,10 +811,24 @@ if (0 != $teamid) {
    echo "<br/>\n";
    echo "<hr align='left' width='20%'/>\n";
    echo "<br/>\n";
-   deleteTeamForm($originPage, $teamName, $teamid);
 
-
-
+   echo "<h2>".T_("Add OnDuty tasks")."</h2>\n";
+	echo "<br/>";
+	echo T_("In here you can specify which inactivity tasks are 'OnDuty'")."<br/>";
+	echo "<br/>";
+	addAstreinteForm($originPage, $teamid);
+	echo "<br/>";
+	displayAstreintesTuples($teamid);
+	echo "<br/>";
+	echo "<br/>";
+   
+	// ---   
+	echo "<hr align='left' width='20%'/>\n";
+	echo "<br/>\n";
+   echo "<h2>".T_("Delete Team")."</h2>\n";
+	deleteTeamForm($originPage, $teamName, $teamid);
+	
+	
    // ----------- actions ----------
    if ($action == "addTeamMember") {
 
@@ -775,6 +935,37 @@ if (0 != $teamid) {
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
 
+   }elseif ($action == "addAstreinte") {
+      $astreinte_id = $_POST['astreinte_id'];
+      $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
+	  if (NULL == $astreintesList) {
+	  	 $formatedList = "$astreinte_id";
+	  } else {
+		 $formatedList  = implode( ',', $astreintesList);
+		 $formatedList .= ",$astreinte_id";
+	  }
+	  Config::getInstance()->setValue(Config::id_astreintesTaskList, $formatedList, Config::configType_array);
+
+      // reload page
+      echo ("<script> parent.location.replace('$originPage'); </script>");
+
+   } elseif ($action == "deleteAstreinte") {
+
+      $astreinte_id = $_POST['astreinte_id'];
+      $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
+	  if (NULL != $astreintesList) {
+		 if (1 == count($astreintesList)) {
+		 	#Config::getInstance()->deleteValue(Config::id_astreintesTaskList);
+	        Config::getInstance()->setValue(Config::id_astreintesTaskList, "", Config::configType_array);
+		 } else {
+		 	$key = array_search($astreinte_id, $astreintesList);
+		 	unset($astreintesList[$key]);
+		    $formatedList  = implode( ',', $astreintesList);
+	        Config::getInstance()->setValue(Config::id_astreintesTaskList, $formatedList, Config::configType_array);
+		 }
+	  }
+      // reload page
+      echo ("<script> parent.location.replace('$originPage'); </script>");
    }
 
 
