@@ -1,6 +1,6 @@
 <?php
 
-$s_status_enum_string = '10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,85:delivered,90:closed';
+$s_status_enum_string = '10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed';
 
 
 $s_analyzed_bug_button = 'Issue Analyzed';
@@ -10,6 +10,10 @@ $s_email_notification_title_for_status_bug_analyzed = 'The following issue has b
 $s_openned_bug_button = 'Issue Openned';
 $s_openned_bug_title = 'Open';
 $s_email_notification_title_for_status_bug_openned = 'The following issue has been OPENNED.';
+
+$s_validated_bug_button = 'Issue Validated';
+$s_validated_bug_title = 'Validated';
+$s_email_notification_title_for_status_bug_validated = 'The following issue has been VALIDATED';
 
 $s_delivered_bug_button = 'Issue Delivered';
 $s_delivered_bug_title = 'Delivered';
