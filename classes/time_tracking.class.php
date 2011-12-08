@@ -216,9 +216,8 @@ class TimeTracking {
    @param balanceType: "ETA" or "EffortEstim"
    */
   private function getProductivRate($projects, $balanceType = "ETA", $withSupport = true) {
-    global $status_resolved;
-    global $status_closed;
 
+  	global $status_closed;
 
     $resolvedList = array();
     $productivityRate = 0;
@@ -244,8 +243,8 @@ class TimeTracking {
              "AND mantis_bug_history_table.field_name='status' ".
              "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
              "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-             "AND mantis_bug_history_table.new_value = $status_resolved ".
-             "ORDER BY mantis_bug_table.id DESC";
+             "AND mantis_bug_history_table.new_value = get_project_resolved_status_threshold(project_id) ".
+    "ORDER BY mantis_bug_table.id DESC";
 
     if (isset($_GET['debug'])) { echo "getProductivRate QUERY = $query <br/>"; }
 
@@ -256,7 +255,7 @@ class TimeTracking {
       // check if the bug has been reopened before endTimestamp
       $issue = IssueCache::getInstance()->getIssue($row->id);
       $latestStatus = $issue->getStatus($this->endTimestamp);
-      if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
+      if (($latestStatus == $issue->bug_resolved_status_threshold) || ($latestStatus == $status_closed)) {
 
         // remove doubloons
         if (!in_array ($row->id, $resolvedList)) {
@@ -350,7 +349,6 @@ class TimeTracking {
    * @return a list of Issue class instances
    */
   public function getResolvedIssues($projects = NULL) {
-    global $status_resolved;
     global $status_closed;
 
     $resolvedList = array();
@@ -376,7 +374,7 @@ class TimeTracking {
       "AND mantis_bug_history_table.field_name='status' ".
       "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
       "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-      "AND mantis_bug_history_table.new_value = $status_resolved ".
+      "AND mantis_bug_history_table.new_value = get_project_resolved_status_threshold(project_id) ".
       "ORDER BY mantis_bug_table.id DESC";
 
     if (isset($_GET['debug'])) { echo "getDrift_new QUERY = $query <br/>"; }
@@ -388,7 +386,7 @@ class TimeTracking {
 
       // check if the bug has been reopened before endTimestamp
       $latestStatus = $issue->getStatus($this->endTimestamp);
-      if (($latestStatus == $status_resolved) || ($latestStatus == $status_closed)) {
+      if (($latestStatus == $issue->bug_resolved_status_threshold) || ($latestStatus == $status_closed)) {
 
         // remove doubloons
         if (!in_array ($issue->bugId, $resolvedList)) {
