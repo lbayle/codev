@@ -130,7 +130,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "<h2>".T_("SideTasks Project")."</h2>\n";
 
   echo "<input type=CHECKBOX CHECKED DISABLED name='cb_commonSideTaskProj' id='cb_commonSideTaskProj' >".
-       T_("Add common SideTasks Project")."</input> <span style='color:red'>*</span><br/>\n";
+       T_("Add common ExternalTasks Project")."</input> <span style='color:red'>*</span><br/>\n";
 
   echo "  <br/>\n";
 
@@ -199,7 +199,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "</table>\n";
   echo "  <br/>\n";
   echo "</li>\n";
-  echo "<li><b>".T_("Default SideTasks")."</b><br/>\n";
+  echo "<li><b>".T_("SideTasks")."</b><br/>\n";
   echo "<table class='invisible'>\n";
   echo "  <tr>\n";
 

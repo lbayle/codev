@@ -31,7 +31,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
    // WARNING i18n: translations with HTML chars (&eacute;) include ';' which is the CSV separation char !
    $stringData = T_("Project").$sepChar.
                  T_("m_id").$sepChar.
-                 T_("tc_id").$sepChar.
+                 T_("ExtRef").$sepChar.
                  T_("Summary").$sepChar.
                  T_("Status").$sepChar.
                  T_("Submitted").$sepChar.
