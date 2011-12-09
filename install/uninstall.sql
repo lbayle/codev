@@ -17,6 +17,11 @@
 
 -- --------------------------------------------------------
 
+DROP FUNCTION IF EXISTS get_project_resolved_status_threshold;
+DROP FUNCTION IF EXISTS get_issue_resolved_status_threshold;
+
+-- ------------------------
+
 DROP TABLE IF EXISTS `codev_config_table`;
 DROP TABLE IF EXISTS `codev_holidays_table`;
 DROP TABLE IF EXISTS `codev_job_table`;
@@ -26,6 +31,7 @@ DROP TABLE IF EXISTS `codev_team_project_table`;
 DROP TABLE IF EXISTS `codev_team_table`;
 DROP TABLE IF EXISTS `codev_team_user_table`;
 DROP TABLE IF EXISTS `codev_timetracking_table`;
+
 
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

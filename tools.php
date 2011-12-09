@@ -345,7 +345,7 @@ function SmartUrlEncode($url){
     *
     * @param $sqlFile
     */
-	function execSQLscript($sqlFile = "bugtracker_install.sql") {
+	function execSQLscript($sqlFile) {
 
       $requetes="";
 
