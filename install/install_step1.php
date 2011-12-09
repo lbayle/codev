@@ -151,8 +151,8 @@ if ("setDatabaseInfo" == $action) {
    	echo "DEBUG 2/7 execSQLscript - create Tables<br/>";
    	execSQLscript($sqlFile_tables);
    	
-   	echo "DEBUG 3/7 execSQLscript - create Procedures<br/>";
-   	execSQLscript($sqlFile_procedures);
+   	echo "DEBUG 3/7 execSQLscript2 - create Procedures<br/>";
+   	execSQLscript2($sqlFile_procedures);
    	
    	echo "DEBUG 4/7 createCustomFields<br/>";
    	$install->createCustomFields();
