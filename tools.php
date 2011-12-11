@@ -381,7 +381,8 @@ function SmartUrlEncode($url){
 		
 	   $command = "mysql --host=$db_mantis_host --user=$db_mantis_user --password=$db_mantis_pass  $db_mantis_database < $sqlFile";
 
-	   $status = system($command, $retCode);
+	   #$status = system($command, $retCode);
+	   $status = exec($command, $output, $retCode);
 	   if (0 != $retCode) {
 	      echo "FAILED (err $retCode) could not exec mysql commands from file: $sqlFile</br>";
 	   }

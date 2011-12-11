@@ -41,7 +41,14 @@ include_once 'install.class.php';
  	include_once "internal_config.inc.php";
  	
  	echo "CodevTT $codevVersion already installed.<br/>";
- 
+
+   echo "</br>";
+ 	$error = Install::checkMysqlAccess();
+ 	if (TRUE == strstr($error, T_("ERROR"))) {
+ 		echo "<span class='error_font'>$error</span><br/>";
+ 		exit;
+ 	}
+ 	
  } else 
  {
  	
@@ -49,10 +56,16 @@ include_once 'install.class.php';
  	$testDir = "../";
    $error = Install::checkWriteAccess($testDir);
    if (TRUE == strstr($error, T_("ERROR"))) {
-      echo $error;
-      exit;
+ 		echo "<span class='error_font'>$error</span><br/>";
+   	exit;
    }
  	
+   $error = Install::checkMysqlAccess();
+   if (TRUE == strstr($error, T_("ERROR"))) {
+      echo "<span class='error_font'>$error</span><br/>";
+      exit;
+   }
+   
  }
 
 /*

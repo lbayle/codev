@@ -47,6 +47,34 @@ class Install {
 
    }
 
+   /**
+    *  check MySQL availability
+    *  
+    * @return NULL if OK, or an error message.
+
+    */
+   public static function checkMysqlAccess() {
+   	
+   	$command = "mysql --version";
+   	$status = exec($command, $output, $retCode);
+   	if (0 != $retCode) {
+   		return "ERROR: system call to 'mysql' failed, please add it to your \$PATH variable</br>";
+   	} else {
+   		#echo $status."</br>";
+   	}
+   	echo "</br>";
+   	
+   	$command = "mysqldump --version";
+   	$status = exec($command, $output, $retCode);
+   	if (0 != $retCode) {
+   		return "ERROR: system call to 'mysqldump' failed, please add it to your \$PATH variable</br>";
+   	} else {
+   		#echo $status."</br>";
+     	}
+   	
+   	return NULL;
+   	
+   }
 
    // --------------------------------------------------------
    /**
@@ -56,7 +84,7 @@ class Install {
     * @param unknown_type $db_mantis_pass
     * @param unknown_type $db_mantis_database
     *
-    * @return NULL if OK, or an error message.
+    * @return NULL if OK, or an error message starting with 'ERROR' .
     */
    public function checkDBConnection($db_mantis_host     = 'localhost',
                                      $db_mantis_user     = 'codev',
@@ -65,20 +93,26 @@ class Install {
 
       $bugtracker_link = mysql_connect($db_mantis_host, $db_mantis_user, $db_mantis_pass);
       if (!$bugtracker_link) {
-      	return ("Could not connect to database: ". mysql_error());
+      	return ("ERROR: Could not connect to database: ". mysql_error());
       }
 
       $db_selected = mysql_select_db($db_mantis_database);
       if (!$db_selected) {
-      	return ("Could not select database: ". mysql_error());
+      	return ("ERROR: Could not select database: ". mysql_error());
       }
 
       $database_version = ConfigMantis::getInstance()->getValue(ConfigMantis::id_database_version);
       echo "DEBUG: Mantis database_version = $database_version<br/>";
 
       if (NULL == $database_version) {
-      	return "Could not get mantis_config_table.database_version";
+      	return "ERROR: Could not get mantis_config_table.database_version";
       }
+
+      $error = Install::checkMysqlAccess();
+      if (TRUE == strstr($error, T_("ERROR"))) {
+      	return $error;
+      }
+      
       return NULL;
    }
 

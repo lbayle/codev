@@ -52,6 +52,7 @@ function uninstall() {
 
 <?php
 include_once 'user.class.php';
+include_once 'install.class.php';
 
 
 // ------------------------------------------------
@@ -139,6 +140,12 @@ function displayForm($originPage, $is_modified,
 	echo "</form>";
 }
 
+/**
+ * 
+ * backup Mantis DB (including CodevTT tables, if exists)
+ * 
+ * @param $filename
+ */
 function backupDB($filename) {
 	
 	global $db_mantis_host;
@@ -149,7 +156,8 @@ function backupDB($filename) {
 	$command = "mysqldump --host=$db_mantis_host --user=$db_mantis_user --password=$db_mantis_pass  $db_mantis_database > $filename";
 
 	echo "dumping MantisDB to $filename ...</br>";
-	$status = system($command, $retCode);
+	#$status = system($command, $retCode);
+	$status = exec($command, $output, $retCode);
 	if (0 != $retCode) {
 	   echo "BACKUP FAILED (err $retCode) $status</br>";
 	}
@@ -213,6 +221,12 @@ if ("uninstall" == $action) {
 
 
 // ----- DISPLAY PAGE
+
+$error = Install::checkMysqlAccess();
+if (TRUE == strstr($error, T_("ERROR"))) {
+ 	echo "<span class='error_font'>$error</span><br/>";
+	exit;
+}
 
 displayForm($originPage, $is_modified, 
             $isPart1, $isPart2, $isPart3, $isPart4,
