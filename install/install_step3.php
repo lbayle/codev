@@ -90,7 +90,6 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
                      $is_modified = "false") {
 
    echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
-   echo "<hr align='left' width='20%'/>\n";
 
    // ------ Reports
    echo "<h2>".T_("Path for .CSV reports")."</h2>\n";
@@ -338,7 +337,8 @@ if ("checkReportsDir" == $action) {
 
 
 // ----- DISPLAY PAGE
-displayStepInfo();
+#displayStepInfo();
+#echo "<hr align='left' width='20%'/>\n";
 
 displayForm($originPage, $codevReportsDir, $checkReportsDirError,
             $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,

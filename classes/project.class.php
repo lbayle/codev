@@ -149,22 +149,26 @@ class Project {
       $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
       $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-
+      
       // check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
       if (-1 != $projectid) {
          echo "ERROR: Project name already exists ($projectName)<br/>\n";
          return -1;
       }
-
+      
       // create new Project
       $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
                "VALUES ('$projectName','50','1','10','10','$projectDesc','1','0');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $projectid = mysql_insert_id();
-
+      
+      // prepare for category add
+      $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
+      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
                "VALUES ('$estimEffortCustomField',  '$projectid','3'), ".
@@ -176,7 +180,9 @@ class Project {
 
       // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
       #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
+      Config::setQuiet(true);
       $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
+      Config::setQuiet(false);
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
@@ -271,7 +277,7 @@ class Project {
       $catId = mysql_insert_id();
 
       $query = "UPDATE `codev_sidetasks_category_table` SET $catKey = $catId WHERE project_id = $this->id";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
       $this->categoryList[$catKey] = $catId;
 
@@ -285,17 +291,17 @@ class Project {
       $bugt_id = $this->addSideTaskIssue(Project::$keyProjManagement, $issueSummary, $issueDesc);
 
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
-      $result = mysql_query($query) or die("Query failed: $query");
-
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      
       return $bugt_id;
    }
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
-   	  global $status_closed;
+   	global $status_closed;
       $bugt_id = $this->addSideTaskIssue(Project::$keyInactivity, $issueSummary, $issueDesc);
 
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
-      $result = mysql_query($query) or die("Query failed: $query");
-
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      
       return $bugt_id;
    }
    public function addIssueIncident($issueSummary, $issueDesc=" ") {
@@ -311,16 +317,16 @@ class Project {
    // -----------------------------------------------
    private function addSideTaskIssue($catKey, $issueSummary, $issueDesc) {
 
-   	  global $status_closed;
-   	  $cat_id = $this->categoryList["$catKey"];
+   	global $status_closed;
+   	$cat_id = $this->categoryList["$catKey"];
       $today  = date2timestamp(date("Y-m-d"));
 
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$issueDesc');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-   	  $bug_text_id = mysql_insert_id();
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+   	$bug_text_id = mysql_insert_id();
 
-   	  $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-   	           "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
+   	$query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
+   	         "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
       mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       $bugt_id = mysql_insert_id();
 
@@ -400,8 +406,8 @@ class Project {
 	   	     echo "ERROR Project.getJobList(): unknown project type ($this->type) !";
        }
 
-        $result = mysql_query($query) or die("Query failed: $query");
-	   	if (0 != mysql_num_rows($result)) {
+       $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	    if (0 != mysql_num_rows($result)) {
 		   	while($row = mysql_fetch_object($result))
 		      {
 		         $jobList[$row->id] = $row->name;
@@ -420,7 +426,7 @@ class Project {
 	            "WHERE project_id=$this->id ".
 	            "ORDER BY id DESC";
 
-	   $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 	   while($row = mysql_fetch_object($result)) {
 	   	$issueList[] = $row->id;
 	   }

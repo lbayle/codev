@@ -77,7 +77,6 @@ function displayForm($originPage,
                       $filename_strings, $filename_custom_strings, $path_mantis) {
 
    echo "<form id='form2' name='form2' method='post' action='$originPage' >\n";
-   echo "<hr align='left' width='20%'/>\n";
    echo "<h2>".T_("Get Mantis customizations")."</h2>\n";
 
    echo "<table class='invisible'>\n";
@@ -126,7 +125,8 @@ $path_mantis             = isset($_POST['path_mantis']) ? $_POST['path_mantis'] 
 $action      = isset($_POST['action']) ? $_POST['action'] : '';
 
 
-displayStepInfo();
+#displayStepInfo();
+#echo "<hr align='left' width='20%'/>\n";
 
 displayForm($originPage,
             $filename_strings, $filename_custom_strings, $path_mantis);

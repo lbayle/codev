@@ -244,7 +244,7 @@ class Team {
       $sideTaskProjectType = Project::type_sideTaskProject;
 
       $projectDesc = "CoDev SideTaskProject for team $this->name";
-
+      
       $projectid = Project::createSideTaskProject($projectName);
 
       if (-1 != $projectid) {
@@ -255,7 +255,7 @@ class Team {
          mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
       } else {
-      	die("ERROR: createSideTaskProject !!!<br/>");
+      	die("ERROR: team $name createSideTaskProject !!!<br/>");
       }
 
       // --- assign SideTaskProject specific Job

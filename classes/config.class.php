@@ -146,7 +146,7 @@ class Config {
          $value = $variable->value;
     	} else {
     		if (!self::$quiet) {
-    		   echo "<span class='error_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
+    		   echo "<span class='warn_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
     		}
     	}
     	return $value;

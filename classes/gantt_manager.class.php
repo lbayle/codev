@@ -383,7 +383,6 @@ class GanttManager {
 
     */
    private function dispatchCurrentIssues($issueList) {
-   	global $status_acknowledged;
    	global $status_new;
    	global $status_feedback;
 

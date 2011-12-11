@@ -167,6 +167,11 @@ table.invisible td {
   color: red;
 }
 
+.warn_font {
+  font-style: italic;
+  color: orange;
+}
+
 .success_font {
   font-style: italic;
   color: blue;

@@ -363,7 +363,6 @@ function SmartUrlEncode($url){
             die("ERROR : ".$req." ---> ".mysql_error());
          }
       }
-      echo "done<br/>";
 	}
 
 	/**

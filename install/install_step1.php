@@ -79,7 +79,6 @@ function displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, 
 
    echo "<form id='databaseForm' name='databaseForm' method='post' action='$originPage' >\n";
 
-   echo "<hr align='left' width='20%'/>\n";
    echo "<h2>".T_("Mantis Database Info")."</h2>\n";
 
    echo "<table class='invisible'>\n";
@@ -129,7 +128,8 @@ $db_mantis_pass     = isset($_POST['db_mantis_pass']) ?     $_POST['db_mantis_pa
 
 $action      = isset($_POST['action']) ? $_POST['action'] : '';
 
-displayStepInfo();
+#displayStepInfo();
+#echo "<hr align='left' width='20%'/>\n";
 
 displayDatabaseForm($originPage, $db_mantis_host, $db_mantis_database, $db_mantis_user, $db_mantis_pass);
 
