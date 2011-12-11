@@ -154,14 +154,15 @@ class Install {
 	                                      $db_mantis_user     = 'codev',
 	                                      $db_mantis_pass     = '',
 	                                      $db_mantis_database = 'bugtracker') {
-      echo "create file ".self::FILENAME_MYSQL_CONFIG."<br/>";
+      
+		#echo "DEBUG create file ".self::FILENAME_MYSQL_CONFIG."<br/>";
 
       // create/overwrite file
       $fp = fopen(self::FILENAME_MYSQL_CONFIG, 'w');
 
       if (FALSE == $fp) {
-      	echo "ERROR creating file ".self::FILENAME_MYSQL_CONFIG."<br/>";
-
+      	echo "<span class='error_font'>ERROR: creating file ".self::FILENAME_MYSQL_CONFIG."</span><br/>";
+      	 
       } else {
       	$stringData = "<?php\n";
       	$stringData .= "   // Mantis DB infomation.\n";
@@ -202,14 +203,12 @@ class Install {
       $attributes["display_resolved"] = 0;
       $attributes["display_closed"]   = 0;
 
-	  echo "WARN: default attributes for CustomField $fieldName<br/>";
+	  echo "<span class='warn_font'>WARN: using default attributes for CustomField $fieldName</span><br/>";
 	}
-
-
 
       //--------
       $query = "SELECT id, name FROM `mantis_custom_field_table`";
-      $result = mysql_query($query) or die("Query failed: $query");
+	   mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       while($row = mysql_fetch_object($result))
       {
          $this->fieldList["$row->name"] = $row->id;
@@ -248,13 +247,13 @@ class Install {
 
       	 #echo "DEBUG INSERT $fieldName --- query $query2 <br/>";
 
-         $result2  = mysql_query($query2) or die("Query failed: $query2");
+         $result2  = mysql_query($query2) or die("<span style='color:red'>Query FAILED: $query2 <br/>".mysql_error()."</span>");
          $fieldId = mysql_insert_id();
 
-         echo "custom field '$configId' created.<br/>";
+         #echo "custom field '$configId' created.<br/>";
 
       } else {
-      	echo "custom field '$configId' already exists.<br/>";
+	      echo "<span class='success_font'>INFO: custom field '$configId' already exists.</span><br/>";
       }
 
 	  // add to codev_config_table
@@ -353,6 +352,7 @@ class Install {
       $teamId = Team::create($name, T_("CoDevTT Administrators team"), $leader_id, $today);
 
    	  if (-1 != $teamId) {
+
            // --- add to codev_config_table
            Config::getInstance()->setQuiet(true);
    	     Config::getInstance()->setValue(Config::id_adminTeamId, $teamId, Config::configType_int);
@@ -362,37 +362,40 @@ class Install {
    	     $adminTeam = new Team($teamId);
    	     $adminTeam->addMember($leader_id, $today, Team::accessLevel_dev);
 
-           // add default ExternalTasksProject
+   	     // add default ExternalTasksProject
            $adminTeam->addExternalTasksProject();
 
-            // --- add <team> SideTaskProject
+           // --- add <team> SideTaskProject
             $stproj_id = $adminTeam->createSideTaskProject(T_("SideTasks")." $name");
+            
             if ($stproj_id < 0) {
                die ("ERROR: SideTaskProject creation FAILED.<br/>\n");
             } else {
                $stproj = ProjectCache::getInstance()->getProject($stproj_id);
-
+                
                $stproj->addCategoryInactivity(T_("Inactivity"));
                $stproj->addCategoryTools(T_("Tools"));
-
+               
                $stproj->addIssueInactivity(T_("(generic) Leave"));
                $stproj->addIssueTools(T_("(generic) Mantis/CoDevTT administration"));
             }
+      } else {
+      	echo "ERROR: $name team creation failed</br>";
       }
       return $teamId;
    }
 
 	function setConfigItems() {
 
-      echo "DEBUG create Variable : ".Config::id_astreintesTaskList."<br/>";
+      #echo "DEBUG create Variable : ".Config::id_astreintesTaskList."<br/>";
       $desc = T_("The absence SideTasks considered as astreinte");
       Config::getInstance()->setValue(Config::id_astreintesTaskList, NULL, Config::configType_array, $desc);
 
-      echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
+      #echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
       $desc = T_("Client teamId");
-  	  Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
+  	   Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
 
-      echo "DEBUG create Variable : ".Config::id_prelEffortEstim_balance."<br/>";
+      #echo "DEBUG create Variable : ".Config::id_prelEffortEstim_balance."<br/>";
       $desc = T_("Values (in days) for : ").self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES;
       Config::getInstance()->setValue(Config::id_prelEffortEstim_balance,
                                       self::PREL_EFFORT_ESTIM_BALANCE,
@@ -428,6 +431,14 @@ class Install {
       }
 
 	  fclose($fh);
+	  
+	   if (file_exists($testFilename)) {
+	   	$retCode = unlink($testFilename);
+	   	if (false == $retCode) {
+	  	      return (T_("ERROR").T_(": Could not delete file: ". $testFilename));
+	   	}
+	   }
+	  
 	  return "SUCCESS ! Please check that the following test file has been created: <span style='font-family: sans-serif'>$testFilename</span>";
 	}
 
@@ -441,7 +452,7 @@ class Install {
      */
 	public function createConstantsFile() {
 
-      echo "create file ".self::FILENAME_CONSTANTS."<br/>";
+      #echo "DEBUG: create file ".self::FILENAME_CONSTANTS."<br/>";
 
       $today  = date2timestamp(date("Y-m-d"));
 
@@ -449,12 +460,12 @@ class Install {
       $fp = fopen(self::FILENAME_CONSTANTS, 'w');
 
       if (FALSE == $fp) {
-      	echo "ERROR creating file ".self::FILENAME_CONSTANTS." (current dir=".getcwd().")<br/>";
-
+      	echo "<span class='error_font'>ERROR: creating file ".self::FILENAME_CONSTANTS." (current dir=".getcwd().")</span><br/>";
+      	 
         // try to create a temporary file, for manual install...
         $fp = fopen("/tmp/constants.php", 'w');
         if (FALSE == $fp) {
-      	   return "ERROR";
+      	   return "ERROR creating debug file: /tmp/constants.php";
         }
       }
 
@@ -519,8 +530,8 @@ class Install {
 
         // get current mantis custom menu entries
         $query = "SELECT value FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
-        $result = mysql_query($query) or die("Query failed: $query");
-
+	     mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+        
         $serialized  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
 
 	    // add entry
@@ -530,7 +541,7 @@ class Install {
 	    	$menuItems = array();
 	    }
 
-		$menuItems[] = array($name, $pos, $url);
+		 $menuItems[] = array($name, $pos, $url);
 	    $newSerialized = serialize($menuItems);
 
         // update mantis menu
@@ -541,8 +552,8 @@ class Install {
             $query = "INSERT INTO `mantis_config_table` (`config_id`, `value`, `type`, `access_reqd`) ".
                      "VALUES ('main_menu_custom_options', '$newSerialized', '3', '90');";
         }
-        $result    = mysql_query($query) or die("Query failed: $query");
-
+	   mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+        
 		return $newSerialized;
 	}
 
