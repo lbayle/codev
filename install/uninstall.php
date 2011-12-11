@@ -164,6 +164,86 @@ function backupDB($filename) {
 	return $retCode;
 }
 
+function displayProjectsToRemove() {
+	
+	echo "Please MANUALY delete the following projects:</br>";
+	
+	$prjList = array();
+	
+	// find externalTasks project
+	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+	$project = ProjectCache::getInstance()->getProject($extproj_id);
+	$prjList[$project->id] = $project->name;
+
+	// find sideTasks projects
+	$query = "SELECT mantis_project_table.id, mantis_project_table.name ".
+	               "FROM `codev_sidetasks_category_table`, `mantis_project_table` ".
+	               "WHERE mantis_project_table.id = codev_sidetasks_category_table.project_id ".
+	               "ORDER BY mantis_project_table.name DESC";
+	
+	$result = mysql_query($query) or die("Query failed: $query");
+	while($row = mysql_fetch_object($result)) {
+	   $prjList[$row->id] = $row->name;
+	}
+	
+   echo "<ul>\n";
+	foreach ($prjList as $id => $name) {
+		echo "<li title='$id'>$name</li>";
+	}
+	echo "</ul>\n";
+	
+	
+}
+
+/**
+ * NOTE: function adapted from from mantis/core/custom_field_api.php
+ * 
+ * Delete the field definition and all associated values and project associations
+ * return true on success, false on failure
+ * @param int $p_field_id custom field id
+ * @return bool
+*/
+function custom_field_destroy( $p_field_id ) {
+
+	# delete all values
+	$query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id= $p_field_id;";
+	mysql_query($query) or die("Query failed: $query");
+	
+	# delete all project associations
+	$query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id= $p_field_id;";
+	mysql_query($query) or die("Query failed: $query");
+
+	# delete the definition
+	$query = "DELETE FROM `mantis_custom_field_table` WHERE id= $p_field_id;";
+	mysql_query($query) or die("Query failed: $query");
+
+	#custom_field_clear_cache( $p_field_id );
+
+	echo "DEBUG: customField $p_field_id removed</br>";	
+	return true;
+}
+
+function removeCustomFields() {
+	$tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
+	$prelEffortEstim         = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
+	$estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+	$addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
+	$remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
+	$deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
+	$deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+	$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+	
+	custom_field_destroy($tcCustomField);
+	custom_field_destroy($prelEffortEstim);
+	custom_field_destroy($estimEffortCustomField);
+	custom_field_destroy($addEffortCustomField);
+	custom_field_destroy($remainingCustomField);
+	custom_field_destroy($deadLineCustomField);
+	custom_field_destroy($deliveryDateCustomField);
+	custom_field_destroy($deliveryIdCustomField);
+	
+}
+
 
 // ================ MAIN =================
 
@@ -214,9 +294,17 @@ if ("uninstall" == $action) {
    }
    echo "</br>";
 	
-   echo "2/4 ---- Remove CodevTT specific projects<br/>";
-   echo "4/4 ---- Remove CodevTT tables from MantisDB<br/>";
-   execSQLscript("uninstall.sql_2");
+   echo "2/4 ---- Remove CodevTT specific projects</br>";
+   displayProjectsToRemove();
+   
+   echo "3/4 ---- Remove CodevTT customFields</br>";
+   removeCustomFields();
+   
+   echo "4/4 ---- Remove CodevTT tables from MantisDB</br>";
+   execSQLscript("uninstall.sql");
+   
+   echo "5/5 ---- Remove CodevTT config files</br>";
+   Install::deleteConfigFiles();
 }
 
 

@@ -116,6 +116,32 @@ class Install {
       return NULL;
    }
 
+   
+   // --------------------------------------------------------
+   /**
+    * 
+    * remove CodevTT Config Files
+    */
+   public static function deleteConfigFiles() {
+   
+	   if (file_exists(Install::FILENAME_CONSTANTS)) {
+	   	$retCode = unlink( FILENAME_CONSTANTS );
+	   	if (true == $retCode) {
+	   		echo "DEBUG: ". Install::FILENAME_CONSTANTS . " successfully deleted.</br>";
+	     	} else {
+	   		echo "ERROR: Could not delete file: ". Install::FILENAME_CONSTANTS . "</br>";
+	   	}
+	   }
+	   if (file_exists(Install::FILENAME_MYSQL_CONFIG)) {
+	   	$retCode = unlink( FILENAME_MYSQL_CONFIG );
+	   	if (true == $retCode) {
+	   		echo "DEBUG: ". Install::FILENAME_CONSTANTS . " successfully deleted.</br>";
+	   	} else {
+	      		echo "ERROR: Could not delete file: ". Install::FILENAME_CONSTANTS . "</br>";
+	      }
+	   }
+   }   
+    
    // --------------------------------------------------------
 	/**
 	 * updates mysql_config_inc.php with connection parameters

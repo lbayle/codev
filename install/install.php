@@ -31,11 +31,10 @@
 include_once 'install.class.php';
 
 
-
 // check CodevTT already installed
  if (file_exists(Install::FILENAME_CONSTANTS) &&
      file_exists(Install::FILENAME_MYSQL_CONFIG)) {
- 	
+
  	include_once "mysql_connect.inc.php";
  	include_once "config.class.php";
  	include_once "internal_config.inc.php";
@@ -49,8 +48,7 @@ include_once 'install.class.php';
  		exit;
  	}
  	
- } else 
- {
+ } else {
  	
  	// check write access rights to codevTT directory
  	$testDir = "../";
@@ -59,13 +57,14 @@ include_once 'install.class.php';
  		echo "<span class='error_font'>$error</span><br/>";
    	exit;
    }
- 	
+    
    $error = Install::checkMysqlAccess();
    if (TRUE == strstr($error, T_("ERROR"))) {
       echo "<span class='error_font'>$error</span><br/>";
       exit;
    }
-   
+
+   echo "Pre-install check SUCCEEDED.";
  }
 
 /*
