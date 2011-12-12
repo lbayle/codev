@@ -125,19 +125,19 @@ class Install {
    public static function deleteConfigFiles() {
    
 	   if (file_exists(Install::FILENAME_CONSTANTS)) {
-	   	$retCode = unlink( FILENAME_CONSTANTS );
+	   	$retCode = unlink( Install::FILENAME_CONSTANTS );
 	   	if (true == $retCode) {
-	   		echo "DEBUG: ". Install::FILENAME_CONSTANTS . " successfully deleted.</br>";
+	   		#echo "DEBUG: ". Install::FILENAME_CONSTANTS . " successfully deleted.</br>";
 	     	} else {
 	   		echo "ERROR: Could not delete file: ". Install::FILENAME_CONSTANTS . "</br>";
 	   	}
 	   }
 	   if (file_exists(Install::FILENAME_MYSQL_CONFIG)) {
-	   	$retCode = unlink( FILENAME_MYSQL_CONFIG );
+	   	$retCode = unlink( Install::FILENAME_MYSQL_CONFIG );
 	   	if (true == $retCode) {
-	   		echo "DEBUG: ". Install::FILENAME_CONSTANTS . " successfully deleted.</br>";
+	   		#echo "DEBUG: ". Install::FILENAME_MYSQL_CONFIG . " successfully deleted.</br>";
 	   	} else {
-	      		echo "ERROR: Could not delete file: ". Install::FILENAME_CONSTANTS . "</br>";
+	      		echo "ERROR: Could not delete file: ". Install::FILENAME_MYSQL_CONFIG . "</br>";
 	      }
 	   }
    }   
