@@ -257,7 +257,7 @@ if ("false" == $is_modified) {
 
 $task_otherActivity = isset($_POST['task_otherActivity']) ? $_POST['task_otherActivity'] : T_("(generic) other external activity");
 $job1           = isset($_POST['job1']) ? $_POST['job1'] : T_("Study of the existing");
-$job2           = isset($_POST['job2']) ? $_POST['job2'] : T_("Impact Analysis");
+$job2           = isset($_POST['job2']) ? $_POST['job2'] : T_("Analyse");
 $job3           = isset($_POST['job3']) ? $_POST['job3'] : T_("Development");
 $job4           = isset($_POST['job4']) ? $_POST['job4'] : T_("Tests");
 $job5           = isset($_POST['job5']) ? $_POST['job5'] : T_("Documentation");
