@@ -492,7 +492,7 @@ class Install {
       	$stringData .= "  #          Some of these variables are used in the code, so if they are not defined\n";
       	$stringData .= "  #          in the mantis workflow, they need to be created. The mandatory variables are:\n";
       	$stringData .= "  #           \$status_new, \$status_feedback, \$status_acknowledged,\n";
-      	$stringData .= "  #           \$status_open, \$status_resolved, \$status_closed\n";
+      	$stringData .= "  #           \$status_open, \$status_closed\n";
         $stringData .= "\n";
       	$stringData .= "  \$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
       	$stringData .= "\n";
