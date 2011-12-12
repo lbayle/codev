@@ -57,72 +57,35 @@ include_once 'install.class.php';
 
 // ------------------------------------------------
 function displayForm($originPage, $is_modified,
-                     $isPart1, $isPart2, $isPart3, $isPart4,
+                     $isBackup,
                      $filename) {
 
 	echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
 
 	// ------ 
-	echo "  <br/>\n";
-	echo "<h2>".T_("List")."</h2>\n";
-	echo "<span class='help_font'>".T_("Select the parts to uninstall")."</span><br/>\n";
+	echo "<h2>".T_("Do you want to remove CodevTT from your Mantis server ?")."</h2>\n";
+	echo "<span class='help_font'>".T_("This step will clean Mantis DB.")."</span><br/>\n";
    echo "  <br/>\n";
    echo "  <br/>\n";
    echo "  <br/>\n";
     
    // ---
-   $isChecked = $isPart1 ? "CHECKED" : "";
+   $isChecked = $isBackup ? "CHECKED" : "";
    echo "<table class='invisible'>\n";
    echo "  <tr>\n";
-   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_part1' id='cb_part1'></input></td>\n";
+   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_backup' id='cb_backup'></input></td>\n";
    echo "    <td width='70'>Backup data</td>\n";
    echo "  </tr>\n";
    echo "  <tr>\n";
    echo "    <td></td>";
-   echo "    <td><span class='help_font'>".T_("Backup file will ve saved in reports directory")."</span></td>\n";
+   Config::setQuiet(true);
+   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
+   Config::setQuiet(false);
+   echo "    <td><span class='help_font'>".T_("Backup file will ve saved in CodevTT reports directory").". ( $codevReportsDir )</span></td>\n";
    echo "  </tr>\n";
    echo "  <tr>\n";
    echo "    <td></td>";
    echo "    <td>".T_("Filename").": <input name='backup_filename' id='backup_filename' type='text' value='$filename' size='50'>";
-   echo "  </tr>\n";
-   echo "</table>\n";
-      
-   // ---
-   $isChecked = $isPart2 ? "CHECKED" : "";
-   echo "<table class='invisible'>\n";
-   echo "  <tr>\n";
-   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_part2' id='cb_part2'></input></td>\n";
-   echo "    <td width='70'>remove DB tables</td>\n";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td></td>";
-   echo "    <td><span class='help_font'>".T_("Removes all data from Mantis DB")."</span></td>\n";
-   echo "  </tr>\n";
-   echo "</table>\n";
-
-   // ---
-   $isChecked = $isPart3 ? "CHECKED" : "";
-   echo "<table class='invisible'>\n";
-   echo "  <tr>\n";
-   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_part3' id='cb_part3'></input></td>\n";
-   echo "    <td width='70'>remove SideTasks & ExternalTasks projects</td>\n";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td></td>";
-   echo "    <td><span class='help_font'>".T_("content")."</span></td>\n";
-   echo "  </tr>\n";
-   echo "</table>\n";
-         
-   // ---
-   $isChecked = $isPart4 ? "CHECKED" : "";
-   echo "<table class='invisible'>\n";
-   echo "  <tr>\n";
-   echo "    <td width='10'><input type=CHECKBOX  $isChecked name='cb_part4' id='cb_part4'></input></td>\n";
-   echo "    <td width='70'>mantis custom fields (Remaining, etc.)</td>\n";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td></td>";
-   echo "    <td><span class='help_font'>".T_("content")."</span></td>\n";
    echo "  </tr>\n";
    echo "</table>\n";
       
@@ -207,19 +170,19 @@ function custom_field_destroy( $p_field_id ) {
 
 	# delete all values
 	$query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id= $p_field_id;";
-	mysql_query($query) or die("Query failed: $query");
+	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 	
 	# delete all project associations
 	$query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id= $p_field_id;";
-	mysql_query($query) or die("Query failed: $query");
-
+	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	
 	# delete the definition
 	$query = "DELETE FROM `mantis_custom_field_table` WHERE id= $p_field_id;";
-	mysql_query($query) or die("Query failed: $query");
-
+	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	
 	#custom_field_clear_cache( $p_field_id );
 
-	echo "DEBUG: customField $p_field_id removed</br>";	
+	#echo "DEBUG: customField $p_field_id removed</br>";	
 	return true;
 }
 
@@ -267,16 +230,16 @@ $filename           = isset($_POST['backup_filename']) ? $_POST['backup_filename
 // between an unchecked checkBox and an unset checkbox variable
 if ("false" == $is_modified) {
 
-	$isPart1 = true;
-	$isPart2 = true;
-	$isPart3 = true;
-	$isPart4 = true;
+	$isBackup = true;
+	#$isPart2 = true;
+	#$isPart3 = true;
+	#$isPart4 = true;
 
 } else {
-	$isPart1   = $_POST['cb_part1'];
-	$isPart2   = $_POST['cb_part2'];
-	$isPart3   = $_POST['cb_part3'];
-	$isPart4   = $_POST['cb_part4'];
+	$isBackup   = $_POST['cb_backup'];
+	#$isPart2   = $_POST['cb_part2'];
+	#$isPart3   = $_POST['cb_part3'];
+	#$isPart4   = $_POST['cb_part4'];
 }
 
 
@@ -284,17 +247,22 @@ if ("false" == $is_modified) {
 // --- actions
 if ("uninstall" == $action) {
 
-	echo "1/4 ---- Backup<br/>";
-   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
-	
-   $retCode = backupDB($codevReportsDir.DIRECTORY_SEPARATOR.$filename);
-   if (0 != $retCode) { 
-   	echo "Uninstall aborted !";
-   	exit; 
-   }
-   echo "</br>";
-	
-   echo "2/4 ---- Remove CodevTT specific projects</br>";
+	if (true == $isBackup) {
+		echo "---- Backup<br/>";
+	   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
+		
+	   $retCode = backupDB($codevReportsDir.DIRECTORY_SEPARATOR.$filename);
+	   if (0 != $retCode) { 
+	   	echo "Uninstall aborted !";
+	   	exit; 
+	   }
+	   echo "</br>";
+	}
+
+	echo "1/4 ---- Remove CodevTT from Mantis menu</br>";
+	echo "TODO</br>";
+		
+	echo "2/4 ---- Remove CodevTT specific projects</br>";
    displayProjectsToRemove();
    
    echo "3/4 ---- Remove CodevTT customFields</br>";
@@ -305,20 +273,19 @@ if ("uninstall" == $action) {
    
    echo "5/5 ---- Remove CodevTT config files</br>";
    Install::deleteConfigFiles();
+   
+} else {
+
+	// ----- DISPLAY PAGE
+	
+	$error = Install::checkMysqlAccess();
+	if (TRUE == strstr($error, T_("ERROR"))) {
+	 	echo "<span class='error_font'>$error</span><br/>";
+		exit;
+	}
+	
+	displayForm($originPage, $is_modified, $isBackup, $filename);
 }
-
-
-// ----- DISPLAY PAGE
-
-$error = Install::checkMysqlAccess();
-if (TRUE == strstr($error, T_("ERROR"))) {
- 	echo "<span class='error_font'>$error</span><br/>";
-	exit;
-}
-
-displayForm($originPage, $is_modified, 
-            $isPart1, $isPart2, $isPart3, $isPart4,
-            $filename);
 
 ?>
 
