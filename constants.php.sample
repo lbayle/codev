@@ -7,9 +7,11 @@
 
   include_once "config.class.php";
 
-$codevInstall_timestamp = 0;
+  $codevInstall_timestamp = 0;
 
   $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
+
+  $codevRootDir = dirname(__FILE__);
 
   // --- RESOLUTION ---
   # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values

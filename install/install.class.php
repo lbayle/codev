@@ -480,6 +480,8 @@ class Install {
       	$stringData .= "\n";
       	$stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
       	$stringData .= "\n";
+      	$stringData .= "  \$codevRootDir = dirname(__FILE__);\n";
+      	$stringData .= "\n";
         $stringData .= "  // --- RESOLUTION ---\n";
         $stringData .= "  # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values\n";
         $stringData .= "  # INFO: the values depend on what you defined in codev_config_table.resolutionNames\n";
