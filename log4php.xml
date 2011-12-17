@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    
+    <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
+    
+    <appender name="myFileAppender" class="LoggerAppenderFile">
+                <layout class="LoggerLayoutTTCC" />
+        <param name="file" value="/tmp/codevtt.log" />
+    </appender>
+
+    <logger name="Foo">
+        <appender_ref ref="myFileAppender" />
+    </logger>
+    
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="myConsoleAppender" />
+        <appender_ref ref="myFileAppender" />
+    </root>
+</log4php:configuration>
+

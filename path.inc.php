@@ -25,6 +25,7 @@ $codevPathi18n     = BASE_PATH . DIRECTORY_SEPARATOR . 'i18n';
 $codevPathGraphs   = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
 $codevPathInstall  = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
 $codevPathJPGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'jpgraph' . DIRECTORY_SEPARATOR . 'src';
+$codevPathLog      = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'log4php';
 
 $path = array(
    BASE_PATH,
@@ -35,6 +36,7 @@ $path = array(
    $codevPathGraphs,
    $codevPathInstall,
    $codevPathJPGraphs,
+   $codevPathLog,
    get_include_path()
    );
 

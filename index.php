@@ -22,12 +22,13 @@
    include 'i18n.inc.php';
    $_POST['page_name'] = T_("Welcome");
    include 'header.inc.php';
+
+   $logger = Logger::getLogger("index.php");
 ?>
 
-<?php include 'login.inc.php'; ?>
-<?php include 'menu.inc.php'; ?>
-
 <?php
+include 'login.inc.php';
+include 'menu.inc.php';
 
 include_once 'consistency_check.class.php';
 include_once 'user.class.php';
