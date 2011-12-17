@@ -17,6 +17,7 @@
 <?php
 
 require_once '../path.inc.php';
+require_once('Logger.php');
 require_once "mysql_config.inc.php";
 require_once "mysql_connect.inc.php";
 require_once "internal_config.inc.php";
@@ -31,6 +32,8 @@ require_once ('jpgraph_gantt.php');
 
 class GanttActivity {
 
+	private $logger;
+		
 	public $bugid;
 	public $userid;
    public $startTimestamp;
@@ -42,6 +45,9 @@ class GanttActivity {
 
    // -----------------------------------------
    public function __construct($bugId, $userId, $startT, $endT, $progress=NULL) {
+   	
+   	$this->logger = Logger::getLogger(__CLASS__);
+   	
       $this->bugid = $bugId;
       $this->userid = $userId;
       $this->startTimestamp = $startT;
@@ -56,6 +62,8 @@ class GanttActivity {
       }
 
       $this->color = 'darkorange';
+      
+      $this->logger->info("Activity created for issue $bugId");
 	}
 
    // -----------------------------------------
@@ -146,6 +154,8 @@ class GanttActivity {
  */
 class GanttManager {
 
+  private $logger;
+
   private $teamid;
   private $startTimestamp;
   private $endTimestamp;
@@ -160,7 +170,9 @@ class GanttManager {
     * @param $endT    end timestamp. if NULL, shedule all remaining tasks
     */
    public function __construct($teamId, $startT=NULL, $endT=NULL) {
-
+   	
+   	$this->logger = Logger::getLogger(__CLASS__);
+   	
       //echo "GanttManager($teamId, ".date('Y-m-d', $startT).", ".date('Y-m-d', $endT).")<br/>";
       $this->teamid = $teamId;
       $this->startTimestamp = $startT;
@@ -168,7 +180,9 @@ class GanttManager {
 
       $this->activitiesByUser = array();   // $activitiesByUser[user][activity]
       $this->constrainsList   = array();
-  }
+
+      $this->logger->info("GanttManager team $teamId");
+   }
 
 
 
@@ -361,7 +375,12 @@ class GanttManager {
 	               "WHERE bug_id=$issue->bugId ".
 	               "AND field_name = 'status' ".
 	               "AND old_value=$status_new ORDER BY id DESC";
-	      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	      $result = mysql_query($query);
+			if (!$result) {
+				$this->logger->error("Query FAILED: $query -- ".mysql_error());
+	         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+				exit;
+			}
 	      $startDate  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
 
          // this happens, if the issue has been created with a status != 'new'
