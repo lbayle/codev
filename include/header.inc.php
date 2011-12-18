@@ -45,6 +45,8 @@
    echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";
    echo "<link href='".getServerRootURL()."/calendar/calendar.css' rel='stylesheet' type='text/css' />\n";
    echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>\n";
+   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/jquery.js'></script>\n";
+   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/custom_codevtt.js'></script>\n";
    echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
    echo "<link href='".getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
 ?>
