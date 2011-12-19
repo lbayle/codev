@@ -68,7 +68,9 @@
   // ---
   // TODO translate astreinte = "on duty"
   $astreintesTaskList = Config::getInstance()->getValue(Config::id_astreintesTaskList); // fiches de SuiviOp:Inactivite qui sont des astreintes
-
+  if (NULL == $astreintesTaskList) {
+  	$astreintesTaskList = array();
+  }
 
   // --- Mantis Values ---
   $priorityNames   = Config::getInstance()->getValue(Config::id_priorityNames);
