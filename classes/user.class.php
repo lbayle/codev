@@ -28,7 +28,9 @@ include_once "holidays.class.php";
 // =======================================
 class User {
 
-	var $id;
+   private $logger;
+	
+   var $id;
 	private $name;
 
    // --------------------
@@ -43,7 +45,13 @@ class User {
          $query = "SELECT mantis_user_table.username ".
                   "FROM  `mantis_user_table` ".
                   "WHERE  id = $this->id";
-         $result = mysql_query($query) or die("Query failed: $query");
+         $result = mysql_query($query);
+         if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
          $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "(unknown $this->id)";
       }
       return $this->name;
@@ -86,7 +94,13 @@ class User {
   // --------------------
    public function getRealname() {
       $query = "SELECT realname FROM `mantis_user_table` WHERE id = $this->id";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       $userName    = mysql_result($result, 0);
       return $userName;
    }
@@ -131,7 +145,13 @@ class User {
           // REM: if departure_date = 0, then user stays until the end of the world.
       }
 
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
 
       return (0 != $nbTuples);
@@ -150,7 +170,13 @@ class User {
       if (isset($team_id)) {
                $query .= "AND team_id = $team_id";
       }
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
       	if ($row->arrival_date < $arrival_date) {
@@ -174,8 +200,14 @@ class User {
       if (isset($team_id)) {
                $query .= "AND team_id = $team_id";
       }
-      $result = mysql_query($query) or die("Query failed: $query");
-
+      $result = mysql_query($query);
+      if (!$result) {
+      	$this->logger->error("Query FAILED: $query");
+      	$this->logger->error(mysql_error());
+      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      	exit;
+      }
+      
       //search the departure date
       // if the user is active in a team the departure date is '0'
       while($row = mysql_fetch_object($result))
@@ -207,7 +239,13 @@ class User {
                  "FROM `codev_timetracking_table` ".
                  "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
                  "AND userid = $this->id";
-    $result    = mysql_query($query) or die("Query failed: $query");
+    $result    = mysql_query($query);
+    if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+    }
     while($row = mysql_fetch_object($result)) {
 
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -236,7 +274,13 @@ class User {
                  "FROM `codev_timetracking_table` ".
                  "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
                  "AND userid = $this->id";
-    $result    = mysql_query($query) or die("Query failed: $query");
+    $result    = mysql_query($query);
+    if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+    }
     while($row = mysql_fetch_object($result)) {
 
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -264,7 +308,13 @@ class User {
                    "FROM `codev_timetracking_table` ".
                    "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
                    "AND userid = $this->id";
-     $result    = mysql_query($query) or die("Query failed: $query");
+     $result    = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
 
      while($row = mysql_fetch_object($result)) {
 		  $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -342,7 +392,13 @@ class User {
       $teamList = array();
 
       $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id  ORDER BY name";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
          $teamList[$row->id] = $row->name;
@@ -384,7 +440,13 @@ class User {
                "AND   codev_team_user_table.team_id = codev_team_table.id ".
                "AND   codev_team_user_table.access_level = $accessLevel ".
       "ORDER BY codev_team_table.name";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
          $teamList[$row->id] = $row->name;
@@ -427,7 +489,13 @@ class User {
 
            if (isset($_GET['debug_sql'])) { echo "User.getProjectList(): query = $query<br/>"; }
 
-	      $result = mysql_query($query) or die("Query failed: $query");
+	      $result = mysql_query($query);
+         if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
 	      while($row = mysql_fetch_object($result)) {
 	      	$projList[$row->project_id] = $row->name;
 	      }
@@ -460,7 +528,13 @@ class User {
 
 
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id IN ($formatedProjList) ORDER BY id DESC";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result)) {
          	$issueList[] = $row->id;
       }
@@ -495,7 +569,13 @@ class User {
                "AND status < get_project_resolved_status_threshold(project_id) ".
                "ORDER BY id DESC";
 
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id);
          
@@ -538,7 +618,13 @@ class User {
                "AND mantis_bug_table.status < get_project_resolved_status_threshold(project_id)".
                "ORDER BY id DESC";
 
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result)) {
       	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
          $issueList[] = $issue;
@@ -587,7 +673,13 @@ class User {
                "WHERE user_id = $this->id ".
                "ORDER BY bug_id DESC";
 
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result)) {
       	  $issue = IssueCache::getInstance()->getIssue($row->bug_id);
       	  if ( $issue->currentStatus < $issue->bug_resolved_status_threshold) {
@@ -621,8 +713,14 @@ class User {
                "FROM `codev_timetracking_table` ".
                "WHERE userid = $this->id ".
                "AND date = $timestamp";
-      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-
+      $result = mysql_query($query);
+      if (!$result) {
+      	$this->logger->error("Query FAILED: $query");
+      	$this->logger->error(mysql_error());
+      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      	exit;
+      }
+      
       $data = mysql_fetch_array($result);
       $sum= round($data[0], 2);
 
