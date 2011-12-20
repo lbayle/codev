@@ -26,6 +26,7 @@ class Job {
   const type_commonJob   = 0;     // jobs common to all projects are type 0
   const type_assignedJob = 1;     // jobs specific to one or more projects are type 1
 
+
   public static $typeNames = array(Job::type_commonJob    => "Common",
                                    Job::type_assignedJob  => "Assigned");
 
@@ -46,6 +47,8 @@ class Job {
 // =======================================
 class Jobs {
 
+   private $logger;
+
    const JOB_NA      = 1; // REM: N/A     job_id = 1, created by SQL file at install
    const JOB_SUPPORT = 2; // REM: Support job_id = 2, created by SQL file at install
 
@@ -53,12 +56,19 @@ class Jobs {
 
    // --------------------
    public function Jobs() {
+      $this->logger = Logger::getLogger(__CLASS__);
 
    	$this->jobList = array();
 
       $query = "SELECT * FROM `codev_job_table`";
-      $result = mysql_query($query) or die("Query failed: $query");
-      while($row = mysql_fetch_object($result))
+   	$result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+            while($row = mysql_fetch_object($result))
       {
       	$j = new Job($row->id, $row->name, $row->type, $row->color);
          $this->jobList[$row->id] = $j;
@@ -91,7 +101,13 @@ class Jobs {
    public static function create($job_name, $job_type, $job_color) {
 
    	$query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$job_name','$job_type','$job_color');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
    	$job_id = mysql_insert_id();
 
    	return $job_id;
@@ -102,7 +118,13 @@ class Jobs {
     */
    public static function addJobProjectAssociation($project_id, $job_id) {
       $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
 
 
    }

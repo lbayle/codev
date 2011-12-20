@@ -23,6 +23,7 @@
 
 // =======================================
 class Holiday {
+
    var $id;
 	var $timestamp;
 	var $description;
@@ -43,22 +44,31 @@ class Holiday {
 class Holidays {
 
 
+   private $logger;
 
    // instance de la classe
-    private static $instance;
-	
+   private static $instance;
+
     private static $HolidayList;
     public  static $defaultColor="D8D8D8";
-   
-      // Un constructeur privé ; empêche la création directe d'objet
-    private function __construct() 
+
+      // Un constructeur prive ; empeche la creation directe d'objet
+    private function __construct()
     {
-	  #echo "DEBUG Holiday construct<br/>";
-    	
+      $this->logger = Logger::getLogger(__CLASS__);
+
+      #echo "DEBUG Holiday construct<br/>";
+
       self::$HolidayList = array();
-   	
+
       $query = "SELECT * FROM `codev_holidays_table`";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
          $h = new Holiday($row->id, $row->date, $row->description, $row->color);
@@ -66,8 +76,8 @@ class Holidays {
       }
     }
 
-    // La méthode singleton
-    public static function getInstance() 
+    // La mï¿½thode singleton
+    public static function getInstance()
     {
     	#echo "DEBUG Holiday instance<br/>";
         if (!isset(self::$instance)) {
@@ -76,15 +86,15 @@ class Holidays {
         }
         return self::$instance;
     }
-   
+
 	// ---------------------------------------
- 
+
    /**
     *
     * @param unknown_type $timestamp
     */
    private function getHoliday($timestamp) {
-   	
+
    	foreach (self::$HolidayList as $h) {
    		if ($h->timestamp == $timestamp) {
             #echo "DEBUG Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description<br/>";

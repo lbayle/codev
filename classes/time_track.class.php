@@ -20,9 +20,9 @@ include_once "timetrack_cache.class.php";
 // -- TimeTrackTuple --
 
 class TimeTrack {
-	
+
   private $logger;
-  
+
   var $id;
   var $userId;
   var $userName;
@@ -34,9 +34,10 @@ class TimeTrack {
 
   var $projectId;
   var $categoryId;
-        
+
   public function TimeTrack($id) {
     $this->id = $id;
+    $this->logger = Logger::getLogger(__CLASS__);
 
     $this->initialize();
   }
@@ -56,7 +57,7 @@ class TimeTrack {
     	      exit;
     }
     $row = mysql_fetch_object($result);
-                 
+
     $this->userId   = $row->userid;
     $this->userName = $row->username;
     $this->userRealname = $row->realname;
@@ -79,14 +80,14 @@ class TimeTrack {
 
     $this->projectId = $row2->project_id;
     $this->categoryId = $row2->category_id;
-                
+
     //echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
-     
+
 
   }
 
   /**
-   * 
+   *
    * @param unknown_type $userid
    * @param unknown_type $bugid
    * @param unknown_type $job
@@ -102,15 +103,15 @@ class TimeTrack {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
   }
 
   /**
-   * update Remaining and delete TimeTrack 
+   * update Remaining and delete TimeTrack
    * @param unknown_type $trackid
    */
   public static function delete($trackid) {
-  	
+
     // increase remaining (only if 'remaining' already has a value)
     $query = "SELECT bugid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
     $result = mysql_query($query);
@@ -130,7 +131,7 @@ class TimeTrack {
       $remaining = $issue->remaining + $duration;
       $issue->setRemaining($remaining);
     }
-  	
+
     // delete track
     $query2 = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
     $result = mysql_query($query2);
@@ -141,7 +142,7 @@ class TimeTrack {
     	      exit;
     }
   }
-    
+
 } // class TimeTrack
 
 ?>

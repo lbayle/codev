@@ -29,13 +29,14 @@ include_once "holidays.class.php";
 class User {
 
    private $logger;
-	
+
    var $id;
 	private $name;
 
    // --------------------
 	public function User($user_id) {
 	  $this->id = $user_id;
+	  $this->logger = Logger::getLogger(__CLASS__);
 	}
 
    // --------------------
@@ -207,7 +208,7 @@ class User {
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
-      
+
       //search the departure date
       // if the user is active in a team the departure date is '0'
       while($row = mysql_fetch_object($result))
@@ -295,15 +296,15 @@ class User {
   // --------------------
   /**
    * concat durations of all ExternalTasksProject issues.
-   * 
+   *
    * returns an array $extTasks[timestamp] = $row->duration;
    *
    */
    public function getExternalTasksInPeriod($startTimestamp, $endTimestamp) {
 	  $extTasks = array();  // timestamp => duration
-	  
+
 	  $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
-	  
+
 	  $query     = "SELECT bugid, date, duration ".
                    "FROM `codev_timetracking_table` ".
                    "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
@@ -329,12 +330,12 @@ class User {
 	  }
 	  	return $extTasks;
   }
-  
-  
+
+
   // --------------------
   /**
    * Nb working days in the period (no holidays, no external tasks)
-   * 
+   *
    * @param unknown_type $startTimestamp
    * @param unknown_type $endTimestamp
    * @param unknown_type $team_id
@@ -375,8 +376,8 @@ class User {
       // remove externalTasks timetracks
       $nbExternal = array_sum($this->getExternalTasksInPeriod($startT, $endT));
       $prodDaysForecast -= $nbExternal;
-      
-      
+
+
       #echo "user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - ".$nbDaysOf.") = $prodDaysForecast <br/>";
 
       return $prodDaysForecast;
@@ -578,7 +579,7 @@ class User {
       }
       while($row = mysql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id);
-         
+
          if (NULL != $issue->remaining) {
          	$totalRemaining += $issue->remaining;
          } else if (NULL != $issue->prelEffortEstim) {
@@ -720,7 +721,7 @@ class User {
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
-      
+
       $data = mysql_fetch_array($result);
       $sum= round($data[0], 2);
 

@@ -48,6 +48,7 @@ class Team {
 	 */
 	public function Team($teamid) {
 		 $this->id = $teamid;
+		 $this->logger = Logger::getLogger(__CLASS__);
 
 		 $this->initialize();
 	}
@@ -311,7 +312,7 @@ class Team {
       $sideTaskProjectType = Project::type_sideTaskProject;
 
       $projectDesc = "CoDev SideTaskProject for team $this->name";
-      
+
       $projectid = Project::createSideTaskProject($projectName);
 
       if (-1 != $projectid) {

@@ -73,7 +73,13 @@ class IssueFDJ extends Issue {
              "AND field_name = 'status' ".
              "AND (new_value=$status_feedback OR old_value=$status_feedback) ".
              "ORDER BY id ASC";
-    $result = mysql_query($query) or die("Query failed: $query");
+    $result = mysql_query($query);
+	 if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+    }
     while($row = mysql_fetch_object($result))
     {
       $start_date = $row->date_modified;
@@ -101,7 +107,13 @@ class IssueFDJ extends Issue {
                 "AND field_name='handler_id' ".
                 $sql_condition.
                 " ORDER BY id DESC";
-      $result2 = mysql_query($query2) or die("Query failed: $query2");
+      $result2 = mysql_query($query2);
+	   if (!$result2) {
+    	      $this->logger->error("Query FAILED: $query2");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
 
       // the list is in reverse order so the first one is the latest assignment.
       $row2 = mysql_fetch_object($result2);
@@ -124,7 +136,13 @@ class IssueFDJ extends Issue {
 
         // Get the next action to check if it is a 'change status'
         $query3 = "SELECT id, date_modified, field_name FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND id > '$latest_assignTo_id' ORDER BY id ASC";
-        $result3 = mysql_query($query3) or die("Query failed: $query3");
+        $result3 = mysql_query($query3);
+	     if (!$result3) {
+    	      $this->logger->error("Query FAILED: $query3");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+        }
         $row3 = mysql_fetch_object($result3);
 
         $next_action_date  = $row3->date_modified;
