@@ -23,6 +23,9 @@ include_once "period_stats.class.php";
 include_once "project.class.php";
 
 class PeriodStatsReport {
+
+   private $logger;
+
   var $start_year;
   var $start_month;
   var $start_day;
@@ -32,6 +35,8 @@ class PeriodStatsReport {
 
   // --------------------------------------------
   public function PeriodStatsReport($start_year, $start_month, $start_say, $teamid) {
+    $this->logger = Logger::getLogger(__CLASS__);
+
     $this->start_year = $start_year;
     $this->start_month = $start_month;
     $this->start_day = $start_say;
@@ -66,7 +71,13 @@ class PeriodStatsReport {
 	               "WHERE team_id = $this->teamid ".
 	               "AND codev_team_project_table.type <> ".Project::type_noStatsProject;
 
-	      $result = mysql_query($query) or die("Query failed: $query");
+	      $result = mysql_query($query);
+	      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
 	      while($row = mysql_fetch_object($result)) {
             $projectList[] = $row->project_id;
 	      }

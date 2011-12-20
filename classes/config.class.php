@@ -98,13 +98,23 @@ class Config {
 
    private static $quiet; // do not display any warning message (used for install procedures only)
 
+   private $logger;
+
    // --------------------------------------
    private function __construct()
    {
+      $this->logger = Logger::getLogger(__CLASS__);
+
       self::$configVariables = array();
 
       $query = "SELECT * FROM `codev_config_table`";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
       	#echo "DEBUG: Config:: $row->config_id<br/>";
@@ -224,7 +234,13 @@ class Config {
 
    	  // add/update DB
       $query = "SELECT * FROM `codev_config_table` WHERE config_id='$id'";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       if (0 != mysql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id='$id'";
          #echo "DEBUG UPDATE Config::setValue $id: $value (t=$type) $desc<br/>";
@@ -233,7 +249,13 @@ class Config {
          #echo "DEBUG INSERT Config::setValue $id: $value (t=$type) $desc<br/>";
       }
 
-      $result    = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
 
       // --- add/replace Cache
       self::$configVariables["$id"] = new ConfigItem($id, $value, $type);
@@ -249,7 +271,13 @@ class Config {
 
          // delete from DB
          $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id';";
-         mysql_query($query) or die("Query failed: $query");
+	     	$result = mysql_query($query);
+	      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
 
          // remove from cache
 	     unset(self::$configVariables["$id"]);

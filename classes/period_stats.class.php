@@ -22,7 +22,10 @@ include_once "project.class.php";
 // Status & Issue classes
 
 class PeriodStats {
-  var $startTimestamp;
+
+	private $logger;
+
+	var $startTimestamp;
   var $endTimestamp;
 
   // The number of issue which current state is 'status' within the timestamp
@@ -40,6 +43,7 @@ class PeriodStats {
 
   // -------------------------------------------------
   public function PeriodStats($startTimestamp, $endTimestamp) {
+     $this->logger = Logger::getLogger(__CLASS__);
 
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp = $endTimestamp;
@@ -121,7 +125,13 @@ class PeriodStats {
     }
         if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
 
-    $result = mysql_query($query) or die("Query failed: $query");
+        $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
 
     // For each bugId
     while($row = mysql_fetch_object($result))
@@ -135,7 +145,13 @@ class PeriodStats {
         "AND date_modified < $this->endTimestamp ".
         "ORDER BY id DESC";
 
-      $result2 = mysql_query($query2) or die("Query failed: $query2");
+      $result2 = mysql_query($query2);
+      if (!$result2) {
+      	$this->logger->error("Query FAILED: $query2");
+      	$this->logger->error(mysql_error());
+      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      	exit;
+      }
 
       if (0 != mysql_num_rows($result2)) {
         $row2 = mysql_fetch_object($result2);
