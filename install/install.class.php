@@ -49,12 +49,12 @@ class Install {
 
    /**
     *  check MySQL availability
-    *  
+    *
     * @return NULL if OK, or an error message.
 
     */
    public static function checkMysqlAccess() {
-   	
+
    	$command = "mysql --version";
    	$status = exec($command, $output, $retCode);
    	if (0 != $retCode) {
@@ -63,7 +63,7 @@ class Install {
    		#echo $status."</br>";
    	}
    	echo "</br>";
-   	
+
    	$command = "mysqldump --version";
    	$status = exec($command, $output, $retCode);
    	if (0 != $retCode) {
@@ -71,9 +71,9 @@ class Install {
    	} else {
    		#echo $status."</br>";
      	}
-   	
+
    	return NULL;
-   	
+
    }
 
    // --------------------------------------------------------
@@ -112,18 +112,18 @@ class Install {
       if (TRUE == strstr($error, T_("ERROR"))) {
       	return $error;
       }
-      
+
       return NULL;
    }
 
-   
+
    // --------------------------------------------------------
    /**
-    * 
+    *
     * remove CodevTT Config Files
     */
    public static function deleteConfigFiles() {
-   
+
 	   if (file_exists(Install::FILENAME_CONSTANTS)) {
 	   	$retCode = unlink( Install::FILENAME_CONSTANTS );
 	   	if (true == $retCode) {
@@ -140,8 +140,8 @@ class Install {
 	      		echo "ERROR: Could not delete file: ". Install::FILENAME_MYSQL_CONFIG . "</br>";
 	      }
 	   }
-   }   
-    
+   }
+
    // --------------------------------------------------------
 	/**
 	 * updates mysql_config_inc.php with connection parameters
@@ -154,7 +154,7 @@ class Install {
 	                                      $db_mantis_user     = 'codev',
 	                                      $db_mantis_pass     = '',
 	                                      $db_mantis_database = 'bugtracker') {
-      
+
 		#echo "DEBUG create file ".self::FILENAME_MYSQL_CONFIG."<br/>";
 
       // create/overwrite file
@@ -162,7 +162,7 @@ class Install {
 
       if (FALSE == $fp) {
       	echo "<span class='error_font'>ERROR: creating file ".self::FILENAME_MYSQL_CONFIG."</span><br/>";
-      	 
+
       } else {
       	$stringData = "<?php\n";
       	$stringData .= "   // Mantis DB infomation.\n";
@@ -290,21 +290,21 @@ class Install {
 
       $attributes["require_report"]   = 1;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("Preliminary Est. Effort"), $mType_enum,    "customField_PrelEffortEstim", $attributes, self::PREL_EFFORT_ESTIM_DEFAULT_VALUE, self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES);
+      $this->createCustomField(T_("Preliminary EffortEstim"), $mType_enum,    "customField_PrelEffortEstim", $attributes, self::PREL_EFFORT_ESTIM_DEFAULT_VALUE, self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES);
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("External ID (Ref.Ext)"),       $mType_string,  "customField_ExtId", $attributes);          // CoDev FDJ custom
+      $this->createCustomField(T_("External ID"),       $mType_string,  "customField_ExtId", $attributes);          // CoDev FDJ custom
       $this->createCustomField(T_("Dead Line"),               $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
-      $this->createCustomField(T_("Est. Effort (BI)"),        $mType_numeric, "customField_effortEstim", $attributes);
-      $this->createCustomField(T_("Aditional Effort (BS)"),   $mType_numeric, "customField_addEffort", $attributes);
-      $this->createCustomField(T_("Remaining (RAF)"),         $mType_numeric, "customField_remaining", $attributes);
+      $this->createCustomField(T_("EffortEstim"),        $mType_numeric, "customField_effortEstim", $attributes);
+      $this->createCustomField(T_("Aditional Effort"),   $mType_numeric, "customField_addEffort", $attributes);
+      $this->createCustomField(T_("Remaining"),         $mType_numeric, "customField_remaining", $attributes);
 
       $attributes["require_resolved"] = 0;
       $attributes["require_closed"]   = 0;
-      $this->createCustomField(T_("Delivery ticket (FDL)"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
+      $this->createCustomField(T_("Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
       $this->createCustomField(T_("Delivery Date"),           $mType_date,    "customField_deliveryDate", $attributes);
 
 	}
@@ -367,15 +367,15 @@ class Install {
 
            // --- add <team> SideTaskProject
             $stproj_id = $adminTeam->createSideTaskProject(T_("SideTasks")." $name");
-            
+
             if ($stproj_id < 0) {
                die ("ERROR: SideTaskProject creation FAILED.<br/>\n");
             } else {
                $stproj = ProjectCache::getInstance()->getProject($stproj_id);
-                
+
                $stproj->addCategoryInactivity(T_("Inactivity"));
                $stproj->addCategoryTools(T_("Tools"));
-               
+
                $stproj->addIssueInactivity(T_("(generic) Leave"));
                $stproj->addIssueTools(T_("(generic) Mantis/CoDevTT administration"));
             }
@@ -431,14 +431,14 @@ class Install {
       }
 
 	  fclose($fh);
-	  
+
 	   if (file_exists($testFilename)) {
 	   	$retCode = unlink($testFilename);
 	   	if (false == $retCode) {
 	  	      return (T_("ERROR").T_(": Could not delete file: ". $testFilename));
 	   	}
 	   }
-	  
+
 	  return "SUCCESS ! Please check that the following test file has been created: <span style='font-family: sans-serif'>$testFilename</span>";
 	}
 
@@ -461,7 +461,7 @@ class Install {
 
       if (FALSE == $fp) {
       	echo "<span class='error_font'>ERROR: creating file ".self::FILENAME_CONSTANTS." (current dir=".getcwd().")</span><br/>";
-      	 
+
         // try to create a temporary file, for manual install...
         $fp = fopen("/tmp/constants.php", 'w');
         if (FALSE == $fp) {
@@ -533,7 +533,7 @@ class Install {
         // get current mantis custom menu entries
         $query = "SELECT value FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
 	     mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-        
+
         $serialized  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
 
 	    // add entry
@@ -555,7 +555,7 @@ class Install {
                      "VALUES ('main_menu_custom_options', '$newSerialized', '3', '90');";
         }
 	   mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-        
+
 		return $newSerialized;
 	}
 
