@@ -105,8 +105,6 @@ class Config {
    // --------------------------------------
    private function __construct()
    {
-
-      echo "DEBUG config ".__CLASS__."</br>";
       $this->logger = Logger::getLogger(__CLASS__);
 
       self::$configVariables = array();

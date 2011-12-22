@@ -25,6 +25,7 @@
    include_once "internal_config.inc.php";
    include_once "constants.php";
 
+   Logger::configure($codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml');
 ?>
 
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
