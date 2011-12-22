@@ -25,6 +25,7 @@ include_once "issue_cache.class.php";
 
 // ==============================================================
 class Status {
+
    var $statusId; // new=10, ack=30, ...
    var $duration; // in sec since 1970 (unix timestamp)
 
@@ -37,6 +38,8 @@ class Status {
 
 // ==============================================================
 class Issue {
+
+   private $logger;
 
    private static $PEE_balance;
 
@@ -72,7 +75,7 @@ class Issue {
    private $deadLine;     // WARN: if not specified, TargetVersion_date must be returned !
    public $deliveryDate;
    public $deliveryId;   // TODO FDL (FDJ specific)
-     
+
    // -- computed fields
    public $elapsed;          // total time spent on this issue
    public $statusList;       // array of statusInfo elements
@@ -83,9 +86,11 @@ class Issue {
 
    // other cache fields
    public $bug_resolved_status_threshold;
-    
+
    // ----------------------------------------------
    public function Issue ($id) {
+      $this->logger = Logger::getLogger(__CLASS__);
+
       $this->bugId = $id;
 
 	  // --- init static variables
@@ -102,8 +107,14 @@ class Issue {
          $balance = Config::getInstance()->getValue(Config::id_prelEffortEstim_balance); // ex ETA_balance
 
       	 $query = "SELECT possible_values FROM  `mantis_custom_field_table` WHERE  id = $PEE_id";
-         $result = mysql_query($query) or die("Query failed: $query");
-         $PEE_possible_values  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+          $result = mysql_query($query);
+	       if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+          }
+      	          $PEE_possible_values  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
 		 if (NULL != $PEE_possible_values) {
          	$PEE_possible_values = explode('|', $PEE_possible_values);
 		 	$i=0;
@@ -147,11 +158,17 @@ class Issue {
       $this->resolution      = $row->resolution;
       $this->version         = $row->version;
       $this->target_version  = $row->target_version;
-      
+
       // Get custom fields
       $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
-      $result2 = mysql_query($query2) or die("Query failed: $query2");
-      while($row = mysql_fetch_object($result2))
+      $result2 = mysql_query($query2);
+	   if (!$result2) {
+    	      $this->logger->error("Query FAILED: $query2");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+            while($row = mysql_fetch_object($result2))
       {
          switch ($row->field_id) {
             case $tcCustomField:              $this->tcId            = $row->value; break;
@@ -174,10 +191,10 @@ class Issue {
       $this->elapsed = $this->getElapsed();
 
       $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
-      
+
       $project = ProjectCache::getInstance()->getProject($this->projectId);
       $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
-      
+
       // Prepare fields
       $this->statusList = array();
       $this->relationships = array();
@@ -260,7 +277,13 @@ class Issue {
 
       $query  = "SELECT value FROM `mantis_custom_field_string_table` WHERE field_id='$tcCustomField' AND bug_id=$this->bugId";
 
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
 
       $tcId    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "";
 
@@ -270,33 +293,39 @@ class Issue {
    // ----------------------------------------------
    /**
     * Issue deadLine
-    * 
+    *
     * if deadLineCustomField is set, return this value,
     * else if TargetVersion date is specified return it,
     * else return NULL
-    * 
+    *
     */
    public function getDeadLine() {
-   	
-   	// if exist return customField value 
+
+   	// if exist return customField value
    	// REM: already set in initialize()
    	if (NULL != $this->deadLine) { return $this->deadLine; }
-   	
-   	// check if 
+
+   	// check if
    	if (NULL != $this->target_version) {
    	   $query = "SELECT date_order FROM `mantis_project_version_table` ".
    	            "WHERE project_id=$this->projectId ".
    	            "AND version='$this->target_version'";
-   	   $result = mysql_query($query) or die("Query failed: $query");
+   	   $result = mysql_query($query);
+	      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
    	   $targetVersionDate = mysql_result($result, 0);
-   	   
+
    	   #echo "DEBUG: $this->bugId target_version date = ".date("Y-m-d", $targetVersionDate)."<br/>";
    	   return ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
    	}
-   	
+
    	return NULL;
    }
-   
+
    // ----------------------------------------------
    public function getProjectName() {
 
@@ -315,7 +344,13 @@ class Issue {
    // ----------------------------------------------
    public function getCategoryName() {
       $query = "SELECT name FROM `mantis_category_table` WHERE id= $this->categoryId";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       $categoryName = mysql_result($result, 0);
 
       return $categoryName;
@@ -359,7 +394,13 @@ class Issue {
          $query .= " AND jobid = $job_id";
       }
 
-      $result    = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
          $elapsed += $row->duration;
@@ -400,7 +441,13 @@ class Issue {
          $query = "SELECT * FROM `mantis_bug_relationship_table` ".
                   "WHERE source_bug_id=$this->bugId ".
                   "AND relationship_type = $type";
-         $result    = mysql_query($query) or die("Query failed: $query");
+   	   $result = mysql_query($query);
+	      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
          while($row = mysql_fetch_object($result))
          {
             #echo "DEBUG relationships: [$type] $this->bugId -> $row->destination_bug_id </br>\n";
@@ -410,7 +457,13 @@ class Issue {
          $query = "SELECT * FROM `mantis_bug_relationship_table` ".
                   "WHERE destination_bug_id=$this->bugId ".
                   "AND relationship_type = ".$complementaryType;
-         $result    = mysql_query($query) or die("Query failed: $query");
+   	   $result = mysql_query($query);
+	      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
          while($row = mysql_fetch_object($result))
          {
             #echo "DEBUG relationshipsC: [$type] $this->bugId -> $row->source_bug_id </br>\n";
@@ -428,8 +481,14 @@ class Issue {
    public function startDate() {
 
    	$query = "SELECT MIN(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
-      $result = mysql_query($query) or die("Query failed: $query");
-      $startDate = mysql_result($result, 0);
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   	$startDate = mysql_result($result, 0);
 
    	return $startDate;
    }
@@ -441,8 +500,14 @@ class Issue {
    public function endDate() {
 
    	$query = "SELECT MAX(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
-      $result = mysql_query($query) or die("Query failed: $query");
-      $endDate = mysql_result($result, 0);
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   	$endDate = mysql_result($result, 0);
    	return $endDate;
    }
 
@@ -593,7 +658,13 @@ class Issue {
       }
       $query .= " ORDER BY date";
 
-      $result    = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
          $timeTracks[$row->id] = $row->date;
@@ -618,7 +689,13 @@ class Issue {
       }
       $query .= " ORDER BY date";
 
-      $result    = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       $row = mysql_fetch_object($result);
 
       return $row->date;
@@ -640,7 +717,13 @@ class Issue {
 
       $query .= " ORDER BY mantis_user_table.username";
 
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
          $userList[$row->id] = $row->username;
@@ -672,7 +755,13 @@ class Issue {
                 "ORDER BY date_modified DESC";
 
       // get latest result
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       if (0 != mysql_num_rows($result)) {
          $row = mysql_fetch_object($result);
 
@@ -698,25 +787,49 @@ class Issue {
 
       // TODO should be done only once... in Constants singleton ?
       $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$remainingCustomField'";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       $field_name    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "Remaining (RAF)";
 
 
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       if (0 != mysql_num_rows($result)) {
 
          $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$remaining' WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
       } else {
          $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$remainingCustomField', '$this->bugId', '$remaining');";
       }
-      $result    = mysql_query($query2) or die("Query failed: $query2");
+      $result = mysql_query($query2);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query2");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       $this->remaining = $remaining;
 
       // Add to history
       $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
       "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_remaining', '$remaining', '0', '".time()."');";
-      mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
    }
 
    // ----------------------------------------------
@@ -758,7 +871,13 @@ class Issue {
       } else {
          // Bug has changed, search history for status changed
          $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='$status_new'";
-         $result = mysql_query($query) or die("Query failed: $query");
+         $result = mysql_query($query);
+	      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
          $date_modified    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
 
          if (0 == $date_modified) {
@@ -792,7 +911,13 @@ class Issue {
                "WHERE bug_id=$this->bugId ".
                "AND field_name = 'status' ".
                "AND (new_value=$status OR old_value=$status) ORDER BY id";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
          //echo "&nbsp;&nbsp; id=$row->id &nbsp;&nbsp;date = $row->date_modified  &nbsp;&nbsp;old_value = $row->old_value  &nbsp;&nbsp;new_value = $row->new_value<br/>";
@@ -891,8 +1016,8 @@ class Issue {
       	#echo "DEBUG isHigherSeverity $this->bugId < $issueB->bugId (severity attr)<br/>\n";
       	return  false;
       }
-      
-      
+
+
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
       	// A constrains more people, so A is higher priority
@@ -994,7 +1119,13 @@ class Issue {
                "WHERE bug_id=$this->bugId ".
                "AND field_name = 'status' ".
                "AND new_value=$status ORDER BY id";
-      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
 /*
       if (NULL == $timestamp) {
@@ -1025,7 +1156,13 @@ class Issue {
                "WHERE bug_id=$this->bugId ".
                "AND field_name = 'status' ".
                "AND new_value=$status ORDER BY id DESC";
-      $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
 /*
       if (NULL == $timestamp) {

@@ -57,8 +57,6 @@ class TimeTracking {
   // ----------------------------------------------
   public function initialize() {
 
-  	 $this->logger->info("initialize");
-  	 
   	 $sideTaskProjectType = Project::type_sideTaskProject;
 
     $this->prodProjectList     = array();

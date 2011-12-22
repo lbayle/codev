@@ -54,13 +54,23 @@ class ConfigMantis {
    private static $instance;    // singleton instance
    private static $configVariables;
 
+   private $logger;
+
    // --------------------------------------
    private function __construct()
    {
+      $this->logger = Logger::getLogger(__CLASS__);
+
       self::$configVariables = array();
 
       $query = "SELECT * FROM `mantis_config_table`";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       while($row = mysql_fetch_object($result))
       {
       	$key = $row->config_id."_".$row->project_id;
@@ -134,7 +144,13 @@ class ConfigMantis {
    public static function setValue($config_id, $value, $type, $project_id = 0, $user_id = 0, $access_reqd = 90) {
 
       $query = "SELECT * FROM `mantis_config_table` WHERE config_id='$config_id' AND project_id='$project_id'";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
       if (0 == mysql_num_rows($result)) {
 
          echo "DEBUG INSERT ConfigMantis::setValue $config_id: $value (type=$type)<br/>";
@@ -142,7 +158,13 @@ class ConfigMantis {
          // --- add to DB
          $query = "INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) ".
                   "VALUES ('$config_id', '$project_id', '$user_id', '$access_reqd', '$type', '$value');";
-         $result    = mysql_query($query) or die("Query failed: $query");
+         $result = mysql_query($query);
+	      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+         }
 
 
          // --- add/replace Cache

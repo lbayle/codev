@@ -7,9 +7,9 @@ $s_analyzed_bug_button = 'Issue Analyzed';
 $s_analyzed_bug_title = 'Analyzed';
 $s_email_notification_title_for_status_bug_analyzed = 'The following issue has been ANALYZED.';
 
-$s_openned_bug_button = 'Issue Openned';
-$s_openned_bug_title = 'Open';
-$s_email_notification_title_for_status_bug_openned = 'The following issue has been OPENNED.';
+$s_open_bug_button = 'Issue Open';
+$s_open_bug_title = 'Open';
+$s_email_notification_title_for_status_bug_open = 'The following issue is OPEN.';
 
 $s_validated_bug_button = 'Issue Validated';
 $s_validated_bug_title = 'Validated';

@@ -20,6 +20,9 @@ include_once "timetrack_cache.class.php";
 // -- TimeTrackTuple --
 
 class TimeTrack {
+
+  private $logger;
+
   var $id;
   var $userId;
   var $userName;
@@ -31,9 +34,10 @@ class TimeTrack {
 
   var $projectId;
   var $categoryId;
-        
+
   public function TimeTrack($id) {
     $this->id = $id;
+    $this->logger = Logger::getLogger(__CLASS__);
 
     $this->initialize();
   }
@@ -45,9 +49,15 @@ class TimeTrack {
       "FROM `codev_timetracking_table`, `mantis_user_table` ".
       "WHERE codev_timetracking_table.id=$this->id ".
       "AND mantis_user_table.id = codev_timetracking_table.userid";
-    $result    = mysql_query($query) or die("Query failed: $query");
+    $result    = mysql_query($query);
+    if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+    }
     $row = mysql_fetch_object($result);
-                 
+
     $this->userId   = $row->userid;
     $this->userName = $row->username;
     $this->userRealname = $row->realname;
@@ -59,19 +69,25 @@ class TimeTrack {
     // Get information on this bug
     $query2  = "SELECT project_id, category_id FROM `mantis_bug_table` WHERE id=$this->bugId";
     //$query2  = "SELECT summary, status, date_submitted, project_id FROM `mantis_bug_table` WHERE id=$this->bugId";
-    $result2 = mysql_query($query2) or die("Query failed: $query2");
+    $result2 = mysql_query($query2);
+    if (!$result2) {
+    	      $this->logger->error("Query FAILED: $query2");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+    }
     $row2 = mysql_fetch_object($result2);
 
     $this->projectId = $row2->project_id;
     $this->categoryId = $row2->category_id;
-                
+
     //echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
-     
+
 
   }
 
   /**
-   * 
+   *
    * @param unknown_type $userid
    * @param unknown_type $bugid
    * @param unknown_type $job
@@ -80,19 +96,31 @@ class TimeTrack {
    */
   public static function create($userid, $bugid, $job, $timestamp, $duration) {
     $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
-    mysql_query($query) or die("Query failed: $query");
-  	
+    $result = mysql_query($query);
+    if (!$result) {
+    	$this->logger->error("Query FAILED: $query");
+    	$this->logger->error(mysql_error());
+    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	exit;
+    }
+
   }
 
   /**
-   * update Remaining and delete TimeTrack 
+   * update Remaining and delete TimeTrack
    * @param unknown_type $trackid
    */
   public static function delete($trackid) {
-  	
+
     // increase remaining (only if 'remaining' already has a value)
     $query = "SELECT bugid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = mysql_query($query) or die("Query failed: $query");
+    $result = mysql_query($query);
+    if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+    }
     while($row = mysql_fetch_object($result))
     { // REM: only one line in result, while should be optimized
       $bugid = $row->bugid;
@@ -103,12 +131,18 @@ class TimeTrack {
       $remaining = $issue->remaining + $duration;
       $issue->setRemaining($remaining);
     }
-  	
+
     // delete track
     $query2 = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
-    mysql_query($query2) or die("Query failed: $query2");
+    $result = mysql_query($query2);
+    if (!$result) {
+    	      $this->logger->error("Query FAILED: $query2");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+    }
   }
-    
+
 } // class TimeTrack
 
 ?>

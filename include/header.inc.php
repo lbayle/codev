@@ -16,7 +16,7 @@
 */ ?>
 <?php
    # WARN: this avoids the display of some PHP errors...
-   error_reporting(E_ALL ^ E_NOTICE);
+   error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
    # WARN: order of these includes is important.
    require_once('Logger.php');
@@ -24,8 +24,8 @@
    include_once "mysql_connect.inc.php";
    include_once "internal_config.inc.php";
    include_once "constants.php";
-   
-   Logger::configure($codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml'); 
+
+   Logger::configure($codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml');
 ?>
 
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
@@ -45,6 +45,8 @@
    echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";
    echo "<link href='".getServerRootURL()."/calendar/calendar.css' rel='stylesheet' type='text/css' />\n";
    echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>\n";
+   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/jquery.js'></script>\n";
+   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/custom_codevtt.js'></script>\n";
    echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
    echo "<link href='".getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
 ?>
