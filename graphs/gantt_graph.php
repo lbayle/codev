@@ -24,12 +24,18 @@
 <?php
 
    # ================
-   # header.inc.php is not loaded, so some config must be done.
+   # NOTE: header.inc.php is not loaded, so some config must be done.
    error_reporting(0); // no logs displayed in page (page is a generated image)
    date_default_timezone_set('Europe/Paris');
 
    require_once '../path.inc.php';
    require_once('Logger.php');
+   if (NULL == Logger::getConfigurationFile()) {
+      Logger::configure(dirname(__FILE__).'/../log4php.xml');
+      $logger = Logger::getLogger("gantt_graph");
+      //$logger->debug("LOG activated !");
+   }
+
    include_once "tools.php";
    #include_once "mysql_connect.inc.php";
    #include_once "internal_config.inc.php";
