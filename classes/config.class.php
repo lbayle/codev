@@ -18,6 +18,8 @@
 
 // ==============================================================
 
+require_once('Logger.php');
+Logger::configure($codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml');
 
 /**
  * Constants Singleton class
@@ -103,6 +105,8 @@ class Config {
    // --------------------------------------
    private function __construct()
    {
+
+      echo "DEBUG config ".__CLASS__."</br>";
       $this->logger = Logger::getLogger(__CLASS__);
 
       self::$configVariables = array();
