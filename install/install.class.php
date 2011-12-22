@@ -474,6 +474,8 @@ class Install {
       	$stringData .= "  // - The Variables in here can be customized to your needs\n";
       	$stringData .= "  // - This file has been generated during install on ".date("D d M Y H:i")."\n";
       	$stringData .= "\n";
+      	$stringData .= "  date_default_timezone_set('Europe/Paris');\n";
+      	$stringData .= "\n";
       	$stringData .= "  include_once \"config.class.php\";\n";
       	$stringData .= "\n";
       	$stringData .= "\$codevInstall_timestamp = ".$today.";\n";
