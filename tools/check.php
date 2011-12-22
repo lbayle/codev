@@ -20,7 +20,6 @@
 
 <?php
 include_once 'i18n.inc.php';
-include_once "tools.php";
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
 
