@@ -22,13 +22,20 @@
 #   error_reporting(E_ALL ^ E_NOTICE);
 ?>
 <?php
-   error_reporting(0);
-date_default_timezone_set('Europe/Paris');
 
+   # ================
+   # header.inc.php is not loaded, so some config must be done.
+   error_reporting(0); // no logs displayed in page (page is a generated image)
+   date_default_timezone_set('Europe/Paris');
 
-require_once '../path.inc.php';
+   require_once '../path.inc.php';
+   require_once('Logger.php');
+   include_once "tools.php";
+   #include_once "mysql_connect.inc.php";
+   #include_once "internal_config.inc.php";
+   #include_once "constants.php";
+   # ================
 
-require_once "tools.php";
 
 require_once ('jpgraph.php');
 require_once ('jpgraph_gantt.php');

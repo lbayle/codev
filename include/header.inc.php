@@ -20,12 +20,23 @@
 
    # WARN: order of these includes is important.
    require_once('Logger.php');
+   if (NULL == Logger::getConfigurationFile()) {
+      Logger::configure(dirname(__FILE__).'/../log4php.xml');
+
+      // test
+      #echo "configure LOG ".Logger::getConfigurationFile()."</br>";
+      #echo "configure LOG ".Logger::getConfigurationClass()."</br>";
+      #$logger = Logger::getLogger("header");
+      #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
+      #$logger->info("LOG activated !");
+   }
+
    include_once "tools.php";
    include_once "mysql_connect.inc.php";
    include_once "internal_config.inc.php";
    include_once "constants.php";
 
-   Logger::configure($codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml');
+
 ?>
 
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>

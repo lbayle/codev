@@ -21,9 +21,9 @@
    include_once 'path.inc.php';
    include 'i18n.inc.php';
    $_POST['page_name'] = T_("Welcome");
-   include 'header.inc.php';
 
-   $logger = Logger::getLogger("index.php");
+   include 'header.inc.php';
+   $logger = Logger::getLogger("homepage");
 ?>
 
 <?php
