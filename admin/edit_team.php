@@ -209,10 +209,10 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 
   // create form
   echo "<div align=center>\n";
-  echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage' onchange='javascript: submitTeam()'>\n";
+  echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
 
   echo "Team :\n";
-  echo "<select name='f_teamid'>\n";
+  echo "<select name='f_teamid' onchange='javascript: submitTeam()'>\n";
   echo "<option value='0'></option>\n";
 
    foreach ($teamList as $tid => $tname) {
@@ -608,9 +608,9 @@ function deleteTeamForm($originPage, $teamName, $teamid) {
 function addAstreinteForm($originPage, $teamid) {
 
 	$astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
-	
+
 	// --- get SideTasksProject Inactivity Issues
-	
+
 	$stprojList = array();
 	$projList = Team::getProjectList($teamid);
 	foreach ($projList as $pid => $pname) {
@@ -621,20 +621,20 @@ function addAstreinteForm($originPage, $teamid) {
 		}
 	}
 	$formatedInactivityCatList=implode( ', ', array_keys($inactivityCatList));
-	
-	
+
+
 	$issueList = array();
 	$query  = "SELECT id, project_id, category_id FROM `mantis_bug_table` ".
 	          "WHERE project_id IN ($formatedInactivityCatList) ";
-	
+
 	if (NULL != $astreintesList) {
 	   $formatedAstreintesList = implode( ', ', $astreintesList);
 	   $query .= "AND id NOT IN ($formatedAstreintesList) ";
 	}
 	$query .= "ORDER BY id";
-	
+
 	if (isset($_GET['debug_sql'])) {echo "addAstreinteForm(): query = $query<br/>";}
-	
+
 	$result = mysql_query($query) or die("Query failed: $query");
 	if (0 != mysql_num_rows($result)) {
 	   while($row = mysql_fetch_object($result)) {
@@ -644,14 +644,14 @@ function addAstreinteForm($originPage, $teamid) {
 	   	}
 	   }
 	}
-	
+
 	// ---
 	echo "<div>\n";
-	
+
 	echo "<form id='addAstreinteForm' name='addAstreinteForm' method='post' Action='$originPage'>\n";
-	
+
 	echo("   ".T_("Task").": \n");
-	
+
 	echo "   <select id='astreinteSelector' name='astreinteSelector' style='width: 600px;' title='".T_("Inactivity tasks")."'>\n";
 	echo "     <option value='0'></option>\n";
 	foreach ($issueList as $bugid) {
@@ -659,14 +659,14 @@ function addAstreinteForm($originPage, $teamid) {
 		echo "     <option value='".$bugid."'>".$bugid." : $issue->summary</option>\n";
 	}
 	echo "   </select>\n";
-	
-	
+
+
 	echo "   <input type=button name='btAddAstreinte' value='".T_("Add")."' onClick='javascript: addAstreinte()'>\n";
 	echo "   <input type=hidden name=action       value=noAction>\n";
 	echo "   <input type=hidden name=astreinte_id value=0>\n";
-	
+
 	echo "</form>\n";
-	
+
 	echo "</div>\n";
 }
 
@@ -821,14 +821,14 @@ if (0 != $teamid) {
 	displayAstreintesTuples($teamid);
 	echo "<br/>";
 	echo "<br/>";
-   
-	// ---   
+
+	// ---
 	echo "<hr align='left' width='20%'/>\n";
 	echo "<br/>\n";
    echo "<h2>".T_("Delete Team")."</h2>\n";
 	deleteTeamForm($originPage, $teamName, $teamid);
-	
-	
+
+
    // ----------- actions ----------
    if ($action == "addTeamMember") {
 
