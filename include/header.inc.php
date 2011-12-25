@@ -54,10 +54,17 @@
 
 <?php
    echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";
+
+   // --- CALENDAR ---
    echo "<link href='".getServerRootURL()."/calendar/calendar.css' rel='stylesheet' type='text/css' />\n";
    echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>\n";
+
+   // --- JQUERY ---
+   echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css' rel='Stylesheet' />\n";
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/jquery.js'></script>\n";
-   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/custom_codevtt.js'></script>\n";
+   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/jquery-ui.js'></script>\n";
+
+   // --- CODEV ---
    echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
    echo "<link href='".getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
 ?>

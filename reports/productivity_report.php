@@ -36,11 +36,12 @@ if (!isset($_SESSION['userid'])) {
 
 
 <script language="JavaScript">
+
   function submitForm() {
     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
     document.forms["form1"].action.value = "timeTrackingReport";
     document.forms["form1"].submit();
- }
+  }
 
   function setProjectid() {
      document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
@@ -48,7 +49,34 @@ if (!isset($_SESSION['userid'])) {
      document.forms["form1"].action.value="setProjectid";
      document.forms["form1"].submit();
   }
+
+  // ------ JQUERY --------
+  $(function() {
+		// function displayRates
+		$( "#dialog_AvailWorkload" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_AvailWorkload_link" ).click(function() { $( "#dialog_AvailWorkload" ).dialog( "open" ); return false;	});
+
+		$( "#dialog_ProdDaysProj" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_ProdDaysProj_link" ).click(function() { $( "#dialog_ProdDaysProj" ).dialog( "open" ); return false;	});
+
+
+	});
+
 </script>
+
+
+<?php
+  // ------ JQUERY --------
+echo "<div id='dialog_AvailWorkload' title='".T_("Available Workload")."'>";
+echo "<p>".T_("Workload Forecasting (holidays & externalTasks not included, developpers only)")."</p>";
+echo "</div>";
+
+echo "<div id='dialog_ProdDaysProj' title='".T_("Production Days : Projects")."'>";
+echo "<p>".T_("days spent on projects")."</p>";
+echo "</div>";
+
+?>
+
 
 <div id="content">
 
@@ -187,6 +215,9 @@ function displayRates ($timeTracking) {
 //  $prodRateNoSupportETA    = $timeTracking->getProductivityRateNoSupport("ETA");
 //  $prodRateNoSupportBI     = $timeTracking->getProductivityRateNoSupport("EffortEstim");
 
+
+
+
   echo "<table>\n";
   echo "<caption>".T_("Productivity indicators")."</caption>\n";
   echo "<tr>\n";
@@ -200,7 +231,7 @@ function displayRates ($timeTracking) {
   echo "<td>".T_("Production Days : Projects")."</td>\n";
   echo "<td>$prodDays</td>\n";
   echo "<td>".T_("days spent on projects")."</td>\n";
-  echo "<td></td>\n";
+  echo "<td><a id='dialog_ProdDaysProj_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -228,7 +259,7 @@ function displayRates ($timeTracking) {
   echo "<td>".T_("Available Workload")."</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
   echo "<td>".T_("Workload Forecasting (holidays & externalTasks not included, developpers only)")."</td>\n";
-  echo "<td></td>\n";
+  echo "<td><a id='dialog_AvailWorkload_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
