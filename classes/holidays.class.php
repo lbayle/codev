@@ -24,6 +24,8 @@
 // =======================================
 class Holiday {
 
+   private $logger;
+
    var $id;
 	var $timestamp;
 	var $description;
@@ -31,12 +33,15 @@ class Holiday {
 
    // ---------------------------------------
 	public function Holiday($id, $timestamp, $description="", $color="D8D8D8") {
-      $this->id    = $id;
+
+	   $this->logger = Logger::getLogger(__CLASS__);
+
+   	$this->id    = $id;
       $this->timestamp  = $timestamp;
       $this->description  = $description;
       $this->color = $color;
 
-      #echo "DEBUG Holiday $this->id - ".date("d M Y", $this->timestamp)." $this->description $this->color<br/>";
+      $this->logger->debug("Holiday $this->id - ".date("d M Y", $this->timestamp)." $this->description $this->color");
     }
 }
 
@@ -57,8 +62,6 @@ class Holidays {
     {
       $this->logger = Logger::getLogger(__CLASS__);
 
-      #echo "DEBUG Holiday construct<br/>";
-
       self::$HolidayList = array();
 
       $query = "SELECT * FROM `codev_holidays_table`";
@@ -76,10 +79,9 @@ class Holidays {
       }
     }
 
-    // La m�thode singleton
+    // La methode singleton
     public static function getInstance()
     {
-    	#echo "DEBUG Holiday instance<br/>";
         if (!isset(self::$instance)) {
             $c = __CLASS__;
             self::$instance = new $c;
@@ -97,11 +99,11 @@ class Holidays {
 
    	foreach (self::$HolidayList as $h) {
    		if ($h->timestamp == $timestamp) {
-            #echo "DEBUG Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description<br/>";
+            $this->logger->debug("Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description");
    			return $h;
    		}
    	}
-      #echo "DEBUG Holiday NOT found  ".date("d M Y", $timestamp)."   $timestamp<br/>";
+      $this->logger->debug("Holiday NOT found  ".date("d M Y", $timestamp)."   $timestamp");
    	return NULL;
    }
 
@@ -145,7 +147,7 @@ class Holidays {
          $timestamp = strtotime("+1 day",$timestamp);;
       }
 
-   	#echo "DEBUG nbHolidays = $nbHolidays<br/>";
+   	$this->logger->debug("nbHolidays = $nbHolidays");
    	return $nbHolidays;
    }
 

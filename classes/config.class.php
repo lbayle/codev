@@ -119,11 +119,11 @@ class Config {
       }
       while($row = mysql_fetch_object($result))
       {
-      	#echo "DEBUG: Config:: $row->config_id<br/>";
+      	$this->logger->debug("id=$row->config_id, val=$row->value, type=$row->type");
       	self::$configVariables["$row->config_id"] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
 
-        #echo "DEBUG: Config ready<br/>";
+        $this->logger->trace("Config ready");
    }
 
    // --------------------------------------
@@ -157,7 +157,8 @@ class Config {
     	if (NULL != $variable) {
          $value = $variable->value;
     	} else {
-    		if (!self::$quiet) {
+    		$this->logger->warn("getValue($id): variable not found !");
+    	   if (!self::$quiet) {
     		   echo "<span class='warn_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
     		}
     	}
@@ -178,6 +179,7 @@ class Config {
       if (NULL != $variable) {
          $key = $variable->getArrayKeyFromValue($value);
       } else {
+         $this->logger->warn("getVariableKeyFromValue($id, $value): variable not found !");
       	if (!self::$quiet) {
            echo "<span class='error_font'>WARN: Config::getVariableKeyFromValue($id, $value): variable not found !</span><br/>";
       	}
@@ -198,7 +200,8 @@ class Config {
       if (NULL != $variable) {
          $key = $variable->getArrayValueFromKey($value);
       } else {
-      	 if (!self::$quiet) {
+         $this->logger->warn("getVariableValueFromKey($id, $key): variable not found !");
+         if (!self::$quiet) {
             echo "<span class='error_font'>WARN: Config::getVariableValueFromKey($id, $key): variable not found !</span><br/>";
       	 }
       }
@@ -214,7 +217,8 @@ class Config {
       if (NULL != $variable) {
          $type = $variable->type;
       } else {
-      	 if (!self::$quiet) {
+         $this->logger->warn("getType($id): variable not found !");
+         if (!self::$quiet) {
             echo "<span class='error_font'>WARN: Config::getType($id): variable not found !</span><br/>";
       	 }
       }
@@ -245,10 +249,12 @@ class Config {
       }
       if (0 != mysql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id='$id'";
-         #echo "DEBUG UPDATE Config::setValue $id: $value (t=$type) $desc<br/>";
+         $this->logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
+         $this->logger->debug("UPDATE query = $query");
       } else {
          $query = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`, `project_id`) VALUES ('$id', '$value', '$type', '$desc', '$project_id');";
-         #echo "DEBUG INSERT Config::setValue $id: $value (t=$type) $desc<br/>";
+         $this->logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
+         $this->logger->debug("INSERT query = $query");
       }
 
       $result = mysql_query($query);
@@ -284,7 +290,7 @@ class Config {
          // remove from cache
 	     unset(self::$configVariables["$id"]);
 	  } else {
-	  	echo "DEBUG: DELETE variable $id not found in cache !<br/>";
+      $this->logger->warn("DELETE variable <$id> not found in cache !");
 	  }
    }
 } // class

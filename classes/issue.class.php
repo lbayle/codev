@@ -222,7 +222,7 @@ class Issue {
           ($project->getToolsCategoryId() != $this->categoryId) &&
           ($project->getWorkshopCategoryId()   != $this->categoryId)) {
 
-         //echo "DEBUG $this->bugId is a sideTask.   type=$type<br/>";
+         $this->logger->debug("$this->bugId is a sideTask.   type=$type");
          return true;
       }
       return false;
@@ -236,7 +236,7 @@ class Issue {
       if (($project->isSideTasksProject()) &&
           ($project->getInactivityCategoryId() == $this->categoryId)) {
 
-         //echo "DEBUG $this->bugId is a sideTask.<br/>";
+         $this->logger->debug("$this->bugId is Vacation.");
          return true;
       }
       return false;
@@ -250,7 +250,7 @@ class Issue {
       if (($project->isSideTasksProject()) &&
           ($project->getIncidentCategoryId() == $this->categoryId)) {
 
-         //echo "DEBUG $this->bugId is a Incident.<br/>";
+         $this->logger->debug("$this->bugId is a Incident.");
          return true;
       }
       return false;
@@ -263,7 +263,7 @@ class Issue {
 
       if (in_array($this->bugId, $astreintesTaskList)) {
 
-         #echo "DEBUG $this->bugId is an Astreinte.<br/>";
+         $this->logger->debug("$this->bugId is an Astreinte.");
          return true;
       }
       return false;
@@ -319,7 +319,7 @@ class Issue {
          }
    	   $targetVersionDate = mysql_result($result, 0);
 
-   	   #echo "DEBUG: $this->bugId target_version date = ".date("Y-m-d", $targetVersionDate)."<br/>";
+   	   $this->logger->debug("$this->bugId target_version date = ".date("Y-m-d", $targetVersionDate));
    	   return ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
    	}
 
@@ -450,7 +450,7 @@ class Issue {
          }
          while($row = mysql_fetch_object($result))
          {
-            #echo "DEBUG relationships: [$type] $this->bugId -> $row->destination_bug_id </br>\n";
+            $this->logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
             $this->relationships[$type][] = $row->destination_bug_id;
          }
          // complementary
@@ -466,7 +466,7 @@ class Issue {
          }
          while($row = mysql_fetch_object($result))
          {
-            #echo "DEBUG relationshipsC: [$type] $this->bugId -> $row->source_bug_id </br>\n";
+            $this->logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
             $this->relationships[$type][] = $row->source_bug_id;
          }
    	  }
@@ -569,7 +569,7 @@ class Issue {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
       }
 
-      if (isset($_GET['debug'])) {echo "issue->getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)<br/>";}
+      $this->logger->debug("getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)");
       return $derive;
    }
 
@@ -600,7 +600,7 @@ class Issue {
          $derive = $myElapsed - ($this->prelEffortEstim - $this->remaining);
       }
 
-      if (isset($_GET['debug'])) {echo "issue->getDriftETA(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->prelEffortEstim.")<br/>";}
+      $this->logger->debug("getDriftETA(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->prelEffortEstim.")");
       return $derive;
    }
 
@@ -631,7 +631,7 @@ class Issue {
    		} else {
              $nbHolidays = $holidays->getNbHolidays($this->deadLine, $this->deliveryDate);
    		}
-        #echo "DEBUG: TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift (- $nbHolidays holidays)<br/>";
+        $this->logger->debug("TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift (- $nbHolidays holidays)");
 
 		if ($timeDrift > 0) {
    			$timeDrift -= $nbHolidays;
@@ -640,7 +640,7 @@ class Issue {
 		}
    	} else {
          $timeDrift = "Error";
-   		#echo "WARNING: could not determinate TimeDrift for issue $this->bugId.<br/>";
+   		$this->logger->warn("could not determinate TimeDrift for issue $this->bugId");
    	}
    	return  $timeDrift;
    }
@@ -742,7 +742,7 @@ class Issue {
          $row = mysql_fetch_object($result);
          $this->currentStatus   = $row->status;
 
-         if (isset($_GET['debug'])) { echo "issue->getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus<br/>"; }
+         $this->logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
          return $this->currentStatus;
       }
 
@@ -765,11 +765,11 @@ class Issue {
       if (0 != mysql_num_rows($result)) {
          $row = mysql_fetch_object($result);
 
-         if (isset($_GET['debug'])) { echo "issue->getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified)."<br/>";}
+         $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
 
          return $row->new_value;
       } else {
-         if (isset($_GET['debug'])) { echo "issue->getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !<br/>"; }
+         $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
          return -1;
       }
    }
@@ -783,7 +783,7 @@ class Issue {
 
       $old_remaining = $this->remaining;
 
-      //echo "DEBUG setRemaining old_value=$old_remaining   new_value=$remaining<br/>";
+      $this->logger->debug("setRemaining old_value=$old_remaining   new_value=$remaining");
 
       // TODO should be done only once... in Constants singleton ?
       $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$remainingCustomField'";
@@ -920,23 +920,23 @@ class Issue {
       }
       while($row = mysql_fetch_object($result))
       {
-         //echo "&nbsp;&nbsp; id=$row->id &nbsp;&nbsp;date = $row->date_modified  &nbsp;&nbsp;old_value = $row->old_value  &nbsp;&nbsp;new_value = $row->new_value<br/>";
+         $this->logger->debug("id=$row->id date = $row->date_modified old_value = $row->old_value new_value = $row->new_value");
          $start_date = $row->date_modified;
 
          // Next line is end_date. if NULL then end_date = current_date
          if ($row = mysql_fetch_object($result)) {
             $end_date = $row->date_modified;
-            //echo "&nbsp;&nbsp; id=$row->id &nbsp;&nbsp;date = $row->date_modified  &nbsp;&nbsp;old_value = $row->old_value  &nbsp;&nbsp;new_value = $row->new_value<br/>";
+            $this->logger->debug("id=$row->id date = $row->date_modified  old_value = $row->old_value new_value = $row->new_value");
          } else {
             $end_date = $current_date;
-            //echo "end_date = current date = $end_date<br/>";
+            $this->logger->debug("end_date = current date = $end_date");
          }
          $intervale =  $end_date - $start_date;
-         //echo "&nbsp;&nbsp; intervale = $intervale<br/>";
+         $this->logger->debug("intervale = $intervale");
          $time = $time + ($end_date - $start_date);
       }
 
-      //echo "duration other $time<br/>";
+      $this->logger->debug("duration other $time");
       return $time;
    } // getDuration_other
 
@@ -957,63 +957,63 @@ class Issue {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($this->bugId, $BconstrainsList)) {
       	// B constrains A
-         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (B constrains A)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId < $issueB->bugId (B constrains A)");
       	return false;
       }
       if (in_array($issueB->bugId, $AconstrainsList)) {
       	// A constrains B
-         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains B)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (A constrains B)");
       	return true;
       }
 
 
       // Tasks currently open are higher priority
       if (($this->currentStatus == $status_open) && ($issueB->currentStatus != $status_open)) {
-            #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (status_openned)<br/>\n";
+            $this->logger->debug("compareTo $this->bugId > $issueB->bugId (status_openned)");
             return  true;
       }
       if (($issueB->currentStatus == $status_open) && ($this->currentStatus != $status_open)) {
-            #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (status_openned)<br/>\n";
+            $this->logger->debug("compareTo $this->bugId < $issueB->bugId (status_openned)");
             return  false;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL != $this->deadLine) && (NULL == $issueB->deadLine)) {
-         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (B no deadline)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (B no deadline)");
          return  true;
       }
       if ((NULL == $this->deadLine) && (NULL != $issueB->deadLine)) {
-         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (A no deadline)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId < $issueB->bugId (A no deadline)");
          return  false;
       }
 
       // the soonest deadLine has priority
       if ($this->deadLine < $issueB->deadLine) {
-         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (deadline)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (deadline)");
          return  true;
       }
       if ($this->deadLine > $issueB->deadLine) {
-         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (deadline)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId < $issueB->bugId (deadline)");
          return  false;
       }
 
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
-         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (priority attr)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (priority attr)");
          return  true;
       }
       if ($this->priority < $issueB->priority) {
-         #echo "DEBUG isHigherPriority $this->bugId < $issueB->bugId (priority attr)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId < $issueB->bugId (priority attr)");
          return  false;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($this->severity > $issueB->severity) {
-      	#echo "DEBUG isHigherSeverity $this->bugId > $issueB->bugId (severity attr)<br/>\n";
+      	$this->logger->debug("compareTo $this->bugId > $issueB->bugId (severity attr)");
       	return  true;
       }
       if ($this->severity < $issueB->severity) {
-      	#echo "DEBUG isHigherSeverity $this->bugId < $issueB->bugId (severity attr)<br/>\n";
+      	$this->logger->debug("compareTo $this->bugId < $issueB->bugId (severity attr)");
       	return  false;
       }
 
@@ -1021,11 +1021,11 @@ class Issue {
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
       	// A constrains more people, so A is higher priority
-         #echo "DEBUG isHigherPriority $this->bugId > $issueB->bugId (A constrains more people)<br/>\n";
+         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
       	return true;
       }
 
-      #echo "DEBUG isHigherPriority $this->bugId <= $issueB->bugId (B constrains more people)<br/>\n";
+      $this->logger->debug("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
       return false;
    }
 
@@ -1049,6 +1049,7 @@ class Issue {
       // find user in charge of this issue
       if (NULL != $userid) {
          $user = UserCache::getInstance()->getUser($userid);
+
       } else {
       	if (NULL != $this->handlerId) {
       		$user = UserCache::getInstance()->getUser($this->handlerId);
@@ -1063,7 +1064,7 @@ class Issue {
 
       $tmpDuration = $this->getRemaining();
 
-      //echo "DEBUG user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp)."<br/>";
+      $this->logger->debug("computeEstimatedDateOfArrival: user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp));
 
       // first day depends only on $availTimeOnBeginTimestamp
       if (NULL == $availTimeOnBeginTimestamp) {
@@ -1072,7 +1073,7 @@ class Issue {
          $availTime = $availTimeOnBeginTimestamp;
       }
       $tmpDuration -= $availTime;
-      //echo "DEBUG 1st ".date('Y-m-d', $timestamp)." tmpDuration (-$availTime) = $tmpDuration<br/>";
+      $this->logger->debug("computeEstimatedDateOfArrival: 1st ".date('Y-m-d', $timestamp)." tmpDuration (-$availTime) = $tmpDuration");
 
       // --- next days
       while ($tmpDuration > 0) {
@@ -1081,7 +1082,7 @@ class Issue {
          if (NULL != $user) {
          	$availTime = $user->getAvailableTime($timestamp);
          	$tmpDuration -= $availTime;
-            //echo "DEBUG ".date('Y-m-d', $timestamp)." tmpDuration = $tmpDuration<br/>";
+            $this->logger->debug("computeEstimatedDateOfArrival: ".date('Y-m-d', $timestamp)." tmpDuration = $tmpDuration");
          } else {
          	// if not assigned, just check for global holidays
          	if (NULL == Holidays::getInstance()->isHoliday($timestamp)) {
@@ -1096,7 +1097,7 @@ class Issue {
       // fot the next issue to be worked on.
       $availTimeOnEndTimestamp = abs($tmpDuration);
 
-      //echo "DEBUG $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]<br/>\n";
+      $this->logger->debug("computeEstimatedDateOfArrival: $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]");
       return array($endTimestamp, $availTimeOnEndTimestamp);
    }
 
@@ -1127,13 +1128,13 @@ class Issue {
     	      exit;
       }
       $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
-/*
+
       if (NULL == $timestamp) {
-         echo "DEBUG issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND ! <br/>\n";
+         $this->logger->debug("issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND !");
       } else {
-         echo "DEBUG issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp)."<br/>\n";
+         $this->logger->debug("issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
       }
-*/
+
       return $timestamp;
    }
 
@@ -1164,13 +1165,13 @@ class Issue {
     	      exit;
       }
       $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
-/*
+
       if (NULL == $timestamp) {
-         echo "DEBUG issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND ! <br/>\n";
+         $this->logger->debug("issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND !");
       } else {
-         echo "DEBUG issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp)."<br/>\n";
+         $this->logger->debug("issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
       }
-*/
+
       return $timestamp;
    }
 

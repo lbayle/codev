@@ -22,13 +22,13 @@
    require_once('Logger.php');
    if (NULL == Logger::getConfigurationFile()) {
       Logger::configure(dirname(__FILE__).'/../log4php.xml');
+      $logger = Logger::getLogger("header");
+      $logger->info("LOG activated !");
 
       // test
       #echo "configure LOG ".Logger::getConfigurationFile()."</br>";
       #echo "configure LOG ".Logger::getConfigurationClass()."</br>";
-      #$logger = Logger::getLogger("header");
       #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
-      #$logger->info("LOG activated !");
    }
 
    include_once "tools.php";

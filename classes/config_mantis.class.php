@@ -74,11 +74,11 @@ class ConfigMantis {
       while($row = mysql_fetch_object($result))
       {
       	$key = $row->config_id."_".$row->project_id;
-      	#echo "DEBUG: ConfigMantis:: $row->config_id = $row->value<br/>";
+      	$this->logger->debug("$row->config_id = $row->value");
       	self::$configVariables["$key"] = new ConfigMantisItem($row->config_id, $row->project_id, $row->user_id, $row->access_reqd, $row->type, $row->value);
       }
 
-        #echo "DEBUG: ConfigMantis ready<br/>";
+        $this->logger->trace("ConfigMantis ready");
         #print_r(array_keys(self::$configVariables));
    }
 
@@ -107,6 +107,7 @@ class ConfigMantis {
             $value = $variable->value;
     	} else {
     		echo "<span class='error_font'>WARN: ConfigMantis::getValue($id, $project_id): variable not found !</span><br/>";
+    		$this->logger->error("getValue($id, $project_id): variable not found !");
     	}
     	return $value;
    }
@@ -122,6 +123,7 @@ class ConfigMantis {
          $type = $variable->type;
       } else {
          echo "<span class='error_font'>WARN: ConfigMantis::getType($id, $project_id): variable not found !</span><br/>";
+    		$this->logger->warn("getType($id, $project_id): variable not found !");
       }
       return $type;
    }
@@ -153,7 +155,7 @@ class ConfigMantis {
       }
       if (0 == mysql_num_rows($result)) {
 
-         echo "DEBUG INSERT ConfigMantis::setValue $config_id: $value (type=$type)<br/>";
+         $this->logger->debug("setValue $config_id: $value (type=$type)");
 
          // --- add to DB
          $query = "INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) ".
@@ -171,7 +173,7 @@ class ConfigMantis {
          $key = $config_id."_".$project_id;
          self::$configVariables["$key"] = new ConfigMantisItem($config_id, $project_id, $user_id, $access_reqd, $type, $value);
       } else {
-         echo "<span class='error_font'>WARN: ConfigMantis::setValue($config_id, $project_id): variable already exists and will NOT be modified.</span><br/>";
+         $this->logger->warn("setValue($config_id, $project_id): variable already exists and will NOT be modified.");
       }
 
    }
