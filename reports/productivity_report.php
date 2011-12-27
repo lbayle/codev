@@ -59,6 +59,21 @@ if (!isset($_SESSION['userid'])) {
 		$( "#dialog_ProdDaysProj" ).dialog({	autoOpen: false, hide: "fade"	});
 		$( "#dialog_ProdDaysProj_link" ).click(function() { $( "#dialog_ProdDaysProj" ).dialog( "open" ); return false;	});
 
+		$( "#dialog_ProdDaysSTDev" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_ProdDaysSTDev_link" ).click(function() { $( "#dialog_ProdDaysSTDev" ).dialog( "open" ); return false;	});
+
+		$( "#dialog_ProdDaysSTManagers" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_ProdDaysSTManagers_link" ).click(function() { $( "#dialog_ProdDaysSTManagers" ).dialog( "open" ); return false;	});
+
+		$( "#dialog_TotalProdDays" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_TotalProdDays_link" ).click(function() { $( "#dialog_TotalProdDays" ).dialog( "open" ); return false;	});
+
+		$( "#dialog_EfficiencyRate" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_EfficiencyRate_link" ).click(function() { $( "#dialog_EfficiencyRate" ).dialog( "open" ); return false;	});
+
+		$( "#dialog_SystemAvailability" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_SystemAvailability_link" ).click(function() { $( "#dialog_SystemAvailability" ).dialog( "open" ); return false;	});
+
 
 	});
 
@@ -66,6 +81,7 @@ if (!isset($_SESSION['userid'])) {
 
 
 <?php
+// TODO mettre dans un fichier separe pour inclure aussi dans stats
   // ------ JQUERY --------
 echo "<div id='dialog_AvailWorkload' title='".T_("Available Workload")."'>";
 echo "<p>".T_("Workload Forecasting (holidays & externalTasks not included, developpers only)")."</p>";
@@ -74,6 +90,34 @@ echo "</div>";
 echo "<div id='dialog_ProdDaysProj' title='".T_("Production Days : Projects")."'>";
 echo "<p>".T_("days spent on projects")."</p>";
 echo "</div>";
+
+echo "<div id='dialog_ProdDaysSTDev' title='".T_("Production Days : SuiviOp Dev")."'>";
+echo "<p>".T_("days spent on sideTasks (holidays not included, developpers only)")."</p>";
+echo "</div>";
+
+echo "<div id='dialog_ProdDaysSTManagers' title='".T_("Production Days : SuiviOp Managers")."'>";
+echo "<p>".T_("days spent on sideTasks (holidays not included, managers only)")."</p>";
+echo "</div>";
+
+echo "<div id='dialog_TotalProdDays' title='".T_("Production Days : total")."'>";
+echo "<p>".T_("number of days billed")."</p>";
+echo "<p><strong>".T_("Formula").":</strong><br>";
+echo "projects + sideTasks (dev + manager)</p>";
+echo "</div>";
+
+echo "<div id='dialog_EfficiencyRate' title='".T_("Efficiency Rate")."'>";
+echo "<p>".T_("Development workload (developpers only)")."</p>";
+echo "<p><strong>".T_("Formula").":</strong><br>";
+echo "ProjProdDays / TotalProdDays * 100</p>";
+echo "</div>";
+
+echo "<div id='dialog_SystemAvailability' title='".T_("System Availability")."'>";
+echo "<p>".T_("Platform Availability")."</p>";
+echo "<p><strong>".T_("Formula").":</strong><br>";
+echo "100 - ((breakdownDays / prodDays)*100)</p>";
+echo "</div>";
+
+
 
 ?>
 
@@ -223,57 +267,49 @@ function displayRates ($timeTracking) {
   echo "<tr>\n";
   echo "<th>".T_("Indicator")."</th>\n";
   echo "<th>".T_("Value")."</th>\n";
-  echo "<th>".T_("Description")."</th>\n";
-  echo "<th>".T_("Formula")."</th>\n";
+  echo "<th></th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Production Days : Projects")."</td>\n";
   echo "<td>$prodDays</td>\n";
-  echo "<td>".T_("days spent on projects")."</td>\n";
   echo "<td><a id='dialog_ProdDaysProj_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Production Days : SuiviOp Dev")."</td>\n";
   echo "<td>$sideProdDaysDevel</td>\n";
-  echo "<td>".T_("days spent on sideTasks (holidays not included, developpers only)")."</td>\n";
-  echo "<td></td>\n";
+  echo "<td><a id='dialog_ProdDaysSTDev_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Production Days : SuiviOp Managers")."</td>\n";
   echo "<td>$sideProdDaysManagers</td>\n";
-  echo "<td>".T_("days spent on sideTasks (holidays not included, managers only)")."</td>\n";
-  echo "<td></td>\n";
+  echo "<td><a id='dialog_ProdDaysSTManagers_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Production Days : total")."</td>\n";
   echo "<td>".($sideProdDaysDevel + $sideProdDaysManagers + $prodDays)."</td>\n";
-  echo "<td>".T_("number of days billed")."</td>\n";
-  echo "<td></td>\n";
+  echo "<td><a id='dialog_TotalProdDays_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Available Workload")."</td>\n";
   echo "<td>".$productionDaysForecast."</td>\n";
-  echo "<td>".T_("Workload Forecasting (holidays & externalTasks not included, developpers only)")."</td>\n";
   echo "<td><a id='dialog_AvailWorkload_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Efficiency Rate")."</td>\n";
   echo "<td>".number_format($efficiencyRate, 2)."%</td>\n";
-  echo "<td>".T_("Development workload (developpers only)")."</td>\n";
-  echo "<td>ProjProdDays / TotalProdDays * 100</td>\n";
+  echo "<td><a id='dialog_EfficiencyRate_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("System Availability")."</td>\n";
   echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
-  echo "<td>".T_("Platform Availability")."</td>\n";
-  echo "<td>100 - ((breakdownDays / prodDays)*100)</td>\n";
+  echo "<td><a id='dialog_SystemAvailability_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
 /* productivityRate is not an 'efficient' indicator because it depends on the EffortEstim
