@@ -347,7 +347,9 @@ function displayRates ($timeTracking) {
 
   echo "<div class=\"float\">\n";
   //$graphURL = getServerRootURL()."/graphs/pie_graph.php";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?title=Production Days&colors=#0000FF:#FFA500:#FF4500&legends=Projects (%d):SideTasks Dev (%d):SideTasks Managers (%d)&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=Production Days&colors=#0000FF:#FFA500:#FF4500&legends=Projects (%d):SideTasks Dev (%d):SideTasks Managers (%d)&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+  $title = T_("Production Days");
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
   $graphURL = SmartUrlEncode($graphURL);
   echo "<img src='$graphURL'/>";
   echo "</div>\n";
@@ -541,6 +543,7 @@ function displayWorkingDaysPerJob($timeTracking, $teamid) {
      $jobList += $jl;
   }
 
+  echo "<div class=\"float\">\n";
   echo "<table width='300'>\n";
   echo "<caption>".T_("Load per Job")."</caption>\n";
   echo "<tr>\n";
@@ -549,16 +552,38 @@ function displayWorkingDaysPerJob($timeTracking, $teamid) {
   echo "</tr>\n";
 
   foreach ($jobList as $id => $jname) {
-    echo "<tr>\n";
-    echo "<td>$jname</td>\n";
-    echo "<td>".$timeTracking->getWorkingDaysPerJob($id)."</td>\n";
-    echo "</tr>\n";
+    if (Jobs::JOB_NA != $id) {
+
+       $nbDays = $timeTracking->getWorkingDaysPerJob($id);
+
+       echo "<tr>\n";
+       echo "<td>$jname</td>\n";
+       echo "<td>".$nbDays."</td>\n";
+       echo "</tr>\n";
+
+       if (0 != $nbDays) {
+          if (NULL != $formatedValues) { $formatedValues .= ":"; $formatedLegends .= ":"; }
+          $formatedValues .= "$nbDays";
+          $formatedLegends .= "$jname";
+       }
+    }
   }
   echo "</table>\n";
+  echo "</div>\n";
+
+  echo "<div class=\"float\">\n";
+  //$graphURL = getServerRootURL()."/graphs/pie_graph.php";
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Job")."&legends=$formatedLegends&values=$formatedValues";
+  $graphURL = SmartUrlEncode($graphURL);
+  echo "<img src='$graphURL'/>";
+  echo "</div>\n";
+
 }
 
 // -----------------------------------------------
 function displayWorkingDaysPerProject($timeTracking) {
+  echo "<div class=\"float\">\n";
+
   echo "<table width='300'>\n";
   echo "<caption>".T_("Load per Project")."</caption>\n";
   echo "<tr>\n";
@@ -575,15 +600,31 @@ function displayWorkingDaysPerProject($timeTracking) {
   $result    = mysql_query($query) or die("Query failed: $query");
   while($row = mysql_fetch_object($result))
   {
+     $nbDays = $timeTracking->getWorkingDaysPerProject($row->id);
     echo "<tr>\n";
     echo "<td>";
     echo "$row->name\n";
-    if (isset($_GET['debug'])) { echo " (".$row->id.")"; }
     echo "</td>\n";
-    echo "<td>".$timeTracking->getWorkingDaysPerProject($row->id)."</td>\n";
+    echo "<td>".$nbDays."</td>\n";
     echo "</tr>\n";
+
+    if (0 != $nbDays) {
+       if (NULL != $formatedValues) {
+          $formatedValues .= ":"; $formatedLegends .= ":";
+       }
+       $formatedValues .= $nbDays;
+       $formatedLegends .= $row->name;
+    }
+
   }
   echo "</table>\n";
+  echo "</div>\n";
+
+  echo "<div class=\"float\">\n";
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Project")."&legends=$formatedLegends&values=$formatedValues";
+  $graphURL = SmartUrlEncode($graphURL);
+  echo "<img src='$graphURL'/>";
+  echo "</div>\n";
 }
 
 // -----------------------------------------------
@@ -623,6 +664,7 @@ function displaySideTasksProjectDetails($timeTracking) {
 
   $formatedBugList = "";
 
+  echo "<div class=\"float\">\n";
   echo "<table width='300'>\n";
   echo "<caption title='".T_("Projects").": $formatedProjList'>".T_("Project Management Detail")."</caption>\n";
   echo "<tr>\n";
@@ -641,6 +683,7 @@ function displaySideTasksProjectDetails($timeTracking) {
     echo "</tr>\n";
   }
   echo "</table>\n";
+  echo "</div>\n";
 }
 
 // -----------------------------------------------
@@ -662,6 +705,8 @@ function displayProjectDetails($timeTracking, $projectId) {
   }
 
   $proj = ProjectCache::getInstance()->getProject($projectId);
+
+  echo "<div class=\"float\">\n";
   echo "<table width='300'>\n";
   //echo "<caption>".T_("Project Detail")." ".$proj->name."</caption>\n";
   echo "<tr>\n";
@@ -678,8 +723,25 @@ function displayProjectDetails($timeTracking, $projectId) {
     echo "<td>$duration</td>\n";
     echo "<td>".$formatedBugsPerCategory[$catName]."</td>\n";
     echo "</tr>\n";
+
+    if (0 != $duration) {
+       if (NULL != $formatedValues) {
+          $formatedValues .= ":"; $formatedLegends .= ":";
+       }
+       $formatedValues .= $duration;
+       $formatedLegends .= $catName;
+    }
+
   }
   echo "</table>\n";
+  echo "</div>\n";
+
+  echo "<div class=\"float\">\n";
+  $title = $proj->name." ".T_("Categories");
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&legends=$formatedLegends&values=$formatedValues";
+  $graphURL = SmartUrlEncode($graphURL);
+  echo "<img src='$graphURL'/>";
+  echo "</div>\n";
 }
 
 // -----------------------------------------------
@@ -805,26 +867,23 @@ if (0 == count($teamList)) {
 		echo "du ".date("Y-m-d  (H:i)", $startTimestamp)."&nbsp;<br/>";
 		echo "au ".date("Y-m-d  (H:i)", $endTimestamp)."<br/><br/>\n";
 
-		// Display on 3 columns
-		echo "<div class=\"float\">\n";
 		displayWorkingDaysPerJob($timeTracking, $teamid);
-		echo "</div>\n";
 
-		echo "<div class=\"float\">\n";
+		echo "<div class=\"spacer\"> </div>\n";
+
 		displayWorkingDaysPerProject($timeTracking);
-		echo "</div>\n";
 
-		echo "<div class=\"float\">\n";
+		echo "<div class=\"spacer\"> </div>\n";
+
 		displaySideTasksProjectDetails($timeTracking);
-		echo "</div>\n";
 
-	   echo "<div class=\"float\">\n";
+		echo "<div class=\"spacer\"> </div>\n";
+		echo "<br>";
 	   setProjectSelectionForm($teamid, $defaultProjectid);
 	   $defaultProjectid  = $_POST['projectid'];
 	   if (0 != $defaultProjectid) {
 	      displayProjectDetails($timeTracking, $defaultProjectid);
 	   }
-	   echo "</div>\n";
 
 		echo "<div class=\"spacer\"> </div>\n";
 

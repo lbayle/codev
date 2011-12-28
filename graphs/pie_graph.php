@@ -44,8 +44,9 @@
 require_once ('jpgraph.php');
 require_once ('jpgraph_pie.php');
 
-$title = isset($_GET['title']) ? $_GET['title'] : NULL;
-$colors = isset($_GET['colors']) ? $_GET['colors'] : NULL;
+$title   = isset($_GET['title']) ? $_GET['title'] : NULL;
+$size    = isset($_GET['size']) ? $_GET['size'] : "300:200";
+$colors  = isset($_GET['colors']) ? $_GET['colors'] : NULL;
 $legends = isset($_GET['legends']) ? $_GET['legends'] : NULL;
 
 if (isset($_GET['values'])) {
@@ -53,12 +54,15 @@ if (isset($_GET['values'])) {
    $data = explode(':', $values);
    $logger->debug("values = <$values>");
 } else {
-   $logger->error("no values ! (using default values)");
-   $data = array(3,1,6);
+   $logger->error("no values !");
+   $data = array(0,0);
 }
 
+$aSize = explode(':', $size);
+$logger->debug("width = ".$aSize[0].", heigh = ".$aSize[1]);
 
-$graph = new PieGraph(500,200);
+
+$graph = new PieGraph($aSize[0],$aSize[1]);
 $graph->SetShadow();
 
 if (NULL != $title) {
