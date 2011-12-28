@@ -341,6 +341,15 @@ function displayRates ($timeTracking) {
   //echo "<br/>SideTasks<br/>";
   //echo "Nb Production Days  : $sideProdDays<br/>";
   //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
+
+  echo "<br>\n";
+  echo "<br>\n";
+  //$graphURL = getServerRootURL()."/graphs/pie_graph.php";
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?title=Production Days&colors=blue:orange:orangered&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+  $graphURL = SmartUrlEncode($graphURL);
+  echo "<img src='$graphURL'/>";
+
+
 }
 
 
