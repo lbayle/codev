@@ -46,6 +46,7 @@ require_once ('jpgraph_pie.php');
 
 $title = isset($_GET['title']) ? $_GET['title'] : NULL;
 $colors = isset($_GET['colors']) ? $_GET['colors'] : NULL;
+$legends = isset($_GET['legends']) ? $_GET['legends'] : NULL;
 
 if (isset($_GET['values'])) {
    $values = $_GET['values'];
@@ -57,7 +58,7 @@ if (isset($_GET['values'])) {
 }
 
 
-$graph = new PieGraph(300,200);
+$graph = new PieGraph(500,200);
 $graph->SetShadow();
 
 if (NULL != $title) {
@@ -67,11 +68,20 @@ if (NULL != $title) {
 
 $p1 = new PiePlot($data);
 $p1->SetLabelType(PIE_VALUE_ADJPERCENTAGE);
+$p1->ExplodeAll(5);
+$p1->SetShadow();
 
 if (NULL != $colors) {
-   $logger->debug("colors = <$colors>");
    $aColors = explode(':', $colors);
-   $p1->SetSliceColors(colors);
+   $logger->debug(count($aColors)." colors: = <$colors>");
+   $p1->SetSliceColors($aColors);
+}
+
+if (NULL != $legends) {
+   #$legends = "April (%d):May (%d):June (%d)";
+   $aLegends = explode(':', $legends);
+   $logger->debug(count($aLegends)." legends: = <$legends>");
+   $p1->SetLegends($aLegends);
 }
 
 $graph->Add($p1);

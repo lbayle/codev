@@ -261,6 +261,7 @@ function displayRates ($timeTracking) {
 
 
 
+  echo "<div class=\"float\">\n";
 
   echo "<table>\n";
   echo "<caption>".T_("Productivity indicators")."</caption>\n";
@@ -337,18 +338,19 @@ function displayRates ($timeTracking) {
   echo "</tr>\n";
 */
   echo "</table>\n";
+  echo "</div>\n";
+
 
   //echo "<br/>SideTasks<br/>";
   //echo "Nb Production Days  : $sideProdDays<br/>";
   //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
 
-  echo "<br>\n";
-  echo "<br>\n";
+  echo "<div class=\"float\">\n";
   //$graphURL = getServerRootURL()."/graphs/pie_graph.php";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?title=Production Days&colors=blue:orange:orangered&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?title=Production Days&colors=#0000FF:#FFA500:#FF4500&legends=Projects (%d):SideTasks Dev (%d):SideTasks Managers (%d)&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
   $graphURL = SmartUrlEncode($graphURL);
   echo "<img src='$graphURL'/>";
-
+  echo "</div>\n";
 
 }
 
@@ -828,6 +830,8 @@ if (0 == count($teamList)) {
 
 		echo "<br/><br/>\n";
 		displayRates($timeTracking);
+
+		echo "<div class=\"spacer\"> </div>\n";
 
 		echo "<br/><br/>\n";
 	   displayTimeDriftStats ($timeTracking);
