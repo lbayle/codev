@@ -129,6 +129,7 @@ echo "</div>";
 include_once "period_stats.class.php";
 include_once "team.class.php";
 include_once "project.class.php";
+include_once "jobs.class.php";
 
 include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
@@ -346,10 +347,10 @@ function displayRates ($timeTracking) {
   //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
 
   echo "<div class=\"float\">\n";
-  //$graphURL = getServerRootURL()."/graphs/pie_graph.php";
-  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=Production Days&colors=#0000FF:#FFA500:#FF4500&legends=Projects (%d):SideTasks Dev (%d):SideTasks Managers (%d)&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
   $title = T_("Production Days");
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+  $formatedColors = "#92C5FC:#FFF494:#FFCD85";
+  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=$formatedColors&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
   $graphURL = SmartUrlEncode($graphURL);
   echo "<img src='$graphURL'/>";
   echo "</div>\n";
@@ -533,6 +534,8 @@ function displayCurrentDriftStats ($timeTracking) {
 // --------------------------------
 function displayWorkingDaysPerJob($timeTracking, $teamid) {
 
+   $jobs = new Jobs();
+
   // find out which jobs must be displayed
   $projList = Team::getProjectList($teamid);
   $jobList  = array();
@@ -562,9 +565,10 @@ function displayWorkingDaysPerJob($timeTracking, $teamid) {
        echo "</tr>\n";
 
        if (0 != $nbDays) {
-          if (NULL != $formatedValues) { $formatedValues .= ":"; $formatedLegends .= ":"; }
+          if (NULL != $formatedValues) { $formatedValues .= ":"; $formatedLegends .= ":"; $formatedColors .= ":"; }
           $formatedValues .= "$nbDays";
           $formatedLegends .= "$jname";
+          $formatedColors .= "#".$jobs->getJobColor($id);
        }
     }
   }
@@ -573,7 +577,7 @@ function displayWorkingDaysPerJob($timeTracking, $teamid) {
 
   echo "<div class=\"float\">\n";
   //$graphURL = getServerRootURL()."/graphs/pie_graph.php";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Job")."&legends=$formatedLegends&values=$formatedValues";
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Job")."&legends=$formatedLegends&values=$formatedValues&colors=$formatedColors";
   $graphURL = SmartUrlEncode($graphURL);
   echo "<img src='$graphURL'/>";
   echo "</div>\n";
@@ -868,16 +872,19 @@ if (0 == count($teamList)) {
 		echo "au ".date("Y-m-d  (H:i)", $endTimestamp)."<br/><br/>\n";
 
 		displayWorkingDaysPerJob($timeTracking, $teamid);
-
 		echo "<div class=\"spacer\"> </div>\n";
+		echo "<hr width='80%'/>\n";
 
 		displayWorkingDaysPerProject($timeTracking);
 
 		echo "<div class=\"spacer\"> </div>\n";
+		echo "<hr width='80%'/>\n";
 
 		displaySideTasksProjectDetails($timeTracking);
 
 		echo "<div class=\"spacer\"> </div>\n";
+		echo "<hr width='80%'/>\n";
+
 		echo "<br>";
 	   setProjectSelectionForm($teamid, $defaultProjectid);
 	   $defaultProjectid  = $_POST['projectid'];

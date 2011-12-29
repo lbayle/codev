@@ -46,7 +46,7 @@ require_once ('jpgraph_pie.php');
 
 $title   = isset($_GET['title']) ? $_GET['title'] : NULL;
 $size    = isset($_GET['size']) ? $_GET['size'] : "300:200";
-$colors  = isset($_GET['colors']) ? $_GET['colors'] : NULL;
+$colors  = isset($_GET['colors']) ? $_GET['colors'] : "";
 $legends = isset($_GET['legends']) ? $_GET['legends'] : NULL;
 
 if (isset($_GET['values'])) {
@@ -63,22 +63,29 @@ $logger->debug("width = ".$aSize[0].", heigh = ".$aSize[1]);
 
 
 $graph = new PieGraph($aSize[0],$aSize[1]);
-$graph->SetShadow();
+$graph->ClearTheme();
+
+#$graph->SetShadow();
 
 if (NULL != $title) {
    $graph->title->Set($title);
+   $logger->debug("title = <$title>");
 }
 
 
 $p1 = new PiePlot($data);
+$graph->Add($p1);
+
+
 $p1->SetLabelType(PIE_VALUE_ADJPERCENTAGE);
 $p1->ExplodeAll(5);
 $p1->SetShadow();
 
-if (NULL != $colors) {
+if ("" != $colors) {
    $aColors = explode(':', $colors);
-   $logger->debug(count($aColors)." colors: = <$colors>");
    $p1->SetSliceColors($aColors);
+   #$p1->SetSliceColors(array('orange','green','blue'));
+   $logger->debug(count($aColors)." colors: = <$colors>");
 }
 
 if (NULL != $legends) {
@@ -88,6 +95,17 @@ if (NULL != $legends) {
    $p1->SetLegends($aLegends);
 }
 
-$graph->Add($p1);
+// Enable and set policy for guide-lines. Make labels line up vertically
+#$graph->legend->Pos(0.1,0.2);
+#$p1->SetLabelPos(0.6);
+$p1->SetGuideLines(true,false);
+$p1->SetGuideLinesAdjust(1.5);
+
+// Setup the labels
+$p1->SetLabelType(PIE_VALUE_ADJPER);
+$p1->value->Show();
+$p1->value->SetFormat('%2.1f%%');
+
+
 $graph->Stroke();
 ?>
