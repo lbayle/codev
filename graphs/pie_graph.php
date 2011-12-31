@@ -63,7 +63,7 @@ $logger->debug("width = ".$aSize[0].", heigh = ".$aSize[1]);
 
 
 $graph = new PieGraph($aSize[0],$aSize[1]);
-$graph->ClearTheme();
+#$graph->ClearTheme();
 
 #$graph->SetShadow();
 
@@ -93,10 +93,11 @@ if (NULL != $legends) {
    $aLegends = explode(':', $legends);
    $logger->debug(count($aLegends)." legends: = <$legends>");
    $p1->SetLegends($aLegends);
+   $graph->legend->Pos(0.2,0.1,'right','top');
+   $graph->legend->SetColumns(1);
 }
 
 // Enable and set policy for guide-lines. Make labels line up vertically
-#$graph->legend->Pos(0.1,0.2);
 #$p1->SetLabelPos(0.6);
 $p1->SetGuideLines(true,false);
 $p1->SetGuideLinesAdjust(1.5);
@@ -106,6 +107,10 @@ $p1->SetLabelType(PIE_VALUE_ADJPER);
 $p1->value->Show();
 $p1->value->SetFormat('%2.1f%%');
 
+// move piePlot to the Left of the image
+$p1->SetCenter(0.2,0.5);
+
+#$p1->SetSize(0.25);
 
 $graph->Stroke();
 ?>
