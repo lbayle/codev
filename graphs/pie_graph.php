@@ -105,7 +105,8 @@ $p1->SetGuideLinesAdjust(1.5);
 // Setup the labels
 $p1->SetLabelType(PIE_VALUE_ADJPER);
 $p1->value->Show();
-$p1->value->SetFormat('%2.1f%%');
+#$p1->value->SetFormat('%2.1f%%');
+$p1->value->SetFormat('%2d%%');
 
 // move piePlot to the Left of the image
 $p1->SetCenter(0.2,0.5);

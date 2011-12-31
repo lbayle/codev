@@ -224,7 +224,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
        }
    echo "<span class='caption_font'>".T_("Project Detail")." </span>\n";
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
-   echo "<option value='0'> </option>\n";
+   echo "<option value='0'>".T_("All sideTasks Projects")."</option>\n";
    foreach ($projList as $pid => $pname)
    {
       if ($pid == $defaultProjectid) {
@@ -247,54 +247,88 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
 
 
 // -----------------------------------------------
-function displayRates ($timeTracking) {
+function displayProductionDays ($timeTracking) {
 
   $prodDays                = $timeTracking->getProdDays();
   $sideProdDaysDevel       = $timeTracking->getProdDaysSideTasks(true);
   $sideProdDaysManagers    = $timeTracking->getProdDaysSideTasks(false) - $sideProdDaysDevel;
-//  $productivityRateETA     = $timeTracking->getProductivityRate("ETA");
-//  $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
-  $efficiencyRate          = $timeTracking->getEfficiencyRate();
-  $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
-  $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
-//  $prodRateNoSupportETA    = $timeTracking->getProductivityRateNoSupport("ETA");
-//  $prodRateNoSupportBI     = $timeTracking->getProductivityRateNoSupport("EffortEstim");
-
-
 
   echo "<div class=\"float\">\n";
 
   echo "<table>\n";
-  echo "<caption>".T_("Productivity indicators")."</caption>\n";
+  echo "<caption>".T_("Production Days")."</caption>\n";
   echo "<tr>\n";
   echo "<th>".T_("Indicator")."</th>\n";
-  echo "<th>".T_("Value")."</th>\n";
+  echo "<th>".T_("Nb Days")."</th>\n";
   echo "<th></th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Production Days : Projects")."</td>\n";
+  echo "<td>".T_("Projects")."</td>\n";
   echo "<td>$prodDays</td>\n";
   echo "<td><a id='dialog_ProdDaysProj_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Production Days : SuiviOp Dev")."</td>\n";
+  echo "<td>".T_("SideTasks (Developers only)")."</td>\n";
   echo "<td>$sideProdDaysDevel</td>\n";
   echo "<td><a id='dialog_ProdDaysSTDev_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Production Days : SuiviOp Managers")."</td>\n";
+  echo "<td>".T_("SideTasks (Managers only)")."</td>\n";
   echo "<td>$sideProdDaysManagers</td>\n";
   echo "<td><a id='dialog_ProdDaysSTManagers_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Production Days : total")."</td>\n";
+  echo "<td>".T_("Total Production Days")."</td>\n";
   echo "<td>".($sideProdDaysDevel + $sideProdDaysManagers + $prodDays)."</td>\n";
   echo "<td><a id='dialog_TotalProdDays_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
+
+  echo "</table>\n";
+  echo "</div>\n";
+
+
+  //echo "<br/>SideTasks<br/>";
+  //echo "Nb Production Days  : $sideProdDays<br/>";
+  //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
+
+  echo "<div class=\"float\">\n";
+  $title = T_("Production Days");
+  $formatedColors = "#92C5FC:#FFF494:#FFCD85";
+  $formatedLegends = T_("Projects").":".T_("SideTasks Dev").":".T_("SideTasks Managers");
+  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&colors=$formatedColors&legends=$formatedLegends&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+  $graphURL = SmartUrlEncode($graphURL);
+  echo "<img src='$graphURL'/>";
+  echo "</div>\n";
+
+}
+
+// -----------------------------------------------
+function displayRates ($timeTracking) {
+
+   //  $productivityRateETA     = $timeTracking->getProductivityRate("ETA");
+   //  $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
+   $efficiencyRate          = $timeTracking->getEfficiencyRate();
+   $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
+   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
+   //  $prodRateNoSupportETA    = $timeTracking->getProductivityRateNoSupport("ETA");
+   //  $prodRateNoSupportBI     = $timeTracking->getProductivityRateNoSupport("EffortEstim");
+
+
+
+   echo "<div class=\"float\">\n";
+
+   echo "<table>\n";
+   echo "<caption>".T_("Productivity indicators")."</caption>\n";
+   echo "<tr>\n";
+   echo "<th>".T_("Indicator")."</th>\n";
+   echo "<th>".T_("Value")."</th>\n";
+   echo "<th></th>\n";
+   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Available Workload")."</td>\n";
@@ -314,47 +348,37 @@ function displayRates ($timeTracking) {
   echo "<td><a id='dialog_SystemAvailability_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
-/* productivityRate is not an 'efficient' indicator because it depends on the EffortEstim
- * which is not a very credible value. It is also hard to understand and the value does not
- * fluctuate much. so let's get rid of it !
+   /* productivityRate is not an 'efficient' indicator because it depends on the EffortEstim
+   * which is not a very credible value. It is also hard to understand and the value does not
+   * fluctuate much. so let's get rid of it !
 
-  echo "<tr>\n";
-  echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod. Rate PrelEffortEstim")."</td>\n";
-  echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
-  echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
-            T_("- A number below 1 means a lesser efficiency.")."<br/>".
-            T_("- Time spent on a task is balanced by a toughness indicator")."<br/>".
-            T_("- Computed on task Resolved/Closed in the given period")."<br/>".
-            T_("- Reopened tasks are not taken into account")."</td>\n";
-  echo "<td>sum(PrelEffortEstim) / sum(elapsed)</td>\n";
-  echo "</tr>\n";
-  echo "<tr>\n";
-  echo "<td title='".T_("AFTER analysis")."'>".T_("Productivity Rate")."</td>\n";
-  echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
-  echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
-            T_("- A number below 1 means a lesser efficiency.")."<br/>".
-            T_("- Computed on task Resolved/Closed in the given period")."<br/>".
-            T_("- Reopened tasks are not taken into account")."</td>\n";
-  echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
-  echo "</tr>\n";
-*/
-  echo "</table>\n";
-  echo "</div>\n";
+   echo "<tr>\n";
+   echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod. Rate PrelEffortEstim")."</td>\n";
+   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
+   echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
+   T_("- A number below 1 means a lesser efficiency.")."<br/>".
+   T_("- Time spent on a task is balanced by a toughness indicator")."<br/>".
+   T_("- Computed on task Resolved/Closed in the given period")."<br/>".
+   T_("- Reopened tasks are not taken into account")."</td>\n";
+   echo "<td>sum(PrelEffortEstim) / sum(elapsed)</td>\n";
+   echo "</tr>\n";
+   echo "<tr>\n";
+   echo "<td title='".T_("AFTER analysis")."'>".T_("Productivity Rate")."</td>\n";
+   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
+   echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
+   T_("- A number below 1 means a lesser efficiency.")."<br/>".
+   T_("- Computed on task Resolved/Closed in the given period")."<br/>".
+   T_("- Reopened tasks are not taken into account")."</td>\n";
+   echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
+   echo "</tr>\n";
+   */
+   echo "</table>\n";
+   echo "</div>\n";
 
 
   //echo "<br/>SideTasks<br/>";
-  //echo "Nb Production Days  : $sideProdDays<br/>";
-  //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
-
-  echo "<div class=\"float\">\n";
-  $title = T_("Production Days");
-  $formatedColors = "#92C5FC:#FFF494:#FFCD85";
-  $formatedLegends = T_("Projects").":".T_("SideTasks Dev").":".T_("SideTasks Managers");
-  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&colors=$formatedColors&legends=$formatedLegends&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
-  $graphURL = SmartUrlEncode($graphURL);
-  echo "<img src='$graphURL'/>";
-  echo "</div>\n";
+   //echo "Nb Production Days  : $sideProdDays<br/>";
+   //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
 
 }
 
@@ -676,7 +700,7 @@ function displaySideTasksProjectDetails($timeTracking) {
 
   echo "<div class=\"float\">\n";
   echo "<table width='300'>\n";
-  echo "<caption title='".T_("Projects").": $formatedProjList'>".T_("Project Management Detail")."</caption>\n";
+#  echo "<caption title='".T_("Projects").": $formatedProjList'>".T_("Project Management Detail")."</caption>\n";
   echo "<tr>\n";
   echo "<th>".T_("Category")."</th>\n";
   echo "<th>".T_("Nb Days")."</th>\n";
@@ -691,9 +715,25 @@ function displaySideTasksProjectDetails($timeTracking) {
     echo "<td>$duration</td>\n";
     echo "<td>".$formatedBugsPerCategory[$catName]."</td>\n";
     echo "</tr>\n";
+
+      if (0 != $duration) {
+       if (NULL != $formatedValues) {
+          $formatedValues .= ":"; $formatedLegends .= ":";
+       }
+       $formatedValues .= $duration;
+       $formatedLegends .= $catName;
+    }
   }
   echo "</table>\n";
   echo "</div>\n";
+
+  echo "<div class=\"float\">\n";
+  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Project")."&legends=$formatedLegends&values=$formatedValues";
+  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
+  $graphURL = SmartUrlEncode($graphURL);
+  echo "<img src='$graphURL'/>";
+  echo "</div>\n";
+
 }
 
 // -----------------------------------------------
@@ -702,7 +742,7 @@ function displayProjectDetails($timeTracking, $projectId) {
   $durationPerCategory = array();
   $formatedBugsPerCategory = array();
 
-  $durPerCat = $timeTracking->getProjectDetails($projectId);
+         $durPerCat = $timeTracking->getProjectDetails($projectId);
   foreach ($durPerCat as $catName => $bugList)
   {
       foreach ($bugList as $bugid => $duration) {
@@ -894,7 +934,7 @@ if (0 == count($teamList)) {
 		echo "<hr width='100%'/>\n";
 		echo "<br>";
 		echo "<br>";
-
+/*
 		displaySideTasksProjectDetails($timeTracking);
 
 		echo "<div class=\"spacer\"> </div>\n";
@@ -903,11 +943,14 @@ if (0 == count($teamList)) {
 		echo "<hr width='100%'/>\n";
 		echo "<br>";
 		echo "<br>";
-
+*/
 	   setProjectSelectionForm($teamid, $defaultProjectid);
 	   $defaultProjectid  = $_POST['projectid'];
 	   if (0 != $defaultProjectid) {
 	      displayProjectDetails($timeTracking, $defaultProjectid);
+	   } else {
+	      // all sideTasks
+	      displaySideTasksProjectDetails($timeTracking);
 	   }
 
 		echo "<div class=\"spacer\"> </div>\n";
@@ -917,7 +960,15 @@ if (0 == count($teamList)) {
 		echo "<br>";
 		echo "<br>";
 
-		echo "<br/><br/>\n";
+		displayProductionDays($timeTracking);
+
+		echo "<div class=\"spacer\"> </div>\n";
+		echo "<br>";
+		echo "<br>";
+		echo "<hr width='100%'/>\n";
+		echo "<br>";
+		echo "<br>";
+
 		displayRates($timeTracking);
 
 		echo "<div class=\"spacer\"> </div>\n";
@@ -927,7 +978,6 @@ if (0 == count($teamList)) {
 		echo "<br>";
 		echo "<br>";
 
-		echo "<br/><br/>\n";
 	   displayTimeDriftStats ($timeTracking);
 
 	   echo "<br/><br/>\n";
