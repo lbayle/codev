@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+    more info here:
+    http://logging.apache.org/log4php/docs/layouts/pattern.html 
+-->
+
 <log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
     
     <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
     
     <appender name="myFileAppender" class="LoggerAppenderFile">
-                <layout class="LoggerLayoutTTCC" />
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%d{Y-m-d H:i:s} %-5p %m (%F:%L) [%X{server.REMOTE_ADDR}]%n" />
+        </layout>
         <param name="file" value="/tmp/codevtt.log" />
     </appender>
 
@@ -22,10 +30,10 @@
     </logger>
     
     <logger name="GanttManager">
-        <level value="INFO" />
+        <level value="DEBUG" />
     </logger>
     <logger name="GanttActivity">
-        <level value="INFO" />
+        <level value="DEBUG" />
     </logger>
 
     <root>
