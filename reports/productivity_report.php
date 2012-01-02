@@ -294,17 +294,19 @@ function displayProductionDays ($timeTracking) {
   //echo "<br/>SideTasks<br/>";
   //echo "Nb Production Days  : $sideProdDays<br/>";
   //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
+  $formatedValues = "$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
 
-  echo "<div class=\"float\">\n";
-  $title = T_("Production Days");
-  $formatedColors = "#92C5FC:#FFF494:#FFCD85";
-  $formatedLegends = T_("Projects").":".T_("SideTasks Dev").":".T_("SideTasks Managers");
-  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&colors=$formatedColors&legends=$formatedLegends&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
-  $graphURL = SmartUrlEncode($graphURL);
-  echo "<img src='$graphURL'/>";
-  echo "</div>\n";
-
+  if (0 != $prodDays + $sideProdDaysDevel + $sideProdDaysManagers) {
+     echo "<div class=\"float\">\n";
+     $title = T_("Production Days");
+     $formatedColors = "#92C5FC:#FFF494:#FFCD85";
+     $formatedLegends = T_("Projects").":".T_("SideTasks Dev").":".T_("SideTasks Managers");
+     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
+     $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&colors=$formatedColors&legends=$formatedLegends&values=$formatedValues";
+     $graphURL = SmartUrlEncode($graphURL);
+     echo "<img src='$graphURL'/>";
+     echo "</div>\n";
+  }
 }
 
 // -----------------------------------------------
@@ -603,14 +605,15 @@ function displayWorkingDaysPerJob($timeTracking, $teamid) {
   echo "</table>\n";
   echo "</div>\n";
 
-  echo "<div class=\"float\">\n";
-  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&title=".T_("Load per Job")."&legends=$formatedLegends&values=$formatedValues&colors=$formatedColors";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues&colors=$formatedColors";
-  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:180&values=$formatedValues&colors=$formatedColors";
-  $graphURL = SmartUrlEncode($graphURL);
-  echo "<img src='$graphURL'/>";
-  echo "</div>\n";
-
+  if (NULL != $formatedValues) {
+     echo "<div class=\"float\">\n";
+     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&title=".T_("Load per Job")."&legends=$formatedLegends&values=$formatedValues&colors=$formatedColors";
+     $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues&colors=$formatedColors";
+     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:180&values=$formatedValues&colors=$formatedColors";
+     $graphURL = SmartUrlEncode($graphURL);
+     echo "<img src='$graphURL'/>";
+     echo "</div>\n";
+  }
 }
 
 // -----------------------------------------------
@@ -653,12 +656,14 @@ function displayWorkingDaysPerProject($timeTracking) {
   echo "</table>\n";
   echo "</div>\n";
 
-  echo "<div class=\"float\">\n";
-  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Project")."&legends=$formatedLegends&values=$formatedValues";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
-  $graphURL = SmartUrlEncode($graphURL);
-  echo "<img src='$graphURL'/>";
-  echo "</div>\n";
+  if (NULL != $formatedValues) {
+     echo "<div class=\"float\">\n";
+     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Project")."&legends=$formatedLegends&values=$formatedValues";
+     $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
+     $graphURL = SmartUrlEncode($graphURL);
+     echo "<img src='$graphURL'/>";
+     echo "</div>\n";
+  }
 }
 
 // -----------------------------------------------
@@ -727,13 +732,14 @@ function displaySideTasksProjectDetails($timeTracking) {
   echo "</table>\n";
   echo "</div>\n";
 
-  echo "<div class=\"float\">\n";
-  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Project")."&legends=$formatedLegends&values=$formatedValues";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
-  $graphURL = SmartUrlEncode($graphURL);
-  echo "<img src='$graphURL'/>";
-  echo "</div>\n";
-
+  if (NULL != $formatedValues) {
+     echo "<div class=\"float\">\n";
+     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Project")."&legends=$formatedLegends&values=$formatedValues";
+     $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
+     $graphURL = SmartUrlEncode($graphURL);
+     echo "<img src='$graphURL'/>";
+     echo "</div>\n";
+  }
 }
 
 // -----------------------------------------------
@@ -786,13 +792,15 @@ function displayProjectDetails($timeTracking, $projectId) {
   echo "</table>\n";
   echo "</div>\n";
 
-  echo "<div class=\"float\">\n";
-  $title = $proj->name." ".T_("Categories");
-  #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&title=$title&legends=$formatedLegends&values=$formatedValues";
-  $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
-  $graphURL = SmartUrlEncode($graphURL);
-  echo "<img src='$graphURL'/>";
-  echo "</div>\n";
+  if (NULL != $formatedValues) {
+     echo "<div class=\"float\">\n";
+     $title = $proj->name." ".T_("Categories");
+     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&title=$title&legends=$formatedLegends&values=$formatedValues";
+     $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
+     $graphURL = SmartUrlEncode($graphURL);
+     echo "<img src='$graphURL'/>";
+     echo "</div>\n";
+  }
 }
 
 // -----------------------------------------------
@@ -934,17 +942,8 @@ if (0 == count($teamList)) {
 		echo "<hr width='100%'/>\n";
 		echo "<br>";
 		echo "<br>";
-/*
-		displaySideTasksProjectDetails($timeTracking);
 
-		echo "<div class=\"spacer\"> </div>\n";
-		echo "<br>";
-		echo "<br>";
-		echo "<hr width='100%'/>\n";
-		echo "<br>";
-		echo "<br>";
-*/
-	   setProjectSelectionForm($teamid, $defaultProjectid);
+		setProjectSelectionForm($teamid, $defaultProjectid);
 	   $defaultProjectid  = $_POST['projectid'];
 	   if (0 != $defaultProjectid) {
 	      displayProjectDetails($timeTracking, $defaultProjectid);
