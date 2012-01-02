@@ -957,63 +957,63 @@ class Issue {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($this->bugId, $BconstrainsList)) {
       	// B constrains A
-         $this->logger->debug("compareTo $this->bugId < $issueB->bugId (B constrains A)");
+         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (B constrains A)");
       	return false;
       }
       if (in_array($issueB->bugId, $AconstrainsList)) {
       	// A constrains B
-         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (A constrains B)");
+         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains B)");
       	return true;
       }
 
 
       // Tasks currently open are higher priority
       if (($this->currentStatus == $status_open) && ($issueB->currentStatus != $status_open)) {
-            $this->logger->debug("compareTo $this->bugId > $issueB->bugId (status_openned)");
+            $this->logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
             return  true;
       }
       if (($issueB->currentStatus == $status_open) && ($this->currentStatus != $status_open)) {
-            $this->logger->debug("compareTo $this->bugId < $issueB->bugId (status_openned)");
+            $this->logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
             return  false;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL != $this->deadLine) && (NULL == $issueB->deadLine)) {
-         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (B no deadline)");
+         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
          return  true;
       }
       if ((NULL == $this->deadLine) && (NULL != $issueB->deadLine)) {
-         $this->logger->debug("compareTo $this->bugId < $issueB->bugId (A no deadline)");
+         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
          return  false;
       }
 
       // the soonest deadLine has priority
       if ($this->deadLine < $issueB->deadLine) {
-         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (deadline)");
+         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
          return  true;
       }
       if ($this->deadLine > $issueB->deadLine) {
-         $this->logger->debug("compareTo $this->bugId < $issueB->bugId (deadline)");
+         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
          return  false;
       }
 
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
-         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (priority attr)");
+         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (priority attr)");
          return  true;
       }
       if ($this->priority < $issueB->priority) {
-         $this->logger->debug("compareTo $this->bugId < $issueB->bugId (priority attr)");
+         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (priority attr)");
          return  false;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($this->severity > $issueB->severity) {
-      	$this->logger->debug("compareTo $this->bugId > $issueB->bugId (severity attr)");
+      	$this->logger->trace("compareTo $this->bugId > $issueB->bugId (severity attr)");
       	return  true;
       }
       if ($this->severity < $issueB->severity) {
-      	$this->logger->debug("compareTo $this->bugId < $issueB->bugId (severity attr)");
+      	$this->logger->trace("compareTo $this->bugId < $issueB->bugId (severity attr)");
       	return  false;
       }
 
@@ -1021,11 +1021,11 @@ class Issue {
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
       	// A constrains more people, so A is higher priority
-         $this->logger->debug("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
+         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
       	return true;
       }
 
-      $this->logger->debug("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
+      $this->logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
       return false;
    }
 

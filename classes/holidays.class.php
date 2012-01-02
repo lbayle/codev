@@ -103,7 +103,7 @@ class Holidays {
    			return $h;
    		}
    	}
-      $this->logger->debug("Holiday NOT found  ".date("d M Y", $timestamp)."   $timestamp");
+      $this->logger->trace("No Holiday defined for on: ".date("d M Y", $timestamp)."   $timestamp");
    	return NULL;
    }
 
