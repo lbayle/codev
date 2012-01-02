@@ -53,6 +53,10 @@ class GanttActivity {
       $this->startTimestamp = $startT;
       $this->endTimestamp = $endT;
 
+      if ($startT > $endT) {
+         $this->logger->error("Activity startDate (".date('Y-m-d',$startT).") > endDate (".date('Y-m-d',$endT).")");
+      }
+
       if (NULL != $progress) {
       	$this->progress = $progress;
       } else {
@@ -63,7 +67,7 @@ class GanttActivity {
 
       $this->color = 'darkorange';
 
-      $this->logger->debug("Activity created for issue $bugId");
+      $this->logger->debug("Activity created for issue $bugId (".date('Y-m-d',$startT).") -> (".date('Y-m-d',$endT).")");
 	}
 
    // -----------------------------------------
@@ -108,6 +112,10 @@ class GanttActivity {
           $bar->SetConstrain($issueActivityMapping[$bugid], CONSTRAIN_ENDSTART);
       }
 
+      $this->logger->debug("JPGraphBar bugid=$this->bugid activityIdx=$this->activityIdx".
+                           " progress=$this->progress [".
+                           date('Y-m-d', $this->startTimestamp)." -> ".
+                           date('Y-m-d', $this->endTimestamp)."]");
       return $bar;
    }
 
@@ -128,10 +136,10 @@ class GanttActivity {
 
    	// the oldest activity should be in front of the list
    	if ($this->endTimestamp > $activityB->endTimestamp) {
-           $this->logger->debug("activity.compareTo FALSE  (".date('Y-m-d', $this->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")");
+           $this->logger->trace("activity.compareTo FALSE  (".date('Y-m-d', $this->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")");
    	   return false;
    	}
-      $this->logger->debug("activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
+      $this->logger->trace("activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
       return true;
    }
 }
@@ -456,14 +464,14 @@ class GanttManager {
 
       $resolvedIssuesList = $this->getResolvedIssues();
 
-      $this->logger->debug("getGanttGraph : dispatchResolvedIssues nbIssues=".count($resolvedIssuesList));
+      $this->logger->debug("dispatchResolvedIssues nbIssues=".count($resolvedIssuesList));
       $this->dispatchResolvedIssues($resolvedIssuesList);
 
       $currentIssuesList = $this->getCurrentIssues();
       $this->dispatchCurrentIssues($currentIssuesList);
 
 
-      $this->logger->debug("getGanttGraph : display nbUsers=".count($this->activitiesByUser));
+      $this->logger->debug("display nbUsers=".count($this->activitiesByUser));
       $mergedActivities = array();
       foreach($this->activitiesByUser as $userid => $activityList) {
          $user = UserCache::getInstance()->getUser($userid);
@@ -513,15 +521,28 @@ class GanttManager {
          // Shorten bar depending on gantt startDate
          if ((NULL != $this->startTimestamp) &&
              ($a->startTimestamp < $this->startTimestamp)) {
-            $a->startTimestamp = $this->startTimestamp + (60*60*24);
 
-            $prefixBar = new GanttBar($a->activityIdx,
-                          "",
-                          date('Y-m-d', $this->startTimestamp),
-                          date('Y-m-d', $this->startTimestamp),
-                          "",10);
-            $prefixBar->SetBreakStyle(true,'dotted',1);
-            $graph->Add($prefixBar);
+            // leave one day to insert prefixBar
+            $newStartTimestamp = $this->startTimestamp + (60*60*24);
+
+            if ($newStartTimestamp > $a->endTimestamp) {
+               // there is not enough space for a prefixBar
+               $newStartTimestamp = $this->startTimestamp;
+               $this->logger->debug("bugid=".$a->bugid.": Shorten bar to Gantt start date");
+            } else {
+               $prefixBar = new GanttBar($a->activityIdx,
+                                         "",
+                                         date('Y-m-d', $this->startTimestamp),
+                                         date('Y-m-d', $this->startTimestamp),
+                                         "",10);
+               $prefixBar->SetBreakStyle(true,'dotted',1);
+               $graph->Add($prefixBar);
+               $this->logger->debug("bugid=".$a->bugid.": Shorten bar & add prefixBar");
+
+            }
+            $this->logger->debug("bugid=".$a->bugid.": Shorten bar from ".date('Y-m-d', $a->startTimestamp).
+                                 " to ".date('Y-m-d', $newStartTimestamp));
+            $a->startTimestamp = $newStartTimestamp;
          }
 
          $bar = $a->getJPGraphBar($issueActivityMapping);
