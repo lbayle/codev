@@ -166,25 +166,67 @@ function getDurationLiteral($duration) {
 
 
 
+//// ---------------------------
+//// Function that returns the timestamp for each day in a week
+//function week_dates($week, $year)
+//{
+//   if(strftime("%W",mktime(0,0,0,01,01,$year))==1)
+//	$mon_mktime = mktime(0,0,0,01,(01+(($week-1)*7)),$year);
+//	else
+//	$mon_mktime = mktime(0,0,0,01,(01+(($week)*7)),$year);
+//
+//	if(date("w",$mon_mktime)>1)
+//	$decalage = ((date("w",$mon_mktime)-1)*60*60*24);
+//
+//	$monday = $mon_mktime - $decalage;
+//
+//	# WARNING: there is a curious bug, the minutes are not set to '0' ?!?
+//	$monday   = mktime(0, 0, 0, date("m", $monday), date("d", $monday), date("Y", $monday)); 
+//   #echo "MONDAY = ".date("Y-m-d H:m:s",$monday)."<br>";
+   
+   
+//   $week_dates = array();
+//   $week_dates[1] = $monday; // Monday
+//   $week_dates[2] = strtotime("+1 day",$monday); // Tuesday
+//   $week_dates[3] = strtotime("+2 day",$monday); // Wednesday
+//   $week_dates[4] = strtotime("+3 day",$monday); // Thursday
+//   $week_dates[5] = strtotime("+4 day",$monday); // Friday
+//   $week_dates[6] = strtotime("+5 day",$monday); // Saturday
+//   $week_dates[7] = strtotime("+6 day",$monday); // Sunday
+
+   
+//   return $week_dates;
+//}
+
+
+// ---------------------------
+// get the week starting date by giving a week number and the year. Monday first day in week
+function weekStartDate($week,$year) {
+
+   date_default_timezone_set('Europe/Paris');
+   $firstDayInYear=date("N",mktime(0,0,0,1,1,$year));
+
+   if ($firstDayInYear<5) {
+      $shift=-($firstDayInYear-1)*86400;
+   } else {
+      $shift=(8-$firstDayInYear)*86400;
+   }
+   if ($week>1) {
+      $weekInSeconds=($week-1)*604800;
+   } else {
+      $weekInSeconds=0;
+   }
+   $timestamp=mktime(0,0,0,1,1,$year)+$weekInSeconds+$shift;
+
+   return $timestamp;
+}
+
 // ---------------------------
 // Function that returns the timestamp for each day in a week
 function week_dates($week, $year)
 {
-   if(strftime("%W",mktime(0,0,0,01,01,$year))==1)
-	$mon_mktime = mktime(0,0,0,01,(01+(($week-1)*7)),$year);
-	else
-	$mon_mktime = mktime(0,0,0,01,(01+(($week)*7)),$year);
+   $monday = weekStartDate($week,$year);
 
-	if(date("w",$mon_mktime)>1)
-	$decalage = ((date("w",$mon_mktime)-1)*60*60*24);
-
-	$monday = $mon_mktime - $decalage;
-
-	# WARNING: there is a curious bug, the minutes are not set to '0' ?!?
-	$monday   = mktime(0, 0, 0, date("m", $monday), date("d", $monday), date("Y", $monday)); 
-   #echo "MONDAY = ".date("Y-m-d H:m:s",$monday)."<br>";
-   
-   
    $week_dates = array();
    $week_dates[1] = $monday; // Monday
    $week_dates[2] = strtotime("+1 day",$monday); // Tuesday
@@ -194,10 +236,8 @@ function week_dates($week, $year)
    $week_dates[6] = strtotime("+5 day",$monday); // Saturday
    $week_dates[7] = strtotime("+6 day",$monday); // Sunday
 
-   
    return $week_dates;
 }
-
 // ---------------------------
 function dayofyear2date( $tDay, $year, $tFormat = 'Y-m-d' ) { 
 	$day = intval( $tDay ); 
