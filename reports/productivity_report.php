@@ -83,35 +83,35 @@ if (!isset($_SESSION['userid'])) {
 <?php
 // TODO mettre dans un fichier separe pour inclure aussi dans stats
   // ------ JQUERY --------
-echo "<div id='dialog_AvailWorkload' title='".T_("Available Workload")."'>";
+echo "<div id='dialog_AvailWorkload' title='".T_("Available Workload")."' style='display: none'>";
 echo "<p>".T_("Workload Forecasting (holidays & externalTasks not included, developpers only)")."</p>";
 echo "</div>";
 
-echo "<div id='dialog_ProdDaysProj' title='".T_("Production Days : Projects")."'>";
+echo "<div id='dialog_ProdDaysProj' title='".T_("Production Days : Projects")."' style='display: none'>";
 echo "<p>".T_("days spent on projects")."</p>";
 echo "</div>";
 
-echo "<div id='dialog_ProdDaysSTDev' title='".T_("Production Days : SuiviOp Dev")."'>";
+echo "<div id='dialog_ProdDaysSTDev' title='".T_("Production Days : SuiviOp Dev")."' style='display: none'>";
 echo "<p>".T_("days spent on sideTasks (holidays not included, developpers only)")."</p>";
 echo "</div>";
 
-echo "<div id='dialog_ProdDaysSTManagers' title='".T_("Production Days : SuiviOp Managers")."'>";
+echo "<div id='dialog_ProdDaysSTManagers' title='".T_("Production Days : SuiviOp Managers")."' style='display: none'>";
 echo "<p>".T_("days spent on sideTasks (holidays not included, managers only)")."</p>";
 echo "</div>";
 
-echo "<div id='dialog_TotalProdDays' title='".T_("Production Days : total")."'>";
+echo "<div id='dialog_TotalProdDays' title='".T_("Production Days : total")."' style='display: none'>";
 echo "<p>".T_("number of days billed")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
 echo "projects + sideTasks (dev + manager)</p>";
 echo "</div>";
 
-echo "<div id='dialog_EfficiencyRate' title='".T_("Efficiency Rate")."'>";
+echo "<div id='dialog_EfficiencyRate' title='".T_("Efficiency Rate")."' style='display: none'>";
 echo "<p>".T_("Development workload (developpers only)")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
 echo "ProjProdDays / TotalProdDays * 100</p>";
 echo "</div>";
 
-echo "<div id='dialog_SystemAvailability' title='".T_("System Availability")."'>";
+echo "<div id='dialog_SystemAvailability' title='".T_("System Availability")."' style='display: none'>";
 echo "<p>".T_("Platform Availability")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
 echo "100 - ((breakdownDays / prodDays)*100)</p>";
