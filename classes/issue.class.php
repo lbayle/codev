@@ -569,7 +569,7 @@ class Issue {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
       }
 
-      $this->logger->debug("getDrift(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)");
+      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)");
       return $derive;
    }
 
@@ -584,7 +584,10 @@ class Issue {
    // REM if PrelEffortEstim = 0 then Drift = 0
    public function getDriftETA($withSupport = true) {
 
-      #if (0 == $this->eta) { return 0; }
+      if (0 == $this->elapsed ) {
+         $this->logger->debug("bugid ".$this->bugId." if elapsed == 0 then Drift = 0");
+         return 0;
+      }
 
       if ($withSupport) {
          $myElapsed = $this->elapsed;
@@ -593,14 +596,13 @@ class Issue {
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 
-
 	  if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          $derive = $myElapsed - $this->prelEffortEstim;
       } else {
          $derive = $myElapsed - ($this->prelEffortEstim - $this->remaining);
       }
 
-      $this->logger->debug("getDriftETA(): bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->prelEffortEstim.")");
+      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->prelEffortEstim.")");
       return $derive;
    }
 
