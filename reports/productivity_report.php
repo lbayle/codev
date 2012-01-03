@@ -74,6 +74,11 @@ if (!isset($_SESSION['userid'])) {
 		$( "#dialog_SystemAvailability" ).dialog({	autoOpen: false, hide: "fade"	});
 		$( "#dialog_SystemAvailability_link" ).click(function() { $( "#dialog_SystemAvailability" ).dialog( "open" ); return false;	});
 
+		$( "#dialog_ResolvedDriftStats" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_ResolvedDriftStats_link" ).click(function() { $( "#dialog_ResolvedDriftStats" ).dialog( "open" ); return false;	});
+
+		$( "#dialog_CurrentDriftStats" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_CurrentDriftStats_link" ).click(function() { $( "#dialog_CurrentDriftStats" ).dialog( "open" ); return false;	});
 
 	});
 
@@ -87,36 +92,79 @@ echo "<div id='dialog_AvailWorkload' title='".T_("Available Workload")."' style=
 echo "<p>".T_("Workload Forecasting (holidays & externalTasks not included, developpers only)")."</p>";
 echo "</div>";
 
+// ---
 echo "<div id='dialog_ProdDaysProj' title='".T_("Production Days : Projects")."' style='display: none'>";
 echo "<p>".T_("days spent on projects")."</p>";
 echo "</div>";
 
+// ---
 echo "<div id='dialog_ProdDaysSTDev' title='".T_("Production Days : SuiviOp Dev")."' style='display: none'>";
 echo "<p>".T_("days spent on sideTasks (holidays not included, developpers only)")."</p>";
 echo "</div>";
 
+// ---
 echo "<div id='dialog_ProdDaysSTManagers' title='".T_("Production Days : SuiviOp Managers")."' style='display: none'>";
 echo "<p>".T_("days spent on sideTasks (holidays not included, managers only)")."</p>";
 echo "</div>";
 
+// ---
 echo "<div id='dialog_TotalProdDays' title='".T_("Production Days : total")."' style='display: none'>";
 echo "<p>".T_("number of days billed")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
 echo "projects + sideTasks (dev + manager)</p>";
 echo "</div>";
 
+// ---
 echo "<div id='dialog_EfficiencyRate' title='".T_("Efficiency Rate")."' style='display: none'>";
 echo "<p>".T_("Development workload (developpers only)")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
 echo "ProjProdDays / TotalProdDays * 100</p>";
 echo "</div>";
 
+// ---
 echo "<div id='dialog_SystemAvailability' title='".T_("System Availability")."' style='display: none'>";
 echo "<p>".T_("Platform Availability")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
 echo "100 - ((breakdownDays / prodDays)*100)</p>";
 echo "</div>";
 
+// ---
+echo "<div id='dialog_ResolvedDriftStats' title='".T_("Effort Deviation")."' style='display: none'>";
+echo "<p><strong>".T_("Effort Deviation").":</strong><br>";
+echo T_("Overflow day quantity")."<br/>".
+            "- ".T_("Computed on task Resolved/Closed in the given period")."<br/>".
+            "- ".T_("Reopened tasks are not taken into account")."<br/>\n".
+            "- ".T_("If < 0 then ahead on planning.")."<br>";
+echo "<span style='color:blue'>".T_("Formula").": elapsed - EffortEstim</span></p>";
+echo "<p><strong>".T_("Tasks in drift").":</strong><br>";
+echo T_("Tasks for which the elapsed time is greater than the estimated effort")."<br>";
+echo "<span style='color:blue'>".T_("Formula").": ".T_("drift")." > 1</span></p>";
+echo "<p><strong>".T_("Tasks in time").":</strong><br>";
+echo T_("Tasks resolved in time")."<br>";
+echo "<span style='color:blue'>".T_("Formula").": -1 <= ".T_("drift")." <= 1</span></p>";
+echo "<p><strong>".T_("Tasks ahead").":</strong><br>";
+echo T_("Tasks resolved in less time than the estimated effort")."<br>";
+echo "<span style='color:blue'>".T_("Formula").": ".T_("drift")." < -1</span></p>";
+echo "</div>";
+
+// ---
+echo "<div id='dialog_CurrentDriftStats' title='".T_("Effort Deviation")."' style='display: none'>";
+echo "<p><strong>".T_("Effort Deviation").":</strong><br>";
+echo T_("Overflow day quantity")."<br/>".
+        "- ".T_("Computed on task NOT Resolved/Closed on ").date("Y-m-d").".<br/>";
+echo "<span style='color:blue'>".T_("Formula").": elapsed - EffortEstim</span></p>";
+echo "<p><strong>".T_("Tasks in drift").":</strong><br>";
+echo T_("Tasks for which the elapsed time is greater than the estimated effort")."<br>";
+echo "<span style='color:blue'>".T_("Formula").": ".T_("drift")." > 1</span></p>";
+echo "<p><strong>".T_("Tasks in time").":</strong><br>";
+echo T_("Tasks resolved in time")."<br>";
+echo "<span style='color:blue'>".T_("Formula").": -1 <= ".T_("drift")." <= 1</span></p>";
+echo "<p><strong>".T_("Tasks ahead").":</strong><br>";
+echo T_("Tasks resolved in less time than the estimated effort")."<br>";
+echo "<span style='color:blue'>".T_("Formula").": ".T_("drift")." < -1</span></p>";
+echo "</div>";
+
+// ---
 
 
 ?>
@@ -392,25 +440,19 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   $driftStats = $timeTracking->getResolvedDriftStats($withSupport);
 
   echo "<table>\n";
-  echo "<caption>".T_("EffortDeviation - Tasks resolved in the period")."</caption>\n";
+  echo "<caption>".T_("EffortDeviation - Tasks resolved in the period")."&nbsp;&nbsp; <a id='dialog_ResolvedDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='".T_("BEFORE analysis")."'>PrelEffortEstim</th>\n";
   echo "<th width='100' title='".T_("AFTER analysis")."'>EffortEstim <br/>(BI + BS)</th>\n";
-  echo "<th>".T_("Description")."</th>\n";
-  echo "<th>".T_("Formula")."</th>\n";
+  echo "<th>".T_("Tasks")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
   echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats["totalDrift"], 2)."</td>\n";
-  echo "<td>".T_("Overflow day quantity")."<br/>".
-            "- ".T_("Computed on task Resolved/Closed in the given period")."<br/>".
-            "- ".T_("Reopened tasks are not taken into account")."<br/>\n".
-            #"- ".T_("Support time is not taken into account")."<br/>\n".
-            "- ".T_("If < 0 then ahead on planning.")."</td>\n";
-  echo "<td>elapsed - EffortEstim</td>\n";
+  echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -418,7 +460,6 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftPosETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftPos"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidPosList"]."</td>\n";
-  echo "<td>".T_("drift")." > 1</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -430,7 +471,6 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   } else {
    echo "<td title='".$driftStats["bugidEqualList"]."'>".T_("Tasks resolved in time")."</td>\n";
   }
-  echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -438,7 +478,6 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftNegETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftNeg"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidNegList"]."</td>\n";
-  echo "<td>".T_("drift")." < -1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
 }
@@ -509,22 +548,19 @@ function displayCurrentDriftStats ($timeTracking) {
     }
 
   echo "<table>\n";
-  echo "<caption>".T_("EffortDeviation - Today opened Tasks")."</caption>\n";
+  echo "<caption>".T_("EffortDeviation - Today opened Tasks")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='".T_("BEFORE analysis")."'>".T_("PrelEffortEstim")."</th>\n";
   echo "<th width='100' title='".T_("AFTER analysis")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
-  echo "<th>".T_("Description")."</th>\n";
-  echo "<th>".T_("Formula")."</th>\n";
+  echo "<th>".T_("Tasks")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
   echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
-  echo "<td>".T_("Overflow day quantity")."<br/>".
-            "- ".T_("Computed on task NOT Resolved/Closed on ").date("Y-m-d").".<br/>";
-  echo "<td>elapsed - EffortEstim</td>\n";
+  echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -532,7 +568,6 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
-  echo "<td>".T_("drift")." > 1</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -544,7 +579,6 @@ function displayCurrentDriftStats ($timeTracking) {
   } else {
    echo "<td title='".$driftStats_new["bugidEqualList"]."'>".T_("Tasks resolved in time")."</td>\n";
   }
-  echo "<td> -1 <= ".T_("drift")." <= 1</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -552,7 +586,6 @@ function displayCurrentDriftStats ($timeTracking) {
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
-  echo "<td>".T_("drift")." < -1</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
 }
