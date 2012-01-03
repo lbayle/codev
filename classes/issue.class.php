@@ -257,6 +257,20 @@ class Issue {
    }
 
    // ----------------------------------------------
+   public function isProjManagement() {
+
+      $project = ProjectCache::getInstance()->getProject($this->projectId);
+
+      if (($project->isSideTasksProject()) &&
+          ($project->getManagementCategoryId() == $this->categoryId)) {
+
+         $this->logger->debug("$this->bugId is a ProjectManagement task.");
+         return true;
+      }
+      return false;
+   }
+
+   // ----------------------------------------------
    public function isAstreinte() {
 
    	global $astreintesTaskList;

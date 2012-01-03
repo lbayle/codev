@@ -27,9 +27,9 @@ include_once "holidays.class.php";
 
 
 class TimeTracking {
-  
+
   private $logger;
-  
+
   var $startTimestamp;
   var $endTimestamp;
   var $prodDays;
@@ -43,7 +43,7 @@ class TimeTracking {
   public function TimeTracking($startTimestamp, $endTimestamp, $team_id = NULL) {
 
     $this->logger = Logger::getLogger(__CLASS__);
-  	 
+
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp   = $endTimestamp;
     $this->team_id       = (isset($team_id)) ? $team_id : -1;
@@ -70,8 +70,8 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
-    
+
+
     while($row = mysql_fetch_object($result))
     {
     	switch ($row->type) {
@@ -124,7 +124,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
@@ -162,7 +162,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
@@ -182,6 +182,48 @@ class TimeTracking {
     }
     return $prodDays;
   }
+
+  // ----------------------------------------------
+  /** Returns the number of days spent on Management Tasks
+   * - Observers excluded
+   */
+   public function getManagementDays() {
+     $accessLevel_observer = Team::accessLevel_observer;
+     $prodDays = 0;
+
+     // select tasks within timestamp, where user is in the team
+     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
+           "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
+           "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
+           "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
+           "AND    codev_team_user_table.team_id = $this->team_id ".
+           "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+
+     $result = mysql_query($query);
+     if (!$result) {
+        $this->logger->error("Query FAILED: $query");
+        $this->logger->error(mysql_error());
+        echo "<span style='color:red'>ERROR: Query FAILED</span>";
+        exit;
+     }
+
+     while($row = mysql_fetch_object($result))
+     {
+        $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
+
+        $user = UserCache::getInstance()->getUser($timeTrack->userId);
+        if (false == $user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
+           continue; // skip this timeTrack
+        }
+
+        $issue = IssueCache::getInstance()->getIssue($row->bugid);
+        if ((in_array ($issue->projectId, $this->sideTaskprojectList)) && ($issue->isProjManagement())) {
+           $prodDays += $timeTrack->duration;
+        }
+     }
+     return $prodDays;
+  }
+
 
   // ----------------------------------------------
   public function getProductionDaysForecast() {
@@ -206,7 +248,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
     	$user = UserCache::getInstance()->getUser($row->user_id);
@@ -281,7 +323,7 @@ class TimeTracking {
     "ORDER BY mantis_bug_table.id DESC";
 
     $this->logger->debug("getProductivRate QUERY = $query");
-    
+
     $result = mysql_query($query);
     if (!$result) {
     	$this->logger->error("getProductivRate Query FAILED: $query");
@@ -289,7 +331,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result)) {
 
       // check if the bug has been reopened before endTimestamp
@@ -370,7 +412,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result)) {
       $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
@@ -433,7 +475,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result)) {
       $issue = IssueCache::getInstance()->getIssue($row->id);
 
@@ -688,7 +730,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -739,7 +781,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       $workingDaysPerJob += $row->duration;
@@ -773,7 +815,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -807,7 +849,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       $durations[$row->date] += $row->duration;
@@ -873,7 +915,7 @@ class TimeTracking {
         	echo "<span style='color:red'>ERROR: Query FAILED</span>";
         	exit;
         }
-        
+
         $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
 
         if (0 == $nbTuples) {
@@ -911,7 +953,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -968,7 +1010,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       if (null == $weekTracks[$row->bugid]) {
@@ -1020,7 +1062,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     while($row = mysql_fetch_object($result))
     {
       if (NULL == $projectTracks[$row->project_id]) {
@@ -1087,7 +1129,7 @@ class TimeTracking {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
 
     while($row = mysql_fetch_object($result)) {
        if ( ! in_array($row->id, $reopenedList)) {
@@ -1129,7 +1171,7 @@ class TimeTracking {
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
-      
+
 
       while($row = mysql_fetch_object($result))
       {

@@ -56,17 +56,8 @@ if (!isset($_SESSION['userid'])) {
 		$( "#dialog_AvailWorkload" ).dialog({	autoOpen: false, hide: "fade"	});
 		$( "#dialog_AvailWorkload_link" ).click(function() { $( "#dialog_AvailWorkload" ).dialog( "open" ); return false;	});
 
-		$( "#dialog_ProdDaysProj" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_ProdDaysProj_link" ).click(function() { $( "#dialog_ProdDaysProj" ).dialog( "open" ); return false;	});
-
-		$( "#dialog_ProdDaysSTDev" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_ProdDaysSTDev_link" ).click(function() { $( "#dialog_ProdDaysSTDev" ).dialog( "open" ); return false;	});
-
-		$( "#dialog_ProdDaysSTManagers" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_ProdDaysSTManagers_link" ).click(function() { $( "#dialog_ProdDaysSTManagers" ).dialog( "open" ); return false;	});
-
-		$( "#dialog_TotalProdDays" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_TotalProdDays_link" ).click(function() { $( "#dialog_TotalProdDays" ).dialog( "open" ); return false;	});
+		$( "#dialog_ProdDays" ).dialog({	autoOpen: false, hide: "fade"	});
+		$( "#dialog_ProdDays_link" ).click(function() { $( "#dialog_ProdDays" ).dialog( "open" ); return false;	});
 
 		$( "#dialog_EfficiencyRate" ).dialog({	autoOpen: false, hide: "fade"	});
 		$( "#dialog_EfficiencyRate_link" ).click(function() { $( "#dialog_EfficiencyRate" ).dialog( "open" ); return false;	});
@@ -93,28 +84,6 @@ echo "<p>".T_("Workload Forecasting (holidays & externalTasks not included, deve
 echo "</div>";
 
 // ---
-echo "<div id='dialog_ProdDaysProj' title='".T_("Production Days : Projects")."' style='display: none'>";
-echo "<p>".T_("days spent on projects")."</p>";
-echo "</div>";
-
-// ---
-echo "<div id='dialog_ProdDaysSTDev' title='".T_("Production Days : SuiviOp Dev")."' style='display: none'>";
-echo "<p>".T_("days spent on sideTasks (holidays not included, developpers only)")."</p>";
-echo "</div>";
-
-// ---
-echo "<div id='dialog_ProdDaysSTManagers' title='".T_("Production Days : SuiviOp Managers")."' style='display: none'>";
-echo "<p>".T_("days spent on sideTasks (holidays not included, managers only)")."</p>";
-echo "</div>";
-
-// ---
-echo "<div id='dialog_TotalProdDays' title='".T_("Production Days : total")."' style='display: none'>";
-echo "<p>".T_("number of days billed")."</p>";
-echo "<p><strong>".T_("Formula").":</strong><br>";
-echo "projects + sideTasks (dev + manager)</p>";
-echo "</div>";
-
-// ---
 echo "<div id='dialog_EfficiencyRate' title='".T_("Efficiency Rate")."' style='display: none'>";
 echo "<p>".T_("Development workload (developpers only)")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
@@ -126,6 +95,23 @@ echo "<div id='dialog_SystemAvailability' title='".T_("System Availability")."' 
 echo "<p>".T_("Platform Availability")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
 echo "100 - ((breakdownDays / prodDays)*100)</p>";
+echo "</div>";
+
+// ---
+echo "<div id='dialog_ProdDays' title='".T_("Production days")."' style='display: none'>";
+echo "<p><strong>".T_("Projects")."</strong><br>";
+echo T_("Days spent on projects");
+echo "</p>";
+echo "<p><strong>".T_("SideTasks: Project Management")."</strong><br>";
+echo T_("Days spent on project management tasks")."<br>";
+echo "</p>";
+echo "<p><strong>".T_("SideTasks: Others")."</strong><br>";
+echo T_("Days spent on sideTasks, except project management")."<br>";
+echo "</p>";
+echo "<p><strong>".T_("Production Days : total")."</strong><br>";
+echo T_("number of days billed")."<br>";
+echo "<span style='color:blue'>".T_("Formula").": projects + sideTasks</span>";
+echo "</p>";
 echo "</div>";
 
 // ---
@@ -298,57 +284,62 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
 function displayProductionDays ($timeTracking) {
 
   $prodDays                = $timeTracking->getProdDays();
-  $sideProdDaysDevel       = $timeTracking->getProdDaysSideTasks(true);
-  $sideProdDaysManagers    = $timeTracking->getProdDaysSideTasks(false) - $sideProdDaysDevel;
+  $sideProdDays            = $timeTracking->getProdDaysSideTasks(false);
+  //$sideProdDaysDevel       = $timeTracking->getProdDaysSideTasks(true);
+  //$sideProdDaysManagers    = $sideProdDays - $sideProdDaysDevel;
+
+  $managementDays          = $timeTracking->getManagementDays();
+  $sideNoManagement        = $sideProdDays - $managementDays;
 
   echo "<div class=\"float\">\n";
 
-  echo "<table>\n";
-  echo "<caption>".T_("Production Days")."</caption>\n";
+  echo "<table width='300'>\n";
+  echo "<caption>".T_("Production Days")." &nbsp;&nbsp;<a id='dialog_ProdDays_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
   echo "<tr>\n";
-  echo "<th>".T_("Indicator")."</th>\n";
-  echo "<th>".T_("Nb Days")."</th>\n";
   echo "<th></th>\n";
+  echo "<th>".T_("Nb Days")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Projects")."</td>\n";
   echo "<td>$prodDays</td>\n";
-  echo "<td><a id='dialog_ProdDaysProj_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
-
+/*
   echo "<tr>\n";
   echo "<td>".T_("SideTasks (Developers only)")."</td>\n";
   echo "<td>$sideProdDaysDevel</td>\n";
-  echo "<td><a id='dialog_ProdDaysSTDev_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("SideTasks (Managers only)")."</td>\n";
   echo "<td>$sideProdDaysManagers</td>\n";
-  echo "<td><a id='dialog_ProdDaysSTManagers_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
+  echo "</tr>\n";
+*/
+  echo "<tr>\n";
+  echo "<td>".T_("SideTasks: Project Management")."</td>\n";
+  echo "<td>$managementDays</td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td>".T_("SideTasks: Others")."</td>\n";
+  echo "<td>$sideNoManagement</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Total Production Days")."</td>\n";
-  echo "<td>".($sideProdDaysDevel + $sideProdDaysManagers + $prodDays)."</td>\n";
-  echo "<td><a id='dialog_TotalProdDays_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
+  echo "<td>".($prodDays + $sideProdDays)."</td>\n";
   echo "</tr>\n";
 
   echo "</table>\n";
   echo "</div>\n";
 
+  $formatedValues = "$prodDays:$managementDays:$sideNoManagement";
 
-  //echo "<br/>SideTasks<br/>";
-  //echo "Nb Production Days  : $sideProdDays<br/>";
-  //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
-  $formatedValues = "$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
-
-  if (0 != $prodDays + $sideProdDaysDevel + $sideProdDaysManagers) {
+  if (0 != $prodDays + $managementDays + $sideNoManagement) {
      echo "<div class=\"float\">\n";
      $title = T_("Production Days");
-     $formatedColors = "#92C5FC:#FFF494:#FFCD85";
-     $formatedLegends = T_("Projects").":".T_("SideTasks Dev").":".T_("SideTasks Managers");
+     $formatedColors = "#92C5FC:#FFCD85:#FFF494";
+     $formatedLegends = T_("Projects").":".T_("Project Management").":".T_("Other SideTasks");
      #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
      $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&colors=$formatedColors&legends=$formatedLegends&values=$formatedValues";
      $graphURL = SmartUrlEncode($graphURL);
@@ -372,7 +363,7 @@ function displayRates ($timeTracking) {
 
    echo "<div class=\"float\">\n";
 
-   echo "<table>\n";
+   echo "<table width='300'>\n";
    echo "<caption>".T_("Productivity indicators")."</caption>\n";
    echo "<tr>\n";
    echo "<th>".T_("Indicator")."</th>\n";
@@ -431,8 +422,6 @@ function displayRates ($timeTracking) {
    //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
 
 }
-
-
 // -----------------------------------------------
 // display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
 function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
@@ -976,14 +965,7 @@ if (0 == count($teamList)) {
 		echo "<br>";
 		echo "<br>";
 
-		setProjectSelectionForm($teamid, $defaultProjectid);
-	   $defaultProjectid  = $_POST['projectid'];
-	   if (0 != $defaultProjectid) {
-	      displayProjectDetails($timeTracking, $defaultProjectid);
-	   } else {
-	      // all sideTasks
-	      displaySideTasksProjectDetails($timeTracking);
-	   }
+		displayProductionDays($timeTracking);
 
 		echo "<div class=\"spacer\"> </div>\n";
 		echo "<br>";
@@ -992,7 +974,14 @@ if (0 == count($teamList)) {
 		echo "<br>";
 		echo "<br>";
 
-		displayProductionDays($timeTracking);
+		setProjectSelectionForm($teamid, $defaultProjectid);
+		$defaultProjectid  = $_POST['projectid'];
+		if (0 != $defaultProjectid) {
+		   displayProjectDetails($timeTracking, $defaultProjectid);
+		} else {
+		   // all sideTasks
+		   displaySideTasksProjectDetails($timeTracking);
+		}
 
 		echo "<div class=\"spacer\"> </div>\n";
 		echo "<br>";
