@@ -747,7 +747,7 @@ class TimeTracking {
     //echo "DEBUG prodDays $prodDays teamIncidentDays $teamIncidentDays<br/>";
 
     if (0 != $prodDays) {
-      $systemDisponibilityRate = 100 - (($teamIncidentDays / $prodDays)*100);
+      $systemDisponibilityRate = 100 - (($teamIncidentDays / ($prodDays + $teamIncidentDays))*100);
     } else {
       $systemDisponibilityRate = 0;
     }
