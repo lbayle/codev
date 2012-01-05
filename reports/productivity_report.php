@@ -106,7 +106,7 @@ echo "<p><strong>".T_("SideTasks: Project Management")."</strong><br>";
 echo T_("Days spent on project management tasks")."<br>";
 echo "</p>";
 echo "<p><strong>".T_("SideTasks: Others")."</strong><br>";
-echo T_("Days spent on sideTasks, except project management")."<br>";
+echo T_("Days spent on sideTasks, except project management and inactivity tasks")."<br>";
 echo "</p>";
 echo "<p><strong>".T_("Production Days : total")."</strong><br>";
 echo T_("number of days billed")."<br>";
@@ -338,7 +338,7 @@ function displayProductionDays ($timeTracking) {
   if (0 != $prodDays + $managementDays + $sideNoManagement) {
      echo "<div class=\"float\">\n";
      $title = T_("Production Days");
-     $formatedColors = "#92C5FC:#FFCD85:#FFF494";
+     $formatedColors = "#92C5FC:#FFC16B:#FFF494";
      $formatedLegends = T_("Projects").":".T_("Project Management").":".T_("Other SideTasks");
      #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=$title&colors=#0000FF:#FFA500:#FF4500&values=$prodDays:$sideProdDaysDevel:$sideProdDaysManagers";
      $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&colors=$formatedColors&legends=$formatedLegends&values=$formatedValues";

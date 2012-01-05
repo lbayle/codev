@@ -56,7 +56,20 @@ $teamid = isset($_GET['teamid']) ? $_GET['teamid'] : 2;
 $startT = isset($_GET['startT']) ? $_GET['startT'] : date2timestamp("2011-08-01");
 $endT   = isset($_GET['endT']) ? $_GET['endT'] : date2timestamp("011-12-30");
 
+if (isset($_GET['projects'])) {
+   $projects = $_GET['projects'];
+   $projectList = explode(':', $projects);
+   $logger->debug("team <$teamid> projects = <$projects>");
+} else {
+   $logger->debug("team <$teamid> display all projects");
+   $projectList = NULL;
+}
+
+
 $gantManager = new GanttManager($teamid, $startT, $endT);
+if (NULL != $projectList) {
+   $gantManager->setProjectFilter($projectList);
+}
 $graph = $gantManager->getGanttGraph();
 
 // INFO: the following 2 lines are MANDATORY and fix the following error:

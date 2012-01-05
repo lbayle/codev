@@ -38,6 +38,7 @@ if (!isset($_SESSION['userid'])) {
   function submitForm() {
 
     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+    document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
     document.forms["form1"].action.value = "ganttReport";
     document.forms["form1"].submit();
  }
@@ -45,10 +46,18 @@ if (!isset($_SESSION['userid'])) {
 
   function teamChanged() {
      document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
      document.forms["form1"].action.value = "teamChanged";
      document.forms["form1"].submit();
   }
 
+  function projectChanged() {
+     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
+     document.forms["form1"].action.value = "projectChanged";
+     document.forms["form1"].submit();
+  }
+  
 </script>
 
 <div id="content">
@@ -59,12 +68,13 @@ require_once ('jpgraph_gantt.php');
 
 include_once "issue.class.php";
 include_once "user.class.php";
+include_once "team.class.php";
 include_once "time_tracking.class.php";
 include_once "gantt_manager.class.php";
 require_once('tc_calendar.php');
 
 // -----------------------------------------------
-function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $originPage) {
+function setInfoForm($teamid, $teamList, $projectid, $projectList, $defaultDate1, $defaultDate2, $originPage) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
 
   $myCalendar1 = new tc_calendar("date1", true, false);
@@ -106,7 +116,18 @@ function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $originPa
     }
   }
   echo "</select>\n";
+  echo "&nbsp;";
 
+  echo T_("Project").": <select id='projectidSelector' name='projectidSelector'>\n";
+  foreach($projectList as $pid => $pname) {
+    if ($pid == $projectid) {
+      echo "<option selected value='".$pid."'>".$pname."</option>\n";
+    } else {
+      echo "<option value='".$pid."'>".$pname."</option>\n";
+    }
+  }
+  echo "</select>\n";
+  
   echo "&nbsp;".T_("Start Date").": "; $myCalendar1->writeScript();
 
   echo "&nbsp; <span title='".T_("(included)")."'>".T_("End Date").": </span>"; $myCalendar2->writeScript();
@@ -114,6 +135,7 @@ function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $originPa
   echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitForm()'>\n";
 
   echo "<input type=hidden name=teamid  value=$teamid>\n";
+  echo "<input type=hidden name=projectid  value=$projectid>\n";
   echo "<input type=hidden name=action  value=noAction>\n";
 
   echo "</form>\n";
@@ -130,8 +152,11 @@ $originPage = "gantt_report.php";
 $userid = $_SESSION['userid'];
 
 $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+$defaultProject = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
 $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
+$projectid = isset($_POST['projectid']) ? $_POST['projectid'] : $defaultProject;
 $_SESSION['teamid'] = $teamid;
+$_SESSION['projectid'] = $projectid;
 
 $session_user = UserCache::getInstance()->getUser($userid);
 $mTeamList = $session_user->getTeamList();
@@ -139,6 +164,15 @@ $lTeamList = $session_user->getLeadedTeamList();
 $oTeamList = $session_user->getObservedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
+
+/*
+foreach ($teamList as $tid => $tname) {
+   $projectList = array_merge ($projectList , Team::getProjectList($tid, false) );
+}
+*/
+$projectList = array();
+$projectList[0] = "All projects";
+$projectList += Team::getProjectList($teamid, false);
 
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
@@ -168,7 +202,7 @@ if (0 == count($teamList)) {
 
 	// -----
 
-	setInfoForm($teamid, $teamList, $date1, $date2, $originPage);
+	setInfoForm($teamid, $teamList, $projectid, $projectList, $date1, $date2, $originPage);
 	echo "<br/><br/>\n";
 	echo "<br/><br/>\n";
 
@@ -177,7 +211,12 @@ if (0 == count($teamList)) {
 	   if (0 != $teamid) {
 
          // draw graph
-         $graphURL = getServerRootURL()."/graphs/gantt_graph.php?teamid=$teamid&startT=$startT&endT=$endT";
+         if (0 != $projectid) {
+            $graphURL = getServerRootURL()."/graphs/gantt_graph.php?teamid=$teamid&projects=$projectid&startT=$startT&endT=$endT";
+         } else {
+            // if no projects specified, then display all projects
+            $graphURL = getServerRootURL()."/graphs/gantt_graph.php?teamid=$teamid&startT=$startT&endT=$endT";
+         }
          $graphURL = SmartUrlEncode($graphURL);
          echo "<img src='$graphURL'/>";
 	   } else {

@@ -25,6 +25,7 @@ require_once "constants.php";
 
 require_once ('time_tracking.class.php');
 require_once ('team.class.php');
+require_once ('project.class.php');
 
 require_once ('jpgraph.php');
 require_once ('jpgraph_gantt.php');
@@ -85,9 +86,13 @@ class GanttActivity {
       global $statusNames;
 
    	$user = UserCache::getInstance()->getUser($this->userid);
-      $issue = IssueCache::getInstance()->getIssue($this->bugid);
-
-   	$formatedActivityName = substr("$this->bugid - $issue->summary", 0, 50);
+    $issue = IssueCache::getInstance()->getIssue($this->bugid);
+    
+    if (NULL != $issue->tcId) {
+   	   $formatedActivityName = substr("$this->bugid [$issue->tcId] - $issue->summary", 0, 50);
+	} else {
+   	   $formatedActivityName = substr("$this->bugid - $issue->summary", 0, 50);
+	}
 
       $formatedActivityInfo = $user->getName();
       if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
@@ -112,7 +117,7 @@ class GanttActivity {
           $bar->SetConstrain($issueActivityMapping[$bugid], CONSTRAIN_ENDSTART);
       }
 
-      $this->logger->debug("JPGraphBar bugid=$this->bugid activityIdx=$this->activityIdx".
+      $this->logger->debug("JPGraphBar bugid=$this->bugid prj=$issue->projectId activityIdx=$this->activityIdx".
                            " progress=$this->progress [".
                            date('Y-m-d', $this->startTimestamp)." -> ".
                            date('Y-m-d', $this->endTimestamp)."]");
@@ -168,6 +173,7 @@ class GanttManager {
   private $startTimestamp;
   private $endTimestamp;
 
+  private $projectList; // (array) filter on specific projects
   //
   private $teamActivityList; // $teamActivityList[user][activity]
 
@@ -188,9 +194,18 @@ class GanttManager {
 
       $this->activitiesByUser = array();   // $activitiesByUser[user][activity]
       $this->constrainsList   = array();
+	  $this->projectList      = array();
    }
 
-
+   // -----------------------------------------
+   /**
+    * set a list of projects that will be displayed
+   */
+   public function setProjectFilter($projList) {
+      if (NULL != $projList) {
+         $this->projectList = $projList;
+      }
+   }
 
    // -----------------------------------------
    /**
@@ -501,15 +516,36 @@ class GanttManager {
       foreach($teamActivities as $a) {
       	$a->setActivityIdx($activityIdx);
 
+	     // FILTER on projects
+		 if ( (NULL != $this->projectList) && (0 != sizeof($this->projectList))) {
+			$issue = IssueCache::getInstance()->getIssue($a->bugid);
+			if (!in_array($issue->projectId, $this->projectList)) {
+			   // skip activity indexing
+			   continue;
+			}  
+	    }
+        
          $issueActivityMapping[$a->bugid] = $activityIdx;
          ++$activityIdx;
       }
 
       // ----
-   	$graph = new GanttGraph();
+   	  $graph = new GanttGraph();
 
+      // --- set graph title
       $team = new Team($this->teamid);
-      $graph->title->Set("Team '".$team->name."'");
+      if ( (NULL != $this->projectList) && (0 != sizeof($this->projectList))) {
+         $pnameList = "";
+         foreach ($this->projectList as $pid) {
+            if ("" != $pnameList) { $pnameList .=","; }
+            $pnameList .= Project::getName($pid);
+         }
+         $graph->title->Set("Team '".$team->name."'    Project(s): ".$pnameList);
+      } else {
+         $graph->title->Set("Team '".$team->name."'    (All projects)");
+      }
+      
+      
 
       // Setup scale
       $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
@@ -518,6 +554,16 @@ class GanttManager {
       // Add the specified activities
       foreach($teamActivities as $a) {
 
+	     // FILTER on projects
+		 if ( (NULL != $this->projectList) && (0 != sizeof($this->projectList))) {
+			$issue = IssueCache::getInstance()->getIssue($a->bugid);
+			if (!in_array($issue->projectId, $this->projectList)) {
+			   // skip display of this activity
+               $this->logger->trace("ProjectFilter: bugid=".$a->bugid." (proj=$issue->projectId) is not in projectList (".implode( ':', $this->projectList ).")");
+			   continue;
+			}  
+	    }
+        
          // Shorten bar depending on gantt startDate
          if ((NULL != $this->startTimestamp) &&
              ($a->startTimestamp < $this->startTimestamp)) {

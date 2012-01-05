@@ -121,6 +121,26 @@ class Project {
 
    // -----------------------------------------------
    /**
+   */
+   public static function getName($projectId) {
+  	$query  = "SELECT mantis_project_table.name ".
+   	          "FROM `mantis_project_table` ".
+   	          "WHERE mantis_project_table.id = $projectId ";
+
+      $result = mysql_query($query);
+      if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+      $row = mysql_fetch_object($result);
+
+      return $row->name;
+   }
+   
+   // -----------------------------------------------
+   /**
     *
     * @param unknown_type $projectName
     */
