@@ -46,7 +46,8 @@ $border = isset($_GET['border']) ? true : false;
 # color
 $logger->debug("color = <".$color.">");
 $rgb = html2rgb($color);
-$logger->debug("color = <".$color."> ($rgb[0], $rgb[1], $rgb[02])");
+
+$logger->debug("color = <".$color."> ($rgb[0], $rgb[1], $rgb[2])");
 
 // Create the image
 $im = imagecreatetruecolor($width, $height);

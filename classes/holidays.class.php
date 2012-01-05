@@ -99,7 +99,7 @@ class Holidays {
 
    	foreach (self::$HolidayList as $h) {
    		if ($h->timestamp == $timestamp) {
-            $this->logger->debug("Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description");
+            $this->logger->trace("Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description");
    			return $h;
    		}
    	}
