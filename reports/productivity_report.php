@@ -27,12 +27,14 @@ if (!isset($_SESSION['userid'])) {
 ?>
 
 <?php
-   $_POST['page_name'] = T_("Productivity Report");
+   $_POST['page_name'] = T_("Period Statistics");
    include 'header.inc.php';
 ?>
 
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
+<br/>
+<?php include 'menu_statistics.inc.php'; ?>
 
 
 <script language="JavaScript">
@@ -67,9 +69,6 @@ if (!isset($_SESSION['userid'])) {
 
 		$( "#dialog_ResolvedDriftStats" ).dialog({	autoOpen: false, hide: "fade"	});
 		$( "#dialog_ResolvedDriftStats_link" ).click(function() { $( "#dialog_ResolvedDriftStats" ).dialog( "open" ); return false;	});
-
-		$( "#dialog_CurrentDriftStats" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_CurrentDriftStats_link" ).click(function() { $( "#dialog_CurrentDriftStats" ).dialog( "open" ); return false;	});
 
 	});
 
@@ -121,23 +120,6 @@ echo T_("Overflow day quantity")."<br/>".
             "- ".T_("Computed on task Resolved/Closed in the given period")."<br/>".
             "- ".T_("Reopened tasks are not taken into account")."<br/>\n".
             "- ".T_("If < 0 then ahead on planning.")."<br>";
-echo "<span style='color:blue'>".T_("Formula").": elapsed - EffortEstim</span></p>";
-echo "<p><strong>".T_("Tasks in drift").":</strong><br>";
-echo T_("Tasks for which the elapsed time is greater than the estimated effort")."<br>";
-echo "<span style='color:blue'>".T_("Formula").": ".T_("drift")." > 1</span></p>";
-echo "<p><strong>".T_("Tasks in time").":</strong><br>";
-echo T_("Tasks resolved in time")."<br>";
-echo "<span style='color:blue'>".T_("Formula").": -1 <= ".T_("drift")." <= 1</span></p>";
-echo "<p><strong>".T_("Tasks ahead").":</strong><br>";
-echo T_("Tasks resolved in less time than the estimated effort")."<br>";
-echo "<span style='color:blue'>".T_("Formula").": ".T_("drift")." < -1</span></p>";
-echo "</div>";
-
-// ---
-echo "<div id='dialog_CurrentDriftStats' title='".T_("Effort Deviation")."' style='display: none'>";
-echo "<p><strong>".T_("Effort Deviation").":</strong><br>";
-echo T_("Overflow day quantity")."<br/>".
-        "- ".T_("Computed on task NOT Resolved/Closed on ").date("Y-m-d").".<br/>";
 echo "<span style='color:blue'>".T_("Formula").": elapsed - EffortEstim</span></p>";
 echo "<p><strong>".T_("Tasks in drift").":</strong><br>";
 echo T_("Tasks for which the elapsed time is greater than the estimated effort")."<br>";
@@ -502,79 +484,6 @@ function displayTimeDriftStats ($timeTracking) {
   echo "<td title='".T_("nb tasks")."'>".($timeDriftStats["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".round($timeDriftStats["driftNeg"]).")</span></td>\n";
   echo "<td title='".T_("Task list for EffortEstim")."'>".$timeDriftStats["formatedBugidNegList"]."</td>\n";
   echo "<td>DeliveryDate <= DeadLine</td>\n";
-  echo "</tr>\n";
-  echo "</table>\n";
-}
-
-
-
-
-
-// -----------------------------------------------
-// display Drifts for Issues that are CURRENTLY OPENED
-function displayCurrentDriftStats ($timeTracking) {
-
-    // ---- get Issues that are not Resolved/Closed
-    $formatedProdProjectList = implode( ', ', $timeTracking->prodProjectList);
-    $issueList = array();
-
-    $query = "SELECT DISTINCT id ".
-               "FROM `mantis_bug_table` ".
-               "WHERE status < get_project_resolved_status_threshold(project_id) ".
-               "AND project_id IN ($formatedProdProjectList) ".
-               "ORDER BY id DESC";
-    $result = mysql_query($query) or die("Query failed: $query");
-
-    while($row = mysql_fetch_object($result)) {
-       $issue = IssueCache::getInstance()->getIssue($row->id);
-       $issueList[] = $issue;
-    }
-
-    if (0 != count($issueList)) {
-      $driftStats_new = $timeTracking->getIssuesDriftStats($issueList);
-    } else {
-    	$driftStats_new = array();
-    }
-
-  echo "<table>\n";
-  echo "<caption>".T_("EffortDeviation - Today opened Tasks")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
-  echo "<tr>\n";
-  echo "<th></th>\n";
-  echo "<th width='100' title='".T_("BEFORE analysis")."'>".T_("PrelEffortEstim")."</th>\n";
-  echo "<th width='100' title='".T_("AFTER analysis")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
-  echo "<th>".T_("Tasks")."</th>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
-  echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
-  echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
-  echo "<td></td>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  echo "<td>".T_("Tasks in drift")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
-  echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  echo "<td>".T_("Tasks in time")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
-  if (isset($_GET['debug'])) {
-   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
-  } else {
-   echo "<td title='".$driftStats_new["bugidEqualList"]."'>".T_("Tasks resolved in time")."</td>\n";
-  }
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  echo "<td>".T_("Tasks ahead")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
-  echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
   echo "</tr>\n";
   echo "</table>\n";
 }
@@ -1003,10 +912,6 @@ if (0 == count($teamList)) {
 
 	   echo "<br/><br/>\n";
 	   displayResolvedDriftStats($timeTracking);
-
-
-	   echo "<br/><br/>\n";
-	   displayCurrentDriftStats($timeTracking);
 
 	   echo "<br/><br/>\n";
 	   displayReopenedStats($timeTracking);

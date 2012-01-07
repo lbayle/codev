@@ -33,6 +33,8 @@ if (!isset($_SESSION['userid'])) {
 
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
+<br/>
+<?php include 'menu_statistics.inc.php'; ?>
 
 <script language="JavaScript">
 
