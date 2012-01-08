@@ -283,19 +283,19 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
    $graph_width="width=$width";
    $graph_height="height=$height";
 
-   $strVal1 = "leg1=Nb days&x1=".implode(':', $val1);
+   $strVal1 = "leg1=man-days&x1=".implode(':', $val1);
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
 
    echo "<div>\n";
    echo "<h2>".T_("Developers Workload")."</h2>\n";
 
    echo "<span class='help_font'>\n";
-   echo T_("nb days").": ".T_("Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes)")."<br/>\n";
+   echo T_("man-day").": ".T_("Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes)")."<br/>\n";
    echo "</span>\n";
    echo "<br/>\n";
 
    echo "<div class=\"float\">\n";
-   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1";
+   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1";
    $graphURL = SmartUrlEncode($graphURL);
    echo "    <img src='$graphURL'/>";
    echo "</div>\n";
@@ -304,7 +304,7 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
    echo "<caption title='".("Developers Workload")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
-   echo "<th title='".T_("nb production days")."'>".T_("nb days")."</th>\n";
+   echo "<th title='".T_("nb production days")."'>".T_("man-day")."</th>\n";
    echo "</tr>\n";
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {

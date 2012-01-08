@@ -52,7 +52,7 @@ $logger->debug("color = <".$color."> ($rgb[0], $rgb[1], $rgb[2])");
 // Create the image
 $im = imagecreatetruecolor($width, $height);
 
-$bgColor = imagecolorallocate($im, $rgb[0], $rgb[1], $rgb[02]);
+$bgColor = imagecolorallocate($im, $rgb[0], $rgb[1], $rgb[2]);
 
 if (true == $border) {
    $borderColor = imagecolorallocate($im, 0, 0, 0); // black
