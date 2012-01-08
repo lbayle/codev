@@ -159,7 +159,104 @@ function displayCurrentDriftStats ($timeTracking) {
 }
 
 
+/**
+*
+* TODO factorize: this function also exists in statistics.php
+*
+* Display 'Developers Workload'
+* nb of days.: (holidays & externalTasks not included, developers only)
+*
+* @param unknown_type $timeTrackingTable
+* @param unknown_type $width
+* @param unknown_type $height
+*/
+function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
 
+   $start_day = 1;
+   $now = time();
+
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+
+      $workload = $timeTracking->getProductionDaysForecast();
+      $val1[] = $workload;
+      $bottomLabel[] = date("M y", $startTimestamp);
+
+      #$logger->debug("workload=$workload date=".date('M y', $startTimestamp));
+   }
+   $graph_title="title=".("Developers Workload");
+   $graph_width="width=$width";
+   $graph_height="height=$height";
+
+   $strVal1 = "leg1=man-days&x1=".implode(':', $val1);
+   $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
+
+   echo "<div>\n";
+   echo "<h2>".T_("Developers Workload")."</h2>\n";
+
+   echo "<span class='help_font'>\n";
+   echo T_("man-day").": ".T_("Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes)")."<br/>\n";
+   echo "</span>\n";
+   echo "<br/>\n";
+
+   echo "<div class=\"float\">\n";
+   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1";
+   $graphURL = SmartUrlEncode($graphURL);
+   echo "    <img src='$graphURL'/>";
+   echo "</div>\n";
+   echo "<div class=\"float\">\n";
+   echo "<table>\n";
+   echo "<caption title='".("Developers Workload")."'</caption>";
+   echo "<tr>\n";
+   echo "<th>Date</th>\n";
+   echo "<th title='".T_("nb production days")."'>".T_("man-day")."</th>\n";
+   echo "</tr>\n";
+   $i = 0;
+   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
+      echo "<tr>\n";
+      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".number_format($val1[$i], 1)."</td>\n";
+      echo "</tr>\n";
+      $i++;
+   }
+   echo "</table>\n";
+   echo "</div>\n";
+   echo "</div>\n";
+
+}
+
+/**
+ *
+ * @param unknown_type $start_day
+ * @param unknown_type $start_month
+ * @param unknown_type $start_year
+ * @param unknown_type $teamid
+ */
+function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) {
+
+   $now = time();
+   $timeTrackingTable = array();
+
+   $day = $start_day;
+
+   for ($y = $start_year; $y <= date('Y'); $y++) {
+
+      for ($month=$start_month; $month<13; $month++) {
+
+         $startTimestamp = mktime(0, 0, 0, $month, $day, $y);
+         $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
+         $endTimestamp   = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
+
+         #echo "DEBUG createTimeTrackingList: startTimestamp=".date("Y-m-d H:i:s", $startTimestamp)." endTimestamp=".date("Y-m-d H:i:s", $endTimestamp)." nbDays = $nbDaysInMonth<br/>";
+
+         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+         $timeTrackingTable[$startTimestamp] = $timeTracking;
+
+         $day   = 1;
+      }
+      $start_month = 1;
+   }
+   return $timeTrackingTable;
+}
 
 
 
@@ -208,6 +305,23 @@ if (0 == count($teamList)) {
 
       echo "<br/><br/>\n";
       displayCurrentDriftStats($timeTracking);
+
+      // ----
+      echo "<br/><br/><hr>\n";
+#      echo "<br/><br/>\n";
+      $start_day = 1;
+      $start_month = date("m");
+      $start_year = date("Y");
+      $timeTrackingTable = createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
+      displayDevelopersWorkloadGraph($timeTrackingTable, 800, 300);
+
+      flush();
+      echo "<div class=\"spacer\"> </div>\n";
+
+      echo "<br/><br/>\n";
+
+
+
 
 
    } // if teamid
