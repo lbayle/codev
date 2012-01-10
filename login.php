@@ -76,6 +76,8 @@ if ("pleaseLogin" == $action) {
     $_SESSION['username']=$row_login->username;
     $_SESSION['realname']=$row_login->realname;
 
+    $logger->info("user $row_login->id logged in:  $row_login->username ($row_login->realname)");
+
 /*
     // TODO: remove hardcoded file path
     // trace login

@@ -21,7 +21,7 @@ $planning_black     = array(0, 0, 0);
 $planning_green     = array(128, 255, 159);
 $planning_red       = array(255, 183, 183);
 $planning_orange    = array(255, 209, 84);
-$planning_blue      = array(204, 218, 255);
+$planning_blue      = array(179, 199, 255);
 
 /*
 * Exemple d'utilisation de la fonction :
