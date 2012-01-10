@@ -218,11 +218,14 @@ $_SESSION['teamid'] = $teamid;
 
 $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
 
+// team
+$session_user = UserCache::getInstance()->getUser($userid);
+$mTeamList = $session_user->getTeamList();
+$lTeamList = $session_user->getLeadedTeamList();
+$managedTeamList = $session_user->getManagedTeamList();
+$teamList = $mTeamList + $lTeamList + $managedTeamList;
 
-$user = UserCache::getInstance()->getUser($userid);
-$lTeamList = $user->getLeadedTeamList();
-$managedTeamList = $user->getManagedTeamList();
-$teamList = $lTeamList + $managedTeamList;
+
 $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
 $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
