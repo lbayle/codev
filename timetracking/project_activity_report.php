@@ -50,6 +50,7 @@
   function submitPeriodActivityForm() {
 
      document.forms["form2"].teamid.value = document.getElementById('teamidSelector').value;
+     document.forms["form2"].is_modified.value= "true";
      document.forms["form2"].action.value = "displayProjectActivity";
 
      document.forms["form2"].submit();
@@ -120,13 +121,14 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   echo "<input type=hidden name=action       value=noAction>\n";
   echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
   echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
+
   echo "</form>\n";
   echo "</div>\n";
 }
 
 
 // -----------------------------------------------
-function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $defaultDate2) {
+function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $defaultDate2, $isDetailed = false, $is_modified = "false") {
 
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
 
@@ -169,11 +171,15 @@ function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $d
 
   echo "&nbsp; <span title='".T_("(included)")."'>".T_("End Date").": </span>"; $myCalendar2->writeScript();
 
+  $isChecked = $isDetailed ? "CHECKED" : "";
+  echo "&nbsp;<input type=CHECKBOX  $isChecked name='cb_detailed' id='cb_detailed'>".T_("Detailed")."</input>\n";
+  
   echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitPeriodActivityForm()'>\n";
 
   echo "<input type=hidden name=teamid  value=$teamid>\n";
 
   echo "<input type=hidden name=action       value=noAction>\n";
+  echo "<input type=hidden name=is_modified value=$is_modified>\n";
 
   echo "</form>\n";
   echo "</div>";
@@ -182,7 +188,7 @@ function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $d
 
 
 // ------------------------------------------------
-function displayProjectActivityReport($timeTracking) {
+function displayProjectActivityReport($timeTracking, $isDetailed = true) {
 
    // $projectTracks[projectid][bugid][jobid] = duration
    $projectTracks = $timeTracking->getProjectTracks(true);
@@ -198,12 +204,14 @@ function displayProjectActivityReport($timeTracking) {
      echo "<caption>".$project->name."</caption>\n";
      echo "<tr>\n";
      echo "  <th width='50%'>".T_("Task")."</th>\n";
-     echo "  <th width='2%'>".T_("RAF")."</th>\n";
 
      $jobList = $project->getJobList();
-     foreach($jobList as $jobId => $jobName) {
-         echo "  <th>$jobName</th>\n";
-     }
+     if ($isDetailed) {
+         foreach($jobList as $jobId => $jobName) {
+             echo "  <th>$jobName</th>\n";
+         }
+    }
+     echo "  <th width='2%'>".T_("RAF")."</th>\n";
      echo "  <th width='2%' title='".T_("Total time spent on this issue")."'>".T_("Total")."</th>\n";
      echo "</tr>\n";
 
@@ -213,12 +221,14 @@ function displayProjectActivityReport($timeTracking) {
          $totalTime = 0;
          echo "<tr>\n";
          echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-         echo "<td>".$issue->remaining."</td>\n";
 
          foreach($jobList as $jobId => $jobName) {
-            echo "<td width='10%'>".$jobs[$jobId]."</td>\n";
+            if ($isDetailed) {
+               echo "<td width='10%'>".$jobs[$jobId]."</td>\n";
+            }            
             $totalTime += $jobs[$jobId];
          }
+         echo "<td>".$issue->remaining."</td>\n";
          echo "<td>".$totalTime."</td>\n";
          echo "</tr>\n";
      }
@@ -275,6 +285,15 @@ $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
 $_SESSION['teamid'] = $teamid;
 
+// 'is_modified' is used because it's not possible to make a difference
+// between an unchecked checkBox and an unset checkbox variable
+$is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
+if ("false" == $is_modified) {
+   $isDetailed = false;
+} else {
+   $isDetailed   = isset($_POST['cb_detailed']) ? true : false;
+}
+
 
 // team
 $user = UserCache::getInstance()->getUser($userid);
@@ -323,7 +342,7 @@ if (0 == count($teamList)) {
    echo "<h2>".T_("Projects Activity")."</h2><br/>";
    echo "</div>";
 
-   displayTeamAndPeriodSelectionForm($teamList, $teamid, $date1, $date2);
+   displayTeamAndPeriodSelectionForm($teamList, $teamid, $date1, $date2, $isDetailed, $is_modified);
 
    if ("displayProjectActivity" == $action) {
 
@@ -333,7 +352,7 @@ if (0 == count($teamList)) {
 
 
       echo "<br/><br/>\n";
-      displayProjectActivityReport($timeTracking);
+      displayProjectActivityReport($timeTracking, $isDetailed);
 	}
    } // if action
 

@@ -199,6 +199,10 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
       $tmpPrj = ProjectCache::getInstance()->getProject($pid);
       if (!$tmpPrj->isSideTasksProject()) { unset($projList[$pid]); }
    }
+   $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+   $extProj = ProjectCache::getInstance()->getProject($extproj_id);
+   $projList[$extproj_id] = $extProj->name;
+
 
 
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
@@ -240,7 +244,7 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
 
    foreach ($issueList as $bugid) {
          $issue = IssueCache::getInstance()->getIssue($bugid);
-      if ($issue->isVacation()) {
+      if (($issue->isVacation()) || ($extproj_id == $issue->projectId)) {
          if ($bugid == $defaultBugid) {
             echo "<option selected value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
          } else {

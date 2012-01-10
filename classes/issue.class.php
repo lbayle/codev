@@ -656,7 +656,7 @@ class Issue {
 		}
    	} else {
          $timeDrift = "Error";
-   		$this->logger->warn("could not determinate TimeDrift for issue $this->bugId");
+   		$this->logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<$this->deadLine> deliveryDate=<$this->deliveryDate>");
    	}
    	return  $timeDrift;
    }
