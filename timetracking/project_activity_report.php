@@ -173,7 +173,7 @@ function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $d
 
   $isChecked = $isDetailed ? "CHECKED" : "";
   echo "&nbsp;<input type=CHECKBOX  $isChecked name='cb_detailed' id='cb_detailed'>".T_("Detailed")."</input>\n";
-  
+
   echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitPeriodActivityForm()'>\n";
 
   echo "<input type=hidden name=teamid  value=$teamid>\n";
@@ -211,6 +211,7 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
              echo "  <th>$jobName</th>\n";
          }
     }
+     echo "  <th width='2%'>".T_("Status")."</th>\n";
      echo "  <th width='2%'>".T_("RAF")."</th>\n";
      echo "  <th width='2%' title='".T_("Total time spent on this issue")."'>".T_("Total")."</th>\n";
      echo "</tr>\n";
@@ -225,9 +226,11 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
          foreach($jobList as $jobId => $jobName) {
             if ($isDetailed) {
                echo "<td width='10%'>".$jobs[$jobId]."</td>\n";
-            }            
+            }
             $totalTime += $jobs[$jobId];
          }
+
+         echo "<td>".$issue->getCurrentStatusName()."</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
          echo "<td>".$totalTime."</td>\n";
          echo "</tr>\n";

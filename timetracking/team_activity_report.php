@@ -44,6 +44,7 @@
     document.forms["form1"].weekid.value = document.getElementById('weekidSelector').value;
     document.forms["form1"].year.value   = document.getElementById('yearSelector').value;
     document.forms["form1"].action.value = "updateWeekDisplay";
+    document.forms["form1"].is_modified.value= "true";
     document.forms["form1"].submit();
   }
 
@@ -93,7 +94,7 @@ include_once "user.class.php";
 include_once "time_tracking.class.php";
 
 // ------------------------------------------------
-function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear=NULL) {
+function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear=NULL, $isDetailed = false, $is_modified = "false") {
 
   if (NULL == $curYear) { $curYear = date('Y'); }
 
@@ -140,11 +141,16 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
   echo "</select>\n";
   echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
 
+  $isChecked = $isDetailed ? "CHECKED" : "";
+  echo "&nbsp;<input type=CHECKBOX  $isChecked name='cb_detailed' id='cb_detailed' onChange='javascript: submitForm()'>".T_("Detailed")."</input>\n";
+
+
   echo "<input type=hidden name=teamid  value=1>\n";
   echo "<input type=hidden name=weekid  value=".date('W').">\n";
   echo "<input type=hidden name=year    value=$curYear>\n";
 
   echo "<input type=hidden name=action       value=noAction>\n";
+  echo "<input type=hidden name=is_modified value=$is_modified>\n";
   echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
   echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
   echo "</form>\n";
@@ -153,7 +159,7 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 
 
 // ------------------------------------------------
-function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) {
+function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, $isDetailed = false) {
 
   echo "<div>\n";
 
@@ -174,8 +180,12 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking) 
 
 	    echo "<div align='left'>\n";
 	    echo "<br/>";
-       echo "<br/>";
-	    displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
+      echo "<br/>";
+      if ($isDetailed) {
+	       displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
+	    } else {
+	       displayWeek($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
+	    }
 	    echo "</div>";
   	}
 
@@ -231,6 +241,52 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
 }
 
 
+// ------------------------------------------------
+function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
+  // PERIOD week
+  //$thisWeekId=date("W");
+
+  $weekTracks = $timeTracking->getWeekDetails($userid, true);
+  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='".T_("sum(Remaining) of current tasks")."'>".T_("workload")." = $workload</span><br/>\n";
+  echo "<table width='95%'>\n";
+  //echo "<caption>".$realname."</caption>\n";
+  echo "<tr>\n";
+  echo "<th width='50%'>".T_("Task")."</th>\n";
+  echo "<th width='7%'>".T_("Project")."</th>\n";
+  echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
+  echo "<th width='10'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
+  echo "<th width='10'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
+  echo "<th width='10'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
+  echo "<th width='10'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
+  echo "<th width='10' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
+  echo "<th width='10' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
+  echo "</tr>\n";
+  foreach ($weekTracks as $bugid => $jobList) {
+    $issue = IssueCache::getInstance()->getIssue($bugid);
+
+    echo "<tr>\n";
+    echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
+    echo "<td>".$issue->getProjectName()."</td>\n";
+
+    // for each day, concat jobs duration
+    for ($i = 1; $i <= 7; $i++) {
+       $duration = 0;
+       foreach ($jobList as $jobid => $dayList) {
+          $duration += $dayList[$i];
+       }
+       if (0 == $duration) { $duration = ""; }
+       if ($i < 6) {
+          echo "<td>".$duration."</td>\n";
+       } else {
+          echo "<td style='background-color: #D8D8D8;' >".$duration."</td>\n";
+       }
+    }
+    echo "</tr>\n";
+  }
+  echo "</table>\n";
+}
+
+
 
 
 function displayCheckWarnings($timeTracking) {
@@ -281,6 +337,15 @@ if (isset($_POST['teamid'])) {
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 }
 
+// 'is_modified' is used because it's not possible to make a difference
+// between an unchecked checkBox and an unset checkbox variable
+$is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
+if ("false" == $is_modified) {
+   $isDetailed = false;
+} else {
+   $isDetailed   = isset($_POST['cb_detailed']) ? true : false;
+}
+
 // ------
 
 $user = UserCache::getInstance()->getUser($userid);
@@ -301,7 +366,7 @@ if (0 == count($teamList)) {
    echo "<h2>".T_("Weekly Activity")."</h2><br/>";
    echo "</div>";
 
-   displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year);
+   displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year, $isDetailed, $is_modified);
 
 	if (isset($teamList["$teamid"]) && (NULL != $teamList["$teamid"])) {
 
@@ -311,7 +376,7 @@ if (0 == count($teamList)) {
 	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
       echo "<br/><br/>\n";
-	   displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking);
+	   displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, $isDetailed);
 
       echo "<br/><br/>\n";
       displayCheckWarnings($timeTracking);
