@@ -115,8 +115,15 @@ function displayCurrentDriftStats ($timeTracking) {
       $driftStats_new = array();
    }
 
+   echo "<h2>".T_("Effort Deviation")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></h2>\n";
+
+   echo "<span class='help_font'>\n";
+   echo T_("")."<br/>\n";
+   echo "</span>\n";
+   echo "<br/>\n";
+
    echo "<table>\n";
-   echo "<caption>".T_("EffortDeviation - Today opened Tasks")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
+   #echo "<caption>".T_("EffortDeviation - Today opened Tasks")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
    echo "<tr>\n";
    echo "<th></th>\n";
    echo "<th width='100' title='".T_("BEFORE analysis")."'>".T_("PrelEffortEstim")."</th>\n";
@@ -126,8 +133,18 @@ function displayCurrentDriftStats ($timeTracking) {
 
    echo "<tr>\n";
    echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
-   echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats_new["totalDriftETA"], 2)."</td>\n";
-   echo "<td title='elapsed - EffortEstim'>".number_format($driftStats_new["totalDrift"], 2)."</td>\n";
+   $value = number_format($driftStats_new["totalDriftETA"], 2);
+   $color = "";
+   if ($value > 0) { $color = "style='background-color: #61ed66;'"; }
+   if ($value < 0) { $color = "style='background-color: #fcbdbd;'"; }
+   echo "<td title='elapsed - PrelEffortEstim' $color >".$value."</td>\n";
+
+   $value = number_format($driftStats_new["totalDrift"], 2);
+   $color = "";
+   if ($value > 0) { $color = "style='background-color: #61ed66;'"; }
+   if ($value < 0) { $color = "style='background-color: #fcbdbd;'"; }
+
+   echo "<td title='elapsed - EffortEstim' $color>".$value."</td>\n";
    echo "<td></td>\n";
    echo "</tr>\n";
 
@@ -292,8 +309,8 @@ if (0 == count($teamList)) {
    $endTimestamp = date2timestamp($date2);
    $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-   echo "DEBUG startTimestamp ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
-   echo "DEBUG endTimestamp   ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
+   #echo "DEBUG startTimestamp ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
+   #echo "DEBUG endTimestamp   ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
 
    $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
@@ -303,7 +320,7 @@ if (0 == count($teamList)) {
 
    if (0 != $teamid) {
 
-      echo "<br/><br/>\n";
+      echo "<br/><br/><hr>\n";
       displayCurrentDriftStats($timeTracking);
 
       // ----

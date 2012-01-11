@@ -421,9 +421,19 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
 
   echo "<tr>\n";
   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
-  echo "<td title='elapsed - PrelEffortEstim'>".number_format($driftStats["totalDriftETA"], 2)."</td>\n";
-  echo "<td title='elapsed - EffortEstim'>".number_format($driftStats["totalDrift"], 2)."</td>\n";
-  echo "<td></td>\n";
+   $value = number_format($driftStats_new["totalDriftETA"], 2);
+   $color = "";
+   if ($value > 0) { $color = "style='background-color: #61ed66;'"; }
+   if ($value < 0) { $color = "style='background-color: #fcbdbd;'"; }
+   echo "<td title='elapsed - PrelEffortEstim' $color >".$value."</td>\n";
+
+   $value = number_format($driftStats_new["totalDrift"], 2);
+   $color = "";
+   if ($value > 0) { $color = "style='background-color: #61ed66;'"; }
+   if ($value < 0) { $color = "style='background-color: #fcbdbd;'"; }
+
+   echo "<td title='elapsed - EffortEstim' $color>".$value."</td>\n";
+     echo "<td></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
