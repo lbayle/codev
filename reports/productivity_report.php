@@ -337,7 +337,7 @@ function displayRates ($timeTracking) {
    //  $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
    $efficiencyRate          = $timeTracking->getEfficiencyRate();
    $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
-   $productionDaysForecast  = $timeTracking->getProductionDaysForecast();
+   $productionDaysForecast  = $timeTracking->getAvailableWorkload();
    //  $prodRateNoSupportETA    = $timeTracking->getProductivityRateNoSupport("ETA");
    //  $prodRateNoSupportBI     = $timeTracking->getProductivityRateNoSupport("EffortEstim");
 

@@ -163,27 +163,27 @@ function displayCurrentDriftStats ($timeTracking) {
 *
 * TODO factorize: this function also exists in statistics.php
 *
-* Display 'Developers Workload'
+* Display 'Available Workload'
 * nb of days.: (holidays & externalTasks not included, developers only)
 *
 * @param unknown_type $timeTrackingTable
 * @param unknown_type $width
 * @param unknown_type $height
 */
-function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
+function displayAvailableWorkloadGraph ($timeTrackingTable, $width, $height) {
 
    $start_day = 1;
    $now = time();
 
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
 
-      $workload = $timeTracking->getProductionDaysForecast();
+      $workload = $timeTracking->getAvailableWorkload();
       $val1[] = $workload;
       $bottomLabel[] = date("M y", $startTimestamp);
 
       #$logger->debug("workload=$workload date=".date('M y', $startTimestamp));
    }
-   $graph_title="title=".("Developers Workload");
+   $graph_title="title=".("Available Workload");
    $graph_width="width=$width";
    $graph_height="height=$height";
 
@@ -191,7 +191,7 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
 
    echo "<div>\n";
-   echo "<h2>".T_("Developers Workload")."</h2>\n";
+   echo "<h2>".T_("Available Workload")."</h2>\n";
 
    echo "<span class='help_font'>\n";
    echo T_("man-day").": ".T_("Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes)")."<br/>\n";
@@ -205,7 +205,7 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
    echo "</div>\n";
    echo "<div class=\"float\">\n";
    echo "<table>\n";
-   echo "<caption title='".("Developers Workload")."'</caption>";
+   echo "<caption title='".("Available Workload")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
    echo "<th title='".T_("nb production days")."'>".T_("man-day")."</th>\n";
@@ -313,7 +313,7 @@ if (0 == count($teamList)) {
       $start_month = date("m");
       $start_year = date("Y");
       $timeTrackingTable = createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
-      displayDevelopersWorkloadGraph($timeTrackingTable, 800, 300);
+      displayAvailableWorkloadGraph($timeTrackingTable, 800, 300);
 
       flush();
       echo "<div class=\"spacer\"> </div>\n";

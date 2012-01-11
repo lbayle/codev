@@ -228,7 +228,7 @@ class TimeTracking {
 
 
   // ----------------------------------------------
-  public function getProductionDaysForecast() {
+  public function getAvailableWorkload() {
     $accessLevel_dev     = Team::accessLevel_dev;
     $accessLevel_manager = Team::accessLevel_manager;
 
@@ -254,7 +254,7 @@ class TimeTracking {
     while($row = mysql_fetch_object($result))
     {
     	$user = UserCache::getInstance()->getUser($row->user_id);
-      $teamProdDaysForecast += $user->getProductionDaysForecast($this->startTimestamp, $this->endTimestamp, $this->team_id);
+      $teamProdDaysForecast += $user->getAvailableWorkload($this->startTimestamp, $this->endTimestamp, $this->team_id);
     }
 
     return $teamProdDaysForecast;

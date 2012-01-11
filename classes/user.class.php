@@ -340,7 +340,7 @@ class User {
    * @param unknown_type $endTimestamp
    * @param unknown_type $team_id
    */
-   public function getProductionDaysForecast($startTimestamp, $endTimestamp, $team_id = NULL) {
+   public function getAvailableWorkload($startTimestamp, $endTimestamp, $team_id = NULL) {
 
       $holidays = Holidays::getInstance();
 

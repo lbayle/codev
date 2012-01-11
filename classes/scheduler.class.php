@@ -105,7 +105,7 @@ class Scheduler {
 
 			$currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
 
-			$currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->getDeadLine());
+			$currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
 			$currentST->summary          = $issue->summary;
             $currentST->priorityName     = $issue->getPriorityName();
             $currentST->statusName       = $statusNames[$issue->currentStatus];
@@ -146,7 +146,7 @@ class Scheduler {
 
             $currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
 
-            $currentST->nbDaysToDeadLine = $user->getProductionDaysForecast($today, $issue->getDeadLine());
+            $currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
             $currentST->summary          = $issue->summary;
             $currentST->priorityName     = $issue->getPriorityName();
             $currentST->statusName       = $statusNames[$issue->currentStatus];

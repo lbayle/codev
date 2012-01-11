@@ -273,7 +273,7 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
 
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
 
-         $workload = $timeTracking->getProductionDaysForecast();
+         $workload = $timeTracking->getAvailableWorkload();
          $val1[] = $workload;
          $bottomLabel[] = date("M y", $startTimestamp);
 
