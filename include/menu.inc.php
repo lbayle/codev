@@ -16,17 +16,21 @@
 */ ?>
 <?php
    include_once "tools.php";
+   include_once "constants.php";
    include_once 'i18n.inc.php';
 ?>
 
 <div id="menu">
 
 <?php
+global $mantisURL;
+
+
 echo "<table class='menu'>\n";
 echo "   <tr>\n";
 echo "      <td class='menu'><a href='".getServerRootURL()."/index.php'>".T_("Home")."</a></td>\n";
 
-echo "      <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis' title='MantisBT'>Mantis</a></td>\n";
+echo "      <td><a href='".$mantisURL."' title='MantisBT'>Mantis</a></td>\n";
 
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/timetracking/time_tracking.php' title=''>".T_("Time Tracking")."</a>\n";

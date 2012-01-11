@@ -66,13 +66,14 @@ function displayLoginForm() {
 }
 
 function displayLinks() {
+   global $mantisURL;
 
    echo "<div id='homepage_list'  class='left'>\n";
 	echo "<br/>\n";
    echo "<br/>\n";
    echo "	<ul>\n";
    echo "   <li>\n";
-   echo "        <a href='http://".$_SERVER['HTTP_HOST']."/mantis.php'>Mantis</a>";
+   echo "        <a href='".$mantisURL."'>Mantis</a>";
    echo "   </li>\n";
    echo "   <br/>\n";
    echo "   <li>\n";
