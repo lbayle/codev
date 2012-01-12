@@ -29,17 +29,31 @@ if (!isset($_SESSION['userid'])) {
 <?php
    $_POST['page_name'] = T_("Forecasting");
    include 'header.inc.php';
-
-   $logger = Logger::getLogger("forecasting");
 ?>
 
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
 
+
 <script language="JavaScript">
 
-// ------ JQUERY --------
-$(function() {
+  function submitTeam(){
+
+     foundError = 0;
+     msgString = "Some fields are missing:" + "\n\n";
+
+     if (0 == document.forms["teamSelectForm"].f_teamid.value)  { msgString += "Team\n"; ++foundError; }
+
+     if (0 != foundError) {
+       alert(msgString);
+     }
+     document.forms["teamSelectForm"].action.value = "displayPage";
+     document.forms["teamSelectForm"].submit();
+
+   }
+
+   // ------ JQUERY --------
+   $(function() {
 
 		$( "#dialog_CurrentDriftStats" ).dialog({	autoOpen: false, hide: "fade"	});
 		$( "#dialog_CurrentDriftStats_link" ).click(function() { $( "#dialog_CurrentDriftStats" ).dialog( "open" ); return false;	});
@@ -82,6 +96,39 @@ include_once "issue.class.php";
 include_once "team.class.php";
 include_once "time_tracking.class.php";
 
+$logger = Logger::getLogger("forecasting");
+
+// -----------------------------------------
+function setTeamForm($originPage, $defaultSelection, $teamList) {
+
+   // create form
+   echo "<div align=center>\n";
+   if (isset($_GET['w'])) {
+      echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage?w=".$_GET['w']."&h=".$_GET['h']."'>\n";
+   } else {
+      echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
+   }
+   echo T_("Team")." :\n";
+   echo "<select name='f_teamid'>\n";
+   echo "<option value='0'></option>\n";
+
+   foreach ($teamList as $tid => $tname) {
+
+      if ($tid == $defaultSelection) {
+         echo "<option selected value='".$tid."'>".$tname."</option>\n";
+      } else {
+         echo "<option value='".$tid."'>".$tname."</option>\n";
+      }
+   }
+   echo "</select>\n";
+
+   echo "<input type=button value='".T_("Update")."' onClick='javascript: submitTeam()'>\n";
+
+   echo "<input type=hidden name=action value=noAction>\n";
+
+   echo "</form>\n";
+   echo "</div>\n";
+}
 
 
 // -----------------------------------------------
@@ -93,8 +140,20 @@ include_once "time_tracking.class.php";
  */
 function displayCurrentDriftStats ($timeTracking) {
 
+   global $logger;
+
+   echo "<h2>".T_("Effort Deviation")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></h2>\n";
+
    // ---- get Issues that are not Resolved/Closed
-   $formatedProdProjectList = implode( ', ', $timeTracking->prodProjectList);
+   $prodProjectList = $timeTracking->prodProjectList;
+
+   if ((NULL == $prodProjectList) || (0 == count($prodProjectList))) {
+      echo "<span style='color:red'>".T_("ERROR: No valid projects defined for this team")."</span><br>\n";
+      $logger->error("No valid projects defined for team ".$timeTracking->team_id);
+      return;
+   }
+
+   $formatedProdProjectList = implode( ', ', $prodProjectList);
    $issueList = array();
 
    $query = "SELECT DISTINCT id ".
@@ -102,7 +161,13 @@ function displayCurrentDriftStats ($timeTracking) {
                "WHERE status < get_project_resolved_status_threshold(project_id) ".
                "AND project_id IN ($formatedProdProjectList) ".
                "ORDER BY id DESC";
-   $result = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
 
    while($row = mysql_fetch_object($result)) {
       $issue = IssueCache::getInstance()->getIssue($row->id);
@@ -115,7 +180,6 @@ function displayCurrentDriftStats ($timeTracking) {
       $driftStats_new = array();
    }
 
-   echo "<h2>".T_("Effort Deviation")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></h2>\n";
 
    echo "<span class='help_font'>\n";
    echo T_("")."<br/>\n";
@@ -279,11 +343,21 @@ function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) 
 
 
 // =========== MAIN ==========
-$year = date('Y');
 
+
+$year = date('Y');
+/*
 $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
 $_SESSION['teamid'] = $teamid;
+*/
+// use the teamid set in the form, if not defined (first page call) use session teamid
+if (isset($_POST['f_teamid'])) {
+   $teamid = $_POST['f_teamid'];
+   $_SESSION['teamid'] = $teamid;
+} else {
+   $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+}
 
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
@@ -302,47 +376,47 @@ if (0 == count($teamList)) {
 
 } else {
 
-   $weekDates = week_dates(date('W'),$year);
-   $date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
-   $date2  = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $weekDates[5]);
-   $startTimestamp = date2timestamp($date1);
-   $endTimestamp = date2timestamp($date2);
-   $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+   setTeamForm("forecasting_report.php", $teamid, $teamList);
 
-   #echo "DEBUG startTimestamp ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
-   #echo "DEBUG endTimestamp   ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
-
-   $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-
-   #setInfoForm($teamid, $teamList, $date1, $date2, $defaultProjectid);
-   echo "<br/><br/>\n";
+   if ("displayPage" == $action) {
 
 
-   if (0 != $teamid) {
+      $weekDates = week_dates(date('W'),$year);
+      $date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
+      $date2  = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $weekDates[5]);
+      $startTimestamp = date2timestamp($date1);
+      $endTimestamp = date2timestamp($date2);
+      $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-      echo "<br/><br/><hr>\n";
-      displayCurrentDriftStats($timeTracking);
+      #echo "DEBUG startTimestamp ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
+      #echo "DEBUG endTimestamp   ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
 
-      // ----
-      echo "<br/><br/><hr>\n";
-#      echo "<br/><br/>\n";
-      $start_day = 1;
-      $start_month = date("m");
-      $start_year = date("Y");
-      $timeTrackingTable = createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
-      displayAvailableWorkloadGraph($timeTrackingTable, 800, 300);
+      $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-      flush();
-      echo "<div class=\"spacer\"> </div>\n";
-
+      #setInfoForm($teamid, $teamList, $date1, $date2, $defaultProjectid);
       echo "<br/><br/>\n";
 
 
+      if (0 != $teamid) {
 
+         echo "<br/><br/><hr>\n";
+         displayCurrentDriftStats($timeTracking);
 
+         // ----
+         echo "<br/><br/><hr>\n";
+         $start_day = 1;
+         $start_month = date("m");
+         $start_year = date("Y");
+         $timeTrackingTable = createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
+         displayAvailableWorkloadGraph($timeTrackingTable, 800, 300);
 
-   } // if teamid
+         flush();
+         echo "<div class=\"spacer\"> </div>\n";
 
+         echo "<br/><br/>\n";
+
+      } // if teamid
+   } // if action
 } // else teamList
 ?>
 
