@@ -199,14 +199,14 @@ function displayCurrentDriftStats ($timeTracking) {
    echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
    $value = number_format($driftStats_new["totalDriftETA"], 2);
    $color = "";
-   if ($value > 0) { $color = "style='background-color: #61ed66;'"; }
-   if ($value < 0) { $color = "style='background-color: #fcbdbd;'"; }
+   if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
+   if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
    echo "<td title='elapsed - PrelEffortEstim' $color >".$value."</td>\n";
 
    $value = number_format($driftStats_new["totalDrift"], 2);
    $color = "";
-   if ($value > 0) { $color = "style='background-color: #61ed66;'"; }
-   if ($value < 0) { $color = "style='background-color: #fcbdbd;'"; }
+   if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
+   if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
 
    echo "<td title='elapsed - EffortEstim' $color>".$value."</td>\n";
    echo "<td></td>\n";
