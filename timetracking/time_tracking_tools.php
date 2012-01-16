@@ -183,9 +183,13 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    echo "<th width='80' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
    echo "<th width='80' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
    echo "</tr>\n";
+   $linkList = array();
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = IssueCache::getInstance()->getIssue($bugid);
+	  
       foreach ($jobList as $jobid => $dayList) {
+         $linkid = $bugid."_".$jobid;
+	     $linkList["$linkid"] = $issue;
 
          $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
          $result3 = mysql_query($query3) or die("Query failed: $query3");
@@ -193,7 +197,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 
          echo "<tr>\n";
          echo "<td>".mantisIssueURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-         echo "<td>".$issue->remaining."</td>\n";
+         echo "<td><a id='".$linkid."_update_remaining_link' title='".T_("update remaining")."' href='#' >".$issue->remaining."</a></td>\n";
          echo "<td>".$jobName."</td>\n";
          for ($i = 1; $i <= 5; $i++) {
             echo "<td>".$dayList[$i]."</td>\n";
@@ -206,6 +210,23 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    }
    echo " </table>\n";
    echo "</div>\n";
+
+   // create links for JQUERY dialogBox
+   echo "<script>\n";
+   echo "$(function() {\n";
+   foreach ($linkList as $linkid => $issue) {
+      	echo "$( '#".$linkid."_update_remaining_link' ).click(function() {\n";
+		echo "   $( '#bugid' ).val(".$issue->bugId.");\n";
+		echo "   $( '#remaining' ).val(".$issue->remaining.");\n";
+		echo "   $( '#validateTips' ).text('".addslashes($issue->summary)."');\n";
+		echo "   $( '#update_remaining_dialog_form' ).dialog('option', 'title', 'Task ".$issue->bugId." / ".$issue->tcId." - Update Remaining');\n";
+		echo "   $( '#update_remaining_dialog_form' ).dialog( 'open' );\n";
+		echo "});\n";
+   }
+echo "});\n";
+   
+   echo "</script>\n";
+   
 }
 
 ?>

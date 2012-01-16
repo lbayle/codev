@@ -16,25 +16,35 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
 
-<?php include_once '../path.inc.php'; ?>
-
 <?php
+include_once '../path.inc.php';
 include_once 'i18n.inc.php';
+
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-
   exit;
 }
+
+$_POST['page_name'] = T_("Time Tracking");
+include 'header.inc.php';
+
+include_once 'tools.php';
+include 'login.inc.php';
+include 'menu.inc.php';
+
+// ----
+include_once "issue.class.php";
+include_once "project.class.php";
+include_once "user.class.php";
+include_once "time_tracking.class.php";
+include_once "time_tracking_tools.php";
+require_once('tc_calendar.php');
 ?>
 
-<?php
-   $_POST['page_name'] = T_("Time Tracking");
-   include 'header.inc.php';
-?>
-
-<?php include_once 'tools.php'; ?>
-<?php include 'login.inc.php'; ?>
-<?php include 'menu.inc.php'; ?>
+<style>
+   fieldset { padding:0; border:0; }
+   validateTips { border: 1px solid transparent; padding: 0.3em; }
+</style>
 
 <script language="JavaScript">
   function submitUser(){
@@ -130,19 +140,82 @@ if (!isset($_SESSION['userid'])) {
    }
 
 
+   // ------ JQUERY ------
+	$(function() {
+
+		var bugid = $( "#bugid" ),
+		    remaining = $( "#remaining" ),
+			 allFields = $( [] ).add( remaining ),
+			 tips = $( "#validateTips" );
+
+		function updateTips( t ) {
+			tips
+				.text( t )
+				.addClass( "ui-state-highlight" );
+			setTimeout(function() {
+				tips.removeClass( "ui-state-highlight", 1500 );
+			}, 500 );
+		}
+
+		function checkRegexp( o, regexp, n ) {
+			if ( !( regexp.test( o.val() ) ) ) {
+				o.addClass( "ui-state-error" );
+				updateTips( n );
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		$( "#update_remaining_dialog_form" ).dialog({
+			autoOpen: false,
+			height: 200,
+			width: 500,
+			modal: true,
+			buttons: {
+				"Update": function() {
+					var bValid = true;
+					allFields.removeClass( "ui-state-error" );
+					bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format: '1','0.3' or '1.55'" );
+
+					if ( bValid ) {
+						// here, use AJAX to call php func and update remaining on bugid
+						//$( this ).dialog( "close" );
+						$( "#action" ).val("updateRemainingAction");
+						$('#formUpdateRemaining').submit();
+					}
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				allFields.val( "" ).removeClass( "ui-state-error" );
+			}
+		});
+	});
+
+
 </script>
 
 <div id="content">
 
+
+<div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style='display: none'>
+	<p id="validateTips">Set new value</p>
+	<form id='formUpdateRemaining' name='formUpdateRemaining' method='post' Action='time_tracking.php' >
+	   <fieldset>
+		   <label for="remaining">Remaining: </label>
+		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
+	   </fieldset>
+      <input type='hidden' id='bugid'  name='bugid'  value=0 >
+      <input type='hidden' id='action' name='action' value=noAction >
+      <input type='hidden' name='nextForm' value='addTrackForm'>
+	</form>
+</div>
+
+
 <?php
-
-include_once "issue.class.php";
-include_once "project.class.php";
-include_once "user.class.php";
-include_once "time_tracking.class.php";
-include_once "time_tracking_tools.php";
-
-require_once('tc_calendar.php');
 
 // --------------------------------------------------------------
 function setUserForm($originPage) {
@@ -356,6 +429,9 @@ $managed_user = UserCache::getInstance()->getUser($userid);
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 $teamList = $session_user->getLeadedTeamList();
 
+// updateRemaining data
+$bugid  = isset($_POST['bugid']) ? $_POST['bugid'] : '';
+$remaining  = isset($_POST['remaining']) ? $_POST['remaining'] : '';
 
 
 // if first call to this page
@@ -465,6 +541,13 @@ if ($_POST['nextForm'] == "addTrackForm") {
     $defaultProjectid  = $issue->projectId;
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
     $defaultDate = $formatedDate;
+
+  }elseif ("updateRemainingAction" == $action) {
+
+	$issue = IssueCache::getInstance()->getIssue($bugid);
+	if (NULL != $issue->remaining) {
+		$issue->setRemaining($remaining);
+	}
 
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";
