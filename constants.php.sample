@@ -1,0 +1,38 @@
+<?php
+   // This file is part of CoDev-Timetracking.
+  // - The Variables in here can be customized to your needs
+  // - This file has been generated during install on <date>
+
+  date_default_timezone_set('Europe/Paris');
+
+  include_once "config.class.php";
+
+  $codevInstall_timestamp = 0;
+
+  $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
+
+  $codevRootDir = dirname(__FILE__);
+
+  // --- RESOLUTION ---
+  # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values
+  # INFO: the values depend on what you defined in codev_config_table.resolutionNames
+  $resolution_fixed    = array_search('fixed',    $resolutionNames);  # 20
+  $resolution_reopened = array_search('reopened', $resolutionNames);  # 30;
+
+  // --- STATUS ---
+  $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
+
+  $status_new       = array_search('new', $statusNames);
+  $status_feedback       = array_search('feedback', $statusNames);
+  $status_acknowledged       = array_search('acknowledged', $statusNames);
+  $status_confirmed       = array_search('confirmed', $statusNames);
+  $status_assigned       = array_search('assigned', $statusNames);
+  $status_resolved       = array_search('resolved', $statusNames);
+  $status_closed       = array_search('closed', $statusNames);
+
+
+# Custom Relationships
+define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY',       2500 );
+define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',           2501 );
+
+?>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+    more info here:
+    http://logging.apache.org/log4php/docs/layouts/pattern.html 
+-->
+
+<log4php:configuration xmlns:log4php="http://logging.apache.org/log4php/">
+    
+    <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
+    
+    <appender name="myFileAppender" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%X{server.REMOTE_ADDR}]%n" />
+        </layout>
+        <param name="file" value="/XAMPP/reports/codevtt.log" />
+    </appender>
+
+    <logger name="login">
+        <level value="INFO" />
+    </logger>
+    <logger name="homepage">
+        <level value="INFO" />
+    </logger>
+
+<!--    
+    <logger name="Holiday">
+        <level value="ERROR" />
+    </logger>
+    <logger name="Holidays">
+        <level value="ERROR" />
+    </logger>
+-->
+
+<!--    
+    <logger name="GanttManager">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="GanttActivity">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="gantt_graph">
+        <level value="DEBUG" />
+    </logger>
+-->
+    
+<!--    
+    <logger name="Issue">
+        <level value="ERROR" />
+    </logger>
+    <logger name="TimeTracking">
+        <level value="ERROR" />
+    </logger>
+    <logger name="User">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="Scheduler">
+        <level value="DEBUG" />
+    </logger>
+-->
+
+	
+    <root>
+        <level value="ERROR" />
+        <appender_ref ref="myFileAppender" />
+    </root>
+</log4php:configuration>
+

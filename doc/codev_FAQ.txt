@@ -1,0 +1,37 @@
+
+
+** Install
+
+- System Requirements:
+  + 128 MB RAM
+  + 192 MB free fixed disk
+
+- Linux
+  + Apache 2.2.x
+  + MySQL 5.1.x
+  + PHP 5.3.x
+  + phpMyAdmin 3.2.x
+  + Mantis 1.2.x
+  + Git 1.7.x
+  + Diffuse
+  + eclipse-php (optional)
+
+- Windows XP
+  + XAMPP Lite 1.7.3
+  + Mantis 1.2.x
+  + Git (msysgit) 1.7.3.1
+  + Diffuse
+  + eclipse-php-galileo (optional)
+
+** TimeTracking - User
+
+- the task does not apear in the task list :
+  be sure that you have the proper rights to work on this project.
+  check mantis_project_user_list_table.
+
+
+** TimeTracking - TeamLeader
+
+
+** Job - Support
+

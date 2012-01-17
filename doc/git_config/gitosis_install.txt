@@ -1,0 +1,80 @@
+## Gitosis
+# http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way
+# http://en.gentoo-wiki.com/wiki/Gitosis
+
+# NOTE:
+# git@urserver      is the user what hosts git 'bare' repositories
+# user1@workstation is a git/gitosis administrator
+# user2@workstation is a user creating a new project named 'project1'
+# user3@workstation is a user working on 'project1'
+
+# === prepare system ===
+yum install git gitosis gitweb diffuse git-daemon git-gui gitk emacs-git
+
+# === prepare user ===
+user1@workstation# git config --global user.name "user1"
+user1@workstation# git config --global user.email user1@yourdomain.example.com
+user1@workstation# git config --global merge.tool diffuse
+user1@workstation# ssh-keygen -t rsa
+
+
+# === create user git@urserver === 
+root@urserver# adduser \
+    --system \
+    --shell /bin/bash \
+    --gecos 'git version control' \
+    --group \
+    --disabled-password \
+    --home /home/git \
+    git
+
+# === prepare gitosis ===
+user1@workstation# scp ~/.ssh/id_rsa.pub root@urserver:/tmp/user1.pub
+
+git@urserver # gitosis-init < /tmp/user1.pub
+
+user1@workstation# cd ~/Src
+user1@workstation# git clone git@urserver:gitosis-admin.git
+
+# === add user2 to gitosis ===
+user1@workstation# cd ~/Src/gitosis-admin
+user1@workstation# cp /tmp/user2.pub  ./keydir
+user1@workstation# vi ./gitosis.conf
+[group myteam]
+members = user2
+writable = project1
+user1@workstation# git commit -a -m "Allow user2 write access to project1"
+user1@workstation# git push
+
+# === create project1 ===
+user2@workstation# mkdir -p ~/Src/project1
+user2@workstation# cd ~/Src/project1
+user2@workstation# git init
+user2@workstation# git remote add origin git@urserver:project1.git
+user2@workstation# echo "hi, this is the readme file" > README.txt
+user2@workstation# git commit -a -m "initial commit"
+user2@workstation# git push origin master:refs/heads/master
+
+# === add co-workers to project1 ===
+user3@workstation# scp ~/.ssh/id_rsa.pub git@urserver:/tmp/user3.pub
+
+user1@workstation# cd ~/Src/gitosis-admin
+user1@workstation# cp /tmp/user3.pub  ./keydir
+user1@workstation# git add keydir/user3.pub
+user1@workstation# vi ~/Src/gitosis-admin/gitosis.conf
+- members = user2
++ members = user2 user3
+user1@workstation# git commit -a -m "Granted user3 commit rights to project1"
+user1@workstation# git push
+
+user3@workstation# git clone git@urserver:project1.git
+
+
+
+
+
+
+
+
+
+

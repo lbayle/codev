@@ -1,0 +1,30 @@
+[gui]
+	recentrepo = /opt/codev
+[user]
+	name = Louis BAYLE
+	email = lbayle.work@gmail.com
+
+[core]
+	pager = less -FRSX
+	editor = vim
+
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+
+[diff]
+	renames = true
+
+[difftool]
+	prompt = true
+	cmd = diffuse $LOCAL $REMOTE
+
+[merge]
+	tool = diffuse
+
+[mergetool]
+	keepBackup = false
+
+
