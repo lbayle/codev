@@ -60,7 +60,7 @@
    echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>\n";
 
    // --- JQUERY ---
-   echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css' rel='Stylesheet' />\n";
+   echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/Aristo/Aristo.css' rel='Stylesheet' />\n";
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/jquery.js'></script>\n";
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/jquery-bgiframe.js'></script>\n";
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/jquery-ui.js'></script>\n";
