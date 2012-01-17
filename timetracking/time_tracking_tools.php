@@ -216,6 +216,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    echo "$(function() {\n";
    foreach ($linkList as $linkid => $issue) {
       	echo "$( '#".$linkid."_update_remaining_link' ).click(function() {\n";
+		echo "   $( '#userid' ).val(".$userid.");\n";
 		echo "   $( '#bugid' ).val(".$issue->bugId.");\n";
 		echo "   $( '#remaining' ).val(".$issue->remaining.");\n";
 		echo "   $( '#validateTips' ).text('".addslashes($issue->summary)."');\n";

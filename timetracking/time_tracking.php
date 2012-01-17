@@ -139,7 +139,7 @@ require_once('tc_calendar.php');
      }
    }
 
-
+   
    // ------ JQUERY ------
 	$(function() {
 
@@ -172,6 +172,10 @@ require_once('tc_calendar.php');
 			height: 200,
 			width: 500,
 			modal: true,
+			open: function() { 
+               // Select input field contents 
+               $( "#remaining" ).select(); 
+			},
 			buttons: {
 				"Update": function() {
 					var bValid = true;
@@ -208,9 +212,10 @@ require_once('tc_calendar.php');
 		   <label for="remaining">Remaining: </label>
 		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
 	   </fieldset>
-      <input type='hidden' id='bugid'  name='bugid'  value=0 >
-      <input type='hidden' id='action' name='action' value=noAction >
-      <input type='hidden' name='nextForm' value='addTrackForm'>
+	  <input type='hidden' id='userid'   name='userid'   value='0' >
+      <input type='hidden' id='bugid'    name='bugid'    value='0' >
+      <input type='hidden' id='action'   name='action'   value='noAction' >
+      <input type='hidden' id='nextForm' name='nextForm' value='addTrackForm' >
 	</form>
 </div>
 
@@ -433,6 +438,8 @@ $teamList = $session_user->getLeadedTeamList();
 $bugid  = isset($_POST['bugid']) ? $_POST['bugid'] : '';
 $remaining  = isset($_POST['remaining']) ? $_POST['remaining'] : '';
 
+$action = isset($_POST["action"]) ? $_POST["action"] : '';
+$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
 // if first call to this page
 if (!isset($_POST['nextForm'])) {
@@ -456,9 +463,7 @@ if (!isset($_POST['nextForm'])) {
 }
 
 if ($_POST['nextForm'] == "addTrackForm") {
-  $action = isset($_POST["action"]) ? $_POST["action"] : '';
-  $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
-
+  
   $defaultDate  = $formatedDate= date("Y-m-d", time());
   $defaultBugid = 0;
   $defaultProjectid=0;
@@ -543,12 +548,11 @@ if ($_POST['nextForm'] == "addTrackForm") {
     $defaultDate = $formatedDate;
 
   }elseif ("updateRemainingAction" == $action) {
-
 	$issue = IssueCache::getInstance()->getIssue($bugid);
 	if (NULL != $issue->remaining) {
 		$issue->setRemaining($remaining);
 	}
-
+	
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";
   } else {
