@@ -13,7 +13,7 @@
 ###############################################################
 
 // CodevTT specific
-$codevReportsDir = isset($_POST['codevReportsDir']) ? $_POST['codevReportsDir'] : "/tmp";
+$codevReportsDir = isset($_POST['codevReportsDir']) ? $_POST['codevReportsDir'] : "/XAMPP/reports";
 $codevReportsDir .= '/';
 
 // Allow direct file download (hotlinking)?
