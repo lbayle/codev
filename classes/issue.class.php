@@ -283,6 +283,11 @@ class Issue {
       return false;
    }
 
+   // ----------------------------------------------
+   public function getTargetVersion() {
+   
+      return $this->target_version;
+   }
 
    // ----------------------------------------------
    public function getTC() {
