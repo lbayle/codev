@@ -22,6 +22,9 @@
     <logger name="homepage">
         <level value="INFO" />
     </logger>
+    <logger name="download">
+        <level value="INFO" />
+    </logger>
 
 <!--    
     <logger name="Holiday">

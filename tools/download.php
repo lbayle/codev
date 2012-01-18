@@ -1,3 +1,4 @@
+<?php if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
 <?php
 
 ###############################################################
@@ -12,8 +13,50 @@
 #    download.php?f=phptutorial.zip&fc=php123tutorial.zip
 ###############################################################
 
+# WARN: this avoids the display of some PHP errors...
+error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+
+include_once '../path.inc.php';
+include_once 'i18n.inc.php';
+
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+   Logger::configure(dirname(__FILE__).'/../log4php.xml');
+   $logger = Logger::getLogger("download");
+   //$logger->debug("LOG activated !");
+}
+
+include_once "tools.php";
+include_once "mysql_connect.inc.php";
+include_once "internal_config.inc.php";
+include_once "constants.php";
+
+
+if (!isset($_SESSION['userid'])) {
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
+  exit;
+}
+
+  // get user info
+  $session_user = $_SESSION['userid'];
+  $query= "SELECT id, username, realname FROM `mantis_user_table` WHERE id = '$session_user'";
+  $result = mysql_query($query);
+  if (!$result) {
+  	$logger->error("Query FAILED: $query");
+  	$logger->error(mysql_error());
+  	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+  	exit;
+  }
+  
+  if ($row_login = mysql_fetch_object($result)) {
+    $userid=$row_login->id;
+    $username=$row_login->username;
+    $realname=$row_login->realname;
+}
+
+
 // CodevTT specific
-$codevReportsDir = isset($_POST['codevReportsDir']) ? $_POST['codevReportsDir'] : "/XAMPP/reports";
+$codevReportsDir = isset($_POST['codevReportsDir']) ? $_POST['codevReportsDir'] : "/tmp";
 $codevReportsDir .= '/';
 
 // Allow direct file download (hotlinking)?
@@ -25,9 +68,6 @@ define('ALLOWED_REFERRER', '');
 // MUST end with slash (i.e. "/" )
 define('BASE_DIR',$codevReportsDir);
 #define('BASE_DIR','/tmp/codevReports/');
-
-// log downloads?  true/false
-define('LOG_DOWNLOADS',true);
 
 // log file name
 define('LOG_FILE',$codevReportsDir.'downloads.log');
@@ -79,6 +119,7 @@ $allowed_ext = array (
 if (ALLOWED_REFERRER !== ''
 && (!isset($_SERVER['HTTP_REFERER']) || strpos(strtoupper($_SERVER['HTTP_REFERER']),strtoupper(ALLOWED_REFERRER)) === false)
 ) {
+  $logger->error("Internal server error. Please contact system administrator.");
   die("Internal server error. Please contact system administrator.");
 }
 
@@ -87,6 +128,7 @@ if (ALLOWED_REFERRER !== ''
 set_time_limit(0);
 
 if (!isset($_GET['f']) || empty($_GET['f'])) {
+  $logger->error("Please specify file name for download.");
   die("Please specify file name for download.");
 }
 
@@ -124,6 +166,7 @@ $file_path = '';
 find_file(BASE_DIR, $fname, $file_path);
 
 if (!is_file($file_path)) {
+  $logger->error("File <$file_path> does not exist.");
   die("File does not exist. Make sure you specified correct file name.");
 }
 
@@ -135,6 +178,7 @@ $fext = strtolower(substr(strrchr($fname,"."),1));
 
 // check if allowed extension
 if (!array_key_exists($fext, $allowed_ext)) {
+  $logger->error("Not allowed file type.");
   die("Not allowed file type.");
 }
 
@@ -198,12 +242,11 @@ if ($file) {
 }
 
 // log downloads
-if (!LOG_DOWNLOADS) die();
+$logger->info("user ".$userid." (".$username.") downloaded file: ".$fname);
 
-$f = @fopen(LOG_FILE, 'a+');
-if ($f) {
-  @fputs($f, date("m.d.Y g:ia")."  ".$_SERVER['REMOTE_ADDR']."  ".$fname."\n");
-  @fclose($f);
-}
+
+
+
+
 
 ?>
