@@ -19,7 +19,7 @@
 */
 
    # WARN: this avoids the display of some PHP errors...
-#   error_reporting(E_ALL ^ E_NOTICE);
+   #error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 ?>
 <?php
 
@@ -28,6 +28,7 @@
    error_reporting(0); // no logs displayed in page (page is a generated image)
    date_default_timezone_set('Europe/Paris');
 
+   
    require_once '../path.inc.php';
    require_once('Logger.php');
    if (NULL == Logger::getConfigurationFile()) {
