@@ -206,6 +206,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   //echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
   echo "<th width='50%'>".T_("Task")."</th>\n";
+  echo "<th width='1%'>".T_("RAF")."</th>\n";
   echo "<th width='7%'>".T_("Project")."</th>\n";
   echo "<th width='10%'>".T_("Job")."</th>\n";
   echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
@@ -226,6 +227,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
 
       echo "<tr>\n";
       echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
+      echo "<td>".$issue->getRemaining()."</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$jobName."</td>\n";
       for ($i = 1; $i <= 5; $i++) {
@@ -252,6 +254,7 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
   //echo "<caption>".$realname."</caption>\n";
   echo "<tr>\n";
   echo "<th width='50%'>".T_("Task")."</th>\n";
+  echo "<th width='1%'>".T_("RAF")."</th>\n";
   echo "<th width='7%'>".T_("Project")."</th>\n";
   echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
   echo "<th width='10'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
@@ -266,6 +269,7 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
 
     echo "<tr>\n";
     echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
+    echo "<td>".$issue->getRemaining()."</td>\n";
     echo "<td>".$issue->getProjectName()."</td>\n";
 
     // for each day, concat jobs duration
