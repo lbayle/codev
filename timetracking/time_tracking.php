@@ -116,13 +116,13 @@ require_once('tc_calendar.php');
   }
 
   function deleteTrack(trackid, description, bugid){
-    confirmString = "D&eacute;sirez-vous vraiment supprimer cette ligne ?\n\n" + description;
-    if (confirm(confirmString)) {
-      document.forms["form1"].action.value="deleteTrack";
-      document.forms["form1"].trackid.value=trackid;
-      document.forms["form1"].bugid.value=bugid;
-      document.forms["form1"].submit();
-    }
+  
+     $( "#deleteTrack_dialog_form" ).children("p[name=description]").text(description);
+     $( "#formDeleteTrack" ).children("input[name=trackid]").val(trackid);
+     $( "#formDeleteTrack" ).children("input[name=bugid]").val(bugid);
+
+     $( "#deleteTrack_dialog_form" ).dialog( "open" );
+
   }
 
   function setProjectid() {
@@ -183,8 +183,7 @@ require_once('tc_calendar.php');
 					bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format: '1','0.3' or '1.55'" );
 
 					if ( bValid ) {
-						// here, use AJAX to call php func and update remaining on bugid
-						//$( this ).dialog( "close" );
+						// TODO use AJAX to call php func and update remaining on bugid
 						$( "#action" ).val("updateRemainingAction");
 						$('#formUpdateRemaining').submit();
 					}
@@ -197,6 +196,25 @@ require_once('tc_calendar.php');
 				allFields.val( "" ).removeClass( "ui-state-error" );
 			}
 		});
+		
+		// delete track dialogBox
+		$( "#deleteTrack_dialog_form" ).dialog({
+			autoOpen: false,
+			resizable: true,
+			height: 200,
+			width: 500,
+			modal: true,
+			buttons: {
+				"Delete": function() {
+				$( "#action" ).val("deleteTrack");
+				$('#formDeleteTrack').submit();
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		
 	});
 
 
@@ -212,13 +230,22 @@ require_once('tc_calendar.php');
 		   <label for="remaining">Remaining: </label>
 		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
 	   </fieldset>
-	  <input type='hidden' id='userid'   name='userid'   value='0' >
-      <input type='hidden' id='bugid'    name='bugid'    value='0' >
-      <input type='hidden' id='action'   name='action'   value='noAction' >
-      <input type='hidden' id='nextForm' name='nextForm' value='addTrackForm' >
+      <input type='hidden' name='bugid'  value=0 >
+      <input type='hidden' name='action' value=noAction >
+      <input type='hidden' name='nextForm' value=addTrackForm>
 	</form>
 </div>
 
+<div id="deleteTrack_dialog_form" title="Delete track" style='display: none'>
+   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Deleted the following timetrack ?</p>
+   <p id='description' name='description' >Track description</p>
+   <form id='formDeleteTrack' name='formDeleteTrack' method='post' Action='time_tracking.php' >
+      <input type='hidden' name='trackid' value='0' >
+      <input type='hidden' name='bugid'   value='0' >
+      <input type='hidden' name='action'  value='deleteTrack' >
+      <input type='hidden' name='nextForm' value='addTrackForm'>
+	</form>
+</div>
 
 <?php
 
