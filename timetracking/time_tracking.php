@@ -143,8 +143,7 @@ require_once('tc_calendar.php');
    // ------ JQUERY ------
 	$(function() {
 
-		var bugid = $( "#bugid" ),
-		    remaining = $( "#remaining" ),
+		var  remaining = $( "#remaining" ),
 			 allFields = $( [] ).add( remaining ),
 			 tips = $( "#validateTips" );
 
@@ -184,7 +183,6 @@ require_once('tc_calendar.php');
 
 					if ( bValid ) {
 						// TODO use AJAX to call php func and update remaining on bugid
-						$( "#action" ).val("updateRemainingAction");
 						$('#formUpdateRemaining').submit();
 					}
 				},
@@ -206,7 +204,6 @@ require_once('tc_calendar.php');
 			modal: true,
 			buttons: {
 				"Delete": function() {
-				$( "#action" ).val("deleteTrack");
 				$('#formDeleteTrack').submit();
 				},
 				Cancel: function() {
@@ -230,9 +227,9 @@ require_once('tc_calendar.php');
 		   <label for="remaining">Remaining: </label>
 		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
 	   </fieldset>
-      <input type='hidden' name='bugid'  value=0 >
-      <input type='hidden' name='action' value=noAction >
-      <input type='hidden' name='nextForm' value=addTrackForm>
+      <input type='hidden' name='bugid'  value='0' >
+      <input type='hidden' name='action' value='updateRemainingAction' >
+      <input type='hidden' name='nextForm' value='addTrackForm'>
 	</form>
 </div>
 
