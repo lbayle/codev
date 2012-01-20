@@ -95,11 +95,10 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
       $jobName = mysql_result($result3, 0);
       $formatedDate= date("Y-m-d", $row->date);
       $cosmeticDate    = date("Y-m-d (l)", $row->date);
+      $formatedId = "$row->bugid / $issue->tcId";
       $formatedJobName = str_replace("'", "\'", $jobName);
       $formatedSummary = str_replace("'", "\'", $issue->summary);
       $formatedSummary = str_replace('"', "\'", $formatedSummary);
-      $trackDescription = "$formatedDate | $row->bugid ($issue->tcId) | $formatedJobName | $row->duration | $formatedSummary";
-
       $totalEstim = $issue->effortEstim + $issue->effortAdd;
 
       // --- choose row color
@@ -117,7 +116,7 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
       // --- display row
       echo "<tr class ='$tr_class'>\n";
       echo "<td>\n";
-      echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$trackDescription."', '".$row->bugid."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
+      echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$formatedDate."', '".$formatedId."', '".$row->duration."', '".$formatedJobName."', '".$formatedSummary."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
       echo "<td width=170>".$cosmeticDate."</td>\n";
       echo "<td>".mantisIssueURL($row->bugid)."</td>\n";

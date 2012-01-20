@@ -115,9 +115,14 @@ require_once('tc_calendar.php');
     }
   }
 
-  function deleteTrack(trackid, description, bugid){
+  function deleteTrack(trackid, date, bugid, duration, job, description){
+
+     $( "#desc_date" ).text(date);
+     $( "#desc_id" ).text(bugid);
+     $( "#desc_duration" ).text(duration);
+     $( "#desc_job" ).text(job);
+     $( "#desc_summary" ).text(description);
   
-     $( "#deleteTrack_dialog_form" ).children("p[name=description]").text(description);
      $( "#formDeleteTrack" ).children("input[name=trackid]").val(trackid);
      $( "#formDeleteTrack" ).children("input[name=bugid]").val(bugid);
 
@@ -179,7 +184,7 @@ require_once('tc_calendar.php');
 				"Update": function() {
 					var bValid = true;
 					allFields.removeClass( "ui-state-error" );
-					bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format: '1','0.3' or '1.55'" );
+					bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
 
 					if ( bValid ) {
 						// TODO use AJAX to call php func and update remaining on bugid
@@ -199,8 +204,8 @@ require_once('tc_calendar.php');
 		$( "#deleteTrack_dialog_form" ).dialog({
 			autoOpen: false,
 			resizable: true,
-			height: 200,
-			width: 500,
+			height: 300,
+			width: 600,
 			modal: true,
 			buttons: {
 				"Delete": function() {
@@ -236,7 +241,30 @@ require_once('tc_calendar.php');
 
 <div id="deleteTrack_dialog_form" title="Delete track" style='display: none'>
    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Deleted the following timetrack ?</p>
-   <p id='description' name='description' >Track description</p>
+   <p id='desc' name='desc' >
+      <table class='invisible'>
+      <tr>
+       <td><span style='font-weight:bold;'>Date :</span></td>
+       <td><label id="desc_date" name='desc_date'>date</label></td>
+      </tr>
+      <tr>
+       <td><span style='font-weight:bold;'>Id :</span></td>
+       <td><label id="desc_id" name='desc_id'>id</label></td>
+      </tr>
+      <tr>
+        <td><span style='font-weight:bold;'>Duration :</span></td>
+        <td><label id="desc_duration" name='desc_duration'>duration</label></td>
+      </tr>
+      <tr>
+        <td><span style='font-weight:bold;'>Job :</span></td>
+        <td><label id="desc_job" name='desc_job'>job</label></td>
+      </tr>
+      <tr>
+        <td><span style='font-weight:bold;'>Summary :</span></td>
+        <td><label id="desc_summary" name='desc_summary'>summary</label></td>
+      </tr>
+      </table>
+   </p>
    <form id='formDeleteTrack' name='formDeleteTrack' method='post' Action='time_tracking.php' >
       <input type='hidden' name='trackid' value='0' >
       <input type='hidden' name='bugid'   value='0' >
