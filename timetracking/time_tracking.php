@@ -227,6 +227,7 @@ require_once('tc_calendar.php');
 		   <label for="remaining">Remaining: </label>
 		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
 	   </fieldset>
+      <input type='hidden' name='userid'  value='0' >
       <input type='hidden' name='bugid'  value='0' >
       <input type='hidden' name='action' value='updateRemainingAction' >
       <input type='hidden' name='nextForm' value='addTrackForm'>
