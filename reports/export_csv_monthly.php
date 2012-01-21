@@ -133,7 +133,9 @@ $_SESSION['teamid'] = $teamid;
 $user = UserCache::getInstance()->getUser($userid);
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
-$teamList = $lTeamList + $managedTeamList;
+$mTeamList = $user->getTeamList();
+$teamList = $mTeamList + $lTeamList + $managedTeamList;
+
 
 $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
 $result = mysql_query($query) or die("Query failed: $query");

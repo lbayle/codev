@@ -73,7 +73,10 @@ class ScheduledTask {
 
 class Scheduler {
 
+   private $logger;
+
 	public function Scheduler () {
+      $this->logger = Logger::getLogger(__CLASS__);
 
 	}
 
@@ -101,10 +104,12 @@ class Scheduler {
 			// determinate issue duration (Remaining, BI, PrelEffortEstim)
 			$issueDuration = $issue->getRemaining();
 
-			#echo "DEBUG issue $issue->bugId  Duration = $issueDuration<br/>";
+			$this->logger->debug("issue $issue->bugId  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
 
 			$currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
 
+			$this->logger->debug("issue $issue->bugId   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
+			$this->logger->debug("issue $issue->bugId nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
 			$currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
 			$currentST->summary          = $issue->summary;
             $currentST->priorityName     = $issue->getPriorityName();

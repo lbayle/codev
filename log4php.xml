@@ -16,22 +16,18 @@
         <param name="file" value="/tmp/codevtt.log" />
     </appender>
 
-    <logger name="header">
+    <logger name="login">
         <level value="INFO" />
     </logger>
-    <logger name="Config">
-        <level value="ERROR" />
+    <logger name="homepage">
+        <level value="INFO" />
     </logger>
-    <logger name="ConfigMantis">
-        <level value="ERROR" />
+    <logger name="download">
+        <level value="INFO" />
     </logger>
-    <logger name="Holiday">
-        <level value="ERROR" />
-    </logger>
-    <logger name="Holidays">
-        <level value="ERROR" />
-    </logger>
-    
+
+
+<!--    
     <logger name="GanttManager">
         <level value="DEBUG" />
     </logger>
@@ -42,8 +38,26 @@
         <level value="DEBUG" />
     </logger>
 
+    <logger name="gantt_graph">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="Issue">
+        <level value="ERROR" />
+    </logger>
+    <logger name="TimeTracking">
+        <level value="ERROR" />
+    </logger>
+    <logger name="User">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="Scheduler">
+        <level value="DEBUG" />
+    </logger>
+-->
+
+	
     <root>
-        <level value="WARN" />
+        <level value="ERROR" />
         <appender_ref ref="myFileAppender" />
     </root>
 </log4php:configuration>

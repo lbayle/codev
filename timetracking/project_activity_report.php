@@ -69,6 +69,8 @@ include_once "user.class.php";
 include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
 
+$logger = Logger::getLogger("project_activity_report");
+
 // ------------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear=NULL) {
 
@@ -189,6 +191,7 @@ function displayTeamAndPeriodSelectionForm($teamList, $teamid, $defaultDate1, $d
 
 // ------------------------------------------------
 function displayProjectActivityReport($timeTracking, $isDetailed = true) {
+   global $logger;
 
    // $projectTracks[projectid][bugid][jobid] = duration
    $projectTracks = $timeTracking->getProjectTracks(true);
@@ -200,17 +203,19 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
      // write table header
      $project = ProjectCache::getInstance()->getProject($projectId);
      echo "<br/>\n";
-     echo "<table width='95%'>\n";
+     echo "<table width='98%'>\n";
      echo "<caption>".$project->name."</caption>\n";
      echo "<tr>\n";
      echo "  <th width='50%'>".T_("Task")."</th>\n";
 
      $jobList = $project->getJobList();
      if ($isDetailed) {
+	    $jobColWidth = (0 != count($jobList)) ? (100 - 50 - 10 - 6) / count($jobList) : 10;
          foreach($jobList as $jobId => $jobName) {
-             echo "  <th>$jobName</th>\n";
+             echo "  <th width='".$jobColWidth."%'>$jobName</th>\n";
          }
     }
+     echo "<th width='10%' title='".T_("Target version")."'>".T_("Target")."</th>\n";
      echo "  <th width='2%'>".T_("Status")."</th>\n";
      echo "  <th width='2%'>".T_("RAF")."</th>\n";
      echo "  <th width='2%' title='".T_("Total time spent on this issue")."'>".T_("Total")."</th>\n";
@@ -225,11 +230,12 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
 
          foreach($jobList as $jobId => $jobName) {
             if ($isDetailed) {
-               echo "<td width='10%'>".$jobs[$jobId]."</td>\n";
+               echo "<td width='".$jobColWidth."%'>".$jobs[$jobId]."</td>\n";
             }
             $totalTime += $jobs[$jobId];
          }
 
+         echo "<td>".$issue->getTargetVersion()."</td>\n";
          echo "<td>".$issue->getCurrentStatusName()."</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
          echo "<td>".$totalTime."</td>\n";

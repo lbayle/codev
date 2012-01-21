@@ -41,6 +41,7 @@ if (!isset($_SESSION['userid'])) {
    document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
    document.forms["form1"].year.value = document.getElementById('yearSelector').value;
    document.forms["form1"].action.value = "displayHolidays";
+   document.forms["form1"].is_modified.value= "true";
    document.forms["form1"].submit();
  }
 </script>
@@ -54,7 +55,7 @@ include_once "holidays.class.php";
 
 // ---------------------------------------------
 
-function  displayHolidaysReportForm($teamid, $curYear) {
+function  displayHolidaysReportForm($teamid, $curYear, $isExternalTasks = false, $is_modified = "false") {
   echo "<form id='form1' name='form1' method='post' action='holidays_report.php'>\n";
 
   echo T_("Team").": \n";
@@ -84,10 +85,14 @@ function  displayHolidaysReportForm($teamid, $curYear) {
   }
   echo "</select>\n";
 
+  $isChecked = $isExternalTasks ? "CHECKED" : "";
+  echo "&nbsp;<input type=CHECKBOX  $isChecked name='cb_extTasks' id='cb_extTasks' onChange='javascript: submitForm()'>".T_("Show external tasks")."</input>\n";
+  
   echo "<input type=hidden name=teamid  value=1>\n";
   echo "<input type=hidden name=year    value=2010>\n";
 
   echo "<input type=hidden name=action       value=noAction>\n";
+  echo "<input type=hidden name=is_modified  value=$is_modified>\n";
   echo "<input type=hidden name=currentForm  value=displayHolidays>\n";
   echo "<input type=hidden name=nextForm     value=displayHolidays>\n";
   echo "</form>\n";
@@ -95,10 +100,11 @@ function  displayHolidaysReportForm($teamid, $curYear) {
 }
 
 // ---------------------------------------------
-function displayHolidaysMonth($month, $year, $teamid) {
+function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) {
 
   $holidays = Holidays::getInstance();
   $green="A8FFBD";
+  $green2="75FF95";
   $yellow="F8FFA8";
   $orange="FFC466";
 
@@ -138,19 +144,28 @@ function displayHolidaysMonth($month, $year, $teamid) {
 
 	   // if user was working on the project within the timestamp
 	   if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
-          ($user1->isTeamManager($teamid, $startT, $endT))) {
+           ($user1->isTeamManager($teamid, $startT, $endT))) {
 
-		   $daysOf = $user1->getDaysOfInMonth($startT, $endT);
+		    $daysOf = $user1->getDaysOfInMonth($startT, $endT);
 
-		   $astreintes = $user1->getAstreintesInMonth($startT, $endT);
-
+		    $astreintes = $user1->getAstreintesInMonth($startT, $endT);
+		   
+			if ($isExternalTasks) {
+               $externalTasks = $user1->getExternalTasksInMonth($startT, $endT);
+			} else {	
+               $externalTasks = array();
+			}
+			
 		    echo "<tr>\n";
 		    echo "<td title='$row->realname'>$row->username</td>\n";
 
 		    for ($i = 1; $i <= $nbDaysInMonth; $i++) {
 
 
-            if (isset($astreintes["$i"]) && (NULL != $astreintes["$i"])) {
+            if (isset($externalTasks["$i"]) && (NULL != $externalTasks["$i"])) {
+              echo "<td style='background-color: #$green2; text-align: center;' title='".T_("ExternalTask")."'>".$externalTasks[$i]."</td>\n";
+
+            } elseif (isset($astreintes["$i"]) && (NULL != $astreintes["$i"])) {
               echo "<td style='background-color: #$yellow; text-align: center;' title='".T_("OnDuty")."'>".$daysOf[$i]."</td>\n";
 
             } elseif (isset($daysOf["$i"]) && (NULL != $daysOf["$i"])) {
@@ -185,11 +200,20 @@ global $codevReportsDir;
 $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
 $_SESSION['teamid'] = $teamid;
 
-displayHolidaysReportForm($teamid, $year);
+// 'is_modified' is used because it's not possible to make a difference
+// between an unchecked checkBox and an unset checkbox variable
+$is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
+if ("false" == $is_modified) {
+   $isExternalTasks = false;
+} else {
+   $isExternalTasks   = isset($_POST['cb_extTasks']) ? true : false;
+}
+
+displayHolidaysReportForm($teamid, $year, $isExternalTasks, $is_modified);
 $_POST['year'] = $year;
 
 for ($i = 1; $i <= 12; $i++) {
-  displayHolidaysMonth($i, $year, $teamid);
+  displayHolidaysMonth($i, $year, $teamid, $isExternalTasks);
 }
 ?>
 

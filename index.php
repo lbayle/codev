@@ -159,7 +159,7 @@ if (!isset($_SESSION['userid'])) {
 	$userid = $_SESSION['userid'];
    $sessionUser = UserCache::getInstance()->getUser($userid);
 
-   disclaimer();
+   #disclaimer();
 
    displayLinks();
 

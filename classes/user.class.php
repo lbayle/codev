@@ -293,6 +293,39 @@ class User {
     return $astreintes;
   }
 
+   // --------------------
+   /**
+    *
+    * @param unknown_type $startTimestamp
+    * @param unknown_type $endTimestamp
+    */
+   public function getExternalTasksInMonth($startTimestamp, $endTimestamp) {
+    $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+	
+	$externalTasks = array();  // day => duration
+
+    $query     = "SELECT bugid, date, duration ".
+                 "FROM `codev_timetracking_table` ".
+                 "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
+                 "AND userid = $this->id";
+    $result    = mysql_query($query);
+    if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+    }
+    while($row = mysql_fetch_object($result)) {
+
+      $issue = IssueCache::getInstance()->getIssue($row->bugid);
+	  if ($issue->projectId == $extproj_id) {
+        $externalTasks[date("j", $row->date)] += $row->duration;
+        $this->logger->debug("user $this->userid externalTasks[".date("j", $row->date)."] = ".$externalTasks[date("j", $row->date)]." (+$row->duration)<br/>");
+      }
+    }
+    return $externalTasks;
+  }
+  
   // --------------------
   /**
    * concat durations of all ExternalTasksProject issues.
@@ -350,7 +383,10 @@ class User {
    	$arrivalDate   = $this->getArrivalDate($team_id);
    	$departureDate = $this->getDepartureDate($team_id);
 
-   	if ($arrivalDate   > $endTimestamp)   return 0;
+   	if ($arrivalDate   > $endTimestamp)  {
+       $this->logger->warn("getAvailableWorkload userId=$this->id user.arrivalDate=".date("Y-m-d", $arrivalDate)." > .endTimestamp=".date("Y-m-d", $endTimestamp));
+	   return 0;
+	}
 
    	// if not specified, $departureDate = $endTimestamp
    	if (0 == $departureDate) {$departureDate = $endTimestamp; }
@@ -360,7 +396,8 @@ class User {
       // restrict timestamp to the period where the user is working on the project
       $startT = ($arrivalDate > $startTimestamp) ? $arrivalDate : $startTimestamp;
       $endT   = ($departureDate < $endTimestamp) ? $departureDate : $endTimestamp;
-
+      
+	  $this->logger->debug("getAvailableWorkload user.startT=".date("Y-m-d", $startT)." user.endT=".date("Y-m-d", $endT));
 
       // get $nbOpenDaysInPeriod
       for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
@@ -378,7 +415,7 @@ class User {
       $prodDaysForecast -= $nbExternal;
 
 
-      #echo "user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - ".$nbDaysOf.") = $prodDaysForecast <br/>";
+      $this->logger->debug("user $this->id timestamp = ".date('Y-m-d', $startT)." to ".date('Y-m-d', $endT)." =>  ($nbOpenDaysInPeriod - ".$nbDaysOf.") = $prodDaysForecast");
 
       return $prodDaysForecast;
    }

@@ -26,6 +26,7 @@ $codevPathGraphs   = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
 $codevPathInstall  = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
 $codevPathJPGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'jpgraph' . DIRECTORY_SEPARATOR . 'src';
 $codevPathLog      = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'log4php';
+$codevPathTests    = BASE_PATH . DIRECTORY_SEPARATOR . 'tests';
 
 $path = array(
    BASE_PATH,
@@ -37,6 +38,7 @@ $path = array(
    $codevPathInstall,
    $codevPathJPGraphs,
    $codevPathLog,
+   $codevPathTests,
    get_include_path()
    );
 
@@ -71,6 +73,7 @@ function getServerRootURL() {
    $rootURL = str_replace("/i18n", "", $rootURL);
    $rootURL = str_replace("/graphs", "", $rootURL);
    $rootURL = str_replace("/install", "", $rootURL);
+   $rootURL = str_replace("/tests", "", $rootURL);
 
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;

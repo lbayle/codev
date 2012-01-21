@@ -19,7 +19,7 @@
 */
 
    # WARN: this avoids the display of some PHP errors...
-#   error_reporting(E_ALL ^ E_NOTICE);
+   #error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 ?>
 <?php
 

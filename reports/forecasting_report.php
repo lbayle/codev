@@ -181,9 +181,9 @@ function displayCurrentDriftStats ($timeTracking) {
    }
 
 
-   echo "<span class='help_font'>\n";
-   echo T_("")."<br/>\n";
-   echo "</span>\n";
+   #echo "<span class='help_font'>\n";
+   #echo T_("")."<br/>\n";
+   #echo "</span>\n";
    echo "<br/>\n";
 
    echo "<table>\n";

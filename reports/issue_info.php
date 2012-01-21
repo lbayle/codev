@@ -34,6 +34,10 @@ if (!isset($_SESSION['userid'])) {
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
 
+<style>
+   fieldset { padding:0; border:0; }
+   validateTips { border: 1px solid transparent; padding: 0.3em; }
+</style>
 
 <script language="JavaScript">
   function submitForm() {
@@ -49,10 +53,78 @@ if (!isset($_SESSION['userid'])) {
      document.forms["form1"].submit();
   }
 
+   // ------ JQUERY ------
+	$(function() {
+
+		var remaining = $( "#remaining" ),
+			 allFields = $( [] ).add( remaining ),
+			 tips = $( "#validateTips" );
+
+		function updateTips( t ) {
+			tips
+				.text( t )
+				.addClass( "ui-state-highlight" );
+			setTimeout(function() {
+				tips.removeClass( "ui-state-highlight", 1500 );
+			}, 500 );
+		}
+
+		function checkRegexp( o, regexp, n ) {
+			if ( !( regexp.test( o.val() ) ) ) {
+				o.addClass( "ui-state-error" );
+				updateTips( n );
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		$( "#update_remaining_dialog_form" ).dialog({
+			autoOpen: false,
+			height: 200,
+			width: 500,
+			modal: true,
+			open: function() { 
+               // Select input field contents 
+               $( "#remaining" ).select(); 
+			},
+			buttons: {
+				"Update": function() {
+					var bValid = true;
+					allFields.removeClass( "ui-state-error" );
+					bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format: '1','0.3' or '1.55'" );
+
+					if ( bValid ) {
+						// TODO use AJAX to call php func and update remaining on bugid
+						$('#formUpdateRemaining').submit();
+					}
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				allFields.val( "" ).removeClass( "ui-state-error" );
+			}
+		});
+
+	});
 
 </script>
 
 <div id="content">
+
+<div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style='display: none'>
+	<p id="validateTips">Set new value</p>
+	<form id='formUpdateRemaining' name='formUpdateRemaining' method='post' Action='issue_info.php' >
+	   <fieldset>
+		   <label for="remaining">Remaining: </label>
+		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
+	   </fieldset>
+      <input type='hidden' name='bugid'  value='0' >
+      <input type='hidden' name='action' value='updateRemainingAction' >
+	</form>
+</div>
 
 <?php
 
@@ -192,7 +264,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "<tr>\n";
   echo "<td>".T_("Remaining")."</td>\n";
   echo "<td></td>\n";
-  echo "<td>$issue->remaining</td>\n";
+  echo "<td><a id='update_remaining_link' title='".T_("update remaining")."' href='#' >".$issue->remaining."</a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -217,6 +289,20 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
       echo "</tr>\n";
   }
   echo "</table>\n";
+  
+   // create links for JQUERY dialogBox
+   echo "<script>\n";
+   echo "$(function() {\n";
+      	echo "$( '#update_remaining_link' ).click(function() {\n";
+		echo "   $( '#formUpdateRemaining' ).children('input[name=bugid]').val(".$issue->bugId.");\n";
+		echo "   $( '#remaining' ).val(".$issue->remaining.");\n";
+		echo "   $( '#validateTips' ).text('".addslashes($issue->summary)."');\n";
+		echo "   $( '#update_remaining_dialog_form' ).dialog('option', 'title', 'Task ".$issue->bugId." / ".$issue->tcId." - Update Remaining');\n";
+		echo "   $( '#update_remaining_dialog_form' ).dialog( 'open' );\n";
+		echo "});\n";
+    echo "});\n";
+    echo "</script>\n";
+  
   echo "</div>\n";
 
 }
@@ -427,6 +513,7 @@ $action           = isset($_POST['action']) ? $_POST['action'] : '';
 $session_userid   = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
 $bug_id           = isset($_POST['bugid'])  ? $_POST['bugid'] : 0;
 $defaultProjectid = isset($_POST['projectid']) ? $_POST['projectid'] : 0;
+$remaining        = isset($_POST['remaining']) ? $_POST['remaining'] : '';
 
 $user = UserCache::getInstance()->getUser($session_userid);
 
@@ -464,10 +551,17 @@ if (0 == count($teamList)) {
 
 } else {
 
+    $issue = IssueCache::getInstance()->getIssue($bug_id);
+
 	displayIssueSelectionForm($originPage, $user, $projList, $bug_id, $defaultProjectid);
 
+    if ("updateRemainingAction" == $action) {
+	
+	   $issue->setRemaining($remaining);
+	   $action = "displayBug";
+	}   
+	
 	if ("displayBug" == $action) {
-	  $issue = new Issue ($bug_id);
      $handler = UserCache::getInstance()->getUser($issue->handlerId);
 
 	  echo "<br/><br/>\n";
@@ -539,9 +633,10 @@ if (0 == count($teamList)) {
 
 	} elseif ("setProjectid" == $action) {
 
-    // pre-set form fields
-    $defaultProjectid  = $_POST['projectid'];
-  } elseif ("notAllowed" == $action) {
+       // pre-set form fields
+       $defaultProjectid  = $_POST['projectid'];
+	   
+	} elseif ("notAllowed" == $action) {
       echo "<br/>";
       echo "<br/>";
       echo "<br/>";
