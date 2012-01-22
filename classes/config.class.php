@@ -19,7 +19,11 @@
 // ==============================================================
 
 require_once('Logger.php');
-Logger::configure($codevRootDir.DIRECTORY_SEPARATOR.'log4php.xml');
+if (NULL == Logger::getConfigurationFile()) {
+      Logger::configure(dirname(__FILE__).'/../log4php.xml');
+      $logger = Logger::getLogger("default");
+      $logger->info("LOG activated !");
+   }
 
 /**
  * Constants Singleton class
@@ -150,14 +154,15 @@ class Config {
 
    // --------------------------------------
    public static function getValue($id) {
-
+   global $logger;
+   
     	$value = NULL;
     	$variable = isset(self::$configVariables[$id]) ? self::$configVariables[$id] : NULL;
 
     	if (NULL != $variable) {
          $value = $variable->value;
     	} else {
-    		$this->logger->warn("getValue($id): variable not found !");
+    		$logger->warn("getValue($id): variable not found !");
     	   if (!self::$quiet) {
     		   echo "<span class='warn_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
     		}
@@ -173,13 +178,14 @@ class Config {
     * example: $status_new = Config::getVariableKeyFromValue(Config::id_statusNames, 'new');
     */
    public static function getVariableKeyFromValue($id, $value) {
+   global $logger;
 
       $key = NULL;
       $variable = self::$configVariables[$id];
       if (NULL != $variable) {
          $key = $variable->getArrayKeyFromValue($value);
       } else {
-         $this->logger->warn("getVariableKeyFromValue($id, $value): variable not found !");
+         $logger->warn("getVariableKeyFromValue($id, $value): variable not found !");
       	if (!self::$quiet) {
            echo "<span class='error_font'>WARN: Config::getVariableKeyFromValue($id, $value): variable not found !</span><br/>";
       	}
@@ -193,6 +199,7 @@ class Config {
     * returns the value for a given key.
     */
    public static function getVariableValueFromKey($id, $key) {
+   global $logger;
 
       $key = NULL;
       $variable = self::$configVariables[$id];
@@ -200,7 +207,7 @@ class Config {
       if (NULL != $variable) {
          $key = $variable->getArrayValueFromKey($value);
       } else {
-         $this->logger->warn("getVariableValueFromKey($id, $key): variable not found !");
+         $logger->warn("getVariableValueFromKey($id, $key): variable not found !");
          if (!self::$quiet) {
             echo "<span class='error_font'>WARN: Config::getVariableValueFromKey($id, $key): variable not found !</span><br/>";
       	 }
@@ -211,13 +218,14 @@ class Config {
    // --------------------------------------
    public static function getType($id) {
 
+   global $logger;
       $type = NULL;
       $variable = self::$configVariables[$id];
 
       if (NULL != $variable) {
          $type = $variable->type;
       } else {
-         $this->logger->warn("getType($id): variable not found !");
+         $logger->warn("getType($id): variable not found !");
          if (!self::$quiet) {
             echo "<span class='error_font'>WARN: Config::getType($id): variable not found !</span><br/>";
       	 }
@@ -237,30 +245,31 @@ class Config {
     * @param string $desc
     */
    public static function setValue($id, $value, $type, $desc=NULL, $project_id=NULL) {
+   global $logger;
 
    	  // add/update DB
       $query = "SELECT * FROM `codev_config_table` WHERE config_id='$id'";
       $result = mysql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
+    	      $logger->error("Query FAILED: $query");
+    	      $logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
       if (0 != mysql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id='$id'";
-         $this->logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
-         $this->logger->debug("UPDATE query = $query");
+         $logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
+         $logger->debug("UPDATE query = $query");
       } else {
          $query = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`, `project_id`) VALUES ('$id', '$value', '$type', '$desc', '$project_id');";
-         $this->logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
-         $this->logger->debug("INSERT query = $query");
+         $logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
+         $logger->debug("INSERT query = $query");
       }
 
       $result = mysql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
+    	      $logger->error("Query FAILED: $query");
+    	      $logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -274,6 +283,7 @@ class Config {
     * removes a ConfigItem from DB and Cache
     */
    public static function deleteValue($id) {
+   global $logger;
 
 	  if (NULL != self::$configVariables[$id]) {
 
@@ -281,8 +291,8 @@ class Config {
          $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id';";
 	     	$result = mysql_query($query);
 	      if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
+    	      $logger->error("Query FAILED: $query");
+    	      $logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
          }
@@ -290,7 +300,7 @@ class Config {
          // remove from cache
 	     unset(self::$configVariables["$id"]);
 	  } else {
-      $this->logger->warn("DELETE variable <$id> not found in cache !");
+      $logger->warn("DELETE variable <$id> not found in cache !");
 	  }
    }
 } // class

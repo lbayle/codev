@@ -16,6 +16,12 @@
 */ ?>
 <?php
 
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+      Logger::configure(dirname(__FILE__).'/../log4php.xml');
+      $logger = Logger::getLogger("default");
+      $logger->info("LOG activated !");
+   }
 
 include_once 'project.class.php';
 include_once 'team.class.php';
@@ -37,11 +43,15 @@ class Install {
    const PREL_EFFORT_ESTIM_DEFAULT_VALUE   = "none";
    const PREL_EFFORT_ESTIM_BALANCE         = "1,1,3,5,10,15";
 
+   private $logger;
    private $fieldList;
 
    // --------------------------------------------------------
    public function __construct()
    {
+      $this->logger = Logger::getLogger(__CLASS__);
+   	  $this->logger->info("LOG activated !");
+   	
    	// get existing Mantis custom fields
       $this->fieldList = array();
 
@@ -208,7 +218,7 @@ class Install {
 
       //--------
       $query = "SELECT id, name FROM `mantis_custom_field_table`";
-	   mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	  $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
       while($row = mysql_fetch_object($result))
       {
          $this->fieldList["$row->name"] = $row->id;

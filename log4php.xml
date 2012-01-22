@@ -16,6 +16,9 @@
         <param name="file" value="/tmp/codevtt.log" />
     </appender>
 
+    <logger name="default">
+        <level value="INFO" />
+    </logger>
     <logger name="login">
         <level value="INFO" />
     </logger>
@@ -26,6 +29,9 @@
         <level value="INFO" />
     </logger>
 
+    <logger name="Install">
+        <level value="DEBUG" />
+    </logger>
 
 <!--    
     <logger name="GanttManager">
