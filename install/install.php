@@ -50,12 +50,18 @@ include_once 'install.class.php';
  	
  } else {
  	
+ 	//echo 'Id: ' . getmyuid() . '<br />';
+    //echo 'Gid: ' . getmygid() . '<br />';
+ 	
  	// check write access rights to codevTT directory
- 	$testDir = "../";
+   $testDir = realpath ( ".." );
    $error = Install::checkWriteAccess($testDir);
    if (TRUE == strstr($error, T_("ERROR"))) {
  		echo "<span class='error_font'>$error</span><br/>";
-   	exit;
+ 		echo "<br>";
+ 		echo "- does apache user have write access to codevTT directory ?<br>";
+ 		echo "- Are you sure SELINUX is well configured ?<br>";
+   	    exit;
    }
     
    $error = Install::checkMysqlAccess();
