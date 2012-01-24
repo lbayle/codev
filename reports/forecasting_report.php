@@ -240,6 +240,50 @@ function displayCurrentDriftStats ($timeTracking) {
 }
 
 
+
+/**
+ * 
+ */
+function showIssuesInDrift($teamid) {
+
+	$mList = Team::getMemberList($teamid);
+    echo "<table>\n";
+    echo "<tr>\n";
+    echo "<th>ID</th>\n";
+    echo "<th>Project</th>\n";
+    echo "<th>PrelEffortEstim Drift</th>\n";
+	echo "<th>EffortEstim Drift</th>\n";
+	echo "<th>Remaining</th>\n";
+	echo "<th>Summary</th>\n";
+    echo "</tr>\n";
+    
+	foreach ($mList as $id => $name) {
+		$user = UserCache::getInstance()->getUser($id);
+		
+		$issueList = $user->getAssignedIssues();
+
+		foreach ($issueList as $issue) {
+			$driftPrelEE = $issue->getDriftETA();
+			$driftEE = $issue->getDrift();
+		    if (($driftPrelEE >= 1) || ($driftEE >= 1)) {
+		           echo "<tr>\n";
+		   		   echo "<td>".$issue->bugId."</td>\n";
+		   		   echo "<td>".$issue->getProjectName()."</td>\n";
+		   		   echo "<td>".$driftPrelEE."</td>\n";
+		   		   echo "<td>".$driftEE."</td>\n";
+		   		   echo "<td>".$issue->getRemaining()."</td>\n";
+		   		   echo "<td>".$issue->summary."</td>\n";
+		           echo "</tr>\n";
+		    }
+		}
+	}
+    echo "</table>\n";
+	
+	
+}
+
+
+
 /**
 *
 * TODO factorize: this function also exists in statistics.php
@@ -402,6 +446,9 @@ if (0 == count($teamList)) {
          echo "<br/><br/><hr>\n";
          displayCurrentDriftStats($timeTracking);
 
+         echo "<br/><br/>\n";
+         showIssuesInDrift($teamid);
+         
          // ----
          echo "<br/><br/><hr>\n";
          $start_day = 1;
