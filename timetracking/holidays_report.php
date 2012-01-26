@@ -204,7 +204,7 @@ $_SESSION['teamid'] = $teamid;
 // between an unchecked checkBox and an unset checkbox variable
 $is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
 if ("false" == $is_modified) {
-   $isExternalTasks = false;
+   $isExternalTasks = true; // default value
 } else {
    $isExternalTasks   = isset($_POST['cb_extTasks']) ? true : false;
 }
