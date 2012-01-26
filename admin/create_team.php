@@ -410,11 +410,11 @@ if ("addTeam" == $action) {
                $stproj->addIssueWorkshop($task_other1);
             }
 
-            // 6) --- open EditTeam Page
-            $_SESSION['teamid'] = $teamid;
-            echo ("<script> parent.location.replace('./edit_team.php'); </script>");
       	}
-      }
+     }
+	 // 6) --- open EditTeam Page
+	 $_SESSION['teamid'] = $teamid;
+	 echo ("<script> parent.location.replace('./edit_team.php'); </script>");
 
    }
 

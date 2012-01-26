@@ -613,6 +613,13 @@ function addAstreinteForm($originPage, $teamid) {
 
 	$stprojList = array();
 	$projList = Team::getProjectList($teamid);
+	
+	if ((NULL == $projList) || (0 == count($projList))) {
+	   // TODO $logger->warn("no project defined for this team, OnDuty tasks are defined in SideTasksProjects");
+	   return 0;
+	}
+	
+	$inactivityCatList = array();
 	foreach ($projList as $pid => $pname) {
 		$p = ProjectCache::getInstance()->getProject($pid);
 		if ($p->isSideTasksProject()) {
@@ -620,6 +627,12 @@ function addAstreinteForm($originPage, $teamid) {
 			$inactivityCatList[$pid] = $p->getInactivityCategoryId();
 		}
 	}
+	
+	if (0 == count($inactivityCatList)) {
+	   // TODO $logger->warn("no inactivity category defined for SideTasksProjects => no OnDuty tasks ");
+	   return 0;
+	}
+	
 	$formatedInactivityCatList=implode( ', ', array_keys($inactivityCatList));
 
 
