@@ -248,30 +248,49 @@ function showIssuesInDrift($teamid) {
 
 	$mList = Team::getMemberList($teamid);
     echo "<table>\n";
+    echo "<caption>".T_("Tasks in drift")."</caption>\n";
     echo "<tr>\n";
-    echo "<th>ID</th>\n";
-    echo "<th>Project</th>\n";
-    echo "<th>PrelEffortEstim Drift</th>\n";
-	echo "<th>EffortEstim Drift</th>\n";
-	echo "<th>Remaining</th>\n";
-	echo "<th>Summary</th>\n";
+    echo "<th>".T_("ID")."</th>\n";
+    echo "<th>".T_("Project")."</th>\n";
+    #echo "<th title=''>".T_("PrelEE Drift")."</th>\n";
+	#echo "<th title=''>".T_("EE Drift")."</th>\n";
+    echo "<th title='Derive par rapport a l estimation preliminaire'>".T_("Derive PrelEE")."</th>\n";
+	echo "<th title='Derive par rapport au BI+BS'>".T_("Derive EE")."</th>\n";
+	echo "<th>".T_("RAF")."</th>\n";
+	echo "<th>".T_("Status")."</th>\n";
+	echo "<th>".T_("Summary")."</th>\n";
     echo "</tr>\n";
     
 	foreach ($mList as $id => $name) {
 		$user = UserCache::getInstance()->getUser($id);
 		
+		// take only developper's tasks
+		if (!$user->isTeamDeveloper($teamid)) {
+			continue;
+		}
+		
 		$issueList = $user->getAssignedIssues();
 
 		foreach ($issueList as $issue) {
+		
+		    // TODO: check if issue in team project list ?
+		
 			$driftPrelEE = $issue->getDriftETA();
 			$driftEE = $issue->getDrift();
-		    if (($driftPrelEE >= 1) || ($driftEE >= 1)) {
+		    if (($driftPrelEE > 1) || ($driftEE > 1)) {
 		           echo "<tr>\n";
-		   		   echo "<td>".$issue->bugId."</td>\n";
+		   		   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
 		   		   echo "<td>".$issue->getProjectName()."</td>\n";
-		   		   echo "<td>".$driftPrelEE."</td>\n";
-		   		   echo "<td>".$driftEE."</td>\n";
+                   $color = "";
+                   if ($driftPrelEE < -1) { $color = "style='background-color: #61ed66;'"; }
+                   if ($driftPrelEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
+		   		   echo "<td $color >".$driftPrelEE."</td>\n";
+                   $color = "";
+                   if ($driftEE <= -1) { $color = "style='background-color: #61ed66;'"; }
+                   if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
+		   		   echo "<td $color >".$driftEE."</td>\n";
 		   		   echo "<td>".$issue->getRemaining()."</td>\n";
+		   		   echo "<td>".$issue->getCurrentStatusName()."</td>\n";
 		   		   echo "<td>".$issue->summary."</td>\n";
 		           echo "</tr>\n";
 		    }
@@ -450,6 +469,8 @@ if (0 == count($teamList)) {
          showIssuesInDrift($teamid);
          
          // ----
+         echo "<br/><br/>\n";
+         echo "<br/><br/>\n";
          echo "<br/><br/><hr>\n";
          $start_day = 1;
          $start_month = date("m");
