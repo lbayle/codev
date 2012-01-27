@@ -42,6 +42,10 @@ if(!isset($_GET['w'])) {
 
 var myWidth = 0, myHeight = 0;
 myWidth = window.innerWidth;
+if (myWidth > 500) {
+   myWidth = myWidth - 50;
+}
+
 myHeight = window.innerHeight;
 var l = location;
 if ("" == location.search) {
@@ -204,12 +208,14 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 
 
 // -----------------------------------------
-function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
+function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid) {
 
    $totalPix = 0;
    $sepWidth = 1;
    $barHeight = 20;
    $deadLineTriggerWidth = 10;
+   
+   $projList = Team::getProjectList($teamid);
 
    echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
 
@@ -231,12 +237,19 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList) {
          $color = ($scheduledTask->isMonitored) ? "grey" : "blue";
       }
 
+	  // hide tasks not in team projects
+      $strike="";
+	  $issue = IssueCache::getInstance()->getIssue($scheduledTask->bugId);
+	  if ( NULL == $projList[$issue->projectId] ) {
+  	     $strike="&strike";
+	  }
+	  
       $taskTitle = $scheduledTask->getDescription();
 	   $formatedTitle = str_replace("'", " ", $taskTitle);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
 
       $drawnTaskPixSize = $taskPixSize - $sepWidth;
-      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$drawnTaskPixSize&text=$scheduledTask->bugId&color=".$color."' /></a>";
+      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$drawnTaskPixSize&text=$scheduledTask->bugId&color=".$color.$strike."' /></a>";
 
 	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/white.png'>";
 	}
@@ -410,7 +423,7 @@ function displayTeam($teamid, $today, $graphSize) {
 	   echo "<td>";
 	   $deadLines = displayUserDeadLines($dayPixSize, $today, $scheduledTaskList);
       if (0 != count($deadLines)) { echo "<br/>"; } //
-	   displayUserSchedule($dayPixSize, $userName, $scheduledTaskList);
+	   displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid);
 	   echo "</td>\n";
 	   echo "</tr>\n";
 	}

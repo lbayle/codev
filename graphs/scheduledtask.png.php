@@ -24,6 +24,14 @@ header("Content-type: image/png");
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once '../path.inc.php';
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+   Logger::configure(dirname(__FILE__).'/../log4php.xml');
+   $logger = Logger::getLogger("scheduledtask.png");
+   $logger->trace("LOG activated !");
+}
+
 include_once "../colors.php";
 
 // ----------------------------
@@ -50,6 +58,31 @@ function gradiant($img,$color1,$color2)
 }
 
 
+function imagelinethick($image, $x1, $y1, $x2, $y2, $color, $thick = 1)
+{
+    /* this way it works well only for orthogonal lines
+    imagesetthickness($image, $thick);
+    return imageline($image, $x1, $y1, $x2, $y2, $color);
+    */
+    if ($thick == 1) {
+        return imageline($image, $x1, $y1, $x2, $y2, $color);
+    }
+    $t = $thick / 2 - 0.5;
+    if ($x1 == $x2 || $y1 == $y2) {
+        return imagefilledrectangle($image, round(min($x1, $x2) - $t), round(min($y1, $y2) - $t), round(max($x1, $x2) + $t), round(max($y1, $y2) + $t), $color);
+    }
+    $k = ($y2 - $y1) / ($x2 - $x1); //y = kx + q
+    $a = $t / sqrt(1 + pow($k, 2));
+    $points = array(
+        round($x1 - (1+$k)*$a), round($y1 + (1-$k)*$a),
+        round($x1 - (1-$k)*$a), round($y1 - (1+$k)*$a),
+        round($x2 + (1+$k)*$a), round($y2 - (1-$k)*$a),
+        round($x2 + (1-$k)*$a), round($y2 + (1+$k)*$a),
+    );
+    imagefilledpolygon($image, $points, 4, $color);
+    return imagepolygon($image, $points, 4, $color);
+}
+
 
 // ================ MAIN =================
 
@@ -57,6 +90,7 @@ $string = isset($_GET['text']) ? $_GET['text'] : NULL;
 $height = $_GET['height'];
 $width  = $_GET['width'];
 $color  = $_GET['color'];
+$strike = isset($_GET['strike']) ? true : false; // barrer le texte 
 
 
 $font = 4;
@@ -90,10 +124,21 @@ if ("red" == $color) {
 
 // image color
 $im = gradiant($im, $border_color, array(255,255,255));
+$strike_color = html2rgb("9E9E9E");
 
 // text size
 while ((imagefontwidth($font) * strlen($string) > ($width)) && ($font > 1)) {
  $font -= 1;
+}
+
+if (true == $strike) {
+   $logger->debug("imageline($im, 0, 0, $width, $height, ($strike_color[0], $strike_color[1], $strike_color[2]) )");
+
+   $col = imagecolorallocate ( $im , $strike_color[0], $strike_color[1], $strike_color[2] );
+   #$col = imagecolorallocate ( $im , $border_color[0], $border_color[1], $border_color[2] );
+
+   imagelinethick($im, 0, $height, $width, 0, $col, $thick = 1);
+   #imagelinethick($im, 0, 0, $width, $height, $col, $thick = 2);
 }
 
 // add text
@@ -104,6 +149,9 @@ if ($string) {
       imagestring($im, $font, $px, $py, $string, $textColor);
    }
 }
+
+
+
 
 imagepng($im);
 imagedestroy($im);
