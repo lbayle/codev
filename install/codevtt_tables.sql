@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `type` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL,
+  `team_id` int(11) DEFAULT NULL,
   `access_reqd` int(11) DEFAULT NULL,
   `desc` longtext,
   PRIMARY KEY (`config_id`)
@@ -37,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 1, 1),
+('database_version', 2, 1),
 ('job_support', 2, 1);
 
 
