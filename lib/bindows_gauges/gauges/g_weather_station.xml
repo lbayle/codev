@@ -1,0 +1,77 @@
+<Gauge2 coordWidth="1000" coordHeight="1000" left="0" top="0" bottom="0" right="0">
+    <!-- Background -->
+    <Gauge2CircularBorder width="1000" height="1000" centerX="500" centerY="500" strokeWidth="0">
+        <Gauge2CircularBorder.Filler>
+            <Gauge2LinearGradientFiller color1="white" color2="gray" angle="0" opacity1="0.5" opacity2="0.8"/>
+        </Gauge2CircularBorder.Filler>
+    </Gauge2CircularBorder>
+
+    <Gauge2CircularBorder width="936" height="936" centerX="500" centerY="500" strokeWidth="7" stroke="gray">
+        <Gauge2CircularBorder.Filler>
+            <Gauge2RadialGradientFiller color1="#FFFF66" color2="#FF9900" xpos="20" ypos="40" opacity1="0.5" opacity2="0.8"/>
+        </Gauge2CircularBorder.Filler>
+    </Gauge2CircularBorder>
+
+    <!-- Label -->
+    <Gauge2Label  text="Weather Station" font="48 bold" foreColor="#808080" x="497" y="387" anchorHorizontal="center" anchorVertical="center"/>
+    <Gauge2Label  text="Weather Station" font="48 bold" foreColor="#B0B0B0" x="500" y="390" anchorHorizontal="center" anchorVertical="center"/>
+    <!-- Label -->
+    <Gauge2Label  text="Humidity" font="20 bold" foreColor="green" x="500" y="745" anchorHorizontal="center" anchorVertical="center"/>
+    <!-- Label -->
+    <Gauge2Label  text="Wind" font="20 bold" foreColor="blue" x="500" y="920" anchorHorizontal="center" anchorVertical="center"/>
+
+    <Gauge2RadialRange centerX="500" centerY="500" width="950" height="950" startAngle="0" endAngle="180">
+        <Gauge2RadialTicks tickWidth="9" tickLength="22" color="black" tickCount="11" radius="330"/>
+        <Gauge2RadialTicks tickWidth="4" tickLength="12" color="black" tickCount="51" radius="330"/>
+
+        <Gauge2RadialScale font="20" foreColor="green" radius="284" startValue="0" endValue="100" labelCount="11" postString="%">
+            <!-- Needle -->
+            <Gauge2RadialNeedle id="needleHumidity" value="60" stroke="#000000" strokeWidth="0"
+                                innerRadius="0" innerWidth="20"
+                                outerRadius="300" outerWidth="0">
+                <Gauge2RadialNeedle.Filler>
+                    <Gauge2PlainColorFiller color="green"/>
+                </Gauge2RadialNeedle.Filler>
+            </Gauge2RadialNeedle>
+        </Gauge2RadialScale>
+
+        <Gauge2RadialScale font="20" foreColor="blue" radius="378" startValue="0" endValue="40" labelCount="11" postString=" m/s">
+            <!-- Needle -->
+            <Gauge2RadialNeedle id="needleWind" value="30" stroke="#000000" strokeWidth="0"
+                                innerRadius="0" innerWidth="20"
+                                outerRadius="340" outerWidth="0">
+                <Gauge2RadialNeedle.Filler>
+                    <Gauge2RadialGradientFiller color1="blue" color2="white"/>
+                </Gauge2RadialNeedle.Filler>
+            </Gauge2RadialNeedle>
+        </Gauge2RadialScale>
+
+        <!-- Cap -->
+        <Gauge2BasicCap width="56" height="56">
+            <Gauge2BasicCap.Filler>
+                <Gauge2LinearGradientFiller angle="40" color1="#AAAAAA" color2="#666666"/>
+            </Gauge2BasicCap.Filler>
+        </Gauge2BasicCap>
+    </Gauge2RadialRange>
+
+    <Gauge2RectangularBorder arcSize="10" stroke="black" strokeWidth="2" centerX="180" centerY="510" width="140" height="340">
+        <Gauge2RectangularBorder.Filler angle="0">
+            <Gauge2LinearGradientFiller color1="#442222" color2="#222244" angle="0"/>
+        </Gauge2RectangularBorder.Filler>
+    </Gauge2RectangularBorder>
+
+    <Gauge2LinearRange centerX="180" centerY="520" width="140" height="349" angle="0">
+        <Gauge2LinearTicks tickWidth="8" tickLength="10" color="gray" tickCount="13" tickSpacing="22"/>
+        <Gauge2LinearScale font="20" foreColor="#5577FF" startValue="-20" endValue="40" labelCount="13" labelSpacing="22" labelPosition="-20" postString="">
+            <!-- Needle -->
+            <Gauge2LinearNeedle id="needleTemperature" angle="0" needlePosition="30" needleBase="25" needleHeight="25" value="0">
+                <Gauge2LinearNeedle.Filler>
+                    <Gauge2LinearGradientFiller angle="0" color1="red" color2="red"/>
+                </Gauge2LinearNeedle.Filler>
+            </Gauge2LinearNeedle>
+        </Gauge2LinearScale>
+    </Gauge2LinearRange>
+
+    <!-- Label -->
+    <Gauge2Label  text="Temperature" font="18 Verdana" foreColor="#AAAAAA" x="180" y="360" anchorHorizontal="center" anchorVertical="center"/>
+</Gauge2>

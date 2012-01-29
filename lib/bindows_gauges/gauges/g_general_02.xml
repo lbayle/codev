@@ -1,0 +1,72 @@
+<Gauge2 coordWidth="1000" coordHeight="1000" left="0" top="0" bottom="0" right="0">
+
+    <!-- Background -->
+    <Gauge2CircularBorder width="1000" height="1000" centerX="500" centerY="500" strokeWidth="0">
+        <Gauge2CircularBorder.Filler>
+            <Gauge2RingGradientFiller color1="#5F5F55" color2="#9F9F90" thickness="7" highlightCenter="50"/>
+        </Gauge2CircularBorder.Filler>
+    </Gauge2CircularBorder>
+    <Gauge2CircularBorder width="850" height="850" centerX="500" centerY="500" strokeWidth="10" stroke="#9F9F78">
+        <Gauge2CircularBorder.Filler>
+            <Gauge2RingGradientFiller  color1="#EEEECC" color2="#CCCCAA" xpos="50" ypos="50" thickness="15" highlightCenter="100"/>
+        </Gauge2CircularBorder.Filler>
+    </Gauge2CircularBorder>
+
+    <!-- Label background -->
+    <Gauge2RectangularBorder centerX="500" centerY="690" width="120" height="70" stroke="#4A4A4A" strokeWidth="5" arcSize="20">
+        <Gauge2RectangularBorder.Filler>
+            <Gauge2LinearGradientFiller color1="#646453" color2="#3C3C2D" angle="0"/>
+        </Gauge2RectangularBorder.Filler>
+    </Gauge2RectangularBorder>
+
+    <!-- Label -->
+    <Gauge2Label id="label" text="30" font="50 Arial Black" foreColor="#CCD1B6" x="500" y="688" anchorHorizontal="center" anchorVertical="center"/>
+
+    <!-- Range -->
+    <Gauge2RadialRange centerX="500" centerY="500" width="1000" height="1000" startAngle="-45" endAngle="315">
+
+        <!-- Scale -->
+        <Gauge2RadialScale radius="430" startValue="0" endValue="100">
+            <Gauge2RadialScaleSection sectionWidth="30" color="#AAAA99" stroke="gray" strokeWidth="3" radius="320" startValue="0" endValue="100"/>
+        </Gauge2RadialScale>
+
+        <!-- Ticks -->
+        <Gauge2RadialTicks tickWidth="1" tickLength="28" color="gray" tickCount="21" radius="320"/>
+        <Gauge2RadialTicks tickWidth="8" tickLength="28" color="gray" tickCount="11" radius="320"/>
+
+        <!-- Scale -->
+        <Gauge2RadialScale radius="430" startValue="0" endValue="100">
+            <!-- Needle -->
+            <Gauge2RadialNeedle id="needle" value="35" stroke="#BB2222" strokeWidth="1"
+                                innerRadius="0" innerWidth="50"
+                                outerRadius="320" outerWidth="5">
+                <Gauge2RadialNeedle.Filler>
+                    <Gauge2RadialGradientFiller color1="#CC1111" color2="#FF6666"/>
+                </Gauge2RadialNeedle.Filler>
+            </Gauge2RadialNeedle>
+        </Gauge2RadialScale>
+
+    </Gauge2RadialRange>
+
+    <!-- Range -->
+    <Gauge2RadialRange centerX="500" centerY="500" width="1000" height="1000" startAngle="-45" endAngle="279">
+
+        <!-- Scale -->
+        <Gauge2RadialScale font="45 Verdana" foreColor="#000000" radius="380" startValue="0" endValue="90" labelCount="10"/>
+
+        <!-- Cap -->
+        <Gauge2BasicCap width="200" height="200">
+            <Gauge2BasicCap.Filler>
+                   <Gauge2RingGradientFiller color1="#565646" color2="#B8B8A8" thickness="20" highlightCenter="0"/>
+            </Gauge2BasicCap.Filler>
+        </Gauge2BasicCap>
+
+        <Gauge2BasicCap width="160" height="160">
+            <Gauge2BasicCap.Filler>
+                   <Gauge2LinearGradientFiller color1="#767666" color2="#B8B8A8" angle="45"/>
+            </Gauge2BasicCap.Filler>
+        </Gauge2BasicCap>
+
+    </Gauge2RadialRange>
+
+</Gauge2>
