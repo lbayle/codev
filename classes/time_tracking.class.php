@@ -606,7 +606,7 @@ class TimeTracking {
           $issueDriftETA  = $issue->getDriftETA($withSupport);
           $deriveETA     += $issueDriftETA;
 
-          if (isset($_GET['debug'])) { echo "TimeTracking->getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA<br/>"; }
+          $this->logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA");
 
             // get drift stats. equal is when drif = +-1
             if ($issueDrift < -1) {
@@ -646,17 +646,15 @@ class TimeTracking {
     } // foreach
 
 
-    if (isset($_GET['debug'])) {
-      echo ("derive totale ($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $derive<br/>");
-      echo ("derive totale ETA($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $deriveETA<br/>");
+    $this->logger->debug("derive totale ($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $derive");
+    $this->logger->debug("derive totale ETA($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $deriveETA");
 
-      echo("Nbre Bugs en derive        : $nbDriftsPos<br/>");
-      echo("Nbre Bugs a l'equilibre    : $nbDriftsEqual<br/>");
-      echo("Nbre Bugs en avance        : $nbDriftsNeg<br/>");
-      echo("Nbre Bugs en derive     ETA: $nbDriftsPosETA<br/>");
-      echo("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA<br/>");
-      echo("Nbre Bugs en avance     ETA: $nbDriftsNegETA<br/>");
-    }
+    $this->logger->debug("Nbre Bugs en derive        : $nbDriftsPos");
+    $this->logger->debug("Nbre Bugs a l'equilibre    : $nbDriftsEqual");
+    $this->logger->debug("Nbre Bugs en avance        : $nbDriftsNeg");
+    $this->logger->debug("Nbre Bugs en derive     ETA: $nbDriftsPosETA");
+    $this->logger->debug("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA");
+    $this->logger->debug("Nbre Bugs en avance     ETA: $nbDriftsNegETA");
 
     $driftStats = array();
     $driftStats["totalDrift"]       = $derive;

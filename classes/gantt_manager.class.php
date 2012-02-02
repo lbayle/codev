@@ -55,7 +55,7 @@ class GanttActivity {
       $this->endTimestamp = $endT;
 
       if ($startT > $endT) {
-         $this->logger->error("Activity startDate (".date('Y-m-d',$startT).") > endDate (".date('Y-m-d',$endT).")");
+         $this->logger->error("bugid=$bugId: Activity startDate $startT (".date('Y-m-d',$startT).") > endDate $endT (".date('Y-m-d',$endT).")");
       }
 
       if (NULL != $progress) {
