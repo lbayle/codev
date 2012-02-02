@@ -3,9 +3,7 @@ header("Content-type: image/png");
 
 # creates a PNG file containing a barr with some text in it.
 # call with:
-# <img src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=345&r=204&g=218&b=255'/>";
-# <a href='./reports/issue_info.php?bugid=225'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=225&r=204&g=218&b=255 /></a>
-
+# <img src='".getServerRootURL()."/graphs/rectangle.png.php?height=12&width=12&border&color=$color'/>
 
 /*
     This file is part of CoDev-Timetracking.
@@ -33,6 +31,9 @@ if (NULL == Logger::getConfigurationFile()) {
 }
 
 include_once "../colors.php";
+
+
+
 
 
 // ================ MAIN =================
