@@ -646,6 +646,12 @@ class User {
       $issueList = array();
 
       if (NULL == $projList) {$projList = $this->getProjectList();}
+
+      if (0 == count($projList)) {
+         $this->logger->warn("getAssignedIssues: no projects defined for user $this->id (".$this->getRealname().")");
+         return $issueList;
+      }
+
       $formatedProjList = implode( ', ', array_keys($projList));
 
 
