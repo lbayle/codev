@@ -217,7 +217,10 @@ require_once('tc_calendar.php');
 				}
 			}
 		});
-		
+	
+        $( "#accordion" ).accordion({
+			collapsible: true
+		});	
 	});
 
 
@@ -626,7 +629,9 @@ if ($_POST['nextForm'] == "addTrackForm") {
 
   displayWeekDetails($weekid, $weekDates, $managed_user->id, $timeTracking, $year);
 
-  echo "<div class='center'>";
+  echo "<br/>";
+  echo "<br/>";
+  echo "<div align='center'>";
   displayCheckWarnings($userid);
   echo "</div>";
 
