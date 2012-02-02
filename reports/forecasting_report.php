@@ -141,6 +141,7 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 function displayCurrentDriftStats ($timeTracking) {
 
    global $logger;
+   global $status_new;
 
    echo "<h2>".T_("Effort Deviation")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></h2>\n";
 
@@ -159,6 +160,7 @@ function displayCurrentDriftStats ($timeTracking) {
    $query = "SELECT DISTINCT id ".
                "FROM `mantis_bug_table` ".
                "WHERE status < get_project_resolved_status_threshold(project_id) ".
+               "AND status > $status_new ".
                "AND project_id IN ($formatedProdProjectList) ".
                "ORDER BY id DESC";
    $result = mysql_query($query);
@@ -223,11 +225,7 @@ function displayCurrentDriftStats ($timeTracking) {
    echo "<td>".T_("Tasks in time")."</td>\n";
    echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
    echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
-   if (isset($_GET['debug'])) {
-      echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
-   } else {
-      echo "<td title='".$driftStats_new["bugidEqualList"]."'>".T_("Tasks resolved in time")."</td>\n";
-   }
+   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
    echo "</tr>\n";
 
    echo "<tr>\n";
