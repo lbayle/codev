@@ -150,6 +150,8 @@ include_once "jobs.class.php";
 include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
 
+$logger = Logger::getLogger("productivity_report");
+
 // -----------------------------------------------
 function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $defaultProjectid) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
@@ -215,6 +217,8 @@ function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $defaultP
 // ---------------------------------------------------------------
 function setProjectSelectionForm($teamid, $defaultProjectid) {
 
+   global $logger;
+
    // Display form
    echo "<div style='text-align: left;'>";
   if (isset($_GET['debug'])) {
@@ -231,7 +235,13 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
                  "WHERE codev_team_project_table.team_id = $teamid ".
                  "AND codev_team_project_table.project_id = mantis_project_table.id ".
                  "ORDER BY mantis_project_table.name";
-       $result = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
          if (0 != mysql_num_rows($result)) {
             while($row = mysql_fetch_object($result))
             {
@@ -559,6 +569,9 @@ function displayWorkingDaysPerJob($timeTracking, $teamid) {
 
 // -----------------------------------------------
 function displayWorkingDaysPerProject($timeTracking) {
+
+  global $logger;
+
   echo "<div class=\"float\">\n";
 
   echo "<table width='300'>\n";
@@ -574,7 +587,13 @@ function displayWorkingDaysPerProject($timeTracking) {
                "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
                "AND codev_team_project_table.team_id = $timeTracking->team_id ".
                " ORDER BY name";
-  $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
   while($row = mysql_fetch_object($result))
   {
      $nbDays = $timeTracking->getWorkingDaysPerProject($row->id);
@@ -610,6 +629,8 @@ function displayWorkingDaysPerProject($timeTracking) {
 // -----------------------------------------------
 function displaySideTasksProjectDetails($timeTracking) {
 
+  global $logger;
+
   $sideTaskProjectType = Project::type_sideTaskProject;
 
   $durationPerCategory = array();
@@ -621,7 +642,13 @@ function displaySideTasksProjectDetails($timeTracking) {
                "FROM `codev_team_project_table` ".
                "WHERE team_id = $timeTracking->team_id ".
                "AND type = $sideTaskProjectType";
-  $result = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
   while($row = mysql_fetch_object($result))
   {
      $durPerCat = $timeTracking->getProjectDetails($row->project_id);
@@ -746,13 +773,22 @@ function displayProjectDetails($timeTracking, $projectId) {
 
 // -----------------------------------------------
 function displayCheckWarnings($timeTracking) {
+
+  global $logger;
+  
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
     "ORDER BY mantis_user_table.username";
 
-  $result = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
 
   echo "<p style='color:red'>\n";
 

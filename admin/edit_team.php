@@ -205,6 +205,9 @@ include_once "user.class.php";
 include_once "team.class.php";
 require_once('tc_calendar.php');
 
+$logger = Logger::getLogger("edit_team");
+
+
 function setTeamForm($originPage, $defaultSelection, $teamList) {
 
   // create form
@@ -235,6 +238,8 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 
 // ----------------------------------------------------
 function updateTeamInfoForm($team, $originPage) {
+   global $logger;
+
    echo "<div>\n";
 
    $defaultDay   = date("d", $team->date);
@@ -267,7 +272,13 @@ function updateTeamInfoForm($team, $originPage) {
    echo "<select style='width:100%' name='f_leaderid'>\n";
 
    $query     = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
       if ($row->id == $team->leader_id) {
@@ -315,6 +326,8 @@ function updateTeamInfoForm($team, $originPage) {
 // ----------------------------------------------------
 function displayTeamMemberTuples($teamid) {
 
+   global $logger;
+   
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -334,7 +347,13 @@ function displayTeamMemberTuples($teamid) {
                 "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
                 "AND codev_team_user_table.team_id=$teamid ".
                 "ORDER BY mantis_user_table.username";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
       echo "<tr>\n";
@@ -360,6 +379,8 @@ function displayTeamMemberTuples($teamid) {
 
 // ----------------------------------------------------
 function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
+
+   global $logger;
 
 	list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
@@ -407,7 +428,13 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
    $query     = "SELECT id, username FROM `mantis_user_table` ".
                 //"WHERE id NOT IN ($formatedTeamMembers) ".
                 "ORDER BY username";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
       echo "<option value='".$row->id."'>".$row->username."</option>\n";
@@ -500,7 +527,8 @@ function addTeamMemberForm($originPage, $defaultDate, $teamid, $teamList) {
 // ----------------------------------------------------
 function displayTeamProjectTuples($teamid) {
 
-	global $externalTasksProject;
+   global $logger;
+   global $externalTasksProject;
 
    // Display previous entries
    echo "<div>\n";
@@ -519,7 +547,13 @@ function displayTeamProjectTuples($teamid) {
                 "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
                 "AND codev_team_project_table.team_id=$teamid ".
                 "ORDER BY mantis_project_table.name";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
       echo "<tr>\n";
@@ -542,6 +576,8 @@ function displayTeamProjectTuples($teamid) {
 // ----------------------------------------------------
 function addTeamProjectForm($teamid, $originPage) {
 
+   global $logger;
+   
    $curProjList=Team::getProjectList($teamid);
    $formatedCurProjList=implode( ', ', array_keys($curProjList));
 
@@ -557,7 +593,13 @@ function addTeamProjectForm($teamid, $originPage) {
                 "FROM `mantis_project_table` ".
                 "WHERE mantis_project_table.id NOT IN ($formatedCurProjList) ".
                 "ORDER BY name";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
 
    echo T_("Project").": <select name='f_projectid'>\n";
    echo "<option value='0'></option>\n";
@@ -607,6 +649,8 @@ function deleteTeamForm($originPage, $teamName, $teamid) {
 // ----------------------------------------------------
 function addAstreinteForm($originPage, $teamid) {
 
+   global $logger;
+
 	$astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
 
 	// --- get SideTasksProject Inactivity Issues
@@ -648,7 +692,13 @@ function addAstreinteForm($originPage, $teamid) {
 
 	if (isset($_GET['debug_sql'])) {echo "addAstreinteForm(): query = $query<br/>";}
 
-	$result = mysql_query($query) or die("Query failed: $query");
+    $result = mysql_query($query);
+    if (!$result) {
+       $logger->error("Query FAILED: $query");
+       $logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>";
+       exit;
+    }
 	if (0 != mysql_num_rows($result)) {
 	   while($row = mysql_fetch_object($result)) {
 	   	#echo "DEBUG $row->id cat $row->category_id inac[$row->project_id] = ".$inactivityCatList[$row->project_id]."</br>";
@@ -753,7 +803,13 @@ $session_user = new User($_SESSION['userid']);
 if ($session_user->isTeamMember($admin_teamid)) {
 	$teamList = array();
    $query     = "SELECT id, name FROM `codev_team_table` ORDER BY name";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
       $teamList[$row->id] = $row->name;
@@ -897,7 +953,13 @@ if (0 != $teamid) {
 
       $memberid = $_POST['f_memberid'];
       $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
-      mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
@@ -906,7 +968,12 @@ if (0 != $teamid) {
 
       $projectid = $_POST['f_projectid'];
       $query = "DELETE FROM `codev_team_project_table` WHERE id = $projectid;";
-      mysql_query($query) or die("Query failed: $query");
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
@@ -914,8 +981,13 @@ if (0 != $teamid) {
    } elseif ($action == "updateTeamLeader") {
 
       $leaderid = $_POST['f_leaderid'];
-   	$query = "UPDATE `codev_team_table` SET leader_id = $leaderid WHERE id = $teamid;";
-      mysql_query($query) or die("Query failed: $query");
+      $query = "UPDATE `codev_team_table` SET leader_id = $leaderid WHERE id = $teamid;";
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       // reload page
       echo ("<script> parent.location.replace('edit_team.php'); </script>");
@@ -924,13 +996,28 @@ if (0 != $teamid) {
    	$teamidToDelete=$teamid;
 
       $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
-      mysql_query($query) or die("Query failed: $query");
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       $query = "DELETE FROM `codev_team_user_table` WHERE team_id = $teamidToDelete;";
-      mysql_query($query) or die("Query failed: $query");
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       $query = "DELETE FROM `codev_team_table` WHERE id = $teamidToDelete;";
-      mysql_query($query) or die("Query failed: $query");
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
    	unset($_SESSION['teamid']);
    	unset($_POST['f_teamid']);

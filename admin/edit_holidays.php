@@ -75,6 +75,7 @@ include_once "user.class.php";
 include_once "holidays.class.php";
 require_once('tc_calendar.php');
 
+$logger = Logger::getLogger("edit_holidays");
 
 // ----------------------------------------------------
 function addHolidayForm($originPage, $defaultDate) {
@@ -116,6 +117,8 @@ function addHolidayForm($originPage, $defaultDate) {
 // ----------------------------------------------------
 function displayHolidaysTuples() {
 
+   global $logger;
+   
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -132,7 +135,13 @@ function displayHolidaysTuples() {
    $query     = "SELECT * ".
                 "FROM `codev_holidays_table` ".
                 "ORDER BY date DESC";
-   $result    = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
    while($row = mysql_fetch_object($result))
    {
    	$deleteDesc = date("d M Y", $row->date)." - ".$row->description;
@@ -210,7 +219,13 @@ echo "<br/>";
 
       // save to DB
       $query = "INSERT INTO `codev_holidays_table`  (`date`, `description`, `color`) VALUES ('$hol_date','$hol_desc','$hol_color');";
-      mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       // reload page
       echo ("<script> parent.location.replace('$originPage'); </script>");
@@ -219,7 +234,13 @@ echo "<br/>";
       $hol_id = $_POST['hol_id'];
 
       $query = "DELETE FROM `codev_holidays_table` WHERE id = $hol_id;";
-      mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       // reload page
       echo ("<script> parent.location.replace('$originPage'); </script>");

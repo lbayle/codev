@@ -23,6 +23,8 @@
 // ---------------------------------------------------------------
 function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile) {
 
+   global $logger;
+   
    $sepChar=';';
 
    $fh = fopen($myFile, 'w');
@@ -68,7 +70,13 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
             "AND project_id IN ($formatedProjList) ".
             //"AND handler_id IN ($formatedMemberList) ".
             "ORDER BY id DESC";
-      $result = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+   }
       while($row = mysql_fetch_object($result)) {
 
       	   $issue = IssueCache::getInstance()->getIssue($row->id);
@@ -125,7 +133,13 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
            "AND last_updated > $startTimestamp ".
            "AND last_updated < $endTimestamp ".
            "ORDER BY id DESC";
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
   while($row = mysql_fetch_object($result)) {
 
   	 $issue = IssueCache::getInstance()->getIssue($row->id);
@@ -327,6 +341,7 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
 // format date: "jj/mm/aa"
 function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
 
+  global $logger;
   $sepChar=';';
 
   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
@@ -346,7 +361,13 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
     "ORDER BY mantis_user_table.username";
 
 
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
   while($row = mysql_fetch_object($result))
   {
       $user1 = UserCache::getInstance()->getUser($row->user_id);

@@ -73,6 +73,7 @@ include_once "project.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 
+$logger = Logger::getLogger("create_team");
 
 // -----------------------------
 /**
@@ -86,7 +87,8 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
                                $task_leave, $task_onDuty, $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
                                $is_modified = "false"
                                ) {
-
+  global $logger;
+  
   echo "<form action='create_team.php' method='post' name='teamCreationForm'>\n";
 
   // ----------- Team Info
@@ -107,7 +109,14 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   $query = "SELECT DISTINCT id, username, realname FROM `mantis_user_table` ORDER BY username";
   echo "      <select name='teamleader_id'>\n";
   echo "        <option value='0'></option>\n";
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
+  
   while($row = mysql_fetch_object($result))
   {
       if ($row->id == $teamleader_id) {
@@ -371,7 +380,9 @@ if ("addTeam" == $action) {
       	// 3) --- add <team> SideTaskProject
       	$stproj_id = $team->createSideTaskProject($stproj_name);
       	if ($stproj_id < 0) {
-      		die ("ERROR: SideTaskProject creation FAILED.<br/>\n");
+            $logger->error("SideTaskProject creation FAILED");
+            echo "<span style='color:red'>ERROR: SideTaskProject creation FAILED</span>";
+            exit;
       	} else {
             $stproj = ProjectCache::getInstance()->getProject($stproj_id);
 

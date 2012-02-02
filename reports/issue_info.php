@@ -137,9 +137,14 @@ include_once "holidays.class.php";
 
 include_once "issue_fdj.class.php";
 
+$logger = Logger::getLogger("issue_info");
+
 // ---------------------------------------------------------------
 
 function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid, $defaultProjectid) {
+   
+   global $logger;
+   
    // Display form
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' Action='$originPage'>\n";
@@ -181,7 +186,13 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
                  "FROM `mantis_bug_table` ".
                  "WHERE project_id IN ($formatedProjList) ".
                  "ORDER BY id DESC";
-       $result = mysql_query($query) or die("Query failed: $query");
+        $result = mysql_query($query);
+        if (!$result) {
+            $logger->error("Query FAILED: $query");
+            $logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+        }
          if (0 != mysql_num_rows($result)) {
             while($row = mysql_fetch_object($result))
             {

@@ -61,6 +61,7 @@ include_once 'export_csv_tools.php';
 include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
 
+$logger = Logger::getLogger("export_csv");
 
 // -----------------------------------------------
 function displayTeamAndPeriodSelectionForm($leadedTeamList, $teamid, $defaultDate1, $defaultDate2) {
@@ -138,7 +139,13 @@ $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
 
 $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
-$result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
 $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
 $formatedteamName = str_replace(" ", "_", $teamName);
 
