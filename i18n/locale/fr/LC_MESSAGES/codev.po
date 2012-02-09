@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-09 21:18+0100\n"
+"POT-Creation-Date: 2012-02-09 22:10+0100\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -37,7 +37,7 @@ msgstr "Administration CoDev : &Eacute;dition &eacute;quipe"
 
 #: admin/edit_team.php:259 reports/export_csv_weekly.php:76
 #: reports/export_csv_monthly.php:95 reports/productivity_report.php:187
-#: reports/statistics.php:81 reports/planning_report.php:192
+#: reports/statistics.php:81 reports/planning_report.php:197
 #: reports/forecasting_report.php:111 reports/gantt_report.php:108
 #: timetracking/team_activity_report.php:107
 #: timetracking/holidays_report.php:66
@@ -51,7 +51,7 @@ msgid "Leader"
 msgstr "Team Leader"
 
 #: admin/edit_team.php:293 admin/edit_team.php:304
-#: reports/planning_report.php:206 reports/forecasting_report.php:125
+#: reports/planning_report.php:211 reports/forecasting_report.php:125
 msgid "Update"
 msgstr "Mise &agrave; jour"
 
@@ -486,7 +486,7 @@ msgid "Uninstall"
 msgstr "D&eacute;sinstaller"
 
 #: classes/scheduler.class.php:57 reports/issue_info.php:353
-#: reports/issue_info.php:424 reports/planning_report.php:430
+#: reports/issue_info.php:424 reports/planning_report.php:436
 #: timetracking/team_activity_report.php:350
 #: timetracking/time_tracking_tools.php:45
 #: timetracking/time_tracking_tools.php:47
@@ -494,7 +494,7 @@ msgstr "D&eacute;sinstaller"
 msgid "days"
 msgstr "jours"
 
-#: classes/scheduler.class.php:64 reports/planning_report.php:453
+#: classes/scheduler.class.php:64 reports/planning_report.php:459
 msgid "monitored"
 msgstr "suivie"
 
@@ -952,7 +952,7 @@ msgstr "APRES analyse"
 
 #: reports/productivity_report.php:439 reports/productivity_report.php:501
 #: reports/productivity_report.php:690 reports/productivity_report.php:749
-#: reports/productivity_report.php:848 reports/planning_report.php:150
+#: reports/productivity_report.php:848 reports/planning_report.php:155
 #: reports/forecasting_report.php:197
 msgid "Tasks"
 msgstr "Fiches"
@@ -1055,7 +1055,7 @@ msgid "tasks having been reopened in the period"
 msgstr "Fiches r&eacute;ouvertes dans la p&eacute;riode"
 
 #: reports/productivity_report.php:882 reports/issue_info.php:560
-#: reports/planning_report.php:552 reports/forecasting_report.php:435
+#: reports/planning_report.php:567 reports/forecasting_report.php:435
 #: timetracking/time_tracking.php:517 timetracking/set_holidays.php:364
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
@@ -1286,32 +1286,36 @@ msgstr "Taux d&apos;efficacit&eacute; - Disponibilit&eacute; syst&egrave;me"
 msgid "Planning"
 msgstr "Planning"
 
-#: reports/planning_report.php:208
+#: reports/planning_report.php:213
 msgid "zoom in"
 msgstr "agrandir l&apos;&eacute;chelle"
 
-#: reports/planning_report.php:430 timetracking/team_activity_report.php:217
+#: reports/planning_report.php:214
+msgid "zoom out"
+msgstr "r&eacute;duire l&apos;&eacute;chelle"
+
+#: reports/planning_report.php:436 timetracking/team_activity_report.php:217
 #: timetracking/team_activity_report.php:273
 msgid "workload"
 msgstr "charge"
 
-#: reports/planning_report.php:450
+#: reports/planning_report.php:456
 msgid "onTime"
 msgstr "dans les temps"
 
-#: reports/planning_report.php:451
+#: reports/planning_report.php:457
 msgid "NOT onTime"
 msgstr "en retard"
 
-#: reports/planning_report.php:452
+#: reports/planning_report.php:458
 msgid "no deadLine"
 msgstr "sans deadLine"
 
-#: reports/planning_report.php:470
+#: reports/planning_report.php:476
 msgid "day"
 msgstr "jour"
 
-#: reports/planning_report.php:503 index.php:321
+#: reports/planning_report.php:509 index.php:321
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
@@ -1506,10 +1510,6 @@ msgstr "Connect&eacute; sous "
 msgid "log out"
 msgstr "d&eacute;connexion"
 
-#: include/login.inc.php:30
-msgid "Logged out !"
-msgstr "d&eacute;connect&eacute; !"
-
 #: include/login.inc.php:30 index.php:159
 msgid "log in"
 msgstr "connexion"
@@ -1643,6 +1643,9 @@ msgstr "Connexion CoDev"
 #: login.php:96
 msgid "login failed !"
 msgstr "l&apos;identification a &eacute;chou&eacute;e !"
+
+#~ msgid "Logged out !"
+#~ msgstr "d&eacute;connect&eacute; !"
 
 #~ msgid "Total Production Days"
 #~ msgstr "Jours de Production : Total"
