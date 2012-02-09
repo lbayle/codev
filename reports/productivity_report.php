@@ -283,6 +283,7 @@ function displayProductionDays ($timeTracking) {
   $managementDays          = $timeTracking->getManagementDays();
   $sideNoManagement        = $sideProdDays - $managementDays;
 
+
   echo "<div class=\"float\">\n";
 
   echo "<table width='300'>\n";
@@ -293,7 +294,10 @@ function displayProductionDays ($timeTracking) {
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Projects")."</td>\n";
+  echo "<td>";
+  $color = "92C5FC";
+  echo "<img src='".getServerRootURL()."/graphs/rectangle.png.php?height=12&width=12&border&color=$color'/>";
+  echo " ".T_("Projects")."</td>\n";
   echo "<td>$prodDays</td>\n";
   echo "</tr>\n";
 /*
@@ -308,17 +312,23 @@ function displayProductionDays ($timeTracking) {
   echo "</tr>\n";
 */
   echo "<tr>\n";
-  echo "<td>".T_("SideTasks: Project Management")."</td>\n";
+  echo "<td>";
+  $color = "FFC16B";
+  echo "<img src='".getServerRootURL()."/graphs/rectangle.png.php?height=12&width=12&border&color=$color'/>";
+  echo " ".T_("Project Management")."</td>\n";
   echo "<td>$managementDays</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("SideTasks: Others")."</td>\n";
+  echo "<td>";
+  $color = "FFF494";
+  echo "<img src='".getServerRootURL()."/graphs/rectangle.png.php?height=12&width=12&border&color=$color'/>";
+  echo " ".T_("Other SideTasks")."</td>\n";
   echo "<td>$sideNoManagement</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
-  echo "<td>".T_("Total Production Days")."</td>\n";
+  echo "<td>".T_("Total")."</td>\n";
   echo "<td>".($prodDays + $sideProdDays)."</td>\n";
   echo "</tr>\n";
 
