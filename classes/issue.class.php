@@ -1226,7 +1226,7 @@ class Issue {
       if (NULL != $this->effortEstim) {
          $totalEffort = $this->effortEstim + $this->effortAdd;
       } else {
-      	$totalEffort = $this->prelEffortEstimName;
+      	$totalEffort = $this->prelEffortEstim;
       }
 
       // if no Remaining set, 0% done
@@ -1240,6 +1240,11 @@ class Issue {
       } else {
       	$progress = $totalEffort / ($totalEffort - $this->remaining);   // T/(T+R)
       }
+
+      if (($progress < 0) || ($progress > 1)) {
+      	$this->logger->error("Progress value = $progress = $totalEffort / ($totalEffort - $this->remaining)");
+      }
+
       return $progress;
    }
 
