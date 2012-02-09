@@ -903,23 +903,6 @@ if (0 == count($teamList)) {
 		echo "du ".date("Y-m-d  (H:i)", $startTimestamp)."&nbsp;<br/>";
 		echo "au ".date("Y-m-d  (H:i)", $endTimestamp)."<br/><br/>\n";
 
-		displayWorkingDaysPerJob($timeTracking, $teamid);
-		echo "<div class=\"spacer\"> </div>\n";
-		echo "<br>";
-		echo "<br>";
-		echo "<hr/>\n"; # "<hr width='80%'/>\n";
-		echo "<br>";
-		echo "<br>";
-
-		displayWorkingDaysPerProject($timeTracking);
-
-		echo "<div class=\"spacer\"> </div>\n";
-		echo "<br>";
-		echo "<br>";
-		echo "<hr width='100%'/>\n";
-		echo "<br>";
-		echo "<br>";
-
 		displayProductionDays($timeTracking);
 
 		echo "<div class=\"spacer\"> </div>\n";
@@ -929,6 +912,15 @@ if (0 == count($teamList)) {
 		echo "<br>";
 		echo "<br>";
 
+		displayWorkingDaysPerJob($timeTracking, $teamid);
+		echo "<div class=\"spacer\"> </div>\n";
+		echo "<br>";
+		echo "<br>";
+		echo "<hr/>\n"; # "<hr width='80%'/>\n";
+		echo "<br>";
+		echo "<br>";
+
+
 		setProjectSelectionForm($teamid, $defaultProjectid);
 		$defaultProjectid  = $_POST['projectid'];
 		if (0 != $defaultProjectid) {
@@ -937,6 +929,15 @@ if (0 == count($teamList)) {
 		   // all sideTasks
 		   displaySideTasksProjectDetails($timeTracking);
 		}
+
+		echo "<div class=\"spacer\"> </div>\n";
+		echo "<br>";
+		echo "<br>";
+		echo "<hr width='100%'/>\n";
+		echo "<br>";
+		echo "<br>";
+
+		displayWorkingDaysPerProject($timeTracking);
 
 		echo "<div class=\"spacer\"> </div>\n";
 		echo "<br>";
