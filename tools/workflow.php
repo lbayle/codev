@@ -32,10 +32,20 @@ include 'menu.inc.php';
 
 <script language="JavaScript">
 
-function cloneProjectWorkflow(srcProject, destProject) {
-	document.forms["form1"].action.value="cloneProject";
-	document.forms["form1"].submit();
-}
+  function submitProject(){
+
+     foundError = 0;
+     msgString = "Some fields are missing:" + "\n\n";
+
+     if (0 == document.forms["selectProjectForm"].projectid.value)  { msgString += "Project\n"; ++foundError; }
+
+     if (0 != foundError) {
+       alert(msgString);
+     }
+     document.forms["selectProjectForm"].action.value = "displayPage";
+     document.forms["selectProjectForm"].submit();
+
+   }
 
 </script>
 
@@ -47,6 +57,37 @@ function cloneProjectWorkflow(srcProject, destProject) {
 
 include_once 'project.class.php';
 
+
+$logger = Logger::getLogger("workflow");
+
+// -----------------------------------------
+function setProjectForm($originPage, $defaultSelection, $list) {
+
+   // create form
+   echo "<div align=center>\n";
+   echo "<form id='selectProjectForm' name='selectProjectForm' method='post' action='$originPage'>\n";
+
+   echo T_("Project")." :\n";
+   echo "<select name='projectid'>\n";
+   echo "<option value='0'></option>\n";
+
+   foreach ($list as $id => $name) {
+
+      if ($id == $defaultSelection) {
+         echo "<option selected value='".$id."'>".$name."</option>\n";
+      } else {
+         echo "<option value='".$id."'>".$name."</option>\n";
+      }
+   }
+   echo "</select>\n";
+
+   echo "<input type=button value='".T_("Update")."' onClick='javascript: submitProject()'>\n";
+
+   echo "<input type=hidden name=action value=noAction>\n";
+
+   echo "</form>\n";
+   echo "</div>\n";
+}
 
 // ------------------------------------------------
 /**
@@ -84,6 +125,8 @@ function getProjectList($isCodevtt = false) {
  */
 function displayWorkflow($project) {
 
+   $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
+
    $wfTrans = $project->getWorkflowTransitions();
 
    $statusTitles = $wfTrans[0];
@@ -100,7 +143,7 @@ function displayWorkflow($project) {
    foreach ( $wfTrans as $sid => $sList) {
       if (0 == $sid) { continue; }
       echo "<tr>\n";
-      echo "<th>".$statusTitles[$sid]."</th>\n";
+      echo "<th>".$statusNames[$sid]."</th>\n";
       foreach ( $statusTitles as $sid => $sname) {
       	$val = (null == $sList[$sid]) ? "" : "X";
          echo "<td>".$val."</td>\n";
@@ -117,16 +160,28 @@ function displayWorkflow($project) {
 
 $originPage = "workflow.php";
 
+$defaultProject = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+$projectid      = isset($_POST['projectid']) ? $_POST['projectid'] : $defaultProject;
+$_SESSION['projectid'] = $projectid;
+
 $action     = isset($_POST['action']) ? $_POST['action'] : '';
 
 
 $projectList = getProjectList();
 
-$proj_id = 21;
-$proj = ProjectCache::getInstance()->getProject($proj_id);
-$wfTrans = $proj->getWorkflowTransitions();
+setProjectForm($originPage, $projectid, $projectList);
+echo "<br/><br/>\n";
+echo "<br/><br/>\n";
 
-displayWorkflow($proj);
+
+if ("displayPage" == $action) {
+
+   $proj = ProjectCache::getInstance()->getProject($projectid);
+   $wfTrans = $proj->getWorkflowTransitions();
+
+   displayWorkflow($proj);
+}
+
 
 ?>
 
