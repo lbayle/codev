@@ -1,3 +1,4 @@
+<?php if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
 <?php /*
     This file is part of CoDev-Timetracking.
 
@@ -19,6 +20,12 @@
 
 include_once '../path.inc.php';
 include_once 'i18n.inc.php';
+
+if (!isset($_SESSION['userid'])) {
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
+  exit;
+}
+
 
 $_POST['page_name'] = T_("Clone Project Settings");
 include 'header.inc.php';
@@ -71,6 +78,7 @@ include 'menu.inc.php';
 # ------------------------------------------------------------------
 
 include_once 'project.class.php';
+include_once 'user.class.php';
 
 
 $logger = Logger::getLogger("workflow");
@@ -219,6 +227,14 @@ $src_projectid = isset($_POST['src_projectid']) ? $_POST['src_projectid'] : 0;
 
 $action     = isset($_POST['action']) ? $_POST['action'] : '';
 
+// Admins only
+$session_user = new User($_SESSION['userid']);
+if (!$session_user->isTeamMember($admin_teamid)) {
+	echo T_("Sorry, you need to be in the admin-team to access this page.");
+	exit;
+}
+
+// -------
 
 $projectList = getProjectList();
 
