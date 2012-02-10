@@ -763,7 +763,7 @@ class Project {
          }
    	}
 
-
+   	return "SUCCESS ! (".count($srcConfigList)." config items cloned.)";
    }
 
 
