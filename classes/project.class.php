@@ -17,6 +17,7 @@
 
 <?php
 
+include_once "config_mantis.class.php";
 include_once "project_cache.class.php";
 include_once "jobs.class.php";
 
@@ -138,7 +139,7 @@ class Project {
 
       return $row->name;
    }
-   
+
    // -----------------------------------------------
    /**
     *
@@ -639,6 +640,47 @@ class Project {
    public function getWorkshopCategoryId() {
       if (NULL == $this->categoryList) return NULL;
    	return $this->categoryList[Project::$keyWorkshop];
+   }
+   // -----------------------------------------------
+
+
+   /**
+    * get Workflow transitions from Mantis DB
+    *
+    * mantis_config_table - config_id='status_enum_workflow'
+    *
+    *
+    */
+
+   function getWorkflowTransitions() {
+
+      $serialized = ConfigMantis::getInstance()->getValue('status_enum_workflow', $this->id);
+      $this->logger->debug("Project  $this->id  ConfigMantis status_enum_workflow=$serialized");
+
+      if ((NULL != $serialized) && ("" != $serialized)) {
+         $unserialized = unserialize($serialized);
+      } else {
+      	$unserialized = array();
+      }
+
+      $statusTitles = array();
+      $wfTrans = array();
+      // find all statuses
+      foreach ( $unserialized as $line => $sList) {
+         $sarr = doubleExplode(':', ',', $sList);
+         ksort($sarr);
+         $wfTrans[$line] = $sarr;
+         foreach ($sarr as $status => $statusName) {
+            $statusTitles[$status] = $statusName;
+         }
+      }
+
+      // add titles
+      ksort($statusTitles);
+      $wfTrans[0] = $statusTitles;
+      ksort($wfTrans);
+
+      return $wfTrans;
    }
 
 }
