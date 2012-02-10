@@ -93,6 +93,8 @@ include_once "project.class.php";
 include_once "user.class.php";
 include_once "time_tracking.class.php";
 
+$logger = Logger::getLogger("team_activity");
+
 // ------------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear=NULL, $isDetailed = false, $is_modified = "false") {
 
@@ -161,6 +163,8 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 // ------------------------------------------------
 function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, $isDetailed = false) {
 
+  global $logger;
+
   echo "<div>\n";
 
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
@@ -169,7 +173,13 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, 
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
     "ORDER BY mantis_user_table.realname";
 
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
 
   while($row = mysql_fetch_object($result))
   {
@@ -197,6 +207,9 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, 
 
 // ------------------------------------------------
 function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
+  
+  global $logger;
+  
   // PERIOD week
   //$thisWeekId=date("W");
 
@@ -222,9 +235,15 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
     $issue = IssueCache::getInstance()->getIssue($bugid);
     foreach ($jobList as $jobid => $dayList) {
 
-      $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-      $result3 = mysql_query($query3) or die("Query failed: $query3");
-      $jobName = mysql_result($result3, 0);
+      $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $jobName = mysql_result($result, 0);
 
       echo "<tr>\n";
       echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
@@ -299,6 +318,9 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
 
 
 function displayCheckWarnings($timeTracking) {
+    
+  global $logger;
+    
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
@@ -307,7 +329,13 @@ function displayCheckWarnings($timeTracking) {
 
   // FIXME AND user is not Observer
 
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
 
   echo "<p style='color:red'>\n";
 

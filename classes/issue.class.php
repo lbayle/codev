@@ -143,7 +143,13 @@ class Issue {
       $query = "SELECT * ".
       "FROM `mantis_bug_table` ".
       "WHERE id = $this->bugId";
-      $result = mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+       if (!$result) {
+              $this->logger->error("Query FAILED: $query");
+              $this->logger->error(mysql_error());
+              echo "<span style='color:red'>ERROR: Query FAILED</span>";
+              exit;
+      }
       $row = mysql_fetch_object($result);
 
       $this->summary         = $row->summary;
@@ -759,7 +765,13 @@ class Issue {
 
       if (NULL == $timestamp) {
          $query = "SELECT status FROM `mantis_bug_table` WHERE id = $this->bugId";
-         $result = mysql_query($query) or die("Query failed: $query");
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
          $row = mysql_fetch_object($result);
          $this->currentStatus   = $row->status;
 
@@ -859,7 +871,7 @@ class Issue {
    public function computeDurations () {
    	global $status_new;
 
-      $statusNames = Config::getInstance()->getValue("statusNames");
+      $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
       ksort($statusNames);
 
       foreach ($statusNames as $s => $sname) {
@@ -1214,7 +1226,7 @@ class Issue {
       if (NULL != $this->effortEstim) {
          $totalEffort = $this->effortEstim + $this->effortAdd;
       } else {
-      	$totalEffort = $this->prelEffortEstimName;
+      	$totalEffort = $this->prelEffortEstim;
       }
 
       // if no Remaining set, 0% done
@@ -1228,6 +1240,11 @@ class Issue {
       } else {
       	$progress = $totalEffort / ($totalEffort - $this->remaining);   // T/(T+R)
       }
+
+      if (($progress < 0) || ($progress > 1)) {
+      	$this->logger->error("Progress value = $progress = $totalEffort / ($totalEffort - $this->remaining)");
+      }
+
       return $progress;
    }
 

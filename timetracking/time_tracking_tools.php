@@ -32,6 +32,11 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
 
    $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
 
+   
+   echo "<div id='accordion' style='width:300px;' >\n";
+   echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
+
+   echo "<div>\n";
    echo "<p>\n";
    foreach ($incompleteDays as $date => $value) {
       $formatedDate = date("Y-m-d", $date);
@@ -48,6 +53,10 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
       $formatedDate = date("Y-m-d", $date);
       echo "<br/><span style='color:red' width='70'>$formatedDate ".T_("not defined.")."</span>\n";
    }
+   echo "</p>\n";
+   echo "</div>\n";
+   echo "</div>\n";
+   
 }
 
 function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {

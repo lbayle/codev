@@ -1,0 +1,82 @@
+<!-- Back Compat -->
+<html>
+<head>
+<title>Bindows Gauges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="MsThemeCompatible" content="yes">
+<meta http-equiv="ImageToolBar" content="no">
+<script type="text/javascript" src="bindows_gauges/bindows_gauges.js"></script>
+</head>
+<body>
+<table>
+	<tr>
+		<td><div id="g_0" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_1" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_2" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_3" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_4" style="width: 150; height: 150" ></div></td>
+	</tr>
+	<tr>
+		<td><div id="g_5" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_6" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_7" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_8" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_9" style="width: 150; height: 150" ></div></td>
+	</tr>
+	<tr>
+		<td><div id="g_10" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_11" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_12" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_13" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_14" style="width: 150; height: 150" ></div></td>
+	</tr>
+	<tr>
+		<td><div id="g_15" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_16" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_17" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_18" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_19" style="width: 150; height: 150" ></div></td>
+	</tr>
+	<tr>
+		<td><div id="g_20" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_21" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_22" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_23" style="width: 150; height: 150" ></div></td>
+		<td><div id="g_24" style="width: 150; height: 150" ></div></td>
+	</tr>
+</table>
+
+
+<script type="text/javascript">
+
+	var gs = [
+		"g_clock_bindows",
+		"g_speedometer_01",
+		"g_speedometer_02",
+		"g_speedometer_03",
+		"g_speedometer_04",
+		"g_general_01",
+		"g_general_02",
+		"g_general_03",
+		"g_clock_01",
+		"g_clock_02",
+		"g_temperature_pressure",
+		"g_boat_directions",
+		"g_rectangular",
+		"g_half_circle",
+		"g_gasmeter_01",
+		"g_gasmeter_02",
+		"g_wind_directions",
+		"g_wind_speed",
+		"g_weather_station",
+		"g_vertical_01",
+		"g_vertical_02"
+	]
+
+	for (var i=0; i<gs.length; i++) {
+		setTimeout('bindows.loadGaugeIntoDiv("gauges/' + gs[i] + '.xml", "g_' + i + '")', i*150);
+	}
+
+</script>
+</body>
+</html>

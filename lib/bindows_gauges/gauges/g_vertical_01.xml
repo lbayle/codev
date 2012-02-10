@@ -1,0 +1,25 @@
+<Gauge2 coordWidth="1000" coordHeight="1000" left="0" top="0" bottom="0" right="0">
+	<!-- Note the vertical gauge api is not complete yet, and is subject to change -->
+	<Gauge2RectangularBorder arcSize="20" stroke="#000000" strokeWidth="1" centerX="500" centerY="500" width="399" height="989">
+		<Gauge2RectangularBorder.Filler>
+			<Gauge2LinearGradientFiller color1="#003A7E" color2="#3B3B3B" angle="0"/>
+		</Gauge2RectangularBorder.Filler>
+	</Gauge2RectangularBorder>
+
+	<Gauge2LinearRange centerX="500" centerY="530" width="300" height="900" angle="0">
+		<Gauge2LinearTicks tickWidth="10" tickLength="30" color="#8080A0" tickCount="7" tickSpacing="126.66666666666667"/>
+		<Gauge2LinearTicks tickWidth="5" tickLength="15" color="#8080A0" tickCount="13" tickSpacing="63.333333333333336"/>
+		<Gauge2LinearScale font="40 Verdana bold" foreColor="#AAAACA" startValue="-20" endValue="40" labelCount="4" labelSpacing="253.33333333333334" labelPosition="-50" postString="">
+			<!-- Needle -->
+		<Gauge2LinearNeedle id="needle" value="0" stroke="#000000" strokeWidth="1"
+							angle="0" needlePosition="60" needleBase="40" needleHeight="50">
+			<Gauge2LinearNeedle.Filler>
+				<Gauge2LinearGradientFiller angle="0" color1="#AAAACA" color2="#3B3B46"/>
+			</Gauge2LinearNeedle.Filler>
+		</Gauge2LinearNeedle>
+		</Gauge2LinearScale>
+	</Gauge2LinearRange>
+
+	<!-- Label -->
+    <Gauge2Label  text="Temperature" font="42 bold" foreColor="#C4C4E9" x="500" y="65" anchorHorizontal="center" anchorVertical="center"/>
+</Gauge2>

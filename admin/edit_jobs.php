@@ -105,17 +105,25 @@ include_once "user.class.php";
 include_once "jobs.class.php";
 require_once('tc_calendar.php');
 
+$logger = Logger::getLogger("edit_jobs");
 
 // ----------------------------------------------------
 function getProjectList() {
 
+  global $logger;
 	$plist = array();
 
    $query     = "SELECT id, name ".
                 "FROM `mantis_project_table` ".
                 "ORDER BY name";
 
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
    	$plist[$row->id] = $row->name;
@@ -127,6 +135,7 @@ function getProjectList() {
 // ----------------------------------------------------
 function getJobList($type = NULL) {
 
+   global $logger;
    $jlist = array();
 
    $query     = "SELECT id, name ".
@@ -136,7 +145,14 @@ function getJobList($type = NULL) {
    }
 
    $query .=  "ORDER BY name";
-   $result    = mysql_query($query) or die("Query failed: $query");
+
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
       $jlist[$row->id] = $row->name;
@@ -177,6 +193,7 @@ function addJobForm($originPage) {
 // ----------------------------------------------------
 function displayJobTuples($originPage) {
 
+   global $logger;
    $jobSupport = Config::getInstance()->getValue(Config::id_jobSupport);
 
    // Display previous entries
@@ -193,7 +210,13 @@ function displayJobTuples($originPage) {
    $query     = "SELECT * ".
                 "FROM `codev_job_table` ".
                 "ORDER BY name";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
       echo "<tr>\n";
@@ -203,7 +226,13 @@ function displayJobTuples($originPage) {
       $query2 = "SELECT COUNT(jobid) ".
                 "FROM `codev_timetracking_table` ".
                 "WHERE jobid = $row->id";
-      $result2    = mysql_query($query2) or die("Query failed: $query2");
+      $result2 = mysql_query($query2);
+      if (!$result2) {
+         $logger->error("Query FAILED: $query2");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
       $nbTuples  = (0 != mysql_num_rows($result2)) ? mysql_result($result2, 0) : 0;
 
       if ((0 == $nbTuples) && ($jobSupport != $row->id)) {
@@ -274,6 +303,7 @@ function addJobProjectAssociationForm($originPage) {
 // ----------------------------------------------------
 function displayAssignedJobTuples($originPage) {
 
+   global $logger;
    $plist = getProjectList();
 
    // Display previous entries
@@ -290,7 +320,13 @@ function displayAssignedJobTuples($originPage) {
                 "FROM `codev_project_job_table`, `codev_job_table` ".
                 "WHERE codev_project_job_table.job_id = codev_job_table.id ".
                 "ORDER BY codev_project_job_table.project_id";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
    while($row = mysql_fetch_object($result))
    {
       echo "<tr>\n";
@@ -382,10 +418,22 @@ echo "<br/>";
       // TODO delete Support job not allowed
 
       $query = "DELETE FROM `codev_project_job_table` WHERE job_id = $job_id;";
-      mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
-   	$query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
-      mysql_query($query) or die("Query failed: $query");
+   	  $query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       // reload page
       echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
@@ -401,7 +449,13 @@ echo "<br/>";
             // TODO check if not already in table !
             // save to DB
             $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
-            mysql_query($query) or die("<span style='color:red'>Query FAILED: $query</span>");
+            $result = mysql_query($query);
+            if (!$result) {
+               $logger->error("Query FAILED: $query");
+               $logger->error(mysql_error());
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
          }
       }
 
@@ -412,7 +466,13 @@ echo "<br/>";
       $asso_id = $_POST['asso_id'];
 
       $query = "DELETE FROM `codev_project_job_table` WHERE id = $asso_id;";
-      mysql_query($query) or die("Query failed: $query");
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
 
       // reload page
       echo ("<script> parent.location.replace('edit_jobs.php'); </script>");

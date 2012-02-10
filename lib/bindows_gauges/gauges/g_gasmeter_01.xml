@@ -1,0 +1,55 @@
+
+<Gauge2 coordWidth="1000" coordHeight="1000" left="0" top="0" bottom="0" right="0">
+
+
+    <!-- Background -->
+
+
+    <!-- Range -->
+    <Gauge2RadialRange centerX="500" centerY="500" width="1000" height="1000" startAngle="180" endAngle="360">
+
+        <!-- Scale -->
+        <Gauge2RadialScale startValue="0" endValue="100">
+             <Gauge2RadialScaleSection sectionWidth="440" color="#FFCCCC" radius="240" startValue="0" endValue="20"/>
+             <Gauge2RadialScaleSection sectionWidth="46" color="#FFFFFF" stroke="#BBBBBB" strokeWidth="4" radius="470" startValue="0" endValue="100"/>
+        </Gauge2RadialScale>
+
+
+        <!-- Ticks -->
+        <Gauge2RadialTicks tickWidth="8" tickLength="46" color="#BBBBBB" tickCount="11" radius="470"/>
+
+        <!-- Scale -->
+        <Gauge2RadialScale font="90 Arial bold" foreColor="#777777" radius="350" startValue="0" endValue="100" labelCount="3" valueFunction="return ['E', '1/2', 'F'][Math.floor(v/100*2)];">
+
+
+            <!-- Needle -->
+            <Gauge2RadialNeedle id="needle" value="35" stroke="#BB2222" strokeWidth="1"
+                                innerRadius="0" innerWidth="50"
+                                outerRadius="470" outerWidth="5">
+                <Gauge2RadialNeedle.Filler>
+                    <Gauge2RadialGradientFiller color1="#CC1111" color2="#FF6666"/>
+                </Gauge2RadialNeedle.Filler>
+            </Gauge2RadialNeedle>
+
+
+        </Gauge2RadialScale>
+
+
+        <!-- Cap -->
+        <Gauge2BasicCap width="100" height="100">
+            <Gauge2BasicCap.Filler>
+                   <Gauge2RingGradientFiller color1="#888888" color2="#DDDDDD" thickness="20" highlightCenter="0"/>
+            </Gauge2BasicCap.Filler>
+        </Gauge2BasicCap>
+
+        <Gauge2BasicCap width="70" height="70">
+            <Gauge2BasicCap.Filler>
+                   <Gauge2LinearGradientFiller color1="#666666" color2="#DDDDDD" angle="45"/>
+            </Gauge2BasicCap.Filler>
+        </Gauge2BasicCap>
+
+
+    </Gauge2RadialRange>
+
+</Gauge2>
+        

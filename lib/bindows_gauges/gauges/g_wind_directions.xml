@@ -1,0 +1,55 @@
+
+
+<Gauge2 coordWidth="1000" coordHeight="1000" left="0" top="0" bottom="0" right="0">
+
+    <!-- Background -->
+    <Gauge2CircularBorder width="980" height="980" centerX="500" centerY="500" strokeWidth="2" stroke="#333333">
+        <Gauge2CircularBorder.Filler>
+            <Gauge2RingGradientFiller  color1="#EEEEEE" color2="#BBBBBB" thickness="5" highlightCenter="100"/>
+        </Gauge2CircularBorder.Filler>
+    </Gauge2CircularBorder>
+
+
+    <!-- Label -->
+    <Gauge2Label text="Wind Direction" font="60" foreColor="#000000" x="500" y="500"/>
+
+    <!-- Range -->
+    <Gauge2RadialRange centerX="500" centerY="500" width="1000" height="1000" startAngle="0" endAngle="360">
+
+        <!-- Scale -->
+        <Gauge2RadialScale radius="430" startValue="0" endValue="360">
+            <Gauge2RadialScaleSection sectionWidth="30" color="#CCDDFF" stroke="gray" strokeWidth="3" radius="360" startValue="0" endValue="360"/>
+        </Gauge2RadialScale>
+
+        <!-- Ticks -->
+        <Gauge2RadialTicks tickWidth="1" tickLength="28" color="gray" tickCount="33" radius="360"/>
+        <Gauge2RadialTicks tickWidth="8" tickLength="28" color="black" tickCount="9" radius="360"/>
+
+    </Gauge2RadialRange>
+
+    <!-- Range -->
+    <Gauge2RadialRange centerX="500" centerY="500" width="1000" height="1000" startAngle="0" endAngle="360">
+        <Gauge2RadialScale font="45" foreColor="#000000" radius="420" startValue="0" endValue="8" labelCount="9">
+            <Gauge2RadialScale.valueFunction>
+                return ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', ''][v];
+            </Gauge2RadialScale.valueFunction>
+        </Gauge2RadialScale>
+
+        <Gauge2RadialScale startValue="0" endValue="360">
+
+            <!-- Needle -->
+            <Gauge2RadialNeedle id="needle" value="300" stroke="#000000" strokeWidth="1"
+                                innerRadius="240" innerWidth="100"
+                                outerRadius="340" outerWidth="5">
+                <Gauge2RadialNeedle.Filler>
+                    <Gauge2RadialGradientFiller color1="#FFEEEE" color2="#FF2222"/>
+                </Gauge2RadialNeedle.Filler>
+            </Gauge2RadialNeedle>
+
+        </Gauge2RadialScale>
+    </Gauge2RadialRange>
+
+
+</Gauge2>
+
+        

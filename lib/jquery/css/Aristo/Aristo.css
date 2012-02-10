@@ -95,12 +95,12 @@
 	outline: none;
 	color: #1c4257; border: 1px solid #7096ab;
 	background: #ededed url(images/bg_fallback.png) 0 -50px repeat-x; /* Old browsers */
-		background: -moz-linear-gradient(top, #b9e0f5 0%, #92bdd6 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b9e0f5), color-stop(100%,#92bdd6)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* Opera11.10+ */
-		background: -ms-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* IE10+ */
-		background: linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* W3C */
+		background: -moz-linear-gradient(top, #DBDBF0 0%, #B0B0DE 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DBDBF0), color-stop(100%,#B0B0DE)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* Opera11.10+ */
+		background: -ms-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* IE10+ */
+		background: linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* W3C */
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
@@ -476,12 +476,12 @@ button.ui-button-icons-only { width: 3.7em; }
 	color: #1c4257;
 	border-color: #7096ab;
 	background: #ededed url(images/bg_fallback.png) 0 -50px repeat-x; /* Old browsers */
-		background: -moz-linear-gradient(top, #b9e0f5 0%, #92bdd6 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b9e0f5), color-stop(100%,#92bdd6)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* Opera11.10+ */
-		background: -ms-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* IE10+ */
-		background: linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* W3C */
+		background: -moz-linear-gradient(top, #DBDBF0 0%, #B0B0DE 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DBDBF0), color-stop(100%,#B0B0DE)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* Opera11.10+ */
+		background: -ms-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* IE10+ */
+		background: linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* W3C */
 	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset; 
 	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset;
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255,255,255,0.8) inset;
@@ -522,12 +522,12 @@ input.ui-button::-moz-focus-inner {
 .ui-buttonset .ui-button.ui-state-active { color: #1c4257; border-color: #7096ab; }
 .ui-buttonset .ui-button.ui-state-active {
 	background: #ededed url(images/bg_fallback.png) 0 -50px repeat-x; /* Old browsers */
-		background: -moz-linear-gradient(top, #b9e0f5 0%, #92bdd6 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b9e0f5), color-stop(100%,#92bdd6)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* Opera11.10+ */
-		background: -ms-linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* IE10+ */
-		background: linear-gradient(top, #b9e0f5 0%,#92bdd6 100%); /* W3C */
+		background: -moz-linear-gradient(top, #DBDBF0 0%, #B0B0DE 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#DBDBF0), color-stop(100%,#B0B0DE)); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* Opera11.10+ */
+		background: -ms-linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* IE10+ */
+		background: linear-gradient(top, #DBDBF0 0%,#B0B0DE 100%); /* W3C */
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;

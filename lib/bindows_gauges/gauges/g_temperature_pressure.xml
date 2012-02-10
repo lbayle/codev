@@ -1,0 +1,77 @@
+
+
+<Gauge2 coordWidth="1000" coordHeight="1000" left="0" top="0" bottom="0" right="0">
+
+
+    <!-- Background -->
+
+
+    <!-- Labels -->
+    <Gauge2Label text="Temperature" font="40 bold" foreColor="#888888" y="350" x="500"/>
+    <Gauge2Label text="Pressure" font="40 bold" foreColor="#888888" y="650" x="500"/>
+
+    <!-- Range -->
+    <Gauge2RadialRange centerX="500" centerY="500" width="1000" height="1000" startAngle="-90" endAngle="90">
+        <!-- Scale -->
+        <Gauge2RadialScale font="35" foreColor="#000000" radius="430" startValue="0" endValue="100" labelCount="6">
+            <!-- Scale Selection -->
+            <Gauge2RadialScaleSection sectionWidth="30" color="#FFCC00" stroke="gray" strokeWidth="2" radius="380" startValue="0" endValue="100"/>
+
+
+            <!-- Needle -->
+            <Gauge2RadialNeedle id="needle1" value="30" stroke="#000000" strokeWidth="1"
+                                innerRadius="0" innerWidth="30"
+                                outerRadius="320" outerWidth="5">
+                <Gauge2RadialNeedle.Filler>
+                    <Gauge2RadialGradientFiller color1="#EE9900" color2="#BB6600"/>
+                </Gauge2RadialNeedle.Filler>
+            </Gauge2RadialNeedle>
+
+        </Gauge2RadialScale>
+
+        <!-- Ticks -->
+        <Gauge2RadialTicks tickWidth="2" tickLength="28" color="gray" tickCount="16" radius="380"/>
+        <Gauge2RadialTicks tickWidth="6" tickLength="28" color="gray" tickCount="6" radius="380"/>
+    </Gauge2RadialRange>
+
+    <!-- Range -->
+    <Gauge2RadialRange centerX="500" centerY="500" width="1000" height="1000" startAngle="110" endAngle="250">
+        <!-- Scale -->
+        <Gauge2RadialScale radius="420" startValue="0" endValue="100">
+            <!-- Scale Selection -->
+            <Gauge2RadialScaleSection sectionWidth="30" color="#FF6666" stroke="gray" strokeWidth="2" radius="380" startValue="0" endValue="100"/>
+        </Gauge2RadialScale>
+
+        <!-- Ticks -->
+        <Gauge2RadialTicks tickWidth="2" tickLength="28" color="gray" tickCount="16" radius="380"/>
+        <Gauge2RadialTicks tickWidth="6" tickLength="28" color="gray" tickCount="6" radius="380"/>
+    </Gauge2RadialRange>
+
+    <!-- Range -->
+    <Gauge2RadialRange centerX="500" centerY="500" width="1000" height="1000" startAngle="-110" endAngle="-250">
+        <Gauge2RadialScale font="35" foreColor="#000000" radius="430" startValue="0" endValue="100" labelCount="6">
+
+            <!-- Needle -->
+            <Gauge2RadialNeedle id="needle2" value="50" stroke="#000000" strokeWidth="1"
+                                innerRadius="0" innerWidth="30"
+                                outerRadius="320" outerWidth="5">
+                <Gauge2RadialNeedle.Filler>
+                    <Gauge2RadialGradientFiller color1="#EE5555" color2="#CC3333"/>
+                </Gauge2RadialNeedle.Filler>
+            </Gauge2RadialNeedle>
+
+        </Gauge2RadialScale>
+
+
+        <!-- Cap -->
+        <Gauge2BasicCap width="80" height="80">
+            <Gauge2BasicCap.Filler>
+                <Gauge2RingGradientFiller color1="#999999" color2="#666666" thickness="20" highlightCenter="100"/>
+            </Gauge2BasicCap.Filler>
+        </Gauge2BasicCap>
+
+    </Gauge2RadialRange>
+
+</Gauge2>
+
+        

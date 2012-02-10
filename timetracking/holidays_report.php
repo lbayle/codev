@@ -53,15 +53,26 @@ if (!isset($_SESSION['userid'])) {
 include_once "user.class.php";
 include_once "holidays.class.php";
 
+$logger = Logger::getLogger("holidays_report");
+
 // ---------------------------------------------
 
 function  displayHolidaysReportForm($teamid, $curYear, $isExternalTasks = false, $is_modified = "false") {
+  
+  global $logger;
+  
   echo "<form id='form1' name='form1' method='post' action='holidays_report.php'>\n";
 
   echo T_("Team").": \n";
   echo "<select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
   $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
-  $result = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
 
   while($row = mysql_fetch_object($result))
   {
@@ -102,6 +113,8 @@ function  displayHolidaysReportForm($teamid, $curYear, $isExternalTasks = false,
 // ---------------------------------------------
 function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) {
 
+  global $logger;
+
   $holidays = Holidays::getInstance();
   $green="A8FFBD";
   $green2="75FF95";
@@ -137,7 +150,13 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
     "ORDER BY mantis_user_table.username";
 
-  $result = mysql_query($query) or die("Query failed: $query");
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
   while($row = mysql_fetch_object($result))
   {
 	  	$user1 = UserCache::getInstance()->getUser($row->user_id);

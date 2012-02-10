@@ -329,7 +329,9 @@ class Team {
          }
 
       } else {
-      	die("ERROR: team $name createSideTaskProject !!!<br/>");
+        $this->logger->error("team $name createSideTaskProject !!!");
+        echo "<span style='color:red'>ERROR: team $name createSideTaskProject !!!</span>";
+        exit;
       }
 
       // --- assign SideTaskProject specific Job

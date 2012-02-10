@@ -54,6 +54,7 @@ function prepareProject() {
 include_once 'user.class.php';
 include_once 'project.class.php';
 
+$logger = Logger::getLogger("prepare_project");
 
 // ------------------------------------------------
 function displayForm($originPage, $projectList) {
@@ -92,7 +93,10 @@ function displayForm($originPage, $projectList) {
  * get all existing projects, except ExternalTasksProject & SideTasksProjects
  */
 function getProjectList() {
-	$projectList = array();
+	
+    global $logger;
+    
+    $projectList = array();
 
 	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
@@ -100,7 +104,13 @@ function getProjectList() {
                 "FROM `mantis_project_table` ";
 	#"WHERE mantis_project_table.id = $this->id ";
 
-	$result = mysql_query($query) or die("Query failed: $query");
+    $result = mysql_query($query);
+    if (!$result) {
+       $logger->error("Query FAILED: $query");
+       $logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>";
+       exit;
+    }
 	while($row = mysql_fetch_object($result))
 	{
 		$p = ProjectCache::getInstance()->getProject($row->id);

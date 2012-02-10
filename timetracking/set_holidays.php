@@ -97,9 +97,13 @@ function setProjectid() {
 include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
 
+$logger = Logger::getLogger("set_holidays");
 
 // --------------------------------------------------------------
 function setUserForm($originPage) {
+    
+  global $logger;
+  
   $accessLevel_dev     = Team::accessLevel_dev;
   $accessLevel_manager = Team::accessLevel_manager;
 
@@ -125,7 +129,13 @@ function setUserForm($originPage) {
   echo "<select name='userid'>\n";
   echo "<option value='0'></option>\n";
 
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
   while($row = mysql_fetch_object($result))
   {
     if ($row->id == $_SESSION['userid']) {
@@ -149,6 +159,8 @@ function setUserForm($originPage) {
 
 // --------------------------------------------------------------
 function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defaultBugid, $defaultProjectid, $originPage) {
+
+  global $logger;
 
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
 
@@ -231,7 +243,13 @@ function displayHolidaySelectionForm($user1, $defaultDate1, $defaultDate2, $defa
                  "FROM `mantis_bug_table` ".
                  "WHERE project_id IN ($formatedProjList) ".
                  "ORDER BY id DESC";
-       $result = mysql_query($query) or die("Query failed: $query");
+       $result = mysql_query($query);
+       if (!$result) {
+          $logger->error("Query FAILED: $query");
+          $logger->error(mysql_error());
+          echo "<span style='color:red'>ERROR: Query FAILED</span>";
+          exit;
+       }
          if (0 != mysql_num_rows($result)) {
             while($row = mysql_fetch_object($result))
             {

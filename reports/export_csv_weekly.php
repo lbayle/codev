@@ -63,6 +63,7 @@ include_once 'export_csv_tools.php';
 include_once "time_tracking.class.php";
 require_once('tc_calendar.php');
 
+$logger = Logger::getLogger("export_csv");
 
 // -----------------------------------------------
 function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear) {
@@ -133,6 +134,8 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
 // ---------------------------------------------
 function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile) {
 
+  global $logger;
+  
   $sepChar=';';
 
   // create filename & open file
@@ -156,7 +159,13 @@ function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFi
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
     "ORDER BY mantis_user_table.realname";
 
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+     $logger->error("Query FAILED: $query");
+     $logger->error(mysql_error());
+     echo "<span style='color:red'>ERROR: Query FAILED</span>";
+     exit;
+  }
 
   while($row = mysql_fetch_object($result))
   {
@@ -176,6 +185,8 @@ function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFi
 // ---------------------------------------------
 function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
 
+  global $logger;
+  
   $sepChar=';';
 
   $weekTracks = $timeTracking->getWeekDetails($userid);
@@ -187,9 +198,15 @@ function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
 
     foreach ($jobList as $jobid => $dayList) {
 
-      $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-      $result3 = mysql_query($query3) or die("Query failed: $query3");
-      $jobName = mysql_result($result3, 0);
+      $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $jobName = mysql_result($result, 0);
       $stringData = $bugid.$sepChar.
                     $jobName.$sepChar.
                     $formatedSummary.$sepChar.
@@ -229,7 +246,13 @@ $teamList = $mTeamList + $lTeamList + $managedTeamList;
 $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
 $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
-$result = mysql_query($query) or die("Query failed: $query");
+$result = mysql_query($query);
+if (!$result) {
+   $logger->error("Query FAILED: $query");
+   $logger->error(mysql_error());
+   echo "<span style='color:red'>ERROR: Query FAILED</span>";
+   exit;
+}
 $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
 $formatedteamName = str_replace(" ", "_", $teamName);
 

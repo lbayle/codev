@@ -1,0 +1,33 @@
+<html>
+	<head>
+	<title>Bindows gauge sample</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<!-- Import the bindows gauges javascriptpackage -->
+	<script type="text/javascript" src="bindows_gauges/bindows_gauges.js"></script>
+
+	</head>
+	<body>
+
+	<!-- Create a div to hold the gauge -->
+	<div id="gaugeDiv" style="width: 400; height: 400" ></div>
+
+	<script type="text/javascript">
+
+		// Load the gauge into the div
+		var clock = bindows.loadGaugeIntoDiv("gauges/g_clock_bindows.xml", "gaugeDiv");
+
+		// dynamically update the gauge at runtime
+		function updateClock() {
+			var t = new Date();
+			t = { h: t.getHours(), m: t.getMinutes(), s: t.getSeconds() };
+			clock.needleHours.setValue(t.h % 12 + t.m/60);
+			clock.needleMinutes.setValue(t.m + t.s/60);
+			clock.needleSeconds.setValue(t.s);
+		}
+		updateClock();
+		setInterval(updateClock, 1000);
+
+	</script>
+	</body>
+	</html>
