@@ -17,6 +17,14 @@
 
 <?php
 
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+      Logger::configure(dirname(__FILE__).'/../log4php.xml');
+      $logger = Logger::getLogger("default");
+      $logger->info("LOG activated !");
+   }
+
+
 include_once "config_mantis.class.php";
 include_once "project_cache.class.php";
 include_once "jobs.class.php";
@@ -124,14 +132,17 @@ class Project {
    /**
    */
    public static function getName($projectId) {
+
+   global $logger;
+
   	$query  = "SELECT mantis_project_table.name ".
    	          "FROM `mantis_project_table` ".
    	          "WHERE mantis_project_table.id = $projectId ";
 
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
+    	      $logger->error("Query FAILED: $query");
+    	      $logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -147,12 +158,14 @@ class Project {
     */
    public static function createExternalTasksProject($projectName) {
 
+      global $logger;
+
       //--- check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
+    	      $logger->error("Query FAILED: $query");
+    	      $logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -167,8 +180,8 @@ class Project {
                "VALUES ('$projectName','50','1','10','10','$projectDesc','1','1');";
       $result = mysql_query($query);
          if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
+    	      $logger->error("Query FAILED: $query");
+    	      $logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -183,8 +196,8 @@ class Project {
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
+      	$logger->error("Query FAILED: $query");
+      	$logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
@@ -194,8 +207,8 @@ class Project {
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
+      	$logger->error("Query FAILED: $query");
+      	$logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
@@ -210,6 +223,8 @@ class Project {
     */
    public static function createSideTaskProject($projectName) {
 
+      global $logger;
+
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
@@ -220,8 +235,8 @@ class Project {
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
+    	      $logger->error("Query FAILED: $query");
+    	      $logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -236,8 +251,8 @@ class Project {
                "VALUES ('$projectName','50','1','10','10','$projectDesc','1','0');";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
+    	      $logger->error("Query FAILED: $query");
+    	      $logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -247,8 +262,8 @@ class Project {
       $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
+      	$logger->error("Query FAILED: $query");
+      	$logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
@@ -262,8 +277,8 @@ class Project {
                       "('$deliveryDateCustomField', '$projectid','7');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
+      	$logger->error("Query FAILED: $query");
+      	$logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
@@ -278,8 +293,8 @@ class Project {
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
+      	$logger->error("Query FAILED: $query");
+      	$logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
@@ -289,8 +304,8 @@ class Project {
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
+      	$logger->error("Query FAILED: $query");
+      	$logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
@@ -641,9 +656,9 @@ class Project {
       if (NULL == $this->categoryList) return NULL;
    	return $this->categoryList[Project::$keyWorkshop];
    }
+
+
    // -----------------------------------------------
-
-
    /**
     * get Workflow transitions from Mantis DB
     *
@@ -655,7 +670,6 @@ class Project {
    function getWorkflowTransitions() {
 
       $serialized = ConfigMantis::getInstance()->getValue('status_enum_workflow', $this->id);
-      $this->logger->debug("Project  $this->id  ConfigMantis status_enum_workflow=$serialized");
 
       if ((NULL != $serialized) && ("" != $serialized)) {
          $unserialized = unserialize($serialized);
@@ -682,6 +696,76 @@ class Project {
 
       return $wfTrans;
    }
+
+   // -----------------------------------------------
+   /**
+    *  apply sourceProject config (workflow, thresholds, ...) to destProject
+    *
+    * @param strict if true, delete all destProject config
+    *               if false, only replace config found in srcProject
+    */
+   static function cloneAllProjectConfig($srcProjectId, $destProjectId, $strict=true) {
+      global $logger;
+
+
+   	//--- find all srcProj specific config
+	   $query = "SELECT config_id FROM `mantis_config_table` ".
+	            "WHERE project_id=$srcProjectId ";
+      $logger->debug("cloneAllProjectConfig: Src query=$query");
+
+      $result = mysql_query($query);
+      if (!$result) {
+      	$logger->error("Query FAILED: $query");
+      	$logger->error(mysql_error());
+      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      	exit;
+      }
+      $srcConfigList = array();
+	   while($row = mysql_fetch_object($result)) {
+	   	$srcConfigList[] = $row->config_id;
+	   }
+
+   	//--- remove all destProject config
+   	$formatedSrcConfigList = $formatedTeamMembers = implode( ', ', $srcConfigList);
+      $logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
+
+	   $query = "DELETE FROM `mantis_config_table` ".
+	            "WHERE project_id=$destProjectId ";
+	   if (false == $strict) {
+	   	// delete only config defined for srcProject
+	      $query .= "AND config_id IN ($formatedSrcConfigList) ";
+	   }
+	   $logger->debug("cloneAllProjectConfig: deleteQuery = $query");
+      $result = mysql_query($query);
+      if (!$result) {
+      	$this->logger->error("Query FAILED: $query");
+      	$this->logger->error(mysql_error());
+      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      	exit;
+      }
+
+   	//--- clone all srcProj config to destProj
+   	foreach ($srcConfigList as $cid) {
+
+   	   $query = "INSERT INTO `mantis_config_table` ".
+   	            "(config_id, project_id, user_id, access_reqd, type, value) ".
+   	            "   (SELECT config_id, $destProjectId, user_id, access_reqd, type, value ".
+                  "    FROM `mantis_config_table` ".
+   	            "    WHERE project_id=$srcProjectId ".
+   	            "    AND config_id='$cid') ";
+	      $logger->debug("cloneAllProjectConfig: cloneQuery = $query");
+	      $result = mysql_query($query);
+	      if (!$result) {
+	      	$this->logger->error("Query FAILED: $query");
+	      	$this->logger->error(mysql_error());
+	      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+	      	exit;
+         }
+   	}
+
+
+   }
+
 
 }
 

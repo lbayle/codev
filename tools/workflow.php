@@ -136,7 +136,7 @@ function displayWorkflow($project) {
    echo "<tr>\n";
    echo "<th></th>\n";
    foreach ( $statusTitles as $sid => $sname) {
-      echo "<th>".$sname."</th>\n";
+      echo "<th>".$statusNames[$sid]."</th>\n";
    }
     echo "</tr>\n";
 
@@ -180,6 +180,12 @@ if ("displayPage" == $action) {
    $wfTrans = $proj->getWorkflowTransitions();
 
    displayWorkflow($proj);
+
+   echo "Clone $projectid -> 200<br>";
+
+   Project::cloneAllProjectConfig($projectid, 200);
+
+
 }
 
 
