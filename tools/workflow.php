@@ -40,25 +40,13 @@ include 'menu.inc.php';
 <script language="JavaScript">
 
   function submitProject(){
-
-     foundError = 0;
-     msgString = "Some fields are missing:" + "\n\n";
-
-     if (0 == document.forms["selectProjectForm"].projectid.value)  { msgString += "Project\n"; ++foundError; }
-
-     if (0 != foundError) {
-       alert(msgString);
-     }
      document.forms["selectProjectForm"].action.value = "displayPage";
      document.forms["selectProjectForm"].submit();
-
    }
 
   function setCloneProject(){
-
      document.forms["cloneProjectForm"].action.value = "displayPage";
      document.forms["cloneProjectForm"].submit();
-
    }
 
 
@@ -138,7 +126,7 @@ function setProjectForm($originPage, $defaultSelection, $list) {
    echo "<form id='selectProjectForm' name='selectProjectForm' method='post' action='$originPage'>\n";
 
    echo T_("Project")." :\n";
-   echo "<select name='projectid'>\n";
+   echo "<select name='projectid' onchange='javascript: submitProject()'>\n";
    echo "<option value='0'></option>\n";
 
    foreach ($list as $id => $name) {
@@ -151,7 +139,7 @@ function setProjectForm($originPage, $defaultSelection, $list) {
    }
    echo "</select>\n";
 
-   echo "<input type=button value='".T_("Update")."' onClick='javascript: submitProject()'>\n";
+   #echo "<input type=button value='".T_("Update")."' onClick='javascript: submitProject()'>\n";
 
    echo "<input type=hidden name=action value=noAction>\n";
 
