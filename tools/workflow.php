@@ -83,7 +83,7 @@ include 'menu.inc.php';
 		$( "#cloneProject_dialog_form" ).dialog({
 			autoOpen: false,
 			height: 180,
-			width: 380,
+			width: 400,
 			modal: true,
 
 			buttons: {
