@@ -54,22 +54,69 @@ include 'menu.inc.php';
 
    }
 
-  function cloneProject(){
+  function setCloneProject(){
 
-     foundError = 0;
-     msgString = "Some fields are missing:" + "\n\n";
-
-     if (0 == document.forms["cloneProjectForm"].src_projectid.value)  { msgString += "Project to clone from\n"; ++foundError; }
-
-     if (0 != foundError) {
-       alert(msgString);
-     }
-     document.forms["cloneProjectForm"].action.value = "cloneProject";
+     document.forms["cloneProjectForm"].action.value = "displayPage";
      document.forms["cloneProjectForm"].submit();
 
    }
 
+
+  function cloneProject(dialogBoxTitle, projectid, clone_projectid, description, action){
+
+     $( "#desc_action" ).text(description);
+
+     $( "#formClone input[name=projectid]" ).val(projectid);
+     $( "#formClone input[name=clone_projectid]" ).val(clone_projectid);
+     $( "#formClone input[name=action]" ).val(action);
+
+     $( "#cloneProject_dialog_form" ).dialog('option', 'title', dialogBoxTitle);
+     $( "#cloneProject_dialog_form" ).dialog( "open" );
+   }
+
+
+   // ------ JQUERY ------
+	$(function() {
+
+      var allFields = $( [] );
+
+		$( "#cloneProject_dialog_form" ).dialog({
+			autoOpen: false,
+			height: 180,
+			width: 380,
+			modal: true,
+
+			buttons: {
+				"Clone": function() {
+               allFields.removeClass( "ui-state-error" );
+               $('#formClone').submit();
+            },
+            Cancel: function() {
+               $( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				allFields.val( "" ).removeClass( "ui-state-error" );
+			}
+		});
+
+	});
+
 </script>
+
+
+<div id="cloneProject_dialog_form" title="Clone Project" style='display: none'>
+	<p id='desc' name='desc'>
+	    <label id="desc_action" name='desc_action'>action description</label>
+	</p>
+	<p id="validateTips"> </p>
+	<form id='formClone' name='formClone' method='post' Action='workflow.php' >
+      <input type='hidden' name='projectid'    value='0' >
+      <input type='hidden' name='clone_projectid'    value='0' >
+      <input type='hidden' name='action'   value='noAction' >
+	</form>
+</div>
+
 
 
 <div id="content">
@@ -114,19 +161,19 @@ function setProjectForm($originPage, $defaultSelection, $list) {
 
 
 // -----------------------------------------
-function setCloneProjectForm($originPage, $destProjectId, $defaultSelection, $list) {
+function setCloneProjectForm($originPage, $cur_projectId, $defaultSelection, $list) {
 
    // create form
    echo "<div align=left>\n";
    echo "<form id='cloneProjectForm' name='cloneProjectForm' method='post' action='$originPage'>\n";
 
-   echo T_("Clone settings from")." :\n";
-   echo "<select name='src_projectid'>\n";
+   echo "<h2>".T_("Clone project settings")."</h2><br>\n";
+   echo "<select name='clone_projectid' onchange='javascript: setCloneProject()'>\n";
    echo "<option value='0'></option>\n";
 
    foreach ($list as $id => $name) {
 
-      if ($destProjectId == $id) { continue; }
+      if ($cur_projectId == $id) { continue; }
 
       if ($id == $defaultSelection) {
          echo "<option selected value='".$id."'>".$name."</option>\n";
@@ -136,10 +183,18 @@ function setCloneProjectForm($originPage, $destProjectId, $defaultSelection, $li
    }
    echo "</select>\n";
 
-   echo "<input type=button value='".T_("Clone")."' onClick='javascript: cloneProject()'>\n";
+   $title_to   = T_("Clonning")." ".Project::getName($cur_projectId)." ".T_("into")." ".Project::getName($defaultSelection);
+   $title_from = T_("Clonning")." ".Project::getName($defaultSelection)." ".T_("into")." ".Project::getName($cur_projectId);
+
+   $desc_to   = T_("Are you sure you want to change")." ".Project::getName($defaultSelection)." ".T_("settings ?");
+   $desc_from = T_("Are you sure you want to change")." ".Project::getName($cur_projectId)." ".T_("settings ?");
+
+   $enabled =  (0 == $defaultSelection) ? "disabled='disabled'" : "";
+   echo "<input type=button $enabled value='".T_("Clone From")."' onClick=\"javascript: cloneProject('$title_from', $cur_projectId, $defaultSelection, '$desc_from', 'cloneFromProject')\">\n";
+   echo "<input type=button $enabled value='".T_("Clone To")."'   onClick=\"javascript: cloneProject('$title_to',   $cur_projectId, $defaultSelection, '$desc_to',   'cloneToProject')\">\n";
 
    echo "<input type=hidden name=action value=noAction>\n";
-   echo "<input type=hidden name=projectid value=$destProjectId>\n";
+   echo "<input type=hidden name=projectid value=$cur_projectId>\n";
 
    echo "</form>\n";
    echo "</div>\n";
@@ -223,7 +278,7 @@ $defaultProject = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
 $projectid      = isset($_POST['projectid']) ? $_POST['projectid'] : $defaultProject;
 $_SESSION['projectid'] = $projectid;
 
-$src_projectid = isset($_POST['src_projectid']) ? $_POST['src_projectid'] : 0;
+$clone_projectid  = isset($_POST['clone_projectid']) ? $_POST['clone_projectid'] : 0;
 
 $action     = isset($_POST['action']) ? $_POST['action'] : '';
 
@@ -245,15 +300,22 @@ echo "<br/><br/>\n";
 // --- display current workflow
 if (0 != $projectid) {
 
-	if ("cloneProject" == $action) {
-	   #echo "Clone $src_projectid ---> $projectid<br>";
-	   $errMsg = Project::cloneAllProjectConfig($src_projectid, $projectid);
+	if ("cloneToProject" == $action) {
+	   #echo "Clone $projectid ---> $clone_projectid<br>";
+	   $errMsg = Project::cloneAllProjectConfig($projectid, $clone_projectid);
 
-	   echo "$errMsg<br><br>";
+	   echo "cloneToProject: $errMsg<br><br>";
+	}
+
+	if ("cloneFromProject" == $action) {
+	   #echo "Clone $clone_projectid ---> $projectid<br>";
+	   $errMsg = Project::cloneAllProjectConfig($clone_projectid, $projectid);
+
+	   echo "cloneFromProject: $errMsg<br><br>";
 	}
 
 
-	setCloneProjectForm($originPage, $projectid, $src_projectid, $projectList);
+	setCloneProjectForm($originPage, $projectid, $clone_projectid, $projectList);
 	echo "<br/><br/>\n";
 	echo "<br/><br/>\n";
 
@@ -262,10 +324,17 @@ if (0 != $projectid) {
    $wfTrans = $proj->getWorkflowTransitions();
    displayWorkflow($proj);
 
+	if (0 != $clone_projectid) {
+		echo "<br/><br/>\n";
+		echo "<br/><br/>\n";
+	   $cproj = ProjectCache::getInstance()->getProject($clone_projectid);
+	   $wfTrans = $cproj->getWorkflowTransitions();
+	   displayWorkflow($cproj);
+	}
 }
 
 
-
+// status_enum_workflow, set_status_threshold, bug_readonly_status_threshold, bug_assigned_status
 
 ?>
 
