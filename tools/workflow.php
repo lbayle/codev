@@ -228,13 +228,18 @@ function displayWorkflow($project) {
 
    $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
 
+   echo "<h2>".Project::getName($project->id).": ".T_("Workflow transitions")."</h2>\n";
    $wfTrans = $project->getWorkflowTransitions();
+
+   if (NULL == $wfTrans) {
+   	  echo "No workflow transitions defined, using default configuration.";
+      return;
+   }
 
    $statusTitles = $wfTrans[0];
 
-
    echo "<table>\n";
-   echo "<caption>".Project::getName($project->id).": ".T_("Workflow transitions")."</caption>";
+   #echo "<caption>".Project::getName($project->id).": ".T_("Workflow transitions")."</caption>";
    echo "<tr>\n";
    echo "<th></th>\n";
    foreach ( $statusTitles as $sid => $sname) {
@@ -253,9 +258,6 @@ function displayWorkflow($project) {
        echo "</tr>\n";
    }
    echo "</table>\n";
-
-
-
 }
 
 // ================ MAIN =================

@@ -671,11 +671,12 @@ class Project {
 
       $serialized = ConfigMantis::getInstance()->getValue('status_enum_workflow', $this->id);
 
-      if ((NULL != $serialized) && ("" != $serialized)) {
-         $unserialized = unserialize($serialized);
-      } else {
-      	$unserialized = array();
+      if ((NULL == $serialized) || ("" == $serialized)) {
+         $this->logger->debug("No workflow defined for project $this->id");
+         return NULL;
       }
+      
+      $unserialized = unserialize($serialized);
 
       $statusTitles = array();
       $wfTrans = array();
