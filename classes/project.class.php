@@ -698,6 +698,33 @@ class Project {
       return $wfTrans;
    }
 
+   /**
+    * 
+    */
+   function getProjectConfig() {
+   	
+      //--- find all srcProj specific config
+      $query = "SELECT config_id FROM `mantis_config_table` ".
+                "WHERE project_id=$this->id ";
+      $this->logger->debug("getProjectConfig: Src query=$query");
+
+      $result = mysql_query($query);
+      if (!$result) {
+        $this->logger->error("Query FAILED: $query");
+        $this->logger->error(mysql_error());
+        echo "<span style='color:red'>ERROR: Query FAILED</span>";
+        exit;
+      }
+      $configItems = array();
+      
+      while($row = mysql_fetch_object($result)) {
+        $configItems[$row->config_id] = ConfigMantis::getInstance()->getValue($row->config_id, $this->id);;
+      }
+    
+      return $configItems;
+   }
+   
+   
    // -----------------------------------------------
    /**
     *  apply sourceProject config (workflow, thresholds, ...) to destProject

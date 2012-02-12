@@ -87,7 +87,13 @@ include 'menu.inc.php';
 				allFields.val( "" ).removeClass( "ui-state-error" );
 			}
 		});
-
+        
+        $(function() {
+            $( "#tabsProject" ).tabs();
+        });
+        $(function() {
+            $( "#tabsCloneProject" ).tabs();
+        });
 	});
 
 </script>
@@ -220,7 +226,56 @@ function getProjectList($isCodevtt = false) {
 	return $projectList;
 }
 
+// ------------------------------------------------
+function displayProjectInfo($project, $tabsName) {
+	
+   echo "<div id='$tabsName'>\n";
+   echo "<ul>\n";
+   echo "<li><a href='#$tabsName-1'>".T_("Workflow transitions")."</a></li>\n";
+   echo "<li><a href='#$tabsName-2'>".T_("Settings")."</a></li>\n";
+   echo "</ul>\n";
+   echo "<div id='$tabsName-1'>\n";
+   echo "<p>";
+   displayWorkflow($project);
+   echo "</p>\n";
+   echo "</div>\n";
+   echo "<div id='$tabsName-2'>\n";
+   echo "<p>";
+   displayConfigItems($project); 
+   echo "</p>\n";
+   echo "</div>\n";
+   echo "</div>\n";
+    
+}
 
+// ------------------------------------------------
+/**
+ * 
+ */
+function displayConfigItems($project) {
+	
+    // status_enum_workflow, set_status_threshold, bug_readonly_status_threshold, bug_assigned_status
+    
+    $configItems = $project->getProjectConfig();
+    
+   echo "<table>\n";
+   echo "<tr>\n";
+   echo "<th>".T_("Configuration Option")."</th>\n";
+   echo "<th>".T_("Value")."</th>\n";
+   echo "</tr>\n";
+   foreach ($configItems as $id => $val) {
+    
+      if ("status_enum_workflow" == $id) { continue; }
+      echo "<tr>\n";
+      echo "<td>".$id."</td>\n";
+      echo "<td>".$val."</td>\n";
+      echo "</tr>\n";
+   }
+   echo "</table>\n";
+    
+}
+
+// ------------------------------------------------
 /**
  * display a table
  */
@@ -228,7 +283,7 @@ function displayWorkflow($project) {
 
    $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
 
-   echo "<h2>".Project::getName($project->id).": ".T_("Workflow transitions")."</h2>\n";
+   #echo "<h2>".Project::getName($project->id).": ".T_("Workflow transitions")."</h2>\n";
    $wfTrans = $project->getWorkflowTransitions();
 
    if (NULL == $wfTrans) {
@@ -312,19 +367,23 @@ if (0 != $projectid) {
 
    $proj = ProjectCache::getInstance()->getProject($projectid);
    $wfTrans = $proj->getWorkflowTransitions();
-   displayWorkflow($proj);
+
+   echo "<h2>".Project::getName($projectid)."</h2>\n";
+   #displayWorkflow($proj);
+   displayProjectInfo($proj, "tabsProject");
 
 	if (0 != $clone_projectid) {
 		echo "<br/><br/>\n";
 		echo "<br/><br/>\n";
 	   $cproj = ProjectCache::getInstance()->getProject($clone_projectid);
 	   $wfTrans = $cproj->getWorkflowTransitions();
-	   displayWorkflow($cproj);
+       echo "<h2>".Project::getName($clone_projectid)."</h2>\n";
+	   #displayWorkflow($cproj);
+       displayProjectInfo($cproj, "tabsCloneProject");
 	}
+    
+    
 }
-
-
-// status_enum_workflow, set_status_threshold, bug_readonly_status_threshold, bug_assigned_status
 
 ?>
 
