@@ -257,6 +257,11 @@ function displayConfigItems($project) {
     // status_enum_workflow, set_status_threshold, bug_readonly_status_threshold, bug_assigned_status
     
     $configItems = $project->getProjectConfig();
+
+   if (0 == count($configItems)) {
+      echo T_("No configuration options defined, using default configuration.");
+      return;
+   }
     
    echo "<table>\n";
    echo "<tr>\n";
@@ -287,7 +292,7 @@ function displayWorkflow($project) {
    $wfTrans = $project->getWorkflowTransitions();
 
    if (NULL == $wfTrans) {
-   	  echo "No workflow transitions defined, using default configuration.";
+   	  echo T_("No workflow transitions defined, using default configuration.");
       return;
    }
 

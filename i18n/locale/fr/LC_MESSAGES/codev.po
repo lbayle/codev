@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-12 20:58+0100\n"
+"POT-Creation-Date: 2012-02-12 21:26+0100\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -262,7 +262,7 @@ msgid "delete Project Association"
 msgstr "supprimer l&apos;association au Projet"
 
 #: admin/edit_jobs.php:371 admin/prepare_project.php:136
-#: admin/edit_holidays.php:187 tools/workflow.php:326
+#: admin/edit_holidays.php:187 tools/workflow.php:338
 msgid "Sorry, you need to be in the admin-team to access this page."
 msgstr ""
 "Vous devez faire partie de l&apos;&eacute;quipe d&apos;admin pour acceder "
@@ -933,7 +933,7 @@ msgstr "Indicateurs de productivit&eacute;"
 msgid "Indicator"
 msgstr "Indicateur"
 
-#: reports/productivity_report.php:372 tools/workflow.php:258
+#: reports/productivity_report.php:372 tools/workflow.php:269
 msgid "Value"
 msgstr "Valeur"
 
@@ -1527,17 +1527,29 @@ msgstr "Clonner de"
 msgid "Clone To"
 msgstr "Clonner vers"
 
-#: tools/workflow.php:233
+#: tools/workflow.php:234
 msgid "Workflow transitions"
 msgstr "Cycle de vie"
 
-#: tools/workflow.php:234
+#: tools/workflow.php:235
 msgid "Settings"
 msgstr "Options"
 
-#: tools/workflow.php:257
+#: tools/workflow.php:262
+msgid "No configuration options defined, using default configuration."
+msgstr ""
+"Aucune option n'est d&eacute;finie, utilisation de la configuration par "
+"d&eacute;faut."
+
+#: tools/workflow.php:268
 msgid "Configuration Option"
 msgstr "Option de configuration"
+
+#: tools/workflow.php:295
+msgid "No workflow transitions defined, using default configuration."
+msgstr ""
+"Aucun cycle de vie n'est d&eacute;fini, utilisation de la configuration par "
+"d&eacute;faut."
 
 #: include/menu_statistics.inc.php:34
 msgid "History"
