@@ -33,7 +33,7 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
    $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
 
    
-   echo "<div id='accordion' style='width:300px;' >\n";
+   echo "<div id='accordion' style='width:350px;' >\n";
    echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
 
    echo "<div>\n";
