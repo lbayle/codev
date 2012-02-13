@@ -17,7 +17,15 @@
 
 <?php
 
+
 // ==============================================================
+
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+      Logger::configure(dirname(__FILE__).'/../log4php.xml');
+      $logger = Logger::getLogger("default");
+      $logger->info("LOG activated !");
+   }
 
 class ConfigMantisItem {
 
@@ -54,6 +62,8 @@ class ConfigMantis {
    private static $instance;    // singleton instance
    private static $configVariables;
 
+   private static $quiet; // do not display any warning message
+
    private $logger;
 
    // --------------------------------------
@@ -62,13 +72,16 @@ class ConfigMantis {
       $this->logger = Logger::getLogger(__CLASS__);
 
       self::$configVariables = array();
-
+      self::$quiet = true;
+      
       $query = "SELECT * FROM `mantis_config_table`";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
     	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      if (!self::$quiet) {
+                 echo "<span style='color:red'>ERROR: Query FAILED</span>";
+              }
     	      exit;
       }
       while($row = mysql_fetch_object($result))
@@ -96,7 +109,16 @@ class ConfigMantis {
    }
 
    // --------------------------------------
-   public static function getValue($id, $project_id = 0) {
+   /**
+    * If true, then no info/warning messages will be displayed.
+    * this shall only be set during install procedures.
+    */
+   public static function setQuiet($isQuiet = false) {
+      self::$quiet = $isQuiet;
+   }
+
+   // --------------------------------------
+   public function getValue($id, $project_id = 0) {
 
     	$value = NULL;
 
@@ -106,14 +128,16 @@ class ConfigMantis {
     	if (NULL != $variable) {
             $value = $variable->value;
     	} else {
-    		echo "<span class='error_font'>WARN: ConfigMantis::getValue($id, $project_id): variable not found !</span><br/>";
-    		$this->logger->error("getValue($id, $project_id): variable not found !");
+            if (!self::$quiet) {
+    		   echo "<span class='error_font'>WARN: ConfigMantis::getValue($id, $project_id): variable not found !</span><br/>";
+            }
+            $this->logger->warn("getValue($id, $project_id): variable not found !");
     	}
     	return $value;
    }
 
    // --------------------------------------
-   public static function getType($id, $project_id = 0) {
+   public function getType($id, $project_id = 0) {
 
       $type = NULL;
       $key = $id."_".$project_id;
@@ -122,14 +146,16 @@ class ConfigMantis {
       if (NULL != $variable) {
          $type = $variable->type;
       } else {
-         echo "<span class='error_font'>WARN: ConfigMantis::getType($id, $project_id): variable not found !</span><br/>";
-    		$this->logger->warn("getType($id, $project_id): variable not found !");
+         if (!self::$quiet) {
+            echo "<span class='error_font'>WARN: ConfigMantis::getType($id, $project_id): variable not found !</span><br/>";
+         }
+    	 $this->logger->warn("getType($id, $project_id): variable not found !");
       }
       return $type;
    }
 
    // --------------------------------------
-   public static function isValueDefined($id, $project_id = 0) {
+   public function isValueDefined($id, $project_id = 0) {
 
       $key = $id."_".$project_id;
       $variable = self::$configVariables[$key];
@@ -143,14 +169,16 @@ class ConfigMantis {
     *
     * NOTE: the Mantis DB will NOT be modified if the value exists.
     */
-   public static function setValue($config_id, $value, $type, $project_id = 0, $user_id = 0, $access_reqd = 90) {
+   public function setValue($config_id, $value, $type, $project_id = 0, $user_id = 0, $access_reqd = 90) {
 
       $query = "SELECT * FROM `mantis_config_table` WHERE config_id='$config_id' AND project_id='$project_id'";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
     	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      if (!self::$quiet) {
+                 echo "<span style='color:red'>ERROR: Query FAILED</span>";
+              }
     	      exit;
       }
       if (0 == mysql_num_rows($result)) {
@@ -164,7 +192,9 @@ class ConfigMantis {
 	      if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
     	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      if (!self::$quiet) {
+                 echo "<span style='color:red'>ERROR: Query FAILED</span>";
+              }
     	      exit;
          }
 

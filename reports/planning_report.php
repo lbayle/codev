@@ -43,7 +43,7 @@ if(!isset($_GET['w'])) {
 var myWidth = 0, myHeight = 0;
 myWidth = window.innerWidth;
 if (myWidth > 500) {
-   myWidth = myWidth - 50;
+   myWidth = myWidth - 10;
 }
 
 myHeight = window.innerHeight;
@@ -88,6 +88,17 @@ exit();
 
    }
 
+   function zoomIn(){
+
+     document.forms["teamSelectForm"].action.value = "zoomIn";
+     document.forms["teamSelectForm"].submit();
+   }
+
+   function zoomOut(){
+
+     document.forms["teamSelectForm"].action.value = "zoomOut";
+     document.forms["teamSelectForm"].submit();
+   }
 
 </script>
 
@@ -198,6 +209,9 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
   echo "</select>\n";
 
    echo "<input type=button value='".T_("Update")."' onClick='javascript: submitTeam()'>\n";
+   echo "&nbsp;&nbsp;&nbsp;&nbsp;\n";
+   echo "<a title='".T_("zoom in")."' href=\"javascript: zoomIn()\" ><img border='0' src='../images/zoom_in.png'></a>\n";
+   echo "<a title='".T_("zoom out")."' href=\"javascript: zoomOut()\" ><img border='0' src='../images/zoom_out.png'></a>\n";
 
    echo "<input type=hidden name=action value=noAction>\n";
 
@@ -519,7 +533,16 @@ $teamid = 26; // codev
 $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 
 
-$action = isset($_POST['action']) ? $_POST['action'] : '';
+#$action = isset($_POST['action']) ? $_POST['action'] : '';
+
+if (isset($_POST['action'])) {
+	$action = $_POST['action'];
+} else if (isset($_GET['display'])) {
+	$action = "displayPlanning";
+} else {
+	$action = '';
+}
+
 
 // use the teamid set in the form, if not defined (first page call) use session teamid
 if (isset($_POST['f_teamid'])) {
@@ -566,6 +589,20 @@ if (0 == count($teamList)) {
          displayConsistencyErrors($teamid);
 
       }
+   } elseif ("zoomIn" == $action) {
+
+      $pageWidth = floor($pageWidth + ($pageWidth/2)); # +50%
+
+      // set $_GET['w']
+      echo ("<script> parent.location.replace('./planning_report.php?display&w=$pageWidth'); </script>");
+   } elseif ("zoomOut" == $action) {
+
+      $pageWidth = floor($pageWidth - ($pageWidth/3)); # -33%
+      
+      if ($pageWidth < 300) { $pageWidth = 300; }
+
+      // set $_GET['w']
+      echo ("<script> parent.location.replace('./planning_report.php?display&w=$pageWidth'); </script>");
    }
 
 }
