@@ -217,6 +217,7 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
     }
      echo "<th width='10%' title='".T_("Target version")."'>".T_("Target")."</th>\n";
      echo "  <th width='2%'>".T_("Status")."</th>\n";
+     echo "  <th width='2%'>".T_("Progress")."</th>\n";
      echo "  <th width='2%'>".T_("RAF")."</th>\n";
      echo "  <th width='2%' title='".T_("Total time spent on this issue")."'>".T_("Total")."</th>\n";
      echo "</tr>\n";
@@ -237,6 +238,7 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
 
          echo "<td>".$issue->getTargetVersion()."</td>\n";
          echo "<td>".$issue->getCurrentStatusName()."</td>\n";
+         echo "<td>".number_format(100 * $issue->getProgress(), 1)."%</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
          echo "<td>".$totalTime."</td>\n";
          echo "</tr>\n";
