@@ -299,6 +299,19 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
       echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".$derive."</td>\n";
       echo "</tr>\n";
   }
+
+#  echo "</table>\n";
+
+#  echo "<br><br>";
+#  echo "<table>\n";
+  echo "<tr>\n";
+  echo "<td>".T_("Progress")."</td>\n";
+  echo "<td></td>\n";
+  echo "<td>".number_format(100 * $issue->getProgress(), 1)."%</td>\n";
+  echo "</tr>\n";
+  
+    
+  
   echo "</table>\n";
   
    // create links for JQUERY dialogBox

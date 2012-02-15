@@ -255,6 +255,7 @@ function showIssuesInDrift($teamid, $withSupport=true) {
     echo "<th title='Derive par rapport a l estimation preliminaire'>".T_("Derive PrelEE")."</th>\n";
 	echo "<th title='Derive par rapport au BI+BS'>".T_("Derive EE")."</th>\n";
 	echo "<th>".T_("RAF")."</th>\n";
+	echo "<th>".T_("Progress")."</th>\n";
 	echo "<th>".T_("Status")."</th>\n";
 	echo "<th>".T_("Summary")."</th>\n";
     echo "</tr>\n";
@@ -288,6 +289,7 @@ function showIssuesInDrift($teamid, $withSupport=true) {
                    if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
 		   		   echo "<td $color >".$driftEE."</td>\n";
 		   		   echo "<td>".$issue->getRemaining()."</td>\n";
+                   echo "<td>".number_format(100 * $issue->getProgress(), 1)."%</td>\n";
 		   		   echo "<td>".$issue->getCurrentStatusName()."</td>\n";
 		   		   echo "<td>".$issue->summary."</td>\n";
 		           echo "</tr>\n";
