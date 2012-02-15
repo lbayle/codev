@@ -590,10 +590,12 @@ class TimeTracking {
 
     if (NULL == $issueList) {
       echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
+      $this->logger->error("getIssuesDriftStats(): Issue List is NULL !");
       return 0;
     }
     if (0== count($issueList)) {
       echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is empty !<br/></div>";
+      $this->logger->error("getIssuesDriftStats(): Issue List is empty !");
       return 0;
     }
 

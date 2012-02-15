@@ -242,7 +242,7 @@ function displayCurrentDriftStats ($timeTracking) {
 /**
  * 
  */
-function showIssuesInDrift($teamid) {
+function showIssuesInDrift($teamid, $withSupport=true) {
 
 	$mList = Team::getMemberList($teamid);
     echo "<table>\n";
@@ -273,8 +273,8 @@ function showIssuesInDrift($teamid) {
 		
 		    // TODO: check if issue in team project list ?
 		
-			$driftPrelEE = $issue->getDriftETA();
-			$driftEE = $issue->getDrift();
+			$driftPrelEE = $issue->getDriftETA($withSupport);
+			$driftEE = $issue->getDrift($withSupport);
 		    if (($driftPrelEE > 1) || ($driftEE > 1)) {
 		           echo "<tr>\n";
 		   		   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
@@ -420,6 +420,9 @@ if (isset($_POST['f_teamid'])) {
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 }
 
+
+$withSupport = true;
+
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
 $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -464,7 +467,7 @@ if (0 == count($teamList)) {
          displayCurrentDriftStats($timeTracking);
 
          echo "<br/><br/>\n";
-         showIssuesInDrift($teamid);
+         showIssuesInDrift($teamid, $withSupport);
          
          // ----
          echo "<br/><br/>\n";
