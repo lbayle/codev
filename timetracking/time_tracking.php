@@ -447,19 +447,19 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    // --- Duration list
    echo " <select name='duree' title='".T_("Duration (in days)")."'>\n";
    echo "<option value='0'></option>\n";
-   echo "<option value='1'>1</option>\n";
+   echo "<option value='1'>".T_("1 day")."</option>\n";
    echo "<option value='0.9'>0.9</option>\n";
    echo "<option value='0.8'>0.8</option>\n";
    echo "<option value='0.75'>0.75</option>\n";
    echo "<option value='0.7'>0.7</option>\n";
    echo "<option value='0.6'>0.6</option>\n";
-   echo "<option value='0.5'>0.5 (4h)</option>\n";
-   echo "<option value='0.4'>0.4 (3h)</option>\n";
-   echo "<option value='0.3'>0.3 (2h 30)</option>\n";
-   echo "<option value='0.25'>0.25 (2h)</option>\n";
-   echo "<option value='0.2'>0.2 (1h 30)</option>\n";
-   echo "<option value='0.1'>0.1 (1h)</option>\n";
-   echo "<option value='0.05'>0.05 (30min)</option>\n";
+   echo "<option value='0.5'>0.5</option>\n";
+   echo "<option value='0.4'>0.4</option>\n";
+   echo "<option value='0.3'>0.3</option>\n";
+   echo "<option value='0.25'>0.25</option>\n";
+   echo "<option value='0.2'>0.2</option>\n";
+   echo "<option value='0.1'>0.1</option>\n";
+   echo "<option value='0.05'>0.05</option>\n";
    echo "</select>\n";
 
    echo "<input type=button name='btAddTrack' value='".T_("Add")."' onClick='javascript: addTrack()'>\n";
