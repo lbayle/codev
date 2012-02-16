@@ -289,7 +289,7 @@ function showIssuesInDrift($teamid, $withSupport=true) {
                    if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
 		   		   echo "<td $color >".$driftEE."</td>\n";
 		   		   echo "<td>".$issue->getRemaining()."</td>\n";
-                   echo "<td>".number_format(100 * $issue->getProgress(), 1)."%</td>\n";
+                   echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
 		   		   echo "<td>".$issue->getCurrentStatusName()."</td>\n";
 		   		   echo "<td>".$issue->summary."</td>\n";
 		           echo "</tr>\n";

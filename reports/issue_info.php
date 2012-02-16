@@ -307,7 +307,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "<tr>\n";
   echo "<td>".T_("Progress")."</td>\n";
   echo "<td></td>\n";
-  echo "<td>".number_format(100 * $issue->getProgress(), 1)."%</td>\n";
+  echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
   echo "</tr>\n";
   
     

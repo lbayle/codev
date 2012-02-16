@@ -220,6 +220,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<tr>\n";
   echo "<th width='50%'>".T_("Task")."</th>\n";
   echo "<th width='1%'>".T_("RAF")."</th>\n";
+  echo "<th width='1%'>".T_("Progress")."</th>\n";
   echo "<th width='7%'>".T_("Project")."</th>\n";
   echo "<th width='5' title='".T_("Target version")."'>".T_("Target")."</th>\n";
   echo "<th width='10%'>".T_("Job")."</th>\n";
@@ -248,6 +249,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
       echo "<tr>\n";
       echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
       echo "<td>".$issue->getRemaining()."</td>\n";
+      echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$issue->getTargetVersion()."</td>\n";
       echo "<td>".$jobName."</td>\n";
@@ -276,6 +278,7 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
   echo "<tr>\n";
   echo "<th width='50%'>".T_("Task")."</th>\n";
   echo "<th width='1%'>".T_("RAF")."</th>\n";
+  echo "<th width='1%'>".T_("Progress")."</th>\n";
   echo "<th width='7%'>".T_("Project")."</th>\n";
   echo "<th width='5' title='".T_("Target version")."'>".T_("Target")."</th>\n";
   echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
@@ -292,6 +295,7 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
     echo "<tr>\n";
     echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
     echo "<td>".$issue->getRemaining()."</td>\n";
+    echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
     echo "<td>".$issue->getProjectName()."</td>\n";
     echo "<td>".$issue->getTargetVersion()."</td>\n";
 

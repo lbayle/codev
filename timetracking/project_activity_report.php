@@ -238,7 +238,7 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
 
          echo "<td>".$issue->getTargetVersion()."</td>\n";
          echo "<td>".$issue->getCurrentStatusName()."</td>\n";
-         echo "<td>".number_format(100 * $issue->getProgress(), 1)."%</td>\n";
+         echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
          echo "<td>".$issue->remaining."</td>\n";
          echo "<td>".$totalTime."</td>\n";
          echo "</tr>\n";
