@@ -399,7 +399,7 @@ function displayJobDetails($issue) {
       echo "<tr>\n";
       echo "   <td style='background-color: #".$jobs->getJobColor($jid).";'>".$jobs->getJobName($jid)."</td>\n";
       echo "<td>$duration</td>\n";
-      echo "<td>".number_format(($duration*100 / $totalDuration), 2)." %</td>\n";
+      echo "<td>".round(($duration*100 / $totalDuration))." %</td>\n";
       echo "</tr>\n";
    }
   echo "</table>\n";

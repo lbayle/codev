@@ -48,6 +48,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                  T_("BS").$sepChar.
                  "Elapsed".$sepChar.
                  T_("RAF").$sepChar.
+                 T_("Progress").$sepChar.
                  T_("Delivery Date").$sepChar.
                  T_("Delivery Sheet").$sepChar.
                  T_("Assigned to").$sepChar.
@@ -117,6 +118,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                           $issue->effortAdd.$sepChar.
                           $issue->elapsed.$sepChar.
                           $issue->remaining.$sepChar.
+                          round(100 * $issue->getProgress())."%".$sepChar.
                           $deliveryDate.$sepChar.
                           $issue->deliveryId.$sepChar.
                           $user->getShortname().
