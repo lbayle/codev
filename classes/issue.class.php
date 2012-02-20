@@ -291,7 +291,7 @@ class Issue {
 
    // ----------------------------------------------
    public function getTargetVersion() {
-   
+
       return $this->target_version;
    }
 
@@ -1216,7 +1216,7 @@ class Issue {
     * 0.5 = 50% done
     * 0 = 0% done
     */
-   public function getProgress() {
+   public function getProgress_old() {
 
       if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          return 1; // issue is finished
@@ -1247,6 +1247,37 @@ class Issue {
 
       return $progress;
    }
+
+
+   /**
+    * returns a progress rate (depending on Remaining)
+    * formula2: Elapsed / (Elapsed+RAF)
+    *
+    * 1 = 100% finished
+    * 0.5 = 50% done
+    * 0 = 0% done
+    */
+   public function getProgress() {
+
+      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
+         return 1; // issue is finished, 100% done.
+      }
+
+      // no time spent on task, 0% done
+      if (NULL == $this->elapsed) { return 0; }
+
+      // if no Remaining set, 0% done
+      if (NULL == $this->remaining) { return 0; }
+
+      // nominal case
+      $progress = $this->elapsed / ($this->elapsed + $this->remaining);   // (T-R)/T
+
+
+      $this->logger->debug("issue $this->bugId Progress = $progress % = $this->elapsed / ($this->elapsed + $this->remaining)");
+
+      return $progress;
+   }
+
 
 } // class issue
 
