@@ -15,8 +15,8 @@
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-<?php 
- include_once '../path.inc.php'; 
+<?php
+ include_once '../path.inc.php';
 ?>
 
 <?php
@@ -31,7 +31,7 @@ if (!isset($_SESSION['userid'])) {
    $_POST['page_name'] = T_("Uninstall");
    include 'header.inc.php';
 
-   include 'login.inc.php'; 
+   include 'login.inc.php';
    include 'uninstall_menu.inc.php';
 ?>
 
@@ -62,13 +62,13 @@ function displayForm($originPage, $is_modified,
 
 	echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
 
-	// ------ 
+	// ------
 	echo "<h2>".T_("Do you want to remove CodevTT from your Mantis server ?")."</h2>\n";
 	echo "<span class='help_font'>".T_("This step will clean Mantis DB.")."</span><br/>\n";
    echo "  <br/>\n";
    echo "  <br/>\n";
    echo "  <br/>\n";
-    
+
    // ---
    $isChecked = $isBackup ? "CHECKED" : "";
    echo "<table class='invisible'>\n";
@@ -88,7 +88,7 @@ function displayForm($originPage, $is_modified,
    echo "    <td>".T_("Filename").": <input name='backup_filename' id='backup_filename' type='text' value='$filename' size='50'>";
    echo "  </tr>\n";
    echo "</table>\n";
-      
+
    // ----------
    echo "  <br/>\n";
 	echo "  <br/>\n";
@@ -99,23 +99,23 @@ function displayForm($originPage, $is_modified,
   // ------
 	echo "<input type=hidden name=action      value=noAction>\n";
 	echo "<input type=hidden name=is_modified value=$is_modified>\n";
-	
+
 	echo "</form>";
 }
 
 /**
- * 
+ *
  * backup Mantis DB (including CodevTT tables, if exists)
- * 
+ *
  * @param $filename
  */
 function backupDB($filename) {
-	
+
 	global $db_mantis_host;
 	global $db_mantis_user;
 	global $db_mantis_pass;
 	global $db_mantis_database;
-	
+
 	$command = "mysqldump --host=$db_mantis_host --user=$db_mantis_user --password=$db_mantis_pass  $db_mantis_database > $filename";
 
 	echo "dumping MantisDB to $filename ...</br>";
@@ -128,11 +128,11 @@ function backupDB($filename) {
 }
 
 function displayProjectsToRemove() {
-	
+
 	echo "Please MANUALY delete the following projects:</br>";
-	
+
 	$prjList = array();
-	
+
 	// find externalTasks project
 	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
 	$project = ProjectCache::getInstance()->getProject($extproj_id);
@@ -143,24 +143,24 @@ function displayProjectsToRemove() {
 	               "FROM `codev_sidetasks_category_table`, `mantis_project_table` ".
 	               "WHERE mantis_project_table.id = codev_sidetasks_category_table.project_id ".
 	               "ORDER BY mantis_project_table.name DESC";
-	
+
 	$result = mysql_query($query) or die("Query failed: $query");
 	while($row = mysql_fetch_object($result)) {
 	   $prjList[$row->id] = $row->name;
 	}
-	
+
    echo "<ul>\n";
 	foreach ($prjList as $id => $name) {
 		echo "<li title='$id'>$name</li>";
 	}
 	echo "</ul>\n";
-	
-	
+
+
 }
 
 /**
  * NOTE: function adapted from from mantis/core/custom_field_api.php
- * 
+ *
  * Delete the field definition and all associated values and project associations
  * return true on success, false on failure
  * @param int $p_field_id custom field id
@@ -171,40 +171,40 @@ function custom_field_destroy( $p_field_id ) {
 	# delete all values
 	$query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id= $p_field_id;";
 	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-	
+
 	# delete all project associations
 	$query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id= $p_field_id;";
 	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-	
+
 	# delete the definition
 	$query = "DELETE FROM `mantis_custom_field_table` WHERE id= $p_field_id;";
 	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
-	
+
 	#custom_field_clear_cache( $p_field_id );
 
-	#echo "DEBUG: customField $p_field_id removed</br>";	
+	#echo "DEBUG: customField $p_field_id removed</br>";
 	return true;
 }
 
 function removeCustomFields() {
 	$tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
-	$prelEffortEstim         = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
+	$mgrEffortEstim         = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
 	$estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
 	$addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
 	$remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
 	$deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
 	$deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 	$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
-	
+
 	custom_field_destroy($tcCustomField);
-	custom_field_destroy($prelEffortEstim);
+	custom_field_destroy($mgrEffortEstim);
 	custom_field_destroy($estimEffortCustomField);
 	custom_field_destroy($addEffortCustomField);
 	custom_field_destroy($remainingCustomField);
 	custom_field_destroy($deadLineCustomField);
 	custom_field_destroy($deliveryDateCustomField);
 	custom_field_destroy($deliveryIdCustomField);
-	
+
 }
 
 
@@ -250,40 +250,40 @@ if ("uninstall" == $action) {
 	if (true == $isBackup) {
 		echo "---- Backup<br/>";
 	   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
-		
+
 	   $retCode = backupDB($codevReportsDir.DIRECTORY_SEPARATOR.$filename);
-	   if (0 != $retCode) { 
+	   if (0 != $retCode) {
 	   	echo "Uninstall aborted !";
-	   	exit; 
+	   	exit;
 	   }
 	   echo "</br>";
 	}
 
 	echo "1/4 ---- Remove CodevTT from Mantis menu</br>";
 	echo "TODO</br>";
-		
+
 	echo "2/4 ---- Remove CodevTT specific projects</br>";
    displayProjectsToRemove();
-   
+
    echo "3/4 ---- Remove CodevTT customFields</br>";
    removeCustomFields();
-   
+
    echo "4/4 ---- Remove CodevTT tables from MantisDB</br>";
    execSQLscript("uninstall.sql");
-   
+
    echo "5/5 ---- Remove CodevTT config files</br>";
    Install::deleteConfigFiles();
-   
+
 } else {
 
 	// ----- DISPLAY PAGE
-	
+
 	$error = Install::checkMysqlAccess();
 	if (TRUE == strstr($error, T_("ERROR"))) {
 	 	echo "<span class='error_font'>$error</span><br/>";
 		exit;
 	}
-	
+
 	displayForm($originPage, $is_modified, $isBackup, $filename);
 }
 

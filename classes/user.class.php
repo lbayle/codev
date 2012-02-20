@@ -301,7 +301,7 @@ class User {
     */
    public function getExternalTasksInMonth($startTimestamp, $endTimestamp) {
     $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
-	
+
 	$externalTasks = array();  // day => duration
 
     $query     = "SELECT bugid, date, duration ".
@@ -325,7 +325,7 @@ class User {
     }
     return $externalTasks;
   }
-  
+
   // --------------------
   /**
    * concat durations of all ExternalTasksProject issues.
@@ -396,7 +396,7 @@ class User {
       // restrict timestamp to the period where the user is working on the project
       $startT = ($arrivalDate > $startTimestamp) ? $arrivalDate : $startTimestamp;
       $endT   = ($departureDate < $endTimestamp) ? $departureDate : $endTimestamp;
-      
+
 	  $this->logger->debug("getAvailableWorkload user.startT=".date("Y-m-d", $startT)." user.endT=".date("Y-m-d", $endT));
 
       // get $nbOpenDaysInPeriod
@@ -582,7 +582,7 @@ class User {
 
    // --------------------
    /**
-    * sum the RAE (or prelEffortEstim if no RAE defined) of all the opened Issues assigned to me.
+    * sum the RAF (or mgrEffortEstim if no RAF defined) of all the opened Issues assigned to me.
     */
    public function getWorkload($projList = NULL) {
 
@@ -619,8 +619,8 @@ class User {
 
          if (NULL != $issue->remaining) {
          	$totalRemaining += $issue->remaining;
-         } else if (NULL != $issue->prelEffortEstim) {
-            $totalRemaining += $issue->prelEffortEstim;
+         } else if (NULL != $issue->mgrEffortEstim) {
+            $totalRemaining += $issue->mgrEffortEstim;
          }
       }
 

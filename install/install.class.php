@@ -33,15 +33,8 @@ include_once 'config_mantis.class.php';
 class Install {
 
    const FILENAME_MYSQL_CONFIG = "../include/mysql_config.inc.php";
-   //const FILENAME_MYSQL_CONFIG = "/tmp/mysql_config.inc.php";
 
    const FILENAME_CONSTANTS = "../constants.php";
-   //const FILENAME_CONSTANTS = "/tmp/constants.php";
-
-   # WARNING Mantis BUG: Enum fields do not handle special chars like '<' or '>'
-   const PREL_EFFORT_ESTIM_POSSIBLE_VALUES = "none|1 day|2-3 days|- 1 week|- 2 weeks|+ 2 weeks";
-   const PREL_EFFORT_ESTIM_DEFAULT_VALUE   = "none";
-   const PREL_EFFORT_ESTIM_BALANCE         = "1,1,3,5,10,15";
 
    private $logger;
    private $fieldList;
@@ -51,7 +44,7 @@ class Install {
    {
       $this->logger = Logger::getLogger(__CLASS__);
    	  $this->logger->info("LOG activated !");
-   	
+
    	// get existing Mantis custom fields
       $this->fieldList = array();
 
@@ -300,22 +293,22 @@ class Install {
 
       $attributes["require_report"]   = 1;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("Preliminary EffortEstim"), $mType_enum,    "customField_PrelEffortEstim", $attributes, self::PREL_EFFORT_ESTIM_DEFAULT_VALUE, self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES);
+      $this->createCustomField(T_("Manager EffortEstim"), $mType_numeric,    "customField_MgrEffortEstim", $attributes);
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
       $this->createCustomField(T_("External ID"),       $mType_string,  "customField_ExtId", $attributes);          // CoDev FDJ custom
-      $this->createCustomField(T_("Dead Line"),               $mType_date,    "customField_deadLine", $attributes);
+      $this->createCustomField(T_("Dead Line"),         $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
       $this->createCustomField(T_("EffortEstim"),        $mType_numeric, "customField_effortEstim", $attributes);
       $this->createCustomField(T_("Aditional Effort"),   $mType_numeric, "customField_addEffort", $attributes);
-      $this->createCustomField(T_("Remaining"),         $mType_numeric, "customField_remaining", $attributes);
+      $this->createCustomField(T_("Remaining"),          $mType_numeric, "customField_remaining", $attributes);
 
       $attributes["require_resolved"] = 0;
       $attributes["require_closed"]   = 0;
       $this->createCustomField(T_("Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-      $this->createCustomField(T_("Delivery Date"),           $mType_date,    "customField_deliveryDate", $attributes);
+      $this->createCustomField(T_("Delivery Date"),     $mType_date,    "customField_deliveryDate", $attributes);
 
 	}
 
@@ -402,15 +395,9 @@ class Install {
       Config::getInstance()->setValue(Config::id_astreintesTaskList, NULL, Config::configType_array, $desc);
 
       #echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
+      # TODO should be a table, there can be more than one client !
       $desc = T_("Client teamId");
   	   Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
-
-      #echo "DEBUG create Variable : ".Config::id_prelEffortEstim_balance."<br/>";
-      $desc = T_("Values (in days) for : ").self::PREL_EFFORT_ESTIM_POSSIBLE_VALUES;
-      Config::getInstance()->setValue(Config::id_prelEffortEstim_balance,
-                                      self::PREL_EFFORT_ESTIM_BALANCE,
-                                      Config::configType_array,
-                                      $desc);
 
 	}
 

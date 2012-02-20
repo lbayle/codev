@@ -82,14 +82,13 @@ class Config {
    const id_astreintesTaskList       = "astreintesTaskList";
    const id_codevReportsDir          = "codevReportsDir";
    const id_customField_ExtId           = "customField_ExtId";
-   const id_customField_PrelEffortEstim = "customField_PrelEffortEstim";  // ex ETA
+   const id_customField_MgrEffortEstim = "customField_MgrEffortEstim";  // ex ETA/PrelEffortEstim
    const id_customField_effortEstim  = "customField_effortEstim"; //  BI
    const id_customField_remaining    = "customField_remaining"; //  RAE
    const id_customField_deadLine     = "customField_deadLine";
    const id_customField_addEffort    = "customField_addEffort"; // BS
    const id_customField_deliveryId   = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
    const id_customField_deliveryDate = "customField_deliveryDate";
-   const id_prelEffortEstim_balance  = "prelEffortEstim_balance"; // ex ETA_balance
    const id_priorityNames            = "priorityNames";
    const id_resolutionNames          = "resolutionNames";
    const id_mantisFile_strings       = "mantisFile_strings";
@@ -155,7 +154,7 @@ class Config {
    // --------------------------------------
    public static function getValue($id) {
    global $logger;
-   
+
     	$value = NULL;
     	$variable = isset(self::$configVariables[$id]) ? self::$configVariables[$id] : NULL;
 

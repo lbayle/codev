@@ -84,9 +84,9 @@ if (!isset($_SESSION['userid'])) {
 			height: 200,
 			width: 500,
 			modal: true,
-			open: function() { 
-               // Select input field contents 
-               $( "#remaining" ).select(); 
+			open: function() {
+               // Select input field contents
+               $( "#remaining" ).select();
 			},
 			buttons: {
 				"Update": function() {
@@ -142,9 +142,9 @@ $logger = Logger::getLogger("issue_info");
 // ---------------------------------------------------------------
 
 function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid, $defaultProjectid) {
-   
+
    global $logger;
-   
+
    // Display form
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' Action='$originPage'>\n";
@@ -257,7 +257,8 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
 
   echo "<tr>\n";
   echo "<td title='BI + BS'>".T_("Estimated")."</th>\n";
-  echo "<td title='".$issue->prelEffortEstim."'>".$issue->prelEffortEstimName."</td>\n";
+  # TODO display mgrEE only if teamManager
+  echo "<td>".$issue->mgrEffortEstim."</td>\n";
   echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
 
@@ -280,7 +281,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
 
   echo "<tr>\n";
   echo "<td>".T_("Effort Deviation")."</td>\n";
-  $deriveETA = $issue->getDriftETA($withSupport);
+  $deriveETA = $issue->getDriftMgrEE($withSupport);
   $derive = $issue->getDrift($withSupport);
   echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".number_format($deriveETA, 2)."</td>\n";
   echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".number_format($derive, 2)."</td>\n";
@@ -293,7 +294,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
       } else {
          echo "<td>".T_("EffortDeviation +Support")."</td>\n";
       }
-      $deriveETA = $issue->getDriftETA(!$withSupport);
+      $deriveETA = $issue->getDriftMgrEE(!$withSupport);
       $derive = $issue->getDrift(!$withSupport);
       echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".$deriveETA."</td>\n";
       echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".$derive."</td>\n";
@@ -309,11 +310,11 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "<td></td>\n";
   echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
   echo "</tr>\n";
-  
-    
-  
+
+
+
   echo "</table>\n";
-  
+
    // create links for JQUERY dialogBox
    echo "<script>\n";
    echo "$(function() {\n";
@@ -326,7 +327,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
 		echo "});\n";
     echo "});\n";
     echo "</script>\n";
-  
+
   echo "</div>\n";
 
 }
@@ -579,11 +580,11 @@ if (0 == count($teamList)) {
 	displayIssueSelectionForm($originPage, $user, $projList, $bug_id, $defaultProjectid);
 
     if ("updateRemainingAction" == $action) {
-	
+
 	   $issue->setRemaining($remaining);
 	   $action = "displayBug";
-	}   
-	
+	}
+
 	if ("displayBug" == $action) {
      $handler = UserCache::getInstance()->getUser($issue->handlerId);
 
@@ -658,7 +659,7 @@ if (0 == count($teamList)) {
 
        // pre-set form fields
        $defaultProjectid  = $_POST['projectid'];
-	   
+
 	} elseif ("notAllowed" == $action) {
       echo "<br/>";
       echo "<br/>";

@@ -24,7 +24,7 @@
 function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile) {
 
    global $logger;
-   
+
    $sepChar=';';
 
    $fh = fopen($myFile, 'w');
@@ -43,7 +43,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                  T_("Priority").$sepChar.
                  "Category".$sepChar.
                  T_("Resolution").$sepChar.
-                 T_("PrelEffortEstim").$sepChar.
+                 T_("MgrEffortEstim").$sepChar.
                  T_("BI").$sepChar.
                  T_("BS").$sepChar.
                  "Elapsed".$sepChar.
@@ -113,7 +113,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                           $issue->getPriorityName().$sepChar.
                           $issue->getCategoryName().$sepChar.
                           $issue->getResolutionName().$sepChar.
-                          $issue->prelEffortEstimName.$sepChar.
+                          $issue->mgrEffortEstim.$sepChar.
                           $issue->effortEstim.$sepChar.
                           $issue->effortAdd.$sepChar.
                           $issue->elapsed.$sepChar.
@@ -173,7 +173,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
         $issue->getPriorityName().$sepChar.
         $issue->getCategoryName().$sepChar.
         $issue->getResolutionName().$sepChar.
-        $issue->prelEffortEstimName.$sepChar.
+        $issue->mgrEffortEstim.$sepChar.
         $issue->effortEstim.$sepChar.
         $issue->effortAdd.$sepChar.
         $issue->elapsed.$sepChar.

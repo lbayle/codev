@@ -37,9 +37,9 @@
   function updateRemaining(dialogBoxTitle, bugid, remaining, description, userid, nextForm ){
 
      $( "#desc_summary" ).text(description);
-  
+
      $( "#formUpdateRemaining * #remaining" ).val(remaining);
-	 
+
      $( "#formUpdateRemaining input[name=bugid]" ).val(bugid);
      $( "#formUpdateRemaining input[name=userid]" ).val(userid);
      $( "#formUpdateRemaining input[name=nextForm]" ).val(nextForm);
@@ -48,7 +48,7 @@
      $( "#update_remaining_dialog_form" ).dialog( "open" );
 
   }
-   
+
    // ------ JQUERY ------
 	$(function() {
 
@@ -80,9 +80,9 @@
 			height: 250,
 			width: 500,
 			modal: true,
-			open: function() { 
-               // Select input field contents 
-               $( "#remaining" ).select(); 
+			open: function() {
+               // Select input field contents
+               $( "#remaining" ).select();
 			},
 			buttons: {
 				"Update": function() {
@@ -103,7 +103,7 @@
 				allFields.val( "" ).removeClass( "ui-state-error" );
 			}
 		});
-		
+
 	});
 </script>
 
@@ -216,22 +216,22 @@ function displayLinks() {
 
 // -----------------------------
 /**
- * 
+ *
  */
 function showIssuesInDrift($userid) {
 
-    
+
 	$user = UserCache::getInstance()->getUser($userid);
 	$allIssueList = $user->getAssignedIssues();
 
 	foreach ($allIssueList as $issue) {
-       $driftPrelEE = $issue->getDriftETA();
+       $driftPrelEE = $issue->getDriftMgrEE();
 	   $driftEE = $issue->getDrift();
 
 	   if (($driftPrelEE >= 1) || ($driftEE >= 1)) {
 	       $issueList[] = $issue;
 	   }
-    }	
+    }
 	if (0 == count($issueList)) {
 	   return 0;
 	}
@@ -253,18 +253,18 @@ function showIssuesInDrift($userid) {
 	echo "<th>".T_("RAF")."</th>\n";
 	echo "<th>".T_("Summary")."</th>\n";
     echo "</tr>\n";
-	
+
 	foreach ($issueList as $issue) {
-	
+
 		// TODO: check if issue in team project list ?
 
-		$driftPrelEE = $issue->getDriftETA();
+		$driftPrelEE = $issue->getDriftMgrEE();
 		$driftEE = $issue->getDrift();
-		
+
         $formatedSummary = str_replace("'", "\'", $issue->summary);
         $formatedSummary = str_replace('"', "\'", $formatedSummary);
 		$formatedTitle = "Task ".$issue->bugId." / ".$issue->tcId." - Update Remaining";
-		
+
 	   echo "<tr>\n";
 	   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
 	   echo "<td>".$issue->getProjectName()."</td>\n";
@@ -276,17 +276,17 @@ function showIssuesInDrift($userid) {
 	   if ($driftEE <= -1) { $color = "style='background-color: #61ed66;'"; }
 	   if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
 	   echo "<td $color >".$driftEE."</td>\n";
-	   
+
 	   echo "<td>\n";
 	   echo "<a title='".T_("update Remaining")."' href=\"javascript: updateRemaining('".$formatedTitle."', '".$issue->bugId."', '".$issue->getRemaining()."', '".$formatedSummary."', '', '')\" >".$issue->getRemaining()."</a>\n";
 	   echo "</td>\n";
-	   
+
 	   echo "<td>".$issue->summary."</td>\n";
 	   echo "</tr>\n";
 	}
    echo "</table>\n";
-   
-   
+
+
 }
 
 
@@ -347,15 +347,15 @@ if (!isset($_SESSION['userid'])) {
 	      $issue->setRemaining($remaining);
 	      #$action = "displayBug";
 	   }
-	}   
+	}
 
-   
+
    #disclaimer();
 
    displayLinks();
 
    echo "<br/>\n";
-   
+
    showIssuesInDrift($userid);
 
    echo "<br/>\n";

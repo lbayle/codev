@@ -41,8 +41,6 @@ class Issue {
 
    private $logger;
 
-   private static $PEE_balance;
-
    public $bugId;      // mantis id
    public $projectId;  // Capu, peterpan, etc.
    public $categoryId;
@@ -64,22 +62,23 @@ class Issue {
 	 * to store the 'preliminary Effort Estimation'.
 	 * as ETA may already been used by existing projects for other purpose,
 	 * a 'prelEffortEstim' customField has been created to replace ETA.
+	 * REM2:
+	 * Feb.2012 'prelEffortEstim' has been replaced by 'mgrEffortEstim'
 	 */
 
    // -- CodevTT custom fields
    public $tcId;         // TelelogicChange id
    public $remaining;    // RAF
-   public $prelEffortEstimName;  // PreliminaryEffortEstim (ex ETA)
+   public $mgrEffortEstim;  // Manager EffortEstim (ex prelEffortEstim/ETA)
    public $effortEstim;  // BI
    public $effortAdd;    // BS
-   private $deadLine;     // WARN: if not specified, TargetVersion_date must be returned !
+   private $deadLine;
    public $deliveryDate;
    public $deliveryId;   // TODO FDL (FDJ specific)
 
    // -- computed fields
    public $elapsed;          // total time spent on this issue
    public $statusList;       // array of statusInfo elements
-   public $prelEffortEstim;  // PreliminaryEffortEstim (ex ETA_balance value)
 
    // -- PRIVATE cached fields
    private $holidays;
@@ -93,39 +92,8 @@ class Issue {
 
       $this->bugId = $id;
 
-	  // --- init static variables
-	  Issue::getPrelEffortEstimValues();
-
       $this->initialize();
    }
-
-	public static function getPrelEffortEstimValues() {
-      if (NULL == self::$PEE_balance) {
-		 self::$PEE_balance = array();
-
-         $PEE_id  = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
-         $balance = Config::getInstance()->getValue(Config::id_prelEffortEstim_balance); // ex ETA_balance
-
-      	 $query = "SELECT possible_values FROM  `mantis_custom_field_table` WHERE  id = $PEE_id";
-          $result = mysql_query($query);
-	       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-          }
-      	          $PEE_possible_values  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
-		 if (NULL != $PEE_possible_values) {
-         	$PEE_possible_values = explode('|', $PEE_possible_values);
-		 	$i=0;
-		 	foreach ($PEE_possible_values as $value) {
-		    	self::$PEE_balance[$value] = $balance[$i];
-		    	$i++;
-		 	}
-		 }
-      }
-      return self::$PEE_balance;
-	}
 
    // ----------------------------------------------
    public function initialize() {
@@ -137,7 +105,7 @@ class Issue {
    	global $deadLineCustomField;
    	global $deliveryDateCustomField;
       global $deliveryIdCustomField;
-      $prelEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
+      $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
 
       // Get issue info
       $query = "SELECT * ".
@@ -178,17 +146,13 @@ class Issue {
       {
          switch ($row->field_id) {
             case $tcCustomField:              $this->tcId            = $row->value; break;
+            case $mgrEstimEffortCustomField:  $this->mgrEffortEstim  = $row->value; break;
             case $estimEffortCustomField:     $this->effortEstim     = $row->value; break;
             case $remainingCustomField:       $this->remaining       = $row->value; break;
             case $addEffortCustomField:       $this->effortAdd       = $row->value; break;
             case $deadLineCustomField:        $this->deadLine        = $row->value; break;
             case $deliveryDateCustomField:    $this->deliveryDate    = $row->value; break;
             case $deliveryIdCustomField:      $this->deliveryId      = $row->value; break;
-            case $prelEffortEstimCustomField: {
-            	$this->prelEffortEstimName = $row->value;
-            	$this->prelEffortEstim     = self::$PEE_balance[$row->value];
-            	break;
-            }
          }
       }
 
@@ -291,7 +255,7 @@ class Issue {
 
    // ----------------------------------------------
    public function getTargetVersion() {
-   
+
       return $this->target_version;
    }
 
@@ -436,13 +400,13 @@ class Issue {
 
    /**
     * Returns the nb of days needed to finish the issue.
-    * if the 'remaining' (RAF) field is not defined, return effortEstim or prelEffortEstim
+    * if the 'remaining' (RAF) field is not defined, return effortEstim or mgrEffortEstim
     */
    public function getRemaining() {
       // determinate issue duration (Remaining, BI, PrelEffortEstim)
       if       (NULL != $this->remaining)   { $issueDuration = $this->remaining; }
-	  elseif   (NULL != $this->effortEstim) { $issueDuration = $this->effortEstim; }
-      else                                   { $issueDuration = $this->prelEffortEstim; }
+      elseif   (NULL != $this->effortEstim) { $issueDuration = $this->effortEstim; }
+      else                                  { $issueDuration = $this->mgrEffortEstim; }
       return $issueDuration;
    }
 
@@ -607,7 +571,7 @@ class Issue {
    // if bug is Resolved/Closed, then remaining is not used.
 
    // REM if PrelEffortEstim = 0 then Drift = 0
-   public function getDriftETA($withSupport = true) {
+   public function getDriftMgrEE($withSupport = true) {
 
       if (0 == $this->elapsed ) {
          $this->logger->debug("bugid ".$this->bugId." if elapsed == 0 then Drift = 0");
@@ -622,12 +586,12 @@ class Issue {
       }
 
 	  if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
-         $derive = $myElapsed - $this->prelEffortEstim;
+         $derive = $myElapsed - $this->mgrEffortEstim;
       } else {
-         $derive = $myElapsed - ($this->prelEffortEstim - $this->remaining);
+         $derive = $myElapsed - ($this->mgrEffortEstim - $this->remaining);
       }
 
-      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->prelEffortEstim.")");
+      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->mgrEffortEstim.")");
       return $derive;
    }
 
@@ -1226,7 +1190,7 @@ class Issue {
       if (NULL != $this->effortEstim) {
          $totalEffort = $this->effortEstim + $this->effortAdd;
       } else {
-      	$totalEffort = $this->prelEffortEstim;
+      	$totalEffort = $this->mgrEffortEstim;
       }
 
       // if no Remaining set, 0% done
