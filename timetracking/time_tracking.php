@@ -115,7 +115,7 @@ require_once('tc_calendar.php');
     }
   }
 
-  function deleteTrack(trackid, date, bugid, duration, job, description, userid){
+  function deleteTrack(trackid, date, bugid, duration, job, description, userid, weekid){
 
      $( "#desc_date" ).text(date);
      $( "#desc_id" ).text(bugid);
@@ -126,6 +126,7 @@ require_once('tc_calendar.php');
      $( "#formDeleteTrack" ).children("input[name=trackid]").val(trackid);
      $( "#formDeleteTrack" ).children("input[name=bugid]").val(bugid);
      $( "#formDeleteTrack" ).children("input[name=userid]").val(userid);
+     $( "#formDeleteTrack" ).children("input[name=weekid]").val(weekid);
 
      $( "#deleteTrack_dialog_form" ).dialog( "open" );
 
@@ -273,6 +274,7 @@ require_once('tc_calendar.php');
       <input type='hidden' name='trackid' value='0' >
       <input type='hidden' name='bugid'   value='0' >
       <input type='hidden' name='userid'  value='0' >
+      <input type='hidden' name='weekid'  value='0' >
       <input type='hidden' name='action'  value='deleteTrack' >
       <input type='hidden' name='nextForm' value='addTrackForm'>
 	</form>
@@ -637,7 +639,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
 
   echo "<br/>";
   echo "<br/>";
-  displayTimetrackingTuples($userid, $startTimestamp);
+  displayTimetrackingTuples($userid, $weekid, $startTimestamp);
 }
 
 ?>

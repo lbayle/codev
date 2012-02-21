@@ -32,7 +32,7 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
 
    $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
 
-   
+
    echo "<div id='accordion' style='width:350px;' >\n";
    echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
 
@@ -56,10 +56,10 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
    echo "</p>\n";
    echo "</div>\n";
    echo "</div>\n";
-   
+
 }
 
-function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
+function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endTimestamp=NULL) {
 
 	$curJulian = 0;
 
@@ -125,7 +125,7 @@ function displayTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=
       // --- display row
       echo "<tr class ='$tr_class'>\n";
       echo "<td>\n";
-      echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$formatedDate."', '".$formatedId."', '".$row->duration."', '".$formatedJobName."', '".$formatedSummary."', '".$userid."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
+      echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$formatedDate."', '".$formatedId."', '".$row->duration."', '".$formatedJobName."', '".$formatedSummary."', '".$userid."', '".$weekid."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
       echo "<td width=170>".$cosmeticDate."</td>\n";
       echo "<td>".issueInfoURL($row->bugid)."</td>\n";
@@ -194,7 +194,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    $linkList = array();
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = IssueCache::getInstance()->getIssue($bugid);
-	  
+
       foreach ($jobList as $jobid => $dayList) {
          $linkid = $bugid."_".$jobid;
 	     $linkList["$linkid"] = $issue;
@@ -233,9 +233,9 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 		echo "});\n";
    }
 echo "});\n";
-   
+
    echo "</script>\n";
-   
+
 }
 
 ?>
