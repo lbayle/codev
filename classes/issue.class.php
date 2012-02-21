@@ -1264,10 +1264,10 @@ class Issue {
       }
 
       // no time spent on task, 0% done
-      if (NULL == $this->elapsed) { return 0; }
+      if ((NULL == $this->elapsed) || (0 == $this->elapsed)) { return 0; }
 
       // if no Remaining set, 0% done
-      if (NULL == $this->remaining) { return 0; }
+      if ((NULL == $this->remaining) || (0 == $this->remaining)) { return 0; }
 
       // nominal case
       $progress = $this->elapsed / ($this->elapsed + $this->remaining);   // (T-R)/T
