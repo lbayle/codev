@@ -122,7 +122,7 @@ require_once('tc_calendar.php');
      $( "#desc_duration" ).text(duration);
      $( "#desc_job" ).text(job);
      $( "#desc_summary" ).text(description);
-  
+
      $( "#formDeleteTrack" ).children("input[name=trackid]").val(trackid);
      $( "#formDeleteTrack" ).children("input[name=bugid]").val(bugid);
      $( "#formDeleteTrack" ).children("input[name=userid]").val(userid);
@@ -145,7 +145,7 @@ require_once('tc_calendar.php');
      }
    }
 
-   
+
    // ------ JQUERY ------
 	$(function() {
 
@@ -177,9 +177,9 @@ require_once('tc_calendar.php');
 			height: 200,
 			width: 500,
 			modal: true,
-			open: function() { 
-               // Select input field contents 
-               $( "#remaining" ).select(); 
+			open: function() {
+               // Select input field contents
+               $( "#remaining" ).select();
 			},
 			buttons: {
 				"Update": function() {
@@ -200,7 +200,7 @@ require_once('tc_calendar.php');
 				allFields.val( "" ).removeClass( "ui-state-error" );
 			}
 		});
-		
+
 		// delete track dialogBox
 		$( "#deleteTrack_dialog_form" ).dialog({
 			autoOpen: false,
@@ -217,10 +217,10 @@ require_once('tc_calendar.php');
 				}
 			}
 		});
-	
+
         $( "#accordion" ).accordion({
 			collapsible: true
-		});	
+		});
 	});
 
 
@@ -521,7 +521,7 @@ if (!isset($_POST['nextForm'])) {
 }
 
 if ($_POST['nextForm'] == "addTrackForm") {
-  
+
   $defaultDate  = $formatedDate= date("Y-m-d", time());
   $defaultBugid = 0;
   $defaultProjectid=0;
@@ -585,7 +585,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
     mysql_query($query) or die("Query failed: $query");
 
     // pre-set form fields
-    $defaultBugid     = $_POST['bugid'];
+    $defaultBugid     = $bugid;
     $defaultProjectid  = $issue->projectId;
 
   } elseif ("setProjectid" == $action) {
@@ -610,7 +610,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
 	if (NULL != $issue->remaining) {
 		$issue->setRemaining($remaining);
 	}
-	
+
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";
   } else {
