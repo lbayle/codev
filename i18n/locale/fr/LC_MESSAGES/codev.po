@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-21 23:39+0100\n"
+"POT-Creation-Date: 2012-02-21 23:47+0100\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -218,7 +218,7 @@ msgid "single selection"
 msgstr "s&eacute;lection unique"
 
 #: admin/edit_jobs.php:273 reports/export_csv_weekly.php:145
-#: reports/issue_info.php:403 reports/productivity_report.php:541
+#: reports/issue_info.php:399 reports/productivity_report.php:541
 #: timetracking/time_tracking_tools.php:80
 #: timetracking/time_tracking_tools.php:187 timetracking/time_tracking.php:458
 #: timetracking/team_activity_report.php:226 timetracking/set_holidays.php:292
@@ -515,7 +515,7 @@ msgstr ""
 "&agrave; 'FDJ' pour validation"
 
 #: classes/scheduler.class.php:57 reports/planning_report.php:436
-#: reports/issue_info.php:383 reports/issue_info.php:454
+#: reports/issue_info.php:379 reports/issue_info.php:450
 #: timetracking/project_activity_report.php:286
 #: timetracking/time_tracking_tools.php:45
 #: timetracking/time_tracking_tools.php:47
@@ -656,7 +656,7 @@ msgstr "Reception"
 msgid "Start date"
 msgstr "Date Debut"
 
-#: reports/export_csv_tools.php:41 reports/issue_info.php:362
+#: reports/export_csv_tools.php:41 reports/issue_info.php:358
 msgid "DeadLine"
 msgstr "DeadLine"
 
@@ -695,7 +695,7 @@ msgstr "BS"
 msgid "RAF"
 msgstr "RAF"
 
-#: reports/export_csv_tools.php:51 reports/issue_info.php:323
+#: reports/export_csv_tools.php:51 reports/issue_info.php:319
 #: reports/forecasting_report.php:258
 #: timetracking/project_activity_report.php:220
 #: timetracking/team_activity_report.php:223
@@ -973,7 +973,7 @@ msgstr "jour"
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
-#: reports/planning_report.php:567 reports/issue_info.php:591
+#: reports/planning_report.php:567 reports/issue_info.php:587
 #: reports/productivity_report.php:882 reports/forecasting_report.php:440
 #: timetracking/time_tracking.php:538 timetracking/set_holidays.php:364
 msgid "Sorry, you need to be member of a Team to access this page."
@@ -1045,41 +1045,41 @@ msgstr "D&eacute;rive -Support"
 msgid "EffortDeviation +Support"
 msgstr "D&eacute;rive +Support"
 
-#: reports/issue_info.php:357
+#: reports/issue_info.php:353
 msgid "Dates"
 msgstr "Dates"
 
-#: reports/issue_info.php:371
+#: reports/issue_info.php:367
 msgid "DeliveryDate"
 msgstr "Date Livraison"
 
-#: reports/issue_info.php:380
+#: reports/issue_info.php:376
 msgid "Deviation"
 msgstr "D&eacute;rive"
 
-#: reports/issue_info.php:404 reports/productivity_report.php:293
+#: reports/issue_info.php:400 reports/productivity_report.php:293
 #: reports/productivity_report.php:542 reports/productivity_report.php:591
 #: reports/productivity_report.php:689 reports/productivity_report.php:748
 msgid "Nb Days"
 msgstr "Nb Jours"
 
-#: reports/issue_info.php:521
+#: reports/issue_info.php:517
 msgid "Time allocation by status"
 msgstr "R&eacute;partition du temps par status"
 
-#: reports/issue_info.php:615
+#: reports/issue_info.php:611
 msgid "External ID"
 msgstr "Reference externe"
 
-#: reports/issue_info.php:617
+#: reports/issue_info.php:613
 msgid "status"
 msgstr "statut"
 
-#: reports/issue_info.php:617
+#: reports/issue_info.php:613
 msgid "assigned to"
 msgstr "assign&eacute; &agrave;"
 
-#: reports/issue_info.php:688
+#: reports/issue_info.php:684
 msgid "Sorry, you are not allowed to view the details of this task"
 msgstr ""
 "D&eacute;sol&eacute;, vous n&apos;&ecirc;tes pas autoris&eacute; &agrave; "
