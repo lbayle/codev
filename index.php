@@ -225,10 +225,10 @@ function showIssuesInDrift($userid) {
 	$allIssueList = $user->getAssignedIssues();
 
 	foreach ($allIssueList as $issue) {
-       $driftMgrEE = $issue->getDriftMgrEE();
+
 	   $driftEE = $issue->getDrift();
 
-	   if (($driftMgrEE >= 1) || ($driftEE >= 1)) {
+	   if ($driftEE >= 1) {
 	       $issueList[] = $issue;
 	   }
     }
@@ -246,10 +246,8 @@ function showIssuesInDrift($userid) {
     echo "<tr>\n";
     echo "<th>".T_("ID")."</th>\n";
     echo "<th>".T_("Project")."</th>\n";
-    #echo "<th title=''>".T_("PrelEE Drift")."</th>\n";
-	#echo "<th title=''>".T_("EE Drift")."</th>\n";
-    echo "<th title='Derive par rapport a l estimation preliminaire'>".T_("Derive PrelEE")."</th>\n";
-	echo "<th title='Derive par rapport au BI+BS'>".T_("Derive EE")."</th>\n";
+    #echo "<th title='Derive par rapport a l estimation preliminaire'>".T_("Derive PrelEE")."</th>\n";
+	echo "<th title='Derive par rapport au BI+BS'>".T_("Drift")."</th>\n";
 	echo "<th>".T_("RAF")."</th>\n";
 	echo "<th>".T_("Summary")."</th>\n";
     echo "</tr>\n";
@@ -258,7 +256,6 @@ function showIssuesInDrift($userid) {
 
 		// TODO: check if issue in team project list ?
 
-		$driftMgrEE = $issue->getDriftMgrEE();
 		$driftEE = $issue->getDrift();
 
         $formatedSummary = str_replace("'", "\'", $issue->summary);
@@ -268,10 +265,6 @@ function showIssuesInDrift($userid) {
 	   echo "<tr>\n";
 	   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
 	   echo "<td>".$issue->getProjectName()."</td>\n";
-	   $color = "";
-	   if ($driftMgrEE <= -1) { $color = "style='background-color: #61ed66;'"; }
-	   if ($driftMgrEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
-	   echo "<td $color >".$driftMgrEE."</td>\n";
 	   $color = "";
 	   if ($driftEE <= -1) { $color = "style='background-color: #61ed66;'"; }
 	   if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }

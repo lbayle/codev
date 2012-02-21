@@ -138,7 +138,7 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
  *
  * @param $timeTracking
  */
-function displayCurrentDriftStats ($timeTracking) {
+function displayCurrentDriftStats ($timeTracking, $isManager = false) {
 
    global $logger;
    global $status_new;
@@ -192,18 +192,24 @@ function displayCurrentDriftStats ($timeTracking) {
    #echo "<caption>".T_("EffortDeviation - Today opened Tasks")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
    echo "<tr>\n";
    echo "<th></th>\n";
-   echo "<th width='100' title='".T_("Manager Estimation")."'>".T_("MgrEffortEstim")."</th>\n";
-   echo "<th width='100' title='".T_("Developper Estimation")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
+   if (true == $isManager) {
+      echo "<th width='100' title='".T_("Manager Estimation")."'>".T_("Manager")."</th>\n";
+   }
+   echo "<th width='100'>".T_("Value")."</th>\n";
    echo "<th>".T_("Tasks")."</th>\n";
    echo "</tr>\n";
 
    echo "<tr>\n";
    echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
-   $value = number_format($driftStats_new["totalDriftETA"], 2);
-   $color = "";
-   if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
-   if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
-   echo "<td title='elapsed - MgrEffortEstim' $color >".$value."</td>\n";
+
+
+   if (true == $isManager) {
+      $value = number_format($driftStats_new["totalDriftETA"], 2);
+      $color = "";
+      if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
+      if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
+      echo "<td title='elapsed - MgrEffortEstim' $color >".$value."</td>\n";
+   }
 
    $value = number_format($driftStats_new["totalDrift"], 2);
    $color = "";
@@ -217,20 +223,26 @@ function displayCurrentDriftStats ($timeTracking) {
    echo "<tr>\n";
    echo "<td>".T_("Tasks in drift")."</td>\n";
    echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPosETA"]).")</span></td>\n";
-   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
+   if (true == $isManager) {
+      echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftPos"]).")</span></td>\n";
+   }
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidPosList"]."</td>\n";
    echo "</tr>\n";
 
    echo "<tr>\n";
    echo "<td>".T_("Tasks in time")."</td>\n";
-   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+   if (true == $isManager) {
+      echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+   }
    echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
    echo "</tr>\n";
 
    echo "<tr>\n";
    echo "<td>".T_("Tasks ahead")."</td>\n";
-   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
+   if (true == $isManager) {
+      echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNegETA"]).")</span></td>\n";
+   }
    echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftNeg"]).")</span></td>\n";
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidNegList"]."</td>\n";
    echo "</tr>\n";
@@ -242,7 +254,7 @@ function displayCurrentDriftStats ($timeTracking) {
 /**
  *
  */
-function showIssuesInDrift($teamid, $withSupport=true) {
+function showIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
 
 	$mList = Team::getMemberList($teamid);
     echo "<table>\n";
@@ -252,7 +264,9 @@ function showIssuesInDrift($teamid, $withSupport=true) {
     echo "<th>".T_("Project")."</th>\n";
     #echo "<th title=''>".T_("PrelEE Drift")."</th>\n";
 	#echo "<th title=''>".T_("EE Drift")."</th>\n";
-    echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
+   if (true == $isManager) {
+      echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
+   }
 	echo "<th title='".T_("Drift relatively to (EE + AddEE)")."'>".T_("Drift")."</th>\n";
 	echo "<th>".T_("RAF")."</th>\n";
 	echo "<th>".T_("Progress")."</th>\n";
@@ -280,16 +294,18 @@ function showIssuesInDrift($teamid, $withSupport=true) {
 		           echo "<tr>\n";
 		   		   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
 		   		   echo "<td>".$issue->getProjectName()."</td>\n";
-                   $color = "";
-                   if ($driftPrelEE < -1) { $color = "style='background-color: #61ed66;'"; }
-                   if ($driftPrelEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
-		   		   echo "<td $color >".$driftPrelEE."</td>\n";
-                   $color = "";
-                   if ($driftEE <= -1) { $color = "style='background-color: #61ed66;'"; }
-                   if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
+                  if (true == $isManager) {
+                     $color = "";
+                     if ($driftPrelEE < -1) { $color = "style='background-color: #61ed66;'"; }
+                     if ($driftPrelEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
+		   		      echo "<td $color >".$driftPrelEE."</td>\n";
+                  }
+                  $color = "";
+                  if ($driftEE <= -1) { $color = "style='background-color: #61ed66;'"; }
+                  if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
 		   		   echo "<td $color >".$driftEE."</td>\n";
 		   		   echo "<td>".$issue->getRemaining()."</td>\n";
-                   echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
+                  echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
 		   		   echo "<td>".$issue->getCurrentStatusName()."</td>\n";
 		   		   echo "<td>".$issue->summary."</td>\n";
 		           echo "</tr>\n";
@@ -435,6 +451,7 @@ $oTeamList = $session_user->getObservedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
+
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
    echo T_("Sorry, you need to be member of a Team to access this page.");
@@ -465,11 +482,13 @@ if (0 == count($teamList)) {
 
       if (0 != $teamid) {
 
+         $isManager = array_key_exists($teamid, $managedTeamList);
+
          echo "<br/><br/><hr>\n";
-         displayCurrentDriftStats($timeTracking);
+         displayCurrentDriftStats($timeTracking, $isManager);
 
          echo "<br/><br/>\n";
-         showIssuesInDrift($teamid, $withSupport);
+         showIssuesInDrift($teamid, $isManager, $withSupport);
 
          // ----
          echo "<br/><br/>\n";
