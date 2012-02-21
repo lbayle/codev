@@ -3,6 +3,7 @@
 *~
 constants.php
 include/mysql_config.inc.php
+tools/backup_cronjob.sh
 lib/jpgraph/docs
 lib/jpgraph/src/Examples
 lib/jpgraph/src/barcode/examples
