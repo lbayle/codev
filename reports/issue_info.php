@@ -251,15 +251,15 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "<div>\n";
   echo "<table>\n";
   echo "<tr>\n";
-  echo "  <th>".T_("Duration")."</th>\n";
+  echo "  <th>".T_("Indicator")."</th>\n";
   if ($isManager) {
-     echo "  <th title='".T_("Manager Estimation")."'>".T_("MgrEffortEstim")."</th>\n";
+     echo "  <th title='".T_("Manager Estimation")."'>".T_("Manager")."</th>\n";
   }
-  echo "  <th title='".T_("Developper Estimation")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
+  echo "  <th>".T_("Value")."</th>\n";
   echo "  </tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='BI + BS'>".T_("Estimated")."</th>\n";
+  echo "<td title='BI + BS'>".T_("Estimated effort")."</th>\n";
   # TODO display mgrEE only if teamManager
   if ($isManager) {
      echo "<td>".$issue->mgrEffortEstim."</td>\n";
