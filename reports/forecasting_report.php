@@ -192,8 +192,8 @@ function displayCurrentDriftStats ($timeTracking) {
    #echo "<caption>".T_("EffortDeviation - Today opened Tasks")."&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
    echo "<tr>\n";
    echo "<th></th>\n";
-   echo "<th width='100' title='".T_("BEFORE analysis")."'>".T_("PrelEffortEstim")."</th>\n";
-   echo "<th width='100' title='".T_("AFTER analysis")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
+   echo "<th width='100' title='".T_("Manager Estimation")."'>".T_("MgrEffortEstim")."</th>\n";
+   echo "<th width='100' title='".T_("Developper Estimation")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
    echo "<th>".T_("Tasks")."</th>\n";
    echo "</tr>\n";
 
@@ -203,7 +203,7 @@ function displayCurrentDriftStats ($timeTracking) {
    $color = "";
    if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
    if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
-   echo "<td title='elapsed - PrelEffortEstim' $color >".$value."</td>\n";
+   echo "<td title='elapsed - MgrEffortEstim' $color >".$value."</td>\n";
 
    $value = number_format($driftStats_new["totalDrift"], 2);
    $color = "";

@@ -204,7 +204,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    $graph_width="width=$width";
    $graph_height="height=$height";
 
-   $strVal1 = "leg1=PrelEffortEstim&x1=".implode(':', $val1);
+   $strVal1 = "leg1=MgrEffortEstim&x1=".implode(':', $val1);
    $strVal2 = "leg2=EffortEstim&x2=".implode(':', $val2);
    if ($displayNoSupport) {
       $strVal3 = "leg3=No Support&x3=".implode(':', $val3);
@@ -234,7 +234,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    echo "<caption title='".("Effort Deviation")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
-   echo "<th title=''>".T_("PrelEffortEstim")."</th>\n";
+   echo "<th title=''>".T_("MgrEffortEstim")."</th>\n";
    echo "<th title='"."BI + BS"."'>".T_("EffortEstim")."</th>\n";
    if ($displayNoSupport) {
       echo "<th title='"."BI + BS"."'>".T_("No Support")."</th>\n";
@@ -409,7 +409,7 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $dis
    $graph_width="width=$width";
    $graph_height="height=$height";
 
-   $strVal1 = "leg1=Prod Rate PrelEffortEstim&x1=".implode(':', $val1);
+   $strVal1 = "leg1=Prod Rate MgrEffortEstim&x1=".implode(':', $val1);
    $strVal2 = "leg2=Prod Rate&x2=".implode(':', $val2);
    if ($displayNoSupport) {
       $strVal3 = "leg3=No Support&x3=".implode(':', $val3);
@@ -439,7 +439,7 @@ function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $dis
    echo "<caption title='".T_("Productivity Rate")."'</caption>";
    echo "<tr>\n";
    echo "<th>Date</th>\n";
-   echo "<th title=''>".T_("Prod Rate PrelEffortEstim")."</th>\n";
+   echo "<th title=''>".T_("Prod Rate MgrEffortEstim")."</th>\n";
    echo "<th title=''>".T_("Prod Rate")."</th>\n";
    if ($displayNoSupport) {
       echo "<th title=''>".T_("No Support")."</th>\n";

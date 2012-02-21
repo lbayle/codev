@@ -251,8 +251,8 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Duration")."</th>\n";
-  echo "  <th title='".T_("BEFORE analysis")."'>".T_("PrelEffortEstim")."</th>\n";
-  echo "  <th title='".T_("AFTER analysis")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
+  echo "  <th title='".T_("Manager Estimation")."'>".T_("MgrEffortEstim")."</th>\n";
+  echo "  <th title='".T_("Developper Estimation")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
   echo "  </tr>\n";
 
   echo "<tr>\n";

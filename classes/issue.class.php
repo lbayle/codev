@@ -403,7 +403,7 @@ class Issue {
     * if the 'remaining' (RAF) field is not defined, return effortEstim or mgrEffortEstim
     */
    public function getRemaining() {
-      // determinate issue duration (Remaining, BI, PrelEffortEstim)
+      // determinate issue duration (Remaining, BI, MgrEffortEstim)
       if       (NULL != $this->remaining)   { $issueDuration = $this->remaining; }
       elseif   (NULL != $this->effortEstim) { $issueDuration = $this->effortEstim; }
       else                                  { $issueDuration = $this->mgrEffortEstim; }
@@ -567,10 +567,10 @@ class Issue {
    // if 0, then just in time
    // if POS, then there is a drift !
 
-   // elapsed - (PrelEffortEstim - remaining)
+   // elapsed - (MgrEffortEstim - remaining)
    // if bug is Resolved/Closed, then remaining is not used.
 
-   // REM if PrelEffortEstim = 0 then Drift = 0
+   // REM if MgrEffortEstim = 0 then Drift = 0
    public function getDriftMgrEE($withSupport = true) {
 
       if (0 == $this->elapsed ) {
