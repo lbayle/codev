@@ -83,6 +83,7 @@ class Config {
    const id_codevReportsDir          = "codevReportsDir";
    const id_customField_ExtId           = "customField_ExtId";
    const id_customField_PrelEffortEstim = "customField_PrelEffortEstim";  // ex ETA
+   const id_customField_MgrEffortEstim  = "customField_MgrEffortEstim"; //  ex ETA/PrelEffortEstim
    const id_customField_effortEstim  = "customField_effortEstim"; //  BI
    const id_customField_remaining    = "customField_remaining"; //  RAE
    const id_customField_deadLine     = "customField_deadLine";
