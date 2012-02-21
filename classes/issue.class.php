@@ -41,7 +41,7 @@ class Issue {
 
    private $logger;
 
-   private static $PEE_balance;
+   public static $PEE_balance;
 
    public $bugId;      // mantis id
    public $projectId;  // Capu, peterpan, etc.
