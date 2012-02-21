@@ -274,9 +274,9 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
-	         if ((NULL   == $issue->mgrEffortEstimName) ||
-	             ('' == $issue->mgrEffortEstimName)     ||
-	             ('0' == $issue->mgrEffortEstimName)) {
+	         if ((NULL   == $issue->mgrEffortEstim) ||
+	             ('' == $issue->mgrEffortEstim)     ||
+	             ('0' == $issue->mgrEffortEstim)) {
 
 	           $cerr = new ConsistencyError($row->bug_id,
 	                                              $row->handler_id,
