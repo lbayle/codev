@@ -244,27 +244,34 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
  * @param unknown_type $issue
  * @param unknown_type $withSupport  if true: include support in Drift
  * @param unknown_type $displaySupport
+ * @param unknown_type $isManager if true: show MgrEffortEstim column
  */
-function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=false ) {
+function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=false, $isManager=false ) {
 
   echo "<div>\n";
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Duration")."</th>\n";
-  echo "  <th title='".T_("Manager Estimation")."'>".T_("MgrEffortEstim")."</th>\n";
+  if ($isManager) {
+     echo "  <th title='".T_("Manager Estimation")."'>".T_("MgrEffortEstim")."</th>\n";
+  }
   echo "  <th title='".T_("Developper Estimation")."'>".T_("EffortEstim <br/>(BI + BS)")."</th>\n";
   echo "  </tr>\n";
 
   echo "<tr>\n";
   echo "<td title='BI + BS'>".T_("Estimated")."</th>\n";
   # TODO display mgrEE only if teamManager
-  echo "<td>".$issue->mgrEffortEstim."</td>\n";
+  if ($isManager) {
+     echo "<td>".$issue->mgrEffortEstim."</td>\n";
+  }
   echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Elapsed")."</td>\n";
-  echo "<td></td>\n";
+  if ($isManager) {
+     echo "<td></td>\n";
+  }
   if ($withSupport) {
    echo "<td title='".T_("Support included")."'>".$issue->elapsed."</td>\n";
   } else {
@@ -275,15 +282,20 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
 
   echo "<tr>\n";
   echo "<td>".T_("Remaining")."</td>\n";
-  echo "<td></td>\n";
+  if ($isManager) {
+     echo "<td></td>\n";
+  }
   echo "<td><a id='update_remaining_link' title='".T_("update remaining")."' href='#' >".$issue->remaining."</a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("Effort Deviation")."</td>\n";
-  $deriveETA = $issue->getDriftMgrEE($withSupport);
+
+  if ($isManager) {
+     $deriveETA = $issue->getDriftMgrEE($withSupport);
+     echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".number_format($deriveETA, 2)."</td>\n";
+  }
   $derive = $issue->getDrift($withSupport);
-  echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".number_format($deriveETA, 2)."</td>\n";
   echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".number_format($derive, 2)."</td>\n";
   echo "</tr>\n";
 
@@ -294,9 +306,11 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
       } else {
          echo "<td>".T_("EffortDeviation +Support")."</td>\n";
       }
-      $deriveETA = $issue->getDriftMgrEE(!$withSupport);
+      if ($isManager) {
+         $deriveETA = $issue->getDriftMgrEE(!$withSupport);
+         echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".$deriveETA."</td>\n";
+      }
       $derive = $issue->getDrift(!$withSupport);
-      echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".$deriveETA."</td>\n";
       echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".$derive."</td>\n";
       echo "</tr>\n";
   }
@@ -307,7 +321,9 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
 #  echo "<table>\n";
   echo "<tr>\n";
   echo "<td>".T_("Progress")."</td>\n";
-  echo "<td></td>\n";
+  if ($isManager) {
+     echo "<td></td>\n";
+  }
   echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
   echo "</tr>\n";
 
@@ -541,10 +557,17 @@ $remaining        = isset($_POST['remaining']) ? $_POST['remaining'] : '';
 
 $user = UserCache::getInstance()->getUser($session_userid);
 
+
+$dTeamList = $user->getDevTeamList();
+$lTeamList = $user->getLeadedTeamList();
+$managedTeamList = $user->getManagedTeamList();
+$teamList = $dTeamList + $lTeamList + $managedTeamList;
+
+
 // --- define the list of tasks the user can display
 // All projects from teams where I'm a Developper or Manager (Observers not allowed)
 $devProjList     = $user->getProjectList();
-$managedProjList = $user->getProjectList($user->getManagedTeamList());
+$managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
 $projList = $devProjList + $managedProjList;
 
 
@@ -562,11 +585,6 @@ $projList = $devProjList + $managedProjList;
  }
 
 
-
-$dTeamList = $user->getDevTeamList();
-$lTeamList = $user->getLeadedTeamList();
-$managedTeamList = $user->getManagedTeamList();
-$teamList = $dTeamList + $lTeamList + $managedTeamList;
 
 if (0 == count($teamList)) {
    echo "<div id='content'' class='center'>";
@@ -610,7 +628,9 @@ if (0 == count($teamList)) {
      echo"<div>\n";
 
      echo "<span style='display: inline-block;'>\n";
-     displayIssueGeneralInfo($issue, $withSupport, $displaySupport);
+
+     $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
+     displayIssueGeneralInfo($issue, $withSupport, $displaySupport, $isManager);
      echo "</span>";
 
      echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
