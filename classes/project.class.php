@@ -321,7 +321,7 @@ class Project {
    public function prepareProjectToCodev() {
 
       $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
-      $prelEffortEstim         = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
+      $mgrEffortEstim         = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
@@ -350,7 +350,7 @@ class Project {
 
 	  $found = false;
 	  if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$this->id','101'),"; $found = true; }
-	  if (!in_array($prelEffortEstim, $existingFields))         { $query .= "('$prelEffortEstim',         '$this->id','102'),"; $found = true; }
+	  if (!in_array($mgrEffortEstim, $existingFields))         { $query .= "('$mgrEffortEstim',         '$this->id','102'),"; $found = true; }
 	  if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$this->id','103'),"; $found = true; }
 	  if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$this->id','104'),"; $found = true; }
 	  if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$this->id','105'),"; $found = true; }
@@ -675,7 +675,7 @@ class Project {
          $this->logger->debug("No workflow defined for project $this->id");
          return NULL;
       }
-      
+
       $unserialized = unserialize($serialized);
 
       $statusTitles = array();
@@ -699,10 +699,10 @@ class Project {
    }
 
    /**
-    * 
+    *
     */
    function getProjectConfig() {
-   	
+
       //--- find all srcProj specific config
       $query = "SELECT config_id FROM `mantis_config_table` ".
                 "WHERE project_id=$this->id ";
@@ -716,15 +716,15 @@ class Project {
         exit;
       }
       $configItems = array();
-      
+
       while($row = mysql_fetch_object($result)) {
         $configItems[$row->config_id] = ConfigMantis::getInstance()->getValue($row->config_id, $this->id);;
       }
-    
+
       return $configItems;
    }
-   
-   
+
+
    // -----------------------------------------------
    /**
     *  apply sourceProject config (workflow, thresholds, ...) to destProject

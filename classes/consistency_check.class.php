@@ -72,7 +72,7 @@ class ConsistencyCheck {
       $cerrList2 = $this->checkResolved();
       $cerrList3 = $this->checkDeliveryDate();
       $cerrList4 = $this->checkBadRemaining();
-      $cerrList5 = $this->checkPrelEffortEstim();
+      $cerrList5 = $this->checkMgrEffortEstim();
       $cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
       return $cerrList;
    }
@@ -230,9 +230,9 @@ class ConsistencyCheck {
 
    // ----------------------------------------------
    /**
-    * a prelEffortEstim should be defined when creating an Issue
+    * a mgrEffortEstim should be defined when creating an Issue
     */
-   public function checkPrelEffortEstim() {
+   public function checkMgrEffortEstim() {
 
    	$cerrList = array();
 
@@ -274,14 +274,15 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->bug_id);
 
-	         if ((NULL   == $issue->prelEffortEstimName) ||
-	             ('none' == $issue->prelEffortEstimName)) {
+	         if ((NULL   == $issue->mgrEffortEstimName) ||
+	             ('' == $issue->mgrEffortEstimName)     ||
+	             ('0' == $issue->mgrEffortEstimName)) {
 
 	           $cerr = new ConsistencyError($row->bug_id,
 	                                              $row->handler_id,
 	                                              $row->status,
 	                                              $row->last_updated,
-	                                              T_("prelEffortEstim not set."));
+	                                              T_("MgrEffortEstim not set."));
 	            $cerr->severity = T_("Error");
 	            $cerrList[] = $cerr;
 	         }

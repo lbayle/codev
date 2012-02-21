@@ -343,7 +343,7 @@ class TimeTracking {
 
         // remove doubloons
         if (!in_array ($row->id, $resolvedList)) {
-          if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, eta=".$issue->prelEffortEstim." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed<br/>"; }
+          if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=".$issue->mgrEffortEstim." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed<br/>"; }
 
           $resolvedList[] = $row->id;
 
@@ -355,8 +355,8 @@ class TimeTracking {
           }
 
           if ("ETA" == $balanceType) {
-            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$issue->prelEffortEstim." = ".($productivityRate + $issue->prelEffortEstim)."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
-            $productivityRate += $issue->prelEffortEstim;
+            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$issue->mgrEffortEstim." = ".($productivityRate + $issue->mgrEffortEstim)."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
+            $productivityRate += $issue->mgrEffortEstim;
           } else {
             if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ($issue->effortEstim + $issue->effortAdd) = ".($productivityRate + $issue->effortEstim + $issue->effortAdd)."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
             $productivityRate += $issue->effortEstim + $issue->effortAdd;
@@ -605,10 +605,10 @@ class TimeTracking {
           // -- compute total drift
           $issueDrift     = $issue->getDrift($withSupport);
           $derive        += $issueDrift;
-          $issueDriftETA  = $issue->getDriftETA($withSupport);
-          $deriveETA     += $issueDriftETA;
+          $issueDriftMgrEE  = $issue->getDriftMgrEE($withSupport);
+          $deriveETA     += $issueDriftMgrEE;
 
-          $this->logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, driftETA=$issueDriftETA");
+          $this->logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
 
             // get drift stats. equal is when drif = +-1
             if ($issueDrift < -1) {
@@ -635,15 +635,15 @@ class TimeTracking {
               $bugidEqualList .= $issue->bugId;
             }
 
-            if ($issueDriftETA < -1) {
+            if ($issueDriftMgrEE < -1) {
               $nbDriftsNegETA++;
-              $driftNegETA += $issueDriftETA;
-            } elseif ($issueDriftETA > 1){
+              $driftNegETA += $issueDriftMgrEE;
+            } elseif ($issueDriftMgrEE > 1){
               $nbDriftsPosETA++;
-              $driftPosETA += $issueDriftETA;
+              $driftPosETA += $issueDriftMgrEE;
             } else {
               $nbDriftsEqualETA++;
-              $driftEqualETA += $issueDriftETA;
+              $driftEqualETA += $issueDriftMgrEE;
             }
     } // foreach
 

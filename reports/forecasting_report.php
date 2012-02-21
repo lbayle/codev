@@ -240,7 +240,7 @@ function displayCurrentDriftStats ($timeTracking) {
 
 
 /**
- * 
+ *
  */
 function showIssuesInDrift($teamid, $withSupport=true) {
 
@@ -259,22 +259,22 @@ function showIssuesInDrift($teamid, $withSupport=true) {
 	echo "<th>".T_("Status")."</th>\n";
 	echo "<th>".T_("Summary")."</th>\n";
     echo "</tr>\n";
-    
+
 	foreach ($mList as $id => $name) {
 		$user = UserCache::getInstance()->getUser($id);
-		
+
 		// take only developper's tasks
 		if (!$user->isTeamDeveloper($teamid)) {
 			continue;
 		}
-		
+
 		$issueList = $user->getAssignedIssues();
 
 		foreach ($issueList as $issue) {
-		
+
 		    // TODO: check if issue in team project list ?
-		
-			$driftPrelEE = $issue->getDriftETA($withSupport);
+
+			$driftPrelEE = $issue->getDriftMgrEE($withSupport);
 			$driftEE = $issue->getDrift($withSupport);
 		    if (($driftPrelEE > 1) || ($driftEE > 1)) {
 		           echo "<tr>\n";
@@ -297,8 +297,8 @@ function showIssuesInDrift($teamid, $withSupport=true) {
 		}
 	}
     echo "</table>\n";
-	
-	
+
+
 }
 
 
@@ -470,7 +470,7 @@ if (0 == count($teamList)) {
 
          echo "<br/><br/>\n";
          showIssuesInDrift($teamid, $withSupport);
-         
+
          // ----
          echo "<br/><br/>\n";
          echo "<br/><br/>\n";
