@@ -223,10 +223,12 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
      echo "</tr>\n";
 
      // write table content (by bugid)
+     $row_id = 0;
      foreach ($bugList as $bugid => $jobs) {
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $totalTime = 0;
-         echo "<tr>\n";
+         $tr_class = ($row_id & 1) ? "row_even" : "row_odd";
+         echo "<tr class ='$tr_class'>\n";
          echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
 
          foreach($jobList as $jobId => $jobName) {
@@ -242,6 +244,7 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
          echo "<td>".$issue->remaining."</td>\n";
          echo "<td>".$totalTime."</td>\n";
          echo "</tr>\n";
+         $row_id += 1;
      }
      echo "</table>\n";
   }
@@ -251,9 +254,9 @@ function displayProjectActivityReport($timeTracking, $isDetailed = true) {
 
 
 function displayCheckWarnings($timeTracking) {
-  
-  global $logger;  
-    
+
+  global $logger;
+
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
