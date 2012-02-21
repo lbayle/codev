@@ -252,8 +252,8 @@ function showIssuesInDrift($teamid, $withSupport=true) {
     echo "<th>".T_("Project")."</th>\n";
     #echo "<th title=''>".T_("PrelEE Drift")."</th>\n";
 	#echo "<th title=''>".T_("EE Drift")."</th>\n";
-    echo "<th title='Derive par rapport a l estimation preliminaire'>".T_("Derive PrelEE")."</th>\n";
-	echo "<th title='Derive par rapport au BI+BS'>".T_("Derive EE")."</th>\n";
+    echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
+	echo "<th title='".T_("Drift relatively to (EE + AddEE)")."'>".T_("Drift")."</th>\n";
 	echo "<th>".T_("RAF")."</th>\n";
 	echo "<th>".T_("Progress")."</th>\n";
 	echo "<th>".T_("Status")."</th>\n";

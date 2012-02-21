@@ -225,10 +225,10 @@ function showIssuesInDrift($userid) {
 	$allIssueList = $user->getAssignedIssues();
 
 	foreach ($allIssueList as $issue) {
-       $driftPrelEE = $issue->getDriftMgrEE();
+       $driftMgrEE = $issue->getDriftMgrEE();
 	   $driftEE = $issue->getDrift();
 
-	   if (($driftPrelEE >= 1) || ($driftEE >= 1)) {
+	   if (($driftMgrEE >= 1) || ($driftEE >= 1)) {
 	       $issueList[] = $issue;
 	   }
     }
@@ -258,7 +258,7 @@ function showIssuesInDrift($userid) {
 
 		// TODO: check if issue in team project list ?
 
-		$driftPrelEE = $issue->getDriftMgrEE();
+		$driftMgrEE = $issue->getDriftMgrEE();
 		$driftEE = $issue->getDrift();
 
         $formatedSummary = str_replace("'", "\'", $issue->summary);
@@ -269,9 +269,9 @@ function showIssuesInDrift($userid) {
 	   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
 	   echo "<td>".$issue->getProjectName()."</td>\n";
 	   $color = "";
-	   if ($driftPrelEE <= -1) { $color = "style='background-color: #61ed66;'"; }
-	   if ($driftPrelEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
-	   echo "<td $color >".$driftPrelEE."</td>\n";
+	   if ($driftMgrEE <= -1) { $color = "style='background-color: #61ed66;'"; }
+	   if ($driftMgrEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
+	   echo "<td $color >".$driftMgrEE."</td>\n";
 	   $color = "";
 	   if ($driftEE <= -1) { $color = "style='background-color: #61ed66;'"; }
 	   if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
