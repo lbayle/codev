@@ -59,7 +59,9 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
 
 }
 
-function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endTimestamp=NULL) {
+function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endTimestamp=NULL, $curYear=NULL) {
+
+	if (NULL == $curYear) { $curYear = date('Y'); }
 
 	$curJulian = 0;
 
@@ -125,7 +127,7 @@ function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endT
       // --- display row
       echo "<tr class ='$tr_class'>\n";
       echo "<td>\n";
-      echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$formatedDate."', '".$formatedId."', '".$row->duration."', '".$formatedJobName."', '".$formatedSummary."', '".$userid."', '".$weekid."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
+      echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$formatedDate."', '".$formatedId."', '".$row->duration."', '".$formatedJobName."', '".$formatedSummary."', '".$userid."', '".$weekid."', '".$curYear."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
       echo "<td width=170>".$cosmeticDate."</td>\n";
       echo "<td>".issueInfoURL($row->bugid)."</td>\n";
@@ -203,9 +205,12 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
          $result3 = mysql_query($query3) or die("Query failed: $query3");
          $jobName = mysql_result($result3, 0);
 
+         $description = addslashes($issue->summary);
+         $dialogBoxTitle = T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining");
+
          echo "<tr>\n";
          echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-         echo "<td><a id='".$linkid."_update_remaining_link' title='".T_("update remaining")."' href='#' >".$issue->remaining."</a></td>\n";
+         echo "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$issue->remaining."</a></td>\n";
          echo "<td>".$jobName."</td>\n";
          for ($i = 1; $i <= 5; $i++) {
             echo "<td>".$dayList[$i]."</td>\n";
@@ -218,24 +223,6 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    }
    echo " </table>\n";
    echo "</div>\n";
-
-   // create links for JQUERY dialogBox
-   echo "<script>\n";
-   echo "$(function() {\n";
-   foreach ($linkList as $linkid => $issue) {
-      	echo "$( '#".$linkid."_update_remaining_link' ).click(function() {\n";
-		echo "   $( '#formUpdateRemaining' ).children('input[name=userid]').val(".$userid.");\n";
-		echo "   $( '#formUpdateRemaining' ).children('input[name=bugid]').val(".$issue->bugId.");\n";
-		echo "   $( '#remaining' ).val(".$issue->remaining.");\n";
-		echo "   $( '#validateTips' ).text('".addslashes($issue->summary)."');\n";
-		echo "   $( '#update_remaining_dialog_form' ).dialog('option', 'title', 'Task ".$issue->bugId." / ".$issue->tcId." - Update Remaining');\n";
-		echo "   $( '#update_remaining_dialog_form' ).dialog( 'open' );\n";
-		echo "});\n";
-   }
-echo "});\n";
-
-   echo "</script>\n";
-
 }
 
 ?>

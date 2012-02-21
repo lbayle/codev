@@ -115,7 +115,7 @@ require_once('tc_calendar.php');
     }
   }
 
-  function deleteTrack(trackid, date, bugid, duration, job, description, userid, weekid){
+  function deleteTrack(trackid, date, bugid, duration, job, description, userid, weekid, year){
 
      $( "#desc_date" ).text(date);
      $( "#desc_id" ).text(bugid);
@@ -127,8 +127,24 @@ require_once('tc_calendar.php');
      $( "#formDeleteTrack" ).children("input[name=bugid]").val(bugid);
      $( "#formDeleteTrack" ).children("input[name=userid]").val(userid);
      $( "#formDeleteTrack" ).children("input[name=weekid]").val(weekid);
+     $( "#formDeleteTrack" ).children("input[name=year]").val(year);
 
      $( "#deleteTrack_dialog_form" ).dialog( "open" );
+
+  }
+
+  function updateRemaining(remaining, description, userid, bugid, weekid, year, dialogBoxTitle){
+
+     $( "#remaining" ).val(remaining);
+     $( "#validateTips" ).text(description);
+
+     $( "#formUpdateRemaining" ).children("input[name=userid]").val(userid);
+     $( "#formUpdateRemaining" ).children("input[name=bugid]").val(bugid);
+     $( "#formUpdateRemaining" ).children("input[name=weekid]").val(weekid);
+     $( "#formUpdateRemaining" ).children("input[name=year]").val(year);
+
+     $( "#update_remaining_dialog_form" ).dialog('option', 'title', dialogBoxTitle);
+     $( "#update_remaining_dialog_form" ).dialog( "open" );
 
   }
 
@@ -237,8 +253,10 @@ require_once('tc_calendar.php');
 		   <label for="remaining">Remaining: </label>
 		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
 	   </fieldset>
-      <input type='hidden' name='userid'  value='0' >
+      <input type='hidden' name='userid' value='0' >
       <input type='hidden' name='bugid'  value='0' >
+      <input type='hidden' name='weekid' value='0' >
+      <input type='hidden' name='year' value='0' >
       <input type='hidden' name='action' value='updateRemainingAction' >
       <input type='hidden' name='nextForm' value='addTrackForm'>
 	</form>
@@ -275,6 +293,7 @@ require_once('tc_calendar.php');
       <input type='hidden' name='bugid'   value='0' >
       <input type='hidden' name='userid'  value='0' >
       <input type='hidden' name='weekid'  value='0' >
+      <input type='hidden' name='year'    value='0' >
       <input type='hidden' name='action'  value='deleteTrack' >
       <input type='hidden' name='nextForm' value='addTrackForm'>
 	</form>
@@ -639,7 +658,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
 
   echo "<br/>";
   echo "<br/>";
-  displayTimetrackingTuples($userid, $weekid, $startTimestamp);
+  displayTimetrackingTuples($userid, $weekid, $startTimestamp, NULL, $year);
 }
 
 ?>
