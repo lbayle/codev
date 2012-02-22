@@ -434,20 +434,20 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "<caption>".T_("EffortDeviation - Tasks resolved in the period")."&nbsp;&nbsp; <a id='dialog_ResolvedDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
-  echo "<th width='100' title='".T_("Manager Estimation")."'>MgrEffortEstim</th>\n";
-  echo "<th width='100' title='".T_("Developper Estimation")."'>EffortEstim <br/>(BI + BS)</th>\n";
+  echo "<th width='100' title='".T_("Manager Estimation")."'>".T_("Manager")."</th>\n";
+  echo "<th width='100'>".T_("Value")."</th>\n";
   echo "<th>".T_("Tasks")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
-   $value = number_format($driftStats_new["totalDriftETA"], 2);
+   $value = number_format($driftStats["totalDriftETA"], 2);
    $color = "";
    if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
    if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
    echo "<td title='elapsed - MgrEffortEstim' $color >".$value."</td>\n";
 
-   $value = number_format($driftStats_new["totalDrift"], 2);
+   $value = number_format($driftStats["totalDrift"], 2);
    $color = "";
    if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
    if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
