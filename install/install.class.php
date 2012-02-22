@@ -293,22 +293,22 @@ class Install {
 
       $attributes["require_report"]   = 1;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("Manager EffortEstim"), $mType_numeric,    "customField_MgrEffortEstim", $attributes);
+      $this->createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_numeric,    "customField_MgrEffortEstim", $attributes);
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("External ID"),       $mType_string,  "customField_ExtId", $attributes);          // CoDev FDJ custom
-      $this->createCustomField(T_("Dead Line"),         $mType_date,    "customField_deadLine", $attributes);
+      $this->createCustomField(T_("CodevTT_External ID"),       $mType_string,  "customField_ExtId", $attributes);
+      $this->createCustomField(T_("CodevTT_Dead Line"),         $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
-      $this->createCustomField(T_("EffortEstim"),        $mType_numeric, "customField_effortEstim", $attributes);
-      $this->createCustomField(T_("Aditional Effort"),   $mType_numeric, "customField_addEffort", $attributes);
-      $this->createCustomField(T_("Remaining"),          $mType_numeric, "customField_remaining", $attributes);
+      $this->createCustomField(T_("CodevTT_EffortEstim"),        $mType_numeric, "customField_effortEstim", $attributes);
+      $this->createCustomField(T_("CodevTT_Aditional Effort"),   $mType_numeric, "customField_addEffort", $attributes);
+      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes);
 
       $attributes["require_resolved"] = 0;
       $attributes["require_closed"]   = 0;
-      $this->createCustomField(T_("Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
-      $this->createCustomField(T_("Delivery Date"),     $mType_date,    "customField_deliveryDate", $attributes);
+      #$this->createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom
+      $this->createCustomField(T_("CodevTT_Delivery Date"),     $mType_date,    "customField_deliveryDate", $attributes);
 
 	}
 
