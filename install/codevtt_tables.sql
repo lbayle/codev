@@ -27,18 +27,18 @@
 CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `config_id` varchar(64) NOT NULL,
   `value` longtext NOT NULL,
-  `type` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `project_id` int(11) DEFAULT NULL,
-  `team_id` int(11) DEFAULT NULL,
+  `type` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `project_id` int(11) NOT NULL DEFAULT '0',
+  `team_id` int(11) NOT NULL DEFAULT '0',
   `access_reqd` int(11) DEFAULT NULL,
   `desc` longtext,
-  PRIMARY KEY (`config_id`)
+  PRIMARY KEY (`config_id`,`team_id`,`project_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 2, 1),
+('database_version', 3, 1),
 ('job_support', 2, 1);
 
 
@@ -48,8 +48,8 @@ INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
 -- Structure de la table `codev_holidays_table`
 --
 CREATE TABLE IF NOT EXISTS `codev_holidays_table` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `date` int(10) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` int(11) NOT NULL,
   `description` varchar(50) DEFAULT NULL,
   `color` varchar(7) NOT NULL DEFAULT 'D8D8D8',
   PRIMARY KEY (`id`),
@@ -85,9 +85,9 @@ INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `codev_job_table` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
-  `type` int(10) NOT NULL DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT '0',
   `color` varchar(7) CHARACTER SET utf8 DEFAULT '000000',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
@@ -106,9 +106,9 @@ INSERT INTO `codev_job_table` (`id`, `name`, `type`, `color`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `codev_project_job_table` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `project_id` int(10) NOT NULL,
-  `job_id` int(10) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
@@ -120,13 +120,13 @@ CREATE TABLE IF NOT EXISTS `codev_project_job_table` (
 --
 
 CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `project_id` int(10) NOT NULL,
-  `cat_management` int(10) DEFAULT NULL,
-  `cat_incident` int(10) DEFAULT NULL,
-  `cat_inactivity` int(10) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `cat_management` int(11) DEFAULT NULL,
+  `cat_incident` int(11) DEFAULT NULL,
+  `cat_inactivity` int(11) DEFAULT NULL,
   `cat_tools` int(11) DEFAULT NULL,
-  `cat_workshop` int(10) DEFAULT NULL,
+  `cat_workshop` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `project_id` (`project_id`),
   KEY `project_id_2` (`project_id`)
@@ -140,10 +140,10 @@ CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
 --
 
 CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `project_id` int(10) NOT NULL,
-  `team_id` int(10) NOT NULL,
-  `type` int(10) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `team_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -155,11 +155,11 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
 --
 
 CREATE TABLE IF NOT EXISTS `codev_team_table` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(15) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `leader_id` int(10) DEFAULT NULL,
-  `date` int(10) NOT NULL,
+  `leader_id` int(11) DEFAULT NULL,
+  `date` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -172,12 +172,12 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
 --
 
 CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) NOT NULL,
-  `team_id` int(10) NOT NULL,
-  `access_level` int(10) unsigned NOT NULL DEFAULT '10',
-  `arrival_date` int(10) unsigned NOT NULL,
-  `departure_date` int(10) unsigned NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `team_id` int(11) NOT NULL,
+  `access_level` int(11) unsigned NOT NULL DEFAULT '10',
+  `arrival_date` int(11) unsigned NOT NULL,
+  `departure_date` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -189,11 +189,11 @@ CREATE TABLE IF NOT EXISTS `codev_team_user_table` (
 --
 
 CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `userid` int(10) NOT NULL,
-  `bugid` int(10) NOT NULL,
-  `jobid` int(10) NOT NULL,
-  `date` int(10) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `bugid` int(11) NOT NULL,
+  `jobid` int(11) NOT NULL,
+  `date` int(11) DEFAULT NULL,
   `duration` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `bugid` (`bugid`),
