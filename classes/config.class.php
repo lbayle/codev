@@ -249,11 +249,16 @@ class Config {
     * @param int    $type
     * @param string $desc
     */
-   public static function setValue($id, $value, $type, $desc=NULL, $project_id=NULL) {
+   public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0) {
    global $logger;
 
    	  // add/update DB
-      $query = "SELECT * FROM `codev_config_table` WHERE config_id='$id'";
+      $query = "SELECT * FROM `codev_config_table` ".
+               "WHERE config_id='$id' ".
+               "AND project_id=$project_id ".
+               "AND user_id=$user_id ".
+               "AND team_id=$team_id ";
+
       $result = mysql_query($query);
 	   if (!$result) {
     	      $logger->error("Query FAILED: $query");
@@ -262,11 +267,18 @@ class Config {
     	      exit;
       }
       if (0 != mysql_num_rows($result)) {
-         $query = "UPDATE `codev_config_table` SET value = '$value' WHERE config_id='$id'";
+         $query = "UPDATE `codev_config_table` ".
+                  "SET value = '$value' ".
+                  "WHERE config_id='$id' ".
+                  "AND project_id=$project_id ".
+                  "AND user_id=$user_id ".
+                  "AND team_id=$team_id ";
          $logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
          $logger->debug("UPDATE query = $query");
       } else {
-         $query = "INSERT INTO `codev_config_table` (`config_id`, `value`, `type`, `desc`, `project_id`) VALUES ('$id', '$value', '$type', '$desc', '$project_id');";
+         $query = "INSERT INTO `codev_config_table` ".
+                  "(`config_id`, `value`, `type`, `desc`, `project_id`, `user_id`, `team_id`) ".
+                  "VALUES ('$id', '$value', '$type', '$desc', '$project_id', '$user_id', '$team_id');";
          $logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
          $logger->debug("INSERT query = $query");
       }

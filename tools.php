@@ -263,9 +263,9 @@ function dayofyear2timestamp( $tDay, $year) {
  * @param char   $del2        delimiter for couples (key,value)
  * @param string $array       the string to explode
  */
-function doubleExplode ($del1, $del2, $array){
+function doubleExplode ($del1, $del2, $keyvalue) {
 
-   $array1 = explode("$del1", $array);
+   $array1 = explode("$del1", $keyvalue);
    foreach($array1 as $key=>$value){
       $array2 = explode("$del2", $value);
       foreach($array2 as $key2=>$value2){
@@ -279,6 +279,16 @@ function doubleExplode ($del1, $del2, $array){
       }
    }
    return $afinal;
+}
+
+function doubleImplode ($del1, $del2, $array) {
+
+   $keyvalue = '';
+
+   foreach($array as $key => $value) {
+      $keyvalue .= $key.$del1.$value.$del2;
+   }
+   return $keyvalue;
 }
 
 // ------------------------------------------------------

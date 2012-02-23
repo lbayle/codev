@@ -32,6 +32,7 @@ class User {
 
    var $id;
 	private $name;
+	private $timetrackingFilters;
 
    // --------------------
 	public function User($user_id) {
@@ -784,42 +785,65 @@ class User {
     * id = 'id_timetrackingFilters'
     * type = keyValue  "onlyAssignedTo:0,hideResolved:1,hideDevProjects:0"
     *
-    *
+    * @param filterName  'onlyAssignedTo'
     * returns filterValue
     */
    function getTimetrackingFilter($filterName) {
 
       global $default_timetrackingFilters;
 
-      // TODO Config class cannot handle multiple lines for same id
-      $query = "SELECT value FROM `codev_config_table` ".
-               "WHERE config_id = '".Config::id_timetrackingFilters."' ".
-               "AND user_id = $this->id";
-      $this->logger->debug("query = ".$query);
+      if ((NULL == $this->timetrackingFilters) ||
+          ('' == $this->timetrackingFilters)) {
 
-      $result = mysql_query($query);
-	   if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+	      // TODO Config class cannot handle multiple lines for same id
+	      $query = "SELECT value FROM `codev_config_table` ".
+	               "WHERE config_id = '".Config::id_timetrackingFilters."' ".
+	               "AND user_id = $this->id";
+	      $this->logger->debug("query = ".$query);
+
+	      $result = mysql_query($query);
+		   if (!$result) {
+	         $this->logger->error("Query FAILED: $query");
+	         $this->logger->error(mysql_error());
+	         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+	         exit;
+	      }
+
+	      // get default filters if not found
+	      $keyvalue = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $default_timetrackingFilters;
+
+	      $this->logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
+	      $this->timetrackingFilters = doubleExplode(':', ',', $keyvalue);
       }
-
-      // get default filters if not found
-      $keyvalue = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $default_timetrackingFilters;
-
-      $this->logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
-
-
-      $timetrackingFilters = doubleExplode(':', ',', $keyvalue);
-
       // get value
-      $value = $timetrackingFilters[$filterName];
+      $value = $this->timetrackingFilters[$filterName];
 
       $this->logger->debug("user $this->id timeTrackingFilter $filterName = <$value>");
 
       return $value;
    }
+
+   function setTimetrackingFilter($filterName, $value) {
+
+   	// init timetrackingFilters
+   	if ((NULL == $this->timetrackingFilters) ||
+          ('' == $this->timetrackingFilters)) {
+   	   $this->getTimetrackingFilter('onlyAssignedTo');
+      }
+
+      $this->timetrackingFilters[$filterName] = $value;
+
+      $keyvalue = doubleImplode (':', ',', $this->timetrackingFilters);
+      $this->logger->debug("Write filters : $keyvalue");
+
+      // save new settings
+      Config::setValue(Config::id_timetrackingFilters,
+                       $keyvalue,
+                       Config::configType_keyValue,
+                       "filter for timetracking page", 0, $this->id);
+
+   }
+
 
 } // class
 

@@ -430,10 +430,12 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    echo "<form name='form1' method='post' Action='$originPage'>\n";
 
    // FILTER
-   $dialogBoxTitle = T_("Task Filters");
-   $isOnlyAssignedTo = true; // $user1->getTimetrackFilter(Config::is_onlyAssignedTo)
-   $isHideResolved = false;
-   $description = T_("Reduce the tasks selection by setting some filters");
+   $dialogBoxTitle = T_('Task Filters');
+   $description = T_('Reduce the tasks selection by setting some filters');
+   $isOnlyAssignedTo = ('0' == $user1->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
+   $isHideResolved = ('0' == $user1->getTimetrackingFilter('hideResolved')) ? false : true;
+   $isHideDevProjects = ('0' == $user1->getTimetrackingFilter('hideDevProjects')) ? false : true;
+
    echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$user1->id."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' src='../images/filter_button.png'></a>\n";
 
 
@@ -701,13 +703,11 @@ if ($_POST['nextForm'] == "addTrackForm") {
 	}
   } elseif ("setFiltersAction" == $action) {
 
-    $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? true : false;
-    $isFilter_hideResolved   = isset($_POST["cb_hideResolved"])   ? true : false;
+    $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
+    $isFilter_hideResolved   = isset($_POST["cb_hideResolved"])   ? '1' : '0';
 
-    if ($isFilter_onlyAssignedTo) echo "DEBUG setFilter onlyAssignedTo = true<br>";
-    if ($isFilter_hideResolved) echo "DEBUG setFilter hideResolved = true<br>";
-    #$managed_user->setTimetrackFilter(Config::id_onlyAssignedTo, $isFilter_onlyAssignedTo);
-    #$managed_user->setTimetrackFilter(Config::id_hideResolved, $isFilter_hideResolved);
+    $managed_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
+    $managed_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
 
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";
@@ -724,12 +724,6 @@ if ($_POST['nextForm'] == "addTrackForm") {
   echo "<br/>";
   addTrackForm($weekid, $year, $managed_user, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
   echo "<br/>";
-
-  echo "Filter onlyAssignedTo  = ".$managed_user->getTimetrackingFilter("onlyAssignedTo")."<br>";
-  echo "Filter hideResolved    = ".$managed_user->getTimetrackingFilter("hideResolved")."<br>";
-  echo "Filter hideDevProjects = ".$managed_user->getTimetrackingFilter("hideDevProjects")."<br>";
-
-
 
   displayWeekDetails($weekid, $weekDates, $managed_user->id, $timeTracking, $year);
 

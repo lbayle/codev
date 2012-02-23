@@ -84,7 +84,7 @@
   $_POST['codevReportsDir'] = $codevReportsDir; // used by tools/download.php
 
   // ---
-  $default_timetrackingFilters = "onlyAssignedTo:2,hideResolved:3,hideDevProjects:4";
+  $default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 
   // --- log to file
   /**
