@@ -210,8 +210,8 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 
    echo "<input type=button value='".T_("Update")."' onClick='javascript: submitTeam()'>\n";
    echo "&nbsp;&nbsp;&nbsp;&nbsp;\n";
-   echo "<a title='".T_("zoom in")."' href=\"javascript: zoomIn()\" ><img border='0' src='../images/zoom_in.png'></a>\n";
-   echo "<a title='".T_("zoom out")."' href=\"javascript: zoomOut()\" ><img border='0' src='../images/zoom_out.png'></a>\n";
+   echo "<a title='".T_("zoom in")."' href=\"javascript: zoomIn()\" ><img border='0' align='absmiddle' src='../images/zoom_in.png'></a>\n";
+   echo "<a title='".T_("zoom out")."' href=\"javascript: zoomOut()\" ><img border='0' align='absmiddle' src='../images/zoom_out.png'></a>\n";
 
    echo "<input type=hidden name=action value=noAction>\n";
 
@@ -228,7 +228,7 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid
    $sepWidth = 1;
    $barHeight = 20;
    $deadLineTriggerWidth = 10;
-   
+
    $projList = Team::getProjectList($teamid);
 
    echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
@@ -257,7 +257,7 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid
 	  if ( NULL == $projList[$issue->projectId] ) {
   	     $strike="&strike";
 	  }
-	  
+
       $taskTitle = $scheduledTask->getDescription();
 	   $formatedTitle = str_replace("'", " ", $taskTitle);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
@@ -598,7 +598,7 @@ if (0 == count($teamList)) {
    } elseif ("zoomOut" == $action) {
 
       $pageWidth = floor($pageWidth - ($pageWidth/3)); # -33%
-      
+
       if ($pageWidth < 300) { $pageWidth = 300; }
 
       // set $_GET['w']

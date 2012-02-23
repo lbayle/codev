@@ -429,16 +429,6 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' Action='$originPage'>\n";
 
-   // FILTER
-   $dialogBoxTitle = T_('Task Filters');
-   $description = T_('Reduce the tasks selection by setting some filters');
-   $isOnlyAssignedTo = ('0' == $user1->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
-   $isHideResolved = ('0' == $user1->getTimetrackingFilter('hideResolved')) ? false : true;
-   $isHideDevProjects = ('0' == $user1->getTimetrackingFilter('hideDevProjects')) ? false : true;
-
-   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$user1->id."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' src='../images/filter_button.png'></a>\n";
-
-
    #echo "Date: \n";
    $myCalendar->writeScript();
 
@@ -475,6 +465,14 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    echo "</select>\n";
 
    echo "&nbsp;";
+
+   // --- FILTER
+   $dialogBoxTitle = T_('Task Filters');
+   $description = T_('Reduce the tasks selection by setting some filters');
+   $isOnlyAssignedTo = ('0' == $user1->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
+   $isHideResolved = ('0' == $user1->getTimetrackingFilter('hideResolved')) ? false : true;
+   $isHideDevProjects = ('0' == $user1->getTimetrackingFilter('hideDevProjects')) ? false : true;
+   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$user1->id."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' align='absmiddle' src='../images/filter_button.png'></a>\n";
 
    // --- Task list
    if (0 != $project1->id) {
