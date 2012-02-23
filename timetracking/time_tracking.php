@@ -148,11 +148,14 @@ require_once('tc_calendar.php');
 
   }
 
-  function setFilters(isOnlyAssignedTo, isHideResolved, description, userid, bugid, weekid, year, dialogBoxTitle){
+  function setFilters(isOnlyAssignedTo, isHideResolved, description, lbl_onlyAssignedTo, lbl_hideResolved, userid, bugid, weekid, year, dialogBoxTitle){
 
 	     $( "#setfilter_desc" ).text(description);
+        $( "#lbl_onlyAssignedTo" ).text(lbl_onlyAssignedTo);
+        $( "#lbl_hideResolved" ).text(lbl_hideResolved);
 	     if (isOnlyAssignedTo) { $( "#cb_onlyAssignedTo" ).attr( "checked" , true ); }
 	     if (isHideResolved)   { $( "#cb_hideResolved" ).attr( "checked" , true );   }
+
 
 	     $( "#formSetFilters" ).children("input[name=userid]").val(userid);
 	     $( "#formSetFilters" ).children("input[name=bugid]").val(bugid);
@@ -290,10 +293,10 @@ require_once('tc_calendar.php');
 	<form id='formSetFilters' name='formSetFilters' method='post' Action='time_tracking.php' >
       <fieldset>
          <input type="checkbox" id='cb_onlyAssignedTo' name='cb_onlyAssignedTo' />
-         <label for="cb_onlyAssignedTo">Hide tasks not assigned to me</label>
+         <label id='lbl_onlyAssignedTo' name='lbl_onlyAssignedTo' for="cb_onlyAssignedTo">Hide tasks not assigned to me</label>
          <br>
          <input type="checkbox" id='cb_hideResolved' name='cb_hideResolved' />
-         <label for="cb_hideResolved">Hide resolved tasks</label>
+         <label id='lbl_hideResolved' name='lbl_hideResolved' for="cb_hideResolved">Hide resolved tasks</label>
          </fieldset>
       <input type='hidden' name='userid'   value='0' >
       <input type='hidden' name='bugid'    value='0' >
@@ -464,15 +467,16 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    }
    echo "</select>\n";
 
-   echo "&nbsp;";
 
    // --- FILTER
    $dialogBoxTitle = T_('Task Filters');
    $description = T_('Reduce the tasks selection by setting some filters');
+   $lbl_onlyAssignedTo = T_('Hide tasks not assigned to me');
+   $lbl_hideResolved = T_('Hide resolved tasks');
    $isOnlyAssignedTo = ('0' == $user1->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
    $isHideResolved = ('0' == $user1->getTimetrackingFilter('hideResolved')) ? false : true;
    $isHideDevProjects = ('0' == $user1->getTimetrackingFilter('hideDevProjects')) ? false : true;
-   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$user1->id."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' align='absmiddle' src='../images/filter_button.png'></a>\n";
+   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$lbl_onlyAssignedTo."', '".$lbl_hideResolved."', '".$user1->id."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' align='absmiddle' src='../images/im-filter.png'></a>\n";
 
    // --- Task list
    if (0 != $project1->id) {
