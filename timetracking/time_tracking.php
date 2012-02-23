@@ -148,6 +148,24 @@ require_once('tc_calendar.php');
 
   }
 
+  function setFilters(isOnlyAssignedTo, isHideResolved, description, userid, bugid, weekid, year, dialogBoxTitle){
+
+	     $( "#setfilter_desc" ).text(description);
+	     if (isOnlyAssignedTo) { $( "#cb_onlyAssignedTo" ).attr( "checked" , true ); }
+	     if (isHideResolved)   { $( "#cb_hideResolved" ).attr( "checked" , true );   }
+
+	     $( "#formSetFilters" ).children("input[name=userid]").val(userid);
+	     $( "#formSetFilters" ).children("input[name=bugid]").val(bugid);
+	     $( "#formSetFilters" ).children("input[name=weekid]").val(weekid);
+	     $( "#formSetFilters" ).children("input[name=year]").val(year);
+
+	     $( "#setfilter_dialog_form" ).dialog('option', 'title', dialogBoxTitle);
+	     $( "#setfilter_dialog_form" ).dialog( "open" );
+
+  }
+
+
+
   function setProjectid() {
     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
     document.forms["form1"].action.value="setProjectid";
@@ -167,8 +185,10 @@ require_once('tc_calendar.php');
 	$(function() {
 
 		var  remaining = $( "#remaining" ),
-			 allFields = $( [] ).add( remaining ),
-			 tips = $( "#validateTips" );
+		     tips = $( "#validateTips" ),
+		     isOnlyAssignedTo = $( "#cb_onlyAssignedTo" ),
+		     isHideResolved = $( "#cb_hideResolved" ),
+		     allFields = $( [] ).add( remaining );
 
 		function updateTips( t ) {
 			tips
@@ -235,7 +255,26 @@ require_once('tc_calendar.php');
 			}
 		});
 
-        $( "#accordion" ).accordion({
+		$( "#setfilter_dialog_form" ).dialog({
+			autoOpen: false,
+			height: 200,
+			width: 500,
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$('#formSetFilters').submit();
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				allFields.val( "" ).removeClass( "ui-state-error" );
+			}
+		});
+
+
+		$( "#accordion" ).accordion({
 			collapsible: true
 		});
 	});
@@ -244,6 +283,27 @@ require_once('tc_calendar.php');
 </script>
 
 <div id="content">
+
+
+<div id="setfilter_dialog_form" title="Set Filters" style='display: none'>
+	<p id="setfilter_desc">Activate Task Filters</p>
+	<form id='formSetFilters' name='formSetFilters' method='post' Action='time_tracking.php' >
+      <fieldset>
+         <input type="checkbox" id='cb_onlyAssignedTo' name='cb_onlyAssignedTo' />
+         <label for="cb_onlyAssignedTo">Hide tasks not assigned to me</label>
+         <br>
+         <input type="checkbox" id='cb_hideResolved' name='cb_hideResolved' />
+         <label for="cb_hideResolved">Hide resolved tasks</label>
+         </fieldset>
+      <input type='hidden' name='userid'   value='0' >
+      <input type='hidden' name='bugid'    value='0' >
+      <input type='hidden' name='weekid'   value='0' >
+      <input type='hidden' name='year'     value='0' >
+      <input type='hidden' name='action'   value='setFiltersAction' >
+      <input type='hidden' name='nextForm' value='addTrackForm'>
+	</form>
+</div>
+
 
 
 <div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style='display: none'>
@@ -368,6 +428,14 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    // Display form
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' Action='$originPage'>\n";
+
+   // FILTER
+   $dialogBoxTitle = T_("Task Filters");
+   $isOnlyAssignedTo = true; // $user1->getTimetrackFilter(Config::is_onlyAssignedTo)
+   $isHideResolved = false;
+   $description = T_("Reduce the tasks selection by setting some filters");
+   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$user1->id."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' src='../images/filter_button.png'></a>\n";
+
 
    #echo "Date: \n";
    $myCalendar->writeScript();
@@ -631,6 +699,15 @@ if ($_POST['nextForm'] == "addTrackForm") {
 	if (NULL != $issue->remaining) {
 		$issue->setRemaining($remaining);
 	}
+  } elseif ("setFiltersAction" == $action) {
+
+    $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? true : false;
+    $isFilter_hideResolved   = isset($_POST["cb_hideResolved"])   ? true : false;
+
+    if ($isFilter_onlyAssignedTo) echo "DEBUG setFilter onlyAssignedTo = true<br>";
+    if ($isFilter_hideResolved) echo "DEBUG setFilter hideResolved = true<br>";
+    #$managed_user->setTimetrackFilter(Config::id_onlyAssignedTo, $isFilter_onlyAssignedTo);
+    #$managed_user->setTimetrackFilter(Config::id_hideResolved, $isFilter_hideResolved);
 
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";
