@@ -67,6 +67,11 @@ class ConfigItem {
 
 }
 
+/**
+ *
+ * Example:
+ * $admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
+ */
 class Config {
 
    const  configType_int      = 1;
@@ -93,8 +98,9 @@ class Config {
    const id_resolutionNames          = "resolutionNames";
    const id_mantisFile_strings       = "mantisFile_strings";
    const id_mantisFile_custom_strings = "mantisFile_custom_strings";
-   const id_mantisPath                = "mantisPath";
-   const id_bugResolvedStatusThreshold     = "bug_resolved_status_threshold";
+   const id_mantisPath               = "mantisPath";
+   const id_bugResolvedStatusThreshold = "bug_resolved_status_threshold";
+   const id_timetrackingFilters        = "timetrackingFilters";
 
    const id_ClientTeamid             = "client_teamid"; // FDJ_teamid
 

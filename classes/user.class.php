@@ -775,6 +775,52 @@ class User {
 
 
       }
+
+   /**
+    *
+    * checks user filter settings in codev_config_table
+    * if not found, use defaults settings defined in constants.php
+    *
+    * id = 'id_timetrackingFilters'
+    * type = keyValue  "onlyAssignedTo:0,hideResolved:1,hideDevProjects:0"
+    *
+    *
+    * returns filterValue
+    */
+   function getTimetrackingFilter($filterName) {
+
+      global $default_timetrackingFilters;
+
+      // TODO Config class cannot handle multiple lines for same id
+      $query = "SELECT value FROM `codev_config_table` ".
+               "WHERE config_id = '".Config::id_timetrackingFilters."' ".
+               "AND user_id = $this->id";
+      $this->logger->debug("query = ".$query);
+
+      $result = mysql_query($query);
+	   if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      // get default filters if not found
+      $keyvalue = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $default_timetrackingFilters;
+
+      $this->logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
+
+
+      $timetrackingFilters = doubleExplode(':', ',', $keyvalue);
+
+      // get value
+      $value = $timetrackingFilters[$filterName];
+
+      $this->logger->debug("user $this->id timeTrackingFilter $filterName = <$value>");
+
+      return $value;
+   }
+
 } // class
 
 

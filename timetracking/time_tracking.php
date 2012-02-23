@@ -648,6 +648,12 @@ if ($_POST['nextForm'] == "addTrackForm") {
   addTrackForm($weekid, $year, $managed_user, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
   echo "<br/>";
 
+  echo "Filter onlyAssignedTo  = ".$managed_user->getTimetrackingFilter("onlyAssignedTo")."<br>";
+  echo "Filter hideResolved    = ".$managed_user->getTimetrackingFilter("hideResolved")."<br>";
+  echo "Filter hideDevProjects = ".$managed_user->getTimetrackingFilter("hideDevProjects")."<br>";
+
+
+
   displayWeekDetails($weekid, $weekDates, $managed_user->id, $timeTracking, $year);
 
   echo "<br/>";

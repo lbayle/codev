@@ -83,6 +83,8 @@
   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
   $_POST['codevReportsDir'] = $codevReportsDir; // used by tools/download.php
 
+  // ---
+  $default_timetrackingFilters = "onlyAssignedTo:2,hideResolved:3,hideDevProjects:4";
 
   // --- log to file
   /**
