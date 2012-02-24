@@ -445,7 +445,7 @@ function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport 
 	echo "</div>\n";
 	echo "<div id='tabsName-2'>\n";
 	echo "<p>";
-	showResolvedIssuesInDrift($timeTracking, $isManager);	
+	displayResolvedIssuesInDrift($timeTracking, $isManager);	
 	echo "</p>\n";
 	echo "</div>\n";
 	echo "</div>\n";
@@ -516,7 +516,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
 /**
  * 
  */
-function showResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport=true) {
+function displayResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport=true) {
 	
 	$issueList = $timeTracking->getResolvedIssues();
 	
@@ -530,8 +530,6 @@ function showResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport
 		echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
 	}
 	echo "<th title='".T_("Drift relatively to (EE + AddEE)")."'>".T_("Drift")."</th>\n";
-	echo "<th>".T_("RAF")."</th>\n";
-	echo "<th>".T_("Progress")."</th>\n";
 	echo "<th>".T_("Status")."</th>\n";
 	echo "<th>".T_("Summary")."</th>\n";
 	echo "</tr>\n";
@@ -564,8 +562,6 @@ function showResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport
 				$color = "style='background-color: #fcbdbd;'";
 			}
 			echo "<td $color >".$driftEE."</td>\n";
-			echo "<td>".$issue->getRemaining()."</td>\n";
-			echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
 			echo "<td>".$issue->getCurrentStatusName()."</td>\n";
 			echo "<td>".$issue->summary."</td>\n";
 		    echo "</tr>\n";
