@@ -449,12 +449,13 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
 
    // SideTasksProjects from Teams where I'm a Manager
    $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
+/*
    foreach ($managedProjList as $pid => $pname) {
    	// we want only SideTasks and NoStatsProject of projects that I manage
    	$tmpPrj = ProjectCache::getInstance()->getProject($pid);
       if (!$tmpPrj->isSideTasksProject() && !$tmpPrj->isNoStatsProject()) { unset($managedProjList[$pid]); }
    }
-
+*/
    $projList = $devProjList + $managedProjList;
 
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
