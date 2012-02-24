@@ -70,6 +70,10 @@ if (!isset($_SESSION['userid'])) {
 		$( "#dialog_ResolvedDriftStats" ).dialog({	autoOpen: false, hide: "fade"	});
 		$( "#dialog_ResolvedDriftStats_link" ).click(function() { $( "#dialog_ResolvedDriftStats" ).dialog( "open" ); return false;	});
 
+        $(function() {
+            $( "#tabsResolvedDriftStats" ).tabs();
+        });
+		
 	});
 
 </script>
@@ -424,14 +428,40 @@ function displayRates ($timeTracking) {
    //echo "ProductivityRate    : ".$sideProductivityRate."<br/>\n";
 
 }
+
+
+// ------------------------------------------------
+function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport = true) {
+
+	echo "<div id='tabsResolvedDriftStats'>\n";
+	echo "<ul>\n";
+	echo "<li><a href='#tabsName-1'>".T_("Effort deviation")."</a></li>\n";
+	echo "<li><a href='#tabsName-2'>".T_("Tasks in drift")."</a></li>\n";
+	echo "</ul>\n";
+	echo "<div id='tabsName-1'>\n";
+	echo "<p>";
+	displayResolvedDriftStats ($timeTracking, $withSupport);
+	echo "</p>\n";
+	echo "</div>\n";
+	echo "<div id='tabsName-2'>\n";
+	echo "<p>";
+	showResolvedIssuesInDrift($timeTracking, $isManager);	
+	echo "</p>\n";
+	echo "</div>\n";
+	echo "</div>\n";
+
+}
+
 // -----------------------------------------------
-// display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
+/**
+ * display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
+ */ 
 function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
 
   $driftStats = $timeTracking->getResolvedDriftStats($withSupport);
 
   echo "<table>\n";
-  echo "<caption>".T_("EffortDeviation - Tasks resolved in the period")."&nbsp;&nbsp; <a id='dialog_ResolvedDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
+#  echo "<caption>".T_("EffortDeviation - Tasks resolved in the period")."&nbsp;&nbsp; <a id='dialog_ResolvedDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100' title='".T_("Manager Estimation")."'>".T_("Manager")."</th>\n";
@@ -483,6 +513,67 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "</table>\n";
 }
 
+/**
+ * 
+ */
+function showResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport=true) {
+	
+	$issueList = $timeTracking->getResolvedIssues();
+	
+	echo "<table>\n";
+	#echo "<caption>".T_("Tasks in drift")."</caption>\n";
+	echo "<tr>\n";
+	echo "<th>".T_("ID")."</th>\n";
+	echo "<th>".T_("Project")."</th>\n";
+	
+	if (true == $isManager) {
+		echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
+	}
+	echo "<th title='".T_("Drift relatively to (EE + AddEE)")."'>".T_("Drift")."</th>\n";
+	echo "<th>".T_("RAF")."</th>\n";
+	echo "<th>".T_("Progress")."</th>\n";
+	echo "<th>".T_("Status")."</th>\n";
+	echo "<th>".T_("Summary")."</th>\n";
+	echo "</tr>\n";
+	
+	foreach ($issueList as $issue) {
+	
+		// TODO: check if issue in team project list ?
+	
+		$driftPrelEE = $issue->getDriftMgrEE($withSupport);
+		$driftEE = $issue->getDrift($withSupport);
+		if (($driftPrelEE > 0) || ($driftEE > 0)) {
+			echo "<tr>\n";
+			echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
+			echo "<td>".$issue->getProjectName()."</td>\n";
+			if (true == $isManager) {
+				$color = "";
+				if ($driftPrelEE < -1) {
+					$color = "style='background-color: #61ed66;'";
+				}
+				if ($driftPrelEE > 1) {
+					$color = "style='background-color: #fcbdbd;'";
+				}
+				echo "<td $color >".$driftPrelEE."</td>\n";
+		    }
+			$color = "";
+			if ($driftEE < -1) {
+			$color = "style='background-color: #61ed66;'";
+			}
+			if ($driftEE > 1) {
+				$color = "style='background-color: #fcbdbd;'";
+			}
+			echo "<td $color >".$driftEE."</td>\n";
+			echo "<td>".$issue->getRemaining()."</td>\n";
+			echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
+			echo "<td>".$issue->getCurrentStatusName()."</td>\n";
+			echo "<td>".$issue->summary."</td>\n";
+		    echo "</tr>\n";
+		}
+	}
+	echo "</table>\n";
+	
+}
 
 // -----------------------------------------------
 // display TimeDrifts for Issues that have been marked as 'Resolved' durung the timestamp
@@ -909,6 +1000,8 @@ if (0 == count($teamList)) {
 
 	if (0 != $teamid) {
 
+		$isManager = array_key_exists($teamid, $managedTeamList);
+		
 		echo "<br/>\n";
 		echo "du ".date("Y-m-d  (H:i)", $startTimestamp)."&nbsp;<br/>";
 		echo "au ".date("Y-m-d  (H:i)", $endTimestamp)."<br/><br/>\n";
@@ -967,9 +1060,13 @@ if (0 == count($teamList)) {
 
 	   displayTimeDriftStats ($timeTracking);
 
-	   echo "<br/><br/>\n";
-	   displayResolvedDriftStats($timeTracking);
-
+       echo "<br>";
+       echo "<br>";
+       echo "<hr width='100%'/>\n";
+       echo "<br>";
+       echo "<h3>".T_("EffortDeviation - Tasks resolved in the period")."&nbsp;&nbsp; <a id='dialog_ResolvedDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></h3>\n";
+	   displayResolvedDriftTabs($timeTracking, $isManager);
+	   
 	   echo "<br/><br/>\n";
 	   displayReopenedStats($timeTracking);
 

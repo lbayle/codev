@@ -262,8 +262,7 @@ function showIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
     echo "<tr>\n";
     echo "<th>".T_("ID")."</th>\n";
     echo "<th>".T_("Project")."</th>\n";
-    #echo "<th title=''>".T_("PrelEE Drift")."</th>\n";
-	#echo "<th title=''>".T_("EE Drift")."</th>\n";
+
    if (true == $isManager) {
       echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
    }
