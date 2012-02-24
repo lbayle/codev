@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-24 00:46+0100\n"
+"POT-Creation-Date: 2012-02-24 01:03+0100\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -204,7 +204,7 @@ msgstr "Couleur"
 
 #: admin/edit_jobs.php:182 admin/edit_jobs.php:292 admin/edit_holidays.php:107
 #: admin/edit_team.php:620 admin/edit_team.php:727
-#: include/menu_holidays.inc.php:34 timetracking/time_tracking.php:558
+#: include/menu_holidays.inc.php:34 timetracking/time_tracking.php:565
 #: timetracking/set_holidays.php:304
 msgid "Add"
 msgstr "Ajouter"
@@ -225,7 +225,7 @@ msgstr "s&eacute;lection unique"
 #: admin/edit_jobs.php:273 reports/export_csv_weekly.php:145
 #: reports/issue_info.php:399 reports/productivity_report.php:541
 #: timetracking/time_tracking_tools.php:80
-#: timetracking/time_tracking_tools.php:187 timetracking/time_tracking.php:530
+#: timetracking/time_tracking_tools.php:187 timetracking/time_tracking.php:537
 #: timetracking/team_activity_report.php:226 timetracking/set_holidays.php:292
 msgid "Job"
 msgstr "Poste"
@@ -412,7 +412,7 @@ msgstr "Supprimer"
 #: reports/export_csv_weekly.php:144 reports/issue_info.php:204
 #: timetracking/project_activity_report.php:209
 #: timetracking/time_tracking_tools.php:185
-#: timetracking/time_tracking_tools.php:209 timetracking/time_tracking.php:501
+#: timetracking/time_tracking_tools.php:209 timetracking/time_tracking.php:508
 #: timetracking/team_activity_report.php:221
 #: timetracking/team_activity_report.php:279 timetracking/set_holidays.php:260
 #: tools/check.php:70
@@ -1352,7 +1352,7 @@ msgstr "ERREUR Fiche "
 
 #: reports/planning_report.php:567 reports/issue_info.php:587
 #: reports/productivity_report.php:882 reports/forecasting_report.php:457
-#: timetracking/time_tracking.php:610 timetracking/set_holidays.php:364
+#: timetracking/time_tracking.php:617 timetracking/set_holidays.php:364
 msgid "Sorry, you need to be member of a Team to access this page."
 msgstr ""
 "Vous devez faire partie de l&apos;&eacute;quipe d&apos;admin pour acceder "
@@ -1841,11 +1841,11 @@ msgstr "Cacher les taches r&eacute;solues"
 msgid "Set filters"
 msgstr "Filtrer les t&acirc;ches"
 
-#: timetracking/time_tracking.php:541
+#: timetracking/time_tracking.php:548
 msgid "Duration (in days)"
 msgstr "Dur&eacute;e (en jours)"
 
-#: timetracking/time_tracking.php:543
+#: timetracking/time_tracking.php:550
 msgid "1 day"
 msgstr "1 jour"
 

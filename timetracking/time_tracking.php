@@ -148,7 +148,7 @@ require_once('tc_calendar.php');
 
   }
 
-  function setFilters(isOnlyAssignedTo, isHideResolved, description, lbl_onlyAssignedTo, lbl_hideResolved, userid, bugid, weekid, year, dialogBoxTitle){
+  function setFilters(isOnlyAssignedTo, isHideResolved, description, lbl_onlyAssignedTo, lbl_hideResolved, userid, projectid, bugid, weekid, year, dialogBoxTitle){
 
 	     $( "#setfilter_desc" ).text(description);
         $( "#lbl_onlyAssignedTo" ).text(lbl_onlyAssignedTo);
@@ -158,6 +158,7 @@ require_once('tc_calendar.php');
 
 
 	     $( "#formSetFilters" ).children("input[name=userid]").val(userid);
+	     $( "#formSetFilters" ).children("input[name=projectid]").val(projectid);
 	     $( "#formSetFilters" ).children("input[name=bugid]").val(bugid);
 	     $( "#formSetFilters" ).children("input[name=weekid]").val(weekid);
 	     $( "#formSetFilters" ).children("input[name=year]").val(year);
@@ -298,12 +299,13 @@ require_once('tc_calendar.php');
          <input type="checkbox" id='cb_hideResolved' name='cb_hideResolved' />
          <label id='lbl_hideResolved' name='lbl_hideResolved' for="cb_hideResolved">Hide resolved tasks</label>
          </fieldset>
-      <input type='hidden' name='userid'   value='0' >
-      <input type='hidden' name='bugid'    value='0' >
-      <input type='hidden' name='weekid'   value='0' >
-      <input type='hidden' name='year'     value='0' >
-      <input type='hidden' name='action'   value='setFiltersAction' >
-      <input type='hidden' name='nextForm' value='addTrackForm'>
+      <input type='hidden' name='userid'    value='0' >
+      <input type='hidden' name='projectid' value='0' >
+      <input type='hidden' name='bugid'     value='0' >
+      <input type='hidden' name='weekid'    value='0' >
+      <input type='hidden' name='year'      value='0' >
+      <input type='hidden' name='action'    value='setFiltersAction' >
+      <input type='hidden' name='nextForm'  value='addTrackForm'>
 	</form>
 </div>
 
@@ -476,11 +478,12 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    $isOnlyAssignedTo = ('0' == $user1->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
    $isHideResolved = ('0' == $user1->getTimetrackingFilter('hideResolved')) ? false : true;
    $isHideDevProjects = ('0' == $user1->getTimetrackingFilter('hideDevProjects')) ? false : true;
-   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$lbl_onlyAssignedTo."', '".$lbl_hideResolved."', '".$user1->id."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' align='absmiddle' src='../images/im-filter.png'></a>\n";
+   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$lbl_onlyAssignedTo."', '".$lbl_hideResolved."', '".$user1->id."', '".$defaultProjectid."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' align='absmiddle' src='../images/im-filter.png'></a>\n";
 
    // --- Task list
    if (0 != $project1->id) {
-      $issueList = $project1->getIssueList();
+   	$handler_id = $isOnlyAssignedTo ? $user1->id : 0;
+      $issueList = $project1->getIssueList($handler_id, $isHideResolved);
    } else {
    	 // no project specified: show all tasks
        $issueList = array();
@@ -488,8 +491,17 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
 
        $query  = "SELECT id ".
                  "FROM `mantis_bug_table` ".
-                 "WHERE project_id IN ($formatedProjList) ".
-                 "ORDER BY id DESC";
+                 "WHERE project_id IN ($formatedProjList) ";
+       if ($isOnlyAssignedTo) {
+          $query  .= "AND handler_id = $user1->id ";
+       }
+       if ($isHideResolved) {
+          $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
+       }
+       $query  .= " ORDER BY id DESC";
+
+#echo "$query<br>";
+
        $result = mysql_query($query) or die("Query failed: $query");
          if (0 != mysql_num_rows($result)) {
             while($row = mysql_fetch_object($result))
@@ -710,6 +722,8 @@ if ($_POST['nextForm'] == "addTrackForm") {
 
     $managed_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
     $managed_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
+
+    $defaultProjectid  = $_POST['projectid'];
 
   }elseif ("noAction" == $action) {
     echo "browserRefresh<br/>";

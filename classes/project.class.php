@@ -601,13 +601,20 @@ class Project {
    }
 
    // -----------------------------------------------
-   public function getIssueList() {
+   public function getIssueList($handler_id = 0, $isHideResolved = false) {
 
    	$issueList = array();
 
 	   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-	            "WHERE project_id=$this->id ".
-	            "ORDER BY id DESC";
+	            "WHERE project_id=$this->id ";
+       if (0 != $handler_id) {
+          $query  .= "AND handler_id = $handler_id ";
+       }
+       if ($isHideResolved) {
+          $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
+       }
+
+	   $query  .= "ORDER BY id DESC";
 
       $result = mysql_query($query);
       if (!$result) {
