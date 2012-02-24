@@ -23,3 +23,25 @@ $OpenSource_FR = "Un logiciel libre est un logiciel qui respecte le droit de lâ€
 <br/>
 <?php include 'menu_doc.inc.php'; ?>
 
+
+<?php 
+echo "<h2>".T_("Reporter un bug")."</h2>";
+echo T_("Pour reporter des bug sur CodevTT ou demander des &eacute;volutions merci de vous rendre sur:");
+#echo '<br>';
+
+echo "<table class='invisible'>\n";
+echo "<tr>";
+echo "<td><h3><a href='http://codevtt.org/mantis' title=''>http://codevtt.org/mantis</a></h3><td>";
+echo "</tr>";
+echo "<tr>";
+echo "<td>".T_("User").': </td><td>codevtt</td>';
+echo "</tr>";
+echo "<tr>";
+echo "<td>".T_("Password").': </td><td>'.T_('(none)').'</td><br>';
+echo "</tr>";
+echo "</table>";
+echo '<br>';
+echo '<br>';
+echo T_("N'oubliez pas de mentionner vos coordon&eacute;es pour tout retour.");
+
+?>
