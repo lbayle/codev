@@ -601,6 +601,12 @@ class Project {
    }
 
    // -----------------------------------------------
+   /**
+    * returns bugId list
+    * 
+    * @param unknown_type $handler_id
+    * @param unknown_type $isHideResolved
+    */
    public function getIssueList($handler_id = 0, $isHideResolved = false) {
 
    	$issueList = array();
@@ -801,6 +807,45 @@ class Project {
    	return "SUCCESS ! (".count($srcConfigList)." config items cloned.)";
    }
 
+   
+   /**
+    * returns an array of progress/release
+    * key=release, value= progress
+    * 
+    * ( (Total,xx%), (RC1, xx%), (RC2, xx%), ...)
+    * 
+    * 
+    * @param unknown_type $team_id
+    */
+   public function getProgress($team_id = NULL) {
+   	
+   	  $progressList = array();
+   	  
+   	  $elapsedList = array(); 
+   	  $remainingList = array();
+   	  $totalElapsed = 0;
+   	  $totalRemaining = 0;
+   	  
+   	  $issueList = $this->getIssueList();
+   	  foreach ($issueList as $bugid) {
+   	  	
+   	  	$issue = IssueCache::getInstance()->getIssue($bugid);
+   	  	$elapsedList["VERSION_".$issue->version] += $issue->elapsed;
+   	  	$remainingList["VERSION_".$issue->version] += $issue->getRemaining();
+   	  	$totalElapsed += $issue->elapsed;
+   	  	$totalRemaining += $issue->getRemaining();
+   	  	
+   	  	$this->logger->debug("$this->name : issue $bugid version = <".$issue->version."> ");
+   	  }
+   	  
+   	  $progressList['Total'] = $totalElapsed / ($totalElapsed + $totalRemaining);
+  	  
+   	  foreach ($elapsedList as $version => $elapsed) {
+   	  	$progressList[$version] = $elapsed / ($elapsed + $remainingList[$version]);
+   	  }
+
+   	  return $progressList;
+   }
 
 }
 

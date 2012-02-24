@@ -683,6 +683,7 @@ function displayWorkingDaysPerProject($timeTracking) {
   echo "<tr>\n";
   echo "<th>".T_("Project")."</th>\n";
   echo "<th>".T_("Nb Days")."</th>\n";
+  echo "<th>".T_("Progress")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -701,11 +702,22 @@ function displayWorkingDaysPerProject($timeTracking) {
   while($row = mysql_fetch_object($result))
   {
      $nbDays = $timeTracking->getWorkingDaysPerProject($row->id);
+     
+     $proj = ProjectCache::getInstance()->getProject($row->id);
+     
+     if ((! $proj->isSideTasksProject()) && (! $proj->isNoStatsProject())) {
+     $progressList = $proj->getProgress(); 
+     $progress = round(100 * $progressList['Total']).'%';
+     } else {
+     	$progress = '';
+     }
+     
     echo "<tr>\n";
     echo "<td>";
     echo "$row->name\n";
     echo "</td>\n";
     echo "<td>".$nbDays."</td>\n";
+    echo "<td>".$progress."</td>\n";
     echo "</tr>\n";
 
     if (0 != $nbDays) {
