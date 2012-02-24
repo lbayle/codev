@@ -59,9 +59,9 @@
 .ui-widget { font-family: Arial,sans-serif; font-size: 1.1em; }
 .ui-widget .ui-widget { font-size: 1em; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Arial,sans-serif; font-size: 1em; }
-.ui-widget-content { border: 1px solid #B6B6B6; background: #ffffff; color: #4F4F4F; }
-.ui-widget-content a { color: #4F4F4F; }
-.ui-widget-header { border: 1px solid #B6B6B6; color: #4F4F4F; font-weight: bold; }
+.ui-widget-content { border: 1px solid #B6B6B6; background: #ffffff; /* color: #4F4F4F; */ }
+.ui-widget-content a { /* color: #4F4F4F; */ }
+.ui-widget-header { border: 1px solid #B6B6B6; /* color: #4F4F4F; */ font-weight: bold; }
 .ui-widget-header {
 	background: #ededed url(images/bg_fallback.png) 0 0 repeat-x; /* Old browsers */
 		background: -moz-linear-gradient(top, #ededed 0%, #c4c4c4 100%); /* FF3.6+ */
@@ -88,7 +88,7 @@
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
 	box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
 }
-.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #4F4F4F; text-decoration: none; }
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #000000; /* color: #4F4F4F; */ text-decoration: none; }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #9D9D9D; font-weight: normal; color: #313131; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #313131; text-decoration: none; }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { 
@@ -105,7 +105,7 @@
 	-moz-box-shadow: none;
 	box-shadow: none;
 }
-.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #313131; text-decoration: none; }
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { /* color: #313131; */ text-decoration: none; }
 .ui-widget :active { outline: none; }
 
 /* Interaction Cues
