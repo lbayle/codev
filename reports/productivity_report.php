@@ -538,21 +538,28 @@ function displayResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupp
 	
 		// TODO: check if issue in team project list ?
 	
-		$driftPrelEE = $issue->getDriftMgrEE($withSupport);
+		$driftMgrEE = $issue->getDriftMgrEE($withSupport);
 		$driftEE = $issue->getDrift($withSupport);
-		if (($driftPrelEE > 0) || ($driftEE > 0)) {
+
+		if (($driftMgrEE > 0) || ($driftEE > 0)) {
+
+            // if not manager, do not show tasks that are only in MgrDrift
+            if ((false == $isManager) && ($driftEE <= 0)) {
+               continue;
+			}
+
 			echo "<tr>\n";
 			echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
 			echo "<td>".$issue->getProjectName()."</td>\n";
 			if (true == $isManager) {
 				$color = "";
-				if ($driftPrelEE < -1) {
+				if ($driftMgrEE < -1) {
 					$color = "style='background-color: #61ed66;'";
 				}
-				if ($driftPrelEE > 1) {
+				if ($driftMgrEE > 1) {
 					$color = "style='background-color: #fcbdbd;'";
 				}
-				echo "<td $color >".$driftPrelEE."</td>\n";
+				echo "<td $color >".$driftMgrEE."</td>\n";
 		    }
 			$color = "";
 			if ($driftEE < -1) {
