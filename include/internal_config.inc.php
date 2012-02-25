@@ -62,7 +62,7 @@
   $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining); //  RAF
   $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
   $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort); // BS
-  $deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId); // FDL (id of the associated Delivery Issue)
+  #$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId); // FDL (id of the associated Delivery Issue)
   $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 
 
