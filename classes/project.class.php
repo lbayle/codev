@@ -177,7 +177,7 @@ class Project {
 
       //--- create new Project
       $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
-               "VALUES ('$projectName','50','1','10','10','$projectDesc','1','1');";
+               "VALUES ('$projectName','50','1','50','10','$projectDesc','1','1');";
       $result = mysql_query($query);
          if (!$result) {
     	      $logger->error("Query FAILED: $query");
@@ -248,7 +248,7 @@ class Project {
 
       // create new Project
       $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
-               "VALUES ('$projectName','50','1','10','10','$projectDesc','1','0');";
+               "VALUES ('$projectName','50','1','50','10','$projectDesc','1','0');";
       $result = mysql_query($query);
       if (!$result) {
     	      $logger->error("Query FAILED: $query");
