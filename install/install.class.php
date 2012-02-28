@@ -33,8 +33,13 @@ include_once 'config_mantis.class.php';
 class Install {
 
    const FILENAME_MYSQL_CONFIG = "../include/mysql_config.inc.php";
-
    const FILENAME_CONSTANTS = "../constants.php";
+   
+   const FILENAME_CUSTOM_CONSTANT_CODEVTT = "../install/custom_constant_inc.codevtt.php";
+   const FILENAME_CUSTOM_STRINGS_CODEVTT = "../install/custom_strings_inc.codevtt.php";
+   const FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT = "../install/custom_relationships_inc.codevtt.php";
+
+
 
    private $logger;
    private $fieldList;
@@ -180,6 +185,79 @@ class Install {
    }
 
    // --------------------------------------------------------
+   /**
+    * insert CodevTT config in Mantis custom files.
+    * 
+    * (add relationships, functions, etc.)
+    * 
+    * Files to update:
+    * custom_constant_inc.php
+    * custom_strings_inc.php
+    * custom_relationships_inc.php
+    * 
+    * NOTE: needs write access in mantis directory
+    */
+   public function updateMantisCustomFiles() {
+    
+   	  $mantisPath = Config::getInstance()->getValue(Config::id_mantisPath);
+            
+      // write constants
+      $myFile = "$mantisPath/custom_constant_inc.php";
+      $fh = fopen($myFile, 'a');
+      if (FALSE != $fh) {
+         $content = file_get_contents(Install::FILENAME_CUSTOM_CONSTANT_CODEVTT, true);
+         if (FALSE == $content) {
+            echo "ERROR: Could not read file: ". Install::FILENAME_CUSTOM_CONSTANT_CODEVTT . "</br>";
+            $this->logger->error("Could not read file in append mode: ".Install::FILENAME_CUSTOM_CONSTANT_CODEVTT);
+         } else {
+            fwrite($fh, $content);
+         }
+         fclose($fh);
+      } else {
+         echo "ERROR: Could not edit file: ". $myFile . "</br>";
+      	 $this->logger->error("Could not open file in append mode: ".$myFile);
+      }
+      
+      // write strings
+      $myFile = "$mantisPath/custom_strings_inc.php";
+      $fh = fopen($myFile, 'a');
+      if (FALSE != $fh) {
+         $content = file_get_contents(Install::FILENAME_CUSTOM_STRINGS_CODEVTT, true);
+         if (FALSE == $content) {
+            echo "ERROR: Could not read file: ". Install::FILENAME_CUSTOM_CONSTANT_CODEVTT . "</br>";
+            $this->logger->error("Could not read file in append mode: ".Install::FILENAME_CUSTOM_CONSTANT_CODEVTT);
+         } else {
+            fwrite($fh, $content);
+         }
+         fclose($fh);
+      } else {
+         echo "ERROR: Could not edit file: ". $myFile . "</br>";
+         $this->logger->error("Could not open file in append mode: ".$myFile);
+      }
+   
+      // write relationships
+      $myFile = "$mantisPath/custom_relationships_inc.php";
+      $fh = fopen($myFile, 'a');
+      if (FALSE != $fh) {
+         $content = file_get_contents(Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT, true);
+         if (FALSE == $content) {
+            echo "ERROR: Could not read file: ". Install::FILENAME_CUSTOM_CONSTANT_CODEVTT . "</br>";
+            $this->logger->error("Could not read file in append mode: ".Install::FILENAME_CUSTOM_CONSTANT_CODEVTT);
+         } else {
+            fwrite($fh, $content);
+         }
+         fclose($fh);
+      } else {
+         echo "ERROR: Could not edit file: ". $myFile . "</br>";
+         $this->logger->error("Could not open file in append mode: ".$myFile);
+      }
+   
+   }  
+   
+   
+    
+
+   // --------------------------------------------------------
 	/**
 	 * create a customField in Mantis (if not exist) & update codev_config_table
 	 *
@@ -320,7 +398,7 @@ class Install {
     *
     * @param unknown_type $projectName
     */
-	public function createExternalTasksProject($projectName = "(generic) ExternalTasks", $projectDesc = "CoDevTT ExternalTasks Project") {
+	public function createExternalTasksProject($projectName = "CodevTT_ExternalTasks", $projectDesc = "CoDevTT ExternalTasks Project") {
 
 		// create project
 		$projectid = Project::createExternalTasksProject($projectName);
@@ -396,7 +474,7 @@ class Install {
 
       #echo "DEBUG create Variable : ".Config::id_ClientTeamid."<br/>";
       # TODO should be a table, there can be more than one client !
-      $desc = T_("Client teamId");
+      $desc = T_("Custommer teamId");
   	   Config::getInstance()->setValue(Config::id_ClientTeamid, NULL, Config::configType_int, $desc);
 
 	}
@@ -531,7 +609,7 @@ class Install {
 
         // get current mantis custom menu entries
         $query = "SELECT value FROM `mantis_config_table` WHERE config_id = 'main_menu_custom_options'";
-	     mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	    $result = mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
 
         $serialized  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
 

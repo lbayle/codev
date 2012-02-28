@@ -194,7 +194,7 @@ function removeCustomFields() {
 	$remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
 	$deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
 	$deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-	$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+	#$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
 
 	custom_field_destroy($tcCustomField);
 	custom_field_destroy($mgrEffortEstim);
@@ -203,7 +203,7 @@ function removeCustomFields() {
 	custom_field_destroy($remainingCustomField);
 	custom_field_destroy($deadLineCustomField);
 	custom_field_destroy($deliveryDateCustomField);
-	custom_field_destroy($deliveryIdCustomField);
+	#custom_field_destroy($deliveryIdCustomField);
 
 }
 

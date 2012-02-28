@@ -70,10 +70,11 @@ class ConsistencyCheck {
    public function check() {
 
       $cerrList2 = $this->checkResolved();
-      $cerrList3 = $this->checkDeliveryDate();
+      #$cerrList3 = $this->checkDeliveryDate();
       $cerrList4 = $this->checkBadRemaining();
       $cerrList5 = $this->checkMgrEffortEstim();
-      $cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
+      #$cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
+      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5);
       return $cerrList;
    }
 
@@ -294,6 +295,8 @@ class ConsistencyCheck {
       return $cerrList;
 
    }
+
+
 
 }
 
