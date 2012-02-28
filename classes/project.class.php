@@ -829,20 +829,26 @@ class Project {
    	  foreach ($issueList as $bugid) {
    	  	
    	  	$issue = IssueCache::getInstance()->getIssue($bugid);
-   	  	$elapsedList["VERSION_".$issue->version] += $issue->elapsed;
-   	  	$remainingList["VERSION_".$issue->version] += $issue->getRemaining();
+   	  	$elapsedList["VERSION_".$issue->getTargetVersion()] += $issue->elapsed;
+   	  	$remainingList["VERSION_".$issue->getTargetVersion()] += $issue->getRemaining();
    	  	$totalElapsed += $issue->elapsed;
    	  	$totalRemaining += $issue->getRemaining();
    	  	
-   	  	$this->logger->debug("$this->name : issue $bugid version = <".$issue->version."> ");
+   	  	$this->logger->debug("$this->name : issue $bugid version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->getRemaining());
    	  }
-   	  
-   	  $progressList['Total'] = $totalElapsed / ($totalElapsed + $totalRemaining);
+      
+   	  // if no Remaining, then Project is 100% done.
+   	  $progressList['Total'] = (0 == $totalRemaining) ? 1 : $totalElapsed / ($totalElapsed + $totalRemaining);
   	  
    	  foreach ($elapsedList as $version => $elapsed) {
-   	  	$progressList[$version] = $elapsed / ($elapsed + $remainingList[$version]);
+        if (0 == $remainingList[$version]) {
+        	$progressList[$version] = 1;  // if no Remaining, then Version is 100% done.
+        } else {
+            $progressList[$version] = $elapsed / ($elapsed + $remainingList[$version]);
+        }
+        $this->logger->debug("progress $version = ".$progressList[$version]." = $elapsed / ($elapsed + ".$remainingList[$version].")");
    	  }
-
+      ksort($progressList);
    	  return $progressList;
    }
 
