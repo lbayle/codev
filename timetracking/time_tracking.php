@@ -261,7 +261,7 @@ require_once('tc_calendar.php');
 
 		$( "#setfilter_dialog_form" ).dialog({
 			autoOpen: false,
-			height: 200,
+			height: 250,
 			width: 500,
 			modal: true,
 			buttons: {
@@ -366,6 +366,8 @@ require_once('tc_calendar.php');
 
 <?php
 
+$logger = Logger::getLogger("time_tracking");
+
 // --------------------------------------------------------------
 function setUserForm($originPage) {
   $accessLevel_dev     = Team::accessLevel_dev;
@@ -417,8 +419,11 @@ function setUserForm($originPage) {
 }
 
 // --------------------------------------------------------------
-function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $defaultProjectid, $originPage) {
+function addTrackForm($weekid, $curYear, $user1, $defaultDate, 
+                      $defaultBugid, $defaultProjectid, $originPage) {
 
+	global $logger;
+	
    list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
    $myCalendar = new tc_calendar("date1", true, false);
@@ -483,8 +488,19 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
 
    // --- Task list
    if (0 != $project1->id) {
-   	$handler_id = $isOnlyAssignedTo ? $user1->id : 0;
-      $issueList = $project1->getIssueList($handler_id, $isHideResolved);
+   	  $handler_id = $isOnlyAssignedTo ? $user1->id : 0;
+   	  
+   	  // do not filter on userId if SideTask or ExternalTask
+   	  if (($isOnlyAssignedTo) && 
+   	      (!$project1->isSideTasksProject()) &&
+   	  	  (!$project1->isNoStatsProject())) {
+         $handler_id = $user1->id;
+   	  } else {
+   	  	$handler_id = 0; // all users
+   	  	$isHideResolved = false; // do not hide resolved
+   	  }
+   	  
+   	  $issueList = $project1->getIssueList($handler_id, $isHideResolved);
    } else {
    	 // no project specified: show all tasks
        $issueList = array();
@@ -493,15 +509,10 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
        $query  = "SELECT id ".
                  "FROM `mantis_bug_table` ".
                  "WHERE project_id IN ($formatedProjList) ";
-       if ($isOnlyAssignedTo) {
-          $query  .= "AND handler_id = $user1->id ";
-       }
        if ($isHideResolved) {
           $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
        }
        $query  .= " ORDER BY id DESC";
-
-#echo "$query<br>";
 
        $result = mysql_query($query) or die("Query failed: $query");
          if (0 != mysql_num_rows($result)) {
@@ -517,7 +528,20 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
    }
 
    foreach ($issueList as $bugid) {
-         $issue = IssueCache::getInstance()->getIssue($bugid);
+      $issue = IssueCache::getInstance()->getIssue($bugid);
+
+      // remove issues not asigned to user1 except for SideTasks & externalTasks
+      if ($isOnlyAssignedTo) {
+         $project = ProjectCache::getInstance()->getProject($issue->projectId);
+         
+         if ((!$project->isSideTasksProject()) &&
+         	 (!$project->isNoStatsProject()) &&    // ExternalTasks
+             ($issue->handlerId != $user1->id)) {
+            $logger->debug("isOnlyAssignedTo: $bugid handler:$issue->handlerId project:$issue->projectId $project->name ".$project->isSideTasksProject()." will NOT be displayed.");
+            continue;
+         }
+      }
+
       if ($bugid == $defaultBugid) {
          echo "<option selected value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       } else {
