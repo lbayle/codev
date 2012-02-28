@@ -26,7 +26,7 @@
 
    // CoDevTT project started on: 17 May 2010
 
-   $codevVersion = "v0.99.14 (2 Feb 2012)";
+   $codevVersion = "v0.99.15 (28 Feb 2012)";
 
    $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management",
@@ -42,7 +42,8 @@
                                 "v0.99.11" => "(16 Jun  2011) - Replace ETA with Preliminary Est. Effort",
                                 "v0.99.12" => "(25 Aug  2011) - bugfix release & Install Procedure (unpolished)",
                                 "v0.99.13" => "(27 Oct  2011) - GANTT chart + ExternalTasksProject",
-                                "v0.99.14" => "(2 Feb  2012) - JQuery,Log4php, ForecastingReport, uninstall"
+                                "v0.99.14" => "(2 Feb  2012) - JQuery,Log4php, ForecastingReport, uninstall",
+                                "v0.99.15" => "(28 Feb  2012) - MgrEffortEstim, install, timetrackingFilters"
                                 );
 
 
