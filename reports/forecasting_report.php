@@ -289,7 +289,7 @@ function showIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
 
 			$driftPrelEE = $issue->getDriftMgrEE($withSupport);
 			$driftEE = $issue->getDrift($withSupport);
-		    if (($driftPrelEE > 1) || ($driftEE > 1)) {
+		    if (($driftPrelEE > 0) || ($driftEE > 0)) {
 		           echo "<tr>\n";
 		   		   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
 		   		   echo "<td>".$issue->getProjectName()."</td>\n";
@@ -300,8 +300,8 @@ function showIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
 		   		      echo "<td $color >".$driftPrelEE."</td>\n";
                   }
                   $color = "";
-                  if ($driftEE <= -1) { $color = "style='background-color: #61ed66;'"; }
-                  if ($driftEE >= 1) { $color = "style='background-color: #fcbdbd;'"; }
+                  if ($driftEE < -1) { $color = "style='background-color: #61ed66;'"; }
+                  if ($driftEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
 		   		   echo "<td $color >".$driftEE."</td>\n";
 		   		   echo "<td>".$issue->getRemaining()."</td>\n";
                   echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
@@ -494,8 +494,16 @@ if (0 == count($teamList)) {
          echo "<br/><br/>\n";
          echo "<br/><br/><hr>\n";
          $start_day = 1;
-         $start_month = date("m");
-         $start_year = date("Y");
+         
+         if (1 == date("m")) {
+         	$start_month = 12;
+            $start_year = date("Y") -1;
+         } else {
+            $start_month = date("m") -1;
+            $start_year = date("Y");
+         	
+         }
+         
          $timeTrackingTable = createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
          displayAvailableWorkloadGraph($timeTrackingTable, 800, 300);
 
