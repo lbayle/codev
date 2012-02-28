@@ -60,10 +60,14 @@ function proceedStep3() {
 
 <?php
 
+include_once 'config.class.php';
+Config::getInstance()->setQuiet(true);
+
 include_once 'install.class.php';
 include_once 'project.class.php';
 include_once 'jobs.class.php';
-#include_once 'config.class.php';
+include_once 'user.class.php';
+
 
 // ------------------------------------------------
 function displayStepInfo() {
@@ -229,6 +233,9 @@ function getProjectList() {
 
 $originPage = "install_step3.php";
 
+$adminTeamName = T_("CodevTT admin");
+$adminTeamLeaderId = 1; // 1 is mantis administrator
+
 #$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
 $defaultReportsDir = "/tmp/codevReports";
 
@@ -282,15 +289,38 @@ if ("checkReportsDir" == $action) {
 
 
 } else if ("proceedStep3" == $action) {
+   
+    $install = new Install();
+
+    echo "DEBUG 1/10 create default Config variables<br/>"; 
+    $install->setConfigItems();
+
+    echo "DEBUG 2/10 update Mantis custom files<br/>";
+    
+    $install->updateMantisCustomFiles();
+
+    echo "DEBUG 3/10 add CodevTT to Mantis menu<br/>";
+    $tok = strtok($_SERVER["SCRIPT_NAME"], "/");
+    $install->addCustomMenuItem('CodevTT', '../'.$tok.'/index.php');  #  ../codev/index.php
+
+    echo "DEBUG 4/10 create CodevTT Custom Fields<br/>";
+    $install->createCustomFields();
+
+    echo "DEBUG 5/10 create ExternalTasks Project<br/>";
+    $extproj_id = $install->createExternalTasksProject(T_("CodevTT_ExternalTasks"), T_("CodevTT ExternalTasks Project"));
+
+
+    $adminLeader = UserCache::getInstance()->getUser($adminTeamLeaderId);
+    echo "DEBUG 6/10 createAdminTeam  with leader:  ".$adminLeader->getName()."<br/>";
+    $install->createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
     // Set path for .CSV reports (Excel)
-    echo "DEBUG 1/3 add codevReportsDir<br/>";
+    echo "DEBUG 7/10 add codevReportsDir<br/>";
     $desc = T_("path for .CSV reports");
     Config::getInstance()->setValue(Config::id_codevReportsDir, $codevReportsDir, Config::configType_string , $desc);
 
     // Create default tasks
-    echo "DEBUG 2/3 Create external tasks<br/>";
-    $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+    echo "DEBUG 8/10 Create external tasks<br/>";
     $extproj = ProjectCache::getInstance()->getProject($extproj_id);
 
     // cat="[All Projects] General", status="closed"
@@ -300,7 +330,7 @@ if ("checkReportsDir" == $action) {
     // Note: Support & N/A jobs already created by SQL file
     // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()
 
-    echo "DEBUG 3/3 Create default jobs<br/>";
+    echo "DEBUG 9/10 Create default jobs<br/>";
     if ($isJob1) {
 		Jobs::create($job1, Job::type_commonJob, $job1_color);
     }
@@ -318,6 +348,7 @@ if ("checkReportsDir" == $action) {
     }
 
     // Add custom fields to existing projects
+    echo "DEBUG 10/10 Prepare existing projects<br/>";
     if(isset($_POST['projects']) && !empty($_POST['projects'])){
        $selectedProjects = $_POST['projects'];
        foreach($selectedProjects as $projectid){
