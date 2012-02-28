@@ -604,7 +604,7 @@ class Project {
    /**
     * returns bugId list
     * 
-    * @param unknown_type $handler_id
+    * @param unknown_type $handler_id (if 0, all users)
     * @param unknown_type $isHideResolved
     */
    public function getIssueList($handler_id = 0, $isHideResolved = false) {
@@ -637,10 +637,9 @@ class Project {
 
    // -----------------------------------------------
    public function isSideTasksProject() {
-   	$sideTaskProjectType = Project::type_sideTaskProject;
-
-		return ($sideTaskProjectType == $this->type);
-	}
+      $sideTaskProjectType = Project::type_sideTaskProject;
+      return ($sideTaskProjectType == $this->type);
+   }
 
    // -----------------------------------------------
    public function isNoStatsProject() {
