@@ -399,10 +399,11 @@ class Issue {
    }
 
    /**
+    * 
     * Returns the nb of days needed to finish the issue.
     * if the 'remaining' (RAF) field is not defined, return effortEstim or mgrEffortEstim
     */
-   public function getRemaining() {
+   public function getDuration() {
       // determinate issue duration (Remaining, BI, MgrEffortEstim)
       if       (NULL != $this->remaining)   { $issueDuration = $this->remaining; }
       elseif   (NULL != $this->effortEstim) { $issueDuration = $this->effortEstim; }
@@ -1059,7 +1060,7 @@ class Issue {
       // we need to be absolutely sure that time is 00:00:00
       $timestamp = mktime(0, 0, 0, date("m", $beginTimestamp), date("d", $beginTimestamp), date("Y", $beginTimestamp));
 
-      $tmpDuration = $this->getRemaining();
+      $tmpDuration = $this->getDuration();
 
       $this->logger->debug("computeEstimatedDateOfArrival: user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp));
 
@@ -1241,8 +1242,7 @@ class Issue {
 
       return $progress;
    }
-
-
+   
 } // class issue
 
 ?>

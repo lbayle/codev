@@ -303,7 +303,7 @@ function showIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
                   if ($driftEE < -1) { $color = "style='background-color: #61ed66;'"; }
                   if ($driftEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
 		   		   echo "<td $color >".$driftEE."</td>\n";
-		   		   echo "<td>".$issue->getRemaining()."</td>\n";
+		   		   echo "<td>".$issue->remaining."</td>\n";
                   echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
 		   		   echo "<td>".$issue->getCurrentStatusName()."</td>\n";
 		   		   echo "<td>".$issue->summary."</td>\n";

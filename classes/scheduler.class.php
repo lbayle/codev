@@ -102,7 +102,7 @@ class Scheduler {
 		foreach ($issueList as $issue) {
 
 			// determinate issue duration (Remaining, EffortEstim, MgrEffortEstim)
-			$issueDuration = $issue->getRemaining();
+			$issueDuration = $issue->getDuration();
 
 			$this->logger->debug("issue $issue->bugId  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
 
@@ -145,7 +145,7 @@ class Scheduler {
 
 
             // determinate issue duration (Remaining, EffortEstim, MgrEffortEstim)
-			$issueDuration = $issue->getRemaining();
+			$issueDuration = $issue->getDuration();
 
             #echo "DEBUG Monitored issue $issue->bugId  Duration = $issueDuration<br/>";
 

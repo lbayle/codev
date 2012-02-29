@@ -271,7 +271,7 @@ function showIssuesInDrift($userid) {
 	   echo "<td $color >".$driftEE."</td>\n";
 
 	   echo "<td>\n";
-	   echo "<a title='".T_("update Remaining")."' href=\"javascript: updateRemaining('".$formatedTitle."', '".$issue->bugId."', '".$issue->getRemaining()."', '".$formatedSummary."', '', '')\" >".$issue->getRemaining()."</a>\n";
+	   echo "<a title='".T_("update Remaining")."' href=\"javascript: updateRemaining('".$formatedTitle."', '".$issue->bugId."', '".$issue->remaining."', '".$formatedSummary."', '', '')\" >".$issue->remaining."</a>\n";
 	   echo "</td>\n";
 
 	   echo "<td>".$issue->summary."</td>\n";

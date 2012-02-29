@@ -69,7 +69,7 @@ class ProjectVersion {
 			$this->mgrEffortEstim += $issue->mgrEffortEstim;
 			$this->effortEstim    += $issue->effortEstim;
 
-			$this->logger->debug("$this->projectId [$this->version] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->getRemaining());
+			$this->logger->debug("$this->projectId [$this->version] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->remaining);
 		}
 
 	}
