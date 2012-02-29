@@ -371,8 +371,9 @@ class Install {
 
       $attributes["require_report"]   = 1;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_numeric,    "customField_MgrEffortEstim", $attributes);
-      $this->createCustomField(T_("CodevTT_EffortEstim"),        $mType_numeric, "customField_effortEstim", $attributes);
+      $defaultValue = 1;
+      $this->createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_numeric,    "customField_MgrEffortEstim", $attributes, $defaultValue);
+      $this->createCustomField(T_("CodevTT_EffortEstim"),        $mType_numeric, "customField_effortEstim", $attributes, $defaultValue);
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
@@ -386,7 +387,8 @@ class Install {
       $attributes["display_report"]   = 1;
       $attributes["display_closed"]   = 1;
       $attributes["display_resolved"] = 1;
-      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes);
+      $defaultValue = 1;
+      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes, $defaultValue);
 
       $attributes["require_resolved"] = 0;
       $attributes["require_closed"]   = 0;
