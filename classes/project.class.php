@@ -26,89 +26,12 @@ if (NULL == Logger::getConfigurationFile()) {
 
 
 include_once "config_mantis.class.php";
+include_once "project_version.class.php";
 include_once "project_cache.class.php";
 include_once "jobs.class.php";
 
 
 
-// ===================================================
-class ProjectVersion {
-	public $projectId;
-	public $version;
-	public $elapsed;
-	public $remaining;
-	
-	private $issueList;
-	private $progress;
-
-	public function __construct($projectId, $version) {
-	
-		$this->logger = Logger::getLogger(__CLASS__);
-		
-		$this->projectId = $projectId;
-		$this->version = $version;
-		
-		$this->elapsed   = 0;
-		$this->remaining = 0;
-		$this->issueList = array();
-		$this->progress  = NULL;
-	}
-	
-	/**
-	 * 
-	 * @param int $bugid
-	 */
-    public function addIssue($bugid) {
-
-    	if (NULL == $this->issueList[$bugid]) {
-    		
-    		$issue = IssueCache::getInstance()->getIssue($bugid);
-	    	$this->issueList[$bugid] = $issue;
-	    	$this->elapsed   += $issue->elapsed;
-	    	$this->remaining += $issue->getRemaining();
-	    	
-	    	$this->logger->debug("$this->projectId [$this->version] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->getRemaining());
-    	}
-    	
-    }	
-	
-    /**
-     * 
-     * @return Ambigous <number, NULL>
-     */
-	public function getProgress() {
-		
-		if (NULL == $this->progress) {
-		
-			// compute total progress
-			if (0 == $this->remaining) {
-				$this->progress = 1;  // if no Remaining, then Project is 100% done.
-			} elseif (0 == $this->elapsed) {
-				$this->progress = 0;  // if no time spent, then no work done.
-			} else {
-				$this->progress = $this->elapsed / ($this->elapsed + $this->remaining);
-			}
-			
-			$this->logger->debug("$this->projectId [$this->version] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->remaining.")");
-		}
-		
-		return $this->progress;
-	}
-
-	public function getIssueList() {
-		return $this->issueList;
-	}
-	
-	public function getFormattedIssueList() {
-		$formattedList = "";
-		
-		foreach ($this->issueList as $bugid => $issue) {
-			if ("" != $formattedList) { $formattedList .= ', '; }
-			$formattedList .= issueInfoURL($bugid, $issue->summary);
-		}
-		return $formattedList;
-	}
-}
 
 // ===================================================
 class Project {
@@ -142,7 +65,7 @@ class Project {
 
 	private $bug_resolved_status_threshold;
 	private $projectVersionList;
-	
+	private $progress;
 	
 	
 	// -----------------------------------------------
@@ -920,6 +843,33 @@ class Project {
    	  }
    	  
       return $this->projectVersionList;
+   }
+   
+   public function getProgress() {
+   	 
+   	if (NULL == $this->progress) {
+   	  
+   	  $remaining = 0;
+   	  $elapsed   = 0;
+   	  $issueList = $this->getIssueList();
+
+   	  foreach ($issueList as $bugid) {
+   	  	$issue = IssueCache::getInstance()->getIssue($bugid);
+   	  	$elapsed   += $issue->elapsed;
+   	  	$remaining += $issue->remaining;
+   	  	
+   	  }
+   	  
+   	  // compute total progress
+   	  if (0 == $elapsed) {
+   	  	$this->progress = 0;  // if no time spent, then no work done.
+   	  } elseif (0 == $remaining) {
+   	  	$this->progress = 1;  // if no Remaining, then Project is 100% done.
+   	  } else {
+   	  	$this->progress = $elapsed / ($elapsed + $remaining);
+   	  }
+   	}
+   	return $this->progress;
    }
 
 }

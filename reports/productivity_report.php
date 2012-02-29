@@ -706,8 +706,7 @@ function displayWorkingDaysPerProject($timeTracking) {
      $proj = ProjectCache::getInstance()->getProject($row->id);
      
      if ((! $proj->isSideTasksProject()) && (! $proj->isNoStatsProject())) {
-     $progressList = $proj->getProgress(); 
-     $progress = round(100 * $progressList['Total']).'%';
+        $progress = round(100 * $proj->getProgress()).'%';
      } else {
      	$progress = '';
      }

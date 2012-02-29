@@ -132,6 +132,7 @@ function displayProjectProgress($project) {
    echo "  <th>".T_("Progress")."</th>\n";
    echo "  <th>".T_("Elapsed")."</th>\n";
    echo "  <th>".T_("Remaining")."</th>\n";
+   echo "  <th>".T_("Drift")."</th>\n";
    echo "  <th>".T_("Tasks")."</th>\n";
    echo "</tr>\n";
    
@@ -145,6 +146,7 @@ function displayProjectProgress($project) {
 	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
 	   echo "<td>".$pv->elapsed."</td>\n";
 	   echo "<td>".$pv->remaining."</td>\n";
+       echo "<td></td>\n";
 	   echo "<td>".$pv->getFormattedIssueList()."</td>\n";
 	   echo "</tr>\n";
    }
@@ -162,6 +164,7 @@ function displayProjectProgress($project) {
    echo "<td>".round(100 * $totalProgress)."%</td>\n";
    echo "<td>".$totalElapsed."</td>\n";
    echo "<td>".$totalRemaining."</td>\n";
+   echo "<td></td>\n";
    echo "<td></td>\n";
    echo "</tr>\n";
    
