@@ -130,6 +130,8 @@ function displayProjectProgress($project) {
    echo "<tr>\n";
    echo "  <th>".T_("Version")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
+   echo "  <th>".T_("Elapsed")."</th>\n";
+   echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th>".T_("Tasks")."</th>\n";
    echo "</tr>\n";
    
@@ -141,11 +143,12 @@ function displayProjectProgress($project) {
 	   
 	   echo "<td>".$pv->version."</td>\n";
 	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
+	   echo "<td>".$pv->elapsed."</td>\n";
+	   echo "<td>".$pv->remaining."</td>\n";
 	   echo "<td>".$pv->getFormattedIssueList()."</td>\n";
 	   echo "</tr>\n";
    }
 
-   // compute total   
    // compute total progress
    if (0 == $totalRemaining) {
    	  $totalProgress = 1;  // if no Remaining, then Project is 100% done.
@@ -157,6 +160,8 @@ function displayProjectProgress($project) {
    echo "<tr>\n";
    echo "<td>".T_("Total")."</td>\n";
    echo "<td>".round(100 * $totalProgress)."%</td>\n";
+   echo "<td>".$totalElapsed."</td>\n";
+   echo "<td>".$totalRemaining."</td>\n";
    echo "<td></td>\n";
    echo "</tr>\n";
    
