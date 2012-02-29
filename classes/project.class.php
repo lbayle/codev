@@ -30,6 +30,87 @@ include_once "project_cache.class.php";
 include_once "jobs.class.php";
 
 
+
+// ===================================================
+class ProjectVersion {
+	public $projectId;
+	public $version;
+	public $elapsed;
+	public $remaining;
+	
+	private $issueList;
+	private $progress;
+
+	public function __construct($projectId, $version) {
+	
+		$this->logger = Logger::getLogger(__CLASS__);
+		
+		$this->projectId = $projectId;
+		$this->version = $version;
+		
+		$this->elapsed   = 0;
+		$this->remaining = 0;
+		$this->issueList = array();
+		$this->progress  = NULL;
+	}
+	
+	/**
+	 * 
+	 * @param int $bugid
+	 */
+    public function addIssue($bugid) {
+
+    	if (NULL == $this->issueList[$bugid]) {
+    		
+    		$issue = IssueCache::getInstance()->getIssue($bugid);
+	    	$this->issueList[$bugid] = $issue;
+	    	$this->elapsed   += $issue->elapsed;
+	    	$this->remaining += $issue->getRemaining();
+	    	
+	    	$this->logger->debug("$this->projectId [$this->version] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->getRemaining());
+    	}
+    	
+    }	
+	
+    /**
+     * 
+     * @return Ambigous <number, NULL>
+     */
+	public function getProgress() {
+		
+		if (NULL == $this->progress) {
+		
+			// compute total progress
+			if (0 == $this->remaining) {
+				$this->progress = 1;  // if no Remaining, then Project is 100% done.
+			} elseif (0 == $this->elapsed) {
+				$this->progress = 0;  // if no time spent, then no work done.
+			} else {
+				$this->progress = $this->elapsed / ($this->elapsed + $this->remaining);
+			}
+			
+			$this->logger->debug("$this->projectId [$this->version] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->remaining.")");
+		}
+		
+		return $this->progress;
+	}
+
+	public function getIssueList() {
+		return $this->issueList;
+	}
+	
+	public function getFormattedIssueList() {
+		$formattedList = "";
+		
+		foreach ($this->issueList as $bugid => $issue) {
+			if ("" != $formattedList) { $formattedList .= ', '; }
+			$formattedList .= issueInfoURL($bugid, $issue->summary);
+		}
+		return $formattedList;
+	}
+}
+
+// ===================================================
 class Project {
 
   const type_workingProject   = 0;     // normal projects are type 0
@@ -60,7 +141,10 @@ class Project {
 	var $categoryList;
 
 	private $bug_resolved_status_threshold;
-
+	private $projectVersionList;
+	
+	
+	
 	// -----------------------------------------------
 	public function Project($id) {
 	   $this->logger = Logger::getLogger(__CLASS__);
@@ -808,48 +892,34 @@ class Project {
 
    
    /**
-    * returns an array of progress/release
-    * key=release, value= progress
-    * 
-    * ( (Total,xx%), (RC1, xx%), (RC2, xx%), ...)
+    * returns an array of ProjectVersion instances
+    * key=version, value= ProjectVersion
     * 
     * 
-    * @param unknown_type $team_id
+    * @param unknown_type $team_id (TODO)
     */
-   public function getProgress($team_id = NULL) {
+   #public function getVersionList($team_id = NULL) {
+   public function getVersionList() {
    	
-   	  $progressList = array();
-   	  
-   	  $elapsedList = array(); 
-   	  $remainingList = array();
-   	  $totalElapsed = 0;
-   	  $totalRemaining = 0;
-   	  
-   	  $issueList = $this->getIssueList();
-   	  foreach ($issueList as $bugid) {
-   	  	
-   	  	$issue = IssueCache::getInstance()->getIssue($bugid);
-   	  	$elapsedList["VERSION_".$issue->getTargetVersion()] += $issue->elapsed;
-   	  	$remainingList["VERSION_".$issue->getTargetVersion()] += $issue->getRemaining();
-   	  	$totalElapsed += $issue->elapsed;
-   	  	$totalRemaining += $issue->getRemaining();
-   	  	
-   	  	$this->logger->debug("$this->name : issue $bugid version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->getRemaining());
+   	  if (NULL == $this->projectVersionList) {
+   	
+	   	  $this->projectVersionList = array();
+	   	  $issueList = $this->getIssueList();
+	   	  foreach ($issueList as $bugid) {
+	   	  	
+	   	  	$issue = IssueCache::getInstance()->getIssue($bugid);
+	   	  	$tagVersion = "VERSION_".$issue->getTargetVersion();
+	   	  	
+	   	  	if (NULL == $this->projectVersionList[$tagVersion]) {
+	   	  		$this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion()); 
+	   	  	}
+	   	  	$this->projectVersionList[$tagVersion]->addIssue($bugid);
+	   	  }
+	      
+	      ksort($this->projectVersionList);
    	  }
-      
-   	  // if no Remaining, then Project is 100% done.
-   	  $progressList['Total'] = (0 == $totalRemaining) ? 1 : $totalElapsed / ($totalElapsed + $totalRemaining);
-  	  
-   	  foreach ($elapsedList as $version => $elapsed) {
-        if (0 == $remainingList[$version]) {
-        	$progressList[$version] = 1;  // if no Remaining, then Version is 100% done.
-        } else {
-            $progressList[$version] = $elapsed / ($elapsed + $remainingList[$version]);
-        }
-        $this->logger->debug("progress $version = ".$progressList[$version]." = $elapsed / ($elapsed + ".$remainingList[$version].")");
-   	  }
-      ksort($progressList);
-   	  return $progressList;
+   	  
+      return $this->projectVersionList;
    }
 
 }

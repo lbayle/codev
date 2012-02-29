@@ -123,25 +123,43 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
 // -----------------------------------------
 function displayProjectProgress($project) {
 
-   $progressList = $project->getProgress();
+   $projectVersionList = $project->getVersionList();
 
    echo "<table>\n";
    
    echo "<tr>\n";
    echo "  <th>".T_("Version")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
+   echo "  <th>".T_("Tasks")."</th>\n";
    echo "</tr>\n";
    
-   foreach ($progressList as $version => $progress) {
-   echo "<tr>\n";
-   $formattedVersion = str_replace("VERSION_", "", $version);
-   
-   echo "<td>".$formattedVersion."</td>\n";
-   
-   echo "<td>".round(100 * $progress)."%</td>\n";
-   echo "</tr>\n";
-   	
+   foreach ($projectVersionList as $version => $pv) {
+	   echo "<tr>\n";
+	   $totalElapsed += $pv->elapsed;
+	   $totalRemaining += $pv->remaining;
+	   $formatedList  = implode( ',', array_keys($pv->getIssueList()));
+	   
+	   echo "<td>".$pv->version."</td>\n";
+	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
+	   echo "<td>".$pv->getFormattedIssueList()."</td>\n";
+	   echo "</tr>\n";
    }
+
+   // compute total   
+   // compute total progress
+   if (0 == $totalRemaining) {
+   	  $totalProgress = 1;  // if no Remaining, then Project is 100% done.
+   } elseif (0 == $totalElapsed) {
+      $totalProgress = 0;  // if no time spent, then no work done.
+   } else {
+   	  $totalProgress = $totalElapsed / ($totalElapsed + $totalRemaining);
+   }
+   echo "<tr>\n";
+   echo "<td>".T_("Total")."</td>\n";
+   echo "<td>".round(100 * $totalProgress)."%</td>\n";
+   echo "<td></td>\n";
+   echo "</tr>\n";
+   
    echo "</table>\n";
 }
 
@@ -197,8 +215,13 @@ if (0 == count($teamList)) {
 
        $project = ProjectCache::getInstance()->getProject($projectid);
 
-       // show progress
-       displayProjectProgress($project);
+      echo "<br/>";
+      echo "<br/>";
+      echo "<br/>";
+      echo "<br/>";
+       
+      // show progress
+      displayProjectProgress($project);
 
     } elseif ("setProjectid" == $action) {
 
