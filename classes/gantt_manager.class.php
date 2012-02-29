@@ -257,9 +257,7 @@ class GanttManager {
     */
    private function dispatchResolvedIssues($resolvedIssuesList) {
    	global $status_acknowledged;
-   	global $status_new;
    	global $status_closed;
-   	global $gantt_task_grey;
 
       foreach ($resolvedIssuesList as $issue) {
 
@@ -422,8 +420,6 @@ class GanttManager {
 
     */
    private function dispatchCurrentIssues($issueList) {
-   	global $status_new;
-   	global $status_feedback;
 
       $teamDispatchInfo = array(); // $teamDispatchInfo[userid] = array(endTimestamp, $availTimeOnEndTimestamp)
       $today = date2timestamp(date("Y-m-d", time()));
