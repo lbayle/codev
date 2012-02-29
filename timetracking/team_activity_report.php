@@ -248,7 +248,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
 
       echo "<tr>\n";
       echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-      echo "<td>".$issue->getRemaining()."</td>\n";
+      echo "<td>".$issue->getDuration()."</td>\n";
       echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
       echo "<td>".$issue->getTargetVersion()."</td>\n";
@@ -294,7 +294,7 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
 
     echo "<tr>\n";
     echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-    echo "<td>".$issue->getRemaining()."</td>\n";
+    echo "<td>".$issue->getDuration()."</td>\n";
     echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
     echo "<td>".$issue->getProjectName()."</td>\n";
     echo "<td>".$issue->getTargetVersion()."</td>\n";
@@ -347,6 +347,9 @@ function displayCheckWarnings($timeTracking) {
   {
     $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
     foreach ($incompleteDays as $date => $value) {
+    	
+      if ($date > time()) { continue; } // skip dates in the future
+    	
       $formatedDate = date("Y-m-d", $date);
       if ($value < 1) {
         echo "<br/>$row->username: $formatedDate ".T_("incomplete (missing ").(1-$value).T_(" days").").\n";
@@ -357,6 +360,8 @@ function displayCheckWarnings($timeTracking) {
 
     $missingDays = $timeTracking->checkMissingDays($row->user_id);
     foreach ($missingDays as $date) {
+    	if ($date > time()) { continue; } // skip dates in the future
+    	
       $formatedDate = date("Y-m-d", $date);
       echo "<br/>$row->username: $formatedDate ".T_("not defined.")."\n";
     }
