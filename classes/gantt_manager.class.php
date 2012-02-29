@@ -453,7 +453,7 @@ class GanttManager {
 			$endDate = $teamDispatchInfo[$issue->handlerId][0];
 
 
-			$this->logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getRemaining());
+			$this->logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
 			$this->logger->debug("issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]);
 
 			// activitiesByUser
