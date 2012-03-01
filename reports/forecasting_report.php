@@ -262,7 +262,8 @@ function showIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
     echo "<tr>\n";
     echo "<th>".T_("ID")."</th>\n";
     echo "<th>".T_("Project")."</th>\n";
-
+    echo "<th>".T_("Target")."</th>\n";
+    
    if (true == $isManager) {
       echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
    }
@@ -293,7 +294,8 @@ function showIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
 		           echo "<tr>\n";
 		   		   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
 		   		   echo "<td>".$issue->getProjectName()."</td>\n";
-                  if (true == $isManager) {
+		   		   echo "<td>".$issue->getTargetVersion()."</td>\n";
+		   		   if (true == $isManager) {
                      $color = "";
                      if ($driftPrelEE < -1) { $color = "style='background-color: #61ed66;'"; }
                      if ($driftPrelEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
