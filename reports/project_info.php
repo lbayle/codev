@@ -130,8 +130,11 @@ function displayProjectProgress($project) {
    echo "<tr>\n";
    echo "  <th>".T_("Version")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
+   echo "  <th>".T_("MgrEffortEstim")."</th>\n";
+   echo "  <th>".T_("EffortEstim")."</th>\n";
    echo "  <th>".T_("Elapsed")."</th>\n";
    echo "  <th>".T_("Remaining")."</th>\n";
+   echo "  <th>".T_("Drift Mgr")."</th>\n";
    echo "  <th>".T_("Drift")."</th>\n";
    echo "  <th>".T_("Tasks")."</th>\n";
    echo "</tr>\n";
@@ -142,10 +145,17 @@ function displayProjectProgress($project) {
 	   $totalRemaining += $pv->remaining;
 	   $formatedList  = implode( ',', array_keys($pv->getIssueList()));
 	   
-	   echo "<td>".$pv->version."</td>\n";
+       $values = $pv->getDriftMgr();
+       $formattedDriftMgr = "<span title='".T_("nb days")."'>".$values['nbDays']."</span>".
+                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $values['percent'])."%)</span>";   
+	   
+       echo "<td>".$pv->version."</td>\n";
 	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
+       echo "<td>".$pv->mgrEffortEstim."</td>\n";
+       echo "<td>".$pv->effortEstim."</td>\n";
 	   echo "<td>".$pv->elapsed."</td>\n";
 	   echo "<td>".$pv->remaining."</td>\n";
+       echo "<td>$formattedDriftMgr</td>\n";
        echo "<td></td>\n";
 	   echo "<td>".$pv->getFormattedIssueList()."</td>\n";
 	   echo "</tr>\n";
@@ -162,8 +172,11 @@ function displayProjectProgress($project) {
    echo "<tr>\n";
    echo "<td>".T_("Total")."</td>\n";
    echo "<td>".round(100 * $totalProgress)."%</td>\n";
+   echo "<td></td>\n";
+   echo "<td></td>\n";
    echo "<td>".$totalElapsed."</td>\n";
    echo "<td>".$totalRemaining."</td>\n";
+   echo "<td></td>\n";
    echo "<td></td>\n";
    echo "<td></td>\n";
    echo "</tr>\n";

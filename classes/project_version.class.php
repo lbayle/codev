@@ -121,12 +121,25 @@ class ProjectVersion {
 	}
 
 	/**
-	 * @return array(nbDays, precentage)
+	 * @return array(nbDays, percent)
 	 */
-	public function getDriftMgrEE() {
+	public function getDriftMgr() {
 
-		// totalMgrEE, totalElapsed
-		
+        $values = array();
+
+        if ((0 != $this->mgrEffortEstim) && (0 != $this->elapsed)) {        
+            // (elapsed - estim) / estim
+            $nbDaysDrift = $this->elapsed - $this->mgrEffortEstim;
+    		$percent =  $nbDaysDrift / $this->mgrEffortEstim;
+            
+            $values['nbDays'] = $nbDaysDrift;
+            $values['percent'] = $percent;
+        } else {
+            $values['nbDays'] = 0;
+            $values['percent'] = 0;
+        	
+        }
+        return $values;
 	}
 }
 
