@@ -33,8 +33,9 @@ class ProjectVersion {
 	public $elapsed;
 	public $remaining;
 	public $mgrEffortEstim;
-	public $effortEstim;
-
+	public $effortEstim;  // BI
+	public $effortAdd;    // BS
+	
 	private $issueList;
 	private $progress;
 
@@ -49,7 +50,8 @@ class ProjectVersion {
 		$this->remaining = 0;
 		$this->mgrEffortEstim = 0;
 		$this->effortEstim   = 0;
-
+		$tgis->effortAdd     = 0;    // BS
+		
 		$this->issueList = array();
 		$this->progress  = NULL;
 	}
@@ -68,7 +70,8 @@ class ProjectVersion {
 			$this->remaining += $issue->remaining;
 			$this->mgrEffortEstim += $issue->mgrEffortEstim;
 			$this->effortEstim    += $issue->effortEstim;
-
+			$this->effortAdd    += $issue->effortAdd;
+			
 			$this->logger->debug("$this->projectId [$this->version] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->remaining);
 		}
 
@@ -128,8 +131,8 @@ class ProjectVersion {
         $values = array();
 
         if ((0 != $this->mgrEffortEstim) && (0 != $this->elapsed)) {        
-            // (elapsed - estim) / estim
-            $nbDaysDrift = $this->elapsed - $this->mgrEffortEstim;
+            // ((elapsed + RAF) - estim) / estim
+            $nbDaysDrift = $this->elapsed + $this->remaining - $this->mgrEffortEstim;
     		$percent =  $nbDaysDrift / $this->mgrEffortEstim;
             
             $values['nbDays'] = $nbDaysDrift;
@@ -140,6 +143,51 @@ class ProjectVersion {
         	
         }
         return $values;
+	}
+
+	/**
+	 * @return array(nbDays, percent)
+	 */
+	public function getDrift() {
+
+        $values = array();
+        
+        $myEstim = $this->effortEstim + $this->effortAdd;
+
+        if ((0 != $myEstim) && (0 != $this->elapsed)) {        
+            // ((elapsed + RAF) - estim) / estim
+            $nbDaysDrift = $this->elapsed + $this->remaining - $myEstim;
+    		$percent =  $nbDaysDrift / $myEstim;
+            
+            $values['nbDays'] = $nbDaysDrift;
+            $values['percent'] = $percent;
+        } else {
+            $values['nbDays'] = 0;
+            $values['percent'] = 0;
+        	
+        }
+        return $values;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param unknown_type $percent  100% = 1
+	 * @param unknown_type $threshold  5% = 0.05
+	 */
+	public function getDriftColor($percent, $threshold = 0.05) {
+		
+		if (abs($percent) < $threshold) {
+			return NULL; // no drift
+		}
+		
+		if ($percent > 0) {
+			$color = "fcbdbd";
+		} else {
+			$color = "bdfcbd";
+		}
+		return $color;
 	}
 }
 

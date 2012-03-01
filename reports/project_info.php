@@ -145,18 +145,27 @@ function displayProjectProgress($project) {
 	   $totalRemaining += $pv->remaining;
 	   $formatedList  = implode( ',', array_keys($pv->getIssueList()));
 	   
-       $values = $pv->getDriftMgr();
-       $formattedDriftMgr = "<span title='".T_("nb days")."'>".$values['nbDays']."</span>".
-                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $values['percent'])."%)</span>";   
+       $valuesMgr = $pv->getDriftMgr();
+       $formattedDriftMgr = "<span title='".T_("nb days")."'>".$valuesMgr['nbDays']."</span>".
+                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $valuesMgr['percent'])."%)</span>";   
 	   
+	   $driftMgrColor = $pv->getDriftColor($valuesMgr['percent']); 
+       $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
+       
+       $values = $pv->getDrift();
+       $formattedDrift    = "<span title='".T_("nb days")."'>".$values['nbDays']."</span>".
+                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $values['percent'])."%)</span>";   
+       $driftColor = $pv->getDriftColor($values['percent']);
+       $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
+       
        echo "<td>".$pv->version."</td>\n";
 	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
        echo "<td>".$pv->mgrEffortEstim."</td>\n";
-       echo "<td>".$pv->effortEstim."</td>\n";
+       echo "<td title='$pv->effortEstim + $pv->effortAdd'>".($pv->effortEstim + $pv->effortAdd)."</td>\n";
 	   echo "<td>".$pv->elapsed."</td>\n";
 	   echo "<td>".$pv->remaining."</td>\n";
-       echo "<td>$formattedDriftMgr</td>\n";
-       echo "<td></td>\n";
+       echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
+       echo "<td $formatteddriftColor >$formattedDrift</td>\n";
 	   echo "<td>".$pv->getFormattedIssueList()."</td>\n";
 	   echo "</tr>\n";
    }
