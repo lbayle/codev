@@ -30,8 +30,9 @@ class User {
 
    private $logger;
 
-   var $id;
-	private $name;
+    public $id;
+	
+    private $name;
 	private $timetrackingFilters;
 
    // --------------------
