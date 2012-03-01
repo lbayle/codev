@@ -395,7 +395,7 @@ if ("false" == $is_modified) {
 // ------
 
 $user = UserCache::getInstance()->getUser($userid);
-$mTeamList = $user->getTeamList();    // are team members allowed to see other member's timeTracking ?
+$mTeamList = $user->getDevTeamList();    // are team members allowed to see other member's timeTracking ?
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $managedTeamList;

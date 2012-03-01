@@ -320,7 +320,7 @@ if ("false" == $is_modified) {
 
 // team
 $user = UserCache::getInstance()->getUser($userid);
-$mTeamList = $user->getTeamList();
+$mTeamList = $user->getDevTeamList();
 $lTeamList = $user->getLeadedTeamList();
 $managedTeamList = $user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $managedTeamList;
