@@ -201,8 +201,11 @@ $originPage = "project_info.php";
 
 $action           = isset($_POST['action']) ? $_POST['action'] : '';
 $session_userid   = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
-$projectid        = isset($_POST['projectid']) ? $_POST['projectid'] : 0;
 $version          = isset($_POST['version']) ? $_POST['version'] : 0;
+
+$defaultProject = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+$projectid        = isset($_POST['projectid']) ? $_POST['projectid'] : $defaultProject;
+$_SESSION['projectid'] = $projectid;
 
 $user = UserCache::getInstance()->getUser($session_userid);
 
