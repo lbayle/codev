@@ -388,80 +388,6 @@ function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
 
 }
 
-function displayProductivityRateGraph ($timeTrackingTable, $width, $height, $displayNoSupport = false) {
-
-   $start_day = 1;
-   $now = time();
-
-   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-
-         // REM: the 'normal' ProductivityRate DO include support
-   	   $val1[] = $timeTracking->getProductivityRate("ETA");
-         $val2[] = $timeTracking->getProductivityRate("EffortEstim");
-         if ($displayNoSupport) {
-            $val3[] = $timeTracking->getProductivityRateNoSupport("EffortEstim");
-         }
-         $bottomLabel[] = date("M y", $startTimestamp);
-
-         #echo "DEBUG: ETA=".$driftStats_new['totalDriftETA']." Eff=".$driftStats_new['totalDrift']." date=".date('M y', $startTimestamp)."<br/>\n";
-   }
-   $graph_title="title=".("Productivity Rate");
-   $graph_width="width=$width";
-   $graph_height="height=$height";
-
-   $strVal1 = "leg1=Prod Rate MgrEffortEstim&x1=".implode(':', $val1);
-   $strVal2 = "leg2=Prod Rate&x2=".implode(':', $val2);
-   if ($displayNoSupport) {
-      $strVal3 = "leg3=No Support&x3=".implode(':', $val3);
-   }
-   $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
-
-   echo "<div>\n";
-   echo "<h2>".T_("Productivity Rate")."</h2>\n";
-
-   echo "<span class='help_font'>\n";
-   echo T_("Productivity Rate").": ".T_("Ratio between the estimated time and the elapsed time")."<br/>\n";
-      echo "</span>\n";
-   echo "<br/>\n";
-   echo "<div class=\"float\">\n";
-
-   if ($displayNoSupport) {
-      $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2&$strVal3";
-   } else {
-      $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.2f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2";
-   }
-   $graphURL = SmartUrlEncode($graphURL);
-   echo "    <img src='$graphURL'/>";
-
-   echo "</div>\n";
-   echo "<div class=\"float\">\n";
-   echo "<table>\n";
-   echo "<caption title='".T_("Productivity Rate")."'</caption>";
-   echo "<tr>\n";
-   echo "<th>Date</th>\n";
-   echo "<th title=''>".T_("Prod Rate MgrEffortEstim")."</th>\n";
-   echo "<th title=''>".T_("Prod Rate")."</th>\n";
-   if ($displayNoSupport) {
-      echo "<th title=''>".T_("No Support")."</th>\n";
-   }
-   echo "</tr>\n";
-   $i = 0;
-   foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-      echo "<tr>\n";
-      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
-      echo "<td class=\"right\">".number_format($val1[$i], 2)."</td>\n";
-      echo "<td class=\"right\">".number_format($val2[$i], 2)."</td>\n";
-      if ($displayNoSupport) {
-         echo "<td class=\"right\">".number_format($val3[$i], 2)."</td>\n";
-      }
-      echo "</tr>\n";
-      $i++;
-   }
-   echo "</table>\n";
-   echo "</div>\n";
-   echo "</div>\n";
-
-}
 
 function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
 
@@ -748,16 +674,6 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<br/>\n";
 
-         // --------- ProductivityRate
-/*
-         echo "<br/>\n";
-         echo "<hr/>\n";
-         echo "<br/>\n";
-         echo "<a name='tagProductivityRate'></a>\n";
-         displayProductivityRateGraph ($timeTrackingTable, 800, 300, $displayNoSupport);
-
-         echo "<div class=\"spacer\"> </div>\n";
-*/
 
       }
    }
