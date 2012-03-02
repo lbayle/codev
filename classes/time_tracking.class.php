@@ -267,123 +267,6 @@ class TimeTracking {
 
 
 
-  // ----------------------------------------------
-/*
-  public function getProductivityRateSideTasks() {
-    return $this->getProductivRate($this->sideTaskprojectList);
-  }
-*/
-  // ----------------------------------------------
-  public function getProductivityRate($balanceType = "ETA") {
-    $withSupport = true;  // include support in Drift
-  	 return $this->getProductivRate($this->prodProjectList, $balanceType, $withSupport);
-  }
-
-  public function getProductivityRateNoSupport($balanceType = "ETA") {
-   $withSupport = false;  // do NOT include support in Drift
-  	return $this->getProductivRate($this->prodProjectList, $balanceType, $withSupport);
-  }
-
-
-  // ----------------------------------------------
-  /** Returns an indication on how many Issues are Resolved in a given timestamp.
-
-   REM: an issue that has been reopened before endTimestamp will NOT be recorded.
-   (For the bugs that where re-opened, the EffortEstim may not have been re-estimated,
-   and thus the result is not reliable.)
-
-   ProductivityRate = nbResolvedIssues * IssueDifficulty / elapsed
-
-   @param projects: $prodProjectList or $sideTaskprojectList or your own selection.
-   @param balanceType: "ETA" or "EffortEstim"
-   */
-  private function getProductivRate($projects, $balanceType = "ETA", $withSupport = true) {
-
-  	global $status_closed;
-
-    $resolvedList = array();
-    $productivityRate = 0;
-    $totalElapsed = 0;
-
-    // --------
-    $formatedProjList = implode( ', ', $projects );
-
-    if ("" == $formatedProjList) {
-    	echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
-    	return 0;
-    }
-
-    // all bugs which status changed to 'resolved' whthin the timestamp
-    $query = "SELECT mantis_bug_table.id, ".
-                    "mantis_bug_table.eta, ".
-                    "mantis_bug_history_table.new_value, ".
-                    "mantis_bug_history_table.old_value, ".
-                    "mantis_bug_history_table.date_modified ".
-             "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
-             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
-             "AND mantis_bug_table.project_id IN ($formatedProjList) ".
-             "AND mantis_bug_history_table.field_name='status' ".
-             "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
-             "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-             "AND mantis_bug_history_table.new_value = get_project_resolved_status_threshold(project_id) ".
-    "ORDER BY mantis_bug_table.id DESC";
-
-    $this->logger->debug("getProductivRate QUERY = $query");
-
-    $result = mysql_query($query);
-    if (!$result) {
-    	$this->logger->error("getProductivRate Query FAILED: $query");
-    	$this->logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = mysql_fetch_object($result)) {
-
-      // check if the bug has been reopened before endTimestamp
-      $issue = IssueCache::getInstance()->getIssue($row->id);
-      $latestStatus = $issue->getStatus($this->endTimestamp);
-      if (($latestStatus == $issue->bug_resolved_status_threshold) || ($latestStatus == $status_closed)) {
-
-        // remove doubloons
-        if (!in_array ($row->id, $resolvedList)) {
-          if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) Found : bugid = $row->id, old_status=$row->old_value, new_status=$row->new_value, mgrEE=".$issue->mgrEffortEstim." date_modified=".date("d F Y", $row->date_modified).", effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed<br/>"; }
-
-          $resolvedList[] = $row->id;
-
-          if ($withSupport) {
-            $totalElapsed += $issue->elapsed;
-          } else {
-            $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-            $totalElapsed += $issue->elapsed - $issue->getElapsed($job_support);
-          }
-
-          if ("ETA" == $balanceType) {
-            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ".$issue->mgrEffortEstim." = ".($productivityRate + $issue->mgrEffortEstim)."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
-            $productivityRate += $issue->mgrEffortEstim;
-          } else {
-            if (isset($_GET['debug'])) { echo "getProductivRate($balanceType) : $productivityRate + ($issue->effortEstim + $issue->effortAdd) = ".($productivityRate + $issue->effortEstim + $issue->effortAdd)."  (Support = ".$issue->getElapsed($job_support).")<br/>";}
-            $productivityRate += $issue->effortEstim + $issue->effortAdd;
-          }
-        }
-      } else {
-        if (isset($_GET['debug'])) { echo "getProductivRate REOPENED : bugid = $row->id<br/>"; }
-      }
-
-    }
-
-    // -------
-    if (isset($_GET['debug'])) { echo "getProductivRate: productivityRate ($balanceType) = $productivityRate / $totalElapsed, nbBugs=".count($resolvedList)."<br/>"; }
-
-    if (0 != $totalElapsed) {
-      $productivityRate /= $totalElapsed;
-    } else {
-    	$productivityRate = 0;
-    }
-
-    return $productivityRate;
-  }
-
 
   // ----------------------------------------------
   public function getResolvedDriftStats($withSupport = true) {
@@ -1107,7 +990,7 @@ class TimeTracking {
     $formatedResolutionValues = "$resolution_fixed";
 
     if ("" == $formatedProjList) {
-       echo "<div style='color:red'>ERROR getProductivRate: no project defined for this team !<br/></div>";
+       echo "<div style='color:red'>ERROR getReopened: no project defined for this team !<br/></div>";
        return 0;
     }
 

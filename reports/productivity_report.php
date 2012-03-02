@@ -357,13 +357,9 @@ function displayProductionDays ($timeTracking) {
 // -----------------------------------------------
 function displayRates ($timeTracking) {
 
-   //  $productivityRateETA     = $timeTracking->getProductivityRate("ETA");
-   //  $productivityRateBI      = $timeTracking->getProductivityRate("EffortEstim");
    $efficiencyRate          = $timeTracking->getEfficiencyRate();
    $systemDisponibilityRate = $timeTracking->getSystemDisponibilityRate();
    $productionDaysForecast  = $timeTracking->getAvailableWorkload();
-   //  $prodRateNoSupportETA    = $timeTracking->getProductivityRateNoSupport("ETA");
-   //  $prodRateNoSupportBI     = $timeTracking->getProductivityRateNoSupport("EffortEstim");
 
 
 
@@ -395,30 +391,6 @@ function displayRates ($timeTracking) {
   echo "<td><a id='dialog_SystemAvailability_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
-   /* productivityRate is not an 'efficient' indicator because it depends on the EffortEstim
-   * which is not a very credible value. It is also hard to understand and the value does not
-   * fluctuate much. so let's get rid of it !
-
-   echo "<tr>\n";
-   echo "<td title='".T_("BEFORE analysis")."'>".T_("Prod. Rate PrelEffortEstim")."</td>\n";
-   echo "<td>".number_format($productivityRateETA, 2)."</td>\n";
-   echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
-   T_("- A number below 1 means a lesser efficiency.")."<br/>".
-   T_("- Time spent on a task is balanced by a toughness indicator")."<br/>".
-   T_("- Computed on task Resolved/Closed in the given period")."<br/>".
-   T_("- Reopened tasks are not taken into account")."</td>\n";
-   echo "<td>sum(PrelEffortEstim) / sum(elapsed)</td>\n";
-   echo "</tr>\n";
-   echo "<tr>\n";
-   echo "<td title='".T_("AFTER analysis")."'>".T_("Productivity Rate")."</td>\n";
-   echo "<td>".number_format($productivityRateBI, 2)."</td>\n";
-   echo "<td>".T_("- If estimation is correct the aimed number should be 1.")."<br/>".
-   T_("- A number below 1 means a lesser efficiency.")."<br/>".
-   T_("- Computed on task Resolved/Closed in the given period")."<br/>".
-   T_("- Reopened tasks are not taken into account")."</td>\n";
-   echo "<td>sum(EffortEstim + BS) / sum(elapsed)</td>\n";
-   echo "</tr>\n";
-   */
    echo "</table>\n";
    echo "</div>\n";
 
