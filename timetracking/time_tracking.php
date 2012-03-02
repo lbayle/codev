@@ -261,7 +261,7 @@ require_once('tc_calendar.php');
 
 		$( "#setfilter_dialog_form" ).dialog({
 			autoOpen: false,
-			height: 200,
+			height: 250,
 			width: 500,
 			modal: true,
 			buttons: {
@@ -366,8 +366,13 @@ require_once('tc_calendar.php');
 
 <?php
 
+$logger = Logger::getLogger("time_tracking");
+
 // --------------------------------------------------------------
 function setUserForm($originPage) {
+	
+  global $logger;
+  
   $accessLevel_dev     = Team::accessLevel_dev;
   $accessLevel_manager = Team::accessLevel_manager;
 
@@ -393,7 +398,14 @@ function setUserForm($originPage) {
   echo "<select name='userid'>\n";
   echo "<option value='0'></option>\n";
 
-  $result = mysql_query($query) or die("Query failed: $query");
+  $result = mysql_query($query);
+  if (!$result) {
+  	$logger->error("Query FAILED: $query");
+  	$logger->error(mysql_error());
+  	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+  	exit;
+  }
+  
   while($row = mysql_fetch_object($result))
   {
     if ($row->id == $_SESSION['userid']) {
@@ -417,8 +429,11 @@ function setUserForm($originPage) {
 }
 
 // --------------------------------------------------------------
-function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $defaultProjectid, $originPage) {
+function addTrackForm($weekid, $curYear, $user1, $defaultDate, 
+                      $defaultBugid, $defaultProjectid, $originPage) {
 
+	global $logger;
+	
    list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
    $myCalendar = new tc_calendar("date1", true, false);
@@ -449,13 +464,6 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
 
    // SideTasksProjects from Teams where I'm a Manager
    $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
-/*
-   foreach ($managedProjList as $pid => $pname) {
-   	// we want only SideTasks and NoStatsProject of projects that I manage
-   	$tmpPrj = ProjectCache::getInstance()->getProject($pid);
-      if (!$tmpPrj->isSideTasksProject() && !$tmpPrj->isNoStatsProject()) { unset($managedProjList[$pid]); }
-   }
-*/
    $projList = $devProjList + $managedProjList;
 
    echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
@@ -483,41 +491,50 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
 
    // --- Task list
    if (0 != $project1->id) {
-   	$handler_id = $isOnlyAssignedTo ? $user1->id : 0;
-      $issueList = $project1->getIssueList($handler_id, $isHideResolved);
+   	  
+   	  // do not filter on userId if SideTask or ExternalTask
+   	  if (($isOnlyAssignedTo) && 
+   	      (!$project1->isSideTasksProject()) &&
+   	  	  (!$project1->isNoStatsProject())) {
+         $handler_id = $user1->id;
+   	  } else {
+   	  	$handler_id = 0; // all users
+   	  	$isHideResolved = false; // do not hide resolved
+   	  }
+   	  
+   	  $issueList = $project1->getIssueList($handler_id, $isHideResolved);
+   	  
    } else {
    	 // no project specified: show all tasks
+
        $issueList = array();
-	    $formatedProjList = implode( ', ', array_keys($projList));
 
-       $query  = "SELECT id ".
-                 "FROM `mantis_bug_table` ".
-                 "WHERE project_id IN ($formatedProjList) ";
-       if ($isOnlyAssignedTo) {
-          $query  .= "AND handler_id = $user1->id ";
-       }
-       if ($isHideResolved) {
-          $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
-       }
-       $query  .= " ORDER BY id DESC";
+       foreach ($projList as $pid => $pname) {
+       	 $proj = ProjectCache::getInstance()->getProject($pid);
+       	 if (($proj->isSideTasksProject()) ||
+       	 	 ($proj->isNoStatsProject())) {
 
-#echo "$query<br>";
+       	 	// do not hide any task for SideTasks & ExternalTasks projects
+       	 	$buglist = $proj->getIssueList(0, false);
+       	 	$issueList = array_merge($issueList, $buglist);
 
-       $result = mysql_query($query) or die("Query failed: $query");
-         if (0 != mysql_num_rows($result)) {
-            while($row = mysql_fetch_object($result))
-            {
-               $issueList[] = $row->id;
-            }
+       	 } else {
+       	 	$handler_id = $isOnlyAssignedTo ? $user1->id : 0;
+       	 	$buglist = $proj->getIssueList($handler_id, $isHideResolved);
+       	 	$issueList = array_merge($issueList, $buglist);
+       	 }
+
        }
+       rsort($issueList);
    }
+
    echo "<select name='bugid' style='width: 600px;' onchange='javascript: setBugId()' title='".T_("Task")."'>\n";
    if (1 != count($issueList)) {
       echo "<option value='0'></option>\n";
    }
 
    foreach ($issueList as $bugid) {
-         $issue = IssueCache::getInstance()->getIssue($bugid);
+      $issue = IssueCache::getInstance()->getIssue($bugid);
       if ($bugid == $defaultBugid) {
          echo "<option selected value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       } else {
@@ -532,8 +549,15 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate, $defaultBugid, $d
       $jobList = $project1->getJobList();
    } else {
       $query  = "SELECT id, name FROM `codev_job_table` ";
-   	$result = mysql_query($query) or die("Query failed: $query");
-         if (0 != mysql_num_rows($result)) {
+   	  $result = mysql_query($query);
+   	  if (!$result) {
+   		$logger->error("Query FAILED: $query");
+   		$logger->error(mysql_error());
+   		echo "<span style='color:red'>ERROR: Query FAILED</span>";
+   		exit;
+   	  }
+   	
+      if (0 != mysql_num_rows($result)) {
             while($row = mysql_fetch_object($result))
             {
                $jobList[$row->id] = $row->name;
@@ -612,7 +636,7 @@ if (!isset($_POST['nextForm'])) {
     setUserForm("time_tracking.php");
   } else {
   	// developper & manager can add timeTracks
-   $mTeamList = $session_user->getTeamList();
+   $mTeamList = $session_user->getDevTeamList();
    $managedTeamList = $session_user->getManagedTeamList();
    $teamList = $mTeamList + $managedTeamList;
 
@@ -669,7 +693,13 @@ if ($_POST['nextForm'] == "addTrackForm") {
 
     // increase remaining (only if 'remaining' already has a value)
     $query = "SELECT bugid, jobid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = mysql_query($query) or die("Query failed: $query");
+    $result = mysql_query($query);
+   	if (!$result) {
+   		$logger->error("Query FAILED: $query");
+   		$logger->error(mysql_error());
+   		echo "<span style='color:red'>ERROR: Query FAILED</span>";
+   		exit;
+   	}
     while($row = mysql_fetch_object($result))
     { // REM: only one line in result, while should be optimized
       $bugid = $row->bugid;
@@ -687,9 +717,16 @@ if ($_POST['nextForm'] == "addTrackForm") {
     }
 
     // delete track
+    # TODO use TimeTrack::delete($trackid) 
     $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
-    mysql_query($query) or die("Query failed: $query");
-
+    $result = mysql_query($query);
+    if (!$result) {
+    	$logger->error("Query FAILED: $query");
+    	$logger->error(mysql_error());
+    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	exit;
+    }
+    
     // pre-set form fields
     $defaultBugid     = $bugid;
     $defaultProjectid  = $issue->projectId;

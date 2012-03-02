@@ -42,6 +42,8 @@ echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/gantt_report.php' title='".T_("Gantt Chart")."'>".T_("Gantt")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/issue_info.php' title='".T_("Task Information")."'>".T_("Task info")."</a>\n";
+echo "      |\n";
+echo "      <a href='".getServerRootURL()."/reports/project_info.php' title='".T_("Project Information")."'>".T_("Project info")."</a>\n";
 echo "      </td>\n";
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/timetracking/team_activity_report.php' title='".T_("Team Weekly activities")."'>".T_("Weekly activities")."</a>\n";

@@ -237,7 +237,7 @@ $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
 
 // team
 $session_user = UserCache::getInstance()->getUser($userid);
-$mTeamList = $session_user->getTeamList();
+$mTeamList = $session_user->getDevTeamList();
 $lTeamList = $session_user->getLeadedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();
 $teamList = $mTeamList + $lTeamList + $managedTeamList;

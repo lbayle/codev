@@ -18,6 +18,16 @@
 */ ?>
 
 <?php
+// === check if INSTALL needed
+$constantsFile = "constants.php";
+$mysqlConfigFile = "include/mysql_config.inc.php";
+if ((!file_exists($constantsFile)) || (!file_exists($mysqlConfigFile))) {
+    echo ("<script> parent.location.replace('./install/install.php'); </script>");
+    exit;
+}
+?>
+
+<?php
    include_once 'path.inc.php';
    include 'i18n.inc.php';
    $_POST['page_name'] = T_("Welcome");
@@ -271,7 +281,7 @@ function showIssuesInDrift($userid) {
 	   echo "<td $color >".$driftEE."</td>\n";
 
 	   echo "<td>\n";
-	   echo "<a title='".T_("update Remaining")."' href=\"javascript: updateRemaining('".$formatedTitle."', '".$issue->bugId."', '".$issue->getRemaining()."', '".$formatedSummary."', '', '')\" >".$issue->getRemaining()."</a>\n";
+	   echo "<a title='".T_("update Remaining")."' href=\"javascript: updateRemaining('".$formatedTitle."', '".$issue->bugId."', '".$issue->remaining."', '".$formatedSummary."', '', '')\" >".$issue->remaining."</a>\n";
 	   echo "</td>\n";
 
 	   echo "<td>".$issue->summary."</td>\n";

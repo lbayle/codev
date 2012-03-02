@@ -968,6 +968,7 @@ if (0 != $teamid) {
 
       $projectid = $_POST['f_projectid'];
       $query = "DELETE FROM `codev_team_project_table` WHERE id = $projectid;";
+      $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");
          $logger->error(mysql_error());
@@ -982,6 +983,7 @@ if (0 != $teamid) {
 
       $leaderid = $_POST['f_leaderid'];
       $query = "UPDATE `codev_team_table` SET leader_id = $leaderid WHERE id = $teamid;";
+      $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");
          $logger->error(mysql_error());
@@ -996,6 +998,7 @@ if (0 != $teamid) {
    	$teamidToDelete=$teamid;
 
       $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
+      $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");
          $logger->error(mysql_error());
@@ -1004,6 +1007,7 @@ if (0 != $teamid) {
       }
 
       $query = "DELETE FROM `codev_team_user_table` WHERE team_id = $teamidToDelete;";
+      $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");
          $logger->error(mysql_error());
@@ -1012,6 +1016,7 @@ if (0 != $teamid) {
       }
 
       $query = "DELETE FROM `codev_team_table` WHERE id = $teamidToDelete;";
+      $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");
          $logger->error(mysql_error());

@@ -257,9 +257,7 @@ class GanttManager {
     */
    private function dispatchResolvedIssues($resolvedIssuesList) {
    	global $status_acknowledged;
-   	global $status_new;
    	global $status_closed;
-   	global $gantt_task_grey;
 
       foreach ($resolvedIssuesList as $issue) {
 
@@ -422,8 +420,6 @@ class GanttManager {
 
     */
    private function dispatchCurrentIssues($issueList) {
-   	global $status_new;
-   	global $status_feedback;
 
       $teamDispatchInfo = array(); // $teamDispatchInfo[userid] = array(endTimestamp, $availTimeOnEndTimestamp)
       $today = date2timestamp(date("Y-m-d", time()));
@@ -453,7 +449,7 @@ class GanttManager {
 			$endDate = $teamDispatchInfo[$issue->handlerId][0];
 
 
-			$this->logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getRemaining());
+			$this->logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
 			$this->logger->debug("issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]);
 
 			// activitiesByUser

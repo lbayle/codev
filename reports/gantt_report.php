@@ -159,7 +159,7 @@ $_SESSION['teamid'] = $teamid;
 $_SESSION['projectid'] = $projectid;
 
 $session_user = UserCache::getInstance()->getUser($userid);
-$mTeamList = $session_user->getTeamList();
+$mTeamList = $session_user->getDevTeamList();
 $lTeamList = $session_user->getLeadedTeamList();
 $oTeamList = $session_user->getObservedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();

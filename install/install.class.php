@@ -355,34 +355,54 @@ class Install {
       $mType_enum    = 3;
       $mType_date    = 8;
 
+      $access_viewer = 10;
+      $access_reporter = 25;
+      $access_manager = 70;
+
+
 	  // default values, to be updated for each Field
 	  $attributes= array();
-      $attributes["access_level_r"]   = 10;
-      $attributes["access_level_rw"]  = 25;
+      $attributes["access_level_r"]   = $access_viewer;
+      $attributes["access_level_rw"]  = $access_reporter;
       $attributes["require_report"]   = 1;
       $attributes["display_report"]   = 1;
       $attributes["require_update"]   = 0;
       $attributes["display_update"]   = 1;
       $attributes["require_resolved"] = 0;
-      $attributes["display_resolved"] = 1;
+      $attributes["display_resolved"] = 0;
       $attributes["require_closed"]   = 0;
-      $attributes["display_closed"]   = 1;
+      $attributes["display_closed"]   = 0;
 
 
       $attributes["require_report"]   = 1;
       $attributes["display_report"]   = 1;
-      $this->createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_numeric,    "customField_MgrEffortEstim", $attributes);
+      $defaultValue = 1;
+      $this->createCustomField(T_("CodevTT_EffortEstim"),        $mType_numeric, "customField_effortEstim", $attributes, $defaultValue);
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 1;
+      $defaultValue = 1;
+      $attributes["access_level_r"]   = $access_manager;
+      $attributes["access_level_rw"]  = $access_manager;
+      $this->createCustomField(T_("CodevTT_Manager EffortEstim"), $mType_numeric,    "customField_MgrEffortEstim", $attributes, $defaultValue);
+
+      $attributes["access_level_r"]   = $access_viewer;
+      $attributes["access_level_rw"]  = $access_reporter;
       $this->createCustomField(T_("CodevTT_External ID"),       $mType_string,  "customField_ExtId", $attributes);
       $this->createCustomField(T_("CodevTT_Dead Line"),         $mType_date,    "customField_deadLine", $attributes);
 
       $attributes["display_report"]   = 0;
-      $this->createCustomField(T_("CodevTT_EffortEstim"),        $mType_numeric, "customField_effortEstim", $attributes);
       $this->createCustomField(T_("CodevTT_Aditional Effort"),   $mType_numeric, "customField_addEffort", $attributes);
-      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes);
+      
+      $attributes["require_report"]   = 1;
+      $attributes["display_report"]   = 1;
+      $attributes["display_closed"]   = 1;
+      $attributes["display_resolved"] = 1;
+      $defaultValue = 1;
+      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes, $defaultValue);
 
+      $attributes["require_report"]   = 0;
+      $attributes["display_report"]   = 0;
       $attributes["require_resolved"] = 0;
       $attributes["require_closed"]   = 0;
       #$this->createCustomField(T_("CodevTT_Delivery ticket"),   $mType_string,  "customField_deliveryId", $attributes);  // CoDev FDJ custom

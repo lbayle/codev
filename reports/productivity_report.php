@@ -706,8 +706,7 @@ function displayWorkingDaysPerProject($timeTracking) {
      $proj = ProjectCache::getInstance()->getProject($row->id);
      
      if ((! $proj->isSideTasksProject()) && (! $proj->isNoStatsProject())) {
-     $progressList = $proj->getProgress(); 
-     $progress = round(100 * $progressList['Total']).'%';
+        $progress = round(100 * $proj->getProgress()).'%';
      } else {
      	$progress = '';
      }
@@ -977,7 +976,7 @@ $_SESSION['teamid'] = $teamid;
 
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-$mTeamList = $session_user->getTeamList();
+$mTeamList = $session_user->getDevTeamList();
 $lTeamList = $session_user->getLeadedTeamList();
 $oTeamList = $session_user->getObservedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();

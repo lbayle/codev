@@ -96,13 +96,14 @@ class Scheduler {
 
 		// get Ordered List of Issues to schedule
 		$issueList = $user->getAssignedIssues();
+        $this->logger->debug("scheduleUser $user->id : nb assigned issues = ". count($issueList));
 
 		// foreach task
       $sumDurations = 0;
 		foreach ($issueList as $issue) {
 
 			// determinate issue duration (Remaining, EffortEstim, MgrEffortEstim)
-			$issueDuration = $issue->getRemaining();
+			$issueDuration = $issue->getDuration();
 
 			$this->logger->debug("issue $issue->bugId  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
 
@@ -145,7 +146,7 @@ class Scheduler {
 
 
             // determinate issue duration (Remaining, EffortEstim, MgrEffortEstim)
-			$issueDuration = $issue->getRemaining();
+			$issueDuration = $issue->getDuration();
 
             #echo "DEBUG Monitored issue $issue->bugId  Duration = $issueDuration<br/>";
 

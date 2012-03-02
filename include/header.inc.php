@@ -18,6 +18,9 @@
    # WARN: this avoids the display of some PHP errors...
    error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
+   date_default_timezone_set("Europe/Paris");
+
+
    # WARN: order of these includes is important.
    require_once('Logger.php');
    if (NULL == Logger::getConfigurationFile()) {

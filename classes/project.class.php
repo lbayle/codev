@@ -26,10 +26,14 @@ if (NULL == Logger::getConfigurationFile()) {
 
 
 include_once "config_mantis.class.php";
+include_once "project_version.class.php";
 include_once "project_cache.class.php";
 include_once "jobs.class.php";
 
 
+
+
+// ===================================================
 class Project {
 
   const type_workingProject   = 0;     // normal projects are type 0
@@ -60,7 +64,10 @@ class Project {
 	var $categoryList;
 
 	private $bug_resolved_status_threshold;
-
+	private $projectVersionList;
+	private $progress;
+	
+	
 	// -----------------------------------------------
 	public function Project($id) {
 	   $this->logger = Logger::getLogger(__CLASS__);
@@ -604,7 +611,7 @@ class Project {
    /**
     * returns bugId list
     * 
-    * @param unknown_type $handler_id
+    * @param unknown_type $handler_id (if 0, all users)
     * @param unknown_type $isHideResolved
     */
    public function getIssueList($handler_id = 0, $isHideResolved = false) {
@@ -637,10 +644,9 @@ class Project {
 
    // -----------------------------------------------
    public function isSideTasksProject() {
-   	$sideTaskProjectType = Project::type_sideTaskProject;
-
-		return ($sideTaskProjectType == $this->type);
-	}
+      $sideTaskProjectType = Project::type_sideTaskProject;
+      return ($sideTaskProjectType == $this->type);
+   }
 
    // -----------------------------------------------
    public function isNoStatsProject() {
@@ -809,42 +815,61 @@ class Project {
 
    
    /**
-    * returns an array of progress/release
-    * key=release, value= progress
-    * 
-    * ( (Total,xx%), (RC1, xx%), (RC2, xx%), ...)
+    * returns an array of ProjectVersion instances
+    * key=version, value= ProjectVersion
     * 
     * 
-    * @param unknown_type $team_id
+    * @param unknown_type $team_id (TODO)
     */
-   public function getProgress($team_id = NULL) {
+   #public function getVersionList($team_id = NULL) {
+   public function getVersionList() {
    	
-   	  $progressList = array();
+   	  if (NULL == $this->projectVersionList) {
+   	
+	   	  $this->projectVersionList = array();
+	   	  $issueList = $this->getIssueList();
+	   	  foreach ($issueList as $bugid) {
+	   	  	
+	   	  	$issue = IssueCache::getInstance()->getIssue($bugid);
+	   	  	$tagVersion = "VERSION_".$issue->getTargetVersion();
+	   	  	
+	   	  	if (NULL == $this->projectVersionList[$tagVersion]) {
+	   	  		$this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion()); 
+	   	  	}
+	   	  	$this->projectVersionList[$tagVersion]->addIssue($bugid);
+	   	  }
+	      
+	      ksort($this->projectVersionList);
+   	  }
    	  
-   	  $elapsedList = array(); 
-   	  $remainingList = array();
-   	  $totalElapsed = 0;
-   	  $totalRemaining = 0;
+      return $this->projectVersionList;
+   }
+   
+   public function getProgress() {
+   	 
+   	if (NULL == $this->progress) {
    	  
+   	  $remaining = 0;
+   	  $elapsed   = 0;
    	  $issueList = $this->getIssueList();
+
    	  foreach ($issueList as $bugid) {
-   	  	
    	  	$issue = IssueCache::getInstance()->getIssue($bugid);
-   	  	$elapsedList["VERSION_".$issue->version] += $issue->elapsed;
-   	  	$remainingList["VERSION_".$issue->version] += $issue->getRemaining();
-   	  	$totalElapsed += $issue->elapsed;
-   	  	$totalRemaining += $issue->getRemaining();
+   	  	$elapsed   += $issue->elapsed;
+   	  	$remaining += $issue->remaining;
    	  	
-   	  	$this->logger->debug("$this->name : issue $bugid version = <".$issue->version."> ");
    	  }
    	  
-   	  $progressList['Total'] = $totalElapsed / ($totalElapsed + $totalRemaining);
-  	  
-   	  foreach ($elapsedList as $version => $elapsed) {
-   	  	$progressList[$version] = $elapsed / ($elapsed + $remainingList[$version]);
+   	  // compute total progress
+   	  if (0 == $elapsed) {
+   	  	$this->progress = 0;  // if no time spent, then no work done.
+   	  } elseif (0 == $remaining) {
+   	  	$this->progress = 1;  // if no Remaining, then Project is 100% done.
+   	  } else {
+   	  	$this->progress = $elapsed / ($elapsed + $remaining);
    	  }
-
-   	  return $progressList;
+   	}
+   	return $this->progress;
    }
 
 }
