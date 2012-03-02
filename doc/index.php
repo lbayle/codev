@@ -25,7 +25,7 @@ $OpenSource_FR = "Un logiciel libre est un logiciel qui respecte le droit de lâ€
 
 
 <?php 
-echo "<h2>".T_("Reporter un bug")."</h2>";
+echo "<h2>".T_("Reporter un bug / Demander un &eacute;volution")."</h2>";
 echo T_("Pour reporter des bug sur CodevTT ou demander des &eacute;volutions merci de vous rendre sur:");
 #echo '<br>';
 

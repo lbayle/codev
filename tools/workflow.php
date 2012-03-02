@@ -341,7 +341,7 @@ if (!$session_user->isTeamMember($admin_teamid)) {
 
 // -------
 
-$projectList = getProjectList();
+$projectList = getProjectList(true);
 
 setProjectForm($originPage, $projectid, $projectList);
 echo "<br/><br/>\n";
