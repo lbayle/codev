@@ -63,6 +63,7 @@ include_once 'install.class.php';
  		echo "- Are you sure SELINUX is well configured ?<br>";
    	    exit;
    }
+   
     
    $error = Install::checkMysqlAccess();
    if (TRUE == strstr($error, T_("ERROR"))) {
@@ -70,38 +71,16 @@ include_once 'install.class.php';
       exit;
    }
 
-   echo "Pre-install check SUCCEEDED.";
+   echo "Pre-install check SUCCEEDED.<br>";
+
+   echo "<br>";
+   echo "<br>";
+   echo "<br>";
+   echo "Before you continue, please ensure that user '<b>".exec('whoami')."</b>' has write access to your mantis directory<br>";
+
+   
  }
 
-/*
- *
- *
- * create MySQL 'codev' user with access SELECT, INSERT, UPDATE, DELETE, CREATE
- *
- * Step 1
- *
- * - [user] create DB config file & test connection        OK
- * - [auto] create DB tables (from SQL file)               OK
- * - [auto] create Mantis codev user (if necessary ?)
- * - [auto] create admin team & add to codev_config_table  OK
- *
- * Step 2
- *
- * - [auto] create custom fields & add to codev_config_table  OK
- * - [auto] create CodevMetaProject (optional ?)
- * - [user] update codev_config_table with user prefs
- * - [user]
- *
- * - [user] create CommonSideTasks Project                 OK
- * - [auto] asign N/A job to commonSideTasks               OK
- * - [user] create default side tasks
- * - [user] config astreintes
-
- * Step 3
- * - [user] create jobs
- * - [user] config support job
- * - [user] add custom fields to existing projects
- */
 
 
 ?>

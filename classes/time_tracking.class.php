@@ -105,11 +105,12 @@ class TimeTracking {
   // ----------------------------------------------
   /**
    * Returns the number of days worked by the team within the timestamp
-   * - Developpers only !
+   * - Observers excluded
    */
   private function getProductionDays($projects) {
 
-  	$accessLevel_dev = Team::accessLevel_dev;
+    $accessLevel_observer = Team::accessLevel_observer;
+    
     $prodDays = 0;
 
     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
@@ -117,7 +118,7 @@ class TimeTracking {
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level = $accessLevel_dev ";
+      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
 
     $result = mysql_query($query);
     if (!$result) {
@@ -214,7 +215,10 @@ class TimeTracking {
         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
 
         $user = UserCache::getInstance()->getUser($timeTrack->userId);
-        if (false == $user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
+        
+        if ((!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
+            (!$user->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
+           $this->logger->warn("getManagementDays(): timetrack $row->id not included because user $user->id (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
            continue; // skip this timeTrack
         }
 
@@ -253,7 +257,7 @@ class TimeTracking {
 
     while($row = mysql_fetch_object($result))
     {
-    	$user = UserCache::getInstance()->getUser($row->user_id);
+      $user = UserCache::getInstance()->getUser($row->user_id);
       $teamProdDaysForecast += $user->getAvailableWorkload($this->startTimestamp, $this->endTimestamp, $this->team_id);
     }
 

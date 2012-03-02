@@ -976,7 +976,7 @@ $_SESSION['teamid'] = $teamid;
 
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-$mTeamList = $session_user->getTeamList();
+$mTeamList = $session_user->getDevTeamList();
 $lTeamList = $session_user->getLeadedTeamList();
 $oTeamList = $session_user->getObservedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();

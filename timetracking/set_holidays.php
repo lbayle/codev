@@ -353,7 +353,7 @@ if (!isset($_POST['nextForm'])) {
     setUserForm($originPage);
   } else {
    // developper & manager can add timeTracks
-   $mTeamList = $session_user->getTeamList();
+   $mTeamList = $session_user->getDevTeamList();
    $managedTeamList = $session_user->getManagedTeamList();
    $teamList = $mTeamList + $managedTeamList;
 
