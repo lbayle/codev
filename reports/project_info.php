@@ -128,14 +128,14 @@ function displayProjectProgress($project) {
    echo "<table>\n";
    
    echo "<tr>\n";
-   echo "  <th>".T_("Version")."</th>\n";
+   echo "  <th>".T_("Target version")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
    echo "  <th>".T_("MgrEffortEstim")."</th>\n";
    echo "  <th>".T_("EffortEstim")."</th>\n";
    echo "  <th>".T_("Elapsed")."</th>\n";
    echo "  <th>".T_("Remaining")."</th>\n";
-   echo "  <th>".T_("Drift Mgr")."</th>\n";
-   echo "  <th>".T_("Drift")."</th>\n";
+   echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
+   echo "  <th width='80'>".T_("Drift")."</th>\n";
    echo "  <th>".T_("Tasks")."</th>\n";
    echo "</tr>\n";
    
