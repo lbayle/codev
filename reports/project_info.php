@@ -44,8 +44,11 @@ if (!isset($_SESSION['userid'])) {
   }
 
    // ------ JQUERY ------
-    $(function() {
-    });
+  $(function() {
+
+     $( "#tabsVersions" ).tabs();
+
+  });
 
 </script>
 
@@ -109,8 +112,8 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
                $versionList[] = $row->version;
             }
        }
-*/   
-   
+*/
+
    echo "<input type=button value='".T_("Jump")."' onClick='javascript: submitForm()'>\n";
 
    echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
@@ -120,13 +123,94 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
    echo "</div>";
 }
 
+
+// ------------------------------------------------
+function displayProjectVersions($project) {
+
+   echo "<h3>".T_("Project Versions")."</h3>";
+   echo "<div id='tabsVersions'>\n";
+   echo "<ul>\n";
+   echo "<li><a href='#tab1'>".T_("Overview")."</a></li>\n";
+   echo "<li><a href='#tab2'>".T_("Detailed")."</a></li>\n";
+   echo "</ul>\n";
+   echo "<div id='tab1'>\n";
+   echo "<p>";
+   displayVersionsOverview($project);
+   echo "</p>\n";
+   echo "</div>\n";
+   echo "<div id='tab2'>\n";
+   echo "<p>";
+   displayVersionsDetailed($project);
+   echo "</p>\n";
+   echo "</div>\n";
+   echo "</div>\n";
+
+}
+
 // -----------------------------------------
-function displayProjectProgress($project) {
+function displayVersionsOverview($project) {
+   $projectVersionList = $project->getVersionList();
+
+   echo "<table>\n";
+
+   echo "<tr>\n";
+   echo "  <th>".T_("Target version")."</th>\n";
+   echo "  <th>".T_("Progress")."</th>\n";
+   echo "  <th>".T_("Remaining")."</th>\n";
+   echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
+   echo "  <th width='80'>".T_("Drift")."</th>\n";
+   echo "</tr>\n";
+
+   foreach ($projectVersionList as $version => $pv) {
+	   echo "<tr>\n";
+	   $totalElapsed += $pv->elapsed;
+	   $totalRemaining += $pv->remaining;
+
+       $valuesMgr = $pv->getDriftMgr();
+       $formattedDriftMgr = "<span title='".T_("percent")."' class='float'>".round(100 * $valuesMgr['percent'])."%</span>";
+
+	   $driftMgrColor = $pv->getDriftColor($valuesMgr['percent']);
+       $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
+
+       $values = $pv->getDrift();
+       $formattedDrift    = "<span title='".T_("percent")."' class='float'>".round(100 * $values['percent'])."%</span>";
+       $driftColor = $pv->getDriftColor($values['percent']);
+       $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
+
+       echo "<td>".$pv->version."</td>\n";
+	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
+	   echo "<td>".$pv->remaining."</td>\n";
+       echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
+       echo "<td $formatteddriftColor >$formattedDrift</td>\n";
+	   echo "</tr>\n";
+   }
+
+   // compute total progress
+   if (0 == $totalRemaining) {
+   	  $totalProgress = 1;  // if no Remaining, then Project is 100% done.
+   } elseif (0 == $totalElapsed) {
+      $totalProgress = 0;  // if no time spent, then no work done.
+   } else {
+   	  $totalProgress = $totalElapsed / ($totalElapsed + $totalRemaining);
+   }
+   echo "<tr>\n";
+   echo "<td>".T_("Total")."</td>\n";
+   echo "<td>".round(100 * $totalProgress)."%</td>\n";
+   echo "<td>".$totalRemaining."</td>\n";
+   echo "<td></td>\n";
+   echo "<td></td>\n";
+   echo "</tr>\n";
+
+   echo "</table>\n";
+}
+
+// -----------------------------------------
+function displayVersionsDetailed($project) {
 
    $projectVersionList = $project->getVersionList();
 
    echo "<table>\n";
-   
+
    echo "<tr>\n";
    echo "  <th>".T_("Target version")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
@@ -136,28 +220,49 @@ function displayProjectProgress($project) {
    echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
    echo "  <th width='80'>".T_("Drift")."</th>\n";
-   echo "  <th>".T_("Tasks")."</th>\n";
+   echo "  <th>".T_("Current Tasks")."</th>\n";
+   echo "  <th>".T_("Resolved Tasks")."</th>\n";
    echo "</tr>\n";
-   
+
    foreach ($projectVersionList as $version => $pv) {
 	   echo "<tr>\n";
 	   $totalElapsed += $pv->elapsed;
 	   $totalRemaining += $pv->remaining;
 	   $formatedList  = implode( ',', array_keys($pv->getIssueList()));
-	   
+
+      // format Issues list
+      $formatedResolvedList = "";
+      $formatedOpenList = "";
+      foreach ($pv->getIssueList() as $bugid => $issue) {
+
+         if ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
+         	if ("" != $formatedResolvedList) {
+				   $formatedResolvedList .= ', ';
+			   }
+			   $formatedResolvedList .= issueInfoURL($bugid, $issue->summary);
+         } else {
+         	if ("" != $formatedOpenList) {
+				   $formatedOpenList .= ', ';
+			   }
+			   $formatedOpenList .= issueInfoURL($bugid, $issue->summary);
+         }
+      }
+
+
+
        $valuesMgr = $pv->getDriftMgr();
        $formattedDriftMgr = "<span title='".T_("nb days")."'>".$valuesMgr['nbDays']."</span>".
-                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $valuesMgr['percent'])."%)</span>";   
-	   
-	   $driftMgrColor = $pv->getDriftColor($valuesMgr['percent']); 
+                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $valuesMgr['percent'])."%)</span>";
+
+	   $driftMgrColor = $pv->getDriftColor($valuesMgr['percent']);
        $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
-       
+
        $values = $pv->getDrift();
        $formattedDrift    = "<span title='".T_("nb days")."'>".$values['nbDays']."</span>".
-                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $values['percent'])."%)</span>";   
+                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $values['percent'])."%)</span>";
        $driftColor = $pv->getDriftColor($values['percent']);
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
-       
+
        echo "<td>".$pv->version."</td>\n";
 	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
        echo "<td>".$pv->mgrEffortEstim."</td>\n";
@@ -166,7 +271,8 @@ function displayProjectProgress($project) {
 	   echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
        echo "<td $formatteddriftColor >$formattedDrift</td>\n";
-	   echo "<td>".$pv->getFormattedIssueList()."</td>\n";
+	   echo "<td>".$formatedOpenList."</td>\n";
+	   echo "<td>".$formatedResolvedList."</td>\n";
 	   echo "</tr>\n";
    }
 
@@ -188,8 +294,9 @@ function displayProjectProgress($project) {
    echo "<td></td>\n";
    echo "<td></td>\n";
    echo "<td></td>\n";
+   echo "<td></td>\n";
    echo "</tr>\n";
-   
+
    echo "</table>\n";
 }
 
@@ -252,9 +359,9 @@ if (0 == count($teamList)) {
       echo "<br/>";
       echo "<br/>";
       echo "<br/>";
-       
+
       // show progress
-      displayProjectProgress($project);
+      displayProjectVersions($project);
 
     } elseif ("setProjectid" == $action) {
 

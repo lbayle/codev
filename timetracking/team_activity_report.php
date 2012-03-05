@@ -82,6 +82,14 @@
   }
 
 
+   // ------ JQUERY ------
+	$(function() {
+		$( "#accordion" ).accordion({
+			collapsible: true
+		});
+	});
+
+
 </script>
 
 <div id="content" class="center">
@@ -207,9 +215,9 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, 
 
 // ------------------------------------------------
 function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
-  
+
   global $logger;
-  
+
   // PERIOD week
   //$thisWeekId=date("W");
 
@@ -322,9 +330,9 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
 
 
 function displayCheckWarnings($timeTracking) {
-    
+
   global $logger;
-    
+
   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
     "FROM  `codev_team_user_table`, `mantis_user_table` ".
     "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
@@ -341,15 +349,19 @@ function displayCheckWarnings($timeTracking) {
      exit;
   }
 
+  echo "<div align='center'>";
+  echo "<div id='accordion' style='width:350px;' >\n";
+  echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
+
   echo "<p style='color:red'>\n";
 
   while($row = mysql_fetch_object($result))
   {
     $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
     foreach ($incompleteDays as $date => $value) {
-    	
+
       if ($date > time()) { continue; } // skip dates in the future
-    	
+
       $formatedDate = date("Y-m-d", $date);
       if ($value < 1) {
         echo "<br/>$row->username: $formatedDate ".T_("incomplete (missing ").(1-$value).T_(" days").").\n";
@@ -361,12 +373,14 @@ function displayCheckWarnings($timeTracking) {
     $missingDays = $timeTracking->checkMissingDays($row->user_id);
     foreach ($missingDays as $date) {
     	if ($date > time()) { continue; } // skip dates in the future
-    	
+
       $formatedDate = date("Y-m-d", $date);
       echo "<br/>$row->username: $formatedDate ".T_("not defined.")."\n";
     }
   }
   echo "</p>\n";
+  echo "</div>\n";
+  echo "</div>\n";
 }
 
 
