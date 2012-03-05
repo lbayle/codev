@@ -117,7 +117,7 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
 
   $holidays = Holidays::getInstance();
   $green="A8FFBD";
-  $green2="75FF95";
+  $green2="75FFDA";
   $yellow="F8FFA8";
   $orange="FFC466";
 

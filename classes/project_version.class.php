@@ -31,8 +31,8 @@ include_once "issue_selection.class.php";
 // ===================================================
 class ProjectVersion extends IssueSelection {
 
-	public $projectId;
-	public $versionDate; // mantis_project_version_table.date_order
+	public    $projectId;
+	protected $versionDate; // mantis_project_version_table.date_order
 	
 	
 	public function __construct($projectId, $version) {
