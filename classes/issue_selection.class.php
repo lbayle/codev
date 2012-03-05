@@ -39,7 +39,7 @@ class IssueSelection {
 	protected $issueList;
 	protected $progress;
 
-	public function __construct($name) {
+	public function __construct($name = "no_name") {
 
 		$this->logger = Logger::getLogger(__CLASS__);
 
@@ -188,6 +188,79 @@ class IssueSelection {
 		}
 		return $color;
 	}
+	
+	
+	// ----------------------------------------------
+	/**
+	 * return stats on which Issues where delivered after the DeadLine
+	 * 
+	 * NOTE: replacement for TimeTracking::getIssuesTimeDriftStats()
+	 * 
+	 */
+	public function getTimeDriftStats() {
+	
+		$nbDriftsNeg   = 0;
+		$nbDriftsEqual = 0;
+		$nbDriftsPos   = 0;
+	
+		$driftNeg   = 0;
+		$driftEqual = 0;
+		$driftPos   = 0;
+	
+		if (NULL == $this->issueList) {
+			$this->logger->error("getTimeDriftStats: Issue List is NULL !");
+			echo "<div style='color:red'>ERROR getTimeDriftStats: Issue List is NULL !<br/></div>";
+			return array();
+		}
+		if (0== count($this->issueList)) {
+			$this->logger->error("getTimeDriftStats: Issue List is empty !");
+			echo "<div style='color:red'>ERROR getTimeDriftStats: Issue List is empty !<br/></div>";
+			return array();
+		}
+	
+	
+		foreach ($this->issueList as $bugid => $issue) {
+	
+	
+			$issueDrift = $issue->getTimeDrift();  // returns an integer or an error string
+			if (! is_string($issueDrift)) {
+	
+				if ($issueDrift <= 0) {
+	
+					$nbDriftsNeg++;
+					$driftNeg += $issueDrift;
+	
+					if ($formatedBugidNegList != "") {
+						$formatedBugidNegList .= ', ';
+					}
+					$formatedBugidNegList .= issueInfoURL($issue->bugId, $issue->summary);
+	
+				} else {
+					$nbDriftsPos++;
+					$driftPos += $issueDrift;
+	
+					if ($formatedBugidPosList != "") {
+						$formatedBugidPosList .= ', ';
+					}
+					$formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary)."<span title='".T_("nb days")."'>(".round($issueDrift).")<span>";
+				}
+			}
+		} // foreach
+	
+		$driftStats = array();
+		$driftStats["driftPos"]         = $driftPos;
+		$driftStats["driftEqual"]       = $driftEqual;
+		$driftStats["driftNeg"]         = $driftNeg;
+		$driftStats["nbDriftsPos"]      = $nbDriftsPos;
+		$driftStats["nbDriftsEqual"]    = $nbDriftsEqual;
+		$driftStats["nbDriftsNeg"]      = $nbDriftsNeg;
+		$driftStats["formatedBugidPosList"]   = $formatedBugidPosList;
+		$driftStats["formatedBugidNegList"]   = $formatedBugidNegList;
+	
+		return $driftStats;
+	}
+	
+	
 }
 
 ?>
