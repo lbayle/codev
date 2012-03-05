@@ -155,6 +155,7 @@ function displayVersionsOverview($project) {
 
    echo "<tr>\n";
    echo "  <th>".T_("Target version")."</th>\n";
+   echo "  <th>".T_("Date")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
    echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
@@ -177,8 +178,9 @@ function displayVersionsOverview($project) {
        $driftColor = $pv->getDriftColor($values['percent']);
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
-       echo "<td>".$pv->version."</td>\n";
-	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
+       echo "<td>".$pv->name."</td>\n";
+       echo "<td>".date("Y-m-d", $pv->getVersionDate())."</td>\n";
+       echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
 	   echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
        echo "<td $formatteddriftColor >$formattedDrift</td>\n";
@@ -263,7 +265,7 @@ function displayVersionsDetailed($project) {
        $driftColor = $pv->getDriftColor($values['percent']);
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
-       echo "<td>".$pv->version."</td>\n";
+       echo "<td>".$pv->name."</td>\n";
 	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
        echo "<td>".$pv->mgrEffortEstim."</td>\n";
        echo "<td title='$pv->effortEstim + $pv->effortAdd'>".($pv->effortEstim + $pv->effortAdd)."</td>\n";
