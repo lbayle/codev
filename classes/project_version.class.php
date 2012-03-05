@@ -64,7 +64,6 @@ class ProjectVersion extends IssueSelection {
 			
 			$this->versionDate = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "(none)";
 			
-			echo "$this->versionDate";
 			if ($this->versionDate <= 1) { $this->versionDate = "(none)"; }
 		}
 		
