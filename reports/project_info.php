@@ -155,8 +155,9 @@ function displayVersionsOverview($project) {
 
    echo "<tr>\n";
    echo "  <th>".T_("Target version")."</th>\n";
+   echo "  <th>".T_("Date")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
-   echo "  <th>".T_("Remaining")."</th>\n";
+   #echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
    echo "  <th width='80'>".T_("Drift")."</th>\n";
    echo "</tr>\n";
@@ -177,9 +178,10 @@ function displayVersionsOverview($project) {
        $driftColor = $pv->getDriftColor($values['percent']);
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
-       echo "<td>".$pv->version."</td>\n";
-	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
-	   echo "<td>".$pv->remaining."</td>\n";
+       echo "<td>".$pv->name."</td>\n";
+       echo "<td>".date("Y-m-d", $pv->getVersionDate())."</td>\n";
+       echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
+	   #echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
        echo "<td $formatteddriftColor >$formattedDrift</td>\n";
 	   echo "</tr>\n";
@@ -195,8 +197,9 @@ function displayVersionsOverview($project) {
    }
    echo "<tr>\n";
    echo "<td>".T_("Total")."</td>\n";
+   echo "<td></td>\n";
    echo "<td>".round(100 * $totalProgress)."%</td>\n";
-   echo "<td>".$totalRemaining."</td>\n";
+   #echo "<td>".$totalRemaining."</td>\n";
    echo "<td></td>\n";
    echo "<td></td>\n";
    echo "</tr>\n";
@@ -213,7 +216,7 @@ function displayVersionsDetailed($project) {
 
    echo "<tr>\n";
    echo "  <th>".T_("Target version")."</th>\n";
-   echo "  <th>".T_("Progress")."</th>\n";
+   #echo "  <th>".T_("Progress")."</th>\n";
    echo "  <th>".T_("MgrEffortEstim")."</th>\n";
    echo "  <th>".T_("EffortEstim")."</th>\n";
    echo "  <th>".T_("Elapsed")."</th>\n";
@@ -251,20 +254,18 @@ function displayVersionsDetailed($project) {
 
 
        $valuesMgr = $pv->getDriftMgr();
-       $formattedDriftMgr = "<span title='".T_("nb days")."'>".$valuesMgr['nbDays']."</span>".
-                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $valuesMgr['percent'])."%)</span>";
+       $formattedDriftMgr = "<span title='".T_("nb days")."'>".$valuesMgr['nbDays']."</span>";
 
 	   $driftMgrColor = $pv->getDriftColor($valuesMgr['percent']);
        $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
        $values = $pv->getDrift();
-       $formattedDrift    = "<span title='".T_("nb days")."'>".$values['nbDays']."</span>".
-                            "<span title='".T_("percent")."' class='floatr'>(".round(100 * $values['percent'])."%)</span>";
+       $formattedDrift    = "<span title='".T_("nb days")."'>".$values['nbDays']."</span>";
        $driftColor = $pv->getDriftColor($values['percent']);
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
-       echo "<td>".$pv->version."</td>\n";
-	   echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
+       echo "<td>".$pv->name."</td>\n";
+	   #echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
        echo "<td>".$pv->mgrEffortEstim."</td>\n";
        echo "<td title='$pv->effortEstim + $pv->effortAdd'>".($pv->effortEstim + $pv->effortAdd)."</td>\n";
 	   echo "<td>".$pv->elapsed."</td>\n";
@@ -286,7 +287,7 @@ function displayVersionsDetailed($project) {
    }
    echo "<tr>\n";
    echo "<td>".T_("Total")."</td>\n";
-   echo "<td>".round(100 * $totalProgress)."%</td>\n";
+   #echo "<td>".round(100 * $totalProgress)."%</td>\n";
    echo "<td></td>\n";
    echo "<td></td>\n";
    echo "<td>".$totalElapsed."</td>\n";

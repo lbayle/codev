@@ -25,170 +25,51 @@ if (NULL == Logger::getConfigurationFile()) {
 }
 
 
+include_once "issue_selection.class.php";
+
 
 // ===================================================
-class ProjectVersion {
-	public $projectId;
-	public $version;
-	public $elapsed;
-	public $remaining;
-	public $mgrEffortEstim;
-	public $effortEstim;  // BI
-	public $effortAdd;    // BS
-	
-	private $issueList;
-	private $progress;
+class ProjectVersion extends IssueSelection {
 
+	public    $projectId;
+	protected $versionDate; // mantis_project_version_table.date_order
+	
+	
 	public function __construct($projectId, $version) {
 
-		$this->logger = Logger::getLogger(__CLASS__);
-
-		$this->projectId = $projectId;
-		$this->version = $version;
-
-		$this->elapsed   = 0;
-		$this->remaining = 0;
-		$this->mgrEffortEstim = 0;
-		$this->effortEstim   = 0;
-		$tgis->effortAdd     = 0;    // BS
+		parent::__construct($version);
 		
-		$this->issueList = array();
-		$this->progress  = NULL;
-	}
+		$this->logger = Logger::getLogger(__CLASS__);
+		
+		$this->projectId = $projectId;
+		
 
-	/**
-	 *
-	 * @param int $bugid
-	 */
-	public function addIssue($bugid) {
-
-		if (NULL == $this->issueList[$bugid]) {
-
-			$issue = IssueCache::getInstance()->getIssue($bugid);
-			$this->issueList[$bugid] = $issue;
-			$this->elapsed   += $issue->elapsed;
-			$this->remaining += $issue->remaining;
-			$this->mgrEffortEstim += $issue->mgrEffortEstim;
-			$this->effortEstim    += $issue->effortEstim;
-			$this->effortAdd    += $issue->effortAdd;
-			
-			$this->logger->debug("$this->projectId [$this->version] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->remaining);
-		}
-
-	}
-
-	/**
-	 *
-	 * @return Ambigous <number, NULL>
-	 */
-	public function getProgress() {
-
-		if (NULL == $this->progress) {
-
-			// compute total progress
-			
-			if (0 == $this->elapsed) {
-				$this->progress = 0;  // if no time spent, then no work done.
-			} elseif (0 == $this->remaining) {
-				$this->progress = 1;  // if no Remaining, then Project is 100% done.
-			} else {
-				$this->progress = $this->elapsed / ($this->elapsed + $this->remaining);
-			}
-
-			$this->logger->debug("Project $this->projectId [$this->version] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->remaining.")");
-		}
-
-		return $this->progress;
-	}
-
-	/**
-	 *
-	 */
-	public function getIssueList() {
-		return $this->issueList;
-	}
-
-	/**
-	 *
-	 */
-	public function getFormattedIssueList() {
-		$formattedList = "";
-
-		foreach ($this->issueList as $bugid => $issue) {
-			if ("" != $formattedList) {
-				$formattedList .= ', ';
-			}
-			$formattedList .= issueInfoURL($bugid, $issue->summary);
-		}
-		return $formattedList;
-	}
-
-	/**
-	 * @return array(nbDays, percent)
-	 */
-	public function getDriftMgr() {
-
-        $values = array();
-
-        if ((0 != $this->mgrEffortEstim) && (0 != $this->elapsed)) {        
-            // ((elapsed + RAF) - estim) / estim
-            $nbDaysDrift = $this->elapsed + $this->remaining - $this->mgrEffortEstim;
-    		$percent =  $nbDaysDrift / $this->mgrEffortEstim;
-            
-            $values['nbDays'] = $nbDaysDrift;
-            $values['percent'] = $percent;
-        } else {
-            $values['nbDays'] = 0;
-            $values['percent'] = 0;
-        	
-        }
-        return $values;
-	}
-
-	/**
-	 * @return array(nbDays, percent)
-	 */
-	public function getDrift() {
-
-        $values = array();
-        
-        $myEstim = $this->effortEstim + $this->effortAdd;
-
-        if ((0 != $myEstim) && (0 != $this->elapsed)) {        
-            // ((elapsed + RAF) - estim) / estim
-            $nbDaysDrift = $this->elapsed + $this->remaining - $myEstim;
-    		$percent =  $nbDaysDrift / $myEstim;
-            
-            $values['nbDays'] = $nbDaysDrift;
-            $values['percent'] = $percent;
-        } else {
-            $values['nbDays'] = 0;
-            $values['percent'] = 0;
-        	
-        }
-        return $values;
 	}
 	
-	/**
-	 * 
-	 * 
-	 * 
-	 * @param unknown_type $percent  100% = 1
-	 * @param unknown_type $threshold  5% = 0.05
-	 */
-	public function getDriftColor($percent, $threshold = 0.05) {
+	public function getVersionDate() {
 		
-		if (abs($percent) < $threshold) {
-			return NULL; // no drift
+		if (NULL == $this->versionDate) {
+			$query = "SELECT date_order ".
+					"FROM  `mantis_project_version_table` ".
+					"WHERE  project_id = $this->projectId ".
+					"AND    version    = '$this->name' ";
+			
+			$result = mysql_query($query);
+			if (!$result) {
+				$this->logger->error("Query FAILED: $query");
+				$this->logger->error(mysql_error());
+				echo "<span style='color:red'>ERROR: Query FAILED</span>";
+				exit;
+			}
+			
+			$this->versionDate = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "(none)";
+			
+			if ($this->versionDate <= 1) { $this->versionDate = "(none)"; }
 		}
 		
-		if ($percent > 0) {
-			$color = "fcbdbd";
-		} else {
-			$color = "bdfcbd";
-		}
-		return $color;
+		return $this->versionDate;
 	}
+
 }
 
 ?>
