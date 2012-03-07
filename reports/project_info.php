@@ -242,12 +242,14 @@ function displayVersionsDetailed($project) {
          	if ("" != $formatedResolvedList) {
 				   $formatedResolvedList .= ', ';
 			   }
-			   $formatedResolvedList .= issueInfoURL($bugid, $issue->summary);
+			   $title = "(".$issue->getDrift().") $issue->summary";
+			   $formatedResolvedList .= issueInfoURL($bugid, $title);
          } else {
          	if ("" != $formatedOpenList) {
 				   $formatedOpenList .= ', ';
 			   }
-			   $formatedOpenList .= issueInfoURL($bugid, $issue->summary);
+			   $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().") $issue->summary";
+			   $formatedOpenList .= issueInfoURL($bugid, $title);
          }
       }
 
