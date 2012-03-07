@@ -37,6 +37,7 @@ class ScheduledTask {
 
    var $isMonitored;  // determinates the color
 
+   private $taskTitle;
 
    public function __construct($bugId, $deadLine, $duration) {
       $this->bugId = $bugId;
@@ -52,20 +53,24 @@ class ScheduledTask {
 
    public function getDescription() {
 
-   	$taskTitle= "";
-      $taskTitle .= $this->bugId;
-   	$taskTitle .= " ($this->duration ".T_("days");
-      $taskTitle .= ", $this->priorityName";
-      $taskTitle .= ", $this->statusName";
-      if (NULL != $this->deadLine) {
-         $taskTitle .= ", ".date("d/m/Y", $this->deadLine);
-      }
-      if ($this->isMonitored) {
-         $taskTitle .= ", ".T_("monitored")."-$this->handlerName";
-      }
-      $taskTitle .= ")       $this->summary";
-
-   	return $taskTitle;
+   	if (NULL == $this->taskTitle) {
+   		
+   	   $this->taskTitle= "";
+       $this->taskTitle .= $this->bugId;
+   	   $this->taskTitle .= " ($this->duration ".T_("days");
+       $this->taskTitle .= ", $this->priorityName";
+       $this->taskTitle .= ", $this->statusName";
+       if (NULL != $this->deadLine) {
+          $this->taskTitle .= ", ".date("d/m/Y", $this->deadLine);
+       }
+       if ($this->isMonitored) {
+          $this->taskTitle .= ", ".T_("monitored")."-$this->handlerName";
+       }
+       $this->taskTitle .= ")       $this->summary";
+       
+   	}
+   	
+   	return $this->taskTitle;
    }
 
 }
@@ -112,7 +117,7 @@ class Scheduler {
 			$this->logger->debug("issue $issue->bugId   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
 			$this->logger->debug("issue $issue->bugId nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
 			$currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
-			$currentST->summary          = $issue->summary;
+			$currentST->summary          = "[".$issue->getProjectName()."] $issue->summary";
             $currentST->priorityName     = $issue->getPriorityName();
             $currentST->statusName       = $statusNames[$issue->currentStatus];
 
