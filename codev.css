@@ -115,8 +115,8 @@ table.invisible td {
   font-family : Verdana,Arial,Helvetica,sans-serif;
   white-space : nowrap;
   text-align : center;
-  font-size: 12px;
-  padding: 4px;
+  font-size: 10pt;
+  padding: 5px;
 }
 
 #mantis, #timetracking, #reports {
