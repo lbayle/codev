@@ -179,7 +179,12 @@ function displayVersionsOverview($project) {
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
        echo "<td>".$pv->name."</td>\n";
-       echo "<td>".date("Y-m-d", $pv->getVersionDate())."</td>\n";
+       $vdate =  $pv->getVersionDate();
+       if (! is_string($vdate)) {
+          echo "<td>".date("Y-m-d",$vdate)."</td>\n";
+       } else {
+       echo "<td></td>\n";
+       }
        echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
 	   #echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
@@ -210,6 +215,8 @@ function displayVersionsOverview($project) {
 // -----------------------------------------
 function displayVersionsDetailed($project) {
 
+   global $status_new;
+
    $projectVersionList = $project->getVersionList();
 
    echo "<table>\n";
@@ -223,6 +230,7 @@ function displayVersionsDetailed($project) {
    echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
    echo "  <th width='80'>".T_("Drift")."</th>\n";
+   echo "  <th>".T_("New Tasks")."</th>\n";
    echo "  <th>".T_("Current Tasks")."</th>\n";
    echo "  <th>".T_("Resolved Tasks")."</th>\n";
    echo "</tr>\n";
@@ -236,9 +244,16 @@ function displayVersionsDetailed($project) {
       // format Issues list
       $formatedResolvedList = "";
       $formatedOpenList = "";
+      $formatedNewList = "";
       foreach ($pv->getIssueList() as $bugid => $issue) {
 
-         if ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
+         if ($status_new == $issue->currentStatus) {
+         	if ("" != $formatedNewList) {
+				   $formatedNewList .= ', ';
+			   }
+			   $formatedNewList .= issueInfoURL($bugid, $issue->summary);
+
+         }elseif ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
          	if ("" != $formatedResolvedList) {
 				   $formatedResolvedList .= ', ';
 			   }
@@ -272,6 +287,7 @@ function displayVersionsDetailed($project) {
 	   echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
        echo "<td $formatteddriftColor >$formattedDrift</td>\n";
+	   echo "<td>".$formatedNewList."</td>\n";
 	   echo "<td>".$formatedOpenList."</td>\n";
 	   echo "<td>".$formatedResolvedList."</td>\n";
 	   echo "</tr>\n";
@@ -296,10 +312,68 @@ function displayVersionsDetailed($project) {
    echo "<td></td>\n";
    echo "<td></td>\n";
    echo "<td></td>\n";
+   echo "<td></td>\n";
    echo "</tr>\n";
 
    echo "</table>\n";
 }
+
+
+function displayIssuesInDrift($project, $isManager = false, $withSupport = true) {
+
+   $bugidList = $project->getIssueList();
+
+   echo "<table>\n";
+   echo "<caption>".T_("Tasks in drift")."</caption>\n";
+   echo "<tr>\n";
+   echo "<th>".T_("ID")."</th>\n";
+   echo "<th>".T_("Project")."</th>\n";
+   echo "<th>".T_("Target")."</th>\n";
+
+   if (true == $isManager) {
+      echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
+   }
+	echo "<th title='".T_("Drift relatively to (EE + AddEE)")."'>".T_("Drift")."</th>\n";
+	echo "<th>".T_("RAF")."</th>\n";
+	echo "<th>".T_("Progress")."</th>\n";
+	echo "<th>".T_("Status")."</th>\n";
+	echo "<th>".T_("Summary")."</th>\n";
+   echo "</tr>\n";
+   foreach ($bugidList as $bugid) {
+
+   	$issue = IssueCache::getInstance()->getIssue($bugid);
+
+
+			$driftPrelEE = ($isManager) ? $issue->getDriftMgrEE($withSupport) : 0;
+         $driftEE = $issue->getDrift($withSupport);
+
+		    if (($driftPrelEE > 0) || ($driftEE > 0)) {
+		           echo "<tr>\n";
+		   		   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
+		   		   echo "<td>".$issue->getProjectName()."</td>\n";
+		   		   echo "<td>".$issue->getTargetVersion()."</td>\n";
+		   		   if (true == $isManager) {
+                     $color = "";
+                     if ($driftPrelEE < -1) { $color = "style='background-color: #61ed66;'"; }
+                     if ($driftPrelEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
+		   		      echo "<td $color >".$driftPrelEE."</td>\n";
+                  }
+                  $color = "";
+                  if ($driftEE < -1) { $color = "style='background-color: #61ed66;'"; }
+                  if ($driftEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
+		   		   echo "<td $color >".$driftEE."</td>\n";
+		   		   echo "<td>".$issue->remaining."</td>\n";
+                  echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
+		   		   echo "<td>".$issue->getCurrentStatusName()."</td>\n";
+		   		   echo "<td>".$issue->summary."</td>\n";
+		           echo "</tr>\n";
+		    }
+
+   }
+   echo "</table>\n";
+
+}
+
 
 
 // ================ MAIN =================
@@ -363,6 +437,15 @@ if (0 == count($teamList)) {
 
       // show progress
       displayProjectVersions($project);
+
+      echo "<br/>";
+      echo "<br/>";
+      echo "<br/>";
+
+      displayIssuesInDrift($project, true);
+
+      echo "<br/>";
+      echo "<br/>";
 
     } elseif ("setProjectid" == $action) {
 
