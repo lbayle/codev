@@ -56,9 +56,10 @@ function getServerRootURL() {
    #if (isset($_GET['debug'])) {
    #foreach($_SERVER as $key => $value) {
    #   echo "_SERVER key=$key val=$value<br/>";
-   #}
-   #$protocol = ($_SERVER['HTTPS'] == "on") ? "https" : "http";
-   $protocol = "http";
+   #}}
+
+   $protocol = ($_SERVER['HTTPS'] == "on") ? "https" : "http";
+   #$protocol = "http";
 
    $rootURL = "$protocol://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
