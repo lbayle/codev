@@ -62,7 +62,7 @@ include_once "user.class.php";
 include_once "jobs.class.php";
 include_once "holidays.class.php";
 
-include_once "issue_fdj.class.php";
+include_once "issue.class.php";
 
 $logger = Logger::getLogger("project_info");
 
@@ -132,6 +132,7 @@ function displayProjectVersions($project) {
    echo "<ul>\n";
    echo "<li><a href='#tab1'>".T_("Overview")."</a></li>\n";
    echo "<li><a href='#tab2'>".T_("Detailed")."</a></li>\n";
+   echo "<li><a href='#tab3'>".T_("Issues")."</a></li>\n";
    echo "</ul>\n";
    echo "<div id='tab1'>\n";
    echo "<p>";
@@ -141,6 +142,11 @@ function displayProjectVersions($project) {
    echo "<div id='tab2'>\n";
    echo "<p>";
    displayVersionsDetailed($project);
+   echo "</p>\n";
+   echo "</div>\n";
+   echo "<div id='tab3'>\n";
+   echo "<p>";
+   displayVersionsIssues($project);
    echo "</p>\n";
    echo "</div>\n";
    echo "</div>\n";
@@ -230,9 +236,6 @@ function displayVersionsDetailed($project) {
    echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
    echo "  <th width='80'>".T_("Drift")."</th>\n";
-   echo "  <th>".T_("New Tasks")."</th>\n";
-   echo "  <th>".T_("Current Tasks")."</th>\n";
-   echo "  <th>".T_("Resolved Tasks")."</th>\n";
    echo "</tr>\n";
 
    foreach ($projectVersionList as $version => $pv) {
@@ -240,34 +243,6 @@ function displayVersionsDetailed($project) {
 	   $totalElapsed += $pv->elapsed;
 	   $totalRemaining += $pv->remaining;
 	   $formatedList  = implode( ',', array_keys($pv->getIssueList()));
-
-      // format Issues list
-      $formatedResolvedList = "";
-      $formatedOpenList = "";
-      $formatedNewList = "";
-      foreach ($pv->getIssueList() as $bugid => $issue) {
-
-         if ($status_new == $issue->currentStatus) {
-         	if ("" != $formatedNewList) {
-				   $formatedNewList .= ', ';
-			   }
-			   $formatedNewList .= issueInfoURL($bugid, $issue->summary);
-
-         }elseif ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
-         	if ("" != $formatedResolvedList) {
-				   $formatedResolvedList .= ', ';
-			   }
-			   $title = "(".$issue->getDrift().") $issue->summary";
-			   $formatedResolvedList .= issueInfoURL($bugid, $title);
-         } else {
-         	if ("" != $formatedOpenList) {
-				   $formatedOpenList .= ', ';
-			   }
-			   $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().") $issue->summary";
-			   $formatedOpenList .= issueInfoURL($bugid, $title);
-         }
-      }
-
 
 
        $valuesMgr = $pv->getDriftMgr();
@@ -289,9 +264,6 @@ function displayVersionsDetailed($project) {
 	   echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
        echo "<td $formatteddriftColor >$formattedDrift</td>\n";
-	   echo "<td>".$formatedNewList."</td>\n";
-	   echo "<td>".$formatedOpenList."</td>\n";
-	   echo "<td>".$formatedResolvedList."</td>\n";
 	   echo "</tr>\n";
    }
 
@@ -312,10 +284,75 @@ function displayVersionsDetailed($project) {
    echo "<td>".$totalRemaining."</td>\n";
    echo "<td></td>\n";
    echo "<td></td>\n";
-   echo "<td></td>\n";
-   echo "<td></td>\n";
-   echo "<td></td>\n";
    echo "</tr>\n";
+
+   echo "</table>\n";
+}
+
+// -----------------------------------------
+function displayVersionsIssues($project) {
+
+	global $status_new;
+
+	$projectVersionList = $project->getVersionList();
+
+	echo "<table>\n";
+
+	echo "<tr>\n";
+	echo "  <th>".T_("Target version")."</th>\n";
+	echo "  <th>".T_("New Tasks")."</th>\n";
+	echo "  <th>".T_("Current Tasks")."</th>\n";
+	echo "  <th>".T_("Resolved Tasks")."</th>\n";
+	echo "</tr>\n";
+
+	foreach ($projectVersionList as $version => $pv) {
+		echo "<tr>\n";
+		$totalElapsed += $pv->elapsed;
+		$totalRemaining += $pv->remaining;
+		$formatedList  = implode( ',', array_keys($pv->getIssueList()));
+
+		// format Issues list
+		$formatedResolvedList = "";
+		$formatedOpenList = "";
+		$formatedNewList = "";
+		foreach ($pv->getIssueList() as $bugid => $issue) {
+
+			if ($status_new == $issue->currentStatus) {
+				if ("" != $formatedNewList) {
+					$formatedNewList .= ', ';
+				}
+				$formatedNewList .= issueInfoURL($bugid, $issue->summary);
+
+			}elseif ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
+				if ("" != $formatedResolvedList) {
+					$formatedResolvedList .= ', ';
+				}
+				$title = "(".$issue->getDrift().") $issue->summary";
+				$formatedResolvedList .= issueInfoURL($bugid, $title);
+			} else {
+				if ("" != $formatedOpenList) {
+					$formatedOpenList .= ', ';
+				}
+				$title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().") $issue->summary";
+				$formatedOpenList .= issueInfoURL($bugid, $title);
+			}
+		}
+
+		echo "<td>".$pv->name."</td>\n";
+		echo "<td>".$formatedNewList."</td>\n";
+		echo "<td>".$formatedOpenList."</td>\n";
+		echo "<td>".$formatedResolvedList."</td>\n";
+		echo "</tr>\n";
+   }
+
+   // compute total progress
+   if (0 == $totalRemaining) {
+      $totalProgress = 1;  // if no Remaining, then Project is 100% done.
+   } elseif (0 == $totalElapsed) {
+      $totalProgress = 0;  // if no time spent, then no work done.
+   } else {
+      $totalProgress = $totalElapsed / ($totalElapsed + $totalRemaining);
+   }
 
    echo "</table>\n";
 }
