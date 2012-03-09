@@ -110,7 +110,7 @@ class TimeTracking {
   private function getProductionDays($projects) {
 
     $accessLevel_observer = Team::accessLevel_observer;
-    
+
     $prodDays = 0;
 
     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
@@ -215,7 +215,7 @@ class TimeTracking {
         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
 
         $user = UserCache::getInstance()->getUser($timeTrack->userId);
-        
+
         if ((!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
             (!$user->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
            $this->logger->warn("getManagementDays(): timetrack $row->id not included because user $user->id (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
@@ -690,7 +690,7 @@ class TimeTracking {
   	 $workingDaysPerProject = 0;
 
     // Find nb hours spent on the given project
-    $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
+    $query     = "SELECT codev_timetracking_table.* ".
       "FROM `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
@@ -711,7 +711,7 @@ class TimeTracking {
 
       if ($issue->projectId  == $project_id) {
         $workingDaysPerProject += $row->duration;
-        if (isset($_GET['debug'])) { echo "proj$project_id=".$row->bugid."<br/>"; }
+    	  $this->logger->debug("proj=$project_id, bugid=$row->bugid, duration=$row->duration, userid=$row->userid");
       }
     }
     return $workingDaysPerProject;
