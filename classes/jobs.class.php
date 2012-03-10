@@ -100,7 +100,8 @@ class Jobs {
     */
    public static function create($job_name, $job_type, $job_color) {
 
-   	$query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$job_name','$job_type','$job_color');";
+      $formattedName = mysql_real_escape_string($job_name);
+   	$query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$formattedName','$job_type','$job_color');";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");

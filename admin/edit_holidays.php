@@ -118,7 +118,7 @@ function addHolidayForm($originPage, $defaultDate) {
 function displayHolidaysTuples() {
 
    global $logger;
-   
+
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -218,7 +218,9 @@ echo "<br/>";
       $hol_color = $_POST['hol_color'];
 
       // save to DB
-      $query = "INSERT INTO `codev_holidays_table`  (`date`, `description`, `color`) VALUES ('$hol_date','$hol_desc','$hol_color');";
+      $formattedDesc = mysql_real_escape_string($hol_desc);
+      $formattedColor = mysql_real_escape_string($hol_color);
+      $query = "INSERT INTO `codev_holidays_table`  (`date`, `description`, `color`) VALUES ('$hol_date','$formattedDesc','$formattedColor');";
       $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");

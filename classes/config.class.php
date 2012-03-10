@@ -252,6 +252,9 @@ class Config {
    public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0) {
    global $logger;
 
+     $formattedValue = mysql_real_escape_string($value);
+     $formattedDesc = mysql_real_escape_string($desc);
+
    	  // add/update DB
       $query = "SELECT * FROM `codev_config_table` ".
                "WHERE config_id='$id' ".
@@ -268,7 +271,7 @@ class Config {
       }
       if (0 != mysql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` ".
-                  "SET value = '$value' ".
+                  "SET value = '$formattedValue' ".
                   "WHERE config_id='$id' ".
                   "AND project_id=$project_id ".
                   "AND user_id=$user_id ".
@@ -278,7 +281,7 @@ class Config {
       } else {
          $query = "INSERT INTO `codev_config_table` ".
                   "(`config_id`, `value`, `type`, `desc`, `project_id`, `user_id`, `team_id`) ".
-                  "VALUES ('$id', '$value', '$type', '$desc', '$project_id', '$user_id', '$team_id');";
+                  "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', '$project_id', '$user_id', '$team_id');";
          $logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
          $logger->debug("INSERT query = $query");
       }

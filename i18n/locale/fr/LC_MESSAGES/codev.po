@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-09 22:35+0100\n"
+"POT-Creation-Date: 2012-03-09 23:54+0100\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -38,11 +38,11 @@ msgstr "Administration CodevTT : Création équipe"
 
 #: admin/create_team.php:96
 msgid "Team Info"
-msgstr "Description de l&apos;équipe"
+msgstr "Description de l'équipe"
 
 #: admin/create_team.php:99
 msgid "Team Name"
-msgstr "Nom de l&apos;équipe"
+msgstr "Nom de l'équipe"
 
 #: admin/create_team.php:103 admin/edit_holidays.php:103
 #: admin/edit_holidays.php:129 admin/edit_team.php:540 admin/edit_team.php:751
@@ -156,7 +156,7 @@ msgstr "(generique) Absence"
 
 #: admin/create_team.php:349
 msgid "(generic) Leave but on duty"
-msgstr "(generique) Absence mais d&apos;astreinte"
+msgstr "(generique) Absence mais d'astreinte"
 
 #: admin/create_team.php:350
 msgid "(generic) Project Management"
@@ -254,15 +254,13 @@ msgstr "Projet"
 
 #: admin/edit_jobs.php:339
 msgid "delete Project Association"
-msgstr "supprimer l&apos;association au Projet"
+msgstr "supprimer l'association au Projet"
 
 #: admin/edit_jobs.php:371 admin/edit_holidays.php:187
 #: admin/prepare_project.php:136 install/uninstall.php:218
 #: tools/workflow.php:338
 msgid "Sorry, you need to be in the admin-team to access this page."
-msgstr ""
-"Vous devez faire partie de l&apos;équipe d&apos;admin pour acceder à cette "
-"page."
+msgstr "Vous devez faire partie de l'équipe d'admin pour acceder à cette page."
 
 #: admin/edit_jobs.php:375
 msgid "Jobs"
@@ -293,7 +291,7 @@ msgstr "Ajout de Congés"
 msgid "In here you can set National Days, religious holidays, etc."
 msgstr ""
 "Ajoutez ici les fêtes nationales, fêtes religieuses ou la fermeture annuelle "
-"de l&apos;entreprise."
+"de l'entreprise."
 
 #: admin/edit_team.php:30
 msgid "CoDev Administration : Team Edition"
@@ -342,15 +340,15 @@ msgstr "Nom"
 
 #: admin/edit_team.php:339
 msgid "Arrival date in the team"
-msgstr "Date d&apos;arrivée dans l'équipe"
+msgstr "Date d'arrivée dans l'équipe"
 
 #: admin/edit_team.php:339
 msgid "Arrival Date"
-msgstr "Date d&apos;arrivée"
+msgstr "Date d'arrivée"
 
 #: admin/edit_team.php:340
 msgid "Departure date from the team"
-msgstr "Date de départ de l&apos;équipe"
+msgstr "Date de départ de l'équipe"
 
 #: admin/edit_team.php:340
 msgid "Departure Date"
@@ -367,7 +365,7 @@ msgstr "éffacer cette ligne"
 
 #: admin/edit_team.php:410
 msgid "Team Members"
-msgstr "Membres de l&apos;équipe"
+msgstr "Membres de l'équipe"
 
 #: admin/edit_team.php:422
 msgid "Member"
@@ -375,7 +373,7 @@ msgstr "Membre"
 
 #: admin/edit_team.php:467
 msgid "Arrival-Date"
-msgstr "Date d&apos;arrivée"
+msgstr "Date d'arrivée"
 
 #: admin/edit_team.php:472
 msgid "Add User"
@@ -391,7 +389,7 @@ msgstr "maj date de départ"
 
 #: admin/edit_team.php:493
 msgid "Import all users from team "
-msgstr "Importer les membres de l&apos;équipe "
+msgstr "Importer les membres de l'équipe "
 
 #: admin/edit_team.php:506
 msgid "Import"
@@ -399,11 +397,11 @@ msgstr "Importer"
 
 #: admin/edit_team.php:587
 msgid "Team Projects"
-msgstr "Projets de l&apos;équipe"
+msgstr "Projets de l'équipe"
 
 #: admin/edit_team.php:641
 msgid "Delete team"
-msgstr "Supprimer l&apos;équipe"
+msgstr "Supprimer l'équipe"
 
 #: admin/edit_team.php:642
 msgid "Delete"
@@ -434,7 +432,7 @@ msgstr "éffacer cette Astreinte"
 
 #: admin/edit_team.php:825
 msgid "Team Edition"
-msgstr "Editer l&apos;équipe"
+msgstr "Editer l'équipe"
 
 #: admin/edit_team.php:884
 msgid "Add OnDuty tasks"
@@ -442,11 +440,11 @@ msgstr "Ajouter des Astreintes"
 
 #: admin/edit_team.php:886
 msgid "In here you can specify which inactivity tasks are 'OnDuty'"
-msgstr "Spécifiez ici les taches d&apos;inactivité qui sont des astreintes"
+msgstr "Spécifiez ici les taches d'inactivité qui sont des astreintes"
 
 #: admin/edit_team.php:897
 msgid "Delete Team"
-msgstr "Supprimer l&apos;équipe"
+msgstr "Supprimer l'équipe"
 
 #: admin/prepare_project.php:31
 msgid "CoDev Administration : Prepare Projects"
@@ -490,7 +488,7 @@ msgstr "Clonner un Projet"
 
 #: admin/menu_admin.inc.php:45 doc/menu_doc.inc.php:17
 msgid "Admin Guide"
-msgstr "Guide d&apos;Admin"
+msgstr "Guide d'Admin"
 
 #: admin/menu_admin.inc.php:47 install/uninstall_menu.inc.php:34
 #: install/uninstall.php:31 install/uninstall.php:96
@@ -516,8 +514,7 @@ msgstr "RAF non renseigné: il doit être égal à temps(BI - Analyse)"
 
 #: classes/consistency_check_fdj.class.php:109
 msgid "Once analysed, a Task must be assigned to 'FDJ' for validation"
-msgstr ""
-"Après l&apos;analyse, une fiche doit être assignée à 'FDJ' pour validation"
+msgstr "Après l'analyse, une fiche doit être assignée à 'FDJ' pour validation"
 
 #: classes/scheduler.class.php:60 reports/planning_report.php:436
 #: reports/issue_info.php:379 reports/issue_info.php:450
@@ -593,7 +590,7 @@ msgstr "(aucun)"
 #: doc/index.php:45
 #, fuzzy
 msgid "N'oubliez pas de mentionner vos coordon&eacute;es pour tout retour."
-msgstr "N&apos;oubliez pas de mentionner vos coordonées pour tout retour."
+msgstr "N'oubliez pas de mentionner vos coordonées pour tout retour."
 
 #: include/menu_week_activity.inc.php:32
 msgid "Team Activity"
@@ -991,7 +988,7 @@ msgstr "Calculer"
 #: timetracking/project_activity_report.php:360
 #: timetracking/team_activity_report.php:418
 msgid "Sorry, you do NOT have access to this page."
-msgstr "désolé, vous n&apos;avez pas acces à cette page."
+msgstr "désolé, vous n'avez pas acces à cette page."
 
 #: reports/export_csv_monthly.php:183
 msgid "Monthly report"
@@ -1000,8 +997,8 @@ msgstr "Rapport Mensuel"
 #: reports/export_csv_monthly.php:203 reports/export_csv_weekly.php:292
 msgid "Issues form Team projects, including issues assigned to other teams"
 msgstr ""
-"Projets de l&acute;équipe, y compris les taches assignées à des membres "
-"d&acute;autres équipes"
+"Projets de l'équipe, y compris les taches assignées à des membres d'autres "
+"équipes"
 
 #: reports/export_csv_monthly.php:204 reports/export_csv_weekly.php:293
 msgid "Export Managed Issues"
@@ -1254,12 +1251,12 @@ msgstr "% Fiches livrées à temps."
 
 #: reports/statistics.php:414
 msgid "Efficiency and System Disponibility"
-msgstr "Taux d&apos;efficacité et Disponibilité système"
+msgstr "Taux d'efficacité et Disponibilité système"
 
 #: reports/statistics.php:416 reports/productivity_report.php:90
 #: reports/productivity_report.php:383
 msgid "Efficiency Rate"
-msgstr "Taux d&apos;efficacité"
+msgstr "Taux d'efficacité"
 
 #: reports/statistics.php:416
 msgid ""
@@ -1274,7 +1271,7 @@ msgstr "Disp Sys"
 
 #: reports/statistics.php:430
 msgid "Efficiency"
-msgstr "Taux d&apos;efficacité"
+msgstr "Taux d'efficacité"
 
 #: reports/statistics.php:431
 msgid "Sys Disp"
@@ -1299,7 +1296,7 @@ msgstr "Nb de retour"
 
 #: reports/statistics.php:602
 msgid "Efficiency - System Disponibility"
-msgstr "Taux d&apos;efficacité - Disponibilité système"
+msgstr "Taux d'efficacité - Disponibilité système"
 
 #: reports/planning_report.php:155 reports/productivity_report.php:441
 #: reports/productivity_report.php:567 reports/productivity_report.php:767
@@ -1310,11 +1307,11 @@ msgstr "Fiches"
 
 #: reports/planning_report.php:213
 msgid "zoom in"
-msgstr "agrandir l&apos;échelle"
+msgstr "agrandir l'échelle"
 
 #: reports/planning_report.php:214
 msgid "zoom out"
-msgstr "réduire l&apos;échelle"
+msgstr "réduire l'échelle"
 
 #: reports/planning_report.php:436 timetracking/team_activity_report.php:225
 #: timetracking/team_activity_report.php:283
@@ -1346,9 +1343,7 @@ msgstr "ERREUR Fiche "
 #: reports/forecasting_report.php:458 timetracking/time_tracking.php:647
 #: timetracking/set_holidays.php:364
 msgid "Sorry, you need to be member of a Team to access this page."
-msgstr ""
-"Vous devez faire partie de l&apos;équipe d&apos;admin pour acceder à cette "
-"page."
+msgstr "Vous devez faire partie de l'équipe d'admin pour acceder à cette page."
 
 #: reports/issue_info.php:30
 msgid "Activity by task"
@@ -1453,7 +1448,7 @@ msgstr "assigné à"
 
 #: reports/issue_info.php:684
 msgid "Sorry, you are not allowed to view the details of this task"
-msgstr "Désolé, vous n&apos;êtes pas autorisé à voir le détail de cette fiche"
+msgstr "Désolé, vous n'êtes pas autorisé à voir le détail de cette fiche"
 
 #: reports/productivity_report.php:85 reports/productivity_report.php:377
 #: reports/forecasting_report.php:355
@@ -1513,8 +1508,8 @@ msgstr "Autres TachesAnnexes"
 #: reports/productivity_report.php:112
 msgid "Days spent on sideTasks, except project management and inactivity tasks"
 msgstr ""
-"Nbre de jours passes sur les TachesAnnexes à l&apos;exception de la gestion "
-"de projet et des absences"
+"Nbre de jours passes sur les TachesAnnexes à l'exception de la gestion de "
+"projet et des absences"
 
 #: reports/productivity_report.php:114
 msgid "Production Days : total"
@@ -1557,7 +1552,7 @@ msgstr "dérive"
 #: reports/productivity_report.php:131 reports/productivity_report.php:469
 #: reports/forecasting_report.php:77 reports/forecasting_report.php:233
 msgid "Tasks in time"
-msgstr "Fiches à l&apos;équilibre"
+msgstr "Fiches à l'équilibre"
 
 #: reports/productivity_report.php:132 reports/productivity_report.php:475
 #: reports/forecasting_report.php:78
@@ -1775,7 +1770,7 @@ msgstr "V.Ciblée"
 
 #: reports/project_info.php:499
 msgid "Sorry, you are not allowed to view the details of this project"
-msgstr "Désolé, vous n&apos;êtes pas autorisé à voir le détail de ce projet"
+msgstr "Désolé, vous n'êtes pas autorisé à voir le détail de ce projet"
 
 #: reports/forecasting_report.php:72
 msgid "Computed on task NOT Resolved/Closed on "
@@ -1783,7 +1778,7 @@ msgstr "Le calcul est fait sur les fiches NON Resolues/Fermées au "
 
 #: reports/forecasting_report.php:152
 msgid "ERROR: No valid projects defined for this team"
-msgstr "ERREUR: Aucun projet valide n&apos;est défini pour ce projet"
+msgstr "ERREUR: Aucun projet valide n'est défini pour ce projet"
 
 #: timetracking/holidays_report.php:29
 msgid "Holidays Report"
@@ -1916,7 +1911,7 @@ msgstr "Conversion PrelEffortEstim -> ManagerEffortEstim"
 
 #: tools/check.php:62
 msgid "No Error."
-msgstr "Pas d&apos;Erreur"
+msgstr "Pas d'Erreur"
 
 #: tools/check.php:67
 msgid " Error(s) in Mantis Tasks"
@@ -1932,7 +1927,7 @@ msgstr "Sévérité"
 
 #: tools/check.php:74
 msgid "Error Description"
-msgstr "Description de l&apos;erreur"
+msgstr "Description de l'erreur"
 
 #: tools/workflow.php:30
 msgid "Clone Project Settings"
@@ -1994,7 +1989,7 @@ msgstr "Bienvenue sur le serveur CoDevTT"
 
 #: index.php:155
 msgid "IE may not correctly display this website,<br/>"
-msgstr "Il se peut que IE n&apos;affiche pas correctement ce site,<br/>"
+msgstr "Il se peut que IE n'affiche pas correctement ce site,<br/>"
 
 #: index.php:156
 msgid "please consider using a standard complient web-browser.<br/>"
@@ -2024,7 +2019,7 @@ msgstr "Connexion CoDev"
 
 #: login.php:96
 msgid "login failed !"
-msgstr "l&apos;identification a échouée !"
+msgstr "l'identification a échouée !"
 
 #~ msgid "Days spent on projects"
 #~ msgstr "nombre de jours passés en développement sur les projets"

@@ -62,7 +62,9 @@ $logger = Logger::getLogger("login");
 
 
 if ("pleaseLogin" == $action) {
-  $query= "SELECT id, username, realname FROM `mantis_user_table` WHERE username = '$user' and password = '$password'";
+  $formattedUser = mysql_real_escape_string($user);
+  $formattedPass = mysql_real_escape_string($password);
+  $query= "SELECT id, username, realname FROM `mantis_user_table` WHERE username = '$user' and password = '$formattedPass'";
   $result = mysql_query($query);
   if (!$result) {
   	$logger->error("Query FAILED: $query");
@@ -70,7 +72,7 @@ if ("pleaseLogin" == $action) {
   	echo "<span style='color:red'>ERROR: Query FAILED</span>";
   	exit;
   }
-  
+
   if ($row_login = mysql_fetch_object($result)) {
     $_SESSION['userid']=$row_login->id;
     $_SESSION['username']=$row_login->username;

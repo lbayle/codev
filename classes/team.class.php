@@ -91,7 +91,9 @@ class Team {
 
 		if ($teamid < 0) {
 		   // create team
-         $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$name','$description','$leader_id', '$date');";
+         $formattedName = mysql_real_escape_string($name);
+         $formattedDesc = mysql_real_escape_string($description);
+         $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$formattedName','$formattedDesc','$leader_id', '$date');";
          $result = mysql_query($query);
 		   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -113,7 +115,9 @@ class Team {
     * @return the team id or -1 if not found
 	 */
 	public static function getIdFromName($name) {
-      $query = "SELECT id FROM `codev_team_table` WHERE name = '$name';";
+
+		$formattedName = mysql_real_escape_string($name);
+		$query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
       $result = mysql_query($query);
       if (!$result) {
     	      $this->logger->error("Query FAILED: $query");

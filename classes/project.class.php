@@ -66,8 +66,8 @@ class Project {
 	private $bug_resolved_status_threshold;
 	private $projectVersionList;
 	private $progress;
-	
-	
+
+
 	// -----------------------------------------------
 	public function Project($id) {
 	   $this->logger = Logger::getLogger(__CLASS__);
@@ -408,7 +408,8 @@ class Project {
    private function addCategory($catKey, $catName) {
 
    	// create category for SideTask Project
-      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$catName', '0');";
+   	$formattedCatName = mysql_real_escape_string($catName);
+      $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$formattedCatName', '0');";
       $result = mysql_query($query);
       if (!$result) {
       	$this->logger->error("Query FAILED: $query");
@@ -438,6 +439,7 @@ class Project {
    	  global $status_closed;
       $bugt_id = $this->addSideTaskIssue(Project::$keyProjManagement, $issueSummary, $issueDesc);
 
+/*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
       $result = mysql_query($query);
       if (!$result) {
@@ -446,13 +448,13 @@ class Project {
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
-
+*/
       return $bugt_id;
    }
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
    	global $status_closed;
       $bugt_id = $this->addSideTaskIssue(Project::$keyInactivity, $issueSummary, $issueDesc);
-
+/*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
       $result = mysql_query($query);
       if (!$result) {
@@ -461,7 +463,7 @@ class Project {
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
-
+*/
       return $bugt_id;
    }
    public function addIssueIncident($issueSummary, $issueDesc=" ") {
@@ -478,10 +480,12 @@ class Project {
    private function addSideTaskIssue($catKey, $issueSummary, $issueDesc) {
 
    	global $status_closed;
+
    	$cat_id = $this->categoryList["$catKey"];
       $today  = date2timestamp(date("Y-m-d"));
 
-      $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$issueDesc');";
+      $formattedIssueDesc = mysql_real_escape_string($issueDesc);
+      $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
       $result = mysql_query($query);
       if (!$result) {
       	$this->logger->error("Query FAILED: $query");
@@ -491,8 +495,9 @@ class Project {
       }
       $bug_text_id = mysql_insert_id();
 
+      $formattedissueSummary = mysql_real_escape_string($issueSummary);
    	$query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-   	         "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
+   	         "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
       $result = mysql_query($query);
       if (!$result) {
       	$this->logger->error("Query FAILED: $query");
@@ -513,7 +518,8 @@ class Project {
 
       $today  = date2timestamp(date("Y-m-d"));
 
-      $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$issueDesc');";
+      $formattedIssueDesc = mysql_real_escape_string($issueDesc);
+      $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
       $result = mysql_query($query);
       if (!$result) {
       	$this->logger->error("Query FAILED: $query");
@@ -523,8 +529,9 @@ class Project {
       }
       $bug_text_id = mysql_insert_id();
 
+      $formattedissueSummary = mysql_real_escape_string($issueSummary);
    	$query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-   	         "VALUES ('$this->id','$cat_id','$issueSummary','10','100','$issueStatus','$bug_text_id', '$today', '$today');";
+   	         "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$issueStatus','$bug_text_id', '$today', '$today');";
       $result = mysql_query($query);
       if (!$result) {
       	$this->logger->error("Query FAILED: $query");
@@ -610,7 +617,7 @@ class Project {
    // -----------------------------------------------
    /**
     * returns bugId list
-    * 
+    *
     * @param unknown_type $handler_id (if 0, all users)
     * @param unknown_type $isHideResolved
     */
@@ -813,42 +820,42 @@ class Project {
    	return "SUCCESS ! (".count($srcConfigList)." config items cloned.)";
    }
 
-   
+
    /**
     * returns an array of ProjectVersion instances
     * key=version, value= ProjectVersion
-    * 
-    * 
+    *
+    *
     * @param unknown_type $team_id (TODO)
     */
    #public function getVersionList($team_id = NULL) {
    public function getVersionList() {
-   	
+
    	  if (NULL == $this->projectVersionList) {
-   	
+
 	   	  $this->projectVersionList = array();
 	   	  $issueList = $this->getIssueList();
 	   	  foreach ($issueList as $bugid) {
-	   	  	
+
 	   	  	$issue = IssueCache::getInstance()->getIssue($bugid);
 	   	  	$tagVersion = "VERSION_".$issue->getTargetVersion();
-	   	  	
+
 	   	  	if (NULL == $this->projectVersionList[$tagVersion]) {
-	   	  		$this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion()); 
+	   	  		$this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
 	   	  	}
 	   	  	$this->projectVersionList[$tagVersion]->addIssue($bugid);
 	   	  }
-	      
+
 	      ksort($this->projectVersionList);
    	  }
-   	  
+
       return $this->projectVersionList;
    }
-   
+
    public function getProgress() {
-   	 
+
    	if (NULL == $this->progress) {
-   	  
+
    	  $remaining = 0;
    	  $elapsed   = 0;
    	  $issueList = $this->getIssueList();
@@ -857,9 +864,9 @@ class Project {
    	  	$issue = IssueCache::getInstance()->getIssue($bugid);
    	  	$elapsed   += $issue->elapsed;
    	  	$remaining += $issue->remaining;
-   	  	
+
    	  }
-   	  
+
    	  // compute total progress
    	  if (0 == $elapsed) {
    	  	$this->progress = 0;  // if no time spent, then no work done.
