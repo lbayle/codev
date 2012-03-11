@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-09 23:54+0100\n"
+"POT-Creation-Date: 2012-03-11 22:01+0100\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -75,8 +75,7 @@ msgid "Categories"
 msgstr "Catégories"
 
 #: admin/create_team.php:162 admin/create_team.php:217
-#: admin/create_team.php:225 admin/create_team.php:291
-#: install/install.class.php:477
+#: admin/create_team.php:291 install/install.class.php:477
 msgid "Inactivity"
 msgstr "Inactivité"
 
@@ -141,10 +140,6 @@ msgstr "TachesAnnexes"
 #: admin/create_team.php:217
 msgid "leave"
 msgstr "Absence"
-
-#: admin/create_team.php:225
-msgid "on duty"
-msgstr "Astreinte"
 
 #: admin/create_team.php:271
 msgid "Create"
@@ -707,7 +702,7 @@ msgid "Check"
 msgstr "Check"
 
 #: include/menu.inc.php:62 install/uninstall_menu.inc.php:38
-#: install/install_step3.php:270 install/install_menu.inc.php:40
+#: install/install_step3.php:270 install/install_menu.inc.php:61
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -810,7 +805,7 @@ msgid ": Could not delete file: "
 msgstr "Impossible de supprimer le fichier: "
 
 #: install/install.php:23 install/uninstall_menu.inc.php:32
-#: install/install_menu.inc.php:30
+#: install/install_menu.inc.php:25
 msgid "Install"
 msgstr "Installer"
 
@@ -943,15 +938,15 @@ msgstr ""
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr ""
 
-#: install/install_menu.inc.php:32
+#: install/install_menu.inc.php:29
 msgid "Step 1"
 msgstr "Etape 1"
 
-#: install/install_menu.inc.php:34
+#: install/install_menu.inc.php:33
 msgid "Step 2"
 msgstr "Etape 2"
 
-#: install/install_menu.inc.php:36
+#: install/install_menu.inc.php:37
 msgid "Step 3"
 msgstr "Etape 3"
 
@@ -2017,9 +2012,12 @@ msgstr "maj RAF"
 msgid "CoDev Login"
 msgstr "Connexion CoDev"
 
-#: login.php:96
+#: login.php:98
 msgid "login failed !"
 msgstr "l'identification a échouée !"
+
+#~ msgid "on duty"
+#~ msgstr "Astreinte"
 
 #~ msgid "Days spent on projects"
 #~ msgstr "nombre de jours passés en développement sur les projets"
