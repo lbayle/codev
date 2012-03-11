@@ -125,7 +125,7 @@ function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endT
       }
 
       // --- display row
-      echo "<tr class ='$tr_class'>\n";
+      echo "<tr class ='$tr_class' id=row_".$row->id.">\n";
       echo "<td>\n";
       echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$formatedDate."', '".$formatedId."', '".$row->duration."', '".$formatedJobName."', '".$formatedSummary."', '".$userid."', '".$weekid."', '".$curYear."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
       echo "</td>\n";

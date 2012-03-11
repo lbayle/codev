@@ -28,7 +28,6 @@ if (!isset($_SESSION['userid'])) {
 $_POST['page_name'] = T_("Time Tracking");
 include 'header.inc.php';
 
-include_once 'tools.php';
 include 'login.inc.php';
 include 'menu.inc.php';
 
@@ -39,6 +38,9 @@ include_once "user.class.php";
 include_once "time_tracking.class.php";
 include_once "time_tracking_tools.php";
 require_once('tc_calendar.php');
+
+echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery.form.js'></script>\n";
+
 ?>
 
 <style>
@@ -251,10 +253,22 @@ require_once('tc_calendar.php');
 			modal: true,
 			buttons: {
 				"Delete": function() {
-				$('#formDeleteTrack').submit();
+                    $("#formDeleteTrack").ajaxSubmit({
+                        url: "delete_task.php",
+                        type: "post",
+                        error: function(xhr){
+                            alert('Request Status: ' + xhr.status + '\nStatus Text: ' + xhr.statusText + '\n' + xhr.responseText);
+                        },
+                        success: function(responseText){
+                            jQuery("#deleteTrack_dialog_form").dialog("close");
+                            // Trim because the response send too much space...
+                            var track_id = jQuery.trim(responseText);
+                            jQuery("tr[id=row_"+track_id+"]").remove();
+                        }
+                    });
 				},
 				Cancel: function() {
-					$( this ).dialog( "close" );
+					jQuery(this).dialog("close");
 				}
 			}
 		});
@@ -679,6 +693,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
       $issue = IssueCache::getInstance()->getIssue($bugid);
       if (NULL != $issue->remaining) {
          $remaining = $issue->remaining - $duration;
+
          if ($remaining < 0) { $remaining = 0; }
          $issue->setRemaining($remaining);
       }
@@ -689,48 +704,11 @@ if ($_POST['nextForm'] == "addTrackForm") {
     $defaultBugid = $bugid;
 
   } elseif ("deleteTrack" == $action) {
-    $trackid  = $_POST['trackid'];
-
-    // increase remaining (only if 'remaining' already has a value)
-    $query = "SELECT bugid, jobid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = mysql_query($query);
-   	if (!$result) {
-   		$logger->error("Query FAILED: $query");
-   		$logger->error(mysql_error());
-   		echo "<span style='color:red'>ERROR: Query FAILED</span>";
-   		exit;
-   	}
-    while($row = mysql_fetch_object($result))
-    { // REM: only one line in result, while should be optimized
-      $bugid = $row->bugid;
-      $duration = $row->duration;
-      $job = $row->jobid;
-    }
-
-    $issue = IssueCache::getInstance()->getIssue($bugid);
-    // do NOT decrease remaining if job is job_support !
-    if ($job != $job_support) {
-      if (NULL != $issue->remaining) {
-         $remaining = $issue->remaining + $duration;
-         $issue->setRemaining($remaining);
-      }
-    }
-
-    // delete track
-    # TODO use TimeTrack::delete($trackid) 
-    $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = mysql_query($query);
-    if (!$result) {
-    	$logger->error("Query FAILED: $query");
-    	$logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-    
+    /* Useless ?
     // pre-set form fields
     $defaultBugid     = $bugid;
     $defaultProjectid  = $issue->projectId;
-
+    */
   } elseif ("setProjectid" == $action) {
 
   	 // pre-set form fields

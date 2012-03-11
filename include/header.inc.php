@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,35 +14,11 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
-   # WARN: this avoids the display of some PHP errors...
-   error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+*/ 
 
-   date_default_timezone_set("Europe/Paris");
-
-
-   # WARN: order of these includes is important.
-   require_once('Logger.php');
-   if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("header");
-      $logger->info("LOG activated !");
-
-      // test
-      #echo "configure LOG ".Logger::getConfigurationFile()."</br>";
-      #echo "configure LOG ".Logger::getConfigurationClass()."</br>";
-      #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
-   }
-
-   include_once "tools.php";
-   include_once "mysql_connect.inc.php";
-   include_once "internal_config.inc.php";
-   include_once "constants.php";
-
+include_once "super_header.inc.php";
 
 ?>
-
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
 
