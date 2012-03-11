@@ -132,7 +132,7 @@ function displayProjectVersions($project) {
    echo "<ul>\n";
    echo "<li><a href='#tab1'>".T_("Overview")."</a></li>\n";
    echo "<li><a href='#tab2'>".T_("Detailed")."</a></li>\n";
-   echo "<li><a href='#tab3'>".T_("Issues")."</a></li>\n";
+   echo "<li><a href='#tab3'>".T_("Tasks")."</a></li>\n";
    echo "</ul>\n";
    echo "<div id='tab1'>\n";
    echo "<p>";
