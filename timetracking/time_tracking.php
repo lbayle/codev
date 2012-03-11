@@ -39,6 +39,26 @@ include_once "time_tracking.class.php";
 include_once "time_tracking_tools.php";
 require_once('tc_calendar.php');
 
+// ================ MAIN =================
+
+$job_support = Config::getInstance()->getValue(Config::id_jobSupport);
+
+//$year = date('Y');
+$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
+
+$userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
+$managed_user = UserCache::getInstance()->getUser($userid);
+
+$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+$teamList = $session_user->getLeadedTeamList();
+
+// updateRemaining data
+$bugid  = isset($_POST['bugid']) ? $_POST['bugid'] : '';
+$remaining  = isset($_POST['remaining']) ? $_POST['remaining'] : '';
+
+$action = isset($_POST["action"]) ? $_POST["action"] : '';
+$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
+
 echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery.form.js'></script>\n";
 
 ?>
@@ -260,10 +280,23 @@ echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/j
                             alert('Request Status: ' + xhr.status + '\nStatus Text: ' + xhr.statusText + '\n' + xhr.responseText);
                         },
                         success: function(responseText){
-                            jQuery("#deleteTrack_dialog_form").dialog("close");
+                            // Update the WeekTableDetails
+                            jQuery.ajax({
+                                type: "GET",
+                                url: "time_tracking_tools.php",
+                                data: "action=displayWeekTableDetails&weekid=<? echo $weekid; ?>&userid=<? echo $managed_user->id; ?>&curYear=<? echo $year; ?>",
+                                success : function(data) {
+                                    jQuery("#weekTableDetails").html(data);
+                                }
+                            });
+                            
+                            // Update the TimetrackingTuples
                             // Trim because the response send too much space...
                             var track_id = jQuery.trim(responseText);
                             jQuery("tr[id=row_"+track_id+"]").remove();
+
+                            // And finally close the dialog
+                            jQuery("#deleteTrack_dialog_form").dialog("close");
                         }
                     });
 				},
@@ -622,27 +655,6 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate,
    echo "</div>";
 }
 
-
-// ================ MAIN =================
-
-$job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-
-//$year = date('Y');
-$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
-
-$userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
-$managed_user = UserCache::getInstance()->getUser($userid);
-
-$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-$teamList = $session_user->getLeadedTeamList();
-
-// updateRemaining data
-$bugid  = isset($_POST['bugid']) ? $_POST['bugid'] : '';
-$remaining  = isset($_POST['remaining']) ? $_POST['remaining'] : '';
-
-$action = isset($_POST["action"]) ? $_POST["action"] : '';
-$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
-
 // if first call to this page
 if (!isset($_POST['nextForm'])) {
   if (0 != count($teamList)) {
@@ -669,11 +681,6 @@ if ($_POST['nextForm'] == "addTrackForm") {
   $defaultDate  = $formatedDate= date("Y-m-d", time());
   $defaultBugid = 0;
   $defaultProjectid=0;
-
-  $weekDates      = week_dates($weekid,$year);
-  $startTimestamp = $weekDates[1];
-  $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-  $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
 
   if ("addTrack" == $action) {
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
@@ -757,7 +764,11 @@ if ($_POST['nextForm'] == "addTrackForm") {
   addTrackForm($weekid, $year, $managed_user, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
   echo "<br/>";
 
-  displayWeekDetails($weekid, $weekDates, $managed_user->id, $timeTracking, $year);
+  $weekDates      = week_dates($weekid,$year);
+  $startTimestamp = $weekDates[1];
+  $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+
+  displayWeekDetails($weekid, $weekDates, $managed_user->id, $startTimestamp, $endTimestamp, $year);
 
   echo "<br/>";
   echo "<br/>";

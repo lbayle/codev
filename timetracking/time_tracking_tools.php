@@ -19,8 +19,14 @@
 <?php include_once '../path.inc.php'; ?>
 
 <?php
-include_once "user.class.php";
 
+include_once "super_header.inc.php";
+
+include_once 'i18n.inc.php';
+include_once 'tools.php';
+
+include_once "user.class.php";
+include_once "time_tracking.class.php";
 
 function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
@@ -84,25 +90,26 @@ function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endT
    echo "<th title='".T_("Remaining")."'>".T_("RAF")."</th>\n";
    echo "</tr>\n";
 
-   $query     = "SELECT id, bugid, jobid, date, duration ".
-                "FROM `codev_timetracking_table` ".
-                "WHERE userid=$userid ";
+   $query = "SELECT id, bugid, jobid, date, duration FROM `codev_timetracking_table` WHERE userid=$userid ";
 
    if (NULL != $startTimestamp) { $query .= "AND date >= $startTimestamp "; }
    if (NULL != $endTimestamp)   { $query .= "AND date <= $endTimestamp "; }
    $query .= "ORDER BY date DESC";
-   $result    = mysql_query($query) or die("Query failed: $query");
+   $result    = @mysql_query($query);
+   if($result != NULL) {
    while($row = mysql_fetch_object($result))
    {
       // get information on this bug
       $query2  = "SELECT summary, status, date_submitted, project_id, category_id FROM `mantis_bug_table` WHERE id=$row->bugid";
-      $result2 = mysql_query($query2) or die("Query failed: $query2");
+      $result2 = @mysql_query($query2);
+      if($result2 != NULL) {
       $row2 = mysql_fetch_object($result2);
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
       // get general information
       $query3  = "SELECT name FROM `codev_job_table` WHERE id=$row->jobid";
-      $result3 = mysql_query($query3) or die("Query failed: $query3");
+      $result3 = @mysql_query($query3);
+      if($result3 != NULL) {
       $jobName = mysql_result($result3, 0);
       $formatedDate= date("Y-m-d", $row->date);
       $cosmeticDate    = date("Y-m-d (l)", $row->date);
@@ -125,7 +132,7 @@ function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endT
       }
 
       // --- display row
-      echo "<tr class ='$tr_class' id=row_".$row->id.">\n";
+      echo "<tr class ='$tr_class' id='row_".$row->id."'>\n";
       echo "<td>\n";
       echo "<a title='".T_("delete this row")."' href=\"javascript: deleteTrack('".$row->id."', '".$formatedDate."', '".$formatedId."', '".$row->duration."', '".$formatedJobName."', '".$formatedSummary."', '".$userid."', '".$weekid."', '".$curYear."')\" ><img border='0' src='../images/b_drop.png'></a>\n";
       echo "</td>\n";
@@ -142,87 +149,107 @@ function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endT
       echo "<td>".$issue->remaining."</td>\n";
 
       echo "</tr>\n";
+      }
+      }
+   }
    }
    echo "</table>\n";
    echo "<div>\n";
 }
 
-function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYear=NULL) {
+function displayWeekDetails($weekid, $weekDates, $userid, $startTimestamp, $endTimestamp, $curYear=NULL) {
 
 	if (NULL == $curYear) { $curYear = date('Y'); }
 
 	echo "<div align='center'>\n";
-   echo "<br/>\n";
-   echo T_("Week")." \n";
-   echo "<input type=button title='".T_("Previous week")."' value='<<' onClick='javascript: previousWeek()'>\n";
+    echo "<br/>\n";
+    echo T_("Week")." \n";
+    echo "<input type=button title='".T_("Previous week")."' value='<<' onClick='javascript: previousWeek()'>\n";
 	echo "<select id='weekidSelector' name='weekidSelector' onchange='javascript: submitWeekid()'>\n";
-   for ($i = 1; $i <= 53; $i++)
-   {
-      $wDates      = week_dates($i,$curYear);
+    for ($i = 1; $i <= 53; $i++)
+    {
+        $wDates      = week_dates($i,$curYear);
 
-      if ($i == $weekid) {
-        echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
-      } else {
-        echo "<option value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
-      }
-   }
-   echo "</select>\n";
-  echo "<select id='yearSelector' name='yearSelector' onchange='javascript: submitWeekid()'>\n";
-  for ($y = ($curYear -1); $y <= ($curYear +1); $y++) {
-
-    if ($y == $curYear) {
-      echo "<option selected value='".$y."'>".$y."</option>\n";
-    } else {
-      echo "<option value='".$y."'>".$y."</option>\n";
+        if ($i == $weekid) {
+            echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
+        } else {
+            echo "<option value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
+        }
     }
-  }
-  echo "</select>\n";
-  echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
+    echo "</select>\n";
+    echo "<select id='yearSelector' name='yearSelector' onchange='javascript: submitWeekid()'>\n";
+    for ($y = ($curYear -1); $y <= ($curYear +1); $y++) {
 
-   $weekTracks = $timeTracking->getWeekDetails($userid);
-   echo "<table>\n";
-   echo "<tr>\n";
-   echo "<th>".T_("Task")."</th>\n";
-   echo "<th>".T_("RAF")."</th>\n";
-   echo "<th>".T_("Job")."</th>\n";
-   echo "<th width='80'>".T_("Monday")."<br/>".date("d M", $weekDates[1])."</th>\n";
-   echo "<th width='80'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
-   echo "<th width='80'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
-   echo "<th width='80'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
-   echo "<th width='80'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
-   echo "<th width='80' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
-   echo "<th width='80' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
-   echo "</tr>\n";
-   $linkList = array();
-   foreach ($weekTracks as $bugid => $jobList) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
+        if ($y == $curYear) {
+            echo "<option selected value='".$y."'>".$y."</option>\n";
+        } else {
+            echo "<option value='".$y."'>".$y."</option>\n";
+        }
+    }
+    echo "</select>\n";
+    echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
+    
+    displayWeekTableDetails($weekid, $weekDates, $userid, $startTimestamp, $endTimestamp, $curYear);
+    
+    echo "</div>\n";
+}
 
-      foreach ($jobList as $jobid => $dayList) {
-         $linkid = $bugid."_".$jobid;
-	     $linkList["$linkid"] = $issue;
+function displayWeekTableDetails($weekid, $weekDates, $userid, $startTimestamp, $endTimestamp, $curYear) {
+    echo "<table id='weekTableDetails'>\n";
+    echo "<tr>\n";
+    echo "<th>".T_("Task")."</th>\n";
+    echo "<th>".T_("RAF")."</th>\n";
+    echo "<th>".T_("Job")."</th>\n";
+    echo "<th width='80'>".T_("Monday")."<br/>".date("d M", $weekDates[1])."</th>\n";
+    echo "<th width='80'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
+    echo "<th width='80'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
+    echo "<th width='80'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
+    echo "<th width='80'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
+    echo "<th width='80' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
+    echo "<th width='80' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
+    echo "</tr>\n";
+    
+    $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
+    $weekTracks = $timeTracking->getWeekDetails($userid);
+    
+    $linkList = array();
+    foreach ($weekTracks as $bugid => $jobList) {
+        $issue = IssueCache::getInstance()->getIssue($bugid);
 
-         $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-         $result3 = mysql_query($query3) or die("Query failed: $query3");
-         $jobName = mysql_result($result3, 0);
+        foreach ($jobList as $jobid => $dayList) {
+            $linkid = $bugid."_".$jobid;
+            $linkList["$linkid"] = $issue;
 
-         $description = addslashes($issue->summary);
-         $dialogBoxTitle = T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining");
+            $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
+            $result3 = @mysql_query($query3);
+            if($result3 != NULL) {
+                $jobName = mysql_result($result3, 0);
 
-         echo "<tr>\n";
-         echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-         echo "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$issue->remaining."</a></td>\n";
-         echo "<td>".$jobName."</td>\n";
-         for ($i = 1; $i <= 5; $i++) {
-            echo "<td>".$dayList[$i]."</td>\n";
-         }
-         for ($i = 6; $i <= 7; $i++) {
-            echo "<td style='background-color: #D8D8D8;' >".$dayList[$i]."</td>\n";
-         }
-         echo "</tr>\n";
-      }
-   }
-   echo " </table>\n";
-   echo "</div>\n";
+                $description = addslashes($issue->summary);
+                $dialogBoxTitle = T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining");
+
+                echo "<tr>\n";
+                echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
+                echo "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$issue->remaining."</a></td>\n";
+                echo "<td>".$jobName."</td>\n";
+                for ($i = 1; $i <= 5; $i++) {
+                    echo "<td>".$dayList[$i]."</td>\n";
+                }
+                for ($i = 6; $i <= 7; $i++) {
+                    echo "<td style='background-color: #D8D8D8;' >".$dayList[$i]."</td>\n";
+                }
+                echo "</tr>\n";
+            }
+        }
+    }
+    echo " </table>\n";
+}
+
+if($_GET['action'] == 'displayWeekTableDetails') {
+    $weekDates = week_dates($_GET['weekid'],$_GET['curYear']);
+    $startTimestamp = $weekDates[1];
+    $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+    displayWeekTableDetails($_GET['weekid'],$weekDates,$_GET['userid'],$startTimestamp,$endTimestamp,$curYear);
 }
 
 ?>
