@@ -361,7 +361,7 @@ msgstr "Rôle"
 #: admin/edit_team.php:361 admin/edit_team.php:563
 #: timetracking/time_tracking_tools.php:130
 msgid "delete this row"
-msgstr "éffacer cette ligne"
+msgstr "effacer cette ligne"
 
 #: admin/edit_team.php:410
 msgid "Team Members"
