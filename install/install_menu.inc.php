@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,35 +14,48 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
-   include_once "tools.php";
-   include_once 'i18n.inc.php';
-?>
+*/
 
-<div id="menu">
+include_once "tools.php";
+include_once 'i18n.inc.php';
 
-<?php 
-echo "<table class='menu'>\n";
-echo "   <tr>\n";
+$installFolder="/install/";
+
+$firstStep="install.php";
+$firstLinkName = T_("Install");
+$firstLink = "<a href='".getServerRootURL().$installFolder.$firstStep."' title='".$firstLinkName."'>".$firstLinkName."</a>";
+
+$secondStep="install_step1.php";
+$secondLinkName = T_("Step 1");
+$secondLink = "<a href='".getServerRootURL().$installFolder.$secondStep."' title='".$secondLinkName."'>".$secondLinkName."</a>";
+
+$thirdStep="install_step2.php";
+$thirdLinkName = T_("Step 2");
+$thirdLink = "<a href='".getServerRootURL().$installFolder.$thirdStep."' title='".$thirdLinkName."'>".$thirdLinkName."</a>";
+
+$fourthStep="install_step3.php";
+$fourthLinkName = T_("Step 3");
+$fourthLink = "<a href='".getServerRootURL().$installFolder.$fourthStep."' title='".$fourthLinkName."'>".$fourthLinkName."</a>";
+
+// Don't show the link if we are already on the page
+if(strpos($_SERVER['REQUEST_URI'],$firstStep)) {
+    $firstLink = $firstLinkName;
+} elseif(strpos($_SERVER['REQUEST_URI'],$secondStep)) {
+    $secondLink = $secondLinkName;
+} elseif(strpos($_SERVER['REQUEST_URI'],$thirdStep)) {
+    $thirdLink = $thirdLinkName;
+} elseif(strpos($_SERVER['REQUEST_URI'],$fourthStep)) {
+    $fourthLink = $fourthLinkName;
+}
+
+echo "<div id='menu'>\n";
+echo "  <table class='menu'>\n";
+echo "    <tr>\n";
 echo "      <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis' title='MantisBT'>Mantis</a></td>\n";
+echo "      <td>".$firstLink." | ".$secondLink." | ".$thirdLink." | ".$fourthLink."</td>\n";
+echo "      <td><a href='".getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a></td>\n";
+echo "    </tr>\n";
+echo "  </table>\n";
+echo "<br/><br/></div>";
 
-echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/install/install.php' title=''>".T_("Install")."</a>\n";
-echo "      |\n";
-echo "      <a href='".getServerRootURL()."/install/install_step1.php' title=''>".T_("Step 1")."</a>\n";
-echo "      |\n";
-echo "      <a href='".getServerRootURL()."/install/install_step2.php' title=''>".T_("Step 2")."</a>\n";
-echo "      |\n";
-echo "      <a href='".getServerRootURL()."/install/install_step3.php' title=''>".T_("Step 3")."</a>\n";
-echo "      </td>\n";
-
-echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a>\n";
-echo "      </td>\n";
-echo "  </tr>\n";
-echo "</table>";
 ?>
-<br/>
-<br/>
-</div>
