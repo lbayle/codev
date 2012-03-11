@@ -88,7 +88,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
                                $is_modified = "false"
                                ) {
   global $logger;
-  
+
   echo "<form action='create_team.php' method='post' name='teamCreationForm'>\n";
 
   // ----------- Team Info
@@ -116,7 +116,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
      echo "<span style='color:red'>ERROR: Query FAILED</span>";
      exit;
   }
-  
+
   while($row = mysql_fetch_object($result))
   {
       if ($row->id == $teamleader_id) {
@@ -219,14 +219,14 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "    <td><input size='100' type='text' name='task_leave'  id='task_leave' value='$task_leave'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
-
+/*
   $isChecked = $isTaskOnDuty ? "CHECKED" : "";
   echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskOnDuty' id='cb_taskOnDuty'>".
        T_("Inactivity")." (".T_("on duty").")</input></td>\n";
   echo "    <td><input size='100' type='text' name='task_onDuty'  id='task_onDuty' value='$task_onDuty'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
-
+*/
   $isChecked = $isTaskProjManagement ? "CHECKED" : "";
   echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskProjManagement' id='cb_taskProjManagement'>".
        T_("Project Management")."</input></td>\n";
@@ -321,7 +321,7 @@ if ("false" == $is_modified) {
    $isCatOther           = true;
    $isTaskProjManagement = true;
    $isTaskLeave          = true;
-   $isTaskOnDuty         = true;
+   $isTaskOnDuty         = false;
    $isTaskMeeting        = true;
    $isTaskIncident       = false;
    $isTaskTools          = false;
