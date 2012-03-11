@@ -40,10 +40,15 @@ $fourthLink = "<a href='".getServerRootURL().$installFolder.$fourthStep."' title
 // Don't show the link if we are already on the page
 if(strpos($_SERVER['REQUEST_URI'],$firstStep)) {
     $firstLink = $firstLinkName;
+    $thirdLink = $thirdLinkName;
+    $fourthLink = $fourthLinkName;
 } elseif(strpos($_SERVER['REQUEST_URI'],$secondStep)) {
     $secondLink = $secondLinkName;
+    $thirdLink = $thirdLinkName;
+    $fourthLink = $fourthLinkName;
 } elseif(strpos($_SERVER['REQUEST_URI'],$thirdStep)) {
     $thirdLink = $thirdLinkName;
+    $fourthLink = $fourthLinkName;
 } elseif(strpos($_SERVER['REQUEST_URI'],$fourthStep)) {
     $fourthLink = $fourthLinkName;
 }
