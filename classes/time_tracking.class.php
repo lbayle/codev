@@ -711,9 +711,10 @@ class TimeTracking {
 
       if ($issue->projectId  == $project_id) {
         $workingDaysPerProject += $row->duration;
-    	  $this->logger->debug("proj=$project_id, bugid=$row->bugid, duration=$row->duration, userid=$row->userid");
+        $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=$row->duration, bugid=$row->bugid, userid=$row->userid, ".date("Y-m-d", $row->date));
       }
     }
+    $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
     return $workingDaysPerProject;
   }
 
