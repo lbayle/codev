@@ -78,7 +78,7 @@ $logger = Logger::getLogger("productivity_report");
                 data: 'action=displayProjectDetails&projectId='+jQuery('#projectidSelector').val()+'&teamid='+jQuery('#teamidSelector').val(),
                 success: function(data) {
                     jQuery("#projectDetailsDiv").html(jQuery.trim(data));
-                },
+                }
             });
         });
         
