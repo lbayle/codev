@@ -56,6 +56,9 @@
 //
 //********************************************************
 
+date_default_timezone_set("Europe/Paris");
+
+
 class tc_calendar{
 	var $icon;
 	var $objname;
