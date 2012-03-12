@@ -65,8 +65,10 @@ class Project {
 
 	private $bug_resolved_status_threshold;
 	private $projectVersionList;
+	
 	private $progress;
-
+	private $progressMgr;
+	
 
 	// -----------------------------------------------
 	public function Project($id) {
@@ -852,6 +854,10 @@ class Project {
       return $this->projectVersionList;
    }
 
+   
+   /**
+    * 
+    */
    public function getProgress() {
 
    	if (NULL == $this->progress) {
@@ -860,25 +866,36 @@ class Project {
    	  $elapsed   = 0;
    	  $issueList = $this->getIssueList();
 
+   	  $issueSelection = new IssueSelection($this->name);
    	  foreach ($issueList as $bugid) {
-   	  	$issue = IssueCache::getInstance()->getIssue($bugid);
-   	  	$elapsed   += $issue->elapsed;
-   	  	$remaining += $issue->remaining;
-
+   	  	$issueSelection->addIssue($bugid);
    	  }
-
-   	  // compute total progress
-   	  if (0 == $elapsed) {
-   	  	$this->progress = 0;  // if no time spent, then no work done.
-   	  } elseif (0 == $remaining) {
-   	  	$this->progress = 1;  // if no Remaining, then Project is 100% done.
-   	  } else {
-   	  	$this->progress = $elapsed / ($elapsed + $remaining);
-   	  }
+   	  $this->progress = $issueSelection->getProgress();
    	}
    	return $this->progress;
    }
 
+   /**
+    *
+    */
+   public function getProgressMgr() {
+   
+   	if (NULL == $this->progressMgr) {
+   
+   		$remaining = 0;
+   		$elapsed   = 0;
+   		$issueList = $this->getIssueList();
+   
+   		$issueSelection = new IssueSelection($this->name);
+   		foreach ($issueList as $bugid) {
+   			$issueSelection->addIssue($bugid);
+   		}
+   		$this->progressMgr = $issueSelection->getProgressMgr();
+   	}
+   	return $this->progressMgr;
+   }
+   
+   
 }
 
 ?>

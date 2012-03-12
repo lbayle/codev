@@ -656,6 +656,7 @@ function displayWorkingDaysPerProject($timeTracking) {
   echo "<th>".T_("Project")."</th>\n";
   echo "<th>".T_("Nb Days")."</th>\n";
   echo "<th>".T_("Progress")."</th>\n";
+  echo "<th>".T_("Progress Mgr")."</th>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -678,17 +679,20 @@ function displayWorkingDaysPerProject($timeTracking) {
      $proj = ProjectCache::getInstance()->getProject($row->id);
 
      if ((! $proj->isSideTasksProject()) && (! $proj->isNoStatsProject())) {
-        $progress = round(100 * $proj->getProgress()).'%';
+        $progress    = round(100 * $proj->getProgress()).'%';
+     	$progressMgr = round(100 * $proj->getProgressMgr()).'%';
      } else {
-     	$progress = '';
+     	$progress    = '';
+     	$progressMgr = '';
      }
-
+     
     echo "<tr>\n";
     echo "<td>";
     echo "$row->name\n";
     echo "</td>\n";
     echo "<td>".$nbDays."</td>\n";
     echo "<td>".$progress."</td>\n";
+    echo "<td>".$progressMgr."</td>\n";
     echo "</tr>\n";
 
     if (0 != $nbDays) {

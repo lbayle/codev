@@ -162,6 +162,7 @@ function displayVersionsOverview($project) {
    echo "<tr>\n";
    echo "  <th>".T_("Target version")."</th>\n";
    echo "  <th>".T_("Date")."</th>\n";
+   echo "  <th>".T_("Progress Mgr")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
    #echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
@@ -170,9 +171,7 @@ function displayVersionsOverview($project) {
 
    foreach ($projectVersionList as $version => $pv) {
 	   echo "<tr>\n";
-	   $totalElapsed += $pv->elapsed;
-	   $totalRemaining += $pv->remaining;
-
+	   
        $valuesMgr = $pv->getDriftMgr();
        $formattedDriftMgr = "<span title='".T_("percent")."' class='float'>".round(100 * $valuesMgr['percent'])."%</span>";
 
@@ -189,8 +188,10 @@ function displayVersionsOverview($project) {
        if (! is_string($vdate)) {
           echo "<td>".date("Y-m-d",$vdate)."</td>\n";
        } else {
-       echo "<td></td>\n";
+        #  echo "<td>".date("Y-m-d",$vdate)."</td>\n";
+       	  echo "<td>$vdate</td>\n";
        }
+       echo "<td>".round(100 * $pv->getProgressMgr())."%</td>\n";
        echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
 	   #echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
@@ -198,18 +199,11 @@ function displayVersionsOverview($project) {
 	   echo "</tr>\n";
    }
 
-   // compute total progress
-   if (0 == $totalRemaining) {
-   	  $totalProgress = 1;  // if no Remaining, then Project is 100% done.
-   } elseif (0 == $totalElapsed) {
-      $totalProgress = 0;  // if no time spent, then no work done.
-   } else {
-   	  $totalProgress = $totalElapsed / ($totalElapsed + $totalRemaining);
-   }
    echo "<tr>\n";
    echo "<td>".T_("Total")."</td>\n";
    echo "<td></td>\n";
-   echo "<td>".round(100 * $totalProgress)."%</td>\n";
+   echo "<td>".round(100 * $project->getProgressMgr())."%</td>\n";
+   echo "<td>".round(100 * $project->getProgress())."%</td>\n";
    #echo "<td>".$totalRemaining."</td>\n";
    echo "<td></td>\n";
    echo "<td></td>\n";
@@ -233,6 +227,7 @@ function displayVersionsDetailed($project) {
    echo "  <th>".T_("MgrEffortEstim")."</th>\n";
    echo "  <th>".T_("EffortEstim")."</th>\n";
    echo "  <th>".T_("Elapsed")."</th>\n";
+   echo "  <th>".T_("Remaining Mgr")."</th>\n";
    echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
    echo "  <th width='80'>".T_("Drift")."</th>\n";
@@ -240,8 +235,11 @@ function displayVersionsDetailed($project) {
 
    foreach ($projectVersionList as $version => $pv) {
 	   echo "<tr>\n";
+	   $totalEffortEstimMgr += $pv->mgrEffortEstim;
+	   $totalEffortEstim += $pv->effortEstim + $pv->effortAdd;
 	   $totalElapsed += $pv->elapsed;
 	   $totalRemaining += $pv->remaining;
+	   $totalRemainingMgr += $pv->remainingMgr;
 	   $formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
 
@@ -261,6 +259,7 @@ function displayVersionsDetailed($project) {
        echo "<td>".$pv->mgrEffortEstim."</td>\n";
        echo "<td title='$pv->effortEstim + $pv->effortAdd'>".($pv->effortEstim + $pv->effortAdd)."</td>\n";
 	   echo "<td>".$pv->elapsed."</td>\n";
+	   echo "<td>".$pv->remainingMgr."</td>\n";
 	   echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
        echo "<td $formatteddriftColor >$formattedDrift</td>\n";
@@ -270,17 +269,21 @@ function displayVersionsDetailed($project) {
    // compute total progress
    if (0 == $totalRemaining) {
    	  $totalProgress = 1;  // if no Remaining, then Project is 100% done.
+   	  $totalProgressMgr = 1;  // if no Remaining, then Project is 100% done.
    } elseif (0 == $totalElapsed) {
       $totalProgress = 0;  // if no time spent, then no work done.
+      $totalProgressMgr = 0;  // if no time spent, then no work done.
    } else {
    	  $totalProgress = $totalElapsed / ($totalElapsed + $totalRemaining);
+   	  $totalProgressMgr = $totalElapsed / ($totalElapsed + $totalRemainingMgr);
    }
    echo "<tr>\n";
    echo "<td>".T_("Total")."</td>\n";
    #echo "<td>".round(100 * $totalProgress)."%</td>\n";
-   echo "<td></td>\n";
-   echo "<td></td>\n";
+   echo "<td>$totalEffortEstimMgr</td>\n";
+   echo "<td>$totalEffortEstim</td>\n";
    echo "<td>".$totalElapsed."</td>\n";
+   echo "<td>".$totalRemainingMgr."</td>\n";
    echo "<td>".$totalRemaining."</td>\n";
    echo "<td></td>\n";
    echo "<td></td>\n";

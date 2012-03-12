@@ -32,6 +32,7 @@ class IssueSelection {
 	public $name;    // name for this selection
 	public $elapsed;
 	public $remaining;
+	public $remainingMgr;
 	public $mgrEffortEstim;
 	public $effortEstim;
 	public $effortAdd;
@@ -48,6 +49,7 @@ class IssueSelection {
 
 		$this->elapsed   = 0;
 		$this->remaining = 0;
+		$this->remainingMgr = 0;
 		$this->mgrEffortEstim = 0;
 		$this->effortEstim   = 0;
 		$tgis->effortAdd     = 0;    // BS
@@ -67,19 +69,32 @@ class IssueSelection {
 			$issue = IssueCache::getInstance()->getIssue($bugid);
 			$this->issueList[$bugid] = $issue;
 			$this->elapsed   += $issue->elapsed;
-			$this->remaining += $issue->remaining;
+			
+			// no remaining for resolved issues
+			if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
+
+			    // the remaining for issues having no elapsed is the effortEstim.
+				if ((NULL == $issue->elapsed) || (0 == $issue->elapsed)) {
+					$this->remaining    += $issue->effortEstim;
+					$this->remainingMgr += $issue->mgrEffortEstim;
+				} else {
+					$this->remaining    += $issue->remaining;
+					$this->remainingMgr += $issue->remaining;
+				}
+			}
+			
 			$this->mgrEffortEstim += $issue->mgrEffortEstim;
 			$this->effortEstim    += $issue->effortEstim;
 			$this->effortAdd    += $issue->effortAdd;
 
-			$this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->remaining);
+			$this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->remaining." RAF_Mgr=".$issue->remainingMgr);
 		}
 
 	}
 
 	/**
 	 *
-	 * @return Ambigous <number, NULL>
+	 * 
 	 */
 	public function getProgress() {
 
@@ -96,6 +111,30 @@ class IssueSelection {
 			}
 
 			$this->logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->remaining.")");
+		}
+
+		return $this->progress;
+	}
+
+	/**
+	 *
+	 * 
+	 */
+	public function getProgressMgr() {
+
+		if (NULL == $this->progress) {
+
+			// compute total progress
+
+			if (0 == $this->elapsed) {
+				$this->progress = 0;  // if no time spent, then no work done.
+			} elseif (0 == $this->remainingMgr) {
+				$this->progress = 1;  // if no Remaining, then Project is 100% done.
+			} else {
+				$this->progress = $this->elapsed / ($this->elapsed + $this->remainingMgr);
+			}
+
+			$this->logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->remainingMgr.")");
 		}
 
 		return $this->progress;
@@ -124,6 +163,8 @@ class IssueSelection {
 	}
 
 	/**
+	 * 
+	 * 
 	 * @return array(nbDays, percent)
 	 */
 	public function getDriftMgr() {
@@ -132,7 +173,7 @@ class IssueSelection {
 
         if ((0 != $this->mgrEffortEstim) && (0 != $this->elapsed)) {
             // ((elapsed + RAF) - estim) / estim
-            $nbDaysDrift = $this->elapsed + $this->remaining - $this->mgrEffortEstim;
+            $nbDaysDrift = $this->elapsed + $this->remainingMgr - $this->mgrEffortEstim;
     		$percent =  $nbDaysDrift / $this->mgrEffortEstim;
 
             $values['nbDays'] = $nbDaysDrift;
