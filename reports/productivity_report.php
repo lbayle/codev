@@ -1,5 +1,8 @@
-<?php if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
-<?php /*
+<?php 
+
+if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); }
+
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -14,70 +17,77 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php include_once '../path.inc.php'; ?>
+include_once '../path.inc.php';
 
-<?php
 include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
   exit;
 }
+
+$_POST['page_name'] = T_("Period Statistics");
+include 'header.inc.php';
+
+include 'login.inc.php';
+include 'menu.inc.php';
+
+include_once "period_stats.class.php";
+include_once "team.class.php";
+include_once "project.class.php";
+include_once "jobs.class.php";
+include_once "time_tracking.class.php";
+
+include "productivity_report_tools.php";
+
+require_once('tc_calendar.php');
+
+$logger = Logger::getLogger("productivity_report");
+
 ?>
 
-<?php
-   $_POST['page_name'] = T_("Period Statistics");
-   include 'header.inc.php';
-?>
-
-<?php include 'login.inc.php'; ?>
-<?php include 'menu.inc.php'; ?>
 <br/>
+
 <?php include 'menu_statistics.inc.php'; ?>
 
-
 <script language="JavaScript">
-
-  function submitForm() {
-    document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-    document.forms["form1"].action.value = "timeTrackingReport";
-    document.forms["form1"].submit();
-  }
-
-  function setProjectid() {
-     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
-     document.forms["form1"].action.value="setProjectid";
-     document.forms["form1"].submit();
-  }
-
-  // ------ JQUERY --------
-  $(function() {
+    jQuery(document).ready(function(){
 		// function displayRates
-		$( "#dialog_AvailWorkload" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_AvailWorkload_link" ).click(function() { $( "#dialog_AvailWorkload" ).dialog( "open" ); return false;	});
+		var dialog_AvailWorkload = jQuery( "#dialog_AvailWorkload" ).dialog({	autoOpen: false, hide: "fade"	});
+		jQuery( "#dialog_AvailWorkload_link" ).click(function() { dialog_AvailWorkload.dialog( "open" ); return false;	});
 
-		$( "#dialog_ProdDays" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_ProdDays_link" ).click(function() { $( "#dialog_ProdDays" ).dialog( "open" ); return false;	});
+		var dialog_ProdDays = jQuery( "#dialog_ProdDays" ).dialog({	autoOpen: false, hide: "fade"	});
+		jQuery( "#dialog_ProdDays_link" ).click(function() { dialog_ProdDays.dialog( "open" ); return false;	});
 
-		$( "#dialog_EfficiencyRate" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_EfficiencyRate_link" ).click(function() { $( "#dialog_EfficiencyRate" ).dialog( "open" ); return false;	});
+		var dialog_EfficiencyRate = jQuery( "#dialog_EfficiencyRate" ).dialog({	autoOpen: false, hide: "fade"	});
+		jQuery( "#dialog_EfficiencyRate_link" ).click(function() { dialog_EfficiencyRate.dialog( "open" ); return false;	});
 
-		$( "#dialog_SystemAvailability" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_SystemAvailability_link" ).click(function() { $( "#dialog_SystemAvailability" ).dialog( "open" ); return false;	});
+		var dialog_SystemAvailability = jQuery( "#dialog_SystemAvailability" ).dialog({	autoOpen: false, hide: "fade"	});
+		jQuery( "#dialog_SystemAvailability_link" ).click(function() { dialog_SystemAvailability.dialog( "open" ); return false;	});
 
-		$( "#dialog_ResolvedDriftStats" ).dialog({	autoOpen: false, hide: "fade"	});
-		$( "#dialog_ResolvedDriftStats_link" ).click(function() { $( "#dialog_ResolvedDriftStats" ).dialog( "open" ); return false;	});
+		var dialog_ResolvedDriftStats = jQuery( "#dialog_ResolvedDriftStats" ).dialog({	autoOpen: false, hide: "fade"	});
+		jQuery( "#dialog_ResolvedDriftStats_link" ).click(function() { dialog_ResolvedDriftStats.dialog( "open" ); return false;	});
 
-        $(function() {
-            $( "#tabsResolvedDriftStats" ).tabs();
+        jQuery( "#tabsResolvedDriftStats" ).tabs();
+        
+        jQuery('#projectidSelector').change(function() {
+            jQuery.ajax({
+                type: 'GET',
+                url: 'productivity_report_tools.php',
+                data: 'action=displayProjectDetails&projectId='+jQuery('#projectidSelector').val()+'&teamid='+jQuery('#teamidSelector').val()<?php echo isset($_REQUEST["date1"]) ? "+'&date1=".$_REQUEST['date1']."'" : ''; echo isset($_REQUEST["date2"]) ? "+'&date2=".$_REQUEST['date2']."'" : '' ?>,
+                success: function(data) {
+                    jQuery("#projectDetailsDiv").html(jQuery.trim(data));
+                }
+            });
         });
-
+        
+        jQuery('#computeButton').click(function() {
+            document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
+            document.forms["form1"].submit();
+        });
 	});
-
 </script>
-
 
 <?php
 // TODO mettre dans un fichier separe pour inclure aussi dans stats
@@ -136,27 +146,12 @@ echo T_("Tasks resolved in less time than the estimated effort")."<br>";
 echo "<span style='color:blue'>".T_("Formula").": ".T_("drift")." < -1</span></p>";
 echo "</div>";
 
-// ---
-
-
 ?>
-
 
 <div id="content">
 
 <?php
 
-include_once "period_stats.class.php";
-include_once "team.class.php";
-include_once "project.class.php";
-include_once "jobs.class.php";
-
-include_once "time_tracking.class.php";
-require_once('tc_calendar.php');
-
-$logger = Logger::getLogger("productivity_report");
-
-// -----------------------------------------------
 function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $defaultProjectid) {
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
 
@@ -203,7 +198,7 @@ function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $defaultP
 
   echo "&nbsp; <span title='".T_("(included)")."'>".T_("End Date").": </span>"; $myCalendar2->writeScript();
 
-  echo "&nbsp;<input type=button value='".T_("Compute")."' onClick='javascript: submitForm()'>\n";
+  echo "&nbsp;<input id='computeButton' type=button value='".T_("Compute")."'>\n";
 
   echo "<input type=hidden name=teamid  value=$teamid>\n";
   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
@@ -215,21 +210,14 @@ function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $defaultP
   echo "</div>";
 }
 
-
-
-
-// ---------------------------------------------------------------
 function setProjectSelectionForm($teamid, $defaultProjectid) {
 
    global $logger;
 
    // Display form
    echo "<div style='text-align: left;'>";
-  if (isset($_GET['debug'])) {
-      echo "<form id='projectSelectionForm' name='projectSelectionForm' method='post' action='productivity_report.php?debug'>\n";
-  } else {
-      echo "<form id='projectSelectionForm' name='projectSelectionForm' method='post' action='productivity_report.php'>\n";
-  }
+      
+   echo "<form id='projectSelectionForm' name='projectSelectionForm' method='post' action='productivity_report.php'>\n";
 
   $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
 
@@ -253,7 +241,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
             }
        }
    echo "<span class='caption_font'>".T_("Project Detail")." </span>\n";
-   echo "<select id='projectidSelector' name='projectidSelector' onchange='javascript: setProjectid()' title='".T_("Project")."'>\n";
+   echo "<select id='projectidSelector' name='projectidSelector' title='".T_("Project")."'>\n";
    echo "<option value='0'>".T_("All sideTasks Projects")."</option>\n";
    foreach ($projList as $pid => $pname)
    {
@@ -273,10 +261,6 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
    echo "</div>\n";
 }
 
-
-
-
-// -----------------------------------------------
 function displayProductionDays ($timeTracking) {
 
   $prodDays                = $timeTracking->getProdDays();
@@ -354,7 +338,6 @@ function displayProductionDays ($timeTracking) {
   }
 }
 
-// -----------------------------------------------
 function displayRates ($timeTracking) {
 
    $efficiencyRate          = $timeTracking->getEfficiencyRate();
@@ -401,8 +384,6 @@ function displayRates ($timeTracking) {
 
 }
 
-
-// ------------------------------------------------
 function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport = true) {
 
 	echo "<div id='tabsResolvedDriftStats'>\n";
@@ -424,7 +405,6 @@ function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport 
 
 }
 
-// -----------------------------------------------
 /**
  * display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
  */
@@ -485,9 +465,6 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "</table>\n";
 }
 
-/**
- *
- */
 function displayResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport=true) {
 
 	$issueList = $timeTracking->getResolvedIssues();
@@ -550,7 +527,6 @@ function displayResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupp
 
 }
 
-// -----------------------------------------------
 // display TimeDrifts for Issues that have been marked as 'Resolved' durung the timestamp
 function displayTimeDriftStats ($timeTracking) {
 
@@ -584,8 +560,6 @@ function displayTimeDriftStats ($timeTracking) {
   echo "</table>\n";
 }
 
-
-// --------------------------------
 function displayWorkingDaysPerJob($timeTracking, $teamid) {
 
    $jobs = new Jobs();
@@ -643,7 +617,6 @@ function displayWorkingDaysPerJob($timeTracking, $teamid) {
   }
 }
 
-// -----------------------------------------------
 function displayWorkingDaysPerProject($timeTracking) {
 
   global $logger;
@@ -713,152 +686,6 @@ function displayWorkingDaysPerProject($timeTracking) {
   }
 }
 
-// -----------------------------------------------
-function displaySideTasksProjectDetails($timeTracking) {
-
-  global $logger;
-
-  $sideTaskProjectType = Project::type_sideTaskProject;
-
-  $durationPerCategory = array();
-  $formatedBugsPerCategory = array();
-  $stProjList = "";
-
-  // find all sideTasksProjects (type = 1)
-  $query     = "SELECT project_id ".
-               "FROM `codev_team_project_table` ".
-               "WHERE team_id = $timeTracking->team_id ".
-               "AND type = $sideTaskProjectType";
-   $result = mysql_query($query);
-   if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
-   }
-  while($row = mysql_fetch_object($result))
-  {
-     $durPerCat = $timeTracking->getProjectDetails($row->project_id);
-     foreach ($durPerCat as $catName => $bugList)
-     {
-     	   foreach ($bugList as $bugid => $duration) {
-     	   	$durationPerCategory[$catName] += $duration;
-
-     	   	if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
-     	   	$issue = IssueCache::getInstance()->getIssue($bugid);
-            $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
-     	   }
-     }
-
-     $proj = ProjectCache::getInstance()->getProject($row->project_id);
-     $stProjList[] = $proj->name;
-
-  }
-  $formatedProjList = implode( ', ', $stProjList);
-
-  $formatedBugList = "";
-
-  echo "<div class=\"float\">\n";
-  echo "<table width='300'>\n";
-#  echo "<caption title='".T_("Projects").": $formatedProjList'>".T_("Project Management Detail")."</caption>\n";
-  echo "<tr>\n";
-  echo "<th>".T_("Category")."</th>\n";
-  echo "<th>".T_("Nb Days")."</th>\n";
-  echo "<th>".T_("Tasks")."</th>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  foreach ($durationPerCategory as $catName => $duration)
-  {
-    echo "<tr bgcolor='white'>\n";
-    echo "<td>$catName</td>\n";
-    echo "<td>$duration</td>\n";
-    echo "<td>".$formatedBugsPerCategory[$catName]."</td>\n";
-    echo "</tr>\n";
-
-      if (0 != $duration) {
-       if (NULL != $formatedValues) {
-          $formatedValues .= ":"; $formatedLegends .= ":";
-       }
-       $formatedValues .= $duration;
-       $formatedLegends .= $catName;
-    }
-  }
-  echo "</table>\n";
-  echo "</div>\n";
-
-  if (NULL != $formatedValues) {
-     echo "<div class=\"float\">\n";
-     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Project")."&legends=$formatedLegends&values=$formatedValues";
-     $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
-     $graphURL = SmartUrlEncode($graphURL);
-     echo "<img src='$graphURL'/>";
-     echo "</div>\n";
-  }
-}
-
-// -----------------------------------------------
-function displayProjectDetails($timeTracking, $projectId) {
-
-  $durationPerCategory = array();
-  $formatedBugsPerCategory = array();
-
-         $durPerCat = $timeTracking->getProjectDetails($projectId);
-  foreach ($durPerCat as $catName => $bugList)
-  {
-      foreach ($bugList as $bugid => $duration) {
-         $durationPerCategory[$catName] += $duration;
-
-         if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
-         $issue = IssueCache::getInstance()->getIssue($bugid);
-         $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
-      }
-  }
-
-  $proj = ProjectCache::getInstance()->getProject($projectId);
-
-  echo "<div class=\"float\">\n";
-  echo "<table width='300'>\n";
-  //echo "<caption>".T_("Project Detail")." ".$proj->name."</caption>\n";
-  echo "<tr>\n";
-  echo "<th>".T_("Category")."</th>\n";
-  echo "<th>".T_("Nb Days")."</th>\n";
-  echo "<th>".T_("Tasks")."</th>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  foreach ($durationPerCategory as $catName => $duration)
-  {
-    echo "<tr bgcolor='white'>\n";
-    echo "<td>$catName</td>\n";
-    echo "<td>$duration</td>\n";
-    echo "<td>".$formatedBugsPerCategory[$catName]."</td>\n";
-    echo "</tr>\n";
-
-    if (0 != $duration) {
-       if (NULL != $formatedValues) {
-          $formatedValues .= ":"; $formatedLegends .= ":";
-       }
-       $formatedValues .= $duration;
-       $formatedLegends .= $catName;
-    }
-
-  }
-  echo "</table>\n";
-  echo "</div>\n";
-
-  if (NULL != $formatedValues) {
-     echo "<div class=\"float\">\n";
-     $title = $proj->name." ".T_("Categories");
-     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&title=$title&legends=$formatedLegends&values=$formatedValues";
-     $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
-     $graphURL = SmartUrlEncode($graphURL);
-     echo "<img src='$graphURL'/>";
-     echo "</div>\n";
-  }
-}
-
-// -----------------------------------------------
 function displayCheckWarnings($timeTracking) {
 
   global $logger;
@@ -900,7 +727,6 @@ function displayCheckWarnings($timeTracking) {
   echo "</p>\n";
 }
 
-// -----------------------------------------------
 // display the tasks having been reopened in the period
 function displayReopenedStats ($timeTracking) {
 
@@ -938,7 +764,6 @@ function displayReopenedStats ($timeTracking) {
 
 }
 
-
 // =========== MAIN ==========
 $year = date('Y');
 
@@ -961,10 +786,8 @@ if (0 == count($teamList)) {
 
 } else {
 
-
 	$weekDates      = week_dates(date('W'),$year);
 
-	$action           = isset($_POST['action']) ? $_POST['action'] : '';
 	$defaultProjectid = isset($_POST['projectid']) ? $_POST['projectid'] : 0;
 
 	$date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
@@ -1009,15 +832,17 @@ if (0 == count($teamList)) {
 		echo "<br>";
 		echo "<br>";
 
-
 		setProjectSelectionForm($teamid, $defaultProjectid);
+
+        echo "<div id='projectDetailsDiv'>";
 		$defaultProjectid  = $_POST['projectid'];
 		if (0 != $defaultProjectid) {
-		   displayProjectDetails($timeTracking, $defaultProjectid);
+            displayProjectDetails($timeTracking, $defaultProjectid);
 		} else {
 		   // all sideTasks
 		   displaySideTasksProjectDetails($timeTracking);
 		}
+        echo "</div>";
 
 		echo "<div class=\"spacer\"> </div>\n";
 		echo "<br>";
