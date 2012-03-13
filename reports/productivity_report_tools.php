@@ -55,8 +55,8 @@ if(isset($_GET['action'])) {
         
         $year = date('Y');
         $weekDates      = week_dates(date('W'),$year);
-        $date1  = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : date("Y-m-d", $weekDates[1]);
-        $date2  = isset($_REQUEST["date2"]) ? $_REQUEST["date2"] : date("Y-m-d", $weekDates[5]);
+        $date1  = isset($_GET["date1"]) ? $_GET["date1"] : date("Y-m-d", $weekDates[1]);
+        $date2  = isset($_GET["date2"]) ? $_GET["date2"] : date("Y-m-d", $weekDates[5]);
         $startTimestamp = date2timestamp($date1);
         $endTimestamp = date2timestamp($date2);
         
@@ -74,11 +74,11 @@ if(isset($_GET['action'])) {
 }
 
 function displayProjectDetails($timeTracking, $projectId) {
-    echo "<div id='projectDetailsDiv'>";
-  $durationPerCategory = array();
-  $formatedBugsPerCategory = array();
+    $durationPerCategory = array();
+    $formatedBugsPerCategory = array();
 
-         $durPerCat = $timeTracking->getProjectDetails($projectId);
+    $durPerCat = $timeTracking->getProjectDetails($projectId);
+
   foreach ($durPerCat as $catName => $bugList)
   {
       foreach ($bugList as $bugid => $duration) {
@@ -131,13 +131,9 @@ function displayProjectDetails($timeTracking, $projectId) {
      echo "<img src='$graphURL'/>";
      echo "</div>\n";
   }
-  
-  echo "</div>";
 }
 
 function displaySideTasksProjectDetails($timeTracking) {
-
-    echo "<div id='projectDetailsDiv'>";
 
   $sideTaskProjectType = Project::type_sideTaskProject;
 
@@ -157,6 +153,7 @@ function displaySideTasksProjectDetails($timeTracking) {
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
+
   while($row = mysql_fetch_object($result))
   {
      $durPerCat = $timeTracking->getProjectDetails($row->project_id);
@@ -216,7 +213,6 @@ function displaySideTasksProjectDetails($timeTracking) {
      echo "<img src='$graphURL'/>";
      echo "</div>\n";
   }
-  echo "</div>";
 }
 
 

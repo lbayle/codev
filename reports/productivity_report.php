@@ -75,7 +75,7 @@ $logger = Logger::getLogger("productivity_report");
             jQuery.ajax({
                 type: 'GET',
                 url: 'productivity_report_tools.php',
-                data: 'action=displayProjectDetails&projectId='+jQuery('#projectidSelector').val()+'&teamid='+jQuery('#teamidSelector').val(),
+                data: 'action=displayProjectDetails&projectId='+jQuery('#projectidSelector').val()+'&teamid='+jQuery('#teamidSelector').val()<?php echo isset($_REQUEST["date1"]) ? "+'&date1=".$_REQUEST['date1']."'" : ''; echo isset($_REQUEST["date2"]) ? "+'&date2=".$_REQUEST['date2']."'" : '' ?>,
                 success: function(data) {
                     jQuery("#projectDetailsDiv").html(jQuery.trim(data));
                 }
@@ -832,8 +832,9 @@ if (0 == count($teamList)) {
 		echo "<br>";
 		echo "<br>";
 
-
 		setProjectSelectionForm($teamid, $defaultProjectid);
+
+        echo "<div id='projectDetailsDiv'>";
 		$defaultProjectid  = $_POST['projectid'];
 		if (0 != $defaultProjectid) {
             displayProjectDetails($timeTracking, $defaultProjectid);
@@ -841,6 +842,7 @@ if (0 == count($teamList)) {
 		   // all sideTasks
 		   displaySideTasksProjectDetails($timeTracking);
 		}
+        echo "</div>";
 
 		echo "<div class=\"spacer\"> </div>\n";
 		echo "<br>";
