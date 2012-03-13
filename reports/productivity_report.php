@@ -75,7 +75,7 @@ $logger = Logger::getLogger("productivity_report");
             jQuery.ajax({
                 type: 'GET',
                 url: 'productivity_report_tools.php',
-                data: 'action=displayProjectDetails&projectId='+jQuery('#projectidSelector').val()+'&teamid='+jQuery('#teamidSelector').val()<?php echo isset($_REQUEST["date1"]) ? "+'&date1=".$_REQUEST['date1']."'" : ''; echo isset($_REQUEST["date2"]) ? "+'&date2=".$_REQUEST['date2']."'" : '' ?>,
+                data: 'action=displayProjectDetails&projectId='+jQuery('#projectidSelector').val()+'&teamid='+jQuery('#teamidSelector').val()+'&date1='+jQuery('#divCalendar_date1_lbl').text()+'&date2='+jQuery('#divCalendar_date2_lbl').text(),
                 success: function(data) {
                     jQuery("#projectDetailsDiv").html(jQuery.trim(data));
                 }
@@ -83,8 +83,8 @@ $logger = Logger::getLogger("productivity_report");
         });
         
         jQuery('#computeButton').click(function() {
-            document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-            document.forms["form1"].submit();
+            jQuery("#form1>input[name=teamid]").val(jQuery('#teamidSelector').val());
+            jQuery("#form1").submit();
         });
 	});
 </script>
@@ -183,7 +183,7 @@ function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $defaultP
   	   echo "<form id='form1' name='form1' method='post' action='productivity_report.php'>\n";
   }
 
-  echo T_("Team").": <select id='teamidSelector' name='teamidSelector'>\n";
+  echo T_("Team").": <select id='teamidSelector' name='teamid'>\n";
 
   foreach($teamList as $tid => $tname) {
     if ($tid == $teamid) {
@@ -200,11 +200,7 @@ function setInfoForm($teamid, $teamList, $defaultDate1, $defaultDate2, $defaultP
 
   echo "&nbsp;<input id='computeButton' type=button value='".T_("Compute")."'>\n";
 
-  echo "<input type=hidden name=teamid  value=$teamid>\n";
   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
-
-  echo "<input type=hidden name=currentAction value=setInfoForm>\n";
-  echo "<input type=hidden name=nextAction    value=timeTrackingReport>\n";
 
   echo "</form>\n";
   echo "</div>";
@@ -217,7 +213,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
    // Display form
    echo "<div style='text-align: left;'>";
       
-   echo "<form id='projectSelectionForm' name='projectSelectionForm' method='post' action='productivity_report.php'>\n";
+   echo "<form id='projectSelectionForm'>\n";
 
   $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
 
@@ -252,10 +248,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
       }
    }
    echo "</select>\n";
-
-   echo "<input type=hidden name=teamid     value=$teamid>\n";
-   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
-   echo "<input type=hidden name=action    value=noAction>\n";
+   
    echo "</form>\n";
 
    echo "</div>\n";
