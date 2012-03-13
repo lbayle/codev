@@ -120,7 +120,7 @@ $sqlFile_procedures    = "./codevtt_procedures.sql";
 
 $db_mantis_host     = isset($_POST['db_mantis_host']) ?     $_POST['db_mantis_host']     : 'localhost';
 $db_mantis_database = isset($_POST['db_mantis_database']) ? $_POST['db_mantis_database'] : 'bugtracker';
-$db_mantis_user     = isset($_POST['db_mantis_user']) ?     $_POST['db_mantis_user']     : 'codev';
+$db_mantis_user     = isset($_POST['db_mantis_user']) ?     $_POST['db_mantis_user']     : 'codevtt';
 $db_mantis_pass     = isset($_POST['db_mantis_pass']) ?     $_POST['db_mantis_pass']     : '';
 
 $action      = isset($_POST['action']) ? $_POST['action'] : '';
@@ -135,23 +135,47 @@ if ("setDatabaseInfo" == $action) {
 
    $install = new Install();
 
-   $msg = $install->checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
-
-   if ($msg) {
-   	echo $msg;
+   $errStr = $install->checkDBConnection($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+   if (NULL != $errStr) {
+      echo "<span class='error_font'>".$errStr."</span><br/>";
    	exit;
-   } else {
-
-   	echo "DEBUG 1/3 createMysqlConfigFile<br/>";
-   	$install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
-
-   	echo "DEBUG 2/3 execSQLscript - create Tables<br/>";
-   	execSQLscript($sqlFile_tables);
-   	
-   	echo "DEBUG 3/3 execSQLscript2 - create Procedures<br/>";
-   	execSQLscript2($sqlFile_procedures);
-   	
    }
+
+   // check if I can create CodevTT tables & procedures
+   $errStr = $install->checkDBprivileges($db_mantis_database);
+   if (NULL != $errStr) {
+      echo "<span class='error_font'>".$errStr."</span><br/>";
+   	exit;
+   }
+exit;
+
+   echo "DEBUG 1/3 createMysqlConfigFile<br/>";
+   $errStr = $install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+   if (NULL != $errStr) {
+      echo "<span class='error_font'>".$errStr."</span><br/>";
+      exit;
+   }
+
+   // TODO check user access (create_table, create_procedure, alter, insert,delete, ...)
+
+
+   echo "DEBUG 2/3 execSQLscript - create Tables<br/>";
+   $retCode = execSQLscript2($sqlFile_tables);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlFile_tables</span><br/>";
+      exit;
+   }
+
+   echo "DEBUG 3/3 execSQLscript2 - create Procedures<br/>";
+   $retCode = execSQLscript2($sqlFile_procedures);
+   if (0 != $retCode) {
+      echo "<span class='error_font'>Could not execSQLscript: $sqlFile_procedures</span><br/>";
+      exit;
+   }
+
+   // everything went fine, goto step2
+   echo ("<script> parent.location.replace('install_step2.php'); </script>");
+
 
 }
 

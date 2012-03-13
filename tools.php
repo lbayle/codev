@@ -389,6 +389,8 @@ function SmartUrlEncode($url){
 	 * uses system to run 'mysql' cmd
 	 *
 	 * @param String $sqlFile
+	 *
+	 * @return int 0 if Success
 	 */
 	function execSQLscript2($sqlFile) {
 
@@ -401,9 +403,9 @@ function SmartUrlEncode($url){
 
 	   #$status = system($command, $retCode);
 	   $status = exec($command, $output, $retCode);
-	   if (0 != $retCode) {
-	      echo "FAILED (err $retCode) could not exec mysql commands from file: $sqlFile</br>";
-	   }
+	   //if (0 != $retCode) {
+	   //   echo "FAILED (err $retCode) could not exec mysql commands from file: $sqlFile</br>";
+	   //}
 	   return $retCode;
 	}
 ?>

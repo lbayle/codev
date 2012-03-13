@@ -34,7 +34,7 @@ class Install {
 
    const FILENAME_MYSQL_CONFIG = "../include/mysql_config.inc.php";
    const FILENAME_CONSTANTS = "../constants.php";
-   
+
    const FILENAME_CUSTOM_CONSTANT_CODEVTT = "../install/custom_constant_inc.codevtt.php";
    const FILENAME_CUSTOM_STRINGS_CODEVTT = "../install/custom_strings_inc.codevtt.php";
    const FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT = "../install/custom_relationships_inc.codevtt.php";
@@ -95,7 +95,7 @@ class Install {
     * @return NULL if OK, or an error message starting with 'ERROR' .
     */
    public function checkDBConnection($db_mantis_host     = 'localhost',
-                                     $db_mantis_user     = 'codev',
+                                     $db_mantis_user     = 'codevtt',
                                      $db_mantis_pass     = '',
                                      $db_mantis_database = 'bugtracker') {
 
@@ -124,6 +124,46 @@ class Install {
       return NULL;
    }
 
+   // --------------------------------------------------------
+   /**
+    * check if the user has enough privileges to create tables & procedures
+    *
+    * TODO: if 'CREATE' not set but 'CREATE ROUTINE' set,
+    * then this method will not see that 'CREATE' is missing !
+    *
+    * @return NULL if OK, or an error message starting with 'ERROR' .
+    */
+   public function checkDBprivileges($db_mantis_database = 'bugtracker') {
+
+      $mandatoryPriv = array('SELECT', 'INSERT', 'UPDATE', 'DELETE',
+                             'CREATE', 'DROP', 'EXECUTE', 'CREATE ROUTINE', 'ALTER ROUTINE');
+      $errStr = NULL;
+
+      #$query = "SHOW GRANTS FOR '$db_mantis_user'@'$db_mantis_host'";
+      $query = "SHOW GRANTS FOR CURRENT_USER";
+      $result = mysql_query($query);
+       if (!$result) {
+              $this->logger->error("Query FAILED: $query");
+              $this->logger->error(mysql_error());
+              echo "<span style='color:red'>ERROR: Query FAILED</span>";
+              exit;
+      }
+	   #$row = mysql_fetch_object($result);
+      while($row = mysql_fetch_array($result)) {
+
+   	   if (FALSE != strstr($row[0], "`$db_mantis_database`")) {
+            foreach ($mandatoryPriv as $priv) {
+               if(!strstr($row[0], $priv)) { $errStr .= "ERROR: user has no $priv privileges on $db_mantis_database<br>";}
+            }
+            break;
+   	   }
+      }
+      if (NULL != $errStr) {
+      	$allPriv = implode (', ', $mandatoryPriv);
+         $errStr .= "Please add the following privileges: $allPriv";
+      }
+   	return $errStr;
+   }
 
    // --------------------------------------------------------
    /**
@@ -157,6 +197,8 @@ class Install {
 	 * WARN: depending on your HTTP server installation, the file may be created
 	 * by user 'apache', so be sure that this user has write access
 	 * to the CoDev install directory
+	 *
+	 * @return NULL if Success, ErrorString if Failed
 	 */
 	public function createMysqlConfigFile($db_mantis_host     = 'localhost',
 	                                      $db_mantis_user     = 'codev',
@@ -169,7 +211,7 @@ class Install {
       $fp = fopen(self::FILENAME_MYSQL_CONFIG, 'w');
 
       if (FALSE == $fp) {
-      	echo "<span class='error_font'>ERROR: creating file ".self::FILENAME_MYSQL_CONFIG."</span><br/>";
+         return "ERROR: creating file ".self::FILENAME_MYSQL_CONFIG;
 
       } else {
       	$stringData = "<?php\n";
@@ -179,28 +221,32 @@ class Install {
       	$stringData .= "   \$db_mantis_pass      =  '$db_mantis_pass';\n";
       	$stringData .= "   \$db_mantis_database  =  '$db_mantis_database';\n";
       	$stringData .= "?>\n";
-      	fwrite($fp, $stringData);
+      	if (FALSE == fwrite($fp, $stringData)) {
+            fclose($fp);
+      	   return "ERROR: could not write to file ".self::FILENAME_MYSQL_CONFIG;
+      	}
       	fclose($fp);
       }
+      return NULL;
    }
 
    // --------------------------------------------------------
    /**
     * insert CodevTT config in Mantis custom files.
-    * 
+    *
     * (add relationships, functions, etc.)
-    * 
+    *
     * Files to update:
     * custom_constant_inc.php
     * custom_strings_inc.php
     * custom_relationships_inc.php
-    * 
+    *
     * NOTE: needs write access in mantis directory
     */
    public function updateMantisCustomFiles() {
-    
+
    	  $mantisPath = Config::getInstance()->getValue(Config::id_mantisPath);
-            
+
       // write constants
       $myFile = "$mantisPath/custom_constant_inc.php";
       $fh = fopen($myFile, 'a');
@@ -217,7 +263,7 @@ class Install {
          echo "ERROR: Could not edit file: ". $myFile . "</br>";
       	 $this->logger->error("Could not open file in append mode: ".$myFile);
       }
-      
+
       // write strings
       $myFile = "$mantisPath/custom_strings_inc.php";
       $fh = fopen($myFile, 'a');
@@ -234,7 +280,7 @@ class Install {
          echo "ERROR: Could not edit file: ". $myFile . "</br>";
          $this->logger->error("Could not open file in append mode: ".$myFile);
       }
-   
+
       // write relationships
       $myFile = "$mantisPath/custom_relationships_inc.php";
       $fh = fopen($myFile, 'a');
@@ -251,11 +297,11 @@ class Install {
          echo "ERROR: Could not edit file: ". $myFile . "</br>";
          $this->logger->error("Could not open file in append mode: ".$myFile);
       }
-   
-   }  
-   
-   
-    
+
+   }
+
+
+
 
    // --------------------------------------------------------
 	/**
@@ -393,7 +439,7 @@ class Install {
 
       $attributes["display_report"]   = 0;
       $this->createCustomField(T_("CodevTT_Aditional Effort"),   $mType_numeric, "customField_addEffort", $attributes);
-      
+
       $attributes["require_report"]   = 1;
       $attributes["display_report"]   = 1;
       $attributes["display_closed"]   = 1;

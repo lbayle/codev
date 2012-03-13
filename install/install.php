@@ -15,9 +15,9 @@
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */ ?>
-<?php 
- include_once '../path.inc.php'; 
- include_once 'i18n.inc.php'; 
+<?php
+ include_once '../path.inc.php';
+ include_once 'i18n.inc.php';
 ?>
 <?php
    $_POST['page_name'] = T_("Install");
@@ -38,7 +38,7 @@ include_once 'install.class.php';
  	include_once "mysql_connect.inc.php";
  	include_once "config.class.php";
  	include_once "internal_config.inc.php";
- 	
+
  	echo "CodevTT $codevVersion already installed.<br/>";
 
    echo "</br>";
@@ -47,12 +47,12 @@ include_once 'install.class.php';
  		echo "<span class='error_font'>$error</span><br/>";
  		exit;
  	}
- 	
+
  } else {
- 	
+
  	//echo 'Id: ' . getmyuid() . '<br />';
     //echo 'Gid: ' . getmygid() . '<br />';
- 	
+
  	// check write access rights to codevTT directory
    $testDir = realpath ( ".." );
    $error = Install::checkWriteAccess($testDir);
@@ -63,8 +63,18 @@ include_once 'install.class.php';
  		echo "- Are you sure SELINUX is well configured ?<br>";
    	    exit;
    }
-   
-    
+
+ 	// check write access rights to codevTT/include directory
+   $testDir = realpath ( "../include" );
+   $error = Install::checkWriteAccess($testDir);
+   if (TRUE == strstr($error, T_("ERROR"))) {
+ 		echo "<span class='error_font'>$error</span><br/>";
+ 		echo "<br>";
+ 		echo "- does apache user have write access to codevTT /include directory ?<br>";
+ 		echo "- Are you sure SELINUX is well configured ?<br>";
+   	    exit;
+   }
+
    $error = Install::checkMysqlAccess();
    if (TRUE == strstr($error, T_("ERROR"))) {
       echo "<span class='error_font'>$error</span><br/>";
@@ -78,7 +88,7 @@ include_once 'install.class.php';
    echo "<br>";
    echo "Before you continue, please ensure that user '<b>".exec('whoami')."</b>' has write access to your mantis directory<br>";
 
-   
+
  }
 
 
