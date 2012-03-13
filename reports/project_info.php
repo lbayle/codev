@@ -47,7 +47,8 @@ if (!isset($_SESSION['userid'])) {
   $(function() {
 
      $( "#tabsVersions" ).tabs();
-
+     $( "#tabsDrift" ).tabs();
+     
   });
 
 </script>
@@ -89,30 +90,6 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
       }
    }
    echo "</select>\n";
-
-   // --- Version list
-/*
-       $versionList = array();
-       $formatedProjList = implode( ', ', array_keys($projList));
-
-       $query  = "SELECT * ".
-                 "FROM `mantis_project_version_table` ".
-                 "WHERE project_id = $defaultProjectid ".
-                 "ORDER BY version DESC";
-        $result = mysql_query($query);
-        if (!$result) {
-            $logger->error("Query FAILED: $query");
-            $logger->error(mysql_error());
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-        }
-         if (0 != mysql_num_rows($result)) {
-            while($row = mysql_fetch_object($result))
-            {
-               $versionList[] = $row->version;
-            }
-       }
-*/
 
    echo "<input type=button value='".T_("Jump")."' onClick='javascript: submitForm()'>\n";
 
@@ -409,61 +386,197 @@ function displayVersionsIssues($project) {
 }
 
 
-function displayIssuesInDrift($project, $isManager = false, $withSupport = true) {
 
-   $bugidList = $project->getIssueList();
+// ------------------------------------------------
+/**
+ * 
+ * @param unknown_type $project
+ * @param unknown_type $isManager
+ */
+function displayIssuesInDriftTab($project, $isManager = false) {
 
-   echo "<table>\n";
-   echo "<caption>".T_("Tasks in drift")."</caption>\n";
-   echo "<tr>\n";
-   echo "<th>".T_("ID")."</th>\n";
-   echo "<th>".T_("Project")."</th>\n";
-   echo "<th>".T_("Target")."</th>\n";
+	echo "<h3>".T_("Tasks in drift")."</h3>";
+	echo "<div id='tabsDrift'>\n";
+	echo "<ul>\n";
+	echo "<li><a href='#tab1'>".T_("Current tasks")."</a></li>\n";
+	echo "<li><a href='#tab2'>".T_("Resolved tasks")."</a></li>\n";
+	echo "</ul>\n";
+	echo "<div id='tab1'>\n";
+	echo "<p>";
+	displayCurrentIssuesInDrift($project, $isManager);
+	echo "</p>\n";
+	echo "</div>\n";
 
-   if (true == $isManager) {
-      echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
-   }
+	echo "<div id='tab2'>\n";
+	echo "<p>";
+	displayResolvedIssuesInDrift($project, $isManager);
+	echo "</p>\n";
+	echo "</div>\n";
+	
+	echo "</div>\n"; // tabs
+
+}
+
+
+// ---------------------------------------------------
+/**
+ * Display a table containing all "non-resolved" issues that are in drift
+ * (ordered by version)
+ * 
+ * @param Project $project
+ * @param boolean $isManager
+ * @param boolean $withSupport
+ */
+function displayCurrentIssuesInDrift($project, $isManager = false, $withSupport = true) {
+
+	$bugidList = $project->getIssueList();
+
+	$projectVersionList = $project->getVersionList();
+	
+	
+	echo "<table>\n";
+	#echo "<caption>".T_("Tasks in drift")."</caption>\n";
+	echo "<tr>\n";
+	echo "<th>".T_("ID")."</th>\n";
+	echo "<th>".T_("Project")."</th>\n";
+	echo "<th>".T_("Target")."</th>\n";
+
+	if (true == $isManager) {
+		echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
+	}
 	echo "<th title='".T_("Drift relatively to (EE + AddEE)")."'>".T_("Drift")."</th>\n";
 	echo "<th>".T_("RAF")."</th>\n";
 	echo "<th>".T_("Progress")."</th>\n";
 	echo "<th>".T_("Status")."</th>\n";
 	echo "<th>".T_("Summary")."</th>\n";
-   echo "</tr>\n";
-   foreach ($bugidList as $bugid) {
+	echo "</tr>\n";
+	
+	foreach ($projectVersionList as $version => $pv) {
+		foreach ($pv->getIssueList() as $bugid => $issue) {
 
-   	$issue = IssueCache::getInstance()->getIssue($bugid);
-
-
+			if ($issue->isResolved()) {
+				// skip resolved issues
+				continue;
+			}
+	
 			$driftPrelEE = ($isManager) ? $issue->getDriftMgrEE($withSupport) : 0;
-         $driftEE = $issue->getDrift($withSupport);
+			$driftEE = $issue->getDrift($withSupport);
+	
+			if (($driftPrelEE > 0) || ($driftEE > 0)) {
+				echo "<tr>\n";
+				echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
+				echo "<td>".$issue->getProjectName()."</td>\n";
+				echo "<td>".$issue->getTargetVersion()."</td>\n";
+				if (true == $isManager) {
+					$color = "";
+					if ($driftPrelEE < -1) {
+						$color = "style='background-color: #61ed66;'";
+					}
+					if ($driftPrelEE > 1) {
+						$color = "style='background-color: #fcbdbd;'";
+					}
+					echo "<td $color >".$driftPrelEE."</td>\n";
+			}
+			$color = "";
+			if ($driftEE < -1) {
+			$color = "style='background-color: #61ed66;'";
+			}
+			if ($driftEE > 1) {
+			$color = "style='background-color: #fcbdbd;'";
+			}
+			echo "<td $color >".$driftEE."</td>\n";
+			echo "<td>".$issue->remaining."</td>\n";
+			echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
+			echo "<td>".$issue->getCurrentStatusName()."</td>\n";
+			echo "<td>".$issue->summary."</td>\n";
+			echo "</tr>\n";
+		}
+	}
 
-		    if (($driftPrelEE > 0) || ($driftEE > 0)) {
-		           echo "<tr>\n";
-		   		   echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
-		   		   echo "<td>".$issue->getProjectName()."</td>\n";
-		   		   echo "<td>".$issue->getTargetVersion()."</td>\n";
-		   		   if (true == $isManager) {
-                     $color = "";
-                     if ($driftPrelEE < -1) { $color = "style='background-color: #61ed66;'"; }
-                     if ($driftPrelEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
-		   		      echo "<td $color >".$driftPrelEE."</td>\n";
-                  }
-                  $color = "";
-                  if ($driftEE < -1) { $color = "style='background-color: #61ed66;'"; }
-                  if ($driftEE > 1) { $color = "style='background-color: #fcbdbd;'"; }
-		   		   echo "<td $color >".$driftEE."</td>\n";
-		   		   echo "<td>".$issue->remaining."</td>\n";
-                  echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
-		   		   echo "<td>".$issue->getCurrentStatusName()."</td>\n";
-		   		   echo "<td>".$issue->summary."</td>\n";
-		           echo "</tr>\n";
-		    }
-
-   }
-   echo "</table>\n";
+}
+echo "</table>\n";
 
 }
 
+// ---------------------------------------------------
+/**
+ * Display a table containing all resolved issues that are in drift
+ * (ordered by version)
+ *
+ * @param Project $project
+ * @param boolean $isManager
+ * @param boolean $withSupport
+ */
+function displayResolvedIssuesInDrift($project, $isManager = false, $withSupport = true) {
+
+	$bugidList = $project->getIssueList();
+
+	$projectVersionList = $project->getVersionList();
+
+
+	echo "<table>\n";
+	#echo "<caption>".T_("Tasks in drift")."</caption>\n";
+	echo "<tr>\n";
+	echo "<th>".T_("ID")."</th>\n";
+	echo "<th>".T_("Project")."</th>\n";
+	echo "<th>".T_("Target")."</th>\n";
+
+	if (true == $isManager) {
+		echo "<th title='".T_("Drift relatively to the managers Estimation")."'>".T_("Drift Mgr")."</th>\n";
+	}
+	echo "<th title='".T_("Drift relatively to (EE + AddEE)")."'>".T_("Drift")."</th>\n";
+	echo "<th>".T_("RAF")."</th>\n";
+	echo "<th>".T_("Progress")."</th>\n";
+	echo "<th>".T_("Status")."</th>\n";
+	echo "<th>".T_("Summary")."</th>\n";
+	echo "</tr>\n";
+
+	foreach ($projectVersionList as $version => $pv) {
+		foreach ($pv->getIssueList() as $bugid => $issue) {
+
+			if (!$issue->isResolved()) {
+				// skip non-resolved issues
+				continue;
+			}
+
+			$driftPrelEE = ($isManager) ? $issue->getDriftMgrEE($withSupport) : 0;
+			$driftEE = $issue->getDrift($withSupport);
+
+			if (($driftPrelEE > 0) || ($driftEE > 0)) {
+				echo "<tr>\n";
+				echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
+				echo "<td>".$issue->getProjectName()."</td>\n";
+				echo "<td>".$issue->getTargetVersion()."</td>\n";
+				if (true == $isManager) {
+					$color = "";
+					if ($driftPrelEE < -1) {
+						$color = "style='background-color: #61ed66;'";
+					}
+					if ($driftPrelEE > 1) {
+						$color = "style='background-color: #fcbdbd;'";
+					}
+					echo "<td $color >".$driftPrelEE."</td>\n";
+			}
+					$color = "";
+					if ($driftEE < -1) {
+					$color = "style='background-color: #61ed66;'";
+					}
+					if ($driftEE > 1) {
+					$color = "style='background-color: #fcbdbd;'";
+			}
+			echo "<td $color >".$driftEE."</td>\n";
+			echo "<td>".$issue->remaining."</td>\n";
+			echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
+			echo "<td>".$issue->getCurrentStatusName()."</td>\n";
+			echo "<td>".$issue->summary."</td>\n";
+echo "</tr>\n";
+}
+}
+
+}
+echo "</table>\n";
+
+}
 
 
 // ================ MAIN =================
@@ -533,11 +646,11 @@ if (0 == count($teamList)) {
       echo "<br/>";
       echo "<br/>";
 
-      displayIssuesInDrift($project, true);
+      displayIssuesInDriftTab($project, $isManager);
 
       echo "<br/>";
       echo "<br/>";
-
+      
     } elseif ("setProjectid" == $action) {
 
        // pre-set form fields

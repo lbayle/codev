@@ -181,6 +181,14 @@ class Issue {
    	return $this->holidays;
    }
 
+   
+   /**
+    * @return boolean true if issue status >= bug_resolved_status_threshold
+    */
+   public function isResolved() {
+   	  return ($this->currentStatus >= $this->bug_resolved_status_threshold);
+   }
+   
    // ----------------------------------------------
    // Ex: vacation or Incident tasks are not production issues.
    //     but tools and workshop are production issues.
