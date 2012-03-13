@@ -1,4 +1,7 @@
 <?php
+
+if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); }
+
 /*
     This file is part of CoDev-Timetracking.
 
@@ -16,8 +19,6 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); }
-
 include_once '../path.inc.php';
 
    # WARN: this avoids the display of some PHP errors...
@@ -30,13 +31,8 @@ include_once '../path.inc.php';
    require_once('Logger.php');
    if (NULL == Logger::getConfigurationFile()) {
       Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("header");
+      $logger = Logger::getLogger("prod_report_tools");
       $logger->info("LOG activated !");
-
-      // test
-      #echo "configure LOG ".Logger::getConfigurationFile()."</br>";
-      #echo "configure LOG ".Logger::getConfigurationClass()."</br>";
-      #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
    }
 
    include_once "tools.php";
@@ -44,35 +40,18 @@ include_once '../path.inc.php';
    include_once "internal_config.inc.php";
    include_once "constants.php";
 
-include_once 'i18n.inc.php';
+   include_once 'i18n.inc.php';
 
-include_once "project.class.php";
-include_once "time_tracking.class.php";
+   include_once "project.class.php";
+   include_once "time_tracking.class.php";
 
-if(isset($_GET['action'])) {
-    if($_GET['action'] == 'displayProjectDetails') {
-        $projectid  = $_GET['projectId'];
-        
-        $year = date('Y');
-        $weekDates      = week_dates(date('W'),$year);
-        $date1  = isset($_GET["date1"]) ? $_GET["date1"] : date("Y-m-d", $weekDates[1]);
-        $date2  = isset($_GET["date2"]) ? $_GET["date2"] : date("Y-m-d", $weekDates[5]);
-        $startTimestamp = date2timestamp($date1);
-        $endTimestamp = date2timestamp($date2);
-        
-        $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
-        
-        $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $_GET['teamid']);
-        
-		if (isset($projectid) && 0 != $projectid) {
-            displayProjectDetails($timeTracking, $projectid);
-		} else {
-		   // all sideTasks
-		   displaySideTasksProjectDetails($timeTracking);
-		}
-    }
-}
 
+// ---------------------------------------------------
+/**
+ * 
+ * @param TimeTracking $timeTracking
+ * @param int $projectId
+ */
 function displayProjectDetails($timeTracking, $projectId) {
     $durationPerCategory = array();
     $formatedBugsPerCategory = array();
@@ -94,7 +73,6 @@ function displayProjectDetails($timeTracking, $projectId) {
 
   echo "<div class=\"float\">\n";
   echo "<table width='300'>\n";
-  //echo "<caption>".T_("Project Detail")." ".$proj->name."</caption>\n";
   echo "<tr>\n";
   echo "<th>".T_("Category")."</th>\n";
   echo "<th>".T_("Nb Days")."</th>\n";
@@ -125,7 +103,6 @@ function displayProjectDetails($timeTracking, $projectId) {
   if (NULL != $formatedValues) {
      echo "<div class=\"float\">\n";
      $title = $proj->name." ".T_("Categories");
-     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&title=$title&legends=$formatedLegends&values=$formatedValues";
      $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
      $graphURL = SmartUrlEncode($graphURL);
      echo "<img src='$graphURL'/>";
@@ -133,6 +110,11 @@ function displayProjectDetails($timeTracking, $projectId) {
   }
 }
 
+// ---------------------------------------------------
+/**
+ * 
+ * @param TimeTracking $timeTracking
+ */
 function displaySideTasksProjectDetails($timeTracking) {
 
   $sideTaskProjectType = Project::type_sideTaskProject;
@@ -178,7 +160,6 @@ function displaySideTasksProjectDetails($timeTracking) {
 
   echo "<div class=\"float\">\n";
   echo "<table width='300'>\n";
-#  echo "<caption title='".T_("Projects").": $formatedProjList'>".T_("Project Management Detail")."</caption>\n";
   echo "<tr>\n";
   echo "<th>".T_("Category")."</th>\n";
   echo "<th>".T_("Nb Days")."</th>\n";
@@ -207,12 +188,37 @@ function displaySideTasksProjectDetails($timeTracking) {
 
   if (NULL != $formatedValues) {
      echo "<div class=\"float\">\n";
-     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:200&title=".T_("Load per Project")."&legends=$formatedLegends&values=$formatedValues";
      $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues";
      $graphURL = SmartUrlEncode($graphURL);
      echo "<img src='$graphURL'/>";
      echo "</div>\n";
   }
+}
+
+# ========== MAIN ==============
+
+if(isset($_GET['action'])) {
+	if($_GET['action'] == 'displayProjectDetails') {
+		$projectid  = $_GET['projectId'];
+
+		$year = date('Y');
+		$weekDates      = week_dates(date('W'),$year);
+		$date1  = isset($_GET["date1"]) ? $_GET["date1"] : date("Y-m-d", $weekDates[1]);
+		$date2  = isset($_GET["date2"]) ? $_GET["date2"] : date("Y-m-d", $weekDates[5]);
+		$startTimestamp = date2timestamp($date1);
+		$endTimestamp = date2timestamp($date2);
+
+		$endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+
+		$timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $_GET['teamid']);
+
+		if (isset($projectid) && 0 != $projectid) {
+			displayProjectDetails($timeTracking, $projectid);
+		} else {
+			// all sideTasks
+			displaySideTasksProjectDetails($timeTracking);
+		}
+	}
 }
 
 
