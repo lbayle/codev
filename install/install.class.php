@@ -148,14 +148,21 @@ class Install {
               echo "<span style='color:red'>ERROR: Query FAILED</span>";
               exit;
       }
-	   #$row = mysql_fetch_object($result);
       while($row = mysql_fetch_array($result)) {
 
    	   if (FALSE != strstr($row[0], "`$db_mantis_database`")) {
+
+            $this->logger->debug("Privileges: ".$row[0]);
+
+            // all privileges should be ok !
+            if (FALSE != strstr($row[0], "GRANT ALL PRIVILEGES")) {
+               break; // found, get out
+            }
+
             foreach ($mandatoryPriv as $priv) {
                if(!strstr($row[0], $priv)) { $errStr .= "ERROR: user has no $priv privileges on $db_mantis_database<br>";}
             }
-            break;
+            break;  // found, get out
    	   }
       }
       if (NULL != $errStr) {

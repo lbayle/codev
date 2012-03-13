@@ -147,7 +147,7 @@ if ("setDatabaseInfo" == $action) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
    	exit;
    }
-exit;
+
 
    echo "DEBUG 1/3 createMysqlConfigFile<br/>";
    $errStr = $install->createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
