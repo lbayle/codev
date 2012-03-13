@@ -125,13 +125,15 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
 
 
 // ------------------------------------------------
-function displayProjectVersions($project) {
+function displayProjectVersions($project, $isManager = false) {
 
    echo "<h3>".T_("Project Versions")."</h3>";
    echo "<div id='tabsVersions'>\n";
    echo "<ul>\n";
    echo "<li><a href='#tab1'>".T_("Overview")."</a></li>\n";
-   echo "<li><a href='#tab2'>".T_("Detailed Mgr")."</a></li>\n";
+   if ($isManager) {
+      echo "<li><a href='#tab2'>".T_("Detailed Mgr")."</a></li>\n";
+   }
    echo "<li><a href='#tab3'>".T_("Detailed")."</a></li>\n";
    echo "<li><a href='#tab4'>".T_("Tasks")."</a></li>\n";
    echo "</ul>\n";
@@ -141,11 +143,13 @@ function displayProjectVersions($project) {
    echo "</p>\n";
    echo "</div>\n";
    
-   echo "<div id='tab2'>\n";
-   echo "<p>";
-   displayVersionsDetailedMgr($project);
-   echo "</p>\n";
-   echo "</div>\n";
+   if ($isManager) {
+      echo "<div id='tab2'>\n";
+      echo "<p>";
+      displayVersionsDetailedMgr($project);
+      echo "</p>\n";
+      echo "</div>\n";
+   }      
    echo "<div id='tab3'>\n";
    echo "<p>";
    displayVersionsDetailed($project);
@@ -171,7 +175,6 @@ function displayVersionsOverview($project) {
    echo "  <th>".T_("Date")."</th>\n";
    echo "  <th>".T_("Progress Mgr")."</th>\n";
    echo "  <th>".T_("Progress")."</th>\n";
-   #echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
    echo "  <th width='80'>".T_("Drift")."</th>\n";
    echo "</tr>\n";
@@ -192,15 +195,13 @@ function displayVersionsOverview($project) {
 
        echo "<td>".$pv->name."</td>\n";
        $vdate =  $pv->getVersionDate();
-       if (! is_string($vdate)) {
+       if (is_numeric($vdate)) {
           echo "<td>".date("Y-m-d",$vdate)."</td>\n";
        } else {
-        #  echo "<td>".date("Y-m-d",$vdate)."</td>\n";
-       	  echo "<td>$vdate</td>\n";
+       	  echo "<td></td>\n";
        }
        echo "<td>".round(100 * $pv->getProgressMgr())."%</td>\n";
        echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
-	   #echo "<td>".$pv->remaining."</td>\n";
        echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
        echo "<td $formatteddriftColor >$formattedDrift</td>\n";
 	   echo "</tr>\n";
@@ -220,7 +221,6 @@ function displayVersionsOverview($project) {
    echo "<td></td>\n";
    echo "<td>".round(100 * $project->getProgressMgr())."%</td>\n";
    echo "<td>".round(100 * $project->getProgress())."%</td>\n";
-   #echo "<td>".$totalRemaining."</td>\n";
    echo "<td $formattedDriftMgrColor>".round(100 * $driftMgr['percent'])."%</td>\n";
    echo "<td $formattedDriftColor>".round(100 * $drift['percent'])."%</td>\n";
    echo "</tr>\n";
@@ -481,6 +481,7 @@ $_SESSION['projectid'] = $projectid;
 
 $user = UserCache::getInstance()->getUser($session_userid);
 
+$isManager = true; // TODO
 
 $dTeamList = $user->getDevTeamList();
 $lTeamList = $user->getLeadedTeamList();
@@ -526,7 +527,7 @@ if (0 == count($teamList)) {
       echo "<br/>";
 
       // show progress
-      displayProjectVersions($project);
+      displayProjectVersions($project, $isManager);
 
       echo "<br/>";
       echo "<br/>";
