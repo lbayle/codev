@@ -68,7 +68,8 @@ class Project {
 	
 	private $progress;
 	private $progressMgr;
-	
+	private $drift;
+	private $driftMgr;
 
 	// -----------------------------------------------
 	public function Project($id) {
@@ -862,8 +863,6 @@ class Project {
 
    	if (NULL == $this->progress) {
 
-   	  $remaining = 0;
-   	  $elapsed   = 0;
    	  $issueList = $this->getIssueList();
 
    	  $issueSelection = new IssueSelection($this->name);
@@ -882,8 +881,6 @@ class Project {
    
    	if (NULL == $this->progressMgr) {
    
-   		$remaining = 0;
-   		$elapsed   = 0;
    		$issueList = $this->getIssueList();
    
    		$issueSelection = new IssueSelection($this->name);
@@ -893,6 +890,43 @@ class Project {
    		$this->progressMgr = $issueSelection->getProgressMgr();
    	}
    	return $this->progressMgr;
+   }
+   
+
+   /**
+    * @return array(nbDays, percent)
+    */
+   public function getDrift() {
+   
+   	if (NULL == $this->drift) {
+   
+   		$issueList = $this->getIssueList();
+   
+   		$issueSelection = new IssueSelection($this->name);
+   		foreach ($issueList as $bugid) {
+   			$issueSelection->addIssue($bugid);
+   		}
+   		$this->drift = $issueSelection->getDrift();
+   	}
+   	return $this->drift;
+   }
+   
+   /**
+    * @return array(nbDays, percent)
+    */
+   public function getDriftMgr() {
+   
+   	if (NULL == $this->driftMgr) {
+   
+   		$issueList = $this->getIssueList();
+   
+   		$issueSelection = new IssueSelection($this->name);
+   		foreach ($issueList as $bugid) {
+   			$issueSelection->addIssue($bugid);
+   		}
+   		$this->driftMgr = $issueSelection->getDriftMgr();
+   	}
+   	return $this->driftMgr;
    }
    
    
