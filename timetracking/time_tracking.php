@@ -28,7 +28,6 @@ if (!isset($_SESSION['userid'])) {
 $_POST['page_name'] = T_("Time Tracking");
 include 'header.inc.php';
 
-include_once 'tools.php';
 include 'login.inc.php';
 include 'menu.inc.php';
 
@@ -39,6 +38,29 @@ include_once "user.class.php";
 include_once "time_tracking.class.php";
 include_once "time_tracking_tools.php";
 require_once('tc_calendar.php');
+
+// ================ MAIN =================
+
+$job_support = Config::getInstance()->getValue(Config::id_jobSupport);
+
+//$year = date('Y');
+$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
+
+$userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
+$managed_user = UserCache::getInstance()->getUser($userid);
+
+$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+$teamList = $session_user->getLeadedTeamList();
+
+// updateRemaining data
+$bugid  = isset($_POST['bugid']) ? $_POST['bugid'] : '';
+$remaining  = isset($_POST['remaining']) ? $_POST['remaining'] : '';
+
+$action = isset($_POST["action"]) ? $_POST["action"] : '';
+$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
+
+echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery.form.js'></script>\n";
+
 ?>
 
 <style>
@@ -251,10 +273,35 @@ require_once('tc_calendar.php');
 			modal: true,
 			buttons: {
 				"Delete": function() {
-				$('#formDeleteTrack').submit();
+                    $("#formDeleteTrack").ajaxSubmit({
+                        url: "delete_task.php",
+                        type: "post",
+                        error: function(xhr){
+                            alert('Request Status: ' + xhr.status + '\nStatus Text: ' + xhr.statusText + '\n' + xhr.responseText);
+                        },
+                        success: function(responseText){
+                            // Update the WeekTableDetails
+                            jQuery.ajax({
+                                type: "GET",
+                                url: "time_tracking_tools.php",
+                                data: "action=displayWeekTableDetails&weekid=<? echo $weekid; ?>&userid=<? echo $managed_user->id; ?>&curYear=<? echo $year; ?>",
+                                success : function(data) {
+                                    jQuery("#weekTableDetails").html(data);
+                                }
+                            });
+                            
+                            // Update the TimetrackingTuples
+                            // Trim because the response send too much space...
+                            var track_id = jQuery.trim(responseText);
+                            jQuery("tr[id=row_"+track_id+"]").remove();
+
+                            // And finally close the dialog
+                            jQuery("#deleteTrack_dialog_form").dialog("close");
+                        }
+                    });
 				},
 				Cancel: function() {
-					$( this ).dialog( "close" );
+					jQuery(this).dialog("close");
 				}
 			}
 		});
@@ -608,27 +655,6 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate,
    echo "</div>";
 }
 
-
-// ================ MAIN =================
-
-$job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-
-//$year = date('Y');
-$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
-
-$userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
-$managed_user = UserCache::getInstance()->getUser($userid);
-
-$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-$teamList = $session_user->getLeadedTeamList();
-
-// updateRemaining data
-$bugid  = isset($_POST['bugid']) ? $_POST['bugid'] : '';
-$remaining  = isset($_POST['remaining']) ? $_POST['remaining'] : '';
-
-$action = isset($_POST["action"]) ? $_POST["action"] : '';
-$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
-
 // if first call to this page
 if (!isset($_POST['nextForm'])) {
   if (0 != count($teamList)) {
@@ -656,11 +682,6 @@ if ($_POST['nextForm'] == "addTrackForm") {
   $defaultBugid = 0;
   $defaultProjectid=0;
 
-  $weekDates      = week_dates($weekid,$year);
-  $startTimestamp = $weekDates[1];
-  $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-  $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
-
   if ("addTrack" == $action) {
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
     $timestamp = date2timestamp($formatedDate);
@@ -679,6 +700,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
       $issue = IssueCache::getInstance()->getIssue($bugid);
       if (NULL != $issue->remaining) {
          $remaining = $issue->remaining - $duration;
+
          if ($remaining < 0) { $remaining = 0; }
          $issue->setRemaining($remaining);
       }
@@ -689,48 +711,11 @@ if ($_POST['nextForm'] == "addTrackForm") {
     $defaultBugid = $bugid;
 
   } elseif ("deleteTrack" == $action) {
-    $trackid  = $_POST['trackid'];
-
-    // increase remaining (only if 'remaining' already has a value)
-    $query = "SELECT bugid, jobid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = mysql_query($query);
-   	if (!$result) {
-   		$logger->error("Query FAILED: $query");
-   		$logger->error(mysql_error());
-   		echo "<span style='color:red'>ERROR: Query FAILED</span>";
-   		exit;
-   	}
-    while($row = mysql_fetch_object($result))
-    { // REM: only one line in result, while should be optimized
-      $bugid = $row->bugid;
-      $duration = $row->duration;
-      $job = $row->jobid;
-    }
-
-    $issue = IssueCache::getInstance()->getIssue($bugid);
-    // do NOT decrease remaining if job is job_support !
-    if ($job != $job_support) {
-      if (NULL != $issue->remaining) {
-         $remaining = $issue->remaining + $duration;
-         $issue->setRemaining($remaining);
-      }
-    }
-
-    // delete track
-    # TODO use TimeTrack::delete($trackid) 
-    $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = mysql_query($query);
-    if (!$result) {
-    	$logger->error("Query FAILED: $query");
-    	$logger->error(mysql_error());
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-    
+    /* Useless ?
     // pre-set form fields
     $defaultBugid     = $bugid;
     $defaultProjectid  = $issue->projectId;
-
+    */
   } elseif ("setProjectid" == $action) {
 
   	 // pre-set form fields
@@ -779,7 +764,11 @@ if ($_POST['nextForm'] == "addTrackForm") {
   addTrackForm($weekid, $year, $managed_user, $defaultDate, $defaultBugid, $defaultProjectid, "time_tracking.php");
   echo "<br/>";
 
-  displayWeekDetails($weekid, $weekDates, $managed_user->id, $timeTracking, $year);
+  $weekDates      = week_dates($weekid,$year);
+  $startTimestamp = $weekDates[1];
+  $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+
+  displayWeekDetails($weekid, $weekDates, $managed_user->id, $startTimestamp, $endTimestamp, $year);
 
   echo "<br/>";
   echo "<br/>";
