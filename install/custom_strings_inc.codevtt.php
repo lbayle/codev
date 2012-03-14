@@ -9,5 +9,3 @@ $s_email_notification_title_for_action_constrains_relationship_added = 'Constrai
 $s_email_notification_title_for_action_constrains_relationship_deleted = 'Constrains Relationship Deleted';
 #CodevTT_END
 ?>
-
-
