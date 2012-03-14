@@ -1,5 +1,6 @@
 <?php if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -14,13 +15,36 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php include_once '../path.inc.php'; ?>
+include_once '../path.inc.php';
+include_once 'i18n.inc.php';
 
-<?php
+include_once "tools.php";
+include_once "mysql_connect.inc.php";
+include_once "internal_config.inc.php";
+include_once "constants.php";
+
+include_once "issue.class.php";
 include_once "user.class.php";
+include_once "time_tracking.class.php";
 
+// MAIN
+if(isset($_GET['action'])) {
+    if($_GET['action'] == 'updateRemainingAction') {
+        $issue = IssueCache::getInstance()->getIssue($_GET['bugid']);
+        if (NULL != $issue->remaining) {
+            $issue->setRemaining($_GET['remaining']);
+
+            $weekDates      = week_dates($_GET['weekid'],$_GET['year']);
+            $startTimestamp = $weekDates[1];
+            $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+            $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
+
+            displayWeekTaskDetails($_GET['weekid'],$weekDates,$_GET['userid'],$timeTracking, $_GET['year']);
+        }
+    }
+}
 
 function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
@@ -179,8 +203,15 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
   echo "</select>\n";
   echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
 
-   $weekTracks = $timeTracking->getWeekDetails($userid);
-   echo "<table>\n";
+    displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear);
+   
+   echo "</div>\n";
+}
+
+function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear) {
+
+$weekTracks = $timeTracking->getWeekDetails($userid);
+   echo "<table id='weekTaskDetails'>\n";
    echo "<tr>\n";
    echo "<th>".T_("Task")."</th>\n";
    echo "<th>".T_("RAF")."</th>\n";
@@ -199,7 +230,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 
       foreach ($jobList as $jobid => $dayList) {
          $linkid = $bugid."_".$jobid;
-	     $linkList["$linkid"] = $issue;
+         $linkList["$linkid"] = $issue;
 
          $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
          $result3 = mysql_query($query3) or die("Query failed: $query3");
@@ -222,7 +253,6 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
       }
    }
    echo " </table>\n";
-   echo "</div>\n";
 }
 
 ?>
