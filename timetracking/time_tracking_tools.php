@@ -20,6 +20,11 @@
 include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
+if (!isset($_SESSION['userid'])) {
+  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
+  exit;
+}
+
 include_once "tools.php";
 include_once "mysql_connect.inc.php";
 include_once "internal_config.inc.php";
