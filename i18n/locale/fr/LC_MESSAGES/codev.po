@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-14 23:00+0100\n"
+"POT-Creation-Date: 2012-03-14 23:06+0100\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -1263,7 +1263,7 @@ msgstr "Si négatif, avance sur le planing."
 #: reports/forecasting_report.php:74 reports/forecasting_report.php:224
 #: reports/forecasting_report.php:261 index.php:255
 msgid "Tasks in drift"
-msgstr "Fiches en dérive"
+msgstr "Tâches en dérive"
 
 #: reports/productivity_report.php:139 reports/forecasting_report.php:75
 msgid "Tasks for which the elapsed time is greater than the estimated effort"
@@ -1278,17 +1278,17 @@ msgstr "dérive"
 #: reports/productivity_report.php:141 reports/productivity_report.php:442
 #: reports/forecasting_report.php:77 reports/forecasting_report.php:233
 msgid "Tasks in time"
-msgstr "Fiches à l'équilibre"
+msgstr "Tâches à l'équilibre"
 
 #: reports/productivity_report.php:142 reports/productivity_report.php:448
 #: reports/forecasting_report.php:78
 msgid "Tasks resolved in time"
-msgstr "Fiches résolues dans les temps."
+msgstr "Tâches résolues dans les temps."
 
 #: reports/productivity_report.php:144 reports/productivity_report.php:453
 #: reports/forecasting_report.php:80 reports/forecasting_report.php:242
 msgid "Tasks ahead"
-msgstr "Fiches en avance"
+msgstr "Tâches en avance"
 
 #: reports/productivity_report.php:145 reports/forecasting_report.php:81
 msgid "Tasks resolved in less time than the estimated effort"
@@ -1357,7 +1357,7 @@ msgstr "Manager"
 #: reports/productivity_report_tools.php:166 reports/project_info.php:115
 #: reports/forecasting_report.php:199 reports/planning_report.php:155
 msgid "Tasks"
-msgstr "Fiches"
+msgstr "Tâches"
 
 #: reports/productivity_report.php:418 reports/statistics.php:218
 #: reports/forecasting_report.php:203
@@ -1372,14 +1372,14 @@ msgstr "Dérive"
 #: reports/forecasting_report.php:235 reports/forecasting_report.php:237
 #: reports/forecasting_report.php:244 reports/forecasting_report.php:246
 msgid "nb tasks"
-msgstr "nb fiches"
+msgstr "nb tâches"
 
 #: reports/productivity_report.php:438 reports/productivity_report.php:446
 #: reports/productivity_report.php:456 reports/productivity_report.php:550
 #: reports/forecasting_report.php:229 reports/forecasting_report.php:238
 #: reports/forecasting_report.php:247
 msgid "Task list for EffortEstim"
-msgstr "Liste des Fiches pour Charge_Init"
+msgstr "Liste des tâches pour Charge_Init"
 
 #: reports/productivity_report.php:468 reports/project_info.php:440
 #: reports/project_info.php:520 reports/forecasting_report.php:263
@@ -1624,7 +1624,7 @@ msgstr "RAF Mgr"
 
 #: reports/project_info.php:331
 msgid "New Tasks"
-msgstr "Nouvelles Fiches"
+msgstr "Nouvelles Tâches"
 
 #: reports/project_info.php:332
 msgid "Current Tasks"
@@ -1664,7 +1664,7 @@ msgstr "Fiches Reçues / Résolues"
 
 #: reports/statistics.php:164
 msgid "Nb of submitted tasks EXCEPT SideTasks and FDL"
-msgstr "Nbre de fiches Reçues SAUF SuiviOp, FDL"
+msgstr "Nbre de fiches Reçues SAUF TachesAnnexes, FDL"
 
 #: reports/statistics.php:164
 msgid "Nb submissions"
@@ -1672,7 +1672,7 @@ msgstr "Nb Reçues"
 
 #: reports/statistics.php:165
 msgid "Nb of resolved tasks EXCEPT SideTasks and reopened tasks"
-msgstr "Nbre de fiches résolues SAUF SuiviOp et ré-ouvertes"
+msgstr "Nbre de fiches résolues SAUF TachesAnnexes et ré-ouvertes"
 
 #: reports/statistics.php:165
 msgid "Nb Resolved"
@@ -1705,7 +1705,7 @@ msgstr "Nbre de jours de Production"
 
 #: reports/statistics.php:361 reports/statistics.php:375
 msgid "% Tasks"
-msgstr "% Fiches"
+msgstr "% Tâches"
 
 #: reports/statistics.php:361
 msgid "Percentage of tasks delivered before the deadLine"
@@ -1713,7 +1713,7 @@ msgstr "Pourcentage de fiches livrées avant la deadLine"
 
 #: reports/statistics.php:375
 msgid "% Tasks Delivered on time"
-msgstr "% Fiches livrées à temps."
+msgstr "% Tâches livrées à temps."
 
 #: reports/statistics.php:414
 msgid "Efficiency and System Disponibility"
@@ -1723,7 +1723,7 @@ msgstr "Taux d'efficacité et Disponibilité système"
 msgid ""
 "Exclude side tasks to get the percent of time spent working on the projects"
 msgstr ""
-"Pourcentage de temps pass sur les fiches projet par rapport au temps total "
+"Pourcentage de temps pass sur les tâches projet par rapport au temps total "
 "consommé (TachesAnnexes inclues)."
 
 #: reports/statistics.php:427
@@ -1813,7 +1813,7 @@ msgstr "Semaine suivante"
 #: timetracking/team_activity_report.php:225
 #: timetracking/team_activity_report.php:283
 msgid "sum(Remaining) of current tasks"
-msgstr "somme(RAF) des fiches en cours"
+msgstr "somme(RAF) des tâches en cours"
 
 #: timetracking/team_activity_report.php:240
 #: timetracking/team_activity_report.php:297
