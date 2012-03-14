@@ -140,8 +140,6 @@ require_once('tc_calendar.php');
 
      $( "#formUpdateRemaining" ).children("input[name=userid]").val(userid);
      $( "#formUpdateRemaining" ).children("input[name=bugid]").val(bugid);
-     $( "#formUpdateRemaining" ).children("input[name=weekid]").val(weekid);
-     $( "#formUpdateRemaining" ).children("input[name=year]").val(year);
 
      $( "#update_remaining_dialog_form" ).dialog('option', 'title', dialogBoxTitle);
      $( "#update_remaining_dialog_form" ).dialog( "open" );
@@ -229,8 +227,8 @@ require_once('tc_calendar.php');
 					bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
 
 					if ( bValid ) {
-						// TODO use AJAX to call php func and update remaining on bugid
-						$('#formUpdateRemaining').submit();
+                        $("#formUpdateRemaining").submit();
+                        $( this ).dialog( "close" );
 					}
 				},
 				Cancel: function() {
@@ -241,6 +239,34 @@ require_once('tc_calendar.php');
 				allFields.val( "" ).removeClass( "ui-state-error" );
 			}
 		});
+
+
+                        $("#formUpdateRemaining").submit(function(event) {
+
+    /* stop form from submitting normally */
+    event.preventDefault();
+
+
+                            /* get some values from elements on the page: */
+                            var formUpdateRemaining = $(this);
+                            var url = formUpdateRemaining.attr('action');
+                            var actionName = formUpdateRemaining.find('input[name=action]').val();
+                            var remaining = formUpdateRemaining.find('input[name=remaining]').val();
+                            var bugid = formUpdateRemaining.find('input[name=bugid]').val();
+                            var userid = formUpdateRemaining.find('input[name=userid]').val();
+
+        var weekid = document.getElementById('weekidSelector').value;
+        var year   = document.getElementById('yearSelector').value;
+
+            jQuery.ajax({
+                type: 'GET',
+                url: url,
+                data: 'action='+actionName+'&remaining='+remaining+'&bugid='+bugid+'&weekid='+weekid+'&year='+year+'&userid='+userid,
+                success: function(data) {
+                     jQuery("#weekTaskDetails").html(jQuery.trim(data));
+                }
+            });
+                        });
 
 		// delete track dialogBox
 		$( "#deleteTrack_dialog_form" ).dialog({
@@ -313,17 +339,14 @@ require_once('tc_calendar.php');
 
 <div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style='display: none'>
 	<p id="validateTips">Set new value</p>
-	<form id='formUpdateRemaining' name='formUpdateRemaining' method='post' Action='time_tracking.php' >
+	<form id='formUpdateRemaining' name='formUpdateRemaining' method='post' action='time_tracking_tools.php' >
 	   <fieldset>
 		   <label for="remaining">Remaining: </label>
-		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
+		   <input type='text' id='remaining' name='remaining' size='3' class='text' />
 	   </fieldset>
-      <input type='hidden' name='userid' value='0' >
-      <input type='hidden' name='bugid'  value='0' >
-      <input type='hidden' name='weekid' value='0' >
-      <input type='hidden' name='year' value='0' >
-      <input type='hidden' name='action' value='updateRemainingAction' >
-      <input type='hidden' name='nextForm' value='addTrackForm'>
+        <input type='hidden' name='bugid'  value='0' >
+        <input type='hidden' name='userid' value='0' >
+        <input type='hidden' name='action' value='updateRemainingAction' >
 	</form>
 </div>
 
@@ -748,11 +771,6 @@ if ($_POST['nextForm'] == "addTrackForm") {
     $formatedDate      = isset($_REQUEST["date1"]) ? $_REQUEST["date1"] : "";
     $defaultDate = $formatedDate;
 
-  }elseif ("updateRemainingAction" == $action) {
-	$issue = IssueCache::getInstance()->getIssue($bugid);
-	if (NULL != $issue->remaining) {
-		$issue->setRemaining($remaining);
-	}
   } elseif ("setFiltersAction" == $action) {
 
     $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
