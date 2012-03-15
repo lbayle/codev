@@ -219,6 +219,7 @@ function displayVersionsDetailed($project) {
    echo "<tr>\n";
    echo "  <th>".T_("Target version")."</th>\n";
    echo "  <th>".T_("EffortEstim")."</th>\n";
+   echo "  <th>".T_("Reestimated")."</th>\n";
    echo "  <th>".T_("Elapsed")."</th>\n";
    echo "  <th>".T_("Remaining")."</th>\n";
    echo "  <th width='80'>".T_("Drift")."</th>\n";
@@ -241,9 +242,10 @@ function displayVersionsDetailed($project) {
        echo "<td>".$pv->name."</td>\n";
 	   #echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
        echo "<td title='$pv->effortEstim + $pv->effortAdd'>".($pv->effortEstim + $pv->effortAdd)."</td>\n";
-	   echo "<td>".$pv->elapsed."</td>\n";
+	   echo "<td>".($pv->remaining + $pv->elapsed)."</td>\n";
+       echo "<td>".$pv->elapsed."</td>\n";
 	   echo "<td>".$pv->remaining."</td>\n";
-       echo "<td $formatteddriftColor >$formattedDrift</td>\n";
+	   echo "<td $formatteddriftColor >$formattedDrift</td>\n";
 	   echo "</tr>\n";
    }
 
@@ -253,6 +255,7 @@ function displayVersionsDetailed($project) {
    echo "<tr class ='row_even'>\n";
    echo "<td>".T_("Total")."</td>\n";
    echo "<td>$totalEffortEstim</td>\n";
+	echo "<td>".($totalRemaining + $totalElapsed)."</td>\n";
    echo "<td>".$totalElapsed."</td>\n";
    echo "<td>".$totalRemaining."</td>\n";
    echo "<td>$formattedDrift</td>\n";
@@ -273,6 +276,7 @@ function displayVersionsDetailedMgr($project) {
 	echo "<tr>\n";
 	echo "  <th>".T_("Target version")."</th>\n";
 	echo "  <th>".T_("MgrEffortEstim")."</th>\n";
+    echo "  <th title='remainingMgr + elapsed'>".T_("Reestimated Mgr")."</th>\n";
 	echo "  <th>".T_("Elapsed")."</th>\n";
 	echo "  <th>".T_("Remaining Mgr")."</th>\n";
 	echo "  <th width='80'>".T_("Drift Mgr")."</th>\n";
@@ -283,6 +287,7 @@ function displayVersionsDetailedMgr($project) {
 		$totalEffortEstimMgr += $pv->mgrEffortEstim;
 		$totalElapsed += $pv->elapsed;
 		$totalRemainingMgr += $pv->remainingMgr;
+		$totalReestimatedMgr += $pv->remainingMgr;
 		$formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
 
@@ -296,6 +301,7 @@ function displayVersionsDetailedMgr($project) {
 		echo "<td>".$pv->name."</td>\n";
 		#echo "<td>".round(100 * $pv->getProgress())."%</td>\n";
 		echo "<td>".$pv->mgrEffortEstim."</td>\n";
+		echo "<td>".($pv->remainingMgr + $pv->elapsed)."</td>\n";
 		echo "<td>".$pv->elapsed."</td>\n";
 		echo "<td>".$pv->remainingMgr."</td>\n";
 		echo "<td $formatteddriftMgrColor >$formattedDriftMgr</td>\n";
@@ -309,6 +315,7 @@ function displayVersionsDetailedMgr($project) {
 	echo "<td>".T_("Total")."</td>\n";
 	#echo "<td>".round(100 * $totalProgress)."%</td>\n";
 	echo "<td>$totalEffortEstimMgr</td>\n";
+	echo "<td>".($totalRemainingMgr + $totalElapsed)."</td>\n";
 	echo "<td>".$totalElapsed."</td>\n";
 	echo "<td>".$totalRemainingMgr."</td>\n";
 	echo "<td>$formattedDrift</td>\n";
