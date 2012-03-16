@@ -109,8 +109,6 @@ function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endT
    echo "<th>".T_("Job")."</th>\n";
    echo "<th>".T_("Category")."</th>\n";
    echo "<th>".T_("Status")."</th>\n";
-   echo "<th title='BI + BS'>".T_("Load Estimation")."</th>\n";
-   echo "<th title='".T_("Remaining")."'>".T_("RAF")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT id, bugid, jobid, date, duration ".
@@ -167,8 +165,6 @@ function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endT
       echo "<td>".$jobName."</td>\n";
       echo "<td>".$issue->getCategoryName()."</td>\n";
       echo "<td>".$issue->getCurrentStatusName()."</td>\n";
-      echo "<td title='$issue->effortEstim + $issue->effortAdd'>".$totalEstim."</td>\n";
-      echo "<td>".$issue->remaining."</td>\n";
 
       echo "</tr>\n";
    }
