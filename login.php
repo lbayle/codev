@@ -35,7 +35,7 @@ $action = isset($_POST['action']) ? $_POST['action'] : '';
 if ('pleaseLogin' == $action) {
     $user = $_POST['codev_login'];
     $password = md5($_POST['codev_passwd']);
-    
+
     $formattedUser = mysql_real_escape_string($user);
     $formattedPass = mysql_real_escape_string($password);
     $query= 'SELECT id, username, realname FROM `mantis_user_table` WHERE username = \''.$user.'\' and password = \''.$formattedPass.'\'';
@@ -47,18 +47,6 @@ if ('pleaseLogin' == $action) {
             $_SESSION['realname']=$row_login->realname;
 
             $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')');
-
-            /*
-                // TODO: remove hardcoded file path
-                // trace login
-                $logFile = "/homez.466/codevtt/codevttReports/login.log";
-                $ip=$_SERVER['REMOTE_ADDR'];
-                $str= date("Y-m-d H:i:s")." [$ip] ".$row_login->username." (".$row_login->realname.")";
-
-                $fh = fopen($logFile, 'a+');
-                fwrite($fh, $str);
-                fclose($fh);
-            */
 
             // load homepage
             header('Location: '.getServerRootURL());
