@@ -597,6 +597,8 @@ class Install {
 	 * WARN: depending on your HTTP server installation, the file may be created
 	 * by user 'apache', so be sure that this user has write access
 	 * to the CoDev install directory
+     * 
+     * @return NULL if OK, or an error message starting with 'ERROR' .
      */
 	public function createConstantsFile() {
 
@@ -608,13 +610,7 @@ class Install {
       $fp = fopen(self::FILENAME_CONSTANTS, 'w');
 
       if (FALSE == $fp) {
-      	echo "<span class='error_font'>ERROR: creating file ".self::FILENAME_CONSTANTS." (current dir=".getcwd().")</span><br/>";
-
-        // try to create a temporary file, for manual install...
-        $fp = fopen("/tmp/constants.php", 'w');
-        if (FALSE == $fp) {
-      	   return "ERROR creating debug file: /tmp/constants.php";
-        }
+      	return "ERROR creating file ".self::FILENAME_CONSTANTS." (current dir=".getcwd().")";
       }
 
       	$stringData = "<?php\n";
@@ -669,6 +665,8 @@ class Install {
       	$stringData .= "?>\n\n";
       	fwrite($fp, $stringData);
       	fclose($fp);
+        
+        return NULL;
       }
 
     /**

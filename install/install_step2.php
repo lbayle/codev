@@ -214,8 +214,16 @@ if ("proceedStep2" == $action) {
 
     echo "DEBUG 8/8 create constants.php<br/>";
     $install = new Install();
-    $install->createConstantsFile();
+    $errStr = $install->createConstantsFile();
+    if (NULL != $errStr) {
+       echo "<span class='error_font'>".$errStr."</span><br/>";
+       exit;
+    }
+    
     // Note: constants.php is needed on step3
+
+   // everything went fine, goto step3
+   echo ("<script> parent.location.replace('install_step3.php'); </script>");
 
 }
 
