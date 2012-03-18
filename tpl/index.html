@@ -100,7 +100,7 @@
     <ul>
         <!-- Saisie des CRA -->
         <li><a href="timetracking/time_tracking.php">{t}Time Tracking{/t}</a></li>
-        <!-- Affichage des congé&eacute;s -->
+        <!-- Affichage des congï¿½&eacute;s -->
         <li><a href="timetracking/holidays_report.php">{t}Holidays{/t}</a></li>
     </ul>
     <ul>
@@ -135,7 +135,7 @@
             <td>{$i.projectName}</td>
             <td {if $i.driftEE > 0}style="background-color: #fcbdbd;"{elseif $i.driftEE < 0}style="background-color: #61ed66;"{/if}>{$i.driftEE}</td>
             <td><a title="{t}update Remaining{/t}" href="javascript: updateRemaining('Task {$i.formatedTitle} - Update Remaining', '{$i.bugId}', '{$i.remaining}', '{$i.formatedSummary}', '', '')">{$i.remaining}</a></td>
-            <td>{$summary}</td>
+            <td>{$i.summary}</td>
         </tr>
         {/foreach}
     </table>
