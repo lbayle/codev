@@ -39,8 +39,8 @@ class SmartyHelper {
         $this->smarty = new Smarty();
         $this->smarty->setCaching(false);
         $this->smarty->setTemplateDir(BASE_PATH.'/tpl/');
-        $this->smarty->setCacheDir(BASE_PATH.'/template_c/');
-        $this->smarty->setCompileDir(BASE_PATH.'/cache/');
+        $this->smarty->setCacheDir('/tmp/codevtt/template_c/');
+        $this->smarty->setCompileDir('/tmp/codevtt/cache/');
         
         // function declaration
         function smarty_translate ($params, $content, $smarty, &$repeat) {
