@@ -37,8 +37,8 @@ class SmartyHelper {
      */
     public function __construct() {
         $this->smarty = new Smarty();
-
         $this->smarty->setCaching(false);
+        $this->smarty->setTemplateDir(BASE_PATH.'/tpl/');
         
         // function declaration
         function smarty_translate ($params, $content, $smarty, &$repeat) {
@@ -65,7 +65,7 @@ class SmartyHelper {
      * @param String the template to be displayed
      */
     public function display($template) {
-        $this->smarty->display('tpl/'.$template.'html');
+        $this->smarty->display($template.'.html');
     }
     
     /**
@@ -86,7 +86,7 @@ class SmartyHelper {
         $this->smarty->assign('rootWebSite', getServerRootURL().'/');
         $this->smarty->assign('locale', $_SESSION['locale']);
         
-        $this->smarty->display('tpl/template.html');
+        $this->display('template');
     }
 
 }

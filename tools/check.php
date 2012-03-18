@@ -1,5 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
-<?php /*
+<?php
+
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -14,86 +16,71 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php include_once '../path.inc.php'; ?>
+require('../path.inc.php');
 
-<?php
-include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-
-  exit;
+    // load login page
+    header('Location: '.getServerRootURL().'/login.php');
+    exit;
 }
-?>
 
-<?php
-   $_POST['page_name'] = T_("Consistency Check");
-   include 'header.inc.php';
-?>
+require('super_header.inc.php');
 
-<?php include 'login.inc.php'; ?>
-<?php include 'menu.inc.php'; ?>
+include_once('consistency_check.class.php');
+include_once('user.class.php');
 
-<div id="content">
-<?php
+/**
+ * Get consistency errors
+ * @param int User's id
+ */
+function getConsistencyErrors($userid) {
+    $sessionUser = new User($userid);
 
-include_once 'consistency_check.class.php';
-include_once 'user.class.php';
+    // get projects i'm involved in (dev, Leader, Manager)
+    $devTeamList = $sessionUser->getDevTeamList();
+    $leadedTeamList = $sessionUser->getLeadedTeamList();
+    $managedTeamList = $sessionUser->getManagedTeamList();
+    $teamList = $devTeamList + $leadedTeamList + $managedTeamList;
+    $projectList = $sessionUser->getProjectList($teamList);
 
+    $ccheck = new ConsistencyCheck($projectList);
+    $cerrList = $ccheck->check();
+
+    if (count($cerrList) > 0) {
+        global $count;
+        $count = count($cerrList);
+        foreach ($cerrList as $cerr) {
+            $user = new User($cerr->userId);
+            $issue = new Issue($cerr->bugId);
+            
+            $cerrs[] = array('userName' => $user->getName(), 
+                             'mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
+                             'date' => date("Y-m-d", $cerr->timestamp),
+                             'status' => $statusNames[$cerr->status],
+                             'severity' => $cerr->severity,
+                             'desc' => $cerr->desc);
+        }
+    
+        return $cerrs;
+    }
+}
 
 // ================ MAIN =================
 
-$userid = $_SESSION['userid'];
-$sessionUser = new User($userid);
+require('display.inc.php');
 
-// get projects i'm involved in (dev, Leader, Manager)
-$devTeamList = $sessionUser->getDevTeamList();
-$leadedTeamList = $sessionUser->getLeadedTeamList();
-$managedTeamList = $sessionUser->getManagedTeamList();
-$teamList = $devTeamList + $leadedTeamList + $managedTeamList;
-$projectList = $sessionUser->getProjectList($teamList);
+$smartyHelper = new SmartyHelper();
+$smartyHelper->assign('pageName', T_('Consistency Check'));
 
-$ccheck = new ConsistencyCheck($projectList);
+// Consistency errors
+$consistencyErrors = getConsistencyErrors($_SESSION['userid']);
+$smartyHelper->assign('count', $count);
+if(isset($consistencyErrors)) {
+    $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+}
 
-$cerrList = $ccheck->check();
-
-   if (0 == count($cerrList)) {
-   	echo T_("No Error.")."</br>\n";
-   } else {
-
-	   echo "<div align='left'>\n";
-	   echo "<table>\n";
-	   echo "<caption>".count($cerrList).T_(" Error(s) in Mantis Tasks")."</caption>\n";
-	   echo "<tr>\n";
-	   echo "<th>".T_("User")."</th>\n";
-	   echo "<th>".T_("Task")."</th>\n";
-	   echo "<th title='".T_("last modification date")."'>Date</th>\n";
-	   echo "<th>".T_("Status")."</th>\n";
-      echo "<th>".T_("Level")."</th>\n";
-	   echo "<th>".T_("Error Description")."</th>\n";
-	   echo "</tr>\n";
-	   foreach ($cerrList as $cerr) {
-
-	   	 $user = new User($cerr->userId);
-          $issue = new Issue($cerr->bugId);
-	   	 echo "<tr>\n";
-	       echo "<td>".$user->getName()."</td>\n";
-	       echo "<td>".mantisIssueURL($cerr->bugId, $issue->summary)."</td>\n";
-	       echo "<td>".date("Y-m-d", $cerr->timestamp)."</td>\n";
-	       echo "<td>".$statusNames[$cerr->status]."</td>\n";
-          echo "<td>$cerr->severity</td>\n";
-	       echo "<td>$cerr->desc</td>\n";
-	       echo "</tr>\n";
-	   }
-      echo "</table>\n";
-      echo "</div>\n";
-   }
-
-
-
+$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 
 ?>
-</div>
-
-<?php include 'footer.inc.php'; ?>
