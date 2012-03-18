@@ -25,10 +25,15 @@ if ((!file_exists($constantsFile)) || (!file_exists($mysqlConfigFile))) {
     echo ("<script> parent.location.replace('./install/install.php'); </script>");
     exit;
 }
-?>
 
-<?php
-   include_once 'path.inc.php';
+include_once 'path.inc.php';
+
+if (!isset($_SESSION['userid'])) {
+    // load login page
+    header('Location: '.getServerRootURL().'/login.php');
+    exit;
+}
+
    include 'i18n.inc.php';
    $_POST['page_name'] = T_("Welcome");
 
@@ -156,24 +161,6 @@ function disclaimer () {
       echo T_("please consider using a standard complient web-browser.<br/>");
       echo "</span>\n";
    }
-}
-
-// -----------------------------
-function displayLoginForm() {
-
-  echo "<div align=center>\n";
-  echo("<form action='login.php' method='post' name='loginForm'>\n");
-
-  echo T_("Login").": <input name='codev_login' type='text' id='codev_login'>\n";
-  echo T_("Password").": <input name='codev_passwd' type='password' id='codev_passwd'>\n";
-  echo "<input type='submit' name='Submit' value='".T_("log in")."'>\n";
-
-  echo "<input type=hidden name=action      value=pleaseLogin>\n";
-  echo "<input type=hidden name=currentForm value=loginForm>\n";
-  echo "<input type=hidden name=nextForm    value=loginForm>\n";
-
-  echo("</form>\n");
-  echo "</div>\n";
 }
 
 function displayLinks() {
@@ -335,36 +322,29 @@ $bugid     = isset($_POST['bugid']) ? $_POST['bugid'] : '';
 $remaining = isset($_POST['remaining']) ? $_POST['remaining'] : '';
 $action    = isset($_POST["action"]) ? $_POST["action"] : '';
 
+$userid = $_SESSION['userid'];
+$sessionUser = UserCache::getInstance()->getUser($userid);
 
-if (!isset($_SESSION['userid'])) {
-   displayLoginForm();
-} else {
-
-	$userid = $_SESSION['userid'];
-   $sessionUser = UserCache::getInstance()->getUser($userid);
-
-   // --- updateRemaining DialogBox
-    if ("updateRemainingAction" == $action) {
-	   if ("0" != "$bugid") {
-	      $issue = IssueCache::getInstance()->getIssue($bugid);
-	      $issue->setRemaining($remaining);
-	      #$action = "displayBug";
-	   }
-	}
-
-
-   #disclaimer();
-
-   displayLinks();
-
-   echo "<br/>\n";
-
-   showIssuesInDrift($userid);
-
-   echo "<br/>\n";
-
-   displayConsistencyErrors($sessionUser);
+// --- updateRemaining DialogBox
+if ("updateRemainingAction" == $action) {
+    if ("0" != "$bugid") {
+        $issue = IssueCache::getInstance()->getIssue($bugid);
+        $issue->setRemaining($remaining);
+        #$action = "displayBug";
+    }
 }
+
+#disclaimer();
+
+displayLinks();
+
+echo "<br/>\n";
+
+showIssuesInDrift($userid);
+
+echo "<br/>\n";
+
+displayConsistencyErrors($sessionUser);
 
 ?>
 
