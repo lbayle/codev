@@ -9,12 +9,11 @@ $locale = "fr"; // BP_LANG
 $textdomain="codev";
 
 if (isset($_GET['locale']) && !empty($_GET['locale'])) {
-   $locale = $_GET['locale'];
-   $_SESSION['locale']=$locale;
+    $locale = $_GET['locale'];
+} elseif (isset($_SESSION['locale']) && !empty($_SESSION['locale'])) {
+    $locale = $_SESSION['locale'];
 }
-if (isset($_SESSION['locale']) && !empty($_SESSION['locale'])) {
-	$locale =$_SESSION['locale'];
-}
+$_SESSION['locale'] = $locale;
 
 #echo "DEBUG locale=$locale<br/>\n";
 
