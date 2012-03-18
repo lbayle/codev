@@ -31,7 +31,7 @@ caption {
 }
 th {
   background-color: #c8c8e8;
-  border: 0px solid withe;
+  border: 0px solid white;
   margin: 0;
   padding: 0px 2px;
 }
@@ -159,7 +159,7 @@ table.invisible td {
 
 .help_font {
   font-style: italic;
-  color: grey;
+  color: gray;
 }
 
 .error_font {
