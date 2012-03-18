@@ -33,18 +33,18 @@
                     <td><a href="{$rootWebSite}"><img title="{$codevVersion}" alt="{$codevVersion}" src="images/clock_logo_06.png" width="300px" height="100px" /></a></td>
                     <td style="width:100%"><h1>{$pageName}</h1></td>
                     <td style="padding-right:5em">
-                        <a href="{$page}?locale=fr"><img title="Francais" alt="Francais" src="images/drapeau_fr.jpg" width="20px" height="13px" /></a>&nbsp;
-                        <a href="{$page}?locale=en"><img title="English" alt="English" src="images/drapeau_gb.jpg" width="20px" height="13px" /></a>
+                        {if $locale != fr}<a href="{$page}?locale=fr"><img title="Francais" alt="Francais" src="images/drapeau_fr.jpg" width="20px" height="13px" /></a>{/if}
+                        {if $locale != en}<a href="{$page}?locale=en"><img title="English" alt="English" src="images/drapeau_gb.jpg" width="20px" height="13px" /></a>{/if}
                     </td>
                 </tr>
             </table>
         </div>
         
+        {if $username}
         <div id="login">
-            {if $logged}
-                {t}Logged in as {/t}{$username} ({$realname}) <span class="floatr"><a href="logout.php" title="logout">{t}log out{/t}</a></span>
-            {/if}
+            {t}Logged in as {/t}{$username} ({$realname}) <span class="floatr"><a href="logout.php" title="logout">{t}log out{/t}</a></span>
         </div>
+        {/if}
         
         <div id="menu">
             <table>
@@ -76,9 +76,8 @@
         </div>
         
         <div id="main">
-            <br/><br/>
             {include file="tpl/$tpl_name.html"}
-            <br/><hr />
+            <hr style="margin-top:2em;" />
         </div>
         
         <address class="right">
@@ -86,5 +85,6 @@
             <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' alt="GPL v3" src='images/copyleft.png' /></a>
             2010-{$year}&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'>Louis BAYLE</span><br/>Designed for Firefox
         </address>
+        
     </body>
 </html>
