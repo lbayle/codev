@@ -53,7 +53,7 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    global $logger;
 
    // Display form
-   echo "<div style='text-align: center;;margin-top:2em;'>";
+   echo "<div style='text-align: center;margin-top:2em;'>";
    echo "<form name='form1' method='post' action='$originPage'>\n";
    echo "<fieldset>";
 
