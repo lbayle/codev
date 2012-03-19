@@ -1,0 +1,92 @@
+{if $html}
+<script type="text/javascript">
+  function submitForm() {
+    document.forms["form1"].bugid.value = document.getElementById('bugidSelector').value;
+    document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
+    document.forms["form1"].action.value = "displayBug";
+    document.forms["form1"].submit();
+  }
+
+  function setProjectid() {
+     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
+     document.forms["form1"].action.value="setProjectid";
+     document.forms["form1"].submit();
+  }
+
+   // ------ JQUERY ------
+    $(function() {
+
+        var remaining = $( "#remaining" ),
+             allFields = $( [] ).add( remaining ),
+             tips = $( "#validateTips" );
+
+        function updateTips( t ) {
+            tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        $( "#update_remaining_dialog_form" ).dialog({
+            autoOpen: false,
+            height: 200,
+            width: 500,
+            modal: true,
+            open: function() {
+               // Select input field contents
+               $( "#remaining" ).select();
+            },
+            buttons: {
+                "Update": function() {
+                    var bValid = true;
+                    allFields.removeClass( "ui-state-error" );
+                    bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format: '1','0.3' or '1.55'" );
+
+                    if ( bValid ) {
+                        // TODO use AJAX to call php func and update remaining on bugid
+                        $('#formUpdateRemaining').submit();
+                    }
+                },
+                Cancel: function() {
+                    $( this ).dialog( "close" );
+                }
+            },
+            close: function() {
+                allFields.val( "" ).removeClass( "ui-state-error" );
+            }
+        });
+
+    });
+
+</script>
+
+<div id="content">
+    {$html}
+</div>
+
+<div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style='display: none'>
+    <p id="validateTips" style="border: 1px solid transparent; padding: 0.3em;">Set new value</p>
+    <form id='formUpdateRemaining' name='formUpdateRemaining' method='post' action='issue_info.php' >
+        <fieldset>
+            <label for="remaining">Remaining: </label>
+            <input type='text'  id='remaining' name='remaining' size='3' class='text' />
+            <input type='hidden' name='bugid'  value='0' />
+            <input type='hidden' name='action' value='updateRemainingAction' />
+        </fieldset>
+    </form>
+</div>
+{else}
+<div id="content" class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
+{/if}

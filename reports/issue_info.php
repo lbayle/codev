@@ -1,5 +1,7 @@
 <?php if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
-<?php /*
+<?php
+
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -14,119 +16,26 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php include_once '../path.inc.php'; ?>
+require('../path.inc.php');
 
-<?php
-include_once 'i18n.inc.php';
 if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-  exit;
+    // load login page
+    header('Location: '.getServerRootURL().'/login.php');
+    exit;
 }
-?>
 
-<?php
-   $_POST['page_name'] = T_("Activity by task");
-   include 'header.inc.php';
-?>
+require('super_header.inc.php');
 
-<?php include 'login.inc.php'; ?>
-<?php include 'menu.inc.php'; ?>
+$logger = Logger::getLogger("issue_info");
 
-<style>
-   fieldset { padding:0; border:0; }
-   validateTips { border: 1px solid transparent; padding: 0.3em; }
-</style>
+require('display.inc.php');
 
-<script language="JavaScript">
-  function submitForm() {
-    document.forms["form1"].bugid.value = document.getElementById('bugidSelector').value;
-    document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
-    document.forms["form1"].action.value = "displayBug";
-    document.forms["form1"].submit();
-  }
+// start output buffering, no more echo will be displayed (take care about html outside php)
+ob_start();
 
-  function setProjectid() {
-     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
-     document.forms["form1"].action.value="setProjectid";
-     document.forms["form1"].submit();
-  }
-
-   // ------ JQUERY ------
-	$(function() {
-
-		var remaining = $( "#remaining" ),
-			 allFields = $( [] ).add( remaining ),
-			 tips = $( "#validateTips" );
-
-		function updateTips( t ) {
-			tips
-				.text( t )
-				.addClass( "ui-state-highlight" );
-			setTimeout(function() {
-				tips.removeClass( "ui-state-highlight", 1500 );
-			}, 500 );
-		}
-
-		function checkRegexp( o, regexp, n ) {
-			if ( !( regexp.test( o.val() ) ) ) {
-				o.addClass( "ui-state-error" );
-				updateTips( n );
-				return false;
-			} else {
-				return true;
-			}
-		}
-
-		$( "#update_remaining_dialog_form" ).dialog({
-			autoOpen: false,
-			height: 200,
-			width: 500,
-			modal: true,
-			open: function() {
-               // Select input field contents
-               $( "#remaining" ).select();
-			},
-			buttons: {
-				"Update": function() {
-					var bValid = true;
-					allFields.removeClass( "ui-state-error" );
-					bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format: '1','0.3' or '1.55'" );
-
-					if ( bValid ) {
-						// TODO use AJAX to call php func and update remaining on bugid
-						$('#formUpdateRemaining').submit();
-					}
-				},
-				Cancel: function() {
-					$( this ).dialog( "close" );
-				}
-			},
-			close: function() {
-				allFields.val( "" ).removeClass( "ui-state-error" );
-			}
-		});
-
-	});
-
-</script>
-
-<div id="content">
-
-<div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style='display: none'>
-	<p id="validateTips">Set new value</p>
-	<form id='formUpdateRemaining' name='formUpdateRemaining' method='post' Action='issue_info.php' >
-	   <fieldset>
-		   <label for="remaining">Remaining: </label>
-		   <input type='text'  id='remaining' name='remaining' size='3' class='text' />
-	   </fieldset>
-      <input type='hidden' name='bugid'  value='0' >
-      <input type='hidden' name='action' value='updateRemainingAction' >
-	</form>
-</div>
-
-<?php
+$_POST['page_name'] = T_("Activity by task");
 
 include_once "issue.class.php";
 include_once "project.class.php";
@@ -137,8 +46,6 @@ include_once "holidays.class.php";
 
 include_once "issue_fdj.class.php";
 
-$logger = Logger::getLogger("issue_info");
-
 // ---------------------------------------------------------------
 
 function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid, $defaultProjectid) {
@@ -146,8 +53,9 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    global $logger;
 
    // Display form
-   echo "<div style='text-align: center;'>";
-   echo "<form name='form1' method='post' Action='$originPage'>\n";
+   echo "<div style='text-align: center;margin-top:2em;'>";
+   echo "<form name='form1' method='post' action='$originPage'>\n";
+   echo "<fieldset>";
 
    $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
 
@@ -207,7 +115,7 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    foreach ($issueList as $bugid) {
          $issue = new Issue ($bugid);
       if ($bugid == $defaultBugid) {
-         echo "<option selected value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
+         echo "<option selected='selected' value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       } else {
          echo "<option value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       }
@@ -216,7 +124,7 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    #echo "</td>\n";
 
    #echo "<td>\n";
-   echo "<input type=button value='".T_("Jump")."' onClick='javascript: submitForm()'>\n";
+   echo "<input type='button' value='".T_("Jump")."' onclick='javascript: submitForm()' />\n";
    #echo "</td>\n";
 /*
    if (0 != $defaultBugid) {
@@ -229,9 +137,10 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    #echo "</tr>\n";
    #echo "</table>\n";
 
-   echo "<input type=hidden name=bugid  value=$defaultBugid>\n";
-   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
-   echo "<input type=hidden name=action       value=noAction>\n";
+   echo "<input type='hidden' name='bugid'  value='$defaultBugid' />\n";
+   echo "<input type='hidden' name='projectid' value='$defaultProjectid' />\n";
+   echo "<input type='hidden' name='action'       value='noAction' />\n";
+   echo "</fieldset>";
    echo "</form>\n";
 
    echo "</div>";
@@ -247,8 +156,6 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
  * @param unknown_type $isManager if true: show MgrEffortEstim column
  */
 function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=false, $isManager=false ) {
-
-  echo "<div>\n";
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Indicator")."</th>\n";
@@ -259,7 +166,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "  </tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='BI + BS'>".T_("Estimated effort")."</th>\n";
+  echo "<td title='BI + BS'>".T_("Estimated effort")."</td>\n";
   # TODO display mgrEE only if teamManager
   if ($isManager) {
      echo "<td>".$issue->mgrEffortEstim."</td>\n";
@@ -328,9 +235,10 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "</table>\n";
 
    // create links for JQUERY dialogBox
-   echo "<script>\n";
+   echo "<script type='text/javascript'>\n";
    echo "$(function() {\n";
-      	echo "$( '#update_remaining_link' ).click(function() {\n";
+      	echo "$( '#update_remaining_link' ).click(function(event) {\n";
+      	echo "   event.preventDefault();\n";
 		echo "   $( '#formUpdateRemaining' ).children('input[name=bugid]').val(".$issue->bugId.");\n";
 		echo "   $( '#remaining' ).val(".$issue->remaining.");\n";
 		echo "   $( '#validateTips' ).text('".addslashes($issue->summary)."');\n";
@@ -339,15 +247,10 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
 		echo "});\n";
     echo "});\n";
     echo "</script>\n";
-
-  echo "</div>\n";
-
 }
 
 // ---------------------------------------------------------------
 function displayTimeDrift($issue) {
-
-  echo "<div>\n";
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Dates")."</th>\n";
@@ -382,8 +285,6 @@ function displayTimeDrift($issue) {
   }
   echo "</tr>\n";
   echo "</table>\n";
-  echo "</div>\n";
-
 }
 
 // ---------------------------------------------------------------
@@ -393,7 +294,6 @@ function displayJobDetails($issue) {
    $durationByJob = array();
    $jobs = new Jobs();
 
-   echo "<div>\n";
    echo "<table>\n";
    echo "<tr>\n";
    echo "<th>".T_("Job")."</th>\n";
@@ -416,7 +316,6 @@ function displayJobDetails($issue) {
       echo "</tr>\n";
    }
   echo "</table>\n";
-  echo"</div>\n";
 }
 
 
@@ -511,7 +410,7 @@ function displayMonth($month, $year, $issue) {
 
     $issue->computeDurations ();
 
-    echo "<div class='float'>\n";
+    echo "<div>\n";
 
     echo "<table>\n";
     echo "<caption>".T_("Time allocation by status")."</caption>";
@@ -541,7 +440,8 @@ $year = date('Y');
 
 // if 'nosupport' is set in the URL, display graphs for 'with/without Support'
 $displaySupport  = isset($_GET['nosupport']) ? false : true;
-$originPage = isset($_GET['nosupport']) ? "issue_info.php?nosupport" : "issue_info.php";
+$originPage = $_SERVER['PHP_SELF'];
+$originPage .= isset($_GET['nosupport']) ? "?nosupport" : "";
 
 $withSupport = true;  // include support in elapsed & Drift
 
@@ -566,7 +466,6 @@ $devProjList     = $user->getProjectList();
 $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
 $projList = $devProjList + $managedProjList;
 
-
 // if bugid is set in the URL, display directly
  if (isset($_GET['bugid'])) {
  	$bug_id = $_GET['bugid'];
@@ -580,15 +479,7 @@ $projList = $devProjList + $managedProjList;
    }
  }
 
-
-
-if (0 == count($teamList)) {
-   echo "<div id='content'' class='center'>";
-	echo T_("Sorry, you need to be member of a Team to access this page.");
-   echo "</div>";
-
-} else {
-
+if (count($teamList) > 0) {
     $issue = IssueCache::getInstance()->getIssue($bug_id);
 
 	displayIssueSelectionForm($originPage, $user, $projList, $bug_id, $defaultProjectid);
@@ -604,8 +495,8 @@ if (0 == count($teamList)) {
 
 	  echo "<br/><br/>\n";
 
-     echo "<div id='content' class='center'>";
-	  echo "<hr width='80%'/>\n";
+     echo "<div style='margin-top:2em;' class='center'>";
+	  echo "<hr style='width:80%' />\n";
      echo "<br/>";
      echo "<h2>$issue->summary</h2>\n";
      echo "".mantisIssueURL($issue->bugId)." / <span title='".T_("External ID")."'>$issue->tcId</span><br/>\n";
@@ -617,42 +508,30 @@ if (0 == count($teamList)) {
      echo "<br/>";
      echo "<br/>";
      echo "<br/>";
-     echo "<br/>";
-     echo "<br/>";
 
      // -------------
-     echo"<div>\n";
+     echo"<div style='margin-top:2em'>\n";
 
-     echo "<span style='display: inline-block;'>\n";
-
+     echo "<div style='display: inline-block;'>\n";
      $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
      displayIssueGeneralInfo($issue, $withSupport, $displaySupport, $isManager);
-     echo "</span>";
+     echo "</div>";
 
-     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
-     echo "<span style='display: inline-block;'>\n";
+     echo "<div style='display: inline-block;margin-left:7em;'>\n";
      displayJobDetails($issue);
-     echo "</span>";
+     echo "</div>";
 
-     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
-     echo "<span style='display: inline-block;'>\n";
+     echo "<div style='display: inline-block;margin-left:7em;'>\n";
      displayTimeDrift($issue);
-     echo "</span>";
+     echo "</div>";
 
      echo"</div>\n";
 
      // -------------
-	  echo"<div>\n";
+	  echo"<div style='margin-top:2em;'>\n";
 
-     echo "<br/>";
 	  echo "<br/>";
-	  echo "<br/>";
-     echo "<hr/>";
-     echo "<br/>";
+     echo "<hr style='margin-bottom:2em;'/>";
 
      for ($y = date('Y', $issue->dateSubmission); $y <= $year; $y++) {
          for ($m = 1; $m <= 12; $m++) {
@@ -660,14 +539,12 @@ if (0 == count($teamList)) {
          }
 	  }
      echo"</div>\n";
-
-     echo"<div>\n";
-     echo "<br/>";
-     echo "<br/>";
+     echo"</div>\n";
+     
+     echo"<div style='margin-top:2em;'>\n";
 	  echo "<br/>";
      echo "<br/>";
-     echo "<hr/>";
-     echo "<br/>";
+     echo "<hr style='margin-bottom:2em;'/>";
      displayDurationsByStatus($issue);
      echo"</div>\n";
 
@@ -683,16 +560,19 @@ if (0 == count($teamList)) {
       echo "<br/>";
       echo T_("Sorry, you are not allowed to view the details of this task")." (".mantisIssueURL($bug_id).").<br/>";
   }
-
-
+  
+  // Get the content and clean/close the buffer
+  $html = ob_get_clean();
+} else {
+    // Clean/close the buffer
+    ob_end_clean();
 }
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
 
+$smartyHelper = new SmartyHelper();
+$smartyHelper->assign('pageName', T_('Activity by task'));
+if(isset($html)) {
+    $smartyHelper->assign('html', $html);
+}
+
+$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 ?>
-
-</div>
-
-<?php include 'footer.inc.php'; ?>
