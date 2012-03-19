@@ -53,8 +53,9 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    global $logger;
 
    // Display form
-   echo "<div style='text-align: center;'>";
-   echo "<form name='form1' method='post' Action='$originPage'>\n";
+   echo "<div style='text-align: center;;margin-top:2em;'>";
+   echo "<form name='form1' method='post' action='$originPage'>\n";
+   echo "<fieldset>";
 
    $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
 
@@ -114,7 +115,7 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    foreach ($issueList as $bugid) {
          $issue = new Issue ($bugid);
       if ($bugid == $defaultBugid) {
-         echo "<option selected value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
+         echo "<option selected='selected' value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       } else {
          echo "<option value='".$bugid."'>".$bugid." / $issue->tcId : $issue->summary</option>\n";
       }
@@ -123,7 +124,7 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    #echo "</td>\n";
 
    #echo "<td>\n";
-   echo "<input type=button value='".T_("Jump")."' onClick='javascript: submitForm()'>\n";
+   echo "<input type='button' value='".T_("Jump")."' onclick='javascript: submitForm()' />\n";
    #echo "</td>\n";
 /*
    if (0 != $defaultBugid) {
@@ -136,9 +137,10 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    #echo "</tr>\n";
    #echo "</table>\n";
 
-   echo "<input type=hidden name=bugid  value=$defaultBugid>\n";
-   echo "<input type=hidden name=projectid value=$defaultProjectid>\n";
-   echo "<input type=hidden name=action       value=noAction>\n";
+   echo "<input type='hidden' name='bugid'  value='$defaultBugid' />\n";
+   echo "<input type='hidden' name='projectid' value='$defaultProjectid' />\n";
+   echo "<input type='hidden' name='action'       value='noAction' />\n";
+   echo "</fieldset>";
    echo "</form>\n";
 
    echo "</div>";
@@ -154,8 +156,6 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
  * @param unknown_type $isManager if true: show MgrEffortEstim column
  */
 function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=false, $isManager=false ) {
-
-  echo "<div>\n";
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Indicator")."</th>\n";
@@ -166,7 +166,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "  </tr>\n";
 
   echo "<tr>\n";
-  echo "<td title='BI + BS'>".T_("Estimated effort")."</th>\n";
+  echo "<td title='BI + BS'>".T_("Estimated effort")."</td>\n";
   # TODO display mgrEE only if teamManager
   if ($isManager) {
      echo "<td>".$issue->mgrEffortEstim."</td>\n";
@@ -235,7 +235,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "</table>\n";
 
    // create links for JQUERY dialogBox
-   echo "<script>\n";
+   echo "<script type='text/javascript'>\n";
    echo "$(function() {\n";
       	echo "$( '#update_remaining_link' ).click(function(event) {\n";
       	echo "   event.preventDefault();\n";
@@ -247,15 +247,10 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
 		echo "});\n";
     echo "});\n";
     echo "</script>\n";
-
-  echo "</div>\n";
-
 }
 
 // ---------------------------------------------------------------
 function displayTimeDrift($issue) {
-
-  echo "<div>\n";
   echo "<table>\n";
   echo "<tr>\n";
   echo "  <th>".T_("Dates")."</th>\n";
@@ -290,8 +285,6 @@ function displayTimeDrift($issue) {
   }
   echo "</tr>\n";
   echo "</table>\n";
-  echo "</div>\n";
-
 }
 
 // ---------------------------------------------------------------
@@ -301,7 +294,6 @@ function displayJobDetails($issue) {
    $durationByJob = array();
    $jobs = new Jobs();
 
-   echo "<div>\n";
    echo "<table>\n";
    echo "<tr>\n";
    echo "<th>".T_("Job")."</th>\n";
@@ -324,7 +316,6 @@ function displayJobDetails($issue) {
       echo "</tr>\n";
    }
   echo "</table>\n";
-  echo"</div>\n";
 }
 
 
@@ -419,7 +410,7 @@ function displayMonth($month, $year, $issue) {
 
     $issue->computeDurations ();
 
-    echo "<div class='float'>\n";
+    echo "<div>\n";
 
     echo "<table>\n";
     echo "<caption>".T_("Time allocation by status")."</caption>";
@@ -504,8 +495,8 @@ if (count($teamList) > 0) {
 
 	  echo "<br/><br/>\n";
 
-     echo "<div id='content' class='center'>";
-	  echo "<hr width='80%'/>\n";
+     echo "<div style='margin-top:2em;' class='center'>";
+	  echo "<hr style='width:80%' />\n";
      echo "<br/>";
      echo "<h2>$issue->summary</h2>\n";
      echo "".mantisIssueURL($issue->bugId)." / <span title='".T_("External ID")."'>$issue->tcId</span><br/>\n";
@@ -517,42 +508,30 @@ if (count($teamList) > 0) {
      echo "<br/>";
      echo "<br/>";
      echo "<br/>";
-     echo "<br/>";
-     echo "<br/>";
 
      // -------------
-     echo"<div>\n";
+     echo"<div style='margin-top:2em'>\n";
 
-     echo "<span style='display: inline-block;'>\n";
-
+     echo "<div style='display: inline-block;'>\n";
      $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
      displayIssueGeneralInfo($issue, $withSupport, $displaySupport, $isManager);
-     echo "</span>";
+     echo "</div>";
 
-     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
-     echo "<span style='display: inline-block;'>\n";
+     echo "<div style='display: inline-block;margin-left:7em;'>\n";
      displayJobDetails($issue);
-     echo "</span>";
+     echo "</div>";
 
-     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
-     echo "<span style='display: inline-block;'>\n";
+     echo "<div style='display: inline-block;margin-left:7em;'>\n";
      displayTimeDrift($issue);
-     echo "</span>";
+     echo "</div>";
 
      echo"</div>\n";
 
      // -------------
-	  echo"<div>\n";
+	  echo"<div style='margin-top:2em;'>\n";
 
-     echo "<br/>";
 	  echo "<br/>";
-	  echo "<br/>";
-     echo "<hr/>";
-     echo "<br/>";
+     echo "<hr style='margin-bottom:2em;'/>";
 
      for ($y = date('Y', $issue->dateSubmission); $y <= $year; $y++) {
          for ($m = 1; $m <= 12; $m++) {
@@ -560,14 +539,12 @@ if (count($teamList) > 0) {
          }
 	  }
      echo"</div>\n";
-
-     echo"<div>\n";
-     echo "<br/>";
-     echo "<br/>";
+     echo"</div>\n";
+     
+     echo"<div style='margin-top:2em;'>\n";
 	  echo "<br/>";
      echo "<br/>";
-     echo "<hr/>";
-     echo "<br/>";
+     echo "<hr style='margin-bottom:2em;'/>";
      displayDurationsByStatus($issue);
      echo"</div>\n";
 

@@ -1,10 +1,5 @@
 {if $html}
-<style>
-   fieldset { padding:0; border:0; }
-   validateTips { border: 1px solid transparent; padding: 0.3em; }
-</style>
-
-<script language="JavaScript">
+<script type="text/javascript">
   function submitForm() {
     document.forms["form1"].bugid.value = document.getElementById('bugidSelector').value;
     document.forms["form1"].projectid.value = document.getElementById('projectidSelector').value;
@@ -79,18 +74,17 @@
 
 <div id="content">
     {$html}
-    <br/><br/><br/><br/>
 </div>
 
 <div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style='display: none'>
-    <p id="validateTips">Set new value</p>
-    <form id='formUpdateRemaining' name='formUpdateRemaining' method='post' Action='issue_info.php' >
-       <fieldset>
-           <label for="remaining">Remaining: </label>
-           <input type='text'  id='remaining' name='remaining' size='3' class='text' />
-       </fieldset>
-      <input type='hidden' name='bugid'  value='0' >
-      <input type='hidden' name='action' value='updateRemainingAction' >
+    <p id="validateTips" style="border: 1px solid transparent; padding: 0.3em;">Set new value</p>
+    <form id='formUpdateRemaining' name='formUpdateRemaining' method='post' action='issue_info.php' >
+        <fieldset>
+            <label for="remaining">Remaining: </label>
+            <input type='text'  id='remaining' name='remaining' size='3' class='text' />
+            <input type='hidden' name='bugid'  value='0' />
+            <input type='hidden' name='action' value='updateRemainingAction' />
+        </fieldset>
     </form>
 </div>
 {else}
