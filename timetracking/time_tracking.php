@@ -41,16 +41,11 @@ include_once "time_tracking_tools.php";
 require_once('tc_calendar.php');
 ?>
 
-<style>
-   fieldset { padding:0; border:0; }
-   validateTips { border: 1px solid transparent; padding: 0.3em; }
-</style>
-
 <script language="JavaScript">
   function submitUser(){
     // check fields
     foundError = 0;
-    msgString = "Les champs suivants ont ete oublies:\n\n"
+    msgString = "Les champs suivants ont ete oublies:\n\n";
 
     if (0 == document.forms["formUserAndPeriodSelect"].userid.value)  { msgString += "Nom\n"; ++foundError; }
 
@@ -100,7 +95,7 @@ require_once('tc_calendar.php');
   function addTrack(){
     // check fields
     foundError = 0;
-    msgString = "Les champs suivants ont ete oublies:\n\n"
+    msgString = "Les champs suivants ont ete oublies:\n\n";
 
     //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
     if (0 == document.forms["form1"].bugid.value)     { msgString += "Tache\n"; ++foundError; }

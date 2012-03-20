@@ -38,7 +38,7 @@ if (!isset($_SESSION['userid'])) {
   function submitTeam() {
     // check fields
     foundError = 0;
-    msgString = "Les champs suivants ont &eacute;t&eacute; oubli&eacute;s:\n\n"
+    msgString = "Les champs suivants ont &eacute;t&eacute; oubli&eacute;s:\n\n";
         
     if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
                    

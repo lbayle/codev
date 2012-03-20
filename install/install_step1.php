@@ -31,7 +31,7 @@
 function setDatabaseInfo(){
    // check fields
    foundError = 0;
-   msgString = "The following fields are missing:\n\n"
+   msgString = "The following fields are missing:\n\n";
 
    if (0 == document.forms["databaseForm"].db_mantis_host.value)     { msgString += "Hostname\n"; ++foundError; }
    if (0 == document.forms["databaseForm"].db_mantis_database.value)     { msgString += "Database\n"; ++foundError; }

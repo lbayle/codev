@@ -42,7 +42,7 @@ if (!isset($_SESSION['userid'])) {
 function submitUser(){
    // check fields
    foundError = 0;
-   msgString = "Les champs suivants ont ete oublies:\n\n"
+   msgString = "Les champs suivants ont ete oublies:\n\n";
 
    if (0 == document.forms["formUserAndPeriodSelect"].userid.value)  { msgString += "Nom\n"; ++foundError; }
 
@@ -73,7 +73,7 @@ function setProjectid() {
 
       // check fields
       foundError = 0;
-      msgString = "Les champs suivants ont ete oublies:\n\n"
+      msgString = "Les champs suivants ont ete oublies:\n\n";
 
       if (0 == document.forms["form1"].bugid.value)     { msgString += "Fiche\n"; ++foundError; }
       if (0 == document.forms["form1"].job.value)       { msgString += "Poste\n";  ++foundError; }

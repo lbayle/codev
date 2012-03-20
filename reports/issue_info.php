@@ -34,11 +34,6 @@ if (!isset($_SESSION['userid'])) {
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
 
-<style>
-   fieldset { padding:0; border:0; }
-   validateTips { border: 1px solid transparent; padding: 0.3em; }
-</style>
-
 <script language="JavaScript">
   function submitForm() {
     document.forms["form1"].bugid.value = document.getElementById('bugidSelector').value;
