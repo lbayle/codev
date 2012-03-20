@@ -1,5 +1,7 @@
 <?php  if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
-<?php /*
+<?php
+
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -14,14 +16,9 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php
-include_once 'path.inc.php';
-include_once 'i18n.inc.php';
-include 'header.inc.php';
-
-
+require('path.inc.php');
 
 unset($_SESSION['userid']);
 unset($_SESSION['username']);
@@ -29,9 +26,7 @@ unset($_SESSION['realname']);
 session_destroy();
 
 // load homepage
-echo '<script language="javascript"> window.location="',getServerRootURL(),'"; </script>';
-
+header('Location: '.getServerRootURL());
+exit;
 
 ?>
-
-<?php include 'footer.inc.php'; ?>
