@@ -41,7 +41,7 @@ if (!isset($_SESSION['userid'])) {
 function addTeam(){
    // check fields
    foundError = 0;
-   msgString = "Les champs suivants ont &eacute;t&eacute; oubli&eacute;s:\n\n"
+   msgString = "Les champs suivants ont &eacute;t&eacute; oubli&eacute;s:\n\n";
 
    if (0 == document.forms["teamCreationForm"].team_name.value)     { msgString += "Team Name\n"; ++foundError; }
    if (0 == document.forms["teamCreationForm"].team_desc.value)     { msgString += "Team Description\n"; ++foundError; }

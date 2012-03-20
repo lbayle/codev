@@ -42,7 +42,7 @@ if (!isset($_SESSION['userid'])) {
 function addJob() {
      // check fields
      foundError = 0;
-     msgString = "Les champs suivants ont ete oublies:\n\n"
+     msgString = "Les champs suivants ont ete oublies:\n\n";
 
      if ("" == document.forms["addJobForm"].job_name.value)      { msgString += "Job Name\n"; ++foundError; }
      if ("" == document.forms["addJobForm"].job_color.value)     { msgString += "Job Color\n"; ++foundError; }
@@ -68,7 +68,7 @@ function deleteJob(id, description){
 function addJobProjectAssociation() {
      // check fields
      foundError = 0;
-     msgString = "Les champs suivants ont ete oublies:\n\n"
+     msgString = "Les champs suivants ont ete oublies:\n\n";
 
      foundProjects = 0;
      var select = document.forms["addJobProjectAssociationForm"].elements['projects[]'];

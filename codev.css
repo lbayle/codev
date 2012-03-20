@@ -1,6 +1,3 @@
-
-
-
 body {
   font-family: Verdana, Arial, Helvetica, sans-serif;
   color: black;
@@ -22,79 +19,82 @@ img {
 }
 table {
   border: 1px solid black;
-  //border-collapse: collapse;
+  /*border-collapse: collapse;*/
 }
 caption {
-  font-size: larger;
-  font-weight: bold;
-  text-align: left;
+font-size: larger;
+font-weight: bold;
+text-align: left;
 }
 th {
-  background-color: #c8c8e8;
-  border: 0px solid white;
-  margin: 0;
-  padding: 0px 2px;
+background-color: #c8c8e8;
+border: 0 solid white;
+margin: 0;
+padding: 0 2px;
 }
 
 tr.row_even td {
-  background-color: #CFCFCF;
-  border: 0px solid white;
-  margin: 0;
-  padding: 0px 2px;
+background-color: #CFCFCF;
+border: 0 solid white;
+margin: 0;
+padding: 0 2px;
 }
 
 tr.row_odd td {
-  background-color: #e8e8e8;
-  border: 0px solid white;
-  margin: 0;
-  padding: 0px 2px;
+background-color: #e8e8e8;
+border: 0 solid white;
+margin: 0;
+padding: 0 2px;
 }
 
 td {
-  background-color: #e8e8e8;
-  border: 0px solid white;
-  margin: 0;
-  padding: 0px 2px;
+background-color: #e8e8e8;
+border: 0 solid white;
+margin: 0;
+padding: 0 2px;
 }
+fieldset { padding:0; border:0; }
+#validateTips { border: 1px solid transparent; padding: 0.3em; }
+.validateTips { border: 1px solid transparent; padding: 0.3em; }
 
 #login {
-  text-align: left;
-  padding: 4px;
+text-align: left;
+padding: 4px;
 }
 
 #header table {
-  border: 1px solid white; 
-  width: 100%
+border: 1px solid white;
+width: 100%
 }
 #header td {
-  background-color: white;
-  border: 0px solid white;
-  font-family : Verdana,Arial,Helvetica,sans-serif;
-  white-space : nowrap;
-  text-align : center;
-  font-size: 12px;
-  padding: 0px;
+background-color: white;
+border: 0 solid white;
+font-family : Verdana,Arial,Helvetica,sans-serif;
+white-space : nowrap;
+text-align : center;
+font-size: 12px;
+padding: 0;
 }
 
 table.invisible {
-  border: 0;
-  background-color: white; 
+border: 0;
+background-color: white;
 }
 table.invisible td {
-  background-color: white;
-  border: 0px solid white;
-  font-family : Verdana,Arial,Helvetica,sans-serif;
-  white-space : nowrap;
-  text-align : left;
-  font-size: 12px;
-  padding: 3px;
+background-color: white;
+border: 0 solid white;
+font-family : Verdana,Arial,Helvetica,sans-serif;
+white-space : nowrap;
+text-align : left;
+font-size: 12px;
+padding: 3px;
 }
 
 
 
 #homepage_list {
-  font-size: larger;
-  font-weight: bold;
+font-size: larger;
+font-weight: bold;
 }
 
 #menu {
@@ -111,7 +111,7 @@ table.invisible td {
 }
 #menu td {
   background-color: #e8e8e8;
-  border: 0px solid white;
+  border: 0 solid white;
   font-family : Verdana,Arial,Helvetica,sans-serif;
   white-space : nowrap;
   text-align : center;
