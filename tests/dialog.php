@@ -29,11 +29,6 @@ include 'header.inc.php';
 <?php include 'login.inc.php'; ?>
 <?php include 'menu.inc.php'; ?>
 
-	<style>
-		fieldset { padding:0; border:0; }
-		.validateTips { border: 1px solid transparent; padding: 0.3em; }
-	</style>
-
 	<script>
 	$(function() {
 

@@ -43,7 +43,7 @@ function addHoliday() {
 
      // check fields
      foundError = 0;
-     msgString = "Les champs suivants ont ete oublies:\n\n"
+     msgString = "Les champs suivants ont ete oublies:\n\n";
 
      if ("" == document.forms["addHolidayForm"].hol_desc.value)     { msgString += "Holiday Description\n"; ++foundError; }
 
