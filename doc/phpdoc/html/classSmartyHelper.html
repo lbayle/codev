@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>CodevTT: GanttManager Class Reference</title>
+<title>CodevTT: SmartyHelper Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
@@ -62,49 +62,63 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">GanttManager Class Reference</div>  </div>
+<div class="title">SmartyHelper Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="GanttManager" -->
-<p><a href="classGanttManager-members.html">List of all members.</a></p>
+<!-- doxytag: class="SmartyHelper" -->
+<p><a href="classSmartyHelper-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGanttManager.html#ae6c080a72646534fa9a4b08f209ad171">__construct</a> ($teamId, $startT=NULL, $endT=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGanttManager.html#a651598dd4727e8734d6eef2b636c113a">setProjectFilter</a> ($projList)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09af64fbdf2e91aceb49deac72a0a8c5"></a><!-- doxytag: member="GanttManager::getTeamActivities" ref="a09af64fbdf2e91aceb49deac72a0a8c5" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getTeamActivities</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adeb3245f23259c91aef11b6d21956efa"></a><!-- doxytag: member="GanttManager::getGanttGraph" ref="adeb3245f23259c91aef11b6d21956efa" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getGanttGraph</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyHelper.html#a453f617a5ca1e3671dbf13454d3aad4a">__construct</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyHelper.html#a101fc22bc21664d3a2a9bd67e42d57e5">assign</a> ($key, $value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyHelper.html#aa7ebb238773ee280072b0b181a927979">display</a> ($template)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyHelper.html#a5621fdb2722b839feb61a8c1b6f0d6d9">displayTemplate</a> ($codevVersion, $username, $realname, $mantisURL)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>1) recupere la liste des taches finies (status &gt;= bug_resolved_status_threshold) 1.1) convertis en <a class="el" href="classGanttActivity.html">GanttActivity</a>. (aucun calcul, les dates debut/fin sont connues) et dispatch dans des userActivityList</p>
-<p>2) recupere toutes les taches en cours de l'equipe (status &lt; bug_resolved_status_threshold)</p>
-<p>3) trie taches en cours</p>
-<p>4) convertis en <a class="el" href="classGanttActivity.html">GanttActivity</a> et dispatch dans les userActivityList en calculant les dates.</p>
-<p>5) cree le grath </p>
+<div class="textblock"><p>Smarty helper : Construct a smarty objet for templating engine </p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ae6c080a72646534fa9a4b08f209ad171"></a><!-- doxytag: member="GanttManager::__construct" ref="ae6c080a72646534fa9a4b08f209ad171" args="($teamId, $startT=NULL, $endT=NULL)" -->
+<a class="anchor" id="a453f617a5ca1e3671dbf13454d3aad4a"></a><!-- doxytag: member="SmartyHelper::__construct" ref="a453f617a5ca1e3671dbf13454d3aad4a" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">GanttManager::__construct </td>
+          <td class="memname">SmartyHelper::__construct </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Constructor </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">String</td><td>Version of codev </td></tr>
+    <tr><td class="paramname">String</td><td><a class="el" href="classUser.html">User</a> name </td></tr>
+    <tr><td class="paramname">String</td><td>Real name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="a101fc22bc21664d3a2a9bd67e42d57e5"></a><!-- doxytag: member="SmartyHelper::assign" ref="a101fc22bc21664d3a2a9bd67e42d57e5" args="($key, $value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SmartyHelper::assign </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>teamId</em>, </td>
+          <td class="paramname"><em>key</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>startT</em> = <code>NULL</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>endT</em> = <code>NULL</code>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -114,38 +128,92 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Asign the key to value </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">$teamId</td><td></td></tr>
-    <tr><td class="paramname">$startT</td><td>start timestamp. if NULL, then now </td></tr>
-    <tr><td class="paramname">$endT</td><td>end timestamp. if NULL, shedule all remaining tasks </td></tr>
+    <tr><td class="paramname">String</td><td>The key </td></tr>
+    <tr><td class="paramname">String</td><td>The value </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a651598dd4727e8734d6eef2b636c113a"></a><!-- doxytag: member="GanttManager::setProjectFilter" ref="a651598dd4727e8734d6eef2b636c113a" args="($projList)" -->
+<a class="anchor" id="aa7ebb238773ee280072b0b181a927979"></a><!-- doxytag: member="SmartyHelper::display" ref="aa7ebb238773ee280072b0b181a927979" args="($template)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">GanttManager::setProjectFilter </td>
+          <td class="memname">SmartyHelper::display </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>projList</em></td><td>)</td>
+          <td class="paramname"><em>template</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>set a list of projects that will be displayed </p>
+<p>Display the template </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">String</td><td>the template to be displayed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5621fdb2722b839feb61a8c1b6f0d6d9"></a><!-- doxytag: member="SmartyHelper::displayTemplate" ref="a5621fdb2722b839feb61a8c1b6f0d6d9" args="($codevVersion, $username, $realname, $mantisURL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SmartyHelper::displayTemplate </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>codevVersion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>username</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>realname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>mantisURL</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Display the default template </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">String</td><td>Version of codev </td></tr>
+    <tr><td class="paramname">String</td><td><a class="el" href="classUser.html">User</a> name </td></tr>
+    <tr><td class="paramname">String</td><td>Real name </td></tr>
+    <tr><td class="paramname">String</td><td>Mantis URL </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>classes/gantt_manager.class.php</li>
+<li>classes/smarty_helper.class.php</li>
 </ul>
 </div>
 <!-- window showing the filter options -->

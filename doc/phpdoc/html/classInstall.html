@@ -72,7 +72,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#ab3cb533c83a78192f712e09d6b353fd3">checkDBConnection</a> ($db_mantis_host= 'localhost', $db_mantis_user= 'codev', $db_mantis_pass= '', $db_mantis_database= 'bugtracker')</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#a6ea8de7cc058bcbff3517f44246243ef">checkDBConnection</a> ($db_mantis_host= 'localhost', $db_mantis_user= 'codevtt', $db_mantis_pass= '', $db_mantis_database= 'bugtracker')</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#a4c0d43fa85195899a195fb6d6cbbe2c2">checkDBprivileges</a> ($db_mantis_database= 'bugtracker')</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#a0c0fbcd22a769aa1590b3ed169842a83">createMysqlConfigFile</a> ($db_mantis_host= 'localhost', $db_mantis_user= 'codev', $db_mantis_pass= '', $db_mantis_database= 'bugtracker')</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#a58368bbbfdb0d4dac7a42f8bd42ff2db">updateMantisCustomFiles</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#aeca189c25e3e711dca7dfac80f3f7c7f">createCustomField</a> ($fieldName, $fieldType, $configId, $attributes=NULL, $default_value=NULL, $possible_values=NULL)</td></tr>
@@ -133,7 +134,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELA
 
 </div>
 </div>
-<a class="anchor" id="ab3cb533c83a78192f712e09d6b353fd3"></a><!-- doxytag: member="Install::checkDBConnection" ref="ab3cb533c83a78192f712e09d6b353fd3" args="($db_mantis_host= 'localhost', $db_mantis_user= 'codev', $db_mantis_pass= '', $db_mantis_database= 'bugtracker')" -->
+<a class="anchor" id="a6ea8de7cc058bcbff3517f44246243ef"></a><!-- doxytag: member="Install::checkDBConnection" ref="a6ea8de7cc058bcbff3517f44246243ef" args="($db_mantis_host= 'localhost', $db_mantis_user= 'codevtt', $db_mantis_pass= '', $db_mantis_database= 'bugtracker')" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -147,7 +148,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELA
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>db_mantis_user</em> = <code>'codev'</code>, </td>
+          <td class="paramname"><em>db_mantis_user</em> = <code>'codevtt'</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -179,6 +180,26 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELA
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>NULL if OK, or an error message starting with 'ERROR' . </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4c0d43fa85195899a195fb6d6cbbe2c2"></a><!-- doxytag: member="Install::checkDBprivileges" ref="a4c0d43fa85195899a195fb6d6cbbe2c2" args="($db_mantis_database= 'bugtracker')" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Install::checkDBprivileges </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>db_mantis_database</em> = <code>'bugtracker'</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>check if the user has enough privileges to create tables &amp; procedures</p>
+<p>TODO: if 'CREATE' not set but 'CREATE ROUTINE' set, then this method will not see that 'CREATE' is missing !</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>NULL if OK, or an error message starting with 'ERROR' . </dd></dl>
 
 </div>
@@ -243,7 +264,8 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELA
 </div>
 <div class="memdoc">
 <p>Creates constants.php that contains variable definitions that the codev admin may want to tune.</p>
-<p>WARN: depending on your HTTP server installation, the file may be created by user 'apache', so be sure that this user has write access to the CoDev install directory </p>
+<p>WARN: depending on your HTTP server installation, the file may be created by user 'apache', so be sure that this user has write access to the CoDev install directory</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>NULL if OK, or an error message starting with 'ERROR' . </dd></dl>
 
 </div>
 </div>
@@ -379,7 +401,8 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELA
 </div>
 <div class="memdoc">
 <p>updates mysql_config_inc.php with connection parameters</p>
-<p>WARN: depending on your HTTP server installation, the file may be created by user 'apache', so be sure that this user has write access to the CoDev install directory </p>
+<p>WARN: depending on your HTTP server installation, the file may be created by user 'apache', so be sure that this user has write access to the CoDev install directory</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>NULL if Success, ErrorString if Failed </dd></dl>
 
 </div>
 </div>
@@ -438,7 +461,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELA
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon Mar 12 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

@@ -89,6 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
 <li>__construct()
 : <a class="el" href="classGanttManager.html#ae6c080a72646534fa9a4b08f209ad171">GanttManager</a>
+, <a class="el" href="classSmartyHelper.html#a453f617a5ca1e3671dbf13454d3aad4a">SmartyHelper</a>
 </li>
 </ul>
 
@@ -109,6 +110,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>addProject()
 : <a class="el" href="classTeam.html#a6da1b35ceb925c662b04f132deda663f">Team</a>
 </li>
+<li>assign()
+: <a class="el" href="classSmartyHelper.html#a101fc22bc21664d3a2a9bd67e42d57e5">SmartyHelper</a>
+</li>
 </ul>
 
 
@@ -121,7 +125,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classConsistencyCheck.html#a1975d002a1cc6b0d75602abc92993519">ConsistencyCheck</a>
 </li>
 <li>checkDBConnection()
-: <a class="el" href="classInstall.html#ab3cb533c83a78192f712e09d6b353fd3">Install</a>
+: <a class="el" href="classInstall.html#a6ea8de7cc058bcbff3517f44246243ef">Install</a>
+</li>
+<li>checkDBprivileges()
+: <a class="el" href="classInstall.html#a4c0d43fa85195899a195fb6d6cbbe2c2">Install</a>
 </li>
 <li>checkDeliveryDate()
 : <a class="el" href="classConsistencyCheck.html#a1fb98f8e6e044c051d04693d6b6c5af6">ConsistencyCheck</a>
@@ -146,9 +153,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classIssue.html#a8ec6f7fa92e86d8c48dd170cc6afad59">Issue</a>
 </li>
 <li>create()
-: <a class="el" href="classTimeTrack.html#a04216e7e6a24ed17e7c208bc50e40799">TimeTrack</a>
+: <a class="el" href="classTeam.html#a32de459ea26caca1a370a2c5531e9ad6">Team</a>
+, <a class="el" href="classTimeTrack.html#a04216e7e6a24ed17e7c208bc50e40799">TimeTrack</a>
 , <a class="el" href="classJobs.html#a10e2844ba0e8f4d8c2a73106293a1bd1">Jobs</a>
-, <a class="el" href="classTeam.html#a32de459ea26caca1a370a2c5531e9ad6">Team</a>
 </li>
 <li>createAdminTeam()
 : <a class="el" href="classInstall.html#a6c74bf8b676a246feca964e31ef069d2">Install</a>
@@ -160,15 +167,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classInstall.html#aeca189c25e3e711dca7dfac80f3f7c7f">Install</a>
 </li>
 <li>createExternalTasksProject()
-: <a class="el" href="classProject.html#ae933cfbb116281fa18632dc7ba3dffac">Project</a>
-, <a class="el" href="classInstall.html#ab477f61b4ef2136d116fe18a32e42fd0">Install</a>
+: <a class="el" href="classInstall.html#ab477f61b4ef2136d116fe18a32e42fd0">Install</a>
+, <a class="el" href="classProject.html#ae933cfbb116281fa18632dc7ba3dffac">Project</a>
 </li>
 <li>createMysqlConfigFile()
 : <a class="el" href="classInstall.html#a0c0fbcd22a769aa1590b3ed169842a83">Install</a>
 </li>
 <li>createSideTaskProject()
-: <a class="el" href="classTeam.html#a2e8ee9f1c20376daa1f222cd12109290">Team</a>
-, <a class="el" href="classProject.html#ae29f9fe704b58112b954aad1a27b038d">Project</a>
+: <a class="el" href="classProject.html#ae29f9fe704b58112b954aad1a27b038d">Project</a>
+, <a class="el" href="classTeam.html#a2e8ee9f1c20376daa1f222cd12109290">Team</a>
 </li>
 </ul>
 
@@ -182,6 +189,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>deleteValue()
 : <a class="el" href="classConfig.html#a868173320f69391c9bbba9401fc9be66">Config</a>
+</li>
+<li>display()
+: <a class="el" href="classSmartyHelper.html#aa7ebb238773ee280072b0b181a927979">SmartyHelper</a>
+</li>
+<li>displayTemplate()
+: <a class="el" href="classSmartyHelper.html#a5621fdb2722b839feb61a8c1b6f0d6d9">SmartyHelper</a>
 </li>
 </ul>
 
@@ -239,12 +252,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getDrift()
 : <a class="el" href="classIssueSelection.html#ac505ef0ac1f07b3af2829bc11f2fc79e">IssueSelection</a>
+, <a class="el" href="classProject.html#a8e73f25d2937278b97eef9066e75bb54">Project</a>
 </li>
 <li>getDriftColor()
 : <a class="el" href="classIssueSelection.html#ae8c585ad853ae7aba36a435e506045b5">IssueSelection</a>
 </li>
 <li>getDriftMgr()
-: <a class="el" href="classIssueSelection.html#a2c1aba87361eac0392c7a50ce4339bbe">IssueSelection</a>
+: <a class="el" href="classProject.html#a010960aa0ae9d1d1e0fa1391dff173ad">Project</a>
+, <a class="el" href="classIssueSelection.html#a2c1aba87361eac0392c7a50ce4339bbe">IssueSelection</a>
 </li>
 <li>getDuration()
 : <a class="el" href="classIssue.html#afbf6d4b623b3f5f0d00ebb46f32d78a7">Issue</a>
@@ -300,7 +315,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getProgress()
 : <a class="el" href="classIssue.html#af33ec7fe7880debf1ef1a88e01188795">Issue</a>
-, <a class="el" href="classIssueSelection.html#a88abec935775236b1471670a71a40caf">IssueSelection</a>
 </li>
 <li>getProgress_old()
 : <a class="el" href="classIssue.html#a7a7943c9bb1f8decf5c16105e2373f11">Issue</a>
@@ -371,6 +385,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
 <li>isHoliday()
 : <a class="el" href="classHolidays.html#a625fd4442d43ba12e7ddc1df538f9b27">Holidays</a>
+</li>
+<li>isResolved()
+: <a class="el" href="classIssue.html#a0744f69738f7ad3ef46fd55bb8ce0b9d">Issue</a>
 </li>
 </ul>
 
@@ -466,7 +483,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon Mar 12 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
