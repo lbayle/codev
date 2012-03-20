@@ -539,9 +539,9 @@ function displayMonth($month, $year, $issue) {
 // ================ MAIN =================
 $year = date('Y');
 
-// if 'nosupport' is set in the URL, display graphs for 'with/without Support'
-$displaySupport  = isset($_GET['nosupport']) ? false : true;
-$originPage = isset($_GET['nosupport']) ? "issue_info.php?nosupport" : "issue_info.php";
+// if 'support' is set in the URL, display graphs for 'with/without Support'
+$displaySupport  = isset($_GET['support']) ? true: false;
+$originPage = isset($_GET['support']) ? "issue_info.php?support" : "issue_info.php";
 
 $withSupport = true;  // include support in elapsed & Drift
 

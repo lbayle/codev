@@ -552,6 +552,8 @@ class Issue {
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
+      if (0 == $totalEstim) { return 0; }
+      
       if ($withSupport) {
       	$myElapsed = $this->elapsed;
       } else {
@@ -559,7 +561,6 @@ class Issue {
       	$myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 
-      if (0 == $totalEstim) { return 0; }
 
 	  if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          $derive = $myElapsed - $totalEstim;
@@ -582,8 +583,8 @@ class Issue {
    // REM if MgrEffortEstim = 0 then Drift = 0
    public function getDriftMgrEE($withSupport = true) {
 
-      if (0 == $this->elapsed ) {
-         $this->logger->debug("bugid ".$this->bugId." if elapsed == 0 then Drift = 0");
+      if (0 == $this->mgrEffortEstim ) {
+         $this->logger->debug("bugid ".$this->bugId." if mgrEffortEstim == 0 then Drift = 0");
          return 0;
       }
 
