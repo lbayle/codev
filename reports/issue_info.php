@@ -405,7 +405,10 @@ function displayJobDetails($issue) {
    #sort($durationByJob);
    foreach ($durationByJob as $jid => $duration) {
       echo "<tr>\n";
-      echo "   <td style='background-color: #".$jobs->getJobColor($jid).";'>".$jobs->getJobName($jid)."</td>\n";
+      echo "<td>";
+      echo "<img src='".getServerRootURL()."/graphs/rectangle.png.php?height=12&width=12&border&color=".$jobs->getJobColor($jid)."'/>";
+      echo " ".$jobs->getJobName($jid)."</td>\n";
+      
       echo "<td>$duration</td>\n";
       echo "<td>".round(($duration*100 / $totalDuration))." %</td>\n";
       echo "</tr>\n";
