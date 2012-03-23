@@ -28,7 +28,6 @@ if (isset($_SESSION['userid'])) {
 
 require('super_header.inc.php');
 
-
 $logger = Logger::getLogger('login');
 
 $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -49,7 +48,7 @@ if ('pleaseLogin' == $action) {
             $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')');
 
             // load homepage
-            header('Location: '.getServerRootURL());
+            header('Location: '.$_POST['redirect']);
             exit;
         } else {
             $logger->error('Query FAILED: '.$query);
@@ -68,6 +67,7 @@ $smartyHelper->assign('pageName', T_('CoDev Login'));
 if(isset($error)) {
     $smartyHelper->assign('error', T_($error));
 }
+$smartyHelper->assign('redirect', $_SERVER['HTTP_REFERER']);
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 
