@@ -5,6 +5,7 @@
             <label>{t}Password{/t}: </label><input name="codev_passwd" type="password" id="codev_passwd" />
             <input type="submit" name="Submit" value="{t}Login{/t}" />
             <input type="hidden" name="action" value="pleaseLogin" />
+            <input type="hidden" name="redirect" value="{$redirect}" />
         </fieldset>
     </form>
     {if $error}
