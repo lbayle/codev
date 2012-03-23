@@ -93,12 +93,12 @@ $logger = Logger::getLogger("productivity_report");
 // TODO mettre dans un fichier separe pour inclure aussi dans stats
   // ------ JQUERY --------
 echo "<div id='dialog_AvailWorkload' title='".T_("Available Workload")."' style='display: none'>";
-echo "<p>".T_("Workload Forecasting (holidays & externalTasks not included, developpers only)")."</p>";
+echo "<p>".T_("Workload Forecasting (holidays & externalTasks not included, developers only)")."</p>";
 echo "</div>";
 
 // ---
 echo "<div id='dialog_EfficiencyRate' title='".T_("Efficiency Rate")."' style='display: none'>";
-echo "<p>".T_("Development workload (developpers only)")."</p>";
+echo "<p>".T_("Development workload (developers only)")."</p>";
 echo "<p><strong>".T_("Formula").":</strong><br>";
 echo "ProjProdDays / TotalProdDays * 100</p>";
 echo "</div>";
@@ -601,7 +601,6 @@ function displayWorkingDaysPerJob($timeTracking, $teamid) {
 
   if (NULL != $formatedValues) {
      echo "<div class=\"float\">\n";
-     #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&title=".T_("Load per Job")."&legends=$formatedLegends&values=$formatedValues&colors=$formatedColors";
      $graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:150&legends=$formatedLegends&values=$formatedValues&colors=$formatedColors";
      #$graphURL = getServerRootURL()."/graphs/pie_graph.php?size=500:180&values=$formatedValues&colors=$formatedColors";
      $graphURL = SmartUrlEncode($graphURL);

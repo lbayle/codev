@@ -30,7 +30,7 @@ class Team {
     const accessLevel_observer = 20;    // in table codev_team_user_table
     const accessLevel_manager  = 30;    // in table codev_team_user_table
 
-    public static $accessLevelNames = array(Team::accessLevel_dev      => "Developper", // can modify, can NOT view stats
+    public static $accessLevelNames = array(Team::accessLevel_dev      => "Developer", // can modify, can NOT view stats
                               Team::accessLevel_observer => "Observer",  // can NOT modify, can view stats
                               //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
                               Team::accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
