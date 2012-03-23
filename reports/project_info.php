@@ -605,15 +605,17 @@ $isManager = true; // TODO
 
 $dTeamList = $user->getDevTeamList();
 $lTeamList = $user->getLeadedTeamList();
+$oTeamList = $user->getObservedTeamList();
 $managedTeamList = $user->getManagedTeamList();
-$teamList = $dTeamList + $lTeamList + $managedTeamList;
+$teamList = $dTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
 
 // --- define the list of tasks the user can display
-// All projects from teams where I'm a Developper or Manager (Observers not allowed)
+// All projects from teams where I'm a Developper or Manager AND Observers
 $devProjList     = $user->getProjectList();
 $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
-$projList = $devProjList + $managedProjList;
+$observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList);
+$projList = $devProjList + $managedProjList + $observedProjList;
 
 
 // if bugid is set in the URL, display directly

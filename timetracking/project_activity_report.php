@@ -322,8 +322,9 @@ if ("false" == $is_modified) {
 $user = UserCache::getInstance()->getUser($userid);
 $mTeamList = $user->getDevTeamList();
 $lTeamList = $user->getLeadedTeamList();
+$oTeamList = $user->getObservedTeamList();
 $managedTeamList = $user->getManagedTeamList();
-$teamList = $mTeamList + $lTeamList + $managedTeamList;
+$teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
 // dates
 $month = date('m');

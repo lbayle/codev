@@ -411,8 +411,9 @@ if ("false" == $is_modified) {
 $user = UserCache::getInstance()->getUser($userid);
 $mTeamList = $user->getDevTeamList();    // are team members allowed to see other member's timeTracking ?
 $lTeamList = $user->getLeadedTeamList();
+$oTeamList = $user->getObservedTeamList();
 $managedTeamList = $user->getManagedTeamList();
-$teamList = $mTeamList + $lTeamList + $managedTeamList;
+$teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
 if (0 == count($teamList)) {
 	echo T_("Sorry, you do NOT have access to this page.");
