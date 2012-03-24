@@ -26,12 +26,6 @@ if ((!file_exists('constants.php')) || (!file_exists('include/mysql_config.inc.p
 
 include_once ('path.inc.php');
 
-if (!isset($_SESSION['userid'])) {
-    // load login page
-    header('Location: '.getServerRootURL().'/login.php');
-    exit;
-}
-
 require('super_header.inc.php');
 
 $logger = Logger::getLogger("homepage");
@@ -150,15 +144,19 @@ if(isset($ie)) {
 */
 
 // Drifted tasks
-$driftedTasks = getIssuesInDrift($_SESSION['userid']);
-if(isset($driftedTasks)) {
-    $smartyHelper->assign('driftedTasks', $driftedTasks);
+if($_SESSION['userid']) {
+    $driftedTasks = getIssuesInDrift($_SESSION['userid']);
+    if(isset($driftedTasks)) {
+        $smartyHelper->assign('driftedTasks', $driftedTasks);
+    }
 }
 
 // Consistency errors
-$consistencyErrors = getConsistencyErrors($_SESSION['userid']);
-if(isset($consistencyErrors)) {
-    $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+if($_SESSION['userid']) {
+    $consistencyErrors = getConsistencyErrors($_SESSION['userid']);
+    if(isset($consistencyErrors)) {
+        $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+    }
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
