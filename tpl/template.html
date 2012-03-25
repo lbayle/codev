@@ -40,11 +40,13 @@
             </table>
         </div>
         
-        {if $username}
         <div id="login">
+        {if $username}
             {t}Logged in as {/t}{$username} ({$realname}) <span class="floatr"><a href="logout.php" title="logout">{t}log out{/t}</a></span>
-        </div>
+        {else}
+            {include file="modal/login.html"}
         {/if}
+        </div>
         
         <div id="menu">
             <table>

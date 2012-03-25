@@ -20,12 +20,6 @@
 
 require('../path.inc.php');
 
-if (!isset($_SESSION['userid'])) {
-    // load login page
-    header('Location: '.getServerRootURL().'/login.php');
-    exit;
-}
-
 require('super_header.inc.php');
 
 include_once('consistency_check.class.php');
@@ -75,10 +69,12 @@ $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Consistency Check'));
 
 // Consistency errors
-$consistencyErrors = getConsistencyErrors($_SESSION['userid']);
-$smartyHelper->assign('count', $count);
-if(isset($consistencyErrors)) {
-    $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+if (isset($_SESSION['userid'])) {
+    $consistencyErrors = getConsistencyErrors($_SESSION['userid']);
+    $smartyHelper->assign('count', $count);
+    if(isset($consistencyErrors)) {
+        $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+    }
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
