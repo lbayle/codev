@@ -28,7 +28,7 @@ if (!isset($_SESSION['userid'])) {
 $_POST['page_name'] = T_("Time Tracking");
 include 'header.inc.php';
 
-include_once '../tools.php';
+include_once 'tools.php';
 include 'login.inc.php';
 include 'menu.inc.php';
 
