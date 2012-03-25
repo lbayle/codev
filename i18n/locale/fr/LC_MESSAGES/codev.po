@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-26 00:30+0200\n"
+"POT-Creation-Date: 2012-03-26 00:53+0200\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -234,7 +234,7 @@ msgstr "sélection multiple"
 msgid "Projects"
 msgstr "Projets"
 
-#: admin/edit_jobs.php:316 admin/edit_team.php:604 i18n/locale/smarty.c:50
+#: admin/edit_jobs.php:316 admin/edit_team.php:604 i18n/locale/smarty.c:58
 #: reports/export_csv_tools.php:34 reports/issue_info.php:157
 #: reports/gantt_report.php:121 reports/productivity_report.php:240
 #: reports/productivity_report.php:469 reports/productivity_report.php:621
@@ -324,7 +324,7 @@ msgstr ""
 "Note: Un <i>TeamLeader</i> doit egalement etre déclaré comme <i>TeamMember</"
 "i> pour etre pris en compte dans les indicateurs de production."
 
-#: admin/edit_team.php:337
+#: admin/edit_team.php:337 i18n/locale/smarty.c:3
 msgid "login"
 msgstr "identifiant"
 
@@ -402,7 +402,7 @@ msgstr "Supprimer l'équipe"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: admin/edit_team.php:716 i18n/locale/smarty.c:35
+#: admin/edit_team.php:716 i18n/locale/smarty.c:43
 #: reports/export_csv_tools.php:217 reports/export_csv_weekly.php:144
 #: reports/issue_info.php:199 timetracking/project_activity_report.php:209
 #: timetracking/time_tracking_tools.php:217
@@ -489,137 +489,169 @@ msgstr "Guide d'Admin"
 msgid "Uninstall"
 msgstr "Désinstaller"
 
-#: i18n/locale/smarty.c:1 i18n/locale/smarty.c:3
+#: i18n/locale/smarty.c:1
+msgid "t"
+msgstr ""
+
+#: i18n/locale/smarty.c:2
+msgid "CodevTT Identification"
+msgstr "Identification CodevTT"
+
+#: i18n/locale/smarty.c:4
+msgid "password"
+msgstr "Mot de passe"
+
+#: i18n/locale/smarty.c:5
+msgid "OK"
+msgstr ""
+
+#: i18n/locale/smarty.c:6
+msgid "Loading"
+msgstr ""
+
+#: i18n/locale/smarty.c:7
 msgid "Login"
 msgstr "Identifiant"
 
-#: i18n/locale/smarty.c:2 doc/index.php:40 install/install_step1.php:98
+#: i18n/locale/smarty.c:8 doc/index.php:40 install/install_step1.php:98
 msgid "Password"
 msgstr "Mot de passe"
 
-#: i18n/locale/smarty.c:4 include/login.inc.php:28
+#: i18n/locale/smarty.c:9
+msgid "Redirection"
+msgstr "Redirection"
+
+#: i18n/locale/smarty.c:10
+msgid "You are successfully logged in!"
+msgstr "Connexion réussie !"
+
+#: i18n/locale/smarty.c:11
+msgid "Please wait while you're redirected..."
+msgstr "Veuillez patienter..."
+
+#: i18n/locale/smarty.c:12 include/login.inc.php:28
 msgid "Logged in as "
 msgstr "Connecté sous "
 
-#: i18n/locale/smarty.c:5 include/login.inc.php:28
+#: i18n/locale/smarty.c:13 include/login.inc.php:28
 msgid "log out"
 msgstr "déconnexion"
 
-#: i18n/locale/smarty.c:6 include/menu.inc.php:31
+#: i18n/locale/smarty.c:14 include/menu.inc.php:31
 #: install/uninstall_menu.inc.php:28
 msgid "Home"
 msgstr "Accueil"
 
-#: i18n/locale/smarty.c:7 i18n/locale/smarty.c:8 i18n/locale/smarty.c:42
+#: i18n/locale/smarty.c:15 i18n/locale/smarty.c:16 i18n/locale/smarty.c:50
 #: include/menu.inc.php:36 timetracking/time_tracking.php:28
 msgid "Time Tracking"
 msgstr "Saisie des CRA"
 
-#: i18n/locale/smarty.c:9 include/menu.inc.php:38
+#: i18n/locale/smarty.c:17 include/menu.inc.php:38
 msgid "Holidays Reports"
 msgstr "Suivi des Congés"
 
-#: i18n/locale/smarty.c:10 i18n/locale/smarty.c:43 include/menu.inc.php:38
+#: i18n/locale/smarty.c:18 i18n/locale/smarty.c:51 include/menu.inc.php:38
 msgid "Holidays"
 msgstr "Absences"
 
-#: i18n/locale/smarty.c:11 include/menu.inc.php:40
+#: i18n/locale/smarty.c:19 include/menu.inc.php:40
 msgid "Check DeadLines"
 msgstr "Respect des DeadLines"
 
-#: i18n/locale/smarty.c:12 i18n/locale/smarty.c:44 include/menu.inc.php:40
+#: i18n/locale/smarty.c:20 i18n/locale/smarty.c:52 include/menu.inc.php:40
 #: reports/planning_report.php:66
 msgid "Planning"
 msgstr "Planning"
 
-#: i18n/locale/smarty.c:13 include/menu.inc.php:42 reports/gantt_report.php:30
+#: i18n/locale/smarty.c:21 include/menu.inc.php:42 reports/gantt_report.php:30
 msgid "Gantt Chart"
 msgstr "Diagramme de Gantt"
 
-#: i18n/locale/smarty.c:14 include/menu.inc.php:42
+#: i18n/locale/smarty.c:22 include/menu.inc.php:42
 msgid "Gantt"
 msgstr "Gantt"
 
-#: i18n/locale/smarty.c:15 include/menu.inc.php:44
+#: i18n/locale/smarty.c:23 include/menu.inc.php:44
 msgid "Task Information"
 msgstr "Informations sur une fiche"
 
-#: i18n/locale/smarty.c:16 include/menu.inc.php:44
+#: i18n/locale/smarty.c:24 include/menu.inc.php:44
 msgid "Task info"
 msgstr "Info fiche"
 
-#: i18n/locale/smarty.c:17 include/menu.inc.php:46
+#: i18n/locale/smarty.c:25 include/menu.inc.php:46
 msgid "Project Information"
 msgstr "Informations sur un projet"
 
-#: i18n/locale/smarty.c:18 include/menu.inc.php:46
+#: i18n/locale/smarty.c:26 include/menu.inc.php:46
 msgid "Project info"
 msgstr "Info projet"
 
-#: i18n/locale/smarty.c:19 include/menu.inc.php:49
+#: i18n/locale/smarty.c:27 include/menu.inc.php:49
 msgid "Team Weekly activities"
 msgstr "Activité hebdomadaire de l équipe"
 
-#: i18n/locale/smarty.c:20 include/menu.inc.php:49
+#: i18n/locale/smarty.c:28 include/menu.inc.php:49
 #: timetracking/project_activity_report.php:30
 #: timetracking/team_activity_report.php:30
 msgid "Weekly activities"
 msgstr "Activité hebdo"
 
-#: i18n/locale/smarty.c:21 i18n/locale/smarty.c:22 include/menu.inc.php:51
+#: i18n/locale/smarty.c:29 i18n/locale/smarty.c:30 include/menu.inc.php:51
 #: reports/forecasting_report.php:30
 msgid "Forecasting"
 msgstr "Previsionnel"
 
-#: i18n/locale/smarty.c:23 i18n/locale/smarty.c:24 include/menu.inc.php:53
+#: i18n/locale/smarty.c:31 i18n/locale/smarty.c:32 include/menu.inc.php:53
 #: reports/statistics.php:30
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: i18n/locale/smarty.c:25 i18n/locale/smarty.c:26
+#: i18n/locale/smarty.c:33 i18n/locale/smarty.c:34
 msgid "Mantis Reports"
 msgstr "Rapports Mantis"
 
-#: i18n/locale/smarty.c:27 include/menu.inc.php:57
+#: i18n/locale/smarty.c:35 include/menu.inc.php:57
 msgid "Generate Excel Sheet"
 msgstr "Export fichier Excel"
 
-#: i18n/locale/smarty.c:28 include/menu.inc.php:57
+#: i18n/locale/smarty.c:36 include/menu.inc.php:57
 msgid "Export to CSV"
 msgstr "Export CSV"
 
-#: i18n/locale/smarty.c:29 include/menu.inc.php:59 tools/check.php:75
+#: i18n/locale/smarty.c:37 include/menu.inc.php:59 tools/check.php:69
 msgid "Consistency Check"
 msgstr "Test d intégrité"
 
-#: i18n/locale/smarty.c:30 include/menu.inc.php:59
+#: i18n/locale/smarty.c:38 include/menu.inc.php:59
 #: install/install_step3.php:108
 msgid "Check"
 msgstr "Check"
 
-#: i18n/locale/smarty.c:31 include/menu.inc.php:62
+#: i18n/locale/smarty.c:39 include/menu.inc.php:62
 #: install/uninstall_menu.inc.php:38 install/install_step3.php:270
 #: install/install_menu.inc.php:61
 msgid "Documentation"
 msgstr "Documentation"
 
-#: i18n/locale/smarty.c:32 include/menu.inc.php:64
+#: i18n/locale/smarty.c:40 include/menu.inc.php:64
 msgid "CoDev Administration"
 msgstr "Administration CoDev"
 
-#: i18n/locale/smarty.c:33
+#: i18n/locale/smarty.c:41
 msgid " Error(s) in Mantis Tasks"
 msgstr " Erreur(s) dans les fiches Mantis"
 
-#: i18n/locale/smarty.c:34 doc/index.php:37 install/install_step1.php:94
+#: i18n/locale/smarty.c:42 doc/index.php:37 install/install_step1.php:94
 msgid "User"
 msgstr "Utilisateur"
 
-#: i18n/locale/smarty.c:36
+#: i18n/locale/smarty.c:44
 msgid "last modification date"
 msgstr "date de derniere modification"
 
-#: i18n/locale/smarty.c:37 reports/export_csv_tools.php:38
+#: i18n/locale/smarty.c:45 reports/export_csv_tools.php:38
 #: reports/productivity_report.php:475 reports/project_info.php:457
 #: reports/project_info.php:537 reports/forecasting_report.php:273
 #: timetracking/project_activity_report.php:219
@@ -627,61 +659,61 @@ msgstr "date de derniere modification"
 msgid "Status"
 msgstr "Statut"
 
-#: i18n/locale/smarty.c:38
+#: i18n/locale/smarty.c:46
 msgid "Level"
 msgstr "Sévérité"
 
-#: i18n/locale/smarty.c:39
+#: i18n/locale/smarty.c:47
 msgid "Error Description"
 msgstr "Description de l'erreur"
 
-#: i18n/locale/smarty.c:40
+#: i18n/locale/smarty.c:48
 msgid "IE may not correctly display this website"
 msgstr "Il se peut que IE n'affiche pas correctement ce site,<br/>"
 
-#: i18n/locale/smarty.c:41
+#: i18n/locale/smarty.c:49
 msgid "please consider using a standard complient web-browser"
 msgstr ""
 "en cas de problemes, veuillez utiliser un navigateur respectant les "
 "standards du web."
 
-#: i18n/locale/smarty.c:45
+#: i18n/locale/smarty.c:53
 msgid "Task information"
 msgstr "Informations sur une fiche"
 
-#: i18n/locale/smarty.c:46
+#: i18n/locale/smarty.c:54
 msgid "Weekly activity"
 msgstr "Activité hebdomadaire"
 
-#: i18n/locale/smarty.c:47 doc/menu_doc.inc.php:12
+#: i18n/locale/smarty.c:55 doc/menu_doc.inc.php:12
 msgid "Productivity Reports"
 msgstr "Indicateurs de production"
 
-#: i18n/locale/smarty.c:48 reports/productivity_report.php:138
+#: i18n/locale/smarty.c:56 reports/productivity_report.php:138
 #: reports/productivity_report.php:385 reports/productivity_report.php:435
 #: reports/project_info.php:405 reports/forecasting_report.php:74
 #: reports/forecasting_report.php:224 reports/forecasting_report.php:261
 msgid "Tasks in drift"
 msgstr "Tâches en dérive"
 
-#: i18n/locale/smarty.c:49 reports/productivity_report.php:468
+#: i18n/locale/smarty.c:57 reports/productivity_report.php:468
 #: reports/project_info.php:447 reports/project_info.php:527
 #: reports/forecasting_report.php:263 timetracking/time_tracking_tools.php:104
 msgid "ID"
 msgstr "ID"
 
-#: i18n/locale/smarty.c:51
+#: i18n/locale/smarty.c:59
 msgid "Derive PrelEE"
 msgstr "Dérive PrelEE"
 
-#: i18n/locale/smarty.c:52 reports/productivity_report.php:474
+#: i18n/locale/smarty.c:60 reports/productivity_report.php:474
 #: reports/project_info.php:156 reports/project_info.php:225
 #: reports/project_info.php:454 reports/project_info.php:534
 #: reports/forecasting_report.php:270
 msgid "Drift"
 msgstr "Dérive"
 
-#: i18n/locale/smarty.c:53 reports/export_csv_tools.php:50
+#: i18n/locale/smarty.c:61 reports/export_csv_tools.php:50
 #: reports/export_csv_tools.php:218 reports/project_info.php:455
 #: reports/project_info.php:535 reports/forecasting_report.php:271
 #: timetracking/project_activity_report.php:221
@@ -691,17 +723,17 @@ msgstr "Dérive"
 msgid "RAF"
 msgstr "RAF"
 
-#: i18n/locale/smarty.c:54 reports/export_csv_tools.php:37
+#: i18n/locale/smarty.c:62 reports/export_csv_tools.php:37
 #: reports/productivity_report.php:476 reports/project_info.php:458
 #: reports/project_info.php:538 reports/forecasting_report.php:274
 msgid "Summary"
 msgstr "Description"
 
-#: i18n/locale/smarty.c:55
+#: i18n/locale/smarty.c:63
 msgid "update Remaining"
 msgstr "maj RAF"
 
-#: i18n/locale/smarty.c:56 reports/planning_report.php:509
+#: i18n/locale/smarty.c:64 reports/planning_report.php:509
 msgid "ERROR on task "
 msgstr "ERREUR Fiche "
 
@@ -2043,13 +2075,12 @@ msgid "No workflow transitions defined, using default configuration."
 msgstr ""
 "Aucun cycle de vie n'est défini, utilisation de la configuration par défaut."
 
-#: index.php:142
+#: index.php:136
 msgid "Welcome"
 msgstr "Bienvenue sur le serveur CoDevTT"
 
-#: login.php:66
-msgid "CoDev Login"
-msgstr "Connexion CodevTT"
+#~ msgid "CoDev Login"
+#~ msgstr "Connexion CodevTT"
 
 #~ msgid "No Error."
 #~ msgstr "Pas d'Erreur"
