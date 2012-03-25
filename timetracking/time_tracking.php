@@ -505,7 +505,15 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate,
    $isOnlyAssignedTo = ('0' == $user1->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
    $isHideResolved = ('0' == $user1->getTimetrackingFilter('hideResolved')) ? false : true;
    $isHideDevProjects = ('0' == $user1->getTimetrackingFilter('hideDevProjects')) ? false : true;
-   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$lbl_onlyAssignedTo."', '".$lbl_hideResolved."', '".$user1->id."', '".$defaultProjectid."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' align='absmiddle' src='../images/im-filter.png'></a>\n";
+
+    echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$lbl_onlyAssignedTo."', '".$lbl_hideResolved."', '".$user1->id."', '".$defaultProjectid."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >";
+    if($isOnlyAssignedTo || $isHideResolved) {
+        echo "<img border='0' width='16' heigh='12' align='absmiddle' src='../images/im-filter-active.png' alt='".T_("Filtered")."' />";
+    } else {
+        echo "<img border='0' width='16' heigh='12' align='absmiddle' src='../images/im-filter.png' alt='".T_("Not filtered")."' />";
+    }
+    echo "</a>\n";
+
 
    // --- Task list
    if (0 != $project1->id) {
