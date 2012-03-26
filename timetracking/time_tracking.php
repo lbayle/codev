@@ -27,11 +27,6 @@ include_once 'tools.php';
 include 'login.inc.php';
 include 'menu.inc.php';
 
-if (!isset($_SESSION['userid'])) {
-    echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-    exit;
-}
-
 // ----
 include_once "issue.class.php";
 include_once "project.class.php";
@@ -388,9 +383,9 @@ $logger = Logger::getLogger("time_tracking");
 
 // --------------------------------------------------------------
 function setUserForm($originPage) {
-	
+
   global $logger;
-  
+
   $accessLevel_dev     = Team::accessLevel_dev;
   $accessLevel_manager = Team::accessLevel_manager;
 
@@ -423,7 +418,7 @@ function setUserForm($originPage) {
   	echo "<span style='color:red'>ERROR: Query FAILED</span>";
   	exit;
   }
-  
+
   while($row = mysql_fetch_object($result))
   {
     if ($row->id == $_SESSION['userid']) {
@@ -447,11 +442,11 @@ function setUserForm($originPage) {
 }
 
 // --------------------------------------------------------------
-function addTrackForm($weekid, $curYear, $user1, $defaultDate, 
+function addTrackForm($weekid, $curYear, $user1, $defaultDate,
                       $defaultBugid, $defaultProjectid, $originPage) {
 
 	global $logger;
-	
+
    list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate);
 
    $myCalendar = new tc_calendar("date1", true, false);
@@ -505,13 +500,21 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate,
    $isOnlyAssignedTo = ('0' == $user1->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
    $isHideResolved = ('0' == $user1->getTimetrackingFilter('hideResolved')) ? false : true;
    $isHideDevProjects = ('0' == $user1->getTimetrackingFilter('hideDevProjects')) ? false : true;
-   echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$lbl_onlyAssignedTo."', '".$lbl_hideResolved."', '".$user1->id."', '".$defaultProjectid."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" ><img border='0' align='absmiddle' src='../images/im-filter.png'></a>\n";
+
+    echo "<a title='".T_("Set filters")."' href=\"javascript: setFilters('".$isOnlyAssignedTo."', '".$isHideResolved."', '".$description."', '".$lbl_onlyAssignedTo."', '".$lbl_hideResolved."', '".$user1->id."', '".$defaultProjectid."', '".$defaultBugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >";
+    if($isOnlyAssignedTo || $isHideResolved) {
+        echo "<img border='0' width='16' heigh='12' align='absmiddle' src='../images/im-filter-active.png' alt='".T_("Set filters")."' />";
+    } else {
+        echo "<img border='0' width='16' heigh='12' align='absmiddle' src='../images/im-filter.png' alt='".T_("Set filters")."' />";
+    }
+    echo "</a>\n";
+
 
    // --- Task list
    if (0 != $project1->id) {
-   	  
+
    	  // do not filter on userId if SideTask or ExternalTask
-   	  if (($isOnlyAssignedTo) && 
+   	  if (($isOnlyAssignedTo) &&
    	      (!$project1->isSideTasksProject()) &&
    	  	  (!$project1->isNoStatsProject())) {
          $handler_id = $user1->id;
@@ -519,9 +522,9 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate,
    	  	$handler_id = 0; // all users
    	  	$isHideResolved = false; // do not hide resolved
    	  }
-   	  
+
    	  $issueList = $project1->getIssueList($handler_id, $isHideResolved);
-   	  
+
    } else {
    	 // no project specified: show all tasks
 
@@ -574,7 +577,7 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate,
    		echo "<span style='color:red'>ERROR: Query FAILED</span>";
    		exit;
    	  }
-   	
+
       if (0 != mysql_num_rows($result)) {
             while($row = mysql_fetch_object($result))
             {
@@ -735,7 +738,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
     }
 
     // delete track
-    # TODO use TimeTrack::delete($trackid) 
+    # TODO use TimeTrack::delete($trackid)
     $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
     $result = mysql_query($query);
     if (!$result) {
@@ -744,7 +747,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    
+
     // pre-set form fields
     $defaultBugid     = $bugid;
     $defaultProjectid  = $issue->projectId;

@@ -93,7 +93,11 @@ function datetime2timestamp($string) {
 }
 
 // -----------------------------------
-// Cette fonction transforme de ce format: 2008-09-04 en celui-ci : 1204456892
+/** Cette fonction transforme de ce format: 2008-09-04 en celui-ci : 1204456892
+ * 
+ * @param unknown_type $string
+ * @return number
+ */
 function date2timestamp($string) {
 	list($year, $month, $day) = explode('-', $string);
 
@@ -168,25 +172,31 @@ function getDurationLiteral($duration) {
 
 
 // ---------------------------
-// get the week starting date by giving a week number and the year. Monday first day in week
+/** get the week starting date by giving a week number and the year. Monday first day in week
+ * 
+ * @param int $week
+ * @param int $year
+ * 
+ * @return timestamp  monday 0:00 of the given week
+ */
 function weekStartDate($week,$year) {
 
-   date_default_timezone_set('Europe/Paris');
-   $firstDayInYear=date("N",mktime(0,0,0,1,1,$year));
+/*
 
-   if ($firstDayInYear<5) {
-      $shift=-($firstDayInYear-1)*86400;
-   } else {
-      $shift=(8-$firstDayInYear)*86400;
-   }
-   if ($week>1) {
-      $weekInSeconds=($week-1)*604800;
-   } else {
-      $weekInSeconds=0;
-   }
-   $timestamp=mktime(0,0,0,1,1,$year)+$weekInSeconds+$shift;
+If you want the timestamp of the start of the ISO Week (i.e. on Monday) as defined by ISO 8601, you can use this one liner:
+   $isoWeekStartTime = strtotime(date('o-\\WW')); // {isoYear}-W{isoWeekNumber}
 
-   return $timestamp;
+You can also find out the start of week of any time and format it into an ISO date with another one liner like this:
+   $isoWeekStartDate = date('Y-m-d', strtotime(date('o-\\WW', $time)));
+
+*/	
+	
+   $timestamp        = strtotime("1.1.$year + $week weeks");
+   $isoWeekStartDate = strtotime(date('o-\\WW', $timestamp));
+   
+   //echo "DEBUG isoWeekStartTime $isoWeekStartDate ".date('Y-m-d', $isoWeekStartDate);
+   
+   return $isoWeekStartDate;
 }
 
 // ---------------------------
