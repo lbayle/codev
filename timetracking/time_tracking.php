@@ -217,14 +217,7 @@ require_once('tc_calendar.php');
 			},
 			buttons: {
 				"Update": function() {
-					var bValid = true;
-					allFields.removeClass( "ui-state-error" );
-					bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
-
-					if ( bValid ) {
-                        $("#formUpdateRemaining").submit();
-                        $( this ).dialog( "close" );
-					}
+                    $("#formUpdateRemaining").submit();
 				},
 				Cancel: function() {
 					$( this ).dialog( "close" );
@@ -235,33 +228,38 @@ require_once('tc_calendar.php');
 			}
 		});
 
+        $("#formUpdateRemaining").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
 
-                        $("#formUpdateRemaining").submit(function(event) {
+            var bValid = true;
+            allFields.removeClass( "ui-state-error" );
+            bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
 
-    /* stop form from submitting normally */
-    event.preventDefault();
+            if ( bValid ) {
+                /* get some values from elements on the page: */
+                var formUpdateRemaining = $(this);
+                var url = formUpdateRemaining.attr('action');
+                var actionName = formUpdateRemaining.find('input[name=action]').val();
+                var remaining1 = formUpdateRemaining.find('input[name=remaining]').val();
+                var bugid = formUpdateRemaining.find('input[name=bugid]').val();
+                var userid = formUpdateRemaining.find('input[name=userid]').val();
 
+                var weekid = document.getElementById('weekidSelector').value;
+                var year   = document.getElementById('yearSelector').value;
 
-                            /* get some values from elements on the page: */
-                            var formUpdateRemaining = $(this);
-                            var url = formUpdateRemaining.attr('action');
-                            var actionName = formUpdateRemaining.find('input[name=action]').val();
-                            var remaining = formUpdateRemaining.find('input[name=remaining]').val();
-                            var bugid = formUpdateRemaining.find('input[name=bugid]').val();
-                            var userid = formUpdateRemaining.find('input[name=userid]').val();
+                jQuery.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: 'action='+actionName+'&remaining='+remaining1+'&bugid='+bugid+'&weekid='+weekid+'&year='+year+'&userid='+userid,
+                    success: function(data) {
+                        jQuery("#weekTaskDetails").html(jQuery.trim(data));
+                    }
+                });
 
-        var weekid = document.getElementById('weekidSelector').value;
-        var year   = document.getElementById('yearSelector').value;
-
-            jQuery.ajax({
-                type: 'GET',
-                url: url,
-                data: 'action='+actionName+'&remaining='+remaining+'&bugid='+bugid+'&weekid='+weekid+'&year='+year+'&userid='+userid,
-                success: function(data) {
-                     jQuery("#weekTaskDetails").html(jQuery.trim(data));
-                }
-            });
-                        });
+                $( "#update_remaining_dialog_form" ).dialog( "close" );
+            }
+        });
 
 		// delete track dialogBox
 		$( "#deleteTrack_dialog_form" ).dialog({
