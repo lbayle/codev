@@ -34,6 +34,9 @@ include_once "issue.class.php";
 include_once "user.class.php";
 include_once "time_tracking.class.php";
 
+$logger = Logger::getLogger("time_tracking_tools");
+
+
 // MAIN
 if(isset($_GET['action'])) {
     if($_GET['action'] == 'updateRemainingAction') {
@@ -209,9 +212,19 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    echo "</div>\n";
 }
 
+/**
+ * 
+ * @param unknown_type $weekid
+ * @param unknown_type $weekDates
+ * @param unknown_type $userid
+ * @param unknown_type $timeTracking
+ * @param unknown_type $curYear
+ */
 function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear) {
 
-$weekTracks = $timeTracking->getWeekDetails($userid);
+   global $logger;
+	
+   $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table id='weekTaskDetails'>\n";
    echo "<tr>\n";
    echo "<th>".T_("Task")."</th>\n";
@@ -228,7 +241,7 @@ $weekTracks = $timeTracking->getWeekDetails($userid);
    $linkList = array();
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = IssueCache::getInstance()->getIssue($bugid);
-
+      
       foreach ($jobList as $jobid => $dayList) {
          $linkid = $bugid."_".$jobid;
          $linkList["$linkid"] = $issue;
@@ -237,7 +250,7 @@ $weekTracks = $timeTracking->getWeekDetails($userid);
          $result3 = mysql_query($query3) or die("Query failed: $query3");
          $jobName = mysql_result($result3, 0);
 
-         $description = addslashes($issue->summary);
+         $description = htmlspecialchars($issue->summary);
          $dialogBoxTitle = T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining");
 
          echo "<tr>\n";
