@@ -75,6 +75,9 @@ if (isset($_SESSION['userid'])) {
                 modal: true,
                 draggable: false,
                 resizable: false,
+                create: function(event, ui) {
+                    jQuery(".ui-dialog-titlebar-close", ui.dialog).remove();
+                },
                 open: function() {
                     // Select input field contents
                     username.select();
