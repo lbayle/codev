@@ -64,32 +64,20 @@ class IssueSelection {
 	 */
 	public function addIssue($bugid) {
 
+		// do not add twice the same issue
 		if (NULL == $this->issueList[$bugid]) {
 
 			$issue = IssueCache::getInstance()->getIssue($bugid);
 			$this->issueList[$bugid] = $issue;
-			$this->elapsed   += $issue->elapsed;
-			
-			// no remaining for resolved issues
-			if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
-
-			    // the remaining for issues having no elapsed is the effortEstim.
-				if ((NULL == $issue->elapsed) || (0 == $issue->elapsed)) {
-					$this->remaining    += $issue->effortEstim;
-					$this->remainingMgr += $issue->mgrEffortEstim;
-				} else {
-					$this->remaining    += $issue->remaining;
-					$this->remainingMgr += $issue->remaining;
-				}
-			}
-			
+			$this->elapsed        += $issue->elapsed;
+			$this->remaining      += $issue->getDuration();
+			$this->remainingMgr   += $issue->getDurationMgr();
 			$this->mgrEffortEstim += $issue->mgrEffortEstim;
 			$this->effortEstim    += $issue->effortEstim;
-			$this->effortAdd    += $issue->effortAdd;
+			$this->effortAdd      += $issue->effortAdd;
 
-			$this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->remaining." RAF_Mgr=".$issue->remainingMgr);
+			$this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr());
 		}
-
 	}
 
 	/**
