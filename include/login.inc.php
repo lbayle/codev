@@ -149,12 +149,12 @@ if (isset($_SESSION['userid'])) {
     <p id="validateTips"></p>
     <div id="login_success" style="display:none;text-align:center;">
         <img src="../images/loader-bar.gif" width="220" height="19" alt="Redirection" /><br/>
-        <p style="margin-top:1em;">You are successfully logged in!<br />Please wait while you're redirected...</p>
+        <p style="margin-top:1em;">Please wait...</p>
     </div>
 </div>
 
 <?php
 }
 echo "</div>";
-   
+
 ?>
