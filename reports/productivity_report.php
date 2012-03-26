@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); }
 
@@ -20,12 +20,8 @@ if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM 
 */
 
 include_once '../path.inc.php';
-
 include_once 'i18n.inc.php';
-if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-  exit;
-}
+
 
 $_POST['page_name'] = T_("Period Statistics");
 include 'header.inc.php';
@@ -70,7 +66,7 @@ $logger = Logger::getLogger("productivity_report");
 		jQuery( "#dialog_ResolvedDriftStats_link" ).click(function() { dialog_ResolvedDriftStats.dialog( "open" ); return false;	});
 
         jQuery( "#tabsResolvedDriftStats" ).tabs();
-        
+
         jQuery('#projectidSelector').change(function() {
             jQuery.ajax({
                 type: 'GET',
@@ -81,7 +77,7 @@ $logger = Logger::getLogger("productivity_report");
                 }
             });
         });
-        
+
         jQuery('#computeButton').click(function() {
             jQuery("#form1>input[name=teamid]").val(jQuery('#teamidSelector').val());
             jQuery("#form1").submit();
@@ -212,7 +208,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
 
    // Display form
    echo "<div style='text-align: left;'>";
-      
+
    echo "<form id='projectSelectionForm'>\n";
 
   $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
@@ -248,7 +244,7 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
       }
    }
    echo "</select>\n";
-   
+
    echo "</form>\n";
 
    echo "</div>\n";
@@ -650,7 +646,7 @@ function displayWorkingDaysPerProject($timeTracking) {
      	$progress    = '';
      	$progressMgr = '';
      }
-     
+
     echo "<tr>\n";
     echo "<td>";
     echo "$row->name\n";
