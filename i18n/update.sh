@@ -82,6 +82,9 @@ f_genFileList ()
       #echo "$f"
       echo "$f" >> $FILE_LIST
     done
+    # Generate smarty i18n template
+    php ./i18n/tsmarty2c.php > i18n/locale/smarty.c
+    echo "i18n/locale/smarty.c" >> $FILE_LIST
   done
 
   # ---
@@ -163,6 +166,9 @@ mkdir -p "$DIR_LOCALE"
 FILE_PO="${DIR_LOCALE}/${PRJ_NAME}.po"
 FILE_MO="${DIR_LOCALE}/${PRJ_NAME}.mo"
 
+# Generate smarty i18n template
+php ./i18n/tsmarty2c.php > i18n/locale/smarty.c
+
   f_genFileList $DIR_LIST
 
 
@@ -176,6 +182,7 @@ fi
 if [ "Yes" == "$doCompile" ]
 then
   f_compileTemplateFile
+  rm i18n/locale/smarty.c
   echo "DONE."
   echo "  - Locale file generated: $FILE_MO"
 fi
