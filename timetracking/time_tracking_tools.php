@@ -250,7 +250,7 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
          $result3 = mysql_query($query3) or die("Query failed: $query3");
          $jobName = mysql_result($result3, 0);
 
-         $description = htmlspecialchars($issue->summary);
+         $description = addslashes(htmlspecialchars($issue->summary));
          $dialogBoxTitle = T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining");
 
          echo "<tr>\n";
