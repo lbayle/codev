@@ -104,8 +104,8 @@ class Issue {
    	global $addEffortCustomField;
    	global $deadLineCustomField;
    	global $deliveryDateCustomField;
-      global $deliveryIdCustomField;
-      $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+    global $deliveryIdCustomField;
+    $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
 
       // Get issue info
       $query = "SELECT * ".
@@ -409,13 +409,42 @@ class Issue {
    /**
     * 
     * Returns the nb of days needed to finish the issue.
-    * if the 'remaining' (RAF) field is not defined, return effortEstim or mgrEffortEstim
+    * 
+    * if status >= resolved, return 0.
+    * if the 'remaining' (RAF) field is not defined, return effortEstim
     */
    public function getDuration() {
+   	
+   	  if ($this->isResolved()) { return 0; }
+   	
       // determinate issue duration (Remaining, BI, MgrEffortEstim)
-      if       (NULL != $this->remaining)   { $issueDuration = $this->remaining; }
-      elseif   (NULL != $this->effortEstim) { $issueDuration = $this->effortEstim; }
-      else                                  { $issueDuration = $this->mgrEffortEstim; }
+      if (NULL != $this->remaining) { $issueDuration = $this->remaining; }
+      else                          { $issueDuration = $this->effortEstim; }
+      
+      if (NULL == $this->effortEstim) {
+      	$this->logger->error("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND effortEstim == NULL)");
+      }
+      return $issueDuration;
+   }
+
+   /**
+    * 
+    * Returns the nb of days needed to finish the issue.
+    * 
+    * if status >= resolved, return 0.
+    * if the 'remaining' (RAF) field is not defined, return mgrEffortEstim
+    */
+   public function getDurationMgr() {
+   	
+   	  if ($this->isResolved()) { return 0; }
+   	
+      // determinate issue duration (Remaining, BI, MgrEffortEstim)
+      if (NULL != $this->remaining) { $issueDuration = $this->remaining; }
+      else                          { $issueDuration = $this->mgrEffortEstim; }
+
+      if (NULL == $this->mgrEffortEstim) {
+      	$this->logger->error("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND mgrEffortEstim == NULL)");
+      }
       return $issueDuration;
    }
 

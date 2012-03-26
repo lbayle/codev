@@ -20,10 +20,6 @@
 
 <?php
 include_once 'i18n.inc.php';
-if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-  exit;
-}
 ?>
 
 <?php
@@ -328,7 +324,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
       	echo "$( '#update_remaining_link' ).click(function() {\n";
 		echo "   $( '#formUpdateRemaining' ).children('input[name=bugid]').val(".$issue->bugId.");\n";
 		echo "   $( '#remaining' ).val(".$issue->remaining.");\n";
-		echo "   $( '#validateTips' ).text('".addslashes($issue->summary)."');\n";
+		echo "   $( '#validateTips' ).text('".addslashes(htmlspecialchars($issue->summary))."');\n";
 		echo "   $( '#update_remaining_dialog_form' ).dialog('option', 'title', 'Task ".$issue->bugId." / ".$issue->tcId." - Update Remaining');\n";
 		echo "   $( '#update_remaining_dialog_form' ).dialog( 'open' );\n";
 		echo "});\n";
