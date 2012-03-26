@@ -20,17 +20,17 @@
 include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
-if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-  exit;
-}
-
 $_POST['page_name'] = T_("Time Tracking");
 include 'header.inc.php';
 
 include_once 'tools.php';
 include 'login.inc.php';
 include 'menu.inc.php';
+
+if (!isset($_SESSION['userid'])) {
+    echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
+    exit;
+}
 
 // ----
 include_once "issue.class.php";

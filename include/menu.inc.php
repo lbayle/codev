@@ -69,3 +69,10 @@ echo "</table>";
 <br/>
 <br/>
 </div>
+
+<?php
+if (!isset($_SESSION['userid'])) {
+    echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
+    exit;
+}
+?>

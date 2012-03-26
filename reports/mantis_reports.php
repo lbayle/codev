@@ -19,13 +19,6 @@
 <?php include_once '../path.inc.php'; ?>
 
 <?php
-if (!isset($_SESSION['userid'])) {
-  echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
-  exit;
-} 
-?>
-
-<?php
    include_once 'i18n.inc.php';
    $_POST[page_name] = "Suivi des fiches Mantis"; 
    include 'header.inc.php'; 
