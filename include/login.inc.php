@@ -99,6 +99,13 @@ if (isset($_SESSION['userid'])) {
                     jQuery("#login_form").show();
                     jQuery('.ui-dialog-buttonpane').show();
                     jQuery(".ui-button-text").html("OK");
+                },
+                focus: function() {
+                    $(':input', this).keyup(function(event) {
+                        if (event.keyCode == $.ui.keyCode.ENTER) {
+                            $('.ui-dialog-buttonpane button:first').click();
+                        }
+                    });
                 }
             });
 
