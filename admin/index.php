@@ -22,13 +22,6 @@
 ?>
 
 <?php
-if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-  exit;
-}
-?>
-
-<?php
    include_once 'i18n.inc.php';
    $_POST['page_name'] = "CoDev Administration";
    include 'header.inc.php';

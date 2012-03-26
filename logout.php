@@ -26,7 +26,7 @@ unset($_SESSION['realname']);
 session_destroy();
 
 // load homepage
-header('Location: '.getServerRootURL());
+header('Location: '.$_SERVER['HTTP_REFERER']);
 exit;
 
 ?>
