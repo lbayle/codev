@@ -4,11 +4,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>CodevTT - {$pageName}</title>
-        
+
         <base href="{$rootWebSite}" />
-        
+
         <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
-        
+
         <!-- CALENDAR -->
         <link href="calendar/calendar.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="calendar/calendar.js"></script>
@@ -28,18 +28,16 @@
     </head>
     <body>
         <div id="header">
-            <table>
-                <tr>
-                    <td><a href="{$rootWebSite}"><img title="{$codevVersion}" alt="{$codevVersion}" src="images/clock_logo_06.png" width="300px" height="100px" /></a></td>
-                    <td style="width:100%"><h1>{$pageName}</h1></td>
-                    <td style="padding-right:5em">
-                        <a href="{$page}?locale=fr"><img title="Francais" alt="Francais" src="images/drapeau_fr.jpg" width="20px" height="13px" /></a>
-                        <a href="{$page}?locale=en"><img title="English" alt="English" src="images/drapeau_gb.jpg" width="20px" height="13px" /></a>
-                    </td>
-                </tr>
-            </table>
+            <span style="position:absolute">
+                <a href="{$rootWebSite}"><img title="{$codevVersion}" alt="{$codevVersion}" src="images/clock_logo_06.png" width="300px" height="100px" /></a>
+            </span>
+            <span style="position:absolute;top:4.5em;right:3em;">
+                <a href="{$page}?locale=fr"><img title="Francais" alt="Francais" src="images/drapeau_fr.jpg" width="20px" height="13px" /></a>
+                <a href="{$page}?locale=en"><img title="English" alt="English" src="images/drapeau_gb.jpg" width="20px" height="13px" /></a>
+            </span>
+            <h1 style="padding:1.5em 0;margin:0">{$pageName}</h1>
         </div>
-        
+
         <div id="login">
         {if $username}
             {t}Logged in as {/t}{$username} ({$realname}) <span class="floatr"><a href="logout.php" title="logout">{t}log out{/t}</a></span>
