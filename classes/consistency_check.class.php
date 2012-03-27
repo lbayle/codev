@@ -73,8 +73,9 @@ class ConsistencyCheck {
       #$cerrList3 = $this->checkDeliveryDate();
       $cerrList4 = $this->checkBadRemaining();
       $cerrList5 = $this->checkMgrEffortEstim();
+      $cerrList6 = $this->checkTimeTracksOnNewIssues();
       #$cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
-      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5);
+      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
       return $cerrList;
    }
 
@@ -296,6 +297,55 @@ class ConsistencyCheck {
 
    }
 
+   /**
+    * if you spend some time on a task, 
+    * then it's status is probably 'ack' or 'open' but certainly not 'new'
+    */
+   function checkTimeTracksOnNewIssues() {
+
+    global $status_new;
+
+    $cerrList = array();
+
+    // select all issues which current status is 'new'
+      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+               "FROM `mantis_bug_table` ".
+               "WHERE status = $status_new ";
+
+      if (0 != count($this->projectList)) {
+        $formatedProjects = implode( ', ', array_keys($this->projectList));
+        $query .= "AND project_id IN ($formatedProjects) ";
+      }
+
+      $query .="ORDER BY handler_id, bug_id DESC";
+
+       $result = mysql_query($query);
+       if (!$result) {
+              $this->logger->error("Query FAILED: $query");
+              $this->logger->error(mysql_error());
+              echo "<span style='color:red'>ERROR: Query FAILED</span>";
+              exit;
+      }
+      while($row = mysql_fetch_object($result))
+      {
+        $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+        $elapsed = $issue->getElapsed();
+
+        if (0 != $elapsed) {
+
+        	// error
+            $cerr = new ConsistencyError($row->bug_id,
+                                                  $row->handler_id,
+                                                  $row->status,
+                                                  $row->last_updated,
+                                                  T_("Status should not be 'new' (elapsed = ").$elapsed.")");
+            $cerr->severity = T_("Error");
+            $cerrList[] = $cerr;
+        }
+      }      
+
+      return $cerrList;
+   }
 
 
 }
