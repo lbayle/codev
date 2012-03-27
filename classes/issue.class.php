@@ -1269,8 +1269,8 @@ class Issue {
       // no time spent on task, 0% done
       if ((NULL == $this->elapsed) || (0 == $this->elapsed)) { return 0; }
 
-      // if no Remaining set, 0% done
-      if ((NULL == $this->remaining) || (0 == $this->remaining)) { return 0; }
+      // if no Remaining set, 100% done (this is not a normal case, an Alert is raised by ConsistencyCheck)
+      if ((NULL == $this->remaining) || (0 == $this->remaining)) { return 1; }
 
       // nominal case
       $progress = $this->elapsed / ($this->elapsed + $this->remaining);   // (T-R)/T
