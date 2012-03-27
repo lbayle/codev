@@ -200,7 +200,7 @@ function getDurationLiteral($duration) {
 
 
 // ---------------------------
-// get the week starting date by giving a week number and the year. Monday first day in week
+/*// get the week starting date by giving a week number and the year. Monday first day in week
 function weekStartDate($week,$year) {
 
    date_default_timezone_set('Europe/Paris');
@@ -219,8 +219,24 @@ function weekStartDate($week,$year) {
    $timestamp=mktime(0,0,0,1,1,$year)+$weekInSeconds+$shift;
 
    return $timestamp;
-}
+}*/
+// ---------------------------
+/** get the week starting date by giving a week number and the year. Monday first day in week
+ *
+ * @param int $week
+ * @param int $year
+ *
+ * @return timestamp  monday 0:00 of the given week
+ */
+function weekStartDate($week,$year) {
 
+   $timestamp        = strtotime("1.1.$year + $week weeks");
+   $isoWeekStartDate = strtotime(date('o-\\WW', $timestamp));
+  
+   //echo "DEBUG isoWeekStartTime $isoWeekStartDate ".date('Y-m-d', $isoWeekStartDate);
+  
+   return $isoWeekStartDate;
+}
 // ---------------------------
 // Function that returns the timestamp for each day in a week
 function week_dates($week, $year)
