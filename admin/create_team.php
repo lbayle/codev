@@ -1,4 +1,4 @@
-<?php if (!isset($_SESSION)) { session_start(); } ?>
+<?php if (!isset($_SESSION)) { session_name("codevtt"); session_start(); } ?>
 <?php /*
     This file is part of CoDev-Timetracking.
 
