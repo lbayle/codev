@@ -14,10 +14,10 @@
 
     // When DOM is ready
     jQuery(document).ready(function() {
-        var username = $("#codev_login" );
-        var password = $("#codev_passwd");
-        var allFields = $([]).add(username).add(password);
-        var tips = $("#validateTips");
+        var username = jQuery("#codev_login" );
+        var password = jQuery("#codev_passwd");
+        var allFields = jQuery([]).add(username).add(password);
+        var tips = jQuery("#validateTips");
 
         function updateTips(t) {
             tips.text({t}t{/t}).addClass("ui-state-highlight");
@@ -71,6 +71,13 @@
                 jQuery("#login_form").show();
                 jQuery('.ui-dialog-buttonpane').show();
                 jQuery(".ui-button-text").html("{t}OK{/t}");
+            },
+            focus: function() {
+                jQuery(':input', this).keyup(function(event) {
+                    if (event.keyCode == jQuery.ui.keyCode.ENTER) {
+                        jQuery('.ui-dialog-buttonpane button:first').click();
+                    }
+                });
             }
         });
 
@@ -82,7 +89,7 @@
             jQuery(".ui-button-text").html("<img src='images/spinner.gif' width='16' height='16' alt='{t}Loading{/t}' />");
 
             /* get some values from elements on the page: */
-            var form = $(this);
+            var form = jQuery(this);
             var url = form.attr('action');
 
             // 'this' refers to the current submitted form
