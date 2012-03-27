@@ -1,0 +1,14 @@
+<div id="content">
+    <table>
+        <tr>
+            <th>{t}Line{/t}</th>
+            <th>{t}Log{/t}</th>
+        </tr>
+        {foreach $logs as $line => $text}
+        <tr>
+            <td>{$line}</td>
+            <td>{$text}</td>
+        </tr>
+        {/foreach}
+    </table>
+</div>

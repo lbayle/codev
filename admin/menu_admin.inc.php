@@ -42,6 +42,8 @@ echo "      |\n";
 echo "      <a href='".getServerRootURL()."/tools/workflow.php'>".T_("Clone Projects")."</a>\n";
 echo "      </td>\n";
 echo "      <td>\n";
+echo "      <a href='".getServerRootURL()."/admin/logs.php'>".T_("logs")."</a>\n";
+echo "      |\n";
 echo "      <a href='".getServerRootURL()."/doc/codev_adminguide.html'>".T_("Admin Guide")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/install/uninstall.php' title=''>".T_("Uninstall")."</a>\n";

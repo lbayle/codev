@@ -87,18 +87,7 @@
   // ---
   $default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 
-  // --- log to file
-  /**
-   * NOT TESTED !!!!
-   * http://www.cyberciti.biz/tips/php-howto-turn-on-error-log-file.html
-   * On all production web server you must turn off displaying error
-   * to end users via a web browser. Remember PHP gives out lots of information about path,
-   * database schema and all other sort of sensitive information.
-   * You are strongly advised to use error logging in place of error displaying on production web sites
-   */
-  #ini_set("log_errors" , "1");
-  #ini_set("error_log" , "Errors.log.txt");
-  #ini_set("display_errors" , "0");
-
+  // --- log file
+  $codevtt_logfile = '/tmp/reports/codevtt.log';  
 
 ?>
