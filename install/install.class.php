@@ -447,12 +447,11 @@ class Install {
       $attributes["display_report"]   = 0;
       $this->createCustomField(T_("CodevTT_Aditional Effort"),   $mType_numeric, "customField_addEffort", $attributes);
 
-      $attributes["require_report"]   = 1;
-      $attributes["display_report"]   = 1;
+      $attributes["require_report"]   = 0;
+      $attributes["display_report"]   = 0;
       $attributes["display_closed"]   = 1;
       $attributes["display_resolved"] = 1;
-      $defaultValue = 1;
-      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes, $defaultValue);
+      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes);
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 0;
