@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 3, 1),
+('database_version', 4, 1),
 ('job_support', 2, 1);
 
 
@@ -200,6 +200,28 @@ CREATE TABLE IF NOT EXISTS `codev_timetracking_table` (
   KEY `userid` (`userid`),
   KEY `date` (`date`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `codev_blog_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_blog_table` (
+`id` int( 11 ) NOT NULL AUTO_INCREMENT ,
+`date` int( 11 ) NOT NULL ,
+`src_user_id` int( 11 ) unsigned NOT NULL ,
+`dest_user_id` int( 11 ) unsigned NOT NULL DEFAULT '0',
+`dest_project_id` int( 11 ) unsigned NOT NULL DEFAULT '0',
+`dest_team_id` int( 11 ) unsigned NOT NULL DEFAULT '0',
+`severity` int( 11 ) NOT NULL ,
+`category` varchar( 50 ) DEFAULT NULL ,
+`content` varchar( 500 ) DEFAULT NULL ,
+`color` varchar( 7 ) DEFAULT NULL ,
+PRIMARY KEY ( `id` ) ,
+KEY `date` ( `date` )
+) ENGINE = MYISAM DEFAULT CHARSET = utf8 COMMENT = 'Blog posts';
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 -- /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
