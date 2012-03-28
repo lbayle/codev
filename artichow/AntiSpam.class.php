@@ -213,7 +213,7 @@ class awAntiSpam extends awImage {
 	
 		// Start session if needed
 		if(!session_id()) {
-			session_start();
+			session_name("codevtt"); session_start();
 		}
 		
 	}
