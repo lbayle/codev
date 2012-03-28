@@ -5,8 +5,9 @@
             <th>{t}User{/t}</th>
             <th>{t}Task{/t}</th>
             <th title="{t}last modification date{/t}">Date</th>
-            <th>{t}Status{/t}</th>
             <th>{t}Level{/t}</th>
+            <th>{t}Status{/t}</th>
+            <th>{t}Project{/t}</th>
             <th>{t}Error Description{/t}</th>
         </tr>
         {foreach from=$consistencyErrors key=id item=i}
@@ -14,8 +15,9 @@
             <td>{$i.userName}</td>
             <td>{$i.mantisIssueURL}</td>
             <td>{$i.date}</td>
-            <td>{$i.status}</td>
             <td>{$i.severity}</td>
+            <td>{$i.status}</td>
+            <td>{$i.project}</td>
             <td>{$i.desc}</td>
         </tr>
         {/foreach}

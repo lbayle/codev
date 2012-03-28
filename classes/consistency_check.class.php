@@ -304,7 +304,8 @@ class ConsistencyCheck {
    function checkTimeTracksOnNewIssues() {
 
     global $status_new;
-
+    global $statusNames;
+    
     $cerrList = array();
 
     // select all issues which current status is 'new'
@@ -338,7 +339,7 @@ class ConsistencyCheck {
                                                   $row->handler_id,
                                                   $row->status,
                                                   $row->last_updated,
-                                                  T_("Status should not be 'new' (elapsed = ").$elapsed.")");
+                                                  T_("Status should not be")." '".$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
             $cerr->severity = T_("Error");
             $cerrList[] = $cerr;
         }

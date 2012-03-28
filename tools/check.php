@@ -40,6 +40,8 @@ include_once('user.class.php');
 function getConsistencyErrors($userid) {
     $sessionUser = new User($userid);
 
+    global $statusNames;
+    
     // get projects i'm involved in (dev, Leader, Manager)
     $devTeamList = $sessionUser->getDevTeamList();
     $leadedTeamList = $sessionUser->getLeadedTeamList();
@@ -62,7 +64,8 @@ function getConsistencyErrors($userid) {
                              'date' => date("Y-m-d", $cerr->timestamp),
                              'status' => $statusNames[$cerr->status],
                              'severity' => $cerr->severity,
-                             'desc' => $cerr->desc);
+                             'project' => $issue->getProjectName(),
+            		         'desc' => $cerr->desc);
         }
     
         return $cerrs;
