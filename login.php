@@ -43,7 +43,7 @@ function login($user, $password) {
 
     $formattedUser = mysql_real_escape_string($user);
     $formattedPass = mysql_real_escape_string($password);
-    $query= 'SELECT id, username, realname FROM `mantis_user_table` WHERE username = \''.$user.'\' and password = \''.$formattedPass.'\'';
+    $query= 'SELECT id, username, realname FROM `mantis_user_table` WHERE username = \''.$formattedUser.'\' and password = \''.$formattedPass.'\'';
     $result = mysql_query($query);
     if ($result && mysql_num_rows($result) == 1 && $row_login = mysql_fetch_object($result)) {
         $_SESSION['userid']=$row_login->id;
