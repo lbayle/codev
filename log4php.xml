@@ -48,10 +48,10 @@
         <level value="DEBUG" />
     </logger>
     <logger name="Issue">
-        <level value="ERROR" />
+        <level value="DEBUG" />
     </logger>
     <logger name="TimeTracking">
-        <level value="ERROR" />
+        <level value="DEBUG" />
     </logger>
     <logger name="User">
         <level value="DEBUG" />
@@ -59,6 +59,10 @@
     <logger name="Scheduler">
         <level value="DEBUG" />
     </logger>
+    <logger name="IssueSelection">
+        <level value="DEBUG" />
+    </logger>
+
 -->
 
 	
