@@ -1,4 +1,4 @@
-<?php if (!isset($_SESSION)) { session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
+<?php if (!isset($_SESSION)) { session_name("codevtt"); session_start(); header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); } ?>
 <?php /*
     This file is part of CoDev-Timetracking.
 
