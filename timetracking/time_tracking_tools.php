@@ -50,7 +50,8 @@ if(isset($_GET['action'])) {
     if($_GET['action'] == 'updateRemainingAction') {
         $issue = IssueCache::getInstance()->getIssue($_GET['bugid']);
         if (NULL != $issue->remaining) {
-            $issue->setRemaining($_GET['remaining']);
+        	$formattedRemaining = mysql_real_escape_string($_GET['remaining']);
+            $issue->setRemaining($formattedRemaining);
 
             $weekDates      = week_dates($_GET['weekid'],$_GET['year']);
             $startTimestamp = $weekDates[1];

@@ -911,7 +911,9 @@ class TimeTracking {
         $weekTracks[$row->bugid][$row->jobid] = array();
       }
       $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] += $row->duration;
-      //echo "weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)<br/>";
+      
+      
+       $this->logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
     }
 
     return $weekTracks;

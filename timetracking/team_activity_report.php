@@ -354,7 +354,7 @@ function displayCheckWarnings($timeTracking) {
   }
 
   echo "<div align='center'>";
-  echo "<div id='accordion' style='width:350px;' >\n";
+  echo "<div id='accordion' style='width:450px;' >\n";
   echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
 
   echo "<p style='color:red'>\n";
