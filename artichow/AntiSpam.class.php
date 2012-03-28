@@ -213,8 +213,13 @@ class awAntiSpam extends awImage {
 	
 		// Start session if needed
 		if(!session_id()) {
-			session_name("codevtt"); session_start();
-		}
+			$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
+			$sname = str_replace('.', '_', $tokens[1]);
+			session_name($sname); 
+			session_start(); 
+			header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
+
+					}
 		
 	}
 
