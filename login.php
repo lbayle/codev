@@ -29,7 +29,7 @@ require('path.inc.php');
 
 require('super_header.inc.php');
 
-$logger = Logger::getLogger('login_tools');
+$logger = Logger::getLogger('login');
 
 if(isset($_POST['action'])) {
     if ('login' == $_POST['action']) {
