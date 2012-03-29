@@ -87,8 +87,8 @@ if (isset($_SESSION['userid'])) {
                         allFields.removeClass( "ui-state-error" );
 
                         var valid = true;
-                        valid = valid && checkLength(username, "<?php echo T_("login") ?>", 1, 256);
-                        valid = valid && checkLength(password, "<?php echo T_("password") ?>", 1, 256);
+                        valid = valid && checkLength(username, "<?php echo T_("login") ?>", 3, 256);
+                        //valid = valid && checkLength(password, "<?php echo T_("password") ?>", 1, 256);
 
                         if (valid) {
                             jQuery("#login_form").submit();
