@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 ?>
 <?php
 /*
@@ -217,12 +217,12 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
   echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
 
     displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear);
-   
+
    echo "</div>\n";
 }
 
 /**
- * 
+ *
  * @param unknown_type $weekid
  * @param unknown_type $weekDates
  * @param unknown_type $userid
@@ -232,7 +232,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear) {
 
    global $logger;
-	
+
    $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table id='weekTaskDetails'>\n";
    echo "<tr>\n";
@@ -250,7 +250,7 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
    $linkList = array();
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = IssueCache::getInstance()->getIssue($bugid);
-      
+
       foreach ($jobList as $jobid => $dayList) {
          $linkid = $bugid."_".$jobid;
          $linkList["$linkid"] = $issue;
@@ -264,7 +264,21 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
 
          echo "<tr>\n";
          echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-         echo "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$issue->remaining."</a></td>\n";
+
+         // if no remaining set, display a '?' to allow Remaining edition
+         if (NULL == $issue->remaining) {
+
+            $project = ProjectCache::getInstance()->getProject($issue->projectId);
+            if (($project->isSideTasksProject()) || ($project->isNoStatsProject())) {
+            	// do not allow to edit sideTasks Remaining
+            	$formattedRemaining = '';
+            } else {
+               $formattedRemaining = '?';
+            }
+         } else {
+         	$formattedRemaining = $issue->remaining;
+         }
+         echo "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$formattedRemaining."</a></td>\n";
          echo "<td>".$jobName."</td>\n";
          for ($i = 1; $i <= 5; $i++) {
             echo "<td>".$dayList[$i]."</td>\n";
