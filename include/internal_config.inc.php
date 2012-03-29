@@ -87,7 +87,4 @@
   // ---
   $default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
 
-  // --- log file
-  $codevtt_logfile = '/tmp/reports/codevtt.log';  
-
 ?>

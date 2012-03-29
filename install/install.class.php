@@ -596,7 +596,7 @@ class Install {
 	 * WARN: depending on your HTTP server installation, the file may be created
 	 * by user 'apache', so be sure that this user has write access
 	 * to the CoDev install directory
-     * 
+     *
      * @return NULL if OK, or an error message starting with 'ERROR' .
      */
 	public function createConstantsFile() {
@@ -621,9 +621,12 @@ class Install {
       	$stringData .= "\n";
       	$stringData .= "  include_once \"config.class.php\";\n";
       	$stringData .= "\n";
-      	$stringData .= "\$codevInstall_timestamp = ".$today.";\n";
+      	$stringData .= "  \$codevInstall_timestamp = ".$today.";\n";
       	$stringData .= "\n";
       	$stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
+      	$stringData .= "\n";
+         $stringData .= "  // --- log file as defined in log4php.xml\n";
+      	$stringData .= "  \$codevtt_logfile = '/tmp/reports/codevtt.log';\n";
       	$stringData .= "\n";
       	$stringData .= "  \$codevRootDir = dirname(__FILE__);\n";
       	$stringData .= "\n";
@@ -650,8 +653,8 @@ class Install {
       	   $stringData .= "  \$status_".$s_name."       = array_search('".$s_name."', \$statusNames);\n";
       	}
 
-        // TODO add equivalences for mandatory statusses not present in workflow (see mantis 131)
-        // ex: $status_open = $status_assigned;
+        $stringData .= "// TODO add equivalences for all mandatory status not present in workflow (see mantis 131)\n";
+        $stringData .= "// ex: \$status_open = \$status_assigned;\n";
 
          // Constrains
       	$stringData .= "\n";
@@ -664,7 +667,7 @@ class Install {
       	$stringData .= "?>\n\n";
       	fwrite($fp, $stringData);
       	fclose($fp);
-        
+
         return NULL;
       }
 
