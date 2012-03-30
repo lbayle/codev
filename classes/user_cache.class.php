@@ -19,6 +19,8 @@
 // ==============================================================
 class UserCache {
 
+    private static $logger;
+
     // instance de la classe
     private static $instance;
     private static $objects;
@@ -32,6 +34,9 @@ class UserCache {
         self::$callCount = array();
 
         self::$cacheName = __CLASS__;
+
+        self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
+
         #echo "DEBUG: Cache ready<br/>";
     }
 
@@ -85,6 +90,16 @@ class UserCache {
          foreach(self::$callCount as $bugId => $count) {
             echo "cache[$bugId] = $count<br/>\n";
          }
+      }
+    }
+
+    public function logStats() {
+      if (self::$logger->isDebugEnabled()) {
+         $nbObj   = count(self::$callCount);
+         $nbCalls = array_sum(self::$callCount);
+         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
+
+         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
       }
     }
 

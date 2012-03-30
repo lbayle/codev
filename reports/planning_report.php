@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 ?>
 <?php /*
     This file is part of CoDev-Timetracking.
@@ -615,6 +615,13 @@ if (0 == count($teamList)) {
 
 echo "<br/>\n";
 echo "<br/>\n";
+
+// log stats
+IssueCache::getInstance()->logStats();
+ProjectCache::getInstance()->logStats();
+UserCache::getInstance()->logStats();
+TimeTrackCache::getInstance()->logStats();
+
 ?>
 
 </div>

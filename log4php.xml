@@ -34,6 +34,10 @@
     </logger>
 
 <!--    
+    <logger name="cache">
+        <level value="DEBUG" />
+    </logger>
+
     <logger name="GanttManager">
         <level value="DEBUG" />
     </logger>

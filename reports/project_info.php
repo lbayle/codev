@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 ?>
 <?php /*
     This file is part of CoDev-Timetracking.
@@ -52,7 +52,7 @@ include_once 'i18n.inc.php';
 
      $( "#tabsVersions" ).tabs();
      $( "#tabsDrift" ).tabs();
-     
+
   });
 
 </script>
@@ -123,14 +123,14 @@ function displayProjectVersions($project, $isManager = false) {
    displayVersionsOverview($project);
    echo "</p>\n";
    echo "</div>\n";
-   
+
    if ($isManager) {
       echo "<div id='tab2'>\n";
       echo "<p>";
       displayVersionsDetailedMgr($project);
       echo "</p>\n";
       echo "</div>\n";
-   }      
+   }
    echo "<div id='tab3'>\n";
    echo "<p>";
    displayVersionsDetailed($project);
@@ -162,7 +162,7 @@ function displayVersionsOverview($project) {
 
    foreach ($projectVersionList as $version => $pv) {
 	   echo "<tr>\n";
-	   
+
        $valuesMgr = $pv->getDriftMgr();
        $formattedDriftMgr = "<span title='".T_("percent")."' class='float'>".round(100 * $valuesMgr['percent'])."%</span>";
 
@@ -191,12 +191,12 @@ function displayVersionsOverview($project) {
    $driftMgr = $project->getDriftMgr();
    $driftMgrColor = $pv->getDriftColor($driftMgr['percent']);
    $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
-   
+
    $drift = $project->getDrift();
    $driftColor = $pv->getDriftColor($drift['percent']);
    $formattedDriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
-   
-   
+
+
    echo "<tr class ='row_even'>\n";
    echo "<td>".T_("Total")."</td>\n";
    echo "<td></td>\n";
@@ -215,9 +215,9 @@ function displayVersionsDetailed($project) {
    global $status_new;
 
    $projectVersionList = $project->getVersionList();
-   
+
    $totalDrift = 0;
-   
+
    echo "<table>\n";
 
    echo "<tr>\n";
@@ -254,8 +254,8 @@ function displayVersionsDetailed($project) {
    }
 
    $formattedDrift    = "<span title='".T_("nb days")."'>".$totalDrift."</span>";
-   
-   
+
+
    echo "<tr class ='row_even'>\n";
    echo "<td>".T_("Total")."</td>\n";
    echo "<td>$totalEffortEstim</td>\n";
@@ -312,9 +312,9 @@ function displayVersionsDetailedMgr($project) {
 		echo "</tr>\n";
     }
 
-    
+
     $formattedDrift    = "<span title='".T_("nb days")."'>".$totalDriftMgr."</span>";
-    
+
 	echo "<tr class ='row_even'>\n";
 	echo "<td>".T_("Total")."</td>\n";
 	#echo "<td>".round(100 * $totalProgress)."%</td>\n";
@@ -400,7 +400,7 @@ function displayVersionsIssues($project) {
 
 // ------------------------------------------------
 /**
- * 
+ *
  * @param unknown_type $project
  * @param unknown_type $isManager
  */
@@ -423,7 +423,7 @@ function displayIssuesInDriftTab($project, $isManager = false) {
 	displayResolvedIssuesInDrift($project, $isManager);
 	echo "</p>\n";
 	echo "</div>\n";
-	
+
 	echo "</div>\n"; // tabs
 
 }
@@ -433,7 +433,7 @@ function displayIssuesInDriftTab($project, $isManager = false) {
 /**
  * Display a table containing all "non-resolved" issues that are in drift
  * (ordered by version)
- * 
+ *
  * @param Project $project
  * @param boolean $isManager
  * @param boolean $withSupport
@@ -443,8 +443,8 @@ function displayCurrentIssuesInDrift($project, $isManager = false, $withSupport 
 	$bugidList = $project->getIssueList();
 
 	$projectVersionList = $project->getVersionList();
-	
-	
+
+
 	echo "<table>\n";
 	#echo "<caption>".T_("Tasks in drift")."</caption>\n";
 	echo "<tr>\n";
@@ -461,7 +461,7 @@ function displayCurrentIssuesInDrift($project, $isManager = false, $withSupport 
 	echo "<th>".T_("Status")."</th>\n";
 	echo "<th>".T_("Summary")."</th>\n";
 	echo "</tr>\n";
-	
+
 	foreach ($projectVersionList as $version => $pv) {
 		foreach ($pv->getIssueList() as $bugid => $issue) {
 
@@ -469,10 +469,10 @@ function displayCurrentIssuesInDrift($project, $isManager = false, $withSupport 
 				// skip resolved issues
 				continue;
 			}
-	
+
 			$driftPrelEE = ($isManager) ? $issue->getDriftMgrEE($withSupport) : 0;
 			$driftEE = $issue->getDrift($withSupport);
-	
+
 			if (($driftPrelEE > 0) || ($driftEE > 0)) {
 				echo "<tr>\n";
 				echo "<td>".issueInfoURL($issue->bugId)."</td>\n";
@@ -663,7 +663,7 @@ if (0 == count($teamList)) {
 
       echo "<br/>";
       echo "<br/>";
-      
+
     } elseif ("setProjectid" == $action) {
 
        // pre-set form fields
@@ -683,6 +683,12 @@ echo "<br/>";
 echo "<br/>";
 echo "<br/>";
 echo "<br/>";
+
+// log stats
+IssueCache::getInstance()->logStats();
+ProjectCache::getInstance()->logStats();
+UserCache::getInstance()->logStats();
+TimeTrackCache::getInstance()->logStats();
 
 ?>
 
