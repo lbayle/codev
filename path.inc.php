@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,8 +14,7 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
+*/
 
 define ( 'BASE_PATH' , realpath( dirname(__FILE__) ) );
 
@@ -47,10 +47,6 @@ $path = array(
 $strPath=implode( PATH_SEPARATOR, $path );
 set_include_path( $strPath );
 
-
-// -----------------
-
-
 // example: http://127.0.0.1/codev/
 // example: http://55.7.137.27/louis/codev/
 function getServerRootURL() {
@@ -81,10 +77,6 @@ function getServerRootURL() {
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;
 }
-
-
-
-
 
 # warn: i don't know why but, an 'echo' here changes the CSS of the page...
 #echo "DEBUG PHP include_path : ".get_include_path()." <br/>";

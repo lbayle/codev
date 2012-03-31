@@ -1,4 +1,6 @@
-<?php /*
+<?php
+
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -17,7 +19,6 @@
 
 require_once "user.class.php";
 
-// ==============================================================
 class UserCache {
 
     private static $logger;
@@ -103,8 +104,6 @@ class UserCache {
          self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
       }
     }
-
-
 } // class Cache
 
 ?>

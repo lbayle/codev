@@ -1,3 +1,3 @@
-<?php 
-echo ("<script> parent.location.replace('./install.php'); </script>");
+<?php
+header('Location:install.php');
 ?>

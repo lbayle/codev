@@ -1,5 +1,4 @@
 <?php
-
 if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
@@ -7,7 +6,6 @@ if (!isset($_SESSION)) {
 	session_start();
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
-
 
 /*
     This file is part of CoDev-Timetracking.
@@ -29,8 +27,7 @@ if (!isset($_SESSION)) {
 include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
-
-$_POST['page_name'] = T_("Period Statistics");
+$page_name = T_("Period Statistics");
 include 'header.inc.php';
 
 include 'login.inc.php';
@@ -47,7 +44,6 @@ include "productivity_report_tools.php";
 require_once('tc_calendar.php');
 
 $logger = Logger::getLogger("productivity_report");
-
 ?>
 
 <br/>

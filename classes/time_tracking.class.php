@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,12 +14,11 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
+*/
+
 require_once '../path.inc.php';
 require_once('Logger.php');
 
-// -- TimeTracking facilities --
 require_once "constants.php";
 
 include_once "time_track.class.php";
@@ -27,7 +27,9 @@ include_once "user.class.php";
 include_once "team.class.php";
 include_once "holidays.class.php";
 
-
+/**
+ * TimeTracking facilities
+ */
 class TimeTracking {
 
   private $logger;
@@ -911,8 +913,8 @@ class TimeTracking {
         $weekTracks[$row->bugid][$row->jobid] = array();
       }
       $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] += $row->duration;
-      
-      
+
+
        $this->logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
     }
 
@@ -1100,9 +1102,6 @@ class TimeTracking {
       return $rate;
    }
 
-
 } // class TimeTracking
 
 ?>
-
-

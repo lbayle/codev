@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,8 +14,7 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
+*/
 
 # DEBUG
 #echo "<br/>";

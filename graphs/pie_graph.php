@@ -17,28 +17,23 @@
     You should have received a copy of the GNU General Public License
     along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
-?>
-<?php
 
-   # ================
-   # NOTE: header.inc.php is not loaded, so some config must be done.
-   error_reporting(0); // no logs displayed in page (page is a generated image)
-   date_default_timezone_set('Europe/Paris');
+# NOTE: header.inc.php is not loaded, so some config must be done.
+error_reporting(0); // no logs displayed in page (page is a generated image)
+date_default_timezone_set('Europe/Paris');
 
-   require_once '../path.inc.php';
-   require_once('Logger.php');
-   if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("pie_graph");
-      $logger->trace("LOG activated !");
-   }
+require_once '../path.inc.php';
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+   Logger::configure(dirname(__FILE__).'/../log4php.xml');
+   $logger = Logger::getLogger("pie_graph");
+   $logger->trace("LOG activated !");
+}
 
-   include_once "tools.php";
-   #include_once "mysql_connect.inc.php";
-   #include_once "internal_config.inc.php";
-   #include_once "constants.php";
-   # ================
-
+include_once "tools.php";
+#include_once "mysql_connect.inc.php";
+#include_once "internal_config.inc.php";
+#include_once "constants.php";
 
 // content="text/plain; charset=utf-8"
 require_once ('jpgraph.php');
