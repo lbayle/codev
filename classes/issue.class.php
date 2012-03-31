@@ -1219,37 +1219,6 @@ class Issue {
     * 0.5 = 50% done
     * 0 = 0% done
     */
-   public function getProgress_old() {
-
-      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
-         return 1; // issue is finished
-      }
-
-      // totalEffort is (BI+BS) or if not exist, PEE
-      if (NULL != $this->effortEstim) {
-         $totalEffort = $this->effortEstim + $this->effortAdd;
-      } else {
-      	$totalEffort = $this->mgrEffortEstim;
-      }
-
-      // if no Remaining set, 0% done
-      if (NULL == $this->remaining) {
-      	return 0;
-      }
-
-      // nominal case
-      if ($this->remaining <= $totalEffort) {
-         $progress = ($totalEffort - $this->remaining) / $totalEffort;   // (T-R)/T
-      } else {
-      	$progress = $totalEffort / ($totalEffort - $this->remaining);   // T/(T+R)
-      }
-
-      if (($progress < 0) || ($progress > 1)) {
-      	$this->logger->error("Progress value = $progress = $totalEffort / ($totalEffort - $this->remaining)");
-      }
-
-      return $progress;
-   }
 
 
    /**
