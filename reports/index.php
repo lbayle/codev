@@ -1,3 +1,3 @@
-<?php 
-echo ("<script> parent.location.replace('../index.php'); </script>");
+<?php
+header('Location:../index.php');
 ?>

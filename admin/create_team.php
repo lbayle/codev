@@ -1,12 +1,13 @@
-<?php if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
 	session_name($sname); 
 	session_start(); 
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
 } 
-?>
-<?php /*
+
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -21,21 +22,18 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php include_once '../path.inc.php'; ?>
+include_once '../path.inc.php';
 
-<?php
 include_once 'i18n.inc.php';
+
+$page_name = T_("CodevTT Administration : Team Creation");
+include 'header.inc.php';
+include 'login.inc.php';
+include 'menu.inc.php';
 ?>
 
-<?php
-   $_POST['page_name'] = T_("CodevTT Administration : Team Creation");
-   include 'header.inc.php';
-?>
-
-<?php include 'login.inc.php'; ?>
-<?php include 'menu.inc.php'; ?>
 <br/>
 <?php include 'menu_admin.inc.php'; ?>
 

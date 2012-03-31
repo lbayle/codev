@@ -21,7 +21,6 @@
 # WARN: this avoids the display of some PHP errors...
 #error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
-# ================
 # NOTE: header.inc.php is not loaded, so some config must be done.
 error_reporting(0); // no logs displayed in page (page is a generated image)
 date_default_timezone_set('Europe/Paris');
@@ -38,7 +37,6 @@ include_once "tools.php";
 #include_once "mysql_connect.inc.php";
 #include_once "internal_config.inc.php";
 #include_once "constants.php";
-# ================
 
 require_once ('jpgraph.php');
 require_once ('jpgraph_gantt.php');

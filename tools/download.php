@@ -23,6 +23,7 @@ if (!isset($_SESSION)) {
 error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
 include_once '../path.inc.php';
+
 include_once 'i18n.inc.php';
 
 require_once('Logger.php');
@@ -36,7 +37,6 @@ include_once "tools.php";
 include_once "mysql_connect.inc.php";
 include_once "internal_config.inc.php";
 include_once "constants.php";
-
 
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");

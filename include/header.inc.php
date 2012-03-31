@@ -1,5 +1,4 @@
 <?php
-
 /*
     This file is part of CoDev-Timetracking.
 
@@ -20,7 +19,6 @@
 include_once "super_header.inc.php";
 
 ?>
-
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
 
@@ -76,7 +74,6 @@ include_once "super_header.inc.php";
 </td>
 <td>
 <?php
-   $page_name = isset($_POST['page_name']) ? $_POST['page_name'] : "";
    echo"<h1>$page_name</h1>";
 ?>
 </td>

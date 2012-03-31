@@ -1,5 +1,4 @@
 <?php
-
 /*
     This file is part of CoDev-Timetracking.
 
@@ -17,13 +16,12 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// NSV 17 Mar 2012
-// =======================================
-
 require('Smarty.class.php');
 
 /**
  * Smarty helper : Construct a smarty objet for templating engine
+ * @author NSV
+ * @date 17 Mar 2012
  */
 class SmartyHelper {
     

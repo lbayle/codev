@@ -6,8 +6,8 @@ if (!isset($_SESSION)) {
 	session_start(); 
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
 } 
-?>
-<?php /*
+
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -22,20 +22,18 @@ if (!isset($_SESSION)) {
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php
 include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
-$_POST['page_name'] = T_("Time Tracking");
+$page_name = T_("Time Tracking");
 include 'header.inc.php';
 
 include_once 'tools.php';
 include 'login.inc.php';
 include 'menu.inc.php';
 
-// ----
 include_once "issue.class.php";
 include_once "project.class.php";
 include_once "user.class.php";

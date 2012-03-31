@@ -6,21 +6,15 @@ if (!isset($_SESSION)) {
 	session_start(); 
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
 } 
-?>
 
-<?php include_once '../path.inc.php'; ?>
+include_once '../path.inc.php';
 
-<?php
 include_once 'i18n.inc.php';
 
-   $_POST['page_name'] = T_("Tools: serialize");
-   include 'header.inc.php';
-?>
+$page_name = T_("Tools: serialize");
+include 'header.inc.php';
 
-
-<?php
 include_once 'install.class.php';
-
 
 /**
  * local test func

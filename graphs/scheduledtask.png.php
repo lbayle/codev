@@ -6,7 +6,6 @@ header("Content-type: image/png");
 # <img src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=345&color=red'/>";
 # <a href='./reports/issue_info.php?bugid=225'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=225&color=green' /></a>
 
-
 /*
     This file is part of CoDev-Timetracking.
 
