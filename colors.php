@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,8 +14,7 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
+*/
 
 $planning_grey      = array(210, 210, 210);
 $planning_black     = array(0, 0, 0);
@@ -27,8 +27,7 @@ $planning_blue      = array(179, 199, 255);
 * Exemple d'utilisation de la fonction :
 *  <?php print_r(html2rgb('B8B9B9')) ; ?>
 */
-function html2rgb($color)
-{
+function html2rgb($color) {
    if ($color[0] == '#') {
       $color = substr($color, 1);
    }

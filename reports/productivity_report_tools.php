@@ -1,13 +1,11 @@
 <?php
-
-if (!isset($_SESSION)) { 
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
 	session_name($sname); 
 	session_start(); 
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
 } 
-
 
 /*
     This file is part of CoDev-Timetracking.
@@ -28,32 +26,29 @@ if (!isset($_SESSION)) {
 
 include_once '../path.inc.php';
 
-   # WARN: this avoids the display of some PHP errors...
-   error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+# WARN: this avoids the display of some PHP errors...
+error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
-   date_default_timezone_set("Europe/Paris");
+date_default_timezone_set("Europe/Paris");
 
+# WARN: order of these includes is important.
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+   Logger::configure(dirname(__FILE__).'/../log4php.xml');
+   $logger = Logger::getLogger("prod_report_tools");
+   $logger->info("LOG activated !");
+}
 
-   # WARN: order of these includes is important.
-   require_once('Logger.php');
-   if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("prod_report_tools");
-      $logger->info("LOG activated !");
-   }
+include_once "tools.php";
+include_once "mysql_connect.inc.php";
+include_once "internal_config.inc.php";
+include_once "constants.php";
 
-   include_once "tools.php";
-   include_once "mysql_connect.inc.php";
-   include_once "internal_config.inc.php";
-   include_once "constants.php";
+include_once 'i18n.inc.php';
 
-   include_once 'i18n.inc.php';
+include_once "project.class.php";
+include_once "time_tracking.class.php";
 
-   include_once "project.class.php";
-   include_once "time_tracking.class.php";
-
-
-// ---------------------------------------------------
 /**
  * 
  * @param TimeTracking $timeTracking

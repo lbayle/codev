@@ -6,8 +6,7 @@ if (!isset($_SESSION)) {
 	session_start();
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
-?>
-<?php
+
 /*
     This file is part of CoDev-Timetracking.
 
@@ -43,7 +42,6 @@ include_once "user.class.php";
 include_once "time_tracking.class.php";
 
 $logger = Logger::getLogger("time_tracking_tools");
-
 
 // MAIN
 if(isset($_GET['action'])) {

@@ -1,7 +1,6 @@
-
-<?php include_once '../path.inc.php'; ?>
-
 <?php
+include_once '../path.inc.php';
+
 require_once('Logger.php');
 
 #Logger::configure(dirname(__FILE__).'/../lib/log4php___/src/examples/resources/appender_echo.properties');
@@ -13,7 +12,5 @@ $logger->debug("Hello World!");
 $logger->info("We have liftoff.");
 
 echo "config file " . $logger->getConfigurationFile();
-
-
 
 ?>
