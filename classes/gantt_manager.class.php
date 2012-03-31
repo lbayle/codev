@@ -100,7 +100,7 @@ class GanttActivity {
       }
 
       $bar = new GanttBar($this->activityIdx,
-                          $formatedActivityName,
+                          utf8_decode($formatedActivityName),
                           date('Y-m-d', $this->startTimestamp),
                           date('Y-m-d', $this->endTimestamp),
                           $formatedActivityInfo,10);
