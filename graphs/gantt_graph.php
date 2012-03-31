@@ -18,29 +18,25 @@
     along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-   # WARN: this avoids the display of some PHP errors...
-   #error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
-?>
-<?php
+# WARN: this avoids the display of some PHP errors...
+#error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
-   # ================
-   # NOTE: header.inc.php is not loaded, so some config must be done.
-   error_reporting(0); // no logs displayed in page (page is a generated image)
-   date_default_timezone_set('Europe/Paris');
+# NOTE: header.inc.php is not loaded, so some config must be done.
+error_reporting(0); // no logs displayed in page (page is a generated image)
+date_default_timezone_set('Europe/Paris');
 
-   require_once '../path.inc.php';
-   require_once('Logger.php');
-   if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("gantt_graph");
-      //$logger->debug("LOG activated !");
-   }
+require_once '../path.inc.php';
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+   Logger::configure(dirname(__FILE__).'/../log4php.xml');
+   $logger = Logger::getLogger("gantt_graph");
+   //$logger->debug("LOG activated !");
+}
 
-   include_once "tools.php";
-   #include_once "mysql_connect.inc.php";
-   #include_once "internal_config.inc.php";
-   #include_once "constants.php";
-   # ================
+include_once "tools.php";
+#include_once "mysql_connect.inc.php";
+#include_once "internal_config.inc.php";
+#include_once "constants.php";
 
 
 require_once ('jpgraph.php');

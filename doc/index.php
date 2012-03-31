@@ -6,11 +6,9 @@ if (!isset($_SESSION)) {
 	session_start(); 
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
 } 
-?>
 
-<?php include_once '../path.inc.php'; ?>
+include_once '../path.inc.php';
 
-<?php
 /*
 if (!isset($_SESSION['userid'])) {
   echo ("Sorry, you need to <a href='../'\">login</a> to access this page.");
@@ -18,16 +16,14 @@ if (!isset($_SESSION['userid'])) {
 }
 */
 
-$OpenSource_FR = "Un logiciel libre est un logiciel qui respecte le droit de l’Homme : liberté, égalité, fraternité. Liberté car l’utilisateur de ce programme est libre. Egalite parce ce que personne n’a de pouvoir sur personne par le logiciel libre. Et fraternité, car nous encourageons la coopération entre les utilisateurs."
+$OpenSource_FR = "Un logiciel libre est un logiciel qui respecte le droit de l’Homme : liberté, égalité, fraternité. Liberté car l’utilisateur de ce programme est libre. Egalite parce ce que personne n’a de pouvoir sur personne par le logiciel libre. Et fraternité, car nous encourageons la coopération entre les utilisateurs.";
 
-?>
+$page_name = "Centre de Documentation";
+include 'header.inc.php';
 
-<?php
-   $_POST['page_name'] = "Centre de Documentation";
-   include 'header.inc.php';
+include 'login.inc.php';
+include 'menu.inc.php';
 ?>
-<?php include 'login.inc.php'; ?>
-<?php include 'menu.inc.php'; ?>
 <br/>
 <?php include 'menu_doc.inc.php'; ?>
 

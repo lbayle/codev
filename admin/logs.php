@@ -6,8 +6,6 @@ if (!isset($_SESSION)) {
 	session_start(); 
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
 } 
-?>
-<?php
 
 /*
     This file is part of CoDev-Timetracking.
@@ -32,32 +30,26 @@ require('super_header.inc.php');
 
 include_once('user.class.php');
 
-
 // ================ MAIN =================
-
 global $codevtt_logfile;
 
 if (isset($_SESSION['userid'])) {
 
-// Admins only
-$session_user = new User($_SESSION['userid']);
+    // Admins only
+    $session_user = new User($_SESSION['userid']);
 
-if (!$session_user->isTeamMember($admin_teamid)) {
-	echo T_("Sorry, you need to be in the admin-team to access this page.");
-	exit;
-}
+    require('display.inc.php');
 
+    if (!$session_user->isTeamMember($admin_teamid)) {
+        echo T_("Sorry, you need to be in the admin-team to access this page.");
+        exit;
+    }
 
-	require('display.inc.php');
+    $smartyHelper = new SmartyHelper();
+    $smartyHelper->assign('pageName', T_('CodevTT Logs'));
 
-	$smartyHelper = new SmartyHelper();
-	$smartyHelper->assign('pageName', T_('CodevTT Logs'));
+    $nbLinesToDisplay = 40;
 
-
-
-    
-	$nbLinesToDisplay = 40;
-	
     $logs = array();
     
     $lines = file($codevtt_logfile);
