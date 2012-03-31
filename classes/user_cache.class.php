@@ -13,9 +13,10 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php
+require_once "user.class.php";
+
 // ==============================================================
 class UserCache {
 
