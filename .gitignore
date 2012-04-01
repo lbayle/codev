@@ -1,5 +1,6 @@
 .project
 .settings
+.idea
 *~
 constants.php
 include/mysql_config.inc.php
@@ -8,5 +9,3 @@ lib/jpgraph/docs
 lib/jpgraph/src/Examples
 lib/jpgraph/src/barcode/examples
 lib/jpgraph/src/barcode/demoapp
-templates_c
-
