@@ -392,6 +392,10 @@ class TimeTracking {
   // ----------------------------------------------
   /**
    * return stats on which Issues where delivered after the DeadLine
+   * 
+   * @param array $issueList
+   * 
+   * TODO move this method to IssueSelection class
    */
   public function getIssuesTimeDriftStats($issueList) {
 
@@ -453,7 +457,15 @@ class TimeTracking {
 
 
   // -------------------------------------------------
-  // Drift Stats on a given Issue.class List
+  /** Drift Stats on a given Issue.class List
+   * 
+   * @param array $issueList
+   * @param boolean $withSupport
+   * @return array driftStats
+   * 
+   * TODO move this method to IssueSelection class
+  */
+  
   public function getIssuesDriftStats($issueList, $withSupport = true) {
 
     global $statusNames;
