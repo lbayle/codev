@@ -439,8 +439,8 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
 
   echo "<tr>\n";
   echo "<td>".T_("Tasks in time")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats["driftEqualETA"].")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats["driftEqual"].")</span></td>\n";
   if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidEqualList"]."</td>\n";
   } else {

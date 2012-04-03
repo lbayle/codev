@@ -47,20 +47,27 @@ $logger = Logger::getLogger("time_tracking_tools");
 if(isset($_GET['action'])) {
     if($_GET['action'] == 'updateRemainingAction') {
         $issue = IssueCache::getInstance()->getIssue($_GET['bugid']);
-        if (NULL != $issue->remaining) {
+        if (NULL != $_GET['remaining']) {
         	$formattedRemaining = mysql_real_escape_string($_GET['remaining']);
             $issue->setRemaining($formattedRemaining);
-
-            $weekDates      = week_dates($_GET['weekid'],$_GET['year']);
-            $startTimestamp = $weekDates[1];
-            $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-            $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
-
-            displayWeekTaskDetails($_GET['weekid'],$weekDates,$_GET['userid'],$timeTracking, $_GET['year']);
         }
+            
+        $weekDates      = week_dates($_GET['weekid'],$_GET['year']);
+        $startTimestamp = $weekDates[1];
+        $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+        $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
+
+        displayWeekTaskDetails($_GET['weekid'],$weekDates,$_GET['userid'],$timeTracking, $_GET['year']);
     }
 }
 
+/**
+ * display accordion with missing imputations
+ * 
+ * @param unknown_type $userid
+ * @param unknown_type $team_id
+ * @param unknown_type $isStrictlyTimestamp
+ */
 function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
    $user1 = UserCache::getInstance()->getUser($userid);
@@ -98,6 +105,15 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
 
 }
 
+/**
+ * display Timetracking Tuples
+ * 
+ * @param unknown_type $userid
+ * @param unknown_type $weekid
+ * @param unknown_type $startTimestamp
+ * @param unknown_type $endTimestamp
+ * @param unknown_type $curYear
+ */
 function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endTimestamp=NULL, $curYear=NULL) {
 
 	if (NULL == $curYear) { $curYear = date('Y'); }
