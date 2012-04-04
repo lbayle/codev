@@ -217,11 +217,12 @@ CREATE TABLE IF NOT EXISTS `codev_blog_table` (
 `dest_team_id` int( 11 ) unsigned NOT NULL DEFAULT '0',
 `severity` int( 11 ) NOT NULL ,
 `category` varchar( 50 ) DEFAULT NULL ,
+`summary` varchar( 100 ) DEFAULT NULL ,
 `content` varchar( 500 ) DEFAULT NULL ,
 `color` varchar( 7 ) DEFAULT NULL ,
 PRIMARY KEY ( `id` ) ,
 KEY `date` ( `date` )
-) ENGINE = MYISAM DEFAULT CHARSET = utf8 COMMENT = 'Blog posts';
+) ENGINE=MYISAM DEFAULT CHARSET=utf8 COMMENT='Blog posts';
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 -- /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
