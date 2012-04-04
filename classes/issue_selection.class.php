@@ -54,6 +54,19 @@ class IssueSelection {
 		$this->progress  = NULL;
 	}
 
+   /**
+    * add an array of Issue instances
+    */
+   public function addIssueList($issueList) {
+
+      if (NULL != $issueList) {
+         foreach ($issueList as $issue) {
+            $this->addIssue($issue->bugId);
+         }
+      }
+   }
+
+
 	/**
 	 *
 	 * @param int $bugid
@@ -72,13 +85,13 @@ class IssueSelection {
 			$this->effortEstim    += $issue->effortEstim;
 			$this->effortAdd      += $issue->effortAdd;
 
-			$this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr());
+			$this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgrEE());
 		}
 	}
 
 	/**
 	 *
-	 * 
+	 *
 	 */
 	public function getProgress() {
 
@@ -102,7 +115,7 @@ class IssueSelection {
 
 	/**
 	 *
-	 * 
+	 *
 	 */
 	public function getProgressMgr() {
 
@@ -134,6 +147,13 @@ class IssueSelection {
 	/**
 	 *
 	 */
+	public function getNbIssues() {
+		return count($this->issueList);
+	}
+
+	/**
+	 *
+	 */
 	public function getFormattedIssueList() {
 		$formattedList = "";
 
@@ -147,18 +167,18 @@ class IssueSelection {
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return array(nbDays, percent)
 	 */
 	public function getDriftMgr() {
 
         $values = array();
-        
+
         if (0 == $this->mgrEffortEstim ) {
         	$this->logger->debug("IssueSelection [$this->name] :  if mgrEffortEstim == 0 then Drift = 0");
-            
-        	$values['nbDays'] = 0;
+
+        	   $values['nbDays'] = 0;
             $values['percent'] = 0;
         } else {
             // ((elapsed + RAF) - estim) / estim
@@ -168,12 +188,17 @@ class IssueSelection {
             $values['nbDays'] = $nbDaysDrift;
             $values['percent'] = $percent;
         }
-        
+
         $this->logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent);
         return $values;
 	}
 
 	/**
+	 *
+	 * Note: the result of this function may be different from the sum of the drift of the issues
+	 * if some of them have (EE == 0).
+	 * (EE == 0) is considered as beeing an error, so this inconsistency is not considered as a 'real' bug.
+	 *
 	 * @return array(nbDays, percent)
 	 */
 	public function getDrift() {
@@ -183,17 +208,23 @@ class IssueSelection {
         $myEstim = $this->effortEstim + $this->effortAdd;
         if (0 == $myEstim ) {
         	$this->logger->debug("IssueSelection [$this->name] :  if (effortEstim + effortAdd) == 0 then Drift = 0");
-        
+
         	$values['nbDays'] = 0;
         	$values['percent'] = 0;
         } else {
             // ((elapsed + RAF) - estim) / estim
             $nbDaysDrift = $this->elapsed + $this->remaining - $myEstim;
-    		$percent =  $nbDaysDrift / $myEstim;
+
+            $this->logger->debug("IssueSelection [$this->name] :  drift=$nbDaysDrift (".$this->elapsed." + ".$this->remaining." - ".$myEstim.")");
+
+
+            $percent =  $nbDaysDrift / $myEstim;
 
             $values['nbDays'] = $nbDaysDrift;
             $values['percent'] = $percent;
         }
+        $this->logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent);
+
         return $values;
 	}
 
@@ -238,6 +269,99 @@ class IssueSelection {
 		}
 
    }
+
+
+  // -------------------------------------------------
+  /**
+   * Split selection in 3 selection, sorted on issue drift.
+   *
+   * @param array $threshold
+   * @param boolean $withSupport
+   *
+   * @return array array of 3 IssueSelection instances ('negative', 'equal', 'positive')
+   *
+  */
+  public function getDeviationGroups($threshold = 1, $withSupport = true) {
+
+    if (0== count($this->issueList)) {
+      echo "<div style='color:red'>ERROR getDeviationGroups: Issue List is empty !<br/></div>";
+      $this->logger->error("getDeviationGroups(): Issue List is empty !");
+      return NULL;
+    }
+
+    $negSubList = new IssueSelection("ahead");
+    $equalSubList = new IssueSelection("in time");
+    $posSubList = new IssueSelection("in drift");
+
+    foreach ($this->issueList as $bugId => $issue) {
+
+	    $issueDrift = $issue->getDrift($withSupport);
+
+	    // get drift stats. equal is when drif = +-threshold
+	    if ($issueDrift < -$threshold) {
+		    $negSubList->addIssue($bugId);
+
+	    } elseif ($issueDrift > $threshold){
+		    $posSubList->addIssue($bugId);
+	    } else {
+		    $equalSubList->addIssue($bugId);
+	    }
+    } // foreach
+
+    $driftStats = array();
+    $driftStats["negative"] = $negSubList;
+    $driftStats["equal"]    = $equalSubList;
+    $driftStats["positive"] = $posSubList;
+
+    return $driftStats;
+  }
+
+  // -------------------------------------------------
+  /**
+   * Split selection in 3 selection, sorted on issue drift.
+   *
+   * Note: this is a replacement for Timetracking::getIssuesDriftStats()
+   *
+   * @param array $threshold
+   * @param boolean $withSupport
+   *
+   * @return array array of 3 IssueSelection instances ('negative', 'equal', 'positive')
+   *
+  */
+  public function getDeviationGroupsMgr($threshold = 1, $withSupport = true) {
+
+    if (0== count($this->issueList)) {
+      echo "<div style='color:red'>ERROR getDeviationGroupsMgr: Issue List is empty !<br/></div>";
+      $this->logger->error("getDeviationGroupsMgr(): Issue List is empty !");
+      return NULL;
+    }
+
+    $negSubList = new IssueSelection("ahead Mgr");
+    $equalSubList = new IssueSelection("in time Mgr");
+    $posSubList = new IssueSelection("in drift Mgr");
+
+    foreach ($this->issueList as $bugId => $issue) {
+
+	    $issueDrift = $issue->getDriftMgrEE($withSupport);
+
+	    // get drift stats. equal is when drif = +-threshold
+	    if ($issueDrift < -$threshold) {
+		    $negSubList->addIssue($bugId);
+
+	    } elseif ($issueDrift > $threshold){
+		    $posSubList->addIssue($bugId);
+	    } else {
+		    $equalSubList->addIssue($bugId);
+	    }
+    } // foreach
+
+    $driftStats = array();
+    $driftStats["negative"] = $negSubList;
+    $driftStats["equal"]    = $equalSubList;
+    $driftStats["positive"] = $posSubList;
+
+    return $driftStats;
+  }
 
 } // class
 ?>

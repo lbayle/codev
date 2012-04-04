@@ -381,11 +381,17 @@ function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport 
 	echo "<div id='tabsResolvedDriftStats'>\n";
 	echo "<ul>\n";
 	echo "<li><a href='#tabsName-1'>".T_("Effort deviation")."</a></li>\n";
+	echo "<li><a href='#tabsName-3'>NEW ".T_("Effort deviation")."</a></li>\n";
 	echo "<li><a href='#tabsName-2'>".T_("Tasks in drift")."</a></li>\n";
 	echo "</ul>\n";
 	echo "<div id='tabsName-1'>\n";
 	echo "<p>";
 	displayResolvedDriftStats ($timeTracking, $withSupport);
+	echo "</p>\n";
+	echo "</div>\n";
+	echo "<div id='tabsName-3'>\n";
+	echo "<p>";
+	displayResolvedDeviationStats ($timeTracking, $withSupport);
 	echo "</p>\n";
 	echo "</div>\n";
 	echo "<div id='tabsName-2'>\n";
@@ -394,6 +400,8 @@ function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport 
 	echo "</p>\n";
 	echo "</div>\n";
 	echo "</div>\n";
+
+
 
 }
 
@@ -441,11 +449,7 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "<td>".T_("Tasks in time")."</td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats["driftEqualETA"].")</span></td>\n";
   echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats["driftEqual"].")</span></td>\n";
-  if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidEqualList"]."</td>\n";
-  } else {
-   echo "<td title='".$driftStats["bugidEqualList"]."'>".T_("Tasks resolved in time")."</td>\n";
-  }
   echo "</tr>\n";
 
   echo "<tr>\n";
@@ -456,6 +460,87 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
   echo "</tr>\n";
   echo "</table>\n";
 }
+
+
+/**
+ * display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
+ */
+function displayResolvedDeviationStats ($timeTracking, $withSupport = true) {
+
+  $issueList = $timeTracking->getResolvedIssues();
+  $issueSelection = new IssueSelection("resolved issues");
+  $issueSelection->addIssueList($issueList);
+
+  $deviationGroups    = $issueSelection->getDeviationGroups(1, $withSupport);
+  $deviationGroupsMgr = $issueSelection->getDeviationGroupsMgr(1, $withSupport);
+
+
+  echo "<table>\n";
+  echo "<tr>\n";
+  echo "<th></th>\n";
+  echo "<th width='100' title='".T_("Manager Estimation")."'>".T_("Manager")."</th>\n";
+  echo "<th width='100'>".T_("Value")."</th>\n";
+  echo "<th>".T_("Tasks Mgr")."</th>\n";
+  echo "<th>".T_("Tasks")."</th>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
+  $allDriftMgr = $issueSelection->getDriftMgr();
+
+   $value = number_format($allDriftMgr['nbDays'], 2);
+   $color = "";
+   if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
+   if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
+   echo "<td title='elapsed - MgrEffortEstim' $color >".$value."</td>\n";
+
+   $allDrift = $issueSelection->getDrift();
+   $value = number_format($allDrift['nbDays'], 2);
+   $color = "";
+   if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
+   if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
+
+   echo "<td title='elapsed - EffortEstim' $color>".$value."</td>\n";
+     echo "<td></td>\n";
+     echo "<td></td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td>".T_("Tasks in drift")."</td>\n";
+  $posDriftMgr = $deviationGroupsMgr['positive']->getDriftMgr();
+  $posDrift    = $deviationGroups['positive']->getDrift();
+  echo "<td title='".T_("nb tasks")."'>".$deviationGroupsMgr['positive']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$posDriftMgr['nbDays'].")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".$deviationGroups['positive']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$posDrift['nbDays'].")</span></td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroupsMgr['positive']->getFormattedIssueList()."</td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroups['positive']->getFormattedIssueList()."</td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td>".T_("Tasks in time")."</td>\n";
+  $equalDriftMgr = $deviationGroupsMgr['equal']->getDriftMgr();
+  $equalDrift    = $deviationGroups['equal']->getDrift();
+  echo "<td title='".T_("nb tasks")."'>".$deviationGroupsMgr['equal']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$equalDriftMgr['nbDays'].")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".$deviationGroups['equal']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$equalDrift['nbDays'].")</span></td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroupsMgr['equal']->getFormattedIssueList()."</td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroups['equal']->getFormattedIssueList()."</td>\n";
+  echo "</tr>\n";
+
+  echo "<tr>\n";
+  echo "<td>".T_("Tasks ahead")."</td>\n";
+  $negDriftMgr = $deviationGroupsMgr['negative']->getDriftMgr();
+  $negDrift    = $deviationGroups['negative']->getDrift();
+  echo "<td title='".T_("nb tasks")."'>".$deviationGroupsMgr['negative']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$negDriftMgr['nbDays'].")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".$deviationGroups['negative']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$negDrift['nbDays'].")</span></td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroupsMgr['negative']->getFormattedIssueList()."</td>\n";
+  echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroups['negative']->getFormattedIssueList()."</td>\n";
+  echo "</tr>\n";
+  echo "</table>\n";
+}
+
+
+
+
+
 
 function displayResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport=true) {
 
