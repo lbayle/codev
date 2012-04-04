@@ -178,14 +178,14 @@ class Issue {
    	return $this->holidays;
    }
 
-   
+
    /**
     * @return boolean true if issue status >= bug_resolved_status_threshold
     */
    public function isResolved() {
    	  return ($this->currentStatus >= $this->bug_resolved_status_threshold);
    }
-   
+
    // ----------------------------------------------
    // Ex: vacation or Incident tasks are not production issues.
    //     but tools and workshop are production issues.
@@ -404,20 +404,20 @@ class Issue {
    }
 
    /**
-    * 
+    *
     * Returns the nb of days needed to finish the issue.
-    * 
+    *
     * if status >= resolved, return 0.
     * if the 'remaining' (RAF) field is not defined, return effortEstim
     */
    public function getDuration() {
-   	
+
    	  if ($this->isResolved()) { return 0; }
-   	
+
       // determinate issue duration (Remaining, BI, MgrEffortEstim)
       if (NULL != $this->remaining) { $issueDuration = $this->remaining; }
       else                          { $issueDuration = $this->effortEstim; }
-      
+
       if (NULL == $this->effortEstim) {
       	$this->logger->error("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND effortEstim == NULL)");
       }
@@ -425,16 +425,16 @@ class Issue {
    }
 
    /**
-    * 
+    *
     * Returns the nb of days needed to finish the issue.
-    * 
+    *
     * if status >= resolved, return 0.
     * if the 'remaining' (RAF) field is not defined, return mgrEffortEstim
     */
    public function getDurationMgr() {
-   	
+
    	  if ($this->isResolved()) { return 0; }
-   	
+
       // determinate issue duration (Remaining, BI, MgrEffortEstim)
       if (NULL != $this->remaining) { $issueDuration = $this->remaining; }
       else                          { $issueDuration = $this->mgrEffortEstim; }
@@ -578,8 +578,11 @@ class Issue {
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
-      if (0 == $totalEstim) { return 0; }
-      
+      if (0 == $totalEstim) {
+         $this->logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
+      	return 0;
+      }
+
       if ($withSupport) {
       	$myElapsed = $this->elapsed;
       } else {
@@ -1246,7 +1249,7 @@ class Issue {
 
       return $progress;
    }
-   
+
 } // class issue
 
 ?>
