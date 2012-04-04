@@ -32,10 +32,6 @@ if (NULL == Logger::getConfigurationFile()) {
 
 include_once "../colors.php";
 
-
-
-
-
 // ================ MAIN =================
 
 $string = isset($_GET['text']) ? $_GET['text'] : NULL;

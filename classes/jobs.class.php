@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,14 +14,12 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
+*/
 
-// MANTIS CoDev
-
-// LoB 01 Feb 2011
-
-// =======================================
+/**
+ * @author LoB
+ * @date 01 Feb 2011
+ */
 class Job {
 
   const type_commonJob   = 0;     // jobs common to all projects are type 0

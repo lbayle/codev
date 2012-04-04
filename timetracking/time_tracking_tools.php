@@ -1,13 +1,12 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
-?>
-<?php
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
+
 /*
     This file is part of CoDev-Timetracking.
 
@@ -44,24 +43,31 @@ include_once "time_tracking.class.php";
 
 $logger = Logger::getLogger("time_tracking_tools");
 
-
 // MAIN
 if(isset($_GET['action'])) {
     if($_GET['action'] == 'updateRemainingAction') {
         $issue = IssueCache::getInstance()->getIssue($_GET['bugid']);
-        if (NULL != $issue->remaining) {
-            $issue->setRemaining($_GET['remaining']);
-
-            $weekDates      = week_dates($_GET['weekid'],$_GET['year']);
-            $startTimestamp = $weekDates[1];
-            $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-            $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
-
-            displayWeekTaskDetails($_GET['weekid'],$weekDates,$_GET['userid'],$timeTracking, $_GET['year']);
+        if (NULL != $_GET['remaining']) {
+        	$formattedRemaining = mysql_real_escape_string($_GET['remaining']);
+            $issue->setRemaining($formattedRemaining);
         }
+            
+        $weekDates      = week_dates($_GET['weekid'],$_GET['year']);
+        $startTimestamp = $weekDates[1];
+        $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+        $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
+
+        displayWeekTaskDetails($_GET['weekid'],$weekDates,$_GET['userid'],$timeTracking, $_GET['year']);
     }
 }
 
+/**
+ * display accordion with missing imputations
+ * 
+ * @param unknown_type $userid
+ * @param unknown_type $team_id
+ * @param unknown_type $isStrictlyTimestamp
+ */
 function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
    $user1 = UserCache::getInstance()->getUser($userid);
@@ -99,6 +105,15 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
 
 }
 
+/**
+ * display Timetracking Tuples
+ * 
+ * @param unknown_type $userid
+ * @param unknown_type $weekid
+ * @param unknown_type $startTimestamp
+ * @param unknown_type $endTimestamp
+ * @param unknown_type $curYear
+ */
 function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endTimestamp=NULL, $curYear=NULL) {
 
 	if (NULL == $curYear) { $curYear = date('Y'); }
@@ -216,12 +231,12 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
   echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
 
     displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear);
-   
+
    echo "</div>\n";
 }
 
 /**
- * 
+ *
  * @param unknown_type $weekid
  * @param unknown_type $weekDates
  * @param unknown_type $userid
@@ -231,7 +246,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear) {
 
    global $logger;
-	
+
    $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table id='weekTaskDetails'>\n";
    echo "<tr>\n";
@@ -249,7 +264,7 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
    $linkList = array();
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = IssueCache::getInstance()->getIssue($bugid);
-      
+
       foreach ($jobList as $jobid => $dayList) {
          $linkid = $bugid."_".$jobid;
          $linkList["$linkid"] = $issue;
@@ -263,7 +278,21 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
 
          echo "<tr>\n";
          echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-         echo "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$issue->remaining."</a></td>\n";
+
+         // if no remaining set, display a '?' to allow Remaining edition
+         if (NULL == $issue->remaining) {
+
+            $project = ProjectCache::getInstance()->getProject($issue->projectId);
+            if (($project->isSideTasksProject()) || ($project->isNoStatsProject())) {
+            	// do not allow to edit sideTasks Remaining
+            	$formattedRemaining = '';
+            } else {
+               $formattedRemaining = '?';
+            }
+         } else {
+         	$formattedRemaining = $issue->remaining;
+         }
+         echo "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$formattedRemaining."</a></td>\n";
          echo "<td>".$jobName."</td>\n";
          for ($i = 1; $i <= 5; $i++) {
             echo "<td>".$dayList[$i]."</td>\n";

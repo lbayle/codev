@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,30 +14,31 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php
-// ==============================================================
 class TimeTrackCache {
-   
+
+    private static $logger;
+
     // instance de la classe
     private static $instance;
     private static $objects;
     private static $callCount;
     private static $cacheName;
 
-    // Un constructeur privé ; empêche la création directe d'objet
-    private function __construct() 
+    private function __construct()
     {
         self::$objects = array();
         self::$callCount = array();
-        
+
         self::$cacheName = __CLASS__;
+
+        self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
+
         #echo "DEBUG: Cache ready<br/>";
     }
 
-    // La méthode singleton
-    public static function getInstance() 
+    public static function getInstance()
     {
         if (!isset(self::$instance)) {
             $c = __CLASS__;
@@ -44,7 +46,7 @@ class TimeTrackCache {
         }
         return self::$instance;
     }
-   
+
     /**
      * get Issue class instance
      * @param $bugId
@@ -52,7 +54,7 @@ class TimeTrackCache {
     public function getTimeTrack($id)
     {
         $object = self::$objects[$id];
-        
+
         if (NULL == $object) {
             self::$objects[$id] = new TimeTrack($id);
             $object = self::$objects[$id];
@@ -61,15 +63,15 @@ class TimeTrackCache {
         }
         return $object;
     }
-    
+
     /**
-     * 
+     *
      */
     public function displayStats($verbose = FALSE) {
-      
+
       $nbObj   = count(self::$callCount);
       $nbCalls = array_sum(self::$callCount);
-      
+
       echo "=== ".self::$cacheName." Statistics ===<br/>\n";
       echo "nb objects in cache = ".$nbObj."<br/>\n";
       echo "nb cache calls      = ".$nbCalls."<br/>\n";
@@ -83,8 +85,17 @@ class TimeTrackCache {
          }
       }
     }
-            
-    
+
+    public function logStats() {
+      if (self::$logger->isDebugEnabled()) {
+         $nbObj   = count(self::$callCount);
+         $nbCalls = array_sum(self::$callCount);
+         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
+
+         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
+      }
+    }
+
 } // class Cache
 
 ?>

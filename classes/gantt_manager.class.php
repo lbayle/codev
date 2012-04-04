@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDevTT.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,10 +14,10 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
+*/
 
 require_once '../path.inc.php';
+
 require_once('Logger.php');
 require_once "mysql_config.inc.php";
 require_once "mysql_connect.inc.php";
@@ -29,7 +30,6 @@ require_once ('project.class.php');
 
 require_once ('jpgraph.php');
 require_once ('jpgraph_gantt.php');
-
 
 class GanttActivity {
 
@@ -100,7 +100,7 @@ class GanttActivity {
       }
 
       $bar = new GanttBar($this->activityIdx,
-                          $formatedActivityName,
+                          utf8_decode($formatedActivityName),
                           date('Y-m-d', $this->startTimestamp),
                           date('Y-m-d', $this->endTimestamp),
                           $formatedActivityInfo,10);

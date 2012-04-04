@@ -1,0 +1,69 @@
+<script type="text/javascript" src="js/datepicker.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    {if $locale != en}
+    jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+    {/if}
+
+    // Set the date
+    var startDatePicker = jQuery("#startdatepicker").datepicker("setDate" ,"{$startDate}");
+    var endDatePicker = jQuery("#enddatepicker").datepicker("setDate" ,"{$endDate}");
+
+    // Add range date
+    startDatePicker.datepicker("option","beforeShow",function(input) {
+        jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+    });
+    endDatePicker.datepicker("option","beforeShow",function(input) {
+        jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+    });
+
+    jQuery("#teamid").change(function() {
+        jQuery("#action").val("teamChanged");
+        jQuery("#form1").submit();
+    });
+});
+
+function submitForm() {
+    jQuery("#action").val("ganttReport");
+    jQuery("#form1").submit();
+}
+</script>
+
+<div id="content">
+    {if $teams}
+    <div class="center">
+        <!-- Create form -->
+        <form id="form1" name="form1" method="post" action="{$page}">
+            <fieldset>
+                <label>{t}Team{/t}: </label>
+                <select id="teamid" name="teamid">
+                    <option value="0"></option>
+                    {foreach from=$teams key=id item=i}
+                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                    {/foreach}
+                </select>
+                <label>{t}Project{/t}: </label>
+                <select id="projectid" name="projectid">
+                    <option>{t}All projects{/t}</option>
+                    {foreach from=$projects key=id item=i}
+                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                    {/foreach}
+                </select>
+
+                <input type="text" id="startdatepicker" class="datepicker" name="startdate" maxlength="10" size="10" title="{t}Start Date{/t}" />
+                <input type="text" id="enddatepicker" class="datepicker" name="enddate" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+
+                &nbsp;<input type="button" value="{t}Compute{/t}" onclick="javascript:submitForm()" />
+                <input type="hidden" id="action" name="action"  value="noAction" />
+            </fieldset>
+        </form>
+        <br/><br/><br/>
+    </div>
+    {if $urlGraph}
+    <img src="{$urlGraph}" alt="{t}Gant report{/t}"/>
+    <br/><br/>
+    {/if}
+    {else}
+    <div class="center">{t}Sorry, you do NOT have access to this page.{/t}</div>
+    {/if}
+</div>

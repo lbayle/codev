@@ -1,13 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
-?>
-<?php
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 
 /*
     This file is part of CoDev-Timetracking.
@@ -41,7 +39,7 @@ function getConsistencyErrors($userid) {
     $sessionUser = new User($userid);
 
     global $statusNames;
-    
+
     // get projects i'm involved in (dev, Leader, Manager)
     $devTeamList = $sessionUser->getDevTeamList();
     $leadedTeamList = $sessionUser->getLeadedTeamList();
@@ -58,8 +56,8 @@ function getConsistencyErrors($userid) {
         foreach ($cerrList as $cerr) {
             $user = new User($cerr->userId);
             $issue = new Issue($cerr->bugId);
-            
-            $cerrs[] = array('userName' => $user->getName(), 
+
+            $cerrs[] = array('userName' => $user->getName(),
                              'mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
                              'date' => date("Y-m-d", $cerr->timestamp),
                              'status' => $statusNames[$cerr->status],
@@ -67,7 +65,7 @@ function getConsistencyErrors($userid) {
                              'project' => $issue->getProjectName(),
             		         'desc' => $cerr->desc);
         }
-    
+
         return $cerrs;
     }
 }
@@ -89,5 +87,9 @@ if (isset($_SESSION['userid'])) {
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+
+// log stats
+IssueCache::getInstance()->logStats();
+ProjectCache::getInstance()->logStats();
 
 ?>

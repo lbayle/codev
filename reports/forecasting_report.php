@@ -6,8 +6,8 @@ if (!isset($_SESSION)) {
 	session_start(); 
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
 } 
-?>
-<?php /*
+
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -22,29 +22,25 @@ if (!isset($_SESSION)) {
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php include_once '../path.inc.php'; ?>
+include_once '../path.inc.php';
 
-<?php
 include_once 'i18n.inc.php';
+
+$page_name = T_("Forecasting");
+include 'header.inc.php';
+
+include 'login.inc.php';
+include 'menu.inc.php';
 ?>
-
-<?php
-   $_POST['page_name'] = T_("Forecasting");
-   include 'header.inc.php';
-?>
-
-<?php include 'login.inc.php'; ?>
-<?php include 'menu.inc.php'; ?>
-
 
 <script language="JavaScript">
 
   function submitTeam(){
 
-     foundError = 0;
-     msgString = "Some fields are missing:" + "\n\n";
+     var foundError = 0;
+     var msgString = "Some fields are missing:" + "\n\n";
 
      if (0 == document.forms["teamSelectForm"].f_teamid.value)  { msgString += "Team\n"; ++foundError; }
 
@@ -236,9 +232,9 @@ function displayCurrentDriftStats ($timeTracking, $isManager = false) {
    echo "<tr>\n";
    echo "<td>".T_("Tasks in time")."</td>\n";
    if (true == $isManager) {
-      echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
+      echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats_new["driftEqualETA"].")</span></td>\n";
    }
-   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats_new["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
+   echo "<td title='".T_("nb tasks")."'>".($driftStats_new["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats_new["driftEqual"].")</span></td>\n";
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats_new["formatedBugidEqualList"]."</td>\n";
    echo "</tr>\n";
 

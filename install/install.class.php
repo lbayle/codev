@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,22 +14,20 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-<?php
+*/
 
 require_once('Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("default");
-      $logger->info("LOG activated !");
-   }
+    Logger::configure(dirname(__FILE__).'/../log4php.xml');
+    $logger = Logger::getLogger("default");
+    $logger->info("LOG activated !");
+}
 
 include_once 'project.class.php';
 include_once 'team.class.php';
 include_once 'jobs.class.php';
 include_once 'config.class.php';
 include_once 'config_mantis.class.php';
-
 
 class Install {
 
@@ -447,12 +446,11 @@ class Install {
       $attributes["display_report"]   = 0;
       $this->createCustomField(T_("CodevTT_Aditional Effort"),   $mType_numeric, "customField_addEffort", $attributes);
 
-      $attributes["require_report"]   = 1;
-      $attributes["display_report"]   = 1;
+      $attributes["require_report"]   = 0;
+      $attributes["display_report"]   = 0;
       $attributes["display_closed"]   = 1;
       $attributes["display_resolved"] = 1;
-      $defaultValue = 1;
-      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes, $defaultValue);
+      $this->createCustomField(T_("CodevTT_Remaining"),          $mType_numeric, "customField_remaining", $attributes);
 
       $attributes["require_report"]   = 0;
       $attributes["display_report"]   = 0;
@@ -597,7 +595,7 @@ class Install {
 	 * WARN: depending on your HTTP server installation, the file may be created
 	 * by user 'apache', so be sure that this user has write access
 	 * to the CoDev install directory
-     * 
+     *
      * @return NULL if OK, or an error message starting with 'ERROR' .
      */
 	public function createConstantsFile() {
@@ -622,9 +620,12 @@ class Install {
       	$stringData .= "\n";
       	$stringData .= "  include_once \"config.class.php\";\n";
       	$stringData .= "\n";
-      	$stringData .= "\$codevInstall_timestamp = ".$today.";\n";
+      	$stringData .= "  \$codevInstall_timestamp = ".$today.";\n";
       	$stringData .= "\n";
       	$stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
+      	$stringData .= "\n";
+         $stringData .= "  // --- log file as defined in log4php.xml\n";
+      	$stringData .= "  \$codevtt_logfile = '/tmp/reports/codevtt.log';\n";
       	$stringData .= "\n";
       	$stringData .= "  \$codevRootDir = dirname(__FILE__);\n";
       	$stringData .= "\n";
@@ -651,8 +652,8 @@ class Install {
       	   $stringData .= "  \$status_".$s_name."       = array_search('".$s_name."', \$statusNames);\n";
       	}
 
-        // TODO add equivalences for mandatory statusses not present in workflow (see mantis 131)
-        // ex: $status_open = $status_assigned;
+        $stringData .= "// TODO add equivalences for all mandatory status not present in workflow (see mantis 131)\n";
+        $stringData .= "// ex: \$status_open = \$status_assigned;\n";
 
          // Constrains
       	$stringData .= "\n";
@@ -665,7 +666,7 @@ class Install {
       	$stringData .= "?>\n\n";
       	fwrite($fp, $stringData);
       	fclose($fp);
-        
+
         return NULL;
       }
 

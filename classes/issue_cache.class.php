@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,14 +14,15 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
+*/
 
-<?php
-// ==============================================================
 class IssueCache {
+
+    private static $logger;
 
     // instance de la classe
     private static $instance;
+
     private static $objects;
     private static $callCount;
     private static $cacheName;
@@ -32,6 +34,9 @@ class IssueCache {
         self::$callCount = array();
 
         self::$cacheName = __CLASS__;
+
+        self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
+
         #echo "DEBUG: Cache ready<br/>";
     }
 
@@ -86,6 +91,16 @@ class IssueCache {
          foreach(self::$callCount as $bugId => $count) {
             echo "cache[$bugId] = $count<br/>\n";
          }
+      }
+    }
+
+    public function logStats() {
+      if (self::$logger->isDebugEnabled()) {
+         $nbObj   = count(self::$callCount);
+         $nbCalls = array_sum(self::$callCount);
+         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
+
+         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
       }
     }
 

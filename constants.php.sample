@@ -11,6 +11,9 @@
 
   $mantisURL="http://".$_SERVER['HTTP_HOST']."/mantis";
 
+  // --- log file as defined in log4php.xml
+  $codevtt_logfile = '/tmp/reports/codevtt.log';  
+
   $codevRootDir = dirname(__FILE__);
 
   // --- RESOLUTION ---

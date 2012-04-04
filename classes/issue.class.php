@@ -1,4 +1,5 @@
-<?php /*
+<?php
+/*
     This file is part of CoDev-Timetracking.
 
     CoDev-Timetracking is free software: you can redistribute it and/or modify
@@ -13,17 +14,15 @@
 
     You should have received a copy of the GNU General Public License
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/ ?>
-
-<?php
+*/
 
 include_once "project.class.php";
 include_once "issue_cache.class.php";
 
-// -- COMPUTE DURATIONS --
-// Status & Issue classes
-
-// ==============================================================
+/**
+ * COMPUTE DURATIONS
+ * Status & Issue classes
+ */
 class Status {
 
    var $statusId; // new=10, ack=30, ...
@@ -35,11 +34,9 @@ class Status {
    }
 }
 
-
-// ==============================================================
 class Issue {
 
-   private $logger;
+   protected $logger;
 
    public $bugId;      // mantis id
    public $projectId;  // Capu, peterpan, etc.
@@ -1219,37 +1216,6 @@ class Issue {
     * 0.5 = 50% done
     * 0 = 0% done
     */
-   public function getProgress_old() {
-
-      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
-         return 1; // issue is finished
-      }
-
-      // totalEffort is (BI+BS) or if not exist, PEE
-      if (NULL != $this->effortEstim) {
-         $totalEffort = $this->effortEstim + $this->effortAdd;
-      } else {
-      	$totalEffort = $this->mgrEffortEstim;
-      }
-
-      // if no Remaining set, 0% done
-      if (NULL == $this->remaining) {
-      	return 0;
-      }
-
-      // nominal case
-      if ($this->remaining <= $totalEffort) {
-         $progress = ($totalEffort - $this->remaining) / $totalEffort;   // (T-R)/T
-      } else {
-      	$progress = $totalEffort / ($totalEffort - $this->remaining);   // T/(T+R)
-      }
-
-      if (($progress < 0) || ($progress > 1)) {
-      	$this->logger->error("Progress value = $progress = $totalEffort / ($totalEffort - $this->remaining)");
-      }
-
-      return $progress;
-   }
 
 
    /**
@@ -1284,4 +1250,3 @@ class Issue {
 } // class issue
 
 ?>
-

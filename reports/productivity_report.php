@@ -1,13 +1,11 @@
 <?php
-
-if (!isset($_SESSION)) { 
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
-
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 
 /*
     This file is part of CoDev-Timetracking.
@@ -29,8 +27,7 @@ if (!isset($_SESSION)) {
 include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
-
-$_POST['page_name'] = T_("Period Statistics");
+$page_name = T_("Period Statistics");
 include 'header.inc.php';
 
 include 'login.inc.php';
@@ -47,7 +44,6 @@ include "productivity_report_tools.php";
 require_once('tc_calendar.php');
 
 $logger = Logger::getLogger("productivity_report");
-
 ?>
 
 <br/>
@@ -443,8 +439,8 @@ function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
 
   echo "<tr>\n";
   echo "<td>".T_("Tasks in time")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftEqualETA"] + $driftStatsClosed["driftEqualETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftEqual"] + $driftStatsClosed["driftEqual"]).")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats["driftEqualETA"].")</span></td>\n";
+  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats["driftEqual"].")</span></td>\n";
   if (isset($_GET['debug'])) {
    echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidEqualList"]."</td>\n";
   } else {
@@ -885,6 +881,13 @@ if (0 == count($teamList)) {
 		displayCheckWarnings($timeTracking);
 	}
 }
+
+// log stats
+IssueCache::getInstance()->logStats();
+ProjectCache::getInstance()->logStats();
+UserCache::getInstance()->logStats();
+TimeTrackCache::getInstance()->logStats();
+
 ?>
 
 </div>
