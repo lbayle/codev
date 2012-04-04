@@ -92,6 +92,7 @@ function getCurrentDriftStats ($startTimestamp, $endTimestamp, $teamid, $isManag
     if (0 != count($issueList)) {
         $driftStats_new = $timeTracking->getIssuesDriftStats($issueList);
     } else {
+        $logger->debug("No Stats available for team ".$timeTracking->team_id);
         $driftStats_new = array();
     }
 
