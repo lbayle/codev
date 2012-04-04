@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 
 /*
     This file is part of CoDev-Timetracking.
@@ -105,6 +105,8 @@ function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
     $issuesInDrift = "";
 
     $mList = Team::getMemberList($teamid);
+    $projList = Team::getProjectList($teamid);
+
     foreach ($mList as $id => $name) {
         $user = UserCache::getInstance()->getUser($id);
 
@@ -114,9 +116,13 @@ function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
         }
 
         $issueList = $user->getAssignedIssues();
-
         foreach ($issueList as $issue) {
-            // TODO: check if issue in team project list ?
+
+
+            // check if issue in team project list
+            if (NULL == $projList[$issue->projectId]) {
+            	continue;
+            }
             $driftPrelEE = $issue->getDriftMgrEE($withSupport);
             $driftEE = $issue->getDrift($withSupport);
             if (($driftPrelEE > 0) || ($driftEE > 0)) {
