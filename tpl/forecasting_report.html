@@ -1,0 +1,175 @@
+<script type="text/javascript">
+function submitTeam(){
+    var foundError = 0;
+    var msgString = "Some fields are missing:" + "\n\n";
+
+    if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
+
+    if (0 != foundError) {
+        alert(msgString);
+        return false;
+    }
+    document.forms["teamSelectForm"].submit();
+}
+
+// ------ JQUERY --------
+jQuery(function() {
+    jQuery( "#dialog_CurrentDriftStats" ).dialog({
+        autoOpen: false,
+        hide: "fade"
+    });
+    jQuery( "#dialog_CurrentDriftStats_link" ).click(function() {
+        jQuery( "#dialog_CurrentDriftStats" ).dialog( "open" );
+        return false;
+    });
+});
+</script>
+
+<div id="content">
+    {if $teams}
+    <div align="center">
+        <!-- create form -->
+        <form id='teamSelectForm' name='teamSelectForm' method='post' action='{$page}'>
+            <fieldset>
+                <label>{t}Team{/t}: </label>
+                <select name='teamid'>
+                    <option value='0'></option>
+                    {foreach from=$teams key=id item=i}
+                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                    {/foreach}
+                </select>
+                <input type="button" value='{t}Update{/t}' onclick='javascript: submitTeam()' />
+                <input type="hidden" name="action" value="displayPage" />
+            </fieldset>
+        </form>
+    </div>
+
+    {if $issuesInDrift}
+    <div style="margin-top:2em;">
+        <h2>{t}Effort Deviation{/t}&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='{$page}'><img title='help' src='images/help_icon.gif'/></a></h2>
+        {if $currentDriftStats}
+        <table>
+            <tr>
+                <th></th>
+                {if $manager}<th width='100' title='{t}Manager Estimation{/t}'>{t}Manager{/t}</th>{/if}
+                <th width='100'>{t}Value{/t}</th>
+                <th>{t}Tasks{/t}</th>
+            </tr>
+            <tr>
+                <td title='{t}If < 0 then ahead on planning.{/t}'>{t}EffortDeviation{/t}</td>
+                {if $manager}<td title='elapsed - MgrEffortEstim' {if $currentDriftStats.totalDriftETA > 0}style='background-color: #fcbdbd;'{elseif $currentDriftStats.totalDriftETA < 0}style='background-color: #61ed66;'{/if}>{$currentDriftStats.totalDriftETA|string_format:"%.2f"}</td>{/if}
+                <td title='elapsed - EffortEstim' {if $currentDriftStats.totalDrift > 0}style='background-color: #fcbdbd;'{elseif $currentDriftStats.totalDrift < 0}style='background-color: #61ed66;'{/if}>{$currentDriftStats.totalDrift|string_format:"%.2f"}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>{t}Tasks in drift{/t}</td>
+                <td title='{t}nb tasks{/t}'>{$currentDriftStats.nbDriftsPosETA}<span title='{t}nb days{/t}' class='floatr'>({$currentDriftStats.driftPosETA})</span></td>
+                {if $manager}<td title='{t}nb tasks{/t}'>{$currentDriftStats.nbDriftsPos}<span title='{t}nb days{/t}' class='floatr'>({$currentDriftStats.driftPos})</span></td>{/if}
+                <td title='{t}Task list for EffortEstim{/t}'>{$currentDriftStats.formatedBugidPosList}</td>
+            </tr>
+            <tr>
+                <td>{t}Tasks in time{/t}</td>
+                {if $manager}<td title='{t}nb tasks{/t}'>{$currentDriftStats.nbDriftsEqualETA}<span title='{t}nb days{/t}' class='floatr'>{$currentDriftStats.driftEqualETA}</span></td>{/if}
+                <td title='{t}nb tasks{/t}'>{$currentDriftStats.nbDriftsEqual}<span title='{t}nb days{/t}' class='floatr'>{$currentDriftStats.driftEqual}</span></td>
+                <td title='{t}Task list for EffortEstim{/t}'>{$currentDriftStats.formatedBugidEqualList}</td>
+            </tr>
+            <tr>
+                <td>{t}Tasks ahead{/t}</td>
+                {if $manager}<td title='{t}nb tasks{/t}'>{$currentDriftStats.nbDriftsNegETA}<span title='{t}nb days{/t}' class='floatr'>({$currentDriftStats.driftNegETA})</span></td>{/if}
+                <td title='{t}nb tasks{/t}'>{$currentDriftStats.nbDriftsNeg}<span title='{t}nb days{/t}' class='floatr'>({$currentDriftStats.driftNeg})</span></td>
+                <td title='{t}Task list for EffortEstim{/t}'>{$currentDriftStats.formatedBugidNegList}</td>
+            </tr>
+        </table>
+        {else}
+        <span style='color:red'>{t}ERROR: No valid projects defined for this team{/t}</span><br>
+        {/if}
+        <br/><br/>
+
+        {if $issuesInDrift}
+        <table>
+            <caption>{t}Tasks in drift{/t}</caption>
+            <tr>
+                <th>{t}ID{/t}</th>
+                <th>{t}Project{/t}</th>
+                <th>{t}Target{/t}</th>
+                {if $manager}<th title='{t}Drift relatively to the managers Estimation{/t}'>{t}Drift Mgr{/t}</th>{/if}
+                <th title='{t}Drift relatively to (EE + AddEE){/t}'>{t}Drift{/t}</th>
+                <th>{t}RAF{/t}</th>
+                <th>{t}Progress{/t}</th>
+                <th>{t}Status{/t}</th>
+                <th>{t}Summary{/t}</th>
+            </tr>
+            {foreach from=$issuesInDrift key=id item=i}
+            <tr>
+                <td>{$i.bugId}</td>
+                <td>{$i.projectName}</td>
+                <td>{$i.targetVersion}</td>
+                {if $manager}<td {if $i.driftPrelEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftPrelEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftPrelEE}</td>{/if}
+                <td {if $i.driftEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftEE|string_format:"%.2f"}</td>
+                <td>{$i.remaining}</td>
+                <td>{$i.progress}%</td>
+                <td>{$i.statusName}</td>
+                <td>{$i.summary}</td>
+            </tr>
+            {/foreach}
+        </table>
+        {else}
+        <span style='color:red'>{t}ERROR: No valid projects defined for this team{/t}</span><br>
+        {/if}
+    </div>
+    {/if}
+    {if $graphUrl}
+    <hr style="margin-top:2em;" />
+    <div style="margin-top:2em;">
+        <h2>{t}Available Workload{/t}</h2>
+        <span class='help_font'>{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
+        <br/><br/>
+        <div class="float">
+            <img src='{$graphUrl}' alt="{t}Available Workload{/t}"/>
+        </div>
+        <div>
+            <table>
+                <caption title='{t}Available Workload{/t}'></caption>
+                <tr>
+                    <th>{t}Date{/t}</th>
+                    <th title='{t}nb production days{/t}'>{t}man-day{/t}</th>
+                </tr>
+                {foreach $dates as $date => $text}
+                <tr>
+                    <td class="right">{$date}</td>
+                    <td class="right">{$text}</td>
+                </tr>
+                {/foreach}
+            </table>
+        </div>
+        <div class="spacer" />
+    </div>
+    {/if}
+    {else}
+    <div class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
+    {/if}
+</div>
+
+<div id='dialog_CurrentDriftStats' title='{t}Effort Deviation{/t}' style='display: none'>
+    <p>
+        <strong>{t}Effort Deviation{/t}:</strong><br />
+    {t}Overflow day quantity{/t}<br />
+        - {t}Computed on task NOT Resolved/Closed on {/t}{$smarty.now|date_format:'%Y-%m-%d'}<br />
+        <span style='color:blue'>{t}Formula{/t}: elapsed - EffortEstim</span>
+    </p>
+    <p>
+        <strong>{t}Tasks in drift{/t}:</strong><br />
+    {t}Tasks for which the elapsed time is greater than the estimated effort{/t}<br />
+        <span style='color:blue'>{t}Formula{/t}: {t}drift{/t} > 1</span>
+    </p>
+    <p>
+        <strong>{t}Tasks in time{/t}:</strong><br />
+    {t}Tasks resolved in time{/t}<br />
+        <span style='color:blue'>{t}Formula{/t}: -1 <= {t}drift{/t} <= 1</span>
+    </p>
+    <p>
+        <strong>{t}Tasks ahead{/t}:</strong><br />
+    {t}Tasks resolved in less time than the estimated effort{/t}<br />
+        <span style='color:blue'>{t}Formula{/t}: {t}drift{/t} < -1</span>
+    </p>
+</div>
