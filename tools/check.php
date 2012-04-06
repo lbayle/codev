@@ -30,6 +30,9 @@ require('super_header.inc.php');
 
 include_once('consistency_check.class.php');
 include_once('user.class.php');
+include_once('team.class.php');
+
+$logger = Logger::getLogger("check");
 
 /**
  * Get consistency errors
@@ -38,13 +41,18 @@ include_once('user.class.php');
 function getConsistencyErrors($userid) {
     $sessionUser = new User($userid);
 
+    global $logger;
     global $statusNames;
+
+    $logger->debug("getConsistencyErrors userid=$userid");
 
     // get projects i'm involved in (dev, Leader, Manager)
     $devTeamList = $sessionUser->getDevTeamList();
     $leadedTeamList = $sessionUser->getLeadedTeamList();
     $managedTeamList = $sessionUser->getManagedTeamList();
-    $teamList = $devTeamList + $leadedTeamList + $managedTeamList;
+    $oTeamList = $sessionUser->getObservedTeamList();
+
+    $teamList = $devTeamList + $leadedTeamList + $managedTeamList + $oTeamList;
     $projectList = $sessionUser->getProjectList($teamList);
 
     $ccheck = new ConsistencyCheck($projectList);
@@ -54,21 +62,73 @@ function getConsistencyErrors($userid) {
         global $count;
         $count = count($cerrList);
         foreach ($cerrList as $cerr) {
-            $user = new User($cerr->userId);
-            $issue = new Issue($cerr->bugId);
+            $user = UserCache::getInstance()->getUser($cerr->userId);
+            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
 
-            $cerrs[] = array('userName' => $user->getName(),
-                             'mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
-                             'date' => date("Y-m-d", $cerr->timestamp),
-                             'status' => $statusNames[$cerr->status],
-                             'severity' => $cerr->severity,
-                             'project' => $issue->getProjectName(),
-            		         'desc' => $cerr->desc);
+            // do not display users that do not belong to a team
+            $userProjList = array_keys($user->getProjectList());
+
+            if ((in_array($issue->projectId, $userProjList)) ||
+                (0 == $cerr->userId)) {
+
+               $cerrs[] = array('userName' => $user->getName(),
+                     'mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
+                     'date' => date("Y-m-d", $cerr->timestamp),
+                     'status' => $statusNames[$cerr->status],
+                     'severity' => $cerr->severity,
+                     'project' => $issue->getProjectName(),
+                     'desc' => $cerr->desc);
+            }
         }
 
         return $cerrs;
     }
 }
+
+/**
+ * Get consistency errors
+ * @param int User's id
+ */
+function getTeamConsistencyErrors($teamid) {
+   $sessionUser = new User($userid);
+
+   global $logger;
+   global $statusNames;
+
+   $logger->debug("getTeamConsistencyErrors teamid=$teamid");
+
+   // get team projects
+   $projectList = Team::getProjectList($teamid);
+
+   $ccheck = new ConsistencyCheck($projectList);
+   $cerrList = $ccheck->check();
+
+   if (count($cerrList) > 0) {
+      global $count;
+      $count = count($cerrList);
+      foreach ($cerrList as $cerr) {
+         $user = UserCache::getInstance()->getUser($cerr->userId);
+         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+
+         // check if issue is assigned to a user from the selected teams
+         $userTeamList = $user->getTeamList();
+         // TODO
+
+
+         $cerrs[] = array('userName' => $user->getName(),
+               'mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
+               'date' => date("Y-m-d", $cerr->timestamp),
+               'status' => $statusNames[$cerr->status],
+               'severity' => $cerr->severity,
+               'project' => $issue->getProjectName(),
+               'desc' => $cerr->desc);
+      }
+
+      $sortedCerrList = qsort($cerrs);
+      return $sortedCerrList;
+   }
+}
+
 
 // ================ MAIN =================
 
