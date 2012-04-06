@@ -1,10 +1,10 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
 
 /*
@@ -69,12 +69,12 @@ function getIssuesInDrift($userid) {
         foreach ($issueList as $issue) {
             // TODO: check if issue in team project list ?
             $driftEE = $issue->getDrift();
-            
+
             $formatedTitle = $issue->bugId." / ".$issue->tcId;
             $formatedSummary = str_replace("'", "\'", $issue->summary);
             $formatedSummary = str_replace('"', "\'", $formatedSummary);
-            
-            $driftedTasks[] = array('issueInfoURL' => issueInfoURL($issue->bugId), 
+
+            $driftedTasks[] = array('issueInfoURL' => issueInfoURL($issue->bugId),
                                     'projectName' => $issue->getProjectName(),
                                     'driftEE' => $driftEE,
                                     'formatedTitle' => $formatedTitle,
@@ -111,7 +111,7 @@ function getConsistencyErrors($userid) {
         foreach ($cerrList as $cerr) {
             if ($sessionUser->id == $cerr->userId) {
                 $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-                $consistencyErrors[] = array('mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary), 
+                $consistencyErrors[] = array('mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
                                              'date' => date("Y-m-d", $cerr->timestamp),
                                              'status' => $statusNames[$cerr->status],
                                              'desc' => $cerr->desc);
@@ -119,7 +119,7 @@ function getConsistencyErrors($userid) {
         }
         $i++;
     }
-    
+
     return $consistencyErrors;
 }
 
@@ -139,7 +139,7 @@ if ('updateRemainingAction' == $action) {
 require('display.inc.php');
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Welcome'));
+$smartyHelper->assign('pageName', T_($homepage_title));
 
 // IE disclaimer
 /*

@@ -627,6 +627,8 @@ class Install {
          $stringData .= "  // --- log file as defined in log4php.xml\n";
       	$stringData .= "  \$codevtt_logfile = '/tmp/reports/codevtt.log';\n";
       	$stringData .= "\n";
+      	$stringData .= "  \$homepage_title = 'Welcome';\n";
+      	$stringData .= "\n";
       	$stringData .= "  \$codevRootDir = dirname(__FILE__);\n";
       	$stringData .= "\n";
         $stringData .= "  // --- RESOLUTION ---\n";
