@@ -25,24 +25,48 @@ include_once "project.class.php";
 
 class ConsistencyError {
 
-   private $logger;
+   private $logger; // TODO static
 
-	var $bugId;
-	var $userId;
-	var $teamId;
-	var $desc;
-   var $timestamp;
-   var $status;
+	public $bugId;
+	public $userId;
+	public $teamId;
+	public $desc;
+   public $timestamp;
+   public $status;
 
-   var $severity; // unused
+   public $severity; // unused
 
 	public function ConsistencyError($bugId, $userId, $status, $timestamp, $desc) {
-		$this->bugId     = $bugId;
+
+      $this->logger = Logger::getLogger(__CLASS__); // TODO static
+
+      $this->bugId     = $bugId;
       $this->userId    = $userId;
       $this->status = $status;
       $this->timestamp = $timestamp;
       $this->desc      = $desc;
 	}
+
+	// ----------------------------------------------
+	/**
+	 * QuickSort compare method.
+	 * returns true if $this has higher priority than $activityB
+	 *
+	 * @param GanttActivity $activityB the object to compare to
+	 */
+	function compareTo($cerrB) {
+
+	   // the oldest activity should be in front of the list
+	   if ($this->bugId > $cerrB->bugId) {
+	      $this->logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
+	      return false;
+	   } else {
+	      $this->logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
+	      return true;
+	   }
+	   return true;
+	}
+
 }
 
 
@@ -69,14 +93,29 @@ class ConsistencyCheck {
     */
    public function check() {
 
+      #$this->logger->debug("checkResolved");
       $cerrList2 = $this->checkResolved();
+
       #$cerrList3 = $this->checkDeliveryDate();
+
+      #$this->logger->debug("checkBadRemaining");
       $cerrList4 = $this->checkBadRemaining();
+
+      #$this->logger->debug("checkMgrEffortEstim");
       $cerrList5 = $this->checkMgrEffortEstim();
+
+      #$this->logger->debug("checkTimeTracksOnNewIssues");
       $cerrList6 = $this->checkTimeTracksOnNewIssues();
+
+      #$this->logger->debug("done.");
+
       #$cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
       $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
-      return $cerrList;
+
+
+      $sortedCerrList = qsort($cerrList);
+
+      return $sortedCerrList;
    }
 
 
@@ -298,14 +337,14 @@ class ConsistencyCheck {
    }
 
    /**
-    * if you spend some time on a task, 
+    * if you spend some time on a task,
     * then it's status is probably 'ack' or 'open' but certainly not 'new'
     */
    function checkTimeTracksOnNewIssues() {
 
     global $status_new;
     global $statusNames;
-    
+
     $cerrList = array();
 
     // select all issues which current status is 'new'
@@ -343,7 +382,7 @@ class ConsistencyCheck {
             $cerr->severity = T_("Error");
             $cerrList[] = $cerr;
         }
-      }      
+      }
 
       return $cerrList;
    }
