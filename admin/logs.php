@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 
 /*
     This file is part of CoDev-Timetracking.
@@ -51,21 +51,28 @@ if (isset($_SESSION['userid'])) {
     $nbLinesToDisplay = 40;
 
     $logs = array();
-    
+
+    if ( (NULL == $codevtt_logfile) || (!file_exists($codevtt_logfile))) {
+       echo T_("Sorry, logfile not found:")." [".$codevtt_logfile."]";
+       exit;
+    }
+
     $lines = file($codevtt_logfile);
-    
+
     if (count($lines) > $nbLinesToDisplay) {
     	$offset = count($lines) - $nbLinesToDisplay;
+    } else {
+       $offset = 0;
     }
-    
+
 	#foreach ($lines as $line_num => $line) {
-	for ($i = $offset; $i <= ($offset+$nbLinesToDisplay); $i++) {	
+	for ($i = $offset; $i <= ($offset+$nbLinesToDisplay); $i++) {
 
 		$logs["$i"] = htmlspecialchars($lines[$i], ENT_QUOTES, "UTF-8");
 
 		#echo "DEBUG $line_num - ".$logs[$line_num]."<br>";
 	}
-    
+
 	$smartyHelper->assign('logs', $logs);
 }
 
