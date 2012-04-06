@@ -51,7 +51,7 @@ if(isset($_GET['action'])) {
         	$formattedRemaining = mysql_real_escape_string($_GET['remaining']);
             $issue->setRemaining($formattedRemaining);
         }
-            
+
         $weekDates      = week_dates($_GET['weekid'],$_GET['year']);
         $startTimestamp = $weekDates[1];
         $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
@@ -63,7 +63,7 @@ if(isset($_GET['action'])) {
 
 /**
  * display accordion with missing imputations
- * 
+ *
  * @param unknown_type $userid
  * @param unknown_type $team_id
  * @param unknown_type $isStrictlyTimestamp
@@ -107,7 +107,7 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
 
 /**
  * display Timetracking Tuples
- * 
+ *
  * @param unknown_type $userid
  * @param unknown_type $weekid
  * @param unknown_type $startTimestamp

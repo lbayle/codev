@@ -67,7 +67,17 @@
         <level value="DEBUG" />
     </logger>
 
+    <logger name="check">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="ConsistencyCheck">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="ConsistencyError">
+        <level value="DEBUG" />
+    </logger>
 -->
+
 
 	
     <root>
