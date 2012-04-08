@@ -206,7 +206,7 @@ if (isset($_SESSION['userid'])) {
         $startdate = isset($_POST["startdate"]) ? $_POST["startdate"] : date("Y-m-d");
         $smartyHelper->assign('startDate', $startdate);
 
-        $enddate = isset($_POST["enddate"]) ? $_POST["enddate"] : date("Y-m-d");
+        $enddate = isset($_POST["enddate"]) ? $_POST["enddate"] : "";
         $smartyHelper->assign('endDate', $enddate);
 
         $defaultBugid = isset($_POST['bugid']) ? $_POST['bugid'] : 0;
