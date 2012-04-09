@@ -18,9 +18,16 @@
 
 include_once 'jobs.class.php';
 
+require_once('Logger.php');
+if (NULL == Logger::getConfigurationFile()) {
+      Logger::configure(dirname(__FILE__).'/../log4php.xml');
+      $logger = Logger::getLogger("default");
+      $logger->info("LOG activated !");
+}
+
 class Team {
 
-	private $logger;
+   private $logger;
   // ---
   // il peut y avoir plusieurs observer
   // il n'y a qu'un seul teamLeader
@@ -35,37 +42,37 @@ class Team {
                               //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
                               Team::accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
 
-	var $id;
-	var $name;
-	var $description;
-	var $leader_id;
-	var $date;
+   var $id;
+   var $name;
+   var $description;
+   var $leader_id;
+   var $date;
 
    // -------------------------------------------------------
-	/**
-	 *
-	 * @param unknown_type $teamid
-	 */
-	public function Team($teamid) {
-		 $this->id = $teamid;
-		 $this->logger = Logger::getLogger(__CLASS__);
+   /**
+    *
+    * @param unknown_type $teamid
+    */
+   public function Team($teamid) {
+       $this->id = $teamid;
+       $this->logger = Logger::getLogger(__CLASS__);
 
-		 $this->initialize();
-	}
+       $this->initialize();
+   }
 
    // -------------------------------------------------------
-	/**
-	 *
-	 */
-	public function initialize() {
+   /**
+    *
+    */
+   public function initialize() {
 
-		$query = "SELECT * FROM `codev_team_table` WHERE id = $this->id";
+      $query = "SELECT * FROM `codev_team_table` WHERE id = $this->id";
       $result = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $row = mysql_fetch_object($result);
 
@@ -74,79 +81,85 @@ class Team {
       $this->leader_id      = $row->leader_id;
       $this->date           = $row->date;
 
-	}
+   }
 
    // -------------------------------------------------------
-	/**
-	 * STATIC insert new team in DB
-	 *
-	 * Team::create($name, $description, $leader_id, $date);
-	 *
+   /**
+    * STATIC insert new team in DB
+    *
+    * Team::create($name, $description, $leader_id, $date);
+    *
     * @return the team id or -1 if not found
-	 */
-	public static function create($name, $description, $leader_id, $date) {
+    */
+   public static function create($name, $description, $leader_id, $date) {
+
+      global $logger;
 
       // check if Team name exists !
-		$teamid = Team::getIdFromName($name);
+      $teamid = Team::getIdFromName($name);
 
-		if ($teamid < 0) {
-		   // create team
+      if ($teamid < 0) {
+         // create team
          $formattedName = mysql_real_escape_string($name);
          $formattedDesc = mysql_real_escape_string($description);
          $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$formattedName','$formattedDesc','$leader_id', '$date');";
          $result = mysql_query($query);
-		   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+         if (!$result) {
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
          }
          $teamid = mysql_insert_id();
-		} else {
-			echo "<span style='color:red'>ERROR: Team name '$name' already exists !</span>";
-			$teamid = -1;
-		}
+      } else {
+         echo "<span style='color:red'>ERROR: Team name '$name' already exists !</span>";
+         $teamid = -1;
+      }
       return $teamid;
-	}
+   }
 
    // -------------------------------------------------------
-	/**
-	 * @param unknown_type $name
+   /**
+    * @param unknown_type $name
     * @return the team id or -1 if not found
-	 */
-	public static function getIdFromName($name) {
+    */
+   public static function getIdFromName($name) {
+      global $logger;
 
-		$formattedName = mysql_real_escape_string($name);
-		$query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
+      $formattedName = mysql_real_escape_string($name);
+      $query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $teamid = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : (-1);
 
       return $teamid;
-	}
+   }
 
    // -------------------------------------------------------
-	public static function getLeaderId($teamid) {
-	   $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
+   public static function getLeaderId($teamid) {
+      global $logger;
+
+      $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
       $result = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $leaderid  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
 
       return $leaderid;
-	}
+   }
 
    // -------------------------------------------------------
    public static function getProjectList($teamid, $noStatsProject = true) {
+      global $logger;
 
       $projList = array();
 
@@ -155,31 +168,32 @@ class Team {
                "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
                "AND codev_team_project_table.team_id=$teamid ";
 
-	  if (!$noStatsProject) {
-	     $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
-	  }
+     if (!$noStatsProject) {
+        $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
+     }
       $query .= "ORDER BY mantis_project_table.name";
 
       if (isset($_GET['debug_sql'])) { echo "Team.getProjectList(): query = $query<br/>"; }
 
       $result    = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       while($row = mysql_fetch_object($result))
       {
-      	$projList[$row->project_id] = $row->name;
+         $projList[$row->project_id] = $row->name;
       }
 
-		return $projList;
-	}
+      return $projList;
+   }
 
    // -------------------------------------------------------
-	public static function getMemberList($teamid) {
+   public static function getMemberList($teamid) {
 
+      global $logger;
       $mList = array();
 
       $query  = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
@@ -188,11 +202,11 @@ class Team {
                 "AND codev_team_user_table.team_id=$teamid ".
                 "ORDER BY mantis_user_table.username";
       $result    = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       while($row = mysql_fetch_object($result))
       {
@@ -204,64 +218,116 @@ class Team {
 
    // -------------------------------------------------------
    /**
-	 *
-	 * @param unknown_type $memberid
-	 * @param unknown_type $arrivalTimestamp
-	 * @param unknown_type $memberAccess
-	 */
-	public function addMember($memberid, $arrivalTimestamp, $memberAccess) {
+    *
+    * get all issues managed by the team's users on the team's projects.
+    *
+    * @param teamid the team
+    * @param addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
+    *
+    * @return issueList
+    *
+    */
+   public static function getTeamIssues($teamid, $addUnassignedIssues = false) {
+
+      global $logger;
+
+      $projectList = Team::getProjectList($teamid);
+      $memberList = Team::getMemberList($teamid);
+
+
+      $formatedProjects = implode( ', ', array_keys($projectList));
+      $formatedMembers = implode( ', ', array_keys($memberList));
+
+      // add unassigned tasks
+      if ($addUnassignedIssues) {
+         $formatedMembers .= ',0';
+      }
+
+      $logger->debug("getTeamIssues(teamId=$teamId) projects=$formatedProjects members=$formatedMembers");
+
+      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+         "FROM `mantis_bug_table` ".
+         "WHERE project_id IN ($formatedProjects) ".
+         "AND   handler_id IN ($formatedMembers) ";
+
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $issueList = array();
+      while($row = mysql_fetch_object($result))
+      {
+         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+         $issueList[$row->bug_id] = $issue;
+      }
+
+      $logger->debug("getTeamIssues(teamid=$teamid) nbIssues=".count($issueList));
+      return $issueList;
+   }
+
+   // -------------------------------------------------------
+   /**
+    *
+    * @param unknown_type $memberid
+    * @param unknown_type $arrivalTimestamp
+    * @param unknown_type $memberAccess
+    */
+   public function addMember($memberid, $arrivalTimestamp, $memberAccess) {
       $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) ".
                "VALUES ('$memberid','$this->id','$arrivalTimestamp', '0', '$memberAccess');";
       $result = mysql_query($query);
-	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
-	}
+   }
 
 
    // -------------------------------------------------------
-	public function setMemberDepartureDate($memberid, $departureTimestamp) {
-	  $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
+   public function setMemberDepartureDate($memberid, $departureTimestamp) {
+     $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
-	}
+   }
 
 
    // -------------------------------------------------------
-	/**
-	 * add all members declared in Team $src_teamid (same dates, same access)
-	 * users already declared are omitted
-	 *
-	 * @param unknown_type $src_teamid
-	 */
+   /**
+    * add all members declared in Team $src_teamid (same dates, same access)
+    * users already declared are omitted
+    *
+    * @param unknown_type $src_teamid
+    */
    public function addMembersFrom($src_teamid) {
 
-   	$query = "SELECT * from `codev_team_user_table` WHERE team_id = $src_teamid ";
+      $query = "SELECT * from `codev_team_user_table` WHERE team_id = $src_teamid ";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       while($row = mysql_fetch_object($result))
       {
-      	$user = UserCache::getInstance()->getUser($row->user_id);
-      	if (! $user->isTeamMember($this->id)) {
+         $user = UserCache::getInstance()->getUser($row->user_id);
+         if (! $user->isTeamMember($this->id)) {
             $this->addMember($row->user_id,$row->arrival_date, $row->access_level);
 
             if (NULL != $row->departure_date) {
-            	$this->setMemberDepartureDate($row->user_id, $row->departure_date);
+               $this->setMemberDepartureDate($row->user_id, $row->departure_date);
             }
-      	}
+         }
       }
 
    }
@@ -276,10 +342,10 @@ class Team {
       $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$projectid','$this->id','$projecttype');";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
    }
 
@@ -298,10 +364,10 @@ class Team {
       $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$externalTasksProject','$this->id','$extTasksProjectType');";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
    }
 
@@ -326,10 +392,10 @@ class Team {
                   "VALUES ('$projectid','$this->id','$sideTaskProjectType');";
          $result = mysql_query($query);
          if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
          }
 
       } else {
@@ -346,19 +412,19 @@ class Team {
    }
 
    // -------------------------------------------------------
-	/**
-	 *
-	 * @param unknown_type $date_create
-	 */
+   /**
+    *
+    * @param unknown_type $date_create
+    */
    public function setCreationDate($date) {
 
       $query = "UPDATE `codev_team_table` SET date = $date WHERE id = $this->id;";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
    }
 

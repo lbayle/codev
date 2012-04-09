@@ -64,34 +64,9 @@ function getTeamConsistencyErrors($teamid) {
    $logger->debug("getTeamConsistencyErrors teamid=$teamid");
 
    // get team projects
-   $projectList = Team::getProjectList($teamid);
-   $memberList = Team::getMemberList($teamid);
+   $issueList = Team::getTeamIssues($teamid, true);
 
-
-   $formatedProjects = implode( ', ', array_keys($projectList));
-   $formatedMembers = implode( ', ', array_keys($memberList));
-
-   // add unassigned tasks
-   $formatedMembers .= ',0';
-
-   $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-      "FROM `mantis_bug_table` ".
-      "WHERE project_id IN ($formatedProjects) ".
-      "AND   handler_id IN ($formatedMembers) ";
-
-   $result = mysql_query($query);
-   if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
-   }
-   $issueList = array();
-   while($row = mysql_fetch_object($result))
-   {
-      $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-      $issueList[$row->bug_id] = $issue;
-   }
+   $logger->debug("getTeamConsistencyErrors nbIssues=".count($issueList));
 
    $ccheck = new ConsistencyCheck2($issueList);
    $cerrList = $ccheck->check();
