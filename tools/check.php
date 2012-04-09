@@ -29,6 +29,7 @@ require('../path.inc.php');
 require('super_header.inc.php');
 
 include_once('consistency_check.class.php');
+include_once('consistency_check2.class.php');
 include_once('user.class.php');
 include_once('team.class.php');
 
@@ -55,7 +56,28 @@ function getConsistencyErrors($userid) {
     $teamList = $devTeamList + $leadedTeamList + $managedTeamList + $oTeamList;
     $projectList = $sessionUser->getProjectList($teamList);
 
-    $ccheck = new ConsistencyCheck($projectList);
+    #$ccheck = new ConsistencyCheck($projectList);
+
+    $formatedProjects = implode( ', ', array_keys($projectList));
+    $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+	    "FROM `mantis_bug_table` ".
+		 "WHERE project_id IN ($formatedProjects) ";
+
+    $result = mysql_query($query);
+    if (!$result) {
+	    $logger->error("Query FAILED: $query");
+	    $logger->error(mysql_error());
+	    echo "<span style='color:red'>ERROR: Query FAILED</span>";
+	    exit;
+    }
+    $issueList = array();
+    while($row = mysql_fetch_object($result))
+    {
+	    $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+	    $issueList[$row->bug_id] = $issue;
+    }
+
+    $ccheck = new ConsistencyCheck2($issueList);
     $cerrList = $ccheck->check();
 
     if (count($cerrList) > 0) {
