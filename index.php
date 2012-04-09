@@ -37,6 +37,7 @@ require('super_header.inc.php');
 $logger = Logger::getLogger("homepage");
 
 include_once('consistency_check.class.php');
+include_once('consistency_check2.class.php');
 include_once('user.class.php');
 include_once('issue.class.php');
 
@@ -88,6 +89,7 @@ function getIssuesInDrift($userid) {
     return $driftedTasks;
 }
 
+
 /**
  * Get consistency errors
  * @param int User's id
@@ -95,14 +97,12 @@ function getIssuesInDrift($userid) {
 function getConsistencyErrors($userid) {
     $sessionUser = UserCache::getInstance()->getUser($userid);
 
-    // get projects i'm involved in (dev, Leader, Manager)
-    $devTeamList = $sessionUser->getDevTeamList();
-    $leadedTeamList = $sessionUser->getLeadedTeamList();
-    $managedTeamList = $sessionUser->getManagedTeamList();
-    $teamList = $devTeamList + $leadedTeamList + $managedTeamList;
-    $projectList = $sessionUser->getProjectList($teamList);
+    $teamList = $sessionUser->getTeamList();
+    $projList = $sessionUser->getProjectList($teamList);
 
-    $ccheck = new ConsistencyCheck($projectList);
+    $issueList = $sessionUser->getAssignedIssues($projList);
+
+    $ccheck = new ConsistencyCheck2($issueList);
 
     $cerrList = $ccheck->check();
 
@@ -122,6 +122,7 @@ function getConsistencyErrors($userid) {
 
     return $consistencyErrors;
 }
+
 
 // ================ MAIN =================
 
