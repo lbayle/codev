@@ -1,28 +1,28 @@
 <?php
 if (!isset($_SESSION)) {
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname);
-	session_start();
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+   $tokens = explode('/', $_SERVER['PHP_SELF'], 3);
+   $sname = str_replace('.', '_', $tokens[1]);
+   session_name($sname);
+   session_start();
+   header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
 
 /*
-    This file is part of CoDev-Timetracking.
+ This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ CoDev-Timetracking is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ CoDev-Timetracking is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ You should have received a copy of the GNU General Public License
+ along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 include_once '../path.inc.php';
 
@@ -39,7 +39,7 @@ include_once 'timetrack_cache.class.php';
 // 4. When the page reloads, you will have both the screen width and height in the query string, which can be retrieved using php's $_GET.
 
 if(!isset($_GET['w'])) {
-?>
+   ?>
 <script type="text/javascript">
 
 var myWidth = 0, myHeight = 0;
@@ -55,6 +55,13 @@ if ("" == location.search) {
 } else {
    document.location.href=location+"&w="+myWidth+"&h="+myHeight;
 }
+
+   // ------ JQUERY ------
+   $(function() {
+      $( "#accordion" ).accordion({
+         collapsible: true
+      });
+   });
 
 </script>
 <?php
@@ -106,7 +113,10 @@ include_once "issue.class.php";
 include_once "user.class.php";
 include_once "scheduler.class.php";
 include_once 'consistency_check.class.php';
+include_once 'consistency_check2.class.php';
 include_once 'team.class.php';
+
+$logger = Logger::getLogger("planning_report");
 
 
 class DeadLine {
@@ -131,17 +141,17 @@ class DeadLine {
    public function setIsOnTime($isOnTime) {
       // if already exists and not on time, do not overwrite.
       if ((NULL == $isOnTime) || (true == $isOnTime)) {
-        $this->isOnTime = $isOnTime;
+         $this->isOnTime = $isOnTime;
       }
    }
 
    public function setIsMonitored($isMonitored) {
 
-   	// non Monitored tasks have priority on deadLine status
+      // non Monitored tasks have priority on deadLine status
 
       // if not a monitored task, do not overwrite.
       if (true == $this->isMonitored) {
-      	$this->isMonitored = $isMonitored;
+         $this->isMonitored = $isMonitored;
       }
 
 
@@ -166,15 +176,15 @@ class DeadLine {
     * the path to the arrow image to be displayed (blue, red, grey)
     */
    public function getImageURL() {
-   	$image_isOnTime    = "../images/arrow_down_blue.png";
+      $image_isOnTime    = "../images/arrow_down_blue.png";
       $image_isNotOnTime = "../images/arrow_down_red.png";
-   	$image_isMonitored = "../images/arrow_down_grey.png";
+      $image_isMonitored = "../images/arrow_down_grey.png";
 
-   	if (!$this->isOnTime)   { return $image_isNotOnTime; }
+      if (!$this->isOnTime)   { return $image_isNotOnTime; }
 
       if ($this->isMonitored) { return $image_isMonitored; }
 
-   	return $image_isOnTime;
+      return $image_isOnTime;
    }
 }
 
@@ -183,26 +193,26 @@ class DeadLine {
 // -----------------------------------------
 function setTeamForm($originPage, $defaultSelection, $teamList) {
 
-  // create form
-  echo "<div align=center>\n";
-  if (isset($_GET['w'])) {
+   // create form
+   echo "<div align=center>\n";
+   if (isset($_GET['w'])) {
       echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage?w=".$_GET['w']."&h=".$_GET['h']."'>\n";
-  } else {
+   } else {
       echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage'>\n";
-  }
-  echo T_("Team")." :\n";
-  echo "<select name='f_teamid'>\n";
-  echo "<option value='0'></option>\n";
+   }
+   echo T_("Team")." :\n";
+   echo "<select name='f_teamid'>\n";
+   echo "<option value='0'></option>\n";
 
    foreach ($teamList as $tid => $tname) {
 
-    if ($tid == $defaultSelection) {
-      echo "<option selected value='".$tid."'>".$tname."</option>\n";
-    } else {
-      echo "<option value='".$tid."'>".$tname."</option>\n";
-    }
-  }
-  echo "</select>\n";
+      if ($tid == $defaultSelection) {
+         echo "<option selected value='".$tid."'>".$tname."</option>\n";
+      } else {
+         echo "<option value='".$tid."'>".$tname."</option>\n";
+      }
+   }
+   echo "</select>\n";
 
    echo "<input type=button value='".T_("Update")."' onClick='javascript: submitTeam()'>\n";
    echo "&nbsp;&nbsp;&nbsp;&nbsp;\n";
@@ -211,8 +221,8 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
 
    echo "<input type=hidden name=action value=noAction>\n";
 
-  echo "</form>\n";
-  echo "</div>\n";
+   echo "</form>\n";
+   echo "</div>\n";
 }
 
 
@@ -247,61 +257,61 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid
          $color = ($scheduledTask->isMonitored) ? "grey" : "blue";
       }
 
-	  // hide tasks not in team projects
+      // hide tasks not in team projects
       $strike="";
-	  $issue = IssueCache::getInstance()->getIssue($scheduledTask->bugId);
-	  if ( NULL == $projList[$issue->projectId] ) {
-  	     $strike="&strike";
-	  }
+      $issue = IssueCache::getInstance()->getIssue($scheduledTask->bugId);
+      if ( NULL == $projList[$issue->projectId] ) {
+         $strike="&strike";
+      }
 
       $taskTitle = $scheduledTask->getDescription();
-	   $formatedTitle = str_replace("'", " ", $taskTitle);
+      $formatedTitle = str_replace("'", " ", $taskTitle);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
 
       $drawnTaskPixSize = $taskPixSize - $sepWidth;
       echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$drawnTaskPixSize&text=$scheduledTask->bugId&color=".$color.$strike."' /></a>";
 
-	   echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/white.png'>";
-	}
-	#echo "DEBUG totalPix    = $totalPix<br/>\n";
+      echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/white.png'>";
+   }
+   #echo "DEBUG totalPix    = $totalPix<br/>\n";
 
 }
 
 
 
 // -----------------------------------------
-/**
- *
- * @param $dayPixSize
- * @param $scheduledTaskList
- */
+ /**
+  *
+  * @param $dayPixSize
+  * @param $scheduledTaskList
+  */
 function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 
    $deadLineTriggerWidth = 10;
    $imageHeight = 7;
    $barHeight = $imageHeight;
 
-	$deadLines = array();
-	$nbDaysToDeadLines = array();
+   $deadLines = array();
+   $nbDaysToDeadLines = array();
 
    // remove duplicate deadLines & set color
-	foreach($scheduledTaskList as $key => $scheduledTask) {
+   foreach($scheduledTaskList as $key => $scheduledTask) {
       if (NULL != $scheduledTask->deadLine) {
 
-		  if (!isset($deadLines["$scheduledTask->deadLine"]) ||
-		      (NULL == $deadLines["$scheduledTask->deadLine"])) {
-   		 $dline = new DeadLine($scheduledTask->deadLine,
-   		                       $scheduledTask->nbDaysToDeadLine,
-   		                       $scheduledTask->isOnTime,
-   		                       $scheduledTask->isMonitored);
-   		 $dline->addIssue($scheduledTask->bugId);
-   		 $deadLines["$scheduledTask->deadLine"] = $dline;
-   	  } else {
-   		 $dline = $deadLines["$scheduledTask->deadLine"];
-   		 $dline->setIsOnTime($scheduledTask->isOnTime);
-          $dline->addIssue($scheduledTask->bugId);
-          $dline->setIsMonitored($scheduledTask->isMonitored);
-   	  }
+         if (!isset($deadLines["$scheduledTask->deadLine"]) ||
+               (NULL == $deadLines["$scheduledTask->deadLine"])) {
+            $dline = new DeadLine($scheduledTask->deadLine,
+               $scheduledTask->nbDaysToDeadLine,
+               $scheduledTask->isOnTime,
+               $scheduledTask->isMonitored);
+            $dline->addIssue($scheduledTask->bugId);
+            $deadLines["$scheduledTask->deadLine"] = $dline;
+         } else {
+            $dline = $deadLines["$scheduledTask->deadLine"];
+            $dline->setIsOnTime($scheduledTask->isOnTime);
+            $dline->addIssue($scheduledTask->bugId);
+            $dline->setIsMonitored($scheduledTask->isMonitored);
+         }
       }
    }
 
@@ -317,8 +327,8 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    $dline = $deadLines[key($deadLines)];
 
    if (0 != $dline->nbDaysToDeadLine) {
-            // align
-            echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
+      // align
+      echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
    }
 
 
@@ -350,7 +360,7 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
 // -----------------------------------------
 function displayScheduledTaskTable($scheduledTaskList) {
 
-echo "<table>\n";
+   echo "<table>\n";
    echo "<tr>\n";
    echo "<th>bugId</th>\n";
    echo "<th>duration</th>\n";
@@ -361,58 +371,58 @@ echo "<table>\n";
 
    foreach($scheduledTaskList as $key => $scheduledTask) {
 
-   echo "<tr>\n";
-   echo "<td>$scheduledTask->bugId</td>\n";
-   echo "<td>$scheduledTask->duration</td>\n";
-   echo "<td>$scheduledTask->isOnTime</td>\n";
-   if (NULL != $scheduledTask->deadLine) {
-      echo "<td>".date("d-M-Y",$scheduledTask->deadLine)."</td>\n";
-   } else {
-      echo "<td></td>\n";
+      echo "<tr>\n";
+      echo "<td>$scheduledTask->bugId</td>\n";
+      echo "<td>$scheduledTask->duration</td>\n";
+      echo "<td>$scheduledTask->isOnTime</td>\n";
+      if (NULL != $scheduledTask->deadLine) {
+         echo "<td>".date("d-M-Y",$scheduledTask->deadLine)."</td>\n";
+      } else {
+         echo "<td></td>\n";
+      }
+      echo "<td>$key</td>\n";
+      echo "</tr>\n";
    }
-   echo "<td>$key</td>\n";
-   echo "</tr>\n";
-}
-echo "</table>\n";
+   echo "</table>\n";
 
 }
 
 // -----------------------------------------
 function displayTeam($teamid, $today, $graphSize) {
 
-	$deadLineTriggerWidth = 10;
-    $barHeight = 1;
+   $deadLineTriggerWidth = 10;
+   $barHeight = 1;
 
    $scheduler = new Scheduler();
-	$allTasksLists = array();
+   $allTasksLists = array();
    $workloads = array();
-	$teamMembers = Team::getMemberList($teamid);
+   $teamMembers = Team::getMemberList($teamid);
 
-	$nbDaysToDisplay = 0;
-	foreach ($teamMembers as $id => $name) {
-	   $workload = 0;
-	   $user = UserCache::getInstance()->getUser($id);
+   $nbDaysToDisplay = 0;
+   foreach ($teamMembers as $id => $name) {
+      $workload = 0;
+      $user = UserCache::getInstance()->getUser($id);
 
-	   if (!$user->isTeamDeveloper($teamid)) { continue; }
-	   if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
+      if (!$user->isTeamDeveloper($teamid)) { continue; }
+      if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
 
-	   $scheduledTaskList = $scheduler->scheduleUser($user, $today, true);
+      $scheduledTaskList = $scheduler->scheduleUser($user, $today, true);
 
-	   foreach($scheduledTaskList as $key => $scheduledTask) {
-	      $workload += $scheduledTask->duration;
-	   }
-	   $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
+      foreach($scheduledTaskList as $key => $scheduledTask) {
+         $workload += $scheduledTask->duration;
+      }
+      $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
 
-	   $allTasksLists[$user->getName()] = $scheduledTaskList;
-	   $workloads[$user->getName()]     = $workload;
-	}
+      $allTasksLists[$user->getName()] = $scheduledTaskList;
+      $workloads[$user->getName()]     = $workload;
+   }
 
-	$dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
-	$dayPixSize = round($dayPixSize);
+   $dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
+   $dayPixSize = round($dayPixSize);
    #echo "DEBUG dayPixSize    = $dayPixSize<br/>\n";
 
-	// display all team
-	echo "<table class='invisible'>\n";
+   // display all team
+   echo "<table class='invisible'>\n";
 
    echo "<tr>\n";
    echo "  <td ></td>\n";
@@ -420,26 +430,26 @@ function displayTeam($teamid, $today, $graphSize) {
    echo "<IMG WIDTH='".($deadLineTriggerWidth/2)."' HEIGHT='$barHeight' SRC='../images/white.png'>";
    for ($i = 0; $i < $nbDaysToDisplay; $i++) {
       echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
-   	echo "<IMG WIDTH='".($dayPixSize-1)."' HEIGHT='7' SRC='../images/time_line.jpg'>";
+      echo "<IMG WIDTH='".($dayPixSize-1)."' HEIGHT='7' SRC='../images/time_line.jpg'>";
    }
    echo "<IMG HEIGHT='7' WIDTH='1' SRC='../images/timeline_stop.jpg'>";
    echo "</td >\n";
    echo "</tr>\n";
 
-	foreach($allTasksLists as $userName => $scheduledTaskList) {
+   foreach($allTasksLists as $userName => $scheduledTaskList) {
 
-	   echo "<tr valign='center'>\n";
-	   echo "<td title='".T_("workload")." = ".$workloads[$userName]." ".T_("days")."'>$userName</td>\n";
-	   echo "<td>";
-	   $deadLines = displayUserDeadLines($dayPixSize, $today, $scheduledTaskList);
+      echo "<tr valign='center'>\n";
+      echo "<td title='".T_("workload")." = ".$workloads[$userName]." ".T_("days")."'>$userName</td>\n";
+      echo "<td>";
+      $deadLines = displayUserDeadLines($dayPixSize, $today, $scheduledTaskList);
       if (0 != count($deadLines)) { echo "<br/>"; } //
-	   displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid);
-	   echo "</td>\n";
-	   echo "</tr>\n";
-	}
-	echo "</table>\n";
+      displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid);
+      echo "</td>\n";
+      echo "</tr>\n";
+   }
+   echo "</table>\n";
 
-	return $dayPixSize;
+   return $dayPixSize;
 }
 
 // -----------------------------------------
@@ -449,10 +459,10 @@ function displayLegend($dayPixSize) {
    $barWidtht = 14;
 
    $colorTypes = array(
-     "green" => T_("onTime"),
-     "red"   => T_("NOT onTime"),
-     "blue"  => T_("no deadLine"),
-     "grey"  => T_("monitored"),
+      "green" => T_("onTime"),
+      "red"   => T_("NOT onTime"),
+      "blue"  => T_("no deadLine"),
+      "grey"  => T_("monitored"),
    );
 
    echo "<div class='center'>\n";
@@ -483,33 +493,42 @@ function displayConsistencyErrors($teamid) {
 
    global $statusNames;
 
-   $projectList = Team::getProjectList($teamid);
-   $ccheck = new ConsistencyCheck($projectList);
+   $issueList = Team::getTeamIssues($teamid, true);
+   $ccheck = new ConsistencyCheck2($issueList);
 
    $cerrList = $ccheck->checkBadRemaining();
 
    if (0 == count($cerrList)) {
-      #echo "Pas d'erreur.<br/>\n";
+      #echo "Pas d'erreur teamid=$teamid.<br/>\n";
    } else {
+
       echo "<hr/>\n";
       echo "<br/>\n";
       echo "<br/>\n";
+
+  echo "<div align='center'>";
+  echo "<div id='accordion' style='width:650px;' >\n";
+  echo "<h3><a href='#'>".T_("Errors affecting the Planning")."</a></h3>\n";
+
+  echo "<p style='color:red'>\n";
 
       echo "<div align='left'>\n";
       echo "<table class='invisible'>\n";
       foreach ($cerrList as $cerr) {
          $user = UserCache::getInstance()->getUser($cerr->userId);
-         if ($user->isTeamMember($teamid)) {
-            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-      	   echo "<tr>\n";
-            echo "<td>".T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
-            echo "<td>(".$user->getName().")</td>";
-            echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames["$cerr->status"]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
-            echo "</tr>\n";
-         }
+         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+         echo "<tr>\n";
+         echo "<td>".T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
+         echo "<td>(".$user->getName().")</td>";
+         echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames["$cerr->status"]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
+         echo "</tr>\n";
       }
       echo "</table>\n";
       echo "</div>\n";
+  echo "</p>\n";
+  echo "</div>\n";
+  echo "</div>\n";
+
    }
 
 }
@@ -532,11 +551,11 @@ $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 #$action = isset($_POST['action']) ? $_POST['action'] : '';
 
 if (isset($_POST['action'])) {
-	$action = $_POST['action'];
+   $action = $_POST['action'];
 } else if (isset($_GET['display'])) {
-	$action = "displayPlanning";
+   $action = "displayPlanning";
 } else {
-	$action = '';
+   $action = '';
 }
 
 
@@ -571,12 +590,12 @@ if (0 == count($teamList)) {
 
       if (0 != $teamid) {
          echo "<br/>";
-		   echo "<hr width='80%'/>\n";
-		   echo "<br/>";
-		   echo "<br/>";
-		   echo "<br/>";
+         echo "<hr width='80%'/>\n";
+         echo "<br/>";
+         echo "<br/>";
+         echo "<br/>";
 
-      	$dayPixSize = displayTeam($teamid, $today, $graphSize);
+         $dayPixSize = displayTeam($teamid, $today, $graphSize);
          echo "<br/>\n";
          echo "<br/>\n";
          echo "<br/>\n";
