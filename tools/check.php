@@ -123,6 +123,7 @@ if (isset($_SESSION['userid'])) {
 
          $consistencyErrors = getTeamConsistencyErrors($teamid);
 
+         $smartyHelper->assign('teamid', $teamid);
          $smartyHelper->assign('count', count($consistencyErrors));
          if(isset($consistencyErrors)) {
             $smartyHelper->assign('consistencyErrors', $consistencyErrors);
