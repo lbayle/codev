@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 
 /*
     This file is part of CoDev-Timetracking.
@@ -409,7 +409,7 @@ function displayJobDetails($issue) {
       echo "<td>";
       echo "<img src='".getServerRootURL()."/graphs/rectangle.png.php?height=12&width=12&border&color=".$jobs->getJobColor($jid)."'/>";
       echo " ".$jobs->getJobName($jid)."</td>\n";
-      
+
       echo "<td>$duration</td>\n";
       echo "<td>".round(($duration*100 / $totalDuration))." %</td>\n";
       echo "</tr>\n";
@@ -562,7 +562,7 @@ $teamList = $dTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
 // --- define the list of tasks the user can display
 // All projects from teams where I'm a Developper or Manager AND Observer
-$devProjList     = $user->getProjectList();
+$devProjList     = (0 == count($dTeamList)) ? array() : $user->getProjectList($dTeamList);
 $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
 $observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList);
 $projList = $devProjList + $managedProjList + $observedProjList;

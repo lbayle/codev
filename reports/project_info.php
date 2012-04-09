@@ -612,9 +612,9 @@ $teamList = $dTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
 // --- define the list of tasks the user can display
 // All projects from teams where I'm a Developper or Manager AND Observers
-$devProjList     = $user->getProjectList();
-$managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
-$observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList);
+$devProjList      = (0 == count($dTeamList))       ? array() : $user->getProjectList($dTeamList);
+$managedProjList  = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
+$observedProjList = (0 == count($oTeamList))       ? array() : $user->getProjectList($oTeamList);
 $projList = $devProjList + $managedProjList + $observedProjList;
 
 

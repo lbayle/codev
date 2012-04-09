@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 
 /*
     This file is part of CoDev-Timetracking.
@@ -40,7 +40,7 @@ $logger = Logger::getLogger("set_holidays");
  */
 function getUsers() {
     global $logger;
-  
+
     $accessLevel_dev = Team::accessLevel_dev;
     $accessLevel_manager = Team::accessLevel_manager;
 
@@ -254,7 +254,7 @@ if (isset($_SESSION['userid'])) {
         $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
         // --- SideTasks Project List
-        $devProjList = $managed_user->getProjectList();
+        $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList());
         $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
         $projList = $devProjList + $managedProjList;
 

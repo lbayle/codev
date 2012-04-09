@@ -31,7 +31,7 @@ class User {
    private $logger;
 
     public $id;
-	
+
     private $name;
 	private $timetrackingFilters;
 
@@ -468,18 +468,23 @@ class User {
 
    // --------------------
    // returns the teams
+   /**
+    * returns teams, the user is involved in.
+    *
+    * @param $accessLevel if NULL return all teams including observed teams.
+    */
    public function getTeamList($accessLevel = NULL) {
-
-   	if (NULL == $accessLevel) { $accessLevel = Team::accessLevel_dev; }
 
       $teamList = array();
 
       $query = "SELECT codev_team_table.id, codev_team_table.name ".
                "FROM `codev_team_user_table`, `codev_team_table` ".
                "WHERE codev_team_user_table.user_id = $this->id ".
-               "AND   codev_team_user_table.team_id = codev_team_table.id ".
-               "AND   codev_team_user_table.access_level = $accessLevel ".
-      "ORDER BY codev_team_table.name";
+               "AND   codev_team_user_table.team_id = codev_team_table.id ";
+      if (NULL != $accessLevel) {
+         $query .= "AND   codev_team_user_table.access_level = $accessLevel ";
+      }
+      $query .= "ORDER BY codev_team_table.name";
       $result = mysql_query($query);
       if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -555,7 +560,8 @@ class User {
 
    	$issueList = array();
    	if (NULL == $projList) {
-   	  $projList = $this->getProjectList();
+        $teamList = $this->getDevTeamList();
+   	  $projList = $this->getProjectList($teamList);
    	}
 
    	if (0 == count($projList)) {
@@ -591,7 +597,8 @@ class User {
       $totalRemaining = 0;
 
       if (NULL == $projList) {
-        $projList = $this->getProjectList();
+        $teamList = $this->getDevTeamList();
+        $projList = $this->getProjectList($teamList);
       }
 
       if (0 == count($projList)) {
@@ -647,7 +654,10 @@ class User {
 
       $issueList = array();
 
-      if (NULL == $projList) {$projList = $this->getProjectList();}
+      if (NULL == $projList) {
+        $teamList = $this->getDevTeamList();
+        $projList = $this->getProjectList($teamList);
+      }
 
       if (0 == count($projList)) {
          $this->logger->warn("getAssignedIssues: no projects defined for user $this->id (".$this->getRealname().")");
@@ -704,13 +714,18 @@ class User {
     * - deadLine
     * - priority
     *
+    * @param $projList if NULL, get all DevTeams
+    *
     * @return Issue list
     */
    public function getMonitoredIssues($projList = NULL) {
 
       $issueList = array();
 
-      if (NULL == $projList) {$projList = $this->getProjectList();}
+      if (NULL == $projList) {
+        $teamList = $this->getDevTeamList();
+        $projList = $this->getProjectList($teamList);
+      }
       $formatedProjList = implode( ', ', array_keys($projList));
 
 

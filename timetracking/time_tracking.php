@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 
 /*
     This file is part of CoDev-Timetracking.
@@ -477,7 +477,7 @@ function addTrackForm($weekid, $curYear, $user1, $defaultDate,
 
    // --- Project List
    // All projects from teams where I'm a Developper
-   $devProjList = $user1->getProjectList();
+   $devProjList = $user1->getProjectList($user1->getDevTeamList());
 
    // SideTasksProjects from Teams where I'm a Manager
    $managedProjList = $user1->getProjectList($user1->getManagedTeamList());
