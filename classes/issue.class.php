@@ -50,7 +50,10 @@ class Issue {
    public $handlerId;
    public $resolution;
    public $version;  // Product Version
+   public $last_updated;
+
    private $target_version;
+
 
    private $relationships; // array[relationshipType][bugId]
 	/*
@@ -129,6 +132,7 @@ class Issue {
       $this->resolution      = $row->resolution;
       $this->version         = $row->version;
       $this->target_version  = $row->target_version;
+      $this->last_updated    = $row->last_updated;
 
       // Get custom fields
       $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
