@@ -1,0 +1,153 @@
+<div id="menu" style="margin-top:2em">
+    <table>
+        <tr>
+            <td>
+                <a href="timetracking/holidays_report.php">{t}Display{/t}</a> |
+                <a href="timetracking/set_holidays.php">{t}Add{/t}</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="content" class='center'>
+    {if $users || $projects}
+    {if $users}
+    <script type="text/javascript">
+        function submitUser(){
+            // check fields
+            var foundError = 0;
+            var msgString = "Les champs suivants ont ete oublies:\n\n";
+
+            if (0 == document.forms["formUserAndPeriodSelect"].userid.value)  {
+                msgString += "Nom\n";
+                ++foundError;
+            }
+
+            if (0 == foundError) {
+                document.forms["formUserAndPeriodSelect"].submit();
+            } else {
+                alert(msgString);
+            }
+        }
+    </script>
+    <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
+        <fieldset>
+            <label for="userid">{t}Name{/t} :</label>
+            <select name="userid" id="userid">
+                <option value="0"></option>
+                {foreach from=$users key=id item=i}
+                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                {/foreach}
+            </select>
+            <input type="hidden" name="nextForm" value="addHolidaysForm" />
+            <input type="button" value="{t}Jump{/t}" onclick="javascript: submitUser()" />
+        </fieldset>
+    </form>
+    {/if}
+
+    {if $projects}
+    <!-- Add Form -->
+    <h2>{$otherrealname}</h2>
+
+    <!-- display Track Form -->
+    <div style="margin-top:2em">
+        <script type="text/javascript" src="js/datepicker.js"></script>
+        <script type="text/javascript">
+            function setProjectid() {
+                document.forms["form1"].action.value="setProjectid";
+                document.forms["form1"].submit();
+            }
+
+            function setBugId() {
+                // if projectId not set: do it, to update categories
+                if (0 == document.getElementById("projectid").value) {
+                    document.forms["form1"].action.value="setBugId";
+                    document.forms["form1"].submit();
+                }
+            }
+
+            function addHolidays(){
+                // TODO check date1 < date2
+                // check fields
+                var foundError = 0;
+                var msgString = "Les champs suivants ont ete oublies:\n\n";
+
+                if (0 == document.forms["form1"].bugid.value) {
+                    msgString += "Fiche\n";
+                    ++foundError;
+                }
+                if (0 == document.forms["form1"].job.value) {
+                    msgString += "Poste\n";
+                    ++foundError;
+                }
+
+                if (0 == foundError) {
+                    document.forms["form1"].action.value="addHolidays";
+                    document.forms["form1"].submit();
+                } else {
+                    alert(msgString);
+                }
+            }
+
+            jQuery(document).ready(function() {
+                {if $locale != en}
+                jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+                {/if}
+
+                // Set the date
+                var startDatePicker = jQuery("#startdatepicker").datepicker("setDate" ,"{$startDate}");
+                var endDatePicker = jQuery("#enddatepicker").datepicker("setDate" ,"{$endDate}");
+
+                // Add range date
+                startDatePicker.datepicker("option","beforeShow",function(input) {
+                    jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+                });
+                endDatePicker.datepicker("option","beforeShow",function(input) {
+                    jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+                });
+            });
+        </script>
+        <form name="form1" method="post" action="{$page}">
+            <fieldset>
+                <label for="startdatepicker">{t}From{/t}:</label>
+                <input type="text" id="startdatepicker" class="datepicker" name="startdate" maxlength="10" size="10" title="{t}Start Date{/t}" />
+                <label for="enddatepicker">{t}To{/t}:</label>
+                <input type="text" id="enddatepicker" class="datepicker" name="enddate" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+                {if $projects}
+                <select id="projectid" name="projectid" onchange="javascript: setProjectid()" title="{t}Project{/t}">
+                    <option value="0">{t}(all){/t}</option>
+                    {foreach from=$projects key=id item=i}
+                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                    {/foreach}
+                </select>
+                {/if}
+                <select name="bugid" style="width: 300px;" onchange="javascript: setBugId()" title="{t}Task{/t}">
+                    <option value="0"></option>
+                    {foreach from=$issues key=id item=i}
+                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id} / {$i.tcId} : {$i.summary}</option>
+                        {/foreach}
+                    </select>
+                    {if $jobs >= 0}
+                    <input type="hidden" name="job" value="{$jobs}" />
+                    {else}
+                    <select name="job" title="{t}Job{/t}" style="width: 100px;" >
+                        <option value="0"></option>
+                        {foreach from=$jobs key=id item=i}
+                        <option value="{$id}">{$i}</option>
+                        {/foreach}
+                    </select>
+                    {/if}
+                    <!--<input type="hidden" name="trackid" value="unknown1" />-->
+                    <input type="hidden" name="action" value="noAction" />
+                    <input type="hidden" name="nextForm" value="addHolidaysForm" />
+                    <input type="hidden" name="userid" value="{$userid}" />
+
+                    <input type="button" name="btAddHolidays" value="{t}Add{/t}" onclick="javascript: addHolidays()" />
+                </fieldset>
+            </form>
+        </div>
+    {/if}
+    {else}
+    <p>{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+    {/if}
+</div>
