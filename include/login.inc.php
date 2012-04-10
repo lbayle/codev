@@ -111,7 +111,8 @@ if (isset($_SESSION['userid'])) {
 
             // When the form is submitted
             jQuery("#login_form").submit(function(event){
-                event.preventDefault();
+                <!-- Don't block the normal form workflow for enable the Browsers' Save Passwords method to work -->
+                //event.preventDefault();
 
                 tips.empty();
                 jQuery(".ui-button-text").html("<img src='../images/spinner.gif' width='16' height='16' alt='Loading' />");
@@ -146,7 +147,7 @@ if (isset($_SESSION['userid'])) {
         });
 </script>
 <div id="login_container" style="display:none">
-    <form action="../login.php" method="post" name="login_form" id="login_form">
+    <form action="../login.php" method="post" name="login_form" id="login_form" target="save_login">
         <fieldset>
             <label><?php echo T_("Login") ?>: </label><br /><input name="codev_login" type="text" id="codev_login" /><br /><br />
             <label><?php echo T_("Password") ?>: </label><br /><input name="codev_passwd" type="password" id="codev_passwd" />
@@ -158,6 +159,8 @@ if (isset($_SESSION['userid'])) {
         <img src="../images/loader-bar.gif" width="220" height="19" alt="Redirection" /><br/>
         <p style="margin-top:1em;">Please wait...</p>
     </div>
+    <!-- Hack to enable the Browsers' Save Passwords method to work -->
+    <iframe name="save_login" style="display: none"></iframe>
 </div>
 
 <?php
