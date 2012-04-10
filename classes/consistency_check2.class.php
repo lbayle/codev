@@ -24,6 +24,10 @@ include_once "project.class.php";
 
 class ConsistencyError2 {
 
+   const  severity_error = 3;
+   const  severity_warn  = 2;
+   const  severity_info  = 1;
+
    private $logger; // TODO static
 
    public $bugId;
@@ -44,16 +48,46 @@ class ConsistencyError2 {
       $this->status    = $status;
       $this->timestamp = $timestamp;
       $this->desc      = $desc;
+
+      $this->severity = ConsistencyError2::severity_error;
    }
+
+   /**
+    *
+    */
+   public function getLiteralSeverity() {
+
+      switch ($this->severity) {
+      	case ConsistencyError2::severity_error:
+            return T_("Error");
+         case ConsistencyError2::severity_warn:
+            return T_("Warning");
+         case ConsistencyError2::severity_info:
+            return T_("Info");
+         default:
+            return T_("unknown");
+      }
+   }
+
 
    // ----------------------------------------------
    /**
     * QuickSort compare method.
-    * returns true if $this has higher priority than $activityB
+    * returns true if $this has higher severity than $cerrB
     *
-    * @param GanttActivity $activityB the object to compare to
+    * @param ConsistencyError2 $cerrB the object to compare to
+    *
     */
    function compareTo($cerrB) {
+
+      if ($this->severity < $cerrB->severity) {
+         $this->logger->debug("activity.compareTo FALSE (".$this->bugId.'-'.$this->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         return false;
+      }
+      if ($this->severity > $cerrB->severity) {
+         $this->logger->debug("activity.compareTo TRUE (".$this->bugId.'-'.$this->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         return true;
+      }
 
       if ($this->bugId > $cerrB->bugId) {
          $this->logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
@@ -98,10 +132,13 @@ class ConsistencyCheck2 {
       #$this->logger->debug("checkTimeTracksOnNewIssues");
       $cerrList6 = $this->checkTimeTracksOnNewIssues();
 
+      $cerrList7 = $this->checkUnassignedTasks();
+
+
       #$this->logger->debug("done.");
 
-      #$cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
-      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
+      #$cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
+      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6, $cerrList7);
 
       // PHP Fatal error:  Maximum function nesting level of '100' reached, aborting!
       ini_set('xdebug.max_nesting_level', 300);
@@ -120,7 +157,7 @@ class ConsistencyCheck2 {
       $cerrList = array();
 
 
-      foreach ($this->issueList as $bugid => $issue) {
+      foreach ($this->issueList as $issue) {
 
          if (!$issue->isResolved()) { continue; }
 
@@ -130,7 +167,7 @@ class ConsistencyCheck2 {
                $issue->currentStatus,
                $issue->last_updated,
                T_("Remaining should be 0 (not $issue->remaining)."));
-            $cerr->severity = T_("Error");
+            $cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }
       }
@@ -147,7 +184,7 @@ class ConsistencyCheck2 {
 
       $cerrList = array();
 
-      foreach ($this->issueList as $bugid => $issue) {
+      foreach ($this->issueList as $issue) {
 
          if ((!$issue->isResolved()) &&
              ($issue->currentStatus > $status_new) &&
@@ -158,7 +195,7 @@ class ConsistencyCheck2 {
                $issue->currentStatus,
                $issue->last_updated,
                T_("Remaining == 0: Remaining may not be up to date."));
-            $cerr->severity = T_("Warning");
+            $cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }
       }
@@ -174,7 +211,7 @@ class ConsistencyCheck2 {
 
       $cerrList = array();
 
-      foreach ($this->issueList as $bugid => $issue) {
+      foreach ($this->issueList as $issue) {
 
         if ($issue->isResolved()) { continue; }
 
@@ -191,7 +228,7 @@ class ConsistencyCheck2 {
                $issue->currentStatus,
                $issue->last_updated,
                T_("MgrEffortEstim not set."));
-            $cerr->severity = T_("Error");
+            $cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }
       }
@@ -210,7 +247,7 @@ class ConsistencyCheck2 {
 
       $cerrList = array();
 
-      foreach ($this->issueList as $bugid => $issue) {
+      foreach ($this->issueList as $issue) {
 
          // select all issues which current status is 'new'
          if ($issue->currentStatus != $status_new) { continue; }
@@ -224,7 +261,7 @@ class ConsistencyCheck2 {
                $issue->currentStatus,
                $issue->last_updated,
                T_("Status should not be")." '".$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
-            $cerr->severity = T_("Error");
+            $cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }
       }
@@ -232,6 +269,35 @@ class ConsistencyCheck2 {
       return $cerrList;
    }
 
+   /**
+    * check if some tasks are not assigned
+    */
+   public function checkUnassignedTasks() {
+
+      $cerrList = array();
+
+      foreach ($this->issueList as $issue) {
+
+         // exclude SideTasks (persistant tasks are not assigned)
+         $project = ProjectCache::getInstance()->getProject($issue->projectId);
+         if (($project->isSideTasksProject()) || ($project->isNoStatsProject())) { continue; }
+
+         // if resolved, then it's not so important
+         if ($issue->isResolved()) { continue; }
+
+         if ((NULL == $issue->handlerId) || (0 == $issue->handlerId)) {
+
+            $cerr = new ConsistencyError2($issue->bugId,
+               $issue->handlerId,
+               $issue->currentStatus,
+               $issue->last_updated,
+               T_("The task is not assigned to anybody."));
+            $cerr->severity = ConsistencyError2::severity_warn;
+            $cerrList[] = $cerr;
+         }
+      }
+      return $cerrList;
+   }
 
 }
 

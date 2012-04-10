@@ -80,7 +80,7 @@ function getTeamConsistencyErrors($teamid) {
             'mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
             'date' => date("Y-m-d", $cerr->timestamp),
             'status' => $statusNames[$cerr->status],
-            'severity' => $cerr->severity,
+            'severity' => $cerr->getLiteralSeverity(),
             'project' => $issue->getProjectName(),
             'desc' => $cerr->desc);
       }

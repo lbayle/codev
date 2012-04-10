@@ -650,7 +650,7 @@ class User {
     *
     * @return Issue list
     */
-   public function getAssignedIssues($projList = NULL) {
+   public function getAssignedIssues($projList = NULL, $withResolved = false) {
 
       $issueList = array();
 
@@ -670,9 +670,13 @@ class User {
       $query = "SELECT DISTINCT mantis_bug_table.id AS bug_id ".
                "FROM `mantis_bug_table` ".
                "WHERE mantis_bug_table.project_id IN ($formatedProjList) ".
-               "AND mantis_bug_table.handler_id = $this->id ".
-               "AND mantis_bug_table.status < get_project_resolved_status_threshold(project_id)".
-               "ORDER BY id DESC";
+               "AND mantis_bug_table.handler_id = $this->id ";
+
+      if (!$withResolved) {
+         $query .= "AND mantis_bug_table.status < get_project_resolved_status_threshold(project_id) ";
+      }
+      $query .= "ORDER BY id DESC";
+
 
       $result = mysql_query($query);
       if (!$result) {

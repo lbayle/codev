@@ -95,12 +95,15 @@ function getIssuesInDrift($userid) {
  * @param int User's id
  */
 function getConsistencyErrors($userid) {
+
+   $consistencyErrors = array(); // if null, array_merge fails !
+
     $sessionUser = UserCache::getInstance()->getUser($userid);
 
     $teamList = $sessionUser->getTeamList();
     $projList = $sessionUser->getProjectList($teamList);
 
-    $issueList = $sessionUser->getAssignedIssues($projList);
+    $issueList = $sessionUser->getAssignedIssues($projList, true);
 
     $ccheck = new ConsistencyCheck2($issueList);
 
@@ -123,6 +126,49 @@ function getConsistencyErrors($userid) {
     return $consistencyErrors;
 }
 
+/**
+ * managers get some more consistencyErrors
+ */
+function getConsistencyErrorsMgr($userid) {
+
+   $consistencyErrors = array(); // if null, array_merge fails !
+
+   $sessionUser = UserCache::getInstance()->getUser($userid);
+
+   $consistencyErrors = array(); // if null, array_merge fails !
+
+    $mTeamList = array_keys($sessionUser->getManagedTeamList());
+    $lTeamList = array_keys($sessionUser->getLeadedTeamList());
+    $teamList = array_merge($mTeamList, $lTeamList);
+
+    $issueList = array();
+    foreach ($teamList as $teamid) {
+       $issues = Team::getTeamIssues($teamid, true);
+       $issueList = array_merge($issueList, $issues);
+    }
+
+    $ccheck = new ConsistencyCheck2($issueList);
+
+    // ---
+    $cerrList = $ccheck->checkMgrEffortEstim();
+    if (count($cerrList) > 0) {
+	    $consistencyErrors[] = array('mantisIssueURL' => ' ',
+		    'date' => ' ',
+			 'status' => ' ',
+			 'desc' => count($cerrList).' '.T_("Tasks need MgrEffortEstim to be set."));
+    }
+
+    // ---
+    $cerrList = $ccheck->checkUnassignedTasks();
+    if (count($cerrList) > 0) {
+       $consistencyErrors[] = array('mantisIssueURL' => ' ',
+          'date' => ' ',
+          'status' => ' ',
+          'desc' => count($cerrList).' '.T_("Tasks need to be assigned."));
+    }
+
+    return $consistencyErrors;
+}
 
 // ================ MAIN =================
 
@@ -142,14 +188,6 @@ require('display.inc.php');
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_($homepage_title));
 
-// IE disclaimer
-/*
-$ie = isIE();
-if(isset($ie)) {
-    $smartyHelper->assign('ie', $ie);
-}
-*/
-
 // Drifted tasks
 if($_SESSION['userid']) {
     $driftedTasks = getIssuesInDrift($_SESSION['userid']);
@@ -160,8 +198,12 @@ if($_SESSION['userid']) {
 
 // Consistency errors
 if($_SESSION['userid']) {
-    $consistencyErrors = getConsistencyErrors($_SESSION['userid']);
-    if(isset($consistencyErrors)) {
+    $consistencyErrors    = getConsistencyErrors($_SESSION['userid']);
+    $consistencyErrorsMgr = getConsistencyErrorsMgr($_SESSION['userid']);
+
+    $consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
+
+    if(count($consistencyErrors) > 0) {
         $smartyHelper->assign('consistencyErrors', $consistencyErrors);
     }
 }
