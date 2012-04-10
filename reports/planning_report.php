@@ -56,13 +56,6 @@ if ("" == location.search) {
    document.location.href=location+"&w="+myWidth+"&h="+myHeight;
 }
 
-   // ------ JQUERY ------
-   $(function() {
-      $( "#accordion" ).accordion({
-         collapsible: true
-      });
-   });
-
 </script>
 <?php
 exit();
@@ -102,6 +95,14 @@ include 'menu.inc.php';
      document.forms["teamSelectForm"].action.value = "zoomOut";
      document.forms["teamSelectForm"].submit();
    }
+
+   // ------ JQUERY ------
+   $(function() {
+      $( "#accordion" ).accordion({
+         collapsible: true, autoHeight: false, clearStyle: true
+      });
+   });
+
 
 </script>
 
@@ -508,24 +509,23 @@ function displayConsistencyErrors($teamid) {
 
   echo "<div align='center'>";
   echo "<div id='accordion' style='width:650px;' >\n";
-  echo "<h3><a href='#'>".T_("Errors affecting the Planning")."</a></h3>\n";
+  echo "<h3><a href='#'>".count($cerrList)." ".T_("Errors affecting the Planning")."</a></h3>\n";
 
-  echo "<p style='color:red'>\n";
-
-      echo "<div align='left'>\n";
+      echo "<div align='left' style='height:250px;'>\n";
       echo "<table class='invisible'>\n";
       foreach ($cerrList as $cerr) {
          $user = UserCache::getInstance()->getUser($cerr->userId);
          $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
          echo "<tr>\n";
-         echo "<td>".T_("ERROR on task ").mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
-         echo "<td>(".$user->getName().")</td>";
-         echo "<td>: &nbsp;&nbsp;<span style='color:red'>".date("Y-m-d", $cerr->timestamp)."&nbsp;&nbsp;".$statusNames["$cerr->status"]."&nbsp;&nbsp;$cerr->desc</span></td>\n";
+         echo "<td>".mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
+         echo "<td> ".$user->getName()."</td>";
+         echo "<td>: <span style='color:red'>".date("Y-m-d", $cerr->timestamp)."</span></td>\n";
+         echo "<td><span style='color:red'>".$statusNames["$cerr->status"]."</span></td>\n";
+         echo "<td><span style='color:red'>$cerr->desc</span></td>\n";
          echo "</tr>\n";
       }
       echo "</table>\n";
       echo "</div>\n";
-  echo "</p>\n";
   echo "</div>\n";
   echo "</div>\n";
 
