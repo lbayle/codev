@@ -166,67 +166,69 @@ class IssueSelection {
       return $formattedList;
    }
 
+
    /**
+    * sum(issue->driftMgr)
     *
+    * percent = nbDaysDrift / mgrEffortEstim
     *
     * @return array(nbDays, percent)
     */
    public function getDriftMgr() {
+      $nbDaysDrift = 0;
+      $myEstim = 0;
 
-      $values = array();
+      foreach ($this->issueList as $issue) {
+         $nbDaysDrift += $issue->getDriftMgrEE();
+         $myEstim     += $issue->mgrEffortEstim;
+      }
 
-      if (0 == $this->mgrEffortEstim ) {
-         $this->logger->debug("IssueSelection [$this->name] :  if mgrEffortEstim == 0 then Drift = 0");
+      if (0 == $myEstim) {
+         $this->logger->debug("IssueSelection [$this->name] :  if (mgrEffortEstim) == 0 then Drift = 0");
 
-         $values['nbDays'] = 0;
+         $values['nbDays']  = 0;
          $values['percent'] = 0;
       } else {
-         // ((elapsed + RAF) - estim) / estim
-         $nbDaysDrift = $this->elapsed + $this->remainingMgr - $this->mgrEffortEstim;
-         $percent =  $nbDaysDrift / $this->mgrEffortEstim;
-
-         $values['nbDays'] = $nbDaysDrift;
+         $percent =  $nbDaysDrift / $myEstim;
+         $values['nbDays']  = $nbDaysDrift;
          $values['percent'] = $percent;
       }
 
-      $this->logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent);
+      $this->logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
       return $values;
    }
 
    /**
+    * sum(issue->drift)
     *
-    * Note: the result of this function may be different from the sum of the drift of the issues
-    * if some of them have (EE == 0).
-    * (EE == 0) is considered as beeing an error, so this inconsistency is not considered as a 'real' bug.
+    * percent = nbDaysDrift / (effortEstim + effortAdd)
     *
     * @return array(nbDays, percent)
     */
    public function getDrift() {
+      $nbDaysDrift = 0;
+      $myEstim = 0;
 
-      $values = array();
+      foreach ($this->issueList as $issue) {
+         $nbDaysDrift += $issue->getDrift();
+         $myEstim     += $issue->effortEstim + $issue->effortAdd;
+      }
 
-      $myEstim = $this->effortEstim + $this->effortAdd;
-      if (0 == $myEstim ) {
+      if (0 == $myEstim) {
          $this->logger->debug("IssueSelection [$this->name] :  if (effortEstim + effortAdd) == 0 then Drift = 0");
 
          $values['nbDays'] = 0;
          $values['percent'] = 0;
       } else {
-         // ((elapsed + RAF) - estim) / estim
-         $nbDaysDrift = $this->elapsed + $this->remaining - $myEstim;
-
-         $this->logger->debug("IssueSelection [$this->name] :  drift=$nbDaysDrift (".$this->elapsed." + ".$this->remaining." - ".$myEstim.")");
-
-
          $percent =  $nbDaysDrift / $myEstim;
-
          $values['nbDays'] = $nbDaysDrift;
          $values['percent'] = $percent;
       }
-      $this->logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent);
 
+      $this->logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
       return $values;
    }
+
 
    /**
     *
