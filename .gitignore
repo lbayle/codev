@@ -2,8 +2,8 @@
 .settings
 *~
 constants.php
+mantis_monkey.user.js
 include/mysql_config.inc.php
-tools/mantis_monkey.user.js
 tools/backup_cronjob.sh
 lib/jpgraph/docs
 lib/jpgraph/src/Examples

@@ -38,6 +38,8 @@ class Install {
    const FILENAME_CUSTOM_STRINGS_CODEVTT = "../install/custom_strings_inc.codevtt.php";
    const FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT = "../install/custom_relationships_inc.codevtt.php";
 
+   const FILENAME_GREASEMONKEY_SAMPLE = "../tools/mantis_monkey.user.js.sample";
+   const FILENAME_GREASEMONKEY        = "../mantis_monkey.user.js";
 
 
    private $logger;
@@ -233,6 +235,32 @@ class Install {
       	}
       	fclose($fp);
       }
+      return NULL;
+   }
+
+   /**
+    *
+    */
+   public function createGreasemonkeyFile() {
+
+      $serverIP = $_SERVER['SERVER_ADDR'];
+
+      //read the source file
+      $str=implode("\n",file(self::FILENAME_GREASEMONKEY_SAMPLE));
+
+      //replace tags
+      $str=str_replace('@TAG_CODEVTT_IP@',$serverIP,$str);
+
+      // write dest file
+      $fp=fopen(self::FILENAME_GREASEMONKEY,'w');
+      if (FALSE == $fp) {
+         return "ERROR: creating file ".self::FILENAME_GREASEMONKEY;
+      }
+      if (FALSE == fwrite($fp,$str,strlen($str))) {
+         fclose($fp);
+         return "ERROR: could not write to file ".self::FILENAME_GREASEMONKEY;
+      }
+      fclose($fp);
       return NULL;
    }
 
