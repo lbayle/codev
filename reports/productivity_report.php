@@ -381,15 +381,9 @@ function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport 
 	echo "<div id='tabsResolvedDriftStats'>\n";
 	echo "<ul>\n";
 	echo "<li><a href='#tabsName-1'>".T_("Effort deviation")."</a></li>\n";
-	echo "<li><a href='#tabsName-3'>NEW ".T_("Effort deviation")."</a></li>\n";
 	echo "<li><a href='#tabsName-2'>".T_("Tasks in drift")."</a></li>\n";
 	echo "</ul>\n";
 	echo "<div id='tabsName-1'>\n";
-	echo "<p>";
-	displayResolvedDriftStats ($timeTracking, $withSupport);
-	echo "</p>\n";
-	echo "</div>\n";
-	echo "<div id='tabsName-3'>\n";
 	echo "<p>";
 	displayResolvedDeviationStats ($timeTracking, $withSupport);
 	echo "</p>\n";
@@ -400,66 +394,8 @@ function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport 
 	echo "</p>\n";
 	echo "</div>\n";
 	echo "</div>\n";
-
-
-
 }
 
-/**
- * display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
- */
-function displayResolvedDriftStats ($timeTracking, $withSupport = true) {
-
-  $driftStats = $timeTracking->getResolvedDriftStats($withSupport);
-
-  echo "<table>\n";
-#  echo "<caption>".T_("EffortDeviation - Tasks resolved in the period")."&nbsp;&nbsp; <a id='dialog_ResolvedDriftStats_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></caption>\n";
-  echo "<tr>\n";
-  echo "<th></th>\n";
-  echo "<th width='100' title='".T_("Manager Estimation")."'>".T_("Manager")."</th>\n";
-  echo "<th width='100'>".T_("Value")."</th>\n";
-  echo "<th>".T_("Tasks")."</th>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
-   $value = number_format($driftStats["totalDriftETA"], 2);
-   $color = "";
-   if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
-   if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
-   echo "<td title='elapsed - MgrEffortEstim' $color >".$value."</td>\n";
-
-   $value = number_format($driftStats["totalDrift"], 2);
-   $color = "";
-   if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
-   if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
-
-   echo "<td title='elapsed - EffortEstim' $color>".$value."</td>\n";
-     echo "<td></td>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  echo "<td>".T_("Tasks in drift")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsPosETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftPosETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsPos"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftPos"]).")</span></td>\n";
-  echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidPosList"]."</td>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  echo "<td>".T_("Tasks in time")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqualETA"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats["driftEqualETA"].")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsEqual"])."<span title='".T_("nb days")."' class='floatr'>(".$driftStats["driftEqual"].")</span></td>\n";
-   echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidEqualList"]."</td>\n";
-  echo "</tr>\n";
-
-  echo "<tr>\n";
-  echo "<td>".T_("Tasks ahead")."</td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsNegETA"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftNegETA"]).")</span></td>\n";
-  echo "<td title='".T_("nb tasks")."'>".($driftStats["nbDriftsNeg"])."<span title='".T_("nb days")."' class='floatr'>(".($driftStats["driftNeg"]).")</span></td>\n";
-  echo "<td title='".T_("Task list for EffortEstim")."'>".$driftStats["formatedBugidNegList"]."</td>\n";
-  echo "</tr>\n";
-  echo "</table>\n";
-}
 
 
 /**
