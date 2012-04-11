@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           Mantis
+// @name           Add CodevTT link in Mantis View page
 // @namespace      Mantis
 // @include        http://@TAG_CODEVTT_IP@/mantis/view.php?id=*
 // @version        0.1

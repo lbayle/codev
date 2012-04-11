@@ -28,7 +28,8 @@
 
    $codevVersion = "v0.99.15 (28 Feb 2012)";
 
-   $codevVersionHistory = array("v0.99.0" => "(09 Sept 2010) - team management complete",
+   $codevVersionHistory = array("v0.01.0"  => "(17 May 2010) - CodevTT project creation",
+                                "v0.99.0" => "(09 Sept 2010) - team management complete",
                                 "v0.99.1" => "(28 Sept 2010) - jobs management",
                                 "v0.99.2" => "(08 Dec  2010) - Project Management",
                                 "v0.99.3" => "(03 Jan  2011) - fix new year problems",
@@ -43,8 +44,9 @@
                                 "v0.99.12" => "(25 Aug  2011) - bugfix release & Install Procedure (unpolished)",
                                 "v0.99.13" => "(27 Oct  2011) - GANTT chart + ExternalTasksProject",
                                 "v0.99.14" => "(2 Feb  2012) - JQuery,Log4php, ForecastingReport, uninstall",
-                                "v0.99.15" => "(28 Feb  2012) - MgrEffortEstim, install, timetrackingFilters"
-                                );
+                                "v0.99.15" => "(28 Feb  2012) - MgrEffortEstim, install, timetrackingFilters",
+                                "v0.99.16" => "(2012) - Smarty+Ajax, install, ProjectInfo, Https, Sessions, Doxygen, Observers view all pages, greasemonkey, ConsistencyChecks"
+                           );
 
 
   // ---
