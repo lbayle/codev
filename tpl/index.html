@@ -67,6 +67,10 @@
                 allFields.val( "" ).removeClass( "ui-state-error" );
             }
         });
+        
+        $( "#accordion" ).accordion({
+           collapsible: true, autoHeight: false, clearStyle: true
+        });
 
     });
 </script>
@@ -146,10 +150,24 @@
 <!-- Consistency errors -->
 <div style="margin-top:2em;">
     <hr style="margin-bottom:2em;" />
-    <div>
-        {foreach from=$consistencyErrors key=id item=i}
-        {t}ERROR on task {/t}{$i.mantisIssueURL} : &nbsp;&nbsp;<span style="color:red">{$i.date}&nbsp;&nbsp;{$i.status}&nbsp;&nbsp;{$i.desc}</span><br/>
-        {/foreach}
-    </div>
+   <div align='center'><div id='accordion' style='width:400px;' >
+      <h3><a href='#'>{$consistencyErrorsTitle}</a></h3>
+      <div align='left' style='height:120px;'>
+         <table class='invisible'>
+         {foreach from=$consistencyErrors key=id item=i}
+         <tr>
+            <td>{$i.mantisIssueURL}</td>
+            <td><span style='color:red'>{$i.status}</span></td>
+            <td><span style='color:red'>{$i.desc}</span></td>
+         </tr>
+         {/foreach}
+         
+         </table>
+      </div>
+   </div>
 </div>
 {/if}
+
+
+
+

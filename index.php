@@ -204,7 +204,8 @@ if($_SESSION['userid']) {
     $consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
 
     if(count($consistencyErrors) > 0) {
-        $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+        $smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors in your Tasks"));
+       $smartyHelper->assign('consistencyErrors', $consistencyErrors);
     }
 }
 
