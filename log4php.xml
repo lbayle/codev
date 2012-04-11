@@ -16,6 +16,16 @@
         <param name="file" value="/tmp/reports/codevtt.log" />
     </appender>
 
+    <appender name="myRollingFileAppender" class="LoggerAppenderRollingFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%d{Y-m-d H:i:s} %c %-5p %m (%F:%L) [%X{server.REMOTE_ADDR}]%n" />
+        </layout>
+        <param name="file" value="/tmp/reports/codevtt.log" />
+        <param name="maxFileSize" value="6MB" />
+        <param name="maxBackupIndex" value="5" />
+    </appender>
+
+
     <logger name="default">
         <level value="INFO" />
     </logger>
@@ -66,6 +76,9 @@
     <logger name="IssueSelection">
         <level value="DEBUG" />
     </logger>
+    <logger name="ProjectVersion">
+        <level value="DEBUG" />
+    </logger>
 
     <logger name="check">
         <level value="DEBUG" />
@@ -78,11 +91,9 @@
     </logger>
 -->
 
-
-	
     <root>
         <level value="ERROR" />
-        <appender_ref ref="myFileAppender" />
+        <appender_ref ref="myRollingFileAppender" />
     </root>
 </log4php:configuration>
 
