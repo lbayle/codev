@@ -569,15 +569,18 @@ class Issue {
    }
 
 
-   // ----------------------------------
-   // if NEG, then we saved time
-   // if 0, then just in time
-   // if POS, then there is a drift !
-
-   // elapsed - (effortEstim - remaining)
-   // if bug is Resolved/Closed, then remaining is not used.
-
-   // REM if EffortEstim = 0 then Drift = 0
+   /**
+    * Effort deviation, regarding (effortEstim + effortAdd)
+    *
+    * formula: elapsed - (effortEstim - remaining)
+    * if bug is Resolved/Closed, then remaining is not used.
+    * if EffortEstim = 0 then Drift = 0
+    * if Elapsed     = 0 then Drift = 0
+    *
+    * @param boolean $withSupport
+    *
+    * @returns int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
+    */
    public function getDrift($withSupport = true) {
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
@@ -594,8 +597,12 @@ class Issue {
       	$myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 
+      if (0 == $myElapsed) {
+         $this->logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
+         return 0;
+      }
 
-	  if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
+	   if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          $derive = $myElapsed - $totalEstim;
       } else {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
@@ -605,15 +612,18 @@ class Issue {
       return $derive;
    }
 
-   // ----------------------------------
-   // if NEG, then we saved time
-   // if 0, then just in time
-   // if POS, then there is a drift !
-
-   // elapsed - (MgrEffortEstim - remaining)
-   // if bug is Resolved/Closed, then remaining is not used.
-
-   // REM if MgrEffortEstim = 0 then Drift = 0
+   /**
+    * Effort deviation, regarding mgrEffortEstim
+    *
+    * formula: elapsed - (MgrEffortEstim - remaining)
+    * if bug is Resolved/Closed, then remaining is not used.
+    * if MgrEffortEstim = 0 then Drift = 0
+    * if Elapsed        = 0 then Drift = 0
+    *
+    * @param boolean $withSupport
+    *
+    * @returns int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
+    */
    public function getDriftMgrEE($withSupport = true) {
 
       if (0 == $this->mgrEffortEstim ) {
@@ -632,6 +642,11 @@ class Issue {
          $derive = $myElapsed - $this->mgrEffortEstim;
       } else {
          $derive = $myElapsed - ($this->mgrEffortEstim - $this->remaining);
+      }
+
+      if (0 == $myElapsed) {
+         $this->logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
+         return 0;
       }
 
       $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->mgrEffortEstim.")");
