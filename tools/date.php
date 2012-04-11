@@ -17,13 +17,17 @@
 */
 
 include_once '../path.inc.php';
+include_once '../tools.php';
+require_once('../calendar/classes/tc_calendar.php');
 
-require_once('tc_calendar.php');
+
+   echo "<link href='".getServerRootURL()."/calendar/calendar.css' rel='stylesheet' type='text/css' />\n";
+echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>\n";
 
 $page_name = "Date converstion";
-include 'header.inc.php';
+#include 'header.inc.php';
 
-include 'menu.inc.php';
+#include 'menu.inc.php';
 ?>
 
 <script language="JavaScript">
@@ -36,16 +40,16 @@ include 'menu.inc.php';
      document.forms["form2"].action.value = "timestampToDate";
      document.forms["form2"].submit();
    }
-  
+
 </script>
 
 
 <?php
 
 function setCalendarToDateForm($defaultDate1) {
-	
+
   list($defaultYear, $defaultMonth, $defaultDay) = explode('-', $defaultDate1);
-           
+
   $myCalendar1 = new tc_calendar("date1", true, false);
   $myCalendar1->setIcon("../calendar/images/iconCalendar.gif");
   $myCalendar1->setDate($defaultDay, $defaultMonth, $defaultYear);
@@ -58,30 +62,30 @@ function setCalendarToDateForm($defaultDate1) {
   echo "<div class=left>";
   // Create form
   echo "<form id='form1' name='form1' method='post' action='date.php'>\n";
-  
-  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"; 
+
+  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
   $myCalendar1->writeScript();
 
   echo "&nbsp;<input type=button value='Convert to Timestamp' onClick='javascript: submitForm1()'>\n";
-  
+
   echo "<input type=hidden name=action      value=noAction>\n";
-  
+
   echo "</form>\n";
   echo "</div>";
 }
 
 function setTimestampToDateForm($timestamp) {
-	
+
   echo "<div class=left>";
   // Create form
   echo "<form id='form2' name='form2' method='post' action='date.php'>\n";
-  
+
 
   echo("Timestamp: <input name='timestamp' type='text' id='timestamp' value='$timestamp'>\n");
   echo "&nbsp;<input type=button value='Convert to Date' onClick='javascript: submitForm2()'>\n";
-    
+
   echo "<input type=hidden name=action      value=noAction>\n";
-    
+
   echo "</form>\n";
   echo "</div>";
 }
@@ -111,10 +115,10 @@ if ("dateToTimestamp" == $action) {
 	if (NULL != $formatedDate) {
 	   $timestamp = date2timestamp($formatedDate);
 	   echo "<br/>$formatedDate => $timestamp<br/>";
-	   
+
 	   $_POST[timestamp] = $timestamp;
 	}
-	
+
 } elseif ("timestampToDate" == $action) {
 	echo "<br/>$timestamp => ".date("Y-m-d H:i:s", $timestamp)."<br/>";
 }
