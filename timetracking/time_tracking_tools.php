@@ -143,7 +143,7 @@ function displayTimetrackingTuples($userid, $weekid, $startTimestamp=NULL, $endT
 
    if (NULL != $startTimestamp) { $query .= "AND date >= $startTimestamp "; }
    if (NULL != $endTimestamp)   { $query .= "AND date <= $endTimestamp "; }
-   $query .= "ORDER BY date DESC";
+   $query .= "ORDER BY date";
    $result    = mysql_query($query) or die("Query failed: $query");
    while($row = mysql_fetch_object($result))
    {
