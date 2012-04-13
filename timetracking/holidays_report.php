@@ -1,11 +1,11 @@
-<?php 
-if (!isset($_SESSION)) { 
+<?php
+if (!isset($_SESSION)) {
 	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
 	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+	session_name($sname);
+	session_start();
+	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+}
 
 /*
     This file is part of CoDev-Timetracking.
@@ -59,9 +59,9 @@ $logger = Logger::getLogger("holidays_report");
 // ---------------------------------------------
 
 function  displayHolidaysReportForm($teamid, $curYear, $isExternalTasks = false, $is_modified = "false") {
-  
+
   global $logger;
-  
+
   echo "<form id='form1' name='form1' method='post' action='holidays_report.php'>\n";
 
   echo T_("Team").": \n";
@@ -99,7 +99,7 @@ function  displayHolidaysReportForm($teamid, $curYear, $isExternalTasks = false,
 
   $isChecked = $isExternalTasks ? "CHECKED" : "";
   echo "&nbsp;<input type=CHECKBOX  $isChecked name='cb_extTasks' id='cb_extTasks' onChange='javascript: submitForm()'>".T_("Show external tasks")."</input>\n";
-  
+
   echo "<input type=hidden name=teamid  value=1>\n";
   echo "<input type=hidden name=year    value=2010>\n";
 
@@ -117,14 +117,17 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
   global $logger;
 
   $holidays = Holidays::getInstance();
-  $green="A8FFBD";
+  $green ="A8FFBD";
   $green2="75FFDA";
   $yellow="F8FFA8";
   $orange="FFC466";
+  $pink  ="FF699D";
 
   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
   $monthFormated = date("F Y", $monthTimestamp);
   $nbDaysInMonth = date("t", $monthTimestamp);
+
+  $today = date("d-m-Y");
 
   $startT = mktime(0, 0, 0, $month, 1, $year);
   $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
@@ -135,12 +138,12 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
   echo "<tr>\n";
   echo "<th></th>\n";
   for ($i = 1; $i <= $nbDaysInMonth; $i++) {
-    if ($i < 10 ) {
-      echo "<th>0$i</th>\n";
-    }
-    else {
-      echo "<th>$i</th>\n";
-    }
+     if ($today == date("d-m-Y", mktime(0, 0, 0, $month, $i, $year))) {
+        $bgColor = "style='background-color: #".$pink.";' title='".T_('today')."'";
+     } else {
+        $bgColor = '';
+     }
+     echo "<th $bgColor >".sprintf("%02d", $i)."</th>\n";
   }
   echo "</tr>\n";
 
@@ -169,13 +172,13 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
 		    $daysOf = $user1->getDaysOfInMonth($startT, $endT);
 
 		    $astreintes = $user1->getAstreintesInMonth($startT, $endT);
-		   
+
 			if ($isExternalTasks) {
                $externalTasks = $user1->getExternalTasksInMonth($startT, $endT);
-			} else {	
+			} else {
                $externalTasks = array();
 			}
-			
+
 		    echo "<tr>\n";
 		    echo "<td title='$row->realname'>$row->username</td>\n";
 
