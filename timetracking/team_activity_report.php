@@ -101,6 +101,7 @@ include_once "issue.class.php";
 include_once "project.class.php";
 include_once "user.class.php";
 include_once "time_tracking.class.php";
+include_once "holidays.class.php";
 
 $logger = Logger::getLogger("team_activity");
 
@@ -218,6 +219,7 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, 
 function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
 
   global $logger;
+  $holidays = Holidays::getInstance();
 
   // PERIOD week
   //$thisWeekId=date("W");
@@ -263,7 +265,18 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
       echo "<td>".$issue->getTargetVersion()."</td>\n";
       echo "<td>".$jobName."</td>\n";
       for ($i = 1; $i <= 5; $i++) {
-        echo "<td>".$dayList[$i]."</td>\n";
+
+         $h = $holidays->isHoliday($weekDates[$i]);
+         if ($h) {
+            #$bgColor = "style='background-color: #".$h->color.";'";
+            $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
+            $title = "title='".$h->description."'";
+         } else {
+            $bgColor = "";
+            $title = "";
+         }
+
+         echo "<td $bgColor $title>".$dayList[$i]."</td>\n";
       }
          for ($i = 6; $i <= 7; $i++) {
             echo "<td style='background-color: #D8D8D8;' >".$dayList[$i]."</td>\n";
@@ -277,7 +290,10 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
 
 // ------------------------------------------------
 function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
-  // PERIOD week
+
+   $holidays = Holidays::getInstance();
+
+   // PERIOD week
   //$thisWeekId=date("W");
 
   $weekTracks = $timeTracking->getWeekDetails($userid, true);
@@ -317,9 +333,19 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
        }
        if (0 == $duration) { $duration = ""; }
        if ($i < 6) {
-          echo "<td>".$duration."</td>\n";
+          $h = $holidays->isHoliday($weekDates[$i]);
+          if ($h) {
+             #$bgColor = "style='background-color: #".$h->color.";'";
+             $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
+             $title = "title='".$h->description."'";
+          } else {
+             $bgColor = "";
+             $title   = "";
+          }
+          echo "<td $bgColor $title>".$duration."</td>\n";
+
        } else {
-          echo "<td style='background-color: #D8D8D8;' >".$duration."</td>\n";
+          echo "<td style='background-color: #".Holidays::$defaultColor.";' >".$duration."</td>\n";
        }
     }
     echo "</tr>\n";
