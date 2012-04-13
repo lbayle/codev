@@ -40,6 +40,7 @@ include_once "constants.php";
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "time_tracking.class.php";
+include_once "holidays.class.php";
 
 $logger = Logger::getLogger("time_tracking_tools");
 
@@ -247,6 +248,8 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
 
    global $logger;
 
+   $holidays = Holidays::getInstance();
+
    $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table id='weekTaskDetails'>\n";
    echo "<tr>\n";
@@ -295,10 +298,21 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
          echo "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$formattedRemaining."</a></td>\n";
          echo "<td>".$jobName."</td>\n";
          for ($i = 1; $i <= 5; $i++) {
-            echo "<td>".$dayList[$i]."</td>\n";
+
+            $h = $holidays->isHoliday($weekDates[$i]);
+            if ($h) {
+               $bgColor = "style='background-color: #".$h->color.";'";
+               #$bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
+               $title = "title='".$h->description."'";
+            } else {
+               $bgColor = "";
+               $title = "";
+            }
+
+            echo "<td $bgColor $title>".$dayList[$i]."</td>\n";
          }
          for ($i = 6; $i <= 7; $i++) {
-            echo "<td style='background-color: #D8D8D8;' >".$dayList[$i]."</td>\n";
+            echo "<td style='background-color: #".Holidays::$defaultColor.";' >".$dayList[$i]."</td>\n";
          }
          echo "</tr>\n";
       }
