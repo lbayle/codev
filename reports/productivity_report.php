@@ -424,14 +424,14 @@ function displayResolvedDeviationStats ($timeTracking, $withSupport = true) {
   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
   $allDriftMgr = $issueSelection->getDriftMgr();
 
-   $value = number_format($allDriftMgr['nbDays'], 2);
+   $value = round($allDriftMgr['nbDays'], 2);
    $color = "";
    if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
    if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }
    echo "<td title='elapsed - MgrEffortEstim' $color >".$value."</td>\n";
 
    $allDrift = $issueSelection->getDrift();
-   $value = number_format($allDrift['nbDays'], 2);
+   $value = round($allDrift['nbDays'], 2);
    $color = "";
    if ($value < 0) { $color = "style='background-color: #61ed66;'"; }
    if ($value > 0) { $color = "style='background-color: #fcbdbd;'"; }

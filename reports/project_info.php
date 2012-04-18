@@ -235,7 +235,7 @@ function displayVersionsDetailed($project) {
 
        $values = $pv->getDrift();
        $totalDrift += $values['nbDays'];
-       $formattedDrift    = "<span title='".T_("nb days")."'>".$values['nbDays']."</span>";
+       $formattedDrift    = "<span title='".T_("nb days")."'>".round($values['nbDays'],2)."</span>";
        $driftColor = $pv->getDriftColor($values['percent']);
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
@@ -293,7 +293,7 @@ function displayVersionsDetailedMgr($project) {
 
 		$valuesMgr = $pv->getDriftMgr();
         $totalDriftMgr += $valuesMgr['nbDays'];
-		$formattedDriftMgr = "<span title='".T_("nb days")."'>".$valuesMgr['nbDays']."</span>";
+		$formattedDriftMgr = "<span title='".T_("nb days")."'>".round($valuesMgr['nbDays'],2)."</span>";
 
 		$driftMgrColor = $pv->getDriftColor($valuesMgr['percent']);
 		$formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
@@ -309,7 +309,7 @@ function displayVersionsDetailedMgr($project) {
     }
 
 
-    $formattedDrift    = "<span title='".T_("nb days")."'>".$totalDriftMgr."</span>";
+    $formattedDrift    = "<span title='".T_("nb days")."'>".round($totalDriftMgr,2)."</span>";
 
 	echo "<tr class ='row_even'>\n";
 	echo "<td>".T_("Total")."</td>\n";
@@ -482,7 +482,7 @@ function displayCurrentIssuesInDrift($project, $isManager = false, $withSupport 
 					if ($driftPrelEE > 1) {
 						$color = "style='background-color: #fcbdbd;'";
 					}
-					echo "<td $color >".$driftPrelEE."</td>\n";
+					echo "<td $color >".round($driftPrelEE,2)."</td>\n";
 			}
 			$color = "";
 			if ($driftEE < -1) {
@@ -491,7 +491,7 @@ function displayCurrentIssuesInDrift($project, $isManager = false, $withSupport 
 			if ($driftEE > 1) {
 			$color = "style='background-color: #fcbdbd;'";
 			}
-			echo "<td $color >".$driftEE."</td>\n";
+			echo "<td $color >".round($driftEE, 2)."</td>\n";
 			echo "<td>".$issue->remaining."</td>\n";
 			echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
 			echo "<td>".$issue->getCurrentStatusName()."</td>\n";
@@ -562,7 +562,7 @@ function displayResolvedIssuesInDrift($project, $isManager = false, $withSupport
 					if ($driftPrelEE > 1) {
 						$color = "style='background-color: #fcbdbd;'";
 					}
-					echo "<td $color >".$driftPrelEE."</td>\n";
+					echo "<td $color >".round($driftPrelEE,2)."</td>\n";
 			}
 					$color = "";
 					if ($driftEE < -1) {
@@ -571,7 +571,7 @@ function displayResolvedIssuesInDrift($project, $isManager = false, $withSupport
 					if ($driftEE > 1) {
 					$color = "style='background-color: #fcbdbd;'";
 			}
-			echo "<td $color >".$driftEE."</td>\n";
+			echo "<td $color >".round($driftEE,2)."</td>\n";
 			echo "<td>".$issue->remaining."</td>\n";
 			echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
 			echo "<td>".$issue->getCurrentStatusName()."</td>\n";

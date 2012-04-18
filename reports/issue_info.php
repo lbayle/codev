@@ -289,10 +289,10 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
 
   if ($isManager) {
      $deriveETA = $issue->getDriftMgrEE($withSupport);
-     echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".number_format($deriveETA, 2)."</td>\n";
+     echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".round($deriveETA, 2)."</td>\n";
   }
   $derive = $issue->getDrift($withSupport);
-  echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".number_format($derive, 2)."</td>\n";
+  echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".round($derive, 2)."</td>\n";
   echo "</tr>\n";
 
   if ($displaySupport) {
@@ -304,10 +304,10 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
       }
       if ($isManager) {
          $deriveETA = $issue->getDriftMgrEE(!$withSupport);
-         echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".$deriveETA."</td>\n";
+         echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".round($deriveETA,2)."</td>\n";
       }
       $derive = $issue->getDrift(!$withSupport);
-      echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".$derive."</td>\n";
+      echo "<td style='background-color: #".$issue->getDriftColor($derive).";'>".round($derive,2)."</td>\n";
       echo "</tr>\n";
   }
 
