@@ -23,6 +23,7 @@ include_once('Logger.php');
 include_once('user.class.php');
 include_once('project.class.php');
 include_once('team.class.php');
+include_once('blogpost_cache.class.php');
 
 
 // ================================================
@@ -164,10 +165,28 @@ class BlogPost {
     *
     * Note: Only administrators & the owner of the post are allowed to delete.
     *
-    * @param unknown_type $blogPost_id
+    * @param int $blogPost_id
     */
    public static function delete($blogPost_id) {
 
+      // TODO check admin/ user access rights
+
+      $query = "DELETE FROM `codev_blog_activity_table` WHERE blog_id = $this->id;";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+         $query = "DELETE FROM `codev_blog_table` WHERE id = $this->id;";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
    }
 
 
@@ -184,7 +203,38 @@ class BlogPost {
 
       // check if $blogPost_id exists (foreign keys do not exist in MyISAM)
 
+      $fPostId    = mysql_real_escape_string($blogPost_id);
+
+
+      $query = "SELECT id FROM `codev_blog_table` where id= $fPostId";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      if (0 == mysql_num_rows($result)) {
+         $this->logger->error("addActivity: blogPost '$fPostId' does not exist !");
+         return 0;
+      }
+
       // add activity
+      $fUserId   = mysql_real_escape_string($user_id);
+      $fAction   = mysql_real_escape_string($action);
+      $fDate     = mysql_real_escape_string($date);
+      $query = "INSERT INTO `codev_blog_activity_table` ".
+            "(`blog_id`, `user_id`, `action`, `date`) ".
+            "VALUES ('$fPostId','$fUserId','$fAction','$fDate')";
+
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         return 0;
+      }
+      $activity_id = mysql_insert_id();
 
       return $activity_id;
    }
@@ -194,8 +244,9 @@ class BlogPost {
     *
     */
    public function getActivityList() {
+
       if (NULL == $this->activityList) {
-         $query = "SELECT * FROM `codev_blog_activity_table` WHERE blog_id = $this->id";
+         $query = "SELECT * FROM `codev_blog_activity_table` WHERE blog_id = $this->id ORDER BY date DESC";
          $result = mysql_query($query);
          if (!$result) {
             $this->logger->error("Query FAILED: $query");
@@ -203,11 +254,12 @@ class BlogPost {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $row = mysql_fetch_object($result);
 
          $this->activityList = array();
-
-
+         while($row = mysql_fetch_object($result)) {
+            $activity = new BlogActivity($row->id, $row->blog_id, $row->user_id, $row->action, $row->date);
+            $this->activityList[$row->id] = $activity;
+         }
       }
       return $this->activityList;
    }
@@ -287,6 +339,21 @@ class BlogManager {
     */
    public function getSubmittedPosts($user_id) {
 
+      $query = "SELECT id FROM `codev_blog_table` where src_user_id= $user_id";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      $submittedPosts = array();
+      while($row = mysql_fetch_object($result)) {
+         $submittedPosts[$row->id] = BlogPostCache::getInstance()->getBlogPost($row->id);
+      }
+
+      return $submittedPosts;
    }
 
 } // class BlogManager
