@@ -444,7 +444,7 @@ class Issue {
       else                          { $issueDuration = $this->mgrEffortEstim; }
 
       if (NULL == $this->mgrEffortEstim) {
-      	$this->logger->error("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND mgrEffortEstim == NULL)");
+      	$this->logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND mgrEffortEstim == NULL)");
       }
       return $issueDuration;
    }
