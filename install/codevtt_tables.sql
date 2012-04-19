@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
 ('database_version', 4, 1),
-('job_support', 2, 1);
+('job_support', 2, 1),
+('blogCategories', '0:General,1:Imputations', 3);
 
 
 -- --------------------------------------------------------
@@ -64,7 +65,7 @@ INSERT INTO `codev_holidays_table` (`id`, `date`, `description`, `color`) VALUES
 (14, 1293836400, 'Reveillon', 'D8D8D8'),
 (25, 1335823200, 'fete du travail', '58CC77'),
 (24, 1333922400, 'lundi de paques', '58CC77'),
-(20, 1279058400, '	fete nationale', '58CC77'),
+(20, 1279058400, 'fete nationale', '58CC77'),
 (21, 1288566000, 'toussaints', '58CC77'),
 (22, 1289430000, 'armistice', '58CC77'),
 (23, 1293231600, 'noel', 'D8D8D8'),

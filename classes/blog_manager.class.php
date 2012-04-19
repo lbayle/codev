@@ -32,7 +32,7 @@ include_once('blogpost_cache.class.php');
  */
 class BlogActivity {
 
-   const action_read = 1;
+   const action_read = 0;
 
    public $id;
    public $blogPost_id;
@@ -46,6 +46,23 @@ class BlogActivity {
       $this->user_id     = $user_id;
       $this->action      = $action;
       $this->date        = $date;
+   }
+
+   /**
+    * Literal name for the given action id
+    *
+    * @param int $action
+    * @return string actionName or NULL if unknown
+    */
+   public static function getActionName($action) {
+
+      switch ($action) {
+         case action_read:
+            return T_('Read');
+         default:
+            #return T_('unknown');
+            return NULL;
+      }
    }
 
 } // class BlogActivity
@@ -110,6 +127,28 @@ class BlogPost {
 
       #$this->activityList = $this->getActivityList();
    }
+
+   /**
+    * Literal name for the given severity id
+    *
+    * @param int $severity
+    * @return string severityName or NULL if unknown
+    */
+   public static function getSeverityName($severity) {
+      switch ($severity) {
+         case severity_low:
+            return T_('Low');
+         case severity_normal:
+            return T_('Normal');
+         case severity_high:
+            return T_('High');
+         default:
+            #return T_('unknown');
+            return NULL;
+      }
+
+   }
+
 
    // -----------------------------------------
    /**
@@ -270,10 +309,14 @@ class BlogPost {
     * QuickSort compare method.
     * returns true if $this has higher priority than $postB
     *
+    * criteria: date_submission, date_expired, severity
+    *
     * @param BlogPost $postB the object to compare to
     */
    public function compareTo($postB) {
 
+      // TODO
+      return true;
    }
 
 
@@ -290,8 +333,11 @@ class BlogManager {
 
    private $logger;
 
+   private $categoryList;
+   private $severityList;
+
    // -----------------------------------------
-   public function __construct($id) {
+   public function __construct() {
       $this->logger = Logger::getLogger(__CLASS__);
 
    }
@@ -304,6 +350,11 @@ class BlogManager {
     */
    public function getCategoryList() {
 
+      if (NULL == $this->categoryList) {
+         $this->categoryList = Config::getValue(Config::id_blogCategories);
+         ksort($this->categoryList);
+      }
+      return $this->categoryList;
    }
 
    // -----------------------------------------
@@ -313,6 +364,18 @@ class BlogManager {
     */
    public function getSeverityList() {
 
+      if (NULL == $this->severityList) {
+         $this->severityList = array();
+
+         for ($i = 0; $i < 10; $i++) {
+            $sevName =  BlogPost::getSeverityName($i);
+            if (NULL == $sevName) {
+               break;
+            }
+            $this->severityList[$i] = $sevName;
+         }
+      }
+      return $this->severityList;
    }
 
 
@@ -321,12 +384,47 @@ class BlogManager {
     * return the posts to be displayed for a given user,
     * depending on it's [userid, teams, projects] and personal filter preferences.
     *
+    * we want:
+    * - all posts assigned to the user
+    * - all posts assigned to a team where the user is member
+    * - all posts assigned to a project that is in one of the user's teams
+    *
+    *
     * @param int $user_id
     *
     * @return array BlogPost
     */
    public function getPosts($user_id) {
 
+      $user = UserCache::getInstance()->getUser($user_id);
+      $teamList = $user->getTeamList();
+      $projList = $user->getProjectList();
+
+      $formattedTeamList = implode(',', array_keys($teamList));
+      $formattedProjList = implode(',', array_keys($projList));
+
+
+      $query = "SELECT id FROM `codev_blog_table` ";
+      $query .= "WHERE dest_user_id = $user_id ";
+      $query .= "OR (dest_user_id = 0 AND dest_team_id IN ($formattedTeamList)) ";
+      $query .= "OR (dest_user_id = 0 AND dest_team_id IN (0,$formattedTeamList) AND dest_project_id IN ($formattedProjList)) ";
+      $query .= "ORDER BY date_submitted DESC";
+
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      $postList = array();
+      while($row = mysql_fetch_object($result)) {
+         $post = BlogPostCache::getInstance()->getBlogPost($row->id);
+         $postList[$row->id] = $post;
+      }
+
+      return $postList;
    }
 
    // -----------------------------------------

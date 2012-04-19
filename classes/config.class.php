@@ -97,6 +97,7 @@ class Config {
    const id_mantisPath               = "mantisPath";
    const id_bugResolvedStatusThreshold = "bug_resolved_status_threshold";
    const id_timetrackingFilters        = "timetrackingFilters";
+   const id_blogCategories           = "blogCategories";
 
    const id_ClientTeamid             = "client_teamid"; // FDJ_teamid
 
