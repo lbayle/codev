@@ -268,6 +268,69 @@ class Team {
       return $issueList;
    }
 
+
+   // -------------------------------------------------------
+   /**
+    * get all current issues managed by the team's users on the team's projects.
+    *
+    * @param int $teamid
+    * @param boolean $addUnassignedIssues
+    * @param boolean $addNewIssues
+    *
+    * @return array issueList
+    */
+   public static function getCurrentIssues($teamid, $addUnassignedIssues = false, $addNewIssues = false) {
+
+      global $logger;
+      global $status_new;
+
+      $projectList = Team::getProjectList($teamid);
+      $memberList = Team::getMemberList($teamid);
+
+
+      $formatedProjects = implode( ', ', array_keys($projectList));
+      $formatedMembers = implode( ', ', array_keys($memberList));
+
+      // add unassigned tasks
+      if ($addUnassignedIssues) {
+         $formatedMembers .= ',0';
+      }
+
+      $logger->debug("getCurrentIssues(teamId=$teamId) projects=$formatedProjects members=$formatedMembers");
+
+      // ---- get Issues that are not Resolved/Closed
+      $query = "SELECT DISTINCT id ".
+            "FROM `mantis_bug_table` ".
+            "WHERE status < get_project_resolved_status_threshold(project_id) ".
+            "AND project_id IN ($formatedProjects) ".
+            "AND handler_id IN ($formatedMembers) ";
+
+      if (false == $addNewIssues) {
+         $query .= "AND status > $status_new ";
+      }
+
+      $query .= "ORDER BY id DESC";
+
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         return;
+      }
+
+      $issueList = array();
+      while($row = mysql_fetch_object($result))
+      {
+         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+         $issueList[$row->bug_id] = $issue;
+      }
+
+      $logger->debug("getCurrentIssues(teamid=$teamid) nbIssues=".count($issueList));
+      return $issueList;
+   }
+
+
+
    // -------------------------------------------------------
    /**
     *

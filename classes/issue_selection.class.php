@@ -277,7 +277,7 @@ class IssueSelection {
    /**
     * Split selection in 3 selection, sorted on issue drift.
     *
-    * @param array $threshold
+    * @param int $threshold
     * @param boolean $withSupport
     *
     * @return array array of 3 IssueSelection instances ('negative', 'equal', 'positive')
@@ -324,7 +324,7 @@ class IssueSelection {
     *
     * Note: this is a replacement for Timetracking::getIssuesDriftStats()
     *
-    * @param array $threshold
+    * @param int $threshold
     * @param boolean $withSupport
     *
     * @return array array of 3 IssueSelection instances ('negative', 'equal', 'positive')
