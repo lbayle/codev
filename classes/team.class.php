@@ -243,7 +243,7 @@ class Team {
          $formatedMembers .= ',0';
       }
 
-      $logger->debug("getTeamIssues(teamId=$teamId) projects=$formatedProjects members=$formatedMembers");
+      $logger->debug("getTeamIssues(teamid=$teamid) projects=$formatedProjects members=$formatedMembers");
 
       $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
          "FROM `mantis_bug_table` ".
@@ -293,10 +293,10 @@ class Team {
 
       // add unassigned tasks
       if ($addUnassignedIssues) {
-         $formatedMembers .= ',0';
+         $formatedMembers .= ', 0';
       }
 
-      $logger->debug("getCurrentIssues(teamId=$teamId) projects=$formatedProjects members=$formatedMembers");
+      $logger->debug("Team::getCurrentIssues(teamid=$teamid) projects=$formatedProjects members=$formatedMembers");
 
       // ---- get Issues that are not Resolved/Closed
       $query = "SELECT DISTINCT id ".
@@ -321,11 +321,11 @@ class Team {
       $issueList = array();
       while($row = mysql_fetch_object($result))
       {
-         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-         $issueList[$row->bug_id] = $issue;
+         $issue = IssueCache::getInstance()->getIssue($row->id);
+         $issueList[$row->id] = $issue;
       }
 
-      $logger->debug("getCurrentIssues(teamid=$teamid) nbIssues=".count($issueList));
+      $logger->debug("Team::getCurrentIssues(teamid=$teamid) nbIssues=".count($issueList));
       return $issueList;
    }
 

@@ -52,139 +52,57 @@ function getTeams($teamList) {
     return $teams;
 }
 
-/**
- * display Drifts for Issues that are CURRENTLY OPENED
- * @param $timeTracking
- */
-function getCurrentDriftStats ($startTimestamp, $endTimestamp, $teamid, $isManager = false) {
-    global $logger;
-    global $status_new;
-
-    $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-
-    // ---- get Issues that are not Resolved/Closed
-    $prodProjectList = $timeTracking->prodProjectList;
-
-    if ((NULL == $prodProjectList) || (0 == count($prodProjectList))) {
-        $logger->error("No valid projects defined for team ".$timeTracking->team_id);
-        return;
-    }
-
-    $formatedProdProjectList = implode( ', ', $prodProjectList);
-
-    $query = "SELECT DISTINCT id ".
-             "FROM `mantis_bug_table` ".
-             "WHERE status < get_project_resolved_status_threshold(project_id) ".
-             "AND status > $status_new ".
-             "AND project_id IN ($formatedProdProjectList) ".
-             "ORDER BY id DESC";
-    $result = mysql_query($query);
-    if (!$result) {
-        $logger->error("Query FAILED: $query");
-        $logger->error(mysql_error());
-        return;
-    }
-
-    $issueList = array();
-    while($row = mysql_fetch_object($result)) {
-        $issueList[] = IssueCache::getInstance()->getIssue($row->id);
-    }
-    if (0 != count($issueList)) {
-        $driftStats_new = $timeTracking->getIssuesDriftStats($issueList);
-    } else {
-        $logger->debug("No Stats available for team ".$timeTracking->team_id);
-        $driftStats_new = array();
-    }
-
-    return $driftStats_new;
-}
-
-
 
 /**
  * display Drifts for Issues that have NOT been marked as 'Resolved' until now
  */
-function displayCurrentDeviationStats ($teamid, $withSupport = true) {
+function getCurrentDeviationStats ($teamid, $withSupport = true) {
 
-   global $logger;
+	global $logger;
 
-   $issueList = Team::getCurrentIssues($teamid, false, false);
+	$issueList = Team::getCurrentIssues($teamid, true, false);
 
-   $issueSelection = new IssueSelection("current issues");
-   $issueSelection->addIssueList($issueList);
+	$issueSelection = new IssueSelection("current issues");
+	$issueSelection->addIssueList($issueList);
 
-   $deviationGroups    = $issueSelection->getDeviationGroups(1, $withSupport);
-   $deviationGroupsMgr = $issueSelection->getDeviationGroupsMgr(1, $withSupport);
+	$deviationGroups    = $issueSelection->getDeviationGroups(1, $withSupport);
+	$deviationGroupsMgr = $issueSelection->getDeviationGroupsMgr(1, $withSupport);
+
+	$currentDeviationStats = array();
+
+	$currentDeviationStats['totalDeviationMgr'] = $issueSelection->getDriftMgr();
+	$currentDeviationStats['totalDeviation']    = $issueSelection->getDrift();
 
 
-   echo "<table>\n";
-   echo "<tr>\n";
-   echo "<th></th>\n";
-   echo "<th width='100' title='".T_("Manager Estimation")."'>".T_("Manager")."</th>\n";
-   echo "<th width='100'>".T_("Value")."</th>\n";
-   echo "<th>".T_("Tasks Mgr")."</th>\n";
-   echo "<th>".T_("Tasks")."</th>\n";
-   echo "</tr>\n";
+	$posDriftMgr = $deviationGroupsMgr['positive']->getDriftMgr();
+	$posDrift    = $deviationGroups['positive']->getDrift();
+	$currentDeviationStats['nbIssuesPosMgr'] = $deviationGroupsMgr['positive']->getNbIssues();
+	$currentDeviationStats['nbIssuesPos']    = $deviationGroups['positive']->getNbIssues();
+	$currentDeviationStats['nbDaysPosMgr']   = $posDriftMgr['nbDays'];
+	$currentDeviationStats['nbDaysPos']      = $posDrift['nbDays'];
+	$currentDeviationStats['issuesPosMgr']   = $deviationGroupsMgr['positive']->getFormattedIssueList();
+	$currentDeviationStats['issuesPos']      = $deviationGroups['positive']->getFormattedIssueList();
 
-   echo "<tr>\n";
-   echo "<td title='".T_("If < 0 then ahead on planning.")."'>".T_("EffortDeviation")."</td>\n";
-   $allDriftMgr = $issueSelection->getDriftMgr();
 
-   $value = round($allDriftMgr['nbDays'], 2);
-   $color = "";
-   if ($value < 0) {
-      $color = "style='background-color: #61ed66;'";
-   }
-   if ($value > 0) {
-      $color = "style='background-color: #fcbdbd;'";
-   }
-   echo "<td title='elapsed - MgrEffortEstim' $color >".$value."</td>\n";
+	$equalDriftMgr = $deviationGroupsMgr['equal']->getDriftMgr();
+	$equalDrift    = $deviationGroups['equal']->getDrift();
+	$currentDeviationStats['nbIssuesEqualMgr'] = $deviationGroupsMgr['equal']->getNbIssues();
+	$currentDeviationStats['nbIssuesEqual']    = $deviationGroups['equal']->getNbIssues();
+	$currentDeviationStats['nbDaysEqualMgr']   = $equalDriftMgr['nbDays'];
+	$currentDeviationStats['nbDaysEqual']      = $equalDrift['nbDays'];
+	$currentDeviationStats['issuesEqualMgr']   = $deviationGroupsMgr['equal']->getFormattedIssueList();
+	$currentDeviationStats['issuesEqual']      = $deviationGroups['equal']->getFormattedIssueList();
 
-   $allDrift = $issueSelection->getDrift();
-   $value = round($allDrift['nbDays'], 2);
-   $color = "";
-   if ($value < 0) {
-   $color = "style='background-color: #61ed66;'";
-}
-if ($value > 0) {
-$color = "style='background-color: #fcbdbd;'";
-}
+	$negDriftMgr = $deviationGroupsMgr['negative']->getDriftMgr();
+	$negDrift    = $deviationGroups['negative']->getDrift();
+	$currentDeviationStats['nbIssuesNegMgr'] = $deviationGroupsMgr['negative']->getNbIssues();
+	$currentDeviationStats['nbIssuesNeg']    = $deviationGroups['negative']->getNbIssues();
+	$currentDeviationStats['nbDaysNegMgr']   = $negDriftMgr['nbDays'];
+	$currentDeviationStats['nbDaysNeg']      = $negDrift['nbDays'];
+	$currentDeviationStats['issuesNegMgr']   = $deviationGroupsMgr['negative']->getFormattedIssueList();
+	$currentDeviationStats['issuesNeg']      = $deviationGroups['negative']->getFormattedIssueList();
 
-echo "<td title='elapsed - EffortEstim' $color>".$value."</td>\n";
-echo "<td></td>\n";
-echo "<td></td>\n";
-echo "</tr>\n";
-
-echo "<tr>\n";
-echo "<td>".T_("Tasks in drift")."</td>\n";
-$posDriftMgr = $deviationGroupsMgr['positive']->getDriftMgr();
-$posDrift    = $deviationGroups['positive']->getDrift();
-echo "<td title='".T_("nb tasks")."'>".$deviationGroupsMgr['positive']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$posDriftMgr['nbDays'].")</span></td>\n";
-echo "<td title='".T_("nb tasks")."'>".$deviationGroups['positive']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$posDrift['nbDays'].")</span></td>\n";
-echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroupsMgr['positive']->getFormattedIssueList()."</td>\n";
-echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroups['positive']->getFormattedIssueList()."</td>\n";
-echo "</tr>\n";
-
-echo "<tr>\n";
-echo "<td>".T_("Tasks in time")."</td>\n";
-$equalDriftMgr = $deviationGroupsMgr['equal']->getDriftMgr();
-$equalDrift    = $deviationGroups['equal']->getDrift();
-echo "<td title='".T_("nb tasks")."'>".$deviationGroupsMgr['equal']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$equalDriftMgr['nbDays'].")</span></td>\n";
-echo "<td title='".T_("nb tasks")."'>".$deviationGroups['equal']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$equalDrift['nbDays'].")</span></td>\n";
-echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroupsMgr['equal']->getFormattedIssueList()."</td>\n";
-echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroups['equal']->getFormattedIssueList()."</td>\n";
-echo "</tr>\n";
-
-echo "<tr>\n";
-echo "<td>".T_("Tasks ahead")."</td>\n";
-$negDriftMgr = $deviationGroupsMgr['negative']->getDriftMgr();
-$negDrift    = $deviationGroups['negative']->getDrift();
-echo "<td title='".T_("nb tasks")."'>".$deviationGroupsMgr['negative']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$negDriftMgr['nbDays'].")</span></td>\n";
-echo "<td title='".T_("nb tasks")."'>".$deviationGroups['negative']->getNbIssues()."<span title='".T_("nb days")."' class='floatr'>(".$negDrift['nbDays'].")</span></td>\n";
-echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroupsMgr['negative']->getFormattedIssueList()."</td>\n";
-echo "<td title='".T_("Task list for EffortEstim")."'>".$deviationGroups['negative']->getFormattedIssueList()."</td>\n";
-echo "</tr>\n";
-echo "</table>\n";
+	return $currentDeviationStats;
 }
 
 
@@ -352,7 +270,7 @@ if (isset($_SESSION['userid'])) {
             $isManager = array_key_exists($teamid, $managedTeamList);
             $smartyHelper->assign('manager', $isManager);
 
-            $smartyHelper->assign('currentDriftStats', getCurrentDriftStats($startTimestamp, $endTimestamp, $teamid, $isManager));
+            $smartyHelper->assign('currentDeviationStats', getCurrentDeviationStats ($teamid, $withSupport = true));
 
             $smartyHelper->assign('issuesInDrift', getIssuesInDrift($teamid, $isManager, $withSupport));
 
