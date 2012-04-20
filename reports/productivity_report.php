@@ -356,13 +356,13 @@ function displayRates ($timeTracking) {
 
   echo "<tr>\n";
   echo "<td>".T_("Efficiency Rate")."</td>\n";
-  echo "<td>".number_format($efficiencyRate, 2)."%</td>\n";
+  echo "<td>".round($efficiencyRate, 2)."%</td>\n";
   echo "<td><a id='dialog_EfficiencyRate_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
   echo "<tr>\n";
   echo "<td>".T_("System Availability")."</td>\n";
-  echo "<td>".number_format($systemDisponibilityRate, 3)."%</td>\n";
+  echo "<td>".round($systemDisponibilityRate, 3)."%</td>\n";
   echo "<td><a id='dialog_SystemAvailability_link' href='#'><img title='help' src='../images/help_icon.gif'/></a></td>\n";
   echo "</tr>\n";
 
@@ -549,7 +549,7 @@ function displayTimeDriftStats ($timeTracking) {
   $percent = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
 
   echo "<table>\n";
-  echo "<caption title='".T_("Tasks having no deadLine are not reported here")."'>".T_("Adherence to deadlines")."&nbsp;&nbsp;&nbsp;(".number_format($percent, 1)."%)</caption>\n";
+  echo "<caption title='".T_("Tasks having no deadLine are not reported here")."'>".T_("Adherence to deadlines")."&nbsp;&nbsp;&nbsp;(".round($percent, 1)."%)</caption>\n";
   echo "<tr>\n";
   echo "<th></th>\n";
   echo "<th width='100'>".T_("Total")."</th>\n";

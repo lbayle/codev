@@ -245,10 +245,10 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
       echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
-      echo "<td class=\"right\">".$val1[$i]."</td>\n";
-      echo "<td class=\"right\">".$val2[$i]."</td>\n";
+      echo "<td class=\"right\">".round($val1[$i],2)."</td>\n";
+      echo "<td class=\"right\">".round($val2[$i],2)."</td>\n";
       if ($displayNoSupport) {
-         echo "<td class=\"right\">".$val3[$i]."</td>\n";
+         echo "<td class=\"right\">".round($val3[$i],2)."</td>\n";
       }
       echo "</tr>\n";
       $i++;
@@ -311,7 +311,7 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
       echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
-      echo "<td class=\"right\">".number_format($val1[$i], 1)."</td>\n";
+      echo "<td class=\"right\">".round($val1[$i], 1)."</td>\n";
       echo "</tr>\n";
       $i++;
    }
@@ -379,7 +379,7 @@ function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
       echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
-      echo "<td class=\"right\">".number_format($val1[$i], 1)."%</td>\n";
+      echo "<td class=\"right\">".round($val1[$i], 1)."%</td>\n";
       echo "</tr>\n";
       $i++;
    }
@@ -435,8 +435,8 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
       echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
-      echo "<td class=\"right\">".number_format($val1[$i], 2)."%</td>\n";
-      echo "<td class=\"right\">".number_format($val2[$i], 3)."%</td>\n";
+      echo "<td class=\"right\">".round($val1[$i], 2)."%</td>\n";
+      echo "<td class=\"right\">".round($val2[$i], 3)."%</td>\n";
       echo "</tr>\n";
       $i++;
    }

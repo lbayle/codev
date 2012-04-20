@@ -185,7 +185,7 @@ function getGraphUrl($width, $height, $legend, $bottomLabel) {
 function getDates($timeTrackingTable, $val1) {
     $i = 0;
     foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-        $availableWorkloadGraph[date("F Y", $startTimestamp)] = number_format($val1[$i], 1);
+        $availableWorkloadGraph[date("F Y", $startTimestamp)] = round($val1[$i], 1);
         $i++;
     }
     return $availableWorkloadGraph;

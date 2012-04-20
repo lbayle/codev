@@ -392,9 +392,9 @@ class TimeTracking {
   // ----------------------------------------------
   /**
    * return stats on which Issues where delivered after the DeadLine
-   * 
+   *
    * @param array $issueList
-   * 
+   *
    * TODO move this method to IssueSelection class
    */
   public function getIssuesTimeDriftStats($issueList) {
@@ -458,14 +458,14 @@ class TimeTracking {
 
   // -------------------------------------------------
   /** Drift Stats on a given Issue.class List
-   * 
+   *
    * @param array $issueList
    * @param boolean $withSupport
    * @return array driftStats
-   * 
+   *
    * TODO move this method to IssueSelection class
   */
-  
+
   public function getIssuesDriftStats($issueList, $withSupport = true) {
 
     global $statusNames;
@@ -756,15 +756,15 @@ class TimeTracking {
 
     while($row = mysql_fetch_object($result))
     {
-      $durations[$row->date] += $row->duration;
-      //echo "durations[$row->date] = ".number_format($durations[$row->date], 5)." (+$row->duration)<br/>";
+      $durations[$row->date] += round($row->duration, 3);
     }
 
     // Check
     foreach ($durations as $date => $value) {
       // REM: it looks like PHP has some difficulties to compare a float to '1' !!!
-      if (($value < 0.999999999999999) || ($value > 1.000000000000001)) {
-        if (isset($_GET['debug'])) { echo "incompleteDays[$date]=".$value."<br/>"; }
+      #if (($value < 0.999999999999999) || ($value > 1.000000000000001)) {
+      if ($value != 1) {
+        $this->logger->debug("user $userid incompleteDays[$date]=".$value);
         $incompleteDays[$date] = $value;
       }
     }

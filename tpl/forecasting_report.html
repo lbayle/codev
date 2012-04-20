@@ -68,8 +68,8 @@ jQuery(function() {
             </tr>
             <tr>
                <td title='{t}If < 0 then ahead on planning.{/t}'>{t}EffortDeviation{/t}</td>
-               {if $manager}<td title='elapsed - MgrEffortEstim' {if $currentDeviationStats.totalDeviationMgr.nbDays > 0}style='background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviationMgr.nbDays < 0}style='background-color: #61ed66;'{/if}>{$currentDeviationStats.totalDeviationMgr.nbDays|string_format:"%.2f"}</td>{/if}
-               <td title='elapsed - EffortEstim' {if $currentDeviationStats.totalDeviation.nbDays > 0}style='background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviation.nbDays < 0}style='background-color: #61ed66;'{/if}>{$currentDeviationStats.totalDeviation.nbDays|string_format:"%.2f"}</td>
+               {if $manager}<td title='elapsed - MgrEffortEstim' {if $currentDeviationStats.totalDeviationMgr.nbDays > 0}style='background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviationMgr.nbDays < 0}style='background-color: #61ed66;'{/if}>{$currentDeviationStats.totalDeviationMgr.nbDays}</td>{/if}
+               <td title='elapsed - EffortEstim' {if $currentDeviationStats.totalDeviation.nbDays > 0}style='background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviation.nbDays < 0}style='background-color: #61ed66;'{/if}>{$currentDeviationStats.totalDeviation.nbDays}</td>
             </tr>
             <tr>
                <td>{t}Tasks in drift{/t}</td>
@@ -109,8 +109,8 @@ jQuery(function() {
                <td>{$i.bugId}</td>
                <td>{$i.projectName}</td>
                <td>{$i.targetVersion}</td>
-               {if $manager}<td {if $i.driftPrelEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftPrelEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftPrelEE|string_format:"%.2f"}</td>{/if}
-               <td {if $i.driftEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftEE|string_format:"%.2f"}</td>
+               {if $manager}<td {if $i.driftPrelEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftPrelEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftPrelEE}</td>{/if}
+               <td {if $i.driftEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftEE}</td>
                <td>{$i.remaining}</td>
                <td>{$i.progress}%</td>
                <td>{$i.statusName}</td>
