@@ -609,7 +609,7 @@ class Issue {
       }
 
       $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)");
-      return $derive;
+      return round($derive,3);
    }
 
    /**
@@ -650,7 +650,7 @@ class Issue {
       }
 
       $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->mgrEffortEstim.")");
-      return $derive;
+      return round($derive,3);
    }
 
 

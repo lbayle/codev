@@ -190,7 +190,7 @@ class IssueSelection {
          $values['percent'] = 0;
       } else {
          $percent =  $nbDaysDrift / $myEstim;
-         $values['nbDays']  = $nbDaysDrift;
+         $values['nbDays']  = round($nbDaysDrift,3);
          $values['percent'] = $percent;
       }
 
@@ -221,7 +221,7 @@ class IssueSelection {
          $values['percent'] = 0;
       } else {
          $percent =  $nbDaysDrift / $myEstim;
-         $values['nbDays'] = $nbDaysDrift;
+         $values['nbDays'] = round($nbDaysDrift,3);
          $values['percent'] = $percent;
       }
 
