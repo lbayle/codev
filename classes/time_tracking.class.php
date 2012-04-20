@@ -763,7 +763,8 @@ class TimeTracking {
     foreach ($durations as $date => $value) {
       // REM: it looks like PHP has some difficulties to compare a float to '1' !!!
       #if (($value < 0.999999999999999) || ($value > 1.000000000000001)) {
-      if ($value != 1) {
+
+      if (round($value, 3) != 1) {
         $this->logger->debug("user $userid incompleteDays[$date]=".$value);
         $incompleteDays[$date] = $value;
       }
