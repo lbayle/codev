@@ -197,16 +197,16 @@ jQuery(function() {
    <p>
       <strong>{t}Tasks in drift{/t}:</strong><br />
    {t}Tasks for which the elapsed time is greater than the estimated effort{/t}<br />
-      <span style='color:blue'>{t}Formula{/t}: {t}drift{/t} > 1</span>
+      <span style='color:blue'>{t}Formula{/t}: {t}deviation{/t} > {$threshold}</span>
    </p>
    <p>
       <strong>{t}Tasks in time{/t}:</strong><br />
    {t}Tasks resolved in time{/t}<br />
-      <span style='color:blue'>{t}Formula{/t}: -1 <= {t}drift{/t} <= 1</span>
+      <span style='color:blue'>{t}Formula{/t}: -{$threshold} <= {t}deviation{/t} <= {$threshold}</span>
    </p>
    <p>
       <strong>{t}Tasks ahead{/t}:</strong><br />
    {t}Tasks resolved in less time than the estimated effort{/t}<br />
-      <span style='color:blue'>{t}Formula{/t}: {t}drift{/t} < -1</span>
+      <span style='color:blue'>{t}Formula{/t}: {t}deviation{/t} < -{$threshold}</span>
    </p>
 </div>

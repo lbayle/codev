@@ -56,7 +56,7 @@ function getTeams($teamList) {
 /**
  * display Drifts for Issues that have NOT been marked as 'Resolved' until now
  */
-function getCurrentDeviationStats ($teamid, $withSupport = true) {
+function getCurrentDeviationStats ($teamid, $threshold = 1, $withSupport = true) {
 
 	global $logger;
 
@@ -70,8 +70,8 @@ function getCurrentDeviationStats ($teamid, $withSupport = true) {
 	$issueSelection = new IssueSelection("current issues");
 	$issueSelection->addIssueList($issueList);
 
-	$deviationGroups    = $issueSelection->getDeviationGroups(1, $withSupport);
-	$deviationGroupsMgr = $issueSelection->getDeviationGroupsMgr(1, $withSupport);
+	$deviationGroups    = $issueSelection->getDeviationGroups($threshold, $withSupport);
+	$deviationGroupsMgr = $issueSelection->getDeviationGroupsMgr($threshold, $withSupport);
 
 	$currentDeviationStats = array();
 
@@ -228,6 +228,8 @@ function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) 
 
 require('display.inc.php');
 
+$threshold = 0.5; // for Deviation filters
+
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Forecasting'));
 
@@ -274,8 +276,9 @@ if (isset($_SESSION['userid'])) {
 
             $isManager = array_key_exists($teamid, $managedTeamList);
             $smartyHelper->assign('manager', $isManager);
+            $smartyHelper->assign('threshold', $threshold);
 
-            $smartyHelper->assign('currentDeviationStats', getCurrentDeviationStats ($teamid, $withSupport = true));
+            $smartyHelper->assign('currentDeviationStats', getCurrentDeviationStats ($teamid, $threshold, $withSupport = true));
 
             $smartyHelper->assign('issuesInDrift', getIssuesInDrift($teamid, $isManager, $withSupport));
 
