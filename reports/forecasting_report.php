@@ -62,6 +62,11 @@ function getCurrentDeviationStats ($teamid, $withSupport = true) {
 
 	$issueList = Team::getCurrentIssues($teamid, true, false);
 
+	if ((NULL == $issueList) || (0 == count($issueList))) {
+	   $logger->info("getCurrentDeviationStats: No opened issues for team $teamid");
+	   return NULL;
+	}
+
 	$issueSelection = new IssueSelection("current issues");
 	$issueSelection->addIssueList($issueList);
 

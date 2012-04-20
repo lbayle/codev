@@ -1,197 +1,212 @@
 <script type="text/javascript">
 function submitTeam(){
-    var foundError = 0;
-    var msgString = "Some fields are missing:" + "\n\n";
+   var foundError = 0;
+   var msgString = "Some fields are missing:" + "\n\n";
 
-    if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
+   if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
 
-    if (0 != foundError) {
-        alert(msgString);
-        return false;
-    }
-    document.forms["teamSelectForm"].submit();
+   if (0 != foundError) {
+      alert(msgString);
+      return false;
+   }
+   document.forms["teamSelectForm"].submit();
 }
 
 // ------ JQUERY --------
 jQuery(function() {
-    jQuery( "#dialog_CurrentDriftStats" ).dialog({
-        autoOpen: false,
-        hide: "fade"
-    });
-    jQuery( "#dialog_CurrentDriftStats_link" ).click(function() {
-        jQuery( "#dialog_CurrentDriftStats" ).dialog( "open" );
-        return false;
-    });
+   jQuery( "#dialog_CurrentDriftStats" ).dialog({
+      autoOpen: false,
+      hide: "fade"
+   });
+   jQuery( "#dialog_CurrentDriftStats_link" ).click(function() {
+      jQuery( "#dialog_CurrentDriftStats" ).dialog( "open" );
+      return false;
+   });
+   jQuery( "#tabsCurrentDeviationStats" ).tabs();
+
 });
 </script>
 
 <div id="content">
-    {if $teams}
-    <div align="center">
-        <!-- create form -->
-        <form id='teamSelectForm' name='teamSelectForm' method='post' action='{$page}'>
-            <fieldset>
-                <label>{t}Team{/t}: </label>
-                <select name='teamid'>
-                    <option value='0'></option>
-                    {foreach from=$teams key=id item=i}
-                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                    {/foreach}
-                </select>
-                <input type="button" value='{t}Update{/t}' onclick='javascript: submitTeam()' />
-                <input type="hidden" name="action" value="displayPage" />
-            </fieldset>
-        </form>
-    </div>
+{if $teams}
+   <div align="center">
+      <!-- create form -->
+      <form id='teamSelectForm' name='teamSelectForm' method='post' action='{$page}'>
+         <fieldset>
+            <label>{t}Team{/t}: </label>
+            <select name='teamid'>
+               <option value='0'></option>
+               {foreach from=$teams key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <input type="button" value='{t}Update{/t}' onclick='javascript: submitTeam()' />
+            <input type="hidden" name="action" value="displayPage" />
+         </fieldset>
+      </form>
+   </div>
 
-    {if $issuesInDrift}
-    <div style="margin-top:2em;">
-        <br/><br/>
-    
+   <div style="margin-top:2em;">
+   <br/><br/>
 
 
+   {if $currentDeviationStats}
+   <h2>{t}Effort Deviation{/t}&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='{$page}'><img title='help' src='images/help_icon.gif'/></a></h2>
+   <div id='tabsCurrentDeviationStats'>
+      <ul>
+      <li><a href='#tabsName-1'>{t}Overview{/t}</a></li>
+      <li><a href='#tabsName-2'>{t}Tasks in drift{/t}</a></li>
+      <li><a href='#tabsName-3'>{t}Tasks{/t}</a></li>
+      </ul>
 
-    {if $issuesInDrift}
-    <div style="margin-top:2em;">
-        <h2>{t}New Effort Deviation{/t}&nbsp;&nbsp; <a id='dialog_CurrentDriftStats_link' href='{$page}'><img title='help' src='images/help_icon.gif'/></a></h2>
-        {if $currentDeviationStats}
-        <table>
+      <div id='tabsName-1'><p>
+         <table>
             <tr>
-                <th></th>
-                {if $manager}<th width='100' title='{t}Manager Estimation{/t}'>{t}Manager{/t}</th>{/if}
-                <th width='100'>{t}Value{/t}</th>
-                {if $manager}<th>{t}Tasks Mgr{/t}</th>{/if}
-                <th>{t}Tasks{/t}</th>
+               <th></th>
+               {if $manager}<th width='100' title='{t}Manager Estimation{/t}'>{t}Manager{/t}</th>{/if}
+               <th width='100'>{t}Value{/t}</th>
             </tr>
             <tr>
-                <td title='{t}If < 0 then ahead on planning.{/t}'>{t}EffortDeviation{/t}</td>
-                {if $manager}<td title='elapsed - MgrEffortEstim' {if $currentDeviationStats.totalDeviationMgr.nbDays > 0}style='background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviationMgr.nbDays < 0}style='background-color: #61ed66;'{/if}>{$currentDeviationStats.totalDeviationMgr.nbDays|string_format:"%.2f"}</td>{/if}
-                <td title='elapsed - EffortEstim' {if $currentDeviationStats.totalDeviation.nbDays > 0}style='background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviation.nbDays < 0}style='background-color: #61ed66;'{/if}>{$currentDeviationStats.totalDeviation.nbDays|string_format:"%.2f"}</td>
-                <td></td>
-                <td></td>
+               <td title='{t}If < 0 then ahead on planning.{/t}'>{t}EffortDeviation{/t}</td>
+               {if $manager}<td title='elapsed - MgrEffortEstim' {if $currentDeviationStats.totalDeviationMgr.nbDays > 0}style='background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviationMgr.nbDays < 0}style='background-color: #61ed66;'{/if}>{$currentDeviationStats.totalDeviationMgr.nbDays|string_format:"%.2f"}</td>{/if}
+               <td title='elapsed - EffortEstim' {if $currentDeviationStats.totalDeviation.nbDays > 0}style='background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviation.nbDays < 0}style='background-color: #61ed66;'{/if}>{$currentDeviationStats.totalDeviation.nbDays|string_format:"%.2f"}</td>
             </tr>
             <tr>
-                <td>{t}Tasks in drift{/t}</td>
-                {if $manager}<td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesPosMgr}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysPosMgr})</span></td>{/if}
-                <td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesPos}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysPos})</span></td>
-                <td title='{t}Task list for EffortEstim{/t}'></td>
-                {if $manager}<td title='{t}Task list{/t}'>{$currentDeviationStats.issuesPosMgr}</td>{/if}
-                <td title='{t}Task list{/t}'>{$currentDeviationStats.issuesPos}</td>
+               <td>{t}Tasks in drift{/t}</td>
+               {if $manager}<td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesPosMgr}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysPosMgr})</span></td>{/if}
+               <td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesPos}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysPos})</span></td>
             </tr>
             <tr>
-                <td>{t}Tasks in time{/t}</td>
-                {if $manager}<td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesEqualMgr}<span title='{t}nb days{/t}' class='floatr'>{$currentDeviationStats.nbDaysEqualMgr}</span></td>{/if}
-                <td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesEqual}<span title='{t}nb days{/t}' class='floatr'>{$currentDeviationStats.nbDaysEqual}</span></td>
-                {if $manager}<td title='{t}Task list{/t}'>{$currentDeviationStats.issuesEqualMgr}</td>{/if}
-                <td title='{t}Task list{/t}'>{$currentDeviationStats.issuesEqual}</td>
+               <td>{t}Tasks in time{/t}</td>
+               {if $manager}<td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesEqualMgr}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysEqualMgr})</span></td>{/if}
+               <td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesEqual}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysEqual})</span></td>
             </tr>
             <tr>
-                <td>{t}Tasks ahead{/t}</td>
-                {if $manager}<td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesNegMgr}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysNegMgr})</span></td>{/if}
-                <td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesNeg}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysNeg})</span></td>
-                {if $manager}<td title='{t}Task list{/t}'>{$currentDeviationStats.issuesNegMgr}</td>{/if}
-                <td title='{t}Task list{/t}'>{$currentDeviationStats.issuesNeg}</td>
+               <td>{t}Tasks ahead{/t}</td>
+               {if $manager}<td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesNegMgr}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysNegMgr})</span></td>{/if}
+               <td title='{t}nb tasks{/t}'>{$currentDeviationStats.nbIssuesNeg}<span title='{t}nb days{/t}' class='floatr'>({$currentDeviationStats.nbDaysNeg})</span></td>
             </tr>
-        </table>
-        {else}
-        <span style='color:red'>{t}ERROR: No valid projects defined for this team{/t}</span><br>
-        {/if}
-        <br/><br/>
-    {/if}
+         </table>
+      </p></div>
 
 
-
-
-
-
-
-        {if $issuesInDrift}
-        <table>
-            <caption>{t}Tasks in drift{/t}</caption>
+      <div id='tabsName-2'>
+      <p>
+         <table>
             <tr>
-                <th>{t}ID{/t}</th>
-                <th>{t}Project{/t}</th>
-                <th>{t}Target{/t}</th>
-                {if $manager}<th title='{t}Drift relatively to the managers Estimation{/t}'>{t}Drift Mgr{/t}</th>{/if}
-                <th title='{t}Drift relatively to (EE + AddEE){/t}'>{t}Drift{/t}</th>
-                <th>{t}RAF{/t}</th>
-                <th>{t}Progress{/t}</th>
-                <th>{t}Status{/t}</th>
-                <th>{t}Summary{/t}</th>
+               <th>{t}ID{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Target{/t}</th>
+               {if $manager}<th title='{t}Drift relatively to the managers Estimation{/t}'>{t}Drift Mgr{/t}</th>{/if}
+               <th title='{t}Drift relatively to (EE + AddEE){/t}'>{t}Drift{/t}</th>
+               <th>{t}RAF{/t}</th>
+               <th>{t}Progress{/t}</th>
+               <th>{t}Status{/t}</th>
+               <th>{t}Summary{/t}</th>
             </tr>
             {foreach from=$issuesInDrift key=id item=i}
             <tr>
-                <td>{$i.bugId}</td>
-                <td>{$i.projectName}</td>
-                <td>{$i.targetVersion}</td>
-                {if $manager}<td {if $i.driftPrelEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftPrelEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftPrelEE}</td>{/if}
-                <td {if $i.driftEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftEE|string_format:"%.2f"}</td>
-                <td>{$i.remaining}</td>
-                <td>{$i.progress}%</td>
-                <td>{$i.statusName}</td>
-                <td>{$i.summary}</td>
+               <td>{$i.bugId}</td>
+               <td>{$i.projectName}</td>
+               <td>{$i.targetVersion}</td>
+               {if $manager}<td {if $i.driftPrelEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftPrelEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftPrelEE|string_format:"%.2f"}</td>{/if}
+               <td {if $i.driftEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftEE|string_format:"%.2f"}</td>
+               <td>{$i.remaining}</td>
+               <td>{$i.progress}%</td>
+               <td>{$i.statusName}</td>
+               <td>{$i.summary}</td>
             </tr>
             {/foreach}
-        </table>
-        {else}
-        <span style='color:red'>{t}ERROR: No valid projects defined for this team{/t}</span><br>
-        {/if}
-    </div>
-    {/if}
+         </table>
+      </p>
+      </div>
+   
+      <div id='tabsName-3'>
+      <p>
+         <table>
+            <tr>
+               <th></th>
+               {if $manager}<th>{t}Tasks Mgr{/t}</th>{/if}
+               <th>{t}Tasks{/t}</th>
+            </tr>
+            <tr>
+               <td>{t}Tasks in drift{/t}</td>
+               {if $manager}<td title='{t}Task list{/t}'>{$currentDeviationStats.issuesPosMgr}</td>{/if}
+               <td title='{t}Task list{/t}'>{$currentDeviationStats.issuesPos}</td>
+            </tr>
+            <tr>
+               <td>{t}Tasks in time{/t}</td>
+               {if $manager}<td title='{t}Task list{/t}'>{$currentDeviationStats.issuesEqualMgr}</td>{/if}
+               <td title='{t}Task list{/t}'>{$currentDeviationStats.issuesEqual}</td>
+            </tr>
+            <tr>
+               <td>{t}Tasks ahead{/t}</td>
+               {if $manager}<td title='{t}Task list{/t}'>{$currentDeviationStats.issuesNegMgr}</td>{/if}
+               <td title='{t}Task list{/t}'>{$currentDeviationStats.issuesNeg}</td>
+            </tr>
+         </table>
+      </p>
+      </div>
+
+   </div>
+   {/if}
+
+   {if $graphUrl}
+   <hr style="margin-top:2em;" />
+   <div style="margin-top:2em;">
+      <h2>{t}Available Workload{/t}</h2>
+      <span class='help_font'>{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
+      <br/><br/>
+      <div class="float">
+         <img src='{$graphUrl}' alt="{t}Available Workload{/t}"/>
+      </div>
+      <div>
+         <table>
+            <caption title='{t}Available Workload{/t}'></caption>
+            <tr>
+               <th>{t}Date{/t}</th>
+               <th title='{t}nb production days{/t}'>{t}man-day{/t}</th>
+            </tr>
+            {foreach $dates as $date => $text}
+            <tr>
+               <td class="right">{$date}</td>
+               <td class="right">{$text}</td>
+            </tr>
+            {/foreach}
+         </table>
+      </div>
+      <div class="spacer" />
+   </div>
+   {/if}
 
 
-    {if $graphUrl}
-    <hr style="margin-top:2em;" />
-    <div style="margin-top:2em;">
-        <h2>{t}Available Workload{/t}</h2>
-        <span class='help_font'>{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
-        <br/><br/>
-        <div class="float">
-            <img src='{$graphUrl}' alt="{t}Available Workload{/t}"/>
-        </div>
-        <div>
-            <table>
-                <caption title='{t}Available Workload{/t}'></caption>
-                <tr>
-                    <th>{t}Date{/t}</th>
-                    <th title='{t}nb production days{/t}'>{t}man-day{/t}</th>
-                </tr>
-                {foreach $dates as $date => $text}
-                <tr>
-                    <td class="right">{$date}</td>
-                    <td class="right">{$text}</td>
-                </tr>
-                {/foreach}
-            </table>
-        </div>
-        <div class="spacer" />
-    </div>
-    {/if}
-    {else}
-    <div class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
-    {/if}
+
+
+{else}
+   <div class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
+{/if}
 </div>
 
 <div id='dialog_CurrentDriftStats' title='{t}Effort Deviation{/t}' style='display: none'>
-    <p>
-        <strong>{t}Effort Deviation{/t}:</strong><br />
-    {t}Overflow day quantity{/t}<br />
-        - {t}Computed on task NOT Resolved/Closed on {/t}{$smarty.now|date_format:'%Y-%m-%d'}<br />
-        <span style='color:blue'>{t}Formula{/t}: elapsed - EffortEstim</span>
-    </p>
-    <p>
-        <strong>{t}Tasks in drift{/t}:</strong><br />
-    {t}Tasks for which the elapsed time is greater than the estimated effort{/t}<br />
-        <span style='color:blue'>{t}Formula{/t}: {t}drift{/t} > 1</span>
-    </p>
-    <p>
-        <strong>{t}Tasks in time{/t}:</strong><br />
-    {t}Tasks resolved in time{/t}<br />
-        <span style='color:blue'>{t}Formula{/t}: -1 <= {t}drift{/t} <= 1</span>
-    </p>
-    <p>
-        <strong>{t}Tasks ahead{/t}:</strong><br />
-    {t}Tasks resolved in less time than the estimated effort{/t}<br />
-        <span style='color:blue'>{t}Formula{/t}: {t}drift{/t} < -1</span>
-    </p>
+   <p>
+      <strong>{t}Effort Deviation{/t}:</strong><br />
+   {t}Overflow day quantity{/t}<br />
+      - {t}Computed on task NOT Resolved/Closed on {/t}{$smarty.now|date_format:'%Y-%m-%d'}<br />
+      <span style='color:blue'>{t}Formula{/t}: elapsed - EffortEstim</span>
+   </p>
+   <p>
+      <strong>{t}Tasks in drift{/t}:</strong><br />
+   {t}Tasks for which the elapsed time is greater than the estimated effort{/t}<br />
+      <span style='color:blue'>{t}Formula{/t}: {t}drift{/t} > 1</span>
+   </p>
+   <p>
+      <strong>{t}Tasks in time{/t}:</strong><br />
+   {t}Tasks resolved in time{/t}<br />
+      <span style='color:blue'>{t}Formula{/t}: -1 <= {t}drift{/t} <= 1</span>
+   </p>
+   <p>
+      <strong>{t}Tasks ahead{/t}:</strong><br />
+   {t}Tasks resolved in less time than the estimated effort{/t}<br />
+      <span style='color:blue'>{t}Formula{/t}: {t}drift{/t} < -1</span>
+   </p>
 </div>
