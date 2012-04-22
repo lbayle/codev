@@ -1,9 +1,12 @@
 
-
 <div style="margin-top:2em;">
-   
-   
- {foreach from=$blogPosts key=id item=i}   
-   {include file="blog_post.html"}
-   <br>
- {/foreach}
+
+   <div style="width:800px;height:350px;overflow-x:hidden;overflow-y:auto;">
+
+         {foreach from=$blogPosts key=id item=i}   
+            {include file="blog_post.html"}
+            <br>
+         {/foreach}
+   </div>
+
+

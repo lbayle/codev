@@ -233,7 +233,6 @@ CREATE TABLE IF NOT EXISTS `codev_blog_table` (
 -- Structure de la table `codev_blog_activity_table`
 --
 
-DROP TABLE IF EXISTS `codev_blog_activity_table`;
 CREATE TABLE IF NOT EXISTS `codev_blog_activity_table` (
   `id` int(11) NOT NULL auto_increment,
   `blog_id` int(11) NOT NULL,

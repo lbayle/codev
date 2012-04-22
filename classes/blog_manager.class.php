@@ -178,7 +178,7 @@ class BlogPost {
       $fContent    = mysql_real_escape_string($content);
       $fDateExpire = mysql_real_escape_string($date_expire);
 
-      $date_submitted = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+      $date_submitted = time(); # mktime(0, 0, 0, date('m'), date('d'), date('Y'));
 
       $query = "INSERT INTO `codev_blog_table` ".
                "(`date_submitted`, `src_user_id`, `dest_user_id`, `dest_project_id`, `dest_team_id`, ".
