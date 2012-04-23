@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -75,6 +76,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#a6ea8de7cc058bcbff3517f44246243ef">checkDBConnection</a> ($db_mantis_host= 'localhost', $db_mantis_user= 'codevtt', $db_mantis_pass= '', $db_mantis_database= 'bugtracker')</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#a4c0d43fa85195899a195fb6d6cbbe2c2">checkDBprivileges</a> ($db_mantis_database= 'bugtracker')</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#a0c0fbcd22a769aa1590b3ed169842a83">createMysqlConfigFile</a> ($db_mantis_host= 'localhost', $db_mantis_user= 'codev', $db_mantis_pass= '', $db_mantis_database= 'bugtracker')</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0edbafdd19dfc90b31f256d1ece8618"></a><!-- doxytag: member="Install::createGreasemonkeyFile" ref="aa0edbafdd19dfc90b31f256d1ece8618" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>createGreasemonkeyFile</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#a58368bbbfdb0d4dac7a42f8bd42ff2db">updateMantisCustomFiles</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInstall.html#aeca189c25e3e711dca7dfac80f3f7c7f">createCustomField</a> ($fieldName, $fieldType, $configId, $attributes=NULL, $default_value=NULL, $possible_values=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17b4e2cc67620d597ee792dee67f28ca"></a><!-- doxytag: member="Install::createCustomFields" ref="a17b4e2cc67620d597ee792dee67f28ca" args="()" -->
@@ -103,6 +106,10 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_CONS
 const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_STRINGS_CODEVTT</b> = &quot;../install/custom_strings_inc.codevtt.php&quot;</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a16e9b6131627ca1927078a5733d41613"></a><!-- doxytag: member="Install::FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT" ref="a16e9b6131627ca1927078a5733d41613" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT</b> = &quot;../install/custom_relationships_inc.codevtt.php&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae36591cb674c02e5b585e5b4056eea7e"></a><!-- doxytag: member="Install::FILENAME_GREASEMONKEY_SAMPLE" ref="ae36591cb674c02e5b585e5b4056eea7e" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_GREASEMONKEY_SAMPLE</b> = &quot;../tools/mantis_monkey.user.js.sample&quot;</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc4fc0ecf0f11e5722a2fa9606e744ce"></a><!-- doxytag: member="Install::FILENAME_GREASEMONKEY" ref="abc4fc0ecf0f11e5722a2fa9606e744ce" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_GREASEMONKEY</b> = &quot;../mantis_monkey.user.js&quot;</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a259a6bdce061c168c29ac0e7090db392"></a><!-- doxytag: member="Install::addCustomMenuItem" ref="a259a6bdce061c168c29ac0e7090db392" args="($name, $url)" -->
@@ -452,7 +459,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELA
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -461,7 +468,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>FILENAME_CUSTOM_RELA
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

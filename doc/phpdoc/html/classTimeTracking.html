@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -86,8 +87,7 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getTimeDriftStats</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#af1aa3686187a6d6fc9b20360abd2e03c">getResolvedIssues</a> ($projects=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aa15c50168a632ee88d1df29847a0232c">getIssuesTimeDriftStats</a> ($issueList)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86604edfa46bee013f1ad2f61cd613a0"></a><!-- doxytag: member="TimeTracking::getIssuesDriftStats" ref="a86604edfa46bee013f1ad2f61cd613a0" args="($issueList, $withSupport=true)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getIssuesDriftStats</b> ($issueList, $withSupport=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a86604edfa46bee013f1ad2f61cd613a0">getIssuesDriftStats</a> ($issueList, $withSupport=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aaa4414f440d38e54736bbaa197183eb1">getEfficiencyRate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a04a37214e10d355d3a310bfe75cfabcc"></a><!-- doxytag: member="TimeTracking::getSystemDisponibilityRate" ref="a04a37214e10d355d3a310bfe75cfabcc" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getSystemDisponibilityRate</b> ()</td></tr>
@@ -121,7 +121,9 @@ Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff0374e18544103424c93aa5f6e6a76a"></a><!-- doxytag: member="TimeTracking::$sideTaskprojectList" ref="aff0374e18544103424c93aa5f6e6a76a" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$sideTaskprojectList</b></td></tr>
 </table>
-<hr/><h2>Member Function Documentation</h2>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classTimeTracking.html">TimeTracking</a> facilities </p>
+</div><hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="aaa4414f440d38e54736bbaa197183eb1"></a><!-- doxytag: member="TimeTracking::getEfficiencyRate" ref="aaa4414f440d38e54736bbaa197183eb1" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -139,6 +141,43 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a86604edfa46bee013f1ad2f61cd613a0"></a><!-- doxytag: member="TimeTracking::getIssuesDriftStats" ref="a86604edfa46bee013f1ad2f61cd613a0" args="($issueList, $withSupport=true)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TimeTracking::getIssuesDriftStats </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>issueList</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withSupport</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Drift Stats on a given Issue.class List</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$issueList</td><td></td></tr>
+    <tr><td class="paramtype">boolean</td><td class="paramname">$withSupport</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array driftStats</dd></dl>
+<p>TODO move this method to <a class="el" href="classIssueSelection.html">IssueSelection</a> class </p>
+
+</div>
+</div>
 <a class="anchor" id="aa15c50168a632ee88d1df29847a0232c"></a><!-- doxytag: member="TimeTracking::getIssuesTimeDriftStats" ref="aa15c50168a632ee88d1df29847a0232c" args="($issueList)" -->
 <div class="memitem">
 <div class="memproto">
@@ -153,7 +192,13 @@ Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>return stats on which Issues where delivered after the <a class="el" href="classDeadLine.html">DeadLine</a> </p>
+<p>return stats on which Issues where delivered after the <a class="el" href="classDeadLine.html">DeadLine</a></p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$issueList</td><td>TODO move this method to <a class="el" href="classIssueSelection.html">IssueSelection</a> class </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -381,7 +426,7 @@ Public Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -390,7 +435,7 @@ Public Attributes</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

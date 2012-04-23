@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -75,12 +76,15 @@ This is the complete list of members for <a class="el" href="classInstall.html">
   <tr class="memlist"><td><a class="el" href="classInstall.html#aeca189c25e3e711dca7dfac80f3f7c7f">createCustomField</a>($fieldName, $fieldType, $configId, $attributes=NULL, $default_value=NULL, $possible_values=NULL)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>createCustomFields</b>() (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classInstall.html#ab477f61b4ef2136d116fe18a32e42fd0">createExternalTasksProject</a>($projectName=&quot;CodevTT_ExternalTasks&quot;, $projectDesc=&quot;CoDevTT ExternalTasks Project&quot;)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>createGreasemonkeyFile</b>() (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classInstall.html#a0c0fbcd22a769aa1590b3ed169842a83">createMysqlConfigFile</a>($db_mantis_host= 'localhost', $db_mantis_user= 'codev', $db_mantis_pass= '', $db_mantis_database= 'bugtracker')</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classInstall.html#a6a7d6727cd4db0fc45a4001ac22ae5a3">deleteConfigFiles</a>()</td><td><a class="el" href="classInstall.html">Install</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>FILENAME_CONSTANTS</b> (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>FILENAME_CUSTOM_CONSTANT_CODEVTT</b> (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>FILENAME_CUSTOM_RELATIONSHIPS_CODEVTT</b> (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>FILENAME_CUSTOM_STRINGS_CODEVTT</b> (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>FILENAME_GREASEMONKEY</b> (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>FILENAME_GREASEMONKEY_SAMPLE</b> (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>FILENAME_MYSQL_CONFIG</b> (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>setConfigItems</b>() (defined in <a class="el" href="classInstall.html">Install</a>)</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classInstall.html#a58368bbbfdb0d4dac7a42f8bd42ff2db">updateMantisCustomFiles</a>()</td><td><a class="el" href="classInstall.html">Install</a></td><td></td></tr>
@@ -90,7 +94,7 @@ This is the complete list of members for <a class="el" href="classInstall.html">
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -99,7 +103,7 @@ This is the complete list of members for <a class="el" href="classInstall.html">
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

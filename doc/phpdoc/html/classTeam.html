@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -95,6 +96,8 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getLeaderId</b> ($t
 static&#160;</td><td class="memItemRight" valign="bottom"><b>getProjectList</b> ($teamid, $noStatsProject=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afdef853859c2854136f7841684d0b33e"></a><!-- doxytag: member="Team::getMemberList" ref="afdef853859c2854136f7841684d0b33e" args="($teamid)" -->
 static&#160;</td><td class="memItemRight" valign="bottom"><b>getMemberList</b> ($teamid)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a7d2774f8df23495558c8399ad94db1e6">getTeamIssues</a> ($teamid, $addUnassignedIssues=false)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">getCurrentIssues</a> ($teamid, $addUnassignedIssues=false, $addNewIssues=false)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5cd6baa81b97b125bd0fb3e4dd05ff8"></a><!-- doxytag: member="Team::accessLevel_dev" ref="af5cd6baa81b97b125bd0fb3e4dd05ff8" args="" -->
@@ -283,6 +286,49 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab504b8dafb5720c3301bbc541aaca6a1"></a><!-- doxytag: member="Team::getCurrentIssues" ref="ab504b8dafb5720c3301bbc541aaca6a1" args="($teamid, $addUnassignedIssues=false, $addNewIssues=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Team::getCurrentIssues </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>teamid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>addUnassignedIssues</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>addNewIssues</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get all current issues managed by the team's users on the team's projects.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td></td></tr>
+    <tr><td class="paramtype">boolean</td><td class="paramname">$addUnassignedIssues</td><td></td></tr>
+    <tr><td class="paramtype">boolean</td><td class="paramname">$addNewIssues</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array issueList </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="adfeaac7ca3a2daf3a46d1aeddad1e9cc"></a><!-- doxytag: member="Team::getIdFromName" ref="adfeaac7ca3a2daf3a46d1aeddad1e9cc" args="($name)" -->
 <div class="memitem">
 <div class="memproto">
@@ -304,6 +350,42 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the team id or -1 if not found </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7d2774f8df23495558c8399ad94db1e6"></a><!-- doxytag: member="Team::getTeamIssues" ref="a7d2774f8df23495558c8399ad94db1e6" args="($teamid, $addUnassignedIssues=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Team::getTeamIssues </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>teamid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>addUnassignedIssues</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get all issues managed by the team's users on the team's projects.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">teamid</td><td>the team </td></tr>
+    <tr><td class="paramname">addUnassignedIssues</td><td>if true, include issues on team's projects that are assigned to nobody</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>issueList </dd></dl>
 
 </div>
 </div>
@@ -364,7 +446,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(Team::accessLevel_dev      =&gt; <span class="stringliteral">&quot;Developper&quot;</span>, 
+<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(Team::accessLevel_dev      =&gt; <span class="stringliteral">&quot;Developer&quot;</span>, 
                               Team::accessLevel_observer =&gt; <span class="stringliteral">&quot;Observer&quot;</span>,  
                               
                               Team::accessLevel_manager  =&gt; <span class="stringliteral">&quot;Manager&quot;</span>)
@@ -380,7 +462,7 @@ Static Public Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -389,7 +471,7 @@ Static Public Attributes</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

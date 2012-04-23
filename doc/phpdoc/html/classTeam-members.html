@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -79,10 +80,12 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
   <tr class="memlist"><td><a class="el" href="classTeam.html#a6da1b35ceb925c662b04f132deda663f">addProject</a>($projectid, $projecttype)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a32de459ea26caca1a370a2c5531e9ad6">create</a>($name, $description, $leader_id, $date)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a2e8ee9f1c20376daa1f222cd12109290">createSideTaskProject</a>($projectName)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">getCurrentIssues</a>($teamid, $addUnassignedIssues=false, $addNewIssues=false)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#adfeaac7ca3a2daf3a46d1aeddad1e9cc">getIdFromName</a>($name)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getLeaderId</b>($teamid) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getMemberList</b>($teamid) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getProjectList</b>($teamid, $noStatsProject=true) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTeam.html#a7d2774f8df23495558c8399ad94db1e6">getTeamIssues</a>($teamid, $addUnassignedIssues=false)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>initialize</b>() (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a83bafe2feb28076340acf57e95e6a0ea">setCreationDate</a>($date)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>setMemberDepartureDate</b>($memberid, $departureTimestamp) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
@@ -93,7 +96,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -102,7 +105,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
