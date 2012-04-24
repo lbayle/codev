@@ -16,8 +16,6 @@ You should have received a copy of the GNU General Public License
 along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require '../path.inc.php';
-
 include_once('Logger.php');
 
 include_once('user.class.php');
@@ -168,8 +166,10 @@ class BlogPost {
     * @return blogPost id or '0' if failed
     */
    public static function create($src_user_id, $severity, $category, $summary, $content,
-         $dest_user_id=NULL, $dest_project_id=NULL, $dest_team_id=NULL,
-         $date_expire=NULL, $color=0) {
+         $dest_user_id=0, $dest_project_id=0, $dest_team_id=0,
+         $date_expire=0, $color=0) {
+
+      global $logger;
 
       // format values to avoid SQL injections
       $fSeverity   = mysql_real_escape_string($severity);
@@ -178,7 +178,7 @@ class BlogPost {
       $fContent    = mysql_real_escape_string($content);
       $fDateExpire = mysql_real_escape_string($date_expire);
 
-      $date_submitted = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+      $date_submitted = time(); # mktime(0, 0, 0, date('m'), date('d'), date('Y'));
 
       $query = "INSERT INTO `codev_blog_table` ".
                "(`date_submitted`, `src_user_id`, `dest_user_id`, `dest_project_id`, `dest_team_id`, ".
@@ -190,7 +190,7 @@ class BlogPost {
       if (!$result) {
          $logger->error("Query FAILED: $query");
          $logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         echo "<span style='color:red'>ERROR: Query FAILED $query</span><br>";
          return 0;
       }
       $blogPost_id = mysql_insert_id();
@@ -208,21 +208,23 @@ class BlogPost {
     */
    public static function delete($blogPost_id) {
 
+      global $logger;
+
       // TODO check admin/ user access rights
 
       $query = "DELETE FROM `codev_blog_activity_table` WHERE blog_id = $this->id;";
       $result = mysql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
          $query = "DELETE FROM `codev_blog_table` WHERE id = $this->id;";
       $result = mysql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -240,6 +242,8 @@ class BlogPost {
     */
    public static function addActivity($blogPost_id, $user_id, $action, $date) {
 
+      global $logger;
+
       // check if $blogPost_id exists (foreign keys do not exist in MyISAM)
 
       $fPostId    = mysql_real_escape_string($blogPost_id);
@@ -248,13 +252,13 @@ class BlogPost {
       $query = "SELECT id FROM `codev_blog_table` where id= $fPostId";
       $result = mysql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       if (0 == mysql_num_rows($result)) {
-         $this->logger->error("addActivity: blogPost '$fPostId' does not exist !");
+         $logger->error("addActivity: blogPost '$fPostId' does not exist !");
          return 0;
       }
 
@@ -318,7 +322,6 @@ class BlogPost {
       // TODO
       return true;
    }
-
 
 } // class BlogPost
 

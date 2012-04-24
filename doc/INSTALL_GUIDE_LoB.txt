@@ -7,7 +7,7 @@ http://dev.mysql.com/doc/refman/5.0/en/batch-commands.html
 
 1) installer les softs (sur Fedora 13)
    yum install git gitosis gitk
-   yum install httpd php php-pdo php-mysql php-gd mysql mysql-server phpmyadmin
+   yum install httpd php php-pdo php-mysql php-gd php-xml mysql mysql-server phpmyadmin
    cd /opt
    unzip /tmp/mantisbt-1.2.2.zip
    mv  /opt/mantisbt-1.2.2 /opt/mantis

@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -62,7 +63,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a>  </div>
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Issue Class Reference</div>  </div>
 </div>
@@ -113,15 +115,14 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getResolutionName</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a15ac766e600a45679273ef60469ec12b">getElapsed</a> ($job_id=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#afbf6d4b623b3f5f0d00ebb46f32d78a7">getDuration</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a190bf3a53b31bec3785bf9c6cf2955e9">getDurationMgr</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a5407449995cea5156d2f31b2fdba8084">getRelationships</a> ($type)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a3896e8b9134cc119c253cdf39f59fa04">startDate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a446b7844e2abe7aa12b7f41e4ba16f42">endDate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a3487cd58dbe593feb540fb5b4b7093"></a><!-- doxytag: member="Issue::getDriftColor" ref="a6a3487cd58dbe593feb540fb5b4b7093" args="($drift=NULL)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDriftColor</b> ($drift=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0004be14d076de72eb11b3fb55f47be9"></a><!-- doxytag: member="Issue::getDrift" ref="a0004be14d076de72eb11b3fb55f47be9" args="($withSupport=true)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getDrift</b> ($withSupport=true)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3df2a5ce1fdbb3c534e799a3bc2fceca"></a><!-- doxytag: member="Issue::getDriftMgrEE" ref="a3df2a5ce1fdbb3c534e799a3bc2fceca" args="($withSupport=true)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getDriftMgrEE</b> ($withSupport=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a0004be14d076de72eb11b3fb55f47be9">getDrift</a> ($withSupport=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a3df2a5ce1fdbb3c534e799a3bc2fceca">getDriftMgrEE</a> ($withSupport=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ad2cda77baa9a916f27a63b2c18a33ba5">getTimeDrift</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff777520db28fdf1ff85bbae6bb56009"></a><!-- doxytag: member="Issue::getTimeTracks" ref="aff777520db28fdf1ff85bbae6bb56009" args="($user_id=NULL)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getTimeTracks</b> ($user_id=NULL)</td></tr>
@@ -138,7 +139,6 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a8ec6f7fa92e86d8c48dd170cc6afad59">computeEstimatedDateOfArrival</a> ($beginTimestamp, $availTimeOnBeginTimestamp=NULL, $userid=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a73b59b211fce7c26d915349760ff3b47">getFirstStatusOccurrence</a> ($status)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a5d59c5d5f2ed889c7df8490a7b275f6c">getLatestStatusOccurrence</a> ($status)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a7a7943c9bb1f8decf5c16105e2373f11">getProgress_old</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#af33ec7fe7880debf1ef1a88e01188795">getProgress</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -166,6 +166,8 @@ Public Attributes</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>$resolution</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a709d24d889494ca6053d9e4bb26a2569"></a><!-- doxytag: member="Issue::$version" ref="a709d24d889494ca6053d9e4bb26a2569" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$version</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a287cf0857e6640930605439e717b4de7"></a><!-- doxytag: member="Issue::$last_updated" ref="a287cf0857e6640930605439e717b4de7" args="" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>$last_updated</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ef549b7a61baf45dc127e7910352a75"></a><!-- doxytag: member="Issue::$tcId" ref="a0ef549b7a61baf45dc127e7910352a75" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$tcId</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75c6a8927f3ed922f2e4555fa4489ee1"></a><!-- doxytag: member="Issue::$remaining" ref="a75c6a8927f3ed922f2e4555fa4489ee1" args="" -->
@@ -192,6 +194,10 @@ Protected Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDuration_new</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7db716de011afcaee8c4c7a3fe499d01"></a><!-- doxytag: member="Issue::getDuration_other" ref="a7db716de011afcaee8c4c7a3fe499d01" args="($status)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDuration_other</b> ($status)</td></tr>
+<tr><td colspan="2"><h2><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67a861aa29a9979882b1156c8b28d617"></a><!-- doxytag: member="Issue::$logger" ref="a67a861aa29a9979882b1156c8b28d617" args="" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>$logger</b></td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="aedc2a0adb223dc54f0c7e5f13e0a3336"></a><!-- doxytag: member="Issue::compareTo" ref="aedc2a0adb223dc54f0c7e5f13e0a3336" args="($issueB)" -->
@@ -296,6 +302,58 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0004be14d076de72eb11b3fb55f47be9"></a><!-- doxytag: member="Issue::getDrift" ref="a0004be14d076de72eb11b3fb55f47be9" args="($withSupport=true)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getDrift </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withSupport</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Effort deviation, regarding (effortEstim + effortAdd)</p>
+<p>formula: elapsed - (effortEstim - remaining) if bug is Resolved/Closed, then remaining is not used. if EffortEstim = 0 then Drift = 0 if Elapsed = 0 then Drift = 0</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">boolean</td><td class="paramname">$withSupport</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift ! </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3df2a5ce1fdbb3c534e799a3bc2fceca"></a><!-- doxytag: member="Issue::getDriftMgrEE" ref="a3df2a5ce1fdbb3c534e799a3bc2fceca" args="($withSupport=true)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getDriftMgrEE </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withSupport</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Effort deviation, regarding mgrEffortEstim</p>
+<p>formula: elapsed - (MgrEffortEstim - remaining) if bug is Resolved/Closed, then remaining is not used. if MgrEffortEstim = 0 then Drift = 0 if Elapsed = 0 then Drift = 0</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">boolean</td><td class="paramname">$withSupport</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift ! </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="afbf6d4b623b3f5f0d00ebb46f32d78a7"></a><!-- doxytag: member="Issue::getDuration" ref="afbf6d4b623b3f5f0d00ebb46f32d78a7" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -309,7 +367,26 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Returns the nb of days needed to finish the issue. if the 'remaining' (RAF) field is not defined, return effortEstim or mgrEffortEstim </p>
+<p>Returns the nb of days needed to finish the issue.</p>
+<p>if status &gt;= resolved, return 0. if the 'remaining' (RAF) field is not defined, return effortEstim </p>
+
+</div>
+</div>
+<a class="anchor" id="a190bf3a53b31bec3785bf9c6cf2955e9"></a><!-- doxytag: member="Issue::getDurationMgr" ref="a190bf3a53b31bec3785bf9c6cf2955e9" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getDurationMgr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns the nb of days needed to finish the issue.</p>
+<p>if status &gt;= resolved, return 0. if the 'remaining' (RAF) field is not defined, return mgrEffortEstim </p>
 
 </div>
 </div>
@@ -388,25 +465,8 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>returns a progress rate (depending on Remaining) formula2: Elapsed / (Elapsed+RAF)</p>
-<p>1 = 100% finished 0.5 = 50% done 0 = 0% done </p>
-
-</div>
-</div>
-<a class="anchor" id="a7a7943c9bb1f8decf5c16105e2373f11"></a><!-- doxytag: member="Issue::getProgress_old" ref="a7a7943c9bb1f8decf5c16105e2373f11" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Issue::getProgress_old </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
 <p>returns a progress rate (depending on Remaining) formula: (BI+BS - RAF) / (BI+BS)</p>
+<p>1 = 100% finished 0.5 = 50% done 0 = 0% done returns a progress rate (depending on Remaining) formula2: Elapsed / (Elapsed+RAF)</p>
 <p>1 = 100% finished 0.5 = 50% done 0 = 0% done </p>
 
 </div>
@@ -522,7 +582,7 @@ Protected Member Functions</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -531,7 +591,7 @@ Protected Member Functions</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

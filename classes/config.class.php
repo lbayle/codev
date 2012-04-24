@@ -203,18 +203,18 @@ class Config {
    public static function getVariableValueFromKey($id, $key) {
    global $logger;
 
-      $key = NULL;
+      $value = NULL;
       $variable = self::$configVariables[$id];
 
       if (NULL != $variable) {
-         $key = $variable->getArrayValueFromKey($value);
+         $value = $variable->getArrayValueFromKey($key);
       } else {
          $logger->warn("getVariableValueFromKey($id, $key): variable not found !");
          if (!self::$quiet) {
             echo "<span class='error_font'>WARN: Config::getVariableValueFromKey($id, $key): variable not found !</span><br/>";
       	 }
       }
-      return $key;
+      return $value;
    }
 
    // --------------------------------------

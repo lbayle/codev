@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -83,6 +84,7 @@ Inheritance diagram for IssueSelection:</div>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab06c27a998ae9c20ce4ac7ce21fcd252"></a><!-- doxytag: member="IssueSelection::__construct" ref="ab06c27a998ae9c20ce4ac7ce21fcd252" args="($name=&quot;no_name&quot;)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>__construct</b> ($name=&quot;no_name&quot;)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#abef278b761f26ad97cadd9022ff81dc8">addIssueList</a> ($issueList)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#adab9e47c5411613e90838d8b419b92ac">addIssue</a> ($bugid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88abec935775236b1471670a71a40caf"></a><!-- doxytag: member="IssueSelection::getProgress" ref="a88abec935775236b1471670a71a40caf" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getProgress</b> ()</td></tr>
@@ -90,6 +92,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getProgressMgr</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fc808e74b73ffa6777908cd5d13ad30"></a><!-- doxytag: member="IssueSelection::getIssueList" ref="a6fc808e74b73ffa6777908cd5d13ad30" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getIssueList</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab2f13cf706d0c9cc573e10030efe70ef"></a><!-- doxytag: member="IssueSelection::getNbIssues" ref="ab2f13cf706d0c9cc573e10030efe70ef" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getNbIssues</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2a4d6f3a7c45c965c4a351461c9fc89"></a><!-- doxytag: member="IssueSelection::getFormattedIssueList" ref="af2a4d6f3a7c45c965c4a351461c9fc89" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getFormattedIssueList</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#a2c1aba87361eac0392c7a50ce4339bbe">getDriftMgr</a> ()</td></tr>
@@ -97,6 +101,9 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#ae8c585ad853ae7aba36a435e506045b5">getDriftColor</a> ($percent, $threshold=0.05)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf0c3cf3e16ab8840ea2998f514ec74e"></a><!-- doxytag: member="IssueSelection::getIssuesInDrift" ref="abf0c3cf3e16ab8840ea2998f514ec74e" args="($isManager=false, $withSupport=true)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getIssuesInDrift</b> ($isManager=false, $withSupport=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#aa83ecacf599e5b24dbba455a3d9210da">getDeviationGroups</a> ($threshold=1, $withSupport=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#ae1fe4ead0ec9547b83e2b730263ae846">getDeviationGroupsMgr</a> ($threshold=1, $withSupport=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueSelection.html#afc6298a538887b578741c3fbbf9392ff">getConsistencyErrors</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3600ada6caa58c96d9782979ba1e8465"></a><!-- doxytag: member="IssueSelection::$name" ref="a3600ada6caa58c96d9782979ba1e8465" args="" -->
@@ -144,6 +151,114 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="abef278b761f26ad97cadd9022ff81dc8"></a><!-- doxytag: member="IssueSelection::addIssueList" ref="abef278b761f26ad97cadd9022ff81dc8" args="($issueList)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueSelection::addIssueList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>issueList</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>add an array of <a class="el" href="classIssue.html">Issue</a> instances </p>
+
+</div>
+</div>
+<a class="anchor" id="afc6298a538887b578741c3fbbf9392ff"></a><!-- doxytag: member="IssueSelection::getConsistencyErrors" ref="afc6298a538887b578741c3fbbf9392ff" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueSelection::getConsistencyErrors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>get consistency errors </p>
+
+</div>
+</div>
+<a class="anchor" id="aa83ecacf599e5b24dbba455a3d9210da"></a><!-- doxytag: member="IssueSelection::getDeviationGroups" ref="aa83ecacf599e5b24dbba455a3d9210da" args="($threshold=1, $withSupport=true)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueSelection::getDeviationGroups </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>threshold</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withSupport</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Split selection in 3 selection, sorted on issue drift.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$threshold</td><td></td></tr>
+    <tr><td class="paramtype">boolean</td><td class="paramname">$withSupport</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array array of 3 <a class="el" href="classIssueSelection.html">IssueSelection</a> instances ('negative', 'equal', 'positive') </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae1fe4ead0ec9547b83e2b730263ae846"></a><!-- doxytag: member="IssueSelection::getDeviationGroupsMgr" ref="ae1fe4ead0ec9547b83e2b730263ae846" args="($threshold=1, $withSupport=true)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueSelection::getDeviationGroupsMgr </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>threshold</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withSupport</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Split selection in 3 selection, sorted on issue drift.</p>
+<p>Note: this is a replacement for Timetracking::getIssuesDriftStats()</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$threshold</td><td></td></tr>
+    <tr><td class="paramtype">boolean</td><td class="paramname">$withSupport</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array array of 3 <a class="el" href="classIssueSelection.html">IssueSelection</a> instances ('negative', 'equal', 'positive') </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ac505ef0ac1f07b3af2829bc11f2fc79e"></a><!-- doxytag: member="IssueSelection::getDrift" ref="ac505ef0ac1f07b3af2829bc11f2fc79e" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -157,6 +272,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>sum(issue-&gt;drift)</p>
+<p>percent = nbDaysDrift / (effortEstim + effortAdd)</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array(nbDays, percent) </dd></dl>
 
 </div>
@@ -208,6 +325,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>sum(issue-&gt;driftMgr)</p>
+<p>percent = nbDaysDrift / mgrEffortEstim</p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>array(nbDays, percent) </dd></dl>
 
 </div>
@@ -221,7 +340,7 @@ Protected Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -230,7 +349,7 @@ Protected Attributes</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

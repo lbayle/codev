@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -66,7 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 This is the complete list of members for <a class="el" href="classUser.html">User</a>, including all inherited members.<table>
   <tr bgcolor="#f0f0f0"><td><b>$id</b> (defined in <a class="el" href="classUser.html">User</a>)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a07d0c71f99a076ec0a0baf5730df2429">getArrivalDate</a>($team_id=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classUser.html#a5e34c2c64070887d63e0d6b62b5cda98">getAssignedIssues</a>($projList=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classUser.html#ad4dc1e0de4259cfa64ecd683c14ebdc5">getAssignedIssues</a>($projList=NULL, $withResolved=false)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a7ca7955a7b63fd0deba3be393e5ac9cc">getAstreintesInMonth</a>($startTimestamp, $endTimestamp)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a69213e1a56c5cae52510e998aa307b8b">getAvailableTime</a>($timestamp)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#affff36e2d136ae5597cd7435e6e3d01e">getAvailableWorkload</a>($startTimestamp, $endTimestamp, $team_id=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
@@ -86,7 +87,7 @@ This is the complete list of members for <a class="el" href="classUser.html">Use
   <tr bgcolor="#f0f0f0"><td><b>getProjectList</b>($teamList=NULL, $noStatsProject=true) (defined in <a class="el" href="classUser.html">User</a>)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getRealname</b>() (defined in <a class="el" href="classUser.html">User</a>)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#adac21a226bdea627757398c5610c430c">getShortname</a>()</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
-  <tr bgcolor="#f0f0f0"><td><b>getTeamList</b>($accessLevel=NULL) (defined in <a class="el" href="classUser.html">User</a>)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classUser.html#adc574004f996f909659c509ae23f37fa">getTeamList</a>($accessLevel=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a82b19d0dbe215eae8132774e6ff5adac">getTimetrackingFilter</a>($filterName)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classUser.html#a58f9333a1740b7447d6a94c3a93be20f">getWorkload</a>($projList=NULL)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>isTeamDeveloper</b>($team_id, $startTimestamp=NULL, $endTimestamp=NULL) (defined in <a class="el" href="classUser.html">User</a>)</td><td><a class="el" href="classUser.html">User</a></td><td></td></tr>
@@ -102,7 +103,7 @@ This is the complete list of members for <a class="el" href="classUser.html">Use
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -111,7 +112,7 @@ This is the complete list of members for <a class="el" href="classUser.html">Use
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

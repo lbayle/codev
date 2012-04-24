@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -107,14 +108,13 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getObservedTeamList</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab97c80d7f248253091b17880e14fbd0a"></a><!-- doxytag: member="User::getManagedTeamList" ref="ab97c80d7f248253091b17880e14fbd0a" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getManagedTeamList</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc574004f996f909659c509ae23f37fa"></a><!-- doxytag: member="User::getTeamList" ref="adc574004f996f909659c509ae23f37fa" args="($accessLevel=NULL)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getTeamList</b> ($accessLevel=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#adc574004f996f909659c509ae23f37fa">getTeamList</a> ($accessLevel=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b294eb276b412d2fc911fa2c0329de9"></a><!-- doxytag: member="User::getProjectList" ref="a5b294eb276b412d2fc911fa2c0329de9" args="($teamList=NULL, $noStatsProject=true)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getProjectList</b> ($teamList=NULL, $noStatsProject=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7098bf057d25cf4ab52f6eaeffd6d02d"></a><!-- doxytag: member="User::getPossibleWorkingTasksList" ref="a7098bf057d25cf4ab52f6eaeffd6d02d" args="($projList=NULL)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getPossibleWorkingTasksList</b> ($projList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a58f9333a1740b7447d6a94c3a93be20f">getWorkload</a> ($projList=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a5e34c2c64070887d63e0d6b62b5cda98">getAssignedIssues</a> ($projList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#ad4dc1e0de4259cfa64ecd683c14ebdc5">getAssignedIssues</a> ($projList=NULL, $withResolved=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#ae02000ff6e49697a8c410b8b8c3ecd20">getMonitoredIssues</a> ($projList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a69213e1a56c5cae52510e998aa307b8b">getAvailableTime</a> ($timestamp)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a82b19d0dbe215eae8132774e6ff5adac">getTimetrackingFilter</a> ($filterName)</td></tr>
@@ -125,7 +125,11 @@ Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a440b33833fb19a5caeb85b2e8eae3656"></a><!-- doxytag: member="User::$id" ref="a440b33833fb19a5caeb85b2e8eae3656" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$id</b></td></tr>
 </table>
-<hr/><h2>Member Function Documentation</h2>
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>MANTIS CoDev <a class="el" href="classUser.html">User</a> Authorization Management </p>
+<dl class="author"><dt><b>Author:</b></dt><dd>LoB </dd></dl>
+<dl class="date"><dt><b>Date:</b></dt><dd>23 Jun 2010 </dd></dl>
+</div><hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a07d0c71f99a076ec0a0baf5730df2429"></a><!-- doxytag: member="User::getArrivalDate" ref="a07d0c71f99a076ec0a0baf5730df2429" args="($team_id=NULL)" -->
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +148,7 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5e34c2c64070887d63e0d6b62b5cda98"></a><!-- doxytag: member="User::getAssignedIssues" ref="a5e34c2c64070887d63e0d6b62b5cda98" args="($projList=NULL)" -->
+<a class="anchor" id="ad4dc1e0de4259cfa64ecd683c14ebdc5"></a><!-- doxytag: member="User::getAssignedIssues" ref="ad4dc1e0de4259cfa64ecd683c14ebdc5" args="($projList=NULL, $withResolved=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -152,8 +156,18 @@ Public Attributes</h2></td></tr>
           <td class="memname">User::getAssignedIssues </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>projList</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"><em>projList</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withResolved</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
@@ -393,6 +407,12 @@ Public Attributes</h2></td></tr>
 <li>deadLine</li>
 <li>priority</li>
 </ul>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$projList</td><td>if NULL, get all DevTeams</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a> list </dd></dl>
 
 </div>
@@ -411,6 +431,30 @@ Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>retourne le trigramme. ex: Louis BAYLE =&gt; LBA </p>
+
+</div>
+</div>
+<a class="anchor" id="adc574004f996f909659c509ae23f37fa"></a><!-- doxytag: member="User::getTeamList" ref="adc574004f996f909659c509ae23f37fa" args="($accessLevel=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::getTeamList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>accessLevel</em> = <code>NULL</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>returns teams, the user is involved in.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$accessLevel</td><td>if NULL return all teams including observed teams. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -466,7 +510,7 @@ Public Attributes</h2></td></tr>
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -475,7 +519,7 @@ Public Attributes</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

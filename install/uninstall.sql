@@ -31,6 +31,8 @@ DROP TABLE IF EXISTS `codev_team_project_table`;
 DROP TABLE IF EXISTS `codev_team_table`;
 DROP TABLE IF EXISTS `codev_team_user_table`;
 DROP TABLE IF EXISTS `codev_timetracking_table`;
+DROP TABLE IF EXISTS `codev_blog_table`;
+DROP TABLE IF EXISTS `codev_blog_activity_table`;
 
 
 

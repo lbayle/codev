@@ -30,6 +30,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -75,12 +76,17 @@ This is the complete list of members for <a class="el" href="classIssueSelection
   <tr bgcolor="#f0f0f0"><td><b>$remainingMgr</b> (defined in <a class="el" href="classIssueSelection.html">IssueSelection</a>)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>__construct</b>($name=&quot;no_name&quot;) (defined in <a class="el" href="classIssueSelection.html">IssueSelection</a>)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classIssueSelection.html#adab9e47c5411613e90838d8b419b92ac">addIssue</a>($bugid)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classIssueSelection.html#abef278b761f26ad97cadd9022ff81dc8">addIssueList</a>($issueList)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classIssueSelection.html#afc6298a538887b578741c3fbbf9392ff">getConsistencyErrors</a>()</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classIssueSelection.html#aa83ecacf599e5b24dbba455a3d9210da">getDeviationGroups</a>($threshold=1, $withSupport=true)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classIssueSelection.html#ae1fe4ead0ec9547b83e2b730263ae846">getDeviationGroupsMgr</a>($threshold=1, $withSupport=true)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classIssueSelection.html#ac505ef0ac1f07b3af2829bc11f2fc79e">getDrift</a>()</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classIssueSelection.html#ae8c585ad853ae7aba36a435e506045b5">getDriftColor</a>($percent, $threshold=0.05)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classIssueSelection.html#a2c1aba87361eac0392c7a50ce4339bbe">getDriftMgr</a>()</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getFormattedIssueList</b>() (defined in <a class="el" href="classIssueSelection.html">IssueSelection</a>)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getIssueList</b>() (defined in <a class="el" href="classIssueSelection.html">IssueSelection</a>)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getIssuesInDrift</b>($isManager=false, $withSupport=true) (defined in <a class="el" href="classIssueSelection.html">IssueSelection</a>)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>getNbIssues</b>() (defined in <a class="el" href="classIssueSelection.html">IssueSelection</a>)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getProgress</b>() (defined in <a class="el" href="classIssueSelection.html">IssueSelection</a>)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getProgressMgr</b>() (defined in <a class="el" href="classIssueSelection.html">IssueSelection</a>)</td><td><a class="el" href="classIssueSelection.html">IssueSelection</a></td><td></td></tr>
 </table></div>
@@ -89,7 +95,7 @@ This is the complete list of members for <a class="el" href="classIssueSelection
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -98,7 +104,7 @@ This is the complete list of members for <a class="el" href="classIssueSelection
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed Mar 21 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 24 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
