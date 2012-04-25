@@ -78,33 +78,53 @@ function displayCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = F
    $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $team_id);
 
    $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
+   $missingDays    = $timeTracking->checkMissingDays($userid);
 
 
    echo "<div id='accordion' style='width:350px;' >\n";
    echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
+   echo "<div align='left' style='height:250px;'>\n";
+   echo "<table class='invisible'>\n";
 
-   echo "<div>\n";
-   echo "<p>\n";
    foreach ($incompleteDays as $date => $value) {
+
+      if ($date > time()) {
+         continue;
+      } // skip dates in the future
+
       $formatedDate = date("Y-m-d", $date);
-      $color = ($date >= ($endTimestamp + (24 * 60 * 60))) ? "blue": "red"; // tomorow is blue
+
+      echo "<tr style='color:red'>\n";
+      echo "<td>$formatedDate</td>\n";
+
       if ($value < 1) {
-        echo "<br/><span style='color:$color' width='70'>$formatedDate ".T_("incomplete (missing ").(1-$value)." ".T_("days").")</span>\n";
+         echo "<td>".T_("incomplete (missing ").(1-$value).T_(" days").").</td>\n";
       } else {
-        echo "<br/><span style='color:$color' width='70'>$formatedDate ".T_("inconsistent")." (".($value)." ".T_("days").")</span>\n";
+         echo "<td>".T_("inconsistent")." (".($value)." ".T_("days").").</td>\n";
       }
+      echo "</tr>\n";
+
    }
 
-   $missingDays = $timeTracking->checkMissingDays($userid);
    foreach ($missingDays as $date) {
+      if ($date > time()) {
+         continue;
+      } // skip dates in the future
+
       $formatedDate = date("Y-m-d", $date);
-      echo "<br/><span style='color:red' width='70'>$formatedDate ".T_("not defined.")."</span>\n";
+
+      echo "<tr style='color:red'>\n";
+      echo "<td>$formatedDate</td>\n";
+      echo "<td>".T_("not defined.")."</td>\n";
+      echo "</tr>\n";
    }
-   echo "</p>\n";
+   echo "</table>\n";
    echo "</div>\n";
    echo "</div>\n";
 
 }
+
+
 
 /**
  * display Timetracking Tuples

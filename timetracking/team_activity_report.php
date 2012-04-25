@@ -84,11 +84,11 @@ include 'menu.inc.php';
 
 
    // ------ JQUERY ------
-	$(function() {
-		$( "#accordion" ).accordion({
-			collapsible: true
-		});
-	});
+   $(function() {
+      $( "#accordion" ).accordion({
+         collapsible: true, autoHeight: false, clearStyle: true
+      });
+   });
 
 
 </script>
@@ -358,57 +358,80 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
 
 function displayCheckWarnings($timeTracking) {
 
-  global $logger;
+   global $logger;
 
-  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
-    "FROM  `codev_team_user_table`, `mantis_user_table` ".
-    "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
-    "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.username";
+   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
+         "FROM  `codev_team_user_table`, `mantis_user_table` ".
+         "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
+         "AND    codev_team_user_table.user_id = mantis_user_table.id ".
+         "ORDER BY mantis_user_table.username";
 
-  // FIXME AND user is not Observer
+   // FIXME AND user is not Observer
 
-  $result = mysql_query($query);
-  if (!$result) {
-     $logger->error("Query FAILED: $query");
-     $logger->error(mysql_error());
-     echo "<span style='color:red'>ERROR: Query FAILED</span>";
-     exit;
-  }
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
 
-  echo "<div align='center'>";
-  echo "<div id='accordion' style='width:450px;' >\n";
-  echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
+   echo "<div align='center'>";
+   echo "<div id='accordion' style='width:450px;' >\n";
+   echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
 
-  echo "<p style='color:red'>\n";
+   echo "<div align='left' style='height:250px;'>\n";
+   echo "<table class='invisible'>\n";
 
-  while($row = mysql_fetch_object($result))
-  {
-    $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
-    foreach ($incompleteDays as $date => $value) {
+   while($row = mysql_fetch_object($result))
+   {
+      $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
+      foreach ($incompleteDays as $date => $value) {
 
-      if ($date > time()) { continue; } // skip dates in the future
+         if ($date > time()) {
+            continue;
+         } // skip dates in the future
 
-      $formatedDate = date("Y-m-d", $date);
-      if ($value < 1) {
-        echo "<br/>$row->username: $formatedDate ".T_("incomplete (missing ").(1-$value).T_(" days").").\n";
-      } else {
-        echo "<br/>$row->username: $formatedDate ".T_("inconsistent")." (".($value)." ".T_("days").").\n";
+         $formatedDate = date("Y-m-d", $date);
+
+         echo "<tr style='color:red'>\n";
+         echo "<td>$row->username</td>\n";
+         echo "<td>$formatedDate</td>\n";
+
+         if ($value < 1) {
+            echo "<td>".T_("incomplete (missing ").(1-$value).T_(" days").").</td>\n";
+         } else {
+            echo "<td>".T_("inconsistent")." (".($value)." ".T_("days").").</td>\n";
+         }
+         echo "</tr>\n";
+
       }
-    }
 
-    $missingDays = $timeTracking->checkMissingDays($row->user_id);
-    foreach ($missingDays as $date) {
-    	if ($date > time()) { continue; } // skip dates in the future
+      $missingDays = $timeTracking->checkMissingDays($row->user_id);
+      foreach ($missingDays as $date) {
+         if ($date > time()) {
+            continue;
+         } // skip dates in the future
 
-      $formatedDate = date("Y-m-d", $date);
-      echo "<br/>$row->username: $formatedDate ".T_("not defined.")."\n";
-    }
-  }
-  echo "</p>\n";
-  echo "</div>\n";
-  echo "</div>\n";
+         $formatedDate = date("Y-m-d", $date);
+
+         echo "<tr style='color:red'>\n";
+         echo "<td>$row->username</td>\n";
+         echo "<td>$formatedDate</td>\n";
+
+         echo "<td>".T_("not defined.")."</td>\n";
+         echo "</tr>\n";
+      }
+   }
+   echo "</table>\n";
+   echo "</div>\n";
+
+   echo "</div>\n";
+   echo "</div>\n";
 }
+
+
+
 
 
 // ================ MAIN =================
