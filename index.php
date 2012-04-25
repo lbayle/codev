@@ -114,7 +114,7 @@ function getConsistencyErrors($userid) {
         foreach ($cerrList as $cerr) {
             if ($sessionUser->id == $cerr->userId) {
                 $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-                $consistencyErrors[] = array('mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
+                $consistencyErrors[] = array('issueURL' => issueInfoURL($cerr->bugId, $issue->summary),
                                              'date' => date("Y-m-d", $cerr->timestamp),
                                              'status' => $statusNames[$cerr->status],
                                              'desc' => $cerr->desc);
