@@ -82,6 +82,7 @@ function getTeamConsistencyErrors($teamid) {
             'status' => $statusNames[$cerr->status],
             'severity' => $cerr->getLiteralSeverity(),
             'project' => $issue->getProjectName(),
+            'targetVersion' => $issue->getTargetVersion(),
             'desc' => $cerr->desc);
       }
       return $cerrs;
