@@ -46,6 +46,7 @@ function submitTeam(){
 		            <th>{t}Level{/t}</th>
 		            <th>{t}Status{/t}</th>
 		            <th>{t}Project{/t}</th>
+                  <th>{t}TargetVersion{/t}</th>
 		            <th>{t}Error Description{/t}</th>
 		        </tr>
 		        {foreach from=$consistencyErrors key=id item=i}
@@ -56,6 +57,7 @@ function submitTeam(){
 		            <td>{$i.severity}</td>
 		            <td>{$i.status}</td>
 		            <td>{$i.project}</td>
+                  <td>{$i.targetVersion}</td>
 		            <td>{$i.desc}</td>
 		        </tr>
 		        {/foreach}
