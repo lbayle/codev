@@ -62,13 +62,29 @@ function getBlogPosts($postList) {
       }
 
       $item['activity'] = 'activities...';
-      $item['ack'] = "<input type='button' value='".T_('Ack')."' onclick='javascript: ackPost(".$bpost->id.")' />";
+      $item['buttons'] = "<input type='button' value='".T_('Ack')."' onclick='javascript: ackPost(".$bpost->id.")' />";
+      $item['buttons'] .= "<input type='button' value='".T_('Hide')."' onclick='javascript: hidePost(".$bpost->id.")' />";
+
+      // TODO only if i'm the owner
+      $item['buttons'] .= "<input type='button' value='".T_('Delete')."' onclick='javascript: deletePost(".$bpost->id.")' />";
+
+      $item['isHidden'] = '0';
+
 
       $blogPosts[$id] = $item;
    }
    return $blogPosts;
 }
 
+
+function prepareBlogpostForm($blogManager, $smartyHelper) {
+
+   $categories = $blogManager->getCategoryList();
+   $smartyHelper->assign('categoryList', $categories);
+
+   $severities = $blogManager->getSeverityList();
+   $smartyHelper->assign('severityList', $severities);
+}
 
 
 // ================ MAIN =================
@@ -102,6 +118,10 @@ if (isset($_SESSION['userid'])) {
    $postList = $blogManager->getPosts($session_user->id);
    $blogPosts = getBlogPosts($postList);
    $smartyHelper->assign('blogPosts', $blogPosts);
+
+
+   // ------- FORM
+   prepareBlogpostForm($blogManager, $smartyHelper);
 
 }
 

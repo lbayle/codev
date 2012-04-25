@@ -30,7 +30,8 @@ include_once('blogpost_cache.class.php');
  */
 class BlogActivity {
 
-   const action_read = 0;
+   const action_ack  = 0;
+   const action_hide = 1;
 
    public $id;
    public $blogPost_id;
@@ -55,8 +56,10 @@ class BlogActivity {
    public static function getActionName($action) {
 
       switch ($action) {
-         case action_read:
-            return T_('Read');
+         case action_ack:
+            return T_('Acknowledged');
+         case action_hide:
+            return T_('Hidden');
          default:
             #return T_('unknown');
             return NULL;
@@ -74,9 +77,9 @@ class BlogActivity {
  */
 class BlogPost {
 
-   const severity_low    = 0;
-   const severity_normal = 1;
-   const severity_high   = 2;
+   const severity_low    = 1;
+   const severity_normal = 2;
+   const severity_high   = 3;
 
    private $logger;
 
@@ -134,14 +137,14 @@ class BlogPost {
     */
    public static function getSeverityName($severity) {
       switch ($severity) {
-         case severity_low:
+         case BlogPost::severity_low:
             return T_('Low');
-         case severity_normal:
+         case BlogPost::severity_normal:
             return T_('Normal');
-         case severity_high:
+         case BlogPost::severity_high:
             return T_('High');
          default:
-            #return T_('unknown');
+            #return T_("unknown $severity");
             return NULL;
       }
 
@@ -308,6 +311,9 @@ class BlogPost {
    }
 
 
+
+
+
    // -----------------------------------------
    /**
     * QuickSort compare method.
@@ -372,10 +378,9 @@ class BlogManager {
 
          for ($i = 0; $i < 10; $i++) {
             $sevName =  BlogPost::getSeverityName($i);
-            if (NULL == $sevName) {
-               break;
+            if (NULL != $sevName) {
+               $this->severityList[$i] = $sevName;
             }
-            $this->severityList[$i] = $sevName;
          }
       }
       return $this->severityList;

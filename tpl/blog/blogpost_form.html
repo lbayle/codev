@@ -1,0 +1,48 @@
+
+<form id='formBlogpost' name='formBlogpost' method='post' action='{$originPage}'>
+<table BORDER="1" style="width:100%">
+<tr>
+<td VALIGN='top'>
+   <table style="width:100% border:1">
+      <tr>
+         <td width='30'>
+            <select name='category'>
+               <option value='0'></option>
+               {foreach from=$categoryList key=id item=name}
+                  <option value='{$id}'>{$name}</option>
+               {/foreach}
+            </select>
+         </td>
+         <td><input type='text' style='font-family: sans-serif' name='summary'  id='summary'></td>
+      </tr>
+      <tr>
+         <td colspan="3" style="height:100%">
+            <input type='text' style='font-family: sans-serif' name='content'  id='content'>
+         </td>
+      </tr>
+   </table>
+</td>
+<td VALIGN='top'>
+   <table style="width:100% border:1">
+      <tr><td>
+         <select name='severity'>
+            <option value='0'></option>
+            {foreach from=$severityList key=id item=name}
+               <option value='{$id}'>{$name}</option>
+            {/foreach}
+         </select>
+      </td></tr>
+      <tr>
+         <td>{t}To{/t}:<br>
+            <ul>
+               <li>user</li>
+               <li>team</li>
+               <li>project</li>
+            </ul> 
+         </td>
+      </tr>
+   </table>
+</td>
+</tr>
+</table>
+</form>
