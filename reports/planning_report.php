@@ -497,9 +497,10 @@ function displayConsistencyErrors($teamid) {
    $issueList = Team::getTeamIssues($teamid, true);
    $ccheck = new ConsistencyCheck2($issueList);
 
-   $cerrList = $ccheck->checkBadRemaining();
+   $cerrList  = $ccheck->checkBadRemaining();
+   $cerrList2 = $ccheck->checkUnassignedTasks();
 
-   if (0 == count($cerrList)) {
+   if ((0 == count($cerrList)) && (0 == count($cerrList2))) {
       #echo "Pas d'erreur teamid=$teamid.<br/>\n";
    } else {
 
@@ -519,11 +520,21 @@ function displayConsistencyErrors($teamid) {
          echo "<tr>\n";
          echo "<td>".mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
          echo "<td> ".$user->getName()."</td>";
-         echo "<td>: <span style='color:red'>".date("Y-m-d", $cerr->timestamp)."</span></td>\n";
-         echo "<td><span style='color:red'>".$statusNames["$cerr->status"]."</span></td>\n";
+         echo "<td>: <span>".date("Y-m-d", $cerr->timestamp)."</span></td>\n";
+         echo "<td><span>".$statusNames["$cerr->status"]."</span></td>\n";
          echo "<td><span style='color:red'>$cerr->desc</span></td>\n";
          echo "</tr>\n";
       }
+      if (0 != count($cerrList2)) {
+         echo "<tr>\n";
+         echo "<td></td>";
+         echo "<td>(".T_('unknown').")</td>";
+         echo "<td>: -</td>";
+         echo "<td>-</td>";
+         echo "<td><span style='color:red'>".count($cerrList2).' '.T_('tasks are not assigned to anybody.')."</span></td>\n";
+         echo "</tr>\n";
+      }
+
       echo "</table>\n";
       echo "</div>\n";
   echo "</div>\n";
