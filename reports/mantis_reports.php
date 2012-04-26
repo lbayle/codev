@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -40,14 +34,14 @@ include 'menu.inc.php';
     // check fields
     foundError = 0;
     msgString = "Les champs suivants ont &eacute;t&eacute; oubli&eacute;s:\n\n";
-        
+
     if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
-                   
+
     if (0 == foundError) {
       document.forms["teamSelectForm"].submit();
     } else {
-      alert(msgString);    
-    }    
+      alert(msgString);
+    }
   }
 </script>
 
@@ -64,7 +58,7 @@ include_once "period_stats_report.class.php";
 
 
 function setTeamForm($originPage, $defaultSelection, $teamList) {
-   
+
   // create form
   echo "<div align=center>\n";
   echo "<form id='teamSelectForm' name='teamSelectForm' method='post' action='$originPage' onchange='javascript: submitTeam()'>\n";
@@ -74,7 +68,7 @@ function setTeamForm($originPage, $defaultSelection, $teamList) {
   echo "<option value='0'></option>\n";
 
    foreach ($teamList as $tid => $tname) {
-  
+
     if ($tid == $defaultSelection) {
       echo "<option selected value='".$tid."'>".$tname."</option>\n";
     } else {
@@ -105,7 +99,7 @@ $mTeamList = $session_user->getDevTeamList();
 $lTeamList = $session_user->getLeadedTeamList();
 $oTeamList = $session_user->getObservedTeamList();
 $managedTeamList = $session_user->getManagedTeamList();
-$teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList; 
+$teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
 // if current team is not in allowed list, do not display
 if (NULL == $teamList[$teamid]) {
@@ -123,14 +117,14 @@ if (0 != $teamid) {
    $start_year  = date("Y", $team->date);
    $start_month = date("m", $team->date);
    $start_day   = date("d", $team->date);
-	
+
    echo "<div align='left'>\n";
    echo "<ul>\n";
    echo "   <li><a href='#tagPeriodStats'>Bilan mensuel</a></li>\n";
    echo "</ul><br/>\n";
    echo "</div>\n";
-      
-      
+
+
    echo "<a name='tagPeriodStats'></a>\n";
    echo "<br/>\n";
    echo "<hr/>\n";
@@ -138,10 +132,10 @@ if (0 != $teamid) {
    $periodStatsReport = new PeriodStatsReport($start_year, $start_month, $start_day, $teamid);
 	$periodStatsReport->computeReport();
 	$periodStatsReport->displayHTMLReport();
-	
+
    echo "<br/>\n";
    echo "<br/>\n";
-   
+
 }
 ?>
 

@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -51,7 +45,7 @@ function prepareProject() {
 <div id="content">
 
 
-<?php 
+<?php
 include_once 'user.class.php';
 include_once 'project.class.php';
 
@@ -61,7 +55,7 @@ $logger = Logger::getLogger("prepare_project");
 function displayForm($originPage, $projectList) {
 
 	echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
-	
+
 	#echo "<hr align='left' width='20%'/>\n";
 
 
@@ -94,9 +88,9 @@ function displayForm($originPage, $projectList) {
  * get all existing projects, except ExternalTasksProject & SideTasksProjects
  */
 function getProjectList() {
-	
+
     global $logger;
-    
+
     $projectList = array();
 
 	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
@@ -163,7 +157,7 @@ if ("prepareProject" == $action) {
 		}
 	}
 	echo "done.<br/>";
-	
+
 }
 
 

@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -329,7 +323,7 @@ function updateTeamInfoForm($team, $originPage) {
 function displayTeamMemberTuples($teamid) {
 
    global $logger;
-   
+
    // Display previous entries
    echo "<div>\n";
    echo "<table>\n";
@@ -579,7 +573,7 @@ function displayTeamProjectTuples($teamid) {
 function addTeamProjectForm($teamid, $originPage) {
 
    global $logger;
-   
+
    $curProjList=Team::getProjectList($teamid);
    $formatedCurProjList=implode( ', ', array_keys($curProjList));
 
@@ -659,12 +653,12 @@ function addAstreinteForm($originPage, $teamid) {
 
 	$stprojList = array();
 	$projList = Team::getProjectList($teamid);
-	
+
 	if ((NULL == $projList) || (0 == count($projList))) {
 	   // TODO $logger->warn("no project defined for this team, OnDuty tasks are defined in SideTasksProjects");
 	   return 0;
 	}
-	
+
 	$inactivityCatList = array();
 	foreach ($projList as $pid => $pname) {
 		$p = ProjectCache::getInstance()->getProject($pid);
@@ -673,12 +667,12 @@ function addAstreinteForm($originPage, $teamid) {
 			$inactivityCatList[$pid] = $p->getInactivityCategoryId();
 		}
 	}
-	
+
 	if (0 == count($inactivityCatList)) {
 	   // TODO $logger->warn("no inactivity category defined for SideTasksProjects => no OnDuty tasks ");
 	   return 0;
 	}
-	
+
 	$formatedInactivityCatList=implode( ', ', array_keys($inactivityCatList));
 
 

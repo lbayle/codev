@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 ###############################################################
 # File Download 1.31
@@ -53,7 +47,7 @@ if (!isset($_SESSION['userid'])) {
   	echo "<span style='color:red'>ERROR: Query FAILED</span>";
   	exit;
   }
-  
+
   if ($row_login = mysql_fetch_object($result)) {
     $userid=$row_login->id;
     $username=$row_login->username;

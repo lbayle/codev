@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -54,10 +48,10 @@ function peeToMee() {
 	Issue::getPrelEffortEstimValues();
 
 	$prelEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
-	$mgrEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);	
-	
+	$mgrEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+
 	$query  = "SELECT * FROM `mantis_custom_field_string_table` WHERE `field_id` = $prelEffortEstimCustomField";
-	
+
 	$result = mysql_query($query);
 	$result = mysql_query($query);
     if (!$result) {
@@ -70,7 +64,7 @@ function peeToMee() {
 	{
 		$meeValue = Issue::$PEE_balance[$row->value];
 		echo "Issue $row->bug_id pee=<$row->value> mee=<$meeValue> <br>\n";
-		
+
 		$query2 = "INSERT INTO `mantis_custom_field_string_table`  (`field_id`, `bug_id`, `value`) VALUES ('".$mgrEffortEstimCustomField."','".$row->bug_id."','".$meeValue."');";
 		$result2 = mysql_query($query2);
 		if (!$result2) {
