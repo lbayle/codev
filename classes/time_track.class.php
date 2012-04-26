@@ -105,7 +105,8 @@ class TimeTrack {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-
+    $trackid = mysql_insert_id();
+    return $trackid;
   }
 
   /**

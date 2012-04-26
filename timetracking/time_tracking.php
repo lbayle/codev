@@ -695,7 +695,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
     $defaultProjectid  = $_POST['projectid'];
 
     // save to DB
-    TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
+    $trackid = TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
 
 
     // do NOT decrease remaining if job is job_support !
@@ -709,6 +709,8 @@ if ($_POST['nextForm'] == "addTrackForm") {
       }
     }
 
+    $logger->debug("Track $trackid added  : userid=$managed_user->id bugid=$bugid job=$job duration=$duration timestamp=$timestamp");
+
     // pre-set form fields
     $defaultDate  = $formatedDate;
     $defaultBugid = $bugid;
@@ -717,7 +719,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
     $trackid  = $_POST['trackid'];
 
     // increase remaining (only if 'remaining' already has a value)
-    $query = "SELECT bugid, jobid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
+    $query = "SELECT * FROM `codev_timetracking_table` WHERE id = $trackid;";
     $result = mysql_query($query);
    	if (!$result) {
    		$logger->error("Query FAILED: $query");
@@ -730,6 +732,8 @@ if ($_POST['nextForm'] == "addTrackForm") {
       $bugid = $row->bugid;
       $duration = $row->duration;
       $job = $row->jobid;
+      $trackUserid = $row->userid;
+      $trackDate = $row->date;
     }
 
     $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -751,6 +755,8 @@ if ($_POST['nextForm'] == "addTrackForm") {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
+
+    $logger->debug("Track $trackid deleted: userid=$trackUserid bugid=$bugid job=$job duration=$duration timestamp=$trackDate");
 
     // pre-set form fields
     $defaultBugid     = $bugid;
