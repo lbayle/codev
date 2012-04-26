@@ -50,8 +50,8 @@ class ProjectCache {
     }
 
     /**
-     * get Issue class instance
-     * @param $bugId
+     * get Project class instance
+     * @param $id
      */
     public function getProject($id)
     {

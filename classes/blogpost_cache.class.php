@@ -52,8 +52,8 @@ class BlogPostCache {
    }
 
    /**
-    * get Issue class instance
-    * @param $bugId
+    * get BlogPost class instance
+    * @param $id
     */
    public function getBlogPost($id)
    {

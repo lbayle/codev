@@ -48,8 +48,8 @@ class TimeTrackCache {
     }
 
     /**
-     * get Issue class instance
-     * @param $bugId
+     * get TimeTrack class instance
+     * @param $id
      */
     public function getTimeTrack($id)
     {

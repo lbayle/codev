@@ -53,8 +53,8 @@ class UserCache {
     }
 
     /**
-     * get Issue class instance
-     * @param $bugId
+     * get User class instance
+     * @param $id
      */
     public function getUser($id)
     {
