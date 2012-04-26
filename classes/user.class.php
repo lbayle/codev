@@ -509,6 +509,8 @@ class User {
     *
     * @param teamList       if NULL then return projects from all the teams the user belongs to
     * @param noStatsProject if false, the noStatsProject will not be returned in the list
+    *
+    * @return array [id => project_name]
     */
    public function getProjectList($teamList = NULL, $noStatsProject = true) {
 
@@ -520,7 +522,6 @@ class User {
       }
       if (0 != count($teamList)) {
 	      $formatedTeamList = implode( ', ', array_keys($teamList));
-
 	      $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name ".
 	               "FROM `codev_team_project_table`, `mantis_project_table`".
 	               "WHERE codev_team_project_table.team_id IN ($formatedTeamList) ".
@@ -546,7 +547,7 @@ class User {
 	      }
       } else {
       	// this happens if User is not a Developper (Manager or Observer)
-         //echo "<div style='color:red'>ERROR: User is not member of any team !</div><br>";
+         //$this->logger->debug("ERROR: User $this->id is not member of any team !");
       }
 
       return $projList;
@@ -655,7 +656,10 @@ class User {
       $issueList = array();
 
       if (NULL == $projList) {
-        $teamList = $this->getDevTeamList();
+         // get all teams except those where i'm Observer
+        $dTeamList = $this->getDevTeamList();
+        $mTeamList = $this->getManagedTeamList();
+        $teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
         $projList = $this->getProjectList($teamList);
       }
 

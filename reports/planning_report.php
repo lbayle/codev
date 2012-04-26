@@ -391,6 +391,8 @@ function displayScheduledTaskTable($scheduledTaskList) {
 // -----------------------------------------
 function displayTeam($teamid, $today, $graphSize) {
 
+   global $logger;
+
    $deadLineTriggerWidth = 10;
    $barHeight = 1;
 
@@ -404,7 +406,15 @@ function displayTeam($teamid, $today, $graphSize) {
       $workload = 0;
       $user = UserCache::getInstance()->getUser($id);
 
-      if (!$user->isTeamDeveloper($teamid)) { continue; }
+      // show only developper's & manager's tasks
+      if ((!$user->isTeamDeveloper($teamid)) &&
+          (!$user->isTeamManager($teamid))) {
+
+	      $logger->debug("user $user->id excluded from scheduled users on team $teamid");
+	      continue;
+      }
+
+
       if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
 
       $scheduledTaskList = $scheduler->scheduleUser($user, $today, true);

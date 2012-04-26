@@ -126,8 +126,9 @@ function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
     foreach ($mList as $id => $name) {
         $user = UserCache::getInstance()->getUser($id);
 
-        // take only developper's tasks
-        if (!$user->isTeamDeveloper($teamid)) {
+        // do not take observer's tasks
+         if (($user->isTeamDeveloper($teamid)) ||
+             ($user->isTeamManager($teamid))) {
             continue;
         }
 
