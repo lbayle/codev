@@ -404,6 +404,12 @@ function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport 
 function displayResolvedDeviationStats ($timeTracking, $withSupport = true) {
 
   $issueList = $timeTracking->getResolvedIssues();
+
+  if (0 == count($issueList)) {
+  	  echo T_("No resolved tasks...");
+     return;
+  }
+
   $issueSelection = new IssueSelection("resolved issues");
   $issueSelection->addIssueList($issueList);
 
@@ -481,6 +487,11 @@ function displayResolvedDeviationStats ($timeTracking, $withSupport = true) {
 function displayResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport=true) {
 
 	$issueList = $timeTracking->getResolvedIssues();
+
+  if (0 == count($issueList)) {
+     echo T_("No resolved tasks...");
+     return;
+  }
 
 	echo "<table>\n";
 	#echo "<caption>".T_("Tasks in drift")."</caption>\n";
