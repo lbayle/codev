@@ -133,9 +133,9 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
   echo "<th></th>\n";
   for ($i = 1; $i <= $nbDaysInMonth; $i++) {
      if ($today == date("d-m-Y", mktime(0, 0, 0, $month, $i, $year))) {
-        $bgColor = "style='background-color: #".$pink.";' title='".T_('today')."'";
+        $bgColor = "style='background-color: #".$pink.";' title='".htmlentities(T_("today"), ENT_QUOTES)."'";
      } else {
-        $bgColor = '';
+        $bgColor = "title='".T_(date("l", mktime(0, 0, 0, $month, $i, $year)))."'";
      }
      echo "<th $bgColor >".sprintf("%02d", $i)."</th>\n";
   }

@@ -693,21 +693,20 @@ class User {
       	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
          $issueList[] = $issue;
       }
-/*
-      echo "DEBUG List to sort:<br/>";
-      foreach ($issueList as $i) {
-      	echo "$i->bugId<br/>";
+
+      if ($this->logger->isDebugEnabled()) {
+         $formatedList = implode( ', ', array_keys($issueList));
+         $this->logger->debug("getAssignedIssues: List BEFORE sort = ".$formatedList);
       }
-*/
+
       // quickSort the list
       $sortedList = qsort($issueList);
 
-/*
-   	echo "DEBUG after Sort<br/>";
-      foreach ($sortedList as $i) {
-         echo "$i->bugId<br/>";
+      if ($this->logger->isDebugEnabled()) {
+         $formatedList = implode( ', ', array_keys($sortedList));
+         $this->logger->debug("getAssignedIssues: List AFTER Sort = ".$formatedList);
       }
-*/
+
       return $sortedList;
    }
 
