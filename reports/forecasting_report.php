@@ -112,7 +112,10 @@ function getCurrentDeviationStats ($teamid, $threshold = 1, $withSupport = true)
  *
  */
 function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
-    $issuesInDrift = "";
+
+   global $logger;
+
+   $issuesInDrift = "";
 
     $mList = Team::getMemberList($teamid);
     $projList = Team::getProjectList($teamid);
@@ -121,8 +124,9 @@ function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
         $user = UserCache::getInstance()->getUser($id);
 
         // do not take observer's tasks
-         if (($user->isTeamDeveloper($teamid)) ||
-             ($user->isTeamManager($teamid))) {
+         if ((!$user->isTeamDeveloper($teamid)) &&
+             (!$user->isTeamManager($teamid))) {
+            $logger->debug("getIssuesInDrift user $id ($name) excluded.");
             continue;
         }
 
@@ -139,6 +143,7 @@ function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
             if (($driftPrelEE > 0) || ($driftEE > 0)) {
                 $issueArray[] = array(
                     'bugId' => issueInfoURL($issue->bugId),
+                    'handlerName' => $user->getName(),
                     'projectName' => $issue->getProjectName(),
                     'targetVersion' => $issue->getTargetVersion(),
                     'driftPrelEE' => $driftPrelEE,

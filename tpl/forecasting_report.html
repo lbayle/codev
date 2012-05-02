@@ -95,6 +95,7 @@ jQuery(function() {
          <table>
             <tr>
                <th>{t}ID{/t}</th>
+               <th>{t}User{/t}</th>
                <th>{t}Project{/t}</th>
                <th>{t}Target{/t}</th>
                {if $manager}<th title='{t}Drift relatively to the managers Estimation{/t}'>{t}Drift Mgr{/t}</th>{/if}
@@ -107,6 +108,7 @@ jQuery(function() {
             {foreach from=$issuesInDrift key=id item=i}
             <tr>
                <td>{$i.bugId}</td>
+               <td>{$i.handlerName}</td>
                <td>{$i.projectName}</td>
                <td>{$i.targetVersion}</td>
                {if $manager}<td {if $i.driftPrelEE > 1}style='background-color: #fcbdbd;'{elseif $i.driftPrelEE < -1}style='background-color: #61ed66;'{/if}>{$i.driftPrelEE}</td>{/if}
