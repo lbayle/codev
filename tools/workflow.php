@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -91,7 +85,7 @@ include 'menu.inc.php';
 				allFields.val( "" ).removeClass( "ui-state-error" );
 			}
 		});
-        
+
         $(function() {
             $( "#tabsProject" ).tabs();
         });
@@ -232,7 +226,7 @@ function getProjectList($isCodevtt = false) {
 
 // ------------------------------------------------
 function displayProjectInfo($project, $tabsName) {
-	
+
    echo "<div id='$tabsName'>\n";
    echo "<ul>\n";
    echo "<li><a href='#$tabsName-1'>".T_("Workflow transitions")."</a></li>\n";
@@ -245,35 +239,35 @@ function displayProjectInfo($project, $tabsName) {
    echo "</div>\n";
    echo "<div id='$tabsName-2'>\n";
    echo "<p>";
-   displayConfigItems($project); 
+   displayConfigItems($project);
    echo "</p>\n";
    echo "</div>\n";
    echo "</div>\n";
-    
+
 }
 
 // ------------------------------------------------
 /**
- * 
+ *
  */
 function displayConfigItems($project) {
-	
+
     // status_enum_workflow, set_status_threshold, bug_readonly_status_threshold, bug_assigned_status
-    
+
     $configItems = $project->getProjectConfig();
 
    if (0 == count($configItems)) {
       echo T_("No configuration options defined, using default configuration.");
       return;
    }
-    
+
    echo "<table>\n";
    echo "<tr>\n";
    echo "<th>".T_("Configuration Option")."</th>\n";
    echo "<th>".T_("Value")."</th>\n";
    echo "</tr>\n";
    foreach ($configItems as $id => $val) {
-    
+
       if ("status_enum_workflow" == $id) { continue; }
       echo "<tr>\n";
       echo "<td>".$id."</td>\n";
@@ -281,7 +275,7 @@ function displayConfigItems($project) {
       echo "</tr>\n";
    }
    echo "</table>\n";
-    
+
 }
 
 // ------------------------------------------------
@@ -390,8 +384,8 @@ if (0 != $projectid) {
 	   #displayWorkflow($cproj);
        displayProjectInfo($cproj, "tabsCloneProject");
 	}
-    
-    
+
+
 }
 
 ?>

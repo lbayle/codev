@@ -1,11 +1,5 @@
 <?php
-if (!isset($_SESSION)) {
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname);
-	session_start();
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
-}
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -157,17 +151,22 @@ function displayVersionsOverview($project) {
    echo "</tr>\n";
 
    foreach ($projectVersionList as $version => $pv) {
+
+      if (NULL == $pv) {
+      	continue;
+      }
+
 	   echo "<tr>\n";
 
        $valuesMgr = $pv->getDriftMgr();
        $formattedDriftMgr = "<span title='".T_("percent")."' class='float'>".round(100 * $valuesMgr['percent'])."%</span>";
 
-	   $driftMgrColor = $pv->getDriftColor($valuesMgr['percent']);
+	   $driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
        $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
        $values = $pv->getDrift();
        $formattedDrift    = "<span title='".T_("percent")."' class='float'>".round(100 * $values['percent'])."%</span>";
-       $driftColor = $pv->getDriftColor($values['percent']);
+       $driftColor = IssueSelection::getDriftColor($values['percent']);
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
        echo "<td>".$pv->name."</td>\n";
@@ -185,11 +184,11 @@ function displayVersionsOverview($project) {
    }
 
    $driftMgr = $project->getDriftMgr();
-   $driftMgrColor = $pv->getDriftColor($driftMgr['percent']);
+   $driftMgrColor = IssueSelection::getDriftColor($driftMgr['percent']);
    $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
    $drift = $project->getDrift();
-   $driftColor = $pv->getDriftColor($drift['percent']);
+   $driftColor = IssueSelection::getDriftColor($drift['percent']);
    $formattedDriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
 
@@ -236,7 +235,7 @@ function displayVersionsDetailed($project) {
        $values = $pv->getDrift();
        $totalDrift += $values['nbDays'];
        $formattedDrift    = "<span title='".T_("nb days")."'>".round($values['nbDays'],2)."</span>";
-       $driftColor = $pv->getDriftColor($values['percent']);
+       $driftColor = IssueSelection::getDriftColor($values['percent']);
        $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
        echo "<td>".$pv->name."</td>\n";
@@ -295,7 +294,7 @@ function displayVersionsDetailedMgr($project) {
         $totalDriftMgr += $valuesMgr['nbDays'];
 		$formattedDriftMgr = "<span title='".T_("nb days")."'>".round($valuesMgr['nbDays'],2)."</span>";
 
-		$driftMgrColor = $pv->getDriftColor($valuesMgr['percent']);
+		$driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
 		$formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
 		echo "<td>".$pv->name."</td>\n";

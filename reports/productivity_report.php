@@ -1,11 +1,5 @@
 <?php
-if (!isset($_SESSION)) {
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname);
-	session_start();
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
-}
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -404,6 +398,12 @@ function displayResolvedDriftTabs($timeTracking, $isManager=false, $withSupport 
 function displayResolvedDeviationStats ($timeTracking, $withSupport = true) {
 
   $issueList = $timeTracking->getResolvedIssues();
+
+  if (0 == count($issueList)) {
+  	  echo T_("No resolved tasks...");
+     return;
+  }
+
   $issueSelection = new IssueSelection("resolved issues");
   $issueSelection->addIssueList($issueList);
 
@@ -481,6 +481,11 @@ function displayResolvedDeviationStats ($timeTracking, $withSupport = true) {
 function displayResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupport=true) {
 
 	$issueList = $timeTracking->getResolvedIssues();
+
+  if (0 == count($issueList)) {
+     echo T_("No resolved tasks...");
+     return;
+  }
 
 	echo "<table>\n";
 	#echo "<caption>".T_("Tasks in drift")."</caption>\n";

@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -37,14 +31,14 @@ include 'menu.inc.php';
 
 <div id="content">
 
-<?php 
-   
+<?php
+
 include_once "period_stats_report.class.php";
 include_once "issue.class.php";
 
 
 function displaySubmittedResolved($periodStatsReport, $width, $height) {
-	
+
    #$submitted = $periodStatsReport->getStatus("submitted");
    #$resolved  = $periodStatsReport->getStatus("delta_resolved");
 
@@ -74,11 +68,11 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    // ---------
    echo "<div>\n";
    echo "<h2>".T_("Submitted / Resolved")."</h2>\n";
-   
+
    echo "<div class=\"float\">\n";
    echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
    echo "</div>\n";
-/*   
+/*
    echo "<div class=\"float\">\n";
    echo "<table>\n";
    echo "<caption title='".T_("Submitted / Resolved")."'</caption>";
@@ -96,19 +90,19 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    }
    echo "</table>\n";
    echo "</div>\n";
-*/   
+*/
    echo "</div>\n";
-   
+
    echo "<div class=\"spacer\"> </div>\n";
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -116,7 +110,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
 
 # ====================================
 
-$start_year = date('Y') -1; 
+$start_year = date('Y') -1;
 
 $defaultTeam = isset($_SESSION[teamid]) ? $_SESSION[teamid] : 0;
 $teamid = isset($_POST[teamid]) ? $_POST[teamid] : $defaultTeam;

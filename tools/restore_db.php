@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -70,8 +64,8 @@ include_once "mysql_connect.inc.php";
 </tr>
 </table>
 
-</div>   
-   
+</div>
+
 
 
 <script language="JavaScript">
@@ -80,7 +74,7 @@ include_once "mysql_connect.inc.php";
      document.forms["form"].action.value = "execSqlScript";
      document.forms["form"].submit();
    }
-  
+
 </script>
 
 
@@ -93,7 +87,7 @@ function displayDBInfo() {
 	global $db_mantis_host;
 	global $db_mantis_user;
 	global $db_mantis_database;
-	
+
 	echo "<table>\n";
 	echo "<tr>\n";
 	echo "<th>variable</th>\n";
@@ -109,21 +103,21 @@ function displayDBInfo() {
    echo "<td>db_mantis_database</td>\n<td>$db_mantis_database</td>\n";
    echo "</tr>\n";
    echo "</table>\n";
-   
+
 }
 
 function setSqlFileForm($filename) {
-   
+
   echo "<div class=left>";
   // Create form
   echo "<form id='form' name='form' method='post' action='restore_db.php'>\n";
-  
+
 
   echo("SQL File: <input  size='100' name='filename' type='text' id='filename' value='$filename'>\n");
   echo "&nbsp;<input type=button value='Exec SQL Script' onClick='javascript: execSqlScript()'>\n";
-    
+
   echo "<input type=hidden name=action      value=noAction>\n";
-    
+
   echo "</form>\n";
   echo "</div>";
 }
@@ -133,35 +127,35 @@ function setSqlFileForm($filename) {
 
 // --------------------------------------------
 function execSQLscript($sqlFile) {
- 
+
       $requetes="";
- 
-      $sql=file($sqlFile); 
-      foreach($sql as $l){ 
+
+      $sql=file($sqlFile);
+      foreach($sql as $l){
          if (substr(trim($l),0,2)!="--"){ // remove comments
             $requetes .= $l;
          }
       }
- 
+
       $reqs = split(";",$requetes);// identify single requests
       foreach($reqs as $req){
          if (!mysql_query($req) && trim($req)!="") {
-            die("ERROR : ".$req." ---> ".mysql_error()); 
+            die("ERROR : ".$req." ---> ".mysql_error());
          }
       }
       echo "done";
 }
-   
-   
-   
-   
-   
-   
-   
-// ========== MAIN =============   
-   
+
+
+
+
+
+
+
+// ========== MAIN =============
+
 $defaultFilename = "./bugtracker.sql";
-   
+
 $filename    = isset($_POST[filename]) ? $_POST[filename] : $defaultFilename;
 
 echo "<br/>";
@@ -182,12 +176,12 @@ $action = $_POST[action];
 if ("execSqlScript" == $action) {
 
 	if ((NULL != $filename) && file_exists($filename)) {
-   	
+
       execSQLscript($filename);
-      
+
    } else {
       echo "ERROR: file not found: <$filename><br>\n";
-   	
+
    }
 }
 

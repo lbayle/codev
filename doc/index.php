@@ -1,11 +1,5 @@
-<?php 
-if (!isset($_SESSION)) { 
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname); 
-	session_start(); 
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
-} 
+<?php
+include_once('../include/session.inc.php');
 
 include_once '../path.inc.php';
 
@@ -28,7 +22,7 @@ include 'menu.inc.php';
 <?php include 'menu_doc.inc.php'; ?>
 
 
-<?php 
+<?php
 echo "<h2>".T_("Reporter un bug / Demander un &eacute;volution")."</h2>";
 echo T_("Pour reporter des bug sur CodevTT ou demander des &eacute;volutions merci de vous rendre sur:");
 #echo '<br>';

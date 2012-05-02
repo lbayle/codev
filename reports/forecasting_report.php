@@ -1,11 +1,5 @@
 <?php
-if (!isset($_SESSION)) {
-	$tokens = explode('/', $_SERVER['PHP_SELF'], 3);
-	$sname = str_replace('.', '_', $tokens[1]);
-	session_name($sname);
-	session_start();
-	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
-}
+include_once('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -126,8 +120,9 @@ function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
     foreach ($mList as $id => $name) {
         $user = UserCache::getInstance()->getUser($id);
 
-        // take only developper's tasks
-        if (!$user->isTeamDeveloper($teamid)) {
+        // do not take observer's tasks
+         if (($user->isTeamDeveloper($teamid)) ||
+             ($user->isTeamManager($teamid))) {
             continue;
         }
 

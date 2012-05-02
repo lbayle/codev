@@ -237,7 +237,7 @@ class IssueSelection {
     * @param unknown_type $percent  100% = 1
     * @param unknown_type $threshold  5% = 0.05
     */
-   public function getDriftColor($percent, $threshold = 0.05) {
+   public static function getDriftColor($percent, $threshold = 0.05) {
 
       if (abs($percent) < $threshold) {
          return NULL; // no drift

@@ -87,7 +87,7 @@ class GanttActivity {
 
    	$user = UserCache::getInstance()->getUser($this->userid);
     $issue = IssueCache::getInstance()->getIssue($this->bugid);
-    
+
     if (NULL != $issue->tcId) {
    	   $formatedActivityName = substr("$this->bugid [$issue->tcId] - $issue->summary", 0, 50);
 	} else {
@@ -238,7 +238,10 @@ class GanttManager {
       foreach($members as $uid => $uname) {
          $user = UserCache::getInstance()->getUser($uid);
 
-         if ($user->isTeamDeveloper($this->teamid)) {
+         // do not take observer's tasks
+         if (($user->isTeamDeveloper($this->teamid)) ||
+             ($user->isTeamManager($this->teamid))) {
+
       	   $issueList = $user->getAssignedIssues();
       	   $teamIssueList = array_merge($teamIssueList, $issueList);
          }
@@ -518,9 +521,9 @@ class GanttManager {
 			if (!in_array($issue->projectId, $this->projectList)) {
 			   // skip activity indexing
 			   continue;
-			}  
+			}
 	    }
-        
+
          $issueActivityMapping[$a->bugid] = $activityIdx;
          ++$activityIdx;
       }
@@ -540,8 +543,8 @@ class GanttManager {
       } else {
          $graph->title->Set("Team '".$team->name."'    (All projects)");
       }
-      
-      
+
+
 
       // Setup scale
       $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
@@ -557,9 +560,9 @@ class GanttManager {
 			   // skip display of this activity
                $this->logger->trace("ProjectFilter: bugid=".$a->bugid." (proj=$issue->projectId) is not in projectList (".implode( ':', $this->projectList ).")");
 			   continue;
-			}  
+			}
 	    }
-        
+
          // Shorten bar depending on gantt startDate
          if ((NULL != $this->startTimestamp) &&
              ($a->startTimestamp < $this->startTimestamp)) {
