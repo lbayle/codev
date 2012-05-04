@@ -16,7 +16,10 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+include_once "team_cache.class.php";
+
 include_once 'jobs.class.php';
+include_once 'project.class.php';
 
 require_once('Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
@@ -42,11 +45,14 @@ class Team {
                               //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
                               Team::accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
 
-   var $id;
-   var $name;
-   var $description;
-   var $leader_id;
-   var $date;
+   public $id;
+   public $name;
+   public $description;
+   public $leader_id;
+   public $date;
+
+   private $projTypeList;
+
 
    // -------------------------------------------------------
    /**
@@ -80,6 +86,24 @@ class Team {
       $this->description    = $row->description;
       $this->leader_id      = $row->leader_id;
       $this->date           = $row->date;
+
+
+      // -------
+      $this->projTypeList = array();
+      $query = "SELECT * FROM `codev_team_project_table` WHERE team_id = $this->id ";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      while($row = mysql_fetch_object($result))
+      {
+         $this->logger->error("initialize: team $this->id proj $row->project_id type $row->type");
+         $this->projTypeList[$row->project_id] = $row->type;
+      }
+
 
    }
 
@@ -156,6 +180,7 @@ class Team {
 
       return $leaderid;
    }
+
 
    // -------------------------------------------------------
    public static function getProjectList($teamid, $noStatsProject = true) {
@@ -490,6 +515,25 @@ class Team {
              exit;
       }
    }
+
+
+   // -----------------------------------------------
+   public function getProjectType($projectid) {
+      return  $this->projTypeList[$projectid];
+   }
+
+   // -----------------------------------------------
+   public function isSideTasksProject($projectid) {
+      $this->logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->projTypeList[$projectid]);
+      return (Project::type_sideTaskProject == $this->projTypeList[$projectid]);
+   }
+
+   // -----------------------------------------------
+   public function isNoStatsProject($projectid) {
+      return (Project::type_noStatsProject == $this->projTypeList[$projectid]);
+   }
+
+
 
 }
 

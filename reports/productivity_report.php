@@ -638,6 +638,8 @@ function displayWorkingDaysPerProject($timeTracking) {
 
   global $logger;
 
+  $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
+
   echo "<div class=\"float\">\n";
 
   echo "<table width='300'>\n";
@@ -653,7 +655,7 @@ function displayWorkingDaysPerProject($timeTracking) {
   $query     = "SELECT mantis_project_table.id, mantis_project_table.name ".
                "FROM `mantis_project_table`, `codev_team_project_table` ".
                "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-               "AND codev_team_project_table.team_id = $timeTracking->team_id ".
+               "AND codev_team_project_table.team_id = $team->id ".
                " ORDER BY name";
    $result = mysql_query($query);
    if (!$result) {
@@ -668,7 +670,7 @@ function displayWorkingDaysPerProject($timeTracking) {
 
      $proj = ProjectCache::getInstance()->getProject($row->id);
 
-     if ((! $proj->isSideTasksProject()) && (! $proj->isNoStatsProject())) {
+     if ((! $team->isSideTasksProject($proj->id)) && (! $team->isNoStatsProject($proj->id))) {
         $progress    = round(100 * $proj->getProgress()).'%';
      	$progressMgr = round(100 * $proj->getProgressMgr()).'%';
      } else {

@@ -59,7 +59,7 @@ class Project {
 
 	private $bug_resolved_status_threshold;
 	private $projectVersionList;
-	
+
 	private $progress;
 	private $progressMgr;
 	private $drift;
@@ -647,12 +647,18 @@ class Project {
    }
 
    // -----------------------------------------------
-   public function isSideTasksProject() {
+   /**
+    * DEPRECATED
+    */
+      public function isSideTasksProject() {
       $sideTaskProjectType = Project::type_sideTaskProject;
       return ($sideTaskProjectType == $this->type);
    }
 
    // -----------------------------------------------
+   /**
+    * DEPRECATED
+    */
    public function isNoStatsProject() {
 		return (Project::type_noStatsProject == $this->type);
 	}
@@ -849,9 +855,9 @@ class Project {
       return $this->projectVersionList;
    }
 
-   
+
    /**
-    * 
+    *
     */
    public function getProgress() {
 
@@ -872,11 +878,11 @@ class Project {
     *
     */
    public function getProgressMgr() {
-   
+
    	if (NULL == $this->progressMgr) {
-   
+
    		$issueList = $this->getIssueList();
-   
+
    		$issueSelection = new IssueSelection($this->name);
    		foreach ($issueList as $bugid) {
    			$issueSelection->addIssue($bugid);
@@ -885,17 +891,17 @@ class Project {
    	}
    	return $this->progressMgr;
    }
-   
+
 
    /**
     * @return array(nbDays, percent)
     */
    public function getDrift() {
-   
+
    	if (NULL == $this->drift) {
-   
+
    		$issueList = $this->getIssueList();
-   
+
    		$issueSelection = new IssueSelection($this->name);
    		foreach ($issueList as $bugid) {
    			$issueSelection->addIssue($bugid);
@@ -904,16 +910,16 @@ class Project {
    	}
    	return $this->drift;
    }
-   
+
    /**
     * @return array(nbDays, percent)
     */
    public function getDriftMgr() {
-   
+
    	if (NULL == $this->driftMgr) {
-   
+
    		$issueList = $this->getIssueList();
-   
+
    		$issueSelection = new IssueSelection($this->name);
    		foreach ($issueList as $bugid) {
    			$issueSelection->addIssue($bugid);
@@ -922,8 +928,8 @@ class Project {
    	}
    	return $this->driftMgr;
    }
-   
-   
+
+
 }
 
 ?>

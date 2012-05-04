@@ -418,6 +418,7 @@ class User {
          exit;
       }
 
+      $team = TeamCache::getInstance()->getTeam($team_id);
       if (NULL != $team_id) {
          $projectList = Team::getProjectList($team_id);
       }
@@ -434,8 +435,7 @@ class User {
          }
 
          // exclude Inactivity tasks
-         $proj = ProjectCache::getInstance()->getProject($timetrack->projectId);
-         if ($proj->isSideTasksProject())
+         if ($team->isSideTasksProject($timetrack->projectId))
 
          $workloadPerTaskList["$timetrack->bugId"] += $timetrack->duration;
       }
