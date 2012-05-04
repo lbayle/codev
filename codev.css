@@ -176,3 +176,11 @@ font-weight: bold;
   font-style: italic;
   color: blue;
 }
+
+/* JQuery Hacks */
+input.datepicker {
+    vertical-align: middle;
+}
+img.ui-datepicker-trigger {
+    vertical-align: middle;
+}
