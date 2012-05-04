@@ -41,6 +41,7 @@ if (isset($_SESSION['userid'])) {
 
     $smartyHelper = new SmartyHelper();
     $smartyHelper->assign('pageName', T_('CodevTT Logs'));
+    $smartyHelper->assign('menu2', "menu/admin_menu.html");
 
     $nbLinesToDisplay = 40;
 
