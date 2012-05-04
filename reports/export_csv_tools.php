@@ -378,7 +378,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
       if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
           ($user1->isTeamManager($teamid, $startT, $endT))) {
 
-         $daysOf = $user1->getDaysOfInMonth($startT, $endT);
+         $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
 
            // concatenate days
          $startBlockTimestamp = 0;
@@ -386,11 +386,11 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
          $blockSize = 0;
 
          for ($i = 1; $i <= $nbDaysInMonth; $i++) {
-            if (NULL != $daysOf[$i]) {
+            if (NULL != $daysOf["$evtTimestamp"]) {
 
                $evtTimestamp = mktime(0, 0, 0, $month, $i, $year);
 
-               if (1 == $daysOf[$i]) {
+               if (1 == $daysOf["$evtTimestamp"]) {
                   // do not write, concatenate evt to block
                   if (0 == $startBlockTimestamp) {$startBlockTimestamp = $evtTimestamp; }
                   $blockSize += 1;
@@ -414,7 +414,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
                   $stringData = $user1->getFirstname().$sepChar.$user1->getLastname().$sepChar.$user1->getShortName().$sepChar.
                              $evtDate.$sepChar.
                              $evtDate.$sepChar.
-                             $daysOf[$i]."\n";
+                             $daysOf["$evtTimestamp"]."\n";
                   fwrite($fh, $stringData);
                }
 
