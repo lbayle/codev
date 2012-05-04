@@ -20,6 +20,7 @@ include_once "user_cache.class.php";
 include_once "issue.class.php";
 include_once "team.class.php";
 include_once "holidays.class.php";
+include_once "time_track.class.php";
 
 /**
  * MANTIS CoDev User Authorization Management
@@ -388,7 +389,59 @@ class User {
       return $prodDaysForecast;
    }
 
+   // --------------------
+   /**
+    * Nb days spent on tasks in the period (no holidays, no external tasks)
+    *
+    * Note: including non-inactivity sideTasks (cat_management, cat_tools, cat_workshop)
+    *
+    * (consommé sur la periode)
+    *
+    * @param unknown_type $startTimestamp
+    * @param unknown_type $endTimestamp
+    * @param unknown_type $team_id
+    *
+    * @return array[bug_id] = duration
+    */
+   public function getWorkloadPerTask($startTimestamp, $endTimestamp, $team_id = NULL) {
 
+      $workloadPerTaskList = array();
+
+      $query = "SELECT id FROM `codev_timetracking_table` ".
+            "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
+            "AND userid = $this->id";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      if (NULL != $team_id) {
+         $projectList = Team::getProjectList($team_id);
+      }
+
+      while($row = mysql_fetch_object($result)) {
+         $timetrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
+
+         // exclude projects not in team list
+         // exclude externalTasks & NoStatsProjects
+         if (NULL != $projectList) {
+            if (!in_array($timetrack, array_keys($projectList))) {
+               continue;
+            }
+         }
+
+         // exclude Inactivity tasks
+         $proj = ProjectCache::getInstance()->getProject($timetrack->projectId);
+         if ($proj->isSideTasksProject())
+
+         $workloadPerTaskList["$timetrack->bugId"] += $timetrack->duration;
+      }
+
+      return $workloadPerTaskList;
+   }
 
 
    // --------------------
@@ -559,7 +612,7 @@ class User {
    /**
     * sum the RAF (or mgrEffortEstim if no RAF defined) of all the opened Issues assigned to me.
     */
-   public function getWorkload($projList = NULL) {
+   public function getForecastWorkload($projList = NULL) {
 
       $totalRemaining = 0;
 

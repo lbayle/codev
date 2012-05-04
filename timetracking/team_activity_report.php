@@ -196,9 +196,9 @@ function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, 
 	    echo "<br/>";
       echo "<br/>";
       if ($isDetailed) {
-	       displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
+	       displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getForecastWorkload());
 	    } else {
-	       displayWeek($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getWorkload());
+	       displayWeek($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getForecastWorkload());
 	    }
 	    echo "</div>";
   	}
