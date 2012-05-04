@@ -57,6 +57,9 @@ class TimeTracking {
     $this->sideTaskprojectList = array();
                 
     $query = "SELECT project_id, type FROM `codev_team_project_table` WHERE team_id = $this->team_id";
+    
+    if (isset($_GET['debug_sql'])) { echo "initialize QUERY = $query <br/>"; }
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -91,9 +94,13 @@ class TimeTracking {
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level = $accessLevel_dev ";
+      "AND    codev_team_user_table.access_level = $accessLevel_dev ".
+      "AND (codev_team_user_table.departure_date = 0 or codev_team_user_table.departure_date >=$this->startTimestamp)";
     
     $result    = mysql_query($query) or die("Query failed: $query");
+    
+    if (isset($_GET['debug_sql'])) { echo "getProductionDays QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result))
     {
       $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
@@ -125,6 +132,9 @@ class TimeTracking {
       "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
     
     $result    = mysql_query($query) or die("Query failed: $query");
+    
+  if (isset($_GET['debug_sql'])) { echo "getProdDaysSideTasks QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result))
     {
       $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
@@ -162,6 +172,9 @@ class TimeTracking {
       "ORDER BY mantis_user_table.username";   
     
     $result = mysql_query($query) or die("Query failed: $query");
+    
+  if (isset($_GET['debug_sql'])) { echo "getProductionDaysForecast QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result))
     {
     	$user = UserCache::getInstance()->getUser($row->user_id);
@@ -312,6 +325,9 @@ class TimeTracking {
              "ORDER BY bug_id ASC";
     
     $result = mysql_query($query) or die("Query FAILED: $query");
+    
+  if (isset($_GET['debug_sql'])) { echo "getDeliveredIssueWithDeadLine QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result)) {
       $issue = IssueCache::getInstance()->getIssue($row->bug_id);
       
@@ -645,11 +661,15 @@ class TimeTracking {
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+      "AND    codev_team_user_table.access_level <> $accessLevel_observer ".
+      "AND (codev_team_user_table.departure_date = 0 or codev_team_user_table.departure_date >=$this->startTimestamp)";
     
     
     
     $result    = mysql_query($query) or die("Query failed: $query");
+    
+  if (isset($_GET['debug_sql'])) { echo "getSystemDisponibilityRate QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result))
     {
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -664,7 +684,7 @@ class TimeTracking {
     
     $prodDays  = $this->getProdDays();
 
-   // echo "DEBUG prodDays $prodDays teamIncidentDays $teamIncidentDays<br/>";
+    //echo "DEBUG prodDays $prodDays teamIncidentDays $teamIncidentDays<br/>";
 
     if (0 != $prodDays) {
       $systemDisponibilityRate = 100 - (($teamIncidentDays / $prodDays)*100);
@@ -696,6 +716,9 @@ class TimeTracking {
     
     
     $result    = mysql_query($query) or die("Query failed: $query");
+    
+  if (isset($_GET['debug_sql'])) { echo "getWorkingDaysPerJob QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result))
     {
       $workingDaysPerJob += $row->duration;
@@ -723,6 +746,9 @@ class TimeTracking {
       "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
     
     $result    = mysql_query($query) or die("Query failed: $query");
+    
+  if (isset($_GET['debug_sql'])) { echo "getWorkingDaysPerProject QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result))
     {
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -752,6 +778,9 @@ class TimeTracking {
     
    
     $result    = mysql_query($query) or die("Query failed: $query");
+    
+  if (isset($_GET['debug_sql'])) { echo "checkCompleteDays QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result))
     {
       $durations[$row->date] += $row->duration;
@@ -838,6 +867,8 @@ class TimeTracking {
       $query     = "SELECT date, duration FROM `codev_timetracking_table` WHERE userid = $userid ORDER BY date";
     }
     
+   if (isset($_GET['debug_sql'])) { echo "checkCompleteDaysOff QUERY = $query <br/>"; }
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -871,6 +902,9 @@ class TimeTracking {
                  "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
     
     $result    = mysql_query($query) or die("Query failed: $query");
+    
+  if (isset($_GET['debug_sql'])) { echo "getProjectDetails QUERY = $query <br/>"; }
+    
     while($row = mysql_fetch_object($result))
     {
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
@@ -924,6 +958,9 @@ class TimeTracking {
     	             "AND mantis_bug_table.project_id in ($formatedProjList)";
     	
     }
+    
+  if (isset($_GET['debug_sql'])) { echo "getWeekDetails QUERY = $query <br/>"; }
+    
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
@@ -993,7 +1030,9 @@ class TimeTracking {
     $query.= "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name ";
     $query2.= "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name ";
    
-
+  if (isset($_GET['debug_sql'])) { echo "getProjectTracks QUERY = $query <br/>"; }
+  if (isset($_GET['debug_sql'])) { echo "getProjectTracks QUERY2 = $query2 <br/>"; } 
+  
     $result    = mysql_query($query) or die("Query failed: $query");
     while($row = mysql_fetch_object($result))
     {
