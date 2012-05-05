@@ -100,7 +100,7 @@ class Team {
       }
       while($row = mysql_fetch_object($result))
       {
-         $this->logger->error("initialize: team $this->id proj $row->project_id type $row->type");
+         $this->logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
          $this->projTypeList[$row->project_id] = $row->type;
       }
 

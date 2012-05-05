@@ -27,6 +27,7 @@ include_once "config_mantis.class.php";
 include_once "project_version.class.php";
 include_once "project_cache.class.php";
 include_once "jobs.class.php";
+include_once "team.class.php";
 
 class Project {
 
@@ -56,6 +57,7 @@ class Project {
 	var $type;
 	var $jobList;
 	var $categoryList;
+	private $teamTypeList;
 
 	private $bug_resolved_status_threshold;
 	private $projectVersionList;
@@ -648,19 +650,144 @@ class Project {
 
    // -----------------------------------------------
    /**
-    * DEPRECATED
+    * returns a list of team_id where the project is defined in
+    *
+    * @return array[teamid] = type
     */
-      public function isSideTasksProject() {
-      $sideTaskProjectType = Project::type_sideTaskProject;
-      return ($sideTaskProjectType == $this->type);
+   public function getTeamTypeList() {
+	   if (NULL == $this->teamTypeList) {
+		   $this->teamTypeList = array();
+		   $query = "SELECT * FROM `codev_team_project_table` WHERE project_id = $this->id ";
+		   $result = mysql_query($query);
+		   if (!$result) {
+			   $this->logger->error("Query FAILED: $query");
+			   $this->logger->error(mysql_error());
+			   echo "<span style='color:red'>ERROR: Query FAILED</span>";
+			   exit;
+		   }
+		   while($row = mysql_fetch_object($result))
+		   {
+			   $this->logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
+			   $this->teamTypeList["$row->team_id"] = $row->type;
+		   }
+	   }
+	   return $this->teamTypeList;
+   }
+
+
+
+   // -----------------------------------------------
+   /**
+    * WARNING (best effort)
+    *
+    * the project type is specific to a team: a project
+    * can be defined as "SideTask" in teamA AND as "NoStats" in
+    * TeamB AND as "Project" in teamC.
+    * - if you know the team, then do not use this method, use the Team class...
+    *
+    * This method will check all teams to which the project is associated.
+    * - if ALL teams define the project as same type, then return type
+    * if it is mixed, then an exception is thrown, because you cannot know.
+    *
+    * @param $teamidList the teams to check. if NULL, check all teams
+    *
+    * @return int project type
+    *
+    * @throws exception if cannot determinate
+    */
+    public function getProjectType($teamidList = NULL) {
+
+	    // --- init teams informations
+	    $this->getTeamTypeList();
+
+	    // if project not defined in any team, then how should I know if sideTask or not ?!
+	    if (0 == count($this->teamTypeList)) {
+	    	 $msg = "Could not determinate type for project $this->id (empty teamList)";
+          $this->logger->warn("getProjectType(): EXCEPTION $msg");
+		    throw new Exception($msg);
+	    }
+
+	    // --- teams not specified, check all teams where project is defined.
+	    if (NULL == $teamidList) {
+		    $teamidList = array_keys($this->teamTypeList);
+	    }
+
+	    // --- compare results
+	    $globalType = NULL;
+	    foreach ($teamidList as $teamid) {
+		    if (NULL == $globalType) {
+			    // first team: set value
+			    $globalType = $this->teamTypeList["$teamid"];
+		    } else {
+			    // next teams: compare to first team
+			    if ($globalType != $this->teamTypeList["$teamid"]) {
+			    	 $msg = "Could not determinate type for project $this->id ! (depends on team)";
+			    	 $this->logger->warn("getProjectType(): EXCEPTION $msg");
+				    throw new Exception($msg);
+			    }
+		    }
+	    }
+
+	    if ($this->logger->isDebugEnabled()) {
+		    $formattedList = implode(',', $teamidList);
+		    $this->logger->debug("getProjectType($formattedList): project $this->id type = $globalType");
+	    }
+	    return $globalType;
    }
 
    // -----------------------------------------------
    /**
-    * DEPRECATED
+    * WARNING (best effort)
+    *
+    * the project type is specific to a team: a project
+    * can be defined as "SideTask" in teamA AND as "NoStats" in
+    * TeamB AND as "Project" in teamC.
+    * - if you know the team, please use Team::isSideTasksProject($projectid)
+    *
+    * This method will check all teams to which the project is associated.
+    * - if ALL teams define the project as "SideTask" then return true.
+    * - if NO  team  define the project as "SideTask" then return false.
+    * if it is mixed, then an exception is thrown, because you cannot know.
+    *
+    * @param $teamidList the teams to check. if NULL, check all teams
+    *
+    * @throws exception if cannot determinate
     */
-   public function isNoStatsProject() {
-		return (Project::type_noStatsProject == $this->type);
+    public function isSideTasksProject($teamidList = NULL) {
+       try {
+       	$type = $this->getProjectType($teamidList);
+       } catch (Exception $e) {
+		    $this->logger->warn("isSideTasksProject(): ".$e->getMessage());
+       }
+       return (Project::type_sideTaskProject == $type);
+    }
+
+
+   // -----------------------------------------------
+   /**
+    * WARNING (best effort)
+    *
+    * the project type is specific to a team: a project
+    * can be defined as "SideTask" in teamA AND as "NoStats" in
+    * TeamB AND as "Project" in teamC.
+    * - if you know the team, please use Team::isNoStatsProject($projectid)
+    *
+    * This method will check all teams to which the project is associated.
+    * - if ALL teams define the project as "NoStats" then return true.
+    * - if NO  team  define the project as "NoStats" then return false.
+    * if it is mixed, then an exception is thrown, because you cannot know.
+    *
+    * @param $teamidList the teams to check. if NULL, check all teams
+    *
+    * @throws exception if cannot determinate
+    */
+   public function isNoStatsProject($teamidList = NULL) {
+       try {
+       	$type = $this->getProjectType($teamidList);
+       } catch (Exception $e) {
+		    $this->logger->warn("isNoStatsProject(): ".$e->getMessage());
+       }
+       return (Project::type_noStatsProject == $type);
 	}
 
 
