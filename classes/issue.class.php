@@ -51,6 +51,7 @@ class Issue {
    public $resolution;
    public $version;  // Product Version
    public $last_updated;
+   private $description;
 
    private $target_version;
 
@@ -171,6 +172,26 @@ class Issue {
       $this->relationships = array();
 
       //DEBUG $this->getRelationships(2500);
+   }
+
+   /**
+    *
+    */
+   public function getDescription() {
+
+      if (NULL == $this->description) {
+	      $query = "SELECT description FROM `mantis_bug_text_table` WHERE id = $this->bugId";
+	      $result = mysql_query($query);
+	      if (!$result) {
+		      $this->logger->error("Query FAILED: $query");
+		      $this->logger->error(mysql_error());
+		      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+		      exit;
+	      }
+	      $row = mysql_fetch_object($result);
+         $this->description = $row->description;
+      }
+      return $this->description;
    }
 
 

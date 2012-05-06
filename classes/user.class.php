@@ -663,7 +663,7 @@ class User {
     * - deadLine
     * - priority
     *
-    * @return Issue list
+    * @return array[bugId] = Issue
     */
    public function getAssignedIssues($projList = NULL, $withResolved = false) {
 
