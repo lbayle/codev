@@ -33,11 +33,11 @@ function genODT($user) {
    	$user = UserCache::getInstance()->getUser($issue->handlerId);
 
 	   $issueSegment->bugId($issue->bugId);
-	   $issueSegment->summary($issue->summary);
+      $issueSegment->summary(utf8_decode($issue->summary));
 	   $issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission));
 	   $issueSegment->currentStatus($statusNames["$issue->currentStatus"]);
-	   $issueSegment->handlerId($user->getRealname());
-	   $issueSegment->description($issue->getDescription());
+	   $issueSegment->handlerId(utf8_decode($user->getRealname()));
+	   $issueSegment->description(utf8_decode($issue->getDescription()));
 	   $issueSegment->merge();
    }
    $odf->mergeSegment($issueSegment);
