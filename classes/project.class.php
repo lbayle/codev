@@ -551,7 +551,7 @@ class Project {
 
    // -----------------------------------------------
    // Job list depends on project type:
-   // if type=1 (SideTask) than only jobs for SideTasks are displayed.
+   // if type=1 (SideTask) then only jobs for SideTasks are displayed.
    // if type=0 (Project) then all jobs which codev_project_job_table.project_id = $this->id
    //                     OR codev_job_table.type = Job::type_commonJob (common jobs)
    public function getJobList() {
@@ -758,6 +758,7 @@ class Project {
        	$type = $this->getProjectType($teamidList);
        } catch (Exception $e) {
 		    $this->logger->warn("isSideTasksProject(): ".$e->getMessage());
+		    throw $e;
        }
        return (Project::type_sideTaskProject == $type);
     }
@@ -786,6 +787,7 @@ class Project {
        	$type = $this->getProjectType($teamidList);
        } catch (Exception $e) {
 		    $this->logger->warn("isNoStatsProject(): ".$e->getMessage());
+		    throw $e;
        }
        return (Project::type_noStatsProject == $type);
 	}

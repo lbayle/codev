@@ -201,6 +201,8 @@ function setCloneProjectForm($originPage, $cur_projectId, $defaultSelection, $li
  * @param $isCodevtt if true, include ExternalTasksProject & SideTasksProjects
  */
 function getProjectList($isCodevtt = false) {
+	global $logger;
+
 	$projectList = array();
 
 	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
@@ -213,10 +215,27 @@ function getProjectList($isCodevtt = false) {
 	while($row = mysql_fetch_object($result))
 	{
 		if (false == $isCodevtt) {
-			$p = ProjectCache::getInstance()->getProject($row->id);
-			if (($extproj_id != $row->id) && (!$p->isSideTasksProject())) {
-				$projectList[$row->id] = $row->name;
+
+			// exclude ExternalTasksProject
+			if ($extproj_id == $row->id) {
+				$logger->debug("project $row->id: ExternalTasksProject is excluded");
+				continue;
 			}
+
+			// exclude SideTasksProjects
+	       try {
+	         $p = ProjectCache::getInstance()->getProject($row->id);
+				if ($p->isSideTasksProject()) {
+					$logger->debug("project $row->id: sideTaskProjects are excluded");
+					continue;
+			   }
+	       } catch (Exception $e) {
+		   	// could not determinate, so the project should be included in the list
+		   	$logger->debug("project $row->id: Unknown type, project included anyway.");
+		   	// nothing to do.
+	       }
+	       $projectList[$row->id] = $row->name;
+
 		} else {
 			$projectList[$row->id] = $row->name;
 		}
@@ -339,7 +358,7 @@ if (!$session_user->isTeamMember($admin_teamid)) {
 
 // -------
 
-$projectList = getProjectList(true);
+$projectList = getProjectList(false);
 
 setProjectForm($originPage, $projectid, $projectList);
 echo "<br/><br/>\n";
