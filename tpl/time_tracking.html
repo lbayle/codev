@@ -1,0 +1,551 @@
+<div id="content" class="center">
+   {if $users || $otherrealname}
+   {if $users}
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#chooseUser").click(function() {
+            // check fields
+            var foundError = 0;
+            var msgString = "Les champs suivants ont ete oublies:\n\n";
+
+            var formUserAndPeriodSelect = jQuery("#formUserAndPeriodSelect");
+            if (0 == formUserAndPeriodSelect.find("select[name=userid]").val()) {
+               msgString += "Nom\n";
+               ++foundError;
+            }
+
+            if (0 == foundError) {
+               formUserAndPeriodSelect.submit();
+            } else {
+               alert(msgString);
+            }
+         });
+      });
+   </script>
+   <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
+      <fieldset>
+         <label for="userid">{t}Name{/t} :</label>
+         <select name="userid" id="userid">
+            <option value="0"></option>
+            {foreach from=$users key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+         </select>
+         <input type="hidden" name="nextForm" value="addTrackForm" />
+         <input id="chooseUser" type="button" value="{t}Jump{/t}" />
+      </fieldset>
+   </form>
+   {/if}
+   {if $otherrealname}
+
+   <h2>{$otherrealname}</h2>
+
+   <br/>
+
+   {if $error}
+   <span style="color:red">{t}ERROR{/t} : {t}Query FAILED{/t} : {t}{$error}{/t}</span>
+   {/if}
+
+   <div>
+      <script type="text/javascript" src="js/datepicker.js"></script>
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+            {if $locale != en}
+               jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+            {/if}
+
+            // Set the date
+            var datePicker = jQuery("#datepicker").datepicker("setDate" ,"{$date}");
+         });
+
+         function setProjectid() {
+            var form1 = jQuery("#form1");
+
+            form1.find("input[name=action]").val("setProjectid");
+
+            // Keep value of Week form
+            form1.find("input[name=weekid]").val(jQuery("#weekid").val());
+            form1.find("input[name=year]").val(jQuery("#year").val());
+
+            form1.submit();
+         }
+
+         function setFilters(){
+            jQuery("#setfilter_dialog_form" ).dialog( "open" );
+         }
+
+         function setBugId() {
+            // if projectId not set: do it, to update categories
+            if (0 == jQuery("#projectid").val()) {
+               var form1 = jQuery("#form1");
+               form1.find("input[name=action]").val("setBugId");
+
+               // Keep value of Week form
+               form1.find("input[name=weekid]").val(jQuery("#weekid").val());
+               form1.find("input[name=year]").val(jQuery("#year").val());
+
+               form1.submit();
+            }
+         }
+
+         function addTrack(){
+            // check fields
+            var foundError = 0;
+            var msgString = "Les champs suivants ont ete oublies:\n\n";
+
+            var form1 = jQuery("#form1");
+
+            //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
+            if (0 == form1.find("select[name=bugid]").val()) { msgString += "Tache\n"; ++foundError; }
+            if (0 == form1.find("select[name=job]").val())   { msgString += "Poste\n";  ++foundError; }
+            if (0 == form1.find("select[name=duree]").val()) { msgString += "Duree\n";  ++foundError; }
+
+            if (0 == foundError) {
+               form1.find("input[name=action]").val("addTrack");
+               form1.submit();
+            } else {
+               alert(msgString);
+            }
+         }
+      </script>
+      <form id="form1" name="form1" method="post" action="{$page}">
+         <fieldset>
+            <label for="datepicker">{t}From{/t}:</label>
+            <input type="text" id="datepicker" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" />
+            {if $projects}
+               <select id="projectid" name="projectid" onchange="javascript: setProjectid()" title="{t}Project{/t}">
+                  <option value="0">{t}(all){/t}</option>
+                  {foreach from=$projects key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+               </select>
+            {/if}
+            <a title="{t}Set filters{/t}" href="javascript: setFilters()" style="text-decoration: none">
+               {if $isOnlyAssignedTo || $isHideResolved}
+               <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter-active.png" alt="{t}Set filters{/t}" />
+               {else}
+               <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="{t}Set filters{/t}" />
+               {/if}
+            </a>
+            <select id="bugid" name="bugid" style="width: 600px;" onchange="javascript: setBugId()" title="{t}Task{/t}">
+               {if count($issues) > 1}
+               <option value="0"></option>
+               {/if}
+               {foreach from=$issues key=id item=i}
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id} / {$i.tcId} : {$i.summary}</option>
+               {/foreach}
+            </select>
+            {if $jobs}
+            <select id="job" name="job" title="{t}Job{/t}" style="width: 100px;" >
+               {if count($jobs) > 1}
+               <option value="0"></option>
+               {/if}
+               {foreach from=$jobs key=id item=i}
+                  <option value="{$id}">{$i}</option>
+               {/foreach}
+            </select>
+            {/if}
+            <select id="duree" name="duree" title="{t}Duration (in days){/t}">
+               <option value="0"></option>
+               <option value="1">{t}1 day{/t}</option>
+               <option value="0.9">0.9</option>
+               <option value="0.8">0.8</option>
+               <option value="0.75">0.75</option>
+               <option value="0.7">0.7</option>
+               <option value="0.6">0.6</option>
+               <option value="0.5">0.5</option>
+               <option value="0.4">0.4</option>
+               <option value="0.3">0.3</option>
+               <option value="0.25">0.25</option>
+               <option value="0.2">0.2</option>
+               <option value="0.1">0.1</option>
+               <option value="0.05">0.05</option>
+            </select>
+            <input type="hidden" name="trackid" value="unknown1" />
+            <input type="hidden" name="action" value="noAction" />
+            <input type="hidden" name="nextForm" value="addTrackForm" />
+            <input type="hidden" name="year" value="{$year}" />
+            <input type="hidden" name="weekid" value="{$weekid}" />
+            <input type="hidden" name="userid" value="{$userid}" />
+            <input type="button" name="btAddTrack" value="{t}Add{/t}" onclick="javascript: addTrack()" />
+         </fieldset>
+      </form>
+   </div>
+
+   <br/>
+   <br/>
+
+   <div align="center">
+      <script type="text/javascript">
+         function submitWeekid() {
+            var formUpdateWeek = jQuery("#formUpdateWeek");
+            formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
+            formUpdateWeek.find("input[name=bugid]").val(jQuery("#bugid").val());
+            formUpdateWeek.submit();
+         }
+
+         function previousWeek() {
+            var formUpdateWeek = jQuery("#formUpdateWeek");
+            formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
+            formUpdateWeek.find("input[name=bugid]").val(jQuery("#bugid").val());
+
+            var weekid = jQuery("#weekid").val();
+            if (1 != weekid) {
+               formUpdateWeek.find("select[name=weekid]").val(--weekid);
+            }
+            formUpdateWeek.submit();
+         }
+
+         function nextWeek() {
+            var formUpdateWeek = jQuery("#formUpdateWeek");
+            formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
+            formUpdateWeek.find("input[name=bugid]").val(jQuery("#bugid").val());
+
+            var weekid = jQuery("#weekid").val();
+            if (weekid <= 52) {
+               formUpdateWeek.find("select[name=weekid]").val(++weekid);
+            } else {
+               formUpdateWeek.find("select[name=weekid]").val(1);
+               var year = jQuery("#year").val();
+               formUpdateWeek.find("select[name=year]").val(++year);
+            }
+            formUpdateWeek.submit();
+         }
+      </script>
+      <form id="formUpdateWeek" name="formUpdateWeek" method="post" action="{$page}">
+         <fieldset>
+            <label>{t}Week{/t}</label>
+            <input type="button" title="{t}Previous week{/t}" value="&lt;&lt;" onclick="javascript: previousWeek()" />
+            <select id="weekid" name="weekid" onchange="javascript: submitWeekid()">
+               {foreach from=$weeks key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.value}</option>
+               {/foreach}
+            </select>
+            <select id="year" name="year" onchange="javascript: submitWeekid()">
+               {foreach from=$years key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}</option>
+               {/foreach}
+            </select>
+            <input type="button" title="{t}Next week{/t}" value="&gt;&gt;" onclick="javascript: nextWeek()" />
+
+            <input type="hidden" name="projectid" value="{$defaultProjectid}" />
+            <input type="hidden" name="bugid" value="{$defaultBugid}" />
+
+            <input type="hidden" name="action" value="updateWeekDisplay" />
+            <input type="hidden" name="nextForm" value="addTrackForm" />
+         </fieldset>
+      </form>
+      <script type="text/javascript">
+         function updateRemaining(remaining, description, bugid, dialogBoxTitle){
+            jQuery( "#remaining" ).val(remaining);
+            jQuery( "#validateTips" ).text(description);
+
+            jQuery( "#formUpdateRemaining" ).find("input[name=bugid]").val(bugid);
+
+            jQuery( "#update_remaining_dialog_form" ).dialog("option", "title", dialogBoxTitle);
+            jQuery( "#update_remaining_dialog_form" ).dialog( "open" );
+         }
+      </script>
+      <table id="weekTaskDetails">
+         <tr>
+            <th>{t}Task{/t}</th>
+            <th>{t}RAF{/t}</th>
+            <th>{t}Job{/t}</th>
+            <th width="80">{$weekDates[1]|date_format:"%A %d %B"|capitalize:true}</th>
+            <th width="80">{$weekDates[2]|date_format:"%A %d %B"|capitalize:true}</th>
+            <th width="80">{$weekDates[3]|date_format:"%A %d %B"|capitalize:true}</th>
+            <th width="80">{$weekDates[4]|date_format:"%A %d %B"|capitalize:true}</th>
+            <th width="80">{$weekDates[5]|date_format:"%A %d %B"|capitalize:true}</th>
+            <th width="80" style="background-color: #D8D8D8;">{$weekDates[6]|date_format:"%A %d %B"|capitalize:true}</th>
+            <th width="80" style="background-color: #D8D8D8;">{$weekDates[7]|date_format:"%A %d %B"|capitalize:true}</th>
+         </tr>
+         {foreach from=$weekTasks key=issueId item=i}
+         <tr>
+            <td>{$i.issueURL} / {$i.issueId} : {$i.summary}</td>
+            <td><a title="{t}update remaining{/t}" href="javascript: updateRemaining('{$i.remaining}',
+               '{$i.description}', '{$i.bugid}', '{$i.dialogBoxTitle}')">{$i.formattedRemaining}</a>
+            </td>
+            <td>{$i.jobName}</td>
+            {foreach from=$i.dayTasks key=day item=j}
+            <td {$j.bgColor} {$j.title}>{$j.day}</td>
+            {/foreach}
+         </tr>
+         {/foreach}
+      </table>
+   </div>
+
+   <br/><br/>
+
+   <div align="center">
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+            jQuery("#accordion").accordion({
+               collapsible: true
+            });
+         });
+      </script>
+      <div id="accordion" style="width:350px;" >
+         <h3><a href="#">{t}Dates manquantes{/t}</a></h3>
+         <div align="left" style="height:250px;">
+            <table class="invisible">
+               {foreach from=$warnings item=i}
+               <tr style="color:red">
+                  <td>{$i.date}</td>
+                  <td>{$i.value}</td>
+               </tr>
+               {/foreach}
+            </table>
+         </div>
+      </div>
+   </div>
+
+   <br/><br/>
+
+   <div align="center">
+      <script type="text/javascript">
+         function deleteTrack(trackid, date, bugid, duration, job, description){
+            jQuery( "#desc_date" ).text(date);
+            jQuery( "#desc_id" ).text(bugid);
+            jQuery( "#desc_duration" ).text(duration);
+            jQuery( "#desc_job" ).text(job);
+            jQuery( "#desc_summary" ).text(description);
+
+            jQuery( "#formDeleteTrack" ).find("input[name=trackid]").val(trackid);
+
+            jQuery( "#deleteTrack_dialog_form" ).dialog( "open" );
+         }
+      </script>
+      <table>
+         <caption>{t}Imputations{/t}</caption>
+         <tr>
+            <th></th>
+            <th>{t}Date{/t}</th>
+            <th title="Mantis ID">{t}ID{/t}</th>
+            <th>{t}Ext.ID{/t}</th>
+            <th>{t}Duration{/t}</th>
+            <th>{t}Project{/t}</th>
+            <th>{t}Description{/t}</th>
+            <th>{t}Job{/t}</th>
+            <th>{t}Category{/t}</th>
+            <th>{t}Status{/t}</th>
+         </tr>
+
+         {foreach from=$timetrackingTuples key=id item=i}
+         <tr class ="{$i.class}">
+            <td>
+               <a title="{t}delete this row{/t}" href="javascript: deleteTrack('{$i.id}','{$i.date}',
+                  '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}')">
+                  <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
+               </a>
+            </td>
+            <td width="170">{$i.cosmeticDate}</td>
+            <td>{$i.issueURL}</td>
+            <td>{$i.issueId}</td>
+            <td>{$i.duration}</td>
+            <td>{$i.projectName}</td>
+            <td>{$i.issueSummary}</td>
+            <td>{$i.jobName}</td>
+            <td>{$i.categoryName}</td>
+            <td>{$i.currentStatusName}</td>
+         </tr>
+         {/foreach}
+      </table>
+   <div>
+
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#setfilter_dialog_form" ).dialog({
+            autoOpen: false,
+            height: 250,
+            width: 500,
+            modal: true,
+            buttons: {
+               Ok: function() {
+                  jQuery("#formSetFilters").submit();
+               },
+               Cancel: function() {
+                  jQuery(this).dialog( "close" );
+               }
+            }
+         });
+      });
+   </script>
+   <div id="setfilter_dialog_form" title="{t}Task Filters{/t}" style="display: none">
+      <p id="setfilter_desc">{t}Reduce the tasks selection by setting some filters{/t}</p>
+      <form id="formSetFilters" name="formSetFilters" method="post" action="{$page}" >
+         <fieldset>
+            <input type="checkbox" id="cb_onlyAssignedTo" name="cb_onlyAssignedTo" {if $isOnlyAssignedTo} checked="checked" {/if}/>
+            <label for="cb_onlyAssignedTo">{t}Hide tasks not assigned to me{/t}</label>
+            <br />
+            <input type="checkbox" id="cb_hideResolved" name="cb_hideResolved" {if $isHideResolved} checked="checked" {/if}/>
+            <label for="cb_hideResolved">{t}Hide resolved tasks{/t}</label>
+            <input type="hidden" name="userid" value="{$userid}" />
+            <input type="hidden" name="projectid" value="{$defaultProjectid}" />
+            <input type="hidden" name="bugid" value="{$defaultBugid}" />
+            <input type="hidden" name="weekid" value="{$weekid}" />
+            <input type="hidden" name="year" value="{$year}" />
+            <input type="hidden" name="action" value="setFiltersAction" />
+            <input type="hidden" name="nextForm" value="addTrackForm" />
+         </fieldset>
+      </form>
+   </div>
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         var remaining = jQuery( "#remaining" ),
+               tips = jQuery( "#validateTips" ),
+               isOnlyAssignedTo = jQuery( "#cb_onlyAssignedTo" ),
+               isHideResolved = jQuery( "#cb_hideResolved" ),
+               allFields = jQuery( [] ).add( remaining );
+
+         function updateTips( t ) {
+            tips.text( t )
+                  .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+               tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+         }
+
+         function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+               o.addClass( "ui-state-error" );
+               updateTips( n );
+               return false;
+            } else {
+               return true;
+            }
+         }
+
+         jQuery( "#update_remaining_dialog_form" ).dialog({
+            autoOpen: false,
+            height: 200,
+            width: 500,
+            modal: true,
+            open: function() {
+               // Select input field contents
+               jQuery( "#remaining" ).select();
+            },
+            buttons: {
+               "Update": function() {
+                  jQuery("#formUpdateRemaining").submit();
+               },
+               Cancel: function() {
+                  jQuery( this ).dialog( "close" );
+               }
+            },
+            close: function() {
+               allFields.val( "" ).removeClass( "ui-state-error" );
+            }
+         });
+
+         jQuery("#formUpdateRemaining").submit(function(event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var bValid = true;
+            allFields.removeClass( "ui-state-error" );
+            bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
+
+            if ( bValid ) {
+               /* get some values from elements on the page: */
+               var formUpdateRemaining = $(this);
+               var url = formUpdateRemaining.attr("action");
+               var actionName = formUpdateRemaining.find("input[name=action]").val();
+               var remaining1 = formUpdateRemaining.find("input[name=remaining]").val();
+               var bugid = formUpdateRemaining.find("input[name=bugid]").val();
+
+               var userid = formUpdateRemaining.find("input[name=userid]").val();
+               var weekid = formUpdateRemaining.find("input[name=weekid]").val();
+               var year = formUpdateRemaining.find("input[name=year]").val();
+
+               jQuery.ajax({
+                  type: "GET",
+                  url: url,
+                  data: "action="+actionName+"&remaining="+remaining1+"&bugid="+bugid+"&weekid="+weekid+"&year="+year+"&userid="+userid,
+                  success: function(data) {
+                     jQuery("#weekTaskDetails").html(jQuery.trim(data));
+                  }
+               });
+
+               jQuery( "#update_remaining_dialog_form" ).dialog( "close" );
+            }
+         });
+      });
+   </script>
+   <div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style="display: none">
+      <p id="validateTips">Set new value</p>
+      <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="timetracking/time_tracking_tools.php" >
+         <fieldset>
+            <label for="remaining">{t}Remaining{/t} :</label>
+            <input type="text" id="remaining" name="remaining" size="3" class="text" />
+            <input type="hidden" name="bugid"  value="0" />
+            <input type="hidden" name="action" value="updateRemainingAction" />
+
+            <input type="hidden" name="userid" value="{$userid}" />
+            <input type="hidden" name="weekid" value="{$weekid}" />
+            <input type="hidden" name="year" value="{$year}" />
+         </fieldset>
+      </form>
+   </div>
+
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         // delete track dialogBox
+         jQuery("#deleteTrack_dialog_form" ).dialog({
+            autoOpen: false,
+            resizable: true,
+            width: "auto",
+            modal: true,
+            buttons: {
+               "Delete": function() {
+                  jQuery("#formDeleteTrack").submit();
+               },
+               Cancel: function() {
+                  jQuery( this ).dialog( "close" );
+               }
+            }
+         });
+      });
+   </script>
+   <div id="deleteTrack_dialog_form" title="{t}Delete track{/t}" style="display: none">
+      <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{t}Deleted the following timetrack ?{/t}</p>
+      <table class="invisible">
+         <tr>
+            <td><span style="font-weight:bold;">{t}Date{/t} :</span></td>
+            <td id="desc_date">date</td>
+         </tr>
+         <tr>
+            <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
+            <td id="desc_id">id</td>
+         </tr>
+         <tr>
+            <td><span style="font-weight:bold;">{t}Duration{/t} :</span></td>
+            <td id="desc_duration">duration</td>
+         </tr>
+         <tr>
+            <td><span style="font-weight:bold;">{t}Job{/t} :</span></td>
+            <td id="desc_job">job</td>
+         </tr>
+         <tr>
+            <td><span style="font-weight:bold;">{t}Summary{/t} :</span></td>
+            <td id="desc_summary">summary</td>
+          </tr>
+      </table>
+      <form id="formDeleteTrack" name="formDeleteTrack" method="post" action="{$page}" >
+         <fieldset>
+            <input type="hidden" name="trackid" value="0" />
+            <input type="hidden" name="action"  value="deleteTrack" />
+
+            <input type="hidden" name="nextForm" value="addTrackForm" />
+            <input type="hidden" name="userid" value="{$userid}" />
+            <input type="hidden" name="weekid" value="{$weekid}" />
+            <input type="hidden" name="year" value="{$year}" />
+         </fieldset>
+      </form>
+   </div>
+
+   {/if}
+   {else}
+   <p>{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+   {/if}
+
+</div>
