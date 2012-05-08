@@ -25,13 +25,62 @@ include_once "issue_cache.class.php";
  */
 class Status {
 
-   var $statusId; // new=10, ack=30, ...
-   var $duration; // in sec since 1970 (unix timestamp)
+   public $statusId; // new=10, ack=30, ...
+   public $duration; // in sec since 1970 (unix timestamp)
 
    function Status($s, $d) {
       $this->statusId = $s;
       $this->duration = $d;
    }
+}
+
+class IssueNote {
+   public $id;
+   public $bug_id;
+   public $reporter_id;
+   public $date_submitted;
+   public $note;
+
+   private $bugnote_text_id;
+
+   // ----------------------------------------------
+   public function __construct($id) {
+      $this->logger = Logger::getLogger(__CLASS__);
+
+      $this->id = $id;
+
+      $this->initialize();
+   }
+
+   private function initialize() {
+
+      // Get bugnote info
+      $query = "SELECT mantis_bugnote_table.bug_id, mantis_bugnote_table.reporter_id, ".
+               "mantis_bugnote_table.bugnote_text_id, mantis_bugnote_table.date_submitted, ".
+               "mantis_bugnote_text_table.note ".
+               "FROM `mantis_bugnote_table`, `mantis_bugnote_text_table` ".
+               "WHERE mantis_bugnote_table.id = $this->id ".
+               "AND mantis_bugnote_table.bugnote_text_id = mantis_bugnote_text_table.id ".
+               "ORDER BY mantis_bugnote_table.date_submitted";
+
+      $result = mysql_query($query);
+       if (!$result) {
+              $this->logger->error("Query FAILED: $query");
+              $this->logger->error(mysql_error());
+              echo "<span style='color:red'>ERROR: Query FAILED</span>";
+              exit;
+      }
+      $row = mysql_fetch_object($result);
+
+      $this->bug_id          = $row->bug_id;
+      $this->reporter_id     = $row->reporter_id;
+      $this->bugnote_text_id = $row->bugnote_text_id;
+      $this->date_submitted  = $row->date_submitted;
+      $this->note            = $row->note;
+
+
+   }
+
 }
 
 class Issue {
@@ -51,12 +100,12 @@ class Issue {
    public $resolution;
    public $version;  // Product Version
    public $last_updated;
+
    private $description;
-
    private $target_version;
-
-
    private $relationships; // array[relationshipType][bugId]
+   private $IssueNoteList;
+
 	/*
 	 * REM:
 	 * previous versions of CoDev used the mantis ETA field
@@ -88,7 +137,7 @@ class Issue {
    public $bug_resolved_status_threshold;
 
    // ----------------------------------------------
-   public function Issue ($id) {
+   public function __construct($id) {
       $this->logger = Logger::getLogger(__CLASS__);
 
       $this->bugId = $id;
@@ -144,7 +193,7 @@ class Issue {
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-            while($row = mysql_fetch_object($result2))
+      while($row = mysql_fetch_object($result2))
       {
          switch ($row->field_id) {
             case $tcCustomField:              $this->tcId            = $row->value; break;
@@ -194,6 +243,27 @@ class Issue {
       return $this->description;
    }
 
+   /**
+    *
+    */
+   public function getIssueNoteList() {
+
+      if (NULL == $this->IssueNoteList) {
+	      $query = "SELECT id FROM `mantis_bugnote_table` WHERE bug_id = $this->bugId";
+	      $result = mysql_query($query);
+	      if (!$result) {
+		      $this->logger->error("Query FAILED: $query");
+		      $this->logger->error(mysql_error());
+		      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+		      exit;
+	      }
+	      $this->IssueNoteList = array();
+	      while($row = mysql_fetch_object($result)) {
+	      	$this->IssueNoteList["$row->id"] = new IssueNote($row->id);
+	      }
+      }
+      return $this->IssueNoteList;
+   }
 
    /**
     * returns a Holidays class instance
