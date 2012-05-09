@@ -71,8 +71,15 @@ class Project {
 	public function Project($id) {
 	   $this->logger = Logger::getLogger(__CLASS__);
 
-      $this->id = $id;
-	  if (0 != $id) { $this->initialize(); }
+	   if (0 == $id) {
+	      echo "<span style='color:red'>ERROR: An error has occurred. Please contact your CodevTT administrator</span>";
+	      $e = new Exception("Creating a Project with id=0 is not allowed.");
+	      $this->logger->error("Project constructor: ".$e->getMessage()."\n".$e->getTraceAsString());
+	      throw $e;
+	   }
+
+	   $this->id = $id;
+	   $this->initialize();
    }
 
    // -----------------------------------------------

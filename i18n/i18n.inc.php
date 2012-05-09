@@ -28,10 +28,6 @@ putenv('LC_MESSAGES='.$locale);
 T_setlocale(LC_ALL,$locale);
 T_setlocale(LC_CTYPE,$locale);
 
-if($locale == "fr") {
-   setlocale(LC_ALL, "French");
-}
-
 # we want 3.5 always to be displayed '3.5' and not '3,5'
 setlocale(LC_NUMERIC,"en-US");
 

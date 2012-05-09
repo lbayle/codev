@@ -208,8 +208,6 @@ function setProjectSelectionForm($teamid, $defaultProjectid) {
 
    echo "<form id='projectSelectionForm'>\n";
 
-  $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
-
    // --- Project List
    $query  = "SELECT mantis_project_table.id, mantis_project_table.name ".
                  "FROM `codev_team_project_table`, `mantis_project_table` ".

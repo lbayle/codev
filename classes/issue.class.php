@@ -140,8 +140,14 @@ class Issue {
    public function __construct($id) {
       $this->logger = Logger::getLogger(__CLASS__);
 
-      $this->bugId = $id;
+      if (0 == $id) {
+         echo "<span style='color:red'>ERROR: An error has occurred. Please contact your CodevTT administrator</span>";
+         $e = new Exception("Creating an Issue with id=0 is not allowed.");
+         $this->logger->error("Issue constructor: ".$e->getMessage()."\n".$e->getTraceAsString());
+         throw $e;
+      }
 
+      $this->bugId = $id;
       $this->initialize();
    }
 

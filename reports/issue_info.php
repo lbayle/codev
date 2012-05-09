@@ -139,8 +139,6 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    echo "<div style='text-align: center;'>";
    echo "<form name='form1' method='post' Action='$originPage'>\n";
 
-   $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
-
    // Project list
    echo "&nbsp;";
    echo "&nbsp;";
@@ -165,7 +163,8 @@ function displayIssueSelectionForm($originPage, $user1, $projList, $defaultBugid
    #echo "&nbsp;";
 
    // --- Task list
-   if (0 != $project1->id) {
+   if (0 != $defaultProjectid) {
+      $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
       $issueList = $project1->getIssueList();
    } else {
        // no project specified: show all tasks
@@ -586,18 +585,19 @@ if (0 == count($teamList)) {
 
 } else {
 
-    $issue = IssueCache::getInstance()->getIssue($bug_id);
 
 	displayIssueSelectionForm($originPage, $user, $projList, $bug_id, $defaultProjectid);
 
     if ("updateRemainingAction" == $action) {
 
-	   $issue->setRemaining($remaining);
+      $issue = IssueCache::getInstance()->getIssue($bug_id);
+      $issue->setRemaining($remaining);
 	   $action = "displayBug";
 	}
 
 	if ("displayBug" == $action) {
-     $handler = UserCache::getInstance()->getUser($issue->handlerId);
+      $issue = IssueCache::getInstance()->getIssue($bug_id);
+	   $handler = UserCache::getInstance()->getUser($issue->handlerId);
 
 	  echo "<br/><br/>\n";
 
