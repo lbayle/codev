@@ -18,18 +18,11 @@ include_once('../include/session.inc.php');
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once '../path.inc.php';
+require('../path.inc.php');
+
+require('super_header.inc.php');
+
 include_once 'i18n.inc.php';
-
-if (!isset($_SESSION['userid'])) {
-  echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
-  exit;
-}
-
-include_once "tools.php";
-include_once "mysql_connect.inc.php";
-include_once "internal_config.inc.php";
-include_once "constants.php";
 
 include_once "issue.class.php";
 include_once "user.class.php";
@@ -41,6 +34,10 @@ $logger = Logger::getLogger("time_tracking_tools");
 
 // MAIN
 if(isset($_GET['action'])) {
+   if (!isset($_SESSION['userid'])) {
+      header('HTTP/1.1 403 Forbidden');
+      exit;
+   }
    if($_GET['action'] == 'updateRemainingAction') {
       $issue = IssueCache::getInstance()->getIssue($_GET['bugid']);
       if (NULL != $_GET['remaining']) {
