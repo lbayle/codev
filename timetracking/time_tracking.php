@@ -90,7 +90,7 @@ function getProjects($defaultProjectid, $projectList) {
 
 /**
  * Get issues
- * @param unknown_type $project1
+ * @param int $projectid
  * @param boolean $isOnlyAssignedTo
  * @param unknown_type $user1
  * @param array $projList
@@ -98,8 +98,11 @@ function getProjects($defaultProjectid, $projectList) {
  * @param int $defaultBugid
  * @return array
  */
-function getIssues($project1, $isOnlyAssignedTo, $user1, $projList, $isHideResolved, $defaultBugid) {
-   if (0 != $project1->id) {
+function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideResolved, $defaultBugid) {
+   if (0 != $projectid) {
+      // Project list
+      $project1 = ProjectCache::getInstance()->getProject($projectid);
+
       // do not filter on userId if SideTask or ExternalTask
       if (($isOnlyAssignedTo) && (!$project1->isSideTasksProject()) && (!$project1->isNoStatsProject())) {
          $handler_id = $user1->id;
@@ -141,13 +144,16 @@ function getIssues($project1, $isOnlyAssignedTo, $user1, $projList, $isHideResol
 
 /**
  * get Job list
- * @param unknown_type $project1
+ * @param int $projectid
  * @return array
  */
-function getJobs($project1) {
+function getJobs($projectid) {
    global $logger;
 
-   if (0 != $project1->id) {
+   if (0 != $projectid) {
+      // Project list
+      $project1 = ProjectCache::getInstance()->getProject($projectid);
+
       $jobList = $project1->getJobList();
    } else {
       $query = "SELECT id, name FROM `codev_job_table` ";
@@ -337,12 +343,9 @@ if ($_POST['nextForm'] == "addTrackForm") {
    $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
    $smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
 
-   // Project list
-   $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
+   $smartyHelper->assign('issues', getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user, $projList, $isHideResolved, $defaultBugid));
 
-   $smartyHelper->assign('issues', getIssues($project1, $isOnlyAssignedTo, $managed_user, $projList, $isHideResolved, $defaultBugid));
-
-   $smartyHelper->assign('jobs', getJobs($project1));
+   $smartyHelper->assign('jobs', getJobs($defaultProjectid));
 
    $smartyHelper->assign('weeks', getWeeks($weekid, $year));
    $smartyHelper->assign('years', getYears($year));
