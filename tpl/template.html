@@ -78,6 +78,17 @@
             </table>
         </div>
         
+        {if $menu2}
+        <br/>
+        <br/>
+        <br/>
+        <div id="menu">
+            {include file="$menu2"}
+        </div>
+        <br/>
+        <br/>
+        {/if}
+        
         <div id="main">
             {include file="$tpl_name.html"}
             <hr style="margin-top:2em;" />

@@ -648,6 +648,7 @@ function addAstreinteForm($originPage, $teamid) {
    global $logger;
 
 	$astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
+	$team = TeamCache::getInstance()->getTeam($teamid);
 
 	// --- get SideTasksProject Inactivity Issues
 
@@ -661,9 +662,9 @@ function addAstreinteForm($originPage, $teamid) {
 
 	$inactivityCatList = array();
 	foreach ($projList as $pid => $pname) {
-		$p = ProjectCache::getInstance()->getProject($pid);
-		if ($p->isSideTasksProject()) {
-			#$stprojList[] = $pid;
+		if ($team->isSideTasksProject($pid)) {
+		   $p = ProjectCache::getInstance()->getProject($pid);
+		   #$stprojList[] = $pid;
 			$inactivityCatList[$pid] = $p->getInactivityCategoryId();
 		}
 	}

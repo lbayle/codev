@@ -163,12 +163,12 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
 	   if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
            ($user1->isTeamManager($teamid, $startT, $endT))) {
 
-		    $daysOf = $user1->getDaysOfInMonth($startT, $endT);
+		    $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
 
 		    $astreintes = $user1->getAstreintesInMonth($startT, $endT);
 
 			if ($isExternalTasks) {
-               $externalTasks = $user1->getExternalTasksInMonth($startT, $endT);
+               $externalTasks = $user1->getExternalTasksInPeriod($startT, $endT);
 			} else {
                $externalTasks = array();
 			}
@@ -178,16 +178,17 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
 
 		    for ($i = 1; $i <= $nbDaysInMonth; $i++) {
 
+		       $timestamp = mktime(0,0,0,$month,$i,$year);
 
-            if (isset($externalTasks["$i"]) && (NULL != $externalTasks["$i"])) {
-              echo "<td style='background-color: #$green2; text-align: center;' title='".T_("ExternalTask")."'>".$externalTasks[$i]."</td>\n";
+            if (isset($externalTasks["$timestamp"]) && (NULL != $externalTasks["$timestamp"])) {
+              echo "<td style='background-color: #$green2; text-align: center;' title='".T_("ExternalTask")."'>".$externalTasks["$timestamp"]."</td>\n";
 
             } elseif (isset($astreintes["$i"]) && (NULL != $astreintes["$i"])) {
-              echo "<td style='background-color: #$yellow; text-align: center;' title='".T_("OnDuty")."'>".$daysOf[$i]."</td>\n";
+              echo "<td style='background-color: #$yellow; text-align: center;' title='".T_("OnDuty")."'>".$daysOf["$timestamp"]."</td>\n";
 
-            } elseif (isset($daysOf["$i"]) && (NULL != $daysOf["$i"])) {
+            } elseif (isset($daysOf["$timestamp"]) && (NULL != $daysOf["$timestamp"])) {
 
-		        echo "<td style='background-color: #$green; text-align: center;'>".$daysOf[$i]."</td>\n";
+		        echo "<td style='background-color: #$green; text-align: center;'>".$daysOf["$timestamp"]."</td>\n";
 		      } else {
 
               // If weekend or holiday, display gray

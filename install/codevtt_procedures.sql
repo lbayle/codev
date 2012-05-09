@@ -4,7 +4,6 @@
 -- Get project_id bug_resolved_status_threshold value from Mantis config
 -- or (if not found) the default value defined in CodevTT config
 -- -----------------------------------------------------
-DROP FUNCTION IF EXISTS get_project_resolved_status_threshold;
 
 DELIMITER |
 CREATE FUNCTION get_project_resolved_status_threshold(proj_id INT) 
@@ -33,7 +32,6 @@ DELIMITER ;
 -- Get project_id bug_resolved_status_threshold value from Mantis config
 -- or (if not found) the default value defined in CodevTT config
 -- -----------------------------------------------------
-DROP FUNCTION IF EXISTS get_issue_resolved_status_threshold;
    
 DELIMITER |
 CREATE FUNCTION get_issue_resolved_status_threshold(bug_id INT) 

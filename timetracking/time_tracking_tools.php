@@ -35,6 +35,7 @@ include_once "issue.class.php";
 include_once "user.class.php";
 include_once "time_tracking.class.php";
 include_once "holidays.class.php";
+include_once "team.class.php";
 
 $logger = Logger::getLogger("time_tracking_tools");
 
@@ -263,6 +264,7 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
    global $logger;
 
    $holidays = Holidays::getInstance();
+   #$team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
 
    $weekTracks = $timeTracking->getWeekDetails($userid);
    echo "<table id='weekTaskDetails'>\n";
@@ -299,13 +301,13 @@ function displayWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $cu
          // if no remaining set, display a '?' to allow Remaining edition
          if (NULL == $issue->remaining) {
 
-            $project = ProjectCache::getInstance()->getProject($issue->projectId);
-            if (($project->isSideTasksProject()) || ($project->isNoStatsProject())) {
+            #if (($team->isSideTasksProject($issue->projectId)) ||
+            #    ($team->isNoStatsProject($issue->projectId))) {
             	// do not allow to edit sideTasks Remaining
             	$formattedRemaining = '';
-            } else {
-               $formattedRemaining = '?';
-            }
+            #} else {
+            #   $formattedRemaining = '?';
+            #}
          } else {
          	$formattedRemaining = $issue->remaining;
          }

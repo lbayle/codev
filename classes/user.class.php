@@ -20,6 +20,7 @@ include_once "user_cache.class.php";
 include_once "issue.class.php";
 include_once "team.class.php";
 include_once "holidays.class.php";
+include_once "time_track.class.php";
 
 /**
  * MANTIS CoDev User Authorization Management
@@ -231,11 +232,9 @@ class User {
 
    // --------------------
    /**
-    * returns an array $daysOf[day] = $row->duration;
-    * where day in [1..31]
-    * REM: period cannot exceed 1 month.
+    * returns an array $daysOf[date] = $row->duration;
     */
-   public function getDaysOfInMonth($startTimestamp, $endTimestamp) {
+   public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
     $daysOf = array();  // day => duration
 
     $query     = "SELECT bugid, date, duration ".
@@ -253,10 +252,10 @@ class User {
 
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ($issue->isVacation()) {
-      	if (isset($daysOf[date("j", $row->date)])) {
-           $daysOf[date("j", $row->date)] += $row->duration;
+      	if (isset($daysOf[$row->date])) {
+           $daysOf[$row->date] += $row->duration;
       	} else {
-           $daysOf[date("j", $row->date)]  = $row->duration;
+           $daysOf[$row->date]  = $row->duration;
       	}
         //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
       }
@@ -295,38 +294,6 @@ class User {
     return $astreintes;
   }
 
-   // --------------------
-   /**
-    *
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
-    */
-   public function getExternalTasksInMonth($startTimestamp, $endTimestamp) {
-    $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
-
-	$externalTasks = array();  // day => duration
-
-    $query     = "SELECT bugid, date, duration ".
-                 "FROM `codev_timetracking_table` ".
-                 "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
-                 "AND userid = $this->id";
-    $result    = mysql_query($query);
-    if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-    }
-    while($row = mysql_fetch_object($result)) {
-
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-	  if ($issue->projectId == $extproj_id) {
-        $externalTasks[date("j", $row->date)] += $row->duration;
-        $this->logger->debug("user $this->userid externalTasks[".date("j", $row->date)."] = ".$externalTasks[date("j", $row->date)]." (+$row->duration)<br/>");
-      }
-    }
-    return $externalTasks;
-  }
 
   // --------------------
   /**
@@ -409,7 +376,7 @@ class User {
         }
       }
 
-      $nbDaysOf = array_sum($this->getDaysOfInMonth($startT, $endT));
+      $nbDaysOf = array_sum($this->getDaysOfInPeriod($startT, $endT));
       $prodDaysForecast = $nbOpenDaysInPeriod - $nbDaysOf;
 
       // remove externalTasks timetracks
@@ -422,7 +389,59 @@ class User {
       return $prodDaysForecast;
    }
 
+   // --------------------
+   /**
+    * Nb days spent on tasks in the period (no holidays, no external tasks)
+    *
+    * Note: including non-inactivity sideTasks (cat_management, cat_tools, cat_workshop)
+    *
+    * (consommé sur la periode)
+    *
+    * @param unknown_type $startTimestamp
+    * @param unknown_type $endTimestamp
+    * @param unknown_type $team_id
+    *
+    * @return array[bug_id] = duration
+    */
+   public function getWorkloadPerTask($startTimestamp, $endTimestamp, $team_id = NULL) {
 
+      $workloadPerTaskList = array();
+
+      $query = "SELECT id FROM `codev_timetracking_table` ".
+            "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
+            "AND userid = $this->id";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      $team = TeamCache::getInstance()->getTeam($team_id);
+      if (NULL != $team_id) {
+         $projectList = Team::getProjectList($team_id);
+      }
+
+      while($row = mysql_fetch_object($result)) {
+         $timetrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
+
+         // exclude projects not in team list
+         // exclude externalTasks & NoStatsProjects
+         if (NULL != $projectList) {
+            if (!in_array($timetrack, array_keys($projectList))) {
+               continue;
+            }
+         }
+
+         // exclude Inactivity tasks
+         if ($team->isSideTasksProject($timetrack->projectId))
+
+         $workloadPerTaskList["$timetrack->bugId"] += $timetrack->duration;
+      }
+
+      return $workloadPerTaskList;
+   }
 
 
    // --------------------
@@ -593,13 +612,13 @@ class User {
    /**
     * sum the RAF (or mgrEffortEstim if no RAF defined) of all the opened Issues assigned to me.
     */
-   public function getWorkload($projList = NULL) {
+   public function getForecastWorkload($projList = NULL) {
 
       $totalRemaining = 0;
 
       if (NULL == $projList) {
-        $teamList = $this->getDevTeamList();
-        $projList = $this->getProjectList($teamList);
+         $teamList = $this->getDevTeamList();
+         $projList = $this->getProjectList($teamList);
       }
 
       if (0 == count($projList)) {
@@ -610,32 +629,27 @@ class User {
 
       $formatedProjList = implode( ', ', array_keys($projList));
 
-   	// find all issues i'm working on
+      // find all issues i'm working on
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-               "WHERE project_id IN ($formatedProjList) ".
-               "AND handler_id = $this->id ".
-               "AND status < get_project_resolved_status_threshold(project_id) ".
-               "ORDER BY id DESC";
+            "WHERE project_id IN ($formatedProjList) ".
+            "AND handler_id = $this->id ".
+            "AND status < get_project_resolved_status_threshold(project_id) ".
+            "ORDER BY id DESC";
 
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
       while($row = mysql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id);
 
-         if (NULL != $issue->remaining) {
-         	$totalRemaining += $issue->remaining;
-         } else if (NULL != $issue->mgrEffortEstim) {
-            $totalRemaining += $issue->mgrEffortEstim;
-         }
+         $totalRemaining += $issue->getDurationMgr();
       }
 
-
-   	return $totalRemaining;
+      return $totalRemaining;
    }
 
 
@@ -649,7 +663,7 @@ class User {
     * - deadLine
     * - priority
     *
-    * @return Issue list
+    * @return array[bugId] = Issue
     */
    public function getAssignedIssues($projList = NULL, $withResolved = false) {
 
