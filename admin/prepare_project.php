@@ -106,12 +106,26 @@ function getProjectList() {
        echo "<span style='color:red'>ERROR: Query FAILED</span>";
        exit;
     }
-	while($row = mysql_fetch_object($result))
-	{
-		$p = ProjectCache::getInstance()->getProject($row->id);
-		if (($extproj_id != $row->id) && (!$p->isSideTasksProject())) {
-			$projectList[$row->id] = $row->name;
+	while($row = mysql_fetch_object($result)) {
+		// exclude ExternalTasksProject
+		if ($extproj_id == $row->id) {
+			$logger->debug("project $row->id: ExternalTasksProject is excluded");
+			continue;
 		}
+
+		// exclude SideTasksProjects
+       try {
+         $p = ProjectCache::getInstance()->getProject($row->id);
+			if ($p->isSideTasksProject()) {
+				$logger->debug("project $row->id: sideTaskProjects are excluded");
+				continue;
+		   }
+       } catch (Exception $e) {
+	   	// could not determinate, so the project should be included in the list
+	   	$logger->debug("project $row->id: Unknown type, project included anyway.");
+	   	// nothing to do.
+       }
+       $projectList[$row->id] = $row->name;
 	}
 	return $projectList;
 }

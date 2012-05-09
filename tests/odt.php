@@ -118,8 +118,10 @@ function genProjectODT($project, $odtTemplate, $userid = 0) {
 	$issueList = $project->getIssueList($userid, $isHideResolved);
 	$logger->debug("nb issues = ".count($issueList));
 
+   $q_id = 0;
 	$issueSegment = $odf->setSegment('issueSelection');
 	foreach($issueList AS $bugid) {
+      $q_id += 1;
 
 		$issue = IssueCache::getInstance()->getIssue($bugid);
 
@@ -132,16 +134,29 @@ function genProjectODT($project, $odtTemplate, $userid = 0) {
 		$logger->debug("issue $issue->bugId: userName = ".$userName);
 
 		// add issue
-		$issueSegment->bugId($issue->bugId);
-		$issueSegment->summary(utf8_decode($issue->summary));
-		$issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission));
+		try { $issueSegment->q_id($q_id); } catch (Exception $e) {};
+		try { $issueSegment->bugId($issue->bugId); } catch (Exception $e) {};
+		try { $issueSegment->summary(utf8_decode($issue->summary)); } catch (Exception $e) {};
+		try { $issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission)); } catch (Exception $e) {};
 		try { $issueSegment->currentStatus($statusNames["$issue->currentStatus"]); } catch (Exception $e) {};
-		$issueSegment->handlerId($userName);
-		$issueSegment->description(utf8_decode($issue->getDescription()));
-		$issueSegment->merge();
-
+		try { $issueSegment->handlerId($userName); } catch (Exception $e) {};
+		try { $issueSegment->description(utf8_decode($issue->getDescription())); } catch (Exception $e) {};
 		try { $issueSegment->category($issue->getCategoryName()); } catch (Exception $e) {};
 
+      // add issueNotes
+      $issueNotes = $issue->getIssueNoteList();
+      foreach ($issueNotes as $id => $issueNote) {
+
+      	$logger->debug("issue $issue->bugId: note $id = $issueNote->note");
+
+			$reporter     = UserCache::getInstance()->getUser($issueNote->reporter_id);
+         try { $reporterName = utf8_decode($user->getRealname()); } catch (Exception $e) {};
+      	try { $issueSegment->bugnotes->noteReporter($reporterName); } catch (Exception $e) {};
+      	try { $issueSegment->bugnotes->noteDateSubmission(date('d/m/Y',$issueNote->date_submitted)); } catch (Exception $e) {};
+      	try { $issueSegment->bugnotes->note(utf8_decode($issueNote->note)); } catch (Exception $e) {};
+      	try { $issueSegment->bugnotes->merge(); } catch (Exception $e) {};
+      }
+		$issueSegment->merge();
 	}
 	$odf->mergeSegment($issueSegment);
 
@@ -197,6 +212,7 @@ if (isset($session_userid))
 			ob_end_clean();
 
 			#genProjectODT($project, "../odt_templates/questions.odt");
+			#genProjectODT($project, "../odt_templates/questions2.odt");
 			genProjectODT($project, "odtphp_template.odt");
 
 		} elseif ("setProjectid" == $action) {
