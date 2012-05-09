@@ -18,9 +18,9 @@ include_once('../include/session.inc.php');
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require('../path.inc.php');
+require_once('../path.inc.php');
 
-require('super_header.inc.php');
+require_once('super_header.inc.php');
 
 include_once 'i18n.inc.php';
 
