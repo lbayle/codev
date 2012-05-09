@@ -4,6 +4,10 @@ require_once('gettext.inc');
 # REM: http://localhost/index.php?locale=en   will give you english
 #      http://localhost/index.php?locale=fr   will give you french
 
+/* TODO Refactor this code
+ * Add an array of available languages
+ * Use the right format for locale
+ */
 
 $locale = "fr"; // BP_LANG
 $textdomain="codev";
@@ -23,6 +27,10 @@ putenv('LC_ALL='.$locale);
 putenv('LC_MESSAGES='.$locale);
 T_setlocale(LC_ALL,$locale);
 T_setlocale(LC_CTYPE,$locale);
+
+if($locale == "fr") {
+   setlocale(LC_ALL, "French");
+}
 
 # we want 3.5 always to be displayed '3.5' and not '3,5'
 setlocale(LC_NUMERIC,"en-US");
