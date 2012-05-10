@@ -39,19 +39,17 @@ if(isset($_GET['action'])) {
       exit;
    }
    if($_GET['action'] == 'updateRemainingAction') {
-      $issue = IssueCache::getInstance()->getIssue($_GET['bugid']);
       if (NULL != $_GET['remaining']) {
+         $issue = IssueCache::getInstance()->getIssue($_GET['bugid']);
          $formattedRemaining = mysql_real_escape_string($_GET['remaining']);
          $issue->setRemaining($formattedRemaining);
       }
 
-      $weekDates = week_dates($_GET['weekid'],$_GET['year']);
-      $startTimestamp = $weekDates[1];
-      $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-      $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
+      echo getWeekTaskDetails($_GET['userid'],$_GET['weekid'],$_GET['year']);
+   } else if($_GET['action'] == 'updateWeekDisplay') {
+      echo getWeekTaskDetails($_GET['userid'],$_GET['weekid'],$_GET['year']);
+   }
 
-      echo getWeekTaskDetails($_GET['weekid'],$weekDates,$_GET['userid'],$timeTracking, $_GET['year']);
-    }
 }
 
 /**
@@ -189,89 +187,34 @@ function getYears($year) {
 }
 
 /**
- *
+ * TODO Use a Smarty template
+ * @param int $userid
  * @param int $weekid
- * @param array $weekDates
- * @param unknown_type $userid
- * @param TimeTracking $timeTracking
- * @param unknown_type $curYear
+ * @param int $year
  * @return String html
  */
-function getWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear) {
-   $html = "<table id='weekTaskDetails'>\n";
-   $html .= "<tr>\n";
-   $html .= "<th>".T_("Task")."</th>\n";
-   $html .= "<th>".T_("RAF")."</th>\n";
-   $html .= "<th>".T_("Job")."</th>\n";
-   $html .= "<th width='80'>".T_("Monday")."<br/>".date("d M", $weekDates[1])."</th>\n";
-   $html .= "<th width='80'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
-   $html .= "<th width='80'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
-   $html .= "<th width='80'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
-   $html .= "<th width='80'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
-   $html .= "<th width='80' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
-   $html .= "<th width='80' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
-   $html .= "</tr>\n";
+function getWeekTaskDetails($userid, $weekid, $year) {
+   $weekDates = week_dates($weekid,$year);
+   $startTimestamp = $weekDates[1];
+   $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+   $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
 
-   $linkList = array();
-   $holidays = Holidays::getInstance();
-   $weekTracks = $timeTracking->getWeekDetails($userid);
-   foreach ($weekTracks as $bugid => $jobList) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
-
-      foreach ($jobList as $jobid => $dayList) {
-         $linkid = $bugid."_".$jobid;
-         $linkList["$linkid"] = $issue;
-
-         $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-         $result3 = mysql_query($query3) or die("Query failed: $query3");
-         $jobName = mysql_result($result3, 0);
-
-         $description = addslashes(htmlspecialchars($issue->summary));
-         $dialogBoxTitle = T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining");
-
-         $html .= "<tr>\n";
-         $html .= "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-
-         // if no remaining set, display a '?' to allow Remaining edition
-         if (NULL == $issue->remaining) {
-
-            #if (($team->isSideTasksProject($issue->projectId)) ||
-            #    ($team->isNoStatsProject($issue->projectId))) {
-            	// do not allow to edit sideTasks Remaining
-            	$formattedRemaining = '';
-            #} else {
-            #   $formattedRemaining = '?';
-            #}
-         } else {
-         	$formattedRemaining = $issue->remaining;
+   $weekTasks = getWeekTask($weekDates,$userid,$timeTracking);
+   $html = "";
+   if($weekTasks != NULL) {
+      foreach($weekTasks as $weekTask) {
+         $html .= '<tr>';
+         $html .= '<td>'.$weekTask['issueURL'].' / '.$weekTask['issueId'].' : '.$weekTask['summary'].'</td>';
+         $html .= '<td><a title="'.T_('update remaining').'" href="javascript: updateRemaining(\''.$weekTask['remaining']."','".
+                  $weekTask['description']."','".$weekTask['bugid']."','".$weekTask['dialogBoxTitle'].'\')">'.$weekTask['formattedRemaining'].'</a>';
+         $html .= '</td>';
+         $html .= '<td>'.$weekTask['jobName'].'</td>';
+         foreach($weekTask['dayTasks'] as $dayTasks) {
+            $html .= '<td '.$dayTasks['bgColor'].' '.$dayTasks['title'].'>'.$dayTasks['day'].'</td>';
          }
-         $html .= "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$formattedRemaining."</a></td>\n";
-         $html .= "<td>".$jobName."</td>\n";
-
-         for ($i = 1; $i <= 7; $i++) {
-            if($i <= 5) {
-               $h = $holidays->isHoliday($weekDates[$i]);
-               if ($h) {
-                  $bgColor = "style='background-color: #".$h->color.";'";
-                  #$bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-                  $title = "title='".$h->description."'";
-               } else {
-                  $bgColor = "";
-                  $title = "";
-               }
-            } else {
-               $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-               $title = "";
-            }
-            $html .= '<td '.$bgColor.' '.$title.'>';
-            $html .= array_key_exists($i,$dayList) != NULL ? $dayList[$i] : '';
-            $html .= "</td>\n";
-         }
-         $html .= "</tr>\n";
+         $html .= '</tr>';
       }
-   }
-   $html .= " </table>\n";
-
+      }
    return $html;
 }
 
