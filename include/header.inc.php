@@ -42,12 +42,14 @@ include_once "super_header.inc.php";
    // --- JQUERY ---
    #echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css' rel='Stylesheet' />\n";
    echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/Aristo/Aristo.css' rel='Stylesheet' />\n";
-   
+
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-1.7.1.min.js'></script>\n";
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery.bgiframe-2.1.2.js'></script>\n";
 
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-ui-1.8.16.custom.min.js'></script>\n";
    #echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-ui-1.8.17.custom.min.js'></script>\n";
+
+   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/datatables/media/js/jquery.dataTables.js'></script>\n";
 
    // --- CODEV ---
    echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";

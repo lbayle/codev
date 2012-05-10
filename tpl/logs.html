@@ -1,14 +1,26 @@
-<div id="content">
-    <table>
+<script type="text/javascript" charset="utf-8">
+
+// ------ JQUERY --------
+   $(document).ready(function() {
+      $('#logs_table').dataTable();
+   } );
+</script>
+
+<div id="content" style="margin-left:10em;margin-right:10em">
+    <table id="logs_table" class="display">
+      <thead>
         <tr>
             <th>{t}Line{/t}</th>
             <th>{t}Log{/t}</th>
         </tr>
+      </thead>
+      <tbody>
         {foreach $logs as $line => $text}
         <tr>
             <td>{$line}</td>
             <td>{$text}</td>
         </tr>
         {/foreach}
+      </tbody>
     </table>
 </div>
