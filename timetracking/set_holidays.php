@@ -80,11 +80,11 @@ function getUsers() {
 function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
     global $logger;
 
-    $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
 
     // --- Task list
-    if (0 != $project1->id) {
-        $issueList = $project1->getIssueList();
+    if (0 != $defaultProjectid) {
+       $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
+       $issueList = $project1->getIssueList();
     } else {
         // no project specified: show all tasks
         $issueList = array();
@@ -143,11 +143,11 @@ function getProjects($defaultProjectid, $projectList) {
  * @return array|mixed
  */
 function getJobs($defaultProjectid, $projList) {
-    $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
 
     // --- Job list
-    if (0 != $project1->id) {
-        $jobList = $project1->getJobList();
+    if (0 != $defaultProjectid) {
+       $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
+       $jobList = $project1->getJobList();
     } else {
         $jobList = array();
         foreach ($projList as $pid2 => $pname) {
