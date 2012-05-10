@@ -122,6 +122,10 @@ class TimeTracking {
       "AND    codev_team_user_table.team_id = $this->team_id ".
       "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
 
+// TODO check patch from FDJ 8b003033391c84142787c3379a518a3ef7283587
+//      "AND (codev_team_user_table.departure_date = 0 or codev_team_user_table.departure_date >=$this->startTimestamp)";
+
+
     $result = mysql_query($query);
     if (!$result) {
     	$this->logger->error("Query FAILED: $query");

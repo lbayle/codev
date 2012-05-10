@@ -141,9 +141,10 @@ class Issue {
       $this->logger = Logger::getLogger(__CLASS__);
 
       if (0 == $id) {
-         echo "<span style='color:red'>ERROR: An error has occurred. Please contact your CodevTT administrator</span>";
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating an Issue with id=0 is not allowed.");
-         $this->logger->error("Issue constructor: ".$e->getMessage()."\n".$e->getTraceAsString());
+         $this->logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 

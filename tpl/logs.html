@@ -2,7 +2,16 @@
 
 // ------ JQUERY --------
    $(document).ready(function() {
-      $('#logs_table').dataTable();
+      $('#logs_table').dataTable(
+         {
+            "sScrollY": "700px",
+            "bPaginate": false,
+            "bScrollCollapse": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false
+         });
    } );
 </script>
 
