@@ -1,0 +1,33 @@
+<script type="text/javascript">
+function submitTeam(){
+    var foundError = 0;
+    var msgString = "Some fields are missing:" + "\n\n";
+
+    if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
+
+    if (0 != foundError) {
+        alert(msgString);
+        return false;
+    }
+    document.forms["teamSelectForm"].submit();
+}
+
+function submitEngagement(){
+    var foundError = 0;
+    var msgString = "Some fields are missing:" + "\n\n";
+
+    if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
+
+    if (0 != foundError) {
+        alert(msgString);
+        return false;
+    }
+    document.forms["teamSelectForm"].submit();
+}
+</script>
+
+
+<div id="content">
+
+
+</div>

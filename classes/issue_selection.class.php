@@ -152,7 +152,7 @@ class IssueSelection {
    }
 
    /**
-    *
+    * return a coma separated list of bugid URLs
     */
    public function getFormattedIssueList() {
       $formattedList = "";
