@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 4, 1),
+('database_version', 5, 1),
 ('job_support', 2, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
@@ -241,6 +241,38 @@ CREATE TABLE IF NOT EXISTS `codev_blog_activity_table` (
   `date` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1  COMMENT='Wall activity';
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `codev_engagement_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_engagement_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `start_date` int(11) unsigned default NULL,
+  `deadline` int(11) default NULL,
+  `team_id` int(11) NOT NULL,
+  `budjet_dev` int(11) unsigned default NULL,
+  `budjet_mngt` int(11) default NULL,
+  `desc` varchar(500) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `codev_engagement_bug_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_engagement_bug_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `engagement_id` int(11) NOT NULL,
+  `bug_id` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
