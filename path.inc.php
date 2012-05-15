@@ -76,6 +76,7 @@ function getServerRootURL() {
    $rootURL = str_replace("/install", "", $rootURL);
    $rootURL = str_replace("/tests", "", $rootURL);
    $rootURL = str_replace("/blog", "", $rootURL);
+   $rootURL = str_replace("/management", "", $rootURL);
 
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;

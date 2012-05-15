@@ -22,9 +22,8 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
-include_once "user_cache.class.php";
-include_once "issue_cache.class.php";
 include_once "issue.class.php";
+include_once "user.class.php";
 include_once "team.class.php";
 #include_once "time_tracking.class.php";
 
@@ -39,6 +38,7 @@ require('display.inc.php');
 
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Engagement'));
+$smartyHelper->assign('menu2', "menu/management_menu.html");
 
 if (isset($_SESSION['userid'])) {
 
