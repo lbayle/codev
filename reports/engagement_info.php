@@ -43,6 +43,9 @@ $smartyHelper->assign('pageName', T_('Engagement'));
 if (isset($_SESSION['userid'])) {
 
 
+
+
+
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);

@@ -1,33 +1,97 @@
 <script type="text/javascript">
-function submitTeam(){
-    var foundError = 0;
-    var msgString = "Some fields are missing:" + "\n\n";
 
-    if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
-
-    if (0 != foundError) {
-        alert(msgString);
-        return false;
-    }
-    document.forms["teamSelectForm"].submit();
+function setTeam() {
+   document.forms["form1"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["form1"].action.value="setTeam";
+   document.forms["form1"].submit();
 }
 
-function submitEngagement(){
-    var foundError = 0;
-    var msgString = "Some fields are missing:" + "\n\n";
+function submitForm() {
+   document.forms["engagementSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["engagementSelectForm"].engid.value = document.getElementById('engagementSelector').value;
+   document.forms["engagementSelectForm"].action.value = "displayEngagement";
+   document.forms["engagementSelectForm"].submit();
+ }
 
-    if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
+//------ JQUERY --------
+$(document).ready(function() {
+   $('#issues_table').dataTable(
+      {
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+} );
 
-    if (0 != foundError) {
-        alert(msgString);
-        return false;
-    }
-    document.forms["teamSelectForm"].submit();
-}
+
 </script>
 
 
 <div id="content">
+
+   <div align="center">
+      <!-- create form -->
+      <form id='engagementSelectForm' name='engagementSelectForm' method='post' action='{$page}'>
+         <fieldset>
+            <label>{t}Team{/t}: </label>
+            <select name='teamSelector' onchange='javascript: setTeam'>
+               <option value='0'></option>
+               {foreach from=$teams key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <label>{t}Engagement{/t}: </label>
+            <select name='engagementSelector'>
+               <option value='0'></option>
+               {foreach from=$engagements key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
+            
+            <input type="hidden" name="action" value="noAction" />
+            <input type="hidden" name="teamid" value="{$defaultTeamId}" />
+            <input type="hidden" name="engid" value="{$defaultEngagementId}" />
+         </fieldset>
+      </form>
+   </div>
+
+   <div style="margin-top:2em;">
+   <br/><br/>
+
+
+    <table id="issues_table" class="display">
+      <thead>
+        <tr>
+            <th>{t}ID{/t}</th>
+            <th>{t}Project{/t}</th>
+            <th>{t}Target{/t}</th>
+            <th>{t}Drift Mgr{/t}</th>
+            <th>{t}RAF{/t}</th>
+            <th>{t}Progress{/t}</th>
+            <th>{t}Status{/t}</th>
+            <th>{t}Summary{/t}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $issueList as $id => $issue}
+        <tr>
+            <td>{$issue.bugId}</td>
+            <td>{$issue.projectId}</td>
+            <td>{$issue.getTargetVersion}</td>
+            <td>{$issue.getDriftMgrEE}</td>
+            <td>{$issue.getDurationMgr}</td>
+            <td>{$issue.getProgress}</td>
+            <td>{$issue.getCurrentStatusName}</td>
+            <td>{$issue.summary}</td>
+        </tr>
+        {/foreach}
+      </tbody>
+    </table>
 
 
 </div>
