@@ -181,25 +181,13 @@ require('display.inc.php');
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Time Tracking'));
 
-$job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-
-$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
-
-$userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
-$managed_user = UserCache::getInstance()->getUser($userid);
-
-$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-$teamList = $session_user->getLeadedTeamList();
-
-// updateRemaining data
-$bugid  = isset($_POST['bugid']) ? $_POST['bugid'] : '';
-$remaining  = isset($_POST['remaining']) ? $_POST['remaining'] : '';
-
-$action = isset($_POST["action"]) ? $_POST["action"] : '';
-$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
+if($_SESSION['userid']) {
 
 // if first call to this page
 if (!isset($_POST['nextForm'])) {
+      $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+      $teamList = $session_user->getLeadedTeamList();
+
    if (0 != count($teamList)) {
       // User is TeamLeader, let him choose the user he wants to manage
       $smartyHelper->assign('users', getUsers());
@@ -216,6 +204,19 @@ if (!isset($_POST['nextForm'])) {
 }
 
 if ($_POST['nextForm'] == "addTrackForm") {
+   $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
+
+   $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
+
+   $userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
+   $managed_user = UserCache::getInstance()->getUser($userid);
+
+   // updateRemaining data
+   $bugid  = isset($_POST['bugid']) ? $_POST['bugid'] : '';
+   $remaining  = isset($_POST['remaining']) ? $_POST['remaining'] : '';
+
+   $action = isset($_POST["action"]) ? $_POST["action"] : '';
+   $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
 
    $defaultDate = date("Y-m-d", time());
    $defaultBugid = 0;
@@ -359,6 +360,8 @@ if ($_POST['nextForm'] == "addTrackForm") {
 
    $smartyHelper->assign('warnings', getCheckWarnings($userid));
    $smartyHelper->assign('timetrackingTuples', getTimetrackingTuples($userid, $startTimestamp));
+}
+
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
