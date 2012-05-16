@@ -25,11 +25,44 @@ require('super_header.inc.php');
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
+include_once "engagement.class.php";
 #include_once "time_tracking.class.php";
 
-include_once "smarty_tools.php";
+#include_once "smarty_tools.php";
 
 $logger = Logger::getLogger("engagement_info");
+
+
+
+
+
+
+/**
+ *
+ */
+function getIssueList($engagement) {
+
+   $issueArray = array();
+
+   $issues = $engagement->getIssueSelection()->getIssueList();
+   foreach ($issues as $id => $issue) {
+
+      $issueInfo = array();
+      $issueInfo["bugid"] = $issue->bugId;
+      $issueInfo["project"] = $issue->getProjectName();
+      $issueInfo["target"] = $issue->getTargetVersion();
+      $issueInfo["status"] = $issue->getCurrentStatusName();
+      $issueInfo["progress"] = round(100 * $issue->getProgress());
+      $issueInfo["elapsed"] = $issue->elapsed;
+      $issueInfo["driftMgr"] = $issue->getDriftMgrEE();
+      $issueInfo["durationMgr"] = $issue->getDurationMgr();
+      $issueInfo["summary"] = $issue->summary;
+
+      $issueArray[$id] = $issueInfo;
+   }
+   return $issueArray;
+}
+
 
 // =========== MAIN ==========
 
@@ -43,6 +76,12 @@ $smartyHelper->assign('menu2', "menu/management_menu.html");
 if (isset($_SESSION['userid'])) {
 
 
+   $engagementid = 1;
+   $eng = new Engagement($engagementid);
+
+   $issueList = getIssueList($eng);
+
+   $smartyHelper->assign('issueList', $issueList);
 
 
 

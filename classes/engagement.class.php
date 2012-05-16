@@ -98,6 +98,11 @@ class Engagement {
    	}
    }
 
+   public function getIssueSelection() {
+      return $this->issueSelection;
+   }
+
+
    /**
     * create a new engagement in the DB
     *

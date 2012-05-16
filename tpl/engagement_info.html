@@ -70,23 +70,25 @@ $(document).ready(function() {
             <th>{t}ID{/t}</th>
             <th>{t}Project{/t}</th>
             <th>{t}Target{/t}</th>
-            <th>{t}Drift Mgr{/t}</th>
-            <th>{t}RAF{/t}</th>
-            <th>{t}Progress{/t}</th>
             <th>{t}Status{/t}</th>
+            <th>{t}Progress{/t}</th>
+            <th>{t}Elapsed{/t}</th>
+            <th>{t}RAF{/t}</th>
+            <th>{t}Drift Mgr{/t}</th>
             <th>{t}Summary{/t}</th>
         </tr>
       </thead>
       <tbody>
         {foreach $issueList as $id => $issue}
         <tr>
-            <td>{$issue.bugId}</td>
-            <td>{$issue.projectId}</td>
-            <td>{$issue.getTargetVersion}</td>
-            <td>{$issue.getDriftMgrEE}</td>
-            <td>{$issue.getDurationMgr}</td>
-            <td>{$issue.getProgress}</td>
-            <td>{$issue.getCurrentStatusName}</td>
+            <td>{$issue.bugid}</td>
+            <td>{$issue.project}</td>
+            <td>{$issue.target}</td>
+            <td>{$issue.status}</td>
+            <td>{$issue.progress}%</td>
+            <td>{$issue.elapsed}</td>
+            <td>{$issue.durationMgr}</td>
+            <td>{$issue.driftMgr}</td>
             <td>{$issue.summary}</td>
         </tr>
         {/foreach}
