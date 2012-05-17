@@ -249,9 +249,17 @@ function dayofyear2timestamp( $tDay, $year) {
    return( $timestamp );
 }
 
-// ---------------------------
 /**
- *
+ * Format the date in locale
+ * @param string $pattern The pattern to user
+ * @param int $timestamp The timestamp to format
+ * @return string The localized date
+ */
+function formatDate($pattern, $timestamp) {
+   return utf8_encode(ucwords(strftime($pattern, $timestamp)));
+}
+
+/**
  * explode string to 2-dimentionnal array
  *
  * Usage:

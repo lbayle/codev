@@ -123,7 +123,7 @@ class PeriodStatsReport {
 
       // Disp
       $tableLine = "<tr>\n";
-      $tableLine .= "<td class=\"right\">".date("F Y", $date)."</td>\n";
+      $tableLine .= "<td class=\"right\">".formatDate("%B %Y", $date)."</td>\n";
 
       foreach ($statusNames as $s => $sname) {
          $tableLine .= "<td class=\"right\">".$ps->statusCountList[$s]."</td>\n";

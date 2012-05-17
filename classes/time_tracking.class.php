@@ -553,8 +553,8 @@ class TimeTracking {
     } // foreach
 
 
-    $this->logger->debug("derive totale ($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $derive");
-    $this->logger->debug("derive totale ETA($statusNames[$status]/".date("F Y", $this->startTimestamp).") = $deriveETA");
+    $this->logger->debug("derive totale ($statusNames[$status]/".formatDate("%B %Y", $this->startTimestamp).") = $derive");
+    $this->logger->debug("derive totale ETA($statusNames[$status]/".formatDate("%B %Y", $this->startTimestamp).") = $deriveETA");
 
     $this->logger->debug("Nbre Bugs en derive        : $nbDriftsPos");
     $this->logger->debug("Nbre Bugs a l'equilibre    : $nbDriftsEqual");
@@ -1089,7 +1089,7 @@ class TimeTracking {
          $submittedList[] = $row->id;
 
          if (isset($_GET['debug'])) {
-            echo "DEBUG submitted $row->id   date < ".date("m Y", $this->endTimestamp)." project $row->project_id <br/>";
+            echo "DEBUG submitted $row->id   date < ".formatDate("%b %y", $this->endTimestamp)." project $row->project_id <br/>";
          }
       }
 

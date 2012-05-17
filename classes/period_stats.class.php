@@ -162,7 +162,7 @@ class PeriodStats {
       }
     }
     if (isset($_GET['debug'])) {
-      echo "date < ".date("m Y", $this->endTimestamp)."<br/>";
+      echo "date < ".formatDate("%b %y", $this->endTimestamp)."<br/>";
       foreach ($this->statusIssueList as $state => $bugList) {
         foreach ($bugList as $bug) {
           echo "#$bug ($state)<br/>";

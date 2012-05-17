@@ -129,9 +129,9 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
     $wDates      = week_dates($i,$curYear);
 
     if ($i == $weekid) {
-      echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
+      echo "<option selected value='".$i."'>W".$i." | ".formatDate("%d %b", $wDates[1])." - ".formatDate("%d %b", $wDates[5])."</option>\n";
     } else {
-      echo "<option value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
+      echo "<option value='".$i."'>W".$i." | ".formatDate("%d %b", $wDates[1])." - ".formatDate("%d %b", $wDates[5])."</option>\n";
     }
   }
   echo "</select>\n";
@@ -229,13 +229,13 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
   echo "<th width='7%'>".T_("Project")."</th>\n";
   echo "<th width='5' title='".T_("Target version")."'>".T_("Target")."</th>\n";
   echo "<th width='10%'>".T_("Job")."</th>\n";
-  echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
-  echo "<th width='10'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
-  echo "<th width='10'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
-  echo "<th width='10'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
-  echo "<th width='10'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
-  echo "<th width='10' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
-  echo "<th width='10' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[1])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[2])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[3])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[4])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[5])."</th>\n";
+  echo "<th width='10' style='background-color: #D8D8D8;' >".formatDate("%A %d %b", $weekDates[6])."</th>\n";
+  echo "<th width='10' style='background-color: #D8D8D8;' >".formatDate("%A %d %b", $weekDates[7])."</th>\n";
   echo "</tr>\n";
   foreach ($weekTracks as $bugid => $jobList) {
     $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -300,13 +300,13 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
   echo "<th width='1%'>".T_("Progress")."</th>\n";
   echo "<th width='7%'>".T_("Project")."</th>\n";
   echo "<th width='5' title='".T_("Target version")."'>".T_("Target")."</th>\n";
-  echo "<th width='10'>".T_("Monday")."<br>".date("d M", $weekDates[1])."</th>\n";
-  echo "<th width='10'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
-  echo "<th width='10'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
-  echo "<th width='10'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
-  echo "<th width='10'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
-  echo "<th width='10' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
-  echo "<th width='10' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[1])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[2])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[3])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[4])."</th>\n";
+  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[5])."</th>\n";
+  echo "<th width='10' style='background-color: #D8D8D8;' >".formatDate("%A %d %b", $weekDates[6])."</th>\n";
+  echo "<th width='10' style='background-color: #D8D8D8;' >".formatDate("%A %d %b", $weekDates[7])."</th>\n";
   echo "</tr>\n";
   foreach ($weekTracks as $bugid => $jobList) {
     $issue = IssueCache::getInstance()->getIssue($bugid);

@@ -58,7 +58,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    $bottomLabel = array("jan", "feb", "mar", "apr");
    #$bottomLabel = array();
    #foreach ($submitted as $date => $val) {
-   #   $bottomLabel[] = date("M y", $date);
+   #   $bottomLabel[] = formatDate("%b %y", $date);
    #}
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
 
@@ -83,7 +83,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    echo "</tr>\n";
    foreach ($submitted as $date => $val) {
       echo "<tr>\n";
-   	echo "<td class=\"right\">".date("F Y", $date)."</td>\n";
+   	echo "<td class=\"right\">".formatDate("%B %Y", $date)."</td>\n";
       echo "<td class=\"right\">".$val."</td>\n";
       echo "<td class=\"right\">".$resolved[$date]."</td>\n";
       echo "</tr>\n";

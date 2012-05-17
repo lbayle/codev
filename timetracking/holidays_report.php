@@ -118,7 +118,7 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
   $pink  ="FF699D";
 
   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
-  $monthFormated = date("F Y", $monthTimestamp);
+  $monthFormated = formatDate("%B %Y", $monthTimestamp);
   $nbDaysInMonth = date("t", $monthTimestamp);
 
   $today = date("d-m-Y");
