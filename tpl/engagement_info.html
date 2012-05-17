@@ -13,6 +13,25 @@ function submitForm() {
    document.forms["engagementSelectForm"].submit();
  }
 
+function addEngIssue(){
+ 
+   // check fields
+   var foundError = 0;
+   var msgString = "{t}Missing field{/t}:\n\n";
+
+   if (0 == document.forms["addEngIssueForm"].bugid.value) {
+      msgString += "{t}task id{/t}\n";
+      ++foundError;
+   }
+
+   if (0 == foundError) {
+     document.forms["addEngIssueForm"].action.value="addEngIssue";
+     document.forms["addEngIssueForm"].submit();
+   } else {
+     alert(msgString);
+   }
+}
+
 //------ JQUERY --------
 $(document).ready(function() {
    $('#issues_table').dataTable(
@@ -35,36 +54,37 @@ $(document).ready(function() {
 
    <div align="center">
       <!-- create form -->
-      <form id='engagementSelectForm' name='engagementSelectForm' method='post' action='{$page}'>
+      <form id='engagementSelectForm' name='engagementSelectForm' method='get' action='{$page}'>
          <fieldset>
             <label>{t}Team{/t}: </label>
-            <select name='teamSelector' onchange='javascript: setTeam'>
+            <select id='teamSelector' name='teamid' onchange='javascript: setTeam'>
                <option value='0'></option>
                {foreach from=$teams key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
             <label>{t}Engagement{/t}: </label>
-            <select name='engagementSelector'>
+            <select id='engagementSelector' name='engid'>
                <option value='0'></option>
                {foreach from=$engagements key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
-            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
+            <input type="submit" value='{t}Jump{/t}' />
             
             <input type="hidden" name="action" value="noAction" />
-            <input type="hidden" name="teamid" value="{$defaultTeamId}" />
-            <input type="hidden" name="engid" value="{$defaultEngagementId}" />
          </fieldset>
       </form>
    </div>
 
    <div style="margin-top:2em;">
    <br/><br/>
-
-   <h2>{$engName}</h2>
-   {$engDesc}
+   
+   {if $engid} 
+   <div  align="center">
+      <h2>{$engName}</h2>
+      {$engDesc}
+   </div>
 
    <br/><br/>
 
@@ -98,8 +118,8 @@ $(document).ready(function() {
       <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
          <fieldset>
             <label>{t}Add task{/t}: </label>
-            <input <input  type='text'size='5' value='' name='bug_id' id='bug_id' />
-            <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssueForm()' />
+            <input <input  type='text'size='5' value='' name='bugid' id='bugid' />
+            <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssue()' />
 
             <input type="hidden" name="action" value="noAction" />
             <input type="hidden" name="teamid" value="{$defaultTeamId}" />
@@ -109,6 +129,7 @@ $(document).ready(function() {
    </div>
 
 
+   <div align="center">
     <table id="issues_table" class="display">
       <thead>
         <tr>
@@ -118,6 +139,7 @@ $(document).ready(function() {
             <th>{t}Target{/t}</th>
             <th>{t}Status{/t}</th>
             <th>{t}Progress{/t}</th>
+            <th>{t}MgrEffortEstim{/t}</th>
             <th>{t}Elapsed{/t}</th>
             <th>{t}RAF{/t}</th>
             <th>{t}Drift Mgr{/t}</th>
@@ -137,6 +159,7 @@ $(document).ready(function() {
             <td>{$issue.target}</td>
             <td>{$issue.status}</td>
             <td>{$issue.progress}%</td>
+            <td>{$issue.effortEstim}</td>
             <td>{$issue.elapsed}</td>
             <td>{$issue.durationMgr}</td>
             <td>{$issue.driftMgr}</td>
@@ -145,6 +168,8 @@ $(document).ready(function() {
         {/foreach}
       </tbody>
     </table>
+   </div>
 
+   {/if}
 
 </div>

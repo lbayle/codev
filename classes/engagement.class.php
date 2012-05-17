@@ -87,7 +87,8 @@ class Engagement {
 
    	// ---
    	$this->issueSelection = new IssueSelection($this->name);
-   	$query  = "SELECT * FROM `codev_engagement_bug_table` WHERE engagement_id=$this->id ";
+   	$query  = "SELECT * FROM `codev_engagement_bug_table` ".
+      	       "WHERE engagement_id=$this->id ";
    	$result = mysql_query($query);
    	if (!$result) {
 	   	$this->logger->error("Query FAILED: $query");
@@ -137,9 +138,11 @@ class Engagement {
     * add Issue to engagement (in DB & current instance)
     */
    public function addIssue($bugid) {
+
+      $this->logger->debug("Add issue $bugid to engagement $this->id");
       $this->issueSelection->addIssue($bugid);
 
-      $query = "INSERT INTO `codev_engagement_bug_table` (`bug_id`) VALUES ('$bugid');";
+      $query = "INSERT INTO `codev_engagement_bug_table` (`engagement_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
       $result = mysql_query($query);
       if (!$result) {
 	      $this->logger->error("Query FAILED: $query");

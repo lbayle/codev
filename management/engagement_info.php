@@ -63,11 +63,12 @@ function getEngagementIssues($engagement) {
    foreach ($issues as $id => $issue) {
 
       $issueInfo = array();
-      $issueInfo["bugid"] = $issue->bugId;
+      $issueInfo["bugid"] = issueInfoURL($issue->bugId);
       $issueInfo["project"] = $issue->getProjectName();
       $issueInfo["target"] = $issue->getTargetVersion();
       $issueInfo["status"] = $issue->getCurrentStatusName();
       $issueInfo["progress"] = round(100 * $issue->getProgress());
+      $issueInfo["effortEstim"] = $issue->mgrEffortEstim;
       $issueInfo["elapsed"] = $issue->elapsed;
       $issueInfo["driftMgr"] = $issue->getDriftMgrEE();
       $issueInfo["durationMgr"] = $issue->getDurationMgr();
@@ -92,23 +93,20 @@ $smartyHelper->assign('menu2', "menu/management_menu.html");
 
 if (isset($_SESSION['userid'])) {
 
+
    $userid = $_SESSION['userid'];
    $session_user = UserCache::getInstance()->getUser($userid);
 
    $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 
    // use the engid set in the form, if not defined (first page call) use session engid
-    if (isset($_GET['engid'])) {
+   $engagementid = 0;
+   if(isset($_GET['engid'])) {
       $engagementid = $_GET['engid'];
-      $_SESSION['engid'] = $engagementid;
-
-    } else if (isset($_POST['engid'])) {
-      $engagementid = $_POST['engid'];
-      $_SESSION['engid'] = $engagementid;
-
-   } else {
-      $engagementid = isset($_SESSION['engid']) ? $_SESSION['engid'] : 0;
+   } else if(isset($_SESSION['engid'])) {
+      $engagementid = $_SESSION['engid'];
    }
+   $_SESSION['projectid'] = $engagementid;
 
 
    // set TeamList (including observed teams)
@@ -117,11 +115,24 @@ if (isset($_SESSION['userid'])) {
 
    $smartyHelper->assign('engagements', getEngagements($teamid, $engagementid));
 
+   $action = isset($_POST['action']) ? $_POST['action'] : '';
+
+   if ("addEngIssue" == $action) {
+      $bugid = $_POST['bugid'];
+      #echo "add Issue $bugid on Engagement $engagementid team $teamid<br>";
+
+      $eng = new Engagement($engagementid);
+      $eng->addIssue($bugid);
+   }
+
+
+   // ------ Display Engagement
 
    if (0 != $engagementid) {
 
       $eng = new Engagement($engagementid);
 
+      $smartyHelper->assign('engid', $engagementid);
       $smartyHelper->assign('engName', $eng->getName());
       $smartyHelper->assign('engDesc', $eng->getDesc());
 
@@ -133,6 +144,8 @@ if (isset($_SESSION['userid'])) {
       // set EngagementList (for selected the team)
       $issueList = getEngagementIssues($eng);
       $smartyHelper->assign('engIssues', $issueList);
+
+
 
    }
 
