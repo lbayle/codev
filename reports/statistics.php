@@ -134,7 +134,7 @@ function displaySubmittedResolved($timeTrackingTable, $width, $height) {
 
    $bottomLabel = array();
    foreach ($submittedList as $date => $val) {
-      $bottomLabel[] = date("M y", $date);
+      $bottomLabel[] = formatDate("%b %y", $date);
    }
    $strBottomLabel = "bottomLabel=".implode(':', $bottomLabel);
 
@@ -161,7 +161,7 @@ function displaySubmittedResolved($timeTrackingTable, $width, $height) {
    echo "</tr>\n";
    foreach ($submittedList as $date => $val) {
       echo "<tr>\n";
-   	echo "<td class=\"right\">".date("F Y", $date)."</td>\n";
+   	echo "<td class=\"right\">".formatDate("%B %Y", $date)."</td>\n";
       echo "<td class=\"right\">".$val."</td>\n";
       echo "<td class=\"right\">".$resolvedList[$date]."</td>\n";
       echo "</tr>\n";
@@ -191,9 +191,9 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
          if ($displayNoSupport) {
             $val3[] = $driftStats_noSupport["totalDrift"] ? $driftStats_noSupport["totalDrift"] : 0;;
          }
-         $bottomLabel[] = date("M y", $startTimestamp);
+         $bottomLabel[] = formatDate("%b %y", $startTimestamp);
 
-         #echo "DEBUG: PrelEffortEstim=".$driftStats_new['totalDriftETA']." Eff=".$driftStats_new['totalDrift']." date=".date('M y', $startTimestamp)."<br/>\n";
+         #echo "DEBUG: PrelEffortEstim=".$driftStats_new['totalDriftETA']." Eff=".$driftStats_new['totalDrift']." date=".formatDate("%b %y", $startTimestamp)."<br/>\n";
    }
    $graph_title="title=".("Effort Deviation");
    $graph_width="width=$width";
@@ -238,7 +238,7 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
-      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".formatDate("%B %Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".round($val1[$i],2)."</td>\n";
       echo "<td class=\"right\">".round($val2[$i],2)."</td>\n";
       if ($displayNoSupport) {
@@ -270,9 +270,9 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
 
          $workload = $timeTracking->getAvailableWorkload();
          $val1[] = $workload;
-         $bottomLabel[] = date("M y", $startTimestamp);
+         $bottomLabel[] = formatDate("%b %y", $startTimestamp);
 
-         #$logger->debug("workload=$workload date=".date('M y', $startTimestamp));
+         #$logger->debug("workload=$workload date=".formatDate("%b %y", $startTimestamp));
    }
    $graph_title="title=".("Developers Workload");
    $graph_width="width=$width";
@@ -304,7 +304,7 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
-      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".formatDate("%B %Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".round($val1[$i], 1)."</td>\n";
       echo "</tr>\n";
       $i++;
@@ -337,10 +337,10 @@ function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
          $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
          $val1[] = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
 
-         $bottomLabel[] = date("M y", $startTimestamp);
+         $bottomLabel[] = formatDate("%b %y", $startTimestamp);
 
-         #echo "DEBUG: nbDriftsNeg=".$timeDriftStats['nbDriftsNeg']." nbDriftsPos=".$timeDriftStats['nbDriftsPos']." date=".date('M y', $startTimestamp)."<br/>\n";
-         #echo "DEBUG: driftNeg=".$timeDriftStats['driftNeg']." driftPos=".$timeDriftStats['driftPos']." date=".date('M y', $startTimestamp)."<br/>\n";
+         #echo "DEBUG: nbDriftsNeg=".$timeDriftStats['nbDriftsNeg']." nbDriftsPos=".$timeDriftStats['nbDriftsPos']." date=".formatDate("%b %y", $startTimestamp)."<br/>\n";
+         #echo "DEBUG: driftNeg=".$timeDriftStats['driftNeg']." driftPos=".$timeDriftStats['driftPos']." date=".formatDate("%b %y", $startTimestamp)."<br/>\n";
    }
    $graph_title="title=".("Adherence to deadlines");
    $graph_width="width=$width";
@@ -372,7 +372,7 @@ function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
-      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".formatDate("%B %Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".round($val1[$i], 1)."%</td>\n";
       echo "</tr>\n";
       $i++;
@@ -395,7 +395,7 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
 
          $val1[] = $timeTracking->getEfficiencyRate();
          $val2[] = $timeTracking->getSystemDisponibilityRate();
-         $bottomLabel[] = date("M y", $startTimestamp);
+         $bottomLabel[] = formatDate("%b %y", $startTimestamp);
    }
    $graph_title="title=".("Efficiency");
    $graph_width="width=$width";
@@ -428,7 +428,7 @@ function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
-      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".formatDate("%B %Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".round($val1[$i], 2)."%</td>\n";
       echo "<td class=\"right\">".round($val2[$i], 3)."%</td>\n";
       echo "</tr>\n";
@@ -464,7 +464,7 @@ function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) 
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
          $timeTrackingTable[$startTimestamp] = $timeTracking;
 
-         #echo "DEBUG: ETA=".$driftStats_new['totalDriftETA']." Eff=".$driftStats_new['totalDrift']." date=".date('M y', $startTimestamp)."<br/>\n";
+         #echo "DEBUG: ETA=".$driftStats_new['totalDriftETA']." Eff=".$driftStats_new['totalDrift']." date=".formatDate("%b %y", $startTimestamp)."<br/>\n";
          $day   = 1;
       }
       $start_month = 1;
@@ -491,10 +491,10 @@ function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
          $val1[] = $reopenedRate;
          $val2[] = $nbReopened;
 
-         $bottomLabel[] = date("M y", $startTimestamp);
+         $bottomLabel[] = formatDate("%b %y", $startTimestamp);
 
-         #echo "DEBUG: nbDriftsNeg=".$timeDriftStats['nbDriftsNeg']." nbDriftsPos=".$timeDriftStats['nbDriftsPos']." date=".date('M y', $startTimestamp)."<br/>\n";
-         #echo "DEBUG: driftNeg=".$timeDriftStats['driftNeg']." driftPos=".$timeDriftStats['driftPos']." date=".date('M y', $startTimestamp)."<br/>\n";
+         #echo "DEBUG: nbDriftsNeg=".$timeDriftStats['nbDriftsNeg']." nbDriftsPos=".$timeDriftStats['nbDriftsPos']." date=".formatDate("%b %y", $startTimestamp)."<br/>\n";
+         #echo "DEBUG: driftNeg=".$timeDriftStats['driftNeg']." driftPos=".$timeDriftStats['driftPos']." date=".formatDate("%b %y", $startTimestamp)."<br/>\n";
    }
    $graph_title="title=".("Reopened Rate");
    $graph_width="width=$width";
@@ -527,7 +527,7 @@ function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
    $i = 0;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
       echo "<tr>\n";
-      echo "<td class=\"right\">".date("F Y", $startTimestamp)."</td>\n";
+      echo "<td class=\"right\">".formatDate("%B %Y", $startTimestamp)."</td>\n";
       echo "<td class=\"right\">".round($val1[$i], 1)."%</td>\n";
       echo "<td class=\"right\">".$val2[$i]."</td>\n";
       echo "</tr>\n";

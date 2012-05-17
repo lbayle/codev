@@ -88,9 +88,9 @@ function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $cur
     $wDates      = week_dates($i,date('Y'));
 
     if ($i == $weekid) {
-      echo "<option selected value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
+      echo "<option selected value='".$i."'>W".$i." | ".formatDate("%d %b", $wDates[1])." - ".formatDate("%d %b", $wDates[5])."</option>\n";
     } else {
-      echo "<option value='".$i."'>W".$i." | ".date("d M", $wDates[1])." - ".date("d M", $wDates[5])."</option>\n";
+      echo "<option value='".$i."'>W".$i." | ".formatDate("%d %b", $wDates[1])." - ".formatDate("%d %b", $wDates[5])."</option>\n";
     }
   }
   echo "</select>\n";
@@ -140,11 +140,11 @@ function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFi
                 T_("Job").$sepChar.
                 T_("Description").$sepChar.
                 T_("Assigned to").$sepChar.
-                T_("Monday")." ".date("d/m", $weekDates[1]).$sepChar.
-                T_("Tuesday")." ".date("d/m", $weekDates[2]).$sepChar.
-                T_("Wednesday")." ".date("d/m", $weekDates[3]).$sepChar.
-                T_("Thursday")." ".date("d/m", $weekDates[4]).$sepChar.
-                T_("Friday")." ".date("d/m", $weekDates[5])."\n";
+                formatDate("%A %d/%m", $weekDates[1]).$sepChar.
+                formatDate("%A %d/%m", $weekDates[2]).$sepChar.
+                formatDate("%A %d/%m", $weekDates[3]).$sepChar.
+                formatDate("%A %d/%m", $weekDates[4]).$sepChar.
+                formatDate("%A %d/%m", $weekDates[5])."\n";
   fwrite($fh, $stringData);
 
 

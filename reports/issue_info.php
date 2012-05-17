@@ -346,7 +346,7 @@ function displayTimeDrift($issue) {
   echo "<tr>\n";
   echo "  <td>".T_("DeadLine")."</td>\n";
   if (NULL != $issue->getDeadLine()) {
-      echo "  <td>".date("d M Y", $issue->getDeadLine())."</td>\n";
+      echo "  <td>".formatDate("%d %b %Y", $issue->getDeadLine())."</td>\n";
   } else {
       echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }
@@ -355,7 +355,7 @@ function displayTimeDrift($issue) {
   echo "<tr>\n";
   echo "  <td>".T_("DeliveryDate")."</td>\n";
   if (NULL != $issue->deliveryDate) {
-      echo "  <td>".date("d M Y", $issue->deliveryDate)."</td>\n";
+      echo "  <td>".formatDate("%d %b %Y", $issue->deliveryDate)."</td>\n";
   } else {
       echo "  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
   }
@@ -435,7 +435,7 @@ function displayMonth($month, $year, $issue) {
   if (0 == $found) { return; }
 
   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
-  $monthFormated = date("F Y", $monthTimestamp);
+  $monthFormated = formatDate("%B %Y", $monthTimestamp);
   $nbDaysInMonth = date("t", $monthTimestamp);
 
   echo "<div>\n";
