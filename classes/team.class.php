@@ -20,6 +20,7 @@ include_once "team_cache.class.php";
 
 include_once 'jobs.class.php';
 include_once 'project.class.php';
+include_once 'engagement.class.php';
 
 require_once('Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
@@ -52,6 +53,7 @@ class Team {
    public $date;
 
    private $projTypeList;
+   private $engagementList;
 
 
    // -------------------------------------------------------
@@ -354,6 +356,29 @@ class Team {
       return $issueList;
    }
 
+   public function getEngagements() {
+      if (NULL == $this->engagementList) {
+         $query = "SELECT DISTINCT * FROM `codev_engagement_table` ".
+            "WHERE team_id = $this->id ";
+
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->engagementList = array();
+         while($row = mysql_fetch_object($result))
+         {
+            $eng = new Engagement($row->id);
+            $this->engagementList[$row->id] = $eng;
+         }
+      }
+
+      $this->logger->debug("getEngagements(teamid=$this->id) nbEng=".count($this->engagementList));
+      return $this->engagementList;
+   }
 
 
    // -------------------------------------------------------

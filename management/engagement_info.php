@@ -28,19 +28,34 @@ include_once "team.class.php";
 include_once "engagement.class.php";
 #include_once "time_tracking.class.php";
 
-#include_once "smarty_tools.php";
+include_once "smarty_tools.php";
 
 $logger = Logger::getLogger("engagement_info");
 
 
+function getEngagements($teamid, $selectedEngId) {
 
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   $engList = $team->getEngagements();
+
+   foreach ($engList as $id => $eng) {
+      $engagements[] = array(
+         'id' => $id,
+         'name' => $eng->getName(),
+         'selected' => ($id == $selectedEngId)
+      );
+   }
+   return $engagements;
+
+
+}
 
 
 
 /**
  *
  */
-function getIssueList($engagement) {
+function getEngagementIssues($engagement) {
 
    $issueArray = array();
 
@@ -75,13 +90,43 @@ $smartyHelper->assign('menu2', "menu/management_menu.html");
 
 if (isset($_SESSION['userid'])) {
 
+   $userid = $_SESSION['userid'];
+   $session_user = UserCache::getInstance()->getUser($userid);
 
-   $engagementid = 1;
-   $eng = new Engagement($engagementid);
+   $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 
-   $issueList = getIssueList($eng);
+   // use the engid set in the form, if not defined (first page call) use session engid
+    if (isset($_GET['engid'])) {
+      $engagementid = $_GET['engid'];
+      $_SESSION['engid'] = $engagementid;
 
-   $smartyHelper->assign('issueList', $issueList);
+    } else if (isset($_POST['engid'])) {
+      $engagementid = $_POST['engid'];
+      $_SESSION['engid'] = $engagementid;
+
+   } else {
+      $engagementid = isset($_SESSION['engid']) ? $_SESSION['engid'] : 0;
+   }
+
+
+   // set TeamList (including observed teams)
+   $teamList = $session_user->getTeamList();
+   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+
+   $smartyHelper->assign('engagements', getEngagements($teamid, $engagementid));
+
+   // set EngagementList (for selected the team)
+   if (0 != $engagementid) {
+
+      $eng = new Engagement($engagementid);
+
+      $smartyHelper->assign('engName', $eng->getName());
+      $smartyHelper->assign('engDesc', $eng->getDesc());
+
+      $issueList = getEngagementIssues($eng);
+      $smartyHelper->assign('engIssues', $issueList);
+
+   }
 
 
 

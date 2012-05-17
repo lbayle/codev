@@ -63,10 +63,30 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
 
+<h2>{$engName}</h2>
+{$engDesc}
+
+
+   <div align="center">
+      <!-- create form -->
+      <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
+         <fieldset>
+            <label>{t}Add task{/t}: </label>
+            <input <input  type='text'size='5' value='' name='bug_id' id='bug_id' />
+            <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssueForm()' />
+
+            <input type="hidden" name="action" value="noAction" />
+            <input type="hidden" name="teamid" value="{$defaultTeamId}" />
+            <input type="hidden" name="engid" value="{$defaultEngagementId}" />
+         </fieldset>
+      </form>
+   </div>
+
 
     <table id="issues_table" class="display">
       <thead>
         <tr>
+            <th></th>
             <th>{t}ID{/t}</th>
             <th>{t}Project{/t}</th>
             <th>{t}Target{/t}</th>
@@ -79,8 +99,13 @@ $(document).ready(function() {
         </tr>
       </thead>
       <tbody>
-        {foreach $issueList as $id => $issue}
+        {foreach $engIssues as $id => $issue}
         <tr>
+            <td>
+               <a title="{t}delete this row{/t}" href="javascript: removeEngIssue('{$issue.bugid}')">
+                  <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
+               </a>
+            </td>
             <td>{$issue.bugid}</td>
             <td>{$issue.project}</td>
             <td>{$issue.target}</td>

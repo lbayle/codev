@@ -251,6 +251,7 @@ CREATE TABLE IF NOT EXISTS `codev_blog_activity_table` (
 
 CREATE TABLE IF NOT EXISTS `codev_engagement_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL,
   `start_date` int(11) unsigned default NULL,
   `deadline` int(11) default NULL,
   `team_id` int(11) NOT NULL,

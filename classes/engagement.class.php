@@ -47,6 +47,7 @@ class Engagement {
    // codev_engagement_table
    private $id;
    private $name;
+   private $desc;
    private $startDate;
    private $deadline;
    private $teamid;
@@ -76,6 +77,8 @@ class Engagement {
 	   	exit;
    	}
    	$row = mysql_fetch_object($result);
+      $this->name       = $row->name;
+      $this->desc       = $row->desc;
    	$this->startDate  = $row->start_date;
    	$this->deadline   = $row->deadline;
    	$this->teamid     = $row->team_id;
@@ -96,6 +99,14 @@ class Engagement {
    	{
    		$this->issueSelection->addIssue($row->bug_id);
    	}
+   }
+
+   public function getName() {
+      return $this->name;
+   }
+
+   public function getDesc() {
+      return $this->desc;
    }
 
    public function getIssueSelection() {

@@ -23,12 +23,12 @@
  * @param $teamList
  * @return array
  */
-function getTeams($teamList) {
+function getTeams($teamList, $selectedTeamId) {
     foreach ($teamList as $tid => $tname) {
         $teams[] = array(
             'id' => $tid,
             'name' => $tname,
-            'selected' => $tid == $_SESSION['teamid']
+            'selected' => ($tid == $selectedTeamId)
         );
     }
     return $teams;
