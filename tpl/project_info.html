@@ -1,0 +1,204 @@
+<div id="content">
+   {if $projects}
+   <div style="text-align: center;">
+      <form name="projectForm" method="get" action="{$page}">
+         <fieldset>
+            <label for="projectidSelector">{t}Project{/t}</label>
+            <select id="projectidSelector" name="projectid" title="{t}Project{/t}">
+               {foreach from=$projects key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <input type="submit" value="{t}Jump{/t}" />
+         </fieldset>
+      </form>
+   </div>
+   {/if}
+   {if $versionsOverview || $versionsDetailedMgr || $versionsDetailed || $versionsIssues}
+   <h3>{t}Project Versions{/t}</h3>
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery( "#tabsVersions" ).tabs();
+      });
+   </script>
+   <div id="tabsVersions">
+      <ul>
+         {if $versionsOverview}<li><a href="#tabVersionsOverview">{t}Overview{/t}</a></li>{/if}
+         {if $versionsDetailedMgr}<li><a href="#tabVersionsDetailedMgr">{t}Detailed Mgr{/t}</a></li>{/if}
+         {if $versionsDetailed}<li><a href="#tabVersionsDetailed">{t}Detailed{/t}</a></li>{/if}
+         {if $versionsIssues}<li><a href="#tabVersionsIssues">{t}Tasks{/t}</a></li>{/if}
+      </ul>
+      {if $versionsOverview}
+      <div id="tabVersionsOverview">
+         <table>
+            <tr>
+               <th>{t}Target version{/t}</th>
+               <th>{t}Date{/t}</th>
+               <th>{t}Progress Mgr{/t}</th>
+               <th>{t}Progress{/t}</th>
+               <th style="width: 80px">{t}Drift Mgr{/t}</th>
+               <th style="width: 80px">{t}Drift{/t}</th>
+            </tr>
+            {foreach from=$versionsOverview key=name item=i name=versionsOverview}
+            <tr {if $smarty.foreach.versionsOverview.last}class="row_even"{/if}>
+               <td>{$i.name}</td>
+               <td>{$i.date}</td>
+               <td>{$i.progressMgr}%</td>
+               <td>{$i.progress}%</td>
+               <td {$i.driftMgrColor}>{$i.driftMgr}%</td>
+               <td {$i.driftColor}>{$i.drift}%</td>
+            </tr>
+            {/foreach}
+         </table>
+      </div>
+      {/if}
+      {if $versionsDetailedMgr}
+      <div id="tabVersionsDetailedMgr">
+         <table>
+            <tr>
+               <th>{t}Target version{/t}</th>
+               <th>{t}MgrEffortEstim{/t}</th>
+               <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+               <th>{t}Elapsed{/t}</th>
+               <th>{t}Remaining Mgr{/t}</th>
+               <th style="width: 80px">{t}Drift Mgr{/t}</th>
+            </tr>
+            {foreach from=$versionsDetailedMgr key=name item=i name=versionsDetailedMgr}
+               <tr {if $smarty.foreach.versionsDetailedMgr.last}class="row_even"{/if}>
+                  <td>{$i.name}</td>
+                  <td>{$i.effortEstim}</td>
+                  <td>{$i.reestimated}</td>
+                  <td>{$i.elapsed}</td>
+                  <td>{$i.remaining}</td>
+                  <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
+               </tr>
+            {/foreach}
+         </table>
+      </div>
+      {/if}
+      {if $versionsDetailed}
+      <div id="tabVersionsDetailed">
+         <table>
+            <tr>
+               <th>{t}Target version{/t}</th>
+               <th>{t}EffortEstim{/t}</th>
+               <th>{t}Reestimated{/t}</th>
+               <th>{t}Elapsed{/t}</th>
+               <th>{t}Remaining{/t}</th>
+               <th style="width: 80px">{t}Drift{/t}</th>
+            </tr>
+            {foreach from=$versionsDetailed key=name item=i name=versionsDetailed}
+               <tr {if $smarty.foreach.versionsDetailed.last}class="row_even"{/if}>
+                  <td>{$i.name}</td>
+                  <td {$i.title}>{$i.effortEstim}</td>
+                  <td>{$i.reestimated}</td>
+                  <td>{$i.elapsed}</td>
+                  <td>{$i.remaining}</td>
+                  <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
+               </tr>
+            {/foreach}
+         </table>
+      </div>
+      {/if}
+      {if $versionsIssues}
+      <div id="tabVersionsIssues">
+         <table>
+            <tr>
+               <th>{t}Target version{/t}</th>
+               <th>{t}New Tasks{/t}</th>
+               <th>{t}Current Tasks{/t}</th>
+               <th>{t}Resolved Tasks{/t}</th>
+            </tr>
+            {foreach from=$versionsIssues key=name item=i}
+               <tr>
+                  <td>{$i.name}</td>
+                  <td>{$i.newList}</td>
+                  <td>{$i.openList}</td>
+                  <td>{$i.resolvedList}</td>
+               </tr>
+            {/foreach}
+         </table>
+      </div>
+      {/if}
+   </div>
+   {/if}
+   {if $currentIssuesInDrift || $resolvedIssuesInDrift}
+   <h3 style="margin-top: 2em">{t}Tasks in drift{/t}</h3>
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#tabsDrift").tabs();
+      });
+   </script>
+   <div id="tabsDrift">
+      <ul>
+         {if $currentIssuesInDrift}<li><a href="#tabCurrentDrift">{t}Current tasks{/t}</a></li>{/if}
+         {if $resolvedIssuesInDrift}<li><a href="#tabResolvedDrift">{t}Resolved tasks{/t}</a></li>{/if}
+      </ul>
+      {if $currentIssuesInDrift}
+      <div id="tabCurrentDrift">
+         <table>
+            <!--<caption>{t}Tasks in drift{/t}</caption>-->
+            <tr>
+               <th>{t}ID{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Target{/t}</th>
+               {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+               <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+               <th>{t}RAF{/t}</th>
+               <th>{t}Progress{/t}</th>
+               <th>{t}Status{/t}</th>
+               <th>{t}Summary{/t}</th>
+            </tr>
+            {foreach from=$currentIssuesInDrift key=name item=i}
+            <tr>
+               <td>{$i.issueURL}</td>
+               <td>{$i.projectName}</td>
+               <td>{$i.targetVersion}</td>
+               {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
+               <td {$i.driftColor}>{$i.drift}</td>
+               <td>{$i.remaining}</td>
+               <td>{$i.progress}%</td>
+               <td>{$i.currentStatusName}</td>
+               <td>{$i.summary}</td>
+            </tr>
+            {/foreach}
+         </table>
+      </div>
+      {/if}
+      {if $resolvedIssuesInDrift}
+      <div id="tabResolvedDrift">
+         <table>
+            <!--<caption>{t}Tasks in drift{/t}</caption>-->
+            <tr>
+               <th>{t}ID{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Target{/t}</th>
+               {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+               <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+               <th>{t}RAF{/t}</th>
+               <th>{t}Progress{/t}</th>
+               <th>{t}Status{/t}</th>
+               <th>{t}Summary{/t}</th>
+            </tr>
+            {foreach from=$resolvedIssuesInDrift key=name item=i}
+               <tr>
+                  <td>{$i.issueURL}</td>
+                  <td>{$i.projectName}</td>
+                  <td>{$i.targetVersion}</td>
+                  {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
+                  <td {$i.driftColor}>{$i.drift}</td>
+                  <td>{$i.remaining}</td>
+                  <td>{$i.progress}%</td>
+                  <td>{$i.currentStatusName}</td>
+                  <td>{$i.summary}</td>
+               </tr>
+            {/foreach}
+         </table>
+      </div>
+      {/if}
+   </div>
+   {/if}
+   {if $error}
+   <p style="text-align: center">{$error}</div>
+   {/if}
+</div>
