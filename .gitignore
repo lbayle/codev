@@ -10,4 +10,5 @@ lib/jpgraph/src/Examples
 lib/jpgraph/src/barcode/examples
 lib/jpgraph/src/barcode/demoapp
 templates_c
+.idea
 
