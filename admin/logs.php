@@ -22,55 +22,54 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
+include_once('user_cache.class.php');
 include_once('user.class.php');
 
 // ================ MAIN =================
 global $codevtt_logfile;
 
+require('display.inc.php');
+
+$smartyHelper = new SmartyHelper();
+$smartyHelper->assign('pageName', T_('CodevTT Logs'));
+
 if (isset($_SESSION['userid'])) {
 
-    // Admins only
-    $session_user = new User($_SESSION['userid']);
+   // Admins only
+   //$session_user = new User($_SESSION['userid']);
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-    require('display.inc.php');
+   $smartyHelper->assign('menu2', "menu/admin_menu.html");
 
-    if (!$session_user->isTeamMember($admin_teamid)) {
-        echo T_("Sorry, you need to be in the admin-team to access this page.");
-        exit;
-    }
+   if (!$session_user->isTeamMember($admin_teamid)) {
+      if ( (NULL != $codevtt_logfile) && (file_exists($codevtt_logfile))) {
+         $nbLinesToDisplay = 1500;
 
-    $smartyHelper = new SmartyHelper();
-    $smartyHelper->assign('pageName', T_('CodevTT Logs'));
-    $smartyHelper->assign('menu2', "menu/admin_menu.html");
+         $lines = file($codevtt_logfile);
 
-    $nbLinesToDisplay = 1500;
+         if (count($lines) > $nbLinesToDisplay) {
+            $offset = count($lines) - $nbLinesToDisplay;
+         } else {
+            $offset = 0;
+         }
 
-    $logs = array();
+         $logs = array();
+         #foreach ($lines as $line_num => $line) {
+         for ($i = $offset; $i <= ($offset+$nbLinesToDisplay); $i++) {
+            $logs[$i] = htmlspecialchars($lines[$i], ENT_QUOTES, "UTF-8");
+            #echo "DEBUG $line_num - ".$logs[$line_num]."<br>";
+         }
 
-    if ( (NULL == $codevtt_logfile) || (!file_exists($codevtt_logfile))) {
-       echo T_("Sorry, logfile not found:")." [".$codevtt_logfile."]";
-       exit;
-    }
-
-    $lines = file($codevtt_logfile);
-
-    if (count($lines) > $nbLinesToDisplay) {
-    	$offset = count($lines) - $nbLinesToDisplay;
-    } else {
-       $offset = 0;
-    }
-
-	#foreach ($lines as $line_num => $line) {
-	for ($i = $offset; $i <= ($offset+$nbLinesToDisplay); $i++) {
-
-		$logs["$i"] = htmlspecialchars($lines[$i], ENT_QUOTES, "UTF-8");
-
-		#echo "DEBUG $line_num - ".$logs[$line_num]."<br>";
-	}
-
-	$smartyHelper->assign('logs', $logs);
+         $smartyHelper->assign('logs', $logs);
+      } else {
+         $smartyHelper->assign('error',T_('Sorry, logfile not found:').' ['.$codevtt_logfile.']');
+      }
+   } else {
+       $smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
+   }
+} else {
+   $smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
 }
-
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 

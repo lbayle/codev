@@ -1,27 +1,25 @@
 <script type="text/javascript" charset="utf-8">
-
-// ------ JQUERY --------
-   $(document).ready(function() {
-      $('#logs_table').dataTable(
-         {
-            "sScrollY": "700px",
-            "bPaginate": false,
-            "bScrollCollapse": true,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false
-         });
-   } );
+   jQuery(document).ready(function() {
+      jQuery('#logs_table').dataTable({
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+   });
 </script>
 
 <div id="content" style="margin-left:10em;margin-right:10em">
-    <table id="logs_table" class="display">
+   {if $logs}
+   <table id="logs_table" class="display">
       <thead>
-        <tr>
+         <tr>
             <th>{t}Line{/t}</th>
             <th>{t}Log{/t}</th>
-        </tr>
+         </tr>
       </thead>
       <tbody>
         {foreach $logs as $line => $text}
@@ -31,5 +29,8 @@
         </tr>
         {/foreach}
       </tbody>
-    </table>
+   </table>
+   {else}
+   <p style="text-align: center">{$error}</p>
+   {/if}
 </div>
