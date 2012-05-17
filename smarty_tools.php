@@ -35,4 +35,30 @@ function getTeams($teamList, $selectedTeamId) {
 }
 
 
+/**
+ * Get detailed mgr
+ * @param array $issueSelection
+ * @return array
+ */
+function getIssueSelectionDetailedMgr($issueSelection) {
+
+   //$formatedList  = implode( ',', array_keys($issueSelection->getIssueList()));
+
+   $valuesMgr = $issueSelection->getDriftMgr();
+
+   $driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
+   $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
+
+   $selectionDetailedMgr = array('name' => $issueSelection->name,
+      //'progress' => round(100 * $pv->getProgress()),
+      'effortEstim' => $issueSelection->mgrEffortEstim,
+      'reestimated' => ($issueSelection->remainingMgr + $issueSelection->elapsed),
+      'elapsed' => $issueSelection->elapsed,
+      'remaining' => $issueSelection->remainingMgr,
+      'driftColor' => $formatteddriftMgrColor,
+      'drift' => round($valuesMgr['nbDays'],2)
+   );
+   return $selectionDetailedMgr;
+}
+
 ?>

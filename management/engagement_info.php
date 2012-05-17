@@ -79,6 +79,8 @@ function getEngagementIssues($engagement) {
 }
 
 
+
+
 // =========== MAIN ==========
 
 require('display.inc.php');
@@ -115,7 +117,7 @@ if (isset($_SESSION['userid'])) {
 
    $smartyHelper->assign('engagements', getEngagements($teamid, $engagementid));
 
-   // set EngagementList (for selected the team)
+
    if (0 != $engagementid) {
 
       $eng = new Engagement($engagementid);
@@ -123,6 +125,12 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('engName', $eng->getName());
       $smartyHelper->assign('engDesc', $eng->getDesc());
 
+      // set Eng Details
+      $engDetailedMgr = getIssueSelectionDetailedMgr($eng->getIssueSelection());
+      $smartyHelper->assign('engDetailedMgr', $engDetailedMgr);
+
+
+      // set EngagementList (for selected the team)
       $issueList = getEngagementIssues($eng);
       $smartyHelper->assign('engIssues', $issueList);
 

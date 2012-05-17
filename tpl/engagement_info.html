@@ -63,9 +63,35 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
 
-<h2>{$engName}</h2>
-{$engDesc}
+   <h2>{$engName}</h2>
+   {$engDesc}
 
+   <br/><br/>
+
+      {if $engDetailedMgr}
+      <div>
+         <table>
+            <tr>
+               <th>{t}MgrEffortEstim{/t}</th>
+               <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+               <th>{t}Elapsed{/t}</th>
+               <th>{t}Remaining Mgr{/t}</th>
+               <th style="width: 80px">{t}Drift Mgr{/t}</th>
+            </tr>
+               <tr>
+                  <td>{$engDetailedMgr.effortEstim}</td>
+                  <td>{$engDetailedMgr.reestimated}</td>
+                  <td>{$engDetailedMgr.elapsed}</td>
+                  <td>{$engDetailedMgr.remaining}</td>
+                  <td {$engDetailedMgr.driftColor} title="{t}nb days{/t}">{$engDetailedMgr.drift}</td>
+               </tr>
+         </table>
+      </div>
+      {/if}
+
+
+   <div style="margin-top:2em;">
+   <br/><br/>
 
    <div align="center">
       <!-- create form -->
