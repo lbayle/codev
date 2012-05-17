@@ -41,7 +41,7 @@ if (isset($_SESSION['userid'])) {
 
    $smartyHelper->assign('menu2', "menu/admin_menu.html");
 
-   if (!$session_user->isTeamMember($admin_teamid)) {
+   if ($session_user->isTeamMember($admin_teamid)) {
       if ( (NULL != $codevtt_logfile) && (file_exists($codevtt_logfile))) {
          $nbLinesToDisplay = 1500;
 
