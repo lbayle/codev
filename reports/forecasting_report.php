@@ -185,7 +185,7 @@ function getGraphUrl($width, $height, $legend, $bottomLabel) {
 function getDates($timeTrackingTable, $val1) {
     $i = 0;
     foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-        $availableWorkloadGraph[date("F Y", $startTimestamp)] = round($val1[$i], 1);
+        $availableWorkloadGraph[formatDate("%B %Y", $startTimestamp)] = round($val1[$i], 1);
         $i++;
     }
     return $availableWorkloadGraph;
@@ -293,8 +293,8 @@ if (isset($_SESSION['userid'])) {
             $timeTrackingTable = createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
             foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
                 $val1[] = $timeTracking->getAvailableWorkload();
-                $bottomLabel[] = date("M y", $startTimestamp);
-                #$logger->debug("workload=$workload date=".date('M y', $startTimestamp));
+                $bottomLabel[] = formatDate("%b %y", $startTimestamp);
+                #$logger->debug("workload=$workload date=".formatDate("%b %y", $startTimestamp));
             }
             $smartyHelper->assign('graphUrl', getGraphUrl(800, 300, $val1, $bottomLabel));
             $smartyHelper->assign('dates', getDates($timeTrackingTable, $val1));
