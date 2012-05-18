@@ -97,16 +97,23 @@ if (isset($_SESSION['userid'])) {
    $userid = $_SESSION['userid'];
    $session_user = UserCache::getInstance()->getUser($userid);
 
-   $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+   $teamid = 0;
+   if(isset($_POST['teamid'])) {
+      $teamid = $_POST['teamid'];
+   } else if(isset($_SESSION['teamid'])) {
+      $teamid = $_SESSION['teamid'];
+   }
+   $_SESSION['teamid'] = $teamid;
+
 
    // use the engid set in the form, if not defined (first page call) use session engid
    $engagementid = 0;
-   if(isset($_GET['engid'])) {
-      $engagementid = $_GET['engid'];
+   if(isset($_POST['engid'])) {
+      $engagementid = $_POST['engid'];
    } else if(isset($_SESSION['engid'])) {
       $engagementid = $_SESSION['engid'];
    }
-   $_SESSION['projectid'] = $engagementid;
+   $_SESSION['engid'] = $engagementid;
 
 
    // set TeamList (including observed teams)

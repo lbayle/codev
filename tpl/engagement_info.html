@@ -1,9 +1,10 @@
 <script type="text/javascript">
 
 function setTeam() {
-   document.forms["form1"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["form1"].action.value="setTeam";
-   document.forms["form1"].submit();
+   document.forms["engagementSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["engagementSelectForm"].engid.value="0";
+   document.forms["engagementSelectForm"].action.value="setTeam";
+   document.forms["engagementSelectForm"].submit();
 }
 
 function submitForm() {
@@ -54,10 +55,10 @@ $(document).ready(function() {
 
    <div align="center">
       <!-- create form -->
-      <form id='engagementSelectForm' name='engagementSelectForm' method='get' action='{$page}'>
+      <form id='engagementSelectForm' name='engagementSelectForm' method='post' action='{$page}'>
          <fieldset>
             <label>{t}Team{/t}: </label>
-            <select id='teamSelector' name='teamid' onchange='javascript: setTeam'>
+            <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
                <option value='0'></option>
                {foreach from=$teams key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
@@ -70,7 +71,7 @@ $(document).ready(function() {
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
-            <input type="submit" value='{t}Jump{/t}' />
+            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
             
             <input type="hidden" name="action" value="noAction" />
          </fieldset>
