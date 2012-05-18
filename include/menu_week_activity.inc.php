@@ -21,11 +21,9 @@
    include_once "tools.php";
 ?>
 
-<div id="menu">
+<div class="menu">
 
 <?php 
-
- 
 echo "<table>\n";
 echo "   <tr>\n";
 echo "      <td><a href='".getServerRootURL()."/timetracking/team_activity_report.php'>".T_("Team Activity")."</a>\n";
@@ -35,6 +33,4 @@ echo "      </td>\n";
 echo "   </tr>\n";
 echo "</table>\n";
 ?>      
-<br/>
-<br/>
 </div>

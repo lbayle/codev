@@ -21,7 +21,7 @@ include_once 'i18n.inc.php';
 include_once "tools.php";
 ?>
 
-<div id="menu">
+<div class="menu">
 
 <?php 
 
@@ -49,6 +49,5 @@ echo "      </td>\n";
 echo "   </tr>\n";
 echo "</table>\n";
 ?>      
-<br/>
 <br/>
 </div>

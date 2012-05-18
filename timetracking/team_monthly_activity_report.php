@@ -50,7 +50,6 @@ $threshold = 0.5; // for Deviation filters
 
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Team Monthly Activity'));
-$smartyHelper->assign('menu2', "menu/team_activity_menu.html");
 
 if (isset($_SESSION['userid'])) {
 
