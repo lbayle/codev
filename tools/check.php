@@ -94,10 +94,9 @@ $smartyHelper->assign('pageName', T_('Consistency Check'));
 
 // Consistency errors
 if (isset($_SESSION['userid'])) {
-
    // use the teamid set in the form, if not defined (first page call) use session teamid
-   if (isset($_POST['teamid'])) {
-      $teamid = $_POST['teamid'];
+   if (isset($_GET['teamid'])) {
+      $teamid = $_GET['teamid'];
    } else {
       $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    }
@@ -114,7 +113,7 @@ if (isset($_SESSION['userid'])) {
    if (count($teamList) > 0) {
       $smartyHelper->assign('teams', getTeams($teamList));
 
-      if ("displayPage" == $_POST['action'] && 0 != $teamid) {
+      if (isset($_GET['teamid']) && 0 != $teamid) {
 
          $consistencyErrors = getTeamConsistencyErrors($teamid);
 
