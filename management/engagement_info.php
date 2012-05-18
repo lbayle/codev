@@ -89,7 +89,6 @@ require('display.inc.php');
 
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Engagement'));
-$smartyHelper->assign('menu2', "menu/management_menu.html");
 
 if (isset($_SESSION['userid'])) {
 

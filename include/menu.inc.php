@@ -21,15 +21,15 @@
    include_once 'i18n.inc.php';
 ?>
 
-<div id="menu">
+<div class="menu">
 
 <?php
 global $mantisURL;
 
 
-echo "<table class='menu'>\n";
+echo "<table>\n";
 echo "   <tr>\n";
-echo "      <td class='menu'><a href='".getServerRootURL()."/index.php'>".T_("Home")."</a></td>\n";
+echo "      <td><a href='".getServerRootURL()."/index.php'>".T_("Home")."</a></td>\n";
 
 echo "      <td><a href='".$mantisURL."' title='MantisBT'>Mantis</a></td>\n";
 
@@ -67,7 +67,6 @@ echo "      </td>\n";
 echo "  </tr>\n";
 echo "</table>";
 ?>
-<br/>
 <br/>
 </div>
 

@@ -55,10 +55,10 @@
         {/if}
         </div>
         
-        <div id="menu">
+        <div class="menu">
             <table>
                 <tr>
-                    <td class="menu"><a href="index.php">{t}Home{/t}</a></td>
+                    <td><a href="index.php">{t}Home{/t}</a></td>
                     <td><a href="{$mantisURL}" title="MantisBT">Mantis</a></td>
                     <td>
                         <a href="timetracking/time_tracking.php" title="{t}Time Tracking{/t}">{t}Time Tracking{/t}</a> | 
@@ -83,17 +83,6 @@
                 </tr>
             </table>
         </div>
-        
-        {if $menu2}
-        <br/>
-        <br/>
-        <br/>
-        <div id="menu">
-            {include file="$menu2"}
-        </div>
-        <br/>
-        <br/>
-        {/if}
         
         <div id="main">
             {include file="$tpl_name.html"}
