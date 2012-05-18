@@ -1,0 +1,87 @@
+{include file="menu/week_activity_menu.html"}
+
+<div id="content" class="center">
+   {if $teams}
+   <h2>{t}Projects Activity{/t}</h2>
+   <form method="post" action="{$page}">
+      <fieldset>
+         <label>{t}Team{/t}: </label>
+         <select id="teamid" name="teamid">
+            {foreach from=$teams key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+            {/foreach}
+         </select>
+         <script type="text/javascript" src="js/datepicker.js"></script>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               {if $locale != en}
+                  jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+               {/if}
+
+               // Set the date
+               var startDatePicker = jQuery("#startdatepicker").datepicker("setDate" ,"{$startDate}");
+               var endDatePicker = jQuery("#enddatepicker").datepicker("setDate" ,"{$endDate}");
+
+               // Add range date
+               startDatePicker.datepicker("option","beforeShow",function(input) {
+                  jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
+               });
+               endDatePicker.datepicker("option","beforeShow",function(input) {
+                  jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
+               });
+            });
+         </script>
+         <label for="startdatepicker">{t}From{/t}:</label>
+         <input type="text" id="startdatepicker" class="datepicker" name="startdate" maxlength="10" size="10" title="{t}Start Date{/t}" />
+         <label for="enddatepicker">{t}To{/t}:</label>
+         <input type="text" id="enddatepicker" class="datepicker" name="enddate" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+         <label style="vertical-align: bottom;"><input type="checkbox" {if $isDetailed}checked="checked"{/if} name="cb_detailed" id="cb_detailed" />{t}Detailed{/t}</label>
+         <input type="submit" value="{t}Compute{/t}" />
+      </fieldset>
+    </form>
+
+   {if $projectActivityReport}
+   <div align="center">
+      {foreach from=$projectActivityReport key=id item=i}
+      {if $i.bugList}
+      <table style="width: 99%;margin-top: 2em">
+         <caption>{$i.name}</caption>
+         <tr>
+            <th style="width: 50%">{t}Task{/t}</th>
+            {if $i.jobList}
+            {foreach from=$i.jobList key=id item=j}
+            <th style="width: {$j.width}%">{$j.name}</th>
+            {/foreach}
+            {/if}
+            <th style="width: 10%" title="{t}Target version{/t}">{t}Target{/t}</th>
+            <th style="width: 2%">{t}Status{/t}</th>
+            <th style="width: 2%">{t}Progress{/t}</th>
+            <th style="width: 2%">{t}RAF{/t}</th>
+            <th style="width: 2%" title="{t}Total time spent on this issue{/t}">{t}Total{/t}</th>
+         </tr>
+         {foreach from=$i.bugList key=id item=k}
+         <tr class ="{$k.class}">
+            <td>{$k.issueURL} / {$k.id} : {$k.summary}</td>
+            {if $isDetailed && $k.jobList}
+            {foreach from=$k.jobList key=id item=l}
+            <td style="width: {$l.width}%">{$l.id}</td>
+            {/foreach}
+            {/if}
+            <td>{$k.targetVersion}</td>
+            <td>{$k.currentStatusName}</td>
+            <td>{$k.progress}%</td>
+            <td>{$k.remaining}</td>
+            <td>{$k.totalTime}</td>
+            </tr>
+         {/foreach}
+         </table>
+      {/if}
+      {/foreach}
+   </div>
+   {/if}
+
+   {else}
+   <p>{t}Sorry, you do NOT have access to this page.{/t}<p>
+   {/if}
+
+</div>
