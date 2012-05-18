@@ -1,68 +1,36 @@
-<script type="text/javascript">
-function submitTeam(){
-    var foundError = 0;
-    var msgString = "Some fields are missing:" + "\n\n";
-
-    if (0 == document.forms["teamSelectForm"].teamid.value)  { msgString += "Team\n"; ++foundError; }
-
-    if (0 != foundError) {
-        alert(msgString);
-        return false;
-    }
-    document.forms["teamSelectForm"].submit();
-}
-</script>
-
-
 <div id="content">
+   {if $teams}
 
-    {if $teams}
-	    <div align="center">
-	        <!-- create form -->
-	        <form id='teamSelectForm' name='teamSelectForm' method='post' action='{$page}'>
-	            <fieldset>
-	                <label>{t}Team{/t}: </label>
-	                <select name='teamid'>
-	                    <option value='0'></option>
-	                    {foreach from=$teams key=id item=i}
-	                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-	                    {/foreach}
-	                </select>
-	                <input type="button" value='{t}Update{/t}' onclick='javascript: submitTeam()' />
-	                <input type="hidden" name="action" value="displayPage" />
-	            </fieldset>
-	        </form>
-	    </div>
+   {include file="form/teamForm.html"}
 
-	    {if $teamid}
-		    <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
-	
-		    {if $consistencyErrors}
-		    <table>
-		        <tr>
-		            <th>{t}User{/t}</th>
-		            <th>{t}Task{/t}</th>
-		            <th title="{t}last modification date{/t}">Date</th>
-		            <th>{t}Level{/t}</th>
-		            <th>{t}Status{/t}</th>
-		            <th>{t}Project{/t}</th>
-                  <th>{t}TargetVersion{/t}</th>
-		            <th>{t}Error Description{/t}</th>
-		        </tr>
-		        {foreach from=$consistencyErrors key=id item=i}
-		        <tr>
-		            <td>{$i.userName}</td>
-		            <td>{$i.mantisIssueURL}</td>
-		            <td>{$i.date}</td>
-		            <td>{$i.severity}</td>
-		            <td>{$i.status}</td>
-		            <td>{$i.project}</td>
-                  <td>{$i.targetVersion}</td>
-		            <td>{$i.desc}</td>
-		        </tr>
-		        {/foreach}
-		    </table>
-		   {/if}
-	   {/if}
+    {if $teamid}
+    <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
+    {if $consistencyErrors}
+    <table>
+        <tr>
+            <th>{t}User{/t}</th>
+            <th>{t}Task{/t}</th>
+            <th title="{t}last modification date{/t}">Date</th>
+            <th>{t}Level{/t}</th>
+            <th>{t}Status{/t}</th>
+            <th>{t}Project{/t}</th>
+            <th>{t}TargetVersion{/t}</th>
+            <th>{t}Error Description{/t}</th>
+        </tr>
+        {foreach from=$consistencyErrors key=id item=i}
+        <tr>
+            <td>{$i.userName}</td>
+            <td>{$i.mantisIssueURL}</td>
+            <td>{$i.date}</td>
+            <td>{$i.severity}</td>
+            <td>{$i.status}</td>
+            <td>{$i.project}</td>
+            <td>{$i.targetVersion}</td>
+            <td>{$i.desc}</td>
+        </tr>
+        {/foreach}
+    </table>
+   {/if}
+   {/if}
    {/if}
 </div>

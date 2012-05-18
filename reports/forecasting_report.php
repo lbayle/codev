@@ -234,14 +234,9 @@ $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Forecasting'));
 
 if (isset($_SESSION['userid'])) {
-    /*
-    $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-    $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
-    $_SESSION['teamid'] = $teamid;
-    */
     // use the teamid set in the form, if not defined (first page call) use session teamid
-    if (isset($_POST['teamid'])) {
-        $teamid = $_POST['teamid'];
+    if (isset($_GET['teamid'])) {
+        $teamid = $_GET['teamid'];
     } else {
         $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
     }
@@ -258,7 +253,7 @@ if (isset($_SESSION['userid'])) {
     if (count($teamList) > 0) {
         $smartyHelper->assign('teams', getTeams($teamList));
 
-        if ("displayPage" == $_POST['action'] && 0 != $teamid) {
+        if (isset($_GET['teamid']) && 0 != $teamid) {
             $withSupport = true;
 
             $weekDates = week_dates(date('W'),date('Y'));
