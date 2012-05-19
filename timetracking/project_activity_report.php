@@ -113,10 +113,11 @@ if(isset($_SESSION['userid'])) {
       $_SESSION['teamid'] = $teamid;
 
       // dates
-      $startdate = isset($_POST["startdate"]) ? $_POST["startdate"] : date("Y-m-d");
+      $weekDates = week_dates(date('W'),date('Y'));
+      $startdate = isset($_POST["startdate"]) ? $_POST["startdate"] : formatDate("%Y-%m-%d",$weekDates[1]);
       $smartyHelper->assign('startDate', $startdate);
 
-      $enddate = isset($_POST["enddate"]) ? $_POST["enddate"] : "";
+      $enddate = isset($_POST["enddate"]) ? $_POST["enddate"] : formatDate("%Y-%m-%d",$weekDates[5]);
       $smartyHelper->assign('endDate', $enddate);
 
       $smartyHelper->assign('teams', getTeams($teamList,$teamid));
