@@ -91,9 +91,34 @@ $(document).ready(function() {
 
    <br/><br/>
 
+   <div>
+      <table class='invisible'>
+            <tr>
+               <th>{t}Date depart{/t}</th>
+               <td>: {$engStartDate}</td>
+            </tr>
+            <tr>
+               <th>{t}Date fin{/t}</th>
+               <td>: {$engDeadline}</td>
+            </tr>
+            <tr>
+               <th>{t}Budjet Developpement{/t}</th>
+               <td>: {$engBudjetDev} {t}days{/t}</td>
+            </tr>
+            <tr>
+               <th>{t}Budjet Management{/t}</th>
+               <td>: {$engBudjetMngt} {t}days{/t}</td>
+            </tr>
+            
+      </table>
+   </div>
+
+   <br/><br/>
+
       {if $engDetailedMgr}
       <div>
          <table>
+            <thead>
             <tr>
                <th>{t}MgrEffortEstim{/t}</th>
                <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
@@ -101,13 +126,16 @@ $(document).ready(function() {
                <th>{t}Remaining Mgr{/t}</th>
                <th style="width: 80px">{t}Drift Mgr{/t}</th>
             </tr>
-               <tr>
-                  <td>{$engDetailedMgr.effortEstim}</td>
-                  <td>{$engDetailedMgr.reestimated}</td>
-                  <td>{$engDetailedMgr.elapsed}</td>
-                  <td>{$engDetailedMgr.remaining}</td>
-                  <td {$engDetailedMgr.driftColor} title="{t}nb days{/t}">{$engDetailedMgr.drift}</td>
-               </tr>
+            </thead>
+            <tbody>
+            <tr>
+               <td>{$engDetailedMgr.effortEstim}</td>
+               <td>{$engDetailedMgr.reestimated}</td>
+               <td>{$engDetailedMgr.elapsed}</td>
+               <td>{$engDetailedMgr.remaining}</td>
+               <td {$engDetailedMgr.driftColor} title="{t}nb days{/t}">{$engDetailedMgr.drift}</td>
+            </tr>
+            </tbody>
          </table>
       </div>
       {/if}

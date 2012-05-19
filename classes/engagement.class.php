@@ -110,6 +110,22 @@ class Engagement {
       return $this->desc;
    }
 
+   public function getStartDate() {
+      return $this->startDate;
+   }
+
+   public function getDeadline() {
+      return $this->deadline;
+   }
+
+   public function getBudjetDev() {
+      return $this->budjetDev;
+   }
+
+   public function getBudjetMngt() {
+      return $this->budjetMngt;
+   }
+
    public function getIssueSelection() {
       return $this->issueSelection;
    }

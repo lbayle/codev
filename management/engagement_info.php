@@ -141,6 +141,11 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('engid', $engagementid);
       $smartyHelper->assign('engName', $eng->getName());
       $smartyHelper->assign('engDesc', $eng->getDesc());
+      $smartyHelper->assign('engBudjetDev', $eng->getBudjetDev());
+      $smartyHelper->assign('engBudjetMngt', $eng->getBudjetMngt());
+      $smartyHelper->assign('engBudjetTotal', $eng->getBudjetDev() + $eng->getBudjetMngt());
+      $smartyHelper->assign('engStartDate', date("Y-m-d", $eng->getStartDate()));
+      $smartyHelper->assign('engDeadline', date("Y-m-d", $eng->getDeadline()));
 
       // set Eng Details
       $engDetailedMgr = getIssueSelectionDetailedMgr($eng->getIssueSelection());

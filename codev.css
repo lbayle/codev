@@ -2,13 +2,13 @@ body {
   font-family: Verdana, Arial, Helvetica, sans-serif;
   color: black;
   background-color: white;
-  font-size: 12px; 
+  font-size: 12px;
 }
 code {
   font-family: sans-serif;
   color: black;
   background-color: white;
-  font-size: 12px; 
+  font-size: 12px;
 }
 h1 {
   text-align: center;
@@ -88,6 +88,16 @@ table.invisible {
 border: 0;
 background-color: white;
 }
+table.invisible th {
+background-color: white;
+border: 0 solid white;
+font-family : Verdana,Arial,Helvetica,sans-serif;
+font-weight: bold;
+white-space : nowrap;
+text-align : left;
+font-size: 12px;
+padding: 3px;
+}
 table.invisible td {
 background-color: white;
 border: 0 solid white;
@@ -110,7 +120,7 @@ font-weight: bold;
 }
 
 div.menu table {
-  /* border: 1px solid black; */ 
+  /* border: 1px solid black; */
   width: 100%
 }
 div.menu td {
