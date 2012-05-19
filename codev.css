@@ -53,7 +53,15 @@ border: 0 solid white;
 margin: 0;
 padding: 0 2px;
 }
-fieldset { padding:0; border:0; }
+fieldset {
+   padding: 0;
+   border: 0;
+}
+input, select, textarea {
+   font-family: tahoma;
+   font-size: 11px;
+}
+
 #validateTips { border: 1px solid transparent; padding: 0.3em; }
 .validateTips { border: 1px solid transparent; padding: 0.3em; }
 
