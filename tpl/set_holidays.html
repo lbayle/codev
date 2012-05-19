@@ -42,7 +42,6 @@
 
     <!-- display Track Form -->
     <div style="margin-top:2em">
-        <script type="text/javascript" src="js/datepicker.js"></script>
         <script type="text/javascript">
             function setProjectid() {
                 document.forms["form1"].action.value="setProjectid";
@@ -79,31 +78,10 @@
                     alert(msgString);
                 }
             }
-
-            jQuery(document).ready(function() {
-                {if $locale != en}
-                jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
-                {/if}
-
-                // Set the date
-                var startDatePicker = jQuery("#startdatepicker").datepicker("setDate" ,"{$startDate}");
-                var endDatePicker = jQuery("#enddatepicker").datepicker("setDate" ,"{$endDate}");
-
-                // Add range date
-                startDatePicker.datepicker("option","beforeShow",function(input) {
-                    jQuery(this).datepicker("option","maxDate",endDatePicker.datepicker("getDate"));
-                });
-                endDatePicker.datepicker("option","beforeShow",function(input) {
-                    jQuery(this).datepicker("option","minDate",startDatePicker.datepicker("getDate"));
-                });
-            });
         </script>
         <form name="form1" method="post" action="{$page}">
             <fieldset>
-                <label for="startdatepicker">{t}From{/t}:</label>
-                <input type="text" id="startdatepicker" class="datepicker" name="startdate" maxlength="10" size="10" title="{t}Start Date{/t}" />
-                <label for="enddatepicker">{t}To{/t}:</label>
-                <input type="text" id="enddatepicker" class="datepicker" name="enddate" maxlength="10" size="10" title="{t}End Date (included){/t}" />
+                {include file="form/dateRangeSelector.html"}
                 {if $projects}
                 <select id="projectid" name="projectid" onchange="javascript: setProjectid()" title="{t}Project{/t}">
                     <option value="0">{t}(all){/t}</option>
