@@ -18,22 +18,52 @@
 
 /**
  * Convert a teamList in a Smarty comprehensible array
- *
- *
- * @param $teamList
+ * @param int $teamList The teams
+ * @param int $selectedTeamId The selected team
  * @return array
  */
 function getTeams($teamList, $selectedTeamId) {
     foreach ($teamList as $tid => $tname) {
-        $teams[] = array(
-            'id' => $tid,
-            'name' => $tname,
-            'selected' => ($tid == $selectedTeamId)
+        $teams[] = array('id' => $tid,
+                         'name' => $tname,
+                         'selected' => ($tid == $selectedTeamId)
         );
     }
     return $teams;
 }
 
+/**
+ * Get the list of weeks of a specific year in Smarty comprehensible array
+ * @param int $weekid The selected week
+ * @param int $year The specific year
+ * @return array The result
+ */
+function getWeeks($weekid, $year) {
+   for ($i = 1; $i <= 53; $i++) {
+      $wDates = week_dates($i,$year);
+      $monday = strftime(T_('W').'%U | %d %b', strtotime("Monday",$wDates[1]));
+      $friday = strftime("%d %b", strtotime("Friday",$wDates[1]));
+      $weeks[] = array('id' => $i,
+                       'value' => utf8_encode(ucwords($monday)." - ".ucwords($friday)),
+                       'selected' => $i == $weekid);
+   }
+
+   return $weeks;
+}
+
+/**
+ * Get the list of years in [year-offset;year+offset] in Smarty comprehensible array
+ * @param int $year The actual year
+ * @param int $offset The offset
+ * @return array The years
+ */
+function getYears($year,$offset = 1) {
+   for ($y = ($year-$offset); $y <= ($year+offset); $y++) {
+      $years[] = array('id' => $y,
+                       'selected' => $y == $year);
+   }
+   return $years;
+}
 
 /**
  * Get detailed mgr

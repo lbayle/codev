@@ -1,0 +1,53 @@
+{include file="menu/export_csv_menu.html"}
+
+<div id="content">
+   <h2 style="text-align: center">{t}Weekly report{/t}</h2><br/>
+   {if $teams}
+   <div align="center">
+      <form method="post" action="{$page}">
+         <fieldset>
+            <label for="teamid">{t}Team{/t}: </label>
+            <select id="teamid" name="teamid">
+               {foreach from=$teams key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <label for="weekid">{t}Week{/t}: </label>
+            <select id="weekid" name="weekid">
+               {foreach from=$weeks key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.value}</option>
+               {/foreach}
+            </select>
+            <select id="year" name="year">
+               {foreach from=$years key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}</option>
+               {/foreach}
+            </select>
+            <input type="submit" value="{t}Jump{/t}" />
+         </fieldset>
+      </form>
+   </div>
+   {if $reports}
+   <!-- T_("Team").": ".$teamList[$teamid]."<br/> -->
+   {foreach from=$reports key=file item=i}
+   <p style="margin-top: 2em">
+      <span style="font-weight: bold;" title="{$i.subtitle}">- {$i.title}...</span><br/>
+      <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}" target="_blank">{$i.file}</a></span>
+   </p>
+   {/foreach}
+   <p style="margin-top: 2em">
+      <span style="font-weight: bold;" title="">- {$monthsReport.title}...</span><br/>
+      {foreach from=$monthsReport.line key=file item=i}
+      <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}" target="_blank">{$i.file}</a></span>
+      <br/>
+      {/foreach}
+   </p>
+   <p style="margin-top: 2em">
+      {t}Done{/t}<br/><br/>
+      {t}Results in{/t} {$reportsDir}
+   </p>
+   {/if}
+   {else}
+   <p style="text-align: center">{t}Sorry, you do NOT have access to this page{/t}</p>
+   {/if}
+</div>
