@@ -512,8 +512,8 @@ class Team {
          }
 
       } else {
-        $this->logger->error("team $name createSideTaskProject !!!");
-        echo "<span style='color:red'>ERROR: team $name createSideTaskProject !!!</span>";
+        $this->logger->error("team $this->name createSideTaskProject !!!");
+        echo "<span style='color:red'>ERROR: team $this->name createSideTaskProject !!!</span>";
         exit;
       }
 
@@ -558,7 +558,13 @@ class Team {
       return (Project::type_noStatsProject == $this->projTypeList[$projectid]);
    }
 
-
+   /**
+    * Get the name
+    * @return string name
+    */
+   public function getName() {
+      return $this->name;
+   }
 
 }
 
