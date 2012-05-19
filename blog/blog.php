@@ -45,12 +45,12 @@ function getBlogPosts($postList) {
       $item['summary'] = $bpost->summary;
       $item['content'] = $bpost->content;
       $item['date_submitted'] = date('Y-m-d G:i',$bpost->date_submitted);
-      $item['from']    = $srcUser->getName();
+      $item['from']    = $srcUser->getRealname();
 
       // find receiver
       if (0 != $bpost->dest_user_id) {
       	$destUser = UserCache::getInstance()->getUser($bpost->dest_user_id);
-         $item['to'] = $destUser->getName();
+         $item['to'] = $destUser->getRealname();
       } else if (0 != $bpost->dest_team_id) {
       	$team = new Team($bpost->dest_team_id);
          $item['to'] = $team->name;

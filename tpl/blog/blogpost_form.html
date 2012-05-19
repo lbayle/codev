@@ -5,7 +5,8 @@
 <td VALIGN='top'>
    <table style="width:100% border:1">
       <tr>
-         <td width='30'>
+         <td>
+            {t}Category{/t}: 
             <select name='category'>
                <option value='0'></option>
                {foreach from=$categoryList key=id item=name}
@@ -13,11 +14,13 @@
                {/foreach}
             </select>
          </td>
-         <td><input type='text' style='font-family: sans-serif' name='summary'  id='summary'></td>
+         <td>
+            {t}Summary{/t}: 
+            <input type='text' style='font-family: sans-serif' name='summary'  id='summary'></td>
       </tr>
       <tr>
-         <td colspan="3" style="height:100%">
-            <input type='text' style='font-family: sans-serif' name='content'  id='content'>
+         <td colspan="3">
+            <textarea rows='8' cols='80' style='font-family: sans-serif' name='content'  id='content'></textarea>
          </td>
       </tr>
    </table>
@@ -26,7 +29,6 @@
    <table style="width:100% border:1">
       <tr><td>
          <select name='severity'>
-            <option value='0'></option>
             {foreach from=$severityList key=id item=name}
                <option value='{$id}'>{$name}</option>
             {/foreach}
