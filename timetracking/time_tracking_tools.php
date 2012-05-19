@@ -166,28 +166,6 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
    return $timetrackingTuples;
 }
 
-function getWeeks($weekid, $year) {
-   for ($i = 1; $i <= 53; $i++) {
-      $wDates = week_dates($i,$year);
-      $monday = strftime(T_('W').'%U | %d %b', strtotime("Monday",$wDates[1]));
-      $friday = strftime("%d %b", strtotime("Friday",$wDates[1]));
-      $weeks[] = array('id' => $i,
-                       'value' => utf8_encode(ucwords($monday)." - ".ucwords($friday)),
-                       'selected' => $i == $weekid);
-   }
-
-   return $weeks;
-}
-
-function getYears($year) {
-   for ($y = ($year -1); $y <= ($year +1); $y++) {
-      $years[] = array('id' => $y,
-                       'selected' => $y == $year);
-   }
-
-   return $years;
-}
-
 /**
  *
  * @param int $weekid

@@ -22,12 +22,13 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
+require('../smarty_tools.php');
+
 include_once "issue.class.php";
 include_once "project.class.php";
 include_once "user.class.php";
 include_once "time_tracking.class.php";
 include_once "time_tracking_tools.php";
-require_once('tc_calendar.php');
 
 $logger = Logger::getLogger("time_tracking");
 
@@ -349,7 +350,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
    $smartyHelper->assign('jobs', getJobs($defaultProjectid));
 
    $smartyHelper->assign('weeks', getWeeks($weekid, $year));
-   $smartyHelper->assign('years', getYears($year));
+   $smartyHelper->assign('years', getYears($year,1));
 
    $weekDates      = week_dates($weekid,$year);
    $startTimestamp = $weekDates[1];
