@@ -5,12 +5,7 @@
    <h2>{t}Projects Activity{/t}</h2>
    <form method="post" action="{$page}">
       <fieldset>
-         <label>{t}Team{/t}: </label>
-         <select id="teamid" name="teamid">
-            {foreach from=$teams key=id item=i}
-            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-            {/foreach}
-         </select>
+         {include file="form/teamSelector.html"}
          {include file="form/dateRangeSelector.html"}
          <label style="vertical-align: bottom;"><input type="checkbox" {if $isDetailed}checked="checked"{/if} name="cb_detailed" id="cb_detailed" />{t}Detailed{/t}</label>
          <input type="submit" value="{t}Compute{/t}" />

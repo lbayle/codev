@@ -22,6 +22,8 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
+require('smarty_tools.php');
+
 include_once "issue.class.php";
 include_once "project.class.php";
 include_once "time_track.class.php";
@@ -30,27 +32,12 @@ include_once "jobs.class.php";
 include_once "holidays.class.php";
 
 /**
- * Get projects
- * @param int $defaultProjectid
- * @param array $projectList
- * @return array
- */
-function getProjects($defaultProjectid, $projectList) {
-   foreach ($projectList as $pid => $pname) {
-      $projects[] = array('id' => $pid,
-                          'name' => $pname,
-                          'selected' => $pid == $defaultProjectid
-      );
-   }
-   return $projects;
-}
-
-/**
  * Get versions overview
  * @param Project $project
  * @return array
  */
 function getVersionsOverview($project) {
+   $versionsOverview = NULL;
    $projectVersionList = $project->getVersionList();
    foreach ($projectVersionList as $version => $pv) {
       if (NULL == $pv) {
@@ -110,6 +97,7 @@ function getVersionsOverview($project) {
  * @return array
  */
 function getVersionsDetailedMgr($projectVersionList) {
+   $versionsDetailedMgr = NULL;
    $totalEffortEstimMgr = 0;
    $totalElapsed = 0;
    $totalRemainingMgr = 0;
@@ -158,6 +146,7 @@ function getVersionsDetailedMgr($projectVersionList) {
  * @return array
  */
 function getVersionsDetailed($projectVersionList) {
+   $versionsDetailed = NULL;
    $totalDrift = 0;
    $totalEffortEstim = 0;
    $totalElapsed = 0;
@@ -186,13 +175,13 @@ function getVersionsDetailed($projectVersionList) {
    }
 
    $versionsDetailed[] = array('name' => T_("Total"),
-      'title' => '',
-      'effortEstim' => $totalEffortEstim,
-      'reestimated' => ($totalRemaining + $totalElapsed),
-      'elapsed' => $totalElapsed,
-      'remaining' => $totalRemaining,
-      'driftColor' => '',
-      'drift' => $totalDrift
+                               'title' => '',
+                               'effortEstim' => $totalEffortEstim,
+                               'reestimated' => ($totalRemaining + $totalElapsed),
+                               'elapsed' => $totalElapsed,
+                               'remaining' => $totalRemaining,
+                               'driftColor' => '',
+                               'drift' => $totalDrift
    );
 
    return $versionsDetailed;
@@ -205,7 +194,7 @@ function getVersionsDetailed($projectVersionList) {
  */
 function getVersionsIssues($projectVersionList) {
    global $status_new;
-
+   $versionsIssues = NULL;
    $totalElapsed = 0;
    $totalRemaining = 0;
    foreach ($projectVersionList as $version => $pv) {
@@ -269,6 +258,7 @@ function getVersionsIssues($projectVersionList) {
  * @return array
  */
 function getCurrentIssuesInDrift($projectVersionList, $isManager, $withSupport = true) {
+   $currentIssuesInDrift = NULL;
    foreach ($projectVersionList as $version => $pv) {
       foreach ($pv->getIssueList() as $bugid => $issue) {
 
@@ -324,6 +314,7 @@ function getCurrentIssuesInDrift($projectVersionList, $isManager, $withSupport =
  * @return array
  */
 function getResolvedIssuesInDrift($projectVersionList, $isManager, $withSupport = true) {
+   $resolvedIssuesInDrift = NULL;
    foreach ($projectVersionList as $version => $pv) {
       foreach ($pv->getIssueList() as $bugid => $issue) {
 
@@ -388,14 +379,6 @@ if(isset($_SESSION['userid'])) {
    $teamList = $dTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
    if (0 != count($teamList)) {
-      $projectid = 0;
-      if(isset($_GET['projectid'])) {
-         $projectid = $_GET['projectid'];
-      } else if(isset($_SESSION['projectid'])) {
-         $projectid = $_SESSION['projectid'];
-      }
-      $_SESSION['projectid'] = $projectid;
-
       // --- define the list of tasks the user can display
       // All projects from teams where I'm a Developper or Manager AND Observers
       $devProjList      = (0 == count($dTeamList))       ? array() : $user->getProjectList($dTeamList);
@@ -403,7 +386,20 @@ if(isset($_SESSION['userid'])) {
       $observedProjList = (0 == count($oTeamList))       ? array() : $user->getProjectList($oTeamList);
       $projList = $devProjList + $managedProjList + $observedProjList;
 
-      $smartyHelper->assign('projects', getProjects($projectid, $projList));
+      $projectid = 0;
+      if(isset($_GET['projectid'])) {
+         $projectid = $_GET['projectid'];
+         $_SESSION['projectid'] = $projectid;
+      }
+      else if(isset($_SESSION['projectid'])) {
+         $projectid = $_SESSION['projectid'];
+      }
+      else {
+         $projectsid = array_keys($projList);
+         $projectid = $projectsid[0];
+      }
+
+      $smartyHelper->assign('projects', getProjects($projList,$projectid));
 
       if (in_array($projectid, array_keys($projList))) {
          $isManager = true; // TODO
