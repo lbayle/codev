@@ -24,6 +24,8 @@ require_once "mysql_connect.inc.php";
 require_once "internal_config.inc.php";
 require_once "constants.php";
 
+require_once "i18n.inc.php";
+
 require_once ('time_tracking.class.php');
 require_once ('team.class.php');
 require_once ('project.class.php');
@@ -539,9 +541,9 @@ class GanttManager {
             if ("" != $pnameList) { $pnameList .=","; }
             $pnameList .= Project::getName($pid);
          }
-         $graph->title->Set("Team '".$team->name."'    Project(s): ".$pnameList);
+         $graph->title->Set(T_('Team').' '.$team->name.'    '.T_('Project(s)').': '.$pnameList);
       } else {
-         $graph->title->Set("Team '".$team->name."'    (All projects)");
+         $graph->title->Set(T_('Team').' '.$team->name.'    ('.T_('All projects').')');
       }
 
 

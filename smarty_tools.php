@@ -18,18 +18,36 @@
 
 /**
  * Convert a teamList in a Smarty comprehensible array
- * @param int $teamList The teams
+ * @param array $teamList The teams
  * @param int $selectedTeamId The selected team
  * @return array
  */
-function getTeams($teamList, $selectedTeamId) {
-    foreach ($teamList as $tid => $tname) {
-        $teams[] = array('id' => $tid,
-                         'name' => $tname,
-                         'selected' => ($tid == $selectedTeamId)
+function getTeams($teamList, $selectedTeamId = NULL) {
+   $teams = NULL;
+   foreach ($teamList as $tid => $tname) {
+       $teams[] = array('id' => $tid,
+                        'name' => $tname,
+                        'selected' => ($tid == $selectedTeamId)
+       );
+   }
+   return $teams;
+}
+
+/**
+ * Convert a projectList in a Smarty comprehensible array
+ * @param array $projectList The projects
+ * @param int $selectedProjectId The selected project
+ * @return array The projects
+ */
+function getProjects($projectList, $selectedProjectId = NULL) {
+    $projects = NULL;
+    foreach ($projectList as $pid => $pname) {
+        $projects[] = array('id' => $pid,
+                            'name' => $pname,
+                            'selected' => $pid == $selectedProjectId
         );
     }
-    return $teams;
+    return $projects;
 }
 
 /**
