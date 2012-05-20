@@ -3,12 +3,7 @@
 <div align="center">
    <form id='teamSelectForm' name='teamSelectForm' method='get' action='{$page}'>
       <fieldset>
-         <label>{t}Team{/t}: </label>
-         <select name='teamid'>
-         {foreach from=$teams key=id item=i}
-            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-         {/foreach}
-         </select>
+         {include file="form/teamSelector.html"}
          <input type="submit" value='{t}Update{/t}' />
       </fieldset>
    </form>

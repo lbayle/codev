@@ -3,12 +3,7 @@
    <div style="text-align: center;">
       <form name="projectForm" method="get" action="{$page}">
          <fieldset>
-            <label for="projectidSelector">{t}Project{/t}</label>
-            <select id="projectidSelector" name="projectid" title="{t}Project{/t}">
-               {foreach from=$projects key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
+            {include file="form/projectSelector.html"}
             <input type="submit" value="{t}Jump{/t}" />
          </fieldset>
       </form>
