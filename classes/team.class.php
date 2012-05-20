@@ -62,9 +62,18 @@ class Team {
     * @param unknown_type $teamid
     */
    public function Team($teamid) {
-       $this->id = $teamid;
-       $this->logger = Logger::getLogger(__CLASS__);
 
+      $this->logger = Logger::getLogger(__CLASS__);
+
+      if (0 == $teamid) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("Creating a Team with id=0 is not allowed.");
+         $this->logger->error("EXCEPTION Team constructor: ".$e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
+       $this->id = $teamid;
        $this->initialize();
    }
 

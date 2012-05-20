@@ -62,6 +62,14 @@ class Engagement {
 
    	$this->logger = Logger::getLogger(__CLASS__);
 
+      if (0 == $id) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("Creating an Engagement with id=0 is not allowed.");
+         $this->logger->error("EXCEPTION Engagement constructor: ".$e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
    	$this->id = $id;
    	$this->initialize();
    }
@@ -88,7 +96,12 @@ class Engagement {
    	// ---
    	$this->issueSelection = new IssueSelection($this->name);
    	$query  = "SELECT * FROM `codev_engagement_bug_table` ".
-      	       "WHERE engagement_id=$this->id ";
+                "WHERE engagement_id=$this->id ";
+                #", `mantis_bug_table`".
+      	       #"WHERE codev_engagement_bug_table.engagement_id=$this->id ".
+                #"AND codev_engagement_bug_table.bug_id = mantis_bug_table.id ".
+                #"ORDER BY mantis_bug_table.project_id ASC, mantis_bug_table.target_version DESC, mantis_bug_table.status ASC";
+
    	$result = mysql_query($query);
    	if (!$result) {
 	   	$this->logger->error("Query FAILED: $query");
@@ -154,6 +167,14 @@ class Engagement {
     * add Issue to engagement (in DB & current instance)
     */
    public function addIssue($bugid) {
+
+      try {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+      } catch (Exception $e) {
+         $this->logger->error("addIssue($bugid): issue $bugid does not exist !");
+         echo "<span style='color:red'>ERROR: issue  '$bugid' does not exist !</span>";
+         return NULL;
+      }
 
       $this->logger->debug("Add issue $bugid to engagement $this->id");
       $this->issueSelection->addIssue($bugid);

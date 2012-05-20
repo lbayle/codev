@@ -28,6 +28,8 @@ function addEngIssue(){
    }
 
    if (0 == foundError) {
+     document.forms["addEngIssueForm"].teamid.value ="{$teamid}";
+     document.forms["addEngIssueForm"].engid.value="{$engagementid}";
      document.forms["addEngIssueForm"].action.value="addEngIssue";
      document.forms["addEngIssueForm"].submit();
    } else {
@@ -153,8 +155,8 @@ $(document).ready(function() {
             <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssue()' />
 
             <input type="hidden" name="action" value="noAction" />
-            <input type="hidden" name="teamid" value="{$defaultTeamId}" />
-            <input type="hidden" name="engid" value="{$defaultEngagementId}" />
+            <input type="hidden" name="teamid" value="{$teamId}" />
+            <input type="hidden" name="engid" value="{$engagementId}" />
          </fieldset>
       </form>
    </div>

@@ -45,10 +45,18 @@ class IssueNote {
 
    // ----------------------------------------------
    public function __construct($id) {
+
       $this->logger = Logger::getLogger(__CLASS__);
 
-      $this->id = $id;
+      if (0 == $id) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("Creating a IssueNote with id=0 is not allowed.");
+         $this->logger->error("EXCEPTION IssueNote constructor: ".$e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
 
+      $this->id = $id;
       $this->initialize();
    }
 

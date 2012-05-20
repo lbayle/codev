@@ -35,6 +35,9 @@ $logger = Logger::getLogger("engagement_info");
 
 function getEngagements($teamid, $selectedEngId) {
 
+   $engagements = array();
+if (0 != $teamid) {
+
    $team = TeamCache::getInstance()->getTeam($teamid);
    $engList = $team->getEngagements();
 
@@ -45,6 +48,8 @@ function getEngagements($teamid, $selectedEngId) {
          'selected' => ($id == $selectedEngId)
       );
    }
+}
+
    return $engagements;
 
 
@@ -104,7 +109,6 @@ if (isset($_SESSION['userid'])) {
    }
    $_SESSION['teamid'] = $teamid;
 
-
    // use the engid set in the form, if not defined (first page call) use session engid
    $engagementid = 0;
    if(isset($_POST['engid'])) {
@@ -117,15 +121,17 @@ if (isset($_SESSION['userid'])) {
 
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
+   $smartyHelper->assign('teamid', $teamid);
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
+   $smartyHelper->assign('engagementid', $engagementid);
    $smartyHelper->assign('engagements', getEngagements($teamid, $engagementid));
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
    if ("addEngIssue" == $action) {
       $bugid = $_POST['bugid'];
-      #echo "add Issue $bugid on Engagement $engagementid team $teamid<br>";
+      $logger->debug("add Issue $bugid on Engagement $engagementid team $teamid<br>");
 
       $eng = new Engagement($engagementid);
       $eng->addIssue($bugid);
