@@ -74,22 +74,6 @@ function getUsers() {
 }
 
 /**
- * Get projects
- * @param int $defaultProjectid
- * @param array $projectList
- * @return array
- */
-function getProjects($defaultProjectid, $projectList) {
-   foreach ($projectList as $pid => $pname) {
-      $projects[] = array('id' => $pid,
-                          'name' => $pname,
-                          'selected' => $pid == $defaultProjectid
-      );
-   }
-   return $projects;
-}
-
-/**
  * Get issues
  * @param int $projectid
  * @param boolean $isOnlyAssignedTo
@@ -329,7 +313,7 @@ if ($_POST['nextForm'] == "addTrackForm") {
    $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
    $projList = $devProjList + $managedProjList;
 
-   $smartyHelper->assign('projects', getProjects($defaultProjectid,$projList));
+   $smartyHelper->assign('projects', getProjects($projList,$defaultProjectid));
 
    $smartyHelper->assign('defaultProjectid', $defaultProjectid);
    $smartyHelper->assign('defaultBugid', $defaultBugid);

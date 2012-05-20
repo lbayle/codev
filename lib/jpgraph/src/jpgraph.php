@@ -358,7 +358,7 @@ class DateLocale {
         settype($this->iShortDay, 'array');
         settype($this->iShortMonth, 'array');
         settype($this->iMonthName, 'array');
-        $this->Set('C');
+        $this->Set(setlocale(LC_TIME, 0));
     }
 
     function Set($aLocale) {

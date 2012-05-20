@@ -47,7 +47,7 @@ require_once ('gantt_manager.class.php');
 $teamid = isset($_GET['teamid']) ? $_GET['teamid'] : 2;
 $startT = isset($_GET['startT']) ? $_GET['startT'] : date2timestamp("2011-08-01");
 $endT = isset($_GET['endT']) ? $_GET['endT'] : date2timestamp("2011-12-30");
-$projectid = isset($_GET['projects']) ? $_GET['projects'] : 0;
+$projects = isset($_GET['projects']) ? $_GET['projects'] : 0;
 if(0 != $projects) {
    $projectList = explode(':', $projects);
    $logger->debug("team <$teamid> projects = <$projects>");
