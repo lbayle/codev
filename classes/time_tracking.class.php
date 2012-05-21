@@ -44,24 +44,29 @@ class TimeTracking {
   var $sideTaskprojectList;
 
   // ----------------------------------------------
-  public function TimeTracking($startTimestamp, $endTimestamp, $team_id = NULL) {
+  public function __construct($startTimestamp, $endTimestamp, $team_id = NULL) {
 
     $this->logger = Logger::getLogger(__CLASS__);
+
+//    Note: teamid is null in time_tracking.php because you do not specify it to set timetracks...
+
+    if ((NULL == $team_id) || ($team_id <= 0)) {
+       #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+       $e = new Exception("TimeTracking->team_id not set !");
+       $this->logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
+       $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+       //throw $e;
+    }
 
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp   = $endTimestamp;
     $this->team_id       = (isset($team_id)) ? $team_id : -1;
 
-    #if (-1 == $team_id) {
-      #       echo "WARN: TimeTracking->team_id not set !<br>";
-      #}
-      $this->initialize();
+    $this->initialize();
   }
 
   // ----------------------------------------------
   public function initialize() {
-
-  	 $sideTaskProjectType = Project::type_sideTaskProject;
 
     $this->prodProjectList     = array();
     $this->sideTaskprojectList = array();
@@ -75,10 +80,12 @@ class TimeTracking {
     	exit;
     }
 
-
+    $teamidList = array($this->team_id);
     while($row = mysql_fetch_object($result))
     {
-    	switch ($row->type) {
+       $project1 = ProjectCache::getInstance()->getProject($row->project_id);
+       $ptype = $project1->getProjectType($teamidList);
+    	 switch ($ptype) {
 
     	   case Project::type_sideTaskProject:
     	      $this->sideTaskprojectList[] = $row->project_id;

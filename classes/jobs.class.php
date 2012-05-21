@@ -34,7 +34,7 @@ class Job {
    var $type;
    var $color;
 
-    public function Job($id, $name, $type, $color) {
+    public function __construct($id, $name, $type, $color) {
     	$this->id    = $id;
       $this->name  = $name;
       $this->type  = $type;
@@ -54,7 +54,7 @@ class Jobs {
    var $jobList;
 
    // --------------------
-   public function Jobs() {
+   public function __construct() {
       $this->logger = Logger::getLogger(__CLASS__);
 
    	$this->jobList = array();

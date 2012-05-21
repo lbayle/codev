@@ -29,6 +29,9 @@ include_once "project_cache.class.php";
 include_once "jobs.class.php";
 include_once "team.class.php";
 
+
+
+
 class Project {
 
   const type_workingProject   = 0;     // normal projects are type 0
@@ -68,7 +71,7 @@ class Project {
 	private $driftMgr;
 
 	// -----------------------------------------------
-	public function Project($id) {
+	public function __construct($id) {
 	   $this->logger = Logger::getLogger(__CLASS__);
 
 	   if (0 == $id) {
@@ -559,15 +562,23 @@ class Project {
 
    // -----------------------------------------------
    // Job list depends on project type:
-   // if type=1 (SideTask) then only jobs for SideTasks are displayed.
-   // if type=0 (Project) then all jobs which codev_project_job_table.project_id = $this->id
+   // if type=Project::type_sideTaskProject
+   //    then only jobs for SideTasks are displayed.
+   // if Project::type_workingProject
+   //    then all jobs which codev_project_job_table.project_id = $this->id
    //                     OR codev_job_table.type = Job::type_commonJob (common jobs)
-   public function getJobList() {
+   public function getJobList($type = NULL) {
    	$commonJobType       = Job::type_commonJob;
 
    	$jobList = array();
 
-   	$type = $this->type;
+   	// TODO to be removed once $type m324 bug fixed
+   	if (!isset($type)) {
+   	   $type = $this->type;
+   	   $e = new Exception("project type not specified !");
+   	   $this->logger->error("EXCEPTION Project.getJobList(): ".$e->getMessage());
+   	   $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+   	}
 
    	// SPECIAL CASE: externalTasksProject is a type_noStatsProject that has only 'N/A' jobs
       if ($this->id == Config::getInstance()->getValue(Config::id_externalTasksProject)) {
@@ -601,7 +612,11 @@ class Project {
 	                   "WHERE (codev_job_table.type = $commonJobType OR codev_project_job_table.project_id = $this->id)";
     	     break;
 	      default:
-	   	     echo "ERROR Project.getJobList(): unknown project type ($this->type) !";
+	   	     echo "ERROR Project.getJobList($type): unknown project type ($this->type) !";
+	           $e = new Exception("getJobList($type): unknown project type ($type)");
+	           $this->logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
+	           $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+	           return $jobList;
        }
 
    	$result = mysql_query($query);

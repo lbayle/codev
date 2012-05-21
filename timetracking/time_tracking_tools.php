@@ -29,6 +29,7 @@ include_once "user.class.php";
 include_once "time_tracking.class.php";
 include_once "holidays.class.php";
 include_once "team.class.php";
+include_once "jobs.class.php";
 
 $logger = Logger::getLogger("time_tracking_tools");
 
@@ -254,6 +255,8 @@ function getWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 }
 
 function getWeekTask($weekDates, $userid, $timeTracking) {
+   $jobs = new Jobs();
+
    $linkList = array();
    $holidays = Holidays::getInstance();
    $weekTracks = $timeTracking->getWeekDetails($userid);
@@ -264,9 +267,7 @@ function getWeekTask($weekDates, $userid, $timeTracking) {
          $linkid = $bugid."_".$jobid;
          $linkList[$linkid] = $issue;
 
-         $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-         $result3 = mysql_query($query3) or die("Query failed: $query3");
-         $jobName = mysql_result($result3, 0);
+         $jobName = $jobs->getJobName($jobid);
 
          // if no remaining set, display a '?' to allow Remaining edition
          if (NULL == $issue->remaining) {

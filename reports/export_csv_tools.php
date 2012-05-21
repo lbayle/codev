@@ -202,6 +202,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
 function exportProjectActivityToCSV($timeTracking, $myFile) {
 
   $sepChar=';';
+  $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
 
   $fh = fopen($myFile, 'w');
 
@@ -216,7 +217,7 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
 
      $stringData .=T_("Task").$sepChar;
      $stringData .=T_("RAF").$sepChar;
-     $jobList = $project->getJobList();
+     $jobList = $project->getJobList($team->getProjectType($projectId));
      foreach($jobList as $jobId => $jobName) {
         $stringData .= $jobName.$sepChar;
      }

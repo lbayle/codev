@@ -579,14 +579,16 @@ function displayTimeDriftStats ($timeTracking) {
 function displayWorkingDaysPerJob($timeTracking, $teamid) {
 
    $jobs = new Jobs();
+   $team = TeamCache::getInstance()->getTeam($teamid);
 
   // find out which jobs must be displayed
   $projList = Team::getProjectList($teamid);
   $jobList  = array();
 
+
   foreach ($projList as $id => $pname) {
      $p = ProjectCache::getInstance()->getProject($id);
-     $jl = $p->getJobList();
+     $jl = $p->getJobList($team->getProjectType($id));
      $jobList += $jl;
   }
 

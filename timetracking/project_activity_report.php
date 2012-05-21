@@ -35,11 +35,11 @@ include_once "time_tracking.class.php";
  * @param boolean $isDetailed
  * @return array
  */
-function getProjectActivityReport($projectTracks, $isDetailed) {
+function getProjectActivityReport($projectTracks, $teamid, $isDetailed) {
    foreach ($projectTracks as $projectId => $bugList) {
       $project = ProjectCache::getInstance()->getProject($projectId);
 
-      $jobList = $project->getJobList();
+      $jobList = $project->getJobList($teamid);
       $jobTypeList = "";
       if ($isDetailed) {
          $jobColWidth = (0 != count($jobList)) ? (100 - 50 - 10 - 6) / count($jobList) : 10;
@@ -130,7 +130,7 @@ if(isset($_SESSION['userid'])) {
          $endTimestamp = date2timestamp($enddate);
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-         $smartyHelper->assign('projectActivityReport', getProjectActivityReport($timeTracking->getProjectTracks(true), $isDetailed));
+         $smartyHelper->assign('projectActivityReport', getProjectActivityReport($timeTracking->getProjectTracks(true), $teamid, $isDetailed));
       }
    }
 }
