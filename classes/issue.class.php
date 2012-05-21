@@ -421,7 +421,7 @@ class Issue {
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
          }
-   	   $targetVersionDate = mysql_result($result, 0);
+   	   $targetVersionDate = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
 
    	   $this->logger->debug("$this->bugId target_version date = ".date("Y-m-d", $targetVersionDate));
    	   return ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
