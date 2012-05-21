@@ -53,6 +53,7 @@ class Engagement {
    private $teamid;
    private $budjetDev;
    private $budjetMngt;
+   private $budjetGarantie;
 
    // codev_engagement_bug_table
    private $issueSelection;
@@ -92,6 +93,7 @@ class Engagement {
    	$this->teamid     = $row->team_id;
    	$this->budjetDev  = $row->budjet_dev;
    	$this->budjetMngt = $row->budjet_mngt;
+   	$this->budjetGarantie = $row->budjet_garantie;
 
    	// ---
    	$this->issueSelection = new IssueSelection($this->name);
@@ -137,6 +139,10 @@ class Engagement {
 
    public function getBudjetMngt() {
       return $this->budjetMngt;
+   }
+
+   public function getBudjetGarantie() {
+      return $this->budjetGarantie;
    }
 
    public function getIssueSelection() {

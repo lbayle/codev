@@ -257,6 +257,7 @@ CREATE TABLE IF NOT EXISTS `codev_engagement_table` (
   `team_id` int(11) NOT NULL,
   `budjet_dev` int(11) unsigned default NULL,
   `budjet_mngt` int(11) default NULL,
+  `budjet_garantie` int(11) default NULL,
   `desc` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
