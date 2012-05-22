@@ -252,13 +252,12 @@
             <th>{t}Task{/t}</th>
             <th>{t}RAF{/t}</th>
             <th>{t}Job{/t}</th>
-            <th width="80">{$weekDates[1]|date_format:"%A %d %B"|capitalize:true}</th>
-            <th width="80">{$weekDates[2]|date_format:"%A %d %B"|capitalize:true}</th>
-            <th width="80">{$weekDates[3]|date_format:"%A %d %B"|capitalize:true}</th>
-            <th width="80">{$weekDates[4]|date_format:"%A %d %B"|capitalize:true}</th>
-            <th width="80">{$weekDates[5]|date_format:"%A %d %B"|capitalize:true}</th>
-            <th width="80" style="background-color: #D8D8D8;">{$weekDates[6]|date_format:"%A %d %B"|capitalize:true}</th>
-            <th width="80" style="background-color: #D8D8D8;">{$weekDates[7]|date_format:"%A %d %B"|capitalize:true}</th>
+            {foreach from=$weekDates item=i}
+            <th width="80">i</th>
+            {/foreach}
+            {foreach from=$weekEndDates item=i}
+            <th width="80" style="background-color: #D8D8D8;">{$i}</th>
+            {/foreach}
          </tr>
          {foreach from=$weekTasks key=issueId item=i}
          <tr>

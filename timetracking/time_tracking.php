@@ -340,7 +340,11 @@ if ($_POST['nextForm'] == "addTrackForm") {
    $startTimestamp = $weekDates[1];
    $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
    $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
-   $smartyHelper->assign('weekDates', $weekDates);
+   $smartyHelper->assign('weekDates', array(formatDate("%A %d %B", $weekDates[1]),formatDate("%A %d %b", $weekDates[2],
+                                            formatDate("%A %d %b", $weekDates[3]),formatDate("%A %d %b", $weekDates[4]),
+                                            formatDate("%A %d %b", $weekDates[5]));
+   $smartyHelper->assign('weekEndDates', array(formatDate("%A %d %b", $weekDates[6]),formatDate("%A %d %b", $weekDates[7]))));
+
    $smartyHelper->assign('weekTasks', getWeekTask($weekDates, $userid, $timeTracking));
 
    $smartyHelper->assign('warnings', getCheckWarnings($userid));
