@@ -29,9 +29,11 @@ if(isset($_SESSION['userid']) && isset($_GET['action'])) {
    $smartyHelper = new SmartyHelper();
    
    if($_GET['action'] == 'getTeamProjects') {
+      $allProject[] = array('id' => T_('All projects'),
+                            'name' => T_('All projects')
+      );
       $projects = Team::getProjectList($_GET['teamid'], false);
-      $projects = getProjects($projects);
-      $smartyHelper->assign('projects',$projects);
+      $smartyHelper->assign('projects', $allProject + getProjects($projects));
       $smartyHelper->display('form/projectSelector');
    }
 }
