@@ -67,7 +67,8 @@ if (isset($_SESSION['userid'])) {
       $allProject[] = array('id' => T_('All projects'),
                             'name' => T_('All projects')
       );
-      $smartyHelper->assign('projects', $allProject + getProjects($projects,$projectid));
+
+      $smartyHelper->assign('projects', array_merge($allProject,getProjects($projects,$projectid)));
 
       // The first day of the current week
       $weekDates = week_dates(date('W'),date('Y'));
