@@ -215,7 +215,7 @@ class BlogPost {
 
       // TODO check admin/ user access rights
 
-      $query = "DELETE FROM `codev_blog_activity_table` WHERE blog_id = $this->id;";
+      $query = "DELETE FROM `codev_blog_activity_table` WHERE blog_id = $blogPost_id;";
       $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");
@@ -223,7 +223,7 @@ class BlogPost {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-         $query = "DELETE FROM `codev_blog_table` WHERE id = $this->id;";
+         $query = "DELETE FROM `codev_blog_table` WHERE id = $blogPost_id;";
       $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");

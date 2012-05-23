@@ -113,6 +113,8 @@ function displayProjectDetails($timeTracking, $projectId) {
  */
 function displaySideTasksProjectDetails($timeTracking) {
 
+  global $logger;
+  
   $sideTaskProjectType = Project::type_sideTaskProject;
 
   $durationPerCategory = array();
@@ -150,9 +152,6 @@ function displaySideTasksProjectDetails($timeTracking) {
      $stProjList[] = $proj->name;
 
   }
-  $formatedProjList = implode( ', ', $stProjList);
-
-  $formatedBugList = "";
 
   echo "<div class=\"float\">\n";
   echo "<table width='300'>\n";

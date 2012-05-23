@@ -490,7 +490,7 @@ class GanttManager {
       $this->logger->debug("display nbUsers=".count($this->activitiesByUser));
       $mergedActivities = array();
       foreach($this->activitiesByUser as $userid => $activityList) {
-         $user = UserCache::getInstance()->getUser($userid);
+         #$user = UserCache::getInstance()->getUser($userid);
          #echo "==== ".$user->getName()." activities: <br/>";
          $mergedActivities = array_merge($mergedActivities, $activityList);
 

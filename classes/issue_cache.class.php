@@ -65,7 +65,7 @@ class IssueCache {
 
             #echo "DEBUG: IssueCache add $bugId<br/>";
         } else {
-        	if (isset($callCount["$bugId"])) {
+        	if (isset(self::$callCount["$bugId"])) {
                self::$callCount["$bugId"] += 1;
         	} else {
                self::$callCount["$bugId"] = 1;

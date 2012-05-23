@@ -109,7 +109,7 @@ function addHolidayForm($originPage, $defaultDate) {
 }
 
 // ----------------------------------------------------
-function displayHolidaysTuples() {
+function displayHolidaysTuples($originPage) {
 
    global $logger;
 
@@ -196,7 +196,7 @@ addHolidayForm($originPage, $defaultDate);
 #echo "<br/>";
 echo "<br/>";
 echo "<br/>";
-displayHolidaysTuples();
+displayHolidaysTuples($originPage);
 
 echo "<br/>";
 

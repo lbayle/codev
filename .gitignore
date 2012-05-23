@@ -12,3 +12,4 @@ lib/jpgraph/src/barcode/demoapp
 templates_c
 .idea
 
+/nbproject/private/

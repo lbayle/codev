@@ -307,7 +307,7 @@ class Issue {
           ($project->getToolsCategoryId() != $this->categoryId) &&
           ($project->getWorkshopCategoryId()   != $this->categoryId)) {
 
-         $this->logger->debug("$this->bugId is a sideTask.   type=$type");
+         $this->logger->debug("$this->bugId is a sideTask.");
          return true;
       }
       return false;
@@ -810,7 +810,6 @@ class Issue {
     * @param unknown_type $user_id
     */
    public function getStartTimestamp($user_id = NULL) {
-      $timeTracks = array();
 
       $query     = "SELECT id, date FROM `codev_timetracking_table` ".
       "WHERE bugid=$this->bugId ";

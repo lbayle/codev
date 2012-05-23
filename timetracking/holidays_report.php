@@ -213,8 +213,6 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
 $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
 $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
 
-global $codevReportsDir;
-
 $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
 $_SESSION['teamid'] = $teamid;
 

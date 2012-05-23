@@ -36,24 +36,15 @@ include_once('user.class.php');
 include_once('issue.class.php');
 
 /**
- * The browser is ie ?
- */
-function isIE () {
-    $useragent = $_SERVER["HTTP_USER_AGENT"];
-    if (preg_match("|MSIE ([0-9].[0-9]{1,2})|",$useragent,$matched)) {
-        return TRUE;
-    }
-    return TRUE;
-}
-
-/**
  * Get issues in drift
  * @param int User's id
  */
 function getIssuesInDrift($userid) {
     $user = UserCache::getInstance()->getUser($userid);
     $allIssueList = $user->getAssignedIssues();
-
+    $issueList = array();
+    $driftedTasks = array();
+    
     foreach ($allIssueList as $issue) {
         $driftEE = $issue->getDrift();
         if ($driftEE >= 1) {
@@ -89,7 +80,8 @@ function getIssuesInDrift($userid) {
  * @param int User's id
  */
 function getConsistencyErrors($userid) {
-
+   global $statusNames;
+   
    $consistencyErrors = array(); // if null, array_merge fails !
 
     $sessionUser = UserCache::getInstance()->getUser($userid);

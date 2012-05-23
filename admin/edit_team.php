@@ -652,7 +652,7 @@ function addAstreinteForm($originPage, $teamid) {
 
 	// --- get SideTasksProject Inactivity Issues
 
-	$stprojList = array();
+	#$stprojList = array();
 	$projList = Team::getProjectList($teamid);
 
 	if ((NULL == $projList) || (0 == count($projList))) {
@@ -732,7 +732,7 @@ function addAstreinteForm($originPage, $teamid) {
 
 
 // ----------------------------------------------------
-function displayAstreintesTuples($teamid) {
+function displayAstreintesTuples($originPage, $teamid) {
 
 	$astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
 
@@ -884,7 +884,7 @@ if (0 != $teamid) {
 	echo "<br/>";
 	addAstreinteForm($originPage, $teamid);
 	echo "<br/>";
-	displayAstreintesTuples($teamid);
+	displayAstreintesTuples($originPage, $teamid);
 	echo "<br/>";
 	echo "<br/>";
 

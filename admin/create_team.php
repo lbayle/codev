@@ -280,7 +280,6 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 
 // ================ MAIN =================
 
-$admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
 
 $cat_projManagement = T_("Project Management");
 $cat_inactivity     = T_("Inactivity");
@@ -292,6 +291,7 @@ $teamSideTaskProjectName = T_("SideTasks")." my_team";
 
 // ---- if not codev admin then stop now.
 // REM: who is allowed to create a new team ? anyone ?
+#$admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
 #$session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 #if (false == $session_user->isTeamDeveloper($admin_teamid)) {
 #  echo ("Sorry, you need to be Codev Administrator to access this page.");

@@ -177,16 +177,17 @@ class IssueSelection {
    public function getDriftMgr() {
       $nbDaysDrift = 0;
       $myEstim = 0;
-
+      
       foreach ($this->issueList as $issue) {
          $nbDaysDrift += $issue->getDriftMgr();
          $myEstim     += $issue->mgrEffortEstim;
       }
 
       $percent =  $nbDaysDrift / $myEstim;
+      $values = array();
       $values['nbDays']  = round($nbDaysDrift,3);
       $values['percent'] = $percent;
-         
+
       $this->logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
       return $values;
    }
@@ -206,7 +207,8 @@ class IssueSelection {
          $nbDaysDrift += $issue->getDrift();
          $myEstim     += $issue->effortEstim + $issue->effortAdd;
       }
-      
+
+      $values = array();
       $percent =  $nbDaysDrift / $myEstim;
       $values['nbDays'] = round($nbDaysDrift,3);
       $values['percent'] = $percent;

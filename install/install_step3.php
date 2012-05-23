@@ -211,6 +211,9 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
  * get all existing projects, except ExternalTasksProject & SideTasksProjects
  */
 function getProjectList() {
+    
+    global $logger;
+    
 	$projectList = array();
 
 	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);

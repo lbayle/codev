@@ -446,7 +446,7 @@ class Project {
 
    // -----------------------------------------------
    public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
-   	  global $status_closed;
+      #global $status_closed;
       $bugt_id = $this->addSideTaskIssue(Project::$keyProjManagement, $issueSummary, $issueDesc);
 
 /*
@@ -462,7 +462,7 @@ class Project {
       return $bugt_id;
    }
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
-   	global $status_closed;
+      #global $status_closed;
       $bugt_id = $this->addSideTaskIssue(Project::$keyInactivity, $issueSummary, $issueDesc);
 /*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";

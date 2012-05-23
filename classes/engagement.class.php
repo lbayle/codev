@@ -175,7 +175,7 @@ class Engagement {
    public function addIssue($bugid) {
 
       try {
-         $issue = IssueCache::getInstance()->getIssue($bugid);
+         IssueCache::getInstance()->getIssue($bugid);
       } catch (Exception $e) {
          $this->logger->error("addIssue($bugid): issue $bugid does not exist !");
          echo "<span style='color:red'>ERROR: issue  '$bugid' does not exist !</span>";

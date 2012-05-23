@@ -247,7 +247,7 @@ class TimeTracking {
   // ----------------------------------------------
   public function getAvailableWorkload() {
     $accessLevel_dev     = Team::accessLevel_dev;
-    $accessLevel_manager = Team::accessLevel_manager;
+    #$accessLevel_manager = Team::accessLevel_manager;
 
     $teamProdDaysForecast = 0;
 

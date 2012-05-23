@@ -507,8 +507,6 @@ class Install {
 		   // --- update ExternalTasksProject in codev_config_table
       	   Config::getInstance()->setValue(Config::id_externalTasksProject, $projectid, Config::configType_int , $projectDesc);
 
-           $stproj = ProjectCache::getInstance()->getProject($projectid);
-
       		// --- assign ExternalTasksProject specific Job
       		#REM: 'N/A' job_id = 1, created by SQL file
       		Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);

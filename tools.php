@@ -70,7 +70,7 @@ function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE) {
  * @param int $bugid issue id in mantis DB
  */
 function issueInfoURL($bugid, $title=NULL) {
-   global $mantisURL;
+
    if (NULL==$title) { $title = "View info for Issue $bugid"; }
 
    $formatedTitle = str_replace("'", " ", $title);

@@ -472,7 +472,6 @@ function displayMonth($month, $year, $issue) {
 
     for ($i = 1; $i <= $nbDaysInMonth; $i++) {
       $todayTimestamp = mktime(0, 0, 0, $month, $i, $year);
-      $dayOfWeek = date("N", $todayTimestamp);
 
       if (NULL != $durationByDate[$todayTimestamp]) {
         echo "<td style='background-color: #".$jobColorByDate[$todayTimestamp]."; text-align: center;'>".$durationByDate[$todayTimestamp]."</td>\n";

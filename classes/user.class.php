@@ -747,8 +747,6 @@ class User {
         $teamList = $this->getDevTeamList();
         $projList = $this->getProjectList($teamList);
       }
-      $formatedProjList = implode( ', ', array_keys($projList));
-
 
       $query = "SELECT DISTINCT bug_id ".
                "FROM `mantis_bug_monitor_table` ".

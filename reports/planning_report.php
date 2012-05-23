@@ -287,7 +287,6 @@ function displayUserDeadLines($dayPixSize, $today, $scheduledTaskList) {
    $barHeight = $imageHeight;
 
    $deadLines = array();
-   $nbDaysToDeadLines = array();
 
    // remove duplicate deadLines & set color
    foreach($scheduledTaskList as $key => $scheduledTask) {

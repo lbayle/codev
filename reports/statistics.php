@@ -175,8 +175,6 @@ function displaySubmittedResolved($timeTrackingTable, $width, $height) {
 
 function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displayNoSupport = false) {
 
-   $start_day = 1;
-	$now = time();
 
 	foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
 
@@ -263,8 +261,6 @@ function displayResolvedDriftGraph ($timeTrackingTable, $width, $height, $displa
  */
 function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
 
-   $start_day = 1;
-   $now = time();
 
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
 
@@ -326,8 +322,6 @@ function displayDevelopersWorkloadGraph ($timeTrackingTable, $width, $height) {
  */
 function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
 
-   $start_day = 1;
-   $now = time();
 
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
 
@@ -358,7 +352,7 @@ function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
    echo "<br/>\n";
 
    echo "<div class=\"float\">\n";
-   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2";
+   $graphURL = getServerRootURL()."/graphs/two_lines.php?displayPointLabels&pointFormat=%.1f&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1";
    $graphURL = SmartUrlEncode($graphURL);
    echo "    <img src='$graphURL'/>";
    echo "</div>\n";
@@ -386,12 +380,7 @@ function displayTimeDriftGraph ($timeTrackingTable, $width, $height) {
 
 function displayEfficiencyGraph ($timeTrackingTable, $width, $height) {
 
-   $start_day = 1;
-   $now = time();
-
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-
-         $driftStats_new = $timeTracking->getResolvedDriftStats();
 
          $val1[] = $timeTracking->getEfficiencyRate();
          $val2[] = $timeTracking->getSystemDisponibilityRate();
@@ -479,9 +468,6 @@ function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) 
  * @param $height
  */
 function displayReopenedRateGraph ($timeTrackingTable, $width, $height) {
-
-   $start_day = 1;
-   $now = time();
 
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
 

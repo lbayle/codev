@@ -503,7 +503,7 @@ class Team {
 
       $sideTaskProjectType = Project::type_sideTaskProject;
 
-      $projectDesc = "CoDev SideTaskProject for team $this->name";
+      $projectDesc = T_("CodevTT SideTaskProject for team")." $this->name";
 
       $projectid = Project::createSideTaskProject($projectName);
 

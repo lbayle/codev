@@ -125,9 +125,6 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
 
    while($row = mysql_fetch_object($result)) {
       // get information on this bug
-      $query2  = "SELECT summary, status, date_submitted, project_id, category_id FROM `mantis_bug_table` WHERE id=$row->bugid";
-      $result2 = mysql_query($query2) or die("Query failed: $query2");
-      $row2 = mysql_fetch_object($result2);
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
       // get general information
