@@ -33,7 +33,7 @@ if(isset($_SESSION['userid']) && isset($_GET['action'])) {
                             'name' => T_('All projects')
       );
       $projects = Team::getProjectList($_GET['teamid'], false);
-      $smartyHelper->assign('projects', $allProject + getProjects($projects));
+      $smartyHelper->assign('projects', array_merge($allProject,getProjects($projects)));
       $smartyHelper->display('form/projectSelector');
    }
 }
