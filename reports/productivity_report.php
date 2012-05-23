@@ -503,7 +503,7 @@ function displayResolvedIssuesInDrift($timeTracking, $isManager=false, $withSupp
 
 		// TODO: check if issue in team project list ?
 
-		$driftMgrEE = $issue->getDriftMgrEE($withSupport);
+		$driftMgrEE = $issue->getDriftMgr($withSupport);
 		$driftEE = $issue->getDrift($withSupport);
 
 		if (($driftMgrEE > 0) || ($driftEE > 0)) {

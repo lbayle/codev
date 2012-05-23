@@ -138,7 +138,7 @@ function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
             if (NULL == $projList[$issue->projectId]) {
             	continue;
             }
-            $driftPrelEE = $issue->getDriftMgrEE($withSupport);
+            $driftPrelEE = $issue->getDriftMgr($withSupport);
             $driftEE = $issue->getDrift($withSupport);
             if (($driftPrelEE > 0) || ($driftEE > 0)) {
                 $issueArray[] = array(

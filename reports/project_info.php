@@ -267,7 +267,7 @@ function getCurrentIssuesInDrift($projectVersionList, $isManager, $withSupport =
             continue;
          }
 
-         $driftPrelEE = ($isManager) ? $issue->getDriftMgrEE($withSupport) : 0;
+         $driftPrelEE = ($isManager) ? $issue->getDriftMgr($withSupport) : 0;
          $driftEE = $issue->getDrift($withSupport);
 
          if (($driftPrelEE > 0) || ($driftEE > 0)) {
@@ -323,7 +323,7 @@ function getResolvedIssuesInDrift($projectVersionList, $isManager, $withSupport 
             continue;
          }
 
-         $driftPrelEE = ($isManager) ? $issue->getDriftMgrEE($withSupport) : 0;
+         $driftPrelEE = ($isManager) ? $issue->getDriftMgr($withSupport) : 0;
          $driftEE = $issue->getDrift($withSupport);
 
          if (($driftPrelEE > 0) || ($driftEE > 0)) {

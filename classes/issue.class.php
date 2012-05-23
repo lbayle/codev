@@ -680,8 +680,6 @@ class Issue {
     *
     * formula: elapsed - (effortEstim - remaining)
     * if bug is Resolved/Closed, then remaining is not used.
-    * if EffortEstim = 0 then Drift = 0
-    * if Elapsed     = 0 then Drift = 0
     *
     * @param boolean $withSupport
     *
@@ -691,11 +689,6 @@ class Issue {
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
-      if (0 == $totalEstim) {
-         $this->logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
-      	return 0;
-      }
-
       if ($withSupport) {
       	$myElapsed = $this->elapsed;
       } else {
@@ -703,12 +696,7 @@ class Issue {
       	$myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 
-      if (0 == $myElapsed) {
-         $this->logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
-         return 0;
-      }
-
-	   if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
+      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          $derive = $myElapsed - $totalEstim;
       } else {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
@@ -723,19 +711,12 @@ class Issue {
     *
     * formula: elapsed - (MgrEffortEstim - remaining)
     * if bug is Resolved/Closed, then remaining is not used.
-    * if MgrEffortEstim = 0 then Drift = 0
-    * if Elapsed        = 0 then Drift = 0
     *
     * @param boolean $withSupport
     *
     * @returns int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
     */
-   public function getDriftMgrEE($withSupport = true) {
-
-      if (0 == $this->mgrEffortEstim ) {
-         $this->logger->debug("bugid ".$this->bugId." if mgrEffortEstim == 0 then Drift = 0");
-         return 0;
-      }
+   public function getDriftMgr($withSupport = true) {
 
       if ($withSupport) {
          $myElapsed = $this->elapsed;
@@ -748,11 +729,6 @@ class Issue {
          $derive = $myElapsed - $this->mgrEffortEstim;
       } else {
          $derive = $myElapsed - ($this->mgrEffortEstim - $this->remaining);
-      }
-
-      if (0 == $myElapsed) {
-         $this->logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
-         return 0;
       }
 
       $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->mgrEffortEstim.")");

@@ -281,7 +281,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "<td>".T_("Effort Deviation")."</td>\n";
 
   if ($isManager) {
-     $deriveETA = $issue->getDriftMgrEE($withSupport);
+     $deriveETA = $issue->getDriftMgr($withSupport);
      echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".round($deriveETA, 2)."</td>\n";
   }
   $derive = $issue->getDrift($withSupport);
@@ -296,7 +296,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
          echo "<td>".T_("EffortDeviation +Support")."</td>\n";
       }
       if ($isManager) {
-         $deriveETA = $issue->getDriftMgrEE(!$withSupport);
+         $deriveETA = $issue->getDriftMgr(!$withSupport);
          echo "<td style='background-color: #".$issue->getDriftColor($deriveETA).";'>".round($deriveETA,2)."</td>\n";
       }
       $derive = $issue->getDrift(!$withSupport);

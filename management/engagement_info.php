@@ -75,7 +75,7 @@ function getEngagementIssues($engagement) {
       $issueInfo["progress"] = round(100 * $issue->getProgress());
       $issueInfo["effortEstim"] = $issue->mgrEffortEstim;
       $issueInfo["elapsed"] = $issue->elapsed;
-      $issueInfo["driftMgr"] = $issue->getDriftMgrEE();
+      $issueInfo["driftMgr"] = $issue->getDriftMgr();
       $issueInfo["durationMgr"] = $issue->getDurationMgr();
       $issueInfo["summary"] = $issue->summary;
 

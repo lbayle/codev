@@ -517,7 +517,7 @@ class TimeTracking {
           // -- compute total drift
           $issueDrift     = $issue->getDrift($withSupport);
           $derive        += $issueDrift;
-          $issueDriftMgrEE  = $issue->getDriftMgrEE($withSupport);
+          $issueDriftMgrEE  = $issue->getDriftMgr($withSupport);
           $deriveETA     += $issueDriftMgrEE;
 
           $this->logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");

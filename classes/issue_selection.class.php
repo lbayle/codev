@@ -85,7 +85,7 @@ class IssueSelection {
          $this->effortEstim    += $issue->effortEstim;
          $this->effortAdd      += $issue->effortAdd;
 
-         $this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgrEE());
+         $this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
       }
    }
 
@@ -179,21 +179,14 @@ class IssueSelection {
       $myEstim = 0;
 
       foreach ($this->issueList as $issue) {
-         $nbDaysDrift += $issue->getDriftMgrEE();
+         $nbDaysDrift += $issue->getDriftMgr();
          $myEstim     += $issue->mgrEffortEstim;
       }
 
-      if (0 == $myEstim) {
-         $this->logger->debug("IssueSelection [$this->name] :  if (mgrEffortEstim) == 0 then Drift = 0");
-
-         $values['nbDays']  = 0;
-         $values['percent'] = 0;
-      } else {
-         $percent =  $nbDaysDrift / $myEstim;
-         $values['nbDays']  = round($nbDaysDrift,3);
-         $values['percent'] = $percent;
-      }
-
+      $percent =  $nbDaysDrift / $myEstim;
+      $values['nbDays']  = round($nbDaysDrift,3);
+      $values['percent'] = $percent;
+         
       $this->logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
       return $values;
    }
@@ -213,17 +206,10 @@ class IssueSelection {
          $nbDaysDrift += $issue->getDrift();
          $myEstim     += $issue->effortEstim + $issue->effortAdd;
       }
-
-      if (0 == $myEstim) {
-         $this->logger->debug("IssueSelection [$this->name] :  if (effortEstim + effortAdd) == 0 then Drift = 0");
-
-         $values['nbDays'] = 0;
-         $values['percent'] = 0;
-      } else {
-         $percent =  $nbDaysDrift / $myEstim;
-         $values['nbDays'] = round($nbDaysDrift,3);
-         $values['percent'] = $percent;
-      }
+      
+      $percent =  $nbDaysDrift / $myEstim;
+      $values['nbDays'] = round($nbDaysDrift,3);
+      $values['percent'] = $percent;
 
       $this->logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
       return $values;
@@ -261,7 +247,7 @@ class IssueSelection {
       foreach ($this->issueList as $bugid => $issue) {
 
          // if not manager, disable getDriftMgrEE check
-         $driftMgrEE = ($isManager) ? $issue->getDriftMgrEE($withSupport) : 0;
+         $driftMgrEE = ($isManager) ? $issue->getDriftMgr($withSupport) : 0;
          $driftEE = $issue->getDrift($withSupport);
 
          if (($driftMgrEE > 0) || ($driftEE > 0)) {
@@ -344,7 +330,7 @@ class IssueSelection {
 
       foreach ($this->issueList as $bugId => $issue) {
 
-         $issueDrift = $issue->getDriftMgrEE($withSupport);
+         $issueDrift = $issue->getDriftMgr($withSupport);
 
          // get drift stats. equal is when drif = +-threshold
          if ($issueDrift < -$threshold) {
