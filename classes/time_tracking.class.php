@@ -117,7 +117,8 @@ class TimeTracking {
    */
   private function getProductionDays($projects) {
 
-    $accessLevel_observer = Team::accessLevel_observer;
+    $accessLevel_dev     = Team::accessLevel_dev;
+    $accessLevel_manager = Team::accessLevel_manager;
 
     $prodDays = 0;
 
@@ -126,7 +127,7 @@ class TimeTracking {
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+      "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
 
 // TODO check patch from FDJ 8b003033391c84142787c3379a518a3ef7283587
 //      "AND (codev_team_user_table.departure_date = 0 or codev_team_user_table.departure_date >=$this->startTimestamp)";
@@ -159,8 +160,9 @@ class TimeTracking {
    * @param $isDeveloppersOnly : do not include time spent by Managers (default = false)
    */
   public function getProdDaysSideTasks($isDeveloppersOnly = false) {
-   $accessLevel_observer = Team::accessLevel_observer;
-   $prodDays = 0;
+    $accessLevel_dev     = Team::accessLevel_dev;
+    $accessLevel_manager = Team::accessLevel_manager;
+    $prodDays = 0;
 
     // select tasks within timestamp, where user is in the team
     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
@@ -168,7 +170,7 @@ class TimeTracking {
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+      "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
 
     $result = mysql_query($query);
     if (!$result) {
@@ -207,7 +209,8 @@ class TimeTracking {
    * - Observers excluded
    */
    public function getManagementDays() {
-     $accessLevel_observer = Team::accessLevel_observer;
+    $accessLevel_dev     = Team::accessLevel_dev;
+    $accessLevel_manager = Team::accessLevel_manager;
      $prodDays = 0;
 
      // select tasks within timestamp, where user is in the team
@@ -216,7 +219,7 @@ class TimeTracking {
            "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
            "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
            "AND    codev_team_user_table.team_id = $this->team_id ".
-           "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+           "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
 
      $result = mysql_query($query);
      if (!$result) {
@@ -632,7 +635,8 @@ class TimeTracking {
 
   // systemDisponibilityRate = 100 - (nb breakdown hours / prodHours)
   public function getSystemDisponibilityRate() {
-    $accessLevel_observer = Team::accessLevel_observer;
+    $accessLevel_dev     = Team::accessLevel_dev;
+    $accessLevel_manager = Team::accessLevel_manager;
 
     // The total time spent by the team doing nothing because of incidents
     $teamIncidentDays = 0;
@@ -643,7 +647,7 @@ class TimeTracking {
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+      "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
 
     $result = mysql_query($query);
     if (!$result) {
@@ -682,7 +686,8 @@ class TimeTracking {
 
   // ----------------------------------------------
   public function getWorkingDaysPerJob($job_id) {
-  	$accessLevel_observer = Team::accessLevel_observer;
+    $accessLevel_dev     = Team::accessLevel_dev;
+    $accessLevel_manager = Team::accessLevel_manager;
     $workingDaysPerJob = 0;
 
     $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, codev_timetracking_table.duration ".
@@ -691,7 +696,7 @@ class TimeTracking {
       "AND    codev_timetracking_table.jobid = $job_id ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND    codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level <> $accessLevel_observer ".
+      "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ".
       "AND    codev_timetracking_table.bugid IN ".
       "(SELECT mantis_bug_table.id ".
       "FROM `mantis_bug_table` , `codev_team_project_table` ".
@@ -722,7 +727,8 @@ class TimeTracking {
 
   // ----------------------------------------------
   public function getWorkingDaysPerProject($project_id) {
-     $accessLevel_observer = Team::accessLevel_observer;
+    $accessLevel_dev     = Team::accessLevel_dev;
+    $accessLevel_manager = Team::accessLevel_manager;
   	 $workingDaysPerProject = 0;
 
     // Find nb hours spent on the given project
@@ -731,7 +737,7 @@ class TimeTracking {
       "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
       "AND   codev_team_user_table.team_id = $this->team_id ".
-      "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+      "AND  (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
 
     $result    = mysql_query($query);
     if (!$result) {
@@ -862,7 +868,8 @@ class TimeTracking {
    * @param int $project_id
    */
   public function getProjectDetails($project_id) {
-  	$accessLevel_observer = Team::accessLevel_observer;
+    $accessLevel_dev     = Team::accessLevel_dev;
+    $accessLevel_manager = Team::accessLevel_manager;
     $durationPerCategory = array();
 
     // Find nb hours spent on the given project by this team
@@ -871,7 +878,7 @@ class TimeTracking {
                  "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
                  "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
                  "AND    codev_team_user_table.team_id = $this->team_id ".
-                 "AND    codev_team_user_table.access_level <> $accessLevel_observer ";
+                 "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ";
 
     $result    = mysql_query($query);
     if (!$result) {
