@@ -165,7 +165,7 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
 }
 
 /**
- *
+ * TODO Use a specific template for Smarty or Datatables async refresh mecanism
  * @param int $weekid
  * @param array $weekDates
  * @param unknown_type $userid
@@ -179,13 +179,13 @@ function getWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
    $html .= "<th>".T_("Task")."</th>\n";
    $html .= "<th>".T_("RAF")."</th>\n";
    $html .= "<th>".T_("Job")."</th>\n";
-   $html .= "<th width='80'>".T_("Monday")."<br/>".date("d M", $weekDates[1])."</th>\n";
-   $html .= "<th width='80'>".T_("Tuesday")."<br/>".date("d M", $weekDates[2])."</th>\n";
-   $html .= "<th width='80'>".T_("Wednesday")."<br/>".date("d M", $weekDates[3])."</th>\n";
-   $html .= "<th width='80'>".T_("Thursday")."<br/>".date("d M", $weekDates[4])."</th>\n";
-   $html .= "<th width='80'>".T_("Friday")."<br/>".date("d M", $weekDates[5])."</th>\n";
-   $html .= "<th width='80' style='background-color: #D8D8D8;' >".T_("Saturday")."<br/>".date("d M", $weekDates[6])."</th>\n";
-   $html .= "<th width='80' style='background-color: #D8D8D8;' >".T_("Sunday")."<br/>".date("d M", $weekDates[7])."</th>\n";
+   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[1])."</th>\n";
+   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[2])."</th>\n";
+   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[3])."</th>\n";
+   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[4])."</th>\n";
+   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[5])."</th>\n";
+   $html .= "<th width='80' style='background-color: #D8D8D8;' >".formatDate("%A %d %B", $weekDates[6])."</th>\n";
+   $html .= "<th width='80' style='background-color: #D8D8D8;' >".formatDate("%A %d %B", $weekDates[7])."</th>\n";
    $html .= "</tr>\n";
 
    $linkList = array();
@@ -196,7 +196,7 @@ function getWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
 
       foreach ($jobList as $jobid => $dayList) {
          $linkid = $bugid."_".$jobid;
-         $linkList["$linkid"] = $issue;
+         $linkList[$linkid] = $issue;
 
          $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
          $result3 = mysql_query($query3) or die("Query failed: $query3");
@@ -221,7 +221,7 @@ function getWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYea
          } else {
          	$formattedRemaining = $issue->remaining;
          }
-         $html .= "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$userid."', '".$bugid."', '".$weekid."', '".$curYear."', '".$dialogBoxTitle."')\" >".$formattedRemaining."</a></td>\n";
+         $html .= "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$bugid."', '".$dialogBoxTitle."')\" >".$formattedRemaining."</a></td>\n";
          $html .= "<td>".$jobName."</td>\n";
 
          for ($i = 1; $i <= 7; $i++) {
