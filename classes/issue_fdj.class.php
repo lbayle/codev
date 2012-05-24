@@ -28,7 +28,7 @@ include_once "user.class.php";
 class IssueFDJ extends Issue {
 
   // Computes the lifeCycle of the issue (time spent on each status)
-  public function computeDurations () {
+  public function computeDurationsPerStatus () {
 
     global $status_feedback;
 

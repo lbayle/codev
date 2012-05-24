@@ -100,9 +100,9 @@ function getIssueSelectionDetailedMgr($issueSelection) {
    $selectionDetailedMgr = array('name' => $issueSelection->name,
       //'progress' => round(100 * $pv->getProgress()),
       'effortEstim' => $issueSelection->mgrEffortEstim,
-      'reestimated' => ($issueSelection->remainingMgr + $issueSelection->elapsed),
+      'reestimated' => $issueSelection->getReestimatedMgr(),
       'elapsed' => $issueSelection->elapsed,
-      'remaining' => $issueSelection->remainingMgr,
+      'remaining' => $issueSelection->durationMgr,
       'driftColor' => $formatteddriftMgrColor,
       'drift' => round($valuesMgr['nbDays'],2)
    );

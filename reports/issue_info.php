@@ -500,7 +500,7 @@ function displayMonth($month, $year, $issue) {
     # WARN: use of FDJ custom
     //$issue = new IssueFDJ($issue_->bugId);
 
-    $issue->computeDurations ();
+    $issue->computeDurationsPerStatus ();
 
     echo "<div class='float'>\n";
 

@@ -103,11 +103,12 @@ function getVersionsDetailedMgr($projectVersionList) {
    $totalRemainingMgr = 0;
    $totalReestimatedMgr = 0;
    $totalDriftMgr = 0;
+
    foreach ($projectVersionList as $version => $pv) {
       $totalEffortEstimMgr += $pv->mgrEffortEstim;
       $totalElapsed += $pv->elapsed;
-      $totalRemainingMgr += $pv->remainingMgr;
-      $totalReestimatedMgr += $pv->remainingMgr;
+      $totalRemainingMgr += $pv->durationMgr;
+      $totalReestimatedMgr += $pv->getReestimatedMgr();
       //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
       $valuesMgr = $pv->getDriftMgr();
@@ -116,25 +117,25 @@ function getVersionsDetailedMgr($projectVersionList) {
       $driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
       $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
-      $versionsDetailedMgr[] = array('name' => $pv->name,
+      $versionsDetailedMgr[] = array('name'        => $pv->name,
                                      //'progress' => round(100 * $pv->getProgress()),
                                      'effortEstim' => $pv->mgrEffortEstim,
-                                     'reestimated' => ($pv->remainingMgr + $pv->elapsed),
-                                     'elapsed' => $pv->elapsed,
-                                     'remaining' => $pv->remainingMgr,
-                                     'driftColor' => $formatteddriftMgrColor,
-                                     'drift' => round($valuesMgr['nbDays'],2)
+                                     'reestimated' => $pv->getReestimatedMgr(),
+                                     'elapsed'     => $pv->elapsed,
+                                     'remaining'   => $pv->durationMgr,
+                                     'driftColor'  => $formatteddriftMgrColor,
+                                     'drift'       => round($valuesMgr['nbDays'],2)
       );
    }
 
-   $versionsDetailedMgr[] = array('name' => T_("Total"),
+   $versionsDetailedMgr[] = array('name'        => T_("Total"),
                                   //'progress' => round(100 * $totalProgress),
                                   'effortEstim' => $totalEffortEstimMgr,
-                                  'reestimated' => ($totalRemainingMgr + $totalElapsed),
-                                  'elapsed' => $totalElapsed,
-                                  'remaining' => $totalRemainingMgr,
-                                  'driftColor' => '',
-                                  'drift' => round($totalDriftMgr,2)
+                                  'reestimated' => $totalReestimatedMgr,
+                                  'elapsed'     => $totalElapsed,
+                                  'remaining'   => $totalRemainingMgr,
+                                  'driftColor'  => '',
+                                  'drift'       => round($totalDriftMgr,2)
    );
 
    return $versionsDetailedMgr;
@@ -151,10 +152,13 @@ function getVersionsDetailed($projectVersionList) {
    $totalEffortEstim = 0;
    $totalElapsed = 0;
    $totalRemaining = 0;
+   $totalReestimated = 0;
+
    foreach ($projectVersionList as $version => $pv) {
       $totalEffortEstim += $pv->effortEstim + $pv->effortAdd;
       $totalElapsed += $pv->elapsed;
-      $totalRemaining += $pv->remaining;
+      $totalRemaining += $pv->duration;
+      $totalReestimated += $pv->getReestimated();
       //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
       $values = $pv->getDrift();
@@ -164,24 +168,24 @@ function getVersionsDetailed($projectVersionList) {
 
       $versionsDetailed[] = array('name' => $pv->name,
          //'progress' => round(100 * $pv->getProgress()),
-         'title' => 'title="'.($pv->effortEstim + $pv->effortAdd).'"',
+         'title'       => 'title="'.($pv->effortEstim + $pv->effortAdd).'"',
          'effortEstim' => ($pv->effortEstim + $pv->effortAdd),
-         'reestimated' => ($pv->remaining + $pv->elapsed),
-         'elapsed' => $pv->elapsed,
-         'remaining' => $pv->remaining,
-         'driftColor' => $formatteddriftColor,
-         'drift' => round($values['nbDays'],2)
+         'reestimated' => $pv->getReestimated(),
+         'elapsed'     => $pv->elapsed,
+         'remaining'   => $pv->duration,
+         'driftColor'  => $formatteddriftColor,
+         'drift'       => round($values['nbDays'],2)
       );
    }
 
    $versionsDetailed[] = array('name' => T_("Total"),
-                               'title' => '',
+                               'title'       => '',
                                'effortEstim' => $totalEffortEstim,
-                               'reestimated' => ($totalRemaining + $totalElapsed),
-                               'elapsed' => $totalElapsed,
-                               'remaining' => $totalRemaining,
-                               'driftColor' => '',
-                               'drift' => $totalDrift
+                               'reestimated' => $totalReestimated,
+                               'elapsed'     => $totalElapsed,
+                               'remaining'   => $totalRemaining,
+                               'driftColor'  => '',
+                               'drift'       => $totalDrift
    );
 
    return $versionsDetailed;

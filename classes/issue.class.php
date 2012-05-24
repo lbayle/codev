@@ -556,6 +556,26 @@ class Issue {
    }
 
    /**
+    * reestimated = elapsed + duration
+    *
+    * @return int reestimated
+    */
+   public function getReestimated() {
+      return ($this->elapsed + $this->getDuration());
+   }
+
+   /**
+    * reestimated = elapsed + durationMgr
+    *
+    * @return int reestimated
+    */
+   public function getReestimatedMgr() {
+      return ($this->elapsed + $this->getDurationMgr());
+   }
+
+
+
+   /**
     * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
     *
     * get list of Relationships
@@ -970,8 +990,7 @@ class Issue {
 
    // ----------------------------------------------
    // Computes the lifeCycle of the issue (time spent on each status)
-   // TODO: rename computeDurationsPerStatus
-   public function computeDurations () {
+   public function computeDurationsPerStatus () {
    	global $status_new;
 
       $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
@@ -979,16 +998,15 @@ class Issue {
 
       foreach ($statusNames as $s => $sname) {
          if ($status_new == $s) {
-            $this->statusList[$s] = new Status($s, $this->getDuration_new());
+            $this->statusList[$s] = new Status($s, $this->getDurationForStatusNew());
          } else {
-            $this->statusList[$s] = new Status($s, $this->getDuration_other($s));
+            $this->statusList[$s] = new Status($s, $this->getDurationForStatus($s));
          }
       }
    }
 
    // ----------------------------------------------
-   // TODO: rename getDurationForStatusNew
-   protected function getDuration_new ()
+   protected function getDurationForStatusNew ()
    {
       $time = 0;
 
@@ -1030,8 +1048,7 @@ class Issue {
 
 
    // ----------------------------------------------
-   // TODO: rename getDurationForStatus
-   protected function getDuration_other ($status)
+   protected function getDurationForStatus ($status)
    {
       $time = 0;
 
@@ -1311,15 +1328,6 @@ class Issue {
       return $timestamp;
    }
 
-   /**
-    * returns a progress rate (depending on Remaining)
-    * formula: (BI+BS - RAF) / (BI+BS)
-    *
-    * 1 = 100% finished
-    * 0.5 = 50% done
-    * 0 = 0% done
-    */
-
 
    /**
     * returns a progress rate (depending on Remaining)
@@ -1342,7 +1350,7 @@ class Issue {
       if ((NULL == $this->remaining) || (0 == $this->remaining)) { return 1; }
 
       // nominal case
-      $progress = $this->elapsed / ($this->elapsed + $this->remaining);   // (T-R)/T
+      $progress = $this->elapsed / $this->getReestimated();   // (T-R)/T
 
 
       $this->logger->debug("issue $this->bugId Progress = $progress % = $this->elapsed / ($this->elapsed + $this->remaining)");
