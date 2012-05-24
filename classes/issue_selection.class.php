@@ -48,7 +48,7 @@ class IssueSelection {
       $this->durationMgr = 0;
       $this->mgrEffortEstim = 0;
       $this->effortEstim   = 0;
-      $tgis->effortAdd     = 0;    // BS
+      $this->effortAdd     = 0;    // BS
 
       $this->issueList = array();
       $this->progress  = NULL;
