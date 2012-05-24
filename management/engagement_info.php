@@ -163,6 +163,8 @@ if (isset($_SESSION['userid'])) {
       $issueList = getEngagementIssues($eng);
       $smartyHelper->assign('engIssues', $issueList);
 
+      $smartyHelper->assign('engStats', "ok");
+
 
 
    }

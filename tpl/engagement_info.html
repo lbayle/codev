@@ -49,8 +49,10 @@ $(document).ready(function() {
          "bInfo": false,
          "bAutoWidth": false
       });
-} );
-
+      jQuery(function() {
+         jQuery( "#tabsEngagement" ).tabs();
+      });
+});
 
 </script>
 
@@ -150,62 +152,77 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
 
-   <div align="center">
-      <!-- create form -->
-      <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
-         <fieldset>
-            <label>{t}Add task{/t}: </label>
-            <input <input  type='text'size='5' value='' name='bugid' id='bugid' />
-            <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssue()' />
+   <div id="tabsEngagement">
+      <ul>
+         {if $engIssues}<li><a href="#tabsName-1">{t}Issues{/t}</a></li>{/if}
+         {if $engStats}<li><a href="#tabsName-2">{t}Statistics{/t}</a></li>{/if}
+      </ul>
+      
+      {if $engIssues}
+      <div id="tabsName-1">
 
-            <input type="hidden" name="action" value="noAction" />
-            <input type="hidden" name="teamid" value="{$teamId}" />
-            <input type="hidden" name="engid" value="{$engagementId}" />
-         </fieldset>
-      </form>
-   </div>
+         <div align="center">
+            <!-- create form -->
+            <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
+               <fieldset>
+                  <label>{t}Add task{/t}: </label>
+                  <input <input  type='text'size='5' value='' name='bugid' id='bugid' />
+                  <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssue()' />
+
+                  <input type="hidden" name="action" value="noAction" />
+                  <input type="hidden" name="teamid" value="{$teamId}" />
+                  <input type="hidden" name="engid" value="{$engagementId}" />
+               </fieldset>
+            </form>
+         </div>
 
 
-   <div align="center">
-    <table id="issues_table" class="display">
-      <thead>
-        <tr>
-            <th></th>
-            <th>{t}ID{/t}</th>
-            <th>{t}Project{/t}</th>
-            <th>{t}Target{/t}</th>
-            <th>{t}Status{/t}</th>
-            <th>{t}Progress{/t}</th>
-            <th>{t}MgrEffortEstim{/t}</th>
-            <th>{t}Elapsed{/t}</th>
-            <th>{t}RAF{/t}</th>
-            <th>{t}Drift Mgr{/t}</th>
-            <th>{t}Summary{/t}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {foreach $engIssues as $id => $issue}
-        <tr>
-            <td>
-               <a title="{t}delete this row{/t}" href="javascript: removeEngIssue('{$issue.bugid}')">
-                  <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
-               </a>
-            </td>
-            <td>{$issue.bugid}</td>
-            <td>{$issue.project}</td>
-            <td>{$issue.target}</td>
-            <td>{$issue.status}</td>
-            <td>{$issue.progress}%</td>
-            <td>{$issue.effortEstim}</td>
-            <td>{$issue.elapsed}</td>
-            <td>{$issue.durationMgr}</td>
-            <td>{$issue.driftMgr}</td>
-            <td>{$issue.summary}</td>
-        </tr>
-        {/foreach}
-      </tbody>
-    </table>
-   </div>
+         <div align="center">
+         <table id="issues_table" class="display">
+            <thead>
+            <tr>
+                  <th></th>
+                  <th>{t}ID{/t}</th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Target{/t}</th>
+                  <th>{t}Status{/t}</th>
+                  <th>{t}Progress{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}RAF{/t}</th>
+                  <th>{t}Drift Mgr{/t}</th>
+                  <th>{t}Summary{/t}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $engIssues as $id => $issue}
+            <tr>
+                  <td>
+                     <a title="{t}delete this row{/t}" href="javascript: removeEngIssue('{$issue.bugid}')">
+                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
+                     </a>
+                  </td>
+                  <td>{$issue.bugid}</td>
+                  <td>{$issue.project}</td>
+                  <td>{$issue.target}</td>
+                  <td>{$issue.status}</td>
+                  <td>{$issue.progress}%</td>
+                  <td>{$issue.effortEstim}</td>
+                  <td>{$issue.elapsed}</td>
+                  <td>{$issue.durationMgr}</td>
+                  <td>{$issue.driftMgr}</td>
+                  <td>{$issue.summary}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         </div>
+      </div>
+      {/if}
+      {if $engStats}
+      <div id="tabsName-2">
+      </div>
+      {/if}
 
    {/if}
 
