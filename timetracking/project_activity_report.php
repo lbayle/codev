@@ -36,10 +36,13 @@ include_once "time_tracking.class.php";
  * @return array
  */
 function getProjectActivityReport($projectTracks, $teamid, $isDetailed) {
+   
+   $team = TeamCache::getInstance()->getTeam($teamid);
+
    foreach ($projectTracks as $projectId => $bugList) {
       $project = ProjectCache::getInstance()->getProject($projectId);
 
-      $jobList = $project->getJobList($teamid);
+      $jobList = $project->getJobList($team->getProjectType($projectId));
       $jobTypeList = "";
       if ($isDetailed) {
          $jobColWidth = (0 != count($jobList)) ? (100 - 50 - 10 - 6) / count($jobList) : 10;
