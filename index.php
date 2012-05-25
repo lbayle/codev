@@ -135,6 +135,12 @@ function getConsistencyErrorsMgr($userid) {
     $ccheck = new ConsistencyCheck2($issueList);
 
     // ---
+/*
+ * It is now allowed to have MgrEE = 0
+ *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Engagement's creation.
+ *   tasks having MgrEE = 0 are internal_tasks
+ *
+
     $cerrList = $ccheck->checkMgrEffortEstim();
     if (count($cerrList) > 0) {
 	    $consistencyErrors[] = array('mantisIssueURL' => ' ',
@@ -142,7 +148,7 @@ function getConsistencyErrorsMgr($userid) {
 			 'status' => ' ',
 			 'desc' => count($cerrList).' '.T_("Tasks need MgrEffortEstim to be set."));
     }
-
+*/
     // ---
     $cerrList = $ccheck->checkUnassignedTasks();
     if (count($cerrList) > 0) {

@@ -126,8 +126,18 @@ class ConsistencyCheck2 {
       #$this->logger->debug("checkBadRemaining");
       $cerrList4 = $this->checkBadRemaining();
 
+/*
+ * It is now allowed to have MgrEE = 0
+ *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Engagement's creation.
+ *   tasks having MgrEE = 0 are internal_tasks
+ *
+
       #$this->logger->debug("checkMgrEffortEstim");
       $cerrList5 = $this->checkMgrEffortEstim();
+*/
+
+      #$this->logger->debug("checkEffortEstim");
+      $cerrList5 = $this->checkEffortEstim();
 
       #$this->logger->debug("checkTimeTracksOnNewIssues");
       $cerrList6 = $this->checkTimeTracksOnNewIssues();
@@ -235,6 +245,41 @@ class ConsistencyCheck2 {
       return $cerrList;
    }
 
+   // ----------------------------------------------
+   /**
+    * EffortEstim should be defined when status > new.
+    *
+    */
+   public function checkEffortEstim() {
+
+      global $status_new;
+
+      $cerrList = array();
+
+      foreach ($this->issueList as $issue) {
+
+        if ($issue->isResolved()) { continue; }
+        if ($issue->currentStatus == $status_new) { continue; }
+
+         // exclude SideTasks (effortEstimation is not relevant)
+         $project = ProjectCache::getInstance()->getProject($issue->projectId);
+         if ($project->isSideTasksProject()) { continue; }
+
+         if ((NULL   == $issue->effortEstim) ||
+               ('' == $issue->effortEstim)     ||
+               ('0' == $issue->effortEstim)) {
+
+            $cerr = new ConsistencyError2($issue->bugId,
+               $issue->handlerId,
+               $issue->currentStatus,
+               $issue->last_updated,
+               T_("EffortEstim not set."));
+            $cerr->severity = ConsistencyError2::severity_error;
+            $cerrList[] = $cerr;
+         }
+      }
+      return $cerrList;
+   }
 
    /**
     * if you spend some time on a task,
