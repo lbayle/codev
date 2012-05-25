@@ -247,15 +247,25 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "  <th>".T_("Value")."</th>\n";
   echo "  </tr>\n";
 
+  // -------
   echo "<tr>\n";
   echo "<td title='BI + BS'>".T_("Estimated effort")."</th>\n";
-  # TODO display mgrEE only if teamManager
   if ($isManager) {
      echo "<td>".$issue->mgrEffortEstim."</td>\n";
   }
   echo "<td title='$issue->effortEstim + $issue->effortAdd'>".($issue->effortEstim + $issue->effortAdd)."</td>\n";
   echo "</tr>\n";
 
+  // -------
+  echo "<tr>\n";
+  echo "<td title=''>".T_("Reestimated")."</th>\n";
+  if ($isManager) {
+     echo "<td>".$issue->getReestimatedMgr()."</td>\n";
+  }
+  echo "<td title=''>".$issue->getReestimated()."</td>\n";
+  echo "</tr>\n";
+
+  // -------
   echo "<tr>\n";
   echo "<td>".T_("Elapsed")."</td>\n";
   if ($isManager) {
@@ -269,6 +279,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   }
   echo "</tr>\n";
 
+  // -------
   echo "<tr>\n";
   echo "<td>".T_("Remaining")."</td>\n";
   if ($isManager) {
@@ -277,6 +288,7 @@ function displayIssueGeneralInfo($issue, $withSupport=true, $displaySupport=fals
   echo "<td><a id='update_remaining_link' title='".T_("update remaining")."' href='#' >".$issue->remaining."</a></td>\n";
   echo "</tr>\n";
 
+  // -------
   echo "<tr>\n";
   echo "<td>".T_("Effort Deviation")."</td>\n";
 
