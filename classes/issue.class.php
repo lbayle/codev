@@ -694,12 +694,13 @@ class Issue {
    	return $color;
    }
 
-
    /**
-    * Effort deviation, regarding (effortEstim + effortAdd)
+    * Effort deviation, compares elapsed to effortEstim
     *
-    * OLD formula: elapsed - ((effortEstim  + effortAdd) - remaining)
-    * NEW formula: reestimated - (effortEstim  + effortAdd) = (elapsed + duration) - (effortEstim  + effortAdd)
+    * formula: elapsed - (effortEstim - remaining)
+    * if bug is Resolved/Closed, then remaining is not used.
+    * if EffortEstim = 0 then Drift = 0
+    * if Elapsed     = 0 then Drift = 0
     *
     * @param boolean $withSupport
     *
@@ -709,6 +710,11 @@ class Issue {
 
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
+      if (0 == $totalEstim) {
+         $this->logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
+      	return 0;
+      }
+
       if ($withSupport) {
       	$myElapsed = $this->elapsed;
       } else {
@@ -716,14 +722,25 @@ class Issue {
       	$myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 
-      $derive = $this->getReestimated() - $this->effortEstim;
+      if (0 == $myElapsed) {
+         $this->logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
+         return 0;
+      }
+
+	   if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
+         $derive = $myElapsed - $totalEstim;
+      } else {
+         $derive = $myElapsed - ($totalEstim - $this->remaining);
+      }
 
       $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)");
       return round($derive,3);
    }
 
+
+
    /**
-    * Effort deviation, regarding mgrEffortEstim
+    * Effort deviation, compares Reestimated to mgrEffortEstim
     *
     * OLD formula: elapsed - (MgrEffortEstim - remaining)
     * NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim
