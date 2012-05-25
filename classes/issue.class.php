@@ -698,8 +698,8 @@ class Issue {
    /**
     * Effort deviation, regarding (effortEstim + effortAdd)
     *
-    * formula: elapsed - (effortEstim - remaining)
-    * if bug is Resolved/Closed, then remaining is not used.
+    * OLD formula: elapsed - ((effortEstim  + effortAdd) - remaining)
+    * NEW formula: reestimated - (effortEstim  + effortAdd) = (elapsed + duration) - (effortEstim  + effortAdd)
     *
     * @param boolean $withSupport
     *
@@ -716,11 +716,7 @@ class Issue {
       	$myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 
-      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
-         $derive = $myElapsed - $totalEstim;
-      } else {
-         $derive = $myElapsed - ($totalEstim - $this->remaining);
-      }
+      $derive = $this->getReestimated() - $this->effortEstim;
 
       $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)");
       return round($derive,3);
@@ -729,8 +725,8 @@ class Issue {
    /**
     * Effort deviation, regarding mgrEffortEstim
     *
-    * formula: elapsed - (MgrEffortEstim - remaining)
-    * if bug is Resolved/Closed, then remaining is not used.
+    * OLD formula: elapsed - (MgrEffortEstim - remaining)
+    * NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim
     *
     * @param boolean $withSupport
     *
@@ -745,11 +741,7 @@ class Issue {
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 
-	  if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
-         $derive = $myElapsed - $this->mgrEffortEstim;
-      } else {
-         $derive = $myElapsed - ($this->mgrEffortEstim - $this->remaining);
-      }
+      $derive = $this->getReestimatedMgr() - $this->mgrEffortEstim;
 
       $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->mgrEffortEstim.")");
       return round($derive,3);

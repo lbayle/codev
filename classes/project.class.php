@@ -642,6 +642,8 @@ class Project {
     *
     * @param unknown_type $handler_id (if 0, all users)
     * @param unknown_type $isHideResolved
+    *
+    * @return array[bugid]
     */
    public function getIssueList($handler_id = 0, $isHideResolved = false) {
 

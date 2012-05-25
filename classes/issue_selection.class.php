@@ -56,6 +56,9 @@ class IssueSelection {
 
    /**
     * add an array of Issue instances
+    *
+    * @param array $issueList array of Issue
+
     */
    public function addIssueList($issueList) {
 
@@ -65,7 +68,6 @@ class IssueSelection {
          }
       }
    }
-
 
    /**
     *
@@ -104,7 +106,7 @@ class IssueSelection {
          } elseif (0 == $this->duration) {
             $this->progress = 1;  // if no duration, then Project is 100% done.
          } else {
-            $this->progress = $this->elapsed / ($this->elapsed + $this->duration);
+            $this->progress = $this->elapsed / $this->getReestimated();
          }
 
          $this->logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
@@ -128,7 +130,7 @@ class IssueSelection {
          } elseif (0 == $this->durationMgr) {
             $this->progress = 1;  // if no duration, then Project is 100% done.
          } else {
-            $this->progress = $this->elapsed / ($this->elapsed + $this->durationMgr);
+            $this->progress = $this->elapsed / $this->getReestimatedMgr();
          }
 
          $this->logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->durationMgr.")");
@@ -197,7 +199,13 @@ class IssueSelection {
          $myEstim     += $issue->mgrEffortEstim;
       }
 
-      $percent =  $nbDaysDrift / $myEstim;
+      if (0 == $myEstim) {
+         $percent = 0;
+         $this->logger->warn("IssueSelection [$this->name] :  getDriftMgr() could not compute drift percent because mgrEffortEstim==0");
+      } else {
+         $percent = ($nbDaysDrift / $myEstim);
+      }
+
       $values = array();
       $values['nbDays']  = round($nbDaysDrift,3);
       $values['percent'] = $percent;
@@ -222,8 +230,14 @@ class IssueSelection {
          $myEstim     += $issue->effortEstim + $issue->effortAdd;
       }
 
+      if (0 == $myEstim) {
+         $percent = 0;
+         $this->logger->warn("IssueSelection [$this->name] :  getDrift() could not compute drift percent because effortEstim==0");
+      } else {
+         $percent = ($nbDaysDrift / $myEstim);
+      }
+
       $values = array();
-      $percent =  $nbDaysDrift / $myEstim;
       $values['nbDays'] = round($nbDaysDrift,3);
       $values['percent'] = $percent;
 

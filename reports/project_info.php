@@ -30,6 +30,7 @@ include_once "time_track.class.php";
 include_once "user.class.php";
 include_once "jobs.class.php";
 include_once "holidays.class.php";
+include_once "project_version.class.php";
 
 /**
  * Get versions overview
@@ -96,13 +97,24 @@ function getVersionsOverview($project) {
  * @param array $projectVersionList
  * @return array
  */
-function getVersionsDetailedMgr($projectVersionList) {
+function getVersionsDetailedMgr($project) {
    $versionsDetailedMgr = NULL;
    $totalEffortEstimMgr = 0;
    $totalElapsed = 0;
    $totalRemainingMgr = 0;
    $totalReestimatedMgr = 0;
    $totalDriftMgr = 0;
+
+   $projectVersionList = $project->getVersionList();
+
+   // TOTAL (all Versions together)
+   $allProjectVersions = new ProjectVersion($project->id, T_("Total"));
+   $issueList = $project->getIssueList();
+	foreach ($issueList as $bugid) {
+      $allProjectVersions->addIssue($bugid);
+   }
+   $projectVersionList[T_("Total")] = $allProjectVersions;
+
 
    foreach ($projectVersionList as $version => $pv) {
       $totalEffortEstimMgr += $pv->mgrEffortEstim;
@@ -127,16 +139,6 @@ function getVersionsDetailedMgr($projectVersionList) {
                                      'drift'       => round($valuesMgr['nbDays'],2)
       );
    }
-
-   $versionsDetailedMgr[] = array('name'        => T_("Total"),
-                                  //'progress' => round(100 * $totalProgress),
-                                  'effortEstim' => $totalEffortEstimMgr,
-                                  'reestimated' => $totalReestimatedMgr,
-                                  'elapsed'     => $totalElapsed,
-                                  'remaining'   => $totalRemainingMgr,
-                                  'driftColor'  => '',
-                                  'drift'       => round($totalDriftMgr,2)
-   );
 
    return $versionsDetailedMgr;
 }
@@ -414,7 +416,7 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign("versionsOverview", getVersionsOverview($project));
 
          if ($isManager) {
-            $smartyHelper->assign("versionsDetailedMgr", getVersionsDetailedMgr($project->getVersionList()));
+            $smartyHelper->assign("versionsDetailedMgr", getVersionsDetailedMgr($project));
          }
 
          $projectVersionList = $project->getVersionList();
