@@ -16,7 +16,6 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once '../path.inc.php';
 require_once('Logger.php');
 
 require_once "constants.php";
