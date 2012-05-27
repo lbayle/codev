@@ -31,7 +31,7 @@ include("user_cache.class.php");
 require('display.inc.php');
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Gantt Chart'));
+$smartyHelper->assign('pageName', 'Gantt Chart');
 
 if (isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
@@ -41,11 +41,11 @@ if (isset($_SESSION['userid'])) {
    $managedTeamList = $session_user->getManagedTeamList();
    $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
    if (count($teamList) > 0) {
-      if(isset($_POST['teamid'])) {
+      if(isset($_POST['teamid']) && array_key_exists($_POST['teamid'],$teamList)) {
          $teamid = $_POST['teamid'];
          $_SESSION['teamid'] = $_POST['teamid'];
       }
-      else if(isset($_SESSION['teamid'])) {
+      else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
          $teamid = $_SESSION['teamid'];
       }
       else {
@@ -56,11 +56,11 @@ if (isset($_SESSION['userid'])) {
 
       $projects = Team::getProjectList($teamid, false);
       $projectid = 0;
-      if(isset($_POST['projectid'])) {
+      if(isset($_POST['projectid']) && array_key_exists($_POST['projectid'],$projects)) {
          $projectid = $_POST['projectid'];
          $_SESSION['projectid'] = $_POST['projectid'];
       }
-      else if(isset($_SESSION['projectid'])) {
+      else if(isset($_SESSION['projectid']) && array_key_exists($_SESSION['projectid'],$projects)) {
          $projectid = $_SESSION['projectid'];
       }
 
@@ -85,8 +85,7 @@ if (isset($_SESSION['userid'])) {
          #$endT += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
          // draw graph
-         $graphURL = getServerRootURL()."/graphs/gantt_graph.php?teamid=$teamid&projects=$projectid&startT=$startT&endT=$endT";
-         $smartyHelper->assign('urlGraph', SmartUrlEncode($graphURL));
+         $smartyHelper->assign('urlGraph', 'teamid='.$teamid.'&projects='.$projectid.'&startT='.$startT.'&endT='.$endT);
       }
    }
 }

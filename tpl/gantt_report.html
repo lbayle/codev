@@ -12,10 +12,10 @@
       <br/><br/><br/>
    </div>
    {if $urlGraph}
-   <img src="{$urlGraph}" alt="{t}Gant report{/t}"/>
+   <img src="graphs/gantt_graph.php?{$urlGraph}" alt="{t}Gant report{/t}"/>
    <br/><br/>
    {/if}
    {else}
    <div class="center">{t}Sorry, you do NOT have access to this page.{/t}</div>
-{/if}
+   {/if}
 </div>
