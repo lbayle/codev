@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once "../artichow/LinePlot.class.php";
 
 # WARNING: Never ever put an 'echo' in this file, the graph won't be displayed !
@@ -52,8 +52,8 @@ function plotOne($values, $color) {
  * addPlot($myGroup, 'leg1', 'x1', new Color(0, 255, 0, 0))
  */
 function addPlot($group, $legName, $valName, $color) {
-   
-	$legend3 = isset($_GET[$legName]) ? $_GET[$legName] : NULL;
+   // Artichow doesn't support utf8 so we translate to ISO
+	$legend3 = isset($_GET[$legName]) ? utf8_decode($_GET[$legName]) : NULL;
    $strVal3 = isset($_GET[$valName]) ? $_GET[$valName] : array();
 
    if (isset($legend3)) {

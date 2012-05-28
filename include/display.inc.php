@@ -16,6 +16,8 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+header("Content-type: text/html; charset=UTF-8");
+
 require('i18n.inc.php');
 require('smarty_helper.class.php');
 
