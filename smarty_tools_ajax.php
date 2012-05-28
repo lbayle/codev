@@ -18,23 +18,51 @@ require('include/session.inc.php');
 */
 
 if(isset($_SESSION['userid']) && isset($_GET['action'])) {
-   
+
    require('path.inc.php');
    require('super_header.inc.php');
    require('smarty_tools.php');
    require('display.inc.php');
    require('i18n.inc.php');
-   include('team.class.php');
-   
+
    $smartyHelper = new SmartyHelper();
-   
+
    if($_GET['action'] == 'getTeamProjects') {
+      include('team.class.php');
+
       $allProject[] = array('id' => T_('All projects'),
-                            'name' => T_('All projects')
+         'name' => T_('All projects')
       );
       $projects = Team::getProjectList($_GET['teamid'], false);
       $smartyHelper->assign('projects', array_merge($allProject,getProjects($projects)));
       $smartyHelper->display('form/projectSelector');
+   }
+   else if($_GET['action'] == 'getProjectDetails') {
+      include('reports/productivity_report_tools.php');
+
+      $weekDates  = week_dates(date('W'),date('Y'));
+      $startdate  = isset($_GET["startdate"]) ? $_GET["startdate"] : date("Y-m-d", $weekDates[1]);
+      $startTimestamp = date2timestamp($startdate);
+
+      $enddate  = isset($_GET["enddate"]) ? $_GET["enddate"] : date("Y-m-d", $weekDates[5]);
+      $endTimestamp = date2timestamp($enddate);
+      $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+
+      $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $_GET['teamid']);
+
+      $projectid  = $_GET['projectid'];
+      $projectDetails = NULL;
+      if (isset($projectid) && 0 != $projectid) {
+         $projectDetails = getProjectDetails($timeTracking, $projectid);
+      } else {
+         // all sideTasks
+         $projectDetails = getSideTasksProjectDetails($timeTracking);
+      }
+      $smartyHelper->assign('projectDetails', $projectDetails);
+      if($projectDetails != NULL) {
+         $smartyHelper->assign('projectDetailsUrl', getProjectDetailsUrl($projectDetails));
+      }
+      $smartyHelper->display('ajax/projectDetails');
    }
 }
 else {
