@@ -13,6 +13,13 @@ if (isset($_GET['locale']) && !empty($_GET['locale'])) {
     $locale = $_SESSION['locale'];
 }
 
+// WORKAROUND : Windows hacks
+putenv('LANGUAGE='.$locale);
+putenv('LANG='.$locale);
+putenv('LC_ALL='.$locale);
+putenv('LC_MESSAGES='.$locale);
+// END WORKAROUND
+
 if($locale == "fr") {
    // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"fr_FR","fr","fra","French");
