@@ -84,6 +84,20 @@ function getYears($year,$offset = 1) {
 }
 
 /**
+ * Get the list of years in [startYear;now] in Smarty comprehensible array
+ * @param int $startYear The start year
+ * @param int $curYear The actual year
+ * @return array The years
+ */
+function getYearsToNow($startYear, $curYear) {
+   for ($y = $startYear; $y <= date('Y'); $y++) {
+      $years[] = array('id' => $y,
+         'selected' => $y == $curYear);
+   }
+   return $years;
+}
+
+/**
  * Get detailed mgr
  * @param array $issueSelection
  * @return array

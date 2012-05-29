@@ -1,0 +1,219 @@
+{include file="menu/statistics_menu.html"}
+{if $teams}
+<div id="content">
+   <div class="center">
+      <script type="text/javascript">
+         jQuery(document).ready(function(){
+            jQuery('#teamid').change(function() {
+               jQuery.ajax({
+                  type: "GET",
+                  url: "smarty_tools_ajax.php",
+                  data: "action=getYearsToNow&"+jQuery("#form1").serialize(),
+                  success: function(data) {
+                     jQuery("#yearSelector").html(jQuery.trim(data));
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     if(errorThrown == 'Forbidden') {
+                        window.location = '{$page}';
+                     } else {
+                        alert({t}errorThrown{/t});
+                     }
+                  }
+               });
+            });
+         });
+      </script>
+      <form id="form1" name="form1" method="post" action="{$page}{if $displayNoSupport}?support{/if}">
+         <fieldset>
+            {include file="form/teamSelector.html"}
+            <label for="year">{t}Start Year{/t}</label>
+            <span id="yearSelector">
+            {include file="form/yearSelector.html"}
+            </span>
+            <input type="submit" value="{t}Compute{/t}" />
+         </fieldset>
+      </form>
+   </div>
+
+   {if $submittedResolvedLegend && $timeDriftLegend && $resolvedDriftLegend && $efficiencyLegend && $reopenedRateLegend && $developersWorkloadLegend}
+   <script type="text/javascript">
+      jQuery(document).ready(function(){
+         jQuery(".tabs").tabs();
+      });
+   </script>
+   <div id="results" class="tabs" style="margin-top: 2em">
+      <ul>
+         <li><a href="#tagSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>
+         <li><a href="#tagTimeDrift">{t}Adherence to deadlines{/t}</a></li>
+         <li><a href="#tagResolvedDrift">{t}Effort Deviation{/t}</a></li>
+         <li><a href="#tagEfficiencyRate">{t}Efficiency - System Disponibility{/t}</a></li>
+         <li><a href="#tagReopenedRate">{t}Reopened Rate{/t}</a></li>
+         <li><a href="#tagWorkload">{t}Developers Workload{/t}</a></li>
+      </ul>
+
+      <!-- Submitted / Resolved -->
+      <div id="tagSubmittedResolved">
+         {if $submittedResolvedLegend}
+         <div style="margin-top: 1em">
+            <div class="float">
+               <img alt="{t}Submitted / Resolved Issues{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;width=800&amp;height=300&amp;{$submittedResolvedGraph}" />
+            </div>
+            <table title="{t}Submitted / Resolved Issues{/t}">
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th title="{t}Nb of submitted tasks EXCEPT SideTasks and FDL{/t}">{t}Nb submissions{/t}</th>
+                  <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
+               </tr>
+               {foreach from=$submittedResolvedLegend key=id item=i}
+               <tr>
+                  <td class="right">{$i.date}</td>
+                  <td class="right">{$i.nbSubmitted}</td>
+                  <td class="right">{$i.nbResolvedIssues}</td>
+               </tr>
+               {/foreach}
+            </table>
+            <div class="spacer"></div>
+         </div>
+         {/if}
+      </div>
+
+      <!-- Drifts -->
+      <div id="tagTimeDrift">
+         {if $timeDriftLegend}
+         <span class="help_font">{t}% Tasks{/t}: {t}Percentage of tasks delivered before the deadLine{/t}</span>
+         <div style="margin-top: 1em">
+            <div class="float">
+               <img alt="{t}Adherence to deadlines{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$timeDriftGraph}" />
+            </div>
+            <table title="{t}Adherence to deadlines{/t}">
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th title="{t}% Tasks Delivered on time{/t}">{t}% Tasks{/t}</th>
+               </tr>
+               {foreach from=$timeDriftLegend key=id item=i}
+               <tr>
+                  <td class="right">{$i.date}</td>
+                  <td class="right">{$i.nbDriftsNeg}%</td>
+               </tr>
+               {/foreach}
+            </table>
+            <div class="spacer"></div>
+         </div>
+         {/if}
+      </div>
+
+      <!-- Effort Deviation -->
+      <div id="tagResolvedDrift">
+         {if $resolvedDriftLegend}
+         <span class="help_font">{t}EffortDeviation{/t}: {t}Overflow day quantity{/t}</span>
+         <div style="margin-top: 1em">
+            <div class="float">
+               <img alt="{t}Effort Deviation{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$resolvedDriftGraph}" />
+            </div>
+            <table title="{t}Effort Deviation{/t}">
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="{t}BI{/t} + {t}BS{/t}">{t}EffortEstim{/t}</th>
+                  {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
+               </tr>
+               {foreach from=$resolvedDriftLegend key=id item=i}
+               <tr>
+                  <td class="right">{$i.date}</td>
+                  <td class="right">{$i.totalDriftETA}</td>
+                  <td class="right">{$i.totalDrift}</td>
+                  {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
+               </tr>
+               {/foreach}
+            </table>
+            <div class="spacer"></div>
+         </div>
+         {/if}
+      </div>
+
+      <!-- EfficiencyRate -->
+      <div id="tagEfficiencyRate">
+         {if $efficiencyLegend}
+         <span class="help_font">{t}Efficiency Rate{/t}: {t}Exclude side tasks to get the percent of time spent working on the projects{/t}</span>
+         <div style="margin-top: 1em">
+            <div class="float">
+               <img alt="{t}Sys Disp.{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.2f&amp;width=800&amp;height=300&amp;{$efficiencyGraph}" />
+            </div>
+            <table title="{t}Sys Disp.{/t}">
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th>{t}Efficiency{/t}</th>
+                  <th>{t}Sys Disp{/t}</th>
+               </tr>
+               {foreach from=$efficiencyLegend key=id item=i}
+               <tr>
+                  <td class="right">{$i.date}</td>
+                  <td class="right">{$i.efficiencyRate}%</td>
+                  <td class="right">{$i.systemDisponibilityRate}%</td>
+               </tr>
+               {/foreach}
+            </table>
+            <div class="spacer"></div>
+         </div>
+         {/if}
+      </div>
+
+      <!-- ReopenedRate -->
+      <div id="tagReopenedRate">
+         {if $reopenedRateLegend}
+         <span class="help_font">{t}% Reopened{/t}: {t}Percentage of submitted tasks having been reopened in the period{/t}</span>
+         <div style="margin-top: 1em">
+            <div class="float">
+               <img alt="{t}Reopened Rate{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$reopenedRateGraph}" />
+            </div>
+            <table title="{t}Reopened Rate{/t}">
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th title="{t}Reopened Rate{/t}">{t}% Reopened{/t}</th>
+                  <th title="{t}Nb Reopened{/t}">{t}Nb Reopened{/t}</th>
+               </tr>
+               {foreach from=$reopenedRateLegend key=id item=i}
+               <tr>
+                  <td class="right">{$i.date}</td>
+                  <td class="right">{$i.reopenedRate}%</td>
+                  <td class="right">{$i.reopened}</td>
+               </tr>
+               {/foreach}
+            </table>
+            <div class="spacer"></div>
+         </div>
+         {/if}
+      </div>
+
+      <!-- Developers Workload -->
+      <div id="tagWorkload">
+         {if $developersWorkloadLegend}
+         <span class="help_font">{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
+         <div style="margin-top: 1em">
+            <div class="float">
+               <img alt="{t}Developers Workload{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;width=800&amp;height=300&amp;{$developersWorkloadGraph}" />
+            </div>
+            <table title="{t}Developers Workload{/t}">
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <th title="{t}nb production days{/t}">{t}man-day{/t}</th>
+               </tr>
+               {foreach from=$developersWorkloadLegend key=id item=i}
+               <tr>
+                  <td class="right">{$i.date}</td>
+                  <td class="right">{$i.value}</td>
+               </tr>
+               {/foreach}
+            </table>
+            <div class="spacer"></div>
+         </div>
+         {/if}
+      </div>
+
+   </div>
+   {/if}
+
+</div>
+{else}
+<div id="content" class="center">{t}Sorry, you do NOT have access to this page.{/t}</div>
+{/if}
