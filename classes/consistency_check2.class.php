@@ -198,7 +198,7 @@ class ConsistencyCheck2 {
 
          if ((!$issue->isResolved()) &&
              ($issue->currentStatus > $status_new) &&
-             ($issue->remaining <= 0)) {
+             ((NULL == $issue->remaining) || ($issue->remaining <= 0))) {
 
             $cerr = new ConsistencyError2($issue->bugId,
                $issue->handlerId,
