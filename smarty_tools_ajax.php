@@ -64,6 +64,18 @@ if(isset($_SESSION['userid']) && isset($_GET['action'])) {
       }
       $smartyHelper->display('ajax/projectDetails');
    }
+   else if($_GET['action'] == 'getYearsToNow') {
+      include('team.class.php');
+
+      $team = new Team($_GET['teamid']);
+      $min_year = date("Y", $team->date);
+      $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
+      $smartyHelper->assign('years', getYearsToNow($min_year,$year));
+      $smartyHelper->display('form/yearSelector');
+   } else {
+      header('HTTP/1.1 404 Not Found');
+      exit;
+   }
 }
 else {
    header('HTTP/1.1 403 Forbidden');

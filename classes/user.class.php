@@ -443,23 +443,21 @@ class User {
       return $workloadPerTaskList;
    }
 
-
-   // --------------------
-   // returns the teams i'm leader of.
+   /**
+    * @return array the teams i'm leader of.
+    */
    public function getLeadedTeamList() {
-
       $teamList = array();
 
       $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id  ORDER BY name";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+          $this->logger->error("Query FAILED: $query");
+          $this->logger->error(mysql_error());
+          echo "<span style='color:red'>ERROR: Query FAILED</span>";
+          exit;
       }
-      while($row = mysql_fetch_object($result))
-      {
+      while($row = mysql_fetch_object($result)) {
          $teamList[$row->id] = $row->name;
          #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
       }
@@ -467,30 +465,42 @@ class User {
       return $teamList;
    }
 
-   // --------------------
-   // returns the teams i'm member of.
+   /**
+    * @return array the teams i'm member of.
+    */
    public function getDevTeamList() {
       return $this->getTeamList(Team::accessLevel_dev);
    }
 
-   // --------------------
-   // returns the teams i'm observer of.
+   /**
+    * @return array the teams i'm observer of.
+    */
    public function getObservedTeamList() {
       return $this->getTeamList(Team::accessLevel_observer);
    }
 
-   // --------------------
-   // returns the teams i'm Manager of.
+   /**
+    * @return array the teams i'm Manager of.
+    */
    public function getManagedTeamList() {
       return $this->getTeamList(Team::accessLevel_manager);
    }
 
-   // --------------------
-   // returns the teams
+   /**
+    * @return array
+    */
+   public function getAllTeams() {
+      $mTeamList = $this->getDevTeamList();
+      $lTeamList = $this->getLeadedTeamList();
+      $oTeamList = $this->getObservedTeamList();
+      $managedTeamList = $this->getManagedTeamList();
+      return $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
+   }
+
    /**
     * returns teams, the user is involved in.
-    *
     * @param $accessLevel if NULL return all teams including observed teams.
+    * @return array
     */
    public function getTeamList($accessLevel = NULL) {
 
