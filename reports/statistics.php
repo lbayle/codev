@@ -304,7 +304,7 @@ $smartyHelper->assign('pageName', 'Statistics');
 
 if(isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   $teamList = $session_user->getAllTeams();
+   $teamList = $session_user->getTeamList();
    if (count($teamList) > 0) {
       if(isset($_POST['teamid']) && array_key_exists($_POST['teamid'],$teamList)) {
          $teamid = $_POST['teamid'];

@@ -487,17 +487,6 @@ class User {
    }
 
    /**
-    * @return array
-    */
-   public function getAllTeams() {
-      $mTeamList = $this->getDevTeamList();
-      $lTeamList = $this->getLeadedTeamList();
-      $oTeamList = $this->getObservedTeamList();
-      $managedTeamList = $this->getManagedTeamList();
-      return $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
-   }
-
-   /**
     * returns teams, the user is involved in.
     * @param $accessLevel if NULL return all teams including observed teams.
     * @return array
