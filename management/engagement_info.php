@@ -155,8 +155,10 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('engDeadline', date("Y-m-d", $eng->getDeadline()));
 
       // set Eng Details
-      $engDetailedMgr = getIssueSelectionDetailedMgr($eng->getIssueSelection());
+      $engIssueSel = $eng->getIssueSelection();
+      $engDetailedMgr = getIssueSelectionDetailedMgr($engIssueSel);
       $smartyHelper->assign('engDetailedMgr', $engDetailedMgr);
+      $smartyHelper->assign('engNbIssues', $engIssueSel->getNbIssues());
 
 
       // set EngagementList (for selected the team)

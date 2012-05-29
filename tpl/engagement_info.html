@@ -152,6 +152,18 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
 
+   <div>
+      <table class='invisible'>
+            <tr>
+               <th>{t}Nb tasks{/t}</th>
+               <td>: {$engNbIssues}</td>
+            </tr>
+      </table>
+   </div>
+
+   <div style="margin-top:2em;">
+   <br/><br/>
+
    <div id="tabsEngagement">
       <ul>
          {if $engIssues}<li><a href="#tabsName-1">{t}Issues{/t}</a></li>{/if}
