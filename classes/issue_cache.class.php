@@ -1,82 +1,89 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+require_once('issue.class.php');
 
 class IssueCache {
 
-    private static $logger;
+   private static $logger;
 
-    // instance de la classe
-    private static $instance;
+   // class instances
+   private static $instance;
 
-    private static $objects;
-    private static $callCount;
-    private static $cacheName;
+   private static $objects;
+   private static $callCount;
+   private static $cacheName;
 
-    // Un constructeur prive ; empeche la creation directe d'objet
-    private function __construct()
-    {
-        self::$objects = array();
-        self::$callCount = array();
+   /**
+    * Private constructor to respect the singleton pattern
+    */
+   private function __construct() {
+      self::$objects = array();
+      self::$callCount = array();
 
-        self::$cacheName = __CLASS__;
+      self::$cacheName = __CLASS__;
 
-        self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
+      self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
 
-        #echo "DEBUG: Cache ready<br/>";
-    }
+      #echo "DEBUG: Cache ready<br/>";
+   }
 
-    // La methode singleton
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            $c = __CLASS__;
-            self::$instance = new $c;
-        }
-        return self::$instance;
-    }
+   /**
+    * The singleton pattern
+    * @static
+    * @return IssueCache
+    */
+   public static function getInstance() {
+      if (!isset(self::$instance)) {
+         $c = __CLASS__;
+         self::$instance = new $c;
+      }
+      return self::$instance;
+   }
 
+   /**
+    * Get Issue class instance
+    * @param int $bugId The issue id
+    * @return Issue The issue attached to the id
+    */
+   public function getIssue($bugId) {
+      $issue = isset(self::$objects[$bugId]) ? self::$objects[$bugId] : NULL;
 
-    /**
-     * get Issue class instance
-     * @param $bugId
-     */
-    public function getIssue($bugId)
-    {
-        $issue = isset(self::$objects["$bugId"]) ? self::$objects["$bugId"] : NULL;
+      if (NULL == $issue) {
+         self::$objects[$bugId] = new Issue($bugId);
+         $issue = self::$objects[$bugId];
+         #echo "DEBUG: IssueCache add $bugId<br/>";
+      } else {
+         if (isset(self::$callCount[$bugId])) {
+            self::$callCount[$bugId] += 1;
+         } else {
+            self::$callCount[$bugId] = 1;
+         }
+         #echo "DEBUG: IssueCache called $bugId<br/>";
+      }
+      return $issue;
+   }
 
-        if (NULL == $issue) {
-            self::$objects["$bugId"] = new Issue($bugId);
-            $issue = self::$objects["$bugId"];
-
-            #echo "DEBUG: IssueCache add $bugId<br/>";
-        } else {
-        	if (isset(self::$callCount["$bugId"])) {
-               self::$callCount["$bugId"] += 1;
-        	} else {
-               self::$callCount["$bugId"] = 1;
-        	}
-        	   #echo "DEBUG: IssueCache called $bugId<br/>";
-        }
-        return $issue;
-    }
-
-    public function displayStats($verbose = FALSE) {
-
+   /**
+    * Display stats
+    * @param bool $verbose
+    */
+   public function displayStats($verbose = FALSE) {
       $nbObj   = count(self::$callCount);
       $nbCalls = array_sum(self::$callCount);
 
@@ -92,9 +99,12 @@ class IssueCache {
             echo "cache[$bugId] = $count<br/>\n";
          }
       }
-    }
+   }
 
-    public function logStats() {
+   /**
+    * Log stats
+    */
+   public function logStats() {
       if (self::$logger->isDebugEnabled()) {
          $nbObj   = count(self::$callCount);
          $nbCalls = array_sum(self::$callCount);
@@ -102,9 +112,8 @@ class IssueCache {
 
          self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
       }
-    }
+   }
 
-
-} // class Cache
+}
 
 ?>
