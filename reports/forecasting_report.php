@@ -22,29 +22,14 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
-include_once "user_cache.class.php";
-include_once "issue_cache.class.php";
+include_once "user.class.php";
 include_once "issue.class.php";
 include_once "team.class.php";
 include_once "time_tracking.class.php";
 
-$logger = Logger::getLogger("forecasting");
+include_once "smarty_tools.php";
 
-/**
- * Get teams
- * @param $teamList
- * @return array
- */
-function getTeams($teamList) {
-    foreach ($teamList as $tid => $tname) {
-        $teams[] = array(
-            'id' => $tid,
-            'name' => $tname,
-            'selected' => $tid == $_SESSION['teamid']
-        );
-    }
-    return $teams;
-}
+$logger = Logger::getLogger("forecasting");
 
 
 /**
