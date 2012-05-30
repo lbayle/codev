@@ -260,7 +260,7 @@ class User {
 		      //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
 	      }
       } catch (Exception $e) {
-      	$this->logger->warn("getDaysOfInPeriod(): issue $issue->id: ".$e->getMessage());
+      	$this->logger->error("getDaysOfInPeriod(): issue $issue->id: ".$e->getMessage());
       }
     }
     return $daysOf;

@@ -536,7 +536,7 @@ function displayMonth($month, $year, $issue) {
 		    echo "</tr>\n";
 	    }
     } catch (Exception $e) {
-    	$logger->warn("displayDurationsByStatus(): issue $issue->id: ".$e->getMessage());
+    	$logger->error("displayDurationsByStatus(): issue $issue->id: ".$e->getMessage());
     }
     echo "</table>\n";
     echo "</div>\n";
