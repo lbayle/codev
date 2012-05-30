@@ -105,11 +105,13 @@ class ConsistencyCheck2 {
 
    protected $logger;
    protected $issueList;
+   protected $teamId;
 
-   function __construct($issueList) {
+   function __construct($issueList, $teamId=NULL) {
       $this->logger = Logger::getLogger(__CLASS__);
 
       $this->issueList = $issueList;
+      $this->teamId= $teamId;
    }
 
    // ----------------------------------------------
@@ -227,7 +229,13 @@ class ConsistencyCheck2 {
 
          // exclude SideTasks (effortEstimation is not relevant)
          $project = ProjectCache::getInstance()->getProject($issue->projectId);
-         if ($project->isSideTasksProject()) { continue; }
+         $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
+         try {
+	         if ($project->isSideTasksProject($teamList)) { continue; }
+         } catch (Exception $e) {
+	         $this->logger->error("checkMgrEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
+	         continue;
+         }
 
          if ((NULL   == $issue->mgrEffortEstim) ||
                ('' == $issue->mgrEffortEstim)     ||
@@ -263,7 +271,13 @@ class ConsistencyCheck2 {
 
          // exclude SideTasks (effortEstimation is not relevant)
          $project = ProjectCache::getInstance()->getProject($issue->projectId);
-         if ($project->isSideTasksProject()) { continue; }
+         $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
+         try {
+	         if ($project->isSideTasksProject($teamList)) { continue; }
+         } catch (Exception $e) {
+	         $this->logger->error("checkEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
+	         continue;
+         }
 
          if ((NULL   == $issue->effortEstim) ||
                ('' == $issue->effortEstim)     ||
@@ -325,7 +339,15 @@ class ConsistencyCheck2 {
 
          // exclude SideTasks (persistant tasks are not assigned)
          $project = ProjectCache::getInstance()->getProject($issue->projectId);
-         if (($project->isSideTasksProject()) || ($project->isNoStatsProject())) { continue; }
+         $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
+
+         try {
+	         if (($project->isSideTasksProject($teamList)) ||
+			       ($project->isNoStatsProject($teamList))) { continue; }
+         } catch (Exception $e) {
+         	$this->logger->error("checkUnassignedTasks(): issue $issue->bugId not checked : ".$e->getMessage());
+         	continue;
+         }
 
          // if resolved, then it's not so important
          if ($issue->isResolved()) { continue; }

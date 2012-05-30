@@ -117,7 +117,7 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
                               'selected' => $bugid == $defaultBugid);
         }
     	} catch (Exception $e) {
-    	   $logger->error("getIssues(): issue $issue->id: ".$e->getMessage());
+    	   $logger->error("getIssues(): issue $issue->bugId: ".$e->getMessage());
     	}
     }
 
@@ -264,7 +264,7 @@ if (isset($_SESSION['userid'])) {
 		            unset($projList[$pid]);
 	            }
             } catch (Exception $e) {
-            	$logger->error("issue $issue->id: ".$e->getMessage());
+            	$logger->error("issue $issue->bugId: ".$e->getMessage());
             }
         }
         $extProj = ProjectCache::getInstance()->getProject($extproj_id);

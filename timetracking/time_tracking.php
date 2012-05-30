@@ -84,16 +84,26 @@ function getUsers() {
  * @return array
  */
 function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideResolved, $defaultBugid) {
+   global $logger;
+
    if (0 != $projectid) {
       // Project list
       $project1 = ProjectCache::getInstance()->getProject($projectid);
 
       // do not filter on userId if SideTask or ExternalTask
-      if (($isOnlyAssignedTo) && (!$project1->isSideTasksProject()) && (!$project1->isNoStatsProject())) {
-         $handler_id = $user1->id;
-      } else {
-         $handler_id = 0; // all users
-         $isHideResolved = false; // do not hide resolved
+      try {
+	      if (($isOnlyAssignedTo) &&
+			      (!$project1->isSideTasksProject()) &&
+					(!$project1->isNoStatsProject())) {
+		      $handler_id = $user1->id;
+	      } else {
+		      $handler_id = 0; // all users
+		      $isHideResolved = false; // do not hide resolved
+	      }
+      } catch (Exception $e) {
+      	$logger->error("getIssues(): isOnlyAssignedTo & isHideResolved filters not applied : ".$e->getMessage());
+		   $handler_id = 0; // all users
+		   $isHideResolved = false; // do not hide resolved
       }
 
       $issueList = $project1->getIssueList($handler_id, $isHideResolved);
@@ -103,14 +113,23 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
 
       foreach ($projList as $pid => $pname) {
          $proj = ProjectCache::getInstance()->getProject($pid);
-         if (($proj->isSideTasksProject()) || ($proj->isNoStatsProject())) {
-            // do not hide any task for SideTasks & ExternalTasks projects
-            $buglist = $proj->getIssueList(0, false);
-            $issueList = array_merge($issueList, $buglist);
-         } else {
-            $handler_id = $isOnlyAssignedTo ? $user1->id : 0;
-            $buglist = $proj->getIssueList($handler_id, $isHideResolved);
-            $issueList = array_merge($issueList, $buglist);
+         try {
+	         if (($proj->isSideTasksProject()) ||
+			         ($proj->isNoStatsProject())) {
+		         // do not hide any task for SideTasks & ExternalTasks projects
+		         $buglist = $proj->getIssueList(0, false);
+		         $issueList = array_merge($issueList, $buglist);
+	         } else {
+		         $handler_id = $isOnlyAssignedTo ? $user1->id : 0;
+		         $buglist = $proj->getIssueList($handler_id, $isHideResolved);
+		         $issueList = array_merge($issueList, $buglist);
+	         }
+         } catch (Exception $e) {
+	         $logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
+	         // do not hide any task if unknown project type
+	         $buglist = $proj->getIssueList(0, false);
+	         $issueList = array_merge($issueList, $buglist);
+
          }
       }
       rsort($issueList);

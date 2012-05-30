@@ -196,7 +196,7 @@ class TimeTracking {
 		      $prodDays += $timeTrack->duration;
 	      }
       } catch (Exception $e) {
-      	$this->logger->error("getProdDaysSideTasks(): issue $issue->id: ".$e->getMessage());
+      	$this->logger->error("getProdDaysSideTasks(): issue $issue->bugId: ".$e->getMessage());
       }
     }
     return $prodDays;
@@ -245,7 +245,7 @@ class TimeTracking {
 		        $prodDays += $timeTrack->duration;
 	        }
         } catch (Exception $e) {
-	        $this->logger->error("getManagementDays(): issue $issue->id: ".$e->getMessage());
+	        $this->logger->error("getManagementDays(): issue $issue->bugId: ".$e->getMessage());
         }
      }
      return $prodDays;
@@ -663,7 +663,7 @@ class TimeTracking {
 		      //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
 	      }
       } catch (Exception $e) {
-	      $this->logger->error("getSystemDisponibilityRate(): issue $issue->id: ".$e->getMessage());
+	      $this->logger->error("getSystemDisponibilityRate(): issue $issue->bugId: ".$e->getMessage());
       }
     }
 
