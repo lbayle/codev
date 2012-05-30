@@ -507,6 +507,7 @@ function displayMonth($month, $year, $issue) {
   // ------------------------------------------
   // Table Repartition du temps par status
   function displayDurationsByStatus($issue) {
+    global $logger;
     global $statusNames;
 
     # WARN: use of FDJ custom
@@ -525,13 +526,17 @@ function displayMonth($month, $year, $issue) {
     echo "</tr>\n";
 
     // REM do not display SuiviOp tasks
-    if (!$issue->isSideTaskIssue()) {
-      echo "<tr>\n";
-      foreach($issue->statusList as $status_id => $status) {
-         $res = getDurationLiteral($status->duration);
-         echo "<td>$res</td>\n";
-      }
-      echo "</tr>\n";
+    try {
+	    if (!$issue->isSideTaskIssue()) {
+		    echo "<tr>\n";
+		    foreach($issue->statusList as $status_id => $status) {
+			    $res = getDurationLiteral($status->duration);
+			    echo "<td>$res</td>\n";
+		    }
+		    echo "</tr>\n";
+	    }
+    } catch (Exception $e) {
+    	$logger->warn("displayDurationsByStatus(): issue $issue->id: ".$e->getMessage());
     }
     echo "</table>\n";
     echo "</div>\n";

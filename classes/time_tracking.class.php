@@ -189,10 +189,14 @@ class TimeTracking {
       		continue; // skip this timeTrack
       	}
       }
-
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-      if ((in_array ($issue->projectId, $this->sideTaskprojectList)) && (!$issue->isVacation())) {
-        $prodDays += $timeTrack->duration;
+      try {
+	      $issue = IssueCache::getInstance()->getIssue($row->bugid);
+	      if ((in_array ($issue->projectId, $this->sideTaskprojectList)) &&
+			      (!$issue->isVacation(array($this->team_id)))) {
+		      $prodDays += $timeTrack->duration;
+	      }
+      } catch (Exception $e) {
+      	$this->logger->warn("getProdDaysSideTasks(): issue $issue->id: ".$e->getMessage());
       }
     }
     return $prodDays;
@@ -235,8 +239,13 @@ class TimeTracking {
         }
 
         $issue = IssueCache::getInstance()->getIssue($row->bugid);
-        if ((in_array ($issue->projectId, $this->sideTaskprojectList)) && ($issue->isProjManagement())) {
-           $prodDays += $timeTrack->duration;
+        try {
+	        if ((in_array ($issue->projectId, $this->sideTaskprojectList)) &&
+			        ($issue->isProjManagement(array($this->team_id)))) {
+		        $prodDays += $timeTrack->duration;
+	        }
+        } catch (Exception $e) {
+	        $this->logger->warn("getManagementDays(): issue $issue->id: ".$e->getMessage());
         }
      }
      return $prodDays;
@@ -647,11 +656,14 @@ class TimeTracking {
     while($row = mysql_fetch_object($result))
     {
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
+      try {
+	      if ($issue->isIncident(array($this->team_id))) {
 
-      if ($issue->isIncident()) {
-
-      	$teamIncidentDays += $row->duration;
-         //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
+		      $teamIncidentDays += $row->duration;
+		      //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
+	      }
+      } catch (Exception $e) {
+	      $this->logger->warn("getSystemDisponibilityRate(): issue $issue->id: ".$e->getMessage());
       }
     }
 

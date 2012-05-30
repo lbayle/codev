@@ -108,6 +108,7 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
     }
 
     foreach ($issueList as $bugid) {
+    	try  {
         $issue = IssueCache::getInstance()->getIssue($bugid);
         if (($issue->isVacation()) || ($extproj_id == $issue->projectId)) {
             $issues[] = array('id' => $bugid,
@@ -115,6 +116,9 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
                               'summary' => $issue->summary,
                               'selected' => $bugid == $defaultBugid);
         }
+    	} catch (Exception $e) {
+    	   $logger->warn("getIssues(): issue $issue->id: ".$e->getMessage());
+    	}
     }
 
     return $issues;
@@ -255,8 +259,12 @@ if (isset($_SESSION['userid'])) {
         foreach ($projList as $pid => $pname) {
             // we want only SideTasks projects
             $tmpPrj = ProjectCache::getInstance()->getProject($pid);
-            if (!$tmpPrj->isSideTasksProject()) {
-                unset($projList[$pid]);
+            try {
+	            if (!$tmpPrj->isSideTasksProject()) {
+		            unset($projList[$pid]);
+	            }
+            } catch (Exception $e) {
+            	$logger->warn("issue $issue->id: ".$e->getMessage());
             }
         }
         $extProj = ProjectCache::getInstance()->getProject($extproj_id);

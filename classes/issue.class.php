@@ -297,61 +297,121 @@ class Issue {
    }
 
    // ----------------------------------------------
-   // Ex: vacation or Incident tasks are not production issues.
-   //     but tools and workshop are production issues.
-   public function isSideTaskIssue() {
+   /**
+    * WARNING (best effort)
+    *
+    * Ex: vacation or Incident tasks are not production issues.
+    *     but tools and workshop are production issues.
+    *
+    * Note: the project type is specific to a team, so you need to specify
+    * a team list. see Project::isSideTasksProject() for more info
+
+    *
+    * @return boolean true if Tools or Workshop category
+    */
+   public function isSideTaskIssue($teamidList = NULL) {
 
       $project = ProjectCache::getInstance()->getProject($this->projectId);
 
-      if (($project->isSideTasksProject()) &&
-          ($project->getToolsCategoryId() != $this->categoryId) &&
-          ($project->getWorkshopCategoryId()   != $this->categoryId)) {
+	   try {
+		   if (($project->isSideTasksProject($teamidList)) &&
+				   ($project->getToolsCategoryId() != $this->categoryId) &&
+					($project->getWorkshopCategoryId()   != $this->categoryId)) {
 
-         $this->logger->debug("$this->bugId is a sideTask.");
-         return true;
-      }
+			   $this->logger->debug("$this->bugId is a sideTask.");
+			   return true;
+		   }
+	   } catch (Exception $e) {
+		   $this->logger->warn("isVacation(): ".$e->getMessage());
+		   throw $e;
+	   }
       return false;
    }
 
    // ----------------------------------------------
-   public function isVacation() {
+   /**
+    * WARNING (best effort)
+    *
+    * check if issue is in a SideTaskProject AND in the Inactivity category.
+    *
+    * Note: the project type is specific to a team, so you need to specify
+    * a team list. see Project::isSideTasksProject() for more info
+    *
+    * @return boolean true if Inactivity task
+    */
+   public function isVacation($teamidList = NULL) {
 
       $project = ProjectCache::getInstance()->getProject($this->projectId);
 
-      if (($project->isSideTasksProject()) &&
-          ($project->getInactivityCategoryId() == $this->categoryId)) {
+	   try {
+		   if (($project->isSideTasksProject($teamidList)) &&
+				   ($project->getInactivityCategoryId() == $this->categoryId)) {
 
-         $this->logger->debug("$this->bugId is Vacation.");
-         return true;
-      }
+			   $this->logger->debug("$this->bugId is Vacation.");
+			   return true;
+		   }
+	   } catch (Exception $e) {
+		   $this->logger->warn("isVacation(): ".$e->getMessage());
+		   throw $e;
+	   }
       return false;
    }
 
    // ----------------------------------------------
-   public function isIncident() {
+   /**
+    * WARNING (best effort)
+    *
+    * check if issue is in a SideTaskProject AND in the Incident category.
+    *
+    * the project type is specific to a team, so you need to specify
+    * a team list. see Project::isSideTasksProject() for more info
+    *
+    * @return boolean true if Incident task
+    */
+   public function isIncident($teamidList = NULL) {
 
-      $project = ProjectCache::getInstance()->getProject($this->projectId);
+	   $project = ProjectCache::getInstance()->getProject($this->projectId);
+	   try {
+		   if (($project->isSideTasksProject($teamidList)) &&
+				   ($project->getIncidentCategoryId() == $this->categoryId)) {
 
-      if (($project->isSideTasksProject()) &&
-          ($project->getIncidentCategoryId() == $this->categoryId)) {
+			   $this->logger->debug("$this->bugId is a Incident.");
+			   return true;
+		   }
+	   } catch (Exception $e) {
+		   $this->logger->warn("isIncident(): ".$e->getMessage());
+		   throw $e;
+	   }
 
-         $this->logger->debug("$this->bugId is a Incident.");
-         return true;
-      }
-      return false;
+	   return false;
    }
 
    // ----------------------------------------------
-   public function isProjManagement() {
+   /**
+    * WARNING (best effort)
+    *
+    * check if issue is in a SideTaskProject AND in the Inactivity category.
+    *
+    * Note: the project type is specific to a team, so you need to specify
+    * a team list. see Project::isSideTasksProject() for more info
+    *
+    * @return boolean true if ProjectManagement task
+    */
+   public function isProjManagement($teamidList = NULL) {
 
       $project = ProjectCache::getInstance()->getProject($this->projectId);
 
-      if (($project->isSideTasksProject()) &&
-          ($project->getManagementCategoryId() == $this->categoryId)) {
+	   try {
+		   if (($project->isSideTasksProject($teamidList)) &&
+				   ($project->getManagementCategoryId() == $this->categoryId)) {
 
-         $this->logger->debug("$this->bugId is a ProjectManagement task.");
-         return true;
-      }
+			   $this->logger->debug("$this->bugId is a ProjectManagement task.");
+			   return true;
+		   }
+	   } catch (Exception $e) {
+		   $this->logger->warn("isProjManagement(): ".$e->getMessage());
+		   throw $e;
+	   }
       return false;
    }
 

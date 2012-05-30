@@ -249,15 +249,18 @@ class User {
     	      exit;
     }
     while($row = mysql_fetch_object($result)) {
-
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-      if ($issue->isVacation()) {
-      	if (isset($daysOf[$row->date])) {
-           $daysOf[$row->date] += $row->duration;
-      	} else {
-           $daysOf[$row->date]  = $row->duration;
-      	}
-        //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
+      try {
+	      $issue = IssueCache::getInstance()->getIssue($row->bugid);
+	      if ($issue->isVacation($this->getTeamList())) {
+		      if (isset($daysOf[$row->date])) {
+			      $daysOf[$row->date] += $row->duration;
+		      } else {
+			      $daysOf[$row->date]  = $row->duration;
+		      }
+		      //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
+	      }
+      } catch (Exception $e) {
+      	$this->logger->warn("getDaysOfInPeriod(): issue $issue->id: ".$e->getMessage());
       }
     }
     return $daysOf;
@@ -489,7 +492,7 @@ class User {
    /**
     * returns teams, the user is involved in.
     * @param $accessLevel if NULL return all teams including observed teams.
-    * @return array
+    * @return array (id => name)
     */
    public function getTeamList($accessLevel = NULL) {
 
