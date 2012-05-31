@@ -47,17 +47,19 @@ function curPageName() {
  * ex: http://172.24.209.4/mantis/view.php?id=400
  * @param int $bugid issue id in mantis DB
  */
-function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE) {
+function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true) {
 	global $mantisURL;
 	if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
 
 	$formatedTitle = str_replace("'", " ", $title);
    $formatedTitle = str_replace("\"", " ", $formatedTitle);
 
-   if (FALSE == $isIcon) {
-      $url = "<a  title='$formatedTitle' href='$mantisURL/view.php?id=$bugid'>$bugid</a>";
+   $target = (false == $inNewTab) ? "" : "target='_blank'";
+
+   if (false == $isIcon) {
+      $url = "<a href='$mantisURL/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
    } else {
-      $url = "<a href='$mantisURL/view.php?id=$bugid'><img title='$formatedTitle' src='$mantisURL/images/favicon.ico' /></a>";
+      $url = "<a href='$mantisURL/view.php?id=$bugid' $target><img title='$formatedTitle' src='$mantisURL/images/favicon.ico' /></a>";
    }
 
    return $url;
@@ -69,14 +71,16 @@ function mantisIssueURL($bugid, $title=NULL, $isIcon=FALSE) {
  * ex: http://172.24.209.4/codev/reports/issue_info.php?bugid=60
  * @param int $bugid issue id in mantis DB
  */
-function issueInfoURL($bugid, $title=NULL) {
+function issueInfoURL($bugid, $title=NULL, $inNewTab=true) {
 
    if (NULL==$title) { $title = "View info for Issue $bugid"; }
+
+   $target = (false == $inNewTab) ? "" : "target='_blank'";
 
    $formatedTitle = str_replace("'", " ", $title);
    $formatedTitle = str_replace("\"", " ", $formatedTitle);
 
-   return "<a  title='$formatedTitle' href='".getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
+   return "<a  title='$formatedTitle' $target href='".getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
 }
 
 // ---------------------------
