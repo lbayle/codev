@@ -1,0 +1,166 @@
+{include file="menu/management_menu.html"}
+
+<script type="text/javascript">
+
+function addEngIssue(){
+
+   // check fields
+   var foundError = 0;
+   var msgString = "{t}Missing field{/t}:\n\n";
+
+   if (0 == document.forms["addEngIssueForm"].bugid.value) {
+      msgString += "{t}task id{/t}\n";
+      ++foundError;
+   }
+
+   if (0 == foundError) {
+     document.forms["addEngIssueForm"].teamid.value ="{$teamid}";
+     document.forms["addEngIssueForm"].engid.value="{$engagementid}";
+     document.forms["addEngIssueForm"].action.value="addEngIssue";
+     document.forms["addEngIssueForm"].submit();
+   } else {
+     alert(msgString);
+   }
+}
+
+//------ JQUERY --------
+$(document).ready(function() {
+   $('#issues_table').dataTable(
+      {
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+      jQuery(function() {
+         jQuery( "#tabsEngagement" ).tabs();
+      });
+});
+
+</script>
+
+
+<div id="content">
+
+   <br/><br/>
+
+   {if $engid}
+   <div  align="center">
+      <h2>{$engName} <img border='0' align='absmiddle' title='{t}Save{/t}' src='images/b_save.gif' /></h2>
+      {$engDesc}
+   </div>
+
+   <br/><br/>
+
+   <div>
+      <table class='invisible'>
+            <tr>
+               <th>{t}Date depart{/t}</th>
+               <td>: <input type='text' style='font-family: sans-serif' name='engStartDate'  id='engStartDate' value='{$engStartDate}'>
+               </td>
+            </tr>
+            <tr>
+               <th>{t}Date fin{/t}</th>
+               <td>: <input type='text' style='font-family: sans-serif' name='engDeadline'  id='engDeadline' value='{$engDeadline}'>
+               </td>
+            </tr>
+            <tr>
+               <th>{t}Budjet Developpement{/t}</th>
+               <td>: <input type='text' style='font-family: sans-serif' name='engBudjetDev'  id='engBudjetDev' value='{$engBudjetDev}'> {t}days{/t}
+               </td>
+            </tr>
+            <tr>
+               <th>{t}Budjet Management{/t}</th>
+               <td>: <input type='text' style='font-family: sans-serif' name='engBudjetMngt'  id='engBudjetMngt' value='{$engBudjetMngt}'> {t}days{/t}
+               </td>
+            </tr>
+            <tr>
+               <th>{t}Budjet Garantie{/t}</th>
+               <td>: <input type='text' style='font-family: sans-serif' name='engBudjetGarantie'  id='engBudjetGarantie' value='{$engBudjetGarantie}'> {t}days{/t}</td>
+            </tr>
+      </table>
+   </div>
+
+   <br/><br/>
+
+
+   <div style="margin-top:2em;">
+   <br/><br/>
+
+   <div>
+      <table class='invisible'>
+            <tr>
+               <th>{t}Nb tasks{/t}</th>
+               <td>: {$engNbIssues}</td>
+            </tr>
+      </table>
+   </div>
+
+   <div style="margin-top:2em;">
+   <br/><br/>
+
+   <div id="tabsEngagement">
+      <ul>
+         {if $engIssues}<li><a href="#tabsName-1">{t}Issues{/t}</a></li>{/if}
+      </ul>
+
+      {if $engIssues}
+      <div id="tabsName-1">
+
+         <div>
+            <!-- create form -->
+            <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
+               <fieldset>
+                  <label>{t}Add task{/t}: </label>
+                  <input <input  type='text'size='5' value='' name='bugid' id='bugid' />
+                  <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssue()' />
+
+                  <input type="hidden" name="action" value="noAction" />
+                  <input type="hidden" name="teamid" value="{$teamId}" />
+                  <input type="hidden" name="engid" value="{$engagementId}" />
+               </fieldset>
+            </form>
+         </div>
+
+
+         <div align="center">
+         <table id="issues_table" class="display">
+            <thead>
+            <tr>
+                  <th></th>
+                  <th>{t}ID{/t}</th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Target{/t}</th>
+                  <th>{t}Summary{/t}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $engIssues as $id => $issue}
+            <tr>
+                  <td>
+                     <a title="{t}delete this row{/t}" href="javascript: removeEngIssue('{$issue.bugid}')">
+                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
+                     </a>
+                  </td>
+                  <td>{$issue.bugid}</td>
+                  <td>{$issue.project}</td>
+                  <td>{$issue.target}</td>
+                  <td>{$issue.summary}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         </div>
+      </div>
+      {/if}
+      {if $engStats}
+      <div id="tabsName-2">
+      </div>
+      {/if}
+
+   {/if}
+
+</div>

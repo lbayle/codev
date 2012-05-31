@@ -16,27 +16,6 @@ function submitForm() {
    document.forms["engagementSelectForm"].submit();
  }
 
-function addEngIssue(){
- 
-   // check fields
-   var foundError = 0;
-   var msgString = "{t}Missing field{/t}:\n\n";
-
-   if (0 == document.forms["addEngIssueForm"].bugid.value) {
-      msgString += "{t}task id{/t}\n";
-      ++foundError;
-   }
-
-   if (0 == foundError) {
-     document.forms["addEngIssueForm"].teamid.value ="{$teamid}";
-     document.forms["addEngIssueForm"].engid.value="{$engagementid}";
-     document.forms["addEngIssueForm"].action.value="addEngIssue";
-     document.forms["addEngIssueForm"].submit();
-   } else {
-     alert(msgString);
-   }
-}
-
 //------ JQUERY --------
 $(document).ready(function() {
    $('#issues_table').dataTable(
@@ -89,7 +68,7 @@ $(document).ready(function() {
    
    {if $engid} 
    <div  align="center">
-      <h2>{$engName}</h2>
+      <h2>{$engName} <a href='management/engagement_edit.php'><img border='0' align='absmiddle' title='{t}Edit{/t}' src='images/b_edit.png' /></a></h2>
       {$engDesc}
    </div>
 
@@ -152,21 +131,12 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
 
-   <div>
-      <table class='invisible'>
-            <tr>
-               <th>{t}Nb tasks{/t}</th>
-               <td>: {$engNbIssues}</td>
-            </tr>
-      </table>
-   </div>
-
    <div style="margin-top:2em;">
    <br/><br/>
 
    <div id="tabsEngagement">
       <ul>
-         {if $engIssues}<li><a href="#tabsName-1">{t}Issues{/t}</a></li>{/if}
+         {if $engIssues}<li><a href="#tabsName-1">{t}Tasks{/t} ({$engNbIssues})</a></li>{/if}
          {if $engStats}<li><a href="#tabsName-2">{t}Statistics{/t}</a></li>{/if}
       </ul>
       
@@ -174,26 +144,9 @@ $(document).ready(function() {
       <div id="tabsName-1">
 
          <div align="center">
-            <!-- create form -->
-            <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
-               <fieldset>
-                  <label>{t}Add task{/t}: </label>
-                  <input <input  type='text'size='5' value='' name='bugid' id='bugid' />
-                  <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssue()' />
-
-                  <input type="hidden" name="action" value="noAction" />
-                  <input type="hidden" name="teamid" value="{$teamId}" />
-                  <input type="hidden" name="engid" value="{$engagementId}" />
-               </fieldset>
-            </form>
-         </div>
-
-
-         <div align="center">
          <table id="issues_table" class="display">
             <thead>
             <tr>
-                  <th></th>
                   <th>{t}ID{/t}</th>
                   <th>{t}Project{/t}</th>
                   <th>{t}Target{/t}</th>
@@ -209,11 +162,6 @@ $(document).ready(function() {
             <tbody>
             {foreach $engIssues as $id => $issue}
             <tr>
-                  <td>
-                     <a title="{t}delete this row{/t}" href="javascript: removeEngIssue('{$issue.bugid}')">
-                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
-                     </a>
-                  </td>
                   <td>{$issue.bugid}</td>
                   <td>{$issue.project}</td>
                   <td>{$issue.target}</td>
