@@ -36,7 +36,7 @@ function getProjectDetails(TimeTracking $timeTracking, $projectId) {
 
          if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
          $issue = IssueCache::getInstance()->getIssue($bugid);
-         $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
+         $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
       }
    }
 
@@ -75,7 +75,7 @@ function getSideTasksProjectDetails(TimeTracking $timeTracking) {
 
             if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
             $issue = IssueCache::getInstance()->getIssue($bugid);
-            $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, $issue->summary);
+            $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
          }
       }
    }

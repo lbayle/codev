@@ -218,19 +218,19 @@ function getVersionsIssues($projectVersionList) {
             if ("" != $formatedNewList) {
                $formatedNewList .= ', ';
             }
-            $formatedNewList .= issueInfoURL($bugid, $issue->summary);
+            $formatedNewList .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
 
          } elseif ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
             if ("" != $formatedResolvedList) {
                $formatedResolvedList .= ', ';
             }
-            $title = "(".$issue->getDrift().") $issue->summary";
+            $title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->summary;
             $formatedResolvedList .= issueInfoURL($bugid, $title);
          } else {
             if ("" != $formatedOpenList) {
                $formatedOpenList .= ', ';
             }
-            $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().") $issue->summary";
+            $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->summary;
             $formatedOpenList .= issueInfoURL($bugid, $title);
          }
       }

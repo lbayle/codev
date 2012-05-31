@@ -100,7 +100,7 @@ function getConsistencyErrors($userid) {
         foreach ($cerrList as $cerr) {
             if ($sessionUser->id == $cerr->userId) {
                 $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-                $consistencyErrors[] = array('issueURL' => issueInfoURL($cerr->bugId, $issue->summary),
+                $consistencyErrors[] = array('issueURL' => issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary),
                                              'status' => $statusNames[$cerr->status],
                                              'desc' => $cerr->desc);
             }

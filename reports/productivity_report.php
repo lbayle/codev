@@ -83,7 +83,7 @@ function getFormattedReopenedTaks($timeTracking) {
    $formatedTasks = NULL;
    foreach ($timeTracking->getReopened() as $bug_id) {
       $issue = IssueCache::getInstance()->getIssue($bug_id);
-      $formatedTasks[] = issueInfoURL($issue->bugId, $issue->summary);
+      $formatedTasks[] = issueInfoURL($issue->bugId, '['.$issue->getProjectName().'] '.$issue->summary);
    }
    return $formatedTasks;
 }

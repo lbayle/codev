@@ -177,7 +177,7 @@ class IssueSelection {
          if ("" != $formattedList) {
             $formattedList .= ', ';
          }
-         $formattedList .= issueInfoURL($bugid, $issue->summary);
+         $formattedList .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
       }
       return $formattedList;
    }

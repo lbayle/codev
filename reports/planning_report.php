@@ -521,7 +521,7 @@ function displayConsistencyErrors($teamid) {
          $user = UserCache::getInstance()->getUser($cerr->userId);
          $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
          echo "<tr>\n";
-         echo "<td>".mantisIssueURL($cerr->bugId, $issue->summary)."</td>";
+         echo "<td>".mantisIssueURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary)."</td>";
          echo "<td> ".$user->getName()."</td>";
          echo "<td>: <span>".date("Y-m-d", $cerr->timestamp)."</span></td>\n";
          echo "<td><span>".$statusNames["$cerr->status"]."</span></td>\n";
