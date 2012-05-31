@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 6, 1),
+('database_version', 7, 1),
 ('job_support', 2, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
@@ -258,6 +258,7 @@ CREATE TABLE IF NOT EXISTS `codev_engagement_table` (
   `budjet_dev` int(11) unsigned default NULL,
   `budjet_mngt` int(11) default NULL,
   `budjet_garantie` int(11) default NULL,
+  `average_daily_rate` float default NULL,
   `desc` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -272,6 +273,32 @@ CREATE TABLE IF NOT EXISTS `codev_engagement_bug_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `engagement_id` int(11) NOT NULL,
   `bug_id` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `codev_engagement_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_command_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL,
+  `desc` varchar(500) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `codev_engagement_bug_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_command_eng_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `command_id` int(11) NOT NULL,
+  `engagement_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
