@@ -54,6 +54,7 @@ class Engagement {
    private $budjetDev;
    private $budjetMngt;
    private $budjetGarantie;
+   private $averageDailyRate;
 
    // codev_engagement_bug_table
    private $issueSelection;
@@ -94,6 +95,7 @@ class Engagement {
    	$this->budjetDev  = $row->budjet_dev;
    	$this->budjetMngt = $row->budjet_mngt;
    	$this->budjetGarantie = $row->budjet_garantie;
+   	$this->averageDailyRate = $row->average_daily_rate;
 
    	// ---
    	$this->issueSelection = new IssueSelection($this->name);
@@ -123,6 +125,10 @@ class Engagement {
 
    public function getDesc() {
       return $this->desc;
+   }
+
+   public function getAverageDailyRate() {
+      return $this->averageDailyRate;
    }
 
    public function getStartDate() {

@@ -68,7 +68,7 @@ $(document).ready(function() {
    
    {if $engid} 
    <div  align="center">
-      <h2>{$engName} <a href='management/engagement_edit.php'><img border='0' align='absmiddle' title='{t}Edit{/t}' src='images/b_edit.png' /></a></h2>
+      <h2>{$engName}</h2>
       {$engDesc}
    </div>
 
@@ -85,6 +85,10 @@ $(document).ready(function() {
                <td>: {$engDeadline}</td>
             </tr>
             <tr>
+               <th>{t}Average Daily Rate{/t}</th>
+               <td>: {$engAverageDailyRate} {t}Euro{/t}</td>
+            </tr>
+            <tr>
                <th>{t}Budjet Developpement{/t}</th>
                <td>: {$engBudjetDev} {t}days{/t}</td>
             </tr>
@@ -96,50 +100,51 @@ $(document).ready(function() {
                <th>{t}Budjet Garantie{/t}</th>
                <td>: {$engBudjetGarantie} {t}days{/t}</td>
             </tr>
-            
       </table>
+      <br>
+      <button onclick="location.href='management/engagement_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
    </div>
 
    <br/><br/>
 
-      {if $engDetailedMgr}
-      <div>
-         <table>
-            <thead>
-            <tr>
-               <th>{t}MgrEffortEstim{/t}</th>
-               <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
-               <th>{t}Elapsed{/t}</th>
-               <th>{t}Remaining Mgr{/t}</th>
-               <th style="width: 80px">{t}Drift Mgr{/t}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-               <td>{$engDetailedMgr.effortEstim}</td>
-               <td>{$engDetailedMgr.reestimated}</td>
-               <td>{$engDetailedMgr.elapsed}</td>
-               <td>{$engDetailedMgr.remaining}</td>
-               <td {$engDetailedMgr.driftColor} title="{t}nb days{/t}">{$engDetailedMgr.drift}</td>
-            </tr>
-            </tbody>
-         </table>
-      </div>
-      {/if}
-
-
-   <div style="margin-top:2em;">
-   <br/><br/>
 
    <div style="margin-top:2em;">
    <br/><br/>
 
    <div id="tabsEngagement">
       <ul>
+         {if $engDetailedMgr}<li><a href="#tabsName-3">{t}Charges{/t}</a></li>{/if}
          {if $engIssues}<li><a href="#tabsName-1">{t}Tasks{/t} ({$engNbIssues})</a></li>{/if}
          {if $engStats}<li><a href="#tabsName-2">{t}Statistics{/t}</a></li>{/if}
       </ul>
-      
+
+      {if $engDetailedMgr}
+      <div id="tabsName-3">
+         <div>
+            <table>
+               <thead>
+               <tr>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Remaining Mgr{/t}</th>
+                  <th style="width: 80px">{t}Drift Mgr{/t}</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr>
+                  <td>{$engDetailedMgr.effortEstim}</td>
+                  <td>{$engDetailedMgr.reestimated}</td>
+                  <td>{$engDetailedMgr.elapsed}</td>
+                  <td>{$engDetailedMgr.remaining}</td>
+                  <td {$engDetailedMgr.driftColor} title="{t}nb days{/t}">{$engDetailedMgr.drift}</td>
+               </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      {/if}
+
       {if $engIssues}
       <div id="tabsName-1">
 

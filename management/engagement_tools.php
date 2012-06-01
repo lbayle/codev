@@ -29,7 +29,8 @@ function getEngagementIssues($engagement) {
    foreach ($issues as $id => $issue) {
 
       $issueInfo = array();
-      $issueInfo["bugid"] = issueInfoURL($issue->bugId);
+
+      $issueInfo["bugid"] = issueInfoURL(sprintf("%07d\n",   $issue->bugId));
       $issueInfo["project"] = $issue->getProjectName();
       $issueInfo["target"] = $issue->getTargetVersion();
       $issueInfo["status"] = $issue->getCurrentStatusName();

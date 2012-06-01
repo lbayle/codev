@@ -90,6 +90,7 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('engBudjetTotal', $eng->getBudjetDev() + $eng->getBudjetMngt() + $eng->getBudjetGarantie());
       $smartyHelper->assign('engStartDate', date("Y-m-d", $eng->getStartDate()));
       $smartyHelper->assign('engDeadline', date("Y-m-d", $eng->getDeadline()));
+      $smartyHelper->assign('engAverageDailyRate', $eng->getAverageDailyRate());
 
       // set Eng Details
       $engIssueSel = $eng->getIssueSelection();
