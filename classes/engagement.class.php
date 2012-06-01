@@ -47,7 +47,7 @@ class Engagement {
    // codev_engagement_table
    private $id;
    private $name;
-   private $desc;
+   private $description;
    private $startDate;
    private $deadline;
    private $teamid;
@@ -88,7 +88,7 @@ class Engagement {
    	}
    	$row = mysql_fetch_object($result);
       $this->name       = $row->name;
-      $this->desc       = $row->desc;
+      $this->description = $row->description;
    	$this->startDate  = $row->start_date;
    	$this->deadline   = $row->deadline;
    	$this->teamid     = $row->team_id;
@@ -122,33 +122,129 @@ class Engagement {
    public function getName() {
       return $this->name;
    }
+   public function setName($name) {
+      $formattedValue = mysql_real_escape_string($name);
+      $this->name = $formattedValue;
+      $query = "UPDATE `codev_engagement_table` SET name = '$formattedValue' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
 
    public function getDesc() {
-      return $this->desc;
+      return $this->description;
+   }
+   public function setDesc($description) {
+      $formattedValue = mysql_real_escape_string($description);
+      $this->description = $formattedValue;
+      $query = "UPDATE `codev_engagement_table` SET description = '$formattedValue' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
    }
 
    public function getAverageDailyRate() {
       return $this->averageDailyRate;
    }
+   public function setAverageDailyRate($value) {
+      $formattedValue = mysql_real_escape_string($value);
+      $this->averageDailyRate = $formattedValue;
+      $query = "UPDATE `codev_engagement_table` SET average_daily_rate = '$formattedValue' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
 
    public function getStartDate() {
       return $this->startDate;
+   }
+   public function setStartDate($value) {
+      $formattedValue = mysql_real_escape_string($value);
+      $this->startDate = date2timestamp($formattedValue);
+      $query = "UPDATE `codev_engagement_table` SET start_date = '$this->startDate' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
    }
 
    public function getDeadline() {
       return $this->deadline;
    }
+   public function setDeadline($value) {
+      $formattedValue = mysql_real_escape_string($value);
+      $this->deadline = date2timestamp($formattedValue);
+      $query = "UPDATE `codev_engagement_table` SET deadline = '$this->deadline' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
 
    public function getBudjetDev() {
       return $this->budjetDev;
+   }
+   public function setBudjetDev($value) {
+      $formattedValue = mysql_real_escape_string($value);
+      $this->budjetDev = $formattedValue;
+      $query = "UPDATE `codev_engagement_table` SET budjet_dev = '$formattedValue' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
    }
 
    public function getBudjetMngt() {
       return $this->budjetMngt;
    }
+   public function setBudjetMngt($value) {
+      $formattedValue = mysql_real_escape_string($value);
+      $this->budjetMngt = $formattedValue;
+      $query = "UPDATE `codev_engagement_table` SET budjet_mngt = '$formattedValue' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
 
    public function getBudjetGarantie() {
       return $this->budjetGarantie;
+   }
+   public function setBudjetGarantie($value) {
+      $formattedValue = mysql_real_escape_string($value);
+      $this->budjetGarantie = $formattedValue;
+      $query = "UPDATE `codev_engagement_table` SET budjet_garantie = '$formattedValue' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
    }
 
    public function getIssueSelection() {
@@ -177,6 +273,8 @@ class Engagement {
 
    /**
     * add Issue to engagement (in DB & current instance)
+    *
+    * @param int $bugid
     */
    public function addIssue($bugid) {
 
@@ -204,7 +302,25 @@ class Engagement {
 
    }
 
+   /**
+    * remove issue from engagement issueList.
+    * the issue itself is not deleted.
+    *
+    * @param int $bugid
+    */
+   public function removeIssue($bugid) {
 
+      $this->issueSelection->removeIssue($bugid);
+
+      $query = "DELETE FROM `codev_engagement_bug_table` WHERE engagement_id='$this->id' AND bug_id='$bugid';";
+      $result = mysql_query($query);
+      if (!$result) {
+	      $this->logger->error("Query FAILED: $query");
+	      $this->logger->error(mysql_error());
+	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+	      exit;
+      }
+   }
 
 
 

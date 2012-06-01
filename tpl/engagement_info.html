@@ -113,13 +113,13 @@ $(document).ready(function() {
 
    <div id="tabsEngagement">
       <ul>
-         {if $engDetailedMgr}<li><a href="#tabsName-3">{t}Charges{/t}</a></li>{/if}
-         {if $engIssues}<li><a href="#tabsName-1">{t}Tasks{/t} ({$engNbIssues})</a></li>{/if}
-         {if $engStats}<li><a href="#tabsName-2">{t}Statistics{/t}</a></li>{/if}
+         <li><a href="#tabsName-3">{t}Charges{/t}</a></li>
+         <li><a href="#tabsName-1">{t}Tasks{/t} ({$engNbIssues})</a></li>
+         <li><a href="#tabsName-2">{t}Statistics{/t}</a></li>
       </ul>
 
-      {if $engDetailedMgr}
       <div id="tabsName-3">
+         {if $engDetailedMgr}
          <div>
             <table>
                <thead>
@@ -142,12 +142,14 @@ $(document).ready(function() {
                </tbody>
             </table>
          </div>
+         {else}
+         {t}No task found.{/t}
+         {/if}
       </div>
-      {/if}
 
-      {if $engIssues}
       <div id="tabsName-1">
 
+         {if $engIssues}
          <div align="center">
          <table id="issues_table" class="display">
             <thead>
@@ -182,12 +184,18 @@ $(document).ready(function() {
             </tbody>
          </table>
          </div>
+         {else}
+         {t}No task found.{/t}
+         {/if}
       </div>
-      {/if}
-      {if $engStats}
+
       <div id="tabsName-2">
+         {if $engStats}
+         comming soon...
+         {else}
+         {t}No Stats available.{/t}
+         {/if}
       </div>
-      {/if}
 
    {/if}
 

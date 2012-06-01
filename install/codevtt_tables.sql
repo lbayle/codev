@@ -314,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `codev_engagement_table` (
   `budjet_mngt` int(11) default NULL,
   `budjet_garantie` int(11) default NULL,
   `average_daily_rate` float default NULL,
-  `desc` varchar(500) default NULL,
+  `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

@@ -67,7 +67,7 @@ if (isset($_SESSION['userid'])) {
 
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
-
+ 
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
@@ -75,11 +75,36 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('engagementid', $engagementid);
 
 
-   // ------ Display Engagement
-
    if (0 != $engagementid) {
 
       $eng = new Engagement($engagementid);
+
+      // ------ Actions
+
+      if ("addEngIssue" == $action) {
+         $bugid = $_POST['bugid'];
+         $logger->debug("add Issue $bugid on Engagement $engagementid team $teamid<br>");
+
+         $eng->addIssue($bugid);
+
+      } else if ("updateEngInfo" == $action) {
+
+         $eng->setName($_POST['engName']);
+         $eng->setDesc($_POST['engDesc']);
+         $eng->setBudjetDev($_POST['engBudjetDev']);
+         $eng->setBudjetMngt($_POST['engBudjetMngt']);
+         $eng->setBudjetGarantie($_POST['engBudjetGarantie']);
+         $eng->setStartDate($_POST['engStartDate']);
+         $eng->setDeadline($_POST['engDeadline']);
+         $eng->setAverageDailyRate($_POST['engAverageDailyRate']);
+
+      } else if ("removeEngIssue" == $action) {
+
+         $eng->removeIssue($_POST['bugid']);
+      }
+
+
+      // ------ Display Engagement
 
       $smartyHelper->assign('engid', $engagementid);
       $smartyHelper->assign('engName', $eng->getName());
@@ -96,23 +121,15 @@ if (isset($_SESSION['userid'])) {
       $engIssueSel = $eng->getIssueSelection();
       $smartyHelper->assign('engNbIssues', $engIssueSel->getNbIssues());
 
-
       // set EngagementList (for selected the team)
       $issueList = getEngagementIssues($eng);
       $smartyHelper->assign('engIssues', $issueList);
 
       // ---------------
 
-      if ("addEngIssue" == $action) {
-         $bugid = $_POST['bugid'];
-         $logger->debug("add Issue $bugid on Engagement $engagementid team $teamid<br>");
+   } else {
 
-         $eng = new Engagement($engagementid);
-         $eng->addIssue($bugid);
-      } else if ("updateEng == $action") {
-
-         # TODO
-      }
+         echo "engid not set<br>";
    }
 
 

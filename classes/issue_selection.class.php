@@ -92,6 +92,22 @@ class IssueSelection {
    }
 
    /**
+    * remove Issue from List.
+    * the Issue itself is not deleted.
+    *
+    * @param int $bugid
+    */
+   public function removeIssue($bugid) {
+
+      if (NULL != $this->issueList[$bugid]) {
+         unset($this->issueList[$bugid]);
+      } else {
+         $this->logger->debug("IssueSelection [$this->name] : removeIssue($bugid) : Issue not found !");
+      }
+   }
+
+
+   /**
     *
     *
     */

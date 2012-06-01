@@ -4,12 +4,6 @@
 
 <script type="text/javascript">
 
-function updateEngInfoForm(){
-     document.forms["updateEngInfoForm"].teamid.value ="{$teamid}";
-     document.forms["updateEngInfoForm"].engid.value="{$engagementid}";
-     document.forms["updateEngInfoForm"].action.value="updateEngInfoForm";
-     document.forms["updateEngInfoForm"].submit();
-}
 
 function addEngIssue(){
 
@@ -82,7 +76,7 @@ $(document).ready(function() {
          <table class='invisible'>
                <tr>
                   <th>{t}Name{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='engName'  id='engName' value='{$engName}'></td>
+                  <td><input type='text' size='80' style='font-family: sans-serif' name='engName'  id='engName' value='{$engName}'></td>
                </tr>
                <tr>
                   <th>{t}Description{/t}</th>
@@ -119,11 +113,11 @@ $(document).ready(function() {
                </tr>
          </table>
          <br>
-         <button onclick='javascript: updateEngInfoForm()'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Save{/t}</button>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Save{/t}</button>
 
-         <input type="hidden" name="action" value="noAction" />
-         <input type="hidden" name="teamid" value="{$teamId}" />
-         <input type="hidden" name="engid" value="{$engagementId}" />
+         <input type="hidden" name="action" value="updateEngInfo" />
+         <input type="hidden" name="teamid" value="{$teamid}" />
+         <input type="hidden" name="engid" value="{$engagementid}" />
       </fieldset>
       </form>
 
@@ -147,12 +141,12 @@ $(document).ready(function() {
             <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
                <fieldset>
                   <label>{t}Add task{/t}: </label>
-                  <input <input  type='text'size='5' value='' name='bugid' id='bugid' />
+                  <input  type='text'size='5' value='' name='bugid' id='bugid' />
                   <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssue()' />
 
                   <input type="hidden" name="action" value="noAction" />
-                  <input type="hidden" name="teamid" value="{$teamId}" />
-                  <input type="hidden" name="engid" value="{$engagementId}" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="engid" value="{$engagementid}" />
                </fieldset>
             </form>
          </div>
@@ -160,6 +154,66 @@ $(document).ready(function() {
 
          {if $engIssues}
          <div align="center">
+
+         <script type="text/javascript">
+            function removeEngIssue(bugid, project, description){
+               jQuery( "#desc_id" ).text(bugid);
+               jQuery( "#desc_project" ).text(project);
+               jQuery( "#desc_summary" ).text(description);
+
+               jQuery( "#formRemoveEngIssue" ).find("input[name=bugid]").val(bugid);
+
+               jQuery( "#removeEngIssue_dialog_form" ).dialog( "open" );
+            }
+         </script>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               // delete track dialogBox
+               jQuery("#removeEngIssue_dialog_form" ).dialog({
+                  autoOpen: false,
+                  resizable: true,
+                  width: "auto",
+                  modal: true,
+                  buttons: {
+                     "Remove": function() {
+                        jQuery("#formRemoveEngIssue").submit();
+                     },
+                     Cancel: function() {
+                        jQuery( this ).dialog( "close" );
+                     }
+                  }
+               });
+            });
+         </script>
+         <div id="removeEngIssue_dialog_form" title="{t}Remove Task{/t}" style="display: none">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+               {t}Remove Task from this Engagement ?{/t}
+            </p>
+            <table class="invisible">
+               <tr>
+                  <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
+                  <td id="desc_id">id</td>
+               </tr>
+               <tr>
+                  <td><span style="font-weight:bold;">{t}Project{/t} :</span></td>
+                  <td id="desc_project">project</td>
+               </tr>
+               <tr>
+                  <td><span style="font-weight:bold;">{t}Summary{/t} :</span></td>
+                  <td id="desc_summary">summary</td>
+               </tr>
+            </table>
+            <form id="formRemoveEngIssue" name="formRemoveEngIssue" method="post" action="{$page}" >
+               <fieldset>
+                  <input type="hidden" name="action" value="removeEngIssue" />
+                  <input type="hidden" name="bugid"  value="0" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="engid"  value="{$engagementid}" />
+
+               </fieldset>
+            </form>
+         </div>
+
          <table id="issues_table" class="display">
             <thead>
             <tr>
@@ -174,8 +228,9 @@ $(document).ready(function() {
             {foreach $engIssues as $id => $issue}
             <tr>
                   <td>
-                     <a title="{t}delete this row{/t}" href="javascript: removeEngIssue('{$issue.bugid}')">
-                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
+                     <a title="{t}delete Engagement-Task association{/t}"
+                        href="javascript: removeEngIssue('{$id}', '{$issue.project}', 'issue.summary')">
+                        <img alt="b_drop.png" border="0" src="images/b_drop.png" />
                      </a>
                   </td>
                   <td>{$issue.bugid}</td>
