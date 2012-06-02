@@ -248,16 +248,18 @@ class User {
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
     }
+    $teamidList = array_keys($this->getTeamList());
     while($row = mysql_fetch_object($result)) {
       try {
 	      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-	      if ($issue->isVacation($this->getTeamList())) {
+
+	      if ($issue->isVacation($teamidList)) {
 		      if (isset($daysOf[$row->date])) {
 			      $daysOf[$row->date] += $row->duration;
 		      } else {
 			      $daysOf[$row->date]  = $row->duration;
 		      }
-		      //echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
+		      #echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
 	      }
       } catch (Exception $e) {
       	$this->logger->error("getDaysOfInPeriod(): issue $issue->bugId: ".$e->getMessage());

@@ -740,9 +740,17 @@ class Project {
 	    // --- compare results
 	    $globalType = NULL;
 	    foreach ($teamidList as $teamid) {
+
+          if (NULL == $this->teamTypeList["$teamid"]) {
+             // project not defined for this team, skip it.
+             $this->logger->debug("getProjectType(): team $teamid skipped: Project $this->id not defined fot this team.");
+             continue;
+          }
+
 		    if (NULL == $globalType) {
 			    // first team: set value
 			    $globalType = $this->teamTypeList["$teamid"];
+             
 		    } else {
 			    // next teams: compare to first team
 			    if ($globalType != $this->teamTypeList["$teamid"]) {
