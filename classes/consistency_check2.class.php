@@ -202,11 +202,17 @@ class ConsistencyCheck2 {
              ($issue->currentStatus > $status_new) &&
              ((NULL == $issue->remaining) || ($issue->remaining <= 0))) {
 
+            if (NULL == $issue->remaining) {
+               $msg = T_("Remaining must be defined !");
+            } else {
+               $msg = T_("Remaining == 0: Remaining may not be up to date.");
+            }
+
             $cerr = new ConsistencyError2($issue->bugId,
                $issue->handlerId,
                $issue->currentStatus,
                $issue->last_updated,
-               T_("Remaining == 0: Remaining may not be up to date."));
+               $msg);
             $cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }

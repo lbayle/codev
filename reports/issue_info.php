@@ -98,6 +98,10 @@ include 'menu.inc.php';
 			}
 		});
 
+
+      $( "#accordion" ).accordion({
+           collapsible: true, autoHeight: false, clearStyle: true
+      });
 	});
 
 </script>
@@ -124,6 +128,7 @@ include_once "time_track.class.php";
 include_once "user.class.php";
 include_once "jobs.class.php";
 include_once "holidays.class.php";
+include_once "consistency_check2.class.php";
 
 include_once "issue_fdj.class.php";
 
@@ -542,7 +547,31 @@ function displayMonth($month, $year, $issue) {
     echo "</div>\n";
   }
 
+function displayConsistencyErrors($issue) {
 
+   $ccheck = new ConsistencyCheck2(array($issue));
+   $cerrList = $ccheck->check();
+
+   if (0 != count($cerrList)) {
+      echo "<div style='margin-top:2em;'>\n";
+      #echo "    <hr style='margin-bottom:2em;' />\n";
+      echo "   <div align='center'><div id='accordion' style='width:400px;' >\n";
+      echo "      <h3><a href='#'>" . T_("Errors") . "</a></h3>\n";
+      echo "      <div align='left' style='height:40px;'>\n";
+      echo "         <table class='invisible'>\n";
+      echo "                  <tr>\n";
+      echo "            <td></td>\n";
+      echo "            <td><span style='color:red'> </span></td>\n";
+      foreach ($cerrList as $cerr) {
+         echo "<td><span style='color:red'>[" . $cerr->getLiteralSeverity() . "] $cerr->desc</span></td>\n";
+      }
+      echo "         </tr>\n";
+      echo "         </table>\n";
+      echo "      </div>\n";
+      echo "   </div>\n";
+      echo "</div>\n";
+   }
+}
 
 // ================ MAIN =================
 $year = date('Y');
@@ -626,6 +655,9 @@ if (0 == count($teamList)) {
      echo "<b><span title='".T_("status")."'>".$issue->getCurrentStatusName()."</span> - <span title='".T_("assigned to")."'>".$handler->getName()."</span></b>\n";
      echo "</div>";
 
+
+
+     displayConsistencyErrors($issue);
      echo "<br/>";
      echo "<br/>";
      echo "<br/>";

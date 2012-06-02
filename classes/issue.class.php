@@ -820,7 +820,7 @@ class Issue {
 
       $derive = $this->getReestimatedMgr() - $this->mgrEffortEstim;
 
-      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim ".$this->mgrEffortEstim.")");
+      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->mgrEffortEstim.")");
       return round($derive,3);
    }
 
