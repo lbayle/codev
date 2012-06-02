@@ -26,6 +26,8 @@ include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 include_once "engagement.class.php";
+include_once('consistency_check2.class.php');
+
 #include_once "time_tracking.class.php";
 
 
@@ -58,6 +60,35 @@ if (0 != $teamid) {
 
 }
 
+
+/**
+ * Get consistency errors
+ * @param Engagement $eng
+ */
+function getConsistencyErrors($eng) {
+   global $statusNames;
+
+   $consistencyErrors = array(); // if null, array_merge fails !
+
+   $issueSel = $eng->getIssueSelection();
+   $issueList = $issueSel->getIssueList();
+    $ccheck = new ConsistencyCheck2($issueList);
+
+    $cerrList = $ccheck->check();
+
+    if (count($cerrList) > 0) {
+        $i = 0;
+        foreach ($cerrList as $cerr) {
+            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+            $consistencyErrors[] = array('issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+                'status' => $statusNames[$cerr->status],
+                'desc' => $cerr->desc);
+        }
+        $i++;
+    }
+
+    return $consistencyErrors;
+}
 
 
 
@@ -137,6 +168,13 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('engDetailedMgr', $engDetailedMgr);
       $smartyHelper->assign('engNbIssues', $engIssueSel->getNbIssues());
 
+      // ConsistencyCheck
+      $consistencyErrors = getConsistencyErrors($eng);
+
+      if(count($consistencyErrors) > 0) {
+         $smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors"));
+         $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+      }
 
       // set EngagementList (for selected the team)
       $issueList = getEngagementIssues($eng);

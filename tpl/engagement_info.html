@@ -31,6 +31,11 @@ $(document).ready(function() {
       jQuery(function() {
          jQuery( "#tabsEngagement" ).tabs();
       });
+
+   $( "#accordion" ).accordion({
+      collapsible: true, autoHeight: false, clearStyle: true
+   });
+
 });
 
 </script>
@@ -71,6 +76,26 @@ $(document).ready(function() {
       <h2>{$engName}</h2>
       {$engDesc}
    </div>
+
+   {if $consistencyErrors}
+   <!-- Consistency errors -->
+   <div style="margin-top:2em;">
+      <div align='center'><div id='accordion' style='width:500px;' >
+         <h3><a href='#'>{$consistencyErrorsTitle}</a></h3>
+         <div align='left' style='height:100px;'>
+            <table class='invisible'>
+            {foreach from=$consistencyErrors key=id item=i}
+            <tr>
+               <td>{$i.issueURL}</td>
+               <td><span style='color:red'>{$i.desc}</span></td>
+            </tr>
+            {/foreach}
+
+            </table>
+         </div>
+      </div>
+   </div>
+   {/if}
 
    <br/><br/>
 
