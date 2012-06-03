@@ -18,7 +18,7 @@ function submitForm() {
 
 //------ JQUERY --------
 $(document).ready(function() {
-   $('#issues_table').dataTable(
+   $('#devEng_table').dataTable(
       {
          "sScrollY": "700px",
          "bPaginate": false,
@@ -122,19 +122,28 @@ $(document).ready(function() {
       </ul>
 
       <div id="tabsName-1">
-         Dev Engagements:<br>
          {if $devEngagements}
          <div>
-            <table class='invisible'>
+            <table id="devEng_table" class="display">
                <thead>
                <tr>
-                  <th></th>
+                  <th>{t}Development Engagement{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Remaining Mgr{/t}</th>
+                  <th style="width: 80px">{t}Drift Mgr{/t}</th>
                </tr>
                </thead>
                <tbody>
                   {foreach $devEngagements as $id => $eng}
                   <tr>
-                     <td>{$eng.name}</td>
+                     <th title="{$id}">{$eng.name}</th>
+                     <td>{$eng.effortEstim}</td>
+                     <td>{$eng.reestimated}</td>
+                     <td>{$eng.elapsed}</td>
+                     <td>{$eng.remaining}</td>
+                     <td {$eng.driftColor}>{$eng.drift}</td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -147,7 +156,6 @@ $(document).ready(function() {
          <br>
          <br>
 
-         Mngt Engagements:<br>
          {if $mngtEngagements}
          <div>
             <table>

@@ -61,10 +61,13 @@ function getServiceEngagements($serviceid, $type) {
 
       $engList = $service->getEngagements($type);
       foreach ($engList as $id => $eng) {
-         $engagements[] = array(
-            'id' => $id,
-            'name' => $eng->getName(),
-         );
+
+         $issueSelection = $eng->getIssueSelection();
+         $engDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
+
+         $engDetailedMgr['name'] = $eng->getName();
+
+         $engagements[$id] = $engDetailedMgr;
       }
    }
    return $engagements;
@@ -112,6 +115,8 @@ if (isset($_SESSION['userid'])) {
 
    if (0 != $serviceid) {
       $service = new Service($serviceid);
+      $smartyHelper->assign('serviceName', $service->getName());
+      $smartyHelper->assign('serviceDesc', $service->getDesc());
       $smartyHelper->assign('serviceDate', date("Y-m-d", $service->getDate()));
 
       $smartyHelper->assign('devEngagements', getServiceEngagements($serviceid, Service::engType_dev));
