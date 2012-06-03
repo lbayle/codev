@@ -127,7 +127,8 @@ $(document).ready(function() {
             <table id="devEng_table" class="display">
                <thead>
                <tr>
-                  <th>{t}Development Engagement{/t}</th>
+                  <th></th>
+                  <th>{t}Engagements{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
@@ -138,7 +139,8 @@ $(document).ready(function() {
                <tbody>
                   {foreach $devEngagements as $id => $eng}
                   <tr>
-                     <th title="{$id}">{$eng.name}</th>
+                     <td>{$id}</td>
+                     <th title="{$id}"  align='left'>{$eng.name}</th>
                      <td>{$eng.effortEstim}</td>
                      <td>{$eng.reestimated}</td>
                      <td>{$eng.elapsed}</td>
