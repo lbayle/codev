@@ -30,11 +30,9 @@ if(isset($_SESSION['userid']) && isset($_GET['action'])) {
    if($_GET['action'] == 'getTeamProjects') {
       include('team.class.php');
 
-      $allProject[] = array('id' => T_('All projects'),
-         'name' => T_('All projects')
-      );
-      $projects = Team::getProjectList($_GET['teamid'], false);
-      $smartyHelper->assign('projects', array_merge($allProject,getProjects($projects)));
+      $projects[0] = T_('All projects');
+      $projects += Team::getProjectList($_GET['teamid'], false);
+      $smartyHelper->assign('projects', getProjects($projects));
       $smartyHelper->display('form/projectSelector');
    }
    else if($_GET['action'] == 'getProjectDetails') {

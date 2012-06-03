@@ -54,7 +54,9 @@ if (isset($_SESSION['userid'])) {
       }
       $smartyHelper->assign('teams', getTeams($teamList,$teamid));
 
-      $projects = Team::getProjectList($teamid, false);
+      $projects[0] = T_('All projects');
+      $projects += Team::getProjectList($teamid, false);
+
       $projectid = 0;
       if(isset($_POST['projectid']) && array_key_exists($_POST['projectid'],$projects)) {
          $projectid = $_POST['projectid'];
@@ -63,12 +65,7 @@ if (isset($_SESSION['userid'])) {
       else if(isset($_SESSION['projectid']) && array_key_exists($_SESSION['projectid'],$projects)) {
          $projectid = $_SESSION['projectid'];
       }
-
-      $allProject[] = array('id' => T_('All projects'),
-                            'name' => T_('All projects')
-      );
-
-      $smartyHelper->assign('projects', array_merge($allProject,getProjects($projects,$projectid)));
+      $smartyHelper->assign('projects', getProjects($projects,$projectid));
 
       // The first day of the current week
       $weekDates = week_dates(date('W'),date('Y'));
