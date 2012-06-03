@@ -1,0 +1,175 @@
+{include file="menu/management_menu.html"}
+
+<script type="text/javascript">
+
+function setTeam() {
+   document.forms["serviceSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["serviceSelectForm"].serviceid.value="0";
+   document.forms["serviceSelectForm"].action.value="setTeam";
+   document.forms["serviceSelectForm"].submit();
+}
+
+function submitForm() {
+   document.forms["serviceSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["serviceSelectForm"].serviceid.value = document.getElementById('serviceSelector').value;
+   document.forms["serviceSelectForm"].action.value = "displayService";
+   document.forms["serviceSelectForm"].submit();
+ }
+
+//------ JQUERY --------
+$(document).ready(function() {
+   $('#issues_table').dataTable(
+      {
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+      jQuery(function() {
+         jQuery( "#tabsService" ).tabs();
+      });
+
+   $( "#accordion" ).accordion({
+      collapsible: true, autoHeight: false, clearStyle: true
+   });
+
+});
+
+</script>
+
+
+<div id="content">
+
+   <div align="center">
+      <!-- create form -->
+      <form id='serviceSelectForm' name='serviceSelectForm' method='post' action='{$page}'>
+         <fieldset>
+            <label>{t}Team{/t}: </label>
+            <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
+               <option value='0'></option>
+               {foreach from=$teams key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <label>{t}Service{/t}: </label>
+            <select id='serviceSelector' name='serviceid'>
+               <option value='0'></option>
+               {foreach from=$services key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
+            
+            <input type="hidden" name="action" value="noAction" />
+         </fieldset>
+      </form>
+   </div>
+
+   <div style="margin-top:2em;">
+   <br/><br/>
+   
+   {if $serviceid}
+   <div  align="center">
+      <h2>{$serviceName}</h2>
+      {$serviceDesc}
+   </div>
+
+   {if $consistencyErrors}
+   <!-- Consistency errors -->
+   <div style="margin-top:2em;">
+      <div align='center'><div id='accordion' style='width:500px;' >
+         <h3><a href='#'>{$consistencyErrorsTitle}</a></h3>
+         <div align='left' style='height:100px;'>
+            <table class='invisible'>
+            {foreach from=$consistencyErrors key=id item=i}
+            <tr>
+               <td>{$i.issueURL}</td>
+               <td><span style='color:red'>{$i.desc}</span></td>
+            </tr>
+            {/foreach}
+
+            </table>
+         </div>
+      </div>
+   </div>
+   {/if}
+
+   <br/><br/>
+
+   <div>
+      <table class='invisible'>
+            <tr>
+               <th>{t}Date{/t}</th>
+               <td>: {$serviceDate}</td>
+            </tr>
+      </table>
+      <br>
+      <button onclick="location.href='management/service_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+   </div>
+
+   <br/><br/>
+
+
+   <div style="margin-top:2em;">
+   <br/><br/>
+
+   <div id="tabsService">
+      <ul>
+         <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+      </ul>
+
+      <div id="tabsName-1">
+         Dev Engagements:<br>
+         {if $devEngagements}
+         <div>
+            <table class='invisible'>
+               <thead>
+               <tr>
+                  <th></th>
+               </tr>
+               </thead>
+               <tbody>
+                  {foreach $devEngagements as $id => $eng}
+                  <tr>
+                     <td>{$eng.name}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+         </div>
+         {else}
+         {t}No Dev Engagement found.{/t}
+         {/if}
+
+         <br>
+         <br>
+
+         Mngt Engagements:<br>
+         {if $mngtEngagements}
+         <div>
+            <table>
+               <thead>
+               <tr>
+                  <th>{t}Name{/t}</th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr>
+                  <td>{$mngtEngagements.name}</td>
+               </tr>
+               </tbody>
+            </table>
+         </div>
+         {else}
+         {t}No Management Engagement found.{/t}
+         {/if}
+
+      </div>
+
+
+   {/if}
+
+</div>

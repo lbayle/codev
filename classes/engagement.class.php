@@ -26,6 +26,7 @@ if (NULL == Logger::getConfigurationFile()) {
 
 include_once "issue_selection.class.php";
 include_once "team.class.php";
+include_once "engagement_cache.class.php";
 
 
 

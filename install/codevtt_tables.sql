@@ -253,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
   `team_id` int(11) NOT NULL,
-  `desc` varchar(500) default NULL,
+  `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -279,8 +279,9 @@ CREATE TABLE IF NOT EXISTS `codev_command_srv_table` (
 CREATE TABLE IF NOT EXISTS `codev_service_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
+  `date` int(11) unsigned default NULL,
   `team_id` int(11) NOT NULL,
-  `desc` varchar(500) default NULL,
+  `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -294,6 +295,7 @@ CREATE TABLE IF NOT EXISTS `codev_service_eng_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `service_id` int(11) NOT NULL,
   `engagement_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

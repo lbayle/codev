@@ -59,6 +59,7 @@ class Team {
 
    private $projTypeList;
    private $engagementList;
+   private $serviceList;
 
 
    // -------------------------------------------------------
@@ -370,6 +371,11 @@ class Team {
       return $issueList;
    }
 
+   /**
+    * Engagements for this team
+    *
+    * @return array id => Engagement
+    */
    public function getEngagements() {
       if (NULL == $this->engagementList) {
          $query = "SELECT DISTINCT * FROM `codev_engagement_table` ".
@@ -392,6 +398,35 @@ class Team {
 
       $this->logger->debug("getEngagements(teamid=$this->id) nbEng=".count($this->engagementList));
       return $this->engagementList;
+   }
+
+   /**
+    * Services for this team
+    *
+    * @return array id => Service
+    */
+   public function getServices() {
+      if (NULL == $this->serviceList) {
+         $query = "SELECT DISTINCT * FROM `codev_service_table` ".
+            "WHERE team_id = $this->id ";
+
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->serviceList = array();
+         while($row = mysql_fetch_object($result))
+         {
+            $service = new Service($row->id);
+            $this->serviceList[$row->id] = $service;
+         }
+      }
+
+      $this->logger->debug("getServices(teamid=$this->id) nbServices=".count($this->serviceList));
+      return $this->serviceList;
    }
 
 
