@@ -180,6 +180,11 @@ if (isset($_SESSION['userid'])) {
       $issueList = getEngagementIssues($eng);
       $smartyHelper->assign('engIssues', $issueList);
 
+      $engIssueSel = $eng->getIssueSelection();
+      $smartyHelper->assign('engShortIssueList', $engIssueSel->getFormattedIssueList());
+
+
+
       $smartyHelper->assign('engStats', "ok");
 
 

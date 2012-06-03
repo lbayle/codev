@@ -189,7 +189,12 @@ class IssueSelection {
    public function getFormattedIssueList() {
       $formattedList = "";
 
-      foreach ($this->issueList as $bugid => $issue) {
+      // make a copy, the initial issueList may be already sorted on different criteria
+      $sortedList = $this->issueList; 
+      ksort($sortedList, SORT_NUMERIC);
+
+      foreach ($sortedList as $bugid => $issue) {
+         
          if ("" != $formattedList) {
             $formattedList .= ', ';
          }
