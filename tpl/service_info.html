@@ -28,6 +28,16 @@ $(document).ready(function() {
          "bInfo": false,
          "bAutoWidth": false
       });
+   $('#mngtEng_table').dataTable(
+      {
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
       jQuery(function() {
          jQuery( "#tabsService" ).tabs();
       });
@@ -160,16 +170,30 @@ $(document).ready(function() {
 
          {if $mngtEngagements}
          <div>
-            <table>
+            <table id="mngtEng_table" class="display">
                <thead>
                <tr>
-                  <th>{t}Name{/t}</th>
+                  <th></th>
+                  <th>{t}Management{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Remaining Mgr{/t}</th>
+                  <th style="width: 80px">{t}Drift Mgr{/t}</th>
                </tr>
                </thead>
                <tbody>
-               <tr>
-                  <td>{$mngtEngagements.name}</td>
-               </tr>
+                  {foreach $mngtEngagements as $id => $eng}
+                  <tr>
+                     <td>{$id}</td>
+                     <th title="{$id}"  align='left'>{$eng.name}</th>
+                     <td>{$eng.effortEstim}</td>
+                     <td>{$eng.reestimated}</td>
+                     <td>{$eng.elapsed}</td>
+                     <td>{$eng.remaining}</td>
+                     <td {$eng.driftColor}>{$eng.drift}</td>
+                  </tr>
+                  {/foreach}
                </tbody>
             </table>
          </div>
