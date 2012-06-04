@@ -507,7 +507,7 @@ function displayConsistencyErrors($teamid) {
       #echo "Pas d'erreur teamid=$teamid.<br/>\n";
    } else {
 
-      echo "<hr/>\n";
+      #echo "<hr/>\n";
       echo "<br/>\n";
       echo "<br/>\n";
 
@@ -603,8 +603,11 @@ if (0 == count($teamList)) {
    if ("displayPlanning" == $action) {
 
       if (0 != $teamid) {
+         displayConsistencyErrors($teamid);
+         echo "<br/>\n";
+
          echo "<br/>";
-         echo "<hr width='80%'/>\n";
+         #echo "<hr width='80%'/>\n";
          echo "<br/>";
          echo "<br/>";
          echo "<br/>";
@@ -615,8 +618,6 @@ if (0 == count($teamList)) {
          echo "<br/>\n";
          echo "<br/>\n";
          displayLegend($dayPixSize);
-         echo "<br/>\n";
-         displayConsistencyErrors($teamid);
 
       }
    } elseif ("zoomIn" == $action) {
