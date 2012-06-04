@@ -13,3 +13,5 @@ templates_c
 .idea
 
 /nbproject/private/
+/nbproject/project.xml
+/nbproject/project.properties

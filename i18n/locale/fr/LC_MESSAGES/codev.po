@@ -2186,7 +2186,7 @@ msgstr "Erreurs impactant le Planning"
 
 #: reports/planning_report.php:537
 msgid "tasks are not assigned to anybody."
-msgstr "tâches n'étant assignées à personne"
+msgstr "tâches ne sont pas assignées"
 
 #: timetracking/team_activity_report.php:222
 #: timetracking/team_activity_report.php:294
