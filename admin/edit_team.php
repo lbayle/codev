@@ -949,6 +949,16 @@ if (0 != $teamid) {
    } elseif ($action == "removeTeamMember") {
 
       $memberid = $_POST['f_memberid'];
+
+      // security check
+      if (!is_numeric($memberid)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to delete memberid with non_numeric value ($memberid)");
+         $logger->fatal("EXCEPTION removeTeamMember: ".$e->getMessage());
+         $logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
       $result = mysql_query($query);
       if (!$result) {
@@ -964,6 +974,16 @@ if (0 != $teamid) {
    } elseif ($action == "removeTeamProject") {
 
       $projectid = $_POST['f_projectid'];
+
+      // security check
+      if (!is_numeric($projectid)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to delete project with non_numeric projectid ($projectid)");
+         $logger->fatal("EXCEPTION removeTeamProject: ".$e->getMessage());
+         $logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $query = "DELETE FROM `codev_team_project_table` WHERE id = $projectid;";
       $result = mysql_query($query);
       if (!$result) {
@@ -993,6 +1013,16 @@ if (0 != $teamid) {
 
    } elseif ($action == "deleteTeam") {
    	$teamidToDelete=$teamid;
+
+      // security check
+      if (!is_numeric($teamidToDelete)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to delete team with non_numeric teamid ($teamidToDelete)");
+         $logger->fatal("EXCEPTION deleteTeam: ".$e->getMessage());
+         $logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
 
       $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
       $result = mysql_query($query);
@@ -1054,6 +1084,16 @@ if (0 != $teamid) {
    } elseif ($action == "deleteAstreinte") {
 
       $astreinte_id = $_POST['astreinte_id'];
+
+      // security check
+      if (!is_numeric($astreinte_id)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to delete astreinte with non_numeric astreinte_id ($astreinte_id)");
+         $logger->fatal("EXCEPTION deleteAstreinte: ".$e->getMessage());
+         $logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
 	  if (NULL != $astreintesList) {
 		 if (1 == count($astreintesList)) {

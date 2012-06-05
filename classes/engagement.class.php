@@ -156,7 +156,17 @@ class Engagement {
       return $this->averageDailyRate;
    }
    public function setAverageDailyRate($value) {
+
+      // security check
       $formattedValue = mysql_real_escape_string($value);
+      if (!is_numeric($value)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
+         $this->logger->fatal("EXCEPTION setAverageDailyRate: ".$e->getMessage());
+         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $this->averageDailyRate = $formattedValue;
       $query = "UPDATE `codev_engagement_table` SET average_daily_rate = '$formattedValue' WHERE id='$this->id' ";
       $result = mysql_query($query);
@@ -171,8 +181,19 @@ class Engagement {
    public function getStartDate() {
       return $this->startDate;
    }
+
    public function setStartDate($value) {
+
+      // security check
       $formattedValue = mysql_real_escape_string($value);
+      if (!is_numeric($value)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
+         $this->logger->fatal("EXCEPTION setStartDate: ".$e->getMessage());
+         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $this->startDate = date2timestamp($formattedValue);
       $query = "UPDATE `codev_engagement_table` SET start_date = '$this->startDate' WHERE id='$this->id' ";
       $result = mysql_query($query);
@@ -188,7 +209,16 @@ class Engagement {
       return $this->deadline;
    }
    public function setDeadline($value) {
+      // security check
       $formattedValue = mysql_real_escape_string($value);
+      if (!is_numeric($value)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
+         $this->logger->fatal("EXCEPTION setDeadline: ".$e->getMessage());
+         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $this->deadline = date2timestamp($formattedValue);
       $query = "UPDATE `codev_engagement_table` SET deadline = '$this->deadline' WHERE id='$this->id' ";
       $result = mysql_query($query);
@@ -204,7 +234,17 @@ class Engagement {
       return $this->budjetDev;
    }
    public function setBudjetDev($value) {
+
+      // security check
       $formattedValue = mysql_real_escape_string($value);
+      if (!is_numeric($value)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
+         $this->logger->fatal("EXCEPTION setBudjetDev: ".$e->getMessage());
+         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $this->budjetDev = $formattedValue;
       $query = "UPDATE `codev_engagement_table` SET budjet_dev = '$formattedValue' WHERE id='$this->id' ";
       $result = mysql_query($query);
@@ -220,7 +260,17 @@ class Engagement {
       return $this->budjetMngt;
    }
    public function setBudjetMngt($value) {
+
+      // security check
       $formattedValue = mysql_real_escape_string($value);
+      if (!is_numeric($value)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
+         $this->logger->fatal("EXCEPTION setBudjetMngt: ".$e->getMessage());
+         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $this->budjetMngt = $formattedValue;
       $query = "UPDATE `codev_engagement_table` SET budjet_mngt = '$formattedValue' WHERE id='$this->id' ";
       $result = mysql_query($query);
@@ -236,7 +286,17 @@ class Engagement {
       return $this->budjetGarantie;
    }
    public function setBudjetGarantie($value) {
+
+      // security check
       $formattedValue = mysql_real_escape_string($value);
+      if (!is_numeric($value)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
+         $this->logger->fatal("EXCEPTION setBudjetGarantie: ".$e->getMessage());
+         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       $this->budjetGarantie = $formattedValue;
       $query = "UPDATE `codev_engagement_table` SET budjet_garantie = '$formattedValue' WHERE id='$this->id' ";
       $result = mysql_query($query);
@@ -279,6 +339,15 @@ class Engagement {
     */
    public function addIssue($bugid) {
 
+      // security check
+      if (!is_numeric($bugid)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($bugid)");
+         $this->logger->fatal("EXCEPTION addIssue: ".$e->getMessage());
+         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
       try {
          IssueCache::getInstance()->getIssue($bugid);
       } catch (Exception $e) {
@@ -310,6 +379,16 @@ class Engagement {
     * @param int $bugid
     */
    public function removeIssue($bugid) {
+
+      // security check
+      if (!is_numeric($bugid)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($bugid)");
+         $this->logger->fatal("EXCEPTION removeIssue: ".$e->getMessage());
+         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
 
       $this->issueSelection->removeIssue($bugid);
 

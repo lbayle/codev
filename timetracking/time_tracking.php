@@ -252,6 +252,16 @@ if ($_POST['nextForm'] == "addTrackForm") {
    } elseif ("deleteTrack" == $action) {
       $trackid  = $_POST['trackid'];
 
+      // security check
+      if (!is_numeric($trackid)) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("SECURITY ALERT: Attempt to delete timetrack with non_numeric trackid ($trackid)");
+         $logger->fatal("EXCEPTION Timetracking deleteTrack: ".$e->getMessage());
+         $logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
+
+
       // increase remaining (only if 'remaining' already has a value)
       $query = 'SELECT * FROM `codev_timetracking_table` WHERE id = '.$trackid.';';
       $result = mysql_query($query);
