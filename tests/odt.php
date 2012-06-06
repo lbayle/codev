@@ -84,13 +84,15 @@ function genODT($user) {
 	$issueSegment = $odf->setSegment('issueSelection');
 	foreach($issueList AS $issue) {
 
-		$user = UserCache::getInstance()->getUser($issue->handlerId);
+		$user     = UserCache::getInstance()->getUser($issue->handlerId);
+		$reporter = UserCache::getInstance()->getUser($issue->reporterId);
 
 		$issueSegment->bugId($issue->bugId);
 		$issueSegment->summary(utf8_decode($issue->summary));
 		$issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission));
 		$issueSegment->currentStatus($statusNames["$issue->currentStatus"]);
 		$issueSegment->handlerId(utf8_decode($user->getRealname()));
+		$issueSegment->reporterId(utf8_decode($reporter->getRealname()));
 		$issueSegment->description(utf8_decode($issue->getDescription()));
 		$issueSegment->merge();
 	}
@@ -133,6 +135,14 @@ function genProjectODT($project, $odtTemplate, $userid = 0) {
 		}
 		$logger->debug("issue $issue->bugId: userName = ".$userName);
 
+		if (0 == $issue->reporterId) {
+			$reporterName = T_('unknown');
+		} else {
+			$reporter = UserCache::getInstance()->getUser($issue->reporterId);
+			$reporterName = utf8_decode($reporter->getRealname());
+		}
+		$logger->debug("issue $issue->bugId: reporterName = ".$reporterName);
+
 		// add issue
 		try { $issueSegment->q_id($q_id); } catch (Exception $e) {};
 		try { $issueSegment->bugId($issue->bugId); } catch (Exception $e) {};
@@ -140,6 +150,7 @@ function genProjectODT($project, $odtTemplate, $userid = 0) {
 		try { $issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission)); } catch (Exception $e) {};
 		try { $issueSegment->currentStatus($statusNames["$issue->currentStatus"]); } catch (Exception $e) {};
 		try { $issueSegment->handlerId($userName); } catch (Exception $e) {};
+		try { $issueSegment->reporterId($reporterName); } catch (Exception $e) {};
 		try { $issueSegment->description(utf8_decode($issue->getDescription())); } catch (Exception $e) {};
 		try { $issueSegment->category($issue->getCategoryName()); } catch (Exception $e) {};
 
@@ -211,9 +222,9 @@ if (isset($session_userid))
 			// "wrong .odt file encoding"
 			ob_end_clean();
 
-			#genProjectODT($project, "../odt_templates/questions.odt");
+			genProjectODT($project, "../odt_templates/questions.odt");
 			#genProjectODT($project, "../odt_templates/questions2.odt");
-			genProjectODT($project, "odtphp_template.odt");
+			#genProjectODT($project, "odtphp_template.odt");
 
 		} elseif ("setProjectid" == $action) {
 

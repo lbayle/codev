@@ -105,6 +105,7 @@ class Issue {
    public $priority;
    public $severity;
    public $handlerId;
+   public $reporterId;
    public $resolution;
    public $version;  // Product Version
    public $last_updated;
@@ -194,6 +195,7 @@ class Issue {
       $this->priority        = $row->priority;
       $this->severity        = $row->severity;
       $this->handlerId       = $row->handler_id;
+      $this->reporterId      = $row->reporter_id;
       $this->resolution      = $row->resolution;
       $this->version         = $row->version;
       $this->target_version  = $row->target_version;
