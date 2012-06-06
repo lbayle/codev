@@ -23,25 +23,26 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
-include_once "service.class.php";
-include_once "engagement.class.php";
+include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
+include_once "service.class.php";
 
 include "service_tools.php";
 
 include_once "smarty_tools.php";
 
-$logger = Logger::getLogger("service_info");
+$logger = Logger::getLogger("service_edit");
 
 
+// your functions here
 // =========== MAIN ==========
 
 require('display.inc.php');
 
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Service'));
+$smartyHelper->assign('pageName', T_('Service (edit)'));
 
 if (isset($_SESSION['userid'])) {
 
@@ -66,6 +67,11 @@ if (isset($_SESSION['userid'])) {
    }
    $_SESSION['serviceid'] = $serviceid;
 
+
+   $action = isset($_POST['action']) ? $_POST['action'] : '';
+
+
+   // ------
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
@@ -74,21 +80,32 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('serviceid', $serviceid);
    $smartyHelper->assign('services', getServices($teamid, $serviceid));
 
+
    if (0 != $serviceid) {
       $service = new Service($serviceid);
 
+
+      // ------ Actions
+
+      if ("addEngagement" == $action) {
+echo "addEngagement<br>";
+
+      } else if ("createEngagement" == $action) {
+echo "createEngagement<br>";
+
+      } else if ("updateServiceInfo" == $action) {
+echo "updateServiceInfo<br>";
+      } else if ("removeEngagement" == $action) {
+echo "removeEngagement<br>";
+
+      }
+
+      // ------ Display Service
+
       displayService($smartyHelper, $service);
+
    }
-
-
-
-   $action = isset($_POST['action']) ? $_POST['action'] : '';
-
-
-   // ------
-
-
-   // your actions here
+   
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'], $mantisURL);

@@ -136,37 +136,15 @@ if (isset($_SESSION['userid'])) {
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
-   if ("addEngIssue" == $action) {
-      $bugid = $_POST['bugid'];
-      $logger->debug("add Issue $bugid on Engagement $engagementid team $teamid<br>");
-
-      $eng = new Engagement($engagementid);
-      $eng->addIssue($bugid);
-   }
-
 
    // ------ Display Engagement
 
    if (0 != $engagementid) {
 
-      $eng = new Engagement($engagementid);
+      $eng = EngagementCache::getInstance()->getEngagement($engagementid);
 
-      $smartyHelper->assign('engid', $engagementid);
-      $smartyHelper->assign('engName', $eng->getName());
-      $smartyHelper->assign('engDesc', $eng->getDesc());
-      $smartyHelper->assign('engBudjetDev', $eng->getBudjetDev());
-      $smartyHelper->assign('engBudjetMngt', $eng->getBudjetMngt());
-      $smartyHelper->assign('engBudjetGarantie', $eng->getBudjetGarantie());
-      $smartyHelper->assign('engBudjetTotal', $eng->getBudjetDev() + $eng->getBudjetMngt() + $eng->getBudjetGarantie());
-      $smartyHelper->assign('engStartDate', date("Y-m-d", $eng->getStartDate()));
-      $smartyHelper->assign('engDeadline', date("Y-m-d", $eng->getDeadline()));
-      $smartyHelper->assign('engAverageDailyRate', $eng->getAverageDailyRate());
+      displayEngagement($smartyHelper, $eng);
 
-      // set Eng Details
-      $engIssueSel = $eng->getIssueSelection();
-      $engDetailedMgr = getIssueSelectionDetailedMgr($engIssueSel);
-      $smartyHelper->assign('engDetailedMgr', $engDetailedMgr);
-      $smartyHelper->assign('engNbIssues', $engIssueSel->getNbIssues());
 
       // ConsistencyCheck
       $consistencyErrors = getConsistencyErrors($eng);
@@ -175,19 +153,6 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors"));
          $smartyHelper->assign('consistencyErrors', $consistencyErrors);
       }
-
-      // set EngagementList (for selected the team)
-      $issueList = getEngagementIssues($eng);
-      $smartyHelper->assign('engIssues', $issueList);
-
-      $engIssueSel = $eng->getIssueSelection();
-      $smartyHelper->assign('engShortIssueList', $engIssueSel->getFormattedIssueList());
-
-
-
-      $smartyHelper->assign('engStats', "ok");
-
-
 
    }
 

@@ -114,6 +114,10 @@ class Service {
       }
    }
 
+   public function getId() {
+      return $this->id;
+   }
+
    public function getName() {
       return $this->name;
    }
@@ -176,7 +180,6 @@ class Service {
 
       foreach ($engidList as $engid) {
 
-         // TODO use cache
          $engList[$engid] = EngagementCache::getInstance()->getEngagement($engid);
       }
 

@@ -132,7 +132,7 @@ $(document).ready(function() {
       </ul>
 
       <div id="tabsName-1">
-         {if $devEngagements}
+         {if $engList}
          <div>
             <table id="devEng_table" class="display">
                <thead>
@@ -147,7 +147,7 @@ $(document).ready(function() {
                </tr>
                </thead>
                <tbody>
-                  {foreach $devEngagements as $id => $eng}
+                  {foreach $engList as $id => $eng}
                   <tr>
                      <td>{$id}</td>
                      <th title="{$id}"  align='left'>{$eng.name}</th>
@@ -162,45 +162,8 @@ $(document).ready(function() {
             </table>
          </div>
          {else}
-         {t}No Dev Engagement found.{/t}
+         {t}No Engagement found.{/t}
          {/if}
-
-         <br>
-         <br>
-
-         {if $mngtEngagements}
-         <div>
-            <table id="mngtEng_table" class="display">
-               <thead>
-               <tr>
-                  <th></th>
-                  <th>{t}Management{/t}</th>
-                  <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
-                  <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
-                  <th style="width: 80px">{t}Drift Mgr{/t}</th>
-               </tr>
-               </thead>
-               <tbody>
-                  {foreach $mngtEngagements as $id => $eng}
-                  <tr>
-                     <td>{$id}</td>
-                     <th title="{$id}"  align='left'>{$eng.name}</th>
-                     <td>{$eng.effortEstim}</td>
-                     <td>{$eng.reestimated}</td>
-                     <td>{$eng.elapsed}</td>
-                     <td>{$eng.remaining}</td>
-                     <td {$eng.driftColor}>{$eng.drift}</td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
-         </div>
-         {else}
-         {t}No Management Engagement found.{/t}
-         {/if}
-
       </div>
 
 

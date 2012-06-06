@@ -1,0 +1,183 @@
+{include file="menu/management_menu.html"}
+
+<script type="text/javascript">
+
+function addEng() {
+
+   // check fields
+   var foundError = 0;
+   var msgString = "{t}Missing field{/t}:\n\n";
+
+   if (0 == document.forms["engagementForm"].bugid.value) {
+      msgString += "{t}engagement id{/t}\n";
+      ++foundError;
+   }
+
+   if (0 == foundError) {
+     document.forms["engagementForm"].teamid.value ="{$teamid}";
+     document.forms["engagementForm"].engid.value="{$engagementid}";
+     document.forms["engagementForm"].action.value="addEngagement";
+     document.forms["engagementForm"].submit();
+   } else {
+     alert(msgString);
+   }
+}
+
+function createEng() {
+     document.forms["engagementForm"].teamid.value ="{$teamid}";
+     document.forms["engagementForm"].engid.value="{$engagementid}";
+     document.forms["engagementForm"].action.value="createEngagement";
+     document.forms["engagementForm"].submit();
+
+}
+
+</script>
+
+
+<div id="content">
+
+   {if $serviceid}
+   <div  align="center">
+      <h2  title="{$serviceid}">{$serviceName}</h2>
+   </div>
+
+   <br/><br/>
+
+   <div>
+      <!-- create form -->
+      <form id='updateServiceInfoForm' name='updateServiceInfoForm' method='post' action='{$page}'>
+      <fieldset>
+
+         <table class='invisible'>
+               <tr>
+                  <th>{t}Name{/t}</th>
+                  <td><input type='text' size='80' style='font-family: sans-serif' name='serviceName'  id='serviceName' value='{$serviceName}'></td>
+               </tr>
+               <tr>
+                  <th>{t}Description{/t}</th>
+                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='serviceDesc'  id='serviceDesc'>{$serviceDesc}</textarea></td>
+               </tr>
+         </table>
+         <br>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Save{/t}</button>
+
+         <input type="hidden" name="action" value="updateServiceInfo" />
+         <input type="hidden" name="teamid" value="{$teamid}" />
+         <input type="hidden" name="serviceid" value="{$serviceid}" />
+      </fieldset>
+      </form>
+
+   </div>
+
+   <div style="margin-top:2em;">
+   <br/><br/>
+
+
+         <div align="left">
+
+         {if $engList}
+         <script type="text/javascript">
+            function removeEng(engid, description){
+               jQuery( "#desc_id" ).text(engid);
+               jQuery( "#desc_summary" ).text(description);
+
+               jQuery( "#formRemoveEng" ).find("input[name=engid]").val(engid);
+
+               jQuery( "#removeEng_dialog_form" ).dialog( "open" );
+            }
+         </script>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               // delete track dialogBox
+               jQuery("#removeEng_dialog_form" ).dialog({
+                  autoOpen: false,
+                  resizable: true,
+                  width: "auto",
+                  modal: true,
+                  buttons: {
+                     "Remove": function() {
+                        jQuery("#formRemoveEng").submit();
+                     },
+                     Cancel: function() {
+                        jQuery( this ).dialog( "close" );
+                     }
+                  }
+               });
+            });
+         </script>
+         <div id="removeEng_dialog_form" title="{t}Remove Engagement{/t}" style="display: none">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+               {t}Remove Engagement from this Service ?{/t}
+            </p>
+            <table class="invisible">
+               <tr>
+                  <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
+                  <td id="desc_id">id</td>
+               </tr>
+               <tr>
+                  <td><span style="font-weight:bold;">{t}Description{/t} :</span></td>
+                  <td id="desc_summary">summary</td>
+               </tr>
+            </table>
+            <form id="formRemoveEng" name="formRemoveEng" method="post" action="{$page}" >
+               <fieldset>
+                  <input type="hidden" name="action" value="removeEng" />
+                  <input type="hidden" name="engid"  value="0" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="serviceid"  value="{$serviceid}" />
+
+               </fieldset>
+            </form>
+         </div>
+
+         <table>
+            <thead>
+            <tr>
+                  <th></th>
+                  <th>{t}Engagement{/t}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $engList as $id => $eng}
+            <tr>
+                  <td>
+                     <a title="{t}delete Service-Engagement association{/t}"
+                        href="javascript: removeEng('{$id}', 'eng.description')">
+                        <img alt="b_drop.png" border="0" src="images/b_drop.png" />
+                     </a>
+                  </td>
+                  <td title="{$id}">{$eng.name}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         {/if}
+
+         <br>
+
+         <div>
+            <!-- add/create engagement form -->
+            <form id='addEngForm' name='addEngForm' method='post' action='{$page}'>
+               <fieldset>
+                  <select id='engSelector' name='engid'>
+                     <option value='0'>{t}( New Engagement ){/t}</option>
+                     {foreach  $unassignedEng as $id => $name}
+                     <option value="{$id}">{$name}</option>
+                     {/foreach}
+                  </select>
+
+                  <button type='submit'><img  border='0' align='absmiddle' src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
+
+                  <input type="hidden" name="action" value="addEngagement" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="serviceid" value="{$serviceid}" />
+               </fieldset>
+            </form>
+         </div>
+
+      </div>
+
+
+   </div>
+   {/if}
+</div>

@@ -77,7 +77,7 @@ if (isset($_SESSION['userid'])) {
 
    if (0 != $engagementid) {
 
-      $eng = new Engagement($engagementid);
+      $eng = EngagementCache::getInstance()->getEngagement($engagementid);
 
       // ------ Actions
 
@@ -105,25 +105,8 @@ if (isset($_SESSION['userid'])) {
 
 
       // ------ Display Engagement
+      displayEngagement($smartyHelper, $eng);
 
-      $smartyHelper->assign('engid', $engagementid);
-      $smartyHelper->assign('engName', $eng->getName());
-      $smartyHelper->assign('engDesc', $eng->getDesc());
-      $smartyHelper->assign('engBudjetDev', $eng->getBudjetDev());
-      $smartyHelper->assign('engBudjetMngt', $eng->getBudjetMngt());
-      $smartyHelper->assign('engBudjetGarantie', $eng->getBudjetGarantie());
-      $smartyHelper->assign('engBudjetTotal', $eng->getBudjetDev() + $eng->getBudjetMngt() + $eng->getBudjetGarantie());
-      $smartyHelper->assign('engStartDate', date("Y-m-d", $eng->getStartDate()));
-      $smartyHelper->assign('engDeadline', date("Y-m-d", $eng->getDeadline()));
-      $smartyHelper->assign('engAverageDailyRate', $eng->getAverageDailyRate());
-
-      // set Eng Details
-      $engIssueSel = $eng->getIssueSelection();
-      $smartyHelper->assign('engNbIssues', $engIssueSel->getNbIssues());
-
-      // set EngagementList (for selected the team)
-      $issueList = getEngagementIssues($eng);
-      $smartyHelper->assign('engIssues', $issueList);
 
       // ---------------
 
