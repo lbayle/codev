@@ -559,13 +559,11 @@ function displayConsistencyErrors($issue) {
       echo "      <h3><a href='#'>" . T_("Errors") . "</a></h3>\n";
       echo "      <div align='left' style='height:40px;'>\n";
       echo "         <table class='invisible'>\n";
-      echo "                  <tr>\n";
-      echo "            <td></td>\n";
-      echo "            <td><span style='color:red'> </span></td>\n";
       foreach ($cerrList as $cerr) {
-         echo "<td><span style='color:red'>[" . $cerr->getLiteralSeverity() . "] $cerr->desc</span></td>\n";
+      echo "            <tr>\n";
+      echo "               <td><span style='color:red'>[" . $cerr->getLiteralSeverity() . "] $cerr->desc</span></td>\n";
+      echo "            </tr>\n";
       }
-      echo "         </tr>\n";
       echo "         </table>\n";
       echo "      </div>\n";
       echo "   </div>\n";
