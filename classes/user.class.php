@@ -332,7 +332,7 @@ class User {
 			  } else {
 			     $extTasks[$row->date]  = $row->duration;
 			  }
-		  	  #echo "DEBUG user $this->id ExternalTasks[".date("j", $row->date)."] = ".$extTasks[date("j", $row->date)]." (+$row->duration)<br/>";
+           $this->logger->debug("user $this->id ExternalTasks[".date("j", $row->date)."] = ".$extTasks[date("j", $row->date)]." (+$row->duration)");
 		  }
 	  }
 	  	return $extTasks;

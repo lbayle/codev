@@ -575,7 +575,7 @@ class Project {
    	// TODO to be removed once $type m324 bug fixed
    	if (!isset($type)) {
    	   $type = $this->type;
-   	   $e = new Exception("project type not specified !");
+   	   $e = new Exception("project $this->id type not specified ! (assume type=$this->type)");
    	   $this->logger->error("EXCEPTION Project.getJobList(): ".$e->getMessage());
    	   $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
    	}
