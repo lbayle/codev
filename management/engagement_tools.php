@@ -28,8 +28,12 @@ function getEngagementIssues($engagement) {
    $issues = $engagement->getIssueSelection()->getIssueList();
    foreach ($issues as $id => $issue) {
 
-      $issueInfo = array();
+      $driftMgr = $issue->getDriftMgr();
+      $driftMgrColor = $issue->getDriftColor($driftMgr);
+      $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
+      $issueInfo = array();
+      $issueInfo["mantisLink"] = mantisIssueURL($issue->bugId, NULL, true);
       $issueInfo["bugid"] = issueInfoURL(sprintf("%07d\n",   $issue->bugId));
       $issueInfo["project"] = $issue->getProjectName();
       $issueInfo["target"] = $issue->getTargetVersion();
@@ -37,7 +41,8 @@ function getEngagementIssues($engagement) {
       $issueInfo["progress"] = round(100 * $issue->getProgress());
       $issueInfo["effortEstim"] = $issue->mgrEffortEstim;
       $issueInfo["elapsed"] = $issue->elapsed;
-      $issueInfo["driftMgr"] = $issue->getDriftMgr();
+      $issueInfo["driftMgr"] = $driftMgr;
+      $issueInfo["driftMgrColor"] = $formattedDriftMgrColor;
       $issueInfo["durationMgr"] = $issue->getDurationMgr();
       $issueInfo["summary"] = $issue->summary;
 

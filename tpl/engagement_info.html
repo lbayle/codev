@@ -198,6 +198,7 @@ $(document).ready(function() {
             <tbody>
             {foreach $engIssues as $id => $issue}
             <tr>
+                  <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
                   <td>{$issue.bugid}</td>
                   <td>{$issue.project}</td>
                   <td>{$issue.target}</td>
@@ -206,7 +207,7 @@ $(document).ready(function() {
                   <td>{$issue.effortEstim}</td>
                   <td>{$issue.elapsed}</td>
                   <td>{$issue.durationMgr}</td>
-                  <td>{$issue.driftMgr}</td>
+                  <td {$issue.driftMgrColor} >{$issue.driftMgr}</td>
                   <td>{$issue.summary}</td>
             </tr>
             {/foreach}
