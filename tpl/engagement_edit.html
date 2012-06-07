@@ -93,6 +93,17 @@ $(document).ready(function() {
                   </td>
                </tr>
                <tr>
+                  <th>{t}State{/t}</th>
+                  <td>
+                     <select id='stateSelector' name='engState'>
+                        <option value='0'></option>
+                        {foreach from=$engStateList key=id item=i}
+                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                     </select>
+                  </td>
+               </tr>
+               <tr>
                   <th>{t}Average Daily Rate{/t}</th>
                   <td><input type='text' style='font-family: sans-serif' name='engAverageDailyRate'  id='engAverageDailyRate' value='{$engAverageDailyRate}'> {t}Euro{/t}
                   </td>

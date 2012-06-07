@@ -51,12 +51,27 @@ function getEngagementIssues($engagement) {
    return $issueArray;
 }
 
+function getEngStateList($engagement) {
+
+   $stateList = NULL;
+   foreach (Engagement::$stateNames as $id => $name) {
+       $stateList[$id] = array('id'       => $id,
+                            'name'     => $name,
+                            'selected' => ($id == $engagement->getState())
+       );
+   }
+   return $stateList;
+}
+
 
 function displayEngagement($smartyHelper, $eng) {
 
+   echo "eng state = ".$eng->getState();
+
    $smartyHelper->assign('engid', $eng->getId());
    $smartyHelper->assign('engName', $eng->getName());
-   $smartyHelper->assign('engState', $eng->getState());
+   $smartyHelper->assign('engStateList', getEngStateList($eng));
+   $smartyHelper->assign('engState', Engagement::$stateNames[$eng->getState()]);
    #$smartyHelper->assign('engTeamid', $eng->getTeamId());
    $smartyHelper->assign('engDesc', $eng->getDesc());
    $smartyHelper->assign('engBudjetDev', $eng->getBudjetDev());

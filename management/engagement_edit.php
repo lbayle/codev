@@ -91,6 +91,7 @@ if (isset($_SESSION['userid'])) {
 
          $eng->setName($_POST['engName']);
          $eng->setDesc($_POST['engDesc']);
+         $eng->setDesc($_POST['engState']);
          $eng->setBudjetDev($_POST['engBudjetDev']);
          $eng->setBudjetMngt($_POST['engBudjetMngt']);
          $eng->setBudjetGarantie($_POST['engBudjetGarantie']);

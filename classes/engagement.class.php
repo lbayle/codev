@@ -43,6 +43,15 @@ include_once "engagement_cache.class.php";
  */
 class Engagement {
 
+  const state_toBeSent = 1;
+  const state_sent     = 2;
+  const state_payed    = 3;
+
+  public static $stateNames = array(Engagement::state_toBeSent  => "Emettre",
+                                    Engagement::state_sent      => "Emis",
+                                    Engagement::state_payed     => "Payée");
+
+
    private $logger;
 
    // codev_engagement_table
