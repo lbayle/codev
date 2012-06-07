@@ -52,7 +52,7 @@ include_once "tools.php";
 <tr>
 <td width=300>
 <?php
-   echo "<a href='".getServerRootURL()."/'><img src='".getServerRootURL()."/images/clock_logo_06.png' /></a>";
+   echo "<a href='".getServerRootURL()."/'><img src='".getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
 ?>
 </td>
 <td>

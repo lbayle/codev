@@ -48,7 +48,7 @@ include_once "mysql_connect.inc.php";
 <tr>
 <td width=300>
 <?php
-   echo "<a href='".getServerRootURL()."/'><img title='$codevVersion' src='".getServerRootURL()."/images/clock_logo_06.png' /></a>";
+   echo "<a href='".getServerRootURL()."/'><img title='$codevVersion' src='".getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
 ?>
 </td>
 <td>
