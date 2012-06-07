@@ -56,6 +56,8 @@ function displayEngagement($smartyHelper, $eng) {
 
    $smartyHelper->assign('engid', $eng->getId());
    $smartyHelper->assign('engName', $eng->getName());
+   $smartyHelper->assign('engState', $eng->getState());
+   #$smartyHelper->assign('engTeamid', $eng->getTeamId());
    $smartyHelper->assign('engDesc', $eng->getDesc());
    $smartyHelper->assign('engBudjetDev', $eng->getBudjetDev());
    $smartyHelper->assign('engBudjetMngt', $eng->getBudjetMngt());
