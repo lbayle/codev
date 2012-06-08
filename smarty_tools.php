@@ -17,6 +17,25 @@
 */
 
 /**
+ *
+ * @param int $value
+ * @return int $value
+ * @throws Exception
+ */
+function checkNumericValue($value) {
+   $formattedValue = mysql_real_escape_string($value);
+   if (!is_numeric($formattedValue)) {
+      echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+      $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
+      $this->logger->fatal("EXCEPTION: ".$e->getMessage());
+      $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+      throw $e;
+   }
+   return $formattedValue;
+}
+
+
+/**
  * Convert a teamList in a Smarty comprehensible array
  * @param array $teamList The teams
  * @param int $selectedTeamId The selected team

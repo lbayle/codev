@@ -66,8 +66,6 @@ function getEngStateList($engagement) {
 
 function displayEngagement($smartyHelper, $eng) {
 
-   echo "eng state = ".$eng->getState();
-
    $smartyHelper->assign('engid', $eng->getId());
    $smartyHelper->assign('engName', $eng->getName());
    $smartyHelper->assign('engStateList', getEngStateList($eng));

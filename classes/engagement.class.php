@@ -43,13 +43,26 @@ include_once "engagement_cache.class.php";
  */
 class Engagement {
 
-  const state_toBeSent = 1;
-  const state_sent     = 2;
-  const state_payed    = 3;
+  const state_toBeSent      = 1;
+  const state_sent          = 2;
+  const state_toBeValidated = 3;
+  const state_validated     = 4;
+  const state_toBeClosed    = 5;
+  const state_Closed        = 6;
+  const state_toBeBilled    = 7;
+  const state_billed        = 8;
+  const state_payed         = 9;
 
-  public static $stateNames = array(Engagement::state_toBeSent  => "Emettre",
-                                    Engagement::state_sent      => "Emis",
-                                    Engagement::state_payed     => "Payée");
+  // TODO i18n for constants
+  public static $stateNames = array(Engagement::state_toBeSent      => "A émettre",
+                                    Engagement::state_sent          => "Emis",
+                                    Engagement::state_toBeValidated => "A valider",
+                                    Engagement::state_validated     => "Validé",
+                                    Engagement::state_toBeClosed    => "A clôturer",
+                                    Engagement::state_Closed        => "Clotûré",
+                                    Engagement::state_toBeBilled    => "A facturer",
+                                    Engagement::state_billed        => "Facturé",
+                                    Engagement::state_payed         => "Payé");
 
 
    private $logger;
@@ -138,9 +151,9 @@ class Engagement {
       return $this->name;
    }
    public function setName($name) {
-      $formattedValue = mysql_real_escape_string($name);
-      $this->name = $formattedValue;
-      $query = "UPDATE `codev_engagement_table` SET name = '$formattedValue' WHERE id='$this->id' ";
+
+      $this->name = $name;
+      $query = "UPDATE `codev_engagement_table` SET name = '$name' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -154,9 +167,9 @@ class Engagement {
       return $this->description;
    }
    public function setDesc($description) {
-      $formattedValue = mysql_real_escape_string($description);
-      $this->description = $formattedValue;
-      $query = "UPDATE `codev_engagement_table` SET description = '$formattedValue' WHERE id='$this->id' ";
+
+      $this->description = $description;
+      $query = "UPDATE `codev_engagement_table` SET description = '$description' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -172,18 +185,8 @@ class Engagement {
    
    public function setState($value) {
 
-      // security check
-      $formattedValue = mysql_real_escape_string($value);
-      if (!is_numeric($value)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
-         $this->logger->fatal("EXCEPTION setState: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
-
-      $this->budjetMngt = $formattedValue;
-      $query = "UPDATE `codev_engagement_table` SET state = '$formattedValue' WHERE id='$this->id' ";
+      $this->state = $value;
+      $query = "UPDATE `codev_engagement_table` SET state='$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -200,18 +203,9 @@ class Engagement {
    }
    public function setAverageDailyRate($value) {
 
-      // security check
-      $formattedValue = mysql_real_escape_string($value);
-      if (!is_numeric($value)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
-         $this->logger->fatal("EXCEPTION setAverageDailyRate: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
 
-      $this->averageDailyRate = $formattedValue;
-      $query = "UPDATE `codev_engagement_table` SET average_daily_rate = '$formattedValue' WHERE id='$this->id' ";
+      $this->averageDailyRate = $value;
+      $query = "UPDATE `codev_engagement_table` SET average_daily_rate = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -225,19 +219,9 @@ class Engagement {
       return $this->startDate;
    }
 
-   public function setStartDate($value) {
+   public function setStartDate($timestamp) {
 
-      // security check
-      $formattedValue = mysql_real_escape_string($value);
-      if (!is_numeric($value)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
-         $this->logger->fatal("EXCEPTION setStartDate: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
-
-      $this->startDate = date2timestamp($formattedValue);
+      $this->startDate = $timestamp;
       $query = "UPDATE `codev_engagement_table` SET start_date = '$this->startDate' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
@@ -251,18 +235,9 @@ class Engagement {
    public function getDeadline() {
       return $this->deadline;
    }
-   public function setDeadline($value) {
-      // security check
-      $formattedValue = mysql_real_escape_string($value);
-      if (!is_numeric($value)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
-         $this->logger->fatal("EXCEPTION setDeadline: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
-
-      $this->deadline = date2timestamp($formattedValue);
+   public function setDeadline($timestamp) {
+      
+      $this->deadline = $timestamp;
       $query = "UPDATE `codev_engagement_table` SET deadline = '$this->deadline' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
@@ -278,18 +253,8 @@ class Engagement {
    }
    public function setBudjetDev($value) {
 
-      // security check
-      $formattedValue = mysql_real_escape_string($value);
-      if (!is_numeric($value)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
-         $this->logger->fatal("EXCEPTION setBudjetDev: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
-
-      $this->budjetDev = $formattedValue;
-      $query = "UPDATE `codev_engagement_table` SET budjet_dev = '$formattedValue' WHERE id='$this->id' ";
+      $this->budjetDev = $value;
+      $query = "UPDATE `codev_engagement_table` SET budjet_dev = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -304,18 +269,8 @@ class Engagement {
    }
    public function setBudjetMngt($value) {
 
-      // security check
-      $formattedValue = mysql_real_escape_string($value);
-      if (!is_numeric($value)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
-         $this->logger->fatal("EXCEPTION setBudjetMngt: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
-
-      $this->budjetMngt = $formattedValue;
-      $query = "UPDATE `codev_engagement_table` SET budjet_mngt = '$formattedValue' WHERE id='$this->id' ";
+      $this->budjetMngt = $value;
+      $query = "UPDATE `codev_engagement_table` SET budjet_mngt = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -330,18 +285,8 @@ class Engagement {
    }
    public function setBudjetGarantie($value) {
 
-      // security check
-      $formattedValue = mysql_real_escape_string($value);
-      if (!is_numeric($value)) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
-         $this->logger->fatal("EXCEPTION setBudjetGarantie: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
-
-      $this->budjetGarantie = $formattedValue;
-      $query = "UPDATE `codev_engagement_table` SET budjet_garantie = '$formattedValue' WHERE id='$this->id' ";
+      $this->budjetGarantie = $value;
+      $query = "UPDATE `codev_engagement_table` SET budjet_garantie = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");

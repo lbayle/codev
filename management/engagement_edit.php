@@ -89,15 +89,25 @@ if (isset($_SESSION['userid'])) {
 
       } else if ("updateEngInfo" == $action) {
 
-         $eng->setName($_POST['engName']);
-         $eng->setDesc($_POST['engDesc']);
-         $eng->setDesc($_POST['engState']);
-         $eng->setBudjetDev($_POST['engBudjetDev']);
-         $eng->setBudjetMngt($_POST['engBudjetMngt']);
-         $eng->setBudjetGarantie($_POST['engBudjetGarantie']);
-         $eng->setStartDate($_POST['engStartDate']);
-         $eng->setDeadline($_POST['engDeadline']);
-         $eng->setAverageDailyRate($_POST['engAverageDailyRate']);
+
+         // security check
+         $formattedValue = mysql_real_escape_string($_POST['engName']);
+         $eng->setName($formattedValue);
+
+         $formattedValue = mysql_real_escape_string($_POST['engDesc']);
+         $eng->setDesc($formattedValue);
+
+         $formattedValue = mysql_real_escape_string($_POST['engStartDate']);
+         $eng->setStartDate(date2timestamp($formattedValue));
+
+         $formattedValue = mysql_real_escape_string($_POST['engDeadline']);
+         $eng->setDeadline(date2timestamp($formattedValue));
+
+         $eng->setState(checkNumericValue($_POST['engState']));
+         $eng->setBudjetDev(checkNumericValue($_POST['engBudjetDev']));
+         $eng->setBudjetMngt(checkNumericValue($_POST['engBudjetMngt']));
+         $eng->setBudjetGarantie(checkNumericValue($_POST['engBudjetGarantie']));
+         $eng->setAverageDailyRate(checkNumericValue($_POST['engAverageDailyRate']));
 
       } else if ("removeEngIssue" == $action) {
 
