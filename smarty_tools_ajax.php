@@ -101,7 +101,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          include('issue_cache.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(getSecurePOSTIntValue('bugid'));
-         $issue->setRemaining(getSecurePOSTIntValue('remaining'));
+         $issue->setRemaining(getSecurePOSTNumberValue('remaining'));
       }
       else {
          sendNotFoundAccess();
