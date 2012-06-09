@@ -30,7 +30,7 @@ if(isset($_SESSION['userid'])) {
          include('time_tracking.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(getSecureGETIntValue('bugid'));
-         $formattedRemaining = getSecureGETIntValue('remaining');
+         $formattedRemaining = getSecureGETNumberValue('remaining');
          $issue->setRemaining($formattedRemaining);
 
          $weekDates = week_dates(getSecureGETIntValue('weekid'),getSecureGETIntValue('year'));
