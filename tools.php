@@ -455,10 +455,42 @@ function getSecurePOSTStringValue($key,$defaultValue = NULL) {
  * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
  * @return int The value or die if there is a problem
  */
+function getSecureGETNumberValue($key,$defaultValue = NULL) {
+   $value = getSecureGETStringValue($key,$defaultValue);
+   if (is_numeric($value)) {
+      return $value;
+   } else {
+      sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
+      die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+   }
+}
+
+/**
+ * Get a clean up Integer value by POST
+ * @param string $key The key
+ * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
+ * @return int The value or die if there is a problem
+ */
+function getSecurePOSTNumberValue($key,$defaultValue = NULL) {
+   $value = getSecurePOSTStringValue($key,$defaultValue);
+   if (is_numeric($value)) {
+      return $value;
+   } else {
+      sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
+      die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+   }
+}
+
+/**
+ * Get a clean up Integer value by GET
+ * @param string $key The key
+ * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
+ * @return int The value or die if there is a problem
+ */
 function getSecureGETIntValue($key,$defaultValue = NULL) {
    $value = getSecureGETStringValue($key,$defaultValue);
    if (is_numeric($value)) {
-      return (int)$value;
+      return intval($value);
    } else {
       sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
       die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
@@ -474,7 +506,7 @@ function getSecureGETIntValue($key,$defaultValue = NULL) {
 function getSecurePOSTIntValue($key,$defaultValue = NULL) {
    $value = getSecurePOSTStringValue($key,$defaultValue);
    if (is_numeric($value)) {
-      return (int)$value;
+      return intval($value);
    } else {
       sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
       die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");

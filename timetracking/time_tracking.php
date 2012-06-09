@@ -82,7 +82,7 @@ if($_SESSION['userid']) {
       }
 
       // updateRemaining data
-      $remaining = getSecurePOSTIntValue('remaining',0);
+      $remaining = getSecurePOSTNumberValue('remaining',0);
 
       $action = getSecurePOSTStringValue('action','');
       $weekid = getSecurePOSTIntValue('weekid',date('W'));
@@ -96,7 +96,7 @@ if($_SESSION['userid']) {
          $timestamp = date2timestamp($defaultDate);
          $defaultBugid = getSecurePOSTIntValue('bugid');
          $job = getSecurePOSTStringValue('job');
-         $duration = getSecurePOSTIntValue('duree');
+         $duration = getSecurePOSTNumberValue('duree');
          $defaultProjectid  = getSecurePOSTIntValue('projectid');
 
          // save to DB
