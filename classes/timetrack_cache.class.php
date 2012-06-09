@@ -16,16 +16,33 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('Logger.php');
+
 require_once('time_track.class.php');
 
 class TimeTrackCache {
 
+   /**
+    * @var Logger The logger
+    */
    private static $logger;
 
    // class instances
    private static $instance;
+
+   /**
+    * @var TimeTrack[int] The TimeTrack list
+    */
    private static $objects;
+
+   /**
+    * @var Int[int] Number of calls for each TimeTrack
+    */
    private static $callCount;
+
+   /**
+    * @var string The cache name
+    */
    private static $cacheName;
 
    /**
@@ -57,7 +74,7 @@ class TimeTrackCache {
 
    /**
     * Get TimeTrack class instance
-    * @param $id The time track id
+    * @param int $id The time track id
     * @return TimeTrack The time track attached to the id
     */
    public function getTimeTrack($id) {
