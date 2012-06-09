@@ -11,6 +11,9 @@
                   data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
                   success: function(data) {
                      jQuery("#bugSelector").html(jQuery.trim(data));
+
+                     // Hide result because the form is no more consistent with the result
+                     jQuery("#result").hide();
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
                      if(errorThrown == 'Forbidden') {
@@ -38,6 +41,8 @@
          </fieldset>
       </form>
    </div>
+
+   <div id="result">
 
    <!-- Title -->
    {if $issueGeneralInfo}
@@ -283,6 +288,8 @@
       </table>
    </div>
    {/if}
+
+   </div>
 
    {else}
    <div class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>

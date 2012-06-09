@@ -53,7 +53,11 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList) : array();
          $projList = $allProject + $devProjList + $managedProjList + $observedProjList;
 
-         $smartyHelper->assign('bugs', getBugs(getSecureGETIntValue('projectid'),getSecureGETIntValue('bugid'),$projList));
+         // WORKAROUND
+         if($_GET['bugid'] == 'null') {
+            $_GET['bugid'] = 0;
+         }
+         $smartyHelper->assign('bugs', getBugs(getSecureGETIntValue('projectid'),getSecureGETIntValue('bugid',0),$projList));
          $smartyHelper->display('form/bugSelector');
       }
       else if($_GET['action'] == 'getProjectDetails') {
