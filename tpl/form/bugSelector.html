@@ -1,0 +1,5 @@
+<select id="bugid" name="bugid" style="width: 600px;" title="{t}Task{/t}">
+{foreach from=$bugs key=id item=i}
+   <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+{/foreach}
+</select>
