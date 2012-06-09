@@ -61,7 +61,6 @@ $(document).ready(function() {
 
    <br/><br/>
 
-   {if $engid}
    <div  align="center">
       <h2>{$engName}</h2>
    </div>
@@ -124,9 +123,9 @@ $(document).ready(function() {
                </tr>
          </table>
          <br>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Save{/t}</button>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$engInfoFormBtText}{/t}</button>
 
-         <input type="hidden" name="action" value="updateEngInfo" />
+         <input type="hidden" name="action" value="{$engInfoFormAction}" />
          <input type="hidden" name="teamid" value="{$teamid}" />
          <input type="hidden" name="engid" value="{$engagementid}" />
       </fieldset>
@@ -260,7 +259,5 @@ $(document).ready(function() {
       <div id="tabsName-2">
       </div>
       {/if}
-
-   {/if}
 
 </div>

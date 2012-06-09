@@ -90,8 +90,8 @@ if (isset($_SESSION['userid'])) {
       if ("addEngagement" == $action) {
 echo "addEngagement<br>";
 
-      } else if ("createEngagement" == $action) {
-echo "createEngagement<br>";
+         $_SESSION['engid'] = 0;
+         header('Location:engagement_edit.php?engid=0');
 
       } else if ("updateServiceInfo" == $action) {
 echo "updateServiceInfo<br>";

@@ -306,9 +306,9 @@ class Engagement {
     *
     * @return int $id
     */
-   public static function create($name, $startDate, $deadline, $teamid, $budjetDev, $budjetMngt) {
-    $query = "INSERT INTO `codev_engagement_table`  (`name`, `start_date`, `deadline`, `team_id`, `budjet_dev`, `budjet_mngt`) ".
-             "VALUES ('$name','$startDate','$deadline', '$teamid', '$budjetDev', '$budjetMngt');";
+   public static function create($name, $teamid) {
+    $query = "INSERT INTO `codev_engagement_table`  (`name`, `team_id`) ".
+             "VALUES ('$name', '$teamid');";
     $result = mysql_query($query);
     if (!$result) {
     	$this->logger->error("Query FAILED: $query");

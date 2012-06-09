@@ -22,7 +22,10 @@
  * @return int $value
  * @throws Exception
  */
-function checkNumericValue($value) {
+function checkNumericValue($value, $allowNull = false) {
+
+   if ((NULL == $value) && (true == $allowNull)) { return NULL; }
+
    $formattedValue = mysql_real_escape_string($value);
    if (!is_numeric($formattedValue)) {
       echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
