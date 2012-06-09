@@ -18,9 +18,12 @@
 
 include_once "constants.php";
 
+require_once('Logger.php');
+
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "project.class.php";
+include_once "project_cache.class.php";
 
 class ConsistencyError2 {
 
@@ -28,6 +31,9 @@ class ConsistencyError2 {
    const  severity_warn  = 2;
    const  severity_info  = 1;
 
+   /**
+    * @var Logger The logger
+    */
    private $logger; // TODO static
 
    public $bugId;
@@ -40,7 +46,6 @@ class ConsistencyError2 {
    public $severity; // unused
 
    public function __construct($bugId, $userId, $status, $timestamp, $desc) {
-
       $this->logger = Logger::getLogger(__CLASS__); // TODO static
 
       $this->bugId     = $bugId;
@@ -53,12 +58,11 @@ class ConsistencyError2 {
    }
 
    /**
-    *
+    * @return string
     */
    public function getLiteralSeverity() {
-
       switch ($this->severity) {
-      	case ConsistencyError2::severity_error:
+         case ConsistencyError2::severity_error:
             return T_("Error");
          case ConsistencyError2::severity_warn:
             return T_("Warning");
@@ -69,14 +73,12 @@ class ConsistencyError2 {
       }
    }
 
-
-   // ----------------------------------------------
    /**
     * QuickSort compare method.
     * returns true if $this has higher severity than $cerrB
     *
     * @param ConsistencyError2 $cerrB the object to compare to
-    *
+    * @return bool
     */
    function compareTo($cerrB) {
 
@@ -100,26 +102,35 @@ class ConsistencyError2 {
 
 }
 
-
 class ConsistencyCheck2 {
 
+   /**
+    * @var Logger The logger
+    */
    protected $logger;
+
+   /**
+    * @var Issue[] The issues list
+    */
    protected $issueList;
+
+   /**
+    * @var int The team id
+    */
    protected $teamId;
 
-   function __construct($issueList, $teamId=NULL) {
+   function __construct(array $issueList, $teamId=NULL) {
       $this->logger = Logger::getLogger(__CLASS__);
 
       $this->issueList = $issueList;
       $this->teamId= $teamId;
    }
 
-   // ----------------------------------------------
    /**
     * perform all consistency checks
+    * @return ConsistencyError2[]
     */
    public function check() {
-
       #$this->logger->debug("checkResolved");
       $cerrList2 = $this->checkResolved();
 
@@ -128,15 +139,15 @@ class ConsistencyCheck2 {
       #$this->logger->debug("checkBadRemaining");
       $cerrList4 = $this->checkBadRemaining();
 
-/*
- * It is now allowed to have MgrEE = 0
- *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Engagement's creation.
- *   tasks having MgrEE = 0 are internal_tasks
- *
+      /*
+       * It is now allowed to have MgrEE = 0
+       *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Engagement's creation.
+       *   tasks having MgrEE = 0 are internal_tasks
+       *
 
-      #$this->logger->debug("checkMgrEffortEstim");
-      $cerrList5 = $this->checkMgrEffortEstim();
-*/
+            #$this->logger->debug("checkMgrEffortEstim");
+            $cerrList5 = $this->checkMgrEffortEstim();
+      */
 
       #$this->logger->debug("checkEffortEstim");
       $cerrList5 = $this->checkEffortEstim();
@@ -145,7 +156,6 @@ class ConsistencyCheck2 {
       $cerrList6 = $this->checkTimeTracksOnNewIssues();
 
       $cerrList7 = $this->checkUnassignedTasks();
-
 
       #$this->logger->debug("done.");
 
@@ -160,17 +170,14 @@ class ConsistencyCheck2 {
       return $sortedCerrList;
    }
 
-   // ----------------------------------------------
    /**
     * fiches resolved dont le RAE != 0
+    * @return ConsistencyError2[]
     */
    public function checkResolved() {
-
       $cerrList = array();
 
-
       foreach ($this->issueList as $issue) {
-
          if (!$issue->isResolved()) { continue; }
 
          if (0 != $issue->remaining) {
@@ -187,9 +194,9 @@ class ConsistencyCheck2 {
       return $cerrList;
    }
 
-   // ----------------------------------------------
    /**
     * tasks NOT resolved with RAE == 0
+    * @return ConsistencyError2[]
     */
    public function checkBadRemaining() {
       global $status_new;
@@ -197,11 +204,9 @@ class ConsistencyCheck2 {
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {
-
          if ((!$issue->isResolved()) &&
-             ($issue->currentStatus > $status_new) &&
-             ((NULL == $issue->remaining) || ($issue->remaining <= 0))) {
-
+            ($issue->currentStatus > $status_new) &&
+            ((NULL == $issue->remaining) || ($issue->remaining <= 0))) {
             if (NULL == $issue->remaining) {
                $msg = T_("Remaining must be defined !");
             } else {
@@ -220,32 +225,29 @@ class ConsistencyCheck2 {
       return $cerrList;
    }
 
-   // ----------------------------------------------
    /**
     * a mgrEffortEstim should be defined when creating an Issue.
-    *
+    * @return ConsistencyError2[]
     */
    public function checkMgrEffortEstim() {
-
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {
-
-        if ($issue->isResolved()) { continue; }
+         if ($issue->isResolved()) { continue; }
 
          // exclude SideTasks (effortEstimation is not relevant)
          $project = ProjectCache::getInstance()->getProject($issue->projectId);
          $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
          try {
-	         if ($project->isSideTasksProject($teamList)) { continue; }
+            if ($project->isSideTasksProject($teamList)) { continue; }
          } catch (Exception $e) {
-	         $this->logger->error("checkMgrEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
-	         continue;
+            $this->logger->error("checkMgrEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
+            continue;
          }
 
          if ((NULL   == $issue->mgrEffortEstim) ||
-               ('' == $issue->mgrEffortEstim)     ||
-               ('0' == $issue->mgrEffortEstim)) {
+            ('' == $issue->mgrEffortEstim)     ||
+            ('0' == $issue->mgrEffortEstim)) {
 
             $cerr = new ConsistencyError2($issue->bugId,
                $issue->handlerId,
@@ -259,41 +261,32 @@ class ConsistencyCheck2 {
       return $cerrList;
    }
 
-   // ----------------------------------------------
    /**
     * EffortEstim should be defined when status > new.
-    *
+    * @return ConsistencyError2[]
     */
    public function checkEffortEstim() {
-
       global $status_new;
 
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {
-
-        if ($issue->isResolved()) { continue; }
-        if ($issue->currentStatus == $status_new) { continue; }
+         if ($issue->isResolved()) { continue; }
+         if ($issue->currentStatus == $status_new) { continue; }
 
          // exclude SideTasks (effortEstimation is not relevant)
          $project = ProjectCache::getInstance()->getProject($issue->projectId);
          $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
          try {
-	         if ($project->isSideTasksProject($teamList)) { continue; }
+            if ($project->isSideTasksProject($teamList)) { continue; }
          } catch (Exception $e) {
-	         $this->logger->error("checkEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
-	         continue;
+            $this->logger->error("checkEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
+            continue;
          }
 
-         if ((NULL   == $issue->effortEstim) ||
-               ('' == $issue->effortEstim)     ||
-               ('0' == $issue->effortEstim)) {
-
-            $cerr = new ConsistencyError2($issue->bugId,
-               $issue->handlerId,
-               $issue->currentStatus,
-               $issue->last_updated,
-               T_("EffortEstim not set."));
+         if ((NULL == $issue->effortEstim) || ('' == $issue->effortEstim) || ('0' == $issue->effortEstim)) {
+            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
+               $issue->last_updated, T_("EffortEstim not set."));
             $cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }
@@ -304,26 +297,22 @@ class ConsistencyCheck2 {
    /**
     * if you spend some time on a task,
     * then it's status is probably 'ack' or 'open' but certainly not 'new'
+    * @return ConsistencyError2[]
     */
    function checkTimeTracksOnNewIssues() {
-
       global $status_new;
       global $statusNames;
 
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {
-
          // select all issues which current status is 'new'
          if ($issue->currentStatus != $status_new) { continue; }
 
          $elapsed = $issue->getElapsed();
 
          if (0 != $elapsed) {
-
-            $cerr = new ConsistencyError2($issue->bugId,
-               $issue->handlerId,
-               $issue->currentStatus,
+            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
                $issue->last_updated,
                T_("Status should not be")." '".$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
             $cerr->severity = ConsistencyError2::severity_error;
@@ -336,35 +325,33 @@ class ConsistencyCheck2 {
 
    /**
     * check if some tasks are not assigned
+    * @return ConsistencyError2[]
     */
    public function checkUnassignedTasks() {
-
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {
-
          // exclude SideTasks (persistant tasks are not assigned)
          $project = ProjectCache::getInstance()->getProject($issue->projectId);
          $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
 
          try {
-	         if (($project->isSideTasksProject($teamList)) ||
-			       ($project->isNoStatsProject($teamList))) { continue; }
+            if (($project->isSideTasksProject($teamList)) || ($project->isNoStatsProject($teamList))) {
+               continue;
+            }
          } catch (Exception $e) {
-         	$this->logger->error("checkUnassignedTasks(): issue $issue->bugId not checked : ".$e->getMessage());
-         	continue;
+            $this->logger->error("checkUnassignedTasks(): issue $issue->bugId not checked : ".$e->getMessage());
+            continue;
          }
 
          // if resolved, then it's not so important
-         if ($issue->isResolved()) { continue; }
+         if ($issue->isResolved()) {
+            continue;
+         }
 
          if ((NULL == $issue->handlerId) || (0 == $issue->handlerId)) {
-
-            $cerr = new ConsistencyError2($issue->bugId,
-               $issue->handlerId,
-               $issue->currentStatus,
-               $issue->last_updated,
-               T_("The task is not assigned to anybody."));
+            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
+               $issue->last_updated, T_("The task is not assigned to anybody."));
             $cerr->severity = ConsistencyError2::severity_warn;
             $cerrList[] = $cerr;
          }

@@ -16,16 +16,33 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('Logger.php');
+
 require_once('user.class.php');
 
 class UserCache {
 
+   /**
+    * @var Logger The logger
+    */
    private static $logger;
 
    // class instances
    private static $instance;
+
+   /**
+    * @var User[int] The users list
+    */
    private static $objects;
+
+   /**
+    * @var Int[int] Number of calls for each user
+    */
    private static $callCount;
+
+   /**
+    * @var string The cache name
+    */
    private static $cacheName;
 
    /**
@@ -81,7 +98,6 @@ class UserCache {
     * @param bool $verbose
     */
    public function displayStats($verbose = FALSE) {
-
       $nbObj   = count(self::$callCount);
       $nbCalls = array_sum(self::$callCount);
 
