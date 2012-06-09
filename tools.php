@@ -548,4 +548,14 @@ function sendForbiddenAccess() {
    die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
 }
 
+/**
+ * Send an 404 error
+ * @use Send when a user request a page without enought rights
+ * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+ */
+function sendNotFoundAccess() {
+   header('HTTP/1.1 404 Not Found');
+   die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+}
+
 ?>

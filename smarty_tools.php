@@ -73,6 +73,62 @@ function getProjects($projectList, $selectedProjectId = NULL) {
 }
 
 /**
+ * @param int $defaultBugid
+ * @param int $defaultProjectid
+ * @return array
+ */
+function getBugs($projectid = 0, $defaultBugid = 0, $projList) {
+   global $logger;
+
+   // Task list
+   if (0 != $projectid) {
+      $project1 = ProjectCache::getInstance()->getProject($projectid);
+      $issueList = $project1->getIssueList();
+   } else {
+      // no project specified: show all tasks
+      $issueList = array();
+      $formatedProjList = implode( ', ', array_keys($projList));
+
+      $query  = "SELECT id ".
+         "FROM `mantis_bug_table` ".
+         "WHERE project_id IN ($formatedProjList) ".
+         "ORDER BY id DESC";
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      if (0 != mysql_num_rows($result)) {
+         while($row = mysql_fetch_object($result)) {
+            $issueList[] = $row->id;
+         }
+      }
+   }
+
+   $bugs = NULL;
+   foreach ($issueList as $bugid) {
+      $issue = new Issue ($bugid);
+      $externalId = "";
+      if(!empty($issue->tcId)) {
+         $externalId = ' / '.$issue->tcId;
+      }
+      $summary = "";
+      if(!empty($issue->summary)) {
+         $summary = ' : '.$issue->summary;
+      }
+      $bugs[$bugid] = array('id' => $bugid,
+         'name' => $bugid.$externalId.$summary,
+         'selected' => $bugid == $defaultBugid,
+         'projectid' => $issue->projectId
+      );
+   }
+
+   return $bugs;
+}
+
+/**
  * Get the list of weeks of a specific year in Smarty comprehensible array
  * @param int $weekid The selected week
  * @param int $year The specific year
