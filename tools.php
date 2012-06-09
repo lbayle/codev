@@ -19,28 +19,29 @@
 // toolbox
 // LoB 17 May 2010
 
+$logger = Logger::getLogger("tools");
+
 /**
- * returns current URL (complete, with ?params=<value>)
+ * @return string current URL (complete, with ?params=<value>)
  */
 function getCurrentURL() {
- $pageURL = 'http';
- if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
- $pageURL .= "://";
- if ($_SERVER["SERVER_PORT"] != "80") {
-  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
- } else {
-  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
- }
- return $pageURL;
+   $pageURL = 'http';
+   if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+   $pageURL .= "://";
+   if ($_SERVER["SERVER_PORT"] != "80") {
+      $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+   } else {
+      $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+   }
+   return $pageURL;
 }
 
 /**
  * returns current URL (no params)
  */
 function curPageName() {
- return substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
+   return substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
 }
-
 
 /**
  * returns an HTML link to the Mantis page for Issue $bugid
@@ -48,10 +49,10 @@ function curPageName() {
  * @param int $bugid issue id in mantis DB
  */
 function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true) {
-	global $mantisURL;
-	if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
+   global $mantisURL;
+   if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
 
-	$formatedTitle = str_replace("'", " ", $title);
+   $formatedTitle = str_replace("'", " ", $title);
    $formatedTitle = str_replace("\"", " ", $formatedTitle);
 
    $target = (false == $inNewTab) ? "" : "target='_blank'";
@@ -72,7 +73,6 @@ function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true) {
  * @param int $bugid issue id in mantis DB
  */
 function issueInfoURL($bugid, $title=NULL, $inNewTab=true) {
-
    if (NULL==$title) { $title = "View info for Issue $bugid"; }
 
    $target = (false == $inNewTab) ? "" : "target='_blank'";
@@ -83,129 +83,120 @@ function issueInfoURL($bugid, $title=NULL, $inNewTab=true) {
    return "<a  title='$formatedTitle' $target href='".getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
 }
 
-// ---------------------------
-// Cette fonction transforme de ce format: 2008-09-04 11:13:18 en celui-ci : 1204456892
+/**
+ * Cette fonction transforme de ce format: 2008-09-04 11:13:18 en celui-ci : 1204456892
+ */
 function datetime2timestamp($string) {
-	list($date, $time) = explode(' ', $string);
-	list($year, $month, $day) = explode('-', $date);
-	list($hour, $minute, $second) = explode(':', $time);
+   list($date, $time) = explode(' ', $string);
+   list($year, $month, $day) = explode('-', $date);
+   list($hour, $minute, $second) = explode(':', $time);
 
-	$timestamp = mktime($hour, $minute, $second, $month, $day, $year);
+   $timestamp = mktime($hour, $minute, $second, $month, $day, $year);
 
-	return $timestamp;
+   return $timestamp;
 }
 
-// -----------------------------------
 /** Cette fonction transforme de ce format: 2008-09-04 en celui-ci : 1204456892
- * 
  * @param unknown_type $string
  * @return number
  */
 function date2timestamp($string) {
-	list($year, $month, $day) = explode('-', $string);
+   list($year, $month, $day) = explode('-', $string);
 
-	$timestamp = mktime(0, 0, 0, $month, $day, $year);
+   $timestamp = mktime(0, 0, 0, $month, $day, $year);
 
-	return $timestamp;
+   return $timestamp;
 }
 
 // ---------------------------
 function getDurationLiteral($duration) {
-	if ($duration>=86400)
-	/* 86400 = 3600*24 c'est a dire le nombre de secondes dans un seul jour ! donc la on verifie si le nombre de secondes donne contient des jours ou pas */
-	{
-		// Si c'est le cas on commence nos calculs en incluant les jours
+   if ($duration>=86400)
+      /* 86400 = 3600*24 c'est a dire le nombre de secondes dans un seul jour ! donc la on verifie si le nombre de secondes donne contient des jours ou pas */
+   {
+      // Si c'est le cas on commence nos calculs en incluant les jours
 
-		// on divise le nombre de seconde par 86400 (=3600*24)
-		// puis on utilise la fonction floor() pour arrondir au plus petit
-		$jour = floor($duration/86400);
-		// On extrait le nombre de jours
-		$reste = $duration%86400;
+      // on divise le nombre de seconde par 86400 (=3600*24)
+      // puis on utilise la fonction floor() pour arrondir au plus petit
+      $jour = floor($duration/86400);
+      // On extrait le nombre de jours
+      $reste = $duration%86400;
 
-		$heure = floor($reste/3600);
-		// puis le nombre d'heures
-		$reste = $reste%3600;
+      $heure = floor($reste/3600);
+      // puis le nombre d'heures
+      $reste = $reste%3600;
 
-		$minute = floor($reste/60);
-		// puis les minutes
+      $minute = floor($reste/60);
+      // puis les minutes
 
-		$seconde = $reste%60;
-		// et le reste en secondes
+      $seconde = $reste%60;
+      // et le reste en secondes
 
-		// on rassemble les resultats en forme de date
-		#$result = $jour.'j '.$heure.'h '.$minute.'min '.$seconde.'s';
-		$result = $jour.'j '.$heure.'h '.$minute.'min ';
-	}
-	elseif ($duration < 86400 AND $duration>=3600)
-	// si le nombre de secondes ne contient pas de jours mais contient des heures
-	{
-		// on refait la meme operation sans calculer les jours
-		$heure = floor($duration/3600);
-		$reste = $duration%3600;
+      // on rassemble les resultats en forme de date
+      #$result = $jour.'j '.$heure.'h '.$minute.'min '.$seconde.'s';
+      $result = $jour.'j '.$heure.'h '.$minute.'min ';
+   }
+   elseif ($duration < 86400 AND $duration>=3600)
+      // si le nombre de secondes ne contient pas de jours mais contient des heures
+   {
+      // on refait la meme operation sans calculer les jours
+      $heure = floor($duration/3600);
+      $reste = $duration%3600;
 
-		$minute = floor($reste/60);
+      $minute = floor($reste/60);
 
-		$seconde = $reste%60;
+      $seconde = $reste%60;
 
-		#$result = $heure.'h '.$minute.'min '.$seconde.' s';
-		$result = $heure.'h '.$minute.'min ';
-	}
-	elseif ($duration<3600 AND $duration>=60)
-	{
-		// si le nombre de secondes ne contient pas d'heures mais contient des minutes
-		$minute = floor($duration/60);
-		$seconde = $duration%60;
+      #$result = $heure.'h '.$minute.'min '.$seconde.' s';
+      $result = $heure.'h '.$minute.'min ';
+   }
+   elseif ($duration<3600 AND $duration>=60)
+   {
+      // si le nombre de secondes ne contient pas d'heures mais contient des minutes
+      $minute = floor($duration/60);
+      $seconde = $duration%60;
 
-		#$result = $minute.'min '.$seconde.'s';
-		$result = $minute.'min ';
-	}
-	elseif ($duration < 60)
-	// si le nombre de secondes ne contient aucune minutes
-	{
-		if (0 == $duration) {
-			$result =  " ";
-		} else {
-			$result = $duration.'s';
-		}
-	}
-	return $result;
+      #$result = $minute.'min '.$seconde.'s';
+      $result = $minute.'min ';
+   }
+   elseif ($duration < 60)
+      // si le nombre de secondes ne contient aucune minutes
+   {
+      if (0 == $duration) {
+         $result =  " ";
+      } else {
+         $result = $duration.'s';
+      }
+   }
+   return $result;
 }
 
-
-
-
-// ---------------------------
 /** get the week starting date by giving a week number and the year. Monday first day in week
- * 
  * @param int $week
  * @param int $year
- * 
+ *
  * @return timestamp  monday 0:00 of the given week
  */
 function weekStartDate($week,$year) {
+   /*
+   If you want the timestamp of the start of the ISO Week (i.e. on Monday) as defined by ISO 8601, you can use this one liner:
+      $isoWeekStartTime = strtotime(date('o-\\WW')); // {isoYear}-W{isoWeekNumber}
 
-/*
+   You can also find out the start of week of any time and format it into an ISO date with another one liner like this:
+      $isoWeekStartDate = date('Y-m-d', strtotime(date('o-\\WW', $time)));
+   */
 
-If you want the timestamp of the start of the ISO Week (i.e. on Monday) as defined by ISO 8601, you can use this one liner:
-   $isoWeekStartTime = strtotime(date('o-\\WW')); // {isoYear}-W{isoWeekNumber}
-
-You can also find out the start of week of any time and format it into an ISO date with another one liner like this:
-   $isoWeekStartDate = date('Y-m-d', strtotime(date('o-\\WW', $time)));
-
-*/	
-	
    $timestamp        = strtotime("1.1.$year + $week weeks");
    $isoWeekStartDate = strtotime(date('o-\\WW', $timestamp));
-   
+
    //echo "DEBUG isoWeekStartTime $isoWeekStartDate ".date('Y-m-d', $isoWeekStartDate);
-   
+
    return $isoWeekStartDate;
 }
 
-// ---------------------------
-// Function that returns the timestamp for each day in a week
-function week_dates($week, $year)
-{
+/**
+ * Function that returns the timestamp for each day in a week
+ */
+function week_dates($week, $year) {
    $monday = weekStartDate($week,$year);
 
    $week_dates = array();
@@ -222,11 +213,11 @@ function week_dates($week, $year)
 
 // ---------------------------
 function dayofyear2date( $tDay, $year, $tFormat = 'Y-m-d' ) {
-	$day = intval( $tDay );
-	$day = ( $day == 0 ) ? $day : $day - 1;
-	$offset = intval( intval( $tDay ) * 86400 );
-	$str = date( $tFormat, strtotime( 'Jan 1, ' . $year ) + $offset );
-	return( $str );
+   $day = intval( $tDay );
+   $day = ( $day == 0 ) ? $day : $day - 1;
+   $offset = intval( intval( $tDay ) * 86400 );
+   $str = date( $tFormat, strtotime( 'Jan 1, ' . $year ) + $offset );
+   return( $str );
 }
 
 // ---------------------------
@@ -245,7 +236,7 @@ function dayofyear2timestamp( $tDay, $year) {
    //$season = ($date->format('I') == 1) ? "summer" : "winter";
    //echo "DEBUG date=".$date->format('Y-m-d')." (".$season.") <br>";
    if($date->format('I') == 1) {
-     $timestamp -= (60 * 60);  // -1 hour in summer
+      $timestamp -= (60 * 60);  // -1 hour in summer
    }
 
    #echo "DEBUG dayofyear2timestamp $tDay (year $year)= ".date("Y-m-d H:i:s", $timestamp)."<br/>";
@@ -285,7 +276,6 @@ function formatDate($pattern, $timestamp) {
  * @param string $array       the string to explode
  */
 function doubleExplode ($del1, $del2, $keyvalue) {
-
    $array1 = explode("$del1", $keyvalue);
    foreach($array1 as $key=>$value){
       $array2 = explode("$del2", $value);
@@ -312,48 +302,45 @@ function doubleImplode ($del1, $del2, $array) {
    return $keyvalue;
 }
 
-// ------------------------------------------------------
 /**
  * QuickSort function for Class instances
  * NOTE: the classes must have a compareTo(objectB) method.
- *
  * @param array of instances $a
  */
 function qsort($a) {
-       qsort_do(&$a,0,Count($a)-1);
-       return $a;
+   qsort_do(&$a,0,Count($a)-1);
+   return $a;
 }
 
 function qsort_do($a,$l,$r) {
-       if ($l < $r) {
-               qsort_partition(&$a,$l,$r,&$lp,&$rp);
-               qsort_do(&$a,$l,$lp);
-               qsort_do(&$a,$rp,$r);
-       }
+   if ($l < $r) {
+      qsort_partition(&$a,$l,$r,&$lp,&$rp);
+      qsort_do(&$a,$l,$lp);
+      qsort_do(&$a,$rp,$r);
+   }
 }
 
 function qsort_partition($a,$l,$r,$lp,$rp) {
-       $i = $l+1;
-       $j = $l+1;
+   $i = $l+1;
+   $j = $l+1;
 
-       while ($j <= $r) {
-               if ($a[$j]->compareTo($a[$l])) {
-                       $tmp = $a[$j];
-                       $a[$j] = $a[$i];
-                       $a[$i] = $tmp;
-                       $i++;
-               }
-               $j++;
-       }
+   while ($j <= $r) {
+      if ($a[$j]->compareTo($a[$l])) {
+         $tmp = $a[$j];
+         $a[$j] = $a[$i];
+         $a[$i] = $tmp;
+         $i++;
+      }
+      $j++;
+   }
 
-       $x = $a[$l];
-       $a[$l] = $a[$i-1];
-       $a[$i-1] = $x;
+   $x = $a[$l];
+   $a[$l] = $a[$i-1];
+   $a[$i-1] = $x;
 
-       $lp = $i - 2;
-       $rp = $i;
+   $lp = $i - 2;
+   $rp = $i;
 }
-// ------------------------------------------------------
 
 /**
  * Takes an URL as input and applies url encoding only to the parameter values
@@ -370,9 +357,9 @@ function SmartUrlEncode($url){
       foreach($qryvalues as &$value) {
          $buffer=explode("=", $value);
          if (2 == count($buffer)) {
-           	$buffer[1]=urlencode($buffer[1]);
+            $buffer[1]=urlencode($buffer[1]);
             $value = implode("=", $buffer);
-		 }
+         }
       }
       $finalqrystr=implode("&amp;", &$qryvalues);
       $finalURL=$tmpurl . $finalqrystr;
@@ -380,53 +367,153 @@ function SmartUrlEncode($url){
    }
 }
 
-   // --------------------------------------------------------
-   /**
-    * parse file and execute commands via PHP mysql lib.
-    *
-    * @param $sqlFile
-    */
-	function execSQLscript($sqlFile) {
+/**
+ * parse file and execute commands via PHP mysql lib.
+ * @param $sqlFile
+ */
+function execSQLscript($sqlFile) {
 
-      $requetes="";
+   $requetes="";
 
-      $sql=file($sqlFile);
-      foreach($sql as $l){
-         if (substr(trim($l),0,2)!="--"){ // remove comments
-            $requetes .= $l;
-         }
+   $sql=file($sqlFile);
+   foreach($sql as $l){
+      if (substr(trim($l),0,2)!="--"){ // remove comments
+         $requetes .= $l;
       }
+   }
 
-      $reqs = split(";",$requetes);// identify single requests
-      foreach($reqs as $req){
-         if (!mysql_query($req) && trim($req)!="") {
-            die("ERROR : ".$req." ---> ".mysql_error());
-         }
+   $reqs = split(";",$requetes);// identify single requests
+   foreach($reqs as $req){
+      if (!mysql_query($req) && trim($req)!="") {
+         die("ERROR : ".$req." ---> ".mysql_error());
       }
-	}
+   }
+}
 
-	/**
-	 *
-	 * uses system to run 'mysql' cmd
-	 *
-	 * @param String $sqlFile
-	 *
-	 * @return int 0 if Success
-	 */
-	function execSQLscript2($sqlFile) {
+/**
+ * uses system to run 'mysql' cmd
+ * @param String $sqlFile
+ * @return int 0 if Success
+ */
+function execSQLscript2($sqlFile) {
+   global $db_mantis_host;
+   global $db_mantis_user;
+   global $db_mantis_pass;
+   global $db_mantis_database;
 
-		global $db_mantis_host;
-		global $db_mantis_user;
-		global $db_mantis_pass;
-		global $db_mantis_database;
+   $command = "mysql --host=$db_mantis_host --user=$db_mantis_user --password=$db_mantis_pass  $db_mantis_database < $sqlFile";
 
-	   $command = "mysql --host=$db_mantis_host --user=$db_mantis_user --password=$db_mantis_pass  $db_mantis_database < $sqlFile";
+   #$status = system($command, $retCode);
+   $status = exec($command, $output, $retCode);
+   //if (0 != $retCode) {
+   //   echo "FAILED (err $retCode) could not exec mysql commands from file: $sqlFile</br>";
+   //}
+   return $retCode;
+}
 
-	   #$status = system($command, $retCode);
-	   $status = exec($command, $output, $retCode);
-	   //if (0 != $retCode) {
-	   //   echo "FAILED (err $retCode) could not exec mysql commands from file: $sqlFile</br>";
-	   //}
-	   return $retCode;
-	}
+/**
+ * Get a clean up String value by GET
+ * @param string $key The key
+ * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
+ * @return string The value or die if there is a problem
+ */
+function getSecureGETStringValue($key,$defaultValue = NULL) {
+   if(isset($_GET[$key])) {
+      return mysql_real_escape_string($_GET[$key]);
+   }
+   else if(isset($defaultValue)) {
+      return $defaultValue;
+   }
+   else {
+      sendBadRequest("No GET value for ".$key);
+      die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+   }
+}
+
+/**
+ * Get a clean up String value by POST
+ * @param string $key The key
+ * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
+ * @return string The value or die if there is a problem
+ */
+function getSecurePOSTStringValue($key,$defaultValue = NULL) {
+   if(isset($_POST[$key])) {
+      return mysql_real_escape_string($_POST[$key]);
+   }
+   else if(isset($defaultValue)) {
+      return $defaultValue;
+   }
+   else {
+      sendBadRequest("No POST value for ".$key);
+      die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+   }
+}
+
+/**
+ * Get a clean up Integer value by GET
+ * @param string $key The key
+ * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
+ * @return int The value or die if there is a problem
+ */
+function getSecureGETIntValue($key,$defaultValue = NULL) {
+   $value = getSecureGETStringValue($key,$defaultValue);
+   if (is_numeric($value)) {
+      return (int)$value;
+   } else {
+      sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
+      die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+   }
+}
+
+/**
+ * Get a clean up Integer value by POST
+ * @param string $key The key
+ * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
+ * @return int The value or die if there is a problem
+ */
+function getSecurePOSTIntValue($key,$defaultValue = NULL) {
+   $value = getSecurePOSTStringValue($key,$defaultValue);
+   if (is_numeric($value)) {
+      return (int)$value;
+   } else {
+      sendBadRequest('Attempt to set non_numeric value ('.$value.') for '.$key);
+      die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+   }
+}
+
+/**
+ * Send an 400 error
+ * @use Send when a user send a bad request (like weird POST)
+ * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+ * @param string $message The message for the admin
+ */
+function sendBadRequest($message) {
+   global $logger;
+   $e = new Exception('SECURITY ALERT: '.$message);
+   $logger->fatal('EXCEPTION: '.$e->getMessage());
+   $logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+   //header('HTTP/1.1 400 Bad Request');
+   die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+}
+
+/**
+ * Send an 401 error
+ * @use Send when a not logged user request a need to be logged page
+ * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+ */
+function sendUnauthorizedAccess() {
+   header('HTTP/1.1 401 Unauthorized');
+   die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+}
+
+/**
+ * Send an 403 error
+ * @use Send when a user request a page without enought rights
+ * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+ */
+function sendForbiddenAccess() {
+   header('HTTP/1.1 403 Forbidden');
+   die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+}
+
 ?>

@@ -1,6 +1,4 @@
 <?php
-include_once('../include/session.inc.php');
-
 /*
     This file is part of CoDev-Timetracking.
 
@@ -22,43 +20,22 @@ require_once('../path.inc.php');
 
 require_once('super_header.inc.php');
 
-include_once 'i18n.inc.php';
+include_once('i18n.inc.php');
 
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "time_tracking.class.php";
-include_once "holidays.class.php";
-include_once "team.class.php";
-include_once "jobs.class.php";
+include_once('user_cache.class.php');
+include_once('issue_cache.class.php');
+include_once('project_cache.class.php');
+include_once('jobs.class.php');
+include_once('holidays.class.php');
+include_once('team.class.php');
+include_once('time_tracking.class.php');
 
 $logger = Logger::getLogger("time_tracking_tools");
 
-// MAIN
-if(isset($_GET['action'])) {
-   if (!isset($_SESSION['userid'])) {
-      header('HTTP/1.1 403 Forbidden');
-      exit;
-   }
-   if($_GET['action'] == 'updateRemainingAction') {
-      $issue = IssueCache::getInstance()->getIssue($_GET['bugid']);
-      if (NULL != $_GET['remaining']) {
-         $formattedRemaining = mysql_real_escape_string($_GET['remaining']);
-         $issue->setRemaining($formattedRemaining);
-      }
-
-      $weekDates = week_dates($_GET['weekid'],$_GET['year']);
-      $startTimestamp = $weekDates[1];
-      $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-      $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
-
-      echo getWeekTaskDetails($_GET['weekid'],$weekDates,$_GET['userid'],$timeTracking, $_GET['year']);
-    }
-}
-
 /**
  * display accordion with missing imputations
- * @param unknown_type $userid
- * @param unknown_type $team_id
+ * @param int $userid
+ * @param int $team_id
  * @param boolean $isStrictlyTimestamp
  * @return array
  */
@@ -104,13 +81,12 @@ function getCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE
 
 /**
  * display Timetracking Tuples
- * @param unknown_type $userid
+ * @param int $userid
  * @param unknown_type $startTimestamp
  * @param unknown_type $endTimestamp
  * @return array
  */
 function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
-
    $curJulian = 0;
 
    // Display previous entries
@@ -162,93 +138,6 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
                                     'currentStatusName' => $issue->getCurrentStatusName());
    }
    return $timetrackingTuples;
-}
-
-/**
- * TODO Use a specific template for Smarty or Datatables async refresh mecanism
- * @param int $weekid
- * @param array $weekDates
- * @param unknown_type $userid
- * @param TimeTracking $timeTracking
- * @param unknown_type $curYear
- * @return String html
- */
-function getWeekTaskDetails($weekid, $weekDates, $userid, $timeTracking, $curYear) {
-   $html = "<table id='weekTaskDetails'>\n";
-   $html .= "<tr>\n";
-   $html .= "<th>".T_("Task")."</th>\n";
-   $html .= "<th>".T_("RAF")."</th>\n";
-   $html .= "<th>".T_("Job")."</th>\n";
-   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[1])."</th>\n";
-   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[2])."</th>\n";
-   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[3])."</th>\n";
-   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[4])."</th>\n";
-   $html .= "<th width='80'>".formatDate("%A %d %B", $weekDates[5])."</th>\n";
-   $html .= "<th width='80' style='background-color: #D8D8D8;' >".formatDate("%A %d %B", $weekDates[6])."</th>\n";
-   $html .= "<th width='80' style='background-color: #D8D8D8;' >".formatDate("%A %d %B", $weekDates[7])."</th>\n";
-   $html .= "</tr>\n";
-
-   $linkList = array();
-   $holidays = Holidays::getInstance();
-   $weekTracks = $timeTracking->getWeekDetails($userid);
-   foreach ($weekTracks as $bugid => $jobList) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
-
-      foreach ($jobList as $jobid => $dayList) {
-         $linkid = $bugid."_".$jobid;
-         $linkList[$linkid] = $issue;
-
-         $query3  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-         $result3 = mysql_query($query3) or die("Query failed: $query3");
-         $jobName = mysql_result($result3, 0);
-
-         $description = addslashes(htmlspecialchars($issue->summary));
-         $dialogBoxTitle = T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining");
-
-         $html .= "<tr>\n";
-         $html .= "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-
-         // if no remaining set, display a '?' to allow Remaining edition
-         if (NULL == $issue->remaining) {
-
-            #if (($team->isSideTasksProject($issue->projectId)) ||
-            #    ($team->isNoStatsProject($issue->projectId))) {
-            	// do not allow to edit sideTasks Remaining
-            	$formattedRemaining = '';
-            #} else {
-            #   $formattedRemaining = '?';
-            #}
-         } else {
-         	$formattedRemaining = $issue->remaining;
-         }
-         $html .= "<td><a title='".T_("update remaining")."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$bugid."', '".$dialogBoxTitle."')\" >".$formattedRemaining."</a></td>\n";
-         $html .= "<td>".$jobName."</td>\n";
-
-         for ($i = 1; $i <= 7; $i++) {
-            if($i <= 5) {
-               $h = $holidays->isHoliday($weekDates[$i]);
-               if ($h) {
-                  $bgColor = "style='background-color: #".$h->color.";'";
-                  #$bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-                  $title = "title='".$h->description."'";
-               } else {
-                  $bgColor = "";
-                  $title = "";
-               }
-            } else {
-               $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-               $title = "";
-            }
-            $html .= '<td '.$bgColor.' '.$title.'>';
-            $html .= array_key_exists($i,$dayList) != NULL ? $dayList[$i] : '';
-            $html .= "</td>\n";
-         }
-         $html .= "</tr>\n";
-      }
-   }
-   $html .= " </table>\n";
-
-   return $html;
 }
 
 function getWeekTask($weekDates, $userid, $timeTracking) {
@@ -315,6 +204,149 @@ function getWeekTask($weekDates, $userid, $timeTracking) {
    }
 
    return $weekTasks;
+}
+
+/**
+ * Get users of teams I lead
+ * @return array of users
+ */
+function getUsers() {
+   global $logger;
+
+   $accessLevel_dev = Team::accessLevel_dev;
+   $accessLevel_manager = Team::accessLevel_manager;
+
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+   $teamList = $session_user->getLeadedTeamList();
+
+   // separate list elements with ', '
+   $formatedTeamString = implode( ', ', array_keys($teamList));
+
+   // show only users from the teams that I lead.
+   $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username ".
+      "FROM `mantis_user_table`, `codev_team_user_table` ".
+      "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
+      "AND codev_team_user_table.team_id IN ($formatedTeamString) ".
+      "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
+      "ORDER BY mantis_user_table.username";
+
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      exit;
+   }
+
+   while($row = mysql_fetch_object($result)) {
+      $users[$row->id] = $row->username;
+   }
+
+   return $users;
+}
+
+/**
+ * Get issues
+ * @param int $projectid
+ * @param boolean $isOnlyAssignedTo
+ * @param unknown_type $user1
+ * @param array $projList
+ * @param boolean $isHideResolved
+ * @param int $defaultBugid
+ * @return array
+ */
+function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideResolved, $defaultBugid) {
+   global $logger;
+
+   if (0 != $projectid) {
+      // Project list
+      $project1 = ProjectCache::getInstance()->getProject($projectid);
+
+      // do not filter on userId if SideTask or ExternalTask
+      try {
+         if (($isOnlyAssignedTo) &&
+            (!$project1->isSideTasksProject()) &&
+            (!$project1->isNoStatsProject())) {
+            $handler_id = $user1->id;
+         } else {
+            $handler_id = 0; // all users
+            $isHideResolved = false; // do not hide resolved
+         }
+      } catch (Exception $e) {
+         $logger->error("getIssues(): isOnlyAssignedTo & isHideResolved filters not applied : ".$e->getMessage());
+         $handler_id = 0; // all users
+         $isHideResolved = false; // do not hide resolved
+      }
+
+      $issueList = $project1->getIssueList($handler_id, $isHideResolved);
+   } else {
+      // no project specified: show all tasks
+      $issueList = array();
+
+      foreach ($projList as $pid => $pname) {
+         $proj = ProjectCache::getInstance()->getProject($pid);
+         try {
+            if (($proj->isSideTasksProject()) ||
+               ($proj->isNoStatsProject())) {
+               // do not hide any task for SideTasks & ExternalTasks projects
+               $buglist = $proj->getIssueList(0, false);
+               $issueList = array_merge($issueList, $buglist);
+            } else {
+               $handler_id = $isOnlyAssignedTo ? $user1->id : 0;
+               $buglist = $proj->getIssueList($handler_id, $isHideResolved);
+               $issueList = array_merge($issueList, $buglist);
+            }
+         } catch (Exception $e) {
+            $logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
+            // do not hide any task if unknown project type
+            $buglist = $proj->getIssueList(0, false);
+            $issueList = array_merge($issueList, $buglist);
+
+         }
+      }
+      rsort($issueList);
+   }
+
+   foreach ($issueList as $bugid) {
+      $issue = IssueCache::getInstance()->getIssue($bugid);
+      $issues[] = array('id' => $bugid,
+         'tcId' => $issue->tcId,
+         'summary' => $issue->summary,
+         'selected' => $bugid == $defaultBugid);
+   }
+
+   return $issues;
+}
+
+/**
+ * get Job list
+ * @param int $projectid
+ * @return array
+ */
+function getJobs($projectid) {
+   global $logger;
+
+   if (0 != $projectid) {
+      // Project list
+      $project1 = ProjectCache::getInstance()->getProject($projectid);
+
+      $jobList = $project1->getJobList();
+   } else {
+      $query = "SELECT id, name FROM `codev_job_table` ";
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         return;
+      }
+
+      if (0 != mysql_num_rows($result)) {
+         while ($row = mysql_fetch_object($result)) {
+            $jobList[$row->id] = $row->name;
+         }
+      }
+   }
+
+   return $jobList;
 }
 
 ?>

@@ -1,38 +1,12 @@
 <div id="content" class="center">
    {if $users || $otherrealname}
    {if $users}
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery("#chooseUser").click(function() {
-            // check fields
-            var foundError = 0;
-            var msgString = "Les champs suivants ont ete oublies:\n\n";
-
-            var formUserAndPeriodSelect = jQuery("#formUserAndPeriodSelect");
-            if (0 == formUserAndPeriodSelect.find("select[name=userid]").val()) {
-               msgString += "Nom\n";
-               ++foundError;
-            }
-
-            if (0 == foundError) {
-               formUserAndPeriodSelect.submit();
-            } else {
-               alert(msgString);
-            }
-         });
-      });
-   </script>
    <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
       <fieldset>
          <label for="userid">{t}Name{/t} :</label>
-         <select name="userid" id="userid">
-            <option value="0"></option>
-            {foreach from=$users key=id item=i}
-            <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-            {/foreach}
-         </select>
+         {html_options id=userid name=userid options=$users selected=$selectedUser}
          <input type="hidden" name="nextForm" value="addTrackForm" />
-         <input id="chooseUser" type="button" value="{t}Jump{/t}" />
+         <input type="submit" value="{t}Jump{/t}" />
       </fieldset>
    </form>
    {/if}
@@ -161,12 +135,11 @@
                <option value="0.1">0.1</option>
                <option value="0.05">0.05</option>
             </select>
-            <input type="hidden" name="trackid" value="unknown1" />
             <input type="hidden" name="action" value="noAction" />
             <input type="hidden" name="nextForm" value="addTrackForm" />
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
-            <input type="hidden" name="userid" value="{$userid}" />
+            {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="button" name="btAddTrack" value="{t}Add{/t}" onclick="javascript: addTrack()" />
          </fieldset>
       </form>
@@ -227,11 +200,9 @@
                {/foreach}
             </select>
             <input type="button" title="{t}Next week{/t}" value="&gt;&gt;" onclick="javascript: nextWeek()" />
-
             <input type="hidden" name="projectid" value="{$defaultProjectid}" />
             <input type="hidden" name="bugid" value="{$defaultBugid}" />
-
-            <input type="hidden" name="userid" value="{$userid}" />
+            {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="action" value="updateWeekDisplay" />
             <input type="hidden" name="nextForm" value="addTrackForm" />
          </fieldset>
@@ -379,7 +350,7 @@
             <br />
             <input type="checkbox" id="cb_hideResolved" name="cb_hideResolved" {if $isHideResolved} checked="checked" {/if}/>
             <label for="cb_hideResolved">{t}Hide resolved tasks{/t}</label>
-            <input type="hidden" name="userid" value="{$userid}" />
+            {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="projectid" value="{$defaultProjectid}" />
             <input type="hidden" name="bugid" value="{$defaultBugid}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
@@ -448,19 +419,10 @@
             if ( bValid ) {
                /* get some values from elements on the page: */
                var formUpdateRemaining = $(this);
-               var url = formUpdateRemaining.attr("action");
-               var actionName = formUpdateRemaining.find("input[name=action]").val();
-               var remaining1 = formUpdateRemaining.find("input[name=remaining]").val();
-               var bugid = formUpdateRemaining.find("input[name=bugid]").val();
-
-               var userid = formUpdateRemaining.find("input[name=userid]").val();
-               var weekid = formUpdateRemaining.find("input[name=weekid]").val();
-               var year = formUpdateRemaining.find("input[name=year]").val();
-
                jQuery.ajax({
                   type: "GET",
-                  url: url,
-                  data: "action="+actionName+"&remaining="+remaining1+"&bugid="+bugid+"&weekid="+weekid+"&year="+year+"&userid="+userid,
+                  url: formUpdateRemaining.attr("action"),
+                  data: formUpdateRemaining.serialize(),
                   success: function(data) {
                      jQuery("#weekTaskDetails").html(jQuery.trim(data));
                   }
@@ -473,14 +435,13 @@
    </script>
    <div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style="display: none">
       <p id="validateTips">Set new value</p>
-      <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="timetracking/time_tracking_tools.php" >
+      <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="timetracking/time_tracking_ajax.php" >
          <fieldset>
             <label for="remaining">{t}Remaining{/t} :</label>
             <input type="text" id="remaining" name="remaining" size="3" class="text" />
             <input type="hidden" name="bugid"  value="0" />
             <input type="hidden" name="action" value="updateRemainingAction" />
-
-            <input type="hidden" name="userid" value="{$userid}" />
+            {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="weekid" value="{$weekid}" />
             <input type="hidden" name="year" value="{$year}" />
          </fieldset>
@@ -534,9 +495,8 @@
          <fieldset>
             <input type="hidden" name="trackid" value="0" />
             <input type="hidden" name="action"  value="deleteTrack" />
-
             <input type="hidden" name="nextForm" value="addTrackForm" />
-            <input type="hidden" name="userid" value="{$userid}" />
+            {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="weekid" value="{$weekid}" />
             <input type="hidden" name="year" value="{$year}" />
          </fieldset>
