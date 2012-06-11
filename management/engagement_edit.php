@@ -111,6 +111,7 @@ if (isset($_SESSION['userid'])) {
    $_SESSION['engid'] = $engagementid;
 
    // use the serviceid set in the form, if not defined (first page call) use session serviceid
+   // Note: It is used for createEnv but will be overridden by the displayed engagement's serviceid.
    $serviceid = 0;
    if(isset($_POST['serviceid'])) {
       $serviceid = $_POST['serviceid'];
@@ -119,11 +120,6 @@ if (isset($_SESSION['userid'])) {
    }
    $_SESSION['serviceid'] = $serviceid;
 
-   $smartyHelper->assign('serviceid', $serviceid);
-   $smartyHelper->assign('services', getServices($teamid, $serviceid));
-
-
-
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
@@ -131,7 +127,6 @@ if (isset($_SESSION['userid'])) {
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
-   $smartyHelper->assign('engagementid', $engagementid);
 
 
    if (0 == $engagementid) {
@@ -156,13 +151,17 @@ if (isset($_SESSION['userid'])) {
          updateEngInfo($eng);
 
       }
-      // ------ Display Engagement
+
+      // ------ Display Empty Engagement Form
       // Note: this will be overridden by the 'update' section if the 'createEng' action has been called.
       $smartyHelper->assign('engInfoFormBtText', 'Create');
       $smartyHelper->assign('engInfoFormAction', 'createEng');
 
       $smartyHelper->assign('engStateList', getEngStateList());
       $smartyHelper->assign('engState', Engagement::$stateNames[0]);
+
+      $smartyHelper->assign('serviceid', $serviceid);
+      $smartyHelper->assign('services', getServices($teamid, $serviceid));
    }
 
 
@@ -171,19 +170,6 @@ if (isset($_SESSION['userid'])) {
 
       $eng = EngagementCache::getInstance()->getEngagement($engagementid);
 
-      $serviceid = $eng->getService();
-
-      echo "eng service = $serviceid";
-
-      if (NULL == $serviceid) {
-         unset($_SESSION['serviceid']);
-         $smartyHelper->assign('serviceid', 0);
-         $smartyHelper->assign('services', getServices($teamid, 0));
-      } else {
-         $_SESSION['serviceid'] = $serviceid;
-         $smartyHelper->assign('serviceid', $serviceid);
-         $smartyHelper->assign('services', getServices($teamid, $serviceid));
-      }
 
       // ------ Actions
 
@@ -205,7 +191,28 @@ if (isset($_SESSION['userid'])) {
          $eng->removeIssue($_POST['bugid']);
       }
 
+
+      // --- set Service according to the displayed engagement
+     $serviceid = $eng->getService();
+
+
+   if ((NULL == $serviceid) || (0 == $serviceid)) {
+         unset($_SESSION['serviceid']);
+         #$smartyHelper->assign('serviceid', 0);
+         $smartyHelper->assign('services', getServices($teamid, 0));
+      } else {
+         $_SESSION['serviceid'] = $serviceid;
+         $smartyHelper->assign('serviceid', $serviceid);
+         $smartyHelper->assign('services', getServices($teamid, $serviceid));
+
+         $service = new Service($serviceid); // TODO use cache
+         $serviceName = $service->getName();
+         $smartyHelper->assign('serviceName', $serviceName);
+      }
+ 
+
       // ------ Display Engagement
+      $smartyHelper->assign('engagementid', $engagementid);
       $smartyHelper->assign('engInfoFormBtText', 'Save');
       $smartyHelper->assign('engInfoFormAction', 'updateEngInfo');
       $smartyHelper->assign('isAddEngForm', true);

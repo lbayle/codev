@@ -68,17 +68,10 @@ function getEngStateList($engagement = NULL) {
 
 function displayEngagement($smartyHelper, $eng) {
 
-   if (NULL != $eng->getService()) {
-      $service = new Service($eng->getService()); // TODO use cache
-      $engServiceName = $service->getName();
-      $smartyHelper->assign('serviceid', $eng->getService());
-      $smartyHelper->assign('engServiceName', $engServiceName);
-   }
    $smartyHelper->assign('engid', $eng->getId());
    $smartyHelper->assign('engName', $eng->getName());
    $smartyHelper->assign('engStateList', getEngStateList($eng));
    $smartyHelper->assign('engState', Engagement::$stateNames[$eng->getState()]);
-   #$smartyHelper->assign('engTeamid', $eng->getTeamId());
    $smartyHelper->assign('engDesc', $eng->getDesc());
    $smartyHelper->assign('engBudjetDev', $eng->getBudjetDev());
    $smartyHelper->assign('engBudjetMngt', $eng->getBudjetMngt());
