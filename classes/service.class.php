@@ -54,6 +54,7 @@ class Service {
    private $description;
    private $date;
    private $teamid;
+   private $commandid;
 
    // list of engagements, ordered by type
    // engByTypeList[type][engid]
@@ -269,6 +270,65 @@ class Service {
       }
    }
 
+   /**
+    *
+    */
+   public function getCommand() {
+
+      if (NULL == $this->commandid) {
+
+         $query  = "SELECT * FROM `codev_command_srv_table` WHERE service_id=$this->id ";
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         // can a Service belong to more than one command ?
+         while($row = mysql_fetch_object($result)) {
+
+            $this->commandid = $row->command_id;
+            $this->logger->debug("Service $this->id is in command $this->commandid");
+         }
+      }
+      return $this->commandid;
+   }
+
+
+   /**
+    *
+    * @param int $value commandid. if NULL or '0' then remove association
+    * @param int $type
+    *
+    */
+   public function setCommand($value, $type = 1) {
+
+      if ((NULL == $value) || (0 == $value)) {
+
+         if (NULL == $this->getCommand()) { return; }
+         $query = "DELETE FROM `codev_command_srv_table` WHERE `service_id` = '$this->id' ";
+
+      } else {
+         if (NULL == $this->getCommand()) {
+            $query = "INSERT INTO `codev_command_srv_table` (`command_id`, `service_id`, `type`) ".
+                     "VALUES ('$value', '$this->id', '$type');";
+         } else {
+            $query = "UPDATE `codev_command_srv_table` SET command_id = '$value' WHERE service_id='$this->id' ";
+         }
+      }
+
+      $result = mysql_query($query);
+      if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+      }
+      $this->commandid = $value;
+
+   }
 
 
 
