@@ -63,6 +63,7 @@ function getServiceEngagements($serviceid, $type) {
          $engDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
 
          $engDetailedMgr['name'] = $eng->getName();
+         $engDetailedMgr['description'] = $eng->getDesc();
 
          $engagements[$id] = $engDetailedMgr;
       }

@@ -142,7 +142,7 @@ function createEng() {
             <tr>
                   <td>
                      <a title="{t}delete Service-Engagement association{/t}"
-                        href="javascript: removeEng('{$id}', 'eng.description')">
+                        href="javascript: removeEng('{$id}', '{$eng.description|escape}')">
                         <img alt="b_drop.png" border="0" src="images/b_drop.png" />
                      </a>
                   </td>

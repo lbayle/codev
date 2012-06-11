@@ -239,7 +239,7 @@ $(document).ready(function() {
             <tr>
                   <td>
                      <a title="{t}delete Engagement-Task association{/t}"
-                        href="javascript: removeEngIssue('{$id}', '{$issue.project}', 'issue.summary')">
+                        href="javascript: removeEngIssue('{$id}', '{$issue.project}', '{$issue.summary|escape}')">
                         <img alt="b_drop.png" border="0" src="images/b_drop.png" />
                      </a>
                   </td>
