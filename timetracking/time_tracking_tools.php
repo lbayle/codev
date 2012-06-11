@@ -127,13 +127,20 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
         $curJulian = $row->date;
       }
 
-      $timetrackingTuples[] = array('id' => $row->id, 'class' => $tr_class,
-                                    'date' => $formatedDate, 'formatedId' => $formatedId,
-                                    'duration' => $row->duration, 'formatedJobName' => $formatedJobName,
-                                    'summary' => $formatedSummary, 'cosmeticDate' => $cosmeticDate,
-                                    'issueURL' => issueInfoURL($row->bugid), 'issueId' => $issue->tcId,
+      $timetrackingTuples[] = array('id' => $row->id,
+                                    'class' => $tr_class,
+                                    'date' => $formatedDate,
+                                    'formatedId' => $formatedId,
+                                    'duration' => $row->duration,
+                                    'formatedJobName' => $formatedJobName,
+                                    'summary' => $formatedSummary,
+                                    'cosmeticDate' => $cosmeticDate,
+                                    'mantisURL' => mantisIssueURL($row->bugid, NULL, true),
+                                    'issueURL' => issueInfoURL($row->bugid),
+                                    'issueId' => $issue->tcId,
                                     'projectName' => $issue->getProjectName(),
-                                    'issueSummary' => $issue->summary, 'jobName' => $jobName,
+                                    'issueSummary' => $issue->summary,
+                                    'jobName' => $jobName,
                                     'categoryName' => $issue->getCategoryName(),
                                     'currentStatusName' => $issue->getCurrentStatusName());
    }
@@ -191,13 +198,17 @@ function getWeekTask($weekDates, $userid, $timeTracking) {
             );
          }
 
-         $weekTasks[] = array('bugid' => $bugid, 'issueURL' => issueInfoURL($bugid),
-                              'issueId' => $issue->tcId, 'summary' => $issue->summary,
+         $weekTasks[] = array('bugid' => $bugid,
+                              'issueURL' => issueInfoURL($bugid),
+                              'mantisURL' => mantisIssueURL($bugid, NULL, true),
+                              'issueId' => $issue->tcId,
+                              'summary' => $issue->summary,
                               'remaining' => $issue->remaining,
                               'description' => addslashes(htmlspecialchars($issue->summary)),
                               'dialogBoxTitle' => T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining"),
                               'formattedRemaining' => $formattedRemaining,
-                              'jobName' => $jobName, 'dayTasks' => $dayTasks
+                              'jobName' => $jobName,
+                              'dayTasks' => $dayTasks
          );
 
       }

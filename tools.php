@@ -60,7 +60,7 @@ function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true) {
    if (false == $isIcon) {
       $url = "<a href='$mantisURL/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
    } else {
-      $url = "<a href='$mantisURL/view.php?id=$bugid' $target><img title='$formatedTitle' src='$mantisURL/images/favicon.ico' /></a>";
+      $url = "<a href='$mantisURL/view.php?id=$bugid' $target><img title='$formatedTitle' align='absmiddle' src='$mantisURL/images/favicon.ico' /></a>";
    }
 
    return $url;

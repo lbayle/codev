@@ -72,6 +72,7 @@ if(isset($_SESSION['userid'])) {
       if (in_array($bug_id, $taskList)) {
          $issue = IssueCache::getInstance()->getIssue($bug_id);
          $smartyHelper->assign('issueSummary', $issue->summary);
+         $smartyHelper->assign('mantisUrl', mantisIssueURL($issue->bugId, NULL, true));
          $smartyHelper->assign('issueUrl', mantisIssueURL($issue->bugId));
          $smartyHelper->assign('issueStatusName', $issue->getCurrentStatusName());
          $smartyHelper->assign('handlerName', UserCache::getInstance()->getUser($issue->handlerId)->getName());

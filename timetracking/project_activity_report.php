@@ -74,6 +74,7 @@ function getProjectActivityReport($projectTracks, $teamid, $isDetailed) {
          $row_id += 1;
 
          $bugDetailedList[] = array('class' => $tr_class,
+                                  'mantisURL' => mantisIssueURL($bugid, NULL, true),
                                   'issueURL' => issueInfoURL($bugid),
                                   'id' => $issue->tcId,
                                   'summary' => $issue->summary,

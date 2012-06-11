@@ -232,7 +232,7 @@
          </tr>
          {foreach from=$weekTasks key=issueId item=i}
          <tr>
-            <td>{$i.issueURL} / {$i.issueId} : {$i.summary}</td>
+            <td>{$i.mantisURL} {$i.issueURL} / {$i.issueId} : {$i.summary}</td>
             <td><a title="{t}update remaining{/t}" href="javascript: updateRemaining('{$i.remaining}',
                '{$i.description}', '{$i.bugid}', '{$i.dialogBoxTitle}')">{$i.formattedRemaining}</a>
             </td>

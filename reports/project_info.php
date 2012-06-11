@@ -294,6 +294,7 @@ function getCurrentIssuesInDrift($projectVersionList, $isManager, $withSupport =
             }
 
             $currentIssuesInDrift[] = array('issueURL' => issueInfoURL($issue->bugId),
+                                            'mantisURL' => mantisIssueURL($issue->bugId, NULL, true),
                                             'projectName' => $issue->getProjectName(),
                                             'targetVersion' => $issue->getTargetVersion(),
                                             'driftMgrColor' => $driftMgrColor,
@@ -350,6 +351,7 @@ function getResolvedIssuesInDrift($projectVersionList, $isManager, $withSupport 
             }
 
             $resolvedIssuesInDrift[] = array('issueURL' => issueInfoURL($issue->bugId),
+                                             'mantisURL' => mantisIssueURL($issue->bugId, NULL, true),
                                              'projectName' => $issue->getProjectName(),
                                              'targetVersion' => $issue->getTargetVersion(),
                                              'driftMgrColor' => $driftMgrColor,

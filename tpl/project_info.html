@@ -146,7 +146,7 @@
             </tr>
             {foreach from=$currentIssuesInDrift key=name item=i}
             <tr>
-               <td>{$i.issueURL}</td>
+               <td>{$i.mantisURL} {$i.issueURL}</td>
                <td>{$i.projectName}</td>
                <td>{$i.targetVersion}</td>
                {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
@@ -177,7 +177,7 @@
             </tr>
             {foreach from=$resolvedIssuesInDrift key=name item=i}
                <tr>
-                  <td>{$i.issueURL}</td>
+                  <td>{$i.mantisURL} {$i.issueURL}</td>
                   <td>{$i.projectName}</td>
                   <td>{$i.targetVersion}</td>
                   {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}

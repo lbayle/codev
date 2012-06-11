@@ -48,7 +48,7 @@
    {if $issueGeneralInfo}
    <div class="center" style="margin-top: 2em">
       <h2>{$issueSummary}</h2>
-      {$issueUrl}{if $issueGeneralInfo.issueTcId} / <span title="{t}External ID{/t}">{$issueGeneralInfo.issueTcId}{/if}</span><br/><br/>
+      {$mantisUrl} {$issueUrl}{if $issueGeneralInfo.issueTcId} / <span title="{t}External ID{/t}">{$issueGeneralInfo.issueTcId}{/if}</span><br/><br/>
       <strong><span title="{t}status{/t}">{$issueStatusName}</span> - <span title="{t}assigned to{/t}">{$handlerName}</span></strong>
    </div>
    {/if}

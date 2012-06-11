@@ -252,7 +252,7 @@ function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realna
       $jobName = mysql_result($result, 0);
 
       echo "<tr>\n";
-      echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
+      echo "<td>".mantisIssueURL($bugid, NULL, true).' '.issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
       echo "<td>".$issue->getDuration()."</td>\n";
       echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
       echo "<td>".$issue->getProjectName()."</td>\n";
@@ -312,7 +312,7 @@ function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $wo
     $issue = IssueCache::getInstance()->getIssue($bugid);
 
     echo "<tr>\n";
-    echo "<td>".issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
+    echo "<td>".mantisIssueURL($bugid, NULL, true).' '.issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
     echo "<td>".$issue->getDuration()."</td>\n";
     echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
     echo "<td>".$issue->getProjectName()."</td>\n";
