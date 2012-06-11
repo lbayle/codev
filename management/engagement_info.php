@@ -154,6 +154,12 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('consistencyErrors', $consistencyErrors);
       }
 
+   } else {
+
+      if ('displayEngagement' == $action) {
+
+         header('Location:engagement_edit.php?engid=0');
+      }
    }
 
 

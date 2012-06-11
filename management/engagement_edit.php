@@ -26,10 +26,13 @@ require('super_header.inc.php');
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
+include_once "service.class.php";
+include_once "engagement.class.php";
 
 include_once "smarty_tools.php";
 
 include "engagement_tools.php";
+include "service_tools.php";
 
 $logger = Logger::getLogger("engagement_edit");
 
@@ -40,6 +43,10 @@ $logger = Logger::getLogger("engagement_edit");
 function updateEngInfo($eng) {
 
    // security check
+   $eng->setTeamid(checkNumericValue($_POST['teamid']));
+
+   $eng->setService(checkNumericValue($_POST['serviceid']));
+
    $formattedValue = mysql_real_escape_string($_POST['engName']);
    $eng->setName($formattedValue);
 
@@ -85,6 +92,11 @@ if (isset($_SESSION['userid'])) {
    $_SESSION['teamid'] = $teamid;
 
    // TODO check if $teamid is set and != 0
+   
+   // set TeamList (including observed teams)
+   $teamList = $session_user->getTeamList();
+   $smartyHelper->assign('teamid', $teamid);
+   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
 
    // use the engid set in the form, if not defined (first page call) use session engid
@@ -97,6 +109,21 @@ if (isset($_SESSION['userid'])) {
       $engagementid = $_SESSION['engid'];
    }
    $_SESSION['engid'] = $engagementid;
+
+   // use the serviceid set in the form, if not defined (first page call) use session serviceid
+   $serviceid = 0;
+   if(isset($_POST['serviceid'])) {
+      $serviceid = $_POST['serviceid'];
+   } else if(isset($_SESSION['serviceid'])) {
+      $serviceid = $_SESSION['serviceid'];
+   }
+   $_SESSION['serviceid'] = $serviceid;
+
+   $smartyHelper->assign('serviceid', $serviceid);
+   $smartyHelper->assign('services', getServices($teamid, $serviceid));
+
+
+
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
@@ -113,7 +140,9 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Actions
       if ("createEng" == $action) {
-         $bugid = $_POST['bugid'];
+
+         $teamid = checkNumericValue($_POST['teamid']);
+         $_SESSION['teamid'] = $teamid;
          $logger->debug("create new Engagement for team $teamid<br>");
 
          $engName = mysql_real_escape_string($_POST['engName']);
@@ -131,6 +160,9 @@ if (isset($_SESSION['userid'])) {
       // Note: this will be overridden by the 'update' section if the 'createEng' action has been called.
       $smartyHelper->assign('engInfoFormBtText', 'Create');
       $smartyHelper->assign('engInfoFormAction', 'createEng');
+
+      $smartyHelper->assign('engStateList', getEngStateList());
+      $smartyHelper->assign('engState', Engagement::$stateNames[0]);
    }
 
 
@@ -138,6 +170,20 @@ if (isset($_SESSION['userid'])) {
       // -------- UPDATE ENG -------
 
       $eng = EngagementCache::getInstance()->getEngagement($engagementid);
+
+      $serviceid = $eng->getService();
+
+      echo "eng service = $serviceid";
+
+      if (NULL == $serviceid) {
+         unset($_SESSION['serviceid']);
+         $smartyHelper->assign('serviceid', 0);
+         $smartyHelper->assign('services', getServices($teamid, 0));
+      } else {
+         $_SESSION['serviceid'] = $serviceid;
+         $smartyHelper->assign('serviceid', $serviceid);
+         $smartyHelper->assign('services', getServices($teamid, $serviceid));
+      }
 
       // ------ Actions
 
@@ -149,6 +195,9 @@ if (isset($_SESSION['userid'])) {
 
       } else if ("updateEngInfo" == $action) {
 
+         $teamid = checkNumericValue($_POST['teamid']);
+         $_SESSION['teamid'] = $teamid;
+
          updateEngInfo($eng);
 
       } else if ("removeEngIssue" == $action) {
@@ -159,6 +208,7 @@ if (isset($_SESSION['userid'])) {
       // ------ Display Engagement
       $smartyHelper->assign('engInfoFormBtText', 'Save');
       $smartyHelper->assign('engInfoFormAction', 'updateEngInfo');
+      $smartyHelper->assign('isAddEngForm', true);
 
       displayEngagement($smartyHelper, $eng);
 

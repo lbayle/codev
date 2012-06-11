@@ -91,7 +91,7 @@ if (isset($_SESSION['userid'])) {
 echo "addEngagement<br>";
 
          $_SESSION['engid'] = 0;
-         header('Location:engagement_edit.php?engid=0');
+         header('Location:engagement_edit.php?engid=0&serviceid='.$serviceid);
 
       } else if ("updateServiceInfo" == $action) {
 echo "updateServiceInfo<br>";

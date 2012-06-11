@@ -160,7 +160,7 @@ function createEng() {
             <form id='addEngForm' name='addEngForm' method='post' action='{$page}'>
                <fieldset>
                   <select id='engSelector' name='engid'>
-                     <option value='0'>{t}( New Engagement ){/t}</option>
+                     <option value='0'>{t}--- New Engagement ---{/t}</option>
                      {foreach  $unassignedEng as $id => $name}
                      <option value="{$id}">{$name}</option>
                      {/foreach}

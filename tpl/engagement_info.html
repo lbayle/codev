@@ -56,14 +56,14 @@ $(document).ready(function() {
             </select>
             <label>{t}Engagement{/t}: </label>
             <select id='engagementSelector' name='engid'>
-               <option value='0'></option>
+               <option value='0'>{t}--- Create New Engagement ---{/t}</option>
                {foreach from=$engagements key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
             
-            <input type="hidden" name="action" value="noAction" />
+            <input type="hidden" name="action" value="displayEngagement" />
          </fieldset>
       </form>
    </div>

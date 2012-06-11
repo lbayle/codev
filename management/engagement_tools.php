@@ -51,13 +51,15 @@ function getEngagementIssues($engagement) {
    return $issueArray;
 }
 
-function getEngStateList($engagement) {
+function getEngStateList($engagement = NULL) {
 
    $stateList = NULL;
+   $engState = (NULL == $engagement) ? 0 : $engagement->getState();
+
    foreach (Engagement::$stateNames as $id => $name) {
        $stateList[$id] = array('id'       => $id,
                             'name'     => $name,
-                            'selected' => ($id == $engagement->getState())
+                            'selected' => ($id == $engState)
        );
    }
    return $stateList;
@@ -67,6 +69,7 @@ function getEngStateList($engagement) {
 function displayEngagement($smartyHelper, $eng) {
 
    $smartyHelper->assign('engid', $eng->getId());
+   $smartyHelper->assign('serviceid', $eng->getService());
    $smartyHelper->assign('engName', $eng->getName());
    $smartyHelper->assign('engStateList', getEngStateList($eng));
    $smartyHelper->assign('engState', Engagement::$stateNames[$eng->getState()]);

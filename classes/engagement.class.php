@@ -26,6 +26,7 @@ if (NULL == Logger::getConfigurationFile()) {
 
 include_once "issue_selection.class.php";
 include_once "team.class.php";
+include_once "service.class.php";
 include_once "engagement_cache.class.php";
 
 
@@ -59,7 +60,7 @@ class Engagement {
                                     Engagement::state_toBeValidated => "A valider",
                                     Engagement::state_validated     => "Validé",
                                     Engagement::state_toBeClosed    => "A clôturer",
-                                    Engagement::state_Closed        => "Clotûré",
+                                    Engagement::state_Closed        => "Clôturé",
                                     Engagement::state_toBeBilled    => "A facturer",
                                     Engagement::state_billed        => "Facturé",
                                     Engagement::state_payed         => "Payé");
@@ -74,6 +75,7 @@ class Engagement {
    private $startDate;
    private $deadline;
    private $teamid;
+   private $serviceid;
    private $state;
    private $budjetDev;
    private $budjetMngt;
@@ -147,6 +149,25 @@ class Engagement {
    public function getId() {
       return $this->id;
    }
+
+   public function getTeamid() {
+      return $this->teamid;
+   }
+   public function setTeamid($value) {
+
+      $this->teamid = $value;
+      $query = "UPDATE `codev_engagement_table` SET team_id = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
+
+
    public function getName() {
       return $this->name;
    }
@@ -390,8 +411,65 @@ class Engagement {
       }
    }
 
+   /**
+    * 
+    */
+   public function getService() {
+
+      if (NULL == $this->serviceid) {
+
+         $query  = "SELECT * FROM `codev_service_eng_table` WHERE engagement_id=$this->id ";
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         // can an Engagement belong to more than one service ?
+         while($row = mysql_fetch_object($result)) {
+
+            $this->serviceid = $row->service_id;
+            $this->logger->debug("Engagement $this->id is in service $this->serviceid");
+         }
+      }
+      return $this->serviceid;
+   }
 
 
+   /**
+    *
+    * @param int $value serviceid. if NULL or '0' then remove association
+    * @param int $type
+    *
+    */
+   public function setService($value, $type = Service::engType_dev) {
+
+      if ((NULL == $value) || (0 == $value)){
+
+         if (NULL == $this->getService()) { return; }
+         $query = "DELETE FROM `codev_service_eng_table` WHERE `engagement_id` = '$this->id' ";
+
+      } else {
+         if (NULL == $this->getService()) {
+            $query = "INSERT INTO `codev_service_eng_table` (`service_id`, `engagement_id`, `type`) ".
+                     "VALUES ('$value', '$this->id', '$type');";
+         } else {
+            $query = "UPDATE `codev_service_eng_table` SET service_id = '$value' WHERE engagement_id='$this->id' ";
+         }
+      }
+
+      $result = mysql_query($query);
+      if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+      }
+      $this->serviceid = $value;
+
+   }
 
 }
 ?>

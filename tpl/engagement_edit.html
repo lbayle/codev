@@ -74,6 +74,28 @@ $(document).ready(function() {
 
          <table class='invisible'>
                <tr>
+                  <th>{t}Team{/t}</th>
+                  <td>
+                     <select id='teamSelector' name='teamid'>
+                        <!--option value='0'></option-->
+                        {foreach from=$teams key=id item=i}
+                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                     </select>
+                  </td>
+               </tr>
+               <tr>
+                  <th>{t}Service{/t}</th>
+                  <td>
+                     <select id='serviceSelector' name='serviceid'>
+                        <option value='0'>{t}--- not assigned ---{/t}</option>
+                        {foreach from=$services key=id item=i}
+                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                     </select>
+                  </td>
+               </tr>
+               <tr>
                   <th>{t}Name{/t}</th>
                   <td><input type='text' size='80' style='font-family: sans-serif' name='engName'  id='engName' value='{$engName}'></td>
                </tr>
@@ -126,7 +148,6 @@ $(document).ready(function() {
          <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$engInfoFormBtText}{/t}</button>
 
          <input type="hidden" name="action" value="{$engInfoFormAction}" />
-         <input type="hidden" name="teamid" value="{$teamid}" />
          <input type="hidden" name="engid" value="{$engagementid}" />
       </fieldset>
       </form>
@@ -146,6 +167,7 @@ $(document).ready(function() {
 
       <div id="tabsName-1">
 
+         {if $isAddEngForm}
          <div>
             <!-- create form -->
             <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
@@ -160,7 +182,9 @@ $(document).ready(function() {
                </fieldset>
             </form>
          </div>
-
+         {else}
+         {t}Create the Engagement to add some tasks.{/t}
+         {/if}
 
          {if $engIssues}
          <div align="center">
