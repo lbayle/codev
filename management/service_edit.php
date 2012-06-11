@@ -91,13 +91,14 @@ if (isset($_SESSION['userid'])) {
 echo "addEngagement<br>";
 
          $_SESSION['engid'] = 0;
-         header('Location:engagement_edit.php?engid=0&serviceid='.$serviceid);
+         header('Location:engagement_edit.php?engid=0');
 
       } else if ("updateServiceInfo" == $action) {
 echo "updateServiceInfo<br>";
-      } else if ("removeEngagement" == $action) {
-echo "removeEngagement<br>";
+      } else if ("removeEng" == $action) {
 
+         $engid = checkNumericValue($_POST['engid']);
+         $service->removeEngagement($engid);
       }
 
       // ------ Display Service
