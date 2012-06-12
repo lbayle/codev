@@ -117,6 +117,7 @@
                   </tr>
                </table>
                {if $productionDaysUrl}<img width="800px" height="300px" src="graphs/pie_graph.php?size=800:300&{$productionDaysUrl}" alt="{t}Production Days{/t}" />{/if}
+               <div class="spacer"></div>
             </div>
 
             {else}
@@ -240,7 +241,7 @@
                   <p>{t}Platform Availability{/t}</p>
                   <p><strong>{t}Formula{/t}:</strong><br />100 - (({t}breakdownDays{/t} / {t}prodDays{/t})*100)</p>
                </div>
-               <table width="300px" class="float">
+               <table width="300px">
                   <caption>{t}Productivity indicators{/t}</caption>
                   <tr>
                      <th>{t}Indicator{/t}</th>
@@ -263,7 +264,6 @@
                      <td><a id="dialog_SystemAvailability_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></td>
                   </tr>
                </table>
-               <div class="spacer"></div>
             </div>
             {else}
             {t}Not available.{/t}
@@ -433,10 +433,7 @@
          </div>
       </div>
 
-
-
-
 </div>
 {else}
-<div id="content"" class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
+<div id="content" class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
 {/if}
