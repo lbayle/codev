@@ -26,13 +26,13 @@ require('super_header.inc.php');
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
-include_once "service.class.php";
+include_once "commandset.class.php";
 
-include "service_tools.php";
+include "commandset_tools.php";
 
 include_once "smarty_tools.php";
 
-$logger = Logger::getLogger("service_edit");
+$logger = Logger::getLogger("commandset_edit");
 
 
 // your functions here
@@ -58,14 +58,14 @@ if (isset($_SESSION['userid'])) {
    $_SESSION['teamid'] = $teamid;
 
    // ---
-   // use the serviceid set in the form, if not defined (first page call) use session serviceid
-   $serviceid = 0;
-   if(isset($_POST['serviceid'])) {
-      $serviceid = $_POST['serviceid'];
-   } else if(isset($_SESSION['serviceid'])) {
-      $serviceid = $_SESSION['serviceid'];
+   // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
+   $commandsetid = 0;
+   if(isset($_POST['commandsetid'])) {
+      $commandsetid = $_POST['commandsetid'];
+   } else if(isset($_SESSION['commandsetid'])) {
+      $commandsetid = $_SESSION['commandsetid'];
    }
-   $_SESSION['serviceid'] = $serviceid;
+   $_SESSION['commandsetid'] = $commandsetid;
 
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -77,12 +77,12 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('teamid', $teamid);
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
-   $smartyHelper->assign('serviceid', $serviceid);
-   $smartyHelper->assign('services', getServices($teamid, $serviceid));
+   $smartyHelper->assign('commandsetid', $commandsetid);
+   $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
 
 
-   if (0 != $serviceid) {
-      $service = new Service($serviceid);
+   if (0 != $commandsetid) {
+      $commandset = new CommandtSet($commandsetid);
 
 
       // ------ Actions
@@ -98,12 +98,12 @@ echo "updateServiceInfo<br>";
       } else if ("removeEng" == $action) {
 
          $engid = checkNumericValue($_POST['engid']);
-         $service->removeEngagement($engid);
+         $commandset->removeEngagement($engid);
       }
 
       // ------ Display Service
 
-      displayService($smartyHelper, $service);
+      displayService($smartyHelper, $commandset);
 
    }
    

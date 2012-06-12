@@ -26,7 +26,7 @@ if (NULL == Logger::getConfigurationFile()) {
 
 include_once "issue_selection.class.php";
 include_once "team.class.php";
-include_once "service.class.php";
+include_once "commandset.class.php";
 include_once "engagement_cache.class.php";
 
 
@@ -75,7 +75,7 @@ class Engagement {
    private $startDate;
    private $deadline;
    private $teamid;
-   private $serviceid;
+   private $commandSetId;
    private $state;
    private $budjetDev;
    private $budjetMngt;
@@ -414,11 +414,11 @@ class Engagement {
    /**
     * 
     */
-   public function getService() {
+   public function getCommandSet() {
 
-      if (NULL == $this->serviceid) {
+      if (NULL == $this->commandSetId) {
 
-         $query  = "SELECT * FROM `codev_service_eng_table` WHERE engagement_id=$this->id ";
+         $query  = "SELECT * FROM `codev_commandset_eng_table` WHERE engagement_id=$this->id ";
          $result = mysql_query($query);
          if (!$result) {
             $this->logger->error("Query FAILED: $query");
@@ -427,36 +427,36 @@ class Engagement {
             exit;
          }
 
-         // can an Engagement belong to more than one service ?
+         // can an Engagement belong to more than one commandset ?
          while($row = mysql_fetch_object($result)) {
 
-            $this->serviceid = $row->service_id;
-            $this->logger->debug("Engagement $this->id is in service $this->serviceid");
+            $this->commandSetId = $row->commandset_id;
+            $this->logger->debug("Engagement $this->id is in commandset $this->commandSetId");
          }
       }
-      return $this->serviceid;
+      return $this->commandSetId;
    }
 
 
    /**
     *
-    * @param int $value serviceid. if NULL or '0' then remove association
+    * @param int $value commandsetid. if NULL or '0' then remove association
     * @param int $type
     *
     */
-   public function setService($value, $type = Service::engType_dev) {
+   public function setCommandSet($value, $type = CommandtSet::engType_dev) {
 
       if ((NULL == $value) || (0 == $value)){
 
-         if (NULL == $this->getService()) { return; }
-         $query = "DELETE FROM `codev_service_eng_table` WHERE `engagement_id` = '$this->id' ";
+         if (NULL == $this->getCommandSet()) { return; }
+         $query = "DELETE FROM `codev_commandset_eng_table` WHERE `engagement_id` = '$this->id' ";
 
       } else {
-         if (NULL == $this->getService()) {
-            $query = "INSERT INTO `codev_service_eng_table` (`service_id`, `engagement_id`, `type`) ".
+         if (NULL == $this->getCommandSet()) {
+            $query = "INSERT INTO `codev_commandset_eng_table` (`commandset_id`, `engagement_id`, `type`) ".
                      "VALUES ('$value', '$this->id', '$type');";
          } else {
-            $query = "UPDATE `codev_service_eng_table` SET service_id = '$value' WHERE engagement_id='$this->id' ";
+            $query = "UPDATE `codev_commandset_eng_table` SET commandset_id = '$value' WHERE engagement_id='$this->id' ";
          }
       }
 
@@ -467,7 +467,7 @@ class Engagement {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
       }
-      $this->serviceid = $value;
+      $this->commandSetId = $value;
 
    }
 

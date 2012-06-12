@@ -26,13 +26,13 @@ require('super_header.inc.php');
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
-include_once "service.class.php";
+include_once "commandset.class.php";
 include_once "engagement.class.php";
 
 include_once "smarty_tools.php";
 
 include "engagement_tools.php";
-include "service_tools.php";
+include "commandset_tools.php";
 
 $logger = Logger::getLogger("engagement_edit");
 
@@ -45,7 +45,7 @@ function updateEngInfo($eng) {
    // security check
    $eng->setTeamid(checkNumericValue($_POST['teamid']));
 
-   $eng->setService(checkNumericValue($_POST['serviceid']));
+   $eng->setCommandSet(checkNumericValue($_POST['commandsetid']));
 
    $formattedValue = mysql_real_escape_string($_POST['engName']);
    $eng->setName($formattedValue);
@@ -110,15 +110,15 @@ if (isset($_SESSION['userid'])) {
    }
    $_SESSION['engid'] = $engagementid;
 
-   // use the serviceid set in the form, if not defined (first page call) use session serviceid
-   // Note: It is used for createEnv but will be overridden by the displayed engagement's serviceid.
-   $serviceid = 0;
-   if(isset($_POST['serviceid'])) {
-      $serviceid = $_POST['serviceid'];
-   } else if(isset($_SESSION['serviceid'])) {
-      $serviceid = $_SESSION['serviceid'];
+   // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
+   // Note: It is used for createEnv but will be overridden by the displayed engagement's commandsetid.
+   $commandsetid = 0;
+   if(isset($_POST['commandsetid'])) {
+      $commandsetid = $_POST['commandsetid'];
+   } else if(isset($_SESSION['commandsetid'])) {
+      $commandsetid = $_SESSION['commandsetid'];
    }
-   $_SESSION['serviceid'] = $serviceid;
+   $_SESSION['commandsetid'] = $commandsetid;
 
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -160,8 +160,8 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('engStateList', getEngStateList());
       $smartyHelper->assign('engState', Engagement::$stateNames[0]);
 
-      $smartyHelper->assign('serviceid', $serviceid);
-      $smartyHelper->assign('services', getServices($teamid, $serviceid));
+      $smartyHelper->assign('commandsetid', $commandsetid);
+      $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
    }
 
 
@@ -193,21 +193,21 @@ if (isset($_SESSION['userid'])) {
 
 
       // --- set Service according to the displayed engagement
-     $serviceid = $eng->getService();
+     $commandsetid = $eng->getCommandSet();
 
 
-   if ((NULL == $serviceid) || (0 == $serviceid)) {
-         unset($_SESSION['serviceid']);
-         #$smartyHelper->assign('serviceid', 0);
-         $smartyHelper->assign('services', getServices($teamid, 0));
+   if ((NULL == $commandsetid) || (0 == $commandsetid)) {
+         unset($_SESSION['commandsetid']);
+         #$smartyHelper->assign('commandsetid', 0);
+         $smartyHelper->assign('commandsets', getServices($teamid, 0));
       } else {
-         $_SESSION['serviceid'] = $serviceid;
-         $smartyHelper->assign('serviceid', $serviceid);
-         $smartyHelper->assign('services', getServices($teamid, $serviceid));
+         $_SESSION['commandsetid'] = $commandsetid;
+         $smartyHelper->assign('commandsetid', $commandsetid);
+         $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
 
-         $service = new Service($serviceid); // TODO use cache
-         $serviceName = $service->getName();
-         $smartyHelper->assign('serviceName', $serviceName);
+         $commandset = new CommandtSet($commandsetid); // TODO use cache
+         $commandsetName = $commandset->getName();
+         $smartyHelper->assign('commandsetName', $commandsetName);
       }
  
 

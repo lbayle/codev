@@ -143,11 +143,11 @@ if (isset($_SESSION['userid'])) {
 
       $eng = EngagementCache::getInstance()->getEngagement($engagementid);
 
-      $serviceid = $eng->getService();
-      if ((NULL != $serviceid) && (0 != $serviceid)) {
-         $service = new Service($serviceid); // TODO use cache
-         $serviceName = $service->getName();
-         $smartyHelper->assign('serviceName', $serviceName);
+      $commandsetid = $eng->getCommandSet();
+      if ((NULL != $commandsetid) && (0 != $commandsetid)) {
+         $commandset = new CommandtSet($commandsetid); // TODO use cache
+         $commandsetName = $commandset->getName();
+         $smartyHelper->assign('commandsetName', $commandsetName);
       }
 
       displayEngagement($smartyHelper, $eng);

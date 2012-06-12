@@ -3,17 +3,17 @@
 <script type="text/javascript">
 
 function setTeam() {
-   document.forms["serviceSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["serviceSelectForm"].serviceid.value="0";
-   document.forms["serviceSelectForm"].action.value="setTeam";
-   document.forms["serviceSelectForm"].submit();
+   document.forms["commandsetSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["commandsetSelectForm"].commandsetid.value="0";
+   document.forms["commandsetSelectForm"].action.value="setTeam";
+   document.forms["commandsetSelectForm"].submit();
 }
 
 function submitForm() {
-   document.forms["serviceSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["serviceSelectForm"].serviceid.value = document.getElementById('serviceSelector').value;
-   document.forms["serviceSelectForm"].action.value = "displayService";
-   document.forms["serviceSelectForm"].submit();
+   document.forms["commandsetSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["commandsetSelectForm"].commandsetid.value = document.getElementById('commandsetSelector').value;
+   document.forms["commandsetSelectForm"].action.value = "displayService";
+   document.forms["commandsetSelectForm"].submit();
  }
 
 //------ JQUERY --------
@@ -55,7 +55,7 @@ $(document).ready(function() {
 
    <div align="center">
       <!-- create form -->
-      <form id='serviceSelectForm' name='serviceSelectForm' method='post' action='{$page}'>
+      <form id='commandsetSelectForm' name='commandsetSelectForm' method='post' action='{$page}'>
          <fieldset>
             <label>{t}Team{/t}: </label>
             <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
@@ -65,9 +65,9 @@ $(document).ready(function() {
                {/foreach}
             </select>
             <label>{t}Service{/t}: </label>
-            <select id='serviceSelector' name='serviceid'>
+            <select id='commandsetSelector' name='commandsetid'>
                <option value='0'></option>
-               {foreach from=$services key=id item=i}
+               {foreach from=$commandsets key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
@@ -81,10 +81,10 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
    
-   {if $serviceid}
+   {if $commandsetid}
    <div  align="center">
-      <h2>{$serviceName}</h2>
-      {$serviceDesc}
+      <h2>{$commandsetName}</h2>
+      {$commandsetDesc}
    </div>
 
    {if $consistencyErrors}
@@ -113,11 +113,11 @@ $(document).ready(function() {
       <table class='invisible'>
             <tr>
                <th>{t}Date{/t}</th>
-               <td>: {$serviceDate}</td>
+               <td>: {$commandsetDate}</td>
             </tr>
       </table>
       <br>
-      <button onclick="location.href='management/service_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      <button onclick="location.href='management/commandset_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
    </div>
 
    <br/><br/>

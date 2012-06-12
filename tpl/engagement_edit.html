@@ -64,11 +64,11 @@ jQuery(document).ready(function() {
                   </td>
                </tr>
                <tr>
-                  <th>{t}Service{/t}</th>
+                  <th>{t}CommandSet{/t}</th>
                   <td>
-                     <select id='serviceSelector' name='serviceid'>
+                     <select id='commandsetSelector' name='commandsetid'>
                         <option value='0'>{t}--- not assigned ---{/t}</option>
-                        {foreach from=$services key=id item=i}
+                        {foreach from=$commandsets key=id item=i}
                         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                         {/foreach}
                      </select>

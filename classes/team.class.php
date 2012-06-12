@@ -59,7 +59,7 @@ class Team {
 
    private $projTypeList;
    private $engagementList;
-   private $serviceList;
+   private $commandSetList;
 
 
    // -------------------------------------------------------
@@ -405,9 +405,9 @@ class Team {
     *
     * @return array id => Service
     */
-   public function getServices() {
-      if (NULL == $this->serviceList) {
-         $query = "SELECT DISTINCT * FROM `codev_service_table` ".
+   public function getCommandSetList() {
+      if (NULL == $this->commandSetList) {
+         $query = "SELECT DISTINCT * FROM `codev_commandset_table` ".
             "WHERE team_id = $this->id ";
 
          $result = mysql_query($query);
@@ -417,16 +417,16 @@ class Team {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $this->serviceList = array();
+         $this->commandSetList = array();
          while($row = mysql_fetch_object($result))
          {
-            $service = new Service($row->id);
-            $this->serviceList[$row->id] = $service;
+            $commandset = new CommandtSet($row->id);
+            $this->commandSetList[$row->id] = $commandset;
          }
       }
 
-      $this->logger->debug("getServices(teamid=$this->id) nbServices=".count($this->serviceList));
-      return $this->serviceList;
+      $this->logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
+      return $this->commandSetList;
    }
 
 

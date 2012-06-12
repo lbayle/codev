@@ -36,9 +36,9 @@ function createEng() {
 
 <div id="content">
 
-   {if $serviceid}
+   {if $commandsetid}
    <div  align="center">
-      <h2  title="{$serviceid}">{$serviceName}</h2>
+      <h2  title="{$commandsetid}">{$commandsetName}</h2>
    </div>
 
    <br/><br/>
@@ -51,11 +51,11 @@ function createEng() {
          <table class='invisible'>
                <tr>
                   <th>{t}Name{/t}</th>
-                  <td><input type='text' size='80' style='font-family: sans-serif' name='serviceName'  id='serviceName' value='{$serviceName}'></td>
+                  <td><input type='text' size='80' style='font-family: sans-serif' name='commandsetName'  id='commandsetName' value='{$commandsetName}'></td>
                </tr>
                <tr>
                   <th>{t}Description{/t}</th>
-                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='serviceDesc'  id='serviceDesc'>{$serviceDesc}</textarea></td>
+                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='commandsetDesc'  id='commandsetDesc'>{$commandsetDesc}</textarea></td>
                </tr>
          </table>
          <br>
@@ -63,7 +63,7 @@ function createEng() {
 
          <input type="hidden" name="action" value="updateServiceInfo" />
          <input type="hidden" name="teamid" value="{$teamid}" />
-         <input type="hidden" name="serviceid" value="{$serviceid}" />
+         <input type="hidden" name="commandsetid" value="{$commandsetid}" />
       </fieldset>
       </form>
 
@@ -124,7 +124,7 @@ function createEng() {
                   <input type="hidden" name="action" value="removeEng" />
                   <input type="hidden" name="engid"  value="0" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="serviceid"  value="{$serviceid}" />
+                  <input type="hidden" name="commandsetid"  value="{$commandsetid}" />
 
                </fieldset>
             </form>
@@ -170,7 +170,7 @@ function createEng() {
 
                   <input type="hidden" name="action" value="addEngagement" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="serviceid" value="{$serviceid}" />
+                  <input type="hidden" name="commandsetid" value="{$commandsetid}" />
                </fieldset>
             </form>
          </div>

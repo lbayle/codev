@@ -30,25 +30,25 @@ include_once "team.class.php";
 
 
 /**
- * Un service (fiche de presta) est un ensemble de taches que l'on veut
+ * Un commandset (ennonce de presta) est un ensemble de taches que l'on veut
  * piloter a l'aide d'indicateurs (cout, delai, qualite, avancement)
  *
- * un service peut contenir des taches précises (mantis)
+ * un commandset peut contenir des taches précises (mantis)
  * mais également définir des objectifs d'ordre global ou non
  * liés au dev.
  *
- * un service est provisionné d'un certain budjet, négocié avec le client.
+ * un commandset est provisionné d'un certain budjet, négocié avec le client.
  * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budjet.
  */
-class Service {
+class CommandtSet {
 
-   const engType_dev   = 1;    // in table codev_service_eng_table
-   const engType_mngt  = 2;    // in table codev_service_eng_table
+   const engType_dev   = 1;    // in table codev_commandset_eng_table
+   const engType_mngt  = 2;    // in table codev_commandset_eng_table
 
 
    private $logger;
 
-   // codev_service_table
+   // codev_commandset_table
    private $id;
    private $name;
    private $description;
@@ -79,7 +79,7 @@ class Service {
 
    private function initialize() {
       // ---
-      $query  = "SELECT * FROM `codev_service_table` WHERE id=$this->id ";
+      $query  = "SELECT * FROM `codev_commandset_table` WHERE id=$this->id ";
       $result = mysql_query($query);
       if (!$result) {
          $this->logger->error("Query FAILED: $query");
@@ -95,8 +95,8 @@ class Service {
 
       // ---
       $this->engByTypeList = array();
-      $query  = "SELECT * FROM `codev_service_eng_table` ".
-                "WHERE service_id=$this->id ";
+      $query  = "SELECT * FROM `codev_commandset_eng_table` ".
+                "WHERE commandset_id=$this->id ";
                 "ORDER BY type ASC, engagement_id ASC";
 
       $result = mysql_query($query);
@@ -125,7 +125,7 @@ class Service {
    public function setName($name) {
       $formattedValue = mysql_real_escape_string($name);
       $this->name = $formattedValue;
-      $query = "UPDATE `codev_service_table` SET name = '$formattedValue' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_commandset_table` SET name = '$formattedValue' WHERE id='$this->id' ";
       $result = mysql_query($query);
       if (!$result) {
              $this->logger->error("Query FAILED: $query");
@@ -141,7 +141,7 @@ class Service {
    public function setDesc($description) {
       $formattedValue = mysql_real_escape_string($description);
       $this->description = $formattedValue;
-      $query = "UPDATE `codev_service_table` SET description = '$formattedValue' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_commandset_table` SET description = '$formattedValue' WHERE id='$this->id' ";
       $result = mysql_query($query);
       if (!$result) {
              $this->logger->error("Query FAILED: $query");
@@ -157,7 +157,7 @@ class Service {
    public function setDate($value) {
       $formattedValue = mysql_real_escape_string($value);
       $this->date = date2timestamp($formattedValue);
-      $query = "UPDATE `codev_service_table` SET date = '$this->date' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_commandset_table` SET date = '$this->date' WHERE id='$this->id' ";
       $result = mysql_query($query);
       if (!$result) {
              $this->logger->error("Query FAILED: $query");
@@ -189,12 +189,12 @@ class Service {
 
 
    /**
-    * create a new service in the DB
+    * create a new commandset in the DB
     *
     * @return int $id
     */
    public static function create($name, $date, $teamid) {
-    $query = "INSERT INTO `codev_service_table`  (`name`, `date`, `team_id`) ".
+    $query = "INSERT INTO `codev_commandset_table`  (`name`, `date`, `team_id`) ".
              "VALUES ('$name','$date', '$teamid');";
     $result = mysql_query($query);
     if (!$result) {
@@ -208,7 +208,7 @@ class Service {
    }
 
    /**
-    * add Issue to service (in DB & current instance)
+    * add Command to commandset (in DB & current instance)
     *
     * @param int $bugid
     */
@@ -222,14 +222,14 @@ class Service {
          return NULL;
       }
 
-      $this->logger->debug("Add engagement $engid to service $this->id");
+      $this->logger->debug("Add engagement $engid to commandset $this->id");
 
       if (NULL == $this->engByTypeList["$type"]) {
          $this->engByTypeList["$type"] = array();
       }
       $this->engByTypeList["$type"][] = $engid;
 
-      $query = "INSERT INTO `codev_service_eng_table` (`service_id`, `engagement_id`, `type`) VALUES ('$this->id', '$engid', '$type');";
+      $query = "INSERT INTO `codev_commandset_eng_table` (`commandset_id`, `engagement_id`, `type`) VALUES ('$this->id', '$engid', '$type');";
       $result = mysql_query($query);
       if (!$result) {
          $this->logger->error("Query FAILED: $query");
@@ -243,7 +243,7 @@ class Service {
    }
 
    /**
-    * remove engagement from service engagementList.
+    * remove engagement from commandset engagementList.
     * the Engagement itself is not deleted.
     *
     * @param int $engid
@@ -260,7 +260,7 @@ class Service {
       }
 
 
-      $query = "DELETE FROM `codev_service_eng_table` WHERE service_id='$this->id' AND engagement_id='$engid';";
+      $query = "DELETE FROM `codev_commandset_eng_table` WHERE commandset_id='$this->id' AND engagement_id='$engid';";
       $result = mysql_query($query);
       if (!$result) {
          $this->logger->error("Query FAILED: $query");
@@ -277,7 +277,7 @@ class Service {
 
       if (NULL == $this->serviceContractId) {
 
-         $query  = "SELECT * FROM `codev_servicecontract_srv_table` WHERE service_id=$this->id ";
+         $query  = "SELECT * FROM `codev_servicecontract_srv_table` WHERE commandset_id=$this->id ";
          $result = mysql_query($query);
          if (!$result) {
             $this->logger->error("Query FAILED: $query");
@@ -308,14 +308,14 @@ class Service {
       if ((NULL == $value) || (0 == $value)) {
 
          if (NULL == $this->getContractService()) { return; }
-         $query = "DELETE FROM `codev_servicecontract_srv_table` WHERE `service_id` = '$this->id' ";
+         $query = "DELETE FROM `codev_servicecontract_srv_table` WHERE `commandset_id` = '$this->id' ";
 
       } else {
          if (NULL == $this->getContractService()) {
-            $query = "INSERT INTO `codev_servicecontract_srv_table` (`servicecontract_id`, `service_id`, `type`) ".
+            $query = "INSERT INTO `codev_servicecontract_srv_table` (`servicecontract_id`, `commandset_id`, `type`) ".
                      "VALUES ('$value', '$this->id', '$type');";
          } else {
-            $query = "UPDATE `codev_servicecontract_srv_table` SET servicecontract_id = '$value' WHERE service_id='$this->id' ";
+            $query = "UPDATE `codev_servicecontract_srv_table` SET servicecontract_id = '$value' WHERE commandset_id='$this->id' ";
          }
       }
 

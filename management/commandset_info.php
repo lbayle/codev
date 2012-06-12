@@ -23,16 +23,16 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
-include_once "service.class.php";
+include_once "commandset.class.php";
 include_once "engagement.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 
-include "service_tools.php";
+include "commandset_tools.php";
 
 include_once "smarty_tools.php";
 
-$logger = Logger::getLogger("service_info");
+$logger = Logger::getLogger("commandset_info");
 
 
 // =========== MAIN ==========
@@ -57,27 +57,27 @@ if (isset($_SESSION['userid'])) {
    $_SESSION['teamid'] = $teamid;
 
    // ---
-   // use the serviceid set in the form, if not defined (first page call) use session serviceid
-   $serviceid = 0;
-   if(isset($_POST['serviceid'])) {
-      $serviceid = $_POST['serviceid'];
-   } else if(isset($_SESSION['serviceid'])) {
-      $serviceid = $_SESSION['serviceid'];
+   // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
+   $commandsetid = 0;
+   if(isset($_POST['commandsetid'])) {
+      $commandsetid = $_POST['commandsetid'];
+   } else if(isset($_SESSION['commandsetid'])) {
+      $commandsetid = $_SESSION['commandsetid'];
    }
-   $_SESSION['serviceid'] = $serviceid;
+   $_SESSION['commandsetid'] = $commandsetid;
 
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
-   $smartyHelper->assign('serviceid', $serviceid);
-   $smartyHelper->assign('services', getServices($teamid, $serviceid));
+   $smartyHelper->assign('commandsetid', $commandsetid);
+   $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
 
-   if (0 != $serviceid) {
-      $service = new Service($serviceid);
+   if (0 != $commandsetid) {
+      $commandset = new CommandtSet($commandsetid);
 
-      displayService($smartyHelper, $service);
+      displayService($smartyHelper, $commandset);
    }
 
 

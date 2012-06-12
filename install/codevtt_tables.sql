@@ -260,13 +260,13 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_table` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_servicecontract_service_table`
+-- Structure de la table `codev_servicecontract_commandset_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_servicecontract_srv_table` (
+CREATE TABLE IF NOT EXISTS `codev_servicecontract_cmdset_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `servicecontract_id` int(11) NOT NULL,
-  `service_id` int(11) NOT NULL,
+  `commandset_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -274,10 +274,10 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_srv_table` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_service_table`
+-- Structure de la table `codev_commandset_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_service_table` (
+CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
   `date` int(11) unsigned default NULL,
@@ -289,12 +289,12 @@ CREATE TABLE IF NOT EXISTS `codev_service_table` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_service_eng_table`
+-- Structure de la table `codev_commandset_eng_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_service_eng_table` (
+CREATE TABLE IF NOT EXISTS `codev_commandset_eng_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `service_id` int(11) NOT NULL,
+  `commandset_id` int(11) NOT NULL,
   `engagement_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
