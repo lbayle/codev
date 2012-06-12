@@ -54,7 +54,7 @@ class Service {
    private $description;
    private $date;
    private $teamid;
-   private $commandid;
+   private $serviceContractId;
 
    // list of engagements, ordered by type
    // engByTypeList[type][engid]
@@ -273,11 +273,11 @@ class Service {
    /**
     *
     */
-   public function getCommand() {
+   public function getContractService() {
 
-      if (NULL == $this->commandid) {
+      if (NULL == $this->serviceContractId) {
 
-         $query  = "SELECT * FROM `codev_command_srv_table` WHERE service_id=$this->id ";
+         $query  = "SELECT * FROM `codev_servicecontract_srv_table` WHERE service_id=$this->id ";
          $result = mysql_query($query);
          if (!$result) {
             $this->logger->error("Query FAILED: $query");
@@ -286,36 +286,36 @@ class Service {
             exit;
          }
 
-         // can a Service belong to more than one command ?
+         // can a Service belong to more than one servicecontract ?
          while($row = mysql_fetch_object($result)) {
 
-            $this->commandid = $row->command_id;
-            $this->logger->debug("Service $this->id is in command $this->commandid");
+            $this->serviceContractId = $row->servicecontract_id;
+            $this->logger->debug("Service $this->id is in servicecontract $this->serviceContractId");
          }
       }
-      return $this->commandid;
+      return $this->serviceContractId;
    }
 
 
    /**
     *
-    * @param int $value commandid. if NULL or '0' then remove association
+    * @param int $value servicecontractid. if NULL or '0' then remove association
     * @param int $type
     *
     */
-   public function setCommand($value, $type = 1) {
+   public function setContractService($value, $type = 1) {
 
       if ((NULL == $value) || (0 == $value)) {
 
-         if (NULL == $this->getCommand()) { return; }
-         $query = "DELETE FROM `codev_command_srv_table` WHERE `service_id` = '$this->id' ";
+         if (NULL == $this->getContractService()) { return; }
+         $query = "DELETE FROM `codev_servicecontract_srv_table` WHERE `service_id` = '$this->id' ";
 
       } else {
-         if (NULL == $this->getCommand()) {
-            $query = "INSERT INTO `codev_command_srv_table` (`command_id`, `service_id`, `type`) ".
+         if (NULL == $this->getContractService()) {
+            $query = "INSERT INTO `codev_servicecontract_srv_table` (`servicecontract_id`, `service_id`, `type`) ".
                      "VALUES ('$value', '$this->id', '$type');";
          } else {
-            $query = "UPDATE `codev_command_srv_table` SET command_id = '$value' WHERE service_id='$this->id' ";
+            $query = "UPDATE `codev_servicecontract_srv_table` SET servicecontract_id = '$value' WHERE service_id='$this->id' ";
          }
       }
 
@@ -326,7 +326,7 @@ class Service {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
       }
-      $this->commandid = $value;
+      $this->serviceContractId = $value;
 
    }
 

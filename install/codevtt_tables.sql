@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 7, 1),
+('database_version', 8, 1),
 ('job_support', 2, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
@@ -246,10 +246,10 @@ CREATE TABLE IF NOT EXISTS `codev_blog_activity_table` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_command_table`
+-- Structure de la table `codev_servicecontract_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_command_table` (
+CREATE TABLE IF NOT EXISTS `codev_servicecontract_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
   `team_id` int(11) NOT NULL,
@@ -260,12 +260,12 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `codev_command_service_table`
+-- Structure de la table `codev_servicecontract_service_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_command_srv_table` (
+CREATE TABLE IF NOT EXISTS `codev_servicecontract_srv_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `command_id` int(11) NOT NULL,
+  `servicecontract_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
