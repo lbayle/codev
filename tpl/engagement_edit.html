@@ -5,26 +5,6 @@
 <script type="text/javascript">
 
 
-function addEngIssue(){
-
-   // check fields
-   var foundError = 0;
-   var msgString = "{t}Missing field{/t}:\n\n";
-
-   if (0 == document.forms["addEngIssueForm"].bugid.value) {
-      msgString += "{t}task id{/t}\n";
-      ++foundError;
-   }
-
-   if (0 == foundError) {
-     document.forms["addEngIssueForm"].teamid.value ="{$teamid}";
-     document.forms["addEngIssueForm"].engid.value="{$engagementid}";
-     document.forms["addEngIssueForm"].action.value="addEngIssue";
-     document.forms["addEngIssueForm"].submit();
-   } else {
-     alert(msgString);
-   }
-}
 
 //------ JQUERY --------
 jQuery(document).ready(function() {
@@ -35,10 +15,7 @@ jQuery(document).ready(function() {
    // Set the date
    jQuery("#engStartDate").datepicker("setDate" ,"{$engStartDate}");
    jQuery("#engDeadline").datepicker("setDate" ,"{$engDeadline}");
-});
 
-
-$(document).ready(function() {
    $('#issues_table').dataTable(
       {
          "sScrollY": "700px",
@@ -49,9 +26,11 @@ $(document).ready(function() {
          "bInfo": false,
          "bAutoWidth": false
       });
+
       jQuery(function() {
          jQuery( "#tabsEngagement" ).tabs();
       });
+
 });
 
 </script>
@@ -168,15 +147,53 @@ $(document).ready(function() {
       <div id="tabsName-1">
 
          {if $isAddEngForm}
+         <script type="text/javascript">
+         //------ JQUERY --------
+         jQuery(document).ready(function() {
+
+            jQuery("#btAddEngIssue").click(function(event) {
+               addEngIssue();
+            });
+
+            jQuery("#bugid").keypress(function(event) {
+               if ( jQuery.ui.keyCode.ENTER == event.keyCode ) {
+               addEngIssue();
+               event.preventDefault();
+               }
+            });
+
+            function addEngIssue(){
+
+               // check fields
+               var foundError = 0;
+               var msgString = "{t}Missing field{/t}:\n\n";
+
+               if ("" == document.forms["addEngIssueForm"].bugid.value) {
+                  msgString += "{t}task id{/t}\n";
+                  ++foundError;
+               }
+
+               if (0 == foundError) {
+                  document.forms["addEngIssueForm"].submit();
+               } else {
+                  alert(msgString);
+               }
+            }
+
+
+         });
+
+         </script>
+
          <div>
             <!-- create form -->
             <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
                <fieldset>
                   <label>{t}Add task{/t}: </label>
-                  <input  type='text'size='5' value='' name='bugid' id='bugid' />
-                  <input type="button" value='{t}Add{/t}' onclick='javascript: addEngIssue()' />
+                  <input id='bugid' name='bugid' type='text' size='5' value='' />
+                  <input id="btAddEngIssue" type="button" value='{t}Add{/t}' />
 
-                  <input type="hidden" name="action" value="noAction" />
+                  <input type="hidden" name="action" value="addEngIssue" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="engid" value="{$engagementid}" />
                </fieldset>
