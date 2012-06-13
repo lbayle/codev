@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `project_id` int(11) NOT NULL DEFAULT '0',
   `team_id` int(11) NOT NULL DEFAULT '0',
   `access_reqd` int(11) DEFAULT NULL,
-  `desc` longtext,
+  `description` longtext,
   PRIMARY KEY (`config_id`,`team_id`,`project_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -133,6 +133,18 @@ CREATE TABLE IF NOT EXISTS `codev_sidetasks_category_table` (
   KEY `project_id_2` (`project_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
+
+--
+-- Table structure for table `codev_project_category_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_project_category_table` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`project_id`,`category_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

@@ -33,11 +33,21 @@ RENAME TABLE `codev_engagement_bug_table` To `codev_command_bug_table`;
 
 ALTER TABLE `codev_command_bug_table` CHANGE `engagement_id` `command_id` int(11);
 
+-- -----------------
+
+CREATE TABLE IF NOT EXISTS `codev_project_category_table` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`project_id`,`category_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 
 
 -- -----------------
 UPDATE `codev_config_table` SET `value`='8' WHERE `config_id`='database_version';
+ALTER TABLE `codev_config_table` CHANGE `desc` `description` longtext;
 
 
