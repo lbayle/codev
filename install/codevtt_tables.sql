@@ -282,6 +282,9 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
   `name` varchar(100) NOT NULL,
   `date` int(11) unsigned default NULL,
   `team_id` int(11) NOT NULL,
+  `budget` float default NULL,
+  `budget_days` int(11) default NULL,
+  `currency` varchar(3) default 'EUR',
   `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -314,9 +317,9 @@ CREATE TABLE IF NOT EXISTS `codev_engagement_table` (
   `deadline` int(11) default NULL,
   `team_id` int(11) NOT NULL,
   `state` int(11) unsigned default NULL,
-  `budjet_dev` int(11) unsigned default NULL,
-  `budjet_mngt` int(11) default NULL,
-  `budjet_garantie` int(11) default NULL,
+  `budget_dev` int(11) unsigned default NULL,
+  `budget_mngt` int(11) default NULL,
+  `budget_garantie` int(11) default NULL,
   `average_daily_rate` float default NULL,
   `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)

@@ -672,7 +672,7 @@ msgstr "Dérive"
 
 #: i18n/locale/smarty.c:53 i18n/locale/smarty.c:93 i18n/locale/smarty.c:337
 msgid "Overflow day quantity"
-msgstr "Nbre de jours de dépassement par rapport au budjet révisé"
+msgstr "Nbre de jours de dépassement par rapport au budget révisé"
 
 #: i18n/locale/smarty.c:57 i18n/locale/smarty.c:367 i18n/locale/smarty.c:449
 #: i18n/locale/smarty.c:462 i18n/locale/smarty.c:492 i18n/locale/smarty.c:550
@@ -777,7 +777,7 @@ msgstr "Tâches en dérive"
 
 #: i18n/locale/smarty.c:97 i18n/locale/smarty.c:345
 msgid "Tasks for which the elapsed time is greater than the estimated effort"
-msgstr "Tâches dont le consommé est superieur au budjet initial"
+msgstr "Tâches dont le consommé est superieur au budget initial"
 
 #: i18n/locale/smarty.c:99 i18n/locale/smarty.c:103 i18n/locale/smarty.c:107
 msgid "deviation"
@@ -799,7 +799,7 @@ msgstr "Tâches en avance"
 
 #: i18n/locale/smarty.c:105 i18n/locale/smarty.c:353
 msgid "Tasks resolved in less time than the estimated effort"
-msgstr "Tâches resolues en moins de temps que prevu dans le budjet initial"
+msgstr "Tâches resolues en moins de temps que prevu dans le budget initial"
 
 #: i18n/locale/smarty.c:108 i18n/locale/smarty.c:541
 msgid "Overview"
@@ -1403,16 +1403,16 @@ msgid "Euro"
 msgstr "Euro"
 
 #: i18n/locale/smarty.c:439 i18n/locale/smarty.c:608
-msgid "Budjet Developpement"
-msgstr "Budjet Dévelopement"
+msgid "Budget Developpement"
+msgstr "Budget Dévelopement"
 
 #: i18n/locale/smarty.c:441 i18n/locale/smarty.c:610
-msgid "Budjet Management"
-msgstr "Budjet Management"
+msgid "Budget Management"
+msgstr "Budget Management"
 
 #: i18n/locale/smarty.c:443 i18n/locale/smarty.c:612
-msgid "Budjet Garantie"
-msgstr "Budjet Garantie"
+msgid "Budget Garantie"
+msgstr "Budget Garantie"
 
 #: i18n/locale/smarty.c:445 i18n/locale/smarty.c:489
 msgid "Edit"
@@ -2462,7 +2462,7 @@ msgstr "W"
 #~ msgstr "Taux de productivité"
 
 #~ msgid "Ratio between the estimated time and the elapsed time"
-#~ msgstr "Rapport entre le budjet initial et le temps consommé sur les fiches"
+#~ msgstr "Rapport entre le budget initial et le temps consommé sur les fiches"
 
 #~ msgid "Prod Rate MgrEffortEstim"
 #~ msgstr "Taux de prod Charge_Mgr"
@@ -2638,8 +2638,8 @@ msgstr "W"
 #~ msgid "Effort Estim"
 #~ msgstr "Effort Estim"
 
-#~ msgid "Nbre de jours de depassement par rapport au budjet initial"
-#~ msgstr "Nbre de jours de dépassement par rapport au budjet initial"
+#~ msgid "Nbre de jours de depassement par rapport au budget initial"
+#~ msgstr "Nbre de jours de dépassement par rapport au budget initial"
 
 #~ msgid "Prod Rate NoSupport ETA"
 #~ msgstr "Taux de prod (sans support) ETA"

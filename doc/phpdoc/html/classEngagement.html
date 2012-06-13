@@ -82,23 +82,23 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getStartDate</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8abfcb726998d97d08243a7ad58b94ae"></a><!-- doxytag: member="Engagement::getDeadline" ref="a8abfcb726998d97d08243a7ad58b94ae" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDeadline</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4037e4325b7b697ee07190974895459b"></a><!-- doxytag: member="Engagement::getBudjetDev" ref="a4037e4325b7b697ee07190974895459b" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getBudjetDev</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a921b4b773d7071dc03d50407ad117c47"></a><!-- doxytag: member="Engagement::getBudjetMngt" ref="a921b4b773d7071dc03d50407ad117c47" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getBudjetMngt</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac172db30b32b7121b6b86d38fd55fed7"></a><!-- doxytag: member="Engagement::getBudjetGarantie" ref="ac172db30b32b7121b6b86d38fd55fed7" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getBudjetGarantie</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4037e4325b7b697ee07190974895459b"></a><!-- doxytag: member="Engagement::getBudgetDev" ref="a4037e4325b7b697ee07190974895459b" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getBudgetDev</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a921b4b773d7071dc03d50407ad117c47"></a><!-- doxytag: member="Engagement::getBudgetMngt" ref="a921b4b773d7071dc03d50407ad117c47" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getBudgetMngt</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac172db30b32b7121b6b86d38fd55fed7"></a><!-- doxytag: member="Engagement::getBudgetGarantie" ref="ac172db30b32b7121b6b86d38fd55fed7" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getBudgetGarantie</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1fe4b4e9b36105120fce6d2ea9010876"></a><!-- doxytag: member="Engagement::getIssueSelection" ref="a1fe4b4e9b36105120fce6d2ea9010876" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getIssueSelection</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEngagement.html#a52bb1331775e6028772411f23f8dc23d">addIssue</a> ($bugid)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEngagement.html#ae77383b0830698714322431e392834f9">create</a> ($name, $startDate, $deadline, $teamid, $budjetDev, $budjetMngt)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEngagement.html#ae77383b0830698714322431e392834f9">create</a> ($name, $startDate, $deadline, $teamid, $budgetDev, $budgetMngt)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Un engagement (fiche de presta) est un ensemble de taches que l'on veut piloter a l'aide d'indicateurs (cout, delai, qualite, avancement)</p>
 <p>un engagement peut contenir des taches précises (mantis) mais également définir des objectifs d'ordre global ou non liés au dev.</p>
-<p>un engagement est provisionné d'un certain budjet, négocié avec le client. le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budjet. </p>
+<p>un engagement est provisionné d'un certain budget, négocié avec le client. le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budget. </p>
 </div><hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a52bb1331775e6028772411f23f8dc23d"></a><!-- doxytag: member="Engagement::addIssue" ref="a52bb1331775e6028772411f23f8dc23d" args="($bugid)" -->
 <div class="memitem">
@@ -118,7 +118,7 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae77383b0830698714322431e392834f9"></a><!-- doxytag: member="Engagement::create" ref="ae77383b0830698714322431e392834f9" args="($name, $startDate, $deadline, $teamid, $budjetDev, $budjetMngt)" -->
+<a class="anchor" id="ae77383b0830698714322431e392834f9"></a><!-- doxytag: member="Engagement::create" ref="ae77383b0830698714322431e392834f9" args="($name, $startDate, $deadline, $teamid, $budgetDev, $budgetMngt)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -150,13 +150,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>budjetDev</em>, </td>
+          <td class="paramname"><em>budgetDev</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>budjetMngt</em>&#160;</td>
+          <td class="paramname"><em>budgetMngt</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

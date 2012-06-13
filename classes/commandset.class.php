@@ -37,8 +37,8 @@ include_once "team.class.php";
  * mais également définir des objectifs d'ordre global ou non
  * liés au dev.
  *
- * un commandset est provisionné d'un certain budjet, négocié avec le client.
- * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budjet.
+ * un commandset est provisionné d'un certain budget, négocié avec le client.
+ * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budget.
  */
 class CommandtSet {
 

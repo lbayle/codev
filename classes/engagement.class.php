@@ -39,8 +39,8 @@ include_once "engagement_cache.class.php";
  * mais également définir des objectifs d'ordre global ou non
  * liés au dev.
  *
- * un engagement est provisionné d'un certain budjet, négocié avec le client.
- * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budjet.
+ * un engagement est provisionné d'un certain budget, négocié avec le client.
+ * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budget.
  */
 class Engagement {
 
@@ -77,9 +77,9 @@ class Engagement {
    private $teamid;
    private $commandSetId;
    private $state;
-   private $budjetDev;
-   private $budjetMngt;
-   private $budjetGarantie;
+   private $budgetDev;
+   private $budgetMngt;
+   private $budgetGarantie;
    private $averageDailyRate;
 
    // codev_engagement_bug_table
@@ -119,9 +119,9 @@ class Engagement {
    	$this->deadline   = $row->deadline;
    	$this->teamid     = $row->team_id;
    	$this->state      = $row->state;
-   	$this->budjetDev  = $row->budjet_dev;
-   	$this->budjetMngt = $row->budjet_mngt;
-   	$this->budjetGarantie = $row->budjet_garantie;
+   	$this->budgetDev  = $row->budget_dev;
+   	$this->budgetMngt = $row->budget_mngt;
+   	$this->budgetGarantie = $row->budget_garantie;
    	$this->averageDailyRate = $row->average_daily_rate;
 
    	// ---
@@ -269,13 +269,13 @@ class Engagement {
       }
    }
 
-   public function getBudjetDev() {
-      return $this->budjetDev;
+   public function getBudgetDev() {
+      return $this->budgetDev;
    }
-   public function setBudjetDev($value) {
+   public function setBudgetDev($value) {
 
-      $this->budjetDev = $value;
-      $query = "UPDATE `codev_engagement_table` SET budjet_dev = '$value' WHERE id='$this->id' ";
+      $this->budgetDev = $value;
+      $query = "UPDATE `codev_engagement_table` SET budget_dev = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -285,13 +285,13 @@ class Engagement {
       }
    }
 
-   public function getBudjetMngt() {
-      return $this->budjetMngt;
+   public function getBudgetMngt() {
+      return $this->budgetMngt;
    }
-   public function setBudjetMngt($value) {
+   public function setBudgetMngt($value) {
 
-      $this->budjetMngt = $value;
-      $query = "UPDATE `codev_engagement_table` SET budjet_mngt = '$value' WHERE id='$this->id' ";
+      $this->budgetMngt = $value;
+      $query = "UPDATE `codev_engagement_table` SET budget_mngt = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -301,13 +301,13 @@ class Engagement {
       }
    }
 
-   public function getBudjetGarantie() {
-      return $this->budjetGarantie;
+   public function getBudgetGarantie() {
+      return $this->budgetGarantie;
    }
-   public function setBudjetGarantie($value) {
+   public function setBudgetGarantie($value) {
 
-      $this->budjetGarantie = $value;
-      $query = "UPDATE `codev_engagement_table` SET budjet_garantie = '$value' WHERE id='$this->id' ";
+      $this->budgetGarantie = $value;
+      $query = "UPDATE `codev_engagement_table` SET budget_garantie = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");

@@ -73,10 +73,10 @@ function displayEngagement($smartyHelper, $eng) {
    $smartyHelper->assign('engStateList', getEngStateList($eng));
    $smartyHelper->assign('engState', Engagement::$stateNames[$eng->getState()]);
    $smartyHelper->assign('engDesc', $eng->getDesc());
-   $smartyHelper->assign('engBudjetDev', $eng->getBudjetDev());
-   $smartyHelper->assign('engBudjetMngt', $eng->getBudjetMngt());
-   $smartyHelper->assign('engBudjetGarantie', $eng->getBudjetGarantie());
-   $smartyHelper->assign('engBudjetTotal', $eng->getBudjetDev() + $eng->getBudjetMngt() + $eng->getBudjetGarantie());
+   $smartyHelper->assign('engBudgetDev', $eng->getBudgetDev());
+   $smartyHelper->assign('engBudgetMngt', $eng->getBudgetMngt());
+   $smartyHelper->assign('engBudgetGarantie', $eng->getBudgetGarantie());
+   $smartyHelper->assign('engBudgetTotal', $eng->getBudgetDev() + $eng->getBudgetMngt() + $eng->getBudgetGarantie());
    $smartyHelper->assign('engStartDate', date("Y-m-d", $eng->getStartDate()));
    $smartyHelper->assign('engDeadline', date("Y-m-d", $eng->getDeadline()));
    $smartyHelper->assign('engAverageDailyRate', $eng->getAverageDailyRate());

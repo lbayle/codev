@@ -61,9 +61,9 @@ function updateEngInfo($eng) {
 
 
    $eng->setState(checkNumericValue($_POST['engState'], true));
-   $eng->setBudjetDev(checkNumericValue($_POST['engBudjetDev'], true));
-   $eng->setBudjetMngt(checkNumericValue($_POST['engBudjetMngt'], true));
-   $eng->setBudjetGarantie(checkNumericValue($_POST['engBudjetGarantie'], true));
+   $eng->setBudgetDev(checkNumericValue($_POST['engBudgetDev'], true));
+   $eng->setBudgetMngt(checkNumericValue($_POST['engBudgetMngt'], true));
+   $eng->setBudgetGarantie(checkNumericValue($_POST['engBudgetGarantie'], true));
    $eng->setAverageDailyRate(checkNumericValue($_POST['engAverageDailyRate'], true));
 
 
