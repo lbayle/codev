@@ -68,7 +68,7 @@ class Engagement {
 
    private $logger;
 
-   // codev_engagement_table
+   // codev_command_table
    private $id;
    private $name;
    private $description;
@@ -82,7 +82,7 @@ class Engagement {
    private $budgetGarantie;
    private $averageDailyRate;
 
-   // codev_engagement_bug_table
+   // codev_command_bug_table
    private $issueSelection;
 
 
@@ -104,7 +104,7 @@ class Engagement {
 
    private function initialize() {
    	// ---
-   	$query  = "SELECT * FROM `codev_engagement_table` WHERE id=$this->id ";
+   	$query  = "SELECT * FROM `codev_command_table` WHERE id=$this->id ";
    	$result = mysql_query($query);
    	if (!$result) {
 	   	$this->logger->error("Query FAILED: $query");
@@ -126,11 +126,11 @@ class Engagement {
 
    	// ---
    	$this->issueSelection = new IssueSelection($this->name);
-   	$query  = "SELECT * FROM `codev_engagement_bug_table` ".
-                "WHERE engagement_id=$this->id ";
+   	$query  = "SELECT * FROM `codev_command_bug_table` ".
+                "WHERE command_id=$this->id ";
                 #", `mantis_bug_table`".
-      	       #"WHERE codev_engagement_bug_table.engagement_id=$this->id ".
-                #"AND codev_engagement_bug_table.bug_id = mantis_bug_table.id ".
+      	       #"WHERE codev_command_bug_table.command_id=$this->id ".
+                #"AND codev_command_bug_table.bug_id = mantis_bug_table.id ".
                 #"ORDER BY mantis_bug_table.project_id ASC, mantis_bug_table.target_version DESC, mantis_bug_table.status ASC";
 
    	$result = mysql_query($query);
@@ -156,7 +156,7 @@ class Engagement {
    public function setTeamid($value) {
 
       $this->teamid = $value;
-      $query = "UPDATE `codev_engagement_table` SET team_id = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET team_id = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -174,7 +174,7 @@ class Engagement {
    public function setName($name) {
 
       $this->name = $name;
-      $query = "UPDATE `codev_engagement_table` SET name = '$name' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET name = '$name' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -190,7 +190,7 @@ class Engagement {
    public function setDesc($description) {
 
       $this->description = $description;
-      $query = "UPDATE `codev_engagement_table` SET description = '$description' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET description = '$description' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -207,7 +207,7 @@ class Engagement {
    public function setState($value) {
 
       $this->state = $value;
-      $query = "UPDATE `codev_engagement_table` SET state='$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET state='$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -226,7 +226,7 @@ class Engagement {
 
 
       $this->averageDailyRate = $value;
-      $query = "UPDATE `codev_engagement_table` SET average_daily_rate = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET average_daily_rate = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -243,7 +243,7 @@ class Engagement {
    public function setStartDate($timestamp) {
 
       $this->startDate = $timestamp;
-      $query = "UPDATE `codev_engagement_table` SET start_date = '$this->startDate' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET start_date = '$this->startDate' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -259,7 +259,7 @@ class Engagement {
    public function setDeadline($timestamp) {
       
       $this->deadline = $timestamp;
-      $query = "UPDATE `codev_engagement_table` SET deadline = '$this->deadline' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET deadline = '$this->deadline' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -275,7 +275,7 @@ class Engagement {
    public function setBudgetDev($value) {
 
       $this->budgetDev = $value;
-      $query = "UPDATE `codev_engagement_table` SET budget_dev = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET budget_dev = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -291,7 +291,7 @@ class Engagement {
    public function setBudgetMngt($value) {
 
       $this->budgetMngt = $value;
-      $query = "UPDATE `codev_engagement_table` SET budget_mngt = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET budget_mngt = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -307,7 +307,7 @@ class Engagement {
    public function setBudgetGarantie($value) {
 
       $this->budgetGarantie = $value;
-      $query = "UPDATE `codev_engagement_table` SET budget_garantie = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_command_table` SET budget_garantie = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -328,7 +328,7 @@ class Engagement {
     * @return int $id
     */
    public static function create($name, $teamid) {
-    $query = "INSERT INTO `codev_engagement_table`  (`name`, `team_id`) ".
+    $query = "INSERT INTO `codev_command_table`  (`name`, `team_id`) ".
              "VALUES ('$name', '$teamid');";
     $result = mysql_query($query);
     if (!$result) {
@@ -368,7 +368,7 @@ class Engagement {
       $this->logger->debug("Add issue $bugid to engagement $this->id");
       $this->issueSelection->addIssue($bugid);
 
-      $query = "INSERT INTO `codev_engagement_bug_table` (`engagement_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
+      $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
       $result = mysql_query($query);
       if (!$result) {
 	      $this->logger->error("Query FAILED: $query");
@@ -401,7 +401,7 @@ class Engagement {
 
       $this->issueSelection->removeIssue($bugid);
 
-      $query = "DELETE FROM `codev_engagement_bug_table` WHERE engagement_id='$this->id' AND bug_id='$bugid';";
+      $query = "DELETE FROM `codev_command_bug_table` WHERE command_id='$this->id' AND bug_id='$bugid';";
       $result = mysql_query($query);
       if (!$result) {
 	      $this->logger->error("Query FAILED: $query");
@@ -418,7 +418,7 @@ class Engagement {
 
       if (NULL == $this->commandSetId) {
 
-         $query  = "SELECT * FROM `codev_commandset_eng_table` WHERE engagement_id=$this->id ";
+         $query  = "SELECT * FROM `codev_commandset_cmd_table` WHERE command_id=$this->id ";
          $result = mysql_query($query);
          if (!$result) {
             $this->logger->error("Query FAILED: $query");
@@ -449,14 +449,14 @@ class Engagement {
       if ((NULL == $value) || (0 == $value)){
 
          if (NULL == $this->getCommandSet()) { return; }
-         $query = "DELETE FROM `codev_commandset_eng_table` WHERE `engagement_id` = '$this->id' ";
+         $query = "DELETE FROM `codev_commandset_cmd_table` WHERE `command_id` = '$this->id' ";
 
       } else {
          if (NULL == $this->getCommandSet()) {
-            $query = "INSERT INTO `codev_commandset_eng_table` (`commandset_id`, `engagement_id`, `type`) ".
+            $query = "INSERT INTO `codev_commandset_cmd_table` (`commandset_id`, `command_id`, `type`) ".
                      "VALUES ('$value', '$this->id', '$type');";
          } else {
-            $query = "UPDATE `codev_commandset_eng_table` SET commandset_id = '$value' WHERE engagement_id='$this->id' ";
+            $query = "UPDATE `codev_commandset_cmd_table` SET commandset_id = '$value' WHERE command_id='$this->id' ";
          }
       }
 

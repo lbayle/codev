@@ -1,0 +1,43 @@
+
+-- this script is to be executed to update CodevTT DB v7 to v8.
+
+-- DB v7 is for CodevTT v0.99.16 released on 2012-04-12
+-- DB v8 is for CodevTT v0.99.17
+
+-- -----------------
+RENAME TABLE `codev_command_table` To `codev_servicecontract_table`; 
+
+ALTER TABLE `codev_servicecontract_table` ADD `reference` varchar(64)  AFTER `team_id`;
+
+
+-- -----------------
+RENAME TABLE `codev_command_srv_table` To `codev_servicecontract_cmdset_table`; 
+
+ALTER TABLE `codev_servicecontract_cmdset_table` CHANGE `command_id` `servicecontract_id` int(11);
+ALTER TABLE `codev_servicecontract_cmdset_table` CHANGE `service_id` `commandset_id` int(11); 
+
+-- -----------------
+RENAME TABLE `codev_service_table` To `codev_commandset_table`; 
+
+-- -----------------
+RENAME TABLE `codev_service_eng_table` To `codev_commandset_cmd_table`; 
+
+ALTER TABLE `codev_commandset_cmd_table` CHANGE `service_id`    `commandset_id` int(11);
+ALTER TABLE `codev_commandset_cmd_table` CHANGE `engagement_id` `command_id` int(11);
+
+-- -----------------
+RENAME TABLE `codev_engagement_table` To `codev_command_table`; 
+
+-- -----------------
+RENAME TABLE `codev_engagement_bug_table` To `codev_command_bug_table`; 
+
+ALTER TABLE `codev_command_bug_table` CHANGE `engagement_id` `command_id` int(11);
+
+
+
+
+
+-- -----------------
+UPDATE `codev_config_table` SET `value`='8' WHERE `config_id`='database_version';
+
+

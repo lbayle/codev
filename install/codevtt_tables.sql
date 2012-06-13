@@ -253,6 +253,7 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
   `team_id` int(11) NOT NULL,
+  `reference` varchar(64),
   `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -295,10 +296,10 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
 -- Structure de la table `codev_commandset_eng_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_commandset_eng_table` (
+CREATE TABLE IF NOT EXISTS `codev_commandset_cmd_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `commandset_id` int(11) NOT NULL,
-  `engagement_id` int(11) NOT NULL,
+  `command_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -310,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_eng_table` (
 -- Structure de la table `codev_engagement_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_engagement_table` (
+CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
   `start_date` int(11) unsigned default NULL,
@@ -331,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `codev_engagement_table` (
 -- Structure de la table `codev_engagement_bug_table`
 --
 
-CREATE TABLE IF NOT EXISTS `codev_engagement_bug_table` (
+CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `engagement_id` int(11) NOT NULL,
   `bug_id` int(11) NOT NULL,

@@ -42,8 +42,8 @@ include_once "team.class.php";
  */
 class CommandtSet {
 
-   const engType_dev   = 1;    // in table codev_commandset_eng_table
-   const engType_mngt  = 2;    // in table codev_commandset_eng_table
+   const engType_dev   = 1;    // in table codev_commandset_cmd_table
+   const engType_mngt  = 2;    // in table codev_commandset_cmd_table
 
 
    private $logger;
@@ -95,9 +95,9 @@ class CommandtSet {
 
       // ---
       $this->engByTypeList = array();
-      $query  = "SELECT * FROM `codev_commandset_eng_table` ".
+      $query  = "SELECT * FROM `codev_commandset_cmd_table` ".
                 "WHERE commandset_id=$this->id ";
-                "ORDER BY type ASC, engagement_id ASC";
+                "ORDER BY type ASC, command_id ASC";
 
       $result = mysql_query($query);
       if (!$result) {
@@ -111,7 +111,7 @@ class CommandtSet {
          if (NULL == $this->engByTypeList["$row->type"]) {
             $this->engByTypeList["$row->type"] = array();
          }
-          $this->engByTypeList["$row->type"][] = $row->engagement_id;
+          $this->engByTypeList["$row->type"][] = $row->command_id;
       }
    }
 
@@ -229,7 +229,7 @@ class CommandtSet {
       }
       $this->engByTypeList["$type"][] = $engid;
 
-      $query = "INSERT INTO `codev_commandset_eng_table` (`commandset_id`, `engagement_id`, `type`) VALUES ('$this->id', '$engid', '$type');";
+      $query = "INSERT INTO `codev_commandset_cmd_table` (`commandset_id`, `command_id`, `type`) VALUES ('$this->id', '$engid', '$type');";
       $result = mysql_query($query);
       if (!$result) {
          $this->logger->error("Query FAILED: $query");
@@ -260,7 +260,7 @@ class CommandtSet {
       }
 
 
-      $query = "DELETE FROM `codev_commandset_eng_table` WHERE commandset_id='$this->id' AND engagement_id='$engid';";
+      $query = "DELETE FROM `codev_commandset_cmd_table` WHERE commandset_id='$this->id' AND command_id='$engid';";
       $result = mysql_query($query);
       if (!$result) {
          $this->logger->error("Query FAILED: $query");

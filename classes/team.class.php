@@ -378,7 +378,7 @@ class Team {
     */
    public function getEngagements() {
       if (NULL == $this->engagementList) {
-         $query = "SELECT DISTINCT * FROM `codev_engagement_table` ".
+         $query = "SELECT DISTINCT * FROM `codev_command_table` ".
             "WHERE team_id = $this->id ";
 
          $result = mysql_query($query);
