@@ -326,10 +326,15 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_cmd_table` (
 CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
+  `reference` varchar(64) default NULL,
+  `version` varchar(64) default NULL,
+  `reporter` varchar(64) default NULL,
   `start_date` int(11) unsigned default NULL,
   `deadline` int(11) default NULL,
   `team_id` int(11) NOT NULL,
   `state` int(11) unsigned default NULL,
+  `cost` float default NULL,
+  `currency` varchar(3) default 'EUR',
   `budget_dev` int(11) unsigned default NULL,
   `budget_mngt` int(11) default NULL,
   `budget_garantie` int(11) default NULL,
@@ -337,6 +342,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 -- --------------------------------------------------------
 

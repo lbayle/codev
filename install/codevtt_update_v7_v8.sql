@@ -28,6 +28,12 @@ ALTER TABLE `codev_commandset_cmd_table` CHANGE `engagement_id` `command_id` int
 -- -----------------
 RENAME TABLE `codev_engagement_table` To `codev_command_table`; 
 
+ALTER TABLE `codev_command_table` ADD `reference` varchar(64)  AFTER `name`;
+ALTER TABLE `codev_command_table` ADD `version` varchar(64)  AFTER `reference`;
+ALTER TABLE `codev_command_table` ADD `reporter` varchar(64)  AFTER `version`;
+ALTER TABLE `codev_command_table` ADD `cost` float  AFTER `state`;
+ALTER TABLE `codev_command_table` ADD `currency` varchar(3) default 'EUR' AFTER `cost`;
+
 -- -----------------
 RENAME TABLE `codev_engagement_bug_table` To `codev_command_bug_table`; 
 
