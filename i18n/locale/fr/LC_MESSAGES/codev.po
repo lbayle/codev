@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 22:28+0200\n"
+"POT-Creation-Date: 2012-06-14 22:37+0200\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -939,6 +939,7 @@ msgid "ServiceContract"
 msgstr "Contrat de Service"
 
 #: i18n/locale/smarty.c:172 i18n/locale/smarty.c:423 i18n/locale/smarty.c:510
+#: i18n/locale/smarty.c:542
 msgid "CommandSet"
 msgstr "MacroCommande"
 
@@ -1542,10 +1543,6 @@ msgstr "Retirer la Tâche de cettte Commande ?"
 msgid "delete Command-Task association"
 msgstr "supprimer l'association Tâche-Commande"
 
-#: i18n/locale/smarty.c:542
-msgid "Service"
-msgstr "Service"
-
 #: i18n/locale/smarty.c:553
 msgid "No Command found."
 msgstr "Pas de Commande."
@@ -1591,11 +1588,11 @@ msgid "Remove Command"
 msgstr "Supprimer Commande"
 
 #: i18n/locale/smarty.c:617
-msgid "Remove Command from this Service ?"
-msgstr "Retirer La commande de cette MacroCommande ?"
+msgid "Remove Command from this CommandSet ?"
+msgstr "Retirer la Commande de cettte MacroCommande ?"
 
 #: i18n/locale/smarty.c:621
-msgid "delete Service-Command association"
+msgid "delete CommandSet-Command association"
 msgstr "supprimer l'association Commande-MacroCommande"
 
 #: i18n/locale/smarty.c:622
@@ -2364,6 +2361,15 @@ msgstr " Erreur(s) dans vos Tâches"
 #: smarty_tools.php:140
 msgid "W"
 msgstr "W"
+
+#~ msgid "Service"
+#~ msgstr "Service"
+
+#~ msgid "Remove Command from this Service ?"
+#~ msgstr "Retirer La commande de cette MacroCommande ?"
+
+#~ msgid "delete Service-Command association"
+#~ msgstr "supprimer l'association Commande-MacroCommande"
 
 #~ msgid "Engagement"
 #~ msgstr "Engagement"

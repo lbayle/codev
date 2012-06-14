@@ -45,7 +45,7 @@ function createCmd() {
 
    <div>
       <!-- create form -->
-      <form id='updateServiceInfoForm' name='updateServiceInfoForm' method='post' action='{$page}'>
+      <form id='updateCommandSetInfoForm' name='updateCommandSetInfoForm' method='post' action='{$page}'>
       <fieldset>
 
          <table class='invisible'>
@@ -61,7 +61,7 @@ function createCmd() {
          <br>
          <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Save{/t}</button>
 
-         <input type="hidden" name="action" value="updateServiceInfo" />
+         <input type="hidden" name="action" value="updateCommandSetInfo" />
          <input type="hidden" name="teamid" value="{$teamid}" />
          <input type="hidden" name="commandsetid" value="{$commandsetid}" />
       </fieldset>
@@ -107,7 +107,7 @@ function createCmd() {
          </script>
          <div id="removeCmd_dialog_form" title="{t}Remove Command{/t}" style="display: none">
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-               {t}Remove Command from this Service ?{/t}
+               {t}Remove Command from this CommandSet ?{/t}
             </p>
             <table class="invisible">
                <tr>
@@ -141,7 +141,7 @@ function createCmd() {
             {foreach $cmdList as $id => $cmd}
             <tr>
                   <td>
-                     <a title="{t}delete Service-Command association{/t}"
+                     <a title="{t}delete CommandSet-Command association{/t}"
                         href="javascript: removeCmd('{$id}', '{$cmd.description|escape}')">
                         <img alt="b_drop.png" border="0" src="images/b_drop.png" />
                      </a>

@@ -41,7 +41,7 @@ require('display.inc.php');
 
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Service'));
+$smartyHelper->assign('pageName', T_('CommandSet'));
 
 if (isset($_SESSION['userid'])) {
 
@@ -72,12 +72,12 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
    $smartyHelper->assign('commandsetid', $commandsetid);
-   $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
+   $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
 
    if (0 != $commandsetid) {
       $commandset = new CommandtSet($commandsetid);
 
-      displayService($smartyHelper, $commandset);
+      displayCommandSet($smartyHelper, $commandset);
    }
 
 

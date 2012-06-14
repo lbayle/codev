@@ -12,7 +12,7 @@ function setTeam() {
 function submitForm() {
    document.forms["commandsetSelectForm"].teamid.value = document.getElementById('teamSelector').value;
    document.forms["commandsetSelectForm"].commandsetid.value = document.getElementById('commandsetSelector').value;
-   document.forms["commandsetSelectForm"].action.value = "displayService";
+   document.forms["commandsetSelectForm"].action.value = "displayCommandSet";
    document.forms["commandsetSelectForm"].submit();
  }
 
@@ -39,7 +39,7 @@ $(document).ready(function() {
          "bAutoWidth": false
       });
       jQuery(function() {
-         jQuery( "#tabsService" ).tabs();
+         jQuery( "#tabsCommandSet" ).tabs();
       });
 
    $( "#accordion" ).accordion({
@@ -64,7 +64,7 @@ $(document).ready(function() {
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
-            <label>{t}Service{/t}: </label>
+            <label>{t}CommandSet{/t}: </label>
             <select id='commandsetSelector' name='commandsetid'>
                <option value='0'></option>
                {foreach from=$commandsets key=id item=i}
@@ -126,7 +126,7 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
 
-   <div id="tabsService">
+   <div id="tabsCommandSet">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
       </ul>

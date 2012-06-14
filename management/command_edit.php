@@ -171,7 +171,7 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('cmdState', Command::$stateNames[0]);
 
       $smartyHelper->assign('commandsetid', $commandsetid);
-      $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
+      $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
    }
 
 
@@ -202,18 +202,18 @@ if (isset($_SESSION['userid'])) {
       }
 
 
-      // --- set Service according to the displayed command
+      // --- set CommandSet according to the displayed command
      $commandsetid = $cmd->getCommandSet();
 
 
    if ((NULL == $commandsetid) || (0 == $commandsetid)) {
          unset($_SESSION['commandsetid']);
          #$smartyHelper->assign('commandsetid', 0);
-         $smartyHelper->assign('commandsets', getServices($teamid, 0));
+         $smartyHelper->assign('commandsets', getCommandSets($teamid, 0));
       } else {
          $_SESSION['commandsetid'] = $commandsetid;
          $smartyHelper->assign('commandsetid', $commandsetid);
-         $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
+         $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
 
          $commandset = new CommandtSet($commandsetid); // TODO use cache
          $commandsetName = $commandset->getName();

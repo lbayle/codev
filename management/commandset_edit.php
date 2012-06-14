@@ -42,7 +42,7 @@ require('display.inc.php');
 
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Service (edit)'));
+$smartyHelper->assign('pageName', T_('CommandSet (edit)'));
 
 if (isset($_SESSION['userid'])) {
 
@@ -78,7 +78,7 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
    $smartyHelper->assign('commandsetid', $commandsetid);
-   $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
+   $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
 
 
    if (0 != $commandsetid) {
@@ -93,17 +93,17 @@ echo "addCommand<br>";
          $_SESSION['cmdid'] = 0;
          header('Location:command_edit.php?cmdid=0');
 
-      } else if ("updateServiceInfo" == $action) {
-echo "updateServiceInfo<br>";
+      } else if ("updateCommandSetInfo" == $action) {
+echo "updateCommandSetInfo<br>";
       } else if ("removeCmd" == $action) {
 
          $cmdid = checkNumericValue($_POST['cmdid']);
          $commandset->removeCommand($cmdid);
       }
 
-      // ------ Display Service
+      // ------ Display CommandSet
 
-      displayService($smartyHelper, $commandset);
+      displayCommandSet($smartyHelper, $commandset);
 
    }
    

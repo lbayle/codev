@@ -401,9 +401,9 @@ class Team {
    }
 
    /**
-    * Services for this team
+    * CommandSets for this team
     *
-    * @return array id => Service
+    * @return array id => CommandSet
     */
    public function getCommandSetList() {
       if (NULL == $this->commandSetList) {

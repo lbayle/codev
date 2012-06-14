@@ -24,7 +24,7 @@
  * @param int $selectedCmdSetId
  * @return array
  */
-function getServices($teamid, $selectedCmdSetId) {
+function getCommandSets($teamid, $selectedCmdSetId) {
 
    $commandsets = array();
 if (0 != $teamid) {
@@ -49,7 +49,7 @@ if (0 != $teamid) {
  * @param int $type
  * @return array
  */
-function getServiceCommands($commandsetid, $type) {
+function getCommandSetCommands($commandsetid, $type) {
 
    $commands = array();
 
@@ -76,17 +76,17 @@ function getServiceCommands($commandsetid, $type) {
  * @param type $smartyHelper
  * @param CommandtSet $commandset
  */
-function displayService($smartyHelper, $commandset) {
+function displayCommandSet($smartyHelper, $commandset) {
 
    #$smartyHelper->assign('commandsetId', $commandset->getId());
    $smartyHelper->assign('commandsetName', $commandset->getName());
    $smartyHelper->assign('commandsetDesc', $commandset->getDesc());
    $smartyHelper->assign('commandsetDate', date("Y-m-d", $commandset->getDate()));
 
-   $smartyHelper->assign('cmdList', getServiceCommands($commandset->getId(), CommandtSet::cmdType_dev));
+   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), CommandtSet::cmdType_dev));
 
    // DEPRECATED, a commandset has only one type of command
-   #$smartyHelper->assign('mngtCommands', getServiceCommands($commandsetid, Service::cmdType_mngt));
+   #$smartyHelper->assign('mngtCommands', getCommandSetCommands($commandsetid, CommandSet::cmdType_mngt));
 
 }
 

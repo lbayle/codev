@@ -67,8 +67,8 @@ class CommandtSet {
 
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Creating an Service with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION Service constructor: ".$e->getMessage());
+         $e = new Exception("Creating an CommandSet with id=0 is not allowed.");
+         $this->logger->error("EXCEPTION CommandSet constructor: ".$e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
@@ -286,11 +286,11 @@ class CommandtSet {
             exit;
          }
 
-         // can a Service belong to more than one servicecontract ?
+         // can a CommandSet belong to more than one servicecontract ?
          while($row = mysql_fetch_object($result)) {
 
             $this->serviceContractId = $row->servicecontract_id;
-            $this->logger->debug("Service $this->id is in servicecontract $this->serviceContractId");
+            $this->logger->debug("CommandSet $this->id is in servicecontract $this->serviceContractId");
          }
       }
       return $this->serviceContractId;
