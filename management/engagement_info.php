@@ -100,7 +100,7 @@ require('display.inc.php');
 
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Engagement'));
+$smartyHelper->assign('pageName', T_('Command'));
 
 if (isset($_SESSION['userid'])) {
 

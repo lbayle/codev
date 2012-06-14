@@ -54,9 +54,9 @@ $(document).ready(function() {
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
-            <label>{t}Engagement{/t}: </label>
+            <label>{t}Command{/t}: </label>
             <select id='engagementSelector' name='engid'>
-               <option value='0'>{t}--- Create New Engagement ---{/t}</option>
+               <option value='0'>{t}--- Create New Command ---{/t}</option>
                {foreach from=$engagements key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
