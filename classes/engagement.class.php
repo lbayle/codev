@@ -44,26 +44,26 @@ include_once "engagement_cache.class.php";
  */
 class Engagement {
 
-  const state_toBeSent      = 1;
-  const state_sent          = 2;
-  const state_toBeValidated = 3;
-  const state_validated     = 4;
-  const state_toBeClosed    = 5;
-  const state_Closed        = 6;
-  const state_toBeBilled    = 7;
-  const state_billed        = 8;
-  const state_payed         = 9;
+  const state_toBeSent       = 1;
+  const state_sent           = 2;
+  const state_toBeValidated  = 3;
+  const state_validated      = 4;
+  const state_toBeClosed     = 5;
+  const state_closed         = 6;
+  const state_billMustBeSent = 7;
+  const state_billSent       = 8;
+  const state_payed          = 9;
 
   // TODO i18n for constants
-  public static $stateNames = array(Engagement::state_toBeSent      => "A émettre",
-                                    Engagement::state_sent          => "Emis",
-                                    Engagement::state_toBeValidated => "A valider",
-                                    Engagement::state_validated     => "Validé",
-                                    Engagement::state_toBeClosed    => "A clôturer",
-                                    Engagement::state_Closed        => "Clôturé",
-                                    Engagement::state_toBeBilled    => "A facturer",
-                                    Engagement::state_billed        => "Facturé",
-                                    Engagement::state_payed         => "Payé");
+  public static $stateNames = array(Engagement::state_toBeSent       => "A émettre",
+                                    Engagement::state_sent           => "Emis",
+                                    Engagement::state_toBeValidated  => "A valider",
+                                    Engagement::state_validated      => "Validé",
+                                    Engagement::state_toBeClosed     => "A clôturer",
+                                    Engagement::state_closed         => "Clôturé",
+                                    Engagement::state_billMustBeSent => "Facture à émettre",
+                                    Engagement::state_billSent       => "Facture émise",
+                                    Engagement::state_payed          => "Facturé");
 
 
    private $logger;
