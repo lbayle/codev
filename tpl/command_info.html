@@ -73,7 +73,7 @@ $(document).ready(function() {
    
    {if $cmdid} 
    <div  align="center">
-      <h2>{$cmdName}</h2>
+      <h2>{$cmdReference} {$cmdName}</h2>
       {$cmdDesc}
    </div>
 
@@ -102,6 +102,18 @@ $(document).ready(function() {
    <div>
       <table class='invisible'>
             <tr>
+               <th>{t}Reference{/t}</th>
+               <td>: {$cmdReference}</td>
+            </tr>
+            <tr>
+               <th>{t}Version{/t}</th>
+               <td>: {$cmdVersion}</td>
+            </tr>
+            <tr>
+               <th>{t}Reporter{/t}</th>
+               <td>: {$cmdReporter}</td>
+            </tr>
+            <tr>
                <th>{t}Service Contract{/t}</th>
                <td>: {$servicecontract}</td>
             </tr>
@@ -122,20 +134,12 @@ $(document).ready(function() {
                <td>: {$cmdState}</td>
             </tr>
             <tr>
-               <th>{t}Average Daily Rate{/t}</th>
-               <td>: {$cmdAverageDailyRate} {t}Euro{/t}</td>
+               <th>{t}Cost{/t}</th>
+               <td>: {$cmdCost} {$cmdCurrency}</td>
             </tr>
             <tr>
-               <th>{t}Budget Developpement{/t}</th>
+               <th>{t}Budget{/t}</th>
                <td>: {$cmdBudgetDev} {t}days{/t}</td>
-            </tr>
-            <tr>
-               <th>{t}Budget Management{/t}</th>
-               <td>: {$cmdBudgetMngt} {t}days{/t}</td>
-            </tr>
-            <tr>
-               <th>{t}Budget Garantie{/t}</th>
-               <td>: {$cmdBudgetGarantie} {t}days{/t}</td>
             </tr>
       </table>
       <br>

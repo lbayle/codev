@@ -70,9 +70,13 @@ function displayCommand($smartyHelper, $cmd) {
 
    $smartyHelper->assign('cmdid', $cmd->getId());
    $smartyHelper->assign('cmdName', $cmd->getName());
+   $smartyHelper->assign('cmdReference', $cmd->getReference());
+   $smartyHelper->assign('cmdVersion', $cmd->getVersion());
+   $smartyHelper->assign('cmdReporter', $cmd->getReporter());
    $smartyHelper->assign('cmdStateList', getCmdStateList($cmd));
    $smartyHelper->assign('cmdState', Command::$stateNames[$cmd->getState()]);
-   $smartyHelper->assign('cmdDesc', $cmd->getDesc());
+   $smartyHelper->assign('cmdCost', $cmd->getCost());
+   $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());
    $smartyHelper->assign('cmdBudgetDev', $cmd->getBudgetDev());
    $smartyHelper->assign('cmdBudgetMngt', $cmd->getBudgetMngt());
    $smartyHelper->assign('cmdBudgetGarantie', $cmd->getBudgetGarantie());
@@ -80,6 +84,7 @@ function displayCommand($smartyHelper, $cmd) {
    $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
    $smartyHelper->assign('cmdDeadline', date("Y-m-d", $cmd->getDeadline()));
    $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
+   $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
    // set Cmd Details
    $cmdIssueSel = $cmd->getIssueSelection();

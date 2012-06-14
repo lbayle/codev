@@ -50,6 +50,15 @@ function updateCmdInfo($cmd) {
    $formattedValue = mysql_real_escape_string($_POST['cmdName']);
    $cmd->setName($formattedValue);
 
+   $formattedValue = mysql_real_escape_string($_POST['cmdReference']);
+   $cmd->setReference($formattedValue);
+
+   $formattedValue = mysql_real_escape_string($_POST['cmdVersion']);
+   $cmd->setVersion($formattedValue);
+
+   $formattedValue = mysql_real_escape_string($_POST['cmdReporter']);
+   $cmd->setReporter($formattedValue);
+
    $formattedValue = mysql_real_escape_string($_POST['cmdDesc']);
    $cmd->setDesc($formattedValue);
 
@@ -62,9 +71,10 @@ function updateCmdInfo($cmd) {
 
    $cmd->setState(checkNumericValue($_POST['cmdState'], true));
    $cmd->setBudgetDev(checkNumericValue($_POST['cmdBudgetDev'], true));
+   $cmd->setCost(checkNumericValue($_POST['cmdCost'], true));
    $cmd->setBudgetMngt(checkNumericValue($_POST['cmdBudgetMngt'], true));
-   $cmd->setBudgetGarantie(checkNumericValue($_POST['cmdBudgetGarantie'], true));
-   $cmd->setAverageDailyRate(checkNumericValue($_POST['cmdAverageDailyRate'], true));
+   #$cmd->setBudgetGarantie(checkNumericValue($_POST['cmdBudgetGarantie'], true));
+   #$cmd->setAverageDailyRate(checkNumericValue($_POST['cmdAverageDailyRate'], true));
 
 
 }

@@ -71,17 +71,23 @@ class Command {
    // codev_command_table
    private $id;
    private $name;
+   private $reference;
+   private $version;
+   private $reporter;
    private $description;
    private $startDate;
    private $deadline;
    private $teamid;
    private $commandSetId;
    private $state;
+   private $cost;
+   private $currency;
    private $budgetDev;
    private $budgetMngt;
    private $budgetGarantie;
    private $averageDailyRate;
 
+   
    // codev_command_bug_table
    private $issueSelection;
 
@@ -113,15 +119,20 @@ class Command {
 	   	exit;
    	}
    	$row = mysql_fetch_object($result);
-      $this->name       = $row->name;
-      $this->description = $row->description;
-   	$this->startDate  = $row->start_date;
-   	$this->deadline   = $row->deadline;
-   	$this->teamid     = $row->team_id;
-   	$this->state      = $row->state;
-   	$this->budgetDev  = $row->budget_dev;
-   	$this->budgetMngt = $row->budget_mngt;
-   	$this->budgetGarantie = $row->budget_garantie;
+      $this->name             = $row->name;
+      $this->reference        = $row->reference;
+      $this->version          = $row->version;
+      $this->reporter         = $row->reporter;
+      $this->description      = $row->description;
+   	$this->startDate        = $row->start_date;
+   	$this->deadline         = $row->deadline;
+   	$this->teamid           = $row->team_id;
+   	$this->state            = $row->state;
+   	$this->cost             = $row->cost;
+   	$this->currency         = $row->currency;
+   	$this->budgetDev        = $row->budget_dev;
+   	$this->budgetMngt       = $row->budget_mngt;
+   	$this->budgetGarantie   = $row->budget_garantie;
    	$this->averageDailyRate = $row->average_daily_rate;
 
    	// ---
@@ -184,6 +195,54 @@ class Command {
       }
    }
 
+   public function getReference() {
+      return $this->reference;
+   }
+   public function setReference($value) {
+
+      $this->reference = $value;
+      $query = "UPDATE `codev_command_table` SET reference = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
+   public function getVersion() {
+      return $this->version;
+   }
+   public function setVersion($value) {
+
+      $this->version = $value;
+      $query = "UPDATE `codev_command_table` SET version = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
+   public function getReporter() {
+      return $this->reporter;
+   }
+   public function setReporter($value) {
+
+      $this->reporter = $value;
+      $query = "UPDATE `codev_command_table` SET reporter = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
    public function getDesc() {
       return $this->description;
    }
@@ -218,6 +277,38 @@ class Command {
    }
 
 
+   public function getCost() {
+      return $this->cost;
+   }
+   public function setCost($value) {
+
+      $this->cost = $value;
+      $query = "UPDATE `codev_command_table` SET cost = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
+
+   public function getCurrency() {
+      return $this->currency;
+   }
+   public function setCurrency($value) {
+
+      $this->currency = $value;
+      $query = "UPDATE `codev_command_table` SET currency = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
 
    public function getAverageDailyRate() {
       return $this->averageDailyRate;
