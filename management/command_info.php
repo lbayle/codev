@@ -25,7 +25,7 @@ require('super_header.inc.php');
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
-include_once "engagement.class.php";
+include_once "command.class.php";
 include_once('consistency_check2.class.php');
 
 #include_once "time_tracking.class.php";
@@ -33,29 +33,29 @@ include_once('consistency_check2.class.php');
 
 include_once "smarty_tools.php";
 
-include "engagement_tools.php";
+include "command_tools.php";
 
-$logger = Logger::getLogger("engagement_info");
+$logger = Logger::getLogger("command_info");
 
 
-function getEngagements($teamid, $selectedEngId) {
+function getCommands($teamid, $selectedCmdId) {
 
-   $engagements = array();
+   $commands = array();
 if (0 != $teamid) {
 
    $team = TeamCache::getInstance()->getTeam($teamid);
-   $engList = $team->getEngagements();
+   $cmdList = $team->getCommands();
 
-   foreach ($engList as $id => $eng) {
-      $engagements[] = array(
+   foreach ($cmdList as $id => $cmd) {
+      $commands[] = array(
          'id' => $id,
-         'name' => $eng->getName(),
-         'selected' => ($id == $selectedEngId)
+         'name' => $cmd->getName(),
+         'selected' => ($id == $selectedCmdId)
       );
    }
 }
 
-   return $engagements;
+   return $commands;
 
 
 }
@@ -63,14 +63,14 @@ if (0 != $teamid) {
 
 /**
  * Get consistency errors
- * @param Engagement $eng
+ * @param Command $cmd
  */
-function getConsistencyErrors($eng) {
+function getConsistencyErrors($cmd) {
    global $statusNames;
 
    $consistencyErrors = array(); // if null, array_merge fails !
 
-   $issueSel = $eng->getIssueSelection();
+   $issueSel = $cmd->getIssueSelection();
    $issueList = $issueSel->getIssueList();
     $ccheck = new ConsistencyCheck2($issueList);
 
@@ -116,14 +116,14 @@ if (isset($_SESSION['userid'])) {
    }
    $_SESSION['teamid'] = $teamid;
 
-   // use the engid set in the form, if not defined (first page call) use session engid
-   $engagementid = 0;
-   if(isset($_POST['engid'])) {
-      $engagementid = $_POST['engid'];
-   } else if(isset($_SESSION['engid'])) {
-      $engagementid = $_SESSION['engid'];
+   // use the cmdid set in the form, if not defined (first page call) use session cmdid
+   $commandid = 0;
+   if(isset($_POST['cmdid'])) {
+      $commandid = $_POST['cmdid'];
+   } else if(isset($_SESSION['cmdid'])) {
+      $commandid = $_SESSION['cmdid'];
    }
-   $_SESSION['engid'] = $engagementid;
+   $_SESSION['cmdid'] = $commandid;
 
 
    // set TeamList (including observed teams)
@@ -131,30 +131,30 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('teamid', $teamid);
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
-   $smartyHelper->assign('engagementid', $engagementid);
-   $smartyHelper->assign('engagements', getEngagements($teamid, $engagementid));
+   $smartyHelper->assign('commandid', $commandid);
+   $smartyHelper->assign('commands', getCommands($teamid, $commandid));
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 
-   // ------ Display Engagement
+   // ------ Display Command
 
-   if (0 != $engagementid) {
+   if (0 != $commandid) {
 
-      $eng = EngagementCache::getInstance()->getEngagement($engagementid);
+      $cmd = CommandCache::getInstance()->getCommand($commandid);
 
-      $commandsetid = $eng->getCommandSet();
+      $commandsetid = $cmd->getCommandSet();
       if ((NULL != $commandsetid) && (0 != $commandsetid)) {
          $commandset = new CommandtSet($commandsetid); // TODO use cache
          $commandsetName = $commandset->getName();
          $smartyHelper->assign('commandsetName', $commandsetName);
       }
 
-      displayEngagement($smartyHelper, $eng);
+      displayCommand($smartyHelper, $cmd);
 
 
       // ConsistencyCheck
-      $consistencyErrors = getConsistencyErrors($eng);
+      $consistencyErrors = getConsistencyErrors($cmd);
 
       if(count($consistencyErrors) > 0) {
          $smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors"));
@@ -163,9 +163,9 @@ if (isset($_SESSION['userid'])) {
 
    } else {
 
-      if ('displayEngagement' == $action) {
+      if ('displayCommand' == $action) {
 
-         header('Location:engagement_edit.php?engid=0');
+         header('Location:command_edit.php?cmdid=0');
       }
    }
 

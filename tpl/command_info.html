@@ -3,17 +3,17 @@
 <script type="text/javascript">
 
 function setTeam() {
-   document.forms["engagementSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["engagementSelectForm"].engid.value="0";
-   document.forms["engagementSelectForm"].action.value="setTeam";
-   document.forms["engagementSelectForm"].submit();
+   document.forms["commandSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["commandSelectForm"].cmdid.value="0";
+   document.forms["commandSelectForm"].action.value="setTeam";
+   document.forms["commandSelectForm"].submit();
 }
 
 function submitForm() {
-   document.forms["engagementSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["engagementSelectForm"].engid.value = document.getElementById('engagementSelector').value;
-   document.forms["engagementSelectForm"].action.value = "displayEngagement";
-   document.forms["engagementSelectForm"].submit();
+   document.forms["commandSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["commandSelectForm"].cmdid.value = document.getElementById('commandSelector').value;
+   document.forms["commandSelectForm"].action.value = "displayCommand";
+   document.forms["commandSelectForm"].submit();
  }
 
 //------ JQUERY --------
@@ -29,7 +29,7 @@ $(document).ready(function() {
          "bAutoWidth": false
       });
       jQuery(function() {
-         jQuery( "#tabsEngagement" ).tabs();
+         jQuery( "#tabsCommand" ).tabs();
       });
 
    $( "#accordion" ).accordion({
@@ -45,7 +45,7 @@ $(document).ready(function() {
 
    <div align="center">
       <!-- create form -->
-      <form id='engagementSelectForm' name='engagementSelectForm' method='post' action='{$page}'>
+      <form id='commandSelectForm' name='commandSelectForm' method='post' action='{$page}'>
          <fieldset>
             <label>{t}Team{/t}: </label>
             <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
@@ -55,15 +55,15 @@ $(document).ready(function() {
                {/foreach}
             </select>
             <label>{t}Command{/t}: </label>
-            <select id='engagementSelector' name='engid'>
+            <select id='commandSelector' name='cmdid'>
                <option value='0'>{t}--- Create New Command ---{/t}</option>
-               {foreach from=$engagements key=id item=i}
+               {foreach from=$commands key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
             
-            <input type="hidden" name="action" value="displayEngagement" />
+            <input type="hidden" name="action" value="displayCommand" />
          </fieldset>
       </form>
    </div>
@@ -71,10 +71,10 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
    
-   {if $engid} 
+   {if $cmdid} 
    <div  align="center">
-      <h2>{$engName}</h2>
-      {$engDesc}
+      <h2>{$cmdName}</h2>
+      {$cmdDesc}
    </div>
 
    {if $consistencyErrors}
@@ -111,35 +111,35 @@ $(document).ready(function() {
             </tr>
             <tr>
                <th>{t}Date depart{/t}</th>
-               <td>: {$engStartDate}</td>
+               <td>: {$cmdStartDate}</td>
             </tr>
             <tr>
                <th>{t}Date fin{/t}</th>
-               <td>: {$engDeadline}</td>
+               <td>: {$cmdDeadline}</td>
             </tr>
             <tr>
                <th>{t}State{/t}</th>
-               <td>: {$engState}</td>
+               <td>: {$cmdState}</td>
             </tr>
             <tr>
                <th>{t}Average Daily Rate{/t}</th>
-               <td>: {$engAverageDailyRate} {t}Euro{/t}</td>
+               <td>: {$cmdAverageDailyRate} {t}Euro{/t}</td>
             </tr>
             <tr>
                <th>{t}Budget Developpement{/t}</th>
-               <td>: {$engBudgetDev} {t}days{/t}</td>
+               <td>: {$cmdBudgetDev} {t}days{/t}</td>
             </tr>
             <tr>
                <th>{t}Budget Management{/t}</th>
-               <td>: {$engBudgetMngt} {t}days{/t}</td>
+               <td>: {$cmdBudgetMngt} {t}days{/t}</td>
             </tr>
             <tr>
                <th>{t}Budget Garantie{/t}</th>
-               <td>: {$engBudgetGarantie} {t}days{/t}</td>
+               <td>: {$cmdBudgetGarantie} {t}days{/t}</td>
             </tr>
       </table>
       <br>
-      <button onclick="location.href='management/engagement_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      <button onclick="location.href='management/command_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
    </div>
 
    <br/><br/>
@@ -148,15 +148,15 @@ $(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
 
-   <div id="tabsEngagement">
+   <div id="tabsCommand">
       <ul>
          <li><a href="#tabsName-3">{t}Charges{/t}</a></li>
-         <li><a href="#tabsName-1">{t}Tasks{/t} ({$engNbIssues})</a></li>
+         <li><a href="#tabsName-1">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
          <li><a href="#tabsName-2">{t}Statistics{/t}</a></li>
       </ul>
 
       <div id="tabsName-3">
-         {if $engDetailedMgr}
+         {if $cmdDetailedMgr}
          <div>
             <table>
                <thead>
@@ -170,11 +170,11 @@ $(document).ready(function() {
                </thead>
                <tbody>
                <tr>
-                  <td>{$engDetailedMgr.effortEstim}</td>
-                  <td>{$engDetailedMgr.reestimated}</td>
-                  <td>{$engDetailedMgr.elapsed}</td>
-                  <td>{$engDetailedMgr.remaining}</td>
-                  <td {$engDetailedMgr.driftColor} title="{t}nb days{/t}">{$engDetailedMgr.drift}</td>
+                  <td>{$cmdDetailedMgr.effortEstim}</td>
+                  <td>{$cmdDetailedMgr.reestimated}</td>
+                  <td>{$cmdDetailedMgr.elapsed}</td>
+                  <td>{$cmdDetailedMgr.remaining}</td>
+                  <td {$cmdDetailedMgr.driftColor} title="{t}nb days{/t}">{$cmdDetailedMgr.drift}</td>
                </tr>
                </tbody>
             </table>
@@ -186,11 +186,11 @@ $(document).ready(function() {
 
       <div id="tabsName-1">
 
-         {if $engShortIssueList}
-         {t}Short List: {/t}<br>{$engShortIssueList}<br>
+         {if $cmdShortIssueList}
+         {t}Short List: {/t}<br>{$cmdShortIssueList}<br>
          {/if}
 
-         {if $engIssues}
+         {if $cmdIssues}
          <div align="center">
          <table id="issues_table" class="display">
             <thead>
@@ -208,7 +208,7 @@ $(document).ready(function() {
             </tr>
             </thead>
             <tbody>
-            {foreach $engIssues as $id => $issue}
+            {foreach $cmdIssues as $id => $issue}
             <tr>
                   <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
                   <td>{$issue.bugid}</td>
@@ -232,7 +232,7 @@ $(document).ready(function() {
       </div>
 
       <div id="tabsName-2">
-         {if $engStats}
+         {if $cmdStats}
          comming soon...
          {else}
          {t}No Stats available.{/t}

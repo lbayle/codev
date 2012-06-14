@@ -21,11 +21,11 @@
 /**
  *
  */
-function getEngagementIssues($engagement) {
+function getCommandIssues($command) {
 
    $issueArray = array();
 
-   $issues = $engagement->getIssueSelection()->getIssueList();
+   $issues = $command->getIssueSelection()->getIssueList();
    foreach ($issues as $id => $issue) {
 
       $driftMgr = $issue->getDriftMgr();
@@ -51,48 +51,48 @@ function getEngagementIssues($engagement) {
    return $issueArray;
 }
 
-function getEngStateList($engagement = NULL) {
+function getCmdStateList($command = NULL) {
 
    $stateList = NULL;
-   $engState = (NULL == $engagement) ? 0 : $engagement->getState();
+   $cmdState = (NULL == $command) ? 0 : $command->getState();
 
-   foreach (Engagement::$stateNames as $id => $name) {
+   foreach (Command::$stateNames as $id => $name) {
        $stateList[$id] = array('id'       => $id,
                             'name'     => $name,
-                            'selected' => ($id == $engState)
+                            'selected' => ($id == $cmdState)
        );
    }
    return $stateList;
 }
 
 
-function displayEngagement($smartyHelper, $eng) {
+function displayCommand($smartyHelper, $cmd) {
 
-   $smartyHelper->assign('engid', $eng->getId());
-   $smartyHelper->assign('engName', $eng->getName());
-   $smartyHelper->assign('engStateList', getEngStateList($eng));
-   $smartyHelper->assign('engState', Engagement::$stateNames[$eng->getState()]);
-   $smartyHelper->assign('engDesc', $eng->getDesc());
-   $smartyHelper->assign('engBudgetDev', $eng->getBudgetDev());
-   $smartyHelper->assign('engBudgetMngt', $eng->getBudgetMngt());
-   $smartyHelper->assign('engBudgetGarantie', $eng->getBudgetGarantie());
-   $smartyHelper->assign('engBudgetTotal', $eng->getBudgetDev() + $eng->getBudgetMngt() + $eng->getBudgetGarantie());
-   $smartyHelper->assign('engStartDate', date("Y-m-d", $eng->getStartDate()));
-   $smartyHelper->assign('engDeadline', date("Y-m-d", $eng->getDeadline()));
-   $smartyHelper->assign('engAverageDailyRate', $eng->getAverageDailyRate());
+   $smartyHelper->assign('cmdid', $cmd->getId());
+   $smartyHelper->assign('cmdName', $cmd->getName());
+   $smartyHelper->assign('cmdStateList', getCmdStateList($cmd));
+   $smartyHelper->assign('cmdState', Command::$stateNames[$cmd->getState()]);
+   $smartyHelper->assign('cmdDesc', $cmd->getDesc());
+   $smartyHelper->assign('cmdBudgetDev', $cmd->getBudgetDev());
+   $smartyHelper->assign('cmdBudgetMngt', $cmd->getBudgetMngt());
+   $smartyHelper->assign('cmdBudgetGarantie', $cmd->getBudgetGarantie());
+   $smartyHelper->assign('cmdBudgetTotal', $cmd->getBudgetDev() + $cmd->getBudgetMngt() + $cmd->getBudgetGarantie());
+   $smartyHelper->assign('cmdStartDate', date("Y-m-d", $cmd->getStartDate()));
+   $smartyHelper->assign('cmdDeadline', date("Y-m-d", $cmd->getDeadline()));
+   $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
 
-   // set Eng Details
-   $engIssueSel = $eng->getIssueSelection();
-   $engDetailedMgr = getIssueSelectionDetailedMgr($engIssueSel);
-   $smartyHelper->assign('engDetailedMgr', $engDetailedMgr);
-   $smartyHelper->assign('engNbIssues', $engIssueSel->getNbIssues());
-   $smartyHelper->assign('engShortIssueList', $engIssueSel->getFormattedIssueList());
+   // set Cmd Details
+   $cmdIssueSel = $cmd->getIssueSelection();
+   $cmdDetailedMgr = getIssueSelectionDetailedMgr($cmdIssueSel);
+   $smartyHelper->assign('cmdDetailedMgr', $cmdDetailedMgr);
+   $smartyHelper->assign('cmdNbIssues', $cmdIssueSel->getNbIssues());
+   $smartyHelper->assign('cmdShortIssueList', $cmdIssueSel->getFormattedIssueList());
 
-   $issueList = getEngagementIssues($eng);
-   $smartyHelper->assign('engIssues', $issueList);
+   $issueList = getCommandIssues($cmd);
+   $smartyHelper->assign('cmdIssues', $issueList);
 
    
-   $smartyHelper->assign('engStats', "ok");
+   $smartyHelper->assign('cmdStats', "ok");
 
 
 }

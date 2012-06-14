@@ -20,7 +20,7 @@ include_once "team_cache.class.php";
 
 include_once 'jobs.class.php';
 include_once 'project.class.php';
-include_once 'engagement.class.php';
+include_once 'command.class.php';
 
 require_once('Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
@@ -58,7 +58,7 @@ class Team {
    public $date;
 
    private $projTypeList;
-   private $engagementList;
+   private $commandList;
    private $commandSetList;
 
 
@@ -372,12 +372,12 @@ class Team {
    }
 
    /**
-    * Engagements for this team
+    * Commands for this team
     *
-    * @return array id => Engagement
+    * @return array id => Command
     */
-   public function getEngagements() {
-      if (NULL == $this->engagementList) {
+   public function getCommands() {
+      if (NULL == $this->commandList) {
          $query = "SELECT DISTINCT * FROM `codev_command_table` ".
             "WHERE team_id = $this->id ";
 
@@ -388,16 +388,16 @@ class Team {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $this->engagementList = array();
+         $this->commandList = array();
          while($row = mysql_fetch_object($result))
          {
-            $eng = new Engagement($row->id);
-            $this->engagementList[$row->id] = $eng;
+            $cmd = new Command($row->id);
+            $this->commandList[$row->id] = $cmd;
          }
       }
 
-      $this->logger->debug("getEngagements(teamid=$this->id) nbEng=".count($this->engagementList));
-      return $this->engagementList;
+      $this->logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
+      return $this->commandList;
    }
 
    /**

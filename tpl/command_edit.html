@@ -13,8 +13,8 @@ jQuery(document).ready(function() {
    {/if}
 
    // Set the date
-   jQuery("#engStartDate").datepicker("setDate" ,"{$engStartDate}");
-   jQuery("#engDeadline").datepicker("setDate" ,"{$engDeadline}");
+   jQuery("#cmdStartDate").datepicker("setDate" ,"{$cmdStartDate}");
+   jQuery("#cmdDeadline").datepicker("setDate" ,"{$cmdDeadline}");
 
    $('#issues_table').dataTable(
       {
@@ -28,7 +28,7 @@ jQuery(document).ready(function() {
       });
 
       jQuery(function() {
-         jQuery( "#tabsEngagement" ).tabs();
+         jQuery( "#tabsCommand" ).tabs();
       });
 
 });
@@ -41,14 +41,14 @@ jQuery(document).ready(function() {
    <br/><br/>
 
    <div  align="center">
-      <h2>{$engName}</h2>
+      <h2>{$cmdName}</h2>
    </div>
 
    <br/><br/>
 
    <div>
       <!-- create form -->
-      <form id='updateEngInfoForm' name='updateEngInfoForm' method='post' action='{$page}'>
+      <form id='updateCmdInfoForm' name='updateCmdInfoForm' method='post' action='{$page}'>
       <fieldset>
 
          <table class='invisible'>
@@ -76,28 +76,28 @@ jQuery(document).ready(function() {
                </tr>
                <tr>
                   <th>{t}Name{/t}</th>
-                  <td><input type='text' size='80' style='font-family: sans-serif' name='engName'  id='engName' value='{$engName}'></td>
+                  <td><input type='text' size='80' style='font-family: sans-serif' name='cmdName'  id='cmdName' value='{$cmdName}'></td>
                </tr>
                <tr>
                   <th>{t}Description{/t}</th>
-                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='engDesc'  id='engDesc'>{$engDesc}</textarea></td>
+                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='cmdDesc'  id='cmdDesc'>{$cmdDesc}</textarea></td>
                </tr>
                <tr>
                   <th>{t}Date depart{/t}</th>
-                  <td><input type="text" id="engStartDate"  name="engStartDate" class="datepicker" maxlength="10" size="10" title="{t}Start Date{/t}" />
+                  <td><input type="text" id="cmdStartDate"  name="cmdStartDate" class="datepicker" maxlength="10" size="10" title="{t}Start Date{/t}" />
                   </td>
                </tr>
                <tr>
                   <th>{t}Date fin{/t}</th>
-                  <td><input type="text" id="engDeadline"  name="engDeadline" class="datepicker" maxlength="10" size="10" title="{t}Deadline{/t}" />
+                  <td><input type="text" id="cmdDeadline"  name="cmdDeadline" class="datepicker" maxlength="10" size="10" title="{t}Deadline{/t}" />
                   </td>
                </tr>
                <tr>
                   <th>{t}State{/t}</th>
                   <td>
-                     <select id='stateSelector' name='engState'>
+                     <select id='stateSelector' name='cmdState'>
                         <option value='0'></option>
-                        {foreach from=$engStateList key=id item=i}
+                        {foreach from=$cmdStateList key=id item=i}
                         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                         {/foreach}
                      </select>
@@ -105,29 +105,29 @@ jQuery(document).ready(function() {
                </tr>
                <tr>
                   <th>{t}Average Daily Rate{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='engAverageDailyRate'  id='engAverageDailyRate' value='{$engAverageDailyRate}'> {t}Euro{/t}
+                  <td><input type='text' style='font-family: sans-serif' name='cmdAverageDailyRate'  id='cmdAverageDailyRate' value='{$cmdAverageDailyRate}'> {t}Euro{/t}
                   </td>
                </tr>
                <tr>
                   <th>{t}Budget Developpement{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='engBudgetDev'  id='engBudgetDev' value='{$engBudgetDev}'> {t}days{/t}
+                  <td><input type='text' style='font-family: sans-serif' name='cmdBudgetDev'  id='cmdBudgetDev' value='{$cmdBudgetDev}'> {t}days{/t}
                   </td>
                </tr>
                <tr>
                   <th>{t}Budget Management{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='engBudgetMngt'  id='engBudgetMngt' value='{$engBudgetMngt}'> {t}days{/t}
+                  <td><input type='text' style='font-family: sans-serif' name='cmdBudgetMngt'  id='cmdBudgetMngt' value='{$cmdBudgetMngt}'> {t}days{/t}
                   </td>
                </tr>
                <tr>
                   <th>{t}Budget Garantie{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='engBudgetGarantie'  id='engBudgetGarantie' value='{$engBudgetGarantie}'> {t}days{/t}</td>
+                  <td><input type='text' style='font-family: sans-serif' name='cmdBudgetGarantie'  id='cmdBudgetGarantie' value='{$cmdBudgetGarantie}'> {t}days{/t}</td>
                </tr>
          </table>
          <br>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$engInfoFormBtText}{/t}</button>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$cmdInfoFormBtText}{/t}</button>
 
-         <input type="hidden" name="action" value="{$engInfoFormAction}" />
-         <input type="hidden" name="engid" value="{$engagementid}" />
+         <input type="hidden" name="action" value="{$cmdInfoFormAction}" />
+         <input type="hidden" name="cmdid" value="{$commandid}" />
       </fieldset>
       </form>
 
@@ -139,42 +139,42 @@ jQuery(document).ready(function() {
    <div style="margin-top:2em;">
    <br/><br/>
 
-   <div id="tabsEngagement">
+   <div id="tabsCommand">
       <ul>
-         <li><a href="#tabsName-1">{t}Tasks ({$engNbIssues}){/t}</a></li>
+         <li><a href="#tabsName-1">{t}Tasks ({$cmdNbIssues}){/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
 
-         {if $isAddEngForm}
+         {if $isAddCmdForm}
          <script type="text/javascript">
          //------ JQUERY --------
          jQuery(document).ready(function() {
 
-            jQuery("#btAddEngIssue").click(function(event) {
-               addEngIssue();
+            jQuery("#btAddCmdIssue").click(function(event) {
+               addCmdIssue();
             });
 
             jQuery("#bugid").keypress(function(event) {
                if ( jQuery.ui.keyCode.ENTER == event.keyCode ) {
-               addEngIssue();
+               addCmdIssue();
                event.preventDefault();
                }
             });
 
-            function addEngIssue(){
+            function addCmdIssue(){
 
                // check fields
                var foundError = 0;
                var msgString = "{t}Missing field{/t}:\n\n";
 
-               if ("" == document.forms["addEngIssueForm"].bugid.value) {
+               if ("" == document.forms["addCmdIssueForm"].bugid.value) {
                   msgString += "{t}task id{/t}\n";
                   ++foundError;
                }
 
                if (0 == foundError) {
-                  document.forms["addEngIssueForm"].submit();
+                  document.forms["addCmdIssueForm"].submit();
                } else {
                   alert(msgString);
                }
@@ -187,47 +187,47 @@ jQuery(document).ready(function() {
 
          <div>
             <!-- create form -->
-            <form id='addEngIssueForm' name='addEngIssueForm' method='post' action='{$page}'>
+            <form id='addCmdIssueForm' name='addCmdIssueForm' method='post' action='{$page}'>
                <fieldset>
                   <label>{t}Add task{/t}: </label>
                   <input id='bugid' name='bugid' type='text' size='5' value='' />
-                  <input id="btAddEngIssue" type="button" value='{t}Add{/t}' />
+                  <input id="btAddCmdIssue" type="button" value='{t}Add{/t}' />
 
-                  <input type="hidden" name="action" value="addEngIssue" />
+                  <input type="hidden" name="action" value="addCmdIssue" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="engid" value="{$engagementid}" />
+                  <input type="hidden" name="cmdid" value="{$commandid}" />
                </fieldset>
             </form>
          </div>
          {else}
-         {t}Create the Engagement to add some tasks.{/t}
+         {t}Create the Command to add some tasks.{/t}
          {/if}
 
-         {if $engIssues}
+         {if $cmdIssues}
          <div align="center">
 
          <script type="text/javascript">
-            function removeEngIssue(bugid, project, description){
+            function removeCmdIssue(bugid, project, description){
                jQuery( "#desc_id" ).text(bugid);
                jQuery( "#desc_project" ).text(project);
                jQuery( "#desc_summary" ).text(description);
 
-               jQuery( "#formRemoveEngIssue" ).find("input[name=bugid]").val(bugid);
+               jQuery( "#formRemoveCmdIssue" ).find("input[name=bugid]").val(bugid);
 
-               jQuery( "#removeEngIssue_dialog_form" ).dialog( "open" );
+               jQuery( "#removeCmdIssue_dialog_form" ).dialog( "open" );
             }
          </script>
          <script type="text/javascript">
             jQuery(document).ready(function() {
                // delete track dialogBox
-               jQuery("#removeEngIssue_dialog_form" ).dialog({
+               jQuery("#removeCmdIssue_dialog_form" ).dialog({
                   autoOpen: false,
                   resizable: true,
                   width: "auto",
                   modal: true,
                   buttons: {
                      "Remove": function() {
-                        jQuery("#formRemoveEngIssue").submit();
+                        jQuery("#formRemoveCmdIssue").submit();
                      },
                      Cancel: function() {
                         jQuery( this ).dialog( "close" );
@@ -236,9 +236,9 @@ jQuery(document).ready(function() {
                });
             });
          </script>
-         <div id="removeEngIssue_dialog_form" title="{t}Remove Task{/t}" style="display: none">
+         <div id="removeCmdIssue_dialog_form" title="{t}Remove Task{/t}" style="display: none">
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-               {t}Remove Task from this Engagement ?{/t}
+               {t}Remove Task from this Command ?{/t}
             </p>
             <table class="invisible">
                <tr>
@@ -254,12 +254,12 @@ jQuery(document).ready(function() {
                   <td id="desc_summary">summary</td>
                </tr>
             </table>
-            <form id="formRemoveEngIssue" name="formRemoveEngIssue" method="post" action="{$page}" >
+            <form id="formRemoveCmdIssue" name="formRemoveCmdIssue" method="post" action="{$page}" >
                <fieldset>
-                  <input type="hidden" name="action" value="removeEngIssue" />
+                  <input type="hidden" name="action" value="removeCmdIssue" />
                   <input type="hidden" name="bugid"  value="0" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="engid"  value="{$engagementid}" />
+                  <input type="hidden" name="cmdid"  value="{$commandid}" />
 
                </fieldset>
             </form>
@@ -276,11 +276,11 @@ jQuery(document).ready(function() {
             </tr>
             </thead>
             <tbody>
-            {foreach $engIssues as $id => $issue}
+            {foreach $cmdIssues as $id => $issue}
             <tr>
                   <td>
-                     <a title="{t}delete Engagement-Task association{/t}"
-                        href="javascript: removeEngIssue('{$id}', '{$issue.project}', '{$issue.summary|escape}')">
+                     <a title="{t}delete Command-Task association{/t}"
+                        href="javascript: removeCmdIssue('{$id}', '{$issue.project}', '{$issue.summary|escape}')">
                         <img alt="b_drop.png" border="0" src="images/b_drop.png" />
                      </a>
                   </td>
@@ -296,7 +296,7 @@ jQuery(document).ready(function() {
          {/if}
 
       </div>
-      {if $engStats}
+      {if $cmdStats}
       <div id="tabsName-2">
       </div>
       {/if}

@@ -87,18 +87,18 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Actions
 
-      if ("addEngagement" == $action) {
-echo "addEngagement<br>";
+      if ("addCommand" == $action) {
+echo "addCommand<br>";
 
-         $_SESSION['engid'] = 0;
-         header('Location:engagement_edit.php?engid=0');
+         $_SESSION['cmdid'] = 0;
+         header('Location:command_edit.php?cmdid=0');
 
       } else if ("updateServiceInfo" == $action) {
 echo "updateServiceInfo<br>";
-      } else if ("removeEng" == $action) {
+      } else if ("removeCmd" == $action) {
 
-         $engid = checkNumericValue($_POST['engid']);
-         $commandset->removeEngagement($engid);
+         $cmdid = checkNumericValue($_POST['cmdid']);
+         $commandset->removeCommand($cmdid);
       }
 
       // ------ Display Service

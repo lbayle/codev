@@ -42,8 +42,8 @@ include_once "team.class.php";
  */
 class CommandtSet {
 
-   const engType_dev   = 1;    // in table codev_commandset_cmd_table
-   const engType_mngt  = 2;    // in table codev_commandset_cmd_table
+   const cmdType_dev   = 1;    // in table codev_commandset_cmd_table
+   const cmdType_mngt  = 2;    // in table codev_commandset_cmd_table
 
 
    private $logger;
@@ -56,9 +56,9 @@ class CommandtSet {
    private $teamid;
    private $serviceContractId;
 
-   // list of engagements, ordered by type
-   // engByTypeList[type][engid]
-   private $engByTypeList;
+   // list of commands, ordered by type
+   // engByTypeList[type][cmdid]
+   private $cmdByTypeList;
 
 
    function __construct($id) {
@@ -171,20 +171,20 @@ class CommandtSet {
    /**
     *
     * @param int $type
-    * @return array engid => Engagement
+    * @return array cmdid => Command
     */
-   public function getEngagements($type) {
+   public function getCommands($type) {
 
-      $engList = array();
+      $cmdList = array();
 
-      $engidList = $this->engByTypeList[$type];
+      $cmdidList = $this->engByTypeList[$type];
 
-      foreach ($engidList as $engid) {
+      foreach ($cmdidList as $cmdid) {
 
-         $engList[$engid] = EngagementCache::getInstance()->getEngagement($engid);
+         $cmdList[$cmdid] = CommandCache::getInstance()->getCommand($cmdid);
       }
 
-      return $engList;
+      return $cmdList;
    }
 
 
@@ -212,24 +212,24 @@ class CommandtSet {
     *
     * @param int $bugid
     */
-   public function addEngagement($engid, $type) {
+   public function addCommand($cmdid, $type) {
 
       try {
-         EngagementCache::getInstance()->getEngagement($engid);
+         CommandCache::getInstance()->getCommand($cmdid);
       } catch (Exception $e) {
-         $this->logger->error("addEngagement($engid): Engagement $engid does not exist !");
-         echo "<span style='color:red'>ERROR: Engagement  '$engid' does not exist !</span>";
+         $this->logger->error("addCommand($cmdid): Command $cmdid does not exist !");
+         echo "<span style='color:red'>ERROR: Command  '$cmdid' does not exist !</span>";
          return NULL;
       }
 
-      $this->logger->debug("Add engagement $engid to commandset $this->id");
+      $this->logger->debug("Add command $cmdid to commandset $this->id");
 
       if (NULL == $this->engByTypeList["$type"]) {
          $this->engByTypeList["$type"] = array();
       }
-      $this->engByTypeList["$type"][] = $engid;
+      $this->engByTypeList["$type"][] = $cmdid;
 
-      $query = "INSERT INTO `codev_commandset_cmd_table` (`commandset_id`, `command_id`, `type`) VALUES ('$this->id', '$engid', '$type');";
+      $query = "INSERT INTO `codev_commandset_cmd_table` (`commandset_id`, `command_id`, `type`) VALUES ('$this->id', '$cmdid', '$type');";
       $result = mysql_query($query);
       if (!$result) {
          $this->logger->error("Query FAILED: $query");
@@ -243,24 +243,24 @@ class CommandtSet {
    }
 
    /**
-    * remove engagement from commandset engagementList.
-    * the Engagement itself is not deleted.
+    * remove command from commandset commandList.
+    * the Command itself is not deleted.
     *
-    * @param int $engid
+    * @param int $cmdid
     */
-   public function removeEngagement($engid) {
+   public function removeCommand($cmdid) {
 
       $typeList = array_keys($this->engByTypeList);
 
       foreach ($typeList as $type) {
-         if (NULL != $this->engByTypeList[$type][$engid]) {
-            unset($this->engByTypeList[$type][$engid]);
+         if (NULL != $this->engByTypeList[$type][$cmdid]) {
+            unset($this->engByTypeList[$type][$cmdid]);
             # break;
          }
       }
 
 
-      $query = "DELETE FROM `codev_commandset_cmd_table` WHERE commandset_id='$this->id' AND command_id='$engid';";
+      $query = "DELETE FROM `codev_commandset_cmd_table` WHERE commandset_id='$this->id' AND command_id='$cmdid';";
       $result = mysql_query($query);
       if (!$result) {
          $this->logger->error("Query FAILED: $query");

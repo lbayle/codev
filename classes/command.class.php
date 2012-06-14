@@ -27,22 +27,22 @@ if (NULL == Logger::getConfigurationFile()) {
 include_once "issue_selection.class.php";
 include_once "team.class.php";
 include_once "commandset.class.php";
-include_once "engagement_cache.class.php";
+include_once "command_cache.class.php";
 
 
 
 /**
- * Un engagement (fiche de presta) est un ensemble de taches que l'on veut
+ * Un command (fiche de presta) est un ensemble de taches que l'on veut
  * piloter a l'aide d'indicateurs (cout, delai, qualite, avancement)
  *
- * un engagement peut contenir des taches précises (mantis)
+ * un command peut contenir des taches précises (mantis)
  * mais également définir des objectifs d'ordre global ou non
  * liés au dev.
  *
- * un engagement est provisionné d'un certain budget, négocié avec le client.
+ * un command est provisionné d'un certain budget, négocié avec le client.
  * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budget.
  */
-class Engagement {
+class Command {
 
   const state_toBeSent       = 1;
   const state_sent           = 2;
@@ -55,15 +55,15 @@ class Engagement {
   const state_payed          = 9;
 
   // TODO i18n for constants
-  public static $stateNames = array(Engagement::state_toBeSent       => "A émettre",
-                                    Engagement::state_sent           => "Emis",
-                                    Engagement::state_toBeValidated  => "A valider",
-                                    Engagement::state_validated      => "Validé",
-                                    Engagement::state_toBeClosed     => "A clôturer",
-                                    Engagement::state_closed         => "Clôturé",
-                                    Engagement::state_billMustBeSent => "Facture à émettre",
-                                    Engagement::state_billSent       => "Facture émise",
-                                    Engagement::state_payed          => "Facturé");
+  public static $stateNames = array(Command::state_toBeSent       => "A émettre",
+                                    Command::state_sent           => "Emis",
+                                    Command::state_toBeValidated  => "A valider",
+                                    Command::state_validated      => "Validé",
+                                    Command::state_toBeClosed     => "A clôturer",
+                                    Command::state_closed         => "Clôturé",
+                                    Command::state_billMustBeSent => "Facture à émettre",
+                                    Command::state_billSent       => "Facture émise",
+                                    Command::state_payed          => "Facturé");
 
 
    private $logger;
@@ -92,8 +92,8 @@ class Engagement {
 
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Creating an Engagement with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION Engagement constructor: ".$e->getMessage());
+         $e = new Exception("Creating an Command with id=0 is not allowed.");
+         $this->logger->error("EXCEPTION Command constructor: ".$e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
@@ -323,7 +323,7 @@ class Engagement {
 
 
    /**
-    * create a new engagement in the DB
+    * create a new command in the DB
     *
     * @return int $id
     */
@@ -342,7 +342,7 @@ class Engagement {
    }
 
    /**
-    * add Issue to engagement (in DB & current instance)
+    * add Issue to command (in DB & current instance)
     *
     * @param int $bugid
     */
@@ -365,7 +365,7 @@ class Engagement {
          return NULL;
       }
 
-      $this->logger->debug("Add issue $bugid to engagement $this->id");
+      $this->logger->debug("Add issue $bugid to command $this->id");
       $this->issueSelection->addIssue($bugid);
 
       $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
@@ -382,7 +382,7 @@ class Engagement {
    }
 
    /**
-    * remove issue from engagement issueList.
+    * remove issue from command issueList.
     * the issue itself is not deleted.
     *
     * @param int $bugid
@@ -427,11 +427,11 @@ class Engagement {
             exit;
          }
 
-         // can an Engagement belong to more than one commandset ?
+         // can an Command belong to more than one commandset ?
          while($row = mysql_fetch_object($result)) {
 
             $this->commandSetId = $row->commandset_id;
-            $this->logger->debug("Engagement $this->id is in commandset $this->commandSetId");
+            $this->logger->debug("Command $this->id is in commandset $this->commandSetId");
          }
       }
       return $this->commandSetId;
@@ -444,7 +444,7 @@ class Engagement {
     * @param int $type
     *
     */
-   public function setCommandSet($value, $type = CommandtSet::engType_dev) {
+   public function setCommandSet($value, $type = CommandtSet::cmdType_dev) {
 
       if ((NULL == $value) || (0 == $value)){
 

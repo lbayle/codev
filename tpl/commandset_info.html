@@ -18,7 +18,7 @@ function submitForm() {
 
 //------ JQUERY --------
 $(document).ready(function() {
-   $('#devEng_table').dataTable(
+   $('#devCmd_table').dataTable(
       {
          "sScrollY": "700px",
          "bPaginate": false,
@@ -28,7 +28,7 @@ $(document).ready(function() {
          "bInfo": false,
          "bAutoWidth": false
       });
-   $('#mngtEng_table').dataTable(
+   $('#mngtCmd_table').dataTable(
       {
          "sScrollY": "700px",
          "bPaginate": false,
@@ -132,9 +132,9 @@ $(document).ready(function() {
       </ul>
 
       <div id="tabsName-1">
-         {if $engList}
+         {if $cmdList}
          <div>
-            <!--table id="devEng_table" class="display"-->
+            <!--table id="devCmd_table" class="display"-->
             <table>
                <thead>
                <tr>
@@ -148,22 +148,22 @@ $(document).ready(function() {
                </tr>
                </thead>
                <tbody>
-                  {foreach $engList as $id => $eng}
+                  {foreach $cmdList as $id => $cmd}
                   <tr>
                      <td>{$id}</td>
-                     <th title="{$id}"  align='left'>{$eng.name}</th>
-                     <td>{$eng.effortEstim}</td>
-                     <td>{$eng.reestimated}</td>
-                     <td>{$eng.elapsed}</td>
-                     <td>{$eng.remaining}</td>
-                     <td {$eng.driftColor}>{$eng.drift}</td>
+                     <th title="{$id}"  align='left'>{$cmd.name}</th>
+                     <td>{$cmd.effortEstim}</td>
+                     <td>{$cmd.reestimated}</td>
+                     <td>{$cmd.elapsed}</td>
+                     <td>{$cmd.remaining}</td>
+                     <td {$cmd.driftColor}>{$cmd.drift}</td>
                   </tr>
                   {/foreach}
                </tbody>
             </table>
          </div>
          {else}
-         {t}No Engagement found.{/t}
+         {t}No Command found.{/t}
          {/if}
       </div>
 

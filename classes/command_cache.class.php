@@ -16,9 +16,9 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('engagement.class.php');
+require_once('command.class.php');
 
-class EngagementCache {
+class CommandCache {
 
    private static $logger;
 
@@ -46,7 +46,7 @@ class EngagementCache {
    /**
     * The singleton pattern
     * @static
-    * @return EngagementCache
+    * @return CommandCache
     */
    public static function getInstance() {
       if (!isset(self::$instance)) {
@@ -57,26 +57,26 @@ class EngagementCache {
    }
 
    /**
-    * Get Engagement class instance
-    * @param int $engid The engagement id
-    * @return Engagement The engagement attached to the id
+    * Get Command class instance
+    * @param int $cmdid The command id
+    * @return Command The command attached to the id
     */
-   public function getEngagement($engid) {
-      $eng = isset(self::$objects[$engid]) ? self::$objects[$engid] : NULL;
+   public function getCommand($cmdid) {
+      $cmd = isset(self::$objects[$cmdid]) ? self::$objects[$cmdid] : NULL;
 
-      if (NULL == $eng) {
-         self::$objects[$engid] = new Engagement($engid);
-         $eng = self::$objects[$engid];
-         #echo "DEBUG: EngagementCache add $engid<br/>";
+      if (NULL == $cmd) {
+         self::$objects[$cmdid] = new Command($cmdid);
+         $cmd = self::$objects[$cmdid];
+         #echo "DEBUG: CommandCache add $cmdid<br/>";
       } else {
-         if (isset(self::$callCount[$engid])) {
-            self::$callCount[$engid] += 1;
+         if (isset(self::$callCount[$cmdid])) {
+            self::$callCount[$cmdid] += 1;
          } else {
-            self::$callCount[$engid] = 1;
+            self::$callCount[$cmdid] = 1;
          }
-         #echo "DEBUG: EngagementCache called $engid<br/>";
+         #echo "DEBUG: CommandCache called $cmdid<br/>";
       }
-      return $eng;
+      return $cmd;
    }
 
    /**
@@ -95,8 +95,8 @@ class EngagementCache {
       }
       echo "<br/>\n";
       if ($verbose) {
-         foreach(self::$callCount as $engid => $count) {
-            echo "cache[$engid] = $count<br/>\n";
+         foreach(self::$callCount as $cmdid => $count) {
+            echo "cache[$cmdid] = $count<br/>\n";
          }
       }
    }

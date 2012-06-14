@@ -27,44 +27,44 @@ include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 include_once "commandset.class.php";
-include_once "engagement.class.php";
+include_once "command.class.php";
 
 include_once "smarty_tools.php";
 
-include "engagement_tools.php";
+include "command_tools.php";
 include "commandset_tools.php";
 
-$logger = Logger::getLogger("engagement_edit");
+$logger = Logger::getLogger("command_edit");
 
 /**
  *
- * @param Engagement $eng 
+ * @param Command $cmd
  */
-function updateEngInfo($eng) {
+function updateCmdInfo($cmd) {
 
    // security check
-   $eng->setTeamid(checkNumericValue($_POST['teamid']));
+   $cmd->setTeamid(checkNumericValue($_POST['teamid']));
 
-   $eng->setCommandSet(checkNumericValue($_POST['commandsetid']));
+   $cmd->setCommandSet(checkNumericValue($_POST['commandsetid']));
 
-   $formattedValue = mysql_real_escape_string($_POST['engName']);
-   $eng->setName($formattedValue);
+   $formattedValue = mysql_real_escape_string($_POST['cmdName']);
+   $cmd->setName($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['engDesc']);
-   $eng->setDesc($formattedValue);
+   $formattedValue = mysql_real_escape_string($_POST['cmdDesc']);
+   $cmd->setDesc($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['engStartDate']);
-   $eng->setStartDate(date2timestamp($formattedValue));
+   $formattedValue = mysql_real_escape_string($_POST['cmdStartDate']);
+   $cmd->setStartDate(date2timestamp($formattedValue));
 
-   $formattedValue = mysql_real_escape_string($_POST['engDeadline']);
-   $eng->setDeadline(date2timestamp($formattedValue));
+   $formattedValue = mysql_real_escape_string($_POST['cmdDeadline']);
+   $cmd->setDeadline(date2timestamp($formattedValue));
 
 
-   $eng->setState(checkNumericValue($_POST['engState'], true));
-   $eng->setBudgetDev(checkNumericValue($_POST['engBudgetDev'], true));
-   $eng->setBudgetMngt(checkNumericValue($_POST['engBudgetMngt'], true));
-   $eng->setBudgetGarantie(checkNumericValue($_POST['engBudgetGarantie'], true));
-   $eng->setAverageDailyRate(checkNumericValue($_POST['engAverageDailyRate'], true));
+   $cmd->setState(checkNumericValue($_POST['cmdState'], true));
+   $cmd->setBudgetDev(checkNumericValue($_POST['cmdBudgetDev'], true));
+   $cmd->setBudgetMngt(checkNumericValue($_POST['cmdBudgetMngt'], true));
+   $cmd->setBudgetGarantie(checkNumericValue($_POST['cmdBudgetGarantie'], true));
+   $cmd->setAverageDailyRate(checkNumericValue($_POST['cmdAverageDailyRate'], true));
 
 
 }
@@ -76,7 +76,7 @@ require('display.inc.php');
 
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Engagement (edition)'));
+$smartyHelper->assign('pageName', T_('Command (edition)'));
 
 if (isset($_SESSION['userid'])) {
 
@@ -99,19 +99,19 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
 
-   // use the engid set in the form, if not defined (first page call) use session engid
-   $engagementid = 0;
-   if(isset($_POST['engid'])) {
-      $engagementid = $_POST['engid'];
-   } else if(isset($_GET['engid'])) {
-      $engagementid = $_GET['engid'];
-   } else if(isset($_SESSION['engid'])) {
-      $engagementid = $_SESSION['engid'];
+   // use the cmdid set in the form, if not defined (first page call) use session cmdid
+   $commandid = 0;
+   if(isset($_POST['cmdid'])) {
+      $commandid = $_POST['cmdid'];
+   } else if(isset($_GET['cmdid'])) {
+      $commandid = $_GET['cmdid'];
+   } else if(isset($_SESSION['cmdid'])) {
+      $commandid = $_SESSION['cmdid'];
    }
-   $_SESSION['engid'] = $engagementid;
+   $_SESSION['cmdid'] = $commandid;
 
    // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
-   // Note: It is used for createEnv but will be overridden by the displayed engagement's commandsetid.
+   // Note: It is used for createEnv but will be overridden by the displayed command's commandsetid.
    $commandsetid = 0;
    if(isset($_POST['commandsetid'])) {
       $commandsetid = $_POST['commandsetid'];
@@ -129,71 +129,71 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
 
-   if (0 == $engagementid) {
+   if (0 == $commandid) {
 
       // -------- CREATE ENG -------
 
       // ------ Actions
-      if ("createEng" == $action) {
+      if ("createCmd" == $action) {
 
          $teamid = checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
-         $logger->debug("create new Engagement for team $teamid<br>");
+         $logger->debug("create new Command for team $teamid<br>");
 
-         $engName = mysql_real_escape_string($_POST['engName']);
+         $cmdName = mysql_real_escape_string($_POST['cmdName']);
 
-         $engagementid = Engagement::create($engName, $teamid);
-         $smartyHelper->assign('engagementid', $engagementid);
+         $commandid = Command::create($cmdName, $teamid);
+         $smartyHelper->assign('commandid', $commandid);
 
-         $eng = EngagementCache::getInstance()->getEngagement($engagementid);
+         $cmd = CommandCache::getInstance()->getCommand($commandid);
 
          // set all fields
-         updateEngInfo($eng);
+         updateCmdInfo($cmd);
 
       }
 
-      // ------ Display Empty Engagement Form
-      // Note: this will be overridden by the 'update' section if the 'createEng' action has been called.
-      $smartyHelper->assign('engInfoFormBtText', 'Create');
-      $smartyHelper->assign('engInfoFormAction', 'createEng');
+      // ------ Display Empty Command Form
+      // Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
+      $smartyHelper->assign('cmdInfoFormBtText', 'Create');
+      $smartyHelper->assign('cmdInfoFormAction', 'createCmd');
 
-      $smartyHelper->assign('engStateList', getEngStateList());
-      $smartyHelper->assign('engState', Engagement::$stateNames[0]);
+      $smartyHelper->assign('cmdStateList', getCmdStateList());
+      $smartyHelper->assign('cmdState', Command::$stateNames[0]);
 
       $smartyHelper->assign('commandsetid', $commandsetid);
       $smartyHelper->assign('commandsets', getServices($teamid, $commandsetid));
    }
 
 
-   if (0 != $engagementid) {
+   if (0 != $commandid) {
       // -------- UPDATE ENG -------
 
-      $eng = EngagementCache::getInstance()->getEngagement($engagementid);
+      $cmd = CommandCache::getInstance()->getCommand($commandid);
 
 
       // ------ Actions
 
-      if ("addEngIssue" == $action) {
+      if ("addCmdIssue" == $action) {
          $bugid = $_POST['bugid'];
-         $logger->debug("add Issue $bugid on Engagement $engagementid team $teamid<br>");
+         $logger->debug("add Issue $bugid on Command $commandid team $teamid<br>");
 
-         $eng->addIssue($bugid);
+         $cmd->addIssue($bugid);
 
-      } else if ("updateEngInfo" == $action) {
+      } else if ("updateCmdInfo" == $action) {
 
          $teamid = checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
 
-         updateEngInfo($eng);
+         updateCmdInfo($cmd);
 
-      } else if ("removeEngIssue" == $action) {
+      } else if ("removeCmdIssue" == $action) {
 
-         $eng->removeIssue($_POST['bugid']);
+         $cmd->removeIssue($_POST['bugid']);
       }
 
 
-      // --- set Service according to the displayed engagement
-     $commandsetid = $eng->getCommandSet();
+      // --- set Service according to the displayed command
+     $commandsetid = $cmd->getCommandSet();
 
 
    if ((NULL == $commandsetid) || (0 == $commandsetid)) {
@@ -211,13 +211,13 @@ if (isset($_SESSION['userid'])) {
       }
  
 
-      // ------ Display Engagement
-      $smartyHelper->assign('engagementid', $engagementid);
-      $smartyHelper->assign('engInfoFormBtText', 'Save');
-      $smartyHelper->assign('engInfoFormAction', 'updateEngInfo');
-      $smartyHelper->assign('isAddEngForm', true);
+      // ------ Display Command
+      $smartyHelper->assign('commandid', $commandid);
+      $smartyHelper->assign('cmdInfoFormBtText', 'Save');
+      $smartyHelper->assign('cmdInfoFormAction', 'updateCmdInfo');
+      $smartyHelper->assign('isAddCmdForm', true);
 
-      displayEngagement($smartyHelper, $eng);
+      displayCommand($smartyHelper, $cmd);
 
    }
 

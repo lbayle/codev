@@ -141,7 +141,7 @@ class ConsistencyCheck2 {
 
       /*
        * It is now allowed to have MgrEE = 0
-       *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Engagement's creation.
+       *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Command's creation.
        *   tasks having MgrEE = 0 are internal_tasks
        *
 

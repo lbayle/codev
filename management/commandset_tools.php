@@ -49,26 +49,26 @@ if (0 != $teamid) {
  * @param int $type
  * @return array
  */
-function getServiceEngagements($commandsetid, $type) {
+function getServiceCommands($commandsetid, $type) {
 
-   $engagements = array();
+   $commands = array();
 
    if (0 != $commandsetid) {
       $commandset = new CommandtSet($commandsetid); // TODO use cache
 
-      $engList = $commandset->getEngagements($type);
-      foreach ($engList as $id => $eng) {
+      $cmdList = $commandset->getCommands($type);
+      foreach ($cmdList as $id => $cmd) {
 
-         $issueSelection = $eng->getIssueSelection();
-         $engDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
+         $issueSelection = $cmd->getIssueSelection();
+         $cmdDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
 
-         $engDetailedMgr['name'] = $eng->getName();
-         $engDetailedMgr['description'] = $eng->getDesc();
+         $cmdDetailedMgr['name'] = $cmd->getName();
+         $cmdDetailedMgr['description'] = $cmd->getDesc();
 
-         $engagements[$id] = $engDetailedMgr;
+         $commands[$id] = $cmdDetailedMgr;
       }
    }
-   return $engagements;
+   return $commands;
 }
 
 /**
@@ -83,10 +83,10 @@ function displayService($smartyHelper, $commandset) {
    $smartyHelper->assign('commandsetDesc', $commandset->getDesc());
    $smartyHelper->assign('commandsetDate', date("Y-m-d", $commandset->getDate()));
 
-   $smartyHelper->assign('engList', getServiceEngagements($commandset->getId(), CommandtSet::engType_dev));
+   $smartyHelper->assign('cmdList', getServiceCommands($commandset->getId(), CommandtSet::cmdType_dev));
 
-   // DEPRECATED, a commandset has only one type of engagement
-   #$smartyHelper->assign('mngtEngagements', getServiceEngagements($commandsetid, Service::engType_mngt));
+   // DEPRECATED, a commandset has only one type of command
+   #$smartyHelper->assign('mngtCommands', getServiceCommands($commandsetid, Service::cmdType_mngt));
 
 }
 
