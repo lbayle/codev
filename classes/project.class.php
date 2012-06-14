@@ -39,6 +39,16 @@ class Project {
   const type_noCommonProject  = 2;     // projects which have only assignedJobs (no common jobs) REM: these projects are not considered as sideTaskProjects
   const type_noStatsProject   = 3;     // projects that will be excluded from the statistics (ex: FDL)
 
+  // REM: 'type' field in codev_project_category_table
+  const cat_st_inactivity  = 1;
+  const cat_st_onduty      = 2;
+  const cat_st_incident    = 3;
+  const cat_st_tools       = 4;
+  const cat_st_workshop    = 5;
+  const cat_mngt_provision = 6;
+  const cat_mngt_regular   = 7;
+
+
   private $logger;
 
   public static $typeNames = array(Project::type_workingProject  => "Project",
@@ -46,60 +56,52 @@ class Project {
                                    Project::type_noStatsProject  => "Project (stats excluded)",
                                    Project::type_sideTaskProject => "SideTasks");
 
+   var $id;
+   var $name;
+   var $description;
+   var $type;
+   var $jobList;
+   var $categoryList;
+   private $teamTypeList;
 
-   // REM: the values are also the names of the fields in codev_sidetasks_category_table
-   public static $keyProjManagement = "cat_management";
-   public static $keyIncident       = "cat_incident";
-   public static $keyInactivity     = "cat_inactivity";
-   public static $keyTools          = "cat_tools";
-   public static $keyWorkshop       = "cat_workshop";
+   private $bug_resolved_status_threshold;
+   private $projectVersionList;
 
-	var $id;
-	var $name;
-	var $description;
-	var $type;
-	var $jobList;
-	var $categoryList;
-	private $teamTypeList;
+   private $progress;
+   private $progressMgr;
+   private $drift;
+   private $driftMgr;
 
-	private $bug_resolved_status_threshold;
-	private $projectVersionList;
+   // -----------------------------------------------
+   public function __construct($id) {
+      $this->logger = Logger::getLogger(__CLASS__);
 
-	private $progress;
-	private $progressMgr;
-	private $drift;
-	private $driftMgr;
-
-	// -----------------------------------------------
-	public function __construct($id) {
-	   $this->logger = Logger::getLogger(__CLASS__);
-
-	   if (0 == $id) {
-	      echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-	      $e = new Exception("Creating a Project with id=0 is not allowed.");
-	      $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
+      if (0 == $id) {
+         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("Creating a Project with id=0 is not allowed.");
+         $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-	      throw $e;
-	   }
+         throw $e;
+      }
 
-	   $this->id = $id;
-	   $this->initialize();
+      $this->id = $id;
+      $this->initialize();
    }
 
    // -----------------------------------------------
    public function initialize() {
 
-   	$query  = "SELECT mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
-   	          "FROM `mantis_project_table`, `codev_team_project_table` ".
-   	          "WHERE mantis_project_table.id = $this->id ".
-   	          "AND codev_team_project_table.project_id = $this->id ";
+      $query  = "SELECT mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
+                "FROM `mantis_project_table`, `codev_team_project_table` ".
+                "WHERE mantis_project_table.id = $this->id ".
+                "AND codev_team_project_table.project_id = $this->id ";
 
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $row = mysql_fetch_object($result);
 
@@ -108,34 +110,28 @@ class Project {
       $this->type        = $row->type;
 
       // ---- if SideTaskProject get categories
-      if ( $this->type == Project::type_sideTaskProject) {
+      $query  = "SELECT * FROM `codev_project_category_table` WHERE project_id = $this->id ";
+      $result = mysql_query($query);
+      if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            exit;
+      }
 
-         $query  = "SELECT * FROM `codev_sidetasks_category_table` WHERE project_id = $this->id ";
-         $result = mysql_query($query);
-         if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-         }
-         $row = mysql_fetch_object($result);
-
-         $this->categoryList = array();
-         $this->categoryList[Project::$keyProjManagement] = $row->cat_management;
-         $this->categoryList[Project::$keyIncident]       = $row->cat_incident;
-         $this->categoryList[Project::$keyInactivity]     = $row->cat_inactivity;
-         $this->categoryList[Project::$keyTools]          = $row->cat_tools;
-         $this->categoryList[Project::$keyWorkshop]          = $row->cat_workshop;
+      $this->categoryList = array();
+      while($row = mysql_fetch_object($result))   {
+         $this->categoryList[$row->type] = $row->category_id;
       }
 
       // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
       $query  = "SELECT get_project_resolved_status_threshold($this->id) ";
       $result = mysql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $this->bug_resolved_status_threshold = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
       #echo "DEBUG $this->name .bug_resolved_status_threshold = $this->bug_resolved_status_threshold<br>\n";
@@ -152,16 +148,16 @@ class Project {
 
    global $logger;
 
-  	$query  = "SELECT mantis_project_table.name ".
-   	          "FROM `mantis_project_table` ".
-   	          "WHERE mantis_project_table.id = $projectId ";
+     $query  = "SELECT mantis_project_table.name ".
+                "FROM `mantis_project_table` ".
+                "WHERE mantis_project_table.id = $projectId ";
 
       $result = mysql_query($query);
       if (!$result) {
-    	      $logger->error("Query FAILED: $query");
-    	      $logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $row = mysql_fetch_object($result);
 
@@ -181,10 +177,10 @@ class Project {
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = mysql_query($query);
       if (!$result) {
-    	      $logger->error("Query FAILED: $query");
-    	      $logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
       if (-1 != $projectid) {
@@ -197,10 +193,10 @@ class Project {
                "VALUES ('$projectName','50','1','50','10','$projectDesc','1','1');";
       $result = mysql_query($query);
          if (!$result) {
-    	      $logger->error("Query FAILED: $query");
-    	      $logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $projectid = mysql_insert_id();
 
@@ -213,10 +209,10 @@ class Project {
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = mysql_query($query);
       if (!$result) {
-      	$logger->error("Query FAILED: $query");
-      	$logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
       //--- Status to set auto-assigned issues to 'closed'
@@ -224,10 +220,10 @@ class Project {
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = mysql_query($query);
       if (!$result) {
-      	$logger->error("Query FAILED: $query");
-      	$logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
       return $projectid;
@@ -252,10 +248,10 @@ class Project {
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
       $result = mysql_query($query);
       if (!$result) {
-    	      $logger->error("Query FAILED: $query");
-    	      $logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
       if (-1 != $projectid) {
@@ -268,10 +264,10 @@ class Project {
                "VALUES ('$projectName','50','1','50','10','$projectDesc','1','0');";
       $result = mysql_query($query);
       if (!$result) {
-    	      $logger->error("Query FAILED: $query");
-    	      $logger->error(mysql_error());
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+             $logger->error("Query FAILED: $query");
+             $logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
       $projectid = mysql_insert_id();
 
@@ -279,10 +275,10 @@ class Project {
       $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
       $result = mysql_query($query);
       if (!$result) {
-      	$logger->error("Query FAILED: $query");
-      	$logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
@@ -294,10 +290,10 @@ class Project {
                       "('$deliveryDateCustomField', '$projectid','7');";
       $result = mysql_query($query);
       if (!$result) {
-      	$logger->error("Query FAILED: $query");
-      	$logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
       // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
@@ -310,10 +306,10 @@ class Project {
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = mysql_query($query);
       if (!$result) {
-      	$logger->error("Query FAILED: $query");
-      	$logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
       // Status to set auto-assigned issues to 'closed'
@@ -321,10 +317,10 @@ class Project {
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
       $result = mysql_query($query);
       if (!$result) {
-      	$logger->error("Query FAILED: $query");
-      	$logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
       return $projectid;
@@ -348,16 +344,16 @@ class Project {
 
       $existingFields = array();
 
-	  // find out which customFields are already associated
-	  $query = "SELECT field_id FROM `mantis_custom_field_project_table` WHERE 	project_id = $this->id";
+     // find out which customFields are already associated
+     $query = "SELECT field_id FROM `mantis_custom_field_project_table` WHERE    project_id = $this->id";
      $result = mysql_query($query);
      if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
      }
-	  while($row = mysql_fetch_object($result))
+     while($row = mysql_fetch_object($result))
       {
           $existingFields[] = $row->field_id;
       }
@@ -365,80 +361,100 @@ class Project {
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
                "VALUES ";
 
-	  $found = false;
-	  if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$this->id','101'),"; $found = true; }
-	  if (!in_array($mgrEffortEstim, $existingFields))         { $query .= "('$mgrEffortEstim',         '$this->id','102'),"; $found = true; }
-	  if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$this->id','103'),"; $found = true; }
-	  if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$this->id','104'),"; $found = true; }
-	  if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$this->id','105'),"; $found = true; }
-	  if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$this->id','106'),"; $found = true; }
-	  if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$this->id','107'),"; $found = true; }
-	  #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
+     $found = false;
+     if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$this->id','101'),"; $found = true; }
+     if (!in_array($mgrEffortEstim, $existingFields))         { $query .= "('$mgrEffortEstim',         '$this->id','102'),"; $found = true; }
+     if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$this->id','103'),"; $found = true; }
+     if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$this->id','104'),"; $found = true; }
+     if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$this->id','105'),"; $found = true; }
+     if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$this->id','106'),"; $found = true; }
+     if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$this->id','107'),"; $found = true; }
+     #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
 
-	  if ($found) {
-	  	  // replace last ',' with a ';' to finish query
-	  	  $pos = strlen($query) - 1;
-	  	  $query[$pos] = ';';
+     if ($found) {
+          // replace last ',' with a ';' to finish query
+          $pos = strlen($query) - 1;
+          $query[$pos] = ';';
 
         // add missing custom fields
-	     $result = mysql_query($query);
+        $result = mysql_query($query);
         if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
         }
-	  }
+     }
 
    }
 
    // -----------------------------------------------
    public function addCategoryProjManagement($catName) {
-      return $this->addCategory(Project::$keyProjManagement, $catName);
+      return $this->addCategory(Project::cat_mngt_regular, $catName);
+   }
+   public function addCategoryMngtProvision($catName) {
+      return $this->addCategory(Project::cat_mngt_provision, $catName);
    }
    public function addCategoryInactivity($catName) {
-      return $this->addCategory(Project::$keyInactivity, $catName);
+      return $this->addCategory(Project::cat_st_inactivity, $catName);
    }
    public function addCategoryIncident($catName) {
-      return $this->addCategory(Project::$keyIncident, $catName);
+      return $this->addCategory(Project::cat_st_incident, $catName);
    }
    public function addCategoryTools($catName) {
-      return $this->addCategory(Project::$keyTools, $catName);
+      return $this->addCategory(Project::cat_st_tools, $catName);
    }
    public function addCategoryWorkshop($catName) {
-      return $this->addCategory(Project::$keyWorkshop, $catName);
+      return $this->addCategory(Project::cat_st_workshop, $catName);
    }
 
    // -----------------------------------------------
    /**
     * WARN: the $catKey is the name of the field in codev_sidetasks_category_table
-    * @param string $catKey in (Project::$keyProjManagement, Project::$keyIncident, Project::$keyInactivity, Project::$keyTools, Project::$keyWorkshop
+    * @param string $catType in (Project::cat_mngt_regular, ...)
     * @param string $catName
     */
-   private function addCategory($catKey, $catName) {
+   private function addCategory($catType, $catName) {
 
-   	// create category for SideTask Project
-   	$formattedCatName = mysql_real_escape_string($catName);
+      // create category for SideTask Project
+      $formattedCatName = mysql_real_escape_string($catName);
       $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$formattedCatName', '0');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            exit;
       }
-            $catId = mysql_insert_id();
 
-      $query = "UPDATE `codev_sidetasks_category_table` SET $catKey = $catId WHERE project_id = $this->id";
+      $catId = mysql_insert_id();
+
+      // ------
+      $query = "SELECT * FROM `codev_project_category_table` WHERE project_id='$this->id' AND type='$catType';";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            exit;
       }
 
-      $this->categoryList[$catKey] = $catId;
+      if (0 != mysql_num_rows($result)) {
+         // should not happen...
+         $query = "UPDATE `codev_project_category_table` SET category_id = $catId WHERE project_id ='$this->id' AND type='$catType';";
+      } else {
+         $query = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) VALUES ('$this->id','$catId','$catType');";
+      }
+      $result = mysql_query($query);
+      if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            exit;
+      }
+
+      // ------
+      $this->categoryList[$catType] = $catId;
 
       return $catId;
    }
@@ -447,77 +463,77 @@ class Project {
    // -----------------------------------------------
    public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
       #global $status_closed;
-      $bugt_id = $this->addSideTaskIssue(Project::$keyProjManagement, $issueSummary, $issueDesc);
+      $bugt_id = $this->addSideTaskIssue(Project::cat_mngt_regular, $issueSummary, $issueDesc);
 
 /*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 */
       return $bugt_id;
    }
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
       #global $status_closed;
-      $bugt_id = $this->addSideTaskIssue(Project::$keyInactivity, $issueSummary, $issueDesc);
+      $bugt_id = $this->addSideTaskIssue(Project::cat_st_inactivity, $issueSummary, $issueDesc);
 /*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 */
       return $bugt_id;
    }
    public function addIssueIncident($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::$keyIncident, $issueSummary, $issueDesc);
+      return $this->addSideTaskIssue(Project::cat_st_incident, $issueSummary, $issueDesc);
    }
    public function addIssueTools($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::$keyTools, $issueSummary, $issueDesc);
+      return $this->addSideTaskIssue(Project::cat_st_tools, $issueSummary, $issueDesc);
    }
    public function addIssueWorkshop($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::$keyWorkshop, $issueSummary, $issueDesc);
+      return $this->addSideTaskIssue(Project::cat_st_workshop, $issueSummary, $issueDesc);
    }
 
    // -----------------------------------------------
-   private function addSideTaskIssue($catKey, $issueSummary, $issueDesc) {
+   private function addSideTaskIssue($catType, $issueSummary, $issueDesc) {
 
-   	global $status_closed;
+      global $status_closed;
 
-   	$cat_id = $this->categoryList["$catKey"];
+      $cat_id = $this->categoryList["$catType"];
       $today  = date2timestamp(date("Y-m-d"));
 
       $formattedIssueDesc = mysql_real_escape_string($issueDesc);
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
       $bug_text_id = mysql_insert_id();
 
       $formattedissueSummary = mysql_real_escape_string($issueSummary);
-   	$query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-   	         "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
+      $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
+               "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
-   	$bugt_id = mysql_insert_id();
+      $bugt_id = mysql_insert_id();
 
-   	return $bugt_id;
+      return $bugt_id;
    }
 
    // -----------------------------------------------
@@ -532,32 +548,32 @@ class Project {
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
       $bug_text_id = mysql_insert_id();
 
       $formattedissueSummary = mysql_real_escape_string($issueSummary);
-   	$query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-   	         "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$issueStatus','$bug_text_id', '$today', '$today');";
+      $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
+               "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$issueStatus','$bug_text_id', '$today', '$today');";
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
-   	$bugt_id = mysql_insert_id();
+      $bugt_id = mysql_insert_id();
 
-   	return $bugt_id;
+      return $bugt_id;
    }
 
 
    public function getBugResolvedStatusThreshold() {
-   	#echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
-   	return $this->bug_resolved_status_threshold;
+      #echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
+      return $this->bug_resolved_status_threshold;
    }
 
    // -----------------------------------------------
@@ -568,71 +584,71 @@ class Project {
    //    then all jobs which codev_project_job_table.project_id = $this->id
    //                     OR codev_job_table.type = Job::type_commonJob (common jobs)
    public function getJobList($type = NULL) {
-   	$commonJobType       = Job::type_commonJob;
+      $commonJobType       = Job::type_commonJob;
 
-   	$jobList = array();
+      $jobList = array();
 
-   	// TODO to be removed once $type m324 bug fixed
-   	if (!isset($type)) {
-   	   $type = $this->type;
-   	   $e = new Exception("project $this->id type not specified ! (assume type=$this->type)");
-   	   $this->logger->error("EXCEPTION Project.getJobList(): ".$e->getMessage());
-   	   $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-   	}
-
-   	// SPECIAL CASE: externalTasksProject is a type_noStatsProject that has only 'N/A' jobs
-      if ($this->id == Config::getInstance()->getValue(Config::id_externalTasksProject)) {
-      	$type = Project::type_sideTaskProject;
+      // TODO to be removed once $type m324 bug fixed
+      if (!isset($type)) {
+         $type = $this->type;
+         $e = new Exception("project $this->id type not specified ! (assume type=$this->type)");
+         $this->logger->error("EXCEPTION Project.getJobList(): ".$e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
       }
 
-   	if (0 != $this->id) {
+      // SPECIAL CASE: externalTasksProject is a type_noStatsProject that has only 'N/A' jobs
+      if ($this->id == Config::getInstance()->getValue(Config::id_externalTasksProject)) {
+         $type = Project::type_sideTaskProject;
+      }
+
+      if (0 != $this->id) {
 
        switch ($type) {
           case Project::type_sideTaskProject:
-	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
-		               "FROM `codev_job_table`, `codev_project_job_table` ".
-		               "WHERE codev_job_table.id = codev_project_job_table.job_id ".
-		               "AND codev_project_job_table.project_id = $this->id";
+            $query  = "SELECT codev_job_table.id, codev_job_table.name ".
+                     "FROM `codev_job_table`, `codev_project_job_table` ".
+                     "WHERE codev_job_table.id = codev_project_job_table.job_id ".
+                     "AND codev_project_job_table.project_id = $this->id";
              break;
           case Project::type_noCommonProject:
-	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
-	                   "FROM `codev_job_table` ".
-	                   "LEFT OUTER JOIN  `codev_project_job_table` ".
-	                   "ON codev_job_table.id = codev_project_job_table.job_id ".
-	                   "WHERE (codev_project_job_table.project_id = $this->id)".
+            $query  = "SELECT codev_job_table.id, codev_job_table.name ".
+                      "FROM `codev_job_table` ".
+                      "LEFT OUTER JOIN  `codev_project_job_table` ".
+                      "ON codev_job_table.id = codev_project_job_table.job_id ".
+                      "WHERE (codev_project_job_table.project_id = $this->id)".
                        "ORDER BY codev_job_table.name ASC";
-    	     break;
+            break;
           case Project::type_workingProject:  // no break;
           case Project::type_noStatsProject:
-	   	      // all other projects
-	         $query  = "SELECT codev_job_table.id, codev_job_table.name ".
-	                   "FROM `codev_job_table` ".
-	                   "LEFT OUTER JOIN  `codev_project_job_table` ".
-	                   "ON codev_job_table.id = codev_project_job_table.job_id ".
-	                   "WHERE (codev_job_table.type = $commonJobType OR codev_project_job_table.project_id = $this->id)";
-    	     break;
-	      default:
-	   	     echo "ERROR Project.getJobList($type): unknown project type ($this->type) !";
-	           $e = new Exception("getJobList($type): unknown project type ($type)");
-	           $this->logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
-	           $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-	           return $jobList;
+               // all other projects
+            $query  = "SELECT codev_job_table.id, codev_job_table.name ".
+                      "FROM `codev_job_table` ".
+                      "LEFT OUTER JOIN  `codev_project_job_table` ".
+                      "ON codev_job_table.id = codev_project_job_table.job_id ".
+                      "WHERE (codev_job_table.type = $commonJobType OR codev_project_job_table.project_id = $this->id)";
+            break;
+         default:
+              echo "ERROR Project.getJobList($type): unknown project type ($this->type) !";
+              $e = new Exception("getJobList($type): unknown project type ($type)");
+              $this->logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
+              $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+              return $jobList;
        }
 
-   	$result = mysql_query($query);
+      $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
        if (0 != mysql_num_rows($result)) {
-		   	while($row = mysql_fetch_object($result))
-		      {
-		         $jobList[$row->id] = $row->name;
-		      }
-	    }
-   	}
+            while($row = mysql_fetch_object($result))
+            {
+               $jobList[$row->id] = $row->name;
+            }
+       }
+      }
       return $jobList;
    }
 
@@ -647,10 +663,10 @@ class Project {
     */
    public function getIssueList($handler_id = 0, $isHideResolved = false) {
 
-   	$issueList = array();
+      $issueList = array();
 
-	   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-	            "WHERE project_id=$this->id ";
+      $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+               "WHERE project_id=$this->id ";
        if (0 != $handler_id) {
           $query  .= "AND handler_id = $handler_id ";
        }
@@ -658,19 +674,19 @@ class Project {
           $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
        }
 
-	   $query  .= "ORDER BY id DESC";
+      $query  .= "ORDER BY id DESC";
 
       $result = mysql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
-	   while($row = mysql_fetch_object($result)) {
-	   	$issueList[] = $row->id;
-	   }
-	   return $issueList;
+      while($row = mysql_fetch_object($result)) {
+         $issueList[] = $row->id;
+      }
+      return $issueList;
    }
 
    // -----------------------------------------------
@@ -680,23 +696,23 @@ class Project {
     * @return array[teamid] = type
     */
    public function getTeamTypeList() {
-	   if (NULL == $this->teamTypeList) {
-		   $this->teamTypeList = array();
-		   $query = "SELECT * FROM `codev_team_project_table` WHERE project_id = $this->id ";
-		   $result = mysql_query($query);
-		   if (!$result) {
-			   $this->logger->error("Query FAILED: $query");
-			   $this->logger->error(mysql_error());
-			   echo "<span style='color:red'>ERROR: Query FAILED</span>";
-			   exit;
-		   }
-		   while($row = mysql_fetch_object($result))
-		   {
-			   $this->logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
-			   $this->teamTypeList["$row->team_id"] = $row->type;
-		   }
-	   }
-	   return $this->teamTypeList;
+      if (NULL == $this->teamTypeList) {
+         $this->teamTypeList = array();
+         $query = "SELECT * FROM `codev_team_project_table` WHERE project_id = $this->id ";
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = mysql_fetch_object($result))
+         {
+            $this->logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
+            $this->teamTypeList["$row->team_id"] = $row->type;
+         }
+      }
+      return $this->teamTypeList;
    }
 
 
@@ -722,24 +738,24 @@ class Project {
     */
     public function getProjectType($teamidList = NULL) {
 
-	    // --- init teams informations
-	    $this->getTeamTypeList();
+       // --- init teams informations
+       $this->getTeamTypeList();
 
-	    // if project not defined in any team, then how should I know if sideTask or not ?!
-	    if (0 == count($this->teamTypeList)) {
-	    	 $msg = "Could not determinate type for project $this->id (empty teamList)";
+       // if project not defined in any team, then how should I know if sideTask or not ?!
+       if (0 == count($this->teamTypeList)) {
+           $msg = "Could not determinate type for project $this->id (empty teamList)";
           $this->logger->warn("getProjectType(): EXCEPTION $msg");
-		    throw new Exception($msg);
-	    }
+          throw new Exception($msg);
+       }
 
-	    // --- teams not specified, check all teams where project is defined.
-	    if (NULL == $teamidList) {
-		    $teamidList = array_keys($this->teamTypeList);
-	    }
+       // --- teams not specified, check all teams where project is defined.
+       if (NULL == $teamidList) {
+          $teamidList = array_keys($this->teamTypeList);
+       }
 
-	    // --- compare results
-	    $globalType = NULL;
-	    foreach ($teamidList as $teamid) {
+       // --- compare results
+       $globalType = NULL;
+       foreach ($teamidList as $teamid) {
 
           if (NULL == $this->teamTypeList["$teamid"]) {
              // project not defined for this team, skip it.
@@ -747,25 +763,25 @@ class Project {
              continue;
           }
 
-		    if (NULL == $globalType) {
-			    // first team: set value
-			    $globalType = $this->teamTypeList["$teamid"];
+          if (NULL == $globalType) {
+             // first team: set value
+             $globalType = $this->teamTypeList["$teamid"];
              
-		    } else {
-			    // next teams: compare to first team
-			    if ($globalType != $this->teamTypeList["$teamid"]) {
-			    	 $msg = "Could not determinate type for project $this->id ! (depends on team)";
-			    	 $this->logger->warn("getProjectType(): EXCEPTION $msg");
-				    throw new Exception($msg);
-			    }
-		    }
-	    }
+          } else {
+             // next teams: compare to first team
+             if ($globalType != $this->teamTypeList["$teamid"]) {
+                 $msg = "Could not determinate type for project $this->id ! (depends on team)";
+                 $this->logger->warn("getProjectType(): EXCEPTION $msg");
+                throw new Exception($msg);
+             }
+          }
+       }
 
-	    if ($this->logger->isDebugEnabled()) {
-		    $formattedList = implode(',', $teamidList);
-		    $this->logger->debug("getProjectType($formattedList): project $this->id type = $globalType");
-	    }
-	    return $globalType;
+       if ($this->logger->isDebugEnabled()) {
+          $formattedList = implode(',', $teamidList);
+          $this->logger->debug("getProjectType($formattedList): project $this->id type = $globalType");
+       }
+       return $globalType;
    }
 
    // -----------------------------------------------
@@ -788,10 +804,10 @@ class Project {
     */
     public function isSideTasksProject($teamidList = NULL) {
        try {
-       	$type = $this->getProjectType($teamidList);
+          $type = $this->getProjectType($teamidList);
        } catch (Exception $e) {
-		    $this->logger->warn("isSideTasksProject(): ".$e->getMessage());
-		    throw $e;
+          $this->logger->warn("isSideTasksProject(): ".$e->getMessage());
+          throw $e;
        }
        return (Project::type_sideTaskProject == $type);
     }
@@ -817,35 +833,39 @@ class Project {
     */
    public function isNoStatsProject($teamidList = NULL) {
        try {
-       	$type = $this->getProjectType($teamidList);
+          $type = $this->getProjectType($teamidList);
        } catch (Exception $e) {
-		    $this->logger->warn("isNoStatsProject(): ".$e->getMessage());
-		    throw $e;
+          $this->logger->warn("isNoStatsProject(): ".$e->getMessage());
+          throw $e;
        }
        return (Project::type_noStatsProject == $type);
-	}
+   }
 
 
    // -----------------------------------------------
-	public function getManagementCategoryId() {
-		if (NULL == $this->categoryList) return NULL;
-   	return $this->categoryList[Project::$keyProjManagement];
+   public function getManagementCategoryId() {
+      if (NULL == $this->categoryList) return NULL;
+      return $this->categoryList[Project::cat_mngt_regular];
+   }
+   public function getMngtProvisionCategoryId() {
+      if (NULL == $this->categoryList) return NULL;
+      return $this->categoryList[Project::cat_mngt_provision];
    }
    public function getIncidentCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-   	return $this->categoryList[Project::$keyIncident];
+      return $this->categoryList[Project::cat_st_incident];
    }
    public function getInactivityCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-   	return $this->categoryList[Project::$keyInactivity];
+      return $this->categoryList[Project::cat_st_inactivity];
    }
    public function getToolsCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-   	return $this->categoryList[Project::$keyTools];
+      return $this->categoryList[Project::cat_st_tools];
    }
    public function getWorkshopCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-   	return $this->categoryList[Project::$keyWorkshop];
+      return $this->categoryList[Project::cat_st_workshop];
    }
 
 
@@ -927,62 +947,62 @@ class Project {
       global $logger;
 
 
-   	//--- find all srcProj specific config
-	   $query = "SELECT config_id FROM `mantis_config_table` ".
-	            "WHERE project_id=$srcProjectId ";
+      //--- find all srcProj specific config
+      $query = "SELECT config_id FROM `mantis_config_table` ".
+               "WHERE project_id=$srcProjectId ";
       $logger->debug("cloneAllProjectConfig: Src query=$query");
 
       $result = mysql_query($query);
       if (!$result) {
-      	$logger->error("Query FAILED: $query");
-      	$logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
       $srcConfigList = array();
-	   while($row = mysql_fetch_object($result)) {
-	   	$srcConfigList[] = $row->config_id;
-	   }
-
-   	//--- remove all destProject config
-   	$formatedSrcConfigList = $formatedTeamMembers = implode( ', ', $srcConfigList);
-      $logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
-
-	   $query = "DELETE FROM `mantis_config_table` ".
-	            "WHERE project_id=$destProjectId ";
-	   if (false == $strict) {
-	   	// delete only config defined for srcProject
-	      $query .= "AND config_id IN ($formatedSrcConfigList) ";
-	   }
-	   $logger->debug("cloneAllProjectConfig: deleteQuery = $query");
-      $result = mysql_query($query);
-      if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+      while($row = mysql_fetch_object($result)) {
+         $srcConfigList[] = $row->config_id;
       }
 
-   	//--- clone all srcProj config to destProj
-   	foreach ($srcConfigList as $cid) {
+      //--- remove all destProject config
+      $formatedSrcConfigList = $formatedTeamMembers = implode( ', ', $srcConfigList);
+      $logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
 
-   	   $query = "INSERT INTO `mantis_config_table` ".
-   	            "(config_id, project_id, user_id, access_reqd, type, value) ".
-   	            "   (SELECT config_id, $destProjectId, user_id, access_reqd, type, value ".
+      $query = "DELETE FROM `mantis_config_table` ".
+               "WHERE project_id=$destProjectId ";
+      if (false == $strict) {
+         // delete only config defined for srcProject
+         $query .= "AND config_id IN ($formatedSrcConfigList) ";
+      }
+      $logger->debug("cloneAllProjectConfig: deleteQuery = $query");
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      //--- clone all srcProj config to destProj
+      foreach ($srcConfigList as $cid) {
+
+         $query = "INSERT INTO `mantis_config_table` ".
+                  "(config_id, project_id, user_id, access_reqd, type, value) ".
+                  "   (SELECT config_id, $destProjectId, user_id, access_reqd, type, value ".
                   "    FROM `mantis_config_table` ".
-   	            "    WHERE project_id=$srcProjectId ".
-   	            "    AND config_id='$cid') ";
-	      $logger->debug("cloneAllProjectConfig: cloneQuery = $query");
-	      $result = mysql_query($query);
-	      if (!$result) {
-	      	$this->logger->error("Query FAILED: $query");
-	      	$this->logger->error(mysql_error());
-	      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-	      	exit;
+                  "    WHERE project_id=$srcProjectId ".
+                  "    AND config_id='$cid') ";
+         $logger->debug("cloneAllProjectConfig: cloneQuery = $query");
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
          }
-   	}
+      }
 
-   	return "SUCCESS ! (".count($srcConfigList)." config items cloned.)";
+      return "SUCCESS ! (".count($srcConfigList)." config items cloned.)";
    }
 
 
@@ -996,23 +1016,23 @@ class Project {
    #public function getVersionList($team_id = NULL) {
    public function getVersionList() {
 
-   	  if (NULL == $this->projectVersionList) {
+        if (NULL == $this->projectVersionList) {
 
-	   	  $this->projectVersionList = array();
-	   	  $issueList = $this->getIssueList();
-	   	  foreach ($issueList as $bugid) {
+           $this->projectVersionList = array();
+           $issueList = $this->getIssueList();
+           foreach ($issueList as $bugid) {
 
-	   	  	$issue = IssueCache::getInstance()->getIssue($bugid);
-	   	  	$tagVersion = "VERSION_".$issue->getTargetVersion();
+              $issue = IssueCache::getInstance()->getIssue($bugid);
+              $tagVersion = "VERSION_".$issue->getTargetVersion();
 
-	   	  	if (NULL == $this->projectVersionList[$tagVersion]) {
-	   	  		$this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
-	   	  	}
-	   	  	$this->projectVersionList[$tagVersion]->addIssue($bugid);
-	   	  }
+              if (NULL == $this->projectVersionList[$tagVersion]) {
+                 $this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
+              }
+              $this->projectVersionList[$tagVersion]->addIssue($bugid);
+           }
 
-	      ksort($this->projectVersionList);
-   	  }
+         ksort($this->projectVersionList);
+        }
 
       return $this->projectVersionList;
    }
@@ -1023,17 +1043,17 @@ class Project {
     */
    public function getProgress() {
 
-   	if (NULL == $this->progress) {
+      if (NULL == $this->progress) {
 
-   	  $issueList = $this->getIssueList();
+        $issueList = $this->getIssueList();
 
-   	  $issueSelection = new IssueSelection($this->name);
-   	  foreach ($issueList as $bugid) {
-   	  	$issueSelection->addIssue($bugid);
-   	  }
-   	  $this->progress = $issueSelection->getProgress();
-   	}
-   	return $this->progress;
+        $issueSelection = new IssueSelection($this->name);
+        foreach ($issueList as $bugid) {
+           $issueSelection->addIssue($bugid);
+        }
+        $this->progress = $issueSelection->getProgress();
+      }
+      return $this->progress;
    }
 
    /**
@@ -1041,17 +1061,17 @@ class Project {
     */
    public function getProgressMgr() {
 
-   	if (NULL == $this->progressMgr) {
+      if (NULL == $this->progressMgr) {
 
-   		$issueList = $this->getIssueList();
+         $issueList = $this->getIssueList();
 
-   		$issueSelection = new IssueSelection($this->name);
-   		foreach ($issueList as $bugid) {
-   			$issueSelection->addIssue($bugid);
-   		}
-   		$this->progressMgr = $issueSelection->getProgressMgr();
-   	}
-   	return $this->progressMgr;
+         $issueSelection = new IssueSelection($this->name);
+         foreach ($issueList as $bugid) {
+            $issueSelection->addIssue($bugid);
+         }
+         $this->progressMgr = $issueSelection->getProgressMgr();
+      }
+      return $this->progressMgr;
    }
 
 
@@ -1060,17 +1080,17 @@ class Project {
     */
    public function getDrift() {
 
-   	if (NULL == $this->drift) {
+      if (NULL == $this->drift) {
 
-   		$issueList = $this->getIssueList();
+         $issueList = $this->getIssueList();
 
-   		$issueSelection = new IssueSelection($this->name);
-   		foreach ($issueList as $bugid) {
-   			$issueSelection->addIssue($bugid);
-   		}
-   		$this->drift = $issueSelection->getDrift();
-   	}
-   	return $this->drift;
+         $issueSelection = new IssueSelection($this->name);
+         foreach ($issueList as $bugid) {
+            $issueSelection->addIssue($bugid);
+         }
+         $this->drift = $issueSelection->getDrift();
+      }
+      return $this->drift;
    }
 
    /**
@@ -1078,17 +1098,17 @@ class Project {
     */
    public function getDriftMgr() {
 
-   	if (NULL == $this->driftMgr) {
+      if (NULL == $this->driftMgr) {
 
-   		$issueList = $this->getIssueList();
+         $issueList = $this->getIssueList();
 
-   		$issueSelection = new IssueSelection($this->name);
-   		foreach ($issueList as $bugid) {
-   			$issueSelection->addIssue($bugid);
-   		}
-   		$this->driftMgr = $issueSelection->getDriftMgr();
-   	}
-   	return $this->driftMgr;
+         $issueSelection = new IssueSelection($this->name);
+         foreach ($issueList as $bugid) {
+            $issueSelection->addIssue($bugid);
+         }
+         $this->driftMgr = $issueSelection->getDriftMgr();
+      }
+      return $this->driftMgr;
    }
 
 
