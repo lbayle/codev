@@ -287,6 +287,20 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_cmdset_table` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `codev_servicecontract_commandset_table`
+--
+
+CREATE TABLE IF NOT EXISTS `codev_servicecontract_stproj_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `servicecontract_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `codev_commandset_table`
 --
 

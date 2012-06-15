@@ -16,6 +16,16 @@ RENAME TABLE `codev_command_srv_table` To `codev_servicecontract_cmdset_table`;
 ALTER TABLE `codev_servicecontract_cmdset_table` CHANGE `command_id` `servicecontract_id` int(11);
 ALTER TABLE `codev_servicecontract_cmdset_table` CHANGE `service_id` `commandset_id` int(11); 
 
+
+-- -----------------
+CREATE TABLE IF NOT EXISTS `codev_servicecontract_stproj_table` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `servicecontract_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 -- -----------------
 RENAME TABLE `codev_service_table` To `codev_commandset_table`; 
 
