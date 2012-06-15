@@ -533,8 +533,8 @@ function displayTeamProjectTuples($teamid) {
    echo "<tr>\n";
    echo "<th></th>\n";
    echo "<th>".T_("Name")."</th>\n";
-   echo "<th>".T_("Description")."</th>\n";
    echo "<th>".T_("Type")."</th>\n";
+   echo "<th>".T_("Description")."</th>\n";
    echo "</tr>\n";
 
    $query     = "SELECT codev_team_project_table.id, codev_team_project_table.type, ".
@@ -560,8 +560,8 @@ function displayTeamProjectTuples($teamid) {
       }
       echo "</td>\n";
       echo "<td title='$row->project_id'>".$row->name."</td>\n";
-      echo "<td>".$row->description."</td>\n";
       echo "<td>".Project::$typeNames[$row->type]."</td>\n";
+      echo "<td>".$row->description."</td>\n";
 
       echo "</tr>\n";
    }
