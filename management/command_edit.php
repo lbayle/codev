@@ -133,15 +133,10 @@ if (isset($_SESSION['userid'])) {
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
-   // set TeamList (including observed teams)
-   $teamList = $session_user->getTeamList();
-   $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
-
 
    if (0 == $commandid) {
 
-      // -------- CREATE ENG -------
+      // -------- CREATE CMD -------
 
       // ------ Actions
       if ("createCmd" == $action) {
@@ -176,7 +171,7 @@ if (isset($_SESSION['userid'])) {
 
 
    if (0 != $commandid) {
-      // -------- UPDATE ENG -------
+      // -------- UPDATE CMD -------
 
       $cmd = CommandCache::getInstance()->getCommand($commandid);
 
@@ -225,7 +220,7 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('commandid', $commandid);
       $smartyHelper->assign('cmdInfoFormBtText', 'Save');
       $smartyHelper->assign('cmdInfoFormAction', 'updateCmdInfo');
-      $smartyHelper->assign('isAddCmdForm', true);
+      $smartyHelper->assign('isAddIssueForm', true);
 
       displayCommand($smartyHelper, $cmd);
 
