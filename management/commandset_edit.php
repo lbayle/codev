@@ -35,7 +35,32 @@ include_once "smarty_tools.php";
 $logger = Logger::getLogger("commandset_edit");
 
 
-// your functions here
+/**
+ *
+ * @param CommandSet $cmdset
+ */
+function updateCommandSetInfo($cmdset) {
+   echo "AAAA";
+
+   // security check
+   $cmdset->setTeamid(checkNumericValue($_POST['teamid']));
+
+   $formattedValue = mysql_real_escape_string($_POST['commandsetName']);
+   $cmdset->setName($formattedValue);
+
+   $formattedValue = mysql_real_escape_string($_POST['commandsetDesc']);
+   $cmdset->setDesc($formattedValue);
+
+   $formattedValue = mysql_real_escape_string($_POST['commandsetDate']);
+   $cmdset->setDate(date2timestamp($formattedValue));
+
+   $cmdset->setCost(checkNumericValue($_POST['commandsetCost'], true));
+
+   $cmdset->setBudgetDays(checkNumericValue($_POST['commandsetBudget'], true));
+
+   echo "ZZZZ";
+}
+
 // =========== MAIN ==========
 
 require('display.inc.php');
@@ -57,11 +82,20 @@ if (isset($_SESSION['userid'])) {
    }
    $_SESSION['teamid'] = $teamid;
 
-   // ---
+   // TODO check if $teamid is set and != 0
+
+   // set TeamList (including observed teams)
+   $teamList = $session_user->getTeamList();
+   $smartyHelper->assign('teamid', $teamid);
+   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+
+
    // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
    $commandsetid = 0;
    if(isset($_POST['commandsetid'])) {
       $commandsetid = $_POST['commandsetid'];
+   } else if(isset($_GET['commandsetid'])) {
+      $commandsetid = $_GET['commandsetid'];
    } else if(isset($_SESSION['commandsetid'])) {
       $commandsetid = $_SESSION['commandsetid'];
    }
@@ -72,38 +106,77 @@ if (isset($_SESSION['userid'])) {
 
 
    // ------
-   // set TeamList (including observed teams)
-   $teamList = $session_user->getTeamList();
-   $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
    $smartyHelper->assign('commandsetid', $commandsetid);
    $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
 
 
-   if (0 != $commandsetid) {
-      $commandset = new CommandtSet($commandsetid);
+   if (0 == $commandsetid) {
 
+      // -------- CREATE CMDSET -------
+
+      // ------ Actions
+      if ("createCmdset" == $action) {
+
+         $teamid = checkNumericValue($_POST['teamid']);
+         $_SESSION['teamid'] = $teamid;
+         $logger->debug("create new CommandSet for team $teamid<br>");
+
+         $cmdsetName = mysql_real_escape_string($_POST['commandsetName']);
+
+         $commandsetid = CommandSet::create($cmdsetName, $teamid);
+         $smartyHelper->assign('commansetdid', $commandsetid);
+
+         #$cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+         $cmdset = new CommandtSet($commandsetid);
+
+         // set all fields
+         updateCommandSetInfo($cmdset);
+
+      }
+
+      // ------ Display Empty Command Form
+      // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
+      $smartyHelper->assign('cmdsetInfoFormBtText', 'Create');
+      $smartyHelper->assign('cmdsetInfoFormAction', 'createCmdset');
+   }
+
+
+   if (0 != $commandsetid) {
+      // -------- UPDATE CMDSET -------
+
+      #$cmdset = CommandSetCache::getInstance()->getCommandSet($commansetdid);
+      $cmdset = new CommandtSet($commandsetid);
 
       // ------ Actions
 
       if ("addCommand" == $action) {
-echo "addCommand<br>";
 
          $_SESSION['cmdid'] = 0;
          header('Location:command_edit.php?cmdid=0');
 
-      } else if ("updateCommandSetInfo" == $action) {
-echo "updateCommandSetInfo<br>";
+      } else if ("updateCmdsetInfo" == $action) {
+
+         $teamid = checkNumericValue($_POST['teamid']);
+         $_SESSION['teamid'] = $teamid;
+
+         updateCommandSetInfo($cmdset);
+
       } else if ("removeCmd" == $action) {
 
          $cmdid = checkNumericValue($_POST['cmdid']);
-         $commandset->removeCommand($cmdid);
+         $cmdset->removeCommand($cmdid);
       }
 
       // ------ Display CommandSet
 
-      displayCommandSet($smartyHelper, $commandset);
+      $smartyHelper->assign('commandsetid', $commandsetid);
+      $smartyHelper->assign('cmdsetInfoFormBtText', 'Save');
+      $smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
+      $smartyHelper->assign('isAddCmdForm', true);
+
+
+      displayCommandSet($smartyHelper, $cmdset);
 
    }
    

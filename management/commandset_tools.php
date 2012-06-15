@@ -63,6 +63,7 @@ function getCommandSetCommands($commandsetid, $type) {
          $cmdDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
 
          $cmdDetailedMgr['name'] = $cmd->getName();
+         $cmdDetailedMgr['reference'] = $cmd->getReference();
          $cmdDetailedMgr['description'] = $cmd->getDesc();
 
          $commands[$id] = $cmdDetailedMgr;
@@ -79,14 +80,14 @@ function getCommandSetCommands($commandsetid, $type) {
 function displayCommandSet($smartyHelper, $commandset) {
 
    #$smartyHelper->assign('commandsetId', $commandset->getId());
-   $smartyHelper->assign('commandsetName', $commandset->getName());
-   $smartyHelper->assign('commandsetDesc', $commandset->getDesc());
-   $smartyHelper->assign('commandsetDate', date("Y-m-d", $commandset->getDate()));
+   $smartyHelper->assign('commandsetName',       $commandset->getName());
+   $smartyHelper->assign('commandsetDesc',       $commandset->getDesc());
+   $smartyHelper->assign('commandsetBudget', $commandset->getBudgetDays());
+   $smartyHelper->assign('commandsetCost',       $commandset->getCost());
+   $smartyHelper->assign('commandsetCurrency',   $commandset->getCurrency());
+   $smartyHelper->assign('commandsetDate',       date("Y-m-d", $commandset->getDate()));
 
    $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), CommandtSet::cmdType_dev));
-
-   // DEPRECATED, a commandset has only one type of command
-   #$smartyHelper->assign('mngtCommands', getCommandSetCommands($commandsetid, CommandSet::cmdType_mngt));
 
 }
 

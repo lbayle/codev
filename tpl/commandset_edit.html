@@ -1,5 +1,7 @@
 {include file="menu/management_menu.html"}
 
+<script type="text/javascript" src="js/datepicker.js"></script>
+
 <script type="text/javascript">
 
 function addCmd() {
@@ -31,6 +33,20 @@ function createCmd() {
 
 }
 
+jQuery(document).ready(function() {
+   {if $locale != en}
+      jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+   {/if}
+
+   // Set the date
+   jQuery("#commandsetDate").datepicker("setDate" ,"{$commandsetDate}");
+
+   jQuery(function() {
+      jQuery( "#tabsCommandSet" ).tabs();
+   });
+
+});
+
 </script>
 
 
@@ -57,11 +73,24 @@ function createCmd() {
                   <th>{t}Description{/t}</th>
                   <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='commandsetDesc'  id='commandsetDesc'>{$commandsetDesc}</textarea></td>
                </tr>
+               <tr>
+                  <th>{t}Date{/t}</th>
+                  <td><input type="text" id="commandsetDate"  name="commandsetDate" class="datepicker" maxlength="10" size="10" title="{t}Date{/t}" />
+                  </td>
+               </tr>
+               <tr>
+                  <th>{t}Cost{/t}</th>
+                  <td><input type='text' style='font-family: sans-serif' name='commandsetCost'  id='commandsetCost' value='{$commandsetCost}'> {t}EUR{/t}</td>
+               </tr>
+               <tr>
+                  <th>{t}Budget{/t}</th>
+                  <td><input type='text' style='font-family: sans-serif' name='commandsetBudget'  id='commandsetBudget' value='{$commandsetBudget}'> {t}days{/t}</td>
+               </tr>
          </table>
          <br>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Save{/t}</button>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$cmdsetInfoFormBtText}{/t}</button>
 
-         <input type="hidden" name="action" value="updateCommandSetInfo" />
+         <input type="hidden" name="action" value="{$cmdsetInfoFormAction}" />
          <input type="hidden" name="teamid" value="{$teamid}" />
          <input type="hidden" name="commandsetid" value="{$commandsetid}" />
       </fieldset>
@@ -69,13 +98,44 @@ function createCmd() {
 
    </div>
 
-   <div style="margin-top:2em;">
-   <br/><br/>
 
+   <div style="margin-top:4em;">
 
+   <div id="tabsCommandSet">
+      <ul>
+         <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+      </ul>
+
+      <div id="tabsName-1">
+
+         <div style="margin-top:1em;">
+
+         {if $isAddCmdForm}
          <div align="left">
+            <!-- add/create command form -->
+            <form id='addCmdForm' name='addCmdForm' method='post' action='{$page}'>
+               <fieldset>
+                  <select id='cmdSelector' name='cmdid'>
+                     <option value='0'>{t}--- New Command ---{/t}</option>
+                     {foreach  $unassignedCmd as $id => $name}
+                     <option value="{$id}">{$name}</option>
+                     {/foreach}
+                  </select>
+
+                  <button type='submit'><img  border='0' align='absmiddle' src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
+
+                  <input type="hidden" name="action" value="addCommand" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="commandsetid" value="{$commandsetid}" />
+               </fieldset>
+            </form>
+         </div>
+         {/if}
+
+         <div style="margin-top:1em;">
 
          {if $cmdList}
+
          <script type="text/javascript">
             function removeCmd(cmdid, description){
                jQuery( "#desc_id" ).text(cmdid);
@@ -134,6 +194,7 @@ function createCmd() {
             <thead>
             <tr>
                   <th></th>
+                  <th>{t}Ref{/t}</th>
                   <th>{t}Command{/t}</th>
             </tr>
             </thead>
@@ -146,38 +207,16 @@ function createCmd() {
                         <img alt="b_drop.png" border="0" src="images/b_drop.png" />
                      </a>
                   </td>
+                  <td>{$cmd.reference}</td>
                   <td title="{$id}">{$cmd.name}</td>
             </tr>
             {/foreach}
             </tbody>
          </table>
+         {else}
+         {t}Create the CommandSet to add some commands.{/t}
          {/if}
-
-         <br>
-
-         <div>
-            <!-- add/create command form -->
-            <form id='addCmdForm' name='addCmdForm' method='post' action='{$page}'>
-               <fieldset>
-                  <select id='cmdSelector' name='cmdid'>
-                     <option value='0'>{t}--- New Command ---{/t}</option>
-                     {foreach  $unassignedCmd as $id => $name}
-                     <option value="{$id}">{$name}</option>
-                     {/foreach}
-                  </select>
-
-                  <button type='submit'><img  border='0' align='absmiddle' src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
-
-                  <input type="hidden" name="action" value="addCommand" />
-                  <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="commandsetid" value="{$commandsetid}" />
-               </fieldset>
-            </form>
-         </div>
-
       </div>
 
-
-   </div>
    {/if}
 </div>

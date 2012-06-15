@@ -115,6 +115,14 @@ $(document).ready(function() {
                <th>{t}Date{/t}</th>
                <td>: {$commandsetDate}</td>
             </tr>
+            <tr>
+               <th>{t}Cost{/t}</th>
+               <td>: {$commandsetCost} {$commandsetCurrency}</td>
+            </tr>
+            <tr>
+               <th>{t}Budget{/t}</th>
+               <td>: {$commandsetBudgetDays} {t}days{/t}</td>
+            </tr>
       </table>
       <br>
       <button onclick="location.href='management/commandset_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
@@ -138,7 +146,8 @@ $(document).ready(function() {
             <table>
                <thead>
                <tr>
-                  <th></th>
+                  <!--th></th-->
+                  <th>{t}Ref{/t}</th>
                   <th>{t}Command{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
@@ -150,8 +159,9 @@ $(document).ready(function() {
                <tbody>
                   {foreach $cmdList as $id => $cmd}
                   <tr>
-                     <td>{$id}</td>
-                     <th title="{$id}"  align='left'>{$cmd.name}</th>
+                     <!--td>{$id}</td-->
+                     <td align='right'>{$cmd.reference}</td>
+                     <td title="{$id}"  align='left'>{$cmd.name}</td>
                      <td>{$cmd.effortEstim}</td>
                      <td>{$cmd.reestimated}</td>
                      <td>{$cmd.elapsed}</td>

@@ -55,6 +55,9 @@ class CommandtSet {
    private $date;
    private $teamid;
    private $serviceContractId;
+   private $cost;
+   private $currency;
+   private $budget_days;
 
    // list of commands, ordered by type
    // engByTypeList[type][cmdid]
@@ -92,6 +95,9 @@ class CommandtSet {
       $this->description = $row->description;
       $this->date        = $row->date;
       $this->teamid      = $row->team_id;
+      $this->budget_days = $row->budget_days;
+      $this->cost        = $row->budget;
+      $this->currency    = $row->currency;
 
       // ---
       $this->engByTypeList = array();
@@ -117,6 +123,22 @@ class CommandtSet {
 
    public function getId() {
       return $this->id;
+   }
+
+   public function getTeamid() {
+      return $this->teamid;
+   }
+   public function setTeamid($value) {
+
+      $this->teamid = $value;
+      $query = "UPDATE `codev_commandset_table` SET team_id = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
    }
 
    public function getName() {
@@ -166,6 +188,62 @@ class CommandtSet {
              exit;
       }
    }
+
+   public function getBudgetDays() {
+      return $this->budget_days;
+   }
+   public function setBudgetDays($value) {
+
+      $this->cost = $value;
+      $query = "UPDATE `codev_commandset_table` SET budget_days = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
+
+   public function getCost() {
+      return $this->cost;
+   }
+   public function setCost($value) {
+
+      $this->cost = $value;
+      $query = "UPDATE `codev_commandset_table` SET budget = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
+
+   public function getCurrency() {
+      return $this->currency;
+   }
+   public function setCurrency($value) {
+
+      $this->currency = $value;
+      $query = "UPDATE `codev_commandset_table` SET currency = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
+
+
+
+
+
 
 
    /**
