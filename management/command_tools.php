@@ -20,6 +20,8 @@
 
 /**
  *
+ * @param Command $command
+ * @return array
  */
 function getCommandIssues($command) {
 
@@ -51,6 +53,35 @@ function getCommandIssues($command) {
    return $issueArray;
 }
 
+/**
+ *
+ * @param Command $cmd
+ * @param int $selectedCmdsetId
+ * @return type 
+ */
+function getParentCommandSets($cmd) {
+
+   $commandsets = array();
+
+   $cmdsetList = $cmd->getCommandSetList();
+
+   // TODO return URL for 'name' ?
+   // TODO return  'team' ?
+
+   foreach ($cmdsetList as $id => $cmdsetName) {
+      $commandsets[] = array(
+         'id' => $id,
+         'name' => $cmdsetName
+      );
+   }
+   return $commandsets;
+}
+
+/**
+ *
+ * @param type $command
+ * @return type
+ */
 function getCmdStateList($command = NULL) {
 
    $stateList = NULL;
@@ -86,7 +117,13 @@ function displayCommand($smartyHelper, $cmd) {
    $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
    $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
-   // set Cmd Details
+
+   // set CommandSets I belong to
+   $parentCmdsets = getParentCommandSets($cmd);
+   $smartyHelper->assign('parentCmdSets', $parentCmdsets);
+
+
+   // set Issues that belong to me
    $cmdIssueSel = $cmd->getIssueSelection();
    $cmdDetailedMgr = getIssueSelectionDetailedMgr($cmdIssueSel);
    $smartyHelper->assign('cmdDetailedMgr', $cmdDetailedMgr);

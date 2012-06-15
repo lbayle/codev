@@ -114,12 +114,14 @@ $(document).ready(function() {
                <td>: {$cmdReporter}</td>
             </tr>
             <tr>
-               <th>{t}Service Contract{/t}</th>
-               <td>: {$servicecontract}</td>
-            </tr>
-            <tr>
                <th>{t}CommandSet{/t}</th>
-               <td>: {$commandsetName}</td>
+               <td><span>: </span>
+               {if $parentCmdSets}
+                  {foreach from=$parentCmdSets key=id item=i}
+                  <span>{$i.name}, </span>
+                  {/foreach}
+               {/if}
+               </td>
             </tr>
             <tr>
                <th>{t}Date depart{/t}</th>

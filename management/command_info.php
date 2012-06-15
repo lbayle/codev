@@ -41,25 +41,21 @@ $logger = Logger::getLogger("command_info");
 function getCommands($teamid, $selectedCmdId) {
 
    $commands = array();
-if (0 != $teamid) {
+   if (0 != $teamid) {
 
-   $team = TeamCache::getInstance()->getTeam($teamid);
-   $cmdList = $team->getCommands();
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $cmdList = $team->getCommands();
 
-   foreach ($cmdList as $id => $cmd) {
-      $commands[] = array(
-         'id' => $id,
-         'name' => $cmd->getName(),
-         'selected' => ($id == $selectedCmdId)
-      );
+      foreach ($cmdList as $id => $cmd) {
+         $commands[] = array(
+            'id' => $id,
+            'name' => $cmd->getName(),
+            'selected' => ($id == $selectedCmdId)
+         );
+      }
    }
-}
-
    return $commands;
-
-
 }
-
 
 /**
  * Get consistency errors
@@ -117,13 +113,13 @@ if (isset($_SESSION['userid'])) {
    $_SESSION['teamid'] = $teamid;
 
    // use the cmdid set in the form, if not defined (first page call) use session cmdid
-   $commandid = 0;
+   $cmdid = 0;
    if(isset($_POST['cmdid'])) {
-      $commandid = $_POST['cmdid'];
+      $cmdid = $_POST['cmdid'];
    } else if(isset($_SESSION['cmdid'])) {
-      $commandid = $_SESSION['cmdid'];
+      $cmdid = $_SESSION['cmdid'];
    }
-   $_SESSION['cmdid'] = $commandid;
+   $_SESSION['cmdid'] = $cmdid;
 
 
    // set TeamList (including observed teams)
@@ -131,24 +127,17 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('teamid', $teamid);
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
-   $smartyHelper->assign('commandid', $commandid);
-   $smartyHelper->assign('commands', getCommands($teamid, $commandid));
+   $smartyHelper->assign('commandid', $cmdid);
+   $smartyHelper->assign('commands', getCommands($teamid, $cmdid));
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 
    // ------ Display Command
 
-   if (0 != $commandid) {
+   if (0 != $cmdid) {
 
-      $cmd = CommandCache::getInstance()->getCommand($commandid);
-
-      $commandsetid = $cmd->getCommandSet();
-      if ((NULL != $commandsetid) && (0 != $commandsetid)) {
-         $commandset = new CommandtSet($commandsetid); // TODO use cache
-         $commandsetName = $commandset->getName();
-         $smartyHelper->assign('commandsetName', $commandsetName);
-      }
+      $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
       displayCommand($smartyHelper, $cmd);
 
