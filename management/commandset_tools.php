@@ -63,9 +63,14 @@ function getCommandSetCommands($commandsetid, $type) {
          $issueSelection = $cmd->getIssueSelection();
          $cmdDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
 
+
          $cmdDetailedMgr['name'] = $cmd->getName();
          $cmdDetailedMgr['reference'] = $cmd->getReference();
          $cmdDetailedMgr['description'] = $cmd->getDesc();
+
+         $teamid = $cmd->getTeamid();
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $cmdDetailedMgr['team'] = $team->getName();
 
          $commands[$id] = $cmdDetailedMgr;
       }

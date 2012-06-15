@@ -66,7 +66,6 @@ function getParentCommandSets($cmd) {
    $cmdsetList = $cmd->getCommandSetList();
 
    // TODO return URL for 'name' ?
-   // TODO return  'team' ?
 
    foreach ($cmdsetList as $id => $cmdsetName) {
 
