@@ -166,6 +166,12 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  </tr>\n";
 
   echo "  <tr>\n";
+  echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_catMngtProvision' id='cb_catMngtProvision'>".T_("Effort Provision")."</input>\n";
+  echo "    <span style='color:red'>*</span></td>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Budget for Management,Garantie,Risk...").")</span></td>\n";
+  echo "  </tr>\n";
+
+  echo "  <tr>\n";
   $isChecked = $isCatIncident ? "CHECKED" : "";
   echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_catIncident' id='cb_catIncident'>".
        T_("Incident")."</input></td>\n";
@@ -282,6 +288,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 
 
 $cat_projManagement = T_("Project Management");
+$cat_EffortProvision = T_("Provision");
 $cat_inactivity     = T_("Inactivity");
 $cat_incident       = T_("Incident");
 $cat_tools          = T_("Tools");
@@ -383,6 +390,7 @@ if ("addTeam" == $action) {
 
             // 4) --- add SideTaskProject Categories
       	   $stproj->addCategoryProjManagement($cat_projManagement);
+      	   $stproj->addCategoryMngtProvision($cat_EffortProvision);
 
             $stproj->addCategoryInactivity($cat_inactivity);
 

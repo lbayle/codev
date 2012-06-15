@@ -271,15 +271,6 @@ class Project {
       }
       $projectid = mysql_insert_id();
 
-      // prepare for category add
-      $query = "INSERT INTO `codev_sidetasks_category_table` (`project_id`) VALUES ('$projectid');";
-      $result = mysql_query($query);
-      if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
@@ -410,7 +401,7 @@ class Project {
 
    // -----------------------------------------------
    /**
-    * WARN: the $catKey is the name of the field in codev_sidetasks_category_table
+    * 
     * @param string $catType in (Project::cat_mngt_regular, ...)
     * @param string $catName
     */
