@@ -45,8 +45,6 @@ function updateCmdInfo($cmd) {
    // security check
    $cmd->setTeamid(checkNumericValue($_POST['teamid']));
 
-   $cmd->setCommandSet(checkNumericValue($_POST['commandsetid']));
-
    $formattedValue = mysql_real_escape_string($_POST['cmdName']);
    $cmd->setName($formattedValue);
 
@@ -79,7 +77,35 @@ function updateCmdInfo($cmd) {
 
 }
 
-// your functions here
+/**
+ * find CommandSets associated to all the teams i am member of.
+ * (observed teams excluded))
+ *
+ * @param int $userid
+ * @return array
+ */
+function getParentCmdSetCandidates($user) {
+   $parentCmdSets = array();
+
+   $lTeamList = $user->getLeadedTeamList();
+   $managedTeamList = $user->getManagedTeamList();
+   $mTeamList = $user->getDevTeamList();
+   $teamList = $mTeamList + $lTeamList + $managedTeamList;
+
+   foreach ($teamList as $teamid => $name) {
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $cmdsetList = $team->getCommandSetList();
+
+      foreach ($cmdsetList as $csid => $cmdset) {
+         $parentCmdSets[$csid] = $cmdset->getName();
+      }
+
+   }
+
+   return $parentCmdSets;
+}
+
 // =========== MAIN ==========
 
 require('display.inc.php');
@@ -110,15 +136,15 @@ if (isset($_SESSION['userid'])) {
 
 
    // use the cmdid set in the form, if not defined (first page call) use session cmdid
-   $commandid = 0;
+   $cmdid = 0;
    if(isset($_POST['cmdid'])) {
-      $commandid = $_POST['cmdid'];
+      $cmdid = $_POST['cmdid'];
    } else if(isset($_GET['cmdid'])) {
-      $commandid = $_GET['cmdid'];
+      $cmdid = $_GET['cmdid'];
    } else if(isset($_SESSION['cmdid'])) {
-      $commandid = $_SESSION['cmdid'];
+      $cmdid = $_SESSION['cmdid'];
    }
-   $_SESSION['cmdid'] = $commandid;
+   $_SESSION['cmdid'] = $cmdid;
 
    // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
    // Note: It is used for createEnv but will be overridden by the displayed command's commandsetid.
@@ -134,7 +160,7 @@ if (isset($_SESSION['userid'])) {
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 
-   if (0 == $commandid) {
+   if (0 == $cmdid) {
 
       // -------- CREATE CMD -------
 
@@ -147,10 +173,10 @@ if (isset($_SESSION['userid'])) {
 
          $cmdName = mysql_real_escape_string($_POST['cmdName']);
 
-         $commandid = Command::create($cmdName, $teamid);
-         $smartyHelper->assign('commandid', $commandid);
+         $cmdid = Command::create($cmdName, $teamid);
+         $smartyHelper->assign('commandid', $cmdid);
 
-         $cmd = CommandCache::getInstance()->getCommand($commandid);
+         $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
          // set all fields
          updateCmdInfo($cmd);
@@ -170,19 +196,40 @@ if (isset($_SESSION['userid'])) {
    }
 
 
-   if (0 != $commandid) {
+   if (0 != $cmdid) {
       // -------- UPDATE CMD -------
 
-      $cmd = CommandCache::getInstance()->getCommand($commandid);
+      $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
 
       // ------ Actions
 
       if ("addCmdIssue" == $action) {
          $bugid = $_POST['bugid'];
-         $logger->debug("add Issue $bugid on Command $commandid team $teamid<br>");
+         $logger->debug("add Issue $bugid on Command $cmdid team $teamid<br>");
 
          $cmd->addIssue($bugid);
+
+      } else if ("removeCmdIssue" == $action) {
+
+         $cmd->removeIssue($_POST['bugid']);
+
+      } else if ("addToCmdSet" == $action) {
+
+         $commandsetid = $_POST['commandsetid'];
+         $logger->debug("add Command $cmdid to CommandSet $commandsetid<br>");
+
+         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+         $cmdset->addCommand($cmdid, CommandSet::cmdType_dev);
+
+      } else if ("removeFromCmdSet" == $action) {
+
+         $commandsetid = $_POST['commandsetid'];
+         $logger->debug("remove Command $cmdid from CommandSet $commandsetid<br>");
+
+         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+         $cmdset->removeCommand($cmdid);
+
 
       } else if ("updateCmdInfo" == $action) {
 
@@ -191,36 +238,18 @@ if (isset($_SESSION['userid'])) {
 
          updateCmdInfo($cmd);
 
-      } else if ("removeCmdIssue" == $action) {
-
-         $cmd->removeIssue($_POST['bugid']);
       }
-
-
-      // --- set CommandSet according to the displayed command
-     $commandsetid = $cmd->getCommandSet();
-
-
-   if ((NULL == $commandsetid) || (0 == $commandsetid)) {
-         unset($_SESSION['commandsetid']);
-         #$smartyHelper->assign('commandsetid', 0);
-         $smartyHelper->assign('commandsets', getCommandSets($teamid, 0));
-      } else {
-         $_SESSION['commandsetid'] = $commandsetid;
-         $smartyHelper->assign('commandsetid', $commandsetid);
-         $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
-
-         $commandset = new CommandtSet($commandsetid); // TODO use cache
-         $commandsetName = $commandset->getName();
-         $smartyHelper->assign('commandsetName', $commandsetName);
-      }
- 
 
       // ------ Display Command
-      $smartyHelper->assign('commandid', $commandid);
+      $smartyHelper->assign('commandid', $cmdid);
       $smartyHelper->assign('cmdInfoFormBtText', 'Save');
       $smartyHelper->assign('cmdInfoFormAction', 'updateCmdInfo');
       $smartyHelper->assign('isAddIssueForm', true);
+
+
+      $parentCmdSets = getParentCmdSetCandidates($session_user);
+      $smartyHelper->assign('parentCmdSetCandidates', $parentCmdSets);
+      $smartyHelper->assign('isAddCmdSetForm', true);
 
       displayCommand($smartyHelper, $cmd);
 

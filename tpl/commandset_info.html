@@ -10,9 +10,6 @@ function setTeam() {
 }
 
 function submitForm() {
-   document.forms["commandsetSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["commandsetSelectForm"].commandsetid.value = document.getElementById('commandsetSelector').value;
-   document.forms["commandsetSelectForm"].action.value = "displayCommandSet";
    document.forms["commandsetSelectForm"].submit();
  }
 
@@ -66,14 +63,14 @@ $(document).ready(function() {
             </select>
             <label>{t}CommandSet{/t}: </label>
             <select id='commandsetSelector' name='commandsetid'>
-               <option value='0'></option>
+               <option value='0'>{t}--- Create New CommandSet ---{/t}</option>
                {foreach from=$commandsets key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
             
-            <input type="hidden" name="action" value="noAction" />
+            <input type="hidden" name="action" value="displayCommandSet" />
          </fieldset>
       </form>
    </div>

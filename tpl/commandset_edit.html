@@ -52,7 +52,6 @@ jQuery(document).ready(function() {
 
 <div id="content">
 
-   {if $commandsetid}
    <div  align="center">
       <h2  title="{$commandsetid}">{$commandsetName}</h2>
    </div>
@@ -65,6 +64,17 @@ jQuery(document).ready(function() {
       <fieldset>
 
          <table class='invisible'>
+               <tr>
+                  <th>{t}Team{/t}</th>
+                  <td>
+                     <select id='teamSelector' name='teamid'>
+                        <!--option value='0'></option-->
+                        {foreach from=$teams key=id item=i}
+                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                        {/foreach}
+                     </select>
+                  </td>
+               </tr>
                <tr>
                   <th>{t}Name{/t}</th>
                   <td><input type='text' size='80' style='font-family: sans-serif' name='commandsetName'  id='commandsetName' value='{$commandsetName}'></td>
@@ -91,7 +101,6 @@ jQuery(document).ready(function() {
          <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$cmdsetInfoFormBtText}{/t}</button>
 
          <input type="hidden" name="action" value="{$cmdsetInfoFormAction}" />
-         <input type="hidden" name="teamid" value="{$teamid}" />
          <input type="hidden" name="commandsetid" value="{$commandsetid}" />
       </fieldset>
       </form>
@@ -103,7 +112,7 @@ jQuery(document).ready(function() {
 
    <div id="tabsCommandSet">
       <ul>
-         <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+         <li><a href="#tabsName-1">{t}Commands{/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
@@ -218,5 +227,4 @@ jQuery(document).ready(function() {
          {/if}
       </div>
 
-   {/if}
 </div>

@@ -54,7 +54,8 @@ function getCommandSetCommands($commandsetid, $type) {
    $commands = array();
 
    if (0 != $commandsetid) {
-      $commandset = new CommandtSet($commandsetid); // TODO use cache
+
+      $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
       $cmdList = $commandset->getCommands($type);
       foreach ($cmdList as $id => $cmd) {
@@ -75,19 +76,20 @@ function getCommandSetCommands($commandsetid, $type) {
 /**
  *
  * @param type $smartyHelper
- * @param CommandtSet $commandset
+ * @param CommandSet $commandset
  */
 function displayCommandSet($smartyHelper, $commandset) {
 
    #$smartyHelper->assign('commandsetId', $commandset->getId());
+   $smartyHelper->assign('teamid',               $commandset->getTeamid());
    $smartyHelper->assign('commandsetName',       $commandset->getName());
    $smartyHelper->assign('commandsetDesc',       $commandset->getDesc());
-   $smartyHelper->assign('commandsetBudget', $commandset->getBudgetDays());
+   $smartyHelper->assign('commandsetBudget',     $commandset->getBudgetDays());
    $smartyHelper->assign('commandsetCost',       $commandset->getCost());
    $smartyHelper->assign('commandsetCurrency',   $commandset->getCurrency());
    $smartyHelper->assign('commandsetDate',       date("Y-m-d", $commandset->getDate()));
 
-   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), CommandtSet::cmdType_dev));
+   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), CommandSet::cmdType_dev));
 
 }
 

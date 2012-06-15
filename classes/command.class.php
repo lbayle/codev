@@ -78,7 +78,6 @@ class Command {
    private $startDate;
    private $deadline;
    private $teamid;
-   private $commandSetId;
    private $state;
    private $cost;
    private $currency;
@@ -91,6 +90,8 @@ class Command {
    // codev_command_bug_table
    private $issueSelection;
 
+   // codev_commandset_cmd_table
+   private $commandSetList;
 
    function __construct($id) {
 
@@ -503,11 +504,15 @@ class Command {
    }
 
    /**
-    * 
+    * A command can be included in several ComandSet from different teams.
+    *
+    * This returns the list of CommandSets where this command is defined.
+    *
+    * @return array[commandset_id] = commandsetName
     */
-   public function getCommandSet() {
+   public function getCommandSetList() {
 
-      if (NULL == $this->commandSetId) {
+      if (NULL == $this->commandSetList) {
 
          $query  = "SELECT * FROM `codev_commandset_cmd_table` WHERE command_id=$this->id ";
          $result = mysql_query($query);
@@ -518,48 +523,16 @@ class Command {
             exit;
          }
 
-         // can an Command belong to more than one commandset ?
+         // a Command can belong to more than one commandset
          while($row = mysql_fetch_object($result)) {
 
-            $this->commandSetId = $row->commandset_id;
-            $this->logger->debug("Command $this->id is in commandset $this->commandSetId");
+            $cmdset = CommandSetCache::getInstance()->getCommandSet($row->commandset_id);
+            
+            $this->commandSetList["$row->commandset_id"] = $cmdset->getName();
+            $this->logger->debug("Command $this->id is in commandset $row->commandset_id (".$cmdset->getName().")");
          }
       }
-      return $this->commandSetId;
-   }
-
-
-   /**
-    *
-    * @param int $value commandsetid. if NULL or '0' then remove association
-    * @param int $type
-    *
-    */
-   public function setCommandSet($value, $type = CommandtSet::cmdType_dev) {
-
-      if ((NULL == $value) || (0 == $value)){
-
-         if (NULL == $this->getCommandSet()) { return; }
-         $query = "DELETE FROM `codev_commandset_cmd_table` WHERE `command_id` = '$this->id' ";
-
-      } else {
-         if (NULL == $this->getCommandSet()) {
-            $query = "INSERT INTO `codev_commandset_cmd_table` (`commandset_id`, `command_id`, `type`) ".
-                     "VALUES ('$value', '$this->id', '$type');";
-         } else {
-            $query = "UPDATE `codev_commandset_cmd_table` SET commandset_id = '$value' WHERE command_id='$this->id' ";
-         }
-      }
-
-      $result = mysql_query($query);
-      if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-      }
-      $this->commandSetId = $value;
-
+      return $this->commandSetList;
    }
 
 }

@@ -74,21 +74,20 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('commandsetid', $commandsetid);
    $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
 
-   if (0 != $commandsetid) {
-      $commandset = new CommandtSet($commandsetid);
-
-      displayCommandSet($smartyHelper, $commandset);
-   }
-
-
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
+   if (0 != $commandsetid) {
+      $commandset = new CommandSet($commandsetid);
 
-   // ------
+      displayCommandSet($smartyHelper, $commandset);
+   } else {
+      if ('displayCommandSet' == $action) {
+         header('Location:commandset_edit.php?commandsetid=0');
+      }
 
+   }
 
-   // your actions here
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'], $mantisURL);

@@ -391,7 +391,7 @@ class Team {
          $this->commandList = array();
          while($row = mysql_fetch_object($result))
          {
-            $cmd = new Command($row->id);
+            $cmd = CommandCache::getInstance()->getCommand($row->id);
             $this->commandList[$row->id] = $cmd;
          }
       }
@@ -420,7 +420,7 @@ class Team {
          $this->commandSetList = array();
          while($row = mysql_fetch_object($result))
          {
-            $commandset = new CommandtSet($row->id);
+            $commandset = CommandSetCache::getInstance()->getCommandSet($row->id);
             $this->commandSetList[$row->id] = $commandset;
          }
       }

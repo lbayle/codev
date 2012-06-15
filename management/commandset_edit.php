@@ -125,8 +125,7 @@ if (isset($_SESSION['userid'])) {
          $commandsetid = CommandSet::create($cmdsetName, $teamid);
          $smartyHelper->assign('commansetdid', $commandsetid);
 
-         #$cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
-         $cmdset = new CommandtSet($commandsetid);
+         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
          // set all fields
          updateCommandSetInfo($cmdset);
@@ -143,13 +142,13 @@ if (isset($_SESSION['userid'])) {
    if (0 != $commandsetid) {
       // -------- UPDATE CMDSET -------
 
-      #$cmdset = CommandSetCache::getInstance()->getCommandSet($commansetdid);
-      $cmdset = new CommandtSet($commandsetid);
+      $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
       // ------ Actions
 
       if ("addCommand" == $action) {
 
+         # TODO 
          $_SESSION['cmdid'] = 0;
          header('Location:command_edit.php?cmdid=0');
 

@@ -64,17 +64,6 @@ jQuery(document).ready(function() {
                   </td>
                </tr>
                <tr>
-                  <th>{t}CommandSet{/t}</th>
-                  <td>
-                     <select id='commandsetSelector' name='commandsetid'>
-                        <option value='0'>{t}--- not assigned ---{/t}</option>
-                        {foreach from=$commandsets key=id item=i}
-                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                        {/foreach}
-                     </select>
-                  </td>
-               </tr>
-               <tr>
                   <th>{t}Name{/t}</th>
                   <td><input type='text' size='80' style='font-family: sans-serif' name='cmdName'  id='cmdName' value='{$cmdName}'></td>
                </tr>
@@ -145,6 +134,7 @@ jQuery(document).ready(function() {
    <div id="tabsCommand">
       <ul>
          <li><a href="#tabsName-1">{t}Tasks ({$cmdNbIssues}){/t}</a></li>
+         <li><a href="#tabsName-4">{t}Parent CommandSets ({$nbParentCmdSets}){/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
@@ -154,7 +144,7 @@ jQuery(document).ready(function() {
          //------ JQUERY --------
          jQuery(document).ready(function() {
 
-            jQuery("#btAddCmdIssue").click(function(event) {
+            jQuery("#btAddCmdSet").click(function(event) {
                addCmdIssue();
             });
 
@@ -165,7 +155,7 @@ jQuery(document).ready(function() {
                }
             });
 
-            function addCmdIssue(){
+            function addCmdSet(){
 
                // check fields
                var foundError = 0;
@@ -299,9 +289,121 @@ jQuery(document).ready(function() {
          {/if}
 
       </div>
-      {if $cmdStats}
-      <div id="tabsName-2">
+
+      <div id="tabsName-4">
+
+         {if $isAddCmdSetForm}
+         <div align="left">
+            <!-- add/create command form -->
+            <form id='addCmdSetForm' name='addCmdSetForm' method='post' action='{$page}'>
+               <fieldset>
+                  <select id='commandsetSelector' name='commandsetid'>
+                     {foreach  $parentCmdSetCandidates as $id => $name}
+                     <option value="{$id}">{$name}</option>
+                     {/foreach}
+                  </select>
+
+                  <button type='submit'><img  border='0' align='absmiddle' src="images/b_add.png" alt="Add icon"/> {t}Add{/t}</button>
+
+                  <input type="hidden" name="action" value="addToCmdSet" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="cmdid" value="{$cmdid}" />
+               </fieldset>
+            </form>
+         </div>
+
+         {else}
+         {t}Create the Command before assigning it to a CommandSet.{/t}
+         {/if}
+
+         <div style="margin-top:1em;">
+
+         {if $parentCmdSets}
+
+         <script type="text/javascript">
+            function removeCmdSet(commandsetid, name){
+               jQuery( "#desc_id" ).text(commandsetid);
+               jQuery( "#desc_name" ).text(name);
+
+               jQuery( "#formRemoveCmdSet" ).find("input[name=commandsetid]").val(commandsetid);
+
+               jQuery( "#removeCmdSet_dialog_form" ).dialog( "open" );
+            }
+         </script>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               // delete track dialogBox
+               jQuery("#removeCmdSet_dialog_form" ).dialog({
+                  autoOpen: false,
+                  resizable: true,
+                  width: "auto",
+                  modal: true,
+                  buttons: {
+                     "Remove": function() {
+                        jQuery("#formRemoveCmdSet").submit();
+                     },
+                     Cancel: function() {
+                        jQuery( this ).dialog( "close" );
+                     }
+                  }
+               });
+            });
+         </script>
+         <div id="removeCmdSet_dialog_form" title="{t}Remove CommandSet{/t}" style="display: none">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+               {t}Remove this Command from the CommandSet ?{/t}
+            </p>
+            <table class="invisible">
+               <tr>
+                  <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
+                  <td id="desc_id">id</td>
+               </tr>
+               <tr>
+                  <td><span style="font-weight:bold;">{t}Name{/t} :</span></td>
+                  <td id="desc_name">name</td>
+               </tr>
+            </table>
+            <form id="formRemoveCmdSet" name="formRemoveCmdSet" method="post" action="{$page}" >
+               <fieldset>
+                  <input type="hidden" name="action" value="removeFromCmdSet" />
+                  <input type="hidden" name="teamid" value="{$teamid}" />
+                  <input type="hidden" name="commandsetid"  value="0" />
+
+               </fieldset>
+            </form>
+         </div>
+
+         <table>
+            <thead>
+            <tr>
+                  <th></th>
+                  <th>{t}Team{/t}</th>
+                  <th>{t}CommandSet{/t}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $parentCmdSets as $id => $cmdset}
+            <tr>
+                  <td>
+                     <a title="{t}delete CommandSet-Command association{/t}"
+                        href="javascript: removeCmdSet('{$id}', '{$cmdset.name|escape}')">
+                        <img alt="b_drop.png" border="0" src="images/b_drop.png" />
+                     </a>
+                  </td>
+                  <td>{$cmdset.team}</td>
+                  <td title="{$id}">{$cmdset.name}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         {else}
+         {t}Create the Command first.{/t}
+         {/if}
+
+
+
       </div>
-      {/if}
+
+
 
 </div>

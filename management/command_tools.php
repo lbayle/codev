@@ -69,9 +69,15 @@ function getParentCommandSets($cmd) {
    // TODO return  'team' ?
 
    foreach ($cmdsetList as $id => $cmdsetName) {
+
+      $cmdset = CommandSetCache::getInstance()->getCommandSet($id);
+      $teamid = $cmdset->getTeamid();
+      $team = TeamCache::getInstance()->getTeam($teamid);
+
       $commandsets[] = array(
          'id' => $id,
-         'name' => $cmdsetName
+         'name' => $cmdsetName,
+         'team' => $team->name
       );
    }
    return $commandsets;
@@ -121,6 +127,7 @@ function displayCommand($smartyHelper, $cmd) {
    // set CommandSets I belong to
    $parentCmdsets = getParentCommandSets($cmd);
    $smartyHelper->assign('parentCmdSets', $parentCmdsets);
+   $smartyHelper->assign('nbParentCmdSets', count($parentCmdsets));
 
 
    // set Issues that belong to me

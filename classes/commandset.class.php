@@ -26,6 +26,7 @@ if (NULL == Logger::getConfigurationFile()) {
 
 include_once "issue_selection.class.php";
 include_once "team.class.php";
+include_once "commandset_cache.class.php";
 
 
 
@@ -40,7 +41,7 @@ include_once "team.class.php";
  * un commandset est provisionné d'un certain budget, négocié avec le client.
  * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budget.
  */
-class CommandtSet {
+class CommandSet {
 
    const cmdType_dev   = 1;    // in table codev_commandset_cmd_table
    const cmdType_mngt  = 2;    // in table codev_commandset_cmd_table
