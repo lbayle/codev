@@ -61,7 +61,7 @@ class CommandSet {
    private $budget_days;
 
    // list of commands, ordered by type
-   // engByTypeList[type][cmdid]
+   // cmdByTypeList[type][cmdid]
    private $cmdByTypeList;
 
 
@@ -101,7 +101,7 @@ class CommandSet {
       $this->currency    = $row->currency;
 
       // ---
-      $this->engByTypeList = array();
+      $this->cmdByTypeList = array();
       $query  = "SELECT * FROM `codev_commandset_cmd_table` ".
                 "WHERE commandset_id=$this->id ";
                 "ORDER BY type ASC, command_id ASC";
@@ -115,10 +115,10 @@ class CommandSet {
       }
       while($row = mysql_fetch_object($result))
       {
-         if (NULL == $this->engByTypeList["$row->type"]) {
-            $this->engByTypeList["$row->type"] = array();
+         if (NULL == $this->cmdByTypeList["$row->type"]) {
+            $this->cmdByTypeList["$row->type"] = array();
          }
-          $this->engByTypeList["$row->type"][] = $row->command_id;
+          $this->cmdByTypeList["$row->type"][] = $row->command_id;
       }
    }
 
@@ -256,7 +256,7 @@ class CommandSet {
 
       $cmdList = array();
 
-      $cmdidList = $this->engByTypeList[$type];
+      $cmdidList = $this->cmdByTypeList[$type];
 
       foreach ($cmdidList as $cmdid) {
 
@@ -303,10 +303,10 @@ class CommandSet {
 
       $this->logger->debug("Add command $cmdid to commandset $this->id");
 
-      if (NULL == $this->engByTypeList["$type"]) {
-         $this->engByTypeList["$type"] = array();
+      if (NULL == $this->cmdByTypeList["$type"]) {
+         $this->cmdByTypeList["$type"] = array();
       }
-      $this->engByTypeList["$type"][] = $cmdid;
+      $this->cmdByTypeList["$type"][] = $cmdid;
 
       $query = "INSERT INTO `codev_commandset_cmd_table` (`commandset_id`, `command_id`, `type`) VALUES ('$this->id', '$cmdid', '$type');";
       $result = mysql_query($query);
@@ -329,15 +329,13 @@ class CommandSet {
     */
    public function removeCommand($cmdid) {
 
-      $typeList = array_keys($this->engByTypeList);
-
+      $typeList = array_keys($this->cmdByTypeList);
       foreach ($typeList as $type) {
-         if (NULL != $this->engByTypeList[$type][$cmdid]) {
-            unset($this->engByTypeList[$type][$cmdid]);
+         if (NULL != $this->cmdByTypeList[$type][$cmdid]) {
+            unset($this->cmdByTypeList[$type][$cmdid]);
             # break;
          }
       }
-
 
       $query = "DELETE FROM `codev_commandset_cmd_table` WHERE commandset_id='$this->id' AND command_id='$cmdid';";
       $result = mysql_query($query);

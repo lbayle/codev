@@ -126,7 +126,7 @@ jQuery(document).ready(function() {
                <fieldset>
                   <select id='cmdSelector' name='cmdid'>
                      <option value='0'>{t}--- New Command ---{/t}</option>
-                     {foreach  $unassignedCmd as $id => $name}
+                     {foreach  $cmdCandidates as $id => $name}
                      <option value="{$id}">{$name}</option>
                      {/foreach}
                   </select>

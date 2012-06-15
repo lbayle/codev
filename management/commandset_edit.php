@@ -36,6 +36,7 @@ $logger = Logger::getLogger("commandset_edit");
 
 
 /**
+ * Action on 'Save' button
  *
  * @param CommandSet $cmdset
  */
@@ -58,6 +59,39 @@ function updateCommandSetInfo($cmdset) {
    $cmdset->setBudgetDays(checkNumericValue($_POST['commandsetBudget'], true));
 
 }
+
+/**
+ * list the Commands that can be added to this CommandSet.
+ *
+ * This depends on user's teams
+ *
+ *
+ */
+function getCmdCandidates($user) {
+   $cmdCandidates = array();
+
+   $lTeamList = $user->getLeadedTeamList();
+   $managedTeamList = $user->getManagedTeamList();
+   $mTeamList = $user->getDevTeamList();
+   $teamList = $mTeamList + $lTeamList + $managedTeamList;
+
+   foreach ($teamList as $teamid => $name) {
+
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $cmdList = $team->getCommands();
+
+      foreach ($cmdList as $cid => $cmd) {
+
+         // TODO remove Cmds already in this cmdset.
+
+         $cmdCandidates[$cid] = $cmd->getName();
+      }
+   }
+   asort($cmdCandidates);
+   
+   return $cmdCandidates;
+}
+
 
 // =========== MAIN ==========
 
@@ -148,21 +182,27 @@ if (isset($_SESSION['userid'])) {
 
       if ("addCommand" == $action) {
 
-         # TODO 
-         $_SESSION['cmdid'] = 0;
-         header('Location:command_edit.php?cmdid=0');
+         # TODO
+         $cmdid = checkNumericValue($_POST['cmdid']);
 
+         if (0 == $cmdid) {
+            #$_SESSION['cmdid'] = 0;
+            header('Location:command_edit.php?cmdid=0');
+         } else {
+            $cmdset->addCommand($cmdid, CommandSet::cmdType_dev);
+         }
+
+      } else if ("removeCmd" == $action) {
+
+         $cmdid = checkNumericValue($_POST['cmdid']);
+         $cmdset->removeCommand($cmdid);
+         
       } else if ("updateCmdsetInfo" == $action) {
 
          $teamid = checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
 
          updateCommandSetInfo($cmdset);
-
-      } else if ("removeCmd" == $action) {
-
-         $cmdid = checkNumericValue($_POST['cmdid']);
-         $cmdset->removeCommand($cmdid);
       }
 
       // ------ Display CommandSet
@@ -172,6 +212,9 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
       $smartyHelper->assign('isAddCmdForm', true);
 
+      $cmdCandidates = getCmdCandidates($session_user);
+      $smartyHelper->assign('cmdCandidates', $cmdCandidates);
+      $smartyHelper->assign('isAddCmdSetForm', true);
 
       displayCommandSet($smartyHelper, $cmdset);
 
