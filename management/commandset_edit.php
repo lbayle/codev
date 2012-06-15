@@ -40,7 +40,6 @@ $logger = Logger::getLogger("commandset_edit");
  * @param CommandSet $cmdset
  */
 function updateCommandSetInfo($cmdset) {
-   echo "AAAA";
 
    // security check
    $cmdset->setTeamid(checkNumericValue($_POST['teamid']));
@@ -58,7 +57,6 @@ function updateCommandSetInfo($cmdset) {
 
    $cmdset->setBudgetDays(checkNumericValue($_POST['commandsetBudget'], true));
 
-   echo "ZZZZ";
 }
 
 // =========== MAIN ==========

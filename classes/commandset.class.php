@@ -194,7 +194,7 @@ class CommandtSet {
    }
    public function setBudgetDays($value) {
 
-      $this->cost = $value;
+      $this->budget_days = $value;
       $query = "UPDATE `codev_commandset_table` SET budget_days = '$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
