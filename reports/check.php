@@ -71,7 +71,8 @@ function getTeamConsistencyErrors($teamid) {
          $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
 
          $cerrs[] = array('userName' => $user->getName(),
-            'mantisIssueURL' => mantisIssueURL($cerr->bugId, $issue->summary),
+            'issueURL' => issueInfoURL($cerr->bugId, $issue->summary),
+            'mantisURL' => mantisIssueURL($cerr->bugId, $issue->summary, true),
             'date' => date("Y-m-d", $cerr->timestamp),
             'status' => $statusNames[$cerr->status],
             'severity' => $cerr->getLiteralSeverity(),

@@ -59,7 +59,7 @@ echo "      <a href='".getServerRootURL()."/reports/productivity_report.php' tit
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/reports/export_csv_weekly.php' title='".T_("Generate Excel Sheet")."'>".T_("Export to CSV")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/tools/check.php' title='".T_("Consistency Check")."'>".T_("Check")."</a>\n";
+echo "      <a href='".getServerRootURL()."/reports/check.php' title='".T_("Consistency Check")."'>".T_("Check")."</a>\n";
 echo "      </td>\n";
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/blog/blog.php' title='".T_("Blog")."'>Blog</a>\n";
