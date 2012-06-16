@@ -52,219 +52,284 @@
    {include file="modal/consistency_check.html"}
 
    <div class="center">
-      <h2>{$issueSummary}</h2>
-      {$mantisUrl} {$issueUrl}{if $issueGeneralInfo.issueTcId} / <span title="{t}External ID{/t}">{$issueGeneralInfo.issueTcId}{/if}</span><br/><br/>
-      <strong><span title="{t}status{/t}">{$issueStatusName}</span> - <span title="{t}assigned to{/t}">{$handlerName}</span></strong>
+      {if $issueGeneralInfo.issueExtRef}<span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}{/if}
+      <h2>{$issueGeneralInfo.mantisURL}  {$issueGeneralInfo.issueURL} -- {$issueGeneralInfo.issueSummary}</h2>
+<!--
+      {$issueGeneralInfo.mantisURL} {$issueGeneralInfo.issueURL}{if $issueGeneralInfo.issueExtRef} / <span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}{/if}</span><br/><br/>
+      <strong><span title="{t}status{/t}">{$issueGeneralInfo.statusName}</span> - <span title="{t}assigned to{/t}">{$issueGeneralInfo.handlerName}</span></strong>
+-->
    </div>
-   {/if}
 
-   <!-- General info -->
-   {if $issueGeneralInfo}
-   <div style="margin-top: 2em">
-      <!-- General info -->
-      <div id="issueGeneralInfo" class="float">
-         {include file="ajax/generalInfo.html"}
-      </div>
+   <div style="margin-top:4em;"></div>
+   
+   <div style='text-align:left;' class='center'>
+      <table>
+         <!--tr>
+            <th>{t}Mantis ID{/t}</th>
+            <td>{$issueGeneralInfo.issueURL}</td>
+         </tr-->
+         <tr>
+            <th>{t}External Ref{/t}</th>
+            <td>{$issueGeneralInfo.issueExtRef}</td>
+         </tr>
+         <tr>
+            <th>{t}Assigned to{/t}</th>
+            <td>{$issueGeneralInfo.handlerName}</td>
+         </tr>
+         <tr>
+            <th>{t}Status{/t}</th>
+            <td>{$issueGeneralInfo.statusName}</td>
+         </tr>
+         <!--tr>
+            <th>{t}Description{/t}</th>
+            <td>{$issueGeneralInfo.statusDesc}</td>
+         </tr-->
+      </table>
+   </div>
+   
+   <div style="margin-top:3em;"></div>
+   
+   <script type="text/javascript">
+      jQuery(function() {
+         jQuery( "#tabsIssueInfo" ).tabs();
+      });
+   </script>
+   <div id="tabsIssueInfo">
+      <ul>
+         <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
+         <li><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
+         <li><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
+      </ul>
+      <div id="tabsName-1">
+         <!-- General info -->
+         <div id="issueGeneralInfo" class="float">
+            {include file="ajax/generalInfo.html"}
+         </div>
 
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            var remaining = jQuery("#remaining"),
-                allFields = jQuery([]).add(remaining),
-                tips = jQuery("#validateTips");
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               var remaining = jQuery("#remaining"),
+                  allFields = jQuery([]).add(remaining),
+                  tips = jQuery("#validateTips");
 
-            function updateTips(t) {
-               tips.text(t)
-                   .addClass("ui-state-highlight");
-               setTimeout(function() {
-                  tips.removeClass("ui-state-highlight", 1500);
-               }, 500 );
-            }
-
-            function checkRegexp(o, regexp, n) {
-               if (!(regexp.test(o.val()))) {
-                  o.addClass("ui-state-error");
-                  updateTips(n);
-                  return false;
-               } else {
-                  return true;
+               function updateTips(t) {
+                  tips.text(t)
+                     .addClass("ui-state-highlight");
+                  setTimeout(function() {
+                     tips.removeClass("ui-state-highlight", 1500);
+                  }, 500 );
                }
-            }
 
-            jQuery("#update_remaining_dialog_form").dialog({
-               autoOpen: false,
-               height: 200,
-               width: 500,
-               modal: true,
-               open: function() {
-                  // Select input field contents
-                  jQuery("#remaining").select();
-               },
-               buttons: {
-                  "{t}Update{/t}": function() {
-                     jQuery("#formUpdateRemaining").submit();
-                  },
-                  Cancel: function() {
-                     jQuery(this).dialog("close");
-                     allFields.val("").removeClass("ui-state-error");
-                     remaining.val({$issueGeneralInfo.issueRemaining});
-                     updateTips("{$issueGeneralInfo.issueSummary}");
+               function checkRegexp(o, regexp, n) {
+                  if (!(regexp.test(o.val()))) {
+                     o.addClass("ui-state-error");
+                     updateTips(n);
+                     return false;
+                  } else {
+                     return true;
                   }
                }
-            });
 
-            jQuery("#formUpdateRemaining").submit(function(event) {
-               /* stop form from submitting normally */
-               event.preventDefault();
-
-               var bValid = true;
-               allFields.removeClass("ui-state-error");
-               bValid = bValid && checkRegexp(remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
-
-               if (bValid) {
-                  /* get some values from elements on the page: */
-                  var form = jQuery(this);
-
-                  jQuery.ajax({
-                     type: form.attr("method"),
-                     url: form.attr("action"),
-                     data: form.serialize(),
-                     success: function(data) {
-                        var bugid = jQuery("#bugid").val();
-                        jQuery.ajax({
-                           type: "GET",
-                           url: "reports/issue_info_ajax.php",
-                           data: "action=getGeneralInfo&bugid="+bugid,
-                           success: function(data) {
-                              jQuery("#issueGeneralInfo").html(jQuery.trim(data));
-                           },
-                           error: function(jqXHR, textStatus, errorThrown) {
-                              if(errorThrown == 'Forbidden') {
-                                 window.location = '{$page}';
-                              } else {
-                                 alert(errorThrown);
-                              }
-                           }
-                        });
+               jQuery("#update_remaining_dialog_form").dialog({
+                  autoOpen: false,
+                  height: 200,
+                  width: 500,
+                  modal: true,
+                  open: function() {
+                     // Select input field contents
+                     jQuery("#remaining").select();
+                  },
+                  buttons: {
+                     "{t}Update{/t}": function() {
+                        jQuery("#formUpdateRemaining").submit();
                      },
-                     error: function(jqXHR, textStatus, errorThrown) {
-                        if(errorThrown == 'Forbidden') {
-                           window.location = '{$page}';
-                        } else {
-                           alert(errorThrown);
-                        }
+                     Cancel: function() {
+                        jQuery(this).dialog("close");
+                        allFields.val("").removeClass("ui-state-error");
+                        remaining.val({$issueGeneralInfo.issueRemaining});
+                        updateTips("{$issueGeneralInfo.issueSummary}");
                      }
-                  });
+                  }
+               });
 
-                  jQuery("#update_remaining_dialog_form").dialog("close");
-               }
+               jQuery("#formUpdateRemaining").submit(function(event) {
+                  /* stop form from submitting normally */
+                  event.preventDefault();
+
+                  var bValid = true;
+                  allFields.removeClass("ui-state-error");
+                  bValid = bValid && checkRegexp(remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
+
+                  if (bValid) {
+                     /* get some values from elements on the page: */
+                     var form = jQuery(this);
+
+                     jQuery.ajax({
+                        type: form.attr("method"),
+                        url: form.attr("action"),
+                        data: form.serialize(),
+                        success: function(data) {
+                           var bugid = jQuery("#bugid").val();
+                           jQuery.ajax({
+                              type: "GET",
+                              url: "reports/issue_info_ajax.php",
+                              data: "action=getGeneralInfo&bugid="+bugid,
+                              success: function(data) {
+                                 jQuery("#issueGeneralInfo").html(jQuery.trim(data));
+                              },
+                              error: function(jqXHR, textStatus, errorThrown) {
+                                 if(errorThrown == 'Forbidden') {
+                                    window.location = '{$page}';
+                                 } else {
+                                    alert(errorThrown);
+                                 }
+                              }
+                           });
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                           if(errorThrown == 'Forbidden') {
+                              window.location = '{$page}';
+                           } else {
+                              alert(errorThrown);
+                           }
+                        }
+                     });
+
+                     jQuery("#update_remaining_dialog_form").dialog("close");
+                  }
+               });
             });
-         });
-      </script>
-      <div id="update_remaining_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if $issueGeneralInfo.issueTcId} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Remaining{/t}" style="display: none">
-         <p id="validateTips">{$issueGeneralInfo.issueSummary}</p>
-         <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="smarty_tools_ajax.php" >
-            <fieldset>
-               <label for="remaining">{t}Remaining{/t}:</label>
-               <input type="text" id="remaining" name="remaining" size="3" class="text" value="{$issueGeneralInfo.issueRemaining}" />
-               <input type="hidden" id="bugid" name="bugid"  value="{$issueGeneralInfo.issueId}" />
-               <input type="hidden" name="action" value="updateRemainingAction" />
-            </fieldset>
-         </form>
+         </script>
+         <div id="update_remaining_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if $issueGeneralInfo.issueTcId} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Remaining{/t}" style="display: none">
+            <p id="validateTips">{$issueGeneralInfo.issueSummary}</p>
+            <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="smarty_tools_ajax.php" >
+               <fieldset>
+                  <label for="remaining">{t}Remaining{/t}:</label>
+                  <input type="text" id="remaining" name="remaining" size="3" class="text" value="{$issueGeneralInfo.issueRemaining}" />
+                  <input type="hidden" id="bugid" name="bugid"  value="{$issueGeneralInfo.issueId}" />
+                  <input type="hidden" name="action" value="updateRemainingAction" />
+               </fieldset>
+            </form>
+         </div>
+
+         <!-- Job details -->
+         <div class="float" style="margin-left: 5em">
+            <table>
+               <tr>
+                  <th>{t}Job{/t}</th>
+                  <th>{t}Nb Days{/t}</th>
+                  <th></th>
+               </tr>
+               {foreach from=$jobDetails key=id item=i}
+               <tr>
+                  <td>
+                     <img src="graphs/rectangle.png.php?height=12&width=12&border&color={$i.jobColor}"/>
+                     {$i.jobName}
+                  </td>
+                  <td>{$i.duration}</td>
+                  <td>{$i.durationRate} %</td>
+               </tr>
+               {/foreach}
+            </table>
+         </div>
+
+         <!-- Dates -->
+         <div class="float" style="margin-left: 5em">
+            <table>
+               <tr>
+                  <th>{t}Dates{/t}</th>
+                  <th></th>
+               </tr>
+               <tr>
+                  <td>{t}DeadLine{/t}</td>
+                  <td>{$timeDrift.deadLine}</td>
+               </tr>
+               <tr>
+                  <td>{t}DeliveryDate{/t}</td>
+                  <td>{$timeDrift.deliveryDate}</td>
+               </tr>
+               <tr>
+                  <td>{t}Deviation{/t}</td>
+                  <td style="background-color: #{$timeDrift.driftColor}">{if $timeDrift.drift}{$timeDrift.drift} {t}days{/t}{/if}</td>
+               </tr>
+            </table>
+         </div>
+         <div class="spacer"></div>
       </div>
 
-      <!-- Job details -->
-      <div class="float" style="margin-left: 5em">
-         <table>
+      <div id="tabsName-2">
+         
+         <!-- Jobs details by months -->
+         {if $months}
+         <div style="margin-top: 2em">
+
+            {foreach from=$months key=id item=i}
+            <table width="70%" style="margin-top: 2em">
+               <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
+               <tr>
+                  <th></th>
+                  {foreach from=$i.months key=id item=j}
+                  <th>{$j}</th>
+                  {/foreach}
+               </tr>
+               {foreach from=$i.users key=id item=k}
+               <tr>
+                  <td>{$k.username}</td>
+                  {foreach from=$k.jobs key=id item=l}
+                  <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{$l.jobDuration}</td>
+                  {/foreach}
+               </tr>
+               {/foreach}
+            </table>
+            {/foreach}
+         </div>
+
+         <!-- legend -->
+   <div style="margin-top:2em;"></div>
+         <table class='invisible'>
             <tr>
-               <th>{t}Job{/t}</th>
-               <th>{t}Nb Days{/t}</th>
-               <th></th>
-            </tr>
             {foreach from=$jobDetails key=id item=i}
-            <tr>
                <td>
                   <img src="graphs/rectangle.png.php?height=12&width=12&border&color={$i.jobColor}"/>
                   {$i.jobName}
                </td>
-               <td>{$i.duration}</td>
-               <td>{$i.durationRate} %</td>
-            </tr>
+               <td>&nbsp;</td>
             {/foreach}
-         </table>
-      </div>
-
-      <!-- Dates -->
-      <div class="float" style="margin-left: 5em">
-         <table>
-            <tr>
-               <th>{t}Dates{/t}</th>
-               <th></th>
-            </tr>
-            <tr>
-               <td>{t}DeadLine{/t}</td>
-               <td>{$timeDrift.deadLine}</td>
-            </tr>
-            <tr>
-               <td>{t}DeliveryDate{/t}</td>
-               <td>{$timeDrift.deliveryDate}</td>
-            </tr>
-            <tr>
-               <td>{t}Deviation{/t}</td>
-               <td style="background-color: #{$timeDrift.driftColor}">{if $timeDrift.drift}{$timeDrift.drift} {t}days{/t}{/if}</td>
             </tr>
          </table>
+         
+         {/if}
       </div>
-      <div class="spacer"></div>
+
+      <div id="tabsName-3">
+         <!-- Time allocation -->
+         {if $durationsByStatus}
+         <div style="margin-top: 2em">
+
+            <table style="margin-top: 2em">
+               <caption>{t}Time allocation by status{/t}</caption>
+               <tr>
+                  {foreach from=$durationsByStatus.statusNames key=id item=i}
+                  <th>{$i}</th>
+                  {/foreach}
+               </tr>
+               <tr>
+                  {foreach from=$durationsByStatus.durations key=id item=i}
+                  <td>{$i}</td>
+                  {/foreach}
+               </tr>
+            </table>
+         </div>
+         {/if}
+      </div>
    </div>
+   
+   
+   <!-- General info -->
+   <div style="margin-top: 2em"></div>
    {/if}
 
-   <!-- Jobs details by months -->
-   {if $months}
-   <div style="margin-top: 2em">
-      <hr/>
-      {foreach from=$months key=id item=i}
-      <table width="70%" style="margin-top: 2em">
-         <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
-         <tr>
-            <th></th>
-            {foreach from=$i.months key=id item=j}
-            <th>{$j}</th>
-            {/foreach}
-         </tr>
-         {foreach from=$i.users key=id item=k}
-         <tr>
-            <td>{$k.username}</td>
-            {foreach from=$k.jobs key=id item=l}
-            <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{$l.jobDuration}</td>
-            {/foreach}
-         </tr>
-         {/foreach}
-      </table>
-      {/foreach}
-   </div>
-   {/if}
-
-   <!-- Time allocation -->
-   {if $durationsByStatus}
-   <div style="margin-top: 2em">
-      <hr/>
-      <table style="margin-top: 2em">
-         <caption>{t}Time allocation by status{/t}</caption>
-         <tr>
-            {foreach from=$durationsByStatus.statusNames key=id item=i}
-            <th>{$i}</th>
-            {/foreach}
-         </tr>
-         <tr>
-            {foreach from=$durationsByStatus.durations key=id item=i}
-            <td>{$i}</td>
-            {/foreach}
-         </tr>
-      </table>
-   </div>
-   {/if}
-
-   </div>
+  </div>
 
    {else}
    <div class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>

@@ -30,8 +30,12 @@ require_once('consistency_check2.class.php');
 
 require('display.inc.php');
 
+
+
+// ========== MAIN ===========
+
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Activity by task');
+$smartyHelper->assign('pageName', 'Task Info');
 
 if(isset($_SESSION['userid'])) {
    $user = UserCache::getInstance()->getUser($_SESSION['userid']);
@@ -70,14 +74,8 @@ if(isset($_SESSION['userid'])) {
       $taskList = $user->getPossibleWorkingTasksList($projList);
       if (in_array($bug_id, $taskList)) {
          $issue = IssueCache::getInstance()->getIssue($bug_id);
-         $smartyHelper->assign('issueSummary', $issue->summary);
-         $smartyHelper->assign('mantisUrl', mantisIssueURL($issue->bugId, NULL, true));
-         $smartyHelper->assign('issueUrl', mantisIssueURL($issue->bugId));
-         $smartyHelper->assign('issueStatusName', $issue->getCurrentStatusName());
-         $smartyHelper->assign('handlerName', UserCache::getInstance()->getUser($issue->handlerId)->getName());
 
          $consistencyErrors = NULL;
-
          $ccheck = new ConsistencyCheck2(array($issue));
          $cerrList = $ccheck->check();
          if (0 != count($cerrList)) {

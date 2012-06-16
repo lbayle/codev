@@ -38,7 +38,12 @@ function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=fal
    $issueGeneralInfo = array(
       "issueId" => $issue->bugId,
       "issueSummary" => htmlspecialchars($issue->summary),
-      "issueTcId" => $issue->tcId,
+      "issueExtRef" => $issue->tcId,
+      'mantisURL'=> mantisIssueURL($issue->bugId, NULL, true),
+      'issueURL' => mantisIssueURL($issue->bugId),
+      'statusName'=> $issue->getCurrentStatusName(),
+      'handlerName'=> UserCache::getInstance()->getUser($issue->handlerId)->getName(),
+
       "issueEffortTitle" => $issue->effortEstim.' + '.$issue->effortAdd,
       "issueEffort" => $issue->effortEstim + $issue->effortAdd,
       "issueReestimated" => $issue->getReestimated(),
