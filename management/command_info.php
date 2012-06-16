@@ -66,27 +66,24 @@ function getConsistencyErrors($cmd) {
 
    $consistencyErrors = array(); // if null, array_merge fails !
 
-   $issueSel = $cmd->getIssueSelection();
-   $issueList = $issueSel->getIssueList();
-    $ccheck = new ConsistencyCheck2($issueList);
+   $cerrList = $cmd->getConsistencyErrors();
+   if (count($cerrList) > 0) {
+      $i = 0;
+      foreach ($cerrList as $cerr) {
+         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+         $user = UserCache::getInstance()->getUser($cerr->userId);
+         $consistencyErrors[] = array(
+             'issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+             'issueStatus' => $statusNames[$cerr->status],
+             'user' => $user->getName(),
+             'severity' => $cerr->getLiteralSeverity(),
+             'severityColor' => $cerr->getSeverityColor(),
+             'desc' => $cerr->desc);
+      }
+      $i++;
+   }
 
-    $cerrList = $ccheck->check();
-
-    if (count($cerrList) > 0) {
-        $i = 0;
-        foreach ($cerrList as $cerr) {
-            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-            $user = UserCache::getInstance()->getUser($cerr->userId);
-            $consistencyErrors[] = array(
-                'issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
-                'issueStatus' => $statusNames[$cerr->status],
-                'user' => $user->getName(),
-                'desc' => $cerr->desc);
-        }
-        $i++;
-    }
-
-    return $consistencyErrors;
+   return $consistencyErrors;
 }
 
 
@@ -147,7 +144,6 @@ if (isset($_SESSION['userid'])) {
 
       // ConsistencyCheck
       $consistencyErrors = getConsistencyErrors($cmd);
-
       if(count($consistencyErrors) > 0) {
          
          $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));

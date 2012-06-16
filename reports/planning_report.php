@@ -93,7 +93,7 @@ include 'menu.inc.php';
    // ------ JQUERY ------
    $(function() {
       $( "#accordion" ).accordion({
-         collapsible: true, autoHeight: false, clearStyle: true
+         collapsible: true, autoHeight: false, clearStyle: true, active: false
       });
    });
 

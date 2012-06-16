@@ -46,40 +46,15 @@
 
    <!-- Title -->
    {if $issueGeneralInfo}
-   <div class="center" style="margin-top: 2em">
+
+   <div style="margin-top:2em;"></div>
+   
+   {include file="modal/consistency_check.html"}
+
+   <div class="center">
       <h2>{$issueSummary}</h2>
       {$mantisUrl} {$issueUrl}{if $issueGeneralInfo.issueTcId} / <span title="{t}External ID{/t}">{$issueGeneralInfo.issueTcId}{/if}</span><br/><br/>
       <strong><span title="{t}status{/t}">{$issueStatusName}</span> - <span title="{t}assigned to{/t}">{$handlerName}</span></strong>
-   </div>
-   {/if}
-
-   <!-- Consistency errors -->
-   {if $consistencyErrors}
-   <div style="margin-top:2em;" align="center">
-      <!-- <hr style="margin-bottom:2em;" /> -->
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery(".accordion").accordion({
-               collapsible: true,
-               autoHeight: false,
-               clearStyle: true
-            });
-         });
-      </script>
-      <div class="accordion" style="width:400px;" >
-         <h3><a href="#">{t}Errors{/t}</a></h3>
-         <div align="left" style="height:40px;">
-            <table class="invisible">
-               <tr>
-                  <td></td>
-                  <td><span style="color:red"></span></td>
-                  {foreach from=$consistencyErrors key=id item=i}
-                  <td><span style="color:red">[{$i.severity}] {$i.description}</span></td>
-                  {/foreach}
-               </tr>
-            </table>
-         </div>
-      </div>
    </div>
    {/if}
 

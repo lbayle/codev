@@ -28,6 +28,7 @@ include_once "issue_selection.class.php";
 include_once "team.class.php";
 include_once "commandset.class.php";
 include_once "command_cache.class.php";
+include_once "consistency_check2.class.php";
 
 
 
@@ -535,5 +536,19 @@ class Command {
       return $this->commandSetList;
    }
 
+public function getConsistencyErrors() {
+
+   $issueSel = $this->issueSelection;
+   $issueList = $issueSel->getIssueList();
+   $ccheck = new ConsistencyCheck2($issueList);
+
+   $cerrList = $ccheck->check();
+
+   return $cerrList;
+}
+   
+   
+   
+   
 }
 ?>

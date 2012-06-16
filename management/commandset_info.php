@@ -34,6 +34,35 @@ include_once "smarty_tools.php";
 
 $logger = Logger::getLogger("commandset_info");
 
+/**
+ * Get consistency errors
+ * @param Command $cmd
+ */
+function getConsistencyErrors($cmdset) {
+   global $statusNames;
+
+   $consistencyErrors = array(); // if null, array_merge fails !
+
+   $cerrList = $cmdset->getConsistencyErrors();
+   if (count($cerrList) > 0) {
+      $i = 0;
+      foreach ($cerrList as $cerr) {
+         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+         $user = UserCache::getInstance()->getUser($cerr->userId);
+         $consistencyErrors[] = array(
+             'issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+             'issueStatus' => $statusNames[$cerr->status],
+             'user' => $user->getName(),
+             'severity' => $cerr->getLiteralSeverity(),
+             'severityColor' => $cerr->getSeverityColor(),
+             'desc' => $cerr->desc);
+      }
+      $i++;
+   }
+
+   return $consistencyErrors;
+}
+
 
 // =========== MAIN ==========
 
@@ -78,9 +107,16 @@ if (isset($_SESSION['userid'])) {
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
    if (0 != $commandsetid) {
-      $commandset = new CommandSet($commandsetid);
+      $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
       displayCommandSet($smartyHelper, $commandset);
+      
+            // ConsistencyCheck
+      $consistencyErrors = getConsistencyErrors($commandset);
+      $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+      $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the CommandSet"));
+      $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+
    } else {
       if ('displayCommandSet' == $action) {
          header('Location:commandset_edit.php?commandsetid=0');

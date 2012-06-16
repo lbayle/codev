@@ -18,7 +18,7 @@ ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
       jQuery( "#dialog_ConsistencyCheck" ).dialog({
          autoOpen: false,
          hide: "fade",
-         width: "500",
+         width: "600",
          maxHeight: "500"
       });
    });
@@ -34,11 +34,11 @@ ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
       {foreach from=$ccheckErrList key=id item=i}
          <tr>
             <td>{$i.issueURL}</td>
-            <td>{$i.level}</td>
             <td>{$i.user}</td>
             <td>{$i.date}</td>
             <td>{$i.issueStatus}</td>
-            <td><span style='color:red'>{$i.desc}</span></td>
+            <td><span style='{$i.severityColor}'>[{$i.severity}]</span></td>
+            <td><span style='{$i.severityColor}'>{$i.desc}</span></td>
          </tr>
       {/foreach}
       </table>

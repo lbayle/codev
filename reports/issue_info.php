@@ -84,11 +84,16 @@ if(isset($_SESSION['userid'])) {
          if (0 != count($cerrList)) {
             foreach ($cerrList as $cerr) {
                $consistencyErrors[] = array(
-                  "severity" => $cerr->getLiteralSeverity(),
-                  "description" => $cerr->desc
+                  'severity' => $cerr->getLiteralSeverity(),
+                  'severityColor' => $cerr->getSeverityColor(),
+                  'desc' => $cerr->desc
                );
             }
             $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
+            $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+            
          }
 
          $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;

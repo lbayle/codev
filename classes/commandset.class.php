@@ -407,6 +407,18 @@ class CommandSet {
 
    }
 
+   public function getConsistencyErrors() {
+
+      
+      $cmdList = $this->getCommands(CommandSet::cmdType_dev);
+
+      $csetErrors = array();
+      foreach ($cmdList as $cmdid => $cmd) {
+         $cmdErrors = $cmd->getConsistencyErrors();
+         $csetErrors = array_merge($csetErrors, $cmdErrors);
+      }
+      return $csetErrors;
+   }
 
 
 }

@@ -74,6 +74,22 @@ class ConsistencyError2 {
    }
 
    /**
+    * @return string
+    */
+   public function getSeverityColor() {
+      switch ($this->severity) {
+         case ConsistencyError2::severity_error:
+            return "color:red";
+         case ConsistencyError2::severity_warn:
+            return "color:orange";
+         case ConsistencyError2::severity_info:
+            return "color:black";
+         default:
+            return "color:black";
+      }
+   }
+   
+   /**
     * QuickSort compare method.
     * returns true if $this has higher severity than $cerrB
     *
