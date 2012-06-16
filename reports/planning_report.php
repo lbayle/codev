@@ -264,7 +264,7 @@ function displayUserSchedule($dayPixSize, $userName, $scheduledTaskList, $teamid
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
 
       $drawnTaskPixSize = $taskPixSize - $sepWidth;
-      echo "<a href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$drawnTaskPixSize&text=$scheduledTask->bugId&color=".$color.$strike."' /></a>";
+      echo "<a target='_blank' href='".getServerRootURL()."/reports/issue_info.php?bugid=$scheduledTask->bugId'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=$barHeight&width=$drawnTaskPixSize&text=$scheduledTask->bugId&color=".$color.$strike."' /></a>";
 
       echo "<IMG WIDTH='$sepWidth' HEIGHT='$barHeight' SRC='../images/white.png'>";
    }
@@ -569,7 +569,9 @@ if (isset($_POST['action'])) {
 } else if (isset($_GET['display'])) {
    $action = "displayPlanning";
 } else {
-   $action = '';
+   # if planning computation is too long, you may want to disable auto-load
+   #$action = '';
+   $action = "displayPlanning";
 }
 
 
@@ -601,7 +603,7 @@ if (0 == count($teamList)) {
    setTeamForm("planning_report.php", $teamid, $teamList);
 
    if ("displayPlanning" == $action) {
-
+      flush();
       if (0 != $teamid) {
          displayConsistencyErrors($teamid);
          echo "<br/>\n";
