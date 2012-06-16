@@ -52,12 +52,9 @@
    {include file="modal/consistency_check.html"}
 
    <div class="center">
-      {if $issueGeneralInfo.issueExtRef}<span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}{/if}
+      <span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>
+      <br>
       <h2>{$issueGeneralInfo.mantisURL}  {$issueGeneralInfo.issueURL} -- {$issueGeneralInfo.issueSummary}</h2>
-<!--
-      {$issueGeneralInfo.mantisURL} {$issueGeneralInfo.issueURL}{if $issueGeneralInfo.issueExtRef} / <span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}{/if}</span><br/><br/>
-      <strong><span title="{t}status{/t}">{$issueGeneralInfo.statusName}</span> - <span title="{t}assigned to{/t}">{$issueGeneralInfo.handlerName}</span></strong>
--->
    </div>
 
    <div style="margin-top:4em;"></div>
