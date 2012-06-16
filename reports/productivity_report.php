@@ -24,13 +24,13 @@ require('super_header.inc.php');
 
 require('../smarty_tools.php');
 
-include_once "period_stats.class.php";
-include_once "team.class.php";
-include_once "project.class.php";
-include_once "jobs.class.php";
-include_once "time_tracking.class.php";
+require_once "period_stats.class.php";
+require_once "team.class.php";
+require_once "project.class.php";
+require_once "jobs.class.php";
+require_once "time_tracking.class.php";
 
-include "productivity_report_tools.php";
+require_once "productivity_report_tools.php";
 
 $logger = Logger::getLogger("productivity_report");
 
@@ -332,13 +332,17 @@ function getCheckWarnings($timeTracking) {
             $warnings[] = array(
                 'user' => $row->username,
                'date' => date("Y-m-d", $date),
-               'desc' => T_("incomplete").' ('.T_('missing').' '.(1-$value).' '.T_('day')
+               'desc' => T_("incomplete").' ('.T_('missing').' '.(1-$value).' '.T_('day').')',
+               'severity' => T_("Error"),
+               'severityColor' => 'color:red'
             );
          } else {
             $warnings[] = array(
                'user' => $row->username,
                'date' => date("Y-m-d", $date),
-               'desc' => T_("inconsistent").' ('.$value.' jour)'
+               'desc' => T_("inconsistent").' ('.$value.' '.T_('day').')',
+               'severity' => T_("Error"),
+               'severityColor' => 'color:red'
             );
          }
       }
@@ -348,7 +352,9 @@ function getCheckWarnings($timeTracking) {
          $warnings[] = array(
              'user' => $row->username,
             'date' => date("Y-m-d", $date),
-            'desc' => T_("not defined.")
+            'desc' => T_("not defined."),
+            'severity' => T_("Error"),
+            'severityColor' => 'color:red'
          );
       }
    }

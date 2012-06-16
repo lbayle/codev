@@ -24,8 +24,8 @@ require('super_header.inc.php');
 
 require('smarty_tools.php');
 
-include("team.class.php");
-include("user_cache.class.php");
+require_once("team.class.php");
+require_once("user_cache.class.php");
 
 # ============= MAIN =================
 require('display.inc.php');
