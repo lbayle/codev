@@ -1,0 +1,48 @@
+<!--
+This opens a Popup window displaying a list of ConsistencyCheck errors
+
+the following variables need to be set:
+
+ccheckButtonTitle   "x Errors"
+ccheckBoxTitle      "x Errors affecting the Planning"
+ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
+
+-->
+{if $ccheckErrList}
+<script type="text/javascript">
+   jQuery(function() {
+      jQuery( "#dialog_ConsistencyCheck_link" ).click(function() {
+         jQuery( "#dialog_ConsistencyCheck" ).dialog( "open" );
+         return false;
+      });
+      jQuery( "#dialog_ConsistencyCheck" ).dialog({
+         autoOpen: false,
+         hide: "fade",
+         width: "500",
+         maxHeight: "500"
+      });
+   });
+</script>
+
+<div align='right'>
+<button title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" type="button" style="font:bold 14px Arial; background:red; color:white; cursor:hand; border:solid 1px red;">{$ccheckButtonTitle}</button> 
+</div>
+   
+<div id="dialog_ConsistencyCheck" title="{$ccheckBoxTitle}" style="display: none">
+   <div align='left'>
+      <table class='invisible'>
+      {foreach from=$ccheckErrList key=id item=i}
+         <tr>
+            <td>{$i.issueURL}</td>
+            <td>{$i.level}</td>
+            <td>{$i.user}</td>
+            <td>{$i.date}</td>
+            <td>{$i.issueStatus}</td>
+            <td><span style='color:red'>{$i.desc}</span></td>
+         </tr>
+      {/foreach}
+      </table>
+   </div>
+</div>
+{/if}
+

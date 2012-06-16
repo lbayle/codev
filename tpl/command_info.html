@@ -72,30 +72,15 @@ $(document).ready(function() {
    <br/><br/>
    
    {if $cmdid} 
+   
+   {include file="modal/consistency_check.html"}
+   
    <div  align="center">
       <h2>{$cmdReference} {$cmdName}</h2>
       {$cmdDesc}
    </div>
 
-   {if $consistencyErrors}
-   <!-- Consistency errors -->
-   <div style="margin-top:2em;">
-      <div align='center'><div id='accordion' style='width:500px;' >
-         <h3><a href='#'>{$consistencyErrorsTitle}</a></h3>
-         <div align='left' style='height:100px;'>
-            <table class='invisible'>
-            {foreach from=$consistencyErrors key=id item=i}
-            <tr>
-               <td>{$i.issueURL}</td>
-               <td><span style='color:red'>{$i.desc}</span></td>
-            </tr>
-            {/foreach}
 
-            </table>
-         </div>
-      </div>
-   </div>
-   {/if}
 
    <br/><br/>
 

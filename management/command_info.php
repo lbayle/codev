@@ -76,8 +76,11 @@ function getConsistencyErrors($cmd) {
         $i = 0;
         foreach ($cerrList as $cerr) {
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-            $consistencyErrors[] = array('issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
-                'status' => $statusNames[$cerr->status],
+            $user = UserCache::getInstance()->getUser($cerr->userId);
+            $consistencyErrors[] = array(
+                'issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+                'issueStatus' => $statusNames[$cerr->status],
+                'user' => $user->getName(),
                 'desc' => $cerr->desc);
         }
         $i++;
@@ -146,8 +149,11 @@ if (isset($_SESSION['userid'])) {
       $consistencyErrors = getConsistencyErrors($cmd);
 
       if(count($consistencyErrors) > 0) {
-         $smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+         
+         $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the Command"));
+         $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+         
       }
 
    } else {

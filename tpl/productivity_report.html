@@ -42,34 +42,14 @@
       });
    </script>
 
+      <div class="spacer"></div>
+      <hr style="margin-top: 2em"/>
 
+      {include file="modal/consistency_check.html"}
 
-
-   <!-- Warnings -->
-   {if $warnings}
-   <div style="margin-top: 2em;margin-bottom: 2em" align="center">
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery("#accordion").accordion({
-               collapsible: true
-            });
-         });
-      </script>
-      <div id="accordion" style="width:350px;">
-         <h3><a href="#">{t}Errors{/t}</a></h3>
-         <div align="left" style="height:250px;color:red">
-            {foreach from=$warnings key=id item=i}
-            {$i.username}: {$i.date} {$i.details}<br/>
-            {/foreach}
-         </div>
-      </div>
-   </div>
-   {/if}
-
-               <div class="spacer"></div>
-               <hr style="margin-top: 2em"/>
-               <br>
-               <br>
+      <br>
+      <br>
+   
 
       <div id="tabsIndicators">
          <ul>

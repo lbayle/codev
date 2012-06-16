@@ -329,23 +329,26 @@ function getCheckWarnings($timeTracking) {
       $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
       foreach ($incompleteDays as $date => $value) {
          if ($value < 1) {
-            $warnings[] = array('username' => $row->username,
+            $warnings[] = array(
+                'user' => $row->username,
                'date' => date("Y-m-d", $date),
-               'details' => T_("incomplete").' ('.T_('missing').' '.(1-$value).' '.T_('day')
+               'desc' => T_("incomplete").' ('.T_('missing').' '.(1-$value).' '.T_('day')
             );
          } else {
-            $warnings[] = array('username' => $row->username,
+            $warnings[] = array(
+               'user' => $row->username,
                'date' => date("Y-m-d", $date),
-               'details' => T_("inconsistent").' ('.$value.' jour)'
+               'desc' => T_("inconsistent").' ('.$value.' jour)'
             );
          }
       }
 
       $missingDays = $timeTracking->checkMissingDays($row->user_id);
       foreach ($missingDays as $date) {
-         $warnings[] = array('username' => $row->username,
+         $warnings[] = array(
+             'user' => $row->username,
             'date' => date("Y-m-d", $date),
-            'details' => T_("not defined.")
+            'desc' => T_("not defined.")
          );
       }
    }
@@ -452,7 +455,12 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRate() * 100, 1));
          $smartyHelper->assign('formattedReopenedTaks', getFormattedReopenedTaks($timeTracking));
 
-         $smartyHelper->assign('warnings', getCheckWarnings($timeTracking));
+         // --- warnings
+         $consistencyErrors = getCheckWarnings($timeTracking);
+         $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
+         $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+
       }
    }
 
