@@ -18,16 +18,15 @@ require('../include/session.inc.php');
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require('../path.inc.php');
+require_once('../path.inc.php');
 
-require('super_header.inc.php');
+require_once('super_header.inc.php');
 
-require('../smarty_tools.php');
+require_once('../smarty_tools.php');
+require_once('issue_info_tools.php');
 
-require('issue_info_tools.php');
-
-include('user_cache.class.php');
-include('consistency_check2.class.php');
+require_once('user_cache.class.php');
+require_once('consistency_check2.class.php');
 
 require('display.inc.php');
 
