@@ -504,46 +504,76 @@ function displayConsistencyErrors($teamid) {
    $cerrList2 = $ccheck->checkUnassignedTasks();
 
    if ((0 == count($cerrList)) && (0 == count($cerrList2))) {
-      #echo "Pas d'erreur teamid=$teamid.<br/>\n";
    } else {
-
-      #echo "<hr/>\n";
-      echo "<br/>\n";
-      echo "<br/>\n";
-
-  echo "<div align='center'>";
-  echo "<div id='accordion' style='width:650px;' >\n";
-  echo "<h3><a href='#'>".count($cerrList)." ".T_("Errors affecting the Planning")."</a></h3>\n";
-
-      echo "<div align='left' style='height:250px;'>\n";
-      echo "<table class='invisible'>\n";
+      $consistencyErrors = array();
       foreach ($cerrList as $cerr) {
          $user = UserCache::getInstance()->getUser($cerr->userId);
          $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-         echo "<tr>\n";
-         echo "<td>".mantisIssueURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary)."</td>";
-         echo "<td> ".$user->getName()."</td>";
-         echo "<td>: <span>".date("Y-m-d", $cerr->timestamp)."</span></td>\n";
-         echo "<td><span>".$statusNames["$cerr->status"]."</span></td>\n";
-         echo "<td><span style='color:red'>$cerr->desc</span></td>\n";
-         echo "</tr>\n";
+         
+         $consistencyErrors[] = array(
+             'issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+             'issueStatus' => $statusNames[$cerr->status],
+             'date' => date("Y-m-d", $cerr->timestamp),
+             'user' => $user->getName(),
+             'severity' => $cerr->getLiteralSeverity(),
+             'severityColor' => $cerr->getSeverityColor(),
+             'desc' => $cerr->desc);
       }
       if (0 != count($cerrList2)) {
-         echo "<tr>\n";
-         echo "<td></td>";
-         echo "<td>(".T_('unknown').")</td>";
-         echo "<td>: -</td>";
-         echo "<td>-</td>";
-         echo "<td><span style='color:red'>".count($cerrList2).' '.T_('tasks are not assigned to anybody.')."</span></td>\n";
-         echo "</tr>\n";
+         $consistencyErrors[] = array(
+             'issueURL' => '',
+             'issueStatus' => '-',
+             'date' => '-',
+             'user' => '('.T_('unknown').')',
+             'severity' => T_('Warning'),
+             'severityColor' => 'color:orange',
+             'desc' => ''.count($cerrList2).' '.T_('tasks are not assigned to anybody.'));
       }
 
-      echo "</table>\n";
-      echo "</div>\n";
-  echo "</div>\n";
-  echo "</div>\n";
-
    }
+   arrrhh($consistencyErrors);
+}
+
+function arrrhh($ccheckErrList) {
+   
+   $ccheckButtonTitle = ''.count($ccheckErrList).' '.T_("Errors");
+   $ccheckBoxTitle = ''.count($ccheckErrList).' '.T_("Errors");
+   
+echo "   <script type='text/javascript'>\n";
+echo "   jQuery(function() {\n";
+echo "      jQuery( '#dialog_ConsistencyCheck_link' ).click(function() {\n";
+echo "         jQuery( '#dialog_ConsistencyCheck' ).dialog( 'open' );\n";
+echo "         return false;\n";
+echo "      });\n";
+echo "      jQuery( '#dialog_ConsistencyCheck' ).dialog({\n";
+echo "         autoOpen: false,\n";
+echo "         hide: 'fade',\n";
+echo "         width: '600',\n";
+echo "         maxHeight: '500'\n";
+echo "      });\n";
+echo "   });\n";
+echo "</script>\n";
+
+echo "<div align='right'>\n";
+echo "<button title='".T_("Click to show errors")."' id='dialog_ConsistencyCheck_link' type='button' style='font:bold 14px Arial; background:red; color:white; cursor:hand; border:solid 1px red;'>$ccheckButtonTitle</button>\n"; 
+echo "</div>\n";
+   
+echo "<div id='dialog_ConsistencyCheck' title='$ccheckBoxTitle' style='display: none'>\n";
+echo "   <div align='left'>\n";
+echo "      <table class='invisible'>\n";
+      foreach ($ccheckErrList as $id => $i) {
+echo "         <tr>\n";
+echo "            <td>"."$i[issueURL]"."</td>\n";
+echo "            <td>"."$i[user]"."</td>\n";
+echo "            <td>"."$i[date]"."</td>\n";
+echo "            <td>"."$i[issueStatus]"."</td>\n";
+echo "            <td><span style='"."$i[severityColor]"."'>["."$i[severity]"."]</span></td>\n";
+echo "            <td><span style='"."$i[severityColor]"."'>"."$i[desc]"."</span></td>\n";
+echo "         </tr>\n";
+      }
+echo "      </table>\n";
+echo "   </div>\n";
+echo "</div>\n";
 
 }
 
