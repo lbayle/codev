@@ -20,7 +20,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="favicon.ico"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.16</span></div>
+   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.17</span></div>
    <div id="projectbrief">TimeTrackingonMantis</div>
   </td>
  </tr>
@@ -81,6 +81,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#aeb5d81aa2607b8cdb1239c0a7d45da8b">prepareProjectToCodev</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aadc45271732b36b7850c05bf65d864d2"></a><!-- doxytag: member="Project::addCategoryProjManagement" ref="aadc45271732b36b7850c05bf65d864d2" args="($catName)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>addCategoryProjManagement</b> ($catName)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc7df60d4511110a26c5f7963f50cf24"></a><!-- doxytag: member="Project::addCategoryMngtProvision" ref="acc7df60d4511110a26c5f7963f50cf24" args="($catName)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>addCategoryMngtProvision</b> ($catName)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf86af15ccc5cbad16385f3824252fc0"></a><!-- doxytag: member="Project::addCategoryInactivity" ref="acf86af15ccc5cbad16385f3824252fc0" args="($catName)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>addCategoryInactivity</b> ($catName)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8557088638019f71d4b2673271bcbc4b"></a><!-- doxytag: member="Project::addCategoryIncident" ref="a8557088638019f71d4b2673271bcbc4b" args="($catName)" -->
@@ -112,6 +114,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#af18692003a566729d77df17092f10dd9">isNoStatsProject</a> ($teamidList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ba696fda9a37c55cc9ffc5e608b2ce3"></a><!-- doxytag: member="Project::getManagementCategoryId" ref="a6ba696fda9a37c55cc9ffc5e608b2ce3" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getManagementCategoryId</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae7244f7542be512866130c1dd6dad68"></a><!-- doxytag: member="Project::getMngtProvisionCategoryId" ref="aae7244f7542be512866130c1dd6dad68" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getMngtProvisionCategoryId</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1335b6269dd39f9fc6734c457b02cfa1"></a><!-- doxytag: member="Project::getIncidentCategoryId" ref="a1335b6269dd39f9fc6734c457b02cfa1" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getIncidentCategoryId</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad43d27a13611ea43f054b8b33f2c4f4d"></a><!-- doxytag: member="Project::getInactivityCategoryId" ref="ad43d27a13611ea43f054b8b33f2c4f4d" args="()" -->
@@ -147,6 +151,20 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>type_sideTaskProject
 const&#160;</td><td class="memItemRight" valign="bottom"><b>type_noCommonProject</b> = 2</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c2a54cd4168e82e91bdece6ad10f9e1"></a><!-- doxytag: member="Project::type_noStatsProject" ref="a1c2a54cd4168e82e91bdece6ad10f9e1" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>type_noStatsProject</b> = 3</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84fba1720a8f90c11e23f31c8d266824"></a><!-- doxytag: member="Project::cat_st_inactivity" ref="a84fba1720a8f90c11e23f31c8d266824" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_st_inactivity</b> = 1</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74890e8308b9eb6002248981fc80d160"></a><!-- doxytag: member="Project::cat_st_onduty" ref="a74890e8308b9eb6002248981fc80d160" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_st_onduty</b> = 2</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5bea5bf2e60f86f4a95028ea57bbc0c3"></a><!-- doxytag: member="Project::cat_st_incident" ref="a5bea5bf2e60f86f4a95028ea57bbc0c3" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_st_incident</b> = 3</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5aa3915943c73adbf7a26e7d0adb23cb"></a><!-- doxytag: member="Project::cat_st_tools" ref="a5aa3915943c73adbf7a26e7d0adb23cb" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_st_tools</b> = 4</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3681bc171f8721765e7796cc4eef6bb6"></a><!-- doxytag: member="Project::cat_st_workshop" ref="a3681bc171f8721765e7796cc4eef6bb6" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_st_workshop</b> = 5</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f8516ec37e6aad3d1a9945d23ec7be1"></a><!-- doxytag: member="Project::cat_mngt_provision" ref="a9f8516ec37e6aad3d1a9945d23ec7be1" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_mngt_provision</b> = 6</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acfc3758e327d71bf434ff510fcd5c3e4"></a><!-- doxytag: member="Project::cat_mngt_regular" ref="acfc3758e327d71bf434ff510fcd5c3e4" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_mngt_regular</b> = 7</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2af9e6607f7121463fcbb668b6d44279"></a><!-- doxytag: member="Project::$id" ref="a2af9e6607f7121463fcbb668b6d44279" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$id</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5cbdc059f266651d3dec965c06f5e20"></a><!-- doxytag: member="Project::$name" ref="af5cbdc059f266651d3dec965c06f5e20" args="" -->
@@ -162,16 +180,6 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>type_noStatsProject<
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><b>$typeNames</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad66d672feff7e04adfc6e9bf7d4ad5a4"></a><!-- doxytag: member="Project::$keyProjManagement" ref="ad66d672feff7e04adfc6e9bf7d4ad5a4" args="" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>$keyProjManagement</b> = &quot;cat_management&quot;</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5632de79cba6a24becb833687d786ea2"></a><!-- doxytag: member="Project::$keyIncident" ref="a5632de79cba6a24becb833687d786ea2" args="" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>$keyIncident</b> = &quot;cat_incident&quot;</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab94212f247992c3f99e620d02b8b8575"></a><!-- doxytag: member="Project::$keyInactivity" ref="ab94212f247992c3f99e620d02b8b8575" args="" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>$keyInactivity</b> = &quot;cat_inactivity&quot;</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef24607f0b3c00eaded4d13152f501b2"></a><!-- doxytag: member="Project::$keyTools" ref="aef24607f0b3c00eaded4d13152f501b2" args="" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>$keyTools</b> = &quot;cat_tools&quot;</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99fc6adef4a6098f1eb76d75db416fc0"></a><!-- doxytag: member="Project::$keyWorkshop" ref="a99fc6adef4a6098f1eb76d75db416fc0" args="" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>$keyWorkshop</b> = &quot;cat_workshop&quot;</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="adc8f1f886daae859b0c3b8820f87a231"></a><!-- doxytag: member="Project::cloneAllProjectConfig" ref="adc8f1f886daae859b0c3b8820f87a231" args="($srcProjectId, $destProjectId, $strict=true)" -->
@@ -562,7 +570,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$keyWorkshop</b> = 
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed May 30 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun Jun 17 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

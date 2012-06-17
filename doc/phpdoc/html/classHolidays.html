@@ -20,7 +20,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="favicon.ico"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.16</span></div>
+   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.17</span></div>
    <div id="projectbrief">TimeTrackingonMantis</div>
   </td>
  </tr>
@@ -77,14 +77,31 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHolidays.html#ac15930c3167e48ee09122913ff1047a5">getNbHolidays</a> ($startT, $endT)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5646ff4477f17d4c449a5293d01e4830"></a><!-- doxytag: member="Holidays::getInstance" ref="a5646ff4477f17d4c449a5293d01e4830" args="()" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>getInstance</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHolidays.html#a5646ff4477f17d4c449a5293d01e4830">getInstance</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3d68a4e2b27bb81f0c446dd5d4018bbb"></a><!-- doxytag: member="Holidays::$defaultColor" ref="a3d68a4e2b27bb81f0c446dd5d4018bbb" args="" -->
 static&#160;</td><td class="memItemRight" valign="bottom"><b>$defaultColor</b> = &quot;D8D8D8&quot;</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="a5646ff4477f17d4c449a5293d01e4830"></a><!-- doxytag: member="Holidays::getInstance" ref="a5646ff4477f17d4c449a5293d01e4830" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Holidays::getInstance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The singleton pattern</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classHolidays.html">Holidays</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ac15930c3167e48ee09122913ff1047a5"></a><!-- doxytag: member="Holidays::getNbHolidays" ref="ac15930c3167e48ee09122913ff1047a5" args="($startT, $endT)" -->
 <div class="memitem">
 <div class="memproto">
@@ -111,11 +128,12 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$defaultColor</b> =
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">$startTimestamp</td><td></td></tr>
-    <tr><td class="paramname">$endTimestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$startT</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$endT</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
 
 </div>
 </div>
@@ -136,10 +154,11 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$defaultColor</b> =
 <p>returns a <a class="el" href="classHoliday.html">Holiday</a> instance or NULL </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$timestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$timestamp</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classHoliday.html">Holiday</a> </dd></dl>
 
 </div>
 </div>
@@ -161,7 +180,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$defaultColor</b> =
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed May 30 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun Jun 17 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

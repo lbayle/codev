@@ -20,7 +20,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="favicon.ico"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.16</span></div>
+   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.17</span></div>
    <div id="projectbrief">TimeTrackingonMantis</div>
   </td>
  </tr>
@@ -73,6 +73,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
   <tr bgcolor="#f0f0f0"><td><b>$name</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>accessLevel_dev</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>accessLevel_manager</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr bgcolor="#f0f0f0"><td><b>accessLevel_nostats</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>accessLevel_observer</b> (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>addExternalTasksProject</b>() (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#afc3ad08cf33a6da8df12b8c0e4469d9c">addMember</a>($memberid, $arrivalTimestamp, $memberAccess)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
@@ -80,8 +81,9 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
   <tr class="memlist"><td><a class="el" href="classTeam.html#a6da1b35ceb925c662b04f132deda663f">addProject</a>($projectid, $projecttype)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a32de459ea26caca1a370a2c5531e9ad6">create</a>($name, $description, $leader_id, $date)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#a2e8ee9f1c20376daa1f222cd12109290">createSideTaskProject</a>($projectName)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTeam.html#a341e4d7f18ca9d713bdf6c782139d780">getCommands</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTeam.html#a02b8526c9943dd8506bed077f17fe6cc">getCommandSetList</a>()</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">getCurrentIssues</a>($teamid, $addUnassignedIssues=false, $addNewIssues=false)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
-  <tr bgcolor="#f0f0f0"><td><b>getEngagements</b>() (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTeam.html#adfeaac7ca3a2daf3a46d1aeddad1e9cc">getIdFromName</a>($name)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getLeaderId</b>($teamid) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getMemberList</b>($teamid) (defined in <a class="el" href="classTeam.html">Team</a>)</td><td><a class="el" href="classTeam.html">Team</a></td><td><code> [static]</code></td></tr>
@@ -110,7 +112,7 @@ This is the complete list of members for <a class="el" href="classTeam.html">Tea
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed May 30 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun Jun 17 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

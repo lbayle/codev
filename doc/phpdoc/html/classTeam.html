@@ -20,7 +20,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="favicon.ico"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.16</span></div>
+   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.17</span></div>
    <div id="projectbrief">TimeTrackingonMantis</div>
   </td>
  </tr>
@@ -77,8 +77,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a1266eb995902ee27a3374d84aef0838e">Team</a> ($teamid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a4e3583a746aa4c9397b71647d862c5"></a><!-- doxytag: member="Team::initialize" ref="a9a4e3583a746aa4c9397b71647d862c5" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>initialize</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab75893ee08794c18030c1f5a7f1c65da"></a><!-- doxytag: member="Team::getEngagements" ref="ab75893ee08794c18030c1f5a7f1c65da" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getEngagements</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a341e4d7f18ca9d713bdf6c782139d780">getCommands</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a02b8526c9943dd8506bed077f17fe6cc">getCommandSetList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#afc3ad08cf33a6da8df12b8c0e4469d9c">addMember</a> ($memberid, $arrivalTimestamp, $memberAccess)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a02fe2d61de58dcdeba43f31acb21ba16"></a><!-- doxytag: member="Team::setMemberDepartureDate" ref="a02fe2d61de58dcdeba43f31acb21ba16" args="($memberid, $departureTimestamp)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>setMemberDepartureDate</b> ($memberid, $departureTimestamp)</td></tr>
@@ -109,6 +109,8 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>getMemberList</b> (
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">getCurrentIssues</a> ($teamid, $addUnassignedIssues=false, $addNewIssues=false)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af8bd72054d4c6172ba50734b5d292359"></a><!-- doxytag: member="Team::accessLevel_nostats" ref="af8bd72054d4c6172ba50734b5d292359" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_nostats</b> = 5</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5cd6baa81b97b125bd0fb3e4dd05ff8"></a><!-- doxytag: member="Team::accessLevel_dev" ref="af5cd6baa81b97b125bd0fb3e4dd05ff8" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_dev</b> = 10</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a62d2df5cf803eec6d26fc2517164978a"></a><!-- doxytag: member="Team::accessLevel_observer" ref="a62d2df5cf803eec6d26fc2517164978a" args="" -->
@@ -295,6 +297,42 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a341e4d7f18ca9d713bdf6c782139d780"></a><!-- doxytag: member="Team::getCommands" ref="a341e4d7f18ca9d713bdf6c782139d780" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getCommands </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Commands for this team</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array id =&gt; <a class="el" href="classCommand.html">Command</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a02b8526c9943dd8506bed077f17fe6cc"></a><!-- doxytag: member="Team::getCommandSetList" ref="a02b8526c9943dd8506bed077f17fe6cc" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getCommandSetList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>CommandSets for this team</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array id =&gt; <a class="el" href="classCommandSet.html">CommandSet</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ab504b8dafb5720c3301bbc541aaca6a1"></a><!-- doxytag: member="Team::getCurrentIssues" ref="ab504b8dafb5720c3301bbc541aaca6a1" args="($teamid, $addUnassignedIssues=false, $addNewIssues=false)" -->
 <div class="memitem">
 <div class="memproto">
@@ -473,7 +511,9 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(Team::accessLevel_dev      =&gt; <span class="stringliteral">&quot;Developer&quot;</span>, 
+<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(
+                              Team::accessLevel_nostats  =&gt; <span class="stringliteral">&quot;NoStats&quot;</span>, 
+                              Team::accessLevel_dev      =&gt; <span class="stringliteral">&quot;Developer&quot;</span>, 
                               Team::accessLevel_observer =&gt; <span class="stringliteral">&quot;Observer&quot;</span>,  
                               
                               Team::accessLevel_manager  =&gt; <span class="stringliteral">&quot;Manager&quot;</span>)
@@ -498,7 +538,7 @@ Static Public Attributes</h2></td></tr>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Wed May 30 2012 for CodevTT by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun Jun 17 2012 for CodevTT by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>
