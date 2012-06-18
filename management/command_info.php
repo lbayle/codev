@@ -50,6 +50,7 @@ function getCommands($teamid, $selectedCmdId) {
          $commands[] = array(
             'id' => $id,
             'name' => $cmd->getName(),
+            'reference' => $cmd->getReference(),
             'selected' => ($id == $selectedCmdId)
          );
       }

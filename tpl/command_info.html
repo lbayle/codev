@@ -58,7 +58,7 @@ $(document).ready(function() {
             <select id='commandSelector' name='cmdid'>
                <option value='0'>{t}--- Create New Command ---{/t}</option>
                {foreach from=$commands key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} {$i.name}</option>
                {/foreach}
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
