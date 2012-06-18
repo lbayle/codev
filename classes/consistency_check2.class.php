@@ -173,10 +173,13 @@ class ConsistencyCheck2 {
 
       $cerrList7 = $this->checkUnassignedTasks();
 
+      $cerrList8 = $this->checkIssuesNotInCommand();
+
+
       #$this->logger->debug("done.");
 
       #$cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
-      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6, $cerrList7);
+      $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6, $cerrList7, $cerrList8);
 
       // PHP Fatal error:  Maximum function nesting level of '100' reached, aborting!
       ini_set('xdebug.max_nesting_level', 300);
@@ -374,6 +377,63 @@ class ConsistencyCheck2 {
       }
       return $cerrList;
    }
+
+
+   /**
+    * Check issues that are not referenced in a Command (error)
+    * Check issues referenced in more than one Command (warning)
+    * 
+    * Note: SideTasks not checked (they are directly added into the ServiceContract)
+    *
+    *  @return ConsistencyError2[]
+    */
+   public function checkIssuesNotInCommand() {
+
+      $cerrList = array();
+
+      foreach ($this->issueList as $issue) {
+         $project = ProjectCache::getInstance()->getProject($issue->projectId);
+
+         $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
+
+         try {
+            if (($project->isSideTasksProject($teamList)) || ($project->isNoStatsProject($teamList))) {
+               // exclude SideTasks: they are not referenced in a command,
+               // they are directly added into the ServiceContract
+               continue;
+            }
+         } catch (Exception $e) {
+            $this->logger->error("checkIssuesNotInCommand(): issue $issue->bugId not checked : ".$e->getMessage());
+            continue;
+         }
+
+         $query  = "SELECT COUNT(command_id) FROM `codev_command_bug_table` WHERE bug_id=$issue->bugId ";
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+        $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+
+        if (0 == $nbTuples) {
+            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
+               $issue->last_updated, T_("The task is not referenced in any Command."));
+            $cerr->severity = ConsistencyError2::severity_error;
+            $cerrList[] = $cerr;
+        } else if ($nbTuples > 1) {
+            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
+               $issue->last_updated, T_("The task is referenced in $nbTuples Commands."));
+            $cerr->severity = ConsistencyError2::severity_warn;
+            $cerrList[] = $cerr;
+        }
+        $this->logger->debug("checkIssuesNotInCommand(): issue $issue->bugId referenced in $nbTuples Commands.");
+      }
+      return $cerrList;
+
+   }
+
 
 }
 
