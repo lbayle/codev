@@ -41,14 +41,20 @@ include_once "commandset_cache.class.php";
  * un commandset est provisionné d'un certain budget, négocié avec le client.
  * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budget.
  */
-class CommandSet {
-
-   // Note: this should probably be moved to Command class
-   const cmdType_general = 1;    // in codev_commandset_cmd_table
-
+class CommandSet{
 
    const type_general = 1; // in codev_servicecontract_cmdset_table
 
+   const state_toBeSent       = 1;
+   const state_sent           = 2;
+   const state_toBeSigned     = 3;
+   const state_signed         = 4;
+
+  // TODO i18n for constants
+  public static $stateNames = array(CommandSet::state_toBeSent       => "A émettre",
+                                    CommandSet::state_sent           => "Emis",
+                                    CommandSet::state_toBeSigned     => "A signer",
+                                    CommandSet::state_signed         => "Signé");
 
    private $logger;
 
