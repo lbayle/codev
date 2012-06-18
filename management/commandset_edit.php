@@ -189,7 +189,7 @@ if (isset($_SESSION['userid'])) {
             #$_SESSION['cmdid'] = 0;
             header('Location:command_edit.php?cmdid=0');
          } else {
-            $cmdset->addCommand($cmdid, CommandSet::cmdType_general);
+            $cmdset->addCommand($cmdid, Command::type_general);
          }
 
       } else if ("removeCmd" == $action) {

@@ -220,7 +220,7 @@ if (isset($_SESSION['userid'])) {
          $logger->debug("add Command $cmdid to CommandSet $commandsetid<br>");
 
          $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
-         $cmdset->addCommand($cmdid, CommandSet::cmdType_general);
+         $cmdset->addCommand($cmdid, Command::type_general);
 
       } else if ("removeFromCmdSet" == $action) {
 

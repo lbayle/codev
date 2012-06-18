@@ -44,7 +44,10 @@ include_once "commandset_cache.class.php";
 class CommandSet {
 
    // Note: this should probably be moved to Command class
-   const cmdType_general = 1;    // in table codev_commandset_cmd_table
+   const cmdType_general = 1;    // in codev_commandset_cmd_table
+
+
+   const type_general = 1; // in codev_servicecontract_cmdset_table
 
 
    private $logger;
@@ -53,9 +56,10 @@ class CommandSet {
    private $id;
    private $name;
    private $description;
+   private $state;
    private $date;
    private $teamid;
-   private $serviceContractId;
+   private $serviceContractList;
    private $cost;
    private $currency;
    private $budget_days;
@@ -121,6 +125,26 @@ class CommandSet {
       }
    }
 
+   /**
+    * create a new commandset in the DB
+    *
+    * @return int $id
+    */
+   public static function create($name, $date, $teamid) {
+    $query = "INSERT INTO `codev_commandset_table`  (`name`, `date`, `team_id`) ".
+             "VALUES ('$name','$date', '$teamid');";
+    $result = mysql_query($query);
+    if (!$result) {
+       $this->logger->error("Query FAILED: $query");
+       $this->logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>";
+       exit;
+    }
+    $id = mysql_insert_id();
+    return $id;
+   }
+
+
    public function getId() {
       return $this->id;
    }
@@ -172,6 +196,24 @@ class CommandSet {
              exit;
       }
    }
+
+   public function getState() {
+      return $this->state;
+   }
+
+   public function setState($value) {
+
+      $this->state = $value;
+      $query = "UPDATE `codev_commandset_table` SET state='$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+	   if (!$result) {
+    	      $this->logger->error("Query FAILED: $query");
+    	      $this->logger->error(mysql_error());
+    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+    	      exit;
+      }
+   }
+
 
    public function getDate() {
       return $this->date;
@@ -240,15 +282,9 @@ class CommandSet {
    }
 
 
-
-
-
-
-
-
    /**
     *
-    * @param int $type  CommandSet::cmdType_general
+    * @param int $type  Command::type_general
     * @return array cmdid => Command
     */
    public function getCommands($type) {
@@ -270,7 +306,7 @@ class CommandSet {
    /**
     * Collect the Issues of all the Commands (of a given type)
     *
-    * @param int $type CommandSet::cmdType_general
+    * @param int $type Command::type_general
     *
     * @return IssueSelection
     */
@@ -296,29 +332,10 @@ class CommandSet {
 
 
    /**
-    * create a new commandset in the DB
-    *
-    * @return int $id
-    */
-   public static function create($name, $date, $teamid) {
-    $query = "INSERT INTO `codev_commandset_table`  (`name`, `date`, `team_id`) ".
-             "VALUES ('$name','$date', '$teamid');";
-    $result = mysql_query($query);
-    if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
-       echo "<span style='color:red'>ERROR: Query FAILED</span>";
-       exit;
-    }
-    $id = mysql_insert_id();
-    return $id;
-   }
-
-   /**
     * add Command to commandset (in DB & current instance)
     *
     * @param type $cmdid
-    * @param int $type CommandSet::cmdType_general
+    * @param int $type Command::type_general
     * @return int id in codev_commandset_cmd_table
     */
    public function addCommand($cmdid, $type) {
@@ -377,14 +394,19 @@ class CommandSet {
       }
    }
 
+
    /**
+    * A CommandSet can be included in several ServiceContract from different teams.
     *
+    * This returns the list of ServiceContracts where this CommandSet is defined.
+    *
+    * @return array[servicecontract_id] = servicecontractName
     */
-   public function getContractService() {
+   public function getServiceContractList() {
 
-      if (NULL == $this->serviceContractId) {
+      if (NULL == $this->serviceContractList) {
 
-         $query  = "SELECT * FROM `codev_servicecontract_srv_table` WHERE commandset_id=$this->id ";
+         $query  = "SELECT * FROM `codev_servicecontract_cmdset_table` WHERE commandset_id=$this->id ";
          $result = mysql_query($query);
          if (!$result) {
             $this->logger->error("Query FAILED: $query");
@@ -393,54 +415,27 @@ class CommandSet {
             exit;
          }
 
-         // can a CommandSet belong to more than one servicecontract ?
+         // a Command can belong to more than one commandset
          while($row = mysql_fetch_object($result)) {
 
-            $this->serviceContractId = $row->servicecontract_id;
-            $this->logger->debug("CommandSet $this->id is in servicecontract $this->serviceContractId");
+            $srvContract = ServiceContractCache::getInstance()->getServiceContract($row->servicecontract_id);
+
+            $this->serviceContractList["$row->servicecontract_id"] = $srvContract->getName();
+            $this->logger->debug("CommandSet $this->id is in ServiceContract $row->servicecontract_id (".$srvContract->getName().")");
          }
       }
-      return $this->serviceContractId;
+      return $this->commandSetList;
    }
 
 
    /**
     *
-    * @param int $value servicecontractid. if NULL or '0' then remove association
-    * @param int $type
-    *
+    * @return array
     */
-   public function setContractService($value, $type = 1) {
-
-      if ((NULL == $value) || (0 == $value)) {
-
-         if (NULL == $this->getContractService()) { return; }
-         $query = "DELETE FROM `codev_servicecontract_srv_table` WHERE `commandset_id` = '$this->id' ";
-
-      } else {
-         if (NULL == $this->getContractService()) {
-            $query = "INSERT INTO `codev_servicecontract_srv_table` (`servicecontract_id`, `commandset_id`, `type`) ".
-                     "VALUES ('$value', '$this->id', '$type');";
-         } else {
-            $query = "UPDATE `codev_servicecontract_srv_table` SET servicecontract_id = '$value' WHERE commandset_id='$this->id' ";
-         }
-      }
-
-      $result = mysql_query($query);
-      if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-      }
-      $this->serviceContractId = $value;
-
-   }
-
    public function getConsistencyErrors() {
 
       
-      $cmdList = $this->getCommands(CommandSet::cmdType_general);
+      $cmdList = $this->getCommands(Command::type_general);
 
       $csetErrors = array();
       foreach ($cmdList as $cmdid => $cmd) {

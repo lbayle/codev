@@ -45,6 +45,8 @@ include_once "consistency_check2.class.php";
  */
 class Command {
 
+  const type_general = 1;    // in codev_commandset_cmd_table
+
   const state_toBeSent       = 1;
   const state_sent           = 2;
   const state_toBeValidated  = 3;

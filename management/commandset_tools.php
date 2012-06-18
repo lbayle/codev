@@ -107,8 +107,8 @@ function displayCommandSet($smartyHelper, $commandset) {
    $smartyHelper->assign('commandsetCurrency',   $commandset->getCurrency());
    $smartyHelper->assign('commandsetDate',       date("Y-m-d", $commandset->getDate()));
 
-   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), CommandSet::cmdType_general));
-   $smartyHelper->assign('cmdsetDetailedMgr', getCommandSetDetailedMgr($commandset->getId(), CommandSet::cmdType_general));
+   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), Command::type_general));
+   $smartyHelper->assign('cmdsetDetailedMgr', getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
 
 }
 

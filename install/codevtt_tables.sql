@@ -265,7 +265,12 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
   `team_id` int(11) NOT NULL,
+  `state` int(11) unsigned default NULL,
   `reference` varchar(64),
+  `version` varchar(64) default NULL,
+  `reporter` varchar(64) default NULL,
+  `start_date` int(11) unsigned default NULL,
+  `end_date` int(11) unsigned default NULL,
   `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -309,6 +314,7 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
   `name` varchar(100) NOT NULL,
   `date` int(11) unsigned default NULL,
   `team_id` int(11) NOT NULL,
+  `state` int(11) unsigned default NULL,
   `budget` float default NULL,
   `budget_days` int(11) default NULL,
   `currency` varchar(3) default 'EUR',

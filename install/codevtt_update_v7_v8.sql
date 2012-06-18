@@ -7,7 +7,12 @@
 -- -----------------
 RENAME TABLE `codev_command_table` To `codev_servicecontract_table`; 
 
-ALTER TABLE `codev_servicecontract_table` ADD `reference` varchar(64)  AFTER `team_id`;
+ALTER TABLE `codev_servicecontract_table` ADD `state` int(11)  AFTER `team_id`;
+ALTER TABLE `codev_servicecontract_table` ADD `reference` varchar(64)  AFTER `state`;
+ALTER TABLE `codev_servicecontract_table` ADD `version` varchar(64)  AFTER `reference`;
+ALTER TABLE `codev_servicecontract_table` ADD `reporter` varchar(64)  AFTER `version`;
+ALTER TABLE `codev_servicecontract_table` ADD `start_date` int(11)  AFTER `reporter`;
+ALTER TABLE `codev_servicecontract_table` ADD `end_date` int(11)  AFTER `start_date`;
 
 
 -- -----------------
@@ -28,6 +33,8 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_stproj_table` (
 
 -- -----------------
 RENAME TABLE `codev_service_table` To `codev_commandset_table`; 
+
+ALTER TABLE `codev_commandset_table` ADD `state` int(11)  AFTER `team_id`;
 
 -- -----------------
 RENAME TABLE `codev_service_eng_table` To `codev_commandset_cmd_table`; 
