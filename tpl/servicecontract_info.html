@@ -1,0 +1,184 @@
+{include file="menu/management_menu.html"}
+
+<script type="text/javascript">
+
+function setTeam() {
+   document.forms["servicecontractSelectForm"].teamid.value = document.getElementById('teamSelector').value;
+   document.forms["servicecontractSelectForm"].servicecontractid.value="0";
+   document.forms["servicecontractSelectForm"].action.value="setTeam";
+   document.forms["servicecontractSelectForm"].submit();
+}
+
+function submitForm() {
+   document.forms["servicecontractSelectForm"].submit();
+ }
+
+//------ JQUERY --------
+$(document).ready(function() {
+   $('#devCmd_table').dataTable(
+      {
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+   $('#mngtCmd_table').dataTable(
+      {
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+      jQuery(function() {
+         jQuery( "#tabsServiceContract" ).tabs();
+      });
+
+   $( "#accordion" ).accordion({
+      collapsible: true, autoHeight: false, clearStyle: true
+   });
+
+});
+
+</script>
+
+
+<div id="content">
+
+   <div align="center">
+      <!-- create form -->
+      <form id='servicecontractSelectForm' name='servicecontractSelectForm' method='post' action='{$page}'>
+         <fieldset>
+            <label>{t}Team{/t}: </label>
+            <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
+               <option value='0'></option>
+               {foreach from=$teams key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <label>{t}ServiceContract{/t}: </label>
+            <select id='servicecontractSelector' name='servicecontractid'>
+               <option value='0'>{t}--- Create New ServiceContract ---{/t}</option>
+               {foreach from=$servicecontracts key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
+
+            <input type="hidden" name="action" value="displayServiceContract" />
+         </fieldset>
+      </form>
+   </div>
+
+   <div style="margin-top:4em;"></div>
+
+   {if $servicecontractid}
+
+   {include file="modal/consistency_check.html"}
+
+   <div  align="center">
+      <h2>{$servicecontractName}</h2>
+      {$servicecontractDesc}
+   </div>
+
+   <div style="margin-top:2em;"></div>
+
+   <div>
+      <table class='invisible'>
+            <tr>
+               <th>{t}Reference{/t}</th>
+               <td>: {$servicecontractReference}</td>
+            </tr>
+            <tr>
+               <th>{t}Version{/t}</th>
+               <td>: {$servicecontractVersion}</td>
+            </tr>
+            <tr>
+               <th>{t}Reporter{/t}</th>
+               <td>: {$servicecontractReporter}</td>
+            </tr>
+            <tr>
+               <th>{t}Start Date{/t}</th>
+               <td>: {$servicecontractStartDate}</td>
+            </tr>
+            <tr>
+               <th>{t}End Date{/t}</th>
+               <td>: {$servicecontractEndDate}</td>
+            </tr>
+            <tr>
+               <th>{t}State{/t}</th>
+               <td>: {$servicecontractState}</td>
+            </tr>
+      </table>
+      <br>
+      <button onclick="location.href='management/servicecontract_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+   </div>
+
+   <div style="margin-top:6em;"></div>
+
+   <div id="tabsServiceContract">
+      <ul>
+         <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+      </ul>
+
+      <div id="tabsName-1">
+         {if $cmdsetList}
+         <div>
+            <!--table id="devCmd_table" class="display"-->
+            <table>
+               <thead>
+               <tr>
+                  <!--th></th-->
+                  <th>{t}Ref{/t}</th>
+                  <th>{t}CommandSet{/t}</th>
+                  <th>{t}Team{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Drift Mgr{/t}</th>
+               </tr>
+               </thead>
+               <tbody>
+                  {foreach $cmdsetList as $id => $cmdset}
+                  <tr>
+                     <!--td>{$id}</td-->
+                     <td align='right'>{$cmdset.reference}</td>
+                     <td title="{$id}"  align='left'>{$cmdset.name}</td>
+                     <td>{$cmdset.team}</td>
+                     <td>{$cmdset.effortEstim}</td>
+                     <td>{$cmdset.reestimated}</td>
+                     <td>{$cmdset.elapsed}</td>
+                     <td>{$cmdset.remaining}</td>
+                     <td {$cmdset.driftColor}>{$cmdset.drift}</td>
+                  </tr>
+                  {/foreach}
+                  <tr class="row_even">
+                     <!--td></td-->
+                     <td></td>
+                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
+                     <td></td>
+                     <td>{$servicecontractDetailedMgr.effortEstim}</td>
+                     <td>{$servicecontractDetailedMgr.reestimated}</td>
+                     <td>{$servicecontractDetailedMgr.elapsed}</td>
+                     <td>{$servicecontractDetailedMgr.remaining}</td>
+                     <td {$servicecontractDetailedMgr.driftColor}>{$servicecontractDetailedMgr.drift}</td>
+                  </tr>
+
+               </tbody>
+            </table>
+         </div>
+         {else}
+         {t}No CommandSet found.{/t}
+         {/if}
+      </div>
+
+
+   {/if}
+
+</div>

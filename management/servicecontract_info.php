@@ -1,9 +1,8 @@
 <?php
 
 include_once('../include/session.inc.php');
-
 /*
-  This file is part of CodevTT.
+  This file is part of CodevTT
 
   CodevTT is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,31 +18,27 @@ include_once('../include/session.inc.php');
   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require('../path.inc.php');
+require '../path.inc.php';
 
 require('super_header.inc.php');
 
-include_once "commandset.class.php";
-include_once "command.class.php";
-include_once "user.class.php";
-include_once "team.class.php";
+/* INSERT INCLUDES HERE */
 
-include "commandset_tools.php";
+require('display.inc.php');
 
-include_once "smarty_tools.php";
 
-$logger = Logger::getLogger("commandset_info");
 
+/* INSERT FUNCTIONS HERE */
 /**
  * Get consistency errors
  * @param Command $cmd
  */
-function getConsistencyErrors($cmdset) {
+function getConsistencyErrors($serviceContract) {
    global $statusNames;
 
    $consistencyErrors = array(); // if null, array_merge fails !
 
-   $cerrList = $cmdset->getConsistencyErrors();
+   $cerrList = $serviceContract->getConsistencyErrors();
    if (count($cerrList) > 0) {
       $i = 0;
       foreach ($cerrList as $cerr) {
@@ -64,13 +59,12 @@ function getConsistencyErrors($cmdset) {
 }
 
 
-// =========== MAIN ==========
+// ================ MAIN =================
 
-require('display.inc.php');
-
+$logger = Logger::getLogger("servicecontract_info");
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('CommandSet'));
+$smartyHelper->assign('pageName', T_("Service Contract"));
 
 if (isset($_SESSION['userid'])) {
 
@@ -86,41 +80,41 @@ if (isset($_SESSION['userid'])) {
    $_SESSION['teamid'] = $teamid;
 
    // ---
-   // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
-   $commandsetid = 0;
-   if(isset($_POST['commandsetid'])) {
-      $commandsetid = $_POST['commandsetid'];
-   } else if(isset($_SESSION['commandsetid'])) {
-      $commandsetid = $_SESSION['commandsetid'];
+   // use the servicecontractid set in the form, if not defined (first page call) use session servicecontractid
+   $servicecontractid = 0;
+   if(isset($_POST['servicecontractid'])) {
+      $servicecontractid = $_POST['servicecontractid'];
+   } else if(isset($_SESSION['servicecontractid'])) {
+      $servicecontractid = $_SESSION['servicecontractid'];
    }
-   $_SESSION['commandsetid'] = $commandsetid;
+   $_SESSION['servicecontractid'] = $servicecontractid;
 
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
    $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
-   $smartyHelper->assign('commandsetid', $commandsetid);
-   $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
+   $smartyHelper->assign('servicecontractid', $servicecontractid);
+   $smartyHelper->assign('servicecontracts', getServiceContracts($teamid, $servicecontractid));
 
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
-   if (0 != $commandsetid) {
-      $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+   if (0 != $servicecontractid) {
+      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-      displayCommandSet($smartyHelper, $commandset);
-      
+      displayServiceContract($smartyHelper, $servicecontract);
+
             // ConsistencyCheck
-      $consistencyErrors = getConsistencyErrors($commandset);
+      $consistencyErrors = getConsistencyErrors($servicecontract);
       if (0 != $consistencyErrors) {
          $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the CommandSet"));
+         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the ServiceContract"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
    } else {
-      if ('displayCommandSet' == $action) {
-         header('Location:commandset_edit.php?commandsetid=0');
+      if ('displayServiceContract' == $action) {
+         header('Location:servicecontract_edit.php?servicecontractid=0');
       }
 
    }

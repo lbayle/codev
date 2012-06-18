@@ -244,6 +244,55 @@ class ServiceContract {
 
 
    /**
+    *
+    * @param int $type  CommandSet::type_general
+    * @return array commandset_id => CommandSet
+    */
+   public function getCommandSets($type) {
+
+      // TODO: if type==NULL return for all types
+
+      $cmdsetList = array();
+
+      $cmdsetidList = $this->cmdsetidByTypeList[$type];
+
+      foreach ($cmdsetidList as $commandset_id) {
+
+         $cmdsetList[$commandset_id] = CommandSetCache::getInstance()->getCommandSet($commandset_id);
+      }
+
+      return $cmdsetList;
+   }
+
+   /**
+    * Collect the Issues of all the CommandSets (of a given type)
+    *
+    * @param int $type CommandSet::type_general
+    *
+    * @return IssueSelection
+    */
+   public function getIssueSelection($type) {
+
+      // TODO: if type==NULL return for all types
+
+      $issueSelection = new IssueSelection();
+
+      $cmdsetidList = $this->cmdsetidByTypeList[$type];
+
+      foreach ($cmdsetidList as $commandset_id) {
+
+         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandset_id);
+
+         $cmdsetIS = $cmdset->getIssueSelection();
+         $issueSelection->addIssueList($cmdsetIS->getIssueList());
+
+      }
+      return $issueSelection;
+
+   }
+
+   
+   /**
     * add Command to commandset (in DB & current instance)
     *
     * @param int $commandset_id
@@ -366,6 +415,21 @@ class ServiceContract {
       }
    }
 
+   /**
+    *
+    * @return array
+    */
+   public function getConsistencyErrors() {
+
+      $cmdsetList = $this->getCommandSets(CommandSet::type_general);
+
+      $servicecontractErrors = array();
+      foreach ($cmdsetList as $cmdset) {
+         $csetErrors = $cmdset->getConsistencyErrors();
+         $servicecontractErrors = array_merge($servicecontractErrors, $csetErrors);
+      }
+      return $servicecontractErrors;
+   }
 
 
 
