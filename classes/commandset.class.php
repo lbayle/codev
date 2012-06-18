@@ -43,8 +43,8 @@ include_once "commandset_cache.class.php";
  */
 class CommandSet {
 
-   const cmdType_dev   = 1;    // in table codev_commandset_cmd_table
-   const cmdType_mngt  = 2;    // in table codev_commandset_cmd_table
+   // Note: this should probably be moved to Command class
+   const cmdType_general = 1;    // in table codev_commandset_cmd_table
 
 
    private $logger;
@@ -62,8 +62,7 @@ class CommandSet {
 
    // list of commands, ordered by type
    // cmdByTypeList[type][cmdid]
-   private $cmdByTypeList;
-
+   private $cmdidByTypeList;
 
    function __construct($id) {
 
@@ -101,7 +100,7 @@ class CommandSet {
       $this->currency    = $row->currency;
 
       // ---
-      $this->cmdByTypeList = array();
+      $this->cmdidByTypeList = array();
       $query  = "SELECT * FROM `codev_commandset_cmd_table` ".
                 "WHERE commandset_id=$this->id ";
                 "ORDER BY type ASC, command_id ASC";
@@ -115,10 +114,10 @@ class CommandSet {
       }
       while($row = mysql_fetch_object($result))
       {
-         if (NULL == $this->cmdByTypeList["$row->type"]) {
-            $this->cmdByTypeList["$row->type"] = array();
+         if (NULL == $this->cmdidByTypeList["$row->type"]) {
+            $this->cmdidByTypeList["$row->type"] = array();
          }
-          $this->cmdByTypeList["$row->type"][] = $row->command_id;
+          $this->cmdidByTypeList["$row->type"][] = $row->command_id;
       }
    }
 
@@ -249,14 +248,16 @@ class CommandSet {
 
    /**
     *
-    * @param int $type
+    * @param int $type  CommandSet::cmdType_general
     * @return array cmdid => Command
     */
    public function getCommands($type) {
 
+      // TODO: if type==NULL return for all types
+
       $cmdList = array();
 
-      $cmdidList = $this->cmdByTypeList[$type];
+      $cmdidList = $this->cmdidByTypeList[$type];
 
       foreach ($cmdidList as $cmdid) {
 
@@ -264,6 +265,33 @@ class CommandSet {
       }
 
       return $cmdList;
+   }
+
+   /**
+    * Collect the Issues of all the Commands (of a given type)
+    *
+    * @param int $type CommandSet::cmdType_general
+    *
+    * @return IssueSelection
+    */
+   public function getIssueSelection($type) {
+
+      // TODO: if type==NULL return for all types
+
+      $issueSelection = new IssueSelection();
+
+      $cmdidList = $this->cmdidByTypeList[$type];
+
+      foreach ($cmdidList as $cmdid) {
+
+         $cmd = CommandCache::getInstance()->getCommand($cmdid);
+
+         $mcdIS = $cmd->getIssueSelection();
+         $issueSelection->addIssueList($mcdIS->getIssueList());
+
+      }
+      return $issueSelection;
+
    }
 
 
@@ -289,7 +317,9 @@ class CommandSet {
    /**
     * add Command to commandset (in DB & current instance)
     *
-    * @param int $bugid
+    * @param type $cmdid
+    * @param int $type CommandSet::cmdType_general
+    * @return int id in codev_commandset_cmd_table
     */
    public function addCommand($cmdid, $type) {
 
@@ -303,10 +333,10 @@ class CommandSet {
 
       $this->logger->debug("Add command $cmdid to commandset $this->id");
 
-      if (NULL == $this->cmdByTypeList["$type"]) {
-         $this->cmdByTypeList["$type"] = array();
+      if (NULL == $this->cmdidByTypeList["$type"]) {
+         $this->cmdidByTypeList["$type"] = array();
       }
-      $this->cmdByTypeList["$type"][] = $cmdid;
+      $this->cmdidByTypeList["$type"][] = $cmdid;
 
       $query = "INSERT INTO `codev_commandset_cmd_table` (`commandset_id`, `command_id`, `type`) VALUES ('$this->id', '$cmdid', '$type');";
       $result = mysql_query($query);
@@ -329,10 +359,10 @@ class CommandSet {
     */
    public function removeCommand($cmdid) {
 
-      $typeList = array_keys($this->cmdByTypeList);
+      $typeList = array_keys($this->cmdidByTypeList);
       foreach ($typeList as $type) {
-         if (NULL != $this->cmdByTypeList[$type][$cmdid]) {
-            unset($this->cmdByTypeList[$type][$cmdid]);
+         if (NULL != $this->cmdidByTypeList[$type][$cmdid]) {
+            unset($this->cmdidByTypeList[$type][$cmdid]);
             # break;
          }
       }
@@ -410,7 +440,7 @@ class CommandSet {
    public function getConsistencyErrors() {
 
       
-      $cmdList = $this->getCommands(CommandSet::cmdType_dev);
+      $cmdList = $this->getCommands(CommandSet::cmdType_general);
 
       $csetErrors = array();
       foreach ($cmdList as $cmdid => $cmd) {

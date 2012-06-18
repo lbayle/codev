@@ -146,6 +146,18 @@ $(document).ready(function() {
                      <td {$cmd.driftColor}>{$cmd.drift}</td>
                   </tr>
                   {/foreach}
+                  <tr class="row_even">
+                     <!--td></td-->
+                     <td></td>
+                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
+                     <td></td>
+                     <td>{$cmdsetDetailedMgr.effortEstim}</td>
+                     <td>{$cmdsetDetailedMgr.reestimated}</td>
+                     <td>{$cmdsetDetailedMgr.elapsed}</td>
+                     <td>{$cmdsetDetailedMgr.remaining}</td>
+                     <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
+                  </tr>
+
                </tbody>
             </table>
          </div>

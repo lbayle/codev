@@ -78,6 +78,19 @@ function getCommandSetCommands($commandsetid, $type) {
    return $commands;
 }
 
+
+function getCommandSetDetailedMgr($commandsetid, $type) {
+
+   if (0 != $commandsetid) {
+      $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
+
+      $issueSelection = $commandset->getIssueSelection($type);
+      $csetDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
+   }
+   return $csetDetailedMgr;
+}
+
+
 /**
  *
  * @param type $smartyHelper
@@ -94,7 +107,8 @@ function displayCommandSet($smartyHelper, $commandset) {
    $smartyHelper->assign('commandsetCurrency',   $commandset->getCurrency());
    $smartyHelper->assign('commandsetDate',       date("Y-m-d", $commandset->getDate()));
 
-   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), CommandSet::cmdType_dev));
+   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), CommandSet::cmdType_general));
+   $smartyHelper->assign('cmdsetDetailedMgr', getCommandSetDetailedMgr($commandset->getId(), CommandSet::cmdType_general));
 
 }
 
