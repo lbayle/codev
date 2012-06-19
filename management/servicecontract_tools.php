@@ -101,49 +101,75 @@ function getServiceContractCommandSets($servicecontractid, $cset_type, $cmd_type
 /**
  *
  * @param int $servicecontractid
+ * @param int $cset_type CommandSet::type_general
+ * @param int $cmd_type Command::type_general
  * @return array
  */
-function getServiceContractProjects($servicecontractid) {
+function getServiceContractCmdsetTotalDetailedMgr($servicecontractid, $cset_type, $cmd_type) {
 
-   $projects = array();
+   if (0 != $servicecontractid) {
+      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+      $issueSelection = $servicecontract->getIssueSelection($cset_type, $cmd_type);
+      $cmdsetTotalDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
+   }
+   return $cmdsetTotalDetailedMgr;
+}
+
+
+/**
+ *
+ * @param int $servicecontractid
+ * @return array[category_id] = IssueSelection
+ */
+function getContractSidetasksDetailedMgr($servicecontractid) {
 
    if (0 != $servicecontractid) {
 
-      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+      $stasksPerCat = array();
 
-      $prjList = $servicecontract->getProjects();
-      foreach ($prjList as $id => $project) {
+      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-         $issueSelection = $project->getIssueSelection();
+      $sidetasksPerCategory = $contract->getSidetasksPerCategory();
+
+      foreach ($sidetasksPerCategory as $id => $issueSelection) {
+
          $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
+         $detailledMgr['name'] = $issueSelection->name;
 
-
-         $detailledMgr['name'] = $project->getName();
-
-         $projects[$id] = $detailledMgr;
+         $stasksPerCat[$id] = $detailledMgr;
       }
    }
-   return $projects;
+   return $stasksPerCat;
 }
+
 
 
 
 /**
  *
  * @param int $servicecontractid
- * @param int $cset_type CommandSet::type_general
- * @param int $cmd_type Command::type_general
  * @return array
  */
-function getServiceContractDetailedMgr($servicecontractid, $cset_type, $cmd_type) {
+function getContractSidetasksTotalDetailedMgr($servicecontractid) {
 
    if (0 != $servicecontractid) {
-      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-      $issueSelection = $servicecontract->getIssueSelection($cset_type, $cmd_type);
-      $servicecontractDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
+      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+      $sidetasksPerCategory = $contract->getSidetasksPerCategory();
+
+      $issueSelection = new IssueSelection("TotalSideTasks");
+      foreach ($sidetasksPerCategory as $id => $iSel) {
+         $issueSelection->addIssueList($iSel->getIssueList());
+
+      }
    }
-   return $servicecontractDetailedMgr;
+
+   $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
+   $detailledMgr['name'] = $issueSelection->name;
+
+   return $detailledMgr;
 }
 
 
@@ -167,7 +193,11 @@ function displayServiceContract($smartyHelper, $servicecontract) {
    $smartyHelper->assign('servicecontractState',     ServiceContract::$stateNames[$servicecontract->getState()]);
 
    $smartyHelper->assign('cmdsetList', getServiceContractCommandSets($servicecontract->getId(), CommandSet::type_general, Command::type_general));
-   $smartyHelper->assign('servicecontractDetailedMgr', getServiceContractDetailedMgr($servicecontract->getId(), CommandSet::type_general, Command::type_general));
+   $smartyHelper->assign('$cmdsetTotalDetailedMgr', getServiceContractCmdsetTotalDetailedMgr($servicecontract->getId(), CommandSet::type_general, Command::type_general));
+
+   $smartyHelper->assign('sidetasksDetailedMgr', getContractSidetasksDetailedMgr($servicecontract->getId()));
+   $smartyHelper->assign('sidetasksTotalDetailedMgr', getContractSidetasksTotalDetailedMgr($servicecontract->getId()));
+
 
 }
 
