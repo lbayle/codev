@@ -65,11 +65,13 @@
             <th>{t}Mantis ID{/t}</th>
             <td>{$issueGeneralInfo.issueURL}</td>
          </tr-->
+         {if $issueGeneralInfo.issueExtRef}
          <tr>
             <th>{t}External Ref{/t}</th>
             <td>: </td>
             <td>{$issueGeneralInfo.issueExtRef}</td>
          </tr>
+         {/if}
          <tr>
             <th>{t}Assigned to{/t}</th>
             <td>: </td>
@@ -81,8 +83,8 @@
             <td>{$issueGeneralInfo.statusName}</td>
          </tr>
          <tr>
-            <th>{t}Commands{/t}</th>
-               <td>: </td>
+            <th valign='top'>{t}Commands{/t}</th>
+               <td valign='top'>: </td>
                <td><table class="invisible">
                   {foreach from=$parentCommands key=id item=i}
                      <tr><td>{$i.name}</td></tr>
