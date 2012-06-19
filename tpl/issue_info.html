@@ -60,27 +60,36 @@
    <div style="margin-top:4em;"></div>
    
    <div style='text-align:left;' class='center'>
-      <table>
+      <table class="invisible">
          <!--tr>
             <th>{t}Mantis ID{/t}</th>
             <td>{$issueGeneralInfo.issueURL}</td>
          </tr-->
          <tr>
             <th>{t}External Ref{/t}</th>
+            <td>: </td>
             <td>{$issueGeneralInfo.issueExtRef}</td>
          </tr>
          <tr>
             <th>{t}Assigned to{/t}</th>
+            <td>: </td>
             <td>{$issueGeneralInfo.handlerName}</td>
          </tr>
          <tr>
             <th>{t}Status{/t}</th>
+            <td>: </td>
             <td>{$issueGeneralInfo.statusName}</td>
          </tr>
-         <!--tr>
-            <th>{t}Description{/t}</th>
-            <td>{$issueGeneralInfo.statusDesc}</td>
-         </tr-->
+         <tr>
+            <th>{t}Commands{/t}</th>
+               <td>: </td>
+               <td><table class="invisible">
+                  {foreach from=$parentCommands key=id item=i}
+                     <tr><td>{$i.name}</td></tr>
+                  {/foreach}
+                  </table>
+               </td>
+         </tr>
       </table>
    </div>
    

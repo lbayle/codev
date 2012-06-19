@@ -80,6 +80,31 @@ function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=fal
 }
 
 /**
+ *
+ * @param Command $cmd
+ * @param int $selectedCmdsetId
+ * @return type
+ */
+function getParentCommands(Issue $issue) {
+
+   $commands = array();
+
+   $cmdList = $issue->getCommandList();
+
+   // TODO return URL for 'name' ?
+
+   foreach ($cmdList as $id => $cmdName) {
+
+      $commands[] = array(
+         'id' => $id,
+         'name' => $cmdName,
+      );
+   }
+   return $commands;
+}
+
+
+/**
  * Get job details of an issue
  * @param Issue $issue The issue
  * @return mixed[string]

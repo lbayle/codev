@@ -101,6 +101,13 @@ if(isset($_SESSION['userid'])) {
 
          $smartyHelper->assign('months', getCalendar($issue));
          $smartyHelper->assign('durationsByStatus', getDurationsByStatus($issue));
+
+         // set Commands I belong to
+         $parentCmds = getParentCommands($issue);
+         $smartyHelper->assign('parentCommands', $parentCmds);
+         $smartyHelper->assign('nbParentCommands', count($parentCmds));
+
+
       }
    }
 

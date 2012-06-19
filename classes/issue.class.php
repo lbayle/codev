@@ -18,6 +18,7 @@
 
 include_once('config.class.php');
 include_once('project.class.php');
+include_once('command.class.php');
 include_once('issue_cache.class.php');
 
 /**
@@ -134,6 +135,7 @@ class Issue {
    private $target_version;
    private $relationships; // array[relationshipType][bugId]
    private $IssueNoteList;
+   private $commandList;
 
    /*
      * REM:
@@ -1376,6 +1378,40 @@ class Issue {
 
       return $progress;
    }
+
+   /**
+    * A command can be included in several Comands from different teams.
+    *
+    * This returns the list of CommandSets where this Issue is defined.
+    *
+    * @return array[command_id] = commandName
+    */
+   public function getCommandList() {
+
+      if (NULL == $this->commandList) {
+
+         $query  = "SELECT * FROM `codev_command_bug_table` WHERE bug_id=$this->bugId ";
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         // a Command can belong to more than one commandset
+         while($row = mysql_fetch_object($result)) {
+
+            $cmd = CommandCache::getInstance()->getCommand($row->command_id);
+
+            $this->commandList["$row->command_id"] = $cmd->getName();
+            $this->logger->debug("Issue $this->bugId is in command $row->command_id (".$cmd->getName().")");
+         }
+      }
+      return $this->commandList;
+   }
+
+
 
 }
 
