@@ -45,6 +45,26 @@ if (0 != $teamid) {
 
 /**
  *
+ * @param type $contract
+ * @return type
+ */
+function getServiceContractStateList($contract = NULL) {
+
+   $stateList = NULL;
+   $contractState = (NULL == $contract) ? 0 : $contract->getState();
+
+   foreach (Command::$stateNames as $id => $name) {
+       $stateList[$id] = array('id'       => $id,
+                            'name'     => $name,
+                            'selected' => ($id == $contractState)
+       );
+   }
+   return $stateList;
+}
+
+
+/**
+ *
  * @param int $servicecontractid
  * @param int $cset_type CommandSet::type_general
  * @param int $cmd_type Command::type_general
@@ -62,17 +82,17 @@ function getServiceContractCommandSets($servicecontractid, $cset_type, $cmd_type
       foreach ($csetList as $id => $cset) {
 
          $issueSelection = $cset->getIssueSelection($cmd_type);
-         $servicecontractDetailledMgr = getIssueSelectionDetailedMgr($issueSelection);
+         $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
 
 
-         $servicecontractDetailledMgr['name'] = $cset->getName();
-         $servicecontractDetailledMgr['description'] = $cset->getDesc();
+         $detailledMgr['name'] = $cset->getName();
+         $detailledMgr['description'] = $cset->getDesc();
 
          $teamid = $cset->getTeamid();
          $team = TeamCache::getInstance()->getTeam($teamid);
-         $servicecontractDetailledMgr['team'] = $team->getName();
+         $detailledMgr['team'] = $team->getName();
 
-         $commands[$id] = $servicecontractDetailledMgr;
+         $commands[$id] = $detailledMgr;
       }
    }
    return $commands;
@@ -80,22 +100,32 @@ function getServiceContractCommandSets($servicecontractid, $cset_type, $cmd_type
 
 /**
  *
- * @param type $contract
- * @return type
+ * @param int $servicecontractid
+ * @return array
  */
-function getServiceContractStateList($contract = NULL) {
+function getServiceContractProjects($servicecontractid) {
 
-   $stateList = NULL;
-   $contractState = (NULL == $contract) ? 0 : $contract->getState();
+   $projects = array();
 
-   foreach (Command::$stateNames as $id => $name) {
-       $stateList[$id] = array('id'       => $id,
-                            'name'     => $name,
-                            'selected' => ($id == $contractState)
-       );
+   if (0 != $servicecontractid) {
+
+      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+      $prjList = $servicecontract->getProjects();
+      foreach ($prjList as $id => $project) {
+
+         $issueSelection = $project->getIssueSelection();
+         $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
+
+
+         $detailledMgr['name'] = $project->getName();
+
+         $projects[$id] = $detailledMgr;
+      }
    }
-   return $stateList;
+   return $projects;
 }
+
 
 
 /**

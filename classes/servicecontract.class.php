@@ -22,6 +22,7 @@ require_once('Logger.php');
 /* INSERT INCLUDES HERE */
 require_once "servicecontract_cache.class.php";
 
+require_once "project.class.php";
 
 /**
  * Description of ServiceContract
@@ -327,6 +328,24 @@ class ServiceContract {
       }
 
       return $cmdsetList;
+   }
+
+   /**
+    *
+    * @return array project_id => Project
+    */
+   public function getProjects() {
+
+      // TODO: if type==NULL return for all types
+
+      $prjList = array();
+
+      foreach ($this->sidetasksProjectList as $project_id) {
+
+         $prjList[$project_id] = ProjectCache::getInstance()->getProject($project_id);
+      }
+
+      return $prjList;
    }
 
    /**
