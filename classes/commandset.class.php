@@ -26,6 +26,7 @@ if (NULL == Logger::getConfigurationFile()) {
 
 include_once "issue_selection.class.php";
 include_once "team.class.php";
+include_once "servicecontract.class.php";
 include_once "commandset_cache.class.php";
 
 
@@ -433,7 +434,7 @@ class CommandSet{
             $this->logger->debug("CommandSet $this->id is in ServiceContract $row->servicecontract_id (".$srvContract->getName().")");
          }
       }
-      return $this->commandSetList;
+      return $this->serviceContractList;
    }
 
 

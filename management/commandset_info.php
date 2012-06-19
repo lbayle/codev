@@ -109,6 +109,13 @@ if (isset($_SESSION['userid'])) {
    if (0 != $commandsetid) {
       $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
+      // set CommandSets I belong to
+      $parentContracts = getParentContracts($commandset);
+
+      $smartyHelper->assign('parentContracts', $parentContracts);
+      $smartyHelper->assign('nbParentContracts', count($parentContracts));
+      
+
       displayCommandSet($smartyHelper, $commandset);
       
             // ConsistencyCheck
