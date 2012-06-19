@@ -92,15 +92,28 @@ $(document).ready(function() {
       <table class='invisible'>
             <tr>
                <th>{t}Date{/t}</th>
-               <td>: {$commandsetDate}</td>
+               <td valign='top'>: </td>
+               <td>{$commandsetDate}</td>
             </tr>
             <tr>
                <th>{t}Cost{/t}</th>
-               <td>: {$commandsetCost} {$commandsetCurrency}</td>
+               <td valign='top'>: </td>
+               <td>{$commandsetCost} {$commandsetCurrency}</td>
             </tr>
             <tr>
                <th>{t}Budget{/t}</th>
-               <td>: {$commandsetBudget} {t}days{/t}</td>
+               <td valign='top'>: </td>
+               <td>{$commandsetBudget} {t}days{/t}</td>
+            </tr>
+            <tr>
+               <th valign='top'>{t}Service Contract{/t}</th>
+               <td valign='top'>: </td>
+               <td><table class="invisible">
+                  {foreach from=$parentContracts key=id item=i}
+                     <tr><td>{$i.name}</td></tr>
+                  {/foreach}
+                  </table>
+               </td>
             </tr>
       </table>
       <br>

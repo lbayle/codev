@@ -87,45 +87,53 @@ $(document).ready(function() {
       <table class='invisible'>
             <tr>
                <th>{t}Reference{/t}</th>
-               <td>: {$cmdReference}</td>
+               <td valign='top'>: </td>
+               <td>{$cmdReference}</td>
             </tr>
             <tr>
                <th>{t}Version{/t}</th>
-               <td>: {$cmdVersion}</td>
+               <td valign='top'>: </td>
+               <td>{$cmdVersion}</td>
             </tr>
             <tr>
                <th>{t}Reporter{/t}</th>
-               <td>: {$cmdReporter}</td>
-            </tr>
-            <tr>
-               <th>{t}CommandSet{/t}</th>
-               <td><span>: </span>
-               {if $parentCmdSets}
-                  {foreach from=$parentCmdSets key=id item=i}
-                  <span>{$i.name}, </span>
-                  {/foreach}
-               {/if}
-               </td>
+               <td valign='top'>: </td>
+               <td>{$cmdReporter}</td>
             </tr>
             <tr>
                <th>{t}Date depart{/t}</th>
-               <td>: {$cmdStartDate}</td>
+               <td valign='top'>: </td>
+               <td>{$cmdStartDate}</td>
             </tr>
             <tr>
                <th>{t}Date fin{/t}</th>
-               <td>: {$cmdDeadline}</td>
+               <td valign='top'>: </td>
+               <td>{$cmdDeadline}</td>
             </tr>
             <tr>
                <th>{t}State{/t}</th>
-               <td>: {$cmdState}</td>
+               <td valign='top'>: </td>
+               <td>{$cmdState}</td>
             </tr>
             <tr>
                <th>{t}Cost{/t}</th>
-               <td>: {$cmdCost} {$cmdCurrency}</td>
+               <td valign='top'>: </td>
+               <td>{$cmdCost} {$cmdCurrency}</td>
             </tr>
             <tr>
                <th>{t}Budget{/t}</th>
-               <td>: {$cmdBudgetDev} {t}days{/t}</td>
+               <td valign='top'>: </td>
+               <td>{$cmdBudgetDev} {t}days{/t}</td>
+            </tr>
+            <tr>
+               <th valign='top'>{t}CommandSet{/t}</th>
+               <td valign='top'>: </td>
+               <td><table class="invisible">
+                  {foreach from=$parentCmdSets key=id item=i}
+                     <tr><td>{$i.name}</td></tr>
+                  {/foreach}
+                  </table>
+               </td>
             </tr>
       </table>
       <br>
