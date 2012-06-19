@@ -134,7 +134,6 @@ $(document).ready(function() {
                <thead>
                <tr>
                   <!--th></th-->
-                  <th>{t}Ref{/t}</th>
                   <th>{t}CommandSet{/t}</th>
                   <th>{t}Team{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
@@ -148,7 +147,6 @@ $(document).ready(function() {
                   {foreach $cmdsetList as $id => $cmdset}
                   <tr>
                      <!--td>{$id}</td-->
-                     <td align='right'>{$cmdset.reference}</td>
                      <td title="{$id}"  align='left'>{$cmdset.name}</td>
                      <td>{$cmdset.team}</td>
                      <td>{$cmdset.effortEstim}</td>
@@ -160,7 +158,6 @@ $(document).ready(function() {
                   {/foreach}
                   <tr class="row_even">
                      <!--td></td-->
-                     <td></td>
                      <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
                      <td></td>
                      <td>{$servicecontractDetailedMgr.effortEstim}</td>

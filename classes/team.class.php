@@ -45,7 +45,7 @@ class Team {
     const accessLevel_manager  = 30;    // in table codev_team_user_table
 
     public static $accessLevelNames = array(
-                              Team::accessLevel_nostats  => "NoStats", // can modify, can NOT view stats
+                              //Team::accessLevel_nostats  => "NoStats", // can modify, can NOT view stats
                               Team::accessLevel_dev      => "Developer", // can modify, can NOT view stats
                               Team::accessLevel_observer => "Observer",  // can NOT modify, can view stats
                               //$accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
@@ -60,7 +60,7 @@ class Team {
    private $projTypeList;
    private $commandList;
    private $commandSetList;
-
+   private $serviceContractList;
 
    // -------------------------------------------------------
    /**
@@ -427,6 +427,35 @@ class Team {
 
       $this->logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
       return $this->commandSetList;
+   }
+
+   /**
+    * CommandSets for this team
+    *
+    * @return array id => CommandSet
+    */
+   public function getServiceContractList() {
+      if (NULL == $this->serviceContractList) {
+         $query = "SELECT DISTINCT * FROM `codev_servicecontract_table` ".
+            "WHERE team_id = $this->id ";
+
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->serviceContractList = array();
+         while($row = mysql_fetch_object($result))
+         {
+            $contract = ServiceContractCache::getInstance()->getServiceContract($row->id);
+            $this->serviceContractList[$row->id] = $contract;
+         }
+      }
+
+      $this->logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
+      return $this->serviceContractList;
    }
 
 

@@ -78,7 +78,12 @@ function getCommandSetCommands($commandsetid, $type) {
    return $commands;
 }
 
-
+/**
+ *
+ * @param int $commandsetid
+ * @param int $type Command::type_general
+ * @return array
+ */
 function getCommandSetDetailedMgr($commandsetid, $type) {
 
    if (0 != $commandsetid) {

@@ -299,13 +299,14 @@ class CommandSet{
 
       $cmdList = array();
 
-      $cmdidList = $this->cmdidByTypeList[$type];
+      $cmdidList = $this->cmdidByTypeList["$type"];
+      
+      if(($cmdidList) && (0 != count($cmdidList))) {
+         foreach ($cmdidList as $cmdid) {
 
-      foreach ($cmdidList as $cmdid) {
-
-         $cmdList[$cmdid] = CommandCache::getInstance()->getCommand($cmdid);
+            $cmdList[$cmdid] = CommandCache::getInstance()->getCommand($cmdid);
+         }
       }
-
       return $cmdList;
    }
 
@@ -322,15 +323,17 @@ class CommandSet{
 
       $issueSelection = new IssueSelection();
 
-      $cmdidList = $this->cmdidByTypeList[$type];
+      $cmdidList = $this->cmdidByTypeList["$type"];
 
-      foreach ($cmdidList as $cmdid) {
+      if(($cmdidList) && (0 != count($cmdidList))) {
+         foreach ($cmdidList as $cmdid) {
 
-         $cmd = CommandCache::getInstance()->getCommand($cmdid);
+            $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
-         $mcdIS = $cmd->getIssueSelection();
-         $issueSelection->addIssueList($mcdIS->getIssueList());
+            $mcdIS = $cmd->getIssueSelection();
+            $issueSelection->addIssueList($mcdIS->getIssueList());
 
+         }
       }
       return $issueSelection;
 

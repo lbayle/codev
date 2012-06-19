@@ -23,6 +23,15 @@ require '../path.inc.php';
 require('super_header.inc.php');
 
 /* INSERT INCLUDES HERE */
+require_once "servicecontract.class.php";
+require_once "commandset.class.php";
+require_once "command.class.php";
+require_once "user.class.php";
+require_once "team.class.php";
+
+require_once "servicecontract_tools.php";
+
+require_once "smarty_tools.php";
 
 require('display.inc.php');
 

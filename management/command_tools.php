@@ -87,7 +87,7 @@ function getParentCommandSets($cmd) {
  * @param type $command
  * @return type
  */
-function getCmdStateList($command = NULL) {
+function getServiceContractStateList($command = NULL) {
 
    $stateList = NULL;
    $cmdState = (NULL == $command) ? 0 : $command->getState();
@@ -109,7 +109,7 @@ function displayCommand($smartyHelper, $cmd) {
    $smartyHelper->assign('cmdReference', $cmd->getReference());
    $smartyHelper->assign('cmdVersion', $cmd->getVersion());
    $smartyHelper->assign('cmdReporter', $cmd->getReporter());
-   $smartyHelper->assign('cmdStateList', getCmdStateList($cmd));
+   $smartyHelper->assign('cmdStateList', getServiceContractStateList($cmd));
    $smartyHelper->assign('cmdState', Command::$stateNames[$cmd->getState()]);
    $smartyHelper->assign('cmdCost', $cmd->getCost());
    $smartyHelper->assign('cmdCurrency', $cmd->getCurrency());

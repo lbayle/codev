@@ -188,7 +188,7 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('cmdInfoFormBtText', 'Create');
       $smartyHelper->assign('cmdInfoFormAction', 'createCmd');
 
-      $smartyHelper->assign('cmdStateList', getCmdStateList());
+      $smartyHelper->assign('cmdStateList', getServiceContractStateList());
       $smartyHelper->assign('cmdState', Command::$stateNames[0]);
 
       $smartyHelper->assign('commandsetid', $commandsetid);

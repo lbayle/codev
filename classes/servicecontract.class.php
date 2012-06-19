@@ -28,7 +28,14 @@ require_once "servicecontract_cache.class.php";
  *
  */
 class ServiceContract {
-   
+
+
+   // TODO states must be defined
+   const state_default       = 1;
+
+  // TODO i18n for constants
+  public static $stateNames = array(ServiceContract::state_default       => "Default");
+
    private $logger;
 
    private $id;
@@ -69,6 +76,64 @@ class ServiceContract {
    private function initialize() {
 
       // get info from DB
+      // ---
+      $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id=$this->id ";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $row = mysql_fetch_object($result);
+      $this->name        = $row->name;
+      $this->teamid      = $row->team_id;
+   	$this->state            = $row->state;
+      $this->reference        = $row->reference;
+      $this->version          = $row->version;
+      $this->reporter         = $row->reporter;
+      $this->description = $row->description;
+      $this->start_date        = $row->start_date;
+      $this->end_date        = $row->end_date;
+
+      // --- CommandSets
+      $this->cmdsetidByTypeList = array();
+      $query  = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
+                "WHERE servicecontract_id=$this->id ";
+                "ORDER BY type ASC, command_id ASC";
+
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      while($row = mysql_fetch_object($result))
+      {
+         if (NULL == $this->cmdsetidByTypeList["$row->type"]) {
+            $this->cmdsetidByTypeList["$row->type"] = array();
+         }
+          $this->cmdsetidByTypeList["$row->type"][] = $row->commandset_id;
+      }
+
+      // --- SidetaskProjects
+      $this->sidetasksProjectList = array();
+      $query  = "SELECT * FROM `codev_servicecontract_stproj_table` ".
+                "WHERE servicecontract_id=$this->id ";
+                "ORDER BY type ASC, command_id ASC";
+
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      while($row = mysql_fetch_object($result))
+      {
+          $this->sidetasksProjectList["$row->type"][] = $row->project_id;
+      }
    }
 
    /**
@@ -76,9 +141,9 @@ class ServiceContract {
     *
     * @return int $id
     */
-   public static function create($name, $date, $teamid) {
-    $query = "INSERT INTO `codev_commandset_table`  (`name`, `date`, `team_id`) ".
-             "VALUES ('$name','$date', '$teamid');";
+   public static function create($name, $teamid) {
+    $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
+             "VALUES ('$name', '$teamid');";
     $result = mysql_query($query);
     if (!$result) {
        $this->logger->error("Query FAILED: $query");
@@ -271,21 +336,19 @@ class ServiceContract {
     *
     * @return IssueSelection
     */
-   public function getIssueSelection($type) {
+   public function getIssueSelection($cset_type, $cmd_type) {
 
       // TODO: if type==NULL return for all types
 
       $issueSelection = new IssueSelection();
 
-      $cmdsetidList = $this->cmdsetidByTypeList[$type];
+      $cmdsetidList = $this->cmdsetidByTypeList[$cset_type];
 
       foreach ($cmdsetidList as $commandset_id) {
 
          $cmdset = CommandSetCache::getInstance()->getCommandSet($commandset_id);
-
-         $cmdsetIS = $cmdset->getIssueSelection();
+         $cmdsetIS = $cmdset->getIssueSelection($cmd_type);
          $issueSelection->addIssueList($cmdsetIS->getIssueList());
-
       }
       return $issueSelection;
 
