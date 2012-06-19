@@ -43,6 +43,37 @@ if (0 != $teamid) {
    return $commandsets;
 }
 
+
+/**
+ *
+ * @param CommandSet $cmd
+ * @param int $selectedCmdsetId
+ * @return type
+ */
+function getParentContracts(CommandSet $cset) {
+
+   $contracts = array();
+
+   $contractList = $cset->getServiceContractList();
+
+   // TODO return URL for 'name' ?
+
+   foreach ($contractList as $id => $contractName) {
+
+      $contract = ServiceContractCache::getInstance()->getServiceContract($id);
+      $teamid = $contract->getTeamid();
+      $team = TeamCache::getInstance()->getTeam($teamid);
+
+      $contracts[] = array(
+         'id' => $id,
+         'name' => $contractName,
+         'team' => $team->name
+      );
+   }
+   return $contracts;
+}
+
+
 /**
  *
  * @param int $commandsetid
