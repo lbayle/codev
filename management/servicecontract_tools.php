@@ -172,6 +172,35 @@ function getContractSidetasksTotalDetailedMgr($servicecontractid) {
    return $detailledMgr;
 }
 
+/**
+ *
+ * @param int $servicecontractid
+ * @return array
+ */
+function getContractTotalDetailedMgr($servicecontractid) {
+
+   if (0 != $servicecontractid) {
+
+      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+      $sidetasksPerCategory = $contract->getSidetasksPerCategory();
+
+      $issueSelection = new IssueSelection("Total");
+      foreach ($sidetasksPerCategory as $id => $iSel) {
+         $issueSelection->addIssueList($iSel->getIssueList());
+
+      }
+   }
+
+   $cmdsetsIssueSelection = $contract->getIssueSelection(CommandSet::type_general, Command::type_general);
+   $issueSelection->addIssueList($cmdsetsIssueSelection->getIssueList());
+
+   $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
+   $detailledMgr['name'] = $issueSelection->name;
+
+   return $detailledMgr;
+}
+
 
 /**
  *
@@ -198,6 +227,7 @@ function displayServiceContract($smartyHelper, $servicecontract) {
    $smartyHelper->assign('sidetasksDetailedMgr', getContractSidetasksDetailedMgr($servicecontract->getId()));
    $smartyHelper->assign('sidetasksTotalDetailedMgr', getContractSidetasksTotalDetailedMgr($servicecontract->getId()));
 
+   $smartyHelper->assign('servicecontractTotalDetailedMgr', getContractTotalDetailedMgr($servicecontract->getId()));
 
 }
 
