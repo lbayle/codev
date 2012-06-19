@@ -160,11 +160,58 @@ $(document).ready(function() {
                      <!--td></td-->
                      <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
                      <td></td>
-                     <td>{$servicecontractDetailedMgr.effortEstim}</td>
-                     <td>{$servicecontractDetailedMgr.reestimated}</td>
-                     <td>{$servicecontractDetailedMgr.elapsed}</td>
-                     <td>{$servicecontractDetailedMgr.remaining}</td>
-                     <td {$servicecontractDetailedMgr.driftColor}>{$servicecontractDetailedMgr.drift}</td>
+                     <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                     <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
+                     <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
+                     <td>{$cmdsetTotalDetailedMgr.remaining}</td>
+                     <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
+                  </tr>
+
+               </tbody>
+            </table>
+         </div>
+         {else}
+         {t}No CommandSet found.{/t}
+         {/if}
+
+   <div style="margin-top:3em;"></div>
+
+
+         {if $sidetasksDetailedMgr}
+         <div>
+            <!--table id="devCmd_table" class="display"-->
+            <table>
+               <thead>
+               <tr>
+                  <!--th></th-->
+                  <th>{t}Category{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Drift Mgr{/t}</th>
+               </tr>
+               </thead>
+               <tbody>
+                  {foreach $sidetasksDetailedMgr as $id => $category}
+                  <tr>
+                     <!--td>{$id}</td-->
+                     <td title="{$id}"  align='left'>{$category.name}</td>
+                     <td>{$category.effortEstim}</td>
+                     <td>{$category.reestimated}</td>
+                     <td>{$category.elapsed}</td>
+                     <td>{$category.remaining}</td>
+                     <td {$category.driftColor}>{$category.drift}</td>
+                  </tr>
+                  {/foreach}
+                  <tr class="row_even">
+                     <!--td></td-->
+                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
+                     <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
+                     <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
+                     <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
+                     <td>{$sidetasksTotalDetailedMgr.remaining}</td>
+                     <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
                   </tr>
 
                </tbody>
