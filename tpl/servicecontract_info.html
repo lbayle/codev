@@ -129,8 +129,8 @@ $(document).ready(function() {
       <div id="tabsName-1">
          {if $cmdsetList}
          <div>
-            <!--table id="devCmd_table" class="display"-->
             <table>
+               <caption>{t}Tasks{/t}</caption>
                <thead>
                <tr>
                   <!--th></th-->
@@ -179,8 +179,8 @@ $(document).ready(function() {
 
          {if $sidetasksDetailedMgr}
          <div>
-            <!--table id="devCmd_table" class="display"-->
             <table>
+               <caption>{t}SideTasks{/t}</caption>
                <thead>
                <tr>
                   <!--th></th-->
@@ -226,12 +226,12 @@ $(document).ready(function() {
 
          {if $servicecontractTotalDetailedMgr}
          <div>
-            <!--table id="devCmd_table" class="display"-->
             <table>
+               <caption>{t}All tasks{/t}</caption>
                <thead>
                <tr>
                   <!--th></th-->
-                  <th>{t}All tasks{/t}</th>
+                  <th></th>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
@@ -242,7 +242,7 @@ $(document).ready(function() {
                <tbody>
                   <tr>
                      <!--td></td-->
-                     <td title="{$id}"  align='left'>{t}CommandSets{/t}</td>
+                     <td title="{$id}"  align='left'>{t}Tasks{/t}</td>
                      <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                      <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
@@ -251,7 +251,7 @@ $(document).ready(function() {
                   </tr>
                   <tr>
                      <!--td></td-->
-                     <td title="{$id}"  align='left'>{t}Sidetasks{/t}</td>
+                     <td title="{$id}"  align='left'>{t}SideTasks{/t}</td>
                      <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
                      <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
                      <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
