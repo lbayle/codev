@@ -174,7 +174,7 @@ $(document).ready(function() {
          {t}No CommandSet found.{/t}
          {/if}
 
-   <div style="margin-top:3em;"></div>
+         <div style="margin-top:3em;"></div>
 
 
          {if $sidetasksDetailedMgr}
@@ -218,7 +218,61 @@ $(document).ready(function() {
             </table>
          </div>
          {else}
-         {t}No CommandSet found.{/t}
+         {t}No sidetasks found.{/t}
+         {/if}
+
+         <div style="margin-top:3em;"></div>
+
+
+         {if $servicecontractTotalDetailedMgr}
+         <div>
+            <!--table id="devCmd_table" class="display"-->
+            <table>
+               <thead>
+               <tr>
+                  <!--th></th-->
+                  <th>{t}All tasks{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Drift Mgr{/t}</th>
+               </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <!--td></td-->
+                     <td title="{$id}"  align='left'>{t}CommandSets{/t}</td>
+                     <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                     <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
+                     <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
+                     <td>{$cmdsetTotalDetailedMgr.remaining}</td>
+                     <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
+                  </tr>
+                  <tr>
+                     <!--td></td-->
+                     <td title="{$id}"  align='left'>{t}Sidetasks{/t}</td>
+                     <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
+                     <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
+                     <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
+                     <td>{$sidetasksTotalDetailedMgr.remaining}</td>
+                     <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
+                  </tr>
+                  <tr class="row_even">
+                     <!--td></td-->
+                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
+                     <td>{$servicecontractTotalDetailedMgr.effortEstim}</td>
+                     <td>{$servicecontractTotalDetailedMgr.reestimated}</td>
+                     <td>{$servicecontractTotalDetailedMgr.elapsed}</td>
+                     <td>{$servicecontractTotalDetailedMgr.remaining}</td>
+                     <td {$servicecontractTotalDetailedMgr.driftColor}>{$servicecontractTotalDetailedMgr.drift}</td>
+                  </tr>
+
+               </tbody>
+            </table>
+         </div>
+         {else}
+         {t}No Total found.{/t}
          {/if}
       </div>
 
