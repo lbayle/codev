@@ -1,0 +1,10 @@
+<?php
+
+/** 
+ * French (Français)
+ */
+
+$s_plugin_CodevTT_title = 'CodevTT';
+$s_plugin_CodevTT_description = 'Gestion des commandes lors de la création de bug.';
+$s_plugin_CodevTT_command = 'CodevTT_Commande';
+$s_plugin_CodevTT_codevtt_menu = 'CodevTT';
