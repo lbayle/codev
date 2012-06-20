@@ -22,9 +22,9 @@ include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
 $page_name = T_("Install");
-include 'install_header.inc.php';
+require_once 'install_header.inc.php';
 
-include 'install_menu.inc.php';
+require_once 'install_menu.inc.php';
 
 include_once 'install.class.php';
 

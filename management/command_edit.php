@@ -31,8 +31,8 @@ include_once "command.class.php";
 
 include_once "smarty_tools.php";
 
-include "command_tools.php";
-include "commandset_tools.php";
+require_once "command_tools.php";
+require_once "commandset_tools.php";
 
 $logger = Logger::getLogger("command_edit");
 

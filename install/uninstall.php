@@ -27,10 +27,10 @@ if (!isset($_SESSION['userid'])) {
 }
 
 $page_name = T_("Uninstall");
-include 'header.inc.php';
+require_once 'header.inc.php';
 
-include 'login.inc.php';
-include 'uninstall_menu.inc.php';
+require_once 'login.inc.php';
+require_once 'uninstall_menu.inc.php';
 ?>
 
 <script language="JavaScript">

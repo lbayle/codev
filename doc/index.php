@@ -13,10 +13,10 @@ if (!isset($_SESSION['userid'])) {
 $OpenSource_FR = "Un logiciel libre est un logiciel qui respecte le droit de l’Homme : liberté, égalité, fraternité. Liberté car l’utilisateur de ce programme est libre. Egalite parce ce que personne n’a de pouvoir sur personne par le logiciel libre. Et fraternité, car nous encourageons la coopération entre les utilisateurs.";
 
 $page_name = "Centre de Documentation";
-include 'header.inc.php';
+require_once 'header.inc.php';
 
-include 'login.inc.php';
-include 'menu.inc.php';
+require_once 'login.inc.php';
+require_once 'menu.inc.php';
 ?>
 <br/>
 <?php include 'menu_doc.inc.php'; ?>

@@ -6,7 +6,7 @@ include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
 $page_name = T_("Tools: serialize");
-include 'header.inc.php';
+require_once 'header.inc.php';
 
 include_once 'install.class.php';
 

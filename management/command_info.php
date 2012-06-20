@@ -33,7 +33,7 @@ include_once('consistency_check2.class.php');
 
 include_once "smarty_tools.php";
 
-include "command_tools.php";
+require_once "command_tools.php";
 
 $logger = Logger::getLogger("command_info");
 

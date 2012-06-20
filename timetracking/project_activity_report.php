@@ -22,7 +22,7 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
-include('../smarty_tools.php');
+require_once('../smarty_tools.php');
 
 include_once "issue.class.php";
 include_once "project.class.php";

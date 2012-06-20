@@ -27,10 +27,10 @@ if (!isset($_SESSION['userid'])) {
 }
 
 $page_name = T_("Clone Project Settings");
-include 'header.inc.php';
+require_once 'header.inc.php';
 
-include 'login.inc.php';
-include 'menu.inc.php';
+require_once 'login.inc.php';
+require_once 'menu.inc.php';
 #echo "<br/>\n";
 #include 'menu_admin.inc.php';
 ?>

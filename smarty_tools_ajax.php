@@ -30,7 +30,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
       $smartyHelper = new SmartyHelper();
 
       if($_GET['action'] == 'getTeamProjects') {
-         include('team.class.php');
+         require_once('team.class.php');
 
       $projects[0] = T_('All projects');
       $projects += Team::getProjectList($_GET['teamid'], false);
@@ -38,7 +38,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          $smartyHelper->display('form/projectSelector');
       }
       else if($_GET['action'] == 'getProjectIssues') {
-         include('user_cache.class.php');
+         require_once('user_cache.class.php');
 
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
@@ -61,7 +61,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          $smartyHelper->display('form/bugSelector');
       }
       else if($_GET['action'] == 'getProjectDetails') {
-         include('reports/productivity_report_tools.php');
+         require_once('reports/productivity_report_tools.php');
 
          $weekDates  = week_dates(date('W'),date('Y'));
          $startdate  = isset($_GET["startdate"]) ? $_GET["startdate"] : date("Y-m-d", $weekDates[1]);
@@ -88,7 +88,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          $smartyHelper->display('ajax/projectDetails');
       }
       else if($_GET['action'] == 'getYearsToNow') {
-         include('team.class.php');
+         require_once('team.class.php');
 
          $team = new Team($_GET['teamid']);
          $min_year = date("Y", $team->date);
@@ -102,7 +102,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    }
    else if($_POST['action']) {
       if($_POST['action'] == 'updateRemainingAction') {
-         include('issue_cache.class.php');
+         require_once('issue_cache.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(getSecurePOSTIntValue('bugid'));
          $issue->setRemaining(getSecurePOSTNumberValue('remaining'));

@@ -28,7 +28,7 @@ include_once "user.class.php";
 include_once "team.class.php";
 include_once "commandset.class.php";
 
-include "commandset_tools.php";
+require_once "commandset_tools.php";
 
 include_once "smarty_tools.php";
 
