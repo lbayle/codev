@@ -31,7 +31,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getGeneralInfo') {
          include_once('issue_cache.class.php');
-         include('user_cache.class.php');
+         require_once('user_cache.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(getSecureGETIntValue('bugid'));
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);

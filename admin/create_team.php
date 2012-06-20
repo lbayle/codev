@@ -23,9 +23,9 @@ include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
 $page_name = T_("CodevTT Administration : Team Creation");
-include 'header.inc.php';
-include 'login.inc.php';
-include 'menu.inc.php';
+require_once 'header.inc.php';
+require_once 'login.inc.php';
+require_once 'menu.inc.php';
 ?>
 
 <br/>
