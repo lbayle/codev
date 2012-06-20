@@ -64,7 +64,7 @@ echo "      </td>\n";
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/blog/blog.php' title='".T_("Blog")."'>Blog</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a>\n";
+echo "      <a href='".getServerRootURL()."/doc/doc.php' title='".T_("Documentation")."'>Doc</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/admin/index.php' title='".T_("CoDev Administration")."'>Admin</a>\n";
 echo "      </td>\n";
