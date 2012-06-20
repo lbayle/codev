@@ -67,7 +67,7 @@ function updateCommandSetInfo($cmdset) {
  *
  *
  */
-function getCmdCandidates($user) {
+function getCmdSetCandidates($user) {
    $cmdCandidates = array();
 
    $lTeamList = $user->getLeadedTeamList();
@@ -212,7 +212,7 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
       $smartyHelper->assign('isAddCmdForm', true);
 
-      $cmdCandidates = getCmdCandidates($session_user);
+      $cmdCandidates = getCmdSetCandidates($session_user);
       $smartyHelper->assign('cmdCandidates', $cmdCandidates);
       $smartyHelper->assign('isAddCmdSetForm', true);
 

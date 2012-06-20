@@ -267,7 +267,7 @@ class ServiceContract {
    public function setState($value) {
 
       $this->state = $value;
-      $query = "UPDATE `codev_command_table` SET state='$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET state='$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -282,8 +282,7 @@ class ServiceContract {
       return $this->start_date;
    }
    public function setStartDate($value) {
-      $formattedValue = mysql_real_escape_string($value); // should be in controler, not here
-      $this->start_date = date2timestamp($formattedValue);
+      $this->start_date = $value;
       $query = "UPDATE `codev_servicecontract_table` SET start_date = '$this->start_date' WHERE id='$this->id' ";
       $result = mysql_query($query);
       if (!$result) {
@@ -298,8 +297,7 @@ class ServiceContract {
       return $this->end_date;
    }
    public function setEndDate($value) {
-      $formattedValue = mysql_real_escape_string($value); // should be in controler, not here
-      $this->end_date = date2timestamp($formattedValue);
+      $this->end_date = $value;
       $query = "UPDATE `codev_servicecontract_table` SET end_date = '$this->end_date' WHERE id='$this->id' ";
       $result = mysql_query($query);
       if (!$result) {
@@ -324,11 +322,12 @@ class ServiceContract {
 
       $cmdsetidList = $this->cmdsetidByTypeList[$type];
 
-      foreach ($cmdsetidList as $commandset_id) {
+      if(($cmdsetidList) && (0 != count($cmdsetidList))) {
+         foreach ($cmdsetidList as $commandset_id) {
 
-         $cmdsetList[$commandset_id] = CommandSetCache::getInstance()->getCommandSet($commandset_id);
+            $cmdsetList[$commandset_id] = CommandSetCache::getInstance()->getCommandSet($commandset_id);
+         }
       }
-
       return $cmdsetList;
    }
 
@@ -365,14 +364,16 @@ class ServiceContract {
 
       $cmdsetidList = $this->cmdsetidByTypeList[$cset_type];
 
-      foreach ($cmdsetidList as $commandset_id) {
+      if(($cmdsetidList) && (0 != count($cmdsetidList))) {
+         foreach ($cmdsetidList as $commandset_id) {
 
-         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandset_id);
-         $cmdsetIS = $cmdset->getIssueSelection($cmd_type);
-         $issueSelection->addIssueList($cmdsetIS->getIssueList());
+            $cmdset = CommandSetCache::getInstance()->getCommandSet($commandset_id);
+            $cmdsetIS = $cmdset->getIssueSelection($cmd_type);
+            $issueSelection->addIssueList($cmdsetIS->getIssueList());
+         }
       }
-      return $issueSelection;
 
+      return $issueSelection;
    }
 
    
