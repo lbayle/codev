@@ -53,7 +53,7 @@ function getServiceContractStateList($contract = NULL) {
    $stateList = NULL;
    $contractState = (NULL == $contract) ? 0 : $contract->getState();
 
-   foreach (CommandSet::$stateNames as $id => $name) {
+   foreach (ServiceContract::$stateNames as $id => $name) {
        $stateList[$id] = array('id'       => $id,
                             'name'     => $name,
                             'selected' => ($id == $contractState)

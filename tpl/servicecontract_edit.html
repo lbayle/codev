@@ -81,7 +81,7 @@ jQuery(document).ready(function() {
                   <th>{t}State{/t}</th>
                   <td>
                      <select id='stateSelector' name='servicecontractState'>
-                        <option value='0'></option>
+                        <!--option value='0'></option-->
                         {foreach from=$servicecontractStateList key=id item=i}
                         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                         {/foreach}
