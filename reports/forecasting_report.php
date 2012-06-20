@@ -228,7 +228,7 @@ if (isset($_SESSION['userid'])) {
     $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
 
     if (count($teamList) > 0) {
-        $smartyHelper->assign('teams', getTeams($teamList));
+        $smartyHelper->assign('teams', getTeams($teamList,$teamid));
 
         if (isset($_GET['teamid']) && 0 != $teamid) {
             $withSupport = true;
