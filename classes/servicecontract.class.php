@@ -530,8 +530,13 @@ function getSidetasksPerCategory() {
       $prjList = $this->getProjects();
       foreach ($prjList as $id => $project) {
 
-         if (!$project->isSideTasksProject(array($this->getTeamid()))) {
-            $this->logger->error("getSidetasks: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
+         try {
+            if (!$project->isSideTasksProject(array($this->teamid))) {
+               $this->logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
+               continue;
+            }
+         } catch (Exception $e) {
+            $this->logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
             continue;
          }
          $bugidList = $project->getIssueList();
