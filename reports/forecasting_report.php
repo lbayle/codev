@@ -89,21 +89,19 @@ function getCurrentDeviationStats ($teamid, $threshold = 1, $withSupport = true)
 	return $currentDeviationStats;
 }
 
-
-
-
-
 /**
- *
+ * @param int $teamid
+ * @param bool $withSupport
+ * @return mixed[]
  */
-function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
+function getIssuesInDrift($teamid, $withSupport=true) {
 
    global $logger;
 
-   $issuesInDrift = "";
-
     $mList = Team::getMemberList($teamid);
     $projList = Team::getProjectList($teamid);
+
+   $issueArray = NULL;
 
     foreach ($mList as $id => $name) {
         $user = UserCache::getInstance()->getUser($id);
@@ -115,14 +113,8 @@ function getIssuesInDrift($teamid, $isManager=false, $withSupport=true) {
             continue;
         }
 
-        $issueList = $user->getAssignedIssues();
+        $issueList = $user->getAssignedIssues($projList);
         foreach ($issueList as $issue) {
-
-
-            // check if issue in team project list
-            if (NULL == $projList[$issue->projectId]) {
-            	continue;
-            }
             $driftPrelEE = $issue->getDriftMgr($withSupport);
             $driftEE = $issue->getDrift($withSupport);
             if (($driftPrelEE > 0) || ($driftEE > 0)) {
@@ -260,7 +252,7 @@ if (isset($_SESSION['userid'])) {
 
             $smartyHelper->assign('currentDeviationStats', getCurrentDeviationStats ($teamid, $threshold, $withSupport = true));
 
-            $smartyHelper->assign('issuesInDrift', getIssuesInDrift($teamid, $isManager, $withSupport));
+            $smartyHelper->assign('issuesInDrift', getIssuesInDrift($teamid, $withSupport));
 
             $start_day = 1;
             if (1 == date("m")) {
