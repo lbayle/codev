@@ -200,6 +200,14 @@ class Team {
 
 
    // -------------------------------------------------------
+   /**
+    * return an array[project_id] = project_name
+    * 
+    * @global type $logger
+    * @param int $teamid
+    * @param bool $noStatsProject
+    * @return array
+    */
    public static function getProjectList($teamid, $noStatsProject = true) {
       global $logger;
 
