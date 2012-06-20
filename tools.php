@@ -307,20 +307,21 @@ function doubleImplode ($del1, $del2, $array) {
  * NOTE: the classes must have a compareTo(objectB) method.
  * @param array of instances $a
  */
-function qsort($a) {
-   qsort_do(&$a,0,Count($a)-1);
+function qsort(&$a) {
+   return qsort_do($a,0,count($a)-1);
+}
+
+function qsort_do(&$a,$l,$r) {
+   if ($l < $r) {
+      qsort_partition($a,$l,$r,$lp,$rp);
+      qsort_do($a,$l,$lp);
+      qsort_do($a,$rp,$r);
+   }
+
    return $a;
 }
 
-function qsort_do($a,$l,$r) {
-   if ($l < $r) {
-      qsort_partition(&$a,$l,$r,&$lp,&$rp);
-      qsort_do(&$a,$l,$lp);
-      qsort_do(&$a,$rp,$r);
-   }
-}
-
-function qsort_partition($a,$l,$r,$lp,$rp) {
+function qsort_partition(&$a,$l,$r,&$lp,&$rp) {
    $i = $l+1;
    $j = $l+1;
 
@@ -361,7 +362,7 @@ function SmartUrlEncode($url){
             $value = implode("=", $buffer);
          }
       }
-      $finalqrystr=implode("&amp;", &$qryvalues);
+      $finalqrystr=implode("&amp;", $qryvalues);
       $finalURL=$tmpurl . $finalqrystr;
       return $finalURL;
    }
