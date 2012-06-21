@@ -182,7 +182,7 @@ function getYearsToNow($startYear, $curYear) {
  * @param array $issueSelection
  * @return array
  */
-function getIssueSelectionDetailedMgr($issueSelection) {
+function getIssueSelectionDetailedMgr(IssueSelection $issueSelection) {
 
    //$formatedList  = implode( ',', array_keys($issueSelection->getIssueList()));
 
@@ -198,7 +198,9 @@ function getIssueSelectionDetailedMgr($issueSelection) {
       'elapsed' => $issueSelection->elapsed,
       'remaining' => $issueSelection->durationMgr,
       'driftColor' => $formatteddriftMgrColor,
-      'drift' => round($valuesMgr['nbDays'],2)
+      'drift' => round($valuesMgr['nbDays'],2),
+      'progress' => round(100 * $issueSelection->getProgressMgr(),2),
+
    );
    return $selectionDetailedMgr;
 }

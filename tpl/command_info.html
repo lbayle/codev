@@ -164,6 +164,7 @@ $(document).ready(function() {
                   <th>{t}Elapsed{/t}</th>
                   <th>{t}Remaining Mgr{/t}</th>
                   <th style="width: 80px">{t}Drift Mgr{/t}</th>
+                  <th>{t}Progress{/t}</th>
                </tr>
                </thead>
                <tbody>
@@ -173,6 +174,8 @@ $(document).ready(function() {
                   <td>{$cmdDetailedMgr.elapsed}</td>
                   <td>{$cmdDetailedMgr.remaining}</td>
                   <td {$cmdDetailedMgr.driftColor} title="{t}nb days{/t}">{$cmdDetailedMgr.drift}</td>
+                  <td>{$cmdDetailedMgr.progress}%</td>
+
                </tr>
                </tbody>
             </table>

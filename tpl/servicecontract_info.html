@@ -141,6 +141,7 @@ $(document).ready(function() {
                   <th>{t}Elapsed{/t}</th>
                   <th>{t}Remaining Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
+                  <th>{t}Progress{/t}</th>
                </tr>
                </thead>
                <tbody>
@@ -154,6 +155,7 @@ $(document).ready(function() {
                      <td>{$cmdset.elapsed}</td>
                      <td>{$cmdset.remaining}</td>
                      <td {$cmdset.driftColor}>{$cmdset.drift}</td>
+                     <td>{$cmdset.progress}%</td>
                   </tr>
                   {/foreach}
                   <tr class="row_even">
@@ -165,6 +167,7 @@ $(document).ready(function() {
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
                      <td>{$cmdsetTotalDetailedMgr.remaining}</td>
                      <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
+                     <td>{$cmdsetTotalDetailedMgr.progress}%</td>
                   </tr>
 
                </tbody>
