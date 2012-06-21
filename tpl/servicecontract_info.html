@@ -124,6 +124,7 @@ $(document).ready(function() {
    <div id="tabsServiceContract">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+         <li><a href="#tabsName-2">{t}SideTasks ({$nbSidetasksList}){/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
@@ -276,6 +277,57 @@ $(document).ready(function() {
          </div>
          {else}
          {t}No Total found.{/t}
+         {/if}
+      </div>
+      <div id="tabsName-2">
+
+
+         {if $sidetasksList}
+
+         <script>
+         $(document).ready(function() {
+            $('#issues_table').dataTable(
+               {
+                  "sScrollY": "700px",
+                  "bPaginate": false,
+                  "bScrollCollapse": true,
+                  "bFilter": true,
+                  "bSort": true,
+                  "bInfo": false,
+                  "bAutoWidth": false
+               });
+         });
+         </script>
+
+         <div align="center">
+         <table id="issues_table" class="display">
+            <thead>
+            <tr>
+                  <th>{t}ID{/t}</th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Category{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Summary{/t}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $sidetasksList as $id => $issue}
+            <tr>
+                  <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
+                  <td>{$issue.bugid}</td>
+                  <td>{$issue.project}</td>
+                  <td>{$issue.category}</td>
+                  <td>{$issue.effortEstim}</td>
+                  <td>{$issue.elapsed}</td>
+                  <td>{$issue.summary}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         </div>
+         {else}
+         {t}No task found.{/t}
          {/if}
       </div>
 

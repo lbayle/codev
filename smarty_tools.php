@@ -205,4 +205,43 @@ function getIssueSelectionDetailedMgr(IssueSelection $issueSelection) {
    return $selectionDetailedMgr;
 }
 
+
+/**
+ * get issues attributes
+ *
+ * @param IssueSelection $issueSelection
+ * @return array
+ */
+function getIssueListInfo(IssueSelection $issueSelection) {
+
+   $issueArray = array();
+
+   $issues = $issueSelection->getIssueList();
+   foreach ($issues as $id => $issue) {
+
+      $driftMgr = $issue->getDriftMgr();
+      $driftMgrColor = $issue->getDriftColor($driftMgr);
+      $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
+
+      $issueInfo = array();
+      $issueInfo["mantisLink"] = mantisIssueURL($issue->bugId, NULL, true);
+      $issueInfo["bugid"] = issueInfoURL(sprintf("%07d\n",   $issue->bugId));
+      $issueInfo["project"] = $issue->getProjectName();
+      $issueInfo["target"] = $issue->getTargetVersion();
+      $issueInfo["status"] = $issue->getCurrentStatusName();
+      $issueInfo["progress"] = round(100 * $issue->getProgress());
+      $issueInfo["effortEstim"] = $issue->mgrEffortEstim;
+      $issueInfo["elapsed"] = $issue->elapsed;
+      $issueInfo["driftMgr"] = $driftMgr;
+      $issueInfo["driftMgrColor"] = $formattedDriftMgrColor;
+      $issueInfo["durationMgr"] = $issue->getDurationMgr();
+      $issueInfo["summary"] = $issue->summary;
+      $issueInfo["category"] = $issue->getCategoryName();
+
+      $issueArray[$id] = $issueInfo;
+   }
+   return $issueArray;
+}
+
+
 ?>

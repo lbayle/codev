@@ -147,6 +147,24 @@ function getServiceContractCmdsetTotalDetailedMgr($servicecontractid, $cset_type
 }
 
 
+function getContractSidetasksSelection($servicecontractid) {
+
+   if (0 != $servicecontractid) {
+
+      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+      $sidetasksPerCategory = $contract->getSidetasksPerCategory();
+
+      $issueSelection = new IssueSelection("TotalSideTasks");
+      foreach ($sidetasksPerCategory as $id => $iSel) {
+         $issueSelection->addIssueList($iSel->getIssueList());
+
+      }
+   }
+   return $issueSelection;
+}
+
+
 /**
  *
  * @param int $servicecontractid
@@ -181,26 +199,28 @@ function getContractSidetasksDetailedMgr($servicecontractid) {
  * @param int $servicecontractid
  * @return array
  */
-function getContractSidetasksTotalDetailedMgr($servicecontractid) {
-
-   if (0 != $servicecontractid) {
-
-      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-      $sidetasksPerCategory = $contract->getSidetasksPerCategory();
-
-      $issueSelection = new IssueSelection("TotalSideTasks");
-      foreach ($sidetasksPerCategory as $id => $iSel) {
-         $issueSelection->addIssueList($iSel->getIssueList());
-
-      }
-   }
+function getContractSidetasksTotalDetailedMgr(IssueSelection $issueSelection) {
 
    $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
-   $detailledMgr['name'] = $issueSelection->name;
+   $detailledMgr['name'] = "TotalSideTasks";
 
    return $detailledMgr;
 }
+
+/**
+ * info on each sidetask
+ *
+ * @param int $servicecontractid
+ * @return array
+ */
+function getContractSidetasksInfo(IssueSelection $issueSelection) {
+
+   $issueArray = getIssueListInfo($issueSelection);
+   $issueArray['name'] = "sideTasksList";
+
+   return $issueArray;
+}
+
 
 /**
  *
@@ -259,7 +279,11 @@ function displayServiceContract($smartyHelper, $servicecontract) {
 
    $smartyHelper->assign('projectList', getServiceContractProjects($servicecontract->getId()));
    $smartyHelper->assign('sidetasksDetailedMgr', getContractSidetasksDetailedMgr($servicecontract->getId()));
-   $smartyHelper->assign('sidetasksTotalDetailedMgr', getContractSidetasksTotalDetailedMgr($servicecontract->getId()));
+
+   $issueSelection = getContractSidetasksSelection($servicecontract->getId());
+   $smartyHelper->assign('sidetasksTotalDetailedMgr', getContractSidetasksTotalDetailedMgr($issueSelection));
+   $smartyHelper->assign('sidetasksList', getContractSidetasksInfo($issueSelection));
+   $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
 
    $smartyHelper->assign('servicecontractTotalDetailedMgr', getContractTotalDetailedMgr($servicecontract->getId()));
 
