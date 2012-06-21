@@ -202,7 +202,7 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display Empty Command Form
       // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-      $smartyHelper->assign('contractInfoFormBtText', 'Create');
+      $smartyHelper->assign('contractInfoFormBtText', T_('Create'));
       $smartyHelper->assign('contractInfoFormAction', 'createContract');
    }
 
@@ -251,12 +251,18 @@ if (isset($_SESSION['userid'])) {
          $projectid = checkNumericValue($_POST['projectid']);
          $contract->removeSidetaskProject($projectid);
 
+      } else if ("deleteContract" == $action) {
+
+         $logger->debug("delete ServiceContract servicecontractid (".$contract->getName().")");
+         ServiceContract::delete($servicecontractid);
+         unset($_SESSION['servicecontractid']);
+         header('Location:servicecontract_info.php');
       }
 
       // ------ Display ServiceContract
 
       $smartyHelper->assign('servicecontractid', $servicecontractid);
-      $smartyHelper->assign('contractInfoFormBtText', 'Save');
+      $smartyHelper->assign('contractInfoFormBtText', T_('Save'));
       $smartyHelper->assign('contractInfoFormAction', 'updateContractInfo');
 
       $commandsetCandidates = getCmdSetCandidates($session_user);

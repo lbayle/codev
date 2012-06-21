@@ -17,10 +17,67 @@ jQuery(document).ready(function() {
       jQuery( "#tabsContract" ).tabs();
    });
 
+   // --- DialogBox for deleteCommandSet
+   jQuery(document).ready(function() {
+
+      jQuery("#btDeleteContract").click(function(event) {
+         jQuery( "#deleteContract_dialog_form" ).dialog( "open" );
+      });
+
+      // delete track dialogBox
+      jQuery("#deleteContract_dialog_form" ).dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         modal: true,
+         buttons: {
+            "Delete": function() {
+               jQuery("#formDeleteContract").submit();
+            },
+            Cancel: function() {
+               jQuery( this ).dialog( "close" );
+            }
+         }
+      });
+   });
+
+
 });
 
 </script>
 
+
+<!-- DialogBox for deleteContract -->
+<div id="deleteContract_dialog_form" title="{t}Delete ServiceContract{/t}" style="display: none">
+   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+      {t}Delete this ServiceContract ?{/t}
+   </p>
+   <table class="invisible">
+      <tr>
+         <th>{t}Reference{/t}</th>
+         <td valign='top'>: </td>
+         <td>{$servicecontractReference}</td>
+      </tr>
+      <tr>
+         <td><span style="font-weight:bold;">{t}Name{/t}</span></td>
+         <td>: </td>
+         <td>{$servicecontractName}</td>
+      </tr>
+      <tr>
+         <td><span style="font-weight:bold;">{t}Nb CommandSets{/t}</span></td>
+         <td>: </td>
+         <td>{$nbCommandSets}</td>
+      </tr>
+   </table>
+   <form id="formDeleteContract" name="formDeleteContract" method="post" action="{$page}" >
+      <fieldset>
+         <input type="hidden" name="action" value="deleteContract" />
+         <input type="hidden" name="servicecontractid"  value="{$servicecontractid}" />
+         <input type="hidden" name="teamid" value="{$teamid}" />
+
+      </fieldset>
+   </form>
+</div>
 
 <div id="content">
 
@@ -90,7 +147,8 @@ jQuery(document).ready(function() {
                </tr>
          </table>
          <br>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$contractInfoFormBtText}{/t}</button>
+         <button type='button' name="btDeleteContract" id="btDeleteContract"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$contractInfoFormBtText}</button>
 
          <input type="hidden" name="action" value="{$contractInfoFormAction}" />
          <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
