@@ -150,6 +150,45 @@ class CommandSet {
       return $id;
    }
 
+   /**
+    * delete a commandset
+    *
+    * @return int $id
+    */
+   public static function delete($id) {
+
+    $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `commandset_id`='$id';";
+    $result = mysql_query($query);
+    if (!$result) {
+       $this->logger->error("Query FAILED: $query");
+       $this->logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+       #exit;
+    }
+
+    $query = "DELETE FROM `codev_commandset_cmd_table` WHERE `commandset_id`='$id';";
+    $result = mysql_query($query);
+    if (!$result) {
+       $this->logger->error("Query FAILED: $query");
+       $this->logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+       #exit;
+    }
+
+    $query = "DELETE FROM `codev_commandset_table` WHERE `id`='$id';";
+    $result = mysql_query($query);
+    if (!$result) {
+       $this->logger->error("Query FAILED: $query");
+       $this->logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+       exit;
+    }
+    $id = mysql_insert_id();
+    return $id;
+   }
+
+
+
    public function getId() {
       return $this->id;
    }

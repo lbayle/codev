@@ -182,7 +182,7 @@ class Command {
    }
 
    /**
-    * create a new command in the DB
+    * delete a command
     *
     * @return int $id
     */
@@ -212,7 +212,7 @@ class Command {
        $this->logger->error("Query FAILED: $query");
        $this->logger->error(mysql_error());
        echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       #exit;
+       exit;
     }
     $id = mysql_insert_id();
     return $id;

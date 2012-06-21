@@ -168,7 +168,7 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display Empty Command Form
       // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-      $smartyHelper->assign('cmdsetInfoFormBtText', 'Create');
+      $smartyHelper->assign('cmdsetInfoFormBtText', T_('Create'));
       $smartyHelper->assign('cmdsetInfoFormAction', 'createCmdset');
    }
 
@@ -203,18 +203,30 @@ if (isset($_SESSION['userid'])) {
          $_SESSION['teamid'] = $teamid;
 
          updateCommandSetInfo($cmdset);
+
+      } else if ("deleteCommandSet" == $action) {
+
+         $logger->debug("delete CommandSet $commandsetid (".$cmdset->getName().")");
+         CommandSet::delete($commandsetid);
+         unset($_SESSION['commandsetid']);
+         header('Location:commandset_info.php');
       }
 
       // ------ Display CommandSet
 
       $smartyHelper->assign('commandsetid', $commandsetid);
-      $smartyHelper->assign('cmdsetInfoFormBtText', 'Save');
+      $smartyHelper->assign('cmdsetInfoFormBtText', T_('Save'));
       $smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
       $smartyHelper->assign('isAddCmdForm', true);
 
       $cmdCandidates = getCmdSetCandidates($session_user);
       $smartyHelper->assign('cmdCandidates', $cmdCandidates);
       $smartyHelper->assign('isAddCmdSetForm', true);
+
+      // set CommandSets I belong to
+      $parentContracts = getParentContracts($cmdset);
+      $smartyHelper->assign('parentContracts', $parentContracts);
+      $smartyHelper->assign('nbParentContracts', count($parentContracts));
 
       displayCommandSet($smartyHelper, $cmdset);
 

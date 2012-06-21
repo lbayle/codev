@@ -32,14 +32,10 @@
    });
 
    // --- DialogBox for deleteCommand
-   function deleteCommand(){
-      jQuery( "#deleteCommand_dialog_form" ).dialog( "open" );
-   }
-
    jQuery(document).ready(function() {
 
       jQuery("#btDeleteCommand").click(function(event) {
-         deleteCommand();
+         jQuery( "#deleteCommand_dialog_form" ).dialog( "open" );
       });
 
       // delete track dialogBox
@@ -184,8 +180,8 @@
                </tr>
          </table>
          <br>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdInfoFormBtText}</button>
          <button type='button' name="btDeleteCommand" id="btDeleteCommand"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdInfoFormBtText}</button>
 
          <input type="hidden" name="action" value="{$cmdInfoFormAction}" />
          <input type="hidden" name="cmdid" value="{$commandid}" />
