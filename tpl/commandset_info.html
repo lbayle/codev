@@ -63,10 +63,10 @@ $(document).ready(function() {
             </select>
             <label>{t}CommandSet{/t}: </label>
             <select id='commandsetSelector' name='commandsetid'>
-               <option value='0'>{t}--- Create New CommandSet ---{/t}</option>
                {foreach from=$commandsets key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
+               <option value='0'>{t}--- Create New CommandSet ---{/t}</option>
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
             
@@ -90,6 +90,11 @@ $(document).ready(function() {
 
    <div>
       <table class='invisible'>
+            <tr>
+               <th>{t}Reference{/t}</th>
+               <td valign='top'>: </td>
+               <td>{$commandsetReference}</td>
+            </tr>
             <tr>
                <th>{t}Date{/t}</th>
                <td valign='top'>: </td>

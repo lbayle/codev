@@ -48,6 +48,9 @@ function updateCommandSetInfo($cmdset) {
    $formattedValue = mysql_real_escape_string($_POST['commandsetName']);
    $cmdset->setName($formattedValue);
 
+   $formattedValue = mysql_real_escape_string($_POST['commandsetReference']);
+   $cmdset->setReference($formattedValue);
+
    $formattedValue = mysql_real_escape_string($_POST['commandsetDesc']);
    $cmdset->setDesc($formattedValue);
 

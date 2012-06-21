@@ -63,10 +63,10 @@ $(document).ready(function() {
             </select>
             <label>{t}ServiceContract{/t}: </label>
             <select id='servicecontractSelector' name='servicecontractid'>
-               <option value='0'>{t}--- Create New ServiceContract ---{/t}</option>
                {foreach from=$servicecontracts key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
+               <option value='0'>{t}--- Create New ServiceContract ---{/t}</option>
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
 

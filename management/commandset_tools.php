@@ -137,6 +137,7 @@ function displayCommandSet($smartyHelper, CommandSet $commandset) {
    #$smartyHelper->assign('commandsetId', $commandset->getId());
    $smartyHelper->assign('teamid',               $commandset->getTeamid());
    $smartyHelper->assign('commandsetName',       $commandset->getName());
+   $smartyHelper->assign('commandsetReference',  $commandset->getReference());
    $smartyHelper->assign('commandsetDesc',       $commandset->getDesc());
    $smartyHelper->assign('commandsetBudget',     $commandset->getBudgetDays());
    $smartyHelper->assign('commandsetCost',       $commandset->getCost());

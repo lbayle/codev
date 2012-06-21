@@ -62,6 +62,7 @@ class CommandSet {
    // codev_commandset_table
    private $id;
    private $name;
+   private $reference;
    private $description;
    private $state;
    private $date;
@@ -103,6 +104,7 @@ class CommandSet {
       }
       $row = mysql_fetch_object($result);
       $this->name        = $row->name;
+      $this->reference        = $row->reference;
       $this->description = $row->description;
       $this->date        = $row->date;
       $this->teamid      = $row->team_id;
@@ -224,6 +226,23 @@ class CommandSet {
          $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
+      }
+   }
+
+
+   public function getReference() {
+      return $this->reference;
+   }
+   public function setReference($value) {
+
+      $this->reference = $value;
+      $query = "UPDATE `codev_commandset_table` SET reference = '$value' WHERE id='$this->id' ";
+      $result = mysql_query($query);
+      if (!$result) {
+             $this->logger->error("Query FAILED: $query");
+             $this->logger->error(mysql_error());
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
       }
    }
 
