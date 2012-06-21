@@ -1,95 +1,27 @@
 <?php
-include_once('../include/session.inc.php');
-
+require('../include/session.inc.php');
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once '../path.inc.php';
+require('../path.inc.php');
 
-include_once 'i18n.inc.php';
+require('super_header.inc.php');
 
-$page_name = T_("Weekly activities");
-require_once 'header.inc.php';
-
-require_once 'login.inc.php';
-require_once 'menu.inc.php';
-?>
-<br/>
-<?php include 'menu_week_activity.inc.php'; ?>
-
-
-<script language="JavaScript">
-  function submitForm() {
-  // TODO: check teamid presence
-    document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-    document.forms["form1"].weekid.value = document.getElementById('weekidSelector').value;
-    document.forms["form1"].year.value   = document.getElementById('yearSelector').value;
-    document.forms["form1"].action.value = "updateWeekDisplay";
-    document.forms["form1"].is_modified.value= "true";
-    document.forms["form1"].submit();
-  }
-
-  function previousWeek() {
-     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-
-     weekid = document.getElementById('weekidSelector').value;
-     year   = document.getElementById('yearSelector').value;
-
-     if (1 != weekid) {
-       document.forms["form1"].weekid.value = --weekid;
-       document.forms["form1"].year.value = year;
-     }
-
-     document.forms["form1"].action.value="updateWeekDisplay";
-     document.forms["form1"].submit();
-   }
-
-  function nextWeek() {
-     document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-
-     weekid = document.getElementById('weekidSelector').value;
-     year   = document.getElementById('yearSelector').value;
-
-     if (weekid <= 52) {
-       document.forms["form1"].weekid.value = ++weekid;
-       document.forms["form1"].year.value = year;
-     } else {
-        document.forms["form1"].weekid.value = 1;
-        document.forms["form1"].year.value = ++year;
-     }
-
-     document.forms["form1"].action.value="updateWeekDisplay";
-     document.forms["form1"].submit();
-  }
-
-
-   // ------ JQUERY ------
-   $(function() {
-      $( "#accordion" ).accordion({
-         collapsible: true, autoHeight: false, clearStyle: true
-      });
-   });
-
-
-</script>
-
-<div id="content" class="center">
-
-<?php
+include('../smarty_tools.php');
 
 include_once "issue.class.php";
 include_once "project.class.php";
@@ -99,266 +31,133 @@ include_once "holidays.class.php";
 
 $logger = Logger::getLogger("team_activity");
 
-// ------------------------------------------------
-function displayTeamAndWeekSelectionForm($leadedTeamList, $teamid, $weekid, $curYear=NULL, $isDetailed = false, $is_modified = "false") {
-
-  if (NULL == $curYear) { $curYear = date('Y'); }
-
-  echo "<div>\n";
-  echo "<form id='form1' name='form1' method='post' action='team_activity_report.php'>\n";
-
-  // -----------
-  echo T_("Team").": <select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
-  echo "<option value='0'></option>\n";
-  foreach ($leadedTeamList as $tid => $tname) {
-    if ($tid == $teamid) {
-      echo "<option selected value='".$tid."'>".$tname."</option>\n";
-    } else {
-      echo "<option value='".$tid."'>".$tname."</option>\n";
-    }
-  }
-  echo "</select>\n";
-
-
-  // -----------
-  echo T_("Week")." \n";
-  echo "<input type=button title='".T_("Previous week")."' value='<<' onClick='javascript: previousWeek()'>\n";
-  echo "<select id='weekidSelector' name='weekidSelector' onchange='javascript: submitForm()'>\n";
-  for ($i = 1; $i <= 53; $i++)
-  {
-    $wDates      = week_dates($i,$curYear);
-
-    if ($i == $weekid) {
-      echo "<option selected value='".$i."'>W".$i." | ".formatDate("%d %b", $wDates[1])." - ".formatDate("%d %b", $wDates[5])."</option>\n";
-    } else {
-      echo "<option value='".$i."'>W".$i." | ".formatDate("%d %b", $wDates[1])." - ".formatDate("%d %b", $wDates[5])."</option>\n";
-    }
-  }
-  echo "</select>\n";
-  echo "<select id='yearSelector' name='yearSelector' onchange='javascript: submitForm()'>\n";
-  for ($y = ($curYear -1); $y <= ($curYear +1); $y++) {
-
-    if ($y == $curYear) {
-      echo "<option selected value='".$y."'>".$y."</option>\n";
-    } else {
-      echo "<option value='".$y."'>".$y."</option>\n";
-    }
-  }
-  echo "</select>\n";
-  echo "<input type=button title='".T_("Next week")."' value='>>' onClick='javascript: nextWeek()'>\n";
-
-  $isChecked = $isDetailed ? "CHECKED" : "";
-  echo "&nbsp;<input type=CHECKBOX  $isChecked name='cb_detailed' id='cb_detailed' onChange='javascript: submitForm()'>".T_("Detailed")."</input>\n";
-
-
-  echo "<input type=hidden name=teamid  value=1>\n";
-  echo "<input type=hidden name=weekid  value=".date('W').">\n";
-  echo "<input type=hidden name=year    value=$curYear>\n";
-
-  echo "<input type=hidden name=action       value=noAction>\n";
-  echo "<input type=hidden name=is_modified value=$is_modified>\n";
-  echo "<input type=hidden name=currentForm  value=weekActivityReport>\n";
-  echo "<input type=hidden name=nextForm     value=weekActivityReport>\n";
-  echo "</form>\n";
-  echo "</div>\n";
-}
-
-
-// ------------------------------------------------
-function displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, $isDetailed = false) {
-
-  global $logger;
-
-  echo "<div>\n";
-
-  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
-    "FROM  `codev_team_user_table`, `mantis_user_table` ".
-    "WHERE  codev_team_user_table.team_id = $teamid ".
-    "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.realname";
-
-  $result = mysql_query($query);
-  if (!$result) {
-     $logger->error("Query FAILED: $query");
-     $logger->error(mysql_error());
-     echo "<span style='color:red'>ERROR: Query FAILED</span>";
-     exit;
-  }
-
-  while($row = mysql_fetch_object($result))
-  {
-  	// if user was working on the project during the timestamp
-  	$user = UserCache::getInstance()->getUser($row->user_id);
-  	if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
-       ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
-
-	    echo "<div align='left'>\n";
-	    echo "<br/>";
-      echo "<br/>";
-      if ($isDetailed) {
-	       displayWeekDetails($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getForecastWorkload());
-	    } else {
-	       displayWeek($weekid, $weekDates, $row->user_id, $timeTracking, $row->realname, $user->getForecastWorkload());
-	    }
-	    echo "</div>";
-  	}
-
-  }
-
-  echo "</div>\n";
-
-}
-
-// ------------------------------------------------
-function displayWeekDetails($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
-
-  global $logger;
-  $holidays = Holidays::getInstance();
-
-  // PERIOD week
-  //$thisWeekId=date("W");
-
-  $weekTracks = $timeTracking->getWeekDetails($userid, false);
-  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='".T_("sum(Remaining) of current tasks")."'>".T_("workload")." = $workload</span><br/>\n";
-  echo "<table width='100%'>\n";
-  //echo "<caption>".$realname."</caption>\n";
-  echo "<tr>\n";
-  echo "<th width='50%'>".T_("Task")."</th>\n";
-  echo "<th width='1%'>".T_("RAF")."</th>\n";
-  echo "<th width='1%'>".T_("Progress")."</th>\n";
-  echo "<th width='7%'>".T_("Project")."</th>\n";
-  echo "<th width='5' title='".T_("Target version")."'>".T_("Target")."</th>\n";
-  echo "<th width='10%'>".T_("Job")."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[1])."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[2])."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[3])."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[4])."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[5])."</th>\n";
-  echo "<th width='10' style='background-color: #D8D8D8;' >".formatDate("%A %d %b", $weekDates[6])."</th>\n";
-  echo "<th width='10' style='background-color: #D8D8D8;' >".formatDate("%A %d %b", $weekDates[7])."</th>\n";
-  echo "</tr>\n";
-  foreach ($weekTracks as $bugid => $jobList) {
-    $issue = IssueCache::getInstance()->getIssue($bugid);
-    foreach ($jobList as $jobid => $dayList) {
-
-      $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-      $result = mysql_query($query);
-      if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+function getDaysDetails($i, Holidays $holidays, $weekDates, $duration) {
+   $bgColor = NULL;
+   $title = NULL;
+   if ($i < 6) {
+      $h = $holidays->isHoliday($weekDates[$i]);
+      if ($h) {
+         $bgColor = $h->color;
+         //$bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
+         $title = $h->description;
       }
-      $jobName = mysql_result($result, 0);
+   }
+   else {
+      $bgColor = Holidays::$defaultColor;
+   }
 
-      echo "<tr>\n";
-      echo "<td>".mantisIssueURL($bugid, NULL, true).' '.issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-      echo "<td>".$issue->getDuration()."</td>\n";
-      echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
-      echo "<td>".$issue->getProjectName()."</td>\n";
-      echo "<td>".$issue->getTargetVersion()."</td>\n";
-      echo "<td>".$jobName."</td>\n";
-      for ($i = 1; $i <= 5; $i++) {
+   return array("color" => $bgColor,
+      "title" => $title,
+      "duration" => $duration
+   );
+}
 
-         $h = $holidays->isHoliday($weekDates[$i]);
-         if ($h) {
-            #$bgColor = "style='background-color: #".$h->color.";'";
-            $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-            $title = "title='".$h->description."'";
-         } else {
-            $bgColor = "";
-            $title = "";
+function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekDates) {
+   global $logger;
+
+   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname " .
+      "FROM  `codev_team_user_table`, `mantis_user_table` " .
+      "WHERE  codev_team_user_table.team_id = $teamid " .
+      "AND    codev_team_user_table.user_id = mantis_user_table.id " .
+      "ORDER BY mantis_user_table.realname";
+
+   $result = mysql_query($query);
+   if (!$result) {
+      $logger->error("Query FAILED: $query");
+      $logger->error(mysql_error());
+      return NULL;
+   }
+
+   $weekDetails = array();
+   while ($row = mysql_fetch_object($result)) {
+      // if user was working on the project during the timestamp
+      $user = UserCache::getInstance()->getUser($row->user_id);
+
+      if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
+         ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
+
+         // PERIOD week
+         //$thisWeekId=date("W");
+
+         $weekTracks = $timeTracking->getWeekDetails($row->user_id, !$isDetailed);
+         $holidays = Holidays::getInstance();
+
+         $weekJobDetails = array();
+         foreach ($weekTracks as $bugid => $jobList) {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            if ($isDetailed) {
+               foreach ($jobList as $jobid => $dayList) {
+                  $query = 'SELECT name FROM `codev_job_table` WHERE id='.$jobid.';';
+                  $result2 = mysql_query($query);
+                  if (!$result2) {
+                     $logger->error("Query FAILED: $query");
+                     $logger->error(mysql_error());
+                     continue;
+                  }
+                  $jobName = mysql_result($result2, 0);
+
+                  $daysDetails = array();
+                  for ($i = 1; $i <= 7; $i++) {
+                     $daysDetails[] = getDaysDetails($i, $holidays, $weekDates, $dayList[$i]);
+                  }
+
+                  $weekJobDetails[] = array(
+                     "url" => mantisIssueURL($bugid, NULL, TRUE) . ' ' . issueInfoURL($bugid) . " / " . $issue->tcId . " : " . $issue->summary,
+                     "duration" => $issue->getDuration(),
+                     "progress" => round(100 * $issue->getProgress()),
+                     "projectName" => $issue->getProjectName(),
+                     "targetVersion" => $issue->getTargetVersion(),
+                     "jobName" => $jobName,
+                     "daysDetails" => $daysDetails
+                  );
+               }
+            } else {
+               // for each day, concat jobs duration
+               $daysDetails = array();
+               for ($i = 1; $i <= 7; $i++) {
+                  $duration = 0;
+                  foreach ($jobList as $jobid => $dayList) {
+                     $duration += $dayList[$i];
+                  }
+                  if($duration == 0) {
+                     $duration = "";
+                  }
+                  $daysDetails[] = getDaysDetails($i, $holidays, $weekDates, $duration);
+               }
+
+               $weekJobDetails[] = array(
+                  "url" => mantisIssueURL($bugid, NULL, TRUE) . ' ' . issueInfoURL($bugid) . " / " . $issue->tcId . " : " . $issue->summary,
+                  "duration" => $issue->getDuration(),
+                  "progress" => round(100 * $issue->getProgress()),
+                  "projectName" => $issue->getProjectName(),
+                  "targetVersion" => $issue->getTargetVersion(),
+                  "daysDetails" => $daysDetails
+               );
+            }
          }
 
-         echo "<td $bgColor $title>".$dayList[$i]."</td>\n";
+         $weekDetails[] = array(
+            'realname' => $row->realname,
+            'forecastWorkload' => $user->getForecastWorkload(),
+            'weekDates' => array(formatDate("%A %d %B", $weekDates[1]),formatDate("%A %d %B", $weekDates[2]),
+               formatDate("%A %d %B", $weekDates[3]),formatDate("%A %d %B", $weekDates[4]),
+               formatDate("%A %d %B", $weekDates[5])),
+            'weekEndDates' => array(formatDate("%A %d %B", $weekDates[6]),formatDate("%A %d %B", $weekDates[7])),
+            'weekJobDetails' => $weekJobDetails
+         );
       }
-         for ($i = 6; $i <= 7; $i++) {
-            echo "<td style='background-color: #D8D8D8;' >".$dayList[$i]."</td>\n";
-         }
-      echo "</tr>\n";
-    }
-  }
-  echo "</table>\n";
+   }
+   return $weekDetails;
 }
 
-
-// ------------------------------------------------
-function displayWeek($weekid, $weekDates, $userid, $timeTracking, $realname, $workload) {
-
-   $holidays = Holidays::getInstance();
-
-   // PERIOD week
-  //$thisWeekId=date("W");
-
-  $weekTracks = $timeTracking->getWeekDetails($userid, true);
-  echo "<span class='caption_font'>$realname</span> &nbsp;&nbsp;&nbsp; <span title='".T_("sum(Remaining) of current tasks")."'>".T_("workload")." = $workload</span><br/>\n";
-  echo "<table width='100%'>\n";
-  //echo "<caption>".$realname."</caption>\n";
-  echo "<tr>\n";
-  echo "<th width='50%'>".T_("Task")."</th>\n";
-  echo "<th width='1%'>".T_("RAF")."</th>\n";
-  echo "<th width='1%'>".T_("Progress")."</th>\n";
-  echo "<th width='7%'>".T_("Project")."</th>\n";
-  echo "<th width='5' title='".T_("Target version")."'>".T_("Target")."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[1])."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[2])."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[3])."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[4])."</th>\n";
-  echo "<th width='10'>".formatDate("%A %d %b", $weekDates[5])."</th>\n";
-  echo "<th width='10' style='background-color: #D8D8D8;' >".formatDate("%A %d %b", $weekDates[6])."</th>\n";
-  echo "<th width='10' style='background-color: #D8D8D8;' >".formatDate("%A %d %b", $weekDates[7])."</th>\n";
-  echo "</tr>\n";
-  foreach ($weekTracks as $bugid => $jobList) {
-    $issue = IssueCache::getInstance()->getIssue($bugid);
-
-    echo "<tr>\n";
-    echo "<td>".mantisIssueURL($bugid, NULL, true).' '.issueInfoURL($bugid)." / ".$issue->tcId." : ".$issue->summary."</td>\n";
-    echo "<td>".$issue->getDuration()."</td>\n";
-    echo "<td>".round(100 * $issue->getProgress())."%</td>\n";
-    echo "<td>".$issue->getProjectName()."</td>\n";
-    echo "<td>".$issue->getTargetVersion()."</td>\n";
-
-
-    // for each day, concat jobs duration
-    for ($i = 1; $i <= 7; $i++) {
-       $duration = 0;
-       foreach ($jobList as $jobid => $dayList) {
-          $duration += $dayList[$i];
-       }
-       if (0 == $duration) { $duration = ""; }
-       if ($i < 6) {
-          $h = $holidays->isHoliday($weekDates[$i]);
-          if ($h) {
-             #$bgColor = "style='background-color: #".$h->color.";'";
-             $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-             $title = "title='".$h->description."'";
-          } else {
-             $bgColor = "";
-             $title   = "";
-          }
-          echo "<td $bgColor $title>".$duration."</td>\n";
-
-       } else {
-          echo "<td style='background-color: #".Holidays::$defaultColor.";' >".$duration."</td>\n";
-       }
-    }
-    echo "</tr>\n";
-  }
-  echo "</table>\n";
-}
-
-
-
-
-function displayCheckWarnings($timeTracking) {
-
+function displayCheckWarnings(TimeTracking $timeTracking) {
    global $logger;
 
    $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
-         "FROM  `codev_team_user_table`, `mantis_user_table` ".
-         "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
-         "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-         "ORDER BY mantis_user_table.username";
+      "FROM  `codev_team_user_table`, `mantis_user_table` ".
+      "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
+      "AND    codev_team_user_table.user_id = mantis_user_table.id ".
+      "ORDER BY mantis_user_table.username";
 
    // FIXME AND user is not Observer
 
@@ -366,19 +165,11 @@ function displayCheckWarnings($timeTracking) {
    if (!$result) {
       $logger->error("Query FAILED: $query");
       $logger->error(mysql_error());
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
+      return NULL;
    }
 
-   echo "<div align='center'>";
-   echo "<div id='accordion' style='width:450px;' >\n";
-   echo "<h3><a href='#'>".T_("Dates manquantes")."</a></h3>\n";
-
-   echo "<div align='left' style='height:250px;'>\n";
-   echo "<table class='invisible'>\n";
-
-   while($row = mysql_fetch_object($result))
-   {
+   $warnings = array();
+   while($row = mysql_fetch_object($result)) {
       $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
       foreach ($incompleteDays as $date => $value) {
 
@@ -388,17 +179,17 @@ function displayCheckWarnings($timeTracking) {
 
          $formatedDate = date("Y-m-d", $date);
 
-         echo "<tr style='color:red'>\n";
-         echo "<td>$row->username</td>\n";
-         echo "<td>$formatedDate</td>\n";
-
+         $label = NULL;
          if ($value < 1) {
-            echo "<td>".T_("incomplete (missing ").(1-$value).T_(" days").").</td>\n";
+            $label = T_("incomplete (missing ").(1-$value).T_(" days").")";
          } else {
-            echo "<td>".T_("inconsistent")." (".($value)." ".T_("days").").</td>\n";
+            $label = T_("inconsistent")." (".($value)." ".T_("days").")";
          }
-         echo "</tr>\n";
 
+         $warnings[] = array("username" => $row->username,
+            "date" => $formatedDate,
+            "label" => $label
+         );
       }
 
       $missingDays = $timeTracking->checkMissingDays($row->user_id);
@@ -409,89 +200,62 @@ function displayCheckWarnings($timeTracking) {
 
          $formatedDate = date("Y-m-d", $date);
 
-         echo "<tr style='color:red'>\n";
-         echo "<td>$row->username</td>\n";
-         echo "<td>$formatedDate</td>\n";
-
-         echo "<td>".T_("not defined.")."</td>\n";
-         echo "</tr>\n";
+         $warnings[] = array("username" => $row->username,
+            "date" => $formatedDate,
+            "label" => T_("not defined.")
+         );
       }
    }
-   echo "</table>\n";
-   echo "</div>\n";
 
-   echo "</div>\n";
-   echo "</div>\n";
+   return $warnings;
 }
-
-
-
-
 
 // ================ MAIN =================
-$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
+require('display.inc.php');
 
-$userid = $_SESSION['userid'];
+$smartyHelper = new SmartyHelper();
+$smartyHelper->assign('pageName', T_('Weekly activities'));
 
-// use the teamid set in the form, if not defined (first page call) use session teamid
-if (isset($_POST['teamid'])) {
-   $teamid = $_POST['teamid'];
-   $_SESSION['teamid'] = $teamid;
-} else {
-   $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+if(isset($_SESSION['userid'])) {
+   $user = UserCache::getInstance()->getUser($_SESSION['userid']);
+   // are team members allowed to see other member's timeTracking ?
+   $teamList = $user->getTeamList();
+
+   if (count($teamList) > 0) {
+      // use the teamid set in the form, if not defined (first page call) use session teamid
+      if (isset($_POST['teamid'])) {
+         $teamid = $_POST['teamid'];
+      } else {
+         $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+      }
+
+      $smartyHelper->assign('teams',getTeams($teamList,$teamid));
+
+      $year = getSecurePOSTIntValue('year', date('Y'));
+      $weekid = getSecurePOSTIntValue('weekid', date('W'));
+
+      $smartyHelper->assign('weeks', getWeeks($weekid, $year));
+      $smartyHelper->assign('years', getYears($year,1));
+
+      $isDetailed = isset($_POST['cb_detailed']) ? TRUE : FALSE;
+
+      $smartyHelper->assign('isChecked', $isDetailed);
+
+      if (array_key_exists($teamid,$teamList)) {
+         $_SESSION['teamid'] = $teamid;
+
+         $weekDates = week_dates($weekid,$year);
+         $startTimestamp = $weekDates[1];
+         $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
+         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+
+         $smartyHelper->assign('weekDetails', getWeekDetails($teamid, $timeTracking, $isDetailed, $weekDates));
+
+         $smartyHelper->assign('warnings', displayCheckWarnings($timeTracking));
+      }
+   }
 }
 
-// 'is_modified' is used because it's not possible to make a difference
-// between an unchecked checkBox and an unset checkbox variable
-$is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
-if ("false" == $is_modified) {
-   $isDetailed = false;
-} else {
-   $isDetailed   = isset($_POST['cb_detailed']) ? true : false;
-}
-
-// ------
-
-$user = UserCache::getInstance()->getUser($userid);
-$mTeamList = $user->getDevTeamList();    // are team members allowed to see other member's timeTracking ?
-$lTeamList = $user->getLeadedTeamList();
-$oTeamList = $user->getObservedTeamList();
-$managedTeamList = $user->getManagedTeamList();
-$teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
-
-if (0 == count($teamList)) {
-	echo T_("Sorry, you do NOT have access to this page.");
-
-} else {
-
-	$action = isset($_POST['action']) ? $_POST['action'] : '';
-	$weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
-
-   echo "<div class='center'>";
-   echo "<h2>".T_("Weekly Activity")."</h2><br/>";
-   echo "</div>";
-
-   displayTeamAndWeekSelectionForm($teamList, $teamid, $weekid, $year, $isDetailed, $is_modified);
-
-	if (isset($teamList["$teamid"]) && (NULL != $teamList["$teamid"])) {
-
-	   $weekDates      = week_dates($weekid,$year);
-		$startTimestamp = $weekDates[1];
-	   $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
-	   $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-
-      echo "<br/><br/>\n";
-	   displayWeekActivityReport($teamid, $weekid, $weekDates, $timeTracking, $isDetailed);
-
-      echo "<br/><br/>\n";
-      displayCheckWarnings($timeTracking);
-
-	}
-}
-
+$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 
 ?>
-
-</div>
-
-<?php include 'footer.inc.php'; ?>
