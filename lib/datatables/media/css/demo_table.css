@@ -151,9 +151,10 @@ table.display {
 
 table.display thead th {
 	padding: 3px 18px 3px 10px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid white;
 	font-weight: bold;
 	cursor: pointer;
+   background-color: #c8c8e8;
 	* cursor: hand;
 }
 
@@ -211,6 +212,7 @@ th:active {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables row classes
  */
+
 table.display tr.odd.gradeA {
 	background-color: #ddffdd;
 }
