@@ -134,8 +134,8 @@ $(document).ready(function() {
                <thead>
                <tr>
                   <!--th></th-->
-                  <th>{t}CommandSet{/t}</th>
-                  <th>{t}Team{/t}</th>
+                  <th width="400">{t}CommandSet{/t}</th>
+                  <th width="100">{t}Team{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
@@ -184,7 +184,7 @@ $(document).ready(function() {
                <thead>
                <tr>
                   <!--th></th-->
-                  <th>{t}Category{/t}</th>
+                  <th width="500">{t}Category{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
@@ -231,7 +231,7 @@ $(document).ready(function() {
                <thead>
                <tr>
                   <!--th></th-->
-                  <th></th>
+                  <th width="500"></th>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
@@ -242,30 +242,30 @@ $(document).ready(function() {
                <tbody>
                   <tr>
                      <!--td></td-->
-                     <td title="{$id}"  align='left'>{t}Tasks{/t}</td>
+                     <td align='left'>{t}Tasks{/t}</td>
                      <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                      <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
                      <td>{$cmdsetTotalDetailedMgr.remaining}</td>
-                     <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
+                     <td>{$cmdsetTotalDetailedMgr.drift}</td>
                   </tr>
                   <tr>
                      <!--td></td-->
-                     <td title="{$id}"  align='left'>{t}SideTasks{/t}</td>
+                     <td align='left'>{t}SideTasks{/t}</td>
                      <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
                      <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
                      <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
                      <td>{$sidetasksTotalDetailedMgr.remaining}</td>
-                     <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
+                     <td>{$sidetasksTotalDetailedMgr.drift}</td>
                   </tr>
                   <tr class="row_even">
                      <!--td></td-->
-                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
-                     <td>{$servicecontractTotalDetailedMgr.effortEstim}</td>
-                     <td>{$servicecontractTotalDetailedMgr.reestimated}</td>
-                     <td>{$servicecontractTotalDetailedMgr.elapsed}</td>
-                     <td>{$servicecontractTotalDetailedMgr.remaining}</td>
-                     <td {$servicecontractTotalDetailedMgr.driftColor}>{$servicecontractTotalDetailedMgr.drift}</td>
+                     <td align='left'><b>{t}TOTAL{/t}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.effortEstim}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.reestimated}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.elapsed}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.remaining}</b></td>
+                     <td {$servicecontractTotalDetailedMgr.driftColor}><b>{$servicecontractTotalDetailedMgr.drift}</b></td>
                   </tr>
 
                </tbody>
