@@ -156,7 +156,8 @@ function getWeeks($weekid, $year) {
  * @return array The years
  */
 function getYears($year,$offset = 1) {
-   for ($y = ($year-$offset); $y <= ($year+offset); $y++) {
+   $years = array();
+   for ($y = ($year-$offset); $y <= ($year+$offset); $y++) {
       $years[] = array('id' => $y,
                        'selected' => $y == $year);
    }
