@@ -94,9 +94,9 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
                   $this->logger->error(mysql_error());
                   continue;
                }
-               while($row = mysql_fetch_object($result2)) {
-                  $jobName = $row->name;
-                  $dayList = $jobList[$row->id];
+               while($row2 = mysql_fetch_object($result2)) {
+                  $jobName = $row2->name;
+                  $dayList = $jobList[$row2->id];
 
                   $daysDetails = array();
                   for ($i = 1; $i <= 7; $i++) {
@@ -243,8 +243,14 @@ if(isset($_SESSION['userid'])) {
 
       $smartyHelper->assign('isChecked', $isDetailed);
 
-      if (array_key_exists($teamid,$teamList)) {
-         $_SESSION['teamid'] = $teamid;
+      if (array_key_exists($teamid,$teamList) || $teamid == 0) {
+         // If no team selected, select the first one, but not set the session with it.
+         if($teamid == 0) {
+            $teamidList = array_keys($teamList);
+            $teamid = $teamidList[0];
+         } else {
+            $_SESSION['teamid'] = $teamid;
+         }
 
          $weekDates = week_dates($weekid,$year);
          $startTimestamp = $weekDates[1];
