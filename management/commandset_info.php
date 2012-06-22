@@ -125,6 +125,14 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the CommandSet"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
+
+      // access rights
+      if (($session_user->isTeamManager($cmd->getTeamid())) ||
+          ($session_user->isTeamLeader($cmd->getTeamid()))) {
+
+         $smartyHelper->assign('isEditGranted', true);
+      }
+
    } else {
       unset($_SESSION['cmdid']);
       unset($_SESSION['servicecontractid']);

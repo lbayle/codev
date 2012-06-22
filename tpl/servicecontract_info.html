@@ -116,7 +116,9 @@ $(document).ready(function() {
             </tr>
       </table>
       <br>
+      {if $isEditGranted}
       <button onclick="location.href='management/servicecontract_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      {/if}
    </div>
 
    <div style="margin-top:6em;"></div>

@@ -150,7 +150,13 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
          $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the Command"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
-         
+      }
+
+      // access rights
+      if (($session_user->isTeamManager($cmd->getTeamid())) ||
+          ($session_user->isTeamLeader($cmd->getTeamid()))) {
+
+         $smartyHelper->assign('isEditGranted', true);
       }
 
    } else {
