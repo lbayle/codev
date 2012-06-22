@@ -149,7 +149,7 @@ class Config {
    /**
     * The singleton pattern
     * @static
-    * @return Holidays
+    * @return Config
     */
    public static function getInstance() {
       if (!isset(self::$instance)) {
