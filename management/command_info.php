@@ -154,6 +154,8 @@ if (isset($_SESSION['userid'])) {
       }
 
    } else {
+      unset($_SESSION['commandsetid']);
+      unset($_SESSION['servicecontractid']);
 
       if ('displayCommand' == $action) {
 

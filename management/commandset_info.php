@@ -126,6 +126,9 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
    } else {
+      unset($_SESSION['cmdid']);
+      unset($_SESSION['servicecontractid']);
+
       if ('displayCommandSet' == $action) {
          header('Location:commandset_edit.php?commandsetid=0');
       }

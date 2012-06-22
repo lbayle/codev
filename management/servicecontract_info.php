@@ -122,6 +122,9 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
    } else {
+      unset($_SESSION['cmdid']);
+      unset($_SESSION['commandsetid']);
+
       if ('displayServiceContract' == $action) {
          header('Location:servicecontract_edit.php?servicecontractid=0');
       }
