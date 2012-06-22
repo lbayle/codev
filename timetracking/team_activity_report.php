@@ -86,15 +86,17 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
          foreach ($weekTracks as $bugid => $jobList) {
             $issue = IssueCache::getInstance()->getIssue($bugid);
             if ($isDetailed) {
-               foreach ($jobList as $jobid => $dayList) {
-                  $query = 'SELECT name FROM `codev_job_table` WHERE id='.$jobid.';';
-                  $result2 = mysql_query($query);
-                  if (!$result2) {
-                     $logger->error("Query FAILED: $query");
-                     $logger->error(mysql_error());
-                     continue;
-                  }
-                  $jobName = mysql_result($result2, 0);
+               $formatedJobList = implode(', ', array_keys($jobList));
+               $query = 'SELECT id, name FROM `codev_job_table` WHERE id IN ('.$formatedJobList.');';
+               $result2 = mysql_query($query);
+               if (!$result2) {
+                  $this->logger->error("Query FAILED: $query");
+                  $this->logger->error(mysql_error());
+                  continue;
+               }
+               while($row = mysql_fetch_object($result2)) {
+                  $jobName = $row->name;
+                  $dayList = $jobList[$row->id];
 
                   $daysDetails = array();
                   for ($i = 1; $i <= 7; $i++) {
