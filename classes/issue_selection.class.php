@@ -72,8 +72,11 @@ class IssueSelection {
    /**
     *
     * @param int $bugid
+    * @return bool true if added, false if not (already in list)
     */
    public function addIssue($bugid) {
+
+      $retCode = false;
 
       // do not add twice the same issue
       if (NULL == $this->issueList[$bugid]) {
@@ -88,7 +91,9 @@ class IssueSelection {
          $this->effortAdd      += $issue->effortAdd;
 
          $this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+         $retCode = true;
       }
+      return $retCode;
    }
 
    /**

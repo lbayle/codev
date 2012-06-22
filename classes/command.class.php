@@ -480,6 +480,7 @@ class Command {
     * add Issue to command (in DB & current instance)
     *
     * @param int $bugid
+    * @return insertion id if success, NULL on failure
     */
    public function addIssue($bugid) {
 
@@ -500,20 +501,25 @@ class Command {
          return NULL;
       }
 
-      $this->logger->debug("Add issue $bugid to command $this->id");
-      $this->issueSelection->addIssue($bugid);
+      if (true == $this->issueSelection->addIssue($bugid)) {
 
-      $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+         $this->logger->debug("Add issue $bugid to command $this->id");
+
+         $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $id = mysql_insert_id();
+         return $id;
+      } else {
+         $this->logger->debug("addIssue($bugid) to command $this->id: already in !");
       }
-      $id = mysql_insert_id();
-      return $id;
 
+      return NULL;
    }
 
    /**
