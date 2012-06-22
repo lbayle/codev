@@ -98,6 +98,7 @@ function getParentCommands(Issue $issue) {
       $commands[] = array(
          'id' => $id,
          'name' => $cmdName,
+         #'reference' => ,
       );
    }
    return $commands;

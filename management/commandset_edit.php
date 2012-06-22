@@ -87,7 +87,7 @@ function getCmdSetCandidates($user) {
 
          // TODO remove Cmds already in this cmdset.
 
-         $cmdCandidates[$cid] = $cmd->getName();
+         $cmdCandidates[$cid] = $cmd->getReference() . " ". $cmd->getName();
       }
    }
    asort($cmdCandidates);
