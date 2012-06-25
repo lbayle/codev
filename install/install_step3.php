@@ -353,7 +353,10 @@ if ("checkReportsDir" == $action) {
     // cat="[All Projects] General", status="closed"
     $extproj->addIssue(Project::cat_st_inactivity, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
 
-    $extproj->addIssue(Project::cat_st_inactivity, $task_leave, T_("On holiday, sick leave, ..."), 90);
+
+    // --- Create the 'Leave' task in ExternalTasks Project
+    $LeaveTaskId = $extproj->addIssue(Project::cat_st_inactivity, $task_leave, T_("On holiday, sick leave, ..."), 90);
+    Config::getInstance()->setValue(Config::id_externalTask_leave, $LeaveTaskId, Config::configType_int , T_("Common Leave task"));
     
     // Create default jobs
     // Note: Support & N/A jobs already created by SQL file
