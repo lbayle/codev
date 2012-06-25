@@ -77,7 +77,7 @@ $logger = Logger::getLogger("create_team");
  */
 function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
                                $isCreateSTProj, $stproj_name,
-                               $isCatIncident, $isCatTools, $isCatOther,
+                               $isCatInactivity, $isCatIncident, $isCatTools, $isCatOther,
                                $isTaskLeave, $isTaskOnDuty, $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskOther,
                                $task_leave, $task_onDuty, $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
                                $is_modified = "false"
@@ -144,6 +144,10 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 
 
   $isDisplayed = $isCreateSTProj ? "" : "display:none";
+  if (!$isCreateSTProj) {
+     echo "<br><br><span class='error_font'>".T_("WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing.")."</span><br/>";
+  }
+
   echo "<div style='$isDisplayed'>\n";
   echo "<ul>\n";
   echo "<li><b>".T_("Project Name")."</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input size='30' value='$stproj_name' type='text' name='stproj_name'  id='stproj_name'> <span style='color:red'>*</span></li>\n";
@@ -152,12 +156,6 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
 
   echo "<li><b>".T_("Categories")."</b><br/>\n";
   echo "<table class='invisible'>\n";
-
-  echo "  <tr>\n";
-  echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_catInactivity' id='cb_catInactivity'>".T_("Inactivity")."</span></input>\n";
-  echo "    <span style='color:red'>*</span></td>\n";
-  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Holidays, Leave, On Duty").")</span></td>\n";
-  echo "  </tr>\n";
 
   echo "  <tr>\n";
   echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_catProjManagement' id='cb_catProjManagement'>".T_("Project Management")."</input>\n";
@@ -170,6 +168,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "    <span style='color:red'>*</span></td>\n";
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Budget for Management,Garantie,Risk...").")</span></td>\n";
   echo "  </tr>\n";
+
 
   echo "  <tr>\n";
   $isChecked = $isCatIncident ? "CHECKED" : "";
@@ -192,6 +191,12 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("Support, Doc, Training, Wiki, ...").")</span></td>\n";
   echo "  </tr>\n";
 
+  $isChecked = $isCatInactivity ? "CHECKED" : "";
+  echo "  <tr>\n";
+  echo "    <td width='150'><input type=CHECKBOX  $isChecked name='cb_catInactivity' id='cb_catInactivity'>".T_("Inactivity")."</span></input>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("On Duty, other special cases").")</span></td>\n";
+  echo "  </tr>\n";
+
   echo "</table>\n";
 
   echo "  <br/>\n";
@@ -204,7 +209,7 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <tr>\n";
   echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_customFields' id='cb_customFields'>".T_("CodevTT custom fields")."</input>\n";
   echo "    <span style='color:red'>*</span></td>\n";
-  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("EffortEstim, AddEffort, Remaining, DeadLine, DeliveryDate").")</span></td>\n";
+  echo "    <td><span class='help_font'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(".T_("MgrEffortEstim, EffortEstim, AddEffort, Remaining, DeadLine, DeliveryDate").")</span></td>\n";
   echo "  </tr>\n";
   echo "</table>\n";
   echo "  <br/>\n";
@@ -214,13 +219,14 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   echo "  <tr>\n";
 
   // ---
+/*
   echo "    <td width='150'><input type=CHECKBOX CHECKED DISABLED name='cb_taskLeave' id='cb_taskLeave'>".
        T_("Inactivity")." (".T_("leave").")</input>";
   echo "    <span style='color:red'>*</span></td>\n";
   echo "    <td><input size='100' type='text' name='task_leave'  id='task_leave' value='$task_leave'></td>\n";
   echo "  </tr>\n";
   echo "  <tr>\n";
-/*
+
   $isChecked = $isTaskOnDuty ? "CHECKED" : "";
   echo "    <td width='150'><input type=CHECKBOX $isChecked name='cb_taskOnDuty' id='cb_taskOnDuty'>".
        T_("Inactivity")." (".T_("on duty").")</input></td>\n";
@@ -318,11 +324,12 @@ $teamleader_id = isset($_POST['teamleader_id']) ? $_POST['teamleader_id'] : "";
 // between an unchecked checkBox and an unset checkbox variable
 if ("false" == $is_modified) {
    $isCreateSTProj       = true;
+   $isCatInactivity      = true;
    $isCatIncident        = true;
    $isCatTools           = true;
    $isCatOther           = true;
    $isTaskProjManagement = true;
-   $isTaskLeave          = true;
+#  $isTaskLeave          = true;
    $isTaskOnDuty         = false;
    $isTaskMeeting        = true;
    $isTaskIncident       = false;
@@ -333,6 +340,7 @@ if ("false" == $is_modified) {
 
 } else {
    $isCreateSTProj       = $_POST['cb_createSideTaskProj'];
+   $isCatInactivity      = $_POST['cb_catInactivity'];
    $isCatIncident        = $_POST['cb_catIncident'];
    $isCatTools           = $_POST['cb_catTools'];
    $isCatOther           = $_POST['cb_catOther'];
@@ -347,7 +355,7 @@ if ("false" == $is_modified) {
    $stproj_name = ("" == $team_name) ? $teamSideTaskProjectName : T_("SideTasks")." $team_name";
 }
 
-$task_leave = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("(generic) Leave");
+#$task_leave = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("(generic) Leave");
 $task_onDuty = isset($_POST['task_onDuty']) ? $_POST['task_onDuty'] : T_("(generic) Leave but on duty");
 $task_projManagement = isset($_POST['task_projManagement']) ? $_POST['task_projManagement'] : T_("(generic) Project Management");
 $task_meeting = isset($_POST['task_meeting']) ? $_POST['task_meeting'] : T_("(generic) Meeting");
@@ -392,8 +400,10 @@ if ("addTeam" == $action) {
       	   $stproj->addCategoryProjManagement($cat_projManagement);
       	   $stproj->addCategoryMngtProvision($cat_EffortProvision);
 
-            $stproj->addCategoryInactivity($cat_inactivity);
 
+      	   if ($isCatInactivity) {
+               $stproj->addCategoryInactivity($cat_inactivity);
+	         }
       	   if ($isCatIncident) {
                $stproj->addCategoryIncident($cat_incident);
 	         }
@@ -406,7 +416,7 @@ if ("addTeam" == $action) {
 
             // 5) --- add SideTaskProject default SideTasks
 
-            $stproj->addIssueInactivity($task_leave);
+            #$stproj->addIssueInactivity($task_leave);
 
             if ($isTaskProjManagement) {
         	      $stproj->addIssueProjManagement($task_projManagement);
@@ -443,7 +453,7 @@ if ("addTeam" == $action) {
 	// display form
    displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
                          $isCreateSTProj, $stproj_name,
-                         $isCatIncident, $isCatTools, $isCatOther,
+                         $isCatInactivity, $isCatIncident, $isCatTools, $isCatOther,
                          $isTaskLeave, $isTaskOnDuty, $isTaskProjManagement, $isTaskMeeting, $isTaskIncident, $isTaskTools, $isTaskOther,
                          $task_leave, $task_onDuty, $task_projManagement, $task_meeting, $task_incident, $task_tools, $task_other1,
                          $is_modified);
