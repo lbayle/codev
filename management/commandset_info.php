@@ -127,8 +127,8 @@ if (isset($_SESSION['userid'])) {
       }
 
       // access rights
-      if (($session_user->isTeamManager($cmd->getTeamid())) ||
-          ($session_user->isTeamLeader($cmd->getTeamid()))) {
+      if (($session_user->isTeamManager($commandset->getTeamid())) ||
+          ($session_user->isTeamLeader($commandset->getTeamid()))) {
 
          $smartyHelper->assign('isEditGranted', true);
       }
