@@ -61,12 +61,12 @@ class CodevTTPlugin extends MantisPlugin {
                 $separator = "";
 		//TODO test if command id is valid !!!!
                 foreach ($command_ids as $command_id) {
-                    error_log ("ForEach: $command_id => $t_bug_id");
+                    #error_log ("ForEach: $command_id => $t_bug_id");
                     $query = $query . $separator ." ('$command_id', '$t_bug_id')";
                     $separator = ",";
                 }
                 $query = $query . ";";
-                error_log ("Query: $query");
+                #error_log ("Query: $query");
                 $result = mysql_query($query) or exit( mysql_error() );
              
         }
