@@ -157,7 +157,13 @@ class Command {
       }
       while($row = mysql_fetch_object($result))
       {
-         $this->issueSelection->addIssue($row->bug_id);
+         try {
+            $this->issueSelection->addIssue($row->bug_id);
+         } catch (Exception $e) {
+
+            echo "<span style='color:red'>WARNING: Task $row->bug_id does not exist in Mantis and has been removed from this Command !</span><br>";
+            $this->removeIssue($row->bug_id);
+         }
       }
    }
 

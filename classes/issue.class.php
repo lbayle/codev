@@ -259,6 +259,27 @@ class Issue {
       //DEBUG $this->getRelationships(2500);
    }
 
+
+   /**
+    * @param int $bugid
+    * @return bool TRUE if issue exists in Mantis DB
+    */
+   public static function exists($bugid) {
+
+      $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
+      $result = mysql_query($query);
+      if (!$result) {
+         $this->logger->error("Query FAILED: $query");
+         $this->logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $found  = (0 != mysql_num_rows($result)) ? true : false;
+
+      return $found;
+   }
+
+
    /**
     * @return string The issue description
     */
