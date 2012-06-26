@@ -1,3 +1,22 @@
+<script type="text/javascript">
+
+//------ JQUERY --------
+$(document).ready(function() {
+   $('#errors_table').dataTable(
+      {
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+});
+
+</script>
+
+
 <div id="content">
    {if $teams}
 
@@ -6,7 +25,8 @@
     {if $teamid}
     <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
     {if $consistencyErrors}
-    <table>
+    <table id="errors_table" class="display">
+        <thead>
         <tr>
             <th>{t}User{/t}</th>
             <th>{t}Task{/t}</th>
@@ -17,6 +37,8 @@
             <th>{t}TargetVersion{/t}</th>
             <th>{t}Error Description{/t}</th>
         </tr>
+        </thead>
+        <tbody>
         {foreach from=$consistencyErrors key=id item=i}
         <tr>
             <td>{$i.userName}</td>
@@ -29,6 +51,7 @@
             <td>{$i.desc}</td>
         </tr>
         {/foreach}
+        </tbody>
     </table>
    {/if}
    {/if}
