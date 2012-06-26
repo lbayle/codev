@@ -1,0 +1,86 @@
+<script type="text/javascript">
+
+//------ JQUERY --------
+$(document).ready(function() {
+   $('#issues_table_old').dataTable(
+      {
+         "sScrollY": "700px",
+         "bPaginate": false,
+         "bScrollCollapse": true,
+         "bFilter": true,
+         "bSort": true,
+         "bInfo": false,
+         "bAutoWidth": false
+      });
+
+   var oTable = $('#issues_table').dataTable( {
+        "bProcessing": true,
+        "bServerSide": true,
+        "sAjaxSource": "/tests/import/server_processing.php",
+        "fnDrawCallback": function () {
+            $('#issues_table tbody td').editable( '/tests/import/editable_ajax.php', {
+                "callback": function( sValue, y ) {
+                    /* Redraw the table from the new data on the server */
+                    oTable.fnDraw();
+                },
+                "height": "14px"
+            } );
+        }
+    } );
+
+});
+
+</script>
+
+
+<div id="content" class="center">
+
+   <h2 class="center">{t}Import Mantis Issues{/t}</h2>
+
+   <form method="post" action="{$page}" enctype="multipart/form-data">
+          <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+          <input type="file" name="nom_du_fichier">
+          <input type="submit" value="Envoyer">
+   </form>
+
+
+    <h2>Issues (test jeditable)</h2>
+    {if $newIssues}
+    <table id="issues_table" class="display">
+        <thead>
+        <tr>
+            <th>ExtRef</th>
+            <th>Summary</th>
+            <th>Charge Mgr</th>
+            <th>Charge</th>
+            <th>Command</th>
+            <th>Category</th>
+            <th>TargetVersion</th>
+            <th>User</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach from=$newIssues key=id item=i}
+        <tr>
+            <td>{$i.extRef}</td>
+            <td>{$i.summary}</td>
+            <td>{$i.mgrEffortEstim}</td>
+            <td>{$i.effortEstim}</td>
+            <td>{$i.command}</td>
+            <td>{$i.category}</td>
+            <td>{$i.targetVersion}</td>
+            <td>{$i.userName}</td>
+            <td>{$i.status}</td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+   {/if}
+
+
+
+
+   
+
+</div>
