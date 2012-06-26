@@ -47,29 +47,44 @@ class CodevTTPlugin extends MantisPlugin {
 		return $hooks;
 	}
 	
-        
-        function assignCommand($event, $t_bug_data) {
-                #$command_ids = gpc_get_int_array( 'command_id');
-                $command_ids = $_POST['command_id'];
-		$t_bug_id = $t_bug_data->id;
-                
-                if ($event != 'EVENT_REPORT_BUG_FORM') {
-                    $delete_query = "DELETE FROM `codev_command_bug_table` WHERE `bug_id` = '$t_bug_id';";
-                    $delete_result = mysql_query($delete_query) or exit( mysql_error() );
-                }
-                $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES";
-                $separator = "";
-		//TODO test if command id is valid !!!!
-                foreach ($command_ids as $command_id) {
-                    #error_log ("ForEach: $command_id => $t_bug_id");
-                    $query = $query . $separator ." ('$command_id', '$t_bug_id')";
-                    $separator = ",";
-                }
-                $query = $query . ";";
-                #error_log ("Query: $query");
-                $result = mysql_query($query) or exit( mysql_error() );
-             
-        }
+
+   /**
+    *
+    * @param string $event
+    * @param array $t_bug_data
+    */
+   function assignCommand($event, $t_bug_data) {
+
+      #$command_ids = gpc_get_int_array( 'command_id');
+
+
+      $t_bug_id = $t_bug_data->id;
+
+      // delete all existing bug-command associations
+      if ($event != 'EVENT_REPORT_BUG_FORM') {
+         $delete_query = "DELETE FROM `codev_command_bug_table` WHERE `bug_id` = '$t_bug_id';";
+         $delete_result = mysql_query($delete_query) or exit( mysql_error() );
+      }
+
+      // create bug-command associations
+      if( isset($_POST['command_id'])) {
+
+         $command_ids = $_POST['command_id'];
+
+         $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES";
+         $separator = "";
+         //TODO test if command id is valid !!!!
+         foreach ($command_ids as $command_id) {
+            #error_log ("ForEach: $command_id => $t_bug_id");
+            $query = $query . $separator ." ('$command_id', '$t_bug_id')";
+            $separator = ",";
+         }
+         $query = $query . ";";
+         #error_log ("Query: $query");
+         $result = mysql_query($query) or exit( mysql_error() );
+
+      }
+   }
         
 	function update_bug_form($event, $t_bug_id) {
             
