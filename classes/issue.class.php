@@ -111,9 +111,6 @@ class Issue {
     */
    public $bugId;      // mantis id
 
-   /**
-    * @var int Project id
-    */
    public $projectId;  // Capu, peterpan, etc.
    public $categoryId;
    public $eta;        // DEPRECATED
@@ -128,14 +125,12 @@ class Issue {
    public $version;  // Product Version
    public $last_updated;
 
-   /**
-    * @var string Description
-    */
    private $description;
    private $target_version;
    private $relationships; // array[relationshipType][bugId]
    private $IssueNoteList;
    private $commandList;
+   private $categoryName;
 
    /*
      * REM:
@@ -516,16 +511,20 @@ class Issue {
     * @return string The category name
     */
    public function getCategoryName() {
-      $query = "SELECT name FROM `mantis_category_table` WHERE id= $this->categoryId";
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+
+      if (NULL == $this->categoryName) {
+         $query = "SELECT name FROM `mantis_category_table` WHERE id= $this->categoryId";
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->categoryName = mysql_result($result, 0);
       }
 
-      return mysql_result($result, 0);
+      return $this->categoryName;
    }
 
    public function getCurrentStatusName() {
