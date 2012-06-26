@@ -125,7 +125,18 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the CommandSet"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
+
+      // access rights
+      if (($session_user->isTeamManager($commandset->getTeamid())) ||
+          ($session_user->isTeamLeader($commandset->getTeamid()))) {
+
+         $smartyHelper->assign('isEditGranted', true);
+      }
+
    } else {
+      unset($_SESSION['cmdid']);
+      unset($_SESSION['servicecontractid']);
+
       if ('displayCommandSet' == $action) {
          header('Location:commandset_edit.php?commandsetid=0');
       }

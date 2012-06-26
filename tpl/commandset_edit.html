@@ -4,50 +4,82 @@
 
 <script type="text/javascript">
 
-function addCmd() {
+   jQuery(document).ready(function() {
+      {if $locale != en}
+         jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+      {/if}
 
-   // check fields
-   var foundError = 0;
-   var msgString = "{t}Missing field{/t}:\n\n";
+      // Set the date
+      jQuery("#commandsetDate").datepicker("setDate" ,"{$commandsetDate}");
 
-   if (0 == document.forms["commandForm"].bugid.value) {
-      msgString += "{t}command id{/t}\n";
-      ++foundError;
-   }
+      jQuery(function() {
+         jQuery( "#tabsCommandSet" ).tabs();
+      });
 
-   if (0 == foundError) {
-     document.forms["commandForm"].teamid.value ="{$teamid}";
-     document.forms["commandForm"].cmdid.value="{$commandid}";
-     document.forms["commandForm"].action.value="addCommand";
-     document.forms["commandForm"].submit();
-   } else {
-     alert(msgString);
-   }
-}
-
-function createCmd() {
-     document.forms["commandForm"].teamid.value ="{$teamid}";
-     document.forms["commandForm"].cmdid.value="{$commandid}";
-     document.forms["commandForm"].action.value="createCommand";
-     document.forms["commandForm"].submit();
-
-}
-
-jQuery(document).ready(function() {
-   {if $locale != en}
-      jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
-   {/if}
-
-   // Set the date
-   jQuery("#commandsetDate").datepicker("setDate" ,"{$commandsetDate}");
-
-   jQuery(function() {
-      jQuery( "#tabsCommandSet" ).tabs();
    });
 
-});
+   // --- DialogBox for deleteCommandSet
+   jQuery(document).ready(function() {
+
+      jQuery("#btDeleteCommandSet").click(function(event) {
+         jQuery( "#deleteCommandSet_dialog_form" ).dialog( "open" );
+      });
+
+      // delete track dialogBox
+      jQuery("#deleteCommandSet_dialog_form" ).dialog({
+         autoOpen: false,
+         resizable: true,
+         width: "auto",
+         modal: true,
+         buttons: {
+            "Delete": function() {
+               jQuery("#formDeleteCommandSet").submit();
+            },
+            Cancel: function() {
+               jQuery( this ).dialog( "close" );
+            }
+         }
+      });
+   });
 
 </script>
+
+<!-- DialogBox for deleteCommand -->
+<div id="deleteCommandSet_dialog_form" title="{t}Delete CommandSet{/t}" style="display: none">
+   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+      {t}Delete this CommandSet ?{/t}
+   </p>
+   <table class="invisible">
+      <tr>
+         <td><span style="font-weight:bold;">{t}Name{/t}</span></td>
+         <td>: </td>
+         <td>{$commandsetName}</td>
+      </tr>
+      <tr>
+         <td><span style="font-weight:bold;">{t}Nb Commands{/t}</span></td>
+         <td>: </td>
+         <td>{$nbCommands}</td>
+      </tr>
+      <tr>
+         <th valign='top'><span style="font-weight:bold;">{t}Service Contracts{/t}</span></th>
+         <td valign='top'>: </td>
+         <td><table class="invisible">
+            {foreach from=$parentContracts key=id item=i}
+               <tr><td>{$i.name}</td></tr>
+            {/foreach}
+            </table>
+         </td>
+      </tr>
+   </table>
+   <form id="formDeleteCommandSet" name="formDeleteCommandSet" method="post" action="{$page}" >
+      <fieldset>
+         <input type="hidden" name="action" value="deleteCommandSet" />
+         <input type="hidden" name="commandid"  value="{$commandsetid}" />
+         <input type="hidden" name="teamid" value="{$teamid}" />
+
+      </fieldset>
+   </form>
+</div>
 
 
 <div id="content">
@@ -80,6 +112,10 @@ jQuery(document).ready(function() {
                   <td><input type='text' size='80' style='font-family: sans-serif' name='commandsetName'  id='commandsetName' value='{$commandsetName}'></td>
                </tr>
                <tr>
+                  <th>{t}Reference{/t}</th>
+                  <td><input type='text' style='font-family: sans-serif' name='commandsetReference'  id='commandsetReference' value='{$commandsetReference}'></td>
+               </tr>
+               <tr>
                   <th>{t}Description{/t}</th>
                   <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='commandsetDesc'  id='commandsetDesc'>{$commandsetDesc}</textarea></td>
                </tr>
@@ -98,7 +134,8 @@ jQuery(document).ready(function() {
                </tr>
          </table>
          <br>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$cmdsetInfoFormBtText}{/t}</button>
+         <button type='button' name="btDeleteCommandSet" id="btDeleteCommandSet"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdsetInfoFormBtText}</button>
 
          <input type="hidden" name="action" value="{$cmdsetInfoFormAction}" />
          <input type="hidden" name="commandsetid" value="{$commandsetid}" />

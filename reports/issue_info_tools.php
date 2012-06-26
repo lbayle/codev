@@ -56,8 +56,8 @@ function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=fal
       $issueGeneralInfo['issueMgrEffortEstim'] = $issue->mgrEffortEstim;
       $issueGeneralInfo['issueReestimatedMgr'] = $issue->getReestimatedMgr();
       $driftMgr = $issue->getDriftMgr($withSupport);
-      $issueGeneralInfo['issueDriftColorETA'] = $issue->getDriftColor($driftMgr);
-      $issueGeneralInfo['issueDriftETA'] = round($driftMgr, 2);
+      $issueGeneralInfo['issueDriftMgrColor'] = $issue->getDriftColor($driftMgr);
+      $issueGeneralInfo['issueDriftMgr'] = round($driftMgr, 2);
    }
    if ($withSupport) {
       $issueGeneralInfo['issueElapsed'] = $issue->elapsed;
@@ -98,6 +98,7 @@ function getParentCommands(Issue $issue) {
       $commands[] = array(
          'id' => $id,
          'name' => $cmdName,
+         #'reference' => ,
       );
    }
    return $commands;

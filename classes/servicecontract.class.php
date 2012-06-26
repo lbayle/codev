@@ -158,6 +158,42 @@ class ServiceContract {
     return $id;
    }
 
+   /**
+    * delete a ServcieContract
+    *
+    * @return int $id
+    */
+   public static function delete($id) {
+
+    $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `servicecontract_id`='$id';";
+    $result = mysql_query($query);
+    if (!$result) {
+       $this->logger->error("Query FAILED: $query");
+       $this->logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+       #exit;
+    }
+
+    $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE `servicecontract_id`='$id';";
+    $result = mysql_query($query);
+    if (!$result) {
+       $this->logger->error("Query FAILED: $query");
+       $this->logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+       #exit;
+    }
+
+    $query = "DELETE FROM `codev_servicecontract_table` WHERE `id`='$id';";
+    $result = mysql_query($query);
+    if (!$result) {
+       $this->logger->error("Query FAILED: $query");
+       $this->logger->error(mysql_error());
+       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+       exit;
+    }
+    $id = mysql_insert_id();
+    return $id;
+   }
 
    public function getId() {
       return $this->id;
@@ -267,7 +303,7 @@ class ServiceContract {
    public function setState($value) {
 
       $this->state = $value;
-      $query = "UPDATE `codev_command_table` SET state='$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET state='$value' WHERE id='$this->id' ";
       $result = mysql_query($query);
 	   if (!$result) {
     	      $this->logger->error("Query FAILED: $query");
@@ -282,8 +318,7 @@ class ServiceContract {
       return $this->start_date;
    }
    public function setStartDate($value) {
-      $formattedValue = mysql_real_escape_string($value); // should be in controler, not here
-      $this->start_date = date2timestamp($formattedValue);
+      $this->start_date = $value;
       $query = "UPDATE `codev_servicecontract_table` SET start_date = '$this->start_date' WHERE id='$this->id' ";
       $result = mysql_query($query);
       if (!$result) {
@@ -298,8 +333,7 @@ class ServiceContract {
       return $this->end_date;
    }
    public function setEndDate($value) {
-      $formattedValue = mysql_real_escape_string($value); // should be in controler, not here
-      $this->end_date = date2timestamp($formattedValue);
+      $this->end_date = $value;
       $query = "UPDATE `codev_servicecontract_table` SET end_date = '$this->end_date' WHERE id='$this->id' ";
       $result = mysql_query($query);
       if (!$result) {
@@ -324,11 +358,12 @@ class ServiceContract {
 
       $cmdsetidList = $this->cmdsetidByTypeList[$type];
 
-      foreach ($cmdsetidList as $commandset_id) {
+      if(($cmdsetidList) && (0 != count($cmdsetidList))) {
+         foreach ($cmdsetidList as $commandset_id) {
 
-         $cmdsetList[$commandset_id] = CommandSetCache::getInstance()->getCommandSet($commandset_id);
+            $cmdsetList[$commandset_id] = CommandSetCache::getInstance()->getCommandSet($commandset_id);
+         }
       }
-
       return $cmdsetList;
    }
 
@@ -365,14 +400,16 @@ class ServiceContract {
 
       $cmdsetidList = $this->cmdsetidByTypeList[$cset_type];
 
-      foreach ($cmdsetidList as $commandset_id) {
+      if(($cmdsetidList) && (0 != count($cmdsetidList))) {
+         foreach ($cmdsetidList as $commandset_id) {
 
-         $cmdset = CommandSetCache::getInstance()->getCommandSet($commandset_id);
-         $cmdsetIS = $cmdset->getIssueSelection($cmd_type);
-         $issueSelection->addIssueList($cmdsetIS->getIssueList());
+            $cmdset = CommandSetCache::getInstance()->getCommandSet($commandset_id);
+            $cmdsetIS = $cmdset->getIssueSelection($cmd_type);
+            $issueSelection->addIssueList($cmdsetIS->getIssueList());
+         }
       }
-      return $issueSelection;
 
+      return $issueSelection;
    }
 
    
@@ -529,8 +566,13 @@ function getSidetasksPerCategory() {
       $prjList = $this->getProjects();
       foreach ($prjList as $id => $project) {
 
-         if (!$project->isSideTasksProject(array($this->getTeamid()))) {
-            $this->logger->error("getSidetasks: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
+         try {
+            if (!$project->isSideTasksProject(array($this->teamid))) {
+               $this->logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
+               continue;
+            }
+         } catch (Exception $e) {
+            $this->logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
             continue;
          }
          $bugidList = $project->getIssueList();

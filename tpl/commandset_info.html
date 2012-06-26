@@ -63,10 +63,10 @@ $(document).ready(function() {
             </select>
             <label>{t}CommandSet{/t}: </label>
             <select id='commandsetSelector' name='commandsetid'>
-               <option value='0'>{t}--- Create New CommandSet ---{/t}</option>
                {foreach from=$commandsets key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
+               <option value='0'>{t}--- Create New CommandSet ---{/t}</option>
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
             
@@ -90,6 +90,11 @@ $(document).ready(function() {
 
    <div>
       <table class='invisible'>
+            <tr>
+               <th>{t}Reference{/t}</th>
+               <td valign='top'>: </td>
+               <td>{$commandsetReference}</td>
+            </tr>
             <tr>
                <th>{t}Date{/t}</th>
                <td valign='top'>: </td>
@@ -117,7 +122,9 @@ $(document).ready(function() {
             </tr>
       </table>
       <br>
+      {if $isEditGranted}
       <button onclick="location.href='management/commandset_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      {/if}
    </div>
 
    <div style="margin-top:6em;"></div>
@@ -143,6 +150,7 @@ $(document).ready(function() {
                   <th>{t}Elapsed{/t}</th>
                   <th>{t}Remaining Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
+                  <th>{t}Progress{/t}</th>
                </tr>
                </thead>
                <tbody>
@@ -157,6 +165,7 @@ $(document).ready(function() {
                      <td>{$cmd.elapsed}</td>
                      <td>{$cmd.remaining}</td>
                      <td {$cmd.driftColor}>{$cmd.drift}</td>
+                     <td>{$cmd.progress}%</td>
                   </tr>
                   {/foreach}
                   <tr class="row_even">
@@ -169,6 +178,7 @@ $(document).ready(function() {
                      <td>{$cmdsetDetailedMgr.elapsed}</td>
                      <td>{$cmdsetDetailedMgr.remaining}</td>
                      <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
+                     <td>{$cmdsetDetailedMgr.progress}%</td>
                   </tr>
 
                </tbody>

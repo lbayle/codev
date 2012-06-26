@@ -1,0 +1,206 @@
+{include file="menu/doc_menu.html"}
+
+<h2>Jours de Production : Projets</h2>
+<p>Nombre de jours pass&eacute;s en d&eacute;veloppement sur les projets
+   &lsquo;Jeux&rsquo;.</p>
+<p>&nbsp;</p>
+<h2>Jours de Production : SuiviOp</h2>
+<p>Nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s)
+   par les D&eacute;veloppeurs.</p>
+<p>&nbsp;</p>
+<p>La formation, les r&eacute;unions, les outils, la mise &agrave; jour du
+   Wiki, les indisponibilit&eacute;s syst&egrave;mes entrent dans cette cat&eacute;gorie.&nbsp; </p>
+<p>&nbsp;</p>
+<h2>Jours de Production : SuiviOp Managers</h2>
+<p>Nombre de jours pass&eacute;s sur les taches annexes (hors cong&eacute;s)
+   par les Managers.</p>
+<p>&nbsp;</p>
+<p>Les managers n'imputent pas sur les projets 'Jeux' en
+   revanche ils imputent sur des taches de SuiviOp comme les r&eacute;unions, le
+   pilotage, etc.</p>
+<p>&nbsp;</p>
+<h2>Jours de Production : Total</h2>
+<p>Nombre de jours factur&eacute;s.</p>
+<p>&nbsp;</p>
+<p>Il s'agit ici de la somme des jours imputes (d&eacute;veloppeurs et
+   managers) sur les Projets 'jeux' et le SuiviOp (sauf jours d&rsquo;absences). </p>
+<h2>Capacit&eacute; de production</h2>
+<p>Pr&eacute;vision de capacit&eacute; (hors cong&eacute;s, d&eacute;veloppeurs seuls)</p>
+<p>&nbsp;</p>
+<p>Cet indicateur comptabilise le nombre de jours de pr&eacute;sence
+   des d&eacute;veloppeurs sur une p&eacute;riode donn&eacute;e. Cette information est utile pour
+   savoir si les dates de livraisons peuvent &ecirc;tre respect&eacute;es compte tenu de la
+   charge de travail &agrave; venir.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Taux d'efficacit&eacute;</h2>
+<p>Pourcentage de temps pass&eacute; par les d&eacute;veloppeurs sur les
+   projets 'jeux' par rapport au temps total consomm&eacute; (Jeux + SuiviOp).</p>
+<p>&nbsp;</p>
+<p><span style="color: #00ccff;">Jours de
+Production Projets / Jours de Production Total * 100</span></p>
+<p>&nbsp;</p>
+<h2>Disponibilit&eacute; Syst&egrave;me</h2>
+<p>Disponibilit&eacute; de la plateforme de d&eacute;veloppement.</p>
+<p>&nbsp;</p>
+<p>Ce temps, imput&eacute; en SuiviOp, permet de mesurer le temps
+   perdu en raison de probl&egrave;mes R&eacute;seaux,&nbsp;
+   Cytrix, etc.</p>
+<p>&nbsp;</p>
+<p><span style="color: #00ccff;">100 -
+(breakdownDays / prodDays)</span></p>
+<p>&nbsp;</p>
+<h2>Taux de productivit&eacute; ETA</h2>
+<p>Rapport entre l'estimation de charge initiale (ETA) et le
+   temps r&eacute;el consomm&eacute; sur projets 'Jeux'.</p>
+<p>&nbsp;</p>
+<p>Le calcul est fait sur les fiches R&eacute;solues dans la p&eacute;riode
+   et les fiches r&eacute; ouvertes en cours ne sont pas comptabilis&eacute;es.</p>
+<p>&nbsp;</p>
+<p>L&rsquo;ETA &eacute;tant une indication grossi&egrave;re de temps, on applique
+   le bar&egrave;me suivant:</p>
+<p>&nbsp;</p>
+<table border="1" cellspacing="0" cellpadding="0">
+   <tbody>
+   <tr>
+      <td width="130" valign="top">
+         <p>non pr&eacute;cis&eacute;</p>
+      </td>
+      <td width="130" valign="top">
+         <p>1 jour</p>
+      </td>
+   </tr>
+   <tr>
+      <td width="130" valign="top">
+         <p>&lt; 1 jour</p>
+      </td>
+      <td width="130" valign="top">
+         <p>1 jour</p>
+      </td>
+   </tr>
+   <tr>
+      <td width="130" valign="top">
+         <p>2-3 jours</p>
+      </td>
+      <td width="130" valign="top">
+         <p>3 jours</p>
+      </td>
+   </tr>
+   <tr>
+      <td width="130" valign="top">
+         <p>&lt; 1 Semaine</p>
+      </td>
+      <td width="130" valign="top">
+         <p>5 jours</p>
+      </td>
+   </tr>
+   <tr>
+      <td width="130" valign="top">
+         <p>&lt; 15 jours</p>
+      </td>
+      <td width="130" valign="top">
+         <p>10 jours</p>
+      </td>
+   </tr>
+   <tr>
+      <td width="130" valign="top">
+         <p>&gt; 15 jours</p>
+      </td>
+      <td width="130" valign="top">
+         <p>15 jours</p>
+      </td>
+   </tr>
+   </tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>- Si l'estimation est bonne ce nombre doit tendre vers 1.</p>
+<p>- Un nombre &lt; 1 signifie un moins bon rendement</p>
+<p>&nbsp;</p>
+<p>L'ETA &eacute;tant sp&eacute;cifi&eacute; de mani&egrave;re approximative &agrave; l'ouverture
+   de la fiche (donc avant la phase d'analyse), on se doit de rester prudent sur
+   l'interpr&eacute;tation du r&eacute;sultat.</p>
+<p>Le Taux de productivit&eacute; ETA permet n&eacute;anmoins d'avoir une
+   'vision client' du travail accompli puisque c'est lui qui indique l'ETA. </p>
+<p>&nbsp;</p>
+<p><span style="color: #00ccff;">sum(ETA_balance)
+/ sum(elapsed)</span></p>
+<p>&nbsp;</p>
+<h2>Taux de productivit&eacute;</h2>
+<p>Rapport entre le budget initial et le temps consomm&eacute; sur les
+   fiches.</p>
+<p>&nbsp;</p>
+<p>Le calcul est fait sur les fiches R&eacute;solues dans la p&eacute;riode
+   et les fiches r&eacute; ouvertes en cours ne sont pas comptabilis&eacute;es.</p>
+<p>&nbsp;</p>
+<p>Cet indicateur permet de mesurer si le consomm&eacute; est en
+   rapport avec l'estimation de charge initiale.</p>
+<p>- Si l'estimation est bonne ce nombre doit tendre vers 1.</p>
+<p>- Un nombre &lt; 1 signifie un moins bon rendement</p>
+<p>&nbsp;</p>
+<p>Le budget Initial (BI) est d&eacute;fini apr&egrave;s la phase d'analyse,
+   cet indicateur est donc plus pr&eacute;cis que l'ETA. Il arrive cependant que certains
+   aspects du d&eacute;veloppement n'aient pas &eacute;t&eacute; vus lors de la phase d'analyse et que
+   le BI ait &eacute;t&eacute; sous-estim&eacute;. On pourra alors r&eacute;&eacute;valuer la charge lors de la phase
+   de d&eacute;veloppement en ajoutant un Budget Suppl&eacute;mentaire (BS).</p>
+<p>&nbsp;</p>
+<p><span style="color: #00ccff;">sum(BI + BS) / sum(elapsed)</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Respect des d&eacute;lais de livraison</h2>
+<p>Indique les fiches dont les d&eacute;lais de livraisons ne sont pas
+   respectes. </p>
+<p>&nbsp;</p>
+<p>Note: Les fiches n'ayant pas de DeadLine ne sont pas
+   comptabilis&eacute;es.</p>
+<p>* Fiches non livr&eacute;es &agrave; temps (<span style="color: #00ccff;">DeliveryDate &gt; DeadLine</span>)</p>
+<p>* Fiches livr&eacute;es &agrave; temps&nbsp;&nbsp;&nbsp;&nbsp;
+   (<span style="color: #00ccff;">DeliveryDate &lt;=
+DeadLine</span>)</p>
+<p>&nbsp;</p>
+<h2>D&eacute;rives sur estimation de charges </h2>
+<p>Nombre de jours de d&eacute;passement par rapport au budget
+   initial.</p>
+<p>&nbsp;</p>
+<p>L'analyse de la raison de la d&eacute;rive permettra d'identifier
+   les axes d'am&eacute;liorations et les actions &agrave; prendre pour &eacute;viter que le cas ne se reproduise
+   (formation, support, etc.).</p>
+<p>&nbsp;</p>
+<p>- Le calcul est fait sur les fiches R&eacute;solues dans la p&eacute;riode
+   et les fiches r&eacute; ouvertes ne sont pas comptabilis&eacute;es.</p>
+<p>- Le temps allou&eacute; au 'support' n'est pas comptabilis&eacute;.</p>
+<p>&nbsp;</p>
+<p>Ce calcul se fera par rapport &agrave; l'ETA et par rapport au BI</p>
+<p><span style="color: #00ccff;">elapsed - ETA&nbsp;&nbsp; </span></p>
+<p><span style="color: #00ccff;">elapsed - (BI + BS)</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>* Fiches en d&eacute;rive&nbsp;&nbsp;&nbsp;&nbsp;
+   (<span style="color: #00ccff;">d&eacute;rive &gt; 1</span>)</p>
+<p>* Fiches &agrave; l'&eacute;quilibre (<span style="color: #00ccff;">-1 &lt;= d&eacute;rive &lt;= 1</span>)</p>
+<p>* Fiches en avance&nbsp;&nbsp;&nbsp;&nbsp;
+   (<span style="color: #00ccff;">d&eacute;rive &lt; -1</span>)</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>D&eacute;rives - En cours &agrave; ce jour</h2>
+<p>Nombre de jours de d&eacute;passement par rapport au budget initial.</p>
+<p>&nbsp;</p>
+<p>Cet indicateur permet d'identifier les fiches en cours et qui
+   risquent de ne pas respecter les d&eacute;lais de livraison.</p>
+<p>&nbsp;</p>
+<p>On pourra alors prendre les dispositions n&eacute;cessaires (support
+   interne, demande de support au client, etc.) et si besoin pr&eacute;venir le client
+   d'un &eacute;ventuel retard.</p>
+<p>&nbsp;</p>
+<p>- Le calcul est fait sur les fiches en cours de
+   d&eacute;veloppement &agrave; ce jour.</p>
+<p><span style="color: #00ccff;">elapsed - ETA&nbsp;&nbsp; </span></p>
+<p><span style="color: #00ccff;">elapsed - (BI + BS)</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>* Fiches en d&eacute;rive&nbsp;&nbsp;&nbsp;&nbsp;
+   (<span style="color: #00ccff;">d&eacute;rive &gt; 1</span>)</p>
+<p>* Fiches &agrave; l'&eacute;quilibre (<span style="color: #00ccff;">-1 &lt;= d&eacute;rive &lt;= 1</span>)</p>
+<p>* Fiches en avance&nbsp;&nbsp;&nbsp;&nbsp;
+   (<span style="color: #00ccff;">d&eacute;rive &lt; -1</span>)</p>
+<p>&nbsp;</p>

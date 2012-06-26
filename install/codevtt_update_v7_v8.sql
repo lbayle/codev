@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_stproj_table` (
 RENAME TABLE `codev_service_table` To `codev_commandset_table`; 
 
 ALTER TABLE `codev_commandset_table` ADD `state` int(11)  AFTER `team_id`;
+ALTER TABLE `codev_commandset_table` ADD `reference` varchar(64)  AFTER `state`;
 
 -- -----------------
 RENAME TABLE `codev_service_eng_table` To `codev_commandset_cmd_table`; 

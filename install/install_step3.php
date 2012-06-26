@@ -23,7 +23,7 @@ include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
 $page_name = T_("Install - Step 3");
-include 'install_header.inc.php';
+require_once 'install_header.inc.php';
 
 include_once "mysql_connect.inc.php";
 
@@ -33,7 +33,7 @@ Config::getInstance()->setQuiet(true);
 include_once "internal_config.inc.php";
 include_once "constants.php";
 
-include 'install_menu.inc.php';
+require_once 'install_menu.inc.php';
 ?>
 
 <script language="JavaScript">
@@ -282,7 +282,8 @@ if ("false" == $is_modified) {
    $isJob5   = $_POST['cb_job5'];
 }
 
-$task_otherActivity = isset($_POST['task_otherActivity']) ? $_POST['task_otherActivity'] : T_("(generic) other external activity");
+$task_otherActivity = isset($_POST['task_otherActivity']) ? $_POST['task_otherActivity'] : T_("Other external activity");
+$task_leave     = isset($_POST['task_leave']) ? $_POST['task_leave'] : T_("Leave");
 $job1           = isset($_POST['job1']) ? $_POST['job1'] : T_("Study of the existing");
 $job2           = isset($_POST['job2']) ? $_POST['job2'] : T_("Analyse");
 $job3           = isset($_POST['job3']) ? $_POST['job3'] : T_("Development");
@@ -350,8 +351,13 @@ if ("checkReportsDir" == $action) {
     $extproj = ProjectCache::getInstance()->getProject($extproj_id);
 
     // cat="[All Projects] General", status="closed"
-    $extproj->addIssue(1, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
+    $extproj->addIssue(Project::cat_st_inactivity, $task_otherActivity, T_("Any external task, NOT referenced in any mantis project"), 90);
 
+
+    // --- Create the 'Leave' task in ExternalTasks Project
+    $LeaveTaskId = $extproj->addIssue(Project::cat_st_inactivity, $task_leave, T_("On holiday, sick leave, ..."), 90);
+    Config::getInstance()->setValue(Config::id_externalTask_leave, $LeaveTaskId, Config::configType_int , T_("Common Leave task"));
+    
     // Create default jobs
     // Note: Support & N/A jobs already created by SQL file
     // Note: N/A job association to ExternalTasksProject already done in Install::createExternalTasksProject()

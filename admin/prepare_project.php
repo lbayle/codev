@@ -23,10 +23,10 @@ include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
 $page_name = T_("CoDev Administration : Prepare Projects");
-include 'header.inc.php';
+require_once 'header.inc.php';
 
-include 'login.inc.php';
-include 'menu.inc.php';
+require_once 'login.inc.php';
+require_once 'menu.inc.php';
 ?>
 <br/>
 <?php include 'menu_admin.inc.php'; ?>

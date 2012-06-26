@@ -56,10 +56,10 @@ $(document).ready(function() {
             </select>
             <label>{t}Command{/t}: </label>
             <select id='commandSelector' name='cmdid'>
-               <option value='0'>{t}--- Create New Command ---{/t}</option>
                {foreach from=$commands key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} {$i.name}</option>
                {/foreach}
+               <option value='0'>{t}--- Create New Command ---{/t}</option>
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
             
@@ -137,7 +137,9 @@ $(document).ready(function() {
             </tr>
       </table>
       <br>
+      {if $isEditGranted}
       <button onclick="location.href='management/command_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      {/if}
    </div>
 
    <br/><br/>
@@ -164,6 +166,7 @@ $(document).ready(function() {
                   <th>{t}Elapsed{/t}</th>
                   <th>{t}Remaining Mgr{/t}</th>
                   <th style="width: 80px">{t}Drift Mgr{/t}</th>
+                  <th>{t}Progress{/t}</th>
                </tr>
                </thead>
                <tbody>
@@ -173,6 +176,8 @@ $(document).ready(function() {
                   <td>{$cmdDetailedMgr.elapsed}</td>
                   <td>{$cmdDetailedMgr.remaining}</td>
                   <td {$cmdDetailedMgr.driftColor} title="{t}nb days{/t}">{$cmdDetailedMgr.drift}</td>
+                  <td>{$cmdDetailedMgr.progress}%</td>
+
                </tr>
                </tbody>
             </table>

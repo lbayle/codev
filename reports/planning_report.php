@@ -55,10 +55,10 @@ if ("" == location.search) {
 exit();
 }
 $page_name = T_("Planning");
-include 'header.inc.php';
+require_once 'header.inc.php';
 
-include 'login.inc.php';
-include 'menu.inc.php';
+require_once 'login.inc.php';
+require_once 'menu.inc.php';
 ?>
 
 <script language="JavaScript">

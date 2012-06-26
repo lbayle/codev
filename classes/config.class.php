@@ -81,6 +81,7 @@ class Config {
 
    // known Config ids
    const id_externalTasksProject     = "externalTasksProject";
+   const id_externalTask_leave       = "externalTask_leave";
    const id_jobSupport               = "job_support";
    const id_adminTeamId              = "adminTeamId";
    const id_statusNames              = "statusNames";
@@ -149,7 +150,7 @@ class Config {
    /**
     * The singleton pattern
     * @static
-    * @return Holidays
+    * @return Config
     */
    public static function getInstance() {
       if (!isset(self::$instance)) {

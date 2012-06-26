@@ -33,7 +33,7 @@ include_once('consistency_check2.class.php');
 
 include_once "smarty_tools.php";
 
-include "command_tools.php";
+require_once "command_tools.php";
 
 $logger = Logger::getLogger("command_info");
 
@@ -150,10 +150,18 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
          $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the Command"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
-         
+      }
+
+      // access rights
+      if (($session_user->isTeamManager($cmd->getTeamid())) ||
+          ($session_user->isTeamLeader($cmd->getTeamid()))) {
+
+         $smartyHelper->assign('isEditGranted', true);
       }
 
    } else {
+      unset($_SESSION['commandsetid']);
+      unset($_SESSION['servicecontractid']);
 
       if ('displayCommand' == $action) {
 

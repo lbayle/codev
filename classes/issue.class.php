@@ -738,7 +738,6 @@ class Issue {
     * formula: elapsed - (effortEstim - remaining)
     * if bug is Resolved/Closed, then remaining is not used.
     * if EffortEstim = 0 then Drift = 0
-    * if Elapsed     = 0 then Drift = 0
     *
     * @param boolean $withSupport
     * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
@@ -757,12 +756,13 @@ class Issue {
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
-
+/*
+      // if Elapsed     = 0 then Drift = 0
       if (0 == $myElapsed) {
          $this->logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
          return 0;
       }
-
+*/
       if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
          $derive = $myElapsed - $totalEstim;
       } else {

@@ -22,10 +22,10 @@ include_once '../path.inc.php';
 include_once 'i18n.inc.php';
 
 $_POST['page_name'] = T_("PrelEffortEstim to ManagerEffortEstim");
-include 'header.inc.php';
+require_once 'header.inc.php';
 
-include 'login.inc.php';
-include 'menu.inc.php';
+require_once 'login.inc.php';
+require_once 'menu.inc.php';
 #echo "<br/>\n";
 #include 'menu_admin.inc.php';
 ?>

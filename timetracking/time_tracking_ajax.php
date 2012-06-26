@@ -19,15 +19,15 @@ require('../include/session.inc.php');
 
 // MAIN
 if(isset($_SESSION['userid'])) {
-   require('../path.inc.php');
-   require('super_header.inc.php');
-   require('i18n.inc.php');
+   require_once('../path.inc.php');
+   require_once('super_header.inc.php');
+   require_once('i18n.inc.php');
 
    if(isset($_GET['action'])) {
       if($_GET['action'] == 'updateRemainingAction') {
-         include('issue_cache.class.php');
-         include('holidays.class.php');
-         include('time_tracking.class.php');
+         require_once('issue_cache.class.php');
+         require_once('holidays.class.php');
+         require_once('time_tracking.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(getSecureGETIntValue('bugid'));
          $formattedRemaining = getSecureGETNumberValue('remaining');

@@ -132,18 +132,21 @@ function getCommandSetDetailedMgr($commandsetid, $type) {
  * @param type $smartyHelper
  * @param CommandSet $commandset
  */
-function displayCommandSet($smartyHelper, $commandset) {
+function displayCommandSet($smartyHelper, CommandSet $commandset) {
 
    #$smartyHelper->assign('commandsetId', $commandset->getId());
    $smartyHelper->assign('teamid',               $commandset->getTeamid());
    $smartyHelper->assign('commandsetName',       $commandset->getName());
+   $smartyHelper->assign('commandsetReference',  $commandset->getReference());
    $smartyHelper->assign('commandsetDesc',       $commandset->getDesc());
    $smartyHelper->assign('commandsetBudget',     $commandset->getBudgetDays());
    $smartyHelper->assign('commandsetCost',       $commandset->getCost());
    $smartyHelper->assign('commandsetCurrency',   $commandset->getCurrency());
    $smartyHelper->assign('commandsetDate',       date("Y-m-d", $commandset->getDate()));
 
-   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), Command::type_general));
+   $commands = getCommandSetCommands($commandset->getId(), Command::type_general);
+   $smartyHelper->assign('nbCommands', count($commands));
+   $smartyHelper->assign('cmdList', $commands);
    $smartyHelper->assign('cmdsetDetailedMgr', getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
 
 }

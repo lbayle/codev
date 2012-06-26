@@ -1068,6 +1068,14 @@ class TimeTracking {
 
 
     while($row = mysql_fetch_object($result)) {
+
+       // do not include internal tasks (tasks having no ExternalReference)
+       $issue = IssueCache::getInstance()->getIssue($row->id);
+       if ((NULL == $issue->tcId) || (NULL == $issue->tcId)) {
+          $this->logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
+          continue;
+       }
+
        if ( ! in_array($row->id, $reopenedList)) {
            $reopenedList[] = $row->id;
        }

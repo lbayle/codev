@@ -121,7 +121,18 @@ if (isset($_SESSION['userid'])) {
          $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the ServiceContract"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
+
+      // access rights
+      if (($session_user->isTeamManager($servicecontract->getTeamid())) ||
+          ($session_user->isTeamLeader($servicecontract->getTeamid()))) {
+
+         $smartyHelper->assign('isEditGranted', true);
+      }
+
    } else {
+      unset($_SESSION['cmdid']);
+      unset($_SESSION['commandsetid']);
+
       if ('displayServiceContract' == $action) {
          header('Location:servicecontract_edit.php?servicecontractid=0');
       }

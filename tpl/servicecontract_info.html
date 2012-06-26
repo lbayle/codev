@@ -63,10 +63,10 @@ $(document).ready(function() {
             </select>
             <label>{t}ServiceContract{/t}: </label>
             <select id='servicecontractSelector' name='servicecontractid'>
-               <option value='0'>{t}--- Create New ServiceContract ---{/t}</option>
                {foreach from=$servicecontracts key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
+               <option value='0'>{t}--- Create New ServiceContract ---{/t}</option>
             </select>
             <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
 
@@ -116,7 +116,9 @@ $(document).ready(function() {
             </tr>
       </table>
       <br>
+      {if $isEditGranted}
       <button onclick="location.href='management/servicecontract_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      {/if}
    </div>
 
    <div style="margin-top:6em;"></div>
@@ -124,23 +126,25 @@ $(document).ready(function() {
    <div id="tabsServiceContract">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+         <li><a href="#tabsName-2">{t}SideTasks ({$nbSidetasksList}){/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
          {if $cmdsetList}
          <div>
-            <!--table id="devCmd_table" class="display"-->
             <table>
+               <caption>{t}Tasks{/t}</caption>
                <thead>
                <tr>
                   <!--th></th-->
-                  <th>{t}CommandSet{/t}</th>
-                  <th>{t}Team{/t}</th>
+                  <th width="400">{t}CommandSet{/t}</th>
+                  <th width="100">{t}Team{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
                   <th>{t}Remaining Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
+                  <th>{t}Progress{/t}</th>
                </tr>
                </thead>
                <tbody>
@@ -154,6 +158,7 @@ $(document).ready(function() {
                      <td>{$cmdset.elapsed}</td>
                      <td>{$cmdset.remaining}</td>
                      <td {$cmdset.driftColor}>{$cmdset.drift}</td>
+                     <td>{$cmdset.progress}%</td>
                   </tr>
                   {/foreach}
                   <tr class="row_even">
@@ -165,6 +170,7 @@ $(document).ready(function() {
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
                      <td>{$cmdsetTotalDetailedMgr.remaining}</td>
                      <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
+                     <td>{$cmdsetTotalDetailedMgr.progress}%</td>
                   </tr>
 
                </tbody>
@@ -174,17 +180,17 @@ $(document).ready(function() {
          {t}No CommandSet found.{/t}
          {/if}
 
-   <div style="margin-top:3em;"></div>
+         <div style="margin-top:3em;"></div>
 
 
          {if $sidetasksDetailedMgr}
          <div>
-            <!--table id="devCmd_table" class="display"-->
             <table>
+               <caption>{t}SideTasks{/t}</caption>
                <thead>
                <tr>
                   <!--th></th-->
-                  <th>{t}Category{/t}</th>
+                  <th width="500">{t}Category{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
@@ -218,7 +224,112 @@ $(document).ready(function() {
             </table>
          </div>
          {else}
-         {t}No CommandSet found.{/t}
+         {t}No sidetasks found.{/t}
+         {/if}
+
+         <div style="margin-top:3em;"></div>
+
+
+         {if $servicecontractTotalDetailedMgr}
+         <div>
+            <table>
+               <caption>{t}All tasks{/t}</caption>
+               <thead>
+               <tr>
+                  <!--th></th-->
+                  <th width="500"></th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Drift Mgr{/t}</th>
+               </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <!--td></td-->
+                     <td align='left'>{t}Tasks{/t}</td>
+                     <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                     <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
+                     <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
+                     <td>{$cmdsetTotalDetailedMgr.remaining}</td>
+                     <td>{$cmdsetTotalDetailedMgr.drift}</td>
+                  </tr>
+                  <tr>
+                     <!--td></td-->
+                     <td align='left'>{t}SideTasks{/t}</td>
+                     <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
+                     <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
+                     <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
+                     <td>{$sidetasksTotalDetailedMgr.remaining}</td>
+                     <td>{$sidetasksTotalDetailedMgr.drift}</td>
+                  </tr>
+                  <tr class="row_even">
+                     <!--td></td-->
+                     <td align='left'><b>{t}TOTAL{/t}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.effortEstim}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.reestimated}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.elapsed}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.remaining}</b></td>
+                     <td {$servicecontractTotalDetailedMgr.driftColor}><b>{$servicecontractTotalDetailedMgr.drift}</b></td>
+                  </tr>
+
+               </tbody>
+            </table>
+         </div>
+         {else}
+         {t}No Total found.{/t}
+         {/if}
+      </div>
+      <div id="tabsName-2">
+
+
+         {if $sidetasksList}
+
+         <script>
+         $(document).ready(function() {
+            $('#issues_table').dataTable(
+               {
+                  "sScrollY": "700px",
+                  "bPaginate": false,
+                  "bScrollCollapse": true,
+                  "bFilter": true,
+                  "bSort": true,
+                  "bInfo": false,
+                  "bAutoWidth": false
+               });
+         });
+         </script>
+
+         <div align="center">
+         <table id="issues_table" class="display">
+            <thead>
+            <tr>
+                  <th>{t}ID{/t}</th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Category{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Summary{/t}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach $sidetasksList as $id => $issue}
+            <tr>
+                  <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
+                  <td>{$issue.bugid}</td>
+                  <td>{$issue.project}</td>
+                  <td>{$issue.category}</td>
+                  <td>{$issue.effortEstim}</td>
+                  <td>{$issue.elapsed}</td>
+                  <td>{$issue.summary}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         </div>
+         {else}
+         {t}No task found.{/t}
          {/if}
       </div>
 

@@ -31,8 +31,8 @@ include_once "command.class.php";
 
 include_once "smarty_tools.php";
 
-include "command_tools.php";
-include "commandset_tools.php";
+require_once "command_tools.php";
+require_once "commandset_tools.php";
 
 $logger = Logger::getLogger("command_edit");
 
@@ -185,7 +185,7 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display Empty Command Form
       // Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
-      $smartyHelper->assign('cmdInfoFormBtText', 'Create');
+      $smartyHelper->assign('cmdInfoFormBtText', T_('Create'));
       $smartyHelper->assign('cmdInfoFormAction', 'createCmd');
 
       $smartyHelper->assign('cmdStateList', getServiceContractStateList());
@@ -206,7 +206,7 @@ if (isset($_SESSION['userid'])) {
 
       if ("addCmdIssue" == $action) {
          $bugid = $_POST['bugid'];
-         $logger->debug("add Issue $bugid on Command $cmdid team $teamid<br>");
+         $logger->debug("add Issue $bugid on Command $cmdid team $teamid");
 
          $cmd->addIssue($bugid);
 
@@ -217,7 +217,7 @@ if (isset($_SESSION['userid'])) {
       } else if ("addToCmdSet" == $action) {
 
          $commandsetid = $_POST['commandsetid'];
-         $logger->debug("add Command $cmdid to CommandSet $commandsetid<br>");
+         $logger->debug("add Command $cmdid to CommandSet $commandsetid");
 
          $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
          $cmdset->addCommand($cmdid, Command::type_general);
@@ -225,7 +225,7 @@ if (isset($_SESSION['userid'])) {
       } else if ("removeFromCmdSet" == $action) {
 
          $commandsetid = $_POST['commandsetid'];
-         $logger->debug("remove Command $cmdid from CommandSet $commandsetid<br>");
+         $logger->debug("remove Command $cmdid from CommandSet $commandsetid");
 
          $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
          $cmdset->removeCommand($cmdid);
@@ -238,11 +238,17 @@ if (isset($_SESSION['userid'])) {
 
          updateCmdInfo($cmd);
 
+      } else if ("deleteCommand" == $action) {
+
+         $logger->debug("delete Command $cmdid");
+         Command::delete($cmdid);
+         unset($_SESSION['cmdid']);
+         header('Location:command_info.php');
       }
 
       // ------ Display Command
       $smartyHelper->assign('commandid', $cmdid);
-      $smartyHelper->assign('cmdInfoFormBtText', 'Save');
+      $smartyHelper->assign('cmdInfoFormBtText', T_('Save'));
       $smartyHelper->assign('cmdInfoFormAction', 'updateCmdInfo');
       $smartyHelper->assign('isAddIssueForm', true);
 
