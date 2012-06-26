@@ -315,12 +315,14 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
   `date` int(11) unsigned default NULL,
   `team_id` int(11) NOT NULL,
   `state` int(11) unsigned default NULL,
+  `reference` varchar(64) default NULL,
   `budget` float default NULL,
   `budget_days` int(11) default NULL,
   `currency` varchar(3) default 'EUR',
   `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 -- --------------------------------------------------------
 
