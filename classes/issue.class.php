@@ -173,14 +173,23 @@ class Issue {
 
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Creating an Issue with id=0 is not allowed.");
+         $e = new Exception("Constructor: Creating an Issue with id=0 is not allowed.");
          $this->logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
       $this->bugId = $id;
-      $this->initialize();
+
+      if (self::exists($id)) {
+         $this->initialize();
+      } else {
+         #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("Constructor: Issue $id does not exist in Mantis DB.");
+         $this->logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
    }
 
    public function initialize() {
@@ -266,6 +275,8 @@ class Issue {
     */
    public static function exists($bugid) {
 
+      global $logger;
+
       $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
       $result = mysql_query($query);
       if (!$result) {
@@ -274,9 +285,13 @@ class Issue {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $found  = (0 != mysql_num_rows($result)) ? true : false;
+      #$found  = (0 != mysql_num_rows($result)) ? true : false;
+      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
 
-      return $found;
+      if (1 != $nbTuples) {
+         $logger->warn("exists($bugid): found $nbTuples items.");
+      }
+      return (1 == $nbTuples);
    }
 
 

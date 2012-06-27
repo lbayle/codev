@@ -97,8 +97,8 @@ class IssueSelection {
             $retCode = true;
          } else {
             $e = new Exception("IssueSelection [$this->name] : addIssue($bugid) : Issue does NOT exist in Mantis DB !");
-            $this->logger->error("EXCEPTION Command constructor: ".$e->getMessage());
-            $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+            #$this->logger->error("EXCEPTION Command constructor: ".$e->getMessage());
+            #$this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
             throw $e;
          }
       }

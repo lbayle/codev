@@ -325,15 +325,19 @@ class User {
       }
 
      while($row = mysql_fetch_object($result)) {
-		  $issue = IssueCache::getInstance()->getIssue($row->bugid);
-		  if ($issue->projectId == $extTasksProjId) {
-			  if (isset($row->date)) {
-			     $extTasks[$row->date] += $row->duration;
-			  } else {
-			     $extTasks[$row->date]  = $row->duration;
-			  }
-           $this->logger->debug("user $this->id ExternalTasks[".date("j", $row->date)."] = ".$extTasks[date("j", $row->date)]." (+$row->duration)");
-		  }
+        try {
+         $issue = IssueCache::getInstance()->getIssue($row->bugid);
+         if ($issue->projectId == $extTasksProjId) {
+            if (isset($row->date)) {
+               $extTasks[$row->date] += $row->duration;
+            } else {
+               $extTasks[$row->date]  = $row->duration;
+            }
+            $this->logger->debug("user $this->id ExternalTasks[".date("j", $row->date)."] = ".$extTasks[date("j", $row->date)]." (+$row->duration)");
+         }
+        } catch (Exception $e) {
+           $this->logger->warn("getExternalTasksInPeriod: ".$e->getMessage());
+        }
 	  }
 	  	return $extTasks;
   }

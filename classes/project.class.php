@@ -1040,7 +1040,11 @@ class Project {
 
         $issueSelection = new IssueSelection($this->name);
         foreach ($issueList as $bugid) {
-           $issueSelection->addIssue($bugid);
+           try {
+             $issueSelection->addIssue($bugid);
+           } catch (Exception $e) {
+              $this->logger->warn("getProgress: ".$e->getMessage());
+           }
         }
         $this->progress = $issueSelection->getProgress();
       }

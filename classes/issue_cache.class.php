@@ -65,9 +65,14 @@ class IssueCache {
       $issue = isset(self::$objects[$bugId]) ? self::$objects[$bugId] : NULL;
 
       if (NULL == $issue) {
-         self::$objects[$bugId] = new Issue($bugId);
-         $issue = self::$objects[$bugId];
-         #echo "DEBUG: IssueCache add $bugId<br/>";
+         if (Issue::exists($bugId)) {
+            self::$objects[$bugId] = new Issue($bugId);
+            $issue = self::$objects[$bugId];
+            #echo "DEBUG: IssueCache add $bugId<br/>";
+         } else {
+            $e = new Exception("IssueCache.getIssue($bugId) : Issue not found in Mantis DB.");
+            throw $e;
+         }
       } else {
          if (isset(self::$callCount[$bugId])) {
             self::$callCount[$bugId] += 1;

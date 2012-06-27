@@ -241,8 +241,9 @@ class TimeTracking {
            continue; // skip this timeTrack
         }
 
-        $issue = IssueCache::getInstance()->getIssue($row->bugid);
         try {
+           $issue = IssueCache::getInstance()->getIssue($row->bugid);
+           
 	        if ((in_array ($issue->projectId, $this->sideTaskprojectList)) &&
 			        ($issue->isProjManagement(array($this->team_id)))) {
 		        $prodDays += $timeTrack->duration;
@@ -659,15 +660,15 @@ class TimeTracking {
 
     while($row = mysql_fetch_object($result))
     {
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
       try {
+         $issue = IssueCache::getInstance()->getIssue($row->bugid);
 	      if ($issue->isIncident(array($this->team_id))) {
 
 		      $teamIncidentDays += $row->duration;
 		      //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
 	      }
       } catch (Exception $e) {
-	      $this->logger->error("getSystemDisponibilityRate(): issue $issue->bugId: ".$e->getMessage());
+	      $this->logger->warn("getSystemDisponibilityRate(): issue $issue->bugId: ".$e->getMessage());
       }
     }
 
@@ -749,11 +750,15 @@ class TimeTracking {
 
     while($row = mysql_fetch_object($result))
     {
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
+      try {
+         $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
-      if ($issue->projectId  == $project_id) {
-        $workingDaysPerProject += $row->duration;
-        $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=$row->duration, bugid=$row->bugid, userid=$row->userid, ".date("Y-m-d", $row->date));
+         if ($issue->projectId  == $project_id) {
+         $workingDaysPerProject += $row->duration;
+         $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=$row->duration, bugid=$row->bugid, userid=$row->userid, ".date("Y-m-d", $row->date));
+         }
+      } catch (Exception $e) {
+          $this->logger->warn("getWorkingDaysPerProject($project_id) : Issue $row->bugid not found in Mantis DB.");
       }
     }
     $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
@@ -873,7 +878,7 @@ class TimeTracking {
     $durationPerCategory = array();
 
     // Find nb hours spent on the given project by this team
-    $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.duration ".
+    $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.duration, codev_timetracking_table.date, codev_timetracking_table.userid ".
                  "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
                  "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
                  "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
@@ -888,20 +893,23 @@ class TimeTracking {
     	exit;
     }
 
-    while($row = mysql_fetch_object($result))
-    {
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
-      if ($issue->projectId  == $project_id) {
-        if (isset($_GET['debug'])) {
-          echo "project[$project_id][".$issue->getCategoryName()."]( bug $row->bugid) = $row->duration<br/>\n";
-        }
+    while($row = mysql_fetch_object($result)) {
 
-        if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
-        	   $durationPerCategory[$issue->getCategoryName()] = array();
-        }
-        $durationPerCategory[$issue->getCategoryName()][$row->bugid]+= $row->duration;
+       try {
+         $issue = IssueCache::getInstance()->getIssue($row->bugid);
+
+            if ($issue->projectId == $project_id) {
+               $this->logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug $row->bugid) = $row->duration");
+
+               if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
+                  $durationPerCategory[$issue->getCategoryName()] = array();
+               }
+               $durationPerCategory[$issue->getCategoryName()][$row->bugid]+= $row->duration;
+            }
+         } catch (Exception $e) {
+            $this->logger->warn("getProjectDetails($project_id) issue $row->bugid not found in Mantis DB (duration = $row->duration, user $row->userid on ".date('Y-m-d', $row->date).')');
+         }
       }
-    }
     return $durationPerCategory;
   }
 
