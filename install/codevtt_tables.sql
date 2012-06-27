@@ -374,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
 
 CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `engagement_id` int(11) NOT NULL,
+  `command_id` int(11) NOT NULL,
   `bug_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

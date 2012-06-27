@@ -650,7 +650,7 @@ class Install {
       	$stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
       	$stringData .= "\n";
          $stringData .= "  // --- log file as defined in log4php.xml\n";
-      	$stringData .= "  \$codevtt_logfile = '/tmp/reports/codevtt.log';\n";
+      	$stringData .= "  \$codevtt_logfile = '/tmp/codevtt/logs/codevtt.log';\n";
       	$stringData .= "\n";
       	$stringData .= "  \$homepage_title = 'Welcome';\n";
       	$stringData .= "\n";

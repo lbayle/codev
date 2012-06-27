@@ -257,7 +257,7 @@ $adminTeamName = T_("CodevTT admin");
 $adminTeamLeaderId = 1; // 1 is mantis administrator
 
 #$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
-$defaultReportsDir = "/tmp/codevReports";
+$defaultReportsDir = "/tmp/codevtt/reports";
 
 $action               = isset($_POST['action']) ? $_POST['action'] : '';
 $is_modified          = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
