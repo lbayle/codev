@@ -34,6 +34,19 @@ if (NULL == Logger::getConfigurationFile()) {
     #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
 }
 
+// handle uncaught exceptions
+function exception_handler($e)
+{
+   global $logger;
+
+   echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+   $logger->error("UNCAUGHT EXCEPTION : ".$e->getMessage());
+   $logger->error("UNCAUGHT EXCEPTION stack-trace:\n".$e->getTraceAsString());
+}
+set_exception_handler('exception_handler');
+
+
+
 include_once "tools.php";
 include_once "mysql_connect.inc.php";
 include_once "internal_config.inc.php";
