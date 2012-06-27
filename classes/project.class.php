@@ -87,7 +87,16 @@ class Project {
       }
 
       $this->id = $id;
+
+      if ((NULL == $id) || (!self::exists($id))) {
+         #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("Constructor: Project $id does not exist in Mantis DB.");
+         $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
       $this->initialize();
+
    }
 
    // -----------------------------------------------
@@ -142,6 +151,33 @@ class Project {
 
       #$this->jobList     = $this->getJobList();
    }
+
+
+   /**
+    * @param int $id project_id
+    * @return boolean TRUE if Project exists in Mantis DB
+    */
+   public static function exists($id) {
+
+      global $logger;
+
+      $query  = "SELECT COUNT(id) FROM `mantis_project_table` WHERE id=$id ";
+      $result = mysql_query($query);
+      if (!$result) {
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      #$found  = (0 != mysql_num_rows($result)) ? true : false;
+      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+
+      if (1 != $nbTuples) {
+         $logger->warn("exists($id): found $nbTuples items.");
+      }
+      return (1 == $nbTuples);
+   }
+
 
    // -----------------------------------------------
    /**
