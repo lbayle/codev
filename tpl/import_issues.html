@@ -15,10 +15,68 @@ $(document).ready(function() {
 
    var oTable = $('#issues_table').dataTable( {
         "bProcessing": true,
-        "bServerSide": true,
-        "sAjaxSource": "/tests/import/server_processing.php",
         "fnDrawCallback": function () {
-            $('#issues_table tbody td').editable( '/tests/import/editable_ajax.php', {
+
+            $('.mgrEffortEstim').editable( 'import/editable_ajax.php', {
+               loadurl : 'import/import_issues_ajax.php?column=mgrEffortEstim',
+               type   : 'textarea',
+               submit : 'OK',
+
+                "callback": function( sValue, y ) {
+                    /* Redraw the table from the new data on the server */
+                    oTable.fnDraw();
+                },
+                "height": "14px"
+            } );
+            $('.effortEstim').editable( 'import/editable_ajax.php', {
+               loadurl : 'import/import_issues_ajax.php?column=effortEstim',
+               type   : 'textarea',
+               submit : 'OK',
+
+                "callback": function( sValue, y ) {
+                    /* Redraw the table from the new data on the server */
+                    oTable.fnDraw();
+                },
+                "height": "14px"
+            } );
+            $('.command').editable( 'import/editable_ajax.php', {
+               loadurl : 'import/import_issues_ajax.php?column=command&selected=1',
+               type   : 'select',
+               submit : 'OK',
+
+                "callback": function( sValue, y ) {
+                    /* Redraw the table from the new data on the server */
+                    oTable.fnDraw();
+                },
+                "height": "14px"
+            } );
+            $('.category').editable( 'import/editable_ajax.php', {
+               loadurl : 'import/import_issues_ajax.php?column=category&selected=2',
+               type   : 'select',
+               submit : 'OK',
+
+                "callback": function( sValue, y ) {
+                    /* Redraw the table from the new data on the server */
+                    oTable.fnDraw();
+                },
+                "height": "14px"
+            } );
+            $('.targetVersion').editable( 'import/editable_ajax.php', {
+               loadurl : 'import/import_issues_ajax.php?column=targetVersion&selected=3',
+               type   : 'select',
+               submit : 'OK',
+
+                "callback": function( sValue, y ) {
+                    /* Redraw the table from the new data on the server */
+                    oTable.fnDraw();
+                },
+                "height": "14px"
+            } );
+            $('.userName').editable( 'import/editable_ajax.php', {
+               loadurl : 'import/import_issues_ajax.php?column=userName',
+               type   : 'select',
+               submit : 'OK',
+
                 "callback": function( sValue, y ) {
                     /* Redraw the table from the new data on the server */
                     oTable.fnDraw();
@@ -57,21 +115,19 @@ $(document).ready(function() {
             <th>Category</th>
             <th>TargetVersion</th>
             <th>User</th>
-            <th>Status</th>
         </tr>
         </thead>
         <tbody>
         {foreach from=$newIssues key=id item=i}
         <tr>
-            <td>{$i.extRef}</td>
-            <td>{$i.summary}</td>
-            <td>{$i.mgrEffortEstim}</td>
-            <td>{$i.effortEstim}</td>
-            <td>{$i.command}</td>
-            <td>{$i.category}</td>
-            <td>{$i.targetVersion}</td>
-            <td>{$i.userName}</td>
-            <td>{$i.status}</td>
+            <td class="extRef">{$i.extRef}</td>
+            <td class="summary">{$i.summary}</td>
+            <td class="mgrEffortEstim">{$i.mgrEffortEstim}</td>
+            <td class="effortEstim">{$i.effortEstim}</td>
+            <td class="command">{$i.command}</td>
+            <td class="category">{$i.category}</td>
+            <td class="targetVersion">{$i.targetVersion}</td>
+            <td class="userName">{$i.userName}</td>
         </tr>
         {/foreach}
         </tbody>

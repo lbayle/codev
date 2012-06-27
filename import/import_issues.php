@@ -50,6 +50,20 @@ function getFakeNewIssues() {
 
    $issues[] = $newIssue;
 
+   $newIssue = array();
+   $newIssue['summary'] = 'blabla2';
+   $newIssue['mgrEffortEstim'] = '12';
+   $newIssue['effortEstim'] = '7';
+   $newIssue['extRef'] = 'ADEL0001';
+   $newIssue['status'] = 'new';
+   $newIssue['command'] = '';
+   $newIssue['category'] = '';
+   $newIssue['targetVersion'] = '';
+   $newIssue['userName'] = '';
+
+   $issues[] = $newIssue;
+
+
    return $issues;
 
 }
@@ -100,12 +114,6 @@ if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tablea
 {
      $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg, txt ou doc...';
 }
-
-
-echo "AAAAAAAAAa";
-
-
-
 
 
 
