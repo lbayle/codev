@@ -139,7 +139,7 @@ class ConsistencyCheck2 {
       $this->logger = Logger::getLogger(__CLASS__);
 
       $this->issueList = $issueList;
-      $this->teamId= $teamId;
+      $this->teamId    = $teamId;
    }
 
    /**
@@ -432,6 +432,48 @@ class ConsistencyCheck2 {
       }
       return $cerrList;
 
+   }
+
+
+   /**
+    * for all timetracks of the team, check that the Mantis issue exist.
+    */
+   public function checkTeamTimetracks() {
+
+      $cerrList = array();
+
+      if (NULL != $this->teamId) {
+         $userList = Team::getMemberList($this->teamId);
+         $team = TeamCache::getInstance()->getTeam($this->teamId);
+
+         $formatedUsers = implode( ', ', array_keys($userList));
+
+         $query     = "SELECT * ".
+            "FROM  `codev_timetracking_table` ".
+            "WHERE  codev_timetracking_table.date >= $team->date ".
+            "AND    codev_timetracking_table.userid IN ($formatedUsers) ";
+            #"AND    0 = (SELECT COUNT(id) FROM `mantis_bug_table` WHERE id='codev_timetracking_table.bugid' ) ";
+
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         while($row = mysql_fetch_object($result)) {
+
+            if (!Issue::exists($row->bugid)) {
+               $cerr = new ConsistencyError2($row->bugid, $row->userid, NULL,
+                  $row->date, T_("Timetrack found on a task that does not exist in Mantis DB (duration = $row->duration)."));
+               $cerr->severity = ConsistencyError2::severity_error;
+               $cerrList[] = $cerr;
+            }
+         }
+      }
+
+      return $cerrList;
    }
 
 

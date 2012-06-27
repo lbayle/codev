@@ -67,7 +67,7 @@ class Team {
     *
     * @param unknown_type $teamid
     */
-   public function Team($teamid) {
+   public function __construct($teamid) {
 
       $this->logger = Logger::getLogger(__CLASS__);
 

@@ -17,7 +17,10 @@
 */
 
 include_once '../path.inc.php';
-include_once '../tools.php';
+
+require('super_header.inc.php');
+
+#include_once '../tools.php';
 require_once('../calendar/classes/tc_calendar.php');
 
 

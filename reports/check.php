@@ -62,22 +62,35 @@ function getTeamConsistencyErrors($teamid) {
 
    $logger->debug("getTeamConsistencyErrors nbIssues=".count($issueList));
 
-   $ccheck = new ConsistencyCheck2($issueList);
-   $cerrList = $ccheck->check();
+   #$ccheck = new ConsistencyCheck2($issueList);
+   $ccheck = new ConsistencyCheck2($issueList, $teamid);
+   
+   $cerrList1 = $ccheck->check();
+   $cerrList2 = $ccheck->checkTeamTimetracks();
+   $cerrList = array_merge($cerrList1, $cerrList2);
 
    if (count($cerrList) > 0) {
       foreach ($cerrList as $cerr) {
          $user = UserCache::getInstance()->getUser($cerr->userId);
-         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+         try {
+            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+            $summary = $issue->summary;
+            $projName = $issue->getProjectName();
+            $targetVersion = $issue->getTargetVersion();
+         } catch (Exception $e) {
+            $summary = '';
+            $projName = '';
+            $targetVersion = '';
+         }
 
          $cerrs[] = array('userName' => $user->getName(),
-            'issueURL' => issueInfoURL($cerr->bugId, $issue->summary),
-            'mantisURL' => mantisIssueURL($cerr->bugId, $issue->summary, true),
+            'issueURL' => issueInfoURL($cerr->bugId, $summary),
+            'mantisURL' => mantisIssueURL($cerr->bugId, $summary, true),
             'date' => date("Y-m-d", $cerr->timestamp),
             'status' => $statusNames[$cerr->status],
             'severity' => $cerr->getLiteralSeverity(),
-            'project' => $issue->getProjectName(),
-            'targetVersion' => $issue->getTargetVersion(),
+            'project' => $projName,
+            'targetVersion' => $targetVersion,
             'desc' => $cerr->desc);
       }
       return $cerrs;

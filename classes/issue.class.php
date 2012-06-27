@@ -280,8 +280,8 @@ class Issue {
       $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
       $result = mysql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
+         $logger->error("Query FAILED: $query");
+         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
