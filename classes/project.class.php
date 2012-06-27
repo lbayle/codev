@@ -72,6 +72,8 @@ class Project {
    private $drift;
    private $driftMgr;
 
+   private $issueLists; // cache
+
    // -----------------------------------------------
    public function __construct($id) {
       $this->logger = Logger::getLogger(__CLASS__);
@@ -654,30 +656,40 @@ class Project {
     */
    public function getIssueList($handler_id = 0, $isHideResolved = false) {
 
-      $issueList = array();
+      if (NULL == $this->issueLists) { $this->issueLists = array(); }
 
-      $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
-               "WHERE project_id=$this->id ";
-       if (0 != $handler_id) {
-          $query  .= "AND handler_id = $handler_id ";
-       }
-       if ($isHideResolved) {
-          $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
-       }
 
-      $query  .= "ORDER BY id DESC";
+      $key= ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
 
-      $result = mysql_query($query);
-      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+      if (NULL == $this->issueLists[$key]) {
+
+         $issueList = array();
+
+         $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+                  "WHERE project_id=$this->id ";
+         if (0 != $handler_id) {
+            $query  .= "AND handler_id = $handler_id ";
+         }
+         if ($isHideResolved) {
+            $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
+         }
+
+         $query  .= "ORDER BY id DESC";
+
+         $result = mysql_query($query);
+         if (!$result) {
+            $this->logger->error("Query FAILED: $query");
+            $this->logger->error(mysql_error());
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = mysql_fetch_object($result)) {
+            $issueList[] = $row->id;
+         }
+         
+         $this->issueLists[$key] = $issueList;
       }
-      while($row = mysql_fetch_object($result)) {
-         $issueList[] = $row->id;
-      }
-      return $issueList;
+      return $this->issueLists[$key];
    }
 
    // -----------------------------------------------
