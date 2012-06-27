@@ -29,6 +29,7 @@ $codevPathLog      = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARAT
 $codevPathSmarty   = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Smarty';
 $codevPathOdtPhp   = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'odtphp' . DIRECTORY_SEPARATOR . 'library';
 $codevPathTests    = BASE_PATH . DIRECTORY_SEPARATOR . 'tests';
+$codevPathImport    = BASE_PATH . DIRECTORY_SEPARATOR . 'import';
 
 $path = array(
    BASE_PATH,
@@ -43,6 +44,7 @@ $path = array(
    $codevPathSmarty,
    $codevPathOdtPhp,
    $codevPathTests,
+   $codevPathImport,
    get_include_path()
    );
 
@@ -75,6 +77,7 @@ function getServerRootURL() {
    $rootURL = str_replace("/graphs", "", $rootURL);
    $rootURL = str_replace("/install", "", $rootURL);
    $rootURL = str_replace("/tests", "", $rootURL);
+   $rootURL = str_replace("/import", "", $rootURL);
    $rootURL = str_replace("/blog", "", $rootURL);
    $rootURL = str_replace("/management", "", $rootURL);
 
