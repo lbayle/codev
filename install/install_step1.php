@@ -122,7 +122,7 @@ $sqlFile_procedures    = "./codevtt_procedures.sql";
 
 $db_mantis_host     = isset($_POST['db_mantis_host']) ?     $_POST['db_mantis_host']     : 'localhost';
 $db_mantis_database = isset($_POST['db_mantis_database']) ? $_POST['db_mantis_database'] : 'bugtracker';
-$db_mantis_user     = isset($_POST['db_mantis_user']) ?     $_POST['db_mantis_user']     : 'codevtt';
+$db_mantis_user     = isset($_POST['db_mantis_user']) ?     $_POST['db_mantis_user']     : 'mantisdbuser';
 $db_mantis_pass     = isset($_POST['db_mantis_pass']) ?     $_POST['db_mantis_pass']     : '';
 
 $action      = isset($_POST['action']) ? $_POST['action'] : '';

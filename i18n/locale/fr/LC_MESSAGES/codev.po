@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-26 01:03+0200\n"
+"POT-Creation-Date: 2012-06-27 23:43+0200\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -22,9 +22,9 @@ msgstr "Administration CoDev : Edition équipe"
 
 #: admin/edit_team.php:255 i18n/locale/smarty.c:39 i18n/locale/smarty.c:61
 #: i18n/locale/smarty.c:228 i18n/locale/smarty.c:483 i18n/locale/smarty.c:532
-#: i18n/locale/smarty.c:577 i18n/locale/smarty.c:591 i18n/locale/smarty.c:632
-#: i18n/locale/smarty.c:670 i18n/locale/smarty.c:673 i18n/locale/smarty.c:687
-#: i18n/locale/smarty.c:758 i18n/locale/smarty.c:778 i18n/locale/smarty.c:816
+#: i18n/locale/smarty.c:578 i18n/locale/smarty.c:592 i18n/locale/smarty.c:633
+#: i18n/locale/smarty.c:671 i18n/locale/smarty.c:674 i18n/locale/smarty.c:688
+#: i18n/locale/smarty.c:759 i18n/locale/smarty.c:779 i18n/locale/smarty.c:817
 #: classes/gantt_manager.class.php:544 classes/gantt_manager.class.php:546
 #: reports/planning_report.php:198 timetracking/holidays_report.php:61
 msgid "Team"
@@ -57,8 +57,8 @@ msgstr "identifiant"
 
 #: admin/edit_team.php:334 admin/edit_team.php:535 i18n/locale/smarty.c:37
 #: i18n/locale/smarty.c:40 i18n/locale/smarty.c:262 i18n/locale/smarty.c:569
-#: i18n/locale/smarty.c:629 i18n/locale/smarty.c:633 i18n/locale/smarty.c:668
-#: i18n/locale/smarty.c:755 i18n/locale/smarty.c:759
+#: i18n/locale/smarty.c:630 i18n/locale/smarty.c:634 i18n/locale/smarty.c:669
+#: i18n/locale/smarty.c:756 i18n/locale/smarty.c:760
 msgid "Name"
 msgstr "Nom"
 
@@ -126,8 +126,8 @@ msgstr "Type"
 #: admin/edit_team.php:537 admin/edit_team.php:748 admin/create_team.php:98
 #: admin/edit_holidays.php:97 admin/edit_holidays.php:123
 #: i18n/locale/smarty.c:44 i18n/locale/smarty.c:58 i18n/locale/smarty.c:68
-#: i18n/locale/smarty.c:292 i18n/locale/smarty.c:637 i18n/locale/smarty.c:761
-#: i18n/locale/smarty.c:775 reports/export_csv_weekly.php:52
+#: i18n/locale/smarty.c:292 i18n/locale/smarty.c:638 i18n/locale/smarty.c:762
+#: i18n/locale/smarty.c:776 reports/export_csv_weekly.php:52
 msgid "Description"
 msgstr "Description"
 
@@ -140,8 +140,8 @@ msgstr "Projets de l'équipe"
 #: i18n/locale/smarty.c:229 i18n/locale/smarty.c:268 i18n/locale/smarty.c:291
 #: i18n/locale/smarty.c:357 i18n/locale/smarty.c:360 i18n/locale/smarty.c:446
 #: i18n/locale/smarty.c:477 i18n/locale/smarty.c:511 i18n/locale/smarty.c:528
-#: i18n/locale/smarty.c:571 i18n/locale/smarty.c:620 i18n/locale/smarty.c:656
-#: i18n/locale/smarty.c:659 i18n/locale/smarty.c:731 i18n/locale/smarty.c:743
+#: i18n/locale/smarty.c:571 i18n/locale/smarty.c:621 i18n/locale/smarty.c:657
+#: i18n/locale/smarty.c:660 i18n/locale/smarty.c:732 i18n/locale/smarty.c:744
 #: reports/export_csv_tools.php:34 tools/workflow.php:132
 msgid "Project"
 msgstr "Projet"
@@ -149,8 +149,8 @@ msgstr "Projet"
 #: admin/edit_team.php:616 admin/edit_team.php:724 admin/edit_jobs.php:176
 #: admin/edit_jobs.php:286 admin/edit_holidays.php:101 i18n/locale/smarty.c:54
 #: i18n/locale/smarty.c:64 i18n/locale/smarty.c:259 i18n/locale/smarty.c:277
-#: i18n/locale/smarty.c:575 i18n/locale/smarty.c:651 i18n/locale/smarty.c:663
-#: i18n/locale/smarty.c:771 include/menu_holidays.inc.php:31
+#: i18n/locale/smarty.c:575 i18n/locale/smarty.c:652 i18n/locale/smarty.c:664
+#: i18n/locale/smarty.c:772 include/menu_holidays.inc.php:31
 msgid "Add"
 msgstr "Ajouter"
 
@@ -158,8 +158,8 @@ msgstr "Ajouter"
 msgid "Delete team"
 msgstr "Supprimer l'équipe"
 
-#: admin/edit_team.php:638 i18n/locale/smarty.c:50 i18n/locale/smarty.c:647
-#: i18n/locale/smarty.c:768
+#: admin/edit_team.php:638 i18n/locale/smarty.c:50 i18n/locale/smarty.c:648
+#: i18n/locale/smarty.c:769
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -178,8 +178,8 @@ msgid "Inactivity tasks"
 msgstr "Inactivité"
 
 #: admin/edit_team.php:747 i18n/locale/smarty.c:57 i18n/locale/smarty.c:67
-#: i18n/locale/smarty.c:306 i18n/locale/smarty.c:655 i18n/locale/smarty.c:667
-#: i18n/locale/smarty.c:774
+#: i18n/locale/smarty.c:306 i18n/locale/smarty.c:656 i18n/locale/smarty.c:668
+#: i18n/locale/smarty.c:775
 msgid "Id"
 msgstr "Id"
 
@@ -386,7 +386,7 @@ msgid ""
 msgstr "Charge Mgr, Charge, RAF, DeadLine, Date de Livraison"
 
 #: admin/create_team.php:217 admin/create_team.php:303
-#: admin/create_team.php:355 i18n/locale/smarty.c:600 i18n/locale/smarty.c:616
+#: admin/create_team.php:355 i18n/locale/smarty.c:601 i18n/locale/smarty.c:617
 #: install/install.class.php:547
 msgid "SideTasks"
 msgstr "TachesAnnexes"
@@ -451,8 +451,8 @@ msgstr "Administration CoDev : Congés"
 #: i18n/locale/smarty.c:89 i18n/locale/smarty.c:98 i18n/locale/smarty.c:105
 #: i18n/locale/smarty.c:117 i18n/locale/smarty.c:124 i18n/locale/smarty.c:133
 #: i18n/locale/smarty.c:208 i18n/locale/smarty.c:267 i18n/locale/smarty.c:287
-#: i18n/locale/smarty.c:305 i18n/locale/smarty.c:678 i18n/locale/smarty.c:703
-#: i18n/locale/smarty.c:762 i18n/locale/smarty.c:763
+#: i18n/locale/smarty.c:305 i18n/locale/smarty.c:679 i18n/locale/smarty.c:704
+#: i18n/locale/smarty.c:763 i18n/locale/smarty.c:764
 msgid "Date"
 msgstr "Date"
 
@@ -518,21 +518,21 @@ msgid "To"
 msgstr "Au"
 
 #: i18n/locale/smarty.c:3 i18n/locale/smarty.c:294 i18n/locale/smarty.c:550
-#: i18n/locale/smarty.c:601 i18n/locale/smarty.c:621
+#: i18n/locale/smarty.c:602 i18n/locale/smarty.c:622
 msgid "Category"
 msgstr "Catégorie"
 
 #: i18n/locale/smarty.c:4 i18n/locale/smarty.c:191 i18n/locale/smarty.c:309
 #: i18n/locale/smarty.c:452 i18n/locale/smarty.c:481 i18n/locale/smarty.c:519
-#: i18n/locale/smarty.c:624 i18n/locale/smarty.c:657 i18n/locale/smarty.c:661
-#: i18n/locale/smarty.c:740 i18n/locale/smarty.c:752
+#: i18n/locale/smarty.c:625 i18n/locale/smarty.c:658 i18n/locale/smarty.c:662
+#: i18n/locale/smarty.c:741 i18n/locale/smarty.c:753
 #: reports/export_csv_tools.php:37
 msgid "Summary"
 msgstr "Description"
 
 #: i18n/locale/smarty.c:7 i18n/locale/smarty.c:263 i18n/locale/smarty.c:486
-#: i18n/locale/smarty.c:534 i18n/locale/smarty.c:570 i18n/locale/smarty.c:580
-#: i18n/locale/smarty.c:676 i18n/locale/smarty.c:696
+#: i18n/locale/smarty.c:534 i18n/locale/smarty.c:570 i18n/locale/smarty.c:581
+#: i18n/locale/smarty.c:677 i18n/locale/smarty.c:697
 msgid "Jump"
 msgstr "Envoyer"
 
@@ -555,16 +555,16 @@ msgstr "Assigné à"
 
 #: i18n/locale/smarty.c:12 i18n/locale/smarty.c:190 i18n/locale/smarty.c:295
 #: i18n/locale/smarty.c:451 i18n/locale/smarty.c:513 i18n/locale/smarty.c:527
-#: i18n/locale/smarty.c:544 i18n/locale/smarty.c:739 i18n/locale/smarty.c:751
+#: i18n/locale/smarty.c:544 i18n/locale/smarty.c:740 i18n/locale/smarty.c:752
 #: reports/export_csv_tools.php:38
 msgid "Status"
 msgstr "Statut"
 
-#: i18n/locale/smarty.c:13 i18n/locale/smarty.c:769
+#: i18n/locale/smarty.c:13 i18n/locale/smarty.c:770
 msgid "Commands"
 msgstr "Commandes"
 
-#: i18n/locale/smarty.c:14 i18n/locale/smarty.c:157 i18n/locale/smarty.c:700
+#: i18n/locale/smarty.c:14 i18n/locale/smarty.c:157 i18n/locale/smarty.c:701
 msgid "Overview"
 msgstr "Résumé"
 
@@ -582,7 +582,7 @@ msgid "Update Remaining"
 msgstr "Mise à jour du RAF"
 
 #: i18n/locale/smarty.c:20 i18n/locale/smarty.c:302 i18n/locale/smarty.c:563
-#: i18n/locale/smarty.c:719
+#: i18n/locale/smarty.c:720
 msgid "Remaining"
 msgstr "Reste à faire"
 
@@ -609,9 +609,9 @@ msgid "Deviation"
 msgstr "Dérive"
 
 #: i18n/locale/smarty.c:27 i18n/locale/smarty.c:28 i18n/locale/smarty.c:495
-#: i18n/locale/smarty.c:646 i18n/locale/smarty.c:681 i18n/locale/smarty.c:767
+#: i18n/locale/smarty.c:647 i18n/locale/smarty.c:682 i18n/locale/smarty.c:768
 #: classes/scheduler.class.php:57 reports/planning_report.php:446
-#: timetracking/team_activity_report.php:186
+#: timetracking/team_activity_report.php:188
 #: timetracking/time_tracking_tools.php:62
 msgid "days"
 msgstr "jours"
@@ -627,7 +627,7 @@ msgid "Sorry, you need to be member of a Team to access this page."
 msgstr "Vous devez faire partie de l'équipe d'admin pour acceder à cette page."
 
 #: i18n/locale/smarty.c:31 i18n/locale/smarty.c:80 i18n/locale/smarty.c:322
-#: i18n/locale/smarty.c:540 i18n/locale/smarty.c:817
+#: i18n/locale/smarty.c:540 i18n/locale/smarty.c:818
 msgid "Compute"
 msgstr "Calculer"
 
@@ -649,8 +649,8 @@ msgid "Delete this ServiceContract ?"
 msgstr "Supprimer le Contrat de Service ?"
 
 #: i18n/locale/smarty.c:36 i18n/locale/smarty.c:41 i18n/locale/smarty.c:487
-#: i18n/locale/smarty.c:581 i18n/locale/smarty.c:628 i18n/locale/smarty.c:634
-#: i18n/locale/smarty.c:677 i18n/locale/smarty.c:760
+#: i18n/locale/smarty.c:582 i18n/locale/smarty.c:629 i18n/locale/smarty.c:635
+#: i18n/locale/smarty.c:678 i18n/locale/smarty.c:761
 msgid "Reference"
 msgstr "Référence"
 
@@ -658,13 +658,13 @@ msgstr "Référence"
 msgid "Nb CommandSets"
 msgstr "Nbre MacroCommandes"
 
-#: i18n/locale/smarty.c:42 i18n/locale/smarty.c:488 i18n/locale/smarty.c:582
-#: i18n/locale/smarty.c:635
+#: i18n/locale/smarty.c:42 i18n/locale/smarty.c:488 i18n/locale/smarty.c:583
+#: i18n/locale/smarty.c:636
 msgid "Version"
 msgstr "Version"
 
-#: i18n/locale/smarty.c:43 i18n/locale/smarty.c:489 i18n/locale/smarty.c:583
-#: i18n/locale/smarty.c:636
+#: i18n/locale/smarty.c:43 i18n/locale/smarty.c:489 i18n/locale/smarty.c:584
+#: i18n/locale/smarty.c:637
 msgid "Reporter"
 msgstr "Emetteur"
 
@@ -676,12 +676,12 @@ msgstr "Date Début"
 msgid "EndDate"
 msgstr "Date Fin"
 
-#: i18n/locale/smarty.c:49 i18n/locale/smarty.c:492 i18n/locale/smarty.c:586
-#: i18n/locale/smarty.c:642
+#: i18n/locale/smarty.c:49 i18n/locale/smarty.c:492 i18n/locale/smarty.c:587
+#: i18n/locale/smarty.c:643
 msgid "State"
 msgstr "Etat"
 
-#: i18n/locale/smarty.c:51 i18n/locale/smarty.c:631
+#: i18n/locale/smarty.c:51 i18n/locale/smarty.c:632
 msgid "CommandSets"
 msgstr "MacroCommandes"
 
@@ -693,7 +693,7 @@ msgstr "Projets TachesAnnexes"
 msgid "--- New CommandSet ---"
 msgstr "--- Nouvelle MacroCommande ---"
 
-#: i18n/locale/smarty.c:55 i18n/locale/smarty.c:665
+#: i18n/locale/smarty.c:55 i18n/locale/smarty.c:666
 msgid "Remove CommandSet"
 msgstr "Supprimer MacroCommande"
 
@@ -701,12 +701,12 @@ msgstr "Supprimer MacroCommande"
 msgid "Remove CommandSet from this Contract ?"
 msgstr "Retirer la MacroCommande de ce Contrat de Service ?"
 
-#: i18n/locale/smarty.c:59 i18n/locale/smarty.c:685 i18n/locale/smarty.c:776
+#: i18n/locale/smarty.c:59 i18n/locale/smarty.c:686 i18n/locale/smarty.c:777
 msgid "Ref"
 msgstr "Ref"
 
 #: i18n/locale/smarty.c:60 i18n/locale/smarty.c:237 i18n/locale/smarty.c:496
-#: i18n/locale/smarty.c:590 i18n/locale/smarty.c:669 i18n/locale/smarty.c:674
+#: i18n/locale/smarty.c:591 i18n/locale/smarty.c:670 i18n/locale/smarty.c:675
 msgid "CommandSet"
 msgstr "MacroCommande"
 
@@ -841,9 +841,9 @@ msgid "Overflow day quantity"
 msgstr "Nbre de jours de dépassement par rapport au budget révisé"
 
 #: i18n/locale/smarty.c:106 i18n/locale/smarty.c:435 i18n/locale/smarty.c:501
-#: i18n/locale/smarty.c:515 i18n/locale/smarty.c:592 i18n/locale/smarty.c:602
-#: i18n/locale/smarty.c:610 i18n/locale/smarty.c:622 i18n/locale/smarty.c:688
-#: i18n/locale/smarty.c:709 reports/export_csv_tools.php:46
+#: i18n/locale/smarty.c:515 i18n/locale/smarty.c:593 i18n/locale/smarty.c:603
+#: i18n/locale/smarty.c:611 i18n/locale/smarty.c:623 i18n/locale/smarty.c:689
+#: i18n/locale/smarty.c:710 reports/export_csv_tools.php:46
 #: reports/statistics.php:166
 msgid "MgrEffortEstim"
 msgstr "Charge Mgr"
@@ -859,7 +859,7 @@ msgid "BS"
 msgstr "BS"
 
 #: i18n/locale/smarty.c:109 i18n/locale/smarty.c:411 i18n/locale/smarty.c:437
-#: i18n/locale/smarty.c:716 reports/statistics.php:166
+#: i18n/locale/smarty.c:717 reports/statistics.php:166
 msgid "EffortEstim"
 msgstr "Charge Init"
 
@@ -939,8 +939,8 @@ msgstr "Formule"
 
 #: i18n/locale/smarty.c:145 i18n/locale/smarty.c:158 i18n/locale/smarty.c:165
 #: i18n/locale/smarty.c:194 i18n/locale/smarty.c:412 i18n/locale/smarty.c:426
-#: i18n/locale/smarty.c:475 i18n/locale/smarty.c:726 i18n/locale/smarty.c:729
-#: i18n/locale/smarty.c:741
+#: i18n/locale/smarty.c:475 i18n/locale/smarty.c:727 i18n/locale/smarty.c:730
+#: i18n/locale/smarty.c:742
 msgid "Tasks in drift"
 msgstr "Tâches en dérive"
 
@@ -972,8 +972,8 @@ msgstr "Tâches resolues en moins de temps que prevu dans le budget initial"
 
 #: i18n/locale/smarty.c:159 i18n/locale/smarty.c:193 i18n/locale/smarty.c:388
 #: i18n/locale/smarty.c:431 i18n/locale/smarty.c:461 i18n/locale/smarty.c:499
-#: i18n/locale/smarty.c:552 i18n/locale/smarty.c:589 i18n/locale/smarty.c:615
-#: i18n/locale/smarty.c:701 reports/planning_report.php:156
+#: i18n/locale/smarty.c:552 i18n/locale/smarty.c:590 i18n/locale/smarty.c:616
+#: i18n/locale/smarty.c:702 reports/planning_report.php:156
 msgid "Tasks"
 msgstr "Tâches"
 
@@ -1004,49 +1004,49 @@ msgstr "nb tâches"
 #: i18n/locale/smarty.c:167 i18n/locale/smarty.c:169 i18n/locale/smarty.c:172
 #: i18n/locale/smarty.c:174 i18n/locale/smarty.c:177 i18n/locale/smarty.c:179
 #: i18n/locale/smarty.c:392 i18n/locale/smarty.c:398 i18n/locale/smarty.c:439
-#: i18n/locale/smarty.c:441 i18n/locale/smarty.c:507 i18n/locale/smarty.c:714
-#: i18n/locale/smarty.c:721 classes/time_tracking.class.php:461
+#: i18n/locale/smarty.c:441 i18n/locale/smarty.c:507 i18n/locale/smarty.c:715
+#: i18n/locale/smarty.c:722 classes/time_tracking.class.php:462
 msgid "nb days"
 msgstr "nb jours"
 
 #: i18n/locale/smarty.c:180 i18n/locale/smarty.c:288 i18n/locale/smarty.c:445
-#: i18n/locale/smarty.c:476 i18n/locale/smarty.c:510 i18n/locale/smarty.c:619
-#: i18n/locale/smarty.c:658 i18n/locale/smarty.c:730 i18n/locale/smarty.c:742
+#: i18n/locale/smarty.c:476 i18n/locale/smarty.c:510 i18n/locale/smarty.c:620
+#: i18n/locale/smarty.c:659 i18n/locale/smarty.c:731 i18n/locale/smarty.c:743
 msgid "ID"
 msgstr "ID"
 
 #: i18n/locale/smarty.c:183 i18n/locale/smarty.c:224 i18n/locale/smarty.c:512
-#: i18n/locale/smarty.c:543 i18n/locale/smarty.c:660 i18n/locale/smarty.c:732
-#: i18n/locale/smarty.c:744
+#: i18n/locale/smarty.c:543 i18n/locale/smarty.c:661 i18n/locale/smarty.c:733
+#: i18n/locale/smarty.c:745
 msgid "Target"
 msgstr "V.Ciblée"
 
-#: i18n/locale/smarty.c:184 i18n/locale/smarty.c:447 i18n/locale/smarty.c:733
-#: i18n/locale/smarty.c:745
+#: i18n/locale/smarty.c:184 i18n/locale/smarty.c:447 i18n/locale/smarty.c:734
+#: i18n/locale/smarty.c:746
 msgid "Drift relatively to the managers Estimation"
 msgstr "Dérive par rapport à l estimation du manager"
 
 #: i18n/locale/smarty.c:185 i18n/locale/smarty.c:448 i18n/locale/smarty.c:505
-#: i18n/locale/smarty.c:518 i18n/locale/smarty.c:596 i18n/locale/smarty.c:606
-#: i18n/locale/smarty.c:614 i18n/locale/smarty.c:692 i18n/locale/smarty.c:706
-#: i18n/locale/smarty.c:713 i18n/locale/smarty.c:734 i18n/locale/smarty.c:746
+#: i18n/locale/smarty.c:518 i18n/locale/smarty.c:597 i18n/locale/smarty.c:607
+#: i18n/locale/smarty.c:615 i18n/locale/smarty.c:693 i18n/locale/smarty.c:707
+#: i18n/locale/smarty.c:714 i18n/locale/smarty.c:735 i18n/locale/smarty.c:747
 msgid "Drift Mgr"
 msgstr "Dérive Mgr"
 
-#: i18n/locale/smarty.c:186 i18n/locale/smarty.c:449 i18n/locale/smarty.c:735
-#: i18n/locale/smarty.c:747
+#: i18n/locale/smarty.c:186 i18n/locale/smarty.c:449 i18n/locale/smarty.c:736
+#: i18n/locale/smarty.c:748
 msgid "Drift relatively to (EE + AddEE)"
 msgstr "Dérive par rapport au BI + BS"
 
 #: i18n/locale/smarty.c:187 i18n/locale/smarty.c:450 i18n/locale/smarty.c:479
-#: i18n/locale/smarty.c:707 i18n/locale/smarty.c:720 i18n/locale/smarty.c:736
-#: i18n/locale/smarty.c:748
+#: i18n/locale/smarty.c:708 i18n/locale/smarty.c:721 i18n/locale/smarty.c:737
+#: i18n/locale/smarty.c:749
 msgid "Drift"
 msgstr "Dérive"
 
 #: i18n/locale/smarty.c:188 i18n/locale/smarty.c:220 i18n/locale/smarty.c:282
 #: i18n/locale/smarty.c:480 i18n/locale/smarty.c:517 i18n/locale/smarty.c:546
-#: i18n/locale/smarty.c:737 i18n/locale/smarty.c:749
+#: i18n/locale/smarty.c:738 i18n/locale/smarty.c:750
 #: reports/export_csv_tools.php:50 reports/export_csv_tools.php:219
 #: timetracking/time_tracking_ajax.php:62
 msgid "RAF"
@@ -1054,8 +1054,8 @@ msgstr "RAF"
 
 #: i18n/locale/smarty.c:189 i18n/locale/smarty.c:221 i18n/locale/smarty.c:362
 #: i18n/locale/smarty.c:506 i18n/locale/smarty.c:514 i18n/locale/smarty.c:545
-#: i18n/locale/smarty.c:568 i18n/locale/smarty.c:597 i18n/locale/smarty.c:693
-#: i18n/locale/smarty.c:705 i18n/locale/smarty.c:738 i18n/locale/smarty.c:750
+#: i18n/locale/smarty.c:568 i18n/locale/smarty.c:598 i18n/locale/smarty.c:694
+#: i18n/locale/smarty.c:706 i18n/locale/smarty.c:739 i18n/locale/smarty.c:751
 #: reports/export_csv_tools.php:51
 msgid "Progress"
 msgstr "Avancement"
@@ -1091,7 +1091,7 @@ msgstr "Semaine précédente"
 msgid "Next week"
 msgstr "Semaine suivante"
 
-#: i18n/locale/smarty.c:216 i18n/locale/smarty.c:539 i18n/locale/smarty.c:699
+#: i18n/locale/smarty.c:216 i18n/locale/smarty.c:539 i18n/locale/smarty.c:700
 msgid "Detailed"
 msgstr "Détailé"
 
@@ -1103,8 +1103,8 @@ msgstr "somme(RAF) des tâches en cours"
 msgid "workload"
 msgstr "charge"
 
-#: i18n/locale/smarty.c:223 i18n/locale/smarty.c:542 i18n/locale/smarty.c:702
-#: i18n/locale/smarty.c:708 i18n/locale/smarty.c:715 i18n/locale/smarty.c:722
+#: i18n/locale/smarty.c:223 i18n/locale/smarty.c:542 i18n/locale/smarty.c:703
+#: i18n/locale/smarty.c:709 i18n/locale/smarty.c:716 i18n/locale/smarty.c:723
 msgid "Target version"
 msgstr "Version ciblée"
 
@@ -1116,7 +1116,7 @@ msgstr "Dates manquantes"
 msgid "From"
 msgstr "Du"
 
-#: i18n/locale/smarty.c:233 i18n/locale/smarty.c:584 i18n/locale/smarty.c:639
+#: i18n/locale/smarty.c:233 i18n/locale/smarty.c:585 i18n/locale/smarty.c:640
 msgid "Start Date"
 msgstr "Date Début"
 
@@ -1124,12 +1124,12 @@ msgstr "Date Début"
 msgid "End Date (included)"
 msgstr "Date de fin (inclue)"
 
-#: i18n/locale/smarty.c:236 i18n/locale/smarty.c:578
+#: i18n/locale/smarty.c:236 i18n/locale/smarty.c:579
 msgid "ServiceContract"
 msgstr "Contrat de Service"
 
-#: i18n/locale/smarty.c:238 i18n/locale/smarty.c:484 i18n/locale/smarty.c:686
-#: i18n/locale/smarty.c:777
+#: i18n/locale/smarty.c:238 i18n/locale/smarty.c:484 i18n/locale/smarty.c:687
+#: i18n/locale/smarty.c:778
 msgid "Command"
 msgstr "Commande"
 
@@ -1138,7 +1138,7 @@ msgid "Monthly Activity"
 msgstr "Activité mensuelle"
 
 #: i18n/locale/smarty.c:241 i18n/locale/smarty.c:257 i18n/locale/smarty.c:538
-#: i18n/locale/smarty.c:821 reports/export_csv_weekly.php:180
+#: i18n/locale/smarty.c:822 reports/export_csv_weekly.php:180
 msgid "Projects Activity"
 msgstr "Activité Projets"
 
@@ -1179,8 +1179,8 @@ msgid "History"
 msgstr "Historique"
 
 #: i18n/locale/smarty.c:264 install/install.class.php:121
-#: install/install.class.php:587 install/install.class.php:595
-#: install/install.class.php:602 install/install.class.php:610
+#: install/install.class.php:586 install/install.class.php:594
+#: install/install.class.php:601 install/install.class.php:609
 #: install/install_step3.php:103 install/install.php:43 install/install.php:56
 #: install/install.php:67 install/install.php:76 install/uninstall.php:279
 msgid "ERROR"
@@ -1367,7 +1367,7 @@ msgstr "Total"
 msgid "Not available."
 msgstr "Non disponible."
 
-#: i18n/locale/smarty.c:363 i18n/locale/smarty.c:704
+#: i18n/locale/smarty.c:363 i18n/locale/smarty.c:705
 msgid "Progress Mgr"
 msgstr "Avancement Mgr"
 
@@ -1485,16 +1485,16 @@ msgstr ""
 "en cas de problemes, veuillez utiliser un navigateur respectant les "
 "standards du web."
 
-#: i18n/locale/smarty.c:469 i18n/locale/smarty.c:786 i18n/locale/smarty.c:787
+#: i18n/locale/smarty.c:469 i18n/locale/smarty.c:787 i18n/locale/smarty.c:788
 #: include/menu.inc.php:37 timetracking/time_tracking.php:39
 msgid "Time Tracking"
 msgstr "Saisie des CRA"
 
-#: i18n/locale/smarty.c:470 i18n/locale/smarty.c:789 include/menu.inc.php:39
+#: i18n/locale/smarty.c:470 i18n/locale/smarty.c:790 include/menu.inc.php:39
 msgid "Holidays"
 msgstr "Absences"
 
-#: i18n/locale/smarty.c:471 i18n/locale/smarty.c:791 include/menu.inc.php:41
+#: i18n/locale/smarty.c:471 i18n/locale/smarty.c:792 include/menu.inc.php:41
 #: reports/planning_report.php:57
 msgid "Planning"
 msgstr "Planning"
@@ -1519,55 +1519,55 @@ msgstr "maj RAF"
 msgid "--- Create New Command ---"
 msgstr "-- Créer une Nouvelle Commande ---"
 
-#: i18n/locale/smarty.c:490 i18n/locale/smarty.c:638
+#: i18n/locale/smarty.c:490 i18n/locale/smarty.c:639
 msgid "Date depart"
 msgstr "Date depart"
 
-#: i18n/locale/smarty.c:491 i18n/locale/smarty.c:640
+#: i18n/locale/smarty.c:491 i18n/locale/smarty.c:641
 msgid "Date fin"
 msgstr "Date fin"
 
-#: i18n/locale/smarty.c:493 i18n/locale/smarty.c:643 i18n/locale/smarty.c:679
-#: i18n/locale/smarty.c:764
+#: i18n/locale/smarty.c:493 i18n/locale/smarty.c:644 i18n/locale/smarty.c:680
+#: i18n/locale/smarty.c:765
 msgid "Cost"
 msgstr "Montant"
 
-#: i18n/locale/smarty.c:494 i18n/locale/smarty.c:645 i18n/locale/smarty.c:680
-#: i18n/locale/smarty.c:766
+#: i18n/locale/smarty.c:494 i18n/locale/smarty.c:646 i18n/locale/smarty.c:681
+#: i18n/locale/smarty.c:767
 msgid "Budget"
 msgstr "Budget"
 
-#: i18n/locale/smarty.c:497 i18n/locale/smarty.c:587 i18n/locale/smarty.c:683
+#: i18n/locale/smarty.c:497 i18n/locale/smarty.c:588 i18n/locale/smarty.c:684
 msgid "Edit"
 msgstr "Editer"
 
-#: i18n/locale/smarty.c:498 i18n/locale/smarty.c:588 i18n/locale/smarty.c:684
+#: i18n/locale/smarty.c:498 i18n/locale/smarty.c:589 i18n/locale/smarty.c:685
 msgid "Charges"
 msgstr "Charges"
 
-#: i18n/locale/smarty.c:500 i18n/locale/smarty.c:804 i18n/locale/smarty.c:805
+#: i18n/locale/smarty.c:500 i18n/locale/smarty.c:805 i18n/locale/smarty.c:806
 #: include/menu.inc.php:56
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: i18n/locale/smarty.c:502 i18n/locale/smarty.c:593 i18n/locale/smarty.c:603
-#: i18n/locale/smarty.c:611 i18n/locale/smarty.c:689 i18n/locale/smarty.c:710
+#: i18n/locale/smarty.c:502 i18n/locale/smarty.c:594 i18n/locale/smarty.c:604
+#: i18n/locale/smarty.c:612 i18n/locale/smarty.c:690 i18n/locale/smarty.c:711
 msgid "Reestimated Mgr"
 msgstr "Réestimé Mgr"
 
 #: i18n/locale/smarty.c:503 i18n/locale/smarty.c:516 i18n/locale/smarty.c:560
-#: i18n/locale/smarty.c:594 i18n/locale/smarty.c:604 i18n/locale/smarty.c:612
-#: i18n/locale/smarty.c:623 i18n/locale/smarty.c:690 i18n/locale/smarty.c:711
-#: i18n/locale/smarty.c:718
+#: i18n/locale/smarty.c:595 i18n/locale/smarty.c:605 i18n/locale/smarty.c:613
+#: i18n/locale/smarty.c:624 i18n/locale/smarty.c:691 i18n/locale/smarty.c:712
+#: i18n/locale/smarty.c:719
 msgid "Elapsed"
 msgstr "Consommé"
 
-#: i18n/locale/smarty.c:504 i18n/locale/smarty.c:595 i18n/locale/smarty.c:605
-#: i18n/locale/smarty.c:613 i18n/locale/smarty.c:691 i18n/locale/smarty.c:712
+#: i18n/locale/smarty.c:504 i18n/locale/smarty.c:596 i18n/locale/smarty.c:606
+#: i18n/locale/smarty.c:614 i18n/locale/smarty.c:692 i18n/locale/smarty.c:713
 msgid "Remaining Mgr"
 msgstr "RAF Mgr"
 
-#: i18n/locale/smarty.c:508 i18n/locale/smarty.c:520 i18n/locale/smarty.c:625
+#: i18n/locale/smarty.c:508 i18n/locale/smarty.c:520 i18n/locale/smarty.c:626
 msgid "No task found."
 msgstr "Pas de tâches."
 
@@ -1603,15 +1603,15 @@ msgstr "Description de l'erreur"
 msgid "Weekly report"
 msgstr "Rapport Hebdo"
 
-#: i18n/locale/smarty.c:535 i18n/locale/smarty.c:823
+#: i18n/locale/smarty.c:535 i18n/locale/smarty.c:824
 msgid "Done"
 msgstr "Terminé"
 
-#: i18n/locale/smarty.c:536 i18n/locale/smarty.c:824
+#: i18n/locale/smarty.c:536 i18n/locale/smarty.c:825
 msgid "Results in"
 msgstr "Résultats dans"
 
-#: i18n/locale/smarty.c:537 i18n/locale/smarty.c:825
+#: i18n/locale/smarty.c:537 i18n/locale/smarty.c:826
 msgid "Sorry, you do NOT have access to this page"
 msgstr "Désolé, vous n'avez pas accès à cette page."
 
@@ -1623,7 +1623,7 @@ msgstr "Temps total passé sur cette Fiche"
 msgid "Estimated effort"
 msgstr "Charge Estimée"
 
-#: i18n/locale/smarty.c:559 i18n/locale/smarty.c:717
+#: i18n/locale/smarty.c:559 i18n/locale/smarty.c:718
 msgid "Reestimated"
 msgstr "Réestimé"
 
@@ -1643,297 +1643,301 @@ msgstr "Dérive -Support"
 msgid "EffortDeviation +Support"
 msgstr "Dérive +Support"
 
-#: i18n/locale/smarty.c:579
+#: i18n/locale/smarty.c:577
+msgid "Import Mantis Issues"
+msgstr "Import Fiches Mantis"
+
+#: i18n/locale/smarty.c:580
 msgid "--- Create New ServiceContract ---"
 msgstr "-- Créer un Nouveau Contrat de Service ---"
 
-#: i18n/locale/smarty.c:585
+#: i18n/locale/smarty.c:586
 msgid "End Date"
 msgstr "Date Fin"
 
-#: i18n/locale/smarty.c:598 i18n/locale/smarty.c:607 i18n/locale/smarty.c:617
-#: i18n/locale/smarty.c:694
+#: i18n/locale/smarty.c:599 i18n/locale/smarty.c:608 i18n/locale/smarty.c:618
+#: i18n/locale/smarty.c:695
 msgid "TOTAL"
 msgstr "TOTAL"
 
-#: i18n/locale/smarty.c:599
+#: i18n/locale/smarty.c:600
 msgid "No CommandSet found."
 msgstr "Pas de MacroCommande."
 
-#: i18n/locale/smarty.c:608
+#: i18n/locale/smarty.c:609
 msgid "No sidetasks found."
 msgstr "Pas de tâches annexes."
 
-#: i18n/locale/smarty.c:609
+#: i18n/locale/smarty.c:610
 msgid "All tasks"
 msgstr "Toutes les tâches"
 
-#: i18n/locale/smarty.c:618
+#: i18n/locale/smarty.c:619
 msgid "No Total found."
 msgstr "Pas de Totaux disponibles."
 
-#: i18n/locale/smarty.c:626
+#: i18n/locale/smarty.c:627
 msgid "Delete Command"
 msgstr "Supprimer Commande"
 
-#: i18n/locale/smarty.c:627
+#: i18n/locale/smarty.c:628
 msgid "Delete this Command ?"
 msgstr "effacer cette Commande ?"
 
-#: i18n/locale/smarty.c:630
+#: i18n/locale/smarty.c:631
 msgid "Nb tasks"
 msgstr "Nb tâches"
 
-#: i18n/locale/smarty.c:641
+#: i18n/locale/smarty.c:642
 msgid "Deadline"
 msgstr "Deadline"
 
-#: i18n/locale/smarty.c:644 i18n/locale/smarty.c:765
+#: i18n/locale/smarty.c:645 i18n/locale/smarty.c:766
 msgid "EUR"
 msgstr "EUR"
 
-#: i18n/locale/smarty.c:648
+#: i18n/locale/smarty.c:649
 msgid "Missing field"
 msgstr "Champ manquant"
 
-#: i18n/locale/smarty.c:649
+#: i18n/locale/smarty.c:650
 msgid "task id"
 msgstr "id tâche"
 
-#: i18n/locale/smarty.c:650
+#: i18n/locale/smarty.c:651
 msgid "Add task"
 msgstr "Ajouter une tâche"
 
-#: i18n/locale/smarty.c:652
+#: i18n/locale/smarty.c:653
 msgid "Create the Command to add some tasks."
 msgstr "Créez la commande avant d'y ajouter des tâches."
 
-#: i18n/locale/smarty.c:653
+#: i18n/locale/smarty.c:654
 msgid "Remove Task"
 msgstr "Enlever la Tâche"
 
-#: i18n/locale/smarty.c:654
+#: i18n/locale/smarty.c:655
 msgid "Remove Task from this Command ?"
 msgstr "Retirer la Tâche de cette Commande ?"
 
-#: i18n/locale/smarty.c:662
+#: i18n/locale/smarty.c:663
 msgid "delete Command-Task association"
 msgstr "supprimer l'association Tâche-Commande"
 
-#: i18n/locale/smarty.c:664
+#: i18n/locale/smarty.c:665
 msgid "Create the Command before assigning it to a CommandSet."
 msgstr "Créez la Commande avant de l'ajouter à une MacroCommande."
 
-#: i18n/locale/smarty.c:666
+#: i18n/locale/smarty.c:667
 msgid "Remove this Command from the CommandSet ?"
 msgstr "Retirer la Commande de cette MacroCommande ?"
 
-#: i18n/locale/smarty.c:671 i18n/locale/smarty.c:779
+#: i18n/locale/smarty.c:672 i18n/locale/smarty.c:780
 msgid "delete CommandSet-Command association"
 msgstr "supprimer l'association Commande-MacroCommande"
 
-#: i18n/locale/smarty.c:672
+#: i18n/locale/smarty.c:673
 msgid "Create the Command first."
 msgstr "Créez la Commande avant d'y ajouter des tâches."
 
-#: i18n/locale/smarty.c:675
+#: i18n/locale/smarty.c:676
 msgid "--- Create New CommandSet ---"
 msgstr "-- Créer une Nouvelle MacroCommande ---"
 
-#: i18n/locale/smarty.c:682
+#: i18n/locale/smarty.c:683
 msgid "Service Contract"
 msgstr "Contrat de Service"
 
-#: i18n/locale/smarty.c:695
+#: i18n/locale/smarty.c:696
 msgid "No Command found."
 msgstr "Pas de Commande."
 
-#: i18n/locale/smarty.c:697
+#: i18n/locale/smarty.c:698
 msgid "Project Versions"
 msgstr "Versions du Projet"
 
-#: i18n/locale/smarty.c:698
+#: i18n/locale/smarty.c:699
 msgid "Detailed Mgr"
 msgstr "Détailé Mgr"
 
-#: i18n/locale/smarty.c:723
+#: i18n/locale/smarty.c:724
 msgid "New Tasks"
 msgstr "Nouvelles Tâches"
 
-#: i18n/locale/smarty.c:724
+#: i18n/locale/smarty.c:725
 msgid "Current Tasks"
 msgstr "Tâches en cours"
 
-#: i18n/locale/smarty.c:725
+#: i18n/locale/smarty.c:726
 msgid "Resolved Tasks"
 msgstr "Tâches résolues"
 
-#: i18n/locale/smarty.c:727
+#: i18n/locale/smarty.c:728
 msgid "Drift current tasks"
 msgstr "Dérive tâches en cours"
 
-#: i18n/locale/smarty.c:728
+#: i18n/locale/smarty.c:729
 msgid "Drift resolved tasks"
 msgstr "Dérive taches résolues"
 
-#: i18n/locale/smarty.c:753
+#: i18n/locale/smarty.c:754
 msgid "Delete CommandSet"
 msgstr "Suppression MacroCommande"
 
-#: i18n/locale/smarty.c:754
+#: i18n/locale/smarty.c:755
 msgid "Delete this CommandSet ?"
 msgstr "Supprimer cette MacroCommande ?"
 
-#: i18n/locale/smarty.c:756
+#: i18n/locale/smarty.c:757
 msgid "Nb Commands"
 msgstr "Nb Commandes"
 
-#: i18n/locale/smarty.c:757
+#: i18n/locale/smarty.c:758
 msgid "Service Contracts"
 msgstr "Contrat de Service"
 
-#: i18n/locale/smarty.c:770
+#: i18n/locale/smarty.c:771
 msgid "--- New Command ---"
 msgstr "--- Nouvelle Commande ---"
 
-#: i18n/locale/smarty.c:772
+#: i18n/locale/smarty.c:773
 msgid "Remove Command"
 msgstr "Supprimer Commande"
 
-#: i18n/locale/smarty.c:773
+#: i18n/locale/smarty.c:774
 msgid "Remove Command from this CommandSet ?"
 msgstr "Retirer la Commande de cette MacroCommande ?"
 
-#: i18n/locale/smarty.c:780
+#: i18n/locale/smarty.c:781
 msgid "Create the CommandSet to add some commands."
 msgstr "Créez la MacroCommande avant d'y ajouter des Commandes."
 
-#: i18n/locale/smarty.c:781
+#: i18n/locale/smarty.c:782
 msgid "Line"
 msgstr "Ligne"
 
-#: i18n/locale/smarty.c:782
+#: i18n/locale/smarty.c:783
 msgid "Log"
 msgstr "Log"
 
-#: i18n/locale/smarty.c:783 include/login.inc.php:25
+#: i18n/locale/smarty.c:784 include/login.inc.php:25
 msgid "Logged in as "
 msgstr "Connecté sous "
 
-#: i18n/locale/smarty.c:784 include/login.inc.php:25
+#: i18n/locale/smarty.c:785 include/login.inc.php:25
 msgid "log out"
 msgstr "déconnexion"
 
-#: i18n/locale/smarty.c:785 include/menu.inc.php:32
+#: i18n/locale/smarty.c:786 include/menu.inc.php:32
 #: install/uninstall_menu.inc.php:29
 msgid "Home"
 msgstr "Accueil"
 
-#: i18n/locale/smarty.c:788 include/menu.inc.php:39
+#: i18n/locale/smarty.c:789 include/menu.inc.php:39
 msgid "Holidays Reports"
 msgstr "Suivi des Congés"
 
-#: i18n/locale/smarty.c:790 include/menu.inc.php:41
+#: i18n/locale/smarty.c:791 include/menu.inc.php:41
 msgid "Check DeadLines"
 msgstr "Respect des DeadLines"
 
-#: i18n/locale/smarty.c:792 include/menu.inc.php:43
+#: i18n/locale/smarty.c:793 include/menu.inc.php:43
 msgid "Gantt Chart"
 msgstr "Diagramme de Gantt"
 
-#: i18n/locale/smarty.c:793 include/menu.inc.php:43
+#: i18n/locale/smarty.c:794 include/menu.inc.php:43
 msgid "Gantt"
 msgstr "Gantt"
 
-#: i18n/locale/smarty.c:794 include/menu.inc.php:45
+#: i18n/locale/smarty.c:795 include/menu.inc.php:45
 msgid "Task Information"
 msgstr "Informations sur une fiche"
 
-#: i18n/locale/smarty.c:795 include/menu.inc.php:45
+#: i18n/locale/smarty.c:796 include/menu.inc.php:45
 msgid "Task info"
 msgstr "Info fiche"
 
-#: i18n/locale/smarty.c:796 include/menu.inc.php:48
+#: i18n/locale/smarty.c:797 include/menu.inc.php:48
 msgid "Project Information"
 msgstr "Informations sur un projet"
 
-#: i18n/locale/smarty.c:797 include/menu.inc.php:48
+#: i18n/locale/smarty.c:798 include/menu.inc.php:48
 msgid "Project info"
 msgstr "Info projet"
 
-#: i18n/locale/smarty.c:798 i18n/locale/smarty.c:799 include/menu.inc.php:50
+#: i18n/locale/smarty.c:799 i18n/locale/smarty.c:800 include/menu.inc.php:50
 msgid "Management"
 msgstr "Management"
 
-#: i18n/locale/smarty.c:800 include/menu.inc.php:52
+#: i18n/locale/smarty.c:801 include/menu.inc.php:52
 msgid "Team Weekly activities"
 msgstr "Activité hebdomadaire de l équipe"
 
-#: i18n/locale/smarty.c:801 include/menu.inc.php:52
-#: timetracking/team_activity_report.php:217
+#: i18n/locale/smarty.c:802 include/menu.inc.php:52
+#: timetracking/team_activity_report.php:219
 #: timetracking/project_activity_report.php:103
 msgid "Weekly activities"
 msgstr "Activité hebdo"
 
-#: i18n/locale/smarty.c:802 i18n/locale/smarty.c:803 include/menu.inc.php:54
+#: i18n/locale/smarty.c:803 i18n/locale/smarty.c:804 include/menu.inc.php:54
 #: reports/forecasting_report.php:211
 msgid "Forecasting"
 msgstr "Previsionnel"
 
-#: i18n/locale/smarty.c:806 i18n/locale/smarty.c:807
+#: i18n/locale/smarty.c:807 i18n/locale/smarty.c:808
 msgid "Mantis Reports"
 msgstr "Rapports Mantis"
 
-#: i18n/locale/smarty.c:808 include/menu.inc.php:60
+#: i18n/locale/smarty.c:809 include/menu.inc.php:60
 msgid "Generate Excel Sheet"
 msgstr "Export fichier Excel"
 
-#: i18n/locale/smarty.c:809 include/menu.inc.php:60
+#: i18n/locale/smarty.c:810 include/menu.inc.php:60
 msgid "Export to CSV"
 msgstr "Export CSV"
 
-#: i18n/locale/smarty.c:810 include/menu.inc.php:62 reports/check.php:94
+#: i18n/locale/smarty.c:811 include/menu.inc.php:62 reports/check.php:107
 msgid "Consistency Check"
 msgstr "Test d intégrité"
 
-#: i18n/locale/smarty.c:811 include/menu.inc.php:62
+#: i18n/locale/smarty.c:812 include/menu.inc.php:62
 #: install/install_step3.php:110
 msgid "Check"
 msgstr "Check"
 
-#: i18n/locale/smarty.c:812 include/menu.inc.php:65
+#: i18n/locale/smarty.c:813 include/menu.inc.php:65
 msgid "Blog"
 msgstr "Blog"
 
-#: i18n/locale/smarty.c:813 include/menu.inc.php:67
+#: i18n/locale/smarty.c:814 include/menu.inc.php:67
 #: install/install_menu.inc.php:61 install/uninstall_menu.inc.php:39
 #: install/install_step3.php:291
 msgid "Documentation"
 msgstr "Documentation"
 
-#: i18n/locale/smarty.c:814 include/menu.inc.php:69
+#: i18n/locale/smarty.c:815 include/menu.inc.php:69
 msgid "CoDev Administration"
 msgstr "Administration CoDev"
 
-#: i18n/locale/smarty.c:815
+#: i18n/locale/smarty.c:816
 msgid "Monthly report"
 msgstr "Rapport Mensuel"
 
-#: i18n/locale/smarty.c:818 reports/export_csv_weekly.php:166
+#: i18n/locale/smarty.c:819 reports/export_csv_weekly.php:166
 msgid "Issues form Team projects, including issues assigned to other teams"
 msgstr ""
 "Projets de l'équipe, y compris les taches assignées à des membres d'autres "
 "équipes"
 
-#: i18n/locale/smarty.c:819 reports/export_csv_weekly.php:165
+#: i18n/locale/smarty.c:820 reports/export_csv_weekly.php:165
 msgid "Export Managed Issues"
 msgstr "Export Fiches Mantis en cours"
 
-#: i18n/locale/smarty.c:820
+#: i18n/locale/smarty.c:821
 msgid "Export"
 msgstr "Export"
 
-#: i18n/locale/smarty.c:822
+#: i18n/locale/smarty.c:823
 msgid "Export Holidays "
 msgstr "Export Vacances "
 
@@ -2171,22 +2175,18 @@ msgid "CoDevTT Administrators team"
 msgstr "Equipe Administration CodevTT"
 
 #: install/install.class.php:557
-msgid "(generic) Leave"
-msgstr "(generique) Absence"
+msgid "Mantis/CoDevTT administration"
+msgstr "administration Mantis/CoDevTT"
 
-#: install/install.class.php:558
-msgid "(generic) Mantis/CoDevTT administration"
-msgstr "(generique) administration Mantis/CoDevTT"
-
-#: install/install.class.php:569
+#: install/install.class.php:568
 msgid "The absence SideTasks considered as astreinte"
 msgstr "La fiche d'inactivité utilisée pour les astreintes"
 
-#: install/install.class.php:574
+#: install/install.class.php:573
 msgid "Custommer teamId"
 msgstr "teamId du client"
 
-#: install/install.class.php:610
+#: install/install.class.php:609
 msgid ": Could not delete file: "
 msgstr "Impossible de supprimer le fichier: "
 
@@ -2376,13 +2376,13 @@ msgid "day"
 msgstr "jour"
 
 #: reports/productivity_report.php:343
-#: timetracking/team_activity_report.php:186
+#: timetracking/team_activity_report.php:188
 #: timetracking/time_tracking_tools.php:62
 msgid "inconsistent"
 msgstr "incohérent"
 
 #: reports/productivity_report.php:355
-#: timetracking/team_activity_report.php:205
+#: timetracking/team_activity_report.php:207
 #: timetracking/time_tracking_tools.php:76
 msgid "not defined."
 msgstr "non défini"
@@ -2433,12 +2433,12 @@ msgstr "sans deadLine"
 msgid "tasks are not assigned to anybody."
 msgstr "tâches ne sont pas assignées."
 
-#: timetracking/team_activity_report.php:184
+#: timetracking/team_activity_report.php:186
 #: timetracking/time_tracking_tools.php:60
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
-#: timetracking/team_activity_report.php:184
+#: timetracking/team_activity_report.php:186
 #: timetracking/time_tracking_tools.php:60
 msgid " days"
 msgstr " jours"
@@ -2544,6 +2544,9 @@ msgstr " Erreur(s) dans vos Tâches"
 #: smarty_tools.php:142
 msgid "W"
 msgstr "W"
+
+#~ msgid "(generic) Leave"
+#~ msgstr "(generique) Absence"
 
 #~ msgid "Holidays, Leave, On Duty"
 #~ msgstr "Vacances, Absences, Astreintes"

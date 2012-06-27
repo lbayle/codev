@@ -306,7 +306,7 @@ class Config {
          $logger->debug("UPDATE query = $query");
       } else {
          $query = "INSERT INTO `codev_config_table` ".
-            "(`config_id`, `value`, `type`, `desc`, `project_id`, `user_id`, `team_id`) ".
+            "(`config_id`, `value`, `type`, `description`, `project_id`, `user_id`, `team_id`) ".
             "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', '$project_id', '$user_id', '$team_id');";
          $logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
          $logger->debug("INSERT query = $query");

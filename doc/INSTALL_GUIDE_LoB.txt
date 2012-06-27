@@ -11,7 +11,7 @@ http://dev.mysql.com/doc/refman/5.0/en/batch-commands.html
    cd /opt
    unzip /tmp/mantisbt-1.2.2.zip
    mv  /opt/mantisbt-1.2.2 /opt/mantis
-   git clone git@github.com:lbayle/codev.git
+   git clone git@github.com:lbayle/codev.git /opt/codevtt
 
 2) configurer mysql
    mysql_secure_installation
@@ -24,14 +24,16 @@ max_allowed_packet      = 64M
 3) configurer le firewall pour autoriser HTTP et HTTPS
    system-config-firewall
 
-4) donner les droits en lecture (sinon Error 403 Forbidden !!)
-   chmod -R 755 /opt/mantis
-   chmod -R 755 /opt/codev
+4) donner les droits en rw (sinon Error 403 Forbidden !!)
+   chgrp -R apache /opt/mantis
+   chgrp -R apache /opt/codevtt
+   chmod -R g+w    /opt/codevtt
+
    cd /var/www/html
    ln -s /opt/mantis
-   ln -s /opt/codev
+   ln -s /opt/codevtt
 
-   NOTE: if you installed codev in user space ( /home/username/public_html/codev ) then
+   NOTE: if you installed codev in user space ( /home/username/public_html/codevtt ) then
    chmod o+x /home/username
 
    WARNING:
@@ -59,20 +61,14 @@ max_allowed_packet      = 64M
    chmod -R 755
 
 
-
-
-8) acces aux sites
-DEPRECATED ?
-copier mantis.conf et codev.conf dans /etc/httpd/conf.d
-
-9) creer une BDD et un utilisateur mysql pour mantis
+8) creer une BDD et un utilisateur mysql pour mantis
   mysql --user=root --password=xxxxxx mysql
 mysql> create database bugtracker;
 mysql> CREATE USER 'mantis'@'localhost' IDENTIFIED BY 'secret';
 mysql> GRANT ALL PRIVILEGES ON bugtracker.* TO 'mantis'@'localhost' WITH GRANT OPTION;
 mysql> exit
 
-10) informer mantis de cet utilisateur
+9) informer mantis de cet utilisateur
    cp /opt/mantis/config_inc.php.sample /opt/mantis/config_inc.php
    vi /opt/mantis/config_inc.php
 $g_db_username   = "mantis";
@@ -82,36 +78,36 @@ $g_validate_email = OFF;
 date_default_timezone_set('Europe/Paris'); 
 
 
-11) service httpd restart
-redemarer le service pour que apache trouve les sites mantis et codev
+10) service httpd restart
+redemarer le service pour que apache trouve les sites mantis et codevtt
 
 
-12) premier demarage de mantis
+11) premier demarage de mantis
 http://localhost/mantis/admin/check.php
 http://path/to/mantisbt/admin/install.php
 
 REM: Checking Database Server Version -- BAD MySQL 4.1.0 or later is required for installation.
-I'm not sure about what happens, but the pb was solved once I created mysql 'mantis' user and 
+-> I'm not sure about what happens, but the pb was solved once I created mysql 'mantis' user and 
 configured /opt/mantis/config_inc.php, 
 
-13) test mantis
+12) test mantis
 Mantis est maintenant installe.
 http://localhost/mantis
     * login  : administrator
     * passwd : root 
 
-14) -- IMPORTANT -- customize mantis
-You need to configure mantis BEFORE installing CoDev, so do it now !
-(Status, Workflow, Threshold, etc)
+13) -- IMPORTANT -- customize mantis
+You need to configure mantis BEFORE installing CodevTT, so do it now !
+(Status, Workflow, Threshold, Projects, etc)
 
-15) creer un utilisateur mysql pour codev
+14) creer un utilisateur mysql pour codev
 mysql --user=root --password=xxxxxx mysql
 CREATE USER 'codev' IDENTIFIED BY 'secret';
 GRANT ALL PRIVILEGES ON bugtracker.* TO 'codev' WITH GRANT OPTION;
 exit
 
-16) lancer l'install de CoDev
-https://localhost/codev/install/install.php
+15) lancer l'install de CodevTT
+https://localhost/codevtt/install/install.php
 
 
 

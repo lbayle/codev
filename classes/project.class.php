@@ -275,7 +275,7 @@ class Project {
    public static function createSideTaskProject($projectName) {
 
       global $logger;
-
+      $mgrEffortEstimCustomField  = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
@@ -312,11 +312,12 @@ class Project {
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
-               "VALUES ('$estimEffortCustomField',  '$projectid','3'), ".
-                      "('$addEffortCustomField',    '$projectid','4'), ".
-                      "('$remainingCustomField',    '$projectid','5'), ".
-                      "('$deadLineCustomField',     '$projectid','6'), ".
-                      "('$deliveryDateCustomField', '$projectid','7');";
+               "VALUES ('$mgrEffortEstimCustomField', '$projectid','2'), ".
+                      "('$estimEffortCustomField',    '$projectid','3'), ".
+                      "('$addEffortCustomField',      '$projectid','4'), ".
+                      "('$remainingCustomField',      '$projectid','5'), ".
+                      "('$deadLineCustomField',       '$projectid','6'), ".
+                      "('$deliveryDateCustomField',   '$projectid','7');";
       $result = mysql_query($query);
       if (!$result) {
          $logger->error("Query FAILED: $query");

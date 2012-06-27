@@ -554,8 +554,7 @@ class Install {
                $stproj->addCategoryInactivity(T_("Inactivity"));
                $stproj->addCategoryTools(T_("Tools"));
 
-               $stproj->addIssueInactivity(T_("(generic) Leave"));
-               $stproj->addIssueTools(T_("(generic) Mantis/CoDevTT administration"));
+               $stproj->addIssueTools(T_("Mantis/CoDevTT administration"));
             }
       } else {
       	echo "ERROR: $name team creation failed</br>";
@@ -611,7 +610,7 @@ class Install {
 	   	}
 	   }
 
-	  return "SUCCESS ! Please check that the following test file has been created: <span style='font-family: sans-serif'>$testFilename</span>";
+	  return "SUCCESS !";
 	}
 
     /**
