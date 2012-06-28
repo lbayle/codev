@@ -109,7 +109,7 @@ class SqlWrapper {
       $this->count++;
 
       if (self::$logger->isDebugEnabled()) {
-         self::$logger->debug("Execute " . $this->count . "th SQL query in " . round(microtime(true) - $start, 4) . " secs. Query : " . $query);
+         self::$logger->debug("SQL Query #" . $this->count . " (" . round(microtime(true) - $start, 4) . " sec) : " . $query);
       }
       
       if (!$result) {

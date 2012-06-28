@@ -99,14 +99,17 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
    $query .= " ORDER BY date";
    $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
 
+
+   $jobs = new Jobs();
+
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       // get information on this bug
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
       // get general information
-      $query3  = "SELECT name FROM `codev_job_table` WHERE id=$row->jobid";
-      $result3 = SqlWrapper::getInstance()->sql_query($query3) or die("Query failed: $query3");
-      $jobName = SqlWrapper::getInstance()->sql_result($result3, 0);
+
+      $jobName = $jobs->getJobName($row->jobid);
+
       $formatedDate= date("Y-m-d", $row->date);
       $cosmeticDate    = date("Y-m-d", $row->date).' - '.T_(date("l", $row->date));
       $formatedId = "$row->bugid / $issue->tcId";

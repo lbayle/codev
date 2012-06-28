@@ -73,6 +73,9 @@ function getWeekTaskDetails($weekDates, $userid, TimeTracking $timeTracking) {
    $linkList = array();
    $holidays = Holidays::getInstance();
    $weekTracks = $timeTracking->getWeekDetails($userid);
+
+   $jobs = new Jobs();
+
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = IssueCache::getInstance()->getIssue($bugid);
 
@@ -80,9 +83,7 @@ function getWeekTaskDetails($weekDates, $userid, TimeTracking $timeTracking) {
          $linkid = $bugid.'_'.$jobid;
          $linkList[$linkid] = $issue;
 
-         $query3  = 'SELECT name FROM `codev_job_table` WHERE id='.$jobid;
-         $result3 = SqlWrapper::getInstance()->sql_query($query3) or die('Query failed: '.$query3);
-         $jobName = SqlWrapper::getInstance()->sql_result($result3, 0);
+         $jobName = $jobs->getJobName($row->jobid);
 
          $description = addslashes(htmlspecialchars($issue->summary));
          $dialogBoxTitle = T_('Task').' '.$issue->bugId.' / '.$issue->tcId.' - '.T_('Update Remaining');

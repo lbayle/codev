@@ -36,6 +36,8 @@ class User {
     private $name;
 	private $timetrackingFilters;
 
+   private $teamMemberCache;
+
    // --------------------
 	public function User($user_id) {
 	  $this->id = $user_id;
@@ -131,28 +133,37 @@ class User {
    // --------------------
    public function isTeamMember($team_id, $accessLevel=NULL, $startTimestamp=NULL, $endTimestamp=NULL) {
 
-      $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
-               "WHERE team_id = $team_id ".
-               "AND user_id = $this->id ";
+      if (NULL == $this->teamMemberCache) { $this->teamMemberCache = array(); }
 
-      if (NULL != $accessLevel) {
-         $query .= "AND access_level = $accessLevel ";
+      $key = $team_id.'_'.$accessLevel.' '.$startTimestamp.' '.$endTimestamp;
+
+
+      if (NULL == $this->teamMemberCache[$key]) {
+
+         $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
+                  "WHERE team_id = $team_id ".
+                  "AND user_id = $this->id ";
+
+         if (NULL != $accessLevel) {
+            $query .= "AND access_level = $accessLevel ";
+         }
+
+         if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
+            $query .= "AND arrival_date < $endTimestamp AND ".
+                     "(departure_date >= $startTimestamp OR departure_date = 0)";
+            // REM: if departure_date = 0, then user stays until the end of the world.
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+         }
+         $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+
+         $this->teamMemberCache[$key] = (0 != $nbTuples);
       }
-
-      if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
-         $query .= "AND arrival_date < $endTimestamp AND ".
-                   "(departure_date >= $startTimestamp OR departure_date = 0)";
-          // REM: if departure_date = 0, then user stays until the end of the world.
-      }
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-      }
-      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
-
-      return (0 != $nbTuples);
+      return $this->teamMemberCache[$key];
    }
 
 

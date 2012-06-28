@@ -101,7 +101,7 @@ class SmartyHelper {
       if (SqlWrapper::$logger->isInfoEnabled()) {
          $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
          $queriesCount = SqlWrapper::getInstance()->getQueriesCount();
-         SqlWrapper::$logger->info($queriesCount . " SQL queries ($generatedTime sec) to display Page ".$_SERVER['PHP_SELF']);
+         SqlWrapper::$logger->info('TOTAL SQL queries: ' . $queriesCount . "  ($generatedTime sec) to display Page ".$_SERVER['PHP_SELF']);
       }
 
       $this->display('template');

@@ -163,6 +163,8 @@ class Issue {
    // other cache fields
    public $bug_resolved_status_threshold;
 
+   private static $existsCache;
+
    /**
     * @param $id The issue id
     */
@@ -271,19 +273,24 @@ class Issue {
 
       global $logger;
 
-      $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
-      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+      if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
-      if (1 != $nbTuples) {
-         $logger->warn("exists($bugid): found $nbTuples items.");
+      if (NULL == self::$existsCache[$bugid]) {
+         $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
+         $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+
+         if (1 != $nbTuples) {
+            $logger->warn("exists($bugid): found $nbTuples items.");
+         }
+         self::$existsCache[$bugid] = (1 == $nbTuples);
       }
-      return (1 == $nbTuples);
+      return self::$existsCache[$bugid];
    }
 
 
