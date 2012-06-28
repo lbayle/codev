@@ -23,7 +23,7 @@ class SqlWrapper {
    /**
     * @var Logger The logger
     */
-   private static $logger;
+   public static $logger;
 
    /**
     * @var SqlWrapper class instances

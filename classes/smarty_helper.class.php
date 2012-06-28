@@ -98,10 +98,10 @@ class SmartyHelper {
       $this->smarty->assign('rootWebSite', getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
 
-      if (self::$logger->isInfoEnabled()) {
+      if (SqlWrapper::$logger->isInfoEnabled()) {
          $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
          $queriesCount = SqlWrapper::getInstance()->getQueriesCount();
-         self::$logger->info('Page '.$_SERVER['PHP_SELF'].' generated in ' . $generatedTime . ' secs with ' . $queriesCount . ' SQL queries');
+         SqlWrapper::$logger->info($queriesCount . " SQL queries ($generatedTime sec) to display Page ".$_SERVER['PHP_SELF']);
       }
 
       $this->display('template');
