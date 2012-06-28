@@ -47,7 +47,7 @@ echo "      </td>\n";
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/reports/project_info.php' title='".T_("Project Information")."'>".T_("Project info")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/management/command_info.php' title='".T_("Management")."'>".T_("Management")."</a>\n";
+echo "      <a href='".getServerRootURL()."/management/servicecontract_info.php' title='".T_("Management")."'>".T_("Management")."</a>\n";
 echo "      |\n";
 echo "      <a href='".getServerRootURL()."/timetracking/team_activity_report.php' title='".T_("Team Weekly activities")."'>".T_("Weekly activities")."</a>\n";
 echo "      |\n";
