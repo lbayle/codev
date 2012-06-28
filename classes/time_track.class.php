@@ -51,14 +51,12 @@ class TimeTrack {
       "FROM `codev_timetracking_table`, `mantis_user_table` ".
       "WHERE codev_timetracking_table.id=$this->id ".
       "AND mantis_user_table.id = codev_timetracking_table.userid";
-    $result    = mysql_query($query);
+    $result    = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
     }
-    $row = mysql_fetch_object($result);
+    $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
     $this->userId   = $row->userid;
     $this->userName = $row->username;
@@ -71,14 +69,12 @@ class TimeTrack {
     // Get information on this bug
     $query2  = "SELECT project_id, category_id FROM `mantis_bug_table` WHERE id=$this->bugId";
     //$query2  = "SELECT summary, status, date_submitted, project_id FROM `mantis_bug_table` WHERE id=$this->bugId";
-    $result2 = mysql_query($query2);
+    $result2 = SqlWrapper::getInstance()->sql_query($query2);
     if (!$result2) {
-    	      $this->logger->error("Query FAILED: $query2");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
     }
-    $row2 = mysql_fetch_object($result2);
+    $row2 = SqlWrapper::getInstance()->sql_fetch_object($result2);
 
     $this->projectId = $row2->project_id;
     $this->categoryId = $row2->category_id;
@@ -98,14 +94,12 @@ class TimeTrack {
    */
   public static function create($userid, $bugid, $job, $timestamp, $duration) {
     $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-    	$this->logger->error("Query FAILED: $query");
-    	$this->logger->error(mysql_error());
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
-    $trackid = mysql_insert_id();
+    $trackid = SqlWrapper::getInstance()->sql_insert_id();
     return $trackid;
   }
 
@@ -117,14 +111,12 @@ class TimeTrack {
 
     // increase remaining (only if 'remaining' already has a value)
     $query = "SELECT bugid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
     }
-    while($row = mysql_fetch_object($result))
+    while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
     { // REM: only one line in result, while should be optimized
       $bugid = $row->bugid;
       $duration = $row->duration;
@@ -137,10 +129,8 @@ class TimeTrack {
 
     // delete track
     $query2 = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = mysql_query($query2);
+    $result = SqlWrapper::getInstance()->sql_query($query2);
     if (!$result) {
-    	      $this->logger->error("Query FAILED: $query2");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
     }

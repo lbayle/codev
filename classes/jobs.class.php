@@ -60,14 +60,12 @@ class Jobs {
    	$this->jobList = array();
 
       $query = "SELECT * FROM `codev_job_table`";
-   	$result = mysql_query($query);
+   	$result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-            while($row = mysql_fetch_object($result))
+            while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
       	$j = new Job($row->id, $row->name, $row->type, $row->color);
          $this->jobList[$row->id] = $j;
@@ -99,16 +97,14 @@ class Jobs {
     */
    public static function create($job_name, $job_type, $job_color) {
 
-      $formattedName = mysql_real_escape_string($job_name);
+      $formattedName = SqlWrapper::getInstance()->sql_real_escape_string($job_name);
    	$query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$formattedName','$job_type','$job_color');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-   	$job_id = mysql_insert_id();
+   	$job_id = SqlWrapper::getInstance()->sql_insert_id();
 
    	return $job_id;
    }
@@ -118,10 +114,8 @@ class Jobs {
     */
    public static function addJobProjectAssociation($project_id, $job_id) {
       $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }

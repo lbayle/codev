@@ -104,15 +104,13 @@ function displayCreateTeamForm($team_name, $teamleader_id, $team_desc,
   $query = "SELECT DISTINCT id, username, realname FROM `mantis_user_table` ORDER BY username";
   echo "      <select name='teamleader_id'>\n";
   echo "        <option value='0'></option>\n";
-  $result = mysql_query($query);
+  $result = SqlWrapper::getInstance()->sql_query($query);
   if (!$result) {
-     $logger->error("Query FAILED: $query");
-     $logger->error(mysql_error());
      echo "<span style='color:red'>ERROR: Query FAILED</span>";
      exit;
   }
 
-  while($row = mysql_fetch_object($result))
+  while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
   {
       if ($row->id == $teamleader_id) {
          echo "        <option selected value='".$row->id."'>$row->username</option>\n";

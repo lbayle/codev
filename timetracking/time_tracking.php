@@ -120,9 +120,9 @@ if($_SESSION['userid']) {
 
          // increase remaining (only if 'remaining' already has a value)
          $query = 'SELECT * FROM `codev_timetracking_table` WHERE id = '.$trackid.';';
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if ($result) {
-            while($row = mysql_fetch_object($result)) {
+            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
                // REM: only one line in result, while should be optimized
                $defaultBugid = $row->bugid;
                $duration = $row->duration;
@@ -143,18 +143,14 @@ if($_SESSION['userid']) {
             // delete track
             # TODO use TimeTrack::delete($trackid)
             $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
-            $result = mysql_query($query);
+            $result = SqlWrapper::getInstance()->sql_query($query);
             if (!$result) {
-               $logger->error("Query FAILED: $query");
-               $logger->error(mysql_error());
                $smartyHelper->assign('error', "Failed to delete the tasks");
             } else {
                $logger->debug("Track $trackid deleted: userid=$trackUserid bugid=$defaultBugid job=$job duration=$duration timestamp=$trackDate");
             }
          }
          else {
-            $logger->error("Query FAILED: $query");
-            $logger->error(mysql_error());
             $smartyHelper->assign('error', "Failed to update the remaining");
          }
 

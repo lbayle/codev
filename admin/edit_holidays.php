@@ -129,14 +129,12 @@ function displayHolidaysTuples($originPage) {
    $query     = "SELECT * ".
                 "FROM `codev_holidays_table` ".
                 "ORDER BY date DESC";
-  $result = mysql_query($query);
+  $result = SqlWrapper::getInstance()->sql_query($query);
   if (!$result) {
-     $logger->error("Query FAILED: $query");
-     $logger->error(mysql_error());
      echo "<span style='color:red'>ERROR: Query FAILED</span>";
      exit;
   }
-   while($row = mysql_fetch_object($result))
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
    {
    	$deleteDesc = date("d M Y", $row->date)." - ".$row->description;
 
@@ -212,13 +210,11 @@ echo "<br/>";
       $hol_color = $_POST['hol_color'];
 
       // save to DB
-      $formattedDesc = mysql_real_escape_string($hol_desc);
-      $formattedColor = mysql_real_escape_string($hol_color);
+      $formattedDesc = SqlWrapper::getInstance()->sql_real_escape_string($hol_desc);
+      $formattedColor = SqlWrapper::getInstance()->sql_real_escape_string($hol_color);
       $query = "INSERT INTO `codev_holidays_table`  (`date`, `description`, `color`) VALUES ('$hol_date','$formattedDesc','$formattedColor');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -230,10 +226,8 @@ echo "<br/>";
       $hol_id = $_POST['hol_id'];
 
       $query = "DELETE FROM `codev_holidays_table` WHERE id = $hol_id;";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }

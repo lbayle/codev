@@ -34,11 +34,11 @@ function login($user, $password) {
     global $logger;
     $password = md5($password);
 
-    $formattedUser = mysql_real_escape_string($user);
-    $formattedPass = mysql_real_escape_string($password);
+    $formattedUser = SqlWrapper::getInstance()->sql_real_escape_string($user);
+    $formattedPass = SqlWrapper::getInstance()->sql_real_escape_string($password);
     $query= 'SELECT id, username, realname FROM `mantis_user_table` WHERE username = \''.$formattedUser.'\' and password = \''.$formattedPass.'\'';
-    $result = mysql_query($query);
-    if ($result && mysql_num_rows($result) == 1 && $row_login = mysql_fetch_object($result)) {
+    $result = SqlWrapper::getInstance()->sql_query($query);
+    if ($result && SqlWrapper::getInstance()->sql_num_rows($result) == 1 && $row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {
         $_SESSION['userid']=$row_login->id;
         $_SESSION['username']=$row_login->username;
         $_SESSION['realname']=$row_login->realname;
@@ -46,8 +46,6 @@ function login($user, $password) {
         $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')');
         return TRUE;
     } else {
-        $logger->error('Query FAILED: '.$query);
-        $logger->error(mysql_error());
         $error = 'login failed !';
         return FALSE;
     }

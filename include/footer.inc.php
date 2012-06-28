@@ -26,7 +26,7 @@
 #echo "<br/>";
 #TimeTrackCache::getInstance()->displayStats();
 
-mysql_close($bugtracker_link);
+SqlWrapper::getInstance()->sql_close($bugtracker_link);
 ?>
 
 

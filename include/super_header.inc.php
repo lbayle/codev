@@ -47,8 +47,8 @@ set_exception_handler('exception_handler');
 
 
 
-include_once "tools.php";
 include_once "mysql_connect.inc.php";
+include_once "tools.php";
 include_once "internal_config.inc.php";
 include_once "constants.php";
 

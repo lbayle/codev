@@ -398,13 +398,12 @@ class GanttManager {
 	               "WHERE bug_id=$issue->bugId ".
 	               "AND field_name = 'status' ".
 	               "AND old_value=$status_new ORDER BY id DESC";
-	      $result = mysql_query($query);
+	      $result = SqlWrapper::getInstance()->sql_query($query);
 			if (!$result) {
-				$this->logger->error("Query FAILED: $query -- ".mysql_error());
 	         echo "<span style='color:red'>ERROR: Query FAILED</span>";
 				exit;
 			}
-	      $startDate  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+	      $startDate  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
          // this happens, if the issue has been created with a status != 'new'
    	   if (NULL == $startDate) { $startDate = $issue->dateSubmission; }

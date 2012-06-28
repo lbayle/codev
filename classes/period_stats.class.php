@@ -126,16 +126,14 @@ class PeriodStats {
     }
         if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
 
-        $result = mysql_query($query);
+        $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
 
     // For each bugId
-    while($row = mysql_fetch_object($result))
+    while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
     {
       $bugId1 = $row->id;
       // Find most recent transitions where date < $endTimestamp
@@ -146,16 +144,14 @@ class PeriodStats {
         "AND date_modified < $this->endTimestamp ".
         "ORDER BY id DESC";
 
-      $result2 = mysql_query($query2);
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
-      	$this->logger->error("Query FAILED: $query2");
-      	$this->logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
 
-      if (0 != mysql_num_rows($result2)) {
-        $row2 = mysql_fetch_object($result2);
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result2)) {
+        $row2 = SqlWrapper::getInstance()->sql_fetch_object($result2);
 
         $this->statusCountList[$row2->new_value]++;
         $this->statusIssueList[$row2->new_value][] = $bugId1;

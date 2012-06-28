@@ -40,15 +40,13 @@ if (!isset($_SESSION['userid'])) {
   // get user info
   $session_user = $_SESSION['userid'];
   $query= "SELECT id, username, realname FROM `mantis_user_table` WHERE id = '$session_user'";
-  $result = mysql_query($query);
+  $result = SqlWrapper::getInstance()->sql_query($query);
   if (!$result) {
-  	$logger->error("Query FAILED: $query");
-  	$logger->error(mysql_error());
   	echo "<span style='color:red'>ERROR: Query FAILED</span>";
   	exit;
   }
 
-  if ($row_login = mysql_fetch_object($result)) {
+  if ($row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {
     $userid=$row_login->id;
     $username=$row_login->username;
     $realname=$row_login->realname;

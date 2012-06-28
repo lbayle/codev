@@ -57,17 +57,15 @@ function getSideTasksProjectDetails(TimeTracking $timeTracking) {
       "FROM `codev_team_project_table` ".
       "WHERE team_id = $timeTracking->team_id ".
       "AND type = $sideTaskProjectType";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       return;
    }
 
    $durationPerCategory = array();
    $formatedBugsPerCategory = array();
 
-   while($row = mysql_fetch_object($result)) {
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $durPerCat = $timeTracking->getProjectDetails($row->project_id);
       foreach ($durPerCat as $catName => $bugList) {
          foreach ($bugList as $bugid => $duration) {

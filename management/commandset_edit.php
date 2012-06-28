@@ -45,16 +45,16 @@ function updateCommandSetInfo($cmdset) {
    // security check
    $cmdset->setTeamid(checkNumericValue($_POST['teamid']));
 
-   $formattedValue = mysql_real_escape_string($_POST['commandsetName']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetName']);
    $cmdset->setName($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['commandsetReference']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetReference']);
    $cmdset->setReference($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['commandsetDesc']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetDesc']);
    $cmdset->setDesc($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['commandsetDate']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetDate']);
    $cmdset->setDate(date2timestamp($formattedValue));
 
    $cmdset->setCost(checkNumericValue($_POST['commandsetCost'], true));
@@ -157,7 +157,7 @@ if (isset($_SESSION['userid'])) {
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new CommandSet for team $teamid<br>");
 
-         $cmdsetName = mysql_real_escape_string($_POST['commandsetName']);
+         $cmdsetName = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetName']);
 
          $commandsetid = CommandSet::create($cmdsetName, $teamid);
          $smartyHelper->assign('commansetdid', $commandsetid);

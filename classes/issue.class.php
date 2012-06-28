@@ -84,14 +84,12 @@ class IssueNote {
          "AND mantis_bugnote_table.bugnote_text_id = mantis_bugnote_text_table.id ".
          "ORDER BY mantis_bugnote_table.date_submitted";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $row = mysql_fetch_object($result);
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       $this->bug_id          = $row->bug_id;
       $this->reporter_id     = $row->reporter_id;
@@ -206,14 +204,12 @@ class Issue {
       $query = "SELECT * ".
          "FROM `mantis_bug_table` ".
          "WHERE id = $this->bugId";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $row = mysql_fetch_object($result);
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       $this->summary         = $row->summary;
       $this->currentStatus   = $row->status;
@@ -232,14 +228,12 @@ class Issue {
 
       // Get custom fields
       $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
-      $result2 = mysql_query($query2);
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
-         $this->logger->error("Query FAILED: $query2");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result2)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
          switch ($row->field_id) {
             case $tcCustomField:              $this->tcId            = $row->value; break;
             case $mgrEstimEffortCustomField:  $this->mgrEffortEstim  = $row->value; break;
@@ -278,15 +272,13 @@ class Issue {
       global $logger;
 
       $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      #$found  = (0 != mysql_num_rows($result)) ? true : false;
-      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+      #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
+      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
       if (1 != $nbTuples) {
          $logger->warn("exists($bugid): found $nbTuples items.");
@@ -301,14 +293,12 @@ class Issue {
    public function getDescription() {
       if (NULL == $this->description) {
          $query = "SELECT description FROM `mantis_bug_text_table` WHERE id = $this->bugId";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $row = mysql_fetch_object($result);
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
          $this->description = $row->description;
       }
       return $this->description;
@@ -317,15 +307,13 @@ class Issue {
    public function getIssueNoteList() {
       if (NULL == $this->IssueNoteList) {
          $query = "SELECT id FROM `mantis_bugnote_table` WHERE bug_id = $this->bugId";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->IssueNoteList = array();
-         while($row = mysql_fetch_object($result)) {
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $this->IssueNoteList["$row->id"] = new IssueNote($row->id);
          }
       }
@@ -483,15 +471,13 @@ class Issue {
 
       $query  = "SELECT value FROM `mantis_custom_field_string_table` WHERE field_id='$tcCustomField' AND bug_id=$this->bugId";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      $tcId    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "";
+      $tcId    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
 
       return $tcId;
    }
@@ -514,14 +500,12 @@ class Issue {
          $query = "SELECT date_order FROM `mantis_project_version_table` ".
             "WHERE project_id=$this->projectId ".
             "AND version='$this->target_version'";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $targetVersionDate = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+         $targetVersionDate = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
          $this->logger->debug("$this->bugId target_version date = ".date("Y-m-d", $targetVersionDate));
          return ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
@@ -536,8 +520,8 @@ class Issue {
 
       /*
       $query = "SELECT name FROM `mantis_project_table` WHERE id= $this->projectId";
-      $result = mysql_query($query) or die("Query failed: $query");
-      $projectName = mysql_result($result, 0);
+      $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
+      $projectName = SqlWrapper::getInstance()->sql_result($result, 0);
 
       return $projectName;
       */
@@ -550,14 +534,12 @@ class Issue {
 
       if (NULL == $this->categoryName) {
          $query = "SELECT name FROM `mantis_category_table` WHERE id= $this->categoryId";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $this->categoryName = mysql_result($result, 0);
+         $this->categoryName = SqlWrapper::getInstance()->sql_result($result, 0);
       }
 
       return $this->categoryName;
@@ -592,14 +574,12 @@ class Issue {
          $query .= " AND jobid = $job_id";
       }
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $elapsed += $row->duration;
       }
 
@@ -675,14 +655,12 @@ class Issue {
          $query = "SELECT * FROM `mantis_bug_relationship_table` ".
             "WHERE source_bug_id=$this->bugId ".
             "AND relationship_type = $type";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = mysql_fetch_object($result)) {
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $this->logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
             $this->relationships[$type][] = $row->destination_bug_id;
          }
@@ -690,14 +668,12 @@ class Issue {
          $query = "SELECT * FROM `mantis_bug_relationship_table` ".
             "WHERE destination_bug_id=$this->bugId ".
             "AND relationship_type = ".$complementaryType;
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = mysql_fetch_object($result)) {
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $this->logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
             $this->relationships[$type][] = $row->source_bug_id;
          }
@@ -711,15 +687,13 @@ class Issue {
     */
    public function startDate() {
       $query = "SELECT MIN(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      return mysql_result($result, 0);
+      return SqlWrapper::getInstance()->sql_result($result, 0);
    }
 
    /**
@@ -727,15 +701,13 @@ class Issue {
     */
    public function endDate() {
       $query = "SELECT MAX(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      return mysql_result($result, 0);
+      return SqlWrapper::getInstance()->sql_result($result, 0);
    }
 
    /**
@@ -882,14 +854,12 @@ class Issue {
       }
       $query .= " ORDER BY date";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $timeTracks[$row->id] = $row->date;
       }
 
@@ -909,14 +879,12 @@ class Issue {
       }
       $query .= " ORDER BY date";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $row = mysql_fetch_object($result);
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       return $row->date;
    }
@@ -940,14 +908,12 @@ class Issue {
 
       $query .= " ORDER BY mantis_user_table.username";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $userList[$row->id] = $row->username;
       }
 
@@ -961,14 +927,12 @@ class Issue {
    public function getStatus($timestamp = NULL) {
       if (NULL == $timestamp) {
          $query = "SELECT status FROM `mantis_bug_table` WHERE id = $this->bugId";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $row = mysql_fetch_object($result);
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
          $this->currentStatus   = $row->status;
 
          $this->logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
@@ -984,15 +948,13 @@ class Issue {
          "ORDER BY date_modified DESC";
 
       // get latest result
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 != mysql_num_rows($result)) {
-         $row = mysql_fetch_object($result);
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
          $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
 
@@ -1016,33 +978,27 @@ class Issue {
 
       // TODO should be done only once... in Constants singleton ?
       $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$remainingCustomField'";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $field_name    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "Remaining (RAF)";
+      $field_name    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "Remaining (RAF)";
 
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 != mysql_num_rows($result)) {
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
 
          $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$remaining' WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
       } else {
          $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$remainingCustomField', '$this->bugId', '$remaining');";
       }
-      $result = mysql_query($query2);
+      $result = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query2");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -1051,10 +1007,8 @@ class Issue {
       // Add to history
       $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
          "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_remaining', '$remaining', '0', '".time()."');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -1094,14 +1048,12 @@ class Issue {
       } else {
          // Bug has changed, search history for status changed
          $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='$status_new'";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $date_modified    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+         $date_modified    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
          if (0 == $date_modified) {
             // some SideTasks, are created with status='closed' and have never been set to 'new'.
@@ -1134,19 +1086,17 @@ class Issue {
          "WHERE bug_id=$this->bugId ".
          "AND field_name = 'status' ".
          "AND (new_value=$status OR old_value=$status) ORDER BY id";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $this->logger->debug("id=$row->id date = $row->date_modified old_value = $row->old_value new_value = $row->new_value");
          $start_date = $row->date_modified;
 
          // Next line is end_date. if NULL then end_date = current_date
-         if ($row = mysql_fetch_object($result)) {
+         if ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $end_date = $row->date_modified;
             $this->logger->debug("id=$row->id date = $row->date_modified  old_value = $row->old_value new_value = $row->new_value");
          } else {
@@ -1333,14 +1283,12 @@ class Issue {
          "WHERE bug_id=$this->bugId ".
          "AND field_name = 'status' ".
          "AND new_value=$status ORDER BY id";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+      $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
       if (NULL == $timestamp) {
          $this->logger->debug("issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND !");
@@ -1369,14 +1317,12 @@ class Issue {
          "WHERE bug_id=$this->bugId ".
          "AND field_name = 'status' ".
          "AND new_value=$status ORDER BY id DESC";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $timestamp  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+      $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
       if (NULL == $timestamp) {
          $this->logger->debug("issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND !");
@@ -1426,16 +1372,14 @@ class Issue {
       if (NULL == $this->commandList) {
 
          $query  = "SELECT * FROM `codev_command_bug_table` WHERE bug_id=$this->bugId ";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          // a Command can belong to more than one commandset
-         while($row = mysql_fetch_object($result)) {
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
             $cmd = CommandCache::getInstance()->getCommand($row->command_id);
 

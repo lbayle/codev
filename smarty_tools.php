@@ -28,7 +28,7 @@ function checkNumericValue($value, $allowNull = false) {
    
    if ((NULL == $value) && (true == $allowNull)) { return NULL; }
 
-   $formattedValue = mysql_real_escape_string($value);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($value);
    if (!is_numeric($formattedValue)) {
       echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
       $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");
@@ -95,15 +95,13 @@ function getBugs($projectid = 0, $defaultBugid = 0, $projList) {
          "FROM `mantis_bug_table` ".
          "WHERE project_id IN ($formatedProjList) ".
          "ORDER BY id DESC";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 != mysql_num_rows($result)) {
-         while($row = mysql_fetch_object($result)) {
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $issueList[] = $row->id;
          }
       }

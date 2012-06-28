@@ -33,11 +33,9 @@ include_once 'project.class.php';
 function execQuery($query) {
    global $logger;
 
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
 			echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
-			$logger->error("Query FAILED: $query");
-			$logger->error(mysql_error());
 			exit;
 	}
    return $result;
@@ -61,7 +59,7 @@ function move_st_cat_tuples() {
    $query  = "SELECT * FROM `codev_sidetasks_category_table` ORDER BY project_id ASC";
    $result = execQuery($query);
 
-	while($row = mysql_fetch_object($result))	{
+	while($row = SqlWrapper::getInstance()->sql_fetch_object($result))	{
 
       echo "project $row->project_id<br>";
 

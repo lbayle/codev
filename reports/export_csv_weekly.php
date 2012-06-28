@@ -64,15 +64,13 @@ function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFi
             "AND    codev_team_user_table.user_id = mantis_user_table.id ".
             "ORDER BY mantis_user_table.realname";
 
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
 
-   while($row = mysql_fetch_object($result)) {
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       // if user was working on the project during the timestamp
       $user = UserCache::getInstance()->getUser($row->user_id);
       if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
@@ -99,14 +97,12 @@ function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
       foreach ($jobList as $jobid => $dayList) {
 
          $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $logger->error("Query FAILED: $query");
-            $logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $jobName = mysql_result($result, 0);
+         $jobName = SqlWrapper::getInstance()->sql_result($result, 0);
          $stringData = $bugid.$sepChar.
                        $jobName.$sepChar.
                        $formatedSummary.$sepChar.

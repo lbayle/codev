@@ -48,14 +48,12 @@ function getTeamProjects($teamid, $defaultProjectid) {
       "WHERE codev_team_project_table.team_id = $teamid ".
       "AND codev_team_project_table.project_id = mantis_project_table.id ".
       "ORDER BY mantis_project_table.name";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       return;
    }
-   if (0 != mysql_num_rows($result)) {
-      while($row = mysql_fetch_object($result)) {
+   if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $projList[$row->id] = $row->name;
       }
    }
@@ -158,15 +156,13 @@ function getWorkingDaysPerProject(TimeTracking $timeTracking) {
       "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
       "AND codev_team_project_table.team_id = $team->id ".
       " ORDER BY name";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       return;
    }
 
    $workingDaysPerProject = NULL;
-   while($row = mysql_fetch_object($result)) {
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $nbDays = $timeTracking->getWorkingDaysPerProject($row->id);
 
       $proj = ProjectCache::getInstance()->getProject($row->id);
@@ -317,15 +313,13 @@ function getCheckWarnings($timeTracking) {
       "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
       "AND    codev_team_user_table.user_id = mantis_user_table.id ".
       "ORDER BY mantis_user_table.username";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       return;
    }
 
    $warnings = NULL;
-   while($row = mysql_fetch_object($result)) {
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
       foreach ($incompleteDays as $date => $value) {
          if ($value < 1) {

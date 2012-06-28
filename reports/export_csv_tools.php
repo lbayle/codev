@@ -71,14 +71,12 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
             "AND project_id IN ($formatedProjList) ".
             //"AND handler_id IN ($formatedMemberList) ".
             "ORDER BY id DESC";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-     $logger->error("Query FAILED: $query");
-     $logger->error(mysql_error());
      echo "<span style='color:red'>ERROR: Query FAILED</span>";
      exit;
    }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
       	   $issue = IssueCache::getInstance()->getIssue($row->id);
             $user = UserCache::getInstance()->getUser($issue->handlerId);
@@ -135,14 +133,12 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
            "AND last_updated > $startTimestamp ".
            "AND last_updated < $endTimestamp ".
            "ORDER BY id DESC";
-  $result = mysql_query($query);
+  $result = SqlWrapper::getInstance()->sql_query($query);
   if (!$result) {
-     $logger->error("Query FAILED: $query");
-     $logger->error(mysql_error());
      echo "<span style='color:red'>ERROR: Query FAILED</span>";
      exit;
   }
-  while($row = mysql_fetch_object($result)) {
+  while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
   	 $issue = IssueCache::getInstance()->getIssue($row->id);
     $user = UserCache::getInstance()->getUser($issue->handlerId);
@@ -364,14 +360,12 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
     "ORDER BY mantis_user_table.username";
 
 
-  $result = mysql_query($query);
+  $result = SqlWrapper::getInstance()->sql_query($query);
   if (!$result) {
-     $logger->error("Query FAILED: $query");
-     $logger->error(mysql_error());
      echo "<span style='color:red'>ERROR: Query FAILED</span>";
      exit;
   }
-  while($row = mysql_fetch_object($result))
+  while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
   {
       $user1 = UserCache::getInstance()->getUser($row->user_id);
 

@@ -385,8 +385,8 @@ function execSQLscript($sqlFile) {
 
    $reqs = split(";",$requetes);// identify single requests
    foreach($reqs as $req){
-      if (!mysql_query($req) && trim($req)!="") {
-         die("ERROR : ".$req." ---> ".mysql_error());
+      if (!SqlWrapper::getInstance()->sql_query($req) && trim($req)!="") {
+         die("ERROR : ".$req." ---> ".SqlWrapper::getInstance()->sql_error());
       }
    }
 }
@@ -420,7 +420,7 @@ function execSQLscript2($sqlFile) {
  */
 function getSecureGETStringValue($key,$defaultValue = NULL) {
    if(isset($_GET[$key])) {
-      return mysql_real_escape_string($_GET[$key]);
+      return SqlWrapper::getInstance()->sql_real_escape_string($_GET[$key]);
    }
    else if(isset($defaultValue)) {
       return $defaultValue;
@@ -439,7 +439,7 @@ function getSecureGETStringValue($key,$defaultValue = NULL) {
  */
 function getSecurePOSTStringValue($key,$defaultValue = NULL) {
    if(isset($_POST[$key])) {
-      return mysql_real_escape_string($_POST[$key]);
+      return SqlWrapper::getInstance()->sql_real_escape_string($_POST[$key]);
    }
    else if(isset($defaultValue)) {
       return $defaultValue;

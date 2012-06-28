@@ -97,16 +97,16 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
    if (NULL != $startTimestamp) { $query .= " AND date >= $startTimestamp"; }
    if (NULL != $endTimestamp)   { $query .= " AND date <= $endTimestamp"; }
    $query .= " ORDER BY date";
-   $result = mysql_query($query) or die("Query failed: $query");
+   $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
 
-   while($row = mysql_fetch_object($result)) {
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       // get information on this bug
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
       // get general information
       $query3  = "SELECT name FROM `codev_job_table` WHERE id=$row->jobid";
-      $result3 = mysql_query($query3) or die("Query failed: $query3");
-      $jobName = mysql_result($result3, 0);
+      $result3 = SqlWrapper::getInstance()->sql_query($query3) or die("Query failed: $query3");
+      $jobName = SqlWrapper::getInstance()->sql_result($result3, 0);
       $formatedDate= date("Y-m-d", $row->date);
       $cosmeticDate    = date("Y-m-d", $row->date).' - '.T_(date("l", $row->date));
       $formatedId = "$row->bugid / $issue->tcId";
@@ -241,14 +241,12 @@ function getUsers() {
       "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
       "ORDER BY mantis_user_table.username";
 
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       exit;
    }
 
-   while($row = mysql_fetch_object($result)) {
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $users[$row->id] = $row->username;
    }
 
@@ -343,15 +341,13 @@ function getJobs($projectid) {
       $jobList = $project1->getJobList();
    } else {
       $query = "SELECT id, name FROM `codev_job_table` ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          return;
       }
 
-      if (0 != mysql_num_rows($result)) {
-         while ($row = mysql_fetch_object($result)) {
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $jobList[$row->id] = $row->name;
          }
       }

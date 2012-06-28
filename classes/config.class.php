@@ -132,14 +132,12 @@ class Config {
       self::$configVariables = array();
 
       $query = "SELECT * FROM `codev_config_table`";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $this->logger->debug("id=$row->config_id, val=$row->value, type=$row->type");
          self::$configVariables[$row->config_id] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
@@ -278,8 +276,8 @@ class Config {
    public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0) {
       global $logger;
 
-      $formattedValue = mysql_real_escape_string($value);
-      $formattedDesc = mysql_real_escape_string($desc);
+      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($value);
+      $formattedDesc = SqlWrapper::getInstance()->sql_real_escape_string($desc);
 
       // add/update DB
       $query = "SELECT * FROM `codev_config_table` ".
@@ -288,14 +286,12 @@ class Config {
          "AND user_id=$user_id ".
          "AND team_id=$team_id ";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 != mysql_num_rows($result)) {
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` ".
             "SET value = '$formattedValue' ".
             "WHERE config_id='$id' ".
@@ -312,10 +308,8 @@ class Config {
          $logger->debug("INSERT query = $query");
       }
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -336,10 +330,8 @@ class Config {
 
          // delete from DB
          $query = "DELETE FROM `codev_config_table` WHERE config_id = '$id';";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $logger->error("Query FAILED: $query");
-            $logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }

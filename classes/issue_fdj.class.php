@@ -74,20 +74,18 @@ class IssueFDJ extends Issue {
              "AND field_name = 'status' ".
              "AND (new_value=$status_feedback OR old_value=$status_feedback) ".
              "ORDER BY id ASC";
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
 	 if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
     }
-    while($row = mysql_fetch_object($result))
+    while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
     {
       $start_date = $row->date_modified;
       $start_id = $row->id;
 
       // Next line is end_date. if NULL then end_date = current_date
-      if ($row = mysql_fetch_object($result)) {
+      if ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
         $end_date = $row->date_modified;
         $end_id   = $row->id;
         $sql_condition = " AND id <= '$end_id'";
@@ -108,16 +106,14 @@ class IssueFDJ extends Issue {
                 "AND field_name='handler_id' ".
                 $sql_condition.
                 " ORDER BY id DESC";
-      $result2 = mysql_query($query2);
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
 	   if (!$result2) {
-    	      $this->logger->error("Query FAILED: $query2");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
 
       // the list is in reverse order so the first one is the latest assignment.
-      $row2 = mysql_fetch_object($result2);
+      $row2 = SqlWrapper::getInstance()->sql_fetch_object($result2);
       $handler_id = $row2->new_value;
       $latest_assignTo_id = $row2->id;
       $latest_assignTo_date = $row2->date_modified;
@@ -137,14 +133,12 @@ class IssueFDJ extends Issue {
 
         // Get the next action to check if it is a 'change status'
         $query3 = "SELECT id, date_modified, field_name FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND id > '$latest_assignTo_id' ORDER BY id ASC";
-        $result3 = mysql_query($query3);
+        $result3 = SqlWrapper::getInstance()->sql_query($query3);
 	     if (!$result3) {
-    	      $this->logger->error("Query FAILED: $query3");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
         }
-        $row3 = mysql_fetch_object($result3);
+        $row3 = SqlWrapper::getInstance()->sql_fetch_object($result3);
 
         $next_action_date  = $row3->date_modified;
         $next_action_field = $row3->field_name;
@@ -156,7 +150,7 @@ class IssueFDJ extends Issue {
           //echo "we want previous assign<br/>";
           $handler_id = $row2->old_value;
 
-          //$row2 = mysql_fetch_object($result2);
+          //$row2 = SqlWrapper::getInstance()->sql_fetch_object($result2);
           //echo "previous assign id = $row2->id &nbsp;&nbsp;&nbsp;&nbsp; date=$row2->date_modified &nbsp;&nbsp;&nbsp;&nbsp; handler_id=$handler_id <br/>";
         }
       }

@@ -52,14 +52,12 @@ function getUsers() {
              "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
              "ORDER BY mantis_user_table.username";
 
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-        $logger->error("Query FAILED: $query");
-        $logger->error(mysql_error());
         return;
     }
 
-    while($row = mysql_fetch_object($result)) {
+    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
         $users[] = array('id' => $row->id,
                          'name' => $row->username,
                          'selected' => $row->id == $_SESSION['userid']
@@ -94,14 +92,12 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
                  "FROM `mantis_bug_table` " .
                  "WHERE project_id IN ($formatedProjList) " .
                  "ORDER BY id DESC";
-        $result = mysql_query($query);
+        $result = SqlWrapper::getInstance()->sql_query($query);
         if (!$result) {
-            $logger->error("Query FAILED: $query");
-            $logger->error(mysql_error());
             return;
         }
-        if (0 != mysql_num_rows($result)) {
-            while ($row = mysql_fetch_object($result)) {
+        if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
                 $issueList[] = $row->id;
             }
         }

@@ -99,14 +99,12 @@ function getProjectList() {
                 "FROM `mantis_project_table` ";
 	#"WHERE mantis_project_table.id = $this->id ";
 
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-       $logger->error("Query FAILED: $query");
-       $logger->error(mysql_error());
        echo "<span style='color:red'>ERROR: Query FAILED</span>";
        exit;
     }
-	while($row = mysql_fetch_object($result)) {
+	while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 		// exclude ExternalTasksProject
 		if ($extproj_id == $row->id) {
 			$logger->debug("project $row->id: ExternalTasksProject is excluded");

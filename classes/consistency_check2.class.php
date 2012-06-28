@@ -408,14 +408,12 @@ class ConsistencyCheck2 {
          }
 
          $query  = "SELECT COUNT(command_id) FROM `codev_command_bug_table` WHERE bug_id=$issue->bugId ";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-        $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+        $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
         if (0 == $nbTuples) {
             $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
@@ -454,15 +452,13 @@ class ConsistencyCheck2 {
             "AND    codev_timetracking_table.userid IN ($formatedUsers) ";
             #"AND    0 = (SELECT COUNT(id) FROM `mantis_bug_table` WHERE id='codev_timetracking_table.bugid' ) ";
 
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
-         while($row = mysql_fetch_object($result)) {
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
             if (!Issue::exists($row->bugid)) {
                $cerr = new ConsistencyError2($row->bugid, $row->userid, NULL,

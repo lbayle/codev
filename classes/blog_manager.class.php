@@ -105,14 +105,12 @@ class BlogPost {
       $this->logger = Logger::getLogger(__CLASS__);
 
       $query = "SELECT * FROM `codev_blog_table` WHERE id = $this->id";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $row = mysql_fetch_object($result);
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       $this->date_submitted  = $row->date_submitted;
       $this->src_user_id     = $row->src_user_id;
@@ -175,11 +173,11 @@ class BlogPost {
       global $logger;
 
       // format values to avoid SQL injections
-      $fSeverity   = mysql_real_escape_string($severity);
-      $fCategory   = mysql_real_escape_string($category);
-      $fSummary    = mysql_real_escape_string($summary);
-      $fContent    = mysql_real_escape_string($content);
-      $fDateExpire = mysql_real_escape_string($date_expire);
+      $fSeverity   = SqlWrapper::getInstance()->sql_real_escape_string($severity);
+      $fCategory   = SqlWrapper::getInstance()->sql_real_escape_string($category);
+      $fSummary    = SqlWrapper::getInstance()->sql_real_escape_string($summary);
+      $fContent    = SqlWrapper::getInstance()->sql_real_escape_string($content);
+      $fDateExpire = SqlWrapper::getInstance()->sql_real_escape_string($date_expire);
 
       $date_submitted = time(); # mktime(0, 0, 0, date('m'), date('d'), date('Y'));
 
@@ -189,14 +187,12 @@ class BlogPost {
                "VALUES ('$date_submitted','$src_user_id','$dest_user_id','$dest_project_id','$dest_team_id',".
                "'$fSeverity','$fCategory','$fSummary','$fContent','$fDateExpire','$color');";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED $query</span><br>";
          return 0;
       }
-      $blogPost_id = mysql_insert_id();
+      $blogPost_id = SqlWrapper::getInstance()->sql_insert_id();
 
       return $blogPost_id;
    }
@@ -216,18 +212,14 @@ class BlogPost {
       // TODO check admin/ user access rights
 
       $query = "DELETE FROM `codev_blog_activity_table` WHERE blog_id = $blogPost_id;";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
          $query = "DELETE FROM `codev_blog_table` WHERE id = $blogPost_id;";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -249,38 +241,34 @@ class BlogPost {
 
       // check if $blogPost_id exists (foreign keys do not exist in MyISAM)
 
-      $fPostId    = mysql_real_escape_string($blogPost_id);
+      $fPostId    = SqlWrapper::getInstance()->sql_real_escape_string($blogPost_id);
 
 
       $query = "SELECT id FROM `codev_blog_table` where id= $fPostId";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      if (0 == mysql_num_rows($result)) {
+      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
          $logger->error("addActivity: blogPost '$fPostId' does not exist !");
          return 0;
       }
 
       // add activity
-      $fUserId   = mysql_real_escape_string($user_id);
-      $fAction   = mysql_real_escape_string($action);
-      $fDate     = mysql_real_escape_string($date);
+      $fUserId   = SqlWrapper::getInstance()->sql_real_escape_string($user_id);
+      $fAction   = SqlWrapper::getInstance()->sql_real_escape_string($action);
+      $fDate     = SqlWrapper::getInstance()->sql_real_escape_string($date);
       $query = "INSERT INTO `codev_blog_activity_table` ".
             "(`blog_id`, `user_id`, `action`, `date`) ".
             "VALUES ('$fPostId','$fUserId','$fAction','$fDate')";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          return 0;
       }
-      $activity_id = mysql_insert_id();
+      $activity_id = SqlWrapper::getInstance()->sql_insert_id();
 
       return $activity_id;
    }
@@ -293,16 +281,14 @@ class BlogPost {
 
       if (NULL == $this->activityList) {
          $query = "SELECT * FROM `codev_blog_activity_table` WHERE blog_id = $this->id ORDER BY date DESC";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
 
          $this->activityList = array();
-         while($row = mysql_fetch_object($result)) {
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $activity = new BlogActivity($row->id, $row->blog_id, $row->user_id, $row->action, $row->date);
             $this->activityList[$row->id] = $activity;
          }
@@ -418,16 +404,14 @@ class BlogManager {
       $query .= "OR (dest_user_id = 0 AND dest_team_id IN (0,$formattedTeamList) AND dest_project_id IN ($formattedProjList)) ";
       $query .= "ORDER BY date_submitted DESC";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $postList = array();
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $post = BlogPostCache::getInstance()->getBlogPost($row->id);
          $postList[$row->id] = $post;
       }
@@ -446,16 +430,14 @@ class BlogManager {
    public function getSubmittedPosts($user_id) {
 
       $query = "SELECT id FROM `codev_blog_table` where src_user_id= $user_id";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
       $submittedPosts = array();
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $submittedPosts[$row->id] = BlogPostCache::getInstance()->getBlogPost($row->id);
       }
 

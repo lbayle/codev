@@ -139,8 +139,8 @@ function execSQLscript($sqlFile) {
 
       $reqs = split(";",$requetes);// identify single requests
       foreach($reqs as $req){
-         if (!mysql_query($req) && trim($req)!="") {
-            die("ERROR : ".$req." ---> ".mysql_error());
+         if (!SqlWrapper::getInstance()->sql_query($req) && trim($req)!="") {
+            die("ERROR : ".$req." ---> ".SqlWrapper::getInstance()->sql_error());
          }
       }
       echo "done";

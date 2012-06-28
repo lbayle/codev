@@ -111,14 +111,12 @@ function getProjectList() {
                 "FROM `mantis_project_table` ".
                 "ORDER BY name";
 
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
-   while($row = mysql_fetch_object($result))
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
    {
    	$plist[$row->id] = $row->name;
    }
@@ -140,14 +138,12 @@ function getJobList($type = NULL) {
 
    $query .=  "ORDER BY name";
 
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
-   while($row = mysql_fetch_object($result))
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
    {
       $jlist[$row->id] = $row->name;
    }
@@ -204,14 +200,12 @@ function displayJobTuples($originPage) {
    $query     = "SELECT * ".
                 "FROM `codev_job_table` ".
                 "ORDER BY name";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
-   while($row = mysql_fetch_object($result))
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
    {
       echo "<tr>\n";
       echo "<td>\n";
@@ -220,14 +214,12 @@ function displayJobTuples($originPage) {
       $query2 = "SELECT COUNT(jobid) ".
                 "FROM `codev_timetracking_table` ".
                 "WHERE jobid = $row->id";
-      $result2 = mysql_query($query2);
+      $result2 = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result2) {
-         $logger->error("Query FAILED: $query2");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $nbTuples  = (0 != mysql_num_rows($result2)) ? mysql_result($result2, 0) : 0;
+      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result2)) ? SqlWrapper::getInstance()->sql_result($result2, 0) : 0;
 
       if ((0 == $nbTuples) && ($jobSupport != $row->id)) {
          echo "<a title='".T_("delete Job")."' href=\"javascript: deleteJob('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
@@ -314,14 +306,12 @@ function displayAssignedJobTuples($originPage) {
                 "FROM `codev_project_job_table`, `codev_job_table` ".
                 "WHERE codev_project_job_table.job_id = codev_job_table.id ".
                 "ORDER BY codev_project_job_table.project_id";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
-   while($row = mysql_fetch_object($result))
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
    {
       echo "<tr>\n";
       echo "<td>\n";
@@ -412,19 +402,15 @@ echo "<br/>";
       // TODO delete Support job not allowed
 
       $query = "DELETE FROM `codev_project_job_table` WHERE job_id = $job_id;";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
    	  $query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -443,10 +429,8 @@ echo "<br/>";
             // TODO check if not already in table !
             // save to DB
             $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
-            $result = mysql_query($query);
+            $result = SqlWrapper::getInstance()->sql_query($query);
             if (!$result) {
-               $logger->error("Query FAILED: $query");
-               $logger->error(mysql_error());
                echo "<span style='color:red'>ERROR: Query FAILED</span>";
                exit;
             }
@@ -460,10 +444,8 @@ echo "<br/>";
       $asso_id = $_POST['asso_id'];
 
       $query = "DELETE FROM `codev_project_job_table` WHERE id = $asso_id;";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }

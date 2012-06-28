@@ -141,8 +141,8 @@ function displayProjectsToRemove() {
 	               "WHERE mantis_project_table.id = codev_sidetasks_category_table.project_id ".
 	               "ORDER BY mantis_project_table.name DESC";
 
-	$result = mysql_query($query) or die("Query failed: $query");
-	while($row = mysql_fetch_object($result)) {
+	$result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
+	while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 	   $prjList[$row->id] = $row->name;
 	}
 
@@ -167,15 +167,15 @@ function custom_field_destroy( $p_field_id ) {
 
 	# delete all values
 	$query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id= $p_field_id;";
-	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
 
 	# delete all project associations
 	$query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id= $p_field_id;";
-	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
 
 	# delete the definition
 	$query = "DELETE FROM `mantis_custom_field_table` WHERE id= $p_field_id;";
-	mysql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".mysql_error()."</span>");
+	SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
 
 	#custom_field_clear_cache( $p_field_id );
 

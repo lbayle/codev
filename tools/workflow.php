@@ -211,8 +211,8 @@ function getProjectList($isCodevtt = false) {
                 "FROM `mantis_project_table` ";
 	#"WHERE mantis_project_table.id = $this->id ";
 
-	$result = mysql_query($query) or die("Query failed: $query");
-	while($row = mysql_fetch_object($result))
+	$result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
+	while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
 	{
 		if (false == $isCodevtt) {
 

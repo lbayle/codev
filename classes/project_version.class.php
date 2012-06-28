@@ -50,15 +50,13 @@ class ProjectVersion extends IssueSelection {
 					"WHERE  project_id = $this->projectId ".
 					"AND    version    = '$this->name' ";
 			
-			$result = mysql_query($query);
+			$result = SqlWrapper::getInstance()->sql_query($query);
 			if (!$result) {
-				$this->logger->error("Query FAILED: $query");
-				$this->logger->error(mysql_error());
 				echo "<span style='color:red'>ERROR: Query FAILED</span>";
 				exit;
 			}
 			
-			$this->versionDate = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "(none)";
+			$this->versionDate = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "(none)";
 			
 			if ($this->versionDate <= 1) { $this->versionDate = "(none)"; }
 		}

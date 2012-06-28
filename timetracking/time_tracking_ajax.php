@@ -81,8 +81,8 @@ function getWeekTaskDetails($weekDates, $userid, TimeTracking $timeTracking) {
          $linkList[$linkid] = $issue;
 
          $query3  = 'SELECT name FROM `codev_job_table` WHERE id='.$jobid;
-         $result3 = mysql_query($query3) or die('Query failed: '.$query3);
-         $jobName = mysql_result($result3, 0);
+         $result3 = SqlWrapper::getInstance()->sql_query($query3) or die('Query failed: '.$query3);
+         $jobName = SqlWrapper::getInstance()->sql_result($result3, 0);
 
          $description = addslashes(htmlspecialchars($issue->summary));
          $dialogBoxTitle = T_('Task').' '.$issue->bugId.' / '.$issue->tcId.' - '.T_('Update Remaining');

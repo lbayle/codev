@@ -71,16 +71,14 @@ class ConfigMantis {
       self::$quiet = true;
       
       $query = "SELECT * FROM `mantis_config_table`";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      if (!self::$quiet) {
                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
               }
     	      exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
       	$key = $row->config_id."_".$row->project_id;
       	$this->logger->debug("$row->config_id = $row->value");
@@ -168,26 +166,22 @@ class ConfigMantis {
    public function setValue($config_id, $value, $type, $project_id = 0, $user_id = 0, $access_reqd = 90) {
 
       $query = "SELECT * FROM `mantis_config_table` WHERE config_id='$config_id' AND project_id='$project_id'";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      if (!self::$quiet) {
                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
               }
     	      exit;
       }
-      if (0 == mysql_num_rows($result)) {
+      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
 
          $this->logger->debug("setValue $config_id: $value (type=$type)");
 
          // --- add to DB
          $query = "INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) ".
                   "VALUES ('$config_id', '$project_id', '$user_id', '$access_reqd', '$type', '$value');";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
 	      if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      if (!self::$quiet) {
                  echo "<span style='color:red'>ERROR: Query FAILED</span>";
               }

@@ -107,14 +107,12 @@ class Project {
                 "WHERE mantis_project_table.id = $this->id ".
                 "AND codev_team_project_table.project_id = $this->id ";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $row = mysql_fetch_object($result);
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       $this->name        = $row->name;
       $this->description = $row->description;
@@ -122,29 +120,25 @@ class Project {
 
       // ---- if SideTaskProject get categories
       $query  = "SELECT * FROM `codev_project_category_table` WHERE project_id = $this->id ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             exit;
       }
 
       $this->categoryList = array();
-      while($row = mysql_fetch_object($result))   {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))   {
          $this->categoryList[$row->type] = $row->category_id;
       }
 
       // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
       $query  = "SELECT get_project_resolved_status_threshold($this->id) ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $this->bug_resolved_status_threshold = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : NULL;
+      $this->bug_resolved_status_threshold = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
       #echo "DEBUG $this->name .bug_resolved_status_threshold = $this->bug_resolved_status_threshold<br>\n";
 
       #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
@@ -162,15 +156,13 @@ class Project {
       global $logger;
 
       $query  = "SELECT COUNT(id) FROM `mantis_project_table` WHERE id=$id ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      #$found  = (0 != mysql_num_rows($result)) ? true : false;
-      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+      #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
+      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
       if (1 != $nbTuples) {
          $logger->warn("exists($id): found $nbTuples items.");
@@ -190,14 +182,12 @@ class Project {
                 "FROM `mantis_project_table` ".
                 "WHERE mantis_project_table.id = $projectId ";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $row = mysql_fetch_object($result);
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       return $row->name;
    }
@@ -213,14 +203,12 @@ class Project {
 
       //--- check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
+      $projectid    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
       if (-1 != $projectid) {
          echo "ERROR: Project name already exists ($projectName)<br/>\n";
          return -1;
@@ -229,14 +217,12 @@ class Project {
       //--- create new Project
       $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
                "VALUES ('$projectName','50','1','50','10','$projectDesc','1','1');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $projectid = mysql_insert_id();
+      $projectid = SqlWrapper::getInstance()->sql_insert_id();
 
 
       //--- when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
@@ -245,10 +231,8 @@ class Project {
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -256,10 +240,8 @@ class Project {
       //--- Status to set auto-assigned issues to 'closed'
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -284,14 +266,12 @@ class Project {
 
       // check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $projectid    = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : -1;
+      $projectid    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
       if (-1 != $projectid) {
          echo "ERROR: Project name already exists ($projectName)<br/>\n";
          return -1;
@@ -300,14 +280,12 @@ class Project {
       // create new Project
       $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
                "VALUES ('$projectName','50','1','50','10','$projectDesc','1','0');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $projectid = mysql_insert_id();
+      $projectid = SqlWrapper::getInstance()->sql_insert_id();
 
 
       // add custom fields BI,BS,RAE,DeadLine,DeliveryDate
@@ -318,10 +296,8 @@ class Project {
                       "('$remainingCustomField',      '$projectid','5'), ".
                       "('$deadLineCustomField',       '$projectid','6'), ".
                       "('$deliveryDateCustomField',   '$projectid','7');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -334,10 +310,8 @@ class Project {
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -345,10 +319,8 @@ class Project {
       // Status to set auto-assigned issues to 'closed'
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -376,14 +348,12 @@ class Project {
 
      // find out which customFields are already associated
      $query = "SELECT field_id FROM `mantis_custom_field_project_table` WHERE    project_id = $this->id";
-     $result = mysql_query($query);
+     $result = SqlWrapper::getInstance()->sql_query($query);
      if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
      }
-     while($row = mysql_fetch_object($result))
+     while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
           $existingFields[] = $row->field_id;
       }
@@ -407,10 +377,8 @@ class Project {
           $query[$pos] = ';';
 
         // add missing custom fields
-        $result = mysql_query($query);
+        $result = SqlWrapper::getInstance()->sql_query($query);
         if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
         }
@@ -447,39 +415,33 @@ class Project {
    private function addCategory($catType, $catName) {
 
       // create category for SideTask Project
-      $formattedCatName = mysql_real_escape_string($catName);
+      $formattedCatName = SqlWrapper::getInstance()->sql_real_escape_string($catName);
       $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$formattedCatName', '0');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             exit;
       }
 
-      $catId = mysql_insert_id();
+      $catId = SqlWrapper::getInstance()->sql_insert_id();
 
       // ------
       $query = "SELECT * FROM `codev_project_category_table` WHERE project_id='$this->id' AND type='$catType';";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             exit;
       }
 
-      if (0 != mysql_num_rows($result)) {
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          // should not happen...
          $query = "UPDATE `codev_project_category_table` SET category_id = $catId WHERE project_id ='$this->id' AND type='$catType';";
       } else {
          $query = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) VALUES ('$this->id','$catId','$catType');";
       }
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             exit;
       }
 
@@ -497,10 +459,8 @@ class Project {
 
 /*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -512,10 +472,8 @@ class Project {
       $bugt_id = $this->addSideTaskIssue(Project::cat_st_inactivity, $issueSummary, $issueDesc);
 /*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -540,28 +498,24 @@ class Project {
       $cat_id = $this->categoryList["$catType"];
       $today  = date2timestamp(date("Y-m-d"));
 
-      $formattedIssueDesc = mysql_real_escape_string($issueDesc);
+      $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bug_text_id = mysql_insert_id();
+      $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
 
-      $formattedissueSummary = mysql_real_escape_string($issueSummary);
+      $formattedissueSummary = SqlWrapper::getInstance()->sql_real_escape_string($issueSummary);
       $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
                "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bugt_id = mysql_insert_id();
+      $bugt_id = SqlWrapper::getInstance()->sql_insert_id();
 
       return $bugt_id;
    }
@@ -574,28 +528,24 @@ class Project {
 
       $today  = date2timestamp(date("Y-m-d"));
 
-      $formattedIssueDesc = mysql_real_escape_string($issueDesc);
+      $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bug_text_id = mysql_insert_id();
+      $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
 
-      $formattedissueSummary = mysql_real_escape_string($issueSummary);
+      $formattedissueSummary = SqlWrapper::getInstance()->sql_real_escape_string($issueSummary);
       $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
                "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$issueStatus','$bug_text_id', '$today', '$today');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $bugt_id = mysql_insert_id();
+      $bugt_id = SqlWrapper::getInstance()->sql_insert_id();
 
       return $bugt_id;
    }
@@ -665,15 +615,13 @@ class Project {
               return $jobList;
        }
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-       if (0 != mysql_num_rows($result)) {
-            while($row = mysql_fetch_object($result))
+       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
             {
                $jobList[$row->id] = $row->name;
             }
@@ -713,14 +661,12 @@ class Project {
 
          $query  .= "ORDER BY id DESC";
 
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = mysql_fetch_object($result)) {
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $issueList[] = $row->id;
          }
          
@@ -739,14 +685,12 @@ class Project {
       if (NULL == $this->teamTypeList) {
          $this->teamTypeList = array();
          $query = "SELECT * FROM `codev_team_project_table` WHERE project_id = $this->id ";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         while($row = mysql_fetch_object($result))
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
          {
             $this->logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
             $this->teamTypeList["$row->team_id"] = $row->type;
@@ -959,16 +903,14 @@ class Project {
                 "WHERE project_id=$this->id ";
       $this->logger->debug("getProjectConfig: Src query=$query");
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-        $this->logger->error("Query FAILED: $query");
-        $this->logger->error(mysql_error());
         echo "<span style='color:red'>ERROR: Query FAILED</span>";
         exit;
       }
       $configItems = array();
 
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
         $configItems[$row->config_id] = ConfigMantis::getInstance()->getValue($row->config_id, $this->id);;
       }
 
@@ -992,15 +934,13 @@ class Project {
                "WHERE project_id=$srcProjectId ";
       $logger->debug("cloneAllProjectConfig: Src query=$query");
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $srcConfigList = array();
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $srcConfigList[] = $row->config_id;
       }
 
@@ -1015,10 +955,8 @@ class Project {
          $query .= "AND config_id IN ($formatedSrcConfigList) ";
       }
       $logger->debug("cloneAllProjectConfig: deleteQuery = $query");
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -1033,10 +971,8 @@ class Project {
                   "    WHERE project_id=$srcProjectId ".
                   "    AND config_id='$cid') ";
          $logger->debug("cloneAllProjectConfig: cloneQuery = $query");
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }

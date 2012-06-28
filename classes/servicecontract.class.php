@@ -81,14 +81,12 @@ class ServiceContract {
       // get info from DB
       // ---
       $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id=$this->id ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $row = mysql_fetch_object($result);
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       $this->name        = $row->name;
       $this->teamid      = $row->team_id;
    	$this->state            = $row->state;
@@ -105,14 +103,12 @@ class ServiceContract {
                 "WHERE servicecontract_id=$this->id ";
                 "ORDER BY type ASC, command_id ASC";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          if (NULL == $this->cmdsetidByTypeList["$row->type"]) {
             $this->cmdsetidByTypeList["$row->type"] = array();
@@ -126,14 +122,12 @@ class ServiceContract {
                 "WHERE servicecontract_id=$this->id ";
                 "ORDER BY type ASC, command_id ASC";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
           $this->sidetasksProjectList[] = $row->project_id;
       }
@@ -147,14 +141,12 @@ class ServiceContract {
    public static function create($name, $teamid) {
     $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
              "VALUES ('$name', '$teamid');";
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
        echo "<span style='color:red'>ERROR: Query FAILED</span>";
        exit;
     }
-    $id = mysql_insert_id();
+    $id = SqlWrapper::getInstance()->sql_insert_id();
     return $id;
    }
 
@@ -166,32 +158,26 @@ class ServiceContract {
    public static function delete($id) {
 
     $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `servicecontract_id`='$id';";
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
        echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
        #exit;
     }
 
     $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE `servicecontract_id`='$id';";
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
        echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
        #exit;
     }
 
     $query = "DELETE FROM `codev_servicecontract_table` WHERE `id`='$id';";
-    $result = mysql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-       $this->logger->error("Query FAILED: $query");
-       $this->logger->error(mysql_error());
        echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
        exit;
     }
-    $id = mysql_insert_id();
+    $id = SqlWrapper::getInstance()->sql_insert_id();
     return $id;
    }
 
@@ -206,10 +192,8 @@ class ServiceContract {
 
       $this->teamid = $value;
       $query = "UPDATE `codev_servicecontract_table` SET team_id = '$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -219,13 +203,11 @@ class ServiceContract {
       return $this->name;
    }
    public function setName($name) {
-      $formattedValue = mysql_real_escape_string($name);  // should be in controler, not here
+      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($name);  // should be in controler, not here
       $this->name = $formattedValue;
       $query = "UPDATE `codev_servicecontract_table` SET name = '$formattedValue' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
@@ -238,10 +220,8 @@ class ServiceContract {
 
       $this->reference = $value;
       $query = "UPDATE `codev_servicecontract_table` SET reference = '$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -254,10 +234,8 @@ class ServiceContract {
 
       $this->version = $value;
       $query = "UPDATE `codev_servicecontract_table` SET version = '$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -270,10 +248,8 @@ class ServiceContract {
 
       $this->reporter = $value;
       $query = "UPDATE `codev_servicecontract_table` SET reporter = '$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -284,13 +260,11 @@ class ServiceContract {
       return $this->description;
    }
    public function setDesc($description) {
-      $formattedValue = mysql_real_escape_string($description);  // should be in controler, not here
+      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($description);  // should be in controler, not here
       $this->description = $formattedValue;
       $query = "UPDATE `codev_servicecontract_table` SET description = '$formattedValue' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
@@ -304,10 +278,8 @@ class ServiceContract {
 
       $this->state = $value;
       $query = "UPDATE `codev_servicecontract_table` SET state='$value' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
@@ -320,10 +292,8 @@ class ServiceContract {
    public function setStartDate($value) {
       $this->start_date = $value;
       $query = "UPDATE `codev_servicecontract_table` SET start_date = '$this->start_date' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
@@ -335,10 +305,8 @@ class ServiceContract {
    public function setEndDate($value) {
       $this->end_date = $value;
       $query = "UPDATE `codev_servicecontract_table` SET end_date = '$this->end_date' WHERE id='$this->id' ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
@@ -438,14 +406,12 @@ class ServiceContract {
       $this->cmdsetidByTypeList["$type"][] = $commandset_id;
 
       $query = "INSERT INTO `codev_servicecontract_cmdset_table` (`servicecontract_id`, `commandset_id`, `type`) VALUES ('$this->id', '$commandset_id', '$type');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $id = mysql_insert_id();
+      $id = SqlWrapper::getInstance()->sql_insert_id();
       return $id;
 
    }
@@ -467,10 +433,8 @@ class ServiceContract {
       }
 
       $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE servicecontract_id='$this->id' AND commandset_id='$commandset_id';";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -502,14 +466,12 @@ class ServiceContract {
       $this->sidetasksProjectList[] = $project_id;
 
       $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ('$this->id', '$project_id', '$type');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $id = mysql_insert_id();
+      $id = SqlWrapper::getInstance()->sql_insert_id();
       return $id;
 
    }
@@ -527,10 +489,8 @@ class ServiceContract {
       }
 
       $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id='$this->id' AND project_id='$project_id';";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }

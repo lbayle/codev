@@ -49,14 +49,12 @@ class User {
          $query = "SELECT mantis_user_table.username ".
                   "FROM  `mantis_user_table` ".
                   "WHERE  id = $this->id";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
          }
-         $this->name  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : "(unknown $this->id)";
+         $this->name  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "(unknown $this->id)";
       }
       return $this->name;
    }
@@ -98,14 +96,12 @@ class User {
   // --------------------
    public function getRealname() {
       $query = "SELECT realname FROM `mantis_user_table` WHERE id = $this->id";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-      $userName    = mysql_result($result, 0);
+      $userName    = SqlWrapper::getInstance()->sql_result($result, 0);
       return $userName;
    }
 
@@ -149,14 +145,12 @@ class User {
           // REM: if departure_date = 0, then user stays until the end of the world.
       }
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-      $nbTuples  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
       return (0 != $nbTuples);
    }
@@ -174,14 +168,12 @@ class User {
       if (isset($team_id)) {
                $query .= "AND team_id = $team_id";
       }
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
       	if ($row->arrival_date < $arrival_date) {
       		$arrival_date = $row->arrival_date;
@@ -204,17 +196,15 @@ class User {
       if (isset($team_id)) {
                $query .= "AND team_id = $team_id";
       }
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
 
       //search the departure date
       // if the user is active in a team the departure date is '0'
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
       	if ((NULL==$row->departure_date )||(0==$row->departure_date )){
       		$departureDate = 0;
@@ -241,15 +231,13 @@ class User {
                  "FROM `codev_timetracking_table` ".
                  "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
                  "AND userid = $this->id";
-    $result    = mysql_query($query);
+    $result    = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
     }
     $teamidList = array_keys($this->getTeamList());
-    while($row = mysql_fetch_object($result)) {
+    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       try {
 	      $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
@@ -281,14 +269,12 @@ class User {
                  "FROM `codev_timetracking_table` ".
                  "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
                  "AND userid = $this->id";
-    $result    = mysql_query($query);
+    $result    = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
     }
-    while($row = mysql_fetch_object($result)) {
+    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
       $issue = IssueCache::getInstance()->getIssue($row->bugid);
       if ($issue->isAstreinte()) {
@@ -316,15 +302,13 @@ class User {
                    "FROM `codev_timetracking_table` ".
                    "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
                    "AND userid = $this->id";
-     $result    = mysql_query($query);
+     $result    = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
 
-     while($row = mysql_fetch_object($result)) {
+     while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
         try {
          $issue = IssueCache::getInstance()->getIssue($row->bugid);
          if ($issue->projectId == $extTasksProjId) {
@@ -419,10 +403,8 @@ class User {
       $query = "SELECT id FROM `codev_timetracking_table` ".
             "WHERE date >= $startTimestamp AND date <= $endTimestamp ".
             "AND userid = $this->id";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
@@ -432,7 +414,7 @@ class User {
          $projectList = Team::getProjectList($team_id);
       }
 
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $timetrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
 
          // exclude projects not in team list
@@ -459,14 +441,12 @@ class User {
       $teamList = array();
 
       $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id  ORDER BY name";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-          $this->logger->error("Query FAILED: $query");
-          $this->logger->error(mysql_error());
           echo "<span style='color:red'>ERROR: Query FAILED</span>";
           exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $teamList[$row->id] = $row->name;
          #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
       }
@@ -512,14 +492,12 @@ class User {
          $query .= "AND   codev_team_user_table.access_level = $accessLevel ";
       }
       $query .= "ORDER BY codev_team_table.name";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          $teamList[$row->id] = $row->name;
          #echo "getTeamList(".Team::$accessLevelNames[$accessLevel].") FOUND $row->id - $row->name<br/>";
@@ -562,14 +540,12 @@ class User {
 
            if (isset($_GET['debug_sql'])) { echo "User.getProjectList(): query = $query<br/>"; }
 
-	      $result = mysql_query($query);
+	      $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
          }
-	      while($row = mysql_fetch_object($result)) {
+	      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 	      	$projList[$row->project_id] = $row->name;
 	      }
       } else {
@@ -602,14 +578,12 @@ class User {
 
 
       $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id IN ($formatedProjList) ORDER BY id DESC";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          	$issueList[] = $row->id;
       }
 
@@ -644,14 +618,12 @@ class User {
             "AND status < get_project_resolved_status_threshold(project_id) ".
             "ORDER BY id DESC";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id);
 
          $totalRemaining += $issue->getDurationMgr();
@@ -704,14 +676,12 @@ class User {
       $query .= "ORDER BY id DESC";
 
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
          $issueList[] = $issue;
       }
@@ -761,14 +731,12 @@ class User {
                "WHERE user_id = $this->id ".
                "ORDER BY bug_id DESC";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-      while($row = mysql_fetch_object($result)) {
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       	  $issue = IssueCache::getInstance()->getIssue($row->bug_id);
       	  if ( $issue->currentStatus < $issue->bug_resolved_status_threshold) {
                $issueList[] = $issue;
@@ -801,15 +769,13 @@ class User {
                "FROM `codev_timetracking_table` ".
                "WHERE userid = $this->id ".
                "AND date = $timestamp";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-      	$this->logger->error("Query FAILED: $query");
-      	$this->logger->error(mysql_error());
       	echo "<span style='color:red'>ERROR: Query FAILED</span>";
       	exit;
       }
 
-      $data = mysql_fetch_array($result);
+      $data = SqlWrapper::getInstance()->sql_fetch_array($result);
       $sum= round($data[0], 2);
 
       $availTime = (1 - $sum <= 0) ? 0 : (1 - $sum);
@@ -844,16 +810,14 @@ class User {
 	               "AND user_id = $this->id";
 	      $this->logger->debug("query = ".$query);
 
-	      $result = mysql_query($query);
+	      $result = SqlWrapper::getInstance()->sql_query($query);
 		   if (!$result) {
-	         $this->logger->error("Query FAILED: $query");
-	         $this->logger->error(mysql_error());
 	         echo "<span style='color:red'>ERROR: Query FAILED</span>";
 	         exit;
 	      }
 
 	      // get default filters if not found
-	      $keyvalue = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $default_timetrackingFilters;
+	      $keyvalue = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : $default_timetrackingFilters;
 
 	      $this->logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
 	      $this->timetrackingFilters = doubleExplode(':', ',', $keyvalue);

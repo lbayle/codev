@@ -52,25 +52,21 @@ function peeToMee() {
 
 	$query  = "SELECT * FROM `mantis_custom_field_string_table` WHERE `field_id` = $prelEffortEstimCustomField";
 
-	$result = mysql_query($query);
-	$result = mysql_query($query);
+	$result = SqlWrapper::getInstance()->sql_query($query);
+	$result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
 			echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
-			$logger->error("Query FAILED: $query");
-			$logger->error(mysql_error());
 			exit;
 	}
-	while($row = mysql_fetch_object($result))
+	while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
 	{
 		$meeValue = Issue::$PEE_balance[$row->value];
 		echo "Issue $row->bug_id pee=<$row->value> mee=<$meeValue> <br>\n";
 
 		$query2 = "INSERT INTO `mantis_custom_field_string_table`  (`field_id`, `bug_id`, `value`) VALUES ('".$mgrEffortEstimCustomField."','".$row->bug_id."','".$meeValue."');";
-		$result2 = mysql_query($query2);
+		$result2 = SqlWrapper::getInstance()->sql_query($query2);
 		if (!$result2) {
 			echo "<span style='color:red'>ERROR: Query FAILED $query2</span>";
-			$logger->error("Query FAILED: $query2");
-			$logger->error(mysql_error());
 			//exit;
 		}
 	}

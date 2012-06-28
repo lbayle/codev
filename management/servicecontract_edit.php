@@ -45,25 +45,25 @@ function updateServiceContractInfo($contract) {
    // security check
    $contract->setTeamid(checkNumericValue($_POST['teamid']));
 
-   $formattedValue = mysql_real_escape_string($_POST['servicecontractName']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractName']);
    $contract->setName($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['servicecontractReference']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractReference']);
    $contract->setReference($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['servicecontractVersion']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractVersion']);
    $contract->setVersion($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['servicecontractReporter']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractReporter']);
    $contract->setReporter($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['servicecontractDesc']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractDesc']);
    $contract->setDesc($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['servicecontractStartDate']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractStartDate']);
    $contract->setStartDate(date2timestamp($formattedValue));
 
-   $formattedValue = mysql_real_escape_string($_POST['servicecontractEndDate']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractEndDate']);
    $contract->setEndDate(date2timestamp($formattedValue));
 
    $contract->setState(checkNumericValue($_POST['servicecontractState'], true));
@@ -188,7 +188,7 @@ if (isset($_SESSION['userid'])) {
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new ServiceContract for team $teamid<br>");
 
-         $contractName = mysql_real_escape_string($_POST['contractName']);
+         $contractName = SqlWrapper::getInstance()->sql_real_escape_string($_POST['contractName']);
 
          $servicecontractid = ServiceContract::create($contractName, $teamid);
          $smartyHelper->assign('servicecontractid', $servicecontractid);

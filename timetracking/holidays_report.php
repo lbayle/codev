@@ -61,15 +61,13 @@ function  displayHolidaysReportForm($teamid, $curYear, $isExternalTasks = false,
   echo T_("Team").": \n";
   echo "<select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
   $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
 
-  while($row = mysql_fetch_object($result))
+  while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
   {
     if ($row->id == $teamid) {
       echo "<option selected value='".$row->id."'>".$row->name."</option>\n";
@@ -148,14 +146,12 @@ function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) 
     "AND    codev_team_user_table.user_id = mantis_user_table.id ".
     "ORDER BY mantis_user_table.username";
 
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      $logger->error("Query FAILED: $query");
-      $logger->error(mysql_error());
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
-  while($row = mysql_fetch_object($result))
+  while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
   {
 	  	$user1 = UserCache::getInstance()->getUser($row->user_id);
 

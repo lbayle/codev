@@ -90,14 +90,12 @@ class Team {
    public function initialize() {
 
       $query = "SELECT * FROM `codev_team_table` WHERE id = $this->id";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $row = mysql_fetch_object($result);
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       $this->name           = $row->name;
       $this->description    = $row->description;
@@ -108,14 +106,12 @@ class Team {
       // -------
       $this->projTypeList = array();
       $query = "SELECT * FROM `codev_team_project_table` WHERE team_id = $this->id ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Query FAILED: $query");
-         $this->logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          $this->logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
          $this->projTypeList[$row->project_id] = $row->type;
@@ -141,17 +137,15 @@ class Team {
 
       if ($teamid < 0) {
          // create team
-         $formattedName = mysql_real_escape_string($name);
-         $formattedDesc = mysql_real_escape_string($description);
+         $formattedName = SqlWrapper::getInstance()->sql_real_escape_string($name);
+         $formattedDesc = SqlWrapper::getInstance()->sql_real_escape_string($description);
          $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$formattedName','$formattedDesc','$leader_id', '$date');";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
          }
-         $teamid = mysql_insert_id();
+         $teamid = SqlWrapper::getInstance()->sql_insert_id();
       } else {
          echo "<span style='color:red'>ERROR: Team name '$name' already exists !</span>";
          $teamid = -1;
@@ -167,16 +161,14 @@ class Team {
    public static function getIdFromName($name) {
       global $logger;
 
-      $formattedName = mysql_real_escape_string($name);
+      $formattedName = SqlWrapper::getInstance()->sql_real_escape_string($name);
       $query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $teamid = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : (-1);
+      $teamid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : (-1);
 
       return $teamid;
    }
@@ -186,14 +178,12 @@ class Team {
       global $logger;
 
       $query = "SELECT leader_id FROM `codev_team_table` WHERE id = $teamid";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $leaderid  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : 0;
+      $leaderid  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
       return $leaderid;
    }
@@ -225,14 +215,12 @@ class Team {
 
       if (isset($_GET['debug_sql'])) { echo "Team.getProjectList(): query = $query<br/>"; }
 
-      $result    = mysql_query($query);
+      $result    = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          $projList[$row->project_id] = $row->name;
       }
@@ -251,14 +239,12 @@ class Team {
                 "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
                 "AND codev_team_user_table.team_id=$teamid ".
                 "ORDER BY mantis_user_table.username";
-      $result    = mysql_query($query);
+      $result    = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $logger->error("Query FAILED: $query");
-             $logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          $mList[$row->user_id] = $row->username;
       }
@@ -300,15 +286,13 @@ class Team {
          "WHERE project_id IN ($formatedProjects) ".
          "AND   handler_id IN ($formatedMembers) ";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $issueList = array();
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          $issue = IssueCache::getInstance()->getIssue($row->bug_id);
          $issueList[$row->bug_id] = $issue;
@@ -361,15 +345,13 @@ class Team {
 
       $query .= "ORDER BY id DESC";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          return;
       }
 
       $issueList = array();
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          $issue = IssueCache::getInstance()->getIssue($row->id);
          $issueList[$row->id] = $issue;
@@ -389,15 +371,13 @@ class Team {
          $query = "SELECT DISTINCT * FROM `codev_command_table` ".
             "WHERE team_id = $this->id ";
 
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->commandList = array();
-         while($row = mysql_fetch_object($result))
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
          {
             $cmd = CommandCache::getInstance()->getCommand($row->id);
             $this->commandList[$row->id] = $cmd;
@@ -418,15 +398,13 @@ class Team {
          $query = "SELECT DISTINCT * FROM `codev_commandset_table` ".
             "WHERE team_id = $this->id ";
 
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->commandSetList = array();
-         while($row = mysql_fetch_object($result))
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
          {
             $commandset = CommandSetCache::getInstance()->getCommandSet($row->id);
             $this->commandSetList[$row->id] = $commandset;
@@ -447,15 +425,13 @@ class Team {
          $query = "SELECT DISTINCT * FROM `codev_servicecontract_table` ".
             "WHERE team_id = $this->id ";
 
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-            $this->logger->error("Query FAILED: $query");
-            $this->logger->error(mysql_error());
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $this->serviceContractList = array();
-         while($row = mysql_fetch_object($result))
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
          {
             $contract = ServiceContractCache::getInstance()->getServiceContract($row->id);
             $this->serviceContractList[$row->id] = $contract;
@@ -477,10 +453,8 @@ class Team {
    public function addMember($memberid, $arrivalTimestamp, $memberAccess) {
       $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) ".
                "VALUES ('$memberid','$this->id','$arrivalTimestamp', '0', '$memberAccess');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
@@ -490,10 +464,8 @@ class Team {
    // -------------------------------------------------------
    public function setMemberDepartureDate($memberid, $departureTimestamp) {
      $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
@@ -510,14 +482,12 @@ class Team {
    public function addMembersFrom($src_teamid) {
 
       $query = "SELECT * from `codev_team_user_table` WHERE team_id = $src_teamid ";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          $user = UserCache::getInstance()->getUser($row->user_id);
          if (! $user->isTeamMember($this->id)) {
@@ -539,10 +509,8 @@ class Team {
     */
    public function addProject($projectid, $projecttype) {
       $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$projectid','$this->id','$projecttype');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
@@ -561,10 +529,8 @@ class Team {
       // TODO check if ExternalTasksProject not already in table !
 
       $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$externalTasksProject','$this->id','$extTasksProjectType');";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
@@ -589,10 +555,8 @@ class Team {
          // add new SideTaskProj to the team
          $query = "INSERT INTO `codev_team_project_table` (`project_id`, `team_id`, `type`) ".
                   "VALUES ('$projectid','$this->id','$sideTaskProjectType');";
-         $result = mysql_query($query);
+         $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
          }
@@ -618,10 +582,8 @@ class Team {
    public function setCreationDate($date) {
 
       $query = "UPDATE `codev_team_table` SET date = $date WHERE id = $this->id;";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             $this->logger->error("Query FAILED: $query");
-             $this->logger->error(mysql_error());
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }

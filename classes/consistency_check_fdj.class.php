@@ -69,14 +69,12 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
 
       $query .="ORDER BY last_updated DESC, bug_id DESC";
 
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
 	   if (!$result) {
-    	      $this->logger->error("Query FAILED: $query");
-    	      $this->logger->error(mysql_error());
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	      exit;
       }
-      while($row = mysql_fetch_object($result))
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
       	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
 

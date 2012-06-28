@@ -45,25 +45,25 @@ function updateCmdInfo($cmd) {
    // security check
    $cmd->setTeamid(checkNumericValue($_POST['teamid']));
 
-   $formattedValue = mysql_real_escape_string($_POST['cmdName']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdName']);
    $cmd->setName($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['cmdReference']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdReference']);
    $cmd->setReference($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['cmdVersion']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdVersion']);
    $cmd->setVersion($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['cmdReporter']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdReporter']);
    $cmd->setReporter($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['cmdDesc']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdDesc']);
    $cmd->setDesc($formattedValue);
 
-   $formattedValue = mysql_real_escape_string($_POST['cmdStartDate']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdStartDate']);
    $cmd->setStartDate(date2timestamp($formattedValue));
 
-   $formattedValue = mysql_real_escape_string($_POST['cmdDeadline']);
+   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdDeadline']);
    $cmd->setDeadline(date2timestamp($formattedValue));
 
 
@@ -171,7 +171,7 @@ if (isset($_SESSION['userid'])) {
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new Command for team $teamid<br>");
 
-         $cmdName = mysql_real_escape_string($_POST['cmdName']);
+         $cmdName = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdName']);
 
          $cmdid = Command::create($cmdName, $teamid);
          $smartyHelper->assign('commandid', $cmdid);

@@ -62,15 +62,13 @@ if(isset($_SESSION['userid'])) {
       $smartyHelper->assign('teams', getTeams($teamList, $teamid));
 
       $query = "SELECT name FROM `codev_team_table` WHERE id = $teamid";
-      $result = mysql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $logger->error("Query FAILED: $query");
-         $logger->error(mysql_error());
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       
-      $teamName  = (0 != mysql_num_rows($result)) ? mysql_result($result, 0) : $teamid;
+      $teamName  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : $teamid;
       $formatedteamName = str_replace(" ", "_", $teamName);
 
       $action = isset($_POST['action']) ? $_POST['action'] : '';
