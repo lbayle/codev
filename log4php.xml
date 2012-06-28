@@ -43,6 +43,11 @@
         <level value="DEBUG" />
     </logger>
 
+    <logger name="SmartyHelper">
+        <level value="INFO" />
+    </logger>
+    
+
 <!--    
     <logger name="cache">
         <level value="DEBUG" />
