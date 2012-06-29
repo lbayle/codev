@@ -22,61 +22,67 @@ require '../path.inc.php';
 
 require('super_header.inc.php');
 
+require_once "project_cache.class.php";
+require_once "team_cache.class.php";
+#require_once "../management/command_tools.php";
+
 $logger = Logger::getLogger("import_issues_ajax");
 
+/*
+ * NOTE: this file provides the content of the comboboxes displayed
+ * when clicking on a datatable field.
+ *
+ */
 
 
+$teamid    = isset($_GET['teamid'])    ? $_GET['teamid'] : '0';
 $projectid = isset($_GET['projectid']) ? $_GET['projectid'] : '0';
-$column    = isset($_GET['column']) ? $_GET['column'] : 'unknown_column';
-
+$column    = isset($_GET['column'])    ? $_GET['column'] : 'unknown_column';
 
 
 if ('command' == $column) {
 
-   // -- encode combobox (select) elements
-   $array = array();
-   $array['1'] = 'Command 1';
-   $array['2'] = 'Command 2';
-   $array['3'] = 'Command 3';
 
-   $selected = isset($_GET['selected']) ? $_GET['selected'] : NULL;
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   $cmdList = $team->getCommands();
+   
+   $commands = array();
+   foreach ($cmdList as $id => $cmd) {
+      $commands[$id] = $cmd->getName();
+   }
 
    if (isset($_GET['selected'])) {
-      $array['selected'] = $_GET['selected'];
+      $commands['selected'] = $_GET['selected'];
    }
-   print json_encode($array);
+
+   print json_encode($commands);
 }
 
 if ('category' == $column) {
 
-   // -- encode combobox (select) elements
-   $array = array();
-   $array['1'] = 'category 1';
-   $array['2'] = 'category 2';
-   $array['3'] = 'category 3';
+   $projectid = isset($_GET['projectid']) ? $_GET['projectid'] : '0';
+   $prj = ProjectCache::getInstance()->getProject($projectid);
 
-   $selected = isset($_GET['selected']) ? $_GET['selected'] : NULL;
+   $categories = $prj->getCategories();
 
    if (isset($_GET['selected'])) {
-      $array['selected'] = $_GET['selected'];
+      $categories['selected'] = $_GET['selected'];
    }
-   print json_encode($array);
+   print json_encode($categories);
 }
 
 if ('targetVersion' == $column) {
 
-   // -- encode combobox (select) elements
-   $array = array();
-   $array['1'] = 'targetVersion 1';
-   $array['2'] = 'targetVersion 2';
-   $array['3'] = 'targetVersion 3';
+   $projectid = isset($_GET['projectid']) ? $_GET['projectid'] : '0';
+   $prj = ProjectCache::getInstance()->getProject($projectid);
 
-   $selected = isset($_GET['selected']) ? $_GET['selected'] : NULL;
+   $versions = $prj->getProjectVersions();
 
    if (isset($_GET['selected'])) {
-      $array['selected'] = $_GET['selected'];
+      $versions['selected'] = $_GET['selected'];
    }
-   print json_encode($array);
+
+   print json_encode($versions);
 }
 
 if ('userName' == $column) {
@@ -94,11 +100,5 @@ if ('userName' == $column) {
    }
    print json_encode($array);
 }
-
-
-
-
-
-$logger->error("called import_issues_ajax.php");
 
 ?>

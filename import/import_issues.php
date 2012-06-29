@@ -124,7 +124,8 @@ if (isset($_SESSION['userid'])) {
    }
 
 
-   $smartyHelper->assign('projectid', '30');
+   $smartyHelper->assign('teamid', '4');
+   $smartyHelper->assign('projectid', '14');
    $smartyHelper->assign('newIssues', getFakeNewIssues());
 
 

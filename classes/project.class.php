@@ -72,7 +72,9 @@ class Project {
    private $drift;
    private $driftMgr;
 
-   private $issueLists; // cache
+   private $issueLists;    // cache
+   private $categoryCache; // cache
+   private $versionCache; // cache
 
    // -----------------------------------------------
    public function __construct($id) {
@@ -326,6 +328,86 @@ class Project {
       }
 
       return $projectid;
+   }
+
+   /**
+    * @param int $id  projectVersion id in mantis_category_table
+    * @return string The category name
+    */
+   public static function getCategoryName($id) {
+
+         $query = "SELECT name FROM `mantis_category_table` WHERE id= $id";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $categoryName = SqlWrapper::getInstance()->sql_result($result, 0);
+
+      return $categoryName;
+   }
+
+
+   /**
+    * @return string The version name
+    */
+   public static function getProjectVersionName($id) {
+
+         $query = "SELECT version FROM `mantis_project_version_table` WHERE id= $id";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $versionName = SqlWrapper::getInstance()->sql_result($result, 0);
+
+      return $versionName;
+   }
+
+   /**
+    * @return array id => categoryName
+    */
+   public function getCategories() {
+
+      if (NULL == $this->categoryCache) {
+
+         $this->categoryCache = array();
+
+         $query = "SELECT id, name FROM `mantis_category_table` WHERE project_id= $this->id";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $this->categoryCache[$row->id] = $row->name;
+         }
+      }
+      return $this->categoryCache;
+   }
+
+   /**
+    * @return array id => versionName
+    */
+   public function getProjectVersions() {
+
+      if (NULL == $this->versionCache) {
+
+         $this->versionCache = array();
+
+         $query = "SELECT id, version FROM `mantis_project_version_table` WHERE project_id= $this->id";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $this->versionCache[$row->id] = $row->version;
+         }
+      }
+      return $this->versionCache;
    }
 
    // -----------------------------------------------
@@ -1090,6 +1172,7 @@ class Project {
       }
       return $this->driftMgr;
    }
+
 
 
 }

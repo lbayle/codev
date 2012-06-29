@@ -18,10 +18,22 @@ include_once('../include/session.inc.php');
   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require '../path.inc.php';
+require ('../path.inc.php');
+require ('super_header.inc.php');
+
+require_once "project_cache.class.php";
+require_once "team_cache.class.php";
+
+/*
+ * NOTE: this file returns the text to set in the datatable field
+ * depending on the item selected in the jeditable component (combobox)
+ * 
+ */
 
 
-$projectid = isset($_GET['projectid']) ? $_GET['projectid'] : '0';
+
+
+$teamid    = isset($_GET['teamid']) ? $_GET['teamid'] : '0';
 $column    = isset($_GET['column']) ? $_GET['column'] : 'unknown_column';
 
 
@@ -30,54 +42,24 @@ if ('command' == $column) {
 
    $command_id = $_POST['value'];
 
-   // -- encode combobox (select) elements
-   $array = array();
-   $array['1'] = 'Command 1';
-   $array['2'] = 'Command 2';
-   $array['3'] = 'Command 3';
+   $cmd = CommandCache::getInstance()->getCommand($command_id);
 
-   $selected = isset($_GET['selected']) ? $_GET['selected'] : NULL;
-
-   if (isset($_GET['selected'])) {
-      $array['selected'] = $_GET['selected'];
-   }
-   echo $array[$command_id];
+   echo $cmd->getName();
 }
 
 if ('category' == $column) {
 
    $category_id = $_POST['value'];
 
-   // -- encode combobox (select) elements
-   $array = array();
-   $array['1'] = 'category 1';
-   $array['2'] = 'category 2';
-   $array['3'] = 'category 3';
-
-   $selected = isset($_GET['selected']) ? $_GET['selected'] : NULL;
-
-   if (isset($_GET['selected'])) {
-      $array['selected'] = $_GET['selected'];
-   }
-   echo $array[$category_id];
+   echo Project::getCategoryName($category_id);
 }
 
 if ('targetVersion' == $column) {
 
+   #$projectid        = isset($_GET['projectid']) ? $_GET['projectid'] : '0';
    $targetVersion_id = $_POST['value'];
 
-   // -- encode combobox (select) elements
-   $array = array();
-   $array['1'] = 'targetVersion 1';
-   $array['2'] = 'targetVersion 2';
-   $array['3'] = 'targetVersion 3';
-
-   $selected = isset($_GET['selected']) ? $_GET['selected'] : NULL;
-
-   if (isset($_GET['selected'])) {
-      $array['selected'] = $_GET['selected'];
-   }
-   echo $array[$targetVersion_id];
+   echo Project::getProjectVersionName($targetVersion_id);
 }
 
 if ('userName' == $column) {

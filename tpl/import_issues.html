@@ -6,10 +6,15 @@
       <h2 class="center">{t}Import Mantis Issues{/t}</h2>
 
       <form method="post" action="{$page}" enctype="multipart/form-data"  id="formUploadFile" name="formUploadFile" >
-            <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+         <fieldset>
+            {include file="form/teamProjectSelector.html"}
             <input type="file" name="nom_du_fichier">
             <input type="submit" value="{t}Upload File{/t}">
+
             <input type="hidden" name="action" value="uploadFile" />
+            <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+         </fieldset>
+
       </form>
    </div>
 
@@ -24,8 +29,8 @@
             "bProcessing": true,
             "fnDrawCallback": function () {
 
-                  $('.mgrEffortEstim').editable( 'import/editable_ajax.php?projectid={$projectid}&column=mgrEffortEstim', {
-                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=mgrEffortEstim',
+                  $('.mgrEffortEstim').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=mgrEffortEstim', {
+                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=mgrEffortEstim',
                      type   : 'textarea',
                      submit : 'OK',
 
@@ -37,8 +42,8 @@
                      },
                      "height": "14px"
                   } );
-                  $('.effortEstim').editable( 'import/editable_ajax.php?projectid={$projectid}&column=effortEstim', {
-                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=effortEstim',
+                  $('.effortEstim').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=effortEstim', {
+                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=effortEstim',
                      type   : 'textarea',
                      submit : 'OK',
 
@@ -50,8 +55,8 @@
                      },
                      "height": "14px"
                   } );
-                  $('.command').editable( 'import/editable_ajax.php?projectid={$projectid}&column=command', {
-                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=command&selected=1',
+                  $('.command').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=command', {
+                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=command&selected=1',
                      type   : 'select',
                      submit : 'OK',
 
@@ -63,8 +68,8 @@
                      },
                      "height": "14px"
                   } );
-                  $('.category').editable( 'import/editable_ajax.php?projectid={$projectid}&column=category', {
-                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=category&selected=2',
+                  $('.category').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=category', {
+                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=category&selected=2',
                      type   : 'select',
                      submit : 'OK',
 
@@ -76,8 +81,8 @@
                      },
                      "height": "14px"
                   } );
-                  $('.targetVersion').editable( 'import/editable_ajax.php?projectid={$projectid}&column=targetVersion', {
-                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=targetVersion&selected=3',
+                  $('.targetVersion').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=targetVersion', {
+                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=targetVersion&selected=3',
                      type   : 'select',
                      submit : 'OK',
 
@@ -89,8 +94,8 @@
                      },
                      "height": "14px"
                   } );
-                  $('.userName').editable( 'import/editable_ajax.php?projectid={$projectid}&column=userName', {
-                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=userName',
+                  $('.userName').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=userName', {
+                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=userName',
                      type   : 'select',
                      submit : 'OK',
 
