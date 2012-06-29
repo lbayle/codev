@@ -136,19 +136,13 @@ $(document).ready(function() {
                </td>
             </tr>
       </table>
-      <br>
       {if $isEditGranted}
       <button onclick="location.href='management/command_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
       {/if}
    </div>
 
-   <br/><br/>
 
-
-   <div style="margin-top:2em;"></div>
-   <br/><br/>
-
-   <div id="tabsCommand">
+   <div id="tabsCommand" style="margin-top:2em;">
       <ul>
          <li><a href="#tabsName-3">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-1">{t}Tasks{/t} ({$cmdNbIssues})</a></li>

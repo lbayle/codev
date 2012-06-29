@@ -115,15 +115,12 @@ $(document).ready(function() {
                <td>: {$servicecontractState}</td>
             </tr>
       </table>
-      <br>
       {if $isEditGranted}
       <button onclick="location.href='management/servicecontract_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
       {/if}
    </div>
 
-   <div style="margin-top:6em;"></div>
-
-   <div id="tabsServiceContract">
+   <div id="tabsServiceContract" style="margin-top:2em;">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-2">{t}SideTasks ({$nbSidetasksList}){/t}</a></li>
