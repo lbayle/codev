@@ -54,7 +54,7 @@ if(strpos($_SERVER['REQUEST_URI'],$firstStep)) {
 }
 
 echo "<div id='menu'>\n";
-echo "  <table class='menu'>\n";
+echo "  <table  style='margin-top: 2em'>\n";
 echo "    <tr>\n";
 echo "      <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis' title='MantisBT'>Mantis</a></td>\n";
 echo "      <td>".$firstLink." | ".$secondLink." | ".$thirdLink." | ".$fourthLink."</td>\n";

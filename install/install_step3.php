@@ -393,7 +393,7 @@ if ("checkReportsDir" == $action) {
     echo "DEBUG done.<br/>";
 
    // load homepage
-   echo ("<script> parent.location.replace('../index.php'); </script>");
+   echo ("<script> parent.location.replace('install_step4.php'); </script>");
 }
 
 
