@@ -21,7 +21,8 @@ include_once('../include/session.inc.php');
 require '../path.inc.php';
 
 
-$column = isset($_GET['column']) ? $_GET['column'] : 'unknown_column';
+$projectid = isset($_GET['projectid']) ? $_GET['projectid'] : '0';
+$column    = isset($_GET['column']) ? $_GET['column'] : 'unknown_column';
 
 
 

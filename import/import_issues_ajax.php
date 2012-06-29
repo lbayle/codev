@@ -26,7 +26,8 @@ $logger = Logger::getLogger("import_issues_ajax");
 
 
 
-$column = isset($_GET['column']) ? $_GET['column'] : 'unknown_column';
+$projectid = isset($_GET['projectid']) ? $_GET['projectid'] : '0';
+$column    = isset($_GET['column']) ? $_GET['column'] : 'unknown_column';
 
 
 

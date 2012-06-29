@@ -38,7 +38,7 @@ function getFakeNewIssues() {
    $issues = array();
 
    $newIssue = array();
-   $newIssue['summary'] = 'summary blabla';
+   $newIssue['summary'] = 'summary, blabla';
    $newIssue['mgrEffortEstim'] = '10';
    $newIssue['effortEstim'] = '8';
    $newIssue['extRef'] = 'ADEL0000';
@@ -74,51 +74,57 @@ function getFakeNewIssues() {
 $logger = Logger::getLogger("import_issues");
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_("PAGENAME"));
+$smartyHelper->assign('pageName', T_("Import Mantis Issues"));
 
 if (isset($_SESSION['userid'])) {
 
    $session_user = new User($_SESSION['userid']);
 
-
-   /* INSERT CODE HERE */
-
-
-if ($_FILES['importMantis']['error']) {
-          switch ($_FILES['nom_du_fichier']['error']){
-                   case 1: // UPLOAD_ERR_INI_SIZE
-                   echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
-                   break;
-                   case 2: // UPLOAD_ERR_FORM_SIZE
-                   echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
-                   break;
-                   case 3: // UPLOAD_ERR_PARTIAL
-                   echo "L'envoi du fichier a été interrompu pendant le transfert !";
-                   break;
-                   case 4: // UPLOAD_ERR_NO_FILE
-                   echo "Le fichier que vous avez envoyé a une taille nulle !";
-                   break;
-          }
-}
-else {
- // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
- // ce qui signifie qu'il n'y a eu aucune erreur
-}
-
-//On fait un tableau contenant les extensions autorisées.
-$extensions = array('.csv', '.xls');
-// récupère la partie de la chaine à partir du dernier . pour connaître l'extension.
-$extension = strrchr($_FILES['avatar']['name'], '.');
-//Ensuite on teste
-if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
-{
-     $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg, txt ou doc...';
-}
+   $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 
+   if ("uploadFile" == $action) {
+      if ($_FILES['importMantis']['error']) {
+               switch ($_FILES['nom_du_fichier']['error']){
+                        case 1: // UPLOAD_ERR_INI_SIZE
+                        echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
+                        break;
+                        case 2: // UPLOAD_ERR_FORM_SIZE
+                        echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
+                        break;
+                        case 3: // UPLOAD_ERR_PARTIAL
+                        echo "L'envoi du fichier a été interrompu pendant le transfert !";
+                        break;
+                        case 4: // UPLOAD_ERR_NO_FILE
+                        echo "Le fichier que vous avez envoyé a une taille nulle !";
+                        break;
+               }
+      }
+      else {
+      // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
+      // ce qui signifie qu'il n'y a eu aucune erreur
+      }
 
-   // TEST EDITABLE DATATABLE
+      //On fait un tableau contenant les extensions autorisées.
+      $extensions = array('.csv', '.xls');
+      // récupère la partie de la chaine à partir du dernier . pour connaître l'extension.
+      $extension = strrchr($_FILES['avatar']['name'], '.');
+      //Ensuite on teste
+      if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
+      {
+         $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg, txt ou doc...';
+      }
 
+   } else if ("importIssues" == $action) {
+
+      $data = $_POST['data'];
+
+      print_r($data);
+      
+   }
+
+
+   $smartyHelper->assign('projectid', '30');
    $smartyHelper->assign('newIssues', getFakeNewIssues());
 
 

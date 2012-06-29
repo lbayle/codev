@@ -1,150 +1,206 @@
-<script type="text/javascript">
-
-//------ JQUERY --------
-$(document).ready(function() {
-   $('#issues_table_old').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-
-   var oTable = $('#issues_table').dataTable( {
-        "bProcessing": true,
-        "fnDrawCallback": function () {
-
-            $('.mgrEffortEstim').editable( 'import/editable_ajax.php?column=mgrEffortEstim', {
-               loadurl : 'import/import_issues_ajax.php?column=mgrEffortEstim',
-               type   : 'textarea',
-               submit : 'OK',
-
-                "callback": function( sValue, y ) {
-                    /* Redraw the table from the new data on the server */
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                    oTable.fnDraw();
-                },
-                "height": "14px"
-            } );
-            $('.effortEstim').editable( 'import/editable_ajax.php?column=effortEstim', {
-               loadurl : 'import/import_issues_ajax.php?column=effortEstim',
-               type   : 'textarea',
-               submit : 'OK',
-
-                "callback": function( sValue, y ) {
-                    /* Redraw the table from the new data on the server */
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                    oTable.fnDraw();
-                },
-                "height": "14px"
-            } );
-            $('.command').editable( 'import/editable_ajax.php?column=command', {
-               loadurl : 'import/import_issues_ajax.php?column=command&selected=1',
-               type   : 'select',
-               submit : 'OK',
-
-                "callback": function( sValue, y ) {
-                    /* Redraw the table from the new data on the server */
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                    oTable.fnDraw();
-                },
-                "height": "14px"
-            } );
-            $('.category').editable( 'import/editable_ajax.php?column=category', {
-               loadurl : 'import/import_issues_ajax.php?column=category&selected=2',
-               type   : 'select',
-               submit : 'OK',
-
-                "callback": function( sValue, y ) {
-                    /* Redraw the table from the new data on the server */
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                    oTable.fnDraw();
-                },
-                "height": "14px"
-            } );
-            $('.targetVersion').editable( 'import/editable_ajax.php?column=targetVersion', {
-               loadurl : 'import/import_issues_ajax.php?column=targetVersion&selected=3',
-               type   : 'select',
-               submit : 'OK',
-
-                "callback": function( sValue, y ) {
-                    /* Redraw the table from the new data on the server */
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                    oTable.fnDraw();
-                },
-                "height": "14px"
-            } );
-            $('.userName').editable( 'import/editable_ajax.php?column=userName', {
-               loadurl : 'import/import_issues_ajax.php?column=userName',
-               type   : 'select',
-               submit : 'OK',
-
-                "callback": function( sValue, y ) {
-                    /* Redraw the table from the new data on the server */
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                    oTable.fnDraw();
-                },
-                "height": "14px"
-            } );
-        }
-    } );
-
-});
-
-</script>
-
 
 <div id="content" class="center">
 
-   <h2 class="center">{t}Import Mantis Issues{/t}</h2>
+   <!-- FILE SELECTION -->
+   <div style="margin-top:3em;">
+      <h2 class="center">{t}Import Mantis Issues{/t}</h2>
 
-   <form method="post" action="{$page}" enctype="multipart/form-data">
-          <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-          <input type="file" name="nom_du_fichier">
-          <input type="submit" value="Envoyer">
-   </form>
+      <form method="post" action="{$page}" enctype="multipart/form-data"  id="formUploadFile" name="formUploadFile" >
+            <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+            <input type="file" name="nom_du_fichier">
+            <input type="submit" value="{t}Upload File{/t}">
+            <input type="hidden" name="action" value="uploadFile" />
+      </form>
+   </div>
 
+   <div style="margin-top:6em;">
 
-    <h2>Issues (test jeditable)</h2>
-    {if $newIssues}
-    <table id="issues_table" class="display">
-        <thead>
-        <tr>
-            <th>ExtRef</th>
-            <th>Summary</th>
-            <th>Charge Mgr</th>
-            <th>Charge</th>
-            <th>Command</th>
-            <th>Category</th>
-            <th>TargetVersion</th>
-            <th>User</th>
-        </tr>
-        </thead>
-        <tbody>
-        {foreach from=$newIssues key=id item=i}
-        <tr>
-            <td class="extRef">{$i.extRef}</td>
-            <td class="summary">{$i.summary}</td>
-            <td class="mgrEffortEstim">{$i.mgrEffortEstim}</td>
-            <td class="effortEstim">{$i.effortEstim}</td>
-            <td class="command">{$i.command}</td>
-            <td class="category">{$i.category}</td>
-            <td class="targetVersion">{$i.targetVersion}</td>
-            <td class="userName">{$i.userName}</td>
-        </tr>
-        {/foreach}
-        </tbody>
-    </table>
-   {/if}
+      <script type="text/javascript">
+
+      //------ DATATABLE JQUERY --------
+      $(document).ready(function() {
+
+         var oTable = $('#issues_table').dataTable( {
+            "bProcessing": true,
+            "fnDrawCallback": function () {
+
+                  $('.mgrEffortEstim').editable( 'import/editable_ajax.php?projectid={$projectid}&column=mgrEffortEstim', {
+                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=mgrEffortEstim',
+                     type   : 'textarea',
+                     submit : 'OK',
+
+                     "callback": function( sValue, y ) {
+                        /* Redraw the table from the new data on the server */
+                        var aPos = oTable.fnGetPosition( this );
+                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                        oTable.fnDraw();
+                     },
+                     "height": "14px"
+                  } );
+                  $('.effortEstim').editable( 'import/editable_ajax.php?projectid={$projectid}&column=effortEstim', {
+                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=effortEstim',
+                     type   : 'textarea',
+                     submit : 'OK',
+
+                     "callback": function( sValue, y ) {
+                        /* Redraw the table from the new data on the server */
+                        var aPos = oTable.fnGetPosition( this );
+                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                        oTable.fnDraw();
+                     },
+                     "height": "14px"
+                  } );
+                  $('.command').editable( 'import/editable_ajax.php?projectid={$projectid}&column=command', {
+                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=command&selected=1',
+                     type   : 'select',
+                     submit : 'OK',
+
+                     "callback": function( sValue, y ) {
+                        /* Redraw the table from the new data on the server */
+                        var aPos = oTable.fnGetPosition( this );
+                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                        oTable.fnDraw();
+                     },
+                     "height": "14px"
+                  } );
+                  $('.category').editable( 'import/editable_ajax.php?projectid={$projectid}&column=category', {
+                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=category&selected=2',
+                     type   : 'select',
+                     submit : 'OK',
+
+                     "callback": function( sValue, y ) {
+                        /* Redraw the table from the new data on the server */
+                        var aPos = oTable.fnGetPosition( this );
+                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                        oTable.fnDraw();
+                     },
+                     "height": "14px"
+                  } );
+                  $('.targetVersion').editable( 'import/editable_ajax.php?projectid={$projectid}&column=targetVersion', {
+                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=targetVersion&selected=3',
+                     type   : 'select',
+                     submit : 'OK',
+
+                     "callback": function( sValue, y ) {
+                        /* Redraw the table from the new data on the server */
+                        var aPos = oTable.fnGetPosition( this );
+                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                        oTable.fnDraw();
+                     },
+                     "height": "14px"
+                  } );
+                  $('.userName').editable( 'import/editable_ajax.php?projectid={$projectid}&column=userName', {
+                     loadurl : 'import/import_issues_ajax.php?projectid={$projectid}&column=userName',
+                     type   : 'select',
+                     submit : 'OK',
+
+                     "callback": function( sValue, y ) {
+                        /* Redraw the table from the new data on the server */
+                        var aPos = oTable.fnGetPosition( this );
+                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                        oTable.fnDraw();
+                     },
+                     "height": "14px"
+                  } );
+            }
+         } );
+
+      });
+
+      </script>
+
+      <h2>Issues (test jeditable)</h2>
+
+      {if $newIssues}
+      <table id="issues_table" class="display">
+         <thead>
+         <tr>
+               <th>ExtRef</th>
+               <th>Summary</th>
+               <th>Charge Mgr</th>
+               <th>Charge</th>
+               <th>Command</th>
+               <th>Category</th>
+               <th>TargetVersion</th>
+               <th>User</th>
+         </tr>
+         </thead>
+         <tbody>
+         {foreach from=$newIssues key=id item=i}
+         <tr>
+               <td class="extRef">{$i.extRef}</td>
+               <td class="summary">{$i.summary}</td>
+               <td class="mgrEffortEstim">{$i.mgrEffortEstim}</td>
+               <td class="effortEstim">{$i.effortEstim}</td>
+               <td class="command">{$i.command}</td>
+               <td class="category">{$i.category}</td>
+               <td class="targetVersion">{$i.targetVersion}</td>
+               <td class="userName">{$i.userName}</td>
+         </tr>
+         {/foreach}
+         </tbody>
+      </table>
+      {/if}
+   </div>
+
+   <!-- IMPORT BUTTON  -->
+   <div  class="left" style="margin-top:2em;">
+
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+
+            jQuery("#btImportIssues").click(function(event) {
+
+               var oTable = $('#issues_table').dataTable();
+               
+               $('#issues_table tbody tr').each( function () {
+                  var iPos = oTable.fnGetPosition( this );
+                  if (iPos!=null) {
+
+                     var extRef = jQuery(this).find('td.extRef').text();
+                     var summary = jQuery(this).find('td.summary').text();
+                     var mgrEffortEstim = jQuery(this).find('td.mgrEffortEstim').text();
+                     var effortEstim = jQuery(this).find('td.effortEstim').text();
+                     var command = jQuery(this).find('td.command').text();
+                     var category = jQuery(this).find('td.category').text();
+                     var targetVersion = jQuery(this).find('td.targetVersion').text();
+                     var userName = jQuery(this).find('td.userName').text();
+
+                     jQuery.ajax({
+                        type: "POST",
+                        url:  "import/import_row_ajax.php",
+                        data: "action=importRow"+
+                              "&projectid={$projectid}"+
+                              "&extRef="+extRef+
+                              "&summary="+summary+
+                              "&mgrEffortEstim="+mgrEffortEstim+
+                              "&effortEstim="+effortEstim+
+                              "&command="+command+
+                              "&category="+category+
+                              "&targetVersion="+targetVersion+
+                              "&userName="+userName,
+                        success: function(data) {
+                           alert("row "+extRef+" imported.");
+
+                           // TODO update datatable
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                           if(errorThrown == 'Forbidden') {
+                              window.location = '{$page}';
+                           } else {
+                              alert(errorThrown);
+                           }
+                        }
+                     });
+                  }
+               });
+            });
+         });
+      </script>
+
+      <button type='button' name="btImportIssues" id="btImportIssues"><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Import{/t}</button>
+
+   </div>
 
 
 
