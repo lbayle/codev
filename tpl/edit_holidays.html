@@ -1,0 +1,117 @@
+{include file="menu/admin_menu.html"}
+
+<link rel="stylesheet" href="lib/colorpicker/css/colorpicker.css" type="text/css" />
+<script type="text/javascript" src="lib/colorpicker/js/colorpicker.js"></script>
+<script type="text/javascript" src="lib/colorpicker/js/eye.js"></script>
+<script type="text/javascript" src="lib/colorpicker/js/utils.js"></script>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      if("{$error}" != "") {
+         alert("{$error}");
+      }
+   });
+</script>
+
+<div id="content">
+   {if $defaultColor}
+   <h2 class="center">{t}Add fixed holidays{/t}</h2><br/>
+   {t}In here you can set National Days, religious holidays, etc.{/t}
+   <!-- {t}Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong.{/t} -->
+
+   <!-- <div style="text-align: center;"> -->
+   <div style="margin-top: 2em;">
+      <script type="text/javascript" src="js/datepicker.js"></script>
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+            {if $locale != en}
+            jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+            {/if}
+
+            // Set the date
+            jQuery("#datepicker").datepicker("setDate" ,"{$smarty.now}");
+
+            jQuery('#hol_color').ColorPicker({
+               onSubmit: function(hsb, hex, rgb, el) {
+                  jQuery(el).val(hex);
+                  jQuery(el).css("background-color","#"+hex);
+                  jQuery(el).ColorPickerHide();
+               },
+               onBeforeShow: function () {
+                  jQuery(this).ColorPickerSetColor(this.value);
+               }
+            }).bind('keyup', function(){
+               jQuery(this).ColorPickerSetColor(this.value);
+            });
+
+            jQuery("#addHoliday").click(function() {
+               // check fields
+               var foundError = 0;
+               var msgString = "{t}Les champs suivants ont ete oublies:{/t}\n";
+
+               if ("" == jQuery("#hol_desc").val()) {
+                  msgString += "{t}Holiday Description{/t}";
+                  ++foundError;
+               }
+               if (0 == foundError) {
+                  document.forms["addHolidayForm"].submit();
+               } else {
+                  alert(msgString);
+               }
+            });
+         });
+      </script>
+      <form id="addHolidayForm" name="addHolidayForm" method="post" action="{$page}">
+         <fieldset>
+            <label for="datepicker">{t}Date{/t}:</label>
+            <input type="text" id="datepicker" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" />
+            <label for="hol_desc">{t}Description{/t}:</label>
+            <input name="hol_desc" type="text" id="hol_desc" />
+            <label for="hol_color">{t}Color{/t}:</label>
+            <input style="background-color: #{$defaultColor};" name="hol_color" type="text" id="hol_color" value="{$defaultColor}" title="format: {$defaultColor}" size="6" />
+            <input id="addHoliday" type="button" name="btAddHoliday" value="{t}Add{/t}" />
+         </fieldset>
+      </form>
+   </div>
+
+   <!-- Display previous entries -->
+   <div style="margin-top: 2em;">
+      <script type="text/javascript">
+         function deleteHoliday(id, date, description){
+            var confirmString = "{t}Desirez-vous vraiment supprimer definitivement cette date ?{/t}\n" + date + " - " + description;
+            if (confirm(confirmString)) {
+               var form = jQuery("#deleteHolidayForm");
+               form.find("input[name=hol_id]").val(id);
+               form.submit();
+            }
+         }
+      </script>
+      <table>
+         <!-- <caption>Holidays</caption> -->
+         <tr>
+            <th></th>
+            <th>{t}Date{/t}</th>
+            <th>{t}Description{/t}</th>
+            <th>{t}Color{/t}</th>
+         </tr>
+         {foreach from=$holidays key=id item=i}
+         <tr>
+            <td><a title="{t}delete Holiday{/t}" href="#" onclick="deleteHoliday('{$id}', '{$i.date}','{$i.desc}');return false;" ><img src=images/b_drop.png></a></td>
+            <td title="{$id}">{$i.date}</td>
+            <td title="{$i.type}">{$i.desc}</td>
+            <td style="background-color: #{$i.color};">{$i.color}</td>
+         </tr>
+         {/foreach}
+      </table>
+
+      <form id="deleteHolidayForm" name="deleteHolidayForm" method="post" action="{$page}" style="display: none;">
+         <fieldset>
+            <input type="hidden" name="hol_id" value="0" />
+         </fieldset>
+      </form>
+   </div>
+   {else}
+   {t}Sorry, you need to be in the admin-team to access this page.{/t}
+   {/if}
+
+</div>
