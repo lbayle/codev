@@ -566,41 +566,6 @@ class User {
       return $projList;
    }
 
-   // --------------------
-   // returns the tasks I can work on.
-   // depending on: the projects associated to this user in mantis_project_user_list_table.
-   // this list is displayed in timeTracking.php
-   public function getPossibleWorkingTasksList($projList = NULL) {
-
-   	$issueList = array();
-   	if (NULL == $projList) {
-        $teamList = $this->getDevTeamList();
-   	  $projList = $this->getProjectList($teamList);
-   	}
-
-   	if (0 == count($projList)) {
-   		// this happens if User is not a Developper (Manager or Observer)
-   		//echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
-   		return array();
-   	}
-
-      $formatedProjList = implode( ', ', array_keys($projList));
-
-
-      $query = "SELECT DISTINCT id FROM `mantis_bug_table` WHERE project_id IN ($formatedProjList) ORDER BY id DESC";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-      }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         	$issueList[] = $row->id;
-      }
-
-   	return $issueList;
-   }
-
-   // --------------------
    /**
     * sum the RAF (or mgrEffortEstim if no RAF defined) of all the opened Issues assigned to me.
     */
