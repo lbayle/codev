@@ -137,8 +137,7 @@ class User {
 
       $key = $team_id.'_'.$accessLevel.' '.$startTimestamp.' '.$endTimestamp;
 
-
-      if (NULL == $this->teamMemberCache[$key]) {
+      if (!array_key_exists($key,$this->teamMemberCache)) {
 
          $query = "SELECT COUNT(id) FROM `codev_team_user_table` ".
                   "WHERE team_id = $team_id ".
