@@ -53,62 +53,65 @@ if(isset($_SESSION['userid'])) {
       $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList) : array();
       $projList = $allProject + $devProjList + $managedProjList + $observedProjList;
 
-      $bug_id = getSecureGETIntValue('bugid', 0);
-      $bugs = getBugs($defaultProjectid, $bug_id, $projList);
-      $smartyHelper->assign('bugs', $bugs);
-
-      $defaultProjectid = 0;
-      if($bug_id != 0) {
-         $defaultProjectid = $bugs[$bug_id]['projectid'];
-      }
-
-      $smartyHelper->assign('projects', getProjects($projList,$defaultProjectid));
-
       // if 'support' is set in the URL, display graphs for 'with/without Support'
       $displaySupport = isset($_GET['support']) ? true : false;
       if($displaySupport) {
          $smartyHelper->assign('support', $displaySupport);
       }
 
-      // user may not have the rights to see this bug (observers, ...)
-      $taskList = $user->getPossibleWorkingTasksList($projList);
-      if (in_array($bug_id, $taskList)) {
+      $bug_id = getSecureGETIntValue('bugid', 0);
+      $bugs = NULL;
+      $projects = NULL;
+      if($bug_id != 0) {
          $issue = IssueCache::getInstance()->getIssue($bug_id);
-
-         $consistencyErrors = NULL;
-         $ccheck = new ConsistencyCheck2(array($issue));
-         $cerrList = $ccheck->check();
-         if (0 != count($cerrList)) {
-            foreach ($cerrList as $cerr) {
-               $consistencyErrors[] = array(
-                  'severity' => $cerr->getLiteralSeverity(),
-                  'severityColor' => $cerr->getSeverityColor(),
-                  'desc' => $cerr->desc
-               );
+         $defaultProjectid = $issue->projectId;
+         $bugs = getBugs($defaultProjectid, $bug_id);
+         if (array_key_exists($bug_id,$bugs)) {
+            $consistencyErrors = NULL;
+            $ccheck = new ConsistencyCheck2(array($issue));
+            $cerrList = $ccheck->check();
+            if (0 != count($cerrList)) {
+               foreach ($cerrList as $cerr) {
+                  $consistencyErrors[] = array(
+                     'severity' => $cerr->getLiteralSeverity(),
+                     'severityColor' => $cerr->getSeverityColor(),
+                     'desc' => $cerr->desc
+                  );
+               }
+               $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+               $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+               $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
+               $smartyHelper->assign('ccheckErrList', $consistencyErrors);
             }
-            $smartyHelper->assign('consistencyErrors', $consistencyErrors);
-            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
-            $smartyHelper->assign('ccheckErrList', $consistencyErrors);
-            
+
+            $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
+            $smartyHelper->assign('isManager', $isManager);
+            $smartyHelper->assign('issueGeneralInfo', getIssueGeneralInfo($issue, $isManager, $displaySupport));
+            $smartyHelper->assign('jobDetails', getJobDetails($issue));
+            $smartyHelper->assign('timeDrift', getTimeDrift($issue));
+
+            $smartyHelper->assign('months', getCalendar($issue));
+            $smartyHelper->assign('durationsByStatus', getDurationsByStatus($issue));
+
+            // set Commands I belong to
+            $parentCmds = getParentCommands($issue);
+            $smartyHelper->assign('parentCommands', $parentCmds);
+            $smartyHelper->assign('nbParentCommands', count($parentCmds));
          }
-
-         $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
-         $smartyHelper->assign('isManager', $isManager);
-         $smartyHelper->assign('issueGeneralInfo', getIssueGeneralInfo($issue, $isManager, $displaySupport));
-         $smartyHelper->assign('jobDetails', getJobDetails($issue));
-         $smartyHelper->assign('timeDrift', getTimeDrift($issue));
-
-         $smartyHelper->assign('months', getCalendar($issue));
-         $smartyHelper->assign('durationsByStatus', getDurationsByStatus($issue));
-
-         // set Commands I belong to
-         $parentCmds = getParentCommands($issue);
-         $smartyHelper->assign('parentCommands', $parentCmds);
-         $smartyHelper->assign('nbParentCommands', count($parentCmds));
-
-
+         $projects = getProjects($projList,$defaultProjectid);
+         $_SESSION['projectid'] = $defaultProjectid;
+      } else {
+         $defaultProjectid = 0;
+         if(isset($_SESSION['projectid'])) {
+            $defaultProjectid = $_SESSION['projectid'];
+            $bugs = getBugs($defaultProjectid, $bug_id);
+         } else {
+            $bugs = getBugs($defaultProjectid, $bug_id, $projList);
+         }
+         $projects = getProjects($projList,$defaultProjectid);
       }
+      $smartyHelper->assign('bugs', $bugs);
+      $smartyHelper->assign('projects', $projects);
    }
 
 }
