@@ -22,6 +22,7 @@
    <!-- <div style="text-align: center;"> -->
    <div style="margin-top: 2em;">
       <script type="text/javascript" src="js/datepicker.js"></script>
+      <script type="text/javascript" src="js/colorpicker.js"></script>
       <script type="text/javascript">
          jQuery(document).ready(function() {
             {if $locale != en}
@@ -31,30 +32,19 @@
             // Set the date
             jQuery("#datepicker").datepicker("setDate" ,"{$smarty.now}");
 
-            jQuery('#hol_color').ColorPicker({
-               onSubmit: function(hsb, hex, rgb, el) {
-                  jQuery(el).val(hex);
-                  jQuery(el).css("background-color","#"+hex);
-                  jQuery(el).ColorPickerHide();
-               },
-               onBeforeShow: function () {
-                  jQuery(this).ColorPickerSetColor(this.value);
-               }
-            }).bind('keyup', function(){
-               jQuery(this).ColorPickerSetColor(this.value);
-            });
-
             jQuery("#addHoliday").click(function() {
                // check fields
                var foundError = 0;
                var msgString = "{t}Les champs suivants ont ete oublies:{/t}\n";
 
-               if ("" == jQuery("#hol_desc").val()) {
+               var form = jQuery("#addHolidayForm");
+
+               if ("" == form.find("input[name=hol_desc]").val()) {
                   msgString += "{t}Holiday Description{/t}";
                   ++foundError;
                }
                if (0 == foundError) {
-                  document.forms["addHolidayForm"].submit();
+                  form.submit();
                } else {
                   alert(msgString);
                }
@@ -67,8 +57,8 @@
             <input type="text" id="datepicker" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" />
             <label for="hol_desc">{t}Description{/t}:</label>
             <input name="hol_desc" type="text" id="hol_desc" />
-            <label for="hol_color">{t}Color{/t}:</label>
-            <input style="background-color: #{$defaultColor};" name="hol_color" type="text" id="hol_color" value="{$defaultColor}" title="format: {$defaultColor}" size="6" />
+            <label for="colorpicker">{t}Color{/t}:</label>
+            <input style="background-color: #{$defaultColor};" name="hol_color" type="text" id="colorpicker" value="{$defaultColor}" title="format: {$defaultColor}" size="6" />
             <input id="addHoliday" type="button" name="btAddHoliday" value="{t}Add{/t}" />
          </fieldset>
       </form>
