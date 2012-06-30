@@ -703,7 +703,7 @@ function addAstreinteForm($originPage, $teamid) {
 	echo "   <select id='astreinteSelector' name='astreinteSelector' style='width: 600px;' title='".T_("Inactivity tasks")."'>\n";
 	echo "     <option value='0'></option>\n";
 	foreach ($issueList as $bugid) {
-		$issue = new Issue ($bugid);
+		$issue = IssueCache::getInstance()->getIssue($bugid);
 		echo "     <option value='".$bugid."'>".$bugid." : $issue->summary</option>\n";
 	}
 	echo "   </select>\n";

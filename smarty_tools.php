@@ -75,11 +75,12 @@ function getProjects($projectList, $selectedProjectId = NULL) {
 }
 
 /**
+ * @param int $projectid
  * @param int $defaultBugid
- * @param int $defaultProjectid
+ * @param array $projList
  * @return array
  */
-function getBugs($projectid = 0, $defaultBugid = 0, $projList) {
+function getBugs($projectid = 0, $defaultBugid = 0, array $projList = NULL) {
    global $logger;
 
    // Task list
@@ -109,7 +110,7 @@ function getBugs($projectid = 0, $defaultBugid = 0, $projList) {
 
    $bugs = NULL;
    foreach ($issueList as $bugid) {
-      $issue = new Issue ($bugid);
+      $issue = IssueCache::getInstance()->getIssue($bugid);
       $externalId = "";
       if(!empty($issue->tcId)) {
          $externalId = ' / '.$issue->tcId;
