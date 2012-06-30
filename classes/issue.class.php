@@ -248,10 +248,7 @@ class Issue {
          }
       }
 
-      $this->tcId    = $this->getTC();
-
       $this->elapsed = $this->getElapsed();
-
       $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
 
       $project = ProjectCache::getInstance()->getProject($this->projectId);
@@ -474,19 +471,7 @@ class Issue {
     * @return string
     */
    public function getTC() {
-      global $tcCustomField;
-
-      $query  = "SELECT value FROM `mantis_custom_field_string_table` WHERE field_id='$tcCustomField' AND bug_id=$this->bugId";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      $tcId    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
-
-      return $tcId;
+      return $this->tcId;
    }
 
    /**
