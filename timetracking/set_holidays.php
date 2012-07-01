@@ -222,11 +222,13 @@ if (isset($_SESSION['userid'])) {
             while ($timestamp <= $endTimestamp) {
                 // check if not a fixed holiday
                 if (!$holydays->isHoliday($timestamp)) {
-                    // TODO check existing timetracks on $timestamp and adjust duration
-                    $duration  = 1;
 
-                    //echo "INFO  ".date("Y-m-d", $timestamp)." duration $duration job $job<br/>";
-                    TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
+                   // check existing timetracks on $timestamp and adjust duration
+                   $duration = $managed_user->getAvailableTime($timestamp);
+                   if ($duration > 0) {
+                      $logger->debug(date("Y-m-d", $timestamp)." duration $duration job $job");
+                      TimeTrack::create($managed_user->id, $bugid, $job, $timestamp, $duration);
+                   }
                 }
                 $timestamp = strtotime("+1 day",$timestamp);;
             }
