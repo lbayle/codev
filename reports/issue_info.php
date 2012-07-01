@@ -102,7 +102,7 @@ if(isset($_SESSION['userid'])) {
          $_SESSION['projectid'] = $defaultProjectid;
       } else {
          $defaultProjectid = 0;
-         if(isset($_SESSION['projectid'])) {
+         if((isset($_SESSION['projectid'])) && (0 != $_SESSION['projectid'])) {
             $defaultProjectid = $_SESSION['projectid'];
             $bugs = getBugs($defaultProjectid, $bug_id);
          } else {
