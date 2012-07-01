@@ -236,10 +236,16 @@ function getUsers() {
    // separate list elements with ', '
    $formatedTeamString = implode( ', ', array_keys($teamList));
 
+   // check departure date:
+   // manager can manage removed users up to 7 days after their departure date.
+   $today = date2timestamp(date("Y-m-d", time()));
+   $timestamp=  strtotime("-7 day",$today);
+
    // show only users from the teams that I lead.
    $query = "SELECT DISTINCT mantis_user_table.id, mantis_user_table.username ".
       "FROM `mantis_user_table`, `codev_team_user_table` ".
       "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
+      "AND (codev_team_user_table.departure_date = 0 OR codev_team_user_table.departure_date >= $timestamp) ".
       "AND codev_team_user_table.team_id IN ($formatedTeamString) ".
       "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
       "ORDER BY mantis_user_table.username";
