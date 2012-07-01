@@ -1,5 +1,5 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -18,444 +18,214 @@ include_once('../include/session.inc.php');
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once '../path.inc.php';
+require('../path.inc.php');
 
-include_once 'i18n.inc.php';
+require('include/super_header.inc.php');
 
-$page_name = T_("CoDev Administration : Jobs Edition");
-require_once 'header.inc.php';
-require_once 'login.inc.php';
-require_once 'menu.inc.php';
-?>
-<br/>
-<?php include 'menu_admin.inc.php'; ?>
+require('include/display.inc.php');
 
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/user_cache.class.php');
+include_once('classes/jobs.class.php');
 
-<script language="JavaScript">
-
-function addJob() {
-     // check fields
-     foundError = 0;
-     msgString = "Les champs suivants ont ete oublies:\n\n";
-
-     if ("" == document.forms["addJobForm"].job_name.value)      { msgString += "Job Name\n"; ++foundError; }
-     if ("" == document.forms["addJobForm"].job_color.value)     { msgString += "Job Color\n"; ++foundError; }
-
-     if (0 == foundError) {
-       document.forms["addJobForm"].action.value="addJob";
-       document.forms["addJobForm"].submit();
-     } else {
-       alert(msgString);
-     }
-   }
-
-function deleteJob(id, description){
-   confirmString = "Desirez-vous vraiment supprimer definitivement le poste '" + description + "' ?";
-   if (confirm(confirmString)) {
-     document.forms["deleteJobForm"].action.value="deleteJob";
-     document.forms["deleteJobForm"].job_id.value=id;
-     document.forms["deleteJobForm"].submit();
-   }
- }
-
-
-function addJobProjectAssociation() {
-     // check fields
-     foundError = 0;
-     msgString = "Les champs suivants ont ete oublies:\n\n";
-
-     foundProjects = 0;
-     var select = document.forms["addJobProjectAssociationForm"].elements['projects[]'];
-     for (var i = 0; i < select.options.length; i++) {
-	    if (select.options[i].selected) {
-	    	++foundProjects;
-	    }
-     }
-     if (0 == foundProjects)  { msgString += "Projects\n"; ++foundError; }
-
-     if (0 == document.forms["addJobProjectAssociationForm"].job_id.value)      { msgString += "Job\n"; ++foundError; }
-
-     if (0 == foundError) {
-       document.forms["addJobProjectAssociationForm"].action.value="addJobProjectAssociation";
-       document.forms["addJobProjectAssociationForm"].submit();
-     } else {
-       alert(msgString);
-     }
-   }
-
-function deleteJobProjectAssociation(id, description){
-   confirmString = "Desirez-vous vraiment supprimer definitivement l'association '" + description + "' ?";
-   if (confirm(confirmString)) {
-     document.forms["deleteJobProjectAssociationForm"].action.value="deleteJobProjectAssociation";
-     document.forms["deleteJobProjectAssociationForm"].asso_id.value=id;
-     document.forms["deleteJobProjectAssociationForm"].submit();
-   }
- }
-</script>
-
-
-<?php
-include_once "user.class.php";
-include_once "jobs.class.php";
-require_once('tc_calendar.php');
-
-$logger = Logger::getLogger("edit_jobs");
-
-// ----------------------------------------------------
+/**
+ * Get projets
+ * @return string[int] The projects
+ */
 function getProjectList() {
-
-  global $logger;
-	$plist = array();
-
-   $query     = "SELECT id, name ".
-                "FROM `mantis_project_table` ".
-                "ORDER BY name";
+   $query = "SELECT id, name ".
+            "FROM `mantis_project_table` ".
+            "ORDER BY name";
 
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
+      return NULL;
    }
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-   {
-   	$plist[$row->id] = $row->name;
+
+   $plist = array();
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $plist[$row->id] = $row->name;
    }
 
    return $plist;
 }
 
-// ----------------------------------------------------
+/**
+ * Get jobs
+ * @param string $type The type
+ * @return string[int] The jobs
+ */
 function getJobList($type = NULL) {
-
-   global $logger;
-   $jlist = array();
-
-   $query     = "SELECT id, name ".
-                "FROM `codev_job_table` ";
+   $query = "SELECT id, name ".
+            "FROM `codev_job_table`";
    if (NULL != $type) {
-      $query .=  "WHERE type = $type ";
+      $query .= " WHERE type = $type";
    }
 
-   $query .=  "ORDER BY name";
+   $query .= " ORDER BY name";
 
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
+      return NULL;
    }
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-   {
+
+   $jlist = array();
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $jlist[$row->id] = $row->name;
    }
 
    return $jlist;
 }
 
-// ----------------------------------------------------
-function addJobForm($originPage) {
-
-   #echo "<div style='text-align: center;'>";
-   echo "<div>\n";
-
-   echo "<form id='addJobForm' name='addJobForm' method='post' Action='$originPage'>\n";
-
-  echo("   ".T_("Job Name").": <input name='job_name' size='30' type='text' id='job_name'>\n");
-
-   echo "   ".T_("Type").": <select name='job_type'>\n";
-   foreach (Job::$typeNames as $jid => $jname) {
-      echo "      <option value='$jid'>$jname</option>\n";
+/**
+ * Get job tuples
+ * @return mixed[int] The jobs
+ */
+function getJobTuples() {
+   $query = "SELECT * ".
+            "FROM `codev_job_table` ".
+            "ORDER BY name;";
+   $result = SqlWrapper::getInstance()->sql_query($query);
+   if (!$result) {
+      return NULL;
    }
-   echo "   </select>\n";
-
-   echo("   ".T_("Color").": <input name='job_color' type='text' id='job_color' value='FFFFFF' size='6'>\n");
-
-   echo "   <input type=button name='btAddJob' value='".T_("Add")."' onClick='javascript: addJob()'>\n";
-
-   #echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorpicker.com' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
-   echo "   &nbsp;&nbsp;&nbsp;<a href='http://www.colorschemer.com/online.html' target='_blank' title='".T_("open a colorPicker in a new Tab")."'>ColorPicker</A>";
-
-   echo "   <input type=hidden name=action       value=noAction>\n";
-   echo "</form>\n";
-
-   echo "</div>\n";
-}
-
-// ----------------------------------------------------
-function displayJobTuples($originPage) {
-
-   global $logger;
+   $jobs = array();
    $jobSupport = Config::getInstance()->getValue(Config::id_jobSupport);
+   $jobsWithoutSupport = array();
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $jobs[$row->id] = array(
+         "name" => $row->name,
+         "type" => $row->type,
+         "typeName" => Job::$typeNames[$row->type],
+         "color" => $row->color,
+      );
 
-   // Display previous entries
-   echo "<div>\n";
-   echo "<table>\n";
-   //echo "<caption>Jobs</caption>\n";
-   echo "<tr>\n";
-   echo "<th></th>\n";
-   echo "<th>".T_("Job Name")."</th>\n";
-   echo "<th>".T_("Type")."</th>\n";
-   echo "<th>".T_("Color")."</th>\n";
-   echo "</tr>\n";
+      if($jobSupport != $row->id) {
+         $jobsWithoutSupport[] = $row->id;
+         $jobs[$row->id]["deletedJob"] = true;
+      }
+   }
 
-   $query     = "SELECT * ".
-                "FROM `codev_job_table` ".
-                "ORDER BY name";
+   $formattedJobs = implode(", ",$jobsWithoutSupport);
+   // if job already used for TimeTracking, delete forbidden
+   $query2 = "SELECT jobid, COUNT(jobid) as count ".
+             "FROM `codev_timetracking_table` ".
+             "WHERE jobid IN ($formattedJobs) GROUP BY jobid;";
+   $result2 = SqlWrapper::getInstance()->sql_query($query2);
+   if (!$result2) {
+      return NULL;
+   }
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
+      $jobs[$row->jobid]["deletedJob"] = (0 == $row->count);
+   }
+
+   return $jobs;
+}
+
+/**
+ * Get assigned jobs
+ * @param array $plist The projects
+ * @return mixed[int] The assigned jobs
+ */
+function getAssignedJobTuples(array $plist) {
+   $query = "SELECT codev_project_job_table.id, codev_project_job_table.project_id, codev_project_job_table.job_id, codev_job_table.name AS job_name ".
+      "FROM `codev_project_job_table`, `codev_job_table` ".
+      "WHERE codev_project_job_table.job_id = codev_job_table.id ".
+      "ORDER BY codev_project_job_table.project_id";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-   {
-      echo "<tr>\n";
-      echo "<td>\n";
-
-      // if job already used for TimeTracking, delete forbidden
-      $query2 = "SELECT COUNT(jobid) ".
-                "FROM `codev_timetracking_table` ".
-                "WHERE jobid = $row->id";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result2)) ? SqlWrapper::getInstance()->sql_result($result2, 0) : 0;
-
-      if ((0 == $nbTuples) && ($jobSupport != $row->id)) {
-         echo "<a title='".T_("delete Job")."' href=\"javascript: deleteJob('".$row->id."', '$row->name')\" ><img src='../images/b_drop.png'></a>\n";
-      }
-      echo "</td>\n";
-      echo "<td title='$row->id'>".$row->name."</td>\n";
-      echo "<td title='$row->type'>".Job::$typeNames[$row->type]."</td>\n";
-      echo "<td style='background-color: #".$row->color.";'>".$row->color."</td>\n";
-
-      echo "</tr>\n";
-   }
-   echo "</table>\n";
-
-   echo "<form id='deleteJobForm' name='deleteJobForm' method='post' Action='$originPage'>\n";
-   echo "   <input type=hidden name=action       value=noAction>\n";
-   echo "   <input type=hidden name=job_id   value='0'>\n";
-   echo "</form>\n";
-
-   echo "<div>\n";
-}
-
-// ----------------------------------------------------
-function addJobProjectAssociationForm($originPage) {
-
-   $plist = getProjectList();
-   $jlist = getJobList(Job::type_assignedJob);
-
-   #echo "<div style='text-align: center;'>";
-   echo "<div>\n";
-
-   echo "<form id='addJobProjectAssociationForm' name='addJobProjectAssociationForm' method='post' Action='$originPage'>\n";
-
-
-// -----------
-   echo "<table class='invisible'>\n";
-   echo "<tr>\n";
-   echo "  <td title='".T_("single selection")."'>".T_("Job").":</td>\n";
-   echo "  <td title='".T_("multiple selection")."'>".T_("Projects").":</td>\n";
-   echo "</tr>\n";
-   echo "<tr>\n";
-   echo "  <td>\n";
-   echo "<select name='job_id' size='5'>\n";
-   foreach($jlist as $jid => $jname) {
-      echo "   <option value='".$jid."'>".$jname."</option>\n";
-   }
-   echo "</select>\n";
-   echo "  </td>\n";
-   echo "  <td>\n";
-   echo "<select name='projects[]' multiple size='5'>\n";
-   foreach($plist as $pid => $pname) {
-      echo "   <option value='".$pid."'>".$pname."</option>\n";
-   }
-   echo "</select>\n";
-   echo "  </td>\n";
-   echo "  <td>\n";
-   echo "<input type=button name='btAddAssociation' value='".T_("Add")."' onClick='javascript: addJobProjectAssociation()'>\n";
-   echo "  </td>\n";
-   echo "</tr>\n";
-   echo "</table>\n";
-
-   echo "   <input type=hidden name=action  value=noAction>\n";
-   echo "</form>\n";
-   echo "</div>\n";
-}
-
-
-// ----------------------------------------------------
-function displayAssignedJobTuples($originPage) {
-
-   global $logger;
-   $plist = getProjectList();
-
-   // Display previous entries
-   echo "<div>\n";
-   echo "<table>\n";
-   //echo "<caption>Assigned Jobs</caption>\n";
-   echo "<tr>\n";
-   echo "<th></th>\n";
-   echo "<th>".T_("Job Name")."</th>\n";
-   echo "<th>".T_("Project")."</th>\n";
-   echo "</tr>\n";
-
-   $query     = "SELECT codev_project_job_table.id, codev_project_job_table.project_id, codev_project_job_table.job_id, codev_job_table.name AS job_name ".
-                "FROM `codev_project_job_table`, `codev_job_table` ".
-                "WHERE codev_project_job_table.job_id = codev_job_table.id ".
-                "ORDER BY codev_project_job_table.project_id";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
-   }
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-   {
-      echo "<tr>\n";
-      echo "<td>\n";
+   $projects = array();
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       // if SuiviOp do not allow tu delete
       $desc = $row->job_name." - ".$plist[$row->project_id];
       $desc = str_replace("'", "\'", $desc);
       $desc = str_replace('"', "\'", $desc);
 
-      echo "<a title='".T_("delete Project Association")."' href=\"javascript: deleteJobProjectAssociation('$row->id','$desc')\" ><img src='../images/b_drop.png'></a>\n";
-      echo "</td>\n";
-      echo "<td title='$row->job_id'>".$row->job_name."</td>\n";
-      echo "<td title='$row->project_id'>".$plist[$row->project_id]."</td>\n";
-
-      echo "</tr>\n";
+      $projects[$row->id] = array(
+         "desc" => $desc,
+         "jobid" => $row->job_id,
+         "jobname" => $row->job_name,
+         "projectid" => $row->project_id,
+         "project" => $plist[$row->project_id]
+      );
    }
-   echo "</table>\n";
 
-   echo "<form id='deleteJobProjectAssociationForm' name='deleteJobProjectAssociationForm' method='post' Action='$originPage'>\n";
-   echo "   <input type=hidden name=action       value=noAction>\n";
-   echo "   <input type=hidden name=asso_id   value='0'>\n";
-   echo "</form>\n";
-
-
-   echo "<div>\n";
+   return $projects;
 }
 
+// ========== MAIN ===========
+$smartyHelper = new SmartyHelper();
+$smartyHelper->assign('pageName', 'CoDev Administration : Jobs Edition');
 
+if(isset($_SESSION['userid'])) {
+   // Admins only
+   global $admin_teamid;
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+   if ($session_user->isTeamMember($admin_teamid)) {
+      $smartyHelper->assign('jobType', Job::$typeNames);
 
-// ================ MAIN =================
+      if (isset($_POST['job_name'])) {
+         $job_name = getSecurePOSTStringValue('job_name');
+         $job_type = getSecurePOSTStringValue('job_type');
+         $job_color = getSecurePOSTStringValue('job_color');
 
-global $admin_teamid;
+         // TODO check if not already in table !
 
-$originPage = "edit_jobs.php";
+         // save to DB
+         Jobs::create($job_name, $job_type, $job_color);
+      } elseif (isset($_POST['projects'])) {
+         $job_id = getSecurePOSTIntValue('job_id');
 
-$action = isset($_POST['action']) ? $_POST['action'] : '';
-
-// Admins only
-$session_user = new User($_SESSION['userid']);
-
-if (!$session_user->isTeamMember($admin_teamid)) {
-	echo T_("Sorry, you need to be in the admin-team to access this page.");
-	exit;
-}
-
-echo "<h2>".T_("Jobs")."</h2>\n";
-addJobForm("edit_jobs.php");
-echo "<br/>";
-displayJobTuples($originPage);
-
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<hr align='left' width='20%'/>\n";
-echo "<h2 title = 'Job-Projects Associations'>".T_("Job Assignations")."</h2>\n";
-addJobProjectAssociationForm("edit_jobs.php");
-echo "<br/>";
-echo "<br/>";
-displayAssignedJobTuples($originPage);
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-
-
-   // ----------- actions ----------
-   if ($action == "addJob") {
-
-      $job_name = $_POST['job_name'];
-      $job_type = $_POST['job_type'];
-      $job_color = $_POST['job_color'];
-
-      // TODO check if not already in table !
-
-      // save to DB
-      $job_id = Jobs::create($job_name, $job_type, $job_color);
-
-      // reload page
-      echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
-
-   } elseif ($action == "deleteJob") {
-      $job_id = $_POST['job_id'];
-
-      // TODO delete Support job not allowed
-
-      $query = "DELETE FROM `codev_project_job_table` WHERE job_id = $job_id;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-   	  $query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      // reload page
-      echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
-
-   } elseif ($action == "addJobProjectAssociation") {
-
-      $job_id     = $_POST['job_id'];
-
-      // Add Job to selected projects
-      if(isset($_POST['projects']) && !empty($_POST['projects'])){
-         $selectedProjects = $_POST['projects'];
-         foreach($selectedProjects as $project_id){
-            // TODO check if not already in table !
-            // save to DB
-            $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('$project_id','$job_id');";
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
+         // Add Job to selected projects
+         if(isset($_POST['formattedProjects'])) {
+            $proj = explode(",",getSecurePOSTStringValue('formattedProjects'));
+            foreach($proj as $project_id){
+               // TODO check if not already in table !
+               // save to DB
+               $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('".$project_id."','".$job_id."');";
+               $result = SqlWrapper::getInstance()->sql_query($query);
+               if (!$result) {
+                  $smartyHelper->assign('error', "Couldn't add the job association");
+               }
             }
+         }
+      } elseif (isset($_POST['job_id'])) {
+         $job_id = getSecurePOSTIntValue('job_id');
+
+         // TODO delete Support job not allowed
+
+         $query = "DELETE FROM `codev_project_job_table` WHERE job_id = ".$job_id.';';
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            $smartyHelper->assign('error', "Couldn't remove the job association");
+         }
+
+         $query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            $smartyHelper->assign('error', "Couldn't delete the job");
+         }
+      } elseif (isset($_POST['asso_id'])) {
+         $asso_id = getSecurePOSTIntValue('asso_id');
+
+         $query = "DELETE FROM `codev_project_job_table` WHERE id = ".$asso_id.';';
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            $smartyHelper->assign('error', "Couldn't remove the job association");
          }
       }
 
-      // reload page
-      echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
-
-   } elseif ($action == "deleteJobProjectAssociation") {
-      $asso_id = $_POST['asso_id'];
-
-      $query = "DELETE FROM `codev_project_job_table` WHERE id = $asso_id;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      // reload page
-      echo ("<script> parent.location.replace('edit_jobs.php'); </script>");
-
+      $smartyHelper->assign('jobs', getJobTuples());
+      $smartyHelper->assign('assignedJobs', getJobList(Job::type_assignedJob));
+      $projects = getProjectList();
+      $smartyHelper->assign('projects', $projects);
+      $smartyHelper->assign('tuples', getAssignedJobTuples($projects));
    }
+}
+
+$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 
 ?>
-
-<?php include 'footer.inc.php'; ?>
-
