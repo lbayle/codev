@@ -37,6 +37,7 @@ function getCommandIssues($command) {
       $issueInfo = array();
       $issueInfo["mantisLink"] = mantisIssueURL($issue->bugId, NULL, true);
       $issueInfo["bugid"] = issueInfoURL(sprintf("%07d\n",   $issue->bugId));
+      $issueInfo["extRef"] = $issue->getTC();
       $issueInfo["project"] = $issue->getProjectName();
       $issueInfo["target"] = $issue->getTargetVersion();
       $issueInfo["status"] = $issue->getCurrentStatusName();
