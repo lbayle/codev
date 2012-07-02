@@ -501,19 +501,18 @@ class Team {
 
    }
 
-   // -------------------------------------------------------
    /**
-    *
-    * @param unknown_type $projectid
-    * @param unknown_type $projecttype
+    * @param int $projectid
+    * @param $projecttype
+    * @return bool
     */
    public function addProject($projectid, $projecttype) {
       $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$projectid','$this->id','$projecttype');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         return false;
       }
+      return true;
    }
 
    // -------------------------------------------------------
@@ -574,19 +573,32 @@ class Team {
       return $projectid;
    }
 
-   // -------------------------------------------------------
    /**
-    *
-    * @param unknown_type $date_create
+    * @param int $date
+    * @return bool
     */
    public function setCreationDate($date) {
-
-      $query = "UPDATE `codev_team_table` SET date = $date WHERE id = $this->id;";
+      $query = "UPDATE `codev_team_table` SET date = ".$date." WHERE id = ".$this->id.';';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         return false;
       }
+      $this->date = $date;
+      return true;
+   }
+
+   /**
+    * @param int $leaderid
+    * @return bool
+    */
+   public function setLeader($leaderid) {
+      $query = "UPDATE `codev_team_table` SET leader_id = ".$leaderid." WHERE id = ".$this->id.';';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return false;
+      }
+      $this->leader_id = $leaderid;
+      return true;
    }
 
 
