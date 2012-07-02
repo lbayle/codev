@@ -55,6 +55,12 @@ if (isset($_SESSION['userid'])) {
       $categoryid = Project::getCategoryId($categoryName);
       $logger->debug("Import category $categoryName (id = $categoryid)");
 
+      $commandid = Command::getCommandId($commandName);
+      $logger->debug("Import command $commandName (id = $commandid)");
+
+      $userid = User::getUserId($userName);
+      $logger->debug("Import user $userName (id = $userid)");
+
 
 
    }

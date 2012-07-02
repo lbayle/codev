@@ -213,6 +213,23 @@ class Command {
    }
 
 
+   /**
+    * @param string $name commandName
+    * @return id commandid
+    */
+   public static function getCommandId($name) {
+
+         $query = "SELECT id FROM `codev_command_table` WHERE name='$name'";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $commandid = SqlWrapper::getInstance()->sql_result($result, 0);
+
+      return $commandid;
+   }
+
 
    public function getId() {
       return $this->id;

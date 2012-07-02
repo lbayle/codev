@@ -39,10 +39,30 @@ class User {
    private $teamMemberCache;
 
    // --------------------
-	public function User($user_id) {
+	public function __construct($user_id) {
 	  $this->id = $user_id;
 	  $this->logger = Logger::getLogger(__CLASS__);
 	}
+
+
+
+   /**
+    * @param string $name  username
+    * @return int The userid
+    */
+   public static function getUserId($name) {
+
+         $query = "SELECT id FROM `mantis_user_table` WHERE username='$name'";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $commandid = SqlWrapper::getInstance()->sql_result($result, 0);
+
+      return $commandid;
+   }
+
 
    // --------------------
 	public function getName() {

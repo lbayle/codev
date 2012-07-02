@@ -87,18 +87,16 @@ if ('targetVersion' == $column) {
 
 if ('userName' == $column) {
 
-   // -- encode combobox (select) elements
-   $array = array();
-   $array['1'] = 'userName 1';
-   $array['2'] = 'userName 2';
-   $array['3'] = 'userName 3';
+   $teamid    = isset($_GET['teamid'])    ? $_GET['teamid'] : NULL;
+
+   $userList = Team::getMemberList($teamid);
 
    $selected = isset($_GET['selected']) ? $_GET['selected'] : NULL;
 
    if (isset($_GET['selected'])) {
-      $array['selected'] = $_GET['selected'];
+      $userList['selected'] = $_GET['selected'];
    }
-   print json_encode($array);
+   print json_encode($userList);
 }
 
 ?>

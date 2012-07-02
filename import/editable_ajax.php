@@ -64,18 +64,9 @@ if ('userName' == $column) {
 
    $user_id = $_POST['value'];
 
-   // -- encode combobox (select) elements
-   $array = array();
-   $array['1'] = 'userName 1';
-   $array['2'] = 'userName 2';
-   $array['3'] = 'userName 3';
+   $user = UserCache::getInstance()->getUser($user_id);
 
-   $selected = isset($_GET['selected']) ? $_GET['selected'] : NULL;
-
-   if (isset($_GET['selected'])) {
-      $array['selected'] = $_GET['selected'];
-   }
-   print $array[$user_id];
+   print $user->getName();
 }
 
 if ('mgrEffortEstim' == $column) {
