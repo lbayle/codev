@@ -347,6 +347,23 @@ class Project {
       return $categoryName;
    }
 
+   /**
+    * @param int $id  projectVersion id in mantis_category_table
+    * @return string The category name
+    */
+   public static function getCategoryId($name) {
+
+         $query = "SELECT id FROM `mantis_category_table` WHERE name='$name'";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $categoryId = SqlWrapper::getInstance()->sql_result($result, 0);
+
+      return $categoryId;
+   }
+
 
    /**
     * @return string The version name

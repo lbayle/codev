@@ -40,17 +40,23 @@ if (isset($_SESSION['userid'])) {
 
       $projectid = isset($_POST['projectid']) ? $_POST['projectid'] : '0';
 
-      $extRef = isset($_POST['extRef']) ? $_POST['extRef'] : '0';
-      $summary = isset($_POST['summary']) ? $_POST['summary'] : '0';
-      $mgrEffortEstim = isset($_POST['mgrEffortEstim']) ? $_POST['mgrEffortEstim'] : '0';
-      $effortEstim = isset($_POST['effortEstim']) ? $_POST['effortEstim'] : '0';
-      $command = isset($_POST['command']) ? $_POST['command'] : '0';
-      $category = isset($_POST['category']) ? $_POST['category'] : '0';
-      $targetVersion = isset($_POST['targetVersion']) ? $_POST['targetVersion'] : '0';
-      $userName = isset($_POST['userName']) ? $_POST['userName'] : '0';
+      $extRef = isset($_POST['extRef']) ? $_POST['extRef'] : NULL;
+      $summary = isset($_POST['summary']) ? $_POST['summary'] : NULL;
+      $mgrEffortEstim = isset($_POST['mgrEffortEstim']) ? $_POST['mgrEffortEstim'] : NULL;
+      $effortEstim = isset($_POST['effortEstim']) ? $_POST['effortEstim'] : NULL;
+      $commandName = isset($_POST['command']) ? $_POST['command'] : NULL;
+      $categoryName = isset($_POST['category']) ? $_POST['category'] : NULL;
+      $targetVersion = isset($_POST['targetVersion']) ? $_POST['targetVersion'] : NULL;
+      $userName = isset($_POST['userName']) ? $_POST['userName'] : NULL;
 
 
-      $logger->debug("Import $extRef - $summary - $mgrEffortEstim - $effortEstim - $command - $category - $targetVersion - $userName");
+      $logger->debug("Import $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandName - $categoryName - $targetVersion - $userName");
+
+      $categoryid = Project::getCategoryId($categoryName);
+      $logger->debug("Import category $categoryName (id = $categoryid)");
+
+
+
    }
 }
 

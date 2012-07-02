@@ -31,12 +31,10 @@ require_once "team_cache.class.php";
  */
 
 
-
+ob_end_clean();
 
 $teamid    = isset($_GET['teamid']) ? $_GET['teamid'] : '0';
 $column    = isset($_GET['column']) ? $_GET['column'] : 'unknown_column';
-
-
 
 if ('command' == $column) {
 
@@ -44,14 +42,14 @@ if ('command' == $column) {
 
    $cmd = CommandCache::getInstance()->getCommand($command_id);
 
-   echo $cmd->getName();
+   print $cmd->getName();
 }
 
 if ('category' == $column) {
 
    $category_id = $_POST['value'];
 
-   echo Project::getCategoryName($category_id);
+   print Project::getCategoryName($category_id);
 }
 
 if ('targetVersion' == $column) {
@@ -59,7 +57,7 @@ if ('targetVersion' == $column) {
    #$projectid        = isset($_GET['projectid']) ? $_GET['projectid'] : '0';
    $targetVersion_id = $_POST['value'];
 
-   echo Project::getProjectVersionName($targetVersion_id);
+   print Project::getProjectVersionName($targetVersion_id);
 }
 
 if ('userName' == $column) {
@@ -77,16 +75,16 @@ if ('userName' == $column) {
    if (isset($_GET['selected'])) {
       $array['selected'] = $_GET['selected'];
    }
-   echo $array[$user_id];
+   print $array[$user_id];
 }
 
 if ('mgrEffortEstim' == $column) {
 
-   echo $_POST['value'];
+   print $_POST['value'];
 }
 if ('effortEstim' == $column) {
 
-   echo $_POST['value'];
+   print $_POST['value'];
 }
 
 ?>
