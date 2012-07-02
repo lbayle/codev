@@ -289,13 +289,14 @@ class CommandSet {
    }
 
    public function getCost() {
-      return $this->cost;
+      // saved in cents
+      return ($this->cost / 100);
    }
 
    public function setCost($value) {
 
-      $this->cost = $value;
-      $query = "UPDATE `codev_commandset_table` SET budget = '$value' WHERE id='$this->id' ";
+      $this->cost = floatval($value) * 100;
+      $query = "UPDATE `codev_commandset_table` SET budget = '$this->cost' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";

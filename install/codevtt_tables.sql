@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
 
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES
-('database_version', 8, 1),
+('database_version', 9, 1),
 ('job_support', 2, 1),
 ('blogCategories', '1:General,2:Imputations', 3);
 
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
   `team_id` int(11) NOT NULL,
   `state` int(11) unsigned default NULL,
   `reference` varchar(64) default NULL,
-  `budget` float default NULL,
+  `budget` int(11) default NULL,
   `budget_days` int(11) default NULL,
   `currency` varchar(3) default 'EUR',
   `description` varchar(500) default NULL,
@@ -355,12 +355,12 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `deadline` int(11) default NULL,
   `team_id` int(11) NOT NULL,
   `state` int(11) unsigned default NULL,
-  `cost` float default NULL,
+  `cost` int(11) default NULL,
   `currency` varchar(3) default 'EUR',
-  `budget_dev` int(11) unsigned default NULL,
+  `budget_dev` int(11) default NULL,
   `budget_mngt` int(11) default NULL,
   `budget_garantie` int(11) default NULL,
-  `average_daily_rate` float default NULL,
+  `average_daily_rate` int(11) default NULL,
   `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

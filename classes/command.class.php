@@ -321,12 +321,13 @@ class Command {
 
 
    public function getCost() {
-      return $this->cost;
+      // cost is stored in cents
+      return ($this->cost / 100);
    }
    public function setCost($value) {
 
-      $this->cost = $value;
-      $query = "UPDATE `codev_command_table` SET cost = '$value' WHERE id='$this->id' ";
+      $this->cost = floatval($value) * 100;
+      $query = "UPDATE `codev_command_table` SET cost = '$this->cost' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -350,13 +351,13 @@ class Command {
    }
 
    public function getAverageDailyRate() {
-      return $this->averageDailyRate;
+      return ($this->averageDailyRate / 100);
    }
    public function setAverageDailyRate($value) {
 
 
-      $this->averageDailyRate = $value;
-      $query = "UPDATE `codev_command_table` SET average_daily_rate = '$value' WHERE id='$this->id' ";
+      $this->averageDailyRate = floatval($value) * 100;
+      $query = "UPDATE `codev_command_table` SET average_daily_rate = '$this->averageDailyRate' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -394,12 +395,12 @@ class Command {
    }
 
    public function getBudgetDev() {
-      return $this->budgetDev;
+      return ($this->budgetDev / 100);
    }
    public function setBudgetDev($value) {
 
-      $this->budgetDev = $value;
-      $query = "UPDATE `codev_command_table` SET budget_dev = '$value' WHERE id='$this->id' ";
+      $this->budgetDev = floatval($value) * 100;
+      $query = "UPDATE `codev_command_table` SET budget_dev = '$this->budgetDev' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -408,12 +409,12 @@ class Command {
    }
 
    public function getBudgetMngt() {
-      return $this->budgetMngt;
+      return ($this->budgetMngt / 100);
    }
    public function setBudgetMngt($value) {
 
-      $this->budgetMngt = $value;
-      $query = "UPDATE `codev_command_table` SET budget_mngt = '$value' WHERE id='$this->id' ";
+      $this->budgetMngt = floatval($value) * 100;
+      $query = "UPDATE `codev_command_table` SET budget_mngt = '$this->budgetMngt' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -422,12 +423,12 @@ class Command {
    }
 
    public function getBudgetGarantie() {
-      return $this->budgetGarantie;
+      return ($this->budgetGarantie / 100);
    }
    public function setBudgetGarantie($value) {
 
-      $this->budgetGarantie = $value;
-      $query = "UPDATE `codev_command_table` SET budget_garantie = '$value' WHERE id='$this->id' ";
+      $this->budgetGarantie = floatval($value) * 100;
+      $query = "UPDATE `codev_command_table` SET budget_garantie = '$this->budgetGarantie' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
