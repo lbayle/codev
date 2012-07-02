@@ -35,10 +35,6 @@ include_once "super_header.inc.php";
 <?php
    echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";
 
-   // --- CALENDAR ---
-   echo "<link href='".getServerRootURL()."/calendar/calendar.css' rel='stylesheet' type='text/css' />\n";
-   echo "<script language='javascript' src='".getServerRootURL()."/calendar/calendar.js'></script>\n";
-
    // --- JQUERY ---
    #echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css' rel='Stylesheet' />\n";
    echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/Aristo/Aristo.css' rel='Stylesheet' />\n";
