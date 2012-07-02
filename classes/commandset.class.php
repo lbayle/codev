@@ -274,13 +274,13 @@ class CommandSet {
    }
 
    public function getBudgetDays() {
-      return $this->budget_days;
+      return ($this->budget_days / 100);
    }
 
    public function setBudgetDays($value) {
 
-      $this->budget_days = $value;
-      $query = "UPDATE `codev_commandset_table` SET budget_days = '$value' WHERE id='$this->id' ";
+      $this->budget_days = floatval($value) * 100;;
+      $query = "UPDATE `codev_commandset_table` SET budget_days = '$this->budget_days' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
