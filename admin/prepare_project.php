@@ -1,5 +1,5 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -18,167 +18,82 @@ include_once('../include/session.inc.php');
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once '../path.inc.php';
+require('../path.inc.php');
 
-include_once 'i18n.inc.php';
+require('include/super_header.inc.php');
 
-$page_name = T_("CoDev Administration : Prepare Projects");
-require_once 'header.inc.php';
+require('include/display.inc.php');
 
-require_once 'login.inc.php';
-require_once 'menu.inc.php';
-?>
-<br/>
-<?php include 'menu_admin.inc.php'; ?>
-
-
-
-<script language="JavaScript">
-
-function prepareProject() {
-	document.forms["form1"].action.value="prepareProject";
-	document.forms["form1"].submit();
-}
-
-</script>
-
-<div id="content">
-
-
-<?php
-include_once 'user.class.php';
-include_once 'project.class.php';
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/user_cache.class.php');
+include_once('classes/project_cache.class.php');
 
 $logger = Logger::getLogger("prepare_project");
 
-// ------------------------------------------------
-function displayForm($originPage, $projectList) {
-
-	echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
-
-	#echo "<hr align='left' width='20%'/>\n";
-
-
-   // ------ Add custom fields to existing projects
-  echo "  <br/>\n";
-	echo "<h2>".T_("Configure existing Projects")."</h2>\n";
-  echo "<span class='help_font'>".T_("Select the projects to be managed with CoDev Timetracking")."</span><br/>\n";
-  echo "  <br/>\n";
-
-  echo "<select name='projects[]' multiple size='5'>\n";
-  foreach ($projectList as $id => $name) {
-   echo "<option selected value='$id'>$name</option>\n";
-  }
-	echo "</select>\n";
-
-  echo "  <br/>\n";
-	echo "  <br/>\n";
-	echo "<div  style='text-align: center;'>\n";
-	echo "<input type=button style='font-size:150%' value='".T_("Prepare")." !' onClick='javascript: prepareProject()'>\n";
-	echo "</div>\n";
-
-  // ------
-  echo "<input type=hidden name=action      value=noAction>\n";
-
-	echo "</form>";
-}
-
-// ------------------------------------------------
 /**
  * get all existing projects, except ExternalTasksProject & SideTasksProjects
  */
 function getProjectList() {
+   global $logger;
 
-    global $logger;
-
-    $projectList = array();
-
-	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
-
-	$query  = "SELECT id, name ".
-                "FROM `mantis_project_table` ";
-	#"WHERE mantis_project_table.id = $this->id ";
+   $query  = "SELECT id, name ".
+             "FROM `mantis_project_table` ";
+             #"WHERE mantis_project_table.id = $this->id ";
 
     $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>";
-       exit;
+       return NULL;
     }
-	while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-		// exclude ExternalTasksProject
-		if ($extproj_id == $row->id) {
-			$logger->debug("project $row->id: ExternalTasksProject is excluded");
-			continue;
-		}
-
-		// exclude SideTasksProjects
-       try {
-         $p = ProjectCache::getInstance()->getProject($row->id);
-			if ($p->isSideTasksProject()) {
-				$logger->debug("project $row->id: sideTaskProjects are excluded");
-				continue;
-		   }
-       } catch (Exception $e) {
-	   	// could not determinate, so the project should be included in the list
-	   	$logger->debug("project $row->id: Unknown type, project included anyway.");
-	   	// nothing to do.
-       }
-       $projectList[$row->id] = $row->name;
-	}
-	return $projectList;
+    
+   $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+   $projectList = array();
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      if ($extproj_id != $row->id) {
+         try {
+            $p = ProjectCache::getInstance()->getProject($row->id);
+            if (!$p->isSideTasksProject()) {
+               $projectList[$row->id] = $row->name;
+            } else {
+               // exclude SideTasksProjects
+               $logger->debug("project $row->id: sideTaskProjects are excluded");
+            }
+         } catch (Exception $e) {
+            // could not determinate, so the project should be included in the list
+            $logger->debug("project $row->id: Unknown type, project included anyway.");
+            // nothing to do.
+         }
+      } else {
+         // exclude ExternalTasksProject
+         $logger->debug("project $row->id: ExternalTasksProject is excluded");
+      }
+   }
+   return $projectList;
 }
 
-// ================ MAIN =================
+// ========== MAIN ===========
+$smartyHelper = new SmartyHelper();
+$smartyHelper->assign('pageName', 'CoDev Administration : Prepare Projects');
 
-global $admin_teamid;
+if(isset($_SESSION['userid'])) {
+   // Admins only
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+   global $admin_teamid;
+   if ($session_user->isTeamMember($admin_teamid)) {
+      if (isset($_POST['projects']) && !empty($_POST['projects'])) {
+         $selectedProjects = $_POST['projects'];
+         $result = array();
+         foreach ($selectedProjects as $projectid) {
+            $project = ProjectCache::getInstance()->getProject($projectid);
+            $result[$projectid] = $project->name;
+            //$project->prepareProjectToCodev();
+         }
+         $smartyHelper->assign('result', $result);
+      }
 
-$originPage = "prepare_project.php";
-
-$action     = isset($_POST['action']) ? $_POST['action'] : '';
-
-// Admins only
-$session_user = new User($_SESSION['userid']);
-
-if (!$session_user->isTeamMember($admin_teamid)) {
-	echo T_("Sorry, you need to be in the admin-team to access this page.");
-	exit;
+      $smartyHelper->assign('projects', getProjectList());
+   }
 }
 
-/*
-echo "<h2>".T_("Prepare Projects")."</h2>\n";
-echo "<br/>";
-echo T_("Prepare Mantis projects to be managed with CoDevTT")."<br/>";
-echo "<br/>";
-#echo T_("Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong.");
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-*/
-
-$projectList = getProjectList();
-
-if ("prepareProject" == $action) {
-
-	// Add custom fields to existing projects
-	if(isset($_POST['projects']) && !empty($_POST['projects'])){
-		$selectedProjects = $_POST['projects'];
-		foreach($selectedProjects as $projectid){
-			$project = ProjectCache::getInstance()->getProject($projectid);
-			echo "preparing project: ".$project->name."<br/>";
-			$project->prepareProjectToCodev();
-		}
-	}
-	echo "done.<br/>";
-
-}
-
-
-// ----- DISPLAY PAGE
-
-displayForm($originPage, $projectList);
+$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 
 ?>
-</div>
-
-
-<?php include 'footer.inc.php'; ?>
