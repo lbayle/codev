@@ -210,7 +210,7 @@
    <div style="margin-top: 2em;">
       <script type="text/javascript">
          function removeTeamMember(id, description) {
-            var confirmString = "{t}Desirez-vous vraiment supprimer ce membre de l'equipe ?{/t}\n\n" + description;
+            var confirmString = "{t}Delete this team ?{/t}\n\n" + description;
             var form = jQuery("#removeTeamMemberForm");
             if (confirm(confirmString)) {
                form.find("input[name=deletememberid]").val(id);
@@ -295,7 +295,7 @@
    <div style="margin-top: 2em;">
       <script type="text/javascript">
          function removeTeamProject(id, description){
-            var confirmString = "Desirez-vous vraiment supprimer ce Projet de l'equipe ?\n\n" + description;
+            var confirmString = "Remove this project from the team ?\n\n" + description;
             if (confirm(confirmString)) {
                var form = jQuery("#removeTeamProjectForm");
                form.find("input[name=deletedprojectid]").val(id);
@@ -408,7 +408,7 @@
          <script type="text/javascript">
             jQuery(document).ready(function() {
                jQuery("#btDeleteTeam").click(function() {
-                  var confirmString = "{t}Desirez-vous vraiment supprimer definitivement l'equipe{/t} '{$team->name}' ?";
+                  var confirmString = "{t}Delete team{/t} '{$team->name}' ?";
                   if (confirm(confirmString)) {
                      jQuery("#deleteTeamProjectForm").submit();
                   }
