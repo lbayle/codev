@@ -1,9 +1,12 @@
 
 <div id="content" class="center">
 
+
+   {if !$filename}
+
    <!-- FILE SELECTION -->
    <div style="margin-top:3em;">
-      <h2 class="center">{t}Import Mantis Issues{/t}</h2>
+      <h2 class="center">{t}Select CSV file{/t}</h2>
 
       <form method="post" action="{$page}" enctype="multipart/form-data"  id="formUploadFile" name="formUploadFile" >
          <fieldset>
@@ -17,8 +20,9 @@
 
       </form>
    </div>
+   {/if}
 
-   <div style="margin-top:6em;">
+   {if $filename}
 
       <script type="text/javascript">
 
@@ -35,7 +39,7 @@
                      submit : 'OK',
 
                      "callback": function( sValue, y ) {
-                        /* Redraw the table from the new data on the server */
+                        /* Redraw the table */
                         var aPos = oTable.fnGetPosition( this );
                         oTable.fnUpdate( sValue, aPos[0], aPos[1] );
                         oTable.fnDraw();
@@ -48,7 +52,7 @@
                      submit : 'OK',
 
                      "callback": function( sValue, y ) {
-                        /* Redraw the table from the new data on the server */
+                        /* Redraw the table */
                         var aPos = oTable.fnGetPosition( this );
                         oTable.fnUpdate( sValue, aPos[0], aPos[1] );
                         oTable.fnDraw();
@@ -56,7 +60,13 @@
                      "height": "14px"
                   } );
                   $('.command').editable( function(value, settings) {
-                                             console.log(settings);
+                                             // save id
+                                             // you cannot set data if column is hidden !
+                                             oTable.fnSetColumnVis( 8, true );
+                                             jQuery(this).parent().find('td.commandid').text(value);
+                                             oTable.fnSetColumnVis( 8, false );
+
+                                             // set displayed value
                                              var items = JSON.parse(settings.data);
                                              return(items[value]); }, {
                      data        : '{$jed_commandList}',
@@ -65,7 +75,7 @@
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
-                        /* Redraw the table from the new data on the server */
+                        /* Redraw the table */
                         var aPos = oTable.fnGetPosition( this );
                         oTable.fnUpdate( sValue, aPos[0], aPos[1] );
                         oTable.fnDraw();
@@ -73,6 +83,9 @@
                      "height": "14px"
                   } );
                   $('.category').editable( function(value, settings) {
+                                             oTable.fnSetColumnVis( 9, true );
+                                             jQuery(this).parent().find('td.categoryid').text(value);
+                                             oTable.fnSetColumnVis( 9, false );
                                              var items = JSON.parse(settings.data);
                                              return(items[value]); }, {
                      data        : '{$jed_categoryList}',
@@ -81,7 +94,7 @@
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
-                        /* Redraw the table from the new data on the server */
+                        /* Redraw the table */
                         var aPos = oTable.fnGetPosition( this );
                         oTable.fnUpdate( sValue, aPos[0], aPos[1] );
                         oTable.fnDraw();
@@ -89,6 +102,9 @@
                      "height": "14px"
                   } );
                   $('.targetVersion').editable( function(value, settings) {
+                                             oTable.fnSetColumnVis( 10, true );
+                                             jQuery(this).parent().find('td.targetversionid').text(value);
+                                             oTable.fnSetColumnVis( 10, false );
                                              var items = JSON.parse(settings.data);
                                              return(items[value]); }, {
                      data        : '{$jed_targetVersionList}',
@@ -97,7 +113,7 @@
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
-                        /* Redraw the table from the new data on the server */
+                        /* Redraw the table */
                         var aPos = oTable.fnGetPosition( this );
                         oTable.fnUpdate( sValue, aPos[0], aPos[1] );
                         oTable.fnDraw();
@@ -105,6 +121,9 @@
                      "height": "14px"
                   } );
                   $('.userName').editable( function(value, settings) {
+                                             oTable.fnSetColumnVis( 11, true );
+                                             jQuery(this).parent().find('td.userid').text(value);
+                                             oTable.fnSetColumnVis( 11, false );
                                              var items = JSON.parse(settings.data);
                                              return(items[value]); }, {
                      data        : '{$jed_userList}',
@@ -113,7 +132,7 @@
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
-                        /* Redraw the table from the new data on the server */
+                        /* Redraw the table */
                         var aPos = oTable.fnGetPosition( this );
                         oTable.fnUpdate( sValue, aPos[0], aPos[1] );
                         oTable.fnDraw();
@@ -123,103 +142,309 @@
             }
          } );
 
+         // hide columns: commandid, categoryid, targetversionid, userid
+         oTable.fnSetColumnVis( 8, false );
+         oTable.fnSetColumnVis( 9, false );
+         oTable.fnSetColumnVis( 10, false );
+         oTable.fnSetColumnVis( 11, false );
       });
 
       </script>
 
-      <h2>Issues (test jeditable)</h2>
 
-      {if $newIssues}
-      <table id="issues_table" class="display">
-         <thead>
-         <tr>
-               <th>ExtRef</th>
-               <th>Summary</th>
-               <th>Charge Mgr</th>
-               <th>Charge</th>
-               <th>Command</th>
-               <th>Category</th>
-               <th>TargetVersion</th>
-               <th>User</th>
-         </tr>
-         </thead>
-         <tbody>
-         {foreach from=$newIssues key=id item=i}
-         <tr>
-               <td class="extRef">{$i.extRef}</td>
-               <td class="summary">{$i.summary}</td>
-               <td class="mgrEffortEstim">{$i.mgrEffortEstim}</td>
-               <td class="effortEstim">{$i.effortEstim}</td>
-               <td class="command">{$i.command}</td>
-               <td class="category">{$i.category}</td>
-               <td class="targetVersion">{$i.targetVersion}</td>
-               <td class="userName">{$i.userName}</td>
-         </tr>
-         {/foreach}
-         </tbody>
-      </table>
-      {/if}
-   </div>
 
-   <!-- IMPORT BUTTON  -->
-   <div  class="left" style="margin-top:2em;">
+      <!-- GLOBAL VALUES BUTTONS  -->
+      <div  class="left" style="margin-top:2em;">
 
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-
-            jQuery("#btImportIssues").click(function(event) {
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
 
                var oTable = $('#issues_table').dataTable();
-               
-               $('#issues_table tbody tr').each( function () {
-                  var iPos = oTable.fnGetPosition( this );
-                  if (iPos!=null) {
 
-                     var extRef = jQuery(this).find('td.extRef').text();
-                     var summary = jQuery(this).find('td.summary').text();
-                     var mgrEffortEstim = jQuery(this).find('td.mgrEffortEstim').text();
-                     var effortEstim = jQuery(this).find('td.effortEstim').text();
-                     var command = jQuery(this).find('td.command').text();
-                     var category = jQuery(this).find('td.category').text();
-                     var targetVersion = jQuery(this).find('td.targetVersion').text();
-                     var userName = jQuery(this).find('td.userName').text();
+               jQuery("#btSetAllCommands").click(function(event) {
 
-                     jQuery.ajax({
-                        type: "POST",
-                        url:  "import/import_row_ajax.php",
-                        data: "action=importRow"+
-                              "&projectid={$projectid}"+
-                              "&extRef="+extRef+
-                              "&summary="+summary+
-                              "&mgrEffortEstim="+mgrEffortEstim+
-                              "&effortEstim="+effortEstim+
-                              "&command="+command+
-                              "&category="+category+
-                              "&targetVersion="+targetVersion+
-                              "&userName="+userName,
-                        success: function(data) {
-                           alert("row "+extRef+" imported.");
+                  $('#issues_table tbody tr').each( function () {
+                     var iPos = oTable.fnGetPosition( this );
+                     if (iPos!=null) {
 
-                           // TODO update datatable
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                           if(errorThrown == 'Forbidden') {
-                              window.location = '{$page}';
-                           } else {
-                              alert(errorThrown);
+                        // you cannot set data if column is hidden !
+                        oTable.fnSetColumnVis( 8, true );
+
+                        var value = jQuery('#globalCommandid option:selected').text();
+                        var key = jQuery('#globalCommandid option:selected').val();
+
+                        jQuery(this).find('td.command').text(value);
+                        jQuery(this).find('td.commandid').text(key);
+
+                        // hide column: categoryid
+                        oTable.fnSetColumnVis( 8, false );
+                     }
+                  });
+               });
+
+               jQuery("#btSetAllCategories").click(function(event) {
+
+                  $('#issues_table tbody tr').each( function () {
+                     var iPos = oTable.fnGetPosition( this );
+                     if (iPos!=null) {
+
+                        // you cannot set data if column is hidden !
+                        oTable.fnSetColumnVis( 9, true );
+
+                        var value = jQuery('#globalCategoryid option:selected').text();
+                        var key = jQuery('#globalCategoryid option:selected').val();
+
+                        jQuery(this).find('td.category').text(value);
+                        jQuery(this).find('td.categoryid').text(key);
+
+                        // hide column: categoryid
+                        oTable.fnSetColumnVis( 9, false );
+                     }
+                  });
+               });
+
+               jQuery("#btSetAllTargetVersions").click(function(event) {
+
+                  $('#issues_table tbody tr').each( function () {
+                     var iPos = oTable.fnGetPosition( this );
+                     if (iPos!=null) {
+
+                        // you cannot set data if column is hidden !
+                        oTable.fnSetColumnVis( 10, true );
+
+                        var value = jQuery('#globalTargetversionid option:selected').text();
+                        var key = jQuery('#globalTargetversionid option:selected').val();
+
+                        jQuery(this).find('td.targetVersion').text(value);
+                        jQuery(this).find('td.targetversionid').text(key);
+
+                        // hide column: categoryid
+                        oTable.fnSetColumnVis( 10, false );
+                     }
+                  });
+               });
+
+               jQuery("#btSetAllUsers").click(function(event) {
+
+                  $('#issues_table tbody tr').each( function () {
+                     var iPos = oTable.fnGetPosition( this );
+                     if (iPos!=null) {
+
+                        // you cannot set data if column is hidden !
+                        oTable.fnSetColumnVis( 11, true );
+
+                        var value = jQuery('#globalUserid option:selected').text();
+                        var key = jQuery('#globalUserid option:selected').val();
+
+                        jQuery(this).find('td.userName').text(value);
+                        jQuery(this).find('td.userid').text(key);
+
+                        // hide column: categoryid
+                        oTable.fnSetColumnVis( 11, false );
+                     }
+                  });
+               });
+
+            });
+         </script>
+
+         <table class='invisible'>
+            <tr>
+               <td>{t}Team{/t}</td>
+               <td>:</td>
+               <td>{$teamName}</td>
+               <td></td>
+            </tr>
+            <tr>
+               <td>{t}Project{/t}</td>
+               <td>:</td>
+               <td>{$projectName}</td>
+               <td></td>
+            </tr>
+            <tr>
+               <td>{t}File{/t}</td>
+               <td>:</td>
+               <td>{$filename}</td>
+               <td></td>
+            </tr>
+            <tr>
+               <td>{t}Command{/t}</td>
+               <td>:</td>
+               <td>
+                  <select id="globalCommandid" name="globalCommandid">
+                  {foreach from=$commandList key=id item=i}
+                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+                  </select>
+               </td>
+               <td>
+                  <button type='button' name="btSetAllCommands" id="btSetAllCommands">{t}Set All{/t}</button>
+               </td>
+            </tr>
+            <tr>
+               <td>{t}Category{/t}</td>
+               <td>:</td>
+               <td>
+                  <select id="globalCategoryid" name="globalCategoryid">
+                  {foreach from=$categoryList key=id item=i}
+                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+                  </select>
+               </td>
+               <td>
+                  <button type='button' name="btSetAllCategories" id="btSetAllCategories">{t}Set All{/t}</button>
+               </td>
+            </tr>
+            <tr>
+               <td>{t}TargetVersion{/t}</td>
+               <td>:</td>
+               <td>
+                  <select id="globalTargetversionid" name="globalTargetversionid">
+                  {foreach from=$targetversionList key=id item=i}
+                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+                  </select>
+               </td>
+               <td>
+                  <button type='button' name="btSetAllTargetVersions" id="btSetAllTargetVersions">{t}Set All{/t}</button>
+               </td>
+            </tr>
+            <tr>
+               <td>{t}User{/t}</td>
+               <td>:</td>
+               <td>
+                  <select id="globalUserid" name="globalUserid">
+                  {foreach from=$userList key=id item=i}
+                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  {/foreach}
+                  </select>
+               </td>
+               <td>
+                  <button type='button' name="btSetAllUsers" id="btSetAllUsers">{t}Set All{/t}</button>
+               </td>
+            </tr>
+         </table>
+
+      </div>
+
+      <!-- DISPLAY ISSUES TABLE -->
+      <div style="margin-top:2em;">
+
+
+         <h2>Issues (test jeditable)</h2>
+
+         {if $newIssues}
+         <table id="issues_table" class="display">
+            <thead>
+            <tr>
+                  <th>ExtRef</th>
+                  <th>Summary</th>
+                  <th>Charge Mgr</th>
+                  <th>Charge</th>
+                  <th>Command</th>
+                  <th>Category</th>
+                  <th>TargetVersion</th>
+                  <th>User</th>
+                  <th>commandid</th>
+                  <th>categoryid</th>
+                  <th>targetversionid</th>
+                  <th>userid</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach from=$newIssues key=id item=i}
+            <tr>
+                  <td class="extRef">{$i.extRef}</td>
+                  <td class="summary">{$i.summary}</td>
+                  <td class="mgrEffortEstim">{$i.mgrEffortEstim}</td>
+                  <td class="effortEstim">{$i.effortEstim}</td>
+                  <td class="command">{$i.command}</td>
+                  <td class="category">{$i.category}</td>
+                  <td class="targetVersion">{$i.targetVersion}</td>
+                  <td class="userName">{$i.userName}</td>
+                  <td class="commandid"></td>
+                  <td class="categoryid"></td>
+                  <td class="targetversionid"></td>
+                  <td class="userid"></td>
+
+            </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         {/if}
+      </div>
+
+      <!-- IMPORT BUTTON  -->
+      <div  class="left" style="margin-top:2em;">
+
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+
+               jQuery("#btImportIssues").click(function(event) {
+
+                  var oTable = $('#issues_table').dataTable();
+
+                  $('#issues_table tbody tr').each( function () {
+                     var iPos = oTable.fnGetPosition( this );
+                     if (iPos!=null) {
+
+                        // you cannot get data if column is hidden !
+                        oTable.fnSetColumnVis( 8, true );
+                        oTable.fnSetColumnVis( 9, true );
+                        oTable.fnSetColumnVis( 10, true );
+                        oTable.fnSetColumnVis( 11, true );
+
+                        var extRef = jQuery(this).find('td.extRef').text();
+                        var summary = jQuery(this).find('td.summary').text();
+                        var mgrEffortEstim = jQuery(this).find('td.mgrEffortEstim').text();
+                        var effortEstim = jQuery(this).find('td.effortEstim').text();
+                        var commandid = jQuery(this).find('td.commandid').text();
+                        var categoryid = jQuery(this).find('td.categoryid').text();
+                        var targetversionid = jQuery(this).find('td.targetversionid').text();
+                        var userid = jQuery(this).find('td.userid').text();
+
+                        // hide columns: commandid, categoryid, targetversionid, userid
+                        oTable.fnSetColumnVis( 8, false );
+                        oTable.fnSetColumnVis( 9, false );
+                        oTable.fnSetColumnVis( 10, false );
+                        oTable.fnSetColumnVis( 11, false );
+
+                        jQuery.ajax({
+                           type: "POST",
+                           url:  "import/import_row_ajax.php",
+                           data: "action=importRow"+
+                                 "&projectid={$projectid}"+
+                                 "&extRef="+extRef+
+                                 "&summary="+summary+
+                                 "&mgrEffortEstim="+mgrEffortEstim+
+                                 "&effortEstim="+effortEstim+
+                                 "&commandid="+commandid+
+                                 "&categoryid="+categoryid+
+                                 "&targetversionid="+targetversionid+
+                                 "&userid="+userid,
+                           success: function(data) {
+                              //alert("row "+extRef+" imported.");
+
+                              // TODO update datatable
+                           },
+                           error: function(jqXHR, textStatus, errorThrown) {
+                              if(errorThrown == 'Forbidden') {
+                                 window.location = '{$page}';
+                              } else {
+                                 alert(errorThrown);
+                              }
                            }
-                        }
-                     });
-                  }
+                        });
+                     }
+                  });
                });
             });
-         });
-      </script>
+         </script>
 
-      <button type='button' name="btImportIssues" id="btImportIssues"><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Import{/t}</button>
+         <button type='button' name="btImportIssues" id="btImportIssues"><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Import{/t}</button>
 
-   </div>
-
+      </div>
+   {/if}
 
 
 

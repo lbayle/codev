@@ -14,7 +14,6 @@ ALTER table codev_command_table modify average_daily_rate int(11);
 ALTER table codev_commandset_table modify budget int(11);
 
 
-ALTER TABLE `codev_team_table`            ADD UNIQUE (`name`);
 ALTER TABLE `codev_command_table`         ADD UNIQUE (`name`);
 ALTER TABLE `codev_commandset_table`      ADD UNIQUE (`name`);
 ALTER TABLE `codev_servicecontract_table` ADD UNIQUE (`name`);

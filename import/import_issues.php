@@ -65,9 +65,7 @@ function getFakeNewIssues() {
 
    $issues[] = $newIssue;
 
-
    return $issues;
-
 }
 
 /**
@@ -77,7 +75,7 @@ function getFakeNewIssues() {
  * @param bool $selected
  * @return string json encoded list
  */
-function getJedCommands($teamid, $selected = NULL) {
+function getJsonCommands($teamid, $selected = NULL) {
 
    $team = TeamCache::getInstance()->getTeam($teamid);
    $cmdList = $team->getCommands();
@@ -92,7 +90,31 @@ function getJedCommands($teamid, $selected = NULL) {
    }
 
    return json_encode($commands);
+}
 
+/**
+ *
+ * @param type $teamid
+ * @param type $selected
+ * @return type
+ */
+function getCommands($teamid, $selected = NULL) {
+
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   $cmdList = $team->getCommands();
+
+   $items = array();
+   if (0 != count($cmdList)) {
+
+      foreach ($cmdList as $id => $cmd) {
+         $items[] = array(
+            'id' => $id,
+            'name' => $cmd->getName(),
+            'selected' => ($id == $selected)
+         );
+      }
+   }
+   return $items;
 }
 
 /**
@@ -101,7 +123,7 @@ function getJedCommands($teamid, $selected = NULL) {
  * @param bool $selected
  * @return string json encoded list
  */
-function getJedProjectCategories($projectid, $selected = NULL) {
+function getJsonProjectCategories($projectid, $selected = NULL) {
 
    $prj = ProjectCache::getInstance()->getProject($projectid);
 
@@ -111,11 +133,41 @@ function getJedProjectCategories($projectid, $selected = NULL) {
       $categories['selected'] = $selected;
    }
    return json_encode($categories);
-
-
 }
 
-function getJedProjectTargetVersion($projectid, $selected = NULL) {
+/**
+ *
+ * @param int $projectid
+ * @return string json encoded list
+ */
+function getProjectCategories($projectid, $selected = NULL) {
+
+   $items = array();
+   if (0 != $projectid) {
+
+   $prj = ProjectCache::getInstance()->getProject($projectid);
+   $catList = $prj->getCategories();
+
+      foreach ($catList as $id => $name) {
+         $items[] = array(
+            'id' => $id,
+            'name' => $name,
+            'selected' => ($id == $selected)
+         );
+      }
+   }
+   return $items;
+}
+
+
+
+/**
+ *
+ * @param type $projectid
+ * @param type $selected
+ * @return type
+ */
+function getJsonProjectTargetVersion($projectid, $selected = NULL) {
 
    $prj = ProjectCache::getInstance()->getProject($projectid);
 
@@ -126,9 +178,39 @@ function getJedProjectTargetVersion($projectid, $selected = NULL) {
    }
 
    return json_encode($versions);
-
 }
 
+/**
+ *
+ * @param int $projectid
+ * @return string json encoded list
+ */
+function getProjectTargetVersion($projectid, $selected = NULL) {
+
+   $items = array();
+   if (0 != $projectid) {
+
+   $prj = ProjectCache::getInstance()->getProject($projectid);
+   $versions = $prj->getProjectVersions();
+
+      foreach ($versions as $id => $name) {
+         $items[] = array(
+            'id' => $id,
+            'name' => $name,
+            'selected' => ($id == $selected)
+         );
+      }
+   }
+   return $items;
+}
+
+
+/**
+ *
+ * @param type $teamid
+ * @param type $selected
+ * @return type
+ */
 function getJsonUsers($teamid, $selected = NULL) {
 
    $userList = Team::getActiveMemberList($teamid);
@@ -137,10 +219,31 @@ function getJsonUsers($teamid, $selected = NULL) {
       $userList['selected'] = $selected;
    }
    return json_encode($userList);
-
-
 }
 
+/**
+ *
+ * @param type $teamid
+ * @param type $selected
+ * @return type
+ */
+function getUsers($teamid, $selected = NULL) {
+
+   $userList = Team::getActiveMemberList($teamid);
+
+   $items = array();
+   if (0 != count($userList)) {
+
+      foreach ($userList as $id => $name) {
+         $items[] = array(
+            'id' => $id,
+            'name' => $name,
+            'selected' => ($id == $selected)
+         );
+      }
+   }
+   return $items;
+}
 
 
 // ================ MAIN =================
@@ -179,34 +282,32 @@ if (isset($_SESSION['userid'])) {
       // ce qui signifie qu'il n'y a eu aucune erreur
       }
 
-      //On fait un tableau contenant les extensions autorisées.
       $extensions = array('.csv', '.xls');
-      // récupère la partie de la chaine à partir du dernier . pour connaître l'extension.
       $extension = strrchr($_FILES['avatar']['name'], '.');
-      //Ensuite on teste
-      if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
-      {
+      if(!in_array($extension, $extensions)) {
          $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg, txt ou doc...';
+         $logger->error($erreur);
       }
 
-   } else if ("importIssues" == $action) {
 
-      $data = $_POST['data'];
+      $teamid = 4;
+      $projectid = 14;
+      $smartyHelper->assign('teamid', $teamid);
+      $smartyHelper->assign('projectid', $projectid);
+      $smartyHelper->assign('newIssues', getFakeNewIssues());
 
-      print_r($data);
-      
+      $smartyHelper->assign('commandList', getCommands($teamid));
+      $smartyHelper->assign('categoryList', getProjectCategories($projectid));
+      $smartyHelper->assign('targetversionList', getProjectTargetVersion($projectid));
+      $smartyHelper->assign('userList', getUsers($teamid));
+
+      $smartyHelper->assign('jed_commandList', getJsonCommands($teamid));
+      $smartyHelper->assign('jed_categoryList', getJsonProjectCategories($projectid));
+      $smartyHelper->assign('jed_targetVersionList', getJsonProjectTargetVersion($projectid));
+      $smartyHelper->assign('jed_userList', getJsonUsers($teamid));
+
    }
 
-   $teamid = 4;
-   $projectid = 14;
-   $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('projectid', $projectid);
-   $smartyHelper->assign('newIssues', getFakeNewIssues());
-
-   $smartyHelper->assign('jed_commandList', getJedCommands($teamid));
-   $smartyHelper->assign('jed_categoryList', getJedProjectCategories($projectid));
-   $smartyHelper->assign('jed_targetVersionList', getJedProjectTargetVersion($projectid));
-   $smartyHelper->assign('jed_userList', getJsonUsers($teamid));
 
 
 }
