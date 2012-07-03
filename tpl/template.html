@@ -50,36 +50,7 @@
         {/if}
         </div>
         
-        <div class="menu">
-            <table>
-                <tr>
-                    <td><a href="index.php">{t}Home{/t}</a></td>
-                    <td><a href="{$mantisURL}" title="MantisBT">Mantis</a></td>
-                    <td>
-                        <a href="timetracking/time_tracking.php" title="{t}Time Tracking{/t}">{t}Time Tracking{/t}</a> | 
-                        <a href="timetracking/holidays_report.php" title="{t}Holidays Reports{/t}">{t}Holidays{/t}</a> | 
-                        <a href="reports/planning_report.php" title="{t}Check DeadLines{/t}">{t}Planning{/t}</a> | 
-                        <a href="reports/gantt_report.php" title="{t}Gantt Chart{/t}">{t}Gantt{/t}</a> | 
-                        <a href="reports/issue_info.php" title="{t}Task Information{/t}">{t}Task info{/t}</a>
-                    </td>
-                    <td>
-                        <a href="reports/project_info.php" title="{t}Project Information{/t}">{t}Project info{/t}</a> |
-                        <a href="management/servicecontract_info.php" title="{t}Management{/t}">{t}Management{/t}</a> |
-                        <a href="timetracking/team_activity_report.php" title="{t}Team Weekly activities{/t}">{t}Weekly activities{/t}</a> | 
-                        <a href="reports/forecasting_report.php" title="{t}Forecasting{/t}">{t}Forecasting{/t}</a> | 
-                        <a href="reports/productivity_report.php" title="{t}Statistics{/t}">{t}Statistics{/t}</a> | 
-                        <!-- <a href="reports/mantis_reports.php" title="{t}Mantis Reports{/t}">{t}Mantis Reports{/t}</a> |  -->
-                        <a href="reports/export_csv_weekly.php" title="{t}Generate Excel Sheet{/t}">{t}Export to CSV{/t}</a> | 
-                        <a href="reports/check.php" title="{t}Consistency Check{/t}">{t}Check{/t}</a>
-                    </td>
-                    <td>
-                        <a href="blog/blog.php" title="{t}Blog{/t}">Blog</a> | 
-                        <a href="doc/doc.php" title="{t}Documentation{/t}">Doc</a> |
-                        <a href="admin/index.php" title="{t}CoDev Administration{/t}">Admin</a>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        {include file="menu/global_menu.html"}
         
         <div id="main">
             {include file="$tpl_name.html"}
