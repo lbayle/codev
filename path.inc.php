@@ -20,7 +20,6 @@ define ( 'BASE_PATH' , realpath( dirname(__FILE__) ) );
 
 $codevPathInclude  = BASE_PATH . DIRECTORY_SEPARATOR . 'include';
 $codevPathClasses  = BASE_PATH . DIRECTORY_SEPARATOR . 'classes';
-$codevPathCalendar = BASE_PATH . DIRECTORY_SEPARATOR . 'calendar' . DIRECTORY_SEPARATOR . 'classes';
 $codevPathi18n     = BASE_PATH . DIRECTORY_SEPARATOR . 'i18n';
 $codevPathGraphs   = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
 $codevPathInstall  = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
@@ -35,7 +34,6 @@ $path = array(
    BASE_PATH,
    $codevPathInclude,
    $codevPathClasses,
-   $codevPathCalendar,
    $codevPathi18n,
    $codevPathGraphs,
    $codevPathInstall,
@@ -70,7 +68,6 @@ function getServerRootURL() {
    $rootURL = str_replace("/reports", "", $rootURL);
    $rootURL = str_replace("/doc", "", $rootURL);
    $rootURL = str_replace("/images", "", $rootURL);
-   $rootURL = str_replace("/calendar", "", $rootURL);
    $rootURL = str_replace("/admin", "", $rootURL);
    $rootURL = str_replace("/tools", "", $rootURL);
    $rootURL = str_replace("/i18n", "", $rootURL);
