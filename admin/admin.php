@@ -1,4 +1,5 @@
 <?php
+require('../include/session.inc.php');
 /*
    This file is part of CoDev-Timetracking.
 
@@ -15,5 +16,15 @@
    You should have received a copy of the GNU General Public License
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
-header('Location:admin.php');
-?>
+
+require('../path.inc.php');
+
+require('include/super_header.inc.php');
+
+require('include/display.inc.php');
+
+// ========== MAIN ===========
+$smartyHelper = new SmartyHelper();
+$smartyHelper->assign('pageName', 'CoDev Administration');
+
+$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
