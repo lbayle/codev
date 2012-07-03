@@ -1,0 +1,54 @@
+{include file="menu/holidays_menu.html"}
+
+<div id="content" class="center">
+   {if $teams}
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         var form = jQuery("#form1");
+
+         jQuery("#teamid").change(function() {
+            form.submit();
+         });
+         jQuery("#year").change(function() {
+            form.submit();
+         });
+         jQuery("#cb_extTasks").change(function() {
+            form.submit();
+         });
+      });
+   </script>
+   <form id="form1" name="form1" method="post" action="{$page}">
+      <fieldset>
+         {include file="form/teamSelector.html"}
+         <label for="year">{t}Year{/t}:</label>
+         {include file="form/yearSelector.html"}
+         <label><input type="checkbox" {if $isExternalTasks}checked="checked"{/if} name="cb_extTasks" id="cb_extTasks" />{t}Show external tasks{/t}</label>
+      </fieldset>
+   </form>
+
+   {foreach from=$months key=id item=i}
+   <div align="center" style="margin-top: 2em;">
+      <table style="width:80%">
+         <caption>{$i.name}</caption>
+         <tr>
+            <th></th>
+            {foreach from=$i.days key=key item=j}
+            <th title="{t}{$j.title}{/t}" {if $j.selected}style="background-color: #FF699D"{/if}>{$key}</th>
+            {/foreach}
+         </tr>
+         {foreach from=$i.users key=key item=j}
+         <tr>
+            <td title="{$j.realname}">{$j.username}</td>
+            {foreach from=$j.days key=day item=k}
+            <td {if $k.color || $k.align}style="{if $k.color}background-color: #{$k.color};{/if}{if $k.align}text-align: center;{/if}"{/if} {if $k.title}title="{$k.title}"{/if}>{if $k.value}{$k.value}{/if}</td>
+            {/foreach}
+         </tr>
+         {/foreach}
+      </table>
+   </div>
+   {/foreach}
+   {else}
+   <p style="text-align: center">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+   {/if}
+
+</div>

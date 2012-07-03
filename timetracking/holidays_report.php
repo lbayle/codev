@@ -1,5 +1,5 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -18,217 +18,212 @@ include_once('../include/session.inc.php');
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once '../path.inc.php';
+require('../path.inc.php');
 
-include_once 'i18n.inc.php';
+require('include/super_header.inc.php');
 
-$page_name = T_("Holidays Report");
-require_once 'header.inc.php';
+require('include/display.inc.php');
 
-require_once 'login.inc.php';
-require_once 'menu.inc.php';
-?>
-<br/>
-<?php include 'menu_holidays.inc.php'; ?>
+require('../smarty_tools.php');
 
-<script language="JavaScript">
- function submitForm() {
-   document.forms["form1"].teamid.value = document.getElementById('teamidSelector').value;
-   document.forms["form1"].year.value = document.getElementById('yearSelector').value;
-   document.forms["form1"].action.value = "displayHolidays";
-   document.forms["form1"].is_modified.value= "true";
-   document.forms["form1"].submit();
- }
-</script>
-
-<div id="content" class="center">
-
-<?php
-
-include_once "user.class.php";
-include_once "holidays.class.php";
+include_once("classes/sqlwrapper.class.php");
+include_once("classes/user_cache.class.php");
+include_once("classes/holidays.class.php");
 
 $logger = Logger::getLogger("holidays_report");
 
-// ---------------------------------------------
-
-function  displayHolidaysReportForm($teamid, $curYear, $isExternalTasks = false, $is_modified = "false") {
-
-  global $logger;
-
-  echo "<form id='form1' name='form1' method='post' action='holidays_report.php'>\n";
-
-  echo T_("Team").": \n";
-  echo "<select id='teamidSelector' name='teamidSelector' onchange='javascript: submitForm()'>\n";
-  $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
+/**
+ * Get teams
+ * @param int $teamid The selected team
+ * @return mixed[int]
+ */
+function getTeamList($teamid) {
+   $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
+      return NULL;
    }
 
-  while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-  {
-    if ($row->id == $teamid) {
-      echo "<option selected value='".$row->id."'>".$row->name."</option>\n";
-    } else {
-      echo "<option value='".$row->id."'>".$row->name."</option>\n";
-    }
-  }
-  echo "</select>\n";
-
-  echo T_("Year").": \n";
-  echo "<select id='yearSelector' name='yearSelector' onchange='javascript: submitForm()'>\n";
-  for ($y = ($curYear -2); $y <= ($curYear +2); $y++) {
-
-  	 if ($y == $curYear) {
-      echo "<option selected value='".$y."'>".$y."</option>\n";
-    } else {
-      echo "<option value='".$y."'>".$y."</option>\n";
-    }
-  }
-  echo "</select>\n";
-
-  $isChecked = $isExternalTasks ? "CHECKED" : "";
-  echo "&nbsp;<input type=CHECKBOX  $isChecked name='cb_extTasks' id='cb_extTasks' onChange='javascript: submitForm()'>".T_("Show external tasks")."</input>\n";
-
-  echo "<input type=hidden name=teamid  value=1>\n";
-  echo "<input type=hidden name=year    value=2010>\n";
-
-  echo "<input type=hidden name=action       value=noAction>\n";
-  echo "<input type=hidden name=is_modified  value=$is_modified>\n";
-  echo "<input type=hidden name=currentForm  value=displayHolidays>\n";
-  echo "<input type=hidden name=nextForm     value=displayHolidays>\n";
-  echo "</form>\n";
-  echo "<br/>";
+   $teams = array();
+   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $teams[$row->id] = array(
+         "id" => $row->id,
+         "name" => $row->name,
+         "selected" => $row->id == $teamid
+      );
+   }
+   return $teams;
 }
 
-// ---------------------------------------------
-function displayHolidaysMonth($month, $year, $teamid, $isExternalTasks = false) {
+/**
+ * Get days of a month
+ * @param int $nbDaysInMonth The number of days in a month
+ * @param int $month The month
+ * @param int $year The year
+ * @return mixed[int]
+ */
+function getDays($nbDaysInMonth, $month, $year) {
+   $today = date("d-m-Y");
+   $days = array();
+   for ($i = 1; $i <= $nbDaysInMonth; $i++) {
+      $curDate = mktime(0, 0, 0, $month, $i, $year);
+      if ($today == date("d-m-Y", $curDate)) {
+         $title = 'today';
+      } else {
+         $title = formatDate("%A", $curDate);
+      }
+      $days[sprintf("%02d", $i)] = array(
+         'title' => $title,
+         'selected' => $today == date("d-m-Y", $curDate)
+      );
+   }
+   return $days;
+}
 
-  global $logger;
-
-  $holidays = Holidays::getInstance();
-  $green ="A8FFBD";
-  $green2="75FFDA";
-  $yellow="F8FFA8";
-  $orange="FFC466";
-  $pink  ="FF699D";
-
-  $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
-  $monthFormated = formatDate("%B %Y", $monthTimestamp);
-  $nbDaysInMonth = date("t", $monthTimestamp);
-
-  $today = date("d-m-Y");
-
-  $startT = mktime(0, 0, 0, $month, 1, $year);
-  $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
-
-  echo "<div align='center'>\n";
-  echo "<table width='80%'>\n";
-  echo "<caption>$monthFormated</caption>\n";
-  echo "<tr>\n";
-  echo "<th></th>\n";
-  for ($i = 1; $i <= $nbDaysInMonth; $i++) {
-     if ($today == date("d-m-Y", mktime(0, 0, 0, $month, $i, $year))) {
-        $bgColor = "style='background-color: #".$pink.";' title='".htmlentities(T_("today"), ENT_QUOTES)."'";
-     } else {
-        $bgColor = "title='".T_(date("l", mktime(0, 0, 0, $month, $i, $year)))."'";
-     }
-     echo "<th $bgColor >".sprintf("%02d", $i)."</th>\n";
-  }
-  echo "</tr>\n";
-
-  // USER
-  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname ".
-    "FROM  `codev_team_user_table`, `mantis_user_table` ".
-    "WHERE  codev_team_user_table.team_id = $teamid ".
-    "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.username";
-
+/**
+ * Get days for each users
+ * @param int $month The month
+ * @param int $year The year
+ * @param int $teamid The team
+ * @param bool $isExternalTasks True if external tasks wanted, else false
+ * @param int $nbDaysInMonth The number of days in a month
+ * @return mixed[string]
+ */
+function getDaysUsers($month, $year, $teamid, $isExternalTasks = FALSE, $nbDaysInMonth) {
+   // USER
+   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname ".
+            "FROM  `codev_team_user_table`, `mantis_user_table` ".
+            "WHERE  codev_team_user_table.team_id = $teamid ".
+            "AND    codev_team_user_table.user_id = mantis_user_table.id ".
+            "ORDER BY mantis_user_table.username";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      exit;
+      return NULL;
    }
-  while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-  {
-	  	$user1 = UserCache::getInstance()->getUser($row->user_id);
 
-	   // if user was working on the project within the timestamp
-	   if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
-           ($user1->isTeamManager($teamid, $startT, $endT))) {
+   $holidays = Holidays::getInstance();
 
-		    $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+   $green = "A8FFBD";
+   $green2 = "75FFDA";
+   $yellow = "F8FFA8";
 
-		    $astreintes = $user1->getAstreintesInMonth($startT, $endT);
+   $startT = mktime(0, 0, 0, $month, 1, $year);
+   $endT = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
 
-			if ($isExternalTasks) {
-               $externalTasks = $user1->getExternalTasksInPeriod($startT, $endT);
-			} else {
-               $externalTasks = array();
-			}
+   $users = array();
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $user1 = UserCache::getInstance()->getUser($row->user_id);
 
-		    echo "<tr>\n";
-		    echo "<td title='$row->realname'>$row->username</td>\n";
+      // if user was working on the project within the timestamp
+      if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
+         ($user1->isTeamManager($teamid, $startT, $endT))) {
 
-		    for ($i = 1; $i <= $nbDaysInMonth; $i++) {
+         $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
 
-		       $timestamp = mktime(0,0,0,$month,$i,$year);
+         $astreintes = $user1->getAstreintesInMonth($startT, $endT);
 
-            if (isset($externalTasks["$timestamp"]) && (NULL != $externalTasks["$timestamp"])) {
-              echo "<td style='background-color: #$green2; text-align: center;' title='".T_("ExternalTask")."'>".$externalTasks["$timestamp"]."</td>\n";
+         if ($isExternalTasks) {
+            $externalTasks = $user1->getExternalTasksInPeriod($startT, $endT);
+         } else {
+            $externalTasks = array();
+         }
 
-            } elseif (isset($astreintes["$i"]) && (NULL != $astreintes["$i"])) {
-              echo "<td style='background-color: #$yellow; text-align: center;' title='".T_("OnDuty")."'>".$daysOf["$timestamp"]."</td>\n";
+         $days = array();
+         for ($i = 1; $i <= $nbDaysInMonth; $i++) {
+            $timestamp = mktime(0,0,0,$month,$i,$year);
 
-            } elseif (isset($daysOf["$timestamp"]) && (NULL != $daysOf["$timestamp"])) {
-
-		        echo "<td style='background-color: #$green; text-align: center;'>".$daysOf["$timestamp"]."</td>\n";
-		      } else {
-
-              // If weekend or holiday, display gray
+            if (isset($externalTasks[$timestamp]) && (NULL != $externalTasks[$timestamp])) {
+               $days[$i] = array(
+                  "color" => $green2,
+                  "align" => true,
+                  "value" => $externalTasks[$timestamp],
+                  "title" => T_("ExternalTask"),
+               );
+            } elseif (isset($astreintes[$i]) && (NULL != $astreintes[$i])) {
+               $days[$i] = array(
+                  "color" => $yellow,
+                  "align" => true,
+                  "value" => $daysOf[$timestamp],
+                  "title" => T_("OnDuty"),
+               );
+            } elseif (isset($daysOf[$timestamp]) && (NULL != $daysOf[$timestamp])) {
+               $days[$i] = array(
+                  "color" => $green,
+                  "align" => true,
+                  "value" => $daysOf[$timestamp]
+               );
+            } else {
+               // If weekend or holiday, display gray
                $timestamp = mktime(0, 0, 0, $month, $i, $year);
-		      	$h = $holidays->isHoliday($timestamp);
-		         if (NULL != $h) {
-                   echo "<td style='background-color: #$h->color;' title='$h->description'></td>\n";
-		         } else {
-                   echo "<td></td>\n";
-		         }
-		      }
-		    }
-		    echo "</tr>\n";
-	   }
-  }
-  echo "</table>\n";
-  echo "<br/><br/>\n";
-  echo "<div>\n";
+               $h = $holidays->isHoliday($timestamp);
+               if (NULL != $h) {
+                  $days[$i] = array(
+                     "color" => $h->color,
+                     "title" => $h->description,
+                  );
+               } else {
+                  $days[$i] = array();
+               }
+            }
+
+         }
+         $users[$row->user_id] = array(
+            'realname' => $row->realname,
+            'username' => $row->username,
+            'days' => $days
+         );
+      }
+   }
+   return $users;
 }
 
-// ================ MAIN =================
-$year = isset($_POST['year']) ? $_POST['year'] : date('Y');
-$defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+// =========== MAIN ==========
+$smartyHelper = new SmartyHelper();
+$smartyHelper->assign('pageName', 'Holidays Report');
 
-$teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
-$_SESSION['teamid'] = $teamid;
+if (isset($_SESSION['userid'])) {
+   $year = getSecurePOSTIntValue('year',date('Y'));
 
-// 'is_modified' is used because it's not possible to make a difference
-// between an unchecked checkBox and an unset checkbox variable
-$is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
-if ("false" == $is_modified) {
-   $isExternalTasks = true; // default value
-} else {
-   $isExternalTasks   = isset($_POST['cb_extTasks']) ? true : false;
+   $teamid = 0;
+   if(isset($_POST['teamid'])) {
+      $teamid = getSecurePOSTIntValue('teamid',0);
+      $_SESSION['teamid'] = $teamid;
+   } elseif(isset($_SESSION['teamid'])) {
+      $teamid = $_SESSION['teamid'];
+   }
+
+   // 'teamid' is used because it's not possible to make a difference
+   // between an unchecked checkBox and an unset checkbox variable
+   if (isset($_POST['teamid'])) {
+      $isExternalTasks = isset($_POST['cb_extTasks']) ? TRUE : FALSE;
+   } else {
+      $isExternalTasks = TRUE; // default
+   }
+
+   $teams = getTeamList($teamid);
+   $smartyHelper->assign('teams', $teams);
+   $smartyHelper->assign('years', getYears($year,2));
+   $smartyHelper->assign('isExternalTasks', $isExternalTasks);
+
+   if($teamid == 0 && count(teams) > 0) {
+      $teamids = array_keys($teams);
+      $teamid = $teamids[0];
+   }
+
+   $months = array();
+   for ($i = 1; $i <= 12; $i++) {
+      $monthTimestamp = mktime(0, 0, 0, $i, 1, $year);
+      $monthFormated = formatDate("%B %Y", $monthTimestamp);
+      $nbDaysInMonth = date("t", $monthTimestamp);
+      $months[$i] = array(
+         "name" => $monthFormated,
+         "days" => getDays($nbDaysInMonth, $i, $year),
+         "users" => getDaysUsers($i, $year, $teamid, $isExternalTasks, $nbDaysInMonth)
+      );
+   }
+   $smartyHelper->assign('months', $months);
 }
 
-displayHolidaysReportForm($teamid, $year, $isExternalTasks, $is_modified);
-$_POST['year'] = $year;
+$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 
-for ($i = 1; $i <= 12; $i++) {
-  displayHolidaysMonth($i, $year, $teamid, $isExternalTasks);
-}
 ?>
-
-</div>
-
-<?php include 'footer.inc.php'; ?>
