@@ -254,6 +254,48 @@ class Team {
 
    // -------------------------------------------------------
    /**
+    * team members (exept Observers) working on this team at that timestamp
+    *
+    * @global type $logger
+    * @param type $teamid
+    * @param int $timestamp date (if NULL, today)
+    * @return type
+    */
+   public static function getActiveMemberList($teamid, $timestamp=NULL) {
+
+      global $logger;
+
+      if (NULL == $timestamp) {
+         $timestamp = date2timestamp(date("Y-m-d", time()));
+      }
+
+      $mList = array();
+
+      $query  = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
+                "FROM `codev_team_user_table`, `mantis_user_table` ".
+                "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
+                "AND   codev_team_user_table.team_id=$teamid ".
+                "AND   codev_team_user_table.access_level <> ".Team::accessLevel_observer.' '.
+                "AND   codev_team_user_table.arrival_date <= $timestamp ".
+                "AND  (codev_team_user_table.departure_date = 0 OR codev_team_user_table.departure_date >= $timestamp) ".
+                "ORDER BY mantis_user_table.username";
+
+      $result    = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
+      }
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
+      {
+         $mList[$row->user_id] = $row->username;
+      }
+
+      return $mList;
+   }
+
+
+// -------------------------------------------------------
+   /**
     *
     * get all issues managed by the team's users on the team's projects.
     *

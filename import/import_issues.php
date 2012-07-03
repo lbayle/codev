@@ -27,6 +27,8 @@ require('super_header.inc.php');
 require_once('../smarty_tools.php');
 
 require_once('user.class.php');
+require_once('team.class.php');
+require_once('project.class.php');
 require_once('consistency_check2.class.php');
 
 require('display.inc.php');
@@ -67,6 +69,78 @@ function getFakeNewIssues() {
    return $issues;
 
 }
+
+/**
+ * jeditable formatted CommandList
+ *
+ * @param int $teamid
+ * @param bool $selected
+ * @return string json encoded list
+ */
+function getJedCommands($teamid, $selected = NULL) {
+
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   $cmdList = $team->getCommands();
+
+   $commands = array();
+   foreach ($cmdList as $id => $cmd) {
+      $commands[$id] = $cmd->getName();
+   }
+
+   if ($selected) {
+      $commands['selected'] = $selected;
+   }
+
+   return json_encode($commands);
+
+}
+
+/**
+ *
+ * @param int $projectid
+ * @param bool $selected
+ * @return string json encoded list
+ */
+function getJedProjectCategories($projectid, $selected = NULL) {
+
+   $prj = ProjectCache::getInstance()->getProject($projectid);
+
+   $categories = $prj->getCategories();
+
+   if ($selected) {
+      $categories['selected'] = $selected;
+   }
+   return json_encode($categories);
+
+
+}
+
+function getJedProjectTargetVersion($projectid, $selected = NULL) {
+
+   $prj = ProjectCache::getInstance()->getProject($projectid);
+
+   $versions = $prj->getProjectVersions();
+
+   if ($selected) {
+      $versions['selected'] = $selected;
+   }
+
+   return json_encode($versions);
+
+}
+
+function getJsonUsers($teamid, $selected = NULL) {
+
+   $userList = Team::getActiveMemberList($teamid);
+
+   if ($selected) {
+      $userList['selected'] = $selected;
+   }
+   return json_encode($userList);
+
+
+}
+
 
 
 // ================ MAIN =================
@@ -123,11 +197,16 @@ if (isset($_SESSION['userid'])) {
       
    }
 
-
-   $smartyHelper->assign('teamid', '4');
-   $smartyHelper->assign('projectid', '14');
+   $teamid = 4;
+   $projectid = 14;
+   $smartyHelper->assign('teamid', $teamid);
+   $smartyHelper->assign('projectid', $projectid);
    $smartyHelper->assign('newIssues', getFakeNewIssues());
 
+   $smartyHelper->assign('jed_commandList', getJedCommands($teamid));
+   $smartyHelper->assign('jed_categoryList', getJedProjectCategories($projectid));
+   $smartyHelper->assign('jed_targetVersionList', getJedProjectTargetVersion($projectid));
+   $smartyHelper->assign('jed_userList', getJsonUsers($teamid));
 
 
 }

@@ -29,8 +29,8 @@
             "bProcessing": true,
             "fnDrawCallback": function () {
 
-                  $('.mgrEffortEstim').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=mgrEffortEstim', {
-                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=mgrEffortEstim',
+                  $('.mgrEffortEstim').editable( function(value, settings) { return(value); }, {
+                     data   : function(value, settings) { return value; },
                      type   : 'textarea',
                      submit : 'OK',
 
@@ -42,8 +42,8 @@
                      },
                      "height": "14px"
                   } );
-                  $('.effortEstim').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=effortEstim', {
-                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=effortEstim',
+                  $('.effortEstim').editable( function(value, settings) { return(value); }, {
+                     data   : function(value, settings) { return value; },
                      type   : 'textarea',
                      submit : 'OK',
 
@@ -55,10 +55,14 @@
                      },
                      "height": "14px"
                   } );
-                  $('.command').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=command', {
-                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=command&selected=1',
-                     type   : 'select',
-                     submit : 'OK',
+                  $('.command').editable( function(value, settings) {
+                                             console.log(settings);
+                                             var items = JSON.parse(settings.data);
+                                             return(items[value]); }, {
+                     data        : '{$jed_commandList}',
+                     type        : 'select',
+                     submit      : 'OK',
+                     placeholder : '',
 
                      "callback": function( sValue, y ) {
                         /* Redraw the table from the new data on the server */
@@ -68,10 +72,13 @@
                      },
                      "height": "14px"
                   } );
-                  $('.category').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=category', {
-                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=category&selected=2',
-                     type   : 'select',
-                     submit : 'OK',
+                  $('.category').editable( function(value, settings) {
+                                             var items = JSON.parse(settings.data);
+                                             return(items[value]); }, {
+                     data        : '{$jed_categoryList}',
+                     type        : 'select',
+                     submit      : 'OK',
+                     placeholder : '',
 
                      "callback": function( sValue, y ) {
                         /* Redraw the table from the new data on the server */
@@ -81,10 +88,13 @@
                      },
                      "height": "14px"
                   } );
-                  $('.targetVersion').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=targetVersion', {
-                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=targetVersion&selected=3',
-                     type   : 'select',
-                     submit : 'OK',
+                  $('.targetVersion').editable( function(value, settings) {
+                                             var items = JSON.parse(settings.data);
+                                             return(items[value]); }, {
+                     data        : '{$jed_targetVersionList}',
+                     type        : 'select',
+                     submit      : 'OK',
+                     placeholder : '',
 
                      "callback": function( sValue, y ) {
                         /* Redraw the table from the new data on the server */
@@ -94,10 +104,13 @@
                      },
                      "height": "14px"
                   } );
-                  $('.userName').editable( 'import/editable_ajax.php?teamid={$teamid}&projectid={$projectid}&column=userName', {
-                     loadurl : 'import/import_issues_ajax.php?teamid={$teamid}&projectid={$projectid}&column=userName',
-                     type   : 'select',
-                     submit : 'OK',
+                  $('.userName').editable( function(value, settings) {
+                                             var items = JSON.parse(settings.data);
+                                             return(items[value]); }, {
+                     data        : '{$jed_userList}',
+                     type        : 'select',
+                     submit      : 'OK',
+                     placeholder : '',
 
                      "callback": function( sValue, y ) {
                         /* Redraw the table from the new data on the server */
