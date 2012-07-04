@@ -180,32 +180,15 @@ class Issue {
       }
 
       $this->bugId = $id;
-
-      if (self::exists($id)) {
-         $this->initialize();
-      } else {
-         #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Constructor: Issue $id does not exist in Mantis DB.");
-         $this->logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
+      
+      $this->initialize();
    }
 
    public function initialize() {
-      global $tcCustomField;
-      global $estimEffortCustomField;
-      global $remainingCustomField;
-      global $addEffortCustomField;
-      global $deadLineCustomField;
-      global $deliveryDateCustomField;
-      global $deliveryIdCustomField;
-      $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-
-      // Get issue info
-      $query = "SELECT * ".
-         "FROM `mantis_bug_table` ".
-         "WHERE id = $this->bugId";
+         // Get issue info
+      $query = "SELECT * " .
+               "FROM `mantis_bug_table` " .
+               "WHERE id = $this->bugId";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -213,52 +196,83 @@ class Issue {
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
-      $this->summary         = $row->summary;
-      $this->currentStatus   = $row->status;
-      $this->dateSubmission  = $row->date_submitted;
-      $this->projectId       = $row->project_id;
-      $this->categoryId      = $row->category_id;
-      $this->eta             = $row->eta; // DEPRECATED
-      $this->priority        = $row->priority;
-      $this->severity        = $row->severity;
-      $this->handlerId       = $row->handler_id;
-      $this->reporterId      = $row->reporter_id;
-      $this->resolution      = $row->resolution;
-      $this->version         = $row->version;
-      $this->target_version  = $row->target_version;
-      $this->last_updated    = $row->last_updated;
 
-      // Get custom fields
-      $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result2) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
-         switch ($row->field_id) {
-            case $tcCustomField:              $this->tcId            = $row->value; break;
-            case $mgrEstimEffortCustomField:  $this->mgrEffortEstim  = $row->value; break;
-            case $estimEffortCustomField:     $this->effortEstim     = $row->value; break;
-            case $remainingCustomField:       $this->remaining       = $row->value; break;
-            case $addEffortCustomField:       $this->effortAdd       = $row->value; break;
-            case $deadLineCustomField:        $this->deadLine        = $row->value; break;
-            case $deliveryDateCustomField:    $this->deliveryDate    = $row->value; break;
-            case $deliveryIdCustomField:      $this->deliveryId      = $row->value; break;
+      #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
+      $nbTuples = 0 != SqlWrapper::getInstance()->sql_num_rows($result);
+
+      self::$existsCache[$bugid] = $nbTuples;
+         
+      if ($nbTuples) {
+         $this->summary = $row->summary;
+         $this->currentStatus = $row->status;
+         $this->dateSubmission = $row->date_submitted;
+         $this->projectId = $row->project_id;
+         $this->categoryId = $row->category_id;
+         $this->eta = $row->eta; // DEPRECATED
+         $this->priority = $row->priority;
+         $this->severity = $row->severity;
+         $this->handlerId = $row->handler_id;
+         $this->reporterId = $row->reporter_id;
+         $this->resolution = $row->resolution;
+         $this->version = $row->version;
+         $this->target_version = $row->target_version;
+         $this->last_updated = $row->last_updated;
+         
+         global $tcCustomField;
+         global $estimEffortCustomField;
+         global $remainingCustomField;
+         global $addEffortCustomField;
+         global $deadLineCustomField;
+         global $deliveryDateCustomField;
+         global $deliveryIdCustomField;
+         $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+         
+         // Get custom fields
+         $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
+         $result2 = SqlWrapper::getInstance()->sql_query($query2);
+         if (!$result2) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
          }
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
+            switch ($row->field_id) {
+               case $tcCustomField: $this->tcId = $row->value;
+                  break;
+               case $mgrEstimEffortCustomField: $this->mgrEffortEstim = $row->value;
+                  break;
+               case $estimEffortCustomField: $this->effortEstim = $row->value;
+                  break;
+               case $remainingCustomField: $this->remaining = $row->value;
+                  break;
+               case $addEffortCustomField: $this->effortAdd = $row->value;
+                  break;
+               case $deadLineCustomField: $this->deadLine = $row->value;
+                  break;
+               case $deliveryDateCustomField: $this->deliveryDate = $row->value;
+                  break;
+               case $deliveryIdCustomField: $this->deliveryId = $row->value;
+                  break;
+            }
+         }
+
+         $this->elapsed = $this->getElapsed();
+         $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
+
+         $project = ProjectCache::getInstance()->getProject($this->projectId);
+         $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
+
+         // Prepare fields
+         $this->statusList = array();
+         $this->relationships = array();
+
+         //DEBUG $this->getRelationships(2500);
+      } else {
+         #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("Constructor: Issue $id does not exist in Mantis DB.");
+         $this->logger->error("EXCEPTION Issue constructor: " . $e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+         throw $e;
       }
-
-      $this->elapsed = $this->getElapsed();
-      $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
-
-      $project = ProjectCache::getInstance()->getProject($this->projectId);
-      $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
-
-      // Prepare fields
-      $this->statusList = array();
-      $this->relationships = array();
-
-      //DEBUG $this->getRelationships(2500);
    }
 
 
