@@ -337,17 +337,32 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
 
 /**
  * get Job list
+ *
+ * Note: the jobs depend on project type, which depends on the team
+ * so we need to now in which team the user is defined in.
+ *
+ * @param array $teamList  user's teams
  * @param int $projectid
  * @return array
  */
-function getJobs($projectid) {
+function getJobs($projectid, $teamList) {
    global $logger;
+
+   $jobList = array();
 
    if (0 != $projectid) {
       // Project list
       $project1 = ProjectCache::getInstance()->getProject($projectid);
 
-      $jobList = $project1->getJobList();
+      foreach ($teamList as $teamid => $name) {
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $ptype = $team->getProjectType($projectid);
+
+         $pjobs = $project1->getJobList($ptype);
+         $jobList += $pjobs; // array_merge does not work here...
+      }
+
+
    } else {
       $query = "SELECT id, name FROM `codev_job_table` ";
       $result = SqlWrapper::getInstance()->sql_query($query);

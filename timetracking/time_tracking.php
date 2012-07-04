@@ -40,46 +40,55 @@ $smartyHelper->assign('pageName', T_('Time Tracking'));
 
 if($_SESSION['userid']) {
 
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+
    // if first call to this page
    if (!isset($_POST['nextForm'])) {
-      $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-      $teamList = $session_user->getLeadedTeamList();
+      $lTeamList = $session_user->getLeadedTeamList();
 
-      if (0 != count($teamList)) {
+      if (0 != count($lTeamList)) {
          // User is TeamLeader, let him choose the user he wants to manage
          $smartyHelper->assign('users', getUsers());
-         $smartyHelper->assign('selectedUser', $_SESSION['userid']);
+         $smartyHelper->assign('selectedUser', $session_user->id);
       } else {
+         // if session_user (not a teamLeader) is defined in a team, display AddTrack page
+
          // developper & manager can add timeTracks
          $mTeamList = $session_user->getDevTeamList();
          $managedTeamList = $session_user->getManagedTeamList();
          $teamList = $mTeamList + $managedTeamList;
 
          if (0 != count($teamList)) {
+            $_POST['userid']   = $session_user->id;
             $_POST['nextForm'] = "addTrackForm";
          }
       }
    }
 
+   // display AddTrack Page
    if ($_POST['nextForm'] == "addTrackForm") {
       $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
-      $year = getSecurePOSTIntValue('year',date('Y'));
+      $year   = getSecurePOSTIntValue('year',date('Y'));
+      $userid = getSecurePOSTIntValue('userid',$session_user->id);
 
-      $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+      $managed_user = UserCache::getInstance()->getUser($userid);
 
-      $userid = getSecurePOSTIntValue('userid',$_SESSION['userid']);
-      if($userid != $_SESSION['userid']) {
+      if($userid != $session_user->id) {
          // Need to be a Team Leader to handle other users
-         $teamList = $session_user->getLeadedTeamList();
-         if (count($teamList) > 0 && array_key_exists($userid,getUsers())) {
+         $lTeamList = $session_user->getLeadedTeamList();
+         if (count($lTeamList) > 0 && array_key_exists($userid,getUsers())) {
             $smartyHelper->assign('userid', $userid);
-            $session_user = UserCache::getInstance()->getUser($userid);
-         }
-         else {
+
+         } else {
             sendForbiddenAccess();
          }
       }
+
+      // developper & manager can add timeTracks
+      $mTeamList = $managed_user->getDevTeamList();
+      $managedTeamList = $managed_user->getManagedTeamList();
+      $teamList = $mTeamList + $managedTeamList;
 
       // updateRemaining data
       $remaining = getSecurePOSTNumberValue('remaining',0);
@@ -174,8 +183,8 @@ if($_SESSION['userid']) {
          $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
          $isFilter_hideResolved   = isset($_POST["cb_hideResolved"])   ? '1' : '0';
 
-         $session_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
-         $session_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
+         $managed_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
+         $managed_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
 
          $defaultProjectid  = getSecurePOSTIntValue('projectid');
       }
@@ -185,16 +194,16 @@ if($_SESSION['userid']) {
       }
 
       // Display user name
-      $smartyHelper->assign('otherrealname', $session_user->getRealname());
+      $smartyHelper->assign('otherrealname', $managed_user->getRealname());
 
       // display Track Form
       $smartyHelper->assign('date', $defaultDate);
 
       // All projects from teams where I'm a Developper
-      $devProjList = $session_user->getProjectList($session_user->getDevTeamList());
+      $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList());
 
       // SideTasksProjects from Teams where I'm a Manager
-      $managedProjList = $session_user->getProjectList($session_user->getManagedTeamList());
+      $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
       $projList = $devProjList + $managedProjList;
 
       $smartyHelper->assign('projects', getProjects($projList,$defaultProjectid));
@@ -204,18 +213,18 @@ if($_SESSION['userid']) {
       $smartyHelper->assign('weekid', $weekid);
       $smartyHelper->assign('year', $year);
 
-      $isOnlyAssignedTo = ('0' == $session_user->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
+      $isOnlyAssignedTo = ('0' == $managed_user->getTimetrackingFilter('onlyAssignedTo')) ? false : true;
       $smartyHelper->assign('isOnlyAssignedTo', $isOnlyAssignedTo);
 
-      $isHideResolved = ('0' == $session_user->getTimetrackingFilter('hideResolved')) ? false : true;
+      $isHideResolved = ('0' == $managed_user->getTimetrackingFilter('hideResolved')) ? false : true;
       $smartyHelper->assign('isHideResolved', $isHideResolved);
 
-      $isHideDevProjects = ('0' == $session_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
+      $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
       $smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
 
-      $smartyHelper->assign('issues', getIssues($defaultProjectid, $isOnlyAssignedTo, $session_user, $projList, $isHideResolved, $defaultBugid));
+      $smartyHelper->assign('issues', getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user, $projList, $isHideResolved, $defaultBugid));
 
-      $smartyHelper->assign('jobs', getJobs($defaultProjectid));
+      $smartyHelper->assign('jobs', getJobs($defaultProjectid, $teamList));
 
       $smartyHelper->assign('weeks', getWeeks($weekid, $year));
       $smartyHelper->assign('years', getYears($year,1));
