@@ -17,9 +17,10 @@
   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require('Smarty.class.php');
+require('lib/Smarty/Smarty.class.php');
 
-include_once('mysql_connect.inc.php');
+include_once('i18n/i18n.inc.php');
+include_once('include/mysql_connect.inc.php');
 
 /**
  * Smarty helper : Construct a smarty objet for templating engine
@@ -77,6 +78,11 @@ class SmartyHelper {
     * @param string $template the template to be displayed
     */
    public function display($template) {
+      if (!headers_sent()) {
+         header("Content-type: text/html; charset=UTF-8");
+      } else {
+         self::$logger->error("Headers already sent");
+      }
       $this->smarty->display($template . '.html');
    }
 
@@ -98,10 +104,10 @@ class SmartyHelper {
       $this->smarty->assign('rootWebSite', getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
 
-      if (SqlWrapper::$logger->isInfoEnabled()) {
+      if (self::$logger->isInfoEnabled()) {
          $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
          $queriesCount = SqlWrapper::getInstance()->getQueriesCount();
-         SqlWrapper::$logger->info('TOTAL SQL queries: ' . $queriesCount . "  ($generatedTime sec) to display Page ".$_SERVER['PHP_SELF']);
+         self::$logger->info('TOTAL SQL queries: ' . $queriesCount . "  ($generatedTime sec) to display Page ".$_SERVER['PHP_SELF']);
       }
 
       $this->display('template');
