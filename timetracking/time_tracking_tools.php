@@ -153,18 +153,13 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
 function getWeekTask($weekDates, $userid, $timeTracking) {
    $jobs = new Jobs();
 
-   $linkList = array();
+   $weekTasks = NULL;
    $holidays = Holidays::getInstance();
    $weekTracks = $timeTracking->getWeekDetails($userid);
    foreach ($weekTracks as $bugid => $jobList) {
       $issue = IssueCache::getInstance()->getIssue($bugid);
 
       foreach ($jobList as $jobid => $dayList) {
-         $linkid = $bugid."_".$jobid;
-         $linkList[$linkid] = $issue;
-
-         $jobName = $jobs->getJobName($jobid);
-
          // if no remaining set, display a '?' to allow Remaining edition
          if (NULL == $issue->remaining) {
 
@@ -201,17 +196,19 @@ function getWeekTask($weekDates, $userid, $timeTracking) {
             );
          }
 
-         $weekTasks[] = array('bugid' => $bugid,
-                              'issueURL' => issueInfoURL($bugid),
-                              'mantisURL' => mantisIssueURL($bugid, NULL, true),
-                              'issueId' => $issue->tcId,
-                              'summary' => $issue->summary,
-                              'remaining' => $issue->remaining,
-                              'description' => addslashes(htmlspecialchars($issue->summary)),
-                              'dialogBoxTitle' => T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining"),
-                              'formattedRemaining' => $formattedRemaining,
-                              'jobName' => $jobName,
-                              'dayTasks' => $dayTasks
+         $weekTasks[$bugid."_".$jobid] = array(
+            'bugid' => $bugid,
+            'issueURL' => issueInfoURL($bugid),
+            'mantisURL' => mantisIssueURL($bugid, NULL, true),
+            'issueId' => $issue->tcId,
+            'summary' => $issue->summary,
+            'remaining' => $issue->remaining,
+            'description' => addslashes(htmlspecialchars($issue->summary)),
+            'dialogBoxTitle' => T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining"),
+            'formattedRemaining' => $formattedRemaining,
+            'jobid' => $jobid,
+            'jobName' => $jobs->getJobName($jobid),
+            'dayTasks' => $dayTasks
          );
 
       }
@@ -345,15 +342,12 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
  * @param int $projectid
  * @return array
  */
-function getJobs($projectid, $teamList) {
-   global $logger;
-
-   $jobList = array();
-
+function getJobs($projectid, $teamList, $job) {
    if (0 != $projectid) {
       // Project list
       $project1 = ProjectCache::getInstance()->getProject($projectid);
 
+      $jobList = array();
       foreach ($teamList as $teamid => $name) {
          $team = TeamCache::getInstance()->getTeam($teamid);
          $ptype = $team->getProjectType($projectid);
@@ -362,23 +356,42 @@ function getJobs($projectid, $teamList) {
             $jobList += $pjobs; // array_merge does not work here...
          }
       }
-
-
+      return getSmartyArray($jobList,$job);
    } else {
       $query = "SELECT id, name FROM `codev_job_table` ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         return;
+         return NULL;
       }
 
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         $jobList = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $jobList[$row->id] = $row->name;
          }
+         return getSmartyArray($jobList,$job);
+      } else {
+         return array();
       }
    }
+}
 
-   return $jobList;
+function getDuration($selected) {
+   $duration["0"] = "";
+   $duration["1"] = "1";
+   $duration["0.9"] = "0.9";
+   $duration["0.8"] = "0.8";
+   $duration["0.75"] = "0.75";
+   $duration["0.7"] = "0.7";
+   $duration["0.6"] = "0.6";
+   $duration["0.5"] = "0.5";
+   $duration["0.4"] = "0.4";
+   $duration["0.3"] = "0.3";
+   $duration["0.25"] = "0.25";
+   $duration["0.2"] = "0.2";
+   $duration["0.1"] = "0.1";
+   $duration["0.05"] = "0.05";
+   return getSmartyArray($duration,$selected);
 }
 
 ?>

@@ -224,7 +224,8 @@ if($_SESSION['userid']) {
 
       $smartyHelper->assign('issues', getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user, $projList, $isHideResolved, $defaultBugid));
 
-      $smartyHelper->assign('jobs', getJobs($defaultProjectid, $teamList));
+      $smartyHelper->assign('jobs', getJobs($defaultProjectid, $teamList, getSecurePOSTIntValue('job',0)));
+      $smartyHelper->assign('duration', getDuration(getSecurePOSTNumberValue('duree',0)));
 
       $smartyHelper->assign('weeks', getWeeks($weekid, $year));
       $smartyHelper->assign('years', getYears($year,1));
@@ -235,9 +236,13 @@ if($_SESSION['userid']) {
       $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
 
       // UTF8 problems in smarty, date encoding needs to be done in PHP
-      $smartyHelper->assign('weekDates', array(formatDate("%A %d %B", $weekDates[1]),formatDate("%A %d %B", $weekDates[2]),
-         formatDate("%A %d %B", $weekDates[3]),formatDate("%A %d %B", $weekDates[4]),
-         formatDate("%A %d %B", $weekDates[5])));
+      $smartyHelper->assign('weekDates', array(
+         date('Y-m-d',$weekDates[1]) => formatDate("%A %d %B", $weekDates[1]),
+         date('Y-m-d',$weekDates[2]) => formatDate("%A %d %B", $weekDates[2]),
+         date('Y-m-d',$weekDates[3]) => formatDate("%A %d %B", $weekDates[3]),
+         date('Y-m-d',$weekDates[4]) => formatDate("%A %d %B", $weekDates[4]),
+         date('Y-m-d',$weekDates[5]) => formatDate("%A %d %B", $weekDates[5]))
+      );
       $smartyHelper->assign('weekEndDates', array(formatDate("%A %d %B", $weekDates[6]),formatDate("%A %d %B", $weekDates[7])));
 
       $smartyHelper->assign('weekTasks', getWeekTask($weekDates, $userid, $timeTracking));
