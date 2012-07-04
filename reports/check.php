@@ -1,57 +1,44 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
- This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
- CoDev-Timetracking is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
- CoDev-Timetracking is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 require('../path.inc.php');
 
 require('super_header.inc.php');
 
-include_once('consistency_check.class.php');
-include_once('consistency_check2.class.php');
-include_once('user.class.php');
-include_once('team.class.php');
+require('smarty_tools.php');
+
+require('classes/smarty_helper.class.php');
+
+include_once('classes/consistency_check.class.php');
+include_once('classes/consistency_check2.class.php');
+include_once('classes/user.class.php');
+include_once('classes/team.class.php');
 
 $logger = Logger::getLogger("check");
 
 /**
- * Get teams
- * @param $teamList
+ * Get consistency errors
+ * @param int $teamid
  * @return array
  */
-function getTeams($teamList) {
-   foreach ($teamList as $tid => $tname) {
-      $teams[] = array(
-         'id' => $tid,
-         'name' => $tname,
-         'selected' => $tid == $_SESSION['teamid']
-      );
-   }
-   return $teams;
-}
-
-
-/**
- * Get consistency errors
- * @param int User's id
- */
 function getTeamConsistencyErrors($teamid) {
-
    global $logger;
    global $statusNames;
 
@@ -97,35 +84,26 @@ function getTeamConsistencyErrors($teamid) {
    }
 }
 
-
-
 // ================ MAIN =================
-
-require('display.inc.php');
-
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Consistency Check'));
+$smartyHelper->assign('pageName', 'Consistency Check');
 
 // Consistency errors
 if (isset($_SESSION['userid'])) {
    // use the teamid set in the form, if not defined (first page call) use session teamid
    if (isset($_GET['teamid'])) {
-      $teamid = $_GET['teamid'];
+      $teamid = getSecureGETIntValue('teamid');
+      $_SESSION['teamid'] = $teamid;
    } else {
       $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    }
-   $_SESSION['teamid'] = $teamid;
 
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-   $mTeamList = $session_user->getDevTeamList();
-   $lTeamList = $session_user->getLeadedTeamList();
-   $oTeamList = $session_user->getObservedTeamList();
-   $managedTeamList = $session_user->getManagedTeamList();
-   $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
+   $teamList = $session_user->getTeamList();
 
    if (count($teamList) > 0) {
-      $smartyHelper->assign('teams', getTeams($teamList));
+      $smartyHelper->assign('teams', getTeams($teamList, $_SESSION['teamid']));
 
       if (isset($_GET['teamid']) && 0 != $teamid) {
 
