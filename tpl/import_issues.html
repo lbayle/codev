@@ -36,13 +36,35 @@
       $(document).ready(function() {
 
          var oTable = $('#issues_table').dataTable( {
-            "bProcessing": true,
+            "bProcessing": false,
+            "sScrollY": "700px",
+            "bPaginate": false,
+            "bScrollCollapse": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": false,
+            "bAutoWidth": false,
             "fnDrawCallback": function () {
 
+                  $('.summary').editable( function(value, settings) { return(value); }, {
+                     data   : function(value, settings) { return value; },
+                     type   : 'textarea',
+                     submit : 'OK',
+                     placeholder : '',
+
+                     "callback": function( sValue, y ) {
+                        /* Redraw the table */
+                        var aPos = oTable.fnGetPosition( this );
+                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                        oTable.fnDraw();
+                     },
+                     "height": "14px"
+                  } );
                   $('.mgrEffortEstim').editable( function(value, settings) { return(value); }, {
                      data   : function(value, settings) { return value; },
                      type   : 'textarea',
                      submit : 'OK',
+                     placeholder : '',
 
                      "callback": function( sValue, y ) {
                         /* Redraw the table */
@@ -56,6 +78,7 @@
                      data   : function(value, settings) { return value; },
                      type   : 'textarea',
                      submit : 'OK',
+                     placeholder : '',
 
                      "callback": function( sValue, y ) {
                         /* Redraw the table */
@@ -68,9 +91,9 @@
                   $('.command').editable( function(value, settings) {
                                              // save id
                                              // you cannot set data if column is hidden !
-                                             oTable.fnSetColumnVis( 8, true );
+                                             oTable.fnSetColumnVis( 9, true );
                                              jQuery(this).parent().find('td.commandid').text(value);
-                                             oTable.fnSetColumnVis( 8, false );
+                                             oTable.fnSetColumnVis( 9, false );
 
                                              // set displayed value
                                              var items = JSON.parse(settings.data);
@@ -89,9 +112,9 @@
                      "height": "14px"
                   } );
                   $('.category').editable( function(value, settings) {
-                                             oTable.fnSetColumnVis( 9, true );
+                                             oTable.fnSetColumnVis( 10, true );
                                              jQuery(this).parent().find('td.categoryid').text(value);
-                                             oTable.fnSetColumnVis( 9, false );
+                                             oTable.fnSetColumnVis( 10, false );
                                              var items = JSON.parse(settings.data);
                                              return(items[value]); }, {
                      data        : '{$jed_categoryList}',
@@ -108,9 +131,9 @@
                      "height": "14px"
                   } );
                   $('.targetVersion').editable( function(value, settings) {
-                                             oTable.fnSetColumnVis( 10, true );
+                                             oTable.fnSetColumnVis( 11, true );
                                              jQuery(this).parent().find('td.targetversionid').text(value);
-                                             oTable.fnSetColumnVis( 10, false );
+                                             oTable.fnSetColumnVis( 11, false );
                                              var items = JSON.parse(settings.data);
                                              return(items[value]); }, {
                      data        : '{$jed_targetVersionList}',
@@ -127,9 +150,9 @@
                      "height": "14px"
                   } );
                   $('.userName').editable( function(value, settings) {
-                                             oTable.fnSetColumnVis( 11, true );
+                                             oTable.fnSetColumnVis( 12, true );
                                              jQuery(this).parent().find('td.userid').text(value);
-                                             oTable.fnSetColumnVis( 11, false );
+                                             oTable.fnSetColumnVis( 12, false );
                                              var items = JSON.parse(settings.data);
                                              return(items[value]); }, {
                      data        : '{$jed_userList}',
@@ -148,11 +171,12 @@
             }
          } );
 
-         // hide columns: commandid, categoryid, targetversionid, userid
-         oTable.fnSetColumnVis( 8, false );
+         // hide columns: commandid, categoryid, targetversionid, userid, description
          oTable.fnSetColumnVis( 9, false );
          oTable.fnSetColumnVis( 10, false );
          oTable.fnSetColumnVis( 11, false );
+         oTable.fnSetColumnVis( 12, false );
+         oTable.fnSetColumnVis( 13, false );
       });
 
       </script>
@@ -174,7 +198,7 @@
                      if (iPos!=null) {
 
                         // you cannot set data if column is hidden !
-                        oTable.fnSetColumnVis( 8, true );
+                        oTable.fnSetColumnVis( 9, true );
 
                         var value = jQuery('#globalCommandid option:selected').text();
                         var key = jQuery('#globalCommandid option:selected').val();
@@ -183,7 +207,7 @@
                         jQuery(this).find('td.commandid').text(key);
 
                         // hide column: categoryid
-                        oTable.fnSetColumnVis( 8, false );
+                        oTable.fnSetColumnVis( 9, false );
                      }
                   });
                });
@@ -195,7 +219,7 @@
                      if (iPos!=null) {
 
                         // you cannot set data if column is hidden !
-                        oTable.fnSetColumnVis( 9, true );
+                        oTable.fnSetColumnVis( 10, true );
 
                         var value = jQuery('#globalCategoryid option:selected').text();
                         var key = jQuery('#globalCategoryid option:selected').val();
@@ -204,7 +228,7 @@
                         jQuery(this).find('td.categoryid').text(key);
 
                         // hide column: categoryid
-                        oTable.fnSetColumnVis( 9, false );
+                        oTable.fnSetColumnVis( 10, false );
                      }
                   });
                });
@@ -216,7 +240,7 @@
                      if (iPos!=null) {
 
                         // you cannot set data if column is hidden !
-                        oTable.fnSetColumnVis( 10, true );
+                        oTable.fnSetColumnVis( 11, true );
 
                         var value = jQuery('#globalTargetversionid option:selected').text();
                         var key = jQuery('#globalTargetversionid option:selected').val();
@@ -225,7 +249,7 @@
                         jQuery(this).find('td.targetversionid').text(key);
 
                         // hide column: categoryid
-                        oTable.fnSetColumnVis( 10, false );
+                        oTable.fnSetColumnVis( 11, false );
                      }
                   });
                });
@@ -237,7 +261,7 @@
                      if (iPos!=null) {
 
                         // you cannot set data if column is hidden !
-                        oTable.fnSetColumnVis( 11, true );
+                        oTable.fnSetColumnVis( 12, true );
 
                         var value = jQuery('#globalUserid option:selected').text();
                         var key = jQuery('#globalUserid option:selected').val();
@@ -246,7 +270,7 @@
                         jQuery(this).find('td.userid').text(key);
 
                         // hide column: categoryid
-                        oTable.fnSetColumnVis( 11, false );
+                        oTable.fnSetColumnVis( 12, false );
                      }
                   });
                });
@@ -336,13 +360,12 @@
       <!-- DISPLAY ISSUES TABLE -->
       <div style="margin-top:2em;">
 
-
-         <h2>{t}Issues to import:{/t}</h2>
-
          {if $newIssues}
          <table id="issues_table" class="display">
+            <caption>{t}Mantis issues to create:{/t}</caption>
             <thead>
             <tr>
+                  <th>Id</th>
                   <th>ExtRef</th>
                   <th>Summary</th>
                   <th>Charge Mgr</th>
@@ -355,23 +378,26 @@
                   <th>categoryid</th>
                   <th>targetversionid</th>
                   <th>userid</th>
+                  <th>description</th>
             </tr>
             </thead>
             <tbody>
             {foreach from=$newIssues key=id item=i}
             <tr>
-                  <td class="extRef">{$i.extRef}</td>
-                  <td class="summary">{$i.summary}</td>
+                  <td class="lineNum" align='right'>{$i.lineNum}</td>
+                  <td class="extRef" align='left'>{$i.extRef}</td>
+                  <td class="summary" align='left' {$i.summary_attr} >{$i.summary}</td>
                   <td class="mgrEffortEstim">{$i.mgrEffortEstim}</td>
                   <td class="effortEstim">{$i.effortEstim}</td>
-                  <td class="command">{$i.command}</td>
-                  <td class="category">{$i.category}</td>
-                  <td class="targetVersion">{$i.targetVersion}</td>
-                  <td class="userName">{$i.userName}</td>
+                  <td class="command" align='left'>{$i.command}</td>
+                  <td class="category" align='left'>{$i.category}</td>
+                  <td class="targetVersion" align='left'>{$i.targetVersion}</td>
+                  <td class="userName" align='left'>{$i.userName}</td>
                   <td class="commandid"></td>
                   <td class="categoryid"></td>
                   <td class="targetversionid"></td>
                   <td class="userid"></td>
+                  <td class="description">{$i.description}</td>
 
             </tr>
             {/foreach}
@@ -395,10 +421,11 @@
                      if (iPos!=null) {
 
                         // you cannot get data if column is hidden !
-                        oTable.fnSetColumnVis( 8, true );
                         oTable.fnSetColumnVis( 9, true );
                         oTable.fnSetColumnVis( 10, true );
                         oTable.fnSetColumnVis( 11, true );
+                        oTable.fnSetColumnVis( 12, true );
+                        oTable.fnSetColumnVis( 13, true );
 
                         var extRef = jQuery(this).find('td.extRef').text();
                         var summary = jQuery(this).find('td.summary').text();
@@ -408,12 +435,14 @@
                         var categoryid = jQuery(this).find('td.categoryid').text();
                         var targetversionid = jQuery(this).find('td.targetversionid').text();
                         var userid = jQuery(this).find('td.userid').text();
+                        var description = jQuery(this).find('td.description').text();
 
                         // hide columns: commandid, categoryid, targetversionid, userid
-                        oTable.fnSetColumnVis( 8, false );
                         oTable.fnSetColumnVis( 9, false );
                         oTable.fnSetColumnVis( 10, false );
                         oTable.fnSetColumnVis( 11, false );
+                        oTable.fnSetColumnVis( 12, false );
+                        oTable.fnSetColumnVis( 13, false );
 
                         jQuery.ajax({
                            type: "POST",
@@ -428,6 +457,7 @@
                                  "&categoryid="+categoryid+
                                  "&targetversionid="+targetversionid+
                                  "&userid="+userid,
+                                 //"&description="+description,
                            success: function(data) {
                               //alert("row "+extRef+" imported.");
 

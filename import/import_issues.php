@@ -76,24 +76,29 @@ function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape
 
    $issues = array();
 
-   $row = 1;
+   $row = 0;
    if (($fp = fopen($filename, "r")) !== FALSE) {
       while (($data = fgetcsv($fp, 0, $delimiter, $enclosure, $escape)) !== FALSE) {
 
-         echo "<p> ".count($data)." champs à la ligne $row: ".$data[1]."<br /></p>\n";
-
          $row++;
-         $newIssue = array();
-         $newIssue['extRef']         = $data[0];
-         $newIssue['summary']        = $data[1];
-         $newIssue['mgrEffortEstim'] = $data[2];
-         $newIssue['effortEstim']    = $data[3];
-         $newIssue['description']    = $data[4];
+         if (1 == $row) { continue; } // skip column names
 
-         $issues[] = $newIssue;
+         //echo "<p> ".count($data)." champs à la ligne $row: ".$data[0].' '.$data[1]."<br /></p>\n";
+         if ('' != $data[1]) {
+            $newIssue = array();
+            $newIssue['lineNum']        = $row;
+            $newIssue['extRef']         = $data[0];
+            $newIssue['summary']        = $data[1];
+            $newIssue['mgrEffortEstim'] = $data[2];
+            $newIssue['effortEstim']    = $data[3];
+            $newIssue['description']    = $data[4];
+            //$newIssue['summary_attr'] = "style='background-color: #FF82B4;'";
+            $issues[] = $newIssue;
+         }
       }
       fclose($fp);
    }
+   return $issues;
 }
 
 
@@ -296,9 +301,10 @@ if (isset($_SESSION['userid'])) {
     }
     $_SESSION['teamid'] = $teamid;
     $smartyHelper->assign('teamid', $teamid);
-    $team = TeamCache::getInstance()->getTeam($teamid);
-    $smartyHelper->assign('teamName', $team->name);
-
+    if (0 != $teamid) {
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $smartyHelper->assign('teamName', $team->name);
+    }
 
     // use the projectid set in the form, if not defined (first page call) use session projectid
     if (isset($_POST['projectid'])) {
@@ -308,8 +314,10 @@ if (isset($_SESSION['userid'])) {
     }
     $_SESSION['projectid'] = $projectid;
     $smartyHelper->assign('projectid', $projectid);
-    $proj = ProjectCache::getInstance()->getProject($projectid);
-    $smartyHelper->assign('projectName', $proj->name);
+    if (0 != $projectid) {
+      $proj = ProjectCache::getInstance()->getProject($projectid);
+      $smartyHelper->assign('projectName', $proj->name);
+    }
 
     #if ('' == $action) {
        // first call to the page, display FileSelector
