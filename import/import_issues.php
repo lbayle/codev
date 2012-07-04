@@ -72,16 +72,25 @@ function getFakeNewIssues() {
  *
  * @param type $filename
  */
-function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape = NULL) {
+function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape = '"') {
+
+   $issues = array();
+
    $row = 1;
    if (($fp = fopen($filename, "r")) !== FALSE) {
-      while (($data = fgetcsv($fp, 0, $delimiter, $enclosure)) !== FALSE) {
-         $num = count($data);
-         echo "<p> $num champs à la ligne $row: <br /></p>\n";
+      while (($data = fgetcsv($fp, 0, $delimiter, $enclosure, $escape)) !== FALSE) {
+
+         echo "<p> ".count($data)." champs à la ligne $row: ".$data[1]."<br /></p>\n";
+
          $row++;
-         for ($c=0; $c < $num; $c++) {
-               echo $data[$c] . "<br />\n";
-         }
+         $newIssue = array();
+         $newIssue['extRef']         = $data[0];
+         $newIssue['summary']        = $data[1];
+         $newIssue['mgrEffortEstim'] = $data[2];
+         $newIssue['effortEstim']    = $data[3];
+         $newIssue['description']    = $data[4];
+
+         $issues[] = $newIssue;
       }
       fclose($fp);
    }
@@ -323,6 +332,7 @@ if (isset($_SESSION['userid'])) {
    if ("uploadFile" == $action) {
 
       $filename = $_FILES['uploaded_csv']['name'];
+      $tmpFilename = $_FILES['uploaded_csv']['tmp_name'];
       
       if ($_FILES['uploaded_csv']['error']) {
          
@@ -358,14 +368,14 @@ if (isset($_SESSION['userid'])) {
          $logger->error($err_msg);
       }
 
+      // --- READ CSV FILE ---
+      #$smartyHelper->assign('newIssues', getFakeNewIssues());
+      $smartyHelper->assign('newIssues', getIssuesFromCSV($tmpFilename));
 
       if (!$err_msg) {
 
          $smartyHelper->assign('filename', $filename);
 
-         // --- READ CSV FILE ---
-         $smartyHelper->assign('newIssues', getFakeNewIssues());
-         #$smartyHelper->assign('newIssues', getIssuesFromCSV($filename));
 
          $smartyHelper->assign('commandList', getCommands($teamid));
          $smartyHelper->assign('categoryList', getProjectCategories($projectid));
