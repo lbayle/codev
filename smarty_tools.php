@@ -75,6 +75,28 @@ function getProjects($projectList, $selectedProjectId = NULL) {
 }
 
 /**
+ * Convert an array in smarty array
+ * @param array $list
+ * @param int $selected
+ * @return mixed[string] 
+ */
+function getSmartyArray($list, $selected) {
+   if ($list != NULL) {
+      $smartyList = array();
+      foreach ($list as $id => $name) {
+         $smartyList[$id] = array(
+             'id' => $id,
+             'name' => $name,
+             'selected' => $id == $selected
+         );
+      }
+      return $smartyList;
+   } else {
+      return NULL;
+   }
+}
+
+/**
  * @param int $projectid
  * @param int $defaultBugid
  * @param array $projList
