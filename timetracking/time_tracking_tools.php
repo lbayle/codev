@@ -357,9 +357,10 @@ function getJobs($projectid, $teamList) {
       foreach ($teamList as $teamid => $name) {
          $team = TeamCache::getInstance()->getTeam($teamid);
          $ptype = $team->getProjectType($projectid);
-
-         $pjobs = $project1->getJobList($ptype);
-         $jobList += $pjobs; // array_merge does not work here...
+         if (NULL != $ptype) {
+            $pjobs = $project1->getJobList($ptype);
+            $jobList += $pjobs; // array_merge does not work here...
+         }
       }
 
 
