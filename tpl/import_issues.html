@@ -11,7 +11,7 @@
       <form method="post" action="{$page}" enctype="multipart/form-data"  id="formUploadFile" name="formUploadFile" >
          <fieldset>
             {include file="form/teamProjectSelector.html"}
-            <input type="file" name="nom_du_fichier">
+            <input type="file" name="uploaded_csv">
             <input type="submit" value="{t}Upload File{/t}">
 
             <input type="hidden" name="action" value="uploadFile" />
@@ -22,7 +22,13 @@
    </div>
    {/if}
 
-   {if $filename}
+   {if $errorMsg}
+      <div style="margin-top:2em;">
+         <span style='color:red'>ERROR: {$errorMsg}</span>
+      </div>
+   {/if}
+
+   {if $newIssues}
 
       <script type="text/javascript">
 
@@ -154,7 +160,7 @@
 
 
       <!-- GLOBAL VALUES BUTTONS  -->
-      <div  class="left" style="margin-top:2em;">
+      <div  class="left" style="margin-top:6em;">
 
          <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -331,7 +337,7 @@
       <div style="margin-top:2em;">
 
 
-         <h2>Issues (test jeditable)</h2>
+         <h2>{t}Issues to import:{/t}</h2>
 
          {if $newIssues}
          <table id="issues_table" class="display">

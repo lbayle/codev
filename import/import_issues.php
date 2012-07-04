@@ -69,6 +69,26 @@ function getFakeNewIssues() {
 }
 
 /**
+ *
+ * @param type $filename
+ */
+function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape = NULL) {
+   $row = 1;
+   if (($fp = fopen($filename, "r")) !== FALSE) {
+      while (($data = fgetcsv($fp, 0, $delimiter, $enclosure)) !== FALSE) {
+         $num = count($data);
+         echo "<p> $num champs à la ligne $row: <br /></p>\n";
+         $row++;
+         for ($c=0; $c < $num; $c++) {
+               echo $data[$c] . "<br />\n";
+         }
+      }
+      fclose($fp);
+   }
+}
+
+
+/**
  * jeditable formatted CommandList
  *
  * @param int $teamid
@@ -259,53 +279,107 @@ if (isset($_SESSION['userid'])) {
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
+    // use the teamid set in the form, if not defined (first page call) use session teamid
+    if (isset($_POST['teamid'])) {
+        $teamid = $_POST['teamid'];
+    } else {
+        $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+    }
+    $_SESSION['teamid'] = $teamid;
+    $smartyHelper->assign('teamid', $teamid);
+    $team = TeamCache::getInstance()->getTeam($teamid);
+    $smartyHelper->assign('teamName', $team->name);
+
+
+    // use the projectid set in the form, if not defined (first page call) use session projectid
+    if (isset($_POST['projectid'])) {
+        $projectid = $_POST['projectid'];
+    } else {
+        $projectid = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+    }
+    $_SESSION['projectid'] = $projectid;
+    $smartyHelper->assign('projectid', $projectid);
+    $proj = ProjectCache::getInstance()->getProject($projectid);
+    $smartyHelper->assign('projectName', $proj->name);
+
+    #if ('' == $action) {
+       // first call to the page, display FileSelector
+
+      $dTeamList = $session_user->getDevTeamList();
+      $lTeamList = $session_user->getLeadedTeamList();
+      $managedTeamList = $session_user->getManagedTeamList();
+      $teamList = $dTeamList + $lTeamList + $managedTeamList;
+
+      $smartyHelper->assign('teams', getTeams($teamList,$teamid));
+
+      // All projects from teams where I'm a Developper or Manager AND Observers
+      $devProjList      = (0 == count($dTeamList))       ? array() : $session_user->getProjectList($dTeamList);
+      $managedProjList  = (0 == count($managedTeamList)) ? array() : $session_user->getProjectList($managedTeamList);
+      $projList = $devProjList + $managedProjList;
+
+      $smartyHelper->assign('projects', getProjects($projList,$projectid));
+    #}
 
    if ("uploadFile" == $action) {
-      if ($_FILES['importMantis']['error']) {
-               switch ($_FILES['nom_du_fichier']['error']){
-                        case 1: // UPLOAD_ERR_INI_SIZE
-                        echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
-                        break;
-                        case 2: // UPLOAD_ERR_FORM_SIZE
-                        echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
-                        break;
-                        case 3: // UPLOAD_ERR_PARTIAL
-                        echo "L'envoi du fichier a été interrompu pendant le transfert !";
-                        break;
-                        case 4: // UPLOAD_ERR_NO_FILE
-                        echo "Le fichier que vous avez envoyé a une taille nulle !";
-                        break;
-               }
-      }
-      else {
-      // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
-      // ce qui signifie qu'il n'y a eu aucune erreur
+
+      $filename = $_FILES['uploaded_csv']['name'];
+      
+      if ($_FILES['uploaded_csv']['error']) {
+         
+         $err_id = $_FILES['uploaded_csv']['error'];
+         switch ($err_id){
+            case 1:
+               $err_msg = "UPLOAD_ERR_INI_SIZE ($err_id) on file : ".$filename;
+               //echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
+               break;
+            case 2:
+               $err_msg = "UPLOAD_ERR_FORM_SIZE ($err_id) on file : ".$filename;
+               //echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
+               break;
+            case 3:
+               $err_msg = "UPLOAD_ERR_PARTIAL ($err_id) on file : ".$filename;
+               //echo "L'envoi du fichier a été interrompu pendant le transfert !";
+               break;
+            case 4:
+               $err_msg = "UPLOAD_ERR_NO_FILE ($err_id) on file : ".$filename;
+               //echo "Le fichier que vous avez envoyé a une taille nulle !";
+               break;
+         }
+         $logger->error($err_msg);
+      } else {
+         // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
+         // ce qui signifie qu'il n'y a eu aucune erreur
       }
 
-      $extensions = array('.csv', '.xls');
-      $extension = strrchr($_FILES['avatar']['name'], '.');
+      $extensions = array('.csv', '.CSV');
+      $extension = strrchr($filename, '.');
       if(!in_array($extension, $extensions)) {
-         $erreur = 'Vous devez uploader un fichier de type png, gif, jpg, jpeg, txt ou doc...';
-         $logger->error($erreur);
+         $err_msg = T_('Please upload files with the following extension: ').implode(', ', $extensions);
+         $logger->error($err_msg);
       }
 
 
-      $teamid = 4;
-      $projectid = 14;
-      $smartyHelper->assign('teamid', $teamid);
-      $smartyHelper->assign('projectid', $projectid);
-      $smartyHelper->assign('newIssues', getFakeNewIssues());
+      if (!$err_msg) {
 
-      $smartyHelper->assign('commandList', getCommands($teamid));
-      $smartyHelper->assign('categoryList', getProjectCategories($projectid));
-      $smartyHelper->assign('targetversionList', getProjectTargetVersion($projectid));
-      $smartyHelper->assign('userList', getUsers($teamid));
+         $smartyHelper->assign('filename', $filename);
 
-      $smartyHelper->assign('jed_commandList', getJsonCommands($teamid));
-      $smartyHelper->assign('jed_categoryList', getJsonProjectCategories($projectid));
-      $smartyHelper->assign('jed_targetVersionList', getJsonProjectTargetVersion($projectid));
-      $smartyHelper->assign('jed_userList', getJsonUsers($teamid));
+         // --- READ CSV FILE ---
+         $smartyHelper->assign('newIssues', getFakeNewIssues());
+         #$smartyHelper->assign('newIssues', getIssuesFromCSV($filename));
 
+         $smartyHelper->assign('commandList', getCommands($teamid));
+         $smartyHelper->assign('categoryList', getProjectCategories($projectid));
+         $smartyHelper->assign('targetversionList', getProjectTargetVersion($projectid));
+         $smartyHelper->assign('userList', getUsers($teamid));
+
+         $smartyHelper->assign('jed_commandList', getJsonCommands($teamid));
+         $smartyHelper->assign('jed_categoryList', getJsonProjectCategories($projectid));
+         $smartyHelper->assign('jed_targetVersionList', getJsonProjectTargetVersion($projectid));
+         $smartyHelper->assign('jed_userList', getJsonUsers($teamid));
+
+      } else {
+         $smartyHelper->assign('errorMsg', $err_msg);
+      }
    }
 
 
