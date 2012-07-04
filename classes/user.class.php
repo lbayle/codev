@@ -16,11 +16,11 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "user_cache.class.php";
-include_once "issue.class.php";
-include_once "team.class.php";
-include_once "holidays.class.php";
-include_once "time_track.class.php";
+include_once('classes/user_cache.class.php');
+include_once('classes/issue.class.php');
+include_once('classes/team.class.php');
+include_once('classes/holidays.class.php');
+include_once('classes/time_track.class.php');
 
 /**
  * MANTIS CoDev User Authorization Management
@@ -845,8 +845,25 @@ class User {
                        "filter for timetracking page", 0, $this->id);
 
    }
+   
+   /**
+    * Get users
+    * @return string[int] : username[id]
+    */
+   public static function getUsers() {
+      $query = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return NULL;
+      }
 
+      $users = array();
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $users[$row->id] = $row->username;
+      }
+      return $users;
+   }
 
-} // class
+}
 
 ?>

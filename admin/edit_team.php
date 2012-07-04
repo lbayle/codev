@@ -35,29 +35,6 @@ include_once('team_cache.class.php');
 $logger = Logger::getLogger("edit_team");
 
 /**
- * Get users
- * @param int $teamleader
- * @return mixed[string]
- */
-function getUsers($teamleader) {
-   $query = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
-   $users = array();
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $users[$row->id] = array(
-         "name" => $row->username,
-         "selected" => $row->id == $teamleader
-      );
-   }
-
-   return $users;
-}
-
-/**
  * Get team members
  * @param int $teamid
  * @return mixed[string]
@@ -390,8 +367,8 @@ if(isset($_SESSION['userid'])) {
          }
 
          $smartyHelper->assign('team', $team);
-
-         $smartyHelper->assign('users', getUsers($team->leader_id));
+         
+         $smartyHelper->assign('users', getSmartyArray(User::getUsers(),$team->leader_id));
          $smartyHelper->assign('date', date("Y-m-d", $team->date));
 
          $smartyHelper->assign('accessLevel', Team::$accessLevelNames);
