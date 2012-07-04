@@ -24,13 +24,13 @@ require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-require('include/display.inc.php');
+require('classes/smarty_helper.class.php');
 
-include_once('project.class.php');
-include_once('issue.class.php');
-include_once('holidays.class.php');
-include_once('user_cache.class.php');
-include_once('team_cache.class.php');
+include_once('classes/project.class.php');
+include_once('classes/issue.class.php');
+include_once('classes/holidays.class.php');
+include_once('classes/user_cache.class.php');
+include_once('classes/team_cache.class.php');
 
 $logger = Logger::getLogger("edit_team");
 
@@ -222,14 +222,7 @@ if(isset($_SESSION['userid'])) {
    $teamList = NULL;
    // leadedTeams only, except Admins: they can edit all teams
    if ($session_user->isTeamMember($admin_teamid)) {
-      $query = "SELECT id, name FROM `codev_team_table` ORDER BY name;";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if ($result) {
-         $teamList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $teamList[$row->id] = $row->name;
-         }
-      }
+      $teamList = Team::getTeams();
    } else {
       $teamList = $session_user->getLeadedTeamList();
    }

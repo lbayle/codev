@@ -22,9 +22,9 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('include/display.inc.php');
+require('smarty_tools.php');
 
-require('../smarty_tools.php');
+require('classes/smarty_helper.class.php');
 
 include_once("classes/sqlwrapper.class.php");
 include_once("classes/user_cache.class.php");
@@ -38,21 +38,18 @@ $logger = Logger::getLogger("holidays_report");
  * @return mixed[int]
  */
 function getTeamList($teamid) {
-   $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
+   $teams = Team::getTeams();
 
-   $teams = array();
-   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $teams[$row->id] = array(
-         "id" => $row->id,
-         "name" => $row->name,
-         "selected" => $row->id == $teamid
+   $smartyTeams = array();
+   foreach ($teams as $id => $name) {
+      $smartyTeams[$id] = array(
+         "id" => $id,
+         "name" => $name,
+         "selected" => $id == $teamid
       );
    }
-   return $teams;
+   
+   return $smartyTeams;
 }
 
 /**
@@ -85,11 +82,11 @@ function getDays($nbDaysInMonth, $month, $year) {
  * @param int $month The month
  * @param int $year The year
  * @param int $teamid The team
- * @param bool $isExternalTasks True if external tasks wanted, else false
  * @param int $nbDaysInMonth The number of days in a month
+ * @param bool $isExternalTasks True if external tasks wanted, else false
  * @return mixed[string]
  */
-function getDaysUsers($month, $year, $teamid, $isExternalTasks = FALSE, $nbDaysInMonth) {
+function getDaysUsers($month, $year, $teamid, $nbDaysInMonth, $isExternalTasks = FALSE) {
    // USER
    $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname ".
             "FROM  `codev_team_user_table`, `mantis_user_table` ".
@@ -218,7 +215,7 @@ if (isset($_SESSION['userid'])) {
       $months[$i] = array(
          "name" => $monthFormated,
          "days" => getDays($nbDaysInMonth, $i, $year),
-         "users" => getDaysUsers($i, $year, $teamid, $isExternalTasks, $nbDaysInMonth)
+         "users" => getDaysUsers($i, $year, $teamid, $nbDaysInMonth, $isExternalTasks)
       );
    }
    $smartyHelper->assign('months', $months);

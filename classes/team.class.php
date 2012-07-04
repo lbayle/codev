@@ -667,6 +667,23 @@ class Team {
    public function getName() {
       return $this->name;
    }
+   
+   /**
+    * Get all teams by name
+    * @return string[int] : name[id]
+    */
+   public static function getTeams() {
+      $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return NULL;
+      }
+      $teams = array();
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $teams[$row->id] = $row->name;
+      }
+      return $teams;
+   }
 
 }
 
