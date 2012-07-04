@@ -30,40 +30,26 @@ include_once('classes/project.class.php');
 include_once('classes/user_cache.class.php');
 
 /**
- * Get jobs
- * @param string $type The type
- * @return string[int] The jobs
+ * Get assigned jobs
+ * @param array $jobs All jobs
+ * @return array string[int] The assigned jobs
  */
-function getJobList($type = NULL) {
-   $query = "SELECT id, name ".
-            "FROM `codev_job_table`";
-   if (NULL != $type) {
-      $query .= " WHERE type = $type";
+function getAssignedJobs(array $jobs) {
+   $assignedJobs = array();
+   foreach($jobs as $id => $value) {
+      if($value['type'] == Job::type_assignedJob) {
+         $assignedJobs[$id] = $value['name'];
+      }
    }
-
-   $query .= " ORDER BY name";
-
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
-   $jlist = array();
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $jlist[$row->id] = $row->name;
-   }
-
-   return $jlist;
+   return $assignedJobs;
 }
 
 /**
  * Get job tuples
  * @return mixed[int] The jobs
  */
-function getJobTuples() {
-   $query = "SELECT * ".
-            "FROM `codev_job_table` ".
-            "ORDER BY name;";
+function getJobs() {
+   $query = 'SELECT * FROM `codev_job_table` ORDER BY name;';
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       return NULL;
@@ -197,8 +183,10 @@ if(isset($_SESSION['userid'])) {
          }
       }
 
-      $smartyHelper->assign('jobs', getJobTuples());
-      $smartyHelper->assign('assignedJobs', getJobList(Job::type_assignedJob));
+      $jobs = getJobs();
+      $smartyHelper->assign('jobs', $jobs);
+      $smartyHelper->assign('assignedJobs', getAssignedJobs($jobs));
+
       $projects = Project::getProjects();
       $smartyHelper->assign('projects', $projects);
       $smartyHelper->assign('tuples', getAssignedJobTuples($projects));
