@@ -172,11 +172,13 @@ $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Add Holidays'));
 
 if (isset($_SESSION['userid'])) {
-    // if first call to this page
+
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+
+   // if first call to this page
     if (!isset($_POST['nextForm'])) {
-        $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-        $teamList = $session_user->getLeadedTeamList();
-        if (0 != count($teamList)) {
+        $lTeamList = $session_user->getLeadedTeamList();
+        if (0 != count($lTeamList)) {
             // User is TeamLeader, let him choose the user he wants to manage
             $users = getUsers($originPage);
             $smartyHelper->assign('users', $users);
@@ -187,13 +189,16 @@ if (isset($_SESSION['userid'])) {
             $teamList = $mTeamList + $managedTeamList;
 
             if (0 != count($teamList)) {
+                $_POST['userid']   = $session_user->id;
                 $_POST['nextForm'] = "addHolidaysForm";
             }
         }
     }
 
     if ($_POST['nextForm'] == "addHolidaysForm") {
-        $userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
+
+        $userid = getSecurePOSTIntValue('userid',$session_user->id);
+
         $managed_user = UserCache::getInstance()->getUser($userid);
 
         // dates
