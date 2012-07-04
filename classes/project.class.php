@@ -23,14 +23,11 @@ if (NULL == Logger::getConfigurationFile()) {
       $logger->info("LOG activated !");
    }
 
-include_once "config_mantis.class.php";
-include_once "project_version.class.php";
-include_once "project_cache.class.php";
-include_once "jobs.class.php";
-include_once "team.class.php";
-
-
-
+include_once("config_mantis.class.php");
+include_once("project_version.class.php");
+include_once("project_cache.class.php");
+include_once("jobs.class.php");
+include_once("team.class.php");
 
 class Project {
 
@@ -1190,7 +1187,24 @@ class Project {
       return $this->driftMgr;
    }
 
+   /**
+    * Get projets
+    * @return array string[int] The projects : name[id]
+    */
+   public static function getProjects() {
+      $query = 'SELECT id, name FROM `mantis_project_table` ORDER BY name;';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return NULL;
+      }
 
+      $projects = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $projects[$row->id] = $row->name;
+      }
+
+      return $projects;
+   }
 
 }
 

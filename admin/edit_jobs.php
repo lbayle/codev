@@ -22,33 +22,12 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('include/display.inc.php');
+require('classes/smarty_helper.class.php');
 
 include_once('classes/sqlwrapper.class.php');
-include_once('classes/user_cache.class.php');
 include_once('classes/jobs.class.php');
-
-/**
- * Get projets
- * @return string[int] The projects
- */
-function getProjectList() {
-   $query = "SELECT id, name ".
-            "FROM `mantis_project_table` ".
-            "ORDER BY name";
-
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
-   $plist = array();
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $plist[$row->id] = $row->name;
-   }
-
-   return $plist;
-}
+include_once('classes/project.class.php');
+include_once('classes/user_cache.class.php');
 
 /**
  * Get jobs
@@ -220,7 +199,7 @@ if(isset($_SESSION['userid'])) {
 
       $smartyHelper->assign('jobs', getJobTuples());
       $smartyHelper->assign('assignedJobs', getJobList(Job::type_assignedJob));
-      $projects = getProjectList();
+      $projects = Project::getProjects();
       $smartyHelper->assign('projects', $projects);
       $smartyHelper->assign('tuples', getAssignedJobTuples($projects));
    }

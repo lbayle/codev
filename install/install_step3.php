@@ -27,6 +27,7 @@ require_once 'install_header.inc.php';
 
 include_once "mysql_connect.inc.php";
 
+include_once('classes/project.class.php');
 include_once "config.class.php";
 Config::getInstance()->setQuiet(true);
 
@@ -206,51 +207,45 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
 }
 
 
-// ------------------------------------------------
 /**
  * get all existing projects, except ExternalTasksProject & SideTasksProjects
+ * @return array string[int] : name[id]
  */
 function getProjectList() {
-    
-    global $logger;
-    
-	$projectList = array();
+   global $logger;
 
-	$extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+   $projects = Project::getProjects();
+   if($projects != NULL) {
+      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+      $smartyProjects = array();
+      foreach($projects as $id => $name) {
+         // exclude ExternalTasksProject
+         if ($extproj_id == $id) {
+            $logger->debug("project $id: ExternalTasksProject is excluded");
+            continue;
+         }
 
-	$query  = "SELECT id, name ".
-                "FROM `mantis_project_table` ";
-                #"WHERE mantis_project_table.id = $this->id ";
-
-	$result = mysql_query($query) or die("Query failed: $query");
-	while($row = mysql_fetch_object($result))
-	{
-		// exclude ExternalTasksProject
-		if ($extproj_id == $row->id) {
-			$logger->debug("project $row->id: ExternalTasksProject is excluded");
-			continue;
-		}
-
-		// exclude SideTasksProjects
-		try {
-			$p = ProjectCache::getInstance()->getProject($row->id);
-			if ($p->isSideTasksProject()) {
-				$logger->debug("project $row->id: sideTaskProjects are excluded");
-				continue;
-			}
-		} catch (Exception $e) {
-			// could not determinate, so the project should be included in the list
-			$logger->debug("project $row->id: Unknown type, project included anyway.");
-			// nothing to do.
-		}
-		$projectList[$row->id] = $row->name;
-	}
-	return $projectList;
+         // exclude SideTasksProjects
+         try {
+            $p = ProjectCache::getInstance()->getProject($id);
+            if ($p->isSideTasksProject()) {
+               $logger->debug("project $id: sideTaskProjects are excluded");
+               continue;
+            }
+         } catch (Exception $e) {
+            // could not determinate, so the project should be included in the list
+            $logger->debug("project $id: Unknown type, project included anyway.");
+            // nothing to do.
+         }
+         $smartyProjects[$id] = $name;
+      }
+      return $smartyProjects;
+   } else {
+      return NULL;
+   }
 }
 
 // ================ MAIN =================
-
-
 $originPage = "install_step3.php";
 
 $adminTeamName = T_("CodevTT admin");
