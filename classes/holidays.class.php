@@ -74,7 +74,9 @@ class Holidays {
     */
    private $logger;
 
-   // class instances
+   /**
+    * @var Holidays The instance
+    */
    private static $instance;
 
    /**
@@ -85,7 +87,7 @@ class Holidays {
    /**
     * @var string The default color
     */
-   public static $defaultColor="D8D8D8";
+   public static $defaultColor = "D8D8D8";
 
    /**
     * Private constructor to respect the singleton pattern
@@ -95,7 +97,7 @@ class Holidays {
 
       self::$HolidayList = array();
 
-      $query = "SELECT * FROM `codev_holidays_table`";
+      $query = 'SELECT * FROM `codev_holidays_table`';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -120,6 +122,7 @@ class Holidays {
    }
 
    /**
+    * Get holiday
     * @param int $timestamp
     * @return Holiday
     */
@@ -156,6 +159,7 @@ class Holidays {
    }
 
    /**
+    * Get number of holidays
     * @param int $startT
     * @param int $endT
     * @return int
@@ -176,6 +180,56 @@ class Holidays {
 
       $this->logger->debug("nbHolidays = $nbHolidays");
       return $nbHolidays;
+   }
+
+   /**
+    * Get holidays
+    * @static
+    * @return mixed[int]
+    */
+   public static function getHolidays() {
+      $query = 'SELECT * FROM `codev_holidays_table` ORDER BY date DESC';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return NULL;
+      }
+
+      $holidays = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $holidays[$row->id] = array(
+            "date" => formatDate("%d %b %Y (%a)", $row->date),
+            "type" => $row->type,
+            "desc" => $row->description,
+            "color" => $row->color
+         );
+      }
+
+      return $holidays;
+   }
+
+   /**
+    * Save to DB
+    * @static
+    * @param string $timestamp
+    * @param string $hol_desc
+    * @param string $hol_color
+    * @return resource
+    */
+   public static function save($timestamp, $hol_desc, $hol_color) {
+      $query = "INSERT INTO `codev_holidays_table` (`date`, `description`, `color`) VALUES ('".$timestamp."','".$hol_desc."','".$hol_color."');";
+      return SqlWrapper::getInstance()->sql_query($query);
+   }
+
+   /**
+    * Delete from DB
+    * @static
+    * @param int $hol_id
+    * @return resource
+    */
+   public static function delete($hol_id) {
+      $query = 'DELETE FROM `codev_holidays_table` WHERE id='.$hol_id.';';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      return $result;
    }
 
 }

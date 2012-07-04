@@ -22,36 +22,10 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('include/display.inc.php');
+require('classes/smarty_helper.class.php');
 
 include_once('classes/user_cache.class.php');
 include_once('classes/holidays.class.php');
-
-/**
- * Get holidays
- * @return mixed[int] The holidays
- */
-function getHolidays() {
-   $query = "SELECT * ".
-      "FROM `codev_holidays_table` ".
-      "ORDER BY date DESC";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
-   $holidays = array();
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $holidays[$row->id] = array(
-         "date" => formatDate("%d %b %Y (%a)", $row->date),
-         "type" => $row->type,
-         "desc" => $row->description,
-         "color" => $row->color
-      );
-   }
-
-   return $holidays;
-}
 
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
@@ -68,24 +42,17 @@ if(isset($_SESSION['userid'])) {
          $timestamp = date2timestamp($formatedDate);
          $hol_desc = getSecurePOSTStringValue('hol_desc');
          $hol_color = getSecurePOSTStringValue('hol_color');
-
-         // save to DB
-         $query = "INSERT INTO `codev_holidays_table` (`date`, `description`, `color`) VALUES ('".$timestamp."','".$hol_desc."','".$hol_color."');";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
+         if (!Holidays::save($timestamp, $hol_desc, $hol_color)) {
             $smartyHelper->assign('error', "Couldn't add the holiday");
          }
       } elseif (isset($_POST['hol_id'])) {
          $hol_id = getSecurePOSTIntValue('hol_id');
-
-         $query = "DELETE FROM `codev_holidays_table` WHERE id=".$hol_id.';';
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
+         if (!Holidays::delete($hol_id)) {
             $smartyHelper->assign('error', "Couldn't remove the holiday");
          }
       }
 
-      $smartyHelper->assign('holidays', getHolidays());
+      $smartyHelper->assign('holidays', Holidays::getHolidays());
    }
 }
 
