@@ -22,7 +22,9 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('include/display.inc.php');
+require('smarty_tools.php');
+
+require('classes/smarty_helper.class.php');
 
 include_once('classes/project_cache.class.php');
 include_once('classes/user_cache.class.php');
@@ -30,28 +32,6 @@ include_once('classes/team.class.php');
 include_once('classes/team_cache.class.php');
 
 $logger = Logger::getLogger("create_team");
-
-/**
- * @param int $teamleader_id
- */
-function getUsers($teamleader_id) {
-   $query = "SELECT DISTINCT id, username, realname FROM `mantis_user_table` ORDER BY username";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
-   $users = array();
-
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $users[$row->id] = array(
-         "name" => $row->username,
-         "selected" => $row->id == $teamleader_id
-      );
-   }
-
-   return $users;
-}
 
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
@@ -168,7 +148,7 @@ if(isset($_SESSION['userid'])) {
 
    $smartyHelper->assign('team_name', $team_name);
    $smartyHelper->assign('team_desc', $team_desc);
-   $smartyHelper->assign('users', getUsers($teamleader_id));
+   $smartyHelper->assign('users', getSmartyArray(User::getUsers(),$teamleader_id));
 
    $smartyHelper->assign('isCreateSTProj', $isCreateSTProj);
    $smartyHelper->assign('stproj_name', $stproj_name);
