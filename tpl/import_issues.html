@@ -56,8 +56,7 @@
    {/if}
 
    {if $newIssues}
-
-      <script type="text/javascript">
+   <script type="text/javascript">
 
       //------ DATATABLE JQUERY --------
       $(document).ready(function() {
@@ -73,61 +72,63 @@
             "bAutoWidth": false,
             "fnDrawCallback": function () {
 
-                  $('.summary').editable( function(value, settings) { return(value); }, {
-                     data   : function(value, settings) { return value; },
-                     type   : 'textarea',
-                     submit : 'OK',
-                     placeholder : '',
+               $('.summary').editable( function(value, settings) { return(value); }, {
+                  data   : function(value, settings) { return value; },
+                  type   : 'textarea',
+                  onblur      : 'submit',
+                  placeholder : '',
 
-                     "callback": function( sValue, y ) {
-                        /* Redraw the table */
-                        var aPos = oTable.fnGetPosition( this );
-                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                        oTable.fnDraw();
-                     },
-                     "height": "14px"
-                  } );
-                  $('.mgrEffortEstim').editable( function(value, settings) { return(value); }, {
-                     data   : function(value, settings) { return value; },
-                     type   : 'textarea',
-                     submit : 'OK',
-                     placeholder : '',
+                  "callback": function( sValue, y ) {
+                     /* Redraw the table */
+                     var aPos = oTable.fnGetPosition( this );
+                     oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                     oTable.fnDraw();
+                  },
+                  "height": "14px"
+               } );
+               $('.mgrEffortEstim').editable( function(value, settings) { return(value); }, {
+                  data   : function(value, settings) { return value; },
+                  type   : 'textarea',
+                  onblur      : 'submit',
+                  placeholder : '',
 
-                     "callback": function( sValue, y ) {
-                        /* Redraw the table */
-                        var aPos = oTable.fnGetPosition( this );
-                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                        oTable.fnDraw();
-                     },
-                     "height": "14px"
-                  } );
-                  $('.effortEstim').editable( function(value, settings) { return(value); }, {
-                     data   : function(value, settings) { return value; },
-                     type   : 'textarea',
-                     submit : 'OK',
-                     placeholder : '',
+                  "callback": function( sValue, y ) {
+                     /* Redraw the table */
+                     var aPos = oTable.fnGetPosition( this );
+                     oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                     oTable.fnDraw();
+                  },
+                  "height": "14px"
+               } );
+               $('.effortEstim').editable( function(value, settings) { return(value); }, {
+                  data   : function(value, settings) { return value; },
+                  type   : 'textarea',
+                  onblur      : 'submit',
+                  placeholder : '',
 
-                     "callback": function( sValue, y ) {
-                        /* Redraw the table */
-                        var aPos = oTable.fnGetPosition( this );
-                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                        oTable.fnDraw();
-                     },
-                     "height": "14px"
-                  } );
+                  "callback": function( sValue, y ) {
+                     /* Redraw the table */
+                     var aPos = oTable.fnGetPosition( this );
+                     oTable.fnUpdate( sValue, aPos[0], aPos[1] );
+                     oTable.fnDraw();
+                  },
+                  "height": "14px"
+               } );
+               if(Object.keys(jQuery.parseJSON('{$jed_commandList}')).length > 0) {
                   $('.command').editable( function(value, settings) {
-                                             // save id
-                                             // you cannot set data if column is hidden !
-                                             oTable.fnSetColumnVis( 9, true );
-                                             jQuery(this).parent().find('td.commandid').text(value);
-                                             oTable.fnSetColumnVis( 9, false );
+                     // save id
+                     // you cannot set data if column is hidden !
+                     oTable.fnSetColumnVis( 9, true );
+                     jQuery(this).parent().find('td.commandid').text(value);
+                     oTable.fnSetColumnVis( 9, false );
 
-                                             // set displayed value
-                                             var items = JSON.parse(settings.data);
-                                             return(items[value]); }, {
+                     // set displayed value
+                     var items = JSON.parse(settings.data);
+                     return(items[value]);
+                  }, {
                      data        : '{$jed_commandList}',
                      type        : 'select',
-                     submit      : 'OK',
+                     onblur      : 'submit',
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
@@ -138,15 +139,18 @@
                      },
                      "height": "14px"
                   } );
+               }
+               if(Object.keys(jQuery.parseJSON('{$jed_categoryList}')).length > 0) {
                   $('.category').editable( function(value, settings) {
-                                             oTable.fnSetColumnVis( 10, true );
-                                             jQuery(this).parent().find('td.categoryid').text(value);
-                                             oTable.fnSetColumnVis( 10, false );
-                                             var items = JSON.parse(settings.data);
-                                             return(items[value]); }, {
+                     oTable.fnSetColumnVis( 10, true );
+                     jQuery(this).parent().find('td.categoryid').text(value);
+                     oTable.fnSetColumnVis( 10, false );
+                     var items = JSON.parse(settings.data);
+                     return(items[value]);
+                  }, {
                      data        : '{$jed_categoryList}',
                      type        : 'select',
-                     submit      : 'OK',
+                     onblur      : 'submit',
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
@@ -157,15 +161,18 @@
                      },
                      "height": "14px"
                   } );
+               }
+               if(Object.keys(jQuery.parseJSON('{$jed_targetVersionList}')).length > 0) {
                   $('.targetVersion').editable( function(value, settings) {
-                                             oTable.fnSetColumnVis( 11, true );
-                                             jQuery(this).parent().find('td.targetversionid').text(value);
-                                             oTable.fnSetColumnVis( 11, false );
-                                             var items = JSON.parse(settings.data);
-                                             return(items[value]); }, {
+                     oTable.fnSetColumnVis( 11, true );
+                     jQuery(this).parent().find('td.targetversionid').text(value);
+                     oTable.fnSetColumnVis( 11, false );
+                     var items = JSON.parse(settings.data);
+                     return(items[value]);
+                  }, {
                      data        : '{$jed_targetVersionList}',
                      type        : 'select',
-                     submit      : 'OK',
+                     onblur      : 'submit',
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
@@ -176,15 +183,18 @@
                      },
                      "height": "14px"
                   } );
+               }
+               if(Object.keys(jQuery.parseJSON('{$jed_userList}')).length > 0) {
                   $('.userName').editable( function(value, settings) {
-                                             oTable.fnSetColumnVis( 12, true );
-                                             jQuery(this).parent().find('td.userid').text(value);
-                                             oTable.fnSetColumnVis( 12, false );
-                                             var items = JSON.parse(settings.data);
-                                             return(items[value]); }, {
+                     oTable.fnSetColumnVis( 12, true );
+                     jQuery(this).parent().find('td.userid').text(value);
+                     oTable.fnSetColumnVis( 12, false );
+                     var items = JSON.parse(settings.data);
+                     return(items[value]);
+                  }, {
                      data        : '{$jed_userList}',
                      type        : 'select',
-                     submit      : 'OK',
+                     onblur      : 'submit',
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
@@ -195,6 +205,7 @@
                      },
                      "height": "14px"
                   } );
+               }
             }
          } );
 
@@ -205,8 +216,7 @@
          oTable.fnSetColumnVis( 12, false );
          oTable.fnSetColumnVis( 13, false );
       });
-
-      </script>
+   </script>
 
 
 
