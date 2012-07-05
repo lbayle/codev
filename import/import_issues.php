@@ -75,11 +75,18 @@ function getFakeNewIssues() {
 function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape = '"') {
 
    $issues = array();
-
+   
+   $file = new SplFileObject($filename);
+   /* Can't be use with PHP 5.1
+   $file->setFlags(SplFileObject::READ_CSV);
+   $file->setCsvControl($delimiter,$enclosure,$escape);
+   foreach ($file as $row) {
+      echo $row;
+   }
+   */
    $row = 0;
-   if (($fp = fopen($filename, "r")) !== FALSE) {
-      while (($data = fgetcsv($fp, 0, $delimiter, $enclosure, $escape)) !== FALSE) {
-
+   while (!$file->eof()) {
+      while ($data = $file->fgetcsv($delimiter,$enclosure)) {
          $row++;
          if (1 == $row) { continue; } // skip column names
 
@@ -96,8 +103,8 @@ function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape
             $issues[] = $newIssue;
          }
       }
-      fclose($fp);
    }
+   
    return $issues;
 }
 
@@ -123,7 +130,7 @@ function getJsonCommands($teamid, $selected = NULL) {
       $commands['selected'] = $selected;
    }
 
-   return json_encode($commands);
+   return array2json($commands);
 }
 
 /**
@@ -166,7 +173,7 @@ function getJsonProjectCategories($projectid, $selected = NULL) {
    if ($selected) {
       $categories['selected'] = $selected;
    }
-   return json_encode($categories);
+   return array2json($categories);
 }
 
 /**
@@ -211,7 +218,7 @@ function getJsonProjectTargetVersion($projectid, $selected = NULL) {
       $versions['selected'] = $selected;
    }
 
-   return json_encode($versions);
+   return array2json($versions);
 }
 
 /**
@@ -252,7 +259,7 @@ function getJsonUsers($teamid, $selected = NULL) {
    if ($selected) {
       $userList['selected'] = $selected;
    }
-   return json_encode($userList);
+   return array2json($userList);
 }
 
 /**
