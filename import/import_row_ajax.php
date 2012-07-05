@@ -23,14 +23,19 @@ require_once ('../path.inc.php');
 require_once ('super_header.inc.php');
 
 require_once ('user_cache.class.php');
+require_once ('project_cache.class.php');
+require_once ('command_cache.class.php');
 
+// ================ MAIN =================
+
+global $status_new;
 
 $logger = Logger::getLogger("import_row_ajax");
 
 
 if (isset($_SESSION['userid'])) {
 
-   $session_user = new User($_SESSION['userid']);
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -51,11 +56,26 @@ if (isset($_SESSION['userid'])) {
       $description = isset($_POST['description']) ? $_POST['description'] : NULL;
 
 
-      $logger->error("Import $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");
-      $logger->error("Import Desc = $description");
+      $proj = ProjectCache::getInstance()->getProject($projectid);
+      $bugid = $proj->addIssue($categoryid, $summary, $description, $status_new);
+
+      $issue = IssueCache::getInstance()->getIssue($bugid);
+      
+      if ($extRef)          { $issue->setExternalRef($extRef); }
+      if ($mgrEffortEstim)  { $issue->setMgrEffortEstim($mgrEffortEstim); }
+      if ($effortEstim)     { $issue->setEffortEstim($effortEstim); }
+      if ($targetversionid) { $issue->setTargetVersion($targetversionid); }
+      if ($userid)          { $issue->setHandler($userid); }
+
+      if ($commandid) {
+         $command = CommandCache::getInstance()->getCommand($commandid);
+         $command->addIssue($bugid);
+      }
+
+      $logger->debug("Import bugid=$bugid $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");
 
       // RETURN VALUE
-      echo mantisIssueURL(125, NULL, TRUE)." ".issueInfoURL(125, NULL);
+      echo mantisIssueURL($bugid, NULL, TRUE)." ".issueInfoURL($bugid, NULL);
    }
 }
 

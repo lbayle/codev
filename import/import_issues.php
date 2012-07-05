@@ -92,6 +92,10 @@ function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape
 
          //echo "<p> ".count($data)." champs à la ligne $row: ".$data[0].' '.$data[1]."<br /></p>\n";
          if ('' != $data[1]) {
+
+            //mb_detect_encoding($data[1], 'UTF-8', true);
+            //echo "row $row encoding ".mb_detect_encoding($data[1], "auto").'<br>';
+
             $newIssue = array();
             $newIssue['lineNum']        = $row;
             $newIssue['extRef']         = $data[0];
@@ -296,7 +300,7 @@ $smartyHelper->assign('pageName', T_("Import Mantis Issues"));
 
 if (isset($_SESSION['userid'])) {
 
-   $session_user = new User($_SESSION['userid']);
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 

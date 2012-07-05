@@ -19,6 +19,9 @@
          </fieldset>
 
       </form>
+      <div style="margin-top:2em;">
+         <span style='color:blue'>{t}IMPORTANT: Please ensure that the .CSV file is UTF-8 encoded.{/t}</span>
+      </div>
    </div>
    {/if}
 
@@ -343,57 +346,8 @@
 
       </div>
 
-      <!-- DISPLAY ISSUES TABLE -->
-      <div style="margin-top:2em;">
-
-         {if $newIssues}
-         <table id="issues_table" class="display">
-            <caption>{t}Mantis issues to create:{/t}</caption>
-            <thead>
-            <tr>
-                  <th>Id</th>
-                  <th>ExtRef</th>
-                  <th>Summary</th>
-                  <th>Charge Mgr</th>
-                  <th>Charge</th>
-                  <th>Command</th>
-                  <th>Category</th>
-                  <th>TargetVersion</th>
-                  <th>User</th>
-                  <th>commandid</th>
-                  <th>categoryid</th>
-                  <th>targetversionid</th>
-                  <th>userid</th>
-                  <th>description</th>
-            </tr>
-            </thead>
-            <tbody>
-            {foreach from=$newIssues key=id item=i}
-            <tr>
-                  <td class="lineNum" align='right'>{$i.lineNum}</td>
-                  <td class="extRef" align='left'>{$i.extRef}</td>
-                  <td class="summary" align='left' {$i.summary_attr} >{$i.summary}</td>
-                  <td class="mgrEffortEstim">{$i.mgrEffortEstim}</td>
-                  <td class="effortEstim">{$i.effortEstim}</td>
-                  <td class="command" align='left'>{$i.command}</td>
-                  <td class="category" align='left'>{$i.category}</td>
-                  <td class="targetVersion" align='left'>{$i.targetVersion}</td>
-                  <td class="userName" align='left'>{$i.userName}</td>
-                  <td class="commandid"></td>
-                  <td class="categoryid"></td>
-                  <td class="targetversionid"></td>
-                  <td class="userid"></td>
-                  <td class="description">{$i.description}</td>
-
-            </tr>
-            {/foreach}
-            </tbody>
-         </table>
-         {/if}
-      </div>
-
       <!-- IMPORT BUTTON  -->
-      <div  class="left" style="margin-top:2em;">
+      <div  class="left" style="margin-top:3em;">
 
          <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -424,7 +378,7 @@
                         var targetversionid = jQuery(this).find('td.targetversionid').text();
                         var userid = jQuery(this).find('td.userid').text();
                         var description = jQuery(this).find('td.description').text();
-                        
+
                         var row = jQuery(this);
 
                         jQuery.ajax({
@@ -472,6 +426,56 @@
          <button type='button' name="btImportIssues" id="btImportIssues"><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Import{/t}</button>
 
       </div>
+         
+      <!-- DISPLAY ISSUES TABLE -->
+      <div style="margin-top:1em;">
+
+         {if $newIssues}
+         <table id="issues_table" class="display">
+            <caption>{t}Mantis issues to create:{/t}</caption>
+            <thead>
+            <tr>
+                  <th>Id</th>
+                  <th>ExtRef</th>
+                  <th>Summary</th>
+                  <th>Charge Mgr</th>
+                  <th>Charge</th>
+                  <th>Command</th>
+                  <th>Category</th>
+                  <th>TargetVersion</th>
+                  <th>User</th>
+                  <th>commandid</th>
+                  <th>categoryid</th>
+                  <th>targetversionid</th>
+                  <th>userid</th>
+                  <th>description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach from=$newIssues key=id item=i}
+            <tr>
+                  <td class="lineNum" align='right'>{$i.lineNum}</td>
+                  <td class="extRef" align='left'>{$i.extRef}</td>
+                  <td class="summary" align='left' {$i.summary_attr} >{$i.summary}</td>
+                  <td class="mgrEffortEstim">{$i.mgrEffortEstim}</td>
+                  <td class="effortEstim">{$i.effortEstim}</td>
+                  <td class="command" align='left'>{$i.command}</td>
+                  <td class="category" align='left'>{$i.category}</td>
+                  <td class="targetVersion" align='left'>{$i.targetVersion}</td>
+                  <td class="userName" align='left'>{$i.userName}</td>
+                  <td class="commandid"></td>
+                  <td class="categoryid"></td>
+                  <td class="targetversionid"></td>
+                  <td class="userid"></td>
+                  <td class="description" align='left'>{$i.description}</td>
+
+            </tr>
+            {/foreach}
+            </tbody>
+         </table>
+         {/if}
+      </div>
+
    {/if}
 
 

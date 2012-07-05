@@ -1397,7 +1397,96 @@ class Issue {
    }
 
 
+   /**
+    *
+    * @param type $value
+    */
+   public function setHandler($value) {
 
+      $query = "UPDATE `mantis_bug_table` SET handler_id = '$value' WHERE id=$this->bugId ";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+   }
+   
+   /**
+    *
+    * @param type $value
+    */
+   public function setTargetVersion($value) {
+
+
+      $query = "SELECT version from `mantis_project_version_table` WHERE id=$value ";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      $version = $row->version;
+         
+      $query = "UPDATE `mantis_bug_table` SET target_version = '$version' WHERE id=$this->bugId ";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+   }
+
+   private function setCustomField($field_id, $value) {
+
+      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $field_id";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+
+         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$value' WHERE bug_id=$this->bugId AND field_id = $field_id";
+      } else {
+         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$field_id', '$this->bugId', '$value');";
+      }
+      $result = SqlWrapper::getInstance()->sql_query($query2);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+   }
+
+   /**
+    * update DB and current instance
+    * @param type $value
+    */
+   public function setExternalRef($value) {
+
+      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+      $this->setCustomField($extRefCustomField, $value);
+      $this->tcId = $value;
+   }
+
+   /**
+    * update DB and current instance
+    * @param type $value
+    */
+   public function setEffortEstim($value) {
+
+      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+      $this->setCustomField($extRefCustomField, $value);
+      $this->effortEstim = $value;
+   }
+   /**
+    * update DB and current instance
+    * @param type $value
+    */
+   public function setMgrEffortEstim($value) {
+
+      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+      $this->setCustomField($extRefCustomField, $value);
+      $this->mgrEffortEstim = $value;
+   }
 }
 
 ?>
