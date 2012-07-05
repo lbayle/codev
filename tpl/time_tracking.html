@@ -223,8 +223,14 @@
 
                   var row = day.parent();
                   var jobid = row.find("td[class^=job]").attr("class").replace("job-","");
+                  if(jQuery("#job option[value="+jobid+"]").val() != null) {
+                     jQuery("#job").val(jobid);
+                  } else if("#job") {
+                     jQuery("#job").append($('<option>', { value : jobid, selected : 'selected' }));
+                  }
                   jQuery("#job").val(jobid);
-                  jQuery("#duree").val(day.text());
+                  // Don't set the duration
+                  //jQuery("#duree").val(day.text());
 
                   var bugid = row.attr("id").replace("weekTasks-","");
                   if(jQuery("#bugid option[value="+bugid+"]").val() != null) {
