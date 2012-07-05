@@ -636,4 +636,18 @@ function array2json(array $arr) {
    return '{' . $json . '}';
 }
 
+/**
+ * Convert the data in UTF-8 if it's in other encoding 
+ * @param string $data The data to convert
+ * @return string The converted data
+ */
+function convertToUTF8($data) {
+   $originalEncoding = mb_detect_encoding($data);
+   if(mb_detect_encoding($data[0]) != "UTF-8") {
+      return mb_convert_encoding($data,"UTF-8",$originalEncoding);
+   } else {
+      return $data;
+   }
+}
+
 ?>

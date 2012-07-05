@@ -46,4 +46,11 @@ T_bindtextdomain($textdomain,$locales_dir);
 T_bind_textdomain_codeset($textdomain, 'UTF-8');
 T_textdomain($textdomain);
 
+$availableEncoding = mb_detect_order();
+if(!array_search("ISO-8859-1", $availableEncoding)) {
+   $newEnconding = array();
+   $newEnconding[] = "ISO-8859-1";
+   mb_detect_order(array_merge($availableEncoding,$newEnconding));
+}
+
 ?>
