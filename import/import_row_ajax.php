@@ -55,7 +55,7 @@ if (isset($_SESSION['userid'])) {
       $logger->error("Import Desc = $description");
 
       // RETURN VALUE
-      print "OK";
+      echo mantisIssueURL(125, NULL, TRUE)." ".issueInfoURL(125, NULL);
    }
 }
 
