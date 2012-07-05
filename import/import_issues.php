@@ -91,18 +91,18 @@ function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape
          if (1 == $row) { continue; } // skip column names
 
          //echo "<p> ".count($data)." champs à la ligne $row: ".$data[0].' '.$data[1]."<br /></p>\n";
-         if ('' != $data[1]) {
+         if ('' != $data[4]) {
 
             //mb_detect_encoding($data[1], 'UTF-8', true);
             //echo "row $row encoding ".mb_detect_encoding($data[1], "auto").'<br>';
 
             $newIssue = array();
             $newIssue['lineNum']        = $row;
-            $newIssue['extRef']         = $data[0];
-            $newIssue['summary']        = $data[1];
-            $newIssue['mgrEffortEstim'] = $data[2];
-            $newIssue['effortEstim']    = $data[3];
-            $newIssue['description']    = $data[4];
+            $newIssue['extRef']         = convertToUTF8($data[0]);
+            $newIssue['summary']        = convertToUTF8($data[1]);
+            $newIssue['mgrEffortEstim'] = convertToUTF8($data[2]);
+            $newIssue['effortEstim']    = convertToUTF8($data[3]);
+            $newIssue['description']    = convertToUTF8($data[4]);
             //$newIssue['summary_attr'] = "style='background-color: #FF82B4;'";
             $issues[] = $newIssue;
          }
