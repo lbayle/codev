@@ -424,9 +424,12 @@
                         var targetversionid = jQuery(this).find('td.targetversionid').text();
                         var userid = jQuery(this).find('td.userid').text();
                         var description = jQuery(this).find('td.description').text();
+                        
+                        var row = jQuery(this);
 
                         jQuery.ajax({
                            type: "POST",
+                           async: false,
                            url:  "import/import_row_ajax.php",
                            data: "action=importRow"+
                                  "&projectid={$projectid}"+
@@ -440,13 +443,9 @@
                                  "&userid="+userid+
                                  "&description="+description,
                            success: function(data) {
-                              //alert("row "+data+" imported.");
-
-                              // TODO update datatable
-                              //jQuery(this).find('td.lineNum').text(data);
-                              //var pos = oTable.fnGetPosition( jQuery(this).find('td.lineNum').get(0) );
-                              //oTable.fnUpdate( data, pos[0], pos[1] );
-                              //oTable.fnDraw();
+                              var pos = oTable.fnGetPosition(row.find('td.lineNum').get(0) );
+                              oTable.fnUpdate( data, pos[0], pos[1] );
+                              oTable.fnDraw();
 
                            },
                            error: function(jqXHR, textStatus, errorThrown) {
