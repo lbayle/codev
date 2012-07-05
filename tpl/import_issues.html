@@ -6,7 +6,34 @@
 
    <!-- FILE SELECTION -->
    <div style="margin-top:3em;">
-      <h2 class="center">{t}Select CSV file{/t}</h2>
+
+      <!-- Help dialogBox -->
+      <script type="text/javascript">
+         jQuery(document).ready(function(){
+            jQuery.each(jQuery(".help_link"),function() {
+               jQuery(this).click(function() {
+                  jQuery("#"+jQuery(this).attr("id").replace("_link","")).dialog( "open" );
+                  return false;
+               });
+            });
+            jQuery(".help_dialog").dialog({
+               autoOpen: false,
+               hide: "fade",
+               width: "500"
+            });
+
+         });
+      </script>
+
+      <div id="dialog_uploadCSV" class="help_dialog" title="{t}Import Mantis Issues{/t}" style="display: none">
+         <p><strong>{t}File Format{/t}</strong><br />{t}Standard CSV format with :{/t}<br>{t}delimiter{/t} = <span style="color:blue">;</span><br>{t}enclosure{/t} = <span style="color:blue">"</span></p>
+         <p><strong>{t}Encoding{/t}</strong><br />{t}It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported.{/t}<br /></p>
+         <p><strong>{t}Columns{/t}</strong><br />{t}the file must contain 5 columns, the 1st line contains the column names.{/t}<br /><br /><span style="color:blue">{t}ExternalRef ; Summary ; MgrEffortEstim ; EffortEstim ; Description{/t}</span></p>
+      </div>
+
+
+      <h2 class="center">{t}Select CSV file{/t} &nbsp;&nbsp;<a id="dialog_uploadCSV_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></h2>
+      
 
       <form method="post" action="{$page}" enctype="multipart/form-data"  id="formUploadFile" name="formUploadFile" >
          <fieldset>
@@ -19,9 +46,6 @@
          </fieldset>
 
       </form>
-      <div style="margin-top:2em;">
-         <span style='color:blue'>{t}IMPORTANT: Please ensure that the .CSV file is UTF-8 encoded.{/t}</span>
-      </div>
    </div>
    {/if}
 
