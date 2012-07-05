@@ -12,7 +12,7 @@
          <fieldset>
             {include file="form/teamProjectSelector.html"}
             <input type="file" name="uploaded_csv">
-            <input type="submit" value="{t}Upload File{/t}">
+            <input type="submit" value="{t}Preview import{/t}">
 
             <input type="hidden" name="action" value="uploadFile" />
             <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
@@ -192,87 +192,73 @@
                var oTable = $('#issues_table').dataTable();
 
                jQuery("#btSetAllCommands").click(function(event) {
-
+                  // you cannot set data if column is hidden !
+                  oTable.fnSetColumnVis( 9, true );
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
-
-                        // you cannot set data if column is hidden !
-                        oTable.fnSetColumnVis( 9, true );
-
                         var value = jQuery('#globalCommandid option:selected').text();
                         var key = jQuery('#globalCommandid option:selected').val();
 
                         jQuery(this).find('td.command').text(value);
                         jQuery(this).find('td.commandid').text(key);
-
-                        // hide column: categoryid
-                        oTable.fnSetColumnVis( 9, false );
                      }
                   });
+                  // hide column: categoryid
+                  oTable.fnSetColumnVis( 9, false );
                });
 
                jQuery("#btSetAllCategories").click(function(event) {
-
+                  // you cannot set data if column is hidden !
+                  oTable.fnSetColumnVis( 10, true );
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
-
-                        // you cannot set data if column is hidden !
-                        oTable.fnSetColumnVis( 10, true );
-
                         var value = jQuery('#globalCategoryid option:selected').text();
                         var key = jQuery('#globalCategoryid option:selected').val();
 
                         jQuery(this).find('td.category').text(value);
                         jQuery(this).find('td.categoryid').text(key);
-
-                        // hide column: categoryid
-                        oTable.fnSetColumnVis( 10, false );
                      }
                   });
+                  // hide column: categoryid
+                  oTable.fnSetColumnVis( 10, false );
                });
 
                jQuery("#btSetAllTargetVersions").click(function(event) {
 
+                  // you cannot set data if column is hidden !
+                  oTable.fnSetColumnVis( 11, true );
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
-
-                        // you cannot set data if column is hidden !
-                        oTable.fnSetColumnVis( 11, true );
-
                         var value = jQuery('#globalTargetversionid option:selected').text();
                         var key = jQuery('#globalTargetversionid option:selected').val();
 
                         jQuery(this).find('td.targetVersion').text(value);
                         jQuery(this).find('td.targetversionid').text(key);
-
-                        // hide column: categoryid
-                        oTable.fnSetColumnVis( 11, false );
                      }
                   });
+                  // hide column: categoryid
+                  oTable.fnSetColumnVis( 11, false );
                });
 
                jQuery("#btSetAllUsers").click(function(event) {
 
+                  // you cannot set data if column is hidden !
+                  oTable.fnSetColumnVis( 12, true );
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
-
-                        // you cannot set data if column is hidden !
-                        oTable.fnSetColumnVis( 12, true );
-
                         var value = jQuery('#globalUserid option:selected').text();
                         var key = jQuery('#globalUserid option:selected').val();
 
                         jQuery(this).find('td.userName').text(value);
                         jQuery(this).find('td.userid').text(key);
-
-                        // hide column: categoryid
-                        oTable.fnSetColumnVis( 12, false );
                      }
                   });
+                  // hide column: categoryid
+                  oTable.fnSetColumnVis( 12, false );
                });
 
             });
@@ -414,18 +400,20 @@
 
                jQuery("#btImportIssues").click(function(event) {
 
+                  jQuery("body").css('cursor','wait');
+
                   var oTable = $('#issues_table').dataTable();
+
+                  // you cannot get data if column is hidden !
+                  oTable.fnSetColumnVis( 9, true );
+                  oTable.fnSetColumnVis( 10, true );
+                  oTable.fnSetColumnVis( 11, true );
+                  oTable.fnSetColumnVis( 12, true );
+                  oTable.fnSetColumnVis( 13, true );
 
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
-
-                        // you cannot get data if column is hidden !
-                        oTable.fnSetColumnVis( 9, true );
-                        oTable.fnSetColumnVis( 10, true );
-                        oTable.fnSetColumnVis( 11, true );
-                        oTable.fnSetColumnVis( 12, true );
-                        oTable.fnSetColumnVis( 13, true );
 
                         var extRef = jQuery(this).find('td.extRef').text();
                         var summary = jQuery(this).find('td.summary').text();
@@ -436,13 +424,6 @@
                         var targetversionid = jQuery(this).find('td.targetversionid').text();
                         var userid = jQuery(this).find('td.userid').text();
                         var description = jQuery(this).find('td.description').text();
-
-                        // hide columns: commandid, categoryid, targetversionid, userid
-                        oTable.fnSetColumnVis( 9, false );
-                        oTable.fnSetColumnVis( 10, false );
-                        oTable.fnSetColumnVis( 11, false );
-                        oTable.fnSetColumnVis( 12, false );
-                        oTable.fnSetColumnVis( 13, false );
 
                         jQuery.ajax({
                            type: "POST",
@@ -456,12 +437,17 @@
                                  "&commandid="+commandid+
                                  "&categoryid="+categoryid+
                                  "&targetversionid="+targetversionid+
-                                 "&userid="+userid,
-                                 //"&description="+description,
+                                 "&userid="+userid+
+                                 "&description="+description,
                            success: function(data) {
-                              //alert("row "+extRef+" imported.");
+                              //alert("row "+data+" imported.");
 
                               // TODO update datatable
+                              //jQuery(this).find('td.lineNum').text(data);
+                              //var pos = oTable.fnGetPosition( jQuery(this).find('td.lineNum').get(0) );
+                              //oTable.fnUpdate( data, pos[0], pos[1] );
+                              //oTable.fnDraw();
+
                            },
                            error: function(jqXHR, textStatus, errorThrown) {
                               if(errorThrown == 'Forbidden') {
@@ -473,6 +459,13 @@
                         });
                      }
                   });
+                  // hide columns: commandid, categoryid, targetversionid, userid
+                  oTable.fnSetColumnVis( 9, false );
+                  oTable.fnSetColumnVis( 10, false );
+                  oTable.fnSetColumnVis( 11, false );
+                  oTable.fnSetColumnVis( 12, false );
+                  oTable.fnSetColumnVis( 13, false );
+                  jQuery("body").css('cursor','auto');
                });
             });
          </script>

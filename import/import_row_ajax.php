@@ -48,11 +48,14 @@ if (isset($_SESSION['userid'])) {
       $categoryid = isset($_POST['categoryid']) ? $_POST['categoryid'] : NULL;
       $targetversionid = isset($_POST['targetversionid']) ? $_POST['targetversionid'] : NULL;
       $userid = isset($_POST['userid']) ? $_POST['userid'] : NULL;
+      $description = isset($_POST['description']) ? $_POST['description'] : NULL;
 
 
       $logger->error("Import $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");
+      $logger->error("Import Desc = $description");
 
-
+      // RETURN VALUE
+      print "OK";
    }
 }
 
