@@ -29,15 +29,22 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
 
       $smartyHelper = new SmartyHelper();
 
-      if($_GET['action'] == 'getTeamProjects') {
+      if ($_GET['action'] == 'getTeamProjects') {
          require_once('team.class.php');
 
-      $projects[0] = T_('All projects');
-      $projects += Team::getProjectList($_GET['teamid'], false);
-      $smartyHelper->assign('projects', getProjects($projects));
+         $projects = Team::getProjectList($_GET['teamid'], false);
+         $smartyHelper->assign('projects', getProjects($projects));
          $smartyHelper->display('form/projectSelector');
-      }
-      else if($_GET['action'] == 'getProjectIssues') {
+         
+      } elseif ($_GET['action'] == 'getTeamAllProjects') {
+         require_once('team.class.php');
+
+         $projects[0] = T_('All projects');
+         $projects += Team::getProjectList($_GET['teamid'], false);
+         $smartyHelper->assign('projects', getProjects($projects));
+         $smartyHelper->display('form/projectSelector');
+
+      } else if($_GET['action'] == 'getProjectIssues') {
          require_once('user_cache.class.php');
 
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);

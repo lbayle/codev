@@ -304,13 +304,22 @@ if (isset($_SESSION['userid'])) {
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
+   $dTeamList = $session_user->getDevTeamList();
+      $lTeamList = $session_user->getLeadedTeamList();
+      $managedTeamList = $session_user->getManagedTeamList();
+      $teamList = $dTeamList + $lTeamList + $managedTeamList;
+
     // use the teamid set in the form, if not defined (first page call) use session teamid
     if (isset($_POST['teamid'])) {
         $teamid = $_POST['teamid'];
+        $_SESSION['teamid'] = $teamid;
+    } elseif(isset($_SESSION['teamid'])) {
+        $teamid = $_SESSION['teamid'];
     } else {
-        $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+       $teamIds = array_keys($teamList);
+       $teamid = $teamIds[0];
     }
-    $_SESSION['teamid'] = $teamid;
+
     $smartyHelper->assign('teamid', $teamid);
     if (0 != $teamid) {
       $team = TeamCache::getInstance()->getTeam($teamid);
@@ -333,19 +342,8 @@ if (isset($_SESSION['userid'])) {
     #if ('' == $action) {
        // first call to the page, display FileSelector
 
-      $dTeamList = $session_user->getDevTeamList();
-      $lTeamList = $session_user->getLeadedTeamList();
-      $managedTeamList = $session_user->getManagedTeamList();
-      $teamList = $dTeamList + $lTeamList + $managedTeamList;
-
       $smartyHelper->assign('teams', getTeams($teamList,$teamid));
-
-      // All projects from teams where I'm a Developper or Manager AND Observers
-      $devProjList      = (0 == count($dTeamList))       ? array() : $session_user->getProjectList($dTeamList);
-      $managedProjList  = (0 == count($managedTeamList)) ? array() : $session_user->getProjectList($managedTeamList);
-      $projList = $devProjList + $managedProjList;
-
-      $smartyHelper->assign('projects', getProjects($projList,$projectid));
+      $smartyHelper->assign('projects', getSmartyArray(Team::getProjectList($teamid, false),$projectid));
     #}
 
    if ("uploadFile" == $action) {

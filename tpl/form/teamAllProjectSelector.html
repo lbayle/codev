@@ -1,0 +1,24 @@
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      jQuery("#teamid").change(function() {
+         var teamid = jQuery(this).val();
+         jQuery.ajax({
+            type: "GET",
+            url: "smarty_tools_ajax.php",
+            data: "action=getTeamAllProjects&teamid="+teamid,
+            success: function(data) {
+               jQuery("#projectSelector").html(jQuery.trim(data));
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+   });
+</script>
+{include file="form/teamSelector.html"}
+<span id="projectSelector">
+{include file="form/projectSelector.html"}
+</span>
