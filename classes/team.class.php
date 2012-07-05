@@ -16,11 +16,12 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "team_cache.class.php";
+include_once('classes/team_cache.class.php');
 
-include_once 'jobs.class.php';
-include_once 'project.class.php';
-include_once 'command.class.php';
+include_once('classes/command.class.php');
+include_once('classes/jobs.class.php');
+include_once('classes/project.class.php');
+include_once('classes/sqlwrapper.class.php');
 
 require_once('Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
@@ -83,41 +84,22 @@ class Team {
        $this->initialize();
    }
 
-   // -------------------------------------------------------
    /**
-    *
+    * Initialize with DB
     */
    public function initialize() {
-
-      $query = "SELECT * FROM `codev_team_table` WHERE id = $this->id";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-
-      $this->name           = $row->name;
-      $this->description    = $row->description;
-      $this->leader_id      = $row->leader_id;
-      $this->date           = $row->date;
-
-
-      // -------
-      $this->projTypeList = array();
-      $query = "SELECT * FROM `codev_team_project_table` WHERE team_id = $this->id ";
+      $query = 'SELECT * FROM `codev_team_table` WHERE id = '.$this->id.';';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-      {
-         $this->logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
-         $this->projTypeList[$row->project_id] = $row->type;
-      }
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
-
+      $this->name = $row->name;
+      $this->description = $row->description;
+      $this->leader_id = $row->leader_id;
+      $this->date = $row->date;
    }
 
    // -------------------------------------------------------
@@ -643,21 +625,33 @@ class Team {
       return true;
    }
 
-
-   // -----------------------------------------------
    public function getProjectType($projectid) {
-      return  $this->projTypeList[$projectid];
+      if($this->projTypeList == NULL) {
+         $this->projTypeList = array();
+         $query = "SELECT * FROM `codev_team_project_table` WHERE team_id = $this->id ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $this->logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
+            $this->projTypeList[$row->project_id] = $row->type;
+         }
+      }
+
+      return $this->projTypeList[$projectid];
    }
 
    // -----------------------------------------------
    public function isSideTasksProject($projectid) {
-      $this->logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->projTypeList[$projectid]);
-      return (Project::type_sideTaskProject == $this->projTypeList[$projectid]);
+      $this->logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
+      return (Project::type_sideTaskProject == $this->getProjectType($projectid));
    }
 
    // -----------------------------------------------
    public function isNoStatsProject($projectid) {
-      return (Project::type_noStatsProject == $this->projTypeList[$projectid]);
+      return (Project::type_noStatsProject == $this->getProjectType($projectid));
    }
 
    /**
