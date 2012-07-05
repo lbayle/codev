@@ -559,4 +559,81 @@ function sendNotFoundAccess() {
    die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
 }
 
+/**
+ * Convert an array in json
+ * If you use a new version of PHP(5.2 or newer), json_encode() function will be directly called
+ * @param array $arr
+ * @return type 
+ */
+function array2json(array $arr) {
+   //Lastest versions of PHP already has this functionality.
+   if (function_exists('json_encode')) {
+      return json_encode($arr);
+   }
+   $parts = array();
+   $is_list = false;
+
+   //Find out if the given array is a numerical array
+   $keys = array_keys($arr);
+   $max_length = count($arr) - 1;
+   //See if the first key is 0 and last key is length - 1
+   if (($keys[0] == 0) and ($keys[$max_length] == $max_length)) {
+      $is_list = true;
+      //See if each key correspondes to its position
+      for ($i = 0; $i < count($keys); $i++) {
+         // A key fails at position check.
+         if ($i != $keys[$i]) {
+            // It is an associative array.
+            $is_list = false;
+            break;
+         }
+      }
+   }
+
+   foreach ($arr as $key => $value) {
+      // Custom handling for arrays
+      if (is_array($value)) {
+         if ($is_list)
+            /* :RECURSION: */
+            $parts[] = array2json($value);
+         else
+            /* :RECURSION: */
+            $parts[] = '"' . $key . '":' . array2json($value);
+      } else {
+         $str = '';
+         if (!$is_list) {
+            $str = '"' . $key . '":';
+         }
+
+         //Custom handling for multiple data types
+         if (is_numeric($value)) {
+            // Numbers
+            $str .= $value;
+         }
+         elseif ($value === false) {
+            // The booleans
+            $str .= 'false';
+         }
+         elseif ($value === true) {
+            $str .= 'true';
+         }
+         else {
+            //All other things
+            $str .= '"' . addslashes($value) . '"';
+         }
+            
+         // :TODO: Is there any more datatype we should be in the lookout for? (Object?)
+         $parts[] = $str;
+      }
+   }
+   $json = implode(',', $parts);
+
+   if ($is_list) {
+      //Return numerical JSON
+      return '[' . $json . ']';
+   }
+   //Return associative JSON
+   return '{' . $json . '}';
+}
+
 ?>
