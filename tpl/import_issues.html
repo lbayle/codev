@@ -209,12 +209,11 @@
             }
          } );
 
-         // hide columns: commandid, categoryid, targetversionid, userid, description
+         // hide columns: commandid, categoryid, targetversionid, userid
          oTable.fnSetColumnVis( 9, false );
          oTable.fnSetColumnVis( 10, false );
          oTable.fnSetColumnVis( 11, false );
          oTable.fnSetColumnVis( 12, false );
-         oTable.fnSetColumnVis( 13, false );
       });
    </script>
 
@@ -392,17 +391,18 @@
 
                   var oTable = $('#issues_table').dataTable();
 
+
                   // you cannot get data if column is hidden !
                   oTable.fnSetColumnVis( 9, true );
                   oTable.fnSetColumnVis( 10, true );
                   oTable.fnSetColumnVis( 11, true );
                   oTable.fnSetColumnVis( 12, true );
-                  oTable.fnSetColumnVis( 13, true );
 
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
 
+                        var lineNum = jQuery(this).find('td.lineNum').text();
                         var extRef = jQuery(this).find('td.extRef').text();
                         var summary = jQuery(this).find('td.summary').text();
                         var mgrEffortEstim = jQuery(this).find('td.mgrEffortEstim').text();
@@ -411,9 +411,15 @@
                         var categoryid = jQuery(this).find('td.categoryid').text();
                         var targetversionid = jQuery(this).find('td.targetversionid').text();
                         var userid = jQuery(this).find('td.userid').text();
-                        var description = jQuery(this).find('td.description').text();
 
                         var row = jQuery(this);
+
+                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+
+                        var description = dataRow.find('td.description').text();
+                        //var commandid = dataRow.find('td.commandid').text();
 
                         jQuery.ajax({
                            type: "POST",
@@ -431,6 +437,7 @@
                                  "&userid="+userid+
                                  "&description="+description,
                            success: function(data) {
+                              // replace lineNum with bugid
                               var pos = oTable.fnGetPosition(row.find('td.lineNum').get(0) );
                               oTable.fnUpdate( data, pos[0], pos[1] );
                               oTable.fnDraw();
@@ -451,7 +458,6 @@
                   oTable.fnSetColumnVis( 10, false );
                   oTable.fnSetColumnVis( 11, false );
                   oTable.fnSetColumnVis( 12, false );
-                  oTable.fnSetColumnVis( 13, false );
                   jQuery("body").css('cursor','auto');
                });
             });
@@ -482,7 +488,6 @@
                   <th>categoryid</th>
                   <th>targetversionid</th>
                   <th>userid</th>
-                  <th>description</th>
             </tr>
             </thead>
             <tbody>
@@ -501,12 +506,30 @@
                   <td class="categoryid"></td>
                   <td class="targetversionid"></td>
                   <td class="userid"></td>
-                  <td class="description" align='left'>{$i.description}</td>
 
             </tr>
             {/foreach}
             </tbody>
          </table>
+
+         <div style='display:none'>
+            <table id="issues_data">
+               <tbody>
+               {foreach from=$newIssues key=id item=i}
+               <tr>
+                  <td class="lineNum">{$i.lineNum}</td>
+                  <td class="description">{$i.description}</td>
+                  <td class="commandid"></td>
+                  <td class="categoryid"></td>
+                  <td class="targetversionid"></td>
+                  <td class="userid"></td>
+               </tr>
+               {/foreach}
+               </tbody>
+            </table>
+         </div>
+
+
          {/if}
       </div>
 
