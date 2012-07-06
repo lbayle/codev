@@ -107,6 +107,13 @@ class SmartyHelper {
       if (self::$logger->isInfoEnabled()) {
          $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
          $queriesCount = SqlWrapper::getInstance()->getQueriesCount();
+         
+         if (self::$logger->isDebugEnabled()) {
+            foreach(SqlWrapper::getInstance()->getCountByQuery() as $query => $count) {
+               self::$logger->debug('SQL queries: ' . $count . " " . $query);
+            }
+         }
+         
          self::$logger->info('TOTAL SQL queries: ' . $queriesCount . "  ($generatedTime sec) to display Page ".$_SERVER['PHP_SELF']);
       }
 
