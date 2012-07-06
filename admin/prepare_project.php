@@ -22,11 +22,11 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('include/display.inc.php');
+require('classes/smarty_helper.class.php');
 
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/user_cache.class.php');
+include_once('classes/config.class.php');
 include_once('classes/project_cache.class.php');
+include_once('classes/user_cache.class.php');
 
 $logger = Logger::getLogger("prepare_project");
 
