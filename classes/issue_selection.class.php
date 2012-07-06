@@ -86,14 +86,14 @@ class IssueSelection {
 
             $issue = IssueCache::getInstance()->getIssue($bugid);
             $this->issueList[$bugid] = $issue;
-            $this->elapsed        += $issue->elapsed;
+            $this->elapsed        += $issue->getElapsed();
             $this->duration      += $issue->getDuration();
             $this->durationMgr   += $issue->getDurationMgr();
             $this->mgrEffortEstim += $issue->mgrEffortEstim;
             $this->effortEstim    += $issue->effortEstim;
             $this->effortAdd      += $issue->effortAdd;
 
-            $this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+            $this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
             $retCode = true;
          } else {
             $e = new Exception("IssueSelection [$this->name] : addIssue($bugid) : Issue does NOT exist in Mantis DB !");

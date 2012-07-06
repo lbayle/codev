@@ -97,7 +97,7 @@ class GanttActivity {
 	}
 
       $formatedActivityInfo = $user->getName();
-      if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
+      if ($issue->currentStatus < $issue->getBugResolvedStatusThreshold()) {
       	$formatedActivityInfo .= " (".$statusNames[$issue->currentStatus].")";
       }
 

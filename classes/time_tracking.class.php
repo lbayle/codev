@@ -381,7 +381,7 @@ class TimeTracking {
 
       // check if the bug has been reopened before endTimestamp
       $latestStatus = $issue->getStatus($this->endTimestamp);
-      if (($latestStatus == $issue->bug_resolved_status_threshold) || ($latestStatus == $status_closed)) {
+      if (($latestStatus == $issue->getBugResolvedStatusThreshold()) || ($latestStatus == $status_closed)) {
 
         // remove doubloons
         if (!in_array ($issue->bugId, $resolvedList)) {

@@ -87,10 +87,11 @@ if(isset($_SESSION['userid'])) {
             $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
             $smartyHelper->assign('isManager', $isManager);
             $smartyHelper->assign('issueGeneralInfo', getIssueGeneralInfo($issue, $isManager, $displaySupport));
-            $smartyHelper->assign('jobDetails', getJobDetails($issue));
+            $timeTracks = $issue->getTimeTracks();
+            $smartyHelper->assign('jobDetails', getJobDetails($timeTracks));
             $smartyHelper->assign('timeDrift', getTimeDrift($issue));
 
-            $smartyHelper->assign('months', getCalendar($issue));
+            $smartyHelper->assign('months', getCalendar($issue,$timeTracks));
             $smartyHelper->assign('durationsByStatus', getDurationsByStatus($issue));
 
             // set Commands I belong to
