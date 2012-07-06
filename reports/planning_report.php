@@ -615,11 +615,7 @@ if (isset($_POST['f_teamid'])) {
 
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-$dTeamList = $session_user->getDevTeamList();
-$lTeamList = $session_user->getLeadedTeamList();
-$oTeamList = $session_user->getObservedTeamList();
-$managedTeamList = $session_user->getManagedTeamList();
-$teamList = $dTeamList + $lTeamList + $oTeamList + $managedTeamList;
+$teamList = $session_user->getTeamList();
 
 //  if user is not Leader of $_SESSION[teamid], do not display current team page
 if (!isset($teamList["$teamid"]) || (NULL == $teamList["$teamid"])) { $teamid = 0;}
