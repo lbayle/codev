@@ -18,19 +18,16 @@
 
 require_once('Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("default");
-      $logger->info("LOG activated !");
-   }
+   Logger::configure(dirname(__FILE__) . '/../log4php.xml');
+   $logger = Logger::getLogger("default");
+   $logger->info("LOG activated !");
+}
 
-
-include_once "issue_selection.class.php";
-include_once "team.class.php";
-include_once "commandset.class.php";
-include_once "command_cache.class.php";
-include_once "consistency_check2.class.php";
-
-
+include_once('classes/issue_selection.class.php');
+include_once('classes/team.class.php');
+include_once('classes/commandset.class.php');
+include_once('classes/command_cache.class.php');
+include_once('classes/consistency_check2.class.php');
 
 /**
  * Un command (fiche de presta) est un ensemble de taches que l'on veut
@@ -113,7 +110,6 @@ class Command {
    }
 
    private function initialize() {
-      // ---
       $query  = "SELECT * FROM `codev_command_table` WHERE id=$this->id ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -136,33 +132,7 @@ class Command {
       $this->budgetMngt       = $row->budget_mngt;
       $this->budgetGarantie   = $row->budget_garantie;
       $this->averageDailyRate = $row->average_daily_rate;
-
-      // ---
-      $this->issueSelection = new IssueSelection($this->name);
-      $query  = "SELECT * FROM `codev_command_bug_table` ".
-                "WHERE command_id=$this->id ";
-                #", `mantis_bug_table`".
-                #"WHERE codev_command_bug_table.command_id=$this->id ".
-                #"AND codev_command_bug_table.bug_id = mantis_bug_table.id ".
-                #"ORDER BY mantis_bug_table.project_id ASC, mantis_bug_table.target_version DESC, mantis_bug_table.status ASC";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-      {
-         try {
-            $this->issueSelection->addIssue($row->bug_id);
-         } catch (Exception $e) {
-
-            echo "<span style='color:red'>WARNING: Task $row->bug_id does not exist in Mantis and has been removed from this Command !</span><br>";
-            $this->removeIssue($row->bug_id);
-         }
-      }
    }
-
 
    /**
     * create a new command in the DB
@@ -454,6 +424,29 @@ class Command {
    }
 
    public function getIssueSelection() {
+      if(NULL == $this->issueSelection) {
+      $this->issueSelection = new IssueSelection($this->name);
+         $query = "SELECT * FROM `codev_command_bug_table` " .
+                 "WHERE command_id=$this->id ";
+         #", `mantis_bug_table`".
+         #"WHERE codev_command_bug_table.command_id=$this->id ".
+         #"AND codev_command_bug_table.bug_id = mantis_bug_table.id ".
+         #"ORDER BY mantis_bug_table.project_id ASC, mantis_bug_table.target_version DESC, mantis_bug_table.status ASC";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            try {
+               $this->getIssueSelection()->addIssue($row->bug_id);
+            } catch (Exception $e) {
+               echo "<span style='color:red'>WARNING: Task $row->bug_id does not exist in Mantis and has been removed from this Command !</span><br>";
+               $this->removeIssue($row->bug_id);
+            }
+         }
+      }
       return $this->issueSelection;
    }
 
@@ -483,7 +476,7 @@ class Command {
          return NULL;
       }
 
-      if (true == $this->issueSelection->addIssue($bugid)) {
+      if (true == $this->getIssueSelection()->addIssue($bugid)) {
 
          $this->logger->debug("Add issue $bugid to command $this->id");
 
@@ -520,7 +513,7 @@ class Command {
       }
 
 
-      $this->issueSelection->removeIssue($bugid);
+      $this->getIssueSelection()->removeIssue($bugid);
 
       $query = "DELETE FROM `codev_command_bug_table` WHERE command_id='$this->id' AND bug_id='$bugid';";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -562,7 +555,7 @@ class Command {
 
 public function getConsistencyErrors() {
 
-   $issueSel = $this->issueSelection;
+   $issueSel = $this->getIssueSelection();
    $issueList = $issueSel->getIssueList();
    $ccheck = new ConsistencyCheck2($issueList);
 
