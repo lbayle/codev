@@ -295,12 +295,12 @@ class User {
     * @return unknown_type 
     */
    public function getArrivalDate($team_id = NULL) {
-      if (NULL == $this->arrivalDate) {
-         $this->arrivalDate = array();
+      if (NULL == $this->arrivalDateCache) {
+         $this->arrivalDateCache = array();
       }
       
       $key = 't'.$team_id;
-      if (!array_key_exists($key, $this->arrivalDate)) {
+      if (!array_key_exists($key, $this->arrivalDateCache)) {
          $arrival_date = time();
 
          $query = "SELECT arrival_date FROM `codev_team_user_table` " .
@@ -319,12 +319,12 @@ class User {
             }
          }
          
-         $this->arrivalDate[$key] = $arrival_date;
+         $this->arrivalDateCache[$key] = $arrival_date;
 
          //echo "DEBUG arrivalDate = ".date('Y - m - d', $arrival_date)."<br>";
       }
 
-      return $this->arrivalDate[$key];
+      return $this->arrivalDateCache[$key];
    }
 
    /** 
@@ -334,12 +334,12 @@ class User {
     * @return unknown_type 
     */
    public function getDepartureDate($team_id = NULL) {
-      if (NULL == $this->departureDate) {
-         $this->departureDate = array();
+      if (NULL == $this->departureDateCache) {
+         $this->departureDateCache = array();
       }
       
       $key = 't'.$team_id;
-      if (!array_key_exists($key, $this->departureDate)) {
+      if (!array_key_exists($key, $this->departureDateCache)) {
          $departureDate = 0;
 
          $query = "SELECT departure_date FROM `codev_team_user_table` " .
@@ -362,12 +362,12 @@ class User {
             }
          }
 
-         $this->departureDate[$key] = $arrival_date;
+         $this->departureDateCache[$key] = $arrival_date;
 
          //echo "DEBUG departureDate = ".date('Y - m - d', $departureDate)."<br>";
       }
 
-      return $this->departureDate[$key];
+      return $this->departureDateCache[$key];
    }
 
    /**
