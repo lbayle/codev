@@ -40,6 +40,11 @@ class User {
     */
    private static $logger;
    
+   /**
+    * @var array string[int] name[id] All users
+    */
+   private static $users;
+   
    
    private $init = FALSE;
    
@@ -72,6 +77,16 @@ class User {
     * @var array Filters 
     */
    private $timetrackingFilters;
+   
+   /**
+    * @var array string[int] name[id] The leaded teams
+    */
+   private $leadedTeams;
+   
+   /**
+    * @var array Issue[] The monitored issues
+    */
+   private $monitoredIssues;
    
    /**
     *
@@ -583,20 +598,21 @@ class User {
     * @return array the teams i'm leader of.
     */
    public function getLeadedTeamList() {
-      $teamList = array();
+      if(NULL == $this->leadedTeams) {
+         $this->leadedTeams = array();
 
-      $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id  ORDER BY name";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+         $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id  ORDER BY name";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $this->leadedTeams[$row->id] = $row->name;
+            #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
+         }
       }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $teamList[$row->id] = $row->name;
-         #echo "getLeadedTeamList FOUND $row->id - $row->name<br/>";
-      }
-
-      return $teamList;
+      return $this->leadedTeams;
    }
 
    /**
@@ -818,37 +834,32 @@ class User {
     * - deadLine
     * - priority
     *
-    * @param array $projList if NULL, get all DevTeams
     * @return Issue list
     */
-   public function getMonitoredIssues(array $projList = NULL) {
-      $issueList = array();
+   public function getMonitoredIssues() {
+      if(NULL == $this->monitoredIssues) {
+         $query = "SELECT DISTINCT bug_id " .
+                  "FROM `mantis_bug_monitor_table` " .
+                  "WHERE user_id = $this->id " .
+                  "ORDER BY bug_id DESC";
 
-      if (NULL == $projList) {
-         $teamList = $this->getDevTeamList();
-         $projList = $this->getProjectList($teamList);
-      }
-
-      $query = "SELECT DISTINCT bug_id " .
-              "FROM `mantis_bug_monitor_table` " .
-              "WHERE user_id = $this->id " .
-              "ORDER BY bug_id DESC";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-         if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
-            $issueList[] = $issue;
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
          }
+         $this->monitoredIssues = array();
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+            if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
+               $this->monitoredIssues[] = $issue;
+            }
+         }
+         // quickSort the list
+         $this->monitoredIssues = qsort($this->monitoredIssues);
       }
-      // quickSort the list
-      $sortedList = qsort($issueList);
 
-      return $sortedList;
+      return $this->monitoredIssues;
    }
 
    /**
@@ -955,17 +966,19 @@ class User {
     * @return array string[int] : username[id]
     */
    public static function getUsers() {
-      $query = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         return NULL;
-      }
+      if(NULL == self::$users) {
+         $query = "SELECT id, username FROM `mantis_user_table` ORDER BY username";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            return NULL;
+         }
 
-      $users = array();
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $users[$row->id] = $row->username;
+         self::$users = array();
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            self::$users[$row->id] = $row->username;
+         }
       }
-      return $users;
+      return self::$users;
    }
 
 }
