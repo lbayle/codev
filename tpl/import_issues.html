@@ -116,11 +116,13 @@
                } );
                if(Object.keys(jQuery.parseJSON('{$jed_commandList}')).length > 0) {
                   $('.command').editable( function(value, settings) {
-                     // save id
-                     // you cannot set data if column is hidden !
-                     oTable.fnSetColumnVis( 9, true );
-                     jQuery(this).parent().find('td.commandid').text(value);
-                     oTable.fnSetColumnVis( 9, false );
+
+                     // set id in data table
+                     var lineNum = jQuery(this).parent().find('td.lineNum').text();
+                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+                     dataRow.find('td.commandid').text(value);
 
                      // set displayed value
                      var items = JSON.parse(settings.data);
@@ -142,9 +144,12 @@
                }
                if(Object.keys(jQuery.parseJSON('{$jed_categoryList}')).length > 0) {
                   $('.category').editable( function(value, settings) {
-                     oTable.fnSetColumnVis( 10, true );
-                     jQuery(this).parent().find('td.categoryid').text(value);
-                     oTable.fnSetColumnVis( 10, false );
+                     // set id in data table
+                     var lineNum = jQuery(this).parent().find('td.lineNum').text();
+                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+                     dataRow.find('td.categoryid').text(value);
                      var items = JSON.parse(settings.data);
                      return(items[value]);
                   }, {
@@ -164,9 +169,12 @@
                }
                if(Object.keys(jQuery.parseJSON('{$jed_targetVersionList}')).length > 0) {
                   $('.targetVersion').editable( function(value, settings) {
-                     oTable.fnSetColumnVis( 11, true );
-                     jQuery(this).parent().find('td.targetversionid').text(value);
-                     oTable.fnSetColumnVis( 11, false );
+                     // set id in data table
+                     var lineNum = jQuery(this).parent().find('td.lineNum').text();
+                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+                     dataRow.find('td.targetversionid').text(value);
                      var items = JSON.parse(settings.data);
                      return(items[value]);
                   }, {
@@ -186,9 +194,12 @@
                }
                if(Object.keys(jQuery.parseJSON('{$jed_userList}')).length > 0) {
                   $('.userName').editable( function(value, settings) {
-                     oTable.fnSetColumnVis( 12, true );
-                     jQuery(this).parent().find('td.userid').text(value);
-                     oTable.fnSetColumnVis( 12, false );
+                     // set id in data table
+                     var lineNum = jQuery(this).parent().find('td.lineNum').text();
+                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+                     dataRow.find('td.userid').text(value);
                      var items = JSON.parse(settings.data);
                      return(items[value]);
                   }, {
@@ -208,12 +219,6 @@
                }
             }
          } );
-
-         // hide columns: commandid, categoryid, targetversionid, userid
-         oTable.fnSetColumnVis( 9, false );
-         oTable.fnSetColumnVis( 10, false );
-         oTable.fnSetColumnVis( 11, false );
-         oTable.fnSetColumnVis( 12, false );
       });
    </script>
 
@@ -229,7 +234,6 @@
 
                jQuery("#btSetAllCommands").click(function(event) {
                   // you cannot set data if column is hidden !
-                  oTable.fnSetColumnVis( 9, true );
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
@@ -237,16 +241,19 @@
                         var key = jQuery('#globalCommandid option:selected').val();
 
                         jQuery(this).find('td.command').text(value);
-                        jQuery(this).find('td.commandid').text(key);
+
+                        // set id in data table
+                        var lineNum = jQuery(this).find('td.lineNum').text();
+                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                             return $(this).text() == lineNum;
+                                          }).closest("tr");
+                        dataRow.find('td.commandid').text(key);
                      }
                   });
-                  // hide column: categoryid
-                  oTable.fnSetColumnVis( 9, false );
                });
 
                jQuery("#btSetAllCategories").click(function(event) {
                   // you cannot set data if column is hidden !
-                  oTable.fnSetColumnVis( 10, true );
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
@@ -254,17 +261,20 @@
                         var key = jQuery('#globalCategoryid option:selected').val();
 
                         jQuery(this).find('td.category').text(value);
-                        jQuery(this).find('td.categoryid').text(key);
+
+                        // set id in data table
+                        var lineNum = jQuery(this).find('td.lineNum').text();
+                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                             return $(this).text() == lineNum;
+                                          }).closest("tr");
+                        dataRow.find('td.categoryid').text(key);
                      }
                   });
-                  // hide column: categoryid
-                  oTable.fnSetColumnVis( 10, false );
                });
 
                jQuery("#btSetAllTargetVersions").click(function(event) {
 
                   // you cannot set data if column is hidden !
-                  oTable.fnSetColumnVis( 11, true );
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
@@ -272,17 +282,20 @@
                         var key = jQuery('#globalTargetversionid option:selected').val();
 
                         jQuery(this).find('td.targetVersion').text(value);
-                        jQuery(this).find('td.targetversionid').text(key);
+
+                        // set id in data table
+                        var lineNum = jQuery(this).find('td.lineNum').text();
+                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                             return $(this).text() == lineNum;
+                                          }).closest("tr");
+                        dataRow.find('td.targetversionid').text(key);
                      }
                   });
-                  // hide column: categoryid
-                  oTable.fnSetColumnVis( 11, false );
                });
 
                jQuery("#btSetAllUsers").click(function(event) {
 
                   // you cannot set data if column is hidden !
-                  oTable.fnSetColumnVis( 12, true );
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
@@ -290,11 +303,15 @@
                         var key = jQuery('#globalUserid option:selected').val();
 
                         jQuery(this).find('td.userName').text(value);
-                        jQuery(this).find('td.userid').text(key);
+
+                        // set id in data table
+                        var lineNum = jQuery(this).find('td.lineNum').text();
+                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                             return $(this).text() == lineNum;
+                                          }).closest("tr");
+                        dataRow.find('td.userid').text(key);
                      }
                   });
-                  // hide column: categoryid
-                  oTable.fnSetColumnVis( 12, false );
                });
 
             });
@@ -391,35 +408,26 @@
 
                   var oTable = $('#issues_table').dataTable();
 
-
-                  // you cannot get data if column is hidden !
-                  oTable.fnSetColumnVis( 9, true );
-                  oTable.fnSetColumnVis( 10, true );
-                  oTable.fnSetColumnVis( 11, true );
-                  oTable.fnSetColumnVis( 12, true );
-
                   $('#issues_table tbody tr').each( function () {
                      var iPos = oTable.fnGetPosition( this );
                      if (iPos!=null) {
 
+                        var row     = jQuery(this);
                         var lineNum = jQuery(this).find('td.lineNum').text();
-                        var extRef = jQuery(this).find('td.extRef').text();
-                        var summary = jQuery(this).find('td.summary').text();
-                        var mgrEffortEstim = jQuery(this).find('td.mgrEffortEstim').text();
-                        var effortEstim = jQuery(this).find('td.effortEstim').text();
-                        var commandid = jQuery(this).find('td.commandid').text();
-                        var categoryid = jQuery(this).find('td.categoryid').text();
-                        var targetversionid = jQuery(this).find('td.targetversionid').text();
-                        var userid = jQuery(this).find('td.userid').text();
-
-                        var row = jQuery(this);
 
                         var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
                                           return $(this).text() == lineNum;
                                        }).closest("tr");
 
-                        var description = dataRow.find('td.description').text();
-                        //var commandid = dataRow.find('td.commandid').text();
+                        var extRef          = row.find('td.extRef').text();
+                        var summary         = row.find('td.summary').text();
+                        var mgrEffortEstim  = row.find('td.mgrEffortEstim').text();
+                        var effortEstim     = row.find('td.effortEstim').text();
+                        var commandid       = dataRow.find('td.commandid').text();
+                        var categoryid      = dataRow.find('td.categoryid').text();
+                        var targetversionid = dataRow.find('td.targetversionid').text();
+                        var userid          = dataRow.find('td.userid').text();
+                        var description     = dataRow.find('td.description').text();
 
                         jQuery.ajax({
                            type: "POST",
@@ -453,11 +461,6 @@
                         });
                      }
                   });
-                  // hide columns: commandid, categoryid, targetversionid, userid
-                  oTable.fnSetColumnVis( 9, false );
-                  oTable.fnSetColumnVis( 10, false );
-                  oTable.fnSetColumnVis( 11, false );
-                  oTable.fnSetColumnVis( 12, false );
                   jQuery("body").css('cursor','auto');
                });
             });
@@ -484,10 +487,6 @@
                   <th>Category</th>
                   <th>TargetVersion</th>
                   <th>User</th>
-                  <th>commandid</th>
-                  <th>categoryid</th>
-                  <th>targetversionid</th>
-                  <th>userid</th>
             </tr>
             </thead>
             <tbody>
@@ -502,11 +501,6 @@
                   <td class="category" align='left'>{$i.category}</td>
                   <td class="targetVersion" align='left'>{$i.targetVersion}</td>
                   <td class="userName" align='left'>{$i.userName}</td>
-                  <td class="commandid"></td>
-                  <td class="categoryid"></td>
-                  <td class="targetversionid"></td>
-                  <td class="userid"></td>
-
             </tr>
             {/foreach}
             </tbody>
