@@ -54,8 +54,12 @@ if (!isset($_SESSION['userid'])) {
 
 
 // CodevTT specific
-$codevReportsDir = isset($_POST['codevReportsDir']) ? $_POST['codevReportsDir'] : "/tmp";
-$codevReportsDir .= '/';
+if (isset($_GET['importTemplates'])) {
+   $codevReportsDir = '../import/';
+} else {
+   $codevReportsDir = isset($_POST['codevReportsDir']) ? $_POST['codevReportsDir'] : "/tmp";
+   $codevReportsDir .= '/';
+}
 
 // Allow direct file download (hotlinking)?
 // Empty - allow hotlinking
@@ -162,6 +166,7 @@ function find_file ($dirname, $fname, &$file_path) {
 // get full file path (including subfolders)
 $file_path = '';
 find_file(BASE_DIR, $fname, $file_path);
+$logger->debug("BASE_DIR <".BASE_DIR."> file ".$fname);
 
 if (!is_file($file_path)) {
   $logger->error("File <$file_path> does not exist.");
@@ -226,6 +231,7 @@ header("Content-Length: " . $fsize);
 
 // download
 // @readfile($file_path);
+ob_end_clean();
 $file = @fopen($file_path,"rb");
 if ($file) {
   while(!feof($file)) {

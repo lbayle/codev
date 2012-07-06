@@ -49,6 +49,7 @@ function getFakeNewIssues() {
    $newIssue['category'] = '';
    $newIssue['targetVersion'] = '';
    $newIssue['userName'] = '';
+   $newIssue['deadline'] = '2012-07-06';
 
    $issues[] = $newIssue;
 
@@ -62,6 +63,7 @@ function getFakeNewIssues() {
    $newIssue['category'] = '';
    $newIssue['targetVersion'] = '';
    $newIssue['userName'] = '';
+   $newIssue['deadline'] = '2012-07-06';
 
    $issues[] = $newIssue;
 
@@ -93,16 +95,14 @@ function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape
          //echo "<p> ".count($data)." champs à la ligne $row: ".$data[0].' '.$data[1]."<br /></p>\n";
          if ('' != $data[4]) {
 
-            //mb_detect_encoding($data[1], 'UTF-8', true);
-            //echo "row $row encoding ".mb_detect_encoding($data[1], "auto").'<br>';
-
             $newIssue = array();
             $newIssue['lineNum']        = $row;
-            $newIssue['extRef']         = convertToUTF8($data[0]);
-            $newIssue['summary']        = convertToUTF8($data[1]);
-            $newIssue['mgrEffortEstim'] = convertToUTF8($data[2]);
-            $newIssue['effortEstim']    = convertToUTF8($data[3]);
-            $newIssue['description']    = convertToUTF8($data[4]);
+            $newIssue['summary']        = convertToUTF8($data[0]);
+            $newIssue['mgrEffortEstim'] = str_replace(",", ".", convertToUTF8($data[1])); // 3,5 => 3.5
+            $newIssue['effortEstim']    = str_replace(",", ".", convertToUTF8($data[2])); // 3,5 => 3.5
+            $newIssue['description']    = convertToUTF8($data[3]);
+            $newIssue['deadline']       = convertToUTF8($data[4]);  // YYY-MM-DD
+            $newIssue['extRef']         = convertToUTF8($data[5]);
             //$newIssue['summary_attr'] = "style='background-color: #FF82B4;'";
             $issues[] = $newIssue;
          }
