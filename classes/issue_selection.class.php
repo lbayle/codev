@@ -272,16 +272,9 @@ class IssueSelection {
          $percent = ($nbDaysDrift / $myEstim);
       }
 
-      if (0 == $myEstim) {
-         $this->logger->debug("IssueSelection [$this->name] :  if (effortEstim + effortAdd) == 0 then Drift = 0");
-
-         $values['nbDays'] = 0;
-         $values['percent'] = 0;
-      } else {
-         $percent =  $nbDaysDrift / $myEstim;
-         $values['nbDays'] = round($nbDaysDrift,3);
-         $values['percent'] = $percent;
-      }
+      $values = array();
+      $values['nbDays'] = round($nbDaysDrift,3);
+      $values['percent'] = $percent;
 
       $this->logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
       return $values;

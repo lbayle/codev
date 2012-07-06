@@ -755,7 +755,7 @@ class Issue {
     * @param boolean $withSupport
     * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
     */
-   public function getDrift($withSupport = true) {
+   public function getDrift_old($withSupport = true) {
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
       if (0 == $totalEstim) {
@@ -786,6 +786,16 @@ class Issue {
       return round($derive,3);
    }
 
+
+   public function getDrift($withSupport = true) {
+
+      $totalEstim = $this->effortEstim + $this->effortAdd;
+      $derive = $this->getReestimated() - $totalEstim;
+
+      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
+      return round($derive,3);
+   }
+
    /**
     * Effort deviation, compares Reestimated to mgrEffortEstim
     *
@@ -796,13 +806,14 @@ class Issue {
     * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
     */
    public function getDriftMgr($withSupport = true) {
+/*
       if ($withSupport) {
          $myElapsed = $this->elapsed;
       } else {
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
-
+*/
       $derive = $this->getReestimatedMgr() - $this->mgrEffortEstim;
 
       $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->mgrEffortEstim.")");
