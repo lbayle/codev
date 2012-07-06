@@ -65,23 +65,14 @@ class TimeTrack {
     $this->jobId    = $row->jobid;
     $this->date     = $row->date;
     $this->duration = $row->duration;
+    
+    // TODO Change to lazy style
+    $issue = IssueCache::getInstance()->getIssue($this->bugId);
 
-    // Get information on this bug
-    $query2  = "SELECT project_id, category_id FROM `mantis_bug_table` WHERE id=$this->bugId";
-    //$query2  = "SELECT summary, status, date_submitted, project_id FROM `mantis_bug_table` WHERE id=$this->bugId";
-    $result2 = SqlWrapper::getInstance()->sql_query($query2);
-    if (!$result2) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-    }
-    $row2 = SqlWrapper::getInstance()->sql_fetch_object($result2);
-
-    $this->projectId = $row2->project_id;
-    $this->categoryId = $row2->category_id;
+    $this->projectId = $issue->projectId;
+    $this->categoryId = $issue->categoryId;
 
     //echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
-
-
   }
 
   /**
