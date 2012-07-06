@@ -56,10 +56,16 @@
    {/if}
 
    {if $newIssues}
+   <script type="text/javascript" src="js/datepicker.js"></script>
    <script type="text/javascript">
+
 
       //------ DATATABLE JQUERY --------
       $(document).ready(function() {
+      
+         {if $locale != en}
+            jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+         {/if}
 
          var oTable = $('#issues_table').dataTable( {
             "bProcessing": false,
@@ -75,7 +81,7 @@
                $('.summary').editable( function(value, settings) { return(value); }, {
                   data   : function(value, settings) { return value; },
                   type   : 'textarea',
-                  onblur      : 'submit',
+                  submit: 'OK',
                   placeholder : '',
 
                   "callback": function( sValue, y ) {
@@ -89,7 +95,7 @@
                $('.mgrEffortEstim').editable( function(value, settings) { return(value); }, {
                   data   : function(value, settings) { return value; },
                   type   : 'textarea',
-                  onblur      : 'submit',
+                  submit: 'OK',
                   placeholder : '',
 
                   "callback": function( sValue, y ) {
@@ -103,7 +109,7 @@
                $('.effortEstim').editable( function(value, settings) { return(value); }, {
                   data   : function(value, settings) { return value; },
                   type   : 'textarea',
-                  onblur      : 'submit',
+                  submit: 'OK',
                   placeholder : '',
 
                   "callback": function( sValue, y ) {
@@ -130,7 +136,7 @@
                   }, {
                      data        : '{$jed_commandList}',
                      type        : 'select',
-                     onblur      : 'submit',
+                     submit: 'OK',
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
@@ -155,7 +161,7 @@
                   }, {
                      data        : '{$jed_categoryList}',
                      type        : 'select',
-                     onblur      : 'submit',
+                     submit: 'OK',
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
@@ -180,7 +186,7 @@
                   }, {
                      data        : '{$jed_targetVersionList}',
                      type        : 'select',
-                     onblur      : 'submit',
+                     submit: 'OK',
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
@@ -205,7 +211,7 @@
                   }, {
                      data        : '{$jed_userList}',
                      type        : 'select',
-                     onblur      : 'submit',
+                     submit: 'OK',
                      placeholder : '',
 
                      "callback": function( sValue, y ) {
@@ -216,6 +222,15 @@
                      },
                      "height": "14px"
                   } );
+
+                  $(".deadline").editable(function(value, settings) { return(value); }, {
+                     type: 'datepicker',
+                     //event: 'dblclick',
+                     submit: 'OK',
+                     placeholder : '',
+                     width: '100px'
+                  });
+
                }
             }
          } );
@@ -423,6 +438,7 @@
                         var summary         = row.find('td.summary').text();
                         var mgrEffortEstim  = row.find('td.mgrEffortEstim').text();
                         var effortEstim     = row.find('td.effortEstim').text();
+                        var deadline        = row.find('td.deadline').text();
                         var commandid       = dataRow.find('td.commandid').text();
                         var categoryid      = dataRow.find('td.categoryid').text();
                         var targetversionid = dataRow.find('td.targetversionid').text();
@@ -443,6 +459,7 @@
                                  "&categoryid="+categoryid+
                                  "&targetversionid="+targetversionid+
                                  "&userid="+userid+
+                                 "&deadline="+deadline+
                                  "&description="+description,
                            success: function(data) {
                               // replace lineNum with bugid
@@ -487,6 +504,7 @@
                   <th>Category</th>
                   <th>TargetVersion</th>
                   <th>User</th>
+                  <th>Deadline</th>
             </tr>
             </thead>
             <tbody>
@@ -501,6 +519,7 @@
                   <td class="category" align='left'>{$i.category}</td>
                   <td class="targetVersion" align='left'>{$i.targetVersion}</td>
                   <td class="userName" align='left'>{$i.userName}</td>
+                  <td class="deadline"></td>
             </tr>
             {/foreach}
             </tbody>

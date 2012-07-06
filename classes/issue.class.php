@@ -1487,6 +1487,16 @@ class Issue {
       $this->setCustomField($extRefCustomField, $value);
       $this->mgrEffortEstim = $value;
    }
+   /**
+    * update DB and current instance
+    * @param type $value
+    */
+   public function setDeadline($value) {
+
+      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
+      $this->setCustomField($extRefCustomField, $value);
+      $this->deadLine = $value;
+   }
 }
 
 ?>

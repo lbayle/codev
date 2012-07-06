@@ -54,6 +54,7 @@ if (isset($_SESSION['userid'])) {
       $targetversionid = isset($_POST['targetversionid']) ? $_POST['targetversionid'] : NULL;
       $userid = isset($_POST['userid']) ? $_POST['userid'] : NULL;
       $description = isset($_POST['description']) ? $_POST['description'] : NULL;
+      $formatedDeadline = isset($_POST['deadline']) ? $_POST['deadline'] : NULL;
 
 
       $proj = ProjectCache::getInstance()->getProject($projectid);
@@ -66,6 +67,10 @@ if (isset($_SESSION['userid'])) {
       if ($effortEstim)     { $issue->setEffortEstim($effortEstim); }
       if ($targetversionid) { $issue->setTargetVersion($targetversionid); }
       if ($userid)          { $issue->setHandler($userid); }
+      if ($formatedDeadline) {
+         $timestamp = date2timestamp($formatedDeadline);
+         $issue->setDeadline($timestamp);
+      }
 
       if ($commandid) {
          $command = CommandCache::getInstance()->getCommand($commandid);
