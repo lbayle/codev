@@ -27,7 +27,7 @@ class SqlWrapper {
     * @var SqlWrapper class instances
     */
    private static $instance;
-
+   
    /**
     * @var resource a MySQL link identifier on success or false on failure.
     */
@@ -37,6 +37,11 @@ class SqlWrapper {
     * @var int Queries count for info purpose
     */
    private $count;
+   
+   /**
+    * @var array int[string] number[query] 
+    */
+   private $countByQuery;
 
    /**
     * Create a SQL connection
@@ -107,8 +112,17 @@ class SqlWrapper {
       $result = mysql_query($query, $this->link);
 
       $this->count++;
-
+         
       if (self::$logger->isDebugEnabled()) {
+         if (NULL == $this->countByQuery) {
+            $this->countByQuery = array();
+         }
+         if ($this->countByQuery[$query] == NULL) {
+            $this->countByQuery[$query] = 1;
+         } else {
+            $this->countByQuery[$query] += 1;
+         }
+         
          self::$logger->debug("SQL Query #" . $this->count . " (" . round(microtime(true) - $start, 4) . " sec) : " . $query);
       }
 
@@ -215,6 +229,10 @@ class SqlWrapper {
     */
    public function getQueriesCount() {
       return $this->count;
+   }
+   
+   public function getCountByQuery() {
+      return $this->countByQuery;
    }
 
    /**
