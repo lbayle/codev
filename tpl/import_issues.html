@@ -329,6 +329,22 @@
                   });
                });
 
+               jQuery("#btSetAllDeadlines").click(function(event) {
+
+                  // you cannot set data if column is hidden !
+                  $('#issues_table tbody tr').each( function () {
+                     var iPos = oTable.fnGetPosition( this );
+                     if (iPos!=null) {
+                        var value = jQuery('#globalDeadline').val();
+
+                        jQuery(this).find('td.deadline').text(value);
+                     }
+                  });
+               });
+
+            // Set the date
+            jQuery("#globalDeadline").datepicker("setDate" ,"{$date}");
+
             });
          </script>
 
@@ -405,6 +421,16 @@
                </td>
                <td>
                   <button type='button' name="btSetAllUsers" id="btSetAllUsers">{t}Set All{/t}</button>
+               </td>
+            </tr>
+            <tr>
+               <td>{t}Deadline{/t}</td>
+               <td>:</td>
+               <td>
+                  <input type="text" id="globalDeadline" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" />
+               </td>
+               <td>
+                  <button type='button' name="btSetAllDeadlines" id="btSetAllDeadlines">{t}Set All{/t}</button>
                </td>
             </tr>
          </table>
