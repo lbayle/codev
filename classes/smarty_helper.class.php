@@ -104,17 +104,17 @@ class SmartyHelper {
       $this->smarty->assign('rootWebSite', getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
 
-      if (self::$logger->isInfoEnabled()) {
+      if (SqlWrapper::$logger->isInfoEnabled()) {
          $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
          $queriesCount = SqlWrapper::getInstance()->getQueriesCount();
          
-         if (self::$logger->isDebugEnabled()) {
+         if (SqlWrapper::$logger->isDebugEnabled()) {
             foreach(SqlWrapper::getInstance()->getCountByQuery() as $query => $count) {
-               self::$logger->debug('SQL queries: ' . $count . " " . $query);
+               SqlWrapper::$logger->debug($count. ' identical SQL queries on : ' . $query);
             }
          }
          
-         self::$logger->info('TOTAL SQL queries: ' . $queriesCount . "  ($generatedTime sec) to display Page ".$_SERVER['PHP_SELF']);
+         SqlWrapper::$logger->info('TOTAL SQL queries: ' . $queriesCount . "  ($generatedTime sec) to display Page ".$_SERVER['PHP_SELF']);
       }
 
       $this->display('template');

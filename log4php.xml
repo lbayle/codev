@@ -38,18 +38,13 @@
     <logger name="download">
         <level value="INFO" />
     </logger>
-
     <logger name="Install">
         <level value="DEBUG" />
     </logger>
 
-    <logger name="SmartyHelper">
-        <level value="INFO" />
-    </logger>
     <logger name="SqlWrapper">
         <level value="INFO" />
     </logger>
-    
 
 <!--    
     <logger name="cache">
