@@ -679,6 +679,29 @@ class Team {
       return $teams;
    }
 
+   /**
+    * Get all users of a team
+    * @return User[] The users (User[id])
+    */
+   public function getUsers() {
+      $query = "SELECT mantis_user_table.id ".
+               "FROM  `codev_team_user_table`, `mantis_user_table` ".
+               "WHERE  codev_team_user_table.team_id = $this->id ".
+               "AND    codev_team_user_table.user_id = mantis_user_table.id ".
+               "ORDER BY mantis_user_table.username";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return NULL;
+      }
+
+      $users = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $users[$row->id] = UserCache::getInstance()->getUser($row->id);
+      }
+
+      return $users;
+   }
+
 }
 
 ?>
