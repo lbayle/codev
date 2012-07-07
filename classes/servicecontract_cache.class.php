@@ -16,102 +16,40 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('servicecontract.class.php');
+require_once('classes/cache.php');
+require_once('classes/servicecontract.class.php');
 
-class ServiceContractCache {
-
-   private static $logger;
-
-   // class instances
-   private static $instance;
-
-   private static $objects;
-   private static $callCount;
-   private static $cacheName;
-
-   /**
-    * Private constructor to respect the singleton pattern
-    */
-   private function __construct() {
-      self::$objects = array();
-      self::$callCount = array();
-
-      self::$cacheName = __CLASS__;
-
-      self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
-
-      #echo "DEBUG: Cache ready<br/>";
-   }
+/**
+ * usage: ServiceContractCache::getInstance()->getServiceContract($id);
+ */
+class ServiceContractCache extends Cache {
 
    /**
     * The singleton pattern
     * @static
-    * @return CommandCache
+    * @return ServiceContractCache
     */
    public static function getInstance() {
-      if (!isset(self::$instance)) {
-         $c = __CLASS__;
-         self::$instance = new $c;
-      }
-      return self::$instance;
+      return parent::getInstance(__CLASS__);
    }
 
    /**
-    * Get Command class instance
-    * @param int $contractid The command id
-    * @return ServiceContract The command attached to the id
+    * Get ServiceContract class instance
+    * @param int $id The service contract id
+    * @return ServiceContract The service contract attached to the id
     */
-   public function getServiceContract($contractid) {
-      $cmd = isset(self::$objects[$contractid]) ? self::$objects[$contractid] : NULL;
-
-      if (NULL == $cmd) {
-         self::$objects[$contractid] = new ServiceContract($contractid);
-         $cmd = self::$objects[$contractid];
-         #echo "DEBUG: CommandCache add $contractid<br/>";
-      } else {
-         if (isset(self::$callCount[$contractid])) {
-            self::$callCount[$contractid] += 1;
-         } else {
-            self::$callCount[$contractid] = 1;
-         }
-         #echo "DEBUG: ServiceContractCache called $contractid<br/>";
-      }
-      return $cmd;
+   public function getServiceContract($id) {
+      return parent::get($id);
    }
 
    /**
-    * Display stats
-    * @param bool $verbose
+    * Create a ServiceContract
+    * @abstract
+    * @param int $id The id
+    * @return ServiceContract The object
     */
-   public function displayStats($verbose = FALSE) {
-      $nbObj   = count(self::$callCount);
-      $nbCalls = array_sum(self::$callCount);
-
-      echo "=== ".self::$cacheName." Statistics ===<br/>\n";
-      echo "nb objects in cache = ".$nbObj."<br/>\n";
-      echo "nb cache calls      = ".$nbCalls."<br/>\n";
-      if (0 != $nbObj) {
-         echo "ratio               = 1:".round($nbCalls/$nbObj)."<br/>\n";
-      }
-      echo "<br/>\n";
-      if ($verbose) {
-         foreach(self::$callCount as $id => $count) {
-            echo "cache[$id] = $count<br/>\n";
-         }
-      }
-   }
-
-   /**
-    * Log stats
-    */
-   public function logStats() {
-      if (self::$logger->isDebugEnabled()) {
-         $nbObj   = count(self::$callCount);
-         $nbCalls = array_sum(self::$callCount);
-         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
-
-         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
-      }
+   protected function create($id) {
+      return new ServiceContract($id);
    }
 
 }

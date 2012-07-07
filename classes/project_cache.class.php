@@ -16,31 +16,13 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('project.class.php');
+require_once('classes/cache.php');
+require_once('classes/project.class.php');
 
-class ProjectCache {
-
-   private static $logger;
-
-   // class instances
-   private static $instance;
-   private static $objects;
-   private static $callCount;
-   private static $cacheName;
-
-   /**
-    * Private constructor to respect the singleton pattern
-    */
-   private function __construct() {
-      self::$objects = array();
-      self::$callCount = array();
-
-      self::$cacheName = __CLASS__;
-
-      self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
-
-      #echo "DEBUG: Cache ready<br/>";
-   }
+/**
+ * usage: ProjectCache::getInstance()->getProject($id);
+ */
+class ProjectCache extends Cache {
 
    /**
     * The singleton pattern
@@ -48,11 +30,7 @@ class ProjectCache {
     * @return ProjectCache
     */
    public static function getInstance() {
-      if (!isset(self::$instance)) {
-         $c = __CLASS__;
-         self::$instance = new $c;
-      }
-      return self::$instance;
+      return parent::getInstance(__CLASS__);
    }
 
    /**
@@ -61,54 +39,17 @@ class ProjectCache {
     * @return Project The project attached to the id
     */
    public function getProject($id) {
-      $object = isset(self::$objects[$id]) ? self::$objects[$id] : NULL;
-
-      if (NULL == $object) {
-         self::$objects[$id] = new Project($id);
-         $object = self::$objects[$id];
-      } else {
-         if (isset(self::$callCount[$id])) {
-            self::$callCount[$id] += 1;
-         } else {
-            self::$callCount[$id] = 1;
-         }
-      }
-      return $object;
+      return parent::get($id);
    }
 
    /**
-    * Displays stats
-    * @param bool $verbose
+    * Create a Project
+    * @abstract
+    * @param int $id The id
+    * @return Project The object
     */
-   public function displayStats($verbose = FALSE) {
-      $nbObj   = count(self::$callCount);
-      $nbCalls = array_sum(self::$callCount);
-
-      echo "=== ".self::$cacheName." Statistics ===<br/>\n";
-      echo "nb objects in cache = ".$nbObj."<br/>\n";
-      echo "nb cache calls      = ".$nbCalls."<br/>\n";
-      if (0 != $nbObj) {
-         echo "ratio               = 1:".round($nbCalls/$nbObj)."<br/>\n";
-      }
-      echo "<br/>\n";
-      if ($verbose) {
-         foreach(self::$callCount as $bugId => $count) {
-            echo "cache[$bugId] = $count<br/>\n";
-         }
-      }
-   }
-
-   /**
-    * Log stats
-    */
-   public function logStats() {
-      if (self::$logger->isDebugEnabled()) {
-         $nbObj   = count(self::$callCount);
-         $nbCalls = array_sum(self::$callCount);
-         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
-
-         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
-      }
+   protected function create($id) {
+      return new Project($id);
    }
 
 }

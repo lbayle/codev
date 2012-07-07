@@ -16,32 +16,13 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('issue.class.php');
+require_once('classes/cache.php');
+require_once('classes/issue.class.php');
 
-class IssueCache {
-
-   private static $logger;
-
-   // class instances
-   private static $instance;
-
-   private static $objects;
-   private static $callCount;
-   private static $cacheName;
-
-   /**
-    * Private constructor to respect the singleton pattern
-    */
-   private function __construct() {
-      self::$objects = array();
-      self::$callCount = array();
-
-      self::$cacheName = __CLASS__;
-
-      self::$logger = Logger::getLogger("cache"); // common logger for all cache classes
-
-      #echo "DEBUG: Cache ready<br/>";
-   }
+/**
+ * usage: IssueCache::getInstance()->getIssue($id);
+ */
+class IssueCache extends Cache {
 
    /**
     * The singleton pattern
@@ -49,69 +30,26 @@ class IssueCache {
     * @return IssueCache
     */
    public static function getInstance() {
-      if (!isset(self::$instance)) {
-         $c = __CLASS__;
-         self::$instance = new $c;
-      }
-      return self::$instance;
+      return parent::getInstance(__CLASS__);
    }
 
    /**
     * Get Issue class instance
-    * @param int $bugId The issue id
+    * @param int $id The issue id
     * @return Issue The issue attached to the id
     */
-   public function getIssue($bugId) {
-      $issue = isset(self::$objects[$bugId]) ? self::$objects[$bugId] : NULL;
-
-      if (NULL == $issue) {
-         self::$objects[$bugId] = new Issue($bugId);
-         $issue = self::$objects[$bugId];
-         #echo "DEBUG: IssueCache add $bugId<br/>";
-      } else {
-         if (isset(self::$callCount[$bugId])) {
-            self::$callCount[$bugId] += 1;
-         } else {
-            self::$callCount[$bugId] = 1;
-         }
-         #echo "DEBUG: IssueCache called $bugId<br/>";
-      }
-      return $issue;
+   public function getIssue($id) {
+      return parent::get($id);
    }
 
    /**
-    * Display stats
-    * @param bool $verbose
+    * Create Issue
+    * @abstract
+    * @param int $id The id
+    * @return Issue The object
     */
-   public function displayStats($verbose = FALSE) {
-      $nbObj   = count(self::$callCount);
-      $nbCalls = array_sum(self::$callCount);
-
-      echo "=== ".self::$cacheName." Statistics ===<br/>\n";
-      echo "nb objects in cache = ".$nbObj."<br/>\n";
-      echo "nb cache calls      = ".$nbCalls."<br/>\n";
-      if (0 != $nbObj) {
-         echo "ratio               = 1:".round($nbCalls/$nbObj)."<br/>\n";
-      }
-      echo "<br/>\n";
-      if ($verbose) {
-         foreach(self::$callCount as $bugId => $count) {
-            echo "cache[$bugId] = $count<br/>\n";
-         }
-      }
-   }
-
-   /**
-    * Log stats
-    */
-   public function logStats() {
-      if (self::$logger->isDebugEnabled()) {
-         $nbObj   = count(self::$callCount);
-         $nbCalls = array_sum(self::$callCount);
-         $ratio = (0 != $nbObj) ? "1:".round($nbCalls/$nbObj) : '';
-
-         self::$logger->debug(self::$cacheName." Statistics : nbObj=$nbObj nbCalls=$nbCalls ratio=$ratio");
-      }
+   protected function create($id) {
+      return new Issue($id);
    }
 
 }
