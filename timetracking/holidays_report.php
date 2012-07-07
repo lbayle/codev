@@ -2,20 +2,20 @@
 require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
@@ -26,31 +26,13 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once("classes/sqlwrapper.class.php");
-include_once("classes/user_cache.class.php");
 include_once("classes/holidays.class.php");
+include_once("classes/sqlwrapper.class.php");
+include_once("classes/team.class.php");
+include_once("classes/team_cache.class.php");
+include_once("classes/user_cache.class.php");
 
 $logger = Logger::getLogger("holidays_report");
-
-/**
- * Get teams
- * @param int $teamid The selected team
- * @return mixed[int]
- */
-function getTeamList($teamid) {
-   $teams = Team::getTeams();
-
-   $smartyTeams = array();
-   foreach ($teams as $id => $name) {
-      $smartyTeams[$id] = array(
-         "id" => $id,
-         "name" => $name,
-         "selected" => $id == $teamid
-      );
-   }
-   
-   return $smartyTeams;
-}
 
 /**
  * Get days of a month
@@ -82,22 +64,12 @@ function getDays($nbDaysInMonth, $month, $year) {
  * @param int $month The month
  * @param int $year The year
  * @param int $teamid The team
+ * @param User[] $users The users (User[id])
  * @param int $nbDaysInMonth The number of days in a month
  * @param bool $isExternalTasks True if external tasks wanted, else false
  * @return mixed[string]
  */
-function getDaysUsers($month, $year, $teamid, $nbDaysInMonth, $isExternalTasks = FALSE) {
-   // USER
-   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname ".
-            "FROM  `codev_team_user_table`, `mantis_user_table` ".
-            "WHERE  codev_team_user_table.team_id = $teamid ".
-            "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-            "ORDER BY mantis_user_table.username";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
+function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $isExternalTasks = FALSE) {
    $holidays = Holidays::getInstance();
 
    $green = "A8FFBD";
@@ -107,20 +79,18 @@ function getDaysUsers($month, $year, $teamid, $nbDaysInMonth, $isExternalTasks =
    $startT = mktime(0, 0, 0, $month, 1, $year);
    $endT = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
 
-   $users = array();
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $user1 = UserCache::getInstance()->getUser($row->user_id);
-
+   $smartyUsers = array();
+   foreach($users as $id => $user) {
       // if user was working on the project within the timestamp
-      if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
-         ($user1->isTeamManager($teamid, $startT, $endT))) {
+      if (($user->isTeamDeveloper($teamid, $startT, $endT)) ||
+         ($user->isTeamManager($teamid, $startT, $endT))) {
 
-         $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+         $daysOf = $user->getDaysOfInPeriod($startT, $endT);
 
-         $astreintes = $user1->getAstreintesInMonth($startT, $endT);
+         $astreintes = $user->getAstreintesInMonth($startT, $endT);
 
          if ($isExternalTasks) {
-            $externalTasks = $user1->getExternalTasksInPeriod($startT, $endT);
+            $externalTasks = $user->getExternalTasksInPeriod($startT, $endT);
          } else {
             $externalTasks = array();
          }
@@ -164,14 +134,14 @@ function getDaysUsers($month, $year, $teamid, $nbDaysInMonth, $isExternalTasks =
             }
 
          }
-         $users[$row->user_id] = array(
-            'realname' => $row->realname,
-            'username' => $row->username,
+         $smartyUsers[$user->id] = array(
+            'realname' => $user->getRealname(),
+            'username' => $user->getName(),
             'days' => $days
          );
       }
    }
-   return $users;
+   return $smartyUsers;
 }
 
 // =========== MAIN ==========
@@ -197,25 +167,27 @@ if (isset($_SESSION['userid'])) {
       $isExternalTasks = TRUE; // default
    }
 
-   $teams = getTeamList($teamid);
+   $teams = getSmartyArray(Team::getTeams(),$teamid);
    $smartyHelper->assign('teams', $teams);
    $smartyHelper->assign('years', getYears($year,2));
    $smartyHelper->assign('isExternalTasks', $isExternalTasks);
 
-   if($teamid == 0 && count(teams) > 0) {
+   if($teamid == 0 && count($teams) > 0) {
       $teamids = array_keys($teams);
       $teamid = $teamids[0];
    }
 
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   $users = $team->getUsers();
+
    $months = array();
    for ($i = 1; $i <= 12; $i++) {
       $monthTimestamp = mktime(0, 0, 0, $i, 1, $year);
-      $monthFormated = formatDate("%B %Y", $monthTimestamp);
       $nbDaysInMonth = date("t", $monthTimestamp);
       $months[$i] = array(
-         "name" => $monthFormated,
+         "name" => formatDate("%B %Y", $monthTimestamp),
          "days" => getDays($nbDaysInMonth, $i, $year),
-         "users" => getDaysUsers($i, $year, $teamid, $nbDaysInMonth, $isExternalTasks)
+         "users" => getDaysUsers($i, $year, $teamid, $users, $nbDaysInMonth, $isExternalTasks)
       );
    }
    $smartyHelper->assign('months', $months);
