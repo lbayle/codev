@@ -97,7 +97,7 @@ class GanttActivity {
 	}
 
       $formatedActivityInfo = $user->getName();
-      if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
+      if ($issue->currentStatus < $issue->getBugResolvedStatusThreshold()) {
       	$formatedActivityInfo .= " (".$statusNames[$issue->currentStatus].")";
       }
 
@@ -269,7 +269,7 @@ class GanttManager {
       	$startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
       	if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
 
-      	$endDate = $issue->getLatestStatusOccurrence($issue->bug_resolved_status_threshold);
+         $endDate = $issue->getLatestStatusOccurrence($issue->getBugResolvedStatusThreshold());
       	if (NULL == $endDate) {
             // TODO: no, $status_closed is not the only one ! check for all status > $bug_resolved_status_threshold
       		$endDate = $issue->getLatestStatusOccurrence($status_closed);

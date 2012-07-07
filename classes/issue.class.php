@@ -161,7 +161,7 @@ class Issue {
    private $holidays;
 
    // other cache fields
-   public $bug_resolved_status_threshold;
+   private $bug_resolved_status_threshold;
 
    private static $existsCache;
 
@@ -258,9 +258,6 @@ class Issue {
          $this->elapsed = $this->getElapsed();
          $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
 
-         $project = ProjectCache::getInstance()->getProject($this->projectId);
-         $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
-
          // Prepare fields
          $this->statusList = array();
          $this->relationships = array();
@@ -351,7 +348,15 @@ class Issue {
     * @return bool true if issue status >= bug_resolved_status_threshold
     */
    public function isResolved() {
-      return ($this->currentStatus >= $this->bug_resolved_status_threshold);
+      return ($this->currentStatus >= $this->getBugResolvedStatusThreshold());
+   }
+
+   public function getBugResolvedStatusThreshold() {
+      if(NULL == $this->bug_resolved_status_threshold) {
+         $project = ProjectCache::getInstance()->getProject($this->projectId);
+         $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
+      }
+      return $this->bug_resolved_status_threshold;
    }
 
    /**
@@ -727,13 +732,13 @@ class Issue {
       }
 
       if (0 < $drift) {
-         if ($this->currentStatus < $this->bug_resolved_status_threshold) {
+         if ($this->currentStatus < $this->getBugResolvedStatusThreshold()) {
             $color = "ff6a6e";
          } else {
             $color = "fcbdbd";
          }
       } elseif (0 > $drift) {
-         if ($this->currentStatus < $this->bug_resolved_status_threshold) {
+         if ($this->currentStatus < $this->getBugResolvedStatusThreshold()) {
             $color = "61ed66";
          } else {
             $color = "bdfcbd";
@@ -776,7 +781,7 @@ class Issue {
          return 0;
       }
 */
-      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
+      if ($this->currentStatus >= $this->getBugResolvedStatusThreshold()) {
          $derive = $myElapsed - $totalEstim;
       } else {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
@@ -1359,7 +1364,7 @@ class Issue {
     * 0 = 0% done
     */
    public function getProgress() {
-      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
+      if ($this->currentStatus >= $this->getBugResolvedStatusThreshold()) {
          return 1; // issue is finished, 100% done.
       }
 

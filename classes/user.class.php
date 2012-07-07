@@ -851,7 +851,7 @@ class User {
          $this->monitoredIssues = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-            if ($issue->currentStatus < $issue->bug_resolved_status_threshold) {
+            if ($issue->currentStatus < $issue->getBugResolvedStatusThreshold()) {
                $this->monitoredIssues[] = $issue;
             }
          }
