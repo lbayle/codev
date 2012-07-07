@@ -200,7 +200,7 @@ class Issue {
       #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
       $nbTuples = 0 != SqlWrapper::getInstance()->sql_num_rows($result);
 
-      self::$existsCache[$bugid] = $nbTuples;
+      self::$existsCache[$this->bugId] = $nbTuples;
          
       if ($nbTuples) {
          $this->summary = $row->summary;
@@ -268,7 +268,7 @@ class Issue {
          //DEBUG $this->getRelationships(2500);
       } else {
          #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Constructor: Issue $id does not exist in Mantis DB.");
+         $e = new Exception("Constructor: Issue $this->bugId does not exist in Mantis DB.");
          $this->logger->error("EXCEPTION Issue constructor: " . $e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
          throw $e;
