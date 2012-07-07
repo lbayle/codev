@@ -18,8 +18,9 @@
  */
 
 include_once('classes/user_cache.class.php');
-include_once('classes/issue.class.php');
+include_once('classes/issue_cache.class.php');
 include_once('classes/team.class.php');
+include_once('classes/team_cache.class.php');
 include_once('classes/holidays.class.php');
 include_once('classes/time_track.class.php');
 
@@ -103,6 +104,11 @@ class User {
     * @var array Cache of depature date
     */
    private $departureDateCache;
+
+   private $devTeamList;
+   private $observedTeamList;
+   private $managedTeamList;
+   private $allTeamList;
 
    /**
     * @param int $user_id The user id
@@ -228,7 +234,8 @@ class User {
     * @return bool
     */
    public function isTeamLeader($team_id) {
-      return (Team::getLeaderId($team_id) == $this->id);
+      $team = TeamCache::getInstance()->getTeam($team_id);
+      return ($team->leader_id == $this->id);
    }
 
    /**
@@ -264,7 +271,7 @@ class User {
 
    /**
     * @param int $team_id
-    * @param unknown_type $accessLevel
+    * @param int $accessLevel
     * @param unknown_type $startTimestamp
     * @param unknown_type $endTimestamp
     * @return bool 
@@ -377,7 +384,7 @@ class User {
             }
          }
 
-         $this->departureDateCache[$key] = $arrival_date;
+         $this->departureDateCache[$key] = $departureDate;
 
          //echo "DEBUG departureDate = ".date('Y - m - d', $departureDate)."<br>";
       }
@@ -581,6 +588,7 @@ class User {
          // exclude projects not in team list
          // exclude externalTasks & NoStatsProjects
          if (NULL != $projectList) {
+            // FIXME Seems weird
             if (!in_array($timetrack, array_keys($projectList))) {
                continue;
             }
@@ -619,31 +627,43 @@ class User {
     * @return array the teams i'm member of.
     */
    public function getDevTeamList() {
-      return $this->getTeamList(Team::accessLevel_dev);
+      if(NULL == $this->devTeamList) {
+         $this->devTeamList = $this->getTeamList(Team::accessLevel_dev);
+      }
+      return $this->devTeamList;
    }
 
    /**
     * @return array the teams i'm observer of.
     */
    public function getObservedTeamList() {
-      return $this->getTeamList(Team::accessLevel_observer);
+      if(NULL == $this->observedTeamList) {
+         $this->observedTeamList = $this->getTeamList(Team::accessLevel_observer);
+      }
+      return $this->observedTeamList;
    }
 
    /**
     * @return array the teams i'm Manager of.
     */
    public function getManagedTeamList() {
-      return $this->getTeamList(Team::accessLevel_manager);
+      if(NULL == $this->managedTeamList) {
+         $this->managedTeamList = $this->getTeamList(Team::accessLevel_manager);
+      }
+      return $this->managedTeamList;
    }
 
    /**
     * returns teams, the user is involved in.
-    * @param unknown_type $accessLevel if NULL return all teams including observed teams.
-    * @return array (id => name)
+    * @param int $accessLevel if NULL return all teams including observed teams.
+    * @return array string[int] name[id]
     */
    public function getTeamList($accessLevel = NULL) {
       $teamList = array();
 
+      if($accessLevel == NULL && $this->allTeamList != NULL) {
+         return $this->allTeamList;
+      }
       $query = "SELECT codev_team_table.id, codev_team_table.name " .
                "FROM `codev_team_user_table`, `codev_team_table` " .
                "WHERE codev_team_user_table.user_id = $this->id " .
@@ -660,6 +680,10 @@ class User {
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $teamList[$row->id] = $row->name;
          #echo "getTeamList(".Team::$accessLevelNames[$accessLevel].") FOUND $row->id - $row->name<br/>";
+      }
+
+      if($accessLevel == NULL) {
+         $this->allTeamList = $teamList;
       }
 
       return $teamList;
