@@ -1,122 +1,127 @@
 {include file="menu/holidays_menu.html"}
 
 <div id="content" class='center'>
-    {if $users || $projects}
-    {if $users}
-    <script type="text/javascript">
-        function submitUser(){
+   {if $users || $projects}
+   {if $users}
+   <script type="text/javascript">
+      jQuery(document).ready(function(){
+         jQuery("#formSubmit").click(function() {
             // check fields
             var foundError = 0;
-            var msgString = "Les champs suivants ont ete oublies:\n\n";
+            var msgString = "{t}Les champs suivants ont ete oublies:{/t}\n\n";
 
-            if (0 == document.forms["formUserAndPeriodSelect"].userid.value)  {
-                msgString += "Nom\n";
-                ++foundError;
+            var form = jQuery("#formUserAndPeriodSelect");
+            if (0 == form.find("input[name=userid]").val())  {
+               msgString += "{t}Nom{/t}\n";
+               ++foundError;
             }
 
             if (0 == foundError) {
-                document.forms["formUserAndPeriodSelect"].submit();
+               form.submit();
             } else {
-                alert(msgString);
+               alert(msgString);
             }
-        }
-    </script>
-    <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
-        <fieldset>
-            <label for="userid">{t}Name{/t} :</label>
-            <select name="userid" id="userid">
-                <option value="0"></option>
-                {foreach from=$users key=id item=i}
-                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                {/foreach}
+         });
+      });
+   </script>
+   <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
+      <fieldset>
+         <label for="userid">{t}Name{/t} :</label>
+         <select name="userid" id="userid">
+            <option value="0"></option>
+            {foreach from=$users key=id item=i}
+            <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
+            {/foreach}
+         </select>
+         <input type="hidden" name="nextForm" value="addHolidaysForm" />
+         <input type="button" id="formSubmit" value="{t}Jump{/t}" />
+      </fieldset>
+   </form>
+   {/if}
+
+   {if $projects}
+   <!-- Add Form -->
+   <h2>{$otherrealname}</h2>
+
+   <!-- display Track Form -->
+   <div style="margin-top:2em">
+      <script type="text/javascript">
+         jQuery(document).ready(function(){
+            var form = jQuery("#form1");
+            var projectId = jQuery("#projectid").change(function() {
+               form.find("input[name=action]").val("setProjectid");
+               form.submit();
+            });
+
+            var bugid = jQuery("#bugid").change(function() {
+               // if projectId not set: do it, to update categories
+               if (0 == projectId.val()) {
+                  form.find("input[name=action]").val("setBugId");
+                  form.submit();
+               }
+            });
+
+            jQuery("#btAddHolidays").click(function() {
+               // TODO check date1 < date2
+               // check fields
+               var foundError = 0;
+               var msgString = "{t}Les champs suivants ont ete oublies:{/t}\n\n";
+
+               if (0 == bugid.val()) {
+                  msgString += "{t}Fiche{/t}\n";
+                  ++foundError;
+               }
+               if (0 == jQuery("#job").value) {
+                  msgString += "{t}Poste{/t}\n";
+                  ++foundError;
+               }
+
+               if (0 == foundError) {
+                  form.find("input[name=action]").val("addHolidays");
+                  form.submit();
+               } else {
+                  alert(msgString);
+               }
+            });
+         });
+      </script>
+      <form id="form1" name="form1" method="post" action="{$page}">
+         <fieldset>
+            {include file="form/dateRangeSelector.html"}
+            {if $projects}
+            <select id="projectid" name="projectid" title="{t}Project{/t}">
+               <option value="0">{t}(all){/t}</option>
+               {foreach from=$projects key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
+               {/foreach}
             </select>
+            {/if}
+            <select id="bugid" name="bugid" style="width: 300px;" title="{t}Task{/t}">
+               <option value="0"></option>
+               {foreach from=$issues key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$id}">{$id} / {$i.tcId} : {$i.summary}</option>
+               {/foreach}
+            </select>
+            {if $jobs >= 0}
+            <input type="hidden" name="job" value="{$jobs}" />
+            {else}
+            <select id="job" name="job" title="{t}Job{/t}" style="width: 100px;" >
+               <option value="0"></option>
+               {foreach from=$jobs key=id item=i}
+               <option value="{$id}">{$i}</option>
+               {/foreach}
+            </select>
+            {/if}
+            <!--<input type="hidden" name="trackid" value="unknown1" />-->
+            <input type="hidden" name="action" value="noAction" />
             <input type="hidden" name="nextForm" value="addHolidaysForm" />
-            <input type="button" value="{t}Jump{/t}" onclick="javascript: submitUser()" />
-        </fieldset>
-    </form>
-    {/if}
-
-    {if $projects}
-    <!-- Add Form -->
-    <h2>{$otherrealname}</h2>
-
-    <!-- display Track Form -->
-    <div style="margin-top:2em">
-        <script type="text/javascript">
-            function setProjectid() {
-                document.forms["form1"].action.value="setProjectid";
-                document.forms["form1"].submit();
-            }
-
-            function setBugId() {
-                // if projectId not set: do it, to update categories
-                if (0 == document.getElementById("projectid").value) {
-                    document.forms["form1"].action.value="setBugId";
-                    document.forms["form1"].submit();
-                }
-            }
-
-            function addHolidays(){
-                // TODO check date1 < date2
-                // check fields
-                var foundError = 0;
-                var msgString = "Les champs suivants ont ete oublies:\n\n";
-
-                if (0 == document.forms["form1"].bugid.value) {
-                    msgString += "Fiche\n";
-                    ++foundError;
-                }
-                if (0 == document.forms["form1"].job.value) {
-                    msgString += "Poste\n";
-                    ++foundError;
-                }
-
-                if (0 == foundError) {
-                    document.forms["form1"].action.value="addHolidays";
-                    document.forms["form1"].submit();
-                } else {
-                    alert(msgString);
-                }
-            }
-        </script>
-        <form name="form1" method="post" action="{$page}">
-            <fieldset>
-                {include file="form/dateRangeSelector.html"}
-                {if $projects}
-                <select id="projectid" name="projectid" onchange="javascript: setProjectid()" title="{t}Project{/t}">
-                    <option value="0">{t}(all){/t}</option>
-                    {foreach from=$projects key=id item=i}
-                    <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-                    {/foreach}
-                </select>
-                {/if}
-                <select name="bugid" style="width: 300px;" onchange="javascript: setBugId()" title="{t}Task{/t}">
-                    <option value="0"></option>
-                    {foreach from=$issues key=id item=i}
-                        <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id} / {$i.tcId} : {$i.summary}</option>
-                        {/foreach}
-                    </select>
-                    {if $jobs >= 0}
-                    <input type="hidden" name="job" value="{$jobs}" />
-                    {else}
-                    <select name="job" title="{t}Job{/t}" style="width: 100px;" >
-                        <option value="0"></option>
-                        {foreach from=$jobs key=id item=i}
-                        <option value="{$id}">{$i}</option>
-                        {/foreach}
-                    </select>
-                    {/if}
-                    <!--<input type="hidden" name="trackid" value="unknown1" />-->
-                    <input type="hidden" name="action" value="noAction" />
-                    <input type="hidden" name="nextForm" value="addHolidaysForm" />
-                    <input type="hidden" name="userid" value="{$userid}" />
-
-                    <input type="button" name="btAddHolidays" value="{t}Add{/t}" onclick="javascript: addHolidays()" />
-                </fieldset>
-            </form>
-        </div>
-    {/if}
-    {else}
-    <p>{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
-    {/if}
+            <input type="hidden" name="userid" value="{$userid}" />
+            <input type="button" id="btAddHolidays" name="btAddHolidays" value="{t}Add{/t}" />
+         </fieldset>
+      </form>
+   </div>
+   {/if}
+   {else}
+   <p>{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+   {/if}
 </div>
