@@ -60,10 +60,10 @@ function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=fal
       $issueGeneralInfo['issueDriftMgr'] = round($driftMgr, 2);
    }
    if ($withSupport) {
-      $issueGeneralInfo['issueElapsed'] = $issue->elapsed;
+      $issueGeneralInfo['issueElapsed'] = $issue->getElapsed();
    } else {
       $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-      $issueGeneralInfo['issueElapsed'] = $issue->elapsed - $issue->getElapsed($job_support);
+      $issueGeneralInfo['issueElapsed'] = $issue->getElapsed() - $issue->getElapsed($job_support);
    }
    if ($displaySupport) {
       if ($isManager) {
@@ -107,8 +107,7 @@ function getParentCommands(Issue $issue) {
  * @param Issue $issue The issue
  * @return mixed[string]
  */
-function getJobDetails(Issue $issue) {
-   $timeTracks = $issue->getTimeTracks();
+function getJobDetails(array $timeTracks) {
    $durationByJob = array();
    $jobs = new Jobs();
    $totalDuration = 0;
@@ -161,11 +160,11 @@ function getTimeDrift(Issue $issue) {
  * @param Issue $issue The issue
  * @return array
  */
-function getCalendar(Issue $issue) {
+function getCalendar(Issue $issue, array $timetracks) {
    $months = NULL;
    for ($y = date('Y', $issue->dateSubmission); $y <= date('Y'); $y++) {
       for ($m = 1; $m <= 12; $m++) {
-         $monthsValue = getMonth($m, $y, $issue);
+         $monthsValue = getMonth($m, $y, $issue, $timetracks);
          if ($monthsValue != NULL) {
             $months[] = $monthsValue;
          }
@@ -178,13 +177,13 @@ function getCalendar(Issue $issue) {
  * @param int $month
  * @param int $year
  * @param Issue $issue The issue
+ * @param array $trackList
  * @return mixed[string]
  */
-function getMonth($month, $year, Issue $issue) {
+function getMonth($month, $year, Issue $issue, array $trackList) {
    $totalDuration = 0;
 
    // if no work done this month, do not display month
-   $trackList = $issue->getTimeTracks();
    $found = 0;
    foreach ($trackList as $tid => $tdate) {
       if (($month == date('m', $tdate)) &&

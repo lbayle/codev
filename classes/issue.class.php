@@ -1,19 +1,19 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 include_once('config.class.php');
@@ -153,15 +153,20 @@ class Issue {
    public $deliveryDate;
    public $deliveryId;   // TODO FDL (FDJ specific)
 
+   /**
+    * @var array total time spent on this issue
+    */
+   private $elapsedCache;
    // -- computed fields
-   public $elapsed;          // total time spent on this issue
    public $statusList;       // array of statusInfo elements
 
    // -- PRIVATE cached fields
    private $holidays;
 
    // other cache fields
-   public $bug_resolved_status_threshold;
+   private $bug_resolved_status_threshold;
+   private $startDate;
+   private $endDate;
 
    private static $existsCache;
 
@@ -186,9 +191,7 @@ class Issue {
 
    public function initialize() {
          // Get issue info
-      $query = "SELECT * " .
-               "FROM `mantis_bug_table` " .
-               "WHERE id = $this->bugId";
+      $query = 'SELECT * FROM `mantis_bug_table` WHERE id = '.$this->bugId;
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -196,11 +199,10 @@ class Issue {
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
-
       #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
       $nbTuples = 0 != SqlWrapper::getInstance()->sql_num_rows($result);
 
-      self::$existsCache[$bugid] = $nbTuples;
+      self::$existsCache[$this->bugid] = $nbTuples;
          
       if ($nbTuples) {
          $this->summary = $row->summary;
@@ -228,7 +230,7 @@ class Issue {
          $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
          
          // Get custom fields
-         $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
+         $query2 = 'SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id='.$this->bugId.';';
          $result2 = SqlWrapper::getInstance()->sql_query($query2);
          if (!$result2) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -255,20 +257,13 @@ class Issue {
             }
          }
 
-         $this->elapsed = $this->getElapsed();
-         $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
-
-         $project = ProjectCache::getInstance()->getProject($this->projectId);
-         $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
-
          // Prepare fields
          $this->statusList = array();
-         $this->relationships = array();
 
          //DEBUG $this->getRelationships(2500);
       } else {
          #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Constructor: Issue $id does not exist in Mantis DB.");
+         $e = new Exception("Constructor: Issue $this->id does not exist in Mantis DB.");
          $this->logger->error("EXCEPTION Issue constructor: " . $e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
          throw $e;
@@ -281,13 +276,12 @@ class Issue {
     * @return bool TRUE if issue exists in Mantis DB
     */
    public static function exists($bugid) {
-
       global $logger;
 
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (NULL == self::$existsCache[$bugid]) {
-         $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
+         $query  = 'SELECT COUNT(id) FROM `mantis_bug_table` WHERE id='.$bugid.';';
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -304,13 +298,12 @@ class Issue {
       return self::$existsCache[$bugid];
    }
 
-
    /**
     * @return string The issue description
     */
    public function getDescription() {
       if (NULL == $this->description) {
-         $query = "SELECT description FROM `mantis_bug_text_table` WHERE id = $this->bugId";
+         $query = 'SELECT description FROM `mantis_bug_text_table` WHERE id = '.$this->bugId.';';
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -324,7 +317,7 @@ class Issue {
 
    public function getIssueNoteList() {
       if (NULL == $this->IssueNoteList) {
-         $query = "SELECT id FROM `mantis_bugnote_table` WHERE bug_id = $this->bugId";
+         $query = 'SELECT id FROM `mantis_bugnote_table` WHERE bug_id = '.$this->bugId.';';
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -332,7 +325,7 @@ class Issue {
          }
          $this->IssueNoteList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->IssueNoteList["$row->id"] = new IssueNote($row->id);
+            $this->IssueNoteList[$row->id] = new IssueNote($row->id);
          }
       }
       return $this->IssueNoteList;
@@ -342,16 +335,25 @@ class Issue {
     * returns a Holidays class instance
     */
    private function getHolidays() {
-      if (NULL == $this->holidays) { $this->holidays = Holidays::getInstance(); }
+      if (NULL == $this->holidays) {
+         $this->holidays = Holidays::getInstance();
+      }
       return $this->holidays;
    }
-
 
    /**
     * @return bool true if issue status >= bug_resolved_status_threshold
     */
    public function isResolved() {
-      return ($this->currentStatus >= $this->bug_resolved_status_threshold);
+      return ($this->currentStatus >= $this->getBugResolvedStatusThreshold());
+   }
+
+   public function getBugResolvedStatusThreshold() {
+      if(NULL == $this->bug_resolved_status_threshold) {
+         $project = ProjectCache::getInstance()->getProject($this->projectId);
+         $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
+      }
+      return $this->bug_resolved_status_threshold;
    }
 
    /**
@@ -470,7 +472,6 @@ class Issue {
       global $astreintesTaskList;
 
       if (in_array($this->bugId, $astreintesTaskList)) {
-
          $this->logger->debug("$this->bugId is an Astreinte.");
          return true;
       }
@@ -496,16 +497,17 @@ class Issue {
     * else return NULL
     */
    public function getDeadLine() {
-
       // if exist return customField value
       // REM: already set in initialize()
-      if (NULL != $this->deadLine) { return $this->deadLine; }
+      if (NULL != $this->deadLine) {
+         return $this->deadLine;
+      }
 
       // check if
       if (NULL != $this->target_version) {
          $query = "SELECT date_order FROM `mantis_project_version_table` ".
-            "WHERE project_id=$this->projectId ".
-            "AND version='$this->target_version'";
+                  "WHERE project_id=$this->projectId ".
+                  "AND version='$this->target_version'";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -537,9 +539,8 @@ class Issue {
     * @return string The category name
     */
    public function getCategoryName() {
-
       if (NULL == $this->categoryName) {
-         $query = "SELECT name FROM `mantis_category_table` WHERE id= $this->categoryId";
+         $query = 'SELECT name FROM `mantis_category_table` WHERE id= '.$this->categoryId.';';
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -572,24 +573,32 @@ class Issue {
     * @return int
     */
    public function getElapsed($job_id = NULL) {  // TODO $doRefresh = false
-      $elapsed = 0;
-
-      $query     = "SELECT duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId";
-
-      if (isset($job_id)) {
-         $query .= " AND jobid = $job_id";
+      if(NULL == $this->elapsedCache) {
+         $this->elapsedCache = array();
       }
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $elapsed += $row->duration;
+      $key = "j".$job_id;
+      if(array_key_exists($key,$this->elapsedCache)) {
+         $query = 'SELECT duration FROM `codev_timetracking_table` WHERE bugid='.$this->bugId.';';
+
+         if (isset($job_id)) {
+            $query .= " AND jobid = $job_id";
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $elapsed = 0;
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $elapsed += $row->duration;
+         }
+
+         $this->elapsed['key'] = elapsed;
       }
 
-      return $elapsed;
+      return $this->elapsed['key'];
    }
 
    /**
@@ -598,11 +607,17 @@ class Issue {
     * if the 'remaining' (RAF) field is not defined, return effortEstim
     */
    public function getDuration() {
-      if ($this->isResolved()) { return 0; }
+      if ($this->isResolved()) {
+         return 0;
+      }
 
       // determinate issue duration (Remaining, BI, MgrEffortEstim)
-      if (NULL != $this->remaining) { $issueDuration = $this->remaining; }
-      else                          { $issueDuration = $this->effortEstim; }
+      if (NULL != $this->remaining) {
+         $issueDuration = $this->remaining;
+      }
+      else {
+         $issueDuration = $this->effortEstim;
+      }
 
       if (NULL == $this->effortEstim) {
          $this->logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND effortEstim == NULL)");
@@ -616,11 +631,17 @@ class Issue {
     * if the 'remaining' (RAF) field is not defined, return mgrEffortEstim
     */
    public function getDurationMgr() {
-      if ($this->isResolved()) { return 0; }
+      if ($this->isResolved()) {
+         return 0;
+      }
 
       // determinate issue duration (Remaining, BI, MgrEffortEstim)
-      if (NULL != $this->remaining) { $issueDuration = $this->remaining; }
-      else                          { $issueDuration = $this->mgrEffortEstim; }
+      if (NULL != $this->remaining) {
+         $issueDuration = $this->remaining;
+      }
+      else {
+         $issueDuration = $this->mgrEffortEstim;
+      }
 
       if (NULL == $this->mgrEffortEstim) {
          $this->logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND mgrEffortEstim == NULL)");
@@ -633,7 +654,7 @@ class Issue {
     * @return int reestimated
     */
    public function getReestimated() {
-      return ($this->elapsed + $this->getDuration());
+      return ($this->getElapsed() + $this->getDuration());
    }
 
    /**
@@ -641,7 +662,7 @@ class Issue {
     * @return int reestimated
     */
    public function getReestimatedMgr() {
-      return ($this->elapsed + $this->getDurationMgr());
+      return ($this->getElapsed() + $this->getDurationMgr());
    }
 
    /**
@@ -651,37 +672,32 @@ class Issue {
     * @return array(issue_id);
     */
    public function getRelationships($type) {
+      if(NULL == $this->relationships) {
+         $this->relationships = array();
+      }
       // TODO
       $complementaryType = (2500 == $type) ? 2501 : 2500;
 
-      if (NULL == $this->relationships[$type]) {
+      if (!array_key_exists($type,$this->relationships)) {
+         $query = 'SELECT * FROM `mantis_bug_relationship_table` '.
+                  'WHERE (source_bug_id='.$this->bugId.' AND relationship_type = '.$type.') '.
+                  'OR (destination_bug_id='.$this->bugId.' AND relationship_type = '.$complementaryType.')';
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
          $this->relationships[$type] = array();
-
-         // normal
-         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
-            "WHERE source_bug_id=$this->bugId ".
-            "AND relationship_type = $type";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
-            $this->relationships[$type][] = $row->destination_bug_id;
-         }
-         // complementary
-         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
-            "WHERE destination_bug_id=$this->bugId ".
-            "AND relationship_type = ".$complementaryType;
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
-            $this->relationships[$type][] = $row->source_bug_id;
+            if($row->destination_bug_id == $this->bugId) {
+               // normal
+               $this->logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
+               $this->relationships[$type][] = $row->destination_bug_id;
+            } elseif($row->source_bug_id == $this->bugId) {
+               // complementary
+               $this->logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
+               $this->relationships[$type][] = $row->source_bug_id;
+            }
          }
       }
 
@@ -692,28 +708,34 @@ class Issue {
     * @return unknown_type the timestamp of the first TimeTrack
     */
    public function startDate() {
-      $query = "SELECT MIN(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      if(NULL == $this->startDate) {
+         $query = 'SELECT MIN(date) FROM `codev_timetracking_table` WHERE bugid='.$this->bugId.';';
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
 
-      return SqlWrapper::getInstance()->sql_result($result, 0);
+         $this->startDate = SqlWrapper::getInstance()->sql_result($result, 0);
+      }
+      return $this->startDate;
    }
 
    /**
     * @return unknown_type the timestamp of the latest TimeTrack
     */
    public function endDate() {
-      $query = "SELECT MAX(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      if(NULL == $this->endDate) {
+         $query = 'SELECT MAX(date) FROM `codev_timetracking_table` WHERE bugid='.$this->bugId.';';
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
 
-      return SqlWrapper::getInstance()->sql_result($result, 0);
+         $this->endDate = SqlWrapper::getInstance()->sql_result($result, 0);
+      }
+      return $this->endDate;
    }
 
    /**
@@ -727,13 +749,13 @@ class Issue {
       }
 
       if (0 < $drift) {
-         if ($this->currentStatus < $this->bug_resolved_status_threshold) {
+         if ($this->currentStatus < $this->getBugResolvedStatusThreshold()) {
             $color = "ff6a6e";
          } else {
             $color = "fcbdbd";
          }
       } elseif (0 > $drift) {
-         if ($this->currentStatus < $this->bug_resolved_status_threshold) {
+         if ($this->currentStatus < $this->getBugResolvedStatusThreshold()) {
             $color = "61ed66";
          } else {
             $color = "bdfcbd";
@@ -764,10 +786,10 @@ class Issue {
       }
 
       if ($withSupport) {
-         $myElapsed = $this->elapsed;
+         $myElapsed = $this->getElapsed();
       } else {
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
+         $myElapsed = $this->getElapsed() - $this->getElapsed($job_support);
       }
 /*
       // if Elapsed     = 0 then Drift = 0
@@ -776,19 +798,17 @@ class Issue {
          return 0;
       }
 */
-      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
+      if ($this->currentStatus >= $this->getBugResolvedStatusThreshold()) {
          $derive = $myElapsed - $totalEstim;
       } else {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
       }
 
-      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)");
+      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->getElapsed() - estim $totalEstim)");
       return round($derive,3);
    }
 
-
    public function getDrift($withSupport = true) {
-
       $totalEstim = $this->effortEstim + $this->effortAdd;
       $derive = $this->getReestimated() - $totalEstim;
 
@@ -808,10 +828,10 @@ class Issue {
    public function getDriftMgr($withSupport = true) {
 /*
       if ($withSupport) {
-         $myElapsed = $this->elapsed;
+         $myElapsed = $this->getElapsed();
       } else {
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
+         $myElapsed = $this->getElapsed() - $this->getElapsed($job_support);
       }
 */
       $derive = $this->getReestimatedMgr() - $this->mgrEffortEstim;
@@ -829,20 +849,20 @@ class Issue {
     *         OR "Error" string if could not be determinated. REM: check with is_string($timeDrift)
     */
    public function getTimeDrift() {
-      if ((NULL != $this->deadLine) && (NULL != $this->deliveryDate)) {
-         $timeDrift = $this->deliveryDate - $this->deadLine;
+      if ((NULL != $this->getDeadLine()) && (NULL != $this->deliveryDate)) {
+         $timeDrift = $this->deliveryDate - $this->getDeadLine();
 
          // convert seconds to days (24 * 60 * 60) = 86400
          $timeDrift /=  86400 ;
 
          // remove weekends & holidays
          $holidays = $this->getHolidays();
-         if ($this->deliveryDate < $this->deadLine) {
-            $nbHolidays = $holidays->getNbHolidays($this->deliveryDate, $this->deadLine);
+         if ($this->deliveryDate < $this->getDeadLine()) {
+            $nbHolidays = $holidays->getNbHolidays($this->deliveryDate, $this->getDeadLine());
          } else {
-            $nbHolidays = $holidays->getNbHolidays($this->deadLine, $this->deliveryDate);
+            $nbHolidays = $holidays->getNbHolidays($this->getDeadLine(), $this->deliveryDate);
          }
-         $this->logger->debug("TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift (- $nbHolidays holidays)");
+         $this->logger->debug("TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->getDeadLine()) / 86400 = $timeDrift (- $nbHolidays holidays)");
 
          if ($timeDrift > 0) {
             $timeDrift -= $nbHolidays;
@@ -851,7 +871,7 @@ class Issue {
          }
       } else {
          $timeDrift = "Error";
-         $this->logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<$this->deadLine> deliveryDate=<$this->deliveryDate>");
+         $this->logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<".$this->getDeadLine()."> deliveryDate=<$this->deliveryDate>");
       }
       return  $timeDrift;
    }
@@ -863,8 +883,8 @@ class Issue {
    public function getTimeTracks($user_id = NULL) {
       $timeTracks = array();
 
-      $query     = "SELECT id, date FROM `codev_timetracking_table` ".
-         "WHERE bugid=$this->bugId ";
+      $query = "SELECT id, date FROM `codev_timetracking_table` ".
+               "WHERE bugid=$this->bugId ";
 
       if (isset($user_id)) {
          $query .= "AND userid = $user_id";
@@ -888,8 +908,8 @@ class Issue {
     * @return unknown_type the date of the oldest TimeTrack
     */
    public function getStartTimestamp($user_id = NULL) {
-      $query     = "SELECT id, date FROM `codev_timetracking_table` ".
-         "WHERE bugid=$this->bugId ";
+      $query = "SELECT id, date FROM `codev_timetracking_table` ".
+               "WHERE bugid=$this->bugId ";
 
       if (isset($user_id)) {
          $query .= "AND userid = $user_id";
@@ -914,9 +934,9 @@ class Issue {
       $userList = array();
 
       $query = "SELECT mantis_user_table.id, mantis_user_table.username ".
-         "FROM  `mantis_user_table`, `codev_timetracking_table`, `codev_team_user_table`  ".
-         "WHERE  codev_timetracking_table.userid = mantis_user_table.id ".
-         "AND    codev_timetracking_table.bugid  = $this->bugId ";
+               "FROM  `mantis_user_table`, `codev_timetracking_table`, `codev_team_user_table`  ".
+               "WHERE  codev_timetracking_table.userid = mantis_user_table.id ".
+               "AND codev_timetracking_table.bugid  = $this->bugId ";
 
       if (isset($team_id)) {
          $query .= "AND codev_team_user_table.team_id = $team_id ".
@@ -943,14 +963,14 @@ class Issue {
     */
    public function getStatus($timestamp = NULL) {
       if (NULL == $timestamp) {
-         $query = "SELECT status FROM `mantis_bug_table` WHERE id = $this->bugId";
+         $query = 'SELECT status FROM `mantis_bug_table` WHERE id = '.$this->bugId.';';
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $this->currentStatus   = $row->status;
+         $this->currentStatus = $row->status;
 
          $this->logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
          return $this->currentStatus;
@@ -958,11 +978,11 @@ class Issue {
 
       // if a timestamp is specified, find the latest status change (strictly) before this date
       $query = "SELECT new_value, old_value, date_modified ".
-         "FROM `mantis_bug_history_table` ".
-         "WHERE bug_id = $this->bugId ".
-         "AND field_name='status' ".
-         "AND date_modified < $timestamp ".
-         "ORDER BY date_modified DESC";
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id = $this->bugId ".
+               "AND field_name='status' ".
+               "AND date_modified < $timestamp ".
+               "ORDER BY date_modified DESC";
 
       // get latest result
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1099,10 +1119,10 @@ class Issue {
 
       // Find start_date
       $query = "SELECT id, date_modified, old_value, new_value ".
-         "FROM `mantis_bug_history_table` ".
-         "WHERE bug_id=$this->bugId ".
-         "AND field_name = 'status' ".
-         "AND (new_value=$status OR old_value=$status) ORDER BY id";
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND (new_value=$status OR old_value=$status) ORDER BY id";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1164,21 +1184,21 @@ class Issue {
       }
 
       // the one that has NO deadLine is lower priority
-      if ((NULL != $this->deadLine) && (NULL == $issueB->deadLine)) {
+      if ((NULL != $this->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
          $this->logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
          return  true;
       }
-      if ((NULL == $this->deadLine) && (NULL != $issueB->deadLine)) {
+      if ((NULL == $this->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
          $this->logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
          return  false;
       }
 
       // the soonest deadLine has priority
-      if ($this->deadLine < $issueB->deadLine) {
+      if ($this->getDeadLine() < $issueB->getDeadLine()) {
          $this->logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
          return  true;
       }
-      if ($this->deadLine > $issueB->deadLine) {
+      if ($this->getDeadLine() > $issueB->getDeadLine()) {
          $this->logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
          return  false;
       }
@@ -1230,7 +1250,6 @@ class Issue {
       // find user in charge of this issue
       if (NULL != $userid) {
          $user = UserCache::getInstance()->getUser($userid);
-
       } else {
          if (NULL != $this->handlerId) {
             $user = UserCache::getInstance()->getUser($this->handlerId);
@@ -1296,10 +1315,10 @@ class Issue {
       }
 
       $query = "SELECT date_modified ".
-         "FROM `mantis_bug_history_table` ".
-         "WHERE bug_id=$this->bugId ".
-         "AND field_name = 'status' ".
-         "AND new_value=$status ORDER BY id";
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1330,10 +1349,10 @@ class Issue {
       }
 
       $query = "SELECT date_modified ".
-         "FROM `mantis_bug_history_table` ".
-         "WHERE bug_id=$this->bugId ".
-         "AND field_name = 'status' ".
-         "AND new_value=$status ORDER BY id DESC";
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id DESC";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1359,20 +1378,20 @@ class Issue {
     * 0 = 0% done
     */
    public function getProgress() {
-      if ($this->currentStatus >= $this->bug_resolved_status_threshold) {
+      if ($this->currentStatus >= $this->getBugResolvedStatusThreshold()) {
          return 1; // issue is finished, 100% done.
       }
 
       // no time spent on task, 0% done
-      if ((NULL == $this->elapsed) || (0 == $this->elapsed)) { return 0; }
+      if ((NULL == $this->getElapsed()) || (0 == $this->getElapsed())) { return 0; }
 
       // if no Remaining set, 100% done (this is not a normal case, an Alert is raised by ConsistencyCheck)
       if ((NULL == $this->remaining) || (0 == $this->remaining)) { return 1; }
 
       // nominal case
-      $progress = $this->elapsed / $this->getReestimated();   // (T-R)/T
+      $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
 
-      $this->logger->debug("issue $this->bugId Progress = $progress % = $this->elapsed / ($this->elapsed + $this->remaining)");
+      $this->logger->debug("issue $this->bugId Progress = $progress % = $this->getElapsed() / ($this->getElapsed() + $this->remaining)");
 
       return $progress;
    }
@@ -1385,9 +1404,7 @@ class Issue {
     * @return array[command_id] = commandName
     */
    public function getCommandList() {
-
       if (NULL == $this->commandList) {
-
          $query  = "SELECT * FROM `codev_command_bug_table` WHERE bug_id=$this->bugId ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -1407,13 +1424,10 @@ class Issue {
       return $this->commandList;
    }
 
-
    /**
-    *
     * @param type $value
     */
    public function setHandler($value) {
-
       $query = "UPDATE `mantis_bug_table` SET handler_id = '$value' WHERE id=$this->bugId ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1423,12 +1437,9 @@ class Issue {
    }
    
    /**
-    *
     * @param type $value
     */
    public function setTargetVersion($value) {
-
-
       $query = "SELECT version from `mantis_project_version_table` WHERE id=$value ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1447,7 +1458,6 @@ class Issue {
    }
 
    private function setCustomField($field_id, $value) {
-
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $field_id";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1472,7 +1482,6 @@ class Issue {
     * @param type $value
     */
    public function setExternalRef($value) {
-
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $this->setCustomField($extRefCustomField, $value);
       $this->tcId = $value;
@@ -1483,7 +1492,6 @@ class Issue {
     * @param type $value
     */
    public function setEffortEstim($value) {
-
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $this->setCustomField($extRefCustomField, $value);
       $this->effortEstim = $value;
@@ -1493,7 +1501,6 @@ class Issue {
     * @param type $value
     */
    public function setMgrEffortEstim($value) {
-
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $this->setCustomField($extRefCustomField, $value);
       $this->mgrEffortEstim = $value;
@@ -1503,7 +1510,6 @@ class Issue {
     * @param type $value
     */
    public function setDeadline($value) {
-
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $this->setCustomField($extRefCustomField, $value);
       $this->deadLine = $value;
