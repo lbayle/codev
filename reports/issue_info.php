@@ -18,19 +18,19 @@ require('../include/session.inc.php');
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('../path.inc.php');
+require('../path.inc.php');
 
-require_once('super_header.inc.php');
+require('include/super_header.inc.php');
 
-require_once('../smarty_tools.php');
-require_once('issue_info_tools.php');
+require('smarty_tools.php');
 
-require_once('user_cache.class.php');
-require_once('consistency_check2.class.php');
+require('classes/smarty_helper.class.php');
 
-require('display.inc.php');
+require_once('reports/issue_info_tools.php');
 
-
+include_once('classes/issue_cache.class.php');
+include_once('classes/user_cache.class.php');
+include_once('classes/consistency_check2.class.php');
 
 // ========== MAIN ===========
 
@@ -87,10 +87,11 @@ if(isset($_SESSION['userid'])) {
             $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
             $smartyHelper->assign('isManager', $isManager);
             $smartyHelper->assign('issueGeneralInfo', getIssueGeneralInfo($issue, $isManager, $displaySupport));
-            $smartyHelper->assign('jobDetails', getJobDetails($issue));
+            $timeTracks = $issue->getTimeTracks();
+            $smartyHelper->assign('jobDetails', getJobDetails($timeTracks));
             $smartyHelper->assign('timeDrift', getTimeDrift($issue));
 
-            $smartyHelper->assign('months', getCalendar($issue));
+            $smartyHelper->assign('months', getCalendar($issue,$timeTracks));
             $smartyHelper->assign('durationsByStatus', getDurationsByStatus($issue));
 
             // set Commands I belong to
