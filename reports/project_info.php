@@ -220,7 +220,7 @@ function getVersionsIssues($projectVersionList) {
             }
             $formatedNewList .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
 
-         } elseif ($issue->currentStatus >= $issue->bug_resolved_status_threshold) {
+         } elseif ($issue->currentStatus >= $issue->getBugResolvedStatusThreshold()) {
             if ("" != $formatedResolvedList) {
                $formatedResolvedList .= ', ';
             }
