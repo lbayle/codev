@@ -459,13 +459,11 @@
 
                jQuery("#btImportIssues").click(function(event) {
 
-                  jQuery("body").css('cursor','wait');
+                  //jQuery("body").css('cursor','wait');
 
                   var oTable = $('#issues_table').dataTable();
 
                   $('#issues_table tbody tr').each( function () {
-                     var iPos = oTable.fnGetPosition( this );
-                     if (iPos!=null) {
 
                         var row     = jQuery(this);
                         var lineNum = jQuery(this).find('td.lineNum').text();
@@ -516,9 +514,9 @@
                               }
                            }
                         });
-                     }
                   });
-                  jQuery("body").css('cursor','auto');
+                  //jQuery("body").css('cursor','auto');
+                  alert('{t}Import done.{/t}');
                });
             });
          </script>
