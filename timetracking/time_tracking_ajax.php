@@ -83,7 +83,7 @@ function getWeekTaskDetails($weekDates, $userid, TimeTracking $timeTracking) {
          $linkid = $bugid.'_'.$jobid;
          $linkList[$linkid] = $issue;
 
-         $jobName = $jobs->getJobName($row->jobid);
+         $jobName = $jobs->getJobName($jobid);
 
          $description = addslashes(htmlspecialchars($issue->summary));
          $dialogBoxTitle = T_('Task').' '.$issue->bugId.' / '.$issue->tcId.' - '.T_('Update Remaining');
