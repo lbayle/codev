@@ -438,7 +438,8 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign('efficiencyRate', round($timeTracking->getEfficiencyRate(), 2));
          $smartyHelper->assign('systemDisponibilityRate', round($timeTracking->getSystemDisponibilityRate(), 3));
 
-         $smartyHelper->assign('timeDriftStats', $timeTracking->getTimeDriftStats());
+         $timeDriftStats = $timeTracking->getTimeDriftStats();
+         $smartyHelper->assign('timeDriftStats', $timeDriftStats);
          $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
          $percent = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
          $smartyHelper->assign('percent', round($percent, 1));
