@@ -150,7 +150,13 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
    return $timetrackingTuples;
 }
 
-function getWeekTask($weekDates, $userid, $timeTracking) {
+/**
+ * @param unknown_type $weekDates
+ * @param int $userid
+ * @param TimeTracking $timeTracking
+ * @return mixed[]
+ */
+function getWeekTask($weekDates, $userid, TimeTracking $timeTracking) {
    $jobs = new Jobs();
 
    $weekTasks = NULL;
@@ -161,8 +167,9 @@ function getWeekTask($weekDates, $userid, $timeTracking) {
 
       foreach ($jobList as $jobid => $dayList) {
          // if no remaining set, display a '?' to allow Remaining edition
-         if (NULL == $issue->remaining) {
-
+         if(is_numeric($issue->remaining)) {
+            $formattedRemaining = $issue->remaining;
+         } else {
             #if (($team->isSideTasksProject($issue->projectId)) ||
             #    ($team->isNoStatsProject($issue->projectId))) {
             // do not allow to edit sideTasks Remaining
@@ -170,8 +177,7 @@ function getWeekTask($weekDates, $userid, $timeTracking) {
             #} else {
             #   $formattedRemaining = '?';
             #}
-         } else {
-            $formattedRemaining = $issue->remaining;
+            //
          }
 
          $dayTasks = "";
