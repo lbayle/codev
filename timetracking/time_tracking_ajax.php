@@ -19,15 +19,17 @@ require('../include/session.inc.php');
 
 // MAIN
 if(isset($_SESSION['userid'])) {
-   require_once('../path.inc.php');
-   require_once('super_header.inc.php');
-   require_once('i18n.inc.php');
+   require('../path.inc.php');
+   require('include/super_header.inc.php');
 
    if(isset($_GET['action'])) {
+      require('classes/smarty_helper.class.php');
+
+      $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'updateRemainingAction') {
-         require_once('issue_cache.class.php');
-         require_once('holidays.class.php');
-         require_once('time_tracking.class.php');
+         require('timetracking/time_tracking_tools.php');
+         include_once('classes/issue_cache.class.php');
+         include_once('classes/time_tracking.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(getSecureGETIntValue('bugid'));
          $formattedRemaining = getSecureGETNumberValue('remaining');
@@ -40,98 +42,23 @@ if(isset($_SESSION['userid'])) {
 
          $userid = getSecureGETIntValue('userid',$_SESSION['userid']);
 
-         echo getWeekTaskDetails($weekDates,$userid,$timeTracking);
+         // UTF8 problems in smarty, date encoding needs to be done in PHP
+         $smartyHelper->assign('weekDates', array(
+               date('Y-m-d',$weekDates[1]) => formatDate("%A %d %B", $weekDates[1]),
+               date('Y-m-d',$weekDates[2]) => formatDate("%A %d %B", $weekDates[2]),
+               date('Y-m-d',$weekDates[3]) => formatDate("%A %d %B", $weekDates[3]),
+               date('Y-m-d',$weekDates[4]) => formatDate("%A %d %B", $weekDates[4]),
+               date('Y-m-d',$weekDates[5]) => formatDate("%A %d %B", $weekDates[5]))
+         );
+         $smartyHelper->assign('weekEndDates', array(formatDate("%A %d %B", $weekDates[6]),formatDate("%A %d %B", $weekDates[7])));
+
+         $smartyHelper->assign('weekTasks', getWeekTask($weekDates,$userid,$timeTracking));
+         $smartyHelper->display('ajax/weekTaskDetails');
       }
    }
 }
 else {
    sendUnauthorizedAccess();
-}
-
-/**
- * TODO Use a specific template for Smarty or Datatables async refresh mecanism
- * @param array $weekDates
- * @param int $userid
- * @param TimeTracking $timeTracking
- * @return String html
- */
-function getWeekTaskDetails($weekDates, $userid, TimeTracking $timeTracking) {
-   $html = "<table id='weekTaskDetails'>\n";
-   $html .= "<tr>\n";
-   $html .= '<th>'.T_('Task')."</th>\n";
-   $html .= '<th>'.T_('RAF')."</th>\n";
-   $html .= '<th>'.T_('Job')."</th>\n";
-   $html .= "<th width='80'>".formatDate('%A %d %B', $weekDates[1])."</th>\n";
-   $html .= "<th width='80'>".formatDate('%A %d %B', $weekDates[2])."</th>\n";
-   $html .= "<th width='80'>".formatDate('%A %d %B', $weekDates[3])."</th>\n";
-   $html .= "<th width='80'>".formatDate('%A %d %B', $weekDates[4])."</th>\n";
-   $html .= "<th width='80'>".formatDate('%A %d %B', $weekDates[5])."</th>\n";
-   $html .= "<th width='80' style='background-color: #D8D8D8;' >".formatDate('%A %d %B', $weekDates[6])."</th>\n";
-   $html .= "<th width='80' style='background-color: #D8D8D8;' >".formatDate('%A %d %B', $weekDates[7])."</th>\n";
-   $html .= "</tr>\n";
-
-   $linkList = array();
-   $holidays = Holidays::getInstance();
-   $weekTracks = $timeTracking->getWeekDetails($userid);
-
-   $jobs = new Jobs();
-
-   foreach ($weekTracks as $bugid => $jobList) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
-
-      foreach ($jobList as $jobid => $dayList) {
-         $linkid = $bugid.'_'.$jobid;
-         $linkList[$linkid] = $issue;
-
-         $jobName = $jobs->getJobName($jobid);
-
-         $description = addslashes(htmlspecialchars($issue->summary));
-         $dialogBoxTitle = T_('Task').' '.$issue->bugId.' / '.$issue->tcId.' - '.T_('Update Remaining');
-
-         $html .= "<tr>\n";
-         $html .= '<td>'.issueInfoURL($bugid).' / '.$issue->tcId.' : '.$issue->summary."</td>\n";
-
-         // if no remaining set, display a '?' to allow Remaining edition
-         if (NULL == $issue->remaining) {
-
-            #if (($team->isSideTasksProject($issue->projectId)) ||
-            #    ($team->isNoStatsProject($issue->projectId))) {
-            // do not allow to edit sideTasks Remaining
-            $formattedRemaining = '';
-            #} else {
-            #   $formattedRemaining = '?';
-            #}
-         } else {
-            $formattedRemaining = $issue->remaining;
-         }
-         $html .= "<td><a title='".T_('update remaining')."' href=\"javascript: updateRemaining('".$issue->remaining."', '".$description."', '".$bugid."', '".$dialogBoxTitle."')\" >".$formattedRemaining."</a></td>\n";
-         $html .= '<td>'.$jobName."</td>\n";
-
-         for ($i = 1; $i <= 7; $i++) {
-            if($i <= 5) {
-               $h = $holidays->isHoliday($weekDates[$i]);
-               if ($h) {
-                  $bgColor = "style='background-color: #".$h->color.";'";
-                  #$bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-                  $title = "title='".$h->description."'";
-               } else {
-                  $bgColor = '';
-                  $title = '';
-               }
-            } else {
-               $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-               $title = '';
-            }
-            $html .= '<td '.$bgColor.' '.$title.'>';
-            $html .= array_key_exists($i,$dayList) != NULL ? $dayList[$i] : '';
-            $html .= "</td>\n";
-         }
-         $html .= "</tr>\n";
-      }
-   }
-   $html .= " </table>\n";
-
-   return $html;
 }
 
 ?>
