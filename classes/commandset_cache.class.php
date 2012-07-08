@@ -30,7 +30,7 @@ class CommandSetCache extends Cache {
     * @return CommandSetCache
     */
    public static function getInstance() {
-      return parent::getInstance(__CLASS__);
+      return parent::createInstance(__CLASS__);
    }
 
    /**

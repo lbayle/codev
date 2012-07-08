@@ -17,7 +17,7 @@
 */
 
 require_once('classes/cache.php');
-require_once('classes/team.class.php');
+require_once('classes/time_track.class.php');
 
 /**
  * usage: TimeTrackCache::getInstance()->getTimeTrack($id);
@@ -30,7 +30,7 @@ class TimeTrackCache extends Cache {
     * @return TimeTrackCache
     */
    public static function getInstance() {
-      return parent::getInstance(__CLASS__);
+      return parent::createInstance(__CLASS__);
    }
 
    /**

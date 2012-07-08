@@ -30,7 +30,7 @@ class CommandCache extends Cache {
     * @return CommandCache
     */
    public static function getInstance() {
-      return parent::getInstance(__CLASS__);
+      return parent::createInstance(__CLASS__);
    }
 
    /**

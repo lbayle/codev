@@ -17,7 +17,7 @@
 */
 
 require_once('classes/cache.php');
-require_once('classes/team.class.php');
+require_once('classes/user.class.php');
 
 /**
  * usage: UserCache::getInstance()->getUser($id);
@@ -30,7 +30,7 @@ class UserCache extends Cache {
     * @return UserCache
     */
    public static function getInstance() {
-      return parent::getInstance(__CLASS__);
+      return parent::createInstance(__CLASS__);
    }
 
    /**

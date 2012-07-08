@@ -30,7 +30,7 @@ class IssueCache extends Cache {
     * @return IssueCache
     */
    public static function getInstance() {
-      return parent::getInstance(__CLASS__);
+      return parent::createInstance(__CLASS__);
    }
 
    /**

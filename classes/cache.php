@@ -69,7 +69,7 @@ abstract class Cache {
     * @param mixed $cache The cache type
     * @return Cache
     */
-   public static function getInstance($cache) {
+   protected static function createInstance($cache) {
       if (!array_key_exists($cache,self::$instance)) {
          $c = $cache;
          self::$instance[$cache] = new $c($cache);
