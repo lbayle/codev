@@ -74,7 +74,7 @@ if (isset($_SESSION['userid'])) {
 
       if ($commandid) {
          $command = CommandCache::getInstance()->getCommand($commandid);
-         $command->addIssue($bugid);
+         $command->addIssue($bugid, true); // DBonly
       }
 
       $logger->debug("Import bugid=$bugid $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");

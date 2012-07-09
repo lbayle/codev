@@ -455,9 +455,11 @@ class Command {
     * add Issue to command (in DB & current instance)
     *
     * @param int $bugid
+    * @param type $isDBonly if true, do not update current instance (PERF issue on)
+    *
     * @return insertion id if success, NULL on failure
     */
-   public function addIssue($bugid) {
+   public function addIssue($bugid, $isDBonly = false) {
 
       // security check
       if (!is_numeric($bugid)) {
@@ -476,22 +478,23 @@ class Command {
          return NULL;
       }
 
-      if (true == $this->getIssueSelection()->addIssue($bugid)) {
+      if (!$isDBonly) {
+         if (true == $this->getIssueSelection()->addIssue($bugid)) {
 
-         $this->logger->debug("Add issue $bugid to command $this->id");
+            $this->logger->debug("Add issue $bugid to command $this->id");
 
-         $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+            $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            $id = SqlWrapper::getInstance()->sql_insert_id();
+            return $id;
+         } else {
+            $this->logger->debug("addIssue($bugid) to command $this->id: already in !");
          }
-         $id = SqlWrapper::getInstance()->sql_insert_id();
-         return $id;
-      } else {
-         $this->logger->debug("addIssue($bugid) to command $this->id: already in !");
       }
-
       return NULL;
    }
 
