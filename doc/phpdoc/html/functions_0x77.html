@@ -6,6 +6,13 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript">
+$(document).ready(initResizable);
+</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css"/>
 </head>
 <body onload='searchBox.OnSelectItem(0);'>
@@ -20,8 +27,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="favicon.ico"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.16</span></div>
-   <div id="projectbrief">TimeTrackingonMantis</div>
+   <div id="projectname">CodevTT&#160;<span id="projectnumber">0.99.18</span></div>
+   <div id="projectbrief">TimeTracking on Mantis</div>
   </td>
  </tr>
  </tbody>
@@ -30,10 +37,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="examples.html"><span>Examples</span></a></li>
       <li id="searchli">
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -64,15 +69,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
-      <li><a href="functions_vars.html"><span>Variables</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
-      <li><a href="functions.html#index_0x24"><span>$</span></a></li>
-      <li><a href="functions_0x5f.html#index__"><span>_</span></a></li>
+      <li><a href="functions.html#index__"><span>_</span></a></li>
       <li><a href="functions_0x61.html#index_a"><span>a</span></a></li>
-      <li><a href="functions_0x62.html#index_b"><span>b</span></a></li>
       <li><a href="functions_0x63.html#index_c"><span>c</span></a></li>
       <li><a href="functions_0x64.html#index_d"><span>d</span></a></li>
       <li><a href="functions_0x65.html#index_e"><span>e</span></a></li>
@@ -83,32 +85,55 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_0x6c.html#index_l"><span>l</span></a></li>
       <li><a href="functions_0x6d.html#index_m"><span>m</span></a></li>
       <li><a href="functions_0x6e.html#index_n"><span>n</span></a></li>
-      <li><a href="functions_0x6f.html#index_o"><span>o</span></a></li>
       <li><a href="functions_0x70.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_0x71.html#index_q"><span>q</span></a></li>
       <li><a href="functions_0x72.html#index_r"><span>r</span></a></li>
       <li><a href="functions_0x73.html#index_s"><span>s</span></a></li>
       <li><a href="functions_0x74.html#index_t"><span>t</span></a></li>
       <li><a href="functions_0x75.html#index_u"><span>u</span></a></li>
-      <li><a href="functions_0x76.html#index_v"><span>v</span></a></li>
       <li class="current"><a href="functions_0x77.html#index_w"><span>w</span></a></li>
     </ul>
   </div>
 </div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('functions.html','');
+</script>
+<div id="doc-content">
 <div class="contents">
 <div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
-<li>warn()
-: <a class="el" href="classLogger.html#a876b6064e2006ef6b1932983a8116b55">Logger</a>
+<li>week_dates()
+: <a class="el" href="classTools.html#a3fb1fc22ced586fd63377dd19565f166">Tools</a>
+</li>
+<li>weekStartDate()
+: <a class="el" href="classTools.html#a579c08718a4ff7c504494514cdc087d4">Tools</a>
 </li>
 </ul>
 </div>
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="footer">Generated on Tue Jul 10 2012 for CodevTT by&#160;
+<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -117,8 +142,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Mon Mar 12 2012 for CodevTT by&#160;
-<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
+
 </body>
 </html>
