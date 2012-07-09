@@ -16,15 +16,18 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
+require_once('lib/log4php/Logger.php');
 
-require_once "constants.php";
+require_once('constants.php');
 
-include_once "time_track.class.php";
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "team.class.php";
-include_once "holidays.class.php";
+include_once('classes/holidays.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/project.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team.class.php');
+include_once('classes/timetrack_cache.class.php');
+include_once('classes/user_cache.class.php');
 
 /**
  * TimeTracking facilities
@@ -35,14 +38,26 @@ class TimeTracking {
 
   var $startTimestamp;
   var $endTimestamp;
-  var $prodDays;
 
   var $team_id;
 
   var $prodProjectList;     // projects that are not sideTasks, and not in noStatsProject
   var $sideTaskprojectList;
+  
+  private $prodDays;
+  private $managementDays;
+  
+  private $availableWorkload;
+  private $timeDriftStats;
+  private $efficiencyRate;
+  
+  private $systemDisponibilityRate;
 
-  // ----------------------------------------------
+  /**
+   * @param unknown_type $startTimestamp
+   * @param unknown_type $endTimestamp
+   * @param int $team_id 
+   */
   public function __construct($startTimestamp, $endTimestamp, $team_id = NULL) {
 
     $this->logger = Logger::getLogger(__CLASS__);
@@ -64,7 +79,9 @@ class TimeTracking {
     $this->initialize();
   }
 
-  // ----------------------------------------------
+  /**
+   * Initialize 
+   */
   public function initialize() {
 
     $this->prodProjectList     = array();
@@ -100,20 +117,24 @@ class TimeTracking {
     }
   }
 
-  // ----------------------------------------------
   /**
    * Returns the number of days worked by the team within the timestamp
+   * @return number 
    */
   public function getProdDays() {
-    return $this->getProductionDays($this->prodProjectList);
+     if(!is_numeric($this->prodDays)) {
+        $this->prodDays = $this->getProductionDays($this->prodProjectList);
+     }
+    return $this->prodDays;
   }
 
-  // ----------------------------------------------
   /**
    * Returns the number of days worked by the team within the timestamp
    * - Observers excluded
+   * @param array $projects
+   * @return number 
    */
-  private function getProductionDays($projects) {
+  private function getProductionDays(array $projects) {
 
     $accessLevel_dev     = Team::accessLevel_dev;
     $accessLevel_manager = Team::accessLevel_manager;
@@ -149,11 +170,12 @@ class TimeTracking {
     return $prodDays;
   }
 
-  // ----------------------------------------------
-  /** Returns the number of days spent on side tasks EXCEPT Vacations
+  /** 
+   * Returns the number of days spent on side tasks EXCEPT Vacations
    * - Observers excluded
    *
-   * @param $isDeveloppersOnly : do not include time spent by Managers (default = false)
+   * @param bool $isDeveloppersOnly : do not include time spent by Managers (default = false)
+   * @return number 
    */
   public function getProdDaysSideTasks($isDeveloppersOnly = false) {
     $accessLevel_dev     = Team::accessLevel_dev;
@@ -198,14 +220,16 @@ class TimeTracking {
     return $prodDays;
   }
 
-  // ----------------------------------------------
-  /** Returns the number of days spent on Management Tasks
+  /**
+   * Returns the number of days spent on Management Tasks
    * - Observers excluded
+   * @return number 
    */
    public function getManagementDays() {
+      if(!is_numeric($this->managementDays)) {
     $accessLevel_dev     = Team::accessLevel_dev;
     $accessLevel_manager = Team::accessLevel_manager;
-     $prodDays = 0;
+     $this->managementDays = 0;
 
      // select tasks within timestamp, where user is in the team
      $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
@@ -238,22 +262,26 @@ class TimeTracking {
            
 	        if ((in_array ($issue->projectId, $this->sideTaskprojectList)) &&
 			        ($issue->isProjManagement(array($this->team_id)))) {
-		        $prodDays += $timeTrack->duration;
+		        $this->managementDays += $timeTrack->duration;
 	        }
         } catch (Exception $e) {
 	        $this->logger->error("getManagementDays(): issue $issue->bugId: ".$e->getMessage());
         }
      }
-     return $prodDays;
+         
+      }
+     return $this->managementDays;
   }
 
-
-  // ----------------------------------------------
+  /**
+   * @return number 
+   */
   public function getAvailableWorkload() {
+     if(!is_numeric($this->availableWorkload)) {
     $accessLevel_dev     = Team::accessLevel_dev;
     #$accessLevel_manager = Team::accessLevel_manager;
 
-    $teamProdDaysForecast = 0;
+    $this->availableWorkload = 0;
 
     // For all the users of the team
     $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
@@ -273,17 +301,18 @@ class TimeTracking {
     while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
     {
       $user = UserCache::getInstance()->getUser($row->user_id);
-      $teamProdDaysForecast += $user->getAvailableWorkload($this->startTimestamp, $this->endTimestamp, $this->team_id);
+      $this->availableWorkload += $user->getAvailableWorkload($this->startTimestamp, $this->endTimestamp, $this->team_id);
     }
-
-    return $teamProdDaysForecast;
+     }
+     
+    return $this->availableWorkload;
   }
 
-
-
-
-
-  // ----------------------------------------------
+  /**
+   *
+   * @param bool $withSupport
+   * @return mixed[] 
+   */
   public function getResolvedDriftStats($withSupport = true) {
 
     $issueList = $this->getResolvedIssues($this->prodProjectList);
@@ -295,8 +324,11 @@ class TimeTracking {
 
   }
 
-  // ----------------------------------------------
+  /**
+   * @return mixed[] 
+   */
   public function getTimeDriftStats() {
+     if(NULL == $this->timeDriftStats) {
 
     global $deliveryDateCustomField;
 
@@ -325,21 +357,23 @@ class TimeTracking {
       }
     }
     if (0 != count($issueList)) {
-      return $this->getIssuesTimeDriftStats($issueList);
+      $this->timeDriftStats = $this->getIssuesTimeDriftStats($issueList);
     } else {
-    	return array();
+    	$this->timeDriftStats = array();
     }
+     }
+     
+     return $this->timeDriftStats;
 
   }
 
-  // -------------------------------------------------
   /**
    * Returns all Issues resolved in the period and having not been re-opened
    *
-   * @param $projects  if NULL: prodProjectList
-   * @return a list of Issue class instances
+   * @param array $projects  if NULL: prodProjectList
+   * @return Issue[] a list of Issue class instances
    */
-  public function getResolvedIssues($projects = NULL) {
+  public function getResolvedIssues(array $projects = NULL) {
     global $status_closed;
 
     $resolvedList = array();
@@ -396,17 +430,16 @@ class TimeTracking {
     return $issueList;
   }
 
-
-
-  // ----------------------------------------------
   /**
+   *
    * return stats on which Issues where delivered after the DeadLine
    *
-   * @param array $issueList
+   * @param Issue[] $issueList
+   * @return mixed[] 
    *
    * TODO move this method to IssueSelection class
    */
-  public function getIssuesTimeDriftStats($issueList) {
+  public function getIssuesTimeDriftStats(array $issueList) {
 
     $nbDriftsNeg   = 0;
     $nbDriftsEqual = 0;
@@ -463,19 +496,17 @@ class TimeTracking {
     return $driftStats;
   }
 
-
-
-  // -------------------------------------------------
-  /** Drift Stats on a given Issue.class List
+  /**
    *
-   * @param array $issueList
-   * @param boolean $withSupport
-   * @return array driftStats
+   * Drift Stats on a given Issue.class List
+   *
+   * @param Issue[] $issueList
+   * @param bool $withSupport
+   * @return mixed[] driftStats 
    *
    * TODO move this method to IssueSelection class
-  */
-
-  public function getIssuesDriftStats($issueList, $withSupport = true) {
+   */
+  public function getIssuesDriftStats(array $issueList, $withSupport = true) {
 
     global $statusNames;
 
@@ -594,34 +625,36 @@ class TimeTracking {
     return $driftStats;
   }
 
-
-  // ----------------------------------------------
   /**
-   Returns an indication on how sideTasks slows down the Production
-   prodRate = nbDays spend on projects / total prodDays * 100
-   REM only Developpers, no managers !
-
-  */
+   * Returns an indication on how sideTasks slows down the Production 
+   * prodRate = nbDays spend on projects / total prodDays * 100 
+   * REM only Developpers, no managers !
+   * @return number 
+   */
   public function getEfficiencyRate() {
+     if(!is_numeric($this->efficiencyRate)) {
     $prodDays      =             $this->getProdDays();
     $totalProdDays = $prodDays + $this->getProdDaysSideTasks(true);  // only developpers !
 
     // REM x100 for percentage
     if (0 != $totalProdDays) {
-      $prodRate = $prodDays / $totalProdDays * 100;
+      $this->efficiencyRate = $prodDays / $totalProdDays * 100;
     } else {
-      $prodRate = 0;
+      $this->efficiencyRate = 0;
     }
-
-    return $prodRate;
+     }
+    
+    return $this->efficiencyRate;
   }
 
-  // ----------------------------------------------
-  // Returns an indication on how Environmental problems slow down the production.
-  // EnvProblems can be : Citrix Falldow, Continuous pbs, VMS shutdown, SSL connection loss, etc.
-
-  // systemDisponibilityRate = 100 - (nb breakdown hours / prodHours)
+  /**
+   * Returns an indication on how Environmental problems slow down the production.
+   * EnvProblems can be : Citrix Falldow, Continuous pbs, VMS shutdown, SSL connection loss, etc.
+   * systemDisponibilityRate = 100 - (nb breakdown hours / prodHours)
+   * @return number 
+   */
   public function getSystemDisponibilityRate() {
+     if(!is_numeric($this->systemDisponibilityRate)) {
     $accessLevel_dev     = Team::accessLevel_dev;
     $accessLevel_manager = Team::accessLevel_manager;
 
@@ -661,15 +694,20 @@ class TimeTracking {
     //echo "DEBUG prodDays $prodDays teamIncidentDays $teamIncidentDays<br/>";
 
     if (0 != $prodDays) {
-      $systemDisponibilityRate = 100 - (($teamIncidentDays / ($prodDays + $teamIncidentDays))*100);
+      $this->systemDisponibilityRate = 100 - (($teamIncidentDays / ($prodDays + $teamIncidentDays))*100);
     } else {
-      $systemDisponibilityRate = 0;
+      $this->systemDisponibilityRate = 0;
     }
-
-    return $systemDisponibilityRate;
+    
+     }
+     
+    return $this->systemDisponibilityRate;
   }
 
-  // ----------------------------------------------
+  /**
+   * @param int $job_id
+   * @return number 
+   */
   public function getWorkingDaysPerJob($job_id) {
     $accessLevel_dev     = Team::accessLevel_dev;
     $accessLevel_manager = Team::accessLevel_manager;
@@ -708,7 +746,10 @@ class TimeTracking {
     return $workingDaysPerJob;
   }
 
-  // ----------------------------------------------
+  /**
+   * @param int $project_id
+   * @return number 
+   */
   public function getWorkingDaysPerProject($project_id) {
     $accessLevel_dev     = Team::accessLevel_dev;
     $accessLevel_manager = Team::accessLevel_manager;
@@ -745,8 +786,12 @@ class TimeTracking {
     return $workingDaysPerProject;
   }
 
-  // ----------------------------------------------
-  // Returns an array of (date => duration) containing all days where duration != 1
+  /**
+   * Returns an array of (date => duration) containing all days where duration != 1
+   * @param int $userid
+   * @param bool $isStrictlyTimestamp
+   * @return number[] 
+   */
   public function checkCompleteDays($userid, $isStrictlyTimestamp = FALSE) {
     $incompleteDays = array();
     $durations = array();          // unique date => sum durations
@@ -784,8 +829,11 @@ class TimeTracking {
     return $incompleteDays;
   }
 
-  // ----------------------------------------------
-  // Find days which are not 'sat' or 'sun' or FixedHoliday and that have no timeTrack entry.
+  /**
+   * Find days which are not 'sat' or 'sun' or FixedHoliday and that have no timeTrack entry.
+   * @param int $userid
+   * @return number[] 
+   */
   public function checkMissingDays($userid) {
 
     $holidays = Holidays::getInstance();
@@ -842,11 +890,10 @@ class TimeTracking {
     return $missingDays;
   }
 
-
-  // ----------------------------------------------
   /**
    * returns $durationPerCategory[CategoryName][bugid] = duration
    * @param int $project_id
+   * @return int[][] 
    */
   public function getProjectDetails($project_id) {
     $accessLevel_dev     = Team::accessLevel_dev;
@@ -887,15 +934,16 @@ class TimeTracking {
     return $durationPerCategory;
   }
 
-  // ----------------------------------------------
   /**
+   *
    * Returns a multiple array containing duration for each day of the week.
    * WARNING: the timestamp must NOT exceed 1 week.
    *
    * returns : $weekTracks[bugid][jobid][dayOfWeek] = duration
    *
-   * @param unknown_type $userid
-   * @param unknown_type $isTeamProjOnly if TRUE, return only tracks from projects associated to the team
+   * @param int $userid
+   * @param bool $isTeamProjOnly if TRUE, return only tracks from projects associated to the team
+   * @return int[][][] 
    */
   public function getWeekDetails($userid, $isTeamProjOnly=false) {
     $weekTracks = array();
@@ -943,9 +991,11 @@ class TimeTracking {
     return $weekTracks;
   }
 
-    // -----------------------------------------------
-   // return TimeTracks created by the team during the timestamp
-   // returns : $projectTracks[projectid][bugid][jobid] = duration
+   /**
+    *return TimeTracks created by the team during the timestamp
+    * @param bool $isTeamProjOnly
+    * @return int[][][] : $projectTracks[projectid][bugid][jobid] = duration
+    */
    public function getProjectTracks($isTeamProjOnly=false) {
       $accessLevel_dev     = Team::accessLevel_dev;
       $accessLevel_manager = Team::accessLevel_manager;
@@ -992,13 +1042,12 @@ class TimeTracking {
     return $projectTracks;
    }
 
-
-  // ----------------------------------------------
   /**
    * returns a list of all the tasks hving been reopened in the period
-   * @param unknown_type $projects
+   * @param array $projects
+   * @return int[] 
    */
-   public function getReopened($projects = NULL) {
+   public function getReopened(array $projects = NULL) {
 
     global $resolution_fixed;     # 20
     global $resolution_reopened;  # 30;
@@ -1060,11 +1109,12 @@ class TimeTracking {
    return $reopenedList;
    }
 
-  // ----------------------------------------------
   /**
    * returns a list of bug_id that have been submitted in the period
+   * @param array $projects
+   * @return int[] 
    */
-   public function getSubmitted($projects = NULL) {
+   public function getSubmitted(array $projects = NULL) {
 
       $submittedList = array();
 
@@ -1103,13 +1153,13 @@ class TimeTracking {
       return $submittedList;
    }
 
-  // ----------------------------------------------
   /**
    * $countReopened / $countSubmitted
    *
-   * @param unknown_type $projects
+   * @param array $projects
+   * @return number 
    */
-   public function getReopenedRate($projects = NULL) {
+   public function getReopenedRate(array $projects = NULL) {
 
       if (NULL == $projects) {
          $projects = $this->prodProjectList;
@@ -1126,6 +1176,6 @@ class TimeTracking {
       return $rate;
    }
 
-} // class TimeTracking
+}
 
 ?>
