@@ -659,37 +659,33 @@ class Issue {
       // TODO
       $complementaryType = (2500 == $type) ? 2501 : 2500;
 
-      if (NULL == $this->relationships[$type]) {
+      if (!array_key_exists($type, $this->relationships)) {
          $this->relationships[$type] = array();
 
-         // normal
-         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
-            "WHERE source_bug_id=$this->bugId ".
-            "AND relationship_type = $type";
+         $query = 'SELECT * FROM `mantis_bug_relationship_table` '.
+            'WHERE (source_bug_id='.$this->bugId.' '.
+            'AND relationship_type='.$type.') '.
+            'OR (destination_bug_id='.$this->bugId.' '.
+            'AND relationship_type='.$complementaryType.');';
+         $this->logger->error($query);
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
-            $this->relationships[$type][] = $row->destination_bug_id;
-         }
-         // complementary
-         $query = "SELECT * FROM `mantis_bug_relationship_table` ".
-            "WHERE destination_bug_id=$this->bugId ".
-            "AND relationship_type = ".$complementaryType;
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
-            $this->relationships[$type][] = $row->source_bug_id;
+            if($row->source_bug_id == $this->bugId) {
+               // normal
+               $this->logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
+               $this->relationships[$type][] = $row->destination_bug_id;
+            } elseif($row->destination_bug_id == $this->bugId) {
+               // complementary
+               $this->logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
+               $this->relationships[$type][] = $row->source_bug_id;
+            }
          }
       }
-
+      
       return $this->relationships[$type];
    }
 
