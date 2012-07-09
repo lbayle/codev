@@ -1042,12 +1042,15 @@ class TimeTracking {
     return $projectTracks;
    }
 
+   
   /**
    * returns a list of all the tasks hving been reopened in the period
+   * (resolution state changed from 'fixed' to 'reopened')
+   * 
    * @param array $projects
    * @return int[] 
    */
-   public function getReopened(array $projects = NULL) {
+   public function getReopened_old(array $projects = NULL) {
 
     global $resolution_fixed;     # 20
     global $resolution_reopened;  # 30;
@@ -1079,11 +1082,11 @@ class TimeTracking {
              "AND mantis_bug_history_table.field_name='resolution' ".
              "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
              "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
-             "AND mantis_bug_history_table.new_value = $resolution_reopened ".
+             //"AND mantis_bug_history_table.new_value = $resolution_reopened ".
              "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
              "ORDER BY mantis_bug_table.id DESC";
 
-    if (isset($_GET['debug'])) { echo "getReopened QUERY = $query <br/>"; }
+    $this->logger->error("getReopened QUERY = $query");
 
     $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
@@ -1108,8 +1111,75 @@ class TimeTracking {
 
    return $reopenedList;
    }
-
+  
+   
   /**
+   * returns a list of all the tasks having been reopened in the period
+   * (status changed from resolved_threshold to lower value)
+   * 
+   * @param array $projects
+   * @param bool $isExtRefOnly if true, do not return issues having no RefExt (internal bugs)
+   * @return int[] 
+   */
+   public function getReopened(array $projects = NULL, $isExtRefOnly = true) {
+
+      $reopenedList = array();
+
+      // --------
+      if (NULL == $projects) {
+         $projects = $this->prodProjectList;
+      }
+
+      $formatedProjList = implode(', ', $projects);
+
+      if ("" == $formatedProjList) {
+         echo "<div style='color:red'>ERROR getReopened: no project defined for this team !<br/></div>";
+         return 0;
+      }
+
+      // all bugs which resolution changed to 'reopened' whthin the timestamp
+      $query = "SELECT mantis_bug_table.id, " .
+              "mantis_bug_history_table.new_value, " .
+              "mantis_bug_history_table.old_value, " .
+              "mantis_bug_history_table.date_modified " .
+              "FROM `mantis_bug_table`, `mantis_bug_history_table` " .
+              "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id " .
+              "AND mantis_bug_table.project_id IN ($formatedProjList) " .
+              "AND mantis_bug_history_table.field_name='status' " .
+              "AND mantis_bug_history_table.date_modified >= $this->startTimestamp " .
+              "AND mantis_bug_history_table.date_modified <  $this->endTimestamp " .
+              "AND mantis_bug_history_table.old_value >= get_project_resolved_status_threshold(mantis_bug_table.project_id) " .
+              "AND mantis_bug_history_table.new_value <  get_project_resolved_status_threshold(mantis_bug_table.project_id) " .
+              "ORDER BY mantis_bug_table.id DESC";
+
+      //$this->logger->debug("getReopened QUERY = $query");
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+
+         if ($isExtRefOnly) {
+            // do not include internal tasks (tasks having no ExternalReference)
+            $issue = IssueCache::getInstance()->getIssue($row->id);
+            if ((NULL == $issue->tcId) || ('' == $issue->tcId)) {
+               $this->logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
+               continue;
+            }
+         }
+         if (!in_array($row->id, $reopenedList)) {
+            $reopenedList[] = $row->id;
+            $this->logger->debug("getReopened: found issue $row->id  old_status=$row->old_value new_status=$row->new_value");
+         }
+      }
+
+      return $reopenedList;
+   }
+
+   /**
    * returns a list of bug_id that have been submitted in the period
    * @param array $projects
    * @return int[] 
