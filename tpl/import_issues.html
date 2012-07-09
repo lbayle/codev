@@ -264,40 +264,36 @@
                jQuery("#btSetAllCommands").click(function(event) {
                   // you cannot set data if column is hidden !
                   $('#issues_table tbody tr').each( function () {
-                     var iPos = oTable.fnGetPosition( this );
-                     if (iPos!=null) {
-                        var value = jQuery('#globalCommandid option:selected').text();
-                        var key = jQuery('#globalCommandid option:selected').val();
+                     var select = jQuery('#globalCommandid option:selected');
+                     var value = select.text();
+                     var key = select.val();
 
-                        jQuery(this).find('td.command').text(value);
+                     jQuery(this).find('td.command').text(value);
 
-                        // set id in data table
-                        var lineNum = jQuery(this).find('td.lineNum').text();
-                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                             return $(this).text() == lineNum;
-                                          }).closest("tr");
-                        dataRow.find('td.commandid').text(key);
-                     }
+                     // set id in data table
+                     var lineNum = jQuery(this).find('td.lineNum').text();
+                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+                     dataRow.find('td.commandid').text(key);
                   });
                });
 
                jQuery("#btSetAllCategories").click(function(event) {
                   // you cannot set data if column is hidden !
                   $('#issues_table tbody tr').each( function () {
-                     var iPos = oTable.fnGetPosition( this );
-                     if (iPos!=null) {
-                        var value = jQuery('#globalCategoryid option:selected').text();
-                        var key = jQuery('#globalCategoryid option:selected').val();
+                     var select = jQuery('#globalCategoryid option:selected');
+                     var value = select.text();
+                     var key = select.val();
 
-                        jQuery(this).find('td.category').text(value);
+                     jQuery(this).find('td.category').text(value);
 
-                        // set id in data table
-                        var lineNum = jQuery(this).find('td.lineNum').text();
-                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                             return $(this).text() == lineNum;
-                                          }).closest("tr");
-                        dataRow.find('td.categoryid').text(key);
-                     }
+                     // set id in data table
+                     var lineNum = jQuery(this).find('td.lineNum').text();
+                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+                     dataRow.find('td.categoryid').text(key);
                   });
                });
 
@@ -305,20 +301,18 @@
 
                   // you cannot set data if column is hidden !
                   $('#issues_table tbody tr').each( function () {
-                     var iPos = oTable.fnGetPosition( this );
-                     if (iPos!=null) {
-                        var value = jQuery('#globalTargetversionid option:selected').text();
-                        var key = jQuery('#globalTargetversionid option:selected').val();
+                     var select = jQuery('#globalTargetversionid option:selected');
+                     var value = select.text();
+                     var key = select.val();
 
-                        jQuery(this).find('td.targetVersion').text(value);
+                     jQuery(this).find('td.targetVersion').text(value);
 
-                        // set id in data table
-                        var lineNum = jQuery(this).find('td.lineNum').text();
-                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                             return $(this).text() == lineNum;
-                                          }).closest("tr");
-                        dataRow.find('td.targetversionid').text(key);
-                     }
+                     // set id in data table
+                     var lineNum = jQuery(this).find('td.lineNum').text();
+                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+                     dataRow.find('td.targetversionid').text(key);
                   });
                });
 
@@ -326,20 +320,18 @@
 
                   // you cannot set data if column is hidden !
                   $('#issues_table tbody tr').each( function () {
-                     var iPos = oTable.fnGetPosition( this );
-                     if (iPos!=null) {
-                        var value = jQuery('#globalUserid option:selected').text();
-                        var key = jQuery('#globalUserid option:selected').val();
+                     var select = jQuery('#globalUserid option:selected');
+                     var value = select.text();
+                     var key = select.val();
 
-                        jQuery(this).find('td.userName').text(value);
+                     jQuery(this).find('td.userName').text(value);
 
-                        // set id in data table
-                        var lineNum = jQuery(this).find('td.lineNum').text();
-                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                             return $(this).text() == lineNum;
-                                          }).closest("tr");
-                        dataRow.find('td.userid').text(key);
-                     }
+                     // set id in data table
+                     var lineNum = jQuery(this).find('td.lineNum').text();
+                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
+                                          return $(this).text() == lineNum;
+                                       }).closest("tr");
+                     dataRow.find('td.userid').text(key);
                   });
                });
 
@@ -347,12 +339,8 @@
 
                   // you cannot set data if column is hidden !
                   $('#issues_table tbody tr').each( function () {
-                     var iPos = oTable.fnGetPosition( this );
-                     if (iPos!=null) {
-                        var value = jQuery('#globalDeadline').val();
-
-                        jQuery(this).find('td.deadline').text(value);
-                     }
+                     var value = jQuery('#globalDeadline').val();
+                     jQuery(this).find('td.deadline').text(value);
                   });
                });
 
@@ -459,14 +447,14 @@
 
                jQuery("#btImportIssues").click(function(event) {
 
-                  //jQuery("body").css('cursor','wait');
-
-                  var oTable = $('#issues_table').dataTable();
+                  jQuery('#btImportIssues').attr("disabled", "true");
+                  //jQuery("*").css('cursor','progress');
 
                   $('#issues_table tbody tr').each( function () {
 
                         var row     = jQuery(this);
-                        var lineNum = jQuery(this).find('td.lineNum').text();
+                        var lineNumCell = row.find('td.lineNum');
+                        var lineNum = lineNumCell.text();
 
                         var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
                                           return $(this).text() == lineNum;
@@ -501,10 +489,7 @@
                                  "&description="+description,
                            success: function(data) {
                               // replace lineNum with bugid
-                              var pos = oTable.fnGetPosition(row.find('td.lineNum').get(0) );
-                              oTable.fnUpdate( data, pos[0], pos[1] );
-                              oTable.fnDraw();
-
+                              lineNumCell.html(data);
                            },
                            error: function(jqXHR, textStatus, errorThrown) {
                               if(errorThrown == 'Forbidden') {
@@ -514,9 +499,11 @@
                               }
                            }
                         });
+
                   });
-                  //jQuery("body").css('cursor','auto');
-                  alert('{t}Import done.{/t}');
+                  //jQuery("*").css('cursor','auto');
+                  
+                  alert('{t}Import done !{/t}');
                });
             });
          </script>
