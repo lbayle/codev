@@ -471,31 +471,34 @@ class Command {
       }
 
       try {
-         IssueCache::getInstance()->getIssue($bugid);
+         $issue = IssueCache::getInstance()->getIssue($bugid);
       } catch (Exception $e) {
          $this->logger->error("addIssue($bugid): issue $bugid does not exist !");
          echo "<span style='color:red'>ERROR: issue  '$bugid' does not exist !</span>";
          return NULL;
       }
 
-      if (!$isDBonly) {
-         if (true == $this->getIssueSelection()->addIssue($bugid)) {
 
-            $this->logger->debug("Add issue $bugid to command $this->id");
+      $id = NULL;
+      if ( !array_key_exists($this->id, $issue->getCommandList())) {
 
-            $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
-            $id = SqlWrapper::getInstance()->sql_insert_id();
-            return $id;
-         } else {
-            $this->logger->debug("addIssue($bugid) to command $this->id: already in !");
+         $this->logger->debug("Add issue $bugid to command $this->id");
+
+         $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
          }
+         $id = SqlWrapper::getInstance()->sql_insert_id();
+      } else {
+            $this->logger->debug("addIssue($bugid) to command $this->id: already in !");
       }
-      return NULL;
+
+      if (!$isDBonly) {
+         $this->getIssueSelection()->addIssue($bugid);
+      }
+      return $id;
    }
 
    /**

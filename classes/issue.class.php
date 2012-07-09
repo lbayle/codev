@@ -667,7 +667,7 @@ class Issue {
             'AND relationship_type='.$type.') '.
             'OR (destination_bug_id='.$this->bugId.' '.
             'AND relationship_type='.$complementaryType.');';
-         $this->logger->error($query);
+
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
