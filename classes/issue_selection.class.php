@@ -82,25 +82,17 @@ class IssueSelection {
       // do not add twice the same issue
       if (NULL == $this->issueList[$bugid]) {
 
-         if (Issue::exists($bugid)) {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
+         $this->issueList[$bugid] = $issue;
+         $this->elapsed        += $issue->elapsed;
+         $this->duration      += $issue->getDuration();
+         $this->durationMgr   += $issue->getDurationMgr();
+         $this->mgrEffortEstim += $issue->mgrEffortEstim;
+         $this->effortEstim    += $issue->effortEstim;
+         $this->effortAdd      += $issue->effortAdd;
 
-            $issue = IssueCache::getInstance()->getIssue($bugid);
-            $this->issueList[$bugid] = $issue;
-            $this->elapsed        += $issue->elapsed;
-            $this->duration      += $issue->getDuration();
-            $this->durationMgr   += $issue->getDurationMgr();
-            $this->mgrEffortEstim += $issue->mgrEffortEstim;
-            $this->effortEstim    += $issue->effortEstim;
-            $this->effortAdd      += $issue->effortAdd;
-
-            $this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
-            $retCode = true;
-         } else {
-            $e = new Exception("IssueSelection [$this->name] : addIssue($bugid) : Issue does NOT exist in Mantis DB !");
-            #$this->logger->error("EXCEPTION Command constructor: ".$e->getMessage());
-            #$this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-            throw $e;
-         }
+         $this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->elapsed." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+         $retCode = true;
       }
       return $retCode;
    }
