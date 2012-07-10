@@ -429,7 +429,62 @@ class ConsistencyCheck2 {
         $this->logger->debug("checkIssuesNotInCommand(): issue $issue->bugId referenced in $nbTuples Commands.");
       }
       return $cerrList;
+   }
 
+   /**
+    * Find Commands that are not referenced in any CommandSet
+    * 
+    * @return array 
+    */
+   public function checkCommandsNotInCommandset() {
+
+      $cerrList = array();
+
+         $query  = "SELECT id, name, reference FROM `codev_command_table` ".
+                   "WHERE team_id = $this->teamId ".
+                   "AND id NOT IN (SELECT command_id FROM `codev_commandset_cmd_table`) ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+
+               $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
+                       T_("Command")." \"$row->reference $row->name\" ".T_("is not referenced in any CommandSet"));
+               $cerr->severity = ConsistencyError2::severity_info;
+               $cerrList[] = $cerr;
+         }
+
+      return $cerrList;
+   }
+
+   /**
+    * Find CommandSets that are not referenced in any ServiceContract
+    *
+    * @return array
+    */
+   public function checkCommandSetNotInServiceContract() {
+
+      $cerrList = array();
+
+         $query  = "SELECT id, name, reference FROM `codev_commandset_table` ".
+                   "WHERE team_id = $this->teamId ".
+                   "AND id NOT IN (SELECT commandset_id FROM `codev_servicecontract_cmdset_table`) ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+
+               $cerr = new ConsistencyError2(NULL, NULL, NULL, NULL,
+                       T_("CommandSet")." \"$row->reference $row->name\" ".T_("is not referenced in any ServiceContract"));
+               $cerr->severity = ConsistencyError2::severity_info;
+               $cerrList[] = $cerr;
+         }
+
+      return $cerrList;
    }
 
 
@@ -500,7 +555,7 @@ class ConsistencyCheck2 {
                $label = T_("inconsistent")." (".($value)." ".T_("days").")";
             }
 
-            $cerr = new ConsistencyError2(0, $userid, NULL, $date, $label);
+            $cerr = new ConsistencyError2(NULL, $userid, NULL, $date, $label);
             $cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }

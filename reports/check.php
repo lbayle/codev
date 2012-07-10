@@ -54,27 +54,32 @@ function getTeamConsistencyErrors($teamid) {
    
    $cerrList1 = $ccheck->check();
    $cerrList2 = $ccheck->checkTeamTimetracks();
-   $cerrList = array_merge($cerrList1, $cerrList2);
+   $cerrList3 = $ccheck->checkCommandsNotInCommandset();
+   $cerrList4 = $ccheck->checkCommandSetNotInServiceContract();
+   $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3, $cerrList4);
 
    if (count($cerrList) > 0) {
       foreach ($cerrList as $cerr) {
-         $user = UserCache::getInstance()->getUser($cerr->userId);
-         try {
+         if (NULL != $cerr->userId) {
+            $user = UserCache::getInstance()->getUser($cerr->userId);
+         }
+         if (Issue::exists($cerr->bugId)) {
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
             $summary = $issue->summary;
             $projName = $issue->getProjectName();
             $targetVersion = $issue->getTargetVersion();
-         } catch (Exception $e) {
+         } else {
             $summary = '';
             $projName = '';
             $targetVersion = '';
          }
 
-         $cerrs[] = array('userName' => $user->getName(),
-            'issueURL' => issueInfoURL($cerr->bugId, $summary),
-            'mantisURL' => mantisIssueURL($cerr->bugId, $summary, true),
-            'date' => date("Y-m-d", $cerr->timestamp),
-            'status' => $statusNames[$cerr->status],
+         $cerrs[] = array('userName' => isset($user) ? '' : $user->getName(),
+
+            'issueURL' =>  (NULL == $cerr->bugId) ? '' : issueInfoURL($cerr->bugId, $summary),
+            'mantisURL' => (NULL == $cerr->bugId) ? '' : mantisIssueURL($cerr->bugId, $summary, true),
+            'date' =>      (NULL == $cerr->timestamp) ? '' : date("Y-m-d", $cerr->timestamp),
+            'status' =>    (NULL == $cerr->status) ? '' : $statusNames[$cerr->status],
             'severity' => $cerr->getLiteralSeverity(),
             'project' => $projName,
             'targetVersion' => $targetVersion,

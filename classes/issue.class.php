@@ -281,6 +281,11 @@ class Issue {
 
       global $logger;
 
+      if (NULL == $bugid) {
+            $logger->warn("exists(): bugid == NULL.");
+            return false;
+      }
+
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (NULL == self::$existsCache[$bugid]) {
