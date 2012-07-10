@@ -148,7 +148,7 @@ if (isset($_SESSION['userid'])) {
       if(count($consistencyErrors) > 0) {
          
          $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the Command"));
+         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
 

@@ -55,7 +55,7 @@ function getDaysDetails($i, Holidays $holidays, $weekDates, $duration) {
 function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekDates) {
    global $logger;
 
-   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname " .
+   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname " .
       "FROM  `codev_team_user_table`, `mantis_user_table` " .
       "WHERE  codev_team_user_table.team_id = $teamid " .
       "AND    codev_team_user_table.user_id = mantis_user_table.id " .
@@ -135,6 +135,7 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
          }
 
          $weekDetails[] = array(
+            'name' => $row->username,
             'realname' => $row->realname,
             'forecastWorkload' => $user->getForecastWorkload(),
             'weekDates' => array(formatDate("%A %d %B", $weekDates[1]),formatDate("%A %d %B", $weekDates[2]),
@@ -148,63 +149,34 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
    return $weekDetails;
 }
 
-function displayCheckWarnings(TimeTracking $timeTracking) {
-   global $logger;
 
-   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
-      "FROM  `codev_team_user_table`, `mantis_user_table` ".
-      "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
-      "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-      "ORDER BY mantis_user_table.username";
+/**
+ * Get consistency errors
+ * @param TimeTracking $timeTracking
+ */
+function getConsistencyErrors(TimeTracking $timeTracking) {
 
-   // FIXME AND user is not Observer
+   $consistencyErrors = array(); // if null, array_merge fails !
 
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
+   $cerrList = ConsistencyCheck2::checkIncompleteDays($timeTracking);
+
+   if (count($cerrList) > 0) {
+      $i = 0;
+      foreach ($cerrList as $cerr) {
+         $user = UserCache::getInstance()->getUser($cerr->userId);
+         $consistencyErrors[] = array(
+             'date' => date("Y-m-d", $cerr->timestamp),
+             'user' => $user->getName(),
+             'severity' => $cerr->getLiteralSeverity(),
+             'severityColor' => $cerr->getSeverityColor(),
+             'desc' => $cerr->desc);
+      }
+      $i++;
    }
 
-   $warnings = array();
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
-      foreach ($incompleteDays as $date => $value) {
-
-         if ($date > time()) {
-            continue;
-         } // skip dates in the future
-
-         $formatedDate = date("Y-m-d", $date);
-
-         $label = NULL;
-         if ($value < 1) {
-            $label = T_("incomplete (missing ").(1-$value).T_(" days").")";
-         } else {
-            $label = T_("inconsistent")." (".($value)." ".T_("days").")";
-         }
-
-         $warnings[] = array("username" => $row->username,
-            "date" => $formatedDate,
-            "label" => $label
-         );
-      }
-
-      $missingDays = $timeTracking->checkMissingDays($row->user_id);
-      foreach ($missingDays as $date) {
-         if ($date > time()) {
-            continue;
-         } // skip dates in the future
-
-         $formatedDate = date("Y-m-d", $date);
-
-         $warnings[] = array("username" => $row->username,
-            "date" => $formatedDate,
-            "label" => T_("not defined.")
-         );
-      }
-   }
-
-   return $warnings;
+   return $consistencyErrors;
 }
+
 
 // ================ MAIN =================
 require('display.inc.php');
@@ -253,7 +225,13 @@ if(isset($_SESSION['userid'])) {
 
          $smartyHelper->assign('weekDetails', getWeekDetails($teamid, $timeTracking, $isDetailed, $weekDates));
 
-         $smartyHelper->assign('warnings', displayCheckWarnings($timeTracking));
+         // ConsistencyCheck
+         $consistencyErrors = getConsistencyErrors($timeTracking);
+         if(count($consistencyErrors) > 0) {
+            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
+            $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+         }
       }
    }
 }

@@ -67,41 +67,58 @@
       </fieldset>
    </form>
 
-   <div align="center">
-      {foreach from=$weekDetails item=i key=id}
-      <table style="width: 99%;margin-top: 2em">
-         <caption style="font-size:15px;">{$i.realname} &nbsp;&nbsp; <span style="font-size:12px;font-weight:normal;" title="{t}sum(Remaining) of current tasks{/t}">{t}workload{/t} = {$i.forecastWorkload}</span></caption>
-         <tr>
-            <th width="50%">{t}Task{/t}</th>
-            <th width="1%">{t}RAF{/t}</th>
-            <th width="1%">{t}Progress{/t}</th>
-            <th width="7%">{t}Project{/t}</th>
-            <th width="5" title="{t}Target version{/t}">{t}Target{/t}</th>
-            {if $isChecked}
-            <th width="10%">{t}Job{/t}</th>
-            {/if}
-            {foreach from=$i.weekDates item=j key=id}
-            <th width="10">{$j}</th>
-            {/foreach}
-            {foreach from=$i.weekEndDates item=j key=id}
-            <th width="10" style="background-color: #D8D8D8;">{$j}</th>
-            {/foreach}
-         </tr>
-         {foreach from=$i.weekJobDetails item=j key=id}
-         <tr>
-            <td>{$j.url}</td>
-            <td>{$j.duration}</td>
-            <td>{$j.progress}%</td>
-            <td>{$j.projectName}</td>
-            <td>{$j.targetVersion}</td>
-            {if $isChecked}<td>{$j.jobName}</td>{/if}
-            {foreach from=$j.daysDetails item=k key=id}
-            <td {if $k.color}style="background-color: #{$k.color};"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>
-            {/foreach}
-         </tr>
+   {include file="modal/consistency_check.html"}
+
+   <div align="center" style="margin-top:4em;">
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+            jQuery( "#tabsUsers" ).tabs();
+         });
+      </script>
+      <div id="tabsUsers">
+      <ul>
+         {foreach from=$weekDetails item=i key=id}
+            <li><a href="#tabUser_{$i.name}">{$i.realname} &nbsp;<span style="font-size:12px;font-weight:normal;" title="{t}RAF{/t}">({$i.forecastWorkload})</span></a></li>
          {/foreach}
-      </table>
-      {/foreach}
+      </ul>
+      {if $weekDetails}
+         {foreach from=$weekDetails item=i key=id}
+         <div id="tabUser_{$i.name}">
+            <table style="width: 99%;margin-top: 2em">
+               <caption><span style="font-size:12px;font-weight:normal;" title="{t}sum(Remaining) of current tasks{/t}">{t}Remaining{/t} = {$i.forecastWorkload}</span></caption>
+               <tr>
+                  <th width="50%">{t}Task{/t}</th>
+                  <th width="1%">{t}RAF{/t}</th>
+                  <th width="1%">{t}Progress{/t}</th>
+                  <th width="7%">{t}Project{/t}</th>
+                  <th width="5" title="{t}Target version{/t}">{t}Target{/t}</th>
+                  {if $isChecked}
+                  <th width="10%">{t}Job{/t}</th>
+                  {/if}
+                  {foreach from=$i.weekDates item=j key=id}
+                  <th width="10">{$j}</th>
+                  {/foreach}
+                  {foreach from=$i.weekEndDates item=j key=id}
+                  <th width="10" style="background-color: #D8D8D8;">{$j}</th>
+                  {/foreach}
+               </tr>
+               {foreach from=$i.weekJobDetails item=j key=id}
+               <tr>
+                  <td>{$j.url}</td>
+                  <td>{$j.duration}</td>
+                  <td>{$j.progress}%</td>
+                  <td>{$j.projectName}</td>
+                  <td>{$j.targetVersion}</td>
+                  {if $isChecked}<td>{$j.jobName}</td>{/if}
+                  {foreach from=$j.daysDetails item=k key=id}
+                  <td {if $k.color}style="background-color: #{$k.color};"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>
+                  {/foreach}
+               </tr>
+               {/foreach}
+            </table>
+         </div>
+         {/foreach}
+      {/if}
    </div>
 
    {if $warnings}

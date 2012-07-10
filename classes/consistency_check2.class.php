@@ -473,6 +473,51 @@ class ConsistencyCheck2 {
    }
 
 
+   /**
+    * for all users of the team, return incomplete/missing days in the period
+    * 
+    * @param TimeTracking $timeTracking
+    * @return ConsistencyError2[]
+    */
+   public static function checkIncompleteDays(TimeTracking $timeTracking) {
+
+      $cerrList = array();
+      $now = time();
+
+      $mList = Team::getActiveMemberList($timeTracking->team_id);
+
+      foreach($mList as $userid => $username) {
+
+         $incompleteDays = $timeTracking->checkCompleteDays($userid, TRUE);
+         foreach ($incompleteDays as $date => $value) {
+
+            if ($date > $now) { continue; } // skip dates in the future
+
+            $label = NULL;
+            if ($value < 1) {
+               $label = T_("incomplete (missing ").(1-$value).T_(" days").")";
+            } else {
+               $label = T_("inconsistent")." (".($value)." ".T_("days").")";
+            }
+
+            $cerr = new ConsistencyError2(0, $userid, NULL, $date, $label);
+            $cerr->severity = ConsistencyError2::severity_error;
+            $cerrList[] = $cerr;
+         }
+
+         $missingDays = $timeTracking->checkMissingDays($userid);
+         foreach ($missingDays as $date) {
+
+            if ($date > $now) { continue; } // skip dates in the future
+
+            $cerr = new ConsistencyError2(0, $userid, NULL, $date, T_("not defined."));
+            $cerr->severity = ConsistencyError2::severity_error;
+            $cerrList[] = $cerr;
+         }
+      }
+      return $cerrList;
+   }
+
 }
 
 ?>
