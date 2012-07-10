@@ -1246,6 +1246,29 @@ class TimeTracking {
       return $rate;
    }
 
+  /**
+   * $countReopened / $countResolved
+   *
+   * @param array $projects
+   * @return number
+   */
+   public function getReopenedRateResolved(array $projects = NULL) {
+
+      if (NULL == $projects) {
+         $projects = $this->prodProjectList;
+      }
+
+      $reopenedList = $this->getReopened($projects);
+      $countReopened = count($reopenedList);
+
+      $countResolved = count($this->getResolvedIssues($projects));
+
+      if ($countResolved != 0)  {
+        $rate=($countReopened / $countResolved);
+      }
+      return $rate;
+   }
+
 }
 
 ?>

@@ -80,7 +80,7 @@
       <!-- Drifts -->
       <div id="tagTimeDrift">
          {if $timeDriftLegend}
-         <span class="help_font">{t}% Tasks{/t}: {t}Percentage of tasks delivered before the deadLine{/t}</span>
+         <span class="help_font"><b>{t}% Tasks{/t}</b>: {t}Percentage of tasks delivered before the deadLine{/t}</span>
          <div style="margin-top: 1em">
             <div class="float">
                <img alt="{t}Adherence to deadlines{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$timeDriftGraph}" />
@@ -105,7 +105,7 @@
       <!-- Effort Deviation -->
       <div id="tagResolvedDrift">
          {if $resolvedDriftLegend}
-         <span class="help_font">{t}EffortDeviation{/t}: {t}Overflow day quantity{/t}</span>
+         <span class="help_font"><b>{t}EffortDeviation{/t}</b>: {t}Overflow day quantity{/t}</span>
          <div style="margin-top: 1em">
             <div class="float">
                <img alt="{t}Effort Deviation{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$resolvedDriftGraph}" />
@@ -134,7 +134,7 @@
       <!-- EfficiencyRate -->
       <div id="tagEfficiencyRate">
          {if $efficiencyLegend}
-         <span class="help_font">{t}Efficiency Rate{/t}: {t}Exclude side tasks to get the percent of time spent working on the projects{/t}</span>
+         <span class="help_font"><b>{t}Efficiency Rate{/t}</b>: {t}Exclude side tasks to get the percent of time spent working on the projects{/t}</span>
          <div style="margin-top: 1em">
             <div class="float">
                <img alt="{t}Sys Disp.{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.2f&amp;width=800&amp;height=300&amp;{$efficiencyGraph}" />
@@ -161,7 +161,11 @@
       <!-- ReopenedRate -->
       <div id="tagReopenedRate">
          {if $reopenedRateLegend}
-         <span class="help_font">{t}% Reopened{/t}: {t}Percentage of submitted tasks having been reopened in the period{/t}</span>
+         <span class="help_font">{t}Number of reopened external tasks (tasks having an ExternalRef).{/t}</span>
+         <br><br>
+         <span class="help_font"><b>{t}% to Submitted{/t}</b>: {t}Compare the number of reopened tasks to the number of new tasks{/t}</span>
+         <br>
+         <span class="help_font"><b>{t}% to Resolved{/t}</b>: {t}Compare the number of reopened tasks to the number of resolved tasks{/t}</span>
          <div style="margin-top: 1em">
             <div class="float">
                <img alt="{t}Reopened Rate{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$reopenedRateGraph}" />
@@ -169,13 +173,15 @@
             <table title="{t}Reopened Rate{/t}">
                <tr>
                   <th>{t}Date{/t}</th>
-                  <th title="{t}Reopened Rate{/t}">{t}% Reopened{/t}</th>
+                  <th title="{t}Reopened Rate{/t}">{t}% to Submitted{/t}</th>
+                  <th title="{t}Reopened Rate{/t}">{t}% to Resolved{/t}</th>
                   <th title="{t}Nb Reopened{/t}">{t}Nb Reopened{/t}</th>
                </tr>
                {foreach from=$reopenedRateLegend key=id item=i}
                <tr>
                   <td class="right">{$i.date}</td>
                   <td class="right">{$i.reopenedRate}%</td>
+                  <td class="right">{$i.reopenedRateResolved}%</td>
                   <td class="right">{$i.reopened}</td>
                </tr>
                {/foreach}

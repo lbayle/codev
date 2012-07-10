@@ -237,14 +237,16 @@ function getEfficiencyLegend(array $timeTrackingTable) {
 function getReopenedRateGraph(array $timeTrackingTable) {
    foreach ($timeTrackingTable as $startTimestamp1 => $timeTracking1) {
       $val1[] = $timeTracking1->getReopenedRate() * 100; // x100 to get a percentage;
-      $val2[] = count($timeTracking1->getReopened());
+      $val2[] = $timeTracking1->getReopenedRateResolved() * 100; // x100 to get a percentage;
+      //$val2[] = count($timeTracking1->getReopened());
       $bottomLabel[] = formatDate("%b %y", $startTimestamp1);
    }
 
    $strVal1 = implode(':', $val1);
+   $strVal2 = implode(':', $val2);
    $strBottomLabel = implode(':', $bottomLabel);
 
-   return SmartUrlEncode('title='.T_('Reopened Rate').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('% Reopened').'&x1='.$strVal1);
+   return SmartUrlEncode('title='.T_('Reopened Rate').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('% to Submitted').'&x1='.$strVal1.'&leg2='.T_('% to Resolved').'&x2='.$strVal2);
 }
 
 /**
@@ -257,6 +259,7 @@ function getReopenedRateLegend(array $timeTrackingTable) {
       $reopenedRateLegend[] = array(
          "date" => formatDate("%B %Y", $startTimestamp),
          "reopenedRate" => round($timeTracking->getReopenedRate() * 100, 1),
+         "reopenedRateResolved" => round($timeTracking->getReopenedRateResolved() * 100, 1),
          "reopened" => count($timeTracking->getReopened())
       );
    }
