@@ -94,6 +94,7 @@ function getProjectActivityReport($projectTracks, $teamid, $isDetailed) {
       }
 
       $projectActivityReport[$projectId] = array(
+          'id' => $project->id,
           'name' => $project->name,
           'jobList' => $jobTypeList,
           'bugList' => $bugDetailedList
