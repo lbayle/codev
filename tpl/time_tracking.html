@@ -262,7 +262,8 @@
          }
       </script>
 
-      <table>
+      {if $weekTimetrackingTuples}
+      <table style="width: 80%">
          <caption>{t}Week Imputations{/t}</caption>
          <tr>
             <th></th>
@@ -297,10 +298,12 @@
          </tr>
          {/foreach}
       </table>
+      {/if}
 
       <div style="margin-top:2em;"></div>
 
-      <table>
+      {if $timetrackingTuples}
+      <table style="width: 80%">
          <caption>{t}Future Imputations{/t}</caption>
          <tr>
             <th></th>
@@ -335,7 +338,7 @@
          </tr>
          {/foreach}
       </table>
-
+      {/if}
 
    <div>
 
