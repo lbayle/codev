@@ -22,3 +22,24 @@ UPDATE `codev_config_table` SET `value`='9' WHERE `config_id`='database_version'
 
 
 
+-- -----------------
+
+DELIMITER |
+CREATE FUNCTION is_project_in_team(projid INT, teamid INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+   DECLARE is_found INT DEFAULT NULL;
+
+
+
+   SELECT COUNT(team_id) INTO is_found FROM `codev_team_project_table`
+          WHERE team_id = teamid
+          AND   project_id = projid
+          LIMIT 1;
+
+   RETURN is_found;
+END|
+DELIMITER ;
+
+
