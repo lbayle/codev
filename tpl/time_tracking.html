@@ -261,8 +261,47 @@
             jQuery("#deleteTrack_dialog_form").dialog("open");
          }
       </script>
+
       <table>
-         <caption>{t}Imputations{/t}</caption>
+         <caption>{t}Week Imputations{/t}</caption>
+         <tr>
+            <th></th>
+            <th>{t}Date{/t}</th>
+            <th title="Mantis ID">{t}ID{/t}</th>
+            <th>{t}Ext.ID{/t}</th>
+            <th>{t}Duration{/t}</th>
+            <th>{t}Project{/t}</th>
+            <th>{t}Description{/t}</th>
+            <th>{t}Job{/t}</th>
+            <th>{t}Category{/t}</th>
+            <th>{t}Status{/t}</th>
+         </tr>
+
+         {foreach from=$weekTimetrackingTuples key=id item=i}
+         <tr class ="{$i.class}">
+            <td>
+               <a title="{t}delete this row{/t}" onclick="deleteTrack('{$i.id}','{$i.date}',
+                  '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="#">
+                  <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
+               </a>
+            </td>
+            <td width="170">{$i.cosmeticDate}</td>
+            <td>{$i.issueURL}</td>
+            <td>{$i.issueId}</td>
+            <td>{$i.duration}</td>
+            <td>{$i.projectName}</td>
+            <td>{$i.issueSummary}</td>
+            <td>{$i.jobName}</td>
+            <td>{$i.categoryName}</td>
+            <td>{$i.currentStatusName}</td>
+         </tr>
+         {/foreach}
+      </table>
+
+      <div style="margin-top:2em;"></div>
+
+      <table>
+         <caption>{t}Future Imputations{/t}</caption>
          <tr>
             <th></th>
             <th>{t}Date{/t}</th>
@@ -296,6 +335,8 @@
          </tr>
          {/foreach}
       </table>
+
+
    <div>
 
    <script type="text/javascript">

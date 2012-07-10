@@ -248,7 +248,9 @@ if($_SESSION['userid']) {
       $smartyHelper->assign('weekTasks', getWeekTask($weekDates, $userid, $timeTracking));
 
       $smartyHelper->assign('warnings', getCheckWarnings($userid));
-      $smartyHelper->assign('timetrackingTuples', getTimetrackingTuples($userid, $startTimestamp));
+
+      $smartyHelper->assign('weekTimetrackingTuples', getTimetrackingTuples($userid, $startTimestamp, $endTimestamp));
+      $smartyHelper->assign('timetrackingTuples', getTimetrackingTuples($userid, $endTimestamp));
    }
 
 }
