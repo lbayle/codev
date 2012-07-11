@@ -19,9 +19,23 @@
 // toolbox
 // LoB 17 May 2010
 
-$logger = Logger::getLogger("tools");
+// Initialize complex static variables
+Tools::staticInit();
 
 class Tools {
+
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger("tools");
+   }
 
    /**
     * @static
@@ -583,10 +597,9 @@ class Tools {
     * @param string $message The message for the admin
     */
    public static function sendBadRequest($message) {
-      global $logger;
       $e = new Exception('SECURITY ALERT: '.$message);
-      $logger->fatal('EXCEPTION: '.$e->getMessage());
-      $logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+      self::$logger->fatal('EXCEPTION: '.$e->getMessage());
+      self::$logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
       //header('HTTP/1.1 400 Bad Request');
       die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
    }
