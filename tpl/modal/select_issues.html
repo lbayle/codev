@@ -3,6 +3,7 @@ This opens a popup window displaying an issue list.
 
 - multiselection is enabled
 - the list can be filtered
+- selectAll checkbox
 - the 'add' buton returns a list of selected bugid.
 
 -->
@@ -12,14 +13,19 @@ This opens a popup window displaying an issue list.
    jQuery(function() {
       jQuery( "#dialog_selectIssues_link" ).click(function() {
          jQuery( "#dialog_selectIssues" ).dialog( "open" );
-         var oTable = $('#selectable_issues_table').dataTable( );
+         var oTable = $('#selectable_issues_table').dataTable();
          oTable.fnAdjustColumnSizing();
          return false;
       });
       jQuery( "#dialog_selectIssues" ).dialog({
          autoOpen: false,
+         modal: true,
          hide: "fade",
-         width: "1000"
+         width: "1000",
+         resize: function(event, ui) {
+            var oTable = $('#selectable_issues_table').dataTable();
+            oTable.fnAdjustColumnSizing();
+         }
       });
    });
 
@@ -35,6 +41,22 @@ $(document).ready(function() {
       "bAutoWidth": false
    });
 
+  // select/deselect all rows
+  $('#cb_selectAll').click( function() {
+
+      var is_checked = jQuery(this).is(':checked');
+
+      var oTable = $('#selectable_issues_table').dataTable();
+      oTable.$('tr').each(function () {
+         if (is_checked) {
+            jQuery(this).addClass('row_selected');
+         } else {
+            jQuery(this).removeClass('row_selected');
+         }
+      });
+
+   });
+
    /* Add/remove class to a row when clicked on */
    $('#selectable_issues_table tr').click( function() {
         $(this).toggleClass('row_selected');
@@ -43,18 +65,22 @@ $(document).ready(function() {
     /* send issue list */
    $('#bt_selectIssuesDone').click( function() {
 
-      var oTable = $('#selectable_issues_table').dataTable( );
+      var oTable = $('#selectable_issues_table').dataTable();
       var selectedRows = oTable.$('tr.row_selected');
+      if (0 == selectedRows.length) {
+         alert('{t}No task selected !{/t}');
+      } else {
 
-      var bugidArray = new Array();
-      selectedRows.each( function () {
-         var bug_id = jQuery(this).find('td.bug_id').text();
-         bugidArray.push(bug_id);
-      });
-      
-      var implodedBugidList = bugidArray.join(',');
-      jQuery( "#formSendSelectIssues" ).find("input[name=bugid_list]").val(implodedBugidList);
-      jQuery("#formSendSelectIssues").submit();
+         var bugidArray = new Array();
+         selectedRows.each( function () {
+            var bug_id = jQuery(this).find('td.bug_id').text();
+            bugidArray.push(bug_id);
+         });
+
+         var implodedBugidList = bugidArray.join(',');
+         jQuery( "#formSendSelectIssues" ).find("input[name=bugid_list]").val(implodedBugidList);
+         jQuery("#formSendSelectIssues").submit();
+      }
    });
 
 
@@ -73,11 +99,15 @@ $(document).ready(function() {
 <div id="dialog_selectIssues" title="{$selectIssuesBoxTitle}" style="display: none">
 
    <label>{$selectIssuesBoxDesc}</label>
-   <br>
-   <br>
-   <button id="bt_selectIssuesDone" type="button">{$selectIssuesDoneBtText}</button>
+   <br><br>
 
-   <div align='left' style="margin-top:2em;">
+   {if !empty($availableIssueList)}
+   <label><input id="cb_selectAll" type="checkbox"/>{t}Select all{/t}</label>
+   &nbsp;&nbsp;
+   <button id="bt_selectIssuesDone" type="button">{$selectIssuesDoneBtText}</button>
+   {/if}
+   
+   <div align='left'>
       <table id="selectable_issues_table" class="display">
          <thead>
          <tr>
