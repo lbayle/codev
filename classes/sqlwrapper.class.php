@@ -113,7 +113,7 @@ class SqlWrapper {
 
       $this->count++;
          
-      if (self::$logger->isDebugEnabled()) {
+      if (self::$logger->isInfoEnabled()) {
          if (NULL == $this->countByQuery) {
             $this->countByQuery = array();
          }
@@ -122,8 +122,10 @@ class SqlWrapper {
          } else {
             $this->countByQuery[$query] += 1;
          }
-         
-         self::$logger->debug("SQL Query #" . $this->count . " (" . round(microtime(true) - $start, 4) . " sec) : " . $query);
+
+         if (self::$logger->isDebugEnabled()) {
+            self::$logger->debug("SQL Query #" . $this->count . " (" . round(microtime(true) - $start, 4) . " sec) : " . $query);
+         }
       }
 
       if (!$result) {
@@ -241,6 +243,22 @@ class SqlWrapper {
     */
    public function getLink() {
       return $this->link;
+   }
+
+   public function logStats() {
+      if (self::$logger->isInfoEnabled()) {
+         $queriesCount = $this->getQueriesCount();
+
+         foreach($this->getCountByQuery() as $query => $count) {
+            if($count > 10) {
+               self::$logger->info($count. ' identical SQL queries on : ' . $query);
+            } else {
+               self::$logger->debug($count. ' identical SQL queries on : ' . $query);
+            }
+         }
+
+         self::$logger->info('TOTAL SQL queries: ' . $queriesCount . ' to display Page '.$_SERVER['PHP_SELF']);
+      }
    }
 
 }
