@@ -117,7 +117,11 @@ function getChildIssuesCandidates($teamid) {
    $issueArray = array();
 
 
+   // team projects except externalTasksProject & NoStats projects
    $projects = Team::getProjectList($teamid);
+   $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+   unset($projects[$extProjId]);
+
    $formattedProjectList = implode (', ', array_keys($projects));
 
    $query  = "SELECT id FROM `mantis_bug_table` ".
