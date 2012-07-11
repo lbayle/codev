@@ -12,20 +12,21 @@ This opens a popup window displaying an issue list.
    jQuery(function() {
       jQuery( "#dialog_selectIssues_link" ).click(function() {
          jQuery( "#dialog_selectIssues" ).dialog( "open" );
+         var oTable = $('#selectable_issues_table').dataTable( );
+         oTable.fnAdjustColumnSizing();
          return false;
       });
       jQuery( "#dialog_selectIssues" ).dialog({
          autoOpen: false,
          hide: "fade",
-         width: "900",
-         maxHeight: "400"
+         width: "1000"
       });
    });
 
 //------ JQUERY --------
 $(document).ready(function() {
    $('#selectable_issues_table').dataTable({
-      "sScrollY": "700px",
+      "sScrollY": "400px",
       "bPaginate": false,
       "bScrollCollapse": true,
       "bFilter": true,
