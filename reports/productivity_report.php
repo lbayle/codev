@@ -1,47 +1,51 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
-require('../smarty_tools.php');
+require('smarty_tools.php');
 
-require_once "period_stats.class.php";
-require_once "team.class.php";
-require_once "project.class.php";
-require_once "jobs.class.php";
-require_once "time_tracking.class.php";
+require('classes/smarty_helper.class.php');
 
-require_once "productivity_report_tools.php";
+require_once('productivity_report_tools.php');
+
+require_once('classes/issue_cache.class.php');
+require_once('classes/jobs.class.php');
+include_once('classes/period_stats.class.php');
+require_once('classes/project_cache.class.php');
+require_once('classes/sqlwrapper.class.php');
+require_once('classes/team.class.php');
+require_once('classes/team_cache.class.php');
+require_once('classes/time_tracking.class.php');
+require_once('classes/timetrack_cache.class.php');
 
 $logger = Logger::getLogger("productivity_report");
 
 /**
  * @param int $teamid
  * @param int $defaultProjectid
- * @return array
+ * @return mixed[]
  */
 function getTeamProjects($teamid, $defaultProjectid) {
-   global $logger;
-
    // --- Project List
    $query  = "SELECT mantis_project_table.id, mantis_project_table.name ".
       "FROM `codev_team_project_table`, `mantis_project_table` ".
@@ -50,7 +54,7 @@ function getTeamProjects($teamid, $defaultProjectid) {
       "ORDER BY mantis_project_table.name";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      return;
+      return NULL;
    }
    if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
@@ -75,9 +79,9 @@ function getTeamProjects($teamid, $defaultProjectid) {
 /**
  * Get the reopened taks for Smarty
  * @param TimeTracking $timeTracking
- * @return array
+ * @return string[]
  */
-function getFormattedReopenedTaks($timeTracking) {
+function getFormattedReopenedTaks(TimeTracking $timeTracking) {
    $formatedTasks = NULL;
    foreach ($timeTracking->getReopened() as $bug_id) {
       $issue = IssueCache::getInstance()->getIssue($bug_id);
@@ -86,8 +90,13 @@ function getFormattedReopenedTaks($timeTracking) {
    return $formatedTasks;
 }
 
-function getProductionDaysUrl($timeTracking) {
-   $formatedValues = $timeTracking->getProdDays().':'.$timeTracking->getManagementDays().':'.($timeTracking->getProdDaysSideTasks(false) - $timeTracking->getManagementDays());
+/**
+ * @param TimeTracking $timeTracking
+ * @return string
+ */
+function getProductionDaysUrl(TimeTracking $timeTracking) {
+   $managementDay = $timeTracking->getManagementDays();
+   $formatedValues = $timeTracking->getProdDays().':'.$managementDay.':'.($timeTracking->getProdDaysSideTasks(false) - $managementDay);
    $formatedLegends = T_('Projects').':'.T_('Project Management').':'.T_('Other SideTasks');
    $colors = '#92C5FC'.':'.'#FFC16B'.':'.'#FFF494';
    return SmartUrlEncode('colors='.$colors.'&legends='.$formatedLegends.'&values='.$formatedValues);
@@ -96,7 +105,7 @@ function getProductionDaysUrl($timeTracking) {
 /**
  * @param TimeTracking $timeTracking
  * @param int $teamid
- * @return array
+ * @return mixed[]
  */
 function getWorkingDaysPerJob(TimeTracking $timeTracking, $teamid) {
    // find out which jobs must be displayed
@@ -147,9 +156,11 @@ function getWorkingDaysPerJobUrl(array $workingDaysPerJobs) {
    }
 }
 
+/**
+ * @param TimeTracking $timeTracking
+ * @return mixed[]
+ */
 function getWorkingDaysPerProject(TimeTracking $timeTracking) {
-   global $logger;
-
    $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
    $query = "SELECT mantis_project_table.id, mantis_project_table.name ".
       "FROM `mantis_project_table`, `codev_team_project_table` ".
@@ -158,7 +169,7 @@ function getWorkingDaysPerProject(TimeTracking $timeTracking) {
       " ORDER BY name";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      return;
+      return NULL;
    }
 
    $workingDaysPerProject = NULL;
@@ -204,17 +215,18 @@ function getWorkingDaysPerProjectUrl(array $workingDaysPerProject) {
 
    if (NULL != $formatedValues) {
       return SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues);
+   } else {
+      return NULL;
    }
 }
 
 /**
  * display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
- * @param $timeTracking
+ * @param Issue[] $issueList
  * @param bool $withSupport
- * @return string
+ * @return mixed[]
  */
-function getResolvedDeviationStats(TimeTracking $timeTracking, $withSupport = true) {
-   $issueList = $timeTracking->getResolvedIssues();
+function getResolvedDeviationStats(array $issueList, $withSupport = true) {
    $issueSelection = new IssueSelection("resolved issues");
    $issueSelection->addIssueList($issueList);
 
@@ -276,13 +288,12 @@ function getResolvedDeviationStats(TimeTracking $timeTracking, $withSupport = tr
 }
 
 /**
- * @param TimeTracking $timeTracking
+ * @param Issue[] $issueList
  * @param bool $isManager
  * @param bool $withSupport
- * @return array
+ * @return mixed[]
  */
-function getResolvedIssuesInDrift(TimeTracking $timeTracking, $isManager=false, $withSupport=true) {
-   $issueList = $timeTracking->getResolvedIssues();
+function getResolvedIssuesInDrift(array $issueList, $isManager=false, $withSupport=true) {
    foreach ($issueList as $issue) {
       // TODO: check if issue in team project list ?
       if ($isManager) {
@@ -305,9 +316,11 @@ function getResolvedIssuesInDrift(TimeTracking $timeTracking, $isManager=false, 
    return $resolvedIssuesInDrift;
 }
 
-function getCheckWarnings($timeTracking) {
-   global $logger;
-
+/**
+ * @param TimeTracking $timeTracking
+ * @return mixed[]
+ */
+function getCheckWarnings(TimeTracking $timeTracking) {
    $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
       "FROM  `codev_team_user_table`, `mantis_user_table` ".
       "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
@@ -315,7 +328,7 @@ function getCheckWarnings($timeTracking) {
       "ORDER BY mantis_user_table.username";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      return;
+      return NULL;
    }
 
    $warnings = NULL;
@@ -357,20 +370,13 @@ function getCheckWarnings($timeTracking) {
 }
 
 // =========== MAIN ==========
-require('display.inc.php');
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Period Statistics');
 
 if(isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-   $mTeamList = $session_user->getDevTeamList();
-   $lTeamList = $session_user->getLeadedTeamList();
-   $oTeamList = $session_user->getObservedTeamList();
-   $managedTeamList = $session_user->getManagedTeamList();
-   $teamList = $mTeamList + $lTeamList + $oTeamList + $managedTeamList;
-
+   $teamList = $session_user->getTeamList();
    if (0 != count($teamList)) {
       $weekDates = week_dates(date('W'),date('Y'));
 
@@ -445,12 +451,14 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign('percent', round($percent, 1));
 
          if (0 != count($timeTracking->getResolvedIssues())) {
+            $issueList = $timeTracking->getResolvedIssues();
             $withSupport = true;
-            $smartyHelper->assign('resolvedDeviationStats', getResolvedDeviationStats ($timeTracking, $withSupport));
+            $smartyHelper->assign('resolvedDeviationStats', getResolvedDeviationStats ($issueList, $withSupport));
 
+            $managedTeamList = $session_user->getManagedTeamList();
             $isManager = array_key_exists($teamid, $managedTeamList);
             $smartyHelper->assign('isManager', $isManager);
-            $smartyHelper->assign('resolvedIssuesInDrift', getResolvedIssuesInDrift($timeTracking, $isManager));
+            $smartyHelper->assign('resolvedIssuesInDrift', getResolvedIssuesInDrift($issueList, $isManager));
          }
 
          $smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRate() * 100, 1));
