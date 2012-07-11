@@ -16,10 +16,16 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('config.class.php');
-include_once('project.class.php');
-include_once('command.class.php');
-include_once('issue_cache.class.php');
+require_once('lib/log4php/Logger.php');
+
+include_once('classes/issue_cache.class.php');
+
+include_once('classes/command_cache.class.php');
+include_once('classes/config.class.php');
+include_once('classes/holidays.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/user_cache.class.php');
 
 /**
  * COMPUTE DURATIONS
@@ -256,7 +262,6 @@ class Issue {
          }
 
          $this->elapsed = $this->getElapsed();
-         $this->deadLine = $this->getDeadLine(); // if customField NOT found, get target_version date
 
          // Prepare fields
          $this->statusList = array();
@@ -658,7 +663,7 @@ class Issue {
     * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
     * get list of Relationships
     * @param type = 2500 or 2501
-    * @return array(issue_id);
+    * @return int[] : array(issue_id);
     */
    public function getRelationships($type) {
       // TODO
@@ -835,20 +840,20 @@ class Issue {
     *         OR "Error" string if could not be determinated. REM: check with is_string($timeDrift)
     */
    public function getTimeDrift() {
-      if ((NULL != $this->deadLine) && (NULL != $this->deliveryDate)) {
-         $timeDrift = $this->deliveryDate - $this->deadLine;
+      if (NULL != $this->deliveryDate && NULL != $this->getDeadLine()) {
+         $timeDrift = $this->deliveryDate - $this->getDeadLine();
 
          // convert seconds to days (24 * 60 * 60) = 86400
          $timeDrift /=  86400 ;
 
          // remove weekends & holidays
          $holidays = $this->getHolidays();
-         if ($this->deliveryDate < $this->deadLine) {
-            $nbHolidays = $holidays->getNbHolidays($this->deliveryDate, $this->deadLine);
+         if ($this->deliveryDate < $this->getDeadLine()) {
+            $nbHolidays = $holidays->getNbHolidays($this->deliveryDate, $this->getDeadLine());
          } else {
-            $nbHolidays = $holidays->getNbHolidays($this->deadLine, $this->deliveryDate);
+            $nbHolidays = $holidays->getNbHolidays($this->getDeadLine(), $this->deliveryDate);
          }
-         $this->logger->debug("TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->deadLine) / 86400 = $timeDrift (- $nbHolidays holidays)");
+         $this->logger->debug("TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->getDeadLine()) / 86400 = $timeDrift (- $nbHolidays holidays)");
 
          if ($timeDrift > 0) {
             $timeDrift -= $nbHolidays;
@@ -857,7 +862,7 @@ class Issue {
          }
       } else {
          $timeDrift = "Error";
-         $this->logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<$this->deadLine> deliveryDate=<$this->deliveryDate>");
+         $this->logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<".$this->getDeadLine()."> deliveryDate=<$this->deliveryDate>");
       }
       return  $timeDrift;
    }
@@ -914,7 +919,7 @@ class Issue {
 
    /**
     * @param int $team_id
-    * @return array
+    * @return string[]
     */
    public function getInvolvedUsers($team_id = NULL) {
       $userList = array();
@@ -1170,21 +1175,21 @@ class Issue {
       }
 
       // the one that has NO deadLine is lower priority
-      if ((NULL != $this->deadLine) && (NULL == $issueB->deadLine)) {
+      if ((NULL != $this->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
          $this->logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
          return  true;
       }
-      if ((NULL == $this->deadLine) && (NULL != $issueB->deadLine)) {
+      if ((NULL == $this->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
          $this->logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
          return  false;
       }
 
       // the soonest deadLine has priority
-      if ($this->deadLine < $issueB->deadLine) {
+      if ($this->getDeadLine() < $issueB->getDeadLine()) {
          $this->logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
          return  true;
       }
-      if ($this->deadLine > $issueB->deadLine) {
+      if ($this->getDeadLine() > $issueB->getDeadLine()) {
          $this->logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
          return  false;
       }
@@ -1388,7 +1393,7 @@ class Issue {
     *
     * This returns the list of Commands where this Issue is defined.
     *
-    * @return array[command_id] = commandName
+    * @return string[] : array[command_id] = commandName
     */
    public function getCommandList() {
 
