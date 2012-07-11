@@ -172,6 +172,11 @@ class Issue {
    private static $existsCache;
 
    /**
+    * @var int[] Cache : Status by timestamp
+    */
+   private $statusCache;
+
+   /**
     * @param $id The issue id
     */
    public function __construct($id) {
@@ -949,48 +954,56 @@ class Issue {
    }
 
    /**
-    * @param unknown_type $timestamp
+    * @param number $timestamp
     * @return int statusId at date < $timestamp or current status if $timestamp = NULL
     */
    public function getStatus($timestamp = NULL) {
-      if (NULL == $timestamp) {
-         $query = "SELECT status FROM `mantis_bug_table` WHERE id = $this->bugId";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+      if(NULL == $this->statusCache) {
+         $this->statusCache = array();
+      }
+
+      $key = 't'.$timestamp;
+      if(!array_key_exists($key,$this->statusCache)) {
+         if (NULL == $timestamp) {
+            $query = "SELECT status FROM `mantis_bug_table` WHERE id = $this->bugId";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+            $this->currentStatus   = $row->status;
+
+            $this->logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
+            $this->statusCache[$key] = $row->status;
+         } else {
+            // if a timestamp is specified, find the latest status change (strictly) before this date
+            $query = "SELECT new_value, old_value, date_modified ".
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id = $this->bugId ".
+               "AND field_name='status' ".
+               "AND date_modified < $timestamp ".
+               "ORDER BY date_modified DESC";
+
+            // get latest result
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+               $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+
+               $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
+
+               $this->statusCache[$key] = $row->new_value;
+            } else {
+               $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
+               $this->statusCache[$key] = -1;
+            }
          }
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $this->currentStatus   = $row->status;
-
-         $this->logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
-         return $this->currentStatus;
       }
-
-      // if a timestamp is specified, find the latest status change (strictly) before this date
-      $query = "SELECT new_value, old_value, date_modified ".
-         "FROM `mantis_bug_history_table` ".
-         "WHERE bug_id = $this->bugId ".
-         "AND field_name='status' ".
-         "AND date_modified < $timestamp ".
-         "ORDER BY date_modified DESC";
-
-      // get latest result
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-
-         $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
-
-         return $row->new_value;
-      } else {
-         $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
-         return -1;
-      }
+      return $this->statusCache[$key];
    }
 
    /**
