@@ -106,6 +106,54 @@ function getParentCmdSetCandidates($user) {
    return $parentCmdSets;
 }
 
+/**
+ * returns all issues not already assigned to a command
+ * and which project_id is defined in the team
+ * 
+ * @param type $teamid 
+ */
+function getChildIssuesCandidates($teamid) {
+
+   $issueArray = array();
+
+
+   $projects = Team::getProjectList($teamid);
+   $formattedProjectList = implode (', ', array_keys($projects));
+
+   $query  = "SELECT id FROM `mantis_bug_table` ".
+             "WHERE project_id IN ($formattedProjectList) ".
+             "AND 0 = is_issue_in_team_commands(id, $teamid)".
+             "ORDER BY id DESC";
+
+   $result = SqlWrapper::getInstance()->sql_query($query);
+   if (!$result) {
+      echo "<span style='color:red'>ERROR: Query FAILED</span>";
+      exit;
+   }
+
+   //
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+
+      $issue = IssueCache::getInstance()->getIssue($row->id);
+
+      $issueInfo = array();
+      //$issueInfo["mantisLink"] = mantisIssueURL($issue->bugId, NULL, true);
+      $issueInfo["bugid"] = issueInfoURL(sprintf("%07d\n",   $issue->bugId));
+      //$issueInfo["bugid"] = $issue->bugId;
+      $issueInfo["extRef"] = $issue->getTC();
+      $issueInfo["project"] = $issue->getProjectName();
+      $issueInfo["target"] = $issue->getTargetVersion();
+      $issueInfo["status"] = $issue->getCurrentStatusName();
+      $issueInfo["summary"] = $issue->summary;
+
+      $issueArray[$row->id] = $issueInfo;
+
+   }
+   return $issueArray;
+
+}
+
+
 // =========== MAIN ==========
 
 require('display.inc.php');
@@ -205,10 +253,28 @@ if (isset($_SESSION['userid'])) {
       // ------ Actions
 
       if ("addCmdIssue" == $action) {
-         $bugid = $_POST['bugid'];
+         $bugid = getSecurePOSTIntValue('bugid');
          $logger->debug("add Issue $bugid on Command $cmdid team $teamid");
 
-         $cmd->addIssue($bugid);
+         $cmd->addIssue($bugid, true); // DBonly
+
+      } else if ("addCmdIssueList" == $action) {
+         $bugid_list = $_POST['bugid_list'];
+
+         $logger->debug("add Issues ($bugid_list) on Command $cmdid team $teamid");
+
+         $bugids = explode(',', $bugid_list);
+
+         //$cmd->addIssueList($bugids, true); // DBonly
+         foreach ($bugids as $id) {
+
+            if (is_numeric(trim($id))) {
+               $cmd->addIssue(intval($id), true); // DBonly
+            } else {
+               $logger->error('Attempt to set non_numeric value ('.$id.')');
+               die("<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>");
+            }
+         }
 
       } else if ("removeCmdIssue" == $action) {
 
@@ -259,19 +325,17 @@ if (isset($_SESSION['userid'])) {
 
       displayCommand($smartyHelper, $cmd);
 
+      // multiple selection dialogBox
+      $availableIssueList = getChildIssuesCandidates($teamid);
+      $smartyHelper->assign('availableIssueList', $availableIssueList);
+      $smartyHelper->assign('sendSelectIssuesActionName', "addCmdIssueList");
+      $smartyHelper->assign('selectIssuesBoxTitle', T_('Add tasks to Command').' \''.$cmd->getName().'\'');
+      $smartyHelper->assign('openDialogLabel', T_("Add multiple tasks"));
+      $smartyHelper->assign('selectIssuesDoneBtText', T_("Add selection"));
+      $smartyHelper->assign('selectIssuesBoxDesc', T_("Note: Only tasks not yet assigned to a Command are displayed hereafter."));
+
    }
-
-
-
    
-
-
-
-
-
-
-
 }
-
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'], $mantisURL);
 ?>

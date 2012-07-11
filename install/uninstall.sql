@@ -19,6 +19,8 @@
 
 DROP FUNCTION IF EXISTS get_project_resolved_status_threshold;
 DROP FUNCTION IF EXISTS get_issue_resolved_status_threshold;
+DROP FUNCTION IF EXISTS is_project_in_team;
+DROP FUNCTION IF EXISTS is_issue_in_team_commands;
 
 -- ------------------------
 
@@ -33,7 +35,13 @@ DROP TABLE IF EXISTS `codev_team_user_table`;
 DROP TABLE IF EXISTS `codev_timetracking_table`;
 DROP TABLE IF EXISTS `codev_blog_table`;
 DROP TABLE IF EXISTS `codev_blog_activity_table`;
-
+DROP TABLE IF EXISTS `codev_servicecontract_table`;
+DROP TABLE IF EXISTS `codev_servicecontract_cmdset_table`;
+DROP TABLE IF EXISTS `codev_servicecontract_stproj_table`;
+DROP TABLE IF EXISTS `codev_commandset_table`;
+DROP TABLE IF EXISTS `codev_commandset_cmd_table`;
+DROP TABLE IF EXISTS `codev_command_table`;
+DROP TABLE IF EXISTS `codev_command_bug_table`;
 
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

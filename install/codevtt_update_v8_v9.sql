@@ -42,4 +42,25 @@ BEGIN
 END|
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- Check if an issue is already referenced,in a command
+-- -----------------------------------------------------
+
+DELIMITER |
+CREATE FUNCTION is_issue_in_team_commands(bugid INT, teamid INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+   DECLARE is_found INT DEFAULT NULL;
+
+   SELECT COUNT(codev_command_bug_table.bug_id) INTO is_found FROM `codev_command_bug_table`, `codev_command_table`
+          WHERE codev_command_table.id = codev_command_bug_table.command_id
+          AND   codev_command_table.team_id = teamid
+          AND   codev_command_bug_table.bug_id = bugid
+          LIMIT 1;
+
+   RETURN is_found;
+END|
+DELIMITER ;
+
 

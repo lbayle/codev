@@ -1,0 +1,114 @@
+<!--
+This opens a popup window displaying an issue list.
+
+- multiselection is enabled
+- the list can be filtered
+- the 'add' buton returns a list of selected bugid.
+
+-->
+
+
+<script type="text/javascript">
+   jQuery(function() {
+      jQuery( "#dialog_selectIssues_link" ).click(function() {
+         jQuery( "#dialog_selectIssues" ).dialog( "open" );
+         return false;
+      });
+      jQuery( "#dialog_selectIssues" ).dialog({
+         autoOpen: false,
+         hide: "fade",
+         width: "900",
+         maxHeight: "400"
+      });
+   });
+
+//------ JQUERY --------
+$(document).ready(function() {
+   $('#selectable_issues_table').dataTable({
+      "sScrollY": "700px",
+      "bPaginate": false,
+      "bScrollCollapse": true,
+      "bFilter": true,
+      "bSort": true,
+      "bInfo": false,
+      "bAutoWidth": false
+   });
+
+   /* Add/remove class to a row when clicked on */
+   $('#selectable_issues_table tr').click( function() {
+        $(this).toggleClass('row_selected');
+   });
+
+    /* send issue list */
+   $('#bt_selectIssuesDone').click( function() {
+
+      var oTable = $('#selectable_issues_table').dataTable( );
+      var selectedRows = oTable.$('tr.row_selected');
+
+      var bugidArray = new Array();
+      selectedRows.each( function () {
+         var bug_id = jQuery(this).find('td.bug_id').text();
+         bugidArray.push(bug_id);
+      });
+      
+      var implodedBugidList = bugidArray.join(',');
+      jQuery( "#formSendSelectIssues" ).find("input[name=bugid_list]").val(implodedBugidList);
+      jQuery("#formSendSelectIssues").submit();
+   });
+
+
+});
+
+
+
+</script>
+
+
+<div align='left'>
+<label>{$openDialogLabel}</label>
+<button id="dialog_selectIssues_link" type="button">{t}Browse...{/t}</button>
+</div>
+
+<div id="dialog_selectIssues" title="{$selectIssuesBoxTitle}" style="display: none">
+
+   <label>{$selectIssuesBoxDesc}</label>
+   <br>
+   <br>
+   <button id="bt_selectIssuesDone" type="button">{$selectIssuesDoneBtText}</button>
+
+   <div align='left' style="margin-top:2em;">
+      <table id="selectable_issues_table" class="display">
+         <thead>
+         <tr>
+               <th>{t}ID{/t}</th>
+               <th>{t}ExtRef{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Target{/t}</th>
+               <th>{t}Status{/t}</th>
+               <th>{t}Summary{/t}</th>
+         </tr>
+         </thead>
+         <tbody>
+         {foreach from=$availableIssueList key=id item=i}
+            <tr>
+               <td class='bug_id'>{$i.bugid}</td>
+               <td>{$i.extRef}</td>
+               <td>{$i.project}</td>
+               <td>{$i.target}</td>
+               <td>{$i.status}</td>
+               <td>{$i.summary}</td>
+            </tr>
+         {/foreach}
+         <tbody>
+      </table>
+      <form id="formSendSelectIssues" name="formSendSelectIssues" method="post" action="{$page}" >
+         <fieldset>
+            <input type="hidden" name="action" value="{$sendSelectIssuesActionName}" />
+            <input type="hidden" name="cmdid"  value="{$commandid}" />
+            <input type="hidden" name="teamid" value="{$teamid}" />
+            <input type="hidden" name="bugid_list" value="" />
+         </fieldset>
+      </form>
+   </div>
+</div>
+

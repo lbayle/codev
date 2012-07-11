@@ -1384,9 +1384,9 @@ class Issue {
    }
 
    /**
-    * A command can be included in several Comands from different teams.
+    * A, issue can be included in several Comands from different teams.
     *
-    * This returns the list of CommandSets where this Issue is defined.
+    * This returns the list of Commands where this Issue is defined.
     *
     * @return array[command_id] = commandName
     */
