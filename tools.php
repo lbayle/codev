@@ -725,7 +725,17 @@ class Tools {
       }
    }
 
-}
+   public static function bytesToSize1024($bytes, $precision = 2) {
+      // human readable format -- powers of 1024
+      //
+    $unit = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB');
+
+      return @round(
+                      $bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision
+              ) . ' ' . $unit[$i];
+   }
+
+} // class
 
 /**
  * returns current URL (no params)
