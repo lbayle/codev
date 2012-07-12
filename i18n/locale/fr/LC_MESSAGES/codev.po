@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-12 23:49+0200\n"
+"POT-Creation-Date: 2012-07-13 00:11+0200\n"
 "PO-Revision-Date: 2011-12-08 01:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -1171,7 +1171,7 @@ msgstr "supprimer l'association au Projet"
 
 #: i18n/locale/smarty.c:389
 msgid "No task selected !"
-msgstr "Aucune tâche n'est sélectionnée !"
+msgstr "Aucune tâche sélectionnée !"
 
 #: i18n/locale/smarty.c:390
 msgid "Browse..."
