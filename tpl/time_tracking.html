@@ -454,14 +454,14 @@
          });
 
          // after a click on 'AddTrack' button, raise the updateRemaining dialogBox
-         /*
+
          {if $updateRemainingRequested}
-            window.updateRemaining({$updateRemainingRequested.remaining},
-                                   {$updateRemainingRequested.description},
-                                   {$updateRemainingRequested.bugid},
-                                   {$updateRemainingRequested.dialogBoxTitle});
+            updateRemaining('{$updateRemainingRequested.remaining}',
+                  '{$updateRemainingRequested.description|escape_quotes}',
+                  '{$updateRemainingRequested.bugid}',
+                  '{$updateRemainingRequested.dialogBoxTitle}');
          {/if}
-         */
+
       });
    </script>
    <div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style="display: none">

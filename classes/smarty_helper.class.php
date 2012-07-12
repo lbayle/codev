@@ -49,7 +49,7 @@ class SmartyHelper {
       $this->smarty->setCacheDir('/tmp/codevtt/cache/');
       $this->smarty->setCompileDir('/tmp/codevtt/template_c/');
 
-      // function declaration
+      // Method for smarty translation
       function smarty_translate($params, $content, $smarty, &$repeat) {
          if (isset($content)) {
             return T_($content);
@@ -58,8 +58,14 @@ class SmartyHelper {
          }
       }
 
+      // Method for smarty escape quotes
+      function smarty_modifier_escape_simple_quotes($string) {
+         return strtr($string, array("'" => "\'"));
+      }
+
       // register with smarty
       $this->smarty->registerPlugin("block", "t", "smarty_translate");
+      $this->smarty->registerPlugin("modifier", "escape_quotes", "smarty_modifier_escape_simple_quotes");
       
       self::$logger = Logger::getLogger(__CLASS__);
    }
