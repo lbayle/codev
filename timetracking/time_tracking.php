@@ -119,13 +119,17 @@ if($_SESSION['userid']) {
                $remaining = $issue->remaining - $duration;
                if ($remaining < 0) { $remaining = 0; }
                $issue->setRemaining($remaining);
+            }
 
-               // open the updateRemaining DialogBox on page reload
-               //echo "updateRemainingRequested<br>";
+            // open the updateRemaining DialogBox on page reload
+            $project = ProjectCache::getInstance()->getProject($issue->projectId);
+            if (($job != $job_support) &&
+                (!$project->isSideTasksProject(array_keys($teamList)) &&
+                (!$project->isExternalTasksProject()))) {
                $issueInfo = array( 'remaining' => $issue->remaining,
                                    'bugid' => $issue->bugId,
                                    'description' => $issue->summary,
-                                   'dialogBoxTitle' => "NEW UPDATE REM");
+                                   'dialogBoxTitle' => T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining"));
 
                $smartyHelper->assign('updateRemainingRequested', $issueInfo);
             }

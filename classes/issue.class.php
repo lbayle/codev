@@ -396,7 +396,7 @@ class Issue {
             return true;
          }
       } catch (Exception $e) {
-         $this->logger->warn("isVacation(): ".$e->getMessage());
+         $this->logger->warn("isSideTaskIssue(): ".$e->getMessage());
          throw $e;
       }
       return false;

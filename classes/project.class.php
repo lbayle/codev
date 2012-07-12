@@ -921,6 +921,14 @@ class Project {
        return (Project::type_noStatsProject == $type);
    }
 
+   /**
+    * 
+    * @return bool true if ExternalTasksProject
+    */
+   public function isExternalTasksProject() {
+
+      return $this->id == Config::getInstance()->getValue(Config::id_externalTasksProject);
+   }
 
    // -----------------------------------------------
    public function getManagementCategoryId() {
