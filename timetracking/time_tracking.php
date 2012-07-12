@@ -119,6 +119,15 @@ if($_SESSION['userid']) {
                $remaining = $issue->remaining - $duration;
                if ($remaining < 0) { $remaining = 0; }
                $issue->setRemaining($remaining);
+
+               // open the updateRemaining DialogBox on page reload
+               //echo "updateRemainingRequested<br>";
+               $issueInfo = array( 'remaining' => $issue->remaining,
+                                   'bugid' => $issue->bugId,
+                                   'description' => $issue->summary,
+                                   'dialogBoxTitle' => "NEW UPDATE REM");
+
+               $smartyHelper->assign('updateRemainingRequested', $issueInfo);
             }
          }
 

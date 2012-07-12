@@ -89,6 +89,8 @@
                   alert(msgString);
                }
             });
+
+
          });
       </script>
       <form id="form1" name="form1" method="post" action="{$page}">
@@ -138,7 +140,7 @@
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
             {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
-            <input type="button" name="btAddTrack" id="btAddTrack" value="{t}Add{/t}" onclick="addTrack()" />
+            <input type="button" name="btAddTrack" id="btAddTrack" value="{t}Add{/t}" />
          </fieldset>
       </form>
    </div>
@@ -450,6 +452,16 @@
                jQuery( "#update_remaining_dialog_form" ).dialog( "close" );
             }
          });
+
+         // after a click on 'AddTrack' button, raise the updateRemaining dialogBox
+         /*
+         {if $updateRemainingRequested}
+            window.updateRemaining({$updateRemainingRequested.remaining},
+                                   {$updateRemainingRequested.description},
+                                   {$updateRemainingRequested.bugid},
+                                   {$updateRemainingRequested.dialogBoxTitle});
+         {/if}
+         */
       });
    </script>
    <div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style="display: none">
