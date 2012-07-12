@@ -79,14 +79,27 @@ $(document).ready(function() {
 
          var implodedBugidList = bugidArray.join(',');
          jQuery( "#formSendSelectIssues" ).find("input[name=bugid_list]").val(implodedBugidList);
-         jQuery("#formSendSelectIssues").submit();
+         jQuery( "#confirmSendSelectIssues_dialog_form" ).dialog( "open" );
       }
    });
 
+   // delete track dialogBox
+   jQuery("#confirmSendSelectIssues_dialog_form" ).dialog({
+      autoOpen: false,
+      resizable: true,
+      width: "auto",
+      modal: true,
+      buttons: {
+         "Ok": function() {
+            jQuery("#formSendSelectIssues").submit();
+         },
+         Cancel: function() {
+            jQuery( this ).dialog( "close" );
+         }
+      }
+   });
 
 });
-
-
 
 </script>
 
@@ -98,7 +111,7 @@ $(document).ready(function() {
 
 <div id="dialog_selectIssues" title="{$selectIssuesBoxTitle}" style="display: none">
 
-   <label>{$selectIssuesBoxDesc}</label>
+   <label class="help_font">{$selectIssuesBoxDesc}</label>
    <br><br>
 
    {if !empty($availableIssueList)}
@@ -132,6 +145,7 @@ $(document).ready(function() {
          {/foreach}
          <tbody>
       </table>
+
       <form id="formSendSelectIssues" name="formSendSelectIssues" method="post" action="{$page}" >
          <fieldset>
             <input type="hidden" name="action" value="{$sendSelectIssuesActionName}" />
@@ -143,3 +157,9 @@ $(document).ready(function() {
    </div>
 </div>
 
+<!-- Confirm DialogBox -->
+<div id="confirmSendSelectIssues_dialog_form" title="{$selectIssuesBoxTitle}" style="display: none">
+   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+      {$selectIssuesConfirmMsg}
+   </p>
+</div>

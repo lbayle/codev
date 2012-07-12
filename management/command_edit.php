@@ -336,7 +336,8 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('selectIssuesBoxTitle', T_('Add tasks to Command').' \''.$cmd->getName().'\'');
       $smartyHelper->assign('openDialogLabel', T_("Add multiple tasks"));
       $smartyHelper->assign('selectIssuesDoneBtText', T_("Add selection"));
-      $smartyHelper->assign('selectIssuesBoxDesc', T_("Note: Only tasks not yet assigned to a Command are displayed hereafter."));
+      $smartyHelper->assign('selectIssuesBoxDesc', T_("Note: Tasks already assigned to a Command are not displayed."));
+      $smartyHelper->assign('selectIssuesConfirmMsg', T_("Add the selected issues to the Command ?"));
 
    }
    
