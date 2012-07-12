@@ -401,7 +401,7 @@ class User {
     * returns an array $daysOf[date] = $row->duration;
     * @param unknown_type $startTimestamp
     * @param unknown_type $endTimestamp
-    * @return unknown_type 
+    * @return mixed[][]   array(date => array('duration','type','title'))
     */
    public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
       $daysOf = array();  // day => duration
@@ -422,9 +422,13 @@ class User {
 
             if ($issue->isVacation($teamidList)) {
                if (isset($daysOf[$row->date])) {
-                  $daysOf[$row->date] += $row->duration;
+                  $daysOf[$row->date]['duration'] += $row->duration;
                } else {
-                  $daysOf[$row->date] = $row->duration;
+                  $daysOf[$row->date] = array( 'duration' => $row->duration,
+                                               'type' => 'Inactivity',  // TODO
+                                               'color' => 'A8FFBD',  // TODO (light green)
+                                               'title' => $issue->summary
+                                             );
                }
                #echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
             }
@@ -456,7 +460,15 @@ class User {
 
          $issue = IssueCache::getInstance()->getIssue($row->bugid);
          if ($issue->isAstreinte()) {
-            $astreintes[date("j", $row->date)] += $row->duration;
+            if (isset($astreintes[$row->date])) {
+               $astreintes[$row->date]['duration'] += $row->duration;
+            } else {
+               $astreintes[$row->date] = array( 'duration' => $row->duration,
+                                             'type' => 'onDuty',  // TODO
+                                             'color' => 'F8FFA8',  // TODO (yellow)
+                                             'title' => $issue->summary
+                                          );
+            }
             //echo "DEBUG user $this->userid astreintes[".date("j", $row->date)."] = ".$astreintes[date("j", $row->date)]." (+$row->duration)<br/>";
          }
       }
@@ -473,7 +485,8 @@ class User {
       $extTasks = array();  // timestamp => duration
 
       $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
-
+      $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
+#echo "leaveTaskId $leaveTaskId<br>";
       $query = "SELECT bugid, date, duration " .
               "FROM `codev_timetracking_table` " .
               "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
@@ -488,10 +501,23 @@ class User {
          try {
             $issue = IssueCache::getInstance()->getIssue($row->bugid);
             if ($issue->projectId == $extTasksProjId) {
-               if (isset($row->date)) {
-                  $extTasks[$row->date] += $row->duration;
+               if (isset($extTasks[$row->date])) {
+                  $extTasks[$row->date]['duration'] += $row->duration;
                } else {
-                  $extTasks[$row->date] = $row->duration;
+
+                  if ($leaveTaskId == $issue->bugId) {
+                     $color = 'A8FFBD';  // TODO (light green)
+                     $type = 'Inactivity';
+                  } else {
+                     $color = '75FFDA';  // TODO (green2)
+                     $type = 'ExternalTask';
+                  }
+
+                  $extTasks[$row->date] = array( 'duration' => $row->duration,
+                                                'type' => $type,  // TODO
+                                                'color' => $color,  // TODO (green2)
+                                                'title' => $issue->summary
+                                             );
                }
                self::$logger->debug("user $this->id ExternalTasks[" . date("j", $row->date) . "] = " . $extTasks[date("j", $row->date)] . " (+$row->duration)");
             }

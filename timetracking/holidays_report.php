@@ -89,37 +89,46 @@ function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $isE
 
          $astreintes = $user->getAstreintesInMonth($startT, $endT);
 
-         if ($isExternalTasks) {
-            $externalTasks = $user->getExternalTasksInPeriod($startT, $endT);
-         } else {
-            $externalTasks = array();
-         }
+         $externalTasks = $user->getExternalTasksInPeriod($startT, $endT);
 
          $days = array();
          for ($i = 1; $i <= $nbDaysInMonth; $i++) {
             $timestamp = mktime(0,0,0,$month,$i,$year);
 
             if (isset($externalTasks[$timestamp]) && (NULL != $externalTasks[$timestamp])) {
+
+               if ('Inactivity' == $externalTasks[$timestamp]['type']) {
+                  $days[$i] = array(
+                     "color" => $externalTasks[$timestamp]['color'],
+                     "align" => true,
+                     "title" => T_('Inactivity'),
+                     "value" => $externalTasks[$timestamp]['duration'],
+                  );
+               } elseif ($isExternalTasks) {
+                  $days[$i] = array(
+                     "color" => $externalTasks[$timestamp]['color'],
+                     "align" => true,
+                     "title" => $externalTasks[$timestamp]['title'],
+                     "value" => $externalTasks[$timestamp]['duration'],
+                  );
+               }
+            } elseif (isset($astreintes[$timestamp]) && (NULL != $astreintes[$timestamp])) {
                $days[$i] = array(
-                  "color" => $green2,
+                  "color" => $astreintes[$timestamp]['color'],
                   "align" => true,
-                  "value" => $externalTasks[$timestamp],
-                  "title" => T_("ExternalTask"),
-               );
-            } elseif (isset($astreintes[$i]) && (NULL != $astreintes[$i])) {
-               $days[$i] = array(
-                  "color" => $yellow,
-                  "align" => true,
-                  "value" => $daysOf[$timestamp],
-                  "title" => T_("OnDuty"),
+                  "value" => $astreintes[$timestamp]['duration'],
+                  "title" => T_($astreintes[$timestamp]['type']),
                );
             } elseif (isset($daysOf[$timestamp]) && (NULL != $daysOf[$timestamp])) {
                $days[$i] = array(
-                  "color" => $green,
+                  "color" => $daysOf[$timestamp]['color'],
                   "align" => true,
-                  "value" => $daysOf[$timestamp]
+                  "title" => $astreintes[$timestamp]['title'],
+                  "value" => $daysOf[$timestamp]['duration']
                );
-            } else {
+            }
+
+            if(!isset($days[$i]) ) {
                // If weekend or holiday, display gray
                $timestamp = mktime(0, 0, 0, $month, $i, $year);
                $h = $holidays->isHoliday($timestamp);
