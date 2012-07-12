@@ -106,7 +106,7 @@ $(document).ready(function() {
 
 <div align='left'>
 <label>{$openDialogLabel}</label>
-<button id="dialog_selectIssues_link" type="button">{t}Browse...{/t}</button>
+<button id="dialog_selectIssues_link" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_browse.png"> {t}Browse...{/t}</button>
 </div>
 
 <div id="dialog_selectIssues" title="{$selectIssuesBoxTitle}" style="display: none">
@@ -117,7 +117,7 @@ $(document).ready(function() {
    {if !empty($availableIssueList)}
    <label><input id="cb_selectAll" type="checkbox"/>{t}Select all{/t}</label>
    &nbsp;&nbsp;
-   <button id="bt_selectIssuesDone" type="button">{$selectIssuesDoneBtText}</button>
+   <button id="bt_selectIssuesDone" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {$selectIssuesDoneBtText}</button>
    {/if}
    
    <div align='left'>
