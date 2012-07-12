@@ -670,12 +670,6 @@ if (0 == count($teamList)) {
 echo "<br/>\n";
 echo "<br/>\n";
 
-// log stats
-IssueCache::getInstance()->logStats();
-ProjectCache::getInstance()->logStats();
-UserCache::getInstance()->logStats();
-TimeTrackCache::getInstance()->logStats();
-
 ?>
 
 </div>

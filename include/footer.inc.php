@@ -16,16 +16,6 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-# DEBUG
-#echo "<br/>";
-#IssueCache::getInstance()->displayStats();
-#echo "<br/>";
-#UserCache::getInstance()->displayStats();
-#echo "<br/>";
-#ProjectCache::getInstance()->displayStats();
-#echo "<br/>";
-#TimeTrackCache::getInstance()->displayStats();
-
 SqlWrapper::getInstance()->sql_close($bugtracker_link);
 ?>
 

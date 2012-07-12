@@ -104,7 +104,7 @@ class SmartyHelper {
       $this->smarty->assign('rootWebSite', getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
 
-      if (self::$logger->isInfoEnabled()) {
+      if (self::$logger->isEnabledFor(LoggerLevel::getLevelInfo())) {
          $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
          self::$logger->info('Page generated in ' . $generatedTime . ' sec : '.$_SERVER['PHP_SELF']);
 
@@ -113,7 +113,12 @@ class SmartyHelper {
          self::$logger->info('MemoryUsage = '.$memUsage.', PeakMemoryUsage = ' . $peakMemAlloc);
       }
       SqlWrapper::getInstance()->logStats();
-
+/*
+      IssueCache::getInstance()->logStats();
+      ProjectCache::getInstance()->logStats();
+      UserCache::getInstance()->logStats();
+      TimeTrackCache::getInstance()->logStats();
+*/
       $this->display('template');
    }
 

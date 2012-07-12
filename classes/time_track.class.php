@@ -27,15 +27,13 @@ class TimeTrack {
 
   var $id;
   var $userId;
-  var $userName;
-  var $userRealname;
   var $bugId;
   var $jobId;
   var $date;
   var $duration;
 
-  var $projectId;
-  var $categoryId;
+  private $projectId;
+  private $categoryId;
 
   public function TimeTrack($id) {
     $this->id = $id;
@@ -45,12 +43,9 @@ class TimeTrack {
   }
 
   public function initialize() {
-    $query     = "SELECT codev_timetracking_table.userid, codev_timetracking_table.bugid, ".
-      "codev_timetracking_table.jobid, codev_timetracking_table.date, codev_timetracking_table.duration, ".
-      "mantis_user_table.username, mantis_user_table.realname ".
-      "FROM `codev_timetracking_table`, `mantis_user_table` ".
-      "WHERE codev_timetracking_table.id=$this->id ".
-      "AND mantis_user_table.id = codev_timetracking_table.userid";
+    $query     = "SELECT * FROM `codev_timetracking_table`".
+                 "WHERE codev_timetracking_table.id=$this->id ";
+
     $result    = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
     	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -59,20 +54,33 @@ class TimeTrack {
     $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
     $this->userId   = $row->userid;
-    $this->userName = $row->username;
-    $this->userRealname = $row->realname;
     $this->bugId    = $row->bugid;
     $this->jobId    = $row->jobid;
     $this->date     = $row->date;
     $this->duration = $row->duration;
     
-    // TODO Change to lazy style
-    $issue = IssueCache::getInstance()->getIssue($this->bugId);
-
-    $this->projectId = $issue->projectId;
-    $this->categoryId = $issue->categoryId;
 
     //echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
+  }
+
+  public function getProjectId() {
+     if (NULL == $this->projectId) {
+         $issue = IssueCache::getInstance()->getIssue($this->bugId);
+
+         $this->projectId = $issue->projectId;
+         $this->categoryId = $issue->categoryId;
+     }
+     return $this->projectId;
+  }
+
+  public function getCategoryId() {
+     if (NULL == $this->categoryId) {
+         $issue = IssueCache::getInstance()->getIssue($this->bugId);
+
+         $this->projectId = $issue->projectId;
+         $this->categoryId = $issue->categoryId;
+     }
+     return $this->categoryId;
   }
 
   /**

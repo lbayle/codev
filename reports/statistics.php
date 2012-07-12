@@ -359,12 +359,6 @@ if(isset($_SESSION['userid'])) {
          }
       }
    }
-
-   // log stats
-   IssueCache::getInstance()->logStats();
-   ProjectCache::getInstance()->logStats();
-   UserCache::getInstance()->logStats();
-   TimeTrackCache::getInstance()->logStats();
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);

@@ -163,7 +163,7 @@ class TimeTracking {
       $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
 
       // Count only the time spent on $projects
-      if (in_array ($timeTrack->projectId, $projects)) {
+      if (in_array ($timeTrack->getProjectId(), $projects)) {
         $prodDays += $timeTrack->duration;
       }
     }

@@ -105,6 +105,11 @@ class User {
     */
    private $departureDateCache;
 
+   /**
+    * @var array Cache of timetracks
+    */
+   private $timetrackCache;
+
    private $devTeamList;
    private $observedTeamList;
    private $managedTeamList;
@@ -588,7 +593,7 @@ class User {
          // exclude projects not in team list
          // exclude externalTasks & NoStatsProjects
          if (NULL != $projectList) {
-            if (!in_array($timetrack->projectId, array_keys($projectList))) {
+            if (!in_array($timetrack->getProjectId(), array_keys($projectList))) {
                continue;
             }
          }

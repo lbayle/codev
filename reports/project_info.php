@@ -435,12 +435,6 @@ if(isset($_SESSION['userid'])) {
    } else {
       $smartyHelper->assign("error", T_("Sorry, you need to be member of a Team to access this page."));
    }
-
-   // log stats
-   IssueCache::getInstance()->logStats();
-   ProjectCache::getInstance()->logStats();
-   UserCache::getInstance()->logStats();
-   TimeTrackCache::getInstance()->logStats();
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
