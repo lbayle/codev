@@ -16,19 +16,18 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('../path.inc.php');
+include_once('i18n/i18n.inc.php');
 
-require_once('super_header.inc.php');
+include_once('classes/user_cache.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/jobs.class.php');
+include_once('classes/holidays.class.php');
+include_once('classes/team.class.php');
+include_once('classes/time_tracking.class.php');
 
-include_once('i18n.inc.php');
-
-include_once('user_cache.class.php');
-include_once('issue_cache.class.php');
-include_once('project_cache.class.php');
-include_once('jobs.class.php');
-include_once('holidays.class.php');
-include_once('team.class.php');
-include_once('time_tracking.class.php');
+include_once('tools.php');
+include_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("time_tracking_tools");
 
@@ -110,9 +109,9 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
 
       $jobName = $jobs->getJobName($row->jobid);
 
-      $formatedDate= date("Y-m-d", $row->date);
-      $cosmeticDate    = date("Y-m-d", $row->date).' - '.T_(date("l", $row->date));
-      $formatedId = "$row->bugid / $issue->tcId";
+      $formatedDate = Tools::formatDate("%Y-%m-%d", $row->date);
+      $cosmeticDate = Tools::formatDate("%Y-%m-%d - %A", $row->date);
+      $formatedId = $row->bugid.' / '.$issue->tcId;
       $formatedJobName = str_replace("'", "\'", $jobName);
       $formatedSummary = str_replace("'", "\'", $issue->summary);
       $formatedSummary = str_replace('"', "\'", $formatedSummary);
