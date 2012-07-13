@@ -1,0 +1,164 @@
+{if $teams}
+{if $width == 0}
+<script type="text/javascript">
+   // If no width is set, get the windows width, reload the page with width in the url.
+   var myWidth = window.innerWidth;
+   if (myWidth > 500) {
+      myWidth = myWidth - 10;
+   }
+   document.location.href=location+"?width="+myWidth;
+</script>
+{else}
+<div id="content">
+   <div align="center">
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+            var form = jQuery("#teamSelectForm");
+
+            jQuery("#submitButton").click(function(event) {
+               var foundError = 0;
+               var msgString = "Some fields are missing:\n\n";
+
+               if (0 == form.find("input[name=teamid]").val()) {
+                  msgString += "{t}Team{/t}\n";
+                  ++foundError;
+               }
+
+               if (0 != foundError) {
+                  alert(msgString);
+               }
+               form.submit();
+            });
+
+            jQuery("#zoomIn").click(function(event) {
+               event.preventDefault();
+               var myWidth = parseInt(form.find("input[name=width]").val());
+               myWidth = Math.floor(myWidth + (myWidth/2)); // +50%
+               form.find("input[name=width]").val(myWidth);
+               form.submit();
+            });
+
+            jQuery("#zoomOut").click(function(event) {
+               event.preventDefault();
+               var myWidth = parseInt(form.find("input[name=width]").val());
+               myWidth = Math.floor(myWidth - (myWidth/3)); // -33%
+               if (myWidth < 300) {
+                  myWidth = 300;
+               }
+               form.find("input[name=width]").val(myWidth);
+               form.submit();
+            });
+         });
+      </script>
+      <form id="teamSelectForm" name="teamSelectForm" method="post" action="{$page}">
+         <fieldset>
+            {include file="form/teamSelector.html"}
+            <input id="submitButton" type="button" value="{t}Update{/t}" />
+            &nbsp;<a title="{t}zoom in{/t}" id="zoomIn" href="{$page}"><img style="vertical-align: middle;" src="images/zoom_in.png" alt="{t}zoom in{/t}" /></a>
+            &nbsp;<a title="{t}zoom out{/t}" id="zoomOut" href="{$page}"><img style="vertical-align: middle;" src="images/zoom_out.png" alt="{t}zoom out{/t}" /></a>
+            <input type="hidden" name="width" value="{$width}" />
+         </fieldset>
+      </form>
+   </div>
+
+   {if $consistencyErrors}
+   <script type="text/javascript">
+      jQuery(function() {
+         jQuery('#dialog_ConsistencyCheck_link').click(function(event) {
+            event.preventDefault();
+            jQuery('#dialog_ConsistencyCheck').dialog('open');
+         });
+         jQuery('#dialog_ConsistencyCheck').dialog({
+            autoOpen: false,
+            hide: 'fade',
+            width: 600,
+            maxHeight: 500
+         });
+      });
+   </script>
+
+   <div align="right">
+      <a title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" href="{$page}" style="text-decoration: none; font:bold 14px Arial; background:red; color:white; border:solid 1px red;">{$consistencyErrors|count} {t}Errors{/t}</a>
+   </div>
+
+   <div align="left" id="dialog_ConsistencyCheck" title="{$consistencyErrors|count} {t}Errors{/t}" style="display: none">
+      <table class="invisible">
+         {foreach from=$consistencyErrors key=id item=i}
+         <tr>
+            <td>{$i.issueURL}</td>
+            <td>{$i.user}</td>
+            <td>{$i.date}</td>
+            <td>{$i.issueStatus}</td>
+            <td><span style="{$i.severityColor}">[{$i.severity}]</span></td>
+            <td><span style="{$i.severityColor}">{$i.desc}</span></td>
+         </tr>
+         {/foreach}
+      </table>
+   </div>
+   {/if}
+
+   {if $planning}
+   <div style="margin-top: 2em;">
+      <table class="invisible">
+         <tr>
+            <td></td>
+            <td>
+               <span style="font-size: 0;">
+                  <img width="{$planning.width}" height="{$planning.height}" src="images/white.png" alt="" />
+                  {foreach from=$planning.days key=id item=i}
+                  <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+                  <img width="{$i}" height="7" src="images/time_line.jpg" alt="" />
+                  {/foreach}
+                  <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+               </span>
+            </td>
+         </tr>
+         {foreach from=$planning.tasks key=id item=i}
+         <tr style="vertical-align: middle;">
+            <td title="{t}workload{/t} = {$i.workload} {t}days{/t}">{$i.username}</td>
+            <td>
+               <span style="font-size: 0;">
+                  {if $i.deadlines.isDeadline}<img width="{$planning.width}" height="{$i.deadlines.height}" src="images/white.png" alt="" />{/if}
+                  {foreach from=$i.deadlines.deadline key=id1 item=j}
+                  {if $j.width}<img width="{$j.width}" height="{$i.deadlines.height}" src="images/time_line.jpg" alt="" />{/if}
+                  <img src="{$j.url}" alt="{$j.title}" title="{$j.title}" />
+                  {/foreach}
+                  {if $i.deadlines.deadline|count > 0}<br />{/if}
+                  <img width="{$planning.width}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
+                  {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
+                  <a target="_blank" href="reports/issue_info.php?bugid={$j.bugid}"><img alt="{$j.title}" title="{$j.title}" src="graphs/scheduledtask.png.php?height={$i.userSchedule.height}&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" /></a>
+                  <img width="{$i.userSchedule.sepWidth}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
+                  {/foreach}
+               </span>
+            </td>
+         </tr>
+         {/foreach}
+      </table>
+   </div>
+
+   <div class="center" style="margin-top: 2em;">
+      <table class="invisible"  width="700">
+         <tr>
+            {foreach from=$colors key=id item=i}
+            <td>
+               <img src="graphs/scheduledtask.png.php?height=14&width=14&color={$id}" alt="{t}Color{/t}" />
+               &nbsp;{t}{$i}{/t}
+            </td>
+            {/foreach}
+            <td>
+               <span style="font-size: 0;">
+                  <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+                  <img width="{$dayPixSize}" height="7" src="images/time_line.jpg" alt="" />
+                  <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+               </span>
+               &nbsp;&nbsp;1 {t}day{/t}
+            </td>
+         </tr>
+      </table>
+   </div>
+   {/if}
+</div>
+{/if}
+{else}
+<div id="content" class="center">{t}Sorry, you need to be member of a Team to access this page.{/t}</div>
+{/if}
