@@ -38,6 +38,7 @@
 <table id="weekTaskDetails">
    <tr>
       <th>{t}Task{/t}</th>
+      <th></th>
       <th>{t}RAF{/t}</th>
       <th>{t}Job{/t}</th>
       {foreach from=$weekDates key=id item=i}
@@ -49,7 +50,9 @@
    </tr>
    {foreach from=$weekTasks key=id item=i}
    <tr id="weekTasks-{$i.bugid}">
+      
       <td>{$i.mantisURL} {$i.issueURL} / {$i.issueId} : {$i.summary}</td>
+      <td><img title='Add note: comming soon...' align='absmiddle' src='images/b_note_grey.png' /></td>
       <td><a title="{t}update remaining{/t}" onclick="updateRemaining('{$i.remaining}',
             '{$i.description}', '{$i.bugid}', '{$i.dialogBoxTitle}');return false;" href="#">{$i.formattedRemaining}</a>
       </td>
