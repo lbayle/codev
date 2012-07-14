@@ -84,10 +84,9 @@ class TimeTrack {
   }
 
   /**
-   *
-   * @param unknown_type $userid
-   * @param unknown_type $bugid
-   * @param unknown_type $job
+   * @param int $userid
+   * @param int $bugid
+   * @param int $job
    * @param unknown_type $timestamp
    * @param unknown_type $duration
    */
@@ -102,39 +101,43 @@ class TimeTrack {
     return $trackid;
   }
 
+   /**
+    * Remove the current track
+    * @return bool True if the track is removed
+    */
+   public function remove() {
+      $query = 'DELETE FROM `codev_timetracking_table` WHERE id='.$this->id.';';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return false;
+      } else {
+         $this->logger->debug("Track $this->id deleted: userid=$this->userId bugid=$this->bugId job=$this->jobId duration=$this->duration timestamp=$this->date");
+         return true;
+      }
+   }
+
   /**
    * update Remaining and delete TimeTrack
-   * @param unknown_type $trackid
+   * @param int $trackid
    */
   public static function delete($trackid) {
+     // increase remaining (only if 'remaining' already has a value)
+     $timetrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
+     $bugid = $timetrack->bugId;
+     $duration = $timetrack->duration;
+     $issue = IssueCache::getInstance()->getIssue($bugid);
+     if (NULL != $issue->remaining) {
+        $remaining = $issue->remaining + $duration;
+        $issue->setRemaining($remaining);
+     }
 
-    // increase remaining (only if 'remaining' already has a value)
-    $query = "SELECT bugid, duration FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-    }
-    while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-    { // REM: only one line in result, while should be optimized
-      $bugid = $row->bugid;
-      $duration = $row->duration;
-    }
-    $issue = IssueCache::getInstance()->getIssue($bugid);
-    if (NULL != $issue->remaining) {
-      $remaining = $issue->remaining + $duration;
-      $issue->setRemaining($remaining);
-    }
-
-    // delete track
-    $query2 = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
-    $result = SqlWrapper::getInstance()->sql_query($query2);
-    if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-    }
+     // delete track
+     if (!$timetrack->remove()) {
+        echo "<span style='color:red'>ERROR: Query FAILED</span>";
+        exit;
+     }
   }
 
-} // class TimeTrack
+}
 
 ?>
