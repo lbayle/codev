@@ -1,28 +1,36 @@
 <?php
-
 /*
-  This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-  CoDev-Timetracking is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CoDev-Timetracking is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
+// TODO Remove this import
 include_once('classes/user_cache.class.php');
+
+include_once('classes/config.class.php');
+include_once('classes/holidays.class.php');
 include_once('classes/issue_cache.class.php');
+include_once('classes/project.class.php');
+include_once('classes/sqlwrapper.class.php');
 include_once('classes/team.class.php');
 include_once('classes/team_cache.class.php');
-include_once('classes/holidays.class.php');
-include_once('classes/time_track.class.php');
+include_once('classes/timetrack_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 /**
  * MANTIS CoDev User Authorization Management
@@ -104,11 +112,6 @@ class User {
     * @var array Cache of depature date
     */
    private $departureDateCache;
-
-   /**
-    * @var array Cache of timetracks
-    */
-   private $timetrackCache;
 
    private $devTeamList;
    private $observedTeamList;
@@ -433,7 +436,7 @@ class User {
                #echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
             }
          } catch (Exception $e) {
-            self::$logger->error("getDaysOfInPeriod(): issue $issue->bugId: " . $e->getMessage());
+            self::$logger->error("getDaysOfInPeriod(): issue $row->bugid: " . $e->getMessage());
          }
       }
       return $daysOf;
@@ -625,7 +628,7 @@ class User {
          }
 
          // exclude Inactivity tasks
-         if ($team->isSideTasksProject($timetrack->projectId))
+         if ($team->isSideTasksProject($timetrack->getProjectId()))
             $workloadPerTaskList["$timetrack->bugId"] += $timetrack->duration;
       }
 
@@ -869,7 +872,7 @@ class User {
       }
 
       // quickSort the list
-      $sortedList = qsort($issueList);
+      $sortedList = Tools::qsort($issueList);
 
       if (self::$logger->isDebugEnabled()) {
          $formatedList = implode(', ', array_keys($sortedList));
@@ -910,7 +913,7 @@ class User {
             }
          }
          // quickSort the list
-         $this->monitoredIssues = qsort($this->monitoredIssues);
+         $this->monitoredIssues = Tools::qsort($this->monitoredIssues);
       }
 
       return $this->monitoredIssues;
@@ -985,7 +988,7 @@ class User {
          $keyvalue = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : $default_timetrackingFilters;
 
          self::$logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
-         $this->timetrackingFilters = doubleExplode(':', ',', $keyvalue);
+         $this->timetrackingFilters = Tools::doubleExplode(':', ',', $keyvalue);
       }
       // get value
       $value = $this->timetrackingFilters[$filterName];
@@ -996,7 +999,7 @@ class User {
    }
 
    /**
-    * @param unknown_type $filterName
+    * @param string $filterName
     * @param unknown_type $value 
     */
    function setTimetrackingFilter($filterName, $value) {
@@ -1008,7 +1011,7 @@ class User {
 
       $this->timetrackingFilters[$filterName] = $value;
 
-      $keyvalue = doubleImplode(':', ',', $this->timetrackingFilters);
+      $keyvalue = Tools::doubleImplode(':', ',', $this->timetrackingFilters);
       self::$logger->debug("Write filters : $keyvalue");
 
       // save new settings
