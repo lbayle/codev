@@ -141,39 +141,26 @@ if($_SESSION['userid']) {
          $trackid = getSecurePOSTIntValue('trackid');
 
          // increase remaining (only if 'remaining' already has a value)
-         $query = 'SELECT * FROM `codev_timetracking_table` WHERE id = '.$trackid.';';
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if ($result) {
-            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-               // REM: only one line in result, while should be optimized
-               $defaultBugid = $row->bugid;
-               $duration = $row->duration;
-               $job = $row->jobid;
-               $trackUserid = $row->userid;
-               $trackDate = $row->date;
-            }
+         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
 
-            $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-            // do NOT decrease remaining if job is job_support !
-            if ($job != $job_support) {
-               if (NULL != $issue->remaining) {
-                  $remaining = $issue->remaining + $duration;
-                  $issue->setRemaining($remaining);
-               }
-            }
+         $defaultBugid = $timeTrack->bugId;
+         $duration = $timeTrack->duration;
+         $job = $timeTrack->jobId;
+         $trackUserid = $timeTrack->userId;
+         $trackDate = $timeTrack->date;
 
-            // delete track
-            # TODO use TimeTrack::delete($trackid)
-            $query = "DELETE FROM `codev_timetracking_table` WHERE id = $trackid;";
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               $smartyHelper->assign('error', "Failed to delete the tasks");
-            } else {
-               $logger->debug("Track $trackid deleted: userid=$trackUserid bugid=$defaultBugid job=$job duration=$duration timestamp=$trackDate");
+         $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+         // do NOT decrease remaining if job is job_support !
+         if ($job != $job_support) {
+            if (NULL != $issue->remaining) {
+               $remaining = $issue->remaining + $duration;
+               $issue->setRemaining($remaining);
             }
          }
-         else {
-            $smartyHelper->assign('error', "Failed to update the remaining");
+
+         // delete track
+         if(!$timeTrack->remove()) {
+            $smartyHelper->assign('error', "Failed to delete the tasks");
          }
 
          // pre-set form fields
