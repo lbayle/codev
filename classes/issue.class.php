@@ -16,8 +16,7 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('lib/log4php/Logger.php');
-
+// TODO Remove this import
 include_once('classes/issue_cache.class.php');
 
 include_once('classes/command_cache.class.php');
@@ -26,6 +25,8 @@ include_once('classes/holidays.class.php');
 include_once('classes/project_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
+
+require_once('lib/log4php/Logger.php');
 
 /**
  * COMPUTE DURATIONS
@@ -523,18 +524,8 @@ class Issue {
 
       // check if
       if (NULL != $this->target_version) {
-         $query = "SELECT date_order FROM `mantis_project_version_table` ".
-            "WHERE project_id=$this->projectId ".
-            "AND version='$this->target_version'";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         $targetVersionDate = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
-
-         $this->logger->debug("$this->bugId target_version date = ".date("Y-m-d", $targetVersionDate));
-         return ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
+         $project = ProjectCache::getInstance()->getProject($this->projectId);
+         return $project->getVersionDate($this->target_version);
       }
 
       return NULL;

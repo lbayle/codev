@@ -16,18 +16,20 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("default");
-      $logger->info("LOG activated !");
-   }
+// TODO Remove this import
+include_once('classes/project_cache.class.php');
 
-include_once("config_mantis.class.php");
-include_once("project_version.class.php");
-include_once("project_cache.class.php");
-include_once("jobs.class.php");
-include_once("team.class.php");
+include_once('classes/config.class.php');
+include_once('classes/config_mantis.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/issue_selection.class.php');
+include_once('classes/jobs.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/project_version.class.php');
+
+include_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 class Project {
 
@@ -48,10 +50,10 @@ class Project {
 
   private $logger;
 
-  public static $typeNames = array(Project::type_workingProject  => "Project",
-                                   Project::type_noCommonProject => "Project (no common jobs)",
-                                   Project::type_noStatsProject  => "Project (stats excluded)",
-                                   Project::type_sideTaskProject => "SideTasks");
+  public static $typeNames = array(self::type_workingProject  => "Project",
+                                   self::type_noCommonProject => "Project (no common jobs)",
+                                   self::type_noStatsProject  => "Project (stats excluded)",
+                                   self::type_sideTaskProject => "SideTasks");
 
    var $id;
    var $name;
@@ -72,6 +74,11 @@ class Project {
    private $issueLists;    // cache
    private $categoryCache; // cache
    private $versionCache; // cache
+
+   /**
+    * @var int[] The version date cache
+    */
+   private $versionDateCache;
 
    // -----------------------------------------------
    public function __construct($id) {
@@ -484,22 +491,22 @@ class Project {
 
    // -----------------------------------------------
    public function addCategoryProjManagement($catName) {
-      return $this->addCategory(Project::cat_mngt_regular, $catName);
+      return $this->addCategory(self::cat_mngt_regular, $catName);
    }
    public function addCategoryMngtProvision($catName) {
-      return $this->addCategory(Project::cat_mngt_provision, $catName);
+      return $this->addCategory(self::cat_mngt_provision, $catName);
    }
    public function addCategoryInactivity($catName) {
-      return $this->addCategory(Project::cat_st_inactivity, $catName);
+      return $this->addCategory(self::cat_st_inactivity, $catName);
    }
    public function addCategoryIncident($catName) {
-      return $this->addCategory(Project::cat_st_incident, $catName);
+      return $this->addCategory(self::cat_st_incident, $catName);
    }
    public function addCategoryTools($catName) {
-      return $this->addCategory(Project::cat_st_tools, $catName);
+      return $this->addCategory(self::cat_st_tools, $catName);
    }
    public function addCategoryWorkshop($catName) {
-      return $this->addCategory(Project::cat_st_workshop, $catName);
+      return $this->addCategory(self::cat_st_workshop, $catName);
    }
 
    // -----------------------------------------------
@@ -551,7 +558,7 @@ class Project {
    // -----------------------------------------------
    public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
       #global $status_closed;
-      $bugt_id = $this->addSideTaskIssue(Project::cat_mngt_regular, $issueSummary, $issueDesc);
+      $bugt_id = $this->addSideTaskIssue(self::cat_mngt_regular, $issueSummary, $issueDesc);
 
 /*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
@@ -565,7 +572,7 @@ class Project {
    }
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
       #global $status_closed;
-      $bugt_id = $this->addSideTaskIssue(Project::cat_st_inactivity, $issueSummary, $issueDesc);
+      $bugt_id = $this->addSideTaskIssue(self::cat_st_inactivity, $issueSummary, $issueDesc);
 /*
       $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -577,13 +584,13 @@ class Project {
       return $bugt_id;
    }
    public function addIssueIncident($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::cat_st_incident, $issueSummary, $issueDesc);
+      return $this->addSideTaskIssue(self::cat_st_incident, $issueSummary, $issueDesc);
    }
    public function addIssueTools($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::cat_st_tools, $issueSummary, $issueDesc);
+      return $this->addSideTaskIssue(self::cat_st_tools, $issueSummary, $issueDesc);
    }
    public function addIssueWorkshop($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(Project::cat_st_workshop, $issueSummary, $issueDesc);
+      return $this->addSideTaskIssue(self::cat_st_workshop, $issueSummary, $issueDesc);
    }
 
    // -----------------------------------------------
@@ -592,7 +599,7 @@ class Project {
       global $status_closed;
 
       $cat_id = $this->categoryList["$catType"];
-      $today  = date2timestamp(date("Y-m-d"));
+      $today  = Tools::date2timestamp(date("Y-m-d"));
 
       $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
@@ -622,7 +629,7 @@ class Project {
     */
    public function addIssue($cat_id, $issueSummary, $issueDesc, $issueStatus) {
 
-      $today  = date2timestamp(date("Y-m-d"));
+      $today  = Tools::date2timestamp(date("Y-m-d"));
 
       $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
@@ -674,19 +681,19 @@ class Project {
 
       // SPECIAL CASE: externalTasksProject is a type_noStatsProject that has only 'N/A' jobs
       if ($this->id == Config::getInstance()->getValue(Config::id_externalTasksProject)) {
-         $type = Project::type_sideTaskProject;
+         $type = self::type_sideTaskProject;
       }
 
       if (0 != $this->id) {
 
        switch ($type) {
-          case Project::type_sideTaskProject:
+          case self::type_sideTaskProject:
             $query  = "SELECT codev_job_table.id, codev_job_table.name ".
                      "FROM `codev_job_table`, `codev_project_job_table` ".
                      "WHERE codev_job_table.id = codev_project_job_table.job_id ".
                      "AND codev_project_job_table.project_id = $this->id";
              break;
-          case Project::type_noCommonProject:
+          case self::type_noCommonProject:
             $query  = "SELECT codev_job_table.id, codev_job_table.name ".
                       "FROM `codev_job_table` ".
                       "LEFT OUTER JOIN  `codev_project_job_table` ".
@@ -694,8 +701,8 @@ class Project {
                       "WHERE (codev_project_job_table.project_id = $this->id)".
                        "ORDER BY codev_job_table.name ASC";
             break;
-          case Project::type_workingProject:  // no break;
-          case Project::type_noStatsProject:
+          case self::type_workingProject:  // no break;
+          case self::type_noStatsProject:
                // all other projects
             $query  = "SELECT codev_job_table.id, codev_job_table.name ".
                       "FROM `codev_job_table` ".
@@ -889,7 +896,7 @@ class Project {
           $this->logger->warn("isSideTasksProject(): ".$e->getMessage());
           throw $e;
        }
-       return (Project::type_sideTaskProject == $type);
+       return (self::type_sideTaskProject == $type);
     }
 
 
@@ -918,7 +925,7 @@ class Project {
           $this->logger->warn("isNoStatsProject(): ".$e->getMessage());
           throw $e;
        }
-       return (Project::type_noStatsProject == $type);
+       return (self::type_noStatsProject == $type);
    }
 
    /**
@@ -933,27 +940,27 @@ class Project {
    // -----------------------------------------------
    public function getManagementCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[Project::cat_mngt_regular];
+      return $this->categoryList[self::cat_mngt_regular];
    }
    public function getMngtProvisionCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[Project::cat_mngt_provision];
+      return $this->categoryList[self::cat_mngt_provision];
    }
    public function getIncidentCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[Project::cat_st_incident];
+      return $this->categoryList[self::cat_st_incident];
    }
    public function getInactivityCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[Project::cat_st_inactivity];
+      return $this->categoryList[self::cat_st_inactivity];
    }
    public function getToolsCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[Project::cat_st_tools];
+      return $this->categoryList[self::cat_st_tools];
    }
    public function getWorkshopCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[Project::cat_st_workshop];
+      return $this->categoryList[self::cat_st_workshop];
    }
 
 
@@ -981,7 +988,7 @@ class Project {
       $wfTrans = array();
       // find all statuses
       foreach ( $unserialized as $line => $sList) {
-         $sarr = doubleExplode(':', ',', $sList);
+         $sarr = Tools::doubleExplode(':', ',', $sList);
          ksort($sarr);
          $wfTrans[$line] = $sarr;
          foreach ($sarr as $status => $statusName) {
@@ -1115,6 +1122,34 @@ class Project {
         }
 
       return $this->projectVersionList;
+   }
+
+   /**
+    * Get the version date
+    * @param int $target_version The target version
+    * @return int The version date
+    */
+   public function getVersionDate($target_version) {
+      if(NULL == $this->versionDateCache) {
+         $this->versionDateCache = array();
+      }
+
+      if(!array_key_exists($target_version,$this->versionDateCache)) {
+         $query = "SELECT date_order FROM `mantis_project_version_table` ".
+            "WHERE project_id=$this->id ".
+            "AND version='$target_version'";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $targetVersionDate = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+
+         $this->logger->debug("$this->id target_version date = ".date("Y-m-d", $targetVersionDate));
+         $this->versionDateCache[$target_version] = ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
+      }
+
+      return $this->versionDateCache[$target_version];
    }
 
 
