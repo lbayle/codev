@@ -534,6 +534,9 @@ class Tools {
     */
    public static function getSecureGETNumberValue($key,$defaultValue = NULL) {
       $value = self::getSecureGETStringValue($key,$defaultValue);
+      if(strlen($value) == 0) {
+         $value = $defaultValue;
+      }
       if (is_numeric($value)) {
          return $value;
       } else {
@@ -550,6 +553,9 @@ class Tools {
     */
    public static function getSecurePOSTNumberValue($key,$defaultValue = NULL) {
       $value = self::getSecurePOSTStringValue($key,$defaultValue);
+      if(strlen($value) == 0) {
+         $value = $defaultValue;
+      }
       if (is_numeric($value)) {
          return $value;
       } else {
@@ -566,6 +572,9 @@ class Tools {
     */
    public static function getSecureGETIntValue($key,$defaultValue = NULL) {
       $value = self::getSecureGETStringValue($key,$defaultValue);
+      if(strlen($value) == 0) {
+         $value = $defaultValue;
+      }
       if (is_numeric($value)) {
          return intval($value);
       } else {
@@ -582,6 +591,9 @@ class Tools {
     */
    public static function getSecurePOSTIntValue($key,$defaultValue = NULL) {
       $value = self::getSecurePOSTStringValue($key,$defaultValue);
+      if(strlen($value) == 0) {
+         $value = $defaultValue;
+      }
       if (is_numeric($value)) {
          return intval($value);
       } else {
