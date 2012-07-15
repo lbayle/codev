@@ -184,15 +184,15 @@ function getWeekTask($weekDates, $userid, TimeTracking $timeTracking) {
             if($i <= 5) {
                $h = $holidays->isHoliday($weekDates[$i]);
                if ($h) {
-                  $bgColor = "style='background-color: #".$h->color.";'";
+                  $bgColor = $h->color;
                   #$bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
                   $title = "title='".$h->description."'";
                } else {
-                  $bgColor = "";
+                  $bgColor = NULL;
                   $title = "";
                }
             } else {
-               $bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
+               $bgColor = Holidays::$defaultColor;
                $title = "";
             }
             $dayTasks[] = array('bgColor' => $bgColor,
