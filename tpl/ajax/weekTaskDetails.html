@@ -2,27 +2,38 @@
    jQuery(document).ready(function() {
       jQuery(".dayTask").click(function() {
          var day = jQuery(this);
-         if(day.text() != '') {
-            jQuery("body").css('cursor','wait');
+         jQuery("body").css('cursor','wait');
 
-            var row = day.parent();
-            var jobid = row.find("td[class^=job]").attr("class").replace("job-","");
+         var row = day.parent();
+         var modified = false;
+
+         var jobid = row.find("td[class^=job]").attr("class").replace("job-","");
+         if(jobid != jQuery("#job").val()) {
             if(jQuery("#job option[value="+jobid+"]").val() != null) {
                jQuery("#job").val(jobid);
-            } else if("#job") {
+            } else {
                jQuery("#job").append($('<option>', { value : jobid, selected : 'selected' }));
             }
-            jQuery("#job").val(jobid);
-            // Don't set the duration
-            //jQuery("#duree").val(day.text());
+            modified = true;
+         }
 
-            var bugid = row.attr("id").replace("weekTasks-","");
+         /* Don't set the duration
+         * if(day.text() != jQuery("#duree").val()) {
+         *    jQuery("#duree").val(day.text());
+         * }
+         */
+
+         var bugid = row.attr("id").replace("weekTasks-","");
+         if(bugid != jQuery("#bugid").val()) {
             if(jQuery("#bugid option[value="+bugid+"]").val() != null) {
                jQuery("#bugid").val(bugid);
             } else {
                jQuery("#bugid").append($('<option>', { value : bugid, selected : 'selected' }));
             }
+            modified = true;
+         }
 
+         if(modified) {
             var form1 = jQuery("#form1");
             form1.find("input[name=action]").val("setBugId");
 
@@ -31,6 +42,8 @@
             form1.find("input[name=year]").val(jQuery("#year").val());
 
             form1.submit();
+         } else {
+            jQuery("body").css('cursor','auto');
          }
       });
    });
@@ -44,21 +57,20 @@
       {foreach from=$weekDates key=id item=i}
       <th width="80" id="date-{$id}">{$i}</th>
       {/foreach}
-      {foreach from=$weekEndDates item=i}
-      <th width="80" style="background-color: #D8D8D8;">{$i}</th>
+      {foreach from=$weekEndDates key=id item=i}
+      <th width="80" id="date-{$id}" style="background-color: #D8D8D8;">{$i}</th>
       {/foreach}
    </tr>
    {foreach from=$weekTasks key=id item=i}
    <tr id="weekTasks-{$i.bugid}">
-      
       <td>{$i.mantisURL} {$i.issueURL} / {$i.issueId} : {$i.summary}</td>
       <td><img title='Add note: comming soon...' align='absmiddle' src='images/b_note_grey.png' /></td>
       <td><a title="{t}update remaining{/t}" onclick="updateRemaining('{$i.remaining}',
-            '{$i.description}', '{$i.bugid}', '{$i.dialogBoxTitle}');return false;" href="#">{$i.formattedRemaining}</a>
+            '{$i.description}', '{$i.bugid}', '{$i.dialogBoxTitle}');return false;" href="{$page}">{$i.formattedRemaining}</a>
       </td>
       <td class="job-{$i.jobid}">{$i.jobName}</td>
       {foreach from=$i.dayTasks key=day item=j}
-      <td {$j.bgColor} {$j.title} class="dayTask">{$j.day}</td>
+      <td {if $j.title}title="{$j.title}"{/if} class="dayTask" style="cursor: pointer;{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >{$j.day}</td>
       {/foreach}
    </tr>
    {/foreach}
