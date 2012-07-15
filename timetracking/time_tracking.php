@@ -36,7 +36,7 @@ $logger = Logger::getLogger("time_tracking");
 require('display.inc.php');
 
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Time Tracking'));
+$smartyHelper->assign('pageName', 'Time Tracking');
 
 if($_SESSION['userid']) {
 
@@ -96,12 +96,13 @@ if($_SESSION['userid']) {
       $action = getSecurePOSTStringValue('action','');
       $weekid = getSecurePOSTIntValue('weekid',date('W'));
 
-      $defaultDate = date("Y-m-d", time());
-      $defaultBugid = 0;
-      $defaultProjectid=0;
+      $defaultDate = getSecurePOSTStringValue('date',date("Y-m-d", time()));;
+      $defaultBugid = getSecurePOSTIntValue('bugid',0);
+      $defaultProjectid = getSecurePOSTIntValue('projectid',0);
+      $job = getSecurePOSTIntValue('job',0);
+      $duration = getSecurePOSTNumberValue('duree',0);
 
       if ("addTrack" == $action) {
-         $defaultDate = getSecurePOSTStringValue('date','');
          $timestamp = date2timestamp($defaultDate);
          $defaultBugid = getSecurePOSTIntValue('bugid');
          $job = getSecurePOSTStringValue('job');
@@ -142,7 +143,6 @@ if($_SESSION['userid']) {
 
          // increase remaining (only if 'remaining' already has a value)
          $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
-
          $defaultBugid = $timeTrack->bugId;
          $duration = $timeTrack->duration;
          $job = $timeTrack->jobId;
@@ -169,7 +169,6 @@ if($_SESSION['userid']) {
       elseif ("setProjectid" == $action) {
          // pre-set form fields
          $defaultProjectid = getSecurePOSTIntValue('projectid');
-         $defaultDate = getSecurePOSTStringValue('date','');
       }
       elseif ("setBugId" == $action) {
          // --- pre-set form fields
@@ -177,7 +176,6 @@ if($_SESSION['userid']) {
          $defaultBugid = getSecurePOSTIntValue('bugid');
          $issue = IssueCache::getInstance()->getIssue($defaultBugid);
          $defaultProjectid  = $issue->projectId;
-         $defaultDate = getSecurePOSTStringValue('date','');
       }
       elseif ("setFiltersAction" == $action) {
          $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
@@ -186,11 +184,10 @@ if($_SESSION['userid']) {
          $managed_user->setTimetrackingFilter('onlyAssignedTo', $isFilter_onlyAssignedTo);
          $managed_user->setTimetrackingFilter('hideResolved', $isFilter_hideResolved);
 
-         $defaultProjectid  = getSecurePOSTIntValue('projectid');
-      }
-      elseif ("updateWeekDisplay" == $action) {
-         $defaultBugid = getSecurePOSTIntValue('bugid');
-         $defaultProjectid = getSecurePOSTIntValue('projectid');
+         if($defaultBugid != 0) {
+            $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+            $defaultProjectid = $issue->projectId;
+         }
       }
 
       // Display user name
@@ -224,8 +221,8 @@ if($_SESSION['userid']) {
 
       $smartyHelper->assign('issues', getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user, $projList, $isHideResolved, $defaultBugid));
 
-      $smartyHelper->assign('jobs', getJobs($defaultProjectid, $teamList, getSecurePOSTIntValue('job',0)));
-      $smartyHelper->assign('duration', getDuration(getSecurePOSTNumberValue('duree',0)));
+      $smartyHelper->assign('jobs', getJobs($defaultProjectid, $teamList, $job));
+      $smartyHelper->assign('duration', getDuration($duration));
 
       $smartyHelper->assign('weeks', getWeeks($weekid, $year));
       $smartyHelper->assign('years', getYears($year,1));

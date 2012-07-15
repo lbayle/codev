@@ -43,7 +43,8 @@
                form1.submit();
             });
 
-            jQuery("#filters").click(function() {
+            jQuery("#filters").click(function(event) {
+               event.preventDefault();
                jQuery("#setfilter_dialog_form" ).dialog( "open" );
             });
 
@@ -89,8 +90,6 @@
                   alert(msgString);
                }
             });
-
-
          });
       </script>
       <form id="form1" name="form1" method="post" action="{$page}">
@@ -105,7 +104,7 @@
                {/foreach}
             </select>
             {/if}
-            <a title="{t}Set filters{/t}" id="filters" style="text-decoration: none">
+            <a title="{t}Set filters{/t}" id="filters" style="text-decoration: none" href="{$page}">
                {if $isOnlyAssignedTo || $isHideResolved}
                <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter-active.png" alt="{t}Set filters{/t}" />
                {else}
@@ -148,10 +147,17 @@
    <div align="center" style="margin-top: 2em;">
       <script type="text/javascript">
          jQuery(document).ready(function() {
-            jQuery("#previousweek").click(function() {
-               var formUpdateWeek = jQuery("#formUpdateWeek");
+            var formUpdateWeek = jQuery("#formUpdateWeek");
+
+            function updateFormWeek() {
                formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
                formUpdateWeek.find("input[name=bugid]").val(jQuery("#bugid").val());
+               formUpdateWeek.find("input[name=job]").val(jQuery("#job").val());
+               formUpdateWeek.find("input[name=duree]").val(jQuery("#duree").val());
+            }
+
+            jQuery("#previousweek").click(function() {
+               updateFormWeek();
 
                var weekid = jQuery("#weekid").val();
                if (1 != weekid) {
@@ -161,9 +167,7 @@
             });
 
             jQuery("#nextweek").click(function() {
-               var formUpdateWeek = jQuery("#formUpdateWeek");
-               formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
-               formUpdateWeek.find("input[name=bugid]").val(jQuery("#bugid").val());
+               updateFormWeek();
 
                var weekid = jQuery("#weekid").val();
                if (weekid <= 52) {
@@ -177,9 +181,7 @@
             });
 
             jQuery("#weekid, #year").change(function() {
-               var formUpdateWeek = jQuery("#formUpdateWeek");
-               formUpdateWeek.find("input[name=projectid]").val(jQuery("#projectid").val());
-               formUpdateWeek.find("input[name=bugid]").val(jQuery("#bugid").val());
+               updateFormWeek();
                formUpdateWeek.submit();
             });
          });
@@ -201,8 +203,9 @@
             <input type="button" id="nextweek" title="{t}Next week{/t}" value="&gt;&gt;" onclick="nextWeek()" />
             <input type="hidden" name="projectid" value="{$defaultProjectid}" />
             <input type="hidden" name="bugid" value="{$defaultBugid}" />
+            <input type="hidden" name="job" value="{$job}" />
+            <input type="hidden" name="duree" value="{$duree}" />
             {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
-            <input type="hidden" name="action" value="updateWeekDisplay" />
             <input type="hidden" name="nextForm" value="addTrackForm" />
          </fieldset>
       </form>
@@ -353,7 +356,14 @@
             modal: true,
             buttons: {
                Ok: function() {
-                  jQuery("#formSetFilters").submit();
+                  var form = jQuery("#formSetFilters");
+                  form.find("input[name=projectid]").val(jQuery("#projectid").val());
+                  form.find("input[name=bugid]").val(jQuery("#bugid").val());
+                  form.find("input[name=job]").val(jQuery("#job").val());
+                  form.find("input[name=duree]").val(jQuery("#duree").val());
+                  form.find("input[name=weekid]").val(jQuery("#weekid").val());
+                  form.find("input[name=year]").val(jQuery("#year").val());
+                  form.submit();
                },
                Cancel: function() {
                   jQuery(this).dialog( "close" );
@@ -374,6 +384,8 @@
             {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="projectid" value="{$defaultProjectid}" />
             <input type="hidden" name="bugid" value="{$defaultBugid}" />
+            <input type="hidden" name="job" value="{$job}" />
+            <input type="hidden" name="duree" value="{$duree}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="action" value="setFiltersAction" />
