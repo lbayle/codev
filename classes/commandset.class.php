@@ -113,7 +113,7 @@ class CommandSet {
       // ---
       $this->cmdidByTypeList = array();
       $query = "SELECT * FROM `codev_commandset_cmd_table` " .
-               "WHERE commandset_id=$this->id ";
+               "WHERE commandset_id=$this->id ".
                "ORDER BY type ASC, command_id ASC";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
