@@ -58,7 +58,7 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+      $query = "SELECT * ".
         "FROM `mantis_bug_table` ".
         "WHERE status in ($status_analyzed, $status_accepted, $status_open, $status_deferred) ";
 
@@ -76,10 +76,10 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
-      	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
+      	$issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
          if (NULL == $issue->effortEstim) {
-           $cerr = new ConsistencyError($row->bug_id,
+           $cerr = new ConsistencyError($row->id,
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated,

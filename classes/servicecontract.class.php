@@ -58,7 +58,10 @@ class ServiceContract {
    // $cmdsetidByTypeList[project_id]
    private $sidetasksProjectList;
 
-   // [cat_id] = IssueSelection("categoryName")
+   /**
+    * [cat_id] = IssueSelection("categoryName")
+    * @var IssueSelection[]
+    */
    private $sidetasksPerCategory;
 
    public function __construct($id) {
@@ -337,7 +340,7 @@ class ServiceContract {
 
    /**
     *
-    * @return array project_id => Project
+    * @return Project[] array project_id => Project
     */
    public function getProjects() {
 
@@ -513,9 +516,7 @@ class ServiceContract {
    }
 
 /**
- *
- * @param int $servicecontractid
- * @return array[category_id] = IssueSelection("categoryName")
+ * @return IssueSelection[] : array[category_id] = IssueSelection("categoryName")
  */
 function getSidetasksPerCategory() {
 
@@ -535,17 +536,14 @@ function getSidetasksPerCategory() {
             $this->logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
             continue;
          }
-         $bugidList = $project->getBugidList();
 
-         foreach ($bugidList as $bugid) {
-
-            $issue = IssueCache::getInstance()->getIssue($bugid);
-
+         $issueList = $project->getIssues();
+         foreach ($issueList as $issue) {
             if (NULL == $this->sidetasksPerCategory[$issue->categoryId]) {
                $this->sidetasksPerCategory[$issue->categoryId] = new IssueSelection($issue->getCategoryName());
             }
             $issueSel = $this->sidetasksPerCategory[$issue->categoryId];
-            $issueSel->addIssue($bugid);
+            $issueSel->addIssue($issue->bugId);
          }
       }
    }

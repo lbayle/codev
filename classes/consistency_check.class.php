@@ -131,7 +131,7 @@ class ConsistencyCheck {
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+      $query = "SELECT * ".
         "FROM `mantis_bug_table` ".
         "WHERE status >= get_project_resolved_status_threshold(project_id) ";
 
@@ -149,11 +149,11 @@ class ConsistencyCheck {
        }
        while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
-         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
          if ((NULL != $issue->deliveryId) &&
          	 (NULL == $issue->deliveryDate)) {
-               $cerr = new ConsistencyError($row->bug_id,
+               $cerr = new ConsistencyError($row->id,
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated,
@@ -176,7 +176,7 @@ class ConsistencyCheck {
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+      $query = "SELECT * ".
                "FROM `mantis_bug_table` ".
                "WHERE status >= get_project_resolved_status_threshold(project_id) ";
 
@@ -195,10 +195,10 @@ class ConsistencyCheck {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          // check if fields correctly set
-      	$issue = IssueCache::getInstance()->getIssue($row->bug_id);
+      	$issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
          if (0 != $issue->remaining) {
-           $cerr = new ConsistencyError($row->bug_id,
+           $cerr = new ConsistencyError($row->id,
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated,
@@ -226,8 +226,7 @@ class ConsistencyCheck {
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
-               "FROM `mantis_bug_table` ".
+      $query = "SELECT * FROM `mantis_bug_table` ".
                "WHERE status NOT IN ($status_new, $status_acknowledged) ".
                "AND status < get_project_resolved_status_threshold(project_id) ";
 
@@ -246,10 +245,10 @@ class ConsistencyCheck {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          // check if fields correctly set
-         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
          if ($issue->remaining <= $min_remaining) {
-           $cerr = new ConsistencyError($row->bug_id,
+           $cerr = new ConsistencyError($row->id,
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated,
@@ -272,7 +271,7 @@ class ConsistencyCheck {
    	$cerrList = array();
 
    	// select all issues
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+      $query = "SELECT * ".
                "FROM `mantis_bug_table` ".
                "WHERE status < get_project_resolved_status_threshold(project_id) ";
 
@@ -305,13 +304,13 @@ class ConsistencyCheck {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
          // check if fields correctly set
-         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
 	         if ((NULL   == $issue->mgrEffortEstim) ||
 	             ('' == $issue->mgrEffortEstim)     ||
 	             ('0' == $issue->mgrEffortEstim)) {
 
-	           $cerr = new ConsistencyError($row->bug_id,
+	           $cerr = new ConsistencyError($row->id,
 	                                              $row->handler_id,
 	                                              $row->status,
 	                                              $row->last_updated,
@@ -340,7 +339,7 @@ class ConsistencyCheck {
     $cerrList = array();
 
     // select all issues which current status is 'new'
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+      $query = "SELECT * ".
                "FROM `mantis_bug_table` ".
                "WHERE status = $status_new ";
 
@@ -358,13 +357,13 @@ class ConsistencyCheck {
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
-        $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+        $issue = IssueCache::getInstance()->getIssue($row->id, $row);
         $elapsed = $issue->getElapsed();
 
         if (0 != $elapsed) {
 
         	// error
-            $cerr = new ConsistencyError($row->bug_id,
+            $cerr = new ConsistencyError($row->id,
                                                   $row->handler_id,
                                                   $row->status,
                                                   $row->last_updated,
