@@ -308,7 +308,7 @@ class Team {
 
       $this->logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
 
-      $query = "SELECT id AS bug_id, status, handler_id, last_updated ".
+      $query = "SELECT * ".
          "FROM `mantis_bug_table` ".
          "WHERE project_id IN ($formatedProjects) ".
          "AND   handler_id IN ($formatedMembers) ";
@@ -320,7 +320,7 @@ class Team {
       }
       $issueList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $issueList[$row->bug_id] = IssueCache::getInstance()->getIssue($row->bug_id);
+         $issueList[$row->bug_id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
       $this->logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
@@ -361,7 +361,7 @@ class Team {
       $this->logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
 
       // get Issues that are not Resolved/Closed
-      $query = "SELECT DISTINCT id ".
+      $query = "SELECT * ".
          "FROM `mantis_bug_table` ".
          "WHERE status < get_project_resolved_status_threshold(project_id) ".
          "AND project_id IN ($formatedProjects) ".
@@ -380,7 +380,7 @@ class Team {
 
       $issueList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id);
+         $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
       $this->logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));

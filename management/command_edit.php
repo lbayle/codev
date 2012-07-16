@@ -124,7 +124,7 @@ function getChildIssuesCandidates($teamid) {
 
    $formattedProjectList = implode (', ', array_keys($projects));
 
-   $query  = "SELECT id FROM `mantis_bug_table` ".
+   $query  = "SELECT * FROM `mantis_bug_table` ".
              "WHERE project_id IN ($formattedProjectList) ".
              "AND 0 = is_issue_in_team_commands(id, $teamid) ".
              "ORDER BY id DESC";
@@ -138,7 +138,7 @@ function getChildIssuesCandidates($teamid) {
    //
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
-      $issue = IssueCache::getInstance()->getIssue($row->id);
+      $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
       $issueInfo = array();
       //$issueInfo["mantisLink"] = mantisIssueURL($issue->bugId, NULL, true);
