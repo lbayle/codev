@@ -747,7 +747,7 @@ class Project {
     * @return int[] : array[bugid]
     * @see Use ProjectCache::getInstance()->getProject($id)->getIssues($handler_id, $isHideResolved) if you need Issue[] and not just the IssueId[]
     */
-   public function getIssueList($handler_id = 0, $isHideResolved = false) {
+   public function getBugidList($handler_id = 0, $isHideResolved = false) {
 
       if (NULL == $this->issueLists) { $this->issueLists = array(); }
 
@@ -1150,7 +1150,7 @@ class Project {
         if (NULL == $this->projectVersionList) {
 
            $this->projectVersionList = array();
-           $issueList = $this->getIssueList();
+           $issueList = $this->getBugidList();
            foreach ($issueList as $bugid) {
 
               $issue = IssueCache::getInstance()->getIssue($bugid);
@@ -1204,7 +1204,7 @@ class Project {
 
       if (NULL == $this->progress) {
 
-        $issueList = $this->getIssueList();
+        $issueList = $this->getBugidList();
 
         $issueSelection = new IssueSelection($this->name);
         foreach ($issueList as $bugid) {
@@ -1226,7 +1226,7 @@ class Project {
 
       if (NULL == $this->progressMgr) {
 
-         $issueList = $this->getIssueList();
+         $issueList = $this->getBugidList();
 
          $issueSelection = new IssueSelection($this->name);
          foreach ($issueList as $bugid) {
@@ -1245,7 +1245,7 @@ class Project {
 
       if (NULL == $this->drift) {
 
-         $issueList = $this->getIssueList();
+         $issueList = $this->getBugidList();
 
          $issueSelection = new IssueSelection($this->name);
          foreach ($issueList as $bugid) {
@@ -1263,7 +1263,7 @@ class Project {
 
       if (NULL == $this->driftMgr) {
 
-         $issueList = $this->getIssueList();
+         $issueList = $this->getBugidList();
 
          $issueSelection = new IssueSelection($this->name);
          foreach ($issueList as $bugid) {

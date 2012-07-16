@@ -109,7 +109,7 @@ function getVersionsDetailedMgr($project) {
 
    // TOTAL (all Versions together)
    $allProjectVersions = new ProjectVersion($project->id, T_("Total"));
-   $issueList = $project->getIssueList();
+   $issueList = $project->getBugidList();
 	foreach ($issueList as $bugid) {
       $allProjectVersions->addIssue($bugid);
    }

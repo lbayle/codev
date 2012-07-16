@@ -535,7 +535,7 @@ function getSidetasksPerCategory() {
             $this->logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
             continue;
          }
-         $bugidList = $project->getIssueList();
+         $bugidList = $project->getBugidList();
 
          foreach ($bugidList as $bugid) {
 

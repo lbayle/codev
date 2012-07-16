@@ -88,7 +88,7 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
    // --- Task list
    if (0 != $defaultProjectid) {
       $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
-      $issueList = $project1->getIssueList();
+      $issueList = $project1->getBugidList();
    } else {
       // no project specified: show all tasks
       $issueList = array();

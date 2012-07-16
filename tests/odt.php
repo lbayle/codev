@@ -117,7 +117,7 @@ function genProjectODT($project, $odtTemplate, $userid = 0) {
 	try { $odf->setVars('selectionName',  $project->name); } catch (Exception $e) {};
 
 	$isHideResolved = true;
-	$issueList = $project->getIssueList($userid, $isHideResolved);
+	$issueList = $project->getBugidList($userid, $isHideResolved);
 	$logger->debug("nb issues = ".count($issueList));
 
    $q_id = 0;
