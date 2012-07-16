@@ -904,17 +904,8 @@ class Issue {
       $key = 't'.$timestamp;
       if(!array_key_exists($key,$this->statusCache)) {
          if (NULL == $timestamp) {
-            $query = "SELECT status FROM `mantis_bug_table` WHERE id = $this->bugId";
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               echo "<span style='color:red'>ERROR: Query FAILED</span>";
-               exit;
-            }
-            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-            $this->currentStatus   = $row->status;
-
             $this->logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
-            $this->statusCache[$key] = $row->status;
+            $this->statusCache[$key] = $this->currentStatus;
          } else {
             // if a timestamp is specified, find the latest status change (strictly) before this date
             $query = "SELECT new_value, old_value, date_modified ".
