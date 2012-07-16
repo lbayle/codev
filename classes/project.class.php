@@ -787,9 +787,20 @@ class Project {
     * returns issues list
     * @param int $handler_id (if 0, all users)
     * @param bool $isHideResolved
-    * @return Issue[] : array[bugid]
+    * @return Issue[] : array[]
     */
    public function getIssues($handler_id = 0, $isHideResolved = false) {
+
+      $bugidList = $this->getBugidList($handler_id, $isHideResolved);
+
+      $issues = array();
+      foreach($bugidList as $bugid) {
+         $issues[] = IssueCache::getInstance()->getIssue($bugid);
+      }
+      return $issues;
+   }
+
+   public function getIssues_old($handler_id = 0, $isHideResolved = false) {
       if (NULL == $this->issuesCache) {
          $this->issuesCache = array();
       }
