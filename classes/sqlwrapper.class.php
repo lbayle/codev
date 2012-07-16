@@ -123,8 +123,8 @@ class SqlWrapper {
             $this->countByQuery[$query] += 1;
          }
 
-         if (self::$logger->isDebugEnabled()) {
-            self::$logger->debug("SQL Query #" . $this->count . " (" . round(microtime(true) - $start, 4) . " sec) : " . $query);
+         if (self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("SQL Query #" . $this->count . " (" . round(microtime(true) - $start, 4) . " sec) : " . $query);
          }
       }
 
@@ -252,7 +252,7 @@ class SqlWrapper {
          foreach($this->getCountByQuery() as $query => $count) {
             if($count > 10) {
                self::$logger->info($count. ' identical SQL queries on : ' . $query);
-            } else {
+            } else if($count > 1) {
                self::$logger->debug($count. ' identical SQL queries on : ' . $query);
             }
          }
