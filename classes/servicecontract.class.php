@@ -115,7 +115,7 @@ class ServiceContract {
       $this->cmdsetidByTypeList = array();
       $query  = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
                 "WHERE servicecontract_id=$this->id ".
-                "ORDER BY type ASC, command_id ASC";
+                "ORDER BY type ASC, commandset_id ASC";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -134,7 +134,7 @@ class ServiceContract {
       $this->sidetasksProjectList = array();
       $query  = "SELECT * FROM `codev_servicecontract_stproj_table` ".
                 "WHERE servicecontract_id=$this->id ".
-                "ORDER BY type ASC, command_id ASC";
+                "ORDER BY type ASC, project_id ASC";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
