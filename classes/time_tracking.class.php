@@ -94,12 +94,9 @@ class TimeTracking {
     	exit;
     }
 
-    $teamidList = array($this->team_id);
     while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
     {
-       $project1 = ProjectCache::getInstance()->getProject($row->project_id);
-       $ptype = $project1->getProjectType($teamidList);
-    	 switch ($ptype) {
+    	 switch ($row->type) {
 
     	   case Project::type_sideTaskProject:
     	      $this->sideTaskprojectList[] = $row->project_id;
