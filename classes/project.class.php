@@ -76,7 +76,7 @@ class Project {
     */
    private $issuesCache;
 
-   private $issueLists;    // cache
+   private $bugidListsCache;    // cache
    private $categoryCache; // cache
    private $versionCache; // cache
 
@@ -749,12 +749,12 @@ class Project {
     */
    public function getBugidList($handler_id = 0, $isHideResolved = false) {
 
-      if (NULL == $this->issueLists) { $this->issueLists = array(); }
+      if (NULL == $this->bugidListsCache) { $this->bugidListsCache = array(); }
 
 
       $key= ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
 
-      if (NULL == $this->issueLists[$key]) {
+      if (NULL == $this->bugidListsCache[$key]) {
 
          $issueList = array();
 
@@ -778,9 +778,9 @@ class Project {
             $issueList[] = $row->id;
          }
          
-         $this->issueLists[$key] = $issueList;
+         $this->bugidListsCache[$key] = $issueList;
       }
-      return $this->issueLists[$key];
+      return $this->bugidListsCache[$key];
    }
 
    /*
