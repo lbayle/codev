@@ -86,7 +86,7 @@ class Jobs {
 
    public function isSupport($id) {
    	  $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-      return ($this->id == $job_support);
+      return ($id == $job_support);
    }
 
    /**
