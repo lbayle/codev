@@ -158,7 +158,7 @@ function getNewAstreintes(Team $team, array $projList) {
 
    $formatedInactivityCatList = implode( ', ', array_keys($inactivityCatList));
 
-   $query = "SELECT id, project_id, category_id FROM `mantis_bug_table` ".
+   $query = "SELECT * FROM `mantis_bug_table` ".
             "WHERE project_id IN ($formatedInactivityCatList) ";
 
    if (NULL != $astreintesList) {
