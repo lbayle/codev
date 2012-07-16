@@ -149,22 +149,26 @@ if($_SESSION['userid']) {
          $trackUserid = $timeTrack->userId;
          $trackDate = $timeTrack->date;
 
-         $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-         // do NOT decrease remaining if job is job_support !
-         if ($job != $job_support) {
-            if (NULL != $issue->remaining) {
-               $remaining = $issue->remaining + $duration;
-               $issue->setRemaining($remaining);
-            }
-         }
-
          // delete track
          if(!$timeTrack->remove()) {
-            $smartyHelper->assign('error', "Failed to delete the tasks");
+            $smartyHelper->assign('error', T_("Failed to delete the tasks"));
          }
 
-         // pre-set form fields
-         $defaultProjectid  = $issue->projectId;
+         try {
+            $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+            // do NOT decrease remaining if job is job_support !
+            if ($job != $job_support) {
+               if (NULL != $issue->remaining) {
+                  $remaining = $issue->remaining + $duration;
+                  $issue->setRemaining($remaining);
+               }
+            }
+
+            // pre-set form fields
+            $defaultProjectid  = $issue->projectId;
+         } catch (Exception $e) {
+            $defaultProjectid  = 0;
+         }
       }
       elseif ("setProjectid" == $action) {
          // pre-set form fields

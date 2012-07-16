@@ -63,44 +63,50 @@ if(isset($_SESSION['userid'])) {
       $bugs = NULL;
       $projects = NULL;
       if($bug_id != 0) {
-         $issue = IssueCache::getInstance()->getIssue($bug_id);
-         $defaultProjectid = $issue->projectId;
-         $bugs = getBugs($defaultProjectid, $bug_id);
-         if (array_key_exists($bug_id,$bugs)) {
-            $consistencyErrors = NULL;
-            $ccheck = new ConsistencyCheck2(array($issue));
-            $cerrList = $ccheck->check();
-            if (0 != count($cerrList)) {
-               foreach ($cerrList as $cerr) {
-                  $consistencyErrors[] = array(
-                     'severity' => $cerr->getLiteralSeverity(),
-                     'severityColor' => $cerr->getSeverityColor(),
-                     'desc' => $cerr->desc
-                  );
+         try {
+            $issue = IssueCache::getInstance()->getIssue($bug_id);
+
+            $defaultProjectid = $issue->projectId;
+            $bugs = getBugs($defaultProjectid, $bug_id);
+            if (array_key_exists($bug_id,$bugs)) {
+               $consistencyErrors = NULL;
+               $ccheck = new ConsistencyCheck2(array($issue));
+               $cerrList = $ccheck->check();
+               if (0 != count($cerrList)) {
+                  foreach ($cerrList as $cerr) {
+                     $consistencyErrors[] = array(
+                        'severity' => $cerr->getLiteralSeverity(),
+                        'severityColor' => $cerr->getSeverityColor(),
+                        'desc' => $cerr->desc
+                     );
+                  }
+                  $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+                  $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+                  $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
+                  $smartyHelper->assign('ccheckErrList', $consistencyErrors);
                }
-               $smartyHelper->assign('consistencyErrors', $consistencyErrors);
-               $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-               $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
-               $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+
+               $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
+               $smartyHelper->assign('isManager', $isManager);
+               $smartyHelper->assign('issueGeneralInfo', getIssueGeneralInfo($issue, $isManager, $displaySupport));
+               $timeTracks = $issue->getTimeTracks();
+               $smartyHelper->assign('jobDetails', getJobDetails($timeTracks));
+               $smartyHelper->assign('timeDrift', getTimeDrift($issue));
+
+               $smartyHelper->assign('months', getCalendar($issue,$timeTracks));
+               $smartyHelper->assign('durationsByStatus', getDurationsByStatus($issue));
+
+               // set Commands I belong to
+               $parentCmds = getParentCommands($issue);
+               $smartyHelper->assign('parentCommands', $parentCmds);
+               $smartyHelper->assign('nbParentCommands', count($parentCmds));
             }
-
-            $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
-            $smartyHelper->assign('isManager', $isManager);
-            $smartyHelper->assign('issueGeneralInfo', getIssueGeneralInfo($issue, $isManager, $displaySupport));
-            $timeTracks = $issue->getTimeTracks();
-            $smartyHelper->assign('jobDetails', getJobDetails($timeTracks));
-            $smartyHelper->assign('timeDrift', getTimeDrift($issue));
-
-            $smartyHelper->assign('months', getCalendar($issue,$timeTracks));
-            $smartyHelper->assign('durationsByStatus', getDurationsByStatus($issue));
-
-            // set Commands I belong to
-            $parentCmds = getParentCommands($issue);
-            $smartyHelper->assign('parentCommands', $parentCmds);
-            $smartyHelper->assign('nbParentCommands', count($parentCmds));
+            $projects = getProjects($projList,$defaultProjectid);
+            $_SESSION['projectid'] = $defaultProjectid;
+         } catch (Exception $e) {
+            // TODO display ERROR "issue not found in mantis DB !"
          }
-         $projects = getProjects($projList,$defaultProjectid);
-         $_SESSION['projectid'] = $defaultProjectid;
+
       } else {
          $defaultProjectid = 0;
          if((isset($_SESSION['projectid'])) && (0 != $_SESSION['projectid'])) {

@@ -103,48 +103,70 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
 
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       // get information on this bug
-      $issue = IssueCache::getInstance()->getIssue($row->bugid);
+      try {
+         $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
-      // get general information
 
-      $jobName = $jobs->getJobName($row->jobid);
+         // get general information
 
-      $formatedDate = Tools::formatDate("%Y-%m-%d", $row->date);
-      $cosmeticDate = Tools::formatDate("%Y-%m-%d - %A", $row->date);
-      $formatedId = $row->bugid.' / '.$issue->tcId;
-      $formatedJobName = str_replace("'", "\'", $jobName);
-      $formatedSummary = str_replace("'", "\'", $issue->summary);
-      $formatedSummary = str_replace('"', "\'", $formatedSummary);
-      $totalEstim = $issue->effortEstim + $issue->effortAdd;
+         $jobName = $jobs->getJobName($row->jobid);
 
-      // --- choose row color
-      if (0 == $curJulian) {
-        // set first day displayed
-        $tr_class = "row_odd";
-        $curJulian = $row->date;
+         $formatedDate = Tools::formatDate("%Y-%m-%d", $row->date);
+         $cosmeticDate = Tools::formatDate("%Y-%m-%d - %A", $row->date);
+         $formatedId = $row->bugid.' / '.$issue->tcId;
+         $formatedJobName = str_replace("'", "\'", $jobName);
+         $formatedSummary = str_replace("'", "\'", $issue->summary);
+         $formatedSummary = str_replace('"', "\'", $formatedSummary);
+         $totalEstim = $issue->effortEstim + $issue->effortAdd;
+
+         // --- choose row color
+         if (0 == $curJulian) {
+         // set first day displayed
+         $tr_class = "row_odd";
+         $curJulian = $row->date;
+         }
+         if ($curJulian != $row->date) {
+         // day changed, swap row color
+         $tr_class = ($tr_class == "row_odd") ? "row_even" : "row_odd";
+         $curJulian = $row->date;
+         }
+
+         $timetrackingTuples[] = array('id' => $row->id,
+                                       'class' => $tr_class,
+                                       'date' => $formatedDate,
+                                       'formatedId' => $formatedId,
+                                       'duration' => $row->duration,
+                                       'formatedJobName' => $formatedJobName,
+                                       'summary' => $formatedSummary,
+                                       'cosmeticDate' => $cosmeticDate,
+                                       'mantisURL' => mantisIssueURL($row->bugid, NULL, true),
+                                       'issueURL' => issueInfoURL($row->bugid),
+                                       'issueId' => $issue->tcId,
+                                       'projectName' => $issue->getProjectName(),
+                                       'issueSummary' => $issue->summary,
+                                       'jobName' => $jobName,
+                                       'categoryName' => $issue->getCategoryName(),
+                                       'currentStatusName' => $issue->getCurrentStatusName());
+      } catch (Exception $e) {
+         $summary = T_('Error: Task not found in Mantis DB !');
+         $timetrackingTuples[] = array('id' => $row->id,
+                                       'class' => $tr_class,
+                                       'date' => $formatedDate,
+                                       'formatedId' => $row->bugid,
+                                       'duration' => $row->duration,
+                                       'formatedJobName' => $formatedJobName,
+                                       'summary' => $summary,
+                                       'cosmeticDate' => $cosmeticDate,
+                                       'mantisURL' => '',
+                                       'issueURL' => $row->bugid,
+                                       'issueId' => '!',
+                                       'projectName' => '!',
+                                       'issueSummary' => '<span class="error_font">'.$summary.'</span>',
+                                       'jobName' => $jobName,
+                                       'categoryName' => '!',
+                                       'currentStatusName' => '!');
+
       }
-      if ($curJulian != $row->date) {
-        // day changed, swap row color
-        $tr_class = ($tr_class == "row_odd") ? "row_even" : "row_odd";
-        $curJulian = $row->date;
-      }
-
-      $timetrackingTuples[] = array('id' => $row->id,
-                                    'class' => $tr_class,
-                                    'date' => $formatedDate,
-                                    'formatedId' => $formatedId,
-                                    'duration' => $row->duration,
-                                    'formatedJobName' => $formatedJobName,
-                                    'summary' => $formatedSummary,
-                                    'cosmeticDate' => $cosmeticDate,
-                                    'mantisURL' => mantisIssueURL($row->bugid, NULL, true),
-                                    'issueURL' => issueInfoURL($row->bugid),
-                                    'issueId' => $issue->tcId,
-                                    'projectName' => $issue->getProjectName(),
-                                    'issueSummary' => $issue->summary,
-                                    'jobName' => $jobName,
-                                    'categoryName' => $issue->getCategoryName(),
-                                    'currentStatusName' => $issue->getCurrentStatusName());
    }
    return $timetrackingTuples;
 }
@@ -162,22 +184,38 @@ function getWeekTask($weekDates, $userid, TimeTracking $timeTracking) {
    $holidays = Holidays::getInstance();
    $weekTracks = $timeTracking->getWeekDetails($userid);
    foreach ($weekTracks as $bugid => $jobList) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
+      
+      try {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
 
-      foreach ($jobList as $jobid => $dayList) {
-         // if no remaining set, display a '?' to allow Remaining edition
-         if(is_numeric($issue->remaining)) {
-            $formattedRemaining = $issue->remaining;
-         } else {
-            #if (($team->isSideTasksProject($issue->projectId)) ||
-            #    ($team->isNoStatsProject($issue->projectId))) {
-            // do not allow to edit sideTasks Remaining
-            $formattedRemaining = '';
-            #} else {
-            #   $formattedRemaining = '?';
-            #}
-            //
-         }
+         $remaining = $issue->remaining;
+         $extRef = $issue->tcId;
+         $summary = $issue->summary;
+         $issueURL = issueInfoURL($bugid);
+         $mantisURL = mantisIssueURL($bugid, NULL, true);
+
+      } catch (Exception $e) {
+         $remaining = '!';
+         $extRef = '';
+         $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
+         $issueURL = $bugid;
+         $mantisURL = '';
+      }
+
+         foreach ($jobList as $jobid => $dayList) {
+            // if no remaining set, display a '?' to allow Remaining edition
+            if(is_numeric($remaining)) {
+               $formattedRemaining = $remaining;
+            } else {
+               #if (($team->isSideTasksProject($issue->projectId)) ||
+               #    ($team->isNoStatsProject($issue->projectId))) {
+               // do not allow to edit sideTasks Remaining
+               $formattedRemaining = '';
+               #} else {
+               #   $formattedRemaining = '?';
+               #}
+               //
+            }
 
          $dayTasks = "";
          for ($i = 1; $i <= 7; $i++) {
@@ -196,26 +234,25 @@ function getWeekTask($weekDates, $userid, TimeTracking $timeTracking) {
                $title = "";
             }
             $dayTasks[] = array('bgColor' => $bgColor,
-                                'title' => $title,
-                                'day' => $dayList[$i]
+                              'title' => $title,
+                              'day' => $dayList[$i]
             );
          }
 
          $weekTasks[$bugid."_".$jobid] = array(
             'bugid' => $bugid,
-            'issueURL' => issueInfoURL($bugid),
-            'mantisURL' => mantisIssueURL($bugid, NULL, true),
-            'issueId' => $issue->tcId,
-            'summary' => $issue->summary,
-            'remaining' => $issue->remaining,
-            'description' => addslashes(htmlspecialchars($issue->summary)),
-            'dialogBoxTitle' => T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining"),
+            'issueURL' => $issueURL,
+            'mantisURL' => $mantisURL,
+            'issueId' => $extRef,
+            'summary' => $summary,
+            'remaining' => $remaining,
+            'description' => addslashes(htmlspecialchars($summary)),
+            'dialogBoxTitle' => T_("Task")." ".$bugid." / ".$extRef." - ".T_("Update Remaining"),
             'formattedRemaining' => $formattedRemaining,
             'jobid' => $jobid,
             'jobName' => $jobs->getJobName($jobid),
             'dayTasks' => $dayTasks
          );
-
       }
    }
 

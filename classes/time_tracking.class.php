@@ -163,8 +163,12 @@ class TimeTracking {
       $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
 
       // Count only the time spent on $projects
-      if (in_array ($timeTrack->getProjectId(), $projects)) {
-        $prodDays += $timeTrack->duration;
+      try {
+         if (in_array ($timeTrack->getProjectId(), $projects)) {
+         $prodDays += $timeTrack->duration;
+         }
+      } catch (Exception $e) {
+         $this->logger->error("getProductionDays(): timetrack on task $timeTrack->bugId (duration=$timeTrack->duration) NOT INCLUDED !");
       }
     }
     return $prodDays;
