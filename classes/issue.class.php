@@ -46,67 +46,9 @@ class Status {
    }
 }
 
-class IssueNote {
-
-   /**
-    * @var int Issue note id
-    */
-   public $id;
-
-   /**
-    * @var int Issue id
-    */
-   public $bug_id;
-   public $reporter_id;
-   public $date_submitted;
-   public $note;
-
-   private $bugnote_text_id;
-
-   /**
-    * @param int $id Issue note id
-    */
-   public function __construct($id) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
-      if (0 == $id) {
-         echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Creating a IssueNote with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION IssueNote constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
-
-      $this->id = $id;
-      $this->initialize();
-   }
-
-   private function initialize() {
-      // Get bugnote info
-      $query = "SELECT mantis_bugnote_table.bug_id, mantis_bugnote_table.reporter_id, ".
-         "mantis_bugnote_table.bugnote_text_id, mantis_bugnote_table.date_submitted, ".
-         "mantis_bugnote_text_table.note ".
-         "FROM `mantis_bugnote_table`, `mantis_bugnote_text_table` ".
-         "WHERE mantis_bugnote_table.id = $this->id ".
-         "AND mantis_bugnote_table.bugnote_text_id = mantis_bugnote_text_table.id ".
-         "ORDER BY mantis_bugnote_table.date_submitted";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-
-      $this->bug_id          = $row->bug_id;
-      $this->reporter_id     = $row->reporter_id;
-      $this->bugnote_text_id = $row->bugnote_text_id;
-      $this->date_submitted  = $row->date_submitted;
-      $this->note            = $row->note;
-   }
-
-}
-
+/**
+ *
+ */
 class Issue {
 
    protected $logger;
