@@ -798,7 +798,7 @@ class User {
       $formatedProjList = implode(', ', array_keys($projList));
 
       // find all issues i'm working on
-      $query = "SELECT DISTINCT id FROM `mantis_bug_table` " .
+      $query = "SELECT * FROM `mantis_bug_table` " .
               "WHERE project_id IN ($formatedProjList) " .
               "AND handler_id = $this->id " .
               "AND status < get_project_resolved_status_threshold(project_id) " .
@@ -810,7 +810,7 @@ class User {
          exit;
       }
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $issue = IssueCache::getInstance()->getIssue($row->id);
+         $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
          $totalRemaining += $issue->getDurationMgr();
       }
@@ -850,13 +850,13 @@ class User {
       $formatedProjList = implode(', ', array_keys($projList));
 
 
-      $query = "SELECT DISTINCT mantis_bug_table.id AS bug_id " .
+      $query = "SELECT * " .
               "FROM `mantis_bug_table` " .
-              "WHERE mantis_bug_table.project_id IN ($formatedProjList) " .
-              "AND mantis_bug_table.handler_id = $this->id ";
+              "WHERE project_id IN ($formatedProjList) " .
+              "AND handler_id = $this->id ";
 
       if (!$withResolved) {
-         $query .= "AND mantis_bug_table.status < get_project_resolved_status_threshold(project_id) ";
+         $query .= "AND status < get_project_resolved_status_threshold(project_id) ";
       }
       $query .= "ORDER BY id DESC";
 
@@ -867,8 +867,7 @@ class User {
          exit;
       }
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $issue = IssueCache::getInstance()->getIssue($row->bug_id);
-         $issueList[] = $issue;
+         $issueList[] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
       if (self::$logger->isDebugEnabled()) {

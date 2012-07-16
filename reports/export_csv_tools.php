@@ -66,7 +66,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
 
    // for all issues with status !=  {resolved, closed}
 
-   $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+   $query = "SELECT * FROM `mantis_bug_table` ".
             "WHERE status < get_project_resolved_status_threshold(project_id) ".
             "AND project_id IN ($formatedProjList) ".
             //"AND handler_id IN ($formatedMemberList) ".
@@ -78,7 +78,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
    }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
-      	   $issue = IssueCache::getInstance()->getIssue($row->id);
+      	   $issue = IssueCache::getInstance()->getIssue($row->id, $row);
             $user = UserCache::getInstance()->getUser($issue->handlerId);
 
             $deadLine = "";
@@ -126,7 +126,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
       }
 
   // Add resolved issues modified into the period
-  $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+  $query = "SELECT * FROM `mantis_bug_table` ".
            "WHERE status >= get_project_resolved_status_threshold(project_id) ".
            "AND project_id IN ($formatedProjList) ".
            //"AND handler_id IN ($formatedMemberList) ".
@@ -140,7 +140,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
   }
   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
-  	 $issue = IssueCache::getInstance()->getIssue($row->id);
+  	 $issue = IssueCache::getInstance()->getIssue($row->id, $row);
     $user = UserCache::getInstance()->getUser($issue->handlerId);
 
     $deliveryDate = "";
