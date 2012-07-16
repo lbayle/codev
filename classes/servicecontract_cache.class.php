@@ -36,10 +36,11 @@ class ServiceContractCache extends Cache {
    /**
     * Get ServiceContract class instance
     * @param int $id The service contract id
+    * @param resource $details The details
     * @return ServiceContract The service contract attached to the id
     */
-   public function getServiceContract($id) {
-      return parent::get($id);
+   public function getServiceContract($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
@@ -49,7 +50,7 @@ class ServiceContractCache extends Cache {
     * @return ServiceContract The object
     */
    protected function create($id, $details = NULL) {
-      return new ServiceContract($id);
+      return new ServiceContract($id, $details);
    }
 
 }

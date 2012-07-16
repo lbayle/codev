@@ -453,7 +453,7 @@ class Team {
     */
    public function getServiceContractList() {
       if (NULL == $this->serviceContractList) {
-         $query = "SELECT DISTINCT * FROM `codev_servicecontract_table` ".
+         $query = "SELECT * FROM `codev_servicecontract_table` ".
             "WHERE team_id = $this->id ";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -463,7 +463,7 @@ class Team {
          }
          $this->serviceContractList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->serviceContractList[$row->id] = ServiceContractCache::getInstance()->getServiceContract($row->id);
+            $this->serviceContractList[$row->id] = ServiceContractCache::getInstance()->getServiceContract($row->id, $row);
          }
       }
 
