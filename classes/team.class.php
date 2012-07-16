@@ -429,7 +429,7 @@ class Team {
     */
    public function getCommandSetList() {
       if (NULL == $this->commandSetList) {
-         $query = "SELECT DISTINCT * FROM `codev_commandset_table` ".
+         $query = "SELECT * FROM `codev_commandset_table` ".
             "WHERE team_id = $this->id ";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -439,7 +439,7 @@ class Team {
          }
          $this->commandSetList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->commandSetList[$row->id] = CommandSetCache::getInstance()->getCommandSet($row->id);
+            $this->commandSetList[$row->id] = CommandSetCache::getInstance()->getCommandSet($row->id, $row);
          }
       }
 
