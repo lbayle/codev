@@ -44,11 +44,11 @@ class TimeTrackCache extends Cache {
 
    /**
     * Create a TimeTrack
-    * @abstract
     * @param int $id The id
+    * @param resource $details The details
     * @return TimeTrack The object
     */
-   protected function create($id) {
+   protected function create($id, $details = NULL) {
       return new TimeTrack($id);
    }
 

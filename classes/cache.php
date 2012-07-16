@@ -80,13 +80,14 @@ abstract class Cache {
    /**
     * Get object class instance
     * @param int $id The id
+    * @param resource $details The details
     * @return mixed The object attached to the id
     */
-   protected function get($id) {
+   protected function get($id, $details = NULL) {
       $obj = isset($this->objects[$id]) ? $this->objects[$id] : NULL;
 
       if (NULL == $obj) {
-         $this->objects[$id] = $this->create($id);
+         $this->objects[$id] = $this->create($id, $details);
          $obj = $this->objects[$id];
          #echo "DEBUG: CommandCache add $cmdid<br/>";
       } else {
@@ -106,9 +107,10 @@ abstract class Cache {
     * Must be implement by the children classes
     * @abstract
     * @param int $id The id
+    * @param resource $details The details
     * @return mixed The object
     */
-   protected abstract function create($id);
+   protected abstract function create($id, $details = NULL);
 
    /**
     * Display stats

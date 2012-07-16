@@ -44,11 +44,11 @@ class UserCache extends Cache {
 
    /**
     * Create a User
-    * @abstract
     * @param int $id The id
+    * @param resource $details The details
     * @return User The object
     */
-   protected function create($id) {
+   protected function create($id, $details = NULL) {
       return new User($id);
    }
 
