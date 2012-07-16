@@ -1,19 +1,19 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require_once('lib/log4php/Logger.php');
@@ -141,7 +141,7 @@ class TimeTracking {
 
     $prodDays = 0;
 
-    $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
+    $query     = "SELECT codev_timetracking_table.* ".
       "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
@@ -160,7 +160,7 @@ class TimeTracking {
 
     while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
     {
-      $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
+      $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
 
       // Count only the time spent on $projects
       try {
@@ -187,7 +187,7 @@ class TimeTracking {
     $prodDays = 0;
 
     // select tasks within timestamp, where user is in the team
-    $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
+    $query     = "SELECT codev_timetracking_table.* ".
       "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
       "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
       "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
@@ -202,7 +202,7 @@ class TimeTracking {
 
     while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
     {
-      $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
+      $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
 
       // do not include Managers
       if (true == $isDeveloppersOnly) {
@@ -236,7 +236,7 @@ class TimeTracking {
      $this->managementDays = 0;
 
      // select tasks within timestamp, where user is in the team
-     $query     = "SELECT codev_timetracking_table.id, codev_timetracking_table.userid, codev_timetracking_table.bugid ".
+     $query     = "SELECT codev_timetracking_table.* ".
            "FROM  `codev_timetracking_table`, `codev_team_user_table` ".
            "WHERE  codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
            "AND    codev_team_user_table.user_id = codev_timetracking_table.userid ".
@@ -251,7 +251,7 @@ class TimeTracking {
 
      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
      {
-        $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
+        $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
 
         $user = UserCache::getInstance()->getUser($timeTrack->userId);
 
