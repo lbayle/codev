@@ -783,7 +783,7 @@ class Project {
       return $this->bugidListsCache[$key];
    }
 
-   /*
+   /**
     * returns issues list
     * @param int $handler_id (if 0, all users)
     * @param bool $isHideResolved
@@ -1154,6 +1154,7 @@ class Project {
     *
     *
     * @param unknown_type $team_id (TODO)
+    * @return ProjectVersion[]
     */
    #public function getVersionList($team_id = NULL) {
    public function getVersionList() {
@@ -1161,16 +1162,14 @@ class Project {
         if (NULL == $this->projectVersionList) {
 
            $this->projectVersionList = array();
-           $issueList = $this->getBugidList();
-           foreach ($issueList as $bugid) {
-
-              $issue = IssueCache::getInstance()->getIssue($bugid);
+           $issueList = $this->getIssues();
+           foreach ($issueList as $issue) {
               $tagVersion = "VERSION_".$issue->getTargetVersion();
 
               if (NULL == $this->projectVersionList[$tagVersion]) {
                  $this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
               }
-              $this->projectVersionList[$tagVersion]->addIssue($bugid);
+              $this->projectVersionList[$tagVersion]->addIssue($issue->bugId);
            }
 
          ksort($this->projectVersionList);

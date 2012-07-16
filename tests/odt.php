@@ -106,7 +106,7 @@ function genODT($user) {
 }
 
 // ------------------------------------
-function genProjectODT($project, $odtTemplate, $userid = 0) {
+function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
 
 	global $statusNames;
 	global $logger;
@@ -117,15 +117,13 @@ function genProjectODT($project, $odtTemplate, $userid = 0) {
 	try { $odf->setVars('selectionName',  $project->name); } catch (Exception $e) {};
 
 	$isHideResolved = true;
-	$issueList = $project->getBugidList($userid, $isHideResolved);
+	$issueList = $project->getIssues($userid, $isHideResolved);
 	$logger->debug("nb issues = ".count($issueList));
 
    $q_id = 0;
 	$issueSegment = $odf->setSegment('issueSelection');
-	foreach($issueList AS $bugid) {
+	foreach($issueList as $issue) {
       $q_id += 1;
-
-		$issue = IssueCache::getInstance()->getIssue($bugid);
 
 		if (0 == $issue->handlerId) {
 			$userName = T_('unknown');
