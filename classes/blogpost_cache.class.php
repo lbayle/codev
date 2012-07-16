@@ -44,11 +44,11 @@ class BlogPostCache extends Cache {
 
    /**
     * Create BlogPost
-    * @abstract
     * @param int $id The id
+    * @param resource $details The details
     * @return BlogPost The object
     */
-   protected function create($id) {
+   protected function create($id, $details = NULL) {
       return new BlogPost($id);
    }
 

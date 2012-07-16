@@ -44,11 +44,11 @@ class CommandSetCache extends Cache {
 
    /**
     * Create CommandSet
-    * @abstract
     * @param int $id The id
+    * @param resource $details The details
     * @return CommandSet The object
     */
-   protected function create($id) {
+   protected function create($id, $details = NULL) {
       return new CommandSet($id);
    }
 

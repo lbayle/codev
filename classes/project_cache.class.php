@@ -44,11 +44,11 @@ class ProjectCache extends Cache {
 
    /**
     * Create a Project
-    * @abstract
     * @param int $id The id
+    * @param resource $details The details
     * @return Project The object
     */
-   protected function create($id) {
+   protected function create($id, $details = NULL) {
       return new Project($id);
    }
 
