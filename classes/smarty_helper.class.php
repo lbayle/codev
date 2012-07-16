@@ -84,6 +84,22 @@ class SmartyHelper {
     * @param string $template the template to be displayed
     */
    public function display($template) {
+      if (self::$logger->isEnabledFor(LoggerLevel::getLevelInfo())) {
+         $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
+         self::$logger->info('Page generated in ' . $generatedTime . ' sec : '.$_SERVER['PHP_SELF']);
+
+         $peakMemAlloc = Tools::bytesToSize1024(memory_get_peak_usage(true));
+         $memUsage     = Tools::bytesToSize1024(memory_get_usage(true));
+         self::$logger->info('MemoryUsage = '.$memUsage.', PeakMemoryUsage = ' . $peakMemAlloc);
+      }
+      SqlWrapper::getInstance()->logStats();
+      /*
+            IssueCache::getInstance()->logStats();
+            ProjectCache::getInstance()->logStats();
+            UserCache::getInstance()->logStats();
+            TimeTrackCache::getInstance()->logStats();
+      */
+
       if (!headers_sent()) {
          header("Content-type: text/html; charset=UTF-8");
       } else {
@@ -110,21 +126,6 @@ class SmartyHelper {
       $this->smarty->assign('rootWebSite', getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
 
-      if (self::$logger->isEnabledFor(LoggerLevel::getLevelInfo())) {
-         $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
-         self::$logger->info('Page generated in ' . $generatedTime . ' sec : '.$_SERVER['PHP_SELF']);
-
-         $peakMemAlloc = Tools::bytesToSize1024(memory_get_peak_usage(true));
-         $memUsage     = Tools::bytesToSize1024(memory_get_usage(true));
-         self::$logger->info('MemoryUsage = '.$memUsage.', PeakMemoryUsage = ' . $peakMemAlloc);
-      }
-      SqlWrapper::getInstance()->logStats();
-/*
-      IssueCache::getInstance()->logStats();
-      ProjectCache::getInstance()->logStats();
-      UserCache::getInstance()->logStats();
-      TimeTrackCache::getInstance()->logStats();
-*/
       $this->display('template');
    }
 
