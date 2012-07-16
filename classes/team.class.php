@@ -320,7 +320,7 @@ class Team {
       }
       $issueList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $issueList[$row->bug_id] = IssueCache::getInstance()->getIssue($row->id, $row);
+         $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
       $this->logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
