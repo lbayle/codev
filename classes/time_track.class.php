@@ -1,22 +1,28 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "timetrack_cache.class.php";
+// TODO Remove this import
+include_once('classes/timetrack_cache.class.php');
+
+include_once('classes/issue_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+
+require_once('lib/log4php/Logger.php');
 
 /**
  * TimeTrackTuple
@@ -35,23 +41,33 @@ class TimeTrack {
   private $projectId;
   private $categoryId;
 
-  public function TimeTrack($id) {
+   /**
+    * @param int $id The time track id
+    * @param resource $details The time track details
+    */
+  public function __construct($id, $details = NULL) {
     $this->id = $id;
     $this->logger = Logger::getLogger(__CLASS__);
 
-    $this->initialize();
+    $this->initialize($details);
   }
 
-  public function initialize() {
-    $query     = "SELECT * FROM `codev_timetracking_table`".
+   /**
+    * Initialize
+    * @param resource $row The issue details
+    */
+  public function initialize($row = NULL) {
+     if($row == NULL) {
+        $query = "SELECT * FROM `codev_timetracking_table`".
                  "WHERE codev_timetracking_table.id=$this->id ";
 
-    $result    = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
-    }
-    $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+        $result = SqlWrapper::getInstance()->sql_query($query);
+        if (!$result) {
+           echo "<span style='color:red'>ERROR: Query FAILED</span>";
+           exit;
+        }
+        $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+     }
 
     $this->userId   = $row->userid;
     $this->bugId    = $row->bugid;
@@ -59,7 +75,6 @@ class TimeTrack {
     $this->date     = $row->date;
     $this->duration = $row->duration;
     
-
     //echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
   }
 

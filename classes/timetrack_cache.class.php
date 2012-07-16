@@ -36,10 +36,11 @@ class TimeTrackCache extends Cache {
    /**
     * Get TimeTrack class instance
     * @param int $id The time track id
+    * @param resource $details The details
     * @return TimeTrack The time track attached to the id
     */
-   public function getTimeTrack($id) {
-      return parent::get($id);
+   public function getTimeTrack($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
@@ -49,7 +50,7 @@ class TimeTrackCache extends Cache {
     * @return TimeTrack The object
     */
    protected function create($id, $details = NULL) {
-      return new TimeTrack($id);
+      return new TimeTrack($id, $details);
    }
 
 }

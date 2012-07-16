@@ -607,7 +607,7 @@ class User {
    public function getWorkloadPerTask($startTimestamp, $endTimestamp, $team_id = NULL) {
       $workloadPerTaskList = array();
 
-      $query = "SELECT id FROM `codev_timetracking_table` " .
+      $query = "SELECT * FROM `codev_timetracking_table` " .
               "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
               "AND userid = $this->id";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -617,17 +617,15 @@ class User {
       }
 
       $team = TeamCache::getInstance()->getTeam($team_id);
-      if (NULL != $team_id) {
-         $projectList = Team::getProjectList($team_id);
-      }
+      $projectList = $team->getProjects();
 
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $timetrack = TimeTrackCache::getInstance()->getTimeTrack($row->id);
+         $timetrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
 
          // exclude projects not in team list
          // exclude externalTasks & NoStatsProjects
          if (NULL != $projectList) {
-            if (!in_array($timetrack->getProjectId(), array_keys($projectList))) {
+            if (!array_key_exists($timetrack->getProjectId(), $projectList)) {
                continue;
             }
          }
