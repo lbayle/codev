@@ -334,7 +334,7 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
          $isHideResolved = false; // do not hide resolved
       }
 
-      $issueList = $project1->getIssueList($handler_id, $isHideResolved);
+      $issueList = $project1->getIssues($handler_id, $isHideResolved);
    } else {
       // no project specified: show all tasks
       $issueList = array();
@@ -345,17 +345,17 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
             if (($proj->isSideTasksProject()) ||
                ($proj->isNoStatsProject())) {
                // do not hide any task for SideTasks & ExternalTasks projects
-               $buglist = $proj->getIssueList(0, false);
+               $buglist = $proj->getIssues(0, false);
                $issueList = array_merge($issueList, $buglist);
             } else {
                $handler_id = $isOnlyAssignedTo ? $user1->id : 0;
-               $buglist = $proj->getIssueList($handler_id, $isHideResolved);
+               $buglist = $proj->getIssues($handler_id, $isHideResolved);
                $issueList = array_merge($issueList, $buglist);
             }
          } catch (Exception $e) {
             $logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
             // do not hide any task if unknown project type
-            $buglist = $proj->getIssueList(0, false);
+            $buglist = $proj->getIssues(0, false);
             $issueList = array_merge($issueList, $buglist);
 
          }
@@ -363,12 +363,12 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
       rsort($issueList);
    }
 
-   foreach ($issueList as $bugid) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
-      $issues[] = array('id' => $bugid,
+   foreach ($issueList as $issue) {
+      //$issue = IssueCache::getInstance()->getIssue($bugid);
+      $issues[] = array('id' => $issue->bugId,
          'tcId' => $issue->tcId,
          'summary' => $issue->summary,
-         'selected' => $bugid == $defaultBugid);
+         'selected' => $issue->bugId == $defaultBugid);
    }
 
    return $issues;

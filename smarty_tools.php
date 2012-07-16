@@ -48,8 +48,8 @@ class SmartyTools {
     * @throws Exception
     * @deprecated Use Tools::getSecurePOSTIntValue($key, $defaultValue)
     */
-   public static function checkNumericValue($value, $allowNull = false) {
-      if ((NULL == $value) && (true == $allowNull)) { return NULL; }
+   public static function checkNumericValue($value, $allowNull = FALSE) {
+      if ((NULL == $value) && (TRUE == $allowNull)) { return NULL; }
 
       $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($value);
       if (!is_numeric($formattedValue)) {
@@ -116,31 +116,14 @@ class SmartyTools {
       // Task list
       if (0 != $projectid) {
          $project1 = ProjectCache::getInstance()->getProject($projectid);
-         $issueList = $project1->getIssueList();
+         $issueList = $project1->getIssues();
       } else {
          // no project specified: show all tasks
-         $issueList = array();
-         $formatedProjList = implode( ', ', array_keys($projList));
-
-         $query  = "SELECT id ".
-            "FROM `mantis_bug_table` ".
-            "WHERE project_id IN ($formatedProjList) ".
-            "ORDER BY id DESC";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-            while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-               $issueList[] = $row->id;
-            }
-         }
+         $issueList = Project::getProjectIssues(array_keys($projList));
       }
 
       $bugs = NULL;
-      foreach ($issueList as $bugid) {
-         $issue = IssueCache::getInstance()->getIssue($bugid);
+      foreach ($issueList as $issue) {
          $externalId = "";
          if(!empty($issue->tcId)) {
             $externalId = ' / '.$issue->tcId;
@@ -149,9 +132,9 @@ class SmartyTools {
          if(!empty($issue->summary)) {
             $summary = ' : '.$issue->summary;
          }
-         $bugs[$bugid] = array('id' => $bugid,
-            'name' => $bugid.$externalId.$summary,
-            'selected' => $bugid == $defaultBugid,
+         $bugs[$issue->bugId] = array('id' => $issue->bugId,
+            'name' => $issue->bugId.$externalId.$summary,
+            'selected' => $issue->bugId == $defaultBugid,
             'projectid' => $issue->projectId
          );
       }
@@ -249,7 +232,7 @@ class SmartyTools {
          $driftMgrColor = $issue->getDriftColor($driftMgr);
 
          $issueArray[$id] = array(
-            "mantisLink" => Tools::mantisIssueURL($issue->bugId, NULL, true),
+            "mantisLink" => Tools::mantisIssueURL($issue->bugId, NULL, TRUE),
             "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->bugId)),
             "project" => $issue->getProjectName(),
             "target" => $issue->getTargetVersion(),
