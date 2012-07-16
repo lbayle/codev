@@ -76,7 +76,12 @@ class CommandSet {
    // cmdByTypeList[type][cmdid]
    private $cmdidByTypeList;
 
-   function __construct($id) {
+   /**
+    * @param int $id The command set id
+    * @param resource $details The command set details
+    * @throws Exception if $id = 0
+    */
+   function __construct($id, $details = NULL) {
 
       $this->logger = Logger::getLogger(__CLASS__);
 
@@ -89,11 +94,15 @@ class CommandSet {
       }
 
       $this->id = $id;
-      $this->initialize();
+      $this->initialize($details);
    }
 
-   private function initialize() {
-      // ---
+   /**
+    * Initialize
+    * @param resource $row The command set details
+    */
+   private function initialize($row = NULL) {
+      if($row == NULL) {
       $query = "SELECT * FROM `codev_commandset_table` WHERE id=$this->id ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -101,6 +110,7 @@ class CommandSet {
          exit;
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      }
       $this->name        = $row->name;
       $this->reference        = $row->reference;
       $this->description = $row->description;

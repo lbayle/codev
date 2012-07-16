@@ -36,10 +36,11 @@ class CommandSetCache extends Cache {
    /**
     * Get CommandSet class instance
     * @param int $id The command set id
+    * @param resource $details The details
     * @return CommandSet The command set attached to the id
     */
-   public function getCommandSet($id) {
-      return parent::get($id);
+   public function getCommandSet($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
@@ -49,7 +50,7 @@ class CommandSetCache extends Cache {
     * @return CommandSet The object
     */
    protected function create($id, $details = NULL) {
-      return new CommandSet($id);
+      return new CommandSet($id, $details);
    }
 
 }
