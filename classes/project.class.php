@@ -85,8 +85,12 @@ class Project {
     */
    private $versionDateCache;
 
-   // -----------------------------------------------
-   public function __construct($id) {
+   /**
+    * @param int $id The project id
+    * @param resource $details The project details
+    * @throws Exception if $id = 0, $id = NULL or the project doesn't exist
+    */
+   public function __construct($id, $details) {
       $this->logger = Logger::getLogger(__CLASS__);
 
       if (0 == $id) {
@@ -106,17 +110,20 @@ class Project {
          $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
-      $this->initialize();
+      $this->initialize($details);
 
    }
 
-   // -----------------------------------------------
-   public function initialize() {
-
+   /**
+    * Initialize
+    * @param resource $row The project details
+    */
+   public function initialize($row = NULL) {
+      if($row == NULL) {
       $query  = "SELECT mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
                 "FROM `mantis_project_table`, `codev_team_project_table` ".
                 "WHERE mantis_project_table.id = $this->id ".
-                "AND codev_team_project_table.project_id = $this->id ";
+                "AND codev_team_project_table.project_id = mantis_project_table.id ";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -124,6 +131,7 @@ class Project {
              exit;
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      }
 
       $this->name        = $row->name;
       $this->description = $row->description;
