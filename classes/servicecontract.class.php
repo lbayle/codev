@@ -1,32 +1,33 @@
 <?php
-
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-require_once('Logger.php');
+require_once('lib/log4php/Logger.php');
 
-/* INSERT INCLUDES HERE */
-require_once "servicecontract_cache.class.php";
+include_once('classes/servicecontract_cache.class.php');
 
-require_once "project.class.php";
+include_once('classes/commandset.class.php');
+include_once('classes/commandset_cache.class.php');
+include_once('classes/issue_selection.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
 
 /**
  * Description of ServiceContract
- *
  */
 class ServiceContract {
 
@@ -35,7 +36,7 @@ class ServiceContract {
    const state_default       = 1;
 
   // TODO i18n for constants
-  public static $stateNames = array(ServiceContract::state_default       => "Default");
+  public static $stateNames = array(self::state_default       => "Default");
 
    private $logger;
 
@@ -64,7 +65,12 @@ class ServiceContract {
     */
    private $sidetasksPerCategory;
 
-   public function __construct($id) {
+   /**
+    * @param int $id The service contract id
+    * @param resource $details The service contract details
+    * @throws Exception
+    */
+   public function __construct($id, $details = NULL) {
       $this->logger = Logger::getLogger(__CLASS__);
 
       if (0 == $id) {
@@ -76,13 +82,16 @@ class ServiceContract {
       }
 
       $this->id = $id;
-      $this->initialize();
+      $this->initialize($details);
    }
 
-   private function initialize() {
-
+   /**
+    * Initialize
+    * @param resource $row The service contract details
+    */
+   private function initialize($row) {
+      if($row == NULL) {
       // get info from DB
-      // ---
       $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id=$this->id ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -90,6 +99,8 @@ class ServiceContract {
          exit;
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      }
+
       $this->name        = $row->name;
       $this->teamid      = $row->team_id;
    	$this->state            = $row->state;
@@ -103,7 +114,7 @@ class ServiceContract {
       // --- CommandSets
       $this->cmdsetidByTypeList = array();
       $query  = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
-                "WHERE servicecontract_id=$this->id ";
+                "WHERE servicecontract_id=$this->id ".
                 "ORDER BY type ASC, command_id ASC";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -122,7 +133,7 @@ class ServiceContract {
       // --- SidetaskProjects
       $this->sidetasksProjectList = array();
       $query  = "SELECT * FROM `codev_servicecontract_stproj_table` ".
-                "WHERE servicecontract_id=$this->id ";
+                "WHERE servicecontract_id=$this->id ".
                 "ORDER BY type ASC, command_id ASC";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -138,7 +149,9 @@ class ServiceContract {
 
    /**
     * create a new commandset in the DB
-    *
+    * @static
+    * @param string $name
+    * @param int $teamid
     * @return int $id
     */
    public static function create($name, $teamid) {
@@ -155,7 +168,8 @@ class ServiceContract {
 
    /**
     * delete a ServcieContract
-    *
+    * @static
+    * @param int $id
     * @return int $id
     */
    public static function delete($id) {
@@ -319,7 +333,7 @@ class ServiceContract {
    /**
     *
     * @param int $type  CommandSet::type_general
-    * @return array commandset_id => CommandSet
+    * @return CommandSet[] : array commandset_id => CommandSet
     */
    public function getCommandSets($type) {
 
