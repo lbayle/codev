@@ -461,19 +461,24 @@ class User {
       }
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
-         $issue = IssueCache::getInstance()->getIssue($row->bugid);
-         if ($issue->isAstreinte()) {
-            if (isset($astreintes[$row->date])) {
-               $astreintes[$row->date]['duration'] += $row->duration;
-            } else {
-               $astreintes[$row->date] = array( 'duration' => $row->duration,
-                                             'type' => 'onDuty',  // TODO
-                                             'color' => 'F8FFA8',  // TODO (yellow)
-                                             'title' => $issue->summary
-                                          );
+         try {
+            $issue = IssueCache::getInstance()->getIssue($row->bugid);
+            if ($issue->isAstreinte()) {
+               if (isset($astreintes[$row->date])) {
+                  $astreintes[$row->date]['duration'] += $row->duration;
+               } else {
+                  $astreintes[$row->date] = array( 'duration' => $row->duration,
+                                                'type' => 'onDuty',  // TODO
+                                                'color' => 'F8FFA8',  // TODO (yellow)
+                                                'title' => $issue->summary
+                                             );
+               }
+               //echo "DEBUG user $this->userid astreintes[".date("j", $row->date)."] = ".$astreintes[date("j", $row->date)]." (+$row->duration)<br/>";
             }
-            //echo "DEBUG user $this->userid astreintes[".date("j", $row->date)."] = ".$astreintes[date("j", $row->date)]." (+$row->duration)<br/>";
+         } catch (Exception $e) {
+            self::$logger->error("getAstreintesInMonth(): issue $row->bugid: " . $e->getMessage());
          }
+
       }
       return $astreintes;
    }

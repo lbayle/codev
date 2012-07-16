@@ -89,29 +89,34 @@ function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
 
    $weekTracks = $timeTracking->getWeekDetails($userid);
    foreach ($weekTracks as $bugid => $jobList) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
 
-      // remove sepChar from summary text
-      $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+      try {
+         $issue = IssueCache::getInstance()->getIssue($bugid);
 
-      foreach ($jobList as $jobid => $dayList) {
+         // remove sepChar from summary text
+         $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
 
-         $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+         foreach ($jobList as $jobid => $dayList) {
+
+            $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";
+            $result = SqlWrapper::getInstance()->sql_query($query);
+            if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+            }
+            $jobName = SqlWrapper::getInstance()->sql_result($result, 0);
+            $stringData = $bugid.$sepChar.
+                        $jobName.$sepChar.
+                        $formatedSummary.$sepChar.
+                        $realname.$sepChar;
+            for ($i = 1; $i <= 4; $i++) {
+               $stringData .= $dayList[$i].$sepChar;
+            }
+            $stringData .= $dayList[5]."\n";
+            fwrite($fh, $stringData);
          }
-         $jobName = SqlWrapper::getInstance()->sql_result($result, 0);
-         $stringData = $bugid.$sepChar.
-                       $jobName.$sepChar.
-                       $formatedSummary.$sepChar.
-                       $realname.$sepChar;
-         for ($i = 1; $i <= 4; $i++) {
-            $stringData .= $dayList[$i].$sepChar;
-         }
-         $stringData .= $dayList[5]."\n";
-         fwrite($fh, $stringData);
+      } catch (Exception $e) {
+         $logger->error('exportWeekDetailsToCSV(): issue $bugid not found in mantis DB !');
       }
    }
 }
