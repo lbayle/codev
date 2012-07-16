@@ -93,8 +93,12 @@ class Command {
    // codev_commandset_cmd_table
    private $commandSetList;
 
-   function __construct($id) {
-
+   /**
+    * @param int $id The command id
+    * @param resource $details The command details
+    * @throws Exception if $id = 0
+    */
+   function __construct($id, $details = NULL) {
       $this->logger = Logger::getLogger(__CLASS__);
 
       if (0 == $id) {
@@ -106,10 +110,15 @@ class Command {
       }
 
       $this->id = $id;
-      $this->initialize();
+      $this->initialize($details);
    }
 
-   private function initialize() {
+   /**
+    * Initialize
+    * @param resource $row The details
+    */
+   private function initialize($row) {
+      if($row == NULL) {
       $query  = "SELECT * FROM `codev_command_table` WHERE id=$this->id ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -117,6 +126,7 @@ class Command {
          exit;
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      }
       $this->name             = $row->name;
       $this->reference        = $row->reference;
       $this->version          = $row->version;
