@@ -86,9 +86,14 @@ class Project {
    private $versionDateCache;
 
    /**
+    * @var bool[]
+    */
+   private static $existsCache;
+
+   /**
     * @param int $id The project id
     * @param resource $details The project details
-    * @throws Exception if $id = 0, $id = NULL or the project doesn't exist
+    * @throws Exception if $id = 0
     */
    public function __construct($id, $details) {
       $this->logger = Logger::getLogger(__CLASS__);
@@ -103,20 +108,13 @@ class Project {
 
       $this->id = $id;
 
-      if ((NULL == $id) || (!self::exists($id))) {
-         #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Constructor: Project $id does not exist in Mantis DB.");
-         $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         throw $e;
-      }
       $this->initialize($details);
-
    }
 
    /**
     * Initialize
     * @param resource $row The project details
+    * @throws Exception If project doesn't exists
     */
    public function initialize($row = NULL) {
       if($row == NULL) {
@@ -133,6 +131,11 @@ class Project {
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       }
 
+      $nbTuples = $row != FALSE;
+
+      self::$existsCache[$this->id] = $nbTuples;
+
+      if ($nbTuples) {
       $this->name        = $row->name;
       $this->description = $row->description;
       $this->type        = $row->type;
@@ -163,6 +166,13 @@ class Project {
       #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
 
       #$this->jobList     = $this->getJobList();
+      } else {
+         #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
+         $e = new Exception("Constructor: Project $this->id does not exist in Mantis DB.");
+         $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
+         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         throw $e;
+      }
    }
 
 
@@ -174,6 +184,14 @@ class Project {
 
       global $logger;
 
+      if (NULL == $id) {
+         $logger->warn("exists(): $id == NULL.");
+         return false;
+      }
+
+      if (NULL == self::$existsCache) { self::$existsCache = array(); }
+
+      if (NULL == self::$existsCache[$id]) {
       $query  = "SELECT COUNT(id) FROM `mantis_project_table` WHERE id=$id ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -186,7 +204,9 @@ class Project {
       if (1 != $nbTuples) {
          $logger->warn("exists($id): found $nbTuples items.");
       }
-      return (1 == $nbTuples);
+         self::$existsCache[$id] = (1 == $nbTuples);
+      }
+      return self::$existsCache[$id];
    }
 
 
