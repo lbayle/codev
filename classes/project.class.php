@@ -71,6 +71,11 @@ class Project {
    private $drift;
    private $driftMgr;
 
+   /**
+    * @var Issue[][] The issues cache
+    */
+   private $issuesCache;
+
    private $issueLists;    // cache
    private $categoryCache; // cache
    private $versionCache; // cache
@@ -733,14 +738,14 @@ class Project {
       return $jobList;
    }
 
-   // -----------------------------------------------
    /**
     * returns bugId list
     *
-    * @param unknown_type $handler_id (if 0, all users)
-    * @param unknown_type $isHideResolved
+    * @param int $handler_id (if 0, all users)
+    * @param bool $isHideResolved
     *
-    * @return array[bugid]
+    * @return int[] : array[bugid]
+    * @see Use ProjectCache::getInstance()->getProject($id)->getIssues($handler_id, $isHideResolved) if you need Issue[] and not just the IssueId[]
     */
    public function getIssueList($handler_id = 0, $isHideResolved = false) {
 
@@ -776,6 +781,45 @@ class Project {
          $this->issueLists[$key] = $issueList;
       }
       return $this->issueLists[$key];
+   }
+
+   /*
+    * returns issues list
+    * @param int $handler_id (if 0, all users)
+    * @param bool $isHideResolved
+    * @return Issue[] : array[bugid]
+    */
+   public function getIssues($handler_id = 0, $isHideResolved = false) {
+      if (NULL == $this->issuesCache) {
+         $this->issuesCache = array();
+      }
+
+      $key= ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
+
+      if (NULL == $this->issuesCache[$key]) {
+         $query = "SELECT * FROM `mantis_bug_table` ".
+                  "WHERE project_id=$this->id ";
+         if (0 != $handler_id) {
+            $query  .= "AND handler_id = $handler_id ";
+         }
+         if ($isHideResolved) {
+            $query  .= "AND status < get_project_resolved_status_threshold(project_id) ";
+         }
+
+         $query  .= "ORDER BY id DESC";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $issues = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $issues[] = IssueCache::getInstance()->getIssue($row->id,$row);
+         }
+         $this->issuesCache[$key] = $issues;
+      }
+      return $this->issuesCache[$key];
    }
 
    // -----------------------------------------------
@@ -1247,6 +1291,32 @@ class Project {
       }
 
       return $projects;
+   }
+
+   /**
+    * @static
+    * @param int[] $projectIds
+    * @return Issue[]
+    */
+   public static function getProjectIssues($projectIds) {
+      $formatedProjList = implode( ', ', $projectIds);
+
+      $query = "SELECT * FROM `mantis_bug_table` " .
+         "WHERE project_id IN ($formatedProjList) " .
+         "ORDER BY id DESC";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $issueList = array();
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $issueList[] = IssueCache::getInstance()->getIssue($row->id, $row);
+         }
+         return $issueList;
+      }
+      return $issueList;
    }
 
 }

@@ -36,10 +36,11 @@ class IssueCache extends Cache {
    /**
     * Get Issue class instance
     * @param int $id The issue id
+    * @param resource $details The details
     * @return Issue The issue attached to the id
     */
-   public function getIssue($id) {
-      return parent::get($id);
+   public function getIssue($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
@@ -49,7 +50,7 @@ class IssueCache extends Cache {
     * @return Issue The object
     */
    protected function create($id, $details = NULL) {
-      return new Issue($id);
+      return new Issue($id, $details);
    }
 
 }

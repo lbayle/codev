@@ -178,9 +178,11 @@ class Issue {
    private $statusCache;
 
    /**
-    * @param $id The issue id
+    * @param int $id The issue id
+    * @param resource $details The issue details
+    * @throws Exception if $id = 0
     */
-   public function __construct($id) {
+   public function __construct($id, $details = NULL) {
       $this->logger = Logger::getLogger(__CLASS__);
 
       if (0 == $id) {
@@ -193,24 +195,28 @@ class Issue {
 
       $this->bugId = $id;
       
-      $this->initialize();
+      $this->initialize($details);
    }
 
-   public function initialize() {
+   /**
+    * Initialize
+    * @param resource $row The issue details
+    * @throws Exception If bug doesn't exists
+    */
+   public function initialize($row = NULL) {
+      if($row == NULL) {
          // Get issue info
-      $query = "SELECT * " .
-               "FROM `mantis_bug_table` " .
-               "WHERE id = $this->bugId";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+         $query = "SELECT * FROM `mantis_bug_table` " .
+                  "WHERE id = $this->bugId";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
-
-      #$found  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? true : false;
-      $nbTuples = 0 != SqlWrapper::getInstance()->sql_num_rows($result);
+      $nbTuples = $row != FALSE;
 
       self::$existsCache[$this->bugId] = $nbTuples;
          
