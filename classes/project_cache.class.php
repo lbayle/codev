@@ -36,10 +36,11 @@ class ProjectCache extends Cache {
    /**
     * Get Project class instance
     * @param int $id The project id
+    * @param resource $details The details
     * @return Project The project attached to the id
     */
-   public function getProject($id) {
-      return parent::get($id);
+   public function getProject($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
@@ -49,7 +50,7 @@ class ProjectCache extends Cache {
     * @return Project The object
     */
    protected function create($id, $details = NULL) {
-      return new Project($id);
+      return new Project($id, $details);
    }
 
 }

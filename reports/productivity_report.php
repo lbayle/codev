@@ -162,11 +162,11 @@ function getWorkingDaysPerJobUrl(array $workingDaysPerJobs) {
  */
 function getWorkingDaysPerProject(TimeTracking $timeTracking) {
    $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
-   $query = "SELECT mantis_project_table.id, mantis_project_table.name ".
+   $query = "SELECT mantis_project_table.id, mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
       "FROM `mantis_project_table`, `codev_team_project_table` ".
       "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
       "AND codev_team_project_table.team_id = $team->id ".
-      " ORDER BY name";
+      "ORDER BY name";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       return NULL;
@@ -176,7 +176,7 @@ function getWorkingDaysPerProject(TimeTracking $timeTracking) {
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $nbDays = $timeTracking->getWorkingDaysPerProject($row->id);
 
-      $proj = ProjectCache::getInstance()->getProject($row->id);
+      $proj = ProjectCache::getInstance()->getProject($row->id, $row);
       if ((! $team->isSideTasksProject($proj->id)) && (! $team->isNoStatsProject($proj->id))) {
          $progress = round(100 * $proj->getProgress()).'%';
          $progressMgr = round(100 * $proj->getProgressMgr()).'%';
