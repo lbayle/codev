@@ -153,16 +153,6 @@ class Project {
          $this->categoryList[$row->type] = $row->category_id;
       }
 
-      // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
-      $query  = "SELECT get_project_resolved_status_threshold($this->id) ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
-      $this->bug_resolved_status_threshold = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
-      #echo "DEBUG $this->name .bug_resolved_status_threshold = $this->bug_resolved_status_threshold<br>\n";
-
       #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
 
       #$this->jobList     = $this->getJobList();
@@ -688,7 +678,17 @@ class Project {
 
 
    public function getBugResolvedStatusThreshold() {
-      #echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
+      if($this->bug_resolved_status_threshold == NULL) {
+         // get $bug_resolved_status_threshold from mantis_config_table or codev_config_table if not found
+         $query  = "SELECT get_project_resolved_status_threshold($this->id) ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $this->bug_resolved_status_threshold = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
+         #echo "DEBUG $this->name .getBugResolvedStatusThreshold() = $this->bug_resolved_status_threshold<br>\n";
+      }
       return $this->bug_resolved_status_threshold;
    }
 
