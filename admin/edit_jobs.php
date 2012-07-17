@@ -24,9 +24,9 @@ require('include/super_header.inc.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('classes/sqlwrapper.class.php');
 include_once('classes/jobs.class.php');
 include_once('classes/project.class.php');
+include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
 
 /**
@@ -49,25 +49,22 @@ function getAssignedJobs(array $jobs) {
  * @return mixed[int] The jobs
  */
 function getJobs() {
-   $query = 'SELECT * FROM `codev_job_table` ORDER BY name;';
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-   $jobs = array();
+   $jobs = new Jobs();
+   $jobList = Tools::qsort($jobs->getJobs());
+   $smartyJobs = array();
    $jobSupport = Config::getInstance()->getValue(Config::id_jobSupport);
    $jobsWithoutSupport = array();
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $jobs[$row->id] = array(
-         "name" => $row->name,
-         "type" => $row->type,
-         "typeName" => Job::$typeNames[$row->type],
-         "color" => $row->color,
+   foreach($jobList as $job) {
+      $smartyJobs[$job->id] = array(
+         "name" => $job->name,
+         "type" => $job->type,
+         "typeName" => Job::$typeNames[$job->type],
+         "color" => $job->color,
       );
 
-      if($jobSupport != $row->id) {
-         $jobsWithoutSupport[] = $row->id;
-         $jobs[$row->id]["deletedJob"] = true;
+      if($jobSupport != $job->id) {
+         $jobsWithoutSupport[] = $job->id;
+         $smartyJobs[$job->id]["deletedJob"] = true;
       }
    }
 
@@ -81,10 +78,10 @@ function getJobs() {
       return NULL;
    }
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
-      $jobs[$row->jobid]["deletedJob"] = (0 == $row->count);
+      $smartyJobs[$row->jobid]["deletedJob"] = (0 == $row->count);
    }
 
-   return $jobs;
+   return $smartyJobs;
 }
 
 /**
@@ -133,20 +130,20 @@ if(isset($_SESSION['userid'])) {
       $smartyHelper->assign('jobType', Job::$typeNames);
 
       if (isset($_POST['job_name'])) {
-         $job_name = getSecurePOSTStringValue('job_name');
-         $job_type = getSecurePOSTStringValue('job_type');
-         $job_color = getSecurePOSTStringValue('job_color');
+         $job_name = Tools::getSecurePOSTStringValue('job_name');
+         $job_type = Tools::getSecurePOSTStringValue('job_type');
+         $job_color = Tools::getSecurePOSTStringValue('job_color');
 
          // TODO check if not already in table !
 
          // save to DB
          Jobs::create($job_name, $job_type, $job_color);
       } elseif (isset($_POST['projects'])) {
-         $job_id = getSecurePOSTIntValue('job_id');
+         $job_id = Tools::getSecurePOSTIntValue('job_id');
 
          // Add Job to selected projects
          if(isset($_POST['formattedProjects'])) {
-            $proj = explode(",",getSecurePOSTStringValue('formattedProjects'));
+            $proj = explode(",",Tools::getSecurePOSTStringValue('formattedProjects'));
             foreach($proj as $project_id){
                // TODO check if not already in table !
                // save to DB
@@ -158,7 +155,7 @@ if(isset($_SESSION['userid'])) {
             }
          }
       } elseif (isset($_POST['job_id'])) {
-         $job_id = getSecurePOSTIntValue('job_id');
+         $job_id = Tools::getSecurePOSTIntValue('job_id');
 
          // TODO delete Support job not allowed
 
@@ -174,7 +171,7 @@ if(isset($_SESSION['userid'])) {
             $smartyHelper->assign('error', "Couldn't delete the job");
          }
       } elseif (isset($_POST['asso_id'])) {
-         $asso_id = getSecurePOSTIntValue('asso_id');
+         $asso_id = Tools::getSecurePOSTIntValue('asso_id');
 
          $query = "DELETE FROM `codev_project_job_table` WHERE id = ".$asso_id.';';
          $result = SqlWrapper::getInstance()->sql_query($query);
