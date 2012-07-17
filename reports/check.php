@@ -16,27 +16,31 @@ require('../include/session.inc.php');
 
    You should have received a copy of the GNU General Public License
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
- */
+*/
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('classes/consistency_check.class.php');
 include_once('classes/consistency_check2.class.php');
-include_once('classes/user.class.php');
-include_once('classes/team.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("check");
 
 /**
  * Get consistency errors
  * @param int $teamid
- * @return array
+ * @return mixed[]
  */
 function getTeamConsistencyErrors($teamid) {
    global $logger;
@@ -45,7 +49,7 @@ function getTeamConsistencyErrors($teamid) {
    $logger->debug("getTeamConsistencyErrors teamid=$teamid");
 
    // get team projects
-   $issueList = Team::getTeamIssues($teamid, true);
+   $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
 
    $logger->debug("getTeamConsistencyErrors nbIssues=".count($issueList));
 
@@ -58,6 +62,7 @@ function getTeamConsistencyErrors($teamid) {
    $cerrList4 = $ccheck->checkCommandSetNotInServiceContract();
    $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3, $cerrList4);
 
+   $cerrs = NULL;
    if (count($cerrList) > 0) {
       foreach ($cerrList as $cerr) {
          if (NULL != $cerr->userId) {
@@ -75,9 +80,8 @@ function getTeamConsistencyErrors($teamid) {
          }
 
          $cerrs[] = array('userName' => isset($user) ? '' : $user->getName(),
-
-            'issueURL' =>  (NULL == $cerr->bugId) ? '' : issueInfoURL($cerr->bugId, $summary),
-            'mantisURL' => (NULL == $cerr->bugId) ? '' : mantisIssueURL($cerr->bugId, $summary, true),
+            'issueURL' =>  (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId, $summary),
+            'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, $summary, true),
             'date' =>      (NULL == $cerr->timestamp) ? '' : date("Y-m-d", $cerr->timestamp),
             'status' =>    (NULL == $cerr->status) ? '' : $statusNames[$cerr->status],
             'severity' => $cerr->getLiteralSeverity(),
@@ -85,8 +89,8 @@ function getTeamConsistencyErrors($teamid) {
             'targetVersion' => $targetVersion,
             'desc' => $cerr->desc);
       }
-      return $cerrs;
    }
+   return $cerrs;
 }
 
 // ================ MAIN =================
@@ -97,7 +101,7 @@ $smartyHelper->assign('pageName', 'Consistency Check');
 if (isset($_SESSION['userid'])) {
    // use the teamid set in the form, if not defined (first page call) use session teamid
    if (isset($_GET['teamid'])) {
-      $teamid = getSecureGETIntValue('teamid');
+      $teamid = Tools::getSecureGETIntValue('teamid');
       $_SESSION['teamid'] = $teamid;
    } else {
       $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
@@ -108,7 +112,7 @@ if (isset($_SESSION['userid'])) {
    $teamList = $session_user->getTeamList();
 
    if (count($teamList) > 0) {
-      $smartyHelper->assign('teams', getTeams($teamList, $_SESSION['teamid']));
+      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $_SESSION['teamid']));
 
       if (isset($_GET['teamid']) && 0 != $teamid) {
 
