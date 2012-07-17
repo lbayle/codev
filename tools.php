@@ -360,6 +360,22 @@ class Tools {
    }
 
    /**
+    * Sort function for Class instances
+    * NOTE: the classes must implement Comparable interface.
+    * @static
+    * @param Comparable[] $a array of instances $a
+    * @return bool true on success or false on failure.
+    */
+   public static function usort(array &$a) {
+      if(count($a) > 0) {
+         $className = get_class(current($a));
+         return @usort($a, array($className, "compare"));
+      } else {
+         return $a;
+      }
+   }
+
+   /**
     * QuickSort function for Class instances
     * NOTE: the classes must have a compareTo(objectB) method.
     * @static
