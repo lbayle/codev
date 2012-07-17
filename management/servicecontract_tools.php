@@ -216,7 +216,7 @@ function getContractSidetasksTotalDetailedMgr(IssueSelection $issueSelection) {
 function getContractSidetasksInfo(IssueSelection $issueSelection) {
 
    $issueArray = getIssueListInfo($issueSelection);
-   $issueArray['name'] = "sideTasksList";
+   //$issueArray['name'] = "sideTasksList";
 
    return $issueArray;
 }
