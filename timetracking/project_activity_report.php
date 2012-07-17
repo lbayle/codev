@@ -22,6 +22,8 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
+require('smarty_tools.php');
+
 require('classes/smarty_helper.class.php');
 
 include_once('classes/issue_cache.class.php');
