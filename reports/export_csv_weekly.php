@@ -1,33 +1,42 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
-require('../smarty_tools.php');
+require('smarty_tools.php');
 
-include_once "period_stats.class.php";
-include_once "project.class.php";
-include_once 'export_csv_tools.php';
-include_once "time_tracking.class.php";
+require('classes/smarty_helper.class.php');
+
+include_once('reports/export_csv_tools.php');
+
+include_once('classes/issue_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/time_tracking.class.php');
+include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("export_csv");
 
@@ -40,8 +49,6 @@ $logger = Logger::getLogger("export_csv");
  * @return string
  */
 function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFile) {
-   global $logger;
-
    $sepChar=';';
 
    // create filename & open file
@@ -51,11 +58,11 @@ function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFi
                  T_("Job").$sepChar.
                  T_("Description").$sepChar.
                  T_("Assigned to").$sepChar.
-                 formatDate("%A %d/%m", $weekDates[1]).$sepChar.
-                 formatDate("%A %d/%m", $weekDates[2]).$sepChar.
-                 formatDate("%A %d/%m", $weekDates[3]).$sepChar.
-                 formatDate("%A %d/%m", $weekDates[4]).$sepChar.
-                 formatDate("%A %d/%m", $weekDates[5])."\n";
+                 Tools::formatDate("%A %d/%m", $weekDates[1]).$sepChar.
+                 Tools::formatDate("%A %d/%m", $weekDates[2]).$sepChar.
+                 Tools::formatDate("%A %d/%m", $weekDates[3]).$sepChar.
+                 Tools::formatDate("%A %d/%m", $weekDates[4]).$sepChar.
+                 Tools::formatDate("%A %d/%m", $weekDates[5])."\n";
    fwrite($fh, $stringData);
 
    $query = "SELECT codev_team_user_table.user_id, mantis_user_table.realname ".
@@ -82,7 +89,13 @@ function exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $myFi
    return $myFile;
 }
 
-function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
+/**
+ * @param int $userid
+ * @param TimeTracking $timeTracking
+ * @param string $realname
+ * @param resource $fh
+ */
+function exportWeekDetailsToCSV($userid, TimeTracking $timeTracking, $realname, $fh) {
    global $logger;
 
    $sepChar=';';
@@ -122,8 +135,6 @@ function exportWeekDetailsToCSV($userid, $timeTracking, $realname, $fh) {
 }
 
 // =========== MAIN ==========
-require('display.inc.php');
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CSV Report');
 
@@ -142,25 +153,25 @@ if(isset($_SESSION['userid'])) {
       $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
       $_SESSION['teamid'] = $teamid;
 
-      $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
       $weekid = isset($_POST['weekid']) ? $_POST['weekid'] : date('W');
       $year = isset($_POST['year']) ? $_POST['year'] : date('Y');
-      $smartyHelper->assign('weeks', getWeeks($weekid, $year));
+      $smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
 
-      $smartyHelper->assign('years', getYears($year,2));
+      $smartyHelper->assign('years', SmartyTools::getYears($year,2));
 
       if (isset($_POST['teamid']) && 0 != $teamid) {
          global $codevReportsDir;
          $formatedteamName = TeamCache::getInstance()->getTeam($teamid)->getName();
 
-         $weekDates      = week_dates($weekid,$year);
+         $weekDates      = Tools::week_dates($weekid,$year);
          $startTimestamp = $weekDates[1];
          $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[5]), date("d", $weekDates[5]), date("Y", $weekDates[5]));
 
          $reports = "";
 
-         $managedIssuesfile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".formatDate("%Y%m%d",time()).".csv";
+         $managedIssuesfile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".Tools::formatDate("%Y%m%d",time()).".csv";
          $managedIssuesfile = exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $managedIssuesfile);
          $reports[] = array('file' => basename($managedIssuesfile),
                             'title' => T_('Export Managed Issues'),
@@ -169,13 +180,13 @@ if(isset($_SESSION['userid'])) {
 
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-         $weekActivityReportfile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".formatDate("%Y_W%W", $startTimestamp).".csv";
+         $weekActivityReportfile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
          $weekActivityReportfile = exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $weekActivityReportfile);
          $reports[] = array('file' => basename($weekActivityReportfile),
             'title' => T_('Export Week').' '.$weekid.' '.T_('Member Activity')
          );
 
-         $projectActivityFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_projects_".formatDate("%Y_W%W", $startTimestamp).".csv";
+         $projectActivityFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_projects_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
          $projectActivityFile = exportProjectActivityToCSV($timeTracking, $projectActivityFile);
          $reports[] = array('file' => basename($projectActivityFile),
             'title' => T_('Export Week').' '.$weekid.' '.T_('Projects Activity')
