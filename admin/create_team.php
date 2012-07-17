@@ -2,20 +2,20 @@
 require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
@@ -31,6 +31,10 @@ include_once('classes/user_cache.class.php');
 include_once('classes/team.class.php');
 include_once('classes/team_cache.class.php');
 
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
+
 $logger = Logger::getLogger("create_team");
 
 // ========== MAIN ===========
@@ -41,7 +45,7 @@ if(isset($_SESSION['userid'])) {
    $is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
 
    // Form user selections
-   $team_name = getSecurePOSTStringValue('team_name',"");
+   $team_name = Tools::getSecurePOSTStringValue('team_name',"");
 
    // 'is_modified' is used because it's not possible to make a difference
    // between an unchecked checkBox and an unset checkbox variable
@@ -73,19 +77,19 @@ if(isset($_SESSION['userid'])) {
       $stproj_name = ("" == $team_name) ? $teamSideTaskProjectName : T_("SideTasks")." $team_name";
    }
 
-   $team_desc = getSecurePOSTStringValue('team_desc',"");
-   $teamleader_id = getSecurePOSTStringValue('teamleader_id',"");
+   $team_desc = Tools::getSecurePOSTStringValue('team_desc',"");
+   $teamleader_id = Tools::getSecurePOSTStringValue('teamleader_id',"");
 
-   $task_projManagement = getSecurePOSTStringValue('task_projManagement',T_("(generic) Project Management"));
-   $task_meeting = getSecurePOSTStringValue('task_meeting',T_("(generic) Meeting"));
-   $task_incident = getSecurePOSTStringValue('task_incident',T_("(generic) Network is down"));
-   $task_tools = getSecurePOSTStringValue('task_tools',T_("(generic) Compilation Scripts"));
-   $task_other1 = getSecurePOSTStringValue('task_other1',T_("(generic) Update team WIKI"));
+   $task_projManagement = Tools::getSecurePOSTStringValue('task_projManagement',T_("(generic) Project Management"));
+   $task_meeting = Tools::getSecurePOSTStringValue('task_meeting',T_("(generic) Meeting"));
+   $task_incident = Tools::getSecurePOSTStringValue('task_incident',T_("(generic) Network is down"));
+   $task_tools = Tools::getSecurePOSTStringValue('task_tools',T_("(generic) Compilation Scripts"));
+   $task_other1 = Tools::getSecurePOSTStringValue('task_other1',T_("(generic) Update team WIKI"));
 
-   $action = getSecurePOSTStringValue('action','');
+   $action = Tools::getSecurePOSTStringValue('action','');
    if ("addTeam" == $action) {
       $formatedDate  = date("Y-m-d", time());
-      $now = date2timestamp($formatedDate);
+      $now = Tools::date2timestamp($formatedDate);
 
       // 1) --- create new Team
       $teamid = Team::create($team_name, $team_desc, $teamleader_id, $now);
@@ -148,7 +152,7 @@ if(isset($_SESSION['userid'])) {
 
    $smartyHelper->assign('team_name', $team_name);
    $smartyHelper->assign('team_desc', $team_desc);
-   $smartyHelper->assign('users', getSmartyArray(User::getUsers(),$teamleader_id));
+   $smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$teamleader_id));
 
    $smartyHelper->assign('isCreateSTProj', $isCreateSTProj);
    $smartyHelper->assign('stproj_name', $stproj_name);
