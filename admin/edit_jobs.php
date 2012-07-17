@@ -50,7 +50,8 @@ function getAssignedJobs(array $jobs) {
  */
 function getJobs() {
    $jobs = new Jobs();
-   $jobList = Tools::qsort($jobs->getJobs());
+   $jobList = $jobs->getJobs();
+   Tools::usort($jobList);
    $smartyJobs = array();
    $jobSupport = Config::getInstance()->getValue(Config::id_jobSupport);
    $jobsWithoutSupport = array();

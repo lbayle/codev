@@ -16,6 +16,8 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('classes/comparable.interface.php');
+
 // TODO Remove this import
 include_once('classes/issue_cache.class.php');
 
@@ -49,7 +51,7 @@ class Status {
 /**
  *
  */
-class Issue {
+class Issue implements Comparable {
 
    protected $logger;
 
@@ -136,7 +138,7 @@ class Issue {
       }
 
       $this->bugId = $id;
-      
+
       $this->initialize($details);
    }
 
@@ -161,7 +163,7 @@ class Issue {
       $nbTuples = $row != FALSE;
 
       self::$existsCache[$this->bugId] = $nbTuples;
-         
+
       if ($nbTuples) {
          $this->summary = $row->summary;
          $this->currentStatus = $row->status;
@@ -177,7 +179,7 @@ class Issue {
          $this->version = $row->version;
          $this->target_version = $row->target_version;
          $this->last_updated = $row->last_updated;
-         
+
          global $tcCustomField;
          global $estimEffortCustomField;
          global $remainingCustomField;
@@ -186,7 +188,7 @@ class Issue {
          global $deliveryDateCustomField;
          global $deliveryIdCustomField;
          $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-         
+
          // Get custom fields
          $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
          $result2 = SqlWrapper::getInstance()->sql_query($query2);
@@ -639,7 +641,7 @@ class Issue {
             }
          }
       }
-      
+
       return $this->relationships[$type];
    }
 
@@ -1152,6 +1154,99 @@ class Issue {
 
       $this->logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
       return false;
+   }
+
+   /**
+    * Sort by asc
+    * @param Issue $issueA
+    * @param Issue $issueB
+    * @return int 1 if $issueB is higher priority, -1 if $issueB is lower, 0 if equals
+    */
+   public static function compare(Comparable $issueA, Comparable $issueB) {
+      global $status_open;
+
+      // if IssueB constrains IssueA, then IssueB is higher priority
+      $AconstrainsList = $issueA->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
+      if (in_array($issueA->bugId, $BconstrainsList)) {
+         // B constrains A
+         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains A)");
+         return 1;
+      } else if (in_array($issueB->bugId, $AconstrainsList)) {
+         // A constrains B
+         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains B)");
+         return -1;
+      }
+
+      // Tasks currently open are higher priority
+      if (($issueB->currentStatus == $status_open) && ($issueA->currentStatus != $status_open)) {
+         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
+         return 1;
+      } else if (($issueA->currentStatus == $status_open) && ($issueB->currentStatus != $status_open)) {
+         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
+         return -1;
+      }
+
+      // the one that has NO deadLine is lower priority
+      if ((NULL == $issueA->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
+         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (A no deadline)");
+         return 1;
+      } else if ((NULL != $issueA->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
+         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (B no deadline)");
+         return -1;
+      }
+
+      // the soonest deadLine has priority
+      if ($issueA->getDeadLine() > $issueB->getDeadLine()) {
+         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (deadline)");
+         return 1;
+      } else if ($issueA->getDeadLine() < $issueB->getDeadLine()) {
+         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (deadline)");
+         return -1;
+      }
+
+      // if same deadLine, check priority attribute
+      if ($issueA->priority < $issueB->priority) {
+         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (priority attr)");
+         return 1;
+      } else if ($issueA->priority > $issueB->priority) {
+         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (priority attr)");
+         return -1;
+      }
+
+      // if same deadLine, same priority: check severity attribute
+      if ($issueA->severity < $issueB->severity) {
+         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (severity attr)");
+         return 1;
+      } else if ($issueA->severity > $issueB->severity) {
+         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (severity attr)");
+         return -1;
+      }
+
+      // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
+      if (count($AconstrainsList) < count($BconstrainsList)) {
+         // B constrains more people, so B is higher priority
+         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains more people)");
+         return 1;
+      } else if (count($AconstrainsList) > count($BconstrainsList)) {
+         // A constrains more people, so A is higher priority
+         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains more people)");
+         return -1;
+      }
+
+      $issueA->logger->trace("no important diff find, so we compare the bugid : $issueA->bugId <=> $issueB->bugId");
+
+      // Lower if the bug id, higher is the priority
+      if($issueA->bugId > $issueB->bugId) {
+         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId");
+         return 1;
+      } else if($issueA->bugId < $issueB->bugId) {
+         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId");
+         return -1;
+      } else {
+         $issueA->logger->trace("compare $issueA->bugId = $issueB->bugId");
+         return 0;
+      }
    }
 
    /**

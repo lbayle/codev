@@ -16,11 +16,13 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('classes/comparable.interface.php');
+
 /**
  * @author LoB
  * @date 01 Feb 2011
  */
-class Job {
+class Job implements Comparable {
 
   const type_commonJob   = 0;     // jobs common to all projects are type 0
   const type_assignedJob = 1;     // jobs specific to one or more projects are type 1
@@ -42,11 +44,14 @@ class Job {
     }
 
    /**
+    * Sort by asc
+    * @static
+    * @param Job $jobA
     * @param Job $jobB
-    * @return int
+    * @return int 1 if $jobB is higher, -1 if $jobB is lower, 0 if equals
     */
-   function compareTo($jobB) {
-      return strcmp($this->name, $jobB->name) < 0 ? TRUE : FALSE;
+   public static function compare(Comparable $jobA, Comparable $jobB) {
+      return strcmp($jobA->name, $jobB->name);
    }
 }
 
