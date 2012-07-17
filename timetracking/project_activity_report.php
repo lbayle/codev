@@ -133,7 +133,7 @@ if(isset($_SESSION['userid'])) {
       $enddate = Tools::getSecurePOSTStringValue("enddate",Tools::formatDate("%Y-%m-%d",$weekDates[5]));
       $smartyHelper->assign('endDate', $enddate);
 
-      $smartyHelper->assign('teams', Tools::getSmartyArray($teamList,$teamid));
+      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
 
       $isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
       $smartyHelper->assign('isDetailed', $isDetailed);
