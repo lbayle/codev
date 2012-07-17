@@ -29,11 +29,12 @@ require('classes/smarty_helper.class.php');
 include_once('classes/consistency_check2.class.php');
 include_once('classes/issue_cache.class.php');
 include_once('classes/scheduler.class.php');
-include_once('classes/team.class.php');
+include_once('classes/team_cache.class.php');
 include_once('classes/user_cache.class.php');
 
-include_once('tools.php');
-include_once('lib/log4php/Logger.php');
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("planning_report");
 
@@ -128,7 +129,7 @@ class DeadLine {
 function getConsistencyErrors($teamid) {
    global $statusNames;
 
-   $issueList = Team::getTeamIssues($teamid, TRUE);
+   $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(TRUE);
    $ccheck = new ConsistencyCheck2($issueList);
 
    $cerrList  = $ccheck->checkBadRemaining();
@@ -237,8 +238,7 @@ function getUserDeadLines($dayPixSize, array $scheduledTaskList, $deadLineTrigge
 
    // because the 'size' of the arrow, the first scheduledTask has been shifted
    // we need to check if the $nbDays of the first deadLine = 0
-   reset($deadLines);
-   $dline = $deadLines[key($deadLines)];
+   $dline = reset($deadLines);
    $isDeadline = 0 != $dline->nbDaysToDeadLine;
 
    // display deadLines
@@ -282,7 +282,7 @@ function getUserSchedule($dayPixSize, array $scheduledTaskList, $teamid) {
    $totalPix = 0;
    $sepWidth = 1;
 
-   $projList = Team::getProjectList($teamid);
+   $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
 
    $scheduledTasks = array();
    foreach($scheduledTaskList as $key => $scheduledTask) {
@@ -346,7 +346,7 @@ if(isset($_SESSION['userid'])) {
          $teamid = $_SESSION['teamid'];
       }
 
-      $smartyHelper->assign('teams', getSmartyArray($teamList,$teamid));
+      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
 
       $pageWidth = Tools::getSecurePOSTIntValue('width',Tools::getSecureGETIntValue('width',0));
       $smartyHelper->assign('width', $pageWidth);
@@ -360,7 +360,7 @@ if(isset($_SESSION['userid'])) {
          $scheduler = new Scheduler();
          $allTasksLists = array();
          $workloads = array();
-         $teamMembers = Team::getMemberList($teamid);
+         $teamMembers = TeamCache::getInstance()->getTeam($teamid)->getMembers();
 
          $nbDaysToDisplay = 0;
          foreach ($teamMembers as $id => $name) {
