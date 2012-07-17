@@ -34,6 +34,10 @@ include_once('classes/team.class.php');
 include_once('classes/time_tracking.class.php');
 include_once('classes/user_cache.class.php');
 
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
+
 $logger = Logger::getLogger("set_holidays");
 
 /**
@@ -65,13 +69,10 @@ function getUsers($session_user) {
 
    $users = array();
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $users[$row->id] = array(
-         'name' => $row->username,
-         'selected' => $row->id == $session_user->id
-      );
+      $users[$row->id] = $row->username;
    }
 
-   return $users;
+   return SmartyTools::getSmartyArray($users, $session_user->id);
 }
 
 /**
@@ -85,7 +86,7 @@ function getUsers($session_user) {
 function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
    global $logger;
 
-   // --- Task list
+   // Task list
    if (0 != $defaultProjectid) {
       $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
       $issueList = $project1->getBugidList();
@@ -133,7 +134,7 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
  * @return mixed[]
  */
 function getJobs($defaultProjectid, $projList) {
-   // --- Job list
+   // Job list
    if (0 != $defaultProjectid) {
       $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
       $jobList = $project1->getJobList();
@@ -180,26 +181,26 @@ if (isset($_SESSION['userid'])) {
    }
 
    if ($_POST['nextForm'] == "addHolidaysForm") {
-      $userid = getSecurePOSTIntValue('userid',$session_user->id);
+      $userid = Tools::getSecurePOSTIntValue('userid',$session_user->id);
 
       $managed_user = UserCache::getInstance()->getUser($userid);
 
       // dates
-      $startdate = getSecurePOSTStringValue('startdate',date("Y-m-d"));
+      $startdate = Tools::getSecurePOSTStringValue('startdate',date("Y-m-d"));
 
-      $enddate = getSecurePOSTStringValue('enddate','');
+      $enddate = Tools::getSecurePOSTStringValue('enddate','');
 
-      $defaultBugid = getSecurePOSTIntValue('bugid',0);
+      $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
 
-      $action = getSecurePOSTStringValue('action','');
+      $action = Tools::getSecurePOSTStringValue('action','');
       if ("addHolidays" == $action) {
          // TODO add tracks !
-         $job = getSecurePOSTStringValue('job');
+         $job = Tools::getSecurePOSTStringValue('job');
 
          $holydays = Holidays::getInstance();
 
-         $startTimestamp = date2timestamp($startdate);
-         $endTimestamp = date2timestamp($enddate);
+         $startTimestamp = Tools::date2timestamp($startdate);
+         $endTimestamp = Tools::date2timestamp($enddate);
 
          // save to DB
          $timestamp = $startTimestamp;
@@ -246,14 +247,14 @@ if (isset($_SESSION['userid'])) {
       $extProj = ProjectCache::getInstance()->getProject($extproj_id);
       $projList[$extproj_id] = $extProj->name;
 
-      $defaultProjectid  = getSecurePOSTIntValue('projectid',0);
+      $defaultProjectid  = Tools::getSecurePOSTIntValue('projectid',0);
       if($defaultBugid != 0 && $action == 'setBugId') {
          // find ProjectId to update categories
          $issue = IssueCache::getInstance()->getIssue($defaultBugid);
          $defaultProjectid  = $issue->projectId;
       }
 
-      $smartyHelper->assign('projects', getSmartyArray($projList,$defaultProjectid));
+      $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
       $smartyHelper->assign('issues', getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid));
       $smartyHelper->assign('jobs', getJobs($defaultProjectid, $projList));
 

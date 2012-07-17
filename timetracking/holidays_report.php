@@ -26,11 +26,14 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once("classes/holidays.class.php");
-include_once("classes/sqlwrapper.class.php");
-include_once("classes/team.class.php");
-include_once("classes/team_cache.class.php");
-include_once("classes/user_cache.class.php");
+include_once('classes/holidays.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team.class.php');
+include_once('classes/team_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("holidays_report");
 
@@ -49,7 +52,7 @@ function getDays($nbDaysInMonth, $month, $year) {
       if ($today == date("d-m-Y", $curDate)) {
          $title = 'today';
       } else {
-         $title = formatDate("%A", $curDate);
+         $title = Tools::formatDate("%A", $curDate);
       }
       $days[sprintf("%02d", $i)] = array(
          'title' => $title,
@@ -71,10 +74,6 @@ function getDays($nbDaysInMonth, $month, $year) {
  */
 function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $isExternalTasks = FALSE) {
    $holidays = Holidays::getInstance();
-
-   $green = "A8FFBD";
-   $green2 = "75FFDA";
-   $yellow = "F8FFA8";
 
    $startT = mktime(0, 0, 0, $month, 1, $year);
    $endT = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
@@ -158,11 +157,11 @@ $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Holidays Report');
 
 if (isset($_SESSION['userid'])) {
-   $year = getSecurePOSTIntValue('year',date('Y'));
+   $year = Tools::getSecurePOSTIntValue('year',date('Y'));
 
    $teamid = 0;
    if(isset($_POST['teamid'])) {
-      $teamid = getSecurePOSTIntValue('teamid',0);
+      $teamid = Tools::getSecurePOSTIntValue('teamid',0);
       $_SESSION['teamid'] = $teamid;
    } elseif(isset($_SESSION['teamid'])) {
       $teamid = $_SESSION['teamid'];
@@ -176,9 +175,9 @@ if (isset($_SESSION['userid'])) {
       $isExternalTasks = TRUE; // default
    }
 
-   $teams = getSmartyArray(Team::getTeams(),$teamid);
+   $teams = SmartyTools::getSmartyArray(Team::getTeams(),$teamid);
    $smartyHelper->assign('teams', $teams);
-   $smartyHelper->assign('years', getYears($year,2));
+   $smartyHelper->assign('years', SmartyTools::getYears($year,2));
    $smartyHelper->assign('isExternalTasks', $isExternalTasks);
 
    if($teamid == 0 && count($teams) > 0) {
@@ -194,7 +193,7 @@ if (isset($_SESSION['userid'])) {
       $monthTimestamp = mktime(0, 0, 0, $i, 1, $year);
       $nbDaysInMonth = date("t", $monthTimestamp);
       $months[$i] = array(
-         "name" => formatDate("%B %Y", $monthTimestamp),
+         "name" => Tools::formatDate("%B %Y", $monthTimestamp),
          "days" => getDays($nbDaysInMonth, $i, $year),
          "users" => getDaysUsers($i, $year, $teamid, $users, $nbDaysInMonth, $isExternalTasks)
       );
