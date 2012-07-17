@@ -405,7 +405,7 @@ class Team {
     */
    public function getCommands() {
       if (NULL == $this->commandList) {
-         $query = "SELECT DISTINCT * FROM `codev_command_table` ".
+         $query = "SELECT * FROM `codev_command_table` ".
             "WHERE team_id = $this->id ";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -415,7 +415,7 @@ class Team {
          }
          $this->commandList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->commandList[$row->id] = CommandCache::getInstance()->getCommand($row->id);
+            $this->commandList[$row->id] = CommandCache::getInstance()->getCommand($row->id, $row);
          }
       }
 
