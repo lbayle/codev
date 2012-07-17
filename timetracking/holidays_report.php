@@ -32,10 +32,6 @@ include_once('classes/team_cache.class.php');
 
 require_once('tools.php');
 
-require_once('lib/log4php/Logger.php');
-
-$logger = Logger::getLogger("holidays_report");
-
 /**
  * Get days of a month
  * @param int $nbDaysInMonth The number of days in a month
