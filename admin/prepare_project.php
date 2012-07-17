@@ -25,8 +25,11 @@ require('include/super_header.inc.php');
 require('classes/smarty_helper.class.php');
 
 include_once('classes/config.class.php');
+include_once('classes/project.class.php');
 include_once('classes/project_cache.class.php');
 include_once('classes/user_cache.class.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("prepare_project");
 

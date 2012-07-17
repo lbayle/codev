@@ -2,20 +2,20 @@
 require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
@@ -26,13 +26,16 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
+include_once('classes/config.class.php');
+include_once('classes/issue_cache.class.php');
 include_once('classes/project.class.php');
-include_once('classes/issue.class.php');
-include_once('classes/holidays.class.php');
-include_once('classes/user_cache.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team.class.php');
 include_once('classes/team_cache.class.php');
+include_once('classes/user_cache.class.php');
 
-$logger = Logger::getLogger("edit_team");
+require_once('tools.php');
 
 /**
  * Get team members
@@ -229,7 +232,7 @@ if(isset($_SESSION['userid'])) {
 
    if(count($teamList) > 0) {
       if (isset($_POST['deletedteam'])) {
-         $teamidToDelete = getSecurePOSTIntValue("deletedteam");
+         $teamidToDelete = Tools::getSecurePOSTIntValue("deletedteam");
          if(array_key_exists($teamidToDelete,$teamList)) {
             $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
             $result = SqlWrapper::getInstance()->sql_query($query);
@@ -256,7 +259,7 @@ if(isset($_SESSION['userid'])) {
 
       // use the teamid set in the form, if not defined (first page call) use session teamid
       if (isset($_GET['teamid'])) {
-         $teamid = getSecureGETIntValue('teamid');
+         $teamid = Tools::getSecureGETIntValue('teamid');
       } else if(isset($_SESSION['teamid'])) {
          $teamid = $_SESSION['teamid'];
       } else {
@@ -268,7 +271,7 @@ if(isset($_SESSION['userid'])) {
          }
       }
 
-      $smartyHelper->assign('teams', getTeams($teamList,$teamid));
+      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
 
       if(array_key_exists($teamid,$teamList)) {
          $_SESSION['teamid'] = $teamid;
@@ -278,45 +281,45 @@ if(isset($_SESSION['userid'])) {
          // ----------- actions ----------
          $action = isset($_POST['action']) ? $_POST['action'] : '';
          if ($action == "updateTeamLeader") {
-            if (!$team->setLeader(getSecurePOSTIntValue('leaderid'))) {
+            if (!$team->setLeader(Tools::getSecurePOSTIntValue('leaderid'))) {
                $smartyHelper->assign('error', "Couldn't update the team leader");
             }
          } elseif ($action == "updateTeamCreationDate") {
-            $formatedDate = getSecurePOSTStringValue("date_createTeam");
-            $date_create = date2timestamp($formatedDate);
+            $formatedDate = Tools::getSecurePOSTStringValue("date_createTeam");
+            $date_create = Tools::date2timestamp($formatedDate);
             if(!$team->setCreationDate($date_create)) {
                $smartyHelper->assign('error', "Couldn't update the creation date");
             }
          } elseif ($action == "addTeamMember") {
-            $memberid = getSecurePOSTIntValue('memberid');
-            $memberAccess = getSecurePOSTIntValue('member_access');
-            $formatedDate = getSecurePOSTStringValue("date1");
-            $arrivalTimestamp = date2timestamp($formatedDate);
+            $memberid = Tools::getSecurePOSTIntValue('memberid');
+            $memberAccess = Tools::getSecurePOSTIntValue('member_access');
+            $formatedDate = Tools::getSecurePOSTStringValue("date1");
+            $arrivalTimestamp = Tools::date2timestamp($formatedDate);
 
             // save to DB
             $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
          } elseif ($action == "setMemberDepartureDate") {
-            $formatedDate = getSecurePOSTStringValue("date2");
-            $departureTimestamp = date2timestamp($formatedDate);
-            $memberid = getSecurePOSTIntValue('memberid');
+            $formatedDate = Tools::getSecurePOSTStringValue("date2");
+            $departureTimestamp = Tools::date2timestamp($formatedDate);
+            $memberid = Tools::getSecurePOSTIntValue('memberid');
 
             $team->setMemberDepartureDate($memberid, $departureTimestamp);
          } elseif ($action == "addMembersFrom") {
-            $src_teamid = getSecurePOSTIntValue('f_src_teamid');
+            $src_teamid = Tools::getSecurePOSTIntValue('f_src_teamid');
 
             // add all members declared in Team $src_teamid (same dates, same access)
             // except if already declared
             $team->addMembersFrom($src_teamid);
          } elseif (isset($_POST["deletememberid"])) {
-            $memberid = getSecurePOSTIntValue('deletememberid');
+            $memberid = Tools::getSecurePOSTIntValue('deletememberid');
             $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
             $result = SqlWrapper::getInstance()->sql_query($query);
             if (!$result) {
                $smartyHelper->assign('error', "Couldn't delete the member of the team");
             }
          } elseif (isset($_POST['addedprojectid'])) {
-            $projectid = getSecurePOSTIntValue('addedprojectid');
-            $projecttype= getSecurePOSTIntValue('project_type');
+            $projectid = Tools::getSecurePOSTIntValue('addedprojectid');
+            $projecttype= Tools::getSecurePOSTIntValue('project_type');
 
             // prepare Project to CoDev (associate with CoDev customFields if needed)
             $project = ProjectCache::getInstance()->getProject($projectid);
@@ -327,14 +330,14 @@ if(isset($_SESSION['userid'])) {
                $smartyHelper->assign('error', "Couldn't add the project to the team");
             }
          } elseif (isset($_POST['deletedprojectid'])) {
-            $projectid = getSecurePOSTIntValue('deletedprojectid');
+            $projectid = Tools::getSecurePOSTIntValue('deletedprojectid');
             $query = "DELETE FROM `codev_team_project_table` WHERE id = ".$projectid.';';
             $result = SqlWrapper::getInstance()->sql_query($query);
             if (!$result) {
                $smartyHelper->assign('error', "Couldn't remove the project of the team");
             }
          } elseif (isset($_POST['addedastreinte_id'])) {
-            $astreinte_id = getSecurePOSTIntValue('addedastreinte_id');
+            $astreinte_id = Tools::getSecurePOSTIntValue('addedastreinte_id');
             $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
             if (NULL == $astreintesList) {
                $formatedList = "$astreinte_id";
@@ -344,7 +347,7 @@ if(isset($_SESSION['userid'])) {
             }
             Config::getInstance()->setValue(Config::id_astreintesTaskList, $formatedList, Config::configType_array);
          } elseif (isset($_POST['deletedastreinte_id'])) {
-            $astreinte_id = getSecurePOSTIntValue('deletedastreinte_id');
+            $astreinte_id = Tools::getSecurePOSTIntValue('deletedastreinte_id');
             $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
             if (NULL != $astreintesList) {
                if (1 == count($astreintesList)) {
@@ -361,7 +364,7 @@ if(isset($_SESSION['userid'])) {
 
          $smartyHelper->assign('team', $team);
          
-         $smartyHelper->assign('users', getSmartyArray(User::getUsers(),$team->leader_id));
+         $smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$team->leader_id));
          $smartyHelper->assign('date', date("Y-m-d", $team->date));
 
          $smartyHelper->assign('accessLevel', Team::$accessLevelNames);
@@ -370,7 +373,7 @@ if(isset($_SESSION['userid'])) {
 
          $smartyHelper->assign('teamMembers', getTeamMembers($teamid));
 
-         $curProjList = Team::getProjectList($teamid);
+         $curProjList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
          $smartyHelper->assign('otherProjects', getOtherProjects($curProjList));
          $smartyHelper->assign('typeNames', Project::$typeNames);
 
