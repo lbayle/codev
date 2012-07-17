@@ -27,7 +27,6 @@ require('smarty_tools.php');
 require('classes/smarty_helper.class.php');
 
 include_once('classes/holidays.class.php');
-include_once('classes/sqlwrapper.class.php');
 include_once('classes/team.class.php');
 include_once('classes/team_cache.class.php');
 
