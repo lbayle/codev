@@ -32,6 +32,8 @@ include_once('classes/team_cache.class.php');
 include_once('classes/time_tracking.class.php');
 include_once('classes/user_cache.class.php');
 
+require_once('tools.php');
+
 /**
  * Get project activity report
  * @param mixed[][][] $projectTracks
@@ -80,8 +82,8 @@ function getProjectActivityReport($projectTracks, $teamid, $isDetailed) {
 
          $bugDetailedList[$bugid] = array(
              'class' => $tr_class,
-             'mantisURL' => mantisIssueURL($bugid, NULL, true),
-             'issueURL' => issueInfoURL($bugid),
+             'mantisURL' => Tools::mantisIssueURL($bugid, NULL, true),
+             'issueURL' => Tools::issueInfoURL($bugid),
              'id' => $issue->tcId,
              'summary' => $issue->summary,
              'jobList' => $subJobList,
@@ -117,28 +119,28 @@ if(isset($_SESSION['userid'])) {
       // use the teamid set in the form, if not defined (first page call) use session teamid
       $teamid = 0;
       if (isset($_POST['teamid'])) {
-         $teamid = getSecurePOSTIntValue('teamid');
+         $teamid = Tools::getSecurePOSTIntValue('teamid');
          $_SESSION['teamid'] = $teamid;
       } elseif (isset($_SESSION['teamid'])) {
          $teamid = $_SESSION['teamid'];
       }
 
       // dates
-      $weekDates = week_dates(date('W'),date('Y'));
-      $startdate = getSecurePOSTStringValue("startdate",formatDate("%Y-%m-%d",$weekDates[1]));
+      $weekDates = Tools::week_dates(date('W'),date('Y'));
+      $startdate = Tools::getSecurePOSTStringValue("startdate",Tools::formatDate("%Y-%m-%d",$weekDates[1]));
       $smartyHelper->assign('startDate', $startdate);
 
-      $enddate = getSecurePOSTStringValue("enddate",formatDate("%Y-%m-%d",$weekDates[5]));
+      $enddate = Tools::getSecurePOSTStringValue("enddate",Tools::formatDate("%Y-%m-%d",$weekDates[5]));
       $smartyHelper->assign('endDate', $enddate);
 
-      $smartyHelper->assign('teams', getSmartyArray($teamList,$teamid));
+      $smartyHelper->assign('teams', Tools::getSmartyArray($teamList,$teamid));
 
-      $isDetailed = getSecurePOSTStringValue('cb_detailed','');
+      $isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
       $smartyHelper->assign('isDetailed', $isDetailed);
 
       if (isset($_POST['teamid']) && array_key_exists($teamid, $teamList)) {
-         $startTimestamp = date2timestamp($startdate);
-         $endTimestamp = date2timestamp($enddate);
+         $startTimestamp = Tools::date2timestamp($startdate);
+         $endTimestamp = Tools::date2timestamp($enddate);
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
          $smartyHelper->assign('projectActivityReport', getProjectActivityReport($timeTracking->getProjectTracks(true), $teamid, $isDetailed));

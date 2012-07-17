@@ -19,19 +19,33 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
-include('../smarty_tools.php');
+require('smarty_tools.php');
 
-include_once "issue.class.php";
-include_once "project.class.php";
-include_once "user.class.php";
-include_once "time_tracking.class.php";
-include_once "holidays.class.php";
+require('classes/smarty_helper.class.php');
+
+include_once('classes/consistency_check2.class.php');
+include_once('classes/holidays.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/time_tracking.class.php');
+include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("team_activity");
 
-function getDaysDetails($i, Holidays $holidays, $weekDates, $duration) {
+/**
+ * @param int $i
+ * @param Holidays $holidays
+ * @param int[] $weekDates
+ * @param int $duration
+ * @return mixed[]
+ */
+function getDaysDetails($i, Holidays $holidays, array $weekDates, $duration) {
    $bgColor = NULL;
    $title = NULL;
    if ($i < 6) {
@@ -46,15 +60,21 @@ function getDaysDetails($i, Holidays $holidays, $weekDates, $duration) {
       $bgColor = Holidays::$defaultColor;
    }
 
-   return array("color" => $bgColor,
+   return array(
+      "color" => $bgColor,
       "title" => $title,
       "duration" => $duration
    );
 }
 
+/**
+ * @param int $teamid
+ * @param TimeTracking $timeTracking
+ * @param bool $isDetailed
+ * @param int[] $weekDates
+ * @return mixed[]
+ */
 function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekDates) {
-   global $logger;
-
    $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname " .
       "FROM  `codev_team_user_table`, `mantis_user_table` " .
       "WHERE  codev_team_user_table.team_id = $teamid " .
@@ -100,7 +120,7 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
                   }
 
                   $weekJobDetails[] = array(
-                     "url" => mantisIssueURL($bugid, NULL, TRUE) . ' ' . issueInfoURL($bugid) . " / " . $issue->tcId . " : " . $issue->summary,
+                     "url" => Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid) . " / " . $issue->tcId . " : " . $issue->summary,
                      "duration" => $issue->getDuration(),
                      "progress" => round(100 * $issue->getProgress()),
                      "projectName" => $issue->getProjectName(),
@@ -124,7 +144,7 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
                }
 
                $weekJobDetails[] = array(
-                  "url" => mantisIssueURL($bugid, NULL, TRUE) . ' ' . issueInfoURL($bugid) . " / " . $issue->tcId . " : " . $issue->summary,
+                  "url" => Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid) . " / " . $issue->tcId . " : " . $issue->summary,
                   "duration" => $issue->getDuration(),
                   "progress" => round(100 * $issue->getProgress()),
                   "projectName" => $issue->getProjectName(),
@@ -138,10 +158,10 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
             'name' => $row->username,
             'realname' => $row->realname,
             'forecastWorkload' => $user->getForecastWorkload(),
-            'weekDates' => array(formatDate("%A %d %B", $weekDates[1]),formatDate("%A %d %B", $weekDates[2]),
-               formatDate("%A %d %B", $weekDates[3]),formatDate("%A %d %B", $weekDates[4]),
-               formatDate("%A %d %B", $weekDates[5])),
-            'weekEndDates' => array(formatDate("%A %d %B", $weekDates[6]),formatDate("%A %d %B", $weekDates[7])),
+            'weekDates' => array(Tools::formatDate("%A %d %B", $weekDates[1]),Tools::formatDate("%A %d %B", $weekDates[2]),
+               Tools::formatDate("%A %d %B", $weekDates[3]),Tools::formatDate("%A %d %B", $weekDates[4]),
+               Tools::formatDate("%A %d %B", $weekDates[5])),
+            'weekEndDates' => array(Tools::formatDate("%A %d %B", $weekDates[6]),Tools::formatDate("%A %d %B", $weekDates[7])),
             'weekJobDetails' => $weekJobDetails
          );
       }
@@ -149,19 +169,17 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
    return $weekDetails;
 }
 
-
 /**
  * Get consistency errors
  * @param TimeTracking $timeTracking
+ * @return mixed[]
  */
 function getConsistencyErrors(TimeTracking $timeTracking) {
-
    $consistencyErrors = array(); // if null, array_merge fails !
 
    $cerrList = ConsistencyCheck2::checkIncompleteDays($timeTracking);
 
    if (count($cerrList) > 0) {
-      $i = 0;
       foreach ($cerrList as $cerr) {
          $user = UserCache::getInstance()->getUser($cerr->userId);
          $consistencyErrors[] = array(
@@ -171,18 +189,14 @@ function getConsistencyErrors(TimeTracking $timeTracking) {
              'severityColor' => $cerr->getSeverityColor(),
              'desc' => $cerr->desc);
       }
-      $i++;
    }
 
    return $consistencyErrors;
 }
 
-
 // ================ MAIN =================
-require('display.inc.php');
-
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Weekly activities'));
+$smartyHelper->assign('pageName', 'Weekly activities');
 
 if(isset($_SESSION['userid'])) {
    $user = UserCache::getInstance()->getUser($_SESSION['userid']);
@@ -197,13 +211,13 @@ if(isset($_SESSION['userid'])) {
          $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
       }
 
-      $smartyHelper->assign('teams',getTeams($teamList,$teamid));
+      $smartyHelper->assign('teams',SmartyTools::getSmartyArray($teamList,$teamid));
 
-      $year = getSecurePOSTIntValue('year', date('Y'));
-      $weekid = getSecurePOSTIntValue('weekid', date('W'));
+      $year = Tools::getSecurePOSTIntValue('year', date('Y'));
+      $weekid = Tools::getSecurePOSTIntValue('weekid', date('W'));
 
-      $smartyHelper->assign('weeks', getWeeks($weekid, $year));
-      $smartyHelper->assign('years', getYears($year,1));
+      $smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
+      $smartyHelper->assign('years', SmartyTools::getYears($year,1));
 
       $isDetailed = isset($_POST['cb_detailed']) ? TRUE : FALSE;
 
@@ -218,7 +232,7 @@ if(isset($_SESSION['userid'])) {
             $_SESSION['teamid'] = $teamid;
          }
 
-         $weekDates = week_dates($weekid,$year);
+         $weekDates = Tools::week_dates($weekid,$year);
          $startTimestamp = $weekDates[1];
          $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
@@ -228,8 +242,6 @@ if(isset($_SESSION['userid'])) {
          // ConsistencyCheck
          $consistencyErrors = getConsistencyErrors($timeTracking);
          if(count($consistencyErrors) > 0) {
-            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
             $smartyHelper->assign('ccheckErrList', $consistencyErrors);
          }
       }
