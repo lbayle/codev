@@ -321,23 +321,14 @@ function getResolvedIssuesInDrift(array $issueList, $isManager=false, $withSuppo
  * @return mixed[]
  */
 function getCheckWarnings(TimeTracking $timeTracking) {
-   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
-      "FROM  `codev_team_user_table`, `mantis_user_table` ".
-      "WHERE  codev_team_user_table.team_id = $timeTracking->team_id ".
-      "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-      "ORDER BY mantis_user_table.username";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
+   $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
    $warnings = NULL;
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $incompleteDays = $timeTracking->checkCompleteDays($row->user_id, TRUE);
+   foreach($team->getMembers() as $userid => $username) {
+      $incompleteDays = $timeTracking->checkCompleteDays($userid, TRUE);
       foreach ($incompleteDays as $date => $value) {
          if ($value < 1) {
             $warnings[] = array(
-                'user' => $row->username,
+               'user' => $username,
                'date' => date("Y-m-d", $date),
                'desc' => T_("incomplete").' ('.T_('missing').' '.(1-$value).' '.T_('day').')',
                'severity' => T_("Error"),
@@ -345,7 +336,7 @@ function getCheckWarnings(TimeTracking $timeTracking) {
             );
          } else {
             $warnings[] = array(
-               'user' => $row->username,
+               'user' => $username,
                'date' => date("Y-m-d", $date),
                'desc' => T_("inconsistent").' ('.$value.' '.T_('day').')',
                'severity' => T_("Error"),
@@ -354,10 +345,10 @@ function getCheckWarnings(TimeTracking $timeTracking) {
          }
       }
 
-      $missingDays = $timeTracking->checkMissingDays($row->user_id);
+      $missingDays = $timeTracking->checkMissingDays($userid);
       foreach ($missingDays as $date) {
          $warnings[] = array(
-             'user' => $row->username,
+            'user' => $username,
             'date' => date("Y-m-d", $date),
             'desc' => T_("not defined."),
             'severity' => T_("Error"),
