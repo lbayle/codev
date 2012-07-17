@@ -26,19 +26,18 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-require_once('productivity_report_tools.php');
+require_once('reports/productivity_report_tools.php');
 
-require_once('classes/issue_cache.class.php');
-require_once('classes/jobs.class.php');
-include_once('classes/period_stats.class.php');
-require_once('classes/project_cache.class.php');
-require_once('classes/sqlwrapper.class.php');
-require_once('classes/team.class.php');
-require_once('classes/team_cache.class.php');
-require_once('classes/time_tracking.class.php');
-require_once('classes/timetrack_cache.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/issue_selection.class.php');
+include_once('classes/jobs.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/time_tracking.class.php');
+include_once('classes/user_cache.class.php');
 
-$logger = Logger::getLogger("productivity_report");
+require_once('tools.php');
 
 /**
  * @param int $teamid
@@ -46,7 +45,7 @@ $logger = Logger::getLogger("productivity_report");
  * @return mixed[]
  */
 function getTeamProjects($teamid, $defaultProjectid) {
-   // --- Project List
+   // Project List
    $query  = "SELECT mantis_project_table.id, mantis_project_table.name ".
       "FROM `codev_team_project_table`, `mantis_project_table` ".
       "WHERE codev_team_project_table.team_id = $teamid ".
@@ -56,6 +55,7 @@ function getTeamProjects($teamid, $defaultProjectid) {
    if (!$result) {
       return NULL;
    }
+   $projList = NULL;
    if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $projList[$row->id] = $row->name;
@@ -85,7 +85,7 @@ function getFormattedReopenedTaks(TimeTracking $timeTracking) {
    $formatedTasks = NULL;
    foreach ($timeTracking->getReopened() as $bug_id) {
       $issue = IssueCache::getInstance()->getIssue($bug_id);
-      $formatedTasks[] = issueInfoURL($issue->bugId, '['.$issue->getProjectName().'] '.$issue->summary);
+      $formatedTasks[] = Tools::issueInfoURL($issue->bugId, '['.$issue->getProjectName().'] '.$issue->summary);
    }
    return $formatedTasks;
 }
@@ -99,7 +99,7 @@ function getProductionDaysUrl(TimeTracking $timeTracking) {
    $formatedValues = $timeTracking->getProdDays().':'.$managementDay.':'.($timeTracking->getProdDaysSideTasks(false) - $managementDay);
    $formatedLegends = T_('Projects').':'.T_('Project Management').':'.T_('Other SideTasks');
    $colors = '#92C5FC'.':'.'#FFC16B'.':'.'#FFF494';
-   return SmartUrlEncode('colors='.$colors.'&legends='.$formatedLegends.'&values='.$formatedValues);
+   return Tools::SmartUrlEncode('colors='.$colors.'&legends='.$formatedLegends.'&values='.$formatedValues);
 }
 
 /**
@@ -109,8 +109,8 @@ function getProductionDaysUrl(TimeTracking $timeTracking) {
  */
 function getWorkingDaysPerJob(TimeTracking $timeTracking, $teamid) {
    // find out which jobs must be displayed
-   $projList = Team::getProjectList($teamid);
    $team = TeamCache::getInstance()->getTeam($teamid);
+   $projList = $team->getProjects();
    $jobList  = array();
    foreach ($projList as $id => $pname) {
       $p = ProjectCache::getInstance()->getProject($id);
@@ -152,8 +152,9 @@ function getWorkingDaysPerJobUrl(array $workingDaysPerJobs) {
    }
 
    if (NULL != $formatedValues) {
-      return SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues.'&colors='.$formatedColors);
+      return Tools::SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues.'&colors='.$formatedColors);
    }
+   return NULL;
 }
 
 /**
@@ -214,7 +215,7 @@ function getWorkingDaysPerProjectUrl(array $workingDaysPerProject) {
    }
 
    if (NULL != $formatedValues) {
-      return SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues);
+      return Tools::SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues);
    } else {
       return NULL;
    }
@@ -294,8 +295,10 @@ function getResolvedDeviationStats(array $issueList, $withSupport = true) {
  * @return mixed[]
  */
 function getResolvedIssuesInDrift(array $issueList, $isManager=false, $withSupport=true) {
+   $resolvedIssuesInDrift = NULL;
    foreach ($issueList as $issue) {
       // TODO: check if issue in team project list ?
+      $driftMgrEE = 0;
       if ($isManager) {
          $driftMgrEE = $issue->getDriftMgr($withSupport);
       }
@@ -303,7 +306,7 @@ function getResolvedIssuesInDrift(array $issueList, $isManager=false, $withSuppo
 
       if (($isManager && $driftMgrEE > 0) || ($driftEE > 0)) {
          $resolvedIssuesInDrift[] = array(
-            "issueURL" => issueInfoURL($issue->bugId),
+            "issueURL" => Tools::issueInfoURL($issue->bugId),
             "projectName" => $issue->getProjectName(),
             "driftMgrEE" => $driftMgrEE,
             "driftEE" => $driftEE,
@@ -369,23 +372,26 @@ if(isset($_SESSION['userid'])) {
 
    $teamList = $session_user->getTeamList();
    if (0 != count($teamList)) {
-      $weekDates = week_dates(date('W'),date('Y'));
+      $weekDates = Tools::week_dates(date('W'),date('Y'));
 
-      $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-      $teamid = isset($_POST['teamid']) ? $_POST['teamid'] : $defaultTeam;
-      $_SESSION['teamid'] = $teamid;
+      if(isset($_POST['teamid'])) {
+         $teamid = Tools::getSecurePOSTIntValue('teamid');
+         $_SESSION['teamid'] = $teamid;
+      } else {
+         $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+      }
 
-      $smartyHelper->assign('teams', getTeams($teamList,$teamid));
+      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
 
-      $startdate = isset($_POST["startdate"]) ? $_POST["startdate"] : date("Y-m-d", $weekDates[1]);
+      $startdate = Tools::getSecurePOSTStringValue('startdate', date("Y-m-d", $weekDates[1]));
       $smartyHelper->assign('startDate', $startdate);
 
-      $enddate = isset($_POST["enddate"]) ? $_POST["enddate"] : date("Y-m-d", $weekDates[5]);
+      $enddate = Tools::getSecurePOSTStringValue('enddate', date("Y-m-d", $weekDates[5]));
       $smartyHelper->assign('endDate', $enddate);
 
       if (0 != $teamid) {
-         $startTimestamp = date2timestamp($startdate);
-         $endTimestamp = date2timestamp($enddate);
+         $startTimestamp = Tools::date2timestamp($startdate);
+         $endTimestamp = Tools::date2timestamp($enddate);
          $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
@@ -455,12 +461,9 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRate() * 100, 1));
          $smartyHelper->assign('formattedReopenedTaks', getFormattedReopenedTaks($timeTracking));
 
-         // --- warnings
+         // warnings
          $consistencyErrors = getCheckWarnings($timeTracking);
-         $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
-
       }
    }
 }
