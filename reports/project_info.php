@@ -2,42 +2,45 @@
 include_once('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-include_once "issue.class.php";
-include_once "project.class.php";
-include_once "time_track.class.php";
-include_once "user.class.php";
-include_once "jobs.class.php";
-include_once "holidays.class.php";
-include_once "project_version.class.php";
+require('classes/smarty_helper.class.php');
+
+include_once('classes/issue_selection.class.php');
+include_once('classes/user_cache.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/project_version.class.php');
+
+require_once('tools.php');
+
+require_once('i18n/i18n.inc.php');
 
 /**
  * Get versions overview
  * @param Project $project
- * @return array
+ * @return mixed[]
  */
-function getVersionsOverview($project) {
+function getVersionsOverview(Project $project) {
    $versionsOverview = NULL;
    $projectVersionList = $project->getVersionList();
    foreach ($projectVersionList as $version => $pv) {
@@ -94,10 +97,10 @@ function getVersionsOverview($project) {
 
 /**
  * Get detailed mgr versions
- * @param array $projectVersionList
- * @return array
+ * @param Project $project
+ * @return mixed[]
  */
-function getVersionsDetailedMgr($project) {
+function getVersionsDetailedMgr(Project $project) {
    $versionsDetailedMgr = NULL;
    $totalEffortEstimMgr = 0;
    $totalElapsed = 0;
@@ -114,7 +117,6 @@ function getVersionsDetailedMgr($project) {
       $allProjectVersions->addIssue($bugid);
    }
    $projectVersionList[T_("Total")] = $allProjectVersions;
-
 
    foreach ($projectVersionList as $version => $pv) {
       $totalEffortEstimMgr += $pv->mgrEffortEstim;
@@ -145,10 +147,10 @@ function getVersionsDetailedMgr($project) {
 
 /**
  * Get detailed versions
- * @param array $projectVersionList
- * @return array
+ * @param ProjectVersion[] $projectVersionList
+ * @return mixed[]
  */
-function getVersionsDetailed($projectVersionList) {
+function getVersionsDetailed(array $projectVersionList) {
    $versionsDetailed = NULL;
    $totalDrift = 0;
    $totalEffortEstim = 0;
@@ -195,10 +197,10 @@ function getVersionsDetailed($projectVersionList) {
 
 /**
  * Get version issues
- * @param array $projectVersionList
- * @return array
+ * @param ProjectVersion[] $projectVersionList
+ * @return mixed[]
  */
-function getVersionsIssues($projectVersionList) {
+function getVersionsIssues(array $projectVersionList) {
    global $status_new;
    $versionsIssues = NULL;
    $totalElapsed = 0;
@@ -218,20 +220,20 @@ function getVersionsIssues($projectVersionList) {
             if ("" != $formatedNewList) {
                $formatedNewList .= ', ';
             }
-            $formatedNewList .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
+            $formatedNewList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
 
          } elseif ($issue->currentStatus >= $issue->getBugResolvedStatusThreshold()) {
             if ("" != $formatedResolvedList) {
                $formatedResolvedList .= ', ';
             }
             $title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->summary;
-            $formatedResolvedList .= issueInfoURL($bugid, $title);
+            $formatedResolvedList .= Tools::issueInfoURL($bugid, $title);
          } else {
             if ("" != $formatedOpenList) {
                $formatedOpenList .= ', ';
             }
             $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->summary;
-            $formatedOpenList .= issueInfoURL($bugid, $title);
+            $formatedOpenList .= Tools::issueInfoURL($bugid, $title);
          }
       }
 
@@ -258,12 +260,12 @@ function getVersionsIssues($projectVersionList) {
 
 /**
  * Get all "non-resolved" issues that are in drift (ordered by version)
- * @param array $projectVersionList
+ * @param ProjectVersion[] $projectVersionList
  * @param boolean $isManager
  * @param boolean $withSupport
- * @return array
+ * @return mixed[]
  */
-function getCurrentIssuesInDrift($projectVersionList, $isManager, $withSupport = true) {
+function getCurrentIssuesInDrift(array $projectVersionList, $isManager, $withSupport = true) {
    $currentIssuesInDrift = NULL;
    foreach ($projectVersionList as $version => $pv) {
       foreach ($pv->getIssueList() as $bugid => $issue) {
@@ -293,8 +295,8 @@ function getCurrentIssuesInDrift($projectVersionList, $isManager, $withSupport =
                $driftColor = "style='background-color: #fcbdbd;'";
             }
 
-            $currentIssuesInDrift[] = array('issueURL' => issueInfoURL($issue->bugId),
-                                            'mantisURL' => mantisIssueURL($issue->bugId, NULL, true),
+            $currentIssuesInDrift[] = array('issueURL' => Tools::issueInfoURL($issue->bugId),
+                                            'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
                                             'projectName' => $issue->getProjectName(),
                                             'targetVersion' => $issue->getTargetVersion(),
                                             'driftMgrColor' => $driftMgrColor,
@@ -315,12 +317,12 @@ function getCurrentIssuesInDrift($projectVersionList, $isManager, $withSupport =
 
 /**
  * Get all resolved issues that are in drift (ordered by version)
- * @param array $projectVersionList
+ * @param ProjectVersion[] $projectVersionList
  * @param boolean $isManager
  * @param boolean $withSupport
- * @return array
+ * @return mixed[]
  */
-function getResolvedIssuesInDrift($projectVersionList, $isManager, $withSupport = true) {
+function getResolvedIssuesInDrift(array $projectVersionList, $isManager, $withSupport = true) {
    $resolvedIssuesInDrift = NULL;
    foreach ($projectVersionList as $version => $pv) {
       foreach ($pv->getIssueList() as $bugid => $issue) {
@@ -350,8 +352,8 @@ function getResolvedIssuesInDrift($projectVersionList, $isManager, $withSupport 
                $driftColor = "style='background-color: #fcbdbd;'";
             }
 
-            $resolvedIssuesInDrift[] = array('issueURL' => issueInfoURL($issue->bugId),
-                                             'mantisURL' => mantisIssueURL($issue->bugId, NULL, true),
+            $resolvedIssuesInDrift[] = array('issueURL' => Tools::issueInfoURL($issue->bugId),
+                                             'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
                                              'projectName' => $issue->getProjectName(),
                                              'targetVersion' => $issue->getTargetVersion(),
                                              'driftMgrColor' => $driftMgrColor,
@@ -371,32 +373,27 @@ function getResolvedIssuesInDrift($projectVersionList, $isManager, $withSupport 
 }
 
 // ================ MAIN =================
-require('display.inc.php');
-
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Project Info'));
+$smartyHelper->assign('pageName', 'Project Info');
 
 if(isset($_SESSION['userid'])) {
-   $session_userid = $_SESSION['userid'];
-   $user = UserCache::getInstance()->getUser($session_userid);
+   $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-   $dTeamList = $user->getDevTeamList();
-   $lTeamList = $user->getLeadedTeamList();
-   $oTeamList = $user->getObservedTeamList();
-   $managedTeamList = $user->getManagedTeamList();
-   $teamList = $dTeamList + $lTeamList + $oTeamList + $managedTeamList;
-
+   $teamList = $user->getTeamList();
    if (0 != count($teamList)) {
       // --- define the list of tasks the user can display
       // All projects from teams where I'm a Developper or Manager AND Observers
+      $dTeamList = $user->getDevTeamList();
       $devProjList      = (0 == count($dTeamList))       ? array() : $user->getProjectList($dTeamList);
+      $managedTeamList = $user->getManagedTeamList();
       $managedProjList  = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
+      $oTeamList = $user->getObservedTeamList();
       $observedProjList = (0 == count($oTeamList))       ? array() : $user->getProjectList($oTeamList);
       $projList = $devProjList + $managedProjList + $observedProjList;
 
       $projectid = 0;
       if(isset($_GET['projectid'])) {
-         $projectid = $_GET['projectid'];
+         $projectid = Tools::getSecureGETIntValue('projectid');
          $_SESSION['projectid'] = $projectid;
       }
       else if(isset($_SESSION['projectid'])) {
@@ -407,7 +404,7 @@ if(isset($_SESSION['userid'])) {
          $projectid = $projectsid[0];
       }
 
-      $smartyHelper->assign('projects', getProjects($projList,$projectid));
+      $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$projectid));
 
       if (in_array($projectid, array_keys($projList))) {
          $isManager = true; // TODO
@@ -430,10 +427,10 @@ if(isset($_SESSION['userid'])) {
 
          $smartyHelper->assign("resolvedIssuesInDrift", getResolvedIssuesInDrift($projectVersionList, $isManager));
       } else if ($projectid) {
-         $smartyHelper->assign("error", T_("Sorry, you are not allowed to view the details of this project"));
+         $smartyHelper->assign("error", "Sorry, you are not allowed to view the details of this project");
       }
    } else {
-      $smartyHelper->assign("error", T_("Sorry, you need to be member of a Team to access this page."));
+      $smartyHelper->assign("error", "Sorry, you need to be member of a Team to access this page.");
    }
 }
 
