@@ -1,23 +1,22 @@
 <?php
-
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-  This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-  CoDev-Timetracking is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CoDev-Timetracking is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 require('../path.inc.php');
 
@@ -27,20 +26,28 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('classes/issue.class.php');
-include_once('classes/team.class.php');
+include_once('classes/issue_selection.class.php');
+include_once('classes/team_cache.class.php');
 include_once('classes/time_tracking.class.php');
 include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("forecasting");
 
 /**
  * display Drifts for Issues that have NOT been marked as 'Resolved' until now
+ * @param int $teamid
+ * @param int $threshold
+ * @param bool $withSupport
+ * @return mixed[]
  */
 function getCurrentDeviationStats($teamid, $threshold = 1, $withSupport = true) {
    global $logger;
 
-   $issueList = Team::getCurrentIssues($teamid, true, false);
+   $issueList = TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList(true, false);
 
    if ((NULL == $issueList) || (0 == count($issueList))) {
       $logger->info("getCurrentDeviationStats: No opened issues for team $teamid");
@@ -58,7 +65,6 @@ function getCurrentDeviationStats($teamid, $threshold = 1, $withSupport = true) 
    $currentDeviationStats['totalDeviationMgr'] = $issueSelection->getDriftMgr();
    $currentDeviationStats['totalDeviation'] = $issueSelection->getDrift();
 
-
    $posDriftMgr = $deviationGroupsMgr['positive']->getDriftMgr();
    $posDrift = $deviationGroups['positive']->getDrift();
    $currentDeviationStats['nbIssuesPosMgr'] = $deviationGroupsMgr['positive']->getNbIssues();
@@ -67,7 +73,6 @@ function getCurrentDeviationStats($teamid, $threshold = 1, $withSupport = true) 
    $currentDeviationStats['nbDaysPos'] = $posDrift['nbDays'];
    $currentDeviationStats['issuesPosMgr'] = $deviationGroupsMgr['positive']->getFormattedIssueList();
    $currentDeviationStats['issuesPos'] = $deviationGroups['positive']->getFormattedIssueList();
-
 
    $equalDriftMgr = $deviationGroupsMgr['equal']->getDriftMgr();
    $equalDrift = $deviationGroups['equal']->getDrift();
@@ -98,8 +103,9 @@ function getCurrentDeviationStats($teamid, $threshold = 1, $withSupport = true) 
 function getIssuesInDrift($teamid, $withSupport = true) {
    global $logger;
 
-   $mList = Team::getMemberList($teamid);
-   $projList = Team::getProjectList($teamid);
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   $mList = $team->getMembers();
+   $projList = $team->getProjects();
 
    $issueArray = NULL;
 
@@ -119,7 +125,7 @@ function getIssuesInDrift($teamid, $withSupport = true) {
          $driftEE = $issue->getDrift($withSupport);
          if (($driftPrelEE > 0) || ($driftEE > 0)) {
             $issueArray[] = array(
-                'bugId' => issueInfoURL($issue->bugId),
+                'bugId' => Tools::issueInfoURL($issue->bugId),
                 'handlerName' => $user->getName(),
                 'projectName' => $issue->getProjectName(),
                 'targetVersion' => $issue->getTargetVersion(),
@@ -140,40 +146,41 @@ function getIssuesInDrift($teamid, $withSupport = true) {
  * TODO factorize: this function also exists in statistics.php
  * Display 'Available Workload'
  * nb of days.: (holidays & externalTasks not included, developers only)
- * @param $width
- * @param $height
- * @param $legend
- * @param $bottomLabel
+ * @param int $width
+ * @param int $height
+ * @param number[] $legend
+ * @param string[] $bottomLabel
  * @return string
  */
-function getGraphUrl($width, $height, $legend, $bottomLabel) {
+function getGraphUrl($width, $height, array $legend, array $bottomLabel) {
    $title = 'title=' . T_("Available Workload");
    $dimension = 'width=' . $width . '&height=' . $height;
    $bottomLabel = 'bottomLabel=' . implode(':', $bottomLabel);
    $legend = 'leg1=' . T_("man-days") . '&x1=' . implode(':', $legend);
-   return SmartUrlEncode('graphs/two_lines.php?displayPointLabels&' . $title . '&' . $dimension . '&' . $bottomLabel . '&' . $legend);
+   return Tools::SmartUrlEncode('graphs/two_lines.php?displayPointLabels&' . $title . '&' . $dimension . '&' . $bottomLabel . '&' . $legend);
 }
 
 /**
- * @param $timeTrackingTable
- * @param $val1
- * @return array
+ * @param TimeTracking[] $timeTrackingTable
+ * @param int[] $val1
+ * @return int[]
  */
-function getDates($timeTrackingTable, $val1) {
+function getDates(array $timeTrackingTable, array $val1) {
    $i = 0;
+   $availableWorkloadGraph = NULL;
    foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-      $availableWorkloadGraph[formatDate("%B %Y", $startTimestamp)] = round($val1[$i], 1);
+      $availableWorkloadGraph[Tools::formatDate("%B %Y", $startTimestamp)] = round($val1[$i], 1);
       $i++;
    }
    return $availableWorkloadGraph;
 }
 
 /**
- *
- * @param unknown_type $start_day
- * @param unknown_type $start_month
- * @param unknown_type $start_year
+ * @param int $start_day
+ * @param int $start_month
+ * @param int $start_year
  * @param int $teamid
+ * @return TimeTracking[]
  */
 function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) {
    $timeTrackingTable = array();
@@ -220,21 +227,21 @@ if (isset($_SESSION['userid'])) {
    $teamList = $session_user->getTeamList();
 
    if (count($teamList) > 0) {
-      $teams = getSmartyArray($teamList, $teamid);
+      $teams = SmartyTools::getSmartyArray($teamList, $teamid);
       $smartyHelper->assign('teams', $teams);
       
       if (isset($_GET['teamid']) && array_key_exists($teamid, $teams)) {
          $withSupport = true;
 
-         $weekDates = week_dates(date('W'), date('Y'));
+         $weekDates = Tools::week_dates(date('W'), date('Y'));
 
          // The first day of the current week
          $startDate = date("Y-m-d", $weekDates[1]);
-         $startTimestamp = date2timestamp($startDate);
+         $startTimestamp = Tools::date2timestamp($startDate);
          #echo "DEBUG startTimestamp ".date("Y-m-d H:i:s", $startTimestamp)."<br/>";
          // The last day of the current week
          $endDate = date("Y-m-d", $weekDates[5]);
-         $endTimestamp = date2timestamp($endDate);
+         $endTimestamp = Tools::date2timestamp($endDate);
          $endTimestamp += 24 * 60 * 60 - 1; // + 1 day -1 sec.
          #echo "DEBUG endTimestamp   ".date("Y-m-d H:i:s", $endTimestamp)."<br/>";
 
@@ -258,7 +265,7 @@ if (isset($_SESSION['userid'])) {
          $timeTrackingTable = createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
          foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
             $val1[] = $timeTracking->getAvailableWorkload();
-            $bottomLabel[] = formatDate("%b %y", $startTimestamp);
+            $bottomLabel[] = Tools::formatDate("%b %y", $startTimestamp);
             #$logger->debug("workload=$workload date=".formatDate("%b %y", $startTimestamp));
          }
          $smartyHelper->assign('graphUrl', getGraphUrl(800, 300, $val1, $bottomLabel));
