@@ -16,12 +16,15 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('lib/log4php/Logger.php');
-
 include_once('classes/config.class.php');
-include_once('classes/issue.class.php');
+include_once('classes/holidays.class.php');
+include_once('classes/jobs.class.php');
 include_once('classes/timetrack_cache.class.php');
 include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("issue_info_tools");
 
@@ -30,7 +33,7 @@ $logger = Logger::getLogger("issue_info_tools");
  * @param Issue $issue The issue
  * @param bool $isManager if true: show MgrEffortEstim column
  * @param bool $displaySupport If true, display support
- * @return mixed[string]
+ * @return mixed[]
  */
 function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=false) {
    $withSupport = true;  // include support in elapsed & Drift
@@ -40,8 +43,8 @@ function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=fal
       "issueId" => $issue->bugId,
       "issueSummary" => htmlspecialchars($issue->summary),
       "issueExtRef" => $issue->tcId,
-      'mantisURL'=> mantisIssueURL($issue->bugId, NULL, true),
-      'issueURL' => mantisIssueURL($issue->bugId),
+      'mantisURL'=> Tools::mantisIssueURL($issue->bugId, NULL, true),
+      'issueURL' => Tools::mantisIssueURL($issue->bugId),
       'statusName'=> $issue->getCurrentStatusName(),
       'handlerName'=> UserCache::getInstance()->getUser($issue->handlerId)->getName(),
 
@@ -81,9 +84,8 @@ function getIssueGeneralInfo(Issue $issue, $isManager=false, $displaySupport=fal
 }
 
 /**
- * @param Command $cmd
- * @param int $selectedCmdsetId
- * @return type
+ * @param Issue $issue The issue
+ * @return mixed[] Commands
  */
 function getParentCommands(Issue $issue) {
    $commands = array();
@@ -102,11 +104,10 @@ function getParentCommands(Issue $issue) {
    return $commands;
 }
 
-
 /**
  * Get job details of an issue
  * @param array $timeTracks
- * @return mixed[string]
+ * @return mixed[]
  */
 function getJobDetails(array $timeTracks) {
    $durationByJob = array();
@@ -134,17 +135,17 @@ function getJobDetails(array $timeTracks) {
 /**
  * Get time drift of an issue
  * @param Issue $issue The issue
- * @return mixed[string]
+ * @return mixed[]
  */
 function getTimeDrift(Issue $issue) {
    $timeDriftSmarty = array();
 
    if (NULL != $issue->getDeadLine()) {
-      $timeDriftSmarty["deadLine"] = formatDate("%d %b %Y", $issue->getDeadLine());
+      $timeDriftSmarty["deadLine"] = Tools::formatDate("%d %b %Y", $issue->getDeadLine());
    }
 
    if (NULL != $issue->deliveryDate) {
-      $timeDriftSmarty["deliveryDate"] = formatDate("%d %b %Y", $issue->deliveryDate);
+      $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->deliveryDate);
    }
 
    $timeDrift = $issue->getTimeDrift();
@@ -159,8 +160,8 @@ function getTimeDrift(Issue $issue) {
 /**
  * Get the calendar of an issue
  * @param Issue $issue The issue
- * @param array $trackList
- * @return array
+ * @param int[] $trackList
+ * @return mixed[]
  */
 function getCalendar(Issue $issue, array $trackList) {
    $months = NULL;
@@ -179,8 +180,8 @@ function getCalendar(Issue $issue, array $trackList) {
  * @param int $month
  * @param int $year
  * @param Issue $issue The issue
- * @param array $trackList
- * @return mixed[string]
+ * @param int[] $trackList
+ * @return mixed[]
  */
 function getMonth($month, $year, Issue $issue, array $trackList) {
    $totalDuration = 0;
@@ -199,7 +200,7 @@ function getMonth($month, $year, Issue $issue, array $trackList) {
    if (0 == $found) { return NULL; }
 
    $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
-   $monthFormated = formatDate("%B %Y", $monthTimestamp);
+   $monthFormated = Tools::formatDate("%B %Y", $monthTimestamp);
    $nbDaysInMonth = date("t", $monthTimestamp);
 
    $months = array();
@@ -267,7 +268,7 @@ function getMonth($month, $year, Issue $issue, array $trackList) {
 /**
  * Table Repartition du temps par status
  * @param Issue $issue The issue
- * @return mixed[string]
+ * @return mixed[]
  */
 function getDurationsByStatus(Issue $issue) {
    global $logger;
@@ -288,7 +289,7 @@ function getDurationsByStatus(Issue $issue) {
    try {
       if (!$issue->isSideTaskIssue()) {
          foreach($issue->statusList as $status_id => $status) {
-            $durations[] = getDurationLiteral($status->duration);
+            $durations[] = Tools::getDurationLiteral($status->duration);
          }
       }
    } catch (Exception $e) {

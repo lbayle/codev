@@ -2,20 +2,20 @@
 require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
@@ -28,12 +28,13 @@ require('classes/smarty_helper.class.php');
 
 require_once('reports/issue_info_tools.php');
 
+include_once('classes/consistency_check2.class.php');
 include_once('classes/issue_cache.class.php');
 include_once('classes/user_cache.class.php');
-include_once('classes/consistency_check2.class.php');
+
+require_once('tools.php');
 
 // ========== MAIN ===========
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Task Info');
 
@@ -59,7 +60,7 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign('support', $displaySupport);
       }
 
-      $bug_id = getSecureGETIntValue('bugid', 0);
+      $bug_id = Tools::getSecureGETIntValue('bugid', 0);
       $bugs = NULL;
       $projects = NULL;
       if($bug_id != 0) {
@@ -67,7 +68,7 @@ if(isset($_SESSION['userid'])) {
             $issue = IssueCache::getInstance()->getIssue($bug_id);
 
             $defaultProjectid = $issue->projectId;
-            $bugs = getBugs($defaultProjectid, $bug_id);
+            $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id);
             if (array_key_exists($bug_id,$bugs)) {
                $consistencyErrors = NULL;
                $ccheck = new ConsistencyCheck2(array($issue));
@@ -80,9 +81,6 @@ if(isset($_SESSION['userid'])) {
                         'desc' => $cerr->desc
                      );
                   }
-                  $smartyHelper->assign('consistencyErrors', $consistencyErrors);
-                  $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-                  $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
                   $smartyHelper->assign('ccheckErrList', $consistencyErrors);
                }
 
@@ -101,7 +99,7 @@ if(isset($_SESSION['userid'])) {
                $smartyHelper->assign('parentCommands', $parentCmds);
                $smartyHelper->assign('nbParentCommands', count($parentCmds));
             }
-            $projects = getProjects($projList,$defaultProjectid);
+            $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
             $_SESSION['projectid'] = $defaultProjectid;
          } catch (Exception $e) {
             // TODO display ERROR "issue not found in mantis DB !"
@@ -111,11 +109,11 @@ if(isset($_SESSION['userid'])) {
          $defaultProjectid = 0;
          if((isset($_SESSION['projectid'])) && (0 != $_SESSION['projectid'])) {
             $defaultProjectid = $_SESSION['projectid'];
-            $bugs = getBugs($defaultProjectid, $bug_id);
+            $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id);
          } else {
-            $bugs = getBugs($defaultProjectid, $bug_id, $projList);
+            $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id, $projList);
          }
-         $projects = getProjects($projList,$defaultProjectid);
+         $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
       }
       $smartyHelper->assign('bugs', $bugs);
       $smartyHelper->assign('projects', $projects);
