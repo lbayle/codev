@@ -34,10 +34,6 @@ include_once('classes/user_cache.class.php');
 
 require_once('tools.php');
 
-require_once('lib/log4php/Logger.php');
-
-$logger = Logger::getLogger("team_activity");
-
 /**
  * @param int $i
  * @param Holidays $holidays
