@@ -1,19 +1,19 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 // TODO Remove this import
@@ -812,8 +812,8 @@ class Issue {
    }
 
    /**
-    * @param int $user_id
-    * @return array
+    * @param int $user_id The user id
+    * @return int[]
     */
    public function getTimeTracks($user_id = NULL) {
       $timeTracks = array();
@@ -839,26 +839,12 @@ class Issue {
    }
 
    /**
-    * @param int $user_id
-    * @return unknown_type the date of the oldest TimeTrack
+    * @param int $user_id The user id
+    * @return int the date of the oldest TimeTrack
     */
    public function getStartTimestamp($user_id = NULL) {
-      $query     = "SELECT id, date FROM `codev_timetracking_table` ".
-         "WHERE bugid=$this->bugId ";
-
-      if (isset($user_id)) {
-         $query .= "AND userid = $user_id";
-      }
-      $query .= " ORDER BY date";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-
-      return $row->date;
+      // reset return the first element of an array
+      return reset($this->getTimeTracks($user_id));
    }
 
    /**
