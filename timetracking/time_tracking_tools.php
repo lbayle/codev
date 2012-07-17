@@ -370,10 +370,20 @@ function getIssues($projectid, $isOnlyAssignedTo, $userid, array $projList, $isH
    $issues = NULL;
    foreach ($issueList as $issue) {
       //$issue = IssueCache::getInstance()->getIssue($bugid);
-      $issues[] = array('id' => $issue->bugId,
+      $issues[$issue->bugId] = array('id' => $issue->bugId,
          'tcId' => $issue->tcId,
          'summary' => $issue->summary,
          'selected' => $issue->bugId == $defaultBugid);
+   }
+
+   // If the default bug is filtered, we add it anyway
+   if(!array_key_exists($defaultBugid,$issues) && $defaultBugid != 0) {
+      $issue = IssueCache::getInstance()->getIssue($defaultBugid);
+      $issues[$issue->bugId] = array('id' => $issue->bugId,
+         'tcId' => $issue->tcId,
+         'summary' => $issue->summary,
+         'selected' => $issue->bugId == $defaultBugid);
+      krsort($issues);
    }
 
    return $issues;
