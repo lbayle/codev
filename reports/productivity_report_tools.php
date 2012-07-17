@@ -1,29 +1,31 @@
 <?php
-
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "project.class.php";
-include_once "time_tracking.class.php";
+include_once('classes/issue_cache.class.php');
+include_once('classes/project.class.php');
+include_once('classes/sqlwrapper.class.php');
+
+require_once('tools.php');
 
 /**
  * @param TimeTracking $timeTracking
  * @param int $projectId
- * @return array
+ * @return mixed[]
  */
 function getProjectDetails(TimeTracking $timeTracking, $projectId) {
    $durationPerCategory = array();
@@ -36,7 +38,7 @@ function getProjectDetails(TimeTracking $timeTracking, $projectId) {
 
          if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
          $issue = IssueCache::getInstance()->getIssue($bugid);
-         $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
+         $formatedBugsPerCategory[$catName] .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
       }
    }
 
@@ -45,11 +47,9 @@ function getProjectDetails(TimeTracking $timeTracking, $projectId) {
 
 /**
  * @param TimeTracking $timeTracking
- * @return array
+ * @return mixed[]
  */
 function getSideTasksProjectDetails(TimeTracking $timeTracking) {
-   global $logger;
-
    $sideTaskProjectType = Project::type_sideTaskProject;
 
    // find all sideTasksProjects (type = 1)
@@ -59,7 +59,7 @@ function getSideTasksProjectDetails(TimeTracking $timeTracking) {
       "AND type = $sideTaskProjectType";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
-      return;
+      return NULL;
    }
 
    $durationPerCategory = array();
@@ -73,14 +73,20 @@ function getSideTasksProjectDetails(TimeTracking $timeTracking) {
 
             if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
             $issue = IssueCache::getInstance()->getIssue($bugid);
-            $formatedBugsPerCategory[$catName] .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
+            $formatedBugsPerCategory[$catName] .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
          }
       }
    }
 
    return getProjectDetail($durationPerCategory, $formatedBugsPerCategory);
 }
-function getProjectDetail($durationPerCategory, $formatedBugsPerCategory) {
+
+/**
+ * @param int[] $durationPerCategory
+ * @param string[] $formatedBugsPerCategory
+ * @return mixed[]
+ */
+function getProjectDetail(array $durationPerCategory, array $formatedBugsPerCategory) {
    $projectDetails = NULL;
    foreach ($durationPerCategory as $catName => $duration) {
       $projectDetails[] = array(
@@ -94,7 +100,7 @@ function getProjectDetail($durationPerCategory, $formatedBugsPerCategory) {
 }
 
 /**
- * @param array $projectDetails
+ * @param array[] $projectDetails
  * @return string
  */
 function getProjectDetailsUrl(array $projectDetails) {
@@ -111,8 +117,9 @@ function getProjectDetailsUrl(array $projectDetails) {
    }
 
    if (NULL != $formatedValues) {
-      return SmartUrlEncode("legends=$formatedLegends&values=$formatedValues");
+      return Tools::SmartUrlEncode("legends=$formatedLegends&values=$formatedValues");
    }
+   return NULL;
 }
 
 ?>
