@@ -1,6 +1,4 @@
 <?php
-include_once('../include/session.inc.php');
-
 /*
    This file is part of CoDev-Timetracking.
 
@@ -18,8 +16,21 @@ include_once('../include/session.inc.php');
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('../path.inc.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/user_cache.class.php');
 
+require_once('tools.php');
+
+/**
+ * @param int $teamid
+ * @param int $startTimestamp
+ * @param int $endTimestamp
+ * @param string $myFile
+ * @return string
+ */
 function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile) {
    $sepChar=';';
 
@@ -51,9 +62,7 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
                  "\n";
    fwrite($fh, $stringData);
 
-
-   // ---
-   $projList   = Team::getProjectList($teamid);
+   $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
    $formatedProjList = implode( ', ', array_keys($projList));
 
    // Note: if you filter on TeamMembers, you won't have issues temporarily affected to other teams
@@ -73,7 +82,6 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
      exit;
    }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-
       	   $issue = IssueCache::getInstance()->getIssue($row->id, $row);
             $user = UserCache::getInstance()->getUser($issue->handlerId);
 
@@ -184,11 +192,11 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
 /**
  * creates for each project a table with the following fields:
  * TaskName | RAF | <Jobs>
-
- * @param unknown_type $timeTracking
- * @param unknown_type $myFile
+ * @param TimeTracking $timeTracking
+ * @param string $myFile
+ * @return string
  */
-function exportProjectActivityToCSV($timeTracking, $myFile) {
+function exportProjectActivityToCSV(TimeTracking $timeTracking, $myFile) {
   $sepChar=';';
   $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
 
@@ -235,16 +243,14 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
  * creates for each project a table with the following fields:
  * id | TC | startDate | endDate | status | total elapsed | elapsed + Remaining | elapsed in period | Remaining
  * TOTAL
- * @param unknown_type $timeTracking
- * @param unknown_type $myFile
+ * @param TimeTracking $timeTracking
+ * @param string $myFile
+ * @return string
  */
-function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
+function exportProjectMonthlyActivityToCSV(TimeTracking $timeTracking, $myFile) {
   $sepChar=';';
 
   $totalEffortEstim   = 0;
-  $totalElapsed       = 0;
-  $totalElapsedPeriod = 0;
-  $totalRemaining     = 0;
 
   $fh = fopen($myFile, 'w');
 
@@ -324,8 +330,16 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
 
 }
 
-// format: nom;prenom;trigramme;date de debut;date de fin;nb jours
-// format date: "jj/mm/aa"
+/**
+ * format: nom;prenom;trigramme;date de debut;date de fin;nb jours
+ * format date: "jj/mm/aa"
+ * @param int $month
+ * @param int $year
+ * @param int $teamid
+ * @param string $teamName
+ * @param string $path
+ * @return string
+ */
 function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
   $sepChar=';';
 
@@ -335,7 +349,7 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
   $endT   = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
 
    // create filename & open file
-   $myFile = $path.DIRECTORY_SEPARATOR.$teamName."_Holidays_".formatdate("%Y%m", $monthTimestamp).".csv";
+   $myFile = $path.DIRECTORY_SEPARATOR.$teamName."_Holidays_".Tools::formatdate("%Y%m", $monthTimestamp).".csv";
    $fh = fopen($myFile, 'w');
 
    $team = TeamCache::getInstance()->getTeam($teamid);

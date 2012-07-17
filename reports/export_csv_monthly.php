@@ -22,7 +22,7 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('../smarty_tools.php');
+require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
@@ -31,6 +31,10 @@ include_once('reports/export_csv_tools.php');
 include_once('classes/team_cache.class.php');
 include_once('classes/time_tracking.class.php');
 include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("export_csv");
 
@@ -51,10 +55,10 @@ if(isset($_SESSION['userid'])) {
 
    if (count($teamList) > 0) {
       $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-      $teamid = getSecurePOSTIntValue('teamid', $defaultTeam);
+      $teamid = Tools::getSecurePOSTIntValue('teamid', $defaultTeam);
       $_SESSION['teamid'] = $teamid;
 
-      $smartyHelper->assign('teams', getSmartyArray($teamList, $teamid));
+      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
       $team = TeamCache::getInstance()->getTeam($teamid);
       $formatedteamName = str_replace(" ", "_", $team->name);
@@ -64,15 +68,15 @@ if(isset($_SESSION['userid'])) {
       $year = date('Y');
 
       // The first day of the current month
-      $startdate = getSecurePOSTStringValue("startdate", formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year)));
+      $startdate = Tools::getSecurePOSTStringValue("startdate", Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year)));
       $smartyHelper->assign('startDate', $startdate);
-      $startTimestamp = date2timestamp($startdate);
+      $startTimestamp = Tools::date2timestamp($startdate);
 
       // The current date plus one year
       $nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
-      $enddate = getSecurePOSTStringValue("enddate", formatDate("%Y-%m-%d", mktime(23, 59, 59, $month, $nbDaysInMonth, $year)));
+      $enddate = Tools::getSecurePOSTStringValue("enddate", Tools::formatDate("%Y-%m-%d", mktime(23, 59, 59, $month, $nbDaysInMonth, $year)));
       $smartyHelper->assign('endDate', $enddate);
-      $endTimestamp = date2timestamp($enddate);
+      $endTimestamp = Tools::date2timestamp($enddate);
       $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
       if (isset($_POST['teamid']) && 0 != $teamid) {
