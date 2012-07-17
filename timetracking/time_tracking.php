@@ -1,40 +1,46 @@
 <?php
 require('../include/session.inc.php');
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
-require('../smarty_tools.php');
+require('smarty_tools.php');
 
-require_once('time_tracking_tools.php');
+require('classes/smarty_helper.class.php');
 
-include_once('user_cache.class.php');
-include_once('config.class.php');
-include_once('time_track.class.php');
-include_once('issue_cache.class.php');
+require_once('timetracking/time_tracking_tools.php');
+
+include_once('classes/config.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/time_track.class.php');
+include_once('classes/timetrack_cache.class.php');
+include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("time_tracking");
 
 // ================ MAIN =================
-require('display.inc.php');
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Time Tracking');
 
@@ -69,8 +75,8 @@ if($_SESSION['userid']) {
    if ($_POST['nextForm'] == "addTrackForm") {
       $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
-      $year   = getSecurePOSTIntValue('year',date('Y'));
-      $userid = getSecurePOSTIntValue('userid',$session_user->id);
+      $year   = Tools::getSecurePOSTIntValue('year',date('Y'));
+      $userid = Tools::getSecurePOSTIntValue('userid',$session_user->id);
 
       $managed_user = UserCache::getInstance()->getUser($userid);
 
@@ -81,7 +87,7 @@ if($_SESSION['userid']) {
             $smartyHelper->assign('userid', $userid);
 
          } else {
-            sendForbiddenAccess();
+            Tools::sendForbiddenAccess();
          }
       }
 
@@ -91,23 +97,23 @@ if($_SESSION['userid']) {
       $teamList = $mTeamList + $managedTeamList;
 
       // updateRemaining data
-      $remaining = getSecurePOSTNumberValue('remaining',0);
+      $remaining = Tools::getSecurePOSTNumberValue('remaining',0);
 
-      $action = getSecurePOSTStringValue('action','');
-      $weekid = getSecurePOSTIntValue('weekid',date('W'));
+      $action = Tools::getSecurePOSTStringValue('action','');
+      $weekid = Tools::getSecurePOSTIntValue('weekid',date('W'));
 
-      $defaultDate = getSecurePOSTStringValue('date',date("Y-m-d", time()));;
-      $defaultBugid = getSecurePOSTIntValue('bugid',0);
-      $defaultProjectid = getSecurePOSTIntValue('projectid',0);
-      $job = getSecurePOSTIntValue('job',0);
-      $duration = getSecurePOSTNumberValue('duree',0);
+      $defaultDate = Tools::getSecurePOSTStringValue('date',date("Y-m-d", time()));;
+      $defaultBugid = Tools::getSecurePOSTIntValue('bugid',0);
+      $defaultProjectid = Tools::getSecurePOSTIntValue('projectid',0);
+      $job = Tools::getSecurePOSTIntValue('job',0);
+      $duration = Tools::getSecurePOSTNumberValue('duree',0);
 
       if ("addTrack" == $action) {
-         $timestamp = date2timestamp($defaultDate);
-         $defaultBugid = getSecurePOSTIntValue('bugid');
-         $job = getSecurePOSTStringValue('job');
-         $duration = getSecurePOSTNumberValue('duree');
-         $defaultProjectid  = getSecurePOSTIntValue('projectid');
+         $timestamp = Tools::date2timestamp($defaultDate);
+         $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
+         $job = Tools::getSecurePOSTStringValue('job');
+         $duration = Tools::getSecurePOSTNumberValue('duree');
+         $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
 
          // save to DB
          $trackid = TimeTrack::create($userid, $defaultBugid, $job, $timestamp, $duration);
@@ -130,7 +136,7 @@ if($_SESSION['userid']) {
                $issueInfo = array( 'remaining' => $issue->remaining,
                                    'bugid' => $issue->bugId,
                                    'description' => $issue->summary,
-                                   'dialogBoxTitle' => T_("Task")." ".$issue->bugId." / ".$issue->tcId." - ".T_("Update Remaining"));
+                                   'dialogBoxTitle' => $issue->bugId." / ".$issue->tcId);
 
                $smartyHelper->assign('updateRemainingRequested', $issueInfo);
             }
@@ -139,7 +145,7 @@ if($_SESSION['userid']) {
          $logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
       }
       elseif ("deleteTrack" == $action) {
-         $trackid = getSecurePOSTIntValue('trackid');
+         $trackid = Tools::getSecurePOSTIntValue('trackid');
 
          // increase remaining (only if 'remaining' already has a value)
          $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
@@ -151,7 +157,7 @@ if($_SESSION['userid']) {
 
          // delete track
          if(!$timeTrack->remove()) {
-            $smartyHelper->assign('error', T_("Failed to delete the tasks"));
+            $smartyHelper->assign('error', "Failed to delete the tasks");
          }
 
          try {
@@ -172,12 +178,12 @@ if($_SESSION['userid']) {
       }
       elseif ("setProjectid" == $action) {
          // pre-set form fields
-         $defaultProjectid = getSecurePOSTIntValue('projectid');
+         $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
       }
       elseif ("setBugId" == $action) {
-         // --- pre-set form fields
+         // pre-set form fields
          // find ProjectId to update categories
-         $defaultBugid = getSecurePOSTIntValue('bugid');
+         $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
          $issue = IssueCache::getInstance()->getIssue($defaultBugid);
          $defaultProjectid  = $issue->projectId;
       }
@@ -207,7 +213,7 @@ if($_SESSION['userid']) {
       $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
       $projList = $devProjList + $managedProjList;
 
-      $smartyHelper->assign('projects', getProjects($projList,$defaultProjectid));
+      $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
 
       $smartyHelper->assign('defaultProjectid', $defaultProjectid);
       $smartyHelper->assign('defaultBugid', $defaultBugid);
@@ -223,28 +229,28 @@ if($_SESSION['userid']) {
       $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
       $smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
 
-      $smartyHelper->assign('issues', getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user, $projList, $isHideResolved, $defaultBugid));
+      $smartyHelper->assign('issues', getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->id, $projList, $isHideResolved, $defaultBugid));
 
       $smartyHelper->assign('jobs', getJobs($defaultProjectid, $teamList, $job));
       $smartyHelper->assign('duration', getDuration($duration));
 
-      $smartyHelper->assign('weeks', getWeeks($weekid, $year));
-      $smartyHelper->assign('years', getYears($year,1));
+      $smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
+      $smartyHelper->assign('years', SmartyTools::getYears($year,1));
 
-      $weekDates      = week_dates($weekid,$year);
+      $weekDates      = Tools::week_dates($weekid,$year);
       $startTimestamp = $weekDates[1];
       $endTimestamp   = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
       $timeTracking   = new TimeTracking($startTimestamp, $endTimestamp);
 
       // UTF8 problems in smarty, date encoding needs to be done in PHP
       $smartyHelper->assign('weekDates', array(
-         date('Y-m-d',$weekDates[1]) => formatDate("%A %d %B", $weekDates[1]),
-         date('Y-m-d',$weekDates[2]) => formatDate("%A %d %B", $weekDates[2]),
-         date('Y-m-d',$weekDates[3]) => formatDate("%A %d %B", $weekDates[3]),
-         date('Y-m-d',$weekDates[4]) => formatDate("%A %d %B", $weekDates[4]),
-         date('Y-m-d',$weekDates[5]) => formatDate("%A %d %B", $weekDates[5]))
+         date('Y-m-d',$weekDates[1]) => Tools::formatDate("%A %d %B", $weekDates[1]),
+         date('Y-m-d',$weekDates[2]) => Tools::formatDate("%A %d %B", $weekDates[2]),
+         date('Y-m-d',$weekDates[3]) => Tools::formatDate("%A %d %B", $weekDates[3]),
+         date('Y-m-d',$weekDates[4]) => Tools::formatDate("%A %d %B", $weekDates[4]),
+         date('Y-m-d',$weekDates[5]) => Tools::formatDate("%A %d %B", $weekDates[5]))
       );
-      $smartyHelper->assign('weekEndDates', array(formatDate("%A %d %B", $weekDates[6]),formatDate("%A %d %B", $weekDates[7])));
+      $smartyHelper->assign('weekEndDates', array(Tools::formatDate("%A %d %B", $weekDates[6]),Tools::formatDate("%A %d %B", $weekDates[7])));
 
       $smartyHelper->assign('weekTasks', getWeekTask($weekDates, $userid, $timeTracking));
 

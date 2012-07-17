@@ -1,33 +1,37 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('i18n/i18n.inc.php');
+require_once('i18n/i18n.inc.php');
 
-include_once('classes/user_cache.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/jobs.class.php');
+require_once('smarty_tools.php');
+
 include_once('classes/holidays.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/jobs.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
 include_once('classes/team.class.php');
 include_once('classes/time_tracking.class.php');
+include_once('classes/user_cache.class.php');
 
-include_once('tools.php');
-include_once('lib/log4php/Logger.php');
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("time_tracking_tools");
 
@@ -36,7 +40,7 @@ $logger = Logger::getLogger("time_tracking_tools");
  * @param int $userid
  * @param int $team_id
  * @param boolean $isStrictlyTimestamp
- * @return array
+ * @return mixed[]
  */
 function getCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE) {
    // 2010-05-31 is the first date of use of this tool
@@ -49,6 +53,7 @@ function getCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE
    $incompleteDays = $timeTracking->checkCompleteDays($userid, $isStrictlyTimestamp);
    $missingDays = $timeTracking->checkMissingDays($userid);
 
+   $warnings = NULL;
    foreach ($incompleteDays as $date => $value) {
       if ($date > time()) {
          // skip dates in the future
@@ -81,9 +86,9 @@ function getCheckWarnings($userid, $team_id = NULL, $isStrictlyTimestamp = FALSE
 /**
  * display Timetracking Tuples
  * @param int $userid
- * @param unknown_type $startTimestamp
- * @param unknown_type $endTimestamp
- * @return array
+ * @param int $startTimestamp
+ * @param int $endTimestamp
+ * @return mixed[]
  */
 function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
    $curJulian = 0;
@@ -98,9 +103,9 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
    $query .= " ORDER BY date";
    $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
 
-
    $jobs = new Jobs();
 
+   $timetrackingTuples = NULL;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       // get information on this bug
       try {
@@ -117,9 +122,10 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
          $formatedJobName = str_replace("'", "\'", $jobName);
          $formatedSummary = str_replace("'", "\'", $issue->summary);
          $formatedSummary = str_replace('"', "\'", $formatedSummary);
-         $totalEstim = $issue->effortEstim + $issue->effortAdd;
+         //$totalEstim = $issue->effortEstim + $issue->effortAdd;
 
          // --- choose row color
+         $tr_class = NULL;
          if (0 == $curJulian) {
          // set first day displayed
          $tr_class = "row_odd";
@@ -139,8 +145,8 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
                                        'formatedJobName' => $formatedJobName,
                                        'summary' => $formatedSummary,
                                        'cosmeticDate' => $cosmeticDate,
-                                       'mantisURL' => mantisIssueURL($row->bugid, NULL, true),
-                                       'issueURL' => issueInfoURL($row->bugid),
+                                       'mantisURL' => Tools::mantisIssueURL($row->bugid, NULL, true),
+                                       'issueURL' => Tools::issueInfoURL($row->bugid),
                                        'issueId' => $issue->tcId,
                                        'projectName' => $issue->getProjectName(),
                                        'issueSummary' => $issue->summary,
@@ -172,12 +178,12 @@ function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL
 }
 
 /**
- * @param unknown_type $weekDates
+ * @param int[] $weekDates
  * @param int $userid
  * @param TimeTracking $timeTracking
  * @return mixed[]
  */
-function getWeekTask($weekDates, $userid, TimeTracking $timeTracking) {
+function getWeekTask(array $weekDates, $userid, TimeTracking $timeTracking) {
    $jobs = new Jobs();
 
    $weekTasks = NULL;
@@ -191,8 +197,8 @@ function getWeekTask($weekDates, $userid, TimeTracking $timeTracking) {
          $remaining = $issue->remaining;
          $extRef = $issue->tcId;
          $summary = $issue->summary;
-         $issueURL = issueInfoURL($bugid);
-         $mantisURL = mantisIssueURL($bugid, NULL, true);
+         $issueURL = Tools::issueInfoURL($bugid);
+         $mantisURL = Tools::mantisIssueURL($bugid, NULL, true);
 
       } catch (Exception $e) {
          $remaining = '!';
@@ -247,7 +253,6 @@ function getWeekTask($weekDates, $userid, TimeTracking $timeTracking) {
             'summary' => $summary,
             'remaining' => $remaining,
             'description' => addslashes(htmlspecialchars($summary)),
-            'dialogBoxTitle' => T_("Task")." ".$bugid." / ".$extRef." - ".T_("Update Remaining"),
             'formattedRemaining' => $formattedRemaining,
             'jobid' => $jobid,
             'jobName' => $jobs->getJobName($jobid),
@@ -261,11 +266,9 @@ function getWeekTask($weekDates, $userid, TimeTracking $timeTracking) {
 
 /**
  * Get users of teams I lead
- * @return array of users
+ * @return string[] : array of users
  */
 function getUsers() {
-   global $logger;
-
    $accessLevel_dev = Team::accessLevel_dev;
    $accessLevel_manager = Team::accessLevel_manager;
 
@@ -277,7 +280,7 @@ function getUsers() {
 
    // check departure date:
    // manager can manage removed users up to 7 days after their departure date.
-   $today = date2timestamp(date("Y-m-d", time()));
+   $today = Tools::date2timestamp(date("Y-m-d", time()));
    $timestamp=  strtotime("-7 day",$today);
 
    // show only users from the teams that I lead.
@@ -294,6 +297,7 @@ function getUsers() {
       exit;
    }
 
+   $users = NULL;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $users[$row->id] = $row->username;
    }
@@ -305,13 +309,13 @@ function getUsers() {
  * Get issues
  * @param int $projectid
  * @param boolean $isOnlyAssignedTo
- * @param unknown_type $user1
- * @param array $projList
+ * @param int $userid
+ * @param string[] $projList
  * @param boolean $isHideResolved
  * @param int $defaultBugid
- * @return array
+ * @return mixed[]
  */
-function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideResolved, $defaultBugid) {
+function getIssues($projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $defaultBugid) {
    global $logger;
 
    if (0 != $projectid) {
@@ -323,7 +327,7 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
          if (($isOnlyAssignedTo) &&
             (!$project1->isSideTasksProject()) &&
             (!$project1->isNoStatsProject())) {
-            $handler_id = $user1->id;
+            $handler_id = $userid;
          } else {
             $handler_id = 0; // all users
             $isHideResolved = false; // do not hide resolved
@@ -348,7 +352,7 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
                $buglist = $proj->getIssues(0, false);
                $issueList = array_merge($issueList, $buglist);
             } else {
-               $handler_id = $isOnlyAssignedTo ? $user1->id : 0;
+               $handler_id = $isOnlyAssignedTo ? $userid : 0;
                $buglist = $proj->getIssues($handler_id, $isHideResolved);
                $issueList = array_merge($issueList, $buglist);
             }
@@ -363,6 +367,7 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
       rsort($issueList);
    }
 
+   $issues = NULL;
    foreach ($issueList as $issue) {
       //$issue = IssueCache::getInstance()->getIssue($bugid);
       $issues[] = array('id' => $issue->bugId,
@@ -380,11 +385,12 @@ function getIssues($projectid, $isOnlyAssignedTo, $user1, $projList, $isHideReso
  * Note: the jobs depend on project type, which depends on the team
  * so we need to now in which team the user is defined in.
  *
- * @param array $teamList  user's teams
  * @param int $projectid
- * @return array
+ * @param string[] $teamList  user's teams
+ * @param int $job
+ * @return mixed[]
  */
-function getJobs($projectid, $teamList, $job) {
+function getJobs($projectid, array $teamList, $job) {
    if (0 != $projectid) {
       // Project list
       $project1 = ProjectCache::getInstance()->getProject($projectid);
@@ -398,7 +404,7 @@ function getJobs($projectid, $teamList, $job) {
             $jobList += $pjobs; // array_merge does not work here...
          }
       }
-      return getSmartyArray($jobList,$job);
+      return SmartyTools::getSmartyArray($jobList,$job);
    } else {
       $query = "SELECT id, name FROM `codev_job_table` ";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -411,13 +417,17 @@ function getJobs($projectid, $teamList, $job) {
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $jobList[$row->id] = $row->name;
          }
-         return getSmartyArray($jobList,$job);
+         return SmartyTools::getSmartyArray($jobList,$job);
       } else {
          return array();
       }
    }
 }
 
+/**
+ * @param string $selected
+ * @return mixed[]
+ */
 function getDuration($selected) {
    $duration["0"] = "";
    $duration["1"] = "1";
@@ -433,7 +443,7 @@ function getDuration($selected) {
    $duration["0.2"] = "0.2";
    $duration["0.1"] = "0.1";
    $duration["0.05"] = "0.05";
-   return getSmartyArray($duration,$selected);
+   return SmartyTools::getSmartyArray($duration,$selected);
 }
 
 ?>
