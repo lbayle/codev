@@ -612,7 +612,10 @@ class Team {
       return true;
    }
 
-   public function getProjectType($projectid) {
+   /**
+    * @return int[] The type by project
+    */
+   public function getProjectsType() {
       if($this->projTypeList == NULL) {
          $this->projTypeList = array();
          $query = "SELECT * FROM `codev_team_project_table` WHERE team_id = $this->id ";
@@ -627,7 +630,16 @@ class Team {
          }
       }
 
-      return $this->projTypeList[$projectid];
+      return $this->projTypeList;
+   }
+
+   /**
+    * @param int $projectid The project id
+    * @return int The type
+    */
+   public function getProjectType($projectid) {
+      $projectsType = $this->getProjectsType();
+      return $projectsType[$projectid];
    }
 
    public function isSideTasksProject($projectid) {

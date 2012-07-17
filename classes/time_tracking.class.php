@@ -87,31 +87,23 @@ class TimeTracking {
     $this->prodProjectList     = array();
     $this->sideTaskprojectList = array();
 
-    $query = "SELECT project_id, type FROM `codev_team_project_table` WHERE team_id = $this->team_id";
-    $result    = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-
-    while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-    {
-    	 switch ($row->type) {
-
-    	   case Project::type_sideTaskProject:
-    	      $this->sideTaskprojectList[] = $row->project_id;
-    	      break;
-    	   case Project::type_workingProject:  // no break;
-    	   case Project::type_noCommonProject:
-    	      $this->prodProjectList[]     = $row->project_id;
+     $team = TeamCache::getInstance()->getTeam($this->team_id);
+     foreach($team->getProjectsType() as $projectid => $type) {
+        switch ($type) {
+           case Project::type_sideTaskProject:
+              $this->sideTaskprojectList[] = $projectid;
+              break;
+           case Project::type_workingProject:  // no break;
+           case Project::type_noCommonProject:
+              $this->prodProjectList[]     = $projectid;
               break;
            case  Project::type_noStatsProject:
               // known type, but nothing to do
               break;
            default:
-              echo "WARNING: Timetracking->initialize() unknown project type ($row->type) !<br/>";
-    	}
-    }
+              echo "WARNING: Timetracking->initialize() unknown project type ($type) !<br/>";
+        }
+     }
   }
 
   /**
