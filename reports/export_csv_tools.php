@@ -2,29 +2,25 @@
 include_once('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once '../path.inc.php';
+include_once('../path.inc.php');
 
-// ---------------------------------------------------------------
 function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile) {
-
-   global $logger;
-
    $sepChar=';';
 
    $fh = fopen($myFile, 'w');
@@ -185,9 +181,6 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
   return $myFile;
 }
 
-
-
-// ------------------------------------------------
 /**
  * creates for each project a table with the following fields:
  * TaskName | RAF | <Jobs>
@@ -196,7 +189,6 @@ function exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFi
  * @param unknown_type $myFile
  */
 function exportProjectActivityToCSV($timeTracking, $myFile) {
-
   $sepChar=';';
   $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
 
@@ -239,7 +231,6 @@ function exportProjectActivityToCSV($timeTracking, $myFile) {
   return $myFile;
 }
 
-// ---------------------------------------------
 /**
  * creates for each project a table with the following fields:
  * id | TC | startDate | endDate | status | total elapsed | elapsed + Remaining | elapsed in period | Remaining
@@ -333,14 +324,9 @@ function exportProjectMonthlyActivityToCSV($timeTracking, $myFile) {
 
 }
 
-
-
-// ---------------------------------------------
 // format: nom;prenom;trigramme;date de debut;date de fin;nb jours
 // format date: "jj/mm/aa"
 function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
-
-  global $logger;
   $sepChar=';';
 
   $monthTimestamp = mktime(0, 0, 0, $month, 1, $year);
@@ -352,22 +338,9 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
    $myFile = $path.DIRECTORY_SEPARATOR.$teamName."_Holidays_".formatdate("%Y%m", $monthTimestamp).".csv";
    $fh = fopen($myFile, 'w');
 
-  // USER
-  $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname ".
-    "FROM  `codev_team_user_table`, `mantis_user_table` ".
-    "WHERE  codev_team_user_table.team_id = $teamid ".
-    "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-    "ORDER BY mantis_user_table.username";
-
-
-  $result = SqlWrapper::getInstance()->sql_query($query);
-  if (!$result) {
-     echo "<span style='color:red'>ERROR: Query FAILED</span>";
-     exit;
-  }
-  while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-  {
-      $user1 = UserCache::getInstance()->getUser($row->user_id);
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   foreach($team->getMembers() as $userid => $username) {
+      $user1 = UserCache::getInstance()->getUser($userid);
 
       // if user was working on the project within the timestamp
       if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
@@ -441,10 +414,9 @@ function exportHolidaystoCSV($month, $year, $teamid, $teamName, $path="") {
           }
       }
   }
+
   fclose($fh);
   return $myFile;
 }
-
-
 
 ?>
