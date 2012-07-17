@@ -153,7 +153,7 @@ function getContractSidetasksSelection($servicecontractid) {
 
       $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-      $sidetasksPerCategory = $contract->getSidetasksPerCategory();
+      $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
 
       $issueSelection = new IssueSelection("TotalSideTasks");
       foreach ($sidetasksPerCategory as $id => $iSel) {
@@ -178,7 +178,7 @@ function getContractSidetasksDetailedMgr($servicecontractid) {
 
       $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-      $sidetasksPerCategory = $contract->getSidetasksPerCategory();
+      $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
 
       foreach ($sidetasksPerCategory as $id => $issueSelection) {
 
@@ -233,7 +233,7 @@ function getContractTotalDetailedMgr($servicecontractid) {
 
       $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-      $sidetasksPerCategory = $contract->getSidetasksPerCategory();
+      $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
 
       $issueSelection = new IssueSelection("Total");
       foreach ($sidetasksPerCategory as $id => $iSel) {

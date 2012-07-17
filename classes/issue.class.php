@@ -1328,6 +1328,8 @@ class Issue {
 
       if (NULL == $this->commandList) {
 
+         $this->commandList = array();
+         
          $query  = "SELECT * FROM `codev_command_bug_table` WHERE bug_id=$this->bugId ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {

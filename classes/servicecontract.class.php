@@ -65,6 +65,8 @@ class ServiceContract {
     */
    private $sidetasksPerCategory;
 
+   private $commandList;
+
    /**
     * @param int $id The service contract id
     * @param resource $details The service contract details
@@ -354,6 +356,33 @@ class ServiceContract {
 
    /**
     *
+    * @param type $cset_type  CommandSet::type_general
+    * @param type $cmd_type   Command::type_general
+    * @return type
+    */
+   public function getCommands($cset_type, $cmd_type) {
+
+      // TODO  $key = $cset_type . '_' . $cmd_type;
+
+      if (NULL == $this->commandList) {
+         $this->commandList = array();
+
+         $cmdsetList = array_values($this->getCommandSets($cset_type));
+
+
+         foreach ($cmdsetList as $cset) {
+               $cmdList = $cset->getCommands($cmd_type);
+               foreach ($cmdList as $id => $cmd) {
+                  $this->commandList[$id] = $cmd;  // array_merge looses the $key
+               }
+         }
+      }
+      return $this->commandList;
+   }
+
+
+   /**
+    *
     * @return Project[] array project_id => Project
     */
    public function getProjects() {
@@ -530,13 +559,23 @@ class ServiceContract {
    }
 
 /**
+ * @param bool $skipIfInCommands SideTasks already declared in a child Commands will be skipped
+ *
  * @return IssueSelection[] : array[category_id] = IssueSelection("categoryName")
  */
-function getSidetasksPerCategory() {
+function getSidetasksPerCategory($skipIfInCommands = false) {
 
-   if (NULL == $this->sidetasksPerCategory) {
+   if (NULL == $this->sidetasksPerCategory) { $this->sidetasksPerCategory = array(); }
 
-      $this->sidetasksPerCategory = array();
+   $key = ($skipIfInCommands) ? 'skip_yes' : 'skip_no';
+
+   if (!array_key_exists($key, $this->sidetasksPerCategory)) {
+
+      $this->sidetasksPerCategory[$key] = array();
+
+      if ($skipIfInCommands) {
+         $cmdidList = array_keys($this->getCommands(CommandSet::type_general, Command::type_general));
+      }
 
       $prjList = $this->getProjects();
       foreach ($prjList as $id => $project) {
@@ -553,15 +592,26 @@ function getSidetasksPerCategory() {
 
          $issueList = $project->getIssues();
          foreach ($issueList as $issue) {
-            if (NULL == $this->sidetasksPerCategory[$issue->categoryId]) {
-               $this->sidetasksPerCategory[$issue->categoryId] = new IssueSelection($issue->getCategoryName());
+
+            if ($skipIfInCommands) {
+               // compare the Commands of the Issue whit the Commands of this ServiceContract
+               $issueCmdidList = array_keys($issue->getCommandList());
+               $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
+               if ($isInCommands) {
+                  $this->logger->debug("getSidetasksPerCategory(): skip issue $issue->bugId because already declared in a Command");
+                  continue;
+               }
             }
-            $issueSel = $this->sidetasksPerCategory[$issue->categoryId];
+
+            if (NULL == $this->sidetasksPerCategory[$key][$issue->categoryId]) {
+               $this->sidetasksPerCategory[$key][$issue->categoryId] = new IssueSelection($issue->getCategoryName());
+            }
+            $issueSel = $this->sidetasksPerCategory[$key][$issue->categoryId];
             $issueSel->addIssue($issue->bugId);
          }
       }
    }
-   return $this->sidetasksPerCategory;
+   return $this->sidetasksPerCategory[$key];
 }
 
 
