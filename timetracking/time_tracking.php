@@ -25,7 +25,7 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-require_once('timetracking/time_tracking_tools.php');
+require('timetracking/time_tracking_tools.php');
 
 include_once('classes/config.class.php');
 include_once('classes/issue_cache.class.php');
@@ -54,7 +54,7 @@ if($_SESSION['userid']) {
 
       if (0 != count($lTeamList)) {
          // User is TeamLeader, let him choose the user he wants to manage
-         $smartyHelper->assign('users', getUsers());
+         $smartyHelper->assign('users', TimeTrackingTools::getUsers());
          $smartyHelper->assign('selectedUser', $session_user->id);
       } else {
          // if session_user (not a teamLeader) is defined in a team, display AddTrack page
@@ -83,7 +83,7 @@ if($_SESSION['userid']) {
       if($userid != $session_user->id) {
          // Need to be a Team Leader to handle other users
          $lTeamList = $session_user->getLeadedTeamList();
-         if (count($lTeamList) > 0 && array_key_exists($userid,getUsers())) {
+         if (count($lTeamList) > 0 && array_key_exists($userid,TimeTrackingTools::getUsers())) {
             $smartyHelper->assign('userid', $userid);
 
          } else {
@@ -236,10 +236,10 @@ if($_SESSION['userid']) {
       $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
       $smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
 
-      $smartyHelper->assign('issues', getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->id, $projList, $isHideResolved, $defaultBugid));
+      $smartyHelper->assign('issues', TimeTrackingTools::getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->id, $projList, $isHideResolved, $defaultBugid));
 
-      $smartyHelper->assign('jobs', getJobs($defaultProjectid, $teamList, $job));
-      $smartyHelper->assign('duration', getDuration($duration));
+      $smartyHelper->assign('jobs', SmartyTools::getSmartyArray(TimeTrackingTools::getJobs($defaultProjectid, $teamList), $job));
+      $smartyHelper->assign('duration', SmartyTools::getSmartyArray(TimeTrackingTools::getDuration(),$duration));
 
       $smartyHelper->assign('weeks', SmartyTools::getWeeks($weekid, $year));
       $smartyHelper->assign('years', SmartyTools::getYears($year,1));
@@ -259,12 +259,12 @@ if($_SESSION['userid']) {
       );
       $smartyHelper->assign('weekEndDates', array(Tools::formatDate("%A %d %B", $weekDates[6]),Tools::formatDate("%A %d %B", $weekDates[7])));
 
-      $smartyHelper->assign('weekTasks', getWeekTask($weekDates, $userid, $timeTracking));
+      $smartyHelper->assign('weekTasks', TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking));
 
-      $smartyHelper->assign('warnings', getCheckWarnings($userid));
+      $smartyHelper->assign('warnings', TimeTrackingTools::getCheckWarnings($userid));
 
-      $smartyHelper->assign('weekTimetrackingTuples', getTimetrackingTuples($userid, $startTimestamp, $endTimestamp));
-      $smartyHelper->assign('timetrackingTuples', getTimetrackingTuples($userid, $endTimestamp));
+      $smartyHelper->assign('weekTimetrackingTuples', TimeTrackingTools::getTimetrackingTuples($userid, $startTimestamp, $endTimestamp));
+      $smartyHelper->assign('timetrackingTuples', TimeTrackingTools::getTimetrackingTuples($userid, $endTimestamp));
    }
 
 }

@@ -53,7 +53,7 @@ if(isset($_SESSION['userid'])) {
          );
          $smartyHelper->assign('weekEndDates', array(Tools::formatDate("%A %d %B", $weekDates[6]),Tools::formatDate("%A %d %B", $weekDates[7])));
 
-         $smartyHelper->assign('weekTasks', getWeekTask($weekDates,$userid,$timeTracking));
+         $smartyHelper->assign('weekTasks', TimeTrackingTools::getWeekTask($weekDates,$userid,$timeTracking));
          $smartyHelper->display('ajax/weekTaskDetails');
       }
    }
