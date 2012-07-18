@@ -42,8 +42,14 @@ $start = microtime(true);
 Tools::qsort($a);
 $end = microtime(true);
 
+$qsortRes = array();
+$i = 0;
 foreach($a as $issue) {
    echo $issue->bugId."-";
+
+   $issueInfoStr = $issue->bugId.'-'.$issue->getCurrentStatusName().'-'.$issue->getDeadLine().'-'.$issue->priority.'-'.$issue->severity;
+   $qsortRes[$i] = $issueInfoStr;
+   $i += 1;
 }
 
 echo "<br>";
@@ -60,8 +66,13 @@ $start = microtime(true);
 Tools::usort($b);
 $end = microtime(true);
 
+$usortRes = array();
+$i = 0;
 foreach($b as $issue) {
    echo $issue->bugId."-";
+   $issueInfoStr = $issue->bugId.'-'.$issue->getCurrentStatusName().'-'.$issue->getDeadLine().'-'.$issue->priority.'-'.$issue->severity;
+   $usortRes[$i] = $issueInfoStr;
+   $i += 1;
 }
 
 echo "<br>";
@@ -70,6 +81,7 @@ echo "Time : ".round(($end-$start)*1000)." ms";
 
 echo "<br><br>";
 
+
 for($i = 0; $i < count($issues) ; $i++) {
    if($a[$i]->bugId != $b[$i]->bugId) {
       echo "diff find<br>";
@@ -77,8 +89,35 @@ for($i = 0; $i < count($issues) ; $i++) {
    }
 }
 
+
+
+
+echo "<br><br>";
+
+echo "<table>";
+echo "<tr>";
+echo "<th>qsort</th>";
+echo "<th>usort</th>";
+echo "</tr>";
+
+for($i = 0; $i < count($issues) ; $i++) {
+   echo "<tr>";
+   echo "<td>".$qsortRes[$i]."</td>";
+   echo "<td>".$usortRes[$i]."</td>";
+   echo "</tr>";
+}
+echo "</table>";
+
+
+
+
 echo "done";
 
+
+
+
+
+// --------------------
 function arrayCopy( array $array ) {
    $result = array();
    foreach( $array as $key => $val ) {
