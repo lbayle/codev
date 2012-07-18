@@ -116,7 +116,7 @@
                <option value="0"></option>
                {/if}
                {foreach from=$issues key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id} / {$i.tcId} : {$i.summary}</option>
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}{if $i.tcId} / {$i.tcId}{/if} : {$i.summary}</option>
                {/foreach}
             </select>
             {if $jobs}
