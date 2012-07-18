@@ -183,6 +183,9 @@ if($_SESSION['userid']) {
       elseif ("setProjectid" == $action) {
          // pre-set form fields
          $defaultProjectid = Tools::getSecurePOSTIntValue('projectid');
+         // Don't show job and duration after change project
+         $job = 0;
+         $duration = 0;
       }
       elseif ("setBugId" == $action) {
          // pre-set form fields
