@@ -22,6 +22,8 @@
          *    jQuery("#duree").val(day.text());
          * }
          */
+         // reset the duration
+         jQuery("#duree").val("");
 
          var bugid = row.attr("id").replace("weekTasks-","");
          if(bugid != jQuery("#bugid").val()) {
