@@ -121,6 +121,7 @@ class SmartyHelper {
       $this->smarty->assign("username", $username);
       $this->smarty->assign("realname", $realname);
       $this->smarty->assign('page', $_SERVER['PHP_SELF']);
+      $this->smarty->assign('ajaxPage', str_replace('.php', '', $_SERVER['PHP_SELF']).'_ajax.php');
       $this->smarty->assign('tpl_name', str_replace('.php', '', substr(strrchr($_SERVER['PHP_SELF'], '/'), 1)));
       $this->smarty->assign('mantisURL', $mantisURL);
       $this->smarty->assign('rootWebSite', getServerRootURL() . '/');

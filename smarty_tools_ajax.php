@@ -67,33 +67,6 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          $smartyHelper->assign('bugs', SmartyTools::getBugs(Tools::getSecureGETIntValue('projectid'),Tools::getSecureGETIntValue('bugid',0),$projList));
          $smartyHelper->display('form/bugSelector');
       }
-      else if($_GET['action'] == 'getProjectDetails') {
-         require_once('reports/productivity_report_tools.php');
-
-         $weekDates  = Tools::week_dates(date('W'),date('Y'));
-         $startdate  = Tools::getSecureGETStringValue('startdate', date("Y-m-d", $weekDates[1]));
-         $startTimestamp = Tools::date2timestamp($startdate);
-
-         $enddate  = Tools::getSecureGETStringValue('enddate', date("Y-m-d", $weekDates[5]));
-         $endTimestamp = Tools::date2timestamp($enddate);
-         $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
-
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $_GET['teamid']);
-
-         $projectid  = $_GET['projectid'];
-         $projectDetails = NULL;
-         if (isset($projectid) && 0 != $projectid) {
-            $projectDetails = getProjectDetails($timeTracking, $projectid);
-         } else {
-            // all sideTasks
-            $projectDetails = getSideTasksProjectDetails($timeTracking);
-         }
-         $smartyHelper->assign('projectDetails', $projectDetails);
-         if($projectDetails != NULL) {
-            $smartyHelper->assign('projectDetailsUrl', getProjectDetailsUrl($projectDetails));
-         }
-         $smartyHelper->display('ajax/projectDetails');
-      }
       elseif($_GET['action'] == 'getYearsToNow') {
          include_once('classes/team_cache.class.php');
 
