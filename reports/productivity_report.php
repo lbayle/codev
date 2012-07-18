@@ -26,7 +26,7 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-require_once('reports/productivity_report_tools.php');
+require('reports/productivity_report_tools.php');
 
 include_once('classes/issue_cache.class.php');
 include_once('classes/issue_selection.class.php');
@@ -38,330 +38,6 @@ include_once('classes/time_tracking.class.php');
 include_once('classes/user_cache.class.php');
 
 require_once('tools.php');
-
-/**
- * @param int $teamid
- * @param int $defaultProjectid
- * @return mixed[]
- */
-function getTeamProjects($teamid, $defaultProjectid) {
-   // Project List
-   $query  = "SELECT mantis_project_table.id, mantis_project_table.name ".
-      "FROM `codev_team_project_table`, `mantis_project_table` ".
-      "WHERE codev_team_project_table.team_id = $teamid ".
-      "AND codev_team_project_table.project_id = mantis_project_table.id ".
-      "ORDER BY mantis_project_table.name";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-   $projList = NULL;
-   if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $projList[$row->id] = $row->name;
-      }
-   }
-
-   $projects[] = array(
-      'id' => 0,
-      'name' => T_("All sideTasks Projects"),
-   );
-   foreach ($projList as $pid => $pname) {
-      $projects[] = array(
-         'id' => $pid,
-         'name' => $pname,
-         'selected' => $pid == $defaultProjectid
-      );
-   }
-   return $projects;
-}
-
-/**
- * Get the reopened taks for Smarty
- * @param TimeTracking $timeTracking
- * @return string[]
- */
-function getFormattedReopenedTaks(TimeTracking $timeTracking) {
-   $formatedTasks = NULL;
-   foreach ($timeTracking->getReopened() as $bug_id) {
-      $issue = IssueCache::getInstance()->getIssue($bug_id);
-      $formatedTasks[] = Tools::issueInfoURL($issue->bugId, '['.$issue->getProjectName().'] '.$issue->summary);
-   }
-   return $formatedTasks;
-}
-
-/**
- * @param TimeTracking $timeTracking
- * @return string
- */
-function getProductionDaysUrl(TimeTracking $timeTracking) {
-   $managementDay = $timeTracking->getManagementDays();
-   $formatedValues = $timeTracking->getProdDays().':'.$managementDay.':'.($timeTracking->getProdDaysSideTasks(false) - $managementDay);
-   $formatedLegends = T_('Projects').':'.T_('Project Management').':'.T_('Other SideTasks');
-   $colors = '#92C5FC'.':'.'#FFC16B'.':'.'#FFF494';
-   return Tools::SmartUrlEncode('colors='.$colors.'&legends='.$formatedLegends.'&values='.$formatedValues);
-}
-
-/**
- * @param TimeTracking $timeTracking
- * @param int $teamid
- * @return mixed[]
- */
-function getWorkingDaysPerJob(TimeTracking $timeTracking, $teamid) {
-   // find out which jobs must be displayed
-   $team = TeamCache::getInstance()->getTeam($teamid);
-   $projList = $team->getProjects();
-   $jobList  = array();
-   foreach ($projList as $id => $pname) {
-      $p = ProjectCache::getInstance()->getProject($id);
-      $jl = $p->getJobList($team->getProjectType($id));
-      $jobList += $jl;
-   }
-
-   $jobs = new Jobs();
-   $workingDaysPerJob = NULL;
-   foreach ($jobList as $id => $jname) {
-      if (Jobs::JOB_NA != $id) {
-         $workingDaysPerJob[] = array(
-            "name" => $jname,
-            "nbDays" => $timeTracking->getWorkingDaysPerJob($id),
-            "color" => $jobs->getJobColor($id)
-         );
-      }
-   }
-
-   return $workingDaysPerJob;
-}
-
-/**
- * @param array $workingDaysPerJobs
- * @return string
- */
-function getWorkingDaysPerJobUrl(array $workingDaysPerJobs) {
-   $formatedValues = NULL;
-   $formatedLegends = NULL;
-   $formatedColors = NULL;
-
-   foreach ($workingDaysPerJobs as $id => $workingDaysPerJob) {
-      if (0 != $workingDaysPerJob['nbDays']) {
-         if (NULL != $formatedValues) { $formatedValues .= ":"; $formatedLegends .= ":"; $formatedColors .= ":"; }
-         $formatedValues .= $workingDaysPerJob['nbDays'];
-         $formatedLegends .= $workingDaysPerJob['name'];
-         $formatedColors .= "#".$workingDaysPerJob['color'];
-      }
-   }
-
-   if (NULL != $formatedValues) {
-      return Tools::SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues.'&colors='.$formatedColors);
-   }
-   return NULL;
-}
-
-/**
- * @param TimeTracking $timeTracking
- * @return mixed[]
- */
-function getWorkingDaysPerProject(TimeTracking $timeTracking) {
-   $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
-   $query = "SELECT mantis_project_table.id, mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
-      "FROM `mantis_project_table`, `codev_team_project_table` ".
-      "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-      "AND codev_team_project_table.team_id = $team->id ".
-      "ORDER BY name";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
-   $workingDaysPerProject = NULL;
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $nbDays = $timeTracking->getWorkingDaysPerProject($row->id);
-
-      $proj = ProjectCache::getInstance()->getProject($row->id, $row);
-      if ((! $team->isSideTasksProject($proj->id)) && (! $team->isNoStatsProject($proj->id))) {
-         $progress = round(100 * $proj->getProgress()).'%';
-         $progressMgr = round(100 * $proj->getProgressMgr()).'%';
-      } else {
-         $progress = '';
-         $progressMgr = '';
-      }
-
-      $workingDaysPerProject[] = array(
-         'name' => $row->name,
-         'nbDays' => $nbDays,
-         'progress' => $progress,
-         'progressMgr' => $progressMgr
-      );
-   }
-
-   return $workingDaysPerProject;
-}
-
-/**
- * @param array $workingDaysPerProject
- * @return string
- */
-function getWorkingDaysPerProjectUrl(array $workingDaysPerProject) {
-   $formatedValues = NULL;
-   $formatedLegends = NULL;
-   foreach ($workingDaysPerProject as $id => $workingDays) {
-      if (0 != $workingDays['nbDays']) {
-         if (NULL != $formatedValues) {
-            $formatedValues .= ":"; $formatedLegends .= ":";
-         }
-         $formatedValues .= $workingDays['nbDays'];
-         $formatedLegends .= $workingDays['name'];
-      }
-   }
-
-   if (NULL != $formatedValues) {
-      return Tools::SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues);
-   } else {
-      return NULL;
-   }
-}
-
-/**
- * display Drifts for Issues that have been marked as 'Resolved' durung the timestamp
- * @param Issue[] $issueList
- * @param bool $withSupport
- * @return mixed[]
- */
-function getResolvedDeviationStats(array $issueList, $withSupport = true) {
-   $issueSelection = new IssueSelection("resolved issues");
-   $issueSelection->addIssueList($issueList);
-
-   $allDriftMgr = $issueSelection->getDriftMgr();
-   $allDrift = $issueSelection->getDrift();
-
-   $deviationGroupsMgr = $issueSelection->getDeviationGroupsMgr(1, $withSupport);
-   $deviationGroups    = $issueSelection->getDeviationGroups(1, $withSupport);
-
-   $posDeviationGroupMgr = $deviationGroupsMgr['positive'];
-   $posDeviationGroup = $deviationGroups['positive'];
-   $posDriftMgr = $posDeviationGroupMgr->getDriftMgr();
-   $posDrift    = $posDeviationGroup->getDrift();
-   $detailsResolvedDeviationStats[] = array(
-      "type" => "Tasks in drift",
-      "nbIssuesMgr" => $posDeviationGroupMgr->getNbIssues(),
-      "nbDaysMgr" => $posDriftMgr['nbDays'],
-      "nbIssues" => $posDeviationGroup->getNbIssues(),
-      "nbDays" => $posDrift['nbDays'],
-      "formattedIssueListMgr" => $posDeviationGroupMgr->getFormattedIssueList(),
-      "formattedIssueList" => $posDeviationGroup->getFormattedIssueList()
-   );
-
-   $equalDeviationGroupMgr = $deviationGroupsMgr['equal'];
-   $equalDeviationGroup = $deviationGroups['equal'];
-   $equalDriftMgr = $equalDeviationGroupMgr->getDriftMgr();
-   $equalDrift = $equalDeviationGroup->getDrift();
-   $detailsResolvedDeviationStats[] = array(
-      "type" => "Tasks in time",
-      "nbIssuesMgr" => $equalDeviationGroupMgr->getNbIssues(),
-      "nbDaysMgr" => $equalDriftMgr['nbDays'],
-      "nbIssues" => $equalDeviationGroup->getNbIssues(),
-      "nbDays" => $equalDrift['nbDays'],
-      "formattedIssueListMgr" => $equalDeviationGroupMgr->getFormattedIssueList(),
-      "formattedIssueList" => $equalDeviationGroup->getFormattedIssueList()
-   );
-
-   $negDeviationGroupMgr = $deviationGroupsMgr['negative'];
-   $negDeviationGroup = $deviationGroups['negative'];
-   $negDriftMgr = $negDeviationGroupMgr->getDriftMgr();
-   $negDrift    = $negDeviationGroup->getDrift();
-   $detailsResolvedDeviationStats[] = array(
-      "type" => "Tasks ahead",
-      "nbIssuesMgr" => $negDeviationGroupMgr->getNbIssues(),
-      "nbDaysMgr" => $negDriftMgr['nbDays'],
-      "nbIssues" => $negDeviationGroup->getNbIssues(),
-      "nbDays" => $negDrift['nbDays'],
-      "formattedIssueListMgr" => $negDeviationGroupMgr->getFormattedIssueList(),
-      "formattedIssueList" => $negDeviationGroup->getFormattedIssueList()
-   );
-
-   $resolvedDeviationStats = array(
-      "driftMgr" => round($allDriftMgr['nbDays'], 2),
-      "drift" => round($allDrift['nbDays'], 2),
-      "detailsResolvedDeviationStats" => $detailsResolvedDeviationStats
-   );
-
-   return $resolvedDeviationStats;
-}
-
-/**
- * @param Issue[] $issueList
- * @param bool $isManager
- * @param bool $withSupport
- * @return mixed[]
- */
-function getResolvedIssuesInDrift(array $issueList, $isManager=false, $withSupport=true) {
-   $resolvedIssuesInDrift = NULL;
-   foreach ($issueList as $issue) {
-      // TODO: check if issue in team project list ?
-      $driftMgrEE = 0;
-      if ($isManager) {
-         $driftMgrEE = $issue->getDriftMgr($withSupport);
-      }
-      $driftEE = $issue->getDrift($withSupport);
-
-      if (($isManager && $driftMgrEE > 0) || ($driftEE > 0)) {
-         $resolvedIssuesInDrift[] = array(
-            "issueURL" => Tools::issueInfoURL($issue->bugId),
-            "projectName" => $issue->getProjectName(),
-            "driftMgrEE" => $driftMgrEE,
-            "driftEE" => $driftEE,
-            "currentStatusName" => $issue->getCurrentStatusName(),
-            "summary" => $issue->summary
-         );
-      }
-   }
-
-   return $resolvedIssuesInDrift;
-}
-
-/**
- * @param TimeTracking $timeTracking
- * @return mixed[]
- */
-function getCheckWarnings(TimeTracking $timeTracking) {
-   $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
-   $warnings = NULL;
-   foreach($team->getMembers() as $userid => $username) {
-      $incompleteDays = $timeTracking->checkCompleteDays($userid, TRUE);
-      foreach ($incompleteDays as $date => $value) {
-         if ($value < 1) {
-            $warnings[] = array(
-               'user' => $username,
-               'date' => date("Y-m-d", $date),
-               'desc' => T_("incomplete").' ('.T_('missing').' '.(1-$value).' '.T_('day').')',
-               'severity' => T_("Error"),
-               'severityColor' => 'color:red'
-            );
-         } else {
-            $warnings[] = array(
-               'user' => $username,
-               'date' => date("Y-m-d", $date),
-               'desc' => T_("inconsistent").' ('.$value.' '.T_('day').')',
-               'severity' => T_("Error"),
-               'severityColor' => 'color:red'
-            );
-         }
-      }
-
-      $missingDays = $timeTracking->checkMissingDays($userid);
-      foreach ($missingDays as $date) {
-         $warnings[] = array(
-            'user' => $username,
-            'date' => date("Y-m-d", $date),
-            'desc' => T_("not defined."),
-            'severity' => T_("Error"),
-            'severityColor' => 'color:red'
-         );
-      }
-   }
-
-   return $warnings;
-}
 
 // =========== MAIN ==========
 $smartyHelper = new SmartyHelper();
@@ -399,43 +75,41 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign('timeTracking', $timeTracking);
 
          if (0 != $timeTracking->getProdDays() + $timeTracking->getManagementDays() + ($timeTracking->getProdDaysSideTasks(false) - $timeTracking->getManagementDays())) {
-            $smartyHelper->assign('productionDaysUrl', getProductionDaysUrl($timeTracking));
+            $smartyHelper->assign('productionDaysUrl', ProductivityReportTools::getProductionDaysUrl($timeTracking));
          }
 
-         $workingDaysPerJobs = getWorkingDaysPerJob($timeTracking, $teamid);
+         $workingDaysPerJobs = ProductivityReportTools::getWorkingDaysPerJob($timeTracking, $teamid);
          $smartyHelper->assign('workingDaysPerJob', $workingDaysPerJobs);
          if($workingDaysPerJobs != NULL) {
-            $smartyHelper->assign('workingDaysPerJobUrl', getWorkingDaysPerJobUrl($workingDaysPerJobs));
+            $smartyHelper->assign('workingDaysPerJobUrl', ProductivityReportTools::getWorkingDaysPerJobUrl($workingDaysPerJobs));
          }
 
-         $defaultProjectid = $_POST['projectid'];
-         $getTeamProjects = getTeamProjects($teamid, $defaultProjectid);
+         $defaultProjectid = Tools::getSecurePOSTIntValue('projectid', 0);
+         $getTeamProjects = SmartyTools::getSmartyArray(ProductivityReportTools::getTeamProjects($teamid),$defaultProjectid);
          $smartyHelper->assign('projects', $getTeamProjects);
 
          $projectid = 0;
-         foreach($getTeamProjects as $key => $value) {
-            if($value['id'] == $defaultProjectid) {
-               $projectid = $defaultProjectid;
-            }
+         if(array_key_exists($defaultProjectid, $getTeamProjects)) {
+            $projectid = $defaultProjectid;
          }
          $smartyHelper->assign('projectid', $projectid);
 
          $projectDetails = NULL;
          if (0 != $projectid) {
-            $projectDetails = getProjectDetails($timeTracking, $projectid);
+            $projectDetails = ProductivityReportTools::getProjectDetails($timeTracking, $projectid);
          } else {
             // all sideTasks
-            $projectDetails = getSideTasksProjectDetails($timeTracking);
+            $projectDetails = ProductivityReportTools::getSideTasksProjectDetails($timeTracking);
          }
          $smartyHelper->assign('projectDetails', $projectDetails);
          if($projectDetails != NULL) {
-            $smartyHelper->assign('projectDetailsUrl', getProjectDetailsUrl($projectDetails));
+            $smartyHelper->assign('projectDetailsUrl', ProductivityReportTools::getProjectDetailsUrl($projectDetails));
          }
 
-         $workingDaysPerProject = getWorkingDaysPerProject($timeTracking);
+         $workingDaysPerProject = ProductivityReportTools::getWorkingDaysPerProject($timeTracking);
          $smartyHelper->assign('workingDaysPerProject', $workingDaysPerProject);
          if($workingDaysPerProject != NULL) {
-            $smartyHelper->assign('workingDaysPerProjectUrl', getWorkingDaysPerProjectUrl($workingDaysPerProject));
+            $smartyHelper->assign('workingDaysPerProjectUrl', ProductivityReportTools::getWorkingDaysPerProjectUrl($workingDaysPerProject));
          }
 
          $smartyHelper->assign('efficiencyRate', round($timeTracking->getEfficiencyRate(), 2));
@@ -450,19 +124,19 @@ if(isset($_SESSION['userid'])) {
          if (0 != count($timeTracking->getResolvedIssues())) {
             $issueList = $timeTracking->getResolvedIssues();
             $withSupport = true;
-            $smartyHelper->assign('resolvedDeviationStats', getResolvedDeviationStats ($issueList, $withSupport));
+            $smartyHelper->assign('resolvedDeviationStats', ProductivityReportTools::getResolvedDeviationStats ($issueList, $withSupport));
 
             $managedTeamList = $session_user->getManagedTeamList();
             $isManager = array_key_exists($teamid, $managedTeamList);
             $smartyHelper->assign('isManager', $isManager);
-            $smartyHelper->assign('resolvedIssuesInDrift', getResolvedIssuesInDrift($issueList, $isManager));
+            $smartyHelper->assign('resolvedIssuesInDrift', ProductivityReportTools::getResolvedIssuesInDrift($issueList, $isManager));
          }
 
          $smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRate() * 100, 1));
-         $smartyHelper->assign('formattedReopenedTaks', getFormattedReopenedTaks($timeTracking));
+         $smartyHelper->assign('formattedReopenedTaks', ProductivityReportTools::getFormattedReopenedTaks($timeTracking));
 
          // warnings
-         $consistencyErrors = getCheckWarnings($timeTracking);
+         $consistencyErrors = ProductivityReportTools::getCheckWarnings($timeTracking);
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
    }
