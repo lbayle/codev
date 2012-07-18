@@ -367,7 +367,7 @@ function getIssues($projectid, $isOnlyAssignedTo, $userid, array $projList, $isH
       rsort($issueList);
    }
 
-   $issues = NULL;
+   $issues = array();
    foreach ($issueList as $issue) {
       //$issue = IssueCache::getInstance()->getIssue($bugid);
       $issues[$issue->bugId] = array('id' => $issue->bugId,
@@ -379,11 +379,15 @@ function getIssues($projectid, $isOnlyAssignedTo, $userid, array $projList, $isH
    // If the default bug is filtered, we add it anyway
    if(!array_key_exists($defaultBugid,$issues) && $defaultBugid != 0) {
       $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-      $issues[$issue->bugId] = array('id' => $issue->bugId,
-         'tcId' => $issue->tcId,
-         'summary' => $issue->summary,
-         'selected' => $issue->bugId == $defaultBugid);
-      krsort($issues);
+      // Add the bug only if the selected project is the bug project
+      if($projectid == 0 || $issue->projectId == $projectid) {
+         $issues[$issue->bugId] = array(
+            'id' => $issue->bugId,
+            'tcId' => $issue->tcId,
+            'summary' => $issue->summary,
+            'selected' => $issue->bugId == $defaultBugid);
+         krsort($issues);
+      }
    }
 
    return $issues;
