@@ -47,7 +47,7 @@ $i = 0;
 foreach($a as $issue) {
    echo $issue->bugId."-";
 
-   $issueInfoStr = $issue->bugId.'-'.$issue->getCurrentStatusName().'-'.$issue->getDeadLine().'-'.$issue->priority.'-'.$issue->severity;
+   $issueInfoStr = $issue->bugId.':'.$issue->getStatus().'-'.date('Y-m-d', $issue->getDeadLine()).'-'.$issue->priority.'-'.$issue->severity;
    $qsortRes[$i] = $issueInfoStr;
    $i += 1;
 }
@@ -70,7 +70,7 @@ $usortRes = array();
 $i = 0;
 foreach($b as $issue) {
    echo $issue->bugId."-";
-   $issueInfoStr = $issue->bugId.'-'.$issue->getCurrentStatusName().'-'.$issue->getDeadLine().'-'.$issue->priority.'-'.$issue->severity;
+   $issueInfoStr = $issue->bugId.':'.$issue->getStatus().'-'.date('Y-m-d', $issue->getDeadLine()).'-'.$issue->priority.'-'.$issue->severity;
    $usortRes[$i] = $issueInfoStr;
    $i += 1;
 }
@@ -84,7 +84,7 @@ echo "<br><br>";
 
 for($i = 0; $i < count($issues) ; $i++) {
    if($a[$i]->bugId != $b[$i]->bugId) {
-      echo "diff find<br>";
+      echo "diff found<br>";
       break;
    }
 }
@@ -93,7 +93,7 @@ for($i = 0; $i < count($issues) ; $i++) {
 
 
 echo "<br><br>";
-
+/*
 echo "<table>";
 echo "<tr>";
 echo "<th>qsort</th>";
@@ -107,7 +107,24 @@ for($i = 0; $i < count($issues) ; $i++) {
    echo "</tr>";
 }
 echo "</table>";
+*/
 
+$found = false;
+for($i = 0; $i < count($issues) ; $i++) {
+   $pos = strpos($usortRes[$i], ':');
+   $uStr = substr ( $usortRes[$i] , $pos);
+   
+   $pos = strpos($qsortRes[$i], ':');
+   $qStr = substr ( $qsortRes[$i] , $pos);
+
+   if($qStr != $uStr) {
+      echo "diff found ".$usortRes[$i].' <-->'.$qsortRes[$i]."<br>";
+      $found = true;
+      
+   }
+}
+
+if (!$found) { echo "compare OK !<br>"; }
 
 
 
