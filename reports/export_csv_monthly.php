@@ -26,17 +26,13 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('reports/export_csv_tools.php');
+require('reports/export_csv_tools.php');
 
 include_once('classes/team_cache.class.php');
 include_once('classes/time_tracking.class.php');
 include_once('classes/user_cache.class.php');
 
 require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
-$logger = Logger::getLogger("export_csv");
 
 // =========== MAIN ==========
 $smartyHelper = new SmartyHelper();
@@ -84,18 +80,18 @@ if(isset($_SESSION['userid'])) {
 
          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
 
-         exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
+         ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
          $smartyHelper->assign('managedIssuesToCSV', basename($myFile));
 
          $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->startTimestamp)."-".date("Ymd", $timeTracking->endTimestamp).".csv";
 
-         exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
+         ExportCsvTools::exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
          $smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));
 
          // reduce scope to enhance speed
          $reports = array();
          for ($i = 1; $i <= 12; $i++) {
-            $reports[] = basename(exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, $codevReportsDir));
+            $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, $codevReportsDir));
          }
          $smartyHelper->assign('reports', $reports);
 
