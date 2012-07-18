@@ -143,6 +143,10 @@ if($_SESSION['userid']) {
          }
 
          $logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+
+         // Don't show job and duration after add track
+         $job = 0;
+         $duration = 0;
       }
       elseif ("deleteTrack" == $action) {
          $trackid = Tools::getSecurePOSTIntValue('trackid');
