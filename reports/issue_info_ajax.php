@@ -18,12 +18,14 @@ require('../include/session.inc.php');
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require('../path.inc.php');
+
+require_once('tools.php');
+
 if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action']))) {
 
-   require('../path.inc.php');
    require('include/super_header.inc.php');
    require('reports/issue_info_tools.php');
-   require_once('tools.php');
 
    if(isset($_GET['action'])) {
       require('classes/smarty_helper.class.php');
