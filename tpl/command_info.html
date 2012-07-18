@@ -130,7 +130,7 @@ $(document).ready(function() {
                <td valign='top'>: </td>
                <td><table class="invisible">
                   {foreach from=$parentCmdSets key=id item=i}
-                     <tr><td>{$i.name}</td></tr>
+                     <tr><td><a href='management/commandset_info.php?commandsetid={$id}'>{$i.name}</a></td></tr>
                   {/foreach}
                   </table>
                </td>

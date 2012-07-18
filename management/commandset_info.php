@@ -77,60 +77,68 @@ if (isset($_SESSION['userid'])) {
    $userid = $_SESSION['userid'];
    $session_user = UserCache::getInstance()->getUser($userid);
 
-   $teamid = 0;
-   if (isset($_POST['teamid'])) {
-      $teamid = $_POST['teamid'];
-   } else if (isset($_SESSION['teamid'])) {
-      $teamid = $_SESSION['teamid'];
+   // use the teamid set in the form, if not defined (first page call) use session teamid
+   $teamid = Tools::getSecurePOSTIntValue('teamid', 0);
+   if(0 == $teamid) {
+      if(isset($_SESSION['teamid'])) {
+         $teamid = $_SESSION['teamid'];
+      }
    }
    $_SESSION['teamid'] = $teamid;
 
    // ---
+   // if cmdid set in URL, use it. else:
    // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
-   $commandsetid = 0;
-   if(isset($_POST['commandsetid'])) {
-      $commandsetid = $_POST['commandsetid'];
-   } else if(isset($_SESSION['commandsetid'])) {
-      $commandsetid = $_SESSION['commandsetid'];
+   $commandsetid = Tools::getSecureGETIntValue('commandsetid', 0);
+   if (0 == $commandsetid) {
+      if(isset($_POST['commandsetid'])) {
+         $commandsetid = $_POST['commandsetid'];
+      } else if(isset($_SESSION['commandsetid'])) {
+         $commandsetid = $_SESSION['commandsetid'];
+      }
    }
    $_SESSION['commandsetid'] = $commandsetid;
 
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
-   $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
-
-   $smartyHelper->assign('commandsetid', $commandsetid);
-   $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
-
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
    if (0 != $commandsetid) {
       $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
-      // set CommandSets I belong to
-      $parentContracts = getParentContracts($commandset);
+      if (array_key_exists($commandset->getTeamid(), $teamList)) {
 
-      $smartyHelper->assign('parentContracts', $parentContracts);
-      $smartyHelper->assign('nbParentContracts', count($parentContracts));
-      
 
-      displayCommandSet($smartyHelper, $commandset);
-      
-            // ConsistencyCheck
-      $consistencyErrors = getConsistencyErrors($commandset);
-      if (0 != $consistencyErrors) {
-         $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the CommandSet"));
-         $smartyHelper->assign('ccheckErrList', $consistencyErrors);
-      }
+         $teamid = $commandset->getTeamid();
+         $_SESSION['teamid'] = $teamid;
 
-      // access rights
-      if (($session_user->isTeamManager($commandset->getTeamid())) ||
-          ($session_user->isTeamLeader($commandset->getTeamid()))) {
+         // set CommandSets I belong to
+         $parentContracts = getParentContracts($commandset);
 
-         $smartyHelper->assign('isEditGranted', true);
+         $smartyHelper->assign('parentContracts', $parentContracts);
+         $smartyHelper->assign('nbParentContracts', count($parentContracts));
+
+
+         displayCommandSet($smartyHelper, $commandset);
+
+               // ConsistencyCheck
+         $consistencyErrors = getConsistencyErrors($commandset);
+         if (0 != $consistencyErrors) {
+            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the CommandSet"));
+            $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+         }
+
+         // access rights
+         if (($session_user->isTeamManager($commandset->getTeamid())) ||
+            ($session_user->isTeamLeader($commandset->getTeamid()))) {
+
+            $smartyHelper->assign('isEditGranted', true);
+         }
+      } else {
+         // TODO smarty error msg
+         echo T_('Sorry, You are not allowed to see this commandSet');
       }
 
    } else {
@@ -142,6 +150,12 @@ if (isset($_SESSION['userid'])) {
       }
 
    }
+
+   $smartyHelper->assign('teamid', $teamid);
+   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+
+   $smartyHelper->assign('commandsetid', $commandsetid);
+   $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
 
 }
 

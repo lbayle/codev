@@ -134,7 +134,7 @@ if (isset($_SESSION['userid'])) {
 
    // ------ Display Command
 
-   if ((0 != $cmdid)) {
+   if (0 != $cmdid) {
 
       $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
@@ -181,8 +181,6 @@ if (isset($_SESSION['userid'])) {
 
    $smartyHelper->assign('commandid', $cmdid);
    $smartyHelper->assign('commands', getCommands($teamid, $cmdid));
-
-
 
 }
 
