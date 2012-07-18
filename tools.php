@@ -19,9 +19,6 @@
 // toolbox
 // LoB 17 May 2010
 
-// Initialize complex static variables
-Tools::staticInit();
-
 class Tools {
 
    /**
@@ -34,7 +31,7 @@ class Tools {
     * @static
     */
    public static function staticInit() {
-      self::$logger = Logger::getLogger("tools");
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
    /**
@@ -698,7 +695,7 @@ class Tools {
          if (is_array($value)) {
             if ($is_list)
                /* :RECURSION: */
-               $parts[] = array2json($value);
+               $parts[] = self::array2json($value);
             else
                /* :RECURSION: */
                $parts[] = '"' . $key . '":' . self::array2json($value);
@@ -763,7 +760,10 @@ class Tools {
               ) . ' ' . $unit[$i];
    }
 
-} // class
+}
+
+// Initialize complex static variables
+Tools::staticInit();
 
 /**
  * returns current URL (no params)
@@ -800,13 +800,6 @@ function issueInfoURL($bugid, $title=NULL, $inNewTab=true) {
  */
 function date2timestamp($string) {
    return Tools::date2timestamp($string);
-}
-
-/**
- * @deprecated Use Tools::getDurationLiteral($duration)
- */
-function getDurationLiteral($duration) {
-   return Tools::getDurationLiteral($duration);
 }
 
 /**
@@ -854,13 +847,6 @@ function doubleExplode ($del1, $del2, $keyvalue) {
 }
 
 /**
- * @deprecated Use Tools::doubleImplode($del1, $del2, $array)
- */
-function doubleImplode ($del1, $del2, $array) {
-   return Tools::doubleImplode($del1, $del2, $array);
-}
-
-/**
  * QuickSort function for Class instances
  * NOTE: the classes must have a compareTo(objectB) method.
  * @param array of instances $a
@@ -868,14 +854,6 @@ function doubleImplode ($del1, $del2, $array) {
  */
 function qsort(&$a) {
    return Tools::qsort($a);
-}
-
-/**
- * Takes an URL as input and applies url encoding only to the parameter values
- * @deprecated Use Tools::SmartUrlEncode($url)
- */
-function SmartUrlEncode($url){
-   return Tools::SmartUrlEncode($url);
 }
 
 /**
@@ -897,17 +875,6 @@ function execSQLscript2($sqlFile) {
 }
 
 /**
- * Get a clean up String value by GET
- * @param string $key The key
- * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
- * @return string The value or die if there is a problem
- * @deprecated Use Tools::getSecureGETStringValue($key,$defaultValue = NULL)
- */
-function getSecureGETStringValue($key,$defaultValue = NULL) {
-   return Tools::getSecureGETStringValue($key,$defaultValue);
-}
-
-/**
  * Get a clean up String value by POST
  * @param string $key The key
  * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
@@ -916,17 +883,6 @@ function getSecureGETStringValue($key,$defaultValue = NULL) {
  */
 function getSecurePOSTStringValue($key,$defaultValue = NULL) {
    return Tools::getSecurePOSTStringValue($key,$defaultValue);
-}
-
-/**
- * Get a clean up Integer value by GET
- * @param string $key The key
- * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
- * @return int The value or die if there is a problem
- * @deprecated Use Tools::getSecureGETNumberValue($key,$defaultValue = NULL)
- */
-function getSecureGETNumberValue($key,$defaultValue = NULL) {
-   return Tools::getSecureGETNumberValue($key,$defaultValue);
 }
 
 /**
@@ -970,16 +926,6 @@ function getSecurePOSTIntValue($key,$defaultValue = NULL) {
  */
 function sendUnauthorizedAccess() {
    Tools::sendUnauthorizedAccess();
-}
-
-/**
- * Send an 403 error
- * @use Send when a user request a page without enought rights
- * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
- * @deprecated Use Tools::sendForbiddenAccess()
- */
-function sendForbiddenAccess() {
-   Tools::sendForbiddenAccess();
 }
 
 /**
