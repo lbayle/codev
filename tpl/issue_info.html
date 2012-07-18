@@ -87,7 +87,7 @@
                <td valign='top'>: </td>
                <td><table class="invisible">
                   {foreach from=$parentCommands key=id item=i}
-                     <tr><td>{$i.reference} {$i.name}</td></tr>
+                     <tr><td><a href='management/command_info.php?cmdid={$i.id}'>{$i.reference} {$i.name}</a></td></tr>
                   {/foreach}
                   </table>
                </td>
