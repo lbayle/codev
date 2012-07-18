@@ -33,6 +33,7 @@ require_once('odf.php');
 
 include_once('user.class.php');
 include_once "issue.class.php";
+include_once "issue_note.class.php";
 include_once "project.class.php";
 
 $logger = Logger::getLogger("odt_test");
