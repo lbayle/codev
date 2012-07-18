@@ -148,7 +148,7 @@ $(document).ready(function() {
                   {foreach $cmdsetList as $id => $cmdset}
                   <tr>
                      <!--td>{$id}</td-->
-                     <td title="{$id}"  align='left'><a href='management/commandset_info.php?commandsetid={$id}'>{$cmdset.name}</a></td>
+                     <td title="{$id}"  align='left'><a href='management/commandset_info.php?commandsetid={$id}'><img title='goto' align='absmiddle' src='images/b_goto.png' /></a> {$cmdset.name}</td>
                      <td>{$cmdset.team}</td>
                      <td>{$cmdset.effortEstim}</td>
                      <td>{$cmdset.reestimated}</td>

@@ -154,8 +154,8 @@ $(document).ready(function() {
                   {foreach $cmdList as $id => $cmd}
                   <tr>
                      <!--td>{$id}</td-->
-                     <td align='right'>{$cmd.reference}</td>
-                     <td title="{$id}"  align='left'><a href='management/command_info.php?cmdid={$id}'>{$cmd.name}</a></td>
+                     <td align='right'><a href='management/command_info.php?cmdid={$id}'><img title='goto' align='absmiddle' src='images/b_goto.png' /></a> {$cmd.reference}</td>
+                     <td title="{$id}"  align='left'>{$cmd.name}</td>
                      <td>{$cmd.team}</td>
                      <td>{$cmd.effortEstim}</td>
                      <td>{$cmd.reestimated}</td>
