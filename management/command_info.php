@@ -105,60 +105,67 @@ if (isset($_SESSION['userid'])) {
    $userid = $_SESSION['userid'];
    $session_user = UserCache::getInstance()->getUser($userid);
 
-   $teamid = 0;
-   if(isset($_POST['teamid'])) {
-      $teamid = $_POST['teamid'];
-   } else if(isset($_SESSION['teamid'])) {
-      $teamid = $_SESSION['teamid'];
+   // use the teamid set in the form, if not defined (first page call) use session teamid
+   $teamid = Tools::getSecurePOSTIntValue('teamid', 0);
+   if(0 == $teamid) {
+      if(isset($_SESSION['teamid'])) {
+         $teamid = $_SESSION['teamid'];
+      }
    }
    $_SESSION['teamid'] = $teamid;
 
+   // if cmdid set in URL, use it. else:
    // use the cmdid set in the form, if not defined (first page call) use session cmdid
-   $cmdid = 0;
-   if(isset($_POST['cmdid'])) {
-      $cmdid = $_POST['cmdid'];
-   } else if(isset($_SESSION['cmdid'])) {
-      $cmdid = $_SESSION['cmdid'];
+   $cmdid = Tools::getSecureGETIntValue('cmdid', 0);
+   if (0 == $cmdid) {
+      if(isset($_POST['cmdid'])) {
+         $cmdid = $_POST['cmdid'];
+      } else if(isset($_SESSION['cmdid'])) {
+         $cmdid = $_SESSION['cmdid'];
+      }
    }
    $_SESSION['cmdid'] = $cmdid;
 
-
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
-   $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
-
-   $smartyHelper->assign('commandid', $cmdid);
-   $smartyHelper->assign('commands', getCommands($teamid, $cmdid));
 
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 
    // ------ Display Command
 
-   if (0 != $cmdid) {
+   if ((0 != $cmdid)) {
 
       $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
-      displayCommand($smartyHelper, $cmd);
+      if (array_key_exists($cmd->getTeamid(), $teamList)) {
+
+        
+         $teamid = $cmd->getTeamid();
+         $_SESSION['teamid'] = $teamid;
+
+         displayCommand($smartyHelper, $cmd);
 
 
-      // ConsistencyCheck
-      $consistencyErrors = getConsistencyErrors($cmd);
-      if(count($consistencyErrors) > 0) {
-         
-         $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+         // ConsistencyCheck
+         $consistencyErrors = getConsistencyErrors($cmd);
+         if(count($consistencyErrors) > 0) {
+
+            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
+            $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+         }
+
+         // access rights
+         if (($session_user->isTeamManager($cmd->getTeamid())) ||
+            ($session_user->isTeamLeader($cmd->getTeamid()))) {
+
+            $smartyHelper->assign('isEditGranted', true);
+         }
+      } else {
+         // TODO smarty error msg
+         echo T_('Sorry, You are not allowed to see this command');
       }
-
-      // access rights
-      if (($session_user->isTeamManager($cmd->getTeamid())) ||
-          ($session_user->isTeamLeader($cmd->getTeamid()))) {
-
-         $smartyHelper->assign('isEditGranted', true);
-      }
-
    } else {
       unset($_SESSION['commandsetid']);
       unset($_SESSION['servicecontractid']);
@@ -168,6 +175,12 @@ if (isset($_SESSION['userid'])) {
          header('Location:command_edit.php?cmdid=0');
       }
    }
+
+   $smartyHelper->assign('teamid', $teamid);
+   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+
+   $smartyHelper->assign('commandid', $cmdid);
+   $smartyHelper->assign('commands', getCommands($teamid, $cmdid));
 
 
 
