@@ -19,6 +19,8 @@
 // toolbox
 // LoB 17 May 2010
 
+require_once('lib/log4php/Logger.php');
+
 class Tools {
 
    /**

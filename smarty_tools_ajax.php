@@ -20,32 +20,32 @@ require('include/session.inc.php');
 if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action']))) {
 
    require('path.inc.php');
-   require('super_header.inc.php');
+   require('include/super_header.inc.php');
    require('smarty_tools.php');
 
    if(isset($_GET['action'])) {
-      require('display.inc.php');
-      require('i18n.inc.php');
+      require('classes/smarty_helper.class.php');
+      require_once('i18n/i18n.inc.php');
 
       $smartyHelper = new SmartyHelper();
 
       if ($_GET['action'] == 'getTeamProjects') {
-         require_once('team.class.php');
+         include_once('team_cache.class.php');
 
-         $projects = Team::getProjectList($_GET['teamid'], false);
-         $smartyHelper->assign('projects', getProjects($projects));
+         $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false);
+         $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects, 0));
          $smartyHelper->display('form/projectSelector');
          
       } elseif ($_GET['action'] == 'getTeamAllProjects') {
-         require_once('team.class.php');
+         include_once('team_cache.class.php');
 
          $projects[0] = T_('All projects');
-         $projects += Team::getProjectList($_GET['teamid'], false);
-         $smartyHelper->assign('projects', getProjects($projects));
+         $projects += $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false);
+         $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects, 0));
          $smartyHelper->display('form/projectSelector');
 
-      } else if($_GET['action'] == 'getProjectIssues') {
-         require_once('user_cache.class.php');
+      } elseif($_GET['action'] == 'getProjectIssues') {
+         include_once('user_cache.class.php');
 
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
@@ -64,18 +64,18 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          if($_GET['bugid'] == 'null') {
             $_GET['bugid'] = 0;
          }
-         $smartyHelper->assign('bugs', getBugs(getSecureGETIntValue('projectid'),getSecureGETIntValue('bugid',0),$projList));
+         $smartyHelper->assign('bugs', SmartyTools::getBugs(Tools::getSecureGETIntValue('projectid'),Tools::getSecureGETIntValue('bugid',0),$projList));
          $smartyHelper->display('form/bugSelector');
       }
       else if($_GET['action'] == 'getProjectDetails') {
          require_once('reports/productivity_report_tools.php');
 
-         $weekDates  = week_dates(date('W'),date('Y'));
-         $startdate  = isset($_GET["startdate"]) ? $_GET["startdate"] : date("Y-m-d", $weekDates[1]);
-         $startTimestamp = date2timestamp($startdate);
+         $weekDates  = Tools::week_dates(date('W'),date('Y'));
+         $startdate  = Tools::getSecureGETStringValue('startdate', date("Y-m-d", $weekDates[1]));
+         $startTimestamp = Tools::date2timestamp($startdate);
 
-         $enddate  = isset($_GET["enddate"]) ? $_GET["enddate"] : date("Y-m-d", $weekDates[5]);
-         $endTimestamp = date2timestamp($enddate);
+         $enddate  = Tools::getSecureGETStringValue('enddate', date("Y-m-d", $weekDates[5]));
+         $endTimestamp = Tools::date2timestamp($enddate);
          $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $_GET['teamid']);
@@ -94,33 +94,33 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          }
          $smartyHelper->display('ajax/projectDetails');
       }
-      else if($_GET['action'] == 'getYearsToNow') {
-         require_once('team.class.php');
+      elseif($_GET['action'] == 'getYearsToNow') {
+         include_once('classes/team_cache.class.php');
 
-         $team = new Team($_GET['teamid']);
+         $team = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'));
          $min_year = date("Y", $team->date);
          $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
-         $smartyHelper->assign('years', getYearsToNow($min_year,$year));
+         $smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year,$year));
          $smartyHelper->display('form/yearSelector');
       }
       else {
-         sendNotFoundAccess();
+         Tools::sendNotFoundAccess();
       }
    }
    else if($_POST['action']) {
       if($_POST['action'] == 'updateRemainingAction') {
-         require_once('issue_cache.class.php');
+         include_once('classes/issue_cache.class.php');
 
-         $issue = IssueCache::getInstance()->getIssue(getSecurePOSTIntValue('bugid'));
-         $issue->setRemaining(getSecurePOSTNumberValue('remaining'));
+         $issue = IssueCache::getInstance()->getIssue(Tools::getSecurePOSTIntValue('bugid'));
+         $issue->setRemaining(Tools::getSecurePOSTNumberValue('remaining'));
       }
       else {
-         sendNotFoundAccess();
+         Tools::sendNotFoundAccess();
       }
    }
 }
 else {
-   sendUnauthorizedAccess();
+   Tools::sendUnauthorizedAccess();
 }
 
 ?>
