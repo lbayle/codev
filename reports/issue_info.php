@@ -26,7 +26,7 @@ require('smarty_tools.php');
 
 require('classes/smarty_helper.class.php');
 
-require_once('reports/issue_info_tools.php');
+require('reports/issue_info_tools.php');
 
 include_once('classes/consistency_check2.class.php');
 include_once('classes/issue_cache.class.php');
@@ -86,16 +86,16 @@ if(isset($_SESSION['userid'])) {
 
                $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
                $smartyHelper->assign('isManager', $isManager);
-               $smartyHelper->assign('issueGeneralInfo', getIssueGeneralInfo($issue, $isManager, $displaySupport));
+               $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, $isManager, $displaySupport));
                $timeTracks = $issue->getTimeTracks();
-               $smartyHelper->assign('jobDetails', getJobDetails($timeTracks));
-               $smartyHelper->assign('timeDrift', getTimeDrift($issue));
+               $smartyHelper->assign('jobDetails', IssueInfoTools::getJobDetails($timeTracks));
+               $smartyHelper->assign('timeDrift', IssueInfoTools::getTimeDrift($issue));
 
-               $smartyHelper->assign('months', getCalendar($issue,$timeTracks));
-               $smartyHelper->assign('durationsByStatus', getDurationsByStatus($issue));
+               $smartyHelper->assign('months', IssueInfoTools::getCalendar($issue,$timeTracks));
+               $smartyHelper->assign('durationsByStatus', IssueInfoTools::getDurationsByStatus($issue));
 
                // set Commands I belong to
-               $parentCmds = getParentCommands($issue);
+               $parentCmds = IssueInfoTools::getParentCommands($issue);
                $smartyHelper->assign('parentCommands', $parentCmds);
                $smartyHelper->assign('nbParentCommands', count($parentCmds));
             }

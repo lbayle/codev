@@ -22,8 +22,8 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
 
    require('../path.inc.php');
    require('include/super_header.inc.php');
-   require('tools.php');
    require('reports/issue_info_tools.php');
+   require_once('tools.php');
 
    if(isset($_GET['action'])) {
       require('classes/smarty_helper.class.php');
@@ -38,7 +38,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          $managedTeamList = $user->getManagedTeamList();
          $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList) : array();
          $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
-         $smartyHelper->assign('issueGeneralInfo', getIssueGeneralInfo($issue, $isManager));
+         $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, $isManager));
          $smartyHelper->display('ajax/generalInfo');
       }
       else {
@@ -47,5 +47,5 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    }
 }
 else {
-   sendUnauthorizedAccess();
+   Tools::sendUnauthorizedAccess();
 }
