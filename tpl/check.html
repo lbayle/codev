@@ -1,9 +1,6 @@
 <script type="text/javascript">
-
-//------ JQUERY --------
-$(document).ready(function() {
-   $('#errors_table').dataTable(
-      {
+   jQuery(document).ready(function(){
+      jQuery('#errors_table').dataTable({
          "sScrollY": "700px",
          "bPaginate": false,
          "bScrollCollapse": true,
@@ -12,10 +9,8 @@ $(document).ready(function() {
          "bInfo": false,
          "bAutoWidth": false
       });
-});
-
+   });
 </script>
-
 
 <div id="content">
    {if $teams}
