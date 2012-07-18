@@ -6,12 +6,7 @@
    <div align="center" style="margin-top:2em;">
       <form id="form2" method="post" action="{$page}">
          <fieldset>
-            <label for="teamid">{t}Team{/t}: </label>
-            <select id="teamid" name="teamid">
-               {foreach from=$teams key=id item=i}
-               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
-               {/foreach}
-            </select>
+            {include file="form/teamSelector.html"}
             {include file="form/dateRangeSelector.html"}
             <input type=submit value='{t}Compute{/t}'>
          </fieldset>
