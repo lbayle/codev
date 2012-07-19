@@ -406,7 +406,7 @@
 
                   i++;
                   if (i < len) {
-                     // For avoid browser freezing, we save one row and wait 0 ms before saving the next row
+                     // To avoid browser freezing, we save one row and wait 0 ms before saving the next row
                      setTimeout(saveRow, 0);
                   } else {
                      // At the end, scroll to top, reset the cursor and alert the user

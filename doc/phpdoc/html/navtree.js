@@ -1,6 +1,9 @@
 var NAVTREE =
 [
   [ "CodevTT", "index.html", [
+    [ "Related Pages", "pages.html", [
+      [ "Deprecated List", "deprecated.html", null ]
+    ] ],
     [ "Class List", "annotated.html", [
       [ "BlogActivity", "classBlogActivity.html", null ],
       [ "BlogManager", "classBlogManager.html", null ],
@@ -13,6 +16,7 @@ var NAVTREE =
       [ "CommandCache", "classCommandCache.html", null ],
       [ "CommandSet", "classCommandSet.html", null ],
       [ "CommandSetCache", "classCommandSetCache.html", null ],
+      [ "Comparable", "interfaceComparable.html", null ],
       [ "Config", "classConfig.html", null ],
       [ "ConfigItem", "classConfigItem.html", null ],
       [ "ConfigMantis", "classConfigMantis.html", null ],
@@ -23,6 +27,7 @@ var NAVTREE =
       [ "ConsistencyError", "classConsistencyError.html", null ],
       [ "ConsistencyError2", "classConsistencyError2.html", null ],
       [ "DeadLine", "classDeadLine.html", null ],
+      [ "ExportCsvTools", "classExportCsvTools.html", null ],
       [ "FileReader", "classFileReader.html", null ],
       [ "GanttActivity", "classGanttActivity.html", null ],
       [ "GanttManager", "classGanttManager.html", null ],
@@ -33,12 +38,14 @@ var NAVTREE =
       [ "Issue", "classIssue.html", null ],
       [ "IssueCache", "classIssueCache.html", null ],
       [ "IssueFDJ", "classIssueFDJ.html", null ],
+      [ "IssueInfoTools", "classIssueInfoTools.html", null ],
       [ "IssueNote", "classIssueNote.html", null ],
       [ "IssueSelection", "classIssueSelection.html", null ],
       [ "Job", "classJob.html", null ],
       [ "Jobs", "classJobs.html", null ],
       [ "PeriodStats", "classPeriodStats.html", null ],
       [ "PeriodStatsReport", "classPeriodStatsReport.html", null ],
+      [ "ProductivityReportTools", "classProductivityReportTools.html", null ],
       [ "Project", "classProject.html", null ],
       [ "ProjectCache", "classProjectCache.html", null ],
       [ "ProjectVersion", "classProjectVersion.html", null ],
@@ -47,6 +54,7 @@ var NAVTREE =
       [ "ServiceContract", "classServiceContract.html", null ],
       [ "ServiceContractCache", "classServiceContractCache.html", null ],
       [ "SmartyHelper", "classSmartyHelper.html", null ],
+      [ "SmartyTools", "classSmartyTools.html", null ],
       [ "SqlWrapper", "classSqlWrapper.html", null ],
       [ "Status", "classStatus.html", null ],
       [ "StreamReader", "classStreamReader.html", null ],
@@ -56,6 +64,7 @@ var NAVTREE =
       [ "TimeTrack", "classTimeTrack.html", null ],
       [ "TimeTrackCache", "classTimeTrackCache.html", null ],
       [ "TimeTracking", "classTimeTracking.html", null ],
+      [ "TimeTrackingTools", "classTimeTrackingTools.html", null ],
       [ "Tools", "classTools.html", null ],
       [ "uninstall", "classuninstall.html", null ],
       [ "User", "classUser.html", null ],
@@ -80,6 +89,12 @@ var NAVTREE =
       [ "CodevTTPlugin", "classCodevTTPlugin.html", null ],
       [ "Command", "classCommand.html", null ],
       [ "CommandSet", "classCommandSet.html", null ],
+      [ "Comparable", "interfaceComparable.html", [
+        [ "Issue", "classIssue.html", [
+          [ "IssueFDJ", "classIssueFDJ.html", null ]
+        ] ],
+        [ "Job", "classJob.html", null ]
+      ] ],
       [ "Config", "classConfig.html", null ],
       [ "ConfigItem", "classConfigItem.html", null ],
       [ "ConfigMantis", "classConfigMantis.html", null ],
@@ -91,6 +106,7 @@ var NAVTREE =
       [ "ConsistencyError", "classConsistencyError.html", null ],
       [ "ConsistencyError2", "classConsistencyError2.html", null ],
       [ "DeadLine", "classDeadLine.html", null ],
+      [ "ExportCsvTools", "classExportCsvTools.html", null ],
       [ "FileReader", "classFileReader.html", null ],
       [ "GanttActivity", "classGanttActivity.html", null ],
       [ "GanttManager", "classGanttManager.html", null ],
@@ -98,22 +114,21 @@ var NAVTREE =
       [ "Holiday", "classHoliday.html", null ],
       [ "Holidays", "classHolidays.html", null ],
       [ "Install", "classInstall.html", null ],
-      [ "Issue", "classIssue.html", [
-        [ "IssueFDJ", "classIssueFDJ.html", null ]
-      ] ],
+      [ "IssueInfoTools", "classIssueInfoTools.html", null ],
       [ "IssueNote", "classIssueNote.html", null ],
       [ "IssueSelection", "classIssueSelection.html", [
         [ "ProjectVersion", "classProjectVersion.html", null ]
       ] ],
-      [ "Job", "classJob.html", null ],
       [ "Jobs", "classJobs.html", null ],
       [ "PeriodStats", "classPeriodStats.html", null ],
       [ "PeriodStatsReport", "classPeriodStatsReport.html", null ],
+      [ "ProductivityReportTools", "classProductivityReportTools.html", null ],
       [ "Project", "classProject.html", null ],
       [ "ScheduledTask", "classScheduledTask.html", null ],
       [ "Scheduler", "classScheduler.html", null ],
       [ "ServiceContract", "classServiceContract.html", null ],
       [ "SmartyHelper", "classSmartyHelper.html", null ],
+      [ "SmartyTools", "classSmartyTools.html", null ],
       [ "SqlWrapper", "classSqlWrapper.html", null ],
       [ "Status", "classStatus.html", null ],
       [ "StreamReader", "classStreamReader.html", null ],
@@ -123,6 +138,7 @@ var NAVTREE =
       [ "Team", "classTeam.html", null ],
       [ "TimeTrack", "classTimeTrack.html", null ],
       [ "TimeTracking", "classTimeTracking.html", null ],
+      [ "TimeTrackingTools", "classTimeTrackingTools.html", null ],
       [ "Tools", "classTools.html", null ],
       [ "uninstall", "classuninstall.html", null ],
       [ "User", "classUser.html", null ]
