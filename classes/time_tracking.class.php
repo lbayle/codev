@@ -1265,4 +1265,7 @@ class TimeTracking {
 
 }
 
+// Initialize complex static variables
+TimeTracking::staticInit();
+
 ?>
