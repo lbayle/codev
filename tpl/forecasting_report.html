@@ -62,7 +62,7 @@
                </tr>
                <tr>
                   <td title="{t}If < 0 then ahead on planning.{/t}">{t}EffortDeviation{/t}</td>
-                  {if $manager}<td title="elapsed - MgrEffortEstim" {if $currentDeviationStats.totalDeviationMgr.nbDays > 0}style="background-color: #fcbdbd;'{elseif $currentDeviationStats.totalDeviationMgr.nbDays < 0}style="background-color: #61ed66;"{/if}>{$currentDeviationStats.totalDeviationMgr.nbDays}</td>{/if}
+                  {if $manager}<td title="elapsed - MgrEffortEstim" {if $currentDeviationStats.totalDeviationMgr.nbDays > 0}style="background-color: #fcbdbd;"{elseif $currentDeviationStats.totalDeviationMgr.nbDays < 0}style="background-color: #61ed66;"{/if}>{$currentDeviationStats.totalDeviationMgr.nbDays}</td>{/if}
                   <td title="elapsed - EffortEstim" {if $currentDeviationStats.totalDeviation.nbDays > 0}style="background-color: #fcbdbd;"{elseif $currentDeviationStats.totalDeviation.nbDays < 0}style="background-color: #61ed66;"{/if}>{$currentDeviationStats.totalDeviation.nbDays}</td>
                </tr>
                <tr>
