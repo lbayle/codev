@@ -176,7 +176,7 @@ if (isset($_SESSION['userid'])) {
 
    // use the teamid set in the form, if not defined (first page call) use session teamid
    if (isset($_POST['teamid'])) {
-      $teamid = Tools::getSecurePOSTIntValue($_POST['teamid']);
+      $teamid = Tools::getSecurePOSTIntValue('teamid');
       $_SESSION['teamid'] = $teamid;
    } elseif(isset($_SESSION['teamid'])) {
       $teamid = $_SESSION['teamid'];
