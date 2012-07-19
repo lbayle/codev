@@ -91,6 +91,7 @@ function getTeamProjects($teamid) {
    $teamProjectsTuple = array();
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $teamProjectsTuple[$row->id] = array(
+         "name" => $row->name,
          "projectid" => $row->project_id,
          "typeNames" => Project::$typeNames[$row->type],
          "description" => $row->description
@@ -98,7 +99,7 @@ function getTeamProjects($teamid) {
 
       // if ExternalTasksProject do not allow to delete
       if ($externalTasksProject != $row->project_id) {
-         $teamProjectsTuple[$row->id]["name"] = $row->name;
+         $teamProjectsTuple[$row->id]["delete"] = 'ok';
       }
    }
 
