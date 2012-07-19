@@ -1,87 +1,79 @@
-
 <div id="content" class="center">
-
-
    {if !$filename}
 
    <!-- FILE SELECTION -->
-   <div style="margin-top:3em;">
 
-      <!-- Help dialogBox -->
-      <script type="text/javascript">
-         jQuery(document).ready(function(){
-            jQuery.each(jQuery(".help_link"),function() {
-               jQuery(this).click(function() {
-                  jQuery("#"+jQuery(this).attr("id").replace("_link","")).dialog( "open" );
-                  return false;
-               });
+   <!-- Help dialogBox -->
+   <script type="text/javascript">
+      jQuery(document).ready(function(){
+         jQuery.each(jQuery(".help_link"),function() {
+            jQuery(this).click(function() {
+               jQuery("#"+jQuery(this).attr("id").replace("_link","")).dialog( "open" );
+               return false;
             });
-            jQuery(".help_dialog").dialog({
-               autoOpen: false,
-               hide: "fade",
-               width: "500"
-            });
-
          });
-      </script>
+         jQuery(".help_dialog").dialog({
+            autoOpen: false,
+            hide: "fade",
+            width: "500"
+         });
+      });
+   </script>
 
-      <div id="dialog_uploadCSV" class="help_dialog" title="{t}Import Mantis Issues{/t}" style="display: none">
-         <p><strong>{t}File Format{/t}</strong><br />{t}Standard CSV format with :{/t}<br>
-                           {t}delimiter{/t} = <span style="color:blue">;</span><br>
-                           {t}enclosure{/t} = <span style="color:blue">"</span><br>
-                           {t}Date format{/t} = <span style="color:blue">YYY-MM-DD</span><br>
-                           {t}Number format{/t} = <span style="color:blue">3.5</span> {t}or{/t} <span style="color:blue">3,5</span></p>
-         <p><strong>{t}Encoding{/t}</strong><br />{t}It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported.{/t}<br /></p>
-         <p><strong>{t}Columns{/t}</strong><br />{t}the file must contain 6 columns, the 1st line contains the column names.{/t}<br /><br /><span style="color:blue">{t}Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef{/t}</span></p>
-      </div>
-
-
-      <h2 class="center">{t}Select CSV file{/t} &nbsp;&nbsp;<a id="dialog_uploadCSV_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></h2>
-      
-
-      <form method="post" action="{$page}" enctype="multipart/form-data"  id="formUploadFile" name="formUploadFile" >
-         <fieldset>
-            {include file="form/teamProjectSelector.html"}
-            <input type="file" name="uploaded_csv">
-            <input type="submit" value="{t}Preview import{/t}">
-
-            <input type="hidden" name="action" value="uploadFile" />
-            <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-         </fieldset>
-
-      </form>
-      <div style="margin-top:2em;">
-         <span>Import templates: </span>
-         <span style="padding-left: 1em">
-            <a href="tools/download.php?importTemplates&f=import_template.xls" target="_blank">XLS</a>
-            or
-            <a href="tools/download.php?importTemplates&f=import_template.csv" target="_blank">CSV</a>
-         </span>
-      </div>
+   <div id="dialog_uploadCSV" class="help_dialog" title="{t}Import Mantis Issues{/t}" style="display: none">
+      <p><strong>{t}File Format{/t}</strong><br />{t}Standard CSV format with :{/t}<br>
+                 {t}delimiter{/t} = <span style="color:blue">;</span><br>
+                 {t}enclosure{/t} = <span style="color:blue">"</span><br>
+                 {t}Date format{/t} = <span style="color:blue">YYY-MM-DD</span><br>
+                 {t}Number format{/t} = <span style="color:blue">3.5</span> {t}or{/t} <span style="color:blue">3,5</span>
+      </p>
+      <p><strong>{t}Encoding{/t}</strong><br />{t}It is highly recommended to use <strong>UTF-8</strong> but ASCII and ISO-8859-1 (MS-Windows) are also suported.{/t}<br /></p>
+      <p><strong>{t}Columns{/t}</strong><br />{t}the file must contain 6 columns, the 1st line contains the column names.{/t}<br /><br /><span style="color:blue">{t}Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef{/t}</span></p>
    </div>
 
+   <h2 class="center">{t}Select CSV file{/t} &nbsp;&nbsp;<a id="dialog_uploadCSV_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></h2>
+      
+   <form method="post" action="{$page}" enctype="multipart/form-data" id="formUploadFile" name="formUploadFile">
+      <fieldset>
+         {include file="form/teamProjectSelector.html"}
+         <input type="file" name="uploaded_csv" />
+         <input type="submit" value="{t}Preview import{/t}" />
+         <input type="hidden" name="action" value="uploadFile" />
+         <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+      </fieldset>
+   </form>
+   <div style="margin-top:2em;">
+      <span>Import templates: </span>
+      <span style="padding-left: 1em">
+         <a href="tools/download.php?importTemplates&f=import_template.xls" target="_blank">XLS</a>
+         or
+         <a href="tools/download.php?importTemplates&f=import_template.csv" target="_blank">CSV</a>
+      </span>
+   </div>
    {/if}
 
-
    {if $errorMsg}
-      <div style="margin-top:2em;">
-         <span style='color:red'>ERROR: {$errorMsg}</span>
-      </div>
+   <div style="margin-top:2em;">
+      <span style='color:red'>ERROR: {$errorMsg}</span>
+   </div>
    {/if}
 
    {if $newIssues}
    <script type="text/javascript" src="js/datepicker.js"></script>
    <script type="text/javascript">
-
+      function getDataRowFromIssueRow(issueRow) {
+         var dataRowId = issueRow.attr('id').replace('issueTable','issueData');
+         return jQuery("#"+dataRowId);
+      }
 
       //------ DATATABLE JQUERY --------
-      $(document).ready(function() {
+      jQuery(document).ready(function() {
       
          {if $locale != en}
-            jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+         jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
          {/if}
 
-         var oTable = $('#issues_table').dataTable( {
+         var oTable = jQuery('#issues_table').dataTable( {
             "bProcessing": false,
             "sScrollY": "700px",
             "bPaginate": false,
@@ -90,58 +82,33 @@
             "bSort": true,
             "bInfo": false,
             "bAutoWidth": false,
+
             "fnDrawCallback": function () {
-
-               $('.summary').editable( function(value, settings) { return(value); }, {
+               jQuery(this).find('.summary').editable( function(value, settings) { return(value); }, {
                   data   : function(value, settings) { return value; },
                   type   : 'textarea',
                   submit: 'OK',
                   placeholder : '',
-
-                  "callback": function( sValue, y ) {
-                     /* Redraw the table */
-                     var aPos = oTable.fnGetPosition( this );
-                     oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                     oTable.fnDraw();
-                  },
                   "height": "14px"
-               } );
-               $('.mgrEffortEstim').editable( function(value, settings) { return(value); }, {
+               });
+               jQuery(this).find('.mgrEffortEstim').editable( function(value, settings) { return(value); }, {
                   data   : function(value, settings) { return value; },
                   type   : 'textarea',
                   submit: 'OK',
                   placeholder : '',
-
-                  "callback": function( sValue, y ) {
-                     /* Redraw the table */
-                     var aPos = oTable.fnGetPosition( this );
-                     oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                     oTable.fnDraw();
-                  },
                   "height": "14px"
-               } );
-               $('.effortEstim').editable( function(value, settings) { return(value); }, {
+               });
+               jQuery(this).find('.effortEstim').editable( function(value, settings) { return(value); }, {
                   data   : function(value, settings) { return value; },
                   type   : 'textarea',
                   submit: 'OK',
                   placeholder : '',
-
-                  "callback": function( sValue, y ) {
-                     /* Redraw the table */
-                     var aPos = oTable.fnGetPosition( this );
-                     oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                     oTable.fnDraw();
-                  },
                   "height": "14px"
-               } );
+               });
                if(Object.keys(jQuery.parseJSON('{$jed_commandList}')).length > 0) {
-                  $('.command').editable( function(value, settings) {
-
+                  jQuery(this).find('.command').editable( function(value, settings) {
                      // set id in data table
-                     var lineNum = jQuery(this).parent().find('td.lineNum').text();
-                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
+                     var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
                      dataRow.find('td.commandid').text(value);
 
                      // set displayed value
@@ -152,23 +119,13 @@
                      type        : 'select',
                      submit: 'OK',
                      placeholder : '',
-
-                     "callback": function( sValue, y ) {
-                        /* Redraw the table */
-                        var aPos = oTable.fnGetPosition( this );
-                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                        oTable.fnDraw();
-                     },
                      "height": "14px"
-                  } );
+                  });
                }
                if(Object.keys(jQuery.parseJSON('{$jed_categoryList}')).length > 0) {
-                  $('.category').editable( function(value, settings) {
+                  jQuery(this).find('.category').editable( function(value, settings) {
                      // set id in data table
-                     var lineNum = jQuery(this).parent().find('td.lineNum').text();
-                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
+                     var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
                      dataRow.find('td.categoryid').text(value);
                      var items = JSON.parse(settings.data);
                      return(items[value]);
@@ -177,23 +134,13 @@
                      type        : 'select',
                      submit: 'OK',
                      placeholder : '',
-
-                     "callback": function( sValue, y ) {
-                        /* Redraw the table */
-                        var aPos = oTable.fnGetPosition( this );
-                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                        oTable.fnDraw();
-                     },
                      "height": "14px"
-                  } );
+                  });
                }
                if(Object.keys(jQuery.parseJSON('{$jed_targetVersionList}')).length > 0) {
-                  $('.targetVersion').editable( function(value, settings) {
+                  jQuery(this).find('.targetVersion').editable( function(value, settings) {
                      // set id in data table
-                     var lineNum = jQuery(this).parent().find('td.lineNum').text();
-                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
+                     var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
                      dataRow.find('td.targetversionid').text(value);
                      var items = JSON.parse(settings.data);
                      return(items[value]);
@@ -202,23 +149,13 @@
                      type        : 'select',
                      submit: 'OK',
                      placeholder : '',
-
-                     "callback": function( sValue, y ) {
-                        /* Redraw the table */
-                        var aPos = oTable.fnGetPosition( this );
-                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                        oTable.fnDraw();
-                     },
                      "height": "14px"
-                  } );
+                  });
                }
                if(Object.keys(jQuery.parseJSON('{$jed_userList}')).length > 0) {
-                  $('.userName').editable( function(value, settings) {
+                  jQuery(this).find('.userName').editable( function(value, settings) {
                      // set id in data table
-                     var lineNum = jQuery(this).parent().find('td.lineNum').text();
-                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
+                     var dataRow = getDataRowFromIssueRow(jQuery(this).parent());
                      dataRow.find('td.userid').text(value);
                      var items = JSON.parse(settings.data);
                      return(items[value]);
@@ -227,335 +164,311 @@
                      type        : 'select',
                      submit: 'OK',
                      placeholder : '',
-
-                     "callback": function( sValue, y ) {
-                        /* Redraw the table */
-                        var aPos = oTable.fnGetPosition( this );
-                        oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                        oTable.fnDraw();
-                     },
                      "height": "14px"
-                  } );
-
-                  $(".deadline").editable(function(value, settings) { return(value); }, {
-                     type: 'datepicker',
-                     //event: 'dblclick',
-                     submit: 'OK',
-                     placeholder : '',
-                     width: '100px'
                   });
-
                }
+               jQuery(this).find(".deadline").editable(function(value, settings) { return(value); }, {
+                  type: 'datepicker',
+                  //event: 'dblclick',
+                  submit: 'OK',
+                  placeholder : '',
+                  width: '100px'
+               });
             }
-         } );
+         });
       });
    </script>
 
+   <!-- GLOBAL VALUES BUTTONS  -->
+   <div class="left" style="margin-top:6em;">
 
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
 
-      <!-- GLOBAL VALUES BUTTONS  -->
-      <div  class="left" style="margin-top:6em;">
+            var oTable = jQuery('#issues_table').dataTable();
 
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
+            var rows = oTable.find('tbody tr');
 
-               var oTable = $('#issues_table').dataTable();
+            jQuery("#btSetAllCommands").click(function(event) {
+               // you cannot set data if column is hidden !
+               rows.each( function () {
+                  var select = jQuery('#globalCommandid option:selected');
+                  var value = select.text();
+                  var key = select.val();
 
-               jQuery("#btSetAllCommands").click(function(event) {
-                  // you cannot set data if column is hidden !
-                  $('#issues_table tbody tr').each( function () {
-                     var select = jQuery('#globalCommandid option:selected');
-                     var value = select.text();
-                     var key = select.val();
+                  jQuery(this).find('td.command').text(value);
 
-                     jQuery(this).find('td.command').text(value);
-
-                     // set id in data table
-                     var lineNum = jQuery(this).find('td.lineNum').text();
-                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
-                     dataRow.find('td.commandid').text(key);
-                  });
+                  // set id in data table
+                  var dataRow = getDataRowFromIssueRow(jQuery(this));
+                  dataRow.find('td.commandid').text(key);
                });
+            });
 
-               jQuery("#btSetAllCategories").click(function(event) {
-                  // you cannot set data if column is hidden !
-                  $('#issues_table tbody tr').each( function () {
-                     var select = jQuery('#globalCategoryid option:selected');
-                     var value = select.text();
-                     var key = select.val();
+            jQuery("#btSetAllCategories").click(function(event) {
+               // you cannot set data if column is hidden !
+               rows.each( function () {
+                  var select = jQuery('#globalCategoryid option:selected');
+                  var value = select.text();
+                  var key = select.val();
 
-                     jQuery(this).find('td.category').text(value);
+                  jQuery(this).find('td.category').text(value);
 
-                     // set id in data table
-                     var lineNum = jQuery(this).find('td.lineNum').text();
-                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
-                     dataRow.find('td.categoryid').text(key);
-                  });
+                  // set id in data table
+                  var dataRow = getDataRowFromIssueRow(jQuery(this));
+                  dataRow.find('td.categoryid').text(key);
                });
+            });
 
-               jQuery("#btSetAllTargetVersions").click(function(event) {
+            jQuery("#btSetAllTargetVersions").click(function(event) {
+               // you cannot set data if column is hidden !
+               rows.each( function () {
+                  var select = jQuery('#globalTargetversionid option:selected');
+                  var value = select.text();
+                  var key = select.val();
 
-                  // you cannot set data if column is hidden !
-                  $('#issues_table tbody tr').each( function () {
-                     var select = jQuery('#globalTargetversionid option:selected');
-                     var value = select.text();
-                     var key = select.val();
+                  jQuery(this).find('td.targetVersion').text(value);
 
-                     jQuery(this).find('td.targetVersion').text(value);
-
-                     // set id in data table
-                     var lineNum = jQuery(this).find('td.lineNum').text();
-                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
-                     dataRow.find('td.targetversionid').text(key);
-                  });
+                  // set id in data table
+                  var dataRow = getDataRowFromIssueRow(jQuery(this));
+                  dataRow.find('td.targetversionid').text(key);
                });
+            });
 
-               jQuery("#btSetAllUsers").click(function(event) {
+            jQuery("#btSetAllUsers").click(function(event) {
+               // you cannot set data if column is hidden !
+               rows.each( function () {
+                  var select = jQuery('#globalUserid option:selected');
+                  var value = select.text();
+                  var key = select.val();
 
-                  // you cannot set data if column is hidden !
-                  $('#issues_table tbody tr').each( function () {
-                     var select = jQuery('#globalUserid option:selected');
-                     var value = select.text();
-                     var key = select.val();
+                  jQuery(this).find('td.userName').text(value);
 
-                     jQuery(this).find('td.userName').text(value);
-
-                     // set id in data table
-                     var lineNum = jQuery(this).find('td.lineNum').text();
-                     var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
-                     dataRow.find('td.userid').text(key);
-                  });
+                  // set id in data table
+                  var dataRow = getDataRowFromIssueRow(jQuery(this));
+                  dataRow.find('td.userid').text(key);
                });
+            });
 
-               jQuery("#btSetAllDeadlines").click(function(event) {
-
-                  // you cannot set data if column is hidden !
-                  $('#issues_table tbody tr').each( function () {
-                     var value = jQuery('#globalDeadline').val();
-                     jQuery(this).find('td.deadline').text(value);
-                  });
+            jQuery("#btSetAllDeadlines").click(function(event) {
+               // you cannot set data if column is hidden !
+               oTable.find('tbody tr').each( function () {
+                  var value = jQuery('#globalDeadline').val();
+                  jQuery(this).find('td.deadline').text(value);
                });
+            });
 
             // Set the date
             jQuery("#globalDeadline").datepicker("setDate" ,"{$date}");
+         });
+      </script>
 
-            });
-         </script>
-
-         <table class='invisible'>
-            <tr>
-               <td>{t}Team{/t}</td>
-               <td>:</td>
-               <td>{$teamName}</td>
-               <td></td>
-            </tr>
-            <tr>
-               <td>{t}Project{/t}</td>
-               <td>:</td>
-               <td>{$projectName}</td>
-               <td></td>
-            </tr>
-            <tr>
-               <td>{t}File{/t}</td>
-               <td>:</td>
-               <td>{$filename}</td>
-               <td></td>
-            </tr>
-            <tr>
-               <td>{t}Command{/t}</td>
-               <td>:</td>
-               <td>
-                  <select id="globalCommandid" name="globalCommandid">
+      <table class='invisible'>
+         <tr>
+            <td>{t}Team{/t}</td>
+            <td>:</td>
+            <td>{$teamName}</td>
+            <td></td>
+         </tr>
+         <tr>
+            <td>{t}Project{/t}</td>
+            <td>:</td>
+            <td>{$projectName}</td>
+            <td></td>
+         </tr>
+         <tr>
+            <td>{t}File{/t}</td>
+            <td>:</td>
+            <td>{$filename}</td>
+            <td></td>
+         </tr>
+         <tr>
+            <td>{t}Command{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalCommandid" name="globalCommandid">
                   {foreach from=$commandList key=id item=i}
-                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                   {/foreach}
-                  </select>
-               </td>
-               <td>
-                  <button type='button' name="btSetAllCommands" id="btSetAllCommands">{t}Set All{/t}</button>
-               </td>
-            </tr>
-            <tr>
-               <td>{t}Category{/t}</td>
-               <td>:</td>
-               <td>
-                  <select id="globalCategoryid" name="globalCategoryid">
+               </select>
+            </td>
+            <td><button type='button' name="btSetAllCommands" id="btSetAllCommands">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}Category{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalCategoryid" name="globalCategoryid">
                   {foreach from=$categoryList key=id item=i}
-                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                   {/foreach}
-                  </select>
-               </td>
-               <td>
-                  <button type='button' name="btSetAllCategories" id="btSetAllCategories">{t}Set All{/t}</button>
-               </td>
-            </tr>
-            <tr>
-               <td>{t}TargetVersion{/t}</td>
-               <td>:</td>
-               <td>
-                  <select id="globalTargetversionid" name="globalTargetversionid">
+               </select>
+            </td>
+            <td><button type='button' name="btSetAllCategories" id="btSetAllCategories">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}TargetVersion{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalTargetversionid" name="globalTargetversionid">
                   {foreach from=$targetversionList key=id item=i}
-                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                   {/foreach}
-                  </select>
-               </td>
-               <td>
-                  <button type='button' name="btSetAllTargetVersions" id="btSetAllTargetVersions">{t}Set All{/t}</button>
-               </td>
-            </tr>
-            <tr>
-               <td>{t}User{/t}</td>
-               <td>:</td>
-               <td>
-                  <select id="globalUserid" name="globalUserid">
+               </select>
+            </td>
+            <td><button type='button' name="btSetAllTargetVersions" id="btSetAllTargetVersions">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}User{/t}</td>
+            <td>:</td>
+            <td>
+               <select id="globalUserid" name="globalUserid">
                   {foreach from=$userList key=id item=i}
-                     <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+                  <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                   {/foreach}
-                  </select>
-               </td>
-               <td>
-                  <button type='button' name="btSetAllUsers" id="btSetAllUsers">{t}Set All{/t}</button>
-               </td>
-            </tr>
-            <tr>
-               <td>{t}Deadline{/t}</td>
-               <td>:</td>
-               <td>
-                  <input type="text" id="globalDeadline" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" />
-               </td>
-               <td>
-                  <button type='button' name="btSetAllDeadlines" id="btSetAllDeadlines">{t}Set All{/t}</button>
-               </td>
-            </tr>
-         </table>
+               </select>
+            </td>
+            <td><button type='button' name="btSetAllUsers" id="btSetAllUsers">{t}Set All{/t}</button></td>
+         </tr>
+         <tr>
+            <td>{t}Deadline{/t}</td>
+            <td>:</td>
+            <td><input type="text" id="globalDeadline" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+            <td><button type='button' name="btSetAllDeadlines" id="btSetAllDeadlines">{t}Set All{/t}</button></td>
+         </tr>
+      </table>
 
-      </div>
+   </div>
 
-      <!-- IMPORT BUTTON  -->
-      <div  class="left" style="margin-top:3em;">
+   <!-- IMPORT BUTTON  -->
+   <div class="left" style="margin-top:3em;">
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
 
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
+            var oTable = jQuery('#issues_table').dataTable();
+            var scroller = jQuery(oTable.fnSettings().nTable.parentNode);
 
-               jQuery("#btImportIssues").click(function(event) {
+            jQuery("#btImportIssues").click(function(event) {
+               jQuery(this).attr("disabled", "true");
+               jQuery("*").css('cursor','progress');
 
-                  jQuery('#btImportIssues').attr("disabled", "true");
-                  //jQuery("*").css('cursor','progress');
+               var issueData = jQuery('#issues_data');
 
-                  $('#issues_table tbody tr').each( function () {
+               var rows = oTable.find('tbody tr');
+               var len = rows.length;
 
-                        var row     = jQuery(this);
-                        var lineNumCell = row.find('td.lineNum');
-                        var lineNum = lineNumCell.text();
+               var i = 0;
+               function saveRow() {
+                  var row = jQuery(rows[i]);
+                  scroller.scrollTo(row, 1);
+                  var lineNumCell = row.find('td.lineNum');
 
-                        var dataRow = jQuery('#issues_data').find('td.lineNum').filter(function() {
-                                          return $(this).text() == lineNum;
-                                       }).closest("tr");
+                  var dataRow = getDataRowFromIssueRow(row);
 
-                        var extRef          = row.find('td.extRef').text();
-                        var summary         = row.find('td.summary').text();
-                        var mgrEffortEstim  = row.find('td.mgrEffortEstim').text();
-                        var effortEstim     = row.find('td.effortEstim').text();
-                        var deadline        = row.find('td.deadline').text();
-                        var commandid       = dataRow.find('td.commandid').text();
-                        var categoryid      = dataRow.find('td.categoryid').text();
-                        var targetversionid = dataRow.find('td.targetversionid').text();
-                        var userid          = dataRow.find('td.userid').text();
-                        var description     = dataRow.find('td.description').text();
+                  var extRef          = row.find('td.extRef').text();
+                  var summary         = row.find('td.summary').text();
+                  var mgrEffortEstim  = row.find('td.mgrEffortEstim').text();
+                  var effortEstim     = row.find('td.effortEstim').text();
+                  var deadline        = row.find('td.deadline').text();
+                  var commandid       = dataRow.find('td.commandid').text();
+                  var categoryid      = dataRow.find('td.categoryid').text();
+                  var targetversionid = dataRow.find('td.targetversionid').text();
+                  var userid          = dataRow.find('td.userid').text();
+                  var description     = dataRow.find('td.description').text();
 
-                        jQuery.ajax({
-                           type: "POST",
-                           async: false,
-                           url:  "import/import_row_ajax.php",
-                           data: "action=importRow"+
-                                 "&projectid={$projectid}"+
-                                 "&extRef="+extRef+
-                                 "&summary="+summary+
-                                 "&mgrEffortEstim="+mgrEffortEstim+
-                                 "&effortEstim="+effortEstim+
-                                 "&commandid="+commandid+
-                                 "&categoryid="+categoryid+
-                                 "&targetversionid="+targetversionid+
-                                 "&userid="+userid+
-                                 "&deadline="+deadline+
-                                 "&description="+description,
-                           success: function(data) {
-                              // replace lineNum with bugid
-                              lineNumCell.html(data);
-                           },
-                           error: function(jqXHR, textStatus, errorThrown) {
-                              if(errorThrown == 'Forbidden') {
-                                 window.location = '{$page}';
-                              } else {
-                                 alert(errorThrown);
-                              }
-                           }
-                        });
-
+                  jQuery.ajax({
+                     type: "POST",
+                     async: false,
+                     url:  "import/import_row_ajax.php",
+                     data: "action=importRow"+
+                           "&projectid={$projectid}"+
+                           "&extRef="+extRef+
+                           "&summary="+summary+
+                           "&mgrEffortEstim="+mgrEffortEstim+
+                           "&effortEstim="+effortEstim+
+                           "&commandid="+commandid+
+                           "&categoryid="+categoryid+
+                           "&targetversionid="+targetversionid+
+                           "&userid="+userid+
+                           "&deadline="+deadline+
+                           "&description="+description,
+                     success: function(data) {
+                        // replace lineNum with bugid
+                        lineNumCell.html(data);
+                     },
+                     error: function(jqXHR, textStatus, errorThrown) {
+                        if(errorThrown == 'Forbidden') {
+                           window.location = '{$page}';
+                        } else {
+                           alert(errorThrown);
+                        }
+                     }
                   });
-                  //jQuery("*").css('cursor','auto');
-                  
-                  alert('{t}Import done !{/t}');
-               });
+
+                  i++;
+                  if (i < len) {
+                     // For avoid browser freezing, we save one row and wait 0 ms before saving the next row
+                     setTimeout(saveRow, 0);
+                  } else {
+                     // At the end, scroll to top, reset the cursor and alert the user
+                     scroller.scrollTo(rows[0], 1);
+                     jQuery("*").css('cursor','auto');
+                     alert('{t}Import done !{/t}');
+                  }
+               }
+
+               // Recursive style, saveRow() save only one row and recall saveRow() to save the next
+               saveRow();
             });
-         </script>
+         });
+      </script>
 
-         <button type='button' name="btImportIssues" id="btImportIssues"><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Import{/t}</button>
+      <button type='button' name="btImportIssues" id="btImportIssues"><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}Import{/t}</button>
 
-      </div>
-         
-      <!-- DISPLAY ISSUES TABLE -->
-      <div style="margin-top:1em;">
+   </div>
 
-         {if $newIssues}
-         <table id="issues_table" class="display">
-            <caption>{t}Mantis issues to create:{/t}</caption>
-            <thead>
+   <!-- DISPLAY ISSUES TABLE -->
+   <div style="margin-top:1em;">
+
+      {if $newIssues}
+      <table id="issues_table" class="display">
+         <caption>{t}Mantis issues to create:{/t}</caption>
+         <thead>
             <tr>
-                  <th>Id</th>
-                  <th>Summary</th>
-                  <th>Charge Mgr</th>
-                  <th>Charge</th>
-                  <th>Deadline</th>
-                  <th>ExtRef</th>
-                  <th>Command</th>
-                  <th>Category</th>
-                  <th>TargetVersion</th>
-                  <th>User</th>
+               <th>Id</th>
+               <th>Summary</th>
+               <th>Charge Mgr</th>
+               <th>Charge</th>
+               <th>Deadline</th>
+               <th>ExtRef</th>
+               <th>Command</th>
+               <th>Category</th>
+               <th>TargetVersion</th>
+               <th>User</th>
             </tr>
-            </thead>
-            <tbody>
+         </thead>
+         <tbody>
             {foreach from=$newIssues key=id item=i}
-            <tr>
-                  <td class="lineNum" align='right'>{$i.lineNum}</td>
-                  <td class="summary" align='left' {$i.summary_attr} >{$i.summary}</td>
-                  <td class="mgrEffortEstim" align='right'>{$i.mgrEffortEstim}</td>
-                  <td class="effortEstim" align='right'>{$i.effortEstim}</td>
-                  <td class="deadline">{$i.deadline}</td>
-                  <td class="extRef" align='left'>{$i.extRef}</td>
-                  <td class="command" align='left'>{$i.command}</td>
-                  <td class="category" align='left'>{$i.category}</td>
-                  <td class="targetVersion" align='left'>{$i.targetVersion}</td>
-                  <td class="userName" align='left'>{$i.userName}</td>
+            <tr id="issueTable-{$i.lineNum}">
+               <td class="lineNum" align='right'>{$i.lineNum}</td>
+               <td class="summary" align='left' {$i.summary_attr} >{$i.summary}</td>
+               <td class="mgrEffortEstim" align='right'>{$i.mgrEffortEstim}</td>
+               <td class="effortEstim" align='right'>{$i.effortEstim}</td>
+               <td class="deadline">{$i.deadline}</td>
+               <td class="extRef" align='left'>{$i.extRef}</td>
+               <td class="command" align='left'>{$i.command}</td>
+               <td class="category" align='left'>{$i.category}</td>
+               <td class="targetVersion" align='left'>{$i.targetVersion}</td>
+               <td class="userName" align='left'>{$i.userName}</td>
             </tr>
             {/foreach}
-            </tbody>
-         </table>
+         </tbody>
+      </table>
 
-         <div style='display:none'>
-            <table id="issues_data">
-               <tbody>
+      <div style='display:none'>
+         <table id="issues_data">
+            <tbody>
                {foreach from=$newIssues key=id item=i}
-               <tr>
-                  <td class="lineNum">{$i.lineNum}</td>
+               <tr id="issueData-{$i.lineNum}">
                   <td class="description">{$i.description}</td>
                   <td class="commandid"></td>
                   <td class="categoryid"></td>
@@ -563,18 +476,13 @@
                   <td class="userid"></td>
                </tr>
                {/foreach}
-               </tbody>
-            </table>
-         </div>
-
-
-         {/if}
+            </tbody>
+         </table>
       </div>
 
+      {/if}
+   </div>
+
    {/if}
-
-
-
-   
 
 </div>
