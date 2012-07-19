@@ -16,8 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('lib/log4php/Logger.php');
-
 require_once('constants.php');
 
 include_once('classes/holidays.class.php');
@@ -26,15 +24,23 @@ include_once('classes/project.class.php');
 include_once('classes/project_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/team.class.php');
+include_once('classes/team_cache.class.php');
 include_once('classes/timetrack_cache.class.php');
 include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 /**
  * TimeTracking facilities
  */
 class TimeTracking {
 
-  private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
   var $startTimestamp;
   var $endTimestamp;
@@ -43,7 +49,7 @@ class TimeTracking {
 
   var $prodProjectList;     // projects that are not sideTasks, and not in noStatsProject
   var $sideTaskprojectList;
-  
+
   private $prodDays;
   private $managementDays;
   
@@ -53,22 +59,27 @@ class TimeTracking {
   
   private $systemDisponibilityRate;
 
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
   /**
-   * @param unknown_type $startTimestamp
-   * @param unknown_type $endTimestamp
-   * @param int $team_id 
+   * @param int $startTimestamp
+   * @param int $endTimestamp
+   * @param int $team_id
    */
   public function __construct($startTimestamp, $endTimestamp, $team_id = NULL) {
-
-    $this->logger = Logger::getLogger(__CLASS__);
-
 //    Note: teamid is null in time_tracking.php because you do not specify it to set timetracks...
 
     if ((NULL == $team_id) || ($team_id <= 0)) {
        #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
        $e = new Exception("TimeTracking->team_id not set !");
-       $this->logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
-       $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+       self::$logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
+       self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
        //throw $e;
     }
 
@@ -157,7 +168,7 @@ class TimeTracking {
          $prodDays += $timeTrack->duration;
          }
       } catch (Exception $e) {
-         $this->logger->error("getProductionDays(): timetrack on task $timeTrack->bugId (duration=$timeTrack->duration) NOT INCLUDED !");
+         self::$logger->error("getProductionDays(): timetrack on task $timeTrack->bugId (duration=$timeTrack->duration) NOT INCLUDED !");
       }
     }
     return $prodDays;
@@ -207,7 +218,7 @@ class TimeTracking {
 		      $prodDays += $timeTrack->duration;
 	      }
       } catch (Exception $e) {
-      	$this->logger->error("getProdDaysSideTasks(): issue $issue->bugId: ".$e->getMessage());
+      	self::$logger->error("getProdDaysSideTasks(): issue $row->bugid: ".$e->getMessage());
       }
     }
     return $prodDays;
@@ -246,19 +257,19 @@ class TimeTracking {
 
         if ((!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
             (!$user->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
-           $this->logger->warn("getManagementDays(): timetrack $row->id not included because user $user->id (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
+           self::$logger->warn("getManagementDays(): timetrack $row->id not included because user $user->id (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
            continue; // skip this timeTrack
         }
 
         try {
            $issue = IssueCache::getInstance()->getIssue($row->bugid);
-           
+
 	        if ((in_array ($issue->projectId, $this->sideTaskprojectList)) &&
 			        ($issue->isProjManagement(array($this->team_id)))) {
 		        $this->managementDays += $timeTrack->duration;
 	        }
         } catch (Exception $e) {
-	        $this->logger->error("getManagementDays(): issue $issue->bugId: ".$e->getMessage());
+	        self::$logger->error("getManagementDays(): issue $row->bugid: ".$e->getMessage());
         }
      }
          
@@ -372,7 +383,6 @@ class TimeTracking {
     $resolvedList = array();
     $issueList = array();
 
-    // --------
     if (NULL == $projects) {$projects = $this->prodProjectList;}
     $formatedProjList = implode( ', ', $projects);
 
@@ -382,10 +392,7 @@ class TimeTracking {
     }
 
     // all bugs which status changed to 'resolved' whthin the timestamp
-    $query = "SELECT mantis_bug_table.id, ".
-      "mantis_bug_history_table.new_value, ".
-      "mantis_bug_history_table.old_value, ".
-      "mantis_bug_history_table.date_modified ".
+    $query = "SELECT mantis_bug_table.* ".
       "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
       "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
       "AND mantis_bug_table.project_id IN ($formatedProjList) ".
@@ -395,8 +402,6 @@ class TimeTracking {
       "AND mantis_bug_history_table.new_value = get_project_resolved_status_threshold(project_id) ".
       "ORDER BY mantis_bug_table.id DESC";
 
-    if (isset($_GET['debug'])) { echo "getDrift_new QUERY = $query <br/>"; }
-
     $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -404,7 +409,7 @@ class TimeTracking {
     }
 
     while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $issue = IssueCache::getInstance()->getIssue($row->id);
+      $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
       // check if the bug has been reopened before endTimestamp
       $latestStatus = $issue->getStatus($this->endTimestamp);
@@ -417,7 +422,7 @@ class TimeTracking {
           $issueList[] = $issue;
         }
       } else {
-        if (isset($_GET['debug'])) { echo "TimeTracking->getResolvedIssues() REOPENED : bugid = $issue->bugId<br/>"; }
+          self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED : bugid = $issue->bugId");
       }
     }
     return $issueList;
@@ -451,7 +456,8 @@ class TimeTracking {
       return array();
     }
 
-
+   $formatedBugidNegList = "";
+   $formatedBugidPosList = "";
     foreach ($issueList as $issue) {
 
 
@@ -464,14 +470,14 @@ class TimeTracking {
             $driftNeg += $issueDrift;
 
             if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
-            $formatedBugidNegList .= issueInfoURL($issue->bugId, $issue->summary);
+            $formatedBugidNegList .= Tools::issueInfoURL($issue->bugId, $issue->summary);
 
          } else {
             $nbDriftsPos++;
             $driftPos += $issueDrift;
 
             if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
-            $formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary)."<span title='".T_("nb days")."'>(".round($issueDrift).")<span>";
+            $formatedBugidPosList .= Tools::issueInfoURL($issue->bugId, $issue->summary)."<span title='".T_("nb days")."'>(".round($issueDrift).")<span>";
          }
     	}
     } // foreach
@@ -524,16 +530,19 @@ class TimeTracking {
 
     if (NULL == $issueList) {
       echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is NULL !<br/></div>";
-      $this->logger->error("getIssuesDriftStats(): Issue List is NULL !");
+      self::$logger->error("getIssuesDriftStats(): Issue List is NULL !");
       return 0;
     }
     if (0== count($issueList)) {
       echo "<div style='color:red'>ERROR getIssuesDriftStats: Issue List is empty !<br/></div>";
-      $this->logger->error("getIssuesDriftStats(): Issue List is empty !");
+      self::$logger->error("getIssuesDriftStats(): Issue List is empty !");
       return 0;
     }
 
-
+   $formatedBugidNegList = "";
+   $formatedBugidPosList = "";
+   $formatedBugidEqualList = "";
+   $bugidEqualList = "";
     foreach ($issueList as $issue) {
 
           // -- compute total drift
@@ -542,7 +551,7 @@ class TimeTracking {
           $issueDriftMgrEE  = $issue->getDriftMgr($withSupport);
           $deriveETA     += $issueDriftMgrEE;
 
-          $this->logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
+          self::$logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
 
             // get drift stats. equal is when drif = +-1
             if ($issueDrift < -1) {
@@ -550,20 +559,20 @@ class TimeTracking {
               $driftNeg += $issueDrift;
 
               if ($formatedBugidNegList != "") { $formatedBugidNegList .= ', '; }
-              $formatedBugidNegList .= issueInfoURL($issue->bugId, $issue->summary);
+              $formatedBugidNegList .= Tools::issueInfoURL($issue->bugId, $issue->summary);
 
             } elseif ($issueDrift > 1){
               $nbDriftsPos++;
               $driftPos += $issueDrift;
 
               if ($formatedBugidPosList != "") { $formatedBugidPosList .= ', '; }
-              $formatedBugidPosList .= issueInfoURL($issue->bugId, $issue->summary);
+              $formatedBugidPosList .= Tools::issueInfoURL($issue->bugId, $issue->summary);
             } else {
               $nbDriftsEqual++;
               $driftEqual += $issueDrift;
 
               if ($formatedBugidEqualList != "") { $formatedBugidEqualList .= ', '; }
-              $formatedBugidEqualList .= issueInfoURL($issue->bugId, $issue->summary);
+              $formatedBugidEqualList .= Tools::issueInfoURL($issue->bugId, $issue->summary);
 
               if ($bugidEqualList != "") { $bugidEqualList .= ', '; }
               $bugidEqualList .= $issue->bugId;
@@ -579,18 +588,18 @@ class TimeTracking {
               $nbDriftsEqualETA++;
               $driftEqualETA += $issueDriftMgrEE;
             }
-    } // foreach
+    }
 
 
-    $this->logger->debug("derive totale ($statusNames[$status]/".formatDate("%B %Y", $this->startTimestamp).") = $derive");
-    $this->logger->debug("derive totale ETA($statusNames[$status]/".formatDate("%B %Y", $this->startTimestamp).") = $deriveETA");
+    self::$logger->debug("derive totale ($statusNames[$status]/".Tools::formatDate("%B %Y", $this->startTimestamp).") = $derive");
+    self::$logger->debug("derive totale ETA($statusNames[$status]/".Tools::formatDate("%B %Y", $this->startTimestamp).") = $deriveETA");
 
-    $this->logger->debug("Nbre Bugs en derive        : $nbDriftsPos");
-    $this->logger->debug("Nbre Bugs a l'equilibre    : $nbDriftsEqual");
-    $this->logger->debug("Nbre Bugs en avance        : $nbDriftsNeg");
-    $this->logger->debug("Nbre Bugs en derive     ETA: $nbDriftsPosETA");
-    $this->logger->debug("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA");
-    $this->logger->debug("Nbre Bugs en avance     ETA: $nbDriftsNegETA");
+    self::$logger->debug("Nbre Bugs en derive        : $nbDriftsPos");
+    self::$logger->debug("Nbre Bugs a l'equilibre    : $nbDriftsEqual");
+    self::$logger->debug("Nbre Bugs en avance        : $nbDriftsNeg");
+    self::$logger->debug("Nbre Bugs en derive     ETA: $nbDriftsPosETA");
+    self::$logger->debug("Nbre Bugs a l'equilibre ETA: $nbDriftsEqualETA");
+    self::$logger->debug("Nbre Bugs en avance     ETA: $nbDriftsNegETA");
 
     $driftStats = array();
     $driftStats["totalDrift"]       = $derive;
@@ -611,9 +620,6 @@ class TimeTracking {
     $driftStats["formatedBugidEqualList"] = $formatedBugidEqualList;
     $driftStats["formatedBugidNegList"]   = $formatedBugidNegList;
     $driftStats["bugidEqualList"]   = $bugidEqualList;
-
-
-
 
     return $driftStats;
   }
@@ -678,7 +684,7 @@ class TimeTracking {
 		      //echo "DEBUG SystemDisponibility found bugid=$row->bugid duration=$row->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
 	      }
       } catch (Exception $e) {
-	      $this->logger->warn("getSystemDisponibilityRate(): issue $issue->bugId: ".$e->getMessage());
+	      self::$logger->warn("getSystemDisponibilityRate(): issue $row->bugid: ".$e->getMessage());
       }
     }
 
@@ -769,13 +775,13 @@ class TimeTracking {
 
          if ($issue->projectId  == $project_id) {
          $workingDaysPerProject += $row->duration;
-         $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=$row->duration, bugid=$row->bugid, userid=$row->userid, ".date("Y-m-d", $row->date));
+         self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=$row->duration, bugid=$row->bugid, userid=$row->userid, ".date("Y-m-d", $row->date));
          }
       } catch (Exception $e) {
-          $this->logger->warn("getWorkingDaysPerProject($project_id) : Issue $row->bugid not found in Mantis DB.");
+          self::$logger->warn("getWorkingDaysPerProject($project_id) : Issue $row->bugid not found in Mantis DB.");
       }
     }
-    $this->logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
+    self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
     return $workingDaysPerProject;
   }
 
@@ -814,7 +820,7 @@ class TimeTracking {
       #if (($value < 0.999999999999999) || ($value > 1.000000000000001)) {
 
       if (round($value, 3) != 1) {
-        $this->logger->debug("user $userid incompleteDays[$date]=".$value);
+        self::$logger->debug("user $userid incompleteDays[$date]=".$value);
         $incompleteDays[$date] = $value;
       }
     }
@@ -913,7 +919,7 @@ class TimeTracking {
          $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
             if ($issue->projectId == $project_id) {
-               $this->logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug $row->bugid) = $row->duration");
+               self::$logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug $row->bugid) = $row->duration");
 
                if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
                   $durationPerCategory[$issue->getCategoryName()] = array();
@@ -921,7 +927,7 @@ class TimeTracking {
                $durationPerCategory[$issue->getCategoryName()][$row->bugid]+= $row->duration;
             }
          } catch (Exception $e) {
-            $this->logger->warn("getProjectDetails($project_id) issue $row->bugid not found in Mantis DB (duration = $row->duration, user $row->userid on ".date('Y-m-d', $row->date).')');
+            self::$logger->warn("getProjectDetails($project_id) issue $row->bugid not found in Mantis DB (duration = $row->duration, user $row->userid on ".date('Y-m-d', $row->date).')');
          }
       }
     return $durationPerCategory;
@@ -949,7 +955,7 @@ class TimeTracking {
                    "AND userid = $userid ";
 
     } else {
-    	$projList = Team::getProjectList($this->team_id);
+    	$projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
     	$formatedProjList = implode( ', ', array_keys($projList));
       $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.jobid, codev_timetracking_table.date, codev_timetracking_table.duration ".
                    "FROM `codev_timetracking_table`, `mantis_bug_table`, `mantis_project_table` ".
@@ -978,7 +984,7 @@ class TimeTracking {
       $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] += $row->duration;
 
 
-       $this->logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
+       self::$logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
     }
 
     return $weekTracks;
@@ -1007,7 +1013,7 @@ class TimeTracking {
                  "AND   codev_job_table.id      = codev_timetracking_table.jobid ";
 
     if (false != $isTeamProjOnly) {
-      $projList = Team::getProjectList($this->team_id);
+      $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
       $formatedProjList = implode( ', ', array_keys($projList));
     	$query.= "AND mantis_bug_table.project_id in ($formatedProjList) ";
     }
@@ -1046,11 +1052,9 @@ class TimeTracking {
    public function getReopened_old(array $projects = NULL) {
 
     global $resolution_fixed;     # 20
-    global $resolution_reopened;  # 30;
 
     $reopenedList = array();
 
-    // --------
     if (NULL == $projects) {
        $projects = $this->prodProjectList;
     }
@@ -1065,10 +1069,7 @@ class TimeTracking {
     }
 
     // all bugs which resolution changed to 'reopened' whthin the timestamp
-    $query = "SELECT mantis_bug_table.id, ".
-                    "mantis_bug_history_table.new_value, ".
-                    "mantis_bug_history_table.old_value, ".
-                    "mantis_bug_history_table.date_modified ".
+    $query = "SELECT mantis_bug_table.* ".
              "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
              "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
              "AND mantis_bug_table.project_id IN ($formatedProjList) ".
@@ -1079,7 +1080,7 @@ class TimeTracking {
              "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
              "ORDER BY mantis_bug_table.id DESC";
 
-    $this->logger->error("getReopened QUERY = $query");
+    self::$logger->error("getReopened QUERY = $query");
 
     $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
@@ -1091,9 +1092,9 @@ class TimeTracking {
     while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
        // do not include internal tasks (tasks having no ExternalReference)
-       $issue = IssueCache::getInstance()->getIssue($row->id);
+       $issue = IssueCache::getInstance()->getIssue($row->id, $row);
        if ((NULL == $issue->tcId) || (NULL == $issue->tcId)) {
-          $this->logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
+          self::$logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
           continue;
        }
 
@@ -1133,8 +1134,7 @@ class TimeTracking {
       // all bugs which resolution changed to 'reopened' whthin the timestamp
       $query = "SELECT mantis_bug_table.id, " .
               "mantis_bug_history_table.new_value, " .
-              "mantis_bug_history_table.old_value, " .
-              "mantis_bug_history_table.date_modified " .
+              "mantis_bug_history_table.old_value " .
               "FROM `mantis_bug_table`, `mantis_bug_history_table` " .
               "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id " .
               "AND mantis_bug_table.project_id IN ($formatedProjList) " .
@@ -1145,7 +1145,7 @@ class TimeTracking {
               "AND mantis_bug_history_table.new_value <  get_project_resolved_status_threshold(mantis_bug_table.project_id) " .
               "ORDER BY mantis_bug_table.id DESC";
 
-      //$this->logger->debug("getReopened QUERY = $query");
+      //self::$logger->debug("getReopened QUERY = $query");
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1159,13 +1159,13 @@ class TimeTracking {
             // do not include internal tasks (tasks having no ExternalReference)
             $issue = IssueCache::getInstance()->getIssue($row->id);
             if ((NULL == $issue->tcId) || ('' == $issue->tcId)) {
-               $this->logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
+               self::$logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
                continue;
             }
          }
          if (!in_array($row->id, $reopenedList)) {
             $reopenedList[] = $row->id;
-            $this->logger->debug("getReopened: found issue $row->id  old_status=$row->old_value new_status=$row->new_value");
+            self::$logger->debug("getReopened: found issue $row->id  old_status=$row->old_value new_status=$row->new_value");
          }
       }
 
@@ -1195,7 +1195,6 @@ class TimeTracking {
          $formatedProjects = implode( ', ', $projects);
          $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
       }
-      if (isset($_GET['debug_sql'])) { echo "getSubmitted(): query = $query<br/>"; }
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1209,7 +1208,7 @@ class TimeTracking {
          $submittedList[] = $row->id;
 
          if (isset($_GET['debug'])) {
-            echo "DEBUG submitted $row->id   date < ".formatDate("%b %y", $this->endTimestamp)." project $row->project_id <br/>";
+            echo "DEBUG submitted $row->id   date < ".Tools::formatDate("%b %y", $this->endTimestamp)." project $row->project_id <br/>";
          }
       }
 
@@ -1233,6 +1232,7 @@ class TimeTracking {
 
       $countSubmitted = count($this->getSubmitted($projects));
 
+      $rate = 0;
       if ($countSubmitted != 0)  {
         $rate=($countReopened / $countSubmitted);
       }
@@ -1256,6 +1256,7 @@ class TimeTracking {
 
       $countResolved = count($this->getResolvedIssues($projects));
 
+      $rate = 0;
       if ($countResolved != 0)  {
         $rate=($countReopened / $countResolved);
       }
