@@ -72,6 +72,11 @@ class Project {
    private $driftMgr;
 
    /**
+    * @var IssueSelection
+    */
+   private $issueSelection;
+
+   /**
     * @var Issue[][] The issues cache
     */
    private $issuesCache;
@@ -786,7 +791,7 @@ class Project {
 
          $issueList = array();
 
-         $query = "SELECT DISTINCT id FROM `mantis_bug_table` ".
+         $query = "SELECT id FROM `mantis_bug_table` ".
                   "WHERE project_id=$this->id ";
          if (0 != $handler_id) {
             $query  .= "AND handler_id = $handler_id ";
@@ -819,25 +824,16 @@ class Project {
     */
    public function getIssues($handler_id = 0, $isHideResolved = false) {
 
-      $bugidList = $this->getBugidList($handler_id, $isHideResolved);
+      if (NULL == $this->bugidListsCache) { $this->bugidListsCache = array(); }
 
-      $issues = array();
-      foreach($bugidList as $bugid) {
-         $issues[] = IssueCache::getInstance()->getIssue($bugid);
-      }
-      return $issues;
-   }
+      $key = ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
 
-   public function getIssues_old($handler_id = 0, $isHideResolved = false) {
-      if (NULL == $this->issuesCache) {
-         $this->issuesCache = array();
-      }
+      if (!array_key_exists($key, $this->bugidListsCache)) {
 
-      $key= ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
+         $issueList = array();
 
-      if (NULL == $this->issuesCache[$key]) {
          $query = "SELECT * FROM `mantis_bug_table` ".
-                  "WHERE project_id=$this->id ";
+            "WHERE project_id=$this->id ";
          if (0 != $handler_id) {
             $query  .= "AND handler_id = $handler_id ";
          }
@@ -852,16 +848,22 @@ class Project {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $issues = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $issues[] = IssueCache::getInstance()->getIssue($row->id,$row);
+            $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);;
          }
-         $this->issuesCache[$key] = $issues;
+
+         $this->bugidListsCache[$key] = array_keys($issueList);
       }
-      return $this->issuesCache[$key];
+
+      $bugidList = $this->getBugidList($handler_id, $isHideResolved);
+
+      $issues = array();
+      foreach($bugidList as $bugid) {
+         $issues[] = IssueCache::getInstance()->getIssue($bugid);
+      }
+      return $issues;
    }
 
-   // -----------------------------------------------
    /**
     * returns a list of team_id where the project is defined in
     *
@@ -1186,15 +1188,13 @@ class Project {
     */
    #public function getVersionList($team_id = NULL) {
    public function getVersionList() {
-
         if (NULL == $this->projectVersionList) {
-
            $this->projectVersionList = array();
            $issueList = $this->getIssues();
            foreach ($issueList as $issue) {
               $tagVersion = "VERSION_".$issue->getTargetVersion();
 
-              if (NULL == $this->projectVersionList[$tagVersion]) {
+              if (!array_key_exists($tagVersion, $this->projectVersionList)) {
                  $this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
               }
               $this->projectVersionList[$tagVersion]->addIssue($issue->bugId);
@@ -1234,62 +1234,51 @@ class Project {
       return $this->versionDateCache[$target_version];
    }
 
-
    /**
-    *
+    * @return number
     */
    public function getProgress() {
-
       if (NULL == $this->progress) {
-
-        $issueList = $this->getBugidList();
-
         $issueSelection = new IssueSelection($this->name);
-        foreach ($issueList as $bugid) {
-           try {
-             $issueSelection->addIssue($bugid);
-           } catch (Exception $e) {
-              $this->logger->warn("getProgress: ".$e->getMessage());
-           }
-        }
         $this->progress = $issueSelection->getProgress();
       }
       return $this->progress;
    }
 
    /**
-    *
+    * @return number
     */
    public function getProgressMgr() {
-
       if (NULL == $this->progressMgr) {
-
-         $issueList = $this->getBugidList();
-
-         $issueSelection = new IssueSelection($this->name);
-         foreach ($issueList as $bugid) {
-            $issueSelection->addIssue($bugid);
-         }
-         $this->progressMgr = $issueSelection->getProgressMgr();
+         $this->progressMgr = $this->getIssueSelection()->getProgressMgr();
       }
       return $this->progressMgr;
    }
 
+   /**
+    * @return IssueSelection
+    */
+   private function getIssueSelection() {
+      if(NULL == $this->issueSelection) {
+         $this->issueSelection = new IssueSelection($this->name);
+         $issueList = $this->getIssues();
+         foreach ($issueList as $issue) {
+            try {
+               $this->issueSelection->addIssue($issue->bugId);
+            } catch (Exception $e) {
+               $this->logger->warn("getIssueSelection: ".$e->getMessage());
+            }
+         }
+      }
+      return $this->issueSelection;
+   }
 
    /**
     * @return array(nbDays, percent)
     */
    public function getDrift() {
-
       if (NULL == $this->drift) {
-
-         $issueList = $this->getBugidList();
-
-         $issueSelection = new IssueSelection($this->name);
-         foreach ($issueList as $bugid) {
-            $issueSelection->addIssue($bugid);
-         }
-         $this->drift = $issueSelection->getDrift();
+         $this->drift = $this->getIssueSelection()->getDrift();
       }
       return $this->drift;
    }
@@ -1298,16 +1287,8 @@ class Project {
     * @return array(nbDays, percent)
     */
    public function getDriftMgr() {
-
       if (NULL == $this->driftMgr) {
-
-         $issueList = $this->getBugidList();
-
-         $issueSelection = new IssueSelection($this->name);
-         foreach ($issueList as $bugid) {
-            $issueSelection->addIssue($bugid);
-         }
-         $this->driftMgr = $issueSelection->getDriftMgr();
+         $this->driftMgr = $this->getIssueSelection()->getDriftMgr();
       }
       return $this->driftMgr;
    }

@@ -89,13 +89,13 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
    // Task list
    if (0 != $defaultProjectid) {
       $project1 = ProjectCache::getInstance()->getProject($defaultProjectid);
-      $issueList = $project1->getBugidList();
+      $issueList = $project1->getIssues();
    } else {
       // no project specified: show all tasks
       $issueList = array();
       $formatedProjList = implode(', ', array_keys($projList));
 
-      $query = "SELECT id " .
+      $query = "SELECT * " .
          "FROM `mantis_bug_table` " .
          "WHERE project_id IN ($formatedProjList) " .
          "ORDER BY id DESC";
@@ -105,22 +105,22 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
       }
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $issueList[] = $row->id;
+            $issueList[] = IssueCache::getInstance()->getIssue($row->id, $row);
          }
       }
    }
 
-   foreach ($issueList as $bugid) {
+   $issues = NULL;
+   foreach ($issueList as $issue) {
       try  {
-         $issue = IssueCache::getInstance()->getIssue($bugid);
          if (($issue->isVacation()) || ($extproj_id == $issue->projectId)) {
-            $issues[$bugid] = array(
+            $issues[$issue->bugId] = array(
                'tcId' => $issue->tcId,
                'summary' => $issue->summary,
-               'selected' => $bugid == $defaultBugid);
+               'selected' => $issue->bugId == $defaultBugid);
          }
       } catch (Exception $e) {
-         $logger->error("getIssues(): issue $bugid: ".$e->getMessage());
+         $logger->error("getIssues(): issue $issue->bugId: ".$e->getMessage());
       }
    }
 
