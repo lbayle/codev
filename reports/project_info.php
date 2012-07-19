@@ -1,5 +1,5 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
    This file is part of CoDev-Timetracking.
@@ -43,7 +43,7 @@ require_once('i18n/i18n.inc.php');
 function getVersionsOverview(Project $project) {
    $versionsOverview = NULL;
    $projectVersionList = $project->getVersionList();
-   foreach ($projectVersionList as $version => $pv) {
+   foreach ($projectVersionList as $pv) {
       if (NULL == $pv) {
          continue;
       }
@@ -113,7 +113,7 @@ function getVersionsDetailedMgr(Project $project) {
    // TOTAL (all Versions together)
    $allProjectVersions = new ProjectVersion($project->id, T_("Total"));
    $issueList = $project->getIssues();
-	foreach ($issueList as $issue) {
+   foreach ($issueList as $issue) {
       $allProjectVersions->addIssue($issue->bugId);
    }
    $projectVersionList[T_("Total")] = $allProjectVersions;
@@ -205,8 +205,9 @@ function getVersionsIssues(array $projectVersionList) {
    $versionsIssues = NULL;
    $totalElapsed = 0;
    $totalRemaining = 0;
-   foreach ($projectVersionList as $version => $pv) {
+   foreach ($projectVersionList as $pv) {
       $totalElapsed += $pv->elapsed;
+      // FIXME No remaing exist on ProjectVersion neither IssueSelection
       $totalRemaining += $pv->remaining;
       //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
@@ -267,8 +268,8 @@ function getVersionsIssues(array $projectVersionList) {
  */
 function getCurrentIssuesInDrift(array $projectVersionList, $isManager, $withSupport = true) {
    $currentIssuesInDrift = NULL;
-   foreach ($projectVersionList as $version => $pv) {
-      foreach ($pv->getIssueList() as $bugid => $issue) {
+   foreach ($projectVersionList as $pv) {
+      foreach ($pv->getIssueList() as $issue) {
 
          if ($issue->isResolved()) {
             // skip resolved issues
@@ -324,8 +325,8 @@ function getCurrentIssuesInDrift(array $projectVersionList, $isManager, $withSup
  */
 function getResolvedIssuesInDrift(array $projectVersionList, $isManager, $withSupport = true) {
    $resolvedIssuesInDrift = NULL;
-   foreach ($projectVersionList as $version => $pv) {
-      foreach ($pv->getIssueList() as $bugid => $issue) {
+   foreach ($projectVersionList as $pv) {
+      foreach ($pv->getIssueList() as $issue) {
 
          if (!$issue->isResolved()) {
             // skip non-resolved issues

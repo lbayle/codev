@@ -24,8 +24,6 @@ require('include/super_header.inc.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('classes/user_cache.class.php');
-
 // =========== MAIN ==========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Team Monthly Activity');
@@ -36,13 +34,11 @@ if (isset($_SESSION['userid'])) {
 
    // use the teamid set in the form, if not defined (first page call) use session teamid
    if (isset($_POST['teamid'])) {
-      $teamid = $_POST['teamid'];
+      $teamid = Tools::getSecurePOSTIntValue('teamid');
       $_SESSION['teamid'] = $teamid;
    } else {
       $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
    }
-
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);

@@ -28,8 +28,6 @@ require('classes/smarty_helper.class.php');
 
 require('reports/export_csv_tools.php');
 
-include_once('classes/issue_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
 include_once('classes/team_cache.class.php');
 include_once('classes/time_tracking.class.php');
 include_once('classes/user_cache.class.php');
