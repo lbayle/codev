@@ -113,6 +113,11 @@ class User {
     */
    private $departureDateCache;
 
+   /**
+    * @var TimeTrack[]
+    */
+   private $timeTracksCache;
+
    private $devTeamList;
    private $observedTeamList;
    private $managedTeamList;
@@ -401,93 +406,108 @@ class User {
    }
 
    /**
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return TimeTrack[]
+    */
+   private function getTimeTracks($startTimestamp, $endTimestamp) {
+      if(NULL == $this->timeTracksCache) {
+         $this->timeTracksCache = array();
+      }
+
+      $key = $startTimestamp.'-'.$endTimestamp;
+
+      if(!array_key_exists($key, $this->timeTracksCache)) {
+         $query = "SELECT * " .
+            "FROM `codev_timetracking_table` " .
+            "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
+            "AND userid = $this->id";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $timeTracks = array();
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $timeTracks[] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+         }
+         $this->timeTracksCache[$key] = $timeTracks;
+      }
+      return $this->timeTracksCache[$key];
+   }
+
+   /**
     * returns an array $daysOf[date] = $row->duration;
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
+    * @param int $startTimestamp
+    * @param int $endTimestamp
     * @return mixed[][]   array(date => array('duration','type','title'))
     */
    public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
       $daysOf = array();  // day => duration
 
-      $query = "SELECT bugid, date, duration " .
-               "FROM `codev_timetracking_table` " .
-               "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
-               "AND userid = $this->id";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $timeTracks = $this->getTimeTracks($startTimestamp, $endTimestamp);
       $teamidList = array_keys($this->getTeamList());
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      foreach ($timeTracks as $timeTrack) {
          try {
-            $issue = IssueCache::getInstance()->getIssue($row->bugid);
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
 
             if ($issue->isVacation($teamidList)) {
-               if (isset($daysOf[$row->date])) {
-                  $daysOf[$row->date]['duration'] += $row->duration;
+               if (isset($daysOf[$timeTrack->date])) {
+                  $daysOf[$timeTrack->date]['duration'] += $timeTrack->duration;
                } else {
-                  $daysOf[$row->date] = array( 'duration' => $row->duration,
+                  $daysOf[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
                                                'type' => 'Inactivity',  // TODO
                                                'color' => 'A8FFBD',  // TODO (light green)
                                                'title' => $issue->summary
                                              );
                }
-               #echo "DEBUG user $this->userid daysOf[".date("j", $row->date)."] = ".$daysOf[date("j", $row->date)]." (+$row->duration)<br/>";
+               #echo "DEBUG user $this->userid daysOf[".date("j", $timeTrack->date)."] = ".$daysOf[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
             }
          } catch (Exception $e) {
-            self::$logger->error("getDaysOfInPeriod(): issue $row->bugid: " . $e->getMessage());
+            self::$logger->error("getDaysOfInPeriod(): issue $timeTrack->bugId: " . $e->getMessage());
          }
       }
+
       return $daysOf;
    }
 
    /**
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
-    * @return unknown_type 
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return mixed[]
     */
    public function getAstreintesInMonth($startTimestamp, $endTimestamp) {
       $astreintes = array();  // day => duration
 
-      $query = "SELECT bugid, date, duration " .
-               "FROM `codev_timetracking_table` " .
-               "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
-               "AND userid = $this->id";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-
+      $timeTracks = $this->getTimeTracks($startTimestamp, $endTimestamp);
+      foreach ($timeTracks as $timeTrack) {
          try {
-            $issue = IssueCache::getInstance()->getIssue($row->bugid);
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
             if ($issue->isAstreinte()) {
-               if (isset($astreintes[$row->date])) {
-                  $astreintes[$row->date]['duration'] += $row->duration;
+               if (isset($astreintes[$timeTrack->date])) {
+                  $astreintes[$timeTrack->date]['duration'] += $timeTrack->duration;
                } else {
-                  $astreintes[$row->date] = array( 'duration' => $row->duration,
+                  $astreintes[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
                                                 'type' => 'onDuty',  // TODO
                                                 'color' => 'F8FFA8',  // TODO (yellow)
                                                 'title' => $issue->summary
                                              );
                }
-               //echo "DEBUG user $this->userid astreintes[".date("j", $row->date)."] = ".$astreintes[date("j", $row->date)]." (+$row->duration)<br/>";
+               //echo "DEBUG user $this->userid astreintes[".date("j", $timeTrack->date)."] = ".$astreintes[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
             }
          } catch (Exception $e) {
-            self::$logger->error("getAstreintesInMonth(): issue $row->bugid: " . $e->getMessage());
+            self::$logger->error("getAstreintesInMonth(): issue $timeTrack->bugId: " . $e->getMessage());
          }
-
       }
+
       return $astreintes;
    }
 
    /**
     * concat durations of all ExternalTasksProject issues.
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
-    * @return array $extTasks[timestamp] = $row->duration;
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return mixed[] $extTasks[timestamp] = $row->duration;
     */
    public function getExternalTasksInPeriod($startTimestamp, $endTimestamp) {
       $extTasks = array();  // timestamp => duration
@@ -495,22 +515,13 @@ class User {
       $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
       $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
 #echo "leaveTaskId $leaveTaskId<br>";
-      $query = "SELECT bugid, date, duration " .
-              "FROM `codev_timetracking_table` " .
-              "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
-              "AND userid = $this->id";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $timeTracks = $this->getTimeTracks($startTimestamp, $endTimestamp);
+      foreach ($timeTracks as $timeTrack) {
          try {
-            $issue = IssueCache::getInstance()->getIssue($row->bugid);
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
             if ($issue->projectId == $extTasksProjId) {
-               if (isset($extTasks[$row->date])) {
-                  $extTasks[$row->date]['duration'] += $row->duration;
+               if (isset($extTasks[$timeTrack->date])) {
+                  $extTasks[$timeTrack->date]['duration'] += $timeTrack->duration;
                } else {
 
                   if ($leaveTaskId == $issue->bugId) {
@@ -521,13 +532,13 @@ class User {
                      $type = 'ExternalTask';
                   }
 
-                  $extTasks[$row->date] = array( 'duration' => $row->duration,
+                  $extTasks[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
                                                 'type' => $type,  // TODO
                                                 'color' => $color,  // TODO (green2)
                                                 'title' => $issue->summary
                                              );
                }
-               self::$logger->debug("user $this->id ExternalTasks[" . date("j", $row->date) . "] = " . $extTasks[date("j", $row->date)] . " (+$row->duration)");
+               self::$logger->debug("user $this->id ExternalTasks[" . date("j", $timeTrack->date) . "] = " . $extTasks[date("j", $timeTrack->date)] . " (+$timeTrack->duration)");
             }
          } catch (Exception $e) {
             self::$logger->warn("getExternalTasksInPeriod: " . $e->getMessage());
@@ -599,29 +610,20 @@ class User {
     *
     * (consommé sur la periode)
     *
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
+    * @param int $startTimestamp
+    * @param int $endTimestamp
     * @param int $team_id
     * @return array[bug_id] = duration
     */
    public function getWorkloadPerTask($startTimestamp, $endTimestamp, $team_id = NULL) {
       $workloadPerTaskList = array();
 
-      $query = "SELECT * FROM `codev_timetracking_table` " .
-              "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
-              "AND userid = $this->id";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      $timeTracks = $this->getTimeTracks($startTimestamp, $endTimestamp);
 
       $team = TeamCache::getInstance()->getTeam($team_id);
       $projectList = $team->getProjects();
 
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $timetrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
-
+      foreach($timeTracks as $timetrack) {
          // exclude projects not in team list
          // exclude externalTasks & NoStatsProjects
          if (NULL != $projectList) {
@@ -753,10 +755,6 @@ class User {
          }
 
          $query .= "ORDER BY mantis_project_table.name";
-
-         if (isset($_GET['debug_sql'])) {
-            echo "User.getProjectList(): query = $query<br/>";
-         }
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
