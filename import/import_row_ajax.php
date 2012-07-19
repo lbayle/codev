@@ -1,45 +1,43 @@
 <?php
+require('../include/session.inc.php');
 
-require_once('../include/session.inc.php');
 /*
-  This file is part of CodevTT
+   This file is part of CodevTT
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-require_once ('../path.inc.php');
+require('../path.inc.php');
 
-require_once ('super_header.inc.php');
+require('include/super_header.inc.php');
 
-require_once ('user_cache.class.php');
-require_once ('project_cache.class.php');
-require_once ('command_cache.class.php');
+require_once('classes/command_cache.class.php');
+require_once('classes/issue_cache.class.php');
+require_once('classes/project_cache.class.php');
 
-// ================ MAIN =================
+require_once('tools.php');
 
-global $status_new;
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("import_row_ajax");
 
-
+// ================ MAIN =================
 if (isset($_SESSION['userid'])) {
 
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+   global $status_new;
 
-
-   $action = isset($_POST['action']) ? $_POST['action'] : '';
-
+   $action = Tools::getSecurePOSTStringValue('action', '');
 
    if ("importRow" == $action) {
 
@@ -56,19 +54,18 @@ if (isset($_SESSION['userid'])) {
       $description = isset($_POST['description']) ? $_POST['description'] : NULL;
       $formatedDeadline = isset($_POST['deadline']) ? $_POST['deadline'] : NULL;
 
-
       $proj = ProjectCache::getInstance()->getProject($projectid);
       $bugid = $proj->addIssue($categoryid, $summary, $description, $status_new);
 
       $issue = IssueCache::getInstance()->getIssue($bugid);
-      
+
       if ($extRef)          { $issue->setExternalRef($extRef); }
       if ($mgrEffortEstim)  { $issue->setMgrEffortEstim($mgrEffortEstim); }
       if ($effortEstim)     { $issue->setEffortEstim($effortEstim); }
       if ($targetversionid) { $issue->setTargetVersion($targetversionid); }
       if ($userid)          { $issue->setHandler($userid); }
       if ($formatedDeadline) {
-         $timestamp = date2timestamp($formatedDeadline);
+         $timestamp = Tools::date2timestamp($formatedDeadline);
          $issue->setDeadline($timestamp);
       }
 
@@ -80,7 +77,7 @@ if (isset($_SESSION['userid'])) {
       $logger->debug("Import bugid=$bugid $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");
 
       // RETURN VALUE
-      echo mantisIssueURL($bugid, NULL, TRUE)." ".issueInfoURL($bugid, NULL);
+      echo Tools::mantisIssueURL($bugid, NULL, TRUE)." ".Tools::issueInfoURL($bugid, NULL);
    }
 }
 
