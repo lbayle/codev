@@ -107,39 +107,12 @@ function getTeamProjects($teamid) {
 }
 
 /**
- * Get other projects
- * @param array $curProjList The projects
- * @return string[int]
- */
-function getOtherProjects(array $curProjList) {
-   $formatedCurProjList = implode( ', ', array_keys($curProjList));
-
-   $query = "SELECT DISTINCT mantis_project_table.id, mantis_project_table.name, mantis_project_table.description ".
-            "FROM `mantis_project_table` ".
-            "WHERE mantis_project_table.id NOT IN ($formatedCurProjList) ".
-            "ORDER BY name";
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
-
-   $teamProjects = array();
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-      $teamProjects[$row->id] = $row->name;
-   }
-
-   return $teamProjects;
-}
-
-/**
  * Get new astreintes
  * @param Team $team The team
  * @param array $projList The projects
  * @return string[int]
  */
 function getNewAstreintes(Team $team, array $projList) {
-   $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
-
    // get SideTasksProject Inactivity Issues
 
    if ((NULL == $projList) || (0 == count($projList))) {
@@ -165,6 +138,7 @@ function getNewAstreintes(Team $team, array $projList) {
    $query = "SELECT * FROM `mantis_bug_table` ".
             "WHERE project_id IN ($formatedInactivityCatList) ";
 
+   $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
    if (NULL != $astreintesList) {
       $formatedAstreintesList = implode( ', ', $astreintesList);
       $query .= "AND id NOT IN ($formatedAstreintesList) ";
@@ -177,12 +151,10 @@ function getNewAstreintes(Team $team, array $projList) {
    }
 
    $issues = array();
-   if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         #echo "DEBUG $row->id cat $row->category_id inac[$row->project_id] = ".$inactivityCatList[$row->project_id]."</br>";
-         if ($row->category_id == $inactivityCatList[$row->project_id]) {
-            $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id)->summary;
-         }
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      #echo "DEBUG $row->id cat $row->category_id inac[$row->project_id] = ".$inactivityCatList[$row->project_id]."</br>";
+      if ($row->category_id == $inactivityCatList[$row->project_id]) {
+         $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id)->summary;
       }
    }
 
@@ -374,13 +346,13 @@ if(isset($_SESSION['userid'])) {
 
          $smartyHelper->assign('teamMembers', getTeamMembers($teamid));
 
-         $curProjList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
-         $smartyHelper->assign('otherProjects', getOtherProjects($curProjList));
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $smartyHelper->assign('otherProjects', $team->getOtherProjects());
          $smartyHelper->assign('typeNames', Project::$typeNames);
 
          $smartyHelper->assign('teamProjects', getTeamProjects($teamid));
 
-         $smartyHelper->assign('newAstreintes', getNewAstreintes($team,$curProjList));
+         $smartyHelper->assign('newAstreintes', getNewAstreintes($team,$team->getProjects()));
 
          $smartyHelper->assign('astreintes', getAstreintes());
       }

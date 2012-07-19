@@ -699,6 +699,32 @@ class Team {
       return $users;
    }
 
+
+   /**
+    * Get other projects
+    * @return string[]
+    */
+   public function getOtherProjects() {
+      $formatedCurProjList = implode( ', ', array_keys($this->getProjects()));
+
+      $query = "SELECT id, name ".
+         "FROM `mantis_project_table` ".
+         "WHERE id NOT IN ($formatedCurProjList) ".
+         "ORDER BY name";
+      echo $query;
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         return NULL;
+      }
+
+      $teamProjects = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $teamProjects[$row->id] = $row->name;
+      }
+
+      return $teamProjects;
+   }
+
 }
 
 ?>
