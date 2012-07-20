@@ -21,6 +21,7 @@ ALTER TABLE `codev_servicecontract_table` ADD UNIQUE (`name`);
 UPDATE `codev_config_table` SET `value`='9' WHERE `config_id`='database_version';
 
 
+ALTER TABLE `codev_team_table` ADD `enabled` tinyint(4) NOT NULL DEFAULT '1' AFTER `leader_id`;
 
 -- -----------------
 

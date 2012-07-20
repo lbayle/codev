@@ -172,6 +172,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `name` varchar(64) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `leader_id` int(11) DEFAULT NULL,
+  `enabled` tinyint(4) NOT NULL DEFAULT '1',
   `date` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)

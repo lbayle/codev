@@ -349,6 +349,8 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign('teamMembers', getTeamMembers($teamid));
 
          $team = TeamCache::getInstance()->getTeam($teamid);
+
+         $smartyHelper->assign('teamEnabled', $team->isEnabled());
          $smartyHelper->assign('otherProjects', $team->getOtherProjects());
          $smartyHelper->assign('typeNames', Project::$typeNames);
 

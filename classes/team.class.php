@@ -60,6 +60,7 @@ class Team {
    public $description;
    public $leader_id;
    public $date;
+   private $enabled;
 
    private $projTypeList;
    private $commandList;
@@ -110,6 +111,7 @@ class Team {
       $this->name = $row->name;
       $this->description = $row->description;
       $this->leader_id = $row->leader_id;
+      $this->enabled     = (1 == $row->enabled);
       $this->date = $row->date;
    }
 
@@ -174,6 +176,14 @@ class Team {
     */
    public static function getLeaderId($teamid) {
       return TeamCache::getInstance()->getTeam($teamid)->leader_id;
+   }
+
+   /**
+    *
+    * @return bool isEnabled 
+    */
+   public function isEnabled() {
+      return $this->enabled;
    }
 
    /**

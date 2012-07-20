@@ -73,6 +73,13 @@
                   <td><input type="text" id="datepicker" class="datepicker" name="date_createTeam" maxlength="10" size="10" title="{t}Date{/t}" /></td>
                   <td><input style="width:100%" type=button name="btupdateTeamCreationDate" value="{t}Update{/t}" id="btupdateTeamCreationDate" /></td>
                </tr>
+               <tr>
+                  <td><label for="enabled">{t}Enabled{/t}</label></td>
+                  <td>
+                     <input id="cb_commonSideTaskProj" type="checkbox" name="cb_commonSideTaskProj" {if $teamEnabled}checked="checked"{/if}>
+                  </td>
+                  <td><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
+               </tr>
             </table>
             <br/>
             <span class="help_font">{t}Note: A <i>TeamLeader</i> must also be declared as <i>TeamMember</i> to be included in the team's productivity report.{/t}</span>
