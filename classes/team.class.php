@@ -72,6 +72,11 @@ class Team {
    private $members;
 
    /**
+    * int[][]
+    */
+   private $projectIdsCache;
+
+   /**
     * @param int $teamid
     * @throws Exception
     */
@@ -176,28 +181,80 @@ class Team {
     * @return string[] : array[project_id] = project_name
     */
    public function getProjects($noStatsProject = true) {
-      $projList = array();
-
-      $query = "SELECT codev_team_project_table.project_id, mantis_project_table.name ".
-         "FROM `codev_team_project_table`, `mantis_project_table` ".
-         "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-         "AND codev_team_project_table.team_id=$this->id";
-
-      if (!$noStatsProject) {
-         $query .= " AND codev_team_project_table.type <> ".Project::type_noStatsProject;
-      }
-      $query .= " ORDER BY mantis_project_table.name";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $projList[$row->project_id] = $row->name;
+      if(NULL == $this->projectIdsCache) {
+         $this->projectIdsCache = array();
       }
 
-      return $projList;
+      $key = ''.$noStatsProject;
+
+      if(!array_key_exists($key, $this->projectIdsCache)) {
+         $query = "SELECT codev_team_project_table.project_id, mantis_project_table.name ".
+            "FROM `codev_team_project_table`, `mantis_project_table` ".
+            "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
+            "AND codev_team_project_table.team_id=$this->id";
+
+         if (!$noStatsProject) {
+            $query .= " AND codev_team_project_table.type <> ".Project::type_noStatsProject;
+         }
+         $query .= " ORDER BY mantis_project_table.name";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $projList = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $projList[$row->project_id] = $row->name;
+         }
+         $this->projectIdsCache[$key] = $projList;
+      }
+
+      return $this->projectIdsCache[$key];
+   }
+
+   /**
+    * @param bool $noStatsProject
+    * @return Project[]
+    */
+   public function getTrueProjects($noStatsProject = true) {
+      if(NULL == $this->projectIdsCache) {
+         $this->projectIdsCache = array();
+      }
+
+      $key = ''.$noStatsProject;
+
+      if(!array_key_exists($key, $this->projectIdsCache)) {
+         $query = "SELECT mantis_project_table.* ".
+            "FROM `codev_team_project_table`, `mantis_project_table` ".
+            "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
+            "AND codev_team_project_table.team_id=$this->id";
+
+         if (!$noStatsProject) {
+            $query .= " AND codev_team_project_table.type <> ".Project::type_noStatsProject;
+         }
+         $query .= " ORDER BY mantis_project_table.name";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $projList = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            ProjectCache::getInstance()->getProject($row->id, $row);
+            $projList[$row->id] = $row->name;
+         }
+         $this->projectIdsCache[$key] = $projList;
+      }
+
+      $projects = array();
+      foreach($this->projectIdsCache[$key] as $id => $name) {
+         $projects[] = ProjectCache::getInstance()->getProject($id);
+      }
+      return $projects;
    }
 
    /**
@@ -217,7 +274,7 @@ class Team {
       if(NULL == $this->members) {
          $this->members = array();
 
-         $query  = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
+         $query  = "SELECT mantis_user_table.id, mantis_user_table.username ".
             "FROM `codev_team_user_table`, `mantis_user_table` ".
             "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
             "AND codev_team_user_table.team_id=$this->id ".
@@ -228,7 +285,7 @@ class Team {
             exit;
          }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->members[$row->user_id] = $row->username;
+            $this->members[$row->id] = $row->username;
          }
       }
 
@@ -257,7 +314,7 @@ class Team {
 
       $mList = array();
 
-      $query  = "SELECT codev_team_user_table.user_id, mantis_user_table.username ".
+      $query  = "SELECT mantis_user_table.id, mantis_user_table.username ".
          "FROM `codev_team_user_table`, `mantis_user_table` ".
          "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
          "AND   codev_team_user_table.team_id=$this->id ".
@@ -272,7 +329,7 @@ class Team {
          exit;
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $mList[$row->user_id] = $row->username;
+         $mList[$row->id] = $row->username;
       }
 
       return $mList;
@@ -642,6 +699,15 @@ class Team {
       return $projectsType[$projectid];
    }
 
+   /**
+    * @param int $type The project type
+    * @return int[] The team's project ids matching the type
+    */
+   public function getSpecificTypedProjectIds($type) {
+      $projectsType = $this->getProjectsType();
+      return array_keys($projectsType, $type);
+   }
+
    public function isSideTasksProject($projectid) {
       $this->logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
       return (Project::type_sideTaskProject == $this->getProjectType($projectid));
@@ -681,19 +747,28 @@ class Team {
     * @return User[] The users (User[id])
     */
    public function getUsers() {
-      $query = "SELECT mantis_user_table.id ".
-               "FROM  `codev_team_user_table`, `mantis_user_table` ".
-               "WHERE  codev_team_user_table.team_id = $this->id ".
-               "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-               "ORDER BY mantis_user_table.username";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         return NULL;
+      if(NULL == $this->members) {
+         $this->members = array();
+
+         $query = "SELECT mantis_user_table.* ".
+            "FROM  `codev_team_user_table`, `mantis_user_table` ".
+            "WHERE  codev_team_user_table.team_id = $this->id ".
+            "AND    codev_team_user_table.user_id = mantis_user_table.id ".
+            "ORDER BY mantis_user_table.username";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            return NULL;
+         }
+
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            UserCache::getInstance()->getUser($row->id);
+            $this->members[$row->id] = $row->username;
+         }
       }
 
       $users = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $users[$row->id] = UserCache::getInstance()->getUser($row->id);
+      foreach($this->members as $id => $name) {
+         $users[] = UserCache::getInstance()->getUser($id);
       }
 
       return $users;
