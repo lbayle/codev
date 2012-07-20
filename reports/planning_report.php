@@ -212,7 +212,7 @@ function getUserDeadLines($dayPixSize, array $scheduledTaskList, $deadLineTrigge
    $deadLines = array();
 
    // remove duplicate deadLines & set color
-   foreach($scheduledTaskList as $key => $scheduledTask) {
+   foreach($scheduledTaskList as $scheduledTask) {
       if (NULL != $scheduledTask->deadLine) {
          if (!array_key_exists($scheduledTask->deadLine, $deadLines)) {
             $dline = new DeadLine($scheduledTask->deadLine,
@@ -285,15 +285,13 @@ function getUserSchedule($dayPixSize, array $scheduledTaskList, $teamid) {
    $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
 
    $scheduledTasks = array();
-   foreach($scheduledTaskList as $key => $scheduledTask) {
+   foreach($scheduledTaskList as $scheduledTask) {
 
       $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
       $totalPix += $taskPixSize;
 
       // set color
       if (NULL != $scheduledTask->deadLine) {
-         $color = ($scheduledTask->isOnTime) ? "green" : "red";
-
          if (!$scheduledTask->isOnTime) {
             $color = "red";
          } else {
@@ -360,12 +358,11 @@ if(isset($_SESSION['userid'])) {
          $scheduler = new Scheduler();
          $allTasksLists = array();
          $workloads = array();
-         $teamMembers = TeamCache::getInstance()->getTeam($teamid)->getMembers();
+         $teamMembers = TeamCache::getInstance()->getTeam($teamid)->getUsers();
 
          $nbDaysToDisplay = 0;
-         foreach ($teamMembers as $id => $name) {
+         foreach ($teamMembers as $user) {
             $workload = 0;
-            $user = UserCache::getInstance()->getUser($id);
 
             // show only developper's & manager's tasks
             if ((!$user->isTeamDeveloper($teamid)) &&
