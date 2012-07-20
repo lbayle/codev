@@ -1,21 +1,21 @@
 <?php
-include_once('./include/session.inc.php');
+require('./include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 // === check if INSTALL needed
@@ -24,23 +24,29 @@ if ((!file_exists('constants.php')) || (!file_exists('include/mysql_config.inc.p
     exit;
 }
 
-include_once ('path.inc.php');
+require('path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
+
+require('classes/smarty_helper.class.php');
+
+include_once('classes/consistency_check2.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/user_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("homepage");
 
-include_once('consistency_check.class.php');
-include_once('consistency_check2.class.php');
-include_once('user.class.php');
-include_once('issue.class.php');
-
 /**
  * Get issues in drift
- * @param int User's id
+ * @param User $user
+ * @return mixed[]
  */
-function getIssuesInDrift($userid) {
-    $user = UserCache::getInstance()->getUser($userid);
+function getIssuesInDrift(User $user) {
     $allIssueList = $user->getAssignedIssues();
     $issueList = array();
     $driftedTasks = array();
@@ -60,7 +66,7 @@ function getIssuesInDrift($userid) {
             $formatedSummary = str_replace("'", "\'", $issue->summary);
             $formatedSummary = str_replace('"', "\'", $formatedSummary);
 
-            $driftedTasks[] = array('issueInfoURL' => issueInfoURL($issue->bugId),
+            $driftedTasks[] = array('issueInfoURL' => Tools::issueInfoURL($issue->bugId),
                                     'projectName' => $issue->getProjectName(),
                                     'driftEE' => $driftEE,
                                     'formatedTitle' => $formatedTitle,
@@ -74,17 +80,15 @@ function getIssuesInDrift($userid) {
     return $driftedTasks;
 }
 
-
 /**
  * Get consistency errors
- * @param int User's id
+ * @param User $sessionUser
+ * @return mixed[]
  */
-function getConsistencyErrors($userid) {
+function getConsistencyErrors(User $sessionUser) {
    global $statusNames;
    
    $consistencyErrors = array(); // if null, array_merge fails !
-
-    $sessionUser = UserCache::getInstance()->getUser($userid);
 
     $teamList = $sessionUser->getTeamList();
     $projList = $sessionUser->getProjectList($teamList);
@@ -96,16 +100,14 @@ function getConsistencyErrors($userid) {
     $cerrList = $ccheck->check();
 
     if (count($cerrList) > 0) {
-        $i = 0;
         foreach ($cerrList as $cerr) {
             if ($sessionUser->id == $cerr->userId) {
                 $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-                $consistencyErrors[] = array('issueURL' => issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary),
+                $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary),
                                              'status' => $statusNames[$cerr->status],
                                              'desc' => $cerr->desc);
             }
         }
-        $i++;
     }
 
     return $consistencyErrors;
@@ -113,12 +115,10 @@ function getConsistencyErrors($userid) {
 
 /**
  * managers get some more consistencyErrors
+ * @param User $sessionUser
+ * @return mixed[]
  */
-function getConsistencyErrorsMgr($userid) {
-
-   $consistencyErrors = array(); // if null, array_merge fails !
-
-   $sessionUser = UserCache::getInstance()->getUser($userid);
+function getConsistencyErrorsMgr(User $sessionUser) {
 
    $consistencyErrors = array(); // if null, array_merge fails !
 
@@ -128,13 +128,12 @@ function getConsistencyErrorsMgr($userid) {
 
     $issueList = array();
     foreach ($teamList as $teamid) {
-       $issues = Team::getTeamIssues($teamid, true);
+       $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
        $issueList = array_merge($issueList, $issues);
     }
 
     $ccheck = new ConsistencyCheck2($issueList);
 
-    // ---
 /*
  * It is now allowed to have MgrEE = 0
  *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Command's creation.
@@ -149,7 +148,6 @@ function getConsistencyErrorsMgr($userid) {
 			 'desc' => count($cerrList).' '.T_("Tasks need MgrEffortEstim to be set."));
     }
 */
-    // ---
     $cerrList = $ccheck->checkUnassignedTasks();
     if (count($cerrList) > 0) {
        $consistencyErrors[] = array('mantisIssueURL' => ' ',
@@ -174,23 +172,20 @@ if ('updateRemainingAction' == $action) {
     }
 }
 
-require('display.inc.php');
-
 $smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_($homepage_title));
+$smartyHelper->assign('pageName', $homepage_title);
 
 // Drifted tasks
 if($_SESSION['userid']) {
-    $driftedTasks = getIssuesInDrift($_SESSION['userid']);
+   $user = UserCache::getInstance()->getUser($_SESSION['userid']);
+    $driftedTasks = getIssuesInDrift($user);
     if(isset($driftedTasks)) {
         $smartyHelper->assign('driftedTasks', $driftedTasks);
     }
-}
 
-// Consistency errors
-if($_SESSION['userid']) {
-    $consistencyErrors    = getConsistencyErrors($_SESSION['userid']);
-    $consistencyErrorsMgr = getConsistencyErrorsMgr($_SESSION['userid']);
+   // Consistency errors
+    $consistencyErrors    = getConsistencyErrors($user);
+    $consistencyErrorsMgr = getConsistencyErrorsMgr($user);
 
     $consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
 
