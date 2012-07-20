@@ -761,7 +761,7 @@ class Team {
          }
 
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            UserCache::getInstance()->getUser($row->id);
+            UserCache::getInstance()->getUser($row->id, $row);
             $this->members[$row->id] = $row->username;
          }
       }

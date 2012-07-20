@@ -36,10 +36,11 @@ class UserCache extends Cache {
    /**
     * Get User class instance
     * @param int $id The user id
+    * @param resource $details The details
     * @return User The user attached to the id
     */
-   public function getUser($id) {
-      return parent::get($id);
+   public function getUser($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
@@ -49,7 +50,7 @@ class UserCache extends Cache {
     * @return User The object
     */
    protected function create($id, $details = NULL) {
-      return new User($id);
+      return new User($id, $details);
    }
 
 }

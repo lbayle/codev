@@ -55,8 +55,6 @@ class User {
    private static $users;
    
    
-   private $init = FALSE;
-   
    /**
     * @var string The name 
     */
@@ -124,34 +122,48 @@ class User {
    private $allTeamList;
 
    /**
-    * @param int $user_id The user id
+    * Initialize complex static variables
+    * @static
     */
-   public function __construct($user_id) {
-      $this->id = $user_id;
+   public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   /**
+    * @param int $user_id The user id
+    * @param resource $details The user details
+    */
+   public function __construct($user_id, $details = NULL) {
+      $this->id = $user_id;
+
+      $this->initialize($details);
    }
    
    /**
-    * Initialize the user 
+    * Initialize the user
+    * @param resource $row The user details
     */
-   private function initialize() {
-      if(!$this->init) {
+   private function initialize($row) {
+      if(NULL == $row) {
          $query = "SELECT username, realname " .
-                  "FROM `mantis_user_table` " .
-                  "WHERE id = $this->id";
+            "FROM `mantis_user_table` " .
+            "WHERE id = $this->id";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
+
          if(SqlWrapper::getInstance()->sql_num_rows($result)) {
             $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-            $this->name = $row->username;
-            $this->realName = $row->realname;
-         } else {
-            $this->name = "(unknown $this->id)";
          }
-         $this->init = TRUE;
+      }
+
+      if(NULL != $row) {
+         $this->name = $row->username;
+         $this->realName = $row->realname;
+      } else {
+         $this->name = "(unknown $this->id)";
       }
    }
 
@@ -167,9 +179,8 @@ class User {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $commandid = SqlWrapper::getInstance()->sql_result($result, 0);
 
-      return $commandid;
+      return SqlWrapper::getInstance()->sql_result($result, 0);
    }
 
    /**
@@ -177,9 +188,6 @@ class User {
     * @return string The name 
     */
    public function getName() {
-      if (NULL == $this->name) {
-         $this->initialize();
-      }
       return $this->name;
    }
 
@@ -189,7 +197,6 @@ class User {
     */
    public function getFirstname() {
       if (NULL == $this->firstName) {
-         $this->initialize();
          $this->firstName = strtok($this->getName(), " "); // 1st token: firstname
       }
       return $this->firstName;
@@ -201,7 +208,6 @@ class User {
     */
    public function getLastname() {
       if (NULL == $this->lastName) {
-         $this->initialize();
          $tok = strtok($this->getName(), " ");  // 1st token: firstname
          $tok = strtok(" ");  // 2nd token: lastname
       }
@@ -214,7 +220,6 @@ class User {
     */
    public function getShortname() {
       if (NULL == $this->shortName) {
-         $this->initialize();
          if (0 == $this->id) {
             $this->shortName = "";
          } else {
@@ -236,9 +241,6 @@ class User {
     * @return string The real name 
     */
    public function getRealname() {
-      if (NULL == $this->realName) {
-         $this->initialize();
-      }
       return $this->realName;
    }
 
@@ -253,8 +255,8 @@ class User {
 
    /**
     * @param int $team_id
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
+    * @param int $startTimestamp
+    * @param int $endTimestamp
     * @return bool 
     */
    public function isTeamDeveloper($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
@@ -264,8 +266,8 @@ class User {
    /**
     * REM isTeamObserver not used for now
     * @param int $team_id
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
+    * @param int $startTimestamp
+    * @param int $endTimestamp
     * @return bool 
     */
    public function isTeamObserver($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
@@ -274,8 +276,8 @@ class User {
 
    /**
     * @param int $team_id
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
+    * @param int $startTimestamp
+    * @param int $endTimestamp
     * @return bool 
     */
    public function isTeamManager($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
@@ -285,8 +287,8 @@ class User {
    /**
     * @param int $team_id
     * @param int $accessLevel
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
+    * @param int $startTimestamp
+    * @param int $endTimestamp
     * @return bool 
     */
    public function isTeamMember($team_id, $accessLevel = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
@@ -327,7 +329,7 @@ class User {
    /**
     * if no team specified, choose the oldest arrival date
     * @param int $team_id
-    * @return unknown_type 
+    * @return int
     */
    public function getArrivalDate($team_id = NULL) {
       if (NULL == $this->arrivalDateCache) {
@@ -366,7 +368,7 @@ class User {
     * if no team specified, choose the most future departureDate
     * or '0' if still active in a team
     * @param int $team_id
-    * @return unknown_type 
+    * @return int
     */
    public function getDepartureDate($team_id = NULL) {
       if (NULL == $this->departureDateCache) {
@@ -549,15 +551,14 @@ class User {
 
    /**
     * Nb working days in the period (no holidays, no external tasks)
-    * @param unknown_type $startTimestamp
-    * @param unknown_type $endTimestamp
+    * @param int $startTimestamp
+    * @param int $endTimestamp
     * @param int $team_id
     * @return int 
     */
    public function getAvailableWorkload($startTimestamp, $endTimestamp, $team_id = NULL) {
       $holidays = Holidays::getInstance();
 
-      $prodDaysForecast = 0;
       $nbOpenDaysInPeriod = 0;
 
       $arrivalDate = $this->getArrivalDate($team_id);
@@ -613,7 +614,7 @@ class User {
     * @param int $startTimestamp
     * @param int $endTimestamp
     * @param int $team_id
-    * @return array[bug_id] = duration
+    * @return number[] : array[bug_id] = duration
     */
    public function getWorkloadPerTask($startTimestamp, $endTimestamp, $team_id = NULL) {
       $workloadPerTaskList = array();
@@ -641,7 +642,7 @@ class User {
    }
 
    /**
-    * @return array the teams i'm leader of.
+    * @return string[] the teams i'm leader of.
     */
    public function getLeadedTeamList() {
       if(NULL == $this->leadedTeams) {
@@ -662,7 +663,7 @@ class User {
    }
 
    /**
-    * @return array the teams i'm member of.
+    * @return string[] the teams i'm member of.
     */
    public function getDevTeamList() {
       if(NULL == $this->devTeamList) {
@@ -672,7 +673,7 @@ class User {
    }
 
    /**
-    * @return array the teams i'm observer of.
+    * @return string[] the teams i'm observer of.
     */
    public function getObservedTeamList() {
       if(NULL == $this->observedTeamList) {
@@ -682,7 +683,7 @@ class User {
    }
 
    /**
-    * @return array the teams i'm Manager of.
+    * @return string[] the teams i'm Manager of.
     */
    public function getManagedTeamList() {
       if(NULL == $this->managedTeamList) {
@@ -694,7 +695,7 @@ class User {
    /**
     * returns teams, the user is involved in.
     * @param int $accessLevel if NULL return all teams including observed teams.
-    * @return array string[int] name[id]
+    * @return string[] array string[int] name[id]
     */
    public function getTeamList($accessLevel = NULL) {
       $teamList = array();
@@ -731,10 +732,10 @@ class User {
     * returns an array of project_id=>project_name that the user is involved in,
     * depending on the teams the user belongs to.
     *
-    * @param array teamList       if NULL then return projects from all the teams the user belongs to
-    * @param unknown_type noStatsProject if false, the noStatsProject will not be returned in the list
+    * @param string[] $teamList       if NULL then return projects from all the teams the user belongs to
+    * @param bool $noStatsProject if false, the noStatsProject will not be returned in the list
     *
-    * @return array [id => project_name]
+    * @return string[] : array [id => project_name]
     */
    public function getProjectList(array $teamList = NULL, $noStatsProject = true) {
       $projList = array();
@@ -774,7 +775,7 @@ class User {
 
    /**
     * sum the RAF (or mgrEffortEstim if no RAF defined) of all the opened Issues assigned to me.
-    * @param array $projList
+    * @param string[] $projList
     * @return int 
     */
    public function getForecastWorkload(array $projList = NULL) {
@@ -825,7 +826,7 @@ class User {
     *
     * @param array $projList
     * @param bool $withResolved
-    * @return array[bugId] = Issue
+    * @return Issue[] : array[bugId] = Issue
     */
    public function getAssignedIssues(array $projList = NULL, $withResolved = false) {
       $issueList = array();
@@ -891,14 +892,15 @@ class User {
     * - deadLine
     * - priority
     *
-    * @return Issue list
+    * @return Issue[]
     */
    public function getMonitoredIssues() {
       if(NULL == $this->monitoredIssues) {
-         $query = "SELECT DISTINCT bug_id " .
-                  "FROM `mantis_bug_monitor_table` " .
-                  "WHERE user_id = $this->id " .
-                  "ORDER BY bug_id DESC";
+         $query = "SELECT DISTINCT mantis_bug_table.* " .
+                  "FROM `mantis_bug_table`, `mantis_bug_monitor_table` " .
+                  "WHERE mantis_bug_monitor_table.user_id = $this->id " .
+                  "AND mantis_bug_table.id = mantis_bug_monitor_table.bug_id ".
+                  "ORDER BY mantis_bug_table.id DESC";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -907,7 +909,7 @@ class User {
          }
          $this->monitoredIssues = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $issue = IssueCache::getInstance()->getIssue($row->bug_id);
+            $issue = IssueCache::getInstance()->getIssue($row->id, $row);
             if ($issue->currentStatus < $issue->getBugResolvedStatusThreshold()) {
                $this->monitoredIssues[] = $issue;
             }
@@ -922,7 +924,7 @@ class User {
    /**
     * check Timetracks & fixed holidays
     * and returns how many time is available for work on this day.
-    * @param unknown_type $timestamp
+    * @param int $timestamp
     * @return int 
     */
    public function getAvailableTime($timestamp) {
@@ -1039,5 +1041,8 @@ class User {
    }
 
 }
+
+// Initialize complex static variables
+User::staticInit();
 
 ?>
