@@ -17,8 +17,11 @@
 */
 
 include_once('classes/issue_cache.class.php');
+include_once('classes/issue_selection.class.php');
+include_once('classes/jobs.class.php');
 include_once('classes/project.class.php');
-include_once('classes/sqlwrapper.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/team_cache.class.php');
 
 require_once('tools.php');
 
@@ -52,23 +55,14 @@ class ProductivityReportTools {
     * @return mixed[]
     */
    public static function getSideTasksProjectDetails(TimeTracking $timeTracking) {
-      $sideTaskProjectType = Project::type_sideTaskProject;
-
       // find all sideTasksProjects (type = 1)
-      $query = "SELECT project_id ".
-         "FROM `codev_team_project_table` ".
-         "WHERE team_id = $timeTracking->team_id ".
-         "AND type = $sideTaskProjectType";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         return NULL;
-      }
+      $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
+      $projectIds = $team->getSpecificTypedProjectIds(Project::type_sideTaskProject);
 
       $durationPerCategory = array();
       $formatedBugsPerCategory = array();
-
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $durPerCat = $timeTracking->getProjectDetails($row->project_id);
+      foreach($projectIds as $projectId) {
+         $durPerCat = $timeTracking->getProjectDetails($projectId);
          foreach ($durPerCat as $catName => $bugList) {
             foreach ($bugList as $bugid => $duration) {
                $durationPerCategory[$catName] += $duration;
@@ -108,7 +102,7 @@ class ProductivityReportTools {
    public static function getProjectDetailsUrl(array $projectDetails) {
       $formatedValues = NULL;
       $formatedLegends = NULL;
-      foreach ($projectDetails as $catName => $projectDetail) {
+      foreach ($projectDetails as $projectDetail) {
          if (0 != $projectDetail['duration']) {
             if (NULL != $formatedValues) {
                $formatedValues .= ":"; $formatedLegends .= ":";
@@ -126,29 +120,12 @@ class ProductivityReportTools {
 
    /**
     * @param int $teamid
-    * @param int $defaultProjectid
     * @return mixed[]
     */
    public static function getTeamProjects($teamid) {
-      // Project List
-      $query  = "SELECT mantis_project_table.id, mantis_project_table.name ".
-         "FROM `codev_team_project_table`, `mantis_project_table` ".
-         "WHERE codev_team_project_table.team_id = $teamid ".
-         "AND codev_team_project_table.project_id = mantis_project_table.id ".
-         "ORDER BY mantis_project_table.name";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         return NULL;
-      }
-      $projList = NULL;
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $projList[$row->id] = $row->name;
-         }
-      }
-
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $projList = $team->getProjects();
       $projList[0] = T_("All sideTasks Projects");
-
       return $projList;
    }
 
@@ -239,31 +216,21 @@ class ProductivityReportTools {
     */
    public static function getWorkingDaysPerProject(TimeTracking $timeTracking) {
       $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
-      $query = "SELECT mantis_project_table.id, mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
-         "FROM `mantis_project_table`, `codev_team_project_table` ".
-         "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-         "AND codev_team_project_table.team_id = $team->id ".
-         "ORDER BY name";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         return NULL;
-      }
 
       $workingDaysPerProject = NULL;
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $nbDays = $timeTracking->getWorkingDaysPerProject($row->id);
-
-         $proj = ProjectCache::getInstance()->getProject($row->id, $row);
-         if ((! $team->isSideTasksProject($proj->id)) && (! $team->isNoStatsProject($proj->id))) {
-            $progress = round(100 * $proj->getProgress()).'%';
-            $progressMgr = round(100 * $proj->getProgressMgr()).'%';
+      $projects = $team->getTrueProjects();
+      foreach($projects as $project) {
+         $nbDays = $timeTracking->getWorkingDaysPerProject($project->id);
+         if ((! $team->isSideTasksProject($project->id)) && (! $team->isNoStatsProject($project->id))) {
+            $progress = round(100 * $project->getProgress()).'%';
+            $progressMgr = round(100 * $project->getProgressMgr()).'%';
          } else {
             $progress = '';
             $progressMgr = '';
          }
 
          $workingDaysPerProject[] = array(
-            'name' => $row->name,
+            'name' => $project->name,
             'nbDays' => $nbDays,
             'progress' => $progress,
             'progressMgr' => $progressMgr
@@ -280,7 +247,7 @@ class ProductivityReportTools {
    public static function getWorkingDaysPerProjectUrl(array $workingDaysPerProject) {
       $formatedValues = NULL;
       $formatedLegends = NULL;
-      foreach ($workingDaysPerProject as $id => $workingDays) {
+      foreach ($workingDaysPerProject as $workingDays) {
          if (0 != $workingDays['nbDays']) {
             if (NULL != $formatedValues) {
                $formatedValues .= ":"; $formatedLegends .= ":";
