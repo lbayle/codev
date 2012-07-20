@@ -349,7 +349,7 @@
 
             jQuery("#btImportIssues").click(function(event) {
                jQuery(this).attr("disabled", "true");
-               jQuery("*").css('cursor','progress');
+               jQuery("body").css('cursor','progress');
 
                var issueData = jQuery('#issues_data');
 
@@ -411,7 +411,7 @@
                   } else {
                      // At the end, scroll to top, reset the cursor and alert the user
                      scroller.scrollTo(rows[0], 1);
-                     jQuery("*").css('cursor','auto');
+                     jQuery("body").css('cursor','auto');
                      alert('{t}Import done !{/t}');
                   }
                }
