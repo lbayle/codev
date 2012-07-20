@@ -92,22 +92,7 @@ function getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid) {
       $issueList = $project1->getIssues();
    } else {
       // no project specified: show all tasks
-      $issueList = array();
-      $formatedProjList = implode(', ', array_keys($projList));
-
-      $query = "SELECT * " .
-         "FROM `mantis_bug_table` " .
-         "WHERE project_id IN ($formatedProjList) " .
-         "ORDER BY id DESC";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         return NULL;
-      }
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $issueList[] = IssueCache::getInstance()->getIssue($row->id, $row);
-         }
-      }
+      $issueList = Project::getProjectIssues(array_keys($projList));
    }
 
    $issues = NULL;
