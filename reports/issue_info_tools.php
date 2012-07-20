@@ -77,10 +77,10 @@ class IssueInfoTools {
          $issueGeneralInfo['issueDriftMgr'] = round($driftMgr, 2);
       }
       if ($withSupport) {
-         $issueGeneralInfo['issueElapsed'] = $issue->elapsed;
+         $issueGeneralInfo['issueElapsed'] = $issue->getElapsed();
       } else {
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $issueGeneralInfo['issueElapsed'] = $issue->elapsed - $issue->getElapsed($job_support);
+         $issueGeneralInfo['issueElapsed'] = $issue->getElapsed() - $issue->getElapsed($job_support);
       }
       if ($displaySupport) {
          if ($isManager) {

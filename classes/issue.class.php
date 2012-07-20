@@ -76,7 +76,7 @@ class Issue implements Comparable {
 
    private $description;
    private $target_version;
-   private $relationships; // array[relationshipType][bugId]
+   private $relationships = array(); // array[relationshipType][bugId]
    private $IssueNoteList;
    private $commandList;
    private $categoryName;
@@ -104,11 +104,11 @@ class Issue implements Comparable {
    public $deliveryDate;
    public $deliveryId;   // TODO FDL (FDJ specific)
 
-   // -- computed fields
-   public $elapsed;          // total time spent on this issue
-   public $statusList;       // array of statusInfo elements
+   // computed fields
+   private $elapsed;          // total time spent on this issue
+   public $statusList = array();       // array of statusInfo elements
 
-   // -- PRIVATE cached fields
+   // PRIVATE cached fields
    private $holidays;
 
    // other cache fields
@@ -216,12 +216,6 @@ class Issue implements Comparable {
                   break;
             }
          }
-
-         $this->elapsed = $this->getElapsed();
-
-         // Prepare fields
-         $this->statusList = array();
-         $this->relationships = array();
 
          //DEBUG $this->getRelationships(2500);
       } else {
@@ -528,29 +522,43 @@ class Issue implements Comparable {
    }
 
    /**
+    * @var int[]
+    */
+   private $elapsedCache;
+
+   /**
     * Get elapsed from TimeTracking
     * @param int $job_id if no category specified, then all category.
     * @return int
     */
    public function getElapsed($job_id = NULL) {  // TODO $doRefresh = false
-      $elapsed = 0;
-
-      $query     = "SELECT duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId";
-
-      if (isset($job_id)) {
-         $query .= " AND jobid = $job_id";
+      if(NULL == $this->elapsedCache) {
+         $this->elapsedCache = array();
       }
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $elapsed += $row->duration;
+      $key = 'j'.$job_id;
+
+      if(!array_key_exists($key, $this->elapsedCache)) {
+         $query = "SELECT duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId";
+
+         if (isset($job_id)) {
+            $query .= " AND jobid = $job_id";
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $elapsed = 0;
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $elapsed += $row->duration;
+         }
+         $this->elapsedCache[$key] = $elapsed;
       }
 
-      return $elapsed;
+      return $this->elapsedCache[$key];
    }
 
    /**
@@ -594,7 +602,7 @@ class Issue implements Comparable {
     * @return int reestimated
     */
    public function getReestimated() {
-      return ($this->elapsed + $this->getDuration());
+      return ($this->getElapsed() + $this->getDuration());
    }
 
    /**
@@ -602,7 +610,7 @@ class Issue implements Comparable {
     * @return int reestimated
     */
    public function getReestimatedMgr() {
-      return ($this->elapsed + $this->getDurationMgr());
+      return ($this->getElapsed() + $this->getDurationMgr());
    }
 
    /**
@@ -721,10 +729,10 @@ class Issue implements Comparable {
       }
 
       if ($withSupport) {
-         $myElapsed = $this->elapsed;
+         $myElapsed = $this->getElapsed();
       } else {
          $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
+         $myElapsed = $this->getElapsed() - $this->getElapsed($job_support);
       }
 /*
       // if Elapsed     = 0 then Drift = 0
@@ -739,7 +747,7 @@ class Issue implements Comparable {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
       }
 
-      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed $this->elapsed - estim $totalEstim)");
+      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
       return round($derive,3);
    }
 
@@ -1399,15 +1407,15 @@ class Issue implements Comparable {
       }
 
       // no time spent on task, 0% done
-      if ((NULL == $this->elapsed) || (0 == $this->elapsed)) { return 0; }
+      if ((NULL == $this->getElapsed()) || (0 == $this->getElapsed())) { return 0; }
 
       // if no Remaining set, 100% done (this is not a normal case, an Alert is raised by ConsistencyCheck)
       if ((NULL == $this->remaining) || (0 == $this->remaining)) { return 1; }
 
       // nominal case
-      $progress = $this->elapsed / $this->getReestimated();   // (T-R)/T
+      $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
 
-      $this->logger->debug("issue $this->bugId Progress = $progress % = $this->elapsed / ($this->elapsed + $this->remaining)");
+      $this->logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + $this->remaining)");
 
       return $progress;
    }

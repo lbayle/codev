@@ -239,7 +239,7 @@ class SmartyTools {
             "status" => $issue->getCurrentStatusName(),
             "progress" => round(100 * $issue->getProgress()),
             "effortEstim" => $issue->mgrEffortEstim,
-            "elapsed" => $issue->elapsed,
+            "elapsed" => $issue->getElapsed(),
             "driftMgr" => $driftMgr,
             "driftMgrColor" => (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ",
             "durationMgr" => $issue->getDurationMgr(),
