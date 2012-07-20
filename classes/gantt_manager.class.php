@@ -1,37 +1,43 @@
 <?php
 /*
-    This file is part of CoDevTT.
+   This file is part of CoDevTT.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDevTT is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once '../path.inc.php';
+require_once('../path.inc.php');
 
-require_once('Logger.php');
-require_once "mysql_config.inc.php";
-require_once "mysql_connect.inc.php";
-require_once "internal_config.inc.php";
-require_once "constants.php";
+require_once('include/mysql_config.inc.php');
+require_once('include/mysql_connect.inc.php');
+require_once('include/internal_config.inc.php');
+require_once('constants.php');
 
-require_once "i18n.inc.php";
+require_once('i18n/i18n.inc.php');
 
-require_once ('time_tracking.class.php');
-require_once ('team.class.php');
-require_once ('project.class.php');
+include_once('classes/issue_cache.class.php');
+include_once('classes/project.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/time_tracking.class.php');
+include_once('classes/user_cache.class.php');
 
-require_once ('jpgraph.php');
-require_once ('jpgraph_gantt.php');
+require_once('tools.php');
+
+require_once ('lib/jpgraph/src/jpgraph.php');
+require_once ('lib/jpgraph/src/jpgraph_gantt.php');
+
+require_once('lib/log4php/Logger.php');
 
 class GanttActivity {
 
@@ -46,7 +52,6 @@ class GanttActivity {
    public $progress;
    public $activityIdx;  // index in jpgraph Data structure
 
-   // -----------------------------------------
    public function __construct($bugId, $userId, $startT, $endT, $progress=NULL) {
 
    	$this->logger = Logger::getLogger(__CLASS__);
@@ -73,16 +78,13 @@ class GanttActivity {
       $this->logger->debug("Activity created for issue $bugId (".date('Y-m-d',$startT).") -> (".date('Y-m-d',$endT).")");
 	}
 
-   // -----------------------------------------
    public function setColor($color) {
       $this->color = $color;
    }
 
-   // -----------------------------------------
    public function setActivityIdx($activityIdx) {
    	$this->activityIdx = $activityIdx;
    }
-
 
    public function getJPGraphBar($issueActivityMapping) {
       global $statusNames;
@@ -126,18 +128,16 @@ class GanttActivity {
       return $bar;
    }
 
-
-   // -----------------------------------------
    public function toString() {
    	return "issue $this->bugid  - ".date('Y-m-d', $this->startTimestamp)." - ".date('Y-m-d', $this->endTimestamp)." - ".$this->userid;
    }
 
-      // ----------------------------------------------
    /**
     * QuickSort compare method.
     * returns true if $this has higher priority than $activityB
     *
     * @param GanttActivity $activityB the object to compare to
+    * @return bool
     */
    function compareTo($activityB) {
 
@@ -151,8 +151,6 @@ class GanttActivity {
    }
 }
 
-
-// ==================================================================
 /**
 
 1) recupere la liste des taches finies (status >= bug_resolved_status_threshold)
@@ -176,14 +174,11 @@ class GanttManager {
   private $endTimestamp;
 
   private $projectList; // (array) filter on specific projects
-  //
-  private $teamActivityList; // $teamActivityList[user][activity]
 
-   // -----------------------------------------
    /**
-    * @param $teamId
-    * @param $startT  start timestamp. if NULL, then now
-    * @param $endT    end timestamp. if NULL, shedule all remaining tasks
+    * @param int $teamId
+    * @param int $startT  start timestamp. if NULL, then now
+    * @param int $endT    end timestamp. if NULL, shedule all remaining tasks
     */
    public function __construct($teamId, $startT=NULL, $endT=NULL) {
 
@@ -199,47 +194,46 @@ class GanttManager {
 	  $this->projectList      = array();
    }
 
-   // -----------------------------------------
    /**
     * set a list of projects that will be displayed
-   */
-   public function setProjectFilter($projList) {
+    * @param int[] $projList
+    */
+   public function setProjectFilter(array $projList) {
       if (NULL != $projList) {
          $this->projectList = $projList;
       }
    }
 
-   // -----------------------------------------
    /**
     * get tasks resolved in the period
+    * @return Issue[]
     */
    private function getResolvedIssues() {
 
    	$tt = new TimeTracking($this->startTimestamp, $this->endTimestamp, $this->teamid);
    	$resolvedIssuesList = $tt->getResolvedIssues();
 
-      $sortedList = qsort($resolvedIssuesList);
+      $sortedList = Tools::qsort($resolvedIssuesList);
 
    	return $sortedList;
    	#return $resolvedIssuesList;
 
    }
 
-   // -----------------------------------------
    /**
     * get sorted list of current issues
+    * @return Issue[]
     */
    private function getCurrentIssues() {
 
    	$teamIssueList = array();
 
-      $members = Team::getMemberList($this->teamid);
-      #$projects = Team::getProjectList($this->teamid);
+      $team = TeamCache::getInstance()->getTeam($this->teamid);
+      $users = $team->getUsers();
+      #$projects = $team->getProjects();
 
-      // --- get all issues
-      foreach($members as $uid => $uname) {
-         $user = UserCache::getInstance()->getUser($uid);
-
+      // get all issues
+      foreach($users as $user) {
          // do not take observer's tasks
          if (($user->isTeamDeveloper($this->teamid)) ||
              ($user->isTeamManager($this->teamid))) {
@@ -250,17 +244,16 @@ class GanttManager {
       }
 
       // quickSort the list
-      $sortedList = qsort($teamIssueList);
+      $sortedList = Tools::qsort($teamIssueList);
 
       return $sortedList;
    }
 
-
-   // -----------------------------------------
    /**
     * create a GanttActivity for each issue and dispatch it in $activitiesByUser[user]
+    * @param Issue[] $resolvedIssuesList
     */
-   private function dispatchResolvedIssues($resolvedIssuesList) {
+   private function dispatchResolvedIssues(array $resolvedIssuesList) {
    	global $status_acknowledged;
    	global $status_closed;
 
@@ -287,7 +280,6 @@ class GanttManager {
 
    }
 
-   // -----------------------------------------
    /**
     * The remainingStartDate (RSD) is NOT the startDate of the issue.
     *
@@ -313,14 +305,17 @@ class GanttManager {
     * - the next assigned activity (highest priority) ?
     * - use a best-fit or worst-fit algorithm ?
     *
+    * @param Issue $issue
+    * @param array $userDispatchInfo
+    * @return array[]
     */
-   private function findRemainingStartDate($issue, $userDispatchInfo) {
+   private function findRemainingStartDate(Issue $issue, array $userDispatchInfo) {
 
 		$user = UserCache::getInstance()->getUser($issue->handlerId);
 
       $rsd = $userDispatchInfo[0]; // arrivalDate of the user's latest added Activity
 
-      // --- check relationships
+      // check relationships
       // Note: if issue is constrained, then the constrained issue should already
       //       have an Activity. the contrary would mean that there is a bug in our
       //       sort algorithm...
@@ -340,7 +335,6 @@ class GanttManager {
          }
       }
 
-      // ---
 		//the RSD is the arrivalDate of the user's latest added Activity
 		// but if the availableTime on RemainingStartDate is 0, then search for the next 'free' day
 		while ( 0 == $userDispatchInfo[1]) {
@@ -354,7 +348,6 @@ class GanttManager {
       return $userDispatchInfo;
    }
 
-   // -----------------------------------------
    /**
     * The startDate is the date where the user started investigating on the issue.
     *
@@ -383,8 +376,12 @@ class GanttManager {
     *  ack      | firstDate of changeStatus to status > New
     *  analyzed | firstDate of changeStatus to status > New
     *  open     | firstDate of changeStatus to status > New
+    *
+    * @param Issue $issue
+    * @param int $remainingStartDate
+    * @return int
     */
-   private function findStartDate($issue, $remainingStartDate) {
+   private function findStartDate(Issue $issue, $remainingStartDate) {
    	global $status_new;
 
 		if ($status_new == $issue->currentStatus) {
@@ -412,8 +409,6 @@ class GanttManager {
       return $startDate;
    }
 
-
-   // -----------------------------------------
    /**
     *  STATUS   | BEGIN                | END
     *  open     | firstAckDate         | previousIssueEndDate + getRemaining()
@@ -421,44 +416,43 @@ class GanttManager {
     *  ack      | firstAckDate         | previousIssueEndDate + getRemaining()
     *  feedback | previousIssueEndDate | previousIssueEndDate + getRemaining()
     *  new      | previousIssueEndDate | previousIssueEndDate + getRemaining()
-
+    *
+    * @param Issue[] $issueList
+    * @return array[]
     */
-   private function dispatchCurrentIssues($issueList) {
+   private function dispatchCurrentIssues(array $issueList) {
 
       $teamDispatchInfo = array(); // $teamDispatchInfo[userid] = array(endTimestamp, $availTimeOnEndTimestamp)
-      $today = date2timestamp(date("Y-m-d", time()));
-
+      $today = Tools::date2timestamp(date("Y-m-d", time()));
 
       foreach ($issueList as $issue) {
 
 			$user = UserCache::getInstance()->getUser($issue->handlerId);
 
-	      // --- init user history
+	      // init user history
 			if (NULL == $teamDispatchInfo[$issue->handlerId]) {
 				// let's assume 'today' being the endTimestamp of previous activity
 			   $teamDispatchInfo[$issue->handlerId] = array($today, $user->getAvailableTime($today));
 			}
 
-			// --- find remainingStartDate
+			// find remainingStartDate
          $teamDispatchInfo[$issue->handlerId] = $this->findRemainingStartDate($issue, $teamDispatchInfo[$issue->handlerId]);
          $remainingStartDate = $teamDispatchInfo[$issue->handlerId][0];
 
-			// --- find startDate
+			// find startDate
 			$startDate = $this->findStartDate($issue, $remainingStartDate);
 
-			// --- compute endDate
+			// compute endDate
 			// the arrivalDate depends on the dateOfInsertion and the available time on that day
 			$teamDispatchInfo[$issue->handlerId] = $issue->computeEstimatedDateOfArrival($teamDispatchInfo[$issue->handlerId][0],
 			                                                                             $teamDispatchInfo[$issue->handlerId][1]);
 			$endDate = $teamDispatchInfo[$issue->handlerId][0];
-
 
 			$this->logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
 			$this->logger->debug("issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]);
 
 			// activitiesByUser
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
-
 
       	if (NULL == $this->activitiesByUser[$issue->handlerId]) {
       	   $this->activitiesByUser[$issue->handlerId] = array();
@@ -471,9 +465,8 @@ class GanttManager {
       return $this->activitiesByUser;
    }
 
-   // -----------------------------------------
    /**
-    *
+    * @return GanttActivity[]
     */
    public function getTeamActivities() {
 
@@ -495,14 +488,13 @@ class GanttManager {
 
       }
 
-      $sortedList = qsort($mergedActivities);
+      $sortedList = Tools::qsort($mergedActivities);
 
       return $sortedList;
    }
 
-
    /**
-    *
+    * @return GanttGraph
     */
    public function getGanttGraph() {
 
@@ -511,7 +503,7 @@ class GanttManager {
 
       $teamActivities = $this->getTeamActivities();
 
-      // --- set activityIdx
+      // set activityIdx
       $activityIdx = 0;
       foreach($teamActivities as $a) {
       	$a->setActivityIdx($activityIdx);
@@ -529,11 +521,10 @@ class GanttManager {
          ++$activityIdx;
       }
 
-      // ----
    	  $graph = new GanttGraph();
 
-      // --- set graph title
-      $team = new Team($this->teamid);
+      // set graph title
+      $team = TeamCache::getInstance()->getTeam($this->teamid);
       if ( (NULL != $this->projectList) && (0 != sizeof($this->projectList))) {
          $pnameList = "";
          foreach ($this->projectList as $pid) {
@@ -544,8 +535,6 @@ class GanttManager {
       } else {
          $graph->title->Set(T_('Team').' '.$team->name.'    ('.T_('All projects').')');
       }
-
-
 
       // Setup scale
       $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
@@ -598,4 +587,5 @@ class GanttManager {
    }
 
 }
+
 ?>
