@@ -79,7 +79,7 @@ function getTeamConsistencyErrors($teamid) {
             $targetVersion = '';
          }
 
-         $cerrs[] = array('userName' => isset($user) ? '' : $user->getName(),
+         $cerrs[] = array('userName' => isset($user) ? $user->getName() : '',
             'issueURL' =>  (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId, $summary),
             'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, $summary, true),
             'date' =>      (NULL == $cerr->timestamp) ? '' : date("Y-m-d", $cerr->timestamp),
