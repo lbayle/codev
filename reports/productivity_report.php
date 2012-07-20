@@ -131,6 +131,8 @@ if(isset($_SESSION['userid'])) {
 
          // warnings
          $consistencyErrors = ProductivityReportTools::getCheckWarnings($timeTracking);
+         $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
    }

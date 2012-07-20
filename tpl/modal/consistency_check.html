@@ -25,10 +25,10 @@ ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
 </script>
 
 <div align='right'>
-   <a title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" href="#" style="text-decoration: none; font:bold 14px Arial; background:red; color:white; border:solid 1px red;">&nbsp;{$ccheckErrList|count} {t}Errors{/t}&nbsp;</a>
+   <a title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" href="#" style="text-decoration: none; font:bold 14px Arial; background:red; color:white; border:solid 1px red;">&nbsp;{$ccheckButtonTitle}&nbsp;</a>
 </div>
    
-<div id="dialog_ConsistencyCheck" title="{$ccheckErrList|count} {t}days are incomplete or undefined{/t}" style="display: none">
+<div id="dialog_ConsistencyCheck" title="{$ccheckBoxTitle}" style="display: none">
    <div align='left'>
       <table class='invisible'>
       {foreach from=$ccheckErrList key=id item=i}

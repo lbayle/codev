@@ -230,6 +230,8 @@ if(isset($_SESSION['userid'])) {
          $consistencyErrors = getConsistencyErrors($timeTracking);
          if(count($consistencyErrors) > 0) {
             $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
          }
       }
    }

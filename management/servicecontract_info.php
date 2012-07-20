@@ -118,7 +118,7 @@ if (isset($_SESSION['userid'])) {
       $consistencyErrors = getConsistencyErrors($servicecontract);
       if (0 != $consistencyErrors) {
          $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors affecting the ServiceContract"));
+         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
          $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
 

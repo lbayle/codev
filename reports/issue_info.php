@@ -81,6 +81,8 @@ if(isset($_SESSION['userid'])) {
                         'desc' => $cerr->desc
                      );
                   }
+                  $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+                  $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
                   $smartyHelper->assign('ccheckErrList', $consistencyErrors);
                }
 
