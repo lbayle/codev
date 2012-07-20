@@ -43,7 +43,7 @@ function getCommandIssues($command) {
       $issueInfo["status"] = $issue->getCurrentStatusName();
       $issueInfo["progress"] = round(100 * $issue->getProgress());
       $issueInfo["effortEstim"] = $issue->mgrEffortEstim;
-      $issueInfo["elapsed"] = $issue->elapsed;
+      $issueInfo["elapsed"] = $issue->getElapsed();
       $issueInfo["driftMgr"] = $driftMgr;
       $issueInfo["driftMgrColor"] = $formattedDriftMgrColor;
       $issueInfo["durationMgr"] = $issue->getDurationMgr();

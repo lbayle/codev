@@ -135,7 +135,7 @@ class ExportCsvTools {
             $issue->mgrEffortEstim.$sepChar.
             $issue->effortEstim.$sepChar.
             $issue->effortAdd.$sepChar.
-            $issue->elapsed.$sepChar.
+            $issue->getElapsed().$sepChar.
             $issue->remaining.$sepChar.
             round(100 * $issue->getProgress())."%".$sepChar.
             $deliveryDate.$sepChar.
@@ -193,7 +193,7 @@ class ExportCsvTools {
             $issue->mgrEffortEstim.$sepChar.
             $issue->effortEstim.$sepChar.
             $issue->effortAdd.$sepChar.
-            $issue->elapsed.$sepChar.
+            $issue->getElapsed().$sepChar.
             $issue->remaining.$sepChar.
             $deliveryDate.$sepChar.
             $issue->deliveryId.$sepChar.
@@ -311,8 +311,8 @@ class ExportCsvTools {
             $stringData .= date("d/m/Y", $issue->endDate()).$sepChar;
             $stringData .= $issue->getCurrentStatusName().$sepChar;
             $stringData .= ($issue->effortEstim + $issue->effortAdd).$sepChar;
-            $stringData .= $issue->elapsed.$sepChar;
-            $stringData .= ($issue->elapsed + $issue->remaining).$sepChar;
+            $stringData .= $issue->getElapsed().$sepChar;
+            $stringData .= ($issue->getElapsed() + $issue->remaining).$sepChar;
 
             // sum all job durations
             $elapsedInPeriod = 0;
@@ -325,7 +325,7 @@ class ExportCsvTools {
             $stringData .="\n";
 
             $totalEffortEstim   += ($issue->effortEstim + $issue->effortAdd);
-            $totalElapsed       += $issue->elapsed;
+            $totalElapsed       += $issue->getElapsed();
             $totalRemaining     += $issue->remaining;
             $totalElapsedPeriod += $elapsedInPeriod;
          }

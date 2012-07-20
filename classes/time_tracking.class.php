@@ -530,7 +530,7 @@ class TimeTracking {
           $issueDriftMgrEE  = $issue->getDriftMgr($withSupport);
           $deriveETA     += $issueDriftMgrEE;
 
-          self::$logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = $issue->elapsed, drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
+          self::$logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
 
             // get drift stats. equal is when drif = +-1
             if ($issueDrift < -1) {
@@ -1061,7 +1061,7 @@ class TimeTracking {
       }
 
       // all bugs which resolution changed to 'reopened' whthin the timestamp
-      $query = "SELECT mantis_bug_table.id, " .
+      $query = "SELECT mantis_bug_table.*, " .
               "mantis_bug_history_table.new_value, " .
               "mantis_bug_history_table.old_value " .
               "FROM `mantis_bug_table`, `mantis_bug_history_table` " .
@@ -1086,7 +1086,7 @@ class TimeTracking {
 
          if ($isExtRefOnly) {
             // do not include internal tasks (tasks having no ExternalReference)
-            $issue = IssueCache::getInstance()->getIssue($row->id);
+            $issue = IssueCache::getInstance()->getIssue($row->id, $row);
             if ((NULL == $issue->tcId) || ('' == $issue->tcId)) {
                self::$logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
                continue;
