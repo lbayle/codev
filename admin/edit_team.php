@@ -79,7 +79,8 @@ function getTeamProjects($teamid) {
    global $externalTasksProject;
 
    $query = "SELECT codev_team_project_table.id, codev_team_project_table.type, ".
-      "mantis_project_table.id AS project_id, mantis_project_table.name, mantis_project_table.description ".
+      "mantis_project_table.id AS project_id, mantis_project_table.name, mantis_project_table.enabled, ".
+      "mantis_project_table.description ".
       "FROM `codev_team_project_table`, `mantis_project_table` ".
       "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
       "AND codev_team_project_table.team_id=$teamid ".
@@ -92,6 +93,7 @@ function getTeamProjects($teamid) {
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       $teamProjectsTuple[$row->id] = array(
          "name" => $row->name,
+         "enabled" => (1 == $row->enabled) ? T_('enabled') : T_('disabled'),
          "projectid" => $row->project_id,
          "typeNames" => Project::$typeNames[$row->type],
          "description" => $row->description

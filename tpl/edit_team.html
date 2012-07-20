@@ -308,6 +308,7 @@
             <th></th>
             <th>{t}Name{/t}</th>
             <th>{t}Type{/t}</th>
+            <th>{t}Status{/t}</th>
             <th>{t}Description{/t}</th>
          </tr>
          {foreach from=$teamProjects key=id item=i}
@@ -315,6 +316,7 @@
             <td>{if $i.delete}<a title="{t}delete this row{/t}" onclick="removeTeamProject('{$id}', '{$i.name}');return false;" href="#"><img src="images/b_drop.png"></a>{/if}</td>
             <td title="{$i.projectid}">{$i.name}</td>
             <td>{$i.typeNames}</td>
+            <td>{$i.enabled}</td>
             <td>{$i.description}</td>
          </tr>
          {/foreach}

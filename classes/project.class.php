@@ -59,6 +59,7 @@ class Project {
    var $name;
    var $description;
    var $type;
+   private $enabled;
    var $jobList;
    var $categoryList;
    private $teamTypeList;
@@ -123,7 +124,7 @@ class Project {
     */
    public function initialize($row = NULL) {
       if($row == NULL) {
-      $query  = "SELECT mantis_project_table.name, mantis_project_table.description, codev_team_project_table.type ".
+      $query  = "SELECT mantis_project_table.*, codev_team_project_table.type ".
                 "FROM `mantis_project_table`, `codev_team_project_table` ".
                 "WHERE mantis_project_table.id = $this->id ".
                 "AND codev_team_project_table.project_id = mantis_project_table.id ";
@@ -143,6 +144,7 @@ class Project {
       if ($nbTuples) {
       $this->name        = $row->name;
       $this->description = $row->description;
+      $this->enabled     = (1 == $row->enabled);
       $this->type        = $row->type;
 
       // ---- if SideTaskProject get categories
@@ -411,6 +413,10 @@ class Project {
          $versionName = SqlWrapper::getInstance()->sql_result($result, 0);
 
       return $versionName;
+   }
+
+   public function isEnabled() {
+      return $this->enabled;
    }
 
    /**
