@@ -71,21 +71,12 @@ function getDaysDetails($i, Holidays $holidays, array $weekDates, $duration) {
  * @return mixed[]
  */
 function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekDates) {
-   $query = "SELECT codev_team_user_table.user_id, mantis_user_table.username, mantis_user_table.realname " .
-      "FROM  `codev_team_user_table`, `mantis_user_table` " .
-      "WHERE  codev_team_user_table.team_id = $teamid " .
-      "AND    codev_team_user_table.user_id = mantis_user_table.id " .
-      "ORDER BY mantis_user_table.realname";
-
-   $result = SqlWrapper::getInstance()->sql_query($query);
-   if (!$result) {
-      return NULL;
-   }
+   $team = TeamCache::getInstance()->getTeam($teamid);
 
    $weekDetails = array();
-   while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+   $users = $team->getUsers();
+   foreach($users as $user) {
       // if user was working on the project during the timestamp
-      $user = UserCache::getInstance()->getUser($row->user_id);
 
       if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
          ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
@@ -93,7 +84,7 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
          // PERIOD week
          //$thisWeekId=date("W");
 
-         $weekTracks = $timeTracking->getWeekDetails($row->user_id, !$isDetailed);
+         $weekTracks = $timeTracking->getWeekDetails($user->id, !$isDetailed);
          $holidays = Holidays::getInstance();
 
          $weekJobDetails = array();
@@ -130,7 +121,7 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
                $daysDetails = array();
                for ($i = 1; $i <= 7; $i++) {
                   $duration = 0;
-                  foreach ($jobList as $jobid => $dayList) {
+                  foreach ($jobList as $dayList) {
                      $duration += $dayList[$i];
                   }
                   if($duration == 0) {
@@ -151,8 +142,8 @@ function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekD
          }
 
          $weekDetails[] = array(
-            'name' => $row->username,
-            'realname' => $row->realname,
+            'name' => $user->getName(),
+            'realname' => $user->getRealname(),
             'forecastWorkload' => $user->getForecastWorkload(),
             'weekDates' => array(Tools::formatDate("%A %d %B", $weekDates[1]),Tools::formatDate("%A %d %B", $weekDates[2]),
                Tools::formatDate("%A %d %B", $weekDates[3]),Tools::formatDate("%A %d %B", $weekDates[4]),
@@ -202,7 +193,7 @@ if(isset($_SESSION['userid'])) {
    if (count($teamList) > 0) {
       // use the teamid set in the form, if not defined (first page call) use session teamid
       if (isset($_POST['teamid'])) {
-         $teamid = $_POST['teamid'];
+         $teamid = Tools::getSecurePOSTIntValue('teamid');
       } else {
          $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
       }
