@@ -313,8 +313,14 @@ class Issue implements Comparable {
 
    public function getBugResolvedStatusThreshold() {
       if(NULL == $this->bug_resolved_status_threshold) {
-         $project = ProjectCache::getInstance()->getProject($this->projectId);
-         $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
+         try {
+            $project = ProjectCache::getInstance()->getProject($this->projectId);
+            $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
+         } catch (Exception $e) {
+            $this->logger->error("getBugResolvedStatusThreshold() issue $this->bugId: ".$e->getMessage());
+            $this->bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
+            $this->logger->warn("getBugResolvedStatusThreshold(): using default BugResolvedStatusThreshold ($this->bug_resolved_status_threshold)");
+         }
       }
       return $this->bug_resolved_status_threshold;
    }
