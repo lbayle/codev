@@ -496,9 +496,9 @@ class ConsistencyCheck2 {
       $cerrList = array();
 
       if (NULL != $this->teamId) {
-         $userList = Team::getMemberList($this->teamId);
          $team = TeamCache::getInstance()->getTeam($this->teamId);
 
+         $userList = $team->getMembers();
          $formatedUsers = implode( ', ', array_keys($userList));
 
          $query     = "SELECT * ".
