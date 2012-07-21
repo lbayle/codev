@@ -34,7 +34,8 @@ class IssueSelection {
    public $effortAdd;
 
    protected $issueList;
-   protected $progress;
+   protected $progress = NULL;
+   private $progressMgr = NULL;
 
 
    public function __construct($name = "no_name") {
@@ -51,7 +52,6 @@ class IssueSelection {
       $this->effortAdd     = 0;    // BS
 
       $this->issueList = array();
-      $this->progress  = NULL;
    }
 
    /**
@@ -143,22 +143,22 @@ class IssueSelection {
     */
    public function getProgressMgr() {
 
-      if (NULL == $this->progress) {
+      if (NULL == $this->progressMgr) {
 
          // compute total progress
 
          if (0 == $this->elapsed) {
-            $this->progress = 0;  // if no time spent, then no work done.
+            $this->progressMgr = 0;  // if no time spent, then no work done.
          } elseif (0 == $this->durationMgr) {
-            $this->progress = 1;  // if no duration, then Project is 100% done.
+            $this->progressMgr = 1;  // if no duration, then Project is 100% done.
          } else {
-            $this->progress = $this->elapsed / $this->getReestimatedMgr();
+            $this->progressMgr = $this->elapsed / $this->getReestimatedMgr();
          }
 
-         $this->logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->durationMgr.")");
+         $this->logger->debug("IssueSelection [$this->name] : progressMgr = ".$this->progressMgr." = $this->elapsed / ($this->elapsed + ".$this->durationMgr.")");
       }
 
-      return $this->progress;
+      return $this->progressMgr;
    }
 
    /**
