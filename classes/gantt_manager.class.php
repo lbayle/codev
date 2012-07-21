@@ -191,7 +191,6 @@ class GanttManager {
 
       $this->activitiesByUser = array();   // $activitiesByUser[user][activity]
       $this->constrainsList   = array();
-	  $this->projectList      = array();
    }
 
    /**
@@ -199,9 +198,7 @@ class GanttManager {
     * @param int[] $projList
     */
    public function setProjectFilter(array $projList) {
-      if (NULL != $projList) {
-         $this->projectList = $projList;
-      }
+      $this->projectList = $projList;
    }
 
    /**
@@ -529,7 +526,8 @@ class GanttManager {
          $pnameList = "";
          foreach ($this->projectList as $pid) {
             if ("" != $pnameList) { $pnameList .=","; }
-            $pnameList .= Project::getName($pid);
+            $project = ProjectCache::getInstance()->getProject($pid);
+            $pnameList .= $project->name;
          }
          $graph->title->Set(T_('Team').' '.$team->name.'    '.T_('Project(s)').': '.$pnameList);
       } else {
