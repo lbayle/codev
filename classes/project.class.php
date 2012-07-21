@@ -1245,8 +1245,7 @@ class Project {
     */
    public function getProgress() {
       if (NULL == $this->progress) {
-        $issueSelection = new IssueSelection($this->name);
-        $this->progress = $issueSelection->getProgress();
+        $this->progress = $this->getIssueSelection()->getProgress();
       }
       return $this->progress;
    }
