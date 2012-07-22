@@ -98,6 +98,46 @@ function getServiceContractCommandSets($servicecontractid, $cset_type, $cmd_type
    return $commands;
 }
 
+/**
+ *
+ * @param int $servicecontractid
+ * @param int $cset_type CommandSet::type_general
+ * @param int $cmd_type Command::type_general
+ * @return array
+ */
+function getServiceContractCommands($servicecontractid, $cset_type, $cmd_type) {
+
+   $commands = array();
+
+   if (0 != $servicecontractid) {
+
+      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+      $csetList = $servicecontract->getCommandSets($cset_type);
+      foreach ($csetList as $id => $cset) {
+         $cmdList = $cset->getCommands($cmd_type);
+         foreach ($cmdList as $cmdid => $cmd) {
+
+            $issueSelection = $cmd->getIssueSelection();
+            $cmdDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
+
+
+            $cmdDetailedMgr['id'] = $cmd->getId();
+            $cmdDetailedMgr['name'] = $cmd->getName();
+            $cmdDetailedMgr['reference'] = $cmd->getReference();
+            $cmdDetailedMgr['description'] = $cmd->getDesc();
+
+            $teamid = $cmd->getTeamid();
+            $team = TeamCache::getInstance()->getTeam($teamid);
+            $cmdDetailedMgr['team'] = $team->getName();
+
+            $commands[$id.'_'.$cmdid] = $cmdDetailedMgr;
+
+         }
+      }
+   }
+   return $commands;
+}
 
 /**
  *
@@ -275,6 +315,10 @@ function displayServiceContract($smartyHelper, $servicecontract) {
    $smartyHelper->assign('cmdsetList', $commandSets);
    $smartyHelper->assign('nbCommandSets', count($commandSets));
    $smartyHelper->assign('cmdsetTotalDetailedMgr', getServiceContractCmdsetTotalDetailedMgr($servicecontract->getId(), CommandSet::type_general, Command::type_general));
+
+   $commands = getServiceContractCommands($servicecontract->getId(), CommandSet::type_general, Command::type_general);
+   $smartyHelper->assign('cmdList', $commands);
+   $smartyHelper->assign('nbCommands', count($commands));
 
 
    $smartyHelper->assign('projectList', getServiceContractProjects($servicecontract->getId()));
