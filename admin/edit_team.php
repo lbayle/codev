@@ -256,8 +256,14 @@ if(isset($_SESSION['userid'])) {
          // ----------- actions ----------
          $action = isset($_POST['action']) ? $_POST['action'] : '';
          if ($action == "updateTeamLeader") {
-            if (!$team->setLeader(Tools::getSecurePOSTIntValue('leaderid'))) {
+            $teamleader_id = Tools::getSecurePOSTIntValue('leaderid');
+            if (!$team->setLeader($teamleader_id)) {
                $smartyHelper->assign('error', "Couldn't update the team leader");
+            } else {
+               // --- add teamLeader as Mantis manager of the SideTaskProject
+               //$leader = UserCache::getInstance()->getUser($teamleader_id);
+               //$access_level = 70; // TODO mantis manager
+               //$leader->setProjectAccessLevel($stproj_id, $access_level);
             }
          } elseif ($action == "updateTeamCreationDate") {
             $formatedDate = Tools::getSecurePOSTStringValue("date_createTeam");
