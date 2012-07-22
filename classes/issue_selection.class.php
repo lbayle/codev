@@ -35,7 +35,7 @@ class IssueSelection {
 
    protected $issueList;
    protected $progress = NULL;
-   private $progressMgr = NULL;
+   protected $progressMgr = NULL;
 
 
    public function __construct($name = "no_name") {
