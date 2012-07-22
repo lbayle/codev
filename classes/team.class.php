@@ -473,7 +473,8 @@ class Team {
    public function getCommands() {
       if (NULL == $this->commandList) {
          $query = "SELECT * FROM `codev_command_table` ".
-            "WHERE team_id = $this->id ";
+            "WHERE team_id = $this->id ".
+            "ORDER BY reference,name";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -497,7 +498,8 @@ class Team {
    public function getCommandSetList() {
       if (NULL == $this->commandSetList) {
          $query = "SELECT * FROM `codev_commandset_table` ".
-            "WHERE team_id = $this->id ";
+            "WHERE team_id = $this->id ".
+            "ORDER BY reference, name";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
