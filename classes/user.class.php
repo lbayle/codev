@@ -1040,7 +1040,27 @@ class User {
       return self::$users;
    }
 
-}
+   /**
+    * Set project access_level for the given (private) project
+    * 
+    * manager = 70
+    * 
+    *
+    * @param int $project_id
+    * @param int $access_level
+    */
+   public function setProjectAccessLevel($project_id, $access_level) {
+      $query = "INSERT INTO `mantis_project_user_list_table`  (`user_id`, `project_id`, `access_level`) ".
+               "VALUES ('$this->id','$project_id', '$access_level');";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
+      }
+
+   }
+
+} // class
 
 // Initialize complex static variables
 User::staticInit();

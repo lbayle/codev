@@ -273,6 +273,15 @@ if(isset($_SESSION['userid'])) {
 
             // save to DB
             $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
+
+            // CodevTT administrators can manage ExternalTasksProject in Mantis
+            if ($admin_teamid == $team->id) {
+               $newUser = UserCache::getInstance()->getUser($memberid);
+               $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+               $access_level = 70; // TODO mantis manager
+               $newUser->setProjectAccessLevel($extProjId, $access_level);
+            }
+
          } elseif ($action == "setMemberDepartureDate") {
             $formatedDate = Tools::getSecurePOSTStringValue("date2");
             $departureTimestamp = Tools::date2timestamp($formatedDate);
