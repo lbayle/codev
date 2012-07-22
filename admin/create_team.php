@@ -110,6 +110,11 @@ if(isset($_SESSION['userid'])) {
          } else {
             $stproj = ProjectCache::getInstance()->getProject($stproj_id);
 
+            // --- add teamLeader as Mantis manager of the SideTaskProject
+            $leader = UserCache::getInstance()->getUser($teamleader_id);
+            $access_level = 70; // TODO mantis manager
+            $leader->setProjectAccessLevel($stproj_id, $access_level);
+
             // 4) --- add SideTaskProject Categories
             $stproj->addCategoryProjManagement(T_("Project Management"));
             $stproj->addCategoryMngtProvision(T_("Provision"));
