@@ -115,7 +115,7 @@ class ExportCsvTools {
          $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
 
          $startDate="";
-         if (NULL != ($d = $issue->getStartTimestamp())) {
+         if (NULL != ($d = $issue->startDate())) {
             $startDate = date("d/m/Y", $d);
          }
 
@@ -173,7 +173,7 @@ class ExportCsvTools {
          $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
 
          $startDate="";
-         if (NULL != ($d = $issue->getStartTimestamp())) {
+         if (NULL != ($d = $issue->startDate())) {
             $startDate = date("d/m/Y", $d);
          }
 
