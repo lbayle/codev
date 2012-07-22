@@ -591,69 +591,42 @@ class Project {
 
    // -----------------------------------------------
    public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
-      #global $status_closed;
-      $bugt_id = $this->addSideTaskIssue(self::cat_mngt_regular, $issueSummary, $issueDesc);
-
-/*
-      $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-*/
-      return $bugt_id;
+      global $status_closed;
+      $cat_id = $this->categoryList[self::cat_mngt_regular];
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
    }
+   
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
-      #global $status_closed;
-      $bugt_id = $this->addSideTaskIssue(self::cat_st_inactivity, $issueSummary, $issueDesc);
-/*
-      $query  = "UPDATE `mantis_bug_table` SET status = '$status_closed' WHERE id='$bugt_id'";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-*/
-      return $bugt_id;
+      global $status_closed;
+      $cat_id = $this->categoryList[self::cat_st_inactivity];
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
    }
+
    public function addIssueIncident($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(self::cat_st_incident, $issueSummary, $issueDesc);
+      global $status_closed;
+      $cat_id = $this->categoryList[self::cat_st_incident];
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
    }
+
    public function addIssueTools($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(self::cat_st_tools, $issueSummary, $issueDesc);
+      global $status_closed;
+      $cat_id = $this->categoryList[self::cat_st_tools];
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
    }
+
    public function addIssueWorkshop($issueSummary, $issueDesc=" ") {
-      return $this->addSideTaskIssue(self::cat_st_workshop, $issueSummary, $issueDesc);
+      global $status_closed;
+      $cat_id = $this->categoryList[self::cat_st_workshop];
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
    }
 
    // -----------------------------------------------
    private function addSideTaskIssue($catType, $issueSummary, $issueDesc) {
 
       global $status_closed;
-
       $cat_id = $this->categoryList["$catType"];
-      $today  = Tools::date2timestamp(date("Y-m-d"));
 
-      $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
-      $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
-
-      $formattedissueSummary = SqlWrapper::getInstance()->sql_real_escape_string($issueSummary);
-      $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-               "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$status_closed','$bug_text_id', '$today', '$today');";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $bugt_id = SqlWrapper::getInstance()->sql_insert_id();
-
+      $bugt_id = $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
       return $bugt_id;
    }
 
@@ -663,7 +636,10 @@ class Project {
     */
    public function addIssue($cat_id, $issueSummary, $issueDesc, $issueStatus) {
 
+echo "TOTO 1<br>";
       $today  = Tools::date2timestamp(date("Y-m-d"));
+      $priority = 10;
+      $reproducibility = 100;
 
       $formattedIssueDesc = SqlWrapper::getInstance()->sql_real_escape_string($issueDesc);
       $query = "INSERT INTO `mantis_bug_text_table`  (`description`) VALUES ('$formattedIssueDesc');";
@@ -673,17 +649,20 @@ class Project {
          exit;
       }
       $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
+echo "TOTO 2<br>";
 
-      $formattedissueSummary = SqlWrapper::getInstance()->sql_real_escape_string($issueSummary);
+      $formattedIssueSummary = SqlWrapper::getInstance()->sql_real_escape_string($issueSummary);
       $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-               "VALUES ('$this->id','$cat_id','$formattedissueSummary','10','100','$issueStatus','$bug_text_id', '$today', '$today');";
+               "VALUES ('$this->id','$cat_id','$formattedIssueSummary','$priority','$reproducibility','$issueStatus','$bug_text_id', '$today', '$today');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       $bugt_id = SqlWrapper::getInstance()->sql_insert_id();
+echo "TOTO 3<br>";
 
+      $this->logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");
       return $bugt_id;
    }
 
