@@ -438,10 +438,10 @@ class Command {
       $this->issueSelection = new IssueSelection($this->name);
          $query = "SELECT * FROM `codev_command_bug_table` " .
                  "WHERE command_id=$this->id ";
-         #", `codev_view_bug`".
+         #", `codev_bug_view`".
          #"WHERE codev_command_bug_table.command_id=$this->id ".
-         #"AND codev_command_bug_table.bug_id = codev_view_bug.id ".
-         #"ORDER BY codev_view_bug.project_id ASC, codev_view_bug.target_version DESC, codev_view_bug.status ASC";
+         #"AND codev_command_bug_table.bug_id = codev_bug_view.id ".
+         #"ORDER BY codev_bug_view.project_id ASC, codev_bug_view.target_version DESC, codev_bug_view.status ASC";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {

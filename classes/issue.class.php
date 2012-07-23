@@ -155,7 +155,7 @@ class Issue implements Comparable {
    public function initialize($row = NULL) {
       if($row == NULL) {
          // Get issue info
-         $query = "SELECT * FROM `codev_view_bug` " .
+         $query = "SELECT * FROM `codev_bug_view` " .
                   "WHERE id = $this->bugId";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -250,7 +250,7 @@ class Issue implements Comparable {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (NULL == self::$existsCache[$bugid]) {
-         $query  = "SELECT COUNT(id) FROM `codev_view_bug` WHERE id=$bugid ";
+         $query  = "SELECT COUNT(id) FROM `codev_bug_view` WHERE id=$bugid ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";

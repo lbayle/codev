@@ -376,7 +376,7 @@ class Team {
       $this->logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
 
       $query = "SELECT * ".
-         "FROM `codev_view_bug` ".
+         "FROM `codev_bug_view` ".
          "WHERE project_id IN ($formatedProjects) ".
          "AND   handler_id IN ($formatedMembers) ";
 
@@ -429,7 +429,7 @@ class Team {
 
       // get Issues that are not Resolved/Closed
       $query = "SELECT * ".
-         "FROM `codev_view_bug` ".
+         "FROM `codev_bug_view` ".
          "WHERE status < get_project_resolved_status_threshold(project_id) ".
          "AND project_id IN ($formatedProjects) ".
          "AND handler_id IN ($formatedMembers) ";

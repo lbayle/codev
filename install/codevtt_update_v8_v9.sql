@@ -65,14 +65,14 @@ END|
 DELIMITER ;
 
 -- --------------
--- Add a view matches mantis_bug_table + the total elapsed time of a bug in codev_timetracking_table
+-- Add a view matching mantis_bug_table + the total elapsed time of a bug in codev_timetracking_table
 -- -------------
 
-CREATE VIEW `codev_view_bug` AS
+CREATE VIEW `codev_bug_view` AS
    SELECT bug.id, bug.summary, bug.status, bug.date_submitted, bug.project_id, bug.category_id, bug.eta, bug.priority, 
           bug.severity, bug.handler_id, bug.reporter_id, bug.resolution, bug.version, bug.target_version, 
           bug.last_updated, SUM(tt.duration) AS elapsed
       FROM `mantis_bug_table` AS bug 
       LEFT JOIN `codev_timetracking_table` as tt 
       ON bug.id=tt.bugid
-      GROUP BY bug.id;"
+      GROUP BY bug.id;

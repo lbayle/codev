@@ -795,7 +795,7 @@ class User {
       $formatedProjList = implode(', ', array_keys($projList));
 
       // find all issues i'm working on
-      $query = "SELECT * FROM `codev_view_bug` " .
+      $query = "SELECT * FROM `codev_bug_view` " .
               "WHERE project_id IN ($formatedProjList) " .
               "AND handler_id = $this->id " .
               "AND status < get_project_resolved_status_threshold(project_id) " .
@@ -848,7 +848,7 @@ class User {
 
 
       $query = "SELECT * " .
-              "FROM `codev_view_bug` " .
+              "FROM `codev_bug_view` " .
               "WHERE project_id IN ($formatedProjList) " .
               "AND handler_id = $this->id ";
 
@@ -896,11 +896,11 @@ class User {
     */
    public function getMonitoredIssues() {
       if(NULL == $this->monitoredIssues) {
-         $query = "SELECT DISTINCT codev_view_bug.* " .
-                  "FROM `codev_view_bug`, `mantis_bug_monitor_table` " .
+         $query = "SELECT DISTINCT codev_bug_view.* " .
+                  "FROM `codev_bug_view`, `mantis_bug_monitor_table` " .
                   "WHERE mantis_bug_monitor_table.user_id = $this->id " .
-                  "AND codev_view_bug.id = mantis_bug_monitor_table.bug_id ".
-                  "ORDER BY codev_view_bug.id DESC";
+                  "AND codev_bug_view.id = mantis_bug_monitor_table.bug_id ".
+                  "ORDER BY codev_bug_view.id DESC";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
