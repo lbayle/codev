@@ -351,26 +351,30 @@ if(isset($_SESSION['userid'])) {
          if (isset($_POST['teamid'])) {
             $month = ($year == $min_year) ? date("m", $team->date) : 1;
             $day = ($year == $min_year) ? date("d", $team->date) : 1;
+            
+            if(count($team->getProjects(false)) > 0) {
+               $timeTrackingTable = createTimeTrackingList($day, $month, $year, $teamid);
+            
+               $smartyHelper->assign('submittedResolvedGraph', getSubmittedResolvedGraph($timeTrackingTable));
+               $smartyHelper->assign('submittedResolvedLegend', getSubmittedResolvedLegend($timeTrackingTable));
 
-            $timeTrackingTable = createTimeTrackingList($day, $month, $year, $teamid);
+               $smartyHelper->assign('timeDriftGraph', getTimeDriftGraph($timeTrackingTable));
+               $smartyHelper->assign('timeDriftLegend', getTimeDriftLegend($timeTrackingTable));
 
-            $smartyHelper->assign('submittedResolvedGraph', getSubmittedResolvedGraph($timeTrackingTable));
-            $smartyHelper->assign('submittedResolvedLegend', getSubmittedResolvedLegend($timeTrackingTable));
+               $smartyHelper->assign('resolvedDriftGraph', getResolvedDriftGraph($timeTrackingTable, $displayNoSupport));
+               $smartyHelper->assign('resolvedDriftLegend', getResolvedDriftLegend($timeTrackingTable, $displayNoSupport));
 
-            $smartyHelper->assign('timeDriftGraph', getTimeDriftGraph($timeTrackingTable));
-            $smartyHelper->assign('timeDriftLegend', getTimeDriftLegend($timeTrackingTable));
+               $smartyHelper->assign('efficiencyGraph', getEfficiencyGraph($timeTrackingTable));
+               $smartyHelper->assign('efficiencyLegend', getEfficiencyLegend($timeTrackingTable));
 
-            $smartyHelper->assign('resolvedDriftGraph', getResolvedDriftGraph($timeTrackingTable, $displayNoSupport));
-            $smartyHelper->assign('resolvedDriftLegend', getResolvedDriftLegend($timeTrackingTable, $displayNoSupport));
+               $smartyHelper->assign('reopenedRateGraph', getReopenedRateGraph($timeTrackingTable));
+               $smartyHelper->assign('reopenedRateLegend', getReopenedRateLegend($timeTrackingTable));
 
-            $smartyHelper->assign('efficiencyGraph', getEfficiencyGraph($timeTrackingTable));
-            $smartyHelper->assign('efficiencyLegend', getEfficiencyLegend($timeTrackingTable));
-
-            $smartyHelper->assign('reopenedRateGraph', getReopenedRateGraph($timeTrackingTable));
-            $smartyHelper->assign('reopenedRateLegend', getReopenedRateLegend($timeTrackingTable));
-
-            $smartyHelper->assign('developersWorkloadGraph', getDevelopersWorkloadGraph($timeTrackingTable));
-            $smartyHelper->assign('developersWorkloadLegend', getDevelopersWorkloadLegend($timeTrackingTable));
+               $smartyHelper->assign('developersWorkloadGraph', getDevelopersWorkloadGraph($timeTrackingTable));
+               $smartyHelper->assign('developersWorkloadLegend', getDevelopersWorkloadLegend($timeTrackingTable));
+            } else {
+               $smartyHelper->assign('error', 'No projects in this team');
+            }
          }
       }
    }

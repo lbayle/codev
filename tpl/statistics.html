@@ -34,6 +34,8 @@
          </fieldset>
       </form>
    </div>
+         
+   {if $error}{t}{$error}{/t}{/if}
 
    {if $submittedResolvedLegend && $timeDriftLegend && $resolvedDriftLegend && $efficiencyLegend && $reopenedRateLegend && $developersWorkloadLegend}
    <script type="text/javascript">
