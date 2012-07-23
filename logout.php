@@ -20,9 +20,23 @@ include_once('./include/session.inc.php');
 
 require('path.inc.php');
 
+require('super_header.inc.php');
+
+include_once "user.class.php";
+
+try {
+   if (isset($_SESSION['userid']) && isset($_SESSION['teamid'])) {
+      $user =  UserCache::getInstance()->getUser($_SESSION['userid']);
+      $user->setDefaultTeam($_SESSION['teamid']);
+   }
+} catch (Exception $e) {
+   #$logger->debug("could not set defaultTeam for user ".$_SESSION['userid']);
+}
+
 unset($_SESSION['userid']);
 unset($_SESSION['username']);
 unset($_SESSION['realname']);
+
 session_destroy();
 
 // load homepage

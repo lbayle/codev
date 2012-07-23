@@ -94,7 +94,12 @@ class User {
     * @var array Issue[] The monitored issues
     */
    private $monitoredIssues;
-   
+
+   /**
+    * @var int the default Team on login
+    */
+   private $defaultTeam;
+
    /**
     *
     * @var array Cache of team menber
@@ -1018,6 +1023,45 @@ class User {
 
       // save new settings
       Config::setValue(Config::id_timetrackingFilters, $keyvalue, Config::configType_keyValue, "filter for timetracking page", 0, $this->id);
+   }
+
+   /**
+    * set the Team to set on login
+    * @param int $teamid
+    */
+   public function setDefaultTeam($teamid) {
+
+      self::$logger->debug("User $this->id Set defaultTeam  : $teamid");
+
+      // save new settings
+      Config::setValue(Config::id_defaultTeamId, $teamid, Config::configType_int, "prefered team on login", 0, $this->id);
+
+      $this->defaultTeam = $teamid;
+   }
+
+   /**
+    * get the default team on login
+    *
+    * @return type
+    */
+   public function getDefaultTeam() {
+
+      if (NULL == $this->defaultTeam) {
+         // TODO Config class cannot handle multiple lines for same id
+         $query = "SELECT value FROM `codev_config_table` " .
+                 "WHERE config_id = '" . Config::id_defaultTeamId . "' " .
+                 "AND user_id = $this->id";
+         self::$logger->debug("query = " . $query);
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         // if not found return '0'
+         $this->defaultTeam = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+      }
+      return $this->defaultTeam;
    }
 
    /**

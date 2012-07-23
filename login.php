@@ -22,6 +22,8 @@ require('path.inc.php');
 
 require('super_header.inc.php');
 
+include_once "user.class.php";
+
 $logger = Logger::getLogger('login');
 
 if(isset($_POST['action'])) {
@@ -43,7 +45,14 @@ function login($user, $password) {
         $_SESSION['username']=$row_login->username;
         $_SESSION['realname']=$row_login->realname;
 
-        $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')');
+        try {
+            $user =  UserCache::getInstance()->getUser($row_login->id);
+            $_SESSION['teamid'] = $user->getDefaultTeam();
+         } catch (Exception $e) {
+            $logger->debug("could not load defaultTeam for user $row_login->id");
+         }
+
+        $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')'.' defaultTeam = '.$user->getDefaultTeam());
         return TRUE;
     } else {
         $error = 'login failed !';
