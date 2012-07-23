@@ -174,6 +174,7 @@ CREATE TABLE IF NOT EXISTS `codev_team_table` (
   `leader_id` int(11) DEFAULT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
   `date` int(11) NOT NULL,
+  `lock_timetracks_date` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

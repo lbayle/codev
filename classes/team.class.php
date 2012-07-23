@@ -61,6 +61,7 @@ class Team {
    public $leader_id;
    public $date;
    private $enabled;
+   private $lock_timetracks_date;
 
    private $projTypeList;
    private $commandList;
@@ -112,6 +113,7 @@ class Team {
       $this->description = $row->description;
       $this->leader_id = $row->leader_id;
       $this->enabled     = (1 == $row->enabled);
+      $this->lock_timetracks_date = $row->lock_timetracks_date;
       $this->date = $row->date;
    }
 
@@ -184,6 +186,29 @@ class Team {
     */
    public function isEnabled() {
       return $this->enabled;
+   }
+
+   /**
+    * add/change timetracks before this date is not allowed
+    * @return int timestamp
+    */
+   public function getLockTimetracksDate() {
+      return $this->lock_timetracks_date;
+   }
+
+   /**
+    * add/change timetracks before this date is not allowed
+    * @return int timestamp
+    */
+   public function setLockTimetracksDate($timestamp) {
+
+      $query = "UPDATE `codev_team_table` SET lock_timetracks_date = $timestamp WHERE id ='$this->id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            exit;
+      }
+      $this->lock_timetracks_date = $timestamp;
    }
 
    /**
