@@ -124,7 +124,7 @@ function getChildIssuesCandidates($teamid) {
 
    $formattedProjectList = implode (', ', array_keys($projects));
 
-   $query  = "SELECT * FROM `mantis_bug_table` ".
+   $query  = "SELECT * FROM `codev_view_bug` ".
              "WHERE project_id IN ($formattedProjectList) ".
              "AND 0 = is_issue_in_team_commands(id, $teamid) ".
              "ORDER BY id DESC";

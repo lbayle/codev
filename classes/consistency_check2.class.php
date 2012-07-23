@@ -505,7 +505,7 @@ class ConsistencyCheck2 {
             "FROM  `codev_timetracking_table` ".
             "WHERE  codev_timetracking_table.date >= $team->date ".
             "AND    codev_timetracking_table.userid IN ($formatedUsers) ";
-            #"AND    0 = (SELECT COUNT(id) FROM `mantis_bug_table` WHERE id='codev_timetracking_table.bugid' ) ";
+            #"AND    0 = (SELECT COUNT(id) FROM `codev_view_bug` WHERE id='codev_timetracking_table.bugid' ) ";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {

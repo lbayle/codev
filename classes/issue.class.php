@@ -122,6 +122,11 @@ class Issue implements Comparable {
    private $statusCache;
 
    /**
+    * @var int[]
+    */
+   private $elapsedCache;
+
+   /**
     * @param int $id The issue id
     * @param resource $details The issue details
     * @throws Exception if $id = 0
@@ -150,7 +155,7 @@ class Issue implements Comparable {
    public function initialize($row = NULL) {
       if($row == NULL) {
          // Get issue info
-         $query = "SELECT * FROM `mantis_bug_table` " .
+         $query = "SELECT * FROM `codev_view_bug` " .
                   "WHERE id = $this->bugId";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -179,6 +184,7 @@ class Issue implements Comparable {
          $this->version = $row->version;
          $this->target_version = $row->target_version;
          $this->last_updated = $row->last_updated;
+         $this->elapsed = round($row->elapsed,2);
 
          global $tcCustomField;
          global $estimEffortCustomField;
@@ -244,7 +250,7 @@ class Issue implements Comparable {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (NULL == self::$existsCache[$bugid]) {
-         $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
+         $query  = "SELECT COUNT(id) FROM `codev_view_bug` WHERE id=$bugid ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -528,16 +534,16 @@ class Issue implements Comparable {
    }
 
    /**
-    * @var int[]
-    */
-   private $elapsedCache;
-
-   /**
     * Get elapsed from TimeTracking
     * @param int $job_id if no category specified, then all category.
     * @return int
     */
    public function getElapsed($job_id = NULL) {  // TODO $doRefresh = false
+      // If no job, total time is requested
+      if(NULL == $job_id) {
+         return $this->elapsed;
+      }
+      
       if(NULL == $this->elapsedCache) {
          $this->elapsedCache = array();
       }
@@ -545,7 +551,7 @@ class Issue implements Comparable {
       $key = 'j'.$job_id;
 
       if(!array_key_exists($key, $this->elapsedCache)) {
-         $query = "SELECT duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId";
+         $query = "SELECT SUM(duration) as duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId";
 
          if (isset($job_id)) {
             $query .= " AND jobid = $job_id";
@@ -557,11 +563,7 @@ class Issue implements Comparable {
             exit;
          }
 
-         $elapsed = 0;
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $elapsed += $row->duration;
-         }
-         $this->elapsedCache[$key] = $elapsed;
+         $this->elapsedCache[$key] = round(SqlWrapper::getInstance()->sql_result($result),2);
       }
 
       return $this->elapsedCache[$key];
