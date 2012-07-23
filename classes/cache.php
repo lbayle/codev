@@ -53,7 +53,7 @@ abstract class Cache {
     * Private constructor to respect the singleton pattern
     * @param string $cacheName The cache name
     */
-   private function __construct($cacheName) {
+   protected function __construct($cacheName) {
       $this->objects = array();
       $this->callCount = array();
       $this->cacheName = $cacheName;
