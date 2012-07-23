@@ -1,19 +1,6 @@
+---------------------
 TODO
-
-BUGS
-see http://codevtt.org/mantis   (login 'user1', no password)
-
-- terminology
-BI:       (Initial Effort)
-Derive:   Glissement Previsionnel en Charge (Effort Deviation)
-Consommé: Actual Effort
-RAF:      Estimated Effort (Remaining?)
-
-
-
-- Nice to Have
-    - creer un espace messages sur la page d'acueil pour communication interne a l'equipe (Leader,Manager -> Members)
-    - Securisation du site (index.html, .htaccess, 404, ...)
+---------------------
 
 - EditTeam
     - MAJOR: users should be able to quit a team and then come back !
@@ -23,26 +10,71 @@ RAF:      Estimated Effort (Remaining?)
     - prefered language (get from mantis ?)
     - threshold values for stats
 
-- admin
-    - Project: SideTask category assignment
-    
-- admin tools page:
-    - prepareProjectToCodev (auto add custom fields)
-    - option: who is allowed to create a new team ?
-
-- install page
-    - explain the changes made to existing mantis DB (add custom fields)
-
 - statistics
     - thresholds are mandatory to understand graphics. those thresholds must be configurable
 
-- CustomFields
-    - Prel EstimEffort: il s'agit d'un "devis", le "BI+marges" et le manager ne veut pas forcement qu'il soit visible au developpers.
-
 - planning
     - le nom prette a confusion, il faut un truc du genre "Vision des taches affectées"
-    - quid de la dependance des taches ?
     
 
+
+---------------------
+GANTT TODO
+---------------------
+
+*** Relationships:
+name: "constrained by" + "constrains"
+
+*** Issue
+   [TODO] getConstrainList()
+
+*** User
+   [EXISTS] getAssignedIssues()
+   [EXISTS] getMonitoredIssues()
+
+*** TimeTracking
+   [EXISTS] getResolvedIssues()
+
+
+*** [TODO] GanttActivity
+
+   setIssue()
+   setEstimatedBeginTimestamp()
+
+   getEstimatedEndTimestamp()
+     uses: - estimatedBeginTimestamp
+           - RAF
+           - hollidays
+
+
+   getJPGraphItem()
+      return array(1,ACTYPE_NORMAL,"Label 2","2001-10-26","2001-11-13",'[lbayle]')
+
+
+
+*** [TODO] GanttManager
+
+   getGanttGraph()
+      getTeamActivities()
+      create GanttGraph
+
+   getTeamActivities()
+      foreach (teamMember as user) {
+         create new ganttGroup(ACTYPE_GROUP, userid)
+         ganttGroup = getUserActivities(userid)
+         add group to TeamActivities
+      }
+
+   getUserActivities()
+      use list of: ResolvedIssues + AssignedIssues + Monitored Issues
+
+      checks relationships (+ resolve circular relationships) : reorder if necessary
+
+      foreach (ordered issueList) {
+         computes estimatedStartTimestamp (depends on priority, estimatedEndDate of previous Issue)
+         create GantActivity instance
+      }
+
+      NICE TO HAVE: check if some activities can be inserted in "holes" created by constrains.
 
 
