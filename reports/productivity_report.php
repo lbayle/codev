@@ -60,80 +60,83 @@ if(isset($_SESSION['userid'])) {
       $smartyHelper->assign('endDate', $enddate);
 
       if (0 != $teamid) {
-         $startTimestamp = Tools::date2timestamp($startdate);
-         $endTimestamp = Tools::date2timestamp($enddate);
-         $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         if(count($team->getProjects(false)) > 0) {
+            $startTimestamp = Tools::date2timestamp($startdate);
+            $endTimestamp = Tools::date2timestamp($enddate);
+            $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+            $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-         $smartyHelper->assign('timeTracking', $timeTracking);
+            $smartyHelper->assign('timeTracking', $timeTracking);
 
-         if (0 != $timeTracking->getProdDays() + $timeTracking->getManagementDays() + ($timeTracking->getProdDaysSideTasks(false) - $timeTracking->getManagementDays())) {
-            $smartyHelper->assign('productionDaysUrl', ProductivityReportTools::getProductionDaysUrl($timeTracking));
+            if (0 != $timeTracking->getProdDays() + $timeTracking->getManagementDays() + ($timeTracking->getProdDaysSideTasks(false) - $timeTracking->getManagementDays())) {
+               $smartyHelper->assign('productionDaysUrl', ProductivityReportTools::getProductionDaysUrl($timeTracking));
+            }
+
+            $workingDaysPerJobs = ProductivityReportTools::getWorkingDaysPerJob($timeTracking, $teamid);
+            $smartyHelper->assign('workingDaysPerJob', $workingDaysPerJobs);
+            if($workingDaysPerJobs != NULL) {
+               $smartyHelper->assign('workingDaysPerJobUrl', ProductivityReportTools::getWorkingDaysPerJobUrl($workingDaysPerJobs));
+            }
+
+            $defaultProjectid = Tools::getSecurePOSTIntValue('projectid', 0);
+            $getTeamProjects = SmartyTools::getSmartyArray(ProductivityReportTools::getTeamProjects($teamid),$defaultProjectid);
+            $smartyHelper->assign('projects', $getTeamProjects);
+
+            $projectid = 0;
+            if(array_key_exists($defaultProjectid, $getTeamProjects)) {
+               $projectid = $defaultProjectid;
+            }
+            $smartyHelper->assign('projectid', $projectid);
+
+            $projectDetails = NULL;
+            if (0 != $projectid) {
+               $projectDetails = ProductivityReportTools::getProjectDetails($timeTracking, $projectid);
+            } else {
+               // all sideTasks
+               $projectDetails = ProductivityReportTools::getSideTasksProjectDetails($timeTracking);
+            }
+            $smartyHelper->assign('projectDetails', $projectDetails);
+            if($projectDetails != NULL) {
+               $smartyHelper->assign('projectDetailsUrl', ProductivityReportTools::getProjectDetailsUrl($projectDetails));
+            }
+
+            $workingDaysPerProject = ProductivityReportTools::getWorkingDaysPerProject($timeTracking);
+            $smartyHelper->assign('workingDaysPerProject', $workingDaysPerProject);
+            if($workingDaysPerProject != NULL) {
+               $smartyHelper->assign('workingDaysPerProjectUrl', ProductivityReportTools::getWorkingDaysPerProjectUrl($workingDaysPerProject));
+            }
+
+            $smartyHelper->assign('efficiencyRate', round($timeTracking->getEfficiencyRate(), 2));
+            $smartyHelper->assign('systemDisponibilityRate', round($timeTracking->getSystemDisponibilityRate(), 3));
+
+            $timeDriftStats = $timeTracking->getTimeDriftStats();
+            $smartyHelper->assign('timeDriftStats', $timeDriftStats);
+            $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
+            $percent = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
+            $smartyHelper->assign('percent', round($percent, 1));
+
+            if (0 != count($timeTracking->getResolvedIssues())) {
+               $issueList = $timeTracking->getResolvedIssues();
+               $withSupport = true;
+               $smartyHelper->assign('resolvedDeviationStats', ProductivityReportTools::getResolvedDeviationStats ($issueList, $withSupport));
+
+               $managedTeamList = $session_user->getManagedTeamList();
+               $isManager = array_key_exists($teamid, $managedTeamList);
+               $smartyHelper->assign('isManager', $isManager);
+               $smartyHelper->assign('resolvedIssuesInDrift', ProductivityReportTools::getResolvedIssuesInDrift($issueList, $isManager));
+            }
+
+            $smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRate() * 100, 1));
+            $smartyHelper->assign('formattedReopenedTaks', ProductivityReportTools::getFormattedReopenedTaks($timeTracking));
+
+            // warnings
+            $consistencyErrors = ProductivityReportTools::getCheckWarnings($timeTracking);
+            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
+            $smartyHelper->assign('ccheckErrList', $consistencyErrors);
          }
-
-         $workingDaysPerJobs = ProductivityReportTools::getWorkingDaysPerJob($timeTracking, $teamid);
-         $smartyHelper->assign('workingDaysPerJob', $workingDaysPerJobs);
-         if($workingDaysPerJobs != NULL) {
-            $smartyHelper->assign('workingDaysPerJobUrl', ProductivityReportTools::getWorkingDaysPerJobUrl($workingDaysPerJobs));
-         }
-
-         $defaultProjectid = Tools::getSecurePOSTIntValue('projectid', 0);
-         $getTeamProjects = SmartyTools::getSmartyArray(ProductivityReportTools::getTeamProjects($teamid),$defaultProjectid);
-         $smartyHelper->assign('projects', $getTeamProjects);
-
-         $projectid = 0;
-         if(array_key_exists($defaultProjectid, $getTeamProjects)) {
-            $projectid = $defaultProjectid;
-         }
-         $smartyHelper->assign('projectid', $projectid);
-
-         $projectDetails = NULL;
-         if (0 != $projectid) {
-            $projectDetails = ProductivityReportTools::getProjectDetails($timeTracking, $projectid);
-         } else {
-            // all sideTasks
-            $projectDetails = ProductivityReportTools::getSideTasksProjectDetails($timeTracking);
-         }
-         $smartyHelper->assign('projectDetails', $projectDetails);
-         if($projectDetails != NULL) {
-            $smartyHelper->assign('projectDetailsUrl', ProductivityReportTools::getProjectDetailsUrl($projectDetails));
-         }
-
-         $workingDaysPerProject = ProductivityReportTools::getWorkingDaysPerProject($timeTracking);
-         $smartyHelper->assign('workingDaysPerProject', $workingDaysPerProject);
-         if($workingDaysPerProject != NULL) {
-            $smartyHelper->assign('workingDaysPerProjectUrl', ProductivityReportTools::getWorkingDaysPerProjectUrl($workingDaysPerProject));
-         }
-
-         $smartyHelper->assign('efficiencyRate', round($timeTracking->getEfficiencyRate(), 2));
-         $smartyHelper->assign('systemDisponibilityRate', round($timeTracking->getSystemDisponibilityRate(), 3));
-
-         $timeDriftStats = $timeTracking->getTimeDriftStats();
-         $smartyHelper->assign('timeDriftStats', $timeDriftStats);
-         $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
-         $percent = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
-         $smartyHelper->assign('percent', round($percent, 1));
-
-         if (0 != count($timeTracking->getResolvedIssues())) {
-            $issueList = $timeTracking->getResolvedIssues();
-            $withSupport = true;
-            $smartyHelper->assign('resolvedDeviationStats', ProductivityReportTools::getResolvedDeviationStats ($issueList, $withSupport));
-
-            $managedTeamList = $session_user->getManagedTeamList();
-            $isManager = array_key_exists($teamid, $managedTeamList);
-            $smartyHelper->assign('isManager', $isManager);
-            $smartyHelper->assign('resolvedIssuesInDrift', ProductivityReportTools::getResolvedIssuesInDrift($issueList, $isManager));
-         }
-
-         $smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRate() * 100, 1));
-         $smartyHelper->assign('formattedReopenedTaks', ProductivityReportTools::getFormattedReopenedTaks($timeTracking));
-
-         // warnings
-         $consistencyErrors = ProductivityReportTools::getCheckWarnings($timeTracking);
-         $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-         $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("days are incomplete or undefined"));
-         $smartyHelper->assign('ccheckErrList', $consistencyErrors);
       }
    }
 }
