@@ -127,10 +127,33 @@ $(document).ready(function() {
       </ul>
 
       <div id="tabsName-1">
+         
+         <h3>{t}Tasks{/t}</h3>
+
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               jQuery('input[type=radio]').change(function() {
+                  if(jQuery(this).attr('id') == "radio1") {
+                     jQuery("#commandSetsDetailedMgr").show();
+                     jQuery("#commandsDetailedMgr").hide();
+                  } else if(jQuery(this).attr('id') == "radio2") {
+                     jQuery("#commandSetsDetailedMgr").hide();
+                     jQuery("#commandsDetailedMgr").show();
+                  }
+               });
+            });
+         </script>
+         <form>
+            <div id="radio">
+               <input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1">CommandSets</label>
+               <input type="radio" id="radio2" name="radio" /><label for="radio2">Commands</label>
+            </div>
+         </form>
+
+
          {if $cmdsetList}
-         <div>
+         <div id="commandSetsDetailedMgr" class="commandSetsDetailedMgr">
             <table>
-               <caption>{t}Tasks{/t}</caption>
                <thead>
                <tr>
                   <!--th></th-->
@@ -175,6 +198,57 @@ $(document).ready(function() {
          </div>
          {else}
          {t}No CommandSet found.{/t}
+         {/if}
+
+
+         {if $cmdList}
+         <div id="commandsDetailedMgr" class="commandsDetailedMgr" style="display:none;">
+            <!--table id="devCmd_table" class="display"-->
+            <table>
+               <thead>
+               <tr>
+                  <!--th></th-->
+                  <th width="400">{t}Command{/t}</th>
+                  <th width="100">{t}Team{/t}</th>
+                  <th>{t}MgrEffortEstim{/t}</th>
+                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th>{t}Elapsed{/t}</th>
+                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Drift Mgr{/t}</th>
+                  <th>{t}Progress{/t}</th>
+               </tr>
+               </thead>
+               <tbody>
+                  {foreach $cmdList as $id => $cmd}
+                  <tr>
+                     <!--td>{$id}</td-->
+                     <td title="{$cmd.id}"  align='left'><a href='management/command_info.php?cmdid={$cmd.id}'><img title='goto' align='absmiddle' src='images/b_goto.png' /></a> {$cmd.reference} - {$cmd.name}</td>
+                     <td>{$cmd.team}</td>
+                     <td>{$cmd.effortEstim}</td>
+                     <td>{$cmd.reestimated}</td>
+                     <td>{$cmd.elapsed}</td>
+                     <td>{$cmd.remaining}</td>
+                     <td {$cmd.driftColor}>{$cmd.drift}</td>
+                     <td>{$cmd.progress}%</td>
+                  </tr>
+                  {/foreach}
+                  <tr class="row_even">
+                     <!--td></td-->
+                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
+                     <td></td>
+                     <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                     <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
+                     <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
+                     <td>{$cmdsetTotalDetailedMgr.remaining}</td>
+                     <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
+                     <td>{$cmdsetTotalDetailedMgr.progress}%</td>
+                  </tr>
+
+               </tbody>
+            </table>
+         </div>
+         {else}
+         {t}No Command found.{/t}
          {/if}
 
          <div style="margin-top:3em;"></div>
