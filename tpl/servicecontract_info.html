@@ -127,8 +127,8 @@ $(document).ready(function() {
       </ul>
 
       <div id="tabsName-1">
-         
-         <h3>{t}Tasks{/t}</h3>
+         <div style="margin-top:2em;"></div>
+         <span style="font-size: larger; font-weight: bold; text-align: left;">{t}Tasks{/t}</span>
 
          <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -145,8 +145,8 @@ $(document).ready(function() {
          </script>
          <form>
             <div id="radio">
-               <input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1">CommandSets</label>
-               <input type="radio" id="radio2" name="radio" /><label for="radio2">Commands</label>
+               <input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1">{t}CommandSets{/t}</label>
+               <input type="radio" id="radio2" name="radio" /><label for="radio2">{t}Commands{/t}</label>
             </div>
          </form>
 
@@ -157,8 +157,8 @@ $(document).ready(function() {
                <thead>
                <tr>
                   <!--th></th-->
-                  <th width="400">{t}CommandSet{/t}</th>
-                  <th width="100">{t}Team{/t}</th>
+                  <th width="500">{t}CommandSet{/t}</th>
+                  <!--th width="100">{t}Team{/t}</th-->
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
@@ -172,7 +172,7 @@ $(document).ready(function() {
                   <tr>
                      <!--td>{$id}</td-->
                      <td title="{$id}"  align='left'><a href='management/commandset_info.php?commandsetid={$id}'><img title='goto' align='absmiddle' src='images/b_goto.png' /></a> {$cmdset.name}</td>
-                     <td>{$cmdset.team}</td>
+                     <!--td>{$cmdset.team}</td-->
                      <td>{$cmdset.effortEstim}</td>
                      <td>{$cmdset.reestimated}</td>
                      <td>{$cmdset.elapsed}</td>
@@ -184,7 +184,7 @@ $(document).ready(function() {
                   <tr class="row_even">
                      <!--td></td-->
                      <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
-                     <td></td>
+                     <!--td></td-->
                      <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                      <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
@@ -208,8 +208,8 @@ $(document).ready(function() {
                <thead>
                <tr>
                   <!--th></th-->
-                  <th width="400">{t}Command{/t}</th>
-                  <th width="100">{t}Team{/t}</th>
+                  <th width="500">{t}Command{/t}</th>
+                  <!--th width="100">{t}Team{/t}</th-->
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
@@ -223,7 +223,7 @@ $(document).ready(function() {
                   <tr>
                      <!--td>{$id}</td-->
                      <td title="{$cmd.id}"  align='left'><a href='management/command_info.php?cmdid={$cmd.id}'><img title='goto' align='absmiddle' src='images/b_goto.png' /></a> {$cmd.reference} - {$cmd.name}</td>
-                     <td>{$cmd.team}</td>
+                     <!--td>{$cmd.team}</td-->
                      <td>{$cmd.effortEstim}</td>
                      <td>{$cmd.reestimated}</td>
                      <td>{$cmd.elapsed}</td>
@@ -235,7 +235,7 @@ $(document).ready(function() {
                   <tr class="row_even">
                      <!--td></td-->
                      <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
-                     <td></td>
+                     <!--td></td-->
                      <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                      <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>

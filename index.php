@@ -134,26 +134,21 @@ function getConsistencyErrorsMgr(User $sessionUser) {
 
     $ccheck = new ConsistencyCheck2($issueList);
 
-/*
- * It is now allowed to have MgrEE = 0
- *   tasks having MgrEE > 0 are tasks that have been initialy defined at the Command's creation.
- *   tasks having MgrEE = 0 are internal_tasks
- *
-
-    $cerrList = $ccheck->checkMgrEffortEstim();
-    if (count($cerrList) > 0) {
-	    $consistencyErrors[] = array('mantisIssueURL' => ' ',
-		    'date' => ' ',
-			 'status' => ' ',
-			 'desc' => count($cerrList).' '.T_("Tasks need MgrEffortEstim to be set."));
-    }
-*/
+    // ------
     $cerrList = $ccheck->checkUnassignedTasks();
     if (count($cerrList) > 0) {
+
+       $bugidList = array();
+       foreach ($cerrList as $cerr) {
+          $bugidList[] = $cerr->bugId;
+       }
+       $formattedBugidList = implode(', ', $bugidList);
+
        $consistencyErrors[] = array('mantisIssueURL' => ' ',
           'date' => ' ',
           'status' => ' ',
-          'desc' => count($cerrList).' '.T_("Tasks need to be assigned."));
+          'desc' => count($cerrList).' '.T_("Tasks need to be assigned."),
+          'addInfo' => $formattedBugidList);
     }
 
     return $consistencyErrors;

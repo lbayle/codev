@@ -158,7 +158,7 @@
          <tr>
             <td>{$i.issueURL}</td>
             <td><span style='color:red'>{$i.status}</span></td>
-            <td><span style='color:red'>{$i.desc}</span></td>
+            <td><span style='color:red' {if $i.addInfo}title='{$i.addInfo}'{/if}>{$i.desc}</span></td>
          </tr>
          {/foreach}
          

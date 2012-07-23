@@ -38,7 +38,7 @@ ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
             <td>{$i.date}</td>
             <td>{$i.issueStatus}</td>
             <td><span style='{$i.severityColor}'>[{$i.severity}]</span></td>
-            <td><span style='{$i.severityColor}'>{$i.desc}</span></td>
+            <td><span style='{$i.severityColor}' {if $i.addInfo}title='{$i.addInfo}'{/if}>{$i.desc}</span></td>
          </tr>
       {/foreach}
       </table>
