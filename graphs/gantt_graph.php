@@ -61,7 +61,7 @@ $graph = $gantManager->getGanttGraph();
 
 // INFO: the following 1 line are MANDATORY and fix the following error:
 // “The image <name> cannot be displayed because it contains errors”
-//ob_end_clean();
+ob_end_clean();
 
 // display graph
 $graph->Stroke();
