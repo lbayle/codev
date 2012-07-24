@@ -38,11 +38,15 @@ class CodevTTPlugin extends MantisPlugin {
           //'EVENT_REPORT_BUG_DATA' => 'report_bug_data',
           'EVENT_REPORT_BUG' => 'assignCommand',
           'EVENT_REPORT_BUG_FORM' => 'report_bug_form',
+
           #Uncomment the following line to show codevtt in main menu
           //'EVENT_MENU_MAIN' => 'add_codevtt_menu',
 
-          'EVENT_UPDATE_BUG_FORM' => 'update_bug_form',
-          'EVENT_UPDATE_BUG' => 'assignCommand',
+          #'EVENT_UPDATE_BUG_FORM' => 'update_bug_form',
+          #'EVENT_UPDATE_BUG' => 'assignCommand',
+
+          'EVENT_VIEW_BUG_DETAILS' => 'view_bug_form',
+
       );
       return $hooks;
    }
@@ -167,7 +171,11 @@ class CodevTTPlugin extends MantisPlugin {
       mysql_free_result($result);
       return $cmdList;
    }
-   
+
+   /**
+    * display combobox to select the command in 'report bug' page
+    * @param type $event_id
+    */
    public function report_bug_form($event_id) {
 
       $project_id=helper_get_current_project();
@@ -175,23 +183,20 @@ class CodevTTPlugin extends MantisPlugin {
 
       $cmdList = $this->getAvailableCommands($project_id);
       if (O != count($cmdList)) {
-         echo '
-               <tr ';
-         echo helper_alternate_class();
-         echo '>
-               <td class="category">
-                     <span class="required">*</span>';
-         echo plugin_lang_get('command');
-         echo'</td>
-               <td>
-               <select multiple="multiple"  size="5" name="command_id[]">';
+
+         echo '<tr '.helper_alternate_class().'>';
+         echo '<td class="category">';
+         echo '   <span class="required">*</span>';
+         echo plugin_lang_get('command').'</td>';
+         echo '<td>';
+         echo ' <select multiple="multiple"  size="5" name="command_id[]">';
          foreach ($cmdList as $id => $name) {
             echo '<option value="' . $id . '" >' . $name . '</option>';
          }
-         echo '</select>
-               </td>
-               </tr>
-               ';
+         echo ' </select>';
+         echo '</td>';
+         echo '</tr>';
+
       }
    }
 
@@ -203,4 +208,32 @@ class CodevTTPlugin extends MantisPlugin {
       );
    }
 
+   /**
+    * show bug's commands in bug view page
+    * @param type $event
+    * @param type $t_bug_id 
+    */
+   public function view_bug_form($event, $t_bug_id) {
+
+//select codev_command_table.* from codev_command_bug_table, codev_command_table where bug_id = '358' and codev_command_bug_table.command_id = codev_command_table.id
+
+      $query  = "SELECT codev_command_table.* FROM `codev_command_bug_table`, `codev_command_table` ".
+                 "WHERE codev_command_bug_table.bug_id=$t_bug_id ".
+                 "AND codev_command_table.id = codev_command_bug_table.command_id ".
+                 "ORDER BY codev_command_table.name";
+
+      $result = mysql_query($query) or exit(mysql_error());
+      $commandList = array();
+      while ($row = mysql_fetch_object($result)) {
+         $commandList[$row->id] = "$row->reference - $row->name";
+      }
+      
+      echo '<tr '.helper_alternate_class().'>';
+      echo '   <td class="category">'.plugin_lang_get('command').'</td>';
+      foreach ($commandList as $id => $name) {
+         echo '   <td  colspan="5" >'.$name.'</td>';
+      }
+      echo '</tr>';
+
+   }
 }
