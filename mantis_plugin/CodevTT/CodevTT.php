@@ -18,14 +18,14 @@ class CodevTTPlugin extends MantisPlugin {
       $this->description = plugin_lang_get('description');
       $this->page = '';
 
-      $this->version = '0.2';
+      $this->version = '0.3';
       $this->requires = array(
           'MantisCore' => '1.2.0',
       );
 
       $this->author = 'CodevTT';
       $this->contact = 'lance2m83@gmail.com';
-      $this->url = '';
+      $this->url = 'http://codevtt.org';
    }
 
    /**
@@ -227,13 +227,14 @@ class CodevTTPlugin extends MantisPlugin {
       while ($row = mysql_fetch_object($result)) {
          $commandList[$row->id] = "$row->reference - $row->name";
       }
-      
-      echo '<tr '.helper_alternate_class().'>';
-      echo '   <td class="category">'.plugin_lang_get('command').'</td>';
-      foreach ($commandList as $id => $name) {
-         echo '   <td  colspan="5" >'.$name.'</td>';
-      }
-      echo '</tr>';
+      if (0 != count($commandList)) {
 
+         $formattedCmdList = implode('<br>', $commandList);
+
+         echo '<tr '.helper_alternate_class().'>';
+         echo '   <td class="category">'.plugin_lang_get('command').'</td>';
+         echo '   <td colspan="5" >'.$formattedCmdList.'</td>';
+         echo '</tr>';
+      }
    }
 }
