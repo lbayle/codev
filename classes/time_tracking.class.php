@@ -742,21 +742,20 @@ class TimeTracking {
 
     // Get all dates that must be checked
     if ($isStrictlyTimestamp) {
-      $query     = "SELECT date, duration FROM `codev_timetracking_table` ".
+      $query = "SELECT date, SUM(duration) as count FROM `codev_timetracking_table` ".
         "WHERE userid = $userid AND date >= $this->startTimestamp AND date < $this->endTimestamp ".
-        "ORDER BY date";
+        "GROUP BY date ORDER BY date";
     } else {
-      $query     = "SELECT date, duration FROM `codev_timetracking_table` WHERE userid = $userid ORDER BY date";
+      $query = "SELECT DISTINCT date, SUM(duration) as count FROM `codev_timetracking_table` WHERE userid = $userid GROUP BY date ORDER BY date";
     }
-    $result    = SqlWrapper::getInstance()->sql_query($query);
+    $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
     	echo "<span style='color:red'>ERROR: Query FAILED</span>";
     	exit;
     }
 
-    while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-    {
-      $durations[$row->date] += round($row->duration, 3);
+    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+      $durations[$row->date] = round($row->count, 3);
     }
 
     // Check
@@ -769,7 +768,7 @@ class TimeTracking {
         $incompleteDays[$date] = $value;
       }
     }
-
+    
     return $incompleteDays;
   }
 
@@ -808,29 +807,34 @@ class TimeTracking {
     if ((0 != $departureTimestamp) &&($departureTimestamp < $this->endTimestamp)) {
        $endT   = $departureTimestamp;
     }
-
+    
+    $weekTimestamps = array();
     $timestamp = $startT;
     while ($timestamp <= $endT) {
-
       // monday to friday
-      $h = $holidays->isHoliday($timestamp);
-      if (NULL == $h) {
-        $query     = "SELECT COUNT(date) FROM `codev_timetracking_table` WHERE userid = $userid AND date = $timestamp";
-        $result    = SqlWrapper::getInstance()->sql_query($query);
-        if (!$result) {
-        	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-        	exit;
-        }
-
-        $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
-
-        if (0 == $nbTuples) {
-          $missingDays[] = $timestamp;
-        }
+      if (NULL == $holidays->isHoliday($timestamp)) {
+         $weekTimestamps[] = $timestamp;
       }
-      $timestamp = strtotime("+1 day",$timestamp);;
+      $timestamp = strtotime("+1 day",$timestamp);
     }
-
+    
+    $missingDays = array();
+    if(count($weekTimestamps) > 0) {
+    
+      $query = "SELECT DISTINCT date FROM `codev_timetracking_table` WHERE userid = $userid AND date IN (".implode(', ', $weekTimestamps).")";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+        
+      $daysWithTimeTracks = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $daysWithTimeTracks[] = $row->date;
+      }
+      $missingDays = array_diff($weekTimestamps, $daysWithTimeTracks);
+    }
+    
     return $missingDays;
   }
 
