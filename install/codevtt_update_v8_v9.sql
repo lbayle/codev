@@ -72,9 +72,16 @@ DELIMITER ;
 CREATE VIEW `codev_bug_view` AS
    SELECT bug.id, bug.summary, bug.status, bug.date_submitted, bug.project_id, bug.category_id, bug.eta, bug.priority, 
           bug.severity, bug.handler_id, bug.reporter_id, bug.resolution, bug.version, bug.target_version, bug.fixed_in_version, 
-          bug.last_updated, SUM(tt.duration) AS elapsed, field1.value as tcId, field2.value as effortEstim, 
-          field3.value as effortEstimMgr, field4.value as remaining, field5.value as effortAdd, field6.value as deadLine, 
-          field7.value as deliveryDate, field8.value as deliveryId
+          bug.last_updated,
+          field1.value as extId,
+          field3.value as effortEstimMgr,
+          field2.value as effortEstim,
+          field5.value as effortAdd, 
+          SUM(tt.duration) AS elapsed,
+          field4.value as remaining,
+          field6.value as deadLine,
+          field7.value as deliveryDate,
+          field8.value as deliveryId 
    FROM `mantis_bug_table` AS bug 
    LEFT JOIN `codev_timetracking_table` as tt 
    ON bug.id=tt.bugid

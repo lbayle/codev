@@ -186,7 +186,7 @@ class Issue implements Comparable {
          $this->last_updated = $row->last_updated;
          $this->elapsed = round($row->elapsed,2);
          
-         $this->tcId = $row->tcId;
+         $this->tcId = $row->extId;
          $this->mgrEffortEstim = $row->effortEstimMgr;
          $this->effortEstim = $row->effortEstim;
          $this->remaining = $row->remaining;
