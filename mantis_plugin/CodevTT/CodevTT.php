@@ -160,6 +160,7 @@ class CodevTTPlugin extends MantisPlugin {
 
          $query = "SELECT id, name, reference FROM `codev_command_table` ".
                   "WHERE team_id IN (" . $formattedTeamList . ") ".
+                  "AND enabled = 1 ".
                   "ORDER BY reference, name";
          $result = mysql_query($query) or exit(mysql_error());
          $cmdList = array();

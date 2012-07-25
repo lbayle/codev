@@ -365,6 +365,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `budget_mngt` int(11) default NULL,
   `budget_garantie` int(11) default NULL,
   `average_daily_rate` int(11) default NULL,
+  `enabled` tinyint(4) NOT NULL DEFAULT '1',
   `description` varchar(500) default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`)

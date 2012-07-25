@@ -85,6 +85,7 @@ class Command {
    private $budgetMngt;
    private $budgetGarantie;
    private $averageDailyRate;
+   private $enabled;
 
    
    // codev_command_bug_table
@@ -142,6 +143,7 @@ class Command {
       $this->budgetMngt       = $row->budget_mngt;
       $this->budgetGarantie   = $row->budget_garantie;
       $this->averageDailyRate = $row->average_daily_rate;
+      $this->enabled          = (1 == $row->enabled);
    }
 
    /**
@@ -229,7 +231,30 @@ class Command {
       }
    }
 
+   /**
+    *
+    * @return bool isEnabled
+    */
+   public function isEnabled() {
+      return $this->enabled;
+   }
 
+   /**
+    *
+    * @var bool isEnabled
+    */
+   public function setEnabled($isEnabled) {
+      $this->enabled = $isEnabled;
+
+      $value = ($isEnabled) ? '1' : '0';
+
+      $query = "UPDATE `codev_command_table` SET enabled = '$value' WHERE id='$this->id' ";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+             echo "<span style='color:red'>ERROR: Query FAILED</span>";
+             exit;
+      }
+   }
 
    public function getName() {
       return $this->name;
