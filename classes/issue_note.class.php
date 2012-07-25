@@ -25,6 +25,14 @@ require_once('lib/log4php/Logger.php');
 
 class IssueNote {
 
+   const tagid_trackNote = 'CODEVTT_TAG_TALLYSHEET_NOTE';
+
+
+   const tag_begin = '<==== ';
+   const tag_sep   = ' ==== ';
+   const tag_end   = ' (Do not remove this line) ====>';
+
+
    private $logger;
 
    /**
@@ -83,6 +91,32 @@ class IssueNote {
       $this->bugnote_text_id = $row->bugnote_text_id;
       $this->date_submitted  = $row->date_submitted;
       $this->note            = $row->note;
+   }
+
+   /**
+    *
+    * @param type $tag
+    * @param type $comment
+    */
+   public function addTag($tagid, $tagComment) {
+
+
+      $tag = self::tag_begin . $tagid . self::tag_sep . $tagComment . self::tag_end;
+
+      $this->note = $tag . '\n' . $this->note;
+
+      // TODO update note in DB
+   }
+
+   public function removeTag($tagid) {
+
+      // search tag in $this->note
+      
+      // remove all between tag_begin and tag_end
+
+
+      // TODO update note in DB
+
    }
 
 }
