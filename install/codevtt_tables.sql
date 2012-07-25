@@ -391,14 +391,31 @@ CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
 -- -------------
 
 CREATE VIEW `codev_bug_view` AS
-   SELECT bug.id, bug.summary, bug.status, bug.date_submitted, bug.project_id, bug.category_id, bug.eta, bug.priority,
-          bug.severity, bug.handler_id, bug.reporter_id, bug.resolution, bug.version, bug.target_version,
-          bug.last_updated, SUM(tt.duration) AS elapsed
-      FROM `mantis_bug_table` AS bug
-      LEFT JOIN `codev_timetracking_table` as tt
-      ON bug.id=tt.bugid
-      GROUP BY bug.id;
-
+   SELECT bug.id, bug.summary, bug.status, bug.date_submitted, bug.project_id, bug.category_id, bug.eta, bug.priority, 
+          bug.severity, bug.handler_id, bug.reporter_id, bug.resolution, bug.version, bug.target_version, bug.fixed_in_version, 
+          bug.last_updated, SUM(tt.duration) AS elapsed, field1.value as tcId, field2.value as effortEstim, 
+          field3.value as effortEstimMgr, field4.value as remaining, field5.value as effortAdd, field6.value as deadLine, 
+          field7.value as deliveryDate, field8.value as deliveryId
+   FROM `mantis_bug_table` AS bug 
+   LEFT JOIN `codev_timetracking_table` as tt 
+   ON bug.id=tt.bugid
+   LEFT JOIN `mantis_custom_field_string_table` as field1
+   ON bug.id=field1.bug_id AND field1.field_id=(SELECT conf.value FROM `codev_config_table` as conf WHERE conf.config_id='customField_ExtId')
+   LEFT JOIN `mantis_custom_field_string_table` as field2
+   ON bug.id=field2.bug_id AND field2.field_id=(SELECT conf.value FROM `codev_config_table` as conf WHERE conf.config_id='customField_effortEstim')
+   LEFT JOIN `mantis_custom_field_string_table` as field3
+   ON bug.id=field3.bug_id AND field3.field_id=(SELECT conf.value FROM `codev_config_table` as conf WHERE conf.config_id='customField_MgrEffortEstim')
+   LEFT JOIN `mantis_custom_field_string_table` as field4
+   ON bug.id=field4.bug_id AND field4.field_id=(SELECT conf.value FROM `codev_config_table` as conf WHERE conf.config_id='customField_remaining')
+   LEFT JOIN `mantis_custom_field_string_table` as field5
+   ON bug.id=field5.bug_id AND field5.field_id=(SELECT conf.value FROM `codev_config_table` as conf WHERE conf.config_id='customField_addEffort')
+   LEFT JOIN `mantis_custom_field_string_table` as field6
+   ON bug.id=field6.bug_id AND field6.field_id=(SELECT conf.value FROM `codev_config_table` as conf WHERE conf.config_id='customField_deadLine')
+   LEFT JOIN `mantis_custom_field_string_table` as field7
+   ON bug.id=field7.bug_id AND field7.field_id=(SELECT conf.value FROM `codev_config_table` as conf WHERE conf.config_id='customField_deliveryDate')
+   LEFT JOIN `mantis_custom_field_string_table` as field8
+   ON bug.id=field8.bug_id AND field8.field_id=(SELECT conf.value FROM `codev_config_table` as conf WHERE conf.config_id='customField_deliveryId')
+   GROUP BY bug.id;
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 -- /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
