@@ -205,7 +205,7 @@ class Team {
       $query = "UPDATE `codev_team_table` SET lock_timetracks_date = $timestamp WHERE id ='$this->id';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
       }
       $this->lock_timetracks_date = $timestamp;

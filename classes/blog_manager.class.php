@@ -189,7 +189,7 @@ class BlogPost {
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED $query</span><br>";
+         echo "<span style='color:red'>ERROR: Query FAILED</span><br>";
          return 0;
       }
       $blogPost_id = SqlWrapper::getInstance()->sql_insert_id();

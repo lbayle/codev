@@ -126,7 +126,7 @@ class Project {
       if($row == NULL) {
       $query  = "SELECT mantis_project_table.*, codev_team_project_table.type ".
                 "FROM `mantis_project_table`, `codev_team_project_table` ".
-                "WHERE mantis_project_table.id = $this->id ".
+                "WHERE mantis_project_table.id = '".$this->id."' ".
                 "AND codev_team_project_table.project_id = mantis_project_table.id ";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -148,10 +148,11 @@ class Project {
       $this->type        = $row->type;
 
       // ---- if SideTaskProject get categories
-      $query  = "SELECT * FROM `codev_project_category_table` WHERE project_id = $this->id ";
+      $query  = "SELECT * FROM `codev_project_category_table` WHERE project_id = '".$this->id."' ";
+
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
       }
 
@@ -556,7 +557,7 @@ class Project {
       $query = "INSERT INTO `mantis_category_table`  (`project_id`, `user_id`, `name`, `status`) VALUES ('$this->id','0','$formattedCatName', '0');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
       }
 
@@ -566,7 +567,7 @@ class Project {
       $query = "SELECT * FROM `codev_project_category_table` WHERE project_id='$this->id' AND type='$catType';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
       }
 
@@ -578,7 +579,7 @@ class Project {
       }
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
       }
 
