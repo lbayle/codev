@@ -86,11 +86,11 @@ class SmartyHelper {
    public function display($template) {
       if (self::$logger->isEnabledFor(LoggerLevel::getLevelInfo())) {
          $generatedTime = round(microtime(true) - $this->smarty->start_time, 3);
-         self::$logger->info('Page generated in ' . $generatedTime . ' sec : '.$_SERVER['PHP_SELF']);
 
          $peakMemAlloc = Tools::bytesToSize1024(memory_get_peak_usage(true));
          $memUsage     = Tools::bytesToSize1024(memory_get_usage(true));
-         self::$logger->info('MemoryUsage = '.$memUsage.', PeakMemoryUsage = ' . $peakMemAlloc);
+
+         self::$logger->info('PERF: ' . $generatedTime . 'sec | Mem ' . $memUsage . ' | Peak ' . $peakMemAlloc . ' --- ' . $_SERVER['PHP_SELF'] . ' --- ');
       }
       SqlWrapper::getInstance()->logStats();
       /*

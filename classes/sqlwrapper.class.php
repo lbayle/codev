@@ -250,11 +250,11 @@ class SqlWrapper {
          $queriesCount = $this->getQueriesCount();
 
          foreach($this->getCountByQuery() as $query => $count) {
-            if($count > 10) {
-               self::$logger->info($count. ' identical SQL queries on : ' . $query);
-            } else if($count > 1) {
+            #if($count > 10) {
+            #   self::$logger->info($count. ' identical SQL queries on : ' . $query);
+            #} else if($count > 1) {
                self::$logger->debug($count. ' identical SQL queries on : ' . $query);
-            }
+            #}
          }
 
          self::$logger->info('TOTAL SQL queries: ' . $queriesCount . ' to display Page '.$_SERVER['PHP_SELF']);
