@@ -111,6 +111,15 @@ abstract class Cache {
     * @return mixed The object
     */
    protected abstract function create($id, $details = NULL);
+   
+   /**
+    * Return true if the object with this id is in the cache
+    * @param int $id
+    * @return bool true if the id is in the cache, false otherwise
+    */
+   public function exists($id) {
+      return array_key_exists($id, $this->objects);
+   }
 
    /**
     * Display stats

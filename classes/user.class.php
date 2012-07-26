@@ -417,7 +417,7 @@ class User {
     * @param int $endTimestamp
     * @return TimeTrack[]
     */
-   private function getTimeTracks($startTimestamp, $endTimestamp) {
+   public function getTimeTracks($startTimestamp, $endTimestamp) {
       if(NULL == $this->timeTracksCache) {
          $this->timeTracksCache = array();
       }
@@ -445,33 +445,35 @@ class User {
 
    /**
     * returns an array $daysOf[date] = $row->duration;
-    * @param int $startTimestamp
-    * @param int $endTimestamp
+    * @param TimeTrack[] $timeTracks
+    * @param int[] $issueIds
     * @return mixed[][]   array(date => array('duration','type','title'))
     */
-   public function getDaysOfInPeriod($startTimestamp, $endTimestamp) {
+   public function getDaysOfInPeriod($timeTracks, $issueIds) {
       $daysOf = array();  // day => duration
+      if(count($issueIds) > 0) {
+         $issues = Issue::getIssues($issueIds);
+         
+         $teamidList = array_keys($this->getTeamList());
+         foreach ($timeTracks as $timeTrack) {
+            try {
+               $issue = $issues[$timeTrack->bugId];
 
-      $timeTracks = $this->getTimeTracks($startTimestamp, $endTimestamp);
-      $teamidList = array_keys($this->getTeamList());
-      foreach ($timeTracks as $timeTrack) {
-         try {
-            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
-
-            if ($issue->isVacation($teamidList)) {
-               if (isset($daysOf[$timeTrack->date])) {
-                  $daysOf[$timeTrack->date]['duration'] += $timeTrack->duration;
-               } else {
-                  $daysOf[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
-                                               'type' => 'Inactivity',  // TODO
-                                               'color' => 'A8FFBD',  // TODO (light green)
-                                               'title' => $issue->summary
-                                             );
+               if ($issue->isVacation($teamidList)) {
+                  if (isset($daysOf[$timeTrack->date])) {
+                     $daysOf[$timeTrack->date]['duration'] += $timeTrack->duration;
+                  } else {
+                     $daysOf[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
+                                                  'type' => 'Inactivity',  // TODO
+                                                  'color' => 'A8FFBD',  // TODO (light green)
+                                                  'title' => $issue->summary
+                                                );
+                  }
+                  #echo "DEBUG user $this->userid daysOf[".date("j", $timeTrack->date)."] = ".$daysOf[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
                }
-               #echo "DEBUG user $this->userid daysOf[".date("j", $timeTrack->date)."] = ".$daysOf[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
+            } catch (Exception $e) {
+               self::$logger->error("getDaysOfInPeriod(): issue $timeTrack->bugId: " . $e->getMessage());
             }
-         } catch (Exception $e) {
-            self::$logger->error("getDaysOfInPeriod(): issue $timeTrack->bugId: " . $e->getMessage());
          }
       }
 
@@ -479,31 +481,34 @@ class User {
    }
 
    /**
-    * @param int $startTimestamp
-    * @param int $endTimestamp
+    * @param TimeTrack[] $timeTracks
+    * @param int[] $issueIds
     * @return mixed[]
     */
-   public function getAstreintesInMonth($startTimestamp, $endTimestamp) {
+   public function getAstreintesInMonth($timeTracks, $issueIds) {
       $astreintes = array();  // day => duration
-
-      $timeTracks = $this->getTimeTracks($startTimestamp, $endTimestamp);
-      foreach ($timeTracks as $timeTrack) {
-         try {
-            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
-            if ($issue->isAstreinte()) {
-               if (isset($astreintes[$timeTrack->date])) {
-                  $astreintes[$timeTrack->date]['duration'] += $timeTrack->duration;
-               } else {
-                  $astreintes[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
-                                                'type' => 'onDuty',  // TODO
-                                                'color' => 'F8FFA8',  // TODO (yellow)
-                                                'title' => $issue->summary
-                                             );
+      if(count($issueIds) > 0) {
+         $issues = Issue::getIssues($issueIds);
+         
+         foreach ($timeTracks as $timeTrack) {
+            try {
+               $issue = $issues[$timeTrack->bugId];
+               if ($issue->isAstreinte()) {
+                  if (isset($astreintes[$timeTrack->date])) {
+                     $astreintes[$timeTrack->date]['duration'] += $timeTrack->duration;
+                  } else {
+                     $astreintes[$timeTrack->date] = array(
+                         'duration' => $timeTrack->duration,
+                         'type' => 'onDuty',  // TODO
+                         'color' => 'F8FFA8',  // TODO (yellow)
+                         'title' => $issue->summary
+                     );
+                  }
+                  //echo "DEBUG user $this->userid astreintes[".date("j", $timeTrack->date)."] = ".$astreintes[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
                }
-               //echo "DEBUG user $this->userid astreintes[".date("j", $timeTrack->date)."] = ".$astreintes[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
+            } catch (Exception $e) {
+               self::$logger->error("getAstreintesInMonth(): issue $timeTrack->bugId: " . $e->getMessage());
             }
-         } catch (Exception $e) {
-            self::$logger->error("getAstreintesInMonth(): issue $timeTrack->bugId: " . $e->getMessage());
          }
       }
 
@@ -512,43 +517,46 @@ class User {
 
    /**
     * concat durations of all ExternalTasksProject issues.
-    * @param int $startTimestamp
-    * @param int $endTimestamp
+    * @param TimeTrack[] $timeTracks
+    * @param int[] $issueIds
     * @return mixed[] $extTasks[timestamp] = $row->duration;
     */
-   public function getExternalTasksInPeriod($startTimestamp, $endTimestamp) {
+   public function getExternalTasksInPeriod(array $timeTracks, array $issueIds) {
       $extTasks = array();  // timestamp => duration
+      if(count($issueIds) > 0) {
+         $issues = Issue::getIssues($issueIds);
 
-      $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
-      $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
-#echo "leaveTaskId $leaveTaskId<br>";
-      $timeTracks = $this->getTimeTracks($startTimestamp, $endTimestamp);
-      foreach ($timeTracks as $timeTrack) {
-         try {
-            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
-            if ($issue->projectId == $extTasksProjId) {
-               if (isset($extTasks[$timeTrack->date])) {
-                  $extTasks[$timeTrack->date]['duration'] += $timeTrack->duration;
-               } else {
-
-                  if ($leaveTaskId == $issue->bugId) {
-                     $color = 'A8FFBD';  // TODO (light green)
-                     $type = 'Inactivity';
+         $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+         $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
+         #echo "leaveTaskId $leaveTaskId<br>";
+         foreach ($timeTracks as $timeTrack) {
+            try {
+               $issue = $issues[$timeTrack->bugId];
+               if ($issue->projectId == $extTasksProjId) {
+                  if (isset($extTasks[$timeTrack->date])) {
+                     $extTasks[$timeTrack->date]['duration'] += $timeTrack->duration;
                   } else {
-                     $color = '75FFDA';  // TODO (green2)
-                     $type = 'ExternalTask';
-                  }
 
-                  $extTasks[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
-                                                'type' => $type,  // TODO
-                                                'color' => $color,  // TODO (green2)
-                                                'title' => $issue->summary
-                                             );
+                     if ($leaveTaskId == $issue->bugId) {
+                        $color = 'A8FFBD';  // TODO (light green)
+                        $type = 'Inactivity';
+                     } else {
+                        $color = '75FFDA';  // TODO (green2)
+                        $type = 'ExternalTask';
+                     }
+
+                     $extTasks[$timeTrack->date] = array(
+                         'duration' => $timeTrack->duration,
+                         'type' => $type,  // TODO
+                         'color' => $color,  // TODO (green2)
+                         'title' => $issue->summary
+                     );
+                  }
+                  self::$logger->debug("user $this->id ExternalTasks[" . date("j", $timeTrack->date) . "] = " . $extTasks[date("j", $timeTrack->date)] . " (+$timeTrack->duration)");
                }
-               self::$logger->debug("user $this->id ExternalTasks[" . date("j", $timeTrack->date) . "] = " . $extTasks[date("j", $timeTrack->date)] . " (+$timeTrack->duration)");
+            } catch (Exception $e) {
+               self::$logger->warn("getExternalTasksInPeriod: " . $e->getMessage());
             }
-         } catch (Exception $e) {
-            self::$logger->warn("getExternalTasksInPeriod: " . $e->getMessage());
          }
       }
       return $extTasks;
@@ -595,12 +603,18 @@ class User {
             $nbOpenDaysInPeriod++;
          }
       }
+      
+      $timeTracks = $this->getTimeTracks($startT, $endT);
+      $issueIds = array();
+      foreach ($timeTracks as $timeTrack) {
+         $issueIds[] = $timeTrack->bugId;
+      }
 
-      $nbDaysOf = array_sum($this->getDaysOfInPeriod($startT, $endT));
+      $nbDaysOf = array_sum($this->getDaysOfInPeriod($timeTracks, $issueIds));
       $prodDaysForecast = $nbOpenDaysInPeriod - $nbDaysOf;
 
       // remove externalTasks timetracks
-      $nbExternal = array_sum($this->getExternalTasksInPeriod($startT, $endT));
+      $nbExternal = array_sum($this->getExternalTasksInPeriod($timeTracks, $issueIds));
       $prodDaysForecast -= $nbExternal;
 
 

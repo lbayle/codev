@@ -1533,6 +1533,45 @@ class Issue implements Comparable {
       $this->setCustomField($extRefCustomField, $value);
       $this->deadLine = $value;
    }
+   
+   /**
+    * Get issues from an issue id list
+    * @param array $issueIds The issue id list
+    * @return Issue[] The issues
+    */
+   public static function getIssues(array $issueIds) {
+      // avoid same ids in the list
+      $issueIds = array_unique($issueIds);
+      
+      $issues = array();
+      
+      $newIssueIds = array();
+      foreach($issueIds as $issueId) {
+         if(IssueCache::getInstance()->exists($issueId)) {
+            $issues[$issueId] = IssueCache::getInstance()->getIssue($issueId);
+         } else {
+            $newIssueIds[] = $issueId;
+         }
+      }
+         
+      if(count($newIssueIds) > 0) {
+         $query = "SELECT * FROM `codev_bug_view` " .
+                  "WHERE id IN (".implode(', ', $newIssueIds).")";
+         
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
+         }
+      }
+         
+      return $issues;
+   }
+   
 }
 
 ?>
