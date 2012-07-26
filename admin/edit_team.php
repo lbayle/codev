@@ -137,7 +137,7 @@ function getNewAstreintes(Team $team, array $projList) {
 
    $formatedInactivityCatList = implode( ', ', array_keys($inactivityCatList));
 
-   $query = "SELECT * FROM `codev_bug_view` ".
+   $query = "SELECT * FROM `mantis_bug_table` ".
             "WHERE project_id IN ($formatedInactivityCatList) ";
 
    $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);

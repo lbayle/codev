@@ -59,7 +59,7 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT * ".
-        "FROM `codev_bug_view` ".
+        "FROM `mantis_bug_table` ".
         "WHERE status in ($status_analyzed, $status_accepted, $status_open, $status_deferred) ";
 
       if (0 != count($this->projectList)) {

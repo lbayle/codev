@@ -371,15 +371,15 @@ class TimeTracking {
     }
 
     // all bugs which status changed to 'resolved' whthin the timestamp
-    $query = "SELECT codev_bug_view.* ".
-      "FROM `codev_bug_view`, `mantis_bug_history_table` ".
-      "WHERE codev_bug_view.id = mantis_bug_history_table.bug_id ".
-      "AND codev_bug_view.project_id IN ($formatedProjList) ".
+    $query = "SELECT mantis_bug_table.* ".
+      "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
+      "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+      "AND mantis_bug_table.project_id IN ($formatedProjList) ".
       "AND mantis_bug_history_table.field_name='status' ".
       "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
       "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
       "AND mantis_bug_history_table.new_value = get_project_resolved_status_threshold(project_id) ".
-      "ORDER BY codev_bug_view.id DESC";
+      "ORDER BY mantis_bug_table.id DESC";
 
     $result = SqlWrapper::getInstance()->sql_query($query);
     if (!$result) {
@@ -681,9 +681,9 @@ class TimeTracking {
       "AND    codev_team_user_table.team_id = $this->team_id ".
       "AND    (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager) ".
       "AND    codev_timetracking_table.bugid IN ".
-      "(SELECT codev_bug_view.id ".
-      "FROM `codev_bug_view` , `codev_team_project_table` ".
-      "WHERE codev_bug_view.project_id = codev_team_project_table.project_id ".
+      "(SELECT mantis_bug_table.id ".
+      "FROM `mantis_bug_table` , `codev_team_project_table` ".
+      "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
       "AND codev_team_project_table.team_id =  $this->team_id) ";
 
 
@@ -891,12 +891,12 @@ class TimeTracking {
     	$projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
     	$formatedProjList = implode( ', ', array_keys($projList));
       $query     = "SELECT codev_timetracking_table.bugid, codev_timetracking_table.jobid, codev_timetracking_table.date, codev_timetracking_table.duration ".
-                   "FROM `codev_timetracking_table`, `codev_bug_view`, `mantis_project_table` ".
+                   "FROM `codev_timetracking_table`, `mantis_bug_table`, `mantis_project_table` ".
                    "WHERE date >= $this->startTimestamp AND date < $this->endTimestamp ".
                    "AND userid = $userid ".
-    	             "AND codev_bug_view.id     = codev_timetracking_table.bugid ".
-                   "AND mantis_project_table.id = codev_bug_view.project_id ".
-    	             "AND codev_bug_view.project_id in ($formatedProjList)";
+    	             "AND mantis_bug_table.id     = codev_timetracking_table.bugid ".
+                   "AND mantis_project_table.id = mantis_bug_table.project_id ".
+    	             "AND mantis_bug_table.project_id in ($formatedProjList)";
 
     }
     $result    = SqlWrapper::getInstance()->sql_query($query);
@@ -935,20 +935,20 @@ class TimeTracking {
       $projectTracks = array();
 
     // For all bugs in timestamp
-    $query     = "SELECT  codev_bug_view.project_id, codev_timetracking_table.bugid, codev_timetracking_table.jobid, duration ".
-                 "FROM `codev_timetracking_table`, `codev_team_user_table`, `codev_bug_view`, `codev_job_table`, `mantis_project_table` ".
+    $query     = "SELECT  mantis_bug_table.project_id, codev_timetracking_table.bugid, codev_timetracking_table.jobid, duration ".
+                 "FROM `codev_timetracking_table`, `codev_team_user_table`, `mantis_bug_table`, `codev_job_table`, `mantis_project_table` ".
                  "WHERE codev_timetracking_table.date >= $this->startTimestamp AND codev_timetracking_table.date < $this->endTimestamp ".
                  "AND   codev_team_user_table.user_id = codev_timetracking_table.userid ".
                  "AND   codev_team_user_table.team_id = $this->team_id ".
                  "AND   codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-                 "AND   codev_bug_view.id     = codev_timetracking_table.bugid ".
-                 "AND   mantis_project_table.id = codev_bug_view.project_id ".
+                 "AND   mantis_bug_table.id     = codev_timetracking_table.bugid ".
+                 "AND   mantis_project_table.id = mantis_bug_table.project_id ".
                  "AND   codev_job_table.id      = codev_timetracking_table.jobid ";
 
     if (false != $isTeamProjOnly) {
       $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
       $formatedProjList = implode( ', ', array_keys($projList));
-    	$query.= "AND codev_bug_view.project_id in ($formatedProjList) ";
+    	$query.= "AND mantis_bug_table.project_id in ($formatedProjList) ";
     }
 
     $query.= "ORDER BY mantis_project_table.name, bugid DESC, codev_job_table.name";
@@ -1002,16 +1002,16 @@ class TimeTracking {
     }
 
     // all bugs which resolution changed to 'reopened' whthin the timestamp
-    $query = "SELECT codev_bug_view.* ".
-             "FROM `codev_bug_view`, `mantis_bug_history_table` ".
-             "WHERE codev_bug_view.id = mantis_bug_history_table.bug_id ".
-             "AND codev_bug_view.project_id IN ($formatedProjList) ".
+    $query = "SELECT mantis_bug_table.* ".
+             "FROM `mantis_bug_table`, `mantis_bug_history_table` ".
+             "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id ".
+             "AND mantis_bug_table.project_id IN ($formatedProjList) ".
              "AND mantis_bug_history_table.field_name='resolution' ".
              "AND mantis_bug_history_table.date_modified >= $this->startTimestamp ".
              "AND mantis_bug_history_table.date_modified <  $this->endTimestamp ".
              //"AND mantis_bug_history_table.new_value = $resolution_reopened ".
              "AND mantis_bug_history_table.old_value IN ($formatedResolutionValues) ".
-             "ORDER BY codev_bug_view.id DESC";
+             "ORDER BY mantis_bug_table.id DESC";
 
     self::$logger->error("getReopened QUERY = $query");
 
@@ -1065,18 +1065,18 @@ class TimeTracking {
       }
 
       // all bugs which resolution changed to 'reopened' whthin the timestamp
-      $query = "SELECT codev_bug_view.*, " .
+      $query = "SELECT mantis_bug_table.*, " .
               "mantis_bug_history_table.new_value, " .
               "mantis_bug_history_table.old_value " .
-              "FROM `codev_bug_view`, `mantis_bug_history_table` " .
-              "WHERE codev_bug_view.id = mantis_bug_history_table.bug_id " .
-              "AND codev_bug_view.project_id IN ($formatedProjList) " .
+              "FROM `mantis_bug_table`, `mantis_bug_history_table` " .
+              "WHERE mantis_bug_table.id = mantis_bug_history_table.bug_id " .
+              "AND mantis_bug_table.project_id IN ($formatedProjList) " .
               "AND mantis_bug_history_table.field_name='status' " .
               "AND mantis_bug_history_table.date_modified >= $this->startTimestamp " .
               "AND mantis_bug_history_table.date_modified <  $this->endTimestamp " .
-              "AND mantis_bug_history_table.old_value >= get_project_resolved_status_threshold(codev_bug_view.project_id) " .
-              "AND mantis_bug_history_table.new_value <  get_project_resolved_status_threshold(codev_bug_view.project_id) " .
-              "ORDER BY codev_bug_view.id DESC";
+              "AND mantis_bug_history_table.old_value >= get_project_resolved_status_threshold(mantis_bug_table.project_id) " .
+              "AND mantis_bug_history_table.new_value <  get_project_resolved_status_threshold(mantis_bug_table.project_id) " .
+              "ORDER BY mantis_bug_table.id DESC";
 
       //self::$logger->debug("getReopened QUERY = $query");
 
@@ -1118,15 +1118,15 @@ class TimeTracking {
          $projects = $this->prodProjectList;
       }
 
-      $query = "SELECT DISTINCT codev_bug_view.id, codev_bug_view.project_id ".
-               "FROM `codev_bug_view`, `codev_team_project_table` ".
-               "WHERE codev_bug_view.date_submitted >= $this->startTimestamp AND codev_bug_view.date_submitted < $this->endTimestamp ".
-               "AND codev_bug_view.project_id = codev_team_project_table.project_id ";
+      $query = "SELECT DISTINCT mantis_bug_table.id, mantis_bug_table.project_id ".
+               "FROM `mantis_bug_table`, `codev_team_project_table` ".
+               "WHERE mantis_bug_table.date_submitted >= $this->startTimestamp AND mantis_bug_table.date_submitted < $this->endTimestamp ".
+               "AND mantis_bug_table.project_id = codev_team_project_table.project_id ";
 
       // Only for specified Projects
       if (0 != count($projects)) {
          $formatedProjects = implode( ', ', $projects);
-         $query .= "AND codev_bug_view.project_id IN ($formatedProjects) ";
+         $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
       }
 
       $result = SqlWrapper::getInstance()->sql_query($query);

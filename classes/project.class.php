@@ -776,7 +776,7 @@ echo "TOTO 3<br>";
 
          $issueList = array();
 
-         $query = "SELECT id FROM `codev_bug_view` ".
+         $query = "SELECT id FROM `mantis_bug_table` ".
                   "WHERE project_id=$this->id ";
          if (0 != $handler_id) {
             $query  .= "AND handler_id = $handler_id ";
@@ -817,7 +817,7 @@ echo "TOTO 3<br>";
 
          $issueList = array();
 
-         $query = "SELECT * FROM `codev_bug_view` ".
+         $query = "SELECT * FROM `mantis_bug_table` ".
             "WHERE project_id=$this->id ";
          if (0 != $handler_id) {
             $query  .= "AND handler_id = $handler_id ";
@@ -1304,7 +1304,7 @@ echo "TOTO 3<br>";
    public static function getProjectIssues($projectIds) {
       $formatedProjList = implode( ', ', $projectIds);
 
-      $query = "SELECT * FROM `codev_bug_view` " .
+      $query = "SELECT * FROM `mantis_bug_table` " .
          "WHERE project_id IN ($formatedProjList) " .
          "ORDER BY id DESC";
       $result = SqlWrapper::getInstance()->sql_query($query);

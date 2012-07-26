@@ -155,7 +155,7 @@ class Issue implements Comparable {
    public function initialize($row = NULL) {
       if($row == NULL) {
          // Get issue info
-         $query = "SELECT * FROM `codev_bug_view` " .
+         $query = "SELECT * FROM `mantis_bug_table` " .
                   "WHERE id = $this->bugId";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -184,16 +184,43 @@ class Issue implements Comparable {
          $this->version = $row->version;
          $this->target_version = $row->target_version;
          $this->last_updated = $row->last_updated;
-         $this->elapsed = round($row->elapsed,2);
-         
-         $this->tcId = $row->extId;
-         $this->mgrEffortEstim = $row->effortEstimMgr;
-         $this->effortEstim = $row->effortEstim;
-         $this->remaining = $row->remaining;
-         $this->effortAdd = $row->effortAdd;
-         $this->deadLine = $row->deadLine;
-         $this->deliveryDate = $row->deliveryDate;
-         $this->deliveryId = $row->deliveryId;
+
+         global $tcCustomField;
+         global $estimEffortCustomField;
+         global $remainingCustomField;
+         global $addEffortCustomField;
+         global $deadLineCustomField;
+         global $deliveryDateCustomField;
+         global $deliveryIdCustomField;
+         $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+
+         // Get custom fields
+         $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
+         $result2 = SqlWrapper::getInstance()->sql_query($query2);
+         if (!$result2) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
+            switch ($row->field_id) {
+               case $tcCustomField: $this->tcId = $row->value;
+                  break;
+               case $mgrEstimEffortCustomField: $this->mgrEffortEstim = $row->value;
+                  break;
+               case $estimEffortCustomField: $this->effortEstim = $row->value;
+                  break;
+               case $remainingCustomField: $this->remaining = $row->value;
+                  break;
+               case $addEffortCustomField: $this->effortAdd = $row->value;
+                  break;
+               case $deadLineCustomField: $this->deadLine = $row->value;
+                  break;
+               case $deliveryDateCustomField: $this->deliveryDate = $row->value;
+                  break;
+               case $deliveryIdCustomField: $this->deliveryId = $row->value;
+                  break;
+            }
+         }
 
          //DEBUG $this->getRelationships(2500);
       } else {
@@ -222,7 +249,7 @@ class Issue implements Comparable {
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
       if (NULL == self::$existsCache[$bugid]) {
-         $query  = "SELECT COUNT(id) FROM `codev_bug_view` WHERE id=$bugid ";
+         $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1555,7 +1582,7 @@ class Issue implements Comparable {
       }
          
       if(count($newIssueIds) > 0) {
-         $query = "SELECT * FROM `codev_bug_view` " .
+         $query = "SELECT * FROM `mantis_bug_table` " .
                   "WHERE id IN (".implode(', ', $newIssueIds).")";
          
          $result = SqlWrapper::getInstance()->sql_query($query);
