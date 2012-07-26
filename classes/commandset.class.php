@@ -455,6 +455,7 @@ class CommandSet {
          }
 
          // a Command can belong to more than one commandset
+         $this->serviceContractList = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
             $srvContract = ServiceContractCache::getInstance()->getServiceContract($row->servicecontract_id);

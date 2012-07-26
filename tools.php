@@ -119,7 +119,7 @@ class Tools {
       list($year, $month, $day) = explode('-', $date);
       list($hour, $minute, $second) = explode(':', $time);
 
-      $timestamp = mktime($hour, $minute, $second, $month, $day, $year);
+      $timestamp = mktime(intval($hour), intval($minute), intval($second), intval($month), intval($day), intval($year));
 
       return $timestamp;
    }
@@ -133,7 +133,7 @@ class Tools {
    public static function date2timestamp($string) {
       list($year, $month, $day) = explode('-', $string);
 
-      $timestamp = mktime(0, 0, 0, $month, $day, $year);
+      $timestamp = mktime(0, 0, 0, intval($month), intval($day), intval($year));
 
       return $timestamp;
    }

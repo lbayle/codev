@@ -558,6 +558,7 @@ class Command {
          }
 
          // a Command can belong to more than one commandset
+         $this->commandSetList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
             $cmdset = CommandSetCache::getInstance()->getCommandSet($row->commandset_id);

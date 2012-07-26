@@ -445,11 +445,11 @@
             <tr>
                   <td>
                      <a title="{t}delete CommandSet-Command association{/t}"
-                        href="javascript: removeCmdSet('{$id}', '{$cmdset.name|escape}')">
+                        href="javascript: removeCmdSet('{$cmdset.id}', '{$cmdset.name|escape}')">
                         <img alt="b_drop.png" border="0" src="images/b_drop.png" />
                      </a>
                   </td>
-                  <td title="{$id}">{$cmdset.name}</td>
+                  <td title="{$cmdset.id}">{$cmdset.name}</td>
                   <td>{$cmdset.team}</td>
             </tr>
             {/foreach}
