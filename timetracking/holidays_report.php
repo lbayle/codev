@@ -74,16 +74,22 @@ function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $isE
    $endT = mktime(23, 59, 59, $month, $nbDaysInMonth, $year);
 
    $smartyUsers = array();
-   foreach($users as $id => $user) {
+   foreach($users as $user) {
       // if user was working on the project within the timestamp
       if (($user->isTeamDeveloper($teamid, $startT, $endT)) ||
          ($user->isTeamManager($teamid, $startT, $endT))) {
+         
+         $timeTracks = $user->getTimeTracks($startT, $endT);
+         $issueIds = array();
+         foreach ($timeTracks as $timeTrack) {
+            $issueIds[] = $timeTrack->bugId;
+         }
+         
+         $daysOf = $user->getDaysOfInPeriod($timeTracks, $issueIds);
 
-         $daysOf = $user->getDaysOfInPeriod($startT, $endT);
+         $astreintes = $user->getAstreintesInMonth($timeTracks, $issueIds);
 
-         $astreintes = $user->getAstreintesInMonth($startT, $endT);
-
-         $externalTasks = $user->getExternalTasksInPeriod($startT, $endT);
+         $externalTasks = $user->getExternalTasksInPeriod($timeTracks, $issueIds);
 
          $days = array();
          for ($i = 1; $i <= $nbDaysInMonth; $i++) {

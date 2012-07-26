@@ -377,7 +377,14 @@ class ExportCsvTools {
          if (($user1->isTeamDeveloper($teamid, $startT, $endT)) ||
             ($user1->isTeamManager($teamid, $startT, $endT))) {
 
-            $daysOf = $user1->getDaysOfInPeriod($startT, $endT);
+            
+            $timeTracks = $user1->getTimeTracks($startT, $endT);
+            $issueIds = array();
+            foreach ($timeTracks as $timeTrack) {
+               $issueIds[] = $timeTrack->bugId;
+            }
+            
+            $daysOf = $user1->getDaysOfInPeriod($timeTracks, $issueIds);
 
             // concatenate days
             $startBlockTimestamp = 0;
