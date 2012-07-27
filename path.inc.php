@@ -29,6 +29,7 @@ $codevPathSmarty   = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARAT
 $codevPathOdtPhp   = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'odtphp' . DIRECTORY_SEPARATOR . 'library';
 $codevPathTests    = BASE_PATH . DIRECTORY_SEPARATOR . 'tests';
 $codevPathImport    = BASE_PATH . DIRECTORY_SEPARATOR . 'import';
+$codevIndicators  = BASE_PATH . DIRECTORY_SEPARATOR . 'indicator_plugins';
 
 $path = array(
    BASE_PATH,
@@ -43,6 +44,7 @@ $path = array(
    $codevPathOdtPhp,
    $codevPathTests,
    $codevPathImport,
+   $codevIndicators,
    get_include_path()
    );
 
@@ -77,6 +79,7 @@ function getServerRootURL() {
    $rootURL = str_replace("/import", "", $rootURL);
    $rootURL = str_replace("/blog", "", $rootURL);
    $rootURL = str_replace("/management", "", $rootURL);
+   $rootURL = str_replace("/indicator_plugins", "", $rootURL);
 
    #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
    return $rootURL;
