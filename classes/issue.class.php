@@ -994,9 +994,19 @@ class Issue implements Comparable {
    public function computeDurationsPerStatus () {
       global $status_new;
 
-      $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
-      ksort($statusNames);
-
+      
+      
+      // get only statuses defined for this project
+      $project = ProjectCache::getInstance()->getProject($this->projectId);
+      $wfTrans = $project->getWorkflowTransitions();
+      if (NULL != $wfTrans) { $statusNames = $wfTrans[0]; }
+      
+      if (NULL == $statusNames) {
+         // if none defined, get all mantis statuses
+         $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
+         ksort($statusNames);
+      }
+      
       foreach ($statusNames as $s => $sname) {
          if ($status_new == $s) {
             $this->statusList[$s] = new Status($s, $this->getDurationForStatusNew());
