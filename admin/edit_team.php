@@ -276,16 +276,19 @@ if(isset($_SESSION['userid'])) {
             $memberAccess = Tools::getSecurePOSTIntValue('member_access');
             $formatedDate = Tools::getSecurePOSTStringValue("date1");
             $arrivalTimestamp = Tools::date2timestamp($formatedDate);
+            try { 
+               // save to DB
+               $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
 
-            // save to DB
-            $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
-
-            // CodevTT administrators can manage ExternalTasksProject in Mantis
-            if ($admin_teamid == $team->id) {
-               $newUser = UserCache::getInstance()->getUser($memberid);
-               $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
-               $access_level = 70; // TODO mantis manager
-               $newUser->setProjectAccessLevel($extProjId, $access_level);
+               // CodevTT administrators can manage ExternalTasksProject in Mantis
+               if ($admin_teamid == $team->id) {
+                  $newUser = UserCache::getInstance()->getUser($memberid);
+                  $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+                  $access_level = 70; // TODO mantis manager
+                  $newUser->setProjectAccessLevel($extProjId, $access_level);
+               }
+            } catch (Exception $e) {
+               $smartyHelper->assign('error', "Couldn't add user $memberid to the team");
             }
 
          } elseif ($action == "setMemberDepartureDate") {
@@ -311,13 +314,17 @@ if(isset($_SESSION['userid'])) {
             $projectid = Tools::getSecurePOSTIntValue('addedprojectid');
             $projecttype= Tools::getSecurePOSTIntValue('project_type');
 
-            // prepare Project to CoDev (associate with CoDev customFields if needed)
-            $project = ProjectCache::getInstance()->getProject($projectid);
-            $project->prepareProjectToCodev();
+            try {
+               // prepare Project to CoDev (associate with CoDev customFields if needed)
+               $project = ProjectCache::getInstance()->getProject($projectid);
+               $project->prepareProjectToCodev();
 
-            // save to DB
-            if(!$team->addProject($projectid, $projecttype)) {
-               $smartyHelper->assign('error', "Couldn't add the project to the team");
+               // save to DB
+               if(!$team->addProject($projectid, $projecttype)) {
+                  $smartyHelper->assign('error', "Couldn't add the project to the team");
+               }
+            } catch (Exception $e) {
+               $smartyHelper->assign('error', "Couldn't add project $projectid  to the team");
             }
          } elseif (isset($_POST['deletedprojectid'])) {
             $projectid = Tools::getSecurePOSTIntValue('deletedprojectid');
