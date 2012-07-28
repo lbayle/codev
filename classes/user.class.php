@@ -459,6 +459,11 @@ class User {
             try {
                $issue = $issues[$timeTrack->bugId];
 
+               if (NULL == $issue) {
+                  self::$logger->error("getDaysOfInPeriod(): $timeTrack->bugId not found in ".implode(',', $issueIds));
+                  $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
+               }
+               
                if ($issue->isVacation($teamidList)) {
                   if (isset($daysOf[$timeTrack->date])) {
                      $daysOf[$timeTrack->date]['duration'] += $timeTrack->duration;
