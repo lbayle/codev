@@ -124,17 +124,18 @@ class Project {
     */
    public function initialize($row = NULL) {
       if($row == NULL) {
-      $query  = "SELECT mantis_project_table.*, codev_team_project_table.type ".
-                "FROM `mantis_project_table`, `codev_team_project_table` ".
-                "WHERE mantis_project_table.id = '".$this->id."' ".
-                "AND codev_team_project_table.project_id = mantis_project_table.id ";
+         // WARN: this query will return 0 rows if projectid not found in codev_team_project_table
+         $query  = "SELECT mantis_project_table.*, codev_team_project_table.type ".
+                  "FROM `mantis_project_table`, `codev_team_project_table` ".
+                  "WHERE mantis_project_table.id = '".$this->id."' ".
+                  "AND codev_team_project_table.project_id = mantis_project_table.id ";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
-      }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+         }
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       }
 
       $nbTuples = $row != FALSE;
@@ -142,31 +143,31 @@ class Project {
       self::$existsCache[$this->id] = $nbTuples;
 
       if ($nbTuples) {
-      $this->name        = $row->name;
-      $this->description = $row->description;
-      $this->enabled     = (1 == $row->enabled);
-      $this->type        = $row->type;
+         $this->name        = $row->name;
+         $this->description = $row->description;
+         $this->enabled     = (1 == $row->enabled);
+         $this->type        = $row->type;
 
-      // ---- if SideTaskProject get categories
-      $query  = "SELECT * FROM `codev_project_category_table` WHERE project_id = '".$this->id."' ";
+         // ---- if SideTaskProject get categories
+         $query  = "SELECT * FROM `codev_project_category_table` WHERE project_id = '".$this->id."' ";
 
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-      }
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+               echo "<span style='color:red'>ERROR: Query FAILED</span>";
+               exit;
+         }
 
-      $this->categoryList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))   {
-         $this->categoryList[$row->type] = $row->category_id;
-      }
+         $this->categoryList = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result))   {
+            $this->categoryList[$row->type] = $row->category_id;
+         }
 
-      #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
+         #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
 
-      #$this->jobList     = $this->getJobList();
+         #$this->jobList     = $this->getJobList();
       } else {
-         #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("Constructor: Project $this->id does not exist in Mantis DB.");
+         // WARN: project not in mantis_project_table OR not in codev_team_project_table !
+         $e = new Exception("Constructor: Project $this->id does not exist in Mantis DB (or not found in codev_team_project_table ).");
          $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
@@ -471,7 +472,14 @@ class Project {
     * Prepare a Mantis Project to be used with CoDevTT:
     * - check/add association to CoDevTT customFields
     */
-   public function prepareProjectToCodev() {
+   public static function prepareProjectToCodev($projectid) {
+      
+      /*
+       WARN: prepareProjectToCodev cannot be a member method, it has to be static
+             because if you call Project::__constructor on a project that has
+             not been referenced in any team (codev_team_project_table), then the
+             query in initialize() will fail.
+      */
 
       $tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $mgrEffortEstim         = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
@@ -485,7 +493,7 @@ class Project {
       $existingFields = array();
 
      // find out which customFields are already associated
-     $query = "SELECT field_id FROM `mantis_custom_field_project_table` WHERE    project_id = $this->id";
+     $query = "SELECT field_id FROM `mantis_custom_field_project_table` WHERE    project_id = $projectid";
      $result = SqlWrapper::getInstance()->sql_query($query);
      if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -500,13 +508,13 @@ class Project {
                "VALUES ";
 
      $found = false;
-     if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$this->id','101'),"; $found = true; }
-     if (!in_array($mgrEffortEstim, $existingFields))         { $query .= "('$mgrEffortEstim',         '$this->id','102'),"; $found = true; }
-     if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$this->id','103'),"; $found = true; }
-     if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$this->id','104'),"; $found = true; }
-     if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$this->id','105'),"; $found = true; }
-     if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$this->id','106'),"; $found = true; }
-     if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$this->id','107'),"; $found = true; }
+     if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$projectid','101'),"; $found = true; }
+     if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','102'),"; $found = true; }
+     if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','103'),"; $found = true; }
+     if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','104'),"; $found = true; }
+     if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$projectid','105'),"; $found = true; }
+     if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','106'),"; $found = true; }
+     if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','107'),"; $found = true; }
      #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
 
      if ($found) {

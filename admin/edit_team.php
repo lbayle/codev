@@ -316,15 +316,15 @@ if(isset($_SESSION['userid'])) {
 
             try {
                // prepare Project to CoDev (associate with CoDev customFields if needed)
-               $project = ProjectCache::getInstance()->getProject($projectid);
-               $project->prepareProjectToCodev();
+               // WARN: Project constructor cannot be used in here.
+               Project::prepareProjectToCodev($projectid);
 
                // save to DB
                if(!$team->addProject($projectid, $projecttype)) {
                   $smartyHelper->assign('error', "Couldn't add the project to the team");
                }
             } catch (Exception $e) {
-               $smartyHelper->assign('error', "Couldn't add project $projectid  to the team");
+               $smartyHelper->assign('error', "Couldn't add project to the team");
             }
          } elseif (isset($_POST['deletedprojectid'])) {
             $projectid = Tools::getSecurePOSTIntValue('deletedprojectid');
