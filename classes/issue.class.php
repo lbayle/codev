@@ -538,11 +538,7 @@ class Issue implements Comparable {
     * @return int
     */
    public function getElapsed($job_id = NULL) {  // TODO $doRefresh = false
-      // If no job, total time is requested
-      if(NULL == $job_id) {
-         return $this->elapsed;
-      }
-      
+
       if(NULL == $this->elapsedCache) {
          $this->elapsedCache = array();
       }
