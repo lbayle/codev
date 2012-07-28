@@ -856,15 +856,6 @@ class Issue implements Comparable {
    }
 
    /**
-    * @param int $user_id The user id
-    * @return int the date of the oldest TimeTrack
-    */
-   public function getStartTimestamp($user_id = NULL) {
-      // reset return the first element of an array
-      return reset($this->getTimeTracks($user_id));
-   }
-
-   /**
     * @param int $team_id
     * @return string[]
     */
