@@ -106,8 +106,7 @@ class CodevTTPlugin extends MantisPlugin {
             <tr ';
       echo helper_alternate_class();
       echo '>
-            <td class="category">
-                    <span class="required">*</span>';
+            <td class="category">';
       echo plugin_lang_get('command');
       echo'</td>
             <td>
@@ -184,13 +183,15 @@ class CodevTTPlugin extends MantisPlugin {
 
       $cmdList = $this->getAvailableCommands($project_id);
       if (O != count($cmdList)) {
+      
+         $size = (count($cmdList) < 3) ? 3 : 5;
 
          echo '<tr '.helper_alternate_class().'>';
          echo '<td class="category">';
-         echo '   <span class="required">*</span>';
+         #echo '   <span class="required">*</span>';
          echo plugin_lang_get('command').'</td>';
          echo '<td>';
-         echo ' <select multiple="multiple"  size="5" name="command_id[]">';
+         echo ' <select multiple="multiple"  size="'.$size.'" name="command_id[]">';
          foreach ($cmdList as $id => $name) {
             echo '<option value="' . $id . '" >' . $name . '</option>';
          }
