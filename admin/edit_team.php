@@ -324,14 +324,12 @@ if(isset($_SESSION['userid'])) {
                   $smartyHelper->assign('error', "Couldn't add the project to the team");
                }
             } catch (Exception $e) {
-               $smartyHelper->assign('error', "Couldn't add project to the team");
+               $smartyHelper->assign('error', "Could NOT add project to the team");
             }
          } elseif (isset($_POST['deletedprojectid'])) {
             $projectid = Tools::getSecurePOSTIntValue('deletedprojectid');
-            $query = "DELETE FROM `codev_team_project_table` WHERE id = ".$projectid.';';
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               $smartyHelper->assign('error', "Couldn't remove the project of the team");
+            if(!$team->removeProject($projectid)) {
+               $smartyHelper->assign('error', "Could NOT remove the project from the team");
             }
          } elseif (isset($_POST['addedastreinte_id'])) {
             $astreinte_id = Tools::getSecurePOSTIntValue('addedastreinte_id');

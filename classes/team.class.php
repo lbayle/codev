@@ -616,8 +616,10 @@ class Team {
    }
 
    /**
+    * Add a project to the team
+    * 
     * @param int $projectid
-    * @param $projecttype
+    * @param int $projecttype
     * @return bool
     */
    public function addProject($projectid, $projecttype) {
@@ -629,6 +631,21 @@ class Team {
       return true;
    }
 
+   /**
+    * removes a project from the team
+    * @param int $projectid 
+    */
+   public function removeProject($projectid) {
+      // TODO check if projectid exists in codev_team_project_table
+      $query = "DELETE FROM `codev_team_project_table` WHERE id = ".$projectid.';';
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         $this->logger->error("Could not remove project $projectid from team $this->id");
+         return false;
+      }
+      return true;
+   }
+   
    public function addExternalTasksProject() {
 
       $extTasksProjectType = Project::type_noStatsProject;
