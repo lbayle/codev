@@ -144,9 +144,9 @@ class CommandSet {
     *
     * @return int $id
     */
-   public static function create($name, $date, $teamid) {
-      $query = "INSERT INTO `codev_commandset_table`  (`name`, `date`, `team_id`) " .
-              "VALUES ('$name','$date', '$teamid');";
+   public static function create($name, $teamid) {
+      $query = "INSERT INTO `codev_commandset_table`  (`name`, `team_id`) " .
+              "VALUES ('$name', '$teamid');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -213,9 +213,8 @@ class CommandSet {
    }
 
    public function setName($name) {
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($name);
-      $this->name = $formattedValue;
-      $query = "UPDATE `codev_commandset_table` SET name = '$formattedValue' WHERE id='$this->id' ";
+      $this->name = $name;
+      $query = "UPDATE `codev_commandset_table` SET name = '$name' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -243,9 +242,8 @@ class CommandSet {
    }
 
    public function setDesc($description) {
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($description);
-      $this->description = $formattedValue;
-      $query = "UPDATE `codev_commandset_table` SET description = '$formattedValue' WHERE id='$this->id' ";
+      $this->description = $description;
+      $query = "UPDATE `codev_commandset_table` SET description = '$description' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -272,9 +270,8 @@ class CommandSet {
       return $this->date;
    }
 
-   public function setDate($value) {
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($value);
-      $this->date = date2timestamp($formattedValue);
+   public function setDate($timestamp) {
+      $this->date = $timestamp;
       $query = "UPDATE `codev_commandset_table` SET date = '$this->date' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
