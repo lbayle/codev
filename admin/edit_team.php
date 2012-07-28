@@ -209,21 +209,9 @@ if(isset($_SESSION['userid'])) {
       if (isset($_POST['deletedteam'])) {
          $teamidToDelete = Tools::getSecurePOSTIntValue("deletedteam");
          if(array_key_exists($teamidToDelete,$teamList)) {
-            $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               $smartyHelper->assign('error', "Couldn't delete the team");
-            }
 
-            $query = "DELETE FROM `codev_team_user_table` WHERE team_id = $teamidToDelete;";
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
-               $smartyHelper->assign('error', "Couldn't delete the team");
-            }
-
-            $query = "DELETE FROM `codev_team_table` WHERE id = $teamidToDelete;";
-            $result = SqlWrapper::getInstance()->sql_query($query);
-            if (!$result) {
+            $retCode = Team::delete($teamidToDelete);
+            if (!$retCode) {
                $smartyHelper->assign('error', "Couldn't delete the team");
             }
 

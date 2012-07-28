@@ -157,15 +157,15 @@ class ServiceContract {
     * @return int $id
     */
    public static function create($name, $teamid) {
-    $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
-             "VALUES ('$name', '$teamid');";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>";
-       exit;
-    }
-    $id = SqlWrapper::getInstance()->sql_insert_id();
-    return $id;
+      $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
+               "VALUES ('$name', '$teamid');";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $id = SqlWrapper::getInstance()->sql_insert_id();
+      return $id;
    }
 
    /**
@@ -176,28 +176,27 @@ class ServiceContract {
     */
    public static function delete($id) {
 
-    $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `servicecontract_id`='$id';";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       #exit;
-    }
+      $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `servicecontract_id`='$id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         #exit;
+      }
 
-    $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE `servicecontract_id`='$id';";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       #exit;
-    }
+      $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE `servicecontract_id`='$id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         #exit;
+      }
 
-    $query = "DELETE FROM `codev_servicecontract_table` WHERE `id`='$id';";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       exit;
-    }
-    $id = SqlWrapper::getInstance()->sql_insert_id();
-    return $id;
+      $query = "DELETE FROM `codev_servicecontract_table` WHERE `id`='$id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         exit;
+      }
+      return true;
    }
 
    public function getId() {

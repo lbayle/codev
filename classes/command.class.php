@@ -152,46 +152,45 @@ class Command {
     * @return int $id
     */
    public static function create($name, $teamid) {
-    $query = "INSERT INTO `codev_command_table`  (`name`, `team_id`) ".
-             "VALUES ('$name', '$teamid');";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>";
-       exit;
-    }
-    $id = SqlWrapper::getInstance()->sql_insert_id();
-    return $id;
+      $query = "INSERT INTO `codev_command_table`  (`name`, `team_id`) ".
+               "VALUES ('$name', '$teamid');";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $id = SqlWrapper::getInstance()->sql_insert_id();
+      return $id;
    }
 
    /**
     * delete a command
     *
-    * @return int $id
+    * @return bool true id deleted
     */
    public static function delete($id) {
 
-    $query = "DELETE FROM `codev_commandset_cmd_table` WHERE `command_id`='$id';";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       #exit;
-    }
+      $query = "DELETE FROM `codev_commandset_cmd_table` WHERE `command_id`='$id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         #exit;
+      }
 
-    $query = "DELETE FROM `codev_command_bug_table` WHERE `command_id`='$id';";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       #exit;
-    }
+      $query = "DELETE FROM `codev_command_bug_table` WHERE `command_id`='$id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         #exit;
+      }
 
-    $query = "DELETE FROM `codev_command_table` WHERE `id`='$id';";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-       echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
-       exit;
-    }
-    $id = SqlWrapper::getInstance()->sql_insert_id();
-    return $id;
+      $query = "DELETE FROM `codev_command_table` WHERE `id`='$id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+         exit;
+      }
+      return true;
    }
 
 

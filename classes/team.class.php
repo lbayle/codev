@@ -152,6 +152,56 @@ class Team {
    }
 
    /**
+    * delete a team (and all it's ServiceContracts,CommandSets,Commands)
+    * @param int $teamidToDelete
+    */
+   public static function delete($teamidToDelete) {
+
+
+
+      try {
+         $team = TeamCache::getInstance()->getTeam($teamidToDelete);
+
+         $idlist = array_keys($team->getCommands());
+         foreach ($idlist as $id) {
+            Command::delete($id);
+         }
+         $idlist = array_keys($team->getCommandSetList());
+         foreach ($idlist as $id) {
+            CommandSet::delete($id);
+         }
+         $idlist = array_keys($team->getServiceContractList());
+         foreach ($idlist as $id) {
+            ServiceContract::delete($id);
+         }
+
+         $query = "DELETE FROM `codev_team_project_table` WHERE team_id = $teamidToDelete;";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+            exit;
+         }
+
+         $query = "DELETE FROM `codev_team_user_table` WHERE team_id = $teamidToDelete;";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+            exit;
+         }
+
+         $query = "DELETE FROM `codev_team_table` WHERE id = $teamidToDelete;";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
+            exit;
+         }
+      } catch (Exception $e) {
+         return false;
+      }
+      return true;
+   }
+
+   /**
     * @param string $name
     * @return int the team id or -1 if not found
     */
