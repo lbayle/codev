@@ -41,6 +41,7 @@ include_once "super_header.inc.php";
 
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-1.7.1.min.js'></script>\n";
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery.bgiframe-2.1.2.js'></script>\n";
+   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery.tools-1.2.7.min.js'></script>\n";
 
    echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-ui-1.8.16.custom.min.js'></script>\n";
    #echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-ui-1.8.17.custom.min.js'></script>\n";

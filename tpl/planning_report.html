@@ -126,7 +126,7 @@
                   {if $i.deadlines.deadline|count > 0}<br />{/if}
                   <img width="{$planning.width}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
                   {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
-                  <a target="_blank" href="reports/issue_info.php?bugid={$j.bugid}"><img alt="{$j.title}" title="{$j.title}" src="graphs/scheduledtask.png.php?height={$i.userSchedule.height}&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" /></a>
+                  <a id="task_{$j.bugid}" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}"><img alt="{$j.title}" src="graphs/scheduledtask.png.php?height={$i.userSchedule.height}&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" /></a>
                   <img width="{$i.userSchedule.sepWidth}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
                   {/foreach}
                </span>
@@ -156,6 +156,29 @@
          </tr>
       </table>
    </div>
+
+   <!-- tooltips  http://jquerytools.org/demos/tooltip/any-html.html  -->
+   {foreach from=$planning.tasks key=id item=i}
+      {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
+         <!-- tooltip element -->
+         <div class="tooltip" id="tooltip_{$j.bugid}" style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#fff;">
+         <table style="margin:0">
+            <tr><td class="label" style="color:yellow;width:35px;">Task ID</td><td>{$j.bugid}</td></tr>
+            <tr><td class="label" style="color:yellow;width:35px;">summary</td><td>{$j.summary}</td></tr>
+            <tr><td class="label" style="color:yellow;width:35px;">duration</td><td>{$j.duration}</td></tr>
+            <tr><td class="label" style="color:yellow;width:35px;">priorityName</td><td>{$j.priorityName}</td></tr>
+            <tr><td class="label" style="color:yellow;width:35px;">statusName</td><td>{$j.statusName}</td></tr>
+            <tr><td class="label" style="color:yellow;width:35px;">deadLine</td><td>{$j.deadLine}</td></tr>
+         </table>
+         </div>
+         <script type="text/javascript">
+         jQuery(document).ready(function() {
+               jQuery("#task_{$j.bugid}").tooltip({ effect: 'slide'});
+         });
+         </script>
+      {/foreach}
+   {/foreach}
+
    {/if}
 </div>
 {/if}

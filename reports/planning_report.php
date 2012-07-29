@@ -315,8 +315,16 @@ function getUserSchedule($dayPixSize, array $scheduledTaskList, $teamid) {
          "title" => $formatedTitle,
          "width" => $drawnTaskPixSize,
          "color" => $color,
-         "strike" => NULL == $projList[$issue->projectId]
+         "strike" => NULL == $projList[$issue->projectId],
+         "duration" => $scheduledTask->duration,
+         "priorityName" => $scheduledTask->priorityName,
+         "statusName" => $scheduledTask->statusName,
+         "deadLine"  => date("d/m/Y", $scheduledTask->deadLine),
+         "summary" => $scheduledTask->summary
       );
+      if ($scheduledTask->isMonitored) {
+         $scheduledTasks["handlerName"] = $scheduledTask->handlerName;
+      }
    }
 
    return array(
