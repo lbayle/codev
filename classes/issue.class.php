@@ -825,13 +825,12 @@ class Issue implements Comparable {
    }
 
    /**
-    * @param int $user_id The user id
     * @return int[]
     */
-   public function getTimeTracks($user_id = NULL) {
+   public function getTimeTracks() {
       $timeTracks = array();
 
-      $query     = "SELECT id, date FROM `codev_timetracking_table` ".
+      $query     = "SELECT * FROM `codev_timetracking_table` ".
          "WHERE bugid=$this->bugId ";
 
       if (isset($user_id)) {
@@ -845,7 +844,7 @@ class Issue implements Comparable {
          exit;
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $timeTracks[$row->id] = $row->date;
+         $timeTracks[$row->id] = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
       }
 
       return $timeTracks;
