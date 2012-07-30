@@ -168,12 +168,12 @@
       {if $j.width}<img width="{$j.width}" height="{$i.deadlines.height}" src="images/time_line.jpg" alt="" />{/if}
          <!-- tooltip element -->
          <div class="tooltip" id="tooltip_deadline_{$j.user}_{$j.date}"
-              style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#fff;
-              background:url(/codevtt.lob/images/tooltip_grey2_arrow_big.png);">
+              style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#000;
+              background:url(/codevtt.lob/images/tooltip_white_arrow_big.png);">
          <table style="margin:0;border:0">
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Date{/t}</td><td style="background-color:transparent;">{$j.date}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}nbDaysToDeadLine{/t}</td><td style="background-color:transparent;">+{$j.nbDaysToDeadLine} {t}days{/t}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Tasks{/t}</td><td style="background-color:transparent;">{$j.deadlineIssues}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Date{/t}</td><td style="background-color:transparent;">{$j.date}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}nbDaysToDeadLine{/t}</td><td style="background-color:transparent;">+{$j.nbDaysToDeadLine} {t}days{/t}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Tasks{/t}</td><td style="background-color:transparent;">{$j.deadlineIssues}</td></tr>
          </table>
          </div>
          <script type="text/javascript">
@@ -189,15 +189,15 @@
       {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
          <!-- tooltip element -->
          <div class="tooltip" id="tooltip_{$j.bugid}"
-              style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#fff;
-              background:url(/codevtt.lob/images/tooltip_grey2_arrow_big.png);">
+              style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#000;
+              background:url(/codevtt.lob/images/tooltip_white_arrow_big.png);">
          <table style="margin:0;border:0">
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Task{/t}</td><td style="background-color:transparent;">{$j.bugid}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;" VALIGN="top">{t}Summary{/t}</td><td style="background-color:transparent;">{$j.summary}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Duration{/t}</td><td style="background-color:transparent;">{$j.duration} {t}days{/t}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Priority{/t}</td><td style="background-color:transparent;">{$j.priorityName}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Status{/t}</td><td style="background-color:transparent;">{$j.statusName}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}DeadLine{/t}</td><td style="background-color:transparent;">{$j.deadLine}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Task{/t}</td><td style="background-color:transparent;">{$j.bugid}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;" VALIGN="top">{t}Summary{/t}</td><td style="background-color:transparent;">{$j.summary}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Duration{/t}</td><td style="background-color:transparent;">{$j.duration} {t}days{/t}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Priority{/t}</td><td style="background-color:transparent;">{$j.priorityName}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Status{/t}</td><td style="background-color:transparent;">{$j.statusName}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}DeadLine{/t}</td><td style="background-color:transparent;">{$j.deadLine}</td></tr>
          </table>
          </div>
          <script type="text/javascript">
