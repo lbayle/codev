@@ -6,7 +6,11 @@
    if (myWidth > 500) {
       myWidth = myWidth - 10;
    }
-   document.location.href=location+"?width="+myWidth;
+   if ("" == location.search) {
+      document.location.href=location+"?width="+myWidth;
+   } else {
+      document.location.href=location+"&width="+myWidth;
+   }
 </script>
 {else}
 <div id="content">
