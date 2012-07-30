@@ -119,15 +119,14 @@ class IssueInfoTools {
 
    /**
     * Get job details of an issue
-    * @param array $timeTracks
+    * @param TimeTrack[] $timeTracks
     * @return mixed[]
     */
    public static function getJobDetails(array $timeTracks) {
       $durationByJob = array();
       $jobs = new Jobs();
       $totalDuration = 0;
-      foreach ($timeTracks as $tid => $tdate) {
-         $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
+      foreach ($timeTracks as $tt) {
          $durationByJob[$tt->jobId] += $tt->duration;
          $totalDuration += $tt->duration;
       }
@@ -173,7 +172,7 @@ class IssueInfoTools {
    /**
     * Get the calendar of an issue
     * @param Issue $issue The issue
-    * @param int[] $trackList
+    * @param TimeTrack[] $trackList
     * @return mixed[]
     */
    public static function getCalendar(Issue $issue, array $trackList) {
@@ -193,7 +192,7 @@ class IssueInfoTools {
     * @param int $month
     * @param int $year
     * @param Issue $issue The issue
-    * @param int[] $trackList
+    * @param TimeTrack[] $trackList
     * @return mixed[]
     */
    public static function getMonth($month, $year, Issue $issue, array $trackList) {
@@ -201,12 +200,11 @@ class IssueInfoTools {
 
       // if no work done this month, do not display month
       $found = 0;
-      foreach ($trackList as $tid => $tdate) {
-         if (($month == date('m', $tdate)) &&
-            ($year  == date('Y', $tdate))) {
+      foreach ($trackList as $tid => $tt) {
+         if (($month == date('m', $tt->date)) &&
+            ($year  == date('Y', $tt->date))) {
             $found += 1;
 
-            $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
             $totalDuration += $tt->duration;
          }
       }
@@ -229,15 +227,16 @@ class IssueInfoTools {
       $jobs = new Jobs();
       $userList = $issue->getInvolvedUsers();
       $users = NULL;
+      $timeTracks = $issue->getTimeTracks();
       foreach ($userList as $uid => $username) {
          // build $durationByDate[] for this user
-         $userTimeTracks = $issue->getTimeTracks($uid);
          $durationByDate = array();
          $jobColorByDate = array();
-         foreach ($userTimeTracks as $tid => $tdate) {
-            $tt = TimeTrackCache::getInstance()->getTimeTrack($tid);
-            $durationByDate[$tdate] += $tt->duration;
-            $jobColorByDate[$tdate] = $jobs->getJobColor($tt->jobId);
+         foreach ($timeTracks as $tt) {
+            if($tt->userId == $uid) {
+               $durationByDate[$tdate] += $tt->duration;
+               $jobColorByDate[$tdate] = $jobs->getJobColor($tt->jobId);
+            }
          }
 
          $usersDetails = NULL;
