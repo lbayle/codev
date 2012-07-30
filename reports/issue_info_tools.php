@@ -200,7 +200,7 @@ class IssueInfoTools {
 
       // if no work done this month, do not display month
       $found = 0;
-      foreach ($trackList as $tid => $tt) {
+      foreach ($trackList as $tt) {
          if (($month == date('m', $tt->date)) &&
             ($year  == date('Y', $tt->date))) {
             $found += 1;
@@ -234,8 +234,8 @@ class IssueInfoTools {
          $jobColorByDate = array();
          foreach ($timeTracks as $tt) {
             if($tt->userId == $uid) {
-               $durationByDate[$tdate] += $tt->duration;
-               $jobColorByDate[$tdate] = $jobs->getJobColor($tt->jobId);
+               $durationByDate[$tt->date] += $tt->duration;
+               $jobColorByDate[$tt->date] = $jobs->getJobColor($tt->jobId);
             }
          }
 
