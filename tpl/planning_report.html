@@ -161,19 +161,24 @@
    {foreach from=$planning.tasks key=id item=i}
       {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
          <!-- tooltip element -->
-         <div class="tooltip" id="tooltip_{$j.bugid}" style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#fff;">
-         <table style="margin:0">
-            <tr><td class="label" style="color:yellow;width:35px;">Task ID</td><td>{$j.bugid}</td></tr>
-            <tr><td class="label" style="color:yellow;width:35px;">summary</td><td>{$j.summary}</td></tr>
-            <tr><td class="label" style="color:yellow;width:35px;">duration</td><td>{$j.duration}</td></tr>
-            <tr><td class="label" style="color:yellow;width:35px;">priorityName</td><td>{$j.priorityName}</td></tr>
-            <tr><td class="label" style="color:yellow;width:35px;">statusName</td><td>{$j.statusName}</td></tr>
-            <tr><td class="label" style="color:yellow;width:35px;">deadLine</td><td>{$j.deadLine}</td></tr>
+         <div class="tooltip" id="tooltip_{$j.bugid}"
+              style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#fff;
+              background:url(/codevtt.lob/images/tooltip_grey2_arrow_big.png);">
+         <table style="margin:0;border:0">
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Task{/t}</td><td style="background-color:transparent;">{$j.bugid}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;" VALIGN="top">{t}Summary{/t}</td><td style="background-color:transparent;">{$j.summary}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Duration{/t}</td><td style="background-color:transparent;">{$j.duration} {t}days{/t}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Priority{/t}</td><td style="background-color:transparent;">{$j.priorityName}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Status{/t}</td><td style="background-color:transparent;">{$j.statusName}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}DeadLine{/t}</td><td style="background-color:transparent;">{$j.deadLine}</td></tr>
          </table>
          </div>
          <script type="text/javascript">
          jQuery(document).ready(function() {
-               jQuery("#task_{$j.bugid}").tooltip({ effect: 'slide'});
+               jQuery("#task_{$j.bugid}").tooltip({ 
+                  effect: 'slide',
+                  tip: '#tooltip_{$j.bugid}'
+               });
          });
          </script>
       {/foreach}
