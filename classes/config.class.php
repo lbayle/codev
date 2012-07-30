@@ -96,6 +96,7 @@ class Config {
    const id_customField_deliveryId   = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
    const id_customField_deliveryDate = "customField_deliveryDate";
    const id_priorityNames            = "priorityNames";
+   const id_severityNames            = "severityNames";
    const id_resolutionNames          = "resolutionNames";
    const id_mantisFile_strings       = "mantisFile_strings";
    const id_mantisFile_custom_strings = "mantisFile_custom_strings";

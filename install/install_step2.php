@@ -176,6 +176,7 @@ if ("proceedStep2" == $action) {
     // --- get information from mantis config files
     $status_enum_string     = isset($g_status_enum_string) ? $g_status_enum_string : $s_status_enum_string;
     $priority_enum_string   = isset($g_priority_enum_string) ? $g_priority_enum_string : $s_priority_enum_string;
+    $severity_enum_string   = isset($g_severity_enum_string) ? $g_severity_enum_string : $s_severity_enum_string;
     $resolution_enum_string = isset($g_resolution_enum_string) ? $g_resolution_enum_string : $s_resolution_enum_string;
 
 
@@ -202,6 +203,11 @@ if ("proceedStep2" == $action) {
     $desc = T_("priority Names as defined in Mantis (priority_enum_string)");
     $formatedString = str_replace("'", " ", $priority_enum_string);
     Config::getInstance()->setValue(Config::id_priorityNames, $formatedString, Config::configType_keyValue , $desc);
+
+    echo "DEBUG 5.1/8 add severityNames<br/>";
+    $desc = T_("severity Names as defined in Mantis (severity_enum_string)");
+    $formatedString = str_replace("'", " ", $severity_enum_string);
+    Config::getInstance()->setValue(Config::id_severityNames, $formatedString, Config::configType_keyValue , $desc);
 
     echo "DEBUG 6/8 add resolutionNames<br/>";
     $desc = T_("resolution Names as defined in Mantis (resolution_enum_string)");

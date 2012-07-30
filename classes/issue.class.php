@@ -527,6 +527,11 @@ class Issue implements Comparable {
       return $priorityNames[$this->priority];
    }
 
+   public function getSeverityName() {
+      $severityNames   = Config::getInstance()->getValue(Config::id_severityNames);
+      return $severityNames[$this->severity];
+   }
+
    public function getResolutionName() {
       global $resolutionNames;
       return $resolutionNames[$this->resolution];

@@ -25,8 +25,10 @@ class ScheduledTask {
    var $duration;	     // in days
    var $deadLine;
    var $priorityName;
+   var $severityName;
    var $statusName;
    var $handlerName;
+   var $projectName;
 
    var $isOnTime;  // determinates the color
    var $summary;
@@ -114,25 +116,27 @@ class Scheduler {
 			$this->logger->debug("issue $issue->bugId   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
 			$this->logger->debug("issue $issue->bugId nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
 			$currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
-			$currentST->summary          = "[".$issue->getProjectName()."] $issue->summary";
-            $currentST->priorityName     = $issue->getPriorityName();
-            $currentST->statusName       = $statusNames[$issue->currentStatus];
+			$currentST->projectName      = $issue->getProjectName();
+			$currentST->summary          = $issue->summary;
+         $currentST->priorityName     = $issue->getPriorityName();
+         $currentST->severityName     = $issue->getSeverityName();
+         $currentST->statusName       = $statusNames[$issue->currentStatus];
 
-            $handler = UserCache::getInstance()->getUser($issue->handlerId);
-            $currentST->handlerName = $handler->getName();
+         $handler = UserCache::getInstance()->getUser($issue->handlerId);
+         $currentST->handlerName = $handler->getName();
 
-            // check if onTime
+         // check if onTime
 			if (NULL == $issue->getDeadLine()) {
 				$currentST->isOnTime = true;
 			} else {
             $currentST->isOnTime = (($sumDurations + $issueDuration) <= $currentST->nbDaysToDeadLine) ? true : false;
 			}
 
-            // add to list
-            if (0 != $issueDuration) {
-               $scheduledTaskList["$sumDurations"] = $currentST;
-               $sumDurations += $issueDuration;
-            }
+         // add to list
+         if (0 != $issueDuration) {
+            $scheduledTaskList["$sumDurations"] = $currentST;
+            $sumDurations += $issueDuration;
+         }
 
 		} // foreach task
 
@@ -155,8 +159,10 @@ class Scheduler {
             $currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
 
             $currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
+            $currentST->projectName      = $issue->getProjectName();
             $currentST->summary          = $issue->summary;
             $currentST->priorityName     = $issue->getPriorityName();
+            $currentST->severityName     = $issue->getSeverityName();
             $currentST->statusName       = $statusNames[$issue->currentStatus];
             $currentST->isMonitored      = true;
 

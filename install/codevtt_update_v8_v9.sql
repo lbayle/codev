@@ -8,6 +8,8 @@
 
 UPDATE `codev_config_table` SET `value`='9' WHERE `config_id`='database_version';
 
+INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES ('severityNames', '10:feature,20:trivial,30:text,40:tweak,50:minor,60:major,70:crash,80:block', 3);
+
 ALTER TABLE codev_command_table MODIFY cost int(11);
 ALTER TABLE codev_command_table MODIFY budget_dev int(11);
 ALTER TABLE codev_command_table MODIFY budget_mngt int(11);
