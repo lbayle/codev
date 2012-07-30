@@ -242,11 +242,12 @@ function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList, $dea
       if ($offset >= 0) {
          $deadline[$date] = array(
             "user" => $userName,
-            "date" => date('Y-m-d', $date),
+            "date" => date(T_("Y-m-d"), $date),
             "url" => $dline->getImageURL(),
             "title" => $dline->toString(),
             "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
-            "deadlineIssues" => implode(', ', $dline->issueList)
+            "deadlineIssues" => implode(', ', $dline->issueList),
+            "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_130.png'
          );
 
          if ($offset > 0) {
@@ -306,7 +307,7 @@ function getUserSchedule($dayPixSize, array $scheduledTaskList, $teamid) {
 
       $drawnTaskPixSize = $taskPixSize - $sepWidth;
 
-      $scheduledTasks[] = array(
+      $sTask = array(
          "bugid" => $scheduledTask->bugId,
          "title" => $formatedTitle,
          "width" => $drawnTaskPixSize,
@@ -315,12 +316,17 @@ function getUserSchedule($dayPixSize, array $scheduledTaskList, $teamid) {
          "duration" => $scheduledTask->duration,
          "priorityName" => $scheduledTask->priorityName,
          "statusName" => $scheduledTask->statusName,
-         "deadLine"  => date("d/m/Y", $scheduledTask->deadLine),
-         "summary" => $scheduledTask->summary
+         "summary" => $scheduledTask->summary,
+         "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_big.png'
       );
       if ($scheduledTask->isMonitored) {
-         $scheduledTasks["handlerName"] = $scheduledTask->handlerName;
+         $Task["handlerName"] = $scheduledTask->handlerName;
       }
+      if ($scheduledTask->deadLine > 0) {
+         $sTask["deadLine"] = date(T_("Y-m-d"), $scheduledTask->deadLine);
+      }
+      $scheduledTasks[] = $sTask;
+
    }
 
    return array(
