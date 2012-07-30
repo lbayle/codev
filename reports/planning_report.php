@@ -93,15 +93,7 @@ class DeadLine {
     */
    public function toString() {
       $string = date("d/m/Y", $this->date)." (+$this->nbDaysToDeadLine days)  ".T_("Tasks").": ";
-
-      $count = 0;
-      foreach($this->issueList as $i) {
-         $count++;
-         $string .= "$i";
-         if($count != count($this->issueList)) {
-            $string .= ",";
-         }
-      }
+      $string .= implode(', ', $this->issueList);
       return $string;
    }
 
@@ -189,7 +181,7 @@ function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array 
       $taks[] = array(
          "workload" => $workloads[$userName],
          "username" => $userName,
-         "deadlines" => getUserDeadLines($dayPixSize, $scheduledTaskList, $deadLineTriggerWidth),
+         "deadlines" => getUserDeadLines($userName, $dayPixSize, $scheduledTaskList, $deadLineTriggerWidth),
          "userSchedule" => getUserSchedule($dayPixSize, $scheduledTaskList, $teamid)
       );
    }
@@ -208,7 +200,7 @@ function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array 
  * @param int $deadLineTriggerWidth
  * @return mixed[][]
  */
-function getUserDeadLines($dayPixSize, array $scheduledTaskList, $deadLineTriggerWidth) {
+function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList, $deadLineTriggerWidth) {
    $deadLines = array();
 
    // remove duplicate deadLines & set color
@@ -249,8 +241,12 @@ function getUserDeadLines($dayPixSize, array $scheduledTaskList, $deadLineTrigge
 
       if ($offset >= 0) {
          $deadline[$date] = array(
+            "user" => $userName,
+            "date" => date('Y-m-d', $date),
             "url" => $dline->getImageURL(),
-            "title" => $dline->toString()
+            "title" => $dline->toString(),
+            "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
+            "deadlineIssues" => implode(', ', $dline->issueList)
          );
 
          if ($offset > 0) {

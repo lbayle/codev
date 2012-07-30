@@ -125,7 +125,7 @@
                   {if $i.deadlines.isDeadline}<img width="{$planning.width}" height="{$i.deadlines.height}" src="images/white.png" alt="" />{/if}
                   {foreach from=$i.deadlines.deadline key=id1 item=j}
                   {if $j.width}<img width="{$j.width}" height="{$i.deadlines.height}" src="images/time_line.jpg" alt="" />{/if}
-                  <img src="{$j.url}" alt="{$j.title}" title="{$j.title}" />
+                  <img id="deadline_{$j.user}_{$j.date}" src="{$j.url}" alt="{$j.title}" />
                   {/foreach}
                   {if $i.deadlines.deadline|count > 0}<br />{/if}
                   <img width="{$planning.width}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
@@ -163,6 +163,29 @@
 
    <!-- tooltips  http://jquerytools.org/demos/tooltip/any-html.html  -->
    {foreach from=$planning.tasks key=id item=i}
+
+      {foreach from=$i.deadlines.deadline key=id1 item=j}
+      {if $j.width}<img width="{$j.width}" height="{$i.deadlines.height}" src="images/time_line.jpg" alt="" />{/if}
+         <!-- tooltip element -->
+         <div class="tooltip" id="tooltip_deadline_{$j.user}_{$j.date}"
+              style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#fff;
+              background:url(/codevtt.lob/images/tooltip_grey2_arrow_big.png);">
+         <table style="margin:0;border:0">
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Date{/t}</td><td style="background-color:transparent;">{$j.date}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}nbDaysToDeadLine{/t}</td><td style="background-color:transparent;">+{$j.nbDaysToDeadLine} {t}days{/t}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:yellow;width:35px;">{t}Tasks{/t}</td><td style="background-color:transparent;">{$j.deadlineIssues}</td></tr>
+         </table>
+         </div>
+         <script type="text/javascript">
+         jQuery(document).ready(function() {
+               jQuery("#deadline_{$j.user}_{$j.date}").tooltip({
+                  effect: 'slide',
+                  tip: '#tooltip_deadline_{$j.user}_{$j.date}'
+               });
+         });
+         </script>
+      {/foreach}
+
       {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
          <!-- tooltip element -->
          <div class="tooltip" id="tooltip_{$j.bugid}"
