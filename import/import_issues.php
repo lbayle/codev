@@ -88,7 +88,7 @@ function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape
    $file->setFlags(SplFileObject::READ_CSV);
    $file->setCsvControl($delimiter,$enclosure,$escape);
    foreach ($file as $row) {
-      echo $row;
+      var_dump($row);
    }
    */
    $row = 0;
@@ -97,8 +97,8 @@ function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape
          $row++;
          if (1 == $row) { continue; } // skip column names
 
-         //echo "<p> ".count($data)." champs à la ligne $row: ".$data[0].' '.$data[1]."<br /></p>\n";
-         if ('' != $data[4]) {
+         #echo "<p> ".count($data)." champs à la ligne $row: ".$data[0].' '.$data[1]."<br /></p>\n";
+         if ('' != $data[0]) {
 
             $newIssue = array();
             $newIssue['lineNum']        = $row;

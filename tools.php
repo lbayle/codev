@@ -745,8 +745,11 @@ class Tools {
     */
    public static function convertToUTF8($data) {
       $originalEncoding = mb_detect_encoding($data);
+      //echo "encoding = ".$originalEncoding."<br>";
+
       if(mb_detect_encoding($data[0]) != "UTF-8") {
          return mb_convert_encoding($data,"UTF-8",$originalEncoding);
+         //return utf8_encode($data);
       } else {
          return $data;
       }
