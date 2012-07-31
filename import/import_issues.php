@@ -97,7 +97,7 @@ function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape
          $row++;
          if (1 == $row) { continue; } // skip column names
 
-         #echo "<p> ".count($data)." champs à la ligne $row: ".$data[0].' '.$data[1]."<br /></p>\n";
+         // $data[0] contains 'summary' which is the only mandatory field
          if ('' != $data[0]) {
 
             $newIssue = array();
