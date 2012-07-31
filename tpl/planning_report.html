@@ -130,7 +130,7 @@
                   {if $i.deadlines.deadline|count > 0}<br />{/if}
                   <img width="{$planning.width}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
                   {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
-                  <a id="task_{$j.bugid}" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}"><img alt="{$j.title}" src="graphs/scheduledtask.png.php?height={$i.userSchedule.height}&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" /></a>
+                  <a id="task_{$j.user}_{$j.bugid}" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height={$i.userSchedule.height}&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" /></a>
                   <img width="{$i.userSchedule.sepWidth}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
                   {/foreach}
                </span>
@@ -188,23 +188,25 @@
 
       {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
          <!-- tooltip element -->
-         <div class="tooltip" id="tooltip_{$j.bugid}"
-              style="display:none;height:163px;padding:40px 30px 10px 30px;width:310px;font-size:11px;color:#000;
+         <div class="tooltip" id="tooltip_{$j.user}_{$j.bugid}"
+              style="display:none;height:163px;padding:30px 30px 10px 30px;width:310px;font-size:11px;color:#000;
               background:url({$j.imgUrl});">
          <table style="margin:0;border:0">
             <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Task{/t}</td><td style="background-color:transparent;">{$j.bugid}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Project{/t}</td><td style="background-color:transparent;">{$j.projectName}</td></tr>
             <tr><td class="label" style="background-color:transparent;color:blue;width:35px;" VALIGN="top">{t}Summary{/t}</td><td style="background-color:transparent;">{$j.summary}</td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">&nbsp;</td><td style="background-color:transparent;"></td></tr>
+            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Attributes{/t}</td><td style="background-color:transparent;">{t}Status{/t}:<b>{$j.statusName}</b>,&nbsp; {t}Priority{/t}:<b>{$j.priorityName}</b>,&nbsp; {t}Severity{/t}:<b>{$j.severityName}</b></td></tr>
             <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Duration{/t}</td><td style="background-color:transparent;">{$j.duration} {t}days{/t}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Priority{/t}</td><td style="background-color:transparent;">{$j.priorityName}</td></tr>
-            <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Status{/t}</td><td style="background-color:transparent;">{$j.statusName}</td></tr>
             {if $j.deadLine}<tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}DeadLine{/t}</td><td style="background-color:transparent;">{$j.deadLine}</td></tr>{/if}
+            {if $j.handlerName}<tr><td class="label" style="background-color:transparent;color:orange;width:35px;">{t}Monitored{/t}</td><td style="background-color:transparent;">({$j.handlerName})</td></tr>{/if}
          </table>
          </div>
          <script type="text/javascript">
          jQuery(document).ready(function() {
-               jQuery("#task_{$j.bugid}").tooltip({ 
+               jQuery("#task_{$j.user}_{$j.bugid}").tooltip({
                   effect: 'slide',
-                  tip: '#tooltip_{$j.bugid}'
+                  tip: '#tooltip_{$j.user}_{$j.bugid}'
                });
          });
          </script>

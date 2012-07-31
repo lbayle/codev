@@ -182,7 +182,7 @@ function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array 
          "workload" => $workloads[$userName],
          "username" => $userName,
          "deadlines" => getUserDeadLines($userName, $dayPixSize, $scheduledTaskList, $deadLineTriggerWidth),
-         "userSchedule" => getUserSchedule($dayPixSize, $scheduledTaskList, $teamid)
+         "userSchedule" => getUserSchedule($userName, $dayPixSize, $scheduledTaskList, $teamid)
       );
    }
 
@@ -275,7 +275,7 @@ function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList, $dea
  * @param int $teamid
  * @return mixed[][]
  */
-function getUserSchedule($dayPixSize, array $scheduledTaskList, $teamid) {
+function getUserSchedule($userName, $dayPixSize, array $scheduledTaskList, $teamid) {
    $totalPix = 0;
    $sepWidth = 1;
 
@@ -308,6 +308,7 @@ function getUserSchedule($dayPixSize, array $scheduledTaskList, $teamid) {
       $drawnTaskPixSize = $taskPixSize - $sepWidth;
 
       $sTask = array(
+         "user" => $userName,
          "bugid" => $scheduledTask->bugId,
          "title" => $formatedTitle,
          "width" => $drawnTaskPixSize,
@@ -315,12 +316,14 @@ function getUserSchedule($dayPixSize, array $scheduledTaskList, $teamid) {
          "strike" => NULL == $projList[$issue->projectId],
          "duration" => $scheduledTask->duration,
          "priorityName" => $scheduledTask->priorityName,
+         "severityName" => $scheduledTask->severityName,
          "statusName" => $scheduledTask->statusName,
+         "projectName" => $scheduledTask->projectName,
          "summary" => $scheduledTask->summary,
          "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_big.png'
       );
       if ($scheduledTask->isMonitored) {
-         $Task["handlerName"] = $scheduledTask->handlerName;
+         $sTask["handlerName"] = $scheduledTask->handlerName;
       }
       if ($scheduledTask->deadLine > 0) {
          $sTask["deadLine"] = date(T_("Y-m-d"), $scheduledTask->deadLine);
