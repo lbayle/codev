@@ -223,7 +223,10 @@ if(isset($_SESSION['userid'])) {
       // use the teamid set in the form, if not defined (first page call) use session teamid
       if (isset($_GET['teamid'])) {
          $teamid = Tools::getSecureGETIntValue('teamid');
-      } else if(isset($_SESSION['teamid'])) {
+         if(array_key_exists($teamid,$teamList)) {
+            $_SESSION['teamid'] = $teamid;
+         }
+      } else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
          $teamid = $_SESSION['teamid'];
       } else {
          $teamIds = array_keys($teamList);
@@ -233,12 +236,11 @@ if(isset($_SESSION['userid'])) {
             $teamid = 0;
          }
       }
-
+      
       $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
 
       if(array_key_exists($teamid,$teamList)) {
-         $_SESSION['teamid'] = $teamid;
-
+         
          $team = TeamCache::getInstance()->getTeam($teamid);
 
          // ----------- actions ----------
@@ -355,8 +357,6 @@ if(isset($_SESSION['userid'])) {
          $smartyHelper->assign('departureDate', date("Y-m-d", time()));
 
          $smartyHelper->assign('teamMembers', getTeamMembers($teamid));
-
-         $team = TeamCache::getInstance()->getTeam($teamid);
 
          $smartyHelper->assign('teamEnabled', $team->isEnabled());
          $smartyHelper->assign('otherProjects', $team->getOtherProjects());
