@@ -43,6 +43,7 @@ $logger = Logger::getLogger("time_tracking");
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Time Tracking');
+$smartyHelper->assign('activeGlobalMenuItem', 'TimeTracking');
 
 if($_SESSION['userid']) {
 

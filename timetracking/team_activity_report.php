@@ -184,6 +184,7 @@ function getConsistencyErrors(TimeTracking $timeTracking) {
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Weekly activities');
+$smartyHelper->assign('activeGlobalMenuItem', 'TimeTracking');
 
 if(isset($_SESSION['userid'])) {
    $user = UserCache::getInstance()->getUser($_SESSION['userid']);

@@ -210,6 +210,7 @@ function createTimeTrackingList($start_day, $start_month, $start_year, $teamid) 
 // =========== MAIN ==========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Forecasting');
+$smartyHelper->assign('activeGlobalMenuItem', 'Forecasting');
 
 if (isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);

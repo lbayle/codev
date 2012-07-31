@@ -134,6 +134,7 @@ require('display.inc.php');
 
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('ServiceContract (edit)'));
+$smartyHelper->assign('activeGlobalMenuItem', 'Management');
 
 if (isset($_SESSION['userid'])) {
 

@@ -156,6 +156,7 @@ function getDaysUsers($month, $year, $teamid, array $users, $nbDaysInMonth, $isE
 // =========== MAIN ==========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Holidays Report');
+$smartyHelper->assign('activeGlobalMenuItem', 'Holiday');
 
 if (isset($_SESSION['userid'])) {
    $year = Tools::getSecurePOSTIntValue('year',date('Y'));

@@ -27,5 +27,6 @@ require('classes/smarty_helper.class.php');
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CoDev Administration');
+$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);

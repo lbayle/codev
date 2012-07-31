@@ -37,6 +37,7 @@ require_once('tools.php');
 // =========== MAIN ==========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CSV Report');
+$smartyHelper->assign('activeGlobalMenuItem', 'ImportExport');
 
 if(isset($_SESSION['userid'])) {
    $userid = $_SESSION['userid'];

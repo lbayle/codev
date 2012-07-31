@@ -30,6 +30,7 @@ include_once('classes/user_cache.class.php');
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CodevTT Logs');
+$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 global $codevtt_logfile;
 

@@ -342,6 +342,7 @@ function getUserSchedule($userName, $dayPixSize, array $scheduledTaskList, $team
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Planning');
+$smartyHelper->assign('activeGlobalMenuItem', 'Planning');
 
 if(isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);

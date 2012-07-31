@@ -122,6 +122,7 @@ function getAssignedJobTuples(array $plist) {
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CoDev Administration : Jobs Edition');
+$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 if(isset($_SESSION['userid'])) {
    // Admins only

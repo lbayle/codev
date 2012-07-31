@@ -71,6 +71,7 @@ require('display.inc.php');
 
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('CommandSet'));
+$smartyHelper->assign('activeGlobalMenuItem', 'Management');
 
 if (isset($_SESSION['userid'])) {
 

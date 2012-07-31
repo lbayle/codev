@@ -73,6 +73,7 @@ function getProjectList() {
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CoDev Administration : Prepare Projects');
+$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 if(isset($_SESSION['userid'])) {
    // Admins only

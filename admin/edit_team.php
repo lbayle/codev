@@ -192,6 +192,7 @@ function getAstreintes() {
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CoDev Administration : Team Edition');
+$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 if(isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);

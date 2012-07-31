@@ -376,6 +376,7 @@ function getResolvedIssuesInDrift(array $projectVersionList, $isManager, $withSu
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Project Info');
+$smartyHelper->assign('activeGlobalMenuItem', 'ProjectInfo');
 
 if(isset($_SESSION['userid'])) {
    $user = UserCache::getInstance()->getUser($_SESSION['userid']);

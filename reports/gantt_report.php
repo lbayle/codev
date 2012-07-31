@@ -34,6 +34,7 @@ require_once('tools.php');
 // ============= MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Gantt Chart');
+$smartyHelper->assign('activeGlobalMenuItem', 'Gantt');
 
 if (isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);

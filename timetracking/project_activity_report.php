@@ -109,6 +109,7 @@ function getProjectActivityReport($projectTracks, $teamid, $isDetailed) {
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Weekly activities');
+$smartyHelper->assign('activeGlobalMenuItem', 'TimeTracking');
 
 if(isset($_SESSION['userid'])) {
    // team

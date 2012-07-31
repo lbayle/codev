@@ -30,6 +30,7 @@ include_once('classes/user_cache.class.php');
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CoDev Administration : Holidays');
+$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 // Admins only
 if(isset($_SESSION['userid'])) {

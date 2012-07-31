@@ -40,6 +40,7 @@ $logger = Logger::getLogger("create_team");
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CoDev Administration : Team Creation');
+$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 if(isset($_SESSION['userid'])) {
    $is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";

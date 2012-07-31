@@ -37,6 +37,7 @@ require_once('tools.php');
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Task Info');
+$smartyHelper->assign('activeGlobalMenuItem', 'IssueInfo');
 
 if(isset($_SESSION['userid'])) {
    $user = UserCache::getInstance()->getUser($_SESSION['userid']);

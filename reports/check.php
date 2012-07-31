@@ -96,6 +96,7 @@ function getTeamConsistencyErrors($teamid) {
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Consistency Check');
+$smartyHelper->assign('activeGlobalMenuItem', 'ConsistencyCheck');
 
 // Consistency errors
 if (isset($_SESSION['userid'])) {

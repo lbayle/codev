@@ -162,6 +162,7 @@ function getProjectTargetVersion($projectid) {
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', "Import Mantis Issues");
+$smartyHelper->assign('activeGlobalMenuItem', 'ImportExport');
 
 if (isset($_SESSION['userid'])) {
 

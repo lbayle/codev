@@ -165,6 +165,7 @@ require('display.inc.php');
 
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Command (edition)'));
+$smartyHelper->assign('activeGlobalMenuItem', 'Management');
 
 if (isset($_SESSION['userid'])) {
 

@@ -74,6 +74,7 @@ $logger = Logger::getLogger("servicecontract_info");
 
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_("Service Contract"));
+$smartyHelper->assign('activeGlobalMenuItem', 'Management');
 
 if (isset($_SESSION['userid'])) {
 

@@ -28,6 +28,7 @@ require('display.inc.php');
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Feedback');
+$smartyHelper->assign('activeGlobalMenuItem', 'Doc');
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
 

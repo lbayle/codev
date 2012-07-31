@@ -319,6 +319,7 @@ function getDevelopersWorkloadLegend(array $timeTrackingTable) {
 // ================ MAIN ================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Statistics');
+$smartyHelper->assign('activeGlobalMenuItem', 'ProdReports');
 
 if(isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);

@@ -142,6 +142,7 @@ function getJobs($defaultProjectid, $projList) {
 // =========== MAIN ==========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Add Holidays');
+$smartyHelper->assign('activeGlobalMenuItem', 'Holiday');
 
 if (isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);

@@ -93,6 +93,7 @@ $logger = Logger::getLogger("blog");
 
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_("Blog"));
+$smartyHelper->assign('activeGlobalMenuItem', 'Blog');
 
 if (isset($_SESSION['userid'])) {
 
