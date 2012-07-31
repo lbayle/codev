@@ -9,7 +9,7 @@
 </script>
 
 <div id="content">
-
+   {if $teams}
    <div align="center">
       <h1>{t}Team Edition{/t}</h1>
       <script type="text/javascript">
@@ -433,5 +433,7 @@
          </form>
       </div>
    </div>
-
+   {else}
+   <p>{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+   {/if}
 </div>
