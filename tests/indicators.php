@@ -27,6 +27,7 @@ require_once ('super_header.inc.php');
 require_once ('user_cache.class.php');
 require_once ('issue_cache.class.php');
 require_once ('issue_selection.class.php');
+require_once ('jobs.class.php');
 
 require_once ('days_per_job_indicator.class.php');
 
@@ -57,7 +58,20 @@ if (isset($_SESSION['userid'])) {
 
    echo 'Testing '.$daysPerJobIndicator->getName().'<br>';
 
-   $daysPerJobIndicator->execute($issueSel);
+   $daysPerJob = $daysPerJobIndicator->execute($issueSel);
+
+   $jobs = new Jobs();
+   echo "<table>";
+   echo "<tr><th>name</th><th>nbDays</th><th>color</th><tr>";
+   foreach ($daysPerJob as $id => $duration) {
+      echo "<tr>";
+      echo '<td>'.$jobs->getJobName($id).'</td>';
+      echo '<td>'.$duration.'</td>';
+      echo '<td>'.$jobs->getJobColor($id).'</td>';
+      echo "</tr>";
+   }
+   echo "</table>";
+
 }
 
 ?>

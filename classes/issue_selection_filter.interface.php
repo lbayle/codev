@@ -19,43 +19,20 @@
 include_once('classes/issue_selection.class.php');
 
 
-/**
- *
- * 
- */
-interface IndicatorPlugin {
-
+interface IssueSelectionFilter {
 
    public function getName();
    public function getDesc();
 
    /**
-    * returns the SMARTY .html filename that will display the results.
-    *
-    * The file must be included in the main SMARTY page:
-    * {include file="indicator_plugins/myIndicator.html"}
-    */
-   public function getSmartyFilename();
-
-   /**
     * result of the Indicator
     *
-    * @param IssueSelection $inputIssueSel task list
-    * @params array $params all other parameters needed by this indicator (timestamp, ...)
-    * @return mixed (standard PHP structure)
+    * @param IssueSelection $inputIssueSel input task list
+    * @params array $params any other data needed by the Filter to compute the result
+    * @return IssueSelection[] an array of one or more IssueSelection
     */
    public function execute(IssueSelection $inputIssueSel, array $params);
 
-   /**
-    * Send the result of the execute() method to SMARTY.
-    * The SMARTY template is furnished by getSmartyFilename().
-    *
-    * Add to smartyHelper:
-    * $smartyHelper->assign('myIndicator', $myIndic->getSmartyObject());
-    *
-    * @return array structure for SMARTY template
-    */
-   public function getSmartyObject();
 
 
 }

@@ -21,8 +21,13 @@ require_once('Logger.php');
 
 include_once('classes/indicator_plugin.interface.php');
 
+require_once ('user_cache.class.php');
+require_once ('issue_cache.class.php');
+require_once ('issue_selection.class.php');
+require_once ('jobs.class.php');
+require_once ('team.class.php');
 
-/* INSERT INCLUDES HERE */
+
 
 /**
  * Description of days_per_job
@@ -31,6 +36,8 @@ include_once('classes/indicator_plugin.interface.php');
 class DaysPerJobIndicator implements IndicatorPlugin {
 
    private $logger;
+
+   protected $workingDaysPerJob;
 
    public function __construct() {
       $this->logger = Logger::getLogger(__CLASS__);
@@ -47,6 +54,10 @@ class DaysPerJobIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
 
+   public function getSmartyFilename() {
+      return 'days_per_job_indicator.html';
+   }
+
    public function getDesc() {
       return T_("Working days per Job");
    }
@@ -55,14 +66,110 @@ class DaysPerJobIndicator implements IndicatorPlugin {
    /**
     *
     * @param IssueSelection $inputIssueSel
-    * @param array $params all other parameters needed by this indicator (timestamp, ...)
-    * @return mixed array[]
+    * @param array $params {teamid, startTimestamp, endTimestamp}
+    *
+    * @exception on missing parameters or other error
+    * @return float[] workingDaysPerJob[jobid] = duration
     */
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
 
-      $this->logger->error("execute() in ISel ".$inputIssueSel->name);
+      $this->logger->debug("execute() ISel=".$inputIssueSel->name.' teamid='.$params['teamid'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
 
-      echo "NAME ".$inputIssueSel->name;
+      $startTimestamp      = NULL;
+      $endTimestamp        = NULL;
+      $teamid              = NULL;
+      $formattedMemberList = NULL;
+
+      $issueList = $inputIssueSel->getIssueList();
+      if (0 == count($issueList)) {
+         throw Exception("IssueSelection is empty !");
+      }
+      $formattedIssueList = implode(',', array_keys($issueList));
+
+      if (array_key_exists('startTimestamp', $params)) {
+         $startTimestamp = $params['startTimestamp'];
+      }
+
+      if (array_key_exists('endTimestamp', $params)) {
+         $endTimestamp = $params['endTimestamp'];
+      }
+
+      if (array_key_exists('teamid', $params)) {
+         $teamid  = $params['teamid'];
+         $team = TeamCache::getInstance()->getTeam($teamid);
+
+         $memberList = $team->getActiveMembers($startTimestamp, $endTimestamp);
+         $formattedMemberList = implode(',', $memberList);
+
+         // do not get timetracks prior to team creation date
+         if ((NULL != $startTimestamp) && ($team->date > $startTimestamp)) {
+            $startTimestamp = $team->date;
+         }
+      }
+
+      // if defined, endTimestamp must be > startTimestamp
+      if ((NULL != $startTimestamp) &&
+          (NULL != $endTimestamp) &&
+          ($endTimestamp < $startTimestamp)) {
+         throw Exception("endTimeStamp < startTimestamp !");
+      }
+
+
+      // select memberList timetracks on issueList whthin the period
+      $query = "SELECT * FROM `codev_timetracking_table` ".
+               "WHERE bugid  IN ($formattedIssueList) ";
+      
+      if (NULL != $formattedMemberList) { $query .= "AND   userid IN ($formattedMemberList) "; }
+
+      if (NULL != $startTimestamp) { $query .=  "AND codev_timetracking_table.date >= $startTimestamp "; }
+      if (NULL != $endTimestamp)   { $query .=  "AND codev_timetracking_table.date < $endTimestamp "; }
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         $this->logger->error("execute() Query FAILED: ".$query);
+         throw Exception("Query FAILED !");
+      }
+
+      $this->workingDaysPerJob = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $this->workingDaysPerJob[$row->jobid] += $row->duration;
+
+         // ---- DEBUG
+         if ($this->logger->isDebugEnabled()) {
+            $u = UserCache::getInstance()->getUser($row->userid);
+            $issue = IssueCache::getInstance()->getIssue($row->bugid);
+            $this->logger->debug("execute() : team $teamid job $job_id user $row->userid ".$u->getName()." bug $row->bugid duration $row->duration");
+         }
+      }
+
+      return $this->workingDaysPerJob;
+   }
+
+   /**
+    *
+    * $smartyHelper->assign('daysPerJobIndicator', $myIndic->getSmartyObject());
+    *
+    * @return array
+    */
+   public function getSmartyObject() {
+
+      if (NULL != $this->workingDaysPerJob) {
+
+         $jobs = new Jobs();
+         $smartyData = array();
+
+         foreach ($this->workingDaysPerJob as $id => $duration) {
+
+            $smartyData[] = array(
+               "name"   => $jobs->getJobName($id),
+               "nbDays" => $duration,
+               "color"  => $jobs->getJobColor($id)
+            );
+         }
+      } else {
+         throw Exception("the execute() method must be called before assignInSmarty().");
+      }
+      return $smartyData;
    }
 
 }

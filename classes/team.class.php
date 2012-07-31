@@ -388,13 +388,23 @@ class Team {
    }
 
    /**
-    * team members (exept Observers) working on this team at that timestamp
-    * @param int $timestamp date (if NULL, today)
+    * team members (exept Observers) working on this team at $startTimestamp
+    * or during the period.
+    *
+    * @param int $startTimestamp date (if NULL, today)
+    * @param int $endTimestamp date (if NULL, $startTimestamp)
     * @return string[]
     */
-   public function getActiveMembers($timestamp=NULL) {
-      if (NULL == $timestamp) {
-         $timestamp = Tools::date2timestamp(date("Y-m-d", time()));
+   public function getActiveMembers($startTimestamp=NULL, $endTimestamp=NULL) {
+      if (NULL == $startTimestamp) {
+         // if $startTimestamp not defined, get current active members
+         $startTimestamp = Tools::date2timestamp(date("Y-m-d", time()));
+         $endTimestamp = $startTimestamp;
+      } else {
+         // if $endTimestamp not defined, get members active at $startTimestamp
+         if (NULL == $endTimestamp) {
+            $endTimestamp = $startTimestamp;
+         }
       }
 
       $mList = array();
@@ -404,8 +414,8 @@ class Team {
          "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
          "AND   codev_team_user_table.team_id=$this->id ".
          "AND   codev_team_user_table.access_level <> ".self::accessLevel_observer.' '.
-         "AND   codev_team_user_table.arrival_date <= $timestamp ".
-         "AND  (codev_team_user_table.departure_date = 0 OR codev_team_user_table.departure_date >= $timestamp) ".
+         "AND   codev_team_user_table.arrival_date <= $endTimestamp ".
+         "AND  (codev_team_user_table.departure_date = 0 OR codev_team_user_table.departure_date >= $startTimestamp) ".
          "ORDER BY mantis_user_table.username";
 
       $result    = SqlWrapper::getInstance()->sql_query($query);
@@ -425,10 +435,10 @@ class Team {
     * @param int $teamid
     * @param int $timestamp date (if NULL, today)
     * @return string[]
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getActiveMembers($timestamp)
+    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getActiveMembers($startTimestamp, $endTimestamp)
     */
-   public static function getActiveMemberList($teamid, $timestamp=NULL) {
-      return TeamCache::getInstance()->getTeam($teamid)->getActiveMembers($timestamp);
+   public static function getActiveMemberList($teamid, $startTimestamp=NULL, $endTimestamp=NULL) {
+      return TeamCache::getInstance()->getTeam($teamid)->getActiveMembers($startTimestamp, $endTimestamp);
    }
 
    /**
