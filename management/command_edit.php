@@ -118,7 +118,7 @@ function getChildIssuesCandidates($teamid) {
 
 
    // team projects except externalTasksProject & NoStats projects
-   $projects = Team::getProjectList($teamid);
+   $projects = TeamCache::getInstance()->getTeam($teamid)->getProjects();
    $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
    unset($projects[$extProjId]);
 

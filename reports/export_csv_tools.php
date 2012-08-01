@@ -83,7 +83,7 @@ class ExportCsvTools {
       $formatedProjList = implode( ', ', array_keys($projList));
 
       // Note: if you filter on TeamMembers, you won't have issues temporarily affected to other teams
-      //$memberList = Team::getMemberList($teamid);
+      //$memberList = TeamCache::getInstance()->getTeam($teamid)->getMembers();
       //$formatedMemberList = implode( ', ', array_keys($memberList));
 
       // for all issues with status !=  {resolved, closed}

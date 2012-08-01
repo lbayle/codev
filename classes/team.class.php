@@ -19,12 +19,15 @@
 // TODO Remove this import
 include_once('classes/team_cache.class.php');
 
+include_once('classes/command.class.php');
 include_once('classes/command_cache.class.php');
+include_once('classes/commandset.class.php');
 include_once('classes/commandset_cache.class.php');
 include_once('classes/config.class.php');
 include_once('classes/issue_cache.class.php');
 include_once('classes/jobs.class.php');
 include_once('classes/project.class.php');
+include_once('classes/servicecontract.class.php');
 include_once('classes/servicecontract_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
@@ -35,26 +38,37 @@ require_once('lib/log4php/Logger.php');
 
 class Team {
 
-   private $logger;
-  // ---
-  // il n'y a qu'un seul teamLeader
-  // il peut y avoir plusieurs observer
-  // il peut y avoir plusieurs manager
-  // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
-  // un noStats ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
+   // il n'y a qu'un seul teamLeader
+   // il peut y avoir plusieurs observer
+   // il peut y avoir plusieurs manager
+   // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
+   // un noStats ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
 
-    const accessLevel_nostats  =  5;    // in table codev_team_user_table
-    const accessLevel_dev      = 10;    // in table codev_team_user_table
-    const accessLevel_observer = 20;    // in table codev_team_user_table
-    const accessLevel_manager  = 30;    // in table codev_team_user_table
+   const accessLevel_nostats  =  5;    // in table codev_team_user_table
+   const accessLevel_dev      = 10;    // in table codev_team_user_table
+   const accessLevel_observer = 20;    // in table codev_team_user_table
+   const accessLevel_manager  = 30;    // in table codev_team_user_table
 
-    public static $accessLevelNames = array(
+   public static $accessLevelNames = array(
                               //self::accessLevel_nostats  => "NoStats", // can modify, can NOT view stats
                               self::accessLevel_dev      => "Developer", // can modify, can NOT view stats
                               self::accessLevel_observer => "Observer",  // can NOT modify, can view stats
                               //self::accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
                               self::accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
+   
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+   
    public $id;
    public $name;
    public $description;
@@ -83,13 +97,11 @@ class Team {
     * @throws Exception
     */
    public function __construct($teamid) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (0 == $teamid) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating a Team with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION Team constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION Team constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
@@ -112,7 +124,7 @@ class Team {
       $this->name = $row->name;
       $this->description = $row->description;
       $this->leader_id = $row->leader_id;
-      $this->enabled     = (1 == $row->enabled);
+      $this->enabled = (1 == $row->enabled);
       $this->lock_timetracks_date = $row->lock_timetracks_date;
       $this->date = $row->date;
    }
@@ -156,9 +168,6 @@ class Team {
     * @param int $teamidToDelete
     */
    public static function delete($teamidToDelete) {
-
-
-
       try {
          $team = TeamCache::getInstance()->getTeam($teamidToDelete);
 
@@ -205,9 +214,7 @@ class Team {
     * @param string $name
     * @return int the team id or -1 if not found
     */
-   public static function getIdFromName($name) {
-      global $logger;
-
+   private static function getIdFromName($name) {
       $formattedName = SqlWrapper::getInstance()->sql_real_escape_string($name);
       $query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -215,19 +222,8 @@ class Team {
              echo "<span style='color:red'>ERROR: Query FAILED</span>";
              exit;
       }
-      $teamid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : (-1);
 
-      return $teamid;
-   }
-
-   /**
-    * @static
-    * @param int $teamid
-    * @return int
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->leader_id
-    */
-   public static function getLeaderId($teamid) {
-      return TeamCache::getInstance()->getTeam($teamid)->leader_id;
+      return (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : (-1);
    }
 
    /**
@@ -251,7 +247,6 @@ class Team {
     * @return int timestamp
     */
    public function setLockTimetracksDate($timestamp) {
-
       $query = "UPDATE `codev_team_table` SET lock_timetracks_date = $timestamp WHERE id ='$this->id';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -300,59 +295,6 @@ class Team {
    }
 
    /**
-    * @param bool $noStatsProject
-    * @return Project[]
-    */
-   public function getTrueProjects($noStatsProject = true) {
-      if(NULL == $this->projectIdsCache) {
-         $this->projectIdsCache = array();
-      }
-
-      $key = ''.$noStatsProject;
-
-      if(!array_key_exists($key, $this->projectIdsCache)) {
-         $query = "SELECT mantis_project_table.* ".
-            "FROM `codev_team_project_table`, `mantis_project_table` ".
-            "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-            "AND codev_team_project_table.team_id=$this->id";
-
-         if (!$noStatsProject) {
-            $query .= " AND codev_team_project_table.type <> ".Project::type_noStatsProject;
-         }
-         $query .= " ORDER BY mantis_project_table.name";
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-
-         $projList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            ProjectCache::getInstance()->getProject($row->id, $row);
-            $projList[$row->id] = $row->name;
-         }
-         $this->projectIdsCache[$key] = $projList;
-      }
-
-      $projects = array();
-      foreach($this->projectIdsCache[$key] as $id => $name) {
-         $projects[] = ProjectCache::getInstance()->getProject($id);
-      }
-      return $projects;
-   }
-
-   /**
-    * @param int $teamid
-    * @param bool $noStatsProject
-    * @return string[] : array[project_id] = project_name
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getProjects($noStatsProject)
-    */
-   public static function getProjectList($teamid, $noStatsProject = true) {
-      return TeamCache::getInstance()->getTeam($teamid)->getProjects($noStatsProject);
-   }
-
-   /**
     * @return string[]
     */
    public function getMembers() {
@@ -375,16 +317,6 @@ class Team {
       }
 
       return $this->members;
-   }
-
-   /**
-    * @static
-    * @param int $teamid
-    * @return string[]
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getMembers()
-    */
-   public static function getMemberList($teamid) {
-      return TeamCache::getInstance()->getTeam($teamid)->getMembers();
    }
 
    /**
@@ -431,17 +363,6 @@ class Team {
    }
 
    /**
-    * team members (exept Observers) working on this team at that timestamp
-    * @param int $teamid
-    * @param int $timestamp date (if NULL, today)
-    * @return string[]
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getActiveMembers($startTimestamp, $endTimestamp)
-    */
-   public static function getActiveMemberList($teamid, $startTimestamp=NULL, $endTimestamp=NULL) {
-      return TeamCache::getInstance()->getTeam($teamid)->getActiveMembers($startTimestamp, $endTimestamp);
-   }
-
-   /**
     * get all issues managed by the team's users on the team's projects.
     * @param bool $addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
     * @return Issue[] : issueList
@@ -458,7 +379,7 @@ class Team {
          $formatedMembers .= ',0';
       }
 
-      $this->logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
 
       $query = "SELECT * ".
          "FROM `mantis_bug_table` ".
@@ -475,19 +396,8 @@ class Team {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      $this->logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
+      self::$logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
       return $issueList;
-   }
-
-   /**
-    * get all issues managed by the team's users on the team's projects.
-    * @param int $teamid the team
-    * @param bool $addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
-    * @return Issue[] : issueList
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList($addUnassignedIssues)
-    */
-   public static function getTeamIssues($teamid, $addUnassignedIssues = false) {
-      return TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList($addUnassignedIssues);
    }
 
    /**
@@ -510,7 +420,7 @@ class Team {
          $formatedMembers .= ', 0';
       }
 
-      $this->logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
 
       // get Issues that are not Resolved/Closed
       $query = "SELECT * ".
@@ -535,20 +445,8 @@ class Team {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      $this->logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
+      self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
       return $issueList;
-   }
-
-   /**
-    * get all current issues managed by the team's users on the team's projects.
-    * @param int $teamid
-    * @param boolean $addUnassignedIssues
-    * @param boolean $addNewIssues
-    * @return Issue[] : issueList
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList($addUnassignedIssues, $addNewIssues)
-    */
-   public static function getCurrentIssues($teamid, $addUnassignedIssues = false, $addNewIssues = false) {
-      return TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList($addUnassignedIssues, $addNewIssues);
    }
 
    /**
@@ -572,7 +470,7 @@ class Team {
          }
       }
 
-      $this->logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
+      self::$logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
       return $this->commandList;
    }
 
@@ -597,7 +495,7 @@ class Team {
          }
       }
 
-      $this->logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
+      self::$logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
       return $this->commandSetList;
    }
 
@@ -621,7 +519,7 @@ class Team {
          }
       }
 
-      $this->logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
+      self::$logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
       return $this->serviceContractList;
    }
 
@@ -641,11 +539,11 @@ class Team {
    }
 
    public function setMemberDepartureDate($memberid, $departureTimestamp) {
-     $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
+      $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
@@ -700,7 +598,7 @@ class Team {
       $query = "DELETE FROM `codev_team_project_table` WHERE id = ".$projectid.';';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Could not remove project $projectid from team $this->id");
+         self::$logger->error("Could not remove project $projectid from team $this->id");
          return false;
       }
       return true;
@@ -743,7 +641,7 @@ class Team {
          }
 
       } else {
-        $this->logger->error("team $this->name createSideTaskProject !!!");
+        self::$logger->error("team $this->name createSideTaskProject !!!");
         echo "<span style='color:red'>ERROR: team $this->name createSideTaskProject !!!</span>";
         exit;
       }
@@ -796,7 +694,7 @@ class Team {
             exit;
          }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
+            self::$logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
             $this->projTypeList[$row->project_id] = $row->type;
          }
       }
@@ -823,7 +721,7 @@ class Team {
    }
 
    public function isSideTasksProject($projectid) {
-      $this->logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
+      self::$logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
       return (Project::type_sideTaskProject == $this->getProjectType($projectid));
    }
 
@@ -919,5 +817,8 @@ class Team {
    }
 
 }
+
+// Initialize complex static variables
+Team::staticInit();
 
 ?>

@@ -115,7 +115,7 @@ function getProjectCandidates($servicecontractid) {
    $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
    $team = TeamCache::getInstance()->getTeam($contract->getTeamid());
 
-   $projList = Team::getProjectList($contract->getTeamid());
+   $projList = $team->getProjects();
 
    foreach ($projList as $projectid => $name) {
       if ($team->isSideTasksProject($projectid)) {
