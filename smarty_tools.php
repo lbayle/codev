@@ -25,8 +25,6 @@ include_once('classes/sqlwrapper.class.php');
 
 require_once('lib/log4php/Logger.php');
 
-SmartyTools::staticInit();
-
 class SmartyTools {
 
    /**
@@ -39,7 +37,7 @@ class SmartyTools {
     * @static
     */
    public static function staticInit() {
-      self::$logger = Logger::getLogger("tools");
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
    /**
@@ -251,6 +249,8 @@ class SmartyTools {
    }
 
 }
+
+SmartyTools::staticInit();
 
 /**
  * @param int $value

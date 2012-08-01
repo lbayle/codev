@@ -16,8 +16,6 @@
    along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('lib/log4php/Logger.php');
-
 include_once('classes/servicecontract_cache.class.php');
 
 include_once('classes/commandset.class.php');
@@ -25,6 +23,8 @@ include_once('classes/commandset_cache.class.php');
 include_once('classes/issue_selection.class.php');
 include_once('classes/project_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
+
+require_once('lib/log4php/Logger.php');
 
 /**
  * Description of ServiceContract
@@ -38,7 +38,18 @@ class ServiceContract {
   // TODO i18n for constants
   public static $stateNames = array(self::state_default       => "Default");
 
-   private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    private $id;
    private $name;
@@ -73,13 +84,11 @@ class ServiceContract {
     * @throws Exception
     */
    public function __construct($id, $details = NULL) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating a ServiceContract with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION ServiceContract constructor: " . $e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+         self::$logger->error("EXCEPTION ServiceContract constructor: " . $e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
          throw $e;
       }
 
@@ -438,12 +447,12 @@ class ServiceContract {
       try {
          CommandSetCache::getInstance()->getCommandSet($commandset_id);
       } catch (Exception $e) {
-         $this->logger->error("addCommandSet($commandset_id): CommandSet $commandset_id does not exist !");
+         self::$logger->error("addCommandSet($commandset_id): CommandSet $commandset_id does not exist !");
          echo "<span style='color:red'>ERROR: CommandSet '$commandset_id' does not exist !</span>";
          return NULL;
       }
 
-      $this->logger->debug("Add CommandSet $commandset_id to ServiceContract $this->id");
+      self::$logger->debug("Add CommandSet $commandset_id to ServiceContract $this->id");
 
       if (NULL == $this->cmdsetidByTypeList["$type"]) {
          $this->cmdsetidByTypeList["$type"] = array();
@@ -498,12 +507,12 @@ class ServiceContract {
       try {
          ProjectCache::getInstance()->getProject($project_id);
       } catch (Exception $e) {
-         $this->logger->error("addCommandSet($project_id): CommandSet $project_id does not exist !");
+         self::$logger->error("addCommandSet($project_id): CommandSet $project_id does not exist !");
          echo "<span style='color:red'>ERROR: CommandSet '$project_id' does not exist !</span>";
          return NULL;
       }
 
-      $this->logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
+      self::$logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
 
       if (NULL == $this->sidetasksProjectList) {
          $this->sidetasksProjectList = array();
@@ -581,11 +590,11 @@ function getSidetasksPerCategory($skipIfInCommands = false) {
 
          try {
             if (!$project->isSideTasksProject(array($this->teamid))) {
-               $this->logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
+               self::$logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
                continue;
             }
          } catch (Exception $e) {
-            $this->logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
+            self::$logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
             continue;
          }
 
@@ -597,7 +606,7 @@ function getSidetasksPerCategory($skipIfInCommands = false) {
                $issueCmdidList = array_keys($issue->getCommandList());
                $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
                if ($isInCommands) {
-                  $this->logger->debug("getSidetasksPerCategory(): skip issue $issue->bugId because already declared in a Command");
+                  self::$logger->debug("getSidetasksPerCategory(): skip issue $issue->bugId because already declared in a Command");
                   continue;
                }
             }
@@ -618,5 +627,7 @@ function getSidetasksPerCategory($skipIfInCommands = false) {
 
 
 }
+
+ServiceContract::staticInit();
 
 ?>

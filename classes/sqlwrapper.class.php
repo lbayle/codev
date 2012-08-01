@@ -16,17 +16,27 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('lib/log4php/Logger.php');
+
 class SqlWrapper {
 
    /**
     * @var Logger The logger
     */
-   public static $logger;
+   private static $logger;
 
    /**
     * @var SqlWrapper class instances
     */
    private static $instance;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
    
    /**
     * @var resource a MySQL link identifier on success or false on failure.
@@ -262,3 +272,7 @@ class SqlWrapper {
    }
 
 }
+
+SqlWrapper::staticInit();
+
+?>

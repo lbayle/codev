@@ -16,9 +16,11 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "team.class.php";
+include_once('classes/issue.class.php');
+include_once('classes/user.class.php');
+include_once('classes/team.class.php');
+
+require_once('lib/log4php/Logger.php');
 
 class ScheduledTask {
    var $bugId;
@@ -77,11 +79,20 @@ class ScheduledTask {
 
 class Scheduler {
 
-   private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
 	public function Scheduler () {
-      $this->logger = Logger::getLogger(__CLASS__);
-
 	}
 
 
@@ -100,7 +111,7 @@ class Scheduler {
 
 		// get Ordered List of Issues to schedule
 		$issueList = $user->getAssignedIssues();
-        $this->logger->debug("scheduleUser $user->id : nb assigned issues = ". count($issueList));
+        self::$logger->debug("scheduleUser $user->id : nb assigned issues = ". count($issueList));
 
 		// foreach task
       $sumDurations = 0;
@@ -109,12 +120,12 @@ class Scheduler {
 			// determinate issue duration (Remaining, EffortEstim, MgrEffortEstim)
 			$issueDuration = $issue->getDuration();
 
-			$this->logger->debug("issue $issue->bugId  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
+			self::$logger->debug("issue $issue->bugId  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
 
 			$currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
 
-			$this->logger->debug("issue $issue->bugId   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
-			$this->logger->debug("issue $issue->bugId nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
+			self::$logger->debug("issue $issue->bugId   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
+			self::$logger->debug("issue $issue->bugId nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
 			$currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
 			$currentST->projectName      = $issue->getProjectName();
 			$currentST->summary          = $issue->summary;
@@ -188,5 +199,7 @@ class Scheduler {
 	}
 
 }
+
+Scheduler::staticInit();
 
 ?>

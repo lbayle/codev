@@ -16,13 +16,12 @@ You should have received a copy of the GNU General Public License
 along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('Logger.php');
+include_once('classes/user.class.php');
+include_once('classes/project.class.php');
+include_once('classes/team.class.php');
+include_once('classes/blogpost_cache.class.php');
 
-include_once('user.class.php');
-include_once('project.class.php');
-include_once('team.class.php');
-include_once('blogpost_cache.class.php');
-
+require_once('lib/log4php/Logger.php');
 
 // ================================================
 /**
@@ -81,7 +80,18 @@ class BlogPost {
    const severity_normal = 2;
    const severity_high   = 3;
 
-   private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    public $id;
    public $src_user_id;
@@ -102,7 +112,6 @@ class BlogPost {
    // -----------------------------------------
    public function __construct($post_id) {
       $this->id = $post_id;
-      $this->logger = Logger::getLogger(__CLASS__);
 
       $query = "SELECT * FROM `codev_blog_table` WHERE id = $this->id";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -170,8 +179,6 @@ class BlogPost {
          $dest_user_id=0, $dest_project_id=0, $dest_team_id=0,
          $date_expire=0, $color=0) {
 
-      global $logger;
-
       // format values to avoid SQL injections
       $fSeverity   = SqlWrapper::getInstance()->sql_real_escape_string($severity);
       $fCategory   = SqlWrapper::getInstance()->sql_real_escape_string($category);
@@ -207,8 +214,6 @@ class BlogPost {
     */
    public static function delete($blogPost_id) {
 
-      global $logger;
-
       // TODO check admin/ user access rights
 
       $query = "DELETE FROM `codev_blog_activity_table` WHERE blog_id = $blogPost_id;";
@@ -237,8 +242,6 @@ class BlogPost {
     */
    public static function addActivity($blogPost_id, $user_id, $action, $date) {
 
-      global $logger;
-
       // check if $blogPost_id exists (foreign keys do not exist in MyISAM)
 
       $fPostId    = SqlWrapper::getInstance()->sql_real_escape_string($blogPost_id);
@@ -251,7 +254,7 @@ class BlogPost {
          exit;
       }
       if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $logger->error("addActivity: blogPost '$fPostId' does not exist !");
+         self::$logger->error("addActivity: blogPost '$fPostId' does not exist !");
          return 0;
       }
 
@@ -317,6 +320,7 @@ class BlogPost {
 
 } // class BlogPost
 
+BlogPost::staticInit();
 
 // ================================================
 /**
@@ -326,15 +330,11 @@ class BlogPost {
  */
 class BlogManager {
 
-   private $logger;
-
    private $categoryList;
    private $severityList;
 
    // -----------------------------------------
    public function __construct() {
-      $this->logger = Logger::getLogger(__CLASS__);
-
    }
 
 

@@ -16,12 +16,7 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-   Logger::configure(dirname(__FILE__).'/../log4php.xml');
-   $logger = Logger::getLogger("default");
-   $logger->info("LOG activated !");
-}
+require_once('lib/log4php/Logger.php');
 
 /**
  * Constants Singleton class
@@ -40,7 +35,7 @@ class ConfigItem {
 
       switch ($type) {
          case Config::configType_keyValue :
-            $this->value = (NULL != $value) ? $this->value = doubleExplode(':', ',', $value) : NULL;
+            $this->value = (NULL != $value) ? $this->value = Tools::doubleExplode(':', ',', $value) : NULL;
             break;
          case Config::configType_array :
             $this->value = (NULL != $value) ? $this->value = explode(',', $value) : NULL;
@@ -123,14 +118,20 @@ class Config {
    /**
     * @var Logger The logger
     */
-   private $logger;
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    /**
     * Private constructor to respect the singleton pattern
     */
    private function __construct() {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       self::$configVariables = array();
 
       $query = "SELECT * FROM `codev_config_table`";
@@ -140,11 +141,11 @@ class Config {
          exit;
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $this->logger->debug("id=$row->config_id, val=$row->value, type=$row->type");
+         self::$logger->debug("id=$row->config_id, val=$row->value, type=$row->type");
          self::$configVariables[$row->config_id] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
 
-      $this->logger->trace("Config ready");
+      self::$logger->trace("Config ready");
    }
 
    /**
@@ -176,15 +177,13 @@ class Config {
     * @return null
     */
    public static function getValue($id) {
-      global $logger;
-
       $value = NULL;
       $variable = isset(self::$configVariables[$id]) ? self::$configVariables[$id] : NULL;
 
       if (NULL != $variable) {
          $value = $variable->value;
       } else {
-         $logger->warn("getValue($id): variable not found !");
+         self::$logger->warn("getValue($id): variable not found !");
          if (!self::$quiet) {
             echo "<span class='warn_font'>WARN: Config::getValue($id): variable not found !</span><br/>";
          }
@@ -202,14 +201,12 @@ class Config {
     * @return mixed
     */
    public static function getVariableKeyFromValue($id, $value) {
-      global $logger;
-
       $key = NULL;
       $variable = self::$configVariables[$id];
       if (NULL != $variable) {
          $key = $variable->getArrayKeyFromValue($value);
       } else {
-         $logger->warn("getVariableKeyFromValue($id, $value): variable not found !");
+         self::$logger->warn("getVariableKeyFromValue($id, $value): variable not found !");
          if (!self::$quiet) {
             echo "<span class='error_font'>WARN: Config::getVariableKeyFromValue($id, $value): variable not found !</span><br/>";
          }
@@ -226,15 +223,13 @@ class Config {
     * @return mixed
     */
    public static function getVariableValueFromKey($id, $key) {
-      global $logger;
-
       $value = NULL;
       $variable = self::$configVariables[$id];
 
       if (NULL != $variable) {
          $value = $variable->getArrayValueFromKey($key);
       } else {
-         $logger->warn("getVariableValueFromKey($id, $key): variable not found !");
+         self::$logger->warn("getVariableValueFromKey($id, $key): variable not found !");
          if (!self::$quiet) {
             echo "<span class='error_font'>WARN: Config::getVariableValueFromKey($id, $key): variable not found !</span><br/>";
          }
@@ -248,14 +243,13 @@ class Config {
     * @return string
     */
    public static function getType($id) {
-      global $logger;
       $type = NULL;
       $variable = self::$configVariables[$id];
 
       if (NULL != $variable) {
          $type = $variable->type;
       } else {
-         $logger->warn("getType($id): variable not found !");
+         self::$logger->warn("getType($id): variable not found !");
          if (!self::$quiet) {
             echo "<span class='error_font'>WARN: Config::getType($id): variable not found !</span><br/>";
          }
@@ -276,8 +270,6 @@ class Config {
     * @param int $team_id
     */
    public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0) {
-      global $logger;
-
       $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($value);
       $formattedDesc = SqlWrapper::getInstance()->sql_real_escape_string($desc);
 
@@ -300,14 +292,14 @@ class Config {
             "AND project_id=$project_id ".
             "AND user_id=$user_id ".
             "AND team_id=$team_id ";
-         $logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
-         $logger->debug("UPDATE query = $query");
+         self::$logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
+         self::$logger->debug("UPDATE query = $query");
       } else {
          $query = "INSERT INTO `codev_config_table` ".
             "(`config_id`, `value`, `type`, `description`, `project_id`, `user_id`, `team_id`) ".
             "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', '$project_id', '$user_id', '$team_id');";
-         $logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
-         $logger->debug("INSERT query = $query");
+         self::$logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
+         self::$logger->debug("INSERT query = $query");
       }
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -326,8 +318,6 @@ class Config {
     * @param $id
     */
    public static function deleteValue($id) {
-      global $logger;
-
       if (NULL != self::$configVariables[$id]) {
 
          // delete from DB
@@ -341,9 +331,11 @@ class Config {
          // remove from cache
          unset(self::$configVariables["$id"]);
       } else {
-         $logger->warn("DELETE variable <$id> not found in cache !");
+         self::$logger->warn("DELETE variable <$id> not found in cache !");
       }
    }
 }
+
+Config::staticInit();
 
 ?>

@@ -16,13 +16,6 @@
  along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-   Logger::configure(dirname(__FILE__).'/../log4php.xml');
-   $logger = Logger::getLogger("default");
-   $logger->info("LOG activated !");
-}
-
 class IssueSelection {
 
    public $name;    // name for this selection
@@ -39,9 +32,6 @@ class IssueSelection {
 
 
    public function __construct($name = "no_name") {
-
-      $this->logger = Logger::getLogger(__CLASS__);
-
       $this->name = $name;
 
       $this->elapsed   = 0;

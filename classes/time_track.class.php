@@ -29,7 +29,18 @@ require_once('lib/log4php/Logger.php');
  */
 class TimeTrack {
 
-  private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
   var $id;
   var $userId;
@@ -47,7 +58,6 @@ class TimeTrack {
     */
   public function __construct($id, $details = NULL) {
     $this->id = $id;
-    $this->logger = Logger::getLogger(__CLASS__);
 
     $this->initialize($details);
   }
@@ -126,7 +136,7 @@ class TimeTrack {
       if (!$result) {
          return false;
       } else {
-         $this->logger->debug("Track $this->id deleted: userid=$this->userId bugid=$this->bugId job=$this->jobId duration=$this->duration timestamp=$this->date");
+         self::$logger->debug("Track $this->id deleted: userid=$this->userId bugid=$this->bugId job=$this->jobId duration=$this->duration timestamp=$this->date");
          return true;
       }
    }
@@ -154,5 +164,7 @@ class TimeTrack {
   }
 
 }
+
+TimeTrack::staticInit();
 
 ?>
