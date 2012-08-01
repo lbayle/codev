@@ -1136,7 +1136,7 @@ class Project {
 
 
       //--- find all srcProj specific config
-      $query = "SELECT config_id FROM `mantis_config_table` ".
+      $query = "SELECT DISTINCT config_id FROM `mantis_config_table` ".
                "WHERE project_id=$srcProjectId ";
       $logger->debug("cloneAllProjectConfig: Src query=$query");
 
