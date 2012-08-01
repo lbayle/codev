@@ -19,11 +19,9 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
-require('../smarty_tools.php');
-
-require('display.inc.php');
+require('classes/smarty_helper.class.php');
 
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();

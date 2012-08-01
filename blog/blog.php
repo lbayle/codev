@@ -21,13 +21,10 @@ require '../path.inc.php';
 
 require('super_header.inc.php');
 
+require('classes/smarty_helper.class.php');
 
 include_once('user.class.php');
 include_once('blog_manager.class.php');
-
-require('display.inc.php');
-
-
 
 function getBlogPosts($postList) {
 

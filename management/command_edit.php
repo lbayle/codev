@@ -21,15 +21,17 @@ include_once('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
+
+include_once "smarty_tools.php";
+
+require('classes/smarty_helper.class.php');
 
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
 include_once "commandset.class.php";
 include_once "command.class.php";
-
-include_once "smarty_tools.php";
 
 require_once "command_tools.php";
 require_once "commandset_tools.php";
@@ -159,10 +161,6 @@ function getChildIssuesCandidates($teamid) {
 
 
 // =========== MAIN ==========
-
-require('display.inc.php');
-
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('Command (edition)'));
 $smartyHelper->assign('activeGlobalMenuItem', 'Management');

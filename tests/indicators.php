@@ -21,9 +21,8 @@ require_once('../include/session.inc.php');
 require_once ('../path.inc.php');
 
 require_once ('super_header.inc.php');
-#require_once ('display.inc.php');
+#require('classes/smarty_helper.class.php');
 
-/* INSERT INCLUDES HERE */
 require_once ('user_cache.class.php');
 require_once ('project_cache.class.php');
 require_once ('issue_cache.class.php');
@@ -31,11 +30,6 @@ require_once ('issue_selection.class.php');
 require_once ('jobs.class.php');
 
 require_once ('days_per_job_indicator.class.php');
-
-
-
-
-/* INSERT FUNCTIONS HERE */
 
 function testDaysPerJobIndicator($session_user) {
 /*

@@ -22,7 +22,8 @@ require '../path.inc.php';
 
 require('super_header.inc.php');
 
-/* INSERT INCLUDES HERE */
+require('classes/smarty_helper.class.php');
+
 require_once "servicecontract.class.php";
 require_once "commandset.class.php";
 require_once "command.class.php";
@@ -33,11 +34,6 @@ require_once "servicecontract_tools.php";
 
 require_once "smarty_tools.php";
 
-require('display.inc.php');
-
-
-
-/* INSERT FUNCTIONS HERE */
 /**
  * Get consistency errors
  * @param Command $cmd
