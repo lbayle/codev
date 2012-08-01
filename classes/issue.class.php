@@ -1006,11 +1006,11 @@ class Issue implements Comparable {
          $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
          ksort($statusNames);
       }
-      
+
+      $this->statusList[$status_new] = new Status($status_new, $this->getDurationForStatusNew());
+
       foreach ($statusNames as $s => $sname) {
-         if ($status_new == $s) {
-            $this->statusList[$s] = new Status($s, $this->getDurationForStatusNew());
-         } else {
+         if ($status_new != $s) {
             $this->statusList[$s] = new Status($s, $this->getDurationForStatus($s));
          }
       }
