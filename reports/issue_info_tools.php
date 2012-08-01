@@ -313,23 +313,6 @@ class IssueInfoTools {
       );
    }
 
-   /**
-    * 
-    * @param int $interval in days
-    */
-   public static function createTimestampList($start_timestamp, $end_timestamp, $interval) {
-
-      $timestampList = array();
-
-      $timestamp = $start_timestamp;
-      while ($timestamp < $end_timestamp) {
-         $timestamp = strtotime("+$interval day",$timestamp);
-         $timestampList[] = $timestamp;
-
-         #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";
-      }
-      return $timestampList;
-   }
 
    public static function getTimetrackDates(Issue $issue) {
       $timestamps = array();

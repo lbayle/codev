@@ -16,7 +16,7 @@
   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+require_once ('remaining_history_indicator.class.php');
 
 /**
  *
@@ -140,8 +140,16 @@ function displayCommand($smartyHelper, $cmd) {
    $issueList = getCommandIssues($cmd);
    $smartyHelper->assign('cmdIssues', $issueList);
 
-   
-   $smartyHelper->assign('cmdStats', "ok");
+   // Indicators & statistics
+   $remainingHistoryIndicator = new RemainingHistoryIndicator();
+   #echo "cmd getStartDate ".date("Y-m-d", $cmd->getStartDate()).'<br>';
+   $startTimestamp = $cmd->getStartDate();
+   $startTimestamp = (0 != $startTimestamp) ? $startTimestamp : mktime(23, 59, 59, 1, 1, 2012);
+   $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+                   'endTimestamp' => time(),
+                   'interval' => 7 );
+   $remainingHistoryIndicator->execute($cmdIssueSel, $params);
+   $smartyHelper->assign('remainingHistoryGraph', $remainingHistoryIndicator->getSmartyObject());
 
 
 }

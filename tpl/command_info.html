@@ -146,7 +146,7 @@ $(document).ready(function() {
       <ul>
          <li><a href="#tabsName-3">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-1">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
-         <li><a href="#tabsName-2">{t}Statistics{/t}</a></li>
+         <li><a href="#tabsName-2">{t}Indicators{/t}</a></li>
       </ul>
 
       <div id="tabsName-3">
@@ -231,10 +231,8 @@ $(document).ready(function() {
       </div>
 
       <div id="tabsName-2">
-         {if $cmdStats}
-         comming soon...
-         {else}
-         {t}No Stats available.{/t}
+         {if $remainingHistoryGraph}
+         <img alt="{t}RemainingHistoryGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$remainingHistoryGraph}" />
          {/if}
       </div>
 
