@@ -896,10 +896,14 @@ class Team {
    public function getOtherProjects() {
       $formatedCurProjList = implode( ', ', array_keys($this->getProjects()));
 
-      $query = "SELECT id, name ".
-         "FROM `mantis_project_table` ".
-         "WHERE id NOT IN ($formatedCurProjList) ".
-         "ORDER BY name";
+      $query = "SELECT id, name FROM `mantis_project_table`";
+      
+      $projects = $this->getProjects();
+      if($projects != NULL && count($projects) == 0) {
+         $query .= " WHERE id NOT IN ($formatedCurProjList)";
+      }
+      
+      $query .= " ORDER BY name;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
