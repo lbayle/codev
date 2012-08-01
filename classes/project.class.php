@@ -645,7 +645,6 @@ class Project {
     */
    public function addIssue($cat_id, $issueSummary, $issueDesc, $issueStatus) {
 
-echo "TOTO 1<br>";
       $today  = Tools::date2timestamp(date("Y-m-d"));
       $priority = 10;
       $reproducibility = 100;
@@ -658,7 +657,6 @@ echo "TOTO 1<br>";
          exit;
       }
       $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
-echo "TOTO 2<br>";
 
       $formattedIssueSummary = SqlWrapper::getInstance()->sql_real_escape_string($issueSummary);
       $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
@@ -669,7 +667,6 @@ echo "TOTO 2<br>";
          exit;
       }
       $bugt_id = SqlWrapper::getInstance()->sql_insert_id();
-echo "TOTO 3<br>";
 
       $this->logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");
       return $bugt_id;
