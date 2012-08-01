@@ -421,6 +421,36 @@ class IssueSelection {
       return $cerrList;
    }
 
+   public function getFirstTimetrack() {
+
+      $found = false;
+      $firstTimestamp = time();
+      foreach ($this->issueList as $bugId => $issue) {
+         $tt = $issue->getFirstTimetrack();
+         if ( $tt->date < $firstTimestamp) {
+            $firstTimestamp = $tt->date;
+            $found = true;
+         }
+      }
+      return (found) ? $firstTimestamp : NULL;
+   }
+
+   public function getLatestTimetrack() {
+
+      $found = false;
+      $firstTimestamp = 0;
+      foreach ($this->issueList as $bugId => $issue) {
+         $tt = $issue->getLatestTimetrack();
+         if ( $tt->date > $firstTimestamp) {
+            $firstTimestamp = $tt->date;
+            $found = true;
+         }
+      }
+      return (found) ? $firstTimestamp : NULL;
+   }
+
+
+
 } // class
 
 IssueSelection::staticInit();

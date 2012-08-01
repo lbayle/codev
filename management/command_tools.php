@@ -102,7 +102,6 @@ function getServiceContractStateList($command = NULL) {
    return $stateList;
 }
 
-
 function displayCommand($smartyHelper, $cmd) {
 
    $smartyHelper->assign('cmdid', $cmd->getId());
@@ -143,11 +142,15 @@ function displayCommand($smartyHelper, $cmd) {
    // Indicators & statistics
    $remainingHistoryIndicator = new RemainingHistoryIndicator();
    #echo "cmd getStartDate ".date("Y-m-d", $cmd->getStartDate()).'<br>';
-   $startTimestamp = $cmd->getStartDate();
-   $startTimestamp = (0 != $startTimestamp) ? $startTimestamp : mktime(23, 59, 59, 1, 1, 2012);
+   $startTimestamp = $cmdIssueSel->getFirstTimetrack();
+   $startTimestamp = (NULL != $startTimestamp) ? $startTimestamp : mktime(23, 59, 59, 1, 1, 2012);
+   $endTimestamp = $cmdIssueSel->getLatestTimetrack();
+   $endTimestamp = (NULL != $endTimestamp) ? $endTimestamp : time();
+
+
    $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
                    'endTimestamp' => time(),
-                   'interval' => 7 );
+                   'interval' => 14 );
    $remainingHistoryIndicator->execute($cmdIssueSel, $params);
    $smartyHelper->assign('remainingHistoryGraph', $remainingHistoryIndicator->getSmartyObject());
 

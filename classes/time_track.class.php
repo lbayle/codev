@@ -68,7 +68,7 @@ class TimeTrack {
     */
   public function initialize($row = NULL) {
      if($row == NULL) {
-        $query = "SELECT * FROM `codev_timetracking_table`".
+        $query = "SELECT * FROM `codev_timetracking_table` ".
                  "WHERE codev_timetracking_table.id=$this->id ";
 
         $result = SqlWrapper::getInstance()->sql_query($query);
@@ -85,7 +85,7 @@ class TimeTrack {
     $this->date     = $row->date;
     $this->duration = $row->duration;
     
-    //echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
+    #echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
   }
 
   public function getProjectId() {
