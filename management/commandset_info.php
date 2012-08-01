@@ -23,6 +23,8 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
+require('classes/smarty_helper.class.php');
+
 require_once "commandset.class.php";
 require_once "command.class.php";
 require_once "user.class.php";
@@ -65,10 +67,6 @@ function getConsistencyErrors($cmdset) {
 
 
 // =========== MAIN ==========
-
-require('display.inc.php');
-
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('CommandSet'));
 $smartyHelper->assign('activeGlobalMenuItem', 'Management');

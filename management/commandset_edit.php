@@ -23,6 +23,8 @@ require('../path.inc.php');
 
 require('super_header.inc.php');
 
+require('classes/smarty_helper.class.php');
+
 include_once "issue.class.php";
 include_once "user.class.php";
 include_once "team.class.php";
@@ -97,10 +99,6 @@ function getCmdSetCandidates($user) {
 
 
 // =========== MAIN ==========
-
-require('display.inc.php');
-
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_('CommandSet (edit)'));
 $smartyHelper->assign('activeGlobalMenuItem', 'Management');
