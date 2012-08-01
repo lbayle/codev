@@ -1,0 +1,171 @@
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      if("{$msg}" != "") {
+         alert("{$msg}");
+      }
+      
+      jQuery("#projectid").change(function() {
+         var clone_project = jQuery("#clone_projectid :selected");
+         var form = jQuery("#selectProjectForm");
+         form.find("input[name=clone_projectid]").val(clone_project.val());
+         form.submit();
+      });
+   });
+</script>
+
+<div id="content">
+   {if $projects}
+   <div align=center>
+      <form id="selectProjectForm" name="selectProjectForm" method="POST" action="{$page}">
+         <fieldset>
+            {include file="form/projectSelector.html"}
+            <input type="hidden" name="clone_projectid" value="{$defaultProjectId}" />
+         </fieldset>
+      </form>
+   </div>
+      
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         var allFields = $( [] );
+      
+         jQuery("#clone_projectid").change(function() {
+            var project = jQuery("#projectid :selected");
+            var form = jQuery("#cloneProjectForm");
+            form.find("input[name=projectid]").val(project);
+            form.submit();
+         });
+         
+         jQuery("#cloneTo").click(function() {
+            var project = jQuery("#projectid :selected");
+            var clone_project = jQuery("#clone_projectid :selected");
+         
+            jQuery("#desc_action" ).text('{t}Are you sure you want to change{/t} '+clone_project.text()+' {t}settings ?{/t}');
+
+            var form = jQuery("#formClone");
+            form.find("input[name=projectid]").val(project.val());
+            form.find("input[name=clone_projectid]").val(clone_project.val());
+            form.find("input[name=action]").val('cloneToProject');
+
+            jQuery("#cloneProject_dialog_form").dialog('option', 'title', '{t}Clonning{/t} '+project.text()+' {t}into{/t} '+clone_project.text());
+            jQuery("#cloneProject_dialog_form").dialog('open');
+         });
+         
+         jQuery("#cloneFrom").click(function() {
+            var project = jQuery("#projectid :selected");
+            var clone_project = jQuery("#clone_projectid :selected");
+         
+            jQuery("#desc_action" ).text('{t}Are you sure you want to change{/t} '+project.text()+' {t}settings ?{/t}');
+
+            var form = jQuery("#formClone");
+         
+            form.find("input[name=projectid]").val(project.val());
+            form.find("input[name=clone_projectid]").val(clone_project.val());
+            form.find("input[name=action]").val('cloneFromProject');
+
+            jQuery("#cloneProject_dialog_form").dialog('option', 'title', '{t}Clonning{/t} '+clone_project.text()+' {t}into{/t} '+project.text());
+            jQuery("#cloneProject_dialog_form").dialog('open');
+         });
+      
+         jQuery("#cloneProject_dialog_form").dialog({
+            autoOpen: false,
+            height: 'auto',
+            width: 500,
+            modal: true,
+            buttons: {
+               "Clone": function() {
+                  allFields.removeClass("ui-state-error");
+                  jQuery('#formClone').submit();
+               },
+               Cancel: function() {
+                  jQuery(this).dialog("close");
+               }
+            },
+            close: function() {
+               allFields.val("").removeClass("ui-state-error");
+            }
+         });
+      });
+   </script>
+   <h2 style="margin-top: 2em;">{t}Clone project settings{/t}</h2>
+   <form id="cloneProjectForm" name="cloneProjectForm" method="POST" action="{$page}">
+      <select id="clone_projectid" name="clone_projectid" onchange="setCloneProject()">
+         <option value="0"></option>
+         {foreach from=$cloneProjects key=id item=i}
+         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+         {/foreach}
+      </select>
+      <input id="cloneFrom" type="button" {if $disabled}disabled="disabled"{/if} value="{t}Clone From{/t}" />
+      <input id="cloneTo" type="button" {if $disabled}disabled="disabled"{/if} value="{t}Clone To{/t}" />
+      <input type="hidden" name="projectid" value="{$currentProjectId}" />
+   </form>
+   
+   <div id="cloneProject_dialog_form" title="Clone Project" style="display: none">
+      <p id="desc" name="desc">
+         <label id="desc_action" name="desc_action">action description</label>
+      </p>
+      <p id="validateTips"> </p>
+      <form id="formClone" name="formClone" method="post" action="{$page}" >
+         <input type="hidden" name="projectid" value="{$currentProjectId}" />
+         <input type="hidden" name="clone_projectid" value="{$defaultProjectId}" />
+         <input type="hidden" name="action" value="noAction" />
+      </form>
+   </div>
+   
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery(".tabs").tabs();
+      });
+   </script>
+   {foreach from=$projectsInfo key=id item=i}
+   <h2 style="margin-top: 2em;">{$i.name}</h2>
+   <div id="{$i.tabsName}" class="tabs">
+      <ul>
+         <li><a href='#{$i.tabsName}-1'>{t}Workflow transitions{/t}</a></li>
+         <li><a href='#{$i.tabsName}-2'>{t}Settings{/t}</a></li>
+      </ul>
+      <div id='{$i.tabsName}-1'>
+         {if $i.content}
+         <table>
+            <tr>
+               <th></th>
+               {foreach from=$i.statusTitles key=id1 item=j}
+               <th>{$j}</th>
+               {/foreach}
+            </tr>
+               {foreach from=$i.content key=id1 item=j}
+            <tr>
+               <th>{$j.name}</th>
+               {foreach from=$j.statusTitles key=id2 item=k}
+               <td>{$k}</td>
+               {/foreach}
+            </tr>
+            {/foreach}
+         </table>
+         {else}
+         <p>{t}No workflow transitions defined, using default configuration.{/t}<p>
+         {/if}
+      </div>
+      <div id='{$i.tabsName}-2'>
+         {if $i.config}
+         <table>
+            <tr>
+               <th>{t}Configuration Option{/t}</th>
+               <th>{t}Value{/t}</th>
+            </tr>
+            {foreach from=$i.config key=id1 item=j}
+            <tr>
+               <td>{$id1}</td>
+               <td>{$j}</td>
+            </tr>
+            {/foreach}
+         </table>
+         {else}
+         <p>{t}No configuration options defined, using default configuration.{/t}</p>
+         {/if}
+      </div>
+   </div>
+   {/foreach}
+   {else}
+   <p style="text-align: center; color: red;">{t}Sorry, you need to be in the admin-team to access this page.{/t}</p>
+   {/if}
+</div>
