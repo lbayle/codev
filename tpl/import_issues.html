@@ -381,18 +381,20 @@
                      type: "POST",
                      async: false,
                      url:  "import/import_row_ajax.php",
-                     data: "action=importRow"+
-                           "&projectid={$projectid}"+
-                           "&extRef="+extRef+
-                           "&summary="+summary+
-                           "&mgrEffortEstim="+mgrEffortEstim+
-                           "&effortEstim="+effortEstim+
-                           "&commandid="+commandid+
-                           "&categoryid="+categoryid+
-                           "&targetversionid="+targetversionid+
-                           "&userid="+userid+
-                           "&deadline="+deadline+
-                           "&description="+description,
+                     data: { 
+                        action: "importRow", 
+                        projectid: "{$projectid}",
+                        extRef: extRef,
+                        summary: summary,
+                        mgrEffortEstim: mgrEffortEstim,
+                        effortEstim: effortEstim,
+                        commandid: commandid,
+                        categoryid: categoryid,
+                        targetversionid: targetversionid,
+                        userid: userid,
+                        deadline: deadline,
+                        description: description
+                     },
                      success: function(data) {
                         // replace lineNum with bugid
                         lineNumCell.html(data);
