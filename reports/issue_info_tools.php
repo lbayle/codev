@@ -331,6 +331,18 @@ class IssueInfoTools {
       return $timestampList;
    }
 
+   public static function getTimetrackDates(Issue $issue) {
+      $timestamps = array();
+      $timeTracks = $issue->getTimeTracks();
+      foreach ($timeTracks as $id => $tt) {
+         if (!in_array($timestamps)) {
+            $timestamp = mktime(23, 59, 59, date('m', $tt->date), date('d', $tt->date), date('Y', $tt->date));
+            $timestamps[] = $timestamp;
+            #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";
+         }
+      }
+      return $timestamps;
+   }
 
    public static function getRemainingGraph(Issue $issue, array $timestampList) {
 
@@ -345,7 +357,7 @@ class IssueInfoTools {
 
    $strVal1 = implode(':', array_values($remainingList));
 
-   echo "strVal1 $strVal1<br>";
+   #echo "strVal1 $strVal1<br>";
    $strBottomLabel = implode(':', $bottomLabel);
 
    return Tools::SmartUrlEncode('title='.T_('Remaining history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Remaining').'&x1='.$strVal1);

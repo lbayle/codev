@@ -1595,7 +1595,7 @@ class Issue implements Comparable {
                "WHERE field_name = '$remainingFieldName' ".
                "AND bug_id = '$this->bugId' ".
                "AND date_modified <= '$timestamp' ".
-               "ORDER BY date_modified DESC";
+               "ORDER BY date_modified DESC LIMIT 1 ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";

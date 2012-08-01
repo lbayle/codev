@@ -107,9 +107,10 @@ if(isset($_SESSION['userid'])) {
 
             // get Remaining history
 
-            $start_timestamp   = mktime(23, 59, 59, date('m', $issue->dateSubmission), date('d', $issue->dateSubmission), date('Y', $issue->dateSubmission));
-            $end_timestamp   = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
-            $timestampList = IssueInfoTools::createTimestampList($start_timestamp, $end_timestamp, 2);
+            //$start_timestamp   = mktime(23, 59, 59, date('m', $issue->dateSubmission), date('d', $issue->dateSubmission), date('Y', $issue->dateSubmission));
+            //$end_timestamp   = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+            //$timestampList = IssueInfoTools::createTimestampList($start_timestamp, $end_timestamp, 2);
+            $timestampList = IssueInfoTools::getTimetrackDates($issue);
             $smartyHelper->assign('remainingGraphURL', IssueInfoTools::getRemainingGraph($issue, $timestampList));
 
 
