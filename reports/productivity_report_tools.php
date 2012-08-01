@@ -218,8 +218,9 @@ class ProductivityReportTools {
       $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
 
       $workingDaysPerProject = NULL;
-      $projects = $team->getTrueProjects();
-      foreach($projects as $project) {
+      $projectIds = $team->getProjects();
+      foreach($projectIds as $projectId) {
+         $project = ProjectCache::getInstance()->getProject($projectId);
          $nbDays = $timeTracking->getWorkingDaysPerProject($project->id);
          if ((! $team->isSideTasksProject($project->id)) && (! $team->isNoStatsProject($project->id))) {
             $progress = round(100 * $project->getProgress()).'%';
