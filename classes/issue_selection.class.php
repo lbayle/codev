@@ -18,6 +18,20 @@
 
 class IssueSelection {
 
+
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+   
    public $name;    // name for this selection
    public $elapsed;
    public $duration;
@@ -81,7 +95,7 @@ class IssueSelection {
          $this->effortEstim    += $issue->effortEstim;
          $this->effortAdd      += $issue->effortAdd;
 
-         $this->logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+         self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
          $retCode = true;
       }
       return $retCode;
@@ -98,7 +112,7 @@ class IssueSelection {
       if (NULL != $this->issueList[$bugid]) {
          unset($this->issueList[$bugid]);
       } else {
-         $this->logger->debug("IssueSelection [$this->name] : removeIssue($bugid) : Issue not found !");
+         self::$logger->debug("IssueSelection [$this->name] : removeIssue($bugid) : Issue not found !");
       }
    }
 
@@ -121,7 +135,7 @@ class IssueSelection {
             $this->progress = $this->elapsed / $this->getReestimated();
          }
 
-         $this->logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
+         self::$logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
       }
 
       return $this->progress;
@@ -145,7 +159,7 @@ class IssueSelection {
             $this->progressMgr = $this->elapsed / $this->getReestimatedMgr();
          }
 
-         $this->logger->debug("IssueSelection [$this->name] : progressMgr = ".$this->progressMgr." = $this->elapsed / ($this->elapsed + ".$this->durationMgr.")");
+         self::$logger->debug("IssueSelection [$this->name] : progressMgr = ".$this->progressMgr." = $this->elapsed / ($this->elapsed + ".$this->durationMgr.")");
       }
 
       return $this->progressMgr;
@@ -218,7 +232,7 @@ class IssueSelection {
 
       if (0 == $myEstim) {
          $percent = 0;
-         $this->logger->warn("IssueSelection [$this->name] :  getDriftMgr() could not compute drift percent because mgrEffortEstim==0");
+         self::$logger->warn("IssueSelection [$this->name] :  getDriftMgr() could not compute drift percent because mgrEffortEstim==0");
       } else {
          $percent = ($nbDaysDrift / $myEstim);
       }
@@ -227,7 +241,7 @@ class IssueSelection {
       $values['nbDays']  = round($nbDaysDrift,3);
       $values['percent'] = $percent;
 
-      $this->logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
+      self::$logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
       return $values;
    }
 
@@ -249,7 +263,7 @@ class IssueSelection {
 
       if (0 == $myEstim) {
          $percent = 0;
-         $this->logger->warn("IssueSelection [$this->name] :  getDrift() could not compute drift percent because effortEstim==0");
+         self::$logger->warn("IssueSelection [$this->name] :  getDrift() could not compute drift percent because effortEstim==0");
       } else {
          $percent = ($nbDaysDrift / $myEstim);
       }
@@ -258,7 +272,7 @@ class IssueSelection {
       $values['nbDays'] = round($nbDaysDrift,3);
       $values['percent'] = $percent;
 
-      $this->logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
+      self::$logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
       return $values;
    }
 
@@ -319,7 +333,7 @@ class IssueSelection {
 
       if (0== count($this->issueList)) {
          echo "<div style='color:red'>ERROR getDeviationGroups: Issue List is empty !<br/></div>";
-         $this->logger->error("getDeviationGroups(): Issue List is empty !");
+         self::$logger->error("getDeviationGroups(): Issue List is empty !");
          return NULL;
       }
 
@@ -366,7 +380,7 @@ class IssueSelection {
 
       if (0== count($this->issueList)) {
          echo "<div style='color:red'>ERROR getDeviationGroupsMgr: Issue List is empty !<br/></div>";
-         $this->logger->error("getDeviationGroupsMgr(): Issue List is empty !");
+         self::$logger->error("getDeviationGroupsMgr(): Issue List is empty !");
          return NULL;
       }
 
@@ -408,4 +422,7 @@ class IssueSelection {
    }
 
 } // class
+
+IssueSelection::staticInit();
+
 ?>
