@@ -58,7 +58,6 @@ class Project {
    var $id;
    var $name;
    var $description;
-   var $type;
    private $enabled;
    var $jobList;
    var $categoryList;
@@ -124,11 +123,8 @@ class Project {
     */
    public function initialize($row = NULL) {
       if($row == NULL) {
-         // WARN: this query will return 0 rows if projectid not found in codev_team_project_table
-         $query  = "SELECT mantis_project_table.*, codev_team_project_table.type ".
-                  "FROM `mantis_project_table`, `codev_team_project_table` ".
-                  "WHERE mantis_project_table.id = '".$this->id."' ".
-                  "AND codev_team_project_table.project_id = mantis_project_table.id ";
+         $query  = "SELECT * FROM `mantis_project_table` ".
+                  "WHERE mantis_project_table.id = '".$this->id."'";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -146,7 +142,6 @@ class Project {
          $this->name        = $row->name;
          $this->description = $row->description;
          $this->enabled     = (1 == $row->enabled);
-         $this->type        = $row->type;
 
          // ---- if SideTaskProject get categories
          $query  = "SELECT * FROM `codev_project_category_table` WHERE project_id = '".$this->id."' ";
@@ -166,8 +161,7 @@ class Project {
 
          #$this->jobList     = $this->getJobList();
       } else {
-         // WARN: project not in mantis_project_table OR not in codev_team_project_table !
-         $e = new Exception("Constructor: Project $this->id does not exist in Mantis DB (or not found in codev_team_project_table ).");
+         $e = new Exception("Constructor: Project $this->id does not exist in Mantis DB.");
          $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
@@ -688,6 +682,27 @@ class Project {
       return $this->bug_resolved_status_threshold;
    }
 
+
+   /**
+    * --- WORKAROUND --- DO NOT USE THIS METHOD ---
+    *
+    */
+   private function getDefaultType() {
+
+      $this->logger->error("WORKAROUND method getDefaultType() should not be used !");
+
+      $query="SELECT type FROM `codev_team_project_table` WHERE codev_team_project_table.project_id = $this->id";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $type = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
+
+      return $type;
+   }
+
+
    // -----------------------------------------------
    // Job list depends on project type:
    // if type=Project::type_sideTaskProject
@@ -702,8 +717,8 @@ class Project {
 
       // TODO to be removed once $type m324 bug fixed
       if (!isset($type)) {
-         $type = $this->type;
-         $e = new Exception("project $this->id type not specified ! (assume type=$this->type)");
+         $type = $this->getDefaultType();
+         $e = new Exception("project $this->id type not specified ! (assume type=$type)");
          $this->logger->error("EXCEPTION Project.getJobList(): ".$e->getMessage());
          $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
       }
@@ -739,8 +754,12 @@ class Project {
                       "ON codev_job_table.id = codev_project_job_table.job_id ".
                       "WHERE (codev_job_table.type = $commonJobType OR codev_project_job_table.project_id = $this->id)";
             break;
+          case (-1):
+             // WORKAROUND no type specified, return all available jobs
+             $query  = "SELECT * FROM `codev_job_table`";
+             break;
          default:
-              echo "ERROR Project.getJobList($type): unknown project type ($this->type) !";
+              echo "ERROR Project.getJobList($type): unknown project type ($type) !";
               $e = new Exception("getJobList($type): unknown project type ($type)");
               $this->logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
               $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
