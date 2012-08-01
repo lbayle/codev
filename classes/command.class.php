@@ -16,18 +16,13 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-   Logger::configure(dirname(__FILE__) . '/../log4php.xml');
-   $logger = Logger::getLogger("default");
-   $logger->info("LOG activated !");
-}
-
 include_once('classes/issue_selection.class.php');
 include_once('classes/team.class.php');
 include_once('classes/commandset.class.php');
 include_once('classes/command_cache.class.php');
 include_once('classes/consistency_check2.class.php');
+
+require_once('lib/log4php/Logger.php');
 
 /**
  * Un command (fiche de presta) est un ensemble de taches que l'on veut
@@ -65,8 +60,18 @@ class Command {
                                     Command::state_billSent       => "Facture émise",
                                     Command::state_payed          => "Facturé");
 
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   private $logger;
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    // codev_command_table
    private $id;
@@ -100,13 +105,11 @@ class Command {
     * @throws Exception if $id = 0
     */
    function __construct($id, $details = NULL) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating an Command with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION Command constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION Command constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
@@ -499,15 +502,15 @@ class Command {
       if (!is_numeric($bugid)) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($bugid)");
-         $this->logger->fatal("EXCEPTION addIssue: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->fatal("EXCEPTION addIssue: ".$e->getMessage());
+         self::$logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
       try {
          $issue = IssueCache::getInstance()->getIssue($bugid);
       } catch (Exception $e) {
-         $this->logger->error("addIssue($bugid): issue $bugid does not exist !");
+         self::$logger->error("addIssue($bugid): issue $bugid does not exist !");
          echo "<span style='color:red'>ERROR: issue  '$bugid' does not exist !</span>";
          return NULL;
       }
@@ -516,7 +519,7 @@ class Command {
       $id = NULL;
       if ( !array_key_exists($this->id, $issue->getCommandList())) {
 
-         $this->logger->debug("Add issue $bugid to command $this->id");
+         self::$logger->debug("Add issue $bugid to command $this->id");
 
          $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ('$this->id', '$bugid');";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -526,7 +529,7 @@ class Command {
          }
          $id = SqlWrapper::getInstance()->sql_insert_id();
       } else {
-            $this->logger->debug("addIssue($bugid) to command $this->id: already in !");
+            self::$logger->debug("addIssue($bugid) to command $this->id: already in !");
       }
 
       if (!$isDBonly) {
@@ -547,8 +550,8 @@ class Command {
       if (!is_numeric($bugid)) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($bugid)");
-         $this->logger->fatal("EXCEPTION removeIssue: ".$e->getMessage());
-         $this->logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->fatal("EXCEPTION removeIssue: ".$e->getMessage());
+         self::$logger->fatal("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
@@ -588,7 +591,7 @@ class Command {
             $cmdset = CommandSetCache::getInstance()->getCommandSet($row->commandset_id);
             
             $this->commandSetList["$row->commandset_id"] = $cmdset->getName();
-            $this->logger->debug("Command $this->id is in commandset $row->commandset_id (".$cmdset->getName().")");
+            self::$logger->debug("Command $this->id is in commandset $row->commandset_id (".$cmdset->getName().")");
          }
       }
       return $this->commandSetList;
@@ -609,4 +612,7 @@ public function getConsistencyErrors() {
    
    
 }
+
+Command::staticInit();
+
 ?>

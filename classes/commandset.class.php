@@ -1,5 +1,4 @@
 <?php
-
 /*
   This file is part of CoDev-Timetracking.
 
@@ -17,18 +16,12 @@
   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-   Logger::configure(dirname(__FILE__) . '/../log4php.xml');
-   $logger = Logger::getLogger("default");
-   $logger->info("LOG activated !");
-}
+include_once('classes/issue_selection.class.php');
+include_once('classes/team.class.php');
+include_once('classes/servicecontract.class.php');
+include_once('classes/commandset_cache.class.php');
 
-
-include_once "issue_selection.class.php";
-include_once "team.class.php";
-include_once "servicecontract.class.php";
-include_once "commandset_cache.class.php";
+require_once('lib/log4php/Logger.php');
 
 /**
  * Un commandset (ennonce de presta) est un ensemble de taches que l'on veut
@@ -57,7 +50,18 @@ class CommandSet {
        CommandSet::state_toBeSigned => "A signer",
        CommandSet::state_signed => "Signé");
 
-   private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    // codev_commandset_table
    private $id;
@@ -82,14 +86,11 @@ class CommandSet {
     * @throws Exception if $id = 0
     */
    function __construct($id, $details = NULL) {
-
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating an CommandSet with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION CommandSet constructor: " . $e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+         self::$logger->error("EXCEPTION CommandSet constructor: " . $e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
          throw $e;
       }
 
@@ -386,12 +387,12 @@ class CommandSet {
       try {
          CommandCache::getInstance()->getCommand($cmdid);
       } catch (Exception $e) {
-         $this->logger->error("addCommand($cmdid): Command $cmdid does not exist !");
+         self::$logger->error("addCommand($cmdid): Command $cmdid does not exist !");
          echo "<span style='color:red'>ERROR: Command  '$cmdid' does not exist !</span>";
          return NULL;
       }
 
-      $this->logger->debug("Add command $cmdid to commandset $this->id");
+      self::$logger->debug("Add command $cmdid to commandset $this->id");
 
       if (NULL == $this->cmdidByTypeList["$type"]) {
          $this->cmdidByTypeList["$type"] = array();
@@ -457,7 +458,7 @@ class CommandSet {
             $srvContract = ServiceContractCache::getInstance()->getServiceContract($row->servicecontract_id);
 
             $this->serviceContractList["$row->servicecontract_id"] = $srvContract->getName();
-            $this->logger->debug("CommandSet $this->id is in ServiceContract $row->servicecontract_id (" . $srvContract->getName() . ")");
+            self::$logger->debug("CommandSet $this->id is in ServiceContract $row->servicecontract_id (" . $srvContract->getName() . ")");
          }
       }
       return $this->serviceContractList;
@@ -481,5 +482,7 @@ class CommandSet {
    }
 
 }
+
+CommandSet::staticInit();
 
 ?>

@@ -16,16 +16,28 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "constants.php";
-//include_once "tools.php";
+include_once('constants.php');
 
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "project.class.php";
+include_once('classes/issue.class.php');
+include_once('classes/user.class.php');
+include_once('classes/project.class.php');
+
+require_once('lib/log4php/Logger.php');
 
 class ConsistencyError {
 
-   private $logger; // TODO static
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
 	public $bugId;
 	public $userId;
@@ -37,9 +49,6 @@ class ConsistencyError {
    public $severity; // unused
 
 	public function ConsistencyError($bugId, $userId, $status, $timestamp, $desc) {
-
-      $this->logger = Logger::getLogger(__CLASS__); // TODO static
-
       $this->bugId     = $bugId;
       $this->userId    = $userId;
       $this->status = $status;
@@ -58,10 +67,10 @@ class ConsistencyError {
 
 	   // the oldest activity should be in front of the list
 	   if ($this->bugId > $cerrB->bugId) {
-	      $this->logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
+	      self::$logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
 	      return false;
 	   } else {
-	      $this->logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
+	      self::$logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
 	      return true;
 	   }
 	   return true;
@@ -69,17 +78,27 @@ class ConsistencyError {
 
 }
 
+ConsistencyError::staticInit();
 
 class ConsistencyCheck {
 
-   protected $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-	var $projectList;
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   var $projectList;
 
    // ----------------------------------------------
    public function __construct($projectList = NULL) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (NULL != $projectList) {
    		$this->projectList = $projectList;
    	} else {
@@ -93,21 +112,21 @@ class ConsistencyCheck {
     */
    public function check() {
 
-      #$this->logger->debug("checkResolved");
+      #self::$logger->debug("checkResolved");
       $cerrList2 = $this->checkResolved();
 
       #$cerrList3 = $this->checkDeliveryDate();
 
-      #$this->logger->debug("checkBadRemaining");
+      #self::$logger->debug("checkBadRemaining");
       $cerrList4 = $this->checkBadRemaining();
 
-      #$this->logger->debug("checkMgrEffortEstim");
+      #self::$logger->debug("checkMgrEffortEstim");
       $cerrList5 = $this->checkMgrEffortEstim();
 
-      #$this->logger->debug("checkTimeTracksOnNewIssues");
+      #self::$logger->debug("checkTimeTracksOnNewIssues");
       $cerrList6 = $this->checkTimeTracksOnNewIssues();
 
-      #$this->logger->debug("done.");
+      #self::$logger->debug("done.");
 
       #$cerrList = array_merge($cerrList2, $cerrList3, $cerrList4, $cerrList5);
       $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
@@ -379,5 +398,6 @@ class ConsistencyCheck {
 
 }
 
+ConsistencyCheck::staticInit();
 
 ?>

@@ -53,7 +53,18 @@ class Status {
  */
 class Issue implements Comparable {
 
-   protected $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    /**
     * @var int Mantis id
@@ -132,13 +143,11 @@ class Issue implements Comparable {
     * @throws Exception if $id = 0
     */
    public function __construct($id, $details = NULL) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Constructor: Creating an Issue with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION Issue constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
@@ -226,8 +235,8 @@ class Issue implements Comparable {
       } else {
          #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Constructor: Issue $this->bugId does not exist in Mantis DB.");
-         $this->logger->error("EXCEPTION Issue constructor: " . $e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
+         self::$logger->error("EXCEPTION Issue constructor: " . $e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n" . $e->getTraceAsString());
          throw $e;
       }
    }
@@ -242,7 +251,7 @@ class Issue implements Comparable {
       global $logger;
 
       if (NULL == $bugid) {
-            $logger->warn("exists(): bugid == NULL.");
+            self::$logger->warn("exists(): bugid == NULL.");
             return false;
       }
 
@@ -259,7 +268,7 @@ class Issue implements Comparable {
          $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
          if (1 != $nbTuples) {
-            $logger->warn("exists($bugid): found $nbTuples items.");
+            self::$logger->warn("exists($bugid): found $nbTuples items.");
          }
          self::$existsCache[$bugid] = (1 == $nbTuples);
       }
@@ -322,9 +331,9 @@ class Issue implements Comparable {
             $project = ProjectCache::getInstance()->getProject($this->projectId);
             $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
          } catch (Exception $e) {
-            $this->logger->error("getBugResolvedStatusThreshold() issue $this->bugId: ".$e->getMessage());
+            self::$logger->error("getBugResolvedStatusThreshold() issue $this->bugId: ".$e->getMessage());
             $this->bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
-            $this->logger->warn("getBugResolvedStatusThreshold(): using default BugResolvedStatusThreshold ($this->bug_resolved_status_threshold)");
+            self::$logger->warn("getBugResolvedStatusThreshold(): using default BugResolvedStatusThreshold ($this->bug_resolved_status_threshold)");
          }
       }
       return $this->bug_resolved_status_threshold;
@@ -348,11 +357,11 @@ class Issue implements Comparable {
             ($project->getToolsCategoryId() != $this->categoryId) &&
             ($project->getWorkshopCategoryId()   != $this->categoryId)) {
 
-            $this->logger->debug("$this->bugId is a sideTask.");
+            self::$logger->debug("$this->bugId is a sideTask.");
             return true;
          }
       } catch (Exception $e) {
-         $this->logger->warn("isSideTaskIssue(): ".$e->getMessage());
+         self::$logger->warn("isSideTaskIssue(): ".$e->getMessage());
          throw $e;
       }
       return false;
@@ -375,11 +384,11 @@ class Issue implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getInactivityCategoryId() == $this->categoryId)) {
 
-            $this->logger->debug("$this->bugId is Vacation.");
+            self::$logger->debug("$this->bugId is Vacation.");
             return true;
          }
       } catch (Exception $e) {
-         $this->logger->warn("isVacation(): ".$e->getMessage());
+         self::$logger->warn("isVacation(): ".$e->getMessage());
          throw $e;
       }
       return false;
@@ -401,11 +410,11 @@ class Issue implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getIncidentCategoryId() == $this->categoryId)) {
 
-            $this->logger->debug("$this->bugId is a Incident.");
+            self::$logger->debug("$this->bugId is a Incident.");
             return true;
          }
       } catch (Exception $e) {
-         $this->logger->warn("isIncident(): ".$e->getMessage());
+         self::$logger->warn("isIncident(): ".$e->getMessage());
          throw $e;
       }
 
@@ -429,11 +438,11 @@ class Issue implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getManagementCategoryId() == $this->categoryId)) {
 
-            $this->logger->debug("$this->bugId is a ProjectManagement task.");
+            self::$logger->debug("$this->bugId is a ProjectManagement task.");
             return true;
          }
       } catch (Exception $e) {
-         $this->logger->warn("isProjManagement(): ".$e->getMessage());
+         self::$logger->warn("isProjManagement(): ".$e->getMessage());
          throw $e;
       }
       return false;
@@ -447,7 +456,7 @@ class Issue implements Comparable {
 
       if (in_array($this->bugId, $astreintesTaskList)) {
 
-         $this->logger->debug("$this->bugId is an Astreinte.");
+         self::$logger->debug("$this->bugId is an Astreinte.");
          return true;
       }
       return false;
@@ -582,7 +591,7 @@ class Issue implements Comparable {
       else                          { $issueDuration = $this->effortEstim; }
 
       if (NULL == $this->effortEstim) {
-         $this->logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND effortEstim == NULL)");
+         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND effortEstim == NULL)");
       }
       return $issueDuration;
    }
@@ -600,7 +609,7 @@ class Issue implements Comparable {
       else                          { $issueDuration = $this->mgrEffortEstim; }
 
       if (NULL == $this->mgrEffortEstim) {
-         $this->logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND mgrEffortEstim == NULL)");
+         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND mgrEffortEstim == NULL)");
       }
       return $issueDuration;
    }
@@ -648,11 +657,11 @@ class Issue implements Comparable {
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             if($row->source_bug_id == $this->bugId) {
                // normal
-               $this->logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
+               self::$logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
                $this->relationships[$type][] = $row->destination_bug_id;
             } elseif($row->destination_bug_id == $this->bugId) {
                // complementary
-               $this->logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
+               self::$logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
                $this->relationships[$type][] = $row->source_bug_id;
             }
          }
@@ -732,7 +741,7 @@ class Issue implements Comparable {
       $totalEstim = $this->effortEstim + $this->effortAdd;
 
       if (0 == $totalEstim) {
-         $this->logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
+         self::$logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
          return 0;
       }
 
@@ -745,7 +754,7 @@ class Issue implements Comparable {
 /*
       // if Elapsed     = 0 then Drift = 0
       if (0 == $myElapsed) {
-         $this->logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
+         self::$logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
          return 0;
       }
 */
@@ -755,7 +764,7 @@ class Issue implements Comparable {
          $derive = $myElapsed - ($totalEstim - $this->remaining);
       }
 
-      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
+      self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
       return round($derive,3);
    }
 
@@ -765,7 +774,7 @@ class Issue implements Comparable {
       $totalEstim = $this->effortEstim + $this->effortAdd;
       $derive = $this->getReestimated() - $totalEstim;
 
-      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
+      self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
       return round($derive,3);
    }
 
@@ -789,7 +798,7 @@ class Issue implements Comparable {
 */
       $derive = $this->getReestimatedMgr() - $this->mgrEffortEstim;
 
-      $this->logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->mgrEffortEstim.")");
+      self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->mgrEffortEstim.")");
       return round($derive,3);
    }
 
@@ -815,7 +824,7 @@ class Issue implements Comparable {
          } else {
             $nbHolidays = $holidays->getNbHolidays($this->getDeadLine(), $this->deliveryDate);
          }
-         $this->logger->debug("TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->getDeadLine()) / 86400 = $timeDrift (- $nbHolidays holidays)");
+         self::$logger->debug("TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->getDeadLine()) / 86400 = $timeDrift (- $nbHolidays holidays)");
 
          if ($timeDrift > 0) {
             $timeDrift -= $nbHolidays;
@@ -824,7 +833,7 @@ class Issue implements Comparable {
          }
       } else {
          $timeDrift = "Error";
-         $this->logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<".$this->getDeadLine()."> deliveryDate=<$this->deliveryDate>");
+         self::$logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<".$this->getDeadLine()."> deliveryDate=<$this->deliveryDate>");
       }
       return  $timeDrift;
    }
@@ -898,7 +907,7 @@ class Issue implements Comparable {
       $key = 't'.$timestamp;
       if(!array_key_exists($key,$this->statusCache)) {
          if (NULL == $timestamp) {
-            $this->logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
+            self::$logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
             $this->statusCache[$key] = $this->currentStatus;
          } else {
             // if a timestamp is specified, find the latest status change (strictly) before this date
@@ -918,11 +927,11 @@ class Issue implements Comparable {
             if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
                $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
-               $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
+               self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
 
                $this->statusCache[$key] = $row->new_value;
             } else {
-               $this->logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
+               self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
                $this->statusCache[$key] = -1;
             }
          }
@@ -939,7 +948,7 @@ class Issue implements Comparable {
 
       $old_remaining = $this->remaining;
 
-      $this->logger->debug("setRemaining old_value=$old_remaining   new_value=$remaining");
+      self::$logger->debug("setRemaining old_value=$old_remaining   new_value=$remaining");
 
       // TODO should be done only once... in Constants singleton ?
       $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$remainingCustomField'";
@@ -1067,23 +1076,23 @@ class Issue implements Comparable {
          exit;
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $this->logger->debug("id=$row->id date = $row->date_modified old_value = $row->old_value new_value = $row->new_value");
+         self::$logger->debug("id=$row->id date = $row->date_modified old_value = $row->old_value new_value = $row->new_value");
          $start_date = $row->date_modified;
 
          // Next line is end_date. if NULL then end_date = current_date
          if ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $end_date = $row->date_modified;
-            $this->logger->debug("id=$row->id date = $row->date_modified  old_value = $row->old_value new_value = $row->new_value");
+            self::$logger->debug("id=$row->id date = $row->date_modified  old_value = $row->old_value new_value = $row->new_value");
          } else {
             $end_date = $current_date;
-            $this->logger->debug("end_date = current date = $end_date");
+            self::$logger->debug("end_date = current date = $end_date");
          }
          $intervale =  $end_date - $start_date;
-         $this->logger->debug("intervale = $intervale");
+         self::$logger->debug("intervale = $intervale");
          $time = $time + ($end_date - $start_date);
       }
 
-      $this->logger->debug("duration other $time");
+      self::$logger->debug("duration other $time");
       return $time;
    }
 
@@ -1102,73 +1111,73 @@ class Issue implements Comparable {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($this->bugId, $BconstrainsList)) {
          // B constrains A
-         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (B constrains A)");
+         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (B constrains A)");
          return false;
       }
       if (in_array($issueB->bugId, $AconstrainsList)) {
          // A constrains B
-         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains B)");
+         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains B)");
          return true;
       }
 
       // Tasks currently open are higher priority
       if (($this->currentStatus == $status_open) && ($issueB->currentStatus != $status_open)) {
-         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
+         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
          return  true;
       }
       if (($issueB->currentStatus == $status_open) && ($this->currentStatus != $status_open)) {
-         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
+         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
          return  false;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL != $this->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
-         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
+         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
          return  true;
       }
       if ((NULL == $this->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
-         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
+         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
          return  false;
       }
 
       // the soonest deadLine has priority
       if ($this->getDeadLine() < $issueB->getDeadLine()) {
-         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
+         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
          return  true;
       }
       if ($this->getDeadLine() > $issueB->getDeadLine()) {
-         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
+         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
          return  false;
       }
 
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
-         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (priority attr)");
+         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (priority attr)");
          return  true;
       }
       if ($this->priority < $issueB->priority) {
-         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (priority attr)");
+         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (priority attr)");
          return  false;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($this->severity > $issueB->severity) {
-         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (severity attr)");
+         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (severity attr)");
          return  true;
       }
       if ($this->severity < $issueB->severity) {
-         $this->logger->trace("compareTo $this->bugId < $issueB->bugId (severity attr)");
+         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (severity attr)");
          return  false;
       }
 
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
          // A constrains more people, so A is higher priority
-         $this->logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
+         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
          return true;
       }
 
-      $this->logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
+      self::$logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
       return false;
    }
 
@@ -1296,7 +1305,7 @@ class Issue implements Comparable {
 
       $tmpDuration = $this->getDuration();
 
-      $this->logger->debug("computeEstimatedDateOfArrival: user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp));
+      self::$logger->debug("computeEstimatedDateOfArrival: user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp));
 
       // first day depends only on $availTimeOnBeginTimestamp
       if (NULL == $availTimeOnBeginTimestamp) {
@@ -1305,7 +1314,7 @@ class Issue implements Comparable {
          $availTime = $availTimeOnBeginTimestamp;
       }
       $tmpDuration -= $availTime;
-      $this->logger->debug("computeEstimatedDateOfArrival: 1st ".date('Y-m-d', $timestamp)." tmpDuration (-$availTime) = $tmpDuration");
+      self::$logger->debug("computeEstimatedDateOfArrival: 1st ".date('Y-m-d', $timestamp)." tmpDuration (-$availTime) = $tmpDuration");
 
       // --- next days
       while ($tmpDuration > 0) {
@@ -1314,7 +1323,7 @@ class Issue implements Comparable {
          if (NULL != $user) {
             $availTime = $user->getAvailableTime($timestamp);
             $tmpDuration -= $availTime;
-            $this->logger->debug("computeEstimatedDateOfArrival: ".date('Y-m-d', $timestamp)." tmpDuration = $tmpDuration");
+            self::$logger->debug("computeEstimatedDateOfArrival: ".date('Y-m-d', $timestamp)." tmpDuration = $tmpDuration");
          } else {
             // if not assigned, just check for global holidays
             if (NULL == Holidays::getInstance()->isHoliday($timestamp)) {
@@ -1329,7 +1338,7 @@ class Issue implements Comparable {
       // fot the next issue to be worked on.
       $availTimeOnEndTimestamp = abs($tmpDuration);
 
-      $this->logger->debug("computeEstimatedDateOfArrival: $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]");
+      self::$logger->debug("computeEstimatedDateOfArrival: $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]");
       return array($endTimestamp, $availTimeOnEndTimestamp);
    }
 
@@ -1359,9 +1368,9 @@ class Issue implements Comparable {
       $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
       if (NULL == $timestamp) {
-         $this->logger->debug("issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND !");
+         self::$logger->debug("issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND !");
       } else {
-         $this->logger->debug("issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
+         self::$logger->debug("issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
       }
 
       return $timestamp;
@@ -1393,9 +1402,9 @@ class Issue implements Comparable {
       $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
       if (NULL == $timestamp) {
-         $this->logger->debug("issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND !");
+         self::$logger->debug("issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND !");
       } else {
-         $this->logger->debug("issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
+         self::$logger->debug("issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
       }
 
       return $timestamp;
@@ -1423,7 +1432,7 @@ class Issue implements Comparable {
       // nominal case
       $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
 
-      $this->logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + $this->remaining)");
+      self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + $this->remaining)");
 
       return $progress;
    }
@@ -1454,7 +1463,7 @@ class Issue implements Comparable {
             $cmd = CommandCache::getInstance()->getCommand($row->command_id);
 
             $this->commandList["$row->command_id"] = $cmd->getName();
-            $this->logger->debug("Issue $this->bugId is in command $row->command_id (".$cmd->getName().")");
+            self::$logger->debug("Issue $this->bugId is in command $row->command_id (".$cmd->getName().")");
          }
       }
       return $this->commandList;
@@ -1607,7 +1616,7 @@ class Issue implements Comparable {
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
          $remaining = $row->new_value;
 
-         $this->logger->debug("getRemaining(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
+         self::$logger->debug("getRemaining(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
 
       } else {
          // no remaining update found in history, return NULL
@@ -1656,5 +1665,7 @@ class Issue implements Comparable {
    }
    
 }
+
+Issue::staticInit();
 
 ?>

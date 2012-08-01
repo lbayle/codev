@@ -41,7 +41,18 @@ require_once('lib/log4php/Logger.php');
 
 class GanttActivity {
 
-	private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
 	public $bugid;
 	public $userid;
@@ -53,16 +64,13 @@ class GanttActivity {
    public $activityIdx;  // index in jpgraph Data structure
 
    public function __construct($bugId, $userId, $startT, $endT, $progress=NULL) {
-
-   	$this->logger = Logger::getLogger(__CLASS__);
-
       $this->bugid = $bugId;
       $this->userid = $userId;
       $this->startTimestamp = $startT;
       $this->endTimestamp = $endT;
 
       if ($startT > $endT) {
-         $this->logger->error("bugid=$bugId: Activity startDate $startT (".date('Y-m-d',$startT).") > endDate $endT (".date('Y-m-d',$endT).")");
+         self::$logger->error("bugid=$bugId: Activity startDate $startT (".date('Y-m-d',$startT).") > endDate $endT (".date('Y-m-d',$endT).")");
       }
 
       if (NULL != $progress) {
@@ -75,7 +83,7 @@ class GanttActivity {
 
       $this->color = 'darkorange';
 
-      $this->logger->debug("Activity created for issue $bugId (".date('Y-m-d',$startT).") -> (".date('Y-m-d',$endT).")");
+      self::$logger->debug("Activity created for issue $bugId (".date('Y-m-d',$startT).") -> (".date('Y-m-d',$endT).")");
 	}
 
    public function setColor($color) {
@@ -121,7 +129,7 @@ class GanttActivity {
           $bar->SetConstrain($issueActivityMapping[$bugid], CONSTRAIN_ENDSTART);
       }
 
-      $this->logger->debug("JPGraphBar bugid=$this->bugid prj=$issue->projectId activityIdx=$this->activityIdx".
+      self::$logger->debug("JPGraphBar bugid=$this->bugid prj=$issue->projectId activityIdx=$this->activityIdx".
                            " progress=$this->progress [".
                            date('Y-m-d', $this->startTimestamp)." -> ".
                            date('Y-m-d', $this->endTimestamp)."]");
@@ -143,13 +151,15 @@ class GanttActivity {
 
    	// the oldest activity should be in front of the list
    	if ($this->endTimestamp > $activityB->endTimestamp) {
-           $this->logger->trace("activity.compareTo FALSE  (".date('Y-m-d', $this->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")");
+           self::$logger->trace("activity.compareTo FALSE  (".date('Y-m-d', $this->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")");
    	   return false;
    	}
-      $this->logger->trace("activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
+      self::$logger->trace("activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
       return true;
    }
 }
+
+GanttActivity::staticInit();
 
 /**
 
@@ -167,7 +177,18 @@ class GanttActivity {
  */
 class GanttManager {
 
-  private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
   private $teamid;
   private $startTimestamp;
@@ -181,9 +202,7 @@ class GanttManager {
     * @param int $endT    end timestamp. if NULL, shedule all remaining tasks
     */
    public function __construct($teamId, $startT=NULL, $endT=NULL) {
-
-   	$this->logger = Logger::getLogger(__CLASS__);
-      $this->logger->debug("GanttManager($teamId, ".date('Y-m-d', $startT).", ".date('Y-m-d', $endT).")");
+      self::$logger->debug("GanttManager($teamId, ".date('Y-m-d', $startT).", ".date('Y-m-d', $endT).")");
 
       $this->teamid = $teamId;
       $this->startTimestamp = $startT;
@@ -272,7 +291,7 @@ class GanttManager {
       	}
       	$this->activitiesByUser[$issue->handlerId][] = $activity;
 
-    	   $this->logger->debug("add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)\n");
+    	   self::$logger->debug("add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)\n");
       }
 
    }
@@ -322,9 +341,9 @@ class GanttManager {
       foreach ($this->activitiesByUser as $userActivityList) {
          foreach ($userActivityList as $a) {
          	if (in_array($a->bugid, $relationships)) {
-         		$this->logger->debug("issue $issue->bugId (".date("Y-m-d", $rsd).") is constrained by $a->bugid (".date("Y-m-d", $a->endTimestamp).")");
+         		self::$logger->debug("issue $issue->bugId (".date("Y-m-d", $rsd).") is constrained by $a->bugid (".date("Y-m-d", $a->endTimestamp).")");
 	         	if ($a->endTimestamp > $rsd) {
-	         	   $this->logger->debug("issue $issue->bugId postponed for $a->bugid");
+	         	   self::$logger->debug("issue $issue->bugId postponed for $a->bugid");
 	         	   $rsd = $a->endTimestamp;
                   $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
 	         	}
@@ -336,12 +355,12 @@ class GanttManager {
 		// but if the availableTime on RemainingStartDate is 0, then search for the next 'free' day
 		while ( 0 == $userDispatchInfo[1]) {
 			$rsd = $userDispatchInfo[0];
-			$this->logger->debug("no availableTime on RemainingStartDate ".date("Y-m-d", $rsd));
+			self::$logger->debug("no availableTime on RemainingStartDate ".date("Y-m-d", $rsd));
 			$rsd = strtotime("+1 day",$rsd);
          $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
 		}
 
-		$this->logger->debug("issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]);
+		self::$logger->debug("issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]);
       return $userDispatchInfo;
    }
 
@@ -445,8 +464,8 @@ class GanttManager {
 			                                                                             $teamDispatchInfo[$issue->handlerId][1]);
 			$endDate = $teamDispatchInfo[$issue->handlerId][0];
 
-			$this->logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
-			$this->logger->debug("issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]);
+			self::$logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
+			self::$logger->debug("issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]);
 
 			// activitiesByUser
       	$activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
@@ -456,7 +475,7 @@ class GanttManager {
       	}
       	$this->activitiesByUser[$issue->handlerId][] = $activity;
 
-    	   $this->logger->debug("add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)");
+    	   self::$logger->debug("add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)");
       }
 
       return $this->activitiesByUser;
@@ -469,14 +488,14 @@ class GanttManager {
 
       $resolvedIssuesList = $this->getResolvedIssues();
 
-      $this->logger->debug("dispatchResolvedIssues nbIssues=".count($resolvedIssuesList));
+      self::$logger->debug("dispatchResolvedIssues nbIssues=".count($resolvedIssuesList));
       $this->dispatchResolvedIssues($resolvedIssuesList);
 
       $currentIssuesList = $this->getCurrentIssues();
       $this->dispatchCurrentIssues($currentIssuesList);
 
 
-      $this->logger->debug("display nbUsers=".count($this->activitiesByUser));
+      self::$logger->debug("display nbUsers=".count($this->activitiesByUser));
       $mergedActivities = array();
       foreach($this->activitiesByUser as $userid => $activityList) {
          #$user = UserCache::getInstance()->getUser($userid);
@@ -546,7 +565,7 @@ class GanttManager {
 			$issue = IssueCache::getInstance()->getIssue($a->bugid);
 			if (!in_array($issue->projectId, $this->projectList)) {
 			   // skip display of this activity
-               $this->logger->trace("ProjectFilter: bugid=".$a->bugid." (proj=$issue->projectId) is not in projectList (".implode( ':', $this->projectList ).")");
+               self::$logger->trace("ProjectFilter: bugid=".$a->bugid." (proj=$issue->projectId) is not in projectList (".implode( ':', $this->projectList ).")");
 			   continue;
 			}
 	    }
@@ -561,7 +580,7 @@ class GanttManager {
             if ($newStartTimestamp > $a->endTimestamp) {
                // there is not enough space for a prefixBar
                $newStartTimestamp = $this->startTimestamp;
-               $this->logger->debug("bugid=".$a->bugid.": Shorten bar to Gantt start date");
+               self::$logger->debug("bugid=".$a->bugid.": Shorten bar to Gantt start date");
             } else {
                $prefixBar = new GanttBar($a->activityIdx,
                                          "",
@@ -570,10 +589,10 @@ class GanttManager {
                                          "",10);
                $prefixBar->SetBreakStyle(true,'dotted',1);
                $graph->Add($prefixBar);
-               $this->logger->debug("bugid=".$a->bugid.": Shorten bar & add prefixBar");
+               self::$logger->debug("bugid=".$a->bugid.": Shorten bar & add prefixBar");
 
             }
-            $this->logger->debug("bugid=".$a->bugid.": Shorten bar from ".date('Y-m-d', $a->startTimestamp).
+            self::$logger->debug("bugid=".$a->bugid.": Shorten bar from ".date('Y-m-d', $a->startTimestamp).
                                  " to ".date('Y-m-d', $newStartTimestamp));
             $a->startTimestamp = $newStartTimestamp;
          }
@@ -585,5 +604,7 @@ class GanttManager {
    }
 
 }
+
+GanttManager::staticInit();
 
 ?>

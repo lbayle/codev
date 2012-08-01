@@ -16,13 +16,6 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-	Logger::configure(dirname(__FILE__).'/../log4php.xml');
-	$logger = Logger::getLogger("default");
-	$logger->info("LOG activated !");
-}
-
 include_once "issue_selection.class.php";
 
 class ProjectVersion extends IssueSelection {
@@ -34,8 +27,6 @@ class ProjectVersion extends IssueSelection {
 	public function __construct($projectId, $version) {
 
 		parent::__construct($version);
-		
-		$this->logger = Logger::getLogger(__CLASS__);
 		
 		$this->projectId = $projectId;
 		

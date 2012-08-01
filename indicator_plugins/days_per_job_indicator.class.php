@@ -17,15 +17,15 @@
   along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once('Logger.php');
-
 include_once('classes/indicator_plugin.interface.php');
 
-require_once ('user_cache.class.php');
-require_once ('issue_cache.class.php');
-require_once ('issue_selection.class.php');
-require_once ('jobs.class.php');
-require_once ('team.class.php');
+require_once ('classes/user_cache.class.php');
+require_once ('classes/issue_cache.class.php');
+require_once ('classes/issue_selection.class.php');
+require_once ('classes/jobs.class.php');
+require_once ('classes/team.class.php');
+
+require_once('lib/log4php/Logger.php');
 
 
 
@@ -35,13 +35,22 @@ require_once ('team.class.php');
  */
 class DaysPerJobIndicator implements IndicatorPlugin {
 
-   private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    protected $workingDaysPerJob;
 
    public function __construct() {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       $this->initialize();
    }
 
@@ -73,7 +82,7 @@ class DaysPerJobIndicator implements IndicatorPlugin {
     */
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
 
-      $this->logger->debug("execute() ISel=".$inputIssueSel->name.' teamid='.$params['teamid'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+      self::$logger->debug("execute() ISel=".$inputIssueSel->name.' teamid='.$params['teamid'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
 
       $startTimestamp      = NULL;
       $endTimestamp        = NULL;
@@ -126,7 +135,7 @@ class DaysPerJobIndicator implements IndicatorPlugin {
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("execute() Query FAILED: ".$query);
+         self::$logger->error("execute() Query FAILED: ".$query);
          throw Exception("Query FAILED !");
       }
 
@@ -135,10 +144,10 @@ class DaysPerJobIndicator implements IndicatorPlugin {
          $this->workingDaysPerJob[$row->jobid] += $row->duration;
 
          // ---- DEBUG
-         if ($this->logger->isDebugEnabled()) {
+         if (self::$logger->isDebugEnabled()) {
             $u = UserCache::getInstance()->getUser($row->userid);
             $issue = IssueCache::getInstance()->getIssue($row->bugid);
-            $this->logger->debug("execute() : team $teamid job $job_id user $row->userid ".$u->getName()." bug $row->bugid duration $row->duration");
+            self::$logger->debug("execute() : team $teamid job $job_id user $row->userid ".$u->getName()." bug $row->bugid duration $row->duration");
          }
       }
 
@@ -173,5 +182,7 @@ class DaysPerJobIndicator implements IndicatorPlugin {
    }
 
 }
+
+DaysPerJobIndicator::staticInit();
 
 ?>

@@ -47,8 +47,18 @@ class Project {
   const cat_mngt_provision = 6;
   const cat_mngt_regular   = 7;
 
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-  private $logger;
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
   public static $typeNames = array(self::type_workingProject  => "Project",
                                    self::type_noCommonProject => "Project (no common jobs)",
@@ -101,13 +111,11 @@ class Project {
     * @throws Exception if $id = 0
     */
    public function __construct($id, $details) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating a Project with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION Project constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
@@ -162,8 +170,8 @@ class Project {
          #$this->jobList     = $this->getJobList();
       } else {
          $e = new Exception("Constructor: Project $this->id does not exist in Mantis DB.");
-         $this->logger->error("EXCEPTION Project constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION Project constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
    }
@@ -175,10 +183,8 @@ class Project {
     */
    public static function exists($id) {
 
-      global $logger;
-
       if (NULL == $id) {
-         $logger->warn("exists(): $id == NULL.");
+         self::$logger->warn("exists(): $id == NULL.");
          return false;
       }
 
@@ -195,7 +201,7 @@ class Project {
       $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
       if (1 != $nbTuples) {
-         $logger->warn("exists($id): found $nbTuples items.");
+         self::$logger->warn("exists($id): found $nbTuples items.");
       }
          self::$existsCache[$id] = (1 == $nbTuples);
       }
@@ -230,8 +236,6 @@ class Project {
     * @param unknown_type $projectName
     */
    public static function createExternalTasksProject($projectName) {
-
-      global $logger;
 
       //--- check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
@@ -288,7 +292,6 @@ class Project {
     */
    public static function createSideTaskProject($projectName) {
 
-      global $logger;
       $mgrEffortEstimCustomField  = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
@@ -662,7 +665,7 @@ class Project {
       }
       $bugt_id = SqlWrapper::getInstance()->sql_insert_id();
 
-      $this->logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");
+      self::$logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");
       return $bugt_id;
    }
 
@@ -689,7 +692,7 @@ class Project {
     */
    private function getDefaultType() {
 
-      $this->logger->error("WORKAROUND method getDefaultType() should not be used !");
+      self::$logger->error("WORKAROUND method getDefaultType() should not be used !");
 
       $query="SELECT type FROM `codev_team_project_table` WHERE codev_team_project_table.project_id = $this->id";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -719,8 +722,8 @@ class Project {
       if (!isset($type)) {
          $type = $this->getDefaultType();
          $e = new Exception("project $this->id type not specified ! (assume type=$type)");
-         $this->logger->error("EXCEPTION Project.getJobList(): ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION Project.getJobList(): ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
       }
 
       // SPECIAL CASE: externalTasksProject is a type_noStatsProject that has only 'N/A' jobs
@@ -761,8 +764,8 @@ class Project {
          default:
               echo "ERROR Project.getJobList($type): unknown project type ($type) !";
               $e = new Exception("getJobList($type): unknown project type ($type)");
-              $this->logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
-              $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+              self::$logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
+              self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
               return $jobList;
        }
 
@@ -890,7 +893,7 @@ class Project {
          }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
          {
-            $this->logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
+            self::$logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
             $this->teamTypeList["$row->team_id"] = $row->type;
          }
       }
@@ -926,7 +929,7 @@ class Project {
        // if project not defined in any team, then how should I know if sideTask or not ?!
        if (0 == count($this->teamTypeList)) {
            $msg = "Could not determinate type for project $this->id (empty teamList)";
-          $this->logger->warn("getProjectType(): EXCEPTION $msg");
+          self::$logger->warn("getProjectType(): EXCEPTION $msg");
           throw new Exception($msg);
        }
 
@@ -941,7 +944,7 @@ class Project {
 
           if (NULL == $this->teamTypeList["$teamid"]) {
              // project not defined for this team, skip it.
-             $this->logger->debug("getProjectType(): team $teamid skipped: Project $this->id not defined fot this team.");
+             self::$logger->debug("getProjectType(): team $teamid skipped: Project $this->id not defined fot this team.");
              continue;
           }
 
@@ -953,15 +956,15 @@ class Project {
              // next teams: compare to first team
              if ($globalType != $this->teamTypeList["$teamid"]) {
                  $msg = "Could not determinate type for project $this->id ! (depends on team)";
-                 $this->logger->warn("getProjectType(): EXCEPTION $msg");
+                 self::$logger->warn("getProjectType(): EXCEPTION $msg");
                 throw new Exception($msg);
              }
           }
        }
 
-       if ($this->logger->isDebugEnabled()) {
+       if (self::$logger->isDebugEnabled()) {
           $formattedList = implode(',', $teamidList);
-          $this->logger->debug("getProjectType($formattedList): project $this->id type = $globalType");
+          self::$logger->debug("getProjectType($formattedList): project $this->id type = $globalType");
        }
        return $globalType;
    }
@@ -988,7 +991,7 @@ class Project {
        try {
           $type = $this->getProjectType($teamidList);
        } catch (Exception $e) {
-          $this->logger->warn("isSideTasksProject(): ".$e->getMessage());
+          self::$logger->warn("isSideTasksProject(): ".$e->getMessage());
           throw $e;
        }
        return (self::type_sideTaskProject == $type);
@@ -1017,7 +1020,7 @@ class Project {
        try {
           $type = $this->getProjectType($teamidList);
        } catch (Exception $e) {
-          $this->logger->warn("isNoStatsProject(): ".$e->getMessage());
+          self::$logger->warn("isNoStatsProject(): ".$e->getMessage());
           throw $e;
        }
        return (self::type_noStatsProject == $type);
@@ -1073,7 +1076,7 @@ class Project {
       $serialized = ConfigMantis::getInstance()->getValue('status_enum_workflow', $this->id);
 
       if ((NULL == $serialized) || ("" == $serialized)) {
-         $this->logger->debug("No workflow defined for project $this->id");
+         self::$logger->debug("No workflow defined for project $this->id");
          return NULL;
       }
 
@@ -1107,7 +1110,7 @@ class Project {
       //--- find all srcProj specific config
       $query = "SELECT config_id FROM `mantis_config_table` ".
                 "WHERE project_id=$this->id ";
-      $this->logger->debug("getProjectConfig: Src query=$query");
+      self::$logger->debug("getProjectConfig: Src query=$query");
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1132,13 +1135,11 @@ class Project {
     *               if false, only replace config found in srcProject
     */
    static function cloneAllProjectConfig($srcProjectId, $destProjectId, $strict=true) {
-      global $logger;
-
 
       //--- find all srcProj specific config
       $query = "SELECT DISTINCT config_id FROM `mantis_config_table` ".
                "WHERE project_id=$srcProjectId ";
-      $logger->debug("cloneAllProjectConfig: Src query=$query");
+      self::$logger->debug("cloneAllProjectConfig: Src query=$query");
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1152,7 +1153,7 @@ class Project {
 
       //--- remove all destProject config
       $formatedSrcConfigList = $formatedTeamMembers = implode( ', ', $srcConfigList);
-      $logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
+      self::$logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
 
       $query = "DELETE FROM `mantis_config_table` ".
                "WHERE project_id=$destProjectId ";
@@ -1160,7 +1161,7 @@ class Project {
          // delete only config defined for srcProject
          $query .= "AND config_id IN ($formatedSrcConfigList) ";
       }
-      $logger->debug("cloneAllProjectConfig: deleteQuery = $query");
+      self::$logger->debug("cloneAllProjectConfig: deleteQuery = $query");
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1176,7 +1177,7 @@ class Project {
                   "    FROM `mantis_config_table` ".
                   "    WHERE project_id=$srcProjectId ".
                   "    AND config_id='$cid') ";
-         $logger->debug("cloneAllProjectConfig: cloneQuery = $query");
+         self::$logger->debug("cloneAllProjectConfig: cloneQuery = $query");
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1237,7 +1238,7 @@ class Project {
          }
          $targetVersionDate = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
-         $this->logger->debug("$this->id target_version date = ".date("Y-m-d", $targetVersionDate));
+         self::$logger->debug("$this->id target_version date = ".date("Y-m-d", $targetVersionDate));
          $this->versionDateCache[$target_version] = ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
       }
 
@@ -1275,7 +1276,7 @@ class Project {
             try {
                $this->issueSelection->addIssue($issue->bugId);
             } catch (Exception $e) {
-               $this->logger->warn("getIssueSelection: ".$e->getMessage());
+               self::$logger->warn("getIssueSelection: ".$e->getMessage());
             }
          }
       }
@@ -1348,5 +1349,7 @@ class Project {
    }
 
 }
+
+Project::staticInit();
 
 ?>

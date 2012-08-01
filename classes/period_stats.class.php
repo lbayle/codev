@@ -24,8 +24,6 @@ include_once "project.class.php";
  */
 class PeriodStats {
 
-	private $logger;
-
 	var $startTimestamp;
   var $endTimestamp;
 
@@ -44,8 +42,6 @@ class PeriodStats {
 
   // -------------------------------------------------
   public function PeriodStats($startTimestamp, $endTimestamp) {
-     $this->logger = Logger::getLogger(__CLASS__);
-
     $this->startTimestamp = $startTimestamp;
     $this->endTimestamp = $endTimestamp;
 

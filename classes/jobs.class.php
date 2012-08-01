@@ -55,30 +55,15 @@ class Job implements Comparable {
    }
 }
 
-Jobs::staticInit();
-
 class Jobs {
 
    const JOB_NA      = 1; // REM: N/A     job_id = 1, created by SQL file at install
    const JOB_SUPPORT = 2; // REM: Support job_id = 2, created by SQL file at install
 
    /**
-    * @var Logger The logger
-    */
-   private static $logger;
-
-   /**
     * @var Job[] The job list
     */
    private $jobList;
-
-   /**
-    * Initialize complex static variables
-    * @static
-    */
-   public static function staticInit() {
-      self::$logger = Logger::getLogger(__CLASS__);
-   }
 
    public function __construct() {
       $this->jobList = array();

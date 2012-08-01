@@ -34,7 +34,15 @@ class ConsistencyError2 {
    /**
     * @var Logger The logger
     */
-   private $logger; // TODO static
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    public $bugId;
    public $userId;
@@ -46,8 +54,6 @@ class ConsistencyError2 {
    public $severity; // unused
 
    public function __construct($bugId, $userId, $status, $timestamp, $desc) {
-      $this->logger = Logger::getLogger(__CLASS__); // TODO static
-
       $this->bugId     = $bugId;
       $this->userId    = $userId;
       $this->status    = $status;
@@ -99,31 +105,41 @@ class ConsistencyError2 {
    function compareTo($cerrB) {
 
       if ($this->severity < $cerrB->severity) {
-         $this->logger->debug("activity.compareTo FALSE (".$this->bugId.'-'.$this->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         self::$logger->debug("activity.compareTo FALSE (".$this->bugId.'-'.$this->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
          return false;
       }
       if ($this->severity > $cerrB->severity) {
-         $this->logger->debug("activity.compareTo TRUE (".$this->bugId.'-'.$this->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         self::$logger->debug("activity.compareTo TRUE (".$this->bugId.'-'.$this->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
          return true;
       }
 
       if ($this->bugId > $cerrB->bugId) {
-         $this->logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
+         self::$logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
          return false;
       } else {
-         $this->logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
+         self::$logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
          return true;
       }
    }
 
 }
 
+ConsistencyError2::staticInit();
+
 class ConsistencyCheck2 {
 
    /**
     * @var Logger The logger
     */
-   protected $logger;
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    /**
     * @var Issue[] The issues list
@@ -136,8 +152,6 @@ class ConsistencyCheck2 {
    protected $teamId;
 
    function __construct(array $issueList, $teamId=NULL) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       $this->issueList = $issueList;
       $this->teamId    = $teamId;
    }
@@ -147,12 +161,12 @@ class ConsistencyCheck2 {
     * @return ConsistencyError2[]
     */
    public function check() {
-      #$this->logger->debug("checkResolved");
+      #self::$logger->debug("checkResolved");
       $cerrList2 = $this->checkResolved();
 
       #$cerrList3 = $this->checkDeliveryDate();
 
-      #$this->logger->debug("checkBadRemaining");
+      #self::$logger->debug("checkBadRemaining");
       $cerrList4 = $this->checkBadRemaining();
 
       /*
@@ -161,14 +175,14 @@ class ConsistencyCheck2 {
        *   tasks having MgrEE = 0 are internal_tasks
        *
 
-            #$this->logger->debug("checkMgrEffortEstim");
+            #self::$logger->debug("checkMgrEffortEstim");
             $cerrList5 = $this->checkMgrEffortEstim();
       */
 
-      #$this->logger->debug("checkEffortEstim");
+      #self::$logger->debug("checkEffortEstim");
       $cerrList5 = $this->checkEffortEstim();
 
-      #$this->logger->debug("checkTimeTracksOnNewIssues");
+      #self::$logger->debug("checkTimeTracksOnNewIssues");
       $cerrList6 = $this->checkTimeTracksOnNewIssues();
 
       $cerrList7 = $this->checkUnassignedTasks();
@@ -176,7 +190,7 @@ class ConsistencyCheck2 {
       $cerrList8 = $this->checkIssuesNotInCommand();
 
 
-      #$this->logger->debug("done.");
+      #self::$logger->debug("done.");
 
       #$cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6);
       $cerrList = array_merge($cerrList2, $cerrList4, $cerrList5, $cerrList6, $cerrList7, $cerrList8);
@@ -260,7 +274,7 @@ class ConsistencyCheck2 {
          try {
             if ($project->isSideTasksProject($teamList)) { continue; }
          } catch (Exception $e) {
-            $this->logger->error("checkMgrEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
+            self::$logger->error("checkMgrEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
             continue;
          }
 
@@ -299,7 +313,7 @@ class ConsistencyCheck2 {
          try {
             if ($project->isSideTasksProject($teamList)) { continue; }
          } catch (Exception $e) {
-            $this->logger->error("checkEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
+            self::$logger->error("checkEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
             continue;
          }
 
@@ -359,7 +373,7 @@ class ConsistencyCheck2 {
                continue;
             }
          } catch (Exception $e) {
-            $this->logger->error("checkUnassignedTasks(): issue $issue->bugId not checked : ".$e->getMessage());
+            self::$logger->error("checkUnassignedTasks(): issue $issue->bugId not checked : ".$e->getMessage());
             continue;
          }
 
@@ -403,7 +417,7 @@ class ConsistencyCheck2 {
                continue;
             }
          } catch (Exception $e) {
-            $this->logger->error("checkIssuesNotInCommand(): issue $issue->bugId not checked : ".$e->getMessage());
+            self::$logger->error("checkIssuesNotInCommand(): issue $issue->bugId not checked : ".$e->getMessage());
             continue;
          }
 
@@ -426,7 +440,7 @@ class ConsistencyCheck2 {
             $cerr->severity = ConsistencyError2::severity_warn;
             $cerrList[] = $cerr;
         }
-        $this->logger->debug("checkIssuesNotInCommand(): issue $issue->bugId referenced in $nbTuples Commands.");
+        self::$logger->debug("checkIssuesNotInCommand(): issue $issue->bugId referenced in $nbTuples Commands.");
       }
       return $cerrList;
    }
@@ -574,5 +588,7 @@ class ConsistencyCheck2 {
    }
 
 }
+
+ConsistencyCheck2::staticInit();
 
 ?>

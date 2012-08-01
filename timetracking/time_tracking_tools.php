@@ -327,8 +327,6 @@ class TimeTrackingTools {
     * @return mixed[]
     */
    public static function getIssues($projectid, $isOnlyAssignedTo, $userid, array $projList, $isHideResolved, $defaultBugid) {
-      global $logger;
-
       if (0 != $projectid) {
          // Project list
          $project1 = ProjectCache::getInstance()->getProject($projectid);
@@ -344,7 +342,7 @@ class TimeTrackingTools {
                $isHideResolved = false; // do not hide resolved
             }
          } catch (Exception $e) {
-            $logger->error("getIssues(): isOnlyAssignedTo & isHideResolved filters not applied : ".$e->getMessage());
+            self::$logger->error("getIssues(): isOnlyAssignedTo & isHideResolved filters not applied : ".$e->getMessage());
             $handler_id = 0; // all users
             $isHideResolved = false; // do not hide resolved
          }
@@ -368,7 +366,7 @@ class TimeTrackingTools {
                   $issueList = array_merge($issueList, $buglist);
                }
             } catch (Exception $e) {
-               $logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
+               self::$logger->error("getIssues(): task filters not applied for project $pid : ".$e->getMessage());
                // do not hide any task if unknown project type
                $buglist = $proj->getIssues(0, false);
                $issueList = array_merge($issueList, $buglist);

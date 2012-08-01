@@ -35,7 +35,18 @@ require_once('lib/log4php/Logger.php');
 
 class Team {
 
-   private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
   // ---
   // il n'y a qu'un seul teamLeader
   // il peut y avoir plusieurs observer
@@ -83,13 +94,11 @@ class Team {
     * @throws Exception
     */
    public function __construct($teamid) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (0 == $teamid) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating a Team with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION Team constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION Team constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
@@ -206,8 +215,6 @@ class Team {
     * @return int the team id or -1 if not found
     */
    public static function getIdFromName($name) {
-      global $logger;
-
       $formattedName = SqlWrapper::getInstance()->sql_real_escape_string($name);
       $query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -458,7 +465,7 @@ class Team {
          $formatedMembers .= ',0';
       }
 
-      $this->logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
 
       $query = "SELECT * ".
          "FROM `mantis_bug_table` ".
@@ -475,7 +482,7 @@ class Team {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      $this->logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
+      self::$logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
       return $issueList;
    }
 
@@ -510,7 +517,7 @@ class Team {
          $formatedMembers .= ', 0';
       }
 
-      $this->logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
 
       // get Issues that are not Resolved/Closed
       $query = "SELECT * ".
@@ -535,7 +542,7 @@ class Team {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      $this->logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
+      self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
       return $issueList;
    }
 
@@ -572,7 +579,7 @@ class Team {
          }
       }
 
-      $this->logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
+      self::$logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
       return $this->commandList;
    }
 
@@ -597,7 +604,7 @@ class Team {
          }
       }
 
-      $this->logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
+      self::$logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
       return $this->commandSetList;
    }
 
@@ -621,7 +628,7 @@ class Team {
          }
       }
 
-      $this->logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
+      self::$logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
       return $this->serviceContractList;
    }
 
@@ -700,7 +707,7 @@ class Team {
       $query = "DELETE FROM `codev_team_project_table` WHERE id = ".$projectid.';';
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-         $this->logger->error("Could not remove project $projectid from team $this->id");
+         self::$logger->error("Could not remove project $projectid from team $this->id");
          return false;
       }
       return true;
@@ -743,7 +750,7 @@ class Team {
          }
 
       } else {
-        $this->logger->error("team $this->name createSideTaskProject !!!");
+        self::$logger->error("team $this->name createSideTaskProject !!!");
         echo "<span style='color:red'>ERROR: team $this->name createSideTaskProject !!!</span>";
         exit;
       }
@@ -796,7 +803,7 @@ class Team {
             exit;
          }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
+            self::$logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
             $this->projTypeList[$row->project_id] = $row->type;
          }
       }
@@ -823,7 +830,7 @@ class Team {
    }
 
    public function isSideTasksProject($projectid) {
-      $this->logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
+      self::$logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
       return (Project::type_sideTaskProject == $this->getProjectType($projectid));
    }
 
@@ -919,5 +926,7 @@ class Team {
    }
 
 }
+
+Team::staticInit();
 
 ?>

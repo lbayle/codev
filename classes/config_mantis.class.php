@@ -16,12 +16,7 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-      Logger::configure(dirname(__FILE__).'/../log4php.xml');
-      $logger = Logger::getLogger("default");
-      $logger->info("LOG activated !");
-   }
+require_once('lib/log4php/Logger.php');
 
 class ConfigMantisItem {
 
@@ -60,13 +55,22 @@ class ConfigMantis {
 
    private static $quiet; // do not display any warning message
 
-   private $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    // --------------------------------------
    private function __construct()
    {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       self::$configVariables = array();
       self::$quiet = true;
       
@@ -81,11 +85,11 @@ class ConfigMantis {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
       {
       	$key = $row->config_id."_".$row->project_id;
-      	$this->logger->debug("$row->config_id = $row->value");
+      	self::$logger->debug("$row->config_id = $row->value");
       	self::$configVariables["$key"] = new ConfigMantisItem($row->config_id, $row->project_id, $row->user_id, $row->access_reqd, $row->type, $row->value);
       }
 
-        $this->logger->trace("ConfigMantis ready");
+        self::$logger->trace("ConfigMantis ready");
         #print_r(array_keys(self::$configVariables));
    }
 
@@ -125,7 +129,7 @@ class ConfigMantis {
             if (!self::$quiet) {
     		   echo "<span class='error_font'>WARN: ConfigMantis::getValue($id, $project_id): variable not found !</span><br/>";
             }
-            $this->logger->warn("getValue($id, $project_id): variable not found !");
+            self::$logger->warn("getValue($id, $project_id): variable not found !");
     	}
     	return $value;
    }
@@ -143,7 +147,7 @@ class ConfigMantis {
          if (!self::$quiet) {
             echo "<span class='error_font'>WARN: ConfigMantis::getType($id, $project_id): variable not found !</span><br/>";
          }
-    	 $this->logger->warn("getType($id, $project_id): variable not found !");
+    	 self::$logger->warn("getType($id, $project_id): variable not found !");
       }
       return $type;
    }
@@ -175,7 +179,7 @@ class ConfigMantis {
       }
       if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
 
-         $this->logger->debug("setValue $config_id: $value (type=$type)");
+         self::$logger->debug("setValue $config_id: $value (type=$type)");
 
          // --- add to DB
          $query = "INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) ".
@@ -193,12 +197,14 @@ class ConfigMantis {
          $key = $config_id."_".$project_id;
          self::$configVariables["$key"] = new ConfigMantisItem($config_id, $project_id, $user_id, $access_reqd, $type, $value);
       } else {
-         $this->logger->warn("setValue($config_id, $project_id): variable already exists and will NOT be modified.");
+         self::$logger->warn("setValue($config_id, $project_id): variable already exists and will NOT be modified.");
       }
 
    }
 
 
 } // class
+
+ConfigMantis::staticInit();
 
 ?>

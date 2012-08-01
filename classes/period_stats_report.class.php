@@ -25,8 +25,6 @@ include_once "project.class.php";
  */
 class PeriodStatsReport {
 
-   private $logger;
-
   var $start_year;
   var $start_month;
   var $start_day;
@@ -36,8 +34,6 @@ class PeriodStatsReport {
 
   // --------------------------------------------
   public function PeriodStatsReport($start_year, $start_month, $start_say, $teamid) {
-    $this->logger = Logger::getLogger(__CLASS__);
-
     $this->start_year = $start_year;
     $this->start_month = $start_month;
     $this->start_day = $start_say;

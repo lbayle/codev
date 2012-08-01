@@ -16,7 +16,7 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('Logger.php');
+require_once('lib/log4php/Logger.php');
 
 /**
  * @author LoB
@@ -27,7 +27,15 @@ class Holiday {
    /**
     * @var Logger The logger
     */
-   private $logger;
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    /**
     * @var int The id
@@ -56,23 +64,31 @@ class Holiday {
     * @param string $color
     */
    public function Holiday($id, $timestamp, $description="", $color="D8D8D8") {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       $this->id = $id;
       $this->timestamp = $timestamp;
       $this->description = $description;
       $this->color = $color;
 
-      $this->logger->debug("Holiday $this->id - ".date("d M Y", $this->timestamp)." $this->description $this->color");
+      self::$logger->debug("Holiday $this->id - ".date("d M Y", $this->timestamp)." $this->description $this->color");
    }
 }
+
+Holiday::staticInit();
 
 class Holidays {
 
    /**
     * @var Logger The logger
     */
-   private $logger;
+   private static $logger;
+
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    /**
     * @var Holidays The instance
@@ -93,8 +109,6 @@ class Holidays {
     * Private constructor to respect the singleton pattern
     */
    private function __construct() {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       self::$HolidayList = array();
 
       $query = 'SELECT * FROM `codev_holidays_table`';
@@ -129,11 +143,11 @@ class Holidays {
    private function getHoliday($timestamp) {
       foreach (self::$HolidayList as $h) {
          if ($h->timestamp == $timestamp) {
-            $this->logger->trace("Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description");
+            self::$logger->trace("Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description");
             return $h;
          }
       }
-      $this->logger->trace("No Holiday defined for on: ".date("d M Y", $timestamp)."   $timestamp");
+      self::$logger->trace("No Holiday defined for on: ".date("d M Y", $timestamp)."   $timestamp");
       return NULL;
    }
 
@@ -178,7 +192,7 @@ class Holidays {
          $timestamp = strtotime("+1 day",$timestamp);;
       }
 
-      $this->logger->debug("nbHolidays = $nbHolidays");
+      self::$logger->debug("nbHolidays = $nbHolidays");
       return $nbHolidays;
    }
 
@@ -233,5 +247,7 @@ class Holidays {
    }
 
 }
+
+Holidays::staticInit();
 
 ?>

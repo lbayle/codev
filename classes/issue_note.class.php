@@ -32,8 +32,18 @@ class IssueNote {
    const tag_sep   = ' ==== ';
    const tag_end   = ' (Do not remove this line) ====>';
 
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   private $logger;
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
 
    /**
     * @var int Issue note id
@@ -55,13 +65,11 @@ class IssueNote {
     * @param int $id Issue note id
     */
    public function __construct($id) {
-      $this->logger = Logger::getLogger(__CLASS__);
-
       if (0 == $id) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("Creating a IssueNote with id=0 is not allowed.");
-         $this->logger->error("EXCEPTION IssueNote constructor: ".$e->getMessage());
-         $this->logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         self::$logger->error("EXCEPTION IssueNote constructor: ".$e->getMessage());
+         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
       }
 
@@ -121,6 +129,6 @@ class IssueNote {
 
 }
 
-
+IssueNote::staticInit();
 
 ?>
