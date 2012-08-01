@@ -104,6 +104,17 @@ if(isset($_SESSION['userid'])) {
             }
             $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
             $_SESSION['projectid'] = $defaultProjectid;
+
+            // get Remaining history
+
+            $start_timestamp   = mktime(23, 59, 59, date('m', $issue->dateSubmission), date('d', $issue->dateSubmission), date('Y', $issue->dateSubmission));
+            $end_timestamp   = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+            $timestampList = IssueInfoTools::createTimestampList($start_timestamp, $end_timestamp, 2);
+            $smartyHelper->assign('remainingGraphURL', IssueInfoTools::getRemainingGraph($issue, $timestampList));
+
+
+
+
          } catch (Exception $e) {
             // TODO display ERROR "issue not found in mantis DB !"
          }

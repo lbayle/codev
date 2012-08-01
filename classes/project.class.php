@@ -1267,7 +1267,7 @@ class Project {
    /**
     * @return IssueSelection
     */
-   private function getIssueSelection() {
+   public function getIssueSelection() {
       if(NULL == $this->issueSelection) {
          $this->issueSelection = new IssueSelection($this->name);
          $issueList = $this->getIssues();

@@ -25,6 +25,7 @@ require_once ('super_header.inc.php');
 
 /* INSERT INCLUDES HERE */
 require_once ('user_cache.class.php');
+require_once ('project_cache.class.php');
 require_once ('issue_cache.class.php');
 require_once ('issue_selection.class.php');
 require_once ('jobs.class.php');
@@ -36,21 +37,20 @@ require_once ('days_per_job_indicator.class.php');
 
 /* INSERT FUNCTIONS HERE */
 
-
-// ================ MAIN =================
-
-$logger = Logger::getLogger("indicators");
-
-if (isset($_SESSION['userid'])) {
-
-   $session_user = new User($_SESSION['userid']);
-
-
-
-
+function testDaysPerJobIndicator($session_user) {
+/*
    $issueList = $session_user->getAssignedIssues(NULL, true);
-
    $issueSel = new IssueSelection("Assigned Issues");
+   $issueSel->addIssueList($issueList);
+*/
+
+/*
+   $proj = ProjectCache::getInstance()->getProject(14);
+   $issueSel = $proj->getIssueSelection();
+*/
+   $proj = ProjectCache::getInstance()->getProject(14);
+   $issueSel = new IssueSelection("Project $proj->name user ".$session_user->getName());
+   $issueList = $proj->getIssues($session_user->id);
    $issueSel->addIssueList($issueList);
 
 
@@ -61,7 +61,9 @@ if (isset($_SESSION['userid'])) {
    $daysPerJob = $daysPerJobIndicator->execute($issueSel);
 
    $jobs = new Jobs();
+   $totalElapsed = 0;
    echo "<table>";
+   echo "<caption>".$issueSel->name."</caption>";
    echo "<tr><th>name</th><th>nbDays</th><th>color</th><tr>";
    foreach ($daysPerJob as $id => $duration) {
       echo "<tr>";
@@ -69,8 +71,47 @@ if (isset($_SESSION['userid'])) {
       echo '<td>'.$duration.'</td>';
       echo '<td>'.$jobs->getJobColor($id).'</td>';
       echo "</tr>";
+      $totalElapsed += $duration;
    }
    echo "</table>";
+   echo "totalElapsed = $totalElapsed<br>";
+
+}
+
+
+
+// ================ MAIN =================
+
+$logger = Logger::getLogger("indicators");
+
+if (isset($_SESSION['userid'])) {
+
+   $session_user = new User($_SESSION['userid']);
+
+   testDaysPerJobIndicator($session_user);
+
+
+   $issue = IssueCache::getInstance()->getIssue(69);
+
+   $date = "2012-01-16 23:59:59";
+   $timestamp = Tools::datetime2timestamp($date);
+   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+
+   $date = "2012-01-17 23:59:59";
+   $timestamp = Tools::datetime2timestamp($date);
+   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+
+   $date = "2012-06-21 23:59:59";
+   $timestamp = Tools::datetime2timestamp($date);
+   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+
+   $date = "2012-06-25 23:59:59";
+   $timestamp = Tools::datetime2timestamp($date);
+   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+
+   $date = "2012-07-31 23:59:59";
+   $timestamp = Tools::datetime2timestamp($date);
+   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
 
 }
 

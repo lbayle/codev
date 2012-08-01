@@ -1563,6 +1563,61 @@ class Issue implements Comparable {
    }
    
    /**
+    * Get remaining at a specific date.
+    * if date is nopt specified, return current remaining.
+    * 
+    * @param type $timestamp
+    * @return remaining or NULL if no remaining update found in history before timestamp
+    * 
+    */
+   public function getRemaining($timestamp = NULL) {
+
+      if (NULL == $timestamp) { return $this->remaining; }
+
+      // --- find the field_name for the Remaining customField
+      // (this should not be here, it's a general info that may be accessed elsewhere)
+      $remainingCustomFieldId = Config::getInstance()->getValue(Config::id_customField_remaining);
+      $query = "SELECT name FROM `mantis_custom_field_table` where id = $remainingCustomFieldId ";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+         echo "<span style='color:red'>ERROR: Remaining CustomField not found !</span>";
+         exit;
+      }
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      $remainingFieldName = SqlWrapper::getInstance()->sql_result($result, 0);
+
+      // --- find in bug history when was the latest update of the Remaining before $timestamp
+      $query = "SELECT * FROM `mantis_bug_history_table` ".
+               "WHERE field_name = '$remainingFieldName' ".
+               "AND bug_id = '$this->bugId' ".
+               "AND date_modified <= '$timestamp' ".
+               "ORDER BY date_modified DESC";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         // the first result is the closest to the given timestamp
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $remaining = $row->new_value;
+
+         $this->logger->debug("getRemaining(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
+
+      } else {
+         // no remaining update found in history, return NULL
+         $remaining = NULL;
+      }
+      return $remaining;
+   }
+
+
+   /**
     * Get issues from an issue id list
     * @param array $issueIds The issue id list
     * @return Issue[] The issues

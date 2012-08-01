@@ -313,6 +313,46 @@ class IssueInfoTools {
       );
    }
 
+   /**
+    * 
+    * @param int $interval in days
+    */
+   public static function createTimestampList($start_timestamp, $end_timestamp, $interval) {
+
+      $timestampList = array();
+
+      $timestamp = $start_timestamp;
+      while ($timestamp < $end_timestamp) {
+         $timestamp = strtotime("+$interval day",$timestamp);
+         $timestampList[] = $timestamp;
+
+         #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";
+      }
+      return $timestampList;
+   }
+
+
+   public static function getRemainingGraph(Issue $issue, array $timestampList) {
+
+   $remainingList = array();
+   $bottomLabel = array();
+   foreach ($timestampList as $timestamp) {
+      $remaining = $issue->getRemaining($timestamp);
+
+      $remainingList[] = (NULL == $remaining) ? 0 : $remaining; // TODO
+      $bottomLabel[] = Tools::formatDate("%d %b", $timestamp);
+   }
+
+   $strVal1 = implode(':', array_values($remainingList));
+
+   echo "strVal1 $strVal1<br>";
+   $strBottomLabel = implode(':', $bottomLabel);
+
+   return Tools::SmartUrlEncode('title='.T_('Remaining history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Remaining').'&x1='.$strVal1);
+
+   }
+
+
 }
 
 // Initialize complex static variables

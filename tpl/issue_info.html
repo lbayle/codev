@@ -107,6 +107,7 @@
          <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
          <li><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
          <li><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Remaining history{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          <!-- General info -->
@@ -330,6 +331,11 @@
          </div>
          {/if}
       </div>
+      <div id="tabsName-4">
+         <img alt="{t}Reopened Rate{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$remainingGraphURL}" />
+
+      </div>
+
    </div>
    
    
