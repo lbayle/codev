@@ -126,6 +126,7 @@ function getProjectInfo(Project $project, $tabsName) {
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Clone Project Settings');
+$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 if(isset($_SESSION['userid'])) {
    // Admins only
