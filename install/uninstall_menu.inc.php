@@ -20,10 +20,10 @@ include_once "tools.php";
 include_once 'i18n.inc.php';
 ?>
 
-<div id="menu">
+<div class='menu'>
 
 <?php 
-echo "<table class='menu'>\n";
+echo "<table>\n";
 echo "   <tr>\n";
 echo "      <td>\n";
 echo "      <a href='".getServerRootURL()."/index.php' title=''>".T_("Home")."</a>\n";
@@ -41,6 +41,4 @@ echo "      </td>\n";
 echo "  </tr>\n";
 echo "</table>";
 ?>
-<br/>
-<br/>
 </div>
