@@ -142,18 +142,18 @@ class TimeTrack {
    }
 
   /**
-   * update Remaining and delete TimeTrack
+   * update Backlog and delete TimeTrack
    * @param int $trackid
    */
   public static function delete($trackid) {
-     // increase remaining (only if 'remaining' already has a value)
+     // increase backlog (only if 'backlog' already has a value)
      $timetrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
      $bugid = $timetrack->bugId;
      $duration = $timetrack->duration;
      $issue = IssueCache::getInstance()->getIssue($bugid);
-     if (NULL != $issue->remaining) {
-        $remaining = $issue->remaining + $duration;
-        $issue->setRemaining($remaining);
+     if (NULL != $issue->backlog) {
+        $backlog = $issue->backlog + $duration;
+        $issue->setBacklog($backlog);
      }
 
      // delete track

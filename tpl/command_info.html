@@ -156,9 +156,9 @@ $(document).ready(function() {
                <thead>
                <tr>
                   <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Backlog Mgr{/t}</th>
                   <th style="width: 80px">{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
@@ -168,7 +168,7 @@ $(document).ready(function() {
                   <td>{$cmdDetailedMgr.effortEstim}</td>
                   <td>{$cmdDetailedMgr.reestimated}</td>
                   <td>{$cmdDetailedMgr.elapsed}</td>
-                  <td>{$cmdDetailedMgr.remaining}</td>
+                  <td>{$cmdDetailedMgr.backlog}</td>
                   <td {$cmdDetailedMgr.driftColor} title="{t}nb days{/t}">{$cmdDetailedMgr.drift}</td>
                   <td>{$cmdDetailedMgr.progress}%</td>
 
@@ -231,8 +231,8 @@ $(document).ready(function() {
       </div>
 
       <div id="tabsName-2">
-         {if $remainingHistoryGraph}
-         <img alt="{t}RemainingHistoryGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$remainingHistoryGraph}" />
+         {if $backlogHistoryGraph}
+         <img alt="{t}BacklogHistoryGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$backlogHistoryGraph}" />
          {/if}
 
          <br><br>

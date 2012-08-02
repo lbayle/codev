@@ -53,9 +53,9 @@
             <tr>
                <th>{t}Target version{/t}</th>
                <th>{t}MgrEffortEstim{/t}</th>
-               <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+               <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                <th>{t}Elapsed{/t}</th>
-               <th>{t}Remaining Mgr{/t}</th>
+               <th>{t}Backlog Mgr{/t}</th>
                <th style="width: 80px">{t}Drift Mgr{/t}</th>
             </tr>
             {foreach from=$versionsDetailedMgr key=name item=i name=versionsDetailedMgr}
@@ -64,7 +64,7 @@
                   <td>{$i.effortEstim}</td>
                   <td>{$i.reestimated}</td>
                   <td>{$i.elapsed}</td>
-                  <td>{$i.remaining}</td>
+                  <td>{$i.backlog}</td>
                   <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
                </tr>
             {/foreach}
@@ -79,7 +79,7 @@
                <th>{t}EffortEstim{/t}</th>
                <th>{t}Reestimated{/t}</th>
                <th>{t}Elapsed{/t}</th>
-               <th>{t}Remaining{/t}</th>
+               <th>{t}Backlog{/t}</th>
                <th style="width: 80px">{t}Drift{/t}</th>
             </tr>
             {foreach from=$versionsDetailed key=name item=i name=versionsDetailed}
@@ -88,7 +88,7 @@
                   <td {$i.title}>{$i.effortEstim}</td>
                   <td>{$i.reestimated}</td>
                   <td>{$i.elapsed}</td>
-                  <td>{$i.remaining}</td>
+                  <td>{$i.backlog}</td>
                   <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
                </tr>
             {/foreach}
@@ -151,7 +151,7 @@
                <td>{$i.targetVersion}</td>
                {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
                <td {$i.driftColor}>{$i.drift}</td>
-               <td>{$i.remaining}</td>
+               <td>{$i.backlog}</td>
                <td>{$i.progress}%</td>
                <td>{$i.currentStatusName}</td>
                <td>{$i.summary}</td>
@@ -182,7 +182,7 @@
                   <td>{$i.targetVersion}</td>
                   {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
                   <td {$i.driftColor}>{$i.drift}</td>
-                  <td>{$i.remaining}</td>
+                  <td>{$i.backlog}</td>
                   <td>{$i.progress}%</td>
                   <td>{$i.currentStatusName}</td>
                   <td>{$i.summary}</td>

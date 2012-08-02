@@ -205,14 +205,14 @@ class TimeTrackingTools {
          try {
             $issue = IssueCache::getInstance()->getIssue($bugid);
 
-            $remaining = $issue->remaining;
+            $backlog = $issue->backlog;
             $extRef = $issue->tcId;
             $summary = $issue->summary;
             $issueURL = Tools::issueInfoURL($bugid);
             $mantisURL = Tools::mantisIssueURL($bugid, NULL, true);
 
          } catch (Exception $e) {
-            $remaining = '!';
+            $backlog = '!';
             $extRef = '';
             $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
             $issueURL = $bugid;
@@ -220,16 +220,16 @@ class TimeTrackingTools {
          }
 
          foreach ($jobList as $jobid => $dayList) {
-            // if no remaining set, display a '?' to allow Remaining edition
-            if(is_numeric($remaining)) {
-               $formattedRemaining = $remaining;
+            // if no backlog set, display a '?' to allow Backlog edition
+            if(is_numeric($backlog)) {
+               $formattedBacklog = $backlog;
             } else {
                #if (($team->isSideTasksProject($issue->projectId)) ||
                #    ($team->isNoStatsProject($issue->projectId))) {
-               // do not allow to edit sideTasks Remaining
-               $formattedRemaining = '';
+               // do not allow to edit sideTasks Backlog
+               $formattedBacklog = '';
                #} else {
-               #   $formattedRemaining = '?';
+               #   $formattedBacklog = '?';
                #}
                //
             }
@@ -262,9 +262,9 @@ class TimeTrackingTools {
                'mantisURL' => $mantisURL,
                'issueId' => $extRef,
                'summary' => $summary,
-               'remaining' => $remaining,
+               'backlog' => $backlog,
                'description' => addslashes(htmlspecialchars($summary)),
-               'formattedRemaining' => $formattedRemaining,
+               'formattedBacklog' => $formattedBacklog,
                'jobid' => $jobid,
                'jobName' => $jobs->getJobName($jobid),
                'dayTasks' => $dayTasks

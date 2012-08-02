@@ -1,8 +1,8 @@
 <script>
    jQuery(document).ready(function() {
-      jQuery("#update_remaining_link").click(function(event) {
+      jQuery("#update_backlog_link").click(function(event) {
          event.preventDefault();
-         jQuery("#update_remaining_dialog_form").dialog("open");
+         jQuery("#update_backlog_dialog_form").dialog("open");
       });
    });
 </script>
@@ -32,9 +32,9 @@
       {/if}
    </tr>
    <tr>
-      <td>{t}Remaining{/t}</td>
+      <td>{t}Backlog{/t}</td>
       {if $isManager}<td></td>{/if}
-      <td><a id="update_remaining_link" title="{t}update remaining{/t}" href="#" >{$issueGeneralInfo.issueRemaining}</a></td>
+      <td><a id="update_backlog_link" title="{t}update backlog{/t}" href="#" >{$issueGeneralInfo.issueBacklog}</a></td>
    </tr>
    <tr>
       <td>{t}Effort Deviation{/t}</td>

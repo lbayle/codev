@@ -136,7 +136,7 @@ class ExportCsvTools {
             $issue->effortEstim.$sepChar.
             $issue->effortAdd.$sepChar.
             $issue->getElapsed().$sepChar.
-            $issue->remaining.$sepChar.
+            $issue->backlog.$sepChar.
             round(100 * $issue->getProgress())."%".$sepChar.
             $deliveryDate.$sepChar.
             $issue->deliveryId.$sepChar.
@@ -194,7 +194,7 @@ class ExportCsvTools {
             $issue->effortEstim.$sepChar.
             $issue->effortAdd.$sepChar.
             $issue->getElapsed().$sepChar.
-            $issue->remaining.$sepChar.
+            $issue->backlog.$sepChar.
             $deliveryDate.$sepChar.
             $issue->deliveryId.$sepChar.
             $user->getShortname().
@@ -243,7 +243,7 @@ class ExportCsvTools {
             $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
 
             $stringData .= "$bugid / ".$issue->tcId." : ".$formatedSummary.$sepChar;
-            $stringData .= $issue->remaining.$sepChar;
+            $stringData .= $issue->backlog.$sepChar;
             foreach($jobList as $jobId => $jobName) {
                $stringData .= $jobs[$jobId].$sepChar;
             }
@@ -258,7 +258,7 @@ class ExportCsvTools {
 
    /**
     * creates for each project a table with the following fields:
-    * id | TC | startDate | endDate | status | total elapsed | elapsed + Remaining | elapsed in period | Remaining
+    * id | TC | startDate | endDate | status | total elapsed | elapsed + Backlog | elapsed in period | Backlog
     * TOTAL
     * @param TimeTracking $timeTracking
     * @param string $myFile
@@ -277,7 +277,7 @@ class ExportCsvTools {
       foreach ($projectTracks as $projectId => $bugList) {
 
          $totalElapsed = 0;
-         $totalRemaining = 0;
+         $totalBacklog = 0;
          $totalElapsedPeriod = 0;
 
          // write table header
@@ -293,7 +293,7 @@ class ExportCsvTools {
          $stringData .=("Status").$sepChar;
          $stringData .=("Total EffortEstim").$sepChar;
          $stringData .=("Total elapsed").$sepChar;
-         $stringData .=("elapsed + Remaining").$sepChar;
+         $stringData .=("elapsed + Backlog").$sepChar;
          $stringData .=("elapsed in period").$sepChar;
          $stringData .=("RAF").$sepChar;
          $stringData .="\n";
@@ -312,7 +312,7 @@ class ExportCsvTools {
             $stringData .= $issue->getCurrentStatusName().$sepChar;
             $stringData .= ($issue->effortEstim + $issue->effortAdd).$sepChar;
             $stringData .= $issue->getElapsed().$sepChar;
-            $stringData .= ($issue->getElapsed() + $issue->remaining).$sepChar;
+            $stringData .= ($issue->getElapsed() + $issue->backlog).$sepChar;
 
             // sum all job durations
             $elapsedInPeriod = 0;
@@ -321,12 +321,12 @@ class ExportCsvTools {
             }
             $stringData .= $elapsedInPeriod.$sepChar;
 
-            $stringData .= $issue->remaining.$sepChar;
+            $stringData .= $issue->backlog.$sepChar;
             $stringData .="\n";
 
             $totalEffortEstim   += ($issue->effortEstim + $issue->effortAdd);
             $totalElapsed       += $issue->getElapsed();
-            $totalRemaining     += $issue->remaining;
+            $totalBacklog     += $issue->backlog;
             $totalElapsedPeriod += $elapsedInPeriod;
          }
 
@@ -334,9 +334,9 @@ class ExportCsvTools {
          $stringData .= ("TOTAL").$sepChar.$sepChar.$sepChar.$sepChar.$sepChar.$sepChar;
          $stringData .= $totalEffortEstim.$sepChar;
          $stringData .= $totalElapsed.$sepChar;
-         $stringData .= ($totalElapsed + $totalRemaining).$sepChar;
+         $stringData .= ($totalElapsed + $totalBacklog).$sepChar;
          $stringData .= $totalElapsedPeriod.$sepChar;
-         $stringData .= $totalRemaining.$sepChar;
+         $stringData .= $totalBacklog.$sepChar;
          $stringData .= "\n";
 
          $stringData .="\n";

@@ -71,7 +71,7 @@ function getIssuesInDrift(User $user) {
                                     'driftEE' => $driftEE,
                                     'formatedTitle' => $formatedTitle,
                                     'bugId' => $issue->bugId,
-                                    'remaining' => $issue->remaining,
+                                    'backlog' => $issue->backlog,
                                     'formatedSummary' => $formatedSummary,
                                     'summary' => $issue->summary);
         }
@@ -156,14 +156,14 @@ function getConsistencyErrorsMgr(User $sessionUser) {
 
 // ================ MAIN =================
 
-// updateRemaining DialogBox
+// updateBacklog DialogBox
 $action = isset($_POST['action']) ? $_POST['action'] : '';
-if ('updateRemainingAction' == $action) {
+if ('updateBacklogAction' == $action) {
     $bugid = isset($_POST['bugid']) ? $_POST['bugid'] : '';
     if ("0" != $bugid) {
-        $remaining = isset($_POST['remaining']) ? $_POST['remaining'] : '';
+        $backlog = isset($_POST['backlog']) ? $_POST['backlog'] : '';
         $issue = IssueCache::getInstance()->getIssue($bugid);
-        $issue->setRemaining($remaining);
+        $issue->setBacklog($backlog);
     }
 }
 

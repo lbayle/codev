@@ -29,11 +29,11 @@ require_once ('team.class.php');
 
 
 /**
- * Description of RemainingHistoryIndicator
+ * Description of BacklogHistoryIndicator
  *
  * @author lob
  */
-class RemainingHistoryIndicator implements IndicatorPlugin {
+class BacklogHistoryIndicator implements IndicatorPlugin {
 
 
    protected $execData;
@@ -57,7 +57,7 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
    }
 
    public function getSmartyFilename() {
-      return 'remaining_history_indicator.html';
+      return 'backlog_history_indicator.html';
    }
 
    public function getDesc() {
@@ -113,17 +113,17 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
       $this->execData = array();
 
       foreach ($timestampList as $timestamp) {
-         $remaining = 0;
+         $backlog = 0;
          foreach ($inputIssueSel->getIssueList() as $id => $issue) {
-            $issueRem = $issue->getRemaining($timestamp);
+            $issueRem = $issue->getBacklog($timestamp);
             if (NULL != $issueRem) {
-               $remaining += $issueRem;
+               $backlog += $issueRem;
             } else {
                // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
-               $remaining += $issue->mgrEffortEstim;
+               $backlog += $issue->mgrEffortEstim;
             }
          }
-         $this->execData[$timestamp] = $remaining;
+         $this->execData[$timestamp] = $backlog;
       }
 
       return $this->execData;
@@ -141,20 +141,20 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
 
          $smartyData = array();
 
-         $remainingList = array();
+         $backlogList = array();
          $bottomLabel = array();
-         foreach ($this->execData as $timestamp => $remaining) {
+         foreach ($this->execData as $timestamp => $backlog) {
 
-            $remainingList[] = (NULL == $remaining) ? 0 : $remaining; // TODO
+            $backlogList[] = (NULL == $backlog) ? 0 : $backlog; // TODO
             $bottomLabel[] = Tools::formatDate("%d %b", $timestamp);
          }
 
-         $strVal1 = implode(':', array_values($remainingList));
+         $strVal1 = implode(':', array_values($backlogList));
 
          #echo "strVal1 $strVal1<br>";
          $strBottomLabel = implode(':', $bottomLabel);
 
-         $smartyData = Tools::SmartUrlEncode('title='.T_('Remaining history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Remaining').'&x1='.$strVal1);
+         $smartyData = Tools::SmartUrlEncode('title='.T_('Backlog history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Backlog').'&x1='.$strVal1);
 
       } else {
          throw new Exception("the execute() method must be called before assignInSmarty().");
@@ -164,6 +164,6 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
 }
 
 // Initialize complex static variables
-RemainingHistoryIndicator::staticInit();
+BacklogHistoryIndicator::staticInit();
 
 ?>

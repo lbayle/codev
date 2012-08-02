@@ -212,14 +212,14 @@
          </fieldset>
       </form>
       <script type="text/javascript">
-         function updateRemaining(remaining, description, bugid, dialogBoxTitle){
-            jQuery("#remaining").val(remaining);
+         function updateBacklog(backlog, description, bugid, dialogBoxTitle){
+            jQuery("#backlog").val(backlog);
             jQuery("#validateTips").text(description);
 
-            jQuery("#formUpdateRemaining").find("input[name=bugid]").val(bugid);
+            jQuery("#formUpdateBacklog").find("input[name=bugid]").val(bugid);
 
-            jQuery("#update_remaining_dialog_form").dialog("option", "title", dialogBoxTitle);
-            jQuery("#update_remaining_dialog_form").dialog("open");
+            jQuery("#update_backlog_dialog_form").dialog("option", "title", dialogBoxTitle);
+            jQuery("#update_backlog_dialog_form").dialog("open");
          }
       </script>
       <div id="weekTaskDetailsDiv">
@@ -397,11 +397,11 @@
    </div>
    <script type="text/javascript">
       jQuery(document).ready(function() {
-         var remaining = jQuery( "#remaining" ),
+         var backlog = jQuery( "#backlog" ),
                tips = jQuery( "#validateTips" ),
                isOnlyAssignedTo = jQuery( "#cb_onlyAssignedTo" ),
                isHideResolved = jQuery( "#cb_hideResolved" ),
-               allFields = jQuery( [] ).add( remaining );
+               allFields = jQuery( [] ).add( backlog );
 
          function updateTips( t ) {
             tips.text( t )
@@ -421,18 +421,18 @@
             }
          }
 
-         jQuery( "#update_remaining_dialog_form" ).dialog({
+         jQuery( "#update_backlog_dialog_form" ).dialog({
             autoOpen: false,
             height: 200,
             width: 500,
             modal: true,
             open: function() {
                // Select input field contents
-               jQuery( "#remaining" ).select();
+               jQuery( "#backlog" ).select();
             },
             buttons: {
                "Update": function() {
-                  jQuery("#formUpdateRemaining").submit();
+                  jQuery("#formUpdateBacklog").submit();
                },
                Cancel: function() {
                   jQuery( this ).dialog( "close" );
@@ -443,48 +443,48 @@
             }
          });
 
-         jQuery("#formUpdateRemaining").submit(function(event) {
+         jQuery("#formUpdateBacklog").submit(function(event) {
             /* stop form from submitting normally */
             event.preventDefault();
 
             var bValid = true;
             allFields.removeClass( "ui-state-error" );
-            bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
+            bValid = bValid && checkRegexp( backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
 
             if ( bValid ) {
                /* get some values from elements on the page: */
-               var formUpdateRemaining = $(this);
+               var formUpdateBacklog = $(this);
                jQuery.ajax({
                   type: "GET",
-                  url: formUpdateRemaining.attr("action"),
-                  data: formUpdateRemaining.serialize(),
+                  url: formUpdateBacklog.attr("action"),
+                  data: formUpdateBacklog.serialize(),
                   success: function(data) {
                      jQuery("#weekTaskDetailsDiv").html(jQuery.trim(data));
                   }
                });
 
-               jQuery( "#update_remaining_dialog_form" ).dialog( "close" );
+               jQuery( "#update_backlog_dialog_form" ).dialog( "close" );
             }
          });
 
-         // after a click on 'AddTrack' button, raise the updateRemaining dialogBox
-         {if $updateRemainingRequested}
-            updateRemaining('{$updateRemainingRequested.remaining}',
-                  '{$updateRemainingRequested.description|escape_quotes}',
-                  '{$updateRemainingRequested.bugid}',
-                  '{t}Task{/t} {$updateRemainingRequested.dialogBoxTitle} - {t}Update Remaining{/t}');
+         // after a click on 'AddTrack' button, raise the updateBacklog dialogBox
+         {if $updateBacklogRequested}
+            updateBacklog('{$updateBacklogRequested.backlog}',
+                  '{$updateBacklogRequested.description|escape_quotes}',
+                  '{$updateBacklogRequested.bugid}',
+                  '{t}Task{/t} {$updateBacklogRequested.dialogBoxTitle} - {t}Update Backlog{/t}');
          {/if}
 
       });
    </script>
-   <div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style="display: none">
+   <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" style="display: none">
       <p id="validateTips">Set new value</p>
-      <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="timetracking/time_tracking_ajax.php" >
+      <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="timetracking/time_tracking_ajax.php" >
          <fieldset>
-            <label for="remaining">{t}Remaining{/t} :</label>
-            <input type="text" id="remaining" name="remaining" size="3" class="text" />
+            <label for="backlog">{t}Backlog{/t} :</label>
+            <input type="text" id="backlog" name="backlog" size="3" class="text" />
             <input type="hidden" name="bugid"  value="0" />
-            <input type="hidden" name="action" value="updateRemainingAction" />
+            <input type="hidden" name="action" value="updateBacklogAction" />
             {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="weekid" value="{$weekid}" />
             <input type="hidden" name="year" value="{$year}" />

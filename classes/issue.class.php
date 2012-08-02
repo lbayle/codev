@@ -105,9 +105,9 @@ class Issue implements Comparable {
    // -- CodevTT custom fields
    public $tcId;         // TelelogicChange id
    /**
-    * @var int Remaining
+    * @var int Backlog
     */
-   public $remaining;    // RAF
+   public $backlog;    // RAF
    public $mgrEffortEstim;  // Manager EffortEstim (ex prelEffortEstim/ETA)
    public $effortEstim;  // BI
    public $effortAdd;    // BS
@@ -196,7 +196,7 @@ class Issue implements Comparable {
 
          global $tcCustomField;
          global $estimEffortCustomField;
-         global $remainingCustomField;
+         global $backlogCustomField;
          global $addEffortCustomField;
          global $deadLineCustomField;
          global $deliveryDateCustomField;
@@ -218,7 +218,7 @@ class Issue implements Comparable {
                   break;
                case $estimEffortCustomField: $this->effortEstim = $row->value;
                   break;
-               case $remainingCustomField: $this->remaining = $row->value;
+               case $backlogCustomField: $this->backlog = $row->value;
                   break;
                case $addEffortCustomField: $this->effortAdd = $row->value;
                   break;
@@ -581,17 +581,17 @@ class Issue implements Comparable {
    /**
     * @return int the nb of days needed to finish the issue.
     * if status >= resolved, return 0.
-    * if the 'remaining' (RAF) field is not defined, return effortEstim
+    * if the 'backlog' (RAF) field is not defined, return effortEstim
     */
    public function getDuration() {
       if ($this->isResolved()) { return 0; }
 
-      // determinate issue duration (Remaining, BI, MgrEffortEstim)
-      if (NULL != $this->remaining) { $issueDuration = $this->remaining; }
+      // determinate issue duration (Backlog, BI, MgrEffortEstim)
+      if (NULL != $this->backlog) { $issueDuration = $this->backlog; }
       else                          { $issueDuration = $this->effortEstim; }
 
       if (NULL == $this->effortEstim) {
-         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND effortEstim == NULL)");
+         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND effortEstim == NULL)");
       }
       return $issueDuration;
    }
@@ -599,17 +599,17 @@ class Issue implements Comparable {
    /**
     * @return int the nb of days needed to finish the issue.
     * if status >= resolved, return 0.
-    * if the 'remaining' (RAF) field is not defined, return mgrEffortEstim
+    * if the 'backlog' (RAF) field is not defined, return mgrEffortEstim
     */
    public function getDurationMgr() {
       if ($this->isResolved()) { return 0; }
 
-      // determinate issue duration (Remaining, BI, MgrEffortEstim)
-      if (NULL != $this->remaining) { $issueDuration = $this->remaining; }
+      // determinate issue duration (Backlog, BI, MgrEffortEstim)
+      if (NULL != $this->backlog) { $issueDuration = $this->backlog; }
       else                          { $issueDuration = $this->mgrEffortEstim; }
 
       if (NULL == $this->mgrEffortEstim) {
-         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because remaining AND mgrEffortEstim == NULL)");
+         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND mgrEffortEstim == NULL)");
       }
       return $issueDuration;
    }
@@ -730,8 +730,8 @@ class Issue implements Comparable {
    /**
     * Effort deviation, compares elapsed to effortEstim
     *
-    * formula: elapsed - (effortEstim - remaining)
-    * if bug is Resolved/Closed, then remaining is not used.
+    * formula: elapsed - (effortEstim - backlog)
+    * if bug is Resolved/Closed, then backlog is not used.
     * if EffortEstim = 0 then Drift = 0
     *
     * @param boolean $withSupport
@@ -761,7 +761,7 @@ class Issue implements Comparable {
       if ($this->currentStatus >= $this->getBugResolvedStatusThreshold()) {
          $derive = $myElapsed - $totalEstim;
       } else {
-         $derive = $myElapsed - ($totalEstim - $this->remaining);
+         $derive = $myElapsed - ($totalEstim - $this->backlog);
       }
 
       self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
@@ -781,7 +781,7 @@ class Issue implements Comparable {
    /**
     * Effort deviation, compares Reestimated to mgrEffortEstim
     *
-    * OLD formula: elapsed - (MgrEffortEstim - remaining)
+    * OLD formula: elapsed - (MgrEffortEstim - backlog)
     * NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim
     *
     * @param boolean $withSupport
@@ -947,25 +947,25 @@ class Issue implements Comparable {
 
    /**
     * updates DB with new value
-    * @param int $remaining
+    * @param int $backlog
     */
-   public function setRemaining($remaining) {
-      global $remainingCustomField;
+   public function setBacklog($backlog) {
+      global $backlogCustomField;
 
-      $old_remaining = $this->remaining;
+      $old_backlog = $this->backlog;
 
-      self::$logger->debug("setRemaining old_value=$old_remaining   new_value=$remaining");
+      self::$logger->debug("setBacklog old_value=$old_backlog   new_value=$backlog");
 
       // TODO should be done only once... in Constants singleton ?
-      $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$remainingCustomField'";
+      $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$backlogCustomField'";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $field_name    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "Remaining (RAF)";
+      $field_name    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "Backlog (RAF)";
 
-      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
+      $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -973,20 +973,20 @@ class Issue implements Comparable {
       }
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
 
-         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$remaining' WHERE bug_id=$this->bugId AND field_id = $remainingCustomField";
+         $query2 = "UPDATE `mantis_custom_field_string_table` SET value = '$backlog' WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
       } else {
-         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$remainingCustomField', '$this->bugId', '$remaining');";
+         $query2 = "INSERT INTO `mantis_custom_field_string_table` (`field_id`, `bug_id`, `value`) VALUES ('$backlogCustomField', '$this->bugId', '$backlog');";
       }
       $result = SqlWrapper::getInstance()->sql_query($query2);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $this->remaining = $remaining;
+      $this->backlog = $backlog;
 
       // Add to history
       $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
-         "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_remaining', '$remaining', '0', '".time()."');";
+         "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_backlog', '$backlog', '0', '".time()."');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1340,7 +1340,7 @@ class Issue implements Comparable {
       $endTimestamp = $timestamp;
 
       // if $tmpDuration < 0 this means that this issue will be finished before
-      // the end of the day. So the remaining time must be reported to be available
+      // the end of the day. So the backlog time must be reported to be available
       // fot the next issue to be worked on.
       $availTimeOnEndTimestamp = abs($tmpDuration);
 
@@ -1417,7 +1417,7 @@ class Issue implements Comparable {
    }
 
    /**
-    * @return number a progress rate (depending on Remaining)
+    * @return number a progress rate (depending on Backlog)
     * formula2: Elapsed / (Elapsed+RAF)
     *
     * 1 = 100% finished
@@ -1432,13 +1432,13 @@ class Issue implements Comparable {
       // no time spent on task, 0% done
       if ((NULL == $this->getElapsed()) || (0 == $this->getElapsed())) { return 0; }
 
-      // if no Remaining set, 100% done (this is not a normal case, an Alert is raised by ConsistencyCheck)
-      if ((NULL == $this->remaining) || (0 == $this->remaining)) { return 1; }
+      // if no Backlog set, 100% done (this is not a normal case, an Alert is raised by ConsistencyCheck)
+      if ((NULL == $this->backlog) || (0 == $this->backlog)) { return 1; }
 
       // nominal case
       $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
 
-      self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + $this->remaining)");
+      self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + $this->backlog)");
 
       return $progress;
    }
@@ -1578,36 +1578,36 @@ class Issue implements Comparable {
    }
    
    /**
-    * Get remaining at a specific date.
-    * if date is nopt specified, return current remaining.
+    * Get backlog at a specific date.
+    * if date is nopt specified, return current backlog.
     * 
     * @param type $timestamp
-    * @return remaining or NULL if no remaining update found in history before timestamp
+    * @return backlog or NULL if no backlog update found in history before timestamp
     * 
     */
-   public function getRemaining($timestamp = NULL) {
+   public function getBacklog($timestamp = NULL) {
 
-      if (NULL == $timestamp) { return $this->remaining; }
+      if (NULL == $timestamp) { return $this->backlog; }
 
-      // --- find the field_name for the Remaining customField
+      // --- find the field_name for the Backlog customField
       // (this should not be here, it's a general info that may be accessed elsewhere)
-      $remainingCustomFieldId = Config::getInstance()->getValue(Config::id_customField_remaining);
-      $query = "SELECT name FROM `mantis_custom_field_table` where id = $remainingCustomFieldId ";
+      $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
+      $query = "SELECT name FROM `mantis_custom_field_table` where id = $backlogCustomFieldId ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
       if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-         echo "<span style='color:red'>ERROR: Remaining CustomField not found !</span>";
+         echo "<span style='color:red'>ERROR: Backlog CustomField not found !</span>";
          exit;
       }
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-      $remainingFieldName = SqlWrapper::getInstance()->sql_result($result, 0);
+      $backlogFieldName = SqlWrapper::getInstance()->sql_result($result, 0);
 
-      // --- find in bug history when was the latest update of the Remaining before $timestamp
+      // --- find in bug history when was the latest update of the Backlog before $timestamp
       $query = "SELECT * FROM `mantis_bug_history_table` ".
-               "WHERE field_name = '$remainingFieldName' ".
+               "WHERE field_name = '$backlogFieldName' ".
                "AND bug_id = '$this->bugId' ".
                "AND date_modified <= '$timestamp' ".
                "ORDER BY date_modified DESC LIMIT 1 ";
@@ -1620,15 +1620,15 @@ class Issue implements Comparable {
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          // the first result is the closest to the given timestamp
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $remaining = $row->new_value;
+         $backlog = $row->new_value;
 
-         self::$logger->debug("getRemaining(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
+         self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
 
       } else {
-         // no remaining update found in history, return NULL
-         $remaining = NULL;
+         // no backlog update found in history, return NULL
+         $backlog = NULL;
       }
-      return $remaining;
+      return $backlog;
    }
 
 

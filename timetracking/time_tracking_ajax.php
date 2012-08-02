@@ -30,14 +30,14 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
       require('classes/smarty_helper.class.php');
 
       $smartyHelper = new SmartyHelper();
-      if($_GET['action'] == 'updateRemainingAction') {
+      if($_GET['action'] == 'updateBacklogAction') {
          require('timetracking/time_tracking_tools.php');
          include_once('classes/issue_cache.class.php');
          include_once('classes/time_tracking.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
-         $formattedRemaining = Tools::getSecureGETNumberValue('remaining');
-         $issue->setRemaining($formattedRemaining);
+         $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
+         $issue->setBacklog($formattedBacklog);
 
          $weekDates = Tools::week_dates(Tools::getSecureGETIntValue('weekid'),Tools::getSecureGETIntValue('year'));
          $startTimestamp = $weekDates[1];

@@ -104,7 +104,7 @@ function getServiceContractStateList($command = NULL) {
    return $stateList;
 }
 
-function getRemainingHistory(Command $cmd) {
+function getBacklogHistory(Command $cmd) {
 
    $cmdIssueSel = $cmd->getIssueSelection();
 
@@ -130,19 +130,19 @@ function getRemainingHistory(Command $cmd) {
                    'endTimestamp' => $endTimestamp,
                    'interval' => 14 );
 
-   $remainingHistoryIndicator = new RemainingHistoryIndicator();
-   $remainingData = $remainingHistoryIndicator->execute($cmdIssueSel, $params);
+   $backlogHistoryIndicator = new BacklogHistoryIndicator();
+   $backlogData = $backlogHistoryIndicator->execute($cmdIssueSel, $params);
 
    $elapsedHistoryIndicator = new ElapsedHistoryIndicator();
    $elapsedData = $elapsedHistoryIndicator->execute($cmdIssueSel, $params);
 
    //
    $elapsedList = array();
-   $remainingList = array();
+   $backlogList = array();
    $bottomLabel = array();
-   foreach ($remainingData as $timestamp => $remaining) {
+   foreach ($backlogData as $timestamp => $backlog) {
 
-      $remainingList[] = (NULL == $remaining) ? 0 : $remaining; // TODO
+      $backlogList[] = (NULL == $backlog) ? 0 : $backlog; // TODO
       #$elapsedList[]   = (NULL == $elapsedData[$timestamp]) ? 0 : $elapsedData[$timestamp]; // TODO
       $bottomLabel[]   = Tools::formatDate("%d %b", $timestamp);
    }
@@ -152,13 +152,13 @@ function getRemainingHistory(Command $cmd) {
       $elapsedList[] = (NULL == $elapsed) ? 0 : $elapsed; // TODO
    }
 
-   $strVal1 = implode(':', array_values($remainingList));
+   $strVal1 = implode(':', array_values($backlogList));
    $strVal2 = implode(':', array_values($elapsedList));
 
    #echo "strVal1 $strVal1<br>";
    $strBottomLabel = implode(':', $bottomLabel);
 
-   $smartyData = Tools::SmartUrlEncode('title='.T_('Remaining history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Remaining').'&x1='.$strVal1.'&leg2='.T_('Elapsed').'&x2='.$strVal2);
+   $smartyData = Tools::SmartUrlEncode('title='.T_('Backlog history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Backlog').'&x1='.$strVal1.'&leg2='.T_('Elapsed').'&x2='.$strVal2);
 
 
    return $smartyData;
@@ -239,7 +239,7 @@ function displayCommand($smartyHelper, Command $cmd) {
    $smartyHelper->assign('cmdIssues', $issueList);
 
    // Indicators & statistics
-   #$smartyHelper->assign('remainingHistoryGraph', getRemainingHistory($cmd));
+   #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
 
    $smartyHelper->assign('backlogVariationGraph', getBacklogVariation($cmd));
 

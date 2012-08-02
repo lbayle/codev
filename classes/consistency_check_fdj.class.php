@@ -87,12 +87,12 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
             $cerr->severity = T_("Error");
             $cerrList[] = $cerr;
          }
-      	if (NULL == $issue->remaining) {
+      	if (NULL == $issue->backlog) {
            $cerr = new ConsistencyError($row->bug_id,
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated,
-                                              T_("Remaining not specified: Remaining = Time(BI - Analysis)"));
+                                              T_("Backlog not specified: Backlog = Time(BI - Analysis)"));
             $cerr->severity = T_("Error");
             $cerrList[] = $cerr;
       	}

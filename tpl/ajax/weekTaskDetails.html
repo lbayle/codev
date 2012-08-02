@@ -67,8 +67,8 @@
    <tr id="weekTasks-{$i.bugid}">
       <td>{$i.mantisURL} {$i.issueURL}{if $i.issueId} / {$i.issueId}{/if} : {$i.summary}</td>
       <td><img title='Add note: comming soon...' align='absmiddle' src='images/b_note_grey.png' /></td>
-      <td><a title="{t}update remaining{/t}" onclick="updateRemaining('{$i.remaining}',
-            '{$i.description}', '{$i.bugid}', '{t}Task{/t} {$i.bugid}{if $i.issueId} / {$i.issueId}{/if} - {t}Update Remaining{/t}');return false;" href="{$page}">{$i.formattedRemaining}</a>
+      <td><a title="{t}update backlog{/t}" onclick="updateBacklog('{$i.backlog}',
+            '{$i.description}', '{$i.bugid}', '{t}Task{/t} {$i.bugid}{if $i.issueId} / {$i.issueId}{/if} - {t}Update Backlog{/t}');return false;" href="{$page}">{$i.formattedBacklog}</a>
       </td>
       <td class="job-{$i.jobid}">{$i.jobName}</td>
       {foreach from=$i.dayTasks key=day item=j}

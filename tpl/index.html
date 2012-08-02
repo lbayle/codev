@@ -1,21 +1,21 @@
 <script type="text/javascript">
 
-    function updateRemaining(dialogBoxTitle, bugid, remaining, description, userid, nextForm ){
+    function updateBacklog(dialogBoxTitle, bugid, backlog, description, userid, nextForm ){
         jQuery( "#desc_summary" ).text(description);
         
-        jQuery( "#formUpdateRemaining * #remaining" ).val(remaining);
-        jQuery( "#formUpdateRemaining input[name=bugid]" ).val(bugid);
-        jQuery( "#formUpdateRemaining input[name=userid]" ).val(userid);
-        jQuery( "#formUpdateRemaining input[name=nextForm]" ).val(nextForm);
+        jQuery( "#formUpdateBacklog * #backlog" ).val(backlog);
+        jQuery( "#formUpdateBacklog input[name=bugid]" ).val(bugid);
+        jQuery( "#formUpdateBacklog input[name=userid]" ).val(userid);
+        jQuery( "#formUpdateBacklog input[name=nextForm]" ).val(nextForm);
 
-        jQuery( "#update_remaining_dialog_form" ).dialog('option', 'title', dialogBoxTitle);
-        jQuery( "#update_remaining_dialog_form" ).dialog( "open" );
+        jQuery( "#update_backlog_dialog_form" ).dialog('option', 'title', dialogBoxTitle);
+        jQuery( "#update_backlog_dialog_form" ).dialog( "open" );
     }
 
     // ------ JQUERY ------
     jQuery(document).ready(function(){
-        var  remaining = $( "#remaining" ),
-        allFields = $( [] ).add( remaining ),
+        var  backlog = $( "#backlog" ),
+        allFields = $( [] ).add( backlog ),
         tips = $( "#validateTips" ).hide();
 
         function updateTips( t ) {
@@ -37,24 +37,24 @@
             }
         }
 
-        jQuery( "#update_remaining_dialog_form" ).dialog({
+        jQuery( "#update_backlog_dialog_form" ).dialog({
             autoOpen: false,
             height: 250,
             width: 500,
             modal: true,
             open: function() {
                 // Select input field contents
-                $( "#remaining" ).select();
+                $( "#backlog" ).select();
             },
             buttons: {
                 "Update": function() {
                     var bValid = true;
                     allFields.removeClass( "ui-state-error" );
-                    bValid = bValid && checkRegexp( remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
+                    bValid = bValid && checkRegexp( backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
 
                     if ( bValid ) {
-                        // TODO use AJAX to call php func and update remaining on bugid
-                        jQuery('#formUpdateRemaining').submit();
+                        // TODO use AJAX to call php func and update backlog on bugid
+                        jQuery('#formUpdateBacklog').submit();
                     }
                 },
                 Cancel: function() {
@@ -75,15 +75,15 @@
     });
 </script>
 
-<div id="update_remaining_dialog_form" title="Task XXX - Update Remaining" style="display: none">
+<div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" style="display: none">
     <p id="desc_summary"></p>
-    <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="{$page}" >
+    <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
         <fieldset>
-            <label for="remaining">Remaining: </label><input type="text" id="remaining" name="remaining" size="3" class="text" value="noValue" />
+            <label for="backlog">Backlog: </label><input type="text" id="backlog" name="backlog" size="3" class="text" value="noValue" />
             <input type="hidden" name="bugid" value="0" />
             <input type="hidden" name="userid" value="0" />
             <input type="hidden" name="nextForm" value="unspecifiedForm" />
-            <input type="hidden" name="action" value="updateRemainingAction" />
+            <input type="hidden" name="action" value="updateBacklogAction" />
        </fieldset>
     </form>
     <p id="validateTips" style="display: none; border: 1px solid transparent; padding: 0.3em;"></p>
@@ -138,7 +138,7 @@
             <td>{$i.issueInfoURL}</td>
             <td>{$i.projectName}</td>
             <td {if $i.driftEE > 0}style="background-color: #fcbdbd;"{elseif $i.driftEE < 0}style="background-color: #61ed66;"{/if}>{$i.driftEE}</td>
-            <td><a title="{t}update Remaining{/t}" href="javascript: updateRemaining('Task {$i.formatedTitle} - Update Remaining', '{$i.bugId}', '{$i.remaining}', '{$i.formatedSummary}', '', '')">{$i.remaining}</a></td>
+            <td><a title="{t}update Backlog{/t}" href="javascript: updateBacklog('Task {$i.formatedTitle} - Update Backlog', '{$i.bugId}', '{$i.backlog}', '{$i.formatedSummary}', '', '')">{$i.backlog}</a></td>
             <td>{$i.summary}</td>
         </tr>
         {/foreach}

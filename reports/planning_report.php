@@ -124,7 +124,7 @@ function getConsistencyErrors($teamid) {
    $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(TRUE);
    $ccheck = new ConsistencyCheck2($issueList);
 
-   $cerrList  = $ccheck->checkBadRemaining();
+   $cerrList  = $ccheck->checkBadBacklog();
    $cerrList2 = $ccheck->checkUnassignedTasks();
 
    $consistencyErrors = NULL;

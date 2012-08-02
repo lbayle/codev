@@ -467,7 +467,7 @@ class Install {
       $attributes["display_report"] = 0;
       $attributes["display_closed"] = 1;
       $attributes["display_resolved"] = 1;
-      $this->createCustomField(T_("CodevTT_Remaining"), $mType_numeric, "customField_remaining", $attributes);
+      $this->createCustomField(T_("CodevTT_Backlog"), $mType_numeric, "customField_backlog", $attributes);
 
       $attributes["require_report"] = 0;
       $attributes["display_report"] = 0;

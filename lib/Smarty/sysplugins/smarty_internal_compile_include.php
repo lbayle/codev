@@ -168,7 +168,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase {
         }
         // delete {include} standard attributes
         unset($_attr['file'], $_attr['assign'], $_attr['cache_id'], $_attr['compile_id'], $_attr['cache_lifetime'], $_attr['nocache'], $_attr['caching'], $_attr['scope'], $_attr['inline']);
-        // remaining attributes must be assigned as smarty variable
+        // backlog attributes must be assigned as smarty variable
         if (!empty($_attr)) {
             if ($_parent_scope == Smarty::SCOPE_LOCAL) {
                 // create variables

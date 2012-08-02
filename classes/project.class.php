@@ -295,7 +295,7 @@ class Project {
       $mgrEffortEstimCustomField  = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
-      $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
+      $backlogCustomField    = Config::getInstance()->getValue(Config::id_customField_backlog);
       $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 
@@ -328,7 +328,7 @@ class Project {
                "VALUES ('$mgrEffortEstimCustomField', '$projectid','2'), ".
                       "('$estimEffortCustomField',    '$projectid','3'), ".
                       "('$addEffortCustomField',      '$projectid','4'), ".
-                      "('$remainingCustomField',      '$projectid','5'), ".
+                      "('$backlogCustomField',      '$projectid','5'), ".
                       "('$deadLineCustomField',       '$projectid','6'), ".
                       "('$deliveryDateCustomField',   '$projectid','7');";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -482,7 +482,7 @@ class Project {
       $mgrEffortEstim         = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
-      $remainingCustomField    = Config::getInstance()->getValue(Config::id_customField_remaining);
+      $backlogCustomField    = Config::getInstance()->getValue(Config::id_customField_backlog);
       $deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
       #$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
@@ -509,7 +509,7 @@ class Project {
      if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','102'),"; $found = true; }
      if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','103'),"; $found = true; }
      if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','104'),"; $found = true; }
-     if (!in_array($remainingCustomField, $existingFields))    { $query .= "('$remainingCustomField',    '$projectid','105'),"; $found = true; }
+     if (!in_array($backlogCustomField, $existingFields))    { $query .= "('$backlogCustomField',    '$projectid','105'),"; $found = true; }
      if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','106'),"; $found = true; }
      if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','107'),"; $found = true; }
      #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }

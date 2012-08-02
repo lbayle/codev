@@ -628,7 +628,7 @@ class AccLinePlot extends Plot {
                 }
                 else {
                     // There are no valid end point. The '-' goes all the way to the end
-                    // In that case we just set all the remaining values the the same as the
+                    // In that case we just set all the backlog values the the same as the
                     // last valid data point.
                     for( $j=$pstart+1; $j < $n; ++$j )
                     if( $this->iStartEndZero ) {

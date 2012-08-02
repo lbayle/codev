@@ -143,9 +143,9 @@ $(document).ready(function() {
                   <th>{t}Command{/t}</th>
                   <th>{t}Team{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Backlog Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
@@ -160,7 +160,7 @@ $(document).ready(function() {
                      <td>{$cmd.effortEstim}</td>
                      <td>{$cmd.reestimated}</td>
                      <td>{$cmd.elapsed}</td>
-                     <td>{$cmd.remaining}</td>
+                     <td>{$cmd.backlog}</td>
                      <td {$cmd.driftColor}>{$cmd.drift}</td>
                      <td>{$cmd.progress}%</td>
                   </tr>
@@ -173,7 +173,7 @@ $(document).ready(function() {
                      <td>{$cmdsetDetailedMgr.effortEstim}</td>
                      <td>{$cmdsetDetailedMgr.reestimated}</td>
                      <td>{$cmdsetDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetDetailedMgr.remaining}</td>
+                     <td>{$cmdsetDetailedMgr.backlog}</td>
                      <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
                      <td>{$cmdsetDetailedMgr.progress}%</td>
                   </tr>

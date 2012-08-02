@@ -207,7 +207,7 @@ class SmartyTools {
          'effortEstim' => $issueSelection->mgrEffortEstim,
          'reestimated' => $issueSelection->getReestimatedMgr(),
          'elapsed' => $issueSelection->elapsed,
-         'remaining' => $issueSelection->durationMgr,
+         'backlog' => $issueSelection->durationMgr,
          'driftColor' => $formatteddriftMgrColor,
          'drift' => round($valuesMgr['nbDays'],2),
          'progress' => round(100 * $issueSelection->getProgressMgr(),2),

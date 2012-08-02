@@ -803,7 +803,7 @@ class User {
     * @return int 
     */
    public function getForecastWorkload(array $projList = NULL) {
-      $totalRemaining = 0;
+      $totalBacklog = 0;
 
       if (NULL == $projList) {
          $teamList = $this->getDevTeamList();
@@ -813,7 +813,7 @@ class User {
       if (0 == count($projList)) {
          // this happens if User is not a Developper (Manager or Observer)
          //echo "<div style='color:red'>ERROR: no project associated to this team !</div><br>";
-         return $totalRemaining;
+         return $totalBacklog;
       }
 
       $formatedProjList = implode(', ', array_keys($projList));
@@ -833,10 +833,10 @@ class User {
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         $totalRemaining += $issue->getDurationMgr();
+         $totalBacklog += $issue->getDurationMgr();
       }
 
-      return $totalRemaining;
+      return $totalBacklog;
    }
 
    /**

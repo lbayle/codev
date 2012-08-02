@@ -90,7 +90,7 @@ function getProjectActivityReport($projectTracks, $teamid, $isDetailed) {
              'targetVersion' => $issue->getTargetVersion(),
              'currentStatusName' => $issue->getCurrentStatusName(),
              'progress' => round(100 * $issue->getProgress()),
-             'remaining' => $issue->remaining,
+             'backlog' => $issue->backlog,
              'totalTime' => $totalTime,
          );
       }

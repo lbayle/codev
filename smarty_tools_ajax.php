@@ -81,11 +81,11 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
       }
    }
    else if($_POST['action']) {
-      if($_POST['action'] == 'updateRemainingAction') {
+      if($_POST['action'] == 'updateBacklogAction') {
          include_once('classes/issue_cache.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(Tools::getSecurePOSTIntValue('bugid'));
-         $issue->setRemaining(Tools::getSecurePOSTNumberValue('remaining'));
+         $issue->setBacklog(Tools::getSecurePOSTNumberValue('backlog'));
       }
       else {
          Tools::sendNotFoundAccess();

@@ -107,7 +107,7 @@
          <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
          <li><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
          <li><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
-         <li><a href="#tabsName-4">{t}Remaining history{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Backlog history{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          <!-- General info -->
@@ -117,8 +117,8 @@
 
          <script type="text/javascript">
             jQuery(document).ready(function() {
-               var remaining = jQuery("#remaining"),
-                  allFields = jQuery([]).add(remaining),
+               var backlog = jQuery("#backlog"),
+                  allFields = jQuery([]).add(backlog),
                   tips = jQuery("#validateTips");
 
                function updateTips(t) {
@@ -139,35 +139,35 @@
                   }
                }
 
-               jQuery("#update_remaining_dialog_form").dialog({
+               jQuery("#update_backlog_dialog_form").dialog({
                   autoOpen: false,
                   height: 200,
                   width: 500,
                   modal: true,
                   open: function() {
                      // Select input field contents
-                     jQuery("#remaining").select();
+                     jQuery("#backlog").select();
                   },
                   buttons: {
                      "{t}Update{/t}": function() {
-                        jQuery("#formUpdateRemaining").submit();
+                        jQuery("#formUpdateBacklog").submit();
                      },
                      Cancel: function() {
                         jQuery(this).dialog("close");
                         allFields.val("").removeClass("ui-state-error");
-                        remaining.val({$issueGeneralInfo.issueRemaining});
+                        backlog.val({$issueGeneralInfo.issueBacklog});
                         updateTips("{$issueGeneralInfo.issueSummary}");
                      }
                   }
                });
 
-               jQuery("#formUpdateRemaining").submit(function(event) {
+               jQuery("#formUpdateBacklog").submit(function(event) {
                   /* stop form from submitting normally */
                   event.preventDefault();
 
                   var bValid = true;
                   allFields.removeClass("ui-state-error");
-                  bValid = bValid && checkRegexp(remaining, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
+                  bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
 
                   if (bValid) {
                      /* get some values from elements on the page: */
@@ -204,19 +204,19 @@
                         }
                      });
 
-                     jQuery("#update_remaining_dialog_form").dialog("close");
+                     jQuery("#update_backlog_dialog_form").dialog("close");
                   }
                });
             });
          </script>
-         <div id="update_remaining_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if $issueGeneralInfo.issueTcId} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Remaining{/t}" style="display: none">
+         <div id="update_backlog_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if $issueGeneralInfo.issueTcId} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Backlog{/t}" style="display: none">
             <p id="validateTips">{$issueGeneralInfo.issueSummary}</p>
-            <form id="formUpdateRemaining" name="formUpdateRemaining" method="post" action="smarty_tools_ajax.php" >
+            <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="smarty_tools_ajax.php" >
                <fieldset>
-                  <label for="remaining">{t}Remaining{/t}:</label>
-                  <input type="text" id="remaining" name="remaining" size="3" class="text" value="{$issueGeneralInfo.issueRemaining}" />
+                  <label for="backlog">{t}Backlog{/t}:</label>
+                  <input type="text" id="backlog" name="backlog" size="3" class="text" value="{$issueGeneralInfo.issueBacklog}" />
                   <input type="hidden" id="bugid" name="bugid"  value="{$issueGeneralInfo.issueId}" />
-                  <input type="hidden" name="action" value="updateRemainingAction" />
+                  <input type="hidden" name="action" value="updateBacklogAction" />
                </fieldset>
             </form>
          </div>
@@ -332,7 +332,7 @@
          {/if}
       </div>
       <div id="tabsName-4">
-         <img alt="{t}RemainingHistoryGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$remainingGraphURL}" />
+         <img alt="{t}BacklogHistoryGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$backlogGraphURL}" />
 
       </div>
 

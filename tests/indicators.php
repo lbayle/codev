@@ -89,23 +89,23 @@ if (isset($_SESSION['userid'])) {
 
    $date = "2012-01-16 23:59:59";
    $timestamp = Tools::datetime2timestamp($date);
-   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+   echo "Issue 69 date $date RAF = ".$issue->getBacklog($timestamp).'<br><br>';
 
    $date = "2012-01-17 23:59:59";
    $timestamp = Tools::datetime2timestamp($date);
-   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+   echo "Issue 69 date $date RAF = ".$issue->getBacklog($timestamp).'<br><br>';
 
    $date = "2012-06-21 23:59:59";
    $timestamp = Tools::datetime2timestamp($date);
-   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+   echo "Issue 69 date $date RAF = ".$issue->getBacklog($timestamp).'<br><br>';
 
    $date = "2012-06-25 23:59:59";
    $timestamp = Tools::datetime2timestamp($date);
-   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+   echo "Issue 69 date $date RAF = ".$issue->getBacklog($timestamp).'<br><br>';
 
    $date = "2012-07-31 23:59:59";
    $timestamp = Tools::datetime2timestamp($date);
-   echo "Issue 69 date $date RAF = ".$issue->getRemaining($timestamp).'<br><br>';
+   echo "Issue 69 date $date RAF = ".$issue->getBacklog($timestamp).'<br><br>';
 
 }
 

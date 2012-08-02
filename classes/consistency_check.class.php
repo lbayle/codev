@@ -117,8 +117,8 @@ class ConsistencyCheck {
 
       #$cerrList3 = $this->checkDeliveryDate();
 
-      #self::$logger->debug("checkBadRemaining");
-      $cerrList4 = $this->checkBadRemaining();
+      #self::$logger->debug("checkBadBacklog");
+      $cerrList4 = $this->checkBadBacklog();
 
       #self::$logger->debug("checkMgrEffortEstim");
       $cerrList5 = $this->checkMgrEffortEstim();
@@ -216,12 +216,12 @@ class ConsistencyCheck {
          // check if fields correctly set
       	$issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         if (0 != $issue->remaining) {
+         if (0 != $issue->backlog) {
            $cerr = new ConsistencyError($row->id,
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated,
-                                              T_("Remaining should be 0 (not $issue->remaining)."));
+                                              T_("Backlog should be 0 (not $issue->backlog)."));
             $cerr->severity = T_("Error");
             $cerrList[] = $cerr;
          }
@@ -236,11 +236,11 @@ class ConsistencyCheck {
    /**
     * fiches NOT resolved with RAE == 0
     */
-  	public function checkBadRemaining() {
+  	public function checkBadBacklog() {
       global $status_new;
       global $status_acknowledged;
 
-      $min_remaining = 0;
+      $min_backlog = 0;
 
       $cerrList = array();
 
@@ -266,12 +266,12 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         if ($issue->remaining <= $min_remaining) {
+         if ($issue->backlog <= $min_backlog) {
            $cerr = new ConsistencyError($row->id,
                                               $row->handler_id,
                                               $row->status,
                                               $row->last_updated,
-                                              T_("Remaining == 0: Remaining may not be up to date."));
+                                              T_("Backlog == 0: Backlog may not be up to date."));
             $cerr->severity = T_("Warning");
             $cerrList[] = $cerr;
          }

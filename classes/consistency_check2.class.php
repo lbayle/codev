@@ -166,8 +166,8 @@ class ConsistencyCheck2 {
 
       #$cerrList3 = $this->checkDeliveryDate();
 
-      #self::$logger->debug("checkBadRemaining");
-      $cerrList4 = $this->checkBadRemaining();
+      #self::$logger->debug("checkBadBacklog");
+      $cerrList4 = $this->checkBadBacklog();
 
       /*
        * It is now allowed to have MgrEE = 0
@@ -213,12 +213,12 @@ class ConsistencyCheck2 {
       foreach ($this->issueList as $issue) {
          if (!$issue->isResolved()) { continue; }
 
-         if (0 != $issue->remaining) {
+         if (0 != $issue->backlog) {
             $cerr = new ConsistencyError2($issue->bugId,
                $issue->handlerId,
                $issue->currentStatus,
                $issue->last_updated,
-               T_("Remaining should be 0 (not $issue->remaining)."));
+               T_("Backlog should be 0 (not $issue->backlog)."));
             $cerr->severity = ConsistencyError2::severity_error;
             $cerrList[] = $cerr;
          }
@@ -231,7 +231,7 @@ class ConsistencyCheck2 {
     * tasks NOT resolved with RAE == 0
     * @return ConsistencyError2[]
     */
-   public function checkBadRemaining() {
+   public function checkBadBacklog() {
       global $status_new;
 
       $cerrList = array();
@@ -239,11 +239,11 @@ class ConsistencyCheck2 {
       foreach ($this->issueList as $issue) {
          if ((!$issue->isResolved()) &&
             ($issue->currentStatus > $status_new) &&
-            ((NULL == $issue->remaining) || ($issue->remaining <= 0))) {
-            if (NULL == $issue->remaining) {
-               $msg = T_("Remaining must be defined !");
+            ((NULL == $issue->backlog) || ($issue->backlog <= 0))) {
+            if (NULL == $issue->backlog) {
+               $msg = T_("Backlog must be defined !");
             } else {
-               $msg = T_("Remaining == 0: Remaining may not be up to date.");
+               $msg = T_("Backlog == 0: Backlog may not be up to date.");
             }
 
             $cerr = new ConsistencyError2($issue->bugId,

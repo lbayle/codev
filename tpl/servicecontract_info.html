@@ -160,9 +160,9 @@ $(document).ready(function() {
                   <th width="500">{t}CommandSet{/t}</th>
                   <!--th width="100">{t}Team{/t}</th-->
                   <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Backlog Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
@@ -176,7 +176,7 @@ $(document).ready(function() {
                      <td>{$cmdset.effortEstim}</td>
                      <td>{$cmdset.reestimated}</td>
                      <td>{$cmdset.elapsed}</td>
-                     <td>{$cmdset.remaining}</td>
+                     <td>{$cmdset.backlog}</td>
                      <td {$cmdset.driftColor}>{$cmdset.drift}</td>
                      <td>{$cmdset.progress}%</td>
                   </tr>
@@ -188,7 +188,7 @@ $(document).ready(function() {
                      <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                      <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetTotalDetailedMgr.remaining}</td>
+                     <td>{$cmdsetTotalDetailedMgr.backlog}</td>
                      <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
                      <td>{$cmdsetTotalDetailedMgr.progress}%</td>
                   </tr>
@@ -211,9 +211,9 @@ $(document).ready(function() {
                   <th width="500">{t}Command{/t}</th>
                   <!--th width="100">{t}Team{/t}</th-->
                   <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Backlog Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
@@ -227,7 +227,7 @@ $(document).ready(function() {
                      <td>{$cmd.effortEstim}</td>
                      <td>{$cmd.reestimated}</td>
                      <td>{$cmd.elapsed}</td>
-                     <td>{$cmd.remaining}</td>
+                     <td>{$cmd.backlog}</td>
                      <td {$cmd.driftColor}>{$cmd.drift}</td>
                      <td>{$cmd.progress}%</td>
                   </tr>
@@ -239,7 +239,7 @@ $(document).ready(function() {
                      <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                      <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetTotalDetailedMgr.remaining}</td>
+                     <td>{$cmdsetTotalDetailedMgr.backlog}</td>
                      <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
                      <td>{$cmdsetTotalDetailedMgr.progress}%</td>
                   </tr>
@@ -263,9 +263,9 @@ $(document).ready(function() {
                   <!--th></th-->
                   <th width="500">{t}Category{/t}</th>
                   <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Backlog Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
                </tr>
                </thead>
@@ -277,7 +277,7 @@ $(document).ready(function() {
                      <td>{$category.effortEstim}</td>
                      <td>{$category.reestimated}</td>
                      <td>{$category.elapsed}</td>
-                     <td>{$category.remaining}</td>
+                     <td>{$category.backlog}</td>
                      <td {$category.driftColor}>{$category.drift}</td>
                   </tr>
                   {/foreach}
@@ -287,7 +287,7 @@ $(document).ready(function() {
                      <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
                      <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
                      <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
-                     <td>{$sidetasksTotalDetailedMgr.remaining}</td>
+                     <td>{$sidetasksTotalDetailedMgr.backlog}</td>
                      <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
                   </tr>
 
@@ -310,9 +310,9 @@ $(document).ready(function() {
                   <!--th></th-->
                   <th width="500"></th>
                   <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="remainingMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
-                  <th>{t}Remaining Mgr{/t}</th>
+                  <th>{t}Backlog Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
                </tr>
                </thead>
@@ -323,7 +323,7 @@ $(document).ready(function() {
                      <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                      <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
                      <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetTotalDetailedMgr.remaining}</td>
+                     <td>{$cmdsetTotalDetailedMgr.backlog}</td>
                      <td>{$cmdsetTotalDetailedMgr.drift}</td>
                   </tr>
                   <tr>
@@ -332,7 +332,7 @@ $(document).ready(function() {
                      <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
                      <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
                      <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
-                     <td>{$sidetasksTotalDetailedMgr.remaining}</td>
+                     <td>{$sidetasksTotalDetailedMgr.backlog}</td>
                      <td>{$sidetasksTotalDetailedMgr.drift}</td>
                   </tr>
                   <tr class="row_even">
@@ -341,7 +341,7 @@ $(document).ready(function() {
                      <td><b>{$servicecontractTotalDetailedMgr.effortEstim}</b></td>
                      <td><b>{$servicecontractTotalDetailedMgr.reestimated}</b></td>
                      <td><b>{$servicecontractTotalDetailedMgr.elapsed}</b></td>
-                     <td><b>{$servicecontractTotalDetailedMgr.remaining}</b></td>
+                     <td><b>{$servicecontractTotalDetailedMgr.backlog}</b></td>
                      <td {$servicecontractTotalDetailedMgr.driftColor}><b>{$servicecontractTotalDetailedMgr.drift}</b></td>
                   </tr>
 

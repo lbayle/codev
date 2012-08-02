@@ -122,7 +122,7 @@ class BacklogVariationIndicator implements IndicatorPlugin {
          $backlog = 0;
          foreach ($inputIssueSel->getIssueList() as $id => $issue) {
 
-            $issueBL = $issue->getRemaining($timestamp);
+            $issueBL = $issue->getBacklog($timestamp);
             if (NULL != $issueBL) {
                $backlog += $issueBL;
             } else {

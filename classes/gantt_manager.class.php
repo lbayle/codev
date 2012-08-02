@@ -199,7 +199,7 @@ class GanttManager {
    /**
     * @param int $teamId
     * @param int $startT  start timestamp. if NULL, then now
-    * @param int $endT    end timestamp. if NULL, shedule all remaining tasks
+    * @param int $endT    end timestamp. if NULL, shedule all backlog tasks
     */
    public function __construct($teamId, $startT=NULL, $endT=NULL) {
       self::$logger->debug("GanttManager($teamId, ".date('Y-m-d', $startT).", ".date('Y-m-d', $endT).")");
@@ -297,13 +297,13 @@ class GanttManager {
    }
 
    /**
-    * The remainingStartDate (RSD) is NOT the startDate of the issue.
+    * The backlogStartDate (RSD) is NOT the startDate of the issue.
     *
     * The StartDate (except for status=new) is in the past, it's the
     * the date where the user started investigating on the issue.
     *
     * the RSD is a temporary date, used to determinate the endDate,
-    * depending on the remaining days to resolve the issue.
+    * depending on the backlog days to resolve the issue.
     *
     * Note: If status='new' then, StartDate == RSD.
     *
@@ -325,7 +325,7 @@ class GanttManager {
     * @param array $userDispatchInfo
     * @return array[]
     */
-   private function findRemainingStartDate(Issue $issue, array $userDispatchInfo) {
+   private function findBacklogStartDate(Issue $issue, array $userDispatchInfo) {
 
 		$user = UserCache::getInstance()->getUser($issue->handlerId);
 
@@ -352,10 +352,10 @@ class GanttManager {
       }
 
 		//the RSD is the arrivalDate of the user's latest added Activity
-		// but if the availableTime on RemainingStartDate is 0, then search for the next 'free' day
+		// but if the availableTime on BacklogStartDate is 0, then search for the next 'free' day
 		while ( 0 == $userDispatchInfo[1]) {
 			$rsd = $userDispatchInfo[0];
-			self::$logger->debug("no availableTime on RemainingStartDate ".date("Y-m-d", $rsd));
+			self::$logger->debug("no availableTime on BacklogStartDate ".date("Y-m-d", $rsd));
 			$rsd = strtotime("+1 day",$rsd);
          $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
 		}
@@ -387,23 +387,23 @@ class GanttManager {
     * that there is no special case for feedback.
     *
     *  STATUS   | START_DATE
-    *  new      | RemainingStartDate
+    *  new      | BacklogStartDate
     *  feedback | firstDate of changeStatus to status > New
     *  ack      | firstDate of changeStatus to status > New
     *  analyzed | firstDate of changeStatus to status > New
     *  open     | firstDate of changeStatus to status > New
     *
     * @param Issue $issue
-    * @param int $remainingStartDate
+    * @param int $backlogStartDate
     * @return int
     */
-   private function findStartDate(Issue $issue, $remainingStartDate) {
+   private function findStartDate(Issue $issue, $backlogStartDate) {
    	global $status_new;
 
 		if ($status_new == $issue->currentStatus) {
 
 			// if status is new, we want the startDate to be the same as the endDate of previous activity.
-			$startDate = $remainingStartDate;
+			$startDate = $backlogStartDate;
 
 		} else {
 
@@ -427,11 +427,11 @@ class GanttManager {
 
    /**
     *  STATUS   | BEGIN                | END
-    *  open     | firstAckDate         | previousIssueEndDate + getRemaining()
-    *  analyzed | firstAckDate         | previousIssueEndDate + getRemaining()
-    *  ack      | firstAckDate         | previousIssueEndDate + getRemaining()
-    *  feedback | previousIssueEndDate | previousIssueEndDate + getRemaining()
-    *  new      | previousIssueEndDate | previousIssueEndDate + getRemaining()
+    *  open     | firstAckDate         | previousIssueEndDate + getBacklog()
+    *  analyzed | firstAckDate         | previousIssueEndDate + getBacklog()
+    *  ack      | firstAckDate         | previousIssueEndDate + getBacklog()
+    *  feedback | previousIssueEndDate | previousIssueEndDate + getBacklog()
+    *  new      | previousIssueEndDate | previousIssueEndDate + getBacklog()
     *
     * @param Issue[] $issueList
     * @return array[]
@@ -451,12 +451,12 @@ class GanttManager {
 			   $teamDispatchInfo[$issue->handlerId] = array($today, $user->getAvailableTime($today));
 			}
 
-			// find remainingStartDate
-         $teamDispatchInfo[$issue->handlerId] = $this->findRemainingStartDate($issue, $teamDispatchInfo[$issue->handlerId]);
-         $remainingStartDate = $teamDispatchInfo[$issue->handlerId][0];
+			// find backlogStartDate
+         $teamDispatchInfo[$issue->handlerId] = $this->findBacklogStartDate($issue, $teamDispatchInfo[$issue->handlerId]);
+         $backlogStartDate = $teamDispatchInfo[$issue->handlerId][0];
 
 			// find startDate
-			$startDate = $this->findStartDate($issue, $remainingStartDate);
+			$startDate = $this->findStartDate($issue, $backlogStartDate);
 
 			// compute endDate
 			// the arrivalDate depends on the dateOfInsertion and the available time on that day
@@ -464,7 +464,7 @@ class GanttManager {
 			                                                                             $teamDispatchInfo[$issue->handlerId][1]);
 			$endDate = $teamDispatchInfo[$issue->handlerId][0];
 
-			self::$logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $remainingStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
+			self::$logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $backlogStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
 			self::$logger->debug("issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]);
 
 			// activitiesByUser

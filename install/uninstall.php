@@ -158,7 +158,7 @@ function removeCustomFields() {
    $mgrEffortEstim = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
    $estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
    $addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
-   $remainingCustomField = Config::getInstance()->getValue(Config::id_customField_remaining);
+   $backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
    $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
    $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
    #$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
@@ -167,7 +167,7 @@ function removeCustomFields() {
    custom_field_destroy($mgrEffortEstim);
    custom_field_destroy($estimEffortCustomField);
    custom_field_destroy($addEffortCustomField);
-   custom_field_destroy($remainingCustomField);
+   custom_field_destroy($backlogCustomField);
    custom_field_destroy($deadLineCustomField);
    custom_field_destroy($deliveryDateCustomField);
    #custom_field_destroy($deliveryIdCustomField);

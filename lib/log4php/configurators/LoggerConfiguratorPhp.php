@@ -104,7 +104,7 @@ class LoggerConfiguratorPhp implements LoggerConfigurator {
 					}
 					
 				}
-				// set remaining properties and activate appender
+				// set backlog properties and activate appender
 				$setter = new LoggerReflectionUtils($appender);
 				foreach ($appenderProperties as $key => $val) {
 					$setter->setProperty($key, $val);

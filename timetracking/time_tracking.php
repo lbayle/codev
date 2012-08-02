@@ -97,8 +97,8 @@ if($_SESSION['userid']) {
       $managedTeamList = $managed_user->getManagedTeamList();
       $teamList = $mTeamList + $managedTeamList;
 
-      // updateRemaining data
-      $remaining = Tools::getSecurePOSTNumberValue('remaining',0);
+      // updateBacklog data
+      $backlog = Tools::getSecurePOSTNumberValue('backlog',0);
 
       $action = Tools::getSecurePOSTStringValue('action','');
       $weekid = Tools::getSecurePOSTIntValue('weekid',date('W'));
@@ -119,27 +119,27 @@ if($_SESSION['userid']) {
          // save to DB
          $trackid = TimeTrack::create($userid, $defaultBugid, $job, $timestamp, $duration);
 
-         // do NOT decrease remaining if job is job_support !
+         // do NOT decrease backlog if job is job_support !
          if ($job != $job_support) {
-            // decrease remaining (only if 'remaining' already has a value)
+            // decrease backlog (only if 'backlog' already has a value)
             $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-            if (NULL != $issue->remaining) {
-               $remaining = $issue->remaining - $duration;
-               if ($remaining < 0) { $remaining = 0; }
-               $issue->setRemaining($remaining);
+            if (NULL != $issue->backlog) {
+               $backlog = $issue->backlog - $duration;
+               if ($backlog < 0) { $backlog = 0; }
+               $issue->setBacklog($backlog);
             }
 
-            // open the updateRemaining DialogBox on page reload
+            // open the updateBacklog DialogBox on page reload
             $project = ProjectCache::getInstance()->getProject($issue->projectId);
             if (($job != $job_support) &&
                 (!$project->isSideTasksProject(array_keys($teamList)) &&
                 (!$project->isExternalTasksProject()))) {
-               $issueInfo = array( 'remaining' => $issue->remaining,
+               $issueInfo = array( 'backlog' => $issue->backlog,
                                    'bugid' => $issue->bugId,
                                    'description' => $issue->summary,
                                    'dialogBoxTitle' => $issue->bugId." / ".$issue->tcId);
 
-               $smartyHelper->assign('updateRemainingRequested', $issueInfo);
+               $smartyHelper->assign('updateBacklogRequested', $issueInfo);
             }
          }
 
@@ -152,7 +152,7 @@ if($_SESSION['userid']) {
       elseif ("deleteTrack" == $action) {
          $trackid = Tools::getSecurePOSTIntValue('trackid');
 
-         // increase remaining (only if 'remaining' already has a value)
+         // increase backlog (only if 'backlog' already has a value)
          $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
          $defaultBugid = $timeTrack->bugId;
          $duration = $timeTrack->duration;
@@ -167,11 +167,11 @@ if($_SESSION['userid']) {
 
          try {
             $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-            // do NOT decrease remaining if job is job_support !
+            // do NOT decrease backlog if job is job_support !
             if ($job != $job_support) {
-               if (NULL != $issue->remaining) {
-                  $remaining = $issue->remaining + $duration;
-                  $issue->setRemaining($remaining);
+               if (NULL != $issue->backlog) {
+                  $backlog = $issue->backlog + $duration;
+                  $issue->setBacklog($backlog);
                }
             }
 

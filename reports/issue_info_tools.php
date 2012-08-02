@@ -64,7 +64,7 @@ class IssueInfoTools {
          "issueEffortTitle" => $issue->effortEstim.' + '.$issue->effortAdd,
          "issueEffort" => $issue->effortEstim + $issue->effortAdd,
          "issueReestimated" => $issue->getReestimated(),
-         "issueRemaining" => $issue->remaining,
+         "issueBacklog" => $issue->backlog,
          "issueDriftColor" => $issue->getDriftColor($drift),
          "issueDrift" => round($drift, 2),
          "progress" => round(100 * $issue->getProgress())
@@ -327,23 +327,23 @@ class IssueInfoTools {
       return $timestamps;
    }
 
-   public static function getRemainingGraph(Issue $issue, array $timestampList) {
+   public static function getBacklogGraph(Issue $issue, array $timestampList) {
 
-   $remainingList = array();
+   $backlogList = array();
    $bottomLabel = array();
    foreach ($timestampList as $timestamp) {
-      $remaining = $issue->getRemaining($timestamp);
+      $backlog = $issue->getBacklog($timestamp);
 
-      $remainingList[] = (NULL == $remaining) ? $issue->mgrEffortEstim : $remaining; // TODO
+      $backlogList[] = (NULL == $backlog) ? $issue->mgrEffortEstim : $backlog; // TODO
       $bottomLabel[] = Tools::formatDate("%d %b", $timestamp);
    }
 
-   $strVal1 = implode(':', array_values($remainingList));
+   $strVal1 = implode(':', array_values($backlogList));
 
    #echo "strVal1 $strVal1<br>";
    $strBottomLabel = implode(':', $bottomLabel);
 
-   return Tools::SmartUrlEncode('title='.T_('Remaining history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Remaining').'&x1='.$strVal1);
+   return Tools::SmartUrlEncode('title='.T_('Backlog history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Backlog').'&x1='.$strVal1);
 
    }
 

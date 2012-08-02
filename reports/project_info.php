@@ -104,7 +104,7 @@ function getVersionsDetailedMgr(Project $project) {
    $versionsDetailedMgr = NULL;
    $totalEffortEstimMgr = 0;
    $totalElapsed = 0;
-   $totalRemainingMgr = 0;
+   $totalBacklogMgr = 0;
    $totalReestimatedMgr = 0;
    $totalDriftMgr = 0;
 
@@ -121,7 +121,7 @@ function getVersionsDetailedMgr(Project $project) {
    foreach ($projectVersionList as $version => $pv) {
       $totalEffortEstimMgr += $pv->mgrEffortEstim;
       $totalElapsed += $pv->elapsed;
-      $totalRemainingMgr += $pv->durationMgr;
+      $totalBacklogMgr += $pv->durationMgr;
       $totalReestimatedMgr += $pv->getReestimatedMgr();
       //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
@@ -136,7 +136,7 @@ function getVersionsDetailedMgr(Project $project) {
                                      'effortEstim' => $pv->mgrEffortEstim,
                                      'reestimated' => $pv->getReestimatedMgr(),
                                      'elapsed'     => $pv->elapsed,
-                                     'remaining'   => $pv->durationMgr,
+                                     'backlog'   => $pv->durationMgr,
                                      'driftColor'  => $formatteddriftMgrColor,
                                      'drift'       => round($valuesMgr['nbDays'],2)
       );
@@ -155,13 +155,13 @@ function getVersionsDetailed(array $projectVersionList) {
    $totalDrift = 0;
    $totalEffortEstim = 0;
    $totalElapsed = 0;
-   $totalRemaining = 0;
+   $totalBacklog = 0;
    $totalReestimated = 0;
 
    foreach ($projectVersionList as $version => $pv) {
       $totalEffortEstim += $pv->effortEstim + $pv->effortAdd;
       $totalElapsed += $pv->elapsed;
-      $totalRemaining += $pv->duration;
+      $totalBacklog += $pv->duration;
       $totalReestimated += $pv->getReestimated();
       //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
@@ -176,7 +176,7 @@ function getVersionsDetailed(array $projectVersionList) {
          'effortEstim' => ($pv->effortEstim + $pv->effortAdd),
          'reestimated' => $pv->getReestimated(),
          'elapsed'     => $pv->elapsed,
-         'remaining'   => $pv->duration,
+         'backlog'   => $pv->duration,
          'driftColor'  => $formatteddriftColor,
          'drift'       => round($values['nbDays'],2)
       );
@@ -187,7 +187,7 @@ function getVersionsDetailed(array $projectVersionList) {
                                'effortEstim' => $totalEffortEstim,
                                'reestimated' => $totalReestimated,
                                'elapsed'     => $totalElapsed,
-                               'remaining'   => $totalRemaining,
+                               'backlog'   => $totalBacklog,
                                'driftColor'  => '',
                                'drift'       => $totalDrift
    );
@@ -204,11 +204,11 @@ function getVersionsIssues(array $projectVersionList) {
    global $status_new;
    $versionsIssues = NULL;
    $totalElapsed = 0;
-   $totalRemaining = 0;
+   $totalBacklog = 0;
    foreach ($projectVersionList as $pv) {
       $totalElapsed += $pv->elapsed;
       // FIXME No remaing exist on ProjectVersion neither IssueSelection
-      $totalRemaining += $pv->remaining;
+      $totalBacklog += $pv->backlog;
       //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
       // format Issues list
@@ -247,12 +247,12 @@ function getVersionsIssues(array $projectVersionList) {
 
    /*
    // compute total progress
-   if (0 == $totalRemaining) {
-      $totalProgress = 1;  // if no Remaining, then Project is 100% done.
+   if (0 == $totalBacklog) {
+      $totalProgress = 1;  // if no Backlog, then Project is 100% done.
    } elseif (0 == $totalElapsed) {
       $totalProgress = 0;  // if no time spent, then no work done.
    } else {
-      $totalProgress = $totalElapsed / ($totalElapsed + $totalRemaining);
+      $totalProgress = $totalElapsed / ($totalElapsed + $totalBacklog);
    }
    */
 
@@ -304,7 +304,7 @@ function getCurrentIssuesInDrift(array $projectVersionList, $isManager, $withSup
                                             'driftMgr' => $driftMgr,
                                             'driftColor' => $driftColor,
                                             'drift' => round($driftEE, 2),
-                                            'remaining' => $issue->remaining,
+                                            'backlog' => $issue->backlog,
                                             'progress' => round(100 * $issue->getProgress()),
                                             'currentStatusName' => $issue->getCurrentStatusName(),
                                             'summary' => $issue->summary
@@ -361,7 +361,7 @@ function getResolvedIssuesInDrift(array $projectVersionList, $isManager, $withSu
                                              'driftMgr' => $driftMgr,
                                              'driftColor' => $driftColor,
                                              'drift' => round($driftEE, 2),
-                                             'remaining' => $issue->remaining,
+                                             'backlog' => $issue->backlog,
                                              'progress' => round(100 * $issue->getProgress()),
                                              'currentStatusName' => $issue->getCurrentStatusName(),
                                              'summary' => $issue->summary
