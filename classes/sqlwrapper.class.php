@@ -269,16 +269,27 @@ class SqlWrapper {
          }
 
          //cycle through
-         $return = "";
+         $return = "-- MySQL dump\n";
+         $return .= "--\n";
+         $return .= "-- Host: ".$this->server."    Database: ".$this->database_name."\n";
+         $return .= "-- ------------------------------------------------------\n";
+         $return .= "-- Server version	\n\n";
          foreach($tables as $table) {
             $result = $this->sql_query('SELECT * FROM '.$table);
             $num_fields = mysql_num_fields($result);
 
-            $return .= 'DROP TABLE '.$table.';';
+            $return .= "--\n";
+            $return .= "-- Table structure for table `".$table."`\n";
+            $return .= "--\n\n";
+            $return .= 'DROP TABLE IF EXISTS '.$table.';';
             $row2 = mysql_fetch_row($this->sql_query('SHOW CREATE TABLE '.$table));
-            $return .= "\n\n".$row2[1].";\n\n";
-
-            for ($i = 0; $i < $num_fields; $i++) {
+            $return .= "\n".$row2[1].";\n\n";
+            if(self::sql_num_rows($result) > 0) {
+               $return .= "--\n";
+               $return .= "-- Dumping data for table `".$table."`\n";
+               $return .= "--\n\n";
+               $return .= "LOCK TABLES `".$table."` WRITE;\n";
+               $return .= "/*!40000 ALTER TABLE `".$table."` DISABLE KEYS */\n";
                while($row = mysql_fetch_row($result)) {
                   $return.= 'INSERT INTO '.$table.' VALUES(';
                   for($j=0; $j<$num_fields; $j++) {
@@ -289,8 +300,10 @@ class SqlWrapper {
                   }
                   $return .= ");\n";
                }
+               $return .= "/*!40000 ALTER TABLE `".$table."` ENABLE KEYS */\n";
+               $return .= "UNLOCK TABLES `".$table."` WRITE;\n";
+               $return .= "\n";
             }
-            $return .= "\n\n\n";
          }
 
          //save file

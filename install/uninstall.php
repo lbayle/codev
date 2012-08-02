@@ -107,11 +107,13 @@ function displayProjectsToRemove() {
    $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
    $project = ProjectCache::getInstance()->getProject($extproj_id);
    $prjList[$project->id] = $project->name;
-
+   
    // find sideTasks projects
+   $sideTaskProj_id = Project::type_sideTaskProject;
    $query = "SELECT mantis_project_table.id, mantis_project_table.name ".
-            "FROM `codev_sidetasks_category_table`, `mantis_project_table` ".
-            "WHERE mantis_project_table.id = codev_sidetasks_category_table.project_id ".
+            "FROM `mantis_project_table` JOIN `codev_team_project_table` ".
+            "ON mantis_project_table.id = codev_team_project_table.project_id ".
+            "WHERE codev_team_project_table.type=$sideTaskProj_id ".
             "ORDER BY mantis_project_table.name DESC";
 
    $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
@@ -131,46 +133,88 @@ function displayProjectsToRemove() {
  *
  * Delete the field definition and all associated values and project associations
  * return true on success, false on failure
- * @param int $p_field_id custom field id
  * @return bool
 */
-function custom_field_destroy( $p_field_id ) {
+function removeCustomFields() {
+   $tcCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+   $mgrEffortEstim = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+   $estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+   $addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+   $remainingCustomField = Config::getInstance()->getValue(Config::id_customField_remaining);
+   $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
+   $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+   #$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+
+   $fieldIds = array($tcCustomField,$mgrEffortEstim,$estimEffortCustomField,$addEffortCustomField,
+                     $remainingCustomField,$deadLineCustomField,$deliveryDateCustomField);
+   
    # delete all values
-   $query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id= $p_field_id;";
+   $query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id IN (".implode(', ', $fieldIds).");";
    SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
 
    # delete all project associations
-   $query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id= $p_field_id;";
+   $query = "DELETE FROM `mantis_custom_field_project_table` WHERE field_id IN (".implode(', ', $fieldIds).");";
    SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
 
    # delete the definition
-   $query = "DELETE FROM `mantis_custom_field_table` WHERE id= $p_field_id;";
+   $query = "DELETE FROM `mantis_custom_field_table` WHERE id IN (".implode(', ', $fieldIds).");";
    SqlWrapper::getInstance()->sql_query($query) or die("<span style='color:red'>Query FAILED: $query <br/>".SqlWrapper::getInstance()->sql_error()."</span>");
-
+   
    #custom_field_clear_cache( $p_field_id );
    
    #echo "DEBUG: customField $p_field_id removed</br>";
    return true;
 }
 
-function removeCustomFields() {
-   $tcCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
-   $mgrEffortEstim = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-   $estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-   $addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
-   $backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
-   $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
-   $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-   #$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+/**
+ * remove CodevTT Config Files
+ */
+function saveConfigFiles() {
+   global $logger;
+   
+   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
+   if (file_exists(Install::FILENAME_CONSTANTS)) {
+      $filename = ereg_replace(".*/", "", Install::FILENAME_CONSTANTS);
+      $retCode = copy(Install::FILENAME_CONSTANTS, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
+      if (!$retCode) {
+         $logger->error("ERROR: Could not save file: " . Install::FILENAME_CONSTANTS);
+         return FALSE;
+      }
+   }
+   if (file_exists(Install::FILENAME_MYSQL_CONFIG)) {
+      $filename = ereg_replace(".*/", "", Install::FILENAME_MYSQL_CONFIG);
+      $retCode = copy(Install::FILENAME_MYSQL_CONFIG, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
+      if (!$retCode) {
+         $logger->error("ERROR: Could not save file: " . Install::FILENAME_MYSQL_CONFIG);
+         return FALSE;
+      }
+   }
+   
+   return TRUE;
+}
 
-   custom_field_destroy($tcCustomField);
-   custom_field_destroy($mgrEffortEstim);
-   custom_field_destroy($estimEffortCustomField);
-   custom_field_destroy($addEffortCustomField);
-   custom_field_destroy($backlogCustomField);
-   custom_field_destroy($deadLineCustomField);
-   custom_field_destroy($deliveryDateCustomField);
-   #custom_field_destroy($deliveryIdCustomField);
+/**
+ * remove CodevTT Config Files
+ */
+function deleteConfigFiles() {
+   global $logger;
+   
+   if (file_exists(Install::FILENAME_CONSTANTS)) {
+      $retCode = unlink(Install::FILENAME_CONSTANTS);
+      if (!$retCode) {
+         $logger->error("ERROR: Could not delete file: " . Install::FILENAME_CONSTANTS);
+         return FALSE;
+      }
+   }
+   if (file_exists(Install::FILENAME_MYSQL_CONFIG)) {
+      $retCode = unlink(Install::FILENAME_MYSQL_CONFIG);
+      if (!$retCode) {
+         $logger->error("ERROR: Could not delete file: " . Install::FILENAME_MYSQL_CONFIG);
+         return FALSE;
+      }
+   }
+   
+   return TRUE;
 }
 
 // ================ MAIN =================
@@ -202,31 +246,42 @@ if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
    if ("uninstall" == $action) {
 
       if ($isBackup) {
-         echo "Backup<br/>";
+         echo "Backup : <br />";
 
-         if (backupDB($filename)) {
-            echo "Backup successfully done<br/>";
+         if (backupDB($filename) && saveConfigFiles()) {
+            echo "Backup successfully done<br />";
          } else {
             echo "Uninstall aborted !";
             exit;
          }
-         echo "</br>";
+         echo "<br />";
       }
    
-      echo "1/4 ---- Remove CodevTT from Mantis menu</br>";
-      echo "TODO</br>";
+      echo "1/5 Remove CodevTT from Mantis menu : ";
+      echo "TODO<br />";
+      echo "<br />";
 
-      echo "2/4 ---- Remove CodevTT specific projects</br>";
+      echo "2/5 Remove CodevTT specific projects</br>";
       displayProjectsToRemove();
 
-      echo "3/4 ---- Remove CodevTT customFields</br>";
+      echo "3/5 Remove CodevTT customFields : ";
       removeCustomFields();
+      echo "done<br />";
+      echo "<br />";
 
-      echo "4/4 ---- Remove CodevTT tables from MantisDB</br>";
+      echo "4/5 Remove CodevTT tables from MantisDB : ";
       Tools::execSQLscript("uninstall.sql");
-
-      echo "5/5 ---- Remove CodevTT config files</br>";
-      Install::deleteConfigFiles();
+      echo "done<br />";
+      echo "<br />";
+/*
+      echo "5/5 Remove CodevTT config files :";
+      if(deleteConfigFiles()) {
+         echo "done";
+      } else {
+         echo "<br />ERROR: Could not delete files";
+      }
+      echo "<br />";
+ */
    } else {
       // DISPLAY PAGE
       displayForm($originPage, $is_modified, $isBackup, $filename);

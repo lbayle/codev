@@ -24,24 +24,24 @@ DROP FUNCTION IF EXISTS is_issue_in_team_commands;
 
 -- ------------------------
 
+DROP TABLE IF EXISTS `codev_blog_activity_table`;
+DROP TABLE IF EXISTS `codev_blog_table`;
+DROP TABLE IF EXISTS `codev_commandset_cmd_table`;
+DROP TABLE IF EXISTS `codev_commandset_table`;
+DROP TABLE IF EXISTS `codev_command_bug_table`;
+DROP TABLE IF EXISTS `codev_command_table`;
 DROP TABLE IF EXISTS `codev_config_table`;
 DROP TABLE IF EXISTS `codev_holidays_table`;
 DROP TABLE IF EXISTS `codev_job_table`;
+DROP TABLE IF EXISTS `codev_project_category_table`;
 DROP TABLE IF EXISTS `codev_project_job_table`;
-DROP TABLE IF EXISTS `codev_sidetasks_category_table`;
+DROP TABLE IF EXISTS `codev_servicecontract_cmdset_table`;
+DROP TABLE IF EXISTS `codev_servicecontract_stproj_table`;
+DROP TABLE IF EXISTS `codev_servicecontract_table`;
 DROP TABLE IF EXISTS `codev_team_project_table`;
 DROP TABLE IF EXISTS `codev_team_table`;
 DROP TABLE IF EXISTS `codev_team_user_table`;
 DROP TABLE IF EXISTS `codev_timetracking_table`;
-DROP TABLE IF EXISTS `codev_blog_table`;
-DROP TABLE IF EXISTS `codev_blog_activity_table`;
-DROP TABLE IF EXISTS `codev_servicecontract_table`;
-DROP TABLE IF EXISTS `codev_servicecontract_cmdset_table`;
-DROP TABLE IF EXISTS `codev_servicecontract_stproj_table`;
-DROP TABLE IF EXISTS `codev_commandset_table`;
-DROP TABLE IF EXISTS `codev_commandset_cmd_table`;
-DROP TABLE IF EXISTS `codev_command_table`;
-DROP TABLE IF EXISTS `codev_command_bug_table`;
 
 
 -- /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
