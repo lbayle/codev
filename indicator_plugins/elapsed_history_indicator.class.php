@@ -116,7 +116,7 @@ class ElapsedHistoryIndicator implements IndicatorPlugin {
       for($i = 1, $size = count($timestampList); $i < $size; ++$i) {
          $start = $timestampList[$i-1];
          $end = mktime(23, 59, 59, date('m', $timestampList[$i]), date('d',$timestampList[$i]), date('Y', $timestampList[$i]));
-         $elapsed = 0;
+         #$elapsed = 0; // cumule / non-cumule
 
          // for each issue, sum all its timetracks within period
          foreach ($inputIssueSel->getIssueList() as $id => $issue) {

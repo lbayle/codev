@@ -18,6 +18,7 @@
 
 require_once ('remaining_history_indicator.class.php');
 require_once ('elapsed_history_indicator.class.php');
+require_once ('backlog_variation_indicator.class.php');
 
 /**
  *
@@ -103,7 +104,7 @@ function getServiceContractStateList($command = NULL) {
    return $stateList;
 }
 
-function getRemainingHistory($cmd) {
+function getRemainingHistory(Command $cmd) {
 
    $cmdIssueSel = $cmd->getIssueSelection();
 
@@ -163,8 +164,44 @@ function getRemainingHistory($cmd) {
    return $smartyData;
 }
 
+/**
+ *
+ * @param Command $cmd 
+ */
+function getBacklogVariation(Command $cmd) {
 
-function displayCommand($smartyHelper, $cmd) {
+   $cmdIssueSel = $cmd->getIssueSelection();
+
+   $startTT = $cmdIssueSel->getFirstTimetrack();
+   if ((NULL != $startTT) && (0 != $startTT->date)) {
+      $startTimestamp = $startTT->date;
+   } else {
+      $startTimestamp = $cmd->getStartDate();
+      #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      if (0 == $startTimestamp) {
+         $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
+         $startTimestamp = $team->date;
+         #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+      }
+   }
+
+   $endTT = $cmdIssueSel->getLatestTimetrack();
+   $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+
+   $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+                   'endTimestamp' => $endTimestamp,
+                   'interval' => 14 );
+
+   // ---------------
+
+   $backlogVariationIndicator = new BacklogVariationIndicator();
+   $backlogVariationIndicator->execute($cmdIssueSel, $params);
+
+   return $backlogVariationIndicator->getSmartyObject();
+}
+
+
+function displayCommand($smartyHelper, Command $cmd) {
 
    $smartyHelper->assign('cmdid', $cmd->getId());
    $smartyHelper->assign('cmdName', $cmd->getName());
@@ -202,7 +239,9 @@ function displayCommand($smartyHelper, $cmd) {
    $smartyHelper->assign('cmdIssues', $issueList);
 
    // Indicators & statistics
-   $smartyHelper->assign('remainingHistoryGraph', getRemainingHistory($cmd));
+   #$smartyHelper->assign('remainingHistoryGraph', getRemainingHistory($cmd));
+
+   $smartyHelper->assign('backlogVariationGraph', getBacklogVariation($cmd));
 
 
 }

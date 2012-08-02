@@ -234,6 +234,13 @@ $(document).ready(function() {
          {if $remainingHistoryGraph}
          <img alt="{t}RemainingHistoryGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$remainingHistoryGraph}" />
          {/if}
+
+         <br><br>
+
+         {if $backlogVariationGraph}
+         <img alt="{t}BacklogVariationGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$backlogVariationGraph}" />
+         {/if}
+
       </div>
 
    {/if}

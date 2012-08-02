@@ -775,10 +775,19 @@ class Tools {
 
       $timestamp = $start_timestamp;
       while ($timestamp < $end_timestamp) {
-         $timestamp = strtotime("+$interval day",$timestamp);
+         #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)." BEFORE<br>";
+         $newTimestamp = strtotime("+$interval day",$timestamp);
+
+         if (0 == $timestamp) {
+            $e = new Exception("error strtotime(+$interval day, ".date("Y-m-d H:i:s", $timestamp).")");
+            echo $e->getMessage();
+            throw $e;
+         }
+
+         $timestamp = $newTimestamp;
          $timestampList[] = $timestamp;
 
-         #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";
+         #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)." AFTER<br>";
       }
       return $timestampList;
    }

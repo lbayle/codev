@@ -57,11 +57,11 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
    }
 
    public function getSmartyFilename() {
-      return 'days_per_job_indicator.html';
+      return 'remaining_history_indicator.html';
    }
 
    public function getDesc() {
-      return T_("Working days per Job");
+      return T_("");
    }
 
 
