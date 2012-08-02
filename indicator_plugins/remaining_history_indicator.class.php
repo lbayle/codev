@@ -33,7 +33,7 @@ require_once ('team.class.php');
  *
  * @author lob
  */
-class RemainingHistoryIndicator {
+class RemainingHistoryIndicator implements IndicatorPlugin {
 
    private $logger;
 
@@ -117,6 +117,9 @@ class RemainingHistoryIndicator {
             $issueRem = $issue->getRemaining($timestamp);
             if (NULL != $issueRem) {
                $remaining += $issueRem;
+            } else {
+               // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
+               $remaining += $issue->mgrEffortEstim;
             }
          }
          $this->remainingHistory[$timestamp] = $remaining;

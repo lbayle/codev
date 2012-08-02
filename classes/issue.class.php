@@ -1663,7 +1663,53 @@ class Issue implements Comparable {
          
       return $issues;
    }
-   
+
+   /**
+    *
+    * @return type
+    * @throws type
+    */
+   public function getFirstTimetrack() {
+      $query = "SELECT * from `codev_timetracking_table` ".
+               "WHERE bugid = $this->bugId ".
+               "ORDER BY date ASC LIMIT 1";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+      }
+
+      $timeTrack = NULL;
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+      }
+      return $timeTrack;
+   }
+
+   /**
+    *
+    * @return type
+    * @throws type
+    */
+   public function getLatestTimetrack() {
+      $query = "SELECT * from `codev_timetracking_table` ".
+               "WHERE bugid = $this->bugId ".
+               "ORDER BY date DESC LIMIT 1";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+      }
+
+      $timeTrack = NULL;
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+      }
+      return $timeTrack;
+   }
+
 }
 
 Issue::staticInit();

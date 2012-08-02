@@ -31,7 +31,7 @@ interface IssueSelectionFilter {
     * @params array $params any other data needed by the Filter to compute the result
     * @return IssueSelection[] an array of one or more IssueSelection
     */
-   public function execute(IssueSelection $inputIssueSel, array $params);
+   public function execute(IssueSelection $inputIssueSel, array $params = NULL);
 
 
 

@@ -318,8 +318,8 @@ class IssueInfoTools {
       $timestamps = array();
       $timeTracks = $issue->getTimeTracks();
       foreach ($timeTracks as $id => $tt) {
-         if (!in_array($timestamps)) {
-            $timestamp = mktime(23, 59, 59, date('m', $tt->date), date('d', $tt->date), date('Y', $tt->date));
+         $timestamp = mktime(23, 59, 59, date('m', $tt->date), date('d', $tt->date), date('Y', $tt->date));
+         if (!in_array($timestamp, $timestamps)) {
             $timestamps[] = $timestamp;
             #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";
          }
@@ -334,7 +334,7 @@ class IssueInfoTools {
    foreach ($timestampList as $timestamp) {
       $remaining = $issue->getRemaining($timestamp);
 
-      $remainingList[] = (NULL == $remaining) ? 0 : $remaining; // TODO
+      $remainingList[] = (NULL == $remaining) ? $issue->mgrEffortEstim : $remaining; // TODO
       $bottomLabel[] = Tools::formatDate("%d %b", $timestamp);
    }
 

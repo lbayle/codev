@@ -44,7 +44,7 @@ interface IndicatorPlugin {
     * @params array $params all other parameters needed by this indicator (timestamp, ...)
     * @return mixed (standard PHP structure)
     */
-   public function execute(IssueSelection $inputIssueSel, array $params);
+   public function execute(IssueSelection $inputIssueSel, array $params = NULL);
 
    /**
     * Send the result of the execute() method to SMARTY.

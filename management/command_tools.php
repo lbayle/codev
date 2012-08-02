@@ -102,6 +102,38 @@ function getServiceContractStateList($command = NULL) {
    return $stateList;
 }
 
+function getRemainingHistory($cmd) {
+
+   $cmdIssueSel = $cmd->getIssueSelection();
+
+   $startTT = $cmdIssueSel->getFirstTimetrack();
+   if ((NULL != $startTT) && (0 != $startTT->date)) {
+      $startTimestamp = $startTT->date;
+   } else {
+      $startTimestamp = $cmd->getStartDate();
+      #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      if (0 == $startTimestamp) {
+         $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
+         $startTimestamp = $team->date;
+         #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+      }
+   }
+
+   $endTT = $cmdIssueSel->getLatestTimetrack();
+   $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+
+   #echo "startTimestamp = ".date('Y-m-d', $startTimestamp)." endTimestamp = ".date('Y-m-d', $endTimestamp);
+
+   $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+                   'endTimestamp' => $endTimestamp,
+                   'interval' => 14 );
+
+   $remainingHistoryIndicator = new RemainingHistoryIndicator();
+   $remainingHistoryIndicator->execute($cmdIssueSel, $params);
+
+   return $remainingHistoryIndicator->getSmartyObject();
+}
+
 
 function displayCommand($smartyHelper, $cmd) {
 
@@ -141,15 +173,7 @@ function displayCommand($smartyHelper, $cmd) {
    $smartyHelper->assign('cmdIssues', $issueList);
 
    // Indicators & statistics
-   $remainingHistoryIndicator = new RemainingHistoryIndicator();
-   #echo "cmd getStartDate ".date("Y-m-d", $cmd->getStartDate()).'<br>';
-   $startTimestamp = $cmd->getStartDate();
-   $startTimestamp = (0 != $startTimestamp) ? $startTimestamp : mktime(23, 59, 59, 1, 1, 2012);
-   $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-                   'endTimestamp' => time(),
-                   'interval' => 7 );
-   $remainingHistoryIndicator->execute($cmdIssueSel, $params);
-   $smartyHelper->assign('remainingHistoryGraph', $remainingHistoryIndicator->getSmartyObject());
+   $smartyHelper->assign('remainingHistoryGraph', getRemainingHistory($cmd));
 
 
 }
