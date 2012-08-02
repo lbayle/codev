@@ -52,6 +52,11 @@ class SqlWrapper {
     * @var array int[string] number[query] 
     */
    private $countByQuery;
+   
+   private $server;
+   private $username;
+   private $password;
+   private $database_name;
 
    /**
     * Create a SQL connection
@@ -61,7 +66,10 @@ class SqlWrapper {
     * @param string $database_name The name of the database that is to be selected.
     */
    private function __construct($server, $username, $password, $database_name) {
-      self::$logger = Logger::getLogger(__CLASS__);
+      $this->server = $server;
+      $this->username = $username;
+      $this->password = $password;
+      $this->database_name = $database_name;
       $this->link = mysql_connect($server, $username, $password) or die("Could not connect to database: " . $this->sql_error());
       mysql_select_db($database_name, $this->link) or die("Could not select database: " . $this->sql_error());
    }
@@ -233,6 +241,92 @@ class SqlWrapper {
     */
    public function sql_close() {
       return mysql_close($this->link);
+   }
+   
+   /**
+    * Backup the database
+    * @param string $filename
+    * @return bool True if successfull
+    */
+   public function sql_dump($filename) {
+      $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
+      $filepath = $codevReportsDir.DIRECTORY_SEPARATOR.$filename;
+         
+      $command = "mysqldump --host=$this->server --user=$this->username --password=$this->password  $this->database_name > $filepath";
+
+      $retCode = -1;
+      #$status = system($command, $retCode);
+      exec($command, $output, $retCode);
+      
+      if (0 != $retCode) {
+         self::$logger->debug("Dump with mysqldump failed, so we use the PHP method");
+         
+         //get all of the tables
+         $tables = array();
+         $result = $this->sql_query('SHOW TABLES');
+         while($row = mysql_fetch_row($result)) {
+            $tables[] = $row[0];
+         }
+
+         //cycle through
+         $return = "";
+         foreach($tables as $table) {
+            $result = $this->sql_query('SELECT * FROM '.$table);
+            $num_fields = mysql_num_fields($result);
+
+            $return .= 'DROP TABLE '.$table.';';
+            $row2 = mysql_fetch_row($this->sql_query('SHOW CREATE TABLE '.$table));
+            $return .= "\n\n".$row2[1].";\n\n";
+
+            for ($i = 0; $i < $num_fields; $i++) {
+               while($row = mysql_fetch_row($result)) {
+                  $return.= 'INSERT INTO '.$table.' VALUES(';
+                  for($j=0; $j<$num_fields; $j++) {
+                     $row[$j] = addslashes($row[$j]);
+                     $row[$j] = ereg_replace("\n","\\n",$row[$j]);
+                     if (isset($row[$j])) { $return.= '"'.$row[$j].'"' ; } else { $return.= '""'; }
+                     if ($j<($num_fields-1)) { $return.= ','; }
+                  }
+                  $return .= ");\n";
+               }
+            }
+            $return .= "\n\n\n";
+         }
+
+         //save file
+         $folderExists = file_exists($codevReportsDir);
+         if(!$folderExists) {
+            self::$logger->info("The folder ".$codevReportsDir." doesn't exist, so we try to create it");
+            $folderExists = mkdir($codevReportsDir);
+            if($result) {
+               self::$logger->info("Successfull creation : ".$codevReportsDir);
+            } else {
+               self::$logger->warn("Failed to create : ".$codevReportsDir);
+            }
+         }
+         
+         $result = FALSE;
+         if($folderExists) {
+            $return .= file_get_contents(BASE_PATH.DIRECTORY_SEPARATOR."install".DIRECTORY_SEPARATOR."codevtt_procedures.sql")."\n";
+            $gzdata = gzencode($return, 9);
+            $fp = fopen($filepath.".gz", 'wb+');
+            if($fp) {
+               fwrite($fp, $gzdata);
+               $result = fclose($fp);
+            }
+         }
+         
+         if($result) {
+            self::$logger->info("Database dump successfully done in ".$filepath.".gz");
+         } else {
+            self::$logger->error("Failed to dump the database");
+         }
+         
+         return $result;
+      } else {
+         self::$logger->info("Database dump successfully done in ".$filepath);
+         return TRUE;
+      }
    }
 
    /**
