@@ -17,6 +17,7 @@
  */
 
 require_once ('remaining_history_indicator.class.php');
+require_once ('elapsed_history_indicator.class.php');
 
 /**
  *
@@ -129,9 +130,37 @@ function getRemainingHistory($cmd) {
                    'interval' => 14 );
 
    $remainingHistoryIndicator = new RemainingHistoryIndicator();
-   $remainingHistoryIndicator->execute($cmdIssueSel, $params);
+   $remainingData = $remainingHistoryIndicator->execute($cmdIssueSel, $params);
 
-   return $remainingHistoryIndicator->getSmartyObject();
+   $elapsedHistoryIndicator = new ElapsedHistoryIndicator();
+   $elapsedData = $elapsedHistoryIndicator->execute($cmdIssueSel, $params);
+
+   //
+   $elapsedList = array();
+   $remainingList = array();
+   $bottomLabel = array();
+   foreach ($remainingData as $timestamp => $remaining) {
+
+      $remainingList[] = (NULL == $remaining) ? 0 : $remaining; // TODO
+      #$elapsedList[]   = (NULL == $elapsedData[$timestamp]) ? 0 : $elapsedData[$timestamp]; // TODO
+      $bottomLabel[]   = Tools::formatDate("%d %b", $timestamp);
+   }
+
+   foreach ($elapsedData as $timestamp => $elapsed) {
+
+      $elapsedList[] = (NULL == $elapsed) ? 0 : $elapsed; // TODO
+   }
+
+   $strVal1 = implode(':', array_values($remainingList));
+   $strVal2 = implode(':', array_values($elapsedList));
+
+   #echo "strVal1 $strVal1<br>";
+   $strBottomLabel = implode(':', $bottomLabel);
+
+   $smartyData = Tools::SmartUrlEncode('title='.T_('Remaining history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Remaining').'&x1='.$strVal1.'&leg2='.T_('Elapsed').'&x2='.$strVal2);
+
+
+   return $smartyData;
 }
 
 

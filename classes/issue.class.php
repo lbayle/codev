@@ -841,14 +841,20 @@ class Issue implements Comparable {
    /**
     * @return int[]
     */
-   public function getTimeTracks() {
+   public function getTimeTracks($userid = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
       $timeTracks = array();
 
       $query     = "SELECT * FROM `codev_timetracking_table` ".
-         "WHERE bugid=$this->bugId ";
+                   "WHERE bugid=$this->bugId ";
 
-      if (isset($user_id)) {
-         $query .= "AND userid = $user_id";
+      if (isset($userid)) {
+         $query .= "AND userid = $userid ";
+      }
+      if (isset($startTimestamp)) {
+         $query .= "AND date >= $startTimestamp ";
+      }
+      if (isset($endTimestamp)) {
+         $query .= "AND date <= $endTimestamp ";
       }
       $query .= " ORDER BY date";
 

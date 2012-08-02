@@ -1,7 +1,7 @@
 <?php
 
 /*
-  This file is part of CodevTT.
+  This file is part of CodevTT
 
   CodevTT is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 require_once('Logger.php');
@@ -27,16 +27,11 @@ require_once ('issue_selection.class.php');
 require_once ('jobs.class.php');
 require_once ('team.class.php');
 
-
 /**
- * Description of RemainingHistoryIndicator
+ * Description of ElapsedHistoryIndicator
  *
- * @author lob
  */
-class RemainingHistoryIndicator implements IndicatorPlugin {
-
-
-   protected $execData;
+class ElapsedHistoryIndicator implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
@@ -51,6 +46,11 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
+   protected $execData;
+
+
+   public function __construct() {
+   }
 
    public function getName() {
       return __CLASS__;
@@ -85,8 +85,6 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
       $endTimestamp       = NULL;
       $interval           = NULL;
 
-
-
       if (array_key_exists('startTimestamp', $params)) {
          $startTimestamp = $params['startTimestamp'];
       } else {
@@ -106,24 +104,29 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
       }
    #echo "BBB start ".date("Y-m-d", $startTimestamp)."end ".date("Y-m-d", $endTimestamp);
 
-      $startTimestamp   = mktime(23, 59, 59, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
-      $endTimestamp   = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
+      $startTimestamp = mktime(0, 0, 0, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
+      $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
       $timestampList = Tools::createTimestampList($startTimestamp, $endTimestamp, $interval);
 
       $this->execData = array();
+      
+      // there is no elapsed on first date
+      $this->execData[] = 0;
 
-      foreach ($timestampList as $timestamp) {
-         $remaining = 0;
+      for($i = 1, $size = count($timestampList); $i < $size; ++$i) {
+         $start = $timestampList[$i-1];
+         $end = mktime(23, 59, 59, date('m', $timestampList[$i]), date('d',$timestampList[$i]), date('Y', $timestampList[$i]));
+         $elapsed = 0;
+
+         // for each issue, sum all its timetracks within period
          foreach ($inputIssueSel->getIssueList() as $id => $issue) {
-            $issueRem = $issue->getRemaining($timestamp);
-            if (NULL != $issueRem) {
-               $remaining += $issueRem;
-            } else {
-               // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
-               $remaining += $issue->mgrEffortEstim;
+            $timeTracks = $issue->getTimeTracks(NULL, $start, $end);
+            foreach ($timeTracks as $id => $tt) {
+               $elapsed += $tt->duration;
             }
          }
-         $this->execData[$timestamp] = $remaining;
+         #echo "elapsed(".$timestampList[$i].") = ".$elapsed.'<br>';
+         $this->execData[$timestampList[$i]] = $elapsed;
       }
 
       return $this->execData;
@@ -140,30 +143,11 @@ class RemainingHistoryIndicator implements IndicatorPlugin {
       if (NULL != $this->execData) {
 
          $smartyData = array();
-
-         $remainingList = array();
-         $bottomLabel = array();
-         foreach ($this->execData as $timestamp => $remaining) {
-
-            $remainingList[] = (NULL == $remaining) ? 0 : $remaining; // TODO
-            $bottomLabel[] = Tools::formatDate("%d %b", $timestamp);
-         }
-
-         $strVal1 = implode(':', array_values($remainingList));
-
-         #echo "strVal1 $strVal1<br>";
-         $strBottomLabel = implode(':', $bottomLabel);
-
-         $smartyData = Tools::SmartUrlEncode('title='.T_('Remaining history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Remaining').'&x1='.$strVal1);
-
-      } else {
-         throw new Exception("the execute() method must be called before assignInSmarty().");
       }
       return $smartyData;
    }
 }
 
 // Initialize complex static variables
-RemainingHistoryIndicator::staticInit();
-
+ElapsedHistoryIndicator::staticInit();
 ?>
