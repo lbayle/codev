@@ -337,7 +337,7 @@
          <script type="text/javascript">
             jQuery(document).ready(function() {
                jQuery("#tabsIssueInfo" ).bind('tabsshow', function(event, ui) {
-                  var plot = jQuery.jqplot('chartdiv');
+                  var plot = jQuery('#chartdiv').data('jqplot');
                   var tab = jQuery('#tabsName-4');
                   if (ui.index === tab.index()-1 && plot._drawCount === 0) {
                      var chart = jQuery('#chartdiv');
