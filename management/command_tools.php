@@ -18,7 +18,7 @@
 
 require_once ('remaining_history_indicator.class.php');
 require_once ('elapsed_history_indicator.class.php');
-require_once ('backlog_variation_indicator.class.php');
+require_once ('progress_historical_indicator.class.php');
 
 /**
  *
@@ -168,7 +168,7 @@ function getBacklogHistory(Command $cmd) {
  *
  * @param Command $cmd 
  */
-function getBacklogVariation(Command $cmd) {
+function getProgressHistorical(Command $cmd) {
 
    $cmdIssueSel = $cmd->getIssueSelection();
 
@@ -190,14 +190,14 @@ function getBacklogVariation(Command $cmd) {
 
    $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
                    'endTimestamp' => $endTimestamp,
-                   'interval' => 7 );
+                   'interval' => 14 );
 
    // ---------------
 
-   $backlogVariationIndicator = new BacklogVariationIndicator();
-   $backlogVariationIndicator->execute($cmdIssueSel, $params);
+   $progressIndicator = new ProgressHistoricalIndicator();
+   $progressIndicator->execute($cmdIssueSel, $params);
 
-   return $backlogVariationIndicator->getSmartyObject();
+   return $progressIndicator->getSmartyObject();
 }
 
 
@@ -241,7 +241,9 @@ function displayCommand($smartyHelper, Command $cmd) {
    // Indicators & statistics
    #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
 
-   $smartyHelper->assign('backlogVariationGraph', getBacklogVariation($cmd));
+   $smartyHelper->assign('jqplotTitle',      'Historical Progression Chart');
+   $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
+   $smartyHelper->assign('jqplotData', getProgressHistorical($cmd));
 
 
 }

@@ -345,7 +345,7 @@ class IssueInfoTools {
          }
          $test .= '["'.$id.'", '.$val.']';
       }
-      $test = '[['.$test.']]';
+      $test = '['.$test.']';
       
       return $test;
    }

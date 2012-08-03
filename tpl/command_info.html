@@ -231,15 +231,8 @@ $(document).ready(function() {
       </div>
 
       <div id="tabsName-2">
-         {if $backlogHistoryGraph}
-         <img alt="{t}BacklogHistoryGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$backlogHistoryGraph}" />
-         {/if}
 
-         <br><br>
-
-         {if $backlogVariationGraph}
-         <img alt="{t}BacklogVariationGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$backlogVariationGraph}" />
-         {/if}
+         {include file="graph/line_plot.html"}
 
       </div>
 

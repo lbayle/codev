@@ -19,13 +19,19 @@
 
 require_once('lib/log4php/Logger.php');
 
-/* INSERT INCLUDES HERE */
+include_once('classes/indicator_plugin.interface.php');
+
+require_once ('user_cache.class.php');
+require_once ('issue_cache.class.php');
+require_once ('issue_selection.class.php');
+require_once ('jobs.class.php');
+require_once ('team.class.php');
 
 /**
  * Description of BacklogVariationIndicator
  *
  */
-class BacklogVariationIndicator implements IndicatorPlugin {
+class ProgressHistoricalIndicator implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
@@ -102,18 +108,7 @@ class BacklogVariationIndicator implements IndicatorPlugin {
 
    }
 
-
-   public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
-
-      $this->checkParams($inputIssueSel, $params);
-
-     // Indicateur = Conso. Cumulé / (Conso. Cumulé +  RAF)
-
-      $startTimestamp = mktime(23, 59, 59, date('m', $params['startTimestamp']), date('d', $params['startTimestamp']), date('Y', $params['startTimestamp']));
-      $endTimestamp   = mktime(23, 59, 59, date('m', $params['endTimestamp']), date('d',$params['endTimestamp']), date('Y', $params['endTimestamp']));
-
-      #echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
-      $timestampList  = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
+   private function getBacklogData($inputIssueSel, $timestampList) {
 
       $this->backlogData = array();
 
@@ -130,19 +125,16 @@ class BacklogVariationIndicator implements IndicatorPlugin {
                $backlog += $issue->mgrEffortEstim;
             }
          }
-         
+
          #echo "backlog(".date('Y-m-d', $timestamp).") = ".$backlog.'<br>';
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
          $this->backlogData[$midnight_timestamp] = $backlog;
       }
 
-      // -------- elapsed in the period
-      $startTimestamp = mktime(0, 0, 0, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
-      $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
+   }
 
-      #echo "Elapsed start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
+   private function getElapsedData($inputIssueSel, $timestampList) {
 
-      $timestampList = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
 
       $this->elapsedData = array();
 
@@ -153,8 +145,9 @@ class BacklogVariationIndicator implements IndicatorPlugin {
          $start = $timestampList[$i-1];
          $end = mktime(23, 59, 59, date('m', $timestampList[$i]), date('d',$timestampList[$i]), date('Y', $timestampList[$i]));
 
-      #echo "Elapsed start ".date('Y-m-d', $start)." end ".date('Y-m-d', $end)."<br>";
+         #echo "Elapsed interval start ".date('Y-m-d', $start)." end ".date('Y-m-d', $end)."<br>";
 
+         #   echo "nb issues = ".count($inputIssueSel->getIssueList());
 
          $elapsed = 0; // cumule / non-cumule
 
@@ -169,6 +162,34 @@ class BacklogVariationIndicator implements IndicatorPlugin {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
          $this->elapsedData[$midnight_timestamp] = $elapsed;
       }
+
+   }
+
+
+   public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
+
+      $this->checkParams($inputIssueSel, $params);
+
+     // Indicateur = Conso. Cumulé / (Conso. Cumulé +  RAF)
+
+      $startTimestamp = mktime(23, 59, 59, date('m', $params['startTimestamp']), date('d', $params['startTimestamp']), date('Y', $params['startTimestamp']));
+      $endTimestamp   = mktime(23, 59, 59, date('m', $params['endTimestamp']), date('d',$params['endTimestamp']), date('Y', $params['endTimestamp']));
+
+      #echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
+      $timestampList  = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
+
+
+      // -------- elapsed in the period
+      $startTimestamp = mktime(0, 0, 0, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
+      $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
+
+      #echo "Elapsed start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
+
+      $timestampList = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
+
+
+      $this->getBacklogData($inputIssueSel, $timestampList);
+      $this->getElapsedData($inputIssueSel, $timestampList);
 
       // ------ compute
       $theoBacklog = array();
@@ -197,7 +218,7 @@ class BacklogVariationIndicator implements IndicatorPlugin {
 
    }
 
-   public function getSmartyObject() {
+   public function getArtichowSmartyObject() {
 
       $theoBacklog = $this->execData['theo'];
       $realBacklog = $this->execData['real'];
@@ -220,9 +241,38 @@ class BacklogVariationIndicator implements IndicatorPlugin {
       return $smartyData;
    }
 
+      public function getSmartyObject() {
+
+      $theoBacklog = $this->execData['theo'];
+      $realBacklog = $this->execData['real'];
+
+      $timestampList = array_keys($this->execData['real']);
+
+      foreach ($timestampList as $timestamp) {
+         $bottomLabel[]   = Tools::formatDate("%Y-%m-%d", $timestamp);
+
+
+
+      }
+      $theoStr = NULL;
+      $realStr = NULL;
+      foreach($theoBacklog as $timestamp => $val) {
+         if($theoStr != NULL) { $theoStr .= ','; }
+         $date = Tools::formatDate("%Y-%m-%d", $timestamp);
+         $theoStr .= '["'.$date.'", '.$val.']';
+
+         if($realStr != NULL) { $realStr .= ','; }
+         $realStr .= '["'.$date.'", '.$realBacklog[$timestamp].']';
+
+      }
+      $smartyData = '['.$theoStr.'],['.$realStr.']';
+
+      return $smartyData;
+   }
+
 
 }
 
 // Initialize complex static variables
-BacklogVariationIndicator::staticInit();
+ProgressHistoricalIndicator::staticInit();
 ?>
