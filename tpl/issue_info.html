@@ -335,20 +335,20 @@
       <div id="tabsName-4">
          {if $jqplotData}
          <script type="text/javascript">
-            jQuery(function() {
+            jQuery(document).ready(function() {
                jQuery("#tabsIssueInfo" ).bind('tabsshow', function(event, ui) {
                   var plot = jQuery.jqplot('chartdiv');
-                  if (ui.index === 3 && plot._drawCount === 0) {
-                     jQuery('#chartdiv').height(jQuery('#tabsName-4').height()*0.96);
-                     jQuery('#chartdiv').width(jQuery('#tabsName-4').width()*0.96);
+                  var tab = jQuery('#tabsName-4');
+                  if (ui.index === tab.index()-1 && plot._drawCount === 0) {
+                     var chart = jQuery('#chartdiv');
+                     chart.height(tab.height()*0.96);
+                     chart.width(tab.width()*0.96);
                      plot.replot();
                   }
                });
             });
          </script>
-
          {include file="graph/line_plot.html"}
-
          {else}
          <p>{t}No data{/t}</p>
          {/if}
