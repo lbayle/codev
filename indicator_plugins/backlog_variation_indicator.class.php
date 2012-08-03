@@ -180,8 +180,10 @@ class BacklogVariationIndicator implements IndicatorPlugin {
          // RAF theorique = charge initiale - cumul consomé
          $sumElapsed += $this->elapsedData[$midnight_timestamp];
          $val1 = $sumElapsed / $inputIssueSel->mgrEffortEstim;
+         if ($val1 > 1) {$val1 = 1;}
          $theoBacklog[$midnight_timestamp] = round($val1 * 100, 2);
 
+         // RAF reel
          $val2 = $sumElapsed / ($sumElapsed + $this->backlogData[$midnight_timestamp]);
          $realBacklog[$midnight_timestamp] = round($val2 * 100, 2);
 
@@ -213,7 +215,7 @@ class BacklogVariationIndicator implements IndicatorPlugin {
       #echo "strVal2 $strVal2<br>";
       $strBottomLabel = implode(':', $bottomLabel);
 
-      $smartyData = Tools::SmartUrlEncode('title='.T_('Backlog Variation').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Theorethical').'&x1='.$strVal1.'&leg2='.T_('Real').'&x2='.$strVal2);
+      $smartyData = Tools::SmartUrlEncode('title='.T_('Progression').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('% Theoretical').'&x1='.$strVal1.'&leg2='.T_('% Real').'&x2='.$strVal2);
 
       return $smartyData;
    }

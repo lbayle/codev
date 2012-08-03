@@ -190,7 +190,7 @@ function getBacklogVariation(Command $cmd) {
 
    $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
                    'endTimestamp' => $endTimestamp,
-                   'interval' => 14 );
+                   'interval' => 7 );
 
    // ---------------
 
