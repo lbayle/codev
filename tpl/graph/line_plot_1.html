@@ -1,0 +1,79 @@
+<!--
+
+$jqplotData example:
+[[["2012-01-05", 1.25],["2012-01-06", 1],["2012-01-09", 0.2],["2012-01-10", 1],["2012-01-11", 1],["2012-01-12", 1],["2012-01-13", 0.5],["2012-01-16", 1],["2012-03-21", 0],["2012-03-22", 0],["2012-06-05", 0],["2012-06-25", 0.1],["2012-06-26", 0],["2012-06-27", 0],["2012-07-02", 0.2],["2012-07-03", 0.2]]]
+
+-->
+
+
+
+<!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
+
+<script type="text/javascript" src="lib/jquery.jqplot/jquery.jqplot.codevtt.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.trendline.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
+
+
+<script type="text/javascript">
+   jQuery(function() {
+      jQuery.jqplot.config.enablePlugins = false;
+
+      jQuery.jqplot('chartdiv', {$jqplotData}, {
+         title:'{t}{$jqplotTitle}{/t}',
+         // animate: true,
+         // animateReplot: true,
+         legend: {
+            show: true
+         },
+         seriesDefaults: {
+            pointLabels: {
+               show:true
+            },
+            trendline:{
+               show:true
+            }
+         },
+         series: [{
+            label: "{$jqplotYaxisLabel}"
+         }],
+         cursor: {
+            show: true,
+            zoom: true
+         },
+         axesDefaults: {
+            useSeriesColor:true,
+            rendererOptions: {
+               alignTicks: true
+            }
+         },
+         axes: {
+            xaxis: {
+               renderer: jQuery.jqplot.DateAxisRenderer,
+               tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+               tickOptions: {
+                  formatString: "%e %b",
+                  angle: -30,
+                  textColor: 'grey'
+               },
+               min: "{$plotMinDate}",
+               max: "{$plotMaxDate}",
+               tickInterval: "7 days",
+               drawMajorGridlines: false
+            },
+            yaxis: {
+               min: 0
+            }
+         }
+      });
+   });
+
+</script>
+<div id="chartdiv"></div>
