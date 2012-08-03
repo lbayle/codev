@@ -16,9 +16,7 @@
   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once ('remaining_history_indicator.class.php');
-require_once ('elapsed_history_indicator.class.php');
-require_once ('progress_historical_indicator.class.php');
+require_once ('progress_history_indicator.class.php');
 
 /**
  *
@@ -168,7 +166,7 @@ function getBacklogHistory(Command $cmd) {
  *
  * @param Command $cmd 
  */
-function getProgressHistorical(Command $cmd) {
+function getProgressHistory(Command $cmd) {
 
    $cmdIssueSel = $cmd->getIssueSelection();
 
@@ -194,7 +192,7 @@ function getProgressHistorical(Command $cmd) {
 
    // ---------------
 
-   $progressIndicator = new ProgressHistoricalIndicator();
+   $progressIndicator = new ProgressHistoryIndicator();
    $progressIndicator->execute($cmdIssueSel, $params);
 
    return $progressIndicator->getSmartyObject();
@@ -243,7 +241,7 @@ function displayCommand($smartyHelper, Command $cmd) {
 
    $smartyHelper->assign('jqplotTitle',      'Historical Progression Chart');
    $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
-   $smartyHelper->assign('jqplotData', getProgressHistorical($cmd));
+   $smartyHelper->assign('jqplotData', getProgressHistory($cmd));
 
 
 }

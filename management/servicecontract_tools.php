@@ -17,6 +17,7 @@
  */
 
 
+require_once ('progress_history_indicator.class.php');
 
 /**
  *
@@ -294,6 +295,42 @@ function getContractTotalDetailedMgr($servicecontractid) {
 
 /**
  *
+ * @param Command $serviceContract
+ */
+function getProgressHistory(ServiceContract $serviceContract) {
+
+   $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
+
+   $startTT = $cmdIssueSel->getFirstTimetrack();
+   if ((NULL != $startTT) && (0 != $startTT->date)) {
+      $startTimestamp = $startTT->date;
+   } else {
+      $startTimestamp = $serviceContract->getStartDate();
+      #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      if (0 == $startTimestamp) {
+         $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
+         $startTimestamp = $team->date;
+         #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+      }
+   }
+
+   $endTT = $cmdIssueSel->getLatestTimetrack();
+   $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+
+   $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+                   'endTimestamp' => $endTimestamp,
+                   'interval' => 14 );
+
+   // ---------------
+
+   $progressIndicator = new ProgressHistoryIndicator();
+   $progressIndicator->execute($cmdIssueSel, $params);
+
+   return $progressIndicator->getSmartyObject();
+}
+
+/**
+ *
  * @param type $smartyHelper
  * @param ServiceContract $servicecontract
  */
@@ -330,6 +367,12 @@ function displayServiceContract($smartyHelper, $servicecontract) {
    $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
 
    $smartyHelper->assign('servicecontractTotalDetailedMgr', getContractTotalDetailedMgr($servicecontract->getId()));
+
+
+   $smartyHelper->assign('jqplotTitle',      'Historical Progression Chart');
+   $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
+   $smartyHelper->assign('jqplotData', getProgressHistory($servicecontract));
+
 
 }
 

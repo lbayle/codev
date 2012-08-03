@@ -31,7 +31,7 @@ require_once ('team.class.php');
  * Description of BacklogVariationIndicator
  *
  */
-class ProgressHistoricalIndicator implements IndicatorPlugin {
+class ProgressHistoryIndicator implements IndicatorPlugin {
 
    /**
     * @var Logger The logger
@@ -274,5 +274,5 @@ class ProgressHistoricalIndicator implements IndicatorPlugin {
 }
 
 // Initialize complex static variables
-ProgressHistoricalIndicator::staticInit();
+ProgressHistoryIndicator::staticInit();
 ?>
