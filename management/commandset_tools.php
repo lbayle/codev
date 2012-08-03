@@ -16,6 +16,7 @@
   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once ('progress_history_indicator.class.php');
 
 
 /**
@@ -126,6 +127,41 @@ function getCommandSetDetailedMgr($commandsetid, $type) {
    return $csetDetailedMgr;
 }
 
+/**
+ *
+ * @param Command $commandSet
+ */
+function getProgressHistory(CommandSet $commandSet) {
+
+   $cmdIssueSel = $commandSet->getIssueSelection(Command::type_general);
+
+   $startTT = $cmdIssueSel->getFirstTimetrack();
+   if ((NULL != $startTT) && (0 != $startTT->date)) {
+      $startTimestamp = $startTT->date;
+   } else {
+      $startTimestamp = $commandSet->getStartDate();
+      #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+      if (0 == $startTimestamp) {
+         $team = TeamCache::getInstance()->getTeam($commandSet->getTeamid());
+         $startTimestamp = $team->date;
+         #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+      }
+   }
+
+   $endTT = $cmdIssueSel->getLatestTimetrack();
+   $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+
+   $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+                   'endTimestamp' => $endTimestamp,
+                   'interval' => 14 );
+
+   // ---------------
+
+   $progressIndicator = new ProgressHistoryIndicator();
+   $progressIndicator->execute($cmdIssueSel, $params);
+
+   return $progressIndicator->getSmartyObject();
+}
 
 /**
  *
@@ -148,6 +184,10 @@ function displayCommandSet($smartyHelper, CommandSet $commandset) {
    $smartyHelper->assign('nbCommands', count($commands));
    $smartyHelper->assign('cmdList', $commands);
    $smartyHelper->assign('cmdsetDetailedMgr', getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
+
+   $smartyHelper->assign('jqplotTitle',      'Historical Progression Chart');
+   $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
+   $smartyHelper->assign('jqplotData', getProgressHistory($commandset));
 
 }
 

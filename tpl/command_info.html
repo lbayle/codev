@@ -231,9 +231,26 @@ $(document).ready(function() {
       </div>
 
       <div id="tabsName-2">
+         {if $jqplotData}
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               jQuery("#tabsCommand" ).bind('tabsshow', function(event, ui) {
+                  var plot = jQuery('#chartdiv').data('jqplot');
+                  var tab = jQuery('#tabsName-2');
+                  if (ui.index === tab.index()-1 && plot._drawCount === 0) {
+                     var chart = jQuery('#chartdiv');
+                     chart.height(tab.height()*0.96);
+                     chart.width(tab.width()*0.96);
+                     plot.replot();
+                  }
+               });
+            });
+         </script>
 
          {include file="graph/line_plot.html"}
-
+         {else}
+         <p>{t}No data{/t}</p>
+         {/if}
       </div>
 
    {/if}
