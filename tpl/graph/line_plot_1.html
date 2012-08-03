@@ -9,7 +9,7 @@ $jqplotData example:
 
 <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
 
-<script type="text/javascript" src="lib/jquery.jqplot/jquery.jqplot.codevtt.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
 <script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
 <script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
@@ -26,7 +26,7 @@ $jqplotData example:
    jQuery(function() {
       jQuery.jqplot.config.enablePlugins = false;
 
-      jQuery.jqplot('chartdiv', [{$jqplotData}], {
+      jQuery('#chartdiv').jqplot([{$jqplotData}], {
          title:'{t}{$jqplotTitle}{/t}',
          // animate: true,
          // animateReplot: true,
