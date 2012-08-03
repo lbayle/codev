@@ -1,5 +1,5 @@
 <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
-<script type="text/javascript" src="lib/jquery.jqplot/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/jquery.jqplot.js"></script>
 <script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
 <script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
 <script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
@@ -343,17 +343,23 @@
       </div>
       <div id="tabsName-4">
          {if $backlogGraphURL}
-            <script type="text/javascript">
-              jQuery(function() {
-                  jQuery("#tabsIssueInfo" ).bind('tabsshow', function(event, ui) {
-                     if (ui.index === 3 && plot._drawCount === 0) {
-                        jQuery('#chartdiv').height(jQuery('#tabsName-4').height()*0.96);
-                        jQuery('#chartdiv').width(jQuery('#tabsName-4').width()*0.96);
-                        plot.replot();
-                     }
-                  });
+         <script type="text/javascript">
+            jQuery(function() {
+               jQuery("#tabsIssueInfo" ).bind('tabsshow', function(event, ui) {
+                  var plot = jQuery.jqplot('chartdiv');
+                  if (ui.index === 3 && plot._drawCount === 0) {
+                     jQuery('#chartdiv').height(jQuery('#tabsName-4').height()*0.96);
+                     jQuery('#chartdiv').width(jQuery('#tabsName-4').width()*0.96);
+                     plot.replot();
+                  }
+               });
+            });
+         </script>
+         <script type="text/javascript">
+            jQuery(function() {
                jQuery.jqplot.config.enablePlugins = false;
-               var plot = jQuery.jqplot('chartdiv', [[{$backlogGraphURL}]], {
+            
+               jQuery.jqplot('chartdiv', [[{$backlogGraphURL}]], {
                   title:'{t}Backlog history{/t}',
                   // animate: true,
                   // animateReplot: true,
