@@ -1,3 +1,13 @@
+<!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
+<script type="text/javascript" src="lib/jquery.jqplot/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.trendline.min.js"></script>
+<link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
+
 <div id="content">
    {if $projects}
    <div class="center" style="margin-top: 2em">
@@ -294,7 +304,7 @@
          </div>
 
          <!-- legend -->
-   <div style="margin-top:2em;"></div>
+         <div style="margin-top:2em;"></div>
          <table class='invisible'>
             <tr>
             {foreach from=$jobDetails key=id item=i}
@@ -332,13 +342,74 @@
          {/if}
       </div>
       <div id="tabsName-4">
-         <img alt="{t}BacklogHistoryGraph{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$backlogGraphURL}" />
-
+         {if $backlogGraphURL}
+            <script type="text/javascript">
+              jQuery(function() {
+                  jQuery("#tabsIssueInfo" ).bind('tabsshow', function(event, ui) {
+                     if (ui.index === 3 && plot._drawCount === 0) {
+                        jQuery('#chartdiv').height(jQuery('#tabsName-4').height()*0.96);
+                        jQuery('#chartdiv').width(jQuery('#tabsName-4').width()*0.96);
+                        plot.replot();
+                     }
+                  });
+               jQuery.jqplot.config.enablePlugins = false;
+               var plot = jQuery.jqplot('chartdiv', [[{$backlogGraphURL}]], {
+                  title:'{t}Backlog history{/t}',
+                  // animate: true,
+                  // animateReplot: true,
+                  legend: {
+                     show: true
+                  },
+                  seriesDefaults: {
+                     pointLabels: {
+                        show:true
+                     },
+                     trendline:{
+                        show:true
+                     }
+                  },
+                  series: [{
+                     label: '{t}Backlog{/t}'
+                  }],
+                  cursor: {
+                     show: true,
+                     zoom: true
+                  },
+                  axesDefaults: {
+                     useSeriesColor:true,
+                     rendererOptions: {
+                        alignTicks: true
+                     }
+                  },
+                  axes: {
+                     xaxis: {
+                        renderer: jQuery.jqplot.DateAxisRenderer,
+                        tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
+                        tickOptions: {
+                           formatString: "%e %b",
+                           angle: -30,
+                           textColor: 'grey'
+                        },
+                        min: "{$plotMinDate}",
+                        max: "{$plotMaxDate}",
+                        tickInterval: "7 days",
+                        drawMajorGridlines: false
+                     },
+                     yaxis: {
+                        min: 0
+                     }
+                  }
+               });
+            });
+         </script>
+         <div id="chartdiv"></div>
+         {else}
+         <p>{t}No data{/t}</p>
+         {/if}
       </div>
 
    </div>
-   
-   
+
    <!-- General info -->
    <div style="margin-top: 2em"></div>
    {/if}

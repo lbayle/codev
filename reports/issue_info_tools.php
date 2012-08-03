@@ -317,7 +317,7 @@ class IssueInfoTools {
    public static function getTimetrackDates(Issue $issue) {
       $timestamps = array();
       $timeTracks = $issue->getTimeTracks();
-      foreach ($timeTracks as $id => $tt) {
+      foreach ($timeTracks as $tt) {
          $timestamp = mktime(23, 59, 59, date('m', $tt->date), date('d', $tt->date), date('Y', $tt->date));
          if (!in_array($timestamp, $timestamps)) {
             $timestamps[] = $timestamp;
@@ -328,26 +328,25 @@ class IssueInfoTools {
    }
 
    public static function getBacklogGraph(Issue $issue, array $timestampList) {
+      $backlogList = array();
+      foreach ($timestampList as $timestamp) {
+         $backlog = $issue->getBacklog($timestamp);
+         if(!is_numeric($backlog)) {
+            $backlog = $issue->mgrEffortEstim;
+         }
 
-   $backlogList = array();
-   $bottomLabel = array();
-   foreach ($timestampList as $timestamp) {
-      $backlog = $issue->getBacklog($timestamp);
+         $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = (NULL == $backlog) ? $issue->mgrEffortEstim : $backlog;
+      }
 
-      $backlogList[] = (NULL == $backlog) ? $issue->mgrEffortEstim : $backlog; // TODO
-      $bottomLabel[] = Tools::formatDate("%d %b", $timestamp);
+      $test = NULL;
+      foreach($backlogList as $id => $val) {
+         if($test != NULL) {
+            $test .= ',';
+         }
+         $test .= '["'.$id.'", '.$val.']';
+      }
+      return $test;
    }
-
-   $strVal1 = implode(':', array_values($backlogList));
-
-   #echo "strVal1 $strVal1<br>";
-   $strBottomLabel = implode(':', $bottomLabel);
-
-   return Tools::SmartUrlEncode('title='.T_('Backlog history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Backlog').'&x1='.$strVal1);
-
-   }
-
-
 }
 
 // Initialize complex static variables

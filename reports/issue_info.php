@@ -107,6 +107,10 @@ if(isset($_SESSION['userid'])) {
                //$end_timestamp   = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
                //$timestampList = Tools::createTimestampList($start_timestamp, $end_timestamp, 2);
                $timestampList = IssueInfoTools::getTimetrackDates($issue);
+               $plotMinDate = date('Y-m-d', $issue->getFirstTimetrack()->date);
+               $plotMaxDate = date('Y-m-d', $issue->getLatestTimetrack()->date);
+               $smartyHelper->assign('plotMinDate', $plotMinDate);
+               $smartyHelper->assign('plotMaxDate', $plotMaxDate);
                $smartyHelper->assign('backlogGraphURL', IssueInfoTools::getBacklogGraph($issue, $timestampList));
 
                }
