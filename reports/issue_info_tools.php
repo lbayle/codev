@@ -345,8 +345,11 @@ class IssueInfoTools {
          }
          $test .= '["'.$id.'", '.$val.']';
       }
+      $test = '[['.$test.']]';
+      
       return $test;
    }
+
 }
 
 // Initialize complex static variables

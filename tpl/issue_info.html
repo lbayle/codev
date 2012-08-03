@@ -1,12 +1,3 @@
-<!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
-<script type="text/javascript" src="lib/jquery.jqplot/jquery.jqplot.codevtt.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.cursor.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.trendline.min.js"></script>
-<link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
 
 <div id="content">
    {if $projects}
@@ -117,7 +108,7 @@
          <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
          <li><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
          <li><a href="#tabsName-3">{t}Time per Status{/t}</a></li>
-         <li><a href="#tabsName-4">{t}Backlog history{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Backlog variation{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          <!-- General info -->
@@ -342,7 +333,7 @@
          {/if}
       </div>
       <div id="tabsName-4">
-         {if $backlogGraphURL}
+         {if $jqplotData}
          <script type="text/javascript">
             jQuery(function() {
                jQuery("#tabsIssueInfo" ).bind('tabsshow', function(event, ui) {
@@ -355,60 +346,9 @@
                });
             });
          </script>
-         <script type="text/javascript">
-            jQuery(function() {
-               jQuery.jqplot.config.enablePlugins = false;
-            
-               jQuery.jqplot('chartdiv', [[{$backlogGraphURL}]], {
-                  title:'{t}Backlog history{/t}',
-                  // animate: true,
-                  // animateReplot: true,
-                  legend: {
-                     show: true
-                  },
-                  seriesDefaults: {
-                     pointLabels: {
-                        show:true
-                     },
-                     trendline:{
-                        show:true
-                     }
-                  },
-                  series: [{
-                     label: '{t}Backlog{/t}'
-                  }],
-                  cursor: {
-                     show: true,
-                     zoom: true
-                  },
-                  axesDefaults: {
-                     useSeriesColor:true,
-                     rendererOptions: {
-                        alignTicks: true
-                     }
-                  },
-                  axes: {
-                     xaxis: {
-                        renderer: jQuery.jqplot.DateAxisRenderer,
-                        tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
-                        tickOptions: {
-                           formatString: "%e %b",
-                           angle: -30,
-                           textColor: 'grey'
-                        },
-                        min: "{$plotMinDate}",
-                        max: "{$plotMaxDate}",
-                        tickInterval: "7 days",
-                        drawMajorGridlines: false
-                     },
-                     yaxis: {
-                        min: 0
-                     }
-                  }
-               });
-            });
-         </script>
-         <div id="chartdiv"></div>
+
+         {include file="graph/line_plot.html"}
+
          {else}
          <p>{t}No data{/t}</p>
          {/if}

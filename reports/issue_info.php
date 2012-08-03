@@ -103,15 +103,16 @@ if(isset($_SESSION['userid'])) {
                $smartyHelper->assign('nbParentCommands', count($parentCmds));
 
                // get Backlog history
-               //$start_timestamp   = mktime(23, 59, 59, date('m', $issue->dateSubmission), date('d', $issue->dateSubmission), date('Y', $issue->dateSubmission));
-               //$end_timestamp   = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
-               //$timestampList = Tools::createTimestampList($start_timestamp, $end_timestamp, 2);
                $timestampList = IssueInfoTools::getTimetrackDates($issue);
+               /*
                $plotMinDate = date('Y-m-d', $issue->getFirstTimetrack()->date);
                $plotMaxDate = date('Y-m-d', $issue->getLatestTimetrack()->date);
                $smartyHelper->assign('plotMinDate', $plotMinDate);
                $smartyHelper->assign('plotMaxDate', $plotMaxDate);
-               $smartyHelper->assign('backlogGraphURL', IssueInfoTools::getBacklogGraph($issue, $timestampList));
+               */
+               $smartyHelper->assign('jqplotTitle',      'Backlog variation');
+               $smartyHelper->assign('jqplotYaxisLabel', 'Backlog (days)');
+               $smartyHelper->assign('jqplotData', IssueInfoTools::getBacklogGraph($issue, $timestampList));
 
                }
             $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
