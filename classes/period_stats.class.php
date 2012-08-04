@@ -1,22 +1,26 @@
 <?php
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "project.class.php";
+include_once('classes/config.class.php');
+include_once('classes/project.class.php');
+include_once('classes/sqlwrapper.class.php');
+
+require_once('tools.php');
 
 /**
  * CALCULATE DURATIONS
@@ -24,145 +28,150 @@ include_once "project.class.php";
  */
 class PeriodStats {
 
-	var $startTimestamp;
-  var $endTimestamp;
+   var $startTimestamp;
+   var $endTimestamp;
 
-  // The number of issue which current state is 'status' within the timestamp
-  var $statusCountList;
+   // The number of issue which current state is 'status' within the timestamp
+   var $statusCountList;
 
-  // The bugIds of issues which current state are 'status' within the timestamp
-  // REM: $statusIssueList is an array containing lists of bugIds
-  var $statusIssueList;
+   // The bugIds of issues which current state are 'status' within the timestamp
+   // REM: $statusIssueList is an array containing lists of bugIds
+   var $statusIssueList;
 
-  // The projects NOT listed here will be excluded from statistics
-  var $projectList;
+   // The projects NOT listed here will be excluded from statistics
+   var $projectList;
 
-  // The Projects which type is NOT listed here will be excluded from statistics
-  var $projectTypeList;
+   // The Projects which type is NOT listed here will be excluded from statistics
+   var $projectTypeList;
 
-  // -------------------------------------------------
-  public function PeriodStats($startTimestamp, $endTimestamp) {
-    $this->startTimestamp = $startTimestamp;
-    $this->endTimestamp = $endTimestamp;
+   /**
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    */
+   public function PeriodStats($startTimestamp, $endTimestamp) {
+      $this->startTimestamp = $startTimestamp;
+      $this->endTimestamp = $endTimestamp;
 
-    $this->statusCountList     = array();
-    $this->statusIssueList     = array();
+      $this->statusCountList = array();
+      $this->statusIssueList = array();
 
+      $this->projectList = array();
+      $this->projectTypeList = array();
 
+      // default values
+      $this->projectTypeList[] = Project::type_workingProject;
+      $this->projectTypeList[] = Project::type_noCommonProject;
+   }
 
-    $this->projectList     = array();
-    $this->projectTypeList = array();
+   /**
+    * Returns a list of bugId which status is $status
+    * @param $status
+    * @return mixed
+    */
+   public function getIssueList($status) {
+      return $this->statusIssueList[$status];
+   }
 
-    // default values
-    $this->projectTypeList[] = Project::type_workingProject;
-    $this->projectTypeList[] = Project::type_noCommonProject;
-  }
+   /**
+    * Returns the number of issues which status is $status
+    * @param $status
+    * @return int
+    */
+   public function getNbIssues($status) {
+      return count($this->statusIssueList[$status]);
+   }
 
-  // -------------------------------------------------
-  // Returns a list of bugId which status is $status
-  public function getIssueList($status) {
-    return $this->statusIssueList[$status];
-  }
+   public function computeStats() {
+      global $status_new;
 
-  // -------------------------------------------------
-  // Returns the number of issues which status is $status
-  public function getNbIssues($status) {
-    return count($this->statusIssueList[$status]);
-  }
+      $statusNames = Config::getInstance()->getValue("statusNames");
+      ksort($statusNames);
 
-  // -------------------------------------------------
-  public function computeStats() {
-    global $status_new;
+      foreach ($statusNames as $s => $sname) {
+         $this->statusCountList[$s] = 0;
+         $this->statusIssueList[$s] = array();
+      }
 
-    $statusNames = Config::getInstance()->getValue("statusNames");
-    ksort($statusNames);
+      // Compute stats
+      $this->statusCountList[$status_new] = $this->countIssues_new();
+      $this->countIssues_other();
+   }
 
-    foreach ($statusNames as $s => $sname) {
-      $this->statusCountList[$s] = 0;
-      $this->statusIssueList[$s] = array();
-    }
+   /**
+    * Count the nb of 'new' issues in [startTimestamp, endTimestamp]
+    * @return int
+    */
+   private function countIssues_new() {
+      global $status_new;
 
-    // Compute stats
-    $this->statusCountList[$status_new] = $this->countIssues_new();
-    $this->countIssues_other();
-  }
+      $count_new = -1;
 
-  // -------------------------------------------------
-  // Count the nb of 'new' issues in [startTimestamp, endTimestamp]
-  private function countIssues_new() {
-    global $status_new;
+      $this->statusCountList[$status_new] = 0;
 
-    $count_new = -1;
+      // TODO countIssues_new()
+      return $count_new;
+   }
 
-    $this->statusCountList[$status_new] = 0;
+   /**
+    * REM: select only projectTypes in $projectTypeList
+    * REM: select only projects in $projectList, if $projectList = 0 then ALL projects.
+    */
+   private function countIssues_other() {
+      $formatedProjectTypes = implode( ', ', $this->projectTypeList);
 
-    // TODO countIssues_new()
-    return $count_new;
-  }
+      // select all but SideTasks & rem 'doublons'
+      $query = "SELECT DISTINCT bug.id ".
+               "FROM `mantis_bug_table` as bug, `codev_team_project_table` ".
+               "WHERE bug.project_id = codev_team_project_table.project_id ".
+               "AND codev_team_project_table.type IN ($formatedProjectTypes) ";
 
-  // -------------------------------------------------
-  // REM: select only projectTypes in $projectTypeList
-  // REM: select only projects in $projectList, if $projectList = 0 then ALL projects.
-  private function countIssues_other() {
-
-    $formatedProjectTypes = implode( ', ', $this->projectTypeList);
-
-
-  	 // select all but SideTasks & rem 'doublons'
-    $query = "SELECT DISTINCT mantis_bug_table.id ".
-      "FROM `mantis_bug_table`, `codev_team_project_table` ".
-      "WHERE mantis_bug_table.project_id = codev_team_project_table.project_id ".
-      "AND codev_team_project_table.type IN ($formatedProjectTypes) ";
-
-
-    // Only for specified Projects
-        if ((isset($this->projectList)) && (0 != count($this->projectList))) {
+      // Only for specified Projects
+      if ((isset($this->projectList)) && (0 != count($this->projectList))) {
          $formatedProjects = implode( ', ', $this->projectList);
-      $query .= "AND mantis_bug_table.project_id IN ($formatedProjects) ";
-    }
-        if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
+         $query .= "AND bug.project_id IN ($formatedProjects) ";
+      }
+      if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
 
-        $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
-    // For each bugId
-    while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-    {
-      $bugId1 = $row->id;
-      // Find most recent transitions where date < $endTimestamp
-      $query2 = "SELECT bug_id, new_value, old_value, date_modified ".
-        "FROM `mantis_bug_history_table` ".
-        "WHERE field_name='status' ".
-        "AND bug_id =$bugId1 ".
-        "AND date_modified < $this->endTimestamp ".
-        "ORDER BY id DESC";
+      // For each bugId
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $bugId1 = $row->id;
+         // Find most recent transitions where date < $endTimestamp
+         $query2 = "SELECT bug_id, new_value, old_value, date_modified ".
+                   "FROM `mantis_bug_history_table` ".
+                   "WHERE field_name='status' ".
+                   "AND bug_id =$bugId1 ".
+                   "AND date_modified < $this->endTimestamp ".
+                   "ORDER BY id DESC";
 
-      $result2 = SqlWrapper::getInstance()->sql_query($query2);
-      if (!$result2) {
-      	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-      	exit;
+         $result2 = SqlWrapper::getInstance()->sql_query($query2);
+         if (!$result2) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result2)) {
+            $row2 = SqlWrapper::getInstance()->sql_fetch_object($result2);
+
+            $this->statusCountList[$row2->new_value]++;
+            $this->statusIssueList[$row2->new_value][] = $bugId1;
+         }
       }
-
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result2)) {
-        $row2 = SqlWrapper::getInstance()->sql_fetch_object($result2);
-
-        $this->statusCountList[$row2->new_value]++;
-        $this->statusIssueList[$row2->new_value][] = $bugId1;
+      if (isset($_GET['debug'])) {
+         echo "date < ".Tools::formatDate("%b %y", $this->endTimestamp)."<br/>";
+         foreach ($this->statusIssueList as $state => $bugList) {
+            foreach ($bugList as $bug) {
+               echo "#$bug ($state)<br/>";
+            }
+         }
       }
-    }
-    if (isset($_GET['debug'])) {
-      echo "date < ".formatDate("%b %y", $this->endTimestamp)."<br/>";
-      foreach ($this->statusIssueList as $state => $bugList) {
-        foreach ($bugList as $bug) {
-          echo "#$bug ($state)<br/>";
-        }
-      }
-    }
-  }
+   }
 
-} // end class PeriodStats
+}
 
 ?>
