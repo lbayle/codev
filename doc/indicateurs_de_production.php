@@ -27,6 +27,6 @@ require('classes/smarty_helper.class.php');
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Productivity Reports');
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+$smartyHelper->displayTemplate($mantisURL);
 
 ?>

@@ -28,6 +28,6 @@ $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Feedback');
 $smartyHelper->assign('activeGlobalMenuItem', 'Doc');
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+$smartyHelper->displayTemplate($mantisURL);
 
 ?>

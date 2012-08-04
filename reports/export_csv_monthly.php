@@ -101,6 +101,6 @@ if(isset($_SESSION['userid'])) {
    }
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+$smartyHelper->displayTemplate($mantisURL);
 
 ?>

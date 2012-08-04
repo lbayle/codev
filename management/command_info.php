@@ -165,6 +165,6 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('commands', getCommands($teamid, $cmdid));
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+$smartyHelper->displayTemplate($mantisURL);
 
 ?>

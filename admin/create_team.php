@@ -181,6 +181,6 @@ if(isset($_SESSION['userid'])) {
    $smartyHelper->assign('is_modified', $is_modified);
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+$smartyHelper->displayTemplate($mantisURL);
 
 ?>

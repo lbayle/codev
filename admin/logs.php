@@ -70,6 +70,6 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
 }
 
-$smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'],$mantisURL);
+$smartyHelper->displayTemplate($mantisURL);
 
 ?>

@@ -1,25 +1,25 @@
 <?php
-
 /*
-  This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-  CoDev-Timetracking is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CoDev-Timetracking is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 require('lib/Smarty/Smarty.class.php');
 
 include_once('i18n/i18n.inc.php');
+include_once('include/internal_config.inc.php');
 include_once('include/mysql_connect.inc.php');
 
 /**
@@ -110,16 +110,13 @@ class SmartyHelper {
 
    /**
     * Display the default template
-    * @param string $codevVersion Version of codev
-    * @param string $username User name
-    * @param string $realname Real name
     * @param string $mantisURL Mantis URL
     */
-   public function displayTemplate($codevVersion, $username, $realname, $mantisURL) {
+   public function displayTemplate($mantisURL) {
       $this->smarty->assign("year", date("Y"));
-      $this->smarty->assign("codevVersion", $codevVersion);
-      $this->smarty->assign("username", $username);
-      $this->smarty->assign("realname", $realname);
+      $this->smarty->assign("codevVersion", InternalConfig::$codevVersion);
+      $this->smarty->assign("username", $_SESSION['username']);
+      $this->smarty->assign("realname", $_SESSION['realname']);
       $this->smarty->assign('page', $_SERVER['PHP_SELF']);
       $this->smarty->assign('ajaxPage', str_replace('.php', '', $_SERVER['PHP_SELF']).'_ajax.php');
       $this->smarty->assign('tpl_name', str_replace('.php', '', substr(strrchr($_SERVER['PHP_SELF'], '/'), 1)));
