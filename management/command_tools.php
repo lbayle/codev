@@ -1,30 +1,35 @@
 <?php
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-require_once ('progress_history_indicator.class.php');
+require_once('indicator_plugins/progress_history_indicator.class.php');
+
+include_once('classes/command.class.php');
+include_once('classes/commandset_cache.class.php');
+include_once('classes/team_cache.class.php');
+
+require_once('smarty_tools.php');
+require_once('tools.php');
 
 /**
- *
  * @param Command $command
- * @return array
+ * @return mixed[]
  */
-function getCommandIssues($command) {
-
+function getCommandIssues(Command $command) {
    $issueArray = array();
 
    $issues = $command->getIssueSelection()->getIssueList();
@@ -34,34 +39,30 @@ function getCommandIssues($command) {
       $driftMgrColor = $issue->getDriftColor($driftMgr);
       $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
-      $issueInfo = array();
-      $issueInfo["mantisLink"] = Tools::mantisIssueURL($issue->bugId, NULL, true);
-      $issueInfo["bugid"] = Tools::issueInfoURL(sprintf("%07d\n",   $issue->bugId));
-      $issueInfo["extRef"] = $issue->getTC();
-      $issueInfo["project"] = $issue->getProjectName();
-      $issueInfo["target"] = $issue->getTargetVersion();
-      $issueInfo["status"] = $issue->getCurrentStatusName();
-      $issueInfo["progress"] = round(100 * $issue->getProgress());
-      $issueInfo["effortEstim"] = $issue->mgrEffortEstim;
-      $issueInfo["elapsed"] = $issue->getElapsed();
-      $issueInfo["driftMgr"] = $driftMgr;
-      $issueInfo["driftMgrColor"] = $formattedDriftMgrColor;
-      $issueInfo["durationMgr"] = $issue->getDurationMgr();
-      $issueInfo["summary"] = $issue->summary;
-
-      $issueArray[$id] = $issueInfo;
+      $issueArray[$id] = array(
+         "mantisLink" => Tools::mantisIssueURL($issue->bugId, NULL, true),
+         "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->bugId)),
+         "extRef" => $issue->getTC(),
+         "project" => $issue->getProjectName(),
+         "target" => $issue->getTargetVersion(),
+         "status" => $issue->getCurrentStatusName(),
+         "progress" => round(100 * $issue->getProgress()),
+         "effortEstim" => $issue->mgrEffortEstim,
+         "elapsed" => $issue->getElapsed(),
+         "driftMgr" => $driftMgr,
+         "driftMgrColor" => $formattedDriftMgrColor,
+         "durationMgr" => $issue->getDurationMgr(),
+         "summary" => $issue->summary
+      );
    }
    return $issueArray;
 }
 
 /**
- *
  * @param Command $cmd
- * @param int $selectedCmdsetId
- * @return type 
+ * @return mixed[]
  */
-function getParentCommandSets($cmd) {
-
+function getParentCommandSets(Command $cmd) {
    $commandsets = array();
 
    $cmdsetList = $cmd->getCommandSetList();
@@ -69,7 +70,6 @@ function getParentCommandSets($cmd) {
    // TODO return URL for 'name' ?
 
    foreach ($cmdsetList as $id => $cmdsetName) {
-
       $cmdset = CommandSetCache::getInstance()->getCommandSet($id);
       $teamid = $cmdset->getTeamid();
       $team = TeamCache::getInstance()->getTeam($teamid);
@@ -84,26 +84,19 @@ function getParentCommandSets($cmd) {
 }
 
 /**
- *
- * @param type $command
- * @return type
+ * @param Command $command
+ * @return mixed[]
  */
-function getServiceContractStateList($command = NULL) {
-
-   $stateList = NULL;
+function getServiceContractStateList(Command $command = NULL) {
    $cmdState = (NULL == $command) ? 0 : $command->getState();
-
-   foreach (Command::$stateNames as $id => $name) {
-       $stateList[$id] = array('id'       => $id,
-                            'name'     => $name,
-                            'selected' => ($id == $cmdState)
-       );
-   }
-   return $stateList;
+   return SmartyTools::getSmartyArray(Command::$stateNames, $cmdState);
 }
 
+/**
+ * @param Command $cmd
+ * @return string
+ */
 function getBacklogHistory(Command $cmd) {
-
    $cmdIssueSel = $cmd->getIssueSelection();
 
    $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -134,7 +127,6 @@ function getBacklogHistory(Command $cmd) {
    $elapsedHistoryIndicator = new ElapsedHistoryIndicator();
    $elapsedData = $elapsedHistoryIndicator->execute($cmdIssueSel, $params);
 
-   //
    $elapsedList = array();
    $backlogList = array();
    $bottomLabel = array();
@@ -158,16 +150,14 @@ function getBacklogHistory(Command $cmd) {
 
    $smartyData = Tools::SmartUrlEncode('title='.T_('Backlog history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Backlog').'&x1='.$strVal1.'&leg2='.T_('Elapsed').'&x2='.$strVal2);
 
-
    return $smartyData;
 }
 
 /**
- *
- * @param Command $cmd 
+ * @param Command $cmd
+ * @return string
  */
 function getProgressHistory(Command $cmd) {
-
    $cmdIssueSel = $cmd->getIssueSelection();
 
    $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -190,15 +180,16 @@ function getProgressHistory(Command $cmd) {
                    'endTimestamp' => $endTimestamp,
                    'interval' => 14 );
 
-   // ---------------
-
    $progressIndicator = new ProgressHistoryIndicator();
    $progressIndicator->execute($cmdIssueSel, $params);
 
    return $progressIndicator->getSmartyObject();
 }
 
-
+/**
+ * @param SmartyHelper $smartyHelper
+ * @param Command $cmd
+ */
 function displayCommand(SmartyHelper $smartyHelper, Command $cmd) {
    $smartyHelper->assign('cmdid', $cmd->getId());
    $smartyHelper->assign('cmdName', $cmd->getName());
@@ -218,12 +209,10 @@ function displayCommand(SmartyHelper $smartyHelper, Command $cmd) {
    $smartyHelper->assign('cmdAverageDailyRate', $cmd->getAverageDailyRate());
    $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
-
    // set CommandSets I belong to
    $parentCmdsets = getParentCommandSets($cmd);
    $smartyHelper->assign('parentCmdSets', $parentCmdsets);
    $smartyHelper->assign('nbParentCmdSets', count($parentCmdsets));
-
 
    // set Issues that belong to me
    $cmdIssueSel = $cmd->getIssueSelection();
@@ -238,7 +227,7 @@ function displayCommand(SmartyHelper $smartyHelper, Command $cmd) {
    // Indicators & statistics
    #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
 
-   $smartyHelper->assign('jqplotTitle',      'Historical Progression Chart');
+   $smartyHelper->assign('jqplotTitle', 'Historical Progression Chart');
    $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
    $smartyHelper->assign('jqplotData', getProgressHistory($cmd));
 }

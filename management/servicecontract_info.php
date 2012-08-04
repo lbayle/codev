@@ -1,51 +1,50 @@
 <?php
+require('../include/session.inc.php');
 
-include_once('../include/session.inc.php');
 /*
-  This file is part of CodevTT
+   This file is part of CodevTT
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-require '../path.inc.php';
+require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
 require('classes/smarty_helper.class.php');
 
-require_once "servicecontract.class.php";
-require_once "commandset.class.php";
-require_once "command.class.php";
-require_once "user.class.php";
-require_once "team.class.php";
+include_once('classes/issue_cache.class.php');
+include_once('classes/user_cache.class.php');
+include_once('classes/servicecontract_cache.class.php');
 
-require_once "servicecontract_tools.php";
+require('management/servicecontract_tools.php');
 
-require_once "smarty_tools.php";
+require_once('smarty_tools.php');
+require_once('tools.php');
 
 /**
  * Get consistency errors
- * @param Command $cmd
+ * @param ServiceContract $serviceContract
+ * @return mixed[]
  */
-function getConsistencyErrors($serviceContract) {
+function getConsistencyErrors(ServiceContract $serviceContract) {
    global $statusNames;
 
    $consistencyErrors = array(); // if null, array_merge fails !
 
    $cerrList = $serviceContract->getConsistencyErrors();
    if (count($cerrList) > 0) {
-      $i = 0;
       foreach ($cerrList as $cerr) {
          $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
          $user = UserCache::getInstance()->getUser($cerr->userId);
@@ -57,23 +56,17 @@ function getConsistencyErrors($serviceContract) {
              'severityColor' => $cerr->getSeverityColor(),
              'desc' => $cerr->desc);
       }
-      $i++;
    }
 
    return $consistencyErrors;
 }
 
-
 // ================ MAIN =================
-
-$logger = Logger::getLogger("servicecontract_info");
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_("Service Contract"));
 $smartyHelper->assign('activeGlobalMenuItem', 'Management');
 
 if (isset($_SESSION['userid'])) {
-
    $userid = $_SESSION['userid'];
    $session_user = UserCache::getInstance()->getUser($userid);
 
@@ -103,7 +96,6 @@ if (isset($_SESSION['userid'])) {
    $smartyHelper->assign('servicecontractid', $servicecontractid);
    $smartyHelper->assign('servicecontracts', getServiceContracts($teamid, $servicecontractid));
 
-
    $action = isset($_POST['action']) ? $_POST['action'] : '';
 
    if (0 != $servicecontractid) {
@@ -111,7 +103,7 @@ if (isset($_SESSION['userid'])) {
 
       displayServiceContract($smartyHelper, $servicecontract);
 
-            // ConsistencyCheck
+      // ConsistencyCheck
       $consistencyErrors = getConsistencyErrors($servicecontract);
       if (0 != $consistencyErrors) {
          $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
@@ -125,7 +117,6 @@ if (isset($_SESSION['userid'])) {
 
          $smartyHelper->assign('isEditGranted', true);
       }
-
    } else {
       unset($_SESSION['cmdid']);
       unset($_SESSION['commandsetid']);
@@ -133,10 +124,10 @@ if (isset($_SESSION['userid'])) {
       if ('displayServiceContract' == $action) {
          header('Location:servicecontract_edit.php?servicecontractid=0');
       }
-
    }
 
 }
 
 $smartyHelper->displayTemplate($codevVersion, $_SESSION['username'], $_SESSION['realname'], $mantisURL);
+
 ?>

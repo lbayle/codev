@@ -1,41 +1,44 @@
 <?php
-
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once "issue.class.php";
-include_once "user.class.php";
-include_once "team.class.php";
-include_once "commandset.class.php";
+include_once('classes/command.class.php');
+include_once('classes/commandset.class.php');
+include_once('classes/commandset_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/user_cache.class.php');
 
-require_once "commandset_tools.php";
+require('management/commandset_tools.php');
 
-include_once "smarty_tools.php";
+require_once('smarty_tools.php');
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("commandset_edit");
-
 
 /**
  * Action on 'Save' button
@@ -43,7 +46,6 @@ $logger = Logger::getLogger("commandset_edit");
  * @param CommandSet $cmdset
  */
 function updateCommandSetInfo($cmdset) {
-
    // security check
    $cmdset->setTeamid(SmartyTools::checkNumericValue($_POST['teamid']));
 
@@ -68,10 +70,8 @@ function updateCommandSetInfo($cmdset) {
  * list the Commands that can be added to this CommandSet.
  *
  * This depends on user's teams
- *
- *
  */
-function getCmdSetCandidates($user) {
+function getCmdSetCandidates(User $user) {
    $cmdCandidates = array();
 
    $lTeamList = $user->getLeadedTeamList();
@@ -80,7 +80,6 @@ function getCmdSetCandidates($user) {
    $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
    foreach ($teamList as $teamid => $name) {
-
       $team = TeamCache::getInstance()->getTeam($teamid);
       $cmdList = $team->getCommands();
 
@@ -95,7 +94,6 @@ function getCmdSetCandidates($user) {
    
    return $cmdCandidates;
 }
-
 
 // =========== MAIN ==========
 $smartyHelper = new SmartyHelper();
@@ -134,23 +132,16 @@ if (isset($_SESSION['userid'])) {
    }
    $_SESSION['commandsetid'] = $commandsetid;
 
-
    $action = isset($_POST['action']) ? $_POST['action'] : '';
-
-
-   // ------
 
    $smartyHelper->assign('commandsetid', $commandsetid);
    $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
 
-
    if (0 == $commandsetid) {
-
       // -------- CREATE CMDSET -------
 
       // ------ Actions
       if ("createCmdset" == $action) {
-
          $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new CommandSet for team $teamid<br>");
@@ -164,7 +155,6 @@ if (isset($_SESSION['userid'])) {
 
          // set all fields
          updateCommandSetInfo($cmdset);
-
       }
 
       // ------ Display Empty Command Form
@@ -173,16 +163,12 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('cmdsetInfoFormAction', 'createCmdset');
    }
 
-
    if (0 != $commandsetid) {
       // -------- UPDATE CMDSET -------
-
       $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
       // ------ Actions
-
       if ("addCommand" == $action) {
-
          # TODO
          $cmdid = SmartyTools::checkNumericValue($_POST['cmdid']);
 
@@ -192,21 +178,15 @@ if (isset($_SESSION['userid'])) {
          } else {
             $cmdset->addCommand($cmdid, Command::type_general);
          }
-
       } else if ("removeCmd" == $action) {
-
          $cmdid = SmartyTools::checkNumericValue($_POST['cmdid']);
          $cmdset->removeCommand($cmdid);
-         
       } else if ("updateCmdsetInfo" == $action) {
-
          $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
 
          updateCommandSetInfo($cmdset);
-
       } else if ("deleteCommandSet" == $action) {
-
          $logger->debug("delete CommandSet $commandsetid (".$cmdset->getName().")");
          CommandSet::delete($commandsetid);
          unset($_SESSION['commandsetid']);
@@ -214,7 +194,6 @@ if (isset($_SESSION['userid'])) {
       }
 
       // ------ Display CommandSet
-
       $smartyHelper->assign('commandsetid', $commandsetid);
       $smartyHelper->assign('cmdsetInfoFormBtText', T_('Save'));
       $smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
@@ -230,7 +209,6 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('nbParentContracts', count($parentContracts));
 
       displayCommandSet($smartyHelper, $cmdset);
-
    }
    
 }
