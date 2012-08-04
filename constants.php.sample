@@ -21,8 +21,8 @@
   // --- RESOLUTION ---
   # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values
   # INFO: the values depend on what you defined in codev_config_table.resolutionNames
-  $resolution_fixed    = array_search('fixed',    $resolutionNames);  # 20
-  $resolution_reopened = array_search('reopened', $resolutionNames);  # 30;
+  $resolution_fixed    = array_search('fixed',    InternalConfig::$resolutionNames);  # 20
+  $resolution_reopened = array_search('reopened', InternalConfig::$resolutionNames);  # 30;
 
   // --- STATUS ---
   # WARNING: CodevTT uses some global variables for status.

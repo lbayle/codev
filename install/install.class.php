@@ -641,8 +641,8 @@ class Install {
       $stringData .= "  // --- RESOLUTION ---\n";
       $stringData .= "  # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values\n";
       $stringData .= "  # INFO: the values depend on what you defined in codev_config_table.resolutionNames\n";
-      $stringData .= "  \$resolution_fixed    = array_search('fixed',    \$resolutionNames);  # 20\n";
-      $stringData .= "  \$resolution_reopened = array_search('reopened', \$resolutionNames);  # 30;\n";
+      $stringData .= "  \$resolution_fixed    = array_search('fixed',    InternalConfig::\$resolutionNames);  # 20\n";
+      $stringData .= "  \$resolution_reopened = array_search('reopened', InternalConfig::\$resolutionNames);  # 30;\n";
       $stringData .= "\n";
 
       $stringData .= "  // --- STATUS ---\n";

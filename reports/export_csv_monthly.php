@@ -39,8 +39,6 @@ $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CSV Report');
 $smartyHelper->assign('activeGlobalMenuItem', 'ImportExport');
 
-global $codevReportsDir;
-
 if(isset($_SESSION['userid'])) {
    $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
@@ -79,12 +77,12 @@ if(isset($_SESSION['userid'])) {
       if (isset($_POST['teamid']) && 0 != $teamid) {
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
+         $myFile = InternalConfig::$codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
 
          ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
          $smartyHelper->assign('managedIssuesToCSV', basename($myFile));
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
+         $myFile = InternalConfig::$codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
 
          ExportCsvTools::exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
          $smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));
@@ -92,11 +90,11 @@ if(isset($_SESSION['userid'])) {
          // reduce scope to enhance speed
          $reports = array();
          for ($i = 1; $i <= 12; $i++) {
-            $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, $codevReportsDir));
+            $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, InternalConfig::$codevReportsDir));
          }
          $smartyHelper->assign('reports', $reports);
 
-         $smartyHelper->assign('reportsDir', $codevReportsDir);
+         $smartyHelper->assign('reportsDir', InternalConfig::$codevReportsDir);
       }
    }
 }

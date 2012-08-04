@@ -35,7 +35,7 @@ $smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 // Admins only
 if(isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   if ($session_user->isTeamMember($admin_teamid)) {
+   if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
       $smartyHelper->assign('defaultColor', Holidays::$defaultColor);
 
       if (isset($_POST['hol_color'])) {

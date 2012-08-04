@@ -76,8 +76,6 @@ function getTeamMembers($teamid) {
  * @return mixed[string]
  */
 function getTeamProjects($teamid) {
-   global $externalTasksProject;
-
    $query = "SELECT codev_team_project_table.id, codev_team_project_table.type, ".
       "mantis_project_table.id AS project_id, mantis_project_table.name, mantis_project_table.enabled, ".
       "mantis_project_table.description ".
@@ -100,7 +98,7 @@ function getTeamProjects($teamid) {
       );
 
       // if ExternalTasksProject do not allow to delete
-      if ($externalTasksProject != $row->project_id) {
+      if (InternalConfig::$externalTasksProject != $row->project_id) {
          $teamProjectsTuple[$row->id]["delete"] = 'ok';
       }
    }
@@ -197,10 +195,9 @@ $smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 if(isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-   global $admin_teamid;
    $teamList = NULL;
    // leadedTeams only, except Admins: they can edit all teams
-   if ($session_user->isTeamMember($admin_teamid)) {
+   if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
       $teamList = Team::getTeams();
    } else {
       $teamList = $session_user->getLeadedTeamList();
@@ -272,7 +269,7 @@ if(isset($_SESSION['userid'])) {
                $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
 
                // CodevTT administrators can manage ExternalTasksProject in Mantis
-               if ($admin_teamid == $team->id) {
+               if (InternalConfig::$admin_teamid == $team->id) {
                   $newUser = UserCache::getInstance()->getUser($memberid);
                   $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
                   $access_level = 70; // TODO mantis manager

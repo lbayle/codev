@@ -45,14 +45,13 @@ function execCmd($uxCommand) {
 
 $logger = Logger::getLogger("chmod");
 
-global $admin_teamid;
 global $codevtt_logfile; // '/tmp/codevtt/logs/codevtt.log'
 
 if (isset($_SESSION['userid'])) {
 
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-   if ($session_user->isTeamMember($admin_teamid)) {
+   if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
 
       // ---- /tmp/codevtt/logs
       $pos = strrpos ( $codevtt_logfile, '/' );

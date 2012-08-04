@@ -18,6 +18,12 @@
 
 include_once('classes/config.class.php');
 
+// CoDevTT project started on: 17 May 2010
+
+/*
+* The Variables in here are not expected to be changed in any way.
+* most of them are initialyzed from the 'codev_config_table'.
+*/
 class InternalConfig {
 
    public static $codevVersion = "v0.99.17 (29 Jun 2012)";
@@ -43,6 +49,11 @@ class InternalConfig {
       "v0.99.16" => "(11 Apr  2012) - Smarty+Ajax, install, ProjectInfo, Https, Sessions, Doxygen, Observers view all pages, greasemonkey, ConsistencyChecks",
       "v0.99.17" => "(29 Jun  2012) - Smarty+Ajax, install, Management section, datatables, GUI enhancements, 'Leave' task moved to ExternalTasks, ConsistencyChecks"
    );
+
+   // il peut y avoir plusieurs observer
+   // il n'y a qu'un seul teamLeader
+   // il peut y avoir plusieurs managers, mais ils ne peuvent imputer que sur des SideTasks
+   // un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
 
    public static $admin_teamid; // users allowed to do CoDev administration
 
@@ -71,6 +82,8 @@ class InternalConfig {
 
    public static function staticInit() {
       self::$admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
+
+      // this is the custom field added to mantis issues for TimeTracking
       self::$tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
       self::$estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       self::$backlogCustomField    = Config::getInstance()->getValue(Config::id_customField_backlog);
@@ -98,44 +111,6 @@ class InternalConfig {
 // Initialize complex variables
 InternalConfig::staticInit();
 
-/*
-* The Variables in here are not expected to be changed in any way.
-* most of them are initialyzed from the 'codev_config_table'.
-*/
-
-// CoDevTT project started on: 17 May 2010
-$codevVersion = InternalConfig::$codevVersion;
-
-$codevVersionHistory = InternalConfig::$codevVersionHistory;
-
-// il peut y avoir plusieurs observer
-// il n'y a qu'un seul teamLeader
-// il peut y avoir plusieurs managers, mais ils ne peuvent imputer que sur des SideTasks
-// un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
-
-$admin_teamid = InternalConfig::$admin_teamid;
-
-// this is the custom field added to mantis issues for TimeTracking
-$tcCustomField           = InternalConfig::$tcCustomField;
-$estimEffortCustomField  = InternalConfig::$estimEffortCustomField;
-$backlogCustomField    = InternalConfig::$backlogCustomField;
-$deadLineCustomField     = InternalConfig::$deadLineCustomField;
-$addEffortCustomField    = InternalConfig::$addEffortCustomField;
-#$deliveryIdCustomField   = InternalConfig::$deliveryIdCustomField;
-$deliveryDateCustomField = InternalConfig::$deliveryDateCustomField;
-
-// TODO translate astreinte = "on duty"
-$astreintesTaskList = InternalConfig::$astreintesTaskList;
-
-// --- Mantis Values ---
-$priorityNames   = InternalConfig::$priorityNames;
-$resolutionNames = InternalConfig::$resolutionNames;
-
-$externalTasksProject = InternalConfig::$externalTasksProject;
-
-$codevReportsDir = InternalConfig::$codevReportsDir;
 $_POST['codevReportsDir'] = InternalConfig::$codevReportsDir; // used by tools/download.php
-
-$default_timetrackingFilters = InternalConfig::$default_timetrackingFilters;
 
 ?>

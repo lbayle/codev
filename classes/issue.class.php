@@ -192,13 +192,6 @@ class Issue implements Comparable {
          $this->target_version = $row->target_version;
          $this->last_updated = $row->last_updated;
 
-         global $tcCustomField;
-         global $estimEffortCustomField;
-         global $backlogCustomField;
-         global $addEffortCustomField;
-         global $deadLineCustomField;
-         global $deliveryDateCustomField;
-         global $deliveryIdCustomField;
          $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
 
          // Get custom fields
@@ -210,21 +203,21 @@ class Issue implements Comparable {
          }
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
             switch ($row->field_id) {
-               case $tcCustomField: $this->tcId = $row->value;
+               case InternalConfig::$tcCustomField: $this->tcId = $row->value;
                   break;
-               case $mgrEstimEffortCustomField: $this->mgrEffortEstim = $row->value;
+               case InternalConfig::$mgrEstimEffortCustomField: $this->mgrEffortEstim = $row->value;
                   break;
-               case $estimEffortCustomField: $this->effortEstim = $row->value;
+               case InternalConfig::$estimEffortCustomField: $this->effortEstim = $row->value;
                   break;
-               case $backlogCustomField: $this->backlog = $row->value;
+               case InternalConfig::$backlogCustomField: $this->backlog = $row->value;
                   break;
-               case $addEffortCustomField: $this->effortAdd = $row->value;
+               case InternalConfig::$addEffortCustomField: $this->effortAdd = $row->value;
                   break;
-               case $deadLineCustomField: $this->deadLine = $row->value;
+               case InternalConfig::$deadLineCustomField: $this->deadLine = $row->value;
                   break;
-               case $deliveryDateCustomField: $this->deliveryDate = $row->value;
+               case InternalConfig::$deliveryDateCustomField: $this->deliveryDate = $row->value;
                   break;
-               case $deliveryIdCustomField: $this->deliveryId = $row->value;
+               case InternalConfig::$deliveryIdCustomField: $this->deliveryId = $row->value;
                   break;
             }
          }
@@ -459,10 +452,7 @@ class Issue implements Comparable {
     * @return bool
     */
    public function isAstreinte() {
-      global $astreintesTaskList;
-
-      if (in_array($this->bugId, $astreintesTaskList)) {
-
+      if (in_array($this->bugId, InternalConfig::$astreintesTaskList)) {
          self::$logger->debug("$this->bugId is an Astreinte.");
          return true;
       }
@@ -540,8 +530,7 @@ class Issue implements Comparable {
    }
 
    public function getPriorityName() {
-      global $priorityNames;
-      return $priorityNames[$this->priority];
+      return InternalConfig::$priorityNames[$this->priority];
    }
 
    public function getSeverityName() {
@@ -550,8 +539,7 @@ class Issue implements Comparable {
    }
 
    public function getResolutionName() {
-      global $resolutionNames;
-      return $resolutionNames[$this->resolution];
+      return InternalConfig::$resolutionNames[$this->resolution];
    }
 
    /**
@@ -960,7 +948,7 @@ class Issue implements Comparable {
     * @param int $backlog
     */
    public function setBacklog($backlog) {
-      global $backlogCustomField;
+      $backlogCustomField = InternalConfig::$backlogCustomField;
 
       $old_backlog = $this->backlog;
 

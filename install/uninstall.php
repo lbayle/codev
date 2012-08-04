@@ -175,9 +175,8 @@ function removeCustomFields() {
 
 // ================ MAIN =================
 // Admins only
-global $admin_teamid;
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-if ($session_user->isTeamMember($admin_teamid)) {
+if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
    $originPage = "uninstall.php";
    $is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
 

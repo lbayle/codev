@@ -989,8 +989,6 @@ class User {
     * @return unknown_type returns filterValue
     */
    function getTimetrackingFilter($filterName) {
-      global $default_timetrackingFilters;
-
       if ((NULL == $this->timetrackingFilters) ||
          ('' == $this->timetrackingFilters)) {
 
@@ -1007,7 +1005,7 @@ class User {
          }
 
          // get default filters if not found
-         $keyvalue = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : $default_timetrackingFilters;
+         $keyvalue = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : InternalConfig::$default_timetrackingFilters;
 
          self::$logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
          $this->timetrackingFilters = Tools::doubleExplode(':', ',', $keyvalue);

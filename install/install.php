@@ -36,7 +36,7 @@ if (file_exists(Install::FILENAME_CONSTANTS) &&
  	include_once "config.class.php";
  	include_once "internal_config.inc.php";
 
- 	echo "CodevTT $codevVersion already installed.<br/>";
+ 	echo "CodevTT ".InternalConfig::$codevVersion." already installed.<br/>";
 
    echo "</br>";
  	$error = Install::checkMysqlAccess();

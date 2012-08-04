@@ -131,8 +131,7 @@ $smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 if(isset($_SESSION['userid'])) {
    // Admins only
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   global $admin_teamid;
-   if ($session_user->isTeamMember($admin_teamid)) {
+   if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
       $projectList = getProjectList(false);
       if(isset($_POST['projectid']) && array_key_exists($_POST['projectid'], $projectList)) {
          $projectid = Tools::getSecurePOSTIntValue('projectid');
