@@ -47,24 +47,25 @@ class Team {
    public static function staticInit() {
       self::$logger = Logger::getLogger(__CLASS__);
    }
-  // ---
-  // il n'y a qu'un seul teamLeader
-  // il peut y avoir plusieurs observer
-  // il peut y avoir plusieurs manager
-  // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
-  // un noStats ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
 
-    const accessLevel_nostats  =  5;    // in table codev_team_user_table
-    const accessLevel_dev      = 10;    // in table codev_team_user_table
-    const accessLevel_observer = 20;    // in table codev_team_user_table
-    const accessLevel_manager  = 30;    // in table codev_team_user_table
+   // ---
+   // il n'y a qu'un seul teamLeader
+   // il peut y avoir plusieurs observer
+   // il peut y avoir plusieurs manager
+   // un observer ne peut imputer sur les taches de l'equipe, il a acces en lecture seule aux donnees
+   // un noStats ne peut imputer, il n'est pas considéré comme ressource, il sert a "stocker" des fiches
+   const accessLevel_nostats = 5; // in table codev_team_user_table
+   const accessLevel_dev = 10; // in table codev_team_user_table
+   const accessLevel_observer = 20; // in table codev_team_user_table
+   const accessLevel_manager  = 30; // in table codev_team_user_table
 
-    public static $accessLevelNames = array(
-                              //self::accessLevel_nostats  => "NoStats", // can modify, can NOT view stats
-                              self::accessLevel_dev      => "Developer", // can modify, can NOT view stats
-                              self::accessLevel_observer => "Observer",  // can NOT modify, can view stats
-                              //self::accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
-                              self::accessLevel_manager  => "Manager");  // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
+   public static $accessLevelNames = array(
+      //self::accessLevel_nostats  => "NoStats", // can modify, can NOT view stats
+      self::accessLevel_dev      => "Developer", // can modify, can NOT view stats
+      self::accessLevel_observer => "Observer",  // can NOT modify, can view stats
+      //self::accessLevel_teamleader => "TeamLeader",  // REM: NOT USED FOR NOW !! can modify, can view stats, can work on projects ? , included in stats ?
+      self::accessLevel_manager  => "Manager" // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
+   );
 
    public $id;
    public $name;
@@ -102,8 +103,8 @@ class Team {
          throw $e;
       }
 
-       $this->id = $teamid;
-       $this->initialize();
+      $this->id = $teamid;
+      $this->initialize();
    }
 
    /**
@@ -121,7 +122,7 @@ class Team {
       $this->name = $row->name;
       $this->description = $row->description;
       $this->leader_id = $row->leader_id;
-      $this->enabled     = (1 == $row->enabled);
+      $this->enabled = (1 == $row->enabled);
       $this->lock_timetracks_date = $row->lock_timetracks_date;
       $this->date = $row->date;
    }
@@ -149,8 +150,8 @@ class Team {
          $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$formattedName','$formattedDesc','$leader_id', '$date');";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
          }
          $teamid = SqlWrapper::getInstance()->sql_insert_id();
       } else {
@@ -162,12 +163,11 @@ class Team {
 
    /**
     * delete a team (and all it's ServiceContracts,CommandSets,Commands)
+    * @static
     * @param int $teamidToDelete
+    * @return bool
     */
    public static function delete($teamidToDelete) {
-
-
-
       try {
          $team = TeamCache::getInstance()->getTeam($teamidToDelete);
 
@@ -219,12 +219,10 @@ class Team {
       $query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
-      $teamid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : (-1);
-
-      return $teamid;
+      return (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : (-1);
    }
 
    /**
@@ -238,8 +236,7 @@ class Team {
    }
 
    /**
-    *
-    * @return bool isEnabled 
+    * @return bool isEnabled
     */
    public function isEnabled() {
       return $this->enabled;
@@ -255,15 +252,14 @@ class Team {
 
    /**
     * add/change timetracks before this date is not allowed
-    * @return int timestamp
+    * @param int $timestamp
     */
    public function setLockTimetracksDate($timestamp) {
-
       $query = "UPDATE `codev_team_table` SET lock_timetracks_date = $timestamp WHERE id ='$this->id';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
       $this->lock_timetracks_date = $timestamp;
    }
@@ -280,15 +276,15 @@ class Team {
       $key = ''.$noStatsProject;
 
       if(!array_key_exists($key, $this->projectIdsCache)) {
-         $query = "SELECT codev_team_project_table.project_id, mantis_project_table.name ".
-            "FROM `codev_team_project_table`, `mantis_project_table` ".
-            "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-            "AND codev_team_project_table.team_id=$this->id";
+         $query = "SELECT project.id, project.name ".
+                  "FROM `mantis_project_table` as project ".
+                  "JOIN `codev_team_project_table` ON project.id = codev_team_project_table.project_id ".
+                  "WHERE codev_team_project_table.team_id = $this->id ";
 
          if (!$noStatsProject) {
-            $query .= " AND codev_team_project_table.type <> ".Project::type_noStatsProject;
+            $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
          }
-         $query .= " ORDER BY mantis_project_table.name";
+         $query .= "ORDER BY project.name;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -298,7 +294,7 @@ class Team {
 
          $projList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $projList[$row->project_id] = $row->name;
+            $projList[$row->id] = $row->name;
          }
          $this->projectIdsCache[$key] = $projList;
       }
@@ -318,15 +314,15 @@ class Team {
       $key = ''.$noStatsProject;
 
       if(!array_key_exists($key, $this->projectIdsCache)) {
-         $query = "SELECT mantis_project_table.* ".
-            "FROM `codev_team_project_table`, `mantis_project_table` ".
-            "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-            "AND codev_team_project_table.team_id=$this->id";
+         $query = "SELECT project.* ".
+                  "FROM `mantis_project_table` as project ".
+                  "JOIN `codev_team_project_table` ON project.id = codev_team_project_table.project_id ".
+                  "WHERE codev_team_project_table.team_id=$this->id ";
 
          if (!$noStatsProject) {
-            $query .= " AND codev_team_project_table.type <> ".Project::type_noStatsProject;
+            $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
          }
-         $query .= " ORDER BY mantis_project_table.name";
+         $query .= "ORDER BY project.name;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -364,18 +360,18 @@ class Team {
     */
    public function getMembers() {
       if(NULL == $this->members) {
-         $this->members = array();
-
-         $query  = "SELECT mantis_user_table.id, mantis_user_table.username ".
-            "FROM `codev_team_user_table`, `mantis_user_table` ".
-            "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
-            "AND codev_team_user_table.team_id=$this->id ".
-            "ORDER BY mantis_user_table.username";
+         $query = "SELECT user.id, user.username ".
+                  "FROM `mantis_user_table` as user ".
+                  "JOIN `codev_team_user_table` ON user.id = codev_team_user_table.user_id ".
+                  "WHERE codev_team_user_table.team_id=$this->id ".
+                  "ORDER BY user.username;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
+
+         $this->members = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $this->members[$row->id] = $row->username;
          }
@@ -414,22 +410,22 @@ class Team {
          }
       }
 
-      $mList = array();
+      $query = "SELECT user.id, user.username ".
+               "FROM `mantis_user_table` as user ".
+               "JOIN `codev_team_user_table` ON user.id = codev_team_user_table.user_id ".
+               "AND codev_team_user_table.team_id=$this->id ".
+               "AND codev_team_user_table.access_level <> ".self::accessLevel_observer.' '.
+               "AND codev_team_user_table.arrival_date <= $endTimestamp ".
+               "AND (codev_team_user_table.departure_date = 0 OR codev_team_user_table.departure_date >= $startTimestamp) ".
+               "ORDER BY user.username;";
 
-      $query  = "SELECT mantis_user_table.id, mantis_user_table.username ".
-         "FROM `codev_team_user_table`, `mantis_user_table` ".
-         "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
-         "AND   codev_team_user_table.team_id=$this->id ".
-         "AND   codev_team_user_table.access_level <> ".self::accessLevel_observer.' '.
-         "AND   codev_team_user_table.arrival_date <= $endTimestamp ".
-         "AND  (codev_team_user_table.departure_date = 0 OR codev_team_user_table.departure_date >= $startTimestamp) ".
-         "ORDER BY mantis_user_table.username";
-
-      $result    = SqlWrapper::getInstance()->sql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+
+      $mList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $mList[$row->id] = $row->username;
       }
@@ -468,9 +464,9 @@ class Team {
       self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
 
       $query = "SELECT * ".
-         "FROM `mantis_bug_table` ".
-         "WHERE project_id IN ($formatedProjects) ".
-         "AND   handler_id IN ($formatedMembers) ";
+               "FROM `mantis_bug_table` ".
+               "WHERE project_id IN ($formatedProjects) ".
+               "AND handler_id IN ($formatedMembers);";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -521,16 +517,16 @@ class Team {
 
       // get Issues that are not Resolved/Closed
       $query = "SELECT * ".
-         "FROM `mantis_bug_table` ".
-         "WHERE status < get_project_resolved_status_threshold(project_id) ".
-         "AND project_id IN ($formatedProjects) ".
-         "AND handler_id IN ($formatedMembers) ";
+               "FROM `mantis_bug_table` ".
+               "WHERE status < get_project_resolved_status_threshold(project_id) ".
+               "AND project_id IN ($formatedProjects) ".
+               "AND handler_id IN ($formatedMembers) ";
 
       if (false == $addNewIssues) {
          $query .= "AND status > $status_new ";
       }
 
-      $query .= "ORDER BY id DESC";
+      $query .= "ORDER BY id DESC;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -565,14 +561,15 @@ class Team {
    public function getCommands() {
       if (NULL == $this->commandList) {
          $query = "SELECT * FROM `codev_command_table` ".
-            "WHERE team_id = $this->id ".
-            "ORDER BY reference,name";
+                  "WHERE team_id = $this->id ".
+                  "ORDER BY reference, name;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
+
          $this->commandList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $this->commandList[$row->id] = CommandCache::getInstance()->getCommand($row->id, $row);
@@ -590,8 +587,8 @@ class Team {
    public function getCommandSetList() {
       if (NULL == $this->commandSetList) {
          $query = "SELECT * FROM `codev_commandset_table` ".
-            "WHERE team_id = $this->id ".
-            "ORDER BY reference, name";
+                  "WHERE team_id = $this->id ".
+                  "ORDER BY reference, name;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -614,8 +611,9 @@ class Team {
     */
    public function getServiceContractList() {
       if (NULL == $this->serviceContractList) {
-         $query = "SELECT * FROM `codev_servicecontract_table` ".
-            "WHERE team_id = $this->id ";
+         $query = "SELECT * ".
+                  "FROM `codev_servicecontract_table` ".
+                  "WHERE team_id = $this->id;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -642,17 +640,17 @@ class Team {
                "VALUES ('$memberid','$this->id','$arrivalTimestamp', '0', '$memberAccess');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
    public function setMemberDepartureDate($memberid, $departureTimestamp) {
-     $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
+      $query = "UPDATE `codev_team_user_table` SET departure_date = $departureTimestamp WHERE user_id = $memberid AND team_id = $this->id;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
@@ -663,11 +661,11 @@ class Team {
     * @param int $src_teamid
     */
    public function addMembersFrom($src_teamid) {
-      $query = "SELECT * from `codev_team_user_table` WHERE team_id = $src_teamid ";
+      $query = "SELECT * from `codev_team_user_table` WHERE team_id = ".$src_teamid.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $user = UserCache::getInstance()->getUser($row->user_id);
@@ -684,7 +682,7 @@ class Team {
 
    /**
     * Add a project to the team
-    * 
+    *
     * @param int $projectid
     * @param int $projecttype
     * @return bool
@@ -700,7 +698,8 @@ class Team {
 
    /**
     * removes a project from the team
-    * @param int $projectid 
+    * @param int $projectid
+    * @return bool
     */
    public function removeProject($projectid) {
       // TODO check if projectid exists in codev_team_project_table
@@ -712,9 +711,8 @@ class Team {
       }
       return true;
    }
-   
-   public function addExternalTasksProject() {
 
+   public function addExternalTasksProject() {
       $extTasksProjectType = Project::type_noStatsProject;
 
       $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
@@ -724,8 +722,8 @@ class Team {
       $query = "INSERT INTO `codev_team_project_table`  (`project_id`, `team_id`, `type`) VALUES ('$externalTasksProject','$this->id','$extTasksProjectType');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
@@ -739,23 +737,21 @@ class Team {
       $projectid = Project::createSideTaskProject($projectName);
 
       if (-1 != $projectid) {
-
          // add new SideTaskProj to the team
          $query = "INSERT INTO `codev_team_project_table` (`project_id`, `team_id`, `type`) ".
                   "VALUES ('$projectid','$this->id','$sideTaskProjectType');";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
          }
-
       } else {
-        self::$logger->error("team $this->name createSideTaskProject !!!");
-        echo "<span style='color:red'>ERROR: team $this->name createSideTaskProject !!!</span>";
-        exit;
+         self::$logger->error("team $this->name createSideTaskProject !!!");
+         echo "<span style='color:red'>ERROR: team $this->name createSideTaskProject !!!</span>";
+         exit;
       }
 
-      // --- assign SideTaskProject specific Job
+      // assign SideTaskProject specific Job
       #REM: 'N/A' job_id = 1, created by SQL file
       Jobs::addJobProjectAssociation($projectid, Jobs::JOB_NA);
 
@@ -845,13 +841,13 @@ class Team {
    public function getName() {
       return $this->name;
    }
-   
+
    /**
     * Get all teams by name
     * @return string[int] : name[id]
     */
    public static function getTeams() {
-      $query = "SELECT id, name FROM `codev_team_table` ORDER BY name";
+      $query = "SELECT id, name FROM `codev_team_table` ORDER BY name;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          return NULL;
@@ -869,18 +865,18 @@ class Team {
     */
    public function getUsers() {
       if(NULL == $this->members) {
-         $this->members = array();
 
-         $query = "SELECT mantis_user_table.* ".
-            "FROM  `codev_team_user_table`, `mantis_user_table` ".
-            "WHERE  codev_team_user_table.team_id = $this->id ".
-            "AND    codev_team_user_table.user_id = mantis_user_table.id ".
-            "ORDER BY mantis_user_table.username";
+         $query = "SELECT user.* ".
+                  "FROM `mantis_user_table` as user ".
+                  "JOIN `codev_team_user_table` ON user.id = codev_team_user_table.user_id ".
+                  "WHERE codev_team_user_table.team_id = $this->id ".
+                  "ORDER BY user.username;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             return NULL;
          }
 
+         $this->members = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             UserCache::getInstance()->getUser($row->id, $row);
             $this->members[$row->id] = $row->username;
@@ -904,12 +900,12 @@ class Team {
       $formatedCurProjList = implode( ', ', array_keys($this->getProjects()));
 
       $query = "SELECT id, name FROM `mantis_project_table`";
-      
+
       $projects = $this->getProjects();
       if($projects != NULL && count($projects) == 0) {
          $query .= " WHERE id NOT IN ($formatedCurProjList)";
       }
-      
+
       $query .= " ORDER BY name;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
