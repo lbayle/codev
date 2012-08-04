@@ -131,7 +131,7 @@ function getCommandSetDetailedMgr($commandsetid, $type) {
  *
  * @param Command $commandSet
  */
-function getProgressHistory(CommandSet $commandSet) {
+function getCSetProgressHistory(CommandSet $commandSet) {
 
    $cmdIssueSel = $commandSet->getIssueSelection(Command::type_general);
 
@@ -139,7 +139,7 @@ function getProgressHistory(CommandSet $commandSet) {
    if ((NULL != $startTT) && (0 != $startTT->date)) {
       $startTimestamp = $startTT->date;
    } else {
-      $startTimestamp = $commandSet->getStartDate();
+      $startTimestamp = $commandSet->getDate();
       #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
       if (0 == $startTimestamp) {
          $team = TeamCache::getInstance()->getTeam($commandSet->getTeamid());
@@ -187,7 +187,7 @@ function displayCommandSet($smartyHelper, CommandSet $commandset) {
 
    $smartyHelper->assign('jqplotTitle',      'Historical Progression Chart');
    $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
-   $smartyHelper->assign('jqplotData', getProgressHistory($commandset));
+   $smartyHelper->assign('jqplotData', getCSetProgressHistory($commandset));
 
 }
 

@@ -297,7 +297,7 @@ function getContractTotalDetailedMgr($servicecontractid) {
  *
  * @param Command $serviceContract
  */
-function getProgressHistory(ServiceContract $serviceContract) {
+function getSContractProgressHistory(ServiceContract $serviceContract) {
 
    $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
@@ -371,7 +371,7 @@ function displayServiceContract($smartyHelper, $servicecontract) {
 
    $smartyHelper->assign('jqplotTitle',      'Historical Progression Chart');
    $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
-   $smartyHelper->assign('jqplotData', getProgressHistory($servicecontract));
+   $smartyHelper->assign('jqplotData', getSContractProgressHistory($servicecontract));
 
 
 }

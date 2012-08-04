@@ -200,12 +200,25 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
 
          // RAF theorique = charge initiale - cumul consomé
          $sumElapsed += $this->elapsedData[$midnight_timestamp];
-         $val1 = $sumElapsed / $inputIssueSel->mgrEffortEstim;
+         if (0 != $inputIssueSel->mgrEffortEstim) {
+            $val1 = $sumElapsed / $inputIssueSel->mgrEffortEstim;
+         } else {
+            // TODO
+            $val1 = 0;
+            self::$logger->error("Division by zero ! (mgrEffortEstim)");
+         }
          if ($val1 > 1) {$val1 = 1;}
          $theoBacklog[$midnight_timestamp] = round($val1 * 100, 2);
 
          // RAF reel
-         $val2 = $sumElapsed / ($sumElapsed + $this->backlogData[$midnight_timestamp]);
+         $tmp = ($sumElapsed + $this->backlogData[$midnight_timestamp]);
+         if (0 != $tmp) {
+            $val2 = $sumElapsed / $tmp;
+         } else {
+            // TODO
+            $val2 = 0;
+            self::$logger->error("Division by zero ! (elapsed + realBacklog)");
+         }
          $realBacklog[$midnight_timestamp] = round($val2 * 100, 2);
 
          #echo "(".date('Y-m-d', $midnight_timestamp).")  rafTheo = $rafTheo sumElapsed = $sumElapsed theoBacklog = ".$theoBacklog[$midnight_timestamp]." realBacklog = ".$realBacklog[$midnight_timestamp].'<br>';
