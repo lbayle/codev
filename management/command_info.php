@@ -76,7 +76,7 @@ function getConsistencyErrors($cmd) {
          $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
          $user = UserCache::getInstance()->getUser($cerr->userId);
          $consistencyErrors[] = array(
-             'issueURL' => issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+             'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
              'issueStatus' => $statusNames[$cerr->status],
              'user' => $user->getName(),
              'severity' => $cerr->getLiteralSeverity(),

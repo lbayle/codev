@@ -162,14 +162,14 @@ if ("setDatabaseInfo" == $action) {
 
 
    echo "DEBUG 2/3 execSQLscript - create Tables<br/>";
-   $retCode = execSQLscript2($sqlFile_tables);
+   $retCode = Tools::execSQLscript2($sqlFile_tables);
    if (0 != $retCode) {
       echo "<span class='error_font'>Could not execSQLscript: $sqlFile_tables</span><br/>";
       exit;
    }
 
    echo "DEBUG 3/3 execSQLscript2 - create Procedures<br/>";
-   $retCode = execSQLscript2($sqlFile_procedures);
+   $retCode = Tools::execSQLscript2($sqlFile_procedures);
    if (0 != $retCode) {
       echo "<span class='error_font'>Could not execSQLscript: $sqlFile_procedures</span><br/>";
       exit;

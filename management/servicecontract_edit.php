@@ -63,10 +63,10 @@ function updateServiceContractInfo($contract) {
    $contract->setDesc($formattedValue);
 
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractStartDate']);
-   $contract->setStartDate(date2timestamp($formattedValue));
+   $contract->setStartDate(Tools::date2timestamp($formattedValue));
 
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractEndDate']);
-   $contract->setEndDate(date2timestamp($formattedValue));
+   $contract->setEndDate(Tools::date2timestamp($formattedValue));
 
    $contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));
 

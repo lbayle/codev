@@ -35,8 +35,8 @@ function getCommandIssues($command) {
       $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
       $issueInfo = array();
-      $issueInfo["mantisLink"] = mantisIssueURL($issue->bugId, NULL, true);
-      $issueInfo["bugid"] = issueInfoURL(sprintf("%07d\n",   $issue->bugId));
+      $issueInfo["mantisLink"] = Tools::mantisIssueURL($issue->bugId, NULL, true);
+      $issueInfo["bugid"] = Tools::issueInfoURL(sprintf("%07d\n",   $issue->bugId));
       $issueInfo["extRef"] = $issue->getTC();
       $issueInfo["project"] = $issue->getProjectName();
       $issueInfo["target"] = $issue->getTargetVersion();

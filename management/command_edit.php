@@ -63,10 +63,10 @@ function updateCmdInfo($cmd) {
    $cmd->setDesc($formattedValue);
 
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdStartDate']);
-   $cmd->setStartDate(date2timestamp($formattedValue));
+   $cmd->setStartDate(Tools::date2timestamp($formattedValue));
 
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdDeadline']);
-   $cmd->setDeadline(date2timestamp($formattedValue));
+   $cmd->setDeadline(Tools::date2timestamp($formattedValue));
 
 
    $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
@@ -142,7 +142,7 @@ function getChildIssuesCandidates($teamid) {
 
       $issueInfo = array();
       //$issueInfo["mantisLink"] = mantisIssueURL($issue->bugId, NULL, true);
-      $issueInfo["bugid"] = issueInfoURL(sprintf("%07d\n",   $issue->bugId));
+      $issueInfo["bugid"] = Tools::issueInfoURL(sprintf("%07d\n",   $issue->bugId));
       //$issueInfo["bugid"] = $issue->bugId;
       $issueInfo["extRef"] = $issue->getTC();
       $issueInfo["project"] = $issue->getProjectName();
@@ -254,7 +254,7 @@ if (isset($_SESSION['userid'])) {
       // ------ Actions
 
       if ("addCmdIssue" == $action) {
-         $bugid = getSecurePOSTIntValue('bugid');
+         $bugid = Tools::getSecurePOSTIntValue('bugid');
          $logger->debug("add Issue $bugid on Command $cmdid team $teamid");
 
          $cmd->addIssue($bugid, true); // DBonly

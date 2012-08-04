@@ -213,7 +213,7 @@ class Holidays {
       $holidays = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $holidays[$row->id] = array(
-            "date" => formatDate("%d %b %Y (%a)", $row->date),
+            "date" => Tools::formatDate("%d %b %Y (%a)", $row->date),
             "type" => $row->type,
             "desc" => $row->description,
             "color" => $row->color

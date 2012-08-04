@@ -508,7 +508,7 @@ class Install {
 
       $now = time();
       $formatedDate = date("Y-m-d", $now);
-      $today = date2timestamp($formatedDate);
+      $today = Tools::date2timestamp($formatedDate);
 
       // create admin team
       $teamId = Team::create($name, T_("CoDevTT Administrators team"), $leader_id, $today);
@@ -609,7 +609,7 @@ class Install {
 
       #echo "DEBUG: create file ".self::FILENAME_CONSTANTS."<br/>";
 
-      $today = date2timestamp(date("Y-m-d"));
+      $today = Tools::date2timestamp(date("Y-m-d"));
 
       // create/overwrite file
       $fp = fopen(self::FILENAME_CONSTANTS, 'w');

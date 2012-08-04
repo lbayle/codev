@@ -80,9 +80,9 @@ class Tools {
       $target = (false == $inNewTab) ? "" : "target='_blank'";
 
       if (false == $isIcon) {
-         $url = "<a href='$mantisURL/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
+         $url = "<a href='".$mantisURL."/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
       } else {
-         $url = "<a href='$mantisURL/view.php?id=$bugid' $target><img title='$formatedTitle' align='absmiddle' src='$mantisURL/images/favicon.ico' /></a>";
+         $url = "<a href='".$mantisURL."/view.php?id=$bugid' $target><img title='$formatedTitle' align='absmiddle' src='$mantisURL/images/favicon.ico' /></a>";
       }
 
       return $url;
@@ -327,9 +327,9 @@ class Tools {
     */
    public static function doubleExplode($del1, $del2, $keyvalue) {
       $array1 = explode("$del1", $keyvalue);
-      foreach($array1 as $key=>$value){
+      foreach($array1 as $value){
          $array2 = explode("$del2", $value);
-         foreach($array2 as $key2=>$value2){
+         foreach($array2 as $value2){
             $array3[] = $value2;
          }
       }
@@ -344,8 +344,8 @@ class Tools {
 
    /**
     * @static
-    * @param unknown_type $del1
-    * @param unknown_type $del2
+    * @param string $del1
+    * @param string $del2
     * @param array $array
     * @return string
     */
@@ -755,22 +755,30 @@ class Tools {
       }
    }
 
+   /**
+    * @static
+    * @param number $bytes
+    * @param int $precision
+    * @return string
+    */
    public static function bytesToSize1024($bytes, $precision = 2) {
       // human readable format -- powers of 1024
-      //
-    $unit = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB');
+      $unit = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB');
 
       return @round(
-                      $bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision
-              ) . ' ' . $unit[$i];
+         $bytes / pow(1024, ($i = floor(log($bytes, 1024)))), $precision
+      ) . ' ' . $unit[$i];
    }
 
    /**
-    *
+    * @static
+    * @param int $start_timestamp
+    * @param int $end_timestamp
     * @param int $interval in days
+    * @return int[]
+    * @throws Exception
     */
    public static function createTimestampList($start_timestamp, $end_timestamp, $interval) {
-
       $timestampList = array();
 
       $timestamp = $start_timestamp;
@@ -792,204 +800,9 @@ class Tools {
       return $timestampList;
    }
 
-
-} // class
+}
 
 // Initialize complex static variables
 Tools::staticInit();
-
-/**
- * returns current URL (no params)
- * @deprecated Use Tools::curPageName()
- */
-function curPageName() {
-   return Tools::curPageName();
-}
-
-/**
- * returns an HTML link to the Mantis page for Issue $bugid
- * ex: http://172.24.209.4/mantis/view.php?id=400
- * @param int $bugid issue id in mantis DB
- * @deprecated Use Tools::mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true
- */
-function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true) {
-   return Tools::mantisIssueURL($bugid, $title, $isIcon, $inNewTab);
-}
-
-/**
- * returns an HTML link to the TaskInfo page for Issue $bugid
- * ex: http://172.24.209.4/codev/reports/issue_info.php?bugid=60
- * @param int $bugid issue id in mantis DB
- * @deprecated Use Tools::issueInfoURL($bugid, $title=NULL, $inNewTab=true)
- */
-function issueInfoURL($bugid, $title=NULL, $inNewTab=true) {
-   return Tools::issueInfoURL($bugid, $title, $inNewTab);
-}
-
-/** Cette fonction transforme de ce format: 2008-09-04 en celui-ci : 1204456892
- * @param string $string
- * @return number
- * @deprecated Use Tools::date2timestamp($string)
- */
-function date2timestamp($string) {
-   return Tools::date2timestamp($string);
-}
-
-/**
- * Function that returns the timestamp for each day in a week
- * @deprecated Use Tools::week_dates($week, $year)
- */
-function week_dates($week, $year) {
-   return Tools::week_dates($week, $year);
-}
-
-/**
- * Format the date in locale
- * @param string $pattern The pattern to user
- * @param int $timestamp The timestamp to format
- * @return string The localized date
- * @deprecated Use Tools::formatDate($pattern, $timestamp)
- */
-function formatDate($pattern, $timestamp) {
-   return Tools::formatDate($pattern, $timestamp);
-}
-
-/**
- * explode string to 2-dimentionnal array
- *
- * Usage:
- * $myArray = doubleExplode(':', ',', "key:value,key2:value2");
- *
- * Example:
- * '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed'
- *
- * Array
- * (
- *    [10] => 'new'
- *    [20] => 'feedback'
- *    [30] => 'acknowledged'
- *    ...
- *  )
- * @param char   $del1        delimiter for key:value
- * @param char   $del2        delimiter for couples (key,value)
- * @param string $array       the string to explode
- * @deprecated Use Tools::doubleExplode($del1, $del2, $keyvalue)
- */
-function doubleExplode ($del1, $del2, $keyvalue) {
-   return Tools::doubleExplode($del1, $del2, $keyvalue);
-}
-
-/**
- * QuickSort function for Class instances
- * NOTE: the classes must have a compareTo(objectB) method.
- * @param array of instances $a
- * @deprecated Use Tools::qsort(&$a)
- */
-function qsort(&$a) {
-   return Tools::qsort($a);
-}
-
-/**
- * parse file and execute commands via PHP mysql lib.
- * @param $sqlFile Tools::execSQLscript($sqlFile)
- */
-function execSQLscript($sqlFile) {
-   Tools::execSQLscript($sqlFile);
-}
-
-/**
- * uses system to run 'mysql' cmd
- * @param String $sqlFile
- * @return int 0 if Success
- * @deprecated Use Tools::execSQLscript2($sqlFile)
- */
-function execSQLscript2($sqlFile) {
-   return Tools::execSQLscript2($sqlFile);
-}
-
-/**
- * Get a clean up String value by POST
- * @param string $key The key
- * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
- * @return string The value or die if there is a problem
- * @deprecated Use Tools::getSecurePOSTStringValue($key,$defaultValue = NULL)
- */
-function getSecurePOSTStringValue($key,$defaultValue = NULL) {
-   return Tools::getSecurePOSTStringValue($key,$defaultValue);
-}
-
-/**
- * Get a clean up Integer value by POST
- * @param string $key The key
- * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
- * @return int The value or die if there is a problem
- * @deprecated Use Tools::getSecurePOSTNumberValue($key,$defaultValue = NULL)
- */
-function getSecurePOSTNumberValue($key,$defaultValue = NULL) {
-   return Tools::getSecurePOSTNumberValue($key,$defaultValue);
-}
-
-/**
- * Get a clean up Integer value by GET
- * @param string $key The key
- * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
- * @return int The value or die if there is a problem
- * @deprecated Use Tools::getSecureGETIntValue($key,$defaultValue = NULL)
- */
-function getSecureGETIntValue($key,$defaultValue = NULL) {
-   return Tools::getSecureGETIntValue($key,$defaultValue);
-}
-
-/**
- * Get a clean up Integer value by POST
- * @param string $key The key
- * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
- * @return int The value or die if there is a problem
- * @deprecated Use Tools::getSecurePOSTIntValue($key,$defaultValue = NULL)
- */
-function getSecurePOSTIntValue($key,$defaultValue = NULL) {
-   return Tools::getSecurePOSTIntValue($key,$defaultValue);
-}
-
-/**
- * Send an 401 error
- * @use Send when a not logged user request a need to be logged page
- * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
- * @deprecated Use Tools::sendUnauthorizedAccess()
- */
-function sendUnauthorizedAccess() {
-   Tools::sendUnauthorizedAccess();
-}
-
-/**
- * Send an 404 error
- * @use Send when a user request a page without enought rights
- * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
- * @deprecated Use Tools::sendNotFoundAccess()
- */
-function sendNotFoundAccess() {
-   Tools::sendNotFoundAccess();
-}
-
-/**
- * Convert an array in json
- * If you use a new version of PHP(5.2 or newer), json_encode() function will be directly called
- * @param array $arr
- * @return string
- * @deprecated Use Tools::array2json(array $arr)
- */
-function array2json(array $arr) {
-   return Tools::array2json($arr);
-}
-
-/**
- * Convert the data in UTF-8 if it's in other encoding 
- * @param string $data The data to convert
- * @return string The converted data
- * @deprecated Use Tools::convertToUTF8($data)
- */
-function convertToUTF8($data) {
-   return Tools::convertToUTF8($data);
-}
 
 ?>

@@ -57,7 +57,7 @@ function updateCommandSetInfo($cmdset) {
    $cmdset->setDesc($formattedValue);
 
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetDate']);
-   $cmdset->setDate(date2timestamp($formattedValue));
+   $cmdset->setDate(Tools::date2timestamp($formattedValue));
 
    $cmdset->setCost(SmartyTools::checkNumericValue($_POST['commandsetCost'], true));
 
