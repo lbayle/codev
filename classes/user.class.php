@@ -38,58 +38,58 @@ require_once('lib/log4php/Logger.php');
  * @date 23 Jun 2010
  */
 class User {
-   
+
    /**
-    * @var int The id 
+    * @var int The id
     */
    public $id;
 
    /**
-    * @var Logger The logger 
+    * @var Logger The logger
     */
    private static $logger;
-   
+
    /**
     * @var array string[int] name[id] All users
     */
    private static $users;
-   
-   
+
+
    /**
-    * @var string The name 
+    * @var string The name
     */
    private $name;
-   
+
    /**
-    * @var string The first name 
+    * @var string The first name
     */
    private $firstName;
-   
+
    /**
-    * @var string The last name 
+    * @var string The last name
     */
    private $lastName;
-   
+
    /**
-    * @var string The last name 
+    * @var string The last name
     */
    private $shortName;
-   
+
    /**
-    * @var string The real name 
+    * @var string The real name
     */
    private $realName;
-   
+
    /**
-    * @var array Filters 
+    * @var array Filters
     */
    private $timetrackingFilters;
-   
+
    /**
     * @var array string[int] name[id] The leaded teams
     */
    private $leadedTeams;
-   
+
    /**
     * @var array Issue[] The monitored issues
     */
@@ -105,12 +105,12 @@ class User {
     * @var array Cache of team menber
     */
    private $teamMemberCache;
-   
+
    /**
     * @var array Cache of arrival date
     */
    private $arrivalDateCache;
-   
+
    /**
     * @var array Cache of depature date
     */
@@ -140,10 +140,9 @@ class User {
     */
    public function __construct($user_id, $details = NULL) {
       $this->id = $user_id;
-
       $this->initialize($details);
    }
-   
+
    /**
     * Initialize the user
     * @param resource $row The user details
@@ -151,8 +150,8 @@ class User {
    private function initialize($row) {
       if(NULL == $row) {
          $query = "SELECT username, realname " .
-            "FROM `mantis_user_table` " .
-            "WHERE id = $this->id";
+                  "FROM `mantis_user_table` " .
+                  "WHERE id = $this->id;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -178,7 +177,7 @@ class User {
     * @return int The userid
     */
    public static function getUserId($name) {
-      $query = "SELECT id FROM `mantis_user_table` WHERE username='$name'";
+      $query = "SELECT id FROM `mantis_user_table` WHERE username='$name';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -190,15 +189,15 @@ class User {
 
    /**
     * Get the name
-    * @return string The name 
+    * @return string The name
     */
    public function getName() {
       return $this->name;
    }
 
    /**
-    * Get the first name 
-    * @return string The first name 
+    * Get the first name
+    * @return string The first name
     */
    public function getFirstname() {
       if (NULL == $this->firstName) {
@@ -208,8 +207,8 @@ class User {
    }
 
    /**
-    * Get the last name 
-    * @return string The last name 
+    * Get the last name
+    * @return string The last name
     */
    public function getLastname() {
       if (NULL == $this->lastName) {
@@ -221,7 +220,7 @@ class User {
 
    /**
     * Get the short name. ex: Louis BAYLE => LBA
-    * @return string The short name 
+    * @return string The short name
     */
    public function getShortname() {
       if (NULL == $this->shortName) {
@@ -243,7 +242,7 @@ class User {
 
    /**
     * Get the real name
-    * @return string The real name 
+    * @return string The real name
     */
    public function getRealname() {
       return $this->realName;
@@ -262,7 +261,7 @@ class User {
     * @param int $team_id
     * @param int $startTimestamp
     * @param int $endTimestamp
-    * @return bool 
+    * @return bool
     */
    public function isTeamDeveloper($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
       return $this->isTeamMember($team_id, Team::accessLevel_dev, $startTimestamp, $endTimestamp);
@@ -273,7 +272,7 @@ class User {
     * @param int $team_id
     * @param int $startTimestamp
     * @param int $endTimestamp
-    * @return bool 
+    * @return bool
     */
    public function isTeamObserver($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
       return $this->isTeamMember($team_id, Team::accessLevel_observer, $startTimestamp, $endTimestamp);
@@ -283,7 +282,7 @@ class User {
     * @param int $team_id
     * @param int $startTimestamp
     * @param int $endTimestamp
-    * @return bool 
+    * @return bool
     */
    public function isTeamManager($team_id, $startTimestamp = NULL, $endTimestamp = NULL) {
       return $this->isTeamMember($team_id, Team::accessLevel_manager, $startTimestamp, $endTimestamp);
@@ -294,7 +293,7 @@ class User {
     * @param int $accessLevel
     * @param int $startTimestamp
     * @param int $endTimestamp
-    * @return bool 
+    * @return bool
     */
    public function isTeamMember($team_id, $accessLevel = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
       if (NULL == $this->teamMemberCache) {
@@ -304,10 +303,9 @@ class User {
       $key = $team_id . '_' . $accessLevel . ' ' . $startTimestamp . ' ' . $endTimestamp;
 
       if (!array_key_exists($key, $this->teamMemberCache)) {
-
          $query = "SELECT COUNT(id) FROM `codev_team_user_table` " .
-                 "WHERE team_id = $team_id " .
-                 "AND user_id = $this->id ";
+                  "WHERE team_id = $team_id " .
+                  "AND user_id = $this->id ";
 
          if (NULL != $accessLevel) {
             $query .= "AND access_level = $accessLevel ";
@@ -315,7 +313,7 @@ class User {
 
          if ((NULL != $startTimestamp) && (NULL != $endTimestamp)) {
             $query .= "AND arrival_date < $endTimestamp AND " .
-                    "(departure_date >= $startTimestamp OR departure_date = 0)";
+                      "(departure_date >= $startTimestamp OR departure_date = 0)";
             // REM: if departure_date = 0, then user stays until the end of the world.
          }
 
@@ -340,7 +338,7 @@ class User {
       if (NULL == $this->arrivalDateCache) {
          $this->arrivalDateCache = array();
       }
-      
+
       $key = 't'.$team_id;
       if (!array_key_exists($key, $this->arrivalDateCache)) {
          $arrival_date = time();
@@ -348,7 +346,7 @@ class User {
          $query = "SELECT arrival_date FROM `codev_team_user_table` " .
                   "WHERE user_id = $this->id ";
          if (isset($team_id)) {
-            $query .= "AND team_id = $team_id";
+            $query .= "AND team_id = $team_id;";
          }
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -360,7 +358,7 @@ class User {
                $arrival_date = $row->arrival_date;
             }
          }
-         
+
          $this->arrivalDateCache[$key] = $arrival_date;
 
          //echo "DEBUG arrivalDate = ".date('Y - m - d', $arrival_date)."<br>";
@@ -369,7 +367,7 @@ class User {
       return $this->arrivalDateCache[$key];
    }
 
-   /** 
+   /**
     * if no team specified, choose the most future departureDate
     * or '0' if still active in a team
     * @param int $team_id
@@ -379,15 +377,15 @@ class User {
       if (NULL == $this->departureDateCache) {
          $this->departureDateCache = array();
       }
-      
+
       $key = 't'.$team_id;
       if (!array_key_exists($key, $this->departureDateCache)) {
          $departureDate = 0;
 
          $query = "SELECT departure_date FROM `codev_team_user_table` " .
-                 "WHERE user_id = $this->id ";
+                  "WHERE user_id = $this->id ";
          if (isset($team_id)) {
-            $query .= "AND team_id = $team_id";
+            $query .= "AND team_id = $team_id;";
          }
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -425,10 +423,9 @@ class User {
       $key = $startTimestamp.'-'.$endTimestamp;
 
       if(!array_key_exists($key, $this->timeTracksCache)) {
-         $query = "SELECT * " .
-            "FROM `codev_timetracking_table` " .
-            "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
-            "AND userid = $this->id";
+         $query = "SELECT * FROM `codev_timetracking_table` " .
+                  "WHERE date >= $startTimestamp AND date <= $endTimestamp " .
+                  "AND userid = $this->id;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -453,7 +450,7 @@ class User {
       $daysOf = array();  // day => duration
       if(count($issueIds) > 0) {
          $issues = Issue::getIssues($issueIds);
-         
+
          $teamidList = array_keys($this->getTeamList());
          foreach ($timeTracks as $timeTrack) {
             try {
@@ -463,16 +460,16 @@ class User {
                   self::$logger->error("getDaysOfInPeriod(): $timeTrack->bugId not found in ".implode(',', $issueIds));
                   $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
                }
-               
+
                if ($issue->isVacation($teamidList)) {
                   if (isset($daysOf[$timeTrack->date])) {
                      $daysOf[$timeTrack->date]['duration'] += $timeTrack->duration;
                   } else {
                      $daysOf[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
-                                                  'type' => 'Inactivity',  // TODO
-                                                  'color' => 'A8FFBD',  // TODO (light green)
-                                                  'title' => $issue->summary
-                                                );
+                        'type' => 'Inactivity',  // TODO
+                        'color' => 'A8FFBD',  // TODO (light green)
+                        'title' => $issue->summary
+                     );
                   }
                   #echo "DEBUG user $this->userid daysOf[".date("j", $timeTrack->date)."] = ".$daysOf[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
                }
@@ -494,7 +491,7 @@ class User {
       $astreintes = array();  // day => duration
       if(count($issueIds) > 0) {
          $issues = Issue::getIssues($issueIds);
-         
+
          foreach ($timeTracks as $timeTrack) {
             try {
                if (!array_key_exists($timeTrack->bugId, $issues)) {
@@ -509,10 +506,10 @@ class User {
                      $astreintes[$timeTrack->date]['duration'] += $timeTrack->duration;
                   } else {
                      $astreintes[$timeTrack->date] = array(
-                         'duration' => $timeTrack->duration,
-                         'type' => 'onDuty',  // TODO
-                         'color' => 'F8FFA8',  // TODO (yellow)
-                         'title' => $issue->summary
+                        'duration' => $timeTrack->duration,
+                        'type' => 'onDuty', // TODO
+                        'color' => 'F8FFA8', // TODO (yellow)
+                        'title' => $issue->summary
                      );
                   }
                   //echo "DEBUG user $this->userid astreintes[".date("j", $timeTrack->date)."] = ".$astreintes[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
@@ -557,10 +554,10 @@ class User {
                      }
 
                      $extTasks[$timeTrack->date] = array(
-                         'duration' => $timeTrack->duration,
-                         'type' => $type,  // TODO
-                         'color' => $color,  // TODO (green2)
-                         'title' => $issue->summary
+                        'duration' => $timeTrack->duration,
+                        'type' => $type,  // TODO
+                        'color' => $color,  // TODO (green2)
+                        'title' => $issue->summary
                      );
                   }
                   self::$logger->debug("user $this->id ExternalTasks[" . date("j", $timeTrack->date) . "] = " . $extTasks[date("j", $timeTrack->date)] . " (+$timeTrack->duration)");
@@ -578,7 +575,7 @@ class User {
     * @param int $startTimestamp
     * @param int $endTimestamp
     * @param int $team_id
-    * @return int 
+    * @return int
     */
    public function getAvailableWorkload($startTimestamp, $endTimestamp, $team_id = NULL) {
       $holidays = Holidays::getInstance();
@@ -614,7 +611,7 @@ class User {
             $nbOpenDaysInPeriod++;
          }
       }
-      
+
       $timeTracks = $this->getTimeTracks($startT, $endT);
       $issueIds = array();
       foreach ($timeTracks as $timeTrack) {
@@ -733,14 +730,14 @@ class User {
       if($accessLevel == NULL && $this->allTeamList != NULL) {
          return $this->allTeamList;
       }
-      $query = "SELECT codev_team_table.id, codev_team_table.name " .
-               "FROM `codev_team_user_table`, `codev_team_table` " .
-               "WHERE codev_team_user_table.user_id = $this->id " .
-               "AND   codev_team_user_table.team_id = codev_team_table.id ";
+      $query = "SELECT team.id, team.name " .
+               "FROM `codev_team_table` as team " .
+               "JOIN `codev_team_user_table` ON team.id = codev_team_user_table.team_id ".
+               "WHERE codev_team_user_table.user_id = $this->id ";
       if (NULL != $accessLevel) {
-         $query .= "AND   codev_team_user_table.access_level = $accessLevel ";
+         $query .= "AND codev_team_user_table.access_level = $accessLevel ";
       }
-      $query .= "ORDER BY codev_team_table.name";
+      $query .= "ORDER BY team.name;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -776,16 +773,16 @@ class User {
       }
       if (0 != count($teamList)) {
          $formatedTeamList = implode(', ', array_keys($teamList));
-         $query = "SELECT DISTINCT codev_team_project_table.project_id, mantis_project_table.name " .
-                 "FROM `codev_team_project_table`, `mantis_project_table`" .
-                 "WHERE codev_team_project_table.team_id IN ($formatedTeamList) " .
-                 "AND codev_team_project_table.project_id = mantis_project_table.id ";
+         $query = "SELECT DISTINCT project.id, project.name " .
+                  "FROM `mantis_project_table` as project " .
+                  "JOIN `codev_team_project_table` ON project.id = codev_team_project_table.project_id ".
+                  "WHERE codev_team_project_table.team_id IN ($formatedTeamList) ";
 
          if (!$noStatsProject) {
             $query .= "AND codev_team_project_table.type <> " . Project::type_noStatsProject . " ";
          }
 
-         $query .= "ORDER BY mantis_project_table.name";
+         $query .= "ORDER BY project.name;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -793,7 +790,7 @@ class User {
             exit;
          }
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $projList[$row->project_id] = $row->name;
+            $projList[$row->id] = $row->name;
          }
       } else {
          // this happens if User is not a Developper (Manager or Observer)
@@ -806,7 +803,7 @@ class User {
    /**
     * sum the RAF (or mgrEffortEstim if no RAF defined) of all the opened Issues assigned to me.
     * @param string[] $projList
-    * @return int 
+    * @return int
     */
    public function getForecastWorkload(array $projList = NULL) {
       $totalBacklog = 0;
@@ -826,10 +823,10 @@ class User {
 
       // find all issues i'm working on
       $query = "SELECT * FROM `mantis_bug_table` " .
-              "WHERE project_id IN ($formatedProjList) " .
-              "AND handler_id = $this->id " .
-              "AND status < get_project_resolved_status_threshold(project_id) " .
-              "ORDER BY id DESC";
+               "WHERE project_id IN ($formatedProjList) " .
+               "AND handler_id = $this->id " .
+               "AND status < get_project_resolved_status_threshold(project_id) " .
+               "ORDER BY id DESC;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -838,7 +835,6 @@ class User {
       }
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-
          $totalBacklog += $issue->getDurationMgr();
       }
 
@@ -876,17 +872,14 @@ class User {
 
       $formatedProjList = implode(', ', array_keys($projList));
 
-
-      $query = "SELECT * " .
-              "FROM `mantis_bug_table` " .
-              "WHERE project_id IN ($formatedProjList) " .
-              "AND handler_id = $this->id ";
+      $query = "SELECT * FROM `mantis_bug_table` " .
+               "WHERE project_id IN ($formatedProjList) " .
+               "AND handler_id = $this->id ";
 
       if (!$withResolved) {
          $query .= "AND status < get_project_resolved_status_threshold(project_id) ";
       }
-      $query .= "ORDER BY id DESC";
-
+      $query .= "ORDER BY id DESC;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -926,11 +919,11 @@ class User {
     */
    public function getMonitoredIssues() {
       if(NULL == $this->monitoredIssues) {
-         $query = "SELECT DISTINCT mantis_bug_table.* " .
-                  "FROM `mantis_bug_table`, `mantis_bug_monitor_table` " .
-                  "WHERE mantis_bug_monitor_table.user_id = $this->id " .
-                  "AND mantis_bug_table.id = mantis_bug_monitor_table.bug_id ".
-                  "ORDER BY mantis_bug_table.id DESC";
+         $query = "SELECT DISTINCT bug.* " .
+                  "FROM `mantis_bug_table` as bug ".
+                  "JOIN `mantis_bug_monitor_table` as monitor ON bug.id = monitor.bug_id " .
+                  "WHERE monitor.user_id = $this->id " .
+                  "ORDER BY bug.id DESC;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -955,7 +948,7 @@ class User {
     * check Timetracks & fixed holidays
     * and returns how many time is available for work on this day.
     * @param int $timestamp
-    * @return int 
+    * @return int
     */
    public function getAvailableTime($timestamp) {
       // we need to be absolutely sure that time is 00:00:00
@@ -968,19 +961,16 @@ class User {
       }
 
       // now check for Timetracks, the time left is free time to work
-      $query = "SELECT SUM(duration) " .
-              "FROM `codev_timetracking_table` " .
-              "WHERE userid = $this->id " .
-              "AND date = $timestamp";
+      $query = "SELECT SUM(duration) FROM `codev_timetracking_table` " .
+               "WHERE userid = $this->id " .
+               "AND date = $timestamp;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
 
-      $data = SqlWrapper::getInstance()->sql_fetch_array($result);
-      $sum = round($data[0], 2);
-
+      $sum = round(SqlWrapper::getInstance()->sql_result($result), 2);
       $availTime = (1 - $sum <= 0) ? 0 : (1 - $sum);
 
       //echo "DEBUG getAvailableTime ".date('Y-m-d', $timestamp).": TotalDurations=".$sum."  availTime=$availTime<br/>\n";
@@ -995,19 +985,19 @@ class User {
     * id = 'id_timetrackingFilters'
     * type = keyValue  "onlyAssignedTo:0,hideResolved:1,hideDevProjects:0"
     *
-    * @param unknown_type $filterName 'onlyAssignedTo'
+    * @param string $filterName 'onlyAssignedTo'
     * @return unknown_type returns filterValue
     */
    function getTimetrackingFilter($filterName) {
       global $default_timetrackingFilters;
 
       if ((NULL == $this->timetrackingFilters) ||
-              ('' == $this->timetrackingFilters)) {
+         ('' == $this->timetrackingFilters)) {
 
          // TODO Config class cannot handle multiple lines for same id
          $query = "SELECT value FROM `codev_config_table` " .
-                 "WHERE config_id = '" . Config::id_timetrackingFilters . "' " .
-                 "AND user_id = $this->id";
+                  "WHERE config_id = '" . Config::id_timetrackingFilters . "' " .
+                  "AND user_id = $this->id";
          self::$logger->debug("query = " . $query);
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1032,12 +1022,12 @@ class User {
 
    /**
     * @param string $filterName
-    * @param unknown_type $value 
+    * @param unknown_type $value
     */
    function setTimetrackingFilter($filterName, $value) {
       // init timetrackingFilters
       if ((NULL == $this->timetrackingFilters) ||
-              ('' == $this->timetrackingFilters)) {
+         ('' == $this->timetrackingFilters)) {
          $this->getTimetrackingFilter('onlyAssignedTo');
       }
 
@@ -1055,7 +1045,6 @@ class User {
     * @param int $teamid
     */
    public function setDefaultTeam($teamid) {
-
       self::$logger->debug("User $this->id Set defaultTeam  : $teamid");
 
       // save new settings
@@ -1067,15 +1056,14 @@ class User {
    /**
     * get the default team on login
     *
-    * @return type
+    * @return string
     */
    public function getDefaultTeam() {
-
       if (NULL == $this->defaultTeam) {
          // TODO Config class cannot handle multiple lines for same id
          $query = "SELECT value FROM `codev_config_table` " .
-                 "WHERE config_id = '" . Config::id_defaultTeamId . "' " .
-                 "AND user_id = $this->id";
+                  "WHERE config_id = '" . Config::id_defaultTeamId . "' " .
+                  "AND user_id = $this->id";
          self::$logger->debug("query = " . $query);
 
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -1091,7 +1079,7 @@ class User {
 
    /**
     * Get users
-    * @return array string[int] : username[id]
+    * @return string[] : username[id]
     */
    public static function getUsers() {
       if(NULL == self::$users) {
@@ -1111,25 +1099,24 @@ class User {
 
    /**
     * Set project access_level for the given (private) project
-    * 
+    *
     * manager = 70
-    * 
+    *
     *
     * @param int $project_id
     * @param int $access_level
     */
    public function setProjectAccessLevel($project_id, $access_level) {
-      $query = "INSERT INTO `mantis_project_user_list_table`  (`user_id`, `project_id`, `access_level`) ".
+      $query = "INSERT INTO `mantis_project_user_list_table` (`user_id`, `project_id`, `access_level`) ".
                "VALUES ('$this->id','$project_id', '$access_level');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
-
    }
 
-} // class
+}
 
 // Initialize complex static variables
 User::staticInit();
