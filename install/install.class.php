@@ -625,7 +625,7 @@ class Install {
       $stringData .= "\n";
       $stringData .= "  date_default_timezone_set('Europe/Paris');\n";
       $stringData .= "\n";
-      $stringData .= "  include_once \"config.class.php\";\n";
+      $stringData .= "  include_once \"classes/config.class.php\";\n";
       $stringData .= "\n";
       $stringData .= "  \$codevInstall_timestamp = " . $today . ";\n";
       $stringData .= "\n";
