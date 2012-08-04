@@ -1,25 +1,26 @@
 <?php
 /*
-  This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-  CoDev-Timetracking is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CoDev-Timetracking is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
+include_once('classes/command.class.php');
+include_once('classes/command_cache.class.php');
 include_once('classes/issue_selection.class.php');
-include_once('classes/team.class.php');
-include_once('classes/servicecontract.class.php');
-include_once('classes/commandset_cache.class.php');
+include_once('classes/servicecontract_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
 
 require_once('lib/log4php/Logger.php');
 
@@ -38,17 +39,17 @@ class CommandSet {
 
    const type_general = 1; // in codev_servicecontract_cmdset_table
 
-   const state_toBeSent   = 1;
-   const state_sent       = 2;
+   const state_toBeSent = 1;
+   const state_sent = 2;
    const state_toBeSigned = 3;
-   const state_signed     = 4;
+   const state_signed = 4;
 
    // TODO i18n for constants
    public static $stateNames = array(
-       CommandSet::state_toBeSent => "A émettre",
-       CommandSet::state_sent => "Emis",
-       CommandSet::state_toBeSigned => "A signer",
-       CommandSet::state_signed => "Signé");
+      self::state_toBeSent => "A émettre",
+      self::state_sent => "Emis",
+      self::state_toBeSigned => "A signer",
+      self::state_signed => "Signé");
 
    /**
     * @var Logger The logger
@@ -104,24 +105,23 @@ class CommandSet {
     */
    private function initialize($row = NULL) {
       if($row == NULL) {
-      $query = "SELECT * FROM `codev_commandset_table` WHERE id=$this->id ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+         $query = "SELECT * FROM `codev_commandset_table` WHERE id = ".$this->id.";";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-      }
-      $this->name        = $row->name;
-      $this->reference        = $row->reference;
+      $this->name = $row->name;
+      $this->reference = $row->reference;
       $this->description = $row->description;
-      $this->date        = $row->date;
-      $this->teamid      = $row->team_id;
+      $this->date = $row->date;
+      $this->teamid = $row->team_id;
       $this->budget_days = $row->budget_days;
-      $this->cost        = $row->budget;
-      $this->currency    = $row->currency;
+      $this->cost = $row->budget;
+      $this->currency = $row->currency;
 
-      // ---
       $this->cmdidByTypeList = array();
       $query = "SELECT * FROM `codev_commandset_cmd_table` " .
                "WHERE commandset_id=$this->id ".
@@ -142,28 +142,32 @@ class CommandSet {
 
    /**
     * create a new commandset in the DB
-    *
+    * @static
+    * @param string $name
+    * @param int $teamid
     * @return int $id
     */
    public static function create($name, $teamid) {
       $query = "INSERT INTO `codev_commandset_table`  (`name`, `team_id`) " .
-              "VALUES ('$name', '$teamid');";
+               "VALUES ('$name', '$teamid');";
+
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $id = SqlWrapper::getInstance()->sql_insert_id();
-      return $id;
+
+      return SqlWrapper::getInstance()->sql_insert_id();
    }
 
    /**
     * delete a commandset
     *
-    * @return int $id
+    * @static
+    * @param int $id
+    * @return bool
     */
    public static function delete($id) {
-
       $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `commandset_id`='$id';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -184,10 +188,9 @@ class CommandSet {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
          exit;
       }
+
       return true;
    }
-
-
 
    public function getId() {
       return $this->id;
@@ -198,7 +201,6 @@ class CommandSet {
    }
 
    public function setTeamid($value) {
-
       $this->teamid = $value;
       $query = "UPDATE `codev_commandset_table` SET team_id = '$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -226,14 +228,14 @@ class CommandSet {
    public function getReference() {
       return $this->reference;
    }
-   public function setReference($value) {
 
+   public function setReference($value) {
       $this->reference = $value;
       $query = "UPDATE `codev_commandset_table` SET reference = '$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
@@ -256,7 +258,6 @@ class CommandSet {
    }
 
    public function setState($value) {
-
       $this->state = $value;
       $query = "UPDATE `codev_commandset_table` SET state='$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -285,7 +286,6 @@ class CommandSet {
    }
 
    public function setBudgetDays($value) {
-
       $this->budget_days = floatval($value) * 100;;
       $query = "UPDATE `codev_commandset_table` SET budget_days = '$this->budget_days' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -301,7 +301,6 @@ class CommandSet {
    }
 
    public function setCost($value) {
-
       $this->cost = floatval($value) * 100;
       $query = "UPDATE `codev_commandset_table` SET budget = '$this->cost' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -316,7 +315,6 @@ class CommandSet {
    }
 
    public function setCurrency($value) {
-
       $this->currency = $value;
       $query = "UPDATE `codev_commandset_table` SET currency = '$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -327,12 +325,10 @@ class CommandSet {
    }
 
    /**
-    *
     * @param int $type  Command::type_general
-    * @return array cmdid => Command
+    * @return Command[] cmdid => Command
     */
    public function getCommands($type) {
-
       // TODO: if type==NULL return for all types
 
       $cmdList = array();
@@ -341,7 +337,6 @@ class CommandSet {
 
       if (($cmdidList) && (0 != count($cmdidList))) {
          foreach ($cmdidList as $cmdid) {
-
             $cmdList[$cmdid] = CommandCache::getInstance()->getCommand($cmdid);
          }
       }
@@ -356,7 +351,6 @@ class CommandSet {
     * @return IssueSelection
     */
    public function getIssueSelection($type) {
-
       // TODO: if type==NULL return for all types
 
       $issueSelection = new IssueSelection();
@@ -365,7 +359,6 @@ class CommandSet {
 
       if (($cmdidList) && (0 != count($cmdidList))) {
          foreach ($cmdidList as $cmdid) {
-
             $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
             $mcdIS = $cmd->getIssueSelection();
@@ -378,12 +371,11 @@ class CommandSet {
    /**
     * add Command to commandset (in DB & current instance)
     *
-    * @param type $cmdid
+    * @param int $cmdid
     * @param int $type Command::type_general
     * @return int id in codev_commandset_cmd_table
     */
    public function addCommand($cmdid, $type) {
-
       try {
          CommandCache::getInstance()->getCommand($cmdid);
       } catch (Exception $e) {
@@ -416,7 +408,6 @@ class CommandSet {
     * @param int $cmdid
     */
    public function removeCommand($cmdid) {
-
       $typeList = array_keys($this->cmdidByTypeList);
       foreach ($typeList as $type) {
          if (NULL != $this->cmdidByTypeList[$type][$cmdid]) {
@@ -441,10 +432,8 @@ class CommandSet {
     * @return array[servicecontract_id] = servicecontractName
     */
    public function getServiceContractList() {
-
       if (NULL == $this->serviceContractList) {
-
-         $query = "SELECT * FROM `codev_servicecontract_cmdset_table` WHERE commandset_id=$this->id ";
+         $query = "SELECT * FROM `codev_servicecontract_cmdset_table` WHERE commandset_id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -454,7 +443,6 @@ class CommandSet {
          // a Command can belong to more than one commandset
          $this->serviceContractList = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-
             $srvContract = ServiceContractCache::getInstance()->getServiceContract($row->servicecontract_id);
 
             $this->serviceContractList["$row->servicecontract_id"] = $srvContract->getName();
@@ -465,16 +453,13 @@ class CommandSet {
    }
 
    /**
-    *
-    * @return array
+    * @return ConsistencyError2[]
     */
    public function getConsistencyErrors() {
-
-
       $cmdList = $this->getCommands(Command::type_general);
 
       $csetErrors = array();
-      foreach ($cmdList as $cmdid => $cmd) {
+      foreach ($cmdList as $cmd) {
          $cmdErrors = $cmd->getConsistencyErrors();
          $csetErrors = array_merge($csetErrors, $cmdErrors);
       }
