@@ -48,9 +48,6 @@ class Status {
    }
 }
 
-/**
- *
- */
 class Issue implements Comparable {
 
    /**
@@ -69,7 +66,7 @@ class Issue implements Comparable {
    /**
     * @var int Mantis id
     */
-   public $bugId;      // mantis id
+   public $bugId;
 
    public $projectId;  // Capu, peterpan, etc.
    public $categoryId;
@@ -102,8 +99,9 @@ class Issue implements Comparable {
      * Feb.2012 'prelEffortEstim' has been replaced by 'mgrEffortEstim'
      */
 
-   // -- CodevTT custom fields
+   // CodevTT custom fields
    public $tcId;         // TelelogicChange id
+
    /**
     * @var int Backlog
     */
@@ -241,18 +239,14 @@ class Issue implements Comparable {
       }
    }
 
-
    /**
     * @param int $bugid
     * @return bool TRUE if issue exists in Mantis DB
     */
    public static function exists($bugid) {
-
-      global $logger;
-
       if (NULL == $bugid) {
-            self::$logger->warn("exists(): bugid == NULL.");
-            return false;
+         self::$logger->warn("exists(): bugid == NULL.");
+         return false;
       }
 
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
@@ -275,13 +269,12 @@ class Issue implements Comparable {
       return self::$existsCache[$bugid];
    }
 
-
    /**
     * @return string The issue description
     */
    public function getDescription() {
       if (NULL == $this->description) {
-         $query = "SELECT description FROM `mantis_bug_text_table` WHERE id = $this->bugId";
+         $query = "SELECT description FROM `mantis_bug_text_table` WHERE id = ".$this->bugId.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -293,9 +286,12 @@ class Issue implements Comparable {
       return $this->description;
    }
 
+   /**
+    * @return IssueNote[]
+    */
    public function getIssueNoteList() {
       if (NULL == $this->IssueNoteList) {
-         $query = "SELECT id FROM `mantis_bugnote_table` WHERE bug_id = $this->bugId";
+         $query = "SELECT id FROM `mantis_bugnote_table` WHERE bug_id = ".$this->bugId.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -311,9 +307,12 @@ class Issue implements Comparable {
 
    /**
     * returns a Holidays class instance
+    * @return Holidays
     */
    private function getHolidays() {
-      if (NULL == $this->holidays) { $this->holidays = Holidays::getInstance(); }
+      if (NULL == $this->holidays) {
+         $this->holidays = Holidays::getInstance();
+      }
       return $this->holidays;
    }
 
@@ -347,9 +346,11 @@ class Issue implements Comparable {
     *
     * Note: the project type is specific to a team, so you need to specify
     * a team list. see Project::isSideTasksProject() for more info
+    * @param int[] $teamidList
     * @return bool true if Tools or Workshop category
+    * @throws Exception
     */
-   public function isSideTaskIssue($teamidList = NULL) {
+   public function isSideTaskIssue(array $teamidList = NULL) {
       $project = ProjectCache::getInstance()->getProject($this->projectId);
 
       try {
@@ -375,9 +376,11 @@ class Issue implements Comparable {
     * Note: the project type is specific to a team, so you need to specify
     * a team list. see Project::isSideTasksProject() for more info
     *
-    * @return boolean true if Inactivity task
+    * @param int[] $teamidList
+    * @return bool true if Inactivity task
+    * @throws Exception
     */
-   public function isVacation($teamidList = NULL) {
+   public function isVacation(array $teamidList = NULL) {
       $project = ProjectCache::getInstance()->getProject($this->projectId);
 
       try {
@@ -402,9 +405,11 @@ class Issue implements Comparable {
     * the project type is specific to a team, so you need to specify
     * a team list. see Project::isSideTasksProject() for more info
     *
-    * @return boolean true if Incident task
+    * @param int[] $teamidList
+    * @return bool true if Incident task
+    * @throws Exception
     */
-   public function isIncident($teamidList = NULL) {
+   public function isIncident(array $teamidList = NULL) {
       $project = ProjectCache::getInstance()->getProject($this->projectId);
       try {
          if (($project->isSideTasksProject($teamidList)) &&
@@ -429,9 +434,11 @@ class Issue implements Comparable {
     * Note: the project type is specific to a team, so you need to specify
     * a team list. see Project::isSideTasksProject() for more info
     *
-    * @return boolean true if ProjectManagement task
+    * @param int[] $teamidList
+    * @return bool true if ProjectManagement task
+    * @throws Exception
     */
-   public function isProjManagement($teamidList = NULL) {
+   public function isProjManagement(array $teamidList = NULL) {
       $project = ProjectCache::getInstance()->getProject($this->projectId);
 
       try {
@@ -479,6 +486,7 @@ class Issue implements Comparable {
     * if deadLineCustomField is set, return this value,
     * else if TargetVersion date is specified return it,
     * else return NULL
+    * @return int
     */
    public function getDeadLine() {
 
@@ -537,7 +545,7 @@ class Issue implements Comparable {
    }
 
    public function getSeverityName() {
-      $severityNames   = Config::getInstance()->getValue(Config::id_severityNames);
+      $severityNames = Config::getInstance()->getValue(Config::id_severityNames);
       return $severityNames[$this->severity];
    }
 
@@ -644,10 +652,10 @@ class Issue implements Comparable {
          $this->relationships[$type] = array();
 
          $query = 'SELECT * FROM `mantis_bug_relationship_table` '.
-            'WHERE (source_bug_id='.$this->bugId.' '.
-            'AND relationship_type='.$type.') '.
-            'OR (destination_bug_id='.$this->bugId.' '.
-            'AND relationship_type='.$complementaryType.');';
+                  'WHERE (source_bug_id='.$this->bugId.' '.
+                  'AND relationship_type='.$type.') '.
+                  'OR (destination_bug_id='.$this->bugId.' '.
+                  'AND relationship_type='.$complementaryType.');';
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -671,7 +679,7 @@ class Issue implements Comparable {
    }
 
    /**
-    * @return unknown_type the timestamp of the first TimeTrack
+    * @return int the timestamp of the first TimeTrack
     */
    public function startDate() {
       $query = "SELECT MIN(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
@@ -685,7 +693,7 @@ class Issue implements Comparable {
    }
 
    /**
-    * @return unknown_type the timestamp of the latest TimeTrack
+    * @return int the timestamp of the latest TimeTrack
     */
    public function endDate() {
       $query = "SELECT MAX(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
@@ -734,7 +742,7 @@ class Issue implements Comparable {
     * if bug is Resolved/Closed, then backlog is not used.
     * if EffortEstim = 0 then Drift = 0
     *
-    * @param boolean $withSupport
+    * @param bool $withSupport
     * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
     */
    public function getDrift_old($withSupport = true) {
@@ -768,9 +776,7 @@ class Issue implements Comparable {
       return round($derive,3);
    }
 
-
    public function getDrift($withSupport = true) {
-
       $totalEstim = $this->effortEstim + $this->effortAdd;
       $derive = $this->getReestimated() - $totalEstim;
 
@@ -839,13 +845,16 @@ class Issue implements Comparable {
    }
 
    /**
-    * @return int[]
+    * @param int $userid
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return TimeTrack[]
     */
    public function getTimeTracks($userid = NULL, $startTimestamp = NULL, $endTimestamp = NULL) {
       $timeTracks = array();
 
-      $query     = "SELECT * FROM `codev_timetracking_table` ".
-                   "WHERE bugid=$this->bugId ";
+      $query = "SELECT * FROM `codev_timetracking_table` ".
+               "WHERE bugid=$this->bugId ";
 
       if (isset($userid)) {
          $query .= "AND userid = $userid ";
@@ -877,23 +886,24 @@ class Issue implements Comparable {
    public function getInvolvedUsers($team_id = NULL) {
       $userList = array();
 
-      $query = "SELECT mantis_user_table.id, mantis_user_table.username ".
-         "FROM  `mantis_user_table`, `codev_timetracking_table`, `codev_team_user_table`  ".
-         "WHERE  codev_timetracking_table.userid = mantis_user_table.id ".
-         "AND    codev_timetracking_table.bugid  = $this->bugId ";
+      $query = "SELECT user.id, user.username ".
+               "FROM `mantis_user_table` as user, `codev_timetracking_table` as tt, `codev_team_user_table`  ".
+               "WHERE  tt.userid = user.id ".
+               "AND tt.bugid  = $this->bugId ";
 
       if (isset($team_id)) {
          $query .= "AND codev_team_user_table.team_id = $team_id ".
-            "AND codev_team_user_table.user_id = mantis_user_table.id ";
+                   "AND codev_team_user_table.user_id = user.id ";
       }
 
-      $query .= " ORDER BY mantis_user_table.username";
+      $query .= " ORDER BY user.username";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $userList[$row->id] = $row->username;
       }
@@ -918,11 +928,11 @@ class Issue implements Comparable {
          } else {
             // if a timestamp is specified, find the latest status change (strictly) before this date
             $query = "SELECT new_value, old_value, date_modified ".
-               "FROM `mantis_bug_history_table` ".
-               "WHERE bug_id = $this->bugId ".
-               "AND field_name='status' ".
-               "AND date_modified < $timestamp ".
-               "ORDER BY date_modified DESC";
+                     "FROM `mantis_bug_history_table` ".
+                     "WHERE bug_id = $this->bugId ".
+                     "AND field_name='status' ".
+                     "AND date_modified < $timestamp ".
+                     "ORDER BY date_modified DESC";
 
             // get latest result
             $result = SqlWrapper::getInstance()->sql_query($query);
@@ -986,7 +996,7 @@ class Issue implements Comparable {
 
       // Add to history
       $query = "INSERT INTO `mantis_bug_history_table`  (`user_id`, `bug_id`, `field_name`, `old_value`, `new_value`, `type`, `date_modified`) ".
-         "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_backlog', '$backlog', '0', '".time()."');";
+               "VALUES ('".$_SESSION['userid']."','$this->bugId','$field_name', '$old_backlog', '$backlog', '0', '".time()."');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1000,8 +1010,6 @@ class Issue implements Comparable {
    public function computeDurationsPerStatus () {
       global $status_new;
 
-      
-      
       // get only statuses defined for this project
       $project = ProjectCache::getInstance()->getProject($this->projectId);
       $wfTrans = $project->getWorkflowTransitions();
@@ -1028,8 +1036,8 @@ class Issue implements Comparable {
       $current_date = time();
 
       // If status = 'new',
-      // -- the start_date is the bug creation date
-      // -- the end_date   is transition where old_value = status or current_date if status unchanged.
+      // the start_date is the bug creation date
+      // the end_date   is transition where old_value = status or current_date if status unchanged.
 
       // If status has not changed, then end_date is now.
       if ($status_new == $this->currentStatus) {
@@ -1067,20 +1075,21 @@ class Issue implements Comparable {
       $current_date = time();
 
       // Status is not 'new' and not 'feedback'
-      //  -- the start_date is transition where new_value = status
-      //  -- the end_date   is transition where old_value = status, or current date if no transition found.
+      // the start_date is transition where new_value = status
+      // the end_date   is transition where old_value = status, or current date if no transition found.
 
       // Find start_date
       $query = "SELECT id, date_modified, old_value, new_value ".
-         "FROM `mantis_bug_history_table` ".
-         "WHERE bug_id=$this->bugId ".
-         "AND field_name = 'status' ".
-         "AND (new_value=$status OR old_value=$status) ORDER BY id";
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND (new_value=$status OR old_value=$status) ORDER BY id";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          self::$logger->debug("id=$row->id date = $row->date_modified old_value = $row->old_value new_value = $row->new_value");
          $start_date = $row->date_modified;
@@ -1201,81 +1210,81 @@ class Issue implements Comparable {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($issueA->bugId, $BconstrainsList)) {
          // B constrains A
-         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains A)");
+         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains A)");
          return 1;
       } else if (in_array($issueB->bugId, $AconstrainsList)) {
          // A constrains B
-         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains B)");
+         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains B)");
          return -1;
       }
 
       // Tasks currently open are higher priority
       if (($issueB->currentStatus == $status_open) && ($issueA->currentStatus != $status_open)) {
-         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
+         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
          return 1;
       } else if (($issueA->currentStatus == $status_open) && ($issueB->currentStatus != $status_open)) {
-         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
+         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
          return -1;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL == $issueA->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
-         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (A no deadline)");
+         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (A no deadline)");
          return 1;
       } else if ((NULL != $issueA->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
-         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (B no deadline)");
+         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (B no deadline)");
          return -1;
       }
 
       // the soonest deadLine has priority
       if ($issueA->getDeadLine() > $issueB->getDeadLine()) {
-         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (deadline)");
+         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (deadline)");
          return 1;
       } else if ($issueA->getDeadLine() < $issueB->getDeadLine()) {
-         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (deadline)");
+         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (deadline)");
          return -1;
       }
 
       // if same deadLine, check priority attribute
       if ($issueA->priority < $issueB->priority) {
-         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (priority attr)");
+         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (priority attr)");
          return 1;
       } else if ($issueA->priority > $issueB->priority) {
-         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (priority attr)");
+         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (priority attr)");
          return -1;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($issueA->severity < $issueB->severity) {
-         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (severity attr)");
+         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (severity attr)");
          return 1;
       } else if ($issueA->severity > $issueB->severity) {
-         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (severity attr)");
+         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (severity attr)");
          return -1;
       }
 
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) < count($BconstrainsList)) {
          // B constrains more people, so B is higher priority
-         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains more people)");
+         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains more people)");
          return 1;
       } else if (count($AconstrainsList) > count($BconstrainsList)) {
          // A constrains more people, so A is higher priority
-         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains more people)");
+         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains more people)");
          return -1;
       }
 
-      $issueA->logger->trace("no important diff find, so we compare the bugid : $issueA->bugId <=> $issueB->bugId");
+      self::$logger->trace("no important diff find, so we compare the bugid : $issueA->bugId <=> $issueB->bugId");
 
       // Lower if the bug id, higher is the priority
       if($issueA->bugId > $issueB->bugId) {
-         $issueA->logger->trace("compare $issueA->bugId > $issueB->bugId");
+         self::$logger->trace("compare $issueA->bugId > $issueB->bugId");
          return 1;
       } else if($issueA->bugId < $issueB->bugId) {
-         $issueA->logger->trace("compare $issueA->bugId < $issueB->bugId");
+         self::$logger->trace("compare $issueA->bugId < $issueB->bugId");
          return -1;
       } else {
-         $issueA->logger->trace("compare $issueA->bugId = $issueB->bugId");
+         self::$logger->trace("compare $issueA->bugId = $issueB->bugId");
          return 0;
       }
    }
@@ -1283,8 +1292,8 @@ class Issue implements Comparable {
    /**
     * Returns the Estimated Date of Arrival, depending on user's holidays and other timetracks
     *
-    * @param $beginTimestamp              the start day
-    * @param $availTimeOnBeginTimestamp   On the start day, part of the day may already have
+    * @param int $beginTimestamp              the start day
+    * @param int $availTimeOnBeginTimestamp   On the start day, part of the day may already have
     *                                     been spent on other issues. this param defines how much
     *                                     time is left for this issue.
     *                                     if NULL, use user->getAvailableTime($beginTimestamp)
@@ -1352,7 +1361,7 @@ class Issue implements Comparable {
     * returns the timestamp of the first time that
     * the issue switched to status 'status'
     * @param unknown_type $status
-    * @return unknown_type timestamp or NULL if not found
+    * @return int timestamp or NULL if not found
     */
    public function getFirstStatusOccurrence($status) {
       global $status_new;
@@ -1362,10 +1371,10 @@ class Issue implements Comparable {
       }
 
       $query = "SELECT date_modified ".
-         "FROM `mantis_bug_history_table` ".
-         "WHERE bug_id=$this->bugId ".
-         "AND field_name = 'status' ".
-         "AND new_value=$status ORDER BY id";
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id LIMIT 1";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1386,7 +1395,7 @@ class Issue implements Comparable {
     * returns the timestamp of the latest time that
     * the issue switched to status 'status'
     * @param unknown_type $status
-    * @return unknown_type timestamp or NULL if not found
+    * @return int timestamp or NULL if not found
     */
    public function getLatestStatusOccurrence($status) {
       global $status_new;
@@ -1396,10 +1405,10 @@ class Issue implements Comparable {
       }
 
       $query = "SELECT date_modified ".
-         "FROM `mantis_bug_history_table` ".
-         "WHERE bug_id=$this->bugId ".
-         "AND field_name = 'status' ".
-         "AND new_value=$status ORDER BY id DESC";
+               "FROM `mantis_bug_history_table` ".
+               "WHERE bug_id=$this->bugId ".
+               "AND field_name = 'status' ".
+               "AND new_value=$status ORDER BY id DESC LIMIT 1";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1451,12 +1460,11 @@ class Issue implements Comparable {
     * @return string[] : array[command_id] = commandName
     */
    public function getCommandList() {
-
       if (NULL == $this->commandList) {
 
          $this->commandList = array();
          
-         $query  = "SELECT * FROM `codev_command_bug_table` WHERE bug_id=$this->bugId ";
+         $query  = "SELECT * FROM `codev_command_bug_table` WHERE bug_id = ".$this->bugId.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1465,9 +1473,7 @@ class Issue implements Comparable {
 
          // a Command can belong to more than one commandset
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-
             $cmd = CommandCache::getInstance()->getCommand($row->command_id);
-
             $this->commandList["$row->command_id"] = $cmd->getName();
             self::$logger->debug("Issue $this->bugId is in command $row->command_id (".$cmd->getName().")");
          }
@@ -1477,11 +1483,9 @@ class Issue implements Comparable {
 
 
    /**
-    *
     * @param type $value
     */
    public function setHandler($value) {
-
       $query = "UPDATE `mantis_bug_table` SET handler_id = '$value' WHERE id=$this->bugId ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1491,12 +1495,9 @@ class Issue implements Comparable {
    }
    
    /**
-    *
     * @param type $value
     */
    public function setTargetVersion($value) {
-
-
       $query = "SELECT version from `mantis_project_version_table` WHERE id=$value ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1515,7 +1516,6 @@ class Issue implements Comparable {
    }
 
    private function setCustomField($field_id, $value) {
-
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $field_id";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1540,7 +1540,6 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setExternalRef($value) {
-
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $this->setCustomField($extRefCustomField, $value);
       $this->tcId = $value;
@@ -1551,27 +1550,26 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setEffortEstim($value) {
-
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $this->setCustomField($extRefCustomField, $value);
       $this->effortEstim = $value;
    }
+
    /**
     * update DB and current instance
     * @param type $value
     */
    public function setMgrEffortEstim($value) {
-
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $this->setCustomField($extRefCustomField, $value);
       $this->mgrEffortEstim = $value;
    }
+
    /**
     * update DB and current instance
     * @param type $value
     */
    public function setDeadline($value) {
-
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $this->setCustomField($extRefCustomField, $value);
       $this->deadLine = $value;
@@ -1581,15 +1579,15 @@ class Issue implements Comparable {
     * Get backlog at a specific date.
     * if date is nopt specified, return current backlog.
     * 
-    * @param type $timestamp
+    * @param int $timestamp
     * @return backlog or NULL if no backlog update found in history before timestamp
-    * 
     */
    public function getBacklog($timestamp = NULL) {
+      if (NULL == $timestamp) {
+         return $this->backlog;
+      }
 
-      if (NULL == $timestamp) { return $this->backlog; }
-
-      // --- find the field_name for the Backlog customField
+      // find the field_name for the Backlog customField
       // (this should not be here, it's a general info that may be accessed elsewhere)
       $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
       $query = "SELECT name FROM `mantis_custom_field_table` where id = $backlogCustomFieldId ";
@@ -1602,10 +1600,12 @@ class Issue implements Comparable {
          echo "<span style='color:red'>ERROR: Backlog CustomField not found !</span>";
          exit;
       }
+
+      // FIXME Weird
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       $backlogFieldName = SqlWrapper::getInstance()->sql_result($result, 0);
 
-      // --- find in bug history when was the latest update of the Backlog before $timestamp
+      // find in bug history when was the latest update of the Backlog before $timestamp
       $query = "SELECT * FROM `mantis_bug_history_table` ".
                "WHERE field_name = '$backlogFieldName' ".
                "AND bug_id = '$this->bugId' ".
@@ -1628,9 +1628,9 @@ class Issue implements Comparable {
          // no backlog update found in history, return NULL
          $backlog = NULL;
       }
+
       return $backlog;
    }
-
 
    /**
     * Get issues from an issue id list
@@ -1671,9 +1671,7 @@ class Issue implements Comparable {
    }
 
    /**
-    *
-    * @return type
-    * @throws type
+    * @return TimeTrack
     */
    public function getFirstTimetrack() {
       $query = "SELECT * from `codev_timetracking_table` ".
@@ -1681,8 +1679,8 @@ class Issue implements Comparable {
                "ORDER BY date ASC LIMIT 1";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
       $timeTrack = NULL;
@@ -1694,9 +1692,7 @@ class Issue implements Comparable {
    }
 
    /**
-    *
-    * @return type
-    * @throws type
+    * @return TimeTrack
     */
    public function getLatestTimetrack() {
       $query = "SELECT * from `codev_timetracking_table` ".
@@ -1704,8 +1700,8 @@ class Issue implements Comparable {
                "ORDER BY date DESC LIMIT 1";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
 
       $timeTrack = NULL;
