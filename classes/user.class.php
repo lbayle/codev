@@ -497,7 +497,13 @@ class User {
          
          foreach ($timeTracks as $timeTrack) {
             try {
+               if (!array_key_exists($timeTrack->bugId, $issues)) {
+                  self::$logger->error("getAstreintesInMonth(): issue $timeTrack->bugId: not found in issueList");
+                  continue;
+               }
+
                $issue = $issues[$timeTrack->bugId];
+
                if ($issue->isAstreinte()) {
                   if (isset($astreintes[$timeTrack->date])) {
                      $astreintes[$timeTrack->date]['duration'] += $timeTrack->duration;
