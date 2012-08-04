@@ -42,89 +42,89 @@ class TimeTrack {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
-  var $id;
-  var $userId;
-  var $bugId;
-  var $jobId;
-  var $date;
-  var $duration;
+   var $id;
+   var $userId;
+   var $bugId;
+   var $jobId;
+   var $date;
+   var $duration;
 
-  private $projectId;
-  private $categoryId;
+   private $projectId;
+   private $categoryId;
 
    /**
     * @param int $id The time track id
     * @param resource $details The time track details
     */
-  public function __construct($id, $details = NULL) {
-    $this->id = $id;
+   public function __construct($id, $details = NULL) {
+      $this->id = $id;
 
-    $this->initialize($details);
-  }
+      $this->initialize($details);
+   }
 
    /**
     * Initialize
     * @param resource $row The issue details
     */
-  public function initialize($row = NULL) {
-     if($row == NULL) {
-        $query = "SELECT * FROM `codev_timetracking_table` ".
-                 "WHERE codev_timetracking_table.id=$this->id ";
+   public function initialize($row = NULL) {
+      if($row == NULL) {
+         $query = 'SELECT * FROM `codev_timetracking_table` WHERE id = '.$this->id.';';
 
-        $result = SqlWrapper::getInstance()->sql_query($query);
-        if (!$result) {
-           echo "<span style='color:red'>ERROR: Query FAILED</span>";
-           exit;
-        }
-        $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-     }
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      }
 
-    $this->userId   = $row->userid;
-    $this->bugId    = $row->bugid;
-    $this->jobId    = $row->jobid;
-    $this->date     = $row->date;
-    $this->duration = $row->duration;
-    
-    #echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
-  }
+      $this->userId = $row->userid;
+      $this->bugId = $row->bugid;
+      $this->jobId = $row->jobid;
+      $this->date = $row->date;
+      $this->duration = $row->duration;
 
-  public function getProjectId() {
-     if (NULL == $this->projectId) {
+      #echo "DEBUG TimeTrack $this->id $this->userId $this->bugId $this->jobId $this->date $this->duration $this->issue_projectId<br/>";
+   }
+
+   public function getProjectId() {
+      if (NULL == $this->projectId) {
          $issue = IssueCache::getInstance()->getIssue($this->bugId);
 
          $this->projectId = $issue->projectId;
          $this->categoryId = $issue->categoryId;
-     }
-     return $this->projectId;
-  }
+      }
+      return $this->projectId;
+   }
 
-  public function getCategoryId() {
-     if (NULL == $this->categoryId) {
+   public function getCategoryId() {
+      if (NULL == $this->categoryId) {
          $issue = IssueCache::getInstance()->getIssue($this->bugId);
 
          $this->projectId = $issue->projectId;
          $this->categoryId = $issue->categoryId;
-     }
-     return $this->categoryId;
-  }
+      }
+      return $this->categoryId;
+   }
 
-  /**
-   * @param int $userid
-   * @param int $bugid
-   * @param int $job
-   * @param unknown_type $timestamp
-   * @param unknown_type $duration
-   */
-  public static function create($userid, $bugid, $job, $timestamp, $duration) {
-    $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
-    $result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-    	echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	exit;
-    }
-    $trackid = SqlWrapper::getInstance()->sql_insert_id();
-    return $trackid;
-  }
+   /**
+    * @static
+    * @param int $userid
+    * @param int $bugid
+    * @param int $job
+    * @param int $timestamp
+    * @param number $duration
+    * @return int
+    */
+   public static function create($userid, $bugid, $job, $timestamp, $duration) {
+      $query = "INSERT INTO `codev_timetracking_table`  (`userid`, `bugid`, `jobid`, `date`, `duration`) VALUES ('$userid','$bugid','$job','$timestamp', '$duration');";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      return SqlWrapper::getInstance()->sql_insert_id();
+   }
 
    /**
     * Remove the current track
@@ -141,27 +141,27 @@ class TimeTrack {
       }
    }
 
-  /**
-   * update Backlog and delete TimeTrack
-   * @param int $trackid
-   */
-  public static function delete($trackid) {
-     // increase backlog (only if 'backlog' already has a value)
-     $timetrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
-     $bugid = $timetrack->bugId;
-     $duration = $timetrack->duration;
-     $issue = IssueCache::getInstance()->getIssue($bugid);
-     if (NULL != $issue->backlog) {
-        $backlog = $issue->backlog + $duration;
-        $issue->setBacklog($backlog);
-     }
+   /**
+    * update Backlog and delete TimeTrack
+    * @param int $trackid
+    */
+   public static function delete($trackid) {
+      // increase backlog (only if 'backlog' already has a value)
+      $timetrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
+      $bugid = $timetrack->bugId;
+      $duration = $timetrack->duration;
+      $issue = IssueCache::getInstance()->getIssue($bugid);
+      if (NULL != $issue->backlog) {
+         $backlog = $issue->backlog + $duration;
+         $issue->setBacklog($backlog);
+      }
 
-     // delete track
-     if (!$timetrack->remove()) {
-        echo "<span style='color:red'>ERROR: Query FAILED</span>";
-        exit;
-     }
-  }
+      // delete track
+      if (!$timetrack->remove()) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+   }
 
 }
 
