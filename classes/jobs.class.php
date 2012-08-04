@@ -16,6 +16,9 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+include_once('classes/config.class.php');
+include_once('classes/sqlwrapper.class.php');
+
 require_once('classes/comparable.interface.php');
 
 /**
@@ -24,24 +27,31 @@ require_once('classes/comparable.interface.php');
  */
 class Job implements Comparable {
 
-  const type_commonJob   = 0;     // jobs common to all projects are type 0
+  const type_commonJob = 0;     // jobs common to all projects are type 0
   const type_assignedJob = 1;     // jobs specific to one or more projects are type 1
 
-
-  public static $typeNames = array(self::type_commonJob    => "Common",
-                                   self::type_assignedJob  => "Assigned");
+  public static $typeNames = array(
+     self::type_commonJob => "Common",
+     self::type_assignedJob => "Assigned"
+  );
 
    var $id;
    var $name;
    var $type;
    var $color;
 
-    public function __construct($id, $name, $type, $color) {
-    	$this->id    = $id;
-      $this->name  = $name;
-      $this->type  = $type;
+   /**
+    * @param int $id
+    * @param string $name
+    * @param $type
+    * @param $color
+    */
+   public function __construct($id, $name, $type, $color) {
+      $this->id = $id;
+      $this->name = $name;
+      $this->type = $type;
       $this->color = $color;
-    }
+   }
 
    /**
     * Sort by asc
@@ -57,7 +67,7 @@ class Job implements Comparable {
 
 class Jobs {
 
-   const JOB_NA      = 1; // REM: N/A     job_id = 1, created by SQL file at install
+   const JOB_NA = 1; // REM: N/A     job_id = 1, created by SQL file at install
    const JOB_SUPPORT = 2; // REM: Support job_id = 2, created by SQL file at install
 
    /**
