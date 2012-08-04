@@ -205,7 +205,7 @@ class Issue implements Comparable {
             switch ($row->field_id) {
                case InternalConfig::$tcCustomField: $this->tcId = $row->value;
                   break;
-               case InternalConfig::$mgrEstimEffortCustomField: $this->mgrEffortEstim = $row->value;
+               case $mgrEstimEffortCustomField: $this->mgrEffortEstim = $row->value;
                   break;
                case InternalConfig::$estimEffortCustomField: $this->effortEstim = $row->value;
                   break;

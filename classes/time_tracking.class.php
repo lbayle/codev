@@ -753,11 +753,17 @@ class TimeTracking {
          exit;
       }
 
-      $durations = array(); // unique date => sum durations
+      $incompleteDays = array(); // unique date => sum durations
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $value = round($row->count, 3);
          $durations[$row->date] = round($row->count, 3);
+         if ($value != 1) {
+            self::$logger->debug("user $userid incompleteDays[$row->date]=".$value);
+            $incompleteDays[$row->date] = $value;
+         }
       }
-      return $durations;
+
+      return $incompleteDays;
    }
 
    /**

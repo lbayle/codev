@@ -1,38 +1,43 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 /*
- This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-CoDev-Timetracking is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-CoDev-Timetracking is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require '../path.inc.php';
+require('../path.inc.php');
 
-require('super_header.inc.php');
+require('include/super_header.inc.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('user.class.php');
-include_once('blog_manager.class.php');
+include_once('classes/blog_manager.class.php');
+include_once('classes/config.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/user_cache.class.php');
 
-function getBlogPosts($postList) {
-
+/**
+ * @param BlogPost[] $postList
+ * @return mixed[]
+ */
+function getBlogPosts(array $postList) {
    $blogPosts = array();
 
    foreach ($postList as $id => $bpost) {
-
-   	$srcUser = UserCache::getInstance()->getUser($bpost->src_user_id);
+      $srcUser = UserCache::getInstance()->getUser($bpost->src_user_id);
 
       $item = array();
 
@@ -46,16 +51,16 @@ function getBlogPosts($postList) {
 
       // find receiver
       if (0 != $bpost->dest_user_id) {
-      	$destUser = UserCache::getInstance()->getUser($bpost->dest_user_id);
+         $destUser = UserCache::getInstance()->getUser($bpost->dest_user_id);
          $item['to'] = $destUser->getRealname();
       } else if (0 != $bpost->dest_team_id) {
-      	$team = new Team($bpost->dest_team_id);
+         $team = TeamCache::getInstance()->getTeam($bpost->dest_team_id);
          $item['to'] = $team->name;
       } else if (0 != $bpost->dest_project_id) {
-      	$destProj = ProjectCache::getInstance()->getProject($bpost->dest_project_id);
-      	$item['to'] = $destProj->name;
+         $destProj = ProjectCache::getInstance()->getProject($bpost->dest_project_id);
+         $item['to'] = $destProj->name;
       } else {
-      	$item['to'] = '?';
+         $item['to'] = '?';
       }
 
       $item['activity'] = 'activities...';
@@ -67,34 +72,18 @@ function getBlogPosts($postList) {
 
       $item['isHidden'] = '0';
 
-
       $blogPosts[$id] = $item;
    }
    return $blogPosts;
 }
 
-
-function prepareBlogpostForm($blogManager, $smartyHelper) {
-
-   $categories = $blogManager->getCategoryList();
-   $smartyHelper->assign('categoryList', $categories);
-
-   $severities = $blogManager->getSeverityList();
-   $smartyHelper->assign('severityList', $severities);
-}
-
-
 // ================ MAIN =================
-
-$logger = Logger::getLogger("blog");
-
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', T_("Blog"));
 $smartyHelper->assign('activeGlobalMenuItem', 'Blog');
 
 if (isset($_SESSION['userid'])) {
-
-   $session_user = new User($_SESSION['userid']);
+   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
    $blogManager = new BlogManager();
 
@@ -110,17 +99,17 @@ if (isset($_SESSION['userid'])) {
    $color=0;
 
    $blogPost_id = BlogPost::create($src_user_id, $severity, $category, $summary, $content,
-         $dest_user_id, $dest_project_id, $dest_team_id, $date_expire, $color);
-
+      $dest_user_id, $dest_project_id, $dest_team_id, $date_expire, $color);
 
    $postList = $blogManager->getPosts($session_user->id);
    $blogPosts = getBlogPosts($postList);
    $smartyHelper->assign('blogPosts', $blogPosts);
 
+   $categories = $blogManager->getCategoryList();
+   $smartyHelper->assign('categoryList', $categories);
 
-   // ------- FORM
-   prepareBlogpostForm($blogManager, $smartyHelper);
-
+   $severities = $blogManager->getSeverityList();
+   $smartyHelper->assign('severityList', $severities);
 }
 
 $smartyHelper->displayTemplate($mantisURL);

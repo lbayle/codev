@@ -63,7 +63,7 @@ class InternalConfig {
    public static $backlogCustomField; //  RAF
    public static $deadLineCustomField;
    public static $addEffortCustomField; // BS
-   #public static $deliveryIdCustomField; // FDL (id of the associated Delivery Issue)
+   public static $deliveryIdCustomField; // FDL (id of the associated Delivery Issue)
    public static $deliveryDateCustomField;
 
    // TODO translate astreinte = "on duty"
@@ -89,7 +89,7 @@ class InternalConfig {
       self::$backlogCustomField    = Config::getInstance()->getValue(Config::id_customField_backlog);
       self::$deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
       self::$addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
-      #self::$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      self::$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       self::$deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 
       // TODO translate astreinte = "on duty"
