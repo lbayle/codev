@@ -215,7 +215,7 @@ class ExportCsvTools {
     */
    public static function exportProjectActivityToCSV(TimeTracking $timeTracking, $myFile) {
       $sepChar=';';
-      $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
+      $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
 
       $fh = fopen($myFile, 'w');
 
@@ -498,8 +498,8 @@ class ExportCsvTools {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          // if user was working on the project during the timestamp
          $user = UserCache::getInstance()->getUser($row->user_id);
-         if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
-            ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
+         if (($user->isTeamDeveloper($teamid, $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp())) ||
+            ($user->isTeamManager($teamid, $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp()))) {
             self::exportWeekDetailsToCSV($row->user_id, $timeTracking, $user->getShortname(), $fh);
          }
       }

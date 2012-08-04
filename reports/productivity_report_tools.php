@@ -56,7 +56,7 @@ class ProductivityReportTools {
     */
    public static function getSideTasksProjectDetails(TimeTracking $timeTracking) {
       // find all sideTasksProjects (type = 1)
-      $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
+      $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
       $projectIds = $team->getSpecificTypedProjectIds(Project::type_sideTaskProject);
 
       $durationPerCategory = array();
@@ -206,16 +206,16 @@ class ProductivityReportTools {
 
       if (NULL != $formatedValues) {
          return Tools::SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues.'&colors='.$formatedColors);
-      }
+         }
       return NULL;
-   }
+      }
 
    /**
     * @param TimeTracking $timeTracking
     * @return mixed[]
     */
    public static function getWorkingDaysPerProject(TimeTracking $timeTracking) {
-      $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
+      $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
 
       $workingDaysPerProject = NULL;
       $projects = $team->getTrueProjects();
@@ -367,7 +367,7 @@ class ProductivityReportTools {
     * @return mixed[]
     */
    public static function getCheckWarnings(TimeTracking $timeTracking) {
-      $team = TeamCache::getInstance()->getTeam($timeTracking->team_id);
+      $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
       $warnings = NULL;
       foreach($team->getMembers() as $userid => $username) {
          $incompleteDays = $timeTracking->checkCompleteDays($userid, TRUE);

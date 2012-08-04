@@ -553,7 +553,7 @@ class ConsistencyCheck2 {
       $cerrList = array();
       $now = time();
 
-      $mList = Team::getActiveMemberList($timeTracking->team_id);
+      $mList = Team::getActiveMemberList($timeTracking->getTeamid());
 
       foreach($mList as $userid => $username) {
 

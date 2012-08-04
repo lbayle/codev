@@ -73,7 +73,7 @@ function getSubmittedResolvedGraph(array $timeTrackingTable) {
    $resolvedList = array();
    $bottomLabel = array();
    foreach ($timeTrackingTable as $d1 => $tt1) {
-      $submittedList[$d1] = count($tt1->getSubmitted()); // returns bug_id !
+      $submittedList[$d1] = $tt1->getSubmitted(); // returns bug_id !
       $bottomLabel[] = Tools::formatDate("%b %y", $d1);
       $resolvedList[$d1] = count($tt1->getResolvedIssues()); // returns Issue instances !
    }
@@ -94,7 +94,7 @@ function getSubmittedResolvedLegend(array $timeTrackingTable) {
    foreach ($timeTrackingTable as $d => $tt) {
       $submittedResolvedLegend[] = array(
          "date" => Tools::formatDate("%B %Y", $d),
-         "nbSubmitted" => count($tt->getSubmitted()),
+         "nbSubmitted" => $tt->getSubmitted(),
          "nbResolvedIssues" => count($tt->getResolvedIssues())
       );
    }

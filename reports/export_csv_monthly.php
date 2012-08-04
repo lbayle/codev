@@ -84,7 +84,7 @@ if(isset($_SESSION['userid'])) {
          ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
          $smartyHelper->assign('managedIssuesToCSV', basename($myFile));
 
-         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->startTimestamp)."-".date("Ymd", $timeTracking->endTimestamp).".csv";
+         $myFile = $codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
 
          ExportCsvTools::exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
          $smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));

@@ -70,16 +70,16 @@ function getDaysDetails($i, Holidays $holidays, array $weekDates, $duration) {
  * @param int[] $weekDates
  * @return mixed[]
  */
-function getWeekDetails($teamid, TimeTracking $timeTracking, $isDetailed, $weekDates) {
-   $team = TeamCache::getInstance()->getTeam($teamid);
+function getWeekDetails(TimeTracking $timeTracking, $isDetailed, $weekDates) {
+   $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
 
    $weekDetails = array();
    $users = $team->getUsers();
    foreach($users as $user) {
       // if user was working on the project during the timestamp
 
-      if (($user->isTeamDeveloper($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp)) ||
-         ($user->isTeamManager($teamid, $timeTracking->startTimestamp, $timeTracking->endTimestamp))) {
+      if (($user->isTeamDeveloper($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp())) ||
+         ($user->isTeamManager($timeTracking->getTeamid(), $timeTracking->getStartTimestamp(), $timeTracking->getEndTimestamp()))) {
 
          // PERIOD week
          //$thisWeekId=date("W");
@@ -225,7 +225,7 @@ if(isset($_SESSION['userid'])) {
          $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-         $smartyHelper->assign('weekDetails', getWeekDetails($teamid, $timeTracking, $isDetailed, $weekDates));
+         $smartyHelper->assign('weekDetails', getWeekDetails($timeTracking, $isDetailed, $weekDates));
 
          // ConsistencyCheck
          $consistencyErrors = getConsistencyErrors($timeTracking);

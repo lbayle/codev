@@ -118,15 +118,15 @@ if(isset($_SESSION['userid'])) {
             $percent = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
             $smartyHelper->assign('percent', round($percent, 1));
 
-            if (0 != count($timeTracking->getResolvedIssues())) {
-               $issueList = $timeTracking->getResolvedIssues();
+            $resolvedIssues = $timeTracking->getResolvedIssues();
+            if (0 != count($resolvedIssues)) {
                $withSupport = true;
-               $smartyHelper->assign('resolvedDeviationStats', ProductivityReportTools::getResolvedDeviationStats ($issueList, $withSupport));
+               $smartyHelper->assign('resolvedDeviationStats', ProductivityReportTools::getResolvedDeviationStats ($resolvedIssues, $withSupport));
 
                $managedTeamList = $session_user->getManagedTeamList();
                $isManager = array_key_exists($teamid, $managedTeamList);
                $smartyHelper->assign('isManager', $isManager);
-               $smartyHelper->assign('resolvedIssuesInDrift', ProductivityReportTools::getResolvedIssuesInDrift($issueList, $isManager));
+               $smartyHelper->assign('resolvedIssuesInDrift', ProductivityReportTools::getResolvedIssuesInDrift($resolvedIssues, $isManager));
             }
 
             $smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRate() * 100, 1));
