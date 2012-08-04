@@ -85,7 +85,7 @@ if(isset($_SESSION['userid'])) {
          foreach ($selectedProjects as $projectid) {
             $project = ProjectCache::getInstance()->getProject($projectid);
             $result[$projectid] = $project->name;
-            $project->prepareProjectToCodev();
+            Project::prepareProjectToCodev($projectid);
          }
          $smartyHelper->assign('result', $result);
       }
