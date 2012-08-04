@@ -16,8 +16,7 @@
    along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/servicecontract_cache.class.php');
-
+include_once('classes/command.class.php');
 include_once('classes/commandset.class.php');
 include_once('classes/commandset_cache.class.php');
 include_once('classes/issue_selection.class.php');
@@ -31,12 +30,13 @@ require_once('lib/log4php/Logger.php');
  */
 class ServiceContract {
 
-
    // TODO states must be defined
-   const state_default       = 1;
+   const state_default = 1;
 
-  // TODO i18n for constants
-  public static $stateNames = array(self::state_default       => "Default");
+   // TODO i18n for constants
+   public static $stateNames = array(
+      self::state_default => "Default"
+   );
 
    /**
     * @var Logger The logger
@@ -72,7 +72,7 @@ class ServiceContract {
 
    /**
     * [cat_id] = IssueSelection("categoryName")
-    * @var IssueSelection[]
+    * @var IssueSelection[][]
     */
    private $sidetasksPerCategory;
 
@@ -102,28 +102,27 @@ class ServiceContract {
     */
    private function initialize($row) {
       if($row == NULL) {
-      // get info from DB
-      $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id=$this->id ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         // get info from DB
+         $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id=$this->id ";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       }
 
-      $this->name        = $row->name;
-      $this->teamid      = $row->team_id;
-   	$this->state            = $row->state;
-      $this->reference        = $row->reference;
-      $this->version          = $row->version;
-      $this->reporter         = $row->reporter;
+      $this->name = $row->name;
+      $this->teamid = $row->team_id;
+      $this->state = $row->state;
+      $this->reference = $row->reference;
+      $this->version = $row->version;
+      $this->reporter = $row->reporter;
       $this->description = $row->description;
-      $this->start_date        = $row->start_date;
-      $this->end_date        = $row->end_date;
+      $this->start_date = $row->start_date;
+      $this->end_date = $row->end_date;
 
-      // --- CommandSets
-      $this->cmdsetidByTypeList = array();
+      // CommandSets
       $query  = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
                 "WHERE servicecontract_id=$this->id ".
                 "ORDER BY type ASC, commandset_id ASC";
@@ -133,16 +132,16 @@ class ServiceContract {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-      {
+
+      $this->cmdsetidByTypeList = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          if (NULL == $this->cmdsetidByTypeList["$row->type"]) {
             $this->cmdsetidByTypeList["$row->type"] = array();
          }
-          $this->cmdsetidByTypeList["$row->type"][] = $row->commandset_id;
+         $this->cmdsetidByTypeList["$row->type"][] = $row->commandset_id;
       }
 
-      // --- SidetaskProjects
-      $this->sidetasksProjectList = array();
+      // SidetaskProjects
       $query  = "SELECT * FROM `codev_servicecontract_stproj_table` ".
                 "WHERE servicecontract_id=$this->id ".
                 "ORDER BY type ASC, project_id ASC";
@@ -152,9 +151,10 @@ class ServiceContract {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-      {
-          $this->sidetasksProjectList[] = $row->project_id;
+
+      $this->sidetasksProjectList = array();
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $this->sidetasksProjectList[] = $row->project_id;
       }
    }
 
@@ -168,13 +168,14 @@ class ServiceContract {
    public static function create($name, $teamid) {
       $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
                "VALUES ('$name', '$teamid');";
+
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $id = SqlWrapper::getInstance()->sql_insert_id();
-      return $id;
+
+      return SqlWrapper::getInstance()->sql_insert_id();
    }
 
    /**
@@ -184,7 +185,6 @@ class ServiceContract {
     * @return int $id
     */
    public static function delete($id) {
-
       $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `servicecontract_id`='$id';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -216,84 +216,84 @@ class ServiceContract {
       return $this->teamid;
    }
    public function setTeamid($value) {
-
       $this->teamid = $value;
       $query = "UPDATE `codev_servicecontract_table` SET team_id = '$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
-	   if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
    public function getName() {
       return $this->name;
    }
+
    public function setName($name) {
       $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($name);  // should be in controler, not here
       $this->name = $formattedValue;
       $query = "UPDATE `codev_servicecontract_table` SET name = '$formattedValue' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
    public function getReference() {
       return $this->reference;
    }
-   public function setReference($value) {
 
+   public function setReference($value) {
       $this->reference = $value;
       $query = "UPDATE `codev_servicecontract_table` SET reference = '$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
-	   if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
    public function getVersion() {
       return $this->version;
    }
-   public function setVersion($value) {
 
+   public function setVersion($value) {
       $this->version = $value;
       $query = "UPDATE `codev_servicecontract_table` SET version = '$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
-	   if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
    public function getReporter() {
       return $this->reporter;
    }
-   public function setReporter($value) {
 
+   public function setReporter($value) {
       $this->reporter = $value;
       $query = "UPDATE `codev_servicecontract_table` SET reporter = '$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
-	   if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
-
 
    public function getDesc() {
       return $this->description;
    }
+
    public function setDesc($description) {
       $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($description);  // should be in controler, not here
       $this->description = $formattedValue;
       $query = "UPDATE `codev_servicecontract_table` SET description = '$formattedValue' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
@@ -302,60 +302,55 @@ class ServiceContract {
    }
 
    public function setState($value) {
-
       $this->state = $value;
       $query = "UPDATE `codev_servicecontract_table` SET state='$value' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
-	   if (!$result) {
-    	      echo "<span style='color:red'>ERROR: Query FAILED</span>";
-    	      exit;
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
-
 
    public function getStartDate() {
       return $this->start_date;
    }
+
    public function setStartDate($value) {
       $this->start_date = $value;
       $query = "UPDATE `codev_servicecontract_table` SET start_date = '$this->start_date' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
    public function getEndDate() {
       return $this->end_date;
    }
+
    public function setEndDate($value) {
       $this->end_date = $value;
       $query = "UPDATE `codev_servicecontract_table` SET end_date = '$this->end_date' WHERE id='$this->id' ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
-             echo "<span style='color:red'>ERROR: Query FAILED</span>";
-             exit;
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
    }
 
-
    /**
-    *
     * @param int $type  CommandSet::type_general
     * @return CommandSet[] : array commandset_id => CommandSet
     */
    public function getCommandSets($type) {
-
       // TODO: if type==NULL return for all types
-
       $cmdsetList = array();
 
       $cmdsetidList = $this->cmdsetidByTypeList[$type];
 
       if(($cmdsetidList) && (0 != count($cmdsetidList))) {
          foreach ($cmdsetidList as $commandset_id) {
-
             $cmdsetList[$commandset_id] = CommandSetCache::getInstance()->getCommandSet($commandset_id);
          }
       }
@@ -363,13 +358,11 @@ class ServiceContract {
    }
 
    /**
-    *
-    * @param type $cset_type  CommandSet::type_general
-    * @param type $cmd_type   Command::type_general
-    * @return type
+    * @param int $cset_type CommandSet::type_general
+    * @param int $cmd_type Command::type_general
+    * @return Command[]
     */
    public function getCommands($cset_type, $cmd_type) {
-
       // TODO  $key = $cset_type . '_' . $cmd_type;
 
       if (NULL == $this->commandList) {
@@ -377,45 +370,39 @@ class ServiceContract {
 
          $cmdsetList = array_values($this->getCommandSets($cset_type));
 
-
          foreach ($cmdsetList as $cset) {
-               $cmdList = $cset->getCommands($cmd_type);
-               foreach ($cmdList as $id => $cmd) {
-                  $this->commandList[$id] = $cmd;  // array_merge looses the $key
-               }
+            $cmdList = $cset->getCommands($cmd_type);
+            foreach ($cmdList as $id => $cmd) {
+               $this->commandList[$id] = $cmd;  // array_merge looses the $key
+            }
          }
       }
+
       return $this->commandList;
    }
 
 
    /**
-    *
     * @return Project[] array project_id => Project
     */
    public function getProjects() {
-
       // TODO: if type==NULL return for all types
 
       $prjList = array();
-
       foreach ($this->sidetasksProjectList as $project_id) {
-
          $prjList[$project_id] = ProjectCache::getInstance()->getProject($project_id);
       }
-
       return $prjList;
    }
 
    /**
     * Collect the Issues of all the CommandSets (of a given type)
     *
-    * @param int $type CommandSet::type_general
-    *
+    * @param int $cset_type CommandSet::type_general
+    * @param int $cmd_type Command::type_general
     * @return IssueSelection
     */
    public function getIssueSelection($cset_type, $cmd_type) {
-
       // TODO: if type==NULL return for all types
 
       $issueSelection = new IssueSelection();
@@ -424,7 +411,6 @@ class ServiceContract {
 
       if(($cmdsetidList) && (0 != count($cmdsetidList))) {
          foreach ($cmdsetidList as $commandset_id) {
-
             $cmdset = CommandSetCache::getInstance()->getCommandSet($commandset_id);
             $cmdsetIS = $cmdset->getIssueSelection($cmd_type);
             $issueSelection->addIssueList($cmdsetIS->getIssueList());
@@ -434,7 +420,6 @@ class ServiceContract {
       return $issueSelection;
    }
 
-   
    /**
     * add Command to commandset (in DB & current instance)
     *
@@ -443,7 +428,6 @@ class ServiceContract {
     * @return int id in codev_servicecontract_cmdset_table
     */
    public function addCommandSet($commandset_id, $type) {
-
       try {
          CommandSetCache::getInstance()->getCommandSet($commandset_id);
       } catch (Exception $e) {
@@ -465,9 +449,7 @@ class ServiceContract {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $id = SqlWrapper::getInstance()->sql_insert_id();
-      return $id;
-
+      return SqlWrapper::getInstance()->sql_insert_id();
    }
 
    /**
@@ -477,7 +459,6 @@ class ServiceContract {
     * @param int $commandset_id
     */
    public function removeCommandSet($commandset_id) {
-
       $typeList = array_keys($this->cmdsetidByTypeList);
       foreach ($typeList as $type) {
          if (NULL != $this->cmdsetidByTypeList[$type][$commandset_id]) {
@@ -494,7 +475,6 @@ class ServiceContract {
       }
    }
 
-
    /**
     * add Command to commandset (in DB & current instance)
     *
@@ -503,7 +483,6 @@ class ServiceContract {
     * @return int id in codev_servicecontract_stproj_table
     */
    public function addSidetaskProject($project_id, $type) {
-
       try {
          ProjectCache::getInstance()->getProject($project_id);
       } catch (Exception $e) {
@@ -525,9 +504,7 @@ class ServiceContract {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $id = SqlWrapper::getInstance()->sql_insert_id();
-      return $id;
-
+      return SqlWrapper::getInstance()->sql_insert_id();
    }
 
    /**
@@ -537,7 +514,6 @@ class ServiceContract {
     * @param int $project_id
     */
    public function removeSidetaskProject($project_id) {
-
       if (NULL != $this->sidetasksProjectList[$project_id]) {
          unset($this->sidetasksProjectList[$project_id]);
       }
@@ -551,11 +527,9 @@ class ServiceContract {
    }
 
    /**
-    *
-    * @return array
+    * @return ConsistencyError2[]
     */
    public function getConsistencyErrors() {
-
       $cmdsetList = $this->getCommandSets(CommandSet::type_general);
 
       $servicecontractErrors = array();
@@ -566,65 +540,58 @@ class ServiceContract {
       return $servicecontractErrors;
    }
 
-/**
- * @param bool $skipIfInCommands SideTasks already declared in a child Commands will be skipped
- *
- * @return IssueSelection[] : array[category_id] = IssueSelection("categoryName")
- */
-function getSidetasksPerCategory($skipIfInCommands = false) {
+   /**
+    * @param bool $skipIfInCommands SideTasks already declared in a child Commands will be skipped
+    * @return IssueSelection[] : array[category_id] = IssueSelection("categoryName")
+    */
+   function getSidetasksPerCategory($skipIfInCommands = false) {
+      if (NULL == $this->sidetasksPerCategory) { $this->sidetasksPerCategory = array(); }
 
-   if (NULL == $this->sidetasksPerCategory) { $this->sidetasksPerCategory = array(); }
+      $key = ($skipIfInCommands) ? 'skip_yes' : 'skip_no';
 
-   $key = ($skipIfInCommands) ? 'skip_yes' : 'skip_no';
+      if (!array_key_exists($key, $this->sidetasksPerCategory)) {
 
-   if (!array_key_exists($key, $this->sidetasksPerCategory)) {
+         $this->sidetasksPerCategory[$key] = array();
 
-      $this->sidetasksPerCategory[$key] = array();
-
-      if ($skipIfInCommands) {
-         $cmdidList = array_keys($this->getCommands(CommandSet::type_general, Command::type_general));
-      }
-
-      $prjList = $this->getProjects();
-      foreach ($prjList as $id => $project) {
-
-         try {
-            if (!$project->isSideTasksProject(array($this->teamid))) {
-               self::$logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
-               continue;
-            }
-         } catch (Exception $e) {
-            self::$logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
-            continue;
+         if ($skipIfInCommands) {
+            $cmdidList = array_keys($this->getCommands(CommandSet::type_general, Command::type_general));
          }
 
-         $issueList = $project->getIssues();
-         foreach ($issueList as $issue) {
-
-            if ($skipIfInCommands) {
-               // compare the Commands of the Issue whit the Commands of this ServiceContract
-               $issueCmdidList = array_keys($issue->getCommandList());
-               $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
-               if ($isInCommands) {
-                  self::$logger->debug("getSidetasksPerCategory(): skip issue $issue->bugId because already declared in a Command");
+         $prjList = $this->getProjects();
+         foreach ($prjList as $id => $project) {
+            try {
+               if (!$project->isSideTasksProject(array($this->teamid))) {
+                  self::$logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
                   continue;
                }
+            } catch (Exception $e) {
+               self::$logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
+               continue;
             }
 
-            if (NULL == $this->sidetasksPerCategory[$key][$issue->categoryId]) {
-               $this->sidetasksPerCategory[$key][$issue->categoryId] = new IssueSelection($issue->getCategoryName());
+            $issueList = $project->getIssues();
+            foreach ($issueList as $issue) {
+
+               if ($skipIfInCommands) {
+                  // compare the Commands of the Issue whit the Commands of this ServiceContract
+                  $issueCmdidList = array_keys($issue->getCommandList());
+                  $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
+                  if ($isInCommands) {
+                     self::$logger->debug("getSidetasksPerCategory(): skip issue $issue->bugId because already declared in a Command");
+                     continue;
+                  }
+               }
+
+               if (NULL == $this->sidetasksPerCategory[$key][$issue->categoryId]) {
+                  $this->sidetasksPerCategory[$key][$issue->categoryId] = new IssueSelection($issue->getCategoryName());
+               }
+               $issueSel = $this->sidetasksPerCategory[$key][$issue->categoryId];
+               $issueSel->addIssue($issue->bugId);
             }
-            $issueSel = $this->sidetasksPerCategory[$key][$issue->categoryId];
-            $issueSel->addIssue($issue->bugId);
          }
       }
+      return $this->sidetasksPerCategory[$key];
    }
-   return $this->sidetasksPerCategory[$key];
-}
-
-
-
-
 
 }
 
