@@ -1,23 +1,29 @@
 <?php
 /*
- This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
- CoDev-Timetracking is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
- CoDev-Timetracking is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
- You should have received a copy of the GNU General Public License
- along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+include_once('classes/consistency_check2.class.php');
+include_once('classes/issue_cache.class.php');
+
+require_once('tools.php');
+
+require_once('lib/log4php/Logger.php');
 
 class IssueSelection {
-
 
    /**
     * @var Logger The logger
@@ -32,7 +38,7 @@ class IssueSelection {
       self::$logger = Logger::getLogger(__CLASS__);
    }
    
-   public $name;    // name for this selection
+   public $name; // name for this selection
    public $elapsed;
    public $duration;
    public $durationMgr;
@@ -40,20 +46,22 @@ class IssueSelection {
    public $effortEstim;
    public $effortAdd;
 
+   /**
+    * @var Issue[]
+    */
    protected $issueList;
    protected $progress = NULL;
    protected $progressMgr = NULL;
 
-
    public function __construct($name = "no_name") {
       $this->name = $name;
 
-      $this->elapsed   = 0;
+      $this->elapsed = 0;
       $this->duration = 0;
       $this->durationMgr = 0;
       $this->mgrEffortEstim = 0;
-      $this->effortEstim   = 0;
-      $this->effortAdd     = 0;    // BS
+      $this->effortEstim = 0;
+      $this->effortAdd = 0;    // BS
 
       $this->issueList = array();
    }
@@ -61,11 +69,9 @@ class IssueSelection {
    /**
     * add an array of Issue instances
     *
-    * @param array $issueList array of Issue
-
+    * @param Issue[] $issueList array of Issue
     */
-   public function addIssueList($issueList) {
-
+   public function addIssueList(array $issueList) {
       if (NULL != $issueList) {
          foreach ($issueList as $issue) {
             $this->addIssue($issue->bugId);
@@ -74,26 +80,23 @@ class IssueSelection {
    }
 
    /**
-    *
     * @param int $bugid
     * @return bool true if added, false if not (already in list)
     * @exception if issue does not exist in mantis DB
     */
    public function addIssue($bugid) {
-
       $retCode = false;
 
       // do not add twice the same issue
       if (NULL == $this->issueList[$bugid]) {
-
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $this->issueList[$bugid] = $issue;
-         $this->elapsed        += $issue->getElapsed();
-         $this->duration      += $issue->getDuration();
-         $this->durationMgr   += $issue->getDurationMgr();
+         $this->elapsed += $issue->getElapsed();
+         $this->duration += $issue->getDuration();
+         $this->durationMgr += $issue->getDurationMgr();
          $this->mgrEffortEstim += $issue->mgrEffortEstim;
-         $this->effortEstim    += $issue->effortEstim;
-         $this->effortAdd      += $issue->effortAdd;
+         $this->effortEstim += $issue->effortEstim;
+         $this->effortAdd += $issue->effortAdd;
 
          self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
          $retCode = true;
@@ -108,7 +111,6 @@ class IssueSelection {
     * @param int $bugid
     */
    public function removeIssue($bugid) {
-
       if (NULL != $this->issueList[$bugid]) {
          unset($this->issueList[$bugid]);
       } else {
@@ -116,17 +118,12 @@ class IssueSelection {
       }
    }
 
-
    /**
-    *
-    *
+    * @return int
     */
    public function getProgress() {
-
       if (NULL == $this->progress) {
-
          // compute total progress
-
          if (0 == $this->elapsed) {
             $this->progress = 0;  // if no time spent, then no work done.
          } elseif (0 == $this->duration) {
@@ -142,13 +139,10 @@ class IssueSelection {
    }
 
    /**
-    *
-    *
+    * @return int
     */
    public function getProgressMgr() {
-
       if (NULL == $this->progressMgr) {
-
          // compute total progress
 
          if (0 == $this->elapsed) {
@@ -167,6 +161,7 @@ class IssueSelection {
 
    /**
     * reestimated = elapsed + duration
+    * @return int
     */
    public function getReestimated() {
       return $this->elapsed + $this->duration;
@@ -174,20 +169,21 @@ class IssueSelection {
 
    /**
     * reestimated = elapsed + durationMgr
+    * @return int
     */
    public function getReestimatedMgr() {
       return $this->elapsed + $this->durationMgr;
    }
 
    /**
-    * @return Issue[}
+    * @return Issue[]
     */
    public function getIssueList() {
       return $this->issueList;
    }
 
    /**
-    *
+    * @return int
     */
    public function getNbIssues() {
       return count($this->issueList);
@@ -195,6 +191,7 @@ class IssueSelection {
 
    /**
     * return a coma separated list of bugid URLs
+    * @return string
     */
    public function getFormattedIssueList() {
       $formattedList = "";
@@ -208,11 +205,11 @@ class IssueSelection {
          if ("" != $formattedList) {
             $formattedList .= ', ';
          }
-         $formattedList .= issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
+
+         $formattedList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
       }
       return $formattedList;
    }
-
 
    /**
     * sum(issue->driftMgr)
@@ -277,14 +274,12 @@ class IssueSelection {
    }
 
    /**
-    *
-    *
-    *
-    * @param unknown_type $percent  100% = 1
-    * @param unknown_type $threshold  5% = 0.05
+    * @static
+    * @param number $percent  100% = 1
+    * @param number $threshold  5% = 0.05
+    * @return string color
     */
    public static function getDriftColor($percent, $threshold = 0.05) {
-
       if (abs($percent) < $threshold) {
          return NULL; // no drift
       }
@@ -298,14 +293,14 @@ class IssueSelection {
    }
 
    /**
-    *
+    * @param bool $isManager
+    * @param bool $withSupport
+    * @return Issue[]
     */
    public function getIssuesInDrift($isManager=false, $withSupport = true) {
-
       $issuesInDrift = array();
 
       foreach ($this->issueList as $bugid => $issue) {
-
          // if not manager, disable getDriftMgrEE check
          $driftMgrEE = ($isManager) ? $issue->getDriftMgr($withSupport) : 0;
          $driftEE = $issue->getDrift($withSupport);
@@ -313,24 +308,20 @@ class IssueSelection {
          if (($driftMgrEE > 0) || ($driftEE > 0)) {
             $issuesInDrift[$bugid] = $issue;
          }
-
       }
 
+      return $issuesInDrift;
    }
 
-
-   // -------------------------------------------------
    /**
     * Split selection in 3 selection, sorted on issue drift.
     *
     * @param int $threshold
-    * @param boolean $withSupport
+    * @param bool $withSupport
     *
     * @return array array of 3 IssueSelection instances ('negative', 'equal', 'positive')
-    *
     */
    public function getDeviationGroups($threshold = 1, $withSupport = true) {
-
       if (0== count($this->issueList)) {
          echo "<div style='color:red'>ERROR getDeviationGroups: Issue List is empty !<br/></div>";
          self::$logger->error("getDeviationGroups(): Issue List is empty !");
@@ -342,7 +333,6 @@ class IssueSelection {
       $posSubList = new IssueSelection("in drift");
 
       foreach ($this->issueList as $bugId => $issue) {
-
          $issueDrift = $issue->getDrift($withSupport);
 
          // get drift stats. equal is when drif = +-threshold
@@ -354,31 +344,28 @@ class IssueSelection {
          } else {
             $equalSubList->addIssue($bugId);
          }
-      } // foreach
+      }
 
-      $driftStats = array();
-      $driftStats["negative"] = $negSubList;
-      $driftStats["equal"]    = $equalSubList;
-      $driftStats["positive"] = $posSubList;
-
-      return $driftStats;
+      return array(
+         "negative" => $negSubList,
+         "equal" => $equalSubList,
+         "positive" => $posSubList
+      );
    }
 
-   // -------------------------------------------------
    /**
     * Split selection in 3 selection, sorted on issue drift.
     *
     * Note: this is a replacement for Timetracking::getIssuesDriftStats()
     *
     * @param int $threshold
-    * @param boolean $withSupport
+    * @param bool $withSupport
     *
     * @return array array of 3 IssueSelection instances ('negative', 'equal', 'positive')
     *
     */
    public function getDeviationGroupsMgr($threshold = 1, $withSupport = true) {
-
-      if (0== count($this->issueList)) {
+      if (0 == count($this->issueList)) {
          echo "<div style='color:red'>ERROR getDeviationGroupsMgr: Issue List is empty !<br/></div>";
          self::$logger->error("getDeviationGroupsMgr(): Issue List is empty !");
          return NULL;
@@ -389,7 +376,6 @@ class IssueSelection {
       $posSubList = new IssueSelection("in drift Mgr");
 
       foreach ($this->issueList as $bugId => $issue) {
-
          $issueDrift = $issue->getDriftMgr($withSupport);
 
          // get drift stats. equal is when drif = +-threshold
@@ -401,31 +387,31 @@ class IssueSelection {
          } else {
             $equalSubList->addIssue($bugId);
          }
-      } // foreach
+      }
 
-      $driftStats = array();
-      $driftStats["negative"] = $negSubList;
-      $driftStats["equal"]    = $equalSubList;
-      $driftStats["positive"] = $posSubList;
-
-      return $driftStats;
+      return array(
+         "negative" => $negSubList,
+         "equal" => $equalSubList,
+         "positive" => $posSubList
+      );
    }
 
    /**
     * get consistency errors
+    * @return ConsistencyError2[]
     */
    public function getConsistencyErrors(){
-   	$ccheck = new ConsistencyCheck2($this->issueList);
-      $cerrList = $ccheck->check();
-
-      return $cerrList;
+      $ccheck = new ConsistencyCheck2($this->issueList);
+      return $ccheck->check();
    }
 
+   /**
+    * @return TimeTrack
+    */
    public function getFirstTimetrack() {
-
       $found = NULL;
       $firstTimestamp = time();
-      foreach ($this->issueList as $bugId => $issue) {
+      foreach ($this->issueList as $issue) {
          $tt = $issue->getFirstTimetrack();
          if ((NULL != $tt) && ( $tt->date < $firstTimestamp)) {
             $firstTimestamp = $tt->date;
@@ -436,13 +422,15 @@ class IssueSelection {
       return $found;
    }
 
+   /**
+    * @return TimeTrack
+    */
    public function getLatestTimetrack() {
-
       $found = NULL;
       $latestTimestamp = 0;
-      foreach ($this->issueList as $bugId => $issue) {
+      foreach ($this->issueList as $issue) {
          $tt = $issue->getLatestTimetrack();
-         if ((NULL != $tt) &&  ($tt->date > $latestTimestamp)) {
+         if ((NULL != $tt) && ($tt->date > $latestTimestamp)) {
             $latestTimestamp = $tt->date;
             $found = $tt;
          }
@@ -451,9 +439,7 @@ class IssueSelection {
       return $found;
    }
 
-
-
-} // class
+}
 
 IssueSelection::staticInit();
 
