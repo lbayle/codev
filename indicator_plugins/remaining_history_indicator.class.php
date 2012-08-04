@@ -1,32 +1,26 @@
 <?php
-
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-require_once('Logger.php');
+require_once('classes/indicator_plugin.interface.php');
 
-include_once('classes/indicator_plugin.interface.php');
+require_once('tools.php');
 
-require_once ('user_cache.class.php');
-require_once ('issue_cache.class.php');
-require_once ('issue_selection.class.php');
-require_once ('jobs.class.php');
-require_once ('team.class.php');
-
+require_once('lib/log4php/Logger.php');
 
 /**
  * Description of BacklogHistoryIndicator
@@ -34,7 +28,6 @@ require_once ('team.class.php');
  * @author lob
  */
 class BacklogHistoryIndicator implements IndicatorPlugin {
-
 
    protected $execData;
 
@@ -51,7 +44,6 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
-
    public function getName() {
       return __CLASS__;
    }
@@ -64,17 +56,14 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
       return T_("");
    }
 
-
    /**
-    *
     * @param IssueSelection $inputIssueSel
     * @param array $params {teamid, startTimestamp, endTimestamp}
     *
-    * @exception on missing parameters or other error
     * @return float[] workingDaysPerJob[jobid] = duration
+    * @throws Exception on missing parameters or other error
     */
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
-
       if (NULL == $params) {
          throw new Exception("Missing parameters: startTimestamp, endTimestamp, interval");
       }
@@ -84,8 +73,6 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
       $startTimestamp     = NULL;
       $endTimestamp       = NULL;
       $interval           = NULL;
-
-
 
       if (array_key_exists('startTimestamp', $params)) {
          $startTimestamp = $params['startTimestamp'];
@@ -104,7 +91,7 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
       } else {
          throw new Exception("Missing parameter: interval");
       }
-   #echo "BBB start ".date("Y-m-d", $startTimestamp)."end ".date("Y-m-d", $endTimestamp);
+      #echo "BBB start ".date("Y-m-d", $startTimestamp)."end ".date("Y-m-d", $endTimestamp);
 
       $startTimestamp   = mktime(23, 59, 59, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
       $endTimestamp   = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
@@ -130,21 +117,15 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
    }
 
    /**
-    *
     * $smartyHelper->assign('daysPerJobIndicator', $myIndic->getSmartyObject());
     *
-    * @return array
+    * @return mixed[]
     */
    public function getSmartyObject() {
-
       if (NULL != $this->execData) {
-
-         $smartyData = array();
-
          $backlogList = array();
          $bottomLabel = array();
          foreach ($this->execData as $timestamp => $backlog) {
-
             $backlogList[] = (NULL == $backlog) ? 0 : $backlog; // TODO
             $bottomLabel[] = Tools::formatDate("%d %b", $timestamp);
          }

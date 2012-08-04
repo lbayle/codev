@@ -1,37 +1,32 @@
 <?php
-
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-include_once('classes/indicator_plugin.interface.php');
+require_once('classes/indicator_plugin.interface.php');
 
-require_once ('classes/user_cache.class.php');
-require_once ('classes/issue_cache.class.php');
-require_once ('classes/issue_selection.class.php');
-require_once ('classes/jobs.class.php');
-require_once ('classes/team.class.php');
+include_once('classes/jobs.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/team_cache.class.php');
+include_once('classes/user_cache.class.php');
 
 require_once('lib/log4php/Logger.php');
 
-
-
 /**
  * Description of days_per_job
- *
  */
 class DaysPerJobIndicator implements IndicatorPlugin {
 
@@ -55,7 +50,6 @@ class DaysPerJobIndicator implements IndicatorPlugin {
    }
 
    public function initialize() {
-
       // get info from DB
    }
 
@@ -71,17 +65,14 @@ class DaysPerJobIndicator implements IndicatorPlugin {
       return T_("Working days per Job");
    }
 
-
    /**
-    *
     * @param IssueSelection $inputIssueSel
     * @param array $params {teamid, startTimestamp, endTimestamp}
     *
-    * @exception on missing parameters or other error
     * @return float[] workingDaysPerJob[jobid] = duration
+    * @throws Exception on missing parameters or other error
     */
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
-
       self::$logger->debug("execute() ISel=".$inputIssueSel->name.' teamid='.$params['teamid'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
 
       $startTimestamp      = NULL;
@@ -91,7 +82,7 @@ class DaysPerJobIndicator implements IndicatorPlugin {
 
       $issueList = $inputIssueSel->getIssueList();
       if (0 == count($issueList)) {
-         throw Exception("IssueSelection is empty !");
+         throw new Exception("IssueSelection is empty !");
       }
       $formattedIssueList = implode(',', array_keys($issueList));
 
@@ -136,18 +127,17 @@ class DaysPerJobIndicator implements IndicatorPlugin {
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          self::$logger->error("execute() Query FAILED: ".$query);
-         throw Exception("Query FAILED !");
+         throw new Exception("Query FAILED !");
       }
 
       $this->workingDaysPerJob = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $this->workingDaysPerJob[$row->jobid] += $row->duration;
 
-         // ---- DEBUG
+         // DEBUG
          if (self::$logger->isDebugEnabled()) {
             $u = UserCache::getInstance()->getUser($row->userid);
-            $issue = IssueCache::getInstance()->getIssue($row->bugid);
-            self::$logger->debug("execute() : team $teamid job $job_id user $row->userid ".$u->getName()." bug $row->bugid duration $row->duration");
+            self::$logger->debug("execute() : team $teamid job $row->job_id user $row->userid ".$u->getName()." bug $row->bugid duration $row->duration");
          }
       }
 
@@ -155,20 +145,17 @@ class DaysPerJobIndicator implements IndicatorPlugin {
    }
 
    /**
-    *
     * $smartyHelper->assign('daysPerJobIndicator', $myIndic->getSmartyObject());
     *
     * @return array
+    * @throws Exception
     */
    public function getSmartyObject() {
-
       if (NULL != $this->workingDaysPerJob) {
-
          $jobs = new Jobs();
          $smartyData = array();
 
          foreach ($this->workingDaysPerJob as $id => $duration) {
-
             $smartyData[] = array(
                "name"   => $jobs->getJobName($id),
                "nbDays" => $duration,
@@ -176,7 +163,7 @@ class DaysPerJobIndicator implements IndicatorPlugin {
             );
          }
       } else {
-         throw Exception("the execute() method must be called before assignInSmarty().");
+         throw new Exception("the execute() method must be called before assignInSmarty().");
       }
       return $smartyData;
    }

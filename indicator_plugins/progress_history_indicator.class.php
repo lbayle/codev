@@ -1,35 +1,29 @@
 <?php
-
 /*
-  This file is part of CodevTT
+   This file is part of CodevTT
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+require_once('classes/indicator_plugin.interface.php');
+
+require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
 
-include_once('classes/indicator_plugin.interface.php');
-
-require_once ('user_cache.class.php');
-require_once ('issue_cache.class.php');
-require_once ('issue_selection.class.php');
-require_once ('jobs.class.php');
-require_once ('team.class.php');
-
 /**
  * Description of BacklogVariationIndicator
- *
  */
 class ProgressHistoryIndicator implements IndicatorPlugin {
 
@@ -59,7 +53,6 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       $this->startTimestamp     = NULL;
       $this->endTimestamp       = NULL;
       $this->interval           = NULL;
-
    }
 
    public function getDesc() {
@@ -74,9 +67,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       return "";
    }
 
-
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
-
       if (NULL == $inputIssueSel) {
          throw new Exception("Missing IssueSelection");
       }
@@ -85,7 +76,6 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       }
 
       self::$logger->debug("execute() ISel=".$inputIssueSel->name.' interval='.$params['interval'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
-
 
       if (array_key_exists('startTimestamp', $params)) {
          $this->startTimestamp = $params['startTimestamp'];
@@ -104,12 +94,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       } else {
          throw new Exception("Missing parameter: interval");
       }
-
-
    }
 
    private function getBacklogData($inputIssueSel, $timestampList) {
-
       $this->backlogData = array();
 
       // get a snapshot of the Backlog at each timestamp
@@ -130,12 +117,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
          $this->backlogData[$midnight_timestamp] = $backlog;
       }
-
    }
 
    private function getElapsedData($inputIssueSel, $timestampList) {
-
-
       $this->elapsedData = array();
 
       // there is no elapsed on first date
@@ -162,12 +146,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
          $this->elapsedData[$midnight_timestamp] = $elapsed;
       }
-
    }
 
-
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
-
       $this->checkParams($inputIssueSel, $params);
 
      // Indicateur = Conso. Cumulé / (Conso. Cumulé +  RAF)
@@ -222,17 +203,14 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          $realBacklog[$midnight_timestamp] = round($val2 * 100, 2);
 
          #echo "(".date('Y-m-d', $midnight_timestamp).")  rafTheo = $rafTheo sumElapsed = $sumElapsed theoBacklog = ".$theoBacklog[$midnight_timestamp]." realBacklog = ".$realBacklog[$midnight_timestamp].'<br>';
-
       }
 
       $this->execData = array();
       $this->execData['theo'] = $theoBacklog;
       $this->execData['real'] = $realBacklog;
-
    }
 
    public function getArtichowSmartyObject() {
-
       $theoBacklog = $this->execData['theo'];
       $realBacklog = $this->execData['real'];
 
@@ -254,8 +232,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       return $smartyData;
    }
 
-      public function getSmartyObject() {
-
+   public function getSmartyObject() {
       $theoBacklog = $this->execData['theo'];
       $realBacklog = $this->execData['real'];
 
@@ -263,9 +240,6 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
 
       foreach ($timestampList as $timestamp) {
          $bottomLabel[]   = Tools::formatDate("%Y-%m-%d", $timestamp);
-
-
-
       }
       $theoStr = NULL;
       $realStr = NULL;
@@ -283,9 +257,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       return $smartyData;
    }
 
-
 }
 
 // Initialize complex static variables
 ProgressHistoryIndicator::staticInit();
+
 ?>
