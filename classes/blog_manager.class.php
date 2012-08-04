@@ -1,29 +1,28 @@
 <?php
 /*
- This file is part of CoDevTT.
+   This file is part of CoDevTT.
 
-CoDev-Timetracking is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-CoDevTT is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+   CoDevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/user.class.php');
-include_once('classes/project.class.php');
-include_once('classes/team.class.php');
 include_once('classes/blogpost_cache.class.php');
+include_once('classes/config.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/user_cache.class.php');
 
 require_once('lib/log4php/Logger.php');
 
-// ================================================
 /**
  * container class
  */
@@ -39,11 +38,11 @@ class BlogActivity {
    public $date;
 
    public function __construct($id, $blogPost_id, $user_id, $action, $date) {
-      $this->id          = $id;
+      $this->id = $id;
       $this->blogPost_id = $blogPost_id;
-      $this->user_id     = $user_id;
-      $this->action      = $action;
-      $this->date        = $date;
+      $this->user_id = $user_id;
+      $this->action = $action;
+      $this->date = $date;
    }
 
    /**
@@ -53,11 +52,10 @@ class BlogActivity {
     * @return string actionName or NULL if unknown
     */
    public static function getActionName($action) {
-
       switch ($action) {
-         case action_ack:
+         case self::action_ack:
             return T_('Acknowledged');
-         case action_hide:
+         case self::action_hide:
             return T_('Hidden');
          default:
             #return T_('unknown');
@@ -65,20 +63,16 @@ class BlogActivity {
       }
    }
 
-} // class BlogActivity
+}
 
-
-
-// ================================================
 /**
  * Blog post structure
- *
  */
 class BlogPost {
 
-   const severity_low    = 1;
+   const severity_low = 1;
    const severity_normal = 2;
-   const severity_high   = 3;
+   const severity_high = 3;
 
    /**
     * @var Logger The logger
@@ -108,12 +102,10 @@ class BlogPost {
 
    private $activityList;
 
-
-   // -----------------------------------------
    public function __construct($post_id) {
       $this->id = $post_id;
 
-      $query = "SELECT * FROM `codev_blog_table` WHERE id = $this->id";
+      $query = "SELECT * FROM `codev_blog_table` WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -122,16 +114,16 @@ class BlogPost {
       $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       $this->date_submitted  = $row->date_submitted;
-      $this->src_user_id     = $row->src_user_id;
-      $this->dest_user_id    = $row->dest_user_id;
+      $this->src_user_id = $row->src_user_id;
+      $this->dest_user_id = $row->dest_user_id;
       $this->dest_project_id = $row->dest_project_id;
-      $this->dest_team_id    = $row->dest_team_id;
-      $this->severity        = $row->severity;
-      $this->category        = $row->category;
-      $this->summary         = $row->summary;
-      $this->content         = $row->content;
-      $this->date_expire     = $row->date_expire;
-      $this->color           = $row->color;
+      $this->dest_team_id = $row->dest_team_id;
+      $this->severity = $row->severity;
+      $this->category = $row->category;
+      $this->summary = $row->summary;
+      $this->content = $row->content;
+      $this->date_expire = $row->date_expire;
+      $this->color = $row->color;
 
       #$this->activityList = $this->getActivityList();
    }
@@ -144,21 +136,18 @@ class BlogPost {
     */
    public static function getSeverityName($severity) {
       switch ($severity) {
-         case BlogPost::severity_low:
+         case self::severity_low:
             return T_('Low');
-         case BlogPost::severity_normal:
+         case self::severity_normal:
             return T_('Normal');
-         case BlogPost::severity_high:
+         case self::severity_high:
             return T_('High');
          default:
             #return T_("unknown $severity");
             return NULL;
       }
-
    }
 
-
-   // -----------------------------------------
    /**
     * create a new post
     *
@@ -180,10 +169,10 @@ class BlogPost {
          $date_expire=0, $color=0) {
 
       // format values to avoid SQL injections
-      $fSeverity   = SqlWrapper::getInstance()->sql_real_escape_string($severity);
-      $fCategory   = SqlWrapper::getInstance()->sql_real_escape_string($category);
-      $fSummary    = SqlWrapper::getInstance()->sql_real_escape_string($summary);
-      $fContent    = SqlWrapper::getInstance()->sql_real_escape_string($content);
+      $fSeverity = SqlWrapper::getInstance()->sql_real_escape_string($severity);
+      $fCategory = SqlWrapper::getInstance()->sql_real_escape_string($category);
+      $fSummary = SqlWrapper::getInstance()->sql_real_escape_string($summary);
+      $fContent = SqlWrapper::getInstance()->sql_real_escape_string($content);
       $fDateExpire = SqlWrapper::getInstance()->sql_real_escape_string($date_expire);
 
       $date_submitted = time(); # mktime(0, 0, 0, date('m'), date('d'), date('Y'));
@@ -199,12 +188,10 @@ class BlogPost {
          echo "<span style='color:red'>ERROR: Query FAILED</span><br>";
          return 0;
       }
-      $blogPost_id = SqlWrapper::getInstance()->sql_insert_id();
 
-      return $blogPost_id;
+      return SqlWrapper::getInstance()->sql_insert_id();
    }
 
-   // -----------------------------------------
    /**
     * Delete a post and all it's activities.
     *
@@ -213,16 +200,16 @@ class BlogPost {
     * @param int $blogPost_id
     */
    public static function delete($blogPost_id) {
-
       // TODO check admin/ user access rights
 
-      $query = "DELETE FROM `codev_blog_activity_table` WHERE blog_id = $blogPost_id;";
+      $query = "DELETE FROM `codev_blog_activity_table` WHERE blog_id = ".$blogPost_id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-         $query = "DELETE FROM `codev_blog_table` WHERE id = $blogPost_id;";
+
+      $query = "DELETE FROM `codev_blog_table` WHERE id = ".$blogPost_id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -230,24 +217,19 @@ class BlogPost {
       }
    }
 
-
-   // -----------------------------------------
    /**
-    *
+    * @param int $blogPost_id
     * @param int $user_id
     * @param string $action
     * @param int $date
     *
-    * @return activity id or '0' if failed
+    * @return int activity id or '0' if failed
     */
    public static function addActivity($blogPost_id, $user_id, $action, $date) {
-
       // check if $blogPost_id exists (foreign keys do not exist in MyISAM)
+      $fPostId = SqlWrapper::getInstance()->sql_real_escape_string($blogPost_id);
 
-      $fPostId    = SqlWrapper::getInstance()->sql_real_escape_string($blogPost_id);
-
-
-      $query = "SELECT id FROM `codev_blog_table` where id= $fPostId";
+      $query = "SELECT id FROM `codev_blog_table` where id = ".$fPostId.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -259,29 +241,26 @@ class BlogPost {
       }
 
       // add activity
-      $fUserId   = SqlWrapper::getInstance()->sql_real_escape_string($user_id);
-      $fAction   = SqlWrapper::getInstance()->sql_real_escape_string($action);
-      $fDate     = SqlWrapper::getInstance()->sql_real_escape_string($date);
+      $fUserId = SqlWrapper::getInstance()->sql_real_escape_string($user_id);
+      $fAction = SqlWrapper::getInstance()->sql_real_escape_string($action);
+      $fDate   = SqlWrapper::getInstance()->sql_real_escape_string($date);
       $query = "INSERT INTO `codev_blog_activity_table` ".
-            "(`blog_id`, `user_id`, `action`, `date`) ".
-            "VALUES ('$fPostId','$fUserId','$fAction','$fDate')";
+               "(`blog_id`, `user_id`, `action`, `date`) ".
+               "VALUES ('$fPostId','$fUserId','$fAction','$fDate')";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          return 0;
       }
-      $activity_id = SqlWrapper::getInstance()->sql_insert_id();
 
-      return $activity_id;
+      return SqlWrapper::getInstance()->sql_insert_id();
    }
 
-   // -----------------------------------------
    /**
-    *
+    * @return BlogActivity[]
     */
    public function getActivityList() {
-
       if (NULL == $this->activityList) {
          $query = "SELECT * FROM `codev_blog_activity_table` WHERE blog_id = $this->id ORDER BY date DESC";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -292,18 +271,12 @@ class BlogPost {
 
          $this->activityList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $activity = new BlogActivity($row->id, $row->blog_id, $row->user_id, $row->action, $row->date);
-            $this->activityList[$row->id] = $activity;
+            $this->activityList[$row->id] = new BlogActivity($row->id, $row->blog_id, $row->user_id, $row->action, $row->date);
          }
       }
       return $this->activityList;
    }
 
-
-
-
-
-   // -----------------------------------------
    /**
     * QuickSort compare method.
     * returns true if $this has higher priority than $postB
@@ -311,40 +284,31 @@ class BlogPost {
     * criteria: date_submission, date_expired, severity
     *
     * @param BlogPost $postB the object to compare to
+    *
+    * @return bool
     */
    public function compareTo($postB) {
-
       // TODO
       return true;
    }
 
-} // class BlogPost
+}
 
 BlogPost::staticInit();
 
-// ================================================
-/**
- *
- *
- *
- */
 class BlogManager {
 
    private $categoryList;
    private $severityList;
 
-   // -----------------------------------------
    public function __construct() {
    }
 
-
-   // -----------------------------------------
    /**
     * available categories are stored in codev_config_table.
     * @return array (id => name)
     */
    public function getCategoryList() {
-
       if (NULL == $this->categoryList) {
          $this->categoryList = Config::getValue(Config::id_blogCategories);
          ksort($this->categoryList);
@@ -352,13 +316,11 @@ class BlogManager {
       return $this->categoryList;
    }
 
-   // -----------------------------------------
    /**
     * available severity values
     * @return array (id => name)
     */
    public function getSeverityList() {
-
       if (NULL == $this->severityList) {
          $this->severityList = array();
 
@@ -372,8 +334,6 @@ class BlogManager {
       return $this->severityList;
    }
 
-
-   // -----------------------------------------
    /**
     * return the posts to be displayed for a given user,
     * depending on it's [userid, teams, projects] and personal filter preferences.
@@ -383,13 +343,11 @@ class BlogManager {
     * - all posts assigned to a team where the user is member
     * - all posts assigned to a project that is in one of the user's teams
     *
-    *
     * @param int $user_id
     *
-    * @return array BlogPost
+    * @return BlogPost[]
     */
    public function getPosts($user_id) {
-
       $user = UserCache::getInstance()->getUser($user_id);
       $teamList = $user->getTeamList();
       $projList = $user->getProjectList();
@@ -397,12 +355,11 @@ class BlogManager {
       $formattedTeamList = implode(',', array_keys($teamList));
       $formattedProjList = implode(',', array_keys($projList));
 
-
-      $query = "SELECT id FROM `codev_blog_table` ";
-      $query .= "WHERE dest_user_id = $user_id ";
-      $query .= "OR (dest_user_id = 0 AND dest_team_id IN ($formattedTeamList)) ";
-      $query .= "OR (dest_user_id = 0 AND dest_team_id IN (0,$formattedTeamList) AND dest_project_id IN ($formattedProjList)) ";
-      $query .= "ORDER BY date_submitted DESC";
+      $query = "SELECT id FROM `codev_blog_table` ".
+               "WHERE dest_user_id = $user_id ".
+               "OR (dest_user_id = 0 AND dest_team_id IN ($formattedTeamList)) ".
+               "OR (dest_user_id = 0 AND dest_team_id IN (0,$formattedTeamList) AND dest_project_id IN ($formattedProjList)) ".
+               "ORDER BY date_submitted DESC";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -412,24 +369,21 @@ class BlogManager {
 
       $postList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $post = BlogPostCache::getInstance()->getBlogPost($row->id);
-         $postList[$row->id] = $post;
+         $postList[$row->id] = BlogPostCache::getInstance()->getBlogPost($row->id);
       }
 
       return $postList;
    }
 
-   // -----------------------------------------
    /**
     * return the posts submitted by a given user,
     *
     * @param int $user_id
     *
-    * @return array BlogPost
+    * @return BlogPost[]
     */
    public function getSubmittedPosts($user_id) {
-
-      $query = "SELECT id FROM `codev_blog_table` where src_user_id= $user_id";
+      $query = "SELECT id FROM `codev_blog_table` where src_user_id = ".$user_id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -444,28 +398,6 @@ class BlogManager {
       return $submittedPosts;
    }
 
-} // class BlogManager
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+?>
