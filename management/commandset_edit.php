@@ -45,7 +45,7 @@ $logger = Logger::getLogger("commandset_edit");
 function updateCommandSetInfo($cmdset) {
 
    // security check
-   $cmdset->setTeamid(checkNumericValue($_POST['teamid']));
+   $cmdset->setTeamid(SmartyTools::checkNumericValue($_POST['teamid']));
 
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetName']);
    $cmdset->setName($formattedValue);
@@ -59,10 +59,9 @@ function updateCommandSetInfo($cmdset) {
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetDate']);
    $cmdset->setDate(date2timestamp($formattedValue));
 
-   $cmdset->setCost(checkNumericValue($_POST['commandsetCost'], true));
+   $cmdset->setCost(SmartyTools::checkNumericValue($_POST['commandsetCost'], true));
 
-   $cmdset->setBudgetDays(checkNumericValue($_POST['commandsetBudget'], true));
-
+   $cmdset->setBudgetDays(SmartyTools::checkNumericValue($_POST['commandsetBudget'], true));
 }
 
 /**
@@ -121,7 +120,7 @@ if (isset($_SESSION['userid'])) {
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+   $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
 
    // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
@@ -152,7 +151,7 @@ if (isset($_SESSION['userid'])) {
       // ------ Actions
       if ("createCmdset" == $action) {
 
-         $teamid = checkNumericValue($_POST['teamid']);
+         $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new CommandSet for team $teamid<br>");
 
@@ -185,7 +184,7 @@ if (isset($_SESSION['userid'])) {
       if ("addCommand" == $action) {
 
          # TODO
-         $cmdid = checkNumericValue($_POST['cmdid']);
+         $cmdid = SmartyTools::checkNumericValue($_POST['cmdid']);
 
          if (0 == $cmdid) {
             #$_SESSION['cmdid'] = 0;
@@ -196,12 +195,12 @@ if (isset($_SESSION['userid'])) {
 
       } else if ("removeCmd" == $action) {
 
-         $cmdid = checkNumericValue($_POST['cmdid']);
+         $cmdid = SmartyTools::checkNumericValue($_POST['cmdid']);
          $cmdset->removeCommand($cmdid);
          
       } else if ("updateCmdsetInfo" == $action) {
 
-         $teamid = checkNumericValue($_POST['teamid']);
+         $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
 
          updateCommandSetInfo($cmdset);

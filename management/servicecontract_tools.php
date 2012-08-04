@@ -83,8 +83,7 @@ function getServiceContractCommandSets($servicecontractid, $cset_type, $cmd_type
       foreach ($csetList as $id => $cset) {
 
          $issueSelection = $cset->getIssueSelection($cmd_type);
-         $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
-
+         $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
 
          $detailledMgr['name'] = $cset->getName();
          $detailledMgr['description'] = $cset->getDesc();
@@ -120,8 +119,7 @@ function getServiceContractCommands($servicecontractid, $cset_type, $cmd_type) {
          foreach ($cmdList as $cmdid => $cmd) {
 
             $issueSelection = $cmd->getIssueSelection();
-            $cmdDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
-
+            $cmdDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
 
             $cmdDetailedMgr['id'] = $cmd->getId();
             $cmdDetailedMgr['name'] = $cmd->getName();
@@ -182,7 +180,7 @@ function getServiceContractCmdsetTotalDetailedMgr($servicecontractid, $cset_type
       $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
       $issueSelection = $servicecontract->getIssueSelection($cset_type, $cmd_type);
-      $cmdsetTotalDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
+      $cmdsetTotalDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
    }
    return $cmdsetTotalDetailedMgr;
 }
@@ -223,7 +221,7 @@ function getContractSidetasksDetailedMgr($servicecontractid) {
 
       foreach ($sidetasksPerCategory as $id => $issueSelection) {
 
-         $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
+         $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
          $detailledMgr['name'] = $issueSelection->name;
 
          $stasksPerCat[$id] = $detailledMgr;
@@ -241,30 +239,12 @@ function getContractSidetasksDetailedMgr($servicecontractid) {
  * @return array
  */
 function getContractSidetasksTotalDetailedMgr(IssueSelection $issueSelection) {
-
-   $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
+   $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
    $detailledMgr['name'] = "TotalSideTasks";
-
    return $detailledMgr;
 }
 
 /**
- * info on each sidetask
- *
- * @param int $servicecontractid
- * @return array
- */
-function getContractSidetasksInfo(IssueSelection $issueSelection) {
-
-   $issueArray = getIssueListInfo($issueSelection);
-   //$issueArray['name'] = "sideTasksList";
-
-   return $issueArray;
-}
-
-
-/**
- *
  * @param int $servicecontractid
  * @return array
  */
@@ -286,7 +266,7 @@ function getContractTotalDetailedMgr($servicecontractid) {
    $cmdsetsIssueSelection = $contract->getIssueSelection(CommandSet::type_general, Command::type_general);
    $issueSelection->addIssueList($cmdsetsIssueSelection->getIssueList());
 
-   $detailledMgr = getIssueSelectionDetailedMgr($issueSelection);
+   $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
    $detailledMgr['name'] = $issueSelection->name;
 
    return $detailledMgr;
@@ -294,7 +274,6 @@ function getContractTotalDetailedMgr($servicecontractid) {
 
 
 /**
- *
  * @param Command $serviceContract
  */
 function getSContractProgressHistory(ServiceContract $serviceContract) {
@@ -330,11 +309,10 @@ function getSContractProgressHistory(ServiceContract $serviceContract) {
 }
 
 /**
- *
- * @param type $smartyHelper
+ * @param SmartyHelper $smartyHelper
  * @param ServiceContract $servicecontract
  */
-function displayServiceContract($smartyHelper, $servicecontract) {
+function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract) {
 
    #$smartyHelper->assign('servicecontractId', $servicecontract->getId());
    $smartyHelper->assign('teamid',                   $servicecontract->getTeamid());
@@ -363,7 +341,7 @@ function displayServiceContract($smartyHelper, $servicecontract) {
 
    $issueSelection = getContractSidetasksSelection($servicecontract->getId());
    $smartyHelper->assign('sidetasksTotalDetailedMgr', getContractSidetasksTotalDetailedMgr($issueSelection));
-   $smartyHelper->assign('sidetasksList', getContractSidetasksInfo($issueSelection));
+   $smartyHelper->assign('sidetasksList', SmartyTools::getIssueListInfo($issueSelection));
    $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
 
    $smartyHelper->assign('servicecontractTotalDetailedMgr', getContractTotalDetailedMgr($servicecontract->getId()));

@@ -45,7 +45,7 @@ $logger = Logger::getLogger("command_edit");
 function updateCmdInfo($cmd) {
 
    // security check
-   $cmd->setTeamid(checkNumericValue($_POST['teamid']));
+   $cmd->setTeamid(SmartyTools::checkNumericValue($_POST['teamid']));
 
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdName']);
    $cmd->setName($formattedValue);
@@ -69,14 +69,12 @@ function updateCmdInfo($cmd) {
    $cmd->setDeadline(date2timestamp($formattedValue));
 
 
-   $cmd->setState(checkNumericValue($_POST['cmdState'], true));
-   $cmd->setBudgetDev(checkNumericValue($_POST['cmdBudgetDev'], true));
-   $cmd->setCost(checkNumericValue($_POST['cmdCost'], true));
-   $cmd->setBudgetMngt(checkNumericValue($_POST['cmdBudgetMngt'], true));
+   $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
+   $cmd->setBudgetDev(SmartyTools::checkNumericValue($_POST['cmdBudgetDev'], true));
+   $cmd->setCost(SmartyTools::checkNumericValue($_POST['cmdCost'], true));
+   $cmd->setBudgetMngt(SmartyTools::checkNumericValue($_POST['cmdBudgetMngt'], true));
    #$cmd->setBudgetGarantie(checkNumericValue($_POST['cmdBudgetGarantie'], true));
    #$cmd->setAverageDailyRate(checkNumericValue($_POST['cmdAverageDailyRate'], true));
-
-
 }
 
 /**
@@ -183,7 +181,7 @@ if (isset($_SESSION['userid'])) {
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+   $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
 
    // use the cmdid set in the form, if not defined (first page call) use session cmdid
@@ -218,7 +216,7 @@ if (isset($_SESSION['userid'])) {
       // ------ Actions
       if ("createCmd" == $action) {
 
-         $teamid = checkNumericValue($_POST['teamid']);
+         $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new Command for team $teamid<br>");
 
@@ -302,7 +300,7 @@ if (isset($_SESSION['userid'])) {
 
       } else if ("updateCmdInfo" == $action) {
 
-         $teamid = checkNumericValue($_POST['teamid']);
+         $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
 
          updateCmdInfo($cmd);

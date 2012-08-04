@@ -45,7 +45,7 @@ $logger = Logger::getLogger("servicecontract_edit");
 function updateServiceContractInfo($contract) {
 
    // security check
-   $contract->setTeamid(checkNumericValue($_POST['teamid']));
+   $contract->setTeamid(SmartyTools::checkNumericValue($_POST['teamid']));
 
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractName']);
    $contract->setName($formattedValue);
@@ -68,7 +68,7 @@ function updateServiceContractInfo($contract) {
    $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractEndDate']);
    $contract->setEndDate(date2timestamp($formattedValue));
 
-   $contract->setState(checkNumericValue($_POST['servicecontractState'], true));
+   $contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));
 
 }
 
@@ -152,7 +152,7 @@ if (isset($_SESSION['userid'])) {
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+   $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
 
    // use the servicecontractid set in the form, if not defined (first page call) use session servicecontractid
@@ -183,7 +183,7 @@ if (isset($_SESSION['userid'])) {
       // ------ Actions
       if ("createContract" == $action) {
 
-         $teamid = checkNumericValue($_POST['teamid']);
+         $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new ServiceContract for team $teamid<br>");
 
@@ -216,7 +216,7 @@ if (isset($_SESSION['userid'])) {
       if ("addCommandSet" == $action) {
 
          # TODO
-         $commandsetid = checkNumericValue($_POST['commandsetid']);
+         $commandsetid = SmartyTools::checkNumericValue($_POST['commandsetid']);
 
          if (0 == $commandsetid) {
             #$_SESSION['commandsetid'] = 0;
@@ -227,19 +227,19 @@ if (isset($_SESSION['userid'])) {
 
       } else if ("removeCmdSet" == $action) {
 
-         $commandsetid = checkNumericValue($_POST['commandsetid']);
+         $commandsetid = SmartyTools::checkNumericValue($_POST['commandsetid']);
          $contract->removeCommandSet($commandsetid);
          
       } else if ("updateContractInfo" == $action) {
 
-         $teamid = checkNumericValue($_POST['teamid']);
+         $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
          $_SESSION['teamid'] = $teamid;
 
          updateServiceContractInfo($contract);
       } else if ("addProject" == $action) {
 
          # TODO
-         $projectid = checkNumericValue($_POST['projectid']);
+         $projectid = SmartyTools::checkNumericValue($_POST['projectid']);
 
          if (0 != $projectid) {
             $contract->addSidetaskProject($projectid, Project::type_sideTaskProject);
@@ -247,7 +247,7 @@ if (isset($_SESSION['userid'])) {
 
       } else if ("removeProject" == $action) {
 
-         $projectid = checkNumericValue($_POST['projectid']);
+         $projectid = SmartyTools::checkNumericValue($_POST['projectid']);
          $contract->removeSidetaskProject($projectid);
 
       } else if ("deleteContract" == $action) {

@@ -176,7 +176,7 @@ if (isset($_SESSION['userid'])) {
    }
 
    $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+   $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
    $smartyHelper->assign('commandid', $cmdid);
    $smartyHelper->assign('commands', getCommands($teamid, $cmdid));

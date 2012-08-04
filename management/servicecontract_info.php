@@ -98,7 +98,7 @@ if (isset($_SESSION['userid'])) {
    // set TeamList (including observed teams)
    $teamList = $session_user->getTeamList();
    $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', getTeams($teamList, $teamid));
+   $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
    $smartyHelper->assign('servicecontractid', $servicecontractid);
    $smartyHelper->assign('servicecontracts', getServiceContracts($teamid, $servicecontractid));

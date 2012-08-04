@@ -199,8 +199,7 @@ function getProgressHistory(Command $cmd) {
 }
 
 
-function displayCommand($smartyHelper, Command $cmd) {
-
+function displayCommand(SmartyHelper $smartyHelper, Command $cmd) {
    $smartyHelper->assign('cmdid', $cmd->getId());
    $smartyHelper->assign('cmdName', $cmd->getName());
    $smartyHelper->assign('cmdReference', $cmd->getReference());
@@ -228,7 +227,7 @@ function displayCommand($smartyHelper, Command $cmd) {
 
    // set Issues that belong to me
    $cmdIssueSel = $cmd->getIssueSelection();
-   $cmdDetailedMgr = getIssueSelectionDetailedMgr($cmdIssueSel);
+   $cmdDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($cmdIssueSel);
    $smartyHelper->assign('cmdDetailedMgr', $cmdDetailedMgr);
    $smartyHelper->assign('cmdNbIssues', $cmdIssueSel->getNbIssues());
    $smartyHelper->assign('cmdShortIssueList', $cmdIssueSel->getFormattedIssueList());
@@ -242,9 +241,6 @@ function displayCommand($smartyHelper, Command $cmd) {
    $smartyHelper->assign('jqplotTitle',      'Historical Progression Chart');
    $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
    $smartyHelper->assign('jqplotData', getProgressHistory($cmd));
-
-
 }
-
 
 ?>

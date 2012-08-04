@@ -93,8 +93,7 @@ function getCommandSetCommands($commandsetid, $type) {
       foreach ($cmdList as $id => $cmd) {
 
          $issueSelection = $cmd->getIssueSelection();
-         $cmdDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
-
+         $cmdDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
 
          $cmdDetailedMgr['name'] = $cmd->getName();
          $cmdDetailedMgr['reference'] = $cmd->getReference();
@@ -117,22 +116,19 @@ function getCommandSetCommands($commandsetid, $type) {
  * @return array
  */
 function getCommandSetDetailedMgr($commandsetid, $type) {
-
    if (0 != $commandsetid) {
       $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
       $issueSelection = $commandset->getIssueSelection($type);
-      $csetDetailedMgr = getIssueSelectionDetailedMgr($issueSelection);
+      $csetDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
    }
    return $csetDetailedMgr;
 }
 
 /**
- *
  * @param Command $commandSet
  */
 function getCSetProgressHistory(CommandSet $commandSet) {
-
    $cmdIssueSel = $commandSet->getIssueSelection(Command::type_general);
 
    $startTT = $cmdIssueSel->getFirstTimetrack();
