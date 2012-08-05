@@ -125,12 +125,12 @@
                   {if $i.deadlines.isDeadline}<img width="{$planning.width}" height="{$i.deadlines.height}" src="images/white.png" alt="" />{/if}
                   {foreach from=$i.deadlines.deadline key=id1 item=j}
                   {if $j.width}<img width="{$j.width}" height="{$i.deadlines.height}" src="images/time_line.jpg" alt="" />{/if}
-                  <img id="deadline_{$j.user}_{$j.date}" src="{$j.url}" alt="{$j.title}" />
+                  <img class="deadline" id="deadline_{$j.user}_{$j.date}" src="{$j.url}" alt="{$j.title}" />
                   {/foreach}
                   {if $i.deadlines.deadline|count > 0}<br />{/if}
                   <img width="{$planning.width}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
                   {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
-                  <a id="task_{$j.user}_{$j.bugid}" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height={$i.userSchedule.height}&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" /></a>
+                  <a class="task" id="task_{$j.user}_{$j.bugid}" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height={$i.userSchedule.height}&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" /></a>
                   <img width="{$i.userSchedule.sepWidth}" height="{$i.userSchedule.height}" src="images/white.png" alt="" />
                   {/foreach}
                </span>
@@ -161,11 +161,29 @@
       </table>
    </div>
 
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery(".deadline").each(function() {
+            var tooltip = jQuery(this).attr('id').replace('deadline','tooltip_deadline');
+            jQuery(this).tooltip({
+               effect: 'slide',
+               tip: '#'+tooltip
+            });
+         });
+         jQuery(".task").each(function() {
+            var tooltip = jQuery(this).attr('id').replace('task','tooltip');
+            jQuery(this).tooltip({
+               effect: 'slide',
+               tip: '#'+tooltip
+            });
+         });
+      });
+   </script>
+
    <!-- tooltips  http://jquerytools.org/demos/tooltip/any-html.html  -->
    {foreach from=$planning.tasks key=id item=i}
 
       {foreach from=$i.deadlines.deadline key=id1 item=j}
-      {if $j.width}<img width="{$j.width}" height="{$i.deadlines.height}" src="images/time_line.jpg" alt="" />{/if}
          <!-- tooltip element -->
          <div class="tooltip" id="tooltip_deadline_{$j.user}_{$j.date}"
               style="display:none;height:95px;padding:30px 30px 10px 30px;width:310px;font-size:11px;color:#000;
@@ -176,14 +194,6 @@
             <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Tasks{/t}</td><td style="background-color:transparent;">{$j.deadlineIssues}</td></tr>
          </table>
          </div>
-         <script type="text/javascript">
-         jQuery(document).ready(function() {
-               jQuery("#deadline_{$j.user}_{$j.date}").tooltip({
-                  effect: 'slide',
-                  tip: '#tooltip_deadline_{$j.user}_{$j.date}'
-               });
-         });
-         </script>
       {/foreach}
 
       {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
@@ -202,14 +212,6 @@
             {if $j.handlerName}<tr><td class="label" style="background-color:transparent;color:orange;width:35px;">{t}Monitored{/t}</td><td style="background-color:transparent;">({$j.handlerName})</td></tr>{/if}
          </table>
          </div>
-         <script type="text/javascript">
-         jQuery(document).ready(function() {
-               jQuery("#task_{$j.user}_{$j.bugid}").tooltip({
-                  effect: 'slide',
-                  tip: '#tooltip_{$j.user}_{$j.bugid}'
-               });
-         });
-         </script>
       {/foreach}
    {/foreach}
 
