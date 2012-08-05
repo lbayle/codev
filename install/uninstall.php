@@ -2,30 +2,39 @@
 require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('i18n.inc.php');
+include_once('i18n/i18n.inc.php');
 
-include_once('classes/user.class.php');
-include_once('install.class.php');
+include_once('install/install.class.php');
+
+include_once('classes/config.class.php');
+include_once('classes/project.class.php');
+include_once('classes/project_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/user_cache.class.php');
+
+include_once('include/internal_config.inc.php');
+
+require_once('tools.php');
 
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");
@@ -33,10 +42,11 @@ if (!isset($_SESSION['userid'])) {
 }
 
 $page_name = T_("Uninstall");
-require_once('header.inc.php');
+require_once('include/header.inc.php');
 
-require_once('login.inc.php');
-require_once('uninstall_menu.inc.php');
+require_once('include/login.inc.php');
+require_once('install/uninstall_menu.inc.php');
+
 ?>
 
 <script type="text/javascript">
@@ -68,7 +78,7 @@ function displayForm($originPage, $is_modified, $isBackup, $filename) {
    echo "  <tr>\n";
    echo "    <td></td>";
    Config::setQuiet(true);
-   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
+   $codevReportsDir = InternalConfig::$codevReportsDir;
    Config::setQuiet(false);
    echo "    <td><span class='help_font'>".T_("Backup file will ve saved in CodevTT reports directory").". ( $codevReportsDir )</span></td>\n";
    echo "  </tr>\n";
@@ -91,7 +101,8 @@ function displayForm($originPage, $is_modified, $isBackup, $filename) {
 
 /**
  * backup Mantis DB (including CodevTT tables, if exists)
- * @param $filename
+ * @param string $filename
+ * @return bool
  */
 function backupDB($filename) {
    echo "dumping MantisDB to $filename ...</br>";
@@ -104,7 +115,7 @@ function displayProjectsToRemove() {
    $prjList = array();
 
    // find externalTasks project
-   $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+   $extproj_id = InternalConfig::$externalTasksProject;
    $project = ProjectCache::getInstance()->getProject($extproj_id);
    $prjList[$project->id] = $project->name;
    
@@ -136,17 +147,15 @@ function displayProjectsToRemove() {
  * @return bool
 */
 function removeCustomFields() {
-   $tcCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
-   $mgrEffortEstim = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-   $estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-   $addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
-   $remainingCustomField = Config::getInstance()->getValue(Config::id_customField_remaining);
-   $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
-   $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-   #$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
-
-   $fieldIds = array($tcCustomField,$mgrEffortEstim,$estimEffortCustomField,$addEffortCustomField,
-                     $remainingCustomField,$deadLineCustomField,$deliveryDateCustomField);
+   $fieldIds = array(
+      InternalConfig::$tcCustomField,
+      InternalConfig::$mgrEffortEstimCustomField,
+      InternalConfig::$estimEffortCustomField,
+      InternalConfig::$addEffortCustomField,
+      InternalConfig::$backlogCustomField,
+      InternalConfig::$deadLineCustomField,
+      InternalConfig::$deliveryDateCustomField
+   );
    
    # delete all values
    $query = "DELETE FROM `mantis_custom_field_string_table` WHERE field_id IN (".implode(', ', $fieldIds).");";
@@ -172,7 +181,7 @@ function removeCustomFields() {
 function saveConfigFiles() {
    global $logger;
    
-   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
+   $codevReportsDir = InternalConfig::$codevReportsDir;
    if (file_exists(Install::FILENAME_CONSTANTS)) {
       $filename = ereg_replace(".*/", "", Install::FILENAME_CONSTANTS);
       $retCode = copy(Install::FILENAME_CONSTANTS, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
