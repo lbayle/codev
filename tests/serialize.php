@@ -3,7 +3,7 @@ include_once('../include/session.inc.php');
 
 include_once '../path.inc.php';
 
-include_once 'i18n.inc.php';
+include_once 'i18n/i18n.inc.php';
 
 $page_name = T_("Tools: serialize");
 require_once 'header.inc.php';

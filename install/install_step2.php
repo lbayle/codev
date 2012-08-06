@@ -20,7 +20,7 @@ include_once('../include/session.inc.php');
 
 include_once '../path.inc.php';
 
-include_once 'i18n.inc.php';
+include_once 'i18n/i18n.inc.php';
 
 $page_name = T_("Install - Step 2");
 require_once 'install_header.inc.php';

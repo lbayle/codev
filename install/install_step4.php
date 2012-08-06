@@ -21,7 +21,7 @@ include_once('../include/session.inc.php');
 
 include_once '../path.inc.php';
 
-require_once 'i18n.inc.php';
+require_once 'i18n/i18n.inc.php';
 
 $page_name = T_("Installation finished");
 require_once 'install_header.inc.php';

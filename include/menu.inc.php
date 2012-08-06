@@ -18,7 +18,7 @@
 
    include_once "tools.php";
    include_once "constants.php";
-   include_once 'i18n.inc.php';
+   include_once 'i18n/i18n.inc.php';
 ?>
 
 <div class="menu">

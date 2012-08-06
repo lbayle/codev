@@ -17,7 +17,7 @@
 */
 
 include_once "tools.php";
-include_once 'i18n.inc.php';
+include_once 'i18n/i18n.inc.php';
 
 $installFolder="/install/";
 

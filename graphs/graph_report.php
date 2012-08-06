@@ -20,7 +20,7 @@ include_once('../include/session.inc.php');
 
 include_once '../path.inc.php';
 
-include_once 'i18n.inc.php';
+require_once('i18n/i18n.inc.php');
 
 $_POST[page_name] = T_("Statistics");
 require_once 'header.inc.php';

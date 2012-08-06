@@ -20,7 +20,7 @@ include_once('../include/session.inc.php');
 
 include_once '../path.inc.php';
 
-include_once 'i18n.inc.php';
+include_once 'i18n/i18n.inc.php';
 
 $page_name = "Suivi des fiches Mantis";
 require_once 'header.inc.php';

@@ -18,7 +18,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
 include_once '../path.inc.php';
 
-include_once 'i18n.inc.php';
+include_once 'i18n/i18n.inc.php';
 
 require_once('lib/log4php/Logger.php');
 if (NULL == Logger::getConfigurationFile()) {

@@ -20,7 +20,6 @@ define ( 'BASE_PATH' , realpath( dirname(__FILE__) ) );
 
 $codevPathInclude  = BASE_PATH . DIRECTORY_SEPARATOR . 'include';
 $codevPathClasses  = BASE_PATH . DIRECTORY_SEPARATOR . 'classes';
-$codevPathi18n     = BASE_PATH . DIRECTORY_SEPARATOR . 'i18n';
 $codevPathGraphs   = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
 $codevPathInstall  = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
 $codevPathJPGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'jpgraph' . DIRECTORY_SEPARATOR . 'src';
@@ -34,7 +33,6 @@ $path = array(
    BASE_PATH,
    $codevPathInclude,
    $codevPathClasses,
-   $codevPathi18n,
    $codevPathGraphs,
    $codevPathInstall,
    $codevPathJPGraphs,

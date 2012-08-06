@@ -16,7 +16,7 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 include_once "constants.php";
-include_once 'i18n.inc.php';
+include_once 'i18n/i18n.inc.php';
 include_once "tools.php";
 
 // MAIN
