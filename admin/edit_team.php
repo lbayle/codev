@@ -83,7 +83,7 @@ function getTeamProjects($teamid) {
             "FROM `mantis_project_table` as project ".
             "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
             "WHERE team_project.team_id=$teamid ".
-            "ORDER BY mantis_project_table.name";
+            "ORDER BY project.name;";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       return NULL;
