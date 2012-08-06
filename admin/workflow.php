@@ -162,11 +162,11 @@ if(isset($_SESSION['userid'])) {
       
          if ("cloneToProject" == $action) {
             #echo "Clone $projectid ---> $clone_projectid<br>";
-	    $errMsg = Project::cloneAllProjectConfig($projectid, $clone_projectid);
+            $errMsg = Project::cloneAllProjectConfig($projectid, $clone_projectid);
             $smartyHelper->assign('msg', 'Clone to project : '.$errMsg);
          } elseif ("cloneFromProject" == $action) {
             #echo "Clone $clone_projectid ---> $projectid<br>";
-	    $errMsg = Project::cloneAllProjectConfig($clone_projectid, $projectid);
+            $errMsg = Project::cloneAllProjectConfig($clone_projectid, $projectid);
             $smartyHelper->assign('msg', 'Clone from project : '.$errMsg);
          }
          

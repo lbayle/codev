@@ -75,11 +75,12 @@ class IssueNote {
 
    private function initialize() {
       // Get bugnote info
-      $query = "SELECT note.bug_id, note.reporter_id, note.bugnote_text_id, note.date_submitted, mantis_bugnote_text_table.note ".
-               "FROM `mantis_bugnote_table` as note, `mantis_bugnote_text_table` ".
-               "WHERE mantis_bugnote_table.id = $this->id ".
-               "AND mantis_bugnote_table.bugnote_text_id = mantis_bugnote_text_table.id ".
-               "ORDER BY mantis_bugnote_table.date_submitted";
+      $query = "SELECT note.bug_id, note.reporter_id, note.bugnote_text_id, note.date_submitted, ".
+               "bugnote_text.note ".
+               "FROM `mantis_bugnote_table` as note ".
+               "JOIN `mantis_bugnote_text_table` as bugnote_text ON note.bugnote_text_id = bugnote_text.id ".
+               "WHERE note.id = $this->id ".
+               "ORDER BY note.date_submitted;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

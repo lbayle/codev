@@ -45,12 +45,12 @@ require_once('tools.php');
  * @return mixed[string]
  */
 function getTeamMembers($teamid) {
-   $query = "SELECT codev_team_user_table.id, codev_team_user_table.user_id, codev_team_user_table.team_id, codev_team_user_table.access_level, ".
-      "codev_team_user_table.arrival_date, codev_team_user_table.departure_date, mantis_user_table.username, mantis_user_table.realname ".
-      "FROM `codev_team_user_table`, `mantis_user_table` ".
-      "WHERE codev_team_user_table.user_id = mantis_user_table.id ".
-      "AND codev_team_user_table.team_id=$teamid ".
-      "ORDER BY mantis_user_table.username;";
+   $query = "SELECT user.id as user_id, user.username, user.realname, ".
+            "team_user.id, team_user.arrival_date, team_user.departure_date, team_user.team_id, team_user.access_level ".
+            "FROM `mantis_user_table` as user ".
+            "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
+            "WHERE team_user.team_id=$teamid ".
+            "ORDER BY user.username;";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       return NULL;
@@ -78,13 +78,12 @@ function getTeamMembers($teamid) {
  * @return mixed[string]
  */
 function getTeamProjects($teamid) {
-   $query = "SELECT codev_team_project_table.id, codev_team_project_table.type, ".
-      "mantis_project_table.id AS project_id, mantis_project_table.name, mantis_project_table.enabled, ".
-      "mantis_project_table.description ".
-      "FROM `codev_team_project_table`, `mantis_project_table` ".
-      "WHERE codev_team_project_table.project_id = mantis_project_table.id ".
-      "AND codev_team_project_table.team_id=$teamid ".
-      "ORDER BY mantis_project_table.name";
+   $query = "SELECT project.id AS project_id, project.name, project.enabled, project.description, ".
+            "team_project.id, team_project.type ".
+            "FROM `mantis_project_table` as project ".
+            "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
+            "WHERE team_project.team_id=$teamid ".
+            "ORDER BY mantis_project_table.name";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       return NULL;
@@ -111,8 +110,8 @@ function getTeamProjects($teamid) {
 /**
  * Get new astreintes
  * @param Team $team The team
- * @param array $projList The projects
- * @return string[int]
+ * @param Project[] $projList The projects
+ * @return string[]
  */
 function getNewAstreintes(Team $team, array $projList) {
    // get SideTasksProject Inactivity Issues
@@ -123,10 +122,9 @@ function getNewAstreintes(Team $team, array $projList) {
    }
 
    $inactivityCatList = array();
-   foreach ($projList as $pid => $pname) {
-      if ($team->isSideTasksProject($pid)) {
-         $p = ProjectCache::getInstance()->getProject($pid);
-         $inactivityCatList[$pid] = $p->getInactivityCategoryId();
+   foreach ($projList as $project) {
+      if ($team->isSideTasksProject($project->id)) {
+         $inactivityCatList[$project->id] = $project->getInactivityCategoryId();
       }
    }
 
@@ -156,7 +154,7 @@ function getNewAstreintes(Team $team, array $projList) {
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
       #echo "DEBUG $row->id cat $row->category_id inac[$row->project_id] = ".$inactivityCatList[$row->project_id]."</br>";
       if ($row->category_id == $inactivityCatList[$row->project_id]) {
-         $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id)->summary;
+         $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row)->summary;
       }
    }
 
@@ -172,15 +170,15 @@ function getAstreintes() {
 
    if (NULL == $astreintesList) return NULL;
 
-   $astreintes = array();
-   foreach ($astreintesList as $bugid) {
-      $issue = IssueCache::getInstance()->getIssue($bugid);
+   $issues = Issue::getIssues($astreintesList);
 
+   $astreintes = array();
+   foreach ($issues as $issue) {
       $deleteDesc = $issue->summary;
       $deleteDesc = str_replace("'", "\'", $deleteDesc);
       $deleteDesc = str_replace('"', "\'", $deleteDesc);
 
-      $astreintes[$bugid] = array(
+      $astreintes[$issue->bugId] = array(
          "desc" => $deleteDesc,
          "description" => $issue->summary,
       );
@@ -364,7 +362,7 @@ if(isset($_SESSION['userid'])) {
 
          $smartyHelper->assign('teamProjects', getTeamProjects($teamid));
 
-         $smartyHelper->assign('newAstreintes', getNewAstreintes($team,$team->getProjects()));
+         $smartyHelper->assign('newAstreintes', getNewAstreintes($team,$team->getTrueProjects()));
 
          $smartyHelper->assign('astreintes', getAstreintes());
       }

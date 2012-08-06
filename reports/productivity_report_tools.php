@@ -136,8 +136,7 @@ class ProductivityReportTools {
     */
    public static function getFormattedReopenedTaks(TimeTracking $timeTracking) {
       $formatedTasks = NULL;
-      foreach ($timeTracking->getReopened() as $bug_id) {
-         $issue = IssueCache::getInstance()->getIssue($bug_id);
+      foreach ($timeTracking->getReopened() as $issue) {
          $formatedTasks[] = Tools::issueInfoURL($issue->bugId, '['.$issue->getProjectName().'] '.$issue->summary);
       }
       return $formatedTasks;

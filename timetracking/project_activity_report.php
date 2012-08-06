@@ -41,7 +41,7 @@ require_once('tools.php');
  * @param boolean $isDetailed
  * @return mixed[]
  */
-function getProjectActivityReport($projectTracks, $teamid, $isDetailed) {
+function getProjectActivityReport(array $projectTracks, $teamid, $isDetailed) {
    $team = TeamCache::getInstance()->getTeam($teamid);
    $projectActivityReport = NULL;
    foreach ($projectTracks as $projectId => $bugList) {

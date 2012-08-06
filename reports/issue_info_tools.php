@@ -106,10 +106,10 @@ class IssueInfoTools {
       $cmdList = $issue->getCommandList();
       if($cmdList != NULL) {
          // TODO return URL for 'name' ?
-         foreach ($cmdList as $id => $cmdName) {
+         foreach ($cmdList as $cmd) {
             $commands[] = array(
-               'id' => $id,
-               'name' => $cmdName,
+               'id' => $cmd->getId(),
+               'name' => $cmd->getName(),
                #'reference' => ,
             );
          }

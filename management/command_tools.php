@@ -69,14 +69,13 @@ function getParentCommandSets(Command $cmd) {
 
    // TODO return URL for 'name' ?
 
-   foreach ($cmdsetList as $id => $cmdsetName) {
-      $cmdset = CommandSetCache::getInstance()->getCommandSet($id);
+   foreach ($cmdsetList as $cmdset) {
       $teamid = $cmdset->getTeamid();
       $team = TeamCache::getInstance()->getTeam($teamid);
 
       $commandsets[] = array(
-         'id' => $id,
-         'name' => $cmdsetName,
+         'id' => $cmdset->getId(),
+         'name' => $cmdset->getName(),
          'team' => $team->name
       );
    }

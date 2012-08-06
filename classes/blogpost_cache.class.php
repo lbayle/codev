@@ -36,10 +36,11 @@ class BlogPostCache extends Cache {
    /**
     * Get BlogPost class instance
     * @param int $id The blog post id
+    * @param resource $details The details
     * @return Command The blog post attached to the id
     */
-   public function getBlogPost($id) {
-      return parent::get($id);
+   public function getBlogPost($id, $details = NULL) {
+      return parent::get($id, $details);
    }
 
    /**
@@ -49,7 +50,7 @@ class BlogPostCache extends Cache {
     * @return BlogPost The object
     */
    protected function create($id, $details = NULL) {
-      return new BlogPost($id);
+      return new BlogPost($id, $details);
    }
 
 }

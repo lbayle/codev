@@ -121,11 +121,11 @@ function displayProjectsToRemove() {
    
    // find sideTasks projects
    $sideTaskProj_id = Project::type_sideTaskProject;
-   $query = "SELECT mantis_project_table.id, mantis_project_table.name ".
-            "FROM `mantis_project_table` JOIN `codev_team_project_table` ".
-            "ON mantis_project_table.id = codev_team_project_table.project_id ".
-            "WHERE codev_team_project_table.type=$sideTaskProj_id ".
-            "ORDER BY mantis_project_table.name DESC";
+   $query = "SELECT project.id, project.name ".
+            "FROM `mantis_project_table` as project ".
+            "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
+            "WHERE team_project.type = $sideTaskProj_id ".
+            "ORDER BY project.name DESC;";
 
    $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {

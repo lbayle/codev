@@ -231,7 +231,7 @@ class ExportCsvTools {
          $stringData .=T_("Task").$sepChar;
          $stringData .=T_("RAF").$sepChar;
          $jobList = $project->getJobList($team->getProjectType($projectId));
-         foreach($jobList as $jobId => $jobName) {
+         foreach($jobList as $jobName) {
             $stringData .= $jobName.$sepChar;
          }
          $stringData .="\n";

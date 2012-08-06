@@ -1445,14 +1445,15 @@ class Issue implements Comparable {
     *
     * This returns the list of Commands where this Issue is defined.
     *
-    * @return string[] : array[command_id] = commandName
+    * @return Command[] : array[command_id] = commandName
     */
    public function getCommandList() {
       if (NULL == $this->commandList) {
-
          $this->commandList = array();
          
-         $query  = "SELECT * FROM `codev_command_bug_table` WHERE bug_id = ".$this->bugId.";";
+         $query = "SELECT command.* FROM `codev_command_table` as command ".
+                  "JOIN `codev_command_bug_table` as command_bug ON command.id = command_bug.command_id".
+                  "WHERE command_bug.bug_id = ".$this->bugId.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1461,9 +1462,9 @@ class Issue implements Comparable {
 
          // a Command can belong to more than one commandset
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $cmd = CommandCache::getInstance()->getCommand($row->command_id);
-            $this->commandList["$row->command_id"] = $cmd->getName();
-            self::$logger->debug("Issue $this->bugId is in command $row->command_id (".$cmd->getName().")");
+            $cmd = CommandCache::getInstance()->getCommand($row->id, $row);
+            $this->commandList["$row->id"] = $cmd->getName();
+            self::$logger->debug("Issue $this->bugId is in command $row->id (".$cmd->getName().")");
          }
       }
       return $this->commandList;

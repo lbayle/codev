@@ -429,11 +429,13 @@ class CommandSet {
     *
     * This returns the list of ServiceContracts where this CommandSet is defined.
     *
-    * @return array[servicecontract_id] = servicecontractName
+    * @return ServiceContract[]
     */
    public function getServiceContractList() {
       if (NULL == $this->serviceContractList) {
-         $query = "SELECT * FROM `codev_servicecontract_cmdset_table` WHERE commandset_id = ".$this->id.";";
+         $query = "SELECT servicecontract.* FROM `codev_servicecontract_table` as servicecontract ".
+                  "JOIN `codev_servicecontract_cmdset_table` as servicecontract_cmdset ON servicecontract.id = servicecontract_cmdset.servicecontract_id ".
+                  "WHERE servicecontract_cmdset.commandset_id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -443,10 +445,10 @@ class CommandSet {
          // a Command can belong to more than one commandset
          $this->serviceContractList = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $srvContract = ServiceContractCache::getInstance()->getServiceContract($row->servicecontract_id);
+            $srvContract = ServiceContractCache::getInstance()->getServiceContract($row->id, $row);
 
-            $this->serviceContractList["$row->servicecontract_id"] = $srvContract->getName();
-            self::$logger->debug("CommandSet $this->id is in ServiceContract $row->servicecontract_id (" . $srvContract->getName() . ")");
+            $this->serviceContractList[$row->id] = $srvContract;
+            self::$logger->debug("CommandSet $this->id is in ServiceContract $row->id (" . $srvContract->getName() . ")");
          }
       }
       return $this->serviceContractList;

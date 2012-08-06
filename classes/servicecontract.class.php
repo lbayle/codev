@@ -140,22 +140,6 @@ class ServiceContract {
          }
          $this->cmdsetidByTypeList["$row->type"][] = $row->commandset_id;
       }
-
-      // SidetaskProjects
-      $query  = "SELECT * FROM `codev_servicecontract_stproj_table` ".
-                "WHERE servicecontract_id=$this->id ".
-                "ORDER BY type ASC, project_id ASC";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      $this->sidetasksProjectList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $this->sidetasksProjectList[] = $row->project_id;
-      }
    }
 
    /**
@@ -387,12 +371,26 @@ class ServiceContract {
     */
    public function getProjects() {
       // TODO: if type==NULL return for all types
+      if(NULL == $this->sidetasksProjectList) {
+         // SidetaskProjects
+         $query = "SELECT project.* FROM `mantis_project_table` as project ".
+                  "JOIN `codev_servicecontract_stproj_table` as servicecontract_stproj ON project.id = servicecontract_stproj.project_id ".
+                  "WHERE servicecontract_stproj.servicecontract_id = $this->id ".
+                  "ORDER BY type ASC, project.id ASC;";
 
-      $prjList = array();
-      foreach ($this->sidetasksProjectList as $project_id) {
-         $prjList[$project_id] = ProjectCache::getInstance()->getProject($project_id);
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $this->sidetasksProjectList = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $this->sidetasksProjectList[$row->id] = ProjectCache::getInstance()->getProject($row->id, $row);
+         }
       }
-      return $prjList;
+
+      return $this->sidetasksProjectList = array();
    }
 
    /**
@@ -484,7 +482,7 @@ class ServiceContract {
     */
    public function addSidetaskProject($project_id, $type) {
       try {
-         ProjectCache::getInstance()->getProject($project_id);
+         $project = ProjectCache::getInstance()->getProject($project_id);
       } catch (Exception $e) {
          self::$logger->error("addCommandSet($project_id): CommandSet $project_id does not exist !");
          echo "<span style='color:red'>ERROR: CommandSet '$project_id' does not exist !</span>";
@@ -496,7 +494,7 @@ class ServiceContract {
       if (NULL == $this->sidetasksProjectList) {
          $this->sidetasksProjectList = array();
       }
-      $this->sidetasksProjectList[] = $project_id;
+      $this->sidetasksProjectList[$project_id] = $project;
 
       $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ('$this->id', '$project_id', '$type');";
       $result = SqlWrapper::getInstance()->sql_query($query);

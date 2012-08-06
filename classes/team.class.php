@@ -279,11 +279,11 @@ class Team {
       if(!array_key_exists($key, $this->projectIdsCache)) {
          $query = "SELECT project.id, project.name ".
                   "FROM `mantis_project_table` as project ".
-                  "JOIN `codev_team_project_table` ON project.id = codev_team_project_table.project_id ".
-                  "WHERE codev_team_project_table.team_id = $this->id ";
+                  "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
+                  "WHERE team_project.team_id = $this->id ";
 
          if (!$noStatsProject) {
-            $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
+            $query .= "AND team_project.type <> ".Project::type_noStatsProject." ";
          }
          $query .= "ORDER BY project.name;";
 
@@ -317,11 +317,11 @@ class Team {
       if(!array_key_exists($key, $this->projectIdsCache)) {
          $query = "SELECT project.* ".
                   "FROM `mantis_project_table` as project ".
-                  "JOIN `codev_team_project_table` ON project.id = codev_team_project_table.project_id ".
-                  "WHERE codev_team_project_table.team_id=$this->id ";
+                  "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
+                  "WHERE team_project.team_id = $this->id ";
 
          if (!$noStatsProject) {
-            $query .= "AND codev_team_project_table.type <> ".Project::type_noStatsProject." ";
+            $query .= "AND team_project.type <> ".Project::type_noStatsProject." ";
          }
          $query .= "ORDER BY project.name;";
 
@@ -363,8 +363,8 @@ class Team {
       if(NULL == $this->members) {
          $query = "SELECT user.id, user.username ".
                   "FROM `mantis_user_table` as user ".
-                  "JOIN `codev_team_user_table` ON user.id = codev_team_user_table.user_id ".
-                  "WHERE codev_team_user_table.team_id=$this->id ".
+                  "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
+                  "WHERE team_user.team_id=$this->id ".
                   "ORDER BY user.username;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -413,11 +413,11 @@ class Team {
 
       $query = "SELECT user.id, user.username ".
                "FROM `mantis_user_table` as user ".
-               "JOIN `codev_team_user_table` ON user.id = codev_team_user_table.user_id ".
-               "AND codev_team_user_table.team_id=$this->id ".
-               "AND codev_team_user_table.access_level <> ".self::accessLevel_observer.' '.
-               "AND codev_team_user_table.arrival_date <= $endTimestamp ".
-               "AND (codev_team_user_table.departure_date = 0 OR codev_team_user_table.departure_date >= $startTimestamp) ".
+               "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
+               "AND team_user.team_id=$this->id ".
+               "AND team_user.access_level <> ".self::accessLevel_observer.' '.
+               "AND team_user.arrival_date <= $endTimestamp ".
+               "AND (team_user.departure_date = 0 OR team_user.departure_date >= $startTimestamp) ".
                "ORDER BY user.username;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -869,8 +869,8 @@ class Team {
 
          $query = "SELECT user.* ".
                   "FROM `mantis_user_table` as user ".
-                  "JOIN `codev_team_user_table` ON user.id = codev_team_user_table.user_id ".
-                  "WHERE codev_team_user_table.team_id = $this->id ".
+                  "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
+                  "WHERE team_user.team_id = $this->id ".
                   "ORDER BY user.username;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {

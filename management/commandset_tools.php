@@ -59,14 +59,13 @@ function getParentContracts(CommandSet $cset) {
 
    // TODO return URL for 'name' ?
 
-   foreach ($contractList as $id => $contractName) {
-      $contract = ServiceContractCache::getInstance()->getServiceContract($id);
+   foreach ($contractList as $contract) {
       $teamid = $contract->getTeamid();
       $team = TeamCache::getInstance()->getTeam($teamid);
 
       $contracts[] = array(
-         'id' => $id,
-         'name' => $contractName,
+         'id' => $contract->getId(),
+         'name' => $contract->getName(),
          'team' => $team->name
       );
    }

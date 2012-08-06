@@ -712,29 +712,29 @@ class Project {
             case self::type_sideTaskProject:
                $query = "SELECT job.id, job.name ".
                         "FROM `codev_job_table` as job ".
-                        "JOIN `codev_project_job_table` ON job.id = codev_project_job_table.job_id ".
-                        "WHERE codev_project_job_table.project_id = $this->id";
+                        "JOIN `codev_project_job_table` as project_job ON job.id = project_job.job_id ".
+                        "WHERE project_job.project_id = $this->id;";
                break;
             case self::type_noCommonProject:
-               $query  = "SELECT job.id, job.name ".
-                  "FROM `codev_job_table` as job ".
-                  "LEFT OUTER JOIN  `codev_project_job_table` ".
-                  "ON job.id = codev_project_job_table.job_id ".
-                  "WHERE (codev_project_job_table.project_id = $this->id)".
-                  "ORDER BY job.name ASC";
+               $query = "SELECT job.id, job.name ".
+                        "FROM `codev_job_table` as job ".
+                        "LEFT OUTER JOIN `codev_project_job_table` as project_job ".
+                        "ON job.id = project_job.job_id ".
+                        "WHERE project_job.project_id = $this->id ".
+                        "ORDER BY job.name ASC;";
                break;
             case self::type_workingProject:  // no break;
             case self::type_noStatsProject:
                // all other projects
-               $query  = "SELECT job.id, job.name ".
-                  "FROM `codev_job_table` as job ".
-                  "LEFT OUTER JOIN `codev_project_job_table` ".
-                  "ON job.id = codev_project_job_table.job_id ".
-                  "WHERE job.type = $commonJobType OR codev_project_job_table.project_id = $this->id";
+               $query = "SELECT job.id, job.name ".
+                        "FROM `codev_job_table` as job ".
+                        "LEFT OUTER JOIN `codev_project_job_table` as project_job ".
+                        "ON job.id = project_job.job_id ".
+                        "WHERE job.type = $commonJobType OR project_job.project_id = $this->id;";
                break;
             case (-1):
                // WORKAROUND no type specified, return all available jobs
-               $query  = "SELECT * FROM `codev_job_table`";
+               $query  = "SELECT * FROM `codev_job_table`;";
                break;
             default:
                echo "ERROR Project.getJobList($type): unknown project type ($type) !";
@@ -839,11 +839,7 @@ class Project {
 
       $bugidList = $this->getBugidList($handler_id, $isHideResolved);
 
-      $issues = array();
-      foreach($bugidList as $bugid) {
-         $issues[] = IssueCache::getInstance()->getIssue($bugid);
-      }
-      return $issues;
+      return Issue::getIssues($bugidList);
    }
 
    /**

@@ -102,16 +102,21 @@ class BlogPost {
 
    private $activityList;
 
-   public function __construct($post_id) {
+   public function __construct($post_id, $details = NULL) {
       $this->id = $post_id;
+      $this->initialize($details);
+   }
 
-      $query = "SELECT * FROM `codev_blog_table` WHERE id = ".$this->id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
+   private function initialize($row = NULL) {
+      if(NULL == $row) {
+         $query = "SELECT * FROM `codev_blog_table` WHERE id = ".$this->id.";";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
       }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
       $this->date_submitted  = $row->date_submitted;
       $this->src_user_id = $row->src_user_id;
@@ -355,7 +360,7 @@ class BlogManager {
       $formattedTeamList = implode(',', array_keys($teamList));
       $formattedProjList = implode(',', array_keys($projList));
 
-      $query = "SELECT id FROM `codev_blog_table` ".
+      $query = "SELECT * FROM `codev_blog_table` ".
                "WHERE dest_user_id = $user_id ".
                "OR (dest_user_id = 0 AND dest_team_id IN ($formattedTeamList)) ".
                "OR (dest_user_id = 0 AND dest_team_id IN (0,$formattedTeamList) AND dest_project_id IN ($formattedProjList)) ".
@@ -369,7 +374,7 @@ class BlogManager {
 
       $postList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $postList[$row->id] = BlogPostCache::getInstance()->getBlogPost($row->id);
+         $postList[$row->id] = BlogPostCache::getInstance()->getBlogPost($row->id, $row);
       }
 
       return $postList;
@@ -383,7 +388,7 @@ class BlogManager {
     * @return BlogPost[]
     */
    public function getSubmittedPosts($user_id) {
-      $query = "SELECT id FROM `codev_blog_table` where src_user_id = ".$user_id.";";
+      $query = "SELECT * FROM `codev_blog_table` where src_user_id = ".$user_id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -392,7 +397,7 @@ class BlogManager {
 
       $submittedPosts = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $submittedPosts[$row->id] = BlogPostCache::getInstance()->getBlogPost($row->id);
+         $submittedPosts[$row->id] = BlogPostCache::getInstance()->getBlogPost($row->id, $row);
       }
 
       return $submittedPosts;

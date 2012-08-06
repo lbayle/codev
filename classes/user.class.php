@@ -734,10 +734,10 @@ class User {
       }
       $query = "SELECT team.id, team.name " .
                "FROM `codev_team_table` as team " .
-               "JOIN `codev_team_user_table` ON team.id = codev_team_user_table.team_id ".
-               "WHERE codev_team_user_table.user_id = $this->id ";
+               "JOIN `codev_team_user_table` as team_user ON team.id = team_user.team_id ".
+               "WHERE team_user.user_id = $this->id ";
       if (NULL != $accessLevel) {
-         $query .= "AND codev_team_user_table.access_level = $accessLevel ";
+         $query .= "AND team_user.access_level = $accessLevel ";
       }
       $query .= "ORDER BY team.name;";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -777,11 +777,11 @@ class User {
          $formatedTeamList = implode(', ', array_keys($teamList));
          $query = "SELECT DISTINCT project.id, project.name " .
                   "FROM `mantis_project_table` as project " .
-                  "JOIN `codev_team_project_table` ON project.id = codev_team_project_table.project_id ".
-                  "WHERE codev_team_project_table.team_id IN ($formatedTeamList) ";
+                  "JOIN `codev_team_project_table` as team_project ON project.id = team_project.project_id ".
+                  "WHERE team_project.team_id IN ($formatedTeamList) ";
 
          if (!$noStatsProject) {
-            $query .= "AND codev_team_project_table.type <> " . Project::type_noStatsProject . " ";
+            $query .= "AND team_project.type <> " . Project::type_noStatsProject . " ";
          }
 
          $query .= "ORDER BY project.name;";

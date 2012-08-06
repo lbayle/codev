@@ -568,12 +568,13 @@ class Command {
     *
     * This returns the list of CommandSets where this command is defined.
     *
-    * @return string[] array[commandset_id] = commandsetName
+    * @return CommandSet[] array[commandset_id] = commandsetName
     */
    public function getCommandSetList() {
       if (NULL == $this->commandSetList) {
-
-         $query  = "SELECT * FROM `codev_commandset_cmd_table` WHERE command_id=$this->id ";
+         $query = "SELECT commandset.* FROM `codev_commandset_table` as commandset ".
+                  "JOIN `codev_commandset_cmd_table` as commandset_cmd ON commandset.id = commandset_cmd.commandset_id ".
+                  "WHERE commandset_cmd.command_id = $this->id;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -583,10 +584,9 @@ class Command {
          // a Command can belong to more than one commandset
          $this->commandSetList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $cmdset = CommandSetCache::getInstance()->getCommandSet($row->commandset_id);
-
-            $this->commandSetList["$row->commandset_id"] = $cmdset->getName();
-            self::$logger->debug("Command $this->id is in commandset $row->commandset_id (".$cmdset->getName().")");
+            $cmdset = CommandSetCache::getInstance()->getCommandSet($row->id, $row);
+            $this->commandSetList[$row->id] = $cmdset;
+            self::$logger->debug("Command $this->id is in commandset $row->id (".$cmdset->getName().")");
          }
       }
       return $this->commandSetList;

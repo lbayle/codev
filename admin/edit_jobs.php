@@ -91,10 +91,10 @@ function getJobs() {
  * @return mixed[int] The assigned jobs
  */
 function getAssignedJobTuples(array $plist) {
-   $query = "SELECT codev_project_job_table.id, codev_project_job_table.project_id, codev_project_job_table.job_id, codev_job_table.name AS job_name ".
-      "FROM `codev_project_job_table`, `codev_job_table` ".
-      "WHERE codev_project_job_table.job_id = codev_job_table.id ".
-      "ORDER BY codev_project_job_table.project_id";
+   $query = "SELECT job.id as job_id, job.name AS job_name, project_job.id, project_job.project_id ".
+            "FROM `codev_job_table` as job ".
+            "JOIN `codev_project_job_table` as project_job ON job.id = project_job.job_id ".
+            "ORDER BY project_job.project_id;";
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       echo "<span style='color:red'>ERROR: Query FAILED</span>";

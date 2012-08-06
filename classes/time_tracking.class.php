@@ -155,12 +155,12 @@ class TimeTracking {
          $accessLevel_manager = Team::accessLevel_manager;
 
          // select tasks within timestamp, where user is in the team
-         $query = "SELECT tt.* ".
-                  "FROM `codev_timetracking_table` as tt ".
-                  "JOIN `codev_team_user_table` ON tt.userid = codev_team_user_table.user_id ".
-                  "WHERE codev_team_user_table.team_id = $this->team_id ".
-                  "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-                  "AND tt.date >= $this->startTimestamp AND tt.date < $this->endTimestamp;";
+         $query = "SELECT timetracking.* ".
+                  "FROM `codev_timetracking_table` as timetracking ".
+                  "JOIN `codev_team_user_table` as team_user ON timetracking.userid = team_user.user_id ".
+                  "WHERE team_user.team_id = $this->team_id ".
+                  "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
+                  "AND timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -283,10 +283,10 @@ class TimeTracking {
          // For all the users of the team
          $query = "SELECT user.* ".
                   "FROM `mantis_user_table` as user ".
-                  "JOIN `codev_team_user_table` ON codev_team_user_table.user_id = user.id ".
-                  "WHERE codev_team_user_table.team_id = $this->team_id ".
-                  //"AND (codev_team_user_table.access_level = $accessLevel_dev OR codev_team_user_table.access_level = $accessLevel_manager)".
-                  "AND codev_team_user_table.access_level = $accessLevel_dev;";
+                  "JOIN `codev_team_user_table` as team_user ON user.id = team_user.user_id ".
+                  "WHERE team_user.team_id = $this->team_id ".
+                  //"AND (team_user.access_level = $accessLevel_dev OR team_user.access_level = $accessLevel_manager)".
+                  "AND team_user.access_level = $accessLevel_dev;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -676,18 +676,18 @@ class TimeTracking {
       $accessLevel_dev = Team::accessLevel_dev;
       $accessLevel_manager = Team::accessLevel_manager;
 
-      $query = "SELECT tt.userid, tt.bugid, tt.duration ".
-               "FROM `codev_timetracking_table` as tt ".
-               "JOIN `codev_team_user_table` ON tt.userid = codev_team_user_table.user_id ".
-               "WHERE tt.date >= $this->startTimestamp AND tt.date < $this->endTimestamp ".
-               "AND tt.jobid = $job_id ".
-               "AND codev_team_user_table.team_id = $this->team_id ".
-               "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-               "AND tt.bugid IN ".
+      $query = "SELECT timetracking.userid, timetracking.bugid, timetracking.duration ".
+               "FROM `codev_timetracking_table` as timetracking ".
+               "JOIN `codev_team_user_table` as team_user ON timetracking.userid = team_user.user_id ".
+               "WHERE timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp ".
+               "AND timetracking.jobid = $job_id ".
+               "AND team_user.team_id = $this->team_id ".
+               "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
+               "AND timetracking.bugid IN ".
                "(SELECT bug.id ".
                "FROM `mantis_bug_table` as bug ".
-               "JOIN `codev_team_project_table` ON bug.project_id = codev_team_project_table.project_id ".
-               "WHERE codev_team_project_table.team_id = $this->team_id);";
+               "JOIN `codev_team_project_table` as team_project ON bug.project_id = team_project.project_id ".
+               "WHERE team_project.team_id = $this->team_id);";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -882,12 +882,12 @@ class TimeTracking {
       } else {
          $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
          $formatedProjList = implode( ', ', array_keys($projList));
-         $query = "SELECT tt.bugid, tt.jobid, tt.date, tt.duration ".
-                  "FROM `codev_timetracking_table` as tt ".
-                  "JOIN `mantis_bug_table` AS bug ON tt.bugid = bug.id ".
+         $query = "SELECT timetracking.bugid, timetracking.jobid, timetracking.date, timetracking.duration ".
+                  "FROM `codev_timetracking_table` as timetracking ".
+                  "JOIN `mantis_bug_table` AS bug ON timetracking.bugid = bug.id ".
                   "JOIN `mantis_project_table` AS project ON bug.project_id = project.id ".
-                  "WHERE tt.userid = $userid ".
-                  "AND tt.date >= $this->startTimestamp AND tt.date < $this->endTimestamp ".
+                  "WHERE timetracking.userid = $userid ".
+                  "AND timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp ".
                   "AND bug.project_id in ($formatedProjList);";
       }
 
@@ -916,22 +916,22 @@ class TimeTracking {
    /**
     * return TimeTracks created by the team during the timestamp
     * @param bool $isTeamProjOnly
-    * @return int[][][] : $projectTracks[projectid][bugid][jobid] = duration
+    * @return array[][] : $projectTracks[projectid][bugid][jobid] = duration
     */
    public function getProjectTracks($isTeamProjOnly=false) {
       $accessLevel_dev = Team::accessLevel_dev;
       $accessLevel_manager = Team::accessLevel_manager;
 
       // For all bugs in timestamp
-      $query = "SELECT bug.id as bugid, bug.project_id, tt.jobid, SUM(tt.duration) as duration ".
-               "FROM `codev_timetracking_table` as tt, `codev_team_user_table`, `mantis_bug_table` as bug, `codev_job_table` as job, `mantis_project_table` as project ".
-               "WHERE tt.date >= $this->startTimestamp AND tt.date < $this->endTimestamp ".
-               "AND codev_team_user_table.user_id = tt.userid ".
-               "AND codev_team_user_table.team_id = $this->team_id ".
-               "AND codev_team_user_table.access_level IN ($accessLevel_dev, $accessLevel_manager) ".
-               "AND bug.id = tt.bugid ".
+      $query = "SELECT bug.id as bugid, bug.project_id, timetracking.jobid, SUM(timetracking.duration) as duration ".
+               "FROM `codev_timetracking_table` as timetracking, `codev_team_user_table` as team_user, `mantis_bug_table` as bug, `codev_job_table` as job, `mantis_project_table` as project ".
+               "WHERE team_user.user_id = timetracking.userid ".
+               "AND bug.id = timetracking.bugid ".
                "AND project.id = bug.project_id ".
-               "AND job.id = tt.jobid ";
+               "AND job.id = timetracking.jobid ".
+               "AND timetracking.date >= $this->startTimestamp AND timetracking.date < $this->endTimestamp ".
+               "AND team_user.team_id = $this->team_id ".
+               "AND team_user.access_level IN ($accessLevel_dev, $accessLevel_manager) ";
 
       if (false != $isTeamProjOnly) {
          $projList = TeamCache::getInstance()->getTeam($this->team_id)->getProjects();
@@ -966,7 +966,7 @@ class TimeTracking {
    /**
     * returns a list of all the tasks having been reopened in the period
     * (status changed from resolved_threshold to lower value)
-    * @return int[]
+    * @return Issue[]
     */
    public function getReopened() {
       if(NULL == $this->reopenedList) {
@@ -986,7 +986,7 @@ class TimeTracking {
                   "AND history.date_modified >= $this->startTimestamp AND history.date_modified <  $this->endTimestamp " .
                   "AND history.old_value >= get_project_resolved_status_threshold(bug.project_id) " .
                   "AND history.new_value <  get_project_resolved_status_threshold(bug.project_id) " .
-                  "GROUP BY bug.id ORDER BY bug.id DESC";
+                  "GROUP BY bug.id ORDER BY bug.id DESC;";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -1003,7 +1003,7 @@ class TimeTracking {
                continue;
             }
 
-            $this->reopenedList[] = $row->id;
+            $this->reopenedList[$row->id] = $issue;
             self::$logger->debug("getReopened: found issue $row->id");
          }
       }
@@ -1017,17 +1017,20 @@ class TimeTracking {
     */
    public function getSubmitted() {
       if(!is_numeric($this->submittedBugs)) {
+         // FIXME Why join with codev_team_project_table ?
          $query = "SELECT COUNT(bug.id) as count ".
                   "FROM `mantis_bug_table` as bug ".
-                  "JOIN `codev_team_project_table` ON bug.project_id = codev_team_project_table.project_id ".
-                  "WHERE bug.date_submitted >= $this->startTimestamp AND bug.date_submitted < $this->endTimestamp ";
+                  "JOIN `codev_team_project_table` as team_project ON bug.project_id = team_project.project_id ".
+                  "WHERE bug.date_submitted >= $this->startTimestamp AND bug.date_submitted < $this->endTimestamp";
 
          // Only for specified Projects
          $projects = $this->prodProjectList;
          if (0 != count($projects)) {
             $formatedProjects = implode( ', ', $projects);
-            $query .= "AND bug.project_id IN ($formatedProjects) ";
+            $query .= " AND bug.project_id IN ($formatedProjects)";
          }
+
+         $query .= ";";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {

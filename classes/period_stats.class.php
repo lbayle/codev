@@ -121,16 +121,16 @@ class PeriodStats {
 
       // select all but SideTasks & rem 'doublons'
       $query = "SELECT DISTINCT bug.id ".
-               "FROM `mantis_bug_table` as bug, `codev_team_project_table` ".
-               "WHERE bug.project_id = codev_team_project_table.project_id ".
-               "AND codev_team_project_table.type IN ($formatedProjectTypes) ";
+               "FROM `mantis_bug_table` as bug ".
+               "JOIN `codev_team_project_table` as team_project ON bug.project_id = team_project.project_id ".
+               "WHERE team_project.type IN ($formatedProjectTypes) ";
 
       // Only for specified Projects
       if ((isset($this->projectList)) && (0 != count($this->projectList))) {
          $formatedProjects = implode( ', ', $this->projectList);
          $query .= "AND bug.project_id IN ($formatedProjects) ";
       }
-      if (isset($_GET['debug_sql'])) { echo "countIssues_other(): query = $query<br/>"; }
+      $query .= ";";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
