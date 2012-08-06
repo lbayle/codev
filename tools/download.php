@@ -20,7 +20,7 @@ include_once '../path.inc.php';
 
 include_once 'i18n.inc.php';
 
-require_once('Logger.php');
+require_once('lib/log4php/Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
    Logger::configure(dirname(__FILE__).'/../log4php.xml');
    $logger = Logger::getLogger("download");

@@ -20,7 +20,7 @@
 error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
 # WARN: order of these includes is important.
-require_once('Logger.php');
+require_once('lib/log4php/Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
    Logger::configure(dirname(__FILE__).'/../log4php.xml');
    $logger = Logger::getLogger("default");
