@@ -20,7 +20,6 @@ require('lib/Smarty/Smarty.class.php');
 
 include_once('i18n/i18n.inc.php');
 include_once('include/internal_config.inc.php');
-include_once('include/mysql_connect.inc.php');
 
 /**
  * Smarty helper : Construct a smarty objet for templating engine
