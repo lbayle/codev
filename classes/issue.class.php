@@ -28,6 +28,8 @@ include_once('classes/project_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
 
+include_once('include/internal_config.inc.php');
+
 require_once('lib/log4php/Logger.php');
 
 /**
@@ -192,8 +194,6 @@ class Issue implements Comparable {
          $this->target_version = $row->target_version;
          $this->last_updated = $row->last_updated;
 
-         $mgrEstimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-
          // Get custom fields
          $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
          $result2 = SqlWrapper::getInstance()->sql_query($query2);
@@ -205,7 +205,7 @@ class Issue implements Comparable {
             switch ($row->field_id) {
                case InternalConfig::$tcCustomField: $this->tcId = $row->value;
                   break;
-               case $mgrEstimEffortCustomField: $this->mgrEffortEstim = $row->value;
+               case InternalConfig::$mgrEffortEstimCustomField: $this->mgrEffortEstim = $row->value;
                   break;
                case InternalConfig::$estimEffortCustomField: $this->effortEstim = $row->value;
                   break;
@@ -1528,7 +1528,7 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setExternalRef($value) {
-      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+      $extRefCustomField = InternalConfig::$tcCustomField;
       $this->setCustomField($extRefCustomField, $value);
       $this->tcId = $value;
    }
@@ -1538,7 +1538,7 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setEffortEstim($value) {
-      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+      $extRefCustomField = InternalConfig::$estimEffortCustomField;
       $this->setCustomField($extRefCustomField, $value);
       $this->effortEstim = $value;
    }
@@ -1548,7 +1548,7 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setMgrEffortEstim($value) {
-      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+      $extRefCustomField = InternalConfig::$mgrEffortEstimCustomField;
       $this->setCustomField($extRefCustomField, $value);
       $this->mgrEffortEstim = $value;
    }
@@ -1558,7 +1558,7 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setDeadline($value) {
-      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
+      $extRefCustomField = InternalConfig::$deadLineCustomField;
       $this->setCustomField($extRefCustomField, $value);
       $this->deadLine = $value;
    }
@@ -1577,7 +1577,7 @@ class Issue implements Comparable {
 
       // find the field_name for the Backlog customField
       // (this should not be here, it's a general info that may be accessed elsewhere)
-      $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
+      $backlogCustomFieldId = InternalConfig::$backlogCustomField;
       $query = "SELECT name FROM `mantis_custom_field_table` where id = $backlogCustomFieldId ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

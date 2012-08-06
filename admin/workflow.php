@@ -30,6 +30,8 @@ include_once('classes/project.class.php');
 include_once('classes/project_cache.class.php');
 include_once('classes/user_cache.class.php');
 
+include_once('include/internal_config.inc.php');
+
 require_once('tools.php');
 require_once('lib/log4php/Logger.php');
 
@@ -45,7 +47,7 @@ function getProjectList($isCodevtt = false) {
 
    $projects = Project::getProjects();
    if($projects != NULL) {
-      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+      $extproj_id = InternalConfig::$externalTasksProject;
       $smartyProjects = array();
       foreach($projects as $id => $name) {
          if (!$isCodevtt) {

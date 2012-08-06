@@ -21,13 +21,14 @@ include_once('classes/team_cache.class.php');
 
 include_once('classes/command_cache.class.php');
 include_once('classes/commandset_cache.class.php');
-include_once('classes/config.class.php');
 include_once('classes/issue_cache.class.php');
 include_once('classes/jobs.class.php');
 include_once('classes/project.class.php');
 include_once('classes/servicecontract_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
+
+include_once('include/internal_config.inc.php');
 
 require_once('tools.php');
 
@@ -715,7 +716,7 @@ class Team {
    public function addExternalTasksProject() {
       $extTasksProjectType = Project::type_noStatsProject;
 
-      $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
+      $externalTasksProject = InternalConfig::$externalTasksProject;
 
       // TODO check if ExternalTasksProject not already in table !
 

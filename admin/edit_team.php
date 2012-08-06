@@ -35,6 +35,8 @@ include_once('classes/team.class.php');
 include_once('classes/team_cache.class.php');
 include_once('classes/user_cache.class.php');
 
+include_once('include/internal_config.inc.php');
+
 require_once('tools.php');
 
 /**
@@ -271,7 +273,7 @@ if(isset($_SESSION['userid'])) {
                // CodevTT administrators can manage ExternalTasksProject in Mantis
                if (InternalConfig::$admin_teamid == $team->id) {
                   $newUser = UserCache::getInstance()->getUser($memberid);
-                  $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+                  $extProjId = InternalConfig::$externalTasksProject;
                   $access_level = 70; // TODO mantis manager
                   $newUser->setProjectAccessLevel($extProjId, $access_level);
                }

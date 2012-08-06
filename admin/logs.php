@@ -24,8 +24,9 @@ require('include/super_header.inc.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('classes/config.class.php');
 include_once('classes/user_cache.class.php');
+
+include_once('include/internal_config.inc.php');
 
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
@@ -38,7 +39,7 @@ if (isset($_SESSION['userid'])) {
 
    // Admins only
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   $admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
+   $admin_teamid = InternalConfig::$admin_teamid;
 
    if ($session_user->isTeamMember($admin_teamid)) {
       if ( (NULL != $codevtt_logfile) && (file_exists($codevtt_logfile))) {

@@ -28,6 +28,8 @@ include_once('classes/team.class.php');
 include_once('classes/team_cache.class.php');
 include_once('classes/timetrack_cache.class.php');
 
+include_once('include/internal_config.inc.php');
+
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
@@ -534,7 +536,7 @@ class User {
       if(count($issueIds) > 0) {
          $issues = Issue::getIssues($issueIds);
 
-         $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+         $extTasksProjId = InternalConfig::$externalTasksProject;
          $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
          #echo "leaveTaskId $leaveTaskId<br>";
          foreach ($timeTracks as $timeTrack) {

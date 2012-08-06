@@ -24,10 +24,11 @@ require('include/super_header.inc.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('classes/config.class.php');
 include_once('classes/project.class.php');
 include_once('classes/project_cache.class.php');
 include_once('classes/user_cache.class.php');
+
+include_once('include/internal_config.inc.php');
 
 require_once('lib/log4php/Logger.php');
 
@@ -42,7 +43,7 @@ function getProjectList() {
 
    $projects = Project::getProjects();
    if($projects != NULL) {
-      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+      $extproj_id = InternalConfig::$externalTasksProject;
       $smartyProjects = array();
       foreach($projects as $id => $name) {
          if ($extproj_id != $id) {

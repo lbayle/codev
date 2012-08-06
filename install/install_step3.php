@@ -1,40 +1,45 @@
 <?php
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-    This file is part of CoDev-Timetracking.
+   This file is part of CoDev-Timetracking.
 
-    CoDev-Timetracking is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   CoDev-Timetracking is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    CoDev-Timetracking is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   CoDev-Timetracking is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once '../path.inc.php';
+require('../path.inc.php');
 
-include_once 'i18n.inc.php';
+include_once('i18n/i18n.inc.php');
 
 $page_name = T_("Install - Step 3");
-require_once 'install_header.inc.php';
+require_once('install/install_header.inc.php');
 
-include_once "mysql_connect.inc.php";
+include_once('mysql_connect.inc.php');
 
+include_once('classes/config.class.php');
+include_once('classes/jobs.class.php');
+include_once('classes/user.class.php');
 include_once('classes/project.class.php');
-include_once "config.class.php";
 Config::getInstance()->setQuiet(true);
 
-include_once "internal_config.inc.php";
-include_once "constants.php";
+include_once('include/internal_config.inc.php');
 
-require_once 'install_menu.inc.php';
+include_once('install/install.class.php');
+
+include_once('constants.php');
+
+require_once('install_menu.inc.php');
 ?>
 
 <script language="JavaScript">
@@ -63,14 +68,7 @@ function proceedStep3() {
 
 <?php
 
-include_once 'config.class.php';
 Config::getInstance()->setQuiet(true);
-
-include_once 'install.class.php';
-include_once 'project.class.php';
-include_once 'jobs.class.php';
-include_once 'user.class.php';
-
 
 // ------------------------------------------------
 function displayStepInfo() {
@@ -216,7 +214,7 @@ function getProjectList() {
 
    $projects = Project::getProjects();
    if($projects != NULL) {
-      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+      $extproj_id = InternalConfig::$externalTasksProject;
       $smartyProjects = array();
       foreach($projects as $id => $name) {
          // exclude ExternalTasksProject

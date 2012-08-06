@@ -24,14 +24,15 @@ require('include/super_header.inc.php');
 
 require('classes/smarty_helper.class.php');
 
-include_once('classes/config.class.php');
-include_once('classes/sqlwrapper.class.php');
 include_once('classes/command.class.php');
 include_once('classes/command_cache.class.php');
 include_once('classes/commandset_cache.class.php');
-include_once('classes/user_cache.class.php');
 include_once('classes/issue_cache.class.php');
 include_once('classes/team_cache.class.php');
+include_once('classes/sqlwrapper.class.php');
+include_once('classes/user_cache.class.php');
+
+include_once('include/internal_config.inc.php');
 
 require('management/command_tools.php');
 require('management/commandset_tools.php');
@@ -118,7 +119,7 @@ function getChildIssuesCandidates($teamid) {
 
    // team projects except externalTasksProject & NoStats projects
    $projects = TeamCache::getInstance()->getTeam($teamid)->getProjects();
-   $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+   $extProjId = InternalConfig::$externalTasksProject;
    unset($projects[$extProjId]);
 
    $formattedProjectList = implode (', ', array_keys($projects));

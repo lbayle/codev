@@ -27,7 +27,9 @@ include_once('classes/jobs.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/project_version.class.php');
 
-include_once('tools.php');
+include_once('include/internal_config.inc.php');
+
+require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
 
@@ -287,12 +289,12 @@ class Project {
     * @return int|string
     */
    public static function createSideTaskProject($projectName) {
-      $mgrEffortEstimCustomField  = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-      $estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-      $addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
-      $backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
-      $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
-      $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+      $mgrEffortEstimCustomField  = InternalConfig::$mgrEffortEstimCustomField;
+      $estimEffortCustomField = InternalConfig::$estimEffortCustomField;
+      $addEffortCustomField = InternalConfig::$addEffortCustomField;
+      $backlogCustomField = InternalConfig::$backlogCustomField;
+      $deadLineCustomField = InternalConfig::$deadLineCustomField;
+      $deliveryDateCustomField = InternalConfig::$deliveryDateCustomField;
 
       // check if name exists
       $query  = "SELECT id FROM `mantis_project_table` WHERE name='$projectName'";
@@ -474,14 +476,14 @@ class Project {
          exit;
       }
 
-      $tcCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
-      $mgrEffortEstim = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-      $estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-      $addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
-      $backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
-      $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
-      $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-      #$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      $tcCustomField = InternalConfig::$tcCustomField;
+      $mgrEffortEstim = InternalConfig::$mgrEffortEstimCustomField;
+      $estimEffortCustomField = InternalConfig::$estimEffortCustomField;
+      $addEffortCustomField = InternalConfig::$addEffortCustomField;
+      $backlogCustomField = InternalConfig::$backlogCustomField;
+      $deadLineCustomField = InternalConfig::$deadLineCustomField;
+      $deliveryDateCustomField = InternalConfig::$deliveryDateCustomField;
+      #$deliveryIdCustomField = InternalConfig::$deliveryIdCustomField;
 
       $existingFields = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
@@ -701,7 +703,7 @@ class Project {
       }
 
       // SPECIAL CASE: externalTasksProject is a type_noStatsProject that has only 'N/A' jobs
-      if ($this->id == Config::getInstance()->getValue(Config::id_externalTasksProject)) {
+      if ($this->id == InternalConfig::$externalTasksProject) {
          $type = self::type_sideTaskProject;
       }
 
@@ -988,7 +990,7 @@ class Project {
     * @return bool true if ExternalTasksProject
     */
    public function isExternalTasksProject() {
-      return $this->id == Config::getInstance()->getValue(Config::id_externalTasksProject);
+      return $this->id == InternalConfig::$externalTasksProject;
    }
 
    public function getManagementCategoryId() {

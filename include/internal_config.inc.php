@@ -59,6 +59,7 @@ class InternalConfig {
 
    // this is the custom field added to mantis issues for TimeTracking
    public static $tcCustomField;
+   public static $mgrEffortEstimCustomField;
    public static $estimEffortCustomField; //  BI
    public static $backlogCustomField; //  RAF
    public static $deadLineCustomField;
@@ -84,12 +85,13 @@ class InternalConfig {
       self::$admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
 
       // this is the custom field added to mantis issues for TimeTracking
-      self::$tcCustomField           = Config::getInstance()->getValue(Config::id_customField_ExtId);
-      self::$estimEffortCustomField  = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-      self::$backlogCustomField    = Config::getInstance()->getValue(Config::id_customField_backlog);
-      self::$deadLineCustomField     = Config::getInstance()->getValue(Config::id_customField_deadLine);
-      self::$addEffortCustomField    = Config::getInstance()->getValue(Config::id_customField_addEffort);
-      self::$deliveryIdCustomField   = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      self::$tcCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+      self::$mgrEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+      self::$estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+      self::$backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
+      self::$deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
+      self::$addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+      self::$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       self::$deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 
       // TODO translate astreinte = "on duty"
@@ -98,7 +100,7 @@ class InternalConfig {
          self::$astreintesTaskList = array();
       }
 
-      self::$priorityNames   = Config::getInstance()->getValue(Config::id_priorityNames);
+      self::$priorityNames = Config::getInstance()->getValue(Config::id_priorityNames);
       self::$resolutionNames = Config::getInstance()->getValue(Config::id_resolutionNames);
 
       self::$externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
