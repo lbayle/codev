@@ -378,8 +378,8 @@ if ("checkReportsDir" == $action) {
        $selectedProjects = $_POST['projects'];
        foreach($selectedProjects as $projectid){
          $project = ProjectCache::getInstance()->getProject($projectid);
-       	echo "DEBUG prepare project: ".$project->name."<br/>";
-         $project->prepareProjectToCodev();
+         echo "DEBUG prepare project: ".$project->name."<br/>";
+         Project::prepareProjectToCodev($projectid);
        }
     }
 
