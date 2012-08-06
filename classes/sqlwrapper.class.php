@@ -70,7 +70,7 @@ class SqlWrapper {
       $this->username = $username;
       $this->password = $password;
       $this->database_name = $database_name;
-      $this->link = mysql_connect($server, $username, $password) or die("Could not connect to database: " . $this->sql_error());
+      $this->link = mysql_connect($server, $username, $password, false, MYSQL_CLIENT_COMPRESS) or die("Could not connect to database: " . $this->sql_error());
       mysql_select_db($database_name, $this->link) or die("Could not select database: " . $this->sql_error());
    }
 
@@ -367,11 +367,9 @@ class SqlWrapper {
          $queriesCount = $this->getQueriesCount();
 
          foreach($this->getCountByQuery() as $query => $count) {
-            #if($count > 10) {
-            #   self::$logger->info($count. ' identical SQL queries on : ' . $query);
-            #} else if($count > 1) {
+            if($count > 1) {
                self::$logger->debug($count. ' identical SQL queries on : ' . $query);
-            #}
+            }
          }
 
          self::$logger->info('TOTAL SQL queries: ' . $queriesCount . ' to display Page '.$_SERVER['PHP_SELF']);
