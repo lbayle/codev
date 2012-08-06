@@ -1,5 +1,7 @@
 {include file="menu/week_activity_menu.html"}
 
+<script type="text/javascript" src="js/tabs.js"></script>
+
 <div id="content" class="center">
 
    <h2 class="center">{t}Weekly Activity{/t}</h2>
@@ -70,25 +72,20 @@
    {include file="modal/consistency_check.html"}
 
    <div align="center" style="margin-top:4em;">
-      <script type="text/javascript">
-         jQuery(document).ready(function() {
-            jQuery( "#tabsUsers" ).tabs();
-         });
-      </script>
-      <div id="tabsUsers">
-      <ul>
-         {foreach from=$weekDetails item=i key=id}
+      <div id="tabsUsers" class="tabs">
+         <ul>
+            {foreach from=$weekDetails item=i key=id}
             {if $i.weekJobDetails}
             <li><a href="#tabUser_{$i.name}">{$i.realname} &nbsp;<span style="font-size:12px;font-weight:normal;" title="{t}RAF{/t}">({$i.forecastWorkload})</span></a></li>
             {/if}
-         {/foreach}
-      </ul>
-      {if $weekDetails}
+            {/foreach}
+         </ul>
+         {if $weekDetails}
          {foreach from=$weekDetails item=i key=id}
          {if $i.weekJobDetails}
 
          <div id="tabUser_{$i.name}">
-            <table style="width: 99%;margin-top: 2em">
+            <table style="width: 99%;">
                <caption><span style="font-size:12px;font-weight:normal;" title="{t}sum(Backlog) of current tasks{/t}">{t}Backlog{/t} = {$i.forecastWorkload}</span></caption>
                <tr>
                   <th width="50%">{t}Task{/t}</th>
@@ -123,34 +120,35 @@
          </div>
          {/if}
          {/foreach}
-      {/if}
+         {/if}
+      </div>
    </div>
 
    {if $warnings}
-      <div style="margin-top: 2em" align="center">
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#accordion").accordion({
-                  collapsible: true,
-                  clearStyle: true
-               });
+   <div style="margin-top: 2em" align="center">
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+            jQuery("#accordion").accordion({
+               collapsible: true,
+               clearStyle: true
             });
-         </script>
-         <div id="accordion" style="width:450px;">
-            <h3><a href="#">{t}Dates manquantes{/t}</a></h3>
-            <div align="left">
-               <table class="invisible">
-                  {foreach from=$warnings item=i key=id}
-                     <tr style="color:red">
-                        <td>{$i.username}</td>
-                        <td>{$i.date}</td>
-                        <td>{$i.label}</td>
-                     </tr>
-                  {/foreach}
-               </table>
-            </div>
+         });
+      </script>
+      <div id="accordion" style="width:450px;">
+         <h3><a href="#">{t}Dates manquantes{/t}</a></h3>
+         <div align="left">
+            <table class="invisible">
+               {foreach from=$warnings item=i key=id}
+               <tr style="color:red">
+                  <td>{$i.username}</td>
+                  <td>{$i.date}</td>
+                  <td>{$i.label}</td>
+               </tr>
+               {/foreach}
+            </table>
          </div>
       </div>
+   </div>
    {/if}
 
    {else}

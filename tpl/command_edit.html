@@ -1,10 +1,10 @@
 {include file="menu/management_menu.html"}
 
 <script type="text/javascript" src="js/datepicker.js"></script>
+<script type="text/javascript" src="js/tabs.js"></script>
+<script type="text/javascript" src="js/datatable.js"></script>
 
 <script type="text/javascript">
-
-   //------ JQUERY --------
    jQuery(document).ready(function() {
       {if $locale != en}
          jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
@@ -14,26 +14,7 @@
       jQuery("#cmdStartDate").datepicker("setDate" ,"{$cmdStartDate}");
       jQuery("#cmdDeadline").datepicker("setDate" ,"{$cmdDeadline}");
 
-      $('#issues_table').dataTable(
-         {
-            "sScrollY": "700px",
-            "bPaginate": false,
-            "bScrollCollapse": true,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": false,
-            "bAutoWidth": false
-         });
-
-         jQuery(function() {
-            jQuery( "#tabsCommand" ).tabs();
-         });
-
-   });
-
-   // --- DialogBox for deleteCommand
-   jQuery(document).ready(function() {
-
+      // DialogBox for deleteCommand
       jQuery("#btDeleteCommand").click(function(event) {
          jQuery( "#deleteCommand_dialog_form" ).dialog( "open" );
       });
@@ -93,29 +74,23 @@
          <input type="hidden" name="action" value="deleteCommand" />
          <input type="hidden" name="commandid"  value="{$commandid}" />
          <input type="hidden" name="teamid" value="{$teamid}" />
-
       </fieldset>
    </form>
 </div>
 
-
-
 <div id="content">
 
    <br/><br/>
-
    <div  align="center">
       <h2>{$cmdName}</h2>
    </div>
 
    <br/><br/>
-
    <div>
       <!-- create form -->
       <form id='updateCmdInfoForm' name='updateCmdInfoForm' method='post' action='{$page}'>
-      <fieldset>
-
-         <table class='invisible'>
+         <fieldset>
+            <table class='invisible'>
                <tr>
                   <th>{t}Team{/t}</th>
                   <td>
@@ -178,63 +153,55 @@
                   <td><input type='text' style='font-family: sans-serif' name='cmdBudgetDev'  id='cmdBudgetDev' value='{$cmdBudgetDev}'> {t}days{/t}
                   </td>
                </tr>
-         </table>
-         <br>
-         <button type='button' name="btDeleteCommand" id="btDeleteCommand"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdInfoFormBtText}</button>
+            </table>
+            <br />
+            <button type='button' name="btDeleteCommand" id="btDeleteCommand"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
+            <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdInfoFormBtText}</button>
 
-         <input type="hidden" name="action" value="{$cmdInfoFormAction}" />
-         <input type="hidden" name="cmdid" value="{$commandid}" />
-      </fieldset>
+            <input type="hidden" name="action" value="{$cmdInfoFormAction}" />
+            <input type="hidden" name="cmdid" value="{$commandid}" />
+         </fieldset>
       </form>
-
    </div>
 
-   <div id="tabsCommand" style="margin-top:4em;">
+   <div id="tabsCommand" class="tabs" style="margin-top:4em;">
       <ul>
          <li><a href="#tabsName-1">{t}Tasks ({$cmdNbIssues}){/t}</a></li>
          <li><a href="#tabsName-4">{t}Parent CommandSets ({$nbParentCmdSets}){/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
-
          {if $isAddIssueForm}
          <script type="text/javascript">
-         //------ JQUERY --------
-         jQuery(document).ready(function() {
+            jQuery(document).ready(function() {
+               jQuery("#btAddCmdIssue").click(function(event) {
+                  addCmdIssue();
+               });
 
-            jQuery("#btAddCmdIssue").click(function(event) {
-               addCmdIssue();
-            });
+               jQuery("#bugid").keypress(function(event) {
+                  if ( jQuery.ui.keyCode.ENTER == event.keyCode ) {
+                     addCmdIssue();
+                     event.preventDefault();
+                  }
+               });
 
-            jQuery("#bugid").keypress(function(event) {
-               if ( jQuery.ui.keyCode.ENTER == event.keyCode ) {
-               addCmdIssue();
-               event.preventDefault();
+               function addCmdIssue(){
+                  // check fields
+                  var foundError = 0;
+                  var msgString = "{t}Missing field{/t}:\n\n";
+
+                  if ("" == document.forms["addCmdIssueForm"].bugid.value) {
+                     msgString += "{t}task id{/t}\n";
+                     ++foundError;
+                  }
+
+                  if (0 == foundError) {
+                     document.forms["addCmdIssueForm"].submit();
+                  } else {
+                     alert(msgString);
+                  }
                }
             });
-
-            function addCmdIssue(){
-
-               // check fields
-               var foundError = 0;
-               var msgString = "{t}Missing field{/t}:\n\n";
-
-               if ("" == document.forms["addCmdIssueForm"].bugid.value) {
-                  msgString += "{t}task id{/t}\n";
-                  ++foundError;
-               }
-
-               if (0 == foundError) {
-                  document.forms["addCmdIssueForm"].submit();
-               } else {
-                  alert(msgString);
-               }
-            }
-
-
-         });
-
          </script>
 
          <div>
@@ -258,99 +225,96 @@
          {if $cmdIssues}
          <div align="center">
 
-         <script type="text/javascript">
-            function removeCmdIssue(bugid, project, description){
-               jQuery( "#desc_id" ).text(bugid);
-               jQuery( "#desc_project" ).text(project);
-               jQuery( "#desc_summary" ).text(description);
+            <script type="text/javascript">
+               function removeCmdIssue(bugid, project, description){
+                  jQuery( "#desc_id" ).text(bugid);
+                  jQuery( "#desc_project" ).text(project);
+                  jQuery( "#desc_summary" ).text(description);
 
-               jQuery( "#formRemoveCmdIssue" ).find("input[name=bugid]").val(bugid);
+                  jQuery( "#formRemoveCmdIssue" ).find("input[name=bugid]").val(bugid);
 
-               jQuery( "#removeCmdIssue_dialog_form" ).dialog( "open" );
-            }
-         </script>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               // delete track dialogBox
-               jQuery("#removeCmdIssue_dialog_form" ).dialog({
-                  autoOpen: false,
-                  resizable: true,
-                  width: "auto",
-                  modal: true,
-                  buttons: {
-                     "Remove": function() {
-                        jQuery("#formRemoveCmdIssue").submit();
-                     },
-                     Cancel: function() {
-                        jQuery( this ).dialog( "close" );
+                  jQuery( "#removeCmdIssue_dialog_form" ).dialog( "open" );
+               }
+
+               jQuery(document).ready(function() {
+                  // delete track dialogBox
+                  jQuery("#removeCmdIssue_dialog_form" ).dialog({
+                     autoOpen: false,
+                     resizable: true,
+                     width: "auto",
+                     modal: true,
+                     buttons: {
+                        "Remove": function() {
+                           jQuery("#formRemoveCmdIssue").submit();
+                        },
+                        Cancel: function() {
+                           jQuery( this ).dialog( "close" );
+                        }
                      }
-                  }
+                  });
                });
-            });
-         </script>
-         <div id="removeCmdIssue_dialog_form" title="{t}Remove Task{/t}" style="display: none">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-               {t}Remove Task from this Command ?{/t}
-            </p>
-            <table class="invisible">
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
-                  <td id="desc_id">id</td>
-               </tr>
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Project{/t} :</span></td>
-                  <td id="desc_project">project</td>
-               </tr>
-               <tr>
-                  <td><span style="font-weight:bold;">{t}Summary{/t} :</span></td>
-                  <td id="desc_summary">summary</td>
-               </tr>
+            </script>
+            <div id="removeCmdIssue_dialog_form" title="{t}Remove Task{/t}" style="display: none">
+               <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+                  {t}Remove Task from this Command ?{/t}
+               </p>
+               <table class="invisible">
+                  <tr>
+                     <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
+                     <td id="desc_id">id</td>
+                  </tr>
+                  <tr>
+                     <td><span style="font-weight:bold;">{t}Project{/t} :</span></td>
+                     <td id="desc_project">project</td>
+                  </tr>
+                  <tr>
+                     <td><span style="font-weight:bold;">{t}Summary{/t} :</span></td>
+                     <td id="desc_summary">summary</td>
+                  </tr>
+               </table>
+               <form id="formRemoveCmdIssue" name="formRemoveCmdIssue" method="post" action="{$page}" >
+                  <fieldset>
+                     <input type="hidden" name="action" value="removeCmdIssue" />
+                     <input type="hidden" name="bugid"  value="0" />
+                     <input type="hidden" name="teamid" value="{$teamid}" />
+                     <input type="hidden" name="cmdid"  value="{$commandid}" />
+
+                  </fieldset>
+               </form>
+            </div>
+
+            <table id="issues_table" class="datatable display">
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Target{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach $cmdIssues as $id => $issue}
+                  <tr>
+                     <td>
+                        <a title="{t}delete Command-Task association{/t}"
+                           href="javascript: removeCmdIssue('{$id}', '{$issue.project}', '{$issue.summary|escape_quotes}')">
+                           <img alt="b_drop.png" border="0" src="images/b_drop.png" />
+                        </a>
+                     </td>
+                     <td>{$issue.bugid}</td>
+                     <td>{$issue.project}</td>
+                     <td>{$issue.target}</td>
+                     <td>{$issue.summary}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
-            <form id="formRemoveCmdIssue" name="formRemoveCmdIssue" method="post" action="{$page}" >
-               <fieldset>
-                  <input type="hidden" name="action" value="removeCmdIssue" />
-                  <input type="hidden" name="bugid"  value="0" />
-                  <input type="hidden" name="teamid" value="{$teamid}" />
-                  <input type="hidden" name="cmdid"  value="{$commandid}" />
-
-               </fieldset>
-            </form>
-         </div>
-
-         <table id="issues_table" class="display">
-            <thead>
-            <tr>
-                  <th></th>
-                  <th>{t}ID{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Target{/t}</th>
-                  <th>{t}Summary{/t}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {foreach $cmdIssues as $id => $issue}
-            <tr>
-                  <td>
-                     <a title="{t}delete Command-Task association{/t}"
-                        href="javascript: removeCmdIssue('{$id}', '{$issue.project}', '{$issue.summary|escape_quotes}')">
-                        <img alt="b_drop.png" border="0" src="images/b_drop.png" />
-                     </a>
-                  </td>
-                  <td>{$issue.bugid}</td>
-                  <td>{$issue.project}</td>
-                  <td>{$issue.target}</td>
-                  <td>{$issue.summary}</td>
-            </tr>
-            {/foreach}
-            </tbody>
-         </table>
          </div>
          {/if}
-
       </div>
 
       <div id="tabsName-4">
-
          {if $isAddCmdSetForm}
          <div align="left">
             <!-- add/create command form -->
@@ -388,8 +352,7 @@
 
                jQuery( "#removeCmdSet_dialog_form" ).dialog( "open" );
             }
-         </script>
-         <script type="text/javascript">
+
             jQuery(document).ready(function() {
                // delete track dialogBox
                jQuery("#removeCmdSet_dialog_form" ).dialog({
@@ -427,22 +390,21 @@
                   <input type="hidden" name="action" value="removeFromCmdSet" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="commandsetid"  value="0" />
-
                </fieldset>
             </form>
          </div>
 
          <table>
             <thead>
-            <tr>
+               <tr>
                   <th></th>
                   <th>{t}CommandSet{/t}</th>
                   <th>{t}Team{/t}</th>
-            </tr>
+               </tr>
             </thead>
             <tbody>
-            {foreach $parentCmdSets as $id => $cmdset}
-            <tr>
+               {foreach $parentCmdSets as $id => $cmdset}
+               <tr>
                   <td>
                      <a title="{t}delete CommandSet-Command association{/t}"
                         href="javascript: removeCmdSet('{$cmdset.id}', '{$cmdset.name|escape}')">
@@ -451,18 +413,13 @@
                   </td>
                   <td title="{$cmdset.id}">{$cmdset.name}</td>
                   <td>{$cmdset.team}</td>
-            </tr>
-            {/foreach}
+               </tr>
+               {/foreach}
             </tbody>
          </table>
          {else}
          {t}Create the Command first.{/t}
          {/if}
-
-
-
       </div>
-
-
-
+   </div>
 </div>

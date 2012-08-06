@@ -1,28 +1,16 @@
-<script type="text/javascript">
-   jQuery(document).ready(function(){
-      jQuery('#errors_table').dataTable({
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-   });
-</script>
+<script type="text/javascript" src="js/datatable.js"></script>
 
 <div id="content">
    {if $teams}
 
    {include file="form/teamForm.html"}
 
-    {if $teamid}
-    <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
-    {if $consistencyErrors}
-    <table id="errors_table" class="display">
-        <thead>
-        <tr>
+   {if $teamid}
+   <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
+   {if $consistencyErrors}
+   <table id="errors_table" class="datatable display">
+      <thead>
+         <tr>
             <th>{t}User{/t}</th>
             <th>{t}Task{/t}</th>
             <th title="{t}last modification date{/t}">Date</th>
@@ -31,11 +19,11 @@
             <th>{t}Project{/t}</th>
             <th>{t}TargetVersion{/t}</th>
             <th>{t}Error Description{/t}</th>
-        </tr>
-        </thead>
-        <tbody>
-        {foreach from=$consistencyErrors key=id item=i}
-        <tr>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$consistencyErrors key=id item=i}
+         <tr>
             <td>{$i.userName}</td>
             <td>{$i.mantisURL} {$i.issueURL}</td>
             <td>{$i.date}</td>
@@ -44,10 +32,10 @@
             <td>{$i.project}</td>
             <td>{$i.targetVersion}</td>
             <td>{$i.desc}</td>
-        </tr>
-        {/foreach}
-        </tbody>
-    </table>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
    {/if}
    {/if}
    {/if}

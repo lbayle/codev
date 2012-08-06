@@ -327,25 +327,34 @@ class IssueInfoTools {
       return $timestamps;
    }
 
+   /**
+    * @static
+    * @param Issue $issue
+    * @param int[] $timestampList
+    * @return string
+    */
    public static function getBacklogGraph(Issue $issue, array $timestampList) {
-      $backlogList = array();
-      foreach ($timestampList as $timestamp) {
-         $backlog = $issue->getBacklog($timestamp);
-         if(!is_numeric($backlog)) {
-            $backlog = $issue->mgrEffortEstim;
-         }
-
-         $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = (NULL == $backlog) ? $issue->mgrEffortEstim : $backlog;
-      }
-
       $test = NULL;
-      foreach($backlogList as $id => $val) {
-         if($test != NULL) {
-            $test .= ',';
+      if($timestampList != NULL && count($timestampList) > 0) {
+         $backlogList = array();
+         foreach ($timestampList as $timestamp) {
+            $backlog = $issue->getBacklog($timestamp);
+            if(!is_numeric($backlog)) {
+               $backlog = $issue->mgrEffortEstim;
+            }
+
+            $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = (NULL == $backlog) ? $issue->mgrEffortEstim : $backlog;
          }
-         $test .= '["'.$id.'", '.$val.']';
+
+         $test = "";
+         foreach($backlogList as $id => $val) {
+            if($test != NULL) {
+               $test .= ',';
+            }
+            $test .= '["'.$id.'", '.$val.']';
+         }
+         $test = '['.$test.']';
       }
-      $test = '['.$test.']';
       
       return $test;
    }

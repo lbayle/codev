@@ -9,11 +9,11 @@
             <input type="submit" value="{t}Compute{/t}" />
          </fieldset>
       </form>
-      <br/><br/><br/>
    </div>
    {if $urlGraph}
-   <img src="graphs/gantt_graph.php?{$urlGraph}" alt="{t}Gant report{/t}"/>
-   <br/><br/>
+   <div style="margin-top: 2em;">
+      <img src="graphs/gantt_graph.php?{$urlGraph}" alt="{t}Gant report{/t}"/>
+   </div>
    {/if}
    {else}
    <div class="center">{t}Sorry, you do NOT have access to this page.{/t}</div>

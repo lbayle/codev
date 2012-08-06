@@ -1,148 +1,118 @@
 {include file="menu/management_menu.html"}
 
+<script type="text/javascript" src="js/tabs.js"></script>
+<script type="text/javascript" src="js/datatable.js"></script>
+
 <script type="text/javascript">
-
-function setTeam() {
-   document.forms["commandSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["commandSelectForm"].cmdid.value="0";
-   document.forms["commandSelectForm"].action.value="setTeam";
-   document.forms["commandSelectForm"].submit();
-}
-
-function submitForm() {
-   document.forms["commandSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["commandSelectForm"].cmdid.value = document.getElementById('commandSelector').value;
-   document.forms["commandSelectForm"].action.value = "displayCommand";
-   document.forms["commandSelectForm"].submit();
- }
-
-//------ JQUERY --------
-$(document).ready(function() {
-   $('#issues_table').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-      jQuery(function() {
-         jQuery( "#tabsCommand" ).tabs();
+   jQuery(document).ready(function() {
+      jQuery("#teamid").change(function() {
+         var form = jQuery('#selectForm');
+         form.find("input[name=cmdid]").val("0");
+         form.find("input[name=action]").val("setTeam");
+         form.submit();
       });
 
-   $( "#accordion" ).accordion({
-      collapsible: true, autoHeight: false, clearStyle: true
+      jQuery("#sendForm").click(function() {
+         var form = jQuery('#selectForm');
+         form.find("input[name=action]").val("displayCommand");
+         form.submit();
+      });
    });
-
-});
-
 </script>
-
 
 <div id="content">
 
    <div align="center">
       <!-- create form -->
-      <form id='commandSelectForm' name='commandSelectForm' method='POST' action='{$page}'>
+      <form id="selectForm" name="selectForm" method="POST" action="{$page}">
          <fieldset>
-            <label>{t}Team{/t}: </label>
-            <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
-               <option value='0'></option>
+            <label for="teamid">{t}Team{/t}: </label>
+            <select id="teamid" name="teamid">
+               <option value="0"></option>
                {foreach from=$teams key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
-            <label>{t}Command{/t}: </label>
-            <select id='commandSelector' name='cmdid'>
+            <label for="cmdid">{t}Command{/t}: </label>
+            <select id="cmdid" name="cmdid">
                {foreach from=$commands key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} {$i.name}</option>
                {/foreach}
-               <option value='0'>{t}--- Create New Command ---{/t}</option>
+               <option value="0">{t}--- Create New Command ---{/t}</option>
             </select>
-            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
-            
+            <input type="button" id="sendForm" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayCommand" />
          </fieldset>
       </form>
    </div>
 
-   <div style="margin-top:4em;"></div>
-   
-   {if $cmdid} 
-   
+   {if $cmdid}
+
    {include file="modal/consistency_check.html"}
    
-   <div  align="center">
+   <div align="center">
       <h2>{$cmdReference} {$cmdName}</h2>
       {$cmdDesc}
    </div>
 
-
-
-   <br/><br/>
-
-   <div>
-      <table class='invisible'>
-            <tr>
-               <th>{t}Reference{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdReference}</td>
-            </tr>
-            <tr>
-               <th>{t}Version{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdVersion}</td>
-            </tr>
-            <tr>
-               <th>{t}Reporter{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdReporter}</td>
-            </tr>
-            <tr>
-               <th>{t}Date depart{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdStartDate}</td>
-            </tr>
-            <tr>
-               <th>{t}Date fin{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdDeadline}</td>
-            </tr>
-            <tr>
-               <th>{t}State{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdState}</td>
-            </tr>
-            <tr>
-               <th>{t}Cost{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdCost} {$cmdCurrency}</td>
-            </tr>
-            <tr>
-               <th>{t}Budget{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$cmdBudgetDev} {t}days{/t}</td>
-            </tr>
-            <tr>
-               <th valign='top'>{t}CommandSet{/t}</th>
-               <td valign='top'>: </td>
-               <td><table class="invisible">
-                  {foreach from=$parentCmdSets key=id item=i}
-                     <tr><td><a href='management/commandset_info.php?commandsetid={$id}'>{$i.name}</a></td></tr>
-                  {/foreach}
-                  </table>
-               </td>
-            </tr>
+   <div style="margin-top: 2em;">
+      <table class="invisible">
+         <tr>
+            <th>{t}Reference{/t}</th>
+            <td valign="top">: </td>
+            <td>{$cmdReference}</td>
+         </tr>
+         <tr>
+            <th>{t}Version{/t}</th>
+            <td valign="top">: </td>
+            <td>{$cmdVersion}</td>
+         </tr>
+         <tr>
+            <th>{t}Reporter{/t}</th>
+            <td valign="top">: </td>
+            <td>{$cmdReporter}</td>
+         </tr>
+         <tr>
+            <th>{t}Date depart{/t}</th>
+            <td valign="top">: </td>
+            <td>{$cmdStartDate}</td>
+         </tr>
+         <tr>
+            <th>{t}Date fin{/t}</th>
+            <td valign="top">: </td>
+            <td>{$cmdDeadline}</td>
+         </tr>
+         <tr>
+            <th>{t}State{/t}</th>
+            <td valign="top">: </td>
+            <td>{$cmdState}</td>
+         </tr>
+         <tr>
+            <th>{t}Cost{/t}</th>
+            <td valign="top">: </td>
+            <td>{$cmdCost} {$cmdCurrency}</td>
+         </tr>
+         <tr>
+            <th>{t}Budget{/t}</th>
+            <td valign="top">: </td>
+            <td>{$cmdBudgetDev} {t}days{/t}</td>
+         </tr>
+         <tr>
+            <th valign="top">{t}CommandSet{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               {foreach from=$parentCmdSets key=id item=i}
+               <a href="management/commandset_info.php?commandsetid={$id}">{$i.name}</a><br />
+               {/foreach}
+            </td>
+         </tr>
       </table>
       {if $isEditGranted}
-      <button onclick="location.href='management/command_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      <button onclick="location.href='management/command_edit.php'"><img  border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
       {/if}
    </div>
 
-
-   <div id="tabsCommand" style="margin-top:2em;">
+   <div id="tabsCommand" class="tabs" style="margin-top:2em;">
       <ul>
          <li><a href="#tabsName-3">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-1">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
@@ -151,9 +121,8 @@ $(document).ready(function() {
 
       <div id="tabsName-3">
          {if $cmdDetailedMgr}
-         <div>
-            <table>
-               <thead>
+         <table>
+            <thead>
                <tr>
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
@@ -162,8 +131,8 @@ $(document).ready(function() {
                   <th style="width: 80px">{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
-               </thead>
-               <tbody>
+            </thead>
+            <tbody>
                <tr>
                   <td>{$cmdDetailedMgr.effortEstim}</td>
                   <td>{$cmdDetailedMgr.reestimated}</td>
@@ -171,8 +140,54 @@ $(document).ready(function() {
                   <td>{$cmdDetailedMgr.backlog}</td>
                   <td {$cmdDetailedMgr.driftColor} title="{t}nb days{/t}">{$cmdDetailedMgr.drift}</td>
                   <td>{$cmdDetailedMgr.progress}%</td>
-
                </tr>
+            </tbody>
+         </table>
+         {else}
+         {t}No task found.{/t}
+         {/if}
+      </div>
+
+      <div id="tabsName-1">
+         {if $cmdShortIssueList}
+         {t}Short List: {/t}<br>{$cmdShortIssueList}<br>
+         {/if}
+
+         {if $cmdIssues}
+         <div align="center">
+            <table id="issues_table" class="datatable display">
+               <thead>
+                  <tr>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}ExtRef{/t}</th>
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Target{/t}</th>
+                     <th>{t}Status{/t}</th>
+                     <th>{t}Progress{/t}</th>
+                     <th>{t}MgrEffortEstim{/t}</th>
+                     <th>{t}Elapsed{/t}</th>
+                     <th>{t}RAF{/t}</th>
+                     <th>{t}Drift Mgr{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach $cmdIssues as $id => $issue}
+                  <tr>
+                     <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
+                     <td>{$issue.bugid}</td>
+                     <td>{$issue.extRef}</td>
+                     <td>{$issue.project}</td>
+                     <td>{$issue.target}</td>
+                     <td>{$issue.status}</td>
+                     <td>{$issue.progress}%</td>
+                     <td>{$issue.effortEstim}</td>
+                     <td>{$issue.elapsed}</td>
+                     <td>{$issue.durationMgr}</td>
+                     <td {$issue.driftMgrColor} >{$issue.driftMgr}</td>
+                     <td>{$issue.summary}</td>
+                  </tr>
+                  {/foreach}
                </tbody>
             </table>
          </div>
@@ -181,78 +196,13 @@ $(document).ready(function() {
          {/if}
       </div>
 
-      <div id="tabsName-1">
-
-         {if $cmdShortIssueList}
-         {t}Short List: {/t}<br>{$cmdShortIssueList}<br>
-         {/if}
-
-         {if $cmdIssues}
-         <div align="center">
-         <table id="issues_table" class="display">
-            <thead>
-            <tr>
-                  <th>{t}ID{/t}</th>
-                  <th>{t}ExtRef{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Target{/t}</th>
-                  <th>{t}Status{/t}</th>
-                  <th>{t}Progress{/t}</th>
-                  <th>{t}MgrEffortEstim{/t}</th>
-                  <th>{t}Elapsed{/t}</th>
-                  <th>{t}RAF{/t}</th>
-                  <th>{t}Drift Mgr{/t}</th>
-                  <th>{t}Summary{/t}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {foreach $cmdIssues as $id => $issue}
-            <tr>
-                  <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
-                  <td>{$issue.bugid}</td>
-                  <td>{$issue.extRef}</td>
-                  <td>{$issue.project}</td>
-                  <td>{$issue.target}</td>
-                  <td>{$issue.status}</td>
-                  <td>{$issue.progress}%</td>
-                  <td>{$issue.effortEstim}</td>
-                  <td>{$issue.elapsed}</td>
-                  <td>{$issue.durationMgr}</td>
-                  <td {$issue.driftMgrColor} >{$issue.driftMgr}</td>
-                  <td>{$issue.summary}</td>
-            </tr>
-            {/foreach}
-            </tbody>
-         </table>
-         </div>
-         {else}
-         {t}No task found.{/t}
-         {/if}
-      </div>
-
       <div id="tabsName-2">
          {if $jqplotData}
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#tabsCommand" ).bind('tabsshow', function(event, ui) {
-                  var plot = jQuery('#chartdiv').data('jqplot');
-                  var tab = jQuery('#tabsName-2');
-                  if (ui.index === tab.index()-1 && plot._drawCount === 0) {
-                     var chart = jQuery('#chartdiv');
-                     chart.height(tab.height()*0.96);
-                     chart.width(tab.width()*0.96);
-                     plot.replot();
-                  }
-               });
-            });
-         </script>
-
          {include file="graph/line_plot.html"}
          {else}
          <p>{t}No data{/t}</p>
          {/if}
       </div>
-
-   {/if}
-
+      {/if}
+   </div>
 </div>

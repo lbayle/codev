@@ -1,5 +1,7 @@
 {include file="menu/admin_menu.html"}
 
+<script type="text/javascript" src="js/tabs.js"></script>
+
 <script type="text/javascript">
    jQuery(document).ready(function() {
       if("{$msg}" != "") {
@@ -113,11 +115,6 @@
       </form>
    </div>
    
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery(".tabs").tabs();
-      });
-   </script>
    {foreach from=$projectsInfo key=id item=i}
    <h2 style="margin-top: 2em;">{$i.name}</h2>
    <div id="{$i.tabsName}" class="tabs">

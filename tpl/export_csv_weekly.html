@@ -1,9 +1,9 @@
 {include file="menu/export_csv_menu.html"}
 
 <div id="content">
-   <h2 style="text-align: center">{t}Weekly report{/t}</h2><br/>
+   <h2 style="text-align: center">{t}Weekly report{/t}</h2>
    {if $teams}
-   <div align="center">
+   <div align="center" style="margin-top: 2em;">
       <form method="post" action="{$page}">
          <fieldset>
             {include file="form/teamSelector.html"}

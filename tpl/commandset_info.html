@@ -1,132 +1,95 @@
 {include file="menu/management_menu.html"}
 
+<script type="text/javascript" src="js/tabs.js"></script>
+
 <script type="text/javascript">
-
-function setTeam() {
-   document.forms["commandsetSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["commandsetSelectForm"].commandsetid.value="0";
-   document.forms["commandsetSelectForm"].action.value="setTeam";
-   document.forms["commandsetSelectForm"].submit();
-}
-
-function submitForm() {
-   document.forms["commandsetSelectForm"].submit();
- }
-
-//------ JQUERY --------
-$(document).ready(function() {
-   $('#devCmd_table').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-   $('#mngtCmd_table').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-      jQuery(function() {
-         jQuery( "#tabsCommandSet" ).tabs();
+   jQuery(document).ready(function() {
+      jQuery("#teamid").change(function() {
+         var form = jQuery('#selectForm');
+         form.find("input[name=commandsetid]").val("0");
+         form.find("input[name=action]").val("setTeam");
+         form.submit();
       });
 
-   $( "#accordion" ).accordion({
-      collapsible: true, autoHeight: false, clearStyle: true
+      jQuery("#sendForm").click(function() {
+         var form = jQuery('#selectForm');
+         form.submit();
+      });
    });
-
-});
-
 </script>
 
-
 <div id="content">
-
    <div align="center">
       <!-- create form -->
-      <form id='commandsetSelectForm' name='commandsetSelectForm' method='post' action='{$page}'>
+      <form id="selectForm" name="selectForm" method="post" action="{$page}">
          <fieldset>
-            <label>{t}Team{/t}: </label>
-            <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
-               <option value='0'></option>
+            <label for="teamid">{t}Team{/t}:</label>
+            <select id="teamid" name="teamid">
+               <option value="0"></option>
                {foreach from=$teams key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
-            <label>{t}CommandSet{/t}: </label>
-            <select id='commandsetSelector' name='commandsetid'>
+            <label for="commandsetid">{t}CommandSet{/t}:</label>
+            <select id="commandsetid" name="commandsetid">
                {foreach from=$commandsets key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
-               <option value='0'>{t}--- Create New CommandSet ---{/t}</option>
+               <option value="0">{t}--- Create New CommandSet ---{/t}</option>
             </select>
-            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
-            
+            <input type="button" id="sendForm" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayCommandSet" />
          </fieldset>
       </form>
    </div>
 
-   <div style="margin-top:4em;"></div>
-
    {if $commandsetid}
 
    {include file="modal/consistency_check.html"}
 
-   <div  align="center">
+   <div align="center">
       <h2>{$commandsetName}</h2>
       {$commandsetDesc}
    </div>
 
-   <div style="margin-top:2em;"></div>
-
-   <div>
-      <table class='invisible'>
-            <tr>
-               <th>{t}Reference{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$commandsetReference}</td>
-            </tr>
-            <tr>
-               <th>{t}Date{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$commandsetDate}</td>
-            </tr>
-            <tr>
-               <th>{t}Cost{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$commandsetCost} {$commandsetCurrency}</td>
-            </tr>
-            <tr>
-               <th>{t}Budget{/t}</th>
-               <td valign='top'>: </td>
-               <td>{$commandsetBudget} {t}days{/t}</td>
-            </tr>
-            <tr>
-               <th valign='top'>{t}Service Contract{/t}</th>
-               <td valign='top'>: </td>
-               <td><table class="invisible">
-                  {foreach from=$parentContracts key=id item=i}
-                     <tr><td>{$i.name}</td></tr>
-                  {/foreach}
-                  </table>
-               </td>
-            </tr>
+   <div style="margin-top:2em;">
+      <table class="invisible">
+         <tr>
+            <th>{t}Reference{/t}</th>
+            <td valign="top">: </td>
+            <td>{$commandsetReference}</td>
+         </tr>
+         <tr>
+            <th>{t}Date{/t}</th>
+            <td valign="top">: </td>
+            <td>{$commandsetDate}</td>
+         </tr>
+         <tr>
+            <th>{t}Cost{/t}</th>
+            <td valign="top">: </td>
+            <td>{$commandsetCost} {$commandsetCurrency}</td>
+         </tr>
+         <tr>
+            <th>{t}Budget{/t}</th>
+            <td valign="top">: </td>
+            <td>{$commandsetBudget} {t}days{/t}</td>
+         </tr>
+         <tr>
+            <th valign="top">{t}Service Contract{/t}</th>
+            <td valign="top">: </td>
+            <td>
+               {foreach from=$parentContracts key=id item=i}
+               {$i.name}<br />
+               {/foreach}
+            </td>
+         </tr>
       </table>
       {if $isEditGranted}
-      <button onclick="location.href='management/commandset_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      <button onclick="location.href='management/commandset_edit.php'"><img border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
       {/if}
    </div>
 
-   <div id="tabsCommandSet" style="margin-top:2em;">
+   <div id="tabsCommandSet" class="tabs" style="margin-top:2em;">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-2">{t}Indicators{/t}</a></li>
@@ -134,10 +97,9 @@ $(document).ready(function() {
 
       <div id="tabsName-1">
          {if $cmdList}
-         <div>
-            <!--table id="devCmd_table" class="display"-->
-            <table>
-               <thead>
+         <!--table id="devCmd_table" class="display"-->
+         <table>
+            <thead>
                <tr>
                   <!--th></th-->
                   <th>{t}Ref{/t}</th>
@@ -150,38 +112,36 @@ $(document).ready(function() {
                   <th>{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
-               </thead>
-               <tbody>
-                  {foreach $cmdList as $id => $cmd}
-                  <tr>
-                     <!--td>{$id}</td-->
-                     <td align='right'><a href='management/command_info.php?cmdid={$id}'><img title='goto' align='absmiddle' src='images/b_goto.png' /></a> {$cmd.reference}</td>
-                     <td title="{$id}"  align='left'>{$cmd.name}</td>
-                     <td>{$cmd.team}</td>
-                     <td>{$cmd.effortEstim}</td>
-                     <td>{$cmd.reestimated}</td>
-                     <td>{$cmd.elapsed}</td>
-                     <td>{$cmd.backlog}</td>
-                     <td {$cmd.driftColor}>{$cmd.drift}</td>
-                     <td>{$cmd.progress}%</td>
-                  </tr>
-                  {/foreach}
-                  <tr class="row_even">
-                     <!--td></td-->
-                     <td></td>
-                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
-                     <td></td>
-                     <td>{$cmdsetDetailedMgr.effortEstim}</td>
-                     <td>{$cmdsetDetailedMgr.reestimated}</td>
-                     <td>{$cmdsetDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetDetailedMgr.backlog}</td>
-                     <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
-                     <td>{$cmdsetDetailedMgr.progress}%</td>
-                  </tr>
-
-               </tbody>
-            </table>
-         </div>
+            </thead>
+            <tbody>
+               {foreach $cmdList as $id => $cmd}
+               <tr>
+                  <!--td>{$id}</td-->
+                  <td align="right"><a href="management/command_info.php?cmdid={$id}"><img title="goto" align="absmiddle" src="images/b_goto.png" /></a> {$cmd.reference}</td>
+                  <td title="{$id}"  align="left">{$cmd.name}</td>
+                  <td>{$cmd.team}</td>
+                  <td>{$cmd.effortEstim}</td>
+                  <td>{$cmd.reestimated}</td>
+                  <td>{$cmd.elapsed}</td>
+                  <td>{$cmd.backlog}</td>
+                  <td {$cmd.driftColor}>{$cmd.drift}</td>
+                  <td>{$cmd.progress}%</td>
+               </tr>
+               {/foreach}
+               <tr class="row_even" style="font-weight: bold">
+                  <!--td></td-->
+                  <td></td>
+                  <td align="left">{t}TOTAL{/t}</td>
+                  <td></td>
+                  <td>{$cmdsetDetailedMgr.effortEstim}</td>
+                  <td>{$cmdsetDetailedMgr.reestimated}</td>
+                  <td>{$cmdsetDetailedMgr.elapsed}</td>
+                  <td>{$cmdsetDetailedMgr.backlog}</td>
+                  <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
+                  <td>{$cmdsetDetailedMgr.progress}%</td>
+               </tr>
+            </tbody>
+         </table>
          {else}
          {t}No Command found.{/t}
          {/if}
@@ -189,28 +149,11 @@ $(document).ready(function() {
 
       <div id="tabsName-2">
          {if $jqplotData}
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#tabsServiceContract" ).bind('tabsshow', function(event, ui) {
-                  var plot = jQuery('#chartdiv').data('jqplot');
-                  var tab = jQuery('#tabsName-2');
-                  if (ui.index === tab.index()-1 && plot._drawCount === 0) {
-                     var chart = jQuery('#chartdiv');
-                     chart.height(tab.height()*0.96);
-                     chart.width(tab.width()*0.96);
-                     plot.replot();
-                  }
-               });
-            });
-         </script>
-
          {include file="graph/line_plot.html"}
          {else}
          <p>{t}No data{/t}</p>
          {/if}
-
       </div>
-
-   {/if}
-
+      {/if}
+   </div>
 </div>

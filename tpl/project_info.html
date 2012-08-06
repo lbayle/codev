@@ -1,3 +1,5 @@
+<script type="text/javascript" src="js/tabs.js"></script>
+
 <div id="content">
    {if $projects}
    <div style="text-align: center;">
@@ -11,12 +13,7 @@
    {/if}
    {if $versionsOverview || $versionsDetailedMgr || $versionsDetailed || $versionsIssues}
    <h3>{t}Project Versions{/t}</h3>
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery( "#tabsVersions" ).tabs();
-      });
-   </script>
-   <div id="tabsVersions">
+   <div id="tabsVersions" class="tabs">
       <ul>
          {if $versionsDetailedMgr}<li><a href="#tabVersionsDetailedMgr">{t}Detailed Mgr{/t}</a></li>{/if}
          {if $versionsDetailed}<li><a href="#tabVersionsDetailed">{t}Detailed{/t}</a></li>{/if}
@@ -119,12 +116,7 @@
    {/if}
    {if $currentIssuesInDrift || $resolvedIssuesInDrift}
    <h3 style="margin-top: 2em">{t}Tasks in drift{/t}</h3>
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery("#tabsDrift").tabs();
-      });
-   </script>
-   <div id="tabsDrift">
+   <div id="tabsDrift" class="tabs">
       <ul>
          {if $currentIssuesInDrift}<li><a href="#tabCurrentDrift">{t}Drift current tasks{/t}</a></li>{/if}
          {if $resolvedIssuesInDrift}<li><a href="#tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>{/if}

@@ -1,6 +1,7 @@
 {include file="menu/management_menu.html"}
 
 <script type="text/javascript" src="js/datepicker.js"></script>
+<script type="text/javascript" src="js/tabs.js"></script>
 
 <script type="text/javascript">
 
@@ -12,15 +13,7 @@
       // Set the date
       jQuery("#commandsetDate").datepicker("setDate" ,"{$commandsetDate}");
 
-      jQuery(function() {
-         jQuery( "#tabsCommandSet" ).tabs();
-      });
-
-   });
-
-   // --- DialogBox for deleteCommandSet
-   jQuery(document).ready(function() {
-
+      // DialogBox for deleteCommandSet
       jQuery("#btDeleteCommandSet").click(function(event) {
          jQuery( "#deleteCommandSet_dialog_form" ).dialog( "open" );
       });
@@ -41,7 +34,6 @@
          }
       });
    });
-
 </script>
 
 <!-- DialogBox for deleteCommand -->
@@ -76,16 +68,14 @@
          <input type="hidden" name="action" value="deleteCommandSet" />
          <input type="hidden" name="commandid"  value="{$commandsetid}" />
          <input type="hidden" name="teamid" value="{$teamid}" />
-
       </fieldset>
    </form>
 </div>
 
-
 <div id="content">
 
-   <div  align="center">
-      <h2  title="{$commandsetid}">{$commandsetName}</h2>
+   <div align="center">
+      <h2 title="{$commandsetid}">{$commandsetName}</h2>
    </div>
 
    <br/><br/>
@@ -93,9 +83,8 @@
    <div>
       <!-- create form -->
       <form id='updateCommandSetInfoForm' name='updateCommandSetInfoForm' method='post' action='{$page}'>
-      <fieldset>
-
-         <table class='invisible'>
+         <fieldset>
+            <table class='invisible'>
                <tr>
                   <th>{t}Team{/t}</th>
                   <td>
@@ -132,28 +121,25 @@
                   <th>{t}Budget{/t}</th>
                   <td><input type='text' style='font-family: sans-serif' name='commandsetBudget'  id='commandsetBudget' value='{$commandsetBudget}'> {t}days{/t}</td>
                </tr>
-         </table>
-         <br>
-         <button type='button' name="btDeleteCommandSet" id="btDeleteCommandSet"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdsetInfoFormBtText}</button>
+            </table>
+            <br />
+            <button type='button' name="btDeleteCommandSet" id="btDeleteCommandSet"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
+            <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdsetInfoFormBtText}</button>
 
-         <input type="hidden" name="action" value="{$cmdsetInfoFormAction}" />
-         <input type="hidden" name="commandsetid" value="{$commandsetid}" />
-      </fieldset>
+            <input type="hidden" name="action" value="{$cmdsetInfoFormAction}" />
+            <input type="hidden" name="commandsetid" value="{$commandsetid}" />
+         </fieldset>
       </form>
-
    </div>
-
 
    <div style="margin-top:4em;">
 
-   <div id="tabsCommandSet">
+   <div id="tabsCommandSet" class="tabs">
       <ul>
          <li><a href="#tabsName-1">{t}Commands{/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
-
          <div style="margin-top:1em;">
 
          {if $isAddCmdForm}
@@ -179,7 +165,6 @@
          {/if}
 
          <div style="margin-top:1em;">
-
          {if $cmdList}
 
          <script type="text/javascript">
@@ -238,16 +223,16 @@
 
          <table>
             <thead>
-            <tr>
+               <tr>
                   <th></th>
                   <th>{t}Ref{/t}</th>
                   <th>{t}Command{/t}</th>
                   <th>{t}Team{/t}</th>
-            </tr>
+               </tr>
             </thead>
             <tbody>
-            {foreach $cmdList as $id => $cmd}
-            <tr>
+               {foreach $cmdList as $id => $cmd}
+               <tr>
                   <td>
                      <a title="{t}delete CommandSet-Command association{/t}"
                         href="javascript: removeCmd('{$id}', '{$cmd.name|escape}')">
@@ -257,13 +242,13 @@
                   <td>{$cmd.reference}</td>
                   <td title="{$id}">{$cmd.name}</td>
                   <td>{$cmd.team}</td>
-            </tr>
-            {/foreach}
+               </tr>
+               {/foreach}
             </tbody>
          </table>
          {else}
          {t}Create the CommandSet to add some commands.{/t}
          {/if}
       </div>
-
+   </div>
 </div>

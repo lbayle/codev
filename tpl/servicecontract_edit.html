@@ -1,10 +1,10 @@
 {include file="menu/management_menu.html"}
 
 <script type="text/javascript" src="js/datepicker.js"></script>
+<script type="text/javascript" src="js/tabs.js"></script>
 
 <script type="text/javascript">
-
-jQuery(document).ready(function() {
+   jQuery(document).ready(function() {
    {if $locale != en}
       jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
    {/if}
@@ -12,10 +12,6 @@ jQuery(document).ready(function() {
    // Set the date
    jQuery("#servicecontractStartDate").datepicker("setDate" ,"{$servicecontractStartDate}");
    jQuery("#servicecontractEndDate").datepicker("setDate" ,"{$servicecontractEndDate}");
-
-   jQuery(function() {
-      jQuery( "#tabsContract" ).tabs();
-   });
 
    // --- DialogBox for deleteCommandSet
    jQuery(document).ready(function() {
@@ -160,7 +156,7 @@ jQuery(document).ready(function() {
 
    <div style="margin-top:4em;"></div>
 
-   <div id="tabsContract">
+   <div id="tabsContract" class="tabs">
       <ul>
          <li><a href="#tabsName-1">{t}CommandSets{/t}</a></li>
          <li><a href="#tabsName-2">{t}SideTasks Projects{/t}</a></li>

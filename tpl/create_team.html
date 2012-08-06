@@ -40,7 +40,6 @@
 </script>
 
 <div id="content">
-   <hr align="left" style="width:20%"/>
    <h2>{t}Team Info{/t}</h2>
    <!-- display form -->
    <form action="{$page}" method="post" name="teamCreationForm" id="teamCreationForm">
@@ -84,8 +83,8 @@
 
          <div {if !$isCreateSTProj}style="display:none;"{/if}>
             <ul>
-               <li><label><b>{t}Project Name{/t}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input size="30" value="{$stproj_name}" type="text" name="stproj_name" id="stproj_name" /> <span style="color:red">*</span></label><br/><br/></li>
-               <li><b>{t}Categories{/t}</b><br/>
+               <li><label><strong>{t}Project Name{/t}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input size="30" value="{$stproj_name}" type="text" name="stproj_name" id="stproj_name" /> <span style="color:red">*</span></label><br/><br/></li>
+               <li><strong>{t}Categories{/t}</strong><br/>
                   <table class="invisible">
                      <tr>
                         <td style="width:150px;"><label><input type="checkbox" checked="checked" disabled="disabled" name="cb_catProjManagement" id="cb_catProjManagement" />{t}Project Management{/t} <span style="color:red">*</span></label></td>
@@ -114,7 +113,7 @@
                   </table>
                   <br/>
                </li>
-               <li><b>{t}Custom Fields{/t}</b><br/>
+               <li><strong>{t}Custom Fields{/t}</strong><br/>
                   <table class="invisible">
                      <tr>
                         <td style="width:150px;"><label><input type="checkbox" checked="checked" disabled="disabled" name="cb_customFields" id="cb_customFields" />{t}CodevTT custom fields{/t}<span style="color:red">*</span></label></td>
@@ -123,7 +122,7 @@
                   </table>
                   <br/>
                </li>
-               <li><b>{t}SideTasks{/t}</b><br/>
+               <li><strong>{t}SideTasks{/t}</strong><br/>
                   <table class="invisible">
                      <tr>
                         <td style="width:150px;"><label><input type="checkbox" {if $isTaskProjManagement}checked="checked"{/if} name="cb_taskProjManagement" id="cb_taskProjManagement" />{t}Project Management{/t}</label></td>
@@ -149,7 +148,6 @@
                </li>
             </ul>
          </div>
-         <br/><br/>
          <input type="button" value="{t}Create{/t}" id="addTeam" onclick="addTeam()" />
          <input type="hidden" name="action" value="noAction" />
          <input type="hidden" name="is_modified" value="{$is_modified}" />

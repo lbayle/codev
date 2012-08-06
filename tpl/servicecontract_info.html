@@ -1,136 +1,98 @@
 {include file="menu/management_menu.html"}
 
+<script type="text/javascript" src="js/tabs.js"></script>
+<script type="text/javascript" src="js/datatable.js"></script>
+
 <script type="text/javascript">
-
-function setTeam() {
-   document.forms["servicecontractSelectForm"].teamid.value = document.getElementById('teamSelector').value;
-   document.forms["servicecontractSelectForm"].servicecontractid.value="0";
-   document.forms["servicecontractSelectForm"].action.value="setTeam";
-   document.forms["servicecontractSelectForm"].submit();
-}
-
-function submitForm() {
-   document.forms["servicecontractSelectForm"].submit();
- }
-
-//------ JQUERY --------
-$(document).ready(function() {
-   $('#devCmd_table').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-   $('#mngtCmd_table').dataTable(
-      {
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-      jQuery(function() {
-         jQuery( "#tabsServiceContract" ).tabs();
+   jQuery(document).ready(function() {
+      jQuery("#teamid").change(function() {
+         var form = jQuery('#selectForm');
+         form.find("input[name=servicecontractid]").val("0");
+         form.find("input[name=action]").val("setTeam");
+         form.submit();
       });
 
-   $( "#accordion" ).accordion({
-      collapsible: true, autoHeight: false, clearStyle: true
+      jQuery("#sendForm").click(function() {
+         var form = jQuery('#selectForm');
+         form.submit();
+      });
    });
-
-});
-
 </script>
 
-
 <div id="content">
-
    <div align="center">
       <!-- create form -->
-      <form id='servicecontractSelectForm' name='servicecontractSelectForm' method='post' action='{$page}'>
+      <form id="selectForm" name="selectForm" method="post" action="{$page}">
          <fieldset>
-            <label>{t}Team{/t}: </label>
-            <select id='teamSelector' name='teamid' onchange='javascript: setTeam()'>
-               <option value='0'></option>
+            <label for="teamid">{t}Team{/t}:</label>
+            <select id="teamid" name="teamid">
+               <option value="0"></option>
                {foreach from=$teams key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
             </select>
-            <label>{t}ServiceContract{/t}: </label>
-            <select id='servicecontractSelector' name='servicecontractid'>
+            <label for="servicecontractid">{t}ServiceContract{/t}:</label>
+            <select id="servicecontractid" name="servicecontractid">
                {foreach from=$servicecontracts key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
-               <option value='0'>{t}--- Create New ServiceContract ---{/t}</option>
+               <option value="0">{t}--- Create New ServiceContract ---{/t}</option>
             </select>
-            <input type="button" value='{t}Jump{/t}' onclick='javascript: submitForm()' />
-
+            <input type="button" id="sendForm" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayServiceContract" />
          </fieldset>
       </form>
    </div>
 
-   <div style="margin-top:4em;"></div>
-
    {if $servicecontractid}
 
    {include file="modal/consistency_check.html"}
 
-   <div  align="center">
+   <div align="center">
       <h2>{$servicecontractName}</h2>
       {$servicecontractDesc}
    </div>
 
-   <div style="margin-top:2em;"></div>
-
-   <div>
-      <table class='invisible'>
-            <tr>
-               <th>{t}Reference{/t}</th>
-               <td>: {$servicecontractReference}</td>
-            </tr>
-            <tr>
-               <th>{t}Version{/t}</th>
-               <td>: {$servicecontractVersion}</td>
-            </tr>
-            <tr>
-               <th>{t}Reporter{/t}</th>
-               <td>: {$servicecontractReporter}</td>
-            </tr>
-            <tr>
-               <th>{t}Start Date{/t}</th>
-               <td>: {$servicecontractStartDate}</td>
-            </tr>
-            <tr>
-               <th>{t}End Date{/t}</th>
-               <td>: {$servicecontractEndDate}</td>
-            </tr>
-            <tr>
-               <th>{t}State{/t}</th>
-               <td>: {$servicecontractState}</td>
-            </tr>
+   <div style="margin-top:2em;">
+      <table class="invisible">
+         <tr>
+            <th>{t}Reference{/t}</th>
+            <td>: {$servicecontractReference}</td>
+         </tr>
+         <tr>
+            <th>{t}Version{/t}</th>
+            <td>: {$servicecontractVersion}</td>
+         </tr>
+         <tr>
+            <th>{t}Reporter{/t}</th>
+            <td>: {$servicecontractReporter}</td>
+         </tr>
+         <tr>
+            <th>{t}Start Date{/t}</th>
+            <td>: {$servicecontractStartDate}</td>
+         </tr>
+         <tr>
+            <th>{t}End Date{/t}</th>
+            <td>: {$servicecontractEndDate}</td>
+         </tr>
+         <tr>
+            <th>{t}State{/t}</th>
+            <td>: {$servicecontractState}</td>
+         </tr>
       </table>
       {if $isEditGranted}
-      <button onclick="location.href='management/servicecontract_edit.php'"><img  border='0' align='absmiddle' src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
+      <button onclick="location.href='management/servicecontract_edit.php'"><img  border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
       {/if}
    </div>
 
-   <div id="tabsServiceContract" style="margin-top:2em;">
+   <div id="tabsServiceContract" class="tabs" style="margin-top:2em;">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-2">{t}SideTasks{/t} ({$nbSidetasksList})</a></li>
          <li><a href="#tabsName-3">{t}Indicators{/t}</a></li>
       </ul>
-
       <div id="tabsName-1">
-         <div style="margin-top:2em;"></div>
-         <span style="font-size: larger; font-weight: bold; text-align: left;">{t}Tasks{/t}</span>
-
+         <span style="font-size: larger; font-weight: bold;">{t}Tasks{/t}</span>
          <script type="text/javascript">
             jQuery(document).ready(function() {
                jQuery('input[type=radio]').change(function() {
@@ -145,17 +107,15 @@ $(document).ready(function() {
             });
          </script>
          <form>
-            <div id="radio">
-               <input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1">{t}CommandSets{/t}</label>
-               <input type="radio" id="radio2" name="radio" /><label for="radio2">{t}Commands{/t}</label>
-            </div>
+            <fieldset>
+               <label><input type="radio" id="radio1" name="radio" checked="checked" />{t}CommandSets{/t}</label>
+               <label><input type="radio" id="radio2" name="radio" />{t}Commands{/t}</label>
+            </fieldset>
          </form>
 
-
          {if $cmdsetList}
-         <div id="commandSetsDetailedMgr" class="commandSetsDetailedMgr">
-            <table>
-               <thead>
+         <table id="commandSetsDetailedMgr">
+            <thead>
                <tr>
                   <!--th></th-->
                   <th width="500">{t}CommandSet{/t}</th>
@@ -167,46 +127,41 @@ $(document).ready(function() {
                   <th>{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
-               </thead>
-               <tbody>
-                  {foreach $cmdsetList as $id => $cmdset}
-                  <tr>
-                     <!--td>{$id}</td-->
-                     <td title="{$id}"  align='left'><a href='management/commandset_info.php?commandsetid={$id}'><img title='goto' align='absmiddle' src='images/b_goto.png' /></a> {$cmdset.name}</td>
-                     <!--td>{$cmdset.team}</td-->
-                     <td>{$cmdset.effortEstim}</td>
-                     <td>{$cmdset.reestimated}</td>
-                     <td>{$cmdset.elapsed}</td>
-                     <td>{$cmdset.backlog}</td>
-                     <td {$cmdset.driftColor}>{$cmdset.drift}</td>
-                     <td>{$cmdset.progress}%</td>
-                  </tr>
-                  {/foreach}
-                  <tr class="row_even">
-                     <!--td></td-->
-                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
-                     <!--td></td-->
-                     <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
-                     <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
-                     <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetTotalDetailedMgr.backlog}</td>
-                     <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
-                     <td>{$cmdsetTotalDetailedMgr.progress}%</td>
-                  </tr>
-
-               </tbody>
-            </table>
-         </div>
+            </thead>
+            <tbody>
+               {foreach $cmdsetList as $id => $cmdset}
+               <tr>
+                  <!--td>{$id}</td-->
+                  <td align="left"><a href="management/commandset_info.php?commandsetid={$id}"><img align="absmiddle" src="images/b_goto.png" alt="{t}Go to{/t} {$cmdset.name}" /></a> {$cmdset.name}</td>
+                  <!--td>{$cmdset.team}</td-->
+                  <td>{$cmdset.effortEstim}</td>
+                  <td>{$cmdset.reestimated}</td>
+                  <td>{$cmdset.elapsed}</td>
+                  <td>{$cmdset.backlog}</td>
+                  <td {$cmdset.driftColor}>{$cmdset.drift}</td>
+                  <td>{$cmdset.progress}%</td>
+               </tr>
+               {/foreach}
+               <tr class="row_even" style="font-weight: bold">
+                  <!--td></td-->
+                  <td title="{$id}" align="left">{t}TOTAL{/t}</td>
+                  <!--td></td-->
+                  <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                  <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
+                  <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
+                  <td>{$cmdsetTotalDetailedMgr.backlog}</td>
+                  <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
+                  <td>{$cmdsetTotalDetailedMgr.progress}%</td>
+               </tr>
+            </tbody>
+         </table>
          {else}
          {t}No CommandSet found.{/t}
          {/if}
 
-
          {if $cmdList}
-         <div id="commandsDetailedMgr" class="commandsDetailedMgr" style="display:none;">
-            <!--table id="devCmd_table" class="display"-->
-            <table>
-               <thead>
+         <table id="commandsDetailedMgr" style="display:none;">
+            <thead>
                <tr>
                   <!--th></th-->
                   <th width="500">{t}Command{/t}</th>
@@ -218,48 +173,42 @@ $(document).ready(function() {
                   <th>{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
-               </thead>
-               <tbody>
-                  {foreach $cmdList as $id => $cmd}
-                  <tr>
-                     <!--td>{$id}</td-->
-                     <td title="{$cmd.id}"  align='left'><a href='management/command_info.php?cmdid={$cmd.id}'><img title='goto' align='absmiddle' src='images/b_goto.png' /></a> {$cmd.reference} - {$cmd.name}</td>
-                     <!--td>{$cmd.team}</td-->
-                     <td>{$cmd.effortEstim}</td>
-                     <td>{$cmd.reestimated}</td>
-                     <td>{$cmd.elapsed}</td>
-                     <td>{$cmd.backlog}</td>
-                     <td {$cmd.driftColor}>{$cmd.drift}</td>
-                     <td>{$cmd.progress}%</td>
-                  </tr>
-                  {/foreach}
-                  <tr class="row_even">
-                     <!--td></td-->
-                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
-                     <!--td></td-->
-                     <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
-                     <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
-                     <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetTotalDetailedMgr.backlog}</td>
-                     <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
-                     <td>{$cmdsetTotalDetailedMgr.progress}%</td>
-                  </tr>
-
-               </tbody>
-            </table>
-         </div>
+            </thead>
+            <tbody>
+               {foreach $cmdList as $id => $cmd}
+               <tr>
+                  <!--td>{$id}</td-->
+                  <td align="left"><a href="management/command_info.php?cmdid={$cmd.id}"><img align="absmiddle" src="images/b_goto.png" alt="{t}Go to{/t} {$cmd.reference} - {$cmd.name}" /></a> {$cmd.reference} - {$cmd.name}</td>
+                  <!--td>{$cmd.team}</td-->
+                  <td>{$cmd.effortEstim}</td>
+                  <td>{$cmd.reestimated}</td>
+                  <td>{$cmd.elapsed}</td>
+                  <td>{$cmd.backlog}</td>
+                  <td {$cmd.driftColor}>{$cmd.drift}</td>
+                  <td>{$cmd.progress}%</td>
+               </tr>
+               {/foreach}
+               <tr class="row_even" style="font-weight: bold">
+                  <!--td></td-->
+                  <td align="left">{t}TOTAL{/t}</td>
+                  <!--td></td-->
+                  <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                  <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
+                  <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
+                  <td>{$cmdsetTotalDetailedMgr.backlog}</td>
+                  <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
+                  <td>{$cmdsetTotalDetailedMgr.progress}%</td>
+               </tr>
+            </tbody>
+         </table>
          {else}
          {t}No Command found.{/t}
          {/if}
 
-         <div style="margin-top:3em;"></div>
-
-
          {if $sidetasksDetailedMgr}
-         <div>
-            <table>
-               <caption>{t}SideTasks{/t}</caption>
-               <thead>
+         <table style="margin-top:2em;">
+            <caption>{t}SideTasks{/t}</caption>
+            <thead>
                <tr>
                   <!--th></th-->
                   <th width="500">{t}Category{/t}</th>
@@ -269,44 +218,38 @@ $(document).ready(function() {
                   <th>{t}Backlog Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
                </tr>
-               </thead>
-               <tbody>
-                  {foreach $sidetasksDetailedMgr as $id => $category}
-                  <tr>
-                     <!--td>{$id}</td-->
-                     <td title="{$id}"  align='left'>{$category.name}</td>
-                     <td>{$category.effortEstim}</td>
-                     <td>{$category.reestimated}</td>
-                     <td>{$category.elapsed}</td>
-                     <td>{$category.backlog}</td>
-                     <td {$category.driftColor}>{$category.drift}</td>
-                  </tr>
-                  {/foreach}
-                  <tr class="row_even">
-                     <!--td></td-->
-                     <td title="{$id}"  align='left'>{t}TOTAL{/t}</td>
-                     <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
-                     <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
-                     <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
-                     <td>{$sidetasksTotalDetailedMgr.backlog}</td>
-                     <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
-                  </tr>
-
-               </tbody>
-            </table>
-         </div>
+            </thead>
+            <tbody>
+               {foreach $sidetasksDetailedMgr as $id => $category}
+               <tr>
+                  <!--td>{$id}</td-->
+                  <td title="{$id}" align="left">{$category.name}</td>
+                  <td>{$category.effortEstim}</td>
+                  <td>{$category.reestimated}</td>
+                  <td>{$category.elapsed}</td>
+                  <td>{$category.backlog}</td>
+                  <td {$category.driftColor}>{$category.drift}</td>
+               </tr>
+               {/foreach}
+               <tr class="row_even" style="font-weight: bold">
+                  <!--td></td-->
+                  <td title="{$id}" align="left">{t}TOTAL{/t}</td>
+                  <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
+                  <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
+                  <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
+                  <td>{$sidetasksTotalDetailedMgr.backlog}</td>
+                  <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
+               </tr>
+            </tbody>
+         </table>
          {else}
          {t}No sidetasks found.{/t}
          {/if}
 
-         <div style="margin-top:3em;"></div>
-
-
          {if $servicecontractTotalDetailedMgr}
-         <div>
-            <table>
-               <caption>{t}All tasks{/t}</caption>
-               <thead>
+         <table style="margin-top:2em;">
+            <caption>{t}All tasks{/t}</caption>
+            <thead>
                <tr>
                   <!--th></th-->
                   <th width="500"></th>
@@ -316,122 +259,85 @@ $(document).ready(function() {
                   <th>{t}Backlog Mgr{/t}</th>
                   <th>{t}Drift Mgr{/t}</th>
                </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <!--td></td-->
-                     <td align='left'>{t}Tasks{/t}</td>
-                     <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
-                     <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
-                     <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
-                     <td>{$cmdsetTotalDetailedMgr.backlog}</td>
-                     <td>{$cmdsetTotalDetailedMgr.drift}</td>
-                  </tr>
-                  <tr>
-                     <!--td></td-->
-                     <td align='left'>{t}SideTasks{/t}</td>
-                     <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
-                     <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
-                     <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
-                     <td>{$sidetasksTotalDetailedMgr.backlog}</td>
-                     <td>{$sidetasksTotalDetailedMgr.drift}</td>
-                  </tr>
-                  <tr class="row_even">
-                     <!--td></td-->
-                     <td align='left'><b>{t}TOTAL{/t}</b></td>
-                     <td><b>{$servicecontractTotalDetailedMgr.effortEstim}</b></td>
-                     <td><b>{$servicecontractTotalDetailedMgr.reestimated}</b></td>
-                     <td><b>{$servicecontractTotalDetailedMgr.elapsed}</b></td>
-                     <td><b>{$servicecontractTotalDetailedMgr.backlog}</b></td>
-                     <td {$servicecontractTotalDetailedMgr.driftColor}><b>{$servicecontractTotalDetailedMgr.drift}</b></td>
-                  </tr>
-
-               </tbody>
-            </table>
-         </div>
+            </thead>
+            <tbody>
+               <tr>
+                  <!--td></td-->
+                  <td align="left">{t}Tasks{/t}</td>
+                  <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
+                  <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
+                  <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
+                  <td>{$cmdsetTotalDetailedMgr.backlog}</td>
+                  <td>{$cmdsetTotalDetailedMgr.drift}</td>
+               </tr>
+               <tr>
+                  <!--td></td-->
+                  <td align="left">{t}SideTasks{/t}</td>
+                  <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
+                  <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
+                  <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
+                  <td>{$sidetasksTotalDetailedMgr.backlog}</td>
+                  <td>{$sidetasksTotalDetailedMgr.drift}</td>
+               </tr>
+               <tr class="row_even" style="font-weight: bold">
+                  <!--td></td-->
+                  <td align="left">{t}TOTAL{/t}</td>
+                  <td>{$servicecontractTotalDetailedMgr.effortEstim}</td>
+                  <td>{$servicecontractTotalDetailedMgr.reestimated}</td>
+                  <td>{$servicecontractTotalDetailedMgr.elapsed}</td>
+                  <td>{$servicecontractTotalDetailedMgr.backlog}</td>
+                  <td {$servicecontractTotalDetailedMgr.driftColor}>{$servicecontractTotalDetailedMgr.drift}</td>
+               </tr>
+            </tbody>
+         </table>
          {else}
          {t}No Total found.{/t}
          {/if}
       </div>
       <div id="tabsName-2">
-
          <label class="help_font">{t}Note: SideTasks already defined in Commands are not displayed.{/t}</label>
-         <br>
+         <br />
 
          {if $sidetasksList}
-
-         <script>
-         $(document).ready(function() {
-            $('#issues_table').dataTable(
-               {
-                  "sScrollY": "700px",
-                  "bPaginate": false,
-                  "bScrollCollapse": true,
-                  "bFilter": true,
-                  "bSort": true,
-                  "bInfo": false,
-                  "bAutoWidth": false
-               });
-         });
-         </script>
-
          <div align="center">
-         <table id="issues_table" class="display">
-            <thead>
-            <tr>
-                  <th>{t}ID{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Category{/t}</th>
-                  <th>{t}MgrEffortEstim{/t}</th>
-                  <th>{t}Elapsed{/t}</th>
-                  <th>{t}Summary{/t}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {foreach $sidetasksList as $id => $issue}
-            <tr>
-                  <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
-                  <td>{$issue.bugid}</td>
-                  <td>{$issue.project}</td>
-                  <td>{$issue.category}</td>
-                  <td>{$issue.effortEstim}</td>
-                  <td>{$issue.elapsed}</td>
-                  <td>{$issue.summary}</td>
-            </tr>
-            {/foreach}
-            </tbody>
-         </table>
+            <table id="issues_table" class="datatable display">
+               <thead>
+                  <tr>
+                     <th>{t}ID{/t}</th>
+                     <th>{t}Project{/t}</th>
+                     <th>{t}Category{/t}</th>
+                     <th>{t}MgrEffortEstim{/t}</th>
+                     <th>{t}Elapsed{/t}</th>
+                     <th>{t}Summary{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach $sidetasksList as $id => $issue}
+                  <tr>
+                     <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
+                     <td>{$issue.bugid}</td>
+                     <td>{$issue.project}</td>
+                     <td>{$issue.category}</td>
+                     <td>{$issue.effortEstim}</td>
+                     <td>{$issue.elapsed}</td>
+                     <td>{$issue.summary}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
          </div>
          {else}
          {t}No task found.{/t}
          {/if}
       </div>
 
-
       <div id="tabsName-3">
          {if $jqplotData}
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#tabsServiceContract" ).bind('tabsshow', function(event, ui) {
-                  var plot = jQuery('#chartdiv').data('jqplot');
-                  var tab = jQuery('#tabsName-3');
-                  if (ui.index === tab.index()-1 && plot._drawCount === 0) {
-                     var chart = jQuery('#chartdiv');
-                     chart.height(tab.height()*0.96);
-                     chart.width(tab.width()*0.96);
-                     plot.replot();
-                  }
-               });
-            });
-         </script>
-
          {include file="graph/line_plot.html"}
          {else}
          <p>{t}No data{/t}</p>
          {/if}
-
       </div>
-
-   {/if}
-
+      {/if}
+   </div>
 </div>

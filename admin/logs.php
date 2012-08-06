@@ -54,9 +54,8 @@ if (isset($_SESSION['userid'])) {
          }
 
          $logs = array();
-         #foreach ($lines as $line_num => $line) {
-         for ($i = $offset; $i <= ($offset+$nbLinesToDisplay); $i++) {
-            $logs[$i] = htmlspecialchars($lines[$i], ENT_QUOTES, "UTF-8");
+         for ($i = $offset; $i <= ($offset+$nbLinesToDisplay), $i < count($lines) ; $i++) {
+            $logs[$i+1] = htmlspecialchars($lines[$i], ENT_QUOTES, "UTF-8");
             #echo "DEBUG $line_num - ".$logs[$line_num]."<br>";
          }
 

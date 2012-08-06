@@ -1,4 +1,7 @@
 {include file="menu/statistics_menu.html"}
+
+<script type="text/javascript" src="js/tabs.js"></script>
+
 {if $teams}
 <div id="content">
    <div class="center">
@@ -38,11 +41,6 @@
    {if $error}{t}{$error}{/t}{/if}
 
    {if $submittedResolvedLegend && $timeDriftLegend && $resolvedDriftLegend && $efficiencyLegend && $reopenedRateLegend && $developersWorkloadLegend}
-   <script type="text/javascript">
-      jQuery(document).ready(function(){
-         jQuery(".tabs").tabs();
-      });
-   </script>
    <div id="results" class="tabs" style="margin-top: 2em">
       <ul>
          <li><a href="#tagSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>
@@ -164,9 +162,9 @@
       <div id="tagReopenedRate">
          {if $reopenedRateLegend}
          <span class="help_font">{t}Number of reopened external tasks (tasks having an ExternalRef).{/t}</span>
-         <br><br>
+         <br /><br />
          <span class="help_font"><b>{t}% to Submitted{/t}</b>: {t}Compare the number of reopened tasks to the number of new tasks{/t}</span>
-         <br>
+         <br />
          <span class="help_font"><b>{t}% to Resolved{/t}</b>: {t}Compare the number of reopened tasks to the number of resolved tasks{/t}</span>
          <div style="margin-top: 1em">
             <div class="float">

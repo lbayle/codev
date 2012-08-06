@@ -212,9 +212,11 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('startDate', $startdate);
       $smartyHelper->assign('endDate', $enddate);
 
-      $smartyHelper->assign('otherrealname', $managed_user->getRealname());
+      if($session_user->id != $managed_user->id) {
+         $smartyHelper->assign('otherrealname', $managed_user->getRealname());
+      }
 
-      // --- SideTasks Project List
+      // SideTasks Project List
       $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList());
       $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
       $projList = $devProjList + $managedProjList;

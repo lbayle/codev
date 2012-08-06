@@ -130,7 +130,7 @@ div.menu td {
   white-space : nowrap;
   text-align : center;
   font-size: 10pt;
-  padding: 5px;
+  padding: .5em;
 }
 
 #mantis, #timetracking, #reports {

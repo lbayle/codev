@@ -1,22 +1,10 @@
 {include file="menu/admin_menu.html"}
 
-<script type="text/javascript" charset="utf-8">
-   jQuery(document).ready(function() {
-      jQuery('#logs_table').dataTable({
-         "sScrollY": "700px",
-         "bPaginate": false,
-         "bScrollCollapse": true,
-         "bFilter": true,
-         "bSort": true,
-         "bInfo": false,
-         "bAutoWidth": false
-      });
-   });
-</script>
+<script type="text/javascript" src="js/datatable.js"></script>
 
 <div id="content" style="margin-left:10em;margin-right:10em">
    {if $logs}
-   <table id="logs_table" class="display">
+   <table id="logs_table" class="datatable display">
       <thead>
          <tr>
             <th>{t}Line{/t}</th>
@@ -24,12 +12,12 @@
          </tr>
       </thead>
       <tbody>
-        {foreach $logs as $line => $text}
-        <tr>
+         {foreach $logs as $line => $text}
+         <tr>
             <td>{$line}</td>
             <td>{$text}</td>
-        </tr>
-        {/foreach}
+         </tr>
+         {/foreach}
       </tbody>
    </table>
    {else}

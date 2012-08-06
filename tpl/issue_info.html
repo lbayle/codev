@@ -1,3 +1,4 @@
+<script type="text/javascript" src="js/tabs.js"></script>
 
 <div id="content">
    {if $projects}
@@ -29,7 +30,7 @@
       </script>
       <form name="form1" method="GET" action="{$page}">
          <fieldset>
-            <select id="projectid" onchange="javascript: setProjectid()" title="{t}Project{/t}">
+            <select id="projectid" title="{t}Project{/t}">
               {foreach from=$projects key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
@@ -48,62 +49,49 @@
    <!-- Title -->
    {if $issueGeneralInfo}
 
-   <div style="margin-top:2em;"></div>
-   
+   <div style="margin-top:2em;">
    {include file="modal/consistency_check.html"}
+   </div>
 
    <div class="center">
-      <span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>
-      <br>
-      <h2>{$issueGeneralInfo.mantisURL}  {$issueGeneralInfo.issueURL} -- {$issueGeneralInfo.issueSummary}</h2>
+      {if $issueGeneralInfo.issueExtRef}<span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>{/if}
+      <h2>{$issueGeneralInfo.mantisURL} {$issueGeneralInfo.issueURL} : {$issueGeneralInfo.issueSummary}</h2>
    </div>
 
-   <div style="margin-top:4em;"></div>
-   
-   <div style='text-align:left;' class='center'>
-      <table class="invisible">
-         <!--tr>
-            <th>{t}Mantis ID{/t}</th>
-            <td>{$issueGeneralInfo.issueURL}</td>
-         </tr-->
-         {if $issueGeneralInfo.issueExtRef}
-         <tr>
-            <th>{t}External Ref{/t}</th>
-            <td>: </td>
-            <td>{$issueGeneralInfo.issueExtRef}</td>
-         </tr>
-         {/if}
-         <tr>
-            <th>{t}Assigned to{/t}</th>
-            <td>: </td>
-            <td>{$issueGeneralInfo.handlerName}</td>
-         </tr>
-         <tr>
-            <th>{t}Status{/t}</th>
-            <td>: </td>
-            <td>{$issueGeneralInfo.statusName}</td>
-         </tr>
-         <tr>
-            <th valign='top'>{t}Commands{/t}</th>
-               <td valign='top'>: </td>
-               <td><table class="invisible">
-                  {foreach from=$parentCommands key=id item=i}
-                     <tr><td><a href='management/command_info.php?cmdid={$i.id}'>{$i.reference} {$i.name}</a></td></tr>
-                  {/foreach}
-                  </table>
-               </td>
-         </tr>
-      </table>
-   </div>
-   
-   <div style="margin-top:3em;"></div>
-   
-   <script type="text/javascript">
-      jQuery(function() {
-         jQuery( "#tabsIssueInfo" ).tabs();
-      });
-   </script>
-   <div id="tabsIssueInfo">
+   <table style='text-align:left;margin-top:4em;' class="center invisible">
+      <!--tr>
+         <th>{t}Mantis ID{/t}</th>
+         <td>{$issueGeneralInfo.issueURL}</td>
+      </tr-->
+      {if $issueGeneralInfo.issueExtRef}
+      <tr>
+         <th>{t}External Ref{/t}</th>
+         <td>: </td>
+         <td>{$issueGeneralInfo.issueExtRef}</td>
+      </tr>
+      {/if}
+      <tr>
+         <th>{t}Assigned to{/t}</th>
+         <td>: </td>
+         <td>{$issueGeneralInfo.handlerName}</td>
+      </tr>
+      <tr>
+         <th>{t}Status{/t}</th>
+         <td>: </td>
+         <td>{$issueGeneralInfo.statusName}</td>
+      </tr>
+      <tr>
+         <th valign='top'>{t}Commands{/t}</th>
+         <td valign='top'>: </td>
+         <td>
+            {foreach from=$parentCommands key=id item=i}
+            <a href='management/command_info.php?cmdid={$i.id}'>{$i.reference} {$i.name}</a><br />
+            {/foreach}
+         </td>
+      </tr>
+   </table>
+
+   <div id="tabsIssueInfo" class="tabs" style="margin-top:3em;">
       <ul>
          <li><a href="#tabsName-1">{t}Overview{/t}</a></li>
          <li><a href="#tabsName-2">{t}Timetracks{/t}</a></li>
@@ -268,35 +256,30 @@
       </div>
 
       <div id="tabsName-2">
-         
          <!-- Jobs details by months -->
          {if $months}
-         <div style="margin-top: 2em">
-
-            {foreach from=$months key=id item=i}
-            <table width="70%" style="margin-top: 2em">
-               <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
-               <tr>
-                  <th></th>
-                  {foreach from=$i.months key=id item=j}
-                  <th>{$j}</th>
-                  {/foreach}
-               </tr>
-               {foreach from=$i.users key=id item=k}
-               <tr>
-                  <td>{$k.username}</td>
-                  {foreach from=$k.jobs key=id item=l}
-                  <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{$l.jobDuration}</td>
-                  {/foreach}
-               </tr>
+         {foreach from=$months key=id item=i}
+         <table width="70%" style="margin-bottom: 2em">
+            <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
+            <tr>
+               <th></th>
+               {foreach from=$i.months key=id item=j}
+               <th>{$j}</th>
                {/foreach}
-            </table>
+            </tr>
+            {foreach from=$i.users key=id item=k}
+            <tr>
+               <td>{$k.username}</td>
+               {foreach from=$k.jobs key=id item=l}
+               <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{$l.jobDuration}</td>
+               {/foreach}
+            </tr>
             {/foreach}
-         </div>
+         </table>
+         {/foreach}
 
          <!-- legend -->
-         <div style="margin-top:2em;"></div>
-         <table class='invisible'>
+         <table class='invisible' style="margin-top:2em;">
             <tr>
             {foreach from=$jobDetails key=id item=i}
                <td>
@@ -307,47 +290,29 @@
             {/foreach}
             </tr>
          </table>
-         
          {/if}
       </div>
 
       <div id="tabsName-3">
          <!-- Time allocation -->
          {if $durationsByStatus}
-         <div style="margin-top: 2em">
-
-            <table style="margin-top: 2em">
-               <caption>{t}Time allocation by status{/t}</caption>
-               <tr>
-                  {foreach from=$durationsByStatus.statusNames key=id item=i}
-                  <th>{$i}</th>
-                  {/foreach}
-               </tr>
-               <tr>
-                  {foreach from=$durationsByStatus.durations key=id item=i}
-                  <td>{$i}</td>
-                  {/foreach}
-               </tr>
-            </table>
-         </div>
+         <table>
+            <caption>{t}Time allocation by status{/t}</caption>
+            <tr>
+               {foreach from=$durationsByStatus.statusNames key=id item=i}
+               <th>{$i}</th>
+               {/foreach}
+            </tr>
+            <tr>
+               {foreach from=$durationsByStatus.durations key=id item=i}
+               <td>{$i}</td>
+               {/foreach}
+            </tr>
+         </table>
          {/if}
       </div>
       <div id="tabsName-4">
          {if $jqplotData}
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#tabsIssueInfo" ).bind('tabsshow', function(event, ui) {
-                  var plot = jQuery('#chartdiv').data('jqplot');
-                  var tab = jQuery('#tabsName-4');
-                  if (ui.index === tab.index()-1 && plot._drawCount === 0) {
-                     var chart = jQuery('#chartdiv');
-                     chart.height(tab.height()*0.96);
-                     chart.width(tab.width()*0.96);
-                     plot.replot();
-                  }
-               });
-            });
-         </script>
          {include file="graph/line_plot.html"}
          {else}
          <p>{t}No data{/t}</p>
@@ -355,9 +320,6 @@
       </div>
 
    </div>
-
-   <!-- General info -->
-   <div style="margin-top: 2em"></div>
    {/if}
 
   </div>
