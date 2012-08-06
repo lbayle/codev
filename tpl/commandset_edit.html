@@ -55,11 +55,8 @@
       <tr>
          <th valign='top'><span style="font-weight:bold;">{t}Service Contracts{/t}</span></th>
          <td valign='top'>: </td>
-         <td><table class="invisible">
-            {foreach from=$parentContracts key=id item=i}
-               <tr><td>{$i.name}</td></tr>
-            {/foreach}
-            </table>
+         <td>
+            {foreach from=$parentContracts key=id item=i}{$i}<br />{/foreach}
          </td>
       </tr>
    </table>
@@ -124,7 +121,7 @@
             </table>
             <br />
             <button type='button' name="btDeleteCommandSet" id="btDeleteCommandSet"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
-            <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$cmdsetInfoFormBtText}</button>
+            <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$cmdsetInfoFormBtText}{/t}</button>
 
             <input type="hidden" name="action" value="{$cmdsetInfoFormAction}" />
             <input type="hidden" name="commandsetid" value="{$commandsetid}" />

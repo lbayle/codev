@@ -104,10 +104,7 @@ if (isset($_SESSION['userid'])) {
          $_SESSION['teamid'] = $teamid;
 
          // set CommandSets I belong to
-         $parentContracts = getParentContracts($commandset);
-
-         $smartyHelper->assign('parentContracts', $parentContracts);
-         $smartyHelper->assign('nbParentContracts', count($parentContracts));
+         $smartyHelper->assign('parentContracts', getParentContracts($commandset));
 
          displayCommandSet($smartyHelper, $commandset);
 

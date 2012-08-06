@@ -78,9 +78,7 @@
             <th valign="top">{t}Service Contract{/t}</th>
             <td valign="top">: </td>
             <td>
-               {foreach from=$parentContracts key=id item=i}
-               {$i.name}<br />
-               {/foreach}
+               {foreach from=$parentContracts key=id item=i}{$i}<br />{/foreach}
             </td>
          </tr>
       </table>

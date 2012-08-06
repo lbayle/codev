@@ -34,7 +34,6 @@ function getCommandIssues(Command $command) {
 
    $issues = $command->getIssueSelection()->getIssueList();
    foreach ($issues as $id => $issue) {
-
       $driftMgr = $issue->getDriftMgr();
       $driftMgrColor = $issue->getDriftColor($driftMgr);
       $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
@@ -70,14 +69,7 @@ function getParentCommandSets(Command $cmd) {
    // TODO return URL for 'name' ?
 
    foreach ($cmdsetList as $cmdset) {
-      $teamid = $cmdset->getTeamid();
-      $team = TeamCache::getInstance()->getTeam($teamid);
-
-      $commandsets[] = array(
-         'id' => $cmdset->getId(),
-         'name' => $cmdset->getName(),
-         'team' => $team->name
-      );
+      $commandsets[$cmdset->getId()] = $cmdset->getName();
    }
    return $commandsets;
 }
@@ -130,14 +122,12 @@ function getBacklogHistory(Command $cmd) {
    $backlogList = array();
    $bottomLabel = array();
    foreach ($backlogData as $timestamp => $backlog) {
-
       $backlogList[] = (NULL == $backlog) ? 0 : $backlog; // TODO
       #$elapsedList[]   = (NULL == $elapsedData[$timestamp]) ? 0 : $elapsedData[$timestamp]; // TODO
       $bottomLabel[]   = Tools::formatDate("%d %b", $timestamp);
    }
 
-   foreach ($elapsedData as $timestamp => $elapsed) {
-
+   foreach ($elapsedData as $elapsed) {
       $elapsedList[] = (NULL == $elapsed) ? 0 : $elapsed; // TODO
    }
 
@@ -175,9 +165,11 @@ function getProgressHistory(Command $cmd) {
    $endTT = $cmdIssueSel->getLatestTimetrack();
    $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
 
-   $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-                   'endTimestamp' => $endTimestamp,
-                   'interval' => 14 );
+   $params = array(
+      'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+      'endTimestamp' => $endTimestamp,
+      'interval' => 14
+   );
 
    $progressIndicator = new ProgressHistoryIndicator();
    $progressIndicator->execute($cmdIssueSel, $params);
@@ -209,19 +201,15 @@ function displayCommand(SmartyHelper $smartyHelper, Command $cmd) {
    $smartyHelper->assign('cmdDesc', $cmd->getDesc());
 
    // set CommandSets I belong to
-   $parentCmdsets = getParentCommandSets($cmd);
-   $smartyHelper->assign('parentCmdSets', $parentCmdsets);
-   $smartyHelper->assign('nbParentCmdSets', count($parentCmdsets));
+   $smartyHelper->assign('parentCmdSets', getParentCommandSets($cmd));
 
    // set Issues that belong to me
    $cmdIssueSel = $cmd->getIssueSelection();
-   $cmdDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($cmdIssueSel);
-   $smartyHelper->assign('cmdDetailedMgr', $cmdDetailedMgr);
+   $smartyHelper->assign('cmdDetailedMgr', SmartyTools::getIssueSelectionDetailedMgr($cmdIssueSel));
    $smartyHelper->assign('cmdNbIssues', $cmdIssueSel->getNbIssues());
    $smartyHelper->assign('cmdShortIssueList', $cmdIssueSel->getFormattedIssueList());
 
-   $issueList = getCommandIssues($cmd);
-   $smartyHelper->assign('cmdIssues', $issueList);
+   $smartyHelper->assign('cmdIssues', getCommandIssues($cmd));
 
    // Indicators & statistics
    #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));

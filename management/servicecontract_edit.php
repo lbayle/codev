@@ -192,7 +192,7 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display Empty Command Form
       // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-      $smartyHelper->assign('contractInfoFormBtText', T_('Create'));
+      $smartyHelper->assign('contractInfoFormBtText', 'Create');
       $smartyHelper->assign('contractInfoFormAction', 'createContract');
    }
 
@@ -239,7 +239,7 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display ServiceContract
       $smartyHelper->assign('servicecontractid', $servicecontractid);
-      $smartyHelper->assign('contractInfoFormBtText', T_('Save'));
+      $smartyHelper->assign('contractInfoFormBtText', 'Save');
       $smartyHelper->assign('contractInfoFormAction', 'updateContractInfo');
 
       $commandsetCandidates = getCmdSetCandidates($session_user);

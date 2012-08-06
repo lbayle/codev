@@ -49,7 +49,7 @@ function getCommandSets($teamid, $selectedCmdSetId) {
 }
 
 /**
- * @param CommandSet $cmd
+ * @param CommandSet $cset
  * @return mixed[]
  */
 function getParentContracts(CommandSet $cset) {
@@ -60,14 +60,7 @@ function getParentContracts(CommandSet $cset) {
    // TODO return URL for 'name' ?
 
    foreach ($contractList as $contract) {
-      $teamid = $contract->getTeamid();
-      $team = TeamCache::getInstance()->getTeam($teamid);
-
-      $contracts[] = array(
-         'id' => $contract->getId(),
-         'name' => $contract->getName(),
-         'team' => $team->name
-      );
+      $contracts[$contract->getId()] = $contract->getName();
    }
    return $contracts;
 }
@@ -81,12 +74,10 @@ function getCommandSetCommands($commandsetid, $type) {
    $commands = array();
 
    if (0 != $commandsetid) {
-
       $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
 
       $cmdList = $commandset->getCommands($type);
       foreach ($cmdList as $id => $cmd) {
-
          $issueSelection = $cmd->getIssueSelection();
          $cmdDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
 
@@ -168,9 +159,7 @@ function displayCommandSet(SmartyHelper $smartyHelper, CommandSet $commandset) {
    $smartyHelper->assign('commandsetCurrency', $commandset->getCurrency());
    $smartyHelper->assign('commandsetDate', date("Y-m-d", $commandset->getDate()));
 
-   $commands = getCommandSetCommands($commandset->getId(), Command::type_general);
-   $smartyHelper->assign('nbCommands', count($commands));
-   $smartyHelper->assign('cmdList', $commands);
+   $smartyHelper->assign('cmdList', getCommandSetCommands($commandset->getId(), Command::type_general));
    $smartyHelper->assign('cmdsetDetailedMgr', getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
 
    $smartyHelper->assign('jqplotTitle', 'Historical Progression Chart');

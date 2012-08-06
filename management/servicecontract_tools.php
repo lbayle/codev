@@ -289,15 +289,10 @@ function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract) {
    $smartyHelper->assign('servicecontractStateList', getServiceContractStateList($servicecontract));
    $smartyHelper->assign('servicecontractState', ServiceContract::$stateNames[$servicecontract->getState()]);
 
-   $commandSets = getServiceContractCommandSets($servicecontract->getId(), CommandSet::type_general, Command::type_general);
-   $smartyHelper->assign('cmdsetList', $commandSets);
-   $smartyHelper->assign('nbCommandSets', count($commandSets));
+   $smartyHelper->assign('cmdsetList', getServiceContractCommandSets($servicecontract->getId(), CommandSet::type_general, Command::type_general));
    $smartyHelper->assign('cmdsetTotalDetailedMgr', getServiceContractCmdsetTotalDetailedMgr($servicecontract->getId(), CommandSet::type_general, Command::type_general));
 
-   $commands = getServiceContractCommands($servicecontract->getId(), CommandSet::type_general, Command::type_general);
-   $smartyHelper->assign('cmdList', $commands);
-   $smartyHelper->assign('nbCommands', count($commands));
-
+   $smartyHelper->assign('cmdList', getServiceContractCommands($servicecontract->getId(), CommandSet::type_general, Command::type_general));
 
    $smartyHelper->assign('projectList', getServiceContractProjects($servicecontract->getId()));
    $smartyHelper->assign('sidetasksDetailedMgr', getContractSidetasksDetailedMgr($servicecontract->getId()));

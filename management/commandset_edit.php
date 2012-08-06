@@ -159,7 +159,6 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display Empty Command Form
       // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-      $smartyHelper->assign('cmdsetInfoFormBtText', T_('Create'));
       $smartyHelper->assign('cmdsetInfoFormAction', 'createCmdset');
    }
 
@@ -195,7 +194,6 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display CommandSet
       $smartyHelper->assign('commandsetid', $commandsetid);
-      $smartyHelper->assign('cmdsetInfoFormBtText', T_('Save'));
       $smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
       $smartyHelper->assign('isAddCmdForm', true);
 
@@ -204,9 +202,7 @@ if (isset($_SESSION['userid'])) {
       $smartyHelper->assign('isAddCmdSetForm', true);
 
       // set CommandSets I belong to
-      $parentContracts = getParentContracts($cmdset);
-      $smartyHelper->assign('parentContracts', $parentContracts);
-      $smartyHelper->assign('nbParentContracts', count($parentContracts));
+      $smartyHelper->assign('parentContracts', getParentContracts($cmdset));
 
       displayCommandSet($smartyHelper, $cmdset);
    }

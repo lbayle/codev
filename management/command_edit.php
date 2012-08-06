@@ -222,7 +222,7 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display Empty Command Form
       // Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
-      $smartyHelper->assign('cmdInfoFormBtText', T_('Create'));
+      $smartyHelper->assign('cmdInfoFormBtText', 'Create');
       $smartyHelper->assign('cmdInfoFormAction', 'createCmd');
 
       $smartyHelper->assign('cmdStateList', getServiceContractStateList());
@@ -288,7 +288,7 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Display Command
       $smartyHelper->assign('commandid', $cmdid);
-      $smartyHelper->assign('cmdInfoFormBtText', T_('Save'));
+      $smartyHelper->assign('cmdInfoFormBtText', 'Save');
       $smartyHelper->assign('cmdInfoFormAction', 'updateCmdInfo');
       $smartyHelper->assign('isAddIssueForm', true);
 

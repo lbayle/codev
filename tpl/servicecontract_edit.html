@@ -62,7 +62,7 @@
       <tr>
          <td><span style="font-weight:bold;">{t}Nb CommandSets{/t}</span></td>
          <td>: </td>
-         <td>{$nbCommandSets}</td>
+         <td>{$cmdsetList|count}</td>
       </tr>
    </table>
    <form id="formDeleteContract" name="formDeleteContract" method="post" action="{$page}" >
@@ -144,7 +144,7 @@
          </table>
          <br>
          <button type='button' name="btDeleteContract" id="btDeleteContract"><img  border='0' align='absmiddle' src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>
-         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {$contractInfoFormBtText}</button>
+         <button type='submit'><img  border='0' align='absmiddle' src="images/b_save.gif" alt="Save icon"/> {t}{$contractInfoFormBtText}{/t}</button>
 
          <input type="hidden" name="action" value="{$contractInfoFormAction}" />
          <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
