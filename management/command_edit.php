@@ -39,27 +39,27 @@ $logger = Logger::getLogger("command_edit");
  */
 function updateCmdInfo(Command $cmd) {
    // security check
-   $cmd->setTeamid(SmartyTools::checkNumericValue($_POST['teamid']));
+   $cmd->setTeamid(Tools::getSecurePOSTIntValue('teamid'));
 
-   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdName']);
+   $formattedValue = Tools::getSecurePOSTStringValue('cmdName');
    $cmd->setName($formattedValue);
 
-   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdReference']);
+   $formattedValue = Tools::getSecurePOSTStringValue('cmdReference','');
    $cmd->setReference($formattedValue);
 
-   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdVersion']);
+   $formattedValue = Tools::getSecurePOSTStringValue('cmdVersion','');
    $cmd->setVersion($formattedValue);
 
-   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdReporter']);
+   $formattedValue = Tools::getSecurePOSTStringValue('cmdReporter','');
    $cmd->setReporter($formattedValue);
 
-   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdDesc']);
+   $formattedValue = Tools::getSecurePOSTStringValue('cmdDesc','');
    $cmd->setDesc($formattedValue);
 
-   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdStartDate']);
+   $formattedValue = Tools::getSecurePOSTStringValue('cmdStartDate','');
    $cmd->setStartDate(Tools::date2timestamp($formattedValue));
 
-   $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdDeadline']);
+   $formattedValue = Tools::getSecurePOSTStringValue('cmdDeadline');
    $cmd->setDeadline(Tools::date2timestamp($formattedValue));
 
    $cmd->setState(SmartyTools::checkNumericValue($_POST['cmdState'], true));
@@ -195,19 +195,24 @@ if (isset($_SESSION['userid'])) {
 
       // ------ Actions
       if ("createCmd" == $action) {
-         $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
+         $teamid = Tools::getSecurePOSTIntValue('teamid');
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new Command for team $teamid<br>");
 
-         $cmdName = SqlWrapper::getInstance()->sql_real_escape_string($_POST['cmdName']);
+         $cmdName = Tools::getSecurePOSTStringValue('cmdName');
 
-         $cmdid = Command::create($cmdName, $teamid);
-         $smartyHelper->assign('commandid', $cmdid);
+         try {
+            $cmdid = Command::create($cmdName, $teamid);
+            $smartyHelper->assign('commandid', $cmdid);
 
-         $cmd = CommandCache::getInstance()->getCommand($cmdid);
+            $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
-         // set all fields
-         updateCmdInfo($cmd);
+            // set all fields
+            updateCmdInfo($cmd);
+         } catch(Exception $e) {
+            // Smartify
+            echo "Can't create the command because the command name is already used";
+         }
       }
 
       // ------ Display Empty Command Form
@@ -220,6 +225,8 @@ if (isset($_SESSION['userid'])) {
 
       $smartyHelper->assign('commandsetid', $commandsetid);
       $smartyHelper->assign('commandsets', getCommandSets($teamid, $commandsetid));
+
+      $smartyHelper->assign('cmdName', "New command");
    }
 
    if (0 != $cmdid) {
