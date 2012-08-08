@@ -4,10 +4,9 @@
 <script type="text/javascript" src="js/tabs.js"></script>
 
 <script type="text/javascript">
-
    jQuery(document).ready(function() {
       {if $locale != en}
-         jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+      jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
       {/if}
 
       // Set the date
@@ -15,11 +14,11 @@
 
       // DialogBox for deleteCommandSet
       jQuery("#btDeleteCommandSet").click(function(event) {
-         jQuery( "#deleteCommandSet_dialog_form" ).dialog( "open" );
+         jQuery( "#deleteCommandSet_dialog_form").dialog("open");
       });
 
       // delete track dialogBox
-      jQuery("#deleteCommandSet_dialog_form" ).dialog({
+      jQuery("#deleteCommandSet_dialog_form").dialog({
          autoOpen: false,
          resizable: true,
          width: "auto",
@@ -29,7 +28,7 @@
                jQuery("#formDeleteCommandSet").submit();
             },
             Cancel: function() {
-               jQuery( this ).dialog( "close" );
+               jQuery(this).dialog("close");
             }
          }
       });
@@ -63,7 +62,7 @@
    <form id="formDeleteCommandSet" name="formDeleteCommandSet" method="post" action="{$page}" >
       <fieldset>
          <input type="hidden" name="action" value="deleteCommandSet" />
-         <input type="hidden" name="commandid"  value="{$commandsetid}" />
+         <input type="hidden" name="commandid" value="{$commandsetid}" />
          <input type="hidden" name="teamid" value="{$teamid}" />
       </fieldset>
    </form>
@@ -83,7 +82,7 @@
          <fieldset>
             <table class='invisible'>
                <tr>
-                  <th>{t}Team{/t}</th>
+                  <th><label for="teamSelector">{t}Team{/t}</label></th>
                   <td>
                      <select id='teamSelector' name='teamid'>
                         <!--option value='0'></option-->
@@ -94,29 +93,29 @@
                   </td>
                </tr>
                <tr>
-                  <th>{t}Name{/t}</th>
-                  <td><input type='text' size='80' style='font-family: sans-serif' name='commandsetName'  id='commandsetName' value='{$commandsetName}'></td>
+                  <th><label for="commandsetName">{t}Name{/t}</label></th>
+                  <td><input type='text' size='80' style='font-family: sans-serif' name='commandsetName' id='commandsetName' value='{$commandsetName}'></td>
                </tr>
                <tr>
-                  <th>{t}Reference{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='commandsetReference'  id='commandsetReference' value='{$commandsetReference}'></td>
+                  <th><label for="commandsetReference">{t}Reference{/t}</label></th>
+                  <td><input type='text' style='font-family: sans-serif' name='commandsetReference' id='commandsetReference' value='{$commandsetReference}'></td>
                </tr>
                <tr>
-                  <th>{t}Description{/t}</th>
-                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='commandsetDesc'  id='commandsetDesc'>{$commandsetDesc}</textarea></td>
+                  <th><label for="commandsetDesc">{t}Description{/t}</label></th>
+                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='commandsetDesc' id='commandsetDesc'>{$commandsetDesc}</textarea></td>
                </tr>
                <tr>
-                  <th>{t}Date{/t}</th>
-                  <td><input type="text" id="commandsetDate"  name="commandsetDate" class="datepicker" maxlength="10" size="10" title="{t}Date{/t}" />
+                  <th><label for="commandsetDate">{t}Date{/t}</label></th>
+                  <td><input type="text" id="commandsetDate" name="commandsetDate" class="datepicker" maxlength="10" size="10" title="{t}Date{/t}" />
                   </td>
                </tr>
                <tr>
-                  <th>{t}Cost{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='commandsetCost'  id='commandsetCost' value='{$commandsetCost}'> {t}EUR{/t}</td>
+                  <th><label for="commandsetCost">{t}Cost{/t}</label></th>
+                  <td><input type='text' style='font-family: sans-serif' name='commandsetCost' id='commandsetCost' value='{$commandsetCost}'> {t}EUR{/t}</td>
                </tr>
                <tr>
-                  <th>{t}Budget{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='commandsetBudget'  id='commandsetBudget' value='{$commandsetBudget}'> {t}days{/t}</td>
+                  <th><label for="commandsetBudget">{t}Budget{/t}</th>
+                  <td><input type='text' style='font-family: sans-serif' name='commandsetBudget' id='commandsetBudget' value='{$commandsetBudget}'> {t}days{/t}</td>
                </tr>
             </table>
             <br />
@@ -166,18 +165,18 @@
 
          <script type="text/javascript">
             function removeCmd(cmdid, description){
-               jQuery( "#desc_id" ).text(cmdid);
-               jQuery( "#desc_summary" ).text(description);
+               jQuery("#desc_id").text(cmdid);
+               jQuery("#desc_summary").text(description);
 
-               jQuery( "#formRemoveCmd" ).find("input[name=cmdid]").val(cmdid);
+               jQuery("#formRemoveCmd").find("input[name=cmdid]").val(cmdid);
 
-               jQuery( "#removeCmd_dialog_form" ).dialog( "open" );
+               jQuery("#removeCmd_dialog_form").dialog("open");
             }
          </script>
          <script type="text/javascript">
             jQuery(document).ready(function() {
                // delete track dialogBox
-               jQuery("#removeCmd_dialog_form" ).dialog({
+               jQuery("#removeCmd_dialog_form").dialog({
                   autoOpen: false,
                   resizable: true,
                   width: "auto",
@@ -187,7 +186,7 @@
                         jQuery("#formRemoveCmd").submit();
                      },
                      Cancel: function() {
-                        jQuery( this ).dialog( "close" );
+                        jQuery(this).dialog("close");
                      }
                   }
                });
@@ -213,7 +212,6 @@
                   <input type="hidden" name="cmdid"  value="0" />
                   <input type="hidden" name="teamid" value="{$teamid}" />
                   <input type="hidden" name="commandsetid"  value="{$commandsetid}" />
-
                </fieldset>
             </form>
          </div>

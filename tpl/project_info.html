@@ -2,7 +2,7 @@
 
 <div id="content">
    {if $projects}
-   <div style="text-align: center;">
+   <div class="center">
       <form name="projectForm" method="get" action="{$page}">
          <fieldset>
             {include file="form/projectSelector.html"}
@@ -15,24 +15,24 @@
    <h3>{t}Project Versions{/t}</h3>
    <div id="tabsVersions" class="tabs">
       <ul>
-         {if $versionsDetailedMgr}<li><a href="#tabVersionsDetailedMgr">{t}Detailed Mgr{/t}</a></li>{/if}
-         {if $versionsDetailed}<li><a href="#tabVersionsDetailed">{t}Detailed{/t}</a></li>{/if}
-         {if $versionsOverview}<li><a href="#tabVersionsOverview">{t}Overview{/t}</a></li>{/if}
-         {if $versionsIssues}<li><a href="#tabVersionsIssues">{t}Tasks{/t}</a></li>{/if}
+         <li><a href="#tabVersionsDetailedMgr">{t}Detailed Mgr{/t}</a></li>
+         <li><a href="#tabVersionsDetailed">{t}Detailed{/t}</a></li>
+         <li><a href="#tabVersionsOverview">{t}Overview{/t}</a></li>
+         <li><a href="#tabVersionsIssues">{t}Tasks{/t}</a></li>
       </ul>
-      {if $versionsOverview}
       <div id="tabVersionsOverview">
+         {if $versionsOverview}
          <table>
             <tr>
                <th>{t}Target version{/t}</th>
                <th>{t}Date{/t}</th>
                <th>{t}Progress Mgr{/t}</th>
                <th>{t}Progress{/t}</th>
-               <th style="width: 80px">{t}Drift Mgr{/t}</th>
-               <th style="width: 80px">{t}Drift{/t}</th>
+               <th style="width: 80px;">{t}Drift Mgr{/t}</th>
+               <th style="width: 80px;">{t}Drift{/t}</th>
             </tr>
             {foreach from=$versionsOverview key=name item=i name=versionsOverview}
-            <tr {if $smarty.foreach.versionsOverview.last}class="row_even"{/if}>
+            <tr {if $smarty.foreach.versionsOverview.last}class="row_total"{/if}>
                <td>{$i.name}</td>
                <td>{$i.date}</td>
                <td>{$i.progressMgr}%</td>
@@ -42,10 +42,12 @@
             </tr>
             {/foreach}
          </table>
+         {else}
+         {t}No data{/t}
+         {/if}
       </div>
-      {/if}
-      {if $versionsDetailedMgr}
       <div id="tabVersionsDetailedMgr">
+         {if $versionsDetailedMgr}
          <table>
             <tr>
                <th>{t}Target version{/t}</th>
@@ -56,7 +58,7 @@
                <th style="width: 80px">{t}Drift Mgr{/t}</th>
             </tr>
             {foreach from=$versionsDetailedMgr key=name item=i name=versionsDetailedMgr}
-               <tr {if $smarty.foreach.versionsDetailedMgr.last}class="row_even"{/if}>
+               <tr {if $smarty.foreach.versionsDetailedMgr.last}class="row_total"{/if}>
                   <td>{$i.name}</td>
                   <td>{$i.effortEstim}</td>
                   <td>{$i.reestimated}</td>
@@ -66,10 +68,12 @@
                </tr>
             {/foreach}
          </table>
+         {else}
+         {t}No data{/t}
+         {/if}
       </div>
-      {/if}
-      {if $versionsDetailed}
       <div id="tabVersionsDetailed">
+         {if $versionsDetailed}
          <table>
             <tr>
                <th>{t}Target version{/t}</th>
@@ -80,7 +84,7 @@
                <th style="width: 80px">{t}Drift{/t}</th>
             </tr>
             {foreach from=$versionsDetailed key=name item=i name=versionsDetailed}
-               <tr {if $smarty.foreach.versionsDetailed.last}class="row_even"{/if}>
+               <tr {if $smarty.foreach.versionsDetailed.last}class="row_total"{/if}>
                   <td>{$i.name}</td>
                   <td {$i.title}>{$i.effortEstim}</td>
                   <td>{$i.reestimated}</td>
@@ -90,10 +94,12 @@
                </tr>
             {/foreach}
          </table>
+         {else}
+         {t}No data{/t}
+         {/if}
       </div>
-      {/if}
-      {if $versionsIssues}
       <div id="tabVersionsIssues">
+         {if $versionsIssues}
          <table>
             <tr>
                <th>{t}Target version{/t}</th>
@@ -110,19 +116,21 @@
                </tr>
             {/foreach}
          </table>
+         {else}
+         {t}No data{/t}
+         {/if}
       </div>
-      {/if}
    </div>
    {/if}
    {if $currentIssuesInDrift || $resolvedIssuesInDrift}
    <h3 style="margin-top: 2em">{t}Tasks in drift{/t}</h3>
    <div id="tabsDrift" class="tabs">
       <ul>
-         {if $currentIssuesInDrift}<li><a href="#tabCurrentDrift">{t}Drift current tasks{/t}</a></li>{/if}
-         {if $resolvedIssuesInDrift}<li><a href="#tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>{/if}
+         <li><a href="#tabCurrentDrift">{t}Drift current tasks{/t}</a></li>
+         <li><a href="#tabResolvedDrift">{t}Drift resolved tasks{/t}</a></li>
       </ul>
-      {if $currentIssuesInDrift}
       <div id="tabCurrentDrift">
+         {if $currentIssuesInDrift}
          <table>
             <!--<caption>{t}Tasks in drift{/t}</caption>-->
             <tr>
@@ -150,10 +158,12 @@
             </tr>
             {/foreach}
          </table>
+         {else}
+         {t}No data{/t}
+         {/if}
       </div>
-      {/if}
-      {if $resolvedIssuesInDrift}
       <div id="tabResolvedDrift">
+         {if $resolvedIssuesInDrift}
          <table>
             <!--<caption>{t}Tasks in drift{/t}</caption>-->
             <tr>
@@ -181,8 +191,10 @@
                </tr>
             {/foreach}
          </table>
+         {else}
+         {t}No data{/t}
+         {/if}
       </div>
-      {/if}
    </div>
    {/if}
    {if $error}

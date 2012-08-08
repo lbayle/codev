@@ -22,22 +22,38 @@ table {
   /*border-collapse: collapse;*/
 }
 caption {
-font-size: larger;
-font-weight: bold;
-text-align: left;
+  font-size: larger;
+  font-weight: bold;
+  text-align: left;
 }
 th {
-background-color: #c8c8e8;
-border: 0 solid white;
-margin: 0;
-padding: 0 2px;
+  background-color: #c8c8e8;
+  border: 0 solid white;
+  margin: 0;
+  padding: 0 2px;
 }
 
 tr.row_even td {
-background-color: #CFCFCF;
-border: 0 solid white;
-margin: 0;
-padding: 0 2px;
+  background-color: #CFCFCF;
+  border: 0 solid white;
+  margin: 0;
+  padding: 0 2px;
+}
+
+tr.row_total td {
+   background-color: #CFCFCF;
+   border: 0 solid white;
+   margin: 0;
+   padding: 0 2px;
+   font-weight: bold;
+}
+
+tfoot td {
+   background-color: #CFCFCF;
+   border: 0 solid white;
+   margin: 0;
+   padding: 0 2px;
+   font-weight: bold;
 }
 
 tr.row_odd td {

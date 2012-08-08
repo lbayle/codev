@@ -126,7 +126,9 @@
                   <td>{$cmd.progress}%</td>
                </tr>
                {/foreach}
-               <tr class="row_even" style="font-weight: bold">
+            </tbody>
+            <tfoot>
+               <tr>
                   <!--td></td-->
                   <td></td>
                   <td align="left">{t}TOTAL{/t}</td>
@@ -138,7 +140,7 @@
                   <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
                   <td>{$cmdsetDetailedMgr.progress}%</td>
                </tr>
-            </tbody>
+            </tfoot>
          </table>
          {else}
          {t}No Command found.{/t}

@@ -43,7 +43,7 @@
             var project = jQuery("#projectid :selected");
             var clone_project = jQuery("#clone_projectid :selected");
          
-            jQuery("#desc_action" ).text('{t}Are you sure you want to change{/t} '+clone_project.text()+' {t}settings ?{/t}');
+            jQuery("#desc_action").text('{t}Are you sure you want to change{/t} '+clone_project.text()+' {t}settings ?{/t}');
 
             var form = jQuery("#formClone");
             form.find("input[name=projectid]").val(project.val());
@@ -58,7 +58,7 @@
             var project = jQuery("#projectid :selected");
             var clone_project = jQuery("#clone_projectid :selected");
          
-            jQuery("#desc_action" ).text('{t}Are you sure you want to change{/t} '+project.text()+' {t}settings ?{/t}');
+            jQuery("#desc_action").text('{t}Are you sure you want to change{/t} '+project.text()+' {t}settings ?{/t}');
 
             var form = jQuery("#formClone");
          
@@ -92,7 +92,7 @@
    </script>
    <h2 style="margin-top: 2em;">{t}Clone project settings{/t}</h2>
    <form id="cloneProjectForm" name="cloneProjectForm" method="POST" action="{$page}">
-      <select id="clone_projectid" name="clone_projectid" onchange="setCloneProject()">
+      <select id="clone_projectid" name="clone_projectid">
          <option value="0"></option>
          {foreach from=$cloneProjects key=id item=i}
          <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
@@ -104,8 +104,8 @@
    </form>
    
    <div id="cloneProject_dialog_form" title="Clone Project" style="display: none">
-      <p id="desc" name="desc">
-         <label id="desc_action" name="desc_action">action description</label>
+      <p id="desc">
+         <label id="desc_action">action description</label>
       </p>
       <p id="validateTips"> </p>
       <form id="formClone" name="formClone" method="post" action="{$page}" >

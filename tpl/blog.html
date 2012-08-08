@@ -1,22 +1,16 @@
-
 <div style="margin-top:2em;">
 
-
-
-   BLOGPOST_FORM<br>
+   BLOGPOST_FORM<br />
    <div style="width:800px">
-      {include file="blog/blogpost_form.html"}
+   {include file="blog/blogpost_form.html"}
    </div>
 
-<div style="margin-top:2em;">
-
-   <div style="width:800px;height:350px;overflow-x:hidden;overflow-y:auto;">
-         {foreach from=$blogPosts key=id item=i}
-            {if $i.isHidden == '0' }   
-               {include file="blog/blogpost.html"}
-               <br>
-            {/if}   
-         {/foreach}
-   </div>
-
-      
+   <div style="margin-top:2em;">
+      <div style="width:800px;height:350px;overflow-x:hidden;overflow-y:auto;">
+      {foreach from=$blogPosts key=id item=i}
+         {if $i.isHidden == '0' }
+         {include file="blog/blogpost.html"}
+            <br>
+         {/if}
+      {/foreach}
+      </div>

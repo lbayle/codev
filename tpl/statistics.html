@@ -40,7 +40,7 @@
          
    {if $error}{t}{$error}{/t}{/if}
 
-   {if $submittedResolvedLegend && $timeDriftLegend && $resolvedDriftLegend && $efficiencyLegend && $reopenedRateLegend && $developersWorkloadLegend}
+   {if $submittedResolvedLegend || $timeDriftLegend || $resolvedDriftLegend || $efficiencyLegend || $reopenedRateLegend || $developersWorkloadLegend}
    <div id="results" class="tabs" style="margin-top: 2em">
       <ul>
          <li><a href="#tagSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>

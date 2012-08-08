@@ -7,7 +7,7 @@
 <script type="text/javascript">
    jQuery(document).ready(function() {
       {if $locale != en}
-         jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
+      jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
       {/if}
 
       // Set the date
@@ -16,11 +16,11 @@
 
       // DialogBox for deleteCommand
       jQuery("#btDeleteCommand").click(function(event) {
-         jQuery( "#deleteCommand_dialog_form" ).dialog( "open" );
+         jQuery("#deleteCommand_dialog_form").dialog("open");
       });
 
       // delete track dialogBox
-      jQuery("#deleteCommand_dialog_form" ).dialog({
+      jQuery("#deleteCommand_dialog_form").dialog({
          autoOpen: false,
          resizable: true,
          width: "auto",
@@ -80,19 +80,17 @@
 
 <div id="content">
 
-   <br/><br/>
-   <div  align="center">
+   <div align="center" style="margin-top: 2em;">
       <h2>{$cmdName}</h2>
    </div>
 
-   <br/><br/>
-   <div>
+   <div style="margin-top: 2em;">
       <!-- create form -->
       <form id='updateCmdInfoForm' name='updateCmdInfoForm' method='post' action='{$page}'>
          <fieldset>
             <table class='invisible'>
                <tr>
-                  <th>{t}Team{/t}</th>
+                  <th><label for="teamSelector">{t}Team{/t}</label></th>
                   <td>
                      <select id='teamSelector' name='teamid'>
                         <!--option value='0'></option-->
@@ -100,40 +98,44 @@
                         <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                         {/foreach}
                      </select>
+                     <span style="color:red">*</span>
                   </td>
                </tr>
                <tr>
-                  <th>{t}Name{/t}</th>
-                  <td><input type='text' size='80' style='font-family: sans-serif' name='cmdName'  id='cmdName' value='{$cmdName}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Reference{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='cmdReference'  id='cmdReference' value='{$cmdReference}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Version{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='cmdVersion'  id='cmdVersion' value='{$cmdVersion}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Reporter{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='cmdReporter'  id='cmdReporter' value='{$cmdReporter}'></td>
-               </tr>
-               <tr>
-                  <th>{t}Description{/t}</th>
-                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='cmdDesc'  id='cmdDesc'>{$cmdDesc}</textarea></td>
-               </tr>
-               <tr>
-                  <th>{t}Date depart{/t}</th>
-                  <td><input type="text" id="cmdStartDate"  name="cmdStartDate" class="datepicker" maxlength="10" size="10" title="{t}Start Date{/t}" />
+                  <th><label for="cmdName">{t}Name{/t}</label></th>
+                  <td>
+                     <input type='text' size='80' style='font-family: sans-serif' name='cmdName'  id='cmdName' value='{$cmdName}'>
+                     <span style="color:red">*</span>
                   </td>
                </tr>
                <tr>
-                  <th>{t}Date fin{/t}</th>
-                  <td><input type="text" id="cmdDeadline"  name="cmdDeadline" class="datepicker" maxlength="10" size="10" title="{t}Deadline{/t}" />
+                  <th><label for="cmdReference">{t}Reference{/t}</label></th>
+                  <td><input type='text' style='font-family: sans-serif' name='cmdReference' id='cmdReference' value='{$cmdReference}'></td>
+               </tr>
+               <tr>
+                  <th><label for="cmdVersion">{t}Version{/t}</label></th>
+                  <td><input type='text' style='font-family: sans-serif' name='cmdVersion' id='cmdVersion' value='{$cmdVersion}'></td>
+               </tr>
+               <tr>
+                  <th><label for="cmdReporter">{t}Reporter{/t}</label></th>
+                  <td><input type='text' style='font-family: sans-serif' name='cmdReporter' id='cmdReporter' value='{$cmdReporter}'></td>
+               </tr>
+               <tr>
+                  <th><label for="cmdDesc">{t}Description{/t}</label></th>
+                  <td><textarea rows='4' cols='80' style='font-family: sans-serif' name='cmdDesc' id='cmdDesc'>{$cmdDesc}</textarea></td>
+               </tr>
+               <tr>
+                  <th><label for="cmdStartDate">{t}Date depart{/t}</label></th>
+                  <td><input type="text" id="cmdStartDate" name="cmdStartDate" class="datepicker" maxlength="10" size="10" title="{t}Start Date{/t}" />
                   </td>
                </tr>
                <tr>
-                  <th>{t}State{/t}</th>
+                  <th><label for="cmdDeadline">{t}Date fin{/t}</label></th>
+                  <td><input type="text" id="cmdDeadline" name="cmdDeadline" class="datepicker" maxlength="10" size="10" title="{t}Deadline{/t}" />
+                  </td>
+               </tr>
+               <tr>
+                  <th><label for="stateSelector">{t}State{/t}</label></th>
                   <td>
                      <select id='stateSelector' name='cmdState'>
                         <option value='0'></option>
@@ -144,13 +146,13 @@
                   </td>
                </tr>
                <tr>
-                  <th>{t}Cost{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='cmdCost'  id='cmdCost' value='{$cmdCost}'> {t}EUR{/t}
+                  <th><label for="cmdCost">{t}Cost{/t}</label></th>
+                  <td><input type='text' style='font-family: sans-serif' name='cmdCost' id='cmdCost' value='{$cmdCost}'> {t}EUR{/t}
                   </td>
                </tr>
                <tr>
-                  <th>{t}Budget{/t}</th>
-                  <td><input type='text' style='font-family: sans-serif' name='cmdBudgetDev'  id='cmdBudgetDev' value='{$cmdBudgetDev}'> {t}days{/t}
+                  <th><label for="cmdBudgetDev">{t}Budget{/t}</label></th>
+                  <td><input type='text' style='font-family: sans-serif' name='cmdBudgetDev' id='cmdBudgetDev' value='{$cmdBudgetDev}'> {t}days{/t}
                   </td>
                </tr>
             </table>
@@ -166,8 +168,8 @@
 
    <div id="tabsCommand" class="tabs" style="margin-top:4em;">
       <ul>
-         <li><a href="#tabsName-1">{t}Tasks ({$cmdNbIssues}){/t}</a></li>
-         <li><a href="#tabsName-4">{t}Parent CommandSets ({$nbParentCmdSets}){/t}</a></li>
+         <li><a href="#tabsName-1">{t}Tasks {if $cmdNbIssues}({$cmdNbIssues}){/if}{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Parent CommandSets {if $cmdNbIssues}({$nbParentCmdSets}){/if}{/t}</a></li>
       </ul>
 
       <div id="tabsName-1">
@@ -208,7 +210,7 @@
             <!-- create form -->
             <form id='addCmdIssueForm' name='addCmdIssueForm' method='post' action='{$page}'>
                <fieldset>
-                  <label>{t}Add task{/t}: </label>
+                  <label for="bugid">{t}Add task{/t}: </label>
                   <input id='bugid' name='bugid' type='text' size='5' value='' />
                   <button id="btAddCmdIssue" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {t}Add{/t}</button>
                   <input type="hidden" name="action" value="addCmdIssue" />
@@ -227,18 +229,18 @@
 
             <script type="text/javascript">
                function removeCmdIssue(bugid, project, description){
-                  jQuery( "#desc_id" ).text(bugid);
-                  jQuery( "#desc_project" ).text(project);
-                  jQuery( "#desc_summary" ).text(description);
+                  jQuery("#desc_id").text(bugid);
+                  jQuery("#desc_project").text(project);
+                  jQuery("#desc_summary").text(description);
 
-                  jQuery( "#formRemoveCmdIssue" ).find("input[name=bugid]").val(bugid);
+                  jQuery("#formRemoveCmdIssue").find("input[name=bugid]").val(bugid);
 
-                  jQuery( "#removeCmdIssue_dialog_form" ).dialog( "open" );
+                  jQuery("#removeCmdIssue_dialog_form").dialog( "open" );
                }
 
                jQuery(document).ready(function() {
                   // delete track dialogBox
-                  jQuery("#removeCmdIssue_dialog_form" ).dialog({
+                  jQuery("#removeCmdIssue_dialog_form").dialog({
                      autoOpen: false,
                      resizable: true,
                      width: "auto",
@@ -248,7 +250,7 @@
                            jQuery("#formRemoveCmdIssue").submit();
                         },
                         Cancel: function() {
-                           jQuery( this ).dialog( "close" );
+                           jQuery(this).dialog("close");
                         }
                      }
                   });
@@ -278,7 +280,6 @@
                      <input type="hidden" name="bugid"  value="0" />
                      <input type="hidden" name="teamid" value="{$teamid}" />
                      <input type="hidden" name="cmdid"  value="{$commandid}" />
-
                   </fieldset>
                </form>
             </div>
@@ -299,7 +300,7 @@
                      <td>
                         <a title="{t}delete Command-Task association{/t}"
                            href="javascript: removeCmdIssue('{$id}', '{$issue.project}', '{$issue.summary|escape_quotes}')">
-                           <img alt="b_drop.png" border="0" src="images/b_drop.png" />
+                           <img alt="{t}Drop{/t}" border="0" src="images/b_drop.png" />
                         </a>
                      </td>
                      <td>{$issue.bugid}</td>
@@ -345,17 +346,17 @@
 
          <script type="text/javascript">
             function removeCmdSet(commandsetid, name){
-               jQuery( "#desc_id" ).text(commandsetid);
-               jQuery( "#desc_name" ).text(name);
+               jQuery("#desc_id").text(commandsetid);
+               jQuery("#desc_name").text(name);
 
-               jQuery( "#formRemoveCmdSet" ).find("input[name=commandsetid]").val(commandsetid);
+               jQuery("#formRemoveCmdSet").find("input[name=commandsetid]").val(commandsetid);
 
-               jQuery( "#removeCmdSet_dialog_form" ).dialog( "open" );
+               jQuery("#removeCmdSet_dialog_form").dialog("open");
             }
 
             jQuery(document).ready(function() {
                // delete track dialogBox
-               jQuery("#removeCmdSet_dialog_form" ).dialog({
+               jQuery("#removeCmdSet_dialog_form").dialog({
                   autoOpen: false,
                   resizable: true,
                   width: "auto",
@@ -365,7 +366,7 @@
                         jQuery("#formRemoveCmdSet").submit();
                      },
                      Cancel: function() {
-                        jQuery( this ).dialog( "close" );
+                        jQuery(this).dialog("close");
                      }
                   }
                });

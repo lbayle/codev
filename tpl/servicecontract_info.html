@@ -142,7 +142,9 @@
                   <td>{$cmdset.progress}%</td>
                </tr>
                {/foreach}
-               <tr class="row_even" style="font-weight: bold">
+            </tbody>
+            <tfoot>
+               <tr>
                   <!--td></td-->
                   <td title="{$id}" align="left">{t}TOTAL{/t}</td>
                   <!--td></td-->
@@ -153,7 +155,7 @@
                   <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
                   <td>{$cmdsetTotalDetailedMgr.progress}%</td>
                </tr>
-            </tbody>
+            </tfoot>
          </table>
          {else}
          {t}No CommandSet found.{/t}
@@ -188,7 +190,9 @@
                   <td>{$cmd.progress}%</td>
                </tr>
                {/foreach}
-               <tr class="row_even" style="font-weight: bold">
+            </tbody>
+            <tfoot>
+               <tr>
                   <!--td></td-->
                   <td align="left">{t}TOTAL{/t}</td>
                   <!--td></td-->
@@ -199,7 +203,7 @@
                   <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
                   <td>{$cmdsetTotalDetailedMgr.progress}%</td>
                </tr>
-            </tbody>
+            </tfoot>
          </table>
          {else}
          {t}No Command found.{/t}
@@ -231,16 +235,18 @@
                   <td {$category.driftColor}>{$category.drift}</td>
                </tr>
                {/foreach}
-               <tr class="row_even" style="font-weight: bold">
+            </tbody>
+            <tfoot>
+               <tr>
                   <!--td></td-->
-                  <td title="{$id}" align="left">{t}TOTAL{/t}</td>
+                  <td align="left">{t}TOTAL{/t}</td>
                   <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
                   <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
                   <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
                   <td>{$sidetasksTotalDetailedMgr.backlog}</td>
                   <td {$sidetasksTotalDetailedMgr.driftColor}>{$sidetasksTotalDetailedMgr.drift}</td>
                </tr>
-            </tbody>
+            </tfoot>
          </table>
          {else}
          {t}No sidetasks found.{/t}
@@ -279,7 +285,9 @@
                   <td>{$sidetasksTotalDetailedMgr.backlog}</td>
                   <td>{$sidetasksTotalDetailedMgr.drift}</td>
                </tr>
-               <tr class="row_even" style="font-weight: bold">
+            </tbody>
+            <tfoot>
+               <tr>
                   <!--td></td-->
                   <td align="left">{t}TOTAL{/t}</td>
                   <td>{$servicecontractTotalDetailedMgr.effortEstim}</td>
@@ -288,7 +296,7 @@
                   <td>{$servicecontractTotalDetailedMgr.backlog}</td>
                   <td {$servicecontractTotalDetailedMgr.driftColor}>{$servicecontractTotalDetailedMgr.drift}</td>
                </tr>
-            </tbody>
+            </tfoot>
          </table>
          {else}
          {t}No Total found.{/t}
