@@ -103,7 +103,7 @@ class ServiceContract {
    private function initialize($row) {
       if($row == NULL) {
          // get info from DB
-         $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id=$this->id ";
+         $query  = "SELECT * FROM `codev_servicecontract_table` WHERE id = ".$this->id.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -124,8 +124,8 @@ class ServiceContract {
 
       // CommandSets
       $query  = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
-                "WHERE servicecontract_id=$this->id ".
-                "ORDER BY type ASC, commandset_id ASC";
+                "WHERE servicecontract_id = $this->id ".
+                "ORDER BY type ASC, commandset_id ASC;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -151,7 +151,7 @@ class ServiceContract {
     */
    public static function create($name, $teamid) {
       $query = "INSERT INTO `codev_servicecontract_table`  (`name`, `team_id`) ".
-               "VALUES ('$name', '$teamid');";
+               "VALUES ('$name', $teamid);";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -169,21 +169,21 @@ class ServiceContract {
     * @return int $id
     */
    public static function delete($id) {
-      $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE `servicecontract_id`='$id';";
+      $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE servicecontract_id = ".$id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
          #exit;
       }
 
-      $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE `servicecontract_id`='$id';";
+      $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id = ".$id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
          #exit;
       }
 
-      $query = "DELETE FROM `codev_servicecontract_table` WHERE `id`='$id';";
+      $query = "DELETE FROM `codev_servicecontract_table` WHERE id = ".$id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>\n";
@@ -201,7 +201,7 @@ class ServiceContract {
    }
    public function setTeamid($value) {
       $this->teamid = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET team_id = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET team_id = '$value' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -216,7 +216,7 @@ class ServiceContract {
    public function setName($name) {
       $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($name);  // should be in controler, not here
       $this->name = $formattedValue;
-      $query = "UPDATE `codev_servicecontract_table` SET name = '$formattedValue' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET name = '$formattedValue' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -230,7 +230,7 @@ class ServiceContract {
 
    public function setReference($value) {
       $this->reference = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET reference = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET reference = '$value' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -244,7 +244,7 @@ class ServiceContract {
 
    public function setVersion($value) {
       $this->version = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET version = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET version = '$value' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -258,7 +258,7 @@ class ServiceContract {
 
    public function setReporter($value) {
       $this->reporter = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET reporter = '$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET reporter = '$value' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -273,7 +273,7 @@ class ServiceContract {
    public function setDesc($description) {
       $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($description);  // should be in controler, not here
       $this->description = $formattedValue;
-      $query = "UPDATE `codev_servicecontract_table` SET description = '$formattedValue' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET description = '$formattedValue' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -287,7 +287,7 @@ class ServiceContract {
 
    public function setState($value) {
       $this->state = $value;
-      $query = "UPDATE `codev_servicecontract_table` SET state='$value' WHERE id='$this->id' ";
+      $query = "UPDATE `codev_servicecontract_table` SET state='$value' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -352,6 +352,7 @@ class ServiceContract {
       if (NULL == $this->commandList) {
          $this->commandList = array();
 
+         // FIXME Array values useless ?
          $cmdsetList = array_values($this->getCommandSets($cset_type));
 
          foreach ($cmdsetList as $cset) {
@@ -441,7 +442,7 @@ class ServiceContract {
       }
       $this->cmdsetidByTypeList["$type"][] = $commandset_id;
 
-      $query = "INSERT INTO `codev_servicecontract_cmdset_table` (`servicecontract_id`, `commandset_id`, `type`) VALUES ('$this->id', '$commandset_id', '$type');";
+      $query = "INSERT INTO `codev_servicecontract_cmdset_table` (`servicecontract_id`, `commandset_id`, `type`) VALUES ($this->id, $commandset_id, '$type');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -465,7 +466,7 @@ class ServiceContract {
          }
       }
 
-      $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE servicecontract_id='$this->id' AND commandset_id='$commandset_id';";
+      $query = "DELETE FROM `codev_servicecontract_cmdset_table` WHERE servicecontract_id = ".$this->id." AND commandset_id = ".$commandset_id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -496,7 +497,7 @@ class ServiceContract {
       }
       $this->sidetasksProjectList[$project_id] = $project;
 
-      $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ('$this->id', '$project_id', '$type');";
+      $query = "INSERT INTO `codev_servicecontract_stproj_table` (`servicecontract_id`, `project_id`, `type`) VALUES ($this->id, $project_id, '$type');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -516,7 +517,7 @@ class ServiceContract {
          unset($this->sidetasksProjectList[$project_id]);
       }
 
-      $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id='$this->id' AND project_id='$project_id';";
+      $query = "DELETE FROM `codev_servicecontract_stproj_table` WHERE servicecontract_id = ".$this->id." AND project_id = ".$project_id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";

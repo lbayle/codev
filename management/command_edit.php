@@ -38,7 +38,6 @@ $logger = Logger::getLogger("command_edit");
  * @param Command $cmd
  */
 function updateCmdInfo(Command $cmd) {
-   // security check
    $cmd->setTeamid(Tools::getSecurePOSTIntValue('teamid'));
 
    $formattedValue = Tools::getSecurePOSTStringValue('cmdName');
