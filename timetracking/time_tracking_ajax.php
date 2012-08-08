@@ -27,13 +27,9 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    require('include/super_header.inc.php');
 
    if(isset($_GET['action'])) {
-      require('classes/smarty_helper.class.php');
-
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'updateBacklogAction') {
          require('timetracking/time_tracking_tools.php');
-         include_once('classes/issue_cache.class.php');
-         include_once('classes/time_tracking.class.php');
 
          $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
          $formattedBacklog = Tools::getSecureGETNumberValue('backlog');

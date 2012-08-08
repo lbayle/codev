@@ -18,15 +18,6 @@
 
 require_once('i18n/i18n.inc.php');
 
-include_once('classes/holidays.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/jobs.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/team.class.php');
-include_once('classes/time_tracking.class.php');
-include_once('classes/user_cache.class.php');
-
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');

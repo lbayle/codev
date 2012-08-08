@@ -24,29 +24,22 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    require('smarty_tools.php');
 
    if(isset($_GET['action'])) {
-      require('classes/smarty_helper.class.php');
       require_once('i18n/i18n.inc.php');
 
       $smartyHelper = new SmartyHelper();
 
       if ($_GET['action'] == 'getTeamProjects') {
-         include_once('team_cache.class.php');
-
          $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false);
          $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects, 0));
          $smartyHelper->display('form/projectSelector');
          
       } elseif ($_GET['action'] == 'getTeamAllProjects') {
-         include_once('team_cache.class.php');
-
          $projects[0] = T_('All projects');
          $projects += $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false);
          $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects, 0));
          $smartyHelper->display('form/projectSelector');
 
       } elseif($_GET['action'] == 'getProjectIssues') {
-         include_once('user_cache.class.php');
-
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          // --- define the list of tasks the user can display
@@ -68,8 +61,6 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          $smartyHelper->display('form/bugSelector');
       }
       elseif($_GET['action'] == 'getYearsToNow') {
-         include_once('classes/team_cache.class.php');
-
          $team = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'));
          $min_year = date("Y", $team->date);
          $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
@@ -82,8 +73,6 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    }
    else if($_POST['action']) {
       if($_POST['action'] == 'updateBacklogAction') {
-         include_once('classes/issue_cache.class.php');
-
          $issue = IssueCache::getInstance()->getIssue(Tools::getSecurePOSTIntValue('bugid'));
          $issue->setBacklog(Tools::getSecurePOSTNumberValue('backlog'));
       }

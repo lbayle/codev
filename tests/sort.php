@@ -20,8 +20,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('classes/project_cache.class.php');
-
 require_once('tools.php');
 
 $issues = ProjectCache::getInstance()->getProject(14)->getIssues();

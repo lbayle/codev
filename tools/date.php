@@ -1,5 +1,4 @@
 <?php
-
 /*
    This file is part of CoDev-Timetracking.
 
@@ -20,6 +19,8 @@
 require('../path.inc.php');
 
 require('include/super_header.inc.php');
+
+require_once('tools.php');
 
 function setCalendarToDateForm($defaultDate1) {
    echo "<div class=left>";

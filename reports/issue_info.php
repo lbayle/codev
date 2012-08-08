@@ -24,13 +24,7 @@ require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-require('classes/smarty_helper.class.php');
-
 require('reports/issue_info_tools.php');
-
-include_once('classes/consistency_check2.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/user_cache.class.php');
 
 require_once('tools.php');
 

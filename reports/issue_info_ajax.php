@@ -28,13 +28,9 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    require('reports/issue_info_tools.php');
 
    if(isset($_GET['action'])) {
-      require('classes/smarty_helper.class.php');
 
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getGeneralInfo') {
-         include_once('classes/issue_cache.class.php');
-         require_once('classes/user_cache.class.php');
-
          $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $managedTeamList = $user->getManagedTeamList();

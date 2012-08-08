@@ -22,11 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('classes/smarty_helper.class.php');
-
-include_once('classes/holidays.class.php');
-include_once('classes/user_cache.class.php');
-
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CoDev Administration : Holidays');

@@ -21,6 +21,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
 date_default_timezone_set("Europe/Paris");
 
+require_once('lib/dynamic_autoloader/ClassFileMap.php');
+require_once('lib/dynamic_autoloader/ClassFileMapAutoloader.php');
+$_autoloader = unserialize(file_get_contents(BASE_PATH."/classmap.ser"));
+$_autoloader->registerAutoload();
+
 # WARN: order of these includes is important.
 require_once('lib/log4php/Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
@@ -47,12 +52,10 @@ function exception_handler(Exception $e) {
 set_exception_handler('exception_handler');
 
 include_once('include/mysql_config.inc.php');
-include_once('classes/sqlwrapper.class.php');
 
 $connection = SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
 $connection->sql_query('SET CHARACTER SET utf8');
 $connection->sql_query('SET NAMES utf8');
 $bugtracker_link = $connection->getLink();
-
 
 ?>

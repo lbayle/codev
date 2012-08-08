@@ -28,8 +28,8 @@ if (NULL == Logger::getConfigurationFile()) {
 }
 
 include_once "tools.php";
-include_once "mysql_connect.inc.php";
-include_once "internal_config.inc.php";
+include_once "include/mysql_connect.inc.php";
+include_once "include/internal_config.inc.php";
 include_once "constants.php";
 
 if (!isset($_SESSION['userid'])) {

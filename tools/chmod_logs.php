@@ -1,6 +1,6 @@
 <?php
+require('../include/session.inc.php');
 
-require_once('../include/session.inc.php');
 /*
   This file is part of CodevTT
 
@@ -18,16 +18,13 @@ require_once('../include/session.inc.php');
   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once ('../path.inc.php');
+require('../path.inc.php');
 
-require_once ('super_header.inc.php');
+require('include/super_header.inc.php');
 
-/* INSERT INCLUDES HERE */
-require_once ('user_cache.class.php');
+require_once('lib/log4php/Logger.php');
 
 function execCmd($uxCommand) {
-
-
    #$status = system($command, $retCode);
    $status = exec($uxCommand, $output, $retCode);
    //if (0 != $retCode) {
@@ -36,13 +33,7 @@ function execCmd($uxCommand) {
    return $status;
 }
 
-
-
-/* INSERT FUNCTIONS HERE */
-
-
 // ================ MAIN =================
-
 $logger = Logger::getLogger("chmod");
 
 global $codevtt_logfile; // '/tmp/codevtt/logs/codevtt.log'

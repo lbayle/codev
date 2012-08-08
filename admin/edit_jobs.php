@@ -22,13 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('classes/smarty_helper.class.php');
-
-include_once('classes/jobs.class.php');
-include_once('classes/project.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/user_cache.class.php');
-
 /**
  * Get assigned jobs
  * @param array $jobs All jobs

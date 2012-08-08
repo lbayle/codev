@@ -1,5 +1,5 @@
 <?php
-include_once('./include/session.inc.php');
+include_once('include/session.inc.php');
 
 /*
     This file is part of CoDev-Timetracking.
@@ -20,9 +20,7 @@ include_once('./include/session.inc.php');
 
 require('path.inc.php');
 
-require('super_header.inc.php');
-
-include_once "user.class.php";
+require('include/super_header.inc.php');
 
 try {
    if (isset($_SESSION['userid']) && isset($_SESSION['teamid'])) {

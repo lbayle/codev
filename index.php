@@ -1,5 +1,5 @@
 <?php
-require('./include/session.inc.php');
+require('include/session.inc.php');
 
 /*
    This file is part of CoDev-Timetracking.
@@ -27,13 +27,6 @@ if ((!file_exists('constants.php')) || (!file_exists('include/mysql_config.inc.p
 require('path.inc.php');
 
 require('include/super_header.inc.php');
-
-require('classes/smarty_helper.class.php');
-
-include_once('classes/consistency_check2.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/team_cache.class.php');
-include_once('classes/user_cache.class.php');
 
 require_once('tools.php');
 

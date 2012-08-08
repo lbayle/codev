@@ -23,14 +23,6 @@ require('../path.inc.php');
 require('include/super_header.inc.php');
 
 require('smarty_tools.php');
-
-require('classes/smarty_helper.class.php');
-
-include_once('classes/issue_selection.class.php');
-include_once('classes/user_cache.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/project_version.class.php');
-
 require_once('tools.php');
 
 require_once('i18n/i18n.inc.php');

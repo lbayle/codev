@@ -16,12 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/config.class.php');
-include_once('classes/holidays.class.php');
-include_once('classes/jobs.class.php');
-include_once('classes/timetrack_cache.class.php');
-include_once('classes/user_cache.class.php');
-
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');

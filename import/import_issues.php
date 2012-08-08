@@ -24,13 +24,6 @@ require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-require('classes/smarty_helper.class.php');
-
-require_once('classes/user.class.php');
-require_once('classes/team.class.php');
-require_once('classes/project.class.php');
-require_once('classes/consistency_check2.class.php');
-
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');

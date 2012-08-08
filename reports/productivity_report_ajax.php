@@ -28,12 +28,8 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    require('reports/productivity_report_tools.php');
 
    if(isset($_GET['action'])) {
-      require('classes/smarty_helper.class.php');
-
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getProjectDetails') {
-         include_once('classes/time_tracking.class.php');
-
          $weekDates  = Tools::week_dates(date('W'),date('Y'));
          $startdate  = Tools::getSecureGETStringValue('startdate', date("Y-m-d", $weekDates[1]));
          $startTimestamp = Tools::date2timestamp($startdate);

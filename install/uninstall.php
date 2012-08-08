@@ -26,12 +26,6 @@ include_once('i18n/i18n.inc.php');
 
 include_once('install/install.class.php');
 
-include_once('classes/config.class.php');
-include_once('classes/project.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/user_cache.class.php');
-
 include_once('include/internal_config.inc.php');
 
 require_once('tools.php');

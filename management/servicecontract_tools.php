@@ -18,12 +18,6 @@
 
 require_once('indicator_plugins/progress_history_indicator.class.php');
 
-include_once('classes/command.class.php');
-include_once('classes/commandset.class.php');
-include_once('classes/servicecontract_cache.class.php');
-include_once('classes/servicecontract.class.php');
-include_once('classes/team_cache.class.php');
-
 require_once('smarty_tools.php');
 
 /**

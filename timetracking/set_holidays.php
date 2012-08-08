@@ -24,16 +24,6 @@ require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-require('classes/smarty_helper.class.php');
-
-include_once('classes/holidays.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/team.class.php');
-include_once('classes/time_tracking.class.php');
-include_once('classes/user_cache.class.php');
-
 include_once('include/internal_config.inc.php');
 
 require_once('tools.php');

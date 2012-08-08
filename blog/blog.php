@@ -21,14 +21,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('classes/smarty_helper.class.php');
-
-include_once('classes/blog_manager.class.php');
-include_once('classes/config.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/team_cache.class.php');
-include_once('classes/user_cache.class.php');
-
 /**
  * @param BlogPost[] $postList
  * @return mixed[]

@@ -22,16 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('classes/smarty_helper.class.php');
-
-include_once('classes/commandset.class.php');
-include_once('classes/project.class.php');
-include_once('classes/servicecontract.class.php');
-include_once('classes/servicecontract_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/team_cache.class.php');
-include_once('classes/user_cache.class.php');
-
 require('management/servicecontract_tools.php');
 
 require_once('smarty_tools.php');

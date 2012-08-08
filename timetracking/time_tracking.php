@@ -23,16 +23,7 @@ require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-require('classes/smarty_helper.class.php');
-
 require('timetracking/time_tracking_tools.php');
-
-include_once('classes/config.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/time_track.class.php');
-include_once('classes/timetrack_cache.class.php');
-include_once('classes/user_cache.class.php');
 
 require_once('tools.php');
 

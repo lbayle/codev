@@ -24,7 +24,9 @@ include_once('include/internal_config.inc.php');
 
 include_once('i18n/i18n.inc.php');
 
-include_once('classes/user.class.php');
+include_once('classes/config.class.php');
+include_once('classes/issue.class.php');
+include_once('classes/sqlwrapper.class.php');
 
 require_once('lib/log4php/Logger.php');
 
@@ -40,50 +42,49 @@ require_once('include/menu.inc.php');
 ?>
 
 <script language="JavaScript">
-  function submitProject(){
-     document.forms["selectProjectForm"].action.value = "displayPage";
-     document.forms["selectProjectForm"].submit();
+   function submitProject(){
+      document.forms["selectProjectForm"].action.value = "displayPage";
+      document.forms["selectProjectForm"].submit();
    }
 </script>
 
 <div id="content">
-<?php
+   <?php
 
-function peeToMee() {
-	Issue::getPrelEffortEstimValues();
+   function peeToMee() {
+      Issue::getPrelEffortEstimValues();
 
-	$prelEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
-	$mgrEffortEstimCustomField = InternalConfig::$mgrEffortEstimCustomField;
+      $prelEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
+      $mgrEffortEstimCustomField = InternalConfig::$mgrEffortEstimCustomField;
 
-	$query  = "SELECT * FROM `mantis_custom_field_string_table` WHERE `field_id` = $prelEffortEstimCustomField";
+      $query  = "SELECT * FROM `mantis_custom_field_string_table` WHERE `field_id` = $prelEffortEstimCustomField";
 
-	$result = SqlWrapper::getInstance()->sql_query($query);
-	$result = SqlWrapper::getInstance()->sql_query($query);
-    if (!$result) {
-			echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
-			exit;
-	}
-	while($row = SqlWrapper::getInstance()->sql_fetch_object($result))
-	{
-		$meeValue = Issue::$PEE_balance[$row->value];
-		echo "Issue $row->bug_id pee=<$row->value> mee=<$meeValue> <br>\n";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED $query</span>";
+         exit;
+      }
+      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $meeValue = Issue::$PEE_balance[$row->value];
+         echo "Issue $row->bug_id pee=<$row->value> mee=<$meeValue> <br>\n";
 
-		$query2 = "INSERT INTO `mantis_custom_field_string_table`  (`field_id`, `bug_id`, `value`) VALUES ('".$mgrEffortEstimCustomField."','".$row->bug_id."','".$meeValue."');";
-		$result2 = SqlWrapper::getInstance()->sql_query($query2);
-		if (!$result2) {
-			echo "<span style='color:red'>ERROR: Query FAILED $query2</span>";
-			//exit;
-		}
-	}
-}
+         $query2 = "INSERT INTO `mantis_custom_field_string_table`  (`field_id`, `bug_id`, `value`) VALUES ('".$mgrEffortEstimCustomField."','".$row->bug_id."','".$meeValue."');";
+         $result2 = SqlWrapper::getInstance()->sql_query($query2);
+         if (!$result2) {
+            echo "<span style='color:red'>ERROR: Query FAILED $query2</span>";
+            //exit;
+         }
+      }
+   }
 
-// ================ MAIN =================
+   // ================ MAIN =================
 
-$originPage = "pee_to_mee.php";
+   $originPage = "pee_to_mee.php";
 
-peeToMee();
+   peeToMee();
 
-?>
+   ?>
 
 </div>
 <?php include 'footer.inc.php'; ?>

@@ -22,11 +22,11 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('classes/smarty_helper.class.php');
-
 // ========== MAIN ===========
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CoDev Administration');
 $smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
 $smartyHelper->displayTemplate($mantisURL);
+
+?>
