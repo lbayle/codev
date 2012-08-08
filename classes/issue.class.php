@@ -1452,7 +1452,7 @@ class Issue implements Comparable {
          $this->commandList = array();
          
          $query = "SELECT command.* FROM `codev_command_table` as command ".
-                  "JOIN `codev_command_bug_table` as command_bug ON command.id = command_bug.command_id".
+                  "JOIN `codev_command_bug_table` as command_bug ON command.id = command_bug.command_id ".
                   "WHERE command_bug.bug_id = ".$this->bugId.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -1463,13 +1463,12 @@ class Issue implements Comparable {
          // a Command can belong to more than one commandset
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $cmd = CommandCache::getInstance()->getCommand($row->id, $row);
-            $this->commandList["$row->id"] = $cmd->getName();
+            $this->commandList[$row->id] = $cmd;
             self::$logger->debug("Issue $this->bugId is in command $row->id (".$cmd->getName().")");
          }
       }
       return $this->commandList;
    }
-
 
    /**
     * @param type $value
