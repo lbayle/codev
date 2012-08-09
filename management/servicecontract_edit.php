@@ -169,7 +169,7 @@ if (isset($_SESSION['userid'])) {
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new ServiceContract for team $teamid<br>");
 
-         $contractName = SqlWrapper::getInstance()->sql_real_escape_string($_POST['contractName']);
+         $contractName = SqlWrapper::sql_real_escape_string($_POST['contractName']);
 
          $servicecontractid = ServiceContract::create($contractName, $teamid);
          $smartyHelper->assign('servicecontractid', $servicecontractid);

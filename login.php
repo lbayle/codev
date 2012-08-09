@@ -34,8 +34,8 @@ function login($user, $password) {
     global $logger;
     $password = md5($password);
 
-    $formattedUser = SqlWrapper::getInstance()->sql_real_escape_string($user);
-    $formattedPass = SqlWrapper::getInstance()->sql_real_escape_string($password);
+    $formattedUser = SqlWrapper::sql_real_escape_string($user);
+    $formattedPass = SqlWrapper::sql_real_escape_string($password);
     $query= 'SELECT id, username, realname FROM `mantis_user_table` WHERE username = \''.$formattedUser.'\' and password = \''.$formattedPass.'\'';
     $result = SqlWrapper::getInstance()->sql_query($query);
     if ($result && SqlWrapper::getInstance()->sql_num_rows($result) == 1 && $row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {

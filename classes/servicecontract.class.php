@@ -214,7 +214,7 @@ class ServiceContract {
    }
 
    public function setName($name) {
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($name);  // should be in controler, not here
+      $formattedValue = SqlWrapper::sql_real_escape_string($name);  // should be in controler, not here
       $this->name = $formattedValue;
       $query = "UPDATE `codev_servicecontract_table` SET name = '$formattedValue' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -271,7 +271,7 @@ class ServiceContract {
    }
 
    public function setDesc($description) {
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($description);  // should be in controler, not here
+      $formattedValue = SqlWrapper::sql_real_escape_string($description);  // should be in controler, not here
       $this->description = $formattedValue;
       $query = "UPDATE `codev_servicecontract_table` SET description = '$formattedValue' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -352,8 +352,7 @@ class ServiceContract {
       if (NULL == $this->commandList) {
          $this->commandList = array();
 
-         // FIXME Array values useless ?
-         $cmdsetList = array_values($this->getCommandSets($cset_type));
+         $cmdsetList = $this->getCommandSets($cset_type);
 
          foreach ($cmdsetList as $cset) {
             $cmdList = $cset->getCommands($cmd_type);

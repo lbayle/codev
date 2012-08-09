@@ -465,21 +465,28 @@ class Tools {
     * @param $sqlFile
     */
    public static function execSQLscript($sqlFile) {
-      $requetes="";
+      $request = "";
 
       $sql=file($sqlFile);
       foreach($sql as $l){
-         if (substr(trim($l),0,2)!="--"){ // remove comments
-            $requetes .= $l;
+         $l = trim($l);
+         if(strlen($l) > 0) {
+            if (substr($l,0,2) != "--"){ // remove comments
+               $request .= $l;
+            }
          }
       }
 
-      $reqs = split(";",$requetes);// identify single requests
-      foreach($reqs as $req){
-         if (!SqlWrapper::getInstance()->sql_query($req) && trim($req)!="") {
-            die("ERROR : ".$req." ---> ".SqlWrapper::getInstance()->sql_error());
+      $reqs = split(";",$request);// identify single requests
+      foreach($reqs as $req) {
+         if(strlen($req) > 0) {
+            if (!SqlWrapper::getInstance()->sql_query($req)) {
+               die("ERROR : ".$req." : ".SqlWrapper::getInstance()->sql_error());
+            }
          }
       }
+
+      return TRUE;
    }
 
    /**
@@ -500,7 +507,15 @@ class Tools {
       //if (0 != $retCode) {
       //   echo "FAILED (err $retCode) could not exec mysql commands from file: $sqlFile</br>";
       //}
-      return $retCode;
+      if(0 != $retCode) {
+         if(self::execSQLscript($sqlFile)) {
+            return 0;
+         } else {
+            return -1;
+         }
+      } else {
+         return $retCode;
+      }
    }
 
    /**
@@ -511,7 +526,7 @@ class Tools {
     */
    public static function getSecureGETStringValue($key,$defaultValue = NULL) {
       if(isset($_GET[$key])) {
-         return SqlWrapper::getInstance()->sql_real_escape_string($_GET[$key]);
+         return SqlWrapper::sql_real_escape_string($_GET[$key]);
       }
       else if(isset($defaultValue)) {
          return $defaultValue;
@@ -530,7 +545,7 @@ class Tools {
     */
    public static function getSecurePOSTStringValue($key,$defaultValue = NULL) {
       if(isset($_POST[$key])) {
-         return SqlWrapper::getInstance()->sql_real_escape_string($_POST[$key]);
+         return SqlWrapper::sql_real_escape_string($_POST[$key]);
       }
       else if(isset($defaultValue)) {
          return $defaultValue;
@@ -798,6 +813,47 @@ class Tools {
          #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)." AFTER<br>";
       }
       return $timestampList;
+   }
+
+   /**
+    * @static
+    * @param $directory
+    * @return string
+    */
+   public static function checkWriteAccess($directory) {
+      // Note: the 'ERROR' token in return string will be parsed, so
+      //       do not remove it.
+      // if path does not exist, try to create it
+      if (!file_exists($directory)) {
+         if (!mkdir($directory, 0755, true)) {
+            return "ERROR : Could not create folder: $directory";
+         }
+      }
+
+      // create a test file to check write access to the directory
+      $testFilename = $directory . DIRECTORY_SEPARATOR . "test.txt";
+      $fh = fopen($testFilename, 'w');
+      if (!$fh) {
+         return "ERROR : could not create test file: $testFilename";
+      }
+
+      // write something to the file
+      $stringData = date("Y-m-d G:i:s", time()) . " - This is a TEST file generated during CoDev installation, You can remove it.\n";
+      if (!fwrite($fh, $stringData)) {
+         fclose($fh);
+         return "ERROR : could not write to test file: $testFilename";
+      }
+
+      fclose($fh);
+
+      if (file_exists($testFilename)) {
+         $retCode = unlink($testFilename);
+         if (!$retCode) {
+            return "ERROR : Could not delete file: " . $testFilename;
+         }
+      }
+
+      return "SUCCESS !";
    }
 
 }

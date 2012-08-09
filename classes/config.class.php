@@ -273,15 +273,15 @@ class Config {
     * @param int $team_id
     */
    public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0) {
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($value);
-      $formattedDesc = SqlWrapper::getInstance()->sql_real_escape_string($desc);
+      $formattedValue = SqlWrapper::sql_real_escape_string($value);
+      $formattedDesc = SqlWrapper::sql_real_escape_string($desc);
 
       // add/update DB
       $query = "SELECT * FROM `codev_config_table` ".
-               "WHERE config_id='$id' ".
-               "AND project_id=$project_id ".
-               "AND user_id=$user_id ".
-               "AND team_id=$team_id ";
+               "WHERE config_id = $id ".
+               "AND project_id = $project_id ".
+               "AND user_id = $user_id ".
+               "AND team_id = $team_id;";
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -291,10 +291,10 @@ class Config {
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` ".
                   "SET value = '$formattedValue' ".
-                  "WHERE config_id='$id' ".
-                  "AND project_id=$project_id ".
-                  "AND user_id=$user_id ".
-                  "AND team_id=$team_id ";
+                  "WHERE config_id = $id ".
+                  "AND project_id = $project_id ".
+                  "AND user_id = $user_id ".
+                  "AND team_id = $team_id";
          self::$logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
          self::$logger->debug("UPDATE query = $query");
       } else {
@@ -312,7 +312,7 @@ class Config {
       }
 
       // add/replace Cache
-      self::$configVariables["$id"] = new ConfigItem($id, $value, $type);
+      self::$configVariables[$id] = new ConfigItem($id, $value, $type);
    }
 
    /**
@@ -332,7 +332,7 @@ class Config {
          }
 
          // remove from cache
-         unset(self::$configVariables["$id"]);
+         unset(self::$configVariables[$id]);
       } else {
          self::$logger->warn("DELETE variable <$id> not found in cache !");
       }

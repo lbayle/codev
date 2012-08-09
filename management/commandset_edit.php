@@ -137,7 +137,7 @@ if (isset($_SESSION['userid'])) {
          $_SESSION['teamid'] = $teamid;
          $logger->debug("create new CommandSet for team $teamid<br>");
 
-         $cmdsetName = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetName']);
+         $cmdsetName = SqlWrapper::sql_real_escape_string($_POST['commandsetName']);
 
          $commandsetid = CommandSet::create($cmdsetName, $teamid);
          $smartyHelper->assign('commansetdid', $commandsetid);
