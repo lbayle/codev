@@ -16,9 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('classes/cache.php');
-require_once('classes/blog_manager.class.php');
-
 /**
  * usage: BlogPostCache::getInstance()->getBlogPost($id);
  */
