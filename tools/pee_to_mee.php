@@ -20,8 +20,6 @@ require('../include/session.inc.php');
 
 include_once('../path.inc.php');
 
-include_once('include/internal_config.inc.php');
-
 include_once('i18n/i18n.inc.php');
 
 include_once('classes/config.class.php');
@@ -55,7 +53,7 @@ require_once('include/menu.inc.php');
       Issue::getPrelEffortEstimValues();
 
       $prelEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_PrelEffortEstim);
-      $mgrEffortEstimCustomField = InternalConfig::$mgrEffortEstimCustomField;
+      $mgrEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
 
       $query  = "SELECT * FROM `mantis_custom_field_string_table` WHERE `field_id` = $prelEffortEstimCustomField";
 

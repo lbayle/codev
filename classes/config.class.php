@@ -177,7 +177,7 @@ class Config {
    /**
     * @static
     * @param $id
-    * @return null
+    * @return mixed
     */
    public static function getValue($id) {
       $value = NULL;
@@ -278,7 +278,7 @@ class Config {
 
       // add/update DB
       $query = "SELECT * FROM `codev_config_table` ".
-               "WHERE config_id = $id ".
+               "WHERE config_id = '$id' ".
                "AND project_id = $project_id ".
                "AND user_id = $user_id ".
                "AND team_id = $team_id;";
@@ -291,7 +291,7 @@ class Config {
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          $query = "UPDATE `codev_config_table` ".
                   "SET value = '$formattedValue' ".
-                  "WHERE config_id = $id ".
+                  "WHERE config_id = '$id' ".
                   "AND project_id = $project_id ".
                   "AND user_id = $user_id ".
                   "AND team_id = $team_id";
@@ -300,7 +300,7 @@ class Config {
       } else {
          $query = "INSERT INTO `codev_config_table` ".
                   "(`config_id`, `value`, `type`, `description`, `project_id`, `user_id`, `team_id`) ".
-                  "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', '$project_id', '$user_id', '$team_id');";
+                  "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', $project_id, $user_id, $team_id);";
          self::$logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
          self::$logger->debug("INSERT query = $query");
       }
@@ -337,6 +337,9 @@ class Config {
          self::$logger->warn("DELETE variable <$id> not found in cache !");
       }
    }
+
+
+
 }
 
 Config::staticInit();

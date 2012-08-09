@@ -16,7 +16,9 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "super_header.inc.php";
+include_once("include/super_header.inc.php");
+
+include_once('include/internal_config.inc.php')
 
 ?>
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>

@@ -30,7 +30,6 @@ include_once "include/mysql_connect.inc.php";
 include_once "classes/config.class.php";
 Config::getInstance()->setQuiet(true);
 
-include_once "include/internal_config.inc.php";
 include_once 'install/install.class.php';
 
 require_once 'install/install_menu.inc.php';
@@ -77,7 +76,6 @@ function createConstantsFile() {
    $stringData .= "  date_default_timezone_set('Europe/Paris');\n";
    $stringData .= "\n";
    $stringData .= "  include_once \"classes/config.class.php\";\n";
-   $stringData .= "  include_once \"include/internal_config.inc.php\";\n";
    $stringData .= "\n";
    $stringData .= "  \$codevInstall_timestamp = " . $today . ";\n";
    $stringData .= "\n";
@@ -93,8 +91,8 @@ function createConstantsFile() {
    $stringData .= "  // --- RESOLUTION ---\n";
    $stringData .= "  # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values\n";
    $stringData .= "  # INFO: the values depend on what you defined in codev_config_table.resolutionNames\n";
-   $stringData .= "  \$resolution_fixed    = array_search('fixed',    InternalConfig::\$resolutionNames);  # 20\n";
-   $stringData .= "  \$resolution_reopened = array_search('reopened', InternalConfig::\$resolutionNames);  # 30;\n";
+   $stringData .= "  \$resolution_fixed    = array_search('fixed',    Config::getInstance()->getValue(Config::id_resolutionNames));  # 20\n";
+   $stringData .= "  \$resolution_reopened = array_search('reopened', Config::getInstance()->getValue(Config::id_resolutionNames));  # 30;\n";
    $stringData .= "\n";
 
    $stringData .= "  // --- STATUS ---\n";

@@ -24,8 +24,6 @@ require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-include_once('include/internal_config.inc.php');
-
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
@@ -223,7 +221,7 @@ if (isset($_SESSION['userid'])) {
          }
       }
 
-      $extproj_id = InternalConfig::$externalTasksProject;
+      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
       $extProj = ProjectCache::getInstance()->getProject($extproj_id);
       $projList[$extproj_id] = $extProj->name;
 

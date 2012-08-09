@@ -33,8 +33,6 @@ include_once('classes/user.class.php');
 include_once('classes/project.class.php');
 Config::getInstance()->setQuiet(true);
 
-include_once('include/internal_config.inc.php');
-
 include_once('install/install.class.php');
 
 include_once('constants.php');
@@ -562,7 +560,7 @@ function getProjectList() {
 
    $projects = Project::getProjects();
    if($projects != NULL) {
-      $extproj_id = InternalConfig::$externalTasksProject;
+      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
       $smartyProjects = array();
       foreach($projects as $id => $name) {
          // exclude ExternalTasksProject

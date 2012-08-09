@@ -31,8 +31,6 @@ require_once "mysql_connect.inc.php";
 require_once "config.class.php";
 Config::getInstance()->setQuiet(true);
 
-require_once "internal_config.inc.php";
-
 require_once 'install_menu.inc.php';
 
 #$logger = Logger::getLogger("install_step4");

@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('include/internal_config.inc.php');
-
 // ================ MAIN =================
 $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'CodevTT Logs');
@@ -35,9 +33,7 @@ if (isset($_SESSION['userid'])) {
 
    // Admins only
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   $admin_teamid = InternalConfig::$admin_teamid;
-
-   if ($session_user->isTeamMember($admin_teamid)) {
+   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
       if ( (NULL != $codevtt_logfile) && (file_exists($codevtt_logfile))) {
          $nbLinesToDisplay = 1500;
 

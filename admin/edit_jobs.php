@@ -120,7 +120,7 @@ $smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 if(isset($_SESSION['userid'])) {
    // Admins only
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
+   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
       $smartyHelper->assign('jobType', Job::$typeNames);
 
       if (isset($_POST['job_name'])) {

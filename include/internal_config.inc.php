@@ -50,69 +50,12 @@ class InternalConfig {
       "v0.99.17" => "(29 Jun  2012) - Smarty+Ajax, install, Management section, datatables, GUI enhancements, 'Leave' task moved to ExternalTasks, ConsistencyChecks"
    );
 
-   // il peut y avoir plusieurs observer
-   // il n'y a qu'un seul teamLeader
-   // il peut y avoir plusieurs managers, mais ils ne peuvent imputer que sur des SideTasks
-   // un observer ne fait jamais partie de l'equipe, il n'a acces qu'a des donnees impersonnelles
-
-   public static $admin_teamid; // users allowed to do CoDev administration
-
-   // this is the custom field added to mantis issues for TimeTracking
-   public static $tcCustomField;
-   public static $mgrEffortEstimCustomField;
-   public static $estimEffortCustomField; //  BI
-   public static $backlogCustomField; //  RAF
-   public static $deadLineCustomField;
-   public static $addEffortCustomField; // BS
-   public static $deliveryIdCustomField; // FDL (id of the associated Delivery Issue)
-   public static $deliveryDateCustomField;
-
-   // TODO translate astreinte = "on duty"
-   public static $astreintesTaskList; // fiches de SuiviOp:Inactivite qui sont des astreintes
-
-   // --- Mantis Values ---
-   public static $priorityNames;
-   public static $resolutionNames;
-
-   public static $externalTasksProject;
-
-   public static $codevReportsDir;
-
    public static $default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";
-
-
-   public static function staticInit() {
-      self::$admin_teamid = Config::getInstance()->getValue(Config::id_adminTeamId);
-
-      // this is the custom field added to mantis issues for TimeTracking
-      self::$tcCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
-      self::$mgrEffortEstimCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
-      self::$estimEffortCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
-      self::$backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
-      self::$deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
-      self::$addEffortCustomField = Config::getInstance()->getValue(Config::id_customField_addEffort);
-      self::$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
-      self::$deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-
-      // TODO translate astreinte = "on duty"
-      self::$astreintesTaskList = Config::getInstance()->getValue(Config::id_astreintesTaskList); // fiches de SuiviOp:Inactivite qui sont des astreintes
-      if (NULL == self::$astreintesTaskList) {
-         self::$astreintesTaskList = array();
-      }
-
-      self::$priorityNames = Config::getInstance()->getValue(Config::id_priorityNames);
-      self::$resolutionNames = Config::getInstance()->getValue(Config::id_resolutionNames);
-
-      self::$externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
-
-      self::$codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
-   }
 
 }
 
-// Initialize complex variables
-InternalConfig::staticInit();
-
-$_POST['codevReportsDir'] = InternalConfig::$codevReportsDir; // used by tools/download.php
+// TODO Move to Download
+// used by tools/download.php
+$_POST['codevReportsDir'] = Config::getInstance()->getValue(Config::id_codevReportsDir);
 
 ?>

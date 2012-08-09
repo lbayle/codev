@@ -20,7 +20,6 @@ require_once('../path.inc.php');
 
 require_once('include/mysql_config.inc.php');
 require_once('include/mysql_connect.inc.php');
-require_once('include/internal_config.inc.php');
 require_once('constants.php');
 
 require_once('i18n/i18n.inc.php');

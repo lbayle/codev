@@ -65,7 +65,7 @@ if(isset($_SESSION['userid'])) {
 
          $reports = "";
 
-         $managedIssuesfile = InternalConfig::$codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".Tools::formatDate("%Y%m%d",time()).".csv";
+         $managedIssuesfile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".Tools::formatDate("%Y%m%d",time()).".csv";
          $managedIssuesfile = ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $managedIssuesfile);
          $reports[] = array('file' => basename($managedIssuesfile),
                             'title' => T_('Export Managed Issues'),
@@ -74,13 +74,13 @@ if(isset($_SESSION['userid'])) {
 
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-         $weekActivityReportfile = InternalConfig::$codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
+         $weekActivityReportfile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
          $weekActivityReportfile = ExportCsvTools::exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $weekActivityReportfile);
          $reports[] = array('file' => basename($weekActivityReportfile),
             'title' => T_('Export Week').' '.$weekid.' '.T_('Member Activity')
          );
 
-         $projectActivityFile = InternalConfig::$codevReportsDir.DIRECTORY_SEPARATOR.$formatedteamName."_projects_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
+         $projectActivityFile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_projects_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
          $projectActivityFile = ExportCsvTools::exportProjectActivityToCSV($timeTracking, $projectActivityFile);
          $reports[] = array('file' => basename($projectActivityFile),
             'title' => T_('Export Week').' '.$weekid.' '.T_('Projects Activity')
@@ -93,7 +93,7 @@ if(isset($_SESSION['userid'])) {
          $monthsLineReport = "";
          $startMonth = 1;
          for ($i = $startMonth; $i <= 12; $i++) {
-            $myFile = ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, InternalConfig::$codevReportsDir);
+            $myFile = ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, Config::getInstance()->getValue(Config::id_codevReportsDir));
             $monthsLineReport[] = array('file' => basename($myFile));
          }
 
@@ -101,7 +101,7 @@ if(isset($_SESSION['userid'])) {
          $monthsReport['line'] = $monthsLineReport;
          $smartyHelper->assign('monthsReport', $monthsReport);
 
-         $smartyHelper->assign('reportsDir', InternalConfig::$codevReportsDir);
+         $smartyHelper->assign('reportsDir', Config::getInstance()->getValue(Config::id_codevReportsDir));
       }
    }
 }

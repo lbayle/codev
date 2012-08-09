@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('include/internal_config.inc.php');
-
 require('management/command_tools.php');
 require('management/commandset_tools.php');
 
@@ -108,7 +106,7 @@ function getChildIssuesCandidates($teamid) {
 
    // team projects except externalTasksProject & NoStats projects
    $projects = TeamCache::getInstance()->getTeam($teamid)->getProjects();
-   $extProjId = InternalConfig::$externalTasksProject;
+   $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
    unset($projects[$extProjId]);
 
    $formattedProjectList = implode (', ', array_keys($projects));

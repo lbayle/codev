@@ -28,8 +28,6 @@ include_once('classes/servicecontract_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
 
-include_once('include/internal_config.inc.php');
-
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
@@ -137,7 +135,7 @@ class Team {
     * @param string $name
     * @param string $description
     * @param int $leader_id
-    * @param unknown_type $date
+    * @param int $date
     * @return int the team id or -1 if not found
     */
    public static function create($name, $description, $leader_id, $date) {
@@ -633,8 +631,8 @@ class Team {
 
    /**
     * @param int $memberid
-    * @param unknown_type $arrivalTimestamp
-    * @param unknown_type $memberAccess
+    * @param int $arrivalTimestamp
+    * @param int $memberAccess
     */
    public function addMember($memberid, $arrivalTimestamp, $memberAccess) {
       $query = "INSERT INTO `codev_team_user_table`  (`user_id`, `team_id`, `arrival_date`, `departure_date`, `access_level`) ".
@@ -716,7 +714,7 @@ class Team {
    public function addExternalTasksProject() {
       $extTasksProjectType = Project::type_noStatsProject;
 
-      $externalTasksProject = InternalConfig::$externalTasksProject;
+      $externalTasksProject = Config::getInstance()->getValue(Config::id_externalTasksProject);
 
       // TODO check if ExternalTasksProject not already in table !
 

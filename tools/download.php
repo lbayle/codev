@@ -29,8 +29,9 @@ if (NULL == Logger::getConfigurationFile()) {
 
 include_once "tools.php";
 include_once "include/mysql_connect.inc.php";
-include_once "include/internal_config.inc.php";
 include_once "constants.php";
+
+include_once "classes/sqlwrapper.class.php";
 
 if (!isset($_SESSION['userid'])) {
   echo T_("Sorry, you need to <a href='../'>login</a> to access this page.");

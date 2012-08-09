@@ -28,8 +28,6 @@ include_once('classes/project_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
 
-include_once('include/internal_config.inc.php');
-
 require_once('lib/log4php/Logger.php');
 
 /**
@@ -203,21 +201,21 @@ class Issue implements Comparable {
          }
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
             switch ($row->field_id) {
-               case InternalConfig::$tcCustomField: $this->tcId = $row->value;
+               case Config::getInstance()->getValue(Config::id_customField_ExtId): $this->tcId = $row->value;
                   break;
-               case InternalConfig::$mgrEffortEstimCustomField: $this->mgrEffortEstim = $row->value;
+               case Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim): $this->mgrEffortEstim = $row->value;
                   break;
-               case InternalConfig::$estimEffortCustomField: $this->effortEstim = $row->value;
+               case Config::getInstance()->getValue(Config::id_customField_effortEstim): $this->effortEstim = $row->value;
                   break;
-               case InternalConfig::$backlogCustomField: $this->backlog = $row->value;
+               case Config::getInstance()->getValue(Config::id_customField_backlog): $this->backlog = $row->value;
                   break;
-               case InternalConfig::$addEffortCustomField: $this->effortAdd = $row->value;
+               case Config::getInstance()->getValue(Config::id_customField_addEffort): $this->effortAdd = $row->value;
                   break;
-               case InternalConfig::$deadLineCustomField: $this->deadLine = $row->value;
+               case Config::getInstance()->getValue(Config::id_customField_deadLine): $this->deadLine = $row->value;
                   break;
-               case InternalConfig::$deliveryDateCustomField: $this->deliveryDate = $row->value;
+               case Config::getInstance()->getValue(Config::id_customField_deliveryDate): $this->deliveryDate = $row->value;
                   break;
-               case InternalConfig::$deliveryIdCustomField: $this->deliveryId = $row->value;
+               case Config::getInstance()->getValue(Config::id_customField_deliveryId): $this->deliveryId = $row->value;
                   break;
             }
          }
@@ -452,7 +450,13 @@ class Issue implements Comparable {
     * @return bool
     */
    public function isAstreinte() {
-      if (in_array($this->bugId, InternalConfig::$astreintesTaskList)) {
+      // TODO translate astreinte = "on duty"
+      $astreintesTaskList = Config::getInstance()->getValue(Config::id_astreintesTaskList); // fiches de SuiviOp:Inactivite qui sont des astreintes
+      if (NULL == $astreintesTaskList) {
+         $astreintesTaskList = array();
+      }
+
+      if (in_array($this->bugId, $astreintesTaskList)) {
          self::$logger->debug("$this->bugId is an Astreinte.");
          return true;
       }
@@ -530,7 +534,8 @@ class Issue implements Comparable {
    }
 
    public function getPriorityName() {
-      return InternalConfig::$priorityNames[$this->priority];
+      $priorityNames = Config::getInstance()->getValue(Config::id_priorityNames);
+      return $priorityNames[$this->priority];
    }
 
    public function getSeverityName() {
@@ -539,7 +544,8 @@ class Issue implements Comparable {
    }
 
    public function getResolutionName() {
-      return InternalConfig::$resolutionNames[$this->resolution];
+      $resolutionNames = Config::getInstance()->getValue(Config::id_resolutionNames);
+      return $resolutionNames[$this->resolution];
    }
 
    /**
@@ -948,7 +954,7 @@ class Issue implements Comparable {
     * @param int $backlog
     */
    public function setBacklog($backlog) {
-      $backlogCustomField = InternalConfig::$backlogCustomField;
+      $backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
 
       $old_backlog = $this->backlog;
 
@@ -1528,7 +1534,7 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setExternalRef($value) {
-      $extRefCustomField = InternalConfig::$tcCustomField;
+      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $this->setCustomField($extRefCustomField, $value);
       $this->tcId = $value;
    }
@@ -1538,7 +1544,7 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setEffortEstim($value) {
-      $extRefCustomField = InternalConfig::$estimEffortCustomField;
+      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
       $this->setCustomField($extRefCustomField, $value);
       $this->effortEstim = $value;
    }
@@ -1548,7 +1554,7 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setMgrEffortEstim($value) {
-      $extRefCustomField = InternalConfig::$mgrEffortEstimCustomField;
+      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
       $this->setCustomField($extRefCustomField, $value);
       $this->mgrEffortEstim = $value;
    }
@@ -1558,7 +1564,7 @@ class Issue implements Comparable {
     * @param type $value
     */
    public function setDeadline($value) {
-      $extRefCustomField = InternalConfig::$deadLineCustomField;
+      $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $this->setCustomField($extRefCustomField, $value);
       $this->deadLine = $value;
    }
@@ -1577,7 +1583,7 @@ class Issue implements Comparable {
 
       // find the field_name for the Backlog customField
       // (this should not be here, it's a general info that may be accessed elsewhere)
-      $backlogCustomFieldId = InternalConfig::$backlogCustomField;
+      $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
       $query = "SELECT name FROM `mantis_custom_field_table` where id = $backlogCustomFieldId ";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

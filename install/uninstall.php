@@ -26,8 +26,6 @@ include_once('i18n/i18n.inc.php');
 
 include_once('install/install.class.php');
 
-include_once('include/internal_config.inc.php');
-
 require_once('tools.php');
 
 if (!isset($_SESSION['userid'])) {
@@ -72,7 +70,7 @@ function displayForm($originPage, $is_modified, $isBackup, $filename) {
    echo "  <tr>\n";
    echo "    <td></td>";
    Config::setQuiet(true);
-   $codevReportsDir = InternalConfig::$codevReportsDir;
+   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
    Config::setQuiet(false);
    echo "    <td><span class='help_font'>".T_("Backup file will ve saved in CodevTT reports directory").". ( $codevReportsDir )</span></td>\n";
    echo "  </tr>\n";
@@ -109,7 +107,7 @@ function displayProjectsToRemove() {
    $prjList = array();
 
    // find externalTasks project
-   $extproj_id = InternalConfig::$externalTasksProject;
+   $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
    $project = ProjectCache::getInstance()->getProject($extproj_id);
    $prjList[$project->id] = $project->name;
    
@@ -142,13 +140,13 @@ function displayProjectsToRemove() {
 */
 function removeCustomFields() {
    $fieldIds = array(
-      InternalConfig::$tcCustomField,
-      InternalConfig::$mgrEffortEstimCustomField,
-      InternalConfig::$estimEffortCustomField,
-      InternalConfig::$addEffortCustomField,
-      InternalConfig::$backlogCustomField,
-      InternalConfig::$deadLineCustomField,
-      InternalConfig::$deliveryDateCustomField
+      Config::getInstance()->getValue(Config::id_customField_ExtId),
+      Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim),
+      Config::getInstance()->getValue(Config::id_customField_effortEstim),
+      Config::getInstance()->getValue(Config::id_customField_addEffort),
+      Config::getInstance()->getValue(Config::id_customField_backlog),
+      Config::getInstance()->getValue(Config::id_customField_deadLine),
+      Config::getInstance()->getValue(Config::id_customField_deliveryDate)
    );
    
    # delete all values
@@ -175,7 +173,7 @@ function removeCustomFields() {
 function saveConfigFiles() {
    global $logger;
    
-   $codevReportsDir = InternalConfig::$codevReportsDir;
+   $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
    if (file_exists(Install::FILENAME_CONSTANTS)) {
       $filename = ereg_replace(".*/", "", Install::FILENAME_CONSTANTS);
       $retCode = copy(Install::FILENAME_CONSTANTS, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
@@ -223,7 +221,7 @@ function deleteConfigFiles() {
 // ================ MAIN =================
 // Admins only
 $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
+if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
    $originPage = "uninstall.php";
    $is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
 

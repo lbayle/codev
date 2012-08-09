@@ -24,8 +24,6 @@ require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-include_once('include/internal_config.inc.php');
-
 require_once('tools.php');
 require_once('lib/log4php/Logger.php');
 
@@ -41,7 +39,7 @@ function getProjectList($isCodevtt = false) {
 
    $projects = Project::getProjects();
    if($projects != NULL) {
-      $extproj_id = InternalConfig::$externalTasksProject;
+      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
       $smartyProjects = array();
       foreach($projects as $id => $name) {
          if (!$isCodevtt) {
@@ -127,7 +125,7 @@ $smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 if(isset($_SESSION['userid'])) {
    // Admins only
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
+   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
       $projectList = getProjectList(false);
       if(isset($_POST['projectid']) && array_key_exists($_POST['projectid'], $projectList)) {
          $projectid = Tools::getSecurePOSTIntValue('projectid');

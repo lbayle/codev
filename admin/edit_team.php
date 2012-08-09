@@ -24,8 +24,6 @@ require('include/super_header.inc.php');
 
 require('smarty_tools.php');
 
-include_once('include/internal_config.inc.php');
-
 require_once('tools.php');
 
 /**
@@ -88,7 +86,7 @@ function getTeamProjects($teamid) {
       );
 
       // if ExternalTasksProject do not allow to delete
-      if (InternalConfig::$externalTasksProject != $row->project_id) {
+      if (Config::getInstance()->getValue(Config::id_externalTasksProject) != $row->project_id) {
          $teamProjectsTuple[$row->id]["delete"] = 'ok';
       }
    }
@@ -186,7 +184,7 @@ if(isset($_SESSION['userid'])) {
 
    $teamList = NULL;
    // leadedTeams only, except Admins: they can edit all teams
-   if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
+   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
       $teamList = Team::getTeams();
    } else {
       $teamList = $session_user->getLeadedTeamList();
@@ -258,9 +256,9 @@ if(isset($_SESSION['userid'])) {
                $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
 
                // CodevTT administrators can manage ExternalTasksProject in Mantis
-               if (InternalConfig::$admin_teamid == $team->id) {
+               if (Config::getInstance()->getValue(Config::id_adminTeamId) == $team->id) {
                   $newUser = UserCache::getInstance()->getUser($memberid);
-                  $extProjId = InternalConfig::$externalTasksProject;
+                  $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
                   $access_level = 70; // TODO mantis manager
                   $newUser->setProjectAccessLevel($extProjId, $access_level);
                }

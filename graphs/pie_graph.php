@@ -31,9 +31,6 @@ if (NULL == Logger::getConfigurationFile()) {
 }
 
 include_once "tools.php";
-#include_once "mysql_connect.inc.php";
-#include_once "internal_config.inc.php";
-#include_once "constants.php";
 
 // content="text/plain; charset=utf-8"
 require_once ('jpgraph.php');

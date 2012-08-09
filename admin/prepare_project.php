@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('include/internal_config.inc.php');
-
 require_once('lib/log4php/Logger.php');
 
 $logger = Logger::getLogger("prepare_project");
@@ -37,7 +35,7 @@ function getProjectList() {
 
    $projects = Project::getProjects();
    if($projects != NULL) {
-      $extproj_id = InternalConfig::$externalTasksProject;
+      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
       $smartyProjects = array();
       foreach($projects as $id => $name) {
          if ($extproj_id != $id) {
@@ -73,7 +71,7 @@ $smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 if(isset($_SESSION['userid'])) {
    // Admins only
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
+   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
       if (isset($_POST['projects']) && !empty($_POST['projects'])) {
          $selectedProjects = $_POST['projects'];
          $result = array();

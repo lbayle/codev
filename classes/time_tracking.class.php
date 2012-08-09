@@ -322,7 +322,7 @@ class TimeTracking {
    public function getTimeDriftStats() {
       if(NULL == $this->timeDriftStats) {
 
-         $deliveryDateCustomField = InternalConfig::$deliveryDateCustomField;
+         $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
 
          $issueList = array();
 

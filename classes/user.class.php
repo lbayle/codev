@@ -536,7 +536,7 @@ class User {
       if(count($issueIds) > 0) {
          $issues = Issue::getIssues($issueIds);
 
-         $extTasksProjId = InternalConfig::$externalTasksProject;
+         $extTasksProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
          $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
          #echo "leaveTaskId $leaveTaskId<br>";
          foreach ($timeTracks as $timeTrack) {
