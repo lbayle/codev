@@ -276,15 +276,15 @@ if ($session_user->isTeamMember(InternalConfig::$admin_teamid)) {
       Tools::execSQLscript("uninstall.sql");
       echo "done<br />";
       echo "<br />";
-/*
-      echo "5/5 Remove CodevTT config files :";
+
+      echo "5/5 Remove CodevTT config files : ";
       if(deleteConfigFiles()) {
          echo "done";
       } else {
          echo "<br />ERROR: Could not delete files";
       }
       echo "<br />";
- */
+
    } else {
       // DISPLAY PAGE
       displayForm($originPage, $is_modified, $isBackup, $filename);
