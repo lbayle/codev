@@ -1,5 +1,7 @@
 <?php
 
+require('ClassFileMap.php');
+
 /**
  * Autoloads classes using class file maps
  *
@@ -9,6 +11,9 @@
  */
 class ClassFileMapAutoloader {
 
+   /**
+    * @var ClassFileMap[]
+    */
    private $_aClassFileMaps = array();
 
    /**
@@ -22,9 +27,9 @@ class ClassFileMapAutoloader {
     *
     * @return void
     */
-   public function addClassFileMap( ClassFileMap $oClassFileMap, $bUseName = true ) {
-      if( $bUseName ) {
-         $this->_aClassFileMaps[ $oClassFileMap->getName() ] = $oClassFileMap;
+   public function addClassFileMap(ClassFileMap $oClassFileMap, $bUseName = true) {
+      if($bUseName) {
+         $this->_aClassFileMaps[$oClassFileMap->getName()] = $oClassFileMap;
       }
       else {
          $this->_aClassFileMaps[] = $oClassFileMap;
@@ -37,7 +42,7 @@ class ClassFileMapAutoloader {
     * @return bool
     */
    public function registerAutoload() {
-      return spl_autoload_register( array( &$this, 'autoload' ) );
+      return spl_autoload_register(array(&$this, 'autoload'));
    }
 
    /**
@@ -47,13 +52,13 @@ class ClassFileMapAutoloader {
     * @param string $sClass
     * @return string the class name if found, otherwise false
     */
-   public function autoload( $sClass ) {
-      if( class_exists( $sClass, false ) || interface_exists( $sClass ) ) {
+   public function autoload($sClass) {
+      if(class_exists($sClass, false) || interface_exists($sClass)) {
          return false;
       }
 
-      $sPath = $this->_doLookup( $sClass );
-      if ( $sPath !== null ) {
+      $sPath = $this->_doLookup($sClass);
+      if ($sPath !== null) {
          require_once $sPath;
       }
 
@@ -66,10 +71,10 @@ class ClassFileMapAutoloader {
     * @param string $sClassName
     * @return string the path of the class, or null if not found
     */
-   private function _doLookup( $sClassName ) {
-      foreach( $this->_aClassFileMaps as $oClassFileMap ) {
-         $sPath = $oClassFileMap->lookup( $sClassName );
-         if ( !is_null( $sPath ) ) {
+   private function _doLookup($sClassName) {
+      foreach($this->_aClassFileMaps as $oClassFileMap) {
+         $sPath = $oClassFileMap->lookup($sClassName);
+         if (!is_null($sPath)) {
             return $sPath;
          }
       }

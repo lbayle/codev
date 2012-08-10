@@ -21,7 +21,6 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
 date_default_timezone_set("Europe/Paris");
 
-require_once('lib/dynamic_autoloader/ClassFileMap.php');
 require_once('lib/dynamic_autoloader/ClassFileMapAutoloader.php');
 $_autoloader = unserialize(file_get_contents(BASE_PATH."/classmap.ser"));
 $_autoloader->registerAutoload();

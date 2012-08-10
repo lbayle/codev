@@ -1,6 +1,6 @@
 <?php
 
-require_once('tools/ClassFileMap.php');
+require('ClassFileMap.php');
 
 /**
  * Class to handle generating the class file map, and loading of classes
@@ -15,48 +15,51 @@ abstract class ClassFileMapFactory {
     * Generates a class file map instance for the specified class path
     *
     * @param string $sClassPath the path to analyze
-    * @param string $sName      the name for this class file map
+    * @param string $sName the name for this class file map
     * @return ClassFileMap
     */
-   public static function generate( $sClassPath, $sName = null ) {
-      $aClassMap = self::_getClassFileMapArray( $sClassPath, true );
-      $oClassfileMap =  new ClassFileMap( $sName );
-      $oClassfileMap->setClassPath( $aClassMap );
+   public static function generate($sClassPath, $sName = null) {
+      $aClassMap = self::_getClassFileMapArray($sClassPath, true);
+      $oClassfileMap = new ClassFileMap($sName);
+      $oClassfileMap->setClassPath($aClassMap);
       return $oClassfileMap;
    }
 
    /**
     * Generates a class file map for the specified directory
-    *
-    * @return array
+    * @static
+    * @param string $sDirectory
+    * @param bool $bRecursive
+    * @return string[]
+    * @throws Exception
     */
-   private static function _getClassFileMapArray( $sDirectory, $bRecursive = true ) {
-      if ( !is_dir( $sDirectory ) ) {
-         throw new Exception('The specified location is not a directory' );
+   private static function _getClassFileMapArray($sDirectory, $bRecursive = true) {
+      if (!is_dir($sDirectory)) {
+         throw new Exception('The specified location is not a directory');
       }
 
-      if ( !is_readable( $sDirectory ) ) {
-         throw new Exception('The path `' . $sDirectory . '` is not readable' );
+      if (!is_readable($sDirectory)) {
+         throw new Exception('The path `' . $sDirectory . '` is not readable');
       }
 
-      $sPath = realpath( $sDirectory );
+      $sPath = realpath($sDirectory);
 
       $oFiles = new RecursiveIteratorIterator(
-         new RecursiveDirectoryIterator( $sPath ),
+         new RecursiveDirectoryIterator($sPath),
          $bRecursive ? RecursiveIteratorIterator::SELF_FIRST : null
-      );
+    );
 
       $sHiddenFiles = '/\/\.\w+/';
 
       //------------------------------------------
       // Load the list of files in the directory
       //------------------------------------------
-      foreach( $oFiles as $sName => $aFile ) {
-         if( !preg_match( $sHiddenFiles, $sName ) && !$aFile->isDir() ) {
+      foreach($oFiles as $sName => $aFile) {
+         if(!preg_match($sHiddenFiles, $sName) && !$aFile->isDir()) {
             $oFile = $aFile->openFile();
 
             $sContents = null;
-            while( !$oFile->eof() ) {
+            while(!$oFile->eof()) {
                $sContents .= $oFile->fgets();
             }
 
@@ -64,14 +67,14 @@ abstract class ClassFileMapFactory {
             // Tokenize the source and grab the classes
             // and interfaces
             //----------------------------------------
-            $aTokens = token_get_all( $sContents );
-            $iNumtokens = count( $aTokens );
-            for( $i = 0; $i < $iNumtokens; $i++ ) {
-               switch( $aTokens[ $i ][ 0 ]  ) {
+            $aTokens = token_get_all($sContents);
+            $iNumtokens = count($aTokens);
+            for($i = 0; $i < $iNumtokens; $i++) {
+               switch($aTokens[$i][0]) {
                   case T_CLASS:
                   case T_INTERFACE:
                      $i += 2; //skip the whitespace token
-                     $aDeclarations[ $aTokens[ $i ][ 1 ] ] = $sName;
+                     $aDeclarations[$aTokens[$i][1]] = $sName;
                      break;
                }
             }

@@ -6,13 +6,11 @@
  * @author A.J. Brown
  * @package com.hypermuttlabs
  * @subpackage packaging
- *
  */
-class ClassFileMap
-{
+class ClassFileMap {
 
    /**
-    * @var array
+    * @var string[]
     */
    private $_aClassMap;
 
@@ -33,8 +31,7 @@ class ClassFileMap
     *
     * @param string $sName an optional name to give this class file map.
     */
-   function __construct ( $sName = null )
-   {
+   function __construct($sName = null) {
       $this->_iCreated = time();
       $this->_sName = $sName;
    }
@@ -49,19 +46,16 @@ class ClassFileMap
     *
     * @return void
     */
-   public function setClassPath( $mClassName, $sPath = null )
-   {
-      if( is_array( $mClassName ) )
-      {
-         foreach( $mClassName as $sClassName => $sPath )
-         {
-            $this->setClassPath( $sClassName, $sPath );
+   public function setClassPath($mClassName, $sPath = null) {
+      if(is_array($mClassName)) {
+         foreach($mClassName as $sClassName => $sPath) {
+            $this->setClassPath($sClassName, $sPath);
          }
 
          return;
       }
 
-      $this->_aClassMap[ $mClassName ] = $sPath;
+      $this->_aClassMap[$mClassName] = $sPath;
    }
 
    /**
@@ -69,8 +63,7 @@ class ClassFileMap
     *
     * @return string
     */
-   public function getName(  )
-   {
+   public function getName() {
       return $this->_sName;
    }
 
@@ -80,9 +73,8 @@ class ClassFileMap
     * @param string $sClassName
     * @return boolean true if the class is mapped
     */
-   public function isMapped( $sClassName )
-   {
-      return !empty( $this->_aClassMap[ $sClassName ] );
+   public function isMapped($sClassName) {
+      return !empty($this->_aClassMap[$sClassName]);
    }
 
    /**
@@ -91,31 +83,29 @@ class ClassFileMap
     * @param  string  $sClassName the class to lookup
     * @return  string the full path to the file containing the class
     */
-   public function lookup( $sClassName )
-   {
-      if ( !$this->isMapped( $sClassName ) ) return null;
+   public function lookup($sClassName) {
+      if (!$this->isMapped($sClassName)) return null;
 
-      return $this->_aClassMap[ $sClassName ];
+      return $this->_aClassMap[$sClassName];
    }
 
    /**
     * Returns an array of classes which exist within a given file path
     *
-    * @param unknown_type $sFileName
-    * @return unknown
+    * @param string $sFileName
+    * @return string[]|array[]
     */
-   public function getClassesInFile( $sFileName )
-   {
-      return array_keys( $this->_aClassMap, $sFileName );
+   public function getClassesInFile($sFileName) {
+      return array_keys($this->_aClassMap, $sFileName);
    }
 
    /**
     * Retreives the entire class-file map as an array with class names as keys
     * and their paths as values
     *
+    * @return string[]
     */
-   public function getClassMap()
-   {
+   public function getClassMap() {
       return $this->_aClassMap;
    }
 }
