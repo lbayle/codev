@@ -1,7 +1,9 @@
 <?php
 
-require('lib/dynamic_autoloader/ClassFileMapFactory.php');
-require('lib/dynamic_autoloader/ClassFileMapAutoloader.php');
+require('../path.inc.php');
+
+require_once('lib/dynamic_autoloader/ClassFileMapFactory.php');
+require_once('lib/dynamic_autoloader/ClassFileMapAutoloader.php');
 
 $lib_class_map = ClassFileMapFactory::generate("../classes");
 $_autoloader = new ClassFileMapAutoloader();

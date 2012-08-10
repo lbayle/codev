@@ -1,6 +1,6 @@
 <?php
 
-require('ClassFileMap.php');
+require_once('ClassFileMap.php');
 
 /**
  * Autoloads classes using class file maps

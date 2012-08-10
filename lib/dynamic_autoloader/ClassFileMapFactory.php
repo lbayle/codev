@@ -1,6 +1,6 @@
 <?php
 
-require('ClassFileMap.php');
+require_once('ClassFileMap.php');
 
 /**
  * Class to handle generating the class file map, and loading of classes
