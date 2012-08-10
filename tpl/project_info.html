@@ -58,14 +58,14 @@
                <th style="width: 80px">{t}Drift Mgr{/t}</th>
             </tr>
             {foreach from=$versionsDetailedMgr key=name item=i name=versionsDetailedMgr}
-               <tr {if $smarty.foreach.versionsDetailedMgr.last}class="row_total"{/if}>
-                  <td>{$i.name}</td>
-                  <td>{$i.effortEstim}</td>
-                  <td>{$i.reestimated}</td>
-                  <td>{$i.elapsed}</td>
-                  <td>{$i.backlog}</td>
-                  <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
-               </tr>
+            <tr {if $smarty.foreach.versionsDetailedMgr.last}class="row_total"{/if}>
+               <td>{$i.name}</td>
+               <td>{$i.effortEstim}</td>
+               <td>{$i.reestimated}</td>
+               <td>{$i.elapsed}</td>
+               <td>{$i.backlog}</td>
+               <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
+            </tr>
             {/foreach}
          </table>
          {else}
@@ -84,14 +84,14 @@
                <th style="width: 80px">{t}Drift{/t}</th>
             </tr>
             {foreach from=$versionsDetailed key=name item=i name=versionsDetailed}
-               <tr {if $smarty.foreach.versionsDetailed.last}class="row_total"{/if}>
-                  <td>{$i.name}</td>
-                  <td {$i.title}>{$i.effortEstim}</td>
-                  <td>{$i.reestimated}</td>
-                  <td>{$i.elapsed}</td>
-                  <td>{$i.backlog}</td>
-                  <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
-               </tr>
+            <tr {if $smarty.foreach.versionsDetailed.last}class="row_total"{/if}>
+               <td>{$i.name}</td>
+               <td {$i.title}>{$i.effortEstim}</td>
+               <td>{$i.reestimated}</td>
+               <td>{$i.elapsed}</td>
+               <td>{$i.backlog}</td>
+               <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
+            </tr>
             {/foreach}
          </table>
          {else}
@@ -108,12 +108,12 @@
                <th>{t}Resolved Tasks{/t}</th>
             </tr>
             {foreach from=$versionsIssues key=name item=i}
-               <tr>
-                  <td>{$i.name}</td>
-                  <td>{$i.newList}</td>
-                  <td>{$i.openList}</td>
-                  <td>{$i.resolvedList}</td>
-               </tr>
+            <tr>
+               <td>{$i.name}</td>
+               <td>{$i.newList}</td>
+               <td>{$i.openList}</td>
+               <td>{$i.resolvedList}</td>
+            </tr>
             {/foreach}
          </table>
          {else}
@@ -178,17 +178,17 @@
                <th>{t}Summary{/t}</th>
             </tr>
             {foreach from=$resolvedIssuesInDrift key=name item=i}
-               <tr>
-                  <td>{$i.mantisURL} {$i.issueURL}</td>
-                  <td>{$i.projectName}</td>
-                  <td>{$i.targetVersion}</td>
-                  {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
-                  <td {$i.driftColor}>{$i.drift}</td>
-                  <td>{$i.backlog}</td>
-                  <td>{$i.progress}%</td>
-                  <td>{$i.currentStatusName}</td>
-                  <td>{$i.summary}</td>
-               </tr>
+            <tr>
+               <td>{$i.mantisURL} {$i.issueURL}</td>
+               <td>{$i.projectName}</td>
+               <td>{$i.targetVersion}</td>
+               {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
+               <td {$i.driftColor}>{$i.drift}</td>
+               <td>{$i.backlog}</td>
+               <td>{$i.progress}%</td>
+               <td>{$i.currentStatusName}</td>
+               <td>{$i.summary}</td>
+            </tr>
             {/foreach}
          </table>
          {else}
@@ -198,6 +198,6 @@
    </div>
    {/if}
    {if $error}
-   <p style="text-align: center">{t}{$error}{/t}</div>
+   <p class="center">{t}{$error}{/t}</p>
    {/if}
 </div>
