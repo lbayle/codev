@@ -54,8 +54,4 @@ class InternalConfig {
 
 }
 
-// TODO Move to Download
-// used by tools/download.php
-$_POST['codevReportsDir'] = Config::getInstance()->getValue(Config::id_codevReportsDir);
-
 ?>

@@ -1,7 +1,7 @@
 {include file="menu/export_csv_menu.html"}
 
 <div id="content">
-   <h2 style="text-align: center">{t}Weekly report{/t}</h2>
+   <h2 class="center">{t}Weekly report{/t}</h2>
    {if $teams}
    <div align="center" style="margin-top: 2em;">
       <form method="post" action="{$page}">
@@ -27,13 +27,13 @@
    {foreach from=$reports key=file item=i}
    <p style="margin-top: 2em">
       <span style="font-weight: bold;" title="{$i.subtitle}">- {$i.title}...</span><br/>
-      <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}" target="_blank">{$i.file}</a></span>
+      <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}">{$i.file}</a></span>
    </p>
    {/foreach}
    <p style="margin-top: 2em">
       <span style="font-weight: bold;" title="">- {$monthsReport.title}...</span><br/>
       {foreach from=$monthsReport.line key=file item=i}
-      <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}" target="_blank">{$i.file}</a></span>
+      <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}">{$i.file}</a></span>
       <br/>
       {/foreach}
    </p>
@@ -43,6 +43,6 @@
    </p>
    {/if}
    {else}
-   <p style="text-align: center">{t}Sorry, you do NOT have access to this page{/t}</p>
+   <p class="center">{t}Sorry, you do NOT have access to this page{/t}</p>
    {/if}
 </div>
