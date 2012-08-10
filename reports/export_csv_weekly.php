@@ -22,10 +22,9 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('smarty_tools.php');
-
 require('reports/export_csv_tools.php');
 
+require('smarty_tools.php');
 require_once('tools.php');
 
 // =========== MAIN ==========

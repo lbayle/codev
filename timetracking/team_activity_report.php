@@ -22,7 +22,6 @@ require('../path.inc.php');
 require('include/super_header.inc.php');
 
 require('smarty_tools.php');
-
 require_once('tools.php');
 
 /**
@@ -55,7 +54,6 @@ function getDaysDetails($i, Holidays $holidays, array $weekDates, $duration) {
 }
 
 /**
- * @param int $teamid
  * @param TimeTracking $timeTracking
  * @param bool $isDetailed
  * @param int[] $weekDates

@@ -23,7 +23,6 @@ require('../path.inc.php');
 require('include/super_header.inc.php');
 
 require('smarty_tools.php');
-
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
@@ -187,6 +186,7 @@ function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array 
 }
 
 /**
+ * @param string $userName
  * @param int $dayPixSize
  * @param ScheduledTask[] $scheduledTaskList
  * @param int $deadLineTriggerWidth
@@ -215,7 +215,9 @@ function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList, $dea
    }
 
    // well if no deadLines, ...
-   if (0 == count($deadLines)) { return array(); }
+   if (0 == count($deadLines)) {
+      return array();
+   }
 
    // sort deadLines by date ASC
    ksort($deadLines);
@@ -262,6 +264,7 @@ function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList, $dea
 }
 
 /**
+ * @param string $userName
  * @param int $dayPixSize
  * @param ScheduledTask[] $scheduledTaskList
  * @param int $teamid

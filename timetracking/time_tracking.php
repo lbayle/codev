@@ -21,10 +21,9 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('smarty_tools.php');
-
 require('timetracking/time_tracking_tools.php');
 
+require('smarty_tools.php');
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
@@ -37,7 +36,6 @@ $smartyHelper->assign('pageName', 'Time Tracking');
 $smartyHelper->assign('activeGlobalMenuItem', 'TimeTracking');
 
 if($_SESSION['userid']) {
-
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
    // if first call to this page

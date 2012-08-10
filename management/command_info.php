@@ -24,7 +24,7 @@ require('include/super_header.inc.php');
 
 require('management/command_tools.php');
 
-require_once('smarty_tools.php');
+require('smarty_tools.php');
 require_once('tools.php');
 
 /**

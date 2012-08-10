@@ -27,7 +27,6 @@ $smartyHelper = new SmartyHelper();
 $smartyHelper->assign('pageName', 'Team Monthly Activity');
 
 if (isset($_SESSION['userid'])) {
-
    $threshold = 0.5; // for Deviation filters
 
    // use the teamid set in the form, if not defined (first page call) use session teamid

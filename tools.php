@@ -482,11 +482,12 @@ class Tools {
          if(strlen($req) > 0) {
             if (!SqlWrapper::getInstance()->sql_query($req)) {
                die("ERROR : ".$req." : ".SqlWrapper::getInstance()->sql_error());
+               //return false;
             }
          }
       }
 
-      return TRUE;
+      return true;
    }
 
    /**
