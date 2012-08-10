@@ -32,14 +32,25 @@
                <th style="width: 80px;">{t}Drift{/t}</th>
             </tr>
             {foreach from=$versionsOverview key=name item=i name=versionsOverview}
-            <tr {if $smarty.foreach.versionsOverview.last}class="row_total"{/if}>
+            {if $smarty.foreach.versionsOverview.last}
+            <tr class="row_total">
+               <td>{t}Total{/t}</td>
+               <td></td>
+               <td>{$i.progressMgr}%</td>
+               <td>{$i.progress}%</td>
+               <td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}%</td>
+               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}%</td>
+            </tr>
+            {else}
+            <tr>
                <td>{$i.name}</td>
                <td>{$i.date}</td>
                <td>{$i.progressMgr}%</td>
                <td>{$i.progress}%</td>
-               <td {$i.driftMgrColor}>{$i.driftMgr}%</td>
-               <td {$i.driftColor}>{$i.drift}%</td>
+               <td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}%</td>
+               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}%</td>
             </tr>
+            {/if}
             {/foreach}
          </table>
          {else}
@@ -64,7 +75,7 @@
                <td>{$i.reestimated}</td>
                <td>{$i.elapsed}</td>
                <td>{$i.backlog}</td>
-               <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
+               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
             </tr>
             {/foreach}
          </table>
@@ -84,14 +95,25 @@
                <th style="width: 80px">{t}Drift{/t}</th>
             </tr>
             {foreach from=$versionsDetailed key=name item=i name=versionsDetailed}
-            <tr {if $smarty.foreach.versionsDetailed.last}class="row_total"{/if}>
+            {if $smarty.foreach.versionsDetailed.last}
+            <tr class="row_total">
                <td>{$i.name}</td>
                <td {$i.title}>{$i.effortEstim}</td>
                <td>{$i.reestimated}</td>
                <td>{$i.elapsed}</td>
                <td>{$i.backlog}</td>
-               <td {$i.driftColor} title="{t}nb days{/t}">{$i.drift}</td>
+               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
             </tr>
+            <tr>
+               <td>{t}Total{/t}</td>
+               <td>{$i.effortEstim}</td>
+               <td>{$i.reestimated}</td>
+               <td>{$i.elapsed}</td>
+               <td>{$i.backlog}</td>
+               <td title="{t}nb days{/t}">{$i.drift}</td>
+            </tr>
+            {else}
+            {/if}
             {/foreach}
          </table>
          {else}
@@ -149,8 +171,8 @@
                <td>{$i.mantisURL} {$i.issueURL}</td>
                <td>{$i.projectName}</td>
                <td>{$i.targetVersion}</td>
-               {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
-               <td {$i.driftColor}>{$i.drift}</td>
+               {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
+               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
                <td>{$i.backlog}</td>
                <td>{$i.progress}%</td>
                <td>{$i.currentStatusName}</td>
@@ -182,8 +204,8 @@
                <td>{$i.mantisURL} {$i.issueURL}</td>
                <td>{$i.projectName}</td>
                <td>{$i.targetVersion}</td>
-               {if $isManager}<td {$i.driftMgrColor}>{$i.driftMgr}</td>{/if}
-               <td {$i.driftColor}>{$i.drift}</td>
+               {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
+               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
                <td>{$i.backlog}</td>
                <td>{$i.progress}%</td>
                <td>{$i.currentStatusName}</td>

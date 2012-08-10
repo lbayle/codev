@@ -25,8 +25,6 @@ require('include/super_header.inc.php');
 require('smarty_tools.php');
 require_once('tools.php');
 
-require_once('i18n/i18n.inc.php');
-
 /**
  * Get versions overview
  * @param Project $project
@@ -42,12 +40,7 @@ function getVersionsOverview(Project $project) {
 
       $valuesMgr = $pv->getDriftMgr();
 
-      $driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
-      $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
-
       $values = $pv->getDrift();
-      $driftColor = IssueSelection::getDriftColor($values['percent']);
-      $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
       $vdate =  $pv->getVersionDate();
       $date = "";
@@ -55,33 +48,27 @@ function getVersionsOverview(Project $project) {
          $date = date("Y-m-d",$vdate);
       }
 
-      $versionsOverview[] = array('name' => $pv->name,
-                                  'date' => $date,
-                                  'progressMgr' => round(100 * $pv->getProgressMgr()),
-                                  'progress' => round(100 * $pv->getProgress()),
-                                  'driftMgrColor' => $formatteddriftMgrColor,
-                                  'driftMgr' => round(100 * $valuesMgr['percent']),
-                                  'driftColor' => $formatteddriftColor,
-                                  'drift' => round(100 * $values['percent'])
+      $versionsOverview[] = array(
+         'name' => $pv->name,
+         'date' => $date,
+         'progressMgr' => round(100 * $pv->getProgressMgr()),
+         'progress' => round(100 * $pv->getProgress()),
+         'driftMgrColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
+         'driftMgr' => round(100 * $valuesMgr['percent']),
+         'driftColor' => IssueSelection::getDriftColor($values['percent']),
+         'drift' => round(100 * $values['percent'])
       );
    }
 
-   $driftMgr = $project->getDriftMgr();
-   $driftMgrColor = IssueSelection::getDriftColor($driftMgr['percent']);
-   $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
-
    $drift = $project->getDrift();
-   $driftColor = IssueSelection::getDriftColor($drift['percent']);
-   $formattedDriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
-
-   $versionsOverview[] = array('name' => T_("Total"),
-                               'date' => '',
-                               'progressMgr' => round(100 * $project->getProgressMgr()),
-                               'progress' => round(100 * $project->getProgress()),
-                               'driftMgrColor' => $formattedDriftMgrColor,
-                               'driftMgr' => round(100 * $driftMgr['percent']),
-                               'driftColor' => $formattedDriftColor,
-                               'drift' => round(100 * $drift['percent'])
+   $driftMgr = $project->getDriftMgr();
+   $versionsOverview[] = array(
+      'progressMgr' => round(100 * $project->getProgressMgr()),
+      'progress' => round(100 * $project->getProgress()),
+      'driftMgrColor' => IssueSelection::getDriftColor($driftMgr['percent']),
+      'driftMgr' => round(100 * $driftMgr['percent']),
+      'driftColor' => IssueSelection::getDriftColor($drift['percent']),
+      'drift' => round(100 * $drift['percent'])
    );
 
    return $versionsOverview;
@@ -110,7 +97,7 @@ function getVersionsDetailedMgr(Project $project) {
    }
    $projectVersionList[T_("Total")] = $allProjectVersions;
 
-   foreach ($projectVersionList as $version => $pv) {
+   foreach ($projectVersionList as $pv) {
       $totalEffortEstimMgr += $pv->mgrEffortEstim;
       $totalElapsed += $pv->elapsed;
       $totalBacklogMgr += $pv->durationMgr;
@@ -120,17 +107,15 @@ function getVersionsDetailedMgr(Project $project) {
       $valuesMgr = $pv->getDriftMgr();
       $totalDriftMgr += $valuesMgr['nbDays'];
 
-      $driftMgrColor = IssueSelection::getDriftColor($valuesMgr['percent']);
-      $formatteddriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
-
-      $versionsDetailedMgr[] = array('name'        => $pv->name,
-                                     //'progress' => round(100 * $pv->getProgress()),
-                                     'effortEstim' => $pv->mgrEffortEstim,
-                                     'reestimated' => $pv->getReestimatedMgr(),
-                                     'elapsed'     => $pv->elapsed,
-                                     'backlog'   => $pv->durationMgr,
-                                     'driftColor'  => $formatteddriftMgrColor,
-                                     'drift'       => round($valuesMgr['nbDays'],2)
+      $versionsDetailedMgr[] = array(
+         'name' => $pv->name,
+         //'progress' => round(100 * $pv->getProgress()),
+         'effortEstim' => $pv->mgrEffortEstim,
+         'reestimated' => $pv->getReestimatedMgr(),
+         'elapsed' => $pv->elapsed,
+         'backlog' => $pv->durationMgr,
+         'driftColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
+         'drift' => round($valuesMgr['nbDays'],2)
       );
    }
 
@@ -150,7 +135,7 @@ function getVersionsDetailed(array $projectVersionList) {
    $totalBacklog = 0;
    $totalReestimated = 0;
 
-   foreach ($projectVersionList as $version => $pv) {
+   foreach ($projectVersionList as $pv) {
       $totalEffortEstim += $pv->effortEstim + $pv->effortAdd;
       $totalElapsed += $pv->elapsed;
       $totalBacklog += $pv->duration;
@@ -159,29 +144,26 @@ function getVersionsDetailed(array $projectVersionList) {
 
       $values = $pv->getDrift();
       $totalDrift += $values['nbDays'];
-      $driftColor = IssueSelection::getDriftColor($values['percent']);
-      $formatteddriftColor = (NULL == $driftColor) ? "" : "style='background-color: #".$driftColor.";' ";
 
-      $versionsDetailed[] = array('name' => $pv->name,
+      $versionsDetailed[] = array(
+         'name' => $pv->name,
          //'progress' => round(100 * $pv->getProgress()),
-         'title'       => 'title="'.($pv->effortEstim + $pv->effortAdd).'"',
+         'title' => 'title="'.($pv->effortEstim + $pv->effortAdd).'"',
          'effortEstim' => ($pv->effortEstim + $pv->effortAdd),
          'reestimated' => $pv->getReestimated(),
-         'elapsed'     => $pv->elapsed,
-         'backlog'   => $pv->duration,
-         'driftColor'  => $formatteddriftColor,
-         'drift'       => round($values['nbDays'],2)
+         'elapsed' => $pv->elapsed,
+         'backlog' => $pv->duration,
+         'driftColor' => IssueSelection::getDriftColor($values['percent']),
+         'drift' => round($values['nbDays'],2)
       );
    }
 
-   $versionsDetailed[] = array('name' => T_("Total"),
-                               'title'       => '',
-                               'effortEstim' => $totalEffortEstim,
-                               'reestimated' => $totalReestimated,
-                               'elapsed'     => $totalElapsed,
-                               'backlog'   => $totalBacklog,
-                               'driftColor'  => '',
-                               'drift'       => $totalDrift
+   $versionsDetailed[] = array(
+      'effortEstim' => $totalEffortEstim,
+      'reestimated' => $totalReestimated,
+      'elapsed' => $totalElapsed,
+      'backlog' => $totalBacklog,
+      'drift' => $totalDrift
    );
 
    return $versionsDetailed;
@@ -230,10 +212,11 @@ function getVersionsIssues(array $projectVersionList) {
          }
       }
 
-      $versionsIssues[] = array('name' => $pv->name,
-                                'newList' => $formatedNewList,
-                                'openList' => $formatedOpenList,
-                                'resolvedList' => $formatedResolvedList
+      $versionsIssues[] = array(
+         'name' => $pv->name,
+         'newList' => $formatedNewList,
+         'openList' => $formatedOpenList,
+         'resolvedList' => $formatedResolvedList
       );
    }
 
@@ -272,34 +255,36 @@ function getCurrentIssuesInDrift(array $projectVersionList, $isManager, $withSup
          $driftEE = $issue->getDrift($withSupport);
 
          if (($driftPrelEE > 0) || ($driftEE > 0)) {
+            $driftMgrColor = NULL;
+            $driftMgr = NULL;
             if ($isManager) {
-               $driftMgrColor = "";
                if ($driftPrelEE < -1) {
-                  $driftMgrColor = "style='background-color: #61ed66;'";
+                  $driftMgrColor = "#61ed66";
                } else if ($driftPrelEE > 1) {
-                  $driftMgrColor = "style='background-color: #fcbdbd;'";
+                  $driftMgrColor = "#fcbdbd";
                }
                $driftMgr = round($driftPrelEE, 2);
             }
-            $driftColor = "";
+            $driftColor = NULL;
             if ($driftEE < -1) {
-               $driftColor = "style='background-color: #61ed66;'";
+               $driftColor = "#61ed66";
             } else if ($driftEE > 1) {
-               $driftColor = "style='background-color: #fcbdbd;'";
+               $driftColor = "#fcbdbd";
             }
 
-            $currentIssuesInDrift[] = array('issueURL' => Tools::issueInfoURL($issue->bugId),
-                                            'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
-                                            'projectName' => $issue->getProjectName(),
-                                            'targetVersion' => $issue->getTargetVersion(),
-                                            'driftMgrColor' => $driftMgrColor,
-                                            'driftMgr' => $driftMgr,
-                                            'driftColor' => $driftColor,
-                                            'drift' => round($driftEE, 2),
-                                            'backlog' => $issue->backlog,
-                                            'progress' => round(100 * $issue->getProgress()),
-                                            'currentStatusName' => $issue->getCurrentStatusName(),
-                                            'summary' => $issue->summary
+            $currentIssuesInDrift[] = array(
+               'issueURL' => Tools::issueInfoURL($issue->bugId),
+               'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
+               'projectName' => $issue->getProjectName(),
+               'targetVersion' => $issue->getTargetVersion(),
+               'driftMgrColor' => $driftMgrColor,
+               'driftMgr' => $driftMgr,
+               'driftColor' => $driftColor,
+               'drift' => round($driftEE, 2),
+               'backlog' => $issue->backlog,
+               'progress' => round(100 * $issue->getProgress()),
+               'currentStatusName' => $issue->getCurrentStatusName(),
+               'summary' => $issue->summary
             );
          }
       }
@@ -329,34 +314,36 @@ function getResolvedIssuesInDrift(array $projectVersionList, $isManager, $withSu
          $driftEE = $issue->getDrift($withSupport);
 
          if (($driftPrelEE > 0) || ($driftEE > 0)) {
+            $driftMgrColor = NULL;
+            $driftMgr = NULL;
             if ($isManager) {
-               $driftMgrColor = "";
                if ($driftPrelEE < -1) {
-                  $driftMgrColor = "style='background-color: #61ed66;'";
+                  $driftMgrColor = "#61ed66";
                } else if ($driftPrelEE > 1) {
-                  $driftMgrColor = "style='background-color: #fcbdbd;'";
+                  $driftMgrColor = "#fcbdbd";
                }
                $driftMgr = round($driftPrelEE, 2);
             }
-            $driftColor = "";
+            $driftColor = NULL;
             if ($driftEE < -1) {
-               $driftColor = "style='background-color: #61ed66;'";
+               $driftColor = "#61ed66";
             } else if ($driftEE > 1) {
-               $driftColor = "style='background-color: #fcbdbd;'";
+               $driftColor = "#fcbdbd";
             }
 
-            $resolvedIssuesInDrift[] = array('issueURL' => Tools::issueInfoURL($issue->bugId),
-                                             'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
-                                             'projectName' => $issue->getProjectName(),
-                                             'targetVersion' => $issue->getTargetVersion(),
-                                             'driftMgrColor' => $driftMgrColor,
-                                             'driftMgr' => $driftMgr,
-                                             'driftColor' => $driftColor,
-                                             'drift' => round($driftEE, 2),
-                                             'backlog' => $issue->backlog,
-                                             'progress' => round(100 * $issue->getProgress()),
-                                             'currentStatusName' => $issue->getCurrentStatusName(),
-                                             'summary' => $issue->summary
+            $resolvedIssuesInDrift[] = array(
+               'issueURL' => Tools::issueInfoURL($issue->bugId),
+               'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
+               'projectName' => $issue->getProjectName(),
+               'targetVersion' => $issue->getTargetVersion(),
+               'driftMgrColor' => $driftMgrColor,
+               'driftMgr' => $driftMgr,
+               'driftColor' => $driftColor,
+               'drift' => round($driftEE, 2),
+               'backlog' => $issue->backlog,
+               'progress' => round(100 * $issue->getProgress()),
+               'currentStatusName' => $issue->getCurrentStatusName(),
+               'summary' => $issue->summary
             );
          }
       }
@@ -375,14 +362,14 @@ if(isset($_SESSION['userid'])) {
 
    $teamList = $user->getTeamList();
    if (0 != count($teamList)) {
-      // --- define the list of tasks the user can display
+      // define the list of tasks the user can display
       // All projects from teams where I'm a Developper or Manager AND Observers
       $dTeamList = $user->getDevTeamList();
-      $devProjList      = (0 == count($dTeamList))       ? array() : $user->getProjectList($dTeamList);
+      $devProjList = (0 == count($dTeamList)) ? array() : $user->getProjectList($dTeamList);
       $managedTeamList = $user->getManagedTeamList();
-      $managedProjList  = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
+      $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
       $oTeamList = $user->getObservedTeamList();
-      $observedProjList = (0 == count($oTeamList))       ? array() : $user->getProjectList($oTeamList);
+      $observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList);
       $projList = $devProjList + $managedProjList + $observedProjList;
 
       $projectid = 0;
