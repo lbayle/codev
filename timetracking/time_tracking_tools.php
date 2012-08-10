@@ -16,8 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('i18n/i18n.inc.php');
-
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');

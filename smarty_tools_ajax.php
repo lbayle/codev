@@ -24,8 +24,6 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    require('smarty_tools.php');
 
    if(isset($_GET['action'])) {
-      require_once('i18n/i18n.inc.php');
-
       $smartyHelper = new SmartyHelper();
 
       if ($_GET['action'] == 'getTeamProjects') {
