@@ -18,18 +18,12 @@
 
 include_once("include/super_header.inc.php");
 
-include_once('include/internal_config.inc.php')
-
 ?>
 <!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
 <html>
 
 <head>
 <title>CodevTT</title>
-
-<?php
-#header( 'Content-Type: text/html; charset=utf-8' );
-?>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -70,7 +64,7 @@ include_once('include/internal_config.inc.php')
 <tr>
 <td width=300>
 <?php
-   echo "<a href='".getServerRootURL()."/'><img title='".InternalConfig::$codevVersion."' src='".getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
+   echo "<a href='".getServerRootURL()."/'><img title='".Config::codevVersion."' src='".getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
 ?>
 </td>
 <td>

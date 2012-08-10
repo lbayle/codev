@@ -34,11 +34,8 @@ require_once 'install_menu.inc.php';
 
 // check CodevTT already installed
 if (file_exists(Install::FILENAME_CONSTANTS) && file_exists(Install::FILENAME_MYSQL_CONFIG)) {
-   include_once "mysql_connect.inc.php";
    include_once "config.class.php";
-   include_once "internal_config.inc.php";
-
-   echo "CodevTT ".InternalConfig::$codevVersion." already installed.<br />";
+   echo "CodevTT ".Config::codevVersion." already installed.<br />";
 
    // TODO Check if the database is installed
 } else {

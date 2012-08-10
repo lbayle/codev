@@ -19,7 +19,6 @@
 require('lib/Smarty/Smarty.class.php');
 
 include_once('i18n/i18n.inc.php');
-include_once('include/internal_config.inc.php');
 
 /**
  * Smarty helper : Construct a smarty objet for templating engine
@@ -113,7 +112,7 @@ class SmartyHelper {
     */
    public function displayTemplate($mantisURL) {
       $this->smarty->assign("year", date("Y"));
-      $this->smarty->assign("codevVersion", InternalConfig::$codevVersion);
+      $this->smarty->assign("codevVersion", Config::codevVersion);
       $this->smarty->assign("username", $_SESSION['username']);
       $this->smarty->assign("realname", $_SESSION['realname']);
       $this->smarty->assign('page', $_SERVER['PHP_SELF']);

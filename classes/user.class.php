@@ -28,8 +28,6 @@ include_once('classes/team.class.php');
 include_once('classes/team_cache.class.php');
 include_once('classes/timetrack_cache.class.php');
 
-include_once('include/internal_config.inc.php');
-
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
@@ -1007,7 +1005,7 @@ class User {
          }
 
          // get default filters if not found
-         $keyvalue = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : InternalConfig::$default_timetrackingFilters;
+         $keyvalue = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : Config::default_timetrackingFilters;
 
          self::$logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
          $this->timetrackingFilters = Tools::doubleExplode(':', ',', $keyvalue);
