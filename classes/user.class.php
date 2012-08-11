@@ -1020,7 +1020,7 @@ class User {
 
    /**
     * @param string $filterName
-    * @param unknown_type $value
+    * @param string $value
     */
    function setTimetrackingFilter($filterName, $value) {
       // init timetrackingFilters

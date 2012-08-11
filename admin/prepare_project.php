@@ -24,69 +24,82 @@ require('include/super_header.inc.php');
 
 require_once('lib/log4php/Logger.php');
 
-$logger = Logger::getLogger("prepare_project");
+class PrepareProjectController extends Controller {
 
-/**
- * get all existing projects, except ExternalTasksProject & SideTasksProjects
- * @return array string[int] : name[id]
- */
-function getProjectList() {
-   global $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   $projects = Project::getProjects();
-   if($projects != NULL) {
-      $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
-      $smartyProjects = array();
-      foreach($projects as $id => $name) {
-         if ($extproj_id != $id) {
-            try {
-               $p = ProjectCache::getInstance()->getProject($id);
-               if (!$p->isSideTasksProject()) {
-                  $smartyProjects[$id] = $name;
-               } else {
-                  // exclude SideTasksProjects
-                  $logger->debug("project $id: sideTaskProjects are excluded");
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   protected function display() {
+      if(isset($_SESSION['userid'])) {
+         // Admins only
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+            if (isset($_POST['projects']) && !empty($_POST['projects'])) {
+               $selectedProjects = $_POST['projects'];
+               $result = array();
+               foreach ($selectedProjects as $projectid) {
+                  $project = ProjectCache::getInstance()->getProject($projectid);
+                  $result[$projectid] = $project->name;
+                  Project::prepareProjectToCodev($projectid);
                }
-            } catch (Exception $e) {
-               // could not determinate, so the project should be included in the list
-               $logger->debug("project $id: Unknown type, project included anyway.");
-               // nothing to do.
+               $this->smartyHelper->assign('result', $result);
             }
-         } else {
-            // exclude ExternalTasksProject
-            $logger->debug("project $id: ExternalTasksProject is excluded");
+
+            $this->smartyHelper->assign('projects', $this->getProjectList());
          }
       }
-      return $smartyProjects;
-   } else {
-      return NULL;
    }
+
+   /**
+    * get all existing projects, except ExternalTasksProject & SideTasksProjects
+    * @return string[int] : name[id]
+    */
+   private function getProjectList() {
+      $projects = Project::getProjects();
+      if($projects != NULL) {
+         $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
+         $smartyProjects = array();
+         foreach($projects as $id => $name) {
+            if ($extproj_id != $id) {
+               try {
+                  $p = ProjectCache::getInstance()->getProject($id);
+                  if (!$p->isSideTasksProject()) {
+                     $smartyProjects[$id] = $name;
+                  } else {
+                     // exclude SideTasksProjects
+                     self::$logger->debug("project $id: sideTaskProjects are excluded");
+                  }
+               } catch (Exception $e) {
+                  // could not determinate, so the project should be included in the list
+                  self::$logger->debug("project $id: Unknown type, project included anyway.");
+                  // nothing to do.
+               }
+            } else {
+               // exclude ExternalTasksProject
+               self::$logger->debug("project $id: ExternalTasksProject is excluded");
+            }
+         }
+         return $smartyProjects;
+      } else {
+         return NULL;
+      }
+   }
+
 }
 
 // ========== MAIN ===========
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'CoDev Administration : Prepare Projects');
-$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
-
-if(isset($_SESSION['userid'])) {
-   // Admins only
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-      if (isset($_POST['projects']) && !empty($_POST['projects'])) {
-         $selectedProjects = $_POST['projects'];
-         $result = array();
-         foreach ($selectedProjects as $projectid) {
-            $project = ProjectCache::getInstance()->getProject($projectid);
-            $result[$projectid] = $project->name;
-            Project::prepareProjectToCodev($projectid);
-         }
-         $smartyHelper->assign('result', $result);
-      }
-
-      $smartyHelper->assign('projects', getProjectList());
-   }
-}
-
-$smartyHelper->displayTemplate($mantisURL);
+PrepareProjectController::staticInit();
+$controller = new PrepareProjectController('CoDev Administration : Prepare Projects','Admin');
+$controller->execute();
 
 ?>

@@ -22,108 +22,125 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
+include_once('constants.php');
+
 require('smarty_tools.php');
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
 
-$logger = Logger::getLogger("check");
+class CheckController extends Controller {
 
-/**
- * Get consistency errors
- * @param int $teamid
- * @return mixed[]
- */
-function getTeamConsistencyErrors($teamid) {
-   global $logger;
-   global $statusNames;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   $logger->debug("getTeamConsistencyErrors teamid=$teamid");
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger("check");
+   }
 
-   // get team projects
-   $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
-
-   $logger->debug("getTeamConsistencyErrors nbIssues=".count($issueList));
-
-   #$ccheck = new ConsistencyCheck2($issueList);
-   $ccheck = new ConsistencyCheck2($issueList, $teamid);
-   
-   $cerrList1 = $ccheck->check();
-   $cerrList2 = $ccheck->checkTeamTimetracks();
-   $cerrList3 = $ccheck->checkCommandsNotInCommandset();
-   $cerrList4 = $ccheck->checkCommandSetNotInServiceContract();
-   $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3, $cerrList4);
-
-   $cerrs = NULL;
-   if (count($cerrList) > 0) {
-      foreach ($cerrList as $cerr) {
-         if (NULL != $cerr->userId) {
-            $user = UserCache::getInstance()->getUser($cerr->userId);
-         }
-         if (Issue::exists($cerr->bugId)) {
-            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-            $summary = $issue->summary;
-            $projName = $issue->getProjectName();
-            $targetVersion = $issue->getTargetVersion();
+   protected function display() {
+      // Consistency errors
+      if (isset($_SESSION['userid'])) {
+         // use the teamid set in the form, if not defined (first page call) use session teamid
+         if (isset($_GET['teamid'])) {
+            $teamid = Tools::getSecureGETIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
          } else {
-            $summary = '';
-            $projName = '';
-            $targetVersion = '';
+            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
          }
 
-         $cerrs[] = array('userName' => isset($user) ? $user->getName() : '',
-            'issueURL' =>  (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId, $summary),
-            'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, $summary, true),
-            'date' =>      (NULL == $cerr->timestamp) ? '' : date("Y-m-d", $cerr->timestamp),
-            'status' =>    (NULL == $cerr->status) ? '' : $statusNames[$cerr->status],
-            'severity' => $cerr->getLiteralSeverity(),
-            'project' => $projName,
-            'targetVersion' => $targetVersion,
-            'desc' => $cerr->desc);
-      }
-   }
-   return $cerrs;
-}
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-// ================ MAIN =================
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Consistency Check');
-$smartyHelper->assign('activeGlobalMenuItem', 'ConsistencyCheck');
+         $teamList = $session_user->getTeamList();
 
-// Consistency errors
-if (isset($_SESSION['userid'])) {
-   // use the teamid set in the form, if not defined (first page call) use session teamid
-   if (isset($_GET['teamid'])) {
-      $teamid = Tools::getSecureGETIntValue('teamid');
-      $_SESSION['teamid'] = $teamid;
-   } else {
-      $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-   }
+         if (count($teamList) > 0) {
+            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $_SESSION['teamid']));
 
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+            if (isset($_GET['teamid']) && 0 != $teamid) {
+               $consistencyErrors = $this->getTeamConsistencyErrors($teamid);
 
-   $teamList = $session_user->getTeamList();
-
-   if (count($teamList) > 0) {
-      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $_SESSION['teamid']));
-
-      if (isset($_GET['teamid']) && 0 != $teamid) {
-
-         $consistencyErrors = getTeamConsistencyErrors($teamid);
-
-         $smartyHelper->assign('teamid', $teamid);
-         $smartyHelper->assign('count', count($consistencyErrors));
-         if(isset($consistencyErrors)) {
-            $smartyHelper->assign('consistencyErrors', $consistencyErrors);
+               $this->smartyHelper->assign('teamid', $teamid);
+               $this->smartyHelper->assign('count', count($consistencyErrors));
+               if(isset($consistencyErrors)) {
+                  $this->smartyHelper->assign('consistencyErrors', $consistencyErrors);
+               }
+            }
          }
       }
+
+      // log stats
+      IssueCache::getInstance()->logStats();
+      ProjectCache::getInstance()->logStats();
    }
+
+   /**
+    * Get consistency errors
+    * @param int $teamid
+    * @return mixed[]
+    */
+   private function getTeamConsistencyErrors($teamid) {
+      global $statusNames;
+
+      self::$logger->debug("getTeamConsistencyErrors teamid=$teamid");
+
+      // get team projects
+      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
+
+      self::$logger->debug("getTeamConsistencyErrors nbIssues=".count($issueList));
+
+      #$ccheck = new ConsistencyCheck2($issueList);
+      $ccheck = new ConsistencyCheck2($issueList, $teamid);
+
+      $cerrList1 = $ccheck->check();
+      $cerrList2 = $ccheck->checkTeamTimetracks();
+      $cerrList3 = $ccheck->checkCommandsNotInCommandset();
+      $cerrList4 = $ccheck->checkCommandSetNotInServiceContract();
+      $cerrList = array_merge($cerrList1, $cerrList2, $cerrList3, $cerrList4);
+
+      $cerrs = NULL;
+      if (count($cerrList) > 0) {
+         foreach ($cerrList as $cerr) {
+            if (NULL != $cerr->userId) {
+               $user = UserCache::getInstance()->getUser($cerr->userId);
+            }
+            if (Issue::exists($cerr->bugId)) {
+               $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+               $summary = $issue->summary;
+               $projName = $issue->getProjectName();
+               $targetVersion = $issue->getTargetVersion();
+            } else {
+               $summary = '';
+               $projName = '';
+               $targetVersion = '';
+            }
+
+            $cerrs[] = array(
+               'userName' => isset($user) ? $user->getName() : '',
+               'issueURL' => (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId, $summary),
+               'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, $summary, true),
+               'date' =>  (NULL == $cerr->timestamp) ? '' : date("Y-m-d", $cerr->timestamp),
+               'status' => (NULL == $cerr->status) ? '' : $statusNames[$cerr->status],
+               'severity' => $cerr->getLiteralSeverity(),
+               'project' => $projName,
+               'targetVersion' => $targetVersion,
+               'desc' => $cerr->desc
+            );
+         }
+      }
+      return $cerrs;
+   }
+
 }
 
-$smartyHelper->displayTemplate($mantisURL);
-
-// log stats
-IssueCache::getInstance()->logStats();
-ProjectCache::getInstance()->logStats();
+// ========== MAIN ===========
+CheckController::staticInit();
+$controller = new CheckController('Consistency Check','ConsistencyCheck');
+$controller->execute();
 
 ?>

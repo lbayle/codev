@@ -18,29 +18,36 @@ require('../include/session.inc.php');
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require('../path.inc.php');
+include('constants.php');
 
-require('include/super_header.inc.php');
-
-class AdminController extends Controller {
+abstract class Controller {
 
    /**
     * Initialize complex static variables
     * @static
     */
-   public static function staticInit() {
-      // Nothing special
+   public abstract static function staticInit();
+
+   /**
+    * @var SmartyHelper
+    */
+   protected $smartyHelper;
+
+   public function __construct($title, $menu = NULL) {
+      $this->smartyHelper = new SmartyHelper();
+      $this->smartyHelper->assign('pageName', $title);
+      if(NULL != $menu) {
+         $this->smartyHelper->assign('activeGlobalMenuItem', $menu);
+      }
    }
 
-   protected function display() {
-      // Nothing special
+   public function execute() {
+      $this->display();
+      $this->smartyHelper->displayTemplate();
    }
+
+   protected abstract function display();
 
 }
-
-// ========== MAIN ===========
-AdminController::staticInit();
-$controller = new AdminController('CoDev Administration','Admin');
-$controller->execute();
 
 ?>

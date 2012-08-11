@@ -20,287 +20,291 @@ require_once('indicator_plugins/progress_history_indicator.class.php');
 
 require_once('smarty_tools.php');
 
-/**
- * @param int $teamid
- * @param int $selectedId
- * @return mixed[]
- */
-function getServiceContracts($teamid, $selectedId) {
-   $servicecontracts = array();
-   if (0 != $teamid) {
-      $team = TeamCache::getInstance()->getTeam($teamid);
-      $servicecontractList = $team->getServiceContractList();
+class ServiceContractTools {
 
-      foreach ($servicecontractList as $id => $servicecontract) {
-         $servicecontracts[] = array(
-            'id' => $id,
-            'name' => $servicecontract->getName(),
-            'selected' => ($id == $selectedId)
-         );
-      }
-   }
-   return $servicecontracts;
-}
-
-/**
- * @param ServiceContract $contract
- * @return array
- */
-function getServiceContractStateList(ServiceContract $contract = NULL) {
-   $contractState = (NULL == $contract) ? 0 : $contract->getState();
-   return SmartyTools::getSmartyArray(ServiceContract::$stateNames, $contractState);
-}
-
-/**
- * @param int $servicecontractid
- * @param int $cset_type CommandSet::type_general
- * @param int $cmd_type Command::type_general
- * @return mixed[]
- */
-function getServiceContractCommandSets($servicecontractid, $cset_type, $cmd_type) {
-   $commands = array();
-
-   if (0 != $servicecontractid) {
-      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-      $csetList = $servicecontract->getCommandSets($cset_type);
-      foreach ($csetList as $id => $cset) {
-
-         $issueSelection = $cset->getIssueSelection($cmd_type);
-         $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
-
-         $detailledMgr['name'] = $cset->getName();
-         $detailledMgr['description'] = $cset->getDesc();
-
-         $teamid = $cset->getTeamid();
+   /**
+    * @param int $teamid
+    * @param int $selectedId
+    * @return mixed[]
+    */
+   public static function getServiceContracts($teamid, $selectedId) {
+      $servicecontracts = array();
+      if (0 != $teamid) {
          $team = TeamCache::getInstance()->getTeam($teamid);
-         $detailledMgr['team'] = $team->getName();
+         $servicecontractList = $team->getServiceContractList();
 
-         $commands[$id] = $detailledMgr;
-      }
-   }
-   return $commands;
-}
-
-/**
- * @param int $servicecontractid
- * @param int $cset_type CommandSet::type_general
- * @param int $cmd_type Command::type_general
- * @return mixed[]
- */
-function getServiceContractCommands($servicecontractid, $cset_type, $cmd_type) {
-   $commands = array();
-
-   if (0 != $servicecontractid) {
-
-      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-
-      $csetList = $servicecontract->getCommandSets($cset_type);
-      foreach ($csetList as $id => $cset) {
-         $cmdList = $cset->getCommands($cmd_type);
-         foreach ($cmdList as $cmdid => $cmd) {
-
-            $issueSelection = $cmd->getIssueSelection();
-            $cmdDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
-
-            $cmdDetailedMgr['id'] = $cmd->getId();
-            $cmdDetailedMgr['name'] = $cmd->getName();
-            $cmdDetailedMgr['reference'] = $cmd->getReference();
-            $cmdDetailedMgr['description'] = $cmd->getDesc();
-
-            $teamid = $cmd->getTeamid();
-            $team = TeamCache::getInstance()->getTeam($teamid);
-            $cmdDetailedMgr['team'] = $team->getName();
-
-            $commands[$id.'_'.$cmdid] = $cmdDetailedMgr;
+         foreach ($servicecontractList as $id => $servicecontract) {
+            $servicecontracts[] = array(
+               'id' => $id,
+               'name' => $servicecontract->getName(),
+               'selected' => ($id == $selectedId)
+            );
          }
       }
+      return $servicecontracts;
    }
-   return $commands;
-}
 
-/**
- * @param int $servicecontractid
- * @return mixed[]
- */
-function getServiceContractProjects($servicecontractid) {
-   $projects = array();
+   /**
+    * @param ServiceContract $contract
+    * @return array
+    */
+   public static function getServiceContractStateList(ServiceContract $contract = NULL) {
+      $contractState = (NULL == $contract) ? 0 : $contract->getState();
+      return SmartyTools::getSmartyArray(ServiceContract::$stateNames, $contractState);
+   }
 
-   if (0 != $servicecontractid) {
-      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+   /**
+    * @param int $servicecontractid
+    * @param int $cset_type CommandSet::type_general
+    * @param int $cmd_type Command::type_general
+    * @return mixed[]
+    */
+   private static function getServiceContractCommandSets($servicecontractid, $cset_type, $cmd_type) {
+      $commands = array();
 
-      $projList = $servicecontract->getProjects();
-      foreach ($projList as $id => $project) {
-         $proj['name'] = $project->name;
-         $proj['description'] = $project->description;
+      if (0 != $servicecontractid) {
+         $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-         $projects[$id] = $proj;
+         $csetList = $servicecontract->getCommandSets($cset_type);
+         foreach ($csetList as $id => $cset) {
+
+            $issueSelection = $cset->getIssueSelection($cmd_type);
+            $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
+
+            $detailledMgr['name'] = $cset->getName();
+            $detailledMgr['description'] = $cset->getDesc();
+
+            $teamid = $cset->getTeamid();
+            $team = TeamCache::getInstance()->getTeam($teamid);
+            $detailledMgr['team'] = $team->getName();
+
+            $commands[$id] = $detailledMgr;
+         }
       }
+      return $commands;
    }
-   return $projects;
-}
 
-/**
- * @param int $servicecontractid
- * @param int $cset_type CommandSet::type_general
- * @param int $cmd_type Command::type_general
- * @return mixed[]
- */
-function getServiceContractCmdsetTotalDetailedMgr($servicecontractid, $cset_type, $cmd_type) {
-   $cmdsetTotalDetailedMgr = NULL;
-   if (0 != $servicecontractid) {
-      $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+   /**
+    * @param int $servicecontractid
+    * @param int $cset_type CommandSet::type_general
+    * @param int $cmd_type Command::type_general
+    * @return mixed[]
+    */
+   private static function getServiceContractCommands($servicecontractid, $cset_type, $cmd_type) {
+      $commands = array();
 
-      $issueSelection = $servicecontract->getIssueSelection($cset_type, $cmd_type);
-      $cmdsetTotalDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
-   }
-   return $cmdsetTotalDetailedMgr;
-}
+      if (0 != $servicecontractid) {
 
-/**
- * @param int $servicecontractid
- * @return IssueSelection
- */
-function getContractSidetasksSelection($servicecontractid) {
-   $issueSelection = NULL;
-   if (0 != $servicecontractid) {
-      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+         $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-      $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
+         $csetList = $servicecontract->getCommandSets($cset_type);
+         foreach ($csetList as $id => $cset) {
+            $cmdList = $cset->getCommands($cmd_type);
+            foreach ($cmdList as $cmdid => $cmd) {
 
-      $issueSelection = new IssueSelection("TotalSideTasks");
-      foreach ($sidetasksPerCategory as $iSel) {
-         $issueSelection->addIssueList($iSel->getIssueList());
+               $issueSelection = $cmd->getIssueSelection();
+               $cmdDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
 
+               $cmdDetailedMgr['id'] = $cmd->getId();
+               $cmdDetailedMgr['name'] = $cmd->getName();
+               $cmdDetailedMgr['reference'] = $cmd->getReference();
+               $cmdDetailedMgr['description'] = $cmd->getDesc();
+
+               $teamid = $cmd->getTeamid();
+               $team = TeamCache::getInstance()->getTeam($teamid);
+               $cmdDetailedMgr['team'] = $team->getName();
+
+               $commands[$id.'_'.$cmdid] = $cmdDetailedMgr;
+            }
+         }
       }
+      return $commands;
    }
-   return $issueSelection;
-}
 
-/**
- * @param int $servicecontractid
- * @return mixed[] array[category_id] = IssueSelection
- */
-function getContractSidetasksDetailedMgr($servicecontractid) {
-   $stasksPerCat = NULL;
-   if (0 != $servicecontractid) {
-      $stasksPerCat = array();
+   /**
+    * @param int $servicecontractid
+    * @return mixed[]
+    */
+   private static function getServiceContractProjects($servicecontractid) {
+      $projects = array();
 
-      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-      $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
+      if (0 != $servicecontractid) {
+         $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-      foreach ($sidetasksPerCategory as $id => $issueSelection) {
+         $projList = $servicecontract->getProjects();
+         foreach ($projList as $id => $project) {
+            $proj['name'] = $project->name;
+            $proj['description'] = $project->description;
+
+            $projects[$id] = $proj;
+         }
+      }
+      return $projects;
+   }
+
+   /**
+    * @param int $servicecontractid
+    * @param int $cset_type CommandSet::type_general
+    * @param int $cmd_type Command::type_general
+    * @return mixed[]
+    */
+   private static function getServiceContractCmdsetTotalDetailedMgr($servicecontractid, $cset_type, $cmd_type) {
+      $cmdsetTotalDetailedMgr = NULL;
+      if (0 != $servicecontractid) {
+         $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+         $issueSelection = $servicecontract->getIssueSelection($cset_type, $cmd_type);
+         $cmdsetTotalDetailedMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
+      }
+      return $cmdsetTotalDetailedMgr;
+   }
+
+   /**
+    * @param int $servicecontractid
+    * @return IssueSelection
+    */
+   private static function getContractSidetasksSelection($servicecontractid) {
+      $issueSelection = NULL;
+      if (0 != $servicecontractid) {
+         $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+
+         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
+
+         $issueSelection = new IssueSelection("TotalSideTasks");
+         foreach ($sidetasksPerCategory as $iSel) {
+            $issueSelection->addIssueList($iSel->getIssueList());
+
+         }
+      }
+      return $issueSelection;
+   }
+
+   /**
+    * @param int $servicecontractid
+    * @return mixed[] array[category_id] = IssueSelection
+    */
+   private static function getContractSidetasksDetailedMgr($servicecontractid) {
+      $stasksPerCat = NULL;
+      if (0 != $servicecontractid) {
+         $stasksPerCat = array();
+
+         $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
+
+         foreach ($sidetasksPerCategory as $id => $issueSelection) {
+            $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
+            $detailledMgr['name'] = $issueSelection->name;
+            $stasksPerCat[$id] = $detailledMgr;
+         }
+      }
+      return $stasksPerCat;
+   }
+
+   /**
+    * @param IssueSelection $issueSelection
+    * @return mixed[]
+    */
+   private static function getContractSidetasksTotalDetailedMgr(IssueSelection $issueSelection) {
+      $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
+      $detailledMgr['name'] = "TotalSideTasks";
+      return $detailledMgr;
+   }
+
+   /**
+    * @param int $servicecontractid
+    * @return mixed[]
+    */
+   private static function getContractTotalDetailedMgr($servicecontractid) {
+      $detailledMgr = NULL;
+      if (0 != $servicecontractid) {
+         $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+         $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
+
+         $issueSelection = new IssueSelection("Total");
+         foreach ($sidetasksPerCategory as $id => $iSel) {
+            $issueSelection->addIssueList($iSel->getIssueList());
+         }
+
+         $cmdsetsIssueSelection = $contract->getIssueSelection(CommandSet::type_general, Command::type_general);
+         $issueSelection->addIssueList($cmdsetsIssueSelection->getIssueList());
+
          $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
          $detailledMgr['name'] = $issueSelection->name;
-         $stasksPerCat[$id] = $detailledMgr;
-      }
-   }
-   return $stasksPerCat;
-}
-
-/**
- * @param IssueSelection $issueSelection
- * @return mixed[]
- */
-function getContractSidetasksTotalDetailedMgr(IssueSelection $issueSelection) {
-   $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
-   $detailledMgr['name'] = "TotalSideTasks";
-   return $detailledMgr;
-}
-
-/**
- * @param int $servicecontractid
- * @return mixed[]
- */
-function getContractTotalDetailedMgr($servicecontractid) {
-   $detailledMgr = NULL;
-   if (0 != $servicecontractid) {
-      $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
-      $sidetasksPerCategory = $contract->getSidetasksPerCategory(true);
-
-      $issueSelection = new IssueSelection("Total");
-      foreach ($sidetasksPerCategory as $id => $iSel) {
-         $issueSelection->addIssueList($iSel->getIssueList());
       }
 
-      $cmdsetsIssueSelection = $contract->getIssueSelection(CommandSet::type_general, Command::type_general);
-      $issueSelection->addIssueList($cmdsetsIssueSelection->getIssueList());
-
-      $detailledMgr = SmartyTools::getIssueSelectionDetailedMgr($issueSelection);
-      $detailledMgr['name'] = $issueSelection->name;
+      return $detailledMgr;
    }
 
-   return $detailledMgr;
-}
+   /**
+    * @param ServiceContract $serviceContract
+    * @return string
+    */
+   private static function getSContractProgressHistory(ServiceContract $serviceContract) {
+      $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
-/**
- * @param ServiceContract $serviceContract
- * @return string
- */
-function getSContractProgressHistory(ServiceContract $serviceContract) {
-   $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
-
-   $startTT = $cmdIssueSel->getFirstTimetrack();
-   if ((NULL != $startTT) && (0 != $startTT->date)) {
-      $startTimestamp = $startTT->date;
-   } else {
-      $startTimestamp = $serviceContract->getStartDate();
-      #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-      if (0 == $startTimestamp) {
-         $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
-         $startTimestamp = $team->date;
-         #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+      $startTT = $cmdIssueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->date)) {
+         $startTimestamp = $startTT->date;
+      } else {
+         $startTimestamp = $serviceContract->getStartDate();
+         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
+            $startTimestamp = $team->date;
+            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+         }
       }
+
+      $endTT = $cmdIssueSel->getLatestTimetrack();
+      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+
+      $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'interval' => 14 );
+
+      $progressIndicator = new ProgressHistoryIndicator();
+      $progressIndicator->execute($cmdIssueSel, $params);
+
+      return $progressIndicator->getSmartyObject();
    }
 
-   $endTT = $cmdIssueSel->getLatestTimetrack();
-   $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+   /**
+    * @param SmartyHelper $smartyHelper
+    * @param ServiceContract $servicecontract
+    */
+   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract) {
+      #$smartyHelper->assign('servicecontractId', $servicecontract->getId());
+      $smartyHelper->assign('teamid', $servicecontract->getTeamid());
+      $smartyHelper->assign('servicecontractName', $servicecontract->getName());
+      $smartyHelper->assign('servicecontractReference', $servicecontract->getReference());
+      $smartyHelper->assign('servicecontractVersion', $servicecontract->getVersion());
+      $smartyHelper->assign('servicecontractReporter', $servicecontract->getReporter());
+      $smartyHelper->assign('servicecontractDesc', $servicecontract->getDesc());
+      $smartyHelper->assign('servicecontractStartDate', date("Y-m-d", $servicecontract->getStartDate()));
+      $smartyHelper->assign('servicecontractEndDate', date("Y-m-d", $servicecontract->getEndDate()));
+      $smartyHelper->assign('servicecontractStateList', self::getServiceContractStateList($servicecontract));
+      $smartyHelper->assign('servicecontractState', ServiceContract::$stateNames[$servicecontract->getState()]);
 
-   $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-                   'endTimestamp' => $endTimestamp,
-                   'interval' => 14 );
+      $smartyHelper->assign('cmdsetList', self::getServiceContractCommandSets($servicecontract->getId(), CommandSet::type_general, Command::type_general));
+      $smartyHelper->assign('cmdsetTotalDetailedMgr', self::getServiceContractCmdsetTotalDetailedMgr($servicecontract->getId(), CommandSet::type_general, Command::type_general));
 
-   $progressIndicator = new ProgressHistoryIndicator();
-   $progressIndicator->execute($cmdIssueSel, $params);
+      $smartyHelper->assign('cmdList', self::getServiceContractCommands($servicecontract->getId(), CommandSet::type_general, Command::type_general));
 
-   return $progressIndicator->getSmartyObject();
-}
+      $smartyHelper->assign('projectList', self::getServiceContractProjects($servicecontract->getId()));
+      $smartyHelper->assign('sidetasksDetailedMgr', self::getContractSidetasksDetailedMgr($servicecontract->getId()));
 
-/**
- * @param SmartyHelper $smartyHelper
- * @param ServiceContract $servicecontract
- */
-function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract) {
-   #$smartyHelper->assign('servicecontractId', $servicecontract->getId());
-   $smartyHelper->assign('teamid', $servicecontract->getTeamid());
-   $smartyHelper->assign('servicecontractName', $servicecontract->getName());
-   $smartyHelper->assign('servicecontractReference', $servicecontract->getReference());
-   $smartyHelper->assign('servicecontractVersion', $servicecontract->getVersion());
-   $smartyHelper->assign('servicecontractReporter', $servicecontract->getReporter());
-   $smartyHelper->assign('servicecontractDesc', $servicecontract->getDesc());
-   $smartyHelper->assign('servicecontractStartDate', date("Y-m-d", $servicecontract->getStartDate()));
-   $smartyHelper->assign('servicecontractEndDate', date("Y-m-d", $servicecontract->getEndDate()));
-   $smartyHelper->assign('servicecontractStateList', getServiceContractStateList($servicecontract));
-   $smartyHelper->assign('servicecontractState', ServiceContract::$stateNames[$servicecontract->getState()]);
+      $issueSelection = self::getContractSidetasksSelection($servicecontract->getId());
+      $smartyHelper->assign('sidetasksTotalDetailedMgr', self::getContractSidetasksTotalDetailedMgr($issueSelection));
+      $smartyHelper->assign('sidetasksList', SmartyTools::getIssueListInfo($issueSelection));
+      $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
 
-   $smartyHelper->assign('cmdsetList', getServiceContractCommandSets($servicecontract->getId(), CommandSet::type_general, Command::type_general));
-   $smartyHelper->assign('cmdsetTotalDetailedMgr', getServiceContractCmdsetTotalDetailedMgr($servicecontract->getId(), CommandSet::type_general, Command::type_general));
+      $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId()));
 
-   $smartyHelper->assign('cmdList', getServiceContractCommands($servicecontract->getId(), CommandSet::type_general, Command::type_general));
+      $smartyHelper->assign('jqplotTitle', 'Historical Progression Chart');
+      $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
+      $smartyHelper->assign('jqplotData', self::getSContractProgressHistory($servicecontract));
+   }
 
-   $smartyHelper->assign('projectList', getServiceContractProjects($servicecontract->getId()));
-   $smartyHelper->assign('sidetasksDetailedMgr', getContractSidetasksDetailedMgr($servicecontract->getId()));
-
-   $issueSelection = getContractSidetasksSelection($servicecontract->getId());
-   $smartyHelper->assign('sidetasksTotalDetailedMgr', getContractSidetasksTotalDetailedMgr($issueSelection));
-   $smartyHelper->assign('sidetasksList', SmartyTools::getIssueListInfo($issueSelection));
-   $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
-
-   $smartyHelper->assign('servicecontractTotalDetailedMgr', getContractTotalDetailedMgr($servicecontract->getId()));
-
-   $smartyHelper->assign('jqplotTitle', 'Historical Progression Chart');
-   $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
-   $smartyHelper->assign('jqplotData', getSContractProgressHistory($servicecontract));
 }
 
 ?>

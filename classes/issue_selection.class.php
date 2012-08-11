@@ -319,7 +319,7 @@ class IssueSelection {
     * @param int $threshold
     * @param bool $withSupport
     *
-    * @return array array of 3 IssueSelection instances ('negative', 'equal', 'positive')
+    * @return IssueSelection[] array of 3 IssueSelection instances ('negative', 'equal', 'positive')
     */
    public function getDeviationGroups($threshold = 1, $withSupport = true) {
       if (0== count($this->issueList)) {

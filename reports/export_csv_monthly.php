@@ -27,71 +27,172 @@ require('reports/export_csv_tools.php');
 require('smarty_tools.php');
 require_once('tools.php');
 
-// =========== MAIN ==========
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'CSV Report');
-$smartyHelper->assign('activeGlobalMenuItem', 'ImportExport');
+class ExportCSVMonthlyController extends Controller {
 
-if(isset($_SESSION['userid'])) {
-   $user = UserCache::getInstance()->getUser($_SESSION['userid']);
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
+   }
 
-   // teams
-   $lTeamList = $user->getLeadedTeamList();
-   $managedTeamList = $user->getManagedTeamList();
-   $mTeamList = $user->getDevTeamList();
-   $teamList = $mTeamList + $lTeamList + $managedTeamList;
+   protected function display() {
+      if(isset($_SESSION['userid'])) {
+         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-   if (count($teamList) > 0) {
-      $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
-      $teamid = Tools::getSecurePOSTIntValue('teamid', $defaultTeam);
-      $_SESSION['teamid'] = $teamid;
+         // teams
+         $lTeamList = $user->getLeadedTeamList();
+         $managedTeamList = $user->getManagedTeamList();
+         $mTeamList = $user->getDevTeamList();
+         $teamList = $mTeamList + $lTeamList + $managedTeamList;
 
-      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
+         if (count($teamList) > 0) {
+            $defaultTeam = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+            $teamid = Tools::getSecurePOSTIntValue('teamid', $defaultTeam);
+            $_SESSION['teamid'] = $teamid;
 
-      $team = TeamCache::getInstance()->getTeam($teamid);
-      $formatedteamName = str_replace(" ", "_", $team->name);
+            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
-      // dates
-      $month = date('m');
-      $year = date('Y');
+            $team = TeamCache::getInstance()->getTeam($teamid);
+            $formatedteamName = str_replace(" ", "_", $team->name);
 
-      // The first day of the current month
-      $startdate = Tools::getSecurePOSTStringValue("startdate", Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year)));
-      $smartyHelper->assign('startDate', $startdate);
-      $startTimestamp = Tools::date2timestamp($startdate);
+            // dates
+            $month = date('m');
+            $year = date('Y');
 
-      // The current date plus one year
-      $nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
-      $enddate = Tools::getSecurePOSTStringValue("enddate", Tools::formatDate("%Y-%m-%d", mktime(23, 59, 59, $month, $nbDaysInMonth, $year)));
-      $smartyHelper->assign('endDate', $enddate);
-      $endTimestamp = Tools::date2timestamp($enddate);
-      $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+            // The first day of the current month
+            $startdate = Tools::getSecurePOSTStringValue("startdate", Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year)));
+            $this->smartyHelper->assign('startDate', $startdate);
+            $startTimestamp = Tools::date2timestamp($startdate);
 
-      if (isset($_POST['teamid']) && 0 != $teamid) {
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+            // The current date plus one year
+            $nbDaysInMonth  = date("t", mktime(0, 0, 0, $month, 1, $year));
+            $enddate = Tools::getSecurePOSTStringValue("enddate", Tools::formatDate("%Y-%m-%d", mktime(23, 59, 59, $month, $nbDaysInMonth, $year)));
+            $this->smartyHelper->assign('endDate', $enddate);
+            $endTimestamp = Tools::date2timestamp($enddate);
+            $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
 
-         $myFile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
+            if (isset($_POST['teamid']) && 0 != $teamid) {
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-         ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
-         $smartyHelper->assign('managedIssuesToCSV', basename($myFile));
+               $myFile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
 
-         $myFile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
+               ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
+               $this->smartyHelper->assign('managedIssuesToCSV', basename($myFile));
 
-         ExportCsvTools::exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
-         $smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));
+               $myFile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
 
-         // reduce scope to enhance speed
-         $reports = array();
-         for ($i = 1; $i <= 12; $i++) {
-            $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, Config::getInstance()->getValue(Config::id_codevReportsDir)));
+               $this->exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
+               $this->smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));
+
+               // reduce scope to enhance speed
+               $reports = array();
+               for ($i = 1; $i <= 12; $i++) {
+                  $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, Config::getInstance()->getValue(Config::id_codevReportsDir)));
+               }
+               $this->smartyHelper->assign('reports', $reports);
+
+               $this->smartyHelper->assign('reportsDir', Config::getInstance()->getValue(Config::id_codevReportsDir));
+            }
          }
-         $smartyHelper->assign('reports', $reports);
-
-         $smartyHelper->assign('reportsDir', Config::getInstance()->getValue(Config::id_codevReportsDir));
       }
    }
+
+   /**
+    * creates for each project a table with the following fields:
+    * id | TC | startDate | endDate | status | total elapsed | elapsed + Backlog | elapsed in period | Backlog
+    * TOTAL
+    * @param TimeTracking $timeTracking
+    * @param string $myFile
+    * @return string
+    */
+   public static function exportProjectMonthlyActivityToCSV(TimeTracking $timeTracking, $myFile) {
+      $sepChar=';';
+
+      $totalEffortEstim   = 0;
+
+      $fh = fopen($myFile, 'w');
+
+      // returns : $projectTracks[projectid][bugid][jobid] = duration
+      $projectTracks = $timeTracking->getProjectTracks();
+
+      foreach ($projectTracks as $projectId => $bugList) {
+         $totalElapsed = 0;
+         $totalBacklog = 0;
+         $totalElapsedPeriod = 0;
+
+         // write table header
+         $project = ProjectCache::getInstance()->getProject($projectId);
+         $stringData = $project->name."\n";
+
+         // WARNING i18n: HTML translation like french accents (eacute;) add an unwanted column sepChar (;)
+         $stringData .=("ID").$sepChar;
+         $stringData .=("Task").$sepChar;
+         $stringData .=("Ext.ID").$sepChar;
+         $stringData .=("Start date").$sepChar;
+         $stringData .=("End date").$sepChar;
+         $stringData .=("Status").$sepChar;
+         $stringData .=("Total EffortEstim").$sepChar;
+         $stringData .=("Total elapsed").$sepChar;
+         $stringData .=("elapsed + Backlog").$sepChar;
+         $stringData .=("elapsed in period").$sepChar;
+         $stringData .=("RAF").$sepChar;
+         $stringData .="\n";
+
+         // write table content (by bugid)
+         foreach ($bugList as $bugid => $jobs) {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            // remove sepChar from summary text
+            $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+
+            $stringData .= $bugid.$sepChar;
+            $stringData .= $formatedSummary.$sepChar;
+            $stringData .= $issue->tcId.$sepChar;
+            $stringData .= date("d/m/Y", $issue->startDate()).$sepChar;
+            $stringData .= date("d/m/Y", $issue->endDate()).$sepChar;
+            $stringData .= $issue->getCurrentStatusName().$sepChar;
+            $stringData .= ($issue->effortEstim + $issue->effortAdd).$sepChar;
+            $stringData .= $issue->getElapsed().$sepChar;
+            $stringData .= ($issue->getElapsed() + $issue->backlog).$sepChar;
+
+            // sum all job durations
+            $elapsedInPeriod = 0;
+            foreach($jobs as $jobId => $duration) {
+               $elapsedInPeriod += $duration;
+            }
+            $stringData .= $elapsedInPeriod.$sepChar;
+
+            $stringData .= $issue->backlog.$sepChar;
+            $stringData .="\n";
+
+            $totalEffortEstim   += ($issue->effortEstim + $issue->effortAdd);
+            $totalElapsed       += $issue->getElapsed();
+            $totalBacklog     += $issue->backlog;
+            $totalElapsedPeriod += $elapsedInPeriod;
+         }
+
+         // total per project
+         $stringData .= ("TOTAL").$sepChar.$sepChar.$sepChar.$sepChar.$sepChar.$sepChar;
+         $stringData .= $totalEffortEstim.$sepChar;
+         $stringData .= $totalElapsed.$sepChar;
+         $stringData .= ($totalElapsed + $totalBacklog).$sepChar;
+         $stringData .= $totalElapsedPeriod.$sepChar;
+         $stringData .= $totalBacklog.$sepChar;
+         $stringData .= "\n";
+
+         $stringData .="\n";
+         fwrite($fh, $stringData);
+      }
+      fclose($fh);
+      return $myFile;
+   }
+
 }
 
-$smartyHelper->displayTemplate($mantisURL);
+// ========== MAIN ===========
+ExportCSVMonthlyController::staticInit();
+$controller = new ExportCSVMonthlyController('CSV Report','ImportExport');
+$controller->execute();
 
 ?>

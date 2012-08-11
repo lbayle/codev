@@ -684,8 +684,8 @@ class Project {
     * if Project::type_workingProject
     * then all jobs which codev_project_job_table.project_id = $this->id
     * OR codev_job_table.type = Job::type_commonJob (common jobs)
-    * @param unknown_type $type
-    * @return array
+    * @param int $type
+    * @return string[]
     */
    public function getJobList($type = NULL) {
       $commonJobType = Job::type_commonJob;

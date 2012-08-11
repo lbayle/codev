@@ -20,6 +20,8 @@ require('lib/Smarty/Smarty.class.php');
 
 include_once('i18n/i18n.inc.php');
 
+include_once('constants.php');
+
 /**
  * Smarty helper : Construct a smarty objet for templating engine
  * @author NSV
@@ -108,9 +110,9 @@ class SmartyHelper {
 
    /**
     * Display the default template
-    * @param string $mantisURL Mantis URL
     */
-   public function displayTemplate($mantisURL) {
+   public function displayTemplate() {
+      global $mantisURL;
       $this->smarty->assign("year", date("Y"));
       $this->smarty->assign("codevVersion", Config::codevVersion);
       $this->smarty->assign("username", $_SESSION['username']);

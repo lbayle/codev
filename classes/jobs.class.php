@@ -90,22 +90,41 @@ class Jobs {
       }
    }
 
+   /**
+    * @return Job[]
+    */
    public function getJobs() {
       return array_values($this->jobList);
    }
 
+   /**
+    * @param int $id
+    * @return string
+    */
    public function getJobName($id) {
       return $this->jobList[$id]->name;
    }
 
+   /**
+    * @param int $id
+    * @return string
+    */
    public function getJobColor($id) {
       return $this->jobList[$id]->color;
    }
 
+   /**
+    * @param int $id
+    * @return mixed
+    */
    public function getJobType($id) {
       return $this->jobList[$id]->type;
    }
 
+   /**
+    * @param int $id
+    * @return bool
+    */
    public function isSupport($id) {
       return ($id == Config::getInstance()->getValue(Config::id_jobSupport));
    }

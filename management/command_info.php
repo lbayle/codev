@@ -24,140 +24,152 @@ require('include/super_header.inc.php');
 
 require('management/command_tools.php');
 
+include_once('constants.php');
+
 require('smarty_tools.php');
 require_once('tools.php');
 
-/**
- * @param int $teamid
- * @param int $selectedCmdId
- * @return mixed[]
- */
-function getCommands($teamid, $selectedCmdId) {
-   $commands = array();
-   if (0 != $teamid) {
-      $team = TeamCache::getInstance()->getTeam($teamid);
-      $cmdList = $team->getCommands();
+class CommandInfoController extends Controller {
 
-      foreach ($cmdList as $id => $cmd) {
-         $commands[] = array(
-            'id' => $id,
-            'name' => $cmd->getName(),
-            'reference' => $cmd->getReference(),
-            'selected' => ($id == $selectedCmdId)
-         );
-      }
-   }
-   return $commands;
-}
-
-/**
- * Get consistency errors
- * @param Command $cmd
- * @return mixed[]
- */
-function getConsistencyErrors(Command $cmd) {
-   global $statusNames;
-
-   $consistencyErrors = array(); // if null, array_merge fails !
-
-   $cerrList = $cmd->getConsistencyErrors();
-   if (count($cerrList) > 0) {
-      foreach ($cerrList as $cerr) {
-         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-         $user = UserCache::getInstance()->getUser($cerr->userId);
-         $consistencyErrors[] = array(
-             'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
-             'issueStatus' => $statusNames[$cerr->status],
-             'user' => $user->getName(),
-             'severity' => $cerr->getLiteralSeverity(),
-             'severityColor' => $cerr->getSeverityColor(),
-             'desc' => $cerr->desc);
-      }
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
    }
 
-   return $consistencyErrors;
-}
+   protected function display() {
+      if (isset($_SESSION['userid'])) {
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-// =========== MAIN ==========
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', T_('Command'));
-$smartyHelper->assign('activeGlobalMenuItem', 'Management');
-
-if (isset($_SESSION['userid'])) {
-   $userid = $_SESSION['userid'];
-   $session_user = UserCache::getInstance()->getUser($userid);
-
-   // use the teamid set in the form, if not defined (first page call) use session teamid
-   $teamid = Tools::getSecurePOSTIntValue('teamid', 0);
-   if(0 == $teamid) {
-      if(isset($_SESSION['teamid'])) {
-         $teamid = $_SESSION['teamid'];
-      }
-   }
-   $_SESSION['teamid'] = $teamid;
-
-   // if cmdid set in URL, use it. else:
-   // use the cmdid set in the form, if not defined (first page call) use session cmdid
-   $cmdid = Tools::getSecureGETIntValue('cmdid', 0);
-   if (0 == $cmdid) {
-      if(isset($_POST['cmdid'])) {
-         $cmdid = $_POST['cmdid'];
-      } else if(isset($_SESSION['cmdid'])) {
-         $cmdid = $_SESSION['cmdid'];
-      }
-   }
-   $_SESSION['cmdid'] = $cmdid;
-
-   // set TeamList (including observed teams)
-   $teamList = $session_user->getTeamList();
-
-   $action = isset($_POST['action']) ? $_POST['action'] : '';
-
-   // ------ Display Command
-   if (0 != $cmdid) {
-      $cmd = CommandCache::getInstance()->getCommand($cmdid);
-
-      if (array_key_exists($cmd->getTeamid(), $teamList)) {
-         $teamid = $cmd->getTeamid();
+         // use the teamid set in the form, if not defined (first page call) use session teamid
+         $teamid = Tools::getSecurePOSTIntValue('teamid', 0);
+         if(0 == $teamid) {
+            if(isset($_SESSION['teamid'])) {
+               $teamid = $_SESSION['teamid'];
+            }
+         }
          $_SESSION['teamid'] = $teamid;
 
-         displayCommand($smartyHelper, $cmd);
+         // if cmdid set in URL, use it. else:
+         // use the cmdid set in the form, if not defined (first page call) use session cmdid
+         $cmdid = Tools::getSecureGETIntValue('cmdid', 0);
+         if (0 == $cmdid) {
+            if(isset($_POST['cmdid'])) {
+               $cmdid = $_POST['cmdid'];
+            } else if(isset($_SESSION['cmdid'])) {
+               $cmdid = $_SESSION['cmdid'];
+            }
+         }
+         $_SESSION['cmdid'] = $cmdid;
 
-         // ConsistencyCheck
-         $consistencyErrors = getConsistencyErrors($cmd);
-         if(count($consistencyErrors) > 0) {
+         // set TeamList (including observed teams)
+         $teamList = $session_user->getTeamList();
 
-            $smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
-            $smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
-            $smartyHelper->assign('ccheckErrList', $consistencyErrors);
+         $action = isset($_POST['action']) ? $_POST['action'] : '';
+
+         // ------ Display Command
+         if (0 != $cmdid) {
+            $cmd = CommandCache::getInstance()->getCommand($cmdid);
+
+            if (array_key_exists($cmd->getTeamid(), $teamList)) {
+               $teamid = $cmd->getTeamid();
+               $_SESSION['teamid'] = $teamid;
+
+               CommandTools::displayCommand($this->smartyHelper, $cmd);
+
+               // ConsistencyCheck
+               $consistencyErrors = $this->getConsistencyErrors($cmd);
+               if(count($consistencyErrors) > 0) {
+
+                  $this->smartyHelper->assign('ccheckButtonTitle', count($consistencyErrors).' '.T_("Errors"));
+                  $this->smartyHelper->assign('ccheckBoxTitle', count($consistencyErrors).' '.T_("Errors"));
+                  $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
+               }
+
+               // access rights
+               if (($session_user->isTeamManager($cmd->getTeamid())) ||
+                  ($session_user->isTeamLeader($cmd->getTeamid()))) {
+                  $this->smartyHelper->assign('isEditGranted', true);
+               }
+            } else {
+               // TODO smarty error msg
+               echo T_('Sorry, You are not allowed to see this command');
+            }
+         } else {
+            unset($_SESSION['commandsetid']);
+            unset($_SESSION['servicecontractid']);
+
+            if ('displayCommand' == $action) {
+               header('Location:command_edit.php?cmdid=0');
+            }
          }
 
-         // access rights
-         if (($session_user->isTeamManager($cmd->getTeamid())) ||
-            ($session_user->isTeamLeader($cmd->getTeamid()))) {
+         $this->smartyHelper->assign('teamid', $teamid);
+         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
-            $smartyHelper->assign('isEditGranted', true);
-         }
-      } else {
-         // TODO smarty error msg
-         echo T_('Sorry, You are not allowed to see this command');
-      }
-   } else {
-      unset($_SESSION['commandsetid']);
-      unset($_SESSION['servicecontractid']);
-
-      if ('displayCommand' == $action) {
-         header('Location:command_edit.php?cmdid=0');
+         $this->smartyHelper->assign('commandid', $cmdid);
+         $this->smartyHelper->assign('commands', $this->getCommands($teamid, $cmdid));
       }
    }
 
-   $smartyHelper->assign('teamid', $teamid);
-   $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
+   /**
+    * @param int $teamid
+    * @param int $selectedCmdId
+    * @return mixed[]
+    */
+   private function getCommands($teamid, $selectedCmdId) {
+      $commands = array();
+      if (0 != $teamid) {
+         $team = TeamCache::getInstance()->getTeam($teamid);
+         $cmdList = $team->getCommands();
 
-   $smartyHelper->assign('commandid', $cmdid);
-   $smartyHelper->assign('commands', getCommands($teamid, $cmdid));
+         foreach ($cmdList as $id => $cmd) {
+            $commands[] = array(
+               'id' => $id,
+               'name' => $cmd->getName(),
+               'reference' => $cmd->getReference(),
+               'selected' => ($id == $selectedCmdId)
+            );
+         }
+      }
+      return $commands;
+   }
+
+   /**
+    * Get consistency errors
+    * @param Command $cmd
+    * @return mixed[]
+    */
+   private function getConsistencyErrors(Command $cmd) {
+      global $statusNames;
+
+      $consistencyErrors = array(); // if null, array_merge fails !
+
+      $cerrList = $cmd->getConsistencyErrors();
+      if (count($cerrList) > 0) {
+         foreach ($cerrList as $cerr) {
+            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+            $user = UserCache::getInstance()->getUser($cerr->userId);
+            $consistencyErrors[] = array(
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+               'issueStatus' => $statusNames[$cerr->status],
+               'user' => $user->getName(),
+               'severity' => $cerr->getLiteralSeverity(),
+               'severityColor' => $cerr->getSeverityColor(),
+               'desc' => $cerr->desc);
+         }
+      }
+
+      return $consistencyErrors;
+   }
+
 }
 
-$smartyHelper->displayTemplate($mantisURL);
+// ========== MAIN ===========
+CommandInfoController::staticInit();
+$controller = new CommandInfoController('Command','Management');
+$controller->execute();
 
 ?>

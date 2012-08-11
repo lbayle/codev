@@ -25,121 +25,133 @@ require('include/super_header.inc.php');
 require('smarty_tools.php');
 require_once('tools.php');
 
-/**
- * Get project activity report
- * @param mixed[][][] $projectTracks
- * @param int $teamid The team id
- * @param boolean $isDetailed
- * @return mixed[]
- */
-function getProjectActivityReport(array $projectTracks, $teamid, $isDetailed) {
-   $team = TeamCache::getInstance()->getTeam($teamid);
-   $projectActivityReport = NULL;
-   foreach ($projectTracks as $projectId => $bugList) {
-      $project = ProjectCache::getInstance()->getProject($projectId);
+class ProjectActivityReportController extends Controller {
 
-      $jobList = $project->getJobList($team->getProjectType($projectId));
-      $jobTypeList = "";
-      if ($isDetailed) {
-         $jobColWidth = (0 != count($jobList)) ? (100 - 50 - 10 - 6) / count($jobList) : 10;
-         foreach($jobList as $jobId => $jobName) {
-            $jobTypeList[$jobId] = array(
-                'width' => $jobColWidth,
-                'name' => $jobName
-            );
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
+   }
+
+   protected function display() {
+      if(isset($_SESSION['userid'])) {
+         // team
+         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $teamList = $user->getTeamList();
+
+         if (count($teamList) > 0) {
+            // use the teamid set in the form, if not defined (first page call) use session teamid
+            $teamid = 0;
+            if (isset($_POST['teamid'])) {
+               $teamid = Tools::getSecurePOSTIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
+            } elseif (isset($_SESSION['teamid'])) {
+               $teamid = $_SESSION['teamid'];
+            }
+
+            // dates
+            $weekDates = Tools::week_dates(date('W'),date('Y'));
+            $startdate = Tools::getSecurePOSTStringValue("startdate",Tools::formatDate("%Y-%m-%d",$weekDates[1]));
+            $this->smartyHelper->assign('startDate', $startdate);
+
+            $enddate = Tools::getSecurePOSTStringValue("enddate",Tools::formatDate("%Y-%m-%d",$weekDates[5]));
+            $this->smartyHelper->assign('endDate', $enddate);
+
+            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
+
+            $isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
+            $this->smartyHelper->assign('isDetailed', $isDetailed);
+
+            if (isset($_POST['teamid']) && array_key_exists($teamid, $teamList)) {
+               $startTimestamp = Tools::date2timestamp($startdate);
+               $endTimestamp = Tools::date2timestamp($enddate);
+               $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
+
+               $this->smartyHelper->assign('projectActivityReport', $this->getProjectActivityReport($timeTracking->getProjectTracks(true), $teamid, $isDetailed));
+            }
          }
       }
+   }
 
-      // write table content (by bugid)
-      $row_id = 0;
-      $bugDetailedList = "";
-      foreach ($bugList as $bugid => $jobs) {
-         $issue = IssueCache::getInstance()->getIssue($bugid);
-         $totalTime = 0;
-         $tr_class = ($row_id & 1) ? "row_even" : "row_odd";
+   /**
+    * Get project activity report
+    * @param mixed[][][] $projectTracks
+    * @param int $teamid The team id
+    * @param boolean $isDetailed
+    * @return mixed[]
+    */
+   private function getProjectActivityReport(array $projectTracks, $teamid, $isDetailed) {
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      $projectActivityReport = NULL;
+      foreach ($projectTracks as $projectId => $bugList) {
+         $project = ProjectCache::getInstance()->getProject($projectId);
 
-         $subJobList = "";
-         foreach($jobList as $jobId => $jobName) {
-            if ($isDetailed) {
-               $subJobList[$jobId] = array(
-                   'width' => $jobColWidth,
-                   'id' => $jobs[$jobId]
+         $jobList = $project->getJobList($team->getProjectType($projectId));
+         $jobTypeList = "";
+         if ($isDetailed) {
+            $jobColWidth = (0 != count($jobList)) ? (100 - 50 - 10 - 6) / count($jobList) : 10;
+            foreach($jobList as $jobId => $jobName) {
+               $jobTypeList[$jobId] = array(
+                  'width' => $jobColWidth,
+                  'name' => $jobName
                );
             }
-            $totalTime += $jobs[$jobId];
          }
 
-         $row_id += 1;
+         // write table content (by bugid)
+         $row_id = 0;
+         $bugDetailedList = "";
+         foreach ($bugList as $bugid => $jobs) {
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            $totalTime = 0;
+            $tr_class = ($row_id & 1) ? "row_even" : "row_odd";
 
-         $bugDetailedList[$bugid] = array(
-             'class' => $tr_class,
-             'mantisURL' => Tools::mantisIssueURL($bugid, NULL, true),
-             'issueURL' => Tools::issueInfoURL($bugid),
-             'id' => $issue->tcId,
-             'summary' => $issue->summary,
-             'jobList' => $subJobList,
-             'targetVersion' => $issue->getTargetVersion(),
-             'currentStatusName' => $issue->getCurrentStatusName(),
-             'progress' => round(100 * $issue->getProgress()),
-             'backlog' => $issue->backlog,
-             'totalTime' => $totalTime,
+            $subJobList = "";
+            foreach($jobList as $jobId => $jobName) {
+               if ($isDetailed) {
+                  $subJobList[$jobId] = array(
+                     'width' => $jobColWidth,
+                     'id' => $jobs[$jobId]
+                  );
+               }
+               $totalTime += $jobs[$jobId];
+            }
+
+            $row_id += 1;
+
+            $bugDetailedList[$bugid] = array(
+               'class' => $tr_class,
+               'mantisURL' => Tools::mantisIssueURL($bugid, NULL, true),
+               'issueURL' => Tools::issueInfoURL($bugid),
+               'id' => $issue->tcId,
+               'summary' => $issue->summary,
+               'jobList' => $subJobList,
+               'targetVersion' => $issue->getTargetVersion(),
+               'currentStatusName' => $issue->getCurrentStatusName(),
+               'progress' => round(100 * $issue->getProgress()),
+               'backlog' => $issue->backlog,
+               'totalTime' => $totalTime,
+            );
+         }
+
+         $projectActivityReport[$projectId] = array(
+            'id' => $project->id,
+            'name' => $project->name,
+            'jobList' => $jobTypeList,
+            'bugList' => $bugDetailedList
          );
       }
 
-      $projectActivityReport[$projectId] = array(
-          'id' => $project->id,
-          'name' => $project->name,
-          'jobList' => $jobTypeList,
-          'bugList' => $bugDetailedList
-      );
+      return $projectActivityReport;
    }
 
-   return $projectActivityReport;
 }
 
-// ================ MAIN =================
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Weekly activities');
-$smartyHelper->assign('activeGlobalMenuItem', 'TimeTracking');
-
-if(isset($_SESSION['userid'])) {
-   // team
-   $user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   $teamList = $user->getTeamList();
-
-   if (count($teamList) > 0) {
-      // use the teamid set in the form, if not defined (first page call) use session teamid
-      $teamid = 0;
-      if (isset($_POST['teamid'])) {
-         $teamid = Tools::getSecurePOSTIntValue('teamid');
-         $_SESSION['teamid'] = $teamid;
-      } elseif (isset($_SESSION['teamid'])) {
-         $teamid = $_SESSION['teamid'];
-      }
-
-      // dates
-      $weekDates = Tools::week_dates(date('W'),date('Y'));
-      $startdate = Tools::getSecurePOSTStringValue("startdate",Tools::formatDate("%Y-%m-%d",$weekDates[1]));
-      $smartyHelper->assign('startDate', $startdate);
-
-      $enddate = Tools::getSecurePOSTStringValue("enddate",Tools::formatDate("%Y-%m-%d",$weekDates[5]));
-      $smartyHelper->assign('endDate', $enddate);
-
-      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
-
-      $isDetailed = Tools::getSecurePOSTStringValue('cb_detailed','');
-      $smartyHelper->assign('isDetailed', $isDetailed);
-
-      if (isset($_POST['teamid']) && array_key_exists($teamid, $teamList)) {
-         $startTimestamp = Tools::date2timestamp($startdate);
-         $endTimestamp = Tools::date2timestamp($enddate);
-         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-
-         $smartyHelper->assign('projectActivityReport', getProjectActivityReport($timeTracking->getProjectTracks(true), $teamid, $isDetailed));
-      }
-   }
-}
-
-$smartyHelper->displayTemplate($mantisURL);
+// ========== MAIN ===========
+ProjectActivityReportController::staticInit();
+$controller = new ProjectActivityReportController('Weekly activities','TimeTracking');
+$controller->execute();
 
 ?>

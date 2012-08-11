@@ -25,61 +25,73 @@ require('include/super_header.inc.php');
 require('smarty_tools.php');
 require_once('tools.php');
 
-// ============= MAIN =================
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Gantt Chart');
-$smartyHelper->assign('activeGlobalMenuItem', 'Gantt');
+class GanttReportController extends Controller {
 
-if (isset($_SESSION['userid'])) {
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   $teamList = $session_user->getTeamList();
-   if (count($teamList) > 0) {
-      if(isset($_POST['teamid']) && array_key_exists($_POST['teamid'],$teamList)) {
-         $teamid = Tools::getSecurePOSTIntValue('teamid');
-         $_SESSION['teamid'] = $teamid;
-      }
-      else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
-         $teamid = $_SESSION['teamid'];
-      }
-      else {
-         $teamsid = array_keys($teamList);
-         $teamid = $teamsid[0];
-      }
-      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
+   }
 
-      $projects[0] = T_('All projects');
-      $projects += TeamCache::getInstance()->getTeam($teamid)->getProjects(false);
+   protected function display() {
+      if (isset($_SESSION['userid'])) {
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $teamList = $session_user->getTeamList();
+         if (count($teamList) > 0) {
+            if(isset($_POST['teamid']) && array_key_exists($_POST['teamid'],$teamList)) {
+               $teamid = Tools::getSecurePOSTIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
+            }
+            else if(isset($_SESSION['teamid']) && array_key_exists($_SESSION['teamid'],$teamList)) {
+               $teamid = $_SESSION['teamid'];
+            }
+            else {
+               $teamsid = array_keys($teamList);
+               $teamid = $teamsid[0];
+            }
+            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
 
-      $projectid = 0;
-      if(isset($_POST['projectid']) && array_key_exists($_POST['projectid'],$projects)) {
-         $projectid = Tools::getSecurePOSTIntValue('projectid');
-         $_SESSION['projectid'] = $_POST['projectid'];
-      }
-      else if(isset($_SESSION['projectid']) && array_key_exists($_SESSION['projectid'],$projects)) {
-         $projectid = $_SESSION['projectid'];
-      }
-      $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects,$projectid));
+            $projects[0] = T_('All projects');
+            $projects += TeamCache::getInstance()->getTeam($teamid)->getProjects(false);
 
-      // The first day of the current week
-      $weekDates = Tools::week_dates(date('W'),date('Y'));
-      $startdate = Tools::getSecurePOSTStringValue('startdate', Tools::formatDate("%Y-%m-%d",$weekDates[1]));
-      $smartyHelper->assign('startDate', $startdate);
+            $projectid = 0;
+            if(isset($_POST['projectid']) && array_key_exists($_POST['projectid'],$projects)) {
+               $projectid = Tools::getSecurePOSTIntValue('projectid');
+               $_SESSION['projectid'] = $_POST['projectid'];
+            }
+            else if(isset($_SESSION['projectid']) && array_key_exists($_SESSION['projectid'],$projects)) {
+               $projectid = $_SESSION['projectid'];
+            }
+            $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects,$projectid));
 
-      // The current date plus one year
-      $enddate = Tools::getSecurePOSTStringValue('enddate', Tools::formatDate("%Y-%m-%d", strtotime('+1 year')));
-      $smartyHelper->assign('endDate', $enddate);
+            // The first day of the current week
+            $weekDates = Tools::week_dates(date('W'),date('Y'));
+            $startdate = Tools::getSecurePOSTStringValue('startdate', Tools::formatDate("%Y-%m-%d",$weekDates[1]));
+            $this->smartyHelper->assign('startDate', $startdate);
 
-      if (isset($_POST['teamid']) && 0 != $teamid) {
-         $startT = Tools::date2timestamp($startdate);
-         $endT = Tools::date2timestamp($enddate);
-         #$endT += 24 * 60 * 60 -1; // + 1 day -1 sec.
+            // The current date plus one year
+            $enddate = Tools::getSecurePOSTStringValue('enddate', Tools::formatDate("%Y-%m-%d", strtotime('+1 year')));
+            $this->smartyHelper->assign('endDate', $enddate);
 
-         // draw graph
-         $smartyHelper->assign('urlGraph', 'teamid='.$teamid.'&projects='.$projectid.'&startT='.$startT.'&endT='.$endT);
+            if (isset($_POST['teamid']) && 0 != $teamid) {
+               $startT = Tools::date2timestamp($startdate);
+               $endT = Tools::date2timestamp($enddate);
+               #$endT += 24 * 60 * 60 -1; // + 1 day -1 sec.
+
+               // draw graph
+               $this->smartyHelper->assign('urlGraph', 'teamid='.$teamid.'&projects='.$projectid.'&startT='.$startT.'&endT='.$endT);
+            }
+         }
       }
    }
+
 }
 
-$smartyHelper->displayTemplate($mantisURL);
+// ========== MAIN ===========
+GanttReportController::staticInit();
+$controller = new GanttReportController('Gantt Chart','Gantt');
+$controller->execute();
 
 ?>

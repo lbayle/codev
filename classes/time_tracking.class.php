@@ -835,7 +835,7 @@ class TimeTracking {
    /**
     * returns $durationPerCategory[CategoryName][bugid] = duration
     * @param int $project_id
-    * @return int[][]
+    * @return array[]
     */
    public function getProjectDetails($project_id) {
       $durationPerCategory = array();
@@ -868,7 +868,7 @@ class TimeTracking {
     *
     * @param int $userid
     * @param bool $isTeamProjOnly if TRUE, return only tracks from projects associated to the team
-    * @return int[][][]
+    * @return array[][]
     */
    public function getWeekDetails($userid, $isTeamProjOnly=false) {
       $weekTracks = array();

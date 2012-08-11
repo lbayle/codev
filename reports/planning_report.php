@@ -22,12 +22,12 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
+include_once('constants.php');
+
 require('smarty_tools.php');
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
-
-$logger = Logger::getLogger("planning_report");
 
 class DeadLine {
    public $date;
@@ -104,312 +104,329 @@ class DeadLine {
    }
 }
 
-/**
- * Get the consistency errors
- * @param int $teamid
- * @return mixed[][]
- */
-function getConsistencyErrors($teamid) {
-   global $statusNames;
+class PlanningReportController extends Controller {
 
-   $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(TRUE);
-   $ccheck = new ConsistencyCheck2($issueList);
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   $cerrList  = $ccheck->checkBadBacklog();
-   $cerrList2 = $ccheck->checkUnassignedTasks();
-
-   $consistencyErrors = NULL;
-   if (count($cerrList) > 0 || count($cerrList2) > 0) {
-      $consistencyErrors = array();
-      foreach ($cerrList as $cerr) {
-         $user = UserCache::getInstance()->getUser($cerr->userId);
-         $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-
-         $consistencyErrors[] = array(
-            'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
-            'issueStatus' => $statusNames[$cerr->status],
-            'date' => date("Y-m-d", $cerr->timestamp),
-            'user' => $user->getName(),
-            'severity' => $cerr->getLiteralSeverity(),
-            'severityColor' => $cerr->getSeverityColor(),
-            'desc' => $cerr->desc
-         );
-      }
-      if (0 != count($cerrList2)) {
-         $consistencyErrors[] = array(
-            'issueURL' => '',
-            'issueStatus' => '-',
-            'date' => '-',
-            'user' => '('.T_('unknown').')',
-            'severity' => T_('Warning'),
-            'severityColor' => 'color:orange',
-            'desc' => count($cerrList2).' '.T_('tasks are not assigned to anybody.')
-         );
-      }
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
-   return $consistencyErrors;
-}
+   protected function display() {
+      if(isset($_SESSION['userid'])) {
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-/**
- * Get the planning
- * @param int $nbDaysToDisplay
- * @param int $dayPixSize
- * @param mixed[] $allTasksLists
- * @param int[] $workloads
- * @param int $teamid
- * @return mixed[][][] The planning
- */
-function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array $workloads, $teamid) {
-   $days = array();
-   for ($i = 0; $i < $nbDaysToDisplay; $i++) {
-      $days[] = $dayPixSize - 1;
-   }
+         $teamList = $session_user->getTeamList();
 
-   $deadLineTriggerWidth = 10;
-   $taks = array();
-   foreach ($allTasksLists as $userName => $scheduledTaskList) {
-      $taks[] = array(
-         "workload" => $workloads[$userName],
-         "username" => $userName,
-         "deadlines" => getUserDeadLines($userName, $dayPixSize, $scheduledTaskList, $deadLineTriggerWidth),
-         "userSchedule" => getUserSchedule($userName, $dayPixSize, $scheduledTaskList, $teamid)
-      );
-   }
+         if (count($teamList) > 0) {
+            // use the teamid set in the form, if not defined (first page call) use session teamid
+            $teamid = 0;
+            if (isset($_POST['teamid'])) {
+               $teamid = Tools::getSecurePOSTIntValue('teamid');
+               $_SESSION['teamid'] = $teamid;
+            } elseif(isset($_SESSION['teamid'])) {
+               $teamid = $_SESSION['teamid'];
+            }
 
-   return array(
-      "width" => $deadLineTriggerWidth / 2,
-      "height" => 1,
-      "days" => $days,
-      "tasks" => $taks
-   );
-}
+            $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
 
-/**
- * @param string $userName
- * @param int $dayPixSize
- * @param ScheduledTask[] $scheduledTaskList
- * @param int $deadLineTriggerWidth
- * @return mixed[][]
- */
-function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList, $deadLineTriggerWidth) {
-   $deadLines = array();
+            $pageWidth = Tools::getSecurePOSTIntValue('width',Tools::getSecureGETIntValue('width',0));
+            $this->smartyHelper->assign('width', $pageWidth);
 
-   // remove duplicate deadLines & set color
-   foreach($scheduledTaskList as $scheduledTask) {
-      if (NULL != $scheduledTask->deadLine) {
-         if (!array_key_exists($scheduledTask->deadLine, $deadLines)) {
-            $dline = new DeadLine($scheduledTask->deadLine,
-               $scheduledTask->nbDaysToDeadLine,
-               $scheduledTask->isOnTime,
-               $scheduledTask->isMonitored);
-            $dline->addIssue($scheduledTask->bugId);
-            $deadLines[$scheduledTask->deadLine] = $dline;
-         } else {
-            $dline = $deadLines[$scheduledTask->deadLine];
-            $dline->setIsOnTime($scheduledTask->isOnTime);
-            $dline->addIssue($scheduledTask->bugId);
-            $dline->setIsMonitored($scheduledTask->isMonitored);
+            if (array_key_exists($teamid,$teamList)) {
+               $this->smartyHelper->assign('consistencyErrors', $this->getConsistencyErrors($teamid));
+
+               $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+               $graphSize = ("undefined" != $pageWidth) ? $pageWidth - 150 : 800;
+
+               $scheduler = new Scheduler();
+               $allTasksLists = array();
+               $workloads = array();
+               $teamMembers = TeamCache::getInstance()->getTeam($teamid)->getUsers();
+
+               $nbDaysToDisplay = 0;
+               foreach ($teamMembers as $user) {
+                  $workload = 0;
+
+                  // show only developper's & manager's tasks
+                  if ((!$user->isTeamDeveloper($teamid)) &&
+                     (!$user->isTeamManager($teamid))) {
+
+                     self::$logger->debug("user $user->id excluded from scheduled users on team $teamid");
+                     continue;
+                  }
+
+                  if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
+
+                  $scheduledTaskList = $scheduler->scheduleUser($user, $today, TRUE);
+
+                  foreach($scheduledTaskList as $scheduledTask) {
+                     $workload += $scheduledTask->duration;
+                  }
+                  $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
+
+                  $allTasksLists[$user->getName()] = $scheduledTaskList;
+                  $workloads[$user->getName()] = $workload;
+               }
+
+               $dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
+               $dayPixSize = round($dayPixSize);
+               #echo "DEBUG dayPixSize = $dayPixSize<br/>\n";
+
+               $this->smartyHelper->assign('planning', $this->getPlanning($nbDaysToDisplay, $dayPixSize, $allTasksLists, $workloads, $teamid));
+               $this->smartyHelper->assign('colors', array(
+                  "green" => "onTime",
+                  "red"   => "NOT onTime",
+                  "blue"  => "no deadLine",
+                  "grey"  => "monitored"
+               ));
+               $this->smartyHelper->assign('dayPixSize', $dayPixSize-1);
+            }
          }
       }
    }
 
-   // well if no deadLines, ...
-   if (0 == count($deadLines)) {
-      return array();
+   /**
+    * Get the consistency errors
+    * @param int $teamid
+    * @return mixed[][]
+    */
+   private function getConsistencyErrors($teamid) {
+      global $statusNames;
+
+      $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(TRUE);
+      $ccheck = new ConsistencyCheck2($issueList);
+
+      $cerrList  = $ccheck->checkBadBacklog();
+      $cerrList2 = $ccheck->checkUnassignedTasks();
+
+      $consistencyErrors = NULL;
+      if (count($cerrList) > 0 || count($cerrList2) > 0) {
+         $consistencyErrors = array();
+         foreach ($cerrList as $cerr) {
+            $user = UserCache::getInstance()->getUser($cerr->userId);
+            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+
+            $consistencyErrors[] = array(
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+               'issueStatus' => $statusNames[$cerr->status],
+               'date' => date("Y-m-d", $cerr->timestamp),
+               'user' => $user->getName(),
+               'severity' => $cerr->getLiteralSeverity(),
+               'severityColor' => $cerr->getSeverityColor(),
+               'desc' => $cerr->desc
+            );
+         }
+         if (0 != count($cerrList2)) {
+            $consistencyErrors[] = array(
+               'issueURL' => '',
+               'issueStatus' => '-',
+               'date' => '-',
+               'user' => '('.T_('unknown').')',
+               'severity' => T_('Warning'),
+               'severityColor' => 'color:orange',
+               'desc' => count($cerrList2).' '.T_('tasks are not assigned to anybody.')
+            );
+         }
+      }
+
+      return $consistencyErrors;
    }
 
-   // sort deadLines by date ASC
-   ksort($deadLines);
+   /**
+    * Get the planning
+    * @param int $nbDaysToDisplay
+    * @param int $dayPixSize
+    * @param mixed[] $allTasksLists
+    * @param int[] $workloads
+    * @param int $teamid
+    * @return mixed[][][] The planning
+    */
+   private function getPlanning($nbDaysToDisplay, $dayPixSize, array $allTasksLists, array $workloads, $teamid) {
+      $days = array();
+      for ($i = 0; $i < $nbDaysToDisplay; $i++) {
+         $days[] = $dayPixSize - 1;
+      }
 
-   // because the 'size' of the arrow, the first scheduledTask has been shifted
-   // we need to check if the $nbDays of the first deadLine = 0
-   $dline = reset($deadLines);
-   $isDeadline = 0 != $dline->nbDaysToDeadLine;
+      $deadLineTriggerWidth = 10;
+      $taks = array();
+      foreach ($allTasksLists as $userName => $scheduledTaskList) {
+         $taks[] = array(
+            "workload" => $workloads[$userName],
+            "username" => $userName,
+            "deadlines" => $this->getUserDeadLines($userName, $dayPixSize, $scheduledTaskList, $deadLineTriggerWidth),
+            "userSchedule" => $this->getUserSchedule($userName, $dayPixSize, $scheduledTaskList, $teamid)
+         );
+      }
 
-   // display deadLines
-   $curPos=0;
-   $deadline = array();
-   foreach($deadLines as $date => $dline) {
-      $offset = $dline->nbDaysToDeadLine;
+      return array(
+         "width" => $deadLineTriggerWidth / 2,
+         "height" => 1,
+         "days" => $days,
+         "tasks" => $taks
+      );
+   }
 
-      if ($offset >= 0) {
-         $deadline[$date] = array(
+   /**
+    * @param string $userName
+    * @param int $dayPixSize
+    * @param ScheduledTask[] $scheduledTaskList
+    * @param int $deadLineTriggerWidth
+    * @return mixed[][]
+    */
+   private function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList, $deadLineTriggerWidth) {
+      $deadLines = array();
+
+      // remove duplicate deadLines & set color
+      foreach($scheduledTaskList as $scheduledTask) {
+         if (NULL != $scheduledTask->deadLine) {
+            if (!array_key_exists($scheduledTask->deadLine, $deadLines)) {
+               $dline = new DeadLine($scheduledTask->deadLine,
+                  $scheduledTask->nbDaysToDeadLine,
+                  $scheduledTask->isOnTime,
+                  $scheduledTask->isMonitored);
+               $dline->addIssue($scheduledTask->bugId);
+               $deadLines[$scheduledTask->deadLine] = $dline;
+            } else {
+               $dline = $deadLines[$scheduledTask->deadLine];
+               $dline->setIsOnTime($scheduledTask->isOnTime);
+               $dline->addIssue($scheduledTask->bugId);
+               $dline->setIsMonitored($scheduledTask->isMonitored);
+            }
+         }
+      }
+
+      // well if no deadLines, ...
+      if (0 == count($deadLines)) {
+         return array();
+      }
+
+      // sort deadLines by date ASC
+      ksort($deadLines);
+
+      // because the 'size' of the arrow, the first scheduledTask has been shifted
+      // we need to check if the $nbDays of the first deadLine = 0
+      $dline = reset($deadLines);
+      $isDeadline = 0 != $dline->nbDaysToDeadLine;
+
+      // display deadLines
+      $curPos=0;
+      $deadline = array();
+      foreach($deadLines as $date => $dline) {
+         $offset = $dline->nbDaysToDeadLine;
+
+         if ($offset >= 0) {
+            $deadline[$date] = array(
+               "user" => $userName,
+               "date" => date(T_("Y-m-d"), $date),
+               "url" => $dline->getImageURL(),
+               "title" => $dline->toString(),
+               "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
+               "deadlineIssues" => implode(', ', $dline->issueList),
+               "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_130.png'
+            );
+
+            if ($offset > 0) {
+               // draw timeLine
+               $timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
+
+               $deadline[$date]["width"] = $timeLineSize;
+               $curPos += $timeLineSize + $deadLineTriggerWidth;
+            } else {
+               $curPos += $deadLineTriggerWidth/2;
+            }
+         }
+      }
+
+      return array(
+         "isDeadline" => $isDeadline,
+         "height" => 7,
+         "deadline" => $deadline,
+      );
+   }
+
+   /**
+    * @param string $userName
+    * @param int $dayPixSize
+    * @param ScheduledTask[] $scheduledTaskList
+    * @param int $teamid
+    * @return mixed[][]
+    */
+   private function getUserSchedule($userName, $dayPixSize, array $scheduledTaskList, $teamid) {
+      $totalPix = 0;
+      $sepWidth = 1;
+
+      $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
+
+      $scheduledTasks = array();
+      foreach($scheduledTaskList as $scheduledTask) {
+         $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
+         $totalPix += $taskPixSize;
+
+         // set color
+         if (NULL != $scheduledTask->deadLine) {
+            if (!$scheduledTask->isOnTime) {
+               $color = "red";
+            } else {
+               $color = ($scheduledTask->isMonitored) ? "grey" : "green";
+            }
+         } else {
+            $color = ($scheduledTask->isMonitored) ? "grey" : "blue";
+         }
+
+         // hide tasks not in team projects
+         $issue = IssueCache::getInstance()->getIssue($scheduledTask->bugId);
+
+         $taskTitle = $scheduledTask->getDescription();
+         $formatedTitle = str_replace("'", ' ', $taskTitle);
+         $formatedTitle = str_replace('"', ' ', $formatedTitle);
+
+         $drawnTaskPixSize = $taskPixSize - $sepWidth;
+
+         $sTask = array(
             "user" => $userName,
-            "date" => date(T_("Y-m-d"), $date),
-            "url" => $dline->getImageURL(),
-            "title" => $dline->toString(),
-            "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
-            "deadlineIssues" => implode(', ', $dline->issueList),
-            "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_130.png'
+            "bugid" => $scheduledTask->bugId,
+            "title" => $formatedTitle,
+            "width" => $drawnTaskPixSize,
+            "color" => $color,
+            "strike" => NULL == $projList[$issue->projectId],
+            "duration" => $scheduledTask->duration,
+            "priorityName" => $scheduledTask->priorityName,
+            "severityName" => $scheduledTask->severityName,
+            "statusName" => $scheduledTask->statusName,
+            "projectName" => $scheduledTask->projectName,
+            "summary" => $scheduledTask->summary,
+            "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_big.png'
          );
-
-         if ($offset > 0) {
-            // draw timeLine
-            $timeLineSize = ($offset * $dayPixSize) - ($deadLineTriggerWidth/2) - $curPos;
-
-            $deadline[$date]["width"] = $timeLineSize;
-            $curPos += $timeLineSize + $deadLineTriggerWidth;
-         } else {
-            $curPos += $deadLineTriggerWidth/2;
+         if ($scheduledTask->isMonitored) {
+            $sTask["handlerName"] = $scheduledTask->handlerName;
          }
-      }
-   }
-
-   return array(
-      "isDeadline" => $isDeadline,
-      "height" => 7,
-      "deadline" => $deadline,
-   );
-}
-
-/**
- * @param string $userName
- * @param int $dayPixSize
- * @param ScheduledTask[] $scheduledTaskList
- * @param int $teamid
- * @return mixed[][]
- */
-function getUserSchedule($userName, $dayPixSize, array $scheduledTaskList, $teamid) {
-   $totalPix = 0;
-   $sepWidth = 1;
-
-   $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
-
-   $scheduledTasks = array();
-   foreach($scheduledTaskList as $scheduledTask) {
-
-      $taskPixSize = $scheduledTask->getPixSize($dayPixSize);
-      $totalPix += $taskPixSize;
-
-      // set color
-      if (NULL != $scheduledTask->deadLine) {
-         if (!$scheduledTask->isOnTime) {
-            $color = "red";
-         } else {
-            $color = ($scheduledTask->isMonitored) ? "grey" : "green";
+         if ($scheduledTask->deadLine > 0) {
+            $sTask["deadLine"] = date(T_("Y-m-d"), $scheduledTask->deadLine);
          }
-      } else {
-         $color = ($scheduledTask->isMonitored) ? "grey" : "blue";
+         $scheduledTasks[] = $sTask;
+
       }
 
-      // hide tasks not in team projects
-      $issue = IssueCache::getInstance()->getIssue($scheduledTask->bugId);
-
-      $taskTitle = $scheduledTask->getDescription();
-      $formatedTitle = str_replace("'", ' ', $taskTitle);
-      $formatedTitle = str_replace('"', ' ', $formatedTitle);
-
-      $drawnTaskPixSize = $taskPixSize - $sepWidth;
-
-      $sTask = array(
-         "user" => $userName,
-         "bugid" => $scheduledTask->bugId,
-         "title" => $formatedTitle,
-         "width" => $drawnTaskPixSize,
-         "color" => $color,
-         "strike" => NULL == $projList[$issue->projectId],
-         "duration" => $scheduledTask->duration,
-         "priorityName" => $scheduledTask->priorityName,
-         "severityName" => $scheduledTask->severityName,
-         "statusName" => $scheduledTask->statusName,
-         "projectName" => $scheduledTask->projectName,
-         "summary" => $scheduledTask->summary,
-         "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_big.png'
+      return array(
+         "height" => 20,
+         "sepWidth" => $sepWidth,
+         "scheduledTasks" => $scheduledTasks,
       );
-      if ($scheduledTask->isMonitored) {
-         $sTask["handlerName"] = $scheduledTask->handlerName;
-      }
-      if ($scheduledTask->deadLine > 0) {
-         $sTask["deadLine"] = date(T_("Y-m-d"), $scheduledTask->deadLine);
-      }
-      $scheduledTasks[] = $sTask;
-
    }
 
-   return array(
-      "height" => 20,
-      "sepWidth" => $sepWidth,
-      "scheduledTasks" => $scheduledTasks,
-   );
 }
 
-// ================ MAIN =================
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Planning');
-$smartyHelper->assign('activeGlobalMenuItem', 'Planning');
-
-if(isset($_SESSION['userid'])) {
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-
-   $teamList = $session_user->getTeamList();
-
-   if (count($teamList) > 0) {
-      // use the teamid set in the form, if not defined (first page call) use session teamid
-      if (isset($_POST['teamid'])) {
-         $teamid = Tools::getSecurePOSTIntValue('teamid');
-         $_SESSION['teamid'] = $teamid;
-      } elseif(isset($_SESSION['teamid'])) {
-         $teamid = $_SESSION['teamid'];
-      }
-
-      $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
-
-      $pageWidth = Tools::getSecurePOSTIntValue('width',Tools::getSecureGETIntValue('width',0));
-      $smartyHelper->assign('width', $pageWidth);
-
-      if (array_key_exists($teamid,$teamList)) {
-         $smartyHelper->assign('consistencyErrors', getConsistencyErrors($teamid));
-
-         $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-         $graphSize = ("undefined" != $pageWidth) ? $pageWidth - 150 : 800;
-
-         $scheduler = new Scheduler();
-         $allTasksLists = array();
-         $workloads = array();
-         $teamMembers = TeamCache::getInstance()->getTeam($teamid)->getUsers();
-
-         $nbDaysToDisplay = 0;
-         foreach ($teamMembers as $user) {
-            $workload = 0;
-
-            // show only developper's & manager's tasks
-            if ((!$user->isTeamDeveloper($teamid)) &&
-               (!$user->isTeamManager($teamid))) {
-
-               $logger->debug("user $user->id excluded from scheduled users on team $teamid");
-               continue;
-            }
-
-            if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
-
-            $scheduledTaskList = $scheduler->scheduleUser($user, $today, TRUE);
-
-            foreach($scheduledTaskList as $key => $scheduledTask) {
-               $workload += $scheduledTask->duration;
-            }
-            $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
-
-            $allTasksLists[$user->getName()] = $scheduledTaskList;
-            $workloads[$user->getName()] = $workload;
-         }
-
-         $dayPixSize = (0 != $nbDaysToDisplay) ? ($graphSize / $nbDaysToDisplay) : 0;
-         $dayPixSize = round($dayPixSize);
-         #echo "DEBUG dayPixSize = $dayPixSize<br/>\n";
-
-         $smartyHelper->assign('planning', getPlanning($nbDaysToDisplay, $dayPixSize, $allTasksLists, $workloads, $teamid));
-         $smartyHelper->assign('colors', array(
-            "green" => "onTime",
-            "red"   => "NOT onTime",
-            "blue"  => "no deadLine",
-            "grey"  => "monitored"
-         ));
-         $smartyHelper->assign('dayPixSize', $dayPixSize-1);
-      }
-   }
-}
-
-$smartyHelper->displayTemplate($mantisURL);
+// ========== MAIN ===========
+PlanningReportController::staticInit();
+$controller = new PlanningReportController('Planning','Planning');
+$controller->execute();
 
 ?>

@@ -27,255 +27,264 @@ require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
 
-$logger = Logger::getLogger("import_issues");
+class ImportIssuesController extends Controller {
 
-/*
-function getFakeNewIssues() {
-   $issues = array();
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   $newIssue = array();
-   $newIssue['summary'] = 'summary, blabla';
-   $newIssue['mgrEffortEstim'] = '10';
-   $newIssue['effortEstim'] = '8';
-   $newIssue['extRef'] = 'ADEL0000';
-   $newIssue['status'] = 'new';
-   $newIssue['command'] = '';
-   $newIssue['category'] = '';
-   $newIssue['targetVersion'] = '';
-   $newIssue['userName'] = '';
-   $newIssue['deadline'] = '2012-07-06';
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger("import_issues");
+   }
 
-   $issues[] = $newIssue;
+   protected function display() {
+      if (isset($_SESSION['userid'])) {
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-   $newIssue = array();
-   $newIssue['summary'] = 'blabla2';
-   $newIssue['mgrEffortEstim'] = '12';
-   $newIssue['effortEstim'] = '7';
-   $newIssue['extRef'] = 'ADEL0001';
-   $newIssue['status'] = 'new';
-   $newIssue['command'] = '';
-   $newIssue['category'] = '';
-   $newIssue['targetVersion'] = '';
-   $newIssue['userName'] = '';
-   $newIssue['deadline'] = '2012-07-06';
+         $dTeamList = $session_user->getDevTeamList();
+         $lTeamList = $session_user->getLeadedTeamList();
+         $managedTeamList = $session_user->getManagedTeamList();
+         $teamList = $dTeamList + $lTeamList + $managedTeamList;
 
-   $issues[] = $newIssue;
+         // use the teamid set in the form, if not defined (first page call) use session teamid
+         if (isset($_POST['teamid'])) {
+            $teamid = Tools::getSecurePOSTIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
+         } elseif(isset($_SESSION['teamid'])) {
+            $teamid = $_SESSION['teamid'];
+         } else {
+            $teamIds = array_keys($teamList);
+            $teamid = $teamIds[0];
+         }
 
-   return $issues;
-}
-*/
+         $team = TeamCache::getInstance()->getTeam($teamid);
 
-/**
- * @param string $filename
- * @param string $delimiter
- * @param string $enclosure
- * @param string $escape
- * @return mixed[]
- */
-function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape = '"') {
-   $issues = array();
+         $this->smartyHelper->assign('teamid', $teamid);
+         if (0 != $teamid) {
+            $this->smartyHelper->assign('teamName', $team->name);
+         }
 
-   $file = new SplFileObject($filename);
-   /* Can't be use with PHP 5.1
-   $file->setFlags(SplFileObject::READ_CSV);
-   $file->setCsvControl($delimiter,$enclosure,$escape);
-   foreach ($file as $row) {
-      var_dump($row);
+         // use the projectid set in the form, if not defined (first page call) use session projectid
+         if (isset($_POST['projectid'])) {
+            $projectid = Tools::getSecurePOSTIntValue('projectid');
+            $_SESSION['projectid'] = $projectid;
+         } else {
+            $projectid = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+         }
+         $this->smartyHelper->assign('projectid', $projectid);
+         if (0 != $projectid) {
+            $proj = ProjectCache::getInstance()->getProject($projectid);
+            $this->smartyHelper->assign('projectName', $proj->name);
+         }
+
+         $action = Tools::getSecurePOSTStringValue('action', '');
+
+         #if ('' == $action) {
+         // first call to the page, display FileSelector
+
+         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
+         $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false),$projectid));
+         #}
+
+         if ("uploadFile" == $action) {
+            $filename = $_FILES['uploaded_csv']['name'];
+            $tmpFilename = $_FILES['uploaded_csv']['tmp_name'];
+
+            $err_msg = NULL;
+
+            if ($_FILES['uploaded_csv']['error']) {
+
+               $err_id = $_FILES['uploaded_csv']['error'];
+               switch ($err_id){
+                  case 1:
+                     $err_msg = "UPLOAD_ERR_INI_SIZE ($err_id) on file : ".$filename;
+                     //echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
+                     break;
+                  case 2:
+                     $err_msg = "UPLOAD_ERR_FORM_SIZE ($err_id) on file : ".$filename;
+                     //echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
+                     break;
+                  case 3:
+                     $err_msg = "UPLOAD_ERR_PARTIAL ($err_id) on file : ".$filename;
+                     //echo "L'envoi du fichier a été interrompu pendant le transfert !";
+                     break;
+                  case 4:
+                     $err_msg = "UPLOAD_ERR_NO_FILE ($err_id) on file : ".$filename;
+                     //echo "Le fichier que vous avez envoyé a une taille nulle !";
+                     break;
+               }
+               self::$logger->error($err_msg);
+            } else {
+               // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
+               // ce qui signifie qu'il n'y a eu aucune erreur
+            }
+
+            $extensions = array('.csv', '.CSV');
+            $extension = strrchr($filename, '.');
+            if(!in_array($extension, $extensions)) {
+               $err_msg = T_('Please upload files with the following extension: ').implode(', ', $extensions);
+               self::$logger->error($err_msg);
+            }
+
+            // --- READ CSV FILE ---
+            #$smartyHelper->assign('newIssues', getFakeNewIssues());
+            $this->smartyHelper->assign('newIssues', $this->getIssuesFromCSV($tmpFilename));
+
+            if (!$err_msg) {
+               $this->smartyHelper->assign('filename', $filename);
+
+               $commands = $this->getCommands($team);
+               $projectCategories = $this->getProjectCategories($projectid);
+               $projectTargetVersion = $this->getProjectTargetVersion($projectid);
+               $activeMembers = $team->getActiveMembers();
+
+               $this->smartyHelper->assign('commandList', SmartyTools::getSmartyArray($commands, 0));
+               $this->smartyHelper->assign('categoryList', SmartyTools::getSmartyArray($projectCategories, 0));
+               $this->smartyHelper->assign('targetversionList', SmartyTools::getSmartyArray($projectTargetVersion, 0));
+               $this->smartyHelper->assign('userList', SmartyTools::getSmartyArray($activeMembers, 0));
+
+               $this->smartyHelper->assign('jed_commandList', Tools::array2json($commands));
+               $this->smartyHelper->assign('jed_categoryList', Tools::array2json($projectCategories));
+               $this->smartyHelper->assign('jed_targetVersionList', Tools::array2json($projectTargetVersion));
+               $this->smartyHelper->assign('jed_userList', Tools::array2json($activeMembers));
+            } else {
+               $this->smartyHelper->assign('errorMsg', $err_msg);
+            }
+         }
+      }
+   }
+
+   /*
+   private function getFakeNewIssues() {
+      $issues = array();
+
+      $newIssue = array();
+      $newIssue['summary'] = 'summary, blabla';
+      $newIssue['mgrEffortEstim'] = '10';
+      $newIssue['effortEstim'] = '8';
+      $newIssue['extRef'] = 'ADEL0000';
+      $newIssue['status'] = 'new';
+      $newIssue['command'] = '';
+      $newIssue['category'] = '';
+      $newIssue['targetVersion'] = '';
+      $newIssue['userName'] = '';
+      $newIssue['deadline'] = '2012-07-06';
+
+      $issues[] = $newIssue;
+
+      $newIssue = array();
+      $newIssue['summary'] = 'blabla2';
+      $newIssue['mgrEffortEstim'] = '12';
+      $newIssue['effortEstim'] = '7';
+      $newIssue['extRef'] = 'ADEL0001';
+      $newIssue['status'] = 'new';
+      $newIssue['command'] = '';
+      $newIssue['category'] = '';
+      $newIssue['targetVersion'] = '';
+      $newIssue['userName'] = '';
+      $newIssue['deadline'] = '2012-07-06';
+
+      $issues[] = $newIssue;
+
+      return $issues;
    }
    */
-   $row = 0;
-   while (!$file->eof()) {
-      while ($data = $file->fgetcsv($delimiter,$enclosure)) {
-         $row++;
-         if (1 == $row) { continue; } // skip column names
 
-         // $data[0] contains 'summary' which is the only mandatory field
-         if ('' != $data[0]) {
+   /**
+    * @param string $filename
+    * @param string $delimiter
+    * @param string $enclosure
+    * @param string $escape
+    * @return mixed[]
+    */
+   private function getIssuesFromCSV($filename, $delimiter = ';', $enclosure = '"', $escape = '"') {
+      $issues = array();
 
-            $newIssue = array();
-            $newIssue['lineNum']        = $row;
-            $newIssue['summary']        = Tools::convertToUTF8($data[0]);
-            $newIssue['mgrEffortEstim'] = str_replace(",", ".", Tools::convertToUTF8($data[1])); // 3,5 => 3.5
-            $newIssue['effortEstim']    = str_replace(",", ".", Tools::convertToUTF8($data[2])); // 3,5 => 3.5
-            $newIssue['description']    = Tools::convertToUTF8($data[3]);
-            $newIssue['deadline']       = Tools::convertToUTF8($data[4]);  // YYY-MM-DD
-            $newIssue['extRef']         = Tools::convertToUTF8($data[5]);
-            //$newIssue['summary_attr'] = "style='background-color: #FF82B4;'";
-            $issues[] = $newIssue;
+      $file = new SplFileObject($filename);
+      /* Can't be use with PHP 5.1
+      $file->setFlags(SplFileObject::READ_CSV);
+      $file->setCsvControl($delimiter,$enclosure,$escape);
+      foreach ($file as $row) {
+         var_dump($row);
+      }
+      */
+      $row = 0;
+      while (!$file->eof()) {
+         while ($data = $file->fgetcsv($delimiter,$enclosure)) {
+            $row++;
+            if (1 == $row) { continue; } // skip column names
+
+            // $data[0] contains 'summary' which is the only mandatory field
+            if ('' != $data[0]) {
+               $newIssue = array();
+               $newIssue['lineNum'] = $row;
+               $newIssue['summary'] = Tools::convertToUTF8($data[0]);
+               $newIssue['mgrEffortEstim'] = str_replace(",", ".", Tools::convertToUTF8($data[1])); // 3,5 => 3.5
+               $newIssue['effortEstim'] = str_replace(",", ".", Tools::convertToUTF8($data[2])); // 3,5 => 3.5
+               $newIssue['description'] = Tools::convertToUTF8($data[3]);
+               $newIssue['deadline'] = Tools::convertToUTF8($data[4]);  // YYY-MM-DD
+               $newIssue['extRef'] = Tools::convertToUTF8($data[5]);
+               //$newIssue['summary_attr'] = "style='background-color: #FF82B4;'";
+               $issues[] = $newIssue;
+            }
          }
       }
+
+      return $issues;
    }
 
-   return $issues;
-}
+   /**
+    * @param Team $team
+    * @return string[]
+    */
+   function getCommands(Team $team) {
+      $cmdList = $team->getCommands();
 
-/**
- * @param Team $team
- * @return string[]
- */
-function getCommands(Team $team) {
-   $cmdList = $team->getCommands();
-
-   $items = array();
-   if (0 != count($cmdList)) {
-      foreach ($cmdList as $id => $cmd) {
-         $items[$id] = $cmd->getName();
-      }
-   }
-   return $items;
-}
-
-/**
- * @param int $projectid
- * @return string[]
- */
-function getProjectCategories($projectid) {
-   $catList = array();
-   if (0 != $projectid) {
-      $prj = ProjectCache::getInstance()->getProject($projectid);
-      $catList = $prj->getCategories();
-   }
-   return $catList;
-}
-
-/**
- * @param int $projectid
- * @return string[]
- */
-function getProjectTargetVersion($projectid) {
-   $versions = array();
-   if (0 != $projectid) {
-      $prj = ProjectCache::getInstance()->getProject($projectid);
-      $versions = $prj->getProjectVersions();
-   }
-   return $versions;
-}
-
-// ================ MAIN =================
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', "Import Mantis Issues");
-$smartyHelper->assign('activeGlobalMenuItem', 'ImportExport');
-
-if (isset($_SESSION['userid'])) {
-
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-
-   $action = Tools::getSecurePOSTStringValue('action', '');
-
-   $dTeamList = $session_user->getDevTeamList();
-   $lTeamList = $session_user->getLeadedTeamList();
-   $managedTeamList = $session_user->getManagedTeamList();
-   $teamList = $dTeamList + $lTeamList + $managedTeamList;
-
-   // use the teamid set in the form, if not defined (first page call) use session teamid
-   if (isset($_POST['teamid'])) {
-      $teamid = Tools::getSecurePOSTIntValue('teamid');
-      $_SESSION['teamid'] = $teamid;
-   } elseif(isset($_SESSION['teamid'])) {
-      $teamid = $_SESSION['teamid'];
-   } else {
-      $teamIds = array_keys($teamList);
-      $teamid = $teamIds[0];
-   }
-
-   $team = TeamCache::getInstance()->getTeam($teamid);
-
-   $smartyHelper->assign('teamid', $teamid);
-   if (0 != $teamid) {
-      $smartyHelper->assign('teamName', $team->name);
-   }
-
-   // use the projectid set in the form, if not defined (first page call) use session projectid
-   if (isset($_POST['projectid'])) {
-      $projectid = Tools::getSecurePOSTIntValue('projectid');
-      $_SESSION['projectid'] = $projectid;
-   } else {
-      $projectid = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
-   }
-   $smartyHelper->assign('projectid', $projectid);
-   if (0 != $projectid) {
-      $proj = ProjectCache::getInstance()->getProject($projectid);
-      $smartyHelper->assign('projectName', $proj->name);
-   }
-
-   #if ('' == $action) {
-   // first call to the page, display FileSelector
-
-   $smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
-   $smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false),$projectid));
-   #}
-
-   if ("uploadFile" == $action) {
-
-      $filename = $_FILES['uploaded_csv']['name'];
-      $tmpFilename = $_FILES['uploaded_csv']['tmp_name'];
-
-      $err_msg = NULL;
-
-      if ($_FILES['uploaded_csv']['error']) {
-
-         $err_id = $_FILES['uploaded_csv']['error'];
-         switch ($err_id){
-            case 1:
-               $err_msg = "UPLOAD_ERR_INI_SIZE ($err_id) on file : ".$filename;
-               //echo"Le fichier dépasse la limite autorisée par le serveur (fichier php.ini) !";
-               break;
-            case 2:
-               $err_msg = "UPLOAD_ERR_FORM_SIZE ($err_id) on file : ".$filename;
-               //echo "Le fichier dépasse la limite autorisée dans le formulaire HTML !";
-               break;
-            case 3:
-               $err_msg = "UPLOAD_ERR_PARTIAL ($err_id) on file : ".$filename;
-               //echo "L'envoi du fichier a été interrompu pendant le transfert !";
-               break;
-            case 4:
-               $err_msg = "UPLOAD_ERR_NO_FILE ($err_id) on file : ".$filename;
-               //echo "Le fichier que vous avez envoyé a une taille nulle !";
-               break;
+      $items = array();
+      if (0 != count($cmdList)) {
+         foreach ($cmdList as $id => $cmd) {
+            $items[$id] = $cmd->getName();
          }
-         $logger->error($err_msg);
-      } else {
-         // $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK
-         // ce qui signifie qu'il n'y a eu aucune erreur
       }
+      return $items;
+   }
 
-      $extensions = array('.csv', '.CSV');
-      $extension = strrchr($filename, '.');
-      if(!in_array($extension, $extensions)) {
-         $err_msg = T_('Please upload files with the following extension: ').implode(', ', $extensions);
-         $logger->error($err_msg);
+   /**
+    * @param int $projectid
+    * @return string[]
+    */
+   private function getProjectCategories($projectid) {
+      $catList = array();
+      if (0 != $projectid) {
+         $prj = ProjectCache::getInstance()->getProject($projectid);
+         $catList = $prj->getCategories();
       }
+      return $catList;
+   }
 
-      // --- READ CSV FILE ---
-      #$smartyHelper->assign('newIssues', getFakeNewIssues());
-      $smartyHelper->assign('newIssues', getIssuesFromCSV($tmpFilename));
-
-      if (!$err_msg) {
-
-         $smartyHelper->assign('filename', $filename);
-
-         $commands = getCommands($team);
-         $projectCategories = getProjectCategories($projectid);
-         $projectTargetVersion = getProjectTargetVersion($projectid);
-         $activeMembers = $team->getActiveMembers();
-
-         $smartyHelper->assign('commandList', SmartyTools::getSmartyArray($commands, 0));
-         $smartyHelper->assign('categoryList', SmartyTools::getSmartyArray($projectCategories, 0));
-         $smartyHelper->assign('targetversionList', SmartyTools::getSmartyArray($projectTargetVersion, 0));
-         $smartyHelper->assign('userList', SmartyTools::getSmartyArray($activeMembers, 0));
-
-         $smartyHelper->assign('jed_commandList', Tools::array2json($commands));
-         $smartyHelper->assign('jed_categoryList', Tools::array2json($projectCategories));
-         $smartyHelper->assign('jed_targetVersionList', Tools::array2json($projectTargetVersion));
-         $smartyHelper->assign('jed_userList', Tools::array2json($activeMembers));
-
-      } else {
-         $smartyHelper->assign('errorMsg', $err_msg);
+   /**
+    * @param int $projectid
+    * @return string[]
+    */
+   private function getProjectTargetVersion($projectid) {
+      $versions = array();
+      if (0 != $projectid) {
+         $prj = ProjectCache::getInstance()->getProject($projectid);
+         $versions = $prj->getProjectVersions();
       }
+      return $versions;
    }
 
 }
 
-$smartyHelper->displayTemplate( $mantisURL);
+// ========== MAIN ===========
+ImportIssuesController::staticInit();
+$controller = new ImportIssuesController('Import Mantis Issues', 'ImportExport');
+$controller->execute();
 
 ?>

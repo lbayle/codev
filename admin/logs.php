@@ -22,46 +22,59 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-// ================ MAIN =================
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'CodevTT Logs');
-$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
+include_once('constants.php');
 
-global $codevtt_logfile;
+class LogsController extends Controller {
 
-if (isset($_SESSION['userid'])) {
-
-   // Admins only
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-      if ( (NULL != $codevtt_logfile) && (file_exists($codevtt_logfile))) {
-         $nbLinesToDisplay = 1500;
-
-         $lines = file($codevtt_logfile);
-
-         if (count($lines) > $nbLinesToDisplay) {
-            $offset = count($lines) - $nbLinesToDisplay;
-         } else {
-            $offset = 0;
-         }
-
-         $logs = array();
-         for ($i = $offset; $i <= ($offset+$nbLinesToDisplay), $i < count($lines) ; $i++) {
-            $logs[$i+1] = htmlspecialchars($lines[$i], ENT_QUOTES, "UTF-8");
-            #echo "DEBUG $line_num - ".$logs[$line_num]."<br>";
-         }
-
-         $smartyHelper->assign('logs', $logs);
-      } else {
-         $smartyHelper->assign('error',T_('Sorry, logfile not found:').' ['.$codevtt_logfile.']');
-      }
-   } else {
-       $smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
    }
-} else {
-   $smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
+
+   protected function display() {
+      if (isset($_SESSION['userid'])) {
+
+         // Admins only
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+            global $codevtt_logfile;
+            if ( (NULL != $codevtt_logfile) && (file_exists($codevtt_logfile))) {
+               $nbLinesToDisplay = 1500;
+
+               $lines = file($codevtt_logfile);
+
+               if (count($lines) > $nbLinesToDisplay) {
+                  $offset = count($lines) - $nbLinesToDisplay;
+               } else {
+                  $offset = 0;
+               }
+
+               $logs = array();
+               for ($i = $offset; $i <= ($offset+$nbLinesToDisplay), $i < count($lines) ; $i++) {
+                  $logs[$i+1] = htmlspecialchars($lines[$i], ENT_QUOTES, "UTF-8");
+                  #echo "DEBUG $line_num - ".$logs[$line_num]."<br>";
+               }
+
+               $this->smartyHelper->assign('logs', $logs);
+            } else {
+               $this->smartyHelper->assign('error',T_('Sorry, logfile not found:').' ['.$codevtt_logfile.']');
+            }
+         } else {
+            $this->smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
+         }
+      } else {
+         $this->smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));
+      }
+   }
+
 }
 
-$smartyHelper->displayTemplate($mantisURL);
+// ========== MAIN ===========
+LogsController::staticInit();
+$controller = new LogsController('CodevTT Logs','Admin');
+$controller->execute();
 
 ?>

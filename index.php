@@ -31,163 +31,169 @@ require('include/super_header.inc.php');
 require_once('constants.php');
 require_once('tools.php');
 
-require_once('lib/log4php/Logger.php');
+class IndexController extends Controller {
 
-$logger = Logger::getLogger("homepage");
-
-/**
- * Get issues in drift
- * @param User $user
- * @return mixed[]
- */
-function getIssuesInDrift(User $user) {
-   $allIssueList = $user->getAssignedIssues();
-   $issueList = array();
-   $driftedTasks = array();
-
-   foreach ($allIssueList as $issue) {
-      $driftEE = $issue->getDrift();
-      if ($driftEE >= 1) {
-         $issueList[] = $issue;
-      }
-   }
-   if (count($issueList) > 0) {
-      foreach ($issueList as $issue) {
-         // TODO: check if issue in team project list ?
-         $driftEE = $issue->getDrift();
-
-         $formatedTitle = $issue->bugId." / ".$issue->tcId;
-         $formatedSummary = str_replace("'", "\'", $issue->summary);
-         $formatedSummary = str_replace('"', "\'", $formatedSummary);
-
-         $driftedTasks[] = array('issueInfoURL' => Tools::issueInfoURL($issue->bugId),
-            'projectName' => $issue->getProjectName(),
-            'driftEE' => $driftEE,
-            'formatedTitle' => $formatedTitle,
-            'bugId' => $issue->bugId,
-            'backlog' => $issue->backlog,
-            'formatedSummary' => $formatedSummary,
-            'summary' => $issue->summary);
-      }
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
    }
 
-   return $driftedTasks;
-}
+   protected function display() {
+      // Drifted tasks
+      if($_SESSION['userid']) {
+         $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
-/**
- * Get consistency errors
- * @param User $sessionUser
- * @return mixed[]
- */
-function getConsistencyErrors(User $sessionUser) {
-   global $statusNames;
+         // updateBacklog DialogBox
+         $action = Tools::getSecurePOSTStringValue('action', '');
+         if ('updateBacklogAction' == $action) {
+            $bugid = Tools::getSecurePOSTStringValue('bugid', '');
+            if ("0" != $bugid) {
+               $backlog = Tools::getSecurePOSTStringValue('backlog', '');
+               $issue = IssueCache::getInstance()->getIssue($bugid);
+               $issue->setBacklog($backlog);
+            }
+         }
 
-   $consistencyErrors = array(); // if null, array_merge fails !
+         $driftedTasks = $this->getIssuesInDrift($user);
+         if(isset($driftedTasks)) {
+            $this->smartyHelper->assign('driftedTasks', $driftedTasks);
+         }
 
-   $teamList = $sessionUser->getTeamList();
-   $projList = $sessionUser->getProjectList($teamList);
+         // Consistency errors
+         $consistencyErrors = $this->getConsistencyErrors($user);
+         $consistencyErrorsMgr = $this->getConsistencyErrorsMgr($user);
 
-   $issueList = $sessionUser->getAssignedIssues($projList, true);
+         $consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
 
-   $ccheck = new ConsistencyCheck2($issueList);
-
-   $cerrList = $ccheck->check();
-
-   if (count($cerrList) > 0) {
-      foreach ($cerrList as $cerr) {
-         if ($sessionUser->id == $cerr->userId) {
-            $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-            $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary),
-               'status' => $statusNames[$cerr->status],
-               'desc' => $cerr->desc);
+         if(count($consistencyErrors) > 0) {
+            $this->smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors in your Tasks"));
+            $this->smartyHelper->assign('consistencyErrors', $consistencyErrors);
          }
       }
    }
 
-   return $consistencyErrors;
-}
+   /**
+    * Get issues in drift
+    * @param User $user
+    * @return mixed[]
+    */
+   private function getIssuesInDrift(User $user) {
+      $allIssueList = $user->getAssignedIssues();
+      $issueList = array();
+      $driftedTasks = array();
 
-/**
- * managers get some more consistencyErrors
- * @param User $sessionUser
- * @return mixed[]
- */
-function getConsistencyErrorsMgr(User $sessionUser) {
-
-   $consistencyErrors = array(); // if null, array_merge fails !
-
-   $mTeamList = array_keys($sessionUser->getManagedTeamList());
-   $lTeamList = array_keys($sessionUser->getLeadedTeamList());
-   $teamList = array_merge($mTeamList, $lTeamList);
-
-   $issueList = array();
-   foreach ($teamList as $teamid) {
-      $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
-      $issueList = array_merge($issueList, $issues);
-   }
-
-   $ccheck = new ConsistencyCheck2($issueList);
-
-   // ------
-   $cerrList = $ccheck->checkUnassignedTasks();
-   if (count($cerrList) > 0) {
-
-      $bugidList = array();
-      foreach ($cerrList as $cerr) {
-         $bugidList[] = $cerr->bugId;
+      foreach ($allIssueList as $issue) {
+         $driftEE = $issue->getDrift();
+         if ($driftEE >= 1) {
+            $issueList[] = $issue;
+         }
       }
-      $formattedBugidList = implode(', ', $bugidList);
+      if (count($issueList) > 0) {
+         foreach ($issueList as $issue) {
+            // TODO: check if issue in team project list ?
+            $driftEE = $issue->getDrift();
 
-      $consistencyErrors[] = array(
-         'mantisIssueURL' => ' ',
-         'date' => ' ',
-         'status' => ' ',
-         'desc' => count($cerrList).' '.T_("Tasks need to be assigned."),
-         'addInfo' => $formattedBugidList
-      );
+            $formatedTitle = $issue->bugId." / ".$issue->tcId;
+            $formatedSummary = str_replace("'", "\'", $issue->summary);
+            $formatedSummary = str_replace('"', "\'", $formatedSummary);
+
+            $driftedTasks[] = array('issueInfoURL' => Tools::issueInfoURL($issue->bugId),
+               'projectName' => $issue->getProjectName(),
+               'driftEE' => $driftEE,
+               'formatedTitle' => $formatedTitle,
+               'bugId' => $issue->bugId,
+               'backlog' => $issue->backlog,
+               'formatedSummary' => $formatedSummary,
+               'summary' => $issue->summary);
+         }
+      }
+
+      return $driftedTasks;
    }
 
-   return $consistencyErrors;
+   /**
+    * Get consistency errors
+    * @param User $sessionUser
+    * @return mixed[]
+    */
+   private function getConsistencyErrors(User $sessionUser) {
+      global $statusNames;
+
+      $consistencyErrors = array(); // if null, array_merge fails !
+
+      $teamList = $sessionUser->getTeamList();
+      $projList = $sessionUser->getProjectList($teamList);
+
+      $issueList = $sessionUser->getAssignedIssues($projList, true);
+
+      $ccheck = new ConsistencyCheck2($issueList);
+
+      $cerrList = $ccheck->check();
+
+      if (count($cerrList) > 0) {
+         foreach ($cerrList as $cerr) {
+            if ($sessionUser->id == $cerr->userId) {
+               $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
+               $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary),
+                  'status' => $statusNames[$cerr->status],
+                  'desc' => $cerr->desc);
+            }
+         }
+      }
+
+      return $consistencyErrors;
+   }
+
+   /**
+    * managers get some more consistencyErrors
+    * @param User $sessionUser
+    * @return mixed[]
+    */
+   private function getConsistencyErrorsMgr(User $sessionUser) {
+      $consistencyErrors = array(); // if null, array_merge fails !
+
+      $mTeamList = array_keys($sessionUser->getManagedTeamList());
+      $lTeamList = array_keys($sessionUser->getLeadedTeamList());
+      $teamList = array_merge($mTeamList, $lTeamList);
+
+      $issueList = array();
+      foreach ($teamList as $teamid) {
+         $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
+         $issueList = array_merge($issueList, $issues);
+      }
+
+      $ccheck = new ConsistencyCheck2($issueList);
+
+      $cerrList = $ccheck->checkUnassignedTasks();
+      if (count($cerrList) > 0) {
+
+         $bugidList = array();
+         foreach ($cerrList as $cerr) {
+            $bugidList[] = $cerr->bugId;
+         }
+         $formattedBugidList = implode(', ', $bugidList);
+
+         $consistencyErrors[] = array(
+            'mantisIssueURL' => ' ',
+            'date' => ' ',
+            'status' => ' ',
+            'desc' => count($cerrList).' '.T_("Tasks need to be assigned."),
+            'addInfo' => $formattedBugidList
+         );
+      }
+
+      return $consistencyErrors;
+   }
+
 }
 
-// ================ MAIN =================
+// ========== MAIN ===========
 global $homepage_title;
-
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', $homepage_title);
-
-// Drifted tasks
-if($_SESSION['userid']) {
-   $user = UserCache::getInstance()->getUser($_SESSION['userid']);
-
-   // updateBacklog DialogBox
-   $action = Tools::getSecurePOSTStringValue('action', '');
-   if ('updateBacklogAction' == $action) {
-      $bugid = Tools::getSecurePOSTStringValue('bugid', '');
-      if ("0" != $bugid) {
-         $backlog = Tools::getSecurePOSTStringValue('backlog', '');
-         $issue = IssueCache::getInstance()->getIssue($bugid);
-         $issue->setBacklog($backlog);
-      }
-   }
-
-   $driftedTasks = getIssuesInDrift($user);
-   if(isset($driftedTasks)) {
-      $smartyHelper->assign('driftedTasks', $driftedTasks);
-   }
-
-   // Consistency errors
-   $consistencyErrors    = getConsistencyErrors($user);
-   $consistencyErrorsMgr = getConsistencyErrorsMgr($user);
-
-   $consistencyErrors = array_merge($consistencyErrors, $consistencyErrorsMgr);
-
-   if(count($consistencyErrors) > 0) {
-      $smartyHelper->assign('consistencyErrorsTitle', count($consistencyErrors).' '.T_("Errors in your Tasks"));
-      $smartyHelper->assign('consistencyErrors', $consistencyErrors);
-   }
-}
-
-$smartyHelper->displayTemplate($mantisURL);
+IndexController::staticInit();
+$controller = new IndexController($homepage_title);
+$controller->execute();
 
 ?>

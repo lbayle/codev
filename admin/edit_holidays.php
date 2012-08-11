@@ -22,36 +22,48 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-// ========== MAIN ===========
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'CoDev Administration : Holidays');
-$smartyHelper->assign('activeGlobalMenuItem', 'Admin');
+class EditHolidaysController extends Controller {
 
-// Admins only
-if(isset($_SESSION['userid'])) {
-   $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
-   if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-      $smartyHelper->assign('defaultColor', Holidays::$defaultColor);
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
+   }
 
-      if (isset($_POST['hol_color'])) {
-         $formatedDate = Tools::getSecurePOSTStringValue('date');
-         $timestamp = Tools::date2timestamp($formatedDate);
-         $hol_desc = Tools::getSecurePOSTStringValue('hol_desc');
-         $hol_color = Tools::getSecurePOSTStringValue('hol_color');
-         if (!Holidays::save($timestamp, $hol_desc, $hol_color)) {
-            $smartyHelper->assign('error', "Couldn't add the holiday");
-         }
-      } elseif (isset($_POST['hol_id'])) {
-         $hol_id = Tools::getSecurePOSTIntValue('hol_id');
-         if (!Holidays::delete($hol_id)) {
-            $smartyHelper->assign('error', "Couldn't remove the holiday");
+   protected function display() {
+      // Admins only
+      if(isset($_SESSION['userid'])) {
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
+            $this->smartyHelper->assign('defaultColor', Holidays::$defaultColor);
+
+            if (isset($_POST['hol_color'])) {
+               $formatedDate = Tools::getSecurePOSTStringValue('date');
+               $timestamp = Tools::date2timestamp($formatedDate);
+               $hol_desc = Tools::getSecurePOSTStringValue('hol_desc');
+               $hol_color = Tools::getSecurePOSTStringValue('hol_color');
+               if (!Holidays::save($timestamp, $hol_desc, $hol_color)) {
+                  $this->smartyHelper->assign('error', "Couldn't add the holiday");
+               }
+            } elseif (isset($_POST['hol_id'])) {
+               $hol_id = Tools::getSecurePOSTIntValue('hol_id');
+               if (!Holidays::delete($hol_id)) {
+                  $this->smartyHelper->assign('error', "Couldn't remove the holiday");
+               }
+            }
+
+            $this->smartyHelper->assign('holidays', Holidays::getHolidays());
          }
       }
-
-      $smartyHelper->assign('holidays', Holidays::getHolidays());
    }
+
 }
 
-$smartyHelper->displayTemplate($mantisURL);
+// ========== MAIN ===========
+EditHolidaysController::staticInit();
+$controller = new EditHolidaysController('CoDev Administration : Holidays','Admin');
+$controller->execute();
 
 ?>

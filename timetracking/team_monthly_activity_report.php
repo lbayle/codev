@@ -22,22 +22,35 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-// =========== MAIN ==========
-$smartyHelper = new SmartyHelper();
-$smartyHelper->assign('pageName', 'Team Monthly Activity');
+class TeamMonthlyActivityReportController extends Controller {
 
-if (isset($_SESSION['userid'])) {
-   $threshold = 0.5; // for Deviation filters
-
-   // use the teamid set in the form, if not defined (first page call) use session teamid
-   if (isset($_POST['teamid'])) {
-      $teamid = Tools::getSecurePOSTIntValue('teamid');
-      $_SESSION['teamid'] = $teamid;
-   } else {
-      $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      // Nothing special
    }
+
+   protected function display() {
+      if (isset($_SESSION['userid'])) {
+         $threshold = 0.5; // for Deviation filters
+
+         // use the teamid set in the form, if not defined (first page call) use session teamid
+         if (isset($_POST['teamid'])) {
+            $teamid = Tools::getSecurePOSTIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
+         } else {
+            $teamid = isset($_SESSION['teamid']) ? $_SESSION['teamid'] : 0;
+         }
+      }
+   }
+
 }
 
-$smartyHelper->displayTemplate($mantisURL);
+// ========== MAIN ===========
+TeamMonthlyActivityReportController::staticInit();
+$controller = new TeamMonthlyActivityReportController('Team Monthly Activity');
+$controller->execute();
 
 ?>
