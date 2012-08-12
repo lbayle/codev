@@ -22,11 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('reports/productivity_report_tools.php');
-
-require('smarty_tools.php');
-require_once('tools.php');
-
 class ProductivityReportsController extends Controller {
 
    /**

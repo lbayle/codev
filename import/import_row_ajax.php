@@ -22,14 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require_once('classes/command_cache.class.php');
-require_once('classes/issue_cache.class.php');
-require_once('classes/project_cache.class.php');
-
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 $logger = Logger::getLogger("import_row_ajax");
 
 // ================ MAIN =================

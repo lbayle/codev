@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require_once('lib/log4php/Logger.php');
-
 class PrepareProjectController extends Controller {
 
    /**

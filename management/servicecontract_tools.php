@@ -16,10 +16,6 @@
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('indicator_plugins/progress_history_indicator.class.php');
-
-require_once('smarty_tools.php');
-
 class ServiceContractTools {
 
    /**

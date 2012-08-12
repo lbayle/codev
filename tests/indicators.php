@@ -22,8 +22,6 @@ require_once ('../path.inc.php');
 
 require_once ('include/super_header.inc.php');
 
-require_once ('indicator_plugins/days_per_job_indicator.class.php');
-
 function testDaysPerJobIndicator($session_user) {
 /*
    $issueList = $session_user->getAssignedIssues(NULL, true);

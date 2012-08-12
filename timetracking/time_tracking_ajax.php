@@ -19,18 +19,13 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require_once('tools.php');
+require('include/super_header.inc.php');
 
-// MAIN
 if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action']))) {
-
-   require('include/super_header.inc.php');
 
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'updateBacklogAction') {
-         require('timetracking/time_tracking_tools.php');
-
          $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
          $formattedBacklog = Tools::getSecureGETNumberValue('backlog');
          $issue->setBacklog($formattedBacklog);

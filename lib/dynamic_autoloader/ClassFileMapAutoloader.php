@@ -59,7 +59,7 @@ class ClassFileMapAutoloader {
 
       $sPath = $this->_doLookup($sClass);
       if ($sPath !== null) {
-         require_once $sPath;
+         require_once($sPath);
       }
 
       return true;

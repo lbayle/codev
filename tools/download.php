@@ -19,10 +19,6 @@ require_once('include/super_header.inc.php');
 
 include_once('constants.php');
 
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 $logger = Logger::getLogger("download");
 
 if (isset($_SESSION['userid'])) {

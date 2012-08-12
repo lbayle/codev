@@ -20,12 +20,9 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('tools.php');
+require('include/super_header.inc.php');
 
 if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action']))) {
-
-   require('include/super_header.inc.php');
-   require('reports/productivity_report_tools.php');
 
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();

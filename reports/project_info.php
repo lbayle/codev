@@ -24,9 +24,6 @@ require('include/super_header.inc.php');
 
 include_once('constants.php');
 
-require('smarty_tools.php');
-require_once('tools.php');
-
 class ProjectInfoController extends Controller {
 
    /**

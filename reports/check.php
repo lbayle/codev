@@ -24,11 +24,6 @@ require('include/super_header.inc.php');
 
 include_once('constants.php');
 
-require('smarty_tools.php');
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 class CheckController extends Controller {
 
    /**

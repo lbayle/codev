@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require_once('lib/log4php/Logger.php');
-
 function execCmd($uxCommand) {
    #$status = system($command, $retCode);
    $status = exec($uxCommand, $output, $retCode);

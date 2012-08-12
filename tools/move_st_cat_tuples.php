@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require_once('lib/log4php/Logger.php');
-
 function execQuery($query) {
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {

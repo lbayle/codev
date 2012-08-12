@@ -22,12 +22,7 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-require('management/commandset_tools.php');
-
 include_once('constants.php');
-
-require('smarty_tools.php');
-require_once('tools.php');
 
 class CommandSetInfoController extends Controller {
 

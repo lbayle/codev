@@ -34,6 +34,8 @@ abstract class ClassFileMapFactory {
     * @throws Exception
     */
    private static function _getClassFileMapArray($sDirectory, $bRecursive = true) {
+      $aDeclarations = array();
+
       if (!is_dir($sDirectory)) {
          throw new Exception('The specified location is not a directory');
       }
@@ -47,15 +49,14 @@ abstract class ClassFileMapFactory {
       $oFiles = new RecursiveIteratorIterator(
          new RecursiveDirectoryIterator($sPath),
          $bRecursive ? RecursiveIteratorIterator::SELF_FIRST : null
-    );
+      );
 
       $sHiddenFiles = '/\/\.\w+/';
 
-      //------------------------------------------
       // Load the list of files in the directory
-      //------------------------------------------
+      echo "Find classes :<br /><ul>\n";
       foreach($oFiles as $sName => $aFile) {
-         if(!preg_match($sHiddenFiles, $sName) && !$aFile->isDir()) {
+         if(preg_match('/php$/', $sName) && !preg_match($sHiddenFiles, $sName) && !$aFile->isDir()) {
             $oFile = $aFile->openFile();
 
             $sContents = null;
@@ -63,10 +64,7 @@ abstract class ClassFileMapFactory {
                $sContents .= $oFile->fgets();
             }
 
-            //----------------------------------------
-            // Tokenize the source and grab the classes
-            // and interfaces
-            //----------------------------------------
+            // Tokenize the source and grab the classes and interfaces
             $aTokens = token_get_all($sContents);
             $iNumtokens = count($aTokens);
             for($i = 0; $i < $iNumtokens; $i++) {
@@ -75,11 +73,13 @@ abstract class ClassFileMapFactory {
                   case T_INTERFACE:
                      $i += 2; //skip the whitespace token
                      $aDeclarations[$aTokens[$i][1]] = $sName;
+                     echo "<li>".$aTokens[$i][1]." (path : ".str_replace(BASE_PATH, '', $sName).")</li>\n";
                      break;
                }
             }
          }
       }
+      echo "</ul>\n";
 
       return $aDeclarations;
    }
