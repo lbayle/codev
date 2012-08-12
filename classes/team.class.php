@@ -28,6 +28,8 @@ include_once('classes/servicecontract_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
 
+include_once('constants.php');
+
 require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
@@ -521,7 +523,8 @@ class Team {
                "AND project_id IN ($formatedProjects) ".
                "AND handler_id IN ($formatedMembers) ";
 
-      if (false == $addNewIssues) {
+
+      if (!$addNewIssues) {
          $query .= "AND status > $status_new ";
       }
 
