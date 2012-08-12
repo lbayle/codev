@@ -97,14 +97,6 @@
             {foreach from=$versionsDetailed key=name item=i name=versionsDetailed}
             {if $smarty.foreach.versionsDetailed.last}
             <tr class="row_total">
-               <td>{$i.name}</td>
-               <td {$i.title}>{$i.effortEstim}</td>
-               <td>{$i.reestimated}</td>
-               <td>{$i.elapsed}</td>
-               <td>{$i.backlog}</td>
-               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
-            </tr>
-            <tr>
                <td>{t}Total{/t}</td>
                <td>{$i.effortEstim}</td>
                <td>{$i.reestimated}</td>
@@ -113,6 +105,14 @@
                <td title="{t}nb days{/t}">{$i.drift}</td>
             </tr>
             {else}
+            <tr>
+               <td>{$i.name}</td>
+               <td {$i.title}>{$i.effortEstim}</td>
+               <td>{$i.reestimated}</td>
+               <td>{$i.elapsed}</td>
+               <td>{$i.backlog}</td>
+               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
+            </tr>
             {/if}
             {/foreach}
          </table>
