@@ -26,9 +26,9 @@ require_once 'i18n/i18n.inc.php';
 $page_name = T_("Installation finished");
 require_once 'install_header.inc.php';
 
-require_once "mysql_connect.inc.php";
+require_once "include/mysql_connect.inc.php";
 
-require_once "config.class.php";
+require_once "classes/config.class.php";
 Config::getInstance()->setQuiet(true);
 
 require_once 'install_menu.inc.php';

@@ -23,10 +23,10 @@ include_once '../path.inc.php';
 include_once 'i18n/i18n.inc.php';
 
 $page_name = "Suivi des fiches Mantis";
-require_once 'header.inc.php';
+require_once 'include/header.inc.php';
 
-require_once 'login.inc.php';
-require_once 'menu.inc.php';
+require_once 'include/login.inc.php';
+require_once 'include/menu.inc.php';
 ?>
 
 <script language="JavaScript">
@@ -141,4 +141,4 @@ if (0 != $teamid) {
 
 </div>
 
-<?php include 'footer.inc.php'; ?>
+<?php include 'include/footer.inc.php'; ?>

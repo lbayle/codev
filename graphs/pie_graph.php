@@ -18,7 +18,6 @@
     along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-# NOTE: header.inc.php is not loaded, so some config must be done.
 error_reporting(0); // no logs displayed in page (page is a generated image)
 date_default_timezone_set('Europe/Paris');
 

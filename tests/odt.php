@@ -8,9 +8,6 @@ include_once 'i18n/i18n.inc.php';
 $page_name = T_("Test: export to ODT");
 require_once 'include/header.inc.php';
 
-#include 'login.inc.php';
-#include 'menu.inc.php';
-
 ?>
 
 <script language="JavaScript">

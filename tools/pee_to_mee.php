@@ -85,4 +85,4 @@ require_once('include/menu.inc.php');
    ?>
 
 </div>
-<?php include 'footer.inc.php'; ?>
+<?php include 'include/footer.inc.php'; ?>

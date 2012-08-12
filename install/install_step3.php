@@ -25,7 +25,7 @@ include_once('i18n/i18n.inc.php');
 $page_name = T_("Install - Step 3");
 require_once('install/install_header.inc.php');
 
-include_once('mysql_connect.inc.php');
+include_once('include/mysql_connect.inc.php');
 
 include_once('classes/config.class.php');
 include_once('classes/jobs.class.php');

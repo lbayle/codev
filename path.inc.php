@@ -16,22 +16,20 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-define ( 'BASE_PATH' , realpath( dirname(__FILE__) ) );
+define('BASE_PATH', realpath(dirname(__FILE__)));
 
-$codevPathInclude  = BASE_PATH . DIRECTORY_SEPARATOR . 'include';
-$codevPathClasses  = BASE_PATH . DIRECTORY_SEPARATOR . 'classes';
-$codevPathGraphs   = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
-$codevPathInstall  = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
+$codevPathClasses = BASE_PATH . DIRECTORY_SEPARATOR . 'classes';
+$codevPathGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
+$codevPathInstall = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
 $codevPathJPGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'jpgraph' . DIRECTORY_SEPARATOR . 'src';
-$codevPathSmarty   = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Smarty';
-$codevPathOdtPhp   = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'odtphp' . DIRECTORY_SEPARATOR . 'library';
-$codevPathTests    = BASE_PATH . DIRECTORY_SEPARATOR . 'tests';
-$codevPathImport    = BASE_PATH . DIRECTORY_SEPARATOR . 'import';
-$codevIndicators  = BASE_PATH . DIRECTORY_SEPARATOR . 'indicator_plugins';
+$codevPathSmarty = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Smarty';
+$codevPathOdtPhp = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'odtphp' . DIRECTORY_SEPARATOR . 'library';
+$codevPathTests = BASE_PATH . DIRECTORY_SEPARATOR . 'tests';
+$codevPathImport = BASE_PATH . DIRECTORY_SEPARATOR . 'import';
+$codevIndicators = BASE_PATH . DIRECTORY_SEPARATOR . 'indicator_plugins';
 
 $path = array(
    BASE_PATH,
-   $codevPathInclude,
    $codevPathClasses,
    $codevPathGraphs,
    $codevPathInstall,
@@ -81,7 +79,6 @@ function getServerRootURL() {
    return $rootURL;
 }
 
-# warn: i don't know why but, an 'echo' here changes the CSS of the page...
 #echo "DEBUG PHP include_path : ".get_include_path()." <br/>";
 
 ?>

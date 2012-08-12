@@ -23,10 +23,10 @@ include_once '../path.inc.php';
 require_once('i18n/i18n.inc.php');
 
 $_POST[page_name] = T_("Statistics");
-require_once 'header.inc.php';
+require_once 'include/header.inc.php';
 
-require_once 'login.inc.php';
-require_once 'menu.inc.php';
+require_once 'include/login.inc.php';
+require_once 'include/menu.inc.php';
 ?>
 
 <div id="content">
@@ -128,5 +128,5 @@ displaySubmittedResolved($periodStatsReport, 1000, 300);
 
 </div>
 
-<?php include 'footer.inc.php'; ?>
+<?php include 'include/footer.inc.php'; ?>
 
