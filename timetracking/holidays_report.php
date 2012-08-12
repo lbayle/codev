@@ -75,7 +75,7 @@ class HolidaysReportController extends Controller {
                "users" => $this->getDaysUsers($i, $year, $teamid, $users, $nbDaysInMonth, $isExternalTasks)
             );
          }
-         $smartyHelper->assign('months', $months);
+         $this->smartyHelper->assign('months', $months);
       }
    }
 
