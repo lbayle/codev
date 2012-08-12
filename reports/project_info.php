@@ -158,12 +158,12 @@ class ProjectInfoController extends Controller {
       $projectVersionList = $project->getVersionList();
 
       // TOTAL (all Versions together)
-      $allProjectVersions = new ProjectVersion($project->id, T_("Total"));
+      $allProjectVersions = new ProjectVersion($project->id, "Total");
       $issueList = $project->getIssues();
       foreach ($issueList as $issue) {
          $allProjectVersions->addIssue($issue->bugId);
       }
-      $projectVersionList[T_("Total")] = $allProjectVersions;
+      $projectVersionList[] = $allProjectVersions;
 
       foreach ($projectVersionList as $pv) {
          $totalEffortEstimMgr += $pv->mgrEffortEstim;
