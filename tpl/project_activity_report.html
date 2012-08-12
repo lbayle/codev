@@ -42,7 +42,7 @@
                </tr>
                {foreach from=$i.bugList key=id item=k}
                <tr class ="{$k.class}">
-                  <td>{$k.mantisURL} {$k.issueURL} / {$k.id} : {$k.summary}</td>
+                  <td>{$k.mantisURL} {$k.issueURL} {if $k.id}/ {$k.id}{/if} : {$k.summary}</td>
                   {if $isDetailed && $k.jobList}
                   {foreach from=$k.jobList key=id item=l}
                   <td style="width: {$l.width}%">{$l.id}</td>
