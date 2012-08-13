@@ -414,44 +414,58 @@ class ConsistencyCheck2 {
     */
    public function checkIssuesNotInCommand() {
       $cerrList = array();
-
-      foreach ($this->issueList as $issue) {
-         $project = ProjectCache::getInstance()->getProject($issue->projectId);
-
-         $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
-
-         try {
-            if (($project->isSideTasksProject($teamList)) || ($project->isNoStatsProject($teamList))) {
-               // exclude SideTasks: they are not referenced in a command,
-               // they are directly added into the ServiceContract
-               continue;
-            }
-         } catch (Exception $e) {
-            self::$logger->error("checkIssuesNotInCommand(): issue $issue->bugId not checked : ".$e->getMessage());
-            continue;
-         }
-
-         $query  = "SELECT COUNT(command_id) FROM `codev_command_bug_table` WHERE bug_id=$issue->bugId ";
+      
+      if(count($this->issueList) > 0) {
+         $issueIds = implode(', ', array_keys($this->issueList));
+      
+         $query = "SELECT bug_id, COUNT(command_id) as count FROM `codev_command_bug_table` WHERE bug_id IN (".$issueIds.") GROUP BY bug_id;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $nbTuples  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
-         if (0 == $nbTuples) {
-            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
-               $issue->last_updated, T_("The task is not referenced in any Command."));
-            $cerr->severity = ConsistencyError2::severity_error;
-            $cerrList[] = $cerr;
-         } else if ($nbTuples > 1) {
-            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
-               $issue->last_updated, T_("The task is referenced in $nbTuples Commands."));
-            $cerr->severity = ConsistencyError2::severity_warn;
-            $cerrList[] = $cerr;
+         $commandsByIssue = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            $commandsByIssue[$row->bug_id] = $row->count;
          }
-         self::$logger->debug("checkIssuesNotInCommand(): issue $issue->bugId referenced in $nbTuples Commands.");
+      
+         foreach ($this->issueList as $issue) {
+            $project = ProjectCache::getInstance()->getProject($issue->projectId);
+
+            $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
+
+            try {
+               if (($project->isSideTasksProject($teamList)) || ($project->isNoStatsProject($teamList))) {
+                  // exclude SideTasks: they are not referenced in a command,
+                  // they are directly added into the ServiceContract
+                  continue;
+               }
+            } catch (Exception $e) {
+               self::$logger->error("checkIssuesNotInCommand(): issue $issue->bugId not checked : ".$e->getMessage());
+               continue;
+            }
+
+            $nbTuples = 0;
+            if(array_key_exists($issue->bugId, $commandsByIssue)) {
+               $nbTuples = $commandsByIssue[$issue->bugId];
+            }
+
+            if (0 == $nbTuples) {
+               $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
+                  $issue->last_updated, T_("The task is not referenced in any Command."));
+               $cerr->severity = ConsistencyError2::severity_error;
+               $cerrList[] = $cerr;
+            } else if ($nbTuples > 1) {
+               $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
+               $issue->last_updated, T_("The task is referenced in $nbTuples Commands."));
+               $cerr->severity = ConsistencyError2::severity_warn;
+               $cerrList[] = $cerr;
+            }
+            self::$logger->debug("checkIssuesNotInCommand(): issue $issue->bugId referenced in $nbTuples Commands.");
+         }
       }
+
       return $cerrList;
    }
 

@@ -961,7 +961,7 @@ class Issue implements Comparable {
       self::$logger->debug("setBacklog old_value=$old_backlog   new_value=$backlog");
 
       // TODO should be done only once... in Constants singleton ?
-      $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id='$backlogCustomField'";
+      $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomField";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1584,24 +1584,11 @@ class Issue implements Comparable {
       // find the field_name for the Backlog customField
       // (this should not be here, it's a general info that may be accessed elsewhere)
       $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
-      $query = "SELECT name FROM `mantis_custom_field_table` where id = $backlogCustomFieldId ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
-         echo "<span style='color:red'>ERROR: Backlog CustomField not found !</span>";
-         exit;
-      }
 
-      // FIXME Weird
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-      $backlogFieldName = SqlWrapper::getInstance()->sql_result($result, 0);
-
+      // TODO should be done only once... in Constants singleton ?
       // find in bug history when was the latest update of the Backlog before $timestamp
       $query = "SELECT * FROM `mantis_bug_history_table` ".
-               "WHERE field_name = '$backlogFieldName' ".
+               "WHERE field_name = (SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomFieldId) ".
                "AND bug_id = '$this->bugId' ".
                "AND date_modified <= '$timestamp' ".
                "ORDER BY date_modified DESC LIMIT 1 ";
