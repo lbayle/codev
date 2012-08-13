@@ -306,7 +306,7 @@ class BlogManager {
 
    /**
     * available categories are stored in codev_config_table.
-    * @return array (id => name)
+    * @return string[] (id => name)
     */
    public function getCategoryList() {
       if (NULL == $this->categoryList) {
@@ -318,7 +318,7 @@ class BlogManager {
 
    /**
     * available severity values
-    * @return array (id => name)
+    * @return string[] (id => name)
     */
    public function getSeverityList() {
       if (NULL == $this->severityList) {

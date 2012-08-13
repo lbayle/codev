@@ -323,7 +323,7 @@ class Tools {
     * @param string $del1        delimiter for key:value
     * @param string $del2        delimiter for couples (key,value)
     * @param string $keyvalue       the string to explode
-    * @return array
+    * @return string[]
     */
    public static function doubleExplode($del1, $del2, $keyvalue) {
       $array1 = explode("$del1", $keyvalue);

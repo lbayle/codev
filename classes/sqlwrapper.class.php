@@ -188,7 +188,7 @@ class SqlWrapper {
    /**
     * Fetch a result row as an associative array, a numeric array, or both
     * @param resource $result
-    * @return array an array of strings that corresponds to the fetched row, or false if there are no more rows.
+    * @return mixed[] an array of strings that corresponds to the fetched row, or false if there are no more rows.
     */
    public function sql_fetch_array($result) {
       return mysql_fetch_array($result);
@@ -197,7 +197,7 @@ class SqlWrapper {
    /**
     * Fetch a result row as an associative array
     * @param resource $result
-    * @return array an associative array of strings that corresponds to the fetched row, or false if there are no more rows.
+    * @return mixed[] an associative array of strings that corresponds to the fetched row, or false if there are no more rows.
     */
    public function sql_fetch_assoc($result) {
       return mysql_fetch_assoc($result);

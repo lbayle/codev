@@ -1021,7 +1021,7 @@ class Project {
     * get Workflow transitions from Mantis DB
     *
     * mantis_config_table - config_id='status_enum_workflow'
-    * @return array
+    * @return string[]
     */
    function getWorkflowTransitions() {
       $serialized = ConfigMantis::getInstance()->getValue('status_enum_workflow', $this->id);
@@ -1054,7 +1054,7 @@ class Project {
    }
 
    /**
-    * @return array
+    * @return mixed[]
     */
    function getProjectConfig() {
       // find all srcProj specific config
@@ -1231,7 +1231,7 @@ class Project {
    }
 
    /**
-    * @return array(nbDays, percent)
+    * @return number[] array(nbDays, percent)
     */
    public function getDrift() {
       if (NULL == $this->drift) {
@@ -1241,7 +1241,7 @@ class Project {
    }
 
    /**
-    * @return array(nbDays, percent)
+    * @return number[] array(nbDays, percent)
     */
    public function getDriftMgr() {
       if (NULL == $this->driftMgr) {
@@ -1252,7 +1252,7 @@ class Project {
 
    /**
     * Get projets
-    * @return array string[int] The projects : name[id]
+    * @return string[] The projects : name[id]
     */
    public static function getProjects() {
       $query = 'SELECT id, name FROM `mantis_project_table` ORDER BY name;';

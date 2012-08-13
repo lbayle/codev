@@ -57,7 +57,7 @@ class IssueFDJ extends Issue {
     * Feedback is special: it must be separated in two groups:
     * - feedback assigned to 'ATOS'
     * - feedback assigned to 'FDJ'
-    * @return array
+    * @return number[]
     */
    private function getDuration_feedback() {
       global $status_feedback;

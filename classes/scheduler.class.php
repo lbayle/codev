@@ -103,7 +103,7 @@ class Scheduler {
     * @param User $user
     * @param int $today   (a day AT MIDNIGHT)
     * @param bool $addMonitored
-    * @return array of ScheduledTask
+    * @return ScheduledTask[] array of ScheduledTask
     */
    public function scheduleUser(User $user, $today, $addMonitored = false) {
       global $statusNames;

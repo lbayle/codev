@@ -42,7 +42,7 @@ class ServiceContractTools {
 
    /**
     * @param ServiceContract $contract
-    * @return array
+    * @return string[]
     */
    public static function getServiceContractStateList(ServiceContract $contract = NULL) {
       $contractState = (NULL == $contract) ? 0 : $contract->getState();

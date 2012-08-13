@@ -1292,7 +1292,7 @@ class Issue implements Comparable {
     *                                     time is left for this issue.
     *                                     if NULL, use user->getAvailableTime($beginTimestamp)
     * @param int $userid                      if NULL, use assignedTo user
-    * @return array(endTimestamp, $availTimeOnEndTimestamp)
+    * @return mixed[] array(endTimestamp, $availTimeOnEndTimestamp)
     *          $availTimeOnEndTimestamp can be re-injected in the next call to this function
     */
    public function computeEstimatedDateOfArrival($beginTimestamp, $availTimeOnBeginTimestamp=NULL, $userid=NULL) {

@@ -553,7 +553,7 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
 
 /**
  * get all existing projects, except ExternalTasksProject & SideTasksProjects
- * @return array string[int] : name[id]
+ * @return string[] : name[id]
  */
 function getProjectList() {
    global $logger;

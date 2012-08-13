@@ -216,7 +216,7 @@ class IssueSelection {
     *
     * percent = nbDaysDrift / mgrEffortEstim
     *
-    * @return array(nbDays, percent)
+    * @return number[] array(nbDays, percent)
     */
    public function getDriftMgr() {
       $nbDaysDrift = 0;
@@ -247,7 +247,7 @@ class IssueSelection {
     *
     * percent = nbDaysDrift / (effortEstim + effortAdd)
     *
-    * @return array(nbDays, percent)
+    * @return number[] array(nbDays, percent)
     */
    public function getDrift() {
       $nbDaysDrift = 0;
@@ -361,8 +361,7 @@ class IssueSelection {
     * @param int $threshold
     * @param bool $withSupport
     *
-    * @return array array of 3 IssueSelection instances ('negative', 'equal', 'positive')
-    *
+    * @return IssueSelection[] array of 3 IssueSelection instances ('negative', 'equal', 'positive')
     */
    public function getDeviationGroupsMgr($threshold = 1, $withSupport = true) {
       if (0 == count($this->issueList)) {

@@ -123,7 +123,7 @@ class SmartyTools {
     * Get the list of weeks of a specific year in Smarty comprehensible array
     * @param int $weekid The selected week
     * @param int $year The specific year
-    * @return array The result
+    * @return mixed[] The result
     */
    public static function getWeeks($weekid, $year) {
       $weeks = array();
@@ -131,9 +131,11 @@ class SmartyTools {
          $wDates = Tools::week_dates($i,$year);
          $monday = strftime(T_('W').'%U | %d %b', strtotime("Monday",$wDates[1]));
          $friday = strftime("%d %b", strtotime("Friday",$wDates[1]));
-         $weeks[] = array('id' => $i,
+         $weeks[] = array(
+            'id' => $i,
             'value' => utf8_encode(ucwords($monday)." - ".ucwords($friday)),
-            'selected' => $i == $weekid);
+            'selected' => $i == $weekid
+         );
       }
       return $weeks;
    }
@@ -142,13 +144,15 @@ class SmartyTools {
     * Get the list of years in [year-offset;year+offset] in Smarty comprehensible array
     * @param int $year The actual year
     * @param int $offset The offset
-    * @return array The years
+    * @return mixed[] The years
     */
    public static function getYears($year, $offset = 1) {
       $years = array();
       for ($y = ($year-$offset); $y <= ($year+$offset); $y++) {
-         $years[] = array('id' => $y,
-            'selected' => $y == $year);
+         $years[] = array(
+            'id' => $y,
+            'selected' => $y == $year
+         );
       }
       return $years;
    }
@@ -157,13 +161,15 @@ class SmartyTools {
     * Get the list of years in [startYear;now] in Smarty comprehensible array
     * @param int $startYear The start year
     * @param int $curYear The actual year
-    * @return array The years
+    * @return mixed[] The years
     */
    public static function getYearsToNow($startYear, $curYear) {
       $years = array();
       for ($y = $startYear; $y <= date('Y'); $y++) {
-         $years[] = array('id' => $y,
-            'selected' => $y == $curYear);
+         $years[] = array(
+            'id' => $y,
+            'selected' => $y == $curYear
+         );
       }
       return $years;
    }
