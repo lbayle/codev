@@ -22,12 +22,6 @@ include('constants.php');
 abstract class Controller {
 
    /**
-    * Initialize complex static variables
-    * @static
-    */
-   public abstract static function staticInit();
-
-   /**
     * @var SmartyHelper
     */
    protected $smartyHelper;
