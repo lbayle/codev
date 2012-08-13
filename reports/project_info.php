@@ -69,21 +69,35 @@ class ProjectInfoController extends Controller {
                $this->smartyHelper->assign("isManager", $isManager);
 
                $project = ProjectCache::getInstance()->getProject($projectid);
+               
+               $projectVersionList = $project->getVersionList();
 
-               $this->smartyHelper->assign("versionsOverview", $this->getVersionsOverview($project));
+               $this->smartyHelper->assign("versionsOverview", $this->getVersionsOverview($project, $projectVersionList));
 
                if ($isManager) {
-                  $this->smartyHelper->assign("versionsDetailedMgr", $this->getVersionsDetailedMgr($project));
+                  $this->smartyHelper->assign("versionsDetailedMgr", $this->getVersionsDetailedMgr($projectVersionList));
                }
 
-               $projectVersionList = $project->getVersionList();
                $this->smartyHelper->assign("versionsDetailed", $this->getVersionsDetailed($projectVersionList));
 
                $this->smartyHelper->assign("versionsIssues", $this->getVersionsIssues($projectVersionList));
-
-               $this->smartyHelper->assign("currentIssuesInDrift", $this->getCurrentIssuesInDrift($projectVersionList, $isManager));
-
-               $this->smartyHelper->assign("resolvedIssuesInDrift", $this->getResolvedIssuesInDrift($projectVersionList, $isManager));
+               
+               $currentIssuesInDrift = NULL;
+               $resolvedIssuesInDrift = NULL;
+               foreach ($projectVersionList as $pv) {
+                  foreach ($pv->getIssuesInDrift($isManager) as $issue) {
+                     $smartyIssue = $this->getSmartyDirftedIssue($issue, $isManager);
+                     if(NULL != $smartyIssue) {
+                        if ($issue->isResolved()) {
+                           $resolvedIssuesInDrift[] = $smartyIssue;
+                        } else {
+                           $currentIssuesInDrift[] = $smartyIssue;
+                        }
+                     }
+                  }
+               }
+               $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
+               $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
             } else if ($projectid) {
                $this->smartyHelper->assign("error", "Sorry, you are not allowed to view the details of this project");
             }
@@ -96,16 +110,17 @@ class ProjectInfoController extends Controller {
    /**
     * Get versions overview
     * @param Project $project
+    * @param ProjectVersion[] $projectVersionList
     * @return mixed[]
     */
-   private function getVersionsOverview(Project $project) {
+   private function getVersionsOverview(Project $project, array $projectVersionList) {
       $versionsOverview = NULL;
-      $projectVersionList = $project->getVersionList();
+      
       foreach ($projectVersionList as $pv) {
          if (NULL == $pv) {
             continue;
          }
-
+         
          $valuesMgr = $pv->getDriftMgr();
 
          $values = $pv->getDrift();
@@ -127,7 +142,7 @@ class ProjectInfoController extends Controller {
             'drift' => round(100 * $values['percent'])
          );
       }
-
+      
       $drift = $project->getDrift();
       $driftMgr = $project->getDriftMgr();
       $versionsOverview[] = array(
@@ -144,26 +159,16 @@ class ProjectInfoController extends Controller {
 
    /**
     * Get detailed mgr versions
-    * @param Project $project
+    * @param ProjectVersion[] $projectVersionList
     * @return mixed[]
     */
-   private function getVersionsDetailedMgr(Project $project) {
+   private function getVersionsDetailedMgr(array $projectVersionList) {
       $versionsDetailedMgr = NULL;
       $totalEffortEstimMgr = 0;
       $totalElapsed = 0;
       $totalBacklogMgr = 0;
       $totalReestimatedMgr = 0;
       $totalDriftMgr = 0;
-
-      $projectVersionList = $project->getVersionList();
-
-      // TOTAL (all Versions together)
-      $allProjectVersions = new ProjectVersion($project->id, "Total");
-      $issueList = $project->getIssues();
-      foreach ($issueList as $issue) {
-         $allProjectVersions->addIssue($issue->bugId);
-      }
-      $projectVersionList[] = $allProjectVersions;
 
       foreach ($projectVersionList as $pv) {
          $totalEffortEstimMgr += $pv->mgrEffortEstim;
@@ -186,6 +191,14 @@ class ProjectInfoController extends Controller {
             'drift' => round($valuesMgr['nbDays'],2)
          );
       }
+
+      $versionsDetailedMgr[] = array(
+         'effortEstim' => $totalEffortEstimMgr,
+         'reestimated' => $totalReestimatedMgr,
+         'elapsed' => $totalElapsed,
+         'backlog' => $totalBacklogMgr,
+         'drift' => round($totalDriftMgr,2)
+      );
 
       return $versionsDetailedMgr;
    }
@@ -216,7 +229,7 @@ class ProjectInfoController extends Controller {
          $versionsDetailed[] = array(
             'name' => $pv->name,
             //'progress' => round(100 * $pv->getProgress()),
-            'title' => 'title="'.($pv->effortEstim + $pv->effortAdd).'"',
+            'title' => $pv->effortEstim." + ".$pv->effortAdd,
             'effortEstim' => ($pv->effortEstim + $pv->effortAdd),
             'reestimated' => $pv->getReestimated(),
             'elapsed' => $pv->elapsed,
@@ -303,121 +316,46 @@ class ProjectInfoController extends Controller {
    }
 
    /**
-    * Get all "non-resolved" issues that are in drift (ordered by version)
-    * @param ProjectVersion[] $projectVersionList
+    * @param Issue $issue
     * @param boolean $isManager
-    * @param boolean $withSupport
     * @return mixed[]
     */
-   private function getCurrentIssuesInDrift(array $projectVersionList, $isManager, $withSupport = true) {
-      $currentIssuesInDrift = NULL;
-      foreach ($projectVersionList as $pv) {
-         foreach ($pv->getIssueList() as $issue) {
+   private function getSmartyDirftedIssue(Issue $issue, $isManager) {
+      $driftPrelEE = ($isManager) ? $issue->getDriftMgr() : 0;
+      $driftEE = $issue->getDrift();
 
-            if ($issue->isResolved()) {
-               // skip resolved issues
-               continue;
-            }
-
-            $driftPrelEE = ($isManager) ? $issue->getDriftMgr($withSupport) : 0;
-            $driftEE = $issue->getDrift($withSupport);
-
-            if (($driftPrelEE > 0) || ($driftEE > 0)) {
-               $driftMgrColor = NULL;
-               $driftMgr = NULL;
-               if ($isManager) {
-                  if ($driftPrelEE < -1) {
-                     $driftMgrColor = "#61ed66";
-                  } else if ($driftPrelEE > 1) {
-                     $driftMgrColor = "#fcbdbd";
-                  }
-                  $driftMgr = round($driftPrelEE, 2);
-               }
-               $driftColor = NULL;
-               if ($driftEE < -1) {
-                  $driftColor = "#61ed66";
-               } else if ($driftEE > 1) {
-                  $driftColor = "#fcbdbd";
-               }
-
-               $currentIssuesInDrift[] = array(
-                  'issueURL' => Tools::issueInfoURL($issue->bugId),
-                  'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
-                  'projectName' => $issue->getProjectName(),
-                  'targetVersion' => $issue->getTargetVersion(),
-                  'driftMgrColor' => $driftMgrColor,
-                  'driftMgr' => $driftMgr,
-                  'driftColor' => $driftColor,
-                  'drift' => round($driftEE, 2),
-                  'backlog' => $issue->backlog,
-                  'progress' => round(100 * $issue->getProgress()),
-                  'currentStatusName' => $issue->getCurrentStatusName(),
-                  'summary' => $issue->summary
-               );
-            }
+      $driftMgrColor = NULL;
+      $driftMgr = NULL;
+      if ($isManager) {
+         if ($driftPrelEE < -1) {
+            $driftMgrColor = "#61ed66";
+         } else if ($driftPrelEE > 1) {
+            $driftMgrColor = "#fcbdbd";
          }
+         $driftMgr = round($driftPrelEE, 2);
+      }
+      
+      $driftColor = NULL;
+      if ($driftEE < -1) {
+         $driftColor = "#61ed66";
+      } else if ($driftEE > 1) {
+         $driftColor = "#fcbdbd";
       }
 
-      return $currentIssuesInDrift;
-   }
-
-   /**
-    * Get all resolved issues that are in drift (ordered by version)
-    * @param ProjectVersion[] $projectVersionList
-    * @param boolean $isManager
-    * @param boolean $withSupport
-    * @return mixed[]
-    */
-   private function getResolvedIssuesInDrift(array $projectVersionList, $isManager, $withSupport = true) {
-      $resolvedIssuesInDrift = NULL;
-      foreach ($projectVersionList as $pv) {
-         foreach ($pv->getIssueList() as $issue) {
-
-            if (!$issue->isResolved()) {
-               // skip non-resolved issues
-               continue;
-            }
-
-            $driftPrelEE = ($isManager) ? $issue->getDriftMgr($withSupport) : 0;
-            $driftEE = $issue->getDrift($withSupport);
-
-            if (($driftPrelEE > 0) || ($driftEE > 0)) {
-               $driftMgrColor = NULL;
-               $driftMgr = NULL;
-               if ($isManager) {
-                  if ($driftPrelEE < -1) {
-                     $driftMgrColor = "#61ed66";
-                  } else if ($driftPrelEE > 1) {
-                     $driftMgrColor = "#fcbdbd";
-                  }
-                  $driftMgr = round($driftPrelEE, 2);
-               }
-               $driftColor = NULL;
-               if ($driftEE < -1) {
-                  $driftColor = "#61ed66";
-               } else if ($driftEE > 1) {
-                  $driftColor = "#fcbdbd";
-               }
-
-               $resolvedIssuesInDrift[] = array(
-                  'issueURL' => Tools::issueInfoURL($issue->bugId),
-                  'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
-                  'projectName' => $issue->getProjectName(),
-                  'targetVersion' => $issue->getTargetVersion(),
-                  'driftMgrColor' => $driftMgrColor,
-                  'driftMgr' => $driftMgr,
-                  'driftColor' => $driftColor,
-                  'drift' => round($driftEE, 2),
-                  'backlog' => $issue->backlog,
-                  'progress' => round(100 * $issue->getProgress()),
-                  'currentStatusName' => $issue->getCurrentStatusName(),
-                  'summary' => $issue->summary
-               );
-            }
-         }
-      }
-
-      return $resolvedIssuesInDrift;
+      return array(
+         'issueURL' => Tools::issueInfoURL($issue->bugId),
+         'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
+         'projectName' => $issue->getProjectName(),
+         'targetVersion' => $issue->getTargetVersion(),
+         'driftMgrColor' => $driftMgrColor,
+         'driftMgr' => $driftMgr,
+         'driftColor' => $driftColor,
+         'drift' => round($driftEE, 2),
+         'backlog' => $issue->backlog,
+         'progress' => round(100 * $issue->getProgress()),
+         'currentStatusName' => $issue->getCurrentStatusName(),
+         'summary' => $issue->summary
+      );
    }
 
 }

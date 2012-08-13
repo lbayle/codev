@@ -69,7 +69,17 @@
                <th style="width: 80px">{t}Drift Mgr{/t}</th>
             </tr>
             {foreach from=$versionsDetailedMgr key=name item=i name=versionsDetailedMgr}
-            <tr {if $smarty.foreach.versionsDetailedMgr.last}class="row_total"{/if}>
+            {if $smarty.foreach.versionsDetailedMgr.last}
+            <tr class="row_total">
+               <td>{t}Total{/t}</td>
+               <td>{$i.effortEstim}</td>
+               <td>{$i.reestimated}</td>
+               <td>{$i.elapsed}</td>
+               <td>{$i.backlog}</td>
+               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
+            </tr>
+            {else}
+            <tr>
                <td>{$i.name}</td>
                <td>{$i.effortEstim}</td>
                <td>{$i.reestimated}</td>
@@ -77,6 +87,7 @@
                <td>{$i.backlog}</td>
                <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
             </tr>
+            {/if}
             {/foreach}
          </table>
          {else}
@@ -107,7 +118,7 @@
             {else}
             <tr>
                <td>{$i.name}</td>
-               <td {$i.title}>{$i.effortEstim}</td>
+               <td title="{$i.title}">{$i.effortEstim}</td>
                <td>{$i.reestimated}</td>
                <td>{$i.elapsed}</td>
                <td>{$i.backlog}</td>
