@@ -111,7 +111,7 @@ class DaysPerJobIndicator implements IndicatorPlugin {
       if ((NULL != $startTimestamp) &&
           (NULL != $endTimestamp) &&
           ($endTimestamp < $startTimestamp)) {
-         throw Exception("endTimeStamp < startTimestamp !");
+         throw new Exception("endTimeStamp < startTimestamp !");
       }
 
 

@@ -53,7 +53,7 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
    }
 
    public function getDesc() {
-      return T_("");
+      return "";
    }
 
    /**
@@ -119,7 +119,8 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
    /**
     * $smartyHelper->assign('daysPerJobIndicator', $myIndic->getSmartyObject());
     *
-    * @return mixed[]
+    * @return string
+    * @throws Exception
     */
    public function getSmartyObject() {
       if (NULL != $this->execData) {
