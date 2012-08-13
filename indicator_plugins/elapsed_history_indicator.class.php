@@ -108,13 +108,8 @@ class ElapsedHistoryIndicator implements IndicatorPlugin {
          $end = mktime(23, 59, 59, date('m', $timestampList[$i]), date('d',$timestampList[$i]), date('Y', $timestampList[$i]));
          #$elapsed = 0; // cumule / non-cumule
 
-         // for each issue, sum all its timetracks within period
-         foreach ($inputIssueSel->getIssueList() as $issue) {
-            $timeTracks = $issue->getTimeTracks(NULL, $start, $end);
-            foreach ($timeTracks as $tt) {
-               $elapsed += $tt->duration;
-            }
-         }
+         $elapsed = $inputIssueSel->getElapsed($start, $end);
+
          #echo "elapsed(".$timestampList[$i].") = ".$elapsed.'<br>';
          $this->execData[$timestampList[$i]] = $elapsed;
       }
@@ -128,6 +123,7 @@ class ElapsedHistoryIndicator implements IndicatorPlugin {
     * @return mixed[]
     */
    public function getSmartyObject() {
+      $smartyData = NULL;
       if (NULL != $this->execData) {
          $smartyData = array();
       }

@@ -96,13 +96,13 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       }
    }
 
-   private function getBacklogData($inputIssueSel, $timestampList) {
+   private function getBacklogData(IssueSelection $inputIssueSel, array $timestampList) {
       $this->backlogData = array();
 
       // get a snapshot of the Backlog at each timestamp
       foreach ($timestampList as $timestamp) {
          $backlog = 0;
-         foreach ($inputIssueSel->getIssueList() as $id => $issue) {
+         foreach ($inputIssueSel->getIssueList() as $issue) {
 
             $issueBL = $issue->getBacklog($timestamp);
             if (NULL != $issueBL) {
@@ -119,7 +119,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       }
    }
 
-   private function getElapsedData($inputIssueSel, $timestampList) {
+   private function getElapsedData(IssueSelection $inputIssueSel, array $timestampList) {
       $this->elapsedData = array();
 
       // there is no elapsed on first date
@@ -133,15 +133,8 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
 
          #   echo "nb issues = ".count($inputIssueSel->getIssueList());
 
-         $elapsed = 0; // cumule / non-cumule
+         $elapsed = $inputIssueSel->getElapsed($start, $end);
 
-         // for each issue, sum all its timetracks within period
-         foreach ($inputIssueSel->getIssueList() as $id => $issue) {
-            $timeTracks = $issue->getTimeTracks(NULL, $start, $end);
-            foreach ($timeTracks as $id => $tt) {
-               $elapsed += $tt->duration;
-            }
-         }
          #echo "elapsed(".date('Y-m-d', $timestampList[$i]).") = ".$elapsed.'<br>';
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestampList[$i]), date('d', $timestampList[$i]), date('Y', $timestampList[$i]));
          $this->elapsedData[$midnight_timestamp] = $elapsed;
@@ -216,6 +209,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
 
       $timestampList = array_keys($this->execData['real']);
 
+      $bottomLabel = array();
       foreach ($timestampList as $timestamp) {
          $bottomLabel[]   = Tools::formatDate("%d %b", $timestamp);
       }

@@ -183,6 +183,40 @@ class IssueSelection {
    }
 
    /**
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @return float
+    */
+   public function getElapsed($startTimestamp, $endTimestamp) {
+      if(count($this->issueList) > 0) {
+         $issueIds = implode(', ', array_keys($this->issueList));
+
+         // for each issue, sum all its timetracks within period
+         $query = "SELECT SUM(duration) FROM `codev_timetracking_table` ".
+            "WHERE bugid IN (".$issueIds.") ";
+
+         if (isset($startTimestamp)) {
+            $query .= "AND date >= $startTimestamp ";
+         }
+         if (isset($endTimestamp)) {
+            $query .= "AND date <= $endTimestamp ";
+         }
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         return round(SqlWrapper::getInstance()->sql_result($result),2);
+      } else {
+         return 0;
+      }
+   }
+
+
+
+   /**
     * @return int
     */
    public function getNbIssues() {
