@@ -72,8 +72,9 @@ abstract class ClassFileMapFactory {
                   case T_CLASS:
                   case T_INTERFACE:
                      $i += 2; //skip the whitespace token
+                     $sName = str_replace(BASE_PATH.'/', '', $sName);
                      $aDeclarations[$aTokens[$i][1]] = $sName;
-                     echo "<li>".$aTokens[$i][1]." (path : ".str_replace(BASE_PATH, '', $sName).")</li>\n";
+                     echo "<li>".$aTokens[$i][1]." (path : ".$sName.")</li>\n";
                      break;
                }
             }
