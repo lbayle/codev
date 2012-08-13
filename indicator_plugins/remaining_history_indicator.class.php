@@ -101,7 +101,7 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
 
       foreach ($timestampList as $timestamp) {
          $backlog = 0;
-         foreach ($inputIssueSel->getIssueList() as $id => $issue) {
+         foreach ($inputIssueSel->getIssueList() as $issue) {
             $issueRem = $issue->getBacklog($timestamp);
             if (NULL != $issueRem) {
                $backlog += $issueRem;
