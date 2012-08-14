@@ -82,8 +82,6 @@ class PeriodStats {
    }
 
    public function computeStats() {
-      global $status_new;
-
       $statusNames = Config::getInstance()->getValue("statusNames");
       ksort($statusNames);
 
@@ -93,7 +91,7 @@ class PeriodStats {
       }
 
       // Compute stats
-      $this->statusCountList[$status_new] = $this->countIssues_new();
+      $this->statusCountList[Constants::$status_new] = $this->countIssues_new();
       $this->countIssues_other();
    }
 
@@ -102,11 +100,9 @@ class PeriodStats {
     * @return int
     */
    private function countIssues_new() {
-      global $status_new;
-
       $count_new = -1;
 
-      $this->statusCountList[$status_new] = 0;
+      $this->statusCountList[Constants::$status_new] = 0;
 
       // TODO countIssues_new()
       return $count_new;

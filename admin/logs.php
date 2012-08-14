@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('constants.php');
-
 class LogsController extends Controller {
 
    /**
@@ -40,11 +38,10 @@ class LogsController extends Controller {
          // Admins only
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-            global $codevtt_logfile;
-            if ( (NULL != $codevtt_logfile) && (file_exists($codevtt_logfile))) {
+            if ( (NULL != Constants::$codevtt_logfile) && (file_exists(Constants::$codevtt_logfile))) {
                $nbLinesToDisplay = 1500;
 
-               $lines = file($codevtt_logfile);
+               $lines = file(Constants::$codevtt_logfile);
 
                if (count($lines) > $nbLinesToDisplay) {
                   $offset = count($lines) - $nbLinesToDisplay;
@@ -60,7 +57,7 @@ class LogsController extends Controller {
 
                $this->smartyHelper->assign('logs', $logs);
             } else {
-               $this->smartyHelper->assign('error',T_('Sorry, logfile not found:').' ['.$codevtt_logfile.']');
+               $this->smartyHelper->assign('error',T_('Sorry, logfile not found:').' ['.Constants::$codevtt_logfile.']');
             }
          } else {
             $this->smartyHelper->assign('error',T_('Sorry, you need to be in the admin-team to access this page.'));

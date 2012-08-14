@@ -16,6 +16,8 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('constants.php');
+
 include_once('classes/user_cache.class.php');
 
 require_once('lib/log4php/Logger.php');
@@ -106,8 +108,6 @@ class Scheduler {
     * @return ScheduledTask[] array of ScheduledTask
     */
    public function scheduleUser(User $user, $today, $addMonitored = false) {
-      global $statusNames;
-
       $scheduledTaskList = array();
 
       // get Ordered List of Issues to schedule
@@ -132,7 +132,7 @@ class Scheduler {
          $currentST->summary = $issue->summary;
          $currentST->priorityName = $issue->getPriorityName();
          $currentST->severityName = $issue->getSeverityName();
-         $currentST->statusName = $statusNames[$issue->currentStatus];
+         $currentST->statusName = Constants::$statusNames[$issue->currentStatus];
 
          $handler = UserCache::getInstance()->getUser($issue->handlerId);
          $currentST->handlerName = $handler->getName();
@@ -171,7 +171,7 @@ class Scheduler {
             $currentST->summary = $issue->summary;
             $currentST->priorityName = $issue->getPriorityName();
             $currentST->severityName = $issue->getSeverityName();
-            $currentST->statusName = $statusNames[$issue->currentStatus];
+            $currentST->statusName = Constants::$statusNames[$issue->currentStatus];
             $currentST->isMonitored = true;
 
             $handler = UserCache::getInstance()->getUser($issue->handlerId);

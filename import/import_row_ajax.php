@@ -27,8 +27,6 @@ $logger = Logger::getLogger("import_row_ajax");
 // ================ MAIN =================
 if (isset($_SESSION['userid'])) {
 
-   global $status_new;
-
    $action = Tools::getSecurePOSTStringValue('action', '');
 
    if ("importRow" == $action) {
@@ -47,7 +45,7 @@ if (isset($_SESSION['userid'])) {
       $formatedDeadline = isset($_POST['deadline']) ? $_POST['deadline'] : NULL;
 
       $proj = ProjectCache::getInstance()->getProject($projectid);
-      $bugid = $proj->addIssue($categoryid, $summary, $description, $status_new);
+      $bugid = $proj->addIssue($categoryid, $summary, $description, Constants::$status_new);
 
       $issue = IssueCache::getInstance()->getIssue($bugid);
 

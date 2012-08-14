@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('constants.php');
-
 class ForecastingReportController extends Controller {
 
    /**

@@ -16,6 +16,8 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once('constants.php');
+
 // TODO Remove this import
 include_once('classes/team_cache.class.php');
 
@@ -27,8 +29,6 @@ include_once('classes/project.class.php');
 include_once('classes/servicecontract_cache.class.php');
 include_once('classes/sqlwrapper.class.php');
 include_once('classes/user_cache.class.php');
-
-include_once('constants.php');
 
 require_once('tools.php');
 
@@ -501,8 +501,6 @@ class Team {
     * @return Issue[] issueList
     */
    public function getCurrentIssueList($addUnassignedIssues = false, $addNewIssues = false) {
-      global $status_new;
-
       $projectList = $this->getProjects();
       $memberList = $this->getMembers();
 
@@ -525,7 +523,7 @@ class Team {
 
 
       if (!$addNewIssues) {
-         $query .= "AND status > $status_new ";
+         $query .= "AND status > ".Constants::$status_new." ";
       }
 
       $query .= "ORDER BY id DESC;";

@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('constants.php');
-
 class IssueInfoController extends Controller {
 
    /**
@@ -326,8 +324,6 @@ class IssueInfoController extends Controller {
     * @return mixed[]
     */
    private function getDurationsByStatus(Issue $issue) {
-      global $statusNames;
-
       # WARN: use of FDJ custom
       //$issue = new IssueFDJ($issue_->bugId);
 
@@ -335,7 +331,7 @@ class IssueInfoController extends Controller {
 
       $statusNamesSmarty = NULL;
       foreach($issue->statusList as $status_id => $status) {
-         $statusNamesSmarty[] = $statusNames[$status_id];
+         $statusNamesSmarty[] = Constants::$statusNames[$status_id];
       }
 
       // REM do not display SuiviOp tasks

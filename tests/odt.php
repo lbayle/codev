@@ -8,6 +8,17 @@ include_once 'i18n/i18n.inc.php';
 $page_name = T_("Test: export to ODT");
 require_once 'include/header.inc.php';
 
+// Make sure you have Zip extension or PclZip library loaded
+// First : include the librairy
+require_once('lib/odtphp/library/odf.php');
+
+include_once('classes/user.class.php');
+include_once "classes/issue.class.php";
+include_once "classes/issue_note.class.php";
+include_once "classes/project.class.php";
+
+require_once('constants.php');
+
 ?>
 
 <script language="JavaScript">
@@ -23,15 +34,6 @@ require_once 'include/header.inc.php';
 
 
 <?php
-
-// Make sure you have Zip extension or PclZip library loaded
-// First : include the librairy
-require_once('odf.php');
-
-include_once('user.class.php');
-include_once "issue.class.php";
-include_once "issue_note.class.php";
-include_once "project.class.php";
 
 $logger = Logger::getLogger("odt_test");
 
@@ -69,9 +71,6 @@ function displayProjectSelectionForm($originPage, $projList, $defaultProjectid =
 
 // ------------------------------------
 function genODT($user) {
-
-	global $statusNames;
-
 	$odf = new odf("odtphp_template.odt");
 
 	$odf->setVars('today',  date('Y-m-d H:i:s'));
@@ -88,7 +87,7 @@ function genODT($user) {
 		$issueSegment->bugId($issue->bugId);
 		$issueSegment->summary(utf8_decode($issue->summary));
 		$issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission));
-		$issueSegment->currentStatus($statusNames["$issue->currentStatus"]);
+		$issueSegment->currentStatus(Constants::$statusNames["$issue->currentStatus"]);
 		$issueSegment->handlerId(utf8_decode($user->getRealname()));
 		$issueSegment->reporterId(utf8_decode($reporter->getRealname()));
 		$issueSegment->description(utf8_decode($issue->getDescription()));
@@ -105,8 +104,6 @@ function genODT($user) {
 
 // ------------------------------------
 function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
-
-	global $statusNames;
 	global $logger;
 
 	$odf = new odf($odtTemplate);
@@ -144,7 +141,7 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
 		try { $issueSegment->bugId($issue->bugId); } catch (Exception $e) {};
 		try { $issueSegment->summary(utf8_decode($issue->summary)); } catch (Exception $e) {};
 		try { $issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission)); } catch (Exception $e) {};
-		try { $issueSegment->currentStatus($statusNames["$issue->currentStatus"]); } catch (Exception $e) {};
+		try { $issueSegment->currentStatus(Constants::$statusNames["$issue->currentStatus"]); } catch (Exception $e) {};
 		try { $issueSegment->handlerId($userName); } catch (Exception $e) {};
 		try { $issueSegment->reporterId($reporterName); } catch (Exception $e) {};
 		try { $issueSegment->description(utf8_decode($issue->getDescription())); } catch (Exception $e) {};

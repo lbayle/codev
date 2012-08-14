@@ -34,15 +34,12 @@ function execCmd($uxCommand) {
 // ================ MAIN =================
 $logger = Logger::getLogger("chmod");
 
-global $codevtt_logfile; // '/tmp/codevtt/logs/codevtt.log'
-
 if (isset($_SESSION['userid'])) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
    if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-
-      // ---- /tmp/codevtt/logs
-      $pos = strrpos ( $codevtt_logfile, '/' );
-      $tmp = substr("$codevtt_logfile", 0, $pos);
+      // /tmp/codevtt/logs
+      $pos = strrpos (Constants::$codevtt_logfile, '/');
+      $tmp = substr(Constants::$codevtt_logfile, 0, $pos);
 
       $uxCommand = "chmod -R a+r $tmp";
       execCmd($uxCommand);
@@ -50,14 +47,13 @@ if (isset($_SESSION['userid'])) {
       echo "$uxCommand<br>";
 
       // ---- /tmp/codevtt
-      $pos = strrpos ( $tmp, '/' );
-      $tmp = substr("$codevtt_logfile", 0, $pos);
+      $pos = strrpos ($tmp, '/');
+      $tmp = substr(Constants::$codevtt_logfile, 0, $pos);
 
       $uxCommand = "chmod a+r $tmp";
       execCmd($uxCommand);
       $logger->info($uxCommand);
       echo "$uxCommand<br>";
-
    }
 }
 

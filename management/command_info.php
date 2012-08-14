@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('constants.php');
-
 class CommandInfoController extends Controller {
 
    /**
@@ -138,8 +136,6 @@ class CommandInfoController extends Controller {
     * @return mixed[]
     */
    private function getConsistencyErrors(Command $cmd) {
-      global $statusNames;
-
       $consistencyErrors = array(); // if null, array_merge fails !
 
       $cerrList = $cmd->getConsistencyErrors();
@@ -149,7 +145,7 @@ class CommandInfoController extends Controller {
             $user = UserCache::getInstance()->getUser($cerr->userId);
             $consistencyErrors[] = array(
                'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
-               'issueStatus' => $statusNames[$cerr->status],
+               'issueStatus' => Constants::$statusNames[$cerr->status],
                'user' => $user->getName(),
                'severity' => $cerr->getLiteralSeverity(),
                'severityColor' => $cerr->getSeverityColor(),

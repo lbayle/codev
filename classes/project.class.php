@@ -581,40 +581,34 @@ class Project {
    }
 
    public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
-      global $status_closed;
       $cat_id = $this->categoryList[self::cat_mngt_regular];
-      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
-      global $status_closed;
       $cat_id = $this->categoryList[self::cat_st_inactivity];
-      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    public function addIssueIncident($issueSummary, $issueDesc=" ") {
-      global $status_closed;
       $cat_id = $this->categoryList[self::cat_st_incident];
-      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    public function addIssueTools($issueSummary, $issueDesc=" ") {
-      global $status_closed;
       $cat_id = $this->categoryList[self::cat_st_tools];
-      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    public function addIssueWorkshop($issueSummary, $issueDesc=" ") {
-      global $status_closed;
       $cat_id = $this->categoryList[self::cat_st_workshop];
-      return $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
+      return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    private function addSideTaskIssue($catType, $issueSummary, $issueDesc) {
-      global $status_closed;
       $cat_id = $this->categoryList["$catType"];
 
-      $bugt_id = $this->addIssue($cat_id, $issueSummary, $issueDesc, $status_closed);
+      $bugt_id = $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
       return $bugt_id;
    }
 

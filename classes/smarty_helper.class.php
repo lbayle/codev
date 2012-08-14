@@ -108,7 +108,6 @@ class SmartyHelper {
     * Display the default template
     */
    public function displayTemplate() {
-      global $mantisURL;
       $this->smarty->assign("year", date("Y"));
       $this->smarty->assign("codevVersion", Config::codevVersion);
       $this->smarty->assign("username", $_SESSION['username']);
@@ -116,7 +115,7 @@ class SmartyHelper {
       $this->smarty->assign('page', $_SERVER['PHP_SELF']);
       $this->smarty->assign('ajaxPage', str_replace('.php', '', $_SERVER['PHP_SELF']).'_ajax.php');
       $this->smarty->assign('tpl_name', str_replace('.php', '', substr(strrchr($_SERVER['PHP_SELF'], '/'), 1)));
-      $this->smarty->assign('mantisURL', $mantisURL);
+      $this->smarty->assign('mantisURL', Constants::$mantisURL);
       $this->smarty->assign('rootWebSite', Tools::getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
 

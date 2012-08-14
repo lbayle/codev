@@ -24,14 +24,12 @@ include_once 'i18n/i18n.inc.php';
 <div class="menu">
 
 <?php
-global $mantisURL;
-
 
 echo "<table>\n";
 echo "   <tr>\n";
 echo "      <td><a href='".Tools::getServerRootURL()."/index.php'>".T_("Home")."</a></td>\n";
 
-echo "      <td><a href='".$mantisURL."' title='MantisBT'>Mantis</a></td>\n";
+echo "      <td><a href='". Constants::$mantisURL."' title='MantisBT'>Mantis</a></td>\n";
 
 echo "      <td>\n";
 echo "      <a href='".Tools::getServerRootURL()."/timetracking/time_tracking.php' title=''>".T_("Time Tracking")."</a>\n";

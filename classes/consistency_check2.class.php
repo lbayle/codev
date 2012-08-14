@@ -16,7 +16,7 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('constants.php');
+require_once('constants.php');
 
 include_once('classes/issue.class.php');
 include_once('classes/project_cache.class.php');
@@ -236,13 +236,11 @@ class ConsistencyCheck2 {
     * @return ConsistencyError2[]
     */
    public function checkBadBacklog() {
-      global $status_new;
-
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {
          if ((!$issue->isResolved()) &&
-            ($issue->currentStatus > $status_new) &&
+            ($issue->currentStatus > Constants::$status_new) &&
             ((NULL == $issue->backlog) || ($issue->backlog <= 0))) {
             if (NULL == $issue->backlog) {
                $msg = T_("Backlog must be defined !");
@@ -307,13 +305,11 @@ class ConsistencyCheck2 {
     * @return ConsistencyError2[]
     */
    public function checkEffortEstim() {
-      global $status_new;
-
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {
          if ($issue->isResolved()) { continue; }
-         if ($issue->currentStatus == $status_new) { continue; }
+         if ($issue->currentStatus == Constants::$status_new) { continue; }
 
          // exclude SideTasks (effortEstimation is not relevant)
          $project = ProjectCache::getInstance()->getProject($issue->projectId);
@@ -342,21 +338,18 @@ class ConsistencyCheck2 {
     * @return ConsistencyError2[]
     */
    function checkTimeTracksOnNewIssues() {
-      global $status_new;
-      global $statusNames;
-
       $cerrList = array();
 
       foreach ($this->issueList as $issue) {
          // select all issues which current status is 'new'
-         if ($issue->currentStatus != $status_new) { continue; }
+         if ($issue->currentStatus != Constants::$status_new) { continue; }
 
          $elapsed = $issue->getElapsed();
 
          if (0 != $elapsed) {
             $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
                $issue->last_updated,
-               T_("Status should not be")." '".$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
+               T_("Status should not be")." '".Constants::$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
             $cerr->severity = ConsistencyError2::severity_error;
 
             $cerrList[] = $cerr;

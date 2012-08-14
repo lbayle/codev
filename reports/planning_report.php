@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('constants.php');
-
 class DeadLine {
    public $date;
    public $nbDaysToDeadLine;
@@ -194,8 +192,6 @@ class PlanningReportController extends Controller {
     * @return mixed[][]
     */
    private function getConsistencyErrors($teamid) {
-      global $statusNames;
-
       $issueList = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(TRUE);
       $ccheck = new ConsistencyCheck2($issueList);
 
@@ -211,7 +207,7 @@ class PlanningReportController extends Controller {
 
             $consistencyErrors[] = array(
                'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
-               'issueStatus' => $statusNames[$cerr->status],
+               'issueStatus' => Constants::$statusNames[$cerr->status],
                'date' => date("Y-m-d", $cerr->timestamp),
                'user' => $user->getName(),
                'severity' => $cerr->getLiteralSeverity(),

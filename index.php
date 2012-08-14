@@ -28,9 +28,6 @@ require('path.inc.php');
 
 require('include/super_header.inc.php');
 
-require_once('constants.php');
-require_once('tools.php');
-
 class IndexController extends Controller {
 
    /**
@@ -120,8 +117,6 @@ class IndexController extends Controller {
     * @return mixed[]
     */
    private function getConsistencyErrors(User $sessionUser) {
-      global $statusNames;
-
       $consistencyErrors = array(); // if null, array_merge fails !
 
       $teamList = $sessionUser->getTeamList();
@@ -138,7 +133,7 @@ class IndexController extends Controller {
             if ($sessionUser->id == $cerr->userId) {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
                $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary),
-                  'status' => $statusNames[$cerr->status],
+                  'status' => Constants::$statusNames[$cerr->status],
                   'desc' => $cerr->desc);
             }
          }
@@ -191,9 +186,8 @@ class IndexController extends Controller {
 }
 
 // ========== MAIN ===========
-global $homepage_title;
 IndexController::staticInit();
-$controller = new IndexController($homepage_title);
+$controller = new IndexController(Constants::$homepage_title);
 $controller->execute();
 
 ?>

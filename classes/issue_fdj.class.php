@@ -20,7 +20,7 @@ include_once('../include/session.inc.php');
 
 require_once('classes/issue.class.php');
 
-include_once('constants.php');
+require_once('constants.php');
 
 include_once('classes/config.class.php');
 include_once('classes/sqlwrapper.class.php');
@@ -35,8 +35,6 @@ class IssueFDJ extends Issue {
     * Computes the lifeCycle of the issue (time spent on each status)
     */
    public function computeDurationsPerStatus () {
-      global $status_feedback;
-
       // FDJ custom status (not defined in Mantis)
       $status_feedback_ATOS = Config::getVariableKeyFromValue(Config::id_statusNames, 'feedback_ATOS');
       $status_feedback_FDJ = Config::getVariableKeyFromValue(Config::id_statusNames, 'feedback_FDJ');
@@ -48,7 +46,7 @@ class IssueFDJ extends Issue {
       $formatedDateList = $this->getDuration_feedback();
       $this->statusList[$status_feedback_ATOS] = new Status($status_feedback_ATOS, $formatedDateList[$status_feedback_ATOS]);
       $this->statusList[$status_feedback_FDJ]  = new Status($status_feedback_FDJ,  $formatedDateList[$status_feedback_FDJ]);
-      unset($this->statusList[$status_feedback]); // feedback has been splitted in ATOS/FDJ
+      unset($this->statusList[Constants::$status_feedback]); // feedback has been splitted in ATOS/FDJ
       ksort($this->statusList);
 
    }
@@ -60,8 +58,6 @@ class IssueFDJ extends Issue {
     * @return number[]
     */
    private function getDuration_feedback() {
-      global $status_feedback;
-
       // FDJ custom status (not defined in Mantis)
       $status_feedback_ATOS = Config::getVariableKeyFromValue(Config::id_statusNames, 'feedback_ATOS');
       $status_feedback_FDJ = Config::getVariableKeyFromValue(Config::id_statusNames, 'feedback_FDJ');
@@ -80,7 +76,7 @@ class IssueFDJ extends Issue {
                "FROM `mantis_bug_history_table` ".
                "WHERE bug_id=$this->bugId ".
                "AND field_name = 'status' ".
-               "AND (new_value=$status_feedback OR old_value=$status_feedback) ".
+               "AND (new_value=".Constants::$status_feedback." OR old_value=".Constants::$status_feedback.") ".
                "ORDER BY id ASC";
 
       $result = SqlWrapper::getInstance()->sql_query($query);

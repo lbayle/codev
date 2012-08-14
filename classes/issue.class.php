@@ -529,8 +529,7 @@ class Issue implements Comparable {
    }
 
    public function getCurrentStatusName() {
-      global $statusNames;
-      return $statusNames[$this->currentStatus];
+      return Constants::$statusNames[$this->currentStatus];
    }
 
    public function getPriorityName() {
@@ -1002,8 +1001,6 @@ class Issue implements Comparable {
     * Computes the lifeCycle of the issue (time spent on each status)
     */
    public function computeDurationsPerStatus () {
-      global $status_new;
-
       // get only statuses defined for this project
       $project = ProjectCache::getInstance()->getProject($this->projectId);
       $wfTrans = $project->getWorkflowTransitions();
@@ -1015,18 +1012,16 @@ class Issue implements Comparable {
          ksort($statusNames);
       }
 
-      $this->statusList[$status_new] = new Status($status_new, $this->getDurationForStatusNew());
+      $this->statusList[Constants::$status_new] = new Status(Constants::$status_new, $this->getDurationForStatusNew());
 
       foreach ($statusNames as $s => $sname) {
-         if ($status_new != $s) {
+         if (Constants::$status_new != $s) {
             $this->statusList[$s] = new Status($s, $this->getDurationForStatus($s));
          }
       }
    }
 
    protected function getDurationForStatusNew() {
-      global $status_new;
-
       $current_date = time();
 
       // If status = 'new',
@@ -1034,12 +1029,12 @@ class Issue implements Comparable {
       // the end_date   is transition where old_value = status or current_date if status unchanged.
 
       // If status has not changed, then end_date is now.
-      if ($status_new == $this->currentStatus) {
+      if (Constants::$status_new == $this->currentStatus) {
          //echo "bug still in 'new' state<br/>";
          $time = $current_date - $this->dateSubmission;
       } else {
          // Bug has changed, search history for status changed
-         $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='$status_new'";
+         $query = "SELECT date_modified FROM `mantis_bug_history_table` WHERE bug_id=$this->bugId AND field_name = 'status' AND old_value='".Constants::$status_new."'";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1113,8 +1108,6 @@ class Issue implements Comparable {
     * @return bool True if equals
     */
    function compareTo($issueB) {
-      global $status_open;
-
       // if IssueB constrains IssueA, then IssueB is higher priority
       $AconstrainsList = $this->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
@@ -1130,11 +1123,11 @@ class Issue implements Comparable {
       }
 
       // Tasks currently open are higher priority
-      if (($this->currentStatus == $status_open) && ($issueB->currentStatus != $status_open)) {
+      if (($this->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
          self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
          return  true;
       }
-      if (($issueB->currentStatus == $status_open) && ($this->currentStatus != $status_open)) {
+      if (($issueB->currentStatus == Constants::$status_open) && ($this->currentStatus != Constants::$status_open)) {
          self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
          return  false;
       }
@@ -1197,8 +1190,6 @@ class Issue implements Comparable {
     * @return int 1 if $issueB is higher priority, -1 if $issueB is lower, 0 if equals
     */
    public static function compare(Comparable $issueA, Comparable $issueB) {
-      global $status_open;
-
       // if IssueB constrains IssueA, then IssueB is higher priority
       $AconstrainsList = $issueA->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
@@ -1213,10 +1204,10 @@ class Issue implements Comparable {
       }
 
       // Tasks currently open are higher priority
-      if (($issueB->currentStatus == $status_open) && ($issueA->currentStatus != $status_open)) {
+      if (($issueB->currentStatus == Constants::$status_open) && ($issueA->currentStatus != Constants::$status_open)) {
          self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
          return 1;
-      } else if (($issueA->currentStatus == $status_open) && ($issueB->currentStatus != $status_open)) {
+      } else if (($issueA->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
          self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
          return -1;
       }
@@ -1358,9 +1349,7 @@ class Issue implements Comparable {
     * @return int timestamp or NULL if not found
     */
    public function getFirstStatusOccurrence($status) {
-      global $status_new;
-
-      if ($status_new == $status) {
+      if (Constants::$status_new == $status) {
          return $this->dateSubmission;
       }
 
@@ -1392,9 +1381,7 @@ class Issue implements Comparable {
     * @return int timestamp or NULL if not found
     */
    public function getLatestStatusOccurrence($status) {
-      global $status_new;
-
-      if ($status_new == $status) {
+      if (Constants::$status_new == $status) {
          return $this->dateSubmission;
       }
 

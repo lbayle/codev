@@ -71,7 +71,6 @@ class Tools {
     * @return string
     */
    public static function mantisIssueURL($bugid, $title=NULL, $isIcon=false, $inNewTab=true) {
-      global $mantisURL;
       if (NULL==$title) { $title = "View Mantis Issue $bugid"; }
 
       $formatedTitle = str_replace("'", " ", $title);
@@ -80,9 +79,9 @@ class Tools {
       $target = (false == $inNewTab) ? "" : "target='_blank'";
 
       if (false == $isIcon) {
-         $url = "<a href='".$mantisURL."/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
+         $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' title='$formatedTitle' $target>$bugid</a>";
       } else {
-         $url = "<a href='".$mantisURL."/view.php?id=$bugid' $target><img title='$formatedTitle' align='absmiddle' src='$mantisURL/images/favicon.ico' /></a>";
+         $url = "<a href='".Constants::$mantisURL."/view.php?id=$bugid' $target><img title='$formatedTitle' align='absmiddle' src='".Constants::$mantisURL."/images/favicon.ico' /></a>";
       }
 
       return $url;

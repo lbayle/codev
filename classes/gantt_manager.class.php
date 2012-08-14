@@ -72,8 +72,6 @@ class GanttActivity {
    }
 
    public function getJPGraphBar($issueActivityMapping) {
-      global $statusNames;
-
       $user = UserCache::getInstance()->getUser($this->userid);
       $issue = IssueCache::getInstance()->getIssue($this->bugid);
 
@@ -85,7 +83,7 @@ class GanttActivity {
 
       $formatedActivityInfo = $user->getName();
       if ($issue->currentStatus < $issue->getBugResolvedStatusThreshold()) {
-         $formatedActivityInfo .= " (".$statusNames[$issue->currentStatus].")";
+         $formatedActivityInfo .= " (".Constants::$statusNames[$issue->currentStatus].")";
       }
 
       $bar = new GanttBar($this->activityIdx,
@@ -229,17 +227,14 @@ class GanttManager {
     * @param Issue[] $resolvedIssuesList
     */
    private function dispatchResolvedIssues(array $resolvedIssuesList) {
-      global $status_acknowledged;
-      global $status_closed;
-
       foreach ($resolvedIssuesList as $issue) {
-         $startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
+         $startDate = $issue->getFirstStatusOccurrence(Constants::$status_acknowledged);
          if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
 
          $endDate = $issue->getLatestStatusOccurrence($issue->getBugResolvedStatusThreshold());
          if (NULL == $endDate) {
             // TODO: no, $status_closed is not the only one ! check for all status > $bug_resolved_status_threshold
-            $endDate = $issue->getLatestStatusOccurrence($status_closed);
+            $endDate = $issue->getLatestStatusOccurrence(Constants::$status_closed);
          }
 
          $activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
@@ -354,9 +349,7 @@ class GanttManager {
     * @return int
     */
    private function findStartDate(Issue $issue, $backlogStartDate) {
-      global $status_new;
-
-      if ($status_new == $issue->currentStatus) {
+      if (Constants::$status_new == $issue->currentStatus) {
 
          // if status is new, we want the startDate to be the same as the endDate of previous activity.
          $startDate = $backlogStartDate;
@@ -364,7 +357,7 @@ class GanttManager {
          $query = "SELECT date_modified FROM `mantis_bug_history_table` ".
                   "WHERE bug_id=$issue->bugId ".
                   "AND field_name = 'status' ".
-                  "AND old_value=$status_new ORDER BY id DESC";
+                  "AND old_value=".Constants::$status_new." ORDER BY id DESC";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";

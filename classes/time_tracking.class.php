@@ -368,8 +368,6 @@ class TimeTracking {
     */
    public function getResolvedIssues() {
       if(NULL == $this->resolvedIssues) {
-         global $status_closed;
-
          $formatedProjList = implode( ', ', $this->prodProjectList);
 
          if ("" == $formatedProjList) {
@@ -400,7 +398,7 @@ class TimeTracking {
 
             // check if the bug has been reopened before endTimestamp
             $latestStatus = $issue->getStatus($this->endTimestamp);
-            if (($latestStatus == $issue->getBugResolvedStatusThreshold()) || ($latestStatus == $status_closed)) {
+            if (($latestStatus == $issue->getBugResolvedStatusThreshold()) || ($latestStatus == Constants::$status_closed)) {
 
                // remove duplicated values
                if (!in_array ($issue->bugId, $resolvedList)) {

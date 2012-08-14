@@ -18,7 +18,7 @@
 
 require_once('consistency_check.class.php');
 
-include_once('constants.php');
+require_once('constants.php');
 
 include_once('classes/config.class.php');
 include_once('classes/issue_cache.class.php');
@@ -47,8 +47,6 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
     * @return ConsistencyError[]
     */
    public function checkAnalyzed() {
-      global $status_open;
-
       // CoDev FDJ custom, defined in Mantis
       $status_analyzed  = Config::getVariableKeyFromValue(Config::id_statusNames, 'analyzed');
       $status_accepted  = Config::getVariableKeyFromValue(Config::id_statusNames, 'accepted');
@@ -61,7 +59,7 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
       // select all issues which current status is 'analyzed'
       $query = "SELECT * ".
                "FROM `mantis_bug_table` ".
-               "WHERE status in ($status_analyzed, $status_accepted, $status_open, $status_deferred) ";
+               "WHERE status in ($status_analyzed, $status_accepted, ".Constants::$status_open.", $status_deferred) ";
 
       if (0 != count($this->projectList)) {
          $formatedProjects = implode( ', ', array_keys($this->projectList));

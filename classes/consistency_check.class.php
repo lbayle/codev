@@ -16,7 +16,7 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('constants.php');
+require_once('constants.php');
 
 include_once('classes/issue_cache.class.php');
 include_once('classes/project_cache.class.php');
@@ -226,16 +226,13 @@ class ConsistencyCheck {
     * @return ConsistencyError[]
     */
    public function checkBadBacklog() {
-      global $status_new;
-      global $status_acknowledged;
-
       $min_backlog = 0;
 
       $cerrList = array();
 
       // select all issues which current status is 'analyzed'
       $query = "SELECT * FROM `mantis_bug_table` ".
-               "WHERE status NOT IN ($status_new, $status_acknowledged) ".
+               "WHERE status NOT IN (".Constants::$status_new.", ".Constants::$status_acknowledged.") ".
                "AND status < get_project_resolved_status_threshold(project_id) ";
 
       if (0 != count($this->projectList)) {
@@ -339,15 +336,12 @@ class ConsistencyCheck {
     * @return ConsistencyError[]
     */
    function checkTimeTracksOnNewIssues() {
-      global $status_new;
-      global $statusNames;
-
       $cerrList = array();
 
       // select all issues which current status is 'new'
       $query = "SELECT * ".
                "FROM `mantis_bug_table` ".
-               "WHERE status = $status_new ";
+               "WHERE status = ".Constants::$status_new." ";
 
       if (0 != count($this->projectList)) {
          $formatedProjects = implode( ', ', array_keys($this->projectList));
@@ -373,7 +367,7 @@ class ConsistencyCheck {
                $row->handler_id,
                $row->status,
                $row->last_updated,
-               T_("Status should not be")." '".$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
+               T_("Status should not be")." '".Constants::$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
             $cerr->severity = T_("Error");
 
             $cerrList[] = $cerr;

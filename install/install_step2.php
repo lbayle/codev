@@ -64,65 +64,93 @@ function createConstantsFile() {
    // create/overwrite file
    $fp = fopen(Install::FILENAME_CONSTANTS, 'w');
 
-   if (FALSE == $fp) {
+   if (!$fp) {
       return "ERROR creating file " . Install::FILENAME_CONSTANTS . " (current dir=" . getcwd() . ")";
    }
-
+   
    $stringData = "<?php\n";
-   $stringData .= "   // This file is part of CoDev-Timetracking.\n";
-   $stringData .= "  // - The Variables in here can be customized to your needs\n";
-   $stringData .= "  // - This file has been generated during install on " . date("D d M Y H:i") . "\n";
+   $stringData .= "// This file is part of CoDev-Timetracking.\n";
+   $stringData .= "// - The Variables in here can be customized to your needs\n";
+   $stringData .= "// - This file has been generated during install on " . date("D d M Y H:i") . "\n";
    $stringData .= "\n";
-   $stringData .= "  date_default_timezone_set('Europe/Paris');\n";
+   $stringData .= "include_once('classes/config.class.php');\n";
    $stringData .= "\n";
-   $stringData .= "  include_once \"classes/config.class.php\";\n";
+   $stringData .= "class Constants {\n";
    $stringData .= "\n";
-   $stringData .= "  \$codevInstall_timestamp = " . $today . ";\n";
+   $stringData .= "   public static \$codevInstall_timestamp;\n";
    $stringData .= "\n";
-   $stringData .= "  \$mantisURL=\"http://\".\$_SERVER['HTTP_HOST'].\"/mantis\";\n";
+   $stringData .= "   public static \$mantisURL;\n";
    $stringData .= "\n";
-   $stringData .= "  // --- log file as defined in log4php.xml\n";
-   $stringData .= "  \$codevtt_logfile = '/tmp/codevtt/logs/codevtt.log';\n";
+   $stringData .= "   // log file as defined in log4php.xml\n";
+   $stringData .= "   public static \$codevtt_logfile;\n";
    $stringData .= "\n";
-   $stringData .= "  \$homepage_title = 'Welcome';\n";
+   $stringData .= "   public static \$homepage_title;\n";
    $stringData .= "\n";
-   $stringData .= "  \$codevRootDir = dirname(__FILE__);\n";
+   $stringData .= "   public static \$codevRootDir;\n";
    $stringData .= "\n";
-   $stringData .= "  // --- RESOLUTION ---\n";
-   $stringData .= "  # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values\n";
-   $stringData .= "  # INFO: the values depend on what you defined in codev_config_table.resolutionNames\n";
-   $stringData .= "  \$resolution_fixed    = array_search('fixed',    Config::getInstance()->getValue(Config::id_resolutionNames));  # 20\n";
-   $stringData .= "  \$resolution_reopened = array_search('reopened', Config::getInstance()->getValue(Config::id_resolutionNames));  # 30;\n";
+   $stringData .= "   // --- RESOLUTION ---\n";
+   $stringData .= "   # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values\n";
+   $stringData .= "   # INFO: the values depend on what you defined in codev_config_table.resolutionNames\n";
+   $stringData .= "   public static \$resolution_fixed;\n";
+   $stringData .= "   public static \$resolution_reopened;\n";
    $stringData .= "\n";
 
-   $stringData .= "  // --- STATUS ---\n";
-   $stringData .= "  # WARNING: CodevTT uses some global variables for status.\n";
-   $stringData .= "  #          Some of these variables are used in the code, so if they are not defined\n";
-   $stringData .= "  #          in the mantis workflow, they need to be created. The mandatory variables are:\n";
-   $stringData .= "  #           \$status_new, \$status_feedback, \$status_acknowledged,\n";
-   $stringData .= "  #           \$status_open, \$status_closed\n";
+   $stringData .= "   // --- STATUS ---\n";
+   $stringData .= "   # WARNING: CodevTT uses some global variables for status.\n";
+   $stringData .= "   #          Some of these variables are used in the code, so if they are not defined\n";
+   $stringData .= "   #          in the mantis workflow, they need to be created. The mandatory variables are:\n";
+   $stringData .= "   #           \$status_new, \$status_feedback, \$status_acknowledged,\n";
+   $stringData .= "   #           \$status_open, \$status_closed\n";
    $stringData .= "\n";
-   $stringData .= "  \$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
+   $stringData .= "   public static \$statusNames;\n";
    $stringData .= "\n";
 
    $statusList = Config::getInstance()->getValue(Config::id_statusNames);
-   foreach ($statusList as $key => $s_name) {
+   foreach ($statusList as $s_name) {
       // TODO stringFormat s_name
-      $stringData .= "  \$status_" . $s_name . "       = array_search('" . $s_name . "', \$statusNames);\n";
+      $stringData .= "   public static \$status_".$s_name.";\n";
    }
 
-   $stringData .= "// TODO add equivalences for all mandatory status not present in workflow (see mantis 131)\n";
-   $stringData .= "// ex: \$status_open = \$status_assigned;\n";
-
+   $stringData .= "   // TODO add equivalences for all mandatory status not present in workflow (see mantis 131)\n";
+   $stringData .= "   // ex: \$status_open = \$status_assigned;\n";
+   
+   $stringData .= "\n";
+   $stringData .= "   public static function staticInit() {\n";
+   $stringData .= "\n";
+   $stringData .= "      self::\$codevInstall_timestamp = ".$today.";\n";
+   $stringData .= "\n";
+   $stringData .= "      self::\$mantisURL = 'http://'.\$_SERVER['HTTP_HOST'].'/mantis';\n";
+   $stringData .= "\n";
+   $stringData .= "      self::\$codevtt_logfile = '/tmp/codevtt/logs/codevtt.log';\n";
+   $stringData .= "\n";
+   $stringData .= "      self::\$homepage_title = 'Welcome';\n";
+   $stringData .= "\n";
+   $stringData .= "      self::\$codevRootDir = dirname(__FILE__);\n";
+   $stringData .= "\n";
+   $stringData .= "      self::\$resolution_fixed = array_search('fixed', Config::getInstance()->getValue(Config::id_resolutionNames));  # 20\n";
+   $stringData .= "      self::\$resolution_reopened = array_search('reopened', Config::getInstance()->getValue(Config::id_resolutionNames));  # 30;\n";
+   $stringData .= "\n";
+   $stringData .= "      self::\$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
+   $stringData .= "\n";
+   foreach ($statusList as $s_name) {
+      // TODO stringFormat s_name
+      $stringData .= "   self::\$status_".$s_name." = array_search('".$s_name."', self::\$statusNames);\n";
+   }
+   $stringData .= "\n";
+   $stringData .= "      date_default_timezone_set('Europe/Paris');\n";
+   $stringData .= "\n";
    // Constrains
+   $stringData .= "      # Custom Relationships\n";
+   $stringData .= "      define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', 2500 );\n";
+   $stringData .= "      define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS', 2501 );\n";
+   $stringData .= "   }\n";
    $stringData .= "\n";
-   $stringData .= "# Custom Relationships\n";
-   $stringData .= "define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY',       2500 );\n";
-   $stringData .= "define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',           2501 );\n";
-
-
+   $stringData .= "}\n";
    $stringData .= "\n";
-   $stringData .= "?>\n\n";
+   $stringData .= "Constants::staticInit();\n";
+   $stringData .= "\n";
+   
+   $stringData .= "?>\n";
    fwrite($fp, $stringData);
    fclose($fp);
 

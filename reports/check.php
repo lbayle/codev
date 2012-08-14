@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('constants.php');
-
 class CheckController extends Controller {
 
    /**
@@ -80,8 +78,6 @@ class CheckController extends Controller {
     * @return mixed[]
     */
    private function getTeamConsistencyErrors($teamid) {
-      global $statusNames;
-
       self::$logger->debug("getTeamConsistencyErrors teamid=$teamid");
 
       // get team projects
@@ -120,7 +116,7 @@ class CheckController extends Controller {
                'issueURL' => (NULL == $cerr->bugId) ? '' : Tools::issueInfoURL($cerr->bugId, $summary),
                'mantisURL' => (NULL == $cerr->bugId) ? '' : Tools::mantisIssueURL($cerr->bugId, $summary, true),
                'date' =>  (NULL == $cerr->timestamp) ? '' : date("Y-m-d", $cerr->timestamp),
-               'status' => (NULL == $cerr->status) ? '' : $statusNames[$cerr->status],
+               'status' => (NULL == $cerr->status) ? '' : Constants::$statusNames[$cerr->status],
                'severity' => $cerr->getLiteralSeverity(),
                'project' => $projName,
                'targetVersion' => $targetVersion,

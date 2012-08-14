@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
-include_once('constants.php');
-
 class ProjectInfoController extends Controller {
 
    /**
@@ -256,7 +254,6 @@ class ProjectInfoController extends Controller {
     * @return mixed[]
     */
    private function getVersionsIssues(array $projectVersionList) {
-      global $status_new;
       $versionsIssues = NULL;
       $totalElapsed = 0;
       $totalBacklog = 0;
@@ -272,7 +269,7 @@ class ProjectInfoController extends Controller {
          $formatedNewList = "";
          foreach ($pv->getIssueList() as $bugid => $issue) {
 
-            if ($status_new == $issue->currentStatus) {
+            if (Constants::$status_new == $issue->currentStatus) {
                if ("" != $formatedNewList) {
                   $formatedNewList .= ', ';
                }
