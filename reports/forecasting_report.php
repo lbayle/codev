@@ -22,6 +22,8 @@ require('../path.inc.php');
 
 require('include/super_header.inc.php');
 
+include_once('constants.php');
+
 class ForecastingReportController extends Controller {
 
    /**
@@ -77,7 +79,7 @@ class ForecastingReportController extends Controller {
                $this->smartyHelper->assign('manager', $isManager);
                $this->smartyHelper->assign('threshold', $threshold);
 
-               $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($teamid, $threshold, $withSupport = TRUE));
+               $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($teamid, $threshold));
 
                $this->smartyHelper->assign('issuesInDrift', $this->getIssuesInDrift($teamid, $withSupport));
 
@@ -122,7 +124,7 @@ class ForecastingReportController extends Controller {
     * @param bool $withSupport
     * @return mixed[]
     */
-   private function getCurrentDeviationStats($teamid, $threshold = 1, $withSupport = TRUE) {
+   private function getCurrentDeviationStats($teamid, $threshold = 1) {
       $issueList = TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList(TRUE, FALSE);
 
       if ((NULL == $issueList) || (0 == count($issueList))) {
@@ -133,8 +135,8 @@ class ForecastingReportController extends Controller {
       $issueSelection = new IssueSelection("current issues");
       $issueSelection->addIssueList($issueList);
 
-      $deviationGroups = $issueSelection->getDeviationGroups($threshold, $withSupport);
-      $deviationGroupsMgr = $issueSelection->getDeviationGroupsMgr($threshold, $withSupport);
+      $deviationGroups = $issueSelection->getDeviationGroups($threshold);
+      $deviationGroupsMgr = $issueSelection->getDeviationGroupsMgr($threshold);
 
       $currentDeviationStats = array();
 
@@ -176,7 +178,7 @@ class ForecastingReportController extends Controller {
     * @param bool $withSupport
     * @return mixed[]
     */
-   private function getIssuesInDrift($teamid, $withSupport = TRUE) {
+   private function getIssuesInDrift($teamid, $withSupport = true) {
       $team = TeamCache::getInstance()->getTeam($teamid);
       $mList = $team->getMembers();
       $projList = $team->getProjects();
