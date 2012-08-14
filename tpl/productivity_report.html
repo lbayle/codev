@@ -25,20 +25,7 @@
       </form>
    </div>
 
-   <script type="text/javascript">
-      jQuery(document).ready(function(){
-         jQuery.each(jQuery(".help_link"),function() {
-            jQuery(this).click(function() {
-               jQuery("#"+jQuery(this).attr("id").replace("_link","")).dialog( "open" );
-               return false;
-            });
-         });
-         jQuery(".help_dialog").dialog({
-            autoOpen: false,
-            hide: "fade"
-         });
-      });
-   </script>
+   <script type="text/javascript" src="js/helpdialog.js"></script>
 
    {include file="modal/consistency_check.html"}
 
