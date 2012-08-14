@@ -36,7 +36,7 @@ class ImportIssuesController extends Controller {
    public static function staticInit() {
       self::$logger = Logger::getLogger("import_issues");
    }
-
+   
    protected function display() {
       if (isset($_SESSION['userid'])) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
@@ -77,23 +77,16 @@ class ImportIssuesController extends Controller {
             $this->smartyHelper->assign('projectName', $proj->name);
          }
 
-         $action = Tools::getSecurePOSTStringValue('action', '');
-
-         #if ('' == $action) {
-         // first call to the page, display FileSelector
-
          $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
          $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false),$projectid));
-         #}
 
-         if ("uploadFile" == $action) {
+         if (isset($_POST['uploaded_csv'])) {
             $filename = $_FILES['uploaded_csv']['name'];
             $tmpFilename = $_FILES['uploaded_csv']['tmp_name'];
 
             $err_msg = NULL;
 
             if ($_FILES['uploaded_csv']['error']) {
-
                $err_id = $_FILES['uploaded_csv']['error'];
                switch ($err_id){
                   case 1:
