@@ -30,10 +30,9 @@ if (NULL == Logger::getConfigurationFile()) {
    $logger->trace("LOG activated !");
 }
 
-include_once "../colors.php";
+include_once('tools.php');
 
 // ================ MAIN =================
-
 $string = isset($_GET['text']) ? $_GET['text'] : NULL;
 $height = $_GET['height'];
 $width  = $_GET['width'];
@@ -42,7 +41,7 @@ $border = isset($_GET['border']) ? true : false;
 
 # color
 $logger->debug("color = <".$color.">");
-$rgb = html2rgb($color);
+$rgb = Tools::html2rgb($color);
 
 $logger->debug("color = <".$color."> ($rgb[0], $rgb[1], $rgb[2])");
 
@@ -51,7 +50,7 @@ $im = imagecreatetruecolor($width, $height);
 
 $bgColor = imagecolorallocate($im, $rgb[0], $rgb[1], $rgb[2]);
 
-if (true == $border) {
+if ($border) {
    $borderColor = imagecolorallocate($im, 0, 0, 0); // black
    imagefilledrectangle($im, 0, 0, $width, $height, $borderColor);
    imagefilledrectangle($im, 1, 1, ($width-2), ($height-2), $bgColor);
@@ -70,12 +69,13 @@ if ($string) {
 
    $textColor = imagecolorallocate($im, 0, 0, 0);
    if (imagefontwidth($font) * strlen($string) <= $width) {
-      $px     = (imagesx($im) - imagefontwidth($font) * strlen($string)) / 2;
-      $py     = (imagesy($im) - imagefontheight($font)) / 2;
+      $px = (imagesx($im) - imagefontwidth($font) * strlen($string)) / 2;
+      $py = (imagesy($im) - imagefontheight($font)) / 2;
       imagestring($im, $font, $px, $py, $string, $textColor);
    }
 }
 
 imagepng($im);
 imagedestroy($im);
+
 ?>
