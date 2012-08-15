@@ -37,6 +37,12 @@ $jqplotData example:
          async: false,
          cache: true
       });
+      jQuery.ajax({
+         url: "lib/jquery.jqplot/plugins/jqplot.highlighter.min.js",
+         dataType: "script",
+         async: false,
+         cache: true
+      });
 
       jQuery.jqplot.config.enablePlugins = false;
 
@@ -58,6 +64,10 @@ $jqplotData example:
          cursor: {
             show: true,
             style: "pointer"
+         },
+         highlighter: {
+            show: true,
+            showTooltip: false
          },
          axesDefaults: {
             useSeriesColor:true,
