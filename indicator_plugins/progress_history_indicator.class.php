@@ -176,7 +176,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
             self::$logger->error("Division by zero ! (mgrEffortEstim)");
          }
          if ($val1 > 1) {$val1 = 1;}
-         $theoBacklog[$midnight_timestamp] = round($val1 * 100, 2);
+         $theoBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val1 * 100, 2);
 
          // RAF reel
          $tmp = ($sumElapsed + $this->backlogData[$midnight_timestamp]);
@@ -187,7 +187,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
             $val2 = 0;
             self::$logger->error("Division by zero ! (elapsed + realBacklog)");
          }
-         $realBacklog[$midnight_timestamp] = round($val2 * 100, 2);
+         $realBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val2 * 100, 2);
 
          #echo "(".date('Y-m-d', $midnight_timestamp).")  rafTheo = $rafTheo sumElapsed = $sumElapsed theoBacklog = ".$theoBacklog[$midnight_timestamp]." realBacklog = ".$realBacklog[$midnight_timestamp].'<br>';
       }
@@ -197,52 +197,10 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       $this->execData['real'] = $realBacklog;
    }
 
-   public function getArtichowSmartyObject() {
-      $theoBacklog = $this->execData['theo'];
-      $realBacklog = $this->execData['real'];
-
-      $timestampList = array_keys($this->execData['real']);
-
-      $bottomLabel = array();
-      foreach ($timestampList as $timestamp) {
-         $bottomLabel[]   = Tools::formatDate("%d %b", $timestamp);
-      }
-
-      $strVal1 = implode(':', array_values($theoBacklog));
-      $strVal2 = implode(':', array_values($realBacklog));
-
-      #echo "strVal1 $strVal1<br>";
-      #echo "strVal2 $strVal2<br>";
-      $strBottomLabel = implode(':', $bottomLabel);
-
-      $smartyData = Tools::SmartUrlEncode('title='.T_('Progression').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('% Theoretical').'&x1='.$strVal1.'&leg2='.T_('% Real').'&x2='.$strVal2);
-
-      return $smartyData;
-   }
-
    public function getSmartyObject() {
       $theoBacklog = $this->execData['theo'];
       $realBacklog = $this->execData['real'];
-
-      $timestampList = array_keys($this->execData['real']);
-
-      foreach ($timestampList as $timestamp) {
-         $bottomLabel[]   = Tools::formatDate("%Y-%m-%d", $timestamp);
-      }
-      $theoStr = NULL;
-      $realStr = NULL;
-      foreach($theoBacklog as $timestamp => $val) {
-         if($theoStr != NULL) { $theoStr .= ','; }
-         $date = Tools::formatDate("%Y-%m-%d", $timestamp);
-         $theoStr .= '["'.$date.'", '.$val.']';
-
-         if($realStr != NULL) { $realStr .= ','; }
-         $realStr .= '["'.$date.'", '.$realBacklog[$timestamp].']';
-
-      }
-      $smartyData = '['.$theoStr.'],['.$realStr.']';
-
-      return $smartyData;
+      return Tools::array2plot($theoBacklog).','.Tools::array2plot($realBacklog);
    }
 
 }

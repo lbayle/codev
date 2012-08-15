@@ -379,29 +379,16 @@ class IssueInfoController extends Controller {
     * @return string
     */
    private function getBacklogGraph(Issue $issue, array $timestampList) {
-      $test = NULL;
-      if($timestampList != NULL && count($timestampList) > 0) {
-         $backlogList = array();
-         foreach ($timestampList as $timestamp) {
-            $backlog = $issue->getBacklog($timestamp);
-            if(!is_numeric($backlog)) {
-               $backlog = $issue->mgrEffortEstim;
-            }
-
-            $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = (NULL == $backlog) ? $issue->mgrEffortEstim : $backlog;
+      $backlogList = array();
+      foreach ($timestampList as $timestamp) {
+         $backlog = $issue->getBacklog($timestamp);
+         if(!is_numeric($backlog)) {
+            $backlog = $issue->mgrEffortEstim;
          }
-
-         $test = "";
-         foreach($backlogList as $id => $val) {
-            if($test != NULL) {
-               $test .= ',';
-            }
-            $test .= '["'.$id.'", '.$val.']';
-         }
-         $test = '['.$test.']';
+         $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = (NULL == $backlog) ? $issue->mgrEffortEstim : $backlog;
       }
 
-      return $test;
+      return Tools::array2plot($backlogList);
    }
 
 }

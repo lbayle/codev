@@ -58,7 +58,7 @@ class ForecastingReportController extends Controller {
             $this->smartyHelper->assign('teams', $teams);
 
             if (isset($_GET['teamid']) && array_key_exists($teamid, $teams)) {
-               $withSupport = true;
+               $withSupport = TRUE;
 
                $weekDates = Tools::week_dates(date('W'), date('Y'));
 
@@ -77,7 +77,7 @@ class ForecastingReportController extends Controller {
                $this->smartyHelper->assign('manager', $isManager);
                $this->smartyHelper->assign('threshold', $threshold);
 
-               $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($teamid, $threshold, $withSupport = true));
+               $this->smartyHelper->assign('currentDeviationStats', $this->getCurrentDeviationStats($teamid, $threshold, $withSupport = TRUE));
 
                $this->smartyHelper->assign('issuesInDrift', $this->getIssuesInDrift($teamid, $withSupport));
 
@@ -101,16 +101,8 @@ class ForecastingReportController extends Controller {
                $keys = array_keys($values);
                $start = $keys[0];
                $end = $keys[count($keys)-1];
-               $formattedValues = NULL;
-               foreach($values as $id => $value) {
-                  if($formattedValues != NULL) {
-                     $formattedValues .= ',';
-                  }
-                  $formattedValues .= '["'.$id.'", '.$value.']';
-               }
-               $formattedValues = '['.$formattedValues.']';
 
-               $this->smartyHelper->assign('jqplotData', $formattedValues);
+               $this->smartyHelper->assign('jqplotData', Tools::array2plot($values));
                $this->smartyHelper->assign('plotMinDate', $start);
                $this->smartyHelper->assign('plotMaxDate', $end);
                $this->smartyHelper->assign('jqplotTitle', "Available Workload");
@@ -130,8 +122,8 @@ class ForecastingReportController extends Controller {
     * @param bool $withSupport
     * @return mixed[]
     */
-   private function getCurrentDeviationStats($teamid, $threshold = 1, $withSupport = true) {
-      $issueList = TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList(true, false);
+   private function getCurrentDeviationStats($teamid, $threshold = 1, $withSupport = TRUE) {
+      $issueList = TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList(TRUE, FALSE);
 
       if ((NULL == $issueList) || (0 == count($issueList))) {
          self::$logger->info("getCurrentDeviationStats: No opened issues for team $teamid");
@@ -184,7 +176,7 @@ class ForecastingReportController extends Controller {
     * @param bool $withSupport
     * @return mixed[]
     */
-   private function getIssuesInDrift($teamid, $withSupport = true) {
+   private function getIssuesInDrift($teamid, $withSupport = TRUE) {
       $team = TeamCache::getInstance()->getTeam($teamid);
       $mList = $team->getMembers();
       $projList = $team->getProjects();

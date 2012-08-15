@@ -771,6 +771,25 @@ class Tools {
    }
 
    /**
+    * @static
+    * @param $values
+    * @return string
+    */
+   public static function array2plot($values) {
+      $formattedValues = NULL;
+      foreach ($values as $id => $value) {
+         if ($formattedValues != NULL) {
+            $formattedValues .= ',';
+         }
+         $formattedValues .= '["' . $id . '", ' . $value . ']';
+      }
+      if(NULL != $formattedValues) {
+         $formattedValues = '[' . $formattedValues . ']';
+      }
+      return $formattedValues;
+   }
+
+   /**
     * Convert the data in UTF-8 if it's in other encoding
     * @static
     * @param string $data The data to convert
