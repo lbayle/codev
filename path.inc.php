@@ -26,7 +26,6 @@ $codevPathSmarty = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR
 $codevPathOdtPhp = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'odtphp' . DIRECTORY_SEPARATOR . 'library';
 $codevPathTests = BASE_PATH . DIRECTORY_SEPARATOR . 'tests';
 $codevPathImport = BASE_PATH . DIRECTORY_SEPARATOR . 'import';
-$codevIndicators = BASE_PATH . DIRECTORY_SEPARATOR . 'indicator_plugins';
 
 $path = array(
    BASE_PATH,
@@ -38,7 +37,6 @@ $path = array(
    $codevPathOdtPhp,
    $codevPathTests,
    $codevPathImport,
-   $codevIndicators,
    get_include_path()
 );
 

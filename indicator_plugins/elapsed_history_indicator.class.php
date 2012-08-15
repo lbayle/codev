@@ -16,12 +16,6 @@
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('classes/indicator_plugin.interface.php');
-
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 /**
  * Description of ElapsedHistoryIndicator
  */

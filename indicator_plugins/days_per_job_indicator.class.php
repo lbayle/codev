@@ -16,15 +16,6 @@
    along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('classes/indicator_plugin.interface.php');
-
-include_once('classes/jobs.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/team_cache.class.php');
-include_once('classes/user_cache.class.php');
-
-require_once('lib/log4php/Logger.php');
-
 /**
  * Description of days_per_job
  */
