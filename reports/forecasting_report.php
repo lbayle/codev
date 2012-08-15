@@ -90,15 +90,34 @@ class ForecastingReportController extends Controller {
                   $start_year = date("Y");
                }
                $timeTrackingTable = $this->createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
-               $val1 = array();
-               $bottomLabel = array();
+               $values = array();
+               $legend = array();
                foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-                  $val1[] = $timeTracking->getAvailableWorkload();
-                  $bottomLabel[] = Tools::formatDate("%b %y", $startTimestamp);
-                  #$logger->debug("workload=$workload date=".formatDate("%b %y", $startTimestamp));
+                  $value = $timeTracking->getAvailableWorkload();
+                  $values[Tools::formatDate("%Y-%m-%d", $startTimestamp)] = $value;
+                  $legend[Tools::formatDate("%B %Y", $startTimestamp)] = $value;
                }
-               $this->smartyHelper->assign('graphUrl', $this->getGraphUrl(800, 300, $val1, $bottomLabel));
-               $this->smartyHelper->assign('dates', $this->getDates($timeTrackingTable, $val1));
+
+               $keys = array_keys($values);
+               $start = $keys[0];
+               $end = $keys[count($keys)-1];
+               $formattedValues = NULL;
+               foreach($values as $id => $value) {
+                  if($formattedValues != NULL) {
+                     $formattedValues .= ',';
+                  }
+                  $formattedValues .= '["'.$id.'", '.$value.']';
+               }
+               $formattedValues = '['.$formattedValues.']';
+
+               $this->smartyHelper->assign('jqplotData', $formattedValues);
+               $this->smartyHelper->assign('plotMinDate', $start);
+               $this->smartyHelper->assign('plotMaxDate', $end);
+               $this->smartyHelper->assign('jqplotTitle', "Available Workload");
+               $this->smartyHelper->assign('jqplotYaxisLabel', "man-days");
+               $this->smartyHelper->assign('plotInterval', "1 month");
+
+               $this->smartyHelper->assign('dates', $legend);
             }
          }
       }
@@ -203,39 +222,6 @@ class ForecastingReportController extends Controller {
          }
       }
       return $issueArray;
-   }
-
-   /**
-    * TODO factorize: this function also exists in statistics.php
-    * Display 'Available Workload'
-    * nb of days.: (holidays & externalTasks not included, developers only)
-    * @param int $width
-    * @param int $height
-    * @param number[] $legend
-    * @param string[] $bottomLabel
-    * @return string
-    */
-   private function getGraphUrl($width, $height, array $legend, array $bottomLabel) {
-      $title = 'title=' . T_("Available Workload");
-      $dimension = 'width=' . $width . '&height=' . $height;
-      $bottomLabel = 'bottomLabel=' . implode(':', $bottomLabel);
-      $legend = 'leg1=' . T_("man-days") . '&x1=' . implode(':', $legend);
-      return Tools::SmartUrlEncode('graphs/two_lines.php?displayPointLabels&' . $title . '&' . $dimension . '&' . $bottomLabel . '&' . $legend);
-   }
-
-   /**
-    * @param TimeTracking[] $timeTrackingTable
-    * @param int[] $val1
-    * @return int[]
-    */
-   private function getDates(array $timeTrackingTable, array $val1) {
-      $i = 0;
-      $availableWorkloadGraph = NULL;
-      foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-         $availableWorkloadGraph[Tools::formatDate("%B %Y", $startTimestamp)] = round($val1[$i], 1);
-         $i++;
-      }
-      return $availableWorkloadGraph;
    }
 
    /**

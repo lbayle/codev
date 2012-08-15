@@ -5,29 +5,43 @@ $jqplotData example:
 
 -->
 
-
-
 <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
-
-<script type="text/javascript" src="lib/jquery.jqplot/jquery.jqplot.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.cursor.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.trendline.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
-<script type="text/javascript" src="lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
 
-
 <script type="text/javascript">
-   jQuery(function() {
+   jQuery(document).ready(function() {
+
+      // Libs
+      jQuery.ajax({
+         url: "lib/jquery.jqplot/jquery.jqplot.min.js",
+         dataType: "script",
+         async: false,
+         cache: true
+      });
+      jQuery.ajax({
+         url: "lib/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js",
+         dataType: "script",
+         async: false,
+         cache: true
+      });
+      jQuery.ajax({
+         url: "lib/jquery.jqplot/plugins/jqplot.cursor.min.js",
+         dataType: "script",
+         async: false,
+         cache: true
+      });
+      jQuery.ajax({
+         url: "lib/jquery.jqplot/plugins/jqplot.pointLabels.min.js",
+         dataType: "script",
+         async: false,
+         cache: true
+      });
+
       jQuery.jqplot.config.enablePlugins = false;
 
-      jQuery('#chartdiv').jqplot([{$jqplotData}], {
-         title:'{t}{$jqplotTitle}{/t}',
+      jQuery('.date_line_plot').jqplot([{$jqplotData}], {
+         {if $jqplotTitle}title:'{t}{$jqplotTitle}{/t}',{/if}
          // animate: true,
          // animateReplot: true,
          legend: {
@@ -36,17 +50,14 @@ $jqplotData example:
          seriesDefaults: {
             pointLabels: {
                show:true
-            },
-            trendline:{
-               show:true
             }
          },
          series: [{
-            label: "{$jqplotYaxisLabel}"
+            label: "{t}{$jqplotYaxisLabel}{/t}"
          }],
          cursor: {
             show: true,
-            zoom: true
+            style: "pointer"
          },
          axesDefaults: {
             useSeriesColor:true,
@@ -57,16 +68,12 @@ $jqplotData example:
          axes: {
             xaxis: {
                renderer: jQuery.jqplot.DateAxisRenderer,
-               tickRenderer: jQuery.jqplot.CanvasAxisTickRenderer,
                tickOptions: {
-                  formatString: "%e %b",
-                  angle: -30,
-                  textColor: 'grey'
+                  formatString: "%b %Y"
                },
                min: "{$plotMinDate}",
                max: "{$plotMaxDate}",
-               tickInterval: "7 days",
-               drawMajorGridlines: false
+               tickInterval: "{$plotInterval}"
             },
             yaxis: {
                min: 0
@@ -76,4 +83,3 @@ $jqplotData example:
    });
 
 </script>
-<div id="chartdiv" class="chart"></div>
