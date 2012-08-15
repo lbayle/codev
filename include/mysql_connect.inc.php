@@ -19,7 +19,8 @@
 include_once('include/mysql_config.inc.php');
 include_once('classes/sqlwrapper.class.php');
 
-$connection = SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+$connection = SqlWrapper::createInstance(DatabaseInfo::$db_mantis_host, DatabaseInfo::$db_mantis_user,
+                                         DatabaseInfo::$db_mantis_pass, DatabaseInfo::$db_mantis_database);
 $connection->sql_query('SET CHARACTER SET utf8');
 $connection->sql_query('SET NAMES utf8');
 $bugtracker_link = $connection->getLink();

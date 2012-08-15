@@ -156,11 +156,17 @@ function createMysqlConfigFile($db_mantis_host = 'localhost',
       return "ERROR: creating file " . Install::FILENAME_MYSQL_CONFIG;
    } else {
       $stringData = "<?php\n";
-      $stringData .= "   // Mantis DB infomation.\n";
-      $stringData .= "   \$db_mantis_host      =  '$db_mantis_host';\n";
-      $stringData .= "   \$db_mantis_user      =  '$db_mantis_user';\n";
-      $stringData .= "   \$db_mantis_pass      =  '$db_mantis_pass';\n";
-      $stringData .= "   \$db_mantis_database  =  '$db_mantis_database';\n";
+      $stringData .= "\n";
+      $stringData .= "/**\n";
+      $stringData .= " * Mantis DB infomation.\n";
+      $stringData .= " */\n";
+      $stringData .= "class DatabaseInfo {\n";
+      $stringData .= "   public static \$db_mantis_host = '$db_mantis_host';\n";
+      $stringData .= "   public static \$db_mantis_user = '$db_mantis_user';\n";
+      $stringData .= "   public static \$db_mantis_pass = '$db_mantis_pass';\n";
+      $stringData .= "   public static \$db_mantis_database = '$db_mantis_database';\n";
+      $stringData .= "}\n";
+      $stringData .= "\n";
       $stringData .= "?>\n";
       if (!fwrite($fp, $stringData)) {
          fclose($fp);

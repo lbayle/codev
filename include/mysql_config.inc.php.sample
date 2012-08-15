@@ -1,9 +1,13 @@
 <?php
-   // This file is part of CoDev-Timetracking.
 
-   // Mantis DB infomation.
-   $db_mantis_host      =  'localhost';
-   $db_mantis_user      =  'codev';
-   $db_mantis_pass      =  '';
-   $db_mantis_database  =  'bugtracker';
+/**
+ * Mantis DB infomation.
+ */
+class DatabaseInfo {
+   public static $db_mantis_host = 'localhost';
+   public static $db_mantis_user = 'codev';
+   public static $db_mantis_pass = 'codev';
+   public static $db_mantis_database = 'bugtracker';
+}
+
 ?>

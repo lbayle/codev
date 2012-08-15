@@ -501,12 +501,7 @@ class Tools {
     * @return int 0 if Success
     */
    public static function execSQLscript2($sqlFile) {
-      global $db_mantis_host;
-      global $db_mantis_user;
-      global $db_mantis_pass;
-      global $db_mantis_database;
-
-      $command = "mysql --host=$db_mantis_host --user=$db_mantis_user --password=$db_mantis_pass  $db_mantis_database < $sqlFile";
+      $command = "mysql --host=".DatabaseInfo::$db_mantis_host." --user=".DatabaseInfo::$db_mantis_user." --password=".DatabaseInfo::$db_mantis_pass."  ".DatabaseInfo::$db_mantis_database." < ".$sqlFile;
 
       #$status = system($command, $retCode);
       $status = exec($command, $output, $retCode);
