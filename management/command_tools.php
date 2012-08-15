@@ -71,7 +71,7 @@ class CommandTools {
     * @param Command $command
     * @return mixed[]
     */
-   function getServiceContractStateList(Command $command = NULL) {
+   private static function getServiceContractStateList(Command $command = NULL) {
       $cmdState = (NULL == $command) ? 0 : $command->getState();
       return SmartyTools::getSmartyArray(Command::$stateNames, $cmdState);
    }
