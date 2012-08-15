@@ -138,7 +138,7 @@ This opens a popup window displaying an issue list.
       <form id="formSendSelectIssues" name="formSendSelectIssues" method="post" action="{$page}" >
          <fieldset>
             <input type="hidden" name="action" value="{$sendSelectIssuesActionName}" />
-            <input type="hidden" name="cmdid"  value="{$commandid}" />
+            <input type="hidden" name="cmdid" value="{$commandid}" />
             <input type="hidden" name="teamid" value="{$teamid}" />
             <input type="hidden" name="bugid_list" value="" />
          </fieldset>
@@ -148,7 +148,7 @@ This opens a popup window displaying an issue list.
 
 <!-- Confirm DialogBox -->
 <div id="confirmSendSelectIssues_dialog_form" title="{$selectIssuesBoxTitle}" class="ui-helper-hidden">
-   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+   <p><span class="ui-icon ui-icon-alert left" style="margin:0 7px 20px 0;"></span>
       {$selectIssuesConfirmMsg}
    </p>
 </div>
