@@ -28,7 +28,7 @@ ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
    <a title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" href="#" style="text-decoration: none; font:bold 14px Arial; background:red; color:white; border:solid 1px red;">&nbsp;{$ccheckButtonTitle}&nbsp;</a>
 </div>
    
-<div id="dialog_ConsistencyCheck" title="{$ccheckBoxTitle}" style="display: none">
+<div id="dialog_ConsistencyCheck" title="{$ccheckBoxTitle}" class="ui-helper-hidden">
    <div align='left'>
       <table class='invisible'>
       {foreach from=$ccheckErrList key=id item=i}

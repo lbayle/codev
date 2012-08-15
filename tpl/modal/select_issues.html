@@ -98,7 +98,7 @@ This opens a popup window displaying an issue list.
    <button id="dialog_selectIssues_link" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_browse.png"> {t}Browse...{/t}</button>
 </div>
 
-<div id="dialog_selectIssues" title="{$selectIssuesBoxTitle}" style="display: none">
+<div id="dialog_selectIssues" title="{$selectIssuesBoxTitle}" class="ui-helper-hidden">
 
    <label class="help_font">{$selectIssuesBoxDesc}</label>
    <br /><br />
@@ -147,7 +147,7 @@ This opens a popup window displaying an issue list.
 </div>
 
 <!-- Confirm DialogBox -->
-<div id="confirmSendSelectIssues_dialog_form" title="{$selectIssuesBoxTitle}" style="display: none">
+<div id="confirmSendSelectIssues_dialog_form" title="{$selectIssuesBoxTitle}" class="ui-helper-hidden">
    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
       {$selectIssuesConfirmMsg}
    </p>

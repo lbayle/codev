@@ -89,7 +89,7 @@
          {/foreach}
       </table>
 
-      <form id="deleteJobForm" name="deleteJobForm" method="post" action="{$page}" style="display: none;">
+      <form id="deleteJobForm" name="deleteJobForm" method="post" action="{$page}" class="ui-helper-hidden">
          <fieldset>
             <input type="hidden" name="job_id" value="0" />
          </fieldset>
@@ -187,7 +187,7 @@
          {/foreach}
       </table>
 
-      <form id="deleteJobProjectAssociationForm" name="deleteJobProjectAssociationForm" method="post" action="{$page}" style="display: none;">
+      <form id="deleteJobProjectAssociationForm" name="deleteJobProjectAssociationForm" method="post" action="{$page}" class="ui-helper-hidden">
          <fieldset>
             <input type="hidden" name="asso_id" value="0" />
          </fieldset>

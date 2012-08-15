@@ -95,7 +95,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
 */
    echo "</div>\n";
 
-   echo "<div class=\"spacer\"> </div>\n";
+   echo "<div class=\"ui-helper-clearfix\"> </div>\n";
 
 
 

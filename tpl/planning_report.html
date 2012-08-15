@@ -85,7 +85,7 @@
       <a title="{t}Click to show errors{/t}" id="dialog_ConsistencyCheck_link" href="{$page}" style="text-decoration: none; font:bold 14px Arial; background:red; color:white; border:solid 1px red;">&nbsp;{$consistencyErrors|count} {t}Errors{/t}&nbsp;</a>
    </div>
 
-   <div align="left" id="dialog_ConsistencyCheck" title="{$consistencyErrors|count} {t}Errors{/t}" style="display: none">
+   <div align="left" id="dialog_ConsistencyCheck" title="{$consistencyErrors|count} {t}Errors{/t}" class="ui-helper-hidden">
       <table class="invisible">
          {foreach from=$consistencyErrors key=id item=i}
          <tr>
@@ -185,8 +185,8 @@
 
       {foreach from=$i.deadlines.deadline key=id1 item=j}
          <!-- tooltip element -->
-         <div class="tooltip" id="tooltip_deadline_{$j.user}_{$j.date}"
-              style="display:none;height:95px;padding:30px 30px 10px 30px;width:310px;font-size:11px;color:#000;
+         <div class="toolti ui-helper-hidden" id="tooltip_deadline_{$j.user}_{$j.date}"
+              style="height:95px;padding:30px 30px 10px 30px;width:310px;font-size:11px;color:#000;
               background:url({$j.imgUrl});">
          <table style="margin:0;border:0">
             <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Date{/t}</td><td style="background-color:transparent;">{$j.date}</td></tr>
@@ -198,8 +198,8 @@
 
       {foreach from=$i.userSchedule.scheduledTasks key=id1 item=j}
          <!-- tooltip element -->
-         <div class="tooltip" id="tooltip_{$j.user}_{$j.bugid}"
-              style="display:none;height:163px;padding:30px 30px 10px 30px;width:310px;font-size:11px;color:#000;
+         <div class="tooltip ui-helper-hidden" id="tooltip_{$j.user}_{$j.bugid}"
+              style="height:163px;padding:30px 30px 10px 30px;width:310px;font-size:11px;color:#000;
               background:url({$j.imgUrl});">
          <table style="margin:0;border:0">
             <tr><td class="label" style="background-color:transparent;color:blue;width:35px;">{t}Task{/t}</td><td style="background-color:transparent;">{$j.bugid}</td></tr>

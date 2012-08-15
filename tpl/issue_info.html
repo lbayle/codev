@@ -198,7 +198,7 @@
                });
             });
          </script>
-         <div id="update_backlog_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if $issueGeneralInfo.issueTcId} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Backlog{/t}" style="display: none">
+         <div id="update_backlog_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if $issueGeneralInfo.issueTcId} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Backlog{/t}" class="ui-helper-hidden">
             <p id="validateTips">{$issueGeneralInfo.issueSummary}</p>
             <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="smarty_tools_ajax.php" >
                <fieldset>
@@ -252,7 +252,7 @@
                </tr>
             </table>
          </div>
-         <div class="spacer"></div>
+         <div class="ui-helper-clearfix"></div>
       </div>
 
       <div id="tabsName-2">

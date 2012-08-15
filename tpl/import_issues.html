@@ -22,7 +22,7 @@
       });
    </script>
 
-   <div id="dialog_uploadCSV" class="help_dialog" title="{t}Import Mantis Issues{/t}" style="display: none">
+   <div id="dialog_uploadCSV" class="help_dialog" title="{t}Import Mantis Issues{/t}" class="ui-helper-hidden">
       <p><strong>{t}File Format{/t}</strong><br />{t}Standard CSV format with :{/t}<br>
                  {t}delimiter{/t} = <span style="color:blue">;</span><br>
                  {t}enclosure{/t} = <span style="color:blue">"</span><br>
@@ -468,7 +468,7 @@
          </tbody>
       </table>
 
-      <div style='display:none'>
+      <div class="ui-helper-hidden">
          <table id="issues_data">
             <tbody>
                {foreach from=$newIssues key=id item=i}

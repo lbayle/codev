@@ -81,7 +81,7 @@
          <br><br><span class="error_font">{t}WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing.{/t}</span><br/>
          {/if}
 
-         <div {if !$isCreateSTProj}style="display:none;"{/if}>
+         <div {if !$isCreateSTProj}class="ui-helper-hidden"{/if}>
             <ul>
                <li><label><strong>{t}Project Name{/t}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input size="30" value="{$stproj_name}" type="text" name="stproj_name" id="stproj_name" /> <span style="color:red">*</span></label><br/><br/></li>
                <li><strong>{t}Categories{/t}</strong><br/>

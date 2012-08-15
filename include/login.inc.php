@@ -146,7 +146,7 @@ if (isset($_SESSION['userid'])) {
             });
         });
 </script>
-<div id="login_container" style="display:none">
+<div id="login_container" class="ui-helper-hidden">
     <form action="../login.php" method="post" name="login_form" id="login_form" target="save_login">
         <fieldset>
             <label><?php echo T_("Login") ?>: </label><br /><input name="codev_login" type="text" id="codev_login" /><br /><br />
@@ -155,12 +155,12 @@ if (isset($_SESSION['userid'])) {
         </fieldset>
     </form>
     <p id="validateTips"></p>
-    <div id="login_success" style="display:none;text-align:center;">
+    <div id="login_success" class="ui-helper-hidden" style="text-align:center;">
         <img src="../images/loader-bar.gif" width="220" height="19" alt="Redirection" /><br/>
         <p style="margin-top:1em;">Please wait...</p>
     </div>
     <!-- Hack to enable the Browsers' Save Passwords method to work -->
-    <iframe name="save_login" style="display: none"></iframe>
+    <iframe name="save_login" class="ui-helper-hidden"></iframe>
 </div>
 
 <?php

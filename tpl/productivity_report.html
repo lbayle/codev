@@ -58,7 +58,7 @@
          <!-- Production days -->
          {if $timeTracking}
          <div>
-            <div id="dialog_ProdDays" class="help_dialog" title="{t}Production days{/t}" style="display: none">
+            <div id="dialog_ProdDays" class="help_dialog" title="{t}Production days{/t}" class="ui-helper-hidden">
                <p><strong>{t}Projects{/t}</strong><br />{t}Days spent on the projects during the period (team members only){/t}</p>
                <p><strong>{t}SideTasks: Project Management{/t}</strong><br />{t}Days spent on project management tasks{/t}<br /></p>
                <p><strong>{t}SideTasks: Others{/t}</strong><br />{t}Days spent on sideTasks, except project management and inactivity tasks{/t}<br /></p>
@@ -88,7 +88,7 @@
                </tr>
             </table>
             {if $productionDaysUrl}<img width="800px" height="300px" src="graphs/pie_graph.php?size=800:300&{$productionDaysUrl}" alt="{t}Production Days{/t}" />{/if}
-            <div class="spacer"></div>
+            <div class="ui-helper-clearfix"></div>
          </div>
          {else}
          {t}Not available.{/t}
@@ -112,7 +112,7 @@
                {/foreach}
             </table>
             {if $workingDaysPerJobUrl}<img width="800px" height="300px" src="graphs/pie_graph.php?size=800:300&{$workingDaysPerJobUrl}" alt="{t}Load per Job{/t}" />{/if}
-            <div class="spacer"></div>
+            <div class="ui-helper-clearfix"></div>
          </div>
          {else}
          {t}Not available.{/t}
@@ -190,7 +190,7 @@
                {/foreach}
             </table>
             {if $workingDaysPerProjectUrl}<img width="700px" height="300px" src="graphs/pie_graph.php?size=700:300&{$workingDaysPerProjectUrl}" alt="{t}Load per Project{/t}"/>{/if}
-            <div class="spacer"></div>
+            <div class="ui-helper-clearfix"></div>
          </div>
          {else}
          {t}Not available.{/t}
@@ -200,14 +200,14 @@
          <!-- Productivity indicators -->
          {if $timeTracking}
          <div>
-            <div id="dialog_AvailWorkload" class="help_dialog" title="{t}Available Workload{/t}" style="display: none">
+            <div id="dialog_AvailWorkload" class="help_dialog ui-helper-hidden" title="{t}Available Workload{/t}">
                <p>{t}Workload Forecasting (holidays & externalTasks not included, developers only){/t}</p>
             </div>
-            <div id="dialog_EfficiencyRate" class="help_dialog" title="{t}Efficiency Rate{/t}" style="display: none">
+            <div id="dialog_EfficiencyRate" class="help_dialog ui-helper-hidden" title="{t}Efficiency Rate{/t}">
                <p>{t}Development workload (developers only){/t}</p>
                <p><strong>{t}Formula{/t}:</strong><br />{t}ProjProdDays{/t} / {t}TotalProdDays{/t} * 100</p>
             </div>
-            <div id="dialog_SystemAvailability" class="help_dialog" title="{t}System Availability{/t}" style="display: none">
+            <div id="dialog_SystemAvailability" class="help_dialog ui-helper-hidden" title="{t}System Availability{/t}">
                <p>{t}Platform Availability{/t}</p>
                <p><strong>{t}Formula{/t}:</strong><br />100 - (({t}breakdownDays{/t} / {t}prodDays{/t})*100)</p>
             </div>
@@ -273,7 +273,7 @@
          <!-- Effort Deviation -->
          {if $resolvedDeviationStats || $resolvedIssuesInDrift}
          <div>
-            <div id="dialog_ResolvedDriftStats" class="help_dialog" title="{t}Effort Deviation{/t}" style="display: none">
+            <div id="dialog_ResolvedDriftStats" class="help_dialog ui-helper-hidden" title="{t}Effort Deviation{/t}">
                <p><strong>{t}Effort Deviation{/t}:</strong><br />{t}Overflow day quantity{/t}<br/>
                   - {t}Computed on task Resolved/Closed in the given period{/t}<br/>
                   - {t}Reopened tasks are not taken into account{/t}<br/>

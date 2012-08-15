@@ -374,7 +374,7 @@
          });
       });
    </script>
-   <div id="setfilter_dialog_form" title="{t}Task Filters{/t}" style="display: none">
+   <div id="setfilter_dialog_form" title="{t}Task Filters{/t}" class="ui-helper-hidden">
       <p id="setfilter_desc">{t}Reduce the tasks selection by setting some filters{/t}</p>
       <form id="formSetFilters" name="formSetFilters" method="post" action="{$page}" >
          <fieldset>
@@ -477,7 +477,7 @@
 
       });
    </script>
-   <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" style="display: none">
+   <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
       <p id="validateTips">Set new value</p>
       <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="timetracking/time_tracking_ajax.php" >
          <fieldset>
@@ -511,7 +511,7 @@
          });
       });
    </script>
-   <div id="deleteTrack_dialog_form" title="{t}Delete track{/t}" style="display: none">
+   <div id="deleteTrack_dialog_form" title="{t}Delete track{/t}" class="ui-helper-hidden">
       <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>{t}Deleted the following timetrack ?{/t}</p>
       <table class="invisible">
          <tr>

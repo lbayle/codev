@@ -75,7 +75,7 @@
     });
 </script>
 
-<div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" style="display: none">
+<div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
     <p id="desc_summary"></p>
     <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
         <fieldset>
@@ -86,7 +86,7 @@
             <input type="hidden" name="action" value="updateBacklogAction" />
        </fieldset>
     </form>
-    <p id="validateTips" style="display: none; border: 1px solid transparent; padding: 0.3em;"></p>
+    <p id="validateTips" class="ui-helper-hidden" style="border: 1px solid transparent; padding: 0.3em;"></p>
 </div>
 
 {if $ie}
