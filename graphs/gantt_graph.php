@@ -1,4 +1,5 @@
 <?php
+require('../include/session.inc.php');
 # WARNING: Never ever put an 'echo' in this file, the graph won't be displayed !
 
 /*
@@ -18,54 +19,123 @@
    along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-# WARN: this avoids the display of some PHP errors...
-#error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+require('../path.inc.php');
 
-# NOTE: header.inc.php is not loaded, so some config must be done.
-error_reporting(0); // no logs displayed in page (page is a generated image)
-date_default_timezone_set('Europe/Paris');
+require('include/super_header.inc.php');
 
-require_once('../path.inc.php');
-require_once('lib/log4php/Logger.php');
-if (NULL == Logger::getConfigurationFile()) {
-   Logger::configure(dirname(__FILE__).'/../log4php.xml');
-   $logger = Logger::getLogger("gantt_graph");
-   //$logger->debug("LOG activated !");
+require('i18n/i18n.inc.php');
+
+require('constants.php');
+
+$logger = Logger::getLogger('gantt_graph');
+
+/**
+ * @param int $teamid
+ * @param int $startTimestamp
+ * @param int $endTimestamp
+ * @param int[] $projectIds
+ * @return GanttGraph
+ */
+function getGanttGraph($teamid, $startTimestamp, $endTimestamp, array $projectIds) {
+   global $logger;
+
+   $graph = new GanttGraph();
+
+   // set graph title
+   $team = TeamCache::getInstance()->getTeam($teamid);
+   if ( (NULL != $projectIds) && (0 != sizeof($projectIds))) {
+      $pnameList = "";
+      foreach ($projectIds as $pid) {
+         if ("" != $pnameList) { $pnameList .=","; }
+         $project = ProjectCache::getInstance()->getProject($pid);
+         $pnameList .= $project->name;
+      }
+      $graph->title->Set(T_('Team').' '.$team->name.'    '.T_('Project(s)').': '.$pnameList);
+   } else {
+      $graph->title->Set(T_('Team').' '.$team->name.'    ('.T_('All projects').')');
+   }
+
+   // Setup scale
+   $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
+   $graph->scale->week->SetStyle(WEEKSTYLE_FIRSTDAYWNBR);
+
+   $gantManager = new GanttManager($teamid, $startTimestamp, $endTimestamp);
+
+   $teamActivities = $gantManager->getTeamActivities();
+
+   // mapping to ease constrains building
+   $issueActivityMapping = array();
+
+   // set activityIdx
+   $activityIdx = 0;
+
+   // Add the specified activities
+   foreach($teamActivities as $a) {
+      $a->setActivityIdx($activityIdx);
+
+      // FILTER on projects
+      if ((NULL != $projectIds) && (0 != sizeof($projectIds))) {
+         $issue = IssueCache::getInstance()->getIssue($a->bugid);
+         if (!in_array($issue->projectId, $projectIds)) {
+            // skip activity indexing
+            continue;
+         }
+      }
+
+      $issueActivityMapping[$a->bugid] = $activityIdx;
+      $filterTeamActivities[] = $a;
+      ++$activityIdx;
+
+      // Shorten bar depending on gantt startDate
+      if (NULL != $startTimestamp && $a->startTimestamp < $startTimestamp) {
+         // leave one day to insert prefixBar
+         $newStartTimestamp = $startTimestamp + (60*60*24);
+
+         if ($newStartTimestamp > $a->endTimestamp) {
+            // there is not enough space for a prefixBar
+            $newStartTimestamp = $startTimestamp;
+            $logger->debug("bugid=".$a->bugid.": Shorten bar to Gantt start date");
+         } else {
+            $formattedStartDate = date('Y-m-d', $startTimestamp);
+            $prefixBar = new GanttBar($a->activityIdx, "", $formattedStartDate, $formattedStartDate, "", 10);
+            $prefixBar->SetBreakStyle(true,'dotted',1);
+            $graph->Add($prefixBar);
+            $logger->debug("bugid=".$a->bugid.": Shorten bar & add prefixBar");
+         }
+         $logger->debug("bugid=".$a->bugid.": Shorten bar from ".date('Y-m-d', $a->startTimestamp)." to ".date('Y-m-d', $newStartTimestamp));
+         $a->startTimestamp = $newStartTimestamp;
+      }
+
+      $bar = $a->getJPGraphBar($issueActivityMapping);
+      $graph->Add($bar);
+   }
+   return $graph;
 }
 
-include_once ('tools.php');
+// ========== MAIN ===========
+if (isset($_SESSION['userid'])) {
+   $teamid = Tools::getSecureGETIntValue('teamid');
+   $startTimestamp = Tools::getSecureGETStringValue('startT');
+   $endTimestamp = Tools::getSecureGETStringValue('endT');
+   $projectIds = Tools::getSecureGETIntValue('projects', 0);
+   if(0 != $projectIds) {
+      $projectIds = explode(':', $projectIds);
+      $logger->debug("team <$teamid> projects = <$projectIds>");
+   } else {
+      $logger->debug("team <$teamid> display all projects");
+      $projectIds = NULL;
+   }
 
-require_once ('lib/jpgraph/src/jpgraph.php');
-require_once ('lib/jpgraph/src/jpgraph_gantt.php');
+   // INFO: the following 1 line are MANDATORY and fix the following error:
+   // “The image <name> cannot be displayed because it contains errors”
+   ob_end_clean();
 
-require_once ('gantt_manager.class.php');
+   $graph = getGanttGraph($teamid, $startTimestamp, $endTimestamp, $projectIds);
 
-# ###########################"
-$teamid = Tools::getSecureGETIntValue('teamid');
-$startT = Tools::getSecureGETStringValue('startT');
-$endT = Tools::getSecureGETStringValue('endT');
-$projects = Tools::getSecureGETIntValue('projects', 0);
-if(0 != $projects) {
-   $projectList = explode(':', $projects);
-   $logger->debug("team <$teamid> projects = <$projects>");
-} else {
-   $logger->debug("team <$teamid> display all projects");
-   $projectList = NULL;
+   // display graph
+   $graph->Stroke();
+
+   SqlWrapper::getInstance()->logStats();
 }
-
-$gantManager = new GanttManager($teamid, $startT, $endT);
-if (NULL != $projectList) {
-   $gantManager->setProjectFilter($projectList);
-}
-$graph = $gantManager->getGanttGraph();
-
-// INFO: the following 1 line are MANDATORY and fix the following error:
-// “The image <name> cannot be displayed because it contains errors”
-ob_end_clean();
-
-// display graph
-$graph->Stroke();
-
-SqlWrapper::getInstance()->logStats();
 
 ?>

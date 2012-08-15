@@ -16,28 +16,6 @@
    along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('../path.inc.php');
-
-require_once('include/mysql_config.inc.php');
-require_once('include/mysql_connect.inc.php');
-require_once('constants.php');
-
-require_once('i18n/i18n.inc.php');
-
-include_once('classes/issue_cache.class.php');
-include_once('classes/project.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/team_cache.class.php');
-include_once('classes/time_tracking.class.php');
-include_once('classes/user_cache.class.php');
-
-require_once('tools.php');
-
-require_once ('lib/jpgraph/src/jpgraph.php');
-require_once ('lib/jpgraph/src/jpgraph_gantt.php');
-
-require_once('lib/log4php/Logger.php');
-
 class GanttActivity {
 
    /**
@@ -193,8 +171,6 @@ class GanttManager {
    private $startTimestamp;
    private $endTimestamp;
 
-   private $projectList; // (array) filter on specific projects
-
    /**
     * @param int $teamId
     * @param int $startT  start timestamp. if NULL, then now
@@ -212,27 +188,14 @@ class GanttManager {
    }
 
    /**
-    * set a list of projects that will be displayed
-    * @param int[] $projList
-    */
-   public function setProjectFilter(array $projList) {
-      $this->projectList = $projList;
-   }
-
-   /**
     * get tasks resolved in the period
     * @return Issue[]
     */
    private function getResolvedIssues() {
-
       $tt = new TimeTracking($this->startTimestamp, $this->endTimestamp, $this->teamid);
       $resolvedIssuesList = $tt->getResolvedIssues();
-
-      $sortedList = Tools::qsort($resolvedIssuesList);
-
-      return $sortedList;
+      return Tools::qsort($resolvedIssuesList);
       #return $resolvedIssuesList;
-
    }
 
    /**
@@ -240,7 +203,6 @@ class GanttManager {
     * @return Issue[]
     */
    private function getCurrentIssues() {
-
       $teamIssueList = array();
 
       $team = TeamCache::getInstance()->getTeam($this->teamid);
@@ -259,9 +221,7 @@ class GanttManager {
       }
 
       // quickSort the list
-      $sortedList = Tools::qsort($teamIssueList);
-
-      return $sortedList;
+      return Tools::qsort($teamIssueList);
    }
 
    /**
@@ -273,7 +233,6 @@ class GanttManager {
       global $status_closed;
 
       foreach ($resolvedIssuesList as $issue) {
-
          $startDate = $issue->getFirstStatusOccurrence($status_acknowledged);
          if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
 
@@ -292,7 +251,6 @@ class GanttManager {
 
          self::$logger->debug("add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)\n");
       }
-
    }
 
    /**
@@ -496,101 +454,7 @@ class GanttManager {
 
       }
 
-      $sortedList = Tools::qsort($mergedActivities);
-
-      return $sortedList;
-   }
-
-   /**
-    * @return GanttGraph
-    */
-   public function getGanttGraph() {
-      // mapping to ease constrains building
-      $issueActivityMapping = array();
-
-      $teamActivities = $this->getTeamActivities();
-
-      // set activityIdx
-      $activityIdx = 0;
-      foreach($teamActivities as $a) {
-         $a->setActivityIdx($activityIdx);
-
-         // FILTER on projects
-         if ( (NULL != $this->projectList) && (0 != sizeof($this->projectList))) {
-            $issue = IssueCache::getInstance()->getIssue($a->bugid);
-            if (!in_array($issue->projectId, $this->projectList)) {
-               // skip activity indexing
-               continue;
-            }
-         }
-
-         $issueActivityMapping[$a->bugid] = $activityIdx;
-         ++$activityIdx;
-      }
-
-      $graph = new GanttGraph();
-
-      // set graph title
-      $team = TeamCache::getInstance()->getTeam($this->teamid);
-      if ( (NULL != $this->projectList) && (0 != sizeof($this->projectList))) {
-         $pnameList = "";
-         foreach ($this->projectList as $pid) {
-            if ("" != $pnameList) { $pnameList .=","; }
-            $project = ProjectCache::getInstance()->getProject($pid);
-            $pnameList .= $project->name;
-         }
-         $graph->title->Set(T_('Team').' '.$team->name.'    '.T_('Project(s)').': '.$pnameList);
-      } else {
-         $graph->title->Set(T_('Team').' '.$team->name.'    ('.T_('All projects').')');
-      }
-
-      // Setup scale
-      $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
-      $graph->scale->week->SetStyle(WEEKSTYLE_FIRSTDAYWNBR);
-
-      // Add the specified activities
-      foreach($teamActivities as $a) {
-         // FILTER on projects
-         if ( (NULL != $this->projectList) && (0 != sizeof($this->projectList))) {
-            $issue = IssueCache::getInstance()->getIssue($a->bugid);
-            if (!in_array($issue->projectId, $this->projectList)) {
-               // skip display of this activity
-               self::$logger->trace("ProjectFilter: bugid=".$a->bugid." (proj=$issue->projectId) is not in projectList (".implode( ':', $this->projectList ).")");
-               continue;
-            }
-         }
-
-         // Shorten bar depending on gantt startDate
-         if ((NULL != $this->startTimestamp) &&
-            ($a->startTimestamp < $this->startTimestamp)) {
-
-            // leave one day to insert prefixBar
-            $newStartTimestamp = $this->startTimestamp + (60*60*24);
-
-            if ($newStartTimestamp > $a->endTimestamp) {
-               // there is not enough space for a prefixBar
-               $newStartTimestamp = $this->startTimestamp;
-               self::$logger->debug("bugid=".$a->bugid.": Shorten bar to Gantt start date");
-            } else {
-               $prefixBar = new GanttBar($a->activityIdx,
-                  "",
-                  date('Y-m-d', $this->startTimestamp),
-                  date('Y-m-d', $this->startTimestamp),
-                  "",10);
-               $prefixBar->SetBreakStyle(true,'dotted',1);
-               $graph->Add($prefixBar);
-               self::$logger->debug("bugid=".$a->bugid.": Shorten bar & add prefixBar");
-
-            }
-            self::$logger->debug("bugid=".$a->bugid.": Shorten bar from ".date('Y-m-d', $a->startTimestamp).
-               " to ".date('Y-m-d', $newStartTimestamp));
-            $a->startTimestamp = $newStartTimestamp;
-         }
-
-         $bar = $a->getJPGraphBar($issueActivityMapping);
-         $graph->Add($bar);
-      }
-      return $graph;
+      return Tools::qsort($mergedActivities);
    }
 
 }
