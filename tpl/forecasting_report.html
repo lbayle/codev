@@ -144,29 +144,29 @@
    <div style="margin-top:2em;">
       <h2>{t}Available Workload{/t}</h2>
       <span class="help_font">{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
-      <br/><br/>
-      <div class="chartcontainer">
-      {include file="graph/line_plot_1.html"}<div style="width: 80%;" class="float date_line_plot"></div>
-      <table style="border: 0;font-size:1.1em;">
-         <caption title="{t}Available Workload{/t}"></caption>
-         <tr>
-            <th class="ui-corner-tl" style="padding:0.5em;">{t}Date{/t}</th>
-            <th class="ui-corner-tr" style="padding:0.5em;" title="{t}nb production days{/t}">{t}man-day{/t}</th>
-         </tr>
-         {foreach from=$dates key=date item=text name=dates}
-         {if $smarty.foreach.dates.last}
-         <tr>
-            <td class="right ui-corner-bl" style="background-color: #ffffff; padding:0.2em;">{$date}</td>
-            <td class="center ui-corner-br" style="background-color: #ffffff; padding:0.2em;">{$text}</td>
-         </tr>
-         {else}
-         <tr>
-            <td class="right" style="background-color: #ffffff; padding:0.2em;">{$date}</td>
-            <td class="center" style="background-color: #ffffff; padding:0.2em;">{$text}</td>
-         </tr>
-         {/if}
-         {/foreach}
-      </table>
+      <div class="chartcontainer" style="margin-top: 2em;">
+         {include file="graph/line_plot_1.html"}
+         <div style="width: 80%;" class="date_line_plot float"></div>
+         <table style="border: 0;font-size:1.1em;margin-top:20px;">
+            <caption title="{t}Available Workload{/t}"></caption>
+            <tr>
+               <th class="ui-corner-tl" style="padding:0.5em;">{t}Date{/t}</th>
+               <th class="ui-corner-tr" style="padding:0.5em;" title="{t}nb production days{/t}">{t}man-day{/t}</th>
+            </tr>
+            {foreach from=$dates key=date item=text name=dates}
+            {if $smarty.foreach.dates.last}
+            <tr>
+               <td class="right ui-corner-bl" style="background-color: #ffffff; padding:0.2em;">{$date}</td>
+               <td class="center ui-corner-br" style="background-color: #ffffff; padding:0.2em;">{$text}</td>
+            </tr>
+            {else}
+            <tr>
+               <td class="right" style="background-color: #ffffff; padding:0.2em;">{$date}</td>
+               <td class="center" style="background-color: #ffffff; padding:0.2em;">{$text}</td>
+            </tr>
+            {/if}
+            {/foreach}
+         </table>
          <div class="ui-helper-clearfix"></div>
       </div>
    </div>
