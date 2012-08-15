@@ -105,7 +105,7 @@ class Tools {
       $formatedTitle = str_replace("'", " ", $title);
       $formatedTitle = str_replace("\"", " ", $formatedTitle);
 
-      return "<a  title='$formatedTitle' $target href='".getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
+      return "<a  title='$formatedTitle' $target href='".self::getServerRootURL()."/reports/issue_info.php?bugid=$bugid'>$bugid</a>";
    }
 
    /**
@@ -296,6 +296,7 @@ class Tools {
 
    /**
     * Format the date in locale
+    * @static
     * @param string $pattern The pattern to user
     * @param int $timestamp The timestamp to format
     * @return string The localized date
@@ -320,6 +321,7 @@ class Tools {
     *    [30] => 'acknowledged'
     *    ...
     *  )
+    * @static
     * @param string $del1        delimiter for key:value
     * @param string $del2        delimiter for couples (key,value)
     * @param string $keyvalue       the string to explode
@@ -461,8 +463,10 @@ class Tools {
    }
 
    /**
-    * parse file and execute commands via PHP mysql lib.
-    * @param $sqlFile
+    * Parse file and execute commands via PHP mysql lib.
+    * @static
+    * @param string $sqlFile
+    * @return bool
     */
    public static function execSQLscript($sqlFile) {
       $request = "";
@@ -492,6 +496,7 @@ class Tools {
 
    /**
     * uses system to run 'mysql' cmd
+    * @static
     * @param String $sqlFile
     * @return int 0 if Success
     */
@@ -521,6 +526,7 @@ class Tools {
 
    /**
     * Get a clean up String value by GET
+    * @static
     * @param string $key The key
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return string The value or die if there is a problem
@@ -540,6 +546,7 @@ class Tools {
 
    /**
     * Get a clean up String value by POST
+    * @static
     * @param string $key The key
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return string The value or die if there is a problem
@@ -559,6 +566,7 @@ class Tools {
 
    /**
     * Get a clean up Integer value by GET
+    * @static
     * @param string $key The key
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return int The value or die if there is a problem
@@ -578,6 +586,7 @@ class Tools {
 
    /**
     * Get a clean up Integer value by POST
+    * @static
     * @param string $key The key
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return int The value or die if there is a problem
@@ -597,6 +606,7 @@ class Tools {
 
    /**
     * Get a clean up Integer value by GET
+    * @static
     * @param string $key The key
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return int The value or die if there is a problem
@@ -616,6 +626,7 @@ class Tools {
 
    /**
     * Get a clean up Integer value by POST
+    * @static
     * @param string $key The key
     * @param mixed $defaultValue The value used if no value found. If null, the value is mandatory
     * @return int The value or die if there is a problem
@@ -635,6 +646,7 @@ class Tools {
 
    /**
     * Send an 400 error
+    * @static
     * @use Send when a user send a bad request (like weird POST)
     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     * @param string $message The message for the admin
@@ -649,6 +661,7 @@ class Tools {
 
    /**
     * Send an 401 error
+    * @static
     * @use Send when a not logged user request a need to be logged page
     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     */
@@ -659,6 +672,7 @@ class Tools {
 
    /**
     * Send an 403 error
+    * @static
     * @use Send when a user request a page without enought rights
     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     */
@@ -669,6 +683,7 @@ class Tools {
 
    /**
     * Send an 404 error
+    * @static
     * @use Send when a user request a page without enought rights
     * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     */
@@ -680,6 +695,7 @@ class Tools {
    /**
     * Convert an array in json
     * If you use a new version of PHP(5.2 or newer), json_encode() function will be directly called
+    * @static
     * @param array $arr
     * @return string
     */
@@ -756,6 +772,7 @@ class Tools {
 
    /**
     * Convert the data in UTF-8 if it's in other encoding
+    * @static
     * @param string $data The data to convert
     * @return string The converted data
     */
@@ -818,7 +835,7 @@ class Tools {
 
    /**
     * @static
-    * @param $directory
+    * @param string $directory
     * @return string
     */
    public static function checkWriteAccess($directory) {
@@ -857,9 +874,11 @@ class Tools {
       return "SUCCESS !";
    }
 
-   /*
-    * Exemple d'utilisation de la fonction :
-    *  <?php print_r(html2rgb('B8B9B9')) ; ?>
+   /**
+    * Exemple d'utilisation de la fonction : print_r(html2rgb('B8B9B9'));
+    * @static
+    * @param string $color
+    * @return array|bool
     */
    public static function html2rgb($color) {
       if ($color[0] == '#') {
@@ -876,6 +895,43 @@ class Tools {
       }
 
       return array(hexdec($r), hexdec($g), hexdec($b));
+   }
+
+   /**
+    * @static
+    * @return string
+    * example: http://127.0.0.1/codev/
+    * example: http://55.7.137.27/louis/codev/
+    */
+   public static function getServerRootURL() {
+      #if (isset($_GET['debug'])) {
+      #foreach($_SERVER as $key => $value) {
+      #   echo "_SERVER key=$key val=$value<br/>";
+      #}}
+
+      $protocol = ($_SERVER['HTTPS'] == "on") ? "https" : "http";
+      #$protocol = "http";
+
+      $rootURL = "$protocol://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
+      #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
+      $rootURL = str_replace("/classes", "", $rootURL);
+      $rootURL = str_replace("/timetracking", "", $rootURL);
+      $rootURL = str_replace("/reports", "", $rootURL);
+      $rootURL = str_replace("/doc", "", $rootURL);
+      $rootURL = str_replace("/images", "", $rootURL);
+      $rootURL = str_replace("/admin", "", $rootURL);
+      $rootURL = str_replace("/tools", "", $rootURL);
+      $rootURL = str_replace("/i18n", "", $rootURL);
+      $rootURL = str_replace("/graphs", "", $rootURL);
+      $rootURL = str_replace("/install", "", $rootURL);
+      $rootURL = str_replace("/tests", "", $rootURL);
+      $rootURL = str_replace("/import", "", $rootURL);
+      $rootURL = str_replace("/blog", "", $rootURL);
+      $rootURL = str_replace("/management", "", $rootURL);
+      $rootURL = str_replace("/indicator_plugins", "", $rootURL);
+
+      #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}
+      return $rootURL;
    }
 
 }

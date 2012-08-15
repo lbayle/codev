@@ -325,7 +325,7 @@ class PlanningReportController extends Controller {
                "title" => $dline->toString(),
                "nbDaysToDeadLine" => $dline->nbDaysToDeadLine,
                "deadlineIssues" => implode(', ', $dline->issueList),
-               "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_130.png'
+               "imgUrl" => Tools::getServerRootURL().'/images/tooltip_white_arrow_130.png'
             );
 
             if ($offset > 0) {
@@ -398,7 +398,7 @@ class PlanningReportController extends Controller {
             "statusName" => $scheduledTask->statusName,
             "projectName" => $scheduledTask->projectName,
             "summary" => $scheduledTask->summary,
-            "imgUrl" => getServerRootURL().'/images/tooltip_white_arrow_big.png'
+            "imgUrl" => Tools::getServerRootURL().'/images/tooltip_white_arrow_big.png'
          );
          if ($scheduledTask->isMonitored) {
             $sTask["handlerName"] = $scheduledTask->handlerName;

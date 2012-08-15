@@ -16,9 +16,9 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-   include_once "tools.php";
-   include_once "constants.php";
-   include_once 'i18n/i18n.inc.php';
+include_once "tools.php";
+include_once "constants.php";
+include_once 'i18n/i18n.inc.php';
 ?>
 
 <div class="menu">
@@ -29,44 +29,44 @@ global $mantisURL;
 
 echo "<table>\n";
 echo "   <tr>\n";
-echo "      <td><a href='".getServerRootURL()."/index.php'>".T_("Home")."</a></td>\n";
+echo "      <td><a href='".Tools::getServerRootURL()."/index.php'>".T_("Home")."</a></td>\n";
 
 echo "      <td><a href='".$mantisURL."' title='MantisBT'>Mantis</a></td>\n";
 
 echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/timetracking/time_tracking.php' title=''>".T_("Time Tracking")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/timetracking/time_tracking.php' title=''>".T_("Time Tracking")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/timetracking/holidays_report.php' title='".T_("Holidays Reports")."'>".T_("Holidays")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/timetracking/holidays_report.php' title='".T_("Holidays Reports")."'>".T_("Holidays")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/reports/planning_report.php' title='".T_("Check DeadLines")."'>".T_("Planning")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/reports/planning_report.php' title='".T_("Check DeadLines")."'>".T_("Planning")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/reports/gantt_report.php' title='".T_("Gantt Chart")."'>".T_("Gantt")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/reports/gantt_report.php' title='".T_("Gantt Chart")."'>".T_("Gantt")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/reports/issue_info.php' title='".T_("Task Information")."'>".T_("Task info")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/reports/issue_info.php' title='".T_("Task Information")."'>".T_("Task info")."</a>\n";
 echo "      </td>\n";
 echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/reports/project_info.php' title='".T_("Project Information")."'>".T_("Project info")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/reports/project_info.php' title='".T_("Project Information")."'>".T_("Project info")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/management/servicecontract_info.php' title='".T_("Management")."'>".T_("Management")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/management/servicecontract_info.php' title='".T_("Management")."'>".T_("Management")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/timetracking/team_activity_report.php' title='".T_("Team Weekly activities")."'>".T_("Weekly activities")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/timetracking/team_activity_report.php' title='".T_("Team Weekly activities")."'>".T_("Weekly activities")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/reports/forecasting_report.php' title=''>".T_("Forecasting")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/reports/forecasting_report.php' title=''>".T_("Forecasting")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/reports/productivity_report.php' title=''>".T_("Statistics")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/reports/productivity_report.php' title=''>".T_("Statistics")."</a>\n";
 #echo "      |\n";
-#echo "      <a href='".getServerRootURL()."/reports/mantis_reports.php' title=''>".T_("Mantis Reports")."</a>\n";
+#echo "      <a href='".Tools::getServerRootURL()."/reports/mantis_reports.php' title=''>".T_("Mantis Reports")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/reports/export_csv_weekly.php' title='".T_("Generate Excel Sheet")."'>".T_("Export to CSV")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/reports/export_csv_weekly.php' title='".T_("Generate Excel Sheet")."'>".T_("Export to CSV")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/reports/check.php' title='".T_("Consistency Check")."'>".T_("Check")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/reports/check.php' title='".T_("Consistency Check")."'>".T_("Check")."</a>\n";
 echo "      </td>\n";
 echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/blog/blog.php' title='".T_("Blog")."'>Blog</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/blog/blog.php' title='".T_("Blog")."'>Blog</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/doc/doc.php' title='".T_("Documentation")."'>Doc</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/doc/doc.php' title='".T_("Documentation")."'>Doc</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/admin/index.php' title='".T_("CoDev Administration")."'>Admin</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/admin/index.php' title='".T_("CoDev Administration")."'>Admin</a>\n";
 echo "      </td>\n";
 echo "  </tr>\n";
 echo "</table>";

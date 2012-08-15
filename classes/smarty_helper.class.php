@@ -16,11 +16,7 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require('lib/Smarty/Smarty.class.php');
-
 include_once('i18n/i18n.inc.php');
-
-include_once('constants.php');
 
 /**
  * Smarty helper : Construct a smarty objet for templating engine
@@ -121,7 +117,7 @@ class SmartyHelper {
       $this->smarty->assign('ajaxPage', str_replace('.php', '', $_SERVER['PHP_SELF']).'_ajax.php');
       $this->smarty->assign('tpl_name', str_replace('.php', '', substr(strrchr($_SERVER['PHP_SELF'], '/'), 1)));
       $this->smarty->assign('mantisURL', $mantisURL);
-      $this->smarty->assign('rootWebSite', getServerRootURL() . '/');
+      $this->smarty->assign('rootWebSite', Tools::getServerRootURL() . '/');
       $this->smarty->assign('locale', $_SESSION['locale']);
 
       $this->display('template');

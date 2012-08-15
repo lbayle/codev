@@ -26,17 +26,17 @@ include_once 'i18n/i18n.inc.php';
 echo "<table>\n";
 echo "   <tr>\n";
 echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/index.php' title=''>".T_("Home")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/index.php' title=''>".T_("Home")."</a>\n";
 echo "      </td>\n";
 
 echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/install/install.php' title=''>".T_("Install")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/install/install.php' title=''>".T_("Install")."</a>\n";
 echo "      |\n";
-echo "      <a href='".getServerRootURL()."/install/uninstall.php' title=''>".T_("Uninstall")."</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/install/uninstall.php' title=''>".T_("Uninstall")."</a>\n";
 echo "      </td>\n";
 
 echo "      <td>\n";
-echo "      <a href='".getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a>\n";
+echo "      <a href='".Tools::getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a>\n";
 echo "      </td>\n";
 echo "  </tr>\n";
 echo "</table>";

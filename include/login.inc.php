@@ -22,7 +22,7 @@ include_once "tools.php";
 // MAIN
 echo "<div id='login'>\n";
 if (isset($_SESSION['userid'])) {
-  echo T_("Logged in as ").$_SESSION['username']." (".$_SESSION['realname'].") <span class='floatr'><a href='".getServerRootURL()."/logout.php' title='logout'>".T_("log out")."</a></span>\n";
+  echo T_("Logged in as ").$_SESSION['username']." (".$_SESSION['realname'].") <span class='floatr'><a href='".Tools::getServerRootURL()."/logout.php' title='logout'>".T_("log out")."</a></span>\n";
 } else {
 ?>
 

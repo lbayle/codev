@@ -3,8 +3,8 @@ header("Content-type: image/png");
 
 # creates a PNG file containing a barr with some text in it.
 # call with:
-# <img src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=345&color=red'/>";
-# <a href='./reports/issue_info.php?bugid=225'><img title='$formatedTitle' src='".getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=225&color=green' /></a>
+# <img src='".Tools::getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=345&color=red'/>";
+# <a href='./reports/issue_info.php?bugid=225'><img title='$formatedTitle' src='".Tools::getServerRootURL()."/graphs/scheduledtask.png.php?height=20&width=200&text=225&color=green' /></a>
 
 /*
     This file is part of CoDev-Timetracking.

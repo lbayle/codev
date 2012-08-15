@@ -23,19 +23,19 @@ $installFolder="/install/";
 
 $firstStep="install.php";
 $firstLinkName = T_("Install");
-$firstLink = "<a href='".getServerRootURL().$installFolder.$firstStep."' title='".$firstLinkName."'>".$firstLinkName."</a>";
+$firstLink = "<a href='".Tools::getServerRootURL().$installFolder.$firstStep."' title='".$firstLinkName."'>".$firstLinkName."</a>";
 
 $secondStep="install_step1.php";
 $secondLinkName = T_("Step 1");
-$secondLink = "<a href='".getServerRootURL().$installFolder.$secondStep."' title='".$secondLinkName."'>".$secondLinkName."</a>";
+$secondLink = "<a href='".Tools::getServerRootURL().$installFolder.$secondStep."' title='".$secondLinkName."'>".$secondLinkName."</a>";
 
 $thirdStep="install_step2.php";
 $thirdLinkName = T_("Step 2");
-$thirdLink = "<a href='".getServerRootURL().$installFolder.$thirdStep."' title='".$thirdLinkName."'>".$thirdLinkName."</a>";
+$thirdLink = "<a href='".Tools::getServerRootURL().$installFolder.$thirdStep."' title='".$thirdLinkName."'>".$thirdLinkName."</a>";
 
 $fourthStep="install_step3.php";
 $fourthLinkName = T_("Step 3");
-$fourthLink = "<a href='".getServerRootURL().$installFolder.$fourthStep."' title='".$fourthLinkName."'>".$fourthLinkName."</a>";
+$fourthLink = "<a href='".Tools::getServerRootURL().$installFolder.$fourthStep."' title='".$fourthLinkName."'>".$fourthLinkName."</a>";
 
 // Don't show the link if we are already on the page
 if(strpos($_SERVER['REQUEST_URI'],$firstStep)) {
@@ -58,7 +58,7 @@ echo "  <table  style='margin-top: 2em'>\n";
 echo "    <tr>\n";
 echo "      <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis' title='MantisBT'>Mantis</a></td>\n";
 echo "      <td>".$firstLink." | ".$secondLink." | ".$thirdLink." | ".$fourthLink."</td>\n";
-echo "      <td><a href='".getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a></td>\n";
+echo "      <td><a href='".Tools::getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a></td>\n";
 echo "    </tr>\n";
 echo "  </table>\n";
 echo "<br/><br/></div>";

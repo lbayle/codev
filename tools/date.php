@@ -52,7 +52,7 @@ function setTimestampToDateForm($timestamp) {
 }
 
 // =========== MAIN ==========
-echo '<html><head><base href="'.getServerRootURL().'/" /></head><body>';
+echo '<html><head><base href="'.Tools::getServerRootURL().'/" /></head><body>';
 $date1 = Tools::getSecurePOSTStringValue("date",date("Y-m-d", time()));
 setCalendarToDateForm($date1);
 echo "<br/>";

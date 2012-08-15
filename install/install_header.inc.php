@@ -37,9 +37,9 @@ include_once "tools.php";
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <?php
-   echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";
-   echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
-   echo "<link href='".getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
+   echo "<link rel='shortcut icon' href='".Tools::getServerRootURL()."/images/favicon.ico' />\n";
+   echo "<link href='".Tools::getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
+   echo "<link href='".Tools::getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
 ?>
 </head>
 
@@ -50,7 +50,7 @@ include_once "tools.php";
 <tr>
 <td width=300>
 <?php
-   echo "<a href='".getServerRootURL()."/'><img src='".getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
+   echo "<a href='".Tools::getServerRootURL()."/'><img src='".Tools::getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
 ?>
 </td>
 <td>
@@ -59,9 +59,9 @@ include_once "tools.php";
 ?>
 </td>
 <td width=300>
-<?php echo "<a href='".Tools::curPageName()."?locale=fr'><img title='Francais' src='".getServerRootURL()."/images/drapeau_fr.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=fr'><img title='Francais' src='".Tools::getServerRootURL()."/images/drapeau_fr.jpg' /></a>";?>
 &nbsp;
-<?php echo "<a href='".Tools::curPageName()."?locale=en'><img title='English' src='".getServerRootURL()."/images/drapeau_gb.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=en'><img title='English' src='".Tools::getServerRootURL()."/images/drapeau_gb.jpg' /></a>";?>
 </td>
 </tr>
 </table>

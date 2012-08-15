@@ -22,6 +22,8 @@ include_once '../path.inc.php';
 
 require_once('i18n/i18n.inc.php');
 
+include_once('tools.php');
+
 $_POST[page_name] = T_("Statistics");
 require_once 'include/header.inc.php';
 
@@ -70,7 +72,7 @@ function displaySubmittedResolved($periodStatsReport, $width, $height) {
    echo "<h2>".T_("Submitted / Resolved")."</h2>\n";
 
    echo "<div class=\"float\">\n";
-   echo "    <img src='".getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
+   echo "    <img src='".Tools::getServerRootURL()."/graphs/two_lines.php?displayPointLabels&$graph_title&$graph_width&$graph_height&$strBottomLabel&$strVal1&$strVal2'/>";
    echo "</div>\n";
 /*
    echo "<div class=\"float\">\n";

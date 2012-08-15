@@ -3,7 +3,7 @@ header("Content-type: image/png");
 
 # creates a PNG file containing a barr with some text in it.
 # call with:
-# <img src='".getServerRootURL()."/graphs/rectangle.png.php?height=12&width=12&border&color=$color'/>
+# <img src='".Tools::getServerRootURL()."/graphs/rectangle.png.php?height=12&width=12&border&color=$color'/>
 
 /*
     This file is part of CoDev-Timetracking.

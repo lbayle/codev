@@ -16,6 +16,8 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+include_once('tools.php');
+
 SqlWrapper::getInstance()->sql_close($bugtracker_link);
 ?>
 
@@ -24,7 +26,7 @@ SqlWrapper::getInstance()->sql_close($bugtracker_link);
 <address class="right">
 <?php
    # La liberte n'offre qu'une chance d'etre meilleur, la servitude n'est que la certitude de devenir pire.  (Albert Camus)
-   echo "<a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' src='".getServerRootURL()."/images/copyleft.png' /></a>";
+   echo "<a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' src='".Tools::getServerRootURL()."/images/copyleft.png' /></a>";
    echo "2010-".date("Y")."&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='http://codevtt.org' target='_blank'>CodevTT.org</a></span><br>";
 ?>
 </address>

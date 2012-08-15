@@ -29,24 +29,24 @@ include_once("include/super_header.inc.php");
 
 
 <?php
-   echo "<link rel='shortcut icon' href='".getServerRootURL()."/images/favicon.ico' />\n";
+   echo "<link rel='shortcut icon' href='".Tools::getServerRootURL()."/images/favicon.ico' />\n";
 
    // --- JQUERY ---
-   #echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css' rel='Stylesheet' />\n";
-   echo "<link type='text/css' href='".getServerRootURL()."/lib/jquery/css/Aristo/Aristo.css' rel='Stylesheet' />\n";
+   #echo "<link type='text/css' href='".Tools::getServerRootURL()."/lib/jquery/css/ui-lightness/jquery-ui-1.8.16.custom.css' rel='Stylesheet' />\n";
+   echo "<link type='text/css' href='".Tools::getServerRootURL()."/lib/jquery/css/Aristo/Aristo.css' rel='Stylesheet' />\n";
 
-   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-1.7.1.min.js'></script>\n";
-   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery.bgiframe-2.1.2.js'></script>\n";
-   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery.tools-1.2.7.min.js'></script>\n";
+   echo "<script type='text/javascript' src='".Tools::getServerRootURL()."/lib/jquery/js/jquery-1.7.1.min.js'></script>\n";
+   echo "<script type='text/javascript' src='".Tools::getServerRootURL()."/lib/jquery/js/jquery.bgiframe-2.1.2.js'></script>\n";
+   echo "<script type='text/javascript' src='".Tools::getServerRootURL()."/lib/jquery/js/jquery.tools-1.2.7.min.js'></script>\n";
 
-   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-ui-1.8.16.custom.min.js'></script>\n";
-   #echo "<script type='text/javascript' src='".getServerRootURL()."/lib/jquery/js/jquery-ui-1.8.17.custom.min.js'></script>\n";
+   echo "<script type='text/javascript' src='".Tools::getServerRootURL()."/lib/jquery/js/jquery-ui-1.8.16.custom.min.js'></script>\n";
+   #echo "<script type='text/javascript' src='".Tools::getServerRootURL()."/lib/jquery/js/jquery-ui-1.8.17.custom.min.js'></script>\n";
 
-   echo "<script type='text/javascript' src='".getServerRootURL()."/lib/datatables/media/js/jquery.dataTables.js'></script>\n";
+   echo "<script type='text/javascript' src='".Tools::getServerRootURL()."/lib/datatables/media/js/jquery.dataTables.js'></script>\n";
 
    // --- CODEV ---
-   echo "<link href='".getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
-   echo "<link href='".getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
+   echo "<link href='".Tools::getServerRootURL()."/codev.css' rel='stylesheet' type='text/css' />\n";
+   echo "<link href='".Tools::getServerRootURL()."/light.css' rel='stylesheet' type='text/css' media='print' />\n";
 ?>
 </head>
 
@@ -64,7 +64,7 @@ include_once("include/super_header.inc.php");
 <tr>
 <td width=300>
 <?php
-   echo "<a href='".getServerRootURL()."/'><img title='".Config::codevVersion."' src='".getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
+   echo "<a href='".Tools::getServerRootURL()."/'><img title='".Config::codevVersion."' src='".Tools::getServerRootURL()."/images/codevtt_logo_03.png' /></a>";
 ?>
 </td>
 <td>
@@ -73,9 +73,9 @@ include_once("include/super_header.inc.php");
 ?>
 </td>
 <td width=300>
-<?php echo "<a href='".Tools::curPageName()."?locale=fr'><img title='Francais' src='".getServerRootURL()."/images/drapeau_fr.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=fr'><img title='Francais' src='".Tools::getServerRootURL()."/images/drapeau_fr.jpg' /></a>";?>
 &nbsp;
-<?php echo "<a href='".Tools::curPageName()."?locale=en'><img title='English' src='".getServerRootURL()."/images/drapeau_gb.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=en'><img title='English' src='".Tools::getServerRootURL()."/images/drapeau_gb.jpg' /></a>";?>
 </td>
 </tr>
 </table>
