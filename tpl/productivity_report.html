@@ -71,18 +71,30 @@
                   <th>{t}Nb Days{/t}</th>
                </tr>
                <tr>
-                  <td><img src="graphs/rectangle.png.php?height=1&width=1&color=92C5FC" height="10px" width="10px" style="border: 1px solid black;" /> {t}Projects{/t}</td>
+                  <td>
+                     <div class="generatedImage float" style="background-color: #92C5FC;"></div>
+                     <div class="float">{t}Projects{/t}</div>
+                     <div class="ui-helper-clearfix"></div>
+                  </td>
                   <td>{$timeTracking->getProdDays()}</td>
                </tr>
                <tr>
-                  <td><img src="graphs/rectangle.png.php?height=1&width=1&color=FFC16B" height="10px" width="10px" style="border: 1px solid black;" /> {t}Project Management{/t}</td>
+                  <td>
+                     <div class="generatedImage float" style="background-color: #FFC16B;"></div>
+                     <div class="float">{t}Project Management{/t}</div>
+                     <div class="ui-helper-clearfix"></div>
+                  </td>
                   <td>{$timeTracking->getManagementDays()}</td>
                </tr>
                <tr>
-                  <td><img src="graphs/rectangle.png.php?height=1&width=1&color=FFF494" height="10px" width="10px" style="border: 1px solid black;" /> {t}Other SideTasks{/t}</td>
+                  <td>
+                     <div class="generatedImage float" style="background-color: #FFF494;"></div>
+                     <div class="float">{t}Other SideTasks{/t}</div>
+                     <div class="ui-helper-clearfix"></div>
+                  </td>
                   <td>{$timeTracking->getProdDaysSideTasks(false) - $timeTracking->getManagementDays()}</td>
                </tr>
-               <tr>
+               <tr class="row_total">
                   <td>{t}Total{/t}</td>
                   <td>{$timeTracking->getProdDays() + $timeTracking->getProdDaysSideTasks(false)}</td>
                </tr>
@@ -106,7 +118,11 @@
                </tr>
                {foreach from=$workingDaysPerJob key=id item=i}
                <tr>
-                  <td><img src="graphs/rectangle.png.php?height=1&width=1&color={$i.color}" height="10px" width="10px" style="border: 1px solid black;"/> {$i.name}</td>
+                  <td>
+                     <div class="generatedImage float" style="background-color: #{$i.color};"></div>
+                     <div class="float">{$i.name}</div>
+                     <div class="ui-helper-clearfix"></div>
+                  </td>
                   <td>{$i.nbDays}</td>
                </tr>
                {/foreach}

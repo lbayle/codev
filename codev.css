@@ -203,15 +203,23 @@ div.menu td {
   color: blue;
 }
 
-/* JQuery Hacks */
-input.datepicker {
-    vertical-align: middle;
-}
-img.ui-datepicker-trigger {
-    vertical-align: middle;
-}
 .chartcontainer {
    border: 1px solid black;
    padding: 30px;
    background-color: #E8E8E8;
+}
+.generatedImage {
+   height: 10px;
+   width: 10px;
+   margin-right:5px;
+   margin-top:2px;
+   border: 1px solid black;
+}
+
+/* JQuery Hacks */
+input.datepicker {
+  vertical-align: middle;
+}
+img.ui-datepicker-trigger {
+  vertical-align: middle;
 }

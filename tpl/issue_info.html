@@ -221,8 +221,9 @@
                {foreach from=$jobDetails key=id item=i}
                <tr>
                   <td>
-                     <img src="graphs/rectangle.png.php?height=12&width=12&border&color={$i.jobColor}"/>
-                     {$i.jobName}
+                     <div class="generatedImage float" style="background-color: #{$i.jobColor};"></div>
+                     <div class="float">{$i.jobName}</div>
+                     <div class="ui-helper-clearfix"></div>
                   </td>
                   <td>{$i.duration}</td>
                   <td>{$i.durationRate} %</td>
@@ -279,17 +280,14 @@
          {/foreach}
 
          <!-- legend -->
-         <table class='invisible' style="margin-top:2em;">
-            <tr>
-            {foreach from=$jobDetails key=id item=i}
-               <td>
-                  <img src="graphs/rectangle.png.php?height=12&width=12&border&color={$i.jobColor}"/>
-                  {$i.jobName}
-               </td>
-               <td>&nbsp;</td>
-            {/foreach}
-            </tr>
-         </table>
+         {foreach from=$jobDetails key=id item=i}
+         <div class="float" style="margin-right: 1em;">
+            <div class="generatedImage float" style="background-color: #{$i.jobColor};"></div>
+            <div class="float">{$i.jobName}</div>
+            <div class="ui-helper-clearfix"></div>
+         </div>
+         {/foreach}
+         <div class="ui-helper-clearfix"></div>
          {/if}
       </div>
 
