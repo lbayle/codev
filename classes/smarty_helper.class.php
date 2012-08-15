@@ -40,7 +40,7 @@ class SmartyHelper {
     */
    public function __construct() {
       $this->smarty = new Smarty();
-      $this->smarty->setCaching(false);
+      $this->smarty->caching = Smarty::CACHING_OFF;
       $this->smarty->setTemplateDir(BASE_PATH . '/tpl/');
       $this->smarty->setCacheDir('/tmp/codevtt/cache/');
       $this->smarty->setCompileDir('/tmp/codevtt/template_c/');
