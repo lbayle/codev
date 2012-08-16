@@ -25,8 +25,6 @@ require('include/super_header.inc.php');
 
 require('i18n/i18n.inc.php');
 
-require('constants.php');
-
 $logger = Logger::getLogger('gantt_graph');
 
 /**
