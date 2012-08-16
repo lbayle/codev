@@ -54,23 +54,27 @@
       <!-- Submitted / Resolved -->
       <div id="tagSubmittedResolved">
          {if $submittedResolvedLegend}
-         <div style="margin-top: 1em">
+         <div style="margin-top: 1em;">
             <div class="float">
                <img alt="{t}Submitted / Resolved Issues{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;width=800&amp;height=300&amp;{$submittedResolvedGraph}" />
             </div>
             <table title="{t}Submitted / Resolved Issues{/t}">
-               <tr>
-                  <th>{t}Date{/t}</th>
-                  <th title="{t}Nb of submitted tasks EXCEPT SideTasks and FDL{/t}">{t}Nb submissions{/t}</th>
-                  <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
-               </tr>
-               {foreach from=$submittedResolvedLegend key=id item=i}
-               <tr>
-                  <td class="right">{$i.date}</td>
-                  <td class="right">{$i.nbSubmitted}</td>
-                  <td class="right">{$i.nbResolvedIssues}</td>
-               </tr>
-               {/foreach}
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th title="{t}Nb of submitted tasks EXCEPT SideTasks and FDL{/t}">{t}Nb submissions{/t}</th>
+                     <th title="{t}Nb of resolved tasks EXCEPT SideTasks and reopened tasks{/t}">{t}Nb Resolved{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$submittedResolvedLegend key=id item=i}
+                  <tr>
+                     <td class="right">{$i.date}</td>
+                     <td class="right">{$i.nbSubmitted}</td>
+                     <td class="right">{$i.nbResolvedIssues}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
             <div class="ui-helper-clearfix"></div>
          </div>
@@ -86,16 +90,20 @@
                <img alt="{t}Adherence to deadlines{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$timeDriftGraph}" />
             </div>
             <table title="{t}Adherence to deadlines{/t}">
-               <tr>
-                  <th>{t}Date{/t}</th>
-                  <th title="{t}% Tasks Delivered on time{/t}">{t}% Tasks{/t}</th>
-               </tr>
-               {foreach from=$timeDriftLegend key=id item=i}
-               <tr>
-                  <td class="right">{$i.date}</td>
-                  <td class="right">{$i.nbDriftsNeg}%</td>
-               </tr>
-               {/foreach}
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th title="{t}% Tasks Delivered on time{/t}">{t}% Tasks{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$timeDriftLegend key=id item=i}
+                  <tr>
+                     <td class="right">{$i.date}</td>
+                     <td class="right">{$i.nbDriftsNeg}%</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
             <div class="ui-helper-clearfix"></div>
          </div>
@@ -111,20 +119,24 @@
                <img alt="{t}Effort Deviation{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$resolvedDriftGraph}" />
             </div>
             <table title="{t}Effort Deviation{/t}">
-               <tr>
-                  <th>{t}Date{/t}</th>
-                  <th>{t}MgrEffortEstim{/t}</th>
-                  <th title="{t}BI{/t} + {t}BS{/t}">{t}EffortEstim{/t}</th>
-                  {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
-               </tr>
-               {foreach from=$resolvedDriftLegend key=id item=i}
-               <tr>
-                  <td class="right">{$i.date}</td>
-                  <td class="right">{$i.totalDriftETA}</td>
-                  <td class="right">{$i.totalDrift}</td>
-                  {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
-               </tr>
-               {/foreach}
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}MgrEffortEstim{/t}</th>
+                     <th title="{t}BI{/t} + {t}BS{/t}">{t}EffortEstim{/t}</th>
+                     {if $displayNoSupport}<th title="{t}BI{/t} + {t}BS{/t}">{t}No Support{/t}</th>{/if}
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$resolvedDriftLegend key=id item=i}
+                  <tr>
+                     <td class="right">{$i.date}</td>
+                     <td class="right">{$i.totalDriftETA}</td>
+                     <td class="right">{$i.totalDrift}</td>
+                     {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
             <div class="ui-helper-clearfix"></div>
          </div>
@@ -140,18 +152,22 @@
                <img alt="{t}Sys Disp.{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.2f&amp;width=800&amp;height=300&amp;{$efficiencyGraph}" />
             </div>
             <table title="{t}Sys Disp.{/t}">
-               <tr>
-                  <th>{t}Date{/t}</th>
-                  <th>{t}Efficiency{/t}</th>
-                  <th>{t}Sys Disp{/t}</th>
-               </tr>
-               {foreach from=$efficiencyLegend key=id item=i}
-               <tr>
-                  <td class="right">{$i.date}</td>
-                  <td class="right">{$i.efficiencyRate}%</td>
-                  <td class="right">{$i.systemDisponibilityRate}%</td>
-               </tr>
-               {/foreach}
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th>{t}Efficiency{/t}</th>
+                     <th>{t}Sys Disp{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$efficiencyLegend key=id item=i}
+                  <tr>
+                     <td class="right">{$i.date}</td>
+                     <td class="right">{$i.efficiencyRate}%</td>
+                     <td class="right">{$i.systemDisponibilityRate}%</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
             <div class="ui-helper-clearfix"></div>
          </div>
@@ -171,20 +187,24 @@
                <img alt="{t}Reopened Rate{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$reopenedRateGraph}" />
             </div>
             <table title="{t}Reopened Rate{/t}">
-               <tr>
-                  <th>{t}Date{/t}</th>
-                  <th title="{t}Reopened Rate{/t}">{t}% to Submitted{/t}</th>
-                  <th title="{t}Reopened Rate{/t}">{t}% to Resolved{/t}</th>
-                  <th title="{t}Nb Reopened{/t}">{t}Nb Reopened{/t}</th>
-               </tr>
-               {foreach from=$reopenedRateLegend key=id item=i}
-               <tr>
-                  <td class="right">{$i.date}</td>
-                  <td class="right">{$i.reopenedRate}%</td>
-                  <td class="right">{$i.reopenedRateResolved}%</td>
-                  <td class="right">{$i.reopened}</td>
-               </tr>
-               {/foreach}
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th title="{t}Reopened Rate{/t}">{t}% to Submitted{/t}</th>
+                     <th title="{t}Reopened Rate{/t}">{t}% to Resolved{/t}</th>
+                     <th title="{t}Nb Reopened{/t}">{t}Nb Reopened{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$reopenedRateLegend key=id item=i}
+                  <tr>
+                     <td class="right">{$i.date}</td>
+                     <td class="right">{$i.reopenedRate}%</td>
+                     <td class="right">{$i.reopenedRateResolved}%</td>
+                     <td class="right">{$i.reopened}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
             <div class="ui-helper-clearfix"></div>
          </div>
@@ -200,16 +220,20 @@
                <img alt="{t}Developers Workload{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;width=800&amp;height=300&amp;{$developersWorkloadGraph}" />
             </div>
             <table title="{t}Developers Workload{/t}">
-               <tr>
-                  <th>{t}Date{/t}</th>
-                  <th title="{t}nb production days{/t}">{t}man-day{/t}</th>
-               </tr>
-               {foreach from=$developersWorkloadLegend key=id item=i}
-               <tr>
-                  <td class="right">{$i.date}</td>
-                  <td class="right">{$i.value}</td>
-               </tr>
-               {/foreach}
+               <thead>
+                  <tr>
+                     <th>{t}Date{/t}</th>
+                     <th title="{t}nb production days{/t}">{t}man-day{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$developersWorkloadLegend key=id item=i}
+                  <tr>
+                     <td class="right">{$i.date}</td>
+                     <td class="right">{$i.value}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
             <div class="ui-helper-clearfix"></div>
          </div>

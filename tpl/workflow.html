@@ -124,21 +124,25 @@
       </ul>
       <div id='{$i.tabsName}-1'>
          {if $i.content}
-         <table>
-            <tr>
-               <th></th>
-               {foreach from=$i.statusTitles key=id1 item=j}
-               <th>{$j}</th>
-               {/foreach}
-            </tr>
+         <table style="border: 0;">
+            <thead>
+               <tr>
+                  <th></th>
+                  {foreach from=$i.statusTitles key=id1 item=j}
+                  <th>{$j}</th>
+                  {/foreach}
+               </tr>
+            </thead>
+            <tbody>
                {foreach from=$i.content key=id1 item=j}
-            <tr>
-               <th>{$j.name}</th>
-               {foreach from=$j.statusTitles key=id2 item=k}
-               <td>{$k}</td>
+               <tr>
+                  <th>{$j.name}</th>
+                  {foreach from=$j.statusTitles key=id2 item=k}
+                  <td>{$k}</td>
+                  {/foreach}
+               </tr>
                {/foreach}
-            </tr>
-            {/foreach}
+            </tbody>
          </table>
          {else}
          <p>{t}No workflow transitions defined, using default configuration.{/t}<p>
@@ -146,17 +150,21 @@
       </div>
       <div id='{$i.tabsName}-2'>
          {if $i.config}
-         <table>
-            <tr>
-               <th>{t}Configuration Option{/t}</th>
-               <th>{t}Value{/t}</th>
-            </tr>
-            {foreach from=$i.config key=id1 item=j}
-            <tr>
-               <td>{$id1}</td>
-               <td>{$j}</td>
-            </tr>
-            {/foreach}
+         <table style="border: 0;">
+            <thead>
+               <tr>
+                  <th>{t}Configuration Option{/t}</th>
+                  <th>{t}Value{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$i.config key=id1 item=j}
+               <tr>
+                  <td>{$id1}</td>
+                  <td>{$j}</td>
+               </tr>
+               {/foreach}
+            </tbody>
          </table>
          {else}
          <p>{t}No configuration options defined, using default configuration.{/t}</p>

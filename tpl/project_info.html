@@ -22,36 +22,40 @@
       </ul>
       <div id="tabVersionsOverview">
          {if $versionsOverview}
-         <table>
-            <tr>
-               <th>{t}Target version{/t}</th>
-               <th>{t}Date{/t}</th>
-               <th>{t}Progress Mgr{/t}</th>
-               <th>{t}Progress{/t}</th>
-               <th style="width: 80px;">{t}Drift Mgr{/t}</th>
-               <th style="width: 80px;">{t}Drift{/t}</th>
-            </tr>
-            {foreach from=$versionsOverview key=name item=i name=versionsOverview}
-            {if $smarty.foreach.versionsOverview.last}
-            <tr class="row_total">
-               <td>{t}Total{/t}</td>
-               <td></td>
-               <td>{$i.progressMgr}%</td>
-               <td>{$i.progress}%</td>
-               <td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}%</td>
-               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}%</td>
-            </tr>
-            {else}
-            <tr>
-               <td>{$i.name}</td>
-               <td>{$i.date}</td>
-               <td>{$i.progressMgr}%</td>
-               <td>{$i.progress}%</td>
-               <td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}%</td>
-               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}%</td>
-            </tr>
-            {/if}
-            {/foreach}
+         <table style="border: 0;">
+            <thead>
+               <tr>
+                  <th>{t}Target version{/t}</th>
+                  <th>{t}Date{/t}</th>
+                  <th style="width: 9em;">{t}Progress Mgr{/t}</th>
+                  <th style="width: 9em;">{t}Progress{/t}</th>
+                  <th style="width: 9em;">{t}Drift Mgr{/t}</th>
+                  <th style="width: 9em;">{t}Drift{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$versionsOverview key=name item=i name=versionsOverview}
+               {if $smarty.foreach.versionsOverview.last}
+               <tr class="row_total">
+                  <td>{t}Total{/t}</td>
+                  <td></td>
+                  <td>{$i.progressMgr}%</td>
+                  <td>{$i.progress}%</td>
+                  <td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}%</td>
+                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}%</td>
+               </tr>
+               {else}
+               <tr>
+                  <td>{$i.name}</td>
+                  <td>{$i.date}</td>
+                  <td>{$i.progressMgr}%</td>
+                  <td>{$i.progress}%</td>
+                  <td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}%</td>
+                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}%</td>
+               </tr>
+               {/if}
+               {/foreach}
+            </tbody>
          </table>
          {else}
          {t}No data{/t}
@@ -59,36 +63,40 @@
       </div>
       <div id="tabVersionsDetailedMgr">
          {if $versionsDetailedMgr}
-         <table>
-            <tr>
-               <th>{t}Target version{/t}</th>
-               <th>{t}MgrEffortEstim{/t}</th>
-               <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
-               <th>{t}Elapsed{/t}</th>
-               <th>{t}Backlog Mgr{/t}</th>
-               <th style="width: 80px">{t}Drift Mgr{/t}</th>
-            </tr>
-            {foreach from=$versionsDetailedMgr key=name item=i name=versionsDetailedMgr}
-            {if $smarty.foreach.versionsDetailedMgr.last}
-            <tr class="row_total">
-               <td>{t}Total{/t}</td>
-               <td>{$i.effortEstim}</td>
-               <td>{$i.reestimated}</td>
-               <td>{$i.elapsed}</td>
-               <td>{$i.backlog}</td>
-               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
-            </tr>
-            {else}
-            <tr>
-               <td>{$i.name}</td>
-               <td>{$i.effortEstim}</td>
-               <td>{$i.reestimated}</td>
-               <td>{$i.elapsed}</td>
-               <td>{$i.backlog}</td>
-               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
-            </tr>
-            {/if}
-            {/foreach}
+         <table style="border: 0;">
+            <thead>
+               <tr>
+                  <th>{t}Target version{/t}</th>
+                  <th style="width: 9em;">{t}MgrEffortEstim{/t}</th>
+                  <th style="width: 9em;" title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
+                  <th style="width: 9em;">{t}Elapsed{/t}</th>
+                  <th style="width: 9em;">{t}Backlog Mgr{/t}</th>
+                  <th style="width: 9em;">{t}Drift Mgr{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$versionsDetailedMgr key=name item=i name=versionsDetailedMgr}
+               {if $smarty.foreach.versionsDetailedMgr.last}
+               <tr class="row_total">
+                  <td>{t}Total{/t}</td>
+                  <td>{$i.effortEstim}</td>
+                  <td>{$i.reestimated}</td>
+                  <td>{$i.elapsed}</td>
+                  <td>{$i.backlog}</td>
+                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
+               </tr>
+               {else}
+               <tr>
+                  <td>{$i.name}</td>
+                  <td>{$i.effortEstim}</td>
+                  <td>{$i.reestimated}</td>
+                  <td>{$i.elapsed}</td>
+                  <td>{$i.backlog}</td>
+                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
+               </tr>
+               {/if}
+               {/foreach}
+            </tbody>
          </table>
          {else}
          {t}No data{/t}
@@ -96,36 +104,40 @@
       </div>
       <div id="tabVersionsDetailed">
          {if $versionsDetailed}
-         <table>
-            <tr>
-               <th>{t}Target version{/t}</th>
-               <th>{t}EffortEstim{/t}</th>
-               <th>{t}Reestimated{/t}</th>
-               <th>{t}Elapsed{/t}</th>
-               <th>{t}Backlog{/t}</th>
-               <th style="width: 80px">{t}Drift{/t}</th>
-            </tr>
-            {foreach from=$versionsDetailed key=name item=i name=versionsDetailed}
-            {if $smarty.foreach.versionsDetailed.last}
-            <tr class="row_total">
-               <td>{t}Total{/t}</td>
-               <td>{$i.effortEstim}</td>
-               <td>{$i.reestimated}</td>
-               <td>{$i.elapsed}</td>
-               <td>{$i.backlog}</td>
-               <td title="{t}nb days{/t}">{$i.drift}</td>
-            </tr>
-            {else}
-            <tr>
-               <td>{$i.name}</td>
-               <td title="{$i.title}">{$i.effortEstim}</td>
-               <td>{$i.reestimated}</td>
-               <td>{$i.elapsed}</td>
-               <td>{$i.backlog}</td>
-               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
-            </tr>
-            {/if}
-            {/foreach}
+         <table style="border: 0;">
+            <thead>
+               <tr>
+                  <th>{t}Target version{/t}</th>
+                  <th style="width: 9em;">{t}EffortEstim{/t}</th>
+                  <th style="width: 9em;">{t}Reestimated{/t}</th>
+                  <th style="width: 9em;">{t}Elapsed{/t}</th>
+                  <th style="width: 9em;">{t}Backlog{/t}</th>
+                  <th style="width: 9em;">{t}Drift{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$versionsDetailed key=name item=i name=versionsDetailed}
+               {if $smarty.foreach.versionsDetailed.last}
+               <tr class="row_total">
+                  <td>{t}Total{/t}</td>
+                  <td>{$i.effortEstim}</td>
+                  <td>{$i.reestimated}</td>
+                  <td>{$i.elapsed}</td>
+                  <td>{$i.backlog}</td>
+                  <td title="{t}nb days{/t}">{$i.drift}</td>
+               </tr>
+               {else}
+               <tr>
+                  <td>{$i.name}</td>
+                  <td title="{$i.title}">{$i.effortEstim}</td>
+                  <td>{$i.reestimated}</td>
+                  <td>{$i.elapsed}</td>
+                  <td>{$i.backlog}</td>
+                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
+               </tr>
+               {/if}
+               {/foreach}
+            </tbody>
          </table>
          {else}
          {t}No data{/t}
@@ -133,21 +145,25 @@
       </div>
       <div id="tabVersionsIssues">
          {if $versionsIssues}
-         <table>
-            <tr>
-               <th>{t}Target version{/t}</th>
-               <th>{t}New Tasks{/t}</th>
-               <th>{t}Current Tasks{/t}</th>
-               <th>{t}Resolved Tasks{/t}</th>
-            </tr>
-            {foreach from=$versionsIssues key=name item=i}
-            <tr>
-               <td>{$i.name}</td>
-               <td>{$i.newList}</td>
-               <td>{$i.openList}</td>
-               <td>{$i.resolvedList}</td>
-            </tr>
-            {/foreach}
+         <table style="border: 0;">
+            <thead>
+               <tr>
+                  <th>{t}Target version{/t}</th>
+                  <th style="width: 33%;">{t}New Tasks{/t}</th>
+                  <th style="width: 33%;">{t}Current Tasks{/t}</th>
+                  <th style="width: 33%;">{t}Resolved Tasks{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$versionsIssues key=name item=i}
+               <tr>
+                  <td>{$i.name}</td>
+                  <td>{$i.newList}</td>
+                  <td>{$i.openList}</td>
+                  <td>{$i.resolvedList}</td>
+               </tr>
+               {/foreach}
+            </tbody>
          </table>
          {else}
          {t}No data{/t}
@@ -164,32 +180,36 @@
       </ul>
       <div id="tabCurrentDrift">
          {if $currentIssuesInDrift}
-         <table>
+         <table style="border: 0;">
             <!--<caption>{t}Tasks in drift{/t}</caption>-->
-            <tr>
-               <th>{t}ID{/t}</th>
-               <th>{t}Project{/t}</th>
-               <th>{t}Target{/t}</th>
-               {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
-               <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
-               <th>{t}RAF{/t}</th>
-               <th>{t}Progress{/t}</th>
-               <th>{t}Status{/t}</th>
-               <th>{t}Summary{/t}</th>
-            </tr>
-            {foreach from=$currentIssuesInDrift key=name item=i}
-            <tr>
-               <td>{$i.mantisURL} {$i.issueURL}</td>
-               <td>{$i.projectName}</td>
-               <td>{$i.targetVersion}</td>
-               {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
-               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
-               <td>{$i.backlog}</td>
-               <td>{$i.progress}%</td>
-               <td>{$i.currentStatusName}</td>
-               <td>{$i.summary}</td>
-            </tr>
-            {/foreach}
+            <thead>
+               <tr>
+                  <th>{t}ID{/t}</th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Target{/t}</th>
+                  {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+                  <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+                  <th>{t}RAF{/t}</th>
+                  <th>{t}Progress{/t}</th>
+                  <th>{t}Status{/t}</th>
+                  <th>{t}Summary{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$currentIssuesInDrift key=name item=i}
+               <tr>
+                  <td>{$i.mantisURL} {$i.issueURL}</td>
+                  <td>{$i.projectName}</td>
+                  <td>{$i.targetVersion}</td>
+                  {if $isManager}<td style="width: 6em;{if $i.driftMgrColor}background-color: #{$i.driftMgrColor};{/if}">{$i.driftMgr}</td>{/if}
+                  <td style="width: 6em;{if $i.driftColor}background-color: #{$i.driftColor};{/if}">{$i.drift}</td>
+                  <td>{$i.backlog}</td>
+                  <td>{$i.progress}%</td>
+                  <td>{$i.currentStatusName}</td>
+                  <td>{$i.summary}</td>
+               </tr>
+               {/foreach}
+            </tbody>
          </table>
          {else}
          {t}No data{/t}
@@ -197,32 +217,36 @@
       </div>
       <div id="tabResolvedDrift">
          {if $resolvedIssuesInDrift}
-         <table>
+         <table style="border: 0;">
             <!--<caption>{t}Tasks in drift{/t}</caption>-->
-            <tr>
-               <th>{t}ID{/t}</th>
-               <th>{t}Project{/t}</th>
-               <th>{t}Target{/t}</th>
-               {if $isManager}<th title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
-               <th title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
-               <th>{t}RAF{/t}</th>
-               <th>{t}Progress{/t}</th>
-               <th>{t}Status{/t}</th>
-               <th>{t}Summary{/t}</th>
-            </tr>
-            {foreach from=$resolvedIssuesInDrift key=name item=i}
-            <tr>
-               <td>{$i.mantisURL} {$i.issueURL}</td>
-               <td>{$i.projectName}</td>
-               <td>{$i.targetVersion}</td>
-               {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
-               <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
-               <td>{$i.backlog}</td>
-               <td>{$i.progress}%</td>
-               <td>{$i.currentStatusName}</td>
-               <td>{$i.summary}</td>
-            </tr>
-            {/foreach}
+            <thead>
+               <tr>
+                  <th>{t}ID{/t}</th>
+                  <th>{t}Project{/t}</th>
+                  <th>{t}Target{/t}</th>
+                  {if $isManager}<th style="width: 6em;" title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
+                  <th style="width: 6em;" title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
+                  <th>{t}RAF{/t}</th>
+                  <th>{t}Progress{/t}</th>
+                  <th>{t}Status{/t}</th>
+                  <th>{t}Summary{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$resolvedIssuesInDrift key=name item=i}
+               <tr>
+                  <td>{$i.mantisURL} {$i.issueURL}</td>
+                  <td>{$i.projectName}</td>
+                  <td>{$i.targetVersion}</td>
+                  {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
+                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
+                  <td>{$i.backlog}</td>
+                  <td>{$i.progress}%</td>
+                  <td>{$i.currentStatusName}</td>
+                  <td>{$i.summary}</td>
+               </tr>
+               {/foreach}
+            </tbody>
          </table>
          {else}
          {t}No data{/t}

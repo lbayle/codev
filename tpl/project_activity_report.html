@@ -25,36 +25,40 @@
          {foreach from=$projectActivityReport key=id item=i}
          {if $i.bugList}
          <div id="tabProj_{$i.id}">
-            <table style="width: 99%;">
-               <caption>{$i.name}</caption>
-               <tr>
-                  <th style="width: 50%">{t}Task{/t}</th>
-                  {if $i.jobList}
-                  {foreach from=$i.jobList key=id item=j}
-                  <th style="width: {$j.width}%">{$j.name}</th>
+            <table style="width: 99%;border: 0;">
+               <!--<caption>{$i.name}</caption>-->
+               <thead>
+                  <tr>
+                     <th>{t}Task{/t}</th>
+                     {if $i.jobList}
+                     {foreach from=$i.jobList key=id item=j}
+                     <th style="width: {$j.width}%">{$j.name}</th>
+                     {/foreach}
+                     {/if}
+                     <th style="width: 1em;" title="{t}Target version{/t}">{t}Target{/t}</th>
+                     <th style="width: 1em;">{t}Status{/t}</th>
+                     <th style="width: 1em;">{t}Progress{/t}</th>
+                     <th style="width: 1em;">{t}RAF{/t}</th>
+                     <th style="width: 1em;" title="{t}Total time spent on this issue{/t}">{t}Total{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$i.bugList key=id item=k}
+                  <tr>
+                     <td>{$k.mantisURL} {$k.issueURL} {if $k.id}/ {$k.id}{/if} : {$k.summary}</td>
+                     {if $isDetailed && $k.jobList}
+                     {foreach from=$k.jobList key=id item=l}
+                     <td style="width: {$l.width}%">{$l.id}</td>
+                     {/foreach}
+                     {/if}
+                     <td>{$k.targetVersion}</td>
+                     <td>{$k.currentStatusName}</td>
+                     <td>{$k.progress}%</td>
+                     <td>{$k.backlog}</td>
+                     <td>{$k.totalTime}</td>
+                  </tr>
                   {/foreach}
-                  {/if}
-                  <th style="width: 10%" title="{t}Target version{/t}">{t}Target{/t}</th>
-                  <th style="width: 2%">{t}Status{/t}</th>
-                  <th style="width: 2%">{t}Progress{/t}</th>
-                  <th style="width: 2%">{t}RAF{/t}</th>
-                  <th style="width: 2%" title="{t}Total time spent on this issue{/t}">{t}Total{/t}</th>
-               </tr>
-               {foreach from=$i.bugList key=id item=k}
-               <tr class ="{$k.class}">
-                  <td>{$k.mantisURL} {$k.issueURL} {if $k.id}/ {$k.id}{/if} : {$k.summary}</td>
-                  {if $isDetailed && $k.jobList}
-                  {foreach from=$k.jobList key=id item=l}
-                  <td style="width: {$l.width}%">{$l.id}</td>
-                  {/foreach}
-                  {/if}
-                  <td>{$k.targetVersion}</td>
-                  <td>{$k.currentStatusName}</td>
-                  <td>{$k.progress}%</td>
-                  <td>{$k.backlog}</td>
-                  <td>{$k.totalTime}</td>
-               </tr>
-               {/foreach}
+               </tbody>
             </table>
          </div>
          {/if}

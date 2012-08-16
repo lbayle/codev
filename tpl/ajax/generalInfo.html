@@ -6,55 +6,55 @@
       });
    });
 </script>
-<table>
-   <tr>
-      <th>{t}Indicator{/t}</th>
-      {if $isManager}<th title="{t}Manager Estimation{/t}">{t}Manager{/t}</th>{/if}
-      <th>{t}Value{/t}</th>
-   </tr>
-   <tr>
-      <td title="BI + BS">{t}Estimated effort{/t}</td>
-      {if $isManager}<td>{$issueGeneralInfo.issueMgrEffortEstim}</td>{/if}
-      <td title="{$issueGeneralInfo.issueEffortTitle}">{$issueGeneralInfo.issueEffort}</td>
-   </tr>
-   <tr>
-      <td title="">{t}Reestimated{/t}</td>
-      {if $isManager}<td>{$issueGeneralInfo.issueReestimatedMgr}</td>{/if}
-      <td title="">{$issueGeneralInfo.issueReestimated}</td>
-   </tr>
-   <tr>
-      <td>{t}Elapsed{/t}</td>
-      {if $isManager}<td></td>{/if}
-      {if $withSupport}
-      <td title="{t}Support included{/t}">{$issueGeneralInfo.issueElapsed}</td>
-      {else}
-      <td title="{t}Support NOT included{/t}">{$issueGeneralInfo.issueElapsed}</td>
+<table style="border: 0;">
+   <thead>
+      <tr>
+         <th>{t}Indicator{/t}</th>
+         {if $isManager}<th title="{t}Manager Estimation{/t}">{t}Manager{/t}</th>{/if}
+         <th>{t}Value{/t}</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td title="BI + BS">{t}Estimated effort{/t}</td>
+         {if $isManager}<td>{$issueGeneralInfo.issueMgrEffortEstim}</td>{/if}
+         <td title="{$issueGeneralInfo.issueEffortTitle}">{$issueGeneralInfo.issueEffort}</td>
+      </tr>
+      <tr>
+         <td title="">{t}Reestimated{/t}</td>
+         {if $isManager}<td>{$issueGeneralInfo.issueReestimatedMgr}</td>{/if}
+         <td title="">{$issueGeneralInfo.issueReestimated}</td>
+      </tr>
+      <tr>
+         <td>{t}Elapsed{/t}</td>
+         {if $isManager}<td></td>{/if}
+         {if $withSupport}<td title="{t}Support included{/t}">{$issueGeneralInfo.issueElapsed}</td>
+         {else}<td title="{t}Support NOT included{/t}">{$issueGeneralInfo.issueElapsed}</td>
+         {/if}
+      </tr>
+      <tr>
+         <td>{t}Backlog{/t}</td>
+         {if $isManager}<td></td>{/if}
+         <td><a id="update_backlog_link" title="{t}update backlog{/t}" href="#" >{$issueGeneralInfo.issueBacklog}</a></td>
+      </tr>
+      <tr>
+         <td>{t}Effort Deviation{/t}</td>
+         {if $isManager}<td style="background-color: #{$issueGeneralInfo.issueDriftMgrColor}">{$issueGeneralInfo.issueDriftMgr}</td>{/if}
+         <td style="background-color: #{$issueGeneralInfo.issueDriftColor}">{$issueGeneralInfo.issueDrift}</td>
+      </tr>
+      {if $displaySupport}
+      <tr>
+         {if $withSupport}<td>{t}EffortDeviation -Support{/t}</td>
+         {else}<td>{t}EffortDeviation +Support{/t}</td>
+         {/if}
+         {if $isManager}<td style="background-color: #{$issueGeneralInfo.issueDriftMgrSupportColor}">{$issueGeneralInfo.issueDriftMgrSupport}</td>{/if}
+         <td style="background-color: #{$issueGeneralInfo.issueDriftSupportColor}">{$issueGeneralInfo.issueDriftSupport}</td>
+      </tr>
       {/if}
-   </tr>
-   <tr>
-      <td>{t}Backlog{/t}</td>
-      {if $isManager}<td></td>{/if}
-      <td><a id="update_backlog_link" title="{t}update backlog{/t}" href="#" >{$issueGeneralInfo.issueBacklog}</a></td>
-   </tr>
-   <tr>
-      <td>{t}Effort Deviation{/t}</td>
-      {if $isManager}<td style="background-color: #{$issueGeneralInfo.issueDriftMgrColor}">{$issueGeneralInfo.issueDriftMgr}</td>{/if}
-      <td style="background-color: #{$issueGeneralInfo.issueDriftColor}">{$issueGeneralInfo.issueDrift}</td>
-   </tr>
-   {if $displaySupport}
-   <tr>
-      {if $withSupport}
-      <td>{t}EffortDeviation -Support{/t}</td>
-      {else}
-      <td>{t}EffortDeviation +Support{/t}</td>
-      {/if}
-      {if $isManager}<td style="background-color: #{$issueGeneralInfo.issueDriftMgrSupportColor}">{$issueGeneralInfo.issueDriftMgrSupport}</td>{/if}
-      <td style="background-color: #{$issueGeneralInfo.issueDriftSupportColor}">{$issueGeneralInfo.issueDriftSupport}</td>
-   </tr>
-   {/if}
-   <tr>
-      <td>{t}Progress{/t}</td>
-      {if $isManager}<td></td>{/if}
-      <td>{$issueGeneralInfo.progress}%</td>
-   </tr>
+      <tr>
+         <td>{t}Progress{/t}</td>
+         {if $isManager}<td></td>{/if}
+         <td>{$issueGeneralInfo.progress}%</td>
+      </tr>
+   </tbody>
 </table>

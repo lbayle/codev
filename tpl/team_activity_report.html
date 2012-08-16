@@ -85,37 +85,39 @@
          {if $i.weekJobDetails}
 
          <div id="tabUser_{$i.name}">
-            <table style="width: 99%;">
-               <caption><span style="font-size:12px;font-weight:normal;" title="{t}sum(Backlog) of current tasks{/t}">{t}Backlog{/t} = {$i.forecastWorkload}</span></caption>
-               <tr>
-                  <th width="50%">{t}Task{/t}</th>
-                  <th width="1%">{t}RAF{/t}</th>
-                  <th width="1%">{t}Progress{/t}</th>
-                  <th width="7%">{t}Project{/t}</th>
-                  <th width="5" title="{t}Target version{/t}">{t}Target{/t}</th>
-                  {if $isChecked}
-                  <th width="10%">{t}Job{/t}</th>
-                  {/if}
-                  {foreach from=$i.weekDates item=j key=id}
-                  <th width="10">{$j}</th>
+            <table style="width: 99%; border: 0;">
+               <caption><span style="margin-left: 1em;font-size:13px;font-weight:normal;" title="{t}sum(Backlog) of current tasks{/t}">{t}Backlog{/t} = {$i.forecastWorkload}</span></caption>
+               <thead>
+                  <tr>
+                     <th>{t}Task{/t}</th>
+                     <th style="width: 1em;">{t}RAF{/t}</th>
+                     <th style="width: 1em;">{t}Progress{/t}</th>
+                     <th style="width: 1em;">{t}Project{/t}</th>
+                     <th style="width: 1em;" title="{t}Target version{/t}">{t}Target{/t}</th>
+                     {if $isChecked}<th style="width: 1em;">{t}Job{/t}</th>{/if}
+                     {foreach from=$i.weekDates item=j key=id}
+                     <th style="width: 4em;">{$j}</th>
+                     {/foreach}
+                     {foreach from=$i.weekEndDates item=j key=id}
+                     <th style="width: 4em; background-color: #D8D8D8;">{$j}</th>
+                     {/foreach}
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$i.weekJobDetails item=j key=id}
+                  <tr>
+                     <td>{$j.url}</td>
+                     <td>{$j.duration}</td>
+                     <td>{$j.progress}%</td>
+                     <td>{$j.projectName}</td>
+                     <td>{$j.targetVersion}</td>
+                     {if $isChecked}<td>{$j.jobName}</td>{/if}
+                     {foreach from=$j.daysDetails item=k key=id}
+                     <td {if $k.color}style="background-color: #{$k.color};"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>
+                     {/foreach}
+                  </tr>
                   {/foreach}
-                  {foreach from=$i.weekEndDates item=j key=id}
-                  <th width="10" style="background-color: #D8D8D8;">{$j}</th>
-                  {/foreach}
-               </tr>
-               {foreach from=$i.weekJobDetails item=j key=id}
-               <tr>
-                  <td>{$j.url}</td>
-                  <td>{$j.duration}</td>
-                  <td>{$j.progress}%</td>
-                  <td>{$j.projectName}</td>
-                  <td>{$j.targetVersion}</td>
-                  {if $isChecked}<td>{$j.jobName}</td>{/if}
-                  {foreach from=$j.daysDetails item=k key=id}
-                  <td {if $k.color}style="background-color: #{$k.color};"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>
-                  {/foreach}
-               </tr>
-               {/foreach}
+               </tbody>
             </table>
          </div>
          {/if}

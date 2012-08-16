@@ -25,6 +25,7 @@ caption {
   font-size: larger;
   font-weight: bold;
   text-align: left;
+  margin-left: 0.5em;
 }
 th {
   background-color: #c8c8e8;
@@ -33,49 +34,28 @@ th {
   padding: 0 2px;
 }
 thead th {
-  padding:0.5em;
-  
+  padding: .5em;
 }
-tbody td {
-  padding:0.2em;
+td {
+   background-color: #E8E8E8;
+   border: 0 solid white;
+   margin: 0;
+   padding: 0 2px;
+}
+
+tbody th, tbody td, tfoot td {
+   padding: .2em .5em;
 }
 
 tr.row_even td {
   background-color: #CFCFCF;
-  border: 0 solid white;
-  margin: 0;
-  padding: 0 2px;
 }
 
-tr.row_total td {
+tr.row_total td, tfoot td {
    background-color: #CFCFCF;
-   border: 0 solid white;
-   margin: 0;
-   padding: 0 2px;
    font-weight: bold;
 }
 
-tfoot td {
-   background-color: #CFCFCF;
-   border: 0 solid white;
-   margin: 0;
-   padding: 0 2px;
-   font-weight: bold;
-}
-
-tr.row_odd td {
-background-color: #e8e8e8;
-border: 0 solid white;
-margin: 0;
-padding: 0 2px;
-}
-
-td {
-background-color: #e8e8e8;
-border: 0 solid white;
-margin: 0;
-padding: 0 2px;
-}
 fieldset {
    padding: 0;
    border: 0;

@@ -212,45 +212,53 @@
 
          <!-- Job details -->
          <div class="float" style="margin-left: 5em">
-            <table>
-               <tr>
-                  <th>{t}Job{/t}</th>
-                  <th>{t}Nb Days{/t}</th>
-                  <th></th>
-               </tr>
-               {foreach from=$jobDetails key=id item=i}
-               <tr>
-                  <td>
-                     <div class="generatedImage float" style="background-color: #{$i.jobColor};"></div>
-                     <div class="float">{$i.jobName}</div>
-                     <div class="ui-helper-clearfix"></div>
-                  </td>
-                  <td>{$i.duration}</td>
-                  <td>{$i.durationRate} %</td>
-               </tr>
-               {/foreach}
+            <table style="border: 0;">
+               <thead>
+                  <tr>
+                     <th>{t}Job{/t}</th>
+                     <th>{t}Nb Days{/t}</th>
+                     <th></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach from=$jobDetails key=id item=i}
+                  <tr>
+                     <td>
+                        <div class="generatedImage float" style="background-color: #{$i.jobColor};"></div>
+                        <div class="float">{$i.jobName}</div>
+                        <div class="ui-helper-clearfix"></div>
+                     </td>
+                     <td>{$i.duration}</td>
+                     <td>{$i.durationRate} %</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
             </table>
          </div>
 
          <!-- Dates -->
          <div class="float" style="margin-left: 5em">
-            <table>
-               <tr>
-                  <th>{t}Dates{/t}</th>
-                  <th></th>
-               </tr>
-               <tr>
-                  <td>{t}DeadLine{/t}</td>
-                  <td>{$timeDrift.deadLine}</td>
-               </tr>
-               <tr>
-                  <td>{t}DeliveryDate{/t}</td>
-                  <td>{$timeDrift.deliveryDate}</td>
-               </tr>
-               <tr>
-                  <td>{t}Deviation{/t}</td>
-                  <td style="background-color: #{$timeDrift.driftColor}">{if $timeDrift.drift}{$timeDrift.drift} {t}days{/t}{/if}</td>
-               </tr>
+            <table style="border: 0;">
+               <thead>
+                  <tr>
+                     <th>{t}Dates{/t}</th>
+                     <th></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>{t}DeadLine{/t}</td>
+                     <td>{$timeDrift.deadLine}</td>
+                  </tr>
+                  <tr>
+                     <td>{t}DeliveryDate{/t}</td>
+                     <td>{$timeDrift.deliveryDate}</td>
+                  </tr>
+                  <tr>
+                     <td>{t}Deviation{/t}</td>
+                     <td style="background-color: #{$timeDrift.driftColor}">{if $timeDrift.drift}{$timeDrift.drift} {t}days{/t}{/if}</td>
+                  </tr>
+               </tbody>
             </table>
          </div>
          <div class="ui-helper-clearfix"></div>
@@ -260,22 +268,26 @@
          <!-- Jobs details by months -->
          {if $months}
          {foreach from=$months key=id item=i}
-         <table width="70%" style="margin-bottom: 2em">
+         <table width="70%" style="margin-bottom: 2em; border: 0;">
             <caption>{$i.monthFormated} <span style="margin-left: 1em;font-weight: normal; font-size: 12px">{$i.totalDuration} {t}days{/t}</span></caption>
-            <tr>
-               <th></th>
-               {foreach from=$i.months key=id item=j}
-               <th>{$j}</th>
+            <thead>
+               <tr>
+                  <th></th>
+                  {foreach from=$i.months key=id item=j}
+                  <th>{$j}</th>
+                  {/foreach}
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$i.users key=id item=k}
+               <tr>
+                  <td>{$k.username}</td>
+                  {foreach from=$k.jobs key=id item=l}
+                  <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{$l.jobDuration}</td>
+                  {/foreach}
+               </tr>
                {/foreach}
-            </tr>
-            {foreach from=$i.users key=id item=k}
-            <tr>
-               <td>{$k.username}</td>
-               {foreach from=$k.jobs key=id item=l}
-               <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{$l.jobDuration}</td>
-               {/foreach}
-            </tr>
-            {/foreach}
+            </tbody>
          </table>
          {/foreach}
 
@@ -294,18 +306,22 @@
       <div id="tabsName-3">
          <!-- Time allocation -->
          {if $durationsByStatus}
-         <table>
+         <table style="border: 0;">
             <caption>{t}Time allocation by status{/t}</caption>
-            <tr>
-               {foreach from=$durationsByStatus.statusNames key=id item=i}
-               <th>{$i}</th>
-               {/foreach}
-            </tr>
-            <tr>
-               {foreach from=$durationsByStatus.durations key=id item=i}
-               <td>{$i}</td>
-               {/foreach}
-            </tr>
+            <thead>
+               <tr>
+                  {foreach from=$durationsByStatus.statusNames key=id item=i}
+                  <th>{$i}</th>
+                  {/foreach}
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  {foreach from=$durationsByStatus.durations key=id item=i}
+                  <td>{$i}</td>
+                  {/foreach}
+               </tr>
+            </tbody>
          </table>
          {/if}
       </div>

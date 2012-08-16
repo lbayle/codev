@@ -71,22 +71,26 @@
             }
          }
       </script>
-      <table>
+      <table style="border: 0;">
          <!-- <caption>Jobs</caption> -->
-         <tr>
-            <th></th>
-            <th>{t}Job Name{/t}</th>
-            <th>{t}Type{/t}</th>
-            <th>{t}Color{/t}</th>
-         </tr>
-         {foreach from=$jobs key=id item=i}
+         <thead>
             <tr>
-               <td>{if $i.deletedJob}<a title="{t}delete Job{/t}" onclick="deleteJob('{$id}', '{$i.name}');return false" href="#"><img src="images/b_drop.png"></a>{/if}</td>
-               <td title="{$id}">{$i.name}</td>
-               <td title="{$i.type}">{$i.typeName}</td>
-               <td style="background-color: #{$i.color};">{$i.color}</td>
+               <th></th>
+               <th>{t}Job Name{/t}</th>
+               <th>{t}Type{/t}</th>
+               <th>{t}Color{/t}</th>
             </tr>
-         {/foreach}
+         </thead>
+         <tbody>
+            {foreach from=$jobs key=id item=i}
+               <tr>
+                  <td>{if $i.deletedJob}<a title="{t}delete Job{/t}" onclick="deleteJob('{$id}', '{$i.name}');return false" href="#"><img src="images/b_drop.png"></a>{/if}</td>
+                  <td title="{$id}">{$i.name}</td>
+                  <td title="{$i.type}">{$i.typeName}</td>
+                  <td style="background-color: #{$i.color};">{$i.color}</td>
+               </tr>
+            {/foreach}
+         </tbody>
       </table>
 
       <form id="deleteJobForm" name="deleteJobForm" method="post" action="{$page}" class="ui-helper-hidden">
@@ -171,20 +175,24 @@
             }
          }
       </script>
-      <table>
+      <table style="border: 0;">
          <!-- <caption>Assigned Jobs</caption> -->
-         <tr>
-            <th></th>
-            <th>{t}Job Name{/t}</th>
-            <th>{t}Project{/t}</th>
-         </tr>
-         {foreach from=$tuples key=id item=i}
+         <thead>
             <tr>
-               <td><a title="{t}delete Project Association{/t}" href="#" onclick="deleteJobProjectAssociation('{$id}','{$i.desc}');return false;" ><img src="images/b_drop.png"></a></td>
-               <td title="{$i.jobid}">{$i.jobname}</td>
-               <td title="{$i.projectid}">{$i.project}</td>
+               <th></th>
+               <th>{t}Job Name{/t}</th>
+               <th>{t}Project{/t}</th>
             </tr>
-         {/foreach}
+         </thead>
+         <tbody>
+            {foreach from=$tuples key=id item=i}
+               <tr>
+                  <td><a title="{t}delete Project Association{/t}" href="#" onclick="deleteJobProjectAssociation('{$id}','{$i.desc}');return false;" ><img src="images/b_drop.png"></a></td>
+                  <td title="{$i.jobid}">{$i.jobname}</td>
+                  <td title="{$i.projectid}">{$i.project}</td>
+               </tr>
+            {/foreach}
+         </tbody>
       </table>
 
       <form id="deleteJobProjectAssociationForm" name="deleteJobProjectAssociationForm" method="post" action="{$page}" class="ui-helper-hidden">

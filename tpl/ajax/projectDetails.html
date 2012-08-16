@@ -1,17 +1,21 @@
 {if $projectDetails}
-<table width='300' class="float">
-   <tr>
-      <th>{t}Category{/t}</th>
-      <th>{t}Nb Days{/t}</th>
-      <th>{t}Tasks{/t}</th>
-   </tr>
-   {foreach from=$projectDetails key=id item=i}
-   <tr bgcolor='white'>
-      <td>{$i.catName}</td>
-      <td>{$i.duration}</td>
-      <td>{$i.formatedBugsPerCategory}</td>
-   </tr>
-   {/foreach}
+<table class="float" style="border: 0;width: 300px;">
+   <thead>
+      <tr>
+         <th>{t}Category{/t}</th>
+         <th>{t}Nb Days{/t}</th>
+         <th>{t}Tasks{/t}</th>
+      </tr>
+   </thead>
+   <tbody>
+      {foreach from=$projectDetails key=id item=i}
+      <tr>
+         <td>{$i.catName}</td>
+         <td>{$i.duration}</td>
+         <td>{$i.formatedBugsPerCategory}</td>
+      </tr>
+      {/foreach}
+   </tbody>
 </table>
 {if $projectDetailsUrl}<img width="800" height="300" src="graphs/pie_graph.php?size=800:300&{$projectDetailsUrl}" alt="{t}Project Detail{/t}" />{/if}
 <div class="ui-helper-clearfix"></div>

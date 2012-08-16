@@ -74,22 +74,26 @@
             }
          }
       </script>
-      <table>
+      <table style="border: 0;">
          <!-- <caption>Holidays</caption> -->
-         <tr>
-            <th></th>
-            <th>{t}Date{/t}</th>
-            <th>{t}Description{/t}</th>
-            <th>{t}Color{/t}</th>
-         </tr>
-         {foreach from=$holidays key=id item=i}
-         <tr>
-            <td><a title="{t}delete Holiday{/t}" href="#" onclick="deleteHoliday('{$id}', '{$i.date}','{$i.desc}');return false;" ><img src=images/b_drop.png></a></td>
-            <td title="{$id}">{$i.date}</td>
-            <td title="{$i.type}">{$i.desc}</td>
-            <td style="background-color: #{$i.color};">{$i.color}</td>
-         </tr>
-         {/foreach}
+         <thead>
+            <tr>
+               <th></th>
+               <th>{t}Date{/t}</th>
+               <th>{t}Description{/t}</th>
+               <th>{t}Color{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$holidays key=id item=i}
+            <tr>
+               <td><a title="{t}delete Holiday{/t}" href="#" onclick="deleteHoliday('{$id}', '{$i.date}','{$i.desc}');return false;" ><img src=images/b_drop.png></a></td>
+               <td title="{$id}">{$i.date}</td>
+               <td title="{$i.type}">{$i.desc}</td>
+               <td style="background-color: #{$i.color};">{$i.color}</td>
+            </tr>
+            {/foreach}
+         </tbody>
       </table>
 
       <form id="deleteHolidayForm" name="deleteHolidayForm" method="post" action="{$page}" class="ui-helper-hidden">
