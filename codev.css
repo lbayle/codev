@@ -32,6 +32,13 @@ th {
   margin: 0;
   padding: 0 2px;
 }
+thead th {
+  padding:0.5em;
+  
+}
+tbody td {
+  padding:0.2em;
+}
 
 tr.row_even td {
   background-color: #CFCFCF;
