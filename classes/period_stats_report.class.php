@@ -84,6 +84,8 @@ class PeriodStatsReport {
          }
          $startM = 1;
       }
+
+      return $this->periodStatsList;
    }
 
    public function getStatus($status) {
@@ -94,35 +96,6 @@ class PeriodStatsReport {
 
       }
       return $sub;
-   }
-
-   function displayHTMLReport() {
-      $statusNames = Config::getInstance()->getValue("statusNames");
-      ksort($statusNames);
-
-      echo "<table>\n";
-      echo "<caption title='Bilan mensuel SAUF SuiviOp.'>Bilan mensuel (nbre de fiches / status &agrave; la fin du mois)</caption>";
-      echo "<tr>\n";
-      echo "<th>Date</th>\n";
-      foreach ($statusNames as $sname) {
-         echo "<th>$sname</th>\n";
-      }
-      echo "</tr>\n";
-
-      foreach ($this->periodStatsList as $date => $ps) {
-
-         // Disp
-         $tableLine = "<tr>\n";
-         $tableLine .= "<td class=\"right\">".Tools::formatDate("%B %Y", $date)."</td>\n";
-
-         foreach ($statusNames as $s => $sname) {
-            $tableLine .= "<td class=\"right\">".$ps->statusCountList[$s]."</td>\n";
-         }
-         $tableLine .= "</tr>\n";
-         echo "$tableLine";
-
-      }
-      echo "</table>\n";
    }
 
 }

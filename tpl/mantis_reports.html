@@ -1,0 +1,31 @@
+<div id="content">
+   {if $teams}
+   {include file="form/teamForm.html"}
+   {if $periods}
+   <div id="weekTaskDetailsDiv" style="margin:1em auto 0; padding: 2em;" class="ui-widget-content">
+   <table style="border: 0;">
+      <caption title="{t}Bilan mensuel SAUF SuiviOp.{/t}">{t}Bilan mensuel (nbre de fiches / status &agrave; la fin du mois){/t}</caption>
+      <thead>
+         <tr>
+            <th>{t}Date{/t}</th>
+            {foreach $statusNames as $sname}
+            <th>{$sname}</th>
+            {/foreach}
+         </tr>
+      </thead>
+      <tbody>
+         {foreach $periods as $date => $status}
+         <tr>
+            <td class="right">date</td>
+            {foreach $status as $statusName}
+            <td class="right">{$statusName}</td>
+            {/foreach}
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+   </div>
+   {/if}
+   {else}<p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
+   {/if}
+</div>
