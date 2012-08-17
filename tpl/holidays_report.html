@@ -28,27 +28,29 @@
 
    {foreach from=$months key=id item=i}
    <div style="margin-top: 2em;">
-      <table style="margin-left:10em; border: 0;">
-         <caption>{$i.name}</caption>
-         <thead>
-            <tr>
-               <th style="width: 1em;"></th>
-               {foreach from=$i.days key=key item=j}
-               <th title="{t}{$j.title}{/t}" {if $j.selected}style="background-color: #FF699D"{/if}>{$key}</th>
+      <div style="margin:0 auto; padding: 2em; width: 80em;" class="ui-widget-content">
+         <table style="border: 0;">
+            <caption>{$i.name}</caption>
+            <thead>
+               <tr>
+                  <th style="width: 1em;"></th>
+                  {foreach from=$i.days key=key item=j}
+                  <th title="{t}{$j.title}{/t}" {if $j.selected}style="background-color: #FF699D"{/if}>{$key}</th>
+                  {/foreach}
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$i.users key=key item=j}
+               <tr>
+                  <th style="text-align: left"title="{$j.realname}">{$j.username}</th>
+                  {foreach from=$j.days key=day item=k}
+                  <td {if $k.color || $k.align}style="{if $k.color}background-color: #{$k.color};{/if}{if $k.align}text-align: center;{/if}"{/if} {if $k.title}title="{$k.title}"{/if}>{if $k.value}{$k.value}{/if}</td>
+                  {/foreach}
+               </tr>
                {/foreach}
-            </tr>
-         </thead>
-         <tbody>
-            {foreach from=$i.users key=key item=j}
-            <tr>
-               <td title="{$j.realname}">{$j.username}</td>
-               {foreach from=$j.days key=day item=k}
-               <td {if $k.color || $k.align}style="{if $k.color}background-color: #{$k.color};{/if}{if $k.align}text-align: center;{/if}"{/if} {if $k.title}title="{$k.title}"{/if}>{if $k.value}{$k.value}{/if}</td>
-               {/foreach}
-            </tr>
-            {/foreach}
-         </tbody>
-      </table>
+            </tbody>
+         </table>
+      </div>
    </div>
    {/foreach}
    {else}

@@ -59,7 +59,10 @@
 .ui-widget { font-family: Arial,sans-serif; font-size: 1.1em; }
 .ui-widget .ui-widget { font-size: 1em; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Arial,sans-serif; font-size: 1em; }
-.ui-widget-content { border: 1px solid #B6B6B6; background: #ffffff; /* color: #4F4F4F; */ }
+
+/* CODEVTT Modifications */
+.ui-widget-content { border: 1px solid #B6B6B6; background: #E8E8E8; /* color: #4F4F4F; */ }
+/*.ui-widget-content { border: 1px solid #B6B6B6; background: #ffffff; /* color: #4F4F4F; */ }*/
 .ui-widget-content a { /* color: #4F4F4F; */ }
 .ui-widget-header { border: 1px solid #B6B6B6; /* color: #4F4F4F; */ font-weight: bold; }
 .ui-widget-header {
@@ -631,11 +634,17 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 }
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel { display: block; border-width: 0 1px 1px 1px; padding: 1em 1.4em; background: none; }
-.ui-tabs .ui-tabs-panel { background: #FFF;
+/* CODEVTT modifications */
+.ui-tabs .ui-tabs-panel { background: #E8E8E8;
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
 	border-radius: 0;
 }
+/*.ui-tabs .ui-tabs-panel { background: #FFF;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+}*/
 .ui-tabs .ui-tabs-hide { display: none !important; }
 /*
  * jQuery UI Datepicker 1.8.7

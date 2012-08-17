@@ -13,115 +13,25 @@
 
 <div id="content">
 {if $jobType}
-   <h2>{t}Jobs{/t}</h2>
-   <!-- <div class="center"> -->
-   <script type="text/javascript" src="js/colorpicker.js"></script>
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         jQuery('#addJob').click(function() {
-            // check fields
-            var foundError = 0;
-            var msgString = "{t}Les champs suivants ont ete oublies{/t}:\n";
-
-            var form = jQuery("#addJobForm");
-
-            if ("" == form.find("input[name=job_name]").val()) {
-               msgString += "{t}Job Name{/t}";
-               ++foundError;
-            }
-            if ("" == form.find("input[name=job_color]").val()) {
-               msgString += "{t}Job Color{/t}";
-               ++foundError;
-            }
-
-            if (0 == foundError) {
-               form.submit();
-            } else {
-               alert(msgString);
-            }
-         });
-      });
-   </script>
-   <form id="addJobForm" name="addJobForm" method="post" action="{$page}">
-      <fieldset>
-         <label for="job_name">{t}Job Name{/t}:</label>
-         <input name="job_name" size="30" type="text" id="job_name" />
-         <label for="job_type">{t}Type{/t}:</label>
-         <select name="job_type" id="job_type">
-            {foreach from=$jobType key=id item=i}
-               <option value="{$id}">{$i}</option>
-            {/foreach}
-         </select>
-         <label for="colorpicker">{t}Color{/t}:</label>
-         <input style="background-color: #FFFFFF" name="job_color" type="text" id="colorpicker" value="FFFFFF" title="format: FFFFFF" size="6" />
-         <input type="button" id="addJob" name="btAddJob" value="{t}Add{/t}" />
-      </fieldset>
-   </form>
-
-   <br/>
-   <!-- Display previous entries -->
-   <div>
-      <script type="text/javascript">
-         function deleteJob(id, description){
-            var confirmString = "{t}Desirez-vous vraiment supprimer definitivement le poste{/t} '" + description + "' ?";
-            if (confirm(confirmString)) {
-               var form = jQuery("#deleteJobForm");
-               form.find("input[name=job_id]").val(id);
-               form.submit();
-            }
-         }
-      </script>
-      <table style="border: 0;">
-         <!-- <caption>Jobs</caption> -->
-         <thead>
-            <tr>
-               <th></th>
-               <th>{t}Job Name{/t}</th>
-               <th>{t}Type{/t}</th>
-               <th>{t}Color{/t}</th>
-            </tr>
-         </thead>
-         <tbody>
-            {foreach from=$jobs key=id item=i}
-               <tr>
-                  <td>{if $i.deletedJob}<a title="{t}delete Job{/t}" onclick="deleteJob('{$id}', '{$i.name}');return false" href="#"><img src="images/b_drop.png"></a>{/if}</td>
-                  <td title="{$id}">{$i.name}</td>
-                  <td title="{$i.type}">{$i.typeName}</td>
-                  <td style="background-color: #{$i.color};">{$i.color}</td>
-               </tr>
-            {/foreach}
-         </tbody>
-      </table>
-
-      <form id="deleteJobForm" name="deleteJobForm" method="post" action="{$page}" class="ui-helper-hidden">
-         <fieldset>
-            <input type="hidden" name="job_id" value="0" />
-         </fieldset>
-      </form>
-   </div>
-
-   <hr style="margin-top: 2em;" align="left" width="20%"/>
-   <h2 title="Job-Projects Associations">{t}Job Assignations{/t}</h2>
-   <!-- <div class="center"> -->
-   <div>
+   <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content">
+      <h2>{t}Jobs{/t}</h2>
+      <!-- <div class="center"> -->
+      <script type="text/javascript" src="js/colorpicker.js"></script>
       <script type="text/javascript">
          jQuery(document).ready(function() {
-            jQuery("#addAssociationProject").click(function() {
+            jQuery('#addJob').click(function() {
                // check fields
                var foundError = 0;
                var msgString = "{t}Les champs suivants ont ete oublies{/t}:\n";
 
-               var form = jQuery("#addJobProjectAssociationForm");
-               var select = form.find("select[name=projects]").val();
-               if (select == null) {
-                  msgString += "{t}Projects{/t}";
-                  ++foundError;
-               } else {
-                  form.find("input[name=formattedProjects]").val(select.join(","));
-               }
+               var form = jQuery("#addJobForm");
 
-               if (0 == form.find("select[name=job_id]").val()) {
-                  msgString += "{t}Job{/t}";
+               if ("" == form.find("input[name=job_name]").val()) {
+                  msgString += "{t}Job Name{/t}";
+                  ++foundError;
+               }
+               if ("" == form.find("input[name=job_color]").val()) {
+                  msgString += "{t}Job Color{/t}";
                   ++foundError;
                }
 
@@ -133,35 +43,126 @@
             });
          });
       </script>
-      <form id="addJobProjectAssociationForm" name="addJobProjectAssociationForm" method="post" action="{$page}">
-         <table class="invisible">
-            <tr>
-               <td title="{t}single selection{/t}">{t}Job{/t}:</td>
-               <td title="{t}multiple selection{/t}">{t}Projects{/t}:</td>
-            </tr>
-            <tr>
-               <td>
-                  <select name="job_id" size="5">
-                     {foreach from=$assignedJobs key=id item=i}
-                        <option value="{$id}">{$i}</option>
-                     {/foreach}
-                  </select>
-               </td>
-               <td>
-                  <select name="projects" multiple="multiple" size="5">
-                     {foreach from=$projects key=id item=i}
-                        <option value="{$id}">{$i}</option>
-                     {/foreach}
-                  </select>
-               </td>
-               <td>
-                  <input type="button" id="addAssociationProject" name="btAddAssociation" value="{t}Add{/t}" />
-               </td>
-            </tr>
-         </table>
-         <input type="hidden" name="formattedProjects" value="" />
+      <form id="addJobForm" name="addJobForm" method="post" action="{$page}">
+         <fieldset>
+            <label for="job_name">{t}Job Name{/t}:</label>
+            <input name="job_name" size="30" type="text" id="job_name" />
+            <label for="job_type">{t}Type{/t}:</label>
+            <select name="job_type" id="job_type">
+               {foreach from=$jobType key=id item=i}
+               <option value="{$id}">{$i}</option>
+               {/foreach}
+            </select>
+            <label for="colorpicker">{t}Color{/t}:</label>
+            <input style="background-color: #FFFFFF" name="job_color" type="text" id="colorpicker" value="FFFFFF" title="format: FFFFFF" size="6" />
+            <input type="button" id="addJob" name="btAddJob" value="{t}Add{/t}" />
+         </fieldset>
       </form>
+
+      <!-- Display previous entries -->
+      <div style="margin-top: 1em;">
+         <script type="text/javascript">
+            function deleteJob(id, description){
+               var confirmString = "{t}Desirez-vous vraiment supprimer definitivement le poste{/t} '" + description + "' ?";
+               if (confirm(confirmString)) {
+                  var form = jQuery("#deleteJobForm");
+                  form.find("input[name=job_id]").val(id);
+                  form.submit();
+               }
+            }
+         </script>
+         <table style="border: 0;">
+            <!-- <caption>Jobs</caption> -->
+            <thead>
+               <tr>
+                  <th></th>
+                  <th>{t}Job Name{/t}</th>
+                  <th>{t}Type{/t}</th>
+                  <th>{t}Color{/t}</th>
+               </tr>
+            </thead>
+            <tbody>
+               {foreach from=$jobs key=id item=i}
+               <tr>
+                  <td>{if $i.deletedJob}<a title="{t}delete Job{/t}" onclick="deleteJob('{$id}', '{$i.name}');return false" href="#"><img src="images/b_drop.png"></a>{/if}</td>
+                  <td title="{$id}">{$i.name}</td>
+                  <td title="{$i.type}">{$i.typeName}</td>
+                  <td style="background-color: #{$i.color};">{$i.color}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
+
+         <form id="deleteJobForm" name="deleteJobForm" method="post" action="{$page}" class="ui-helper-hidden">
+            <fieldset>
+               <input type="hidden" name="job_id" value="0" />
+            </fieldset>
+         </form>
+      </div>
    </div>
+            
+   <div style="margin-top: 2em;padding: 0 1em 1em;"class="ui-widget-content ui-corner">
+      <h2 title="{t}Job Assignations{/t}">{t}Job Assignations{/t}</h2>
+      <!-- <div class="center"> -->
+      <div>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               jQuery("#addAssociationProject").click(function() {
+                  // check fields
+                  var foundError = 0;
+                  var msgString = "{t}Les champs suivants ont ete oublies{/t}:\n";
+
+                  var form = jQuery("#addJobProjectAssociationForm");
+                  var select = form.find("select[name=projects]").val();
+                  if (select == null) {
+                     msgString += "{t}Projects{/t}";
+                     ++foundError;
+                  } else {
+                     form.find("input[name=formattedProjects]").val(select.join(","));
+                  }
+
+                  if (0 == form.find("select[name=job_id]").val()) {
+                     msgString += "{t}Job{/t}";
+                     ++foundError;
+                  }
+
+                  if (0 == foundError) {
+                     form.submit();
+                  } else {
+                     alert(msgString);
+                  }
+               });
+            });
+         </script>
+         <form id="addJobProjectAssociationForm" name="addJobProjectAssociationForm" method="post" action="{$page}">
+            <table class="invisible" style="background-color: transparent;">
+               <tr>
+                  <td style="background-color: transparent;" title="{t}single selection{/t}">{t}Job{/t}:</td>
+                  <td style="background-color: transparent;" title="{t}multiple selection{/t}">{t}Projects{/t}:</td>
+               </tr>
+               <tr>
+                  <td style="background-color: transparent;">
+                     <select name="job_id" size="5">
+                        {foreach from=$assignedJobs key=id item=i}
+                        <option value="{$id}">{$i}</option>
+                        {/foreach}
+                     </select>
+                  </td>
+                  <td style="background-color: transparent;">
+                     <select name="projects" multiple="multiple" size="5">
+                        {foreach from=$projects key=id item=i}
+                        <option value="{$id}">{$i}</option>
+                        {/foreach}
+                     </select>
+                  </td>
+                  <td style="background-color: transparent;">
+                     <input type="button" id="addAssociationProject" name="btAddAssociation" value="{t}Add{/t}" />
+                  </td>
+               </tr>
+            </table>
+            <input type="hidden" name="formattedProjects" value="" />
+         </form>
+      </div>
 
    <!-- Display previous entries -->
    <div style="margin-top: 2em;">
@@ -188,8 +189,8 @@
             {foreach from=$tuples key=id item=i}
                <tr>
                   <td><a title="{t}delete Project Association{/t}" href="#" onclick="deleteJobProjectAssociation('{$id}','{$i.desc}');return false;" ><img src="images/b_drop.png"></a></td>
-                  <td title="{$i.jobid}">{$i.jobname}</td>
-                  <td title="{$i.projectid}">{$i.project}</td>
+                  <td>{$i.jobname}</td>
+                  <td>{$i.project}</td>
                </tr>
             {/foreach}
          </tbody>

@@ -47,6 +47,10 @@ tbody th, tbody td, tfoot td {
    padding: .2em .5em;
 }
 
+tbody td {
+   background-color: white;
+}
+
 tr.row_even td {
   background-color: #CFCFCF;
 }

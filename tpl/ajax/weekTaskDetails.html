@@ -50,7 +50,7 @@
       });
    });
 </script>
-<table id="weekTaskDetails">
+<table id="weekTaskDetails" style="border: 0;width:100%;">
    <thead>
       <tr>
          <th>{t}Task{/t}</th>
@@ -58,10 +58,10 @@
          <th>{t}RAF{/t}</th>
          <th>{t}Job{/t}</th>
          {foreach from=$weekDates key=id item=i}
-         <th width="80" id="date-{$id}">{$i}</th>
+         <th style="width: 4em;" id="date-{$id}">{$i}</th>
          {/foreach}
          {foreach from=$weekEndDates key=id item=i}
-         <th width="80" id="date-{$id}" style="background-color: #D8D8D8;">{$i}</th>
+         <th style="width: 4em;" id="date-{$id}" style="background-color: #D8D8D8;">{$i}</th>
          {/foreach}
       </tr>
    </thead>
