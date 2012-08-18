@@ -1,7 +1,5 @@
 {include file="menu/statistics_menu.html"}
 
-<script type="text/javascript" src="js/tabs.js"></script>
-
 {if $teams}
 <div id="content">
    <div class="center">
@@ -40,7 +38,10 @@
          
    {if $error}{t}{$error}{/t}{/if}
 
-   {if $submittedResolvedLegend || $timeDriftLegend || $resolvedDriftLegend || $efficiencyLegend || $reopenedRateLegend || $developersWorkloadLegend}
+   {if $submittedResolved_Legend || $timeDrift_Legend || $resolvedDrift_Legend || $efficiency_Legend || $reopenedRate_Legend || $developersWorkload_Legend}
+   <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
+   <link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
+   <script type="text/javascript" src="js/datelineplot.js"></script>
    <div id="results" class="tabs" style="margin-top: 2em">
       <ul>
          <li><a href="#tagSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>
@@ -53,12 +54,26 @@
 
       <!-- Submitted / Resolved -->
       <div id="tagSubmittedResolved">
-         {if $submittedResolvedLegend}
-         <div style="margin-top: 1em;">
-            <div class="float">
-               <img alt="{t}Submitted / Resolved Issues{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;width=800&amp;height=300&amp;{$submittedResolvedGraph}" />
-            </div>
-            <table style="border: 0;" title="{t}Submitted / Resolved Issues{/t}">
+         {if $submittedResolved_Legend}
+         <div style="margin-top: 1em">
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#submittedResolvedChart').data('plotoptions');
+                  chartoptions.title.text = "{t}Submitted / Resolved Issues{/t}";
+                  chartoptions.series = [{
+                     label : "{t}Submitted{/t}"
+                  },{
+                     label : "{t}Resolved{/t}"
+                  }];
+                  chartoptions.axes.xaxis.min = "{$submittedResolved_plotMinDate}";
+                  chartoptions.axes.xaxis.max = "{$submittedResolved_plotMaxDate}";
+                  chartoptions.axes.xaxis.tickInterval = "1 month";
+                  chartoptions.axes.yaxis.min = 0;
+                  jQuery('#submittedResolvedChart').jqplot({$submittedResolved_jqplotData}, chartoptions);
+               });
+            </script>
+            <div id="submittedResolvedChart" style="width: 80%;" class="date_line_plot chart float"></div>
+            <table style="border: 0;padding:22px 0 0 2em;" title="{t}Submitted / Resolved Issues{/t}">
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
@@ -67,9 +82,9 @@
                   </tr>
                </thead>
                <tbody>
-                  {foreach from=$submittedResolvedLegend key=id item=i}
+                  {foreach from=$submittedResolved_Legend key=id item=i}
                   <tr>
-                     <td class="right">{$i.date}</td>
+                     <td class="right">{$id}</td>
                      <td class="right">{$i.nbSubmitted}</td>
                      <td class="right">{$i.nbResolvedIssues}</td>
                   </tr>
@@ -83,13 +98,24 @@
 
       <!-- Drifts -->
       <div id="tagTimeDrift">
-         {if $timeDriftLegend}
-         <span class="help_font"><b>{t}% Tasks{/t}</b>: {t}Percentage of tasks delivered before the deadLine{/t}</span>
+         {if $timeDrift_Legend}
+         <span class="help_font"><strong>{t}% Tasks{/t}</strong>: {t}Percentage of tasks delivered before the deadLine{/t}</span>
          <div style="margin-top: 1em">
-            <div class="float">
-               <img alt="{t}Adherence to deadlines{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$timeDriftGraph}" />
-            </div>
-            <table style="border: 0;" title="{t}Adherence to deadlines{/t}">
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#timeDriftChart').data('plotoptions');
+                  chartoptions.title.text = "{t}Adherence to deadlines{/t}";
+                  chartoptions.series[0].label = "{t}% Tasks{/t}";
+                  chartoptions.axes.xaxis.min = "{$timeDrift_plotMinDate}";
+                  chartoptions.axes.xaxis.max = "{$timeDrift_plotMaxDate}";
+                  chartoptions.axes.xaxis.tickInterval = "1 month";
+                  chartoptions.axes.yaxis.min = 0;
+                  chartoptions.axes.yaxis.max = 100;
+                  jQuery('#timeDriftChart').jqplot([{$timeDrift_jqplotData}], chartoptions);
+               });
+            </script>
+            <div id="timeDriftChart" style="width: 80%;" class="date_line_plot chart float"></div>
+            <table style="border: 0;padding:23px 0 0 2em;" title="{t}Adherence to deadlines{/t}">
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
@@ -97,10 +123,10 @@
                   </tr>
                </thead>
                <tbody>
-                  {foreach from=$timeDriftLegend key=id item=i}
+                  {foreach from=$timeDrift_Legend key=id item=i}
                   <tr>
-                     <td class="right">{$i.date}</td>
-                     <td class="right">{$i.nbDriftsNeg}%</td>
+                     <td class="right">{$id}</td>
+                     <td class="right">{$i}%</td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -112,13 +138,28 @@
 
       <!-- Effort Deviation -->
       <div id="tagResolvedDrift">
-         {if $resolvedDriftLegend}
-         <span class="help_font"><b>{t}EffortDeviation{/t}</b>: {t}Overflow day quantity{/t}</span>
+         {if $resolvedDrift_Legend}
+         <span class="help_font"><strong>{t}EffortDeviation{/t}</strong>: {t}Overflow day quantity{/t}</span>
          <div style="margin-top: 1em">
-            <div class="float">
-               <img alt="{t}Effort Deviation{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$resolvedDriftGraph}" />
-            </div>
-            <table style="border: 0;" title="{t}Effort Deviation{/t}">
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#resolvedDriftChart').data('plotoptions');
+                  chartoptions.title.text = "{t}Effort Deviation{/t}";
+                  chartoptions.series = [{
+                     label: "{t}MgrEffortEstim{/t}"
+                  },{
+                     label: "{t}EffortEstim{/t}"
+                  },{
+                     label: "{t}No Support{/t}"
+                  }];
+                  chartoptions.axes.xaxis.min = "{$resolvedDrift_plotMinDate}";
+                  chartoptions.axes.xaxis.max = "{$resolvedDrift_plotMaxDate}";
+                  chartoptions.axes.xaxis.tickInterval = "1 month";
+                  jQuery('#resolvedDriftChart').jqplot({$resolvedDrift_jqplotData}, chartoptions);
+               });
+            </script>
+            <div id="resolvedDriftChart" style="width: 80%;" class="date_line_plot chart float"></div>
+            <table style="border: 0;padding:21px 0 0 2em;" title="{t}Effort Deviation{/t}">
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
@@ -128,9 +169,9 @@
                   </tr>
                </thead>
                <tbody>
-                  {foreach from=$resolvedDriftLegend key=id item=i}
+                  {foreach from=$resolvedDrift_Legend key=id item=i}
                   <tr>
-                     <td class="right">{$i.date}</td>
+                     <td class="right">{$id}</td>
                      <td class="right">{$i.totalDriftETA}</td>
                      <td class="right">{$i.totalDrift}</td>
                      {if $displayNoSupport}<td class="right">{$i.totalDriftWithoutSupport}</td>{/if}
@@ -145,13 +186,28 @@
 
       <!-- EfficiencyRate -->
       <div id="tagEfficiencyRate">
-         {if $efficiencyLegend}
-         <span class="help_font"><b>{t}Efficiency Rate{/t}</b>: {t}Exclude side tasks to get the percent of time spent working on the projects{/t}</span>
+         {if $efficiency_Legend}
+         <span class="help_font"><strong>{t}Efficiency Rate{/t}</strong>: {t}Exclude side tasks to get the percent of time spent working on the projects{/t}</span>
          <div style="margin-top: 1em">
-            <div class="float">
-               <img alt="{t}Sys Disp.{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.2f&amp;width=800&amp;height=300&amp;{$efficiencyGraph}" />
-            </div>
-            <table style="border: 0;" title="{t}Sys Disp.{/t}">
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#efficiencyChart').data('plotoptions');
+                  chartoptions.title.text = "{t}Efficiency{/t}";
+                  chartoptions.series = [{
+                     label: "{t}% Efficiency{/t}"
+                  },{
+                     label: "{t}% Sys Disp{/t}"
+                  }];
+                  chartoptions.axes.xaxis.min = "{$efficiency_plotMinDate}";
+                  chartoptions.axes.xaxis.max = "{$efficiency_plotMaxDate}";
+                  chartoptions.axes.xaxis.tickInterval = "1 month";
+                  chartoptions.axes.yaxis.min = 0;
+                  chartoptions.axes.yaxis.max = 100;
+                  jQuery('#efficiencyChart').jqplot({$efficiency_jqplotData}, chartoptions);
+               });
+            </script>
+            <div id="efficiencyChart" style="width: 80%;" class="date_line_plot chart float"></div>
+            <table style="border: 0;padding:21px 0 0 2em;" title="{t}Sys Disp.{/t}">
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
@@ -160,9 +216,9 @@
                   </tr>
                </thead>
                <tbody>
-                  {foreach from=$efficiencyLegend key=id item=i}
+                  {foreach from=$efficiency_Legend key=id item=i}
                   <tr>
-                     <td class="right">{$i.date}</td>
+                     <td class="right">{$id}</td>
                      <td class="right">{$i.efficiencyRate}%</td>
                      <td class="right">{$i.systemDisponibilityRate}%</td>
                   </tr>
@@ -176,17 +232,32 @@
 
       <!-- ReopenedRate -->
       <div id="tagReopenedRate">
-         {if $reopenedRateLegend}
+         {if $reopenedRate_Legend}
          <span class="help_font">{t}Number of reopened external tasks (tasks having an ExternalRef).{/t}</span>
          <br /><br />
-         <span class="help_font"><b>{t}% to Submitted{/t}</b>: {t}Compare the number of reopened tasks to the number of new tasks{/t}</span>
+         <span class="help_font"><strong>{t}% to Submitted{/t}</strong>: {t}Compare the number of reopened tasks to the number of new tasks{/t}</span>
          <br />
-         <span class="help_font"><b>{t}% to Resolved{/t}</b>: {t}Compare the number of reopened tasks to the number of resolved tasks{/t}</span>
+         <span class="help_font"><strong>{t}% to Resolved{/t}</strong>: {t}Compare the number of reopened tasks to the number of resolved tasks{/t}</span>
          <div style="margin-top: 1em">
-            <div class="float">
-               <img alt="{t}Reopened Rate{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;pointFormat=%.1f&amp;width=800&amp;height=300&amp;{$reopenedRateGraph}" />
-            </div>
-            <table style="border: 0;" title="{t}Reopened Rate{/t}">
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#reopenedRateChart').data('plotoptions');
+                  chartoptions.title.text = "{t}Reopened Rate{/t}";
+                  chartoptions.series = [{
+                     label: "{t}% to Submitted{/t}"
+                  },{
+                     label: "{t}% to Resolved{/t}"
+                  }];
+                  chartoptions.axes.xaxis.min = "{$reopenedRate_plotMinDate}";
+                  chartoptions.axes.xaxis.max = "{$reopenedRate_plotMaxDate}";
+                  chartoptions.axes.xaxis.tickInterval = "1 month";
+                  chartoptions.axes.yaxis.min = 0;
+                  chartoptions.axes.yaxis.max = 100;
+                  jQuery('#reopenedRateChart').jqplot({$reopenedRate_jqplotData}, chartoptions);
+               });
+            </script>
+            <div id="reopenedRateChart" style="width: 70%;" class="date_line_plot chart float"></div>
+            <table style="border: 0;padding:21px 0 0 2em;" title="{t}Reopened Rate{/t}">
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
@@ -196,9 +267,9 @@
                   </tr>
                </thead>
                <tbody>
-                  {foreach from=$reopenedRateLegend key=id item=i}
+                  {foreach from=$reopenedRate_Legend key=id item=i}
                   <tr>
-                     <td class="right">{$i.date}</td>
+                     <td class="right">{$id}</td>
                      <td class="right">{$i.reopenedRate}%</td>
                      <td class="right">{$i.reopenedRateResolved}%</td>
                      <td class="right">{$i.reopened}</td>
@@ -213,13 +284,23 @@
 
       <!-- Developers Workload -->
       <div id="tagWorkload">
-         {if $developersWorkloadLegend}
+         {if $workload_Legend}
          <span class="help_font">{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
-         <div style="margin-top: 1em">
-            <div class="float">
-               <img alt="{t}Developers Workload{/t}" width="800" height="300" src="graphs/two_lines.php?displayPointLabels&amp;width=800&amp;height=300&amp;{$developersWorkloadGraph}" />
-            </div>
-            <table style="border: 0;" title="{t}Developers Workload{/t}">
+            <div style="margin-top: 1em">
+               <script type="text/javascript">
+                  jQuery(document).ready(function() {
+                     var chartoptions = jQuery('#workloadChart').data('plotoptions');
+                     chartoptions.title.text = "{t}Developers Workload{/t}";
+                     chartoptions.series[0].label = "{t}man-days{/t}";
+                     chartoptions.axes.xaxis.min = "{$workload_plotMinDate}";
+                     chartoptions.axes.xaxis.max = "{$workload_plotMaxDate}";
+                     chartoptions.axes.xaxis.tickInterval = "1 month";
+                     chartoptions.axes.yaxis.min = 0;
+                     jQuery('#workloadChart').jqplot([{$workload_jqplotData}], chartoptions);
+                  });
+               </script>
+               <div id="workloadChart" style="width: 80%;" class="date_line_plot chart float"></div>
+            <table style="border: 0;padding:22px 0 0 3em;" title="{t}Developers Workload{/t}">
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
@@ -227,10 +308,10 @@
                   </tr>
                </thead>
                <tbody>
-                  {foreach from=$developersWorkloadLegend key=id item=i}
+                  {foreach from=$workload_Legend key=id item=i}
                   <tr>
-                     <td class="right">{$i.date}</td>
-                     <td class="right">{$i.value}</td>
+                     <td class="right">{$id}</td>
+                     <td class="right">{$i}</td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -241,6 +322,8 @@
       </div>
 
    </div>
+
+   <script type="text/javascript" src="js/tabs.js"></script>
    {/if}
 
 </div>

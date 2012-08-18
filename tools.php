@@ -775,7 +775,11 @@ class Tools {
          if ($formattedValues != NULL) {
             $formattedValues .= ',';
          }
-         $formattedValues .= '["' . $id . '", ' . $value . ']';
+         if(is_array($value)) {
+            $formattedValues .= self::array2plot($value);
+         } else {
+            $formattedValues .= '["' . $id . '", ' . $value . ']';
+         }
       }
       if(NULL != $formattedValues) {
          $formattedValues = '[' . $formattedValues . ']';
