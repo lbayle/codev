@@ -7,8 +7,7 @@ echo "Default LC_MONETARY : ".setlocale(LC_MONETARY,NULL)."<br>";
 echo "Default LC_NUMERIC : ".setlocale(LC_NUMERIC,NULL)."<br>";
 echo "Default LC_TIME : ".setlocale(LC_TIME,NULL)."<br>";
 
-include_once '../path.inc.php';
-include_once('i18n/i18n.inc.php');
+include_once('../i18n/i18n.inc.php');
 
 echo "<br>";
 

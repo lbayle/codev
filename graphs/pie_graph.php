@@ -19,46 +19,14 @@
 */
 
 error_reporting(0); // no logs displayed in page (page is a generated image)
-date_default_timezone_set('Europe/Paris');
 
 require_once('../path.inc.php');
-
-# WARN: this avoids the display of some PHP errors...
-error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
-
-date_default_timezone_set("Europe/Paris");
-
-require_once('lib/dynamic_autoloader/ClassFileMapAutoloader.php');
-$_autoloader = unserialize(file_get_contents(BASE_PATH."/classmap.ser"));
-$_autoloader->registerAutoload();
-
-# WARN: order of these includes is important.
-if (NULL == Logger::getConfigurationFile()) {
-   Logger::configure(dirname(__FILE__).'/../log4php.xml');
-   $logger = Logger::getLogger("pie_graph");
-   $logger->info("LOG activated !");
-
-   // test
-   #echo "configure LOG ".Logger::getConfigurationFile()."</br>";
-   #echo "configure LOG ".Logger::getConfigurationClass()."</br>";
-   #echo "configure LOG header exists: ".$logger->exists("header")."</br>";
-}
-
-/**
- * handle uncaught exceptions
- * @param Exception $e
- */
-function exception_handler(Exception $e) {
-   global $logger;
-   echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-   $logger->error("UNCAUGHT EXCEPTION : ".$e->getMessage());
-   $logger->error("UNCAUGHT EXCEPTION stack-trace:\n".$e->getTraceAsString());
-}
-set_exception_handler('exception_handler');
 
 // content="text/plain; charset=utf-8"
 require_once ('lib/jpgraph/src/jpgraph.php');
 require_once ('lib/jpgraph/src/jpgraph_pie.php');
+
+$logger = Logger::getLogger("pie_graph");
 
 $title   = isset($_GET['title']) ? $_GET['title'] : NULL;
 $size    = isset($_GET['size']) ? $_GET['size'] : "300:200";
