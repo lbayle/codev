@@ -22,8 +22,6 @@ $codevPathClasses = BASE_PATH . DIRECTORY_SEPARATOR . 'classes';
 $codevPathInstall = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
 $codevPathJPGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'jpgraph' . DIRECTORY_SEPARATOR . 'src';
 $codevPathOdtPhp = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'odtphp' . DIRECTORY_SEPARATOR . 'library';
-$codevPathTests = BASE_PATH . DIRECTORY_SEPARATOR . 'tests';
-$codevPathImport = BASE_PATH . DIRECTORY_SEPARATOR . 'import';
 
 $path = array(
    BASE_PATH,
@@ -31,8 +29,6 @@ $path = array(
    $codevPathInstall,
    $codevPathJPGraphs,
    $codevPathOdtPhp,
-   $codevPathTests,
-   $codevPathImport,
    get_include_path()
 );
 
