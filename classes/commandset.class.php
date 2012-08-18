@@ -115,7 +115,8 @@ class CommandSet {
       }
       $this->name = $row->name;
       $this->reference = $row->reference;
-      $this->description = $row->description;
+      // Avoid escaped \r\n in the description
+      $this->description = str_replace("\\n", "\n", str_replace("\\r","",$row->description));
       $this->date = $row->date;
       $this->teamid = $row->team_id;
       $this->budget_days = $row->budget_days;
