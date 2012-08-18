@@ -1,45 +1,40 @@
 <?php
-
-include_once('../include/session.inc.php');
+require('../include/session.inc.php');
 
 /*
-  This file is part of CodevTT.
+   This file is part of CodevTT.
 
-  CodevTT is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+   CodevTT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-  CodevTT is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+   CodevTT is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
- */
+   You should have received a copy of the GNU General Public License
+   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-include_once '../path.inc.php';
+require('../path.inc.php');
 
-require_once 'i18n/i18n.inc.php';
+require('include/super_header.inc.php');
+
+require_once('i18n/i18n.inc.php');
 
 $page_name = T_("Installation finished");
-require_once 'install_header.inc.php';
+require_once('install/install_header.inc.php');
 
-require_once "include/mysql_connect.inc.php";
-
-require_once "classes/config.class.php";
 Config::getInstance()->setQuiet(true);
 
-require_once 'install_menu.inc.php';
+require_once('install/install_menu.inc.php');
 
 #$logger = Logger::getLogger("install_step4");
 
-
 function displayPage() {
-
-   echo "
-<div style='margin-top:6em;'>
+   echo "<div style='margin-top:6em;'>
 
    <h1 class='center'>Congratulations !</h1>
    <div class='center'>CodevTT is now installed.</div>
@@ -65,27 +60,19 @@ function displayPage() {
       </ul>
        <span class='help_font'>Note: CodevTT & Mantis share the same users</span>
    </div>
-
-</div>
-
-
-   ";
+</div>";
 }
 
 function displayFooter() {
-echo "
-<br/><hr />
-<address class='right'>
-   <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' src='../images/copyleft.png' /></a>
-   2010-".date('Y')."&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='http://codevtt.org' target='_blank'>CodevTT.org</a></span><br>
-</address>
-";
-
-
+   echo "<br/><hr />
+         <address class='right'>
+            <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' src='../images/copyleft.png' /></a>
+            2010-".date('Y')."&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='http://codevtt.org' target='_blank'>CodevTT.org</a></span><br>
+         </address>";
 }
 
 // =========== MAIN ==========
-
 displayPage();
 displayFooter();
+
 ?>

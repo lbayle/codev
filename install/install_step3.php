@@ -20,24 +20,16 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
+require('include/super_header.inc.php');
+
 include_once('i18n/i18n.inc.php');
 
 $page_name = T_("Install - Step 3");
 require_once('install/install_header.inc.php');
 
-include_once('include/mysql_connect.inc.php');
-
-include_once('classes/config.class.php');
-include_once('classes/jobs.class.php');
-include_once('classes/user.class.php');
-include_once('classes/project.class.php');
 Config::getInstance()->setQuiet(true);
 
-include_once('install/install.class.php');
-
-include_once('constants.php');
-
-require_once('install_menu.inc.php');
+require_once('install/install_menu.inc.php');
 ?>
 
 <script type="text/javascript">

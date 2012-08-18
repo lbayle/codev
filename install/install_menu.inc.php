@@ -16,9 +16,6 @@
     along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once "tools.php";
-include_once 'i18n/i18n.inc.php';
-
 $installFolder="/install/";
 
 $firstStep="install.php";

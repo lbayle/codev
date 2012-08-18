@@ -20,19 +20,16 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
+require('include/super_header.inc.php');
+
 include_once('i18n/i18n.inc.php');
 
 $page_name = T_("Install - Step 2");
-require_once 'install/install_header.inc.php';
+require_once('install/install_header.inc.php');
 
-include_once "include/mysql_connect.inc.php";
-
-include_once "classes/config.class.php";
 Config::getInstance()->setQuiet(true);
 
-include_once 'install/install.class.php';
-
-require_once 'install/install_menu.inc.php';
+require_once('install/install_menu.inc.php');
 ?>
 
 <script type="text/javascript">
@@ -67,7 +64,7 @@ function createConstantsFile() {
    if (!$fp) {
       return "ERROR creating file " . Install::FILENAME_CONSTANTS . " (current dir=" . getcwd() . ")";
    }
-   
+
    $stringData = "<?php\n";
    $stringData .= "// This file is part of CoDev-Timetracking.\n";
    $stringData .= "// - The Variables in here can be customized to your needs\n";
@@ -113,7 +110,7 @@ function createConstantsFile() {
 
    $stringData .= "   // TODO add equivalences for all mandatory status not present in workflow (see mantis 131)\n";
    $stringData .= "   // ex: \$status_open = \$status_assigned;\n";
-   
+
    $stringData .= "\n";
    $stringData .= "   public static function staticInit() {\n";
    $stringData .= "\n";
@@ -149,7 +146,7 @@ function createConstantsFile() {
    $stringData .= "\n";
    $stringData .= "Constants::staticInit();\n";
    $stringData .= "\n";
-   
+
    $stringData .= "?>\n";
    fwrite($fp, $stringData);
    fclose($fp);
