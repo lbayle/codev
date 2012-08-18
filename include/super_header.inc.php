@@ -26,7 +26,6 @@ $_autoloader = unserialize(file_get_contents(BASE_PATH."/classmap.ser"));
 $_autoloader->registerAutoload();
 
 # WARN: order of these includes is important.
-require_once('lib/log4php/Logger.php');
 if (NULL == Logger::getConfigurationFile()) {
     Logger::configure(dirname(__FILE__).'/../log4php.xml');
     $logger = Logger::getLogger("header");
