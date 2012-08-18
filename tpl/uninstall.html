@@ -1,0 +1,82 @@
+<div id="content" xmlns="http://www.w3.org/1999/html">
+   {if $access}
+   {if $codevReportsDir}
+   <script type="text/javascript">
+      function uninstall() {
+         document.forms["form1"].is_modified.value= "true";
+         document.forms["form1"].submit();
+      }
+   </script>
+
+   <form id="form1" name="form1" method="post" action="{$page}">
+      <h2>{t}Do you want to remove CodevTT from your Mantis server ?{/t}</h2>
+      <span class="help_font">{t}This step will clean Mantis DB.{/t}</span>
+      <br/><br/><br/>
+
+      <table class="invisible">
+         <tr>
+            <td colspan="2"><label><input type="checkbox" {if $isBackup}checked="checked"{/if} name="cb_backup" id="cb_backup" />{t}Backup data{/t}</label></td>
+         </tr>
+         <tr>
+            <td width="10"></td>
+            <td><span class="help_font">{t}Backup file will ve saved in CodevTT reports directory{/t} ( {$codevReportsDir} )</span></td>
+         </tr>
+         <tr>
+            <td></td>
+            <td><label>{t}Filename{/t}: <input name="backup_filename" id="backup_filename" type="text" value="{$filename}" size="50"></label>
+         </tr>
+      </table>
+
+      <div class="center" style="margin-top: 2em;">
+         <input type="button" style="font-size:150%" value="{t}Uninstall{/t} !" onclick="uninstall()">
+      </div>
+
+      <input type="hidden" name="action" value="uninstall" />
+      <input type="hidden" name="is_modified" value="{$is_modified}" />
+   </form>
+   {else}
+   {if $isBackup}
+   <p>{t}Backup{/t} :<br />
+      {t}Dumping MantisDB to{/t} {$filename} ...<br />
+      {if $backupResult}{t}Backup successfully done{/t}<br />
+      {else}{t}Uninstall aborted !{/t}<br />
+      {/if}
+   </p>
+   {/if}
+   {if $stepOneResult}
+   1/5 {t}Remove CodevTT from Mantis menu:{/t}<br />
+   {t}TODO{/t}
+   <br /><br />
+   {if $stepTwoResult}
+   <p>2/5 {t}Remove CodevTT specific projects{/t}<br />
+      {t}Please MANUALY delete the following projects:{/t}
+   </p>
+   <ul>
+      {foreach $prjList as $id => $name}
+      <li title="{$id}">{$name}</li>
+      {/foreach}
+   </ul>
+   <br />
+   3/5 {t}Remove CodevTT customFields:{/t}<br />
+   {if $stepThreeResult}
+   {t}Done{/t}<br /><br />
+   4/5 {t}Remove CodevTT tables from MantisDB:{/t}<br />
+   {if $stepFourResult}
+   {t}Done{/t}<br /><br />
+   5/5 {t}Remove CodevTT config files:{/t}<br />
+   {if $stepFiveResult}{t}Done{/t}
+   {else}{t}ERROR: Could not delete files{/t}
+   {/if}
+   {else}{t}Failed{/t}
+   {/if}
+   {else}{t}Failed{/t}
+   {/if}
+   {else}{t}Failed{/t}
+   {/if}
+   {else}{t}Failed{/t}
+   {/if}
+   {/if}
+   {else}
+   <p class="center ui-state-error-text">{t}Sorry, you need to be in the admin-team to access this page.{/t}</p>
+   {/if}
+</div>
