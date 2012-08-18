@@ -19,7 +19,6 @@
 define('BASE_PATH', realpath(dirname(__FILE__)));
 
 $codevPathClasses = BASE_PATH . DIRECTORY_SEPARATOR . 'classes';
-$codevPathGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'graphs';
 $codevPathInstall = BASE_PATH . DIRECTORY_SEPARATOR . 'install';
 $codevPathJPGraphs = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'jpgraph' . DIRECTORY_SEPARATOR . 'src';
 $codevPathOdtPhp = BASE_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'odtphp' . DIRECTORY_SEPARATOR . 'library';
@@ -29,7 +28,6 @@ $codevPathImport = BASE_PATH . DIRECTORY_SEPARATOR . 'import';
 $path = array(
    BASE_PATH,
    $codevPathClasses,
-   $codevPathGraphs,
    $codevPathInstall,
    $codevPathJPGraphs,
    $codevPathOdtPhp,

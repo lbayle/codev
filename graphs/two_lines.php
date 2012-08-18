@@ -1,5 +1,5 @@
 <?php
-require_once "../artichow/LinePlot.class.php";
+require_once('../artichow/LinePlot.class.php');
 
 # WARNING: Never ever put an 'echo' in this file, the graph won't be displayed !
 
