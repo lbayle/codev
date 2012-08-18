@@ -141,20 +141,18 @@ if (isset($session_userid)) {
    $session_user = UserCache::getInstance()->getUser($session_userid);
    $projList = $session_user->getProjectList();
 
-   $originPage = "odt.php";
-
-   $defaultProject = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
-   $projectid = Tools::getSecureGETIntValue('projectid', $defaultProject);
-   $_SESSION['projectid'] = $projectid;
-
    if (0 == count($projList)) {
       echo "<div style='text-align: center'>";
       echo T_("Sorry, there are no projects defined for your team.");
       echo "</div>";
    } else {
+      $defaultProject = isset($_SESSION['projectid']) ? $_SESSION['projectid'] : 0;
+      $projectid = Tools::getSecureGETIntValue('projectid', $defaultProject);
+      $_SESSION['projectid'] = $projectid;
+
       $logger->debug ("projectid = $projectid");
 
-      displayProjectSelectionForm($originPage, $projList, $projectid);
+      displayProjectSelectionForm("odt.php", $projList, $projectid);
 
       if (isset($_GET['projectid'])) {
          $project = ProjectCache::getInstance()->getProject($projectid);
