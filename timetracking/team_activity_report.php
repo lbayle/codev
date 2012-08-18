@@ -194,10 +194,17 @@ class TeamActivityReportController extends Controller {
                'name' => $user->getName(),
                'realname' => $user->getRealname(),
                'forecastWorkload' => $user->getForecastWorkload(),
-               'weekDates' => array(Tools::formatDate("%A %d %B", $weekDates[1]),Tools::formatDate("%A %d %B", $weekDates[2]),
-                  Tools::formatDate("%A %d %B", $weekDates[3]),Tools::formatDate("%A %d %B", $weekDates[4]),
-                  Tools::formatDate("%A %d %B", $weekDates[5])),
-               'weekEndDates' => array(Tools::formatDate("%A %d %B", $weekDates[6]),Tools::formatDate("%A %d %B", $weekDates[7])),
+               'weekDates' => array(
+                  Tools::formatDate("%A\n%d %B", $weekDates[1]),
+                  Tools::formatDate("%A\n%d %B", $weekDates[2]),
+                  Tools::formatDate("%A\n%d %B", $weekDates[3]),
+                  Tools::formatDate("%A\n%d %B", $weekDates[4]),
+                  Tools::formatDate("%A\n%d %B", $weekDates[5])
+               ),
+               'weekEndDates' => array(
+                  Tools::formatDate("%A\n%d %B", $weekDates[6]),
+                  Tools::formatDate("%A\n%d %B", $weekDates[7])
+               ),
                'weekJobDetails' => $weekJobDetails
             );
          }

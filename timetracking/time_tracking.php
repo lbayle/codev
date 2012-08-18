@@ -241,13 +241,15 @@ class TimeTrackingController extends Controller {
 
             // UTF8 problems in smarty, date encoding needs to be done in PHP
             $this->smartyHelper->assign('weekDates', array(
-                  date('Y-m-d',$weekDates[1]) => Tools::formatDate("%A %d %B", $weekDates[1]),
-                  date('Y-m-d',$weekDates[2]) => Tools::formatDate("%A %d %B", $weekDates[2]),
-                  date('Y-m-d',$weekDates[3]) => Tools::formatDate("%A %d %B", $weekDates[3]),
-                  date('Y-m-d',$weekDates[4]) => Tools::formatDate("%A %d %B", $weekDates[4]),
-                  date('Y-m-d',$weekDates[5]) => Tools::formatDate("%A %d %B", $weekDates[5]))
+                  date('Y-m-d',$weekDates[1]) => Tools::formatDate("%A\n%d %B", $weekDates[1]),
+                  date('Y-m-d',$weekDates[2]) => Tools::formatDate("%A\n%d %B", $weekDates[2]),
+                  date('Y-m-d',$weekDates[3]) => Tools::formatDate("%A\n%d %B", $weekDates[3]),
+                  date('Y-m-d',$weekDates[4]) => Tools::formatDate("%A\n%d %B", $weekDates[4]),
+                  date('Y-m-d',$weekDates[5]) => Tools::formatDate("%A\n%d %B", $weekDates[5]))
             );
-            $this->smartyHelper->assign('weekEndDates', array(Tools::formatDate("%A %d %B", $weekDates[6]),Tools::formatDate("%A %d %B", $weekDates[7])));
+            $this->smartyHelper->assign('weekEndDates', array(
+               Tools::formatDate("%A\n%d %B", $weekDates[6]),
+               Tools::formatDate("%A\n%d %B", $weekDates[7])));
 
             $this->smartyHelper->assign('weekTasks', TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking));
 

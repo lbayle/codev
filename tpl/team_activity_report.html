@@ -96,10 +96,10 @@
                      <th style="width: 1em;" title="{t}Target version{/t}">{t}Target{/t}</th>
                      {if $isChecked}<th style="width: 1em;">{t}Job{/t}</th>{/if}
                      {foreach from=$i.weekDates item=j key=id}
-                     <th style="width: 4em;">{$j}</th>
+                     <th>{$j|nl2br}</th>
                      {/foreach}
                      {foreach from=$i.weekEndDates item=j key=id}
-                     <th style="width: 4em; background-color: #D8D8D8;">{$j}</th>
+                     <th style="background-color: #D8D8D8;">{$j|nl2br}</th>
                      {/foreach}
                   </tr>
                </thead>
