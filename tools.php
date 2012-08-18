@@ -947,6 +947,18 @@ class Tools {
       return $rootURL;
    }
 
+   /**
+    * @static
+    * @param mixed[] $values
+    * @return int[]
+    */
+   public static function getStartEndKeys($values) {
+      $keys = array_keys($values);
+      $start = $keys[0];
+      $end = $keys[count($keys) - 1];
+      return array($start, $end);
+   }
+
 }
 
 // Initialize complex static variables

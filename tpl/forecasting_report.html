@@ -151,13 +151,27 @@
       </div>
    </div>
    {/if}
-   {if $jqplotData}
+   {if $workload_jqplotData}
    <div style="margin-top:2em;">
       <h2>{t}Available Workload{/t}</h2>
       <span class="help_font">{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
       <div class="chartcontainer" style="margin-top: 2em;">
-         {include file="graph/date_line_plot.html"}
-         <div style="width: 80%;" class="date_line_plot float"></div>
+         <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
+         <link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
+         <script type="text/javascript" src="js/datelineplot.js"></script>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               var chartoptions = jQuery('#workloadChart').data('plotoptions');
+               chartoptions.title.text = "{t}Available Workload{/t}";
+               chartoptions.series[0].label = "{t}man-days{/t}";
+               chartoptions.axes.xaxis.min = "{$workload_plotMinDate}";
+               chartoptions.axes.xaxis.max = "{$workload_plotMaxDate}";
+               chartoptions.axes.xaxis.tickInterval = "1 month";
+               chartoptions.axes.yaxis.min = 0;
+               jQuery('#workloadChart').jqplot([{$workload_jqplotData}], chartoptions);
+            });
+         </script>
+         <div id="workloadChart" style="width: 80%;" class="date_line_plot float"></div>
          <table style="border: 0;font-size:1.1em;margin-top:20px;">
             <caption title="{t}Available Workload{/t}"></caption>
             <thead>
@@ -169,8 +183,8 @@
             <tbody>
                {foreach from=$dates key=date item=text name=dates}
                <tr>
-                  <td class="right" style="background-color: #ffffff;">{$date}</td>
-                  <td class="center" style="background-color: #ffffff;">{$text}</td>
+                  <td class="right">{$date}</td>
+                  <td class="center">{$text}</td>
                </tr>
                {/foreach}
             </tbody>

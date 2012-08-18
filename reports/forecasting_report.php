@@ -88,24 +88,23 @@ class ForecastingReportController extends Controller {
                   $start_year = date("Y");
                }
                $timeTrackingTable = $this->createTimeTrackingList($start_day, $start_month, $start_year, $teamid);
-               $values = array();
-               $legend = array();
+               $formattedTimetracks = array();
                foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
                   $value = $timeTracking->getAvailableWorkload();
-                  $values[Tools::formatDate("%Y-%m-%d", $startTimestamp)] = $value;
-                  $legend[Tools::formatDate("%B %Y", $startTimestamp)] = $value;
+                  $formattedTimetracks[$startTimestamp] = $value;
                }
 
-               $keys = array_keys($values);
-               $start = $keys[0];
-               $end = $keys[count($keys)-1];
+               $values = array();
+               $legend = array();
+               foreach ($formattedTimetracks as $date => $value) {
+                  $values[Tools::formatDate("%Y-%m-%d", $date)] = $value;
+                  $legend[Tools::formatDate("%B %Y", $date)] = $value;
+               }
 
-               $this->smartyHelper->assign('jqplotData', Tools::array2plot($values));
-               $this->smartyHelper->assign('plotMinDate', $start);
-               $this->smartyHelper->assign('plotMaxDate', $end);
-               $this->smartyHelper->assign('jqplotTitle', "Available Workload");
-               $this->smartyHelper->assign('jqplotYaxisLabel', "man-days");
-               $this->smartyHelper->assign('plotInterval', "1 month");
+               $this->smartyHelper->assign('workload_jqplotData', Tools::array2plot($values));
+               list($start, $end) = Tools::getStartEndKeys($values);
+               $this->smartyHelper->assign('workload_plotMinDate', $start);
+               $this->smartyHelper->assign('workload_plotMaxDate', $end);
 
                $this->smartyHelper->assign('dates', $legend);
             }
@@ -117,7 +116,6 @@ class ForecastingReportController extends Controller {
     * display Drifts for Issues that have NOT been marked as 'Resolved' until now
     * @param int $teamid
     * @param int $threshold
-    * @param bool $withSupport
     * @return mixed[]
     */
    private function getCurrentDeviationStats($teamid, $threshold = 1) {
@@ -174,7 +172,7 @@ class ForecastingReportController extends Controller {
     * @param bool $withSupport
     * @return mixed[]
     */
-   private function getIssuesInDrift($teamid, $withSupport = true) {
+   private function getIssuesInDrift($teamid, $withSupport = TRUE) {
       $team = TeamCache::getInstance()->getTeam($teamid);
       $mList = $team->getMembers();
       $projList = $team->getProjects();
