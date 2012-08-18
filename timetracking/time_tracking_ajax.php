@@ -19,8 +19,6 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('include/super_header.inc.php');
-
 if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action']))) {
 
    if(isset($_GET['action'])) {

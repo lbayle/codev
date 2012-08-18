@@ -18,8 +18,6 @@
 
 require('../path.inc.php');
 
-require('include/super_header.inc.php');
-
 function setCalendarToDateForm($defaultDate1) {
    echo "<div class=left>";
    // Create form

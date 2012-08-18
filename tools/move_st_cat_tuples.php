@@ -20,8 +20,6 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('include/super_header.inc.php');
-
 function execQuery($query) {
    $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {

@@ -70,9 +70,7 @@ function checkDBConnection($db_mantis_host = 'localhost',
                            $db_mantis_pass = '',
                            $db_mantis_database = 'bugtracker') {
 
-   $connection = SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
-   $connection->sql_query('SET CHARACTER SET utf8');
-   $connection->sql_query('SET NAMES utf8');
+   SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
 
    $database_version = ConfigMantis::getInstance()->getValue(ConfigMantis::id_database_version);
    echo "DEBUG: Mantis database_version = $database_version<br/>";
@@ -101,13 +99,13 @@ function checkDBprivileges($db_mantis_database = 'bugtracker') {
 
    #$query = "SHOW GRANTS FOR '$db_mantis_user'@'$db_mantis_host'";
    $query = "SHOW GRANTS FOR CURRENT_USER";
-   $result = mysql_query($query);
+   $result = SqlWrapper::getInstance()->sql_query($query);
    if (!$result) {
       echo "<span style='color:red'>ERROR: Query FAILED</span>";
       exit;
    }
 
-   while ($row = mysql_fetch_array($result)) {
+   while ($row = SqlWrapper::getInstance()->sql_fetch_array($result)) {
       if (FALSE != strstr($row[0], "`$db_mantis_database`")) {
          $logger->debug("Privileges: " . $row[0]);
 

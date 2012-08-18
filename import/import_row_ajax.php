@@ -20,8 +20,6 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('include/super_header.inc.php');
-
 $logger = Logger::getLogger("import_row_ajax");
 
 // ================ MAIN =================

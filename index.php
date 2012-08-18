@@ -26,8 +26,6 @@ if ((!file_exists('constants.php')) || (!file_exists('include/mysql_config.inc.p
 
 require('path.inc.php');
 
-require('include/super_header.inc.php');
-
 class IndexController extends Controller {
 
    /**

@@ -18,8 +18,6 @@
 
 require('../path.inc.php');
 
-require('include/super_header.inc.php');
-
 $issues = ProjectCache::getInstance()->getProject(14)->getIssues();
 
 echo "Not sorted issued<br>";

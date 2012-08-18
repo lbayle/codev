@@ -21,8 +21,6 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('include/super_header.inc.php');
-
 require('i18n/i18n.inc.php');
 
 $logger = Logger::getLogger('gantt_graph');

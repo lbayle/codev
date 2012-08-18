@@ -20,8 +20,6 @@ require_once('../include/session.inc.php');
 
 require_once ('../path.inc.php');
 
-require_once ('include/super_header.inc.php');
-
 function testDaysPerJobIndicator($session_user) {
 /*
    $issueList = $session_user->getAssignedIssues(NULL, true);

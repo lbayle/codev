@@ -20,8 +20,6 @@ include_once('include/session.inc.php');
 
 require('path.inc.php');
 
-require('include/super_header.inc.php');
-
 $logger = Logger::getLogger('login');
 
 if(isset($_POST['action'])) {

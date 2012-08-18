@@ -20,8 +20,6 @@ require('../include/session.inc.php');
 
 require('../path.inc.php');
 
-require('include/super_header.inc.php');
-
 include_once('i18n/i18n.inc.php');
 
 $page_name = T_("Install - Step 2");
