@@ -21,7 +21,6 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
 
    require('path.inc.php');
    require('include/super_header.inc.php');
-   require('smarty_tools.php');
 
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
