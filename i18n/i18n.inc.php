@@ -26,6 +26,9 @@ if($locale == "fr") {
 } else if($locale == "en") {
    // Try many values because OS doesn't have the same constants
    $phpLocale = setlocale(LC_ALL,"en_US","us","usa","en","eng","English");
+} else if($locale == "pt_BR") {
+   // Try many values because OS doesn't have the same constants
+   $phpLocale = setlocale(LC_ALL,"pt_BR","pt","Portuguese");
 } else {
    // No locale set, it's because visitors modify the url, so forbidden reply
    header('HTTP/1.1 403 Forbidden');

@@ -50,6 +50,8 @@
 <?php echo "<a href='".Tools::curPageName()."?locale=fr'><img title='Francais' src='".Tools::getServerRootURL()."/images/drapeau_fr.jpg' /></a>";?>
 &nbsp;
 <?php echo "<a href='".Tools::curPageName()."?locale=en'><img title='English' src='".Tools::getServerRootURL()."/images/drapeau_gb.jpg' /></a>";?>
+&nbsp;
+<?php echo "<a href='".Tools::curPageName()."?locale=pt_BR'><img title='Portugese' src='".Tools::getServerRootURL()."/images/drapeau_br.jpg' /></a>";?>
 </td>
 </tr>
 </table>
