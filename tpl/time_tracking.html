@@ -227,9 +227,8 @@
       </div>
    </div>
 
-   <br/><br/>
-
-   <div align="center">
+   {if $warnings}
+   <div align="center" style="margin-top: 2em;">
       <script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery("#accordion").accordion({
@@ -238,7 +237,7 @@
          });
       </script>
       <div id="accordion" style="width:350px;" >
-         <h3><a href="#">{t}Dates manquantes{/t}</a></h3>
+         <h3><a href="#">{t}Missing dates{/t}</a></h3>
          <div align="left" style="height:250px;">
             <table style="border:0;">
                <tbody>
@@ -253,6 +252,7 @@
          </div>
       </div>
    </div>
+   {/if}
 
    <div align="center" style="margin-top: 2em;">
       <script type="text/javascript">
@@ -404,45 +404,43 @@
    </div>
    <script type="text/javascript">
       jQuery(document).ready(function() {
-         var backlog = jQuery( "#backlog" ),
-               tips = jQuery( "#validateTips" ),
-               isOnlyAssignedTo = jQuery( "#cb_onlyAssignedTo" ),
-               isHideResolved = jQuery( "#cb_hideResolved" ),
-               allFields = jQuery( [] ).add( backlog );
+         var backlog = jQuery("#backlog"),
+             tips = jQuery("#validateTips"),
+             allFields = jQuery([]).add(backlog);
 
          function updateTips( t ) {
-            tips.text( t )
-                  .addClass( "ui-state-highlight" );
+            tips.text(t)
+                .addClass("ui-state-highlight");
             setTimeout(function() {
-               tips.removeClass( "ui-state-highlight", 1500 );
-            }, 500 );
+               tips.removeClass("ui-state-highlight", 1500);
+            }, 500);
          }
 
-         function checkRegexp( o, regexp, n ) {
-            if ( !( regexp.test( o.val() ) ) ) {
-               o.addClass( "ui-state-error" );
-               updateTips( n );
+         function checkRegexp(o, regexp, n) {
+            if (!(regexp.test(o.val()))) {
+               o.addClass("ui-state-error");
+               updateTips(n);
                return false;
             } else {
                return true;
             }
          }
 
-         jQuery( "#update_backlog_dialog_form" ).dialog({
+         jQuery("#update_backlog_dialog_form").dialog({
             autoOpen: false,
-            height: 200,
+            height: 'auto',
             width: 500,
             modal: true,
             open: function() {
                // Select input field contents
-               jQuery( "#backlog" ).select();
+               jQuery("#backlog").select();
             },
             buttons: {
                "Update": function() {
                   jQuery("#formUpdateBacklog").submit();
                },
                Cancel: function() {
-                  jQuery( this ).dialog( "close" );
+                  jQuery( this ).dialog("close" );
                }
             },
             close: function() {
