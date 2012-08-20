@@ -47,11 +47,11 @@
 ?>
 </td>
 <td width=300>
-<?php echo "<a href='".Tools::curPageName()."?locale=fr'><img title='Francais' src='".Tools::getServerRootURL()."/images/drapeau_fr.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=fr'><img src='".Tools::getServerRootURL()."/images/blank.gif' class='flag flag-fr' title='Francais' width='18px' height='12px' /></a>";?>
 &nbsp;
-<?php echo "<a href='".Tools::curPageName()."?locale=en'><img title='English' src='".Tools::getServerRootURL()."/images/drapeau_gb.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=en'><img src='".Tools::getServerRootURL()."/images/blank.gif' class='flag flag-gb' title='English' width='18px' height='12px' /></a>";?>
 &nbsp;
-<?php echo "<a href='".Tools::curPageName()."?locale=pt_BR'><img title='Portugese' src='".Tools::getServerRootURL()."/images/drapeau_br.jpg' /></a>";?>
+<?php echo "<a href='".Tools::curPageName()."?locale=pt_BR'><img src='".Tools::getServerRootURL()."/images/blank.gif' class='flag flag-br' title='Brazil' width='18px' height='12px' /></a>";?>
 </td>
 </tr>
 </table>
