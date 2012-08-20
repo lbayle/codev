@@ -408,7 +408,7 @@
              tips = jQuery("#validateTips"),
              allFields = jQuery([]).add(backlog);
 
-         function updateTips( t ) {
+         function updateTips(t) {
             tips.text(t)
                 .addClass("ui-state-highlight");
             setTimeout(function() {
@@ -440,11 +440,11 @@
                   jQuery("#formUpdateBacklog").submit();
                },
                Cancel: function() {
-                  jQuery( this ).dialog("close" );
+                  jQuery( this ).dialog("close");
                }
             },
             close: function() {
-               allFields.val( "" ).removeClass( "ui-state-error" );
+               allFields.val("").removeClass("ui-state-error");
             }
          });
 
@@ -453,12 +453,12 @@
             event.preventDefault();
 
             var bValid = true;
-            allFields.removeClass( "ui-state-error" );
-            bValid = bValid && checkRegexp( backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
+            allFields.removeClass("ui-state-error");
+            bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
 
-            if ( bValid ) {
+            if (bValid) {
                /* get some values from elements on the page: */
-               var formUpdateBacklog = $(this);
+               var formUpdateBacklog = jQuery(this);
                jQuery.ajax({
                   type: "GET",
                   url: formUpdateBacklog.attr("action"),
@@ -468,7 +468,7 @@
                   }
                });
 
-               jQuery( "#update_backlog_dialog_form" ).dialog( "close" );
+               jQuery("#update_backlog_dialog_form").dialog("close");
             }
          });
 
@@ -500,7 +500,7 @@
    <script type="text/javascript">
       jQuery(document).ready(function() {
          // delete track dialogBox
-         jQuery("#deleteTrack_dialog_form" ).dialog({
+         jQuery("#deleteTrack_dialog_form").dialog({
             autoOpen: false,
             resizable: true,
             width: "auto",
@@ -510,7 +510,7 @@
                   jQuery("#formDeleteTrack").submit();
                },
                Cancel: function() {
-                  jQuery( this ).dialog( "close" );
+                  jQuery(this).dialog("close");
                }
             }
          });

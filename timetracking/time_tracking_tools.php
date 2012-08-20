@@ -44,7 +44,6 @@ class TimeTrackingTools {
       $holidays = Holidays::getInstance();
       $weekTracks = $timeTracking->getWeekDetails($userid);
       foreach ($weekTracks as $bugid => $jobList) {
-
          try {
             $issue = IssueCache::getInstance()->getIssue($bugid);
 
@@ -79,21 +78,20 @@ class TimeTrackingTools {
 
             $dayTasks = "";
             for ($i = 1; $i <= 7; $i++) {
+               $title = NULL;
+               $bgColor = NULL;
                if($i <= 5) {
                   $h = $holidays->isHoliday($weekDates[$i]);
                   if ($h) {
                      $bgColor = $h->color;
-                     #$bgColor = "style='background-color: #".Holidays::$defaultColor.";'";
-                     $title = "title='".$h->description."'";
-                  } else {
-                     $bgColor = NULL;
-                     $title = "";
+                     #$bgColor = Holidays::$defaultColor;
+                     $title = $h->description;
                   }
                } else {
                   $bgColor = Holidays::$defaultColor;
-                  $title = "";
                }
-               $dayTasks[] = array('bgColor' => $bgColor,
+               $dayTasks[] = array(
+                  'bgColor' => $bgColor,
                   'title' => $title,
                   'day' => $dayList[$i]
                );

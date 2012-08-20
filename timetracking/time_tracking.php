@@ -248,8 +248,8 @@ class TimeTrackingController extends Controller {
                   date('Y-m-d',$weekDates[5]) => Tools::formatDate("%A\n%d %B", $weekDates[5]))
             );
             $this->smartyHelper->assign('weekEndDates', array(
-               Tools::formatDate("%A\n%d %B", $weekDates[6]),
-               Tools::formatDate("%A\n%d %B", $weekDates[7])));
+               date('Y-m-d',$weekDates[6]) => Tools::formatDate("%A\n%d %B", $weekDates[6]),
+               date('Y-m-d',$weekDates[7]) => Tools::formatDate("%A\n%d %B", $weekDates[7])));
 
             $this->smartyHelper->assign('weekTasks', TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking));
 

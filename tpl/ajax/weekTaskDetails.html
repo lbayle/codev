@@ -6,6 +6,13 @@
 
          var row = day.parent();
          var modified = false;
+         
+         var index = day.index();
+         var dayHeader = jQuery(jQuery("#weekTaskDetails").find("thead tr").children().get(index));
+         var dayValue = dayHeader.attr('id').replace('date-','');
+         if(dayValue != jQuery("#datepicker").val()) {
+            jQuery("#datepicker").val(dayValue);
+         }
 
          var jobid = row.find("td[class^=job]").attr("class").replace("job-","");
          if(jobid != jQuery("#job").val()) {
