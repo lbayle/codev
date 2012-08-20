@@ -42,14 +42,11 @@ class IndexController extends Controller {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          // updateBacklog DialogBox
-         $action = Tools::getSecurePOSTStringValue('action', '');
-         if ('updateBacklogAction' == $action) {
-            $bugid = Tools::getSecurePOSTStringValue('bugid', '');
-            if ("0" != $bugid) {
-               $backlog = Tools::getSecurePOSTStringValue('backlog', '');
-               $issue = IssueCache::getInstance()->getIssue($bugid);
-               $issue->setBacklog($backlog);
-            }
+         if (isset($_POST['bugid'])) {
+            $bugid = Tools::getSecurePOSTStringValue('bugid');
+            $backlog = Tools::getSecurePOSTStringValue('backlog', '');
+            $issue = IssueCache::getInstance()->getIssue($bugid);
+            $issue->setBacklog($backlog);
          }
 
          $driftedTasks = $this->getIssuesInDrift($user);

@@ -1,173 +1,171 @@
-<script type="text/javascript">
-
-    function updateBacklog(dialogBoxTitle, bugid, backlog, description, userid, nextForm ){
-        jQuery( "#desc_summary" ).text(description);
-        
-        jQuery( "#formUpdateBacklog * #backlog" ).val(backlog);
-        jQuery( "#formUpdateBacklog input[name=bugid]" ).val(bugid);
-        jQuery( "#formUpdateBacklog input[name=userid]" ).val(userid);
-        jQuery( "#formUpdateBacklog input[name=nextForm]" ).val(nextForm);
-
-        jQuery( "#update_backlog_dialog_form" ).dialog('option', 'title', dialogBoxTitle);
-        jQuery( "#update_backlog_dialog_form" ).dialog( "open" );
-    }
-
-    // ------ JQUERY ------
-    jQuery(document).ready(function(){
-        var  backlog = $( "#backlog" ),
-        allFields = $( [] ).add( backlog ),
-        tips = $( "#validateTips" ).hide();
-
-        function updateTips( t ) {
-            tips.show();
-            tips.text( t )
-                .addClass( "ui-state-highlight" );
-            setTimeout(function() {
-                tips.removeClass( "ui-state-highlight", 1500 );
-            }, 500 );
-        }
-
-        function checkRegexp( o, regexp, n ) {
-            if ( !( regexp.test( o.val() ) ) ) {
-                o.addClass( "ui-state-error" );
-                updateTips( n );
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        jQuery( "#update_backlog_dialog_form" ).dialog({
-            autoOpen: false,
-            height: 250,
-            width: 500,
-            modal: true,
-            open: function() {
-                // Select input field contents
-                $( "#backlog" ).select();
-            },
-            buttons: {
-                "Update": function() {
-                    var bValid = true;
-                    allFields.removeClass( "ui-state-error" );
-                    bValid = bValid && checkRegexp( backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'" );
-
-                    if ( bValid ) {
-                        // TODO use AJAX to call php func and update backlog on bugid
-                        jQuery('#formUpdateBacklog').submit();
-                    }
-                },
-                Cancel: function() {
-                    jQuery( this ).dialog( "close" );
-                }
-            },
-            close: function() {
-                tips.empty();
-                tips.hide();
-                allFields.val( "" ).removeClass( "ui-state-error" );
-            }
-        });
-        
-        $( "#accordion" ).accordion({
-           collapsible: true, autoHeight: false, clearStyle: true
-        });
-
-    });
-</script>
-
-<div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
-    <p id="desc_summary"></p>
-    <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
-        <fieldset>
-            <label for="backlog">Backlog: </label><input type="text" id="backlog" name="backlog" size="3" class="text" value="noValue" />
-            <input type="hidden" name="bugid" value="0" />
-            <input type="hidden" name="userid" value="0" />
-            <input type="hidden" name="nextForm" value="unspecifiedForm" />
-            <input type="hidden" name="action" value="updateBacklogAction" />
-       </fieldset>
-    </form>
-    <p id="validateTips" class="ui-helper-hidden" style="border: 1px solid transparent; padding: 0.3em;"></p>
-</div>
-
 {if $ie}
 <div style="color:red;margin-top:2em;">
-    {t}IE may not correctly display this website{/t},<br/>
-    {t}please consider using a standard complient web-browser{/t}.<br/>
+   {t}IE may not correctly display this website{/t},<br/>
+   {t}please consider using a standard complient web-browser{/t}.<br/>
 </div>
 {/if}
 
 <!-- Main content -->
 <div id="homepage_list" class="left" style="margin-top:2em;">
-    <ul>
-        <li><a href="{$mantisURL}">Mantis</a></li>
-    </ul>
-    <ul>
-        <!-- Saisie des CRA -->
-        <li><a href="timetracking/time_tracking.php">{t}Time Tracking{/t}</a></li>
-        <!-- Affichage des congés -->
-        <li><a href="timetracking/holidays_report.php">{t}Holidays{/t}</a></li>
-    </ul>
-    <ul>
-        <!-- Affichage du planning -->
-        <li><a href="reports/planning_report.php">{t}Planning{/t}</a></li>
-        <!-- Info fiche -->
-        <li><a href="reports/issue_info.php">{t}Task information{/t}</a></li>
-        <!-- Activité hebdomadaire -->
-        <li><a href="timetracking/team_activity_report.php">{t}Weekly activity{/t}</a></li>
-        <!-- Indicateurs de production -->
-        <!-- <li><a href="reports/productivity_report.php">{t}Productivity Reports{/t}</a></li> -->
-    </ul>
+   <ul>
+      <li><a href="{$mantisURL}">Mantis</a></li>
+   </ul>
+   <ul>
+      <!-- Saisie des CRA -->
+      <li><a href="timetracking/time_tracking.php">{t}Time Tracking{/t}</a></li>
+      <!-- Affichage des congés -->
+      <li><a href="timetracking/holidays_report.php">{t}Holidays{/t}</a></li>
+   </ul>
+   <ul>
+      <!-- Affichage du planning -->
+      <li><a href="reports/planning_report.php">{t}Planning{/t}</a></li>
+      <!-- Info fiche -->
+      <li><a href="reports/issue_info.php">{t}Task information{/t}</a></li>
+      <!-- Activité hebdomadaire -->
+      <li><a href="timetracking/team_activity_report.php">{t}Weekly activity{/t}</a></li>
+      <!-- Indicateurs de production -->
+      <!-- <li><a href="reports/productivity_report.php">{t}Productivity Reports{/t}</a></li> -->
+   </ul>
 </div>
 
 {if $driftedTasks}
 <!-- Consistency errors -->
-<div style="margin-top:2em;">
-    <hr style="margin-bottom:2em; "/>
-    <table>
-        <caption>{t}Tasks in drift{/t}</caption>
-        <tr>
+<div style="margin-top:2em;margin:2em auto 0; padding: 2em;display: inline-block;" class="ui-widget-content">
+   <script type="text/javascript">
+      function updateBacklog(dialogBoxTitle, bugid, backlog, description) {
+         jQuery("#desc_summary").text(description);
+         
+         var form = jQuery("#formUpdateBacklog");
+         form.find("input[name=backlog]").val(backlog);
+         form.find("input[name=bugid]").val(bugid);
+
+         var dialog = jQuery("#update_backlog_dialog_form");
+         dialog.dialog('option', 'title', dialogBoxTitle);
+         dialog.dialog("open");
+      }
+
+      jQuery(document).ready(function(){
+         var backlog = jQuery("#backlog"),
+         allFields = jQuery([]).add(backlog),
+         tips = jQuery("#validateTips").hide();
+
+         function updateTips(t) {
+            tips.show();
+            tips.text(t)
+                .addClass("ui-state-highlight");
+            setTimeout(function() {
+                tips.removeClass("ui-state-highlight", 1500);
+            }, 500 );
+         }
+
+         function checkRegexp(o, regexp, n) {
+            if (!(regexp.test(o.val()))) {
+               o.addClass("ui-state-error");
+               updateTips(n);
+               return false;
+            } else {
+               return true;
+            }
+         }
+
+         jQuery("#update_backlog_dialog_form").dialog({
+            autoOpen: false,
+            height: 'auto',
+            width: 500,
+            modal: true,
+            open: function() {
+               // Select input field contents
+               jQuery("#backlog").select();
+            },
+            buttons: {
+               "{t}Update{/t}": function() {
+                  var bValid = true;
+                  allFields.removeClass("ui-state-error");
+                  bValid = bValid && checkRegexp(backlog, /^[0-9]+(\.[0-9]5?)?$/i, "format:  '1',  '0.3'  or  '2.55'");
+
+                  if (bValid) {
+                     // TODO use AJAX to call php func and update backlog on bugid
+                     jQuery('#formUpdateBacklog').submit();
+                  }
+               },
+               Cancel: function() {
+                  jQuery(this).dialog("close");
+               }
+            },
+            close: function() {
+               tips.empty();
+               tips.hide();
+               allFields.val("").removeClass("ui-state-error");
+            }
+         });
+      });
+   </script>
+   <table style="border: 0;">
+      <caption>{t}Tasks in drift{/t}</caption>
+      <thead>
+         <tr>
             <th>{t}ID{/t}</th>
             <th>{t}Project{/t}</th>
-            <!-- <th title="Derive par rapport a l estimation preliminaire">{t}Derive PrelEE{/t}</th> -->
-            <th title="Derive par rapport au BI+BS">{t}Drift{/t}</th>
+            <!-- <th title="{t}Derive par rapport a l estimation preliminaire{/t}">{t}Derive PrelEE{/t}</th> -->
+            <th title="{t}Derive par rapport au BI+BS{/t}">{t}Drift{/t}</th>
             <th>{t}RAF{/t}</th>
             <th>{t}Summary{/t}</th>
-        </tr>
-        {foreach from=$driftedTasks key=id item=i}
-        <tr>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach from=$driftedTasks key=id item=i}
+         <tr>
             <td>{$i.issueInfoURL}</td>
             <td>{$i.projectName}</td>
             <td {if $i.driftEE > 0}style="background-color: #fcbdbd;"{elseif $i.driftEE < 0}style="background-color: #61ed66;"{/if}>{$i.driftEE}</td>
-            <td><a title="{t}update Backlog{/t}" href="javascript: updateBacklog('Task {$i.formatedTitle} - Update Backlog', '{$i.bugId}', '{$i.backlog}', '{$i.formatedSummary}', '', '')">{$i.backlog}</a></td>
+            <td><a title="{t}update Backlog{/t}" href="#" onclick="updateBacklog('Task {$i.formatedTitle} - Update Backlog', '{$i.bugId}', '{$i.backlog}', '{$i.formatedSummary}');return false;">{$i.backlog}</a></td>
             <td>{$i.summary}</td>
-        </tr>
-        {/foreach}
-    </table>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+   <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
+      <p id="desc_summary"></p>
+      <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
+         <fieldset>
+            <label>Backlog: <input type="text" id="backlog" name="backlog" size="3" class="text" value="noValue" /></label>
+            <input type="hidden" name="bugid" value="0" />
+         </fieldset>
+      </form>
+      <p id="validateTips" class="ui-helper-hidden" style="border: 1px solid transparent; padding: 0.3em;"></p>
+   </div>
 </div>
 {/if}
 
 {if $consistencyErrors}
 <!-- Consistency errors -->
 <div style="margin-top:2em;">
-    <hr style="margin-bottom:2em;" />
-   <div align='center'><div id='accordion' style='width:500px;' >
-      <h3><a href='#'>{$consistencyErrors|count} {t}Errors in your Tasks{/t}</a></h3>
-      <div align='left' style='height:120px;'>
-         <table class='invisible'>
-         {foreach from=$consistencyErrors key=id item=i}
-         <tr>
-            <td>{$i.issueURL}</td>
-            <td><span style='color:red'>{$i.status}</span></td>
-            <td><span style='color:red' {if $i.addInfo}title='{$i.addInfo}'{/if}>{$i.desc}</span></td>
-         </tr>
-         {/foreach}
-         
-         </table>
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#accordion").accordion({
+            collapsible: true, 
+            autoHeight: false, 
+            clearStyle: true
+         });
+      });
+   </script>
+   <div align="center">
+      <div id="accordion" style="width:500px;" >
+         <h3><a href="#">{$consistencyErrors|count} {t}Errors in your Tasks{/t}</a></h3>
+         <div align="left" style="height:120px;">
+            <table style="border: 0;">
+               <tbody>
+                  {foreach from=$consistencyErrors key=id item=i}
+                  <tr>
+                     <td style="background-color: transparent;">{$i.issueURL}</td>
+                     <td style="background-color: transparent;"><span class="ui-state-error-text">{$i.status}</span></td>
+                     <td style="background-color: transparent;"><span class="ui-state-error-text" {if $i.addInfo}title="{$i.addInfo}"{/if}>{$i.desc}</span></td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+         </div>
       </div>
    </div>
 </div>
 {/if}
-
-
-
-
