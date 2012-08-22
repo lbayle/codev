@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
    jQuery.jqplot.config.enablePlugins = false;
 
    // Chart by date
-   jQuery('.date_line_plot').each(function() {
+   jQuery('.date_chart').each(function() {
       jQuery(this).data("plotoptions", {
          // animate: true,
          // animateReplot: true,
@@ -156,7 +156,28 @@ jQuery(document).ready(function() {
             location: 'e'
          }
       });
+
+      var table = jQuery(this).siblings('table');
+      if(table.size() > 0) {
+         var rows = table.find('tbody tr');
+         var cells = rows.find('td');
+         // Now bind function to the highlight event to show the tooltip
+         // and highlight the row in the legend.
+         jQuery(this).bind('jqplotDataHighlight',
+            function (ev, seriesIndex, pointIndex, data, radius) {
+               var color = 'rgb(50%,50%,100%)';
+               cells.css('background-color', '#ffffff');
+               rows.eq(pointIndex).find('td').css('background-color', color);
+            }
+         );
+
+         // Bind a function to the unhighlight event to clean up after highlighting.
+         jQuery(this).bind('jqplotDataUnhighlight',
+            function (ev, seriesIndex, pointIndex, data) {
+               cells.css('background-color', '#ffffff');
+            }
+         );
+      }
    });
-   
-   
+
 });
