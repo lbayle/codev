@@ -90,23 +90,14 @@ class ProductivityReportTools {
     * @param array[] $projectDetails
     * @return string
     */
-   public static function getProjectDetailsUrl(array $projectDetails) {
-      $formatedValues = NULL;
-      $formatedLegends = NULL;
+   public static function getProjectDetailsChart(array $projectDetails) {
+      $data = array();
       foreach ($projectDetails as $projectDetail) {
          if (0 != $projectDetail['duration']) {
-            if (NULL != $formatedValues) {
-               $formatedValues .= ":"; $formatedLegends .= ":";
-            }
-            $formatedValues .= $projectDetail['duration'];
-            $formatedLegends .= $projectDetail['catName'];
+            $data[$projectDetail['catName']] = $projectDetail['duration'];
          }
       }
-
-      if (NULL != $formatedValues) {
-         return Tools::SmartUrlEncode("legends=$formatedLegends&values=$formatedValues");
-      }
-      return NULL;
+      return $data;
    }
 
 }

@@ -1,7 +1,5 @@
 {include file="menu/statistics_menu.html"}
 
-<script type="text/javascript" src="js/tabs.js"></script>
-
 {if $teams}
 <div id="content">
 
@@ -29,6 +27,9 @@
 
    {include file="modal/consistency_check.html"}
 
+   <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
+   <link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
+   <script type="text/javascript" src="js/datelineplot.js"></script>
    <div id="tabsIndicators" class="tabs" style="margin-top: 2em;">
       <ul>
          <li><a href="#tabsName-1">{t}Production days{/t}</a></li>
@@ -86,13 +87,21 @@
                   </tr>
                </tbody>
                <tfoot>
-                  <tr class="row_total">
+                  <tr>
                      <td>{t}Total{/t}</td>
                      <td>{$timeTracking->getProdDays() + $timeTracking->getProdDaysSideTasks(false)}</td>
                   </tr>
                </tfoot>
             </table>
-            {if $productionDaysUrl}<img width="800px" height="300px" src="graphs/pie_graph.php?size=800:300&{$productionDaysUrl}" alt="{t}Production Days{/t}" />{/if}
+            {if $productionDays_jqplotData}
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#productionDaysChart').data('plotoptions');
+                  jQuery('#productionDaysChart').jqplot([{$productionDays_jqplotData}], chartoptions);
+               });
+            </script>
+            <div id="productionDaysChart" class="pie_chart chart float"></div>
+            {/if}
             <div class="ui-helper-clearfix"></div>
          </div>
          {else}
@@ -124,7 +133,15 @@
                   {/foreach}
                </tbody>
             </table>
-            {if $workingDaysPerJobUrl}<img width="800px" height="300px" src="graphs/pie_graph.php?size=800:300&{$workingDaysPerJobUrl}" alt="{t}Load per Job{/t}" />{/if}
+            {if $workingDaysPerJob_jqplotData}
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
+                  jQuery('#workingDaysPerJobChart').jqplot([{$workingDaysPerJob_jqplotData}], chartoptions);
+               });
+            </script>
+            <div id="workingDaysPerJobChart" class="pie_chart chart float"></div>
+            {/if}
             <div class="ui-helper-clearfix"></div>
          </div>
          {else}
@@ -147,11 +164,38 @@
                   form.find('input[name=startdate]').val(jQuery('#startdatepicker').val());
                   form.find('input[name=enddate]').val(jQuery('#enddatepicker').val());
                   jQuery.ajax({
+                     async: false,
                      type: type,
                      url: url,
                      data: form.serialize(),
                      success: function(data) {
+                        form.find('input[name=action]').val('getProjectDetailsData');
                         jQuery("#projectDetailsDiv").html(jQuery.trim(data));
+                        jQuery.ajax({
+                           async: false,
+                           type: type,
+                           url: url,
+                           data: form.serialize(),
+                           success: function(data2) {
+                              jQuery('#projectDetailsChart').empty();
+                              if(data2.length > 0) {
+                                 var jsonData = jQuery.parseJSON(data2);
+                                 var line = [];
+                                 jQuery.each(jsonData, function (index, value){
+                                    line.push([index,value]);
+                                 });
+                              
+                                 var chartoptions = jQuery('#projectDetailsChart').data('plotoptions');
+                                 jQuery('#projectDetailsChart').jqplot([line], chartoptions);
+                              }
+                           },
+                           error: function(jqXHR, textStatus, errorThrown) {
+                              if(errorThrown == 'Forbidden') {
+                                 window.location = '{$page}';
+                              }
+                           }
+                        });
+                     form.find('input[name=action]').val('getProjectDetails');
                      },
                      error: function(jqXHR, textStatus, errorThrown) {
                         if(errorThrown == 'Forbidden') {
@@ -176,7 +220,19 @@
                <input type="hidden" name="action" value="getProjectDetails" />
             </fieldset>
          </form>
+         {if $projectDetails}
          <div id="projectDetailsDiv">{include file="ajax/projectDetails.html"}</div>
+         {if $projectDetails_jqplotData}
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+            var chartoptions = jQuery('#projectDetailsChart').data('plotoptions');
+            jQuery('#projectDetailsChart').jqplot([{$projectDetails_jqplotData}], chartoptions);
+         });
+         </script>
+         <div id="projectDetailsChart" class="pie_chart chart float"></div>
+         {/if}
+         <div class="ui-helper-clearfix"></div>
+         {/if}
          {else}
          {t}Not available.{/t}
          {/if}
@@ -206,7 +262,15 @@
                   {/foreach}
                </tbody>
             </table>
-            {if $workingDaysPerProjectUrl}<img width="700px" height="300px" src="graphs/pie_graph.php?size=700:300&{$workingDaysPerProjectUrl}" alt="{t}Load per Project{/t}"/>{/if}
+            {if $workingDaysPerProject_jqplotData}
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  var chartoptions = jQuery('#workingDaysPerProjectChart').data('plotoptions');
+                  jQuery('#workingDaysPerProjectChart').jqplot([{$workingDaysPerProject_jqplotData}], chartoptions);
+               });
+            </script>
+            <div id="workingDaysPerProjectChart" class="pie_chart chart float"></div>
+            {/if}
             <div class="ui-helper-clearfix"></div>
          </div>
          {else}
@@ -422,6 +486,7 @@
          {/if}
       </div>
    </div>
+   <script type="text/javascript" src="js/tabs.js"></script>
 </div>
 {else}
 <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>

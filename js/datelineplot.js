@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
 
    // Libs
    jQuery.ajax({
-      url: "lib/jquery.jqplot/jquery.jqplot.min.js",
+      url: "lib/jquery.jqplot/jquery.jqplot.js",
       dataType: "script",
       async: false,
       cache: true
@@ -28,6 +28,12 @@ jQuery(document).ready(function() {
    });
    jQuery.ajax({
       url: "lib/jquery.jqplot/plugins/jqplot.highlighter.min.js",
+      dataType: "script",
+      async: false,
+      cache: true
+   });
+   jQuery.ajax({
+      url: "lib/jquery.jqplot/plugins/jqplot.pieRenderer.min.js",
       dataType: "script",
       async: false,
       cache: true
@@ -80,4 +86,24 @@ jQuery(document).ready(function() {
          }
       });
    });
+   
+
+   jQuery('.pie_chart').each(function() {
+      jQuery(this).data("plotoptions", {
+         seriesDefaults: {
+            // Make this a pie chart.
+            renderer: jQuery.jqplot.PieRenderer,
+            rendererOptions: {
+               // Put data labels on the pie slices.
+               // By default, labels show the percentage of the slice.
+               showDataLabels: true
+            }
+         },
+         legend: {
+            show:true,
+            location: 'e'
+         }
+      });
+   });
+   
 });

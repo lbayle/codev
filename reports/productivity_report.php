@@ -64,14 +64,33 @@ class ProductivityReportsController extends Controller {
 
                   $this->smartyHelper->assign('timeTracking', $timeTracking);
 
-                  if (0 != $timeTracking->getProdDays() + $timeTracking->getManagementDays() + ($timeTracking->getProdDaysSideTasks(false) - $timeTracking->getManagementDays())) {
-                     $this->smartyHelper->assign('productionDaysUrl', $this->getProductionDaysUrl($timeTracking));
+                  $managementDay = $timeTracking->getManagementDays();
+                  $prodDays = $timeTracking->getProdDays();
+                  $prodDaysSideTasks = $timeTracking->getProdDaysSideTasks(false);
+                  if (0 != ($prodDays + $managementDay + ($prodDaysSideTasks - $managementDay))) {
+                     $data = array(
+                         T_('Projects') => $prodDays,
+                         T_('Project Management') => $managementDay,
+                         T_('Other SideTasks') => $prodDaysSideTasks - $managementDay
+                     );
+                     $this->smartyHelper->assign('productionDays_jqplotData', Tools::array2plot($data));
                   }
+                     
 
                   $workingDaysPerJobs = $this->getWorkingDaysPerJob($timeTracking, $teamid);
                   $this->smartyHelper->assign('workingDaysPerJob', $workingDaysPerJobs);
                   if($workingDaysPerJobs != NULL) {
-                     $this->smartyHelper->assign('workingDaysPerJobUrl', $this->getWorkingDaysPerJobUrl($workingDaysPerJobs));
+                     $data = array();
+                     foreach ($workingDaysPerJobs as $workingDays) {
+                        if (0 != $workingDays['nbDays']) {
+                           $data[$workingDays['name']] = $workingDays['nbDays'];
+                           //$formatedColors .= "#".$workingDays['color'];
+                        }
+                     }
+
+                     if (count($data) > 0) {
+                        $this->smartyHelper->assign('workingDaysPerJob_jqplotData', Tools::array2plot($data));
+                     }
                   }
 
                   $defaultProjectid = Tools::getSecurePOSTIntValue('projectid', 0);
@@ -93,13 +112,25 @@ class ProductivityReportsController extends Controller {
                   }
                   $this->smartyHelper->assign('projectDetails', $projectDetails);
                   if($projectDetails != NULL) {
-                     $this->smartyHelper->assign('projectDetailsUrl', ProductivityReportTools::getProjectDetailsUrl($projectDetails));
+                     $data = ProductivityReportTools::getProjectDetailsChart($projectDetails);
+                     if (count($data) > 0) {
+                        $this->smartyHelper->assign('projectDetails_jqplotData', Tools::array2plot($data));
+                     }
                   }
 
                   $workingDaysPerProject = $this->getWorkingDaysPerProject($timeTracking);
                   $this->smartyHelper->assign('workingDaysPerProject', $workingDaysPerProject);
                   if($workingDaysPerProject != NULL) {
-                     $this->smartyHelper->assign('workingDaysPerProjectUrl', $this->getWorkingDaysPerProjectUrl($workingDaysPerProject));
+                     $data = array();
+                     foreach ($workingDaysPerProject as $workingDays) {
+                        if (0 != $workingDays['nbDays']) {
+                           $data[$workingDays['name']] = $workingDays['nbDays'];
+                        }
+                     }
+
+                     if (count($data) > 0) {
+                        $this->smartyHelper->assign('workingDaysPerProject_jqplotData', Tools::array2plot($data));
+                     }
                   }
 
                   $this->smartyHelper->assign('efficiencyRate', round($timeTracking->getEfficiencyRate(), 2));
@@ -206,30 +237,6 @@ class ProductivityReportsController extends Controller {
 
 
    /**
-    * @param array[] $workingDaysPerJobs
-    * @return string
-    */
-   private function getWorkingDaysPerJobUrl(array $workingDaysPerJobs) {
-      $formatedValues = NULL;
-      $formatedLegends = NULL;
-      $formatedColors = NULL;
-
-      foreach ($workingDaysPerJobs as $workingDaysPerJob) {
-         if (0 != $workingDaysPerJob['nbDays']) {
-            if (NULL != $formatedValues) { $formatedValues .= ":"; $formatedLegends .= ":"; $formatedColors .= ":"; }
-            $formatedValues .= $workingDaysPerJob['nbDays'];
-            $formatedLegends .= $workingDaysPerJob['name'];
-            $formatedColors .= "#".$workingDaysPerJob['color'];
-         }
-      }
-
-      if (NULL != $formatedValues) {
-         return Tools::SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues.'&colors='.$formatedColors);
-      }
-      return NULL;
-   }
-
-   /**
     * @param TimeTracking $timeTracking
     * @return mixed[]
     */
@@ -257,30 +264,6 @@ class ProductivityReportsController extends Controller {
       }
 
       return $workingDaysPerProject;
-   }
-
-   /**
-    * @param array $workingDaysPerProject
-    * @return string
-    */
-   private function getWorkingDaysPerProjectUrl(array $workingDaysPerProject) {
-      $formatedValues = NULL;
-      $formatedLegends = NULL;
-      foreach ($workingDaysPerProject as $workingDays) {
-         if (0 != $workingDays['nbDays']) {
-            if (NULL != $formatedValues) {
-               $formatedValues .= ":"; $formatedLegends .= ":";
-            }
-            $formatedValues .= $workingDays['nbDays'];
-            $formatedLegends .= $workingDays['name'];
-         }
-      }
-
-      if (NULL != $formatedValues) {
-         return Tools::SmartUrlEncode('legends='.$formatedLegends.'&values='.$formatedValues);
-      } else {
-         return NULL;
-      }
    }
 
    /**

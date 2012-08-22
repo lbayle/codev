@@ -25,8 +25,8 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getProjectDetails') {
-         $weekDates  = Tools::week_dates(date('W'),date('Y'));
-         $startdate  = Tools::getSecureGETStringValue('startdate', date("Y-m-d", $weekDates[1]));
+         $weekDates = Tools::week_dates(date('W'),date('Y'));
+         $startdate = Tools::getSecureGETStringValue('startdate', date("Y-m-d", $weekDates[1]));
          $startTimestamp = Tools::date2timestamp($startdate);
 
          $enddate  = Tools::getSecureGETStringValue('enddate', date("Y-m-d", $weekDates[5]));
@@ -44,10 +44,33 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
             $projectDetails = ProductivityReportTools::getSideTasksProjectDetails($timeTracking);
          }
          $smartyHelper->assign('projectDetails', $projectDetails);
-         if($projectDetails != NULL) {
-            $smartyHelper->assign('projectDetailsUrl', ProductivityReportTools::getProjectDetailsUrl($projectDetails));
-         }
          $smartyHelper->display('ajax/projectDetails');
+      }
+      elseif($_GET['action'] == 'getProjectDetailsData') {
+         $weekDates = Tools::week_dates(date('W'),date('Y'));
+         $startdate = Tools::getSecureGETStringValue('startdate', date("Y-m-d", $weekDates[1]));
+         $startTimestamp = Tools::date2timestamp($startdate);
+
+         $enddate  = Tools::getSecureGETStringValue('enddate', date("Y-m-d", $weekDates[5]));
+         $endTimestamp = Tools::date2timestamp($enddate);
+         $endTimestamp += 24 * 60 * 60 -1; // + 1 day -1 sec.
+
+         $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $_GET['teamid']);
+
+         $projectid  = Tools::getSecureGETIntValue('projectid', 0);
+         $projectDetails = NULL;
+         if (0 != $projectid) {
+            $projectDetails = ProductivityReportTools::getProjectDetails($timeTracking, $projectid);
+         } else {
+            // all sideTasks
+            $projectDetails = ProductivityReportTools::getSideTasksProjectDetails($timeTracking);
+         }
+         if($projectDetails != NULL) {
+            $data = ProductivityReportTools::getProjectDetailsChart($projectDetails);
+            if (count($data) > 0) {
+               echo Tools::array2json($data);
+            }
+         }
       }
       else {
          Tools::sendNotFoundAccess();
