@@ -193,19 +193,6 @@ class ProductivityReportsController extends Controller {
 
    /**
     * @param TimeTracking $timeTracking
-    * @return string
-    */
-   private function getProductionDaysUrl(TimeTracking $timeTracking) {
-      $managementDay = $timeTracking->getManagementDays();
-      $formatedValues = $timeTracking->getProdDays().':'.$managementDay.':'.($timeTracking->getProdDaysSideTasks(false) - $managementDay);
-      $formatedLegends = T_('Projects').':'.T_('Project Management').':'.T_('Other SideTasks');
-      $colors = '#92C5FC'.':'.'#FFC16B'.':'.'#FFF494';
-      return Tools::SmartUrlEncode('colors='.$colors.'&legends='.$formatedLegends.'&values='.$formatedValues);
-   }
-
-
-   /**
-    * @param TimeTracking $timeTracking
     * @param int $teamid
     * @return mixed[]
     */

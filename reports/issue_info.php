@@ -107,9 +107,9 @@ class IssueInfoController extends Controller {
                      $smartyHelper->assign('plotMinDate', $plotMinDate);
                      $smartyHelper->assign('plotMaxDate', $plotMaxDate);
                      */
-                     $this->smartyHelper->assign('jqplotTitle',      'Backlog variation');
-                     $this->smartyHelper->assign('jqplotYaxisLabel', 'Backlog (days)');
-                     $this->smartyHelper->assign('jqplotData', $this->getBacklogGraph($issue, $timestampList));
+                     $this->smartyHelper->assign('backload_jqplotTitle', 'Backlog variation');
+                     $this->smartyHelper->assign('backload_jqplotYaxisLabel', 'Backlog (days)');
+                     $this->smartyHelper->assign('backload_jqplotData', $this->getBacklogGraph($issue, $timestampList));
 
                   }
                   $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
