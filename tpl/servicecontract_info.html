@@ -342,8 +342,19 @@
       </div>
 
       <div id="tabsName-3">
-         {if $jqplotData}
-         {include file="graph/line_plot.html"}
+         {if $indicators_jqplotData}
+         <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
+         <link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
+         <script type="text/javascript" src="js/chart.js"></script>
+         <script type="text/javascript">
+            jQuery(document).ready(function() {
+               var chartoptions = jQuery('#indicatorsChart').data('plotoptions');
+               chartoptions.title.text = '{t}{$indicators_jqplotTitle}{/t}';
+               chartoptions.axes.yaxis.label = "{$indicators_jqplotYaxisLabel}";
+               jQuery('#indicatorsChart').jqplot([{$indicators_jqplotData}], chartoptions);
+            });
+         </script>
+         <div id="indicatorsChart" class="category_chart chart"></div>
          {else}
          <p>{t}No data{/t}</p>
          {/if}

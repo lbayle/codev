@@ -38,30 +38,30 @@ jQuery(document).ready(function() {
       async: false,
       cache: true
    });
-      jQuery.ajax({
-         url: "lib/jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js",
-         dataType: "script",
-         async: false,
-         cache: true
-      });
-      jQuery.ajax({
-         url: "lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js",
-         dataType: "script",
-         async: false,
-         cache: true
-      });
-      jQuery.ajax({
-         url: "lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js",
-         dataType: "script",
-         async: false,
-         cache: true
-      });
-      jQuery.ajax({
-         url: "lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js",
-         dataType: "script",
-         async: false,
-         cache: true
-      });
+   jQuery.ajax({
+      url: "lib/jquery.jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js",
+      dataType: "script",
+      async: false,
+      cache: true
+   });
+   jQuery.ajax({
+      url: "lib/jquery.jqplot/plugins/jqplot.canvasTextRenderer.min.js",
+      dataType: "script",
+      async: false,
+      cache: true
+   });
+   jQuery.ajax({
+      url: "lib/jquery.jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js",
+      dataType: "script",
+      async: false,
+      cache: true
+   });
+   jQuery.ajax({
+      url: "lib/jquery.jqplot/plugins/jqplot.categoryAxisRenderer.min.js",
+      dataType: "script",
+      async: false,
+      cache: true
+   });
 
    jQuery.jqplot.config.enablePlugins = false;
 

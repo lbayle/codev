@@ -296,9 +296,9 @@ class ServiceContractTools {
 
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId()));
 
-      $smartyHelper->assign('jqplotTitle', 'Historical Progression Chart');
-      $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
-      $smartyHelper->assign('jqplotData', self::getSContractProgressHistory($servicecontract));
+      $smartyHelper->assign('indicators_jqplotTitle', 'Historical Progression Chart');
+      $smartyHelper->assign('indicators_jqplotYaxisLabel', '% Progress');
+      $smartyHelper->assign('indicators_jqplotData', self::getSContractProgressHistory($servicecontract));
    }
 
 }

@@ -23,8 +23,6 @@
       </form>
    </div>
 
-   <script type="text/javascript" src="js/helpdialog.js"></script>
-
    {include file="modal/consistency_check.html"}
 
    <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
@@ -94,7 +92,7 @@
                   jQuery('#productionDaysChart').jqplot([{$productionDays_jqplotData}], chartoptions);
                });
             </script>
-            <div id="productionDaysChart" class="pie_chart float" style=" top: -9px;"></div>
+            <div id="productionDaysChart" class="pie_chart chart float" style=" top: -9px;"></div>
             {/if}
             <div class="ui-helper-clearfix"></div>
             <div id="dialog_ProdDays" class="help_dialog" title="{t}Production days{/t}" class="ui-helper-hidden">
@@ -139,7 +137,7 @@
                jQuery('#workingDaysPerJobChart').jqplot([{$workingDaysPerJob_jqplotData}], chartoptions);
             });
          </script>
-         <div id="workingDaysPerJobChart" class="pie_chart float" style="top: -9px;"></div>
+         <div id="workingDaysPerJobChart" class="pie_chart chart float" style="top: -9px;"></div>
          {/if}
          <div class="ui-helper-clearfix"></div>
          {else}
@@ -227,7 +225,7 @@
             jQuery('#projectDetailsChart').jqplot([{$projectDetails_jqplotData}], chartoptions);
          });
          </script>
-         <div id="projectDetailsChart" class="pie_chart float" style="top: -9px;"></div>
+         <div id="projectDetailsChart" class="pie_chart chart float" style="top: -9px;"></div>
          {/if}
          <div class="ui-helper-clearfix"></div>
          {/if}
@@ -266,7 +264,7 @@
                jQuery('#workingDaysPerProjectChart').jqplot([{$workingDaysPerProject_jqplotData}], chartoptions);
             });
          </script>
-         <div id="workingDaysPerProjectChart" class="pie_chart float" style="top: -9px;"></div>
+         <div id="workingDaysPerProjectChart" class="pie_chart chart float" style="top: -9px;"></div>
          {/if}
          <div class="ui-helper-clearfix"></div>
          {else}
@@ -478,7 +476,20 @@
          {/if}
       </div>
    </div>
-   <script type="text/javascript" src="js/tabs.js"></script>
+   <script type="text/javascript" type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery.ajax({
+            url: "js/tabs.js",
+            dataType: "script",
+            cache: true
+         });
+         jQuery.ajax({
+            url: "js/helpdialog.js",
+            dataType: "script",
+            cache: true
+         });
+      });
+   </script>
 </div>
 {else}
 <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>

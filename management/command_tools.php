@@ -207,9 +207,9 @@ class CommandTools {
       // Indicators & statistics
       #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
 
-      $smartyHelper->assign('jqplotTitle', 'Historical Progression Chart');
-      $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
-      $smartyHelper->assign('jqplotData', self::getProgressHistory($cmd));
+      $smartyHelper->assign('indicators_jqplotTitle', 'Historical Progression Chart');
+      $smartyHelper->assign('indicators_jqplotYaxisLabel', '% Progress');
+      $smartyHelper->assign('indicators_jqplotData', self::getProgressHistory($cmd));
    }
 }
 

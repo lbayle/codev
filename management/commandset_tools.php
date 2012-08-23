@@ -155,9 +155,9 @@ class CommandSetTools {
       $smartyHelper->assign('cmdList', self::getCommandSetCommands($commandset->getId(), Command::type_general));
       $smartyHelper->assign('cmdsetDetailedMgr', self::getCommandSetDetailedMgr($commandset->getId(), Command::type_general));
 
-      $smartyHelper->assign('jqplotTitle', 'Historical Progression Chart');
-      $smartyHelper->assign('jqplotYaxisLabel', '% Progress');
-      $smartyHelper->assign('jqplotData', self::getCSetProgressHistory($commandset));
+      $smartyHelper->assign('indicators_jqplotTitle', 'Historical Progression Chart');
+      $smartyHelper->assign('indicators_jqplotYaxisLabel', '% Progress');
+      $smartyHelper->assign('indicators_jqplotData', self::getCSetProgressHistory($commandset));
    }
 
 }
