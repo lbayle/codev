@@ -1,7 +1,5 @@
 {include file="menu/week_activity_menu.html"}
 
-<script type="text/javascript" src="js/tabs.js"></script>
-
 <div id="content" class="center">
 
    <h2 class="center">{t}Weekly Activity{/t}</h2>
@@ -124,6 +122,15 @@
          {/foreach}
          {/if}
       </div>
+      <script type="text/javascript" type="text/javascript">
+         jQuery(document).ready(function() {
+            jQuery.ajax({
+               url: "js/tabs.js",
+               dataType: "script",
+               cache: true
+            });
+         });
+      </script>
    </div>
 
    {if $warnings}

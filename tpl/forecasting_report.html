@@ -1,5 +1,3 @@
-<script type="text/javascript" src="js/tabs.js"></script>
-
 <div id="content">
    {if $teams}
 
@@ -150,6 +148,15 @@
          {/if}
       </div>
    </div>
+   <script type="text/javascript" type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery.ajax({
+            url: "js/tabs.js",
+            dataType: "script",
+            cache: true
+         });
+      });
+   </script>
    {/if}
    {if $workload_jqplotData}
    <div style="margin-top:2em;">

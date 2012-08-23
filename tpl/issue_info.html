@@ -341,9 +341,16 @@
             <p>{t}No data{/t}</p>
             {/if}
          </div>
-
       </div>
-      <script type="text/javascript" src="js/tabs.js"></script>
+      <script type="text/javascript" type="text/javascript">
+         jQuery(document).ready(function() {
+            jQuery.ajax({
+               url: "js/tabs.js",
+               dataType: "script",
+               cache: true
+            });
+         });
+      </script>
       {/if}
 
    </div>

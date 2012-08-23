@@ -1,7 +1,6 @@
 {include file="menu/management_menu.html"}
 
 <script type="text/javascript" src="js/datepicker.js"></script>
-<script type="text/javascript" src="js/tabs.js"></script>
 
 <script type="text/javascript">
    jQuery(document).ready(function() {
@@ -246,4 +245,13 @@
          {/if}
       </div>
    </div>
+   <script type="text/javascript" type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery.ajax({
+            url: "js/tabs.js",
+            dataType: "script",
+            cache: true
+         });
+      });
+   </script>
 </div>

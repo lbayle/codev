@@ -163,6 +163,13 @@
 
    <script type="text/javascript">
       jQuery(document).ready(function() {
+         jQuery.ajax({
+            url: "lib/jquery/js/jquery.tools-1.2.7.min.js",
+            dataType: "script",
+            async: false,
+            cache: true
+         });
+
          jQuery(".deadline").each(function() {
             var tooltip = jQuery(this).attr('id').replace('deadline','tooltip_deadline');
             jQuery(this).tooltip({

@@ -1,5 +1,3 @@
-<script type="text/javascript" src="js/tabs.js"></script>
-
 <div id="content">
    {if $projects}
    <div class="center">
@@ -253,6 +251,15 @@
          {/if}
       </div>
    </div>
+   <script type="text/javascript" type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery.ajax({
+            url: "js/tabs.js",
+            dataType: "script",
+            cache: true
+         });
+      });
+   </script>
    {/if}
    {if $error}
    <p class="center">{t}{$error}{/t}</p>
