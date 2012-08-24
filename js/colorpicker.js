@@ -1,5 +1,13 @@
 // Colorpicker
 jQuery(document).ready(function() {
+
+   jQuery.ajax({
+      url: "lib/colorpicker/colorpicker.min.js",
+      dataType: "script",
+      async: false,
+      cache: true
+   });
+   
    jQuery('#colorpicker').ColorPicker({
       onSubmit: function(hsb, hex, rgb, el) {
          jQuery(el).val(hex);
