@@ -167,7 +167,8 @@ jQuery(document).ready(function() {
             function (ev, seriesIndex, pointIndex, data, radius) {
                var color = 'rgb(50%,50%,100%)';
                cells.css('background-color', '#ffffff');
-               rows.eq(pointIndex).find('td').css('background-color', color);
+               var cell = rows.find('td').filter(function(index) { return jQuery(this).text().indexOf(data[0]) != -1; });
+               cell.parent().children("td").css('background-color', color);
             }
          );
 
