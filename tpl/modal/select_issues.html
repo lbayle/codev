@@ -8,8 +8,18 @@ This opens a popup window displaying an issue list.
 
 -->
 
+<link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
+
 <script type="text/javascript">
-   jQuery(function() {
+   jQuery(document).ready(function() {
+   
+      jQuery.ajax({
+         url: "lib/datatables/media/js/jquery.dataTables.min.js",
+         dataType: "script",
+         async: false,
+         cache: true
+      });
+   
       jQuery( "#dialog_selectIssues_link" ).click(function() {
          jQuery( "#dialog_selectIssues" ).dialog( "open" );
          var oTable = jQuery('#selectable_issues_table').dataTable();

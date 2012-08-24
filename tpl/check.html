@@ -1,4 +1,4 @@
-<script type="text/javascript" src="js/datatable.js"></script>
+<link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
 
 <div id="content">
    {if $teams}
@@ -36,6 +36,13 @@
          {/foreach}
       </tbody>
    </table>
+   <script type="text/javascript">
+      jQuery.ajax({
+         url: "js/datatable.js",
+         dataType: "script",
+         cache: true
+      });
+   </script>
    {/if}
    {/if}
    {/if}

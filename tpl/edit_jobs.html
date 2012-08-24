@@ -14,7 +14,6 @@
       <h2>{t}Jobs{/t}</h2>
       <!-- <div class="center"> -->
       <link rel="stylesheet" href="lib/colorpicker/css/colorpicker.css" type="text/css" />
-      <script type="text/javascript" src="js/colorpicker.js"></script>
       <script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery('#addJob').click(function() {
@@ -199,8 +198,14 @@
             <input type="hidden" name="asso_id" value="0" />
          </fieldset>
       </form>
-
    </div>
+   <script type="text/javascript">
+      jQuery.ajax({
+         url: "js/colorpicker.js",
+         dataType: "script",
+         cache: true
+      });
+   </script>
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be in the admin-team to access this page.{/t}</p>
    {/if}

@@ -1,8 +1,8 @@
+<link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
+
 {include file="menu/management_menu.html"}
 
 <script type="text/javascript" src="js/datepicker.js"></script>
-<script type="text/javascript" src="js/datatable.js"></script>
-
 <script type="text/javascript">
    jQuery(document).ready(function() {
       {if $locale != en}
@@ -424,6 +424,11 @@
    </div>
    <script type="text/javascript" type="text/javascript">
       jQuery(document).ready(function() {
+         jQuery.ajax({
+            url: "js/datatable.js",
+            dataType: "script",
+            cache: true
+         });
          jQuery.ajax({
             url: "js/tabs.js",
             dataType: "script",

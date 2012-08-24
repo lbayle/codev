@@ -1,6 +1,6 @@
-{include file="menu/management_menu.html"}
+<link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript" src="js/datatable.js"></script>
+{include file="menu/management_menu.html"}
 
 <script type="text/javascript">
    jQuery(document).ready(function() {
@@ -219,6 +219,11 @@
       jQuery(document).ready(function() {
          jQuery.ajax({
             url: "js/tabs.js",
+            dataType: "script",
+            cache: true
+         });
+         jQuery.ajax({
+            url: "js/datatable.js",
             dataType: "script",
             cache: true
          });

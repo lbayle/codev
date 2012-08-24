@@ -3,8 +3,6 @@
 <div id="content" class="center">
    {if !$filename}
       
-   <script type="text/javascript" src="js/helpdialog.js"></script>
-
    <!-- FILE SELECTION -->
    <div id="dialog_uploadCSV" class="help_dialog" title="{t}Import Mantis Issues{/t}" class="ui-helper-hidden">
       <p><strong>{t}File Format{/t}</strong><br />{t}Standard CSV format with :{/t}<br>
@@ -44,6 +42,7 @@
    {/if}
 
    {if $newIssues}
+   <link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
    <script type="text/javascript" src="js/datepicker.js"></script>
    <script type="text/javascript">
       function getDataRowFromIssueRow(issueRow) {
@@ -51,8 +50,20 @@
          return jQuery("#"+dataRowId);
       }
 
-      //------ DATATABLE JQUERY --------
       jQuery(document).ready(function() {
+   
+         jQuery.ajax({
+            url: "lib/datatables/media/js/jquery.dataTables.min.js",
+            dataType: "script",
+            async: false,
+            cache: true
+         });
+         jQuery.ajax({
+            url: "lib/jquery.jeditable/jquery.jeditable.mini.js",
+            dataType: "script",
+            async: false,
+            cache: true
+         });
       
          {if $locale != en}
          jQuery.datepicker.setDefaults($.datepicker.regional['{$locale}']);
@@ -328,6 +339,13 @@
    <div class="left" style="margin-top:3em;">
       <script type="text/javascript">
          jQuery(document).ready(function() {
+         
+            jQuery.ajax({
+               url: "lib/jquery.scrollTo/jquery.scrollTo-min.js",
+               dataType: "script",
+               async: false,
+               cache: true
+            });
 
             var oTable = jQuery('#issues_table').dataTable();
             var scroller = jQuery(oTable.fnSettings().nTable.parentNode);
@@ -466,10 +484,16 @@
             </tbody>
          </table>
       </div>
-
       {/if}
    </div>
-
    {/if}
-
+   <script type="text/javascript" type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery.ajax({
+            url: "js/helpdialog.js",
+            dataType: "script",
+            cache: true
+         });
+      });
+   </script>
 </div>
