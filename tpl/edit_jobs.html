@@ -81,7 +81,7 @@
             <tbody>
                {foreach from=$jobs key=id item=i}
                <tr>
-                  <td>{if $i.deletedJob}<a title="{t}delete Job{/t}" onclick="deleteJob('{$id}', '{$i.name}');return false" href="#"><img src="images/b_drop.png"></a>{/if}</td>
+                  <td>{if $i.deletedJob}<a title="{t}delete Job{/t}" onclick="deleteJob('{$id}', '{$i.name}');return false" href="{$page}"><img src="images/b_drop.png"></a>{/if}</td>
                   <td title="{$id}">{$i.name}</td>
                   <td title="{$i.type}">{$i.typeName}</td>
                   <td style="background-color: #{$i.color};">{$i.color}</td>
@@ -185,7 +185,7 @@
          <tbody>
             {foreach from=$tuples key=id item=i}
                <tr>
-                  <td><a title="{t}delete Project Association{/t}" href="#" onclick="deleteJobProjectAssociation('{$id}','{$i.desc}');return false;" ><img src="images/b_drop.png"></a></td>
+                  <td><a title="{t}delete Project Association{/t}" href="{$page}" onclick="deleteJobProjectAssociation('{$id}','{$i.desc}');return false;" ><img src="images/b_drop.png"></a></td>
                   <td>{$i.jobname}</td>
                   <td>{$i.project}</td>
                </tr>

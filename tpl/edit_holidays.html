@@ -84,7 +84,7 @@
          <tbody>
             {foreach from=$holidays key=id item=i}
             <tr>
-               <td><a title="{t}delete Holiday{/t}" href="#" onclick="deleteHoliday('{$id}', '{$i.date}','{$i.desc}');return false;" ><img src=images/b_drop.png></a></td>
+               <td><a title="{t}delete Holiday{/t}" href="{$page}" onclick="deleteHoliday('{$id}', '{$i.date}','{$i.desc}');return false;" ><img src=images/b_drop.png></a></td>
                <td title="{$id}">{$i.date}</td>
                <td title="{$i.type}">{$i.desc}</td>
                <td style="background-color: #{$i.color};">{$i.color}</td>

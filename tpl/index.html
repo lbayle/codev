@@ -118,7 +118,7 @@
             <td>{$i.issueInfoURL}</td>
             <td>{$i.projectName}</td>
             <td {if $i.driftEE > 0}style="background-color: #fcbdbd;"{elseif $i.driftEE < 0}style="background-color: #61ed66;"{/if}>{$i.driftEE}</td>
-            <td><a title="{t}update Backlog{/t}" href="#" onclick="updateBacklog('Task {$i.formatedTitle} - Update Backlog', '{$i.bugId}', '{$i.backlog}', '{$i.formatedSummary}');return false;">{$i.backlog}</a></td>
+            <td><a title="{t}update Backlog{/t}" href="{$page}" onclick="updateBacklog('Task {$i.formatedTitle} - Update Backlog', '{$i.bugId}', '{$i.backlog}', '{$i.formatedSummary}');return false;">{$i.backlog}</a></td>
             <td>{$i.summary}</td>
          </tr>
          {/foreach}
@@ -151,7 +151,7 @@
    </script>
    <div align="center">
       <div id="accordion" style="width:500px;" >
-         <h3><a href="#">{$consistencyErrors|count} {t}Errors in your Tasks{/t}</a></h3>
+         <h3><a href="{$page}">{$consistencyErrors|count} {t}Errors in your Tasks{/t}</a></h3>
          <div align="left" style="height:120px;">
             <table style="border: 0;">
                <tbody>

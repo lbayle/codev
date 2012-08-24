@@ -15,8 +15,8 @@
       <p><strong>{t}Columns{/t}</strong><br />{t}the file must contain 6 columns, the 1st line contains the column names.{/t}<br /><br /><span style="color:blue">{t}Summary ; MgrEffortEstim ; EffortEstim ; Description ; Deadline ; ExternalRef{/t}</span></p>
    </div>
 
-   <h2 class="center">{t}Select CSV file{/t} &nbsp;&nbsp;<a id="dialog_uploadCSV_link" class="help_link" href="#"><img title="help" src="images/help_icon.gif"/></a></h2>
-      
+   <h2 class="center">{t}Select CSV file{/t} &nbsp;&nbsp;<a id="dialog_uploadCSV_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
+
    <form method="post" action="{$page}" enctype="multipart/form-data" id="formUploadFile" name="formUploadFile">
       <fieldset>
          {include file="form/teamProjectSelector.html"}

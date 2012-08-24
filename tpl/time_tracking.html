@@ -237,7 +237,7 @@
          });
       </script>
       <div id="accordion" style="width:350px;" >
-         <h3><a href="#">{t}Missing dates{/t}</a></h3>
+         <h3><a href="{$page}">{t}Missing dates{/t}</a></h3>
          <div align="left" style="height:250px;">
             <table style="border:0;">
                <tbody>
@@ -292,7 +292,7 @@
                <tr class ="{$i.class}">
                   <td>
                      <a title="{t}delete this row{/t}" onclick="deleteTrack('{$i.id}','{$i.date}',
-                        '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="#">
+                        '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="{$page}">
                         <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
                      </a>
                   </td>
@@ -335,7 +335,7 @@
                <tr class ="{$i.class}">
                   <td>
                      <a title="{t}delete this row{/t}" onclick="deleteTrack('{$i.id}','{$i.date}',
-                        '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="#">
+                        '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="{$page}">
                         <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
                      </a>
                   </td>
