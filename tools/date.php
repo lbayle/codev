@@ -22,9 +22,9 @@ function setCalendarToDateForm($defaultDate1) {
    echo "<div class=left>";
    // Create form
    echo '<link type="text/css" href="lib/jquery/css/Aristo/Aristo.css" rel="Stylesheet" />';
-   echo '<script type="text/javascript" src="lib/jquery/js/jquery-1.7.1.min.js"></script>';
+   echo '<script type="text/javascript" src="lib/jquery/jquery.min.js"></script>';
    echo '<script type="text/javascript" src="lib/jquery/js/jquery.bgiframe-2.1.2.js"></script>';
-   echo '<script type="text/javascript" src="lib/jquery/js/jquery-ui-1.8.16.custom.min.js"></script>';
+   echo '<script type="text/javascript" src="lib/jquery/jquery-ui.min.js"></script>';
    echo '<script type="text/javascript" src="js/datepicker.js"></script>';
    echo "<form id='form1' name='form1' method='post' action='$_SERVER[PHP_SELF]'>\n";
    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
