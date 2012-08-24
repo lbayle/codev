@@ -244,20 +244,17 @@ class PlanningReportController extends Controller {
          $days[] = $dayPixSize - 1;
       }
 
-      $deadLineTriggerWidth = 10;
       $taks = array();
       foreach ($allTasksLists as $userName => $scheduledTaskList) {
          $taks[] = array(
             "workload" => $workloads[$userName],
             "username" => $userName,
-            "deadlines" => $this->getUserDeadLines($userName, $dayPixSize, $scheduledTaskList, $deadLineTriggerWidth),
-            "userSchedule" => $this->getUserSchedule($userName, $dayPixSize, $scheduledTaskList, $teamid)
+            "deadlines" => $this->getUserDeadLines($userName, $dayPixSize, $scheduledTaskList),
+            "scheduledTasks" => $this->getScheduledTasks($userName, $dayPixSize, $scheduledTaskList, $teamid)
          );
       }
 
       return array(
-         "width" => $deadLineTriggerWidth / 2,
-         "height" => 1,
          "days" => $days,
          "tasks" => $taks
       );
@@ -267,10 +264,10 @@ class PlanningReportController extends Controller {
     * @param string $userName
     * @param int $dayPixSize
     * @param ScheduledTask[] $scheduledTaskList
-    * @param int $deadLineTriggerWidth
     * @return mixed[][]
     */
-   private function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList, $deadLineTriggerWidth) {
+   private function getUserDeadLines($userName, $dayPixSize, array $scheduledTaskList) {
+      $deadLineTriggerWidth = 10;
       $deadLines = array();
 
       // remove duplicate deadLines & set color
@@ -336,7 +333,6 @@ class PlanningReportController extends Controller {
 
       return array(
          "isDeadline" => $isDeadline,
-         "height" => 7,
          "deadline" => $deadline,
       );
    }
@@ -348,9 +344,8 @@ class PlanningReportController extends Controller {
     * @param int $teamid
     * @return mixed[][]
     */
-   private function getUserSchedule($userName, $dayPixSize, array $scheduledTaskList, $teamid) {
+   private function getScheduledTasks($userName, $dayPixSize, array $scheduledTaskList, $teamid) {
       $totalPix = 0;
-      $sepWidth = 1;
 
       $projList = TeamCache::getInstance()->getTeam($teamid)->getProjects();
 
@@ -377,7 +372,7 @@ class PlanningReportController extends Controller {
          $formatedTitle = str_replace("'", ' ', $taskTitle);
          $formatedTitle = str_replace('"', ' ', $formatedTitle);
 
-         $drawnTaskPixSize = $taskPixSize - $sepWidth;
+         $drawnTaskPixSize = $taskPixSize - 1;
 
          $sTask = array(
             "user" => $userName,
@@ -404,11 +399,7 @@ class PlanningReportController extends Controller {
 
       }
 
-      return array(
-         "height" => 20,
-         "sepWidth" => $sepWidth,
-         "scheduledTasks" => $scheduledTasks,
-      );
+      return $scheduledTasks;
    }
 
 }
