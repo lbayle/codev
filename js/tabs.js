@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
 
    // Lib handle the history
    jQuery.ajax({
-      url: "lib/jquery-bbq/jquery.ba-bbq.js",
+      url: "lib/jquery.bbq/jquery.ba-bbq.min.js",
       dataType: "script",
       async: false,
       cache: true
