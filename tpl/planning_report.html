@@ -203,27 +203,22 @@
       </table>
    </div>
 
-   <div class="center" style="margin-top: 2em;">
-      <table class="invisible" width="700">
-         <tbody>
-            <tr>
-               {foreach from=$colors key=id item=i}
-               <td>
-                  <img src="graphs/scheduledtask.png.php?height=14&width=14&color={$id}" alt="{t}Color{/t}" />
-                  &nbsp;{t}{$i}{/t}
-               </td>
-               {/foreach}
-               <td>
-                  <span style="font-size: 0;">
-                     <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
-                     <img width="{$dayPixSize}" height="7" src="images/time_line.jpg" alt="" />
-                     <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
-                  </span>
-                  &nbsp;&nbsp;1 {t}day{/t}
-               </td>
-            </tr>
-         </tbody>
-      </table>
+   <div style="margin-top: 2em; margin-left: 1em;">
+      {foreach from=$colors key=id item=i}
+      <div class="float" style="margin-right: 2em;">
+         <img src="graphs/scheduledtask.png.php?height=14&width=14&color={$id}" alt="{t}Color{/t}" height="14" width="14" style="vertical-align: middle" />
+         &nbsp;{t}{$i}{/t}
+      </div>
+      {/foreach}
+      <div class="float" style="margin-right: 2em;">
+         <span style="font-size: 0;vertical-align: bottom">
+            <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+            <img width="{$dayPixSize}" height="7" src="images/time_line.jpg" alt="" />
+            <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
+         </span>
+         &nbsp;&nbsp;1 {t}day{/t}
+      </div>
+      <div class="ui-helper-clearfix"></div>
    </div>
 
    <script type="text/javascript">
