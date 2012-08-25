@@ -22,8 +22,8 @@ include_once('classes/sqlwrapper.class.php');
 
 class ProjectVersion extends IssueSelection {
 
-   public $projectId;
-   protected $versionDate; // mantis_project_version_table.date_order
+   private $projectId;
+   private $versionDate; // mantis_project_version_table.date_order
 
    public function __construct($projectId, $version) {
       parent::__construct($version);
