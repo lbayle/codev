@@ -88,7 +88,7 @@ class BlogController extends Controller {
             $item['to'] = $destUser->getRealname();
          } else if (0 != $bpost->dest_team_id) {
             $team = TeamCache::getInstance()->getTeam($bpost->dest_team_id);
-            $item['to'] = $team->name;
+            $item['to'] = $team->getName();
          } else if (0 != $bpost->dest_project_id) {
             $destProj = ProjectCache::getInstance()->getProject($bpost->dest_project_id);
             $item['to'] = $destProj->getName();

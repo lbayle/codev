@@ -534,7 +534,7 @@ class ConsistencyCheck2 {
 
          $query = "SELECT * ".
                   "FROM `codev_timetracking_table` ".
-                  "WHERE date >= $team->date ".
+                  "WHERE date >= ".$team->getDate()." ".
                   "AND userid IN ($formatedUsers) ";
          #"AND    0 = (SELECT COUNT(id) FROM `mantis_bug_table` WHERE id='codev_timetracking_table.bugid' ) ";
 

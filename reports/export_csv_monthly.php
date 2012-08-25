@@ -48,7 +48,7 @@ class ExportCSVMonthlyController extends Controller {
             $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
             $team = TeamCache::getInstance()->getTeam($teamid);
-            $formatedteamName = str_replace(" ", "_", $team->name);
+            $formatedteamName = str_replace(" ", "_", $team->getName());
 
             // dates
             $month = date('m');

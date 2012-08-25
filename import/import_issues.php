@@ -59,7 +59,7 @@ class ImportIssuesController extends Controller {
 
          $this->smartyHelper->assign('teamid', $teamid);
          if (0 != $teamid) {
-            $this->smartyHelper->assign('teamName', $team->name);
+            $this->smartyHelper->assign('teamName', $team->getName());
          }
 
          // use the projectid set in the form, if not defined (first page call) use session projectid

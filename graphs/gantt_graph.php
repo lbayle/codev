@@ -46,9 +46,9 @@ function getGanttGraph($teamid, $startTimestamp, $endTimestamp, array $projectId
          $project = ProjectCache::getInstance()->getProject($pid);
          $pnameList .= $project->getName();
       }
-      $graph->title->Set(T_('Team').' '.$team->name.'    '.T_('Project(s)').': '.$pnameList);
+      $graph->title->Set(T_('Team').' '.$team->getName().'    '.T_('Project(s)').': '.$pnameList);
    } else {
-      $graph->title->Set(T_('Team').' '.$team->name.'    ('.T_('All projects').')');
+      $graph->title->Set(T_('Team').' '.$team->getName().'    ('.T_('All projects').')');
    }
 
    // Setup scale

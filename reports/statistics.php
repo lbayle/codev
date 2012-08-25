@@ -53,15 +53,15 @@ class StatisticsController extends Controller {
                $this->smartyHelper->assign('displayNoSupport', $displayNoSupport);
 
                $team = TeamCache::getInstance()->getTeam($teamid);
-               $min_year = date("Y", $team->date);
+               $min_year = date("Y", $team->getDate());
                $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
 
                $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
                $this->smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year, $year));
 
                if (isset($_POST['teamid'])) {
-                  $month = ($year == $min_year) ? date("m", $team->date) : 1;
-                  $day = ($year == $min_year) ? date("d", $team->date) : 1;
+                  $month = ($year == $min_year) ? date("m", $team->getDate()) : 1;
+                  $day = ($year == $min_year) ? date("d", $team->getDate()) : 1;
 
                   if(count($team->getProjects(FALSE)) > 0) {
                      $timeTrackingTable = $this->createTimeTrackingList($day, $month, $year, $teamid);

@@ -253,7 +253,7 @@ class User extends Model {
     */
    public function isTeamLeader($team_id) {
       $team = TeamCache::getInstance()->getTeam($team_id);
-      return ($team->leader_id == $this->id);
+      return $team->getLeaderId() == $this->id;
    }
 
    /**

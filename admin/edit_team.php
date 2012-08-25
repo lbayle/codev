@@ -108,7 +108,7 @@ class EditTeamController extends Controller {
                      $team->addMember($memberid, $arrivalTimestamp, $memberAccess);
 
                      // CodevTT administrators can manage ExternalTasksProject in Mantis
-                     if (Config::getInstance()->getValue(Config::id_adminTeamId) == $team->id) {
+                     if (Config::getInstance()->getValue(Config::id_adminTeamId) == $team->getId()) {
                         $newUser = UserCache::getInstance()->getUser($memberid);
                         $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
                         $access_level = 70; // TODO mantis manager
@@ -186,8 +186,8 @@ class EditTeamController extends Controller {
 
                $this->smartyHelper->assign('team', $team);
 
-               $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$team->leader_id));
-               $this->smartyHelper->assign('date', date("Y-m-d", $team->date));
+               $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$team->getLeaderId()));
+               $this->smartyHelper->assign('date', date("Y-m-d", $team->getDate()));
 
                $this->smartyHelper->assign('accessLevel', Team::$accessLevelNames);
 

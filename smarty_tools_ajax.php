@@ -58,7 +58,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
       }
       elseif($_GET['action'] == 'getYearsToNow') {
          $team = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'));
-         $min_year = date("Y", $team->date);
+         $min_year = date("Y", $team->getDate());
          $year = isset($_POST['year']) && $_POST['year'] > $min_year ? $_POST['year'] : $min_year;
          $smartyHelper->assign('years', SmartyTools::getYearsToNow($min_year,$year));
          $smartyHelper->display('form/yearSelector');

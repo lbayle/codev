@@ -246,7 +246,7 @@ class ServiceContractTools {
          #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
          if (0 == $startTimestamp) {
             $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
-            $startTimestamp = $team->date;
+            $startTimestamp = $team->getDate();
             #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
          }
       }

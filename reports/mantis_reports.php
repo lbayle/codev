@@ -49,9 +49,9 @@ class MantisReports extends Controller {
          // if current team is not in allowed list, do not display
          if (array_key_exists($teamid, $teamList)) {
             $team = TeamCache::getInstance()->getTeam($teamid);
-            $start_year = date("Y", $team->date);
-            $start_month = date("m", $team->date);
-            $start_day = date("d", $team->date);
+            $start_year = date("Y", $team->getDate());
+            $start_month = date("m", $team->getDate());
+            $start_day = date("d", $team->getDate());
 
             $statusNames = Config::getInstance()->getValue("statusNames");
             ksort($statusNames);

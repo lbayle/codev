@@ -93,8 +93,8 @@ class DaysPerJobIndicator implements IndicatorPlugin {
          $formattedMemberList = implode(',', $memberList);
 
          // do not get timetracks prior to team creation date
-         if ((NULL != $startTimestamp) && ($team->date > $startTimestamp)) {
-            $startTimestamp = $team->date;
+         if ((NULL != $startTimestamp) && ($team->getDate() > $startTimestamp)) {
+            $startTimestamp = $team->getDate();
          }
       }
 

@@ -68,11 +68,12 @@ class Team extends Model {
       self::accessLevel_manager  => "Manager" // can modify, can view stats, can only work on sideTasksProjects, resource NOT in statistics
    );
 
-   public $id;
-   public $name;
-   public $description;
-   public $leader_id;
-   public $date;
+   private $id;
+   private $name;
+   private $description;
+   private $leader_id;
+   private $date;
+
    private $enabled;
    private $lock_timetracks_date;
 
@@ -227,13 +228,10 @@ class Team extends Model {
    }
 
    /**
-    * @static
-    * @param int $teamid
     * @return int
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->leader_id
     */
-   public static function getLeaderId($teamid) {
-      return TeamCache::getInstance()->getTeam($teamid)->leader_id;
+   public function getLeaderId() {
+      return $this->leader_id;
    }
 
    /**
@@ -926,6 +924,13 @@ class Team extends Model {
     */
    public function getId() {
       return $this->id;
+   }
+
+   /**
+    * @return int
+    */
+   public function getDate() {
+      return $this->date;
    }
 
 }
