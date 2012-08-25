@@ -27,18 +27,17 @@ include_once('classes/sqlwrapper.class.php');
  */
 class PeriodStatsReport {
 
-   var $start_year;
-   var $start_month;
-   var $start_day;
-   var $periodStatsList;
+   private $start_year;
+   private $start_month;
+   private $start_day;
+   private $periodStatsList = array();
 
-   var $teamid;
+   private $teamid;
 
-   public function PeriodStatsReport($start_year, $start_month, $start_say, $teamid) {
+   public function __construct($start_year, $start_month, $start_say, $teamid) {
       $this->start_year = $start_year;
       $this->start_month = $start_month;
       $this->start_day = $start_say;
-      $this->periodStatsList = array();
 
       $this->teamid = $teamid;
    }

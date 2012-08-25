@@ -28,27 +28,27 @@ require_once('tools.php');
  */
 class PeriodStats {
 
-   var $startTimestamp;
-   var $endTimestamp;
+   // The projects NOT listed here will be excluded from statistics
+   protected $projectList;
+
+   private $startTimestamp;
+   private $endTimestamp;
 
    // The number of issue which current state is 'status' within the timestamp
-   var $statusCountList;
+   private $statusCountList;
 
    // The bugIds of issues which current state are 'status' within the timestamp
    // REM: $statusIssueList is an array containing lists of bugIds
-   var $statusIssueList;
-
-   // The projects NOT listed here will be excluded from statistics
-   var $projectList;
+   private $statusIssueList;
 
    // The Projects which type is NOT listed here will be excluded from statistics
-   var $projectTypeList;
+   private $projectTypeList;
 
    /**
     * @param int $startTimestamp
     * @param int $endTimestamp
     */
-   public function PeriodStats($startTimestamp, $endTimestamp) {
+   public function __construct($startTimestamp, $endTimestamp) {
       $this->startTimestamp = $startTimestamp;
       $this->endTimestamp = $endTimestamp;
 
@@ -166,6 +166,14 @@ class PeriodStats {
             }
          }
       }
+   }
+
+   /**
+    * @param int $index
+    * @return int
+    */
+   public function getStatusCount($index) {
+      return $this->statusCountList[$index];
    }
 
 }

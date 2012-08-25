@@ -65,7 +65,7 @@ class MantisReports extends Controller {
             foreach ($periodStatsList as $date => $ps) {
                $status = array();
                foreach ($statusNames as $s => $sname) {
-                  $status[$s] = $ps->statusCountList[$s];
+                  $status[$s] = $ps->getStatusCount($s);
                }
                $periods[Tools::formatDate("%B %Y", $date)] = $status;
             }
