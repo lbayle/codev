@@ -147,8 +147,9 @@ function updateMantisCustomFiles() {
 
 /**
  * create SideTasks Project and assign N/A Job
- *
  * @param string $projectName
+ * @param string $projectDesc
+ * @return int|string
  */
 function createExternalTasksProject($projectName = "CodevTT_ExternalTasks", $projectDesc = "CoDevTT ExternalTasks Project") {
    // create project

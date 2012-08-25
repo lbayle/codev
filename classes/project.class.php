@@ -87,11 +87,6 @@ class Project {
     */
    private $issueSelection;
 
-   /**
-    * @var Issue[][] The issues cache
-    */
-   private $issuesCache;
-
    private $bugidListsCache;    // cache
    private $categoryCache; // cache
    private $versionCache; // cache
@@ -657,6 +652,7 @@ class Project {
 
    /**
     * --- WORKAROUND --- DO NOT USE THIS METHOD ---
+    * @return int|string
     */
    private function getDefaultType() {
       self::$logger->error("WORKAROUND method getDefaultType() should not be used !");
@@ -1015,7 +1011,7 @@ class Project {
     * get Workflow transitions from Mantis DB
     *
     * mantis_config_table - config_id='status_enum_workflow'
-    * @return string[]
+    * @return array[]
     */
    function getWorkflowTransitions() {
       $serialized = ConfigMantis::getInstance()->getValue('status_enum_workflow', $this->id);
@@ -1135,7 +1131,7 @@ class Project {
     * returns an array of ProjectVersion instances
     * key=version, value= ProjectVersion
     *
-    * @param unknown_type $team_id (TODO)
+    * @param int $team_id (TODO)
     * @return ProjectVersion[]
     */
    #public function getVersionList($team_id = NULL) {

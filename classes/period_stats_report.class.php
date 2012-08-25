@@ -45,6 +45,7 @@ class PeriodStatsReport {
 
    /**
     * Compute monthly reports for the complete year
+    * @return PeriodStats[]
     */
    public function computeReport() {
       $now = time();

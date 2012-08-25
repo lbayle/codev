@@ -202,7 +202,7 @@
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.id}</option>
                {/foreach}
             </select>
-            <input type="button" id="nextweek" title="{t}Next week{/t}" value="&gt;&gt;" onclick="nextWeek()" />
+            <input type="button" id="nextweek" title="{t}Next week{/t}" value="&gt;&gt;" />
             <input type="hidden" name="projectid" value="{$defaultProjectid}" />
             <input type="hidden" name="bugid" value="{$defaultBugid}" />
             <input type="hidden" name="job" value="{$job}" />

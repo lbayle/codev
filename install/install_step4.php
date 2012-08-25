@@ -39,7 +39,7 @@ function displayPage() {
 
    <div class='left'  style='margin-top:6em;'>
       <h2>What's next ?</h2>
-      <b>CodevTT / Mantis configuration</b>
+      <strong>CodevTT / Mantis configuration</strong>
       <ul>
          <li>Check the 'STATUS' section in constants.php</li>
          <li>Install the 'CodevTT' mantis plugin</li>
@@ -50,7 +50,7 @@ function displayPage() {
    </div>
 
    <div class='left'  style='margin-top:3em;'>
-      <b>Start working</b>
+      <strong>Start working</strong>
       <ul>
          <li><a href='../index.php' title='CodevTT & Mantis share the same users' target='_blank't>login !</a></li>
          <li>Go to the <a href='../admin/create_team.php' target='_blank't>create team</a> page and create your team</li>
