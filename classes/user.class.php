@@ -40,11 +40,6 @@ require_once('lib/log4php/Logger.php');
 class User extends Model {
 
    /**
-    * @var int The id
-    */
-   public $id;
-
-   /**
     * @var Logger The logger
     */
    private static $logger;
@@ -54,6 +49,10 @@ class User extends Model {
     */
    private static $users;
 
+   /**
+    * @var int The id
+    */
+   private $id;
 
    /**
     * @var string The name

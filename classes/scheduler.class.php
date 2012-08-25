@@ -112,7 +112,7 @@ class Scheduler {
 
       // get Ordered List of Issues to schedule
       $issueList = $user->getAssignedIssues();
-      self::$logger->debug("scheduleUser $user->id : nb assigned issues = ". count($issueList));
+      self::$logger->debug("scheduleUser ".$user->getId()." : nb assigned issues = ". count($issueList));
 
       // foreach task
       $sumDurations = 0;

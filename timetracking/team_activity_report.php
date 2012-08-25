@@ -133,7 +133,7 @@ class TeamActivityReportController extends Controller {
             // PERIOD week
             //$thisWeekId=date("W");
 
-            $weekTracks = $timeTracking->getWeekDetails($user->id, !$isDetailed);
+            $weekTracks = $timeTracking->getWeekDetails($user->getId(), !$isDetailed);
             $holidays = Holidays::getInstance();
 
             $weekJobDetails = array();

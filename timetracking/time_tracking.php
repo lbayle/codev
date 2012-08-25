@@ -46,7 +46,7 @@ class TimeTrackingController extends Controller {
             if (0 != count($lTeamList)) {
                // User is TeamLeader, let him choose the user he wants to manage
                $this->smartyHelper->assign('users', $this->getUsers());
-               $this->smartyHelper->assign('selectedUser', $session_user->id);
+               $this->smartyHelper->assign('selectedUser', $session_user->getId());
             } else {
                // if session_user (not a teamLeader) is defined in a team, display AddTrack page
 
@@ -56,7 +56,7 @@ class TimeTrackingController extends Controller {
                $teamList = $mTeamList + $managedTeamList;
 
                if (0 != count($teamList)) {
-                  $_POST['userid']   = $session_user->id;
+                  $_POST['userid']   = $session_user->getId();
                   $_POST['nextForm'] = "addTrackForm";
                }
             }
@@ -67,11 +67,11 @@ class TimeTrackingController extends Controller {
             $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
             $year   = Tools::getSecurePOSTIntValue('year',date('Y'));
-            $userid = Tools::getSecurePOSTIntValue('userid',$session_user->id);
+            $userid = Tools::getSecurePOSTIntValue('userid',$session_user->getId());
 
             $managed_user = UserCache::getInstance()->getUser($userid);
 
-            if($userid != $session_user->id) {
+            if($userid != $session_user->getId()) {
                // Need to be a Team Leader to handle other users
                $lTeamList = $session_user->getLeadedTeamList();
                if (count($lTeamList) > 0 && array_key_exists($userid,$this->getUsers())) {
@@ -228,7 +228,7 @@ class TimeTrackingController extends Controller {
             $isHideDevProjects = ('0' == $managed_user->getTimetrackingFilter('hideDevProjects')) ? false : true;
             $this->smartyHelper->assign('isHideDevProjects', $isHideDevProjects);
 
-            $this->smartyHelper->assign('issues', $this->getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->id, $projList, $isHideResolved, $defaultBugid));
+            $this->smartyHelper->assign('issues', $this->getIssues($defaultProjectid, $isOnlyAssignedTo, $managed_user->getId(), $projList, $isHideResolved, $defaultBugid));
 
             $this->smartyHelper->assign('jobs', SmartyTools::getSmartyArray($this->getJobs($defaultProjectid, $teamList), $job));
             $this->smartyHelper->assign('duration', SmartyTools::getSmartyArray($this->getDuration(),$duration));

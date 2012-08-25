@@ -150,7 +150,7 @@ class PlanningReportController extends Controller {
                   if ((!$user->isTeamDeveloper($teamid)) &&
                      (!$user->isTeamManager($teamid))) {
 
-                     self::$logger->debug("user $user->id excluded from scheduled users on team $teamid");
+                     self::$logger->debug("user ".$user->getId()." excluded from scheduled users on team $teamid");
                      continue;
                   }
 

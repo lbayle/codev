@@ -250,7 +250,7 @@ class TimeTracking {
 
             if ((!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
                (!$user->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
-               self::$logger->warn("getManagementDays(): timetrack $timeTrack->id not included because user $user->id (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
+               self::$logger->warn("getManagementDays(): timetrack $timeTrack->id not included because user ".$user->getId()." (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
                continue; // skip this timeTrack
             }
 

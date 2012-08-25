@@ -33,7 +33,7 @@ function testDaysPerJobIndicator(User $session_user) {
 */
    $proj = ProjectCache::getInstance()->getProject(14);
    $issueSel = new IssueSelection("Project ".$proj->getName()." user ".$session_user->getName());
-   $issueList = $proj->getIssues($session_user->id);
+   $issueList = $proj->getIssues($session_user->getId());
    $issueSel->addIssueList($issueList);
 
 

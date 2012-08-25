@@ -52,14 +52,14 @@ class SetHolidaysController extends Controller {
                $teamList = $mTeamList + $managedTeamList;
 
                if (0 != count($teamList)) {
-                  $_POST['userid'] = $session_user->id;
+                  $_POST['userid'] = $session_user->getId();
                   $_POST['nextForm'] = "addHolidaysForm";
                }
             }
          }
 
          if ($_POST['nextForm'] == "addHolidaysForm") {
-            $userid = Tools::getSecurePOSTIntValue('userid',$session_user->id);
+            $userid = Tools::getSecurePOSTIntValue('userid',$session_user->getId());
 
             $managed_user = UserCache::getInstance()->getUser($userid);
 
@@ -90,7 +90,7 @@ class SetHolidaysController extends Controller {
                      $duration = $managed_user->getAvailableTime($timestamp);
                      if ($duration > 0) {
                         self::$logger->debug(date("Y-m-d", $timestamp)." duration $duration job $job");
-                        TimeTrack::create($managed_user->id, $defaultBugid, $job, $timestamp, $duration);
+                        TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $duration);
                      }
                   }
                   $timestamp = strtotime("+1 day",$timestamp);;
@@ -102,7 +102,7 @@ class SetHolidaysController extends Controller {
             $this->smartyHelper->assign('startDate', $startdate);
             $this->smartyHelper->assign('endDate', $enddate);
 
-            if($session_user->id != $managed_user->id) {
+            if($session_user->getId() != $managed_user->getId()) {
                $this->smartyHelper->assign('otherrealname', $managed_user->getRealname());
             }
 
@@ -138,7 +138,7 @@ class SetHolidaysController extends Controller {
             $this->smartyHelper->assign('issues', $this->getIssues($defaultProjectid, $projList, $extproj_id, $defaultBugid));
             $this->smartyHelper->assign('jobs', $this->getJobs($defaultProjectid, $projList));
 
-            $this->smartyHelper->assign('userid', $managed_user->id);
+            $this->smartyHelper->assign('userid', $managed_user->getId());
          }
       }
    }
@@ -175,7 +175,7 @@ class SetHolidaysController extends Controller {
          $users[$row->id] = $row->username;
       }
 
-      return SmartyTools::getSmartyArray($users, $session_user->id);
+      return SmartyTools::getSmartyArray($users, $session_user->getId());
    }
 
    /**

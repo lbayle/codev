@@ -211,7 +211,7 @@ if (isset($_SESSION['userid'])) {
    }
 
    // log downloads
-   $logger->info("user ".$session_user->id." (".$session_user->getName().") downloaded file: ".$fname);
+   $logger->info("user ".$session_user->getId()." (".$session_user->getName().") downloaded file: ".$fname);
 } else {
    Tools::sendForbiddenAccess();
 }

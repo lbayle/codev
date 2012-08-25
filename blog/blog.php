@@ -36,21 +36,21 @@ class BlogController extends Controller {
 
          $blogManager = new BlogManager();
 
-         $src_user_id  = $session_user->id;
-         $severity     = BlogPost::severity_normal;
-         $category     = 0;
-         $summary      = 'Welcome to the real world';
-         $content      = 'Hello world !<br>The quick brown fox jumps over the lazy dog<br>Casse toi pauv\' con !';
+         $src_user_id  = $session_user->getId();
+         $severity = BlogPost::severity_normal;
+         $category = 0;
+         $summary = 'Welcome to the real world';
+         $content = 'Hello world !<br>The quick brown fox jumps over the lazy dog<br>Casse toi pauv\' con !';
          $dest_team_id = 4;
-         $dest_user_id    = 0;
+         $dest_user_id = 0;
          $dest_project_id = 0;
-         $date_expire     = 0;
-         $color=0;
+         $date_expire = 0;
+         $color = 0;
 
          $blogPost_id = BlogPost::create($src_user_id, $severity, $category, $summary, $content,
             $dest_user_id, $dest_project_id, $dest_team_id, $date_expire, $color);
 
-         $postList = $blogManager->getPosts($session_user->id);
+         $postList = $blogManager->getPosts($session_user->getId());
          $blogPosts = $this->getBlogPosts($postList);
          $this->smartyHelper->assign('blogPosts', $blogPosts);
 

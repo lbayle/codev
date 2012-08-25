@@ -188,7 +188,7 @@ class HolidaysReportController extends Controller {
                }
 
             }
-            $smartyUsers[$user->id] = array(
+            $smartyUsers[$user->getId()] = array(
                'realname' => $user->getRealname(),
                'username' => $user->getName(),
                'days' => $days
