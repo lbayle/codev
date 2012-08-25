@@ -112,8 +112,8 @@ class CommandSetTools {
       $cmdIssueSel = $commandSet->getIssueSelection(Command::type_general);
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->date)) {
-         $startTimestamp = $startTT->date;
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
       } else {
          $startTimestamp = $commandSet->getDate();
          #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
@@ -125,7 +125,7 @@ class CommandSetTools {
       }
 
       $endTT = $cmdIssueSel->getLatestTimetrack();
-      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
 
       $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,

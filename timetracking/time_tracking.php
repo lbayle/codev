@@ -145,11 +145,11 @@ class TimeTrackingController extends Controller {
 
                // increase backlog (only if 'backlog' already has a value)
                $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
-               $defaultBugid = $timeTrack->bugId;
-               $duration = $timeTrack->duration;
-               $job = $timeTrack->jobId;
-               $trackUserid = $timeTrack->userId;
-               $trackDate = $timeTrack->date;
+               $defaultBugid = $timeTrack->getIssueId();
+               $duration = $timeTrack->getDuration();
+               $job = $timeTrack->getJobId();
+               $trackUserid = $timeTrack->getUserId();
+               $trackDate = $timeTrack->getDate();
 
                // delete track
                if(!$timeTrack->remove()) {

@@ -446,8 +446,8 @@ class IssueSelection {
       $firstTimestamp = time();
       foreach ($this->issueList as $issue) {
          $tt = $issue->getFirstTimetrack();
-         if ((NULL != $tt) && ( $tt->date < $firstTimestamp)) {
-            $firstTimestamp = $tt->date;
+         if ((NULL != $tt) && ( $tt->getDate() < $firstTimestamp)) {
+            $firstTimestamp = $tt->getDate();
             $found = $tt;
          }
       }
@@ -463,8 +463,8 @@ class IssueSelection {
       $latestTimestamp = 0;
       foreach ($this->issueList as $issue) {
          $tt = $issue->getLatestTimetrack();
-         if ((NULL != $tt) && ($tt->date > $latestTimestamp)) {
-            $latestTimestamp = $tt->date;
+         if ((NULL != $tt) && ($tt->getDate() > $latestTimestamp)) {
+            $latestTimestamp = $tt->getDate();
             $found = $tt;
          }
       }

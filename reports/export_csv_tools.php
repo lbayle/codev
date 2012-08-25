@@ -230,7 +230,7 @@ class ExportCsvTools {
             $timeTracks = $user1->getTimeTracks($startT, $endT);
             $issueIds = array();
             foreach ($timeTracks as $timeTrack) {
-               $issueIds[] = $timeTrack->bugId;
+               $issueIds[] = $timeTrack->getIssueId();
             }
             
             $daysOf = $user1->getDaysOfInPeriod($timeTracks, $issueIds);

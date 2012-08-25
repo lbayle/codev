@@ -453,18 +453,18 @@ class User extends Model {
          $teamidList = array_keys($this->getTeamList());
          foreach ($timeTracks as $timeTrack) {
             try {
-               $issue = $issues[$timeTrack->bugId];
+               $issue = $issues[$timeTrack->getIssueId()];
 
                if (NULL == $issue) {
-                  self::$logger->error("getDaysOfInPeriod(): $timeTrack->bugId not found in ".implode(',', $issueIds));
-                  $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
+                  self::$logger->error("getDaysOfInPeriod(): ".$timeTrack->getIssueId()." not found in ".implode(',', $issueIds));
+                  $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
                }
 
                if ($issue->isVacation($teamidList)) {
-                  if (isset($daysOf[$timeTrack->date])) {
-                     $daysOf[$timeTrack->date]['duration'] += $timeTrack->duration;
+                  if (isset($daysOf[$timeTrack->getDate()])) {
+                     $daysOf[$timeTrack->getDate()]['duration'] += $timeTrack->getDuration();
                   } else {
-                     $daysOf[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
+                     $daysOf[$timeTrack->getDate()] = array( 'duration' => $timeTrack->getDuration(),
                         'type' => 'Inactivity',  // TODO
                         'color' => 'A8FFBD',  // TODO (light green)
                         'title' => $issue->getSummary()
@@ -473,7 +473,7 @@ class User extends Model {
                   #echo "DEBUG user $this->userid daysOf[".date("j", $timeTrack->date)."] = ".$daysOf[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
                }
             } catch (Exception $e) {
-               self::$logger->error("getDaysOfInPeriod(): issue $timeTrack->bugId: " . $e->getMessage());
+               self::$logger->error("getDaysOfInPeriod(): issue ".$timeTrack->getIssueId().": " . $e->getMessage());
             }
          }
       }
@@ -493,19 +493,19 @@ class User extends Model {
 
          foreach ($timeTracks as $timeTrack) {
             try {
-               if (!array_key_exists($timeTrack->bugId, $issues)) {
-                  self::$logger->error("getAstreintesInMonth(): issue $timeTrack->bugId: not found in issueList");
+               if (!array_key_exists($timeTrack->getIssueId(), $issues)) {
+                  self::$logger->error("getAstreintesInMonth(): issue ".$timeTrack->getIssueId().": not found in issueList");
                   continue;
                }
 
-               $issue = $issues[$timeTrack->bugId];
+               $issue = $issues[$timeTrack->getIssueId()];
 
                if ($issue->isAstreinte()) {
-                  if (isset($astreintes[$timeTrack->date])) {
-                     $astreintes[$timeTrack->date]['duration'] += $timeTrack->duration;
+                  if (isset($astreintes[$timeTrack->getDate()])) {
+                     $astreintes[$timeTrack->getDate()]['duration'] += $timeTrack->getDuration();
                   } else {
-                     $astreintes[$timeTrack->date] = array(
-                        'duration' => $timeTrack->duration,
+                     $astreintes[$timeTrack->getDate()] = array(
+                        'duration' => $timeTrack->getDuration(),
                         'type' => 'onDuty', // TODO
                         'color' => 'F8FFA8', // TODO (yellow)
                         'title' => $issue->getSummary()
@@ -514,7 +514,7 @@ class User extends Model {
                   //echo "DEBUG user $this->userid astreintes[".date("j", $timeTrack->date)."] = ".$astreintes[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
                }
             } catch (Exception $e) {
-               self::$logger->error("getAstreintesInMonth(): issue $timeTrack->bugId: " . $e->getMessage());
+               self::$logger->error("getAstreintesInMonth(): issue ".$timeTrack->getIssueId().": " . $e->getMessage());
             }
          }
       }
@@ -538,10 +538,10 @@ class User extends Model {
          #echo "leaveTaskId $leaveTaskId<br>";
          foreach ($timeTracks as $timeTrack) {
             try {
-               $issue = $issues[$timeTrack->bugId];
+               $issue = $issues[$timeTrack->getIssueId()];
                if ($issue->getProjectId() == $extTasksProjId) {
-                  if (isset($extTasks[$timeTrack->date])) {
-                     $extTasks[$timeTrack->date]['duration'] += $timeTrack->duration;
+                  if (isset($extTasks[$timeTrack->getDate()])) {
+                     $extTasks[$timeTrack->getDate()]['duration'] += $timeTrack->getDuration();
                   } else {
 
                      if ($leaveTaskId == $issue->getId()) {
@@ -552,14 +552,14 @@ class User extends Model {
                         $type = 'ExternalTask';
                      }
 
-                     $extTasks[$timeTrack->date] = array(
-                        'duration' => $timeTrack->duration,
+                     $extTasks[$timeTrack->getDate()] = array(
+                        'duration' => $timeTrack->getDuration(),
                         'type' => $type,  // TODO
                         'color' => $color,  // TODO (green2)
                         'title' => $issue->getSummary()
                      );
                   }
-                  self::$logger->debug("user $this->id ExternalTasks[" . date("j", $timeTrack->date) . "] = " . $extTasks[date("j", $timeTrack->date)] . " (+$timeTrack->duration)");
+                  self::$logger->debug("user $this->id ExternalTasks[" . date("j", $timeTrack->getDate()) . "] = " . $extTasks[date("j", $timeTrack->getDate())] . " (+".$timeTrack->getDuration().")");
                }
             } catch (Exception $e) {
                self::$logger->warn("getExternalTasksInPeriod: " . $e->getMessage());
@@ -614,7 +614,7 @@ class User extends Model {
       $timeTracks = $this->getTimeTracks($startT, $endT);
       $issueIds = array();
       foreach ($timeTracks as $timeTrack) {
-         $issueIds[] = $timeTrack->bugId;
+         $issueIds[] = $timeTrack->getIssueId();
       }
 
       $nbDaysOf = array_sum($this->getDaysOfInPeriod($timeTracks, $issueIds));
@@ -661,7 +661,7 @@ class User extends Model {
 
          // exclude Inactivity tasks
          if ($team->isSideTasksProject($timetrack->getProjectId()))
-            $workloadPerTaskList["$timetrack->bugId"] += $timetrack->duration;
+            $workloadPerTaskList[$timetrack->getIssueId()] += $timetrack->getDuration();
       }
 
       return $workloadPerTaskList;

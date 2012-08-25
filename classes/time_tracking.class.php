@@ -193,10 +193,10 @@ class TimeTracking {
             // Count only the time spent on $projects
             try {
                if (in_array($timeTrack->getProjectId(), $this->prodProjectList)) {
-                  $this->prodDays += $timeTrack->duration;
+                  $this->prodDays += $timeTrack->getDuration();
                }
             } catch (Exception $e) {
-               self::$logger->error("getProductionDays(): timetrack on task $timeTrack->bugId (duration=$timeTrack->duration) NOT INCLUDED !");
+               self::$logger->error("getProductionDays(): timetrack on task ".$timeTrack->getIssueId()." (duration=".$timeTrack->getDuration().") NOT INCLUDED !");
             }
          }
       }
@@ -217,19 +217,19 @@ class TimeTracking {
       foreach($timeTracks as $timeTrack) {
          // do not include Managers
          if ($isDeveloppersOnly) {
-            $user = UserCache::getInstance()->getUser($timeTrack->userId);
+            $user = UserCache::getInstance()->getUser($timeTrack->getUserId());
             if (!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) {
                continue; // skip this timeTrack
             }
          }
          try {
-            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
             if ((in_array ($issue->getProjectId(), $this->sideTaskprojectList)) &&
                (!$issue->isVacation(array($this->team_id)))) {
-               $prodDays += $timeTrack->duration;
+               $prodDays += $timeTrack->getDuration();
             }
          } catch (Exception $e) {
-            self::$logger->error("getProdDaysSideTasks(): issue $timeTrack->bugId: ".$e->getMessage());
+            self::$logger->error("getProdDaysSideTasks(): issue ".$timeTrack->getIssueId().": ".$e->getMessage());
          }
       }
       return $prodDays;
@@ -246,23 +246,23 @@ class TimeTracking {
 
          $timeTracks = $this->getTimeTracks();
          foreach($timeTracks as $timeTrack) {
-            $user = UserCache::getInstance()->getUser($timeTrack->userId);
+            $user = UserCache::getInstance()->getUser($timeTrack->getUserId());
 
             if ((!$user->isTeamDeveloper($this->team_id, $this->startTimestamp, $this->endTimestamp)) &&
                (!$user->isTeamManager($this->team_id, $this->startTimestamp, $this->endTimestamp))) {
-               self::$logger->warn("getManagementDays(): timetrack $timeTrack->id not included because user ".$user->getId()." (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
+               self::$logger->warn("getManagementDays(): timetrack ".$timeTrack->getId()." not included because user ".$user->getId()." (".$user->getName().") was not a DEVELOPPER/MANAGER within the timestamp");
                continue; // skip this timeTrack
             }
 
             try {
-               $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
+               $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
 
                if ((in_array($issue->getProjectId(), $this->sideTaskprojectList)) &&
                   ($issue->isProjManagement(array($this->team_id)))) {
-                  $this->managementDays += $timeTrack->duration;
+                  $this->managementDays += $timeTrack->getDuration();
                }
             } catch (Exception $e) {
-               self::$logger->error("getManagementDays(): issue $timeTrack->bugId: ".$e->getMessage());
+               self::$logger->error("getManagementDays(): issue ".$timeTrack->getIssueId().": ".$e->getMessage());
             }
          }
 
@@ -642,13 +642,13 @@ class TimeTracking {
          $timeTracks = $this->getTimeTracks();
          foreach($timeTracks as $timeTrack) {
             try {
-               $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
+               $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
                if ($issue->isIncident(array($this->team_id))) {
-                  $teamIncidentDays += $timeTrack->duration;
+                  $teamIncidentDays += $timeTrack->getDuration();
                   //echo "DEBUG SystemDisponibility found bugid=$timeTrack->bugId duration=$timeTrack->duration proj=$issue->projectId cat=$issue->categoryId teamIncidentHours=$teamIncidentHours<br/>";
                }
             } catch (Exception $e) {
-               self::$logger->warn("getSystemDisponibilityRate(): issue $timeTrack->bugId: ".$e->getMessage());
+               self::$logger->warn("getSystemDisponibilityRate(): issue ".$timeTrack->getIssueId().": ".$e->getMessage());
             }
          }
 
@@ -715,14 +715,14 @@ class TimeTracking {
       $timeTracks = $this->getTimeTracks();
       foreach($timeTracks as $timeTrack) {
          try {
-            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
 
             if ($issue->getProjectId() == $project_id) {
-               $workingDaysPerProject += $timeTrack->duration;
-               self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=$timeTrack->duration, bugid=$timeTrack->bugId, userid=$timeTrack->userId, ".date("Y-m-d", $timeTrack->date));
+               $workingDaysPerProject += $timeTrack->getDuration();
+               self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=".$timeTrack->getDuration().", bugid=".$timeTrack->getIssueId().", userid=".$timeTrack->getUserId().", ".date("Y-m-d", $timeTrack->getDate()));
             }
          } catch (Exception $e) {
-            self::$logger->warn("getWorkingDaysPerProject($project_id) : Issue $timeTrack->bugId not found in Mantis DB.");
+            self::$logger->warn("getWorkingDaysPerProject($project_id) : Issue ".$timeTrack->getIssueId()." not found in Mantis DB.");
          }
       }
       self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
@@ -841,18 +841,18 @@ class TimeTracking {
       $timeTracks = $this->getTimeTracks();
       foreach($timeTracks as $timeTrack) {
          try {
-            $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
+            $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
 
             if ($issue->getProjectId() == $project_id) {
-               self::$logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug $timeTrack->bugId) = $timeTrack->duration");
+               self::$logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug ".$timeTrack->getIssueId().") = ".$timeTrack->getDuration());
 
                if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
                   $durationPerCategory[$issue->getCategoryName()] = array();
                }
-               $durationPerCategory[$issue->getCategoryName()][$timeTrack->bugId] += $timeTrack->duration;
+               $durationPerCategory[$issue->getCategoryName()][$timeTrack->getIssueId()] += $timeTrack->getDuration();
             }
          } catch (Exception $e) {
-            self::$logger->warn("getProjectDetails($project_id) issue $timeTrack->bugId not found in Mantis DB (duration = $timeTrack->duration on ".date('Y-m-d', $timeTrack->date).')');
+            self::$logger->warn("getProjectDetails($project_id) issue ".$timeTrack->getIssueId()." not found in Mantis DB (duration = ".$timeTrack->getDuration()." on ".date('Y-m-d', $timeTrack->getDate()).')');
          }
       }
       return $durationPerCategory;

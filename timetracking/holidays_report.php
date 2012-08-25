@@ -127,7 +127,7 @@ class HolidaysReportController extends Controller {
             $timeTracks = $user->getTimeTracks($startT, $endT);
             $issueIds = array();
             foreach ($timeTracks as $timeTrack) {
-               $issueIds[] = $timeTrack->bugId;
+               $issueIds[] = $timeTrack->getIssueId();
             }
 
             $daysOf = $user->getDaysOfInPeriod($timeTracks, $issueIds);

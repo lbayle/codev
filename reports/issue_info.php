@@ -166,8 +166,8 @@ class IssueInfoController extends Controller {
       $jobs = new Jobs();
       $totalDuration = 0;
       foreach ($timeTracks as $tt) {
-         $durationByJob[$tt->jobId] += $tt->duration;
-         $totalDuration += $tt->duration;
+         $durationByJob[$tt->getJobId()] += $tt->getDuration();
+         $totalDuration += $tt->getDuration();
       }
 
       $jobDetails = NULL;
@@ -240,11 +240,11 @@ class IssueInfoController extends Controller {
       // if no work done this month, do not display month
       $found = 0;
       foreach ($trackList as $tt) {
-         if (($month == date('m', $tt->date)) &&
-            ($year  == date('Y', $tt->date))) {
+         if (($month == date('m', $tt->getDate())) &&
+            ($year  == date('Y', $tt->getDate()))) {
             $found += 1;
 
-            $totalDuration += $tt->duration;
+            $totalDuration += $tt->getDuration();
          }
       }
       if (0 == $found) { return NULL; }
@@ -272,9 +272,9 @@ class IssueInfoController extends Controller {
          $durationByDate = array();
          $jobColorByDate = array();
          foreach ($timeTracks as $tt) {
-            if($tt->userId == $uid) {
-               $durationByDate[$tt->date] += $tt->duration;
-               $jobColorByDate[$tt->date] = $jobs->getJobColor($tt->jobId);
+            if($tt->getUserId() == $uid) {
+               $durationByDate[$tt->getDate()] += $tt->getDuration();
+               $jobColorByDate[$tt->getDate()] = $jobs->getJobColor($tt->getJobId());
             }
          }
 
@@ -358,7 +358,7 @@ class IssueInfoController extends Controller {
       $timestamps = array();
       $timeTracks = $issue->getTimeTracks();
       foreach ($timeTracks as $tt) {
-         $timestamp = mktime(23, 59, 59, date('m', $tt->date), date('d', $tt->date), date('Y', $tt->date));
+         $timestamp = mktime(23, 59, 59, date('m', $tt->getDate()), date('d', $tt->getDate()), date('Y', $tt->getDate()));
          if (!in_array($timestamp, $timestamps)) {
             $timestamps[] = $timestamp;
             #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";

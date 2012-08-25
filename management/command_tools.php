@@ -84,8 +84,8 @@ class CommandTools {
       $cmdIssueSel = $cmd->getIssueSelection();
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->date)) {
-         $startTimestamp = $startTT->date;
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
       } else {
          $startTimestamp = $cmd->getStartDate();
          #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
@@ -97,7 +97,7 @@ class CommandTools {
       }
 
       $endTT = $cmdIssueSel->getLatestTimetrack();
-      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
 
       #echo "startTimestamp = ".date('Y-m-d', $startTimestamp)." endTimestamp = ".date('Y-m-d', $endTimestamp);
 
@@ -143,8 +143,8 @@ class CommandTools {
       $cmdIssueSel = $cmd->getIssueSelection();
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->date)) {
-         $startTimestamp = $startTT->date;
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
       } else {
          $startTimestamp = $cmd->getStartDate();
          #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
@@ -156,7 +156,7 @@ class CommandTools {
       }
 
       $endTT = $cmdIssueSel->getLatestTimetrack();
-      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->date)) ? $endTT->date : time();
+      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
 
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),

@@ -42,12 +42,12 @@ class TimeTrack extends Model {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
-   public $id;
-   public $userId;
-   public $bugId;
-   public $jobId;
-   public $date;
-   public $duration;
+   private $id;
+   private $userId;
+   private $bugId;
+   private $jobId;
+   private $date;
+   private $duration;
 
    private $projectId;
    private $categoryId;
@@ -168,6 +168,38 @@ class TimeTrack extends Model {
     */
    public function getId() {
       return $this->id;
+   }
+
+   /**
+    * @return int
+    */
+   public function getUserId() {
+      return $this->userId;
+   }
+
+   /**
+    * @return int
+    */
+   public function getIssueId() {
+      return $this->bugId;
+   }
+
+   /**
+    * @return int
+    */
+   public function getJobId() {
+      return $this->jobId;
+   }
+
+   /**
+    * @return int
+    */
+   public function getDate() {
+      return $this->date;
+   }
+
+   public function getDuration() {
+      return $this->duration;
    }
 
 }
