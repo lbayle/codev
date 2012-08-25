@@ -18,11 +18,7 @@ jQuery(document).ready(function() {
          var chart = tab.find('.chart');
          if(chart.length != 0) {
             var plot = chart.data('jqplot');
-            if (plot._drawCount === 0) {
-               chart.height(tab.height()*0.96);
-               chart.width(tab.width()*0.96);
-               plot.replot();
-            }
+            plot.replot();
          }
 
          // Resize table in tabs
@@ -53,10 +49,8 @@ jQuery(document).ready(function() {
       var id = jQuery(this).closest('.tabs').attr('id');
 
       // Get the index of this tab.
-      var idx = jQuery(this).parent().prevAll().length;
-
       // Set the state!
-      state[id] = idx;
+      state[id] = jQuery(this).parent().prevAll().length;
       jQuery.bbq.pushState(state);
    });
 

@@ -330,11 +330,11 @@
             <script type="text/javascript" src="js/chart.js"></script>
             <script type="text/javascript">
                jQuery(document).ready(function() {
-               var chartoptions = jQuery('#backloadChart').data('plotoptions');
-               chartoptions.title.text = '{t}{$backload_jqplotTitle}{/t}';
-               chartoptions.axes.yaxis.label = "{$backload_jqplotYaxisLabel}";
-               jQuery('#backloadChart').jqplot([{$backload_jqplotData}], chartoptions);
-            });
+                  var chartoptions = jQuery('#backloadChart').data('plotoptions');
+                  chartoptions.title.text = '{t}{$backload_jqplotTitle}{/t}';
+                  chartoptions.axes.yaxis.label = "{$backload_jqplotYaxisLabel}";
+                  jQuery('#backloadChart').jqplot([{$backload_jqplotData}], chartoptions);
+               });
             </script>
             <div id="backloadChart" class="category_chart chart"></div>
             {else}
@@ -342,7 +342,8 @@
             {/if}
          </div>
       </div>
-      <script type="text/javascript">
+      <script type="text/javascript" src="js/tabs.js"></script>
+      <!--<script type="text/javascript">
          jQuery(document).ready(function() {
             jQuery.ajax({
                url: "js/tabs.js",
@@ -350,7 +351,7 @@
                cache: true
             });
          });
-      </script>
+      </script>-->
       {/if}
 
    </div>
