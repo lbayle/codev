@@ -1,60 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{$locale}" xml:lang="{$locale}">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="Content-Language" content="{$locale}" />
-        <meta name="DC.Language" scheme="RFC3066" content="{$locale}" />
-        
-        <title>CodevTT - {t}{$pageName}{/t}</title>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta http-equiv="Content-Language" content="{$locale}" />
+      <meta name="DC.Language" scheme="RFC3066" content="{$locale}" />
 
-        <base href="{$rootWebSite}" />
+      <title>CodevTT - {t}{$pageName}{/t}</title>
 
-        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+      <base href="{$rootWebSite}" />
 
-        <!-- JQUERY -->
-        <link type="text/css" href="lib/jquery/css/Aristo/Aristo.css" rel="stylesheet" />
-        <script type="text/javascript" src="lib/jquery/js/jquery-1.8.0.min.js"></script>
-        <script type="text/javascript" src="lib/jquery.bgiframe/jquery.bgiframe.min.js"></script>
-        <script type="text/javascript" src="lib/jquery/js/jquery-ui-1.8.23.custom.min.js"></script>
+      <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
 
-        <!-- CODEV -->
-        <link href="codev.css" rel="stylesheet" type="text/css" />
-        <link href="light.css" rel="stylesheet" type="text/css" media="print" />
-    </head>
-    <body>
-        <div id="header">
-            <span style="position:absolute">
-                <a href="{$rootWebSite}"><img title="{$codevVersion}" alt="{$codevVersion}" src="images/codevtt_logo_03.png" width="300px" height="100px" /></a>
-            </span>
-            <span style="position:absolute;top:4.5em;right:3em;">
-                <a href="{$page}?locale=fr"><img src="images/blank.gif" class="flag flag-fr" title="Francais" alt="Francais" width="18px" height="12px" /></a>
-                <a href="{$page}?locale=en"><img src="images/blank.gif" class="flag flag-gb" title="English" alt="English" width="18px" height="12px" /></a>
-               <a href="{$page}?locale=pt_BR"><img src="images/blank.gif" class="flag flag-br" title="Brazil" alt="Brazil" width="18px" height="12px" /></a>
-            </span>
-            <h1 style="padding:1.5em 0;margin:0">{t}{$pageName}{/t}</h1>
-        </div>
+      <!-- CODEV -->
+      <link href="codev.css" rel="stylesheet" type="text/css" />
+      <link href="light.css" rel="stylesheet" type="text/css" media="print" />
 
-        <div id="login">
-        {if $username}
-            {t}Logged in as {/t}{$username} ({$realname}) <span class="floatr"><a href="logout.php" title="logout">{t}log out{/t}</a></span>
-        {else}
-            {include file="modal/login.html"}
-        {/if}
-        </div>
-        
-        {include file="menu/global_menu.html"}
-        
-        <div id="main">
-            {include file="$tpl_name.html"}
-            <hr style="margin-top:2em;" />
-        </div>
-        
-        <address class="right">
-            <!-- La liberte n'offre qu'une chance d'etre meilleur, la servitude n'est que la certitude de devenir pire.  (Albert Camus) -->
-            <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' alt="GPL v3" src='images/copyleft.png' /></a>
-            2010-{$year}&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='http://codevtt.org' target='_blank'>CodevTT.org</a></span><br/>
-        </address>
-        
-    </body>
+      <!-- JQUERY -->
+      <link type="text/css" href="lib/jquery/css/Aristo/Aristo.css" rel="stylesheet" />
+      <script type="text/javascript" src="lib/jquery/js/jquery-1.8.0.min.js"></script>
+      <script type="text/javascript" src="lib/jquery.bgiframe/jquery.bgiframe.min.js"></script>
+      <script type="text/javascript" src="lib/jquery/js/jquery-ui-1.8.23.custom.min.js"></script>
+   </head>
+   <body>
+      <div id="header">
+         <span style="position:absolute">
+            <a href="{$rootWebSite}"><img title="{$codevVersion}" alt="{$codevVersion}" src="images/codevtt_logo_03.png" width="300px" height="100px" /></a>
+         </span>
+         <span style="position:absolute;top:4.5em;right:3em;">
+             <a href="{$page}?locale=fr"><img src="images/blank.gif" class="flag flag-fr" title="Francais" alt="Francais" width="18px" height="12px" /></a>
+             <a href="{$page}?locale=en"><img src="images/blank.gif" class="flag flag-gb" title="English" alt="English" width="18px" height="12px" /></a>
+             <a href="{$page}?locale=pt_BR"><img src="images/blank.gif" class="flag flag-br" title="Brazil" alt="Brazil" width="18px" height="12px" /></a>
+         </span>
+         <h1 style="padding:1.5em 0;margin:0">{t}{$pageName}{/t}</h1>
+      </div>
+
+      <div id="login">
+         {if $username}{t}Logged in as {/t}{$username} ({$realname}) <span class="floatr"><a href="logout.php" title="logout">{t}log out{/t}</a></span>
+         {else}{include file="modal/login.html"}
+         {/if}
+      </div>
+
+      {include file="menu/global_menu.html"}
+
+      <div id="main">
+         {include file="$tpl_name.html"}
+         <hr style="margin-top:2em;" />
+      </div>
+
+      <address class="right">
+         <!-- La liberte n'offre qu'une chance d'etre meilleur, la servitude n'est que la certitude de devenir pire.  (Albert Camus) -->
+         <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'><img title='GPL v3' alt="GPL v3" src='images/copyleft.png' /></a>
+         2010-{$year}&nbsp; <span title='Freedom is nothing else but a chance to be better. (Albert Camus)'><a href='http://codevtt.org' target='_blank'>CodevTT.org</a></span><br/>
+      </address>
+   </body>
 </html>
