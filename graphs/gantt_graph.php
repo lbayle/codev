@@ -72,7 +72,7 @@ function getGanttGraph($teamid, $startTimestamp, $endTimestamp, array $projectId
       // FILTER on projects
       if ((NULL != $projectIds) && (0 != sizeof($projectIds))) {
          $issue = IssueCache::getInstance()->getIssue($a->bugid);
-         if (!in_array($issue->projectId, $projectIds)) {
+         if (!in_array($issue->getProjectId(), $projectIds)) {
             // skip activity indexing
             continue;
          }

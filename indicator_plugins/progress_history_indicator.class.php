@@ -103,7 +103,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
                $backlog += $issueBL;
             } else {
                // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
-               $backlog += $issue->mgrEffortEstim;
+               $backlog += $issue->getMgrEffortEstim();
             }
          }
 

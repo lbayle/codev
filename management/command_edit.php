@@ -289,13 +289,13 @@ class CommandEditController extends Controller {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
          $issueArray[$row->id] = array(
             //"mantisLink" => mantisIssueURL($issue->bugId, NULL, true),
-            "bugid" => Tools::issueInfoURL(sprintf("%07d\n",   $issue->bugId)),
+            "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
             //"bugid" => $issue->bugId,
-            "extRef" => $issue->getTC(),
+            "extRef" => $issue->getTcId(),
             "project" => $issue->getProjectName(),
             "target" => $issue->getTargetVersion(),
             "status" => $issue->getCurrentStatusName(),
-            "summary" => $issue->summary
+            "summary" => $issue->getSummary()
          );
       }
 

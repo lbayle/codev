@@ -224,7 +224,7 @@ class TimeTracking {
          }
          try {
             $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
-            if ((in_array ($issue->projectId, $this->sideTaskprojectList)) &&
+            if ((in_array ($issue->getProjectId(), $this->sideTaskprojectList)) &&
                (!$issue->isVacation(array($this->team_id)))) {
                $prodDays += $timeTrack->duration;
             }
@@ -257,7 +257,7 @@ class TimeTracking {
             try {
                $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
 
-               if ((in_array($issue->projectId, $this->sideTaskprojectList)) &&
+               if ((in_array($issue->getProjectId(), $this->sideTaskprojectList)) &&
                   ($issue->isProjManagement(array($this->team_id)))) {
                   $this->managementDays += $timeTrack->duration;
                }
@@ -344,7 +344,7 @@ class TimeTracking {
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
             // if a deadLine is specified
-            if ((in_array($issue->projectId, $this->prodProjectList)) &&
+            if ((in_array($issue->getProjectId(), $this->prodProjectList)) &&
                (NULL != $issue->getDeadLine())) {
                $issueList[] = $issue;
             }
@@ -401,12 +401,12 @@ class TimeTracking {
             if (($latestStatus == $issue->getBugResolvedStatusThreshold()) || ($latestStatus == Constants::$status_closed)) {
 
                // remove duplicated values
-               if (!in_array ($issue->bugId, $resolvedList)) {
-                  $resolvedList[] = $issue->bugId;
+               if (!in_array ($issue->getId(), $resolvedList)) {
+                  $resolvedList[] = $issue->getId();
                   $this->resolvedIssues[] = $issue;
                }
             } else {
-               self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED : bugid = $issue->bugId");
+               self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED : bugid = ".$issue->getId());
             }
          }
       }
@@ -452,7 +452,7 @@ class TimeTracking {
                if ($formatedBugidNegList != "") {
                   $formatedBugidNegList .= ', ';
                }
-               $formatedBugidNegList .= Tools::issueInfoURL($issue->bugId, $issue->summary);
+               $formatedBugidNegList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary());
             } else {
                $nbDriftsPos++;
                $driftPos += $issueDrift;
@@ -460,7 +460,7 @@ class TimeTracking {
                if ($formatedBugidPosList != "") {
                   $formatedBugidPosList .= ', ';
                }
-               $formatedBugidPosList .= Tools::issueInfoURL($issue->bugId, $issue->summary)."<span title='".T_("nb days")."'>(".round($issueDrift).")<span>";
+               $formatedBugidPosList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary())."<span title='".T_("nb days")."'>(".round($issueDrift).")<span>";
             }
          }
       }
@@ -526,7 +526,7 @@ class TimeTracking {
          $issueDriftMgrEE = $issue->getDriftMgr($withSupport);
          $deriveETA += $issueDriftMgrEE;
 
-         self::$logger->debug("getIssuesDriftStats() Found : bugid=$issue->bugId, proj=$issue->projectId, effortEstim=$issue->effortEstim, BS=$issue->effortAdd, elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
+         self::$logger->debug("getIssuesDriftStats() Found : bugid=".$issue->getId().", proj=".$issue->getProjectId().", effortEstim=".$issue->getEffortEstim().", BS=".$issue->getEffortAdd().", elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
 
          // get drift stats. equal is when drif = +-1
          if ($issueDrift < -1) {
@@ -536,7 +536,7 @@ class TimeTracking {
             if ($formatedBugidNegList != "") {
                $formatedBugidNegList .= ', ';
             }
-            $formatedBugidNegList .= Tools::issueInfoURL($issue->bugId, $issue->summary);
+            $formatedBugidNegList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary());
          } elseif ($issueDrift > 1){
             $nbDriftsPos++;
             $driftPos += $issueDrift;
@@ -544,7 +544,7 @@ class TimeTracking {
             if ($formatedBugidPosList != "") {
                $formatedBugidPosList .= ', ';
             }
-            $formatedBugidPosList .= Tools::issueInfoURL($issue->bugId, $issue->summary);
+            $formatedBugidPosList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary());
          } else {
             $nbDriftsEqual++;
             $driftEqual += $issueDrift;
@@ -552,12 +552,12 @@ class TimeTracking {
             if ($formatedBugidEqualList != "") {
                $formatedBugidEqualList .= ', ';
             }
-            $formatedBugidEqualList .= Tools::issueInfoURL($issue->bugId, $issue->summary);
+            $formatedBugidEqualList .= Tools::issueInfoURL($issue->getId(), $issue->getSummary());
 
             if ($bugidEqualList != "") {
                $bugidEqualList .= ', ';
             }
-            $bugidEqualList .= $issue->bugId;
+            $bugidEqualList .= $issue->getId();
          }
 
          if ($issueDriftMgrEE < -1) {
@@ -717,7 +717,7 @@ class TimeTracking {
          try {
             $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
 
-            if ($issue->projectId  == $project_id) {
+            if ($issue->getProjectId() == $project_id) {
                $workingDaysPerProject += $timeTrack->duration;
                self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=$timeTrack->duration, bugid=$timeTrack->bugId, userid=$timeTrack->userId, ".date("Y-m-d", $timeTrack->date));
             }
@@ -843,7 +843,7 @@ class TimeTracking {
          try {
             $issue = IssueCache::getInstance()->getIssue($timeTrack->bugId);
 
-            if ($issue->projectId == $project_id) {
+            if ($issue->getProjectId() == $project_id) {
                self::$logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug $timeTrack->bugId) = $timeTrack->duration");
 
                if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
@@ -996,7 +996,7 @@ class TimeTracking {
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             // do not include internal tasks (tasks having no ExternalReference)
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-            if ((NULL == $issue->tcId) || ('' == $issue->tcId)) {
+            if ((NULL == $issue->getTcId()) || ('' == $issue->getTcId())) {
                self::$logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
                continue;
             }

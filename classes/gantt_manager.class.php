@@ -75,15 +75,15 @@ class GanttActivity {
       $user = UserCache::getInstance()->getUser($this->userid);
       $issue = IssueCache::getInstance()->getIssue($this->bugid);
 
-      if (NULL != $issue->tcId) {
-         $formatedActivityName = substr("$this->bugid [$issue->tcId] - $issue->summary", 0, 50);
+      if (NULL != $issue->getTcId()) {
+         $formatedActivityName = substr($this->bugid." [".$issue->getTcId()."] - ".$issue->getSummary(), 0, 50);
       } else {
-         $formatedActivityName = substr("$this->bugid - $issue->summary", 0, 50);
+         $formatedActivityName = substr($this->bugid." - ".$issue->getSummary(), 0, 50);
       }
 
       $formatedActivityInfo = $user->getName();
-      if ($issue->currentStatus < $issue->getBugResolvedStatusThreshold()) {
-         $formatedActivityInfo .= " (".Constants::$statusNames[$issue->currentStatus].")";
+      if ($issue->getCurrentStatus() < $issue->getBugResolvedStatusThreshold()) {
+         $formatedActivityInfo .= " (".Constants::$statusNames[$issue->getCurrentStatus()].")";
       }
 
       $bar = new GanttBar($this->activityIdx,
@@ -104,7 +104,7 @@ class GanttActivity {
          $bar->SetConstrain($issueActivityMapping[$bugid], CONSTRAIN_ENDSTART);
       }
 
-      self::$logger->debug("JPGraphBar bugid=$this->bugid prj=$issue->projectId activityIdx=$this->activityIdx".
+      self::$logger->debug("JPGraphBar bugid=$this->bugid prj=".$issue->getProjectId()." activityIdx=$this->activityIdx".
          " progress=$this->progress [".
          date('Y-m-d', $this->startTimestamp)." -> ".
          date('Y-m-d', $this->endTimestamp)."]");
@@ -229,7 +229,7 @@ class GanttManager {
    private function dispatchResolvedIssues(array $resolvedIssuesList) {
       foreach ($resolvedIssuesList as $issue) {
          $startDate = $issue->getFirstStatusOccurrence(Constants::$status_acknowledged);
-         if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
+         if (NULL == $startDate) { $startDate = $issue->getDateSubmission(); }
 
          $endDate = $issue->getLatestStatusOccurrence($issue->getBugResolvedStatusThreshold());
          if (NULL == $endDate) {
@@ -237,14 +237,14 @@ class GanttManager {
             $endDate = $issue->getLatestStatusOccurrence(Constants::$status_closed);
          }
 
-         $activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
+         $activity = new GanttActivity($issue->getId(), $issue->getHandlerId(), $startDate, $endDate);
 
-         if (NULL == $this->activitiesByUser[$issue->handlerId]) {
-            $this->activitiesByUser[$issue->handlerId] = array();
+         if (NULL == $this->activitiesByUser[$issue->getHandlerId()]) {
+            $this->activitiesByUser[$issue->getHandlerId()] = array();
          }
-         $this->activitiesByUser[$issue->handlerId][] = $activity;
+         $this->activitiesByUser[$issue->getHandlerId()][] = $activity;
 
-         self::$logger->debug("add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)\n");
+         self::$logger->debug("add to activitiesByUser[".$issue->getHandlerId()."]: ".$activity->toString()."  (resolved)\n");
       }
    }
 
@@ -278,7 +278,7 @@ class GanttManager {
     * @return array[]
     */
    private function findBacklogStartDate(Issue $issue, array $userDispatchInfo) {
-      $user = UserCache::getInstance()->getUser($issue->handlerId);
+      $user = UserCache::getInstance()->getUser($issue->getHandlerId());
 
       $rsd = $userDispatchInfo[0]; // arrivalDate of the user's latest added Activity
 
@@ -292,9 +292,9 @@ class GanttManager {
       foreach ($this->activitiesByUser as $userActivityList) {
          foreach ($userActivityList as $a) {
             if (in_array($a->bugid, $relationships)) {
-               self::$logger->debug("issue $issue->bugId (".date("Y-m-d", $rsd).") is constrained by $a->bugid (".date("Y-m-d", $a->endTimestamp).")");
+               self::$logger->debug("issue ".$issue->getId()." (".date("Y-m-d", $rsd).") is constrained by $a->bugid (".date("Y-m-d", $a->endTimestamp).")");
                if ($a->endTimestamp > $rsd) {
-                  self::$logger->debug("issue $issue->bugId postponed for $a->bugid");
+                  self::$logger->debug("issue ".$issue->getId()." postponed for $a->bugid");
                   $rsd = $a->endTimestamp;
                   $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
                }
@@ -311,7 +311,7 @@ class GanttManager {
          $userDispatchInfo = array($rsd, $user->getAvailableTime($rsd));
       }
 
-      self::$logger->debug("issue $issue->bugId : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]);
+      self::$logger->debug("issue ".$issue->getId()." : avail 1st Day (".date("Y-m-d", $userDispatchInfo[0]).")= ".$userDispatchInfo[1]);
       return $userDispatchInfo;
    }
 
@@ -349,13 +349,12 @@ class GanttManager {
     * @return int
     */
    private function findStartDate(Issue $issue, $backlogStartDate) {
-      if (Constants::$status_new == $issue->currentStatus) {
-
+      if (Constants::$status_new == $issue->getCurrentStatus()) {
          // if status is new, we want the startDate to be the same as the endDate of previous activity.
          $startDate = $backlogStartDate;
       } else {
          $query = "SELECT date_modified FROM `mantis_bug_history_table` ".
-                  "WHERE bug_id=$issue->bugId ".
+                  "WHERE bug_id=".$issue->getId()." ".
                   "AND field_name = 'status' ".
                   "AND old_value=".Constants::$status_new." ORDER BY id DESC";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -366,7 +365,7 @@ class GanttManager {
          $startDate  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
          // this happens, if the issue has been created with a status != 'new'
-         if (NULL == $startDate) { $startDate = $issue->dateSubmission; }
+         if (NULL == $startDate) { $startDate = $issue->getDateSubmission(); }
       }
 
       return $startDate;
@@ -388,39 +387,39 @@ class GanttManager {
       $today = Tools::date2timestamp(date("Y-m-d", time()));
 
       foreach ($issueList as $issue) {
-         $user = UserCache::getInstance()->getUser($issue->handlerId);
+         $user = UserCache::getInstance()->getUser($issue->getHandlerId());
 
          // init user history
-         if (NULL == $teamDispatchInfo[$issue->handlerId]) {
+         if (NULL == $teamDispatchInfo[$issue->getHandlerId()]) {
             // let's assume 'today' being the endTimestamp of previous activity
-            $teamDispatchInfo[$issue->handlerId] = array($today, $user->getAvailableTime($today));
+            $teamDispatchInfo[$issue->getHandlerId()] = array($today, $user->getAvailableTime($today));
          }
 
          // find backlogStartDate
-         $teamDispatchInfo[$issue->handlerId] = $this->findBacklogStartDate($issue, $teamDispatchInfo[$issue->handlerId]);
-         $backlogStartDate = $teamDispatchInfo[$issue->handlerId][0];
+         $teamDispatchInfo[$issue->getHandlerId()] = $this->findBacklogStartDate($issue, $teamDispatchInfo[$issue->getHandlerId()]);
+         $backlogStartDate = $teamDispatchInfo[$issue->getHandlerId()][0];
 
          // find startDate
          $startDate = $this->findStartDate($issue, $backlogStartDate);
 
          // compute endDate
          // the arrivalDate depends on the dateOfInsertion and the available time on that day
-         $teamDispatchInfo[$issue->handlerId] = $issue->computeEstimatedDateOfArrival($teamDispatchInfo[$issue->handlerId][0],
-            $teamDispatchInfo[$issue->handlerId][1]);
-         $endDate = $teamDispatchInfo[$issue->handlerId][0];
+         $teamDispatchInfo[$issue->getHandlerId()] = $issue->computeEstimatedDateOfArrival($teamDispatchInfo[$issue->getHandlerId()][0],
+            $teamDispatchInfo[$issue->getHandlerId()][1]);
+         $endDate = $teamDispatchInfo[$issue->getHandlerId()][0];
 
-         self::$logger->debug("issue $issue->bugId : user $issue->handlerId status $issue->currentStatus startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $backlogStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
-         self::$logger->debug("issue $issue->bugId : left last Day = ".$teamDispatchInfo[$issue->handlerId][1]);
+         self::$logger->debug("issue ".$issue->getId()." : user ".$issue->getHandlerId()." status ".$issue->getCurrentStatus()." startDate ".date("Y-m-d", $startDate)." tmpDate=".date("Y-m-d", $backlogStartDate)." endDate ".date("Y-m-d", $endDate)." RAF=".$issue->getDuration());
+         self::$logger->debug("issue ".$issue->getId()." : left last Day = ".$teamDispatchInfo[$issue->getHandlerId()][1]);
 
          // activitiesByUser
-         $activity = new GanttActivity($issue->bugId, $issue->handlerId, $startDate, $endDate);
+         $activity = new GanttActivity($issue->getId(), $issue->getHandlerId(), $startDate, $endDate);
 
-         if (NULL == $this->activitiesByUser[$issue->handlerId]) {
-            $this->activitiesByUser[$issue->handlerId] = array();
+         if (NULL == $this->activitiesByUser[$issue->getHandlerId()]) {
+            $this->activitiesByUser[$issue->getHandlerId()] = array();
          }
-         $this->activitiesByUser[$issue->handlerId][] = $activity;
+         $this->activitiesByUser[$issue->getHandlerId()][] = $activity;
 
-         self::$logger->debug("add to activitiesByUser[".$issue->handlerId."]: ".$activity->toString()."  (resolved)");
+         self::$logger->debug("add to activitiesByUser[".$issue->getHandlerId()."]: ".$activity->toString()."  (resolved)");
       }
 
       return $this->activitiesByUser;

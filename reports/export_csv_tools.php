@@ -90,19 +90,19 @@ class ExportCsvTools {
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-         $user = UserCache::getInstance()->getUser($issue->handlerId);
+         $user = UserCache::getInstance()->getUser($issue->getHandlerId());
 
          $deadLine = "";
          if (NULL != $issue->getDeadLine()) {
             $deadLine = date("d/m/Y", $issue->getDeadLine());
          }
          $deliveryDate = "";
-         if (NULL != $issue->deliveryDate) {
-            $deliveryDate = date("d/m/Y", $issue->deliveryDate);
+         if (NULL != $issue->getDeliveryDate()) {
+            $deliveryDate = date("d/m/Y", $issue->getDeliveryDate());
          }
 
          // remove sepChar from summary text
-         $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+         $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
 
          $startDate="";
          if (NULL != ($d = $issue->startDate())) {
@@ -111,25 +111,25 @@ class ExportCsvTools {
 
          // write data
          $stringData = $issue->getProjectName().$sepChar.
-            $issue->bugId.$sepChar.
-            $issue->getTC().$sepChar.
+            $issue->getId().$sepChar.
+            $issue->getTcId().$sepChar.
             $formatedSummary.$sepChar.
             $issue->getCurrentStatusName().$sepChar.
-            date("d/m/Y", $issue->dateSubmission).$sepChar.
+            date("d/m/Y", $issue->getDateSubmission()).$sepChar.
             $startDate.$sepChar.
             $deadLine.$sepChar.
-            $issue->version.$sepChar.
+            $issue->getVersion().$sepChar.
             $issue->getPriorityName().$sepChar.
             $issue->getCategoryName().$sepChar.
             $issue->getResolutionName().$sepChar.
-            $issue->mgrEffortEstim.$sepChar.
-            $issue->effortEstim.$sepChar.
-            $issue->effortAdd.$sepChar.
+            $issue->getMgrEffortEstim().$sepChar.
+            $issue->getEffortEstim().$sepChar.
+            $issue->getEffortAdd().$sepChar.
             $issue->getElapsed().$sepChar.
-            $issue->backlog.$sepChar.
+            $issue->getBacklog().$sepChar.
             round(100 * $issue->getProgress())."%".$sepChar.
             $deliveryDate.$sepChar.
-            $issue->deliveryId.$sepChar.
+            $issue->getDeliveryId().$sepChar.
             $user->getShortname().
             "\n";
          fwrite($fh, $stringData);
@@ -152,15 +152,15 @@ class ExportCsvTools {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
 
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-         $user = UserCache::getInstance()->getUser($issue->handlerId);
+         $user = UserCache::getInstance()->getUser($issue->getHandlerId());
 
          $deliveryDate = "";
-         if (NULL != $issue->deliveryDate) {
-            $deliveryDate = date("d/m/Y", $issue->deliveryDate);
+         if (NULL != $issue->getDeliveryDate()) {
+            $deliveryDate = date("d/m/Y", $issue->getDeliveryDate());
          }
 
          // remove sepChar from summary text
-         $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+         $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
 
          $startDate="";
          if (NULL != ($d = $issue->startDate())) {
@@ -169,24 +169,24 @@ class ExportCsvTools {
 
          // write data
          $stringData = $issue->getProjectName().$sepChar.
-            $issue->bugId.$sepChar.
-            $issue->getTC().$sepChar.
+            $issue->getId().$sepChar.
+            $issue->getTcId().$sepChar.
             $formatedSummary.$sepChar.
             $issue->getCurrentStatusName().$sepChar.
-            date("d/m/Y", $issue->dateSubmission).$sepChar.
+            date("d/m/Y", $issue->getDateSubmission()).$sepChar.
             $startDate.$sepChar.
             $deadLine.$sepChar.
-            $issue->version.$sepChar.
+            $issue->getVersion().$sepChar.
             $issue->getPriorityName().$sepChar.
             $issue->getCategoryName().$sepChar.
             $issue->getResolutionName().$sepChar.
-            $issue->mgrEffortEstim.$sepChar.
-            $issue->effortEstim.$sepChar.
-            $issue->effortAdd.$sepChar.
+            $issue->getMgrEffortEstim().$sepChar.
+            $issue->getEffortEstim().$sepChar.
+            $issue->getEffortAdd().$sepChar.
             $issue->getElapsed().$sepChar.
-            $issue->backlog.$sepChar.
+            $issue->getBacklog().$sepChar.
             $deliveryDate.$sepChar.
-            $issue->deliveryId.$sepChar.
+            $issue->getDeliveryId().$sepChar.
             $user->getShortname().
             "\n";
          fwrite($fh, $stringData);

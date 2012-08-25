@@ -93,17 +93,17 @@ class SmartyTools {
       $bugs = NULL;
       foreach ($issueList as $issue) {
          $externalId = "";
-         if(!empty($issue->tcId)) {
-            $externalId = ' / '.$issue->tcId;
+         if($issue->getTcId()) {
+            $externalId = ' / '.$issue->getTcId();
          }
          $summary = "";
-         if(!empty($issue->summary)) {
-            $summary = ' : '.$issue->summary;
+         if($issue->getSummary()) {
+            $summary = ' : '.$issue->getSummary();
          }
-         $bugs[$issue->bugId] = array('id' => $issue->bugId,
-            'name' => $issue->bugId.$externalId.$summary,
-            'selected' => $issue->bugId == $defaultBugid,
-            'projectid' => $issue->projectId
+         $bugs[$issue->getId()] = array('id' => $issue->getId(),
+            'name' => $issue->getId().$externalId.$summary,
+            'selected' => $issue->getId() == $defaultBugid,
+            'projectid' => $issue->getProjectId()
          );
       }
 
@@ -206,18 +206,18 @@ class SmartyTools {
          $driftMgrColor = $issue->getDriftColor($driftMgr);
 
          $issueArray[$id] = array(
-            "mantisLink" => Tools::mantisIssueURL($issue->bugId, NULL, TRUE),
-            "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->bugId)),
+            "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, TRUE),
+            "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
             "project" => $issue->getProjectName(),
             "target" => $issue->getTargetVersion(),
             "status" => $issue->getCurrentStatusName(),
             "progress" => round(100 * $issue->getProgress()),
-            "effortEstim" => $issue->mgrEffortEstim,
+            "effortEstim" => $issue->getMgrEffortEstim(),
             "elapsed" => $issue->getElapsed(),
             "driftMgr" => $driftMgr,
             "driftMgrColor" => (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ",
             "durationMgr" => $issue->getDurationMgr(),
-            "summary" => $issue->summary,
+            "summary" => $issue->getSummary(),
             "category" => $issue->getCategoryName()
          );
       }

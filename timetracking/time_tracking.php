@@ -112,21 +112,23 @@ class TimeTrackingController extends Controller {
                if ($job != $job_support) {
                   // decrease backlog (only if 'backlog' already has a value)
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  if (NULL != $issue->backlog) {
-                     $backlog = $issue->backlog - $duration;
+                  if (NULL != $issue->getBacklog()) {
+                     $backlog = $issue->getBacklog() - $duration;
                      if ($backlog < 0) { $backlog = 0; }
                      $issue->setBacklog($backlog);
                   }
 
                   // open the updateBacklog DialogBox on page reload
-                  $project = ProjectCache::getInstance()->getProject($issue->projectId);
+                  $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
                   if (($job != $job_support) &&
                      (!$project->isSideTasksProject(array_keys($teamList)) &&
                         (!$project->isExternalTasksProject()))) {
-                     $issueInfo = array( 'backlog' => $issue->backlog,
-                        'bugid' => $issue->bugId,
-                        'description' => $issue->summary,
-                        'dialogBoxTitle' => $issue->bugId." / ".$issue->tcId);
+                     $issueInfo = array(
+                        'backlog' => $issue->getBacklog(),
+                        'bugid' => $issue->getId(),
+                        'description' => $issue->getSummary(),
+                        'dialogBoxTitle' => $issue->getId()." / ".$issue->getTcId()
+                     );
 
                      $this->smartyHelper->assign('updateBacklogRequested', $issueInfo);
                   }
@@ -158,14 +160,14 @@ class TimeTrackingController extends Controller {
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
                   // do NOT decrease backlog if job is job_support !
                   if ($job != $job_support) {
-                     if (NULL != $issue->backlog) {
-                        $backlog = $issue->backlog + $duration;
+                     if (NULL != $issue->getBacklog()) {
+                        $backlog = $issue->getBacklog() + $duration;
                         $issue->setBacklog($backlog);
                      }
                   }
 
                   // pre-set form fields
-                  $defaultProjectid  = $issue->projectId;
+                  $defaultProjectid  = $issue->getProjectId();
                } catch (Exception $e) {
                   $defaultProjectid  = 0;
                }
@@ -182,7 +184,7 @@ class TimeTrackingController extends Controller {
                // find ProjectId to update categories
                $defaultBugid = Tools::getSecurePOSTIntValue('bugid');
                $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-               $defaultProjectid  = $issue->projectId;
+               $defaultProjectid  = $issue->getProjectId();
             }
             elseif ("setFiltersAction" == $action) {
                $isFilter_onlyAssignedTo = isset($_POST["cb_onlyAssignedTo"]) ? '1' : '0';
@@ -193,7 +195,7 @@ class TimeTrackingController extends Controller {
 
                if($defaultBugid != 0) {
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  $defaultProjectid = $issue->projectId;
+                  $defaultProjectid = $issue->getProjectId();
                }
             }
 
@@ -344,9 +346,9 @@ class TimeTrackingController extends Controller {
 
             $formatedDate = Tools::formatDate("%Y-%m-%d", $row->date);
             $cosmeticDate = Tools::formatDate("%Y-%m-%d - %A", $row->date);
-            $formatedId = $row->bugid.' / '.$issue->tcId;
+            $formatedId = $row->bugid.' / '.$issue->getTcId();
             $formatedJobName = str_replace("'", "\'", $jobName);
-            $formatedSummary = str_replace("'", "\'", $issue->summary);
+            $formatedSummary = str_replace("'", "\'", $issue->getSummary());
             $formatedSummary = str_replace('"', "\'", $formatedSummary);
             //$totalEstim = $issue->effortEstim + $issue->effortAdd;
 
@@ -373,9 +375,9 @@ class TimeTrackingController extends Controller {
                'cosmeticDate' => $cosmeticDate,
                'mantisURL' => Tools::mantisIssueURL($row->bugid, NULL, true),
                'issueURL' => Tools::issueInfoURL($row->bugid),
-               'issueId' => $issue->tcId,
+               'issueId' => $issue->getTcId(),
                'projectName' => $issue->getProjectName(),
-               'issueSummary' => $issue->summary,
+               'issueSummary' => $issue->getSummary(),
                'jobName' => $jobName,
                'categoryName' => $issue->getCategoryName(),
                'currentStatusName' => $issue->getCurrentStatusName());
@@ -508,22 +510,23 @@ class TimeTrackingController extends Controller {
       $issues = array();
       foreach ($issueList as $issue) {
          //$issue = IssueCache::getInstance()->getIssue($bugid);
-         $issues[$issue->bugId] = array('id' => $issue->bugId,
-            'tcId' => $issue->tcId,
-            'summary' => $issue->summary,
-            'selected' => $issue->bugId == $defaultBugid);
+         $issues[$issue->getId()] = array(
+            'id' => $issue->getId(),
+            'tcId' => $issue->getTcId(),
+            'summary' => $issue->getSummary(),
+            'selected' => $issue->getId() == $defaultBugid);
       }
 
       // If the default bug is filtered, we add it anyway
       if(!array_key_exists($defaultBugid,$issues) && $defaultBugid != 0) {
          $issue = IssueCache::getInstance()->getIssue($defaultBugid);
          // Add the bug only if the selected project is the bug project
-         if($projectid == 0 || $issue->projectId == $projectid) {
-            $issues[$issue->bugId] = array(
-               'id' => $issue->bugId,
-               'tcId' => $issue->tcId,
-               'summary' => $issue->summary,
-               'selected' => $issue->bugId == $defaultBugid);
+         if($projectid == 0 || $issue->getProjectId() == $projectid) {
+            $issues[$issue->getId()] = array(
+               'id' => $issue->getId(),
+               'tcId' => $issue->getTcId(),
+               'summary' => $issue->getSummary(),
+               'selected' => $issue->getId() == $defaultBugid);
             krsort($issues);
          }
       }

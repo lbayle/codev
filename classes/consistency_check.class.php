@@ -161,8 +161,8 @@ class ConsistencyCheck {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         if ((NULL != $issue->deliveryId) &&
-            (NULL == $issue->deliveryDate)) {
+         if ((NULL != $issue->getDeliveryId()) &&
+            (NULL == $issue->getDeliveryDate())) {
             $cerr = new ConsistencyError($row->id,
                $row->handler_id,
                $row->status,
@@ -206,12 +206,12 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         if (0 != $issue->backlog) {
+         if (0 != $issue->getBacklog()) {
             $cerr = new ConsistencyError($row->id,
                $row->handler_id,
                $row->status,
                $row->last_updated,
-               T_("Backlog should be 0 (not $issue->backlog)."));
+               T_("Backlog should be 0 (not ".$issue->getBacklog().")."));
             $cerr->severity = T_("Error");
 
             $cerrList[] = $cerr;
@@ -252,7 +252,7 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         if ($issue->backlog <= $min_backlog) {
+         if ($issue->getBacklog() <= $min_backlog) {
             $cerr = new ConsistencyError($row->id,
                $row->handler_id,
                $row->status,
@@ -311,9 +311,9 @@ class ConsistencyCheck {
          // check if fields correctly set
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         if ((NULL   == $issue->mgrEffortEstim) ||
-            ('' == $issue->mgrEffortEstim)     ||
-            ('0' == $issue->mgrEffortEstim)) {
+         if ((NULL   == $issue->getMgrEffortEstim()) ||
+            ('' == $issue->getMgrEffortEstim())     ||
+            ('0' == $issue->getMgrEffortEstim())) {
 
             $cerr = new ConsistencyError($row->id,
                $row->handler_id,

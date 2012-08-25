@@ -88,18 +88,18 @@ class IndexController extends Controller {
             // TODO: check if issue in team project list ?
             $driftEE = $issue->getDrift();
 
-            $formatedTitle = $issue->bugId." / ".$issue->tcId;
-            $formatedSummary = str_replace("'", "\'", $issue->summary);
+            $formatedTitle = $issue->getId()." / ".$issue->getTcId();
+            $formatedSummary = str_replace("'", "\'", $issue->getSummary());
             $formatedSummary = str_replace('"', "\'", $formatedSummary);
 
-            $driftedTasks[] = array('issueInfoURL' => Tools::issueInfoURL($issue->bugId),
+            $driftedTasks[] = array('issueInfoURL' => Tools::issueInfoURL($issue->getId()),
                'projectName' => $issue->getProjectName(),
                'driftEE' => $driftEE,
                'formatedTitle' => $formatedTitle,
-               'bugId' => $issue->bugId,
-               'backlog' => $issue->backlog,
+               'bugId' => $issue->getId(),
+               'backlog' => $issue->getBacklog(),
                'formatedSummary' => $formatedSummary,
-               'summary' => $issue->summary);
+               'summary' => $issue->getSummary());
          }
       }
 
@@ -127,7 +127,7 @@ class IndexController extends Controller {
          foreach ($cerrList as $cerr) {
             if ($sessionUser->id == $cerr->userId) {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-               $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->summary),
+               $consistencyErrors[] = array('issueURL' => Tools::issueInfoURL($cerr->bugId, '['.$issue->getProjectName().'] '.$issue->getSummary()),
                   'status' => Constants::$statusNames[$cerr->status],
                   'desc' => $cerr->desc);
             }

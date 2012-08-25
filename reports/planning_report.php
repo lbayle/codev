@@ -204,7 +204,7 @@ class PlanningReportController extends Controller {
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
 
             $consistencyErrors[] = array(
-               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->summary),
+               'issueURL' => Tools::issueInfoURL($cerr->bugId, '[' . $issue->getProjectName() . '] ' . $issue->getSummary()),
                'issueStatus' => Constants::$statusNames[$cerr->status],
                'date' => date("Y-m-d", $cerr->timestamp),
                'user' => $user->getName(),
@@ -380,7 +380,7 @@ class PlanningReportController extends Controller {
             "title" => $formatedTitle,
             "width" => $drawnTaskPixSize,
             "color" => $color,
-            "strike" => NULL == $projList[$issue->projectId],
+            "strike" => NULL == $projList[$issue->getProjectId()],
             "duration" => $scheduledTask->duration,
             "priorityName" => $scheduledTask->priorityName,
             "severityName" => $scheduledTask->severityName,

@@ -34,7 +34,7 @@ class ProductivityReportTools {
 
             if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
             $issue = IssueCache::getInstance()->getIssue($bugid);
-            $formatedBugsPerCategory[$catName] .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
+            $formatedBugsPerCategory[$catName] .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
          }
       }
 
@@ -60,7 +60,7 @@ class ProductivityReportTools {
 
                if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
                $issue = IssueCache::getInstance()->getIssue($bugid);
-               $formatedBugsPerCategory[$catName] .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
+               $formatedBugsPerCategory[$catName] .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
             }
          }
       }

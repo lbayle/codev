@@ -143,10 +143,10 @@ class ExportCSVWeeklyController extends Controller {
          foreach ($bugList as $bugid => $jobs) {
             $issue = IssueCache::getInstance()->getIssue($bugid);
             // remove sepChar from summary text
-            $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+            $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
 
-            $stringData .= "$bugid / ".$issue->tcId." : ".$formatedSummary.$sepChar;
-            $stringData .= $issue->backlog.$sepChar;
+            $stringData .= "$bugid / ".$issue->getTcId()." : ".$formatedSummary.$sepChar;
+            $stringData .= $issue->getBacklog().$sepChar;
             foreach($jobList as $jobId => $jobName) {
                $stringData .= $jobs[$jobId].$sepChar;
             }
@@ -223,7 +223,7 @@ class ExportCSVWeeklyController extends Controller {
             $issue = IssueCache::getInstance()->getIssue($bugid);
 
             // remove sepChar from summary text
-            $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+            $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
 
             foreach ($jobList as $jobid => $dayList) {
                $query  = "SELECT name FROM `codev_job_table` WHERE id=$jobid";

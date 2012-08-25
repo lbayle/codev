@@ -216,12 +216,12 @@ class ConsistencyCheck2 {
             continue;
          }
 
-         if (0 != $issue->backlog) {
-            $cerr = new ConsistencyError2($issue->bugId,
-               $issue->handlerId,
-               $issue->currentStatus,
-               $issue->last_updated,
-               T_("Backlog should be 0 (not $issue->backlog)."));
+         if (0 != $issue->getBacklog()) {
+            $cerr = new ConsistencyError2($issue->getId(),
+               $issue->getHandlerId(),
+               $issue->getCurrentStatus(),
+               $issue->getLastUpdate(),
+               T_("Backlog should be 0 (not ".$issue->getBacklog().")."));
             $cerr->severity = ConsistencyError2::severity_error;
 
             $cerrList[] = $cerr;
@@ -240,18 +240,18 @@ class ConsistencyCheck2 {
 
       foreach ($this->issueList as $issue) {
          if ((!$issue->isResolved()) &&
-            ($issue->currentStatus > Constants::$status_new) &&
-            ((NULL == $issue->backlog) || ($issue->backlog <= 0))) {
-            if (NULL == $issue->backlog) {
+            ($issue->getCurrentStatus() > Constants::$status_new) &&
+            ((NULL == $issue->getBacklog()) || ($issue->getBacklog() <= 0))) {
+            if (NULL == $issue->getBacklog()) {
                $msg = T_("Backlog must be defined !");
             } else {
                $msg = T_("Backlog == 0: Backlog may not be up to date.");
             }
 
-            $cerr = new ConsistencyError2($issue->bugId,
-               $issue->handlerId,
-               $issue->currentStatus,
-               $issue->last_updated,
+            $cerr = new ConsistencyError2($issue->getId(),
+               $issue->getHandlerId(),
+               $issue->getCurrentStatus(),
+               $issue->getLastUpdate(),
                $msg);
             $cerr->severity = ConsistencyError2::severity_error;
 
@@ -274,23 +274,23 @@ class ConsistencyCheck2 {
          }
 
          // exclude SideTasks (effortEstimation is not relevant)
-         $project = ProjectCache::getInstance()->getProject($issue->projectId);
+         $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
          $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
          try {
             if ($project->isSideTasksProject($teamList)) { continue; }
          } catch (Exception $e) {
-            self::$logger->error("checkMgrEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
+            self::$logger->error("checkMgrEffortEstim(): issue ".$issue->getId()." not checked : ".$e->getMessage());
             continue;
          }
 
-         if ((NULL   == $issue->mgrEffortEstim) ||
-            ('' == $issue->mgrEffortEstim)     ||
-            ('0' == $issue->mgrEffortEstim)) {
+         if ((NULL   == $issue->getMgrEffortEstim()) ||
+            ('' == $issue->getMgrEffortEstim())     ||
+            ('0' == $issue->getMgrEffortEstim())) {
 
-            $cerr = new ConsistencyError2($issue->bugId,
-               $issue->handlerId,
-               $issue->currentStatus,
-               $issue->last_updated,
+            $cerr = new ConsistencyError2($issue->getId(),
+               $issue->getHandlerId(),
+               $issue->getCurrentStatus(),
+               $issue->getLastUpdate(),
                T_("MgrEffortEstim not set."));
             $cerr->severity = ConsistencyError2::severity_error;
 
@@ -309,21 +309,21 @@ class ConsistencyCheck2 {
 
       foreach ($this->issueList as $issue) {
          if ($issue->isResolved()) { continue; }
-         if ($issue->currentStatus == Constants::$status_new) { continue; }
+         if ($issue->getCurrentStatus() == Constants::$status_new) { continue; }
 
          // exclude SideTasks (effortEstimation is not relevant)
-         $project = ProjectCache::getInstance()->getProject($issue->projectId);
+         $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
          $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
          try {
             if ($project->isSideTasksProject($teamList)) { continue; }
          } catch (Exception $e) {
-            self::$logger->error("checkEffortEstim(): issue $issue->bugId not checked : ".$e->getMessage());
+            self::$logger->error("checkEffortEstim(): issue ".$issue->getId()." not checked : ".$e->getMessage());
             continue;
          }
 
-         if ((NULL == $issue->effortEstim) || ('' == $issue->effortEstim) || ('0' == $issue->effortEstim)) {
-            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
-               $issue->last_updated, T_("EffortEstim not set."));
+         if ((NULL == $issue->getEffortEstim()) || ('' == $issue->getEffortEstim()) || ('0' == $issue->getEffortEstim())) {
+            $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
+               $issue->getLastUpdate(), T_("EffortEstim not set."));
             $cerr->severity = ConsistencyError2::severity_error;
 
             $cerrList[] = $cerr;
@@ -342,13 +342,13 @@ class ConsistencyCheck2 {
 
       foreach ($this->issueList as $issue) {
          // select all issues which current status is 'new'
-         if ($issue->currentStatus != Constants::$status_new) { continue; }
+         if ($issue->getCurrentStatus() != Constants::$status_new) { continue; }
 
          $elapsed = $issue->getElapsed();
 
          if (0 != $elapsed) {
-            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
-               $issue->last_updated,
+            $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
+               $issue->getLastUpdate(),
                T_("Status should not be")." '".Constants::$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
             $cerr->severity = ConsistencyError2::severity_error;
 
@@ -368,7 +368,7 @@ class ConsistencyCheck2 {
 
       foreach ($this->issueList as $issue) {
          // exclude SideTasks (persistant tasks are not assigned)
-         $project = ProjectCache::getInstance()->getProject($issue->projectId);
+         $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
          $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
 
          try {
@@ -376,7 +376,7 @@ class ConsistencyCheck2 {
                continue;
             }
          } catch (Exception $e) {
-            self::$logger->error("checkUnassignedTasks(): issue $issue->bugId not checked : ".$e->getMessage());
+            self::$logger->error("checkUnassignedTasks(): issue ".$issue->getId()." not checked : ".$e->getMessage());
             continue;
          }
 
@@ -385,9 +385,9 @@ class ConsistencyCheck2 {
             continue;
          }
 
-         if ((NULL == $issue->handlerId) || (0 == $issue->handlerId)) {
-            $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
-               $issue->last_updated, T_("The task is not assigned to anybody."));
+         if ((NULL == $issue->getHandlerId()) || (0 == $issue->getHandlerId())) {
+            $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
+               $issue->getLastUpdate(), T_("The task is not assigned to anybody."));
             $cerr->severity = ConsistencyError2::severity_warn;
 
             $cerrList[] = $cerr;
@@ -424,7 +424,7 @@ class ConsistencyCheck2 {
          }
       
          foreach ($this->issueList as $issue) {
-            $project = ProjectCache::getInstance()->getProject($issue->projectId);
+            $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
 
             $teamList = (NULL == $this->teamId) ? NULL: array($this->teamId);
 
@@ -435,27 +435,27 @@ class ConsistencyCheck2 {
                   continue;
                }
             } catch (Exception $e) {
-               self::$logger->error("checkIssuesNotInCommand(): issue $issue->bugId not checked : ".$e->getMessage());
+               self::$logger->error("checkIssuesNotInCommand(): issue ".$issue->getId()." not checked : ".$e->getMessage());
                continue;
             }
 
             $nbTuples = 0;
-            if(array_key_exists($issue->bugId, $commandsByIssue)) {
-               $nbTuples = $commandsByIssue[$issue->bugId];
+            if(array_key_exists($issue->getId(), $commandsByIssue)) {
+               $nbTuples = $commandsByIssue[$issue->getId()];
             }
 
             if (0 == $nbTuples) {
-               $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
-                  $issue->last_updated, T_("The task is not referenced in any Command."));
+               $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
+                  $issue->getLastUpdate(), T_("The task is not referenced in any Command."));
                $cerr->severity = ConsistencyError2::severity_error;
                $cerrList[] = $cerr;
             } else if ($nbTuples > 1) {
-               $cerr = new ConsistencyError2($issue->bugId, $issue->handlerId, $issue->currentStatus,
-               $issue->last_updated, T_("The task is referenced in $nbTuples Commands."));
+               $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
+               $issue->getLastUpdate(), T_("The task is referenced in $nbTuples Commands."));
                $cerr->severity = ConsistencyError2::severity_warn;
                $cerrList[] = $cerr;
             }
-            self::$logger->debug("checkIssuesNotInCommand(): issue $issue->bugId referenced in $nbTuples Commands.");
+            self::$logger->debug("checkIssuesNotInCommand(): issue ".$issue->getId()." referenced in $nbTuples Commands.");
          }
       }
 

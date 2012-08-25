@@ -65,7 +65,7 @@ class IssueInfoController extends Controller {
                try {
                   $issue = IssueCache::getInstance()->getIssue($bug_id);
 
-                  $defaultProjectid = $issue->projectId;
+                  $defaultProjectid = $issue->getProjectId();
                   $bugs = SmartyTools::getBugs($defaultProjectid, $bug_id);
                   if (array_key_exists($bug_id,$bugs)) {
                      $consistencyErrors = NULL;
@@ -84,7 +84,7 @@ class IssueInfoController extends Controller {
                         $this->smartyHelper->assign('ccheckErrList', $consistencyErrors);
                      }
 
-                     $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
+                     $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
                      $this->smartyHelper->assign('isManager', $isManager);
                      $this->smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, $isManager, $displaySupport));
                      $timeTracks = $issue->getTimeTracks();
@@ -195,8 +195,8 @@ class IssueInfoController extends Controller {
          $timeDriftSmarty["deadLine"] = Tools::formatDate("%d %b %Y", $issue->getDeadLine());
       }
 
-      if (NULL != $issue->deliveryDate) {
-         $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->deliveryDate);
+      if (NULL != $issue->getDeliveryDate()) {
+         $timeDriftSmarty["deliveryDate"] = Tools::formatDate("%d %b %Y", $issue->getDeliveryDate());
       }
 
       $timeDrift = $issue->getTimeDrift();
@@ -216,7 +216,7 @@ class IssueInfoController extends Controller {
     */
    private function getCalendar(Issue $issue, array $trackList) {
       $months = NULL;
-      for ($y = date('Y', $issue->dateSubmission); $y <= date('Y'); $y++) {
+      for ($y = date('Y', $issue->getDateSubmission()); $y <= date('Y'); $y++) {
          for ($m = 1; $m <= 12; $m++) {
             $monthsValue = $this->getMonth($m, $y, $issue, $trackList);
             if ($monthsValue != NULL) {
@@ -328,7 +328,7 @@ class IssueInfoController extends Controller {
       $issue->computeDurationsPerStatus();
 
       $statusNamesSmarty = NULL;
-      foreach($issue->statusList as $status_id => $status) {
+      foreach($issue->getStatusList() as $status_id => $status) {
          $statusNamesSmarty[] = Constants::$statusNames[$status_id];
       }
 
@@ -336,12 +336,12 @@ class IssueInfoController extends Controller {
       $durations = NULL;
       try {
          if (!$issue->isSideTaskIssue()) {
-            foreach($issue->statusList as $status) {
+            foreach($issue->getStatusList() as $status) {
                $durations[] = Tools::getDurationLiteral($status->duration);
             }
          }
       } catch (Exception $e) {
-         self::$logger->error("displayDurationsByStatus(): issue $issue->bugId: ".$e->getMessage());
+         self::$logger->error("displayDurationsByStatus(): issue ".$issue->getId().": ".$e->getMessage());
       }
 
       return array(
@@ -377,9 +377,9 @@ class IssueInfoController extends Controller {
       foreach ($timestampList as $timestamp) {
          $backlog = $issue->getBacklog($timestamp);
          if(!is_numeric($backlog)) {
-            $backlog = $issue->mgrEffortEstim;
+            $backlog = $issue->getMgrEffortEstim();
          }
-         $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = (NULL == $backlog) ? $issue->mgrEffortEstim : $backlog;
+         $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = (NULL == $backlog) ? $issue->getMgrEffortEstim() : $backlog;
       }
 
       return Tools::array2plot($backlogList);

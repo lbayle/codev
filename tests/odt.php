@@ -47,13 +47,13 @@ function genODT(User $user) {
    $issueSegment = $odf->setSegment('issueSelection');
    foreach($issueList AS $issue) {
 
-      $user     = UserCache::getInstance()->getUser($issue->handlerId);
-      $reporter = UserCache::getInstance()->getUser($issue->reporterId);
+      $user     = UserCache::getInstance()->getUser($issue->getHandlerId());
+      $reporter = UserCache::getInstance()->getUser($issue->getReporterId());
 
-      $issueSegment->bugId($issue->bugId);
-      $issueSegment->summary(utf8_decode($issue->summary));
-      $issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission));
-      $issueSegment->currentStatus(Constants::$statusNames["$issue->currentStatus"]);
+      $issueSegment->bugId($issue->getId());
+      $issueSegment->summary(utf8_decode($issue->getSummary()));
+      $issueSegment->dateSubmission(date('d/m/Y',$issue->getDateSubmission()));
+      $issueSegment->currentStatus(Constants::$statusNames[$issue->getCurrentStatus()]);
       $issueSegment->handlerId(utf8_decode($user->getRealname()));
       $issueSegment->reporterId(utf8_decode($reporter->getRealname()));
       $issueSegment->description(utf8_decode($issue->getDescription()));
@@ -82,28 +82,28 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
    foreach($issueList as $issue) {
       $q_id += 1;
 
-      if (0 == $issue->handlerId) {
+      if (0 == $issue->getHandlerId()) {
          $userName = T_('unknown');
       } else {
-         $user = UserCache::getInstance()->getUser($issue->handlerId);
+         $user = UserCache::getInstance()->getUser($issue->getHandlerId());
          $userName = utf8_decode($user->getRealname());
       }
-      $logger->debug("issue $issue->bugId: userName = ".$userName);
+      $logger->debug("issue ".$issue->getId().": userName = ".$userName);
 
-      if (0 == $issue->reporterId) {
+      if (0 == $issue->getReporterId()) {
          $reporterName = T_('unknown');
       } else {
-         $reporter = UserCache::getInstance()->getUser($issue->reporterId);
+         $reporter = UserCache::getInstance()->getUser($issue->getReporterId());
          $reporterName = utf8_decode($reporter->getRealname());
       }
-      $logger->debug("issue $issue->bugId: reporterName = ".$reporterName);
+      $logger->debug("issue ".$issue->getId().": reporterName = ".$reporterName);
 
       // add issue
       try { $issueSegment->q_id($q_id); } catch (Exception $e) {};
-      try { $issueSegment->bugId($issue->bugId); } catch (Exception $e) {};
-      try { $issueSegment->summary(utf8_decode($issue->summary)); } catch (Exception $e) {};
-      try { $issueSegment->dateSubmission(date('d/m/Y',$issue->dateSubmission)); } catch (Exception $e) {};
-      try { $issueSegment->currentStatus(Constants::$statusNames["$issue->currentStatus"]); } catch (Exception $e) {};
+      try { $issueSegment->bugId($issue->getId()); } catch (Exception $e) {};
+      try { $issueSegment->summary(utf8_decode($issue->getSummary())); } catch (Exception $e) {};
+      try { $issueSegment->dateSubmission(date('d/m/Y',$issue->getDateSubmission())); } catch (Exception $e) {};
+      try { $issueSegment->currentStatus(Constants::$statusNames[$issue->getCurrentStatus()]); } catch (Exception $e) {};
       try { $issueSegment->handlerId($userName); } catch (Exception $e) {};
       try { $issueSegment->reporterId($reporterName); } catch (Exception $e) {};
       try { $issueSegment->description(utf8_decode($issue->getDescription())); } catch (Exception $e) {};
@@ -113,7 +113,7 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
       $issueNotes = $issue->getIssueNoteList();
       foreach ($issueNotes as $id => $issueNote) {
 
-         $logger->debug("issue $issue->bugId: note $id = $issueNote->note");
+         $logger->debug("issue ".$issue->getId().": note $id = $issueNote->note");
 
          $reporter     = UserCache::getInstance()->getUser($issueNote->reporter_id);
          try { $reporterName = utf8_decode($user->getRealname()); } catch (Exception $e) {};

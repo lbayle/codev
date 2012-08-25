@@ -1145,7 +1145,7 @@ class Project {
             if (!array_key_exists($tagVersion, $this->projectVersionList)) {
                $this->projectVersionList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
             }
-            $this->projectVersionList[$tagVersion]->addIssue($issue->bugId);
+            $this->projectVersionList[$tagVersion]->addIssue($issue->getId());
          }
 
          ksort($this->projectVersionList);
@@ -1211,7 +1211,7 @@ class Project {
          $issueList = $this->getIssues();
          foreach ($issueList as $issue) {
             try {
-               $this->issueSelection->addIssue($issue->bugId);
+               $this->issueSelection->addIssue($issue->getId());
             } catch (Exception $e) {
                self::$logger->warn("getIssueSelection: ".$e->getMessage());
             }

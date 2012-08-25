@@ -30,7 +30,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $managedTeamList = $user->getManagedTeamList();
          $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList) : array();
-         $isManager = (array_key_exists($issue->projectId, $managedProjList)) ? true : false;
+         $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
          $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, $isManager));
          $smartyHelper->display('ajax/generalInfo');
       }

@@ -91,8 +91,8 @@ class TimeTrack {
       if (NULL == $this->projectId) {
          $issue = IssueCache::getInstance()->getIssue($this->bugId);
 
-         $this->projectId = $issue->projectId;
-         $this->categoryId = $issue->categoryId;
+         $this->projectId = $issue->getProjectId();
+         $this->categoryId = $issue->getCategoryId();
       }
       return $this->projectId;
    }
@@ -101,8 +101,8 @@ class TimeTrack {
       if (NULL == $this->categoryId) {
          $issue = IssueCache::getInstance()->getIssue($this->bugId);
 
-         $this->projectId = $issue->projectId;
-         $this->categoryId = $issue->categoryId;
+         $this->projectId = $issue->getProjectId();
+         $this->categoryId = $issue->getCategoryId();
       }
       return $this->categoryId;
    }
@@ -151,8 +151,8 @@ class TimeTrack {
       $bugid = $timetrack->bugId;
       $duration = $timetrack->duration;
       $issue = IssueCache::getInstance()->getIssue($bugid);
-      if (NULL != $issue->backlog) {
-         $backlog = $issue->backlog + $duration;
+      if (NULL != $issue->getBacklog()) {
+         $backlog = $issue->getBacklog() + $duration;
          $issue->setBacklog($backlog);
       }
 

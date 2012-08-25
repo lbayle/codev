@@ -324,7 +324,7 @@ class EditTeamController extends Controller {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          #echo "DEBUG $row->id cat $row->category_id inac[$row->project_id] = ".$inactivityCatList[$row->project_id]."</br>";
          if ($row->category_id == $inactivityCatList[$row->project_id]) {
-            $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row)->summary;
+            $issues[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row)->getSummary();
          }
       }
 
@@ -344,13 +344,13 @@ class EditTeamController extends Controller {
 
       $astreintes = array();
       foreach ($issues as $issue) {
-         $deleteDesc = $issue->summary;
+         $deleteDesc = $issue->getSummary();
          $deleteDesc = str_replace("'", "\'", $deleteDesc);
          $deleteDesc = str_replace('"', "\'", $deleteDesc);
 
-         $astreintes[$issue->bugId] = array(
+         $astreintes[$issue->getId()] = array(
             "desc" => $deleteDesc,
-            "description" => $issue->summary,
+            "description" => $issue->getSummary(),
          );
       }
 

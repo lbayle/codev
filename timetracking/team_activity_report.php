@@ -156,7 +156,7 @@ class TeamActivityReportController extends Controller {
                      }
 
                      $weekJobDetails[] = array(
-                        "url" => Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid) . " / " . $issue->tcId . " : " . $issue->summary,
+                        "url" => Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid) . " / " . $issue->getTcId() . " : " . $issue->getSummary(),
                         "duration" => $issue->getDuration(),
                         "progress" => round(100 * $issue->getProgress()),
                         "projectName" => $issue->getProjectName(),
@@ -180,7 +180,7 @@ class TeamActivityReportController extends Controller {
                   }
 
                   $weekJobDetails[] = array(
-                     "url" => Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid) . " / " . $issue->tcId . " : " . $issue->summary,
+                     "url" => Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid) . " / " . $issue->getTcId() . " : " . $issue->getSummary(),
                      "duration" => $issue->getDuration(),
                      "progress" => round(100 * $issue->getProgress()),
                      "projectName" => $issue->getProjectName(),

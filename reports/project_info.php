@@ -267,23 +267,23 @@ class ProjectInfoController extends Controller {
          $formatedNewList = "";
          foreach ($pv->getIssueList() as $bugid => $issue) {
 
-            if (Constants::$status_new == $issue->currentStatus) {
+            if (Constants::$status_new == $issue->getCurrentStatus()) {
                if ("" != $formatedNewList) {
                   $formatedNewList .= ', ';
                }
-               $formatedNewList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
+               $formatedNewList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
 
-            } elseif ($issue->currentStatus >= $issue->getBugResolvedStatusThreshold()) {
+            } elseif ($issue->getCurrentStatus() >= $issue->getBugResolvedStatusThreshold()) {
                if ("" != $formatedResolvedList) {
                   $formatedResolvedList .= ', ';
                }
-               $title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->summary;
+               $title = "(".$issue->getDrift().') ['.$issue->getProjectName().'] '.$issue->getSummary();
                $formatedResolvedList .= Tools::issueInfoURL($bugid, $title);
             } else {
                if ("" != $formatedOpenList) {
                   $formatedOpenList .= ', ';
                }
-               $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->summary;
+               $title = "(".$issue->getDrift().", ".$issue->getCurrentStatusName().') ['.$issue->getProjectName().'] '.$issue->getSummary();
                $formatedOpenList .= Tools::issueInfoURL($bugid, $title);
             }
          }
@@ -338,18 +338,18 @@ class ProjectInfoController extends Controller {
       }
 
       return array(
-         'issueURL' => Tools::issueInfoURL($issue->bugId),
-         'mantisURL' => Tools::mantisIssueURL($issue->bugId, NULL, true),
+         'issueURL' => Tools::issueInfoURL($issue->getId()),
+         'mantisURL' => Tools::mantisIssueURL($issue->getId(), NULL, true),
          'projectName' => $issue->getProjectName(),
          'targetVersion' => $issue->getTargetVersion(),
          'driftMgrColor' => $driftMgrColor,
          'driftMgr' => $driftMgr,
          'driftColor' => $driftColor,
          'drift' => round($driftEE, 2),
-         'backlog' => $issue->backlog,
+         'backlog' => $issue->getBacklog(),
          'progress' => round(100 * $issue->getProgress()),
          'currentStatusName' => $issue->getCurrentStatusName(),
-         'summary' => $issue->summary
+         'summary' => $issue->getSummary()
       );
    }
 

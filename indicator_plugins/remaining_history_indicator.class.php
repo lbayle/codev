@@ -101,7 +101,7 @@ class BacklogHistoryIndicator implements IndicatorPlugin {
                $backlog += $issueRem;
             } else {
                // if not fount in history, take the MgrEffortEstim (or EffortEstim ??)
-               $backlog += $issue->mgrEffortEstim;
+               $backlog += $issue->getMgrEffortEstim();
             }
          }
          $this->execData[$timestamp] = $backlog;

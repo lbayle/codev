@@ -575,16 +575,16 @@ class ServiceContract {
                   $issueCmdidList = array_keys($issue->getCommandList());
                   $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
                   if ($isInCommands) {
-                     self::$logger->debug("getSidetasksPerCategory(): skip issue $issue->bugId because already declared in a Command");
+                     self::$logger->debug("getSidetasksPerCategory(): skip issue ".$issue->getId()." because already declared in a Command");
                      continue;
                   }
                }
 
-               if (NULL == $this->sidetasksPerCategory[$key][$issue->categoryId]) {
-                  $this->sidetasksPerCategory[$key][$issue->categoryId] = new IssueSelection($issue->getCategoryName());
+               if (NULL == $this->sidetasksPerCategory[$key][$issue->getCategoryId()]) {
+                  $this->sidetasksPerCategory[$key][$issue->getCategoryId()] = new IssueSelection($issue->getCategoryName());
                }
-               $issueSel = $this->sidetasksPerCategory[$key][$issue->categoryId];
-               $issueSel->addIssue($issue->bugId);
+               $issueSel = $this->sidetasksPerCategory[$key][$issue->getCategoryId()];
+               $issueSel->addIssue($issue->getId());
             }
          }
       }

@@ -186,7 +186,7 @@ class ProductivityReportsController extends Controller {
    private function getFormattedReopenedTaks(TimeTracking $timeTracking) {
       $formatedTasks = NULL;
       foreach ($timeTracking->getReopened() as $issue) {
-         $formatedTasks[] = Tools::issueInfoURL($issue->bugId, '['.$issue->getProjectName().'] '.$issue->summary);
+         $formatedTasks[] = Tools::issueInfoURL($issue->getId(), '['.$issue->getProjectName().'] '.$issue->getSummary());
       }
       return $formatedTasks;
    }
@@ -338,12 +338,12 @@ class ProductivityReportsController extends Controller {
 
          if (($isManager && $driftMgrEE > 0) || ($driftEE > 0)) {
             $resolvedIssuesInDrift[] = array(
-               "issueURL" => Tools::issueInfoURL($issue->bugId),
+               "issueURL" => Tools::issueInfoURL($issue->getId()),
                "projectName" => $issue->getProjectName(),
                "driftMgrEE" => $driftMgrEE,
                "driftEE" => $driftEE,
                "currentStatusName" => $issue->getCurrentStatusName(),
-               "summary" => $issue->summary
+               "summary" => $issue->getSummary()
             );
          }
       }

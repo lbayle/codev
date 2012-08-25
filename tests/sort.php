@@ -23,7 +23,7 @@ $issues = ProjectCache::getInstance()->getProject(14)->getIssues();
 echo "Not sorted issued<br>";
 
 foreach($issues as $issue) {
-   echo $issue->bugId."-";
+   echo $issue->getId()."-";
 }
 
 echo "<br><br>";
@@ -39,9 +39,9 @@ $end = microtime(true);
 $qsortRes = array();
 $i = 0;
 foreach($a as $issue) {
-   echo $issue->bugId."-";
+   echo $issue->getId()."-";
 
-   $issueInfoStr = $issue->bugId.':'.$issue->getStatus().'-'.date('Y-m-d', $issue->getDeadLine()).'-'.$issue->priority.'-'.$issue->severity;
+   $issueInfoStr = $issue->getId().':'.$issue->getStatus().'-'.date('Y-m-d', $issue->getDeadLine()).'-'.$issue->getPriority().'-'.$issue->getSeverity();
    $qsortRes[$i] = $issueInfoStr;
    $i += 1;
 }
@@ -63,8 +63,8 @@ $end = microtime(true);
 $usortRes = array();
 $i = 0;
 foreach($b as $issue) {
-   echo $issue->bugId."-";
-   $issueInfoStr = $issue->bugId.':'.$issue->getStatus().'-'.date('Y-m-d', $issue->getDeadLine()).'-'.$issue->priority.'-'.$issue->severity;
+   echo $issue->getId()."-";
+   $issueInfoStr = $issue->getId().':'.$issue->getStatus().'-'.date('Y-m-d', $issue->getDeadLine()).'-'.$issue->getPriority().'-'.$issue->severity;
    $usortRes[$i] = $issueInfoStr;
    $i += 1;
 }

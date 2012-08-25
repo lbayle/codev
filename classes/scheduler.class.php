@@ -121,20 +121,20 @@ class Scheduler {
          // determinate issue duration (Backlog, EffortEstim, MgrEffortEstim)
          $issueDuration = $issue->getDuration();
 
-         self::$logger->debug("issue $issue->bugId  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
+         self::$logger->debug("issue ".$issue->getId()."  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
 
-         $currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
+         $currentST = new ScheduledTask($issue->getId(), $issue->getDeadLine(), $issueDuration);
 
-         self::$logger->debug("issue $issue->bugId   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
-         self::$logger->debug("issue $issue->bugId nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
+         self::$logger->debug("issue ".$issue->getId()."   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
+         self::$logger->debug("issue ".$issue->getId()." nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
          $currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
          $currentST->projectName = $issue->getProjectName();
-         $currentST->summary = $issue->summary;
+         $currentST->summary = $issue->getSummary();
          $currentST->priorityName = $issue->getPriorityName();
          $currentST->severityName = $issue->getSeverityName();
-         $currentST->statusName = Constants::$statusNames[$issue->currentStatus];
+         $currentST->statusName = Constants::$statusNames[$issue->getCurrentStatus()];
 
-         $handler = UserCache::getInstance()->getUser($issue->handlerId);
+         $handler = UserCache::getInstance()->getUser($issue->getHandlerId());
          $currentST->handlerName = $handler->getName();
 
          // check if onTime
@@ -164,17 +164,17 @@ class Scheduler {
 
             #echo "DEBUG Monitored issue $issue->bugId  Duration = $issueDuration<br/>";
 
-            $currentST = new ScheduledTask($issue->bugId, $issue->getDeadLine(), $issueDuration);
+            $currentST = new ScheduledTask($issue->getId(), $issue->getDeadLine(), $issueDuration);
 
             $currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
             $currentST->projectName = $issue->getProjectName();
-            $currentST->summary = $issue->summary;
+            $currentST->summary = $issue->getSummary();
             $currentST->priorityName = $issue->getPriorityName();
             $currentST->severityName = $issue->getSeverityName();
-            $currentST->statusName = Constants::$statusNames[$issue->currentStatus];
+            $currentST->statusName = Constants::$statusNames[$issue->getCurrentStatus()];
             $currentST->isMonitored = true;
 
-            $handler = UserCache::getInstance()->getUser($issue->handlerId);
+            $handler = UserCache::getInstance()->getUser($issue->getHandlerId());
             $currentST->handlerName = $handler->getName();
 
             // check if onTime

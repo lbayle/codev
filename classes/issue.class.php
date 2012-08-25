@@ -66,26 +66,26 @@ class Issue implements Comparable {
    /**
     * @var int Mantis id
     */
-   public $bugId;
+   protected $bugId;
 
-   public $projectId;  // Capu, peterpan, etc.
-   public $categoryId;
-   public $eta;        // DEPRECATED
-   public $summary;
-   public $dateSubmission;
-   public $currentStatus;
-   public $priority;
-   public $severity;
-   public $handlerId;
-   public $reporterId;
-   public $resolution;
-   public $version;  // Product Version
-   public $last_updated;
+   private $projectId;  // Capu, peterpan, etc.
+   private $categoryId;
+   private $eta;        // DEPRECATED
+   private $summary;
+   private $dateSubmission;
+   private $currentStatus;
+   private $priority;
+   private $severity;
+   private $handlerId;
+   private $reporterId;
+   private $resolution;
+   private $version;  // Product Version
+   private $last_updated;
 
    private $description;
    private $target_version;
    private $relationships = array(); // array[relationshipType][bugId]
-   private $IssueNoteList;
+   private $issueNoteList;
    private $commandList;
    private $categoryName;
 
@@ -100,22 +100,26 @@ class Issue implements Comparable {
      */
 
    // CodevTT custom fields
-   public $tcId;         // TelelogicChange id
+   private $tcId;         // TelelogicChange id
 
    /**
     * @var int Backlog
     */
-   public $backlog;    // RAF
-   public $mgrEffortEstim;  // Manager EffortEstim (ex prelEffortEstim/ETA)
-   public $effortEstim;  // BI
-   public $effortAdd;    // BS
+   private $backlog;
+   private $mgrEffortEstim;  // Manager EffortEstim (ex prelEffortEstim/ETA)
+   private $effortEstim;  // BI
+   private $effortAdd;    // BS
    private $deadLine;
-   public $deliveryDate;
-   public $deliveryId;   // TODO FDL (FDJ specific)
+   private $deliveryDate;
+   private $deliveryId;   // TODO FDL (FDJ specific)
 
    // computed fields
    private $elapsed;          // total time spent on this issue
-   public $statusList = array();       // array of statusInfo elements
+
+   /**
+    * @var Status[]
+    */
+   private $statusList = array();       // array of statusInfo elements
 
    // PRIVATE cached fields
    private $holidays;
@@ -192,34 +196,6 @@ class Issue implements Comparable {
          $this->target_version = $row->target_version;
          $this->last_updated = $row->last_updated;
 
-         // Get custom fields
-         $query2 = "SELECT field_id, value FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId";
-         $result2 = SqlWrapper::getInstance()->sql_query($query2);
-         if (!$result2) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result2)) {
-            switch ($row->field_id) {
-               case Config::getInstance()->getValue(Config::id_customField_ExtId): $this->tcId = $row->value;
-                  break;
-               case Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim): $this->mgrEffortEstim = $row->value;
-                  break;
-               case Config::getInstance()->getValue(Config::id_customField_effortEstim): $this->effortEstim = $row->value;
-                  break;
-               case Config::getInstance()->getValue(Config::id_customField_backlog): $this->backlog = $row->value;
-                  break;
-               case Config::getInstance()->getValue(Config::id_customField_addEffort): $this->effortAdd = $row->value;
-                  break;
-               case Config::getInstance()->getValue(Config::id_customField_deadLine): $this->deadLine = $row->value;
-                  break;
-               case Config::getInstance()->getValue(Config::id_customField_deliveryDate): $this->deliveryDate = $row->value;
-                  break;
-               case Config::getInstance()->getValue(Config::id_customField_deliveryId): $this->deliveryId = $row->value;
-                  break;
-            }
-         }
-
          //DEBUG $this->getRelationships(2500);
       } else {
          #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
@@ -231,13 +207,66 @@ class Issue implements Comparable {
    }
 
    /**
+    * Get custom fields
+    */
+   public function initializeCustomField() {
+      $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+      $mgrEffortEstimField = Config::getInstance()->getValue(Config::id_customField_MgrEffortEstim);
+      $effortEstimField = Config::getInstance()->getValue(Config::id_customField_effortEstim);
+      $backlogField = Config::getInstance()->getValue(Config::id_customField_backlog);
+      $addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
+      $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
+      $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
+      $deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      $customFields = array(
+         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField, $deliveryIdField
+      );
+      $query = "SELECT field_id, value FROM `mantis_custom_field_string_table` ".
+               "WHERE bug_id = ".$this->bugId." ".
+               "AND field_id IN (".implode(',',$customFields).");";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         switch ($row->field_id) {
+            case $extIdField:
+               $this->tcId = $row->value;
+               break;
+            case $mgrEffortEstimField:
+               $this->mgrEffortEstim = $row->value;
+               break;
+            case $effortEstimField:
+               $this->effortEstim = $row->value;
+               break;
+            case $backlogField:
+               $this->backlog = $row->value;
+               break;
+            case $addEffortField:
+               $this->effortAdd = $row->value;
+               break;
+            case $deadLineField:
+               $this->deadLine = $row->value;
+               break;
+            case $deliveryDateField:
+               $this->deliveryDate = $row->value;
+               break;
+            case $deliveryIdField:
+               $this->deliveryId = $row->value;
+               break;
+         }
+      }
+   }
+
+   /**
     * @param int $bugid
     * @return bool TRUE if issue exists in Mantis DB
     */
    public static function exists($bugid) {
       if (NULL == $bugid) {
          self::$logger->warn("exists(): bugid == NULL.");
-         return false;
+         return FALSE;
       }
 
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
@@ -281,19 +310,19 @@ class Issue implements Comparable {
     * @return IssueNote[]
     */
    public function getIssueNoteList() {
-      if (NULL == $this->IssueNoteList) {
+      if (NULL == $this->issueNoteList) {
          $query = "SELECT id FROM `mantis_bugnote_table` WHERE bug_id = ".$this->bugId.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         $this->IssueNoteList = array();
+         $this->issueNoteList = array();
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $this->IssueNoteList["$row->id"] = new IssueNote($row->id);
+            $this->issueNoteList[$row->id] = new IssueNote($row->id);
          }
       }
-      return $this->IssueNoteList;
+      return $this->issueNoteList;
    }
 
    /**
@@ -350,13 +379,13 @@ class Issue implements Comparable {
             ($project->getWorkshopCategoryId()   != $this->categoryId)) {
 
             self::$logger->debug("$this->bugId is a sideTask.");
-            return true;
+            return TRUE;
          }
       } catch (Exception $e) {
          self::$logger->warn("isSideTaskIssue(): ".$e->getMessage());
          throw $e;
       }
-      return false;
+      return FALSE;
    }
 
    /**
@@ -379,13 +408,13 @@ class Issue implements Comparable {
             ($project->getInactivityCategoryId() == $this->categoryId)) {
 
             self::$logger->debug("$this->bugId is Vacation.");
-            return true;
+            return TRUE;
          }
       } catch (Exception $e) {
          self::$logger->warn("isVacation(): ".$e->getMessage());
          throw $e;
       }
-      return false;
+      return FALSE;
    }
 
    /**
@@ -407,14 +436,14 @@ class Issue implements Comparable {
             ($project->getIncidentCategoryId() == $this->categoryId)) {
 
             self::$logger->debug("$this->bugId is a Incident.");
-            return true;
+            return TRUE;
          }
       } catch (Exception $e) {
          self::$logger->warn("isIncident(): ".$e->getMessage());
          throw $e;
       }
 
-      return false;
+      return FALSE;
    }
 
    /**
@@ -437,13 +466,13 @@ class Issue implements Comparable {
             ($project->getManagementCategoryId() == $this->categoryId)) {
 
             self::$logger->debug("$this->bugId is a ProjectManagement task.");
-            return true;
+            return TRUE;
          }
       } catch (Exception $e) {
          self::$logger->warn("isProjManagement(): ".$e->getMessage());
          throw $e;
       }
-      return false;
+      return FALSE;
    }
 
    /**
@@ -457,20 +486,23 @@ class Issue implements Comparable {
       }
 
       if (in_array($this->bugId, $astreintesTaskList)) {
-         self::$logger->debug("$this->bugId is an Astreinte.");
-         return true;
+         self::$logger->debug($this->bugId." is an Astreinte.");
+         return TRUE;
       }
-      return false;
+      return FALSE;
    }
 
    public function getTargetVersion() {
       return $this->target_version;
    }
 
-   /**
-    * @return string
-    */
-   public function getTC() {
+   private $customFieldInitialized;
+
+   public function getTcId() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
       return $this->tcId;
    }
 
@@ -483,6 +515,10 @@ class Issue implements Comparable {
     * @return int
     */
    public function getDeadLine() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
 
       // if exist return customField value
       // REM: already set in initialize()
@@ -514,9 +550,8 @@ class Issue implements Comparable {
     * @return string The category name
     */
    public function getCategoryName() {
-
       if (NULL == $this->categoryName) {
-         $query = "SELECT name FROM `mantis_category_table` WHERE id= $this->categoryId";
+         $query = "SELECT name FROM `mantis_category_table` WHERE id = ".$this->categoryId.";";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -561,7 +596,9 @@ class Issue implements Comparable {
       $key = 'j'.$job_id;
 
       if(!array_key_exists($key, $this->elapsedCache)) {
-         $query = "SELECT SUM(duration) as duration FROM `codev_timetracking_table` WHERE bugid=$this->bugId";
+         $query = "SELECT SUM(duration) as duration ".
+                  "FROM `codev_timetracking_table` ".
+                  "WHERE bugid = ".$this->bugId;
 
          if (isset($job_id)) {
             $query .= " AND jobid = $job_id";
@@ -585,13 +622,19 @@ class Issue implements Comparable {
     * if the 'backlog' (RAF) field is not defined, return effortEstim
     */
    public function getDuration() {
-      if ($this->isResolved()) { return 0; }
+      if ($this->isResolved()) {
+         return 0;
+      }
 
       // determinate issue duration (Backlog, BI, MgrEffortEstim)
-      if (NULL != $this->backlog) { $issueDuration = $this->backlog; }
-      else                          { $issueDuration = $this->effortEstim; }
+      if (NULL != $this->getBacklog()) {
+         $issueDuration = $this->getBacklog();
+      }
+      else {
+         $issueDuration = $this->getEffortEstim();
+      }
 
-      if (NULL == $this->effortEstim) {
+      if (NULL == $this->getEffortEstim()) {
          self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND effortEstim == NULL)");
       }
       return $issueDuration;
@@ -603,13 +646,19 @@ class Issue implements Comparable {
     * if the 'backlog' (RAF) field is not defined, return mgrEffortEstim
     */
    public function getDurationMgr() {
-      if ($this->isResolved()) { return 0; }
+      if ($this->isResolved()) {
+         return 0;
+      }
 
       // determinate issue duration (Backlog, BI, MgrEffortEstim)
-      if (NULL != $this->backlog) { $issueDuration = $this->backlog; }
-      else                          { $issueDuration = $this->mgrEffortEstim; }
+      if (NULL != $this->getBacklog()) {
+         $issueDuration = $this->getBacklog();
+      }
+      else {
+         $issueDuration = $this->getMgrEffortEstim();
+      }
 
-      if (NULL == $this->mgrEffortEstim) {
+      if (NULL == $this->getMgrEffortEstim()) {
          self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND mgrEffortEstim == NULL)");
       }
       return $issueDuration;
@@ -620,7 +669,7 @@ class Issue implements Comparable {
     * @return int reestimated
     */
    public function getReestimated() {
-      return ($this->getElapsed() + $this->getDuration());
+      return $this->getElapsed() + $this->getDuration();
    }
 
    /**
@@ -628,7 +677,7 @@ class Issue implements Comparable {
     * @return int reestimated
     */
    public function getReestimatedMgr() {
-      return ($this->getElapsed() + $this->getDurationMgr());
+      return $this->getElapsed() + $this->getDurationMgr();
    }
 
    /**
@@ -675,7 +724,9 @@ class Issue implements Comparable {
     * @return int the timestamp of the first TimeTrack
     */
    public function startDate() {
-      $query = "SELECT MIN(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
+      $query = "SELECT MIN(date) ".
+               "FROM `codev_timetracking_table` ".
+               "WHERE bugid = ".$this->bugId.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -689,7 +740,9 @@ class Issue implements Comparable {
     * @return int the timestamp of the latest TimeTrack
     */
    public function endDate() {
-      $query = "SELECT MAX(date) FROM `codev_timetracking_table` WHERE bugid=$this->bugId ";
+      $query = "SELECT MAX(date) ".
+               "FROM `codev_timetracking_table` ".
+               "WHERE bugid = ".$this->bugId.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -706,7 +759,7 @@ class Issue implements Comparable {
     */
    public function getDriftColor($drift = NULL) {
       if (!isset($drift)) {
-         $drift = $this->getDrift(false);
+         $drift = $this->getDrift(FALSE);
       }
 
       if (0 < $drift) {
@@ -738,8 +791,8 @@ class Issue implements Comparable {
     * @param bool $withSupport
     * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
     */
-   public function getDrift_old($withSupport = true) {
-      $totalEstim = $this->effortEstim + $this->effortAdd;
+   public function getDrift_old($withSupport = TRUE) {
+      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
 
       if (0 == $totalEstim) {
          self::$logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
@@ -762,15 +815,15 @@ class Issue implements Comparable {
       if ($this->currentStatus >= $this->getBugResolvedStatusThreshold()) {
          $derive = $myElapsed - $totalEstim;
       } else {
-         $derive = $myElapsed - ($totalEstim - $this->backlog);
+         $derive = $myElapsed - ($totalEstim - $this->getBacklog());
       }
 
       self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
       return round($derive,3);
    }
 
-   public function getDrift($withSupport = true) {
-      $totalEstim = $this->effortEstim + $this->effortAdd;
+   public function getDrift($withSupport = TRUE) {
+      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
       $derive = $this->getReestimated() - $totalEstim;
 
       self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
@@ -786,7 +839,7 @@ class Issue implements Comparable {
     * @param boolean $withSupport
     * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
     */
-   public function getDriftMgr($withSupport = true) {
+   public function getDriftMgr($withSupport = TRUE) {
 /*
       if ($withSupport) {
          $myElapsed = $this->elapsed;
@@ -795,9 +848,9 @@ class Issue implements Comparable {
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 */
-      $derive = $this->getReestimatedMgr() - $this->mgrEffortEstim;
+      $derive = $this->getReestimatedMgr() - $this->getMgrEffortEstim();
 
-      self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->mgrEffortEstim.")");
+      self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->getMgrEffortEstim().")");
       return round($derive,3);
    }
 
@@ -810,20 +863,20 @@ class Issue implements Comparable {
     *         OR "Error" string if could not be determinated. REM: check with is_string($timeDrift)
     */
    public function getTimeDrift() {
-      if (NULL != $this->deliveryDate && NULL != $this->getDeadLine()) {
-         $timeDrift = $this->deliveryDate - $this->getDeadLine();
+      if (NULL != $this->getDeliveryDate() && NULL != $this->getDeadLine()) {
+         $timeDrift = $this->getDeliveryDate() - $this->getDeadLine();
 
          // convert seconds to days (24 * 60 * 60) = 86400
          $timeDrift /=  86400 ;
 
          // remove weekends & holidays
          $holidays = $this->getHolidays();
-         if ($this->deliveryDate < $this->getDeadLine()) {
-            $nbHolidays = $holidays->getNbHolidays($this->deliveryDate, $this->getDeadLine());
+         if ($this->getDeliveryDate() < $this->getDeadLine()) {
+            $nbHolidays = $holidays->getNbHolidays($this->getDeliveryDate(), $this->getDeadLine());
          } else {
-            $nbHolidays = $holidays->getNbHolidays($this->getDeadLine(), $this->deliveryDate);
+            $nbHolidays = $holidays->getNbHolidays($this->getDeadLine(), $this->getDeliveryDate());
          }
-         self::$logger->debug("TimeDrift for issue $this->bugId = ($this->deliveryDate - $this->getDeadLine()) / 86400 = $timeDrift (- $nbHolidays holidays)");
+         self::$logger->debug("TimeDrift for issue $this->bugId = (".$this->getDeliveryDate()." - ".$this->getDeadLine().") / 86400 = $timeDrift (- $nbHolidays holidays)");
 
          if ($timeDrift > 0) {
             $timeDrift -= $nbHolidays;
@@ -832,7 +885,7 @@ class Issue implements Comparable {
          }
       } else {
          $timeDrift = "Error";
-         self::$logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<".$this->getDeadLine()."> deliveryDate=<$this->deliveryDate>");
+         self::$logger->warn("could not determinate TimeDrift for issue $this->bugId: deadline=<".$this->getDeadLine()."> deliveryDate=<".$this->getDeliveryDate().">");
       }
       return  $timeDrift;
    }
@@ -847,7 +900,7 @@ class Issue implements Comparable {
       $timeTracks = array();
 
       $query = "SELECT * FROM `codev_timetracking_table` ".
-               "WHERE bugid=$this->bugId ";
+               "WHERE bugid = ".$this->bugId." ";
 
       if (isset($userid)) {
          $query .= "AND userid = $userid ";
@@ -882,7 +935,7 @@ class Issue implements Comparable {
       $query = "SELECT user.id, user.username ".
                "FROM `mantis_user_table` as user, `codev_timetracking_table` as tt, `codev_team_user_table`  ".
                "WHERE  tt.userid = user.id ".
-               "AND tt.bugid  = $this->bugId ";
+               "AND tt.bugid  = ".$this->bugId." ";
 
       if (isset($team_id)) {
          $query .= "AND codev_team_user_table.team_id = $team_id ".
@@ -955,12 +1008,12 @@ class Issue implements Comparable {
    public function setBacklog($backlog) {
       $backlogCustomField = Config::getInstance()->getValue(Config::id_customField_backlog);
 
-      $old_backlog = $this->backlog;
+      $old_backlog = $this->getBacklog();
 
       self::$logger->debug("setBacklog old_value=$old_backlog   new_value=$backlog");
 
       // TODO should be done only once... in Constants singleton ?
-      $query  = "SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomField";
+      $query = "SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomField";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1004,6 +1057,7 @@ class Issue implements Comparable {
       // get only statuses defined for this project
       $project = ProjectCache::getInstance()->getProject($this->projectId);
       $wfTrans = $project->getWorkflowTransitions();
+      $statusNames = NULL;
       if (NULL != $wfTrans) { $statusNames = $wfTrans[0]; }
       
       if (NULL == $statusNames) {
@@ -1055,7 +1109,7 @@ class Issue implements Comparable {
    }
 
    /**
-    * @param unknown_type $status
+    * @param string $status
     * @return int
     */
    protected function getDurationForStatus($status) {
@@ -1114,73 +1168,73 @@ class Issue implements Comparable {
       if (in_array($this->bugId, $BconstrainsList)) {
          // B constrains A
          self::$logger->trace("compareTo $this->bugId < $issueB->bugId (B constrains A)");
-         return false;
+         return FALSE;
       }
       if (in_array($issueB->bugId, $AconstrainsList)) {
          // A constrains B
          self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains B)");
-         return true;
+         return TRUE;
       }
 
       // Tasks currently open are higher priority
       if (($this->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
          self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
-         return  true;
+         return  TRUE;
       }
       if (($issueB->currentStatus == Constants::$status_open) && ($this->currentStatus != Constants::$status_open)) {
          self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
-         return  false;
+         return  FALSE;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL != $this->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
          self::$logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
-         return  true;
+         return  TRUE;
       }
       if ((NULL == $this->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
          self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
-         return  false;
+         return  FALSE;
       }
 
       // the soonest deadLine has priority
       if ($this->getDeadLine() < $issueB->getDeadLine()) {
          self::$logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
-         return  true;
+         return  TRUE;
       }
       if ($this->getDeadLine() > $issueB->getDeadLine()) {
          self::$logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
-         return  false;
+         return  FALSE;
       }
 
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
          self::$logger->trace("compareTo $this->bugId > $issueB->bugId (priority attr)");
-         return  true;
+         return  TRUE;
       }
       if ($this->priority < $issueB->priority) {
          self::$logger->trace("compareTo $this->bugId < $issueB->bugId (priority attr)");
-         return  false;
+         return  FALSE;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($this->severity > $issueB->severity) {
          self::$logger->trace("compareTo $this->bugId > $issueB->bugId (severity attr)");
-         return  true;
+         return  TRUE;
       }
       if ($this->severity < $issueB->severity) {
          self::$logger->trace("compareTo $this->bugId < $issueB->bugId (severity attr)");
-         return  false;
+         return  FALSE;
       }
 
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
          // A constrains more people, so A is higher priority
          self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
-         return true;
+         return TRUE;
       }
 
       self::$logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
-      return false;
+      return FALSE;
    }
 
    /**
@@ -1292,8 +1346,8 @@ class Issue implements Comparable {
          $user = UserCache::getInstance()->getUser($userid);
 
       } else {
-         if (NULL != $this->handlerId) {
-            $user = UserCache::getInstance()->getUser($this->handlerId);
+         if (NULL != $this->getHandlerId()) {
+            $user = UserCache::getInstance()->getUser($this->getHandlerId());
          } else {
             // issue not assigned to anybody
             $user = NULL;
@@ -1423,12 +1477,12 @@ class Issue implements Comparable {
       if ((NULL == $this->getElapsed()) || (0 == $this->getElapsed())) { return 0; }
 
       // if no Backlog set, 100% done (this is not a normal case, an Alert is raised by ConsistencyCheck)
-      if ((NULL == $this->backlog) || (0 == $this->backlog)) { return 1; }
+      if ((NULL == $this->getBacklog()) || (0 == $this->getBacklog())) { return 1; }
 
       // nominal case
       $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
 
-      self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + $this->backlog)");
+      self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + ".$this->getBacklog().")");
 
       return $progress;
    }
@@ -1518,7 +1572,7 @@ class Issue implements Comparable {
 
    /**
     * update DB and current instance
-    * @param type $value
+    * @param int $value
     */
    public function setExternalRef($value) {
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
@@ -1561,10 +1615,14 @@ class Issue implements Comparable {
     * if date is nopt specified, return current backlog.
     * 
     * @param int $timestamp
-    * @return backlog or NULL if no backlog update found in history before timestamp
+    * @return int backlog or NULL if no backlog update found in history before timestamp
     */
    public function getBacklog($timestamp = NULL) {
       if (NULL == $timestamp) {
+         if(!$this->customFieldInitialized) {
+            $this->customFieldInitialized = true;
+            $this->initializeCustomField();
+         }
          return $this->backlog;
       }
 
@@ -1678,6 +1736,131 @@ class Issue implements Comparable {
          $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
       }
       return $timeTrack;
+   }
+
+   /**
+    * @return int Mantis id
+    */
+   public function getId() {
+      return $this->bugId;
+   }
+
+   /**
+    * @return int Project id
+    */
+   public function getProjectId() {
+      return $this->projectId;
+   }
+
+   /**
+    * @return int Category id
+    */
+   public function getCategoryId() {
+      return $this->categoryId;
+   }
+
+   /**
+    * @return string Summary
+    */
+   public function getSummary() {
+      return $this->summary;
+   }
+
+   /**
+    * @return int Submission date
+    */
+   public function getDateSubmission() {
+      return $this->dateSubmission;
+   }
+
+   /**
+    * @return string Current status
+    */
+   public function getCurrentStatus() {
+      return $this->currentStatus;
+   }
+
+   /**
+    * @return int Handler id
+    */
+   public function getHandlerId() {
+      return $this->handlerId;
+   }
+
+   public function getPriority() {
+      return $this->priority;
+   }
+
+   public function getSeverity() {
+      return $this->severity;
+   }
+
+   /**
+    * @return int
+    */
+   public function getReporterId() {
+      return $this->reporterId;
+   }
+
+   public function getVersion() {
+      return $this->version;
+   }
+
+   public function getLastUpdate() {
+      return $this->last_updated;
+   }
+
+   public function getMgrEffortEstim() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
+      return $this->mgrEffortEstim;
+   }
+
+   public function getEffortEstim() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
+      return $this->effortEstim;
+   }
+
+   public function getEffortAdd() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
+      return $this->effortAdd;
+   }
+
+   /**
+    * @return int
+    */
+   public function getDeliveryDate() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
+      return $this->deliveryDate;
+   }
+
+   /**
+    * @return int
+    */
+   public function getDeliveryId() {
+      if(!$this->customFieldInitialized) {
+         $this->customFieldInitialized = true;
+         $this->initializeCustomField();
+      }
+      return $this->deliveryId;
+   }
+
+   /**
+    * @return Status[]
+    */
+   public function getStatusList() {
+      return $this->statusList;
    }
 
 }

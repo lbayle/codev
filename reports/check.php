@@ -100,7 +100,7 @@ class CheckController extends Controller {
             }
             if (Issue::exists($cerr->bugId)) {
                $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
-               $summary = $issue->summary;
+               $summary = $issue->getSummary();
                $projName = $issue->getProjectName();
                $targetVersion = $issue->getTargetVersion();
             } else {

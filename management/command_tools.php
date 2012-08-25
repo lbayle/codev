@@ -32,19 +32,19 @@ class CommandTools {
          $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
          $issueArray[$id] = array(
-            "mantisLink" => Tools::mantisIssueURL($issue->bugId, NULL, true),
-            "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->bugId)),
-            "extRef" => $issue->getTC(),
+            "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, true),
+            "bugid" => Tools::issueInfoURL(sprintf("%07d\n", $issue->getId())),
+            "extRef" => $issue->getTcId(),
             "project" => $issue->getProjectName(),
             "target" => $issue->getTargetVersion(),
             "status" => $issue->getCurrentStatusName(),
             "progress" => round(100 * $issue->getProgress()),
-            "effortEstim" => $issue->mgrEffortEstim,
+            "effortEstim" => $issue->getMgrEffortEstim(),
             "elapsed" => $issue->getElapsed(),
             "driftMgr" => $driftMgr,
             "driftMgrColor" => $formattedDriftMgrColor,
             "durationMgr" => $issue->getDurationMgr(),
-            "summary" => $issue->summary
+            "summary" => $issue->getSummary()
          );
       }
       return $issueArray;

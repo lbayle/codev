@@ -468,7 +468,7 @@ class User {
                      $daysOf[$timeTrack->date] = array( 'duration' => $timeTrack->duration,
                         'type' => 'Inactivity',  // TODO
                         'color' => 'A8FFBD',  // TODO (light green)
-                        'title' => $issue->summary
+                        'title' => $issue->getSummary()
                      );
                   }
                   #echo "DEBUG user $this->userid daysOf[".date("j", $timeTrack->date)."] = ".$daysOf[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
@@ -509,7 +509,7 @@ class User {
                         'duration' => $timeTrack->duration,
                         'type' => 'onDuty', // TODO
                         'color' => 'F8FFA8', // TODO (yellow)
-                        'title' => $issue->summary
+                        'title' => $issue->getSummary()
                      );
                   }
                   //echo "DEBUG user $this->userid astreintes[".date("j", $timeTrack->date)."] = ".$astreintes[date("j", $timeTrack->date)]." (+$timeTrack->duration)<br/>";
@@ -540,12 +540,12 @@ class User {
          foreach ($timeTracks as $timeTrack) {
             try {
                $issue = $issues[$timeTrack->bugId];
-               if ($issue->projectId == $extTasksProjId) {
+               if ($issue->getProjectId() == $extTasksProjId) {
                   if (isset($extTasks[$timeTrack->date])) {
                      $extTasks[$timeTrack->date]['duration'] += $timeTrack->duration;
                   } else {
 
-                     if ($leaveTaskId == $issue->bugId) {
+                     if ($leaveTaskId == $issue->getId()) {
                         $color = 'A8FFBD';  // TODO (light green)
                         $type = 'Inactivity';
                      } else {
@@ -557,7 +557,7 @@ class User {
                         'duration' => $timeTrack->duration,
                         'type' => $type,  // TODO
                         'color' => $color,  // TODO (green2)
-                        'title' => $issue->summary
+                        'title' => $issue->getSummary()
                      );
                   }
                   self::$logger->debug("user $this->id ExternalTasks[" . date("j", $timeTrack->date) . "] = " . $extTasks[date("j", $timeTrack->date)] . " (+$timeTrack->duration)");
@@ -933,7 +933,7 @@ class User {
          $this->monitoredIssues = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-            if ($issue->currentStatus < $issue->getBugResolvedStatusThreshold()) {
+            if ($issue->getCurrentStatus() < $issue->getBugResolvedStatusThreshold()) {
                $this->monitoredIssues[] = $issue;
             }
          }

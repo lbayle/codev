@@ -131,7 +131,7 @@ class SetHolidaysController extends Controller {
             if($defaultBugid != 0 && $action == 'setBugId') {
                // find ProjectId to update categories
                $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-               $defaultProjectid  = $issue->projectId;
+               $defaultProjectid  = $issue->getProjectId();
             }
 
             $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));
@@ -199,14 +199,14 @@ class SetHolidaysController extends Controller {
       $issues = NULL;
       foreach ($issueList as $issue) {
          try  {
-            if (($issue->isVacation()) || ($extproj_id == $issue->projectId)) {
-               $issues[$issue->bugId] = array(
-                  'tcId' => $issue->tcId,
-                  'summary' => $issue->summary,
-                  'selected' => $issue->bugId == $defaultBugid);
+            if (($issue->isVacation()) || ($extproj_id == $issue->getProjectId())) {
+               $issues[$issue->getId()] = array(
+                  'tcId' => $issue->getTcId(),
+                  'summary' => $issue->getSummary(),
+                  'selected' => $issue->getId() == $defaultBugid);
             }
          } catch (Exception $e) {
-            self::$logger->error("getIssues(): issue $issue->bugId: ".$e->getMessage());
+            self::$logger->error("getIssues(): issue ".$issue->getId().": ".$e->getMessage());
          }
       }
 

@@ -137,17 +137,17 @@ class ExportCSVMonthlyController extends Controller {
          foreach ($bugList as $bugid => $jobs) {
             $issue = IssueCache::getInstance()->getIssue($bugid);
             // remove sepChar from summary text
-            $formatedSummary = str_replace("$sepChar", " ", $issue->summary);
+            $formatedSummary = str_replace($sepChar, " ", $issue->getSummary());
 
             $stringData .= $bugid.$sepChar;
             $stringData .= $formatedSummary.$sepChar;
-            $stringData .= $issue->tcId.$sepChar;
+            $stringData .= $issue->getTcId().$sepChar;
             $stringData .= date("d/m/Y", $issue->startDate()).$sepChar;
             $stringData .= date("d/m/Y", $issue->endDate()).$sepChar;
             $stringData .= $issue->getCurrentStatusName().$sepChar;
-            $stringData .= ($issue->effortEstim + $issue->effortAdd).$sepChar;
+            $stringData .= ($issue->getEffortEstim() + $issue->getEffortAdd()).$sepChar;
             $stringData .= $issue->getElapsed().$sepChar;
-            $stringData .= ($issue->getElapsed() + $issue->backlog).$sepChar;
+            $stringData .= ($issue->getElapsed() + $issue->getBacklog()).$sepChar;
 
             // sum all job durations
             $elapsedInPeriod = 0;
@@ -156,12 +156,12 @@ class ExportCSVMonthlyController extends Controller {
             }
             $stringData .= $elapsedInPeriod.$sepChar;
 
-            $stringData .= $issue->backlog.$sepChar;
+            $stringData .= $issue->getBacklog().$sepChar;
             $stringData .="\n";
 
-            $totalEffortEstim   += ($issue->effortEstim + $issue->effortAdd);
-            $totalElapsed       += $issue->getElapsed();
-            $totalBacklog     += $issue->backlog;
+            $totalEffortEstim += $issue->getEffortEstim() + $issue->getEffortAdd();
+            $totalElapsed += $issue->getElapsed();
+            $totalBacklog += $issue->getBacklog();
             $totalElapsedPeriod += $elapsedInPeriod;
          }
 

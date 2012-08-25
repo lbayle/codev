@@ -77,7 +77,7 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
 
-         if (NULL == $issue->effortEstim) {
+         if (NULL == $issue->getEffortEstim()) {
             $cerr = new ConsistencyError($row->id,
                $row->handler_id,
                $row->status,
@@ -86,7 +86,7 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
             $cerr->severity = T_("Error");
             $cerrList[] = $cerr;
          }
-         if (NULL == $issue->backlog) {
+         if (NULL == $issue->getBacklog()) {
             $cerr = new ConsistencyError($row->bug_id,
                $row->handler_id,
                $row->status,

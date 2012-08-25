@@ -47,9 +47,9 @@ class TimeTrackingTools {
          try {
             $issue = IssueCache::getInstance()->getIssue($bugid);
 
-            $backlog = $issue->backlog;
-            $extRef = $issue->tcId;
-            $summary = $issue->summary;
+            $backlog = $issue->getBacklog();
+            $extRef = $issue->getTcId();
+            $summary = $issue->getSummary();
             $issueURL = Tools::issueInfoURL($bugid);
             $mantisURL = Tools::mantisIssueURL($bugid, NULL, true);
 

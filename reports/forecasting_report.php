@@ -195,16 +195,16 @@ class ForecastingReportController extends Controller {
             $driftEE = $issue->getDrift($withSupport);
             if (($driftPrelEE > 0) || ($driftEE > 0)) {
                $issueArray[] = array(
-                  'bugId' => Tools::issueInfoURL($issue->bugId),
+                  'bugId' => Tools::issueInfoURL($issue->getId()),
                   'handlerName' => $user->getName(),
                   'projectName' => $issue->getProjectName(),
                   'targetVersion' => $issue->getTargetVersion(),
                   'driftPrelEE' => $driftPrelEE,
                   'driftEE' => $driftEE,
-                  'backlog' => $issue->backlog,
+                  'backlog' => $issue->getBacklog(),
                   'progress' => round(100 * $issue->getProgress()),
                   'statusName' => $issue->getCurrentStatusName(),
-                  'summary' => $issue->summary
+                  'summary' => $issue->getSummary()
                );
             }
          }

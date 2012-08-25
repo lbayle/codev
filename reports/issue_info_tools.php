@@ -38,24 +38,24 @@ class IssueInfoTools {
 
       $drift = $issue->getDrift($withSupport);
       $issueGeneralInfo = array(
-         "issueId" => $issue->bugId,
-         "issueSummary" => htmlspecialchars($issue->summary),
-         "issueExtRef" => $issue->tcId,
-         'mantisURL'=> Tools::mantisIssueURL($issue->bugId, NULL, true),
-         'issueURL' => Tools::mantisIssueURL($issue->bugId),
+         "issueId" => $issue->getId(),
+         "issueSummary" => htmlspecialchars($issue->getSummary()),
+         "issueExtRef" => $issue->getTcId(),
+         'mantisURL'=> Tools::mantisIssueURL($issue->getId(), NULL, true),
+         'issueURL' => Tools::mantisIssueURL($issue->getId()),
          'statusName'=> $issue->getCurrentStatusName(),
-         'handlerName'=> UserCache::getInstance()->getUser($issue->handlerId)->getName(),
+         'handlerName'=> UserCache::getInstance()->getUser($issue->getHandlerId())->getName(),
 
-         "issueEffortTitle" => $issue->effortEstim.' + '.$issue->effortAdd,
-         "issueEffort" => $issue->effortEstim + $issue->effortAdd,
+         "issueEffortTitle" => $issue->getEffortEstim().' + '.$issue->getEffortAdd(),
+         "issueEffort" => $issue->getEffortEstim() + $issue->getEffortAdd(),
          "issueReestimated" => $issue->getReestimated(),
-         "issueBacklog" => $issue->backlog,
+         "issueBacklog" => $issue->getBacklog(),
          "issueDriftColor" => $issue->getDriftColor($drift),
          "issueDrift" => round($drift, 2),
          "progress" => round(100 * $issue->getProgress())
       );
       if($isManager) {
-         $issueGeneralInfo['issueMgrEffortEstim'] = $issue->mgrEffortEstim;
+         $issueGeneralInfo['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
          $issueGeneralInfo['issueReestimatedMgr'] = $issue->getReestimatedMgr();
          $driftMgr = $issue->getDriftMgr($withSupport);
          $issueGeneralInfo['issueDriftMgrColor'] = $issue->getDriftColor($driftMgr);

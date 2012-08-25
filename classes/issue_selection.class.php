@@ -74,7 +74,7 @@ class IssueSelection {
    public function addIssueList(array $issueList) {
       if (NULL != $issueList) {
          foreach ($issueList as $issue) {
-            $this->addIssue($issue->bugId);
+            $this->addIssue($issue->getId());
          }
       }
    }
@@ -94,11 +94,11 @@ class IssueSelection {
          $this->elapsed += $issue->getElapsed();
          $this->duration += $issue->getDuration();
          $this->durationMgr += $issue->getDurationMgr();
-         $this->mgrEffortEstim += $issue->mgrEffortEstim;
-         $this->effortEstim += $issue->effortEstim;
-         $this->effortAdd += $issue->effortAdd;
+         $this->mgrEffortEstim += $issue->getMgrEffortEstim();
+         $this->effortEstim += $issue->getEffortEstim();
+         $this->effortAdd += $issue->getEffortAdd();
 
-         self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->mgrEffortEstim." BI+BS=".($issue->effortEstim + $issue->effortAdd)." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+         self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim() + $issue->getEffortAdd())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
          $retCode = true;
       }
       return $retCode;
@@ -240,7 +240,7 @@ class IssueSelection {
             $formattedList .= ', ';
          }
 
-         $formattedList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->summary);
+         $formattedList .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
       }
       return $formattedList;
    }
@@ -258,7 +258,7 @@ class IssueSelection {
       
       foreach ($this->issueList as $issue) {
          $nbDaysDrift += $issue->getDriftMgr();
-         $myEstim     += $issue->mgrEffortEstim;
+         $myEstim += $issue->getMgrEffortEstim();
       }
 
       if (0 == $myEstim) {
@@ -289,7 +289,7 @@ class IssueSelection {
 
       foreach ($this->issueList as $issue) {
          $nbDaysDrift += $issue->getDrift();
-         $myEstim     += $issue->effortEstim + $issue->effortAdd;
+         $myEstim += $issue->getEffortEstim() + $issue->getEffortAdd();
       }
 
       if (0 == $myEstim) {
