@@ -167,7 +167,7 @@ class CommandTools {
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return $progressIndicator->getSmartyObject();
+      return array($progressIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
    }
 
    /**
@@ -207,9 +207,10 @@ class CommandTools {
       // Indicators & statistics
       #$smartyHelper->assign('backlogHistoryGraph', getBacklogHistory($cmd));
 
-      $smartyHelper->assign('indicators_jqplotTitle', 'Historical Progression Chart');
-      $smartyHelper->assign('indicators_jqplotYaxisLabel', '% Progress');
-      $smartyHelper->assign('indicators_jqplotData', self::getProgressHistory($cmd));
+      $data = self::getProgressHistory($cmd);
+      $smartyHelper->assign('indicators_jqplotData', $data[0]);
+      $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
+      $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +2 month")));
    }
 }
 

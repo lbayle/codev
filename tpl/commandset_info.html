@@ -151,12 +151,21 @@
          <script type="text/javascript">
             jQuery(document).ready(function() {
                var chartoptions = jQuery('#indicatorsChart').data('plotoptions');
-               chartoptions.title.text = '{t}{$indicators_jqplotTitle}{/t}';
-               chartoptions.axes.yaxis.label = "{$indicators_jqplotYaxisLabel}";
+               chartoptions.title.text = '{t}Historical Progression Chart{/t}';
+               chartoptions.legend.location = 'nw';
+               chartoptions.series = [{
+                  label : "{t}Theoric{/t}"
+               },{
+                  label : "{t}Real{/t}"
+               }];
+               chartoptions.axes.xaxis.min = "{$indicators_plotMinDate}";
+               chartoptions.axes.xaxis.max = "{$indicators_plotMaxDate}";
+               chartoptions.axes.yaxis.label = '{t}% Progress{/t}';
+               chartoptions.axes.yaxis.min = 0;
                jQuery('#indicatorsChart').jqplot([{$indicators_jqplotData}], chartoptions);
             });
          </script>
-         <div id="indicatorsChart" class="category_chart chart"></div>
+         <div id="indicatorsChart" class="date_chart chart"></div>
          {else}
          <p>{t}No data{/t}</p>
          {/if}

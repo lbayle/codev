@@ -103,7 +103,8 @@ jQuery(document).ready(function() {
                renderer: jQuery.jqplot.DateAxisRenderer,
                tickOptions: {
                   formatString: "%b %Y"
-               }
+               },
+               tickInterval: "1 month"
             },
             yaxis: {
                // Nothing to do
@@ -117,6 +118,14 @@ jQuery(document).ready(function() {
       jQuery(this).data("plotoptions", {
          title: {
             // Nothing to do
+         },
+         legend: {
+            show: true
+         },
+         seriesDefaults: {
+            pointLabels: {
+               show:true
+            }
          },
          highlighter: {
             show: true,

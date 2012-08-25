@@ -254,14 +254,16 @@ class ServiceContractTools {
       $endTT = $cmdIssueSel->getLatestTimetrack();
       $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
 
-      $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
-         'interval' => 14 );
+         'interval' => 14
+      );
 
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return $progressIndicator->getSmartyObject();
+      return array($progressIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
    }
 
    /**
@@ -296,9 +298,10 @@ class ServiceContractTools {
 
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId()));
 
-      $smartyHelper->assign('indicators_jqplotTitle', 'Historical Progression Chart');
-      $smartyHelper->assign('indicators_jqplotYaxisLabel', '% Progress');
-      $smartyHelper->assign('indicators_jqplotData', self::getSContractProgressHistory($servicecontract));
+      $data = self::getSContractProgressHistory($servicecontract);
+      $smartyHelper->assign('indicators_jqplotData', $data[0]);
+      $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
+      $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +2 month")));
    }
 
 }

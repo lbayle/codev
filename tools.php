@@ -834,6 +834,7 @@ class Tools {
       $timestamp = $start_timestamp;
       while ($timestamp < $end_timestamp) {
          #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)." BEFORE<br>";
+         // FIXME Weird, the timestamp should change at the end of the loop
          $newTimestamp = strtotime("+$interval day",$timestamp);
 
          if (0 == $timestamp) {

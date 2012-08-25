@@ -225,17 +225,14 @@ class ForecastingReportController extends Controller {
       $day = $start_day;
 
       for ($y = $start_year; $y <= date('Y'); $y++) {
-
          for ($month = $start_month; $month < 13; $month++) {
-
             $startTimestamp = mktime(0, 0, 0, $month, $day, $y);
             $nbDaysInMonth = date("t", mktime(0, 0, 0, $month, 1, $y));
             $endTimestamp = mktime(23, 59, 59, $month, $nbDaysInMonth, $y);
 
             #echo "DEBUG createTimeTrackingList: startTimestamp=".date("Y-m-d H:i:s", $startTimestamp)." endTimestamp=".date("Y-m-d H:i:s", $endTimestamp)." nbDays = $nbDaysInMonth<br/>";
 
-            $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
-            $timeTrackingTable[$startTimestamp] = $timeTracking;
+            $timeTrackingTable[$startTimestamp] = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
             $day = 1;
          }

@@ -67,7 +67,6 @@
                   }];
                   chartoptions.axes.xaxis.min = "{$submittedResolved_plotMinDate}";
                   chartoptions.axes.xaxis.max = "{$submittedResolved_plotMaxDate}";
-                  chartoptions.axes.xaxis.tickInterval = "1 month";
                   chartoptions.axes.yaxis.min = 0;
                   jQuery('#submittedResolvedChart').jqplot({$submittedResolved_jqplotData}, chartoptions);
                });
@@ -108,7 +107,6 @@
                   chartoptions.series[0].label = "{t}% Tasks{/t}";
                   chartoptions.axes.xaxis.min = "{$timeDrift_plotMinDate}";
                   chartoptions.axes.xaxis.max = "{$timeDrift_plotMaxDate}";
-                  chartoptions.axes.xaxis.tickInterval = "1 month";
                   chartoptions.axes.yaxis.min = 0;
                   chartoptions.axes.yaxis.max = 100;
                   jQuery('#timeDriftChart').jqplot([{$timeDrift_jqplotData}], chartoptions);
@@ -154,7 +152,6 @@
                   }];
                   chartoptions.axes.xaxis.min = "{$resolvedDrift_plotMinDate}";
                   chartoptions.axes.xaxis.max = "{$resolvedDrift_plotMaxDate}";
-                  chartoptions.axes.xaxis.tickInterval = "1 month";
                   jQuery('#resolvedDriftChart').jqplot({$resolvedDrift_jqplotData}, chartoptions);
                });
             </script>
@@ -200,7 +197,6 @@
                   }];
                   chartoptions.axes.xaxis.min = "{$efficiency_plotMinDate}";
                   chartoptions.axes.xaxis.max = "{$efficiency_plotMaxDate}";
-                  chartoptions.axes.xaxis.tickInterval = "1 month";
                   chartoptions.axes.yaxis.min = 0;
                   chartoptions.axes.yaxis.max = 100;
                   jQuery('#efficiencyChart').jqplot({$efficiency_jqplotData}, chartoptions);
@@ -250,7 +246,6 @@
                   }];
                   chartoptions.axes.xaxis.min = "{$reopenedRate_plotMinDate}";
                   chartoptions.axes.xaxis.max = "{$reopenedRate_plotMaxDate}";
-                  chartoptions.axes.xaxis.tickInterval = "1 month";
                   chartoptions.axes.yaxis.min = 0;
                   chartoptions.axes.yaxis.max = 100;
                   jQuery('#reopenedRateChart').jqplot({$reopenedRate_jqplotData}, chartoptions);
@@ -294,7 +289,6 @@
                      chartoptions.series[0].label = "{t}man-days{/t}";
                      chartoptions.axes.xaxis.min = "{$workload_plotMinDate}";
                      chartoptions.axes.xaxis.max = "{$workload_plotMaxDate}";
-                     chartoptions.axes.xaxis.tickInterval = "1 month";
                      chartoptions.axes.yaxis.min = 0;
                      jQuery('#workloadChart').jqplot([{$workload_jqplotData}], chartoptions);
                   });

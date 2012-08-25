@@ -173,7 +173,6 @@
                chartoptions.series[0].label = "{t}man-days{/t}";
                chartoptions.axes.xaxis.min = "{$workload_plotMinDate}";
                chartoptions.axes.xaxis.max = "{$workload_plotMaxDate}";
-               chartoptions.axes.xaxis.tickInterval = "1 month";
                chartoptions.axes.yaxis.min = 0;
                jQuery('#workloadChart').jqplot([{$workload_jqplotData}], chartoptions);
             });
