@@ -27,7 +27,7 @@ require_once('lib/log4php/Logger.php');
 /**
  * TimeTrackTuple
  */
-class TimeTrack {
+class TimeTrack extends Model {
 
    /**
     * @var Logger The logger
@@ -42,12 +42,12 @@ class TimeTrack {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
-   var $id;
-   var $userId;
-   var $bugId;
-   var $jobId;
-   var $date;
-   var $duration;
+   public $id;
+   public $userId;
+   public $bugId;
+   public $jobId;
+   public $date;
+   public $duration;
 
    private $projectId;
    private $categoryId;
@@ -161,6 +161,13 @@ class TimeTrack {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+   }
+
+   /**
+    * @return int
+    */
+   public function getId() {
+      return $this->id;
    }
 
 }

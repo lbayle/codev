@@ -48,7 +48,7 @@ class Status {
    }
 }
 
-class Issue implements Comparable {
+class Issue extends Model implements Comparable {
 
    /**
     * @var Logger The logger

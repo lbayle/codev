@@ -31,7 +31,7 @@ require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
 
-class Project {
+class Project extends Model {
 
    const type_workingProject = 0; // normal projects are type 0
    const type_sideTaskProject = 1; // SuiviOp must be type 1

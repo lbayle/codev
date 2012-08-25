@@ -37,7 +37,7 @@ require_once('lib/log4php/Logger.php');
  * @author LoB
  * @date 23 Jun 2010
  */
-class User {
+class User extends Model {
 
    /**
     * @var int The id
@@ -1112,6 +1112,13 @@ class User {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
+   }
+
+   /**
+    * @return int
+    */
+   public function getId() {
+      return $this->id;
    }
 
 }

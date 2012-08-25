@@ -35,7 +35,7 @@ require_once('lib/log4php/Logger.php');
  * un commandset est provisionné d'un certain budget, négocié avec le client.
  * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budget.
  */
-class CommandSet {
+class CommandSet extends Model {
 
    const type_general = 1; // in codev_servicecontract_cmdset_table
 

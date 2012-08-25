@@ -35,7 +35,7 @@ require_once('lib/log4php/Logger.php');
  * un command est provisionné d'un certain budget, négocié avec le client.
  * le cout de l'ensemble des taches devrait etre a l'equilibre avec ce budget.
  */
-class Command {
+class Command extends Model {
 
    const type_general = 1; // in codev_commandset_cmd_table
 

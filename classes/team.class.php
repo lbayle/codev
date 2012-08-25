@@ -34,7 +34,7 @@ require_once('tools.php');
 
 require_once('lib/log4php/Logger.php');
 
-class Team {
+class Team extends Model {
 
    /**
     * @var Logger The logger
@@ -919,6 +919,13 @@ class Team {
       }
 
       return $teamProjects;
+   }
+
+   /**
+    * @return int
+    */
+   public function getId() {
+      return $this->id;
    }
 
 }

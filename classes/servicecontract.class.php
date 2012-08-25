@@ -28,7 +28,7 @@ require_once('lib/log4php/Logger.php');
 /**
  * Description of ServiceContract
  */
-class ServiceContract {
+class ServiceContract extends Model {
 
    // TODO states must be defined
    const state_default = 1;
