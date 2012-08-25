@@ -137,7 +137,6 @@ class PlanningReportController extends Controller {
                $today = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
                $graphSize = ("undefined" != $pageWidth) ? $pageWidth - 150 : 800;
 
-               $scheduler = new Scheduler();
                $allTasksLists = array();
                $workloads = array();
                $teamMembers = TeamCache::getInstance()->getTeam($teamid)->getUsers();
@@ -156,10 +155,10 @@ class PlanningReportController extends Controller {
 
                   if (NULL != ($user->getDepartureDate()) && ($user->getDepartureDate() < $today)) { continue; }
 
-                  $scheduledTaskList = $scheduler->scheduleUser($user, $today, TRUE);
+                  $scheduledTaskList = ScheduledTask::scheduleUser($user, $today, TRUE);
 
                   foreach($scheduledTaskList as $scheduledTask) {
-                     $workload += $scheduledTask->duration;
+                     $workload += $scheduledTask->getDuration();
                   }
                   $nbDaysToDisplay = ($nbDaysToDisplay < $workload) ? $workload : $nbDaysToDisplay;
 
@@ -272,19 +271,19 @@ class PlanningReportController extends Controller {
 
       // remove duplicate deadLines & set color
       foreach($scheduledTaskList as $scheduledTask) {
-         if (NULL != $scheduledTask->deadLine) {
-            if (!array_key_exists($scheduledTask->deadLine, $deadLines)) {
-               $dline = new DeadLine($scheduledTask->deadLine,
-                  $scheduledTask->nbDaysToDeadLine,
-                  $scheduledTask->isOnTime,
-                  $scheduledTask->isMonitored);
-               $dline->addIssue($scheduledTask->bugId);
-               $deadLines[$scheduledTask->deadLine] = $dline;
+         if (NULL != $scheduledTask->getDeadline()) {
+            if (!array_key_exists($scheduledTask->getDeadline(), $deadLines)) {
+               $dline = new DeadLine($scheduledTask->getDeadline(),
+                  $scheduledTask->getNbDaysToDeadLine(),
+                  $scheduledTask->isOnTime(),
+                  $scheduledTask->isMonitored());
+               $dline->addIssue($scheduledTask->getIssueId());
+               $deadLines[$scheduledTask->getDeadline()] = $dline;
             } else {
-               $dline = $deadLines[$scheduledTask->deadLine];
-               $dline->setIsOnTime($scheduledTask->isOnTime);
-               $dline->addIssue($scheduledTask->bugId);
-               $dline->setIsMonitored($scheduledTask->isMonitored);
+               $dline = $deadLines[$scheduledTask->getDeadline()];
+               $dline->setIsOnTime($scheduledTask->isOnTime());
+               $dline->addIssue($scheduledTask->getIssueId());
+               $dline->setIsMonitored($scheduledTask->isMonitored());
             }
          }
       }
@@ -355,18 +354,18 @@ class PlanningReportController extends Controller {
          $totalPix += $taskPixSize;
 
          // set color
-         if (NULL != $scheduledTask->deadLine) {
-            if (!$scheduledTask->isOnTime) {
+         if (NULL != $scheduledTask->getDeadline()) {
+            if (!$scheduledTask->isOnTime()) {
                $color = "red";
             } else {
-               $color = ($scheduledTask->isMonitored) ? "grey" : "green";
+               $color = ($scheduledTask->isMonitored()) ? "grey" : "green";
             }
          } else {
-            $color = ($scheduledTask->isMonitored) ? "grey" : "blue";
+            $color = ($scheduledTask->isMonitored()) ? "grey" : "blue";
          }
 
          // hide tasks not in team projects
-         $issue = IssueCache::getInstance()->getIssue($scheduledTask->bugId);
+         $issue = IssueCache::getInstance()->getIssue($scheduledTask->getIssueId());
 
          $taskTitle = $scheduledTask->getDescription();
          $formatedTitle = str_replace("'", ' ', $taskTitle);
@@ -376,24 +375,24 @@ class PlanningReportController extends Controller {
 
          $sTask = array(
             "user" => $userName,
-            "bugid" => $scheduledTask->bugId,
+            "bugid" => $scheduledTask->getIssueId(),
             "title" => $formatedTitle,
             "width" => $drawnTaskPixSize,
             "color" => $color,
             "strike" => NULL == $projList[$issue->getProjectId()],
-            "duration" => $scheduledTask->duration,
-            "priorityName" => $scheduledTask->priorityName,
-            "severityName" => $scheduledTask->severityName,
-            "statusName" => $scheduledTask->statusName,
-            "projectName" => $scheduledTask->projectName,
-            "summary" => $scheduledTask->summary,
+            "duration" => $scheduledTask->getDuration(),
+            "priorityName" => $scheduledTask->getPriorityName(),
+            "severityName" => $scheduledTask->getSeverityName(),
+            "statusName" => $scheduledTask->getStatusName(),
+            "projectName" => $scheduledTask->getProjectName(),
+            "summary" => $scheduledTask->getSummary(),
             "imgUrl" => Tools::getServerRootURL().'/images/tooltip_white_arrow_big.png'
          );
-         if ($scheduledTask->isMonitored) {
-            $sTask["handlerName"] = $scheduledTask->handlerName;
+         if ($scheduledTask->isMonitored()) {
+            $sTask["handlerName"] = $scheduledTask->getHandlerName();
          }
-         if ($scheduledTask->deadLine > 0) {
-            $sTask["deadLine"] = date(T_("Y-m-d"), $scheduledTask->deadLine);
+         if ($scheduledTask->getDeadline() > 0) {
+            $sTask["deadLine"] = date(T_("Y-m-d"), $scheduledTask->getDeadline());
          }
          $scheduledTasks[] = $sTask;
 

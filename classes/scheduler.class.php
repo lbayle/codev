@@ -23,20 +23,34 @@ include_once('classes/user_cache.class.php');
 require_once('lib/log4php/Logger.php');
 
 class ScheduledTask {
-   var $bugId;
-   var $duration; // in days
-   var $deadLine;
-   var $priorityName;
-   var $severityName;
-   var $statusName;
-   var $handlerName;
-   var $projectName;
 
-   var $isOnTime; // determinates the color
-   var $summary;
-   var $nbDaysToDeadLine;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   var $isMonitored; // determinates the color
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
+   }
+
+   private $bugId;
+   private $duration; // in days
+   private $deadLine;
+   private $priorityName;
+   private $severityName;
+   private $statusName;
+   private $handlerName;
+   private $projectName;
+
+   private $isOnTime; // determinates the color
+   private $summary;
+   private $nbDaysToDeadLine;
+
+   private $isMonitored; // determinates the color
 
    private $taskTitle;
 
@@ -79,35 +93,15 @@ class ScheduledTask {
       return $this->taskTitle;
    }
 
-}
-
-class Scheduler {
-
-   /**
-    * @var Logger The logger
-    */
-   private static $logger;
-
-   /**
-    * Initialize complex static variables
-    * @static
-    */
-   public static function staticInit() {
-      self::$logger = Logger::getLogger(__CLASS__);
-   }
-
-   public function __construct() {
-   }
-
    /**
     * returns the tasks with the isOnTime attribute to definie color.
-    *
+    * @static
     * @param User $user
     * @param int $today   (a day AT MIDNIGHT)
     * @param bool $addMonitored
     * @return ScheduledTask[] array of ScheduledTask
     */
-   public function scheduleUser(User $user, $today, $addMonitored = false) {
+   public static function scheduleUser(User $user, $today, $addMonitored = false) {
       $scheduledTaskList = array();
 
       // get Ordered List of Issues to schedule
@@ -195,8 +189,92 @@ class Scheduler {
       return $scheduledTaskList;
    }
 
+   /**
+    * @return int
+    */
+   public function getNbDaysToDeadLine() {
+      return $this->nbDaysToDeadLine;
+   }
+
+   /**
+    * @return bool
+    */
+   public function isMonitored() {
+      return $this->isMonitored;
+   }
+
+   /**
+    * @return int
+    */
+   public function getIssueId() {
+      return $this->bugId;
+   }
+
+   /**
+    * @return number
+    */
+   public function getDuration() {
+      return $this->duration;
+   }
+
+   /**
+    * @return int
+    */
+   public function getDeadline() {
+      return $this->deadLine;
+   }
+
+   /**
+    * @return string
+    */
+   public function getPriorityName() {
+      return $this->priorityName;
+   }
+
+   /**
+    * @return string
+    */
+   public function getHandlerName() {
+      return $this->handlerName;
+   }
+
+   /**
+    * @return bool
+    */
+   public function isOnTime() {
+      return $this->isOnTime;
+   }
+
+   /**
+    * @return string
+    */
+   public function getSummary() {
+      return $this->summary;
+   }
+
+   /**
+    * @return string
+    */
+   public function getSeverityName() {
+      return $this->severityName;
+   }
+
+   /**
+    * @return string
+    */
+   public function getStatusName() {
+      return $this->statusName;
+   }
+
+   /**
+    * @return string
+    */
+   public function getProjectName() {
+      return $this->projectName;
+   }
+
 }
 
-Scheduler::staticInit();
+ScheduledTask::staticInit();
 
 ?>
