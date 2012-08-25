@@ -125,7 +125,7 @@ class SetHolidaysController extends Controller {
 
             $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
             $extProj = ProjectCache::getInstance()->getProject($extproj_id);
-            $projList[$extproj_id] = $extProj->name;
+            $projList[$extproj_id] = $extProj->getName();
 
             $defaultProjectid  = Tools::getSecurePOSTIntValue('projectid',0);
             if($defaultBugid != 0 && $action == 'setBugId') {

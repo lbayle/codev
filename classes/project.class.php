@@ -66,12 +66,12 @@ class Project {
       self::type_noStatsProject  => "Project (stats excluded)",
       self::type_sideTaskProject => "SideTasks");
 
-   var $id;
-   var $name;
-   var $description;
+   private $id;
+   private $name;
+   private $description;
+
    private $enabled;
-   var $jobList;
-   var $categoryList;
+   private $categoryList;
    private $teamTypeList;
 
    private $bug_resolved_status_threshold;
@@ -87,7 +87,7 @@ class Project {
     */
    private $issueSelection;
 
-   private $bugidListsCache;    // cache
+   private $bugidListsCache; // cache
    private $categoryCache; // cache
    private $versionCache; // cache
 
@@ -128,7 +128,7 @@ class Project {
    public function initialize($row = NULL) {
       if($row == NULL) {
          $query = "SELECT * FROM `mantis_project_table` ".
-                  "WHERE id = '".$this->id."'";
+                  "WHERE id = ".$this->id.";";
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -146,29 +146,28 @@ class Project {
          $this->name = $row->name;
          $this->description = $row->description;
          $this->enabled = (1 == $row->enabled);
-
-         // if SideTaskProject get categories
-         $query  = "SELECT * FROM `codev_project_category_table` WHERE project_id = '".$this->id."' ";
-
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-
-         $this->categoryList = array();
-         while($row = SqlWrapper::getInstance()->sql_fetch_object($result))   {
-            $this->categoryList[$row->type] = $row->category_id;
-         }
-
-         #echo "DEBUG $this->name type=$this->type categoryList ".print_r($this->categoryList)." ----<br>\n";
-
-         #$this->jobList     = $this->getJobList();
       } else {
          $e = new Exception("Constructor: Project $this->id does not exist in Mantis DB.");
          self::$logger->error("EXCEPTION Project constructor: ".$e->getMessage());
          self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
          throw $e;
+      }
+   }
+
+   /**
+    * if SideTaskProject get categories
+    */
+   public function initializeCategories() {
+      $query = "SELECT * FROM `codev_project_category_table` WHERE project_id = " . $this->id . ";";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      $this->categoryList = array();
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $this->categoryList[$row->type] = $row->category_id;
       }
    }
 
@@ -179,7 +178,7 @@ class Project {
    public static function exists($id) {
       if (NULL == $id) {
          self::$logger->warn("exists(): $id == NULL.");
-         return false;
+         return FALSE;
       }
 
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
@@ -200,25 +199,6 @@ class Project {
          self::$existsCache[$id] = (1 == $nbTuples);
       }
       return self::$existsCache[$id];
-   }
-
-   /**
-    * @static
-    * @param int $projectId
-    * @return string
-    */
-   public static function getName($projectId) {
-      $query  = "SELECT name ".
-                "FROM `mantis_project_table` ".
-                "WHERE id = $projectId ";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      return SqlWrapper::getInstance()->sql_result($result);
    }
 
    /**
@@ -329,9 +309,9 @@ class Project {
 
       // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
       #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
-      Config::setQuiet(true);
+      Config::setQuiet(TRUE);
       $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
-      Config::setQuiet(false);
+      Config::setQuiet(FALSE);
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
                "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
@@ -486,14 +466,14 @@ class Project {
       $query = "INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) ".
                "VALUES ";
 
-      $found = false;
-      if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$projectid','101'),"; $found = true; }
-      if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','102'),"; $found = true; }
-      if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','103'),"; $found = true; }
-      if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','104'),"; $found = true; }
-      if (!in_array($backlogCustomField, $existingFields))    { $query .= "('$backlogCustomField',    '$projectid','105'),"; $found = true; }
-      if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','106'),"; $found = true; }
-      if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','107'),"; $found = true; }
+      $found = FALSE;
+      if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$projectid','101'),"; $found = TRUE; }
+      if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','102'),"; $found = TRUE; }
+      if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','103'),"; $found = TRUE; }
+      if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','104'),"; $found = TRUE; }
+      if (!in_array($backlogCustomField, $existingFields))    { $query .= "('$backlogCustomField',    '$projectid','105'),"; $found = TRUE; }
+      if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','106'),"; $found = TRUE; }
+      if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','107'),"; $found = TRUE; }
       #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
 
       if ($found) {
@@ -576,33 +556,32 @@ class Project {
    }
 
    public function addIssueProjManagement($issueSummary, $issueDesc=" ") {
-      $cat_id = $this->categoryList[self::cat_mngt_regular];
+      $cat_id = $this->getCategory(self::cat_mngt_regular);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    public function addIssueInactivity($issueSummary, $issueDesc=" ") {
-      $cat_id = $this->categoryList[self::cat_st_inactivity];
+      $cat_id = $this->getCategory(self::cat_st_inactivity);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    public function addIssueIncident($issueSummary, $issueDesc=" ") {
-      $cat_id = $this->categoryList[self::cat_st_incident];
+      $cat_id = $this->getCategory(self::cat_st_incident);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    public function addIssueTools($issueSummary, $issueDesc=" ") {
-      $cat_id = $this->categoryList[self::cat_st_tools];
+      $cat_id = $this->getCategory(self::cat_st_tools);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    public function addIssueWorkshop($issueSummary, $issueDesc=" ") {
-      $cat_id = $this->categoryList[self::cat_st_workshop];
+      $cat_id = $this->getCategory(self::cat_st_workshop);
       return $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
    }
 
    private function addSideTaskIssue($catType, $issueSummary, $issueDesc) {
-      $cat_id = $this->categoryList["$catType"];
-
+      $cat_id = $this->getCategory($catType);
       $bugt_id = $this->addIssue($cat_id, $issueSummary, $issueDesc, Constants::$status_closed);
       return $bugt_id;
    }
@@ -755,7 +734,7 @@ class Project {
     * @return int[] : array[bugid]
     * @see Use ProjectCache::getInstance()->getProject($id)->getIssues($handler_id, $isHideResolved) if you need Issue[] and not just the IssueId[]
     */
-   public function getBugidList($handler_id = 0, $isHideResolved = false) {
+   public function getBugidList($handler_id = 0, $isHideResolved = FALSE) {
       if (NULL == $this->bugidListsCache) { $this->bugidListsCache = array(); }
 
       $key= ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
@@ -794,7 +773,7 @@ class Project {
     * @param bool $isHideResolved
     * @return Issue[] : array[]
     */
-   public function getIssues($handler_id = 0, $isHideResolved = false) {
+   public function getIssues($handler_id = 0, $isHideResolved = FALSE) {
       if (NULL == $this->bugidListsCache) { $this->bugidListsCache = array(); }
 
       $key = ($isHideResolved) ? $handler_id.'_true' : $handler_id.'_false';
@@ -979,32 +958,32 @@ class Project {
 
    public function getManagementCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[self::cat_mngt_regular];
+      return $this->getCategory(self::cat_mngt_regular);
    }
 
    public function getMngtProvisionCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[self::cat_mngt_provision];
+      return $this->getCategory(self::cat_mngt_provision);
    }
 
    public function getIncidentCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[self::cat_st_incident];
+      return $this->getCategory(self::cat_st_incident);
    }
 
    public function getInactivityCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[self::cat_st_inactivity];
+      return $this->getCategory(self::cat_st_inactivity);
    }
 
    public function getToolsCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[self::cat_st_tools];
+      return $this->getCategory(self::cat_st_tools);
    }
 
    public function getWorkshopCategoryId() {
       if (NULL == $this->categoryList) return NULL;
-      return $this->categoryList[self::cat_st_workshop];
+      return $this->getCategory(self::cat_st_workshop);
    }
 
    /**
@@ -1075,7 +1054,7 @@ class Project {
     *               if false, only replace config found in srcProject
     * @return string
     */
-   static function cloneAllProjectConfig($srcProjectId, $destProjectId, $strict=true) {
+   static function cloneAllProjectConfig($srcProjectId, $destProjectId, $strict=TRUE) {
       // find all srcProj specific config
       $query = "SELECT DISTINCT config_id FROM `mantis_config_table` ".
                "WHERE project_id = ".$srcProjectId.";";
@@ -1283,6 +1262,31 @@ class Project {
          return $issueList;
       }
       return $issueList;
+   }
+
+   public function getCategory($type) {
+      if(NULL == $this->categoryList) {
+         $this->initializeCategories();
+      }
+      return $this->categoryList[$type];
+   }
+
+   /**
+    * @return int
+    */
+   public function getId() {
+      return $this->id;
+   }
+
+   /**
+    * @return string
+    */
+   public function getName() {
+      return $this->name;
+   }
+
+   public function getDescription() {
+      return $this->description;
    }
 
 }

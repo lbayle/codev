@@ -129,10 +129,10 @@ class ExportCSVWeeklyController extends Controller {
       foreach ($projectTracks as $projectId => $bugList) {
          // write table header
          $project = ProjectCache::getInstance()->getProject($projectId);
-         $stringData = $project->name."\n";
+         $stringData = $project->getName()."\n";
 
-         $stringData .=T_("Task").$sepChar;
-         $stringData .=T_("RAF").$sepChar;
+         $stringData .= T_("Task").$sepChar;
+         $stringData .= T_("RAF").$sepChar;
          $jobList = $project->getJobList($team->getProjectType($projectId));
          foreach($jobList as $jobName) {
             $stringData .= $jobName.$sepChar;

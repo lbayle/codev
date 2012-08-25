@@ -710,7 +710,7 @@ if ("checkReportsDir" == $action) {
       $selectedProjects = $_POST['projects'];
       foreach($selectedProjects as $projectid){
          $project = ProjectCache::getInstance()->getProject($projectid);
-         echo "DEBUG prepare project: ".$project->name."<br/>";
+         echo "DEBUG prepare project: ".$project->getName()."<br/>";
          Project::prepareProjectToCodev($projectid);
       }
    }

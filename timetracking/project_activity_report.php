@@ -132,8 +132,8 @@ class ProjectActivityReportController extends Controller {
          }
 
          $projectActivityReport[$projectId] = array(
-            'id' => $project->id,
-            'name' => $project->name,
+            'id' => $projectId,
+            'name' => $project->getName(),
             'jobList' => $jobTypeList,
             'bugList' => $bugDetailedList
          );

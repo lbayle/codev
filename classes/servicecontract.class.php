@@ -559,11 +559,11 @@ class ServiceContract {
          foreach ($prjList as $id => $project) {
             try {
                if (!$project->isSideTasksProject(array($this->teamid))) {
-                  self::$logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->name.") should be a SidetasksProject !");
+                  self::$logger->error("getSidetasksPerCategory: SKIPPED project $id (".$project->getName().") should be a SidetasksProject !");
                   continue;
                }
             } catch (Exception $e) {
-               self::$logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->name.") : ".$e->getMessage());
+               self::$logger->error("getSidetasksPerCategory: EXCEPTION SKIPPED project $id (".$project->getName().") : ".$e->getMessage());
                continue;
             }
 

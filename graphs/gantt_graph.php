@@ -44,7 +44,7 @@ function getGanttGraph($teamid, $startTimestamp, $endTimestamp, array $projectId
       foreach ($projectIds as $pid) {
          if ("" != $pnameList) { $pnameList .=","; }
          $project = ProjectCache::getInstance()->getProject($pid);
-         $pnameList .= $project->name;
+         $pnameList .= $project->getName();
       }
       $graph->title->Set(T_('Team').' '.$team->name.'    '.T_('Project(s)').': '.$pnameList);
    } else {

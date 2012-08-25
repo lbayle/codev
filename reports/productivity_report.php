@@ -233,8 +233,8 @@ class ProductivityReportsController extends Controller {
       $workingDaysPerProject = NULL;
       $projects = $team->getTrueProjects();
       foreach($projects as $project) {
-         $nbDays = $timeTracking->getWorkingDaysPerProject($project->id);
-         if ((! $team->isSideTasksProject($project->id)) && (! $team->isNoStatsProject($project->id))) {
+         $nbDays = $timeTracking->getWorkingDaysPerProject($project->getId());
+         if ((! $team->isSideTasksProject($project->getId())) && (! $team->isNoStatsProject($project->getId()))) {
             $progress = round(100 * $project->getProgress()).'%';
             $progressMgr = round(100 * $project->getProgressMgr()).'%';
          } else {
@@ -243,7 +243,7 @@ class ProductivityReportsController extends Controller {
          }
 
          $workingDaysPerProject[] = array(
-            'name' => $project->name,
+            'name' => $project->getName(),
             'nbDays' => $nbDays,
             'progress' => $progress,
             'progressMgr' => $progressMgr

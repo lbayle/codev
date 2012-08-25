@@ -20,7 +20,7 @@ require_once('../include/session.inc.php');
 
 require_once ('../path.inc.php');
 
-function testDaysPerJobIndicator($session_user) {
+function testDaysPerJobIndicator(User $session_user) {
 /*
    $issueList = $session_user->getAssignedIssues(NULL, true);
    $issueSel = new IssueSelection("Assigned Issues");
@@ -32,7 +32,7 @@ function testDaysPerJobIndicator($session_user) {
    $issueSel = $proj->getIssueSelection();
 */
    $proj = ProjectCache::getInstance()->getProject(14);
-   $issueSel = new IssueSelection("Project $proj->name user ".$session_user->getName());
+   $issueSel = new IssueSelection("Project ".$proj->getName()." user ".$session_user->getName());
    $issueList = $proj->getIssues($session_user->id);
    $issueSel->addIssueList($issueList);
 

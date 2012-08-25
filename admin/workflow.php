@@ -83,7 +83,7 @@ class WorkflowController extends Controller {
 
                $this->smartyHelper->assign('currentProjectId', $projectid);
                $this->smartyHelper->assign('defaultProjectId', $clone_projectid);
-               $this->smartyHelper->assign('currentProjectName', $proj->name);
+               $this->smartyHelper->assign('currentProjectName', $proj->getName());
                $this->smartyHelper->assign('disabled', (0 == $clone_projectid));
 
                $projectsInfo = array();
@@ -91,7 +91,7 @@ class WorkflowController extends Controller {
 
                if (0 != $clone_projectid) {
                   $cproj = ProjectCache::getInstance()->getProject($clone_projectid);
-                  $this->smartyHelper->assign('defaultProjectName', $cproj->name);
+                  $this->smartyHelper->assign('defaultProjectName', $cproj->getName());
                   $projectsInfo[] = $this->getProjectInfo($cproj, "tabsCloneProject");
                }
                $this->smartyHelper->assign('projectsInfo', $projectsInfo);
@@ -149,7 +149,7 @@ class WorkflowController extends Controller {
     */
    private function getProjectInfo(Project $project, $tabsName) {
       $projectInfo = array(
-         'name' => $project->name,
+         'name' => $project->getName(),
          'tabsName' => $tabsName
       );
 

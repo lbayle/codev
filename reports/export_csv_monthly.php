@@ -117,7 +117,7 @@ class ExportCSVMonthlyController extends Controller {
 
          // write table header
          $project = ProjectCache::getInstance()->getProject($projectId);
-         $stringData = $project->name."\n";
+         $stringData = $project->getName()."\n";
 
          // WARNING i18n: HTML translation like french accents (eacute;) add an unwanted column sepChar (;)
          $stringData .=("ID").$sepChar;

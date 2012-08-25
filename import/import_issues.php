@@ -72,7 +72,7 @@ class ImportIssuesController extends Controller {
          $this->smartyHelper->assign('projectid', $projectid);
          if (0 != $projectid) {
             $proj = ProjectCache::getInstance()->getProject($projectid);
-            $this->smartyHelper->assign('projectName', $proj->name);
+            $this->smartyHelper->assign('projectName', $proj->getName());
          }
 
          $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));

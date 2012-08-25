@@ -71,7 +71,7 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
    $odf = new odf($odtTemplate);
 
    try { $odf->setVars('today',  date('Y-m-d H:i:s')); } catch (Exception $e) {};
-   try { $odf->setVars('selectionName',  $project->name); } catch (Exception $e) {};
+   try { $odf->setVars('selectionName', $project->getName()); } catch (Exception $e) {};
 
    $isHideResolved = true;
    $issueList = $project->getIssues($userid, $isHideResolved);

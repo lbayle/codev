@@ -106,7 +106,7 @@ class UninstallController extends Controller {
       // find externalTasks project
       $extproj_id = Config::getInstance()->getValue(Config::id_externalTasksProject);
       $project = ProjectCache::getInstance()->getProject($extproj_id);
-      $prjList[$project->id] = $project->name;
+      $prjList[$extproj_id] = $project->getName();
 
       // find sideTasks projects
       $sideTaskProj_id = Project::type_sideTaskProject;

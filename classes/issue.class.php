@@ -535,7 +535,7 @@ class Issue implements Comparable {
 
    public function getProjectName() {
       $project = ProjectCache::getInstance()->getProject($this->projectId);
-      return $project->name;
+      return $project->getName();
 
       /*
       $query = "SELECT name FROM `mantis_project_table` WHERE id= $this->projectId";

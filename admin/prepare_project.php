@@ -45,7 +45,7 @@ class PrepareProjectController extends Controller {
                $result = array();
                foreach ($selectedProjects as $projectid) {
                   $project = ProjectCache::getInstance()->getProject($projectid);
-                  $result[$projectid] = $project->name;
+                  $result[$projectid] = $project->getName();
                   Project::prepareProjectToCodev($projectid);
                }
                $this->smartyHelper->assign('result', $result);

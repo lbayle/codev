@@ -129,8 +129,8 @@ class ServiceContractTools {
 
          $projList = $servicecontract->getProjects();
          foreach ($projList as $id => $project) {
-            $proj['name'] = $project->name;
-            $proj['description'] = $project->description;
+            $proj['name'] = $project->getName();
+            $proj['description'] = $project->getDescription();
 
             $projects[$id] = $proj;
          }
