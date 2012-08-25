@@ -126,16 +126,16 @@ class EditJobsController extends Controller {
       $jobSupport = Config::getInstance()->getValue(Config::id_jobSupport);
       $jobsWithoutSupport = array();
       foreach($jobList as $job) {
-         $smartyJobs[$job->id] = array(
-            "name" => $job->name,
-            "type" => $job->type,
-            "typeName" => Job::$typeNames[$job->type],
-            "color" => $job->color,
+         $smartyJobs[$job->getId()] = array(
+            "name" => $job->getName(),
+            "type" => $job->getType(),
+            "typeName" => Job::$typeNames[$job->getType()],
+            "color" => $job->getColor(),
          );
 
-         if($jobSupport != $job->id) {
-            $jobsWithoutSupport[] = $job->id;
-            $smartyJobs[$job->id]["deletedJob"] = true;
+         if($jobSupport != $job->getId()) {
+            $jobsWithoutSupport[] = $job->getId();
+            $smartyJobs[$job->getId()]["deletedJob"] = true;
          }
       }
 

@@ -25,7 +25,7 @@ require_once('classes/comparable.interface.php');
  * @author LoB
  * @date 01 Feb 2011
  */
-class Job implements Comparable {
+class Job extends Model implements Comparable {
 
   const type_commonJob = 0;     // jobs common to all projects are type 0
   const type_assignedJob = 1;     // jobs specific to one or more projects are type 1
@@ -35,10 +35,10 @@ class Job implements Comparable {
      self::type_assignedJob => "Assigned"
   );
 
-   var $id;
-   var $name;
-   var $type;
-   var $color;
+   private $id;
+   private $name;
+   private $type;
+   private $color;
 
    /**
     * @param int $id
@@ -63,6 +63,35 @@ class Job implements Comparable {
    public static function compare(Comparable $jobA, Comparable $jobB) {
       return strcmp($jobA->name, $jobB->name);
    }
+
+   /**
+    * @return int
+    */
+   public function getId() {
+      return $this->id;
+   }
+
+   /**
+    * @return string
+    */
+   public function getName() {
+      return $this->name;
+   }
+
+   /**
+    * @return string
+    */
+   public function getType() {
+      return $this->type;
+   }
+
+   /**
+    * @return string
+    */
+   public function getColor() {
+      return $this->color;
+   }
+
 }
 
 class Jobs {
@@ -102,7 +131,7 @@ class Jobs {
     * @return string
     */
    public function getJobName($id) {
-      return $this->jobList[$id]->name;
+      return $this->jobList[$id]->getName();
    }
 
    /**
@@ -110,7 +139,7 @@ class Jobs {
     * @return string
     */
    public function getJobColor($id) {
-      return $this->jobList[$id]->color;
+      return $this->jobList[$id]->getColor();
    }
 
    /**
@@ -118,7 +147,7 @@ class Jobs {
     * @return mixed
     */
    public function getJobType($id) {
-      return $this->jobList[$id]->type;
+      return $this->jobList[$id]->getType();
    }
 
    /**
