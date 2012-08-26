@@ -127,7 +127,7 @@ class TimeTrackingController extends Controller {
                         'backlog' => $issue->getBacklog(),
                         'bugid' => $issue->getId(),
                         'description' => $issue->getSummary(),
-                        'dialogBoxTitle' => $issue->getId()." / ".$issue->getTcId()
+                        'dialogBoxTitle' => $issue->getFormattedIds()
                      );
 
                      $this->smartyHelper->assign('updateBacklogRequested', $issueInfo);
@@ -339,14 +339,12 @@ class TimeTrackingController extends Controller {
          try {
             $issue = IssueCache::getInstance()->getIssue($row->bugid);
 
-
             // get general information
 
             $jobName = $jobs->getJobName($row->jobid);
 
             $formatedDate = Tools::formatDate("%Y-%m-%d", $row->date);
             $cosmeticDate = Tools::formatDate("%Y-%m-%d - %A", $row->date);
-            $formatedId = $row->bugid.' / '.$issue->getTcId();
             $formatedJobName = str_replace("'", "\'", $jobName);
             $formatedSummary = str_replace("'", "\'", $issue->getSummary());
             $formatedSummary = str_replace('"', "\'", $formatedSummary);
@@ -368,7 +366,7 @@ class TimeTrackingController extends Controller {
             $timetrackingTuples[] = array('id' => $row->id,
                'class' => $tr_class,
                'date' => $formatedDate,
-               'formatedId' => $formatedId,
+               'formatedId' => $issue->getFormattedIds(),
                'duration' => $row->duration,
                'formatedJobName' => $formatedJobName,
                'summary' => $formatedSummary,

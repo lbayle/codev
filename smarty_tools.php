@@ -92,16 +92,13 @@ class SmartyTools {
 
       $bugs = NULL;
       foreach ($issueList as $issue) {
-         $externalId = "";
-         if($issue->getTcId()) {
-            $externalId = ' / '.$issue->getTcId();
-         }
          $summary = "";
          if($issue->getSummary()) {
             $summary = ' : '.$issue->getSummary();
          }
-         $bugs[$issue->getId()] = array('id' => $issue->getId(),
-            'name' => $issue->getId().$externalId.$summary,
+         $bugs[$issue->getId()] = array(
+            'id' => $issue->getId(),
+            'name' => $issue->getFormattedIds().$summary,
             'selected' => $issue->getId() == $defaultBugid,
             'projectid' => $issue->getProjectId()
          );

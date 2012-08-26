@@ -1863,6 +1863,18 @@ class Issue extends Model implements Comparable {
       return $this->statusList;
    }
 
+   /**
+    * @return string Id / ExternalId or Id
+    */
+   public function getFormattedIds() {
+      $formatedId = $this->getId();
+      $externalId = $this->getTcId();
+      if($externalId) {
+         $formatedId .= ' / '.$externalId;
+      }
+      return $formatedId;
+   }
+
 }
 
 Issue::staticInit();

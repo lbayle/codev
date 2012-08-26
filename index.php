@@ -88,7 +88,7 @@ class IndexController extends Controller {
             // TODO: check if issue in team project list ?
             $driftEE = $issue->getDrift();
 
-            $formatedTitle = $issue->getId()." / ".$issue->getTcId();
+            $formatedTitle = $issue->getFormattedIds();
             $formatedSummary = str_replace("'", "\'", $issue->getSummary());
             $formatedSummary = str_replace('"', "\'", $formatedSummary);
 
