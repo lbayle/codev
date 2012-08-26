@@ -48,7 +48,7 @@ tbody tr.row_total, tfoot tr {
    font-weight: bold;
 }
 table.invisible th {
-   background-color: transparent;
+   background-color: transparent !important;
    font-weight: bold;
 }
 

@@ -105,11 +105,11 @@
 
    {if $planning}
    <div style="margin-top: 2em;">
-      <table class="invisible">
+      <table class="invisible" style="white-space:nowrap;" cellspacing="7px">
          <thead>
             <tr>
                <th></th>
-               <th style="font-size: 0;">
+               <th style="text-align: left; font-size: 0;">
                   <img width="5" height="1" src="images/blank.png" alt="" />
                   {foreach from=$planning.days key=id item=i}
                   <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
