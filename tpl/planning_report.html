@@ -133,15 +133,15 @@
                      <table style="margin:0;border:0">
                         <tbody>
                            <tr>
-                              <th style="font-size:11px;background-color:transparent;color:blue;width:35px;">{t}Date{/t}</th>
-                              <td style="font-size:11px;color:#000;background-color:transparent;">{$j.date}</td></tr>
+                              <th style="color:blue;width:35px;">{t}Date{/t}</th>
+                              <td>{$j.date}</td></tr>
                            <tr>
-                              <th style="font-size:11px;background-color:transparent;color:blue;width:35px;">{t}nbDaysToDeadLine{/t}</th>
-                              <td style="font-size:11px;color:#000;background-color:transparent;">+{$j.nbDaysToDeadLine} {t}days{/t}</td>
+                              <th style="color:blue;width:35px;">{t}nbDaysToDeadLine{/t}</th>
+                              <td>+{$j.nbDaysToDeadLine} {t}days{/t}</td>
                            </tr>
                            <tr>
-                              <th style="font-size:11px;background-color:transparent;color:blue;width:35px;">{t}Tasks{/t}</th>
-                              <td style="font-size:11px;color:#000;background-color:transparent;">{$j.deadlineIssues}</td>
+                              <th style="color:blue;width:35px;">{t}Tasks{/t}</th>
+                              <td>{$j.deadlineIssues}</td>
                            </tr>
                         </tbody>
                      </table>
@@ -156,39 +156,39 @@
                         <table style="margin:0;border:0">
                            <tbody>
                               <tr>
-                                 <th style="font-size:11px;background-color: transparent;color:blue;width:35px;">{t}Task{/t}</th>
-                                 <td style="font-size:11px;color:#000;background-color: transparent;">{$j.bugid}</td>
+                                 <th style="color:blue;width:35px;">{t}Task{/t}</th>
+                                 <td>{$j.bugid}</td>
                               </tr>
                               <tr>
-                                 <th style="font-size:11px;background-color: transparent;color:blue;width:35px;">{t}Project{/t}</th>
-                                 <td style="font-size:11px;color:#000;background-color: transparent;">{$j.projectName}</td>
+                                 <th style="color:blue;width:35px;">{t}Project{/t}</th>
+                                 <td>{$j.projectName}</td>
                               </tr>
                               <tr>
-                                 <th style="font-size:11px;background-color:transparent;color:blue;width:35px;" VALIGN="top">{t}Summary{/t}</th>
-                                 <td style="font-size:11px;color:#000;background-color: transparent;">{$j.summary}</td>
+                                 <th style="color:blue;width:35px;" VALIGN="top">{t}Summary{/t}</th>
+                                 <td>{$j.summary}</td>
                               </tr>
                               <tr>
-                                 <th style="font-size:11px;background-color:transparent;color:blue;width:35px;">&nbsp;</th>
-                                 <td style="font-size:11px;color:#000;background-color: transparent;"></td>
+                                 <th style="color:blue;width:35px;">&nbsp;</th>
+                                 <td></td>
                               </tr>
                               <tr>
-                                 <th style="font-size:11px;background-color:transparent;color:blue;width:35px;">{t}Attributes{/t}</th>
-                                 <td style="font-size:11px;color:#000;background-color: transparent;">{t}Status{/t}:<strong>{$j.statusName}</strong>,&nbsp; {t}Priority{/t}:<strong>{$j.priorityName}</strong>,&nbsp; {t}Severity{/t}:<strong>{$j.severityName}</strong></td>
+                                 <th style="color:blue;width:35px;">{t}Attributes{/t}</th>
+                                 <td>{t}Status{/t}:<strong>{$j.statusName}</strong>,&nbsp; {t}Priority{/t}:<strong>{$j.priorityName}</strong>,&nbsp; {t}Severity{/t}:<strong>{$j.severityName}</strong></td>
                               </tr>
                               <tr>
-                                 <th style="font-size:11px;background-color:transparent;color:blue;width:35px;">{t}Duration{/t}</th>
-                                 <td style="font-size:11px;color:#000;background-color: transparent;">{$j.duration} {t}days{/t}</td>
+                                 <th style="color:blue;width:35px;">{t}Duration{/t}</th>
+                                 <td>{$j.duration} {t}days{/t}</td>
                               </tr>
                               {if $j.deadLine}
                               <tr>
-                                 <th style="font-size:11px;background-color:transparent;color:blue;width:35px;">{t}DeadLine{/t}</th>
-                                 <td style="font-size:11px;color:#000;background-color: transparent;">{$j.deadLine}</td>
+                                 <th style="color:blue;width:35px;">{t}DeadLine{/t}</th>
+                                 <td>{$j.deadLine}</td>
                               </tr>
                               {/if}
                               {if $j.handlerName}
                               <tr>
-                                 <th style="font-size:11px;background-color:transparent;color:orange;width:35px;">{t}Monitored{/t}</th>
-                                 <td style="font-size:11px;color:#000;background-color: transparent;">({$j.handlerName})</td>
+                                 <th style="color:orange;width:35px;">{t}Monitored{/t}</th>
+                                 <td>({$j.handlerName})</td>
                               </tr>
                               {/if}
                            </tbody>
