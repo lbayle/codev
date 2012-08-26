@@ -73,15 +73,15 @@
 
                //if (0 == document.forms["form1"].projectid.value) { msgString += "Projet\n"; ++foundError; }
                if (0 == form1.find("select[name=bugid]").val()) {
-                  msgString += "{t}Tache{/t}\n";
+                  msgString += "{t}Task{/t}\n";
                   ++foundError;
                }
                if (0 == form1.find("select[name=job]").val()) {
-                  msgString += "{t}Poste{/t}\n";
+                  msgString += "{t}Job{/t}\n";
                   ++foundError;
                }
                if (0 == form1.find("select[name=duree]").val()) {
-                  msgString += "{t}Duree{/t}\n";
+                  msgString += "{t}Duration{/t}\n";
                   ++foundError;
                }
 
