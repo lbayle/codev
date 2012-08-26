@@ -100,7 +100,7 @@
          });
       });
    </script>
-   <table style="border: 0;">
+   <table>
       <caption>{t}Tasks in drift{/t}</caption>
       <thead>
          <tr>
@@ -153,13 +153,13 @@
       <div id="accordion" style="width:500px;" >
          <h3><a href="{$page}">{$consistencyErrors|count} {t}Errors in your Tasks{/t}</a></h3>
          <div align="left" style="height:120px;">
-            <table style="border: 0;">
-               <tbody>
+            <table>
+               <tbody style="background-color: transparent;">
                   {foreach from=$consistencyErrors key=id item=i}
                   <tr>
-                     <td style="background-color: transparent;">{$i.issueURL}</td>
-                     <td style="background-color: transparent;"><span class="ui-state-error-text">{$i.status}</span></td>
-                     <td style="background-color: transparent;"><span class="ui-state-error-text" {if $i.addInfo}title="{$i.addInfo}"{/if}>{$i.desc}</span></td>
+                     <td>{$i.issueURL}</td>
+                     <td class="ui-state-error-text">{$i.status}</td>
+                     <td class="ui-state-error-text" {if $i.addInfo}title="{$i.addInfo}"{/if}>{$i.desc}</td>
                   </tr>
                   {/foreach}
                </tbody>

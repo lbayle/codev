@@ -11,11 +11,11 @@ ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
 {if $ccheckErrList}
 <script type="text/javascript">
    jQuery(function() {
-      jQuery( "#dialog_ConsistencyCheck_link" ).click(function(event) {
+      jQuery("#dialog_ConsistencyCheck_link").click(function(event) {
          event.preventDefault();
-         jQuery( "#dialog_ConsistencyCheck" ).dialog( "open" );
+         jQuery("#dialog_ConsistencyCheck").dialog("open");
       });
-      jQuery( "#dialog_ConsistencyCheck" ).dialog({
+      jQuery("#dialog_ConsistencyCheck").dialog({
          autoOpen: false,
          hide: "fade",
          width: "600",

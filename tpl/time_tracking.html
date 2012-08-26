@@ -236,20 +236,18 @@
             });
          });
       </script>
-      <div id="accordion" style="width:350px;" >
+      <div id="accordion" style="width:360px;" >
          <h3><a href="{$page}">{t}Missing dates{/t}</a></h3>
-         <div align="left" style="height:250px;">
-            <table style="border:0;">
-               <tbody>
+            <table class="left ui-state-error-text">
+               <tbody style="background-color: transparent;">
                   {foreach from=$warnings item=i}
-                  <tr style="color:red">
-                     <td style="background-color: transparent;">{$i.date}</td>
-                     <td style="background-color: transparent;">{$i.value}</td>
+                  <tr>
+                     <td>{$i.date}</td>
+                     <td>{$i.value}</td>
                   </tr>
                   {/foreach}
                </tbody>
             </table>
-         </div>
       </div>
    </div>
    {/if}
@@ -271,7 +269,7 @@
 
       {if $weekTimetrackingTuples}
       <div style="margin:2em auto 0; padding: 2em; width: 90%;" class="ui-widget-content">
-         <table style="border: 0;width: 100%;">
+         <table style="width: 100%;">
             <caption>{t}Week Imputations{/t}</caption>
             <thead>
                <tr>
@@ -289,11 +287,11 @@
             </thead>
               <tbody>
                {foreach from=$weekTimetrackingTuples key=id item=i}
-               <tr class ="{$i.class}">
-                  <td>
+               <tr>
+                  <td class="center">
                      <a title="{t}delete this row{/t}" onclick="deleteTrack('{$i.id}','{$i.date}',
                         '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="{$page}">
-                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
+                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" style="vertical-align: middle;" />
                      </a>
                   </td>
                   <td width="170">{$i.cosmeticDate}</td>
@@ -314,7 +312,7 @@
 
       {if $timetrackingTuples}
       <div style="margin:2em auto 0; padding: 2em; width: 90%" class="ui-widget-content">
-         <table style="border: 0; width: 100%;">
+         <table style="width: 100%;">
             <caption>{t}Future Imputations{/t}</caption>
             <thead>
                <tr>
@@ -332,11 +330,11 @@
             </thead>
             <tbody>
                {foreach from=$timetrackingTuples key=id item=i}
-               <tr class ="{$i.class}">
-                  <td>
+               <tr>
+                  <td class="center">
                      <a title="{t}delete this row{/t}" onclick="deleteTrack('{$i.id}','{$i.date}',
                         '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="{$page}">
-                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" />
+                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" style="vertical-align: middle;" />
                      </a>
                   </td>
                   <td style="width: 170px;">{$i.cosmeticDate}</td>
@@ -517,28 +515,30 @@
       });
    </script>
    <div id="deleteTrack_dialog_form" title="{t}Delete track{/t}" class="ui-helper-hidden">
-      <p><span class="ui-icon ui-icon-alert float" style="margin:0 7px 20px 0;"></span>{t}Deleted the following timetrack ?{/t}</p>
+      <p class="ui-state-error-text"><span class="ui-icon float" style="margin:0 7px 20px 0;"></span>{t}Deleted the following timetrack ?{/t}</p>
       <table class="invisible">
-         <tr>
-            <td><span style="font-weight:bold;">{t}Date{/t} :</span></td>
-            <td id="desc_date">date</td>
-         </tr>
-         <tr>
-            <td><span style="font-weight:bold;">{t}Id{/t} :</span></td>
-            <td id="desc_id">id</td>
-         </tr>
-         <tr>
-            <td><span style="font-weight:bold;">{t}Duration{/t} :</span></td>
-            <td id="desc_duration">duration</td>
-         </tr>
-         <tr>
-            <td><span style="font-weight:bold;">{t}Job{/t} :</span></td>
-            <td id="desc_job">job</td>
-         </tr>
-         <tr>
-            <td><span style="font-weight:bold;">{t}Summary{/t} :</span></td>
-            <td id="desc_summary">summary</td>
-          </tr>
+         <tbody>
+            <tr>
+               <th>{t}Date{/t} :</th>
+               <td id="desc_date">date</td>
+            </tr>
+            <tr>
+               <th>{t}Id{/t} :</th>
+               <td id="desc_id">id</td>
+            </tr>
+            <tr>
+               <th>{t}Duration{/t} :</th>
+               <td id="desc_duration">duration</td>
+            </tr>
+            <tr>
+               <th>{t}Job{/t} :</th>
+               <td id="desc_job">job</td>
+            </tr>
+            <tr>
+               <th>{t}Summary{/t} :</th>
+               <td id="desc_summary">summary</td>
+             </tr>
+         </tbody>
       </table>
       <form id="formDeleteTrack" name="formDeleteTrack" method="post" action="{$page}" >
          <fieldset>

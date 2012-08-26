@@ -1,5 +1,3 @@
-<link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
-
 {include file="menu/management_menu.html"}
 
 <script type="text/javascript">
@@ -113,7 +111,7 @@
          </form>
 
          {if $cmdsetList}
-         <table id="commandSetsDetailedMgr" style="border: 0;">
+         <table id="commandSetsDetailedMgr">
             <thead>
                <tr>
                   <!--th></th-->
@@ -145,7 +143,7 @@
             <tfoot>
                <tr>
                   <!--td></td-->
-                  <td title="{$id}" align="left">{t}TOTAL{/t}</td>
+                  <td title="{$id}">{t}TOTAL{/t}</td>
                   <!--td></td-->
                   <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                   <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
@@ -160,7 +158,7 @@
          {t}No CommandSet found.{/t}
          {/if}
          {if $cmdList}
-         <table id="commandsDetailedMgr" class="ui-helper-hidden" style="border: 0;">
+         <table id="commandsDetailedMgr" class="ui-helper-hidden">
             <thead>
                <tr>
                   <!--th></th-->
@@ -192,7 +190,7 @@
             <tfoot>
                <tr>
                   <!--td></td-->
-                  <td align="left">{t}TOTAL{/t}</td>
+                  <td>{t}TOTAL{/t}</td>
                   <!--td></td-->
                   <td>{$cmdsetTotalDetailedMgr.effortEstim}</td>
                   <td>{$cmdsetTotalDetailedMgr.reestimated}</td>
@@ -208,7 +206,7 @@
          {/if}
          <div style="margin-top:2em;">
             {if $sidetasksDetailedMgr}
-            <table style="border: 0;">
+            <table>
                <caption>{t}SideTasks{/t}</caption>
                <thead>
                   <tr>
@@ -237,7 +235,7 @@
                <tfoot>
                   <tr>
                      <!--td></td-->
-                     <td align="left">{t}TOTAL{/t}</td>
+                     <td>{t}TOTAL{/t}</td>
                      <td>{$sidetasksTotalDetailedMgr.effortEstim}</td>
                      <td>{$sidetasksTotalDetailedMgr.reestimated}</td>
                      <td>{$sidetasksTotalDetailedMgr.elapsed}</td>
@@ -252,7 +250,7 @@
          </div>
          <div style="margin-top:2em;">
             {if $servicecontractTotalDetailedMgr}
-            <table style="border: 0;">
+            <table>
                <caption>{t}All tasks{/t}</caption>
                <thead>
                   <tr>
@@ -288,7 +286,7 @@
                <tfoot>
                   <tr>
                      <!--td></td-->
-                     <td align="left">{t}TOTAL{/t}</td>
+                     <td>{t}TOTAL{/t}</td>
                      <td>{$servicecontractTotalDetailedMgr.effortEstim}</td>
                      <td>{$servicecontractTotalDetailedMgr.reestimated}</td>
                      <td>{$servicecontractTotalDetailedMgr.elapsed}</td>
@@ -308,7 +306,7 @@
 
          {if $sidetasksList}
          <div align="center">
-            <table id="issues_table" class="datatable display" style="border: 0;">
+            <table id="issues_table" class="datatable display">
                <thead>
                   <tr>
                      <th>{t}ID{/t}</th>

@@ -4,12 +4,6 @@ body {
   background-color: white;
   font-size: 12px;
 }
-code {
-  font-family: sans-serif;
-  color: black;
-  background-color: white;
-  font-size: 12px;
-}
 h1 {
   text-align: center;
 }
@@ -17,46 +11,44 @@ img {
   border: 0;
   margin: 0;
 }
-table {
-  border: 1px solid black;
-  /*border-collapse: collapse;*/
-}
 caption {
   font-size: larger;
   font-weight: bold;
   text-align: left;
   margin-left: 0.5em;
 }
-th {
-  background-color: #c8c8e8;
-  border: 0 solid white;
-  margin: 0;
-  padding: 0 2px;
-}
 thead th {
-  padding: .5em;
+   text-align: center;
+   background-color: #C8C8E8 !important;
+   padding: .5em;
 }
-td {
-   background-color: #E8E8E8;
-   border: 0 solid white;
-   margin: 0;
-   padding: 0 2px;
+thead th:first-child {
+   -moz-border-radius-topleft: 0.5em;
+   -webkit-border-top-left-radius: 0.5em;
+   border-top-left-radius: 0.5em;
 }
-
+thead th:last-child {
+   -moz-border-radius-topright: 0.5em;
+   -webkit-border-top-right-radius: 0.5em;
+   border-top-right-radius: 0.5em;
+}
+tbody th {
+   background-color: #C8C8E8;
+   white-space: nowrap;
+   text-align: left;
+}
 tbody th, tbody td, tfoot td {
    padding: .2em .5em;
 }
-
-tbody td {
+tbody {
    background-color: white;
 }
-
-tr.row_even td {
-  background-color: #CFCFCF;
-}
-
-tr.row_total td, tfoot td {
+tbody tr.row_total, tfoot tr {
    background-color: #CFCFCF;
+   font-weight: bold;
+}
+table.invisible th {
+   background-color: transparent;
    font-weight: bold;
 }
 
@@ -65,70 +57,20 @@ fieldset {
    border: 0;
 }
 input, select, textarea {
-   font-family: tahoma;
+   font-family: tahoma, Verdana, sans-serif;
    font-size: 11px;
 }
 
-#validateTips { border: 1px solid transparent; padding: 0.3em; }
-.validateTips { border: 1px solid transparent; padding: 0.3em; }
+#validateTips, .validateTips { border: 1px solid transparent; padding: 0.3em; }
 
 #login {
-text-align: left;
-padding: 4px;
-}
-
-#header table {
-border: 1px solid white;
-width: 100%
-}
-#header td {
-background-color: white;
-border: 0 solid white;
-font-family : Verdana,Arial,Helvetica,sans-serif;
-white-space : nowrap;
-text-align : center;
-font-size: 12px;
-padding: 0;
-}
-
-table.invisible {
-border: 0;
-background-color: white;
-}
-table.invisible th {
-background-color: white;
-border: 0 solid white;
-font-family : Verdana,Arial,Helvetica,sans-serif;
-font-weight: bold;
-white-space : nowrap;
-text-align : left;
-font-size: 12px;
-padding: 3px;
-}
-table.invisible td {
-background-color: white;
-border: 0 solid white;
-font-family : Verdana,Arial,Helvetica,sans-serif;
-white-space : nowrap;
-text-align : left;
-font-size: 12px;
-padding: 3px;
-}
-
-#homepage_list {
-font-size: larger;
-font-weight: bold;
-}
-
-#menu ul { /* remove bullets and list indents */
-  list-style: none;
-  margin: 0;
-  padding: 0;
+   text-align: left;
+   padding: 4px;
 }
 
 div.menu table {
-  /* border: 1px solid black; */
-  width: 100%
+   border: 1px solid black;
+   width: 100%
 }
 div.menu td {
   background-color: #e8e8e8;
@@ -140,13 +82,13 @@ div.menu td {
   padding: .5em;
 }
 
-#mantis, #timetracking, #reports {
-  padding: 5px;
-  margin: 5px;
-}
-
 #content {
   margin-top: 2em;
+}
+
+#homepage_list {
+  font-size: larger;
+  font-weight: bold;
 }
 
 .left {
@@ -183,12 +125,10 @@ div.menu td {
   font-style: italic;
   color: red;
 }
-
 .warn_font {
   font-style: italic;
   color: orange;
 }
-
 .success_font {
   font-style: italic;
   color: blue;
@@ -209,21 +149,64 @@ div.menu td {
 
 /* flag-sprites.com : Blogpotato.de small */
 .flag {
-	width: 18px;
-	height: 12px;
-	background:url(images/flags.png) no-repeat
+   width: 18px;
+   height: 12px;
+   background:url(images/flags.png) no-repeat;
 }
-
-.flag.flag-br {background-position: -18px 0}
-.flag.flag-fr {background-position: -36px 0}
-.flag.flag-gb {background-position: 0 -12px}
-.flag.flag-pt {background-position: -18px -12px}
-.flag.flag-us {background-position: -36px -12px}
+.flag.flag-br {
+   background-position: -18px 0;
+}
+.flag.flag-fr {
+   background-position: -36px 0;
+}
+.flag.flag-gb {
+   background-position: 0 -12px;
+}
+.flag.flag-pt {
+   background-position: -18px -12px;
+}
+.flag.flag-us {
+   background-position: -36px -12px;
+}
 
 /* JQuery Hacks */
-input.datepicker {
+input.datepicker, img.ui-datepicker-trigger {
   vertical-align: middle;
 }
-img.ui-datepicker-trigger {
-  vertical-align: middle;
+
+/* START Datatable */
+.dataTables_filter {
+   width: 50%;
+   float: right;
+   text-align: right;
 }
+
+table.display thead th {
+   cursor: pointer;
+}
+
+table.display thead .sorting_asc {
+   background: url('images/sort_asc.png') no-repeat center right;
+}
+
+table.display thead .sorting_desc {
+   background: url('images/sort_desc.png') no-repeat center right;
+}
+
+table.display thead .sorting {
+   background: url('images/sort_both.png') no-repeat center right;
+}
+
+table.display tbody tr:hover {
+   background-color: rgb(128,128,255);
+}
+
+.dataTables_scroll {
+   clear: both;
+}
+
+.dataTables_scrollBody {
+   *margin-top: -1px;
+   -webkit-overflow-scrolling: touch;
+}
+/* END Datatable */

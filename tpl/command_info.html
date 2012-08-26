@@ -1,5 +1,3 @@
-<link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
-
 {include file="menu/management_menu.html"}
 
 <script type="text/javascript">
@@ -120,7 +118,7 @@
 
       <div id="tabsName-3">
          {if $cmdDetailedMgr}
-         <table style="border: 0;">
+         <table>
             <thead>
                <tr>
                   <th>{t}MgrEffortEstim{/t}</th>
@@ -154,7 +152,7 @@
 
          {if $cmdIssues}
          <div align="center">
-            <table id="issues_table" style="border: 0;" class="datatable display">
+            <table id="issues_table" class="datatable display">
                <thead>
                   <tr>
                      <th>{t}ID{/t}</th>

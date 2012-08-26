@@ -45,7 +45,7 @@
          {if $timeTracking}
          <div>
             <h3 style="margin: 0 0 0.5em 0.5em;">{t}Production Days{/t} &nbsp;&nbsp;<a id="dialog_ProdDays_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></h3>
-            <table id="timeTrackingTable" class="float" style="border: 0;width: 300px;">
+            <table id="timeTrackingTable" class="float" style="width: 300px;">
                <thead>
                   <tr>
                      <th></th>
@@ -110,7 +110,7 @@
          <!-- Working days per job -->
          {if $workingDaysPerJob}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Load per Job{/t}</h3>
-         <table class="float" style="border: 0;width: 300px;">
+         <table class="float" style="width: 300px;">
             <thead>
                <tr>
                   <th>{t}Job{/t}</th>
@@ -237,7 +237,7 @@
          <!-- Working Days Per Project -->
          {if $workingDaysPerProject}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Load per Project{/t}</h3>
-         <table class="float" style="border: 0;width: 300px;">
+         <table class="float" style="width: 300px;">
             <thead>
                <tr>
                   <th>{t}Project{/t}</th>
@@ -275,7 +275,7 @@
          <!-- Productivity indicators -->
          {if $timeTracking}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Productivity indicators{/t}</h3>
-         <table style="border: 0;width: 300px;">
+         <table style="width: 300px;">
             <thead>
                <tr>
                   <th>{t}Indicator{/t}</th>
@@ -316,7 +316,7 @@
          <!-- Adherence to deadlines -->
          {if $timeDriftStats}
          <h3 style="margin: 0 0 0.5em 0.5em;" title="{t}Tasks having no deadLine are not reported here{/t}">{t}Adherence to deadlines{/t} : {$percent} %</h3>
-         <table style="border: 0;width: 300px;">
+         <table style="width: 300px;">
             <thead>
                <tr>
                   <th></th>
@@ -375,7 +375,7 @@
             </ul>
             <div id="tabsResolvedDriftStatsName-1">
                {if $resolvedDeviationStats}
-               <table style="border: 0;">
+               <table>
                   <thead>
                      <tr>
                         <th></th>
@@ -410,7 +410,7 @@
             </div>
             <div id="tabsResolvedDriftStatsName-2">
                {if $resolvedIssuesInDrift}
-               <table style="border: 0;">
+               <table>
                   <thead>
                      <tr>
                         <th>{t}ID{/t}</th>
@@ -447,7 +447,7 @@
          <!-- Reopened tasks -->
          {if $formattedReopenedTaks}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Reopened tasks{/t}</h3>
-         <table style="border: 0;">
+         <table>
             <thead>
                <tr>
                   <th>{t}nb submitted{/t}</th>

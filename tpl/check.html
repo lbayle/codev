@@ -1,5 +1,3 @@
-<link href="lib/datatables/media/css/demo_table.css" rel="stylesheet" type="text/css" />
-
 <div id="content">
    {if $teams}
 
@@ -8,7 +6,7 @@
    {if $teamid}
    <h2>{$count}{t} Error(s) in Mantis Tasks{/t}</h2>
    {if $consistencyErrors}
-   <table id="errors_table" class="datatable display" style="border: 0;">
+   <table class="datatable display">
       <thead>
          <tr>
             <th>{t}User{/t}</th>
