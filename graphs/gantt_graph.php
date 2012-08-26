@@ -23,115 +23,136 @@ require('../path.inc.php');
 
 require('i18n/i18n.inc.php');
 
-$logger = Logger::getLogger('gantt_graph');
+class GanttGraphView {
 
-/**
- * @param int $teamid
- * @param int $startTimestamp
- * @param int $endTimestamp
- * @param int[] $projectIds
- * @return GanttGraph
- */
-function getGanttGraph($teamid, $startTimestamp, $endTimestamp, array $projectIds) {
-   global $logger;
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
 
-   $graph = new GanttGraph();
-
-   // set graph title
-   $team = TeamCache::getInstance()->getTeam($teamid);
-   if ( (NULL != $projectIds) && (0 != sizeof($projectIds))) {
-      $pnameList = "";
-      foreach ($projectIds as $pid) {
-         if ("" != $pnameList) { $pnameList .=","; }
-         $project = ProjectCache::getInstance()->getProject($pid);
-         $pnameList .= $project->getName();
-      }
-      $graph->title->Set(T_('Team').' '.$team->getName().'    '.T_('Project(s)').': '.$pnameList);
-   } else {
-      $graph->title->Set(T_('Team').' '.$team->getName().'    ('.T_('All projects').')');
+   /**
+    * Initialize complex static variables
+    * @static
+    */
+   public static function staticInit() {
+      self::$logger = Logger::getLogger(__CLASS__);
    }
 
-   // Setup scale
-   $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
-   $graph->scale->week->SetStyle(WEEKSTYLE_FIRSTDAYWNBR);
-
-   $gantManager = new GanttManager($teamid, $startTimestamp, $endTimestamp);
-
-   $teamActivities = $gantManager->getTeamActivities();
-
-   // mapping to ease constrains building
-   $issueActivityMapping = array();
-
-   // set activityIdx
-   $activityIdx = 0;
-
-   // Add the specified activities
-   foreach($teamActivities as $a) {
-      $a->setActivityIdx($activityIdx);
-
-      // FILTER on projects
-      if ((NULL != $projectIds) && (0 != sizeof($projectIds))) {
-         $issue = IssueCache::getInstance()->getIssue($a->bugid);
-         if (!in_array($issue->getProjectId(), $projectIds)) {
-            // skip activity indexing
-            continue;
-         }
-      }
-
-      $issueActivityMapping[$a->bugid] = $activityIdx;
-      $filterTeamActivities[] = $a;
-      ++$activityIdx;
-
-      // Shorten bar depending on gantt startDate
-      if (NULL != $startTimestamp && $a->startTimestamp < $startTimestamp) {
-         // leave one day to insert prefixBar
-         $newStartTimestamp = $startTimestamp + (60*60*24);
-
-         if ($newStartTimestamp > $a->endTimestamp) {
-            // there is not enough space for a prefixBar
-            $newStartTimestamp = $startTimestamp;
-            $logger->debug("bugid=".$a->bugid.": Shorten bar to Gantt start date");
+   public function execute() {
+      if (isset($_SESSION['userid'])) {
+         $teamid = Tools::getSecureGETIntValue('teamid');
+         $startTimestamp = Tools::getSecureGETStringValue('startT');
+         $endTimestamp = Tools::getSecureGETStringValue('endT');
+         $projectIds = Tools::getSecureGETIntValue('projects', 0);
+         if(0 != $projectIds) {
+            $projectIds = explode(':', $projectIds);
+            self::$logger->debug("team <$teamid> projects = <$projectIds>");
          } else {
-            $formattedStartDate = date('Y-m-d', $startTimestamp);
-            $prefixBar = new GanttBar($a->activityIdx, "", $formattedStartDate, $formattedStartDate, "", 10);
-            $prefixBar->SetBreakStyle(true,'dotted',1);
-            $graph->Add($prefixBar);
-            $logger->debug("bugid=".$a->bugid.": Shorten bar & add prefixBar");
+            self::$logger->debug("team <$teamid> display all projects");
+            $projectIds = array();
          }
-         $logger->debug("bugid=".$a->bugid.": Shorten bar from ".date('Y-m-d', $a->startTimestamp)." to ".date('Y-m-d', $newStartTimestamp));
-         $a->startTimestamp = $newStartTimestamp;
+
+         // INFO: the following 1 line are MANDATORY and fix the following error:
+         // “The image <name> cannot be displayed because it contains errors”
+         ob_end_clean();
+
+         $graph = $this->getGanttGraph($teamid, $startTimestamp, $endTimestamp, $projectIds);
+
+         // display graph
+         $graph->Stroke();
+
+         SqlWrapper::getInstance()->logStats();
+      } else {
+         Tools::sendForbiddenAccess();
+      }
+   }
+
+   /**
+    * @param int $teamid
+    * @param int $startTimestamp
+    * @param int $endTimestamp
+    * @param int[] $projectIds
+    * @return GanttGraph
+    */
+   private function getGanttGraph($teamid, $startTimestamp, $endTimestamp, array $projectIds) {
+      $graph = new GanttGraph();
+
+      // set graph title
+      $team = TeamCache::getInstance()->getTeam($teamid);
+      if (0 != count($projectIds)) {
+         $pnameList = "";
+         foreach ($projectIds as $pid) {
+            if ("" != $pnameList) { $pnameList .=","; }
+            $project = ProjectCache::getInstance()->getProject($pid);
+            $pnameList .= $project->getName();
+         }
+         $graph->title->Set(T_('Team').' '.$team->getName().'    '.T_('Project(s)').': '.$pnameList);
+      } else {
+         $graph->title->Set(T_('Team').' '.$team->getName().'    ('.T_('All projects').')');
       }
 
-      $bar = $a->getJPGraphBar($issueActivityMapping);
-      $graph->Add($bar);
+      // Setup scale
+      $graph->ShowHeaders(GANTT_HYEAR | GANTT_HMONTH | GANTT_HDAY | GANTT_HWEEK);
+      $graph->scale->week->SetStyle(WEEKSTYLE_FIRSTDAYWNBR);
+
+      $gantManager = new GanttManager($teamid, $startTimestamp, $endTimestamp);
+
+      $teamActivities = $gantManager->getTeamActivities();
+
+      // mapping to ease constrains building
+      $issueActivityMapping = array();
+
+      // set activityIdx
+      $activityIdx = 0;
+
+      // Add the specified activities
+      foreach($teamActivities as $a) {
+         $a->setActivityIdx($activityIdx);
+
+         // FILTER on projects
+         if ((NULL != $projectIds) && (0 != sizeof($projectIds))) {
+            $issue = IssueCache::getInstance()->getIssue($a->bugid);
+            if (!in_array($issue->getProjectId(), $projectIds)) {
+               // skip activity indexing
+               continue;
+            }
+         }
+
+         $issueActivityMapping[$a->bugid] = $activityIdx;
+         $filterTeamActivities[] = $a;
+         ++$activityIdx;
+
+         // Shorten bar depending on gantt startDate
+         if (NULL != $startTimestamp && $a->startTimestamp < $startTimestamp) {
+            // leave one day to insert prefixBar
+            $newStartTimestamp = $startTimestamp + (60*60*24);
+
+            if ($newStartTimestamp > $a->endTimestamp) {
+               // there is not enough space for a prefixBar
+               $newStartTimestamp = $startTimestamp;
+               self::$logger->debug("bugid=".$a->bugid.": Shorten bar to Gantt start date");
+            } else {
+               $formattedStartDate = date('Y-m-d', $startTimestamp);
+               $prefixBar = new GanttBar($a->activityIdx, "", $formattedStartDate, $formattedStartDate, "", 10);
+               $prefixBar->SetBreakStyle(true,'dotted',1);
+               $graph->Add($prefixBar);
+               self::$logger->debug("bugid=".$a->bugid.": Shorten bar & add prefixBar");
+            }
+            self::$logger->debug("bugid=".$a->bugid.": Shorten bar from ".date('Y-m-d', $a->startTimestamp)." to ".date('Y-m-d', $newStartTimestamp));
+            $a->startTimestamp = $newStartTimestamp;
+         }
+
+         $bar = $a->getJPGraphBar($issueActivityMapping);
+         $graph->Add($bar);
+      }
+      return $graph;
    }
-   return $graph;
+
 }
 
 // ========== MAIN ===========
-if (isset($_SESSION['userid'])) {
-   $teamid = Tools::getSecureGETIntValue('teamid');
-   $startTimestamp = Tools::getSecureGETStringValue('startT');
-   $endTimestamp = Tools::getSecureGETStringValue('endT');
-   $projectIds = Tools::getSecureGETIntValue('projects', 0);
-   if(0 != $projectIds) {
-      $projectIds = explode(':', $projectIds);
-      $logger->debug("team <$teamid> projects = <$projectIds>");
-   } else {
-      $logger->debug("team <$teamid> display all projects");
-      $projectIds = NULL;
-   }
-
-   // INFO: the following 1 line are MANDATORY and fix the following error:
-   // “The image <name> cannot be displayed because it contains errors”
-   ob_end_clean();
-
-   $graph = getGanttGraph($teamid, $startTimestamp, $endTimestamp, $projectIds);
-
-   // display graph
-   $graph->Stroke();
-
-   SqlWrapper::getInstance()->logStats();
-}
+GanttGraphView::staticInit();
+$view = new GanttGraphView();
+$view->execute();
 
 ?>
