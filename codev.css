@@ -51,6 +51,9 @@ table.invisible th {
    background-color: transparent !important;
    font-weight: bold;
 }
+table.invisible tbody {
+   background-color: transparent;
+}
 
 fieldset {
    padding: 0;

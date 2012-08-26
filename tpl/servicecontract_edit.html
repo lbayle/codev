@@ -243,10 +243,9 @@
             <tbody>
                {foreach $cmdsetList as $id => $commandset}
                <tr>
-                  <td>
-                     <a title="{t}delete Contract-CommandSet association{/t}"
-                        href="javascript: removeCmdSet('{$id}', '{$commandset.description|escape}')">
-                        <img alt="{t}Drop{/t}" border="0" src="images/b_drop.png" />
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete Contract-CommandSet association{/t}" href="{page}"
+                        onclick="removeCmdSet('{$id}', '{$commandset.description|escape}');return false;">
                      </a>
                   </td>
                   <td>{$commandset.reference}</td>
@@ -351,10 +350,9 @@
             <tbody>
                {foreach $projectList as $id => $project}
                <tr>
-                  <td>
-                     <a title="{t}delete Contract-Project association{/t}"
-                        href="javascript: removeProject('{$id}', '{$project.description|escape}')">
-                        <img alt="{t}Drop{/t}" border="0" src="images/b_drop.png" />
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete Contract-Project association{/t}" href="{$page}"
+                        onclick="removeProject('{$id}', '{$project.description|escape}');return false;">
                      </a>
                   </td>
                   <td title="{$id}">{$project.name}</td>

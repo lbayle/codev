@@ -45,17 +45,17 @@
       </script>
       <form id="updateTeamInfoForm" name="updateTeamInfoForm" method="post" action="{$page}">
          <fieldset>
-            <table class="invisible" style="background-color: transparent;">
+            <table class="invisible">
                <tr>
-                  <td style="background-color: transparent;"><label for="leaderid">{t}Leader{/t}</label></td>
-                  <td style="background-color: transparent;">
+                  <td><label for="leaderid">{t}Leader{/t}</label></td>
+                  <td>
                      <select style="width:100%" name="leaderid" id="leaderid">
                         {foreach from=$users key=id item=i}
                         <option {if $i.selected}selected="selected"{/if} value="{$id}">{$i.name}</option>
                         {/foreach}
                      </select>
                   </td>
-                  <td style="background-color: transparent;"><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
+                  <td><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
                </tr>
                <tr>
                   <script type="text/javascript" src="js/datepicker.js"></script>
@@ -69,16 +69,14 @@
                         jQuery("#datepicker").datepicker("setDate" ,"{$date}");
                      });
                   </script>
-                  <td style="background-color: transparent;"><label for="datepicker">{t}Creation Date{/t}</label></td>
-                  <td style="background-color: transparent;"><input type="text" id="datepicker" class="datepicker" name="date_createTeam" maxlength="10" size="10" title="{t}Date{/t}" /></td>
-                  <td style="background-color: transparent;"><input style="width:100%" type=button name="btupdateTeamCreationDate" value="{t}Update{/t}" id="btupdateTeamCreationDate" /></td>
+                  <td><label for="datepicker">{t}Creation Date{/t}</label></td>
+                  <td><input type="text" id="datepicker" class="datepicker" name="date_createTeam" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+                  <td><input style="width:100%" type=button name="btupdateTeamCreationDate" value="{t}Update{/t}" id="btupdateTeamCreationDate" /></td>
                </tr>
                <tr>
-                  <td style="background-color: transparent;"><label for="enabled">{t}Enabled{/t}</label></td>
-                  <td style="background-color: transparent;">
-                     <input id="cb_commonSideTaskProj" type="checkbox" name="cb_commonSideTaskProj" {if $teamEnabled}checked="checked"{/if}>
-                  </td>
-                  <td style="background-color: transparent;"><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
+                  <td><label for="cb_commonSideTaskProj">{t}Enabled{/t}</label></td>
+                  <td><input id="cb_commonSideTaskProj" type="checkbox" name="cb_commonSideTaskProj" {if $teamEnabled}checked="checked"{/if} /></td>
+                  <td><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
                </tr>
             </table>
             <br/>
@@ -154,11 +152,11 @@
       </script>
       <form id="addTeamMemberForm" name="addTeamMemberForm" method="post" action="{$page}">
          <fieldset>
-            <table class="invisible" style="background-color: transparent;">
+            <table class="invisible">
                <tbody>
                   <tr>
-                     <td style="background-color: transparent;"><label for="memberid">{t}Member{/t}:</label></td>
-                     <td style="background-color: transparent;">
+                     <td><label for="memberid">{t}Member{/t}:</label></td>
+                     <td>
                         <select style="width:100%" name="memberid" id="memberid">
                            <option value="0"></option>
                            {foreach from=$users key=id item=i}
@@ -166,38 +164,38 @@
                            {/foreach}
                         </select>
                      </td>
-                     <td style="background-color: transparent;"></td>
+                     <td></td>
                   </tr>
                   <tr>
-                     <td style="background-color: transparent;"><label for="member_access">{t}Role{/t}:</label></td>
-                     <td style="background-color: transparent;">
+                     <td><label for="member_access">{t}Role{/t}:</label></td>
+                     <td>
                         <select style="width:100%" name="member_access" id="member_access">
                            {foreach from=$accessLevel key=id item=i}
                            <option value="{$id}">{$i}</option>
                            {/foreach}
                         </select>
                      </td>
-                     <td style="background-color: transparent;"></td>
+                     <td></td>
                   </tr>
                   <tr>
-                     <td style="background-color: transparent;"><label for="datepicker1">{t}Arrival-Date{/t}</td>
-                     <td style="background-color: transparent;"><input type="text" id="datepicker1" class="datepicker" name="date1" maxlength="10" size="10" title="{t}Date{/t}" /></td>
-                     <td style="background-color: transparent;"><input style="width:100%" type=button name="btAddMember" id="btAddMember" value="{t}Add User{/t}" /></td>
+                     <td><label for="datepicker1">{t}Arrival-Date{/t}</td>
+                     <td><input type="text" id="datepicker1" class="datepicker" name="date1" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+                     <td><input style="width:100%" type=button name="btAddMember" id="btAddMember" value="{t}Add User{/t}" /></td>
                   </tr>
                   <tr>
-                     <td style="background-color: transparent;"><label for="datepicker2">{t}Departure-Date{/t}</label></td>
-                     <td style="background-color: transparent;"><input type="text" id="datepicker2" class="datepicker" name="date2" maxlength="10" size="10" title="{t}Date{/t}" /></td>
-                     <td style="background-color: transparent;"><input type=button name="btSetMemberDepartureDate" id="btSetMemberDepartureDate" value="{t}set Departure Date{/t}" /></td>
+                     <td><label for="datepicker2">{t}Departure-Date{/t}</label></td>
+                     <td><input type="text" id="datepicker2" class="datepicker" name="date2" maxlength="10" size="10" title="{t}Date{/t}" /></td>
+                     <td><input type=button name="btSetMemberDepartureDate" id="btSetMemberDepartureDate" value="{t}set Departure Date{/t}" /></td>
                   </tr>
                </tbody>
             </table>
 
             <!-- import from other team -->
-            <table class="invisible" style="margin-top: 2em;background-color: transparent;">
+            <table class="invisible" style="margin-top: 2em;">
                <tbody>
                   <tr>
-                     <td style="background-color: transparent;"><label for="f_src_teamid">{t}Import all users from team{/t}</label></td>
-                     <td style="background-color: transparent;">
+                     <td><label for="f_src_teamid">{t}Import all users from team{/t}</label></td>
+                     <td>
                         <select name="f_src_teamid" id="f_src_teamid">
                            <option value="0"></option>
                            {foreach from=$teams key=id item=i}
@@ -205,7 +203,7 @@
                            {/foreach}
                         </select>
                      </td>
-                     <td style="background-color: transparent;"><input type=button name="btAddMembersFrom" id="btAddMembersFrom" value="{t}Import{/t}" /></td>
+                     <td><input type=button name="btAddMembersFrom" id="btAddMembersFrom" value="{t}Import{/t}" /></td>
                   </tr>
                </tbody>
             </table>
@@ -239,7 +237,10 @@
             <tbody>
                {foreach from=$teamMembers key=id item=i}
                <tr>
-                  <td><a title="{t}delete this row{/t}" onclick="removeTeamMember('{$id}', '{$i.username}');return false;" href="{$page}"><img src="images/b_drop.png"></a></td>
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                        onclick="removeTeamMember('{$id}', '{$i.username}');return false;"></a>
+                  </td>
                   <td title="{$i.userid}">{$i.username}</td>
                   <td>{$i.realname}</td>
                   <td>{$i.arrivaldate}</td>
@@ -326,7 +327,10 @@
             <tbody>
                {foreach from=$teamProjects key=id item=i}
                <tr>
-                  <td>{if $i.delete}<a title="{t}delete this row{/t}" onclick="removeTeamProject('{$id}', '{$i.name}');return false;" href="{$page}"><img src="images/b_drop.png"></a>{/if}</td>
+                  <td class="ui-state-error-text" style="width:1em;">{if $i.delete}
+                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                        onclick="removeTeamProject('{$id}','{$i.name}');return false;"></a>
+                  {/if}</td>
                   <td title="{$i.projectid}">{$i.name}</td>
                   <td>{$i.typeNames}</td>
                   <td>{$i.enabled}</td>
@@ -409,7 +413,10 @@
             <tbody>
                {foreach from=$astreintes key=id item=i}
                <tr>
-                  <td><a title="{t}delete OnDuty{/t}" onclick="deleteAstreinte('{$id}', '{$id} - {$i.desc}');return false;" href="{$page}"><img src="images/b_drop.png"></a></td>
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete OnDuty{/t}" href="{$page}"
+                        onclick="deleteAstreinte('{$id}', '{$id} - {$i.desc}');return false;"></a>
+                  </td>
                   <td>{$id}</td>
                   <td>{$i.description}</td>
                </tr>
@@ -429,25 +436,23 @@
 
    <div style="margin-top: 2em;padding: 0 1em 1em;width:90%"class="ui-widget-content">
       <h2>{t}Delete Team{/t}</h2>
-      <div>
-         <script type="text/javascript">
-            jQuery(document).ready(function() {
-               jQuery("#btDeleteTeam").click(function() {
-                  var confirmString = "{t}Delete team{/t} '{$team->name}' ?";
-                  if (confirm(confirmString)) {
-                     jQuery("#deleteTeamProjectForm").submit();
-                  }
-               });
+      <script type="text/javascript">
+         jQuery(document).ready(function() {
+            jQuery("#btDeleteTeam").click(function() {
+               var confirmString = "{t}Delete team{/t} '{$team->getName()}' ?";
+               if (confirm(confirmString)) {
+                  jQuery("#deleteTeamProjectForm").submit();
+               }
             });
-         </script>
-         <form id="deleteTeamProjectForm" name="deleteTeamForm" method="post" action="{$page}">
-            <fieldset>
-               <label for="btDeleteTeam">{t}Delete team{/t} {$team->name} ?</label>
-               <input type="button" name="btDeleteTeam" id="btDeleteTeam" value="{t}Delete{/t}" />
-               <input type="hidden" name="deletedteam" value="{$team->id}" />
-            </fieldset>
-         </form>
-      </div>
+         });
+      </script>
+      <form id="deleteTeamProjectForm" name="deleteTeamForm" method="post" action="{$page}">
+         <fieldset>
+            <label for="btDeleteTeam">{t}Delete team{/t} {$team->getName()} ?</label>
+            <input type="button" name="btDeleteTeam" id="btDeleteTeam" value="{t}Delete{/t}" />
+            <input type="hidden" name="deletedteam" value="{$team->getId()}" />
+         </fieldset>
+      </form>
    </div>
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be Team Leader to access this page.{/t}</p>

@@ -150,21 +150,19 @@
       });
    </script>
    <div align="center">
-      <div id="accordion" style="width:500px;" >
+      <div id="accordion" style="width:550px;" >
          <h3><a href="{$page}">{$consistencyErrors|count} {t}Errors in your Tasks{/t}</a></h3>
-         <div align="left" style="height:120px;">
-            <table>
-               <tbody style="background-color: transparent;">
-                  {foreach from=$consistencyErrors key=id item=i}
-                  <tr>
-                     <td>{$i.issueURL}</td>
-                     <td class="ui-state-error-text">{$i.status}</td>
-                     <td class="ui-state-error-text" {if $i.addInfo}title="{$i.addInfo}"{/if}>{$i.desc}</td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
-         </div>
+         <table class="invisible left" style="height:200px;">
+            <tbody>
+               {foreach from=$consistencyErrors key=id item=i}
+               <tr>
+                  <td>{$i.issueURL}</td>
+                  <td class="ui-state-error-text">{$i.status}</td>
+                  <td class="ui-state-error-text" {if $i.addInfo}title="{$i.addInfo}"{/if}>{$i.desc}</td>
+               </tr>
+               {/foreach}
+            </tbody>
+         </table>
       </div>
    </div>
 </div>

@@ -46,19 +46,19 @@
          <div style="padding: 0 1em 1em;"class="ui-widget-content">
             <h2>{t}Team Info{/t}</h2>
             <!-- Team Info -->
-            <table class="invisible" style="background-color: transparent;">
+            <table class="invisible">
                <tbody>
                   <tr>
-                     <td style="background-color: transparent;"><label for="team_name">{t}Team Name{/t}</label></td>
-                     <td style="background-color: transparent;"><input size="30" value="{$team_name}" name="team_name" type="text" id="team_name" onblur="updateTeamCreationForm('#team_desc')" /> <span style="color:red">*</span></td>
+                     <td><label for="team_name">{t}Team Name{/t}</label></td>
+                     <td><input size="30" value="{$team_name}" name="team_name" type="text" id="team_name" onblur="updateTeamCreationForm('#team_desc')" /> <span style="color:red">*</span></td>
                   </tr>
                   <tr>
-                     <td style="background-color: transparent;"><label for="team_desc">{t}Description{/t}</label></td>
-                     <td style="background-color: transparent;"><input size="100" value="{$team_desc}" name="team_desc" type="text" id="team_desc" /> <span style="color:red">*</span></td>
+                     <td><label for="team_desc">{t}Description{/t}</label></td>
+                     <td><input size="100" value="{$team_desc}" name="team_desc" type="text" id="team_desc" /> <span style="color:red">*</span></td>
                   </tr>
                   <tr>
-                     <td style="background-color: transparent;"><label for="teamleader_id">{t}Team Leader{/t}</label></td>
-                     <td style="background-color: transparent;">
+                     <td><label for="teamleader_id">{t}Team Leader{/t}</label></td>
+                     <td>
                         <select name="teamleader_id" id="teamleader_id">
                            <option value="0"></option>
                            {foreach from=$users key=id item=i}

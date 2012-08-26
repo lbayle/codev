@@ -227,11 +227,9 @@
             <tbody>
                {foreach $cmdList as $id => $cmd}
                <tr>
-                  <td>
-                     <a title="{t}delete CommandSet-Command association{/t}"
-                        href="javascript: removeCmd('{$id}', '{$cmd.name|escape}')">
-                        <img alt="b_drop.png" border="0" src="images/b_drop.png" />
-                     </a>
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete CommandSet-Command association{/t}" href="{$page}"
+                        onclick="removeCmd('{$id}', '{$cmd.name|escape}');return false;"></a>
                   </td>
                   <td>{$cmd.reference}</td>
                   <td title="{$id}">{$cmd.name}</td>

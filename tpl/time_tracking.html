@@ -238,8 +238,8 @@
       </script>
       <div id="accordion" style="width:360px;" >
          <h3><a href="{$page}">{t}Missing dates{/t}</a></h3>
-            <table class="left ui-state-error-text">
-               <tbody style="background-color: transparent;">
+            <table class="invisible left ui-state-error-text">
+               <tbody>
                   {foreach from=$warnings item=i}
                   <tr>
                      <td>{$i.date}</td>
@@ -288,11 +288,9 @@
               <tbody>
                {foreach from=$weekTimetrackingTuples key=id item=i}
                <tr>
-                  <td class="center">
-                     <a title="{t}delete this row{/t}" onclick="deleteTrack('{$i.id}','{$i.date}',
-                        '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="{$page}">
-                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" style="vertical-align: middle;" />
-                     </a>
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                        onclick="deleteTrack('{$i.id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}','{$i.summary}');return false;"></a>
                   </td>
                   <td width="170">{$i.cosmeticDate}</td>
                   <td>{$i.issueURL}</td>
@@ -331,11 +329,9 @@
             <tbody>
                {foreach from=$timetrackingTuples key=id item=i}
                <tr>
-                  <td class="center">
-                     <a title="{t}delete this row{/t}" onclick="deleteTrack('{$i.id}','{$i.date}',
-                        '{$i.formatedId}', '{$i.duration}', '{$i.formatedJobName}', '{$i.summary}');return false;" href="{$page}">
-                        <img alt="{t}delete this row{/t}" border="0" src="images/b_drop.png" style="vertical-align: middle;" />
-                     </a>
+                  <td class="ui-state-error-text" style="width:1em;">
+                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                        onclick="deleteTrack('{$i.id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}', '{$i.summary}');return false;"></a>
                   </td>
                   <td style="width: 170px;">{$i.cosmeticDate}</td>
                   <td>{$i.issueURL}</td>
