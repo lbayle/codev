@@ -110,7 +110,7 @@
             <tr>
                <th></th>
                <th style="font-size: 0;">
-                  <img width="5" height="1" src="images/blank.gif" alt="" />
+                  <img width="5" height="1" src="images/blank.png" alt="" />
                   {foreach from=$planning.days key=id item=i}
                   <img height="7" width="1" src="images/timeline_stop.jpg" alt="" />
                   <img width="{$i}" height="7" src="images/time_line.jpg" alt="" />
@@ -124,7 +124,7 @@
             <tr>
                <td title="{t}workload{/t} = {$i.workload} {t}days{/t}">{$i.username}</td>
                <td style="font-size: 0;">
-                  {if $i.deadlines.isDeadline}<img width="5" height="1" src="images/blank.gif" alt="" />{/if}
+                  {if $i.deadlines.isDeadline}<img width="5" height="1" src="images/blank.png" alt="" />{/if}
                   {foreach from=$i.deadlines.deadline key=id1 item=j}
                   {if $j.width}<img width="{$j.width}" height="7" src="images/time_line.jpg" alt="" />{/if}
                   <img class="deadline" src="{$j.url}" alt="{$j.title}" height="7" width="10" />
@@ -148,7 +148,7 @@
                   </div>
                   {/foreach}
                   <div style="margin-top: 2px;">
-                     <img width="5" height="20" src="images/blank.gif" alt="" />
+                     <img width="5" height="20" src="images/blank.png" alt="" />
                      {foreach from=$i.scheduledTasks key=id1 item=j}
                      <a class="task" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
                      <!-- tooltip element -->
