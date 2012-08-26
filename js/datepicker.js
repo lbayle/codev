@@ -35,34 +35,3 @@ jQuery(document).ready(function() {
         selectOtherMonths: false
     });
 });
-
-jQuery.editable.addInputType('datepicker', {
-    element : function(settings, original) {
-        var input = jQuery('<input>');
-        if (settings.width  != 'none') { input.width(settings.width);  }
-        if (settings.height != 'none') { input.height(settings.height); }
-        input.attr('autocomplete','off');
-        jQuery(this).append(input);
-        return(input);
-    },
-    plugin : function(settings, original) {
-        /* Workaround for missing parentNode in IE */
-        var form = this;
-        settings.onblur = 'ignore';
-        jQuery(this).find('input').datepicker({
-            showWeek: true,
-            showOtherMonths: true,
-            showAnim: "slideDown",
-            dateFormat: 'yy-mm-dd',
-            changeMonth: false,
-            changeYear: false,
-            selectOtherMonths: false
-        }).bind('click', function() {
-                jQuery(this).datepicker('show');
-            return false;
-        }).bind('dateSelected', function(e, selectedDate, $td) {
-            jQuery(form).submit();
-        });
-    }
-});
-
