@@ -39,10 +39,8 @@
    {if $error}{t}{$error}{/t}{/if}
 
    {if $submittedResolved_Legend || $timeDrift_Legend || $resolvedDrift_Legend || $efficiency_Legend || $reopenedRate_Legend || $developersWorkload_Legend}
+   {include file="tools/graph.html"}
    <script src="js/tabs.js" type="text/javascript"></script>
-   <!--[if lt IE 9]><script type="text/javascript" src="lib/jquery.jqplot/excanvas.min.js"></script><![endif]-->
-   <link rel="stylesheet" type="text/css" href="lib/jquery.jqplot/jquery.jqplot.min.css" />
-   <script type="text/javascript" src="js/chart.js"></script>
    <div id="results" class="tabs" style="margin-top: 2em">
       <ul>
          <li><a href="#tagSubmittedResolved">{t}Submitted / Resolved Issues{/t}</a></li>
