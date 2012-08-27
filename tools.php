@@ -527,7 +527,7 @@ class Tools {
     */
    public static function getSecureGETStringValue($key,$defaultValue = NULL) {
       if(isset($_GET[$key])) {
-         return SqlWrapper::sql_real_escape_string($_GET[$key]);
+         return Tools::escape_string($_GET[$key]);
       }
       else if(isset($defaultValue)) {
          return $defaultValue;
@@ -547,7 +547,7 @@ class Tools {
     */
    public static function getSecurePOSTStringValue($key,$defaultValue = NULL) {
       if(isset($_POST[$key])) {
-         return SqlWrapper::sql_real_escape_string($_POST[$key]);
+         return Tools::escape_string($_POST[$key]);
       }
       else if(isset($defaultValue)) {
          return $defaultValue;
@@ -962,6 +962,17 @@ class Tools {
       $start = $keys[0];
       $end = $keys[count($keys) - 1];
       return array($start, $end);
+   }
+
+   /**
+    * Escapes special characters in a string
+    * TODO Don't use mysql_escape_string
+    * @static
+    * @param string $unescaped_string The string that is to be escaped.
+    * @return string the escaped string, or false on error.
+    */
+   public static function escape_string($unescaped_string) {
+      return mysql_escape_string($unescaped_string);
    }
 
 }

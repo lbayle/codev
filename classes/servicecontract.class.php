@@ -214,7 +214,7 @@ class ServiceContract extends Model {
    }
 
    public function setName($name) {
-      $formattedValue = SqlWrapper::sql_real_escape_string($name);  // should be in controler, not here
+      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($name);  // should be in controler, not here
       $this->name = $formattedValue;
       $query = "UPDATE `codev_servicecontract_table` SET name = '$formattedValue' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -271,7 +271,7 @@ class ServiceContract extends Model {
    }
 
    public function setDesc($description) {
-      $formattedValue = SqlWrapper::sql_real_escape_string($description);  // should be in controler, not here
+      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($description);  // should be in controler, not here
       $this->description = $formattedValue;
       $query = "UPDATE `codev_servicecontract_table` SET description = '$formattedValue' WHERE id = ".$this->id.";";
       $result = SqlWrapper::getInstance()->sql_query($query);

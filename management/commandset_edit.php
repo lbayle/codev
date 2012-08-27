@@ -80,7 +80,7 @@ class CommandSetEditController extends Controller {
                $_SESSION['teamid'] = $teamid;
                self::$logger->debug("create new CommandSet for team $teamid<br>");
 
-               $cmdsetName = SqlWrapper::sql_real_escape_string($_POST['commandsetName']);
+               $cmdsetName = Tools::escape_string($_POST['commandsetName']);
 
                $commandsetid = CommandSet::create($cmdsetName, $teamid);
                $this->smartyHelper->assign('commansetdid', $commandsetid);
@@ -152,16 +152,16 @@ class CommandSetEditController extends Controller {
       // security check
       $cmdset->setTeamid(SmartyTools::checkNumericValue($_POST['teamid']));
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetName']);
+      $formattedValue = Tools::escape_string($_POST['commandsetName']);
       $cmdset->setName($formattedValue);
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetReference']);
+      $formattedValue = Tools::escape_string($_POST['commandsetReference']);
       $cmdset->setReference($formattedValue);
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetDesc']);
+      $formattedValue = Tools::escape_string($_POST['commandsetDesc']);
       $cmdset->setDesc($formattedValue);
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['commandsetDate']);
+      $formattedValue = Tools::escape_string($_POST['commandsetDate']);
       $cmdset->setDate(Tools::date2timestamp($formattedValue));
 
       $cmdset->setCost(SmartyTools::checkNumericValue($_POST['commandsetCost'], true));

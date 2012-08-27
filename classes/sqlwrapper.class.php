@@ -209,7 +209,7 @@ class SqlWrapper {
     * @param string $unescaped_string The string that is to be escaped.
     * @return string the escaped string, or false on error.
     */
-   public static function sql_real_escape_string($unescaped_string) {
+   public function sql_real_escape_string($unescaped_string) {
       return mysql_real_escape_string($unescaped_string);
    }
 

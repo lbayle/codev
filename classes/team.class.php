@@ -147,9 +147,9 @@ class Team extends Model {
 
       if ($teamid < 0) {
          // create team
-         $formattedName = SqlWrapper::sql_real_escape_string($name);
-         $formattedDesc = SqlWrapper::sql_real_escape_string($description);
-         $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('$formattedName','$formattedDesc','$leader_id', '$date');";
+         $formattedName = SqlWrapper::getInstance()->sql_real_escape_string($name);
+         $formattedDesc = SqlWrapper::getInstance()->sql_real_escape_string($description);
+         $query = "INSERT INTO `codev_team_table`  (`name`, `description`, `leader_id`, `date`) VALUES ('".$formattedName."','".$formattedDesc."',".$leader_id.", '".$date."');";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -217,8 +217,8 @@ class Team extends Model {
     * @return int the team id or -1 if not found
     */
    public static function getIdFromName($name) {
-      $formattedName = SqlWrapper::sql_real_escape_string($name);
-      $query = "SELECT id FROM `codev_team_table` WHERE name = '$formattedName';";
+      $formattedName = SqlWrapper::getInstance()->sql_real_escape_string($name);
+      $query = "SELECT id FROM `codev_team_table` WHERE name = '".$formattedName."';";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";

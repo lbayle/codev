@@ -169,11 +169,11 @@ class BlogPost {
          $date_expire=0, $color=0) {
 
       // format values to avoid SQL injections
-      $fSeverity = SqlWrapper::sql_real_escape_string($severity);
-      $fCategory = SqlWrapper::sql_real_escape_string($category);
-      $fSummary = SqlWrapper::sql_real_escape_string($summary);
-      $fContent = SqlWrapper::sql_real_escape_string($content);
-      $fDateExpire = SqlWrapper::sql_real_escape_string($date_expire);
+      $fSeverity = SqlWrapper::getInstance()->sql_real_escape_string($severity);
+      $fCategory = SqlWrapper::getInstance()->sql_real_escape_string($category);
+      $fSummary = SqlWrapper::getInstance()->sql_real_escape_string($summary);
+      $fContent = SqlWrapper::getInstance()->sql_real_escape_string($content);
+      $fDateExpire = SqlWrapper::getInstance()->sql_real_escape_string($date_expire);
 
       $date_submitted = time(); # mktime(0, 0, 0, date('m'), date('d'), date('Y'));
 
@@ -227,7 +227,7 @@ class BlogPost {
     */
    public static function addActivity($blogPost_id, $user_id, $action, $date) {
       // check if $blogPost_id exists (foreign keys do not exist in MyISAM)
-      $fPostId = SqlWrapper::sql_real_escape_string($blogPost_id);
+      $fPostId = SqlWrapper::getInstance()->sql_real_escape_string($blogPost_id);
 
       $query = "SELECT id FROM `codev_blog_table` where id = ".$fPostId.";";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -241,9 +241,9 @@ class BlogPost {
       }
 
       // add activity
-      $fUserId = SqlWrapper::sql_real_escape_string($user_id);
-      $fAction = SqlWrapper::sql_real_escape_string($action);
-      $fDate   = SqlWrapper::sql_real_escape_string($date);
+      $fUserId = SqlWrapper::getInstance()->sql_real_escape_string($user_id);
+      $fAction = SqlWrapper::getInstance()->sql_real_escape_string($action);
+      $fDate   = SqlWrapper::getInstance()->sql_real_escape_string($date);
       $query = "INSERT INTO `codev_blog_activity_table` ".
                "(`blog_id`, `user_id`, `action`, `date`) ".
                "VALUES ('$fPostId','$fUserId','$fAction','$fDate')";

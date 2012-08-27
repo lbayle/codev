@@ -301,8 +301,8 @@ class Config {
     * @param int $team_id
     */
    public static function setValue($id, $value, $type, $desc=NULL, $project_id=0, $user_id=0, $team_id=0) {
-      $formattedValue = SqlWrapper::sql_real_escape_string($value);
-      $formattedDesc = SqlWrapper::sql_real_escape_string($desc);
+      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($value);
+      $formattedDesc = SqlWrapper::getInstance()->sql_real_escape_string($desc);
 
       // add/update DB
       $query = "SELECT * FROM `codev_config_table` ".

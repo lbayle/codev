@@ -165,7 +165,7 @@ class Jobs {
     * @return int $job_id
     */
    public static function create($job_name, $job_type, $job_color) {
-      $formattedName = SqlWrapper::sql_real_escape_string($job_name);
+      $formattedName = SqlWrapper::getInstance()->sql_real_escape_string($job_name);
       $query = "INSERT INTO `codev_job_table`  (`name`, `type`, `color`) VALUES ('$formattedName','$job_type','$job_color');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

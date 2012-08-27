@@ -79,7 +79,7 @@ class ServiceContractEditController extends Controller {
                $_SESSION['teamid'] = $teamid;
                self::$logger->debug("create new ServiceContract for team $teamid<br>");
 
-               $contractName = SqlWrapper::sql_real_escape_string($_POST['contractName']);
+               $contractName = Tools::escape_string($_POST['contractName']);
 
                $servicecontractid = ServiceContract::create($contractName, $teamid);
                $this->smartyHelper->assign('servicecontractid', $servicecontractid);
@@ -164,25 +164,25 @@ class ServiceContractEditController extends Controller {
       // security check
       $contract->setTeamid(SmartyTools::checkNumericValue($_POST['teamid']));
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractName']);
+      $formattedValue = Tools::escape_string($_POST['servicecontractName']);
       $contract->setName($formattedValue);
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractReference']);
+      $formattedValue = Tools::escape_string($_POST['servicecontractReference']);
       $contract->setReference($formattedValue);
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractVersion']);
+      $formattedValue = Tools::escape_string($_POST['servicecontractVersion']);
       $contract->setVersion($formattedValue);
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractReporter']);
+      $formattedValue = Tools::escape_string($_POST['servicecontractReporter']);
       $contract->setReporter($formattedValue);
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractDesc']);
+      $formattedValue = Tools::escape_string($_POST['servicecontractDesc']);
       $contract->setDesc($formattedValue);
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractStartDate']);
+      $formattedValue = Tools::escape_string($_POST['servicecontractStartDate']);
       $contract->setStartDate(Tools::date2timestamp($formattedValue));
 
-      $formattedValue = SqlWrapper::getInstance()->sql_real_escape_string($_POST['servicecontractEndDate']);
+      $formattedValue = Tools::escape_string($_POST['servicecontractEndDate']);
       $contract->setEndDate(Tools::date2timestamp($formattedValue));
 
       $contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));

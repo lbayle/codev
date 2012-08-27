@@ -41,7 +41,7 @@ class SmartyTools {
    public static function checkNumericValue($value, $allowNull = FALSE) {
       if ((NULL == $value) && (TRUE == $allowNull)) { return NULL; }
 
-      $formattedValue = SqlWrapper::sql_real_escape_string($value);
+      $formattedValue = Tools::escape_string($value);
       if (!is_numeric($formattedValue)) {
          echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
          $e = new Exception("SECURITY ALERT: Attempt to set non_numeric value ($value)");

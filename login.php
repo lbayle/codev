@@ -32,14 +32,14 @@ function login($user, $password) {
     global $logger;
     $password = md5($password);
 
-    $formattedUser = SqlWrapper::sql_real_escape_string($user);
-    $formattedPass = SqlWrapper::sql_real_escape_string($password);
-    $query= 'SELECT id, username, realname FROM `mantis_user_table` WHERE username = \''.$formattedUser.'\' and password = \''.$formattedPass.'\'';
+    $formattedUser = SqlWrapper::getInstance()->sql_real_escape_string($user);
+    $formattedPass = SqlWrapper::getInstance()->sql_real_escape_string($password);
+    $query = "SELECT id, username, realname FROM `mantis_user_table` WHERE username = '".$formattedUser."' AND password = '".$formattedPass."';";
     $result = SqlWrapper::getInstance()->sql_query($query);
     if ($result && SqlWrapper::getInstance()->sql_num_rows($result) == 1 && $row_login = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-        $_SESSION['userid']=$row_login->id;
-        $_SESSION['username']=$row_login->username;
-        $_SESSION['realname']=$row_login->realname;
+        $_SESSION['userid'] = $row_login->id;
+        $_SESSION['username'] = $row_login->username;
+        $_SESSION['realname'] = $row_login->realname;
 
         try {
             $user =  UserCache::getInstance()->getUser($row_login->id);
