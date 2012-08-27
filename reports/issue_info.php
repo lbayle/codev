@@ -282,7 +282,7 @@ class IssueInfoController extends Controller {
          for ($i = 1; $i <= $nbDaysInMonth; $i++) {
             $todayTimestamp = mktime(0, 0, 0, $month, $i, $year);
 
-            if (NULL != $durationByDate[$todayTimestamp]) {
+            if (array_key_exists($todayTimestamp,$durationByDate)) {
                $usersDetails[] = array(
                   "jobColor" => $jobColorByDate[$todayTimestamp],
                   "jobDuration" => $durationByDate[$todayTimestamp]

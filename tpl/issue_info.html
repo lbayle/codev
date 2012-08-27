@@ -36,7 +36,7 @@
             <span id="bugSelector">
             {include file="form/bugSelector.html"}
             </span>
-            {if $support}<input type="hidden" name="support" />{/if}
+            {if isset($support)}<input type="hidden" name="support" />{/if}
             <input type="submit" value="{t}Jump{/t}" />
          </fieldset>
       </form>
@@ -45,7 +45,7 @@
    <div id="result">
 
       <!-- Title -->
-      {if $issueGeneralInfo}
+      {if isset($issueGeneralInfo)}
 
       <div style="margin-top:2em;">{include file="modal/consistency_check.html"}</div>
 
@@ -252,11 +252,11 @@
                      </tr>
                      <tr>
                         <td>{t}DeliveryDate{/t}</td>
-                        <td>{$timeDrift.deliveryDate}</td>
+                        <td>{if isset($timeDrift.deliveryDate)}{$timeDrift.deliveryDate}{/if}</td>
                      </tr>
                      <tr>
                         <td>{t}Deviation{/t}</td>
-                        <td style="background-color: #{$timeDrift.driftColor}">{if $timeDrift.drift}{$timeDrift.drift} {t}days{/t}{/if}</td>
+                        <td style="background-color: #{$timeDrift.driftColor}">{if isset($timeDrift.drift)}{$timeDrift.drift} {t}days{/t}{/if}</td>
                      </tr>
                   </tbody>
                </table>
@@ -283,7 +283,7 @@
                   <tr>
                      <td>{$k.username}</td>
                      {foreach from=$k.jobs key=id item=l}
-                     <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{$l.jobDuration}</td>
+                     <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{if isset($l.jobDuration)}{$l.jobDuration}{/if}</td>
                      {/foreach}
                   </tr>
                   {/foreach}

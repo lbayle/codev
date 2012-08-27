@@ -135,7 +135,7 @@ class ServiceContract extends Model {
 
       $this->cmdsetidByTypeList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         if (NULL == $this->cmdsetidByTypeList["$row->type"]) {
+         if (!array_key_exists($row->type,$this->cmdsetidByTypeList)) {
             $this->cmdsetidByTypeList["$row->type"] = array();
          }
          $this->cmdsetidByTypeList["$row->type"][] = $row->commandset_id;

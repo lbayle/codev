@@ -82,7 +82,7 @@
                   <td>{$i.reestimated}</td>
                   <td>{$i.elapsed}</td>
                   <td>{$i.backlog}</td>
-                  <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
+                  <td {if isset($i.driftColor)}style='background-color: #{$i.driftColor};'{/if} title="{t}nb days{/t}">{$i.drift}</td>
                </tr>
                {else}
                <tr>
@@ -253,7 +253,7 @@
       </div>
    </div>
    {/if}
-   {if $error}
+   {if isset($error)}
    <p class="center ui-state-error-text">{t}{$error}{/t}</p>
    {/if}
 </div>

@@ -271,7 +271,7 @@ class Issue extends Model implements Comparable {
 
       if (NULL == self::$existsCache) { self::$existsCache = array(); }
 
-      if (NULL == self::$existsCache[$bugid]) {
+      if (!array_key_exists($bugid,self::$existsCache)) {
          $query  = "SELECT COUNT(id) FROM `mantis_bug_table` WHERE id=$bugid ";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {

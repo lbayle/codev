@@ -370,9 +370,12 @@ class SqlWrapper {
       if (self::$logger->isInfoEnabled()) {
          $queriesCount = $this->getQueriesCount();
 
-         foreach($this->getCountByQuery() as $query => $count) {
-            if($count > 1) {
-               self::$logger->debug($count. ' identical SQL queries on : ' . $query);
+         $queries = $this->getCountByQuery();
+         if($queries != NULL) {
+            foreach($queries as $query => $count) {
+               if($count > 1) {
+                  self::$logger->debug($count. ' identical SQL queries on : ' . $query);
+               }
             }
          }
 

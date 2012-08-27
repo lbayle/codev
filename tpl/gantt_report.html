@@ -10,7 +10,7 @@
          </fieldset>
       </form>
    </div>
-   {if $urlGraph}
+   {if isset($urlGraph)}
    <div style="margin-top: 2em;">
       <img src="graphs/gantt_graph.php?{$urlGraph}" alt="{t}Gant report{/t}"/>
    </div>

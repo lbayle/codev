@@ -36,9 +36,9 @@
       </form>
    </div>
          
-   {if $error}{t}{$error}{/t}{/if}
+   {if isset($error)}{t}{$error}{/t}{/if}
 
-   {if $submittedResolved_Legend || $timeDrift_Legend || $resolvedDrift_Legend || $efficiency_Legend || $reopenedRate_Legend || $developersWorkload_Legend}
+   {if isset($submittedResolved_Legend) || isset($timeDrift_Legend) || isset($resolvedDrift_Legend) || isset($efficiency_Legend) || isset($reopenedRate_Legend) || isset($developersWorkload_Legend)}
    {include file="tools/graph.html"}
    <script src="js/tabs.js" type="text/javascript"></script>
    <div id="results" class="tabs" style="margin-top: 2em">

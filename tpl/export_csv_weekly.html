@@ -22,7 +22,7 @@
          </fieldset>
       </form>
    </div>
-   {if $reports}
+   {if isset($reports)}
    <!-- T_("Team").": ".$teamList[$teamid]."<br/> -->
    {foreach from=$reports key=file item=i}
    <p style="margin-top: 2em">

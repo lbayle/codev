@@ -28,7 +28,7 @@
       <tr>
          <td>{t}Elapsed{/t}</td>
          {if $isManager}<td></td>{/if}
-         {if $withSupport}<td title="{t}Support included{/t}">{$issueGeneralInfo.issueElapsed}</td>
+         {if isset($withSupport)}<td title="{t}Support included{/t}">{$issueGeneralInfo.issueElapsed}</td>
          {else}<td title="{t}Support NOT included{/t}">{$issueGeneralInfo.issueElapsed}</td>
          {/if}
       </tr>
@@ -42,7 +42,7 @@
          {if $isManager}<td style="background-color: #{$issueGeneralInfo.issueDriftMgrColor}">{$issueGeneralInfo.issueDriftMgr}</td>{/if}
          <td style="background-color: #{$issueGeneralInfo.issueDriftColor}">{$issueGeneralInfo.issueDrift}</td>
       </tr>
-      {if $displaySupport}
+      {if isset($displaySupport)}
       <tr>
          {if $withSupport}<td>{t}EffortDeviation -Support{/t}</td>
          {else}<td>{t}EffortDeviation +Support{/t}</td>

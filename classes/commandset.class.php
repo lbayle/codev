@@ -134,7 +134,7 @@ class CommandSet extends Model {
          exit;
       }
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         if (NULL == $this->cmdidByTypeList["$row->type"]) {
+         if (!array_key_exists($row->type,$this->cmdidByTypeList)) {
             $this->cmdidByTypeList["$row->type"] = array();
          }
          $this->cmdidByTypeList["$row->type"][] = $row->command_id;

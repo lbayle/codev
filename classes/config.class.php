@@ -54,7 +54,7 @@ class ConfigItem {
     * @return mixed
     */
    public function getArrayValueFromKey($key) {
-      return (Config::configType_keyValue == $this->type) ? $this->value[$key] : NULL;
+      return (Config::configType_keyValue == $this->type && array_key_exists($key,$this->value)) ? $this->value[$key] : NULL;
    }
 
    /**

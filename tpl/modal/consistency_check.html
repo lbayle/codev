@@ -8,7 +8,7 @@ ccheckBoxTitle      "x Errors affecting the Planning"
 ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
 
 -->
-{if $ccheckErrList}
+{if isset($ccheckErrList)}
 <script type="text/javascript">
    jQuery(function() {
       jQuery("#dialog_ConsistencyCheck_link").click(function(event) {

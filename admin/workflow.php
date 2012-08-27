@@ -169,7 +169,7 @@ class WorkflowController extends Controller {
          foreach ($wfTrans as $sid => $sList) {
             $statusTitlesSmarty = array();
             foreach ( $statusTitles as $sid1 => $sname) {
-               $statusTitlesSmarty[$sid1] = (null == $sList[$sid1]) ? "" : "X";
+               $statusTitlesSmarty[$sid1] = array_key_exists($sid1,$sList) ? "X" : "";
             }
             $content[$sid] = array(
                'name' => $statusNames[$sid],
