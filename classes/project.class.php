@@ -867,8 +867,7 @@ class Project extends Model {
       // compare results
       $globalType = NULL;
       foreach ($teamidList as $teamid) {
-
-         if (NULL == $this->teamTypeList["$teamid"]) {
+         if (!array_key_exists($teamid,$this->teamTypeList)) {
             // project not defined for this team, skip it.
             self::$logger->debug("getProjectType(): team $teamid skipped: Project $this->id not defined fot this team.");
             continue;

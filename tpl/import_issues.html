@@ -1,7 +1,7 @@
 {include file="menu/export_csv_menu.html"}
 
 <div id="content" class="center">
-   {if !$filename}
+   {if !isset($filename)}
    <h2 class="center">{t}Select CSV file{/t} &nbsp;&nbsp;<a id="dialog_uploadCSV_link" class="help_link" href="{$page}"><img title="help" src="images/help_icon.gif"/></a></h2>
    <!-- FILE SELECTION -->
    <div id="dialog_uploadCSV" class="help_dialog" title="{t}Import Mantis Issues{/t}" class="ui-helper-hidden">
@@ -61,13 +61,13 @@
    </div>
    {/if}
 
-   {if $errorMsg}
+   {if isset($errorMsg)}
    <div style="margin-top:2em;">
-      <span style='color:red'>ERROR: {$errorMsg}</span>
+      <span class="ui-state-error-text">ERROR: {$errorMsg}</span>
    </div>
    {/if}
 
-   {if $newIssues}
+   {if isset($newIssues)}
    <script type="text/javascript" src="js/datepicker.js"></script>
    <script type="text/javascript" src="js/editable.js"></script>
    <script type="text/javascript">

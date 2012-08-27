@@ -927,8 +927,11 @@ class Tools {
       #   echo "_SERVER key=$key val=$value<br/>";
       #}}
 
-      $protocol = ($_SERVER['HTTPS'] == "on") ? "https" : "http";
-      #$protocol = "http";
+      if(array_key_exists('HTTPS',$_SERVER) && $_SERVER['HTTPS'] == "on") {
+         $protocol = "https";
+      } else {
+         $protocol = "http";
+      }
 
       $rootURL = "$protocol://".$_SERVER['HTTP_HOST'].substr( $_SERVER['PHP_SELF'], 0 , strrpos( $_SERVER['PHP_SELF'], '/') );
       #if (isset($_GET['debug'])) {echo "DEBUG rootURL=$rootURL<br/>";}

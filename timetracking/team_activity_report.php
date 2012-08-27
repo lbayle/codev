@@ -171,7 +171,9 @@ class TeamActivityReportController extends Controller {
                   for ($i = 1; $i <= 7; $i++) {
                      $duration = 0;
                      foreach ($jobList as $dayList) {
-                        $duration += $dayList[$i];
+                        if(array_key_exists($i,$dayList)) {
+                           $duration += $dayList[$i];
+                        }
                      }
                      if($duration == 0) {
                         $duration = "";

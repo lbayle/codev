@@ -138,7 +138,7 @@ class SqlWrapper {
          if (NULL == $this->countByQuery) {
             $this->countByQuery = array();
          }
-         if ($this->countByQuery[$query] == NULL) {
+         if (!array_key_exists($query, $this->countByQuery)) {
             $this->countByQuery[$query] = 1;
          } else {
             $this->countByQuery[$query] += 1;

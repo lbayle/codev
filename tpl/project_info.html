@@ -1,5 +1,5 @@
 <div id="content">
-   {if $projects}
+   {if isset($projects)}
    <div class="center">
       <form name="projectForm" method="get" action="{$page}">
          <fieldset>
@@ -9,7 +9,7 @@
       </form>
    </div>
    {/if}
-   {if $versionsOverview || $versionsDetailedMgr || $versionsDetailed || $versionsIssues}
+   {if isset($versionsOverview) || isset($versionsDetailedMgr) || isset($versionsDetailed) || isset($versionsIssues)}
    <h3>{t}Project Versions{/t}</h3>
    <script src="js/tabs.js" type="text/javascript"></script>
    <div id="tabsVersions" class="tabs">
@@ -170,7 +170,7 @@
       </div>
    </div>
    {/if}
-   {if $currentIssuesInDrift || $resolvedIssuesInDrift}
+   {if isset($currentIssuesInDrift) || isset($resolvedIssuesInDrift)}
    <h3 style="margin-top: 2em">{t}Tasks in drift{/t}</h3>
    <div id="tabsDrift" class="tabs">
       <ul>
@@ -254,6 +254,6 @@
    </div>
    {/if}
    {if $error}
-   <p class="center">{t}{$error}{/t}</p>
+   <p class="center ui-state-error-text">{t}{$error}{/t}</p>
    {/if}
 </div>

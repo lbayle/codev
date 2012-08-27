@@ -559,7 +559,14 @@ class User extends Model {
                         'title' => $issue->getSummary()
                      );
                   }
-                  self::$logger->debug("user $this->id ExternalTasks[" . date("j", $timeTrack->getDate()) . "] = " . $extTasks[date("j", $timeTrack->getDate())] . " (+".$timeTrack->getDuration().")");
+                  if(self::$logger->isDebugEnabled()) {
+                     $date = date("j", $timeTrack->getDate());
+                     $extTask = "";
+                     if(array_key_exists($date,$extTasks)) {
+                        $extTask = $extTasks[$date];
+                     }
+                     self::$logger->debug("user $this->id ExternalTasks[" . $date . "] = " . $extTask . " (+".$timeTrack->getDuration().")");
+                  }
                }
             } catch (Exception $e) {
                self::$logger->warn("getExternalTasksInPeriod: " . $e->getMessage());

@@ -88,7 +88,7 @@ class IssueSelection {
       $retCode = false;
 
       // do not add twice the same issue
-      if (NULL == $this->issueList[$bugid]) {
+      if (!array_key_exists($bugid, $this->issueList)) {
          $issue = IssueCache::getInstance()->getIssue($bugid);
          $this->issueList[$bugid] = $issue;
          $this->elapsed += $issue->getElapsed();

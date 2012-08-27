@@ -1,7 +1,7 @@
 {include file="menu/admin_menu.html"}
 
 <div id="content">
-   {if $result}
+   {if isset($result)}
    <p>
       {foreach from=$result key=id item=i}
       {t}Preparing project:{/t} {$i}<br/>
@@ -9,7 +9,7 @@
    </p>
    <p>{t}Done{/t}</p>
    {/if}
-   {if $projects}
+   {if isset($projects)}
    <h2>{t}Configure existing Projects{/t}</h2>
    <span class="help_font">{t}Select the projects to be managed with CoDev Timetracking{/t}</span>
    <form id="form1" name="form1" method="post" action="{$page}" style="margin-top: 2em;">

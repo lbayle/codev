@@ -1,8 +1,8 @@
 {include file="menu/week_activity_menu.html"}
 
 <div id="content" class="center">
-   {if $users || $otherrealname}
-   {if $users}
+   {if isset($users) || isset($otherrealname)}
+   {if isset($users)}
    <form id="formUserAndPeriodSelect" name="formUserAndPeriodSelect" method="post" action="{$page}">
       <fieldset>
          <label for="userid">{t}Name{/t} :</label>
@@ -18,7 +18,7 @@
 
    <br/>
 
-   {if $error}
+   {if isset($error)}
    <span style="color:red">{t}ERROR{/t} : {t}Query FAILED{/t} : {t}{$error}{/t}</span>
    {/if}
 
@@ -140,7 +140,7 @@
             <input type="hidden" name="nextForm" value="addTrackForm" />
             <input type="hidden" name="year" value="{$year}" />
             <input type="hidden" name="weekid" value="{$weekid}" />
-            {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
+            {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="button" name="btAddTrack" id="btAddTrack" value="{t}Add{/t}" />
          </fieldset>
       </form>
@@ -207,7 +207,7 @@
             <input type="hidden" name="bugid" value="{$defaultBugid}" />
             <input type="hidden" name="job" value="{$job}" />
             <input type="hidden" name="duree" value="{$duree}" />
-            {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
+            {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
             <input type="hidden" name="nextForm" value="addTrackForm" />
          </fieldset>
       </form>

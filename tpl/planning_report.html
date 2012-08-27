@@ -1,4 +1,4 @@
-{if $teams}
+{if isset($teams)}
 {if $width == 0}
 <script type="text/javascript">
    // If no width is set, get the windows width, reload the page with width in the url.
@@ -185,7 +185,7 @@
                                  <td>{$j.deadLine}</td>
                               </tr>
                               {/if}
-                              {if $j.handlerName}
+                              {if isset($j.handlerName)}
                               <tr>
                                  <th style="color:orange;width:35px;">{t}Monitored{/t}</th>
                                  <td>({$j.handlerName})</td>

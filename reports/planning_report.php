@@ -379,7 +379,7 @@ class PlanningReportController extends Controller {
             "title" => $formatedTitle,
             "width" => $drawnTaskPixSize,
             "color" => $color,
-            "strike" => NULL == $projList[$issue->getProjectId()],
+            "strike" => !array_key_exists($issue->getProjectId(),$projList),
             "duration" => $scheduledTask->getDuration(),
             "priorityName" => $scheduledTask->getPriorityName(),
             "severityName" => $scheduledTask->getSeverityName(),

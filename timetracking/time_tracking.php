@@ -63,7 +63,8 @@ class TimeTrackingController extends Controller {
          }
 
          // display AddTrack Page
-         if ($_POST['nextForm'] == "addTrackForm") {
+         $nextForm = Tools::getSecurePOSTStringValue('nextForm','');
+         if ($nextForm == "addTrackForm") {
             $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
 
             $year   = Tools::getSecurePOSTIntValue('year',date('Y'));

@@ -119,14 +119,19 @@ class Team extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
-      $this->name = $row->name;
-      $this->description = $row->description;
-      $this->leader_id = $row->leader_id;
-      $this->enabled = (1 == $row->enabled);
-      $this->lock_timetracks_date = $row->lock_timetracks_date;
-      $this->date = $row->date;
+      if(SqlWrapper::getInstance()->sql_num_rows($result) == 1) {
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+
+         $this->name = $row->name;
+         $this->description = $row->description;
+         $this->leader_id = $row->leader_id;
+         $this->enabled = (1 == $row->enabled);
+         $this->lock_timetracks_date = $row->lock_timetracks_date;
+         $this->date = $row->date;
+      } else {
+         self::$logger->error('The team '.$this->id." doesn't exists");
+      }
    }
 
    /**

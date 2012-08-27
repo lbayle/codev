@@ -9,7 +9,7 @@
 </script>
 
 <div id="content">
-   {if $defaultColor}
+   {if isset($defaultColor)}
    <h2 class="center">{t}Add fixed holidays{/t}</h2><br/>
    {t}In here you can set National Days, religious holidays, etc.{/t}
    <!-- {t}Note: adding RTTs is not a good idea, users may decide to work anyways and productionDaysForecast will be wrong.{/t} -->

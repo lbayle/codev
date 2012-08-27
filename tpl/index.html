@@ -1,4 +1,4 @@
-{if $ie}
+{if isset($ie)}
 <div style="color:red;margin-top:2em;">
    {t}IE may not correctly display this website{/t},<br/>
    {t}please consider using a standard complient web-browser{/t}.<br/>
@@ -28,7 +28,7 @@
    </ul>
 </div>
 
-{if $driftedTasks}
+{if isset($driftedTasks)}
 <!-- Consistency errors -->
 <div style="margin: 2em auto 0;padding: 2em;display: inline-block;" class="ui-widget-content">
    <script type="text/javascript">
@@ -137,7 +137,7 @@
 </div>
 {/if}
 
-{if $consistencyErrors}
+{if isset($consistencyErrors)}
 <!-- Consistency errors -->
 <div style="margin-top:2em;">
    <script type="text/javascript">
@@ -158,7 +158,7 @@
                <tr>
                   <td>{$i.issueURL}</td>
                   <td class="ui-state-error-text">{$i.status}</td>
-                  <td class="ui-state-error-text" {if $i.addInfo}title="{$i.addInfo}"{/if}>{$i.desc}</td>
+                  <td class="ui-state-error-text" {if isset($i.addInfo)}title="{$i.addInfo}"{/if}>{$i.desc}</td>
                </tr>
                {/foreach}
             </tbody>

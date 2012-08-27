@@ -1,5 +1,5 @@
 <div id="content">
-   {if $teams}
+   {if isset($teams)}
 
    {include file="form/teamForm.html"}
 
@@ -37,5 +37,7 @@
    </table>
    {/if}
    {/if}
+   {else}
+   <p class="center ui-state-error-text">{t}Sorry, you do NOT have access to this page{/t}</p>
    {/if}
 </div>

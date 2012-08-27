@@ -896,7 +896,7 @@ class TimeTracking {
       }
 
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         if (null == $weekTracks[$row->bugid]) {
+         if (!array_key_exists($row->bugid,$weekTracks)) {
             $weekTracks[$row->bugid] = array();
             $weekTracks[$row->bugid][$row->jobid] = array();
          }
