@@ -2,6 +2,7 @@
 
 <div id="content" style="margin-left:10em;margin-right:10em">
    {if $logs}
+   <script type="text/javascript" src="js/datatable.js"></script>
    <table id="logs_table" class="datatable display">
       <thead>
          <tr>
@@ -18,13 +19,6 @@
          {/foreach}
       </tbody>
    </table>
-   <script type="text/javascript">
-      jQuery.ajax({
-         url: "js/datatable.js",
-         dataType: "script",
-         cache: true
-      });
-   </script>
    {else}
    <p class="center">{$error}</p>
    {/if}
