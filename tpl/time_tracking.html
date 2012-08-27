@@ -238,12 +238,12 @@
       </script>
       <div id="accordion" style="width:360px;" >
          <h3><a href="{$page}">{t}Missing dates{/t}</a></h3>
-            <table class="invisible left ui-state-error-text">
+            <table class="invisible left ui-state-error-text" style="width:100%;">
                <tbody>
                   {foreach from=$warnings item=i}
                   <tr>
                      <td>{$i.date}</td>
-                     <td>{$i.value}</td>
+                     <td style="width:100%">{$i.value}</td>
                   </tr>
                   {/foreach}
                </tbody>
