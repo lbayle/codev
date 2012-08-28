@@ -390,7 +390,7 @@ class ServiceContract extends Model {
          }
       }
 
-      return $this->sidetasksProjectList = array();
+      return $this->sidetasksProjectList;
    }
 
    /**
