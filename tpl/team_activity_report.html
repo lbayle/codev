@@ -138,9 +138,9 @@
       <div id="accordion" style="width:450px;">
          <h3><a href="{$page}">{t}Missing dates{/t}</a></h3>
          <div align="left">
-            <table class="invisible">
+            <table class="invisible ui-state-error-text">
                {foreach from=$warnings item=i key=id}
-               <tr style="color:red">
+               <tr>
                   <td>{$i.username}</td>
                   <td>{$i.date}</td>
                   <td>{$i.label}</td>
