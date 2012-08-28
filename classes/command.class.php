@@ -507,8 +507,9 @@ class Command extends Model {
    public function getIssueSelection() {
       if(NULL == $this->issueSelection) {
          $this->issueSelection = new IssueSelection($this->name);
-         $query = "SELECT * FROM `codev_command_bug_table` " .
-                  "WHERE command_id = ".$this->id.";";
+         $query = "SELECT bug.* FROM `mantis_bug_table` AS bug ".
+                  "JOIN `codev_command_bug_table` AS command_bug ON bug.id = command_bug.bug_id " .
+                  "WHERE command_bug.command_id = ".$this->id.";";
          #", `mantis_bug_table`".
          #"WHERE codev_command_bug_table.command_id=$this->id ".
          #"AND codev_command_bug_table.bug_id = mantis_bug_table.id ".
@@ -519,14 +520,18 @@ class Command extends Model {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
+         
+         $issues = array();
          while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             try {
-               $this->getIssueSelection()->addIssue($row->bug_id);
+               $issue = IssueCache::getInstance()->getIssue($row->id, $row);
+               $issues[$row->id] = $issue;
             } catch (Exception $e) {
-               echo "<span style='color:red'>WARNING: Task $row->bug_id does not exist in Mantis and has been removed from this Command !</span><br>";
-               $this->removeIssue($row->bug_id);
+               echo "<span style='color:red'>WARNING: Task $row->id does not exist in Mantis and has been removed from this Command !</span><br>";
+               $this->removeIssue($row->id);
             }
          }
+         $this->getIssueSelection()->addIssueList($issues);
       }
       return $this->issueSelection;
    }
