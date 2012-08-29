@@ -66,8 +66,20 @@ max_allowed_packet      = 64M
 5) /etc/httpd/conf/httpd.conf
    ServerName codevserver:80
 
+   <Directory "/var/www/html">
+
+      (...)
+
+      # AllowOverride controls what directives may be placed in .htaccess files.
+      AllowOverride All
+
+      (...)
+
+   </Directory>
+
    REM: Demarrage de httpd: httpd: Could not reliably determine the server's fully qualified domain name, using ::1 for ServerName
-        -> Dans le fichier httpd.conf d'apache, renseigne le champ ServerName. 
+        -> Dans le fichier httpd.conf d'apache, renseigne le champ ServerName.
+
 
 6) restart services 
    service mysqld restart
