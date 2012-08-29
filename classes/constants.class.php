@@ -127,8 +127,8 @@ class Constants {
       self::$resolution_reopened = $resolution['resolution_reopened'];
 
       $relationships = $ini_array['relationships'];
-      define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', $relationships['BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY'] );
-      define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',     $relationships['BUG_CUSTOM_RELATIONSHIP_CONSTRAINS'] );
+      define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', $relationships['relationship_constrained_by'] );
+      define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',     $relationships['relationship_constrains'] );
 
    }
 
@@ -175,8 +175,8 @@ class Constants {
       $resolution['resolution_reopened'] = self::$resolution_reopened;
 
       $relationships = array();
-      $relationships['BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY'] = BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY;
-      $relationships['BUG_CUSTOM_RELATIONSHIP_CONSTRAINS']     = BUG_CUSTOM_RELATIONSHIP_CONSTRAINS;
+      $relationships['relationship_constrained_by'] = BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY;
+      $relationships['relationship_constrains']     = BUG_CUSTOM_RELATIONSHIP_CONSTRAINS;
 
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';

@@ -39,6 +39,7 @@ resolution_fixed = 20
 resolution_reopened = 30
 
 [relationships]
-BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY = 2500
-BUG_CUSTOM_RELATIONSHIP_CONSTRAINS = 2501
+relationship_constrained_by = 2500
+relationship_constrains = 2501
+
 
