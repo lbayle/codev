@@ -1,21 +1,33 @@
+; This file is part of CodevTT.
+; - The Variables in here can be customized to your needs
+; - This file has been generated during install on YYYYMMDD
+
 [general]
 codevInstall_timestamp = 0
-codevtt_logfile = /tmp/codevtt/logs/codevtt.log
-homepage_title = Welcome
+codevtt_output_dir = /tmp/codevtt
+codevtt_logfile = "/tmp/codevtt/logs/codevtt.log"
+homepage_title = "Welcome"
+mantis_url = https://localhost/mantis
+mantis_dir = /opt/mantis
+codevtt_dir = /opt/codevtt
 
 [database]
-db_mantis_host      = localhost
-db_mantis_database  = bugtracker
-db_mantis_user      = mantisdbuser
-db_mantis_pass      = secret_password
+db_mantis_host      = "localhost"
+db_mantis_database  = "bugtracker"
+db_mantis_user      = "mantisdbuser"
+db_mantis_pass      = "secret_password"
 
 [mantis]
-status_names = 10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed
-priority_names = 10:none,20:low,30:normal,40:high,50:urgent,60:immediate
-resolution_names = 10:open,20:fixed,30:reopened,40:unable to duplicate,50:not fixable,60:duplicate,70:not a bug,80:suspended,90:wont fix
-severity_names = 10:feature,20:trivial,30:text,40:tweak,50:minor,60:major,70:crash,80:block
+status_enum_string = "10:new,20:feedback,30:acknowledged,40:analyzed,50:open,80:resolved,82:validated,85:delivered,90:closed,"
+priority_enum_string = "10:none,20:low,30:normal,40:high,50:urgent,60:immediate,"
+resolution_enum_string = "10:open,20:fixed,30:reopened,40:unable to duplicate,50:not fixable,60:duplicate,70:not a bug,80:suspended,90:wont fix,"
+severity_enum_string = "10:feature,20:trivial,30:text,40:tweak,50:minor,60:major,70:crash,80:block,"
+bug_resolved_status_threshold = 80
 
 [status]
+; Note: CodevTT needs some status to be defined (new, feedback, acknowledged, open, closed)
+; please add equivalences in accordance to your workflow.
+; ex: status_open = 50 (assigned)
 status_new = 10
 status_feedback = 20
 status_acknowledged = 30
@@ -29,3 +41,4 @@ resolution_reopened = 30
 [relationships]
 BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY = 2500
 BUG_CUSTOM_RELATIONSHIP_CONSTRAINS = 2501
+

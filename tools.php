@@ -500,7 +500,7 @@ class Tools {
     * @return int 0 if Success
     */
    public static function execSQLscript2($sqlFile) {
-      $command = "mysql --host=".DatabaseInfo::$db_mantis_host." --user=".DatabaseInfo::$db_mantis_user." --password=".DatabaseInfo::$db_mantis_pass."  ".DatabaseInfo::$db_mantis_database." < ".$sqlFile;
+      $command = "mysql --host=".Constants::$db_mantis_host." --user=".Constants::$db_mantis_user." --password=".Constants::$db_mantis_pass."  ".Constants::$db_mantis_database." < ".$sqlFile;
 
       #$status = system($command, $retCode);
       $status = exec($command, $output, $retCode);
@@ -977,6 +977,81 @@ class Tools {
    public static function escape_string($unescaped_string) {
       return mysql_escape_string($unescaped_string);
    }
+
+   /**
+    * write ini file (read with parse_ini_file)
+    * 
+    * source: http://www.php.net/manual/en/function.parse-ini-file.php
+    * 
+    * @param type $array
+    * @param type $file
+    *
+    * @return TRUE if write succeeded
+    */
+   public static function write_php_ini($array, $file) {
+      $res = array();
+      foreach($array as $key => $val) {
+
+         // write empty lines
+         if (('' === $val) || ("\n" === $val)) {
+            $res[] = "";
+            continue;
+         }
+
+         if(is_array($val)) {
+            $res[] = "[$key]";
+            foreach($val as $skey => $sval) {
+               if (0 === strpos($sval, ';', 0)) {
+                  // write comments as is.
+                  $res[] = $sval;
+               } else {
+                  $res[] = "$skey = ".(is_numeric($sval) ? $sval : '"'.$sval.'"');
+               }
+            }
+         } else {
+            if (0 === strpos($val, ';', 0)) {
+               // write comments as is.
+               $res[] = $val;
+            } else {
+               $res[] = "$key = ".(is_numeric($val) ? $val : '"'.$val.'"');
+            }
+
+         }
+      }
+      return self::safeFileRewrite($file, implode("\n", $res));
+   }
+
+   /**
+    *
+    * source: http://www.php.net/manual/en/function.parse-ini-file.php
+    *
+    * @param type $fileName
+    * @param type $dataToSave
+    */
+   public static function safeFileRewrite($fileName, $dataToSave) {
+      $fp = fopen($fileName, 'w');
+      if ($fp) {
+         $startTime = microtime();
+         do {
+            $canWrite = flock($fp, LOCK_EX);
+            // If lock not obtained sleep for 0 - 100 milliseconds, to avoid collision and CPU load
+            if(!$canWrite) usleep(round(rand(0, 100)*1000));
+         } while ((!$canWrite)and((microtime()-$startTime) < 1000));
+
+         //file was locked so now we can store information
+         if ($canWrite) {
+            fwrite($fp, $dataToSave);
+            flock($fp, LOCK_UN);
+         }
+         fclose($fp);
+      } else {
+         echo "ERROR : safefilerewrite() could not write to file: $fileName<br>";
+         return FALSE;
+      }
+      return TRUE;
+   }
+
+
 
 }
 

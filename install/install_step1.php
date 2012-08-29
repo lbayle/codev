@@ -131,7 +131,7 @@ function checkDBprivileges($db_mantis_database = 'bugtracker') {
 
 
 /**
- * updates mysql_config_inc.php with connection parameters
+ * writes an INCOMPLETE config.ini file (containing only DB access variables)
  *
  * WARN: depending on your HTTP server installation, the file may be created
  * by user 'apache', so be sure that this user has write access
@@ -139,39 +139,26 @@ function checkDBprivileges($db_mantis_database = 'bugtracker') {
  *
  * @return NULL if Success, ErrorString if Failed
  */
-function createMysqlConfigFile($db_mantis_host = 'localhost',
+function createConfigFile($db_mantis_host = 'localhost',
                                $db_mantis_user = 'mantis',
                                $db_mantis_pass = '',
                                $db_mantis_database = 'bugtracker') {
 
-   #echo "DEBUG create file ".self::FILENAME_MYSQL_CONFIG."<br/>";
-   // create/overwrite file
-   $fp = fopen(Install::FILENAME_MYSQL_CONFIG, 'w');
+   Constants::$db_mantis_host = $db_mantis_host;
+   Constants::$db_mantis_user = $db_mantis_user;
+   Constants::$db_mantis_pass = $db_mantis_pass;
+   Constants::$db_mantis_database = $db_mantis_database;
 
-   if (!$fp) {
-      return "ERROR: creating file " . Install::FILENAME_MYSQL_CONFIG;
-   } else {
-      $stringData = "<?php\n";
-      $stringData .= "\n";
-      $stringData .= "/**\n";
-      $stringData .= " * Mantis DB infomation.\n";
-      $stringData .= " */\n";
-      $stringData .= "class DatabaseInfo {\n";
-      $stringData .= "   public static \$db_mantis_host = '$db_mantis_host';\n";
-      $stringData .= "   public static \$db_mantis_user = '$db_mantis_user';\n";
-      $stringData .= "   public static \$db_mantis_pass = '$db_mantis_pass';\n";
-      $stringData .= "   public static \$db_mantis_database = '$db_mantis_database';\n";
-      $stringData .= "}\n";
-      $stringData .= "\n";
-      $stringData .= "?>\n";
-      if (!fwrite($fp, $stringData)) {
-         fclose($fp);
-         return "ERROR: could not write to file " . Install::FILENAME_MYSQL_CONFIG;
-      }
-      fclose($fp);
+   // this writes an INCOMPLETE config.ini file (containing only DB access variables)
+   $retCode = Constants::writeConfigFile();
+
+   if (!$retCode) {
+      // TODO throw exception...
+      return "ERROR: Could not create file ".Constants::$config_file;
    }
    return NULL;
 }
+
 
 function displayStepInfo() {
    echo "<h2>".T_("Prerequisites")."</h2>\n";
@@ -256,8 +243,8 @@ if ("setDatabaseInfo" == $action) {
       exit;
    }
 
-   echo "DEBUG 1/3 createMysqlConfigFile<br/>";
-   $errStr = createMysqlConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
+   echo "DEBUG 1/3 create config.ini file<br/>";
+   $errStr = createConfigFile($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
       exit;

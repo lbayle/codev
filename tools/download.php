@@ -23,10 +23,9 @@ if (isset($_SESSION['userid'])) {
 
    // CodevTT specific
    if (isset($_GET['importTemplates'])) {
-      $codevReportsDir = '../import/';
+      $codevReportsDir = '..'.DIRECTORY_SEPARATOR.'import'.DIRECTORY_SEPARATOR;
    } else {
-      $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
-      $codevReportsDir .= '/';
+      $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR;
    }
 
    // Allow direct file download (hotlinking)?

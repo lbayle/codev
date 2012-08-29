@@ -20,7 +20,7 @@ include_once('../include/session.inc.php');
 
 require_once('classes/issue.class.php');
 
-require_once('constants.php');
+require_once('classes/constants.class.php');
 
 include_once('classes/config.class.php');
 include_once('classes/sqlwrapper.class.php');

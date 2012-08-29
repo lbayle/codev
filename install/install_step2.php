@@ -51,104 +51,47 @@ require_once('install/install_menu.inc.php');
  *
  * @return NULL if OK, or an error message starting with 'ERROR' .
  */
-function createConstantsFile() {
-   #echo "DEBUG: create file ".self::FILENAME_CONSTANTS."<br/>";
+function createConstantsFile($path_mantis) {
 
-   $today = Tools::date2timestamp(date("Y-m-d"));
+   // --- general ---
+   Constants::$codevtt_logfile = '/tmp/codevtt/logs/codevtt.log';
+   Constants::$homepage_title = 'Welcome';
+   Constants::$mantisURL = 'http://'.$_SERVER['HTTP_HOST'].'/mantis';
+   Constants::$mantisPath = $path_mantis;
+   Constants::$codevRootDir = dirname(__FILE__)."/.."; // FIXME: set real root dir
 
-   // create/overwrite file
-   $fp = fopen(Install::FILENAME_CONSTANTS, 'w');
+   // --- database ---
+   // already set...
+ 
+   // --- mantis ---
+   // already set...
 
-   if (!$fp) {
-      return "ERROR creating file " . Install::FILENAME_CONSTANTS . " (current dir=" . getcwd() . ")";
+   // --- status ---
+   $status_new          = array_search('new', $statusNames);
+   $status_feedback     = array_search('feedback', $statusNames);
+   $status_acknowledged = array_search('acknowledged', $statusNames);
+   $status_open         = array_search('open', $statusNames);
+   $status_closed       = array_search('closed', $statusNames);
+
+   Constants::$status_new = $status_new;
+   Constants::$status_feedback = $status_feedback;
+   Constants::$status_acknowledged = $status_acknowledged;
+   Constants::$status_open = (NULL != $status_open) ? $status_open : 50; // (50 = 'assigned' in default mantis workflow)
+   Constants::$status_closed = $status_closed;
+
+   // --- resolution ---
+   Constants::$resolution_fixed    = array_search('fixed',    Constants::$resolution_names);
+   Constants::$resolution_reopened = array_search('reopened', Constants::$resolution_names);
+
+   define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', 2500 );
+   define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS', 2501 );
+
+   $retCode = Constants::writeConfigFile();
+
+   if (!$retCode) {
+      // TODO throw exception...
+      return "ERROR: Could not create file ".Constants::$config_file;
    }
-
-   $stringData = "<?php\n";
-   $stringData .= "// This file is part of CoDev-Timetracking.\n";
-   $stringData .= "// - The Variables in here can be customized to your needs\n";
-   $stringData .= "// - This file has been generated during install on " . date("D d M Y H:i") . "\n";
-   $stringData .= "\n";
-   $stringData .= "include_once('classes/config.class.php');\n";
-   $stringData .= "\n";
-   $stringData .= "class Constants {\n";
-   $stringData .= "\n";
-   $stringData .= "   public static \$codevInstall_timestamp;\n";
-   $stringData .= "\n";
-   $stringData .= "   public static \$mantisURL;\n";
-   $stringData .= "\n";
-   $stringData .= "   // log file as defined in log4php.xml\n";
-   $stringData .= "   public static \$codevtt_logfile;\n";
-   $stringData .= "\n";
-   $stringData .= "   public static \$homepage_title;\n";
-   $stringData .= "\n";
-   $stringData .= "   public static \$codevRootDir;\n";
-   $stringData .= "\n";
-   $stringData .= "   // --- RESOLUTION ---\n";
-   $stringData .= "   # WARNING: watch out for i18n ! special chars may break PHP code and/or DB values\n";
-   $stringData .= "   # INFO: the values depend on what you defined in codev_config_table.resolutionNames\n";
-   $stringData .= "   public static \$resolution_fixed;\n";
-   $stringData .= "   public static \$resolution_reopened;\n";
-   $stringData .= "\n";
-
-   $stringData .= "   // --- STATUS ---\n";
-   $stringData .= "   # WARNING: CodevTT uses some global variables for status.\n";
-   $stringData .= "   #          Some of these variables are used in the code, so if they are not defined\n";
-   $stringData .= "   #          in the mantis workflow, they need to be created. The mandatory variables are:\n";
-   $stringData .= "   #           \$status_new, \$status_feedback, \$status_acknowledged,\n";
-   $stringData .= "   #           \$status_open, \$status_closed\n";
-   $stringData .= "\n";
-   $stringData .= "   public static \$statusNames;\n";
-   $stringData .= "\n";
-
-   $statusList = Config::getInstance()->getValue(Config::id_statusNames);
-   foreach ($statusList as $s_name) {
-      // TODO stringFormat s_name
-      $stringData .= "   public static \$status_".$s_name.";\n";
-   }
-
-   $stringData .= "   // TODO add equivalences for all mandatory status not present in workflow (see mantis 131)\n";
-   $stringData .= "   // ex: \$status_open = \$status_assigned;\n";
-
-   $stringData .= "\n";
-   $stringData .= "   public static function staticInit() {\n";
-   $stringData .= "\n";
-   $stringData .= "      self::\$codevInstall_timestamp = ".$today.";\n";
-   $stringData .= "\n";
-   $stringData .= "      self::\$mantisURL = 'http://'.\$_SERVER['HTTP_HOST'].'/mantis';\n";
-   $stringData .= "\n";
-   $stringData .= "      self::\$codevtt_logfile = '/tmp/codevtt/logs/codevtt.log';\n";
-   $stringData .= "\n";
-   $stringData .= "      self::\$homepage_title = 'Welcome';\n";
-   $stringData .= "\n";
-   $stringData .= "      self::\$codevRootDir = dirname(__FILE__);\n";
-   $stringData .= "\n";
-   $stringData .= "      self::\$resolution_fixed = array_search('fixed', Config::getInstance()->getValue(Config::id_resolutionNames));  # 20\n";
-   $stringData .= "      self::\$resolution_reopened = array_search('reopened', Config::getInstance()->getValue(Config::id_resolutionNames));  # 30;\n";
-   $stringData .= "\n";
-   $stringData .= "      self::\$statusNames = Config::getInstance()->getValue(Config::id_statusNames);\n";
-   $stringData .= "\n";
-   foreach ($statusList as $s_name) {
-      // TODO stringFormat s_name
-      $stringData .= "   self::\$status_".$s_name." = array_search('".$s_name."', self::\$statusNames);\n";
-   }
-   $stringData .= "\n";
-   $stringData .= "      date_default_timezone_set('Europe/Paris');\n";
-   $stringData .= "\n";
-   // Constrains
-   $stringData .= "      # Custom Relationships\n";
-   $stringData .= "      define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', 2500 );\n";
-   $stringData .= "      define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS', 2501 );\n";
-   $stringData .= "   }\n";
-   $stringData .= "\n";
-   $stringData .= "}\n";
-   $stringData .= "\n";
-   $stringData .= "Constants::staticInit();\n";
-   $stringData .= "\n";
-
-   $stringData .= "?>\n";
-   fwrite($fp, $stringData);
-   fclose($fp);
-
    return NULL;
 }
 
@@ -294,30 +237,29 @@ if ("proceedStep2" == $action) {
 
    echo "DEBUG 4/8 add statusNames<br/>";
    $desc = T_("status Names as defined in Mantis (status_enum_string)");
-   Config::getInstance()->setValue(Config::id_statusNames, $status_enum_string, Config::configType_keyValue , $desc);
+   Constants::$statusNames = Tools::doubleExplode(':', ',', $status_enum_string);
 
    echo "DEBUG 5/8 add priorityNames<br/>";
    $desc = T_("priority Names as defined in Mantis (priority_enum_string)");
    $formatedString = str_replace("'", " ", $priority_enum_string);
-   Config::getInstance()->setValue(Config::id_priorityNames, $formatedString, Config::configType_keyValue , $desc);
+   Constants::$priority_names = Tools::doubleExplode(':', ',', $priority_enum_string);
 
    echo "DEBUG 5.1/8 add severityNames<br/>";
    $desc = T_("severity Names as defined in Mantis (severity_enum_string)");
    $formatedString = str_replace("'", " ", $severity_enum_string);
-   Config::getInstance()->setValue(Config::id_severityNames, $formatedString, Config::configType_keyValue , $desc);
+   Constants::$severity_names = Tools::doubleExplode(':', ',', $severity_enum_string);
 
    echo "DEBUG 6/8 add resolutionNames<br/>";
    $desc = T_("resolution Names as defined in Mantis (resolution_enum_string)");
    $formatedString = str_replace("'", " ", $resolution_enum_string);
-   Config::getInstance()->setValue(Config::id_resolutionNames, $formatedString, Config::configType_keyValue , $desc);
+   Constants::$resolution_names = Tools::doubleExplode(':', ',', $resolution_enum_string);
 
    echo "DEBUG 7/8 add bug_resolved_status_threshold<br/>";
    $bug_resolved_status_threshold = isset($g_bug_resolved_status_threshold) ? $g_bug_resolved_status_threshold : constant("RESOLVED");
-   $desc = T_("bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)");
-   Config::getInstance()->setValue(Config::id_bugResolvedStatusThreshold, "$bug_resolved_status_threshold", Config::configType_int , $desc, "0");
+   Constants::$bug_resolved_status_threshold = Tools::doubleExplode(':', ',', $bug_resolved_status_threshold);
 
-   echo "DEBUG 8/8 create constants.php<br/>";
-   $errStr = createConstantsFile();
+   echo "DEBUG 8/8 create ".Constants::$config_file." file<br/>";
+   $errStr = createConstantsFile($path_mantis);
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
       exit;

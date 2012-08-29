@@ -88,7 +88,7 @@ class Config {
    const id_adminTeamId = "adminTeamId";
    const id_statusNames = "statusNames";
    const id_astreintesTaskList = "astreintesTaskList";
-   const id_codevReportsDir = "codevReportsDir";
+   const id_codevReportsDir = "codevReportsDir"; // DEPRECATED since 0.99.18
    const id_customField_ExtId  = "customField_ExtId";
    const id_customField_MgrEffortEstim = "customField_MgrEffortEstim";  // ex ETA/PrelEffortEstim
    const id_customField_effortEstim  = "customField_effortEstim"; //  BI
@@ -97,13 +97,13 @@ class Config {
    const id_customField_addEffort = "customField_addEffort"; // BS
    const id_customField_deliveryId = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
    const id_customField_deliveryDate = "customField_deliveryDate";
-   const id_priorityNames = "priorityNames";
-   const id_severityNames = "severityNames";
-   const id_resolutionNames = "resolutionNames";
+   const id_priorityNames = "priorityNames";     // DEPRECATED since 0.99.18
+   const id_severityNames = "severityNames";     // DEPRECATED since 0.99.18
+   const id_resolutionNames = "resolutionNames"; // DEPRECATED since 0.99.18
    const id_mantisFile_strings = "mantisFile_strings";
    const id_mantisFile_custom_strings = "mantisFile_custom_strings";
-   const id_mantisPath = "mantisPath";
-   const id_bugResolvedStatusThreshold = "bug_resolved_status_threshold";
+   const id_mantisPath = "mantisPath";           // DEPRECATED since 0.99.18
+   const id_bugResolvedStatusThreshold = "bug_resolved_status_threshold"; // DEPRECATED since 0.99.18
    const id_timetrackingFilters = "timetrackingFilters";
    const id_blogCategories = "blogCategories";
    const id_defaultTeamId = "defaultTeamId";

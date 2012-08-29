@@ -91,7 +91,7 @@ function createGreasemonkeyFile() {
 function updateMantisCustomFiles() {
    global $logger;
 
-   $mantisPath = Config::getInstance()->getValue(Config::id_mantisPath);
+   $mantisPath = Constants::$mantisPath;
 
    // write constants
    $myFile = "$mantisPath/custom_constant_inc.php";
@@ -428,7 +428,7 @@ function displayStepInfo() {
    echo "";
 }
 
-function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
+function displayForm($originPage, $defaultOutputDir, $checkReportsDirError,
                      $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
                      $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
                      $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,
@@ -438,7 +438,7 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
    echo "<form id='form1' name='form1' method='post' action='$originPage' >\n";
 
    // ------ Reports
-   echo "<h2>".T_("Path for .CSV reports")."</h2>\n";
+   echo "<h2>".T_("Path to output files (logs, reports, ...)")."</h2>\n";
    if (NULL != $checkReportsDirError) {
       if (FALSE == strstr($checkReportsDirError, T_("ERROR"))) {
          echo "<span class='success_font'>$checkReportsDirError</span><br/>\n";
@@ -446,7 +446,7 @@ function displayForm($originPage, $defaultReportsDir, $checkReportsDirError,
          echo "<span class='error_font'>$checkReportsDirError</span><br/>\n";
       }
    }
-   echo "<code><input size='50' type='text' style='font-family: sans-serif' name='reportsDir'  id='reportsDir' value='$defaultReportsDir'></code></td>\n";
+   echo "<code><input size='50' type='text' style='font-family: sans-serif' name='outputDir'  id='outputDir' value='$defaultOutputDir'></code></td>\n";
    echo "<input type=button value='".T_("Check")."' onClick='javascript: checkReportsDir()'>\n";
 
    echo "  <br/>\n";
@@ -587,11 +587,11 @@ $adminTeamName = T_("CodevTT admin");
 $adminTeamLeaderId = 1; // 1 is mantis administrator
 
 #$defaultReportsDir = "\\\\172.24.209.4\Share\FDJ\Codev_Reports";
-$defaultReportsDir = "/tmp/codevtt/reports";
+$defaultReportsDir = "/tmp/codevtt";
 
 $action               = isset($_POST['action']) ? $_POST['action'] : '';
 $is_modified          = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
-$codevReportsDir      = isset($_POST['reportsDir']) ? $_POST['reportsDir'] : $defaultReportsDir;
+$codevOutputDir      = isset($_POST['outputDir']) ? $_POST['outputDir'] : $defaultReportsDir;
 
 // 'is_modified' is used because it's not possible to make a difference
 // between an unchecked checkBox and an unset checkbox variable
@@ -635,7 +635,7 @@ $checkReportsDirError = NULL;
 // ---
 if ("checkReportsDir" == $action) {
 
-   $checkReportsDirError = Tools::checkWriteAccess($codevReportsDir);
+   $checkReportsDirError = Tools::checkWriteAccess($codevOutputDir);
 
 
 } else if ("proceedStep3" == $action) {
@@ -668,9 +668,13 @@ if ("checkReportsDir" == $action) {
    createAdminTeam($adminTeamName, $adminTeamLeaderId);
 
    // Set path for .CSV reports (Excel)
-   echo "DEBUG 8/11 add codevReportsDir<br/>";
-   $desc = T_("path for .CSV reports");
-   Config::getInstance()->setValue(Config::id_codevReportsDir, $codevReportsDir, Config::configType_string , $desc);
+   echo "DEBUG 8/11 add CodevTT output directory<br/>";
+   Constants::$codevOutputDir = $codevOutputDir;
+   $retCode = Constants::writeConfigFile();
+   if (FALSE == $retCode) {
+      echo "<span class='error_font'>ERROR: could not add codevtt_output_dir to ".Constants::$config_file."</span><br/>";
+      exit;
+   }
 
    // Create default tasks
    echo "DEBUG 9/11 Create external tasks<br/>";
@@ -725,7 +729,7 @@ if ("checkReportsDir" == $action) {
 #displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
 
-displayForm($originPage, $codevReportsDir, $checkReportsDirError,
+displayForm($originPage, $codevOutputDir, $checkReportsDirError,
    $isJob1, $isJob2, $isJob3, $isJob4, $isJob5,
    $job1, $job2, $job3, $job4, $job5, $job_support, $job_sideTasks,
    $jobSupport_color, $jobNA_color, $job1_color, $job2_color, $job3_color, $job4_color, $job5_color,

@@ -18,7 +18,7 @@
 
 require_once('consistency_check.class.php');
 
-require_once('constants.php');
+require_once('classes/constants.class.php');
 
 include_once('classes/config.class.php');
 include_once('classes/issue_cache.class.php');

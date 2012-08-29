@@ -568,18 +568,15 @@ class Issue extends Model implements Comparable {
    }
 
    public function getPriorityName() {
-      $priorityNames = Config::getInstance()->getValue(Config::id_priorityNames);
-      return $priorityNames[$this->priority];
+      return Constants::$priority_names[$this->priority];
    }
 
    public function getSeverityName() {
-      $severityNames = Config::getInstance()->getValue(Config::id_severityNames);
-      return $severityNames[$this->severity];
+      return Constants::$severity_names[$this->severity];
    }
 
    public function getResolutionName() {
-      $resolutionNames = Config::getInstance()->getValue(Config::id_resolutionNames);
-      return $resolutionNames[$this->resolution];
+      return Constants::$resolution_names[$this->resolution];
    }
 
    /**

@@ -27,7 +27,11 @@ class ExportCSVMonthlyController extends Controller {
     * @static
     */
    public static function staticInit() {
-      // Nothing special
+
+      if (!is_dir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports')) {
+         mkdir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports', 0755);
+      }
+
    }
 
    protected function display() {
@@ -69,12 +73,12 @@ class ExportCSVMonthlyController extends Controller {
             if (isset($_POST['teamid']) && 0 != $teamid) {
                $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-               $myFile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
+               $myFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".date("Ymd").".csv";
 
                ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $myFile);
                $this->smartyHelper->assign('managedIssuesToCSV', basename($myFile));
 
-               $myFile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
+               $myFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Projects_".date("Ymd", $timeTracking->getStartTimestamp())."-".date("Ymd", $timeTracking->getEndTimestamp()).".csv";
 
                $this->exportProjectMonthlyActivityToCSV($timeTracking, $myFile);
                $this->smartyHelper->assign('projectMonthlyActivityToCSV', basename($myFile));
@@ -82,11 +86,11 @@ class ExportCSVMonthlyController extends Controller {
                // reduce scope to enhance speed
                $reports = array();
                for ($i = 1; $i <= 12; $i++) {
-                  $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, Config::getInstance()->getValue(Config::id_codevReportsDir)));
+                  $reports[] = basename(ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName,  Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'));
                }
                $this->smartyHelper->assign('reports', $reports);
 
-               $this->smartyHelper->assign('reportsDir', Config::getInstance()->getValue(Config::id_codevReportsDir));
+               $this->smartyHelper->assign('reportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
             }
          }
       }

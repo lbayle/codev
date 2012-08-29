@@ -100,8 +100,8 @@ class SqlWrapper {
     */
    public static function getInstance() {
       if (!isset(self::$instance)) {
-         self::createInstance(DatabaseInfo::$db_mantis_host, DatabaseInfo::$db_mantis_user,
-                              DatabaseInfo::$db_mantis_pass, DatabaseInfo::$db_mantis_database);
+         self::createInstance(Constants::$db_mantis_host, Constants::$db_mantis_user,
+                              Constants::$db_mantis_pass, Constants::$db_mantis_database);
       }
       return self::$instance;
    }
@@ -253,7 +253,7 @@ class SqlWrapper {
     * @return bool True if successfull
     */
    public function sql_dump($filename) {
-      $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
+      $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
       $filepath = $codevReportsDir.DIRECTORY_SEPARATOR.$filename;
          
       $command = "mysqldump --host=$this->server --user=$this->username --password=$this->password  $this->database_name > $filepath";

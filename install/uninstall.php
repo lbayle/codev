@@ -92,7 +92,7 @@ class UninstallController extends Controller {
                $this->smartyHelper->assign('stepFiveResult', $result);
             } else {
                Config::setQuiet(true);
-               $this->smartyHelper->assign('codevReportsDir', Config::getInstance()->getValue(Config::id_codevReportsDir));
+               $this->smartyHelper->assign('codevReportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
                Config::setQuiet(false);
                $this->smartyHelper->assign('is_modified', $is_modified);
             }
@@ -169,12 +169,12 @@ class UninstallController extends Controller {
     * @return bool True if success
     */
    function saveConfigFiles() {
-      $codevReportsDir = Config::getInstance()->getValue(Config::id_codevReportsDir);
-      if (file_exists(Install::FILENAME_CONSTANTS)) {
-         $filename = ereg_replace(".*/", "", Install::FILENAME_CONSTANTS);
-         $retCode = copy(Install::FILENAME_CONSTANTS, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
+      $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
+      if (file_exists(self::$config_file)) {
+         $filename = ereg_replace(".*/", "", self::$config_file);
+         $retCode = copy(self::$config_file, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
          if (!$retCode) {
-            self::$logger->error("ERROR: Could not save file: " . Install::FILENAME_CONSTANTS);
+            self::$logger->error("ERROR: Could not save file: " . self::$config_file);
             return false;
          }
       }
@@ -195,10 +195,10 @@ class UninstallController extends Controller {
     * @return bool True if success
     */
    function deleteConfigFiles() {
-      if (file_exists(Install::FILENAME_CONSTANTS)) {
-         $retCode = unlink(Install::FILENAME_CONSTANTS);
+      if (file_exists(self::$config_file)) {
+         $retCode = unlink(self::$config_file);
          if (!$retCode) {
-            self::$logger->error("ERROR: Could not delete file: " . Install::FILENAME_CONSTANTS);
+            self::$logger->error("ERROR: Could not delete file: " . self::$config_file);
             return false;
          }
       }

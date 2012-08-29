@@ -18,8 +18,12 @@ require('include/session.inc.php');
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include_once('classes/sqlwrapper.class.php');
+
+include_once('classes/constants.class.php');
+
 // check if INSTALL needed
-if ((!file_exists('constants.php')) || (!file_exists('include/mysql_config.inc.php'))) {
+if (!file_exists(Constants::$config_file)) {
    header('Location: install/install.php');
    exit;
 }

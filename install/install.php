@@ -28,11 +28,12 @@ require_once('install/install_header.inc.php');
 require_once('install/install_menu.inc.php');
 
 // check CodevTT already installed
-if (file_exists(Install::FILENAME_CONSTANTS) && file_exists(Install::FILENAME_MYSQL_CONFIG)) {
+if (file_exists(Constants::$config_file)) {
    echo "CodevTT ".Config::codevVersion." already installed.<br />";
 
    // TODO Check if the database is installed
 } else {
+   #Constants::setQuiet(TRUE);
 
    //echo 'Id: ' . getmyuid() . '<br />';
    //echo 'Gid: ' . getmygid() . '<br />';

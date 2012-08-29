@@ -33,6 +33,11 @@ class ExportCSVWeeklyController extends Controller {
     */
    public static function staticInit() {
       self::$logger = Logger::getLogger("check");
+
+      if (!is_dir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports')) {
+         mkdir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports', 0755);
+      }
+
    }
 
    protected function display() {
@@ -68,7 +73,7 @@ class ExportCSVWeeklyController extends Controller {
 
                $reports = "";
 
-               $managedIssuesfile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".Tools::formatDate("%Y%m%d",time()).".csv";
+               $managedIssuesfile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_Mantis_".Tools::formatDate("%Y%m%d",time()).".csv";
                $managedIssuesfile = ExportCsvTools::exportManagedIssuesToCSV($teamid, $startTimestamp, $endTimestamp, $managedIssuesfile);
                $reports[] = array('file' => basename($managedIssuesfile),
                   'title' => T_('Export Managed Issues'),
@@ -77,13 +82,13 @@ class ExportCSVWeeklyController extends Controller {
 
                $timeTracking = new TimeTracking($startTimestamp, $endTimestamp, $teamid);
 
-               $weekActivityReportfile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
+               $weekActivityReportfile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_CRA_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
                $weekActivityReportfile = $this->exportWeekActivityReportToCSV($teamid, $weekDates, $timeTracking, $weekActivityReportfile);
                $reports[] = array('file' => basename($weekActivityReportfile),
                   'title' => T_('Export Week').' '.$weekid.' '.T_('Member Activity')
                );
 
-               $projectActivityFile = Config::getInstance()->getValue(Config::id_codevReportsDir).DIRECTORY_SEPARATOR.$formatedteamName."_projects_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
+               $projectActivityFile = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports'.DIRECTORY_SEPARATOR.$formatedteamName."_projects_".Tools::formatDate("%Y_W%W", $startTimestamp).".csv";
                $projectActivityFile = $this->exportProjectActivityToCSV($timeTracking, $projectActivityFile);
                $reports[] = array('file' => basename($projectActivityFile),
                   'title' => T_('Export Week').' '.$weekid.' '.T_('Projects Activity')
@@ -96,7 +101,7 @@ class ExportCSVWeeklyController extends Controller {
                $monthsLineReport = "";
                $startMonth = 1;
                for ($i = $startMonth; $i <= 12; $i++) {
-                  $myFile = ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, Config::getInstance()->getValue(Config::id_codevReportsDir));
+                  $myFile = ExportCsvTools::exportHolidaystoCSV($i, $year, $teamid, $formatedteamName, Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
                   $monthsLineReport[] = array('file' => basename($myFile));
                }
 
@@ -104,7 +109,7 @@ class ExportCSVWeeklyController extends Controller {
                $monthsReport['line'] = $monthsLineReport;
                $this->smartyHelper->assign('monthsReport', $monthsReport);
 
-               $this->smartyHelper->assign('reportsDir', Config::getInstance()->getValue(Config::id_codevReportsDir));
+               $this->smartyHelper->assign('reportsDir', Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports');
             }
          }
       }
@@ -120,6 +125,11 @@ class ExportCSVWeeklyController extends Controller {
    private function exportProjectActivityToCSV(TimeTracking $timeTracking, $myFile) {
       $sepChar=';';
       $team = TeamCache::getInstance()->getTeam($timeTracking->getTeamid());
+
+      
+      if (!is_dir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports')) {
+         mkdir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports', 0755);
+      }
 
       $fh = fopen($myFile, 'w');
 

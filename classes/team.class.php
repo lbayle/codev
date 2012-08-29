@@ -16,7 +16,7 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('constants.php');
+require_once('classes/constants.class.php');
 
 // TODO Remove this import
 include_once('classes/team_cache.class.php');
