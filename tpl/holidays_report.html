@@ -35,7 +35,7 @@
                <tr>
                   <th style="width: 1em;"></th>
                   {foreach from=$i.days key=key item=j}
-                  <th title="{t}{$j.title}{/t}" {if $j.selected}style="background-color: #FF699D"{/if}>{$key}</th>
+                  <th title="{t}{$j.title}{/t}" {if $j.selected}style="background-color: #FF699D !important;"{/if}>{$key}</th>
                   {/foreach}
                </tr>
             </thead>
