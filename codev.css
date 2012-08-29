@@ -21,6 +21,7 @@ thead th {
    text-align: center;
    background-color: #C8C8E8 !important;
    padding: .5em;
+   white-space: nowrap;
 }
 thead th:first-child {
    -moz-border-radius-topleft: 0.5em;
