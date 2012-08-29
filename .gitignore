@@ -1,6 +1,7 @@
 .project
 .settings
 *~
+config.ini
 constants.php
 mantis_monkey.user.js
 include/mysql_config.inc.php
