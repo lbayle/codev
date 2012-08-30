@@ -222,7 +222,7 @@
             jQuery("#update_backlog_dialog_form").dialog("open");
          }
       </script>
-      <div id="weekTaskDetailsDiv" style="margin:1em auto 0; padding: 1em;" class="ui-widget-content">
+      <div id="weekTaskDetailsDiv" style="margin-top:1em;">
          {include file="ajax/weekTaskDetails.html"}
       </div>
    </div>
@@ -270,8 +270,7 @@
       </script>
 
       {if $weekTimetrackingTuples}
-      <div style="margin:2em auto 0; padding: 1em;" class="ui-widget-content">
-         <table style="width: 100%;">
+         <table style="margin-top: 2em; width: 100%;">
             <caption>{t}Week Imputations{/t}</caption>
             <thead>
                <tr>
@@ -307,48 +306,45 @@
                {/foreach}
             </tbody>
          </table>
-      </div>
       {/if}
 
       {if $timetrackingTuples}
-      <div style="margin:2em auto 0; padding: 1em;" class="ui-widget-content">
-         <table style="width: 100%;">
-            <caption>{t}Future Imputations{/t}</caption>
-            <thead>
-               <tr>
-                  <th></th>
-                  <th>{t}Date{/t}</th>
-                  <th title="Mantis ID">{t}ID{/t}</th>
-                  <th>{t}Ext.ID{/t}</th>
-                  <th>{t}Duration{/t}</th>
-                  <th>{t}Project{/t}</th>
-                  <th>{t}Description{/t}</th>
-                  <th>{t}Job{/t}</th>
-                  <th>{t}Category{/t}</th>
-                  <th>{t}Status{/t}</th>
-               </tr>
-            </thead>
-            <tbody>
-               {foreach from=$timetrackingTuples key=id item=i}
-               <tr>
-                  <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
-                        onclick="deleteTrack('{$i.id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}', '{$i.summary}');return false;"></a>
-                  </td>
-                  <td style="width: 170px;">{$i.cosmeticDate}</td>
-                  <td>{$i.issueURL}</td>
-                  <td>{$i.issueId}</td>
-                  <td>{$i.duration}</td>
-                  <td>{$i.projectName}</td>
-                  <td>{$i.issueSummary}</td>
-                  <td>{$i.jobName}</td>
-                  <td>{$i.categoryName}</td>
-                  <td>{$i.currentStatusName}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-         </table>
-      </div>
+      <table style="width: 100%; margin-top:2em;">
+         <caption>{t}Future Imputations{/t}</caption>
+         <thead>
+            <tr>
+               <th></th>
+               <th>{t}Date{/t}</th>
+               <th title="Mantis ID">{t}ID{/t}</th>
+               <th>{t}Ext.ID{/t}</th>
+               <th>{t}Duration{/t}</th>
+               <th>{t}Project{/t}</th>
+               <th>{t}Description{/t}</th>
+               <th>{t}Job{/t}</th>
+               <th>{t}Category{/t}</th>
+               <th>{t}Status{/t}</th>
+            </tr>
+         </thead>
+         <tbody>
+            {foreach from=$timetrackingTuples key=id item=i}
+            <tr>
+               <td class="ui-state-error-text" style="width:1em;">
+                  <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
+                     onclick="deleteTrack('{$i.id}','{$i.date}','{$i.formatedId}','{$i.duration}','{$i.formatedJobName}', '{$i.summary}');return false;"></a>
+               </td>
+               <td style="width: 170px;">{$i.cosmeticDate}</td>
+               <td>{$i.issueURL}</td>
+               <td>{$i.issueId}</td>
+               <td>{$i.duration}</td>
+               <td>{$i.projectName}</td>
+               <td>{$i.issueSummary}</td>
+               <td>{$i.jobName}</td>
+               <td>{$i.categoryName}</td>
+               <td>{$i.currentStatusName}</td>
+            </tr>
+            {/foreach}
+         </tbody>
+      </table>
       {/if}
    <div>
 
