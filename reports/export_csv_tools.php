@@ -61,7 +61,7 @@ class ExportCsvTools {
          T_("BI").$sepChar.
          T_("BS").$sepChar.
          "Elapsed".$sepChar.
-         T_("RAF").$sepChar.
+         T_("BL").$sepChar.
          T_("Progress").$sepChar.
          T_("Delivery Date").$sepChar.
          T_("Delivery Sheet").$sepChar.

@@ -616,7 +616,7 @@ class Issue extends Model implements Comparable {
    /**
     * @return int the nb of days needed to finish the issue.
     * if status >= resolved, return 0.
-    * if the 'backlog' (RAF) field is not defined, return effortEstim
+    * if the 'backlog' (BL) field is not defined, return effortEstim
     */
    public function getDuration() {
       if ($this->isResolved()) {
@@ -640,7 +640,7 @@ class Issue extends Model implements Comparable {
    /**
     * @return int the nb of days needed to finish the issue.
     * if status >= resolved, return 0.
-    * if the 'backlog' (RAF) field is not defined, return mgrEffortEstim
+    * if the 'backlog' (BL) field is not defined, return mgrEffortEstim
     */
    public function getDurationMgr() {
       if ($this->isResolved()) {
@@ -1016,7 +1016,7 @@ class Issue extends Model implements Comparable {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $field_name    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "Backlog (RAF)";
+      $field_name    = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "Backlog (BL)";
 
       $query = "SELECT * FROM `mantis_custom_field_string_table` WHERE bug_id=$this->bugId AND field_id = $backlogCustomField";
       $result = SqlWrapper::getInstance()->sql_query($query);

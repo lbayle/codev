@@ -75,7 +75,7 @@
          <ul>
             {foreach from=$weekDetails item=i key=id}
             {if $i.weekJobDetails}
-            <li><a href="#tabUser_{$i.name}">{$i.realname} &nbsp;<span style="font-size:12px;font-weight:normal;" title="{t}RAF{/t}">({$i.forecastWorkload})</span></a></li>
+            <li><a href="#tabUser_{$i.name}">{$i.realname} &nbsp;<span style="font-size:12px;font-weight:normal;" title="{t}Backlog{/t}">({$i.forecastWorkload})</span></a></li>
             {/if}
             {/foreach}
          </ul>
@@ -89,7 +89,7 @@
                <thead>
                   <tr>
                      <th>{t}Task{/t}</th>
-                     <th style="width: 1em;">{t}RAF{/t}</th>
+                     <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
                      <th style="width: 1em;">{t}Progress{/t}</th>
                      <th style="width: 1em;">{t}Project{/t}</th>
                      <th style="width: 1em;" title="{t}Target version{/t}">{t}Target{/t}</th>

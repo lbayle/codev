@@ -142,7 +142,7 @@ class ExportCSVWeeklyController extends Controller {
          $stringData = $project->getName()."\n";
 
          $stringData .= T_("Task").$sepChar;
-         $stringData .= T_("RAF").$sepChar;
+         $stringData .= T_("BL").$sepChar;
          $jobList = $project->getJobList($team->getProjectType($projectId));
          foreach($jobList as $jobName) {
             $stringData .= $jobName.$sepChar;

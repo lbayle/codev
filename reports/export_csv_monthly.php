@@ -134,7 +134,7 @@ class ExportCSVMonthlyController extends Controller {
          $stringData .=("Total elapsed").$sepChar;
          $stringData .=("elapsed + Backlog").$sepChar;
          $stringData .=("elapsed in period").$sepChar;
-         $stringData .=("RAF").$sepChar;
+         $stringData .=("BL").$sepChar;
          $stringData .="\n";
 
          // write table content (by bugid)
