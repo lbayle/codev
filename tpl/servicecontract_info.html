@@ -89,6 +89,7 @@
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-2">{t}SideTasks{/t} ({$nbSidetasksList})</a></li>
          <li><a href="#tabsName-3">{t}Indicators{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Activity{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          <span style="font-size: larger; font-weight: bold;">{t}Tasks{/t}</span>
@@ -364,6 +365,42 @@
          <p>{t}No data{/t}</p>
          {/if}
       </div>
+
+
+      <div id="tabsName-4">
+
+         {include file="form/dateRangeSelector.html"}
+
+         {if $activityIndic_usersActivityList}
+         <div align="center">
+            <table id="activity_table" class="datatable display">
+               <thead>
+                  <tr>
+                     <th>{t}User{/t}</th>
+                     <th>{t}Regular{/t}</th>
+                     <th>{t}Other{/t}</th>
+                     <th>{t}External{/t}</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {foreach $activityIndic_usersActivityList as $user => $activityList}
+                  <tr>
+                     <td>{$user}</td>
+                     <td>{$activityList.selection}</td>
+                     <td>{$activityList.other}</td>
+                     <td>{$activityList.external}</td>
+                  </tr>
+                  {/foreach}
+               </tbody>
+            </table>
+         </div>
+         {else}
+         <br />
+         {t}No data.{/t}
+         {/if}
+      </div>
+
+
       {/if}
    </div>
    <script type="text/javascript">

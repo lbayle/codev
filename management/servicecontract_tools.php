@@ -267,6 +267,41 @@ class ServiceContractTools {
    }
 
    /**
+    * @param ServiceContract $serviceContract
+    * @return string
+    */
+   private static function getSContractActivity(ServiceContract $serviceContract) {
+      $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
+
+      $startTT = $issueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
+      } else {
+         $startTimestamp = $serviceContract->getStartDate();
+         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
+            $startTimestamp = $team->getDate();
+            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+         }
+      }
+
+      $endTT = $issueSel->getLatestTimetrack();
+      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'teamid' => $serviceContract->getTeamid()
+      );
+
+      $activityIndicator = new ActivityIndicator();
+      $activityIndicator->execute($issueSel, $params);
+
+      return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
+   }
+
+   /**
     * @param SmartyHelper $smartyHelper
     * @param ServiceContract $servicecontract
     */
@@ -302,6 +337,14 @@ class ServiceContractTools {
       $smartyHelper->assign('indicators_jqplotData', $data[0]);
       $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
       $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +2 month")));
+
+      $data = self::getSContractActivity($servicecontract);
+      $smartyHelper->assign('activityIndic_usersActivityList', $data[0]);
+      $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
+      $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
+
+      
+
    }
 
 }
