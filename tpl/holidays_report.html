@@ -1,6 +1,6 @@
 {include file="menu/holidays_menu.html"}
 
-<div id="content">
+<div id="content" class="center">
    {if $teams}
    <script type="text/javascript">
       jQuery(document).ready(function() {
@@ -17,7 +17,7 @@
          });
       });
    </script>
-   <form id="form1" name="form1" method="post" action="{$page}" class="center">
+   <form id="form1" name="form1" method="post" action="{$page}">
       <fieldset>
          {include file="form/teamSelector.html"}
          <label for="year">{t}Year{/t}:</label>
@@ -26,14 +26,14 @@
       </fieldset>
    </form>
 
-   {foreach from=$months key=id item=i}
-   <div style="margin: 2em 0 0 5em;">
-      <div style="padding: 1em; display: inline-block;" class="ui-widget-content">
+   <div style="display: inline-block;">
+      {foreach from=$months key=id item=i}
+      <div style="margin-top: 2em;" class="left">
          <table>
             <caption>{$i.name}</caption>
             <thead>
                <tr>
-                  <th style="width: 1em;"></th>
+                  <th></th>
                   {foreach from=$i.days key=key item=j}
                   <th title="{t}{$j.title}{/t}" {if $j.selected}style="background-color: #FF699D !important;"{/if}>{$key}</th>
                   {/foreach}
@@ -42,7 +42,7 @@
             <tbody>
                {foreach from=$i.users key=key item=j}
                <tr>
-                  <th style="text-align: left"title="{$j.realname}">{$j.username}</th>
+                  <th class="left" title="{$j.realname}">{$j.username}</th>
                   {foreach from=$j.days key=day item=k}
                   <td {if isset($k.color) || isset($k.align)}style="{if $k.color}background-color: #{$k.color};{/if}{if $k.align}text-align: center;{/if}"{/if} {if isset($k.title)}title="{$k.title}"{/if}>{if isset($k.value)}{$k.value}{/if}</td>
                   {/foreach}
@@ -51,8 +51,8 @@
             </tbody>
          </table>
       </div>
+      {/foreach}
    </div>
-   {/foreach}
    {else}
    <p class="center ui-state-error-text">{t}Sorry, you need to be member of a Team to access this page.{/t}</p>
    {/if}

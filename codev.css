@@ -11,11 +11,17 @@ img {
   border: 0;
   margin: 0;
 }
+table {
+   background-color: #E8E8E8;
+   border: 1px solid #B6B6B6;
+   padding: .5em;
+}
 caption {
-  font-size: larger;
-  font-weight: bold;
-  text-align: left;
-  margin-left: 0.5em;
+   font-size: larger;
+   font-weight: bold;
+   text-align: left;
+   margin-left: .5em;
+   margin-bottom: .4em;
 }
 thead th {
    text-align: center;
@@ -48,6 +54,11 @@ tbody tr.row_total, tfoot tr {
    background-color: #CFCFCF;
    font-weight: bold;
 }
+table.invisible {
+   background-color: transparent;
+   border: none;
+   padding: 0;
+}
 table.invisible th {
    background-color: transparent !important;
    font-weight: bold;
@@ -74,7 +85,8 @@ input, select, textarea {
 
 div.menu table {
    border: 1px solid black;
-   width: 100%
+   width: 100%;
+   padding: 0;
 }
 div.menu td {
   background-color: #e8e8e8;
