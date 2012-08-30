@@ -81,15 +81,17 @@ class ProductivityReportsController extends Controller {
                   $this->smartyHelper->assign('workingDaysPerJob', $workingDaysPerJobs);
                   if($workingDaysPerJobs != NULL) {
                      $data = array();
+                     $formatedColors = array();
                      foreach ($workingDaysPerJobs as $workingDays) {
                         if (0 != $workingDays['nbDays']) {
                            $data[$workingDays['name']] = $workingDays['nbDays'];
-                           //$formatedColors .= "#".$workingDays['color'];
+                           $formatedColors[] = "#".$workingDays['color'];
                         }
                      }
 
                      if (count($data) > 0) {
                         $this->smartyHelper->assign('workingDaysPerJob_jqplotData', Tools::array2plot($data));
+                        $this->smartyHelper->assign('workingDaysPerJob_colors', Tools::array2json($formatedColors));
                      }
                   }
 
