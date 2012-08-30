@@ -222,7 +222,7 @@
             jQuery("#update_backlog_dialog_form").dialog("open");
          }
       </script>
-      <div id="weekTaskDetailsDiv" style="margin:1em auto 0; padding: 2em; width: 90%" class="ui-widget-content">
+      <div id="weekTaskDetailsDiv" style="margin:1em auto 0; padding: 1em;" class="ui-widget-content">
          {include file="ajax/weekTaskDetails.html"}
       </div>
    </div>
@@ -254,7 +254,7 @@
    </div>
    {/if}
 
-   <div align="center" style="margin-top: 2em;">
+   <div align="center" style="margin-top: 2em; display: inline-block;">
       <script type="text/javascript">
          function deleteTrack(trackid, date, bugid, duration, job, description){
             jQuery("#desc_date").text(date);
@@ -270,7 +270,7 @@
       </script>
 
       {if $weekTimetrackingTuples}
-      <div style="margin:2em auto 0; padding: 2em; width: 90%;" class="ui-widget-content">
+      <div style="margin:2em auto 0; padding: 1em;" class="ui-widget-content">
          <table style="width: 100%;">
             <caption>{t}Week Imputations{/t}</caption>
             <thead>
@@ -311,7 +311,7 @@
       {/if}
 
       {if $timetrackingTuples}
-      <div style="margin:2em auto 0; padding: 2em; width: 90%" class="ui-widget-content">
+      <div style="margin:2em auto 0; padding: 1em;" class="ui-widget-content">
          <table style="width: 100%;">
             <caption>{t}Future Imputations{/t}</caption>
             <thead>
