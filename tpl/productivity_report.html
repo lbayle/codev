@@ -88,6 +88,7 @@
             <script type="text/javascript">
                jQuery(document).ready(function() {
                   var chartoptions = jQuery('#productionDaysChart').data('plotoptions');
+                  chartoptions.seriesColors = ["#92C5FC", "#FFC16B", "#FFF494"];
                   jQuery('#productionDaysChart').jqplot([{$productionDays_jqplotData}], chartoptions);
                });
             </script>
@@ -133,6 +134,7 @@
          <script type="text/javascript">
             jQuery(document).ready(function() {
                var chartoptions = jQuery('#workingDaysPerJobChart').data('plotoptions');
+               chartoptions.seriesColors = {$workingDaysPerJob_colors};
                jQuery('#workingDaysPerJobChart').jqplot([{$workingDaysPerJob_jqplotData}], chartoptions);
             });
          </script>
@@ -181,6 +183,7 @@
                                  });
                               
                                  var chartoptions = jQuery('#projectDetailsChart').data('plotoptions');
+                                 chartoptions.seriesColors = {$projectDetails_colors};
                                  jQuery('#projectDetailsChart').jqplot([line], chartoptions);
                               }
                            },
@@ -221,6 +224,7 @@
          <script type="text/javascript">
             jQuery(document).ready(function() {
             var chartoptions = jQuery('#projectDetailsChart').data('plotoptions');
+            chartoptions.seriesColors = {$projectDetails_colors};
             jQuery('#projectDetailsChart').jqplot([{$projectDetails_jqplotData}], chartoptions);
          });
          </script>
