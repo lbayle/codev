@@ -366,12 +366,44 @@
          {/if}
       </div>
 
-
       <div id="tabsName-4">
+         <script type="text/javascript">
+            jQuery(document).ready(function(){
+               jQuery('#submit').click(function(event) {
+                  /* stop form from submitting normally */
+                  event.preventDefault();
+
+                  var form = jQuery('#activityIndicator_dateRange_form');
+                  var url = form.attr('action');
+                  var type = form.attr('method');
+                  jQuery.ajax({
+                     async: false,
+                     type: type,
+                     url: url,
+                     data: form.serialize(),
+                     success: function(data) {
+                        jQuery("#activityIndicatorDiv").html(jQuery.trim(data));
+                     },
+                     error: function(jqXHR, textStatus, errorThrown) {
+                        if(errorThrown == 'Forbidden') {
+                           window.location = '{$page}';
+                        }
+                     }
+                  });
+               });
+            });
+         </script>
+         <div align="left" style="margin-top:1em;">
+            <form id="activityIndicator_dateRange_form" method="get" action="{$ajaxPage}">
+               <fieldset>
+                  {include file="form/dateRangeSelector.html"}
+                  <input id="submit" type=submit value="{t}Display{/t}" />
+                  <input type="hidden" name="action" value="getActivityIndicator" />
+               </fieldset>
+            </form>
+         </div>
          {include file="plugin/activity_indicator.html"}
       </div>
-
-
       {/if}
    </div>
    <script type="text/javascript">
