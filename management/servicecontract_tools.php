@@ -270,24 +270,28 @@ class ServiceContractTools {
     * @param ServiceContract $serviceContract
     * @return string
     */
-   private static function getSContractActivity(ServiceContract $serviceContract) {
+   private static function getSContractActivity(ServiceContract $serviceContract, $startTimestamp = NULL, $endTimestamp = NULL) {
+
       $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
-      $startTT = $issueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $serviceContract->getStartDate();
-         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
-            $startTimestamp = $team->getDate();
-            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+      if (!isset($startTimestamp)) {
+         $startTT = $issueSel->getFirstTimetrack();
+         if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+            $startTimestamp = $startTT->getDate();
+         } else {
+            $startTimestamp = $serviceContract->getStartDate();
+            #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+            if (0 == $startTimestamp) {
+               $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
+               $startTimestamp = $team->getDate();
+               #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+            }
          }
       }
-
-      $endTT = $issueSel->getLatestTimetrack();
-      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
+      if (!isset($endTimestamp)) {
+         $endTT = $issueSel->getLatestTimetrack();
+         $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
+      }
 
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),

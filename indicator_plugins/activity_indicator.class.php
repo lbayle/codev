@@ -43,7 +43,7 @@ class ActivityIndicator implements IndicatorPlugin {
       return __CLASS__;
    }
    public function getSmartyFilename() {
-      return "";
+      return "plugin/activity_indicator.html";
    }
 
 
@@ -93,6 +93,7 @@ class ActivityIndicator implements IndicatorPlugin {
       $formatedUseridString = implode( ', ', array_keys($members));
 
       $extProjId = Config::getInstance()->getValue(Config::id_externalTasksProject);
+      $leaveTaskId = Config::getInstance()->getValue(Config::id_externalTask_leave);
 
       // get timetracks for each Issue,
       $issueList = $inputIssueSel->getIssueList();
@@ -131,16 +132,20 @@ class ActivityIndicator implements IndicatorPlugin {
 
          if ($extProjId == $tt->getProjectId()) {
             #echo "external ".$tt->getIssueId()."<br>";
-            $usersActivity[$userid]['external'] += $tt->getDuration();
+            if ($leaveTaskId == $tt->getIssueId()) {
+               $usersActivity[$userid]['leave'] += $tt->getDuration();
+            } else {
+               $usersActivity[$userid]['external'] += $tt->getDuration();
+            }
 
          } else if ($issue->isSideTaskIssue($teams)) {
             #echo "sidetask ".$tt->getIssueId()."<br>";
             #$usersActivity[$userid]['sidetask'] += $tt->getDuration();
-            $usersActivity[$userid]['selection'] += $tt->getDuration();
+            $usersActivity[$userid]['elapsed'] += $tt->getDuration();
 
          }else if (in_array($tt->getIssueId(), $bugidList)) {
             #echo "selection ".$tt->getIssueId()."<br>";
-            $usersActivity[$userid]['selection'] += $tt->getDuration();
+            $usersActivity[$userid]['elapsed'] += $tt->getDuration();
 
          } else {
             #echo "other ".$tt->getIssueId()."<br>";
@@ -158,11 +163,20 @@ class ActivityIndicator implements IndicatorPlugin {
    public function getSmartyObject() {
 
       $smartyObj = array();
+      $totalActivity= array();
 
       foreach ($this->execData as $userid => $usersActivity) {
           $user = UserCache::getInstance()->getUser($userid);
           $smartyObj[$user->getName()] = $usersActivity;
+
+          $totalActivity['leave'] += $usersActivity['leave'];
+          $totalActivity['external'] += $usersActivity['external'];
+          $totalActivity['elapsed'] += $usersActivity['elapsed'];
+          $totalActivity['other'] += $usersActivity['other'];
       }
+
+      ksort($smartyObj);
+      $smartyObj[T_('TOTAL')] = $totalActivity;
 
       return $smartyObj;
    }

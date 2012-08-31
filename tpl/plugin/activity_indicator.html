@@ -1,0 +1,39 @@
+
+<div align="left" style="margin-top:2em;">
+   <form id="activityIndicator_dateRange_form" method="post" action="{$page}">
+      <fieldset>
+         {include file="form/dateRangeSelector.html"}
+         <input type=submit value="{t}Display{/t}">
+      </fieldset>
+   </form>
+</div>
+
+{if $activityIndic_usersActivityList}
+<div align="left">
+   <table id="activityIndicator_table" class="display">
+      <thead>
+         <tr>
+            <th>{t}User{/t}</th>
+            <th>{t}Elapsed{/t}</th>
+            <th>{t}Other{/t}</th>
+            <th>{t}External{/t}</th>
+            <th>{t}Inactivity{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach $activityIndic_usersActivityList as $user => $activityList}
+         <tr>
+            <td>{$user}</td>
+            <td>{$activityList.elapsed}</td>
+            <td>{$activityList.other}</td>
+            <td>{$activityList.external}</td>
+            <td>{$activityList.leave}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+   </table>
+</div>
+{else}
+<br />
+{t}No data{/t}
+{/if}

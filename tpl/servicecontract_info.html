@@ -368,36 +368,7 @@
 
 
       <div id="tabsName-4">
-
-         {include file="form/dateRangeSelector.html"}
-
-         {if $activityIndic_usersActivityList}
-         <div align="center">
-            <table id="activity_table" class="datatable display">
-               <thead>
-                  <tr>
-                     <th>{t}User{/t}</th>
-                     <th>{t}Regular{/t}</th>
-                     <th>{t}Other{/t}</th>
-                     <th>{t}External{/t}</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  {foreach $activityIndic_usersActivityList as $user => $activityList}
-                  <tr>
-                     <td>{$user}</td>
-                     <td>{$activityList.selection}</td>
-                     <td>{$activityList.other}</td>
-                     <td>{$activityList.external}</td>
-                  </tr>
-                  {/foreach}
-               </tbody>
-            </table>
-         </div>
-         {else}
-         <br />
-         {t}No data.{/t}
-         {/if}
+         {include file="plugin/activity_indicator.html"}
       </div>
 
 
