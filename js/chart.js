@@ -2,7 +2,7 @@
 jQuery(document).ready(function() {
 
    jQuery.jqplot.config.enablePlugins = false;
-
+   
    // Chart by date
    jQuery('.date_chart').each(function() {
       jQuery(this).data("plotoptions", {
@@ -17,6 +17,66 @@ jQuery(document).ready(function() {
          series: [{
 
          }],
+         seriesDefaults: {
+            pointLabels: {
+               show:true
+            }
+         },
+         cursor: {
+            show: true,
+            style: "pointer"
+         },
+         highlighter: {
+            show: true,
+            showTooltip: false
+         },
+         axesDefaults: {
+            useSeriesColor:true,
+            rendererOptions: {
+               alignTicks: true
+            }
+         },
+         axes: {
+            xaxis: {
+               renderer: jQuery.jqplot.DateAxisRenderer,
+               tickOptions: {
+                  formatString: "%b %Y"
+               },
+               tickInterval: "1 month"
+            },
+            yaxis: {
+               // Nothing to do
+            }
+         }
+      });
+   });
+
+   // Chart by date with a line on y = 0
+   jQuery('.date_chart_with_horizontal_line').each(function() {
+      jQuery(this).data("plotoptions", {
+         // animate: true,
+         // animateReplot: true,
+         title: {
+            // Nothing to do
+         },
+         legend: {
+            show: true
+         },
+         series: [{
+
+         }],
+         canvasOverlay: {
+            show: true,
+            objects: [{
+                  horizontalLine: {
+                    name: 'barney',
+                    y: 0,
+                    lineWidth: 2,
+                    color: 'gray',
+                    shadow: false
+                }
+             }]
+         },
          seriesDefaults: {
             pointLabels: {
                show:true
