@@ -1,15 +1,5 @@
-
-<div align="left" style="margin-top:2em;">
-   <form id="activityIndicator_dateRange_form" method="post" action="{$page}">
-      <fieldset>
-         {include file="form/dateRangeSelector.html"}
-         <input type=submit value="{t}Display{/t}">
-      </fieldset>
-   </form>
-</div>
-
-{if $activityIndic_usersActivityList}
-<div align="left">
+{if isset($activityIndic_usersActivityList)}
+<div id="activityIndicatorDiv" align="left" style="margin-top: 1em;">
    <table id="activityIndicator_table" class="display">
       <thead>
          <tr>

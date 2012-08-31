@@ -270,8 +270,7 @@ class ServiceContractTools {
     * @param ServiceContract $serviceContract
     * @return string
     */
-   private static function getSContractActivity(ServiceContract $serviceContract, $startTimestamp = NULL, $endTimestamp = NULL) {
-
+   public static function getSContractActivity(ServiceContract $serviceContract, $startTimestamp = NULL, $endTimestamp = NULL) {
       $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
       if (!isset($startTimestamp)) {
@@ -346,9 +345,6 @@ class ServiceContractTools {
       $smartyHelper->assign('activityIndic_usersActivityList', $data[0]);
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
-
-      
-
    }
 
 }
