@@ -38,13 +38,15 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
             $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
             $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
             $data = ServiceContractTools::getSContractActivity($servicecontract, $startTimestamp, $endTimestamp);
-            $smartyHelper->assign('activityIndic_usersActivityList', $data[0]);
+            $smartyHelper->assign('activityIndic_data', $data[0]);
             $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
             $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
          }
          $smartyHelper->display('plugin/activity_indicator');
-      }
-      else {
+
+      } else if($_GET['action'] == 'getProgressHistoryIndicator') {
+
+      } else {
          Tools::sendNotFoundAccess();
       }
    }

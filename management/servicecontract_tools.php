@@ -267,29 +267,29 @@ class ServiceContractTools {
    }
 
    /**
+    * show users activity on the SC during the given period.
+    *
+    * if start & end dates not defined, the last month will be displayed.
+    *
     * @param ServiceContract $serviceContract
     * @return string
+    *
     */
    public static function getSContractActivity(ServiceContract $serviceContract, $startTimestamp = NULL, $endTimestamp = NULL) {
       $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
+      $month = date('m');
+      $year = date('Y');
+
       if (!isset($startTimestamp)) {
-         $startTT = $issueSel->getFirstTimetrack();
-         if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-            $startTimestamp = $startTT->getDate();
-         } else {
-            $startTimestamp = $serviceContract->getStartDate();
-            #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-            if (0 == $startTimestamp) {
-               $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
-               $startTimestamp = $team->getDate();
-               #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
-            }
-         }
+         // The first day of the current month
+         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
+         $startTimestamp = Tools::date2timestamp($startdate);
       }
       if (!isset($endTimestamp)) {
-         $endTT = $issueSel->getLatestTimetrack();
-         $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
+         $nbDaysInMonth = date("t", $startTimestamp);
+         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
+         $endTimestamp = Tools::date2timestamp($enddate);
       }
 
       $params = array(
@@ -342,7 +342,7 @@ class ServiceContractTools {
       $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +2 month")));
 
       $data = self::getSContractActivity($servicecontract);
-      $smartyHelper->assign('activityIndic_usersActivityList', $data[0]);
+      $smartyHelper->assign('activityIndic_data', $data[0]);
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
    }

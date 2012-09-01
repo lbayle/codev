@@ -164,19 +164,34 @@ class ActivityIndicator implements IndicatorPlugin {
 
       $smartyObj = array();
       $totalActivity= array();
+      $usersActivities= array();
 
-      foreach ($this->execData as $userid => $usersActivity) {
+
+      foreach ($this->execData as $userid => $userActivity) {
           $user = UserCache::getInstance()->getUser($userid);
-          $smartyObj[$user->getName()] = $usersActivity;
+          $usersActivities[$user->getName()] = $userActivity;
 
-          $totalActivity['leave'] += $usersActivity['leave'];
-          $totalActivity['external'] += $usersActivity['external'];
-          $totalActivity['elapsed'] += $usersActivity['elapsed'];
-          $totalActivity['other'] += $usersActivity['other'];
+          $totalActivity['leave'] += $userActivity['leave'];
+          $totalActivity['external'] += $userActivity['external'];
+          $totalActivity['elapsed'] += $userActivity['elapsed'];
+          $totalActivity['other'] += $userActivity['other'];
       }
 
-      ksort($smartyObj);
-      $smartyObj[T_('TOTAL')] = $totalActivity;
+      ksort($usersActivities);
+
+      // pieChart data
+      $jqplotData = array(
+            T_('Elapsed') => $totalActivity['elapsed'],
+            T_('Other') => $totalActivity['other'],
+            T_('External') => $totalActivity['external'],
+            T_('Inactivity') => $totalActivity['leave']
+      );
+
+      $smartyObj['usersActivities'] = $usersActivities;
+      $smartyObj['totalActivity'] = $totalActivity;
+      $smartyObj['jqplotData'] = Tools::array2plot($jqplotData);
+
+
 
       return $smartyObj;
    }
