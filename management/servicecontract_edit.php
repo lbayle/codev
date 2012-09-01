@@ -41,11 +41,11 @@ class ServiceContractEditController extends Controller {
 
          $teamid = 0;
          if (isset($_POST['teamid'])) {
-            $teamid = $_POST['teamid'];
+            $teamid = Tools::getSecurePOSTIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
          } else if (isset($_SESSION['teamid'])) {
             $teamid = $_SESSION['teamid'];
          }
-         $_SESSION['teamid'] = $teamid;
 
          // TODO check if $teamid is set and != 0
 
@@ -58,28 +58,26 @@ class ServiceContractEditController extends Controller {
          $servicecontractid = 0;
          if(isset($_POST['servicecontractid'])) {
             $servicecontractid = Tools::getSecurePOSTIntValue('servicecontractid');
+            $_SESSION['servicecontractid'] = $servicecontractid;
          } else if(isset($_GET['servicecontractid'])) {
             $servicecontractid = Tools::getSecureGETIntValue('servicecontractid');
+            $_SESSION['servicecontractid'] = $servicecontractid;
          } else if(isset($_SESSION['servicecontractid'])) {
             $servicecontractid = $_SESSION['servicecontractid'];
          }
-         $_SESSION['servicecontractid'] = $servicecontractid;
-
          $action = Tools::getSecurePOSTStringValue('action', '');
 
          $this->smartyHelper->assign('servicecontractid', $servicecontractid);
          $this->smartyHelper->assign('contracts', ServiceContractTools::getServiceContracts($teamid, $servicecontractid));
 
          if (0 == $servicecontractid) {
-            // -------- CREATE CMDSET -------
+            //  CREATE CMDSET
 
             // Actions
             if ("createContract" == $action) {
-               $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
-               $_SESSION['teamid'] = $teamid;
                self::$logger->debug("create new ServiceContract for team $teamid<br>");
 
-               $contractName = Tools::escape_string($_POST['contractName']);
+               $contractName = Tools::getSecurePOSTStringValue('contractName','');
 
                $servicecontractid = ServiceContract::create($contractName, $teamid);
                $this->smartyHelper->assign('servicecontractid', $servicecontractid);
@@ -90,20 +88,20 @@ class ServiceContractEditController extends Controller {
                $this->updateServiceContractInfo($contract);
             }
 
-            // ------ Display Empty Command Form
+            // Display Empty Command Form
             // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
             $this->smartyHelper->assign('contractInfoFormBtText', 'Create');
             $this->smartyHelper->assign('contractInfoFormAction', 'createContract');
          }
 
          if (0 != $servicecontractid) {
-            // -------- UPDATE CMDSET -------
+            // UPDATE CMDSET
             $contract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-            // ------ Actions
+            // Actions
             if ("addCommandSet" == $action) {
                # TODO
-               $commandsetid = SmartyTools::checkNumericValue($_POST['commandsetid']);
+               $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
 
                if (0 == $commandsetid) {
                   #$_SESSION['commandsetid'] = 0;
@@ -112,23 +110,19 @@ class ServiceContractEditController extends Controller {
                   $contract->addCommandSet($commandsetid, CommandSet::type_general);
                }
             } else if ("removeCmdSet" == $action) {
-               $commandsetid = SmartyTools::checkNumericValue($_POST['commandsetid']);
+               $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
                $contract->removeCommandSet($commandsetid);
             } else if ("updateContractInfo" == $action) {
-               $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
-               $_SESSION['teamid'] = $teamid;
-
                $this->updateServiceContractInfo($contract);
             } else if ("addProject" == $action) {
                # TODO
-               $projectid = SmartyTools::checkNumericValue($_POST['projectid']);
+               $projectid = Tools::getSecurePOSTIntValue('projectid');
 
                if (0 != $projectid) {
                   $contract->addSidetaskProject($projectid, Project::type_sideTaskProject);
                }
             } else if ("removeProject" == $action) {
-
-               $projectid = SmartyTools::checkNumericValue($_POST['projectid']);
+               $projectid = Tools::getSecurePOSTIntValue('projectid');
                $contract->removeSidetaskProject($projectid);
             } else if ("deleteContract" == $action) {
                self::$logger->debug("delete ServiceContract servicecontractid (".$contract->getName().")");
@@ -137,18 +131,16 @@ class ServiceContractEditController extends Controller {
                header('Location:servicecontract_info.php');
             }
 
-            // ------ Display ServiceContract
+            // Display ServiceContract
             $this->smartyHelper->assign('servicecontractid', $servicecontractid);
             $this->smartyHelper->assign('contractInfoFormBtText', 'Save');
             $this->smartyHelper->assign('contractInfoFormAction', 'updateContractInfo');
 
             $commandsetCandidates = $this->getCmdSetCandidates($session_user);
             $this->smartyHelper->assign('commandsetCandidates', $commandsetCandidates);
-            $this->smartyHelper->assign('isAddCmdSetForm', true);
 
             $projectCandidates = $this->getProjectCandidates($servicecontractid);
             $this->smartyHelper->assign('projectCandidates', $projectCandidates);
-            $this->smartyHelper->assign('isAddProjectForm', true);
 
             ServiceContractTools::displayServiceContract($this->smartyHelper, $contract);
          }
@@ -162,27 +154,27 @@ class ServiceContractEditController extends Controller {
     */
    private function updateServiceContractInfo($contract) {
       // security check
-      $contract->setTeamid(SmartyTools::checkNumericValue($_POST['teamid']));
+      $contract->setTeamid(Tools::getSecurePOSTIntValue('teamid'));
 
-      $formattedValue = Tools::escape_string($_POST['servicecontractName']);
+      $formattedValue = Tools::getSecurePOSTStringValue('servicecontractName');
       $contract->setName($formattedValue);
 
-      $formattedValue = Tools::escape_string($_POST['servicecontractReference']);
+      $formattedValue = Tools::getSecurePOSTStringValue('servicecontractReference','');
       $contract->setReference($formattedValue);
 
-      $formattedValue = Tools::escape_string($_POST['servicecontractVersion']);
+      $formattedValue = Tools::getSecurePOSTStringValue('servicecontractVersion','');
       $contract->setVersion($formattedValue);
 
-      $formattedValue = Tools::escape_string($_POST['servicecontractReporter']);
+      $formattedValue = Tools::getSecurePOSTStringValue('servicecontractReporter','');
       $contract->setReporter($formattedValue);
 
-      $formattedValue = Tools::escape_string($_POST['servicecontractDesc']);
+      $formattedValue = Tools::getSecurePOSTStringValue('servicecontractDesc','');
       $contract->setDesc($formattedValue);
 
-      $formattedValue = Tools::escape_string($_POST['servicecontractStartDate']);
+      $formattedValue = Tools::getSecurePOSTStringValue('serviceContractStartDate','');
       $contract->setStartDate(Tools::date2timestamp($formattedValue));
 
-      $formattedValue = Tools::escape_string($_POST['servicecontractEndDate']);
+      $formattedValue = Tools::getSecurePOSTStringValue('serviceContractEndDate','');
       $contract->setEndDate(Tools::date2timestamp($formattedValue));
 
       $contract->setState(SmartyTools::checkNumericValue($_POST['servicecontractState'], true));
@@ -209,9 +201,7 @@ class ServiceContractEditController extends Controller {
          $commandsetList = $team->getCommandSetList();
 
          foreach ($commandsetList as $cid => $cmdset) {
-
             // TODO remove CmdSets already in this contract.
-
             $cmdsetCandidates[$cid] = $cmdset->getName();
          }
       }

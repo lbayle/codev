@@ -23,29 +23,41 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getActivityIndicator') {
-         // use the servicecontractid set in the form, if not defined (first page call) use session servicecontractid
-         $servicecontractid = 0;
-         if(isset($_POST['servicecontractid'])) {
-            $servicecontractid = $_POST['servicecontractid'];
-            $_SESSION['servicecontractid'] = $servicecontractid;
-         } else if(isset($_SESSION['servicecontractid'])) {
+         if(isset($_SESSION['servicecontractid'])) {
             $servicecontractid = $_SESSION['servicecontractid'];
-         }
-         
-         if (0 != $servicecontractid) {
-            $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+            if (0 != $servicecontractid) {
+               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
             
-            $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
-            $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
-            $data = ServiceContractTools::getSContractActivity($servicecontract, $startTimestamp, $endTimestamp);
-            $smartyHelper->assign('activityIndic_data', $data[0]);
-            $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
-            $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
+               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
+               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
+               $data = ServiceContractTools::getSContractActivity($servicecontract, $startTimestamp, $endTimestamp);
+               $smartyHelper->assign('activityIndic_data', $data[0]);
+               $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
+               $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
+
+               $smartyHelper->display('plugin/activity_indicator');
+            } else {
+               Tools::sendBadRequest("Service contract equals 0");
+            }
+         } else {
+            Tools::sendBadRequest("Service contract not set");
          }
-         $smartyHelper->display('plugin/activity_indicator');
+      } else if($_GET['action'] == 'getActivityIndicatorData') {
+         if(isset($_SESSION['servicecontractid'])) {
+            $servicecontractid = $_SESSION['servicecontractid'];
+            if (0 != $servicecontractid) {
+               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
 
-      } else if($_GET['action'] == 'getProgressHistoryIndicator') {
-
+               $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
+               $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
+               $data = ServiceContractTools::getSContractActivity($servicecontract, $startTimestamp, $endTimestamp);
+               echo $data[0]['jqplotData'];
+            } else {
+               Tools::sendBadRequest("Service contract equals 0");
+            }
+         } else {
+            Tools::sendBadRequest("Service contract not set");
+         }
       } else {
          Tools::sendNotFoundAccess();
       }

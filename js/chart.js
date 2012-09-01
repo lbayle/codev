@@ -189,3 +189,17 @@ jQuery(document).ready(function() {
    });
 
 });
+
+function updateChart(chart, data) {
+   chart.empty();
+   if(data.length > 0) {
+      var jsonData = jQuery.parseJSON(data);
+      var line = [];
+      jQuery.each(jsonData, function (index, value){
+         line.push([index,value]);
+      });
+
+      var chartoptions = chart.data('plotoptions');
+      chart.jqplot([line], chartoptions);
+   }
+}

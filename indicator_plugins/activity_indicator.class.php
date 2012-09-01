@@ -189,9 +189,7 @@ class ActivityIndicator implements IndicatorPlugin {
 
       $smartyObj['usersActivities'] = $usersActivities;
       $smartyObj['totalActivity'] = $totalActivity;
-      $smartyObj['jqplotData'] = Tools::array2plot($jqplotData);
-
-
+      $smartyObj['jqplotData'] = Tools::array2json($jqplotData);
 
       return $smartyObj;
    }

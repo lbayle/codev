@@ -148,7 +148,10 @@
       <div id="tabsName-3">
          {if $projects}
          <script type="text/javascript">
-            jQuery(document).ready(function(){
+            jQuery(document).ready(function() {
+
+               var chart = jQuery('#projectDetailsChart');
+
                jQuery('#projectid').change(function(event) {
                   /* stop form from submitting normally */
                   event.preventDefault();
@@ -161,7 +164,6 @@
                   form.find('input[name=startdate]').val(jQuery('#startdatepicker').val());
                   form.find('input[name=enddate]').val(jQuery('#enddatepicker').val());
                   jQuery.ajax({
-                     async: false,
                      type: type,
                      url: url,
                      data: form.serialize(),
@@ -169,23 +171,11 @@
                         form.find('input[name=action]').val('getProjectDetailsData');
                         jQuery("#projectDetailsDiv").html(jQuery.trim(data));
                         jQuery.ajax({
-                           async: false,
                            type: type,
                            url: url,
                            data: form.serialize(),
                            success: function(data2) {
-                              jQuery('#projectDetailsChart').empty();
-                              if(data2.length > 0) {
-                                 var jsonData = jQuery.parseJSON(data2);
-                                 var line = [];
-                                 jQuery.each(jsonData, function (index, value){
-                                    line.push([index,value]);
-                                 });
-                              
-                                 var chartoptions = jQuery('#projectDetailsChart').data('plotoptions');
-                                 chartoptions.seriesColors = {$projectDetails_colors};
-                                 jQuery('#projectDetailsChart').jqplot([line], chartoptions);
-                              }
+                              updateChart(chart, data2);
                            },
                            error: function(jqXHR, textStatus, errorThrown) {
                               if(errorThrown == 'Forbidden') {
@@ -224,7 +214,6 @@
          <script type="text/javascript">
             jQuery(document).ready(function() {
             var chartoptions = jQuery('#projectDetailsChart').data('plotoptions');
-            chartoptions.seriesColors = {$projectDetails_colors};
             jQuery('#projectDetailsChart').jqplot([{$projectDetails_jqplotData}], chartoptions);
          });
          </script>

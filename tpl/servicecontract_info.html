@@ -4,13 +4,8 @@
    jQuery(document).ready(function() {
       jQuery("#teamid").change(function() {
          var form = jQuery('#selectForm');
-         form.find("input[name=servicecontractid]").val("0");
+         form.find("select[name=servicecontractid]").val("0");
          form.find("input[name=action]").val("setTeam");
-         form.submit();
-      });
-
-      jQuery("#sendForm").click(function() {
-         var form = jQuery('#selectForm');
          form.submit();
       });
    });
@@ -35,7 +30,7 @@
                {/foreach}
                <option value="0">{t}--- Create New ServiceContract ---{/t}</option>
             </select>
-            <input type="button" id="sendForm" value="{t}Jump{/t}" />
+            <input type="submit" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayServiceContract" />
          </fieldset>
       </form>
@@ -45,7 +40,7 @@
 
    {include file="modal/consistency_check.html"}
 
-   <div align="center">
+   <div class="center">
       <h2>{$servicecontractName}</h2>
       {$servicecontractDesc}
    </div>
@@ -66,11 +61,11 @@
          </tr>
          <tr>
             <th>{t}Start Date{/t}</th>
-            <td>: {$servicecontractStartDate}</td>
+            <td>: {$serviceContractStartDate}</td>
          </tr>
          <tr>
             <th>{t}End Date{/t}</th>
-            <td>: {$servicecontractEndDate}</td>
+            <td>: {$serviceContractEndDate}</td>
          </tr>
          <tr>
             <th>{t}State{/t}</th>
@@ -106,13 +101,11 @@
                });
             });
          </script>
-         <form>
-            <fieldset>
-               <label style="cursor: pointer;"><input type="radio" id="radio1" name="radio" checked="checked" />{t}CommandSets{/t}</label>
-               <label style="cursor: pointer;"><input type="radio" id="radio2" name="radio" />{t}Commands{/t}</label>
-            </fieldset>
-         </form>
-
+         <div>
+            <label style="cursor: pointer;"><input type="radio" id="radio1" name="radio" checked="checked" />{t}CommandSets{/t}</label>
+            <label style="cursor: pointer;"><input type="radio" id="radio2" name="radio" />{t}Commands{/t}</label>
+         </div>
+         <div style="margin-top:.5em;">
          {if $cmdsetList}
          <table id="commandSetsDetailedMgr">
             <thead>
@@ -207,6 +200,7 @@
          {else}
          {t}No Command found.{/t}
          {/if}
+         </div>
          <div style="margin-top:2em;">
             {if $sidetasksDetailedMgr}
             <table>
@@ -368,7 +362,10 @@
 
       <div id="tabsName-4">
          <script type="text/javascript">
-            jQuery(document).ready(function(){
+            jQuery(document).ready(function() {
+
+               var chart = jQuery('#activityIndicChart');
+
                jQuery('#submit').click(function(event) {
                   /* stop form from submitting normally */
                   event.preventDefault();
@@ -382,7 +379,23 @@
                      url: url,
                      data: form.serialize(),
                      success: function(data) {
+                        form.find('input[name=action]').val('getActivityIndicatorData');
                         jQuery("#activityIndicatorDiv").html(jQuery.trim(data));
+                        jQuery.ajax({
+                           async: false,
+                           type: type,
+                           url: url,
+                           data: form.serialize(),
+                           success: function(data2) {
+                              updateChart(chart, data2);
+                           },
+                           error: function(jqXHR, textStatus, errorThrown) {
+                              if(errorThrown == 'Forbidden') {
+                                 window.location = '{$page}';
+                              }
+                           }
+                        });
+                        form.find('input[name=action]').val('getActivityIndicator');
                      },
                      error: function(jqXHR, textStatus, errorThrown) {
                         if(errorThrown == 'Forbidden') {
@@ -391,18 +404,23 @@
                      }
                   });
                });
+
+               //chartoptions.seriesColors = ["#92C5FC", "#FFC16B", "#FFF494"];
+               updateChart(chart, '{$activityIndic_data.jqplotData}');
             });
          </script>
          <div align="left" style="margin-top:1em;">
             <form id="activityIndicator_dateRange_form" method="get" action="{$ajaxPage}">
                <fieldset>
                   {include file="form/dateRangeSelector.html"}
-                  <input id="submit" type=submit value="{t}Display{/t}" />
+                  <input id="submit" type="submit" value="{t}Display{/t}" />
                   <input type="hidden" name="action" value="getActivityIndicator" />
                </fieldset>
             </form>
          </div>
          {include file="plugin/activity_indicator.html"}
+         <div id="activityIndicChart" class="pie_chart chart float" style=" top: -9px;"></div>
+         <div class="ui-helper-clearfix"></div>
       </div>
       {/if}
    </div>
