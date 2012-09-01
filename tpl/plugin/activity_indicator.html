@@ -1,5 +1,4 @@
 {if isset($activityIndic_data)}
-
 <div id="activityIndicatorDiv" align="left" style="margin-top: 1em;">
    <table id="activityIndicator_table" class="display float">
       <thead>
@@ -32,16 +31,6 @@
          </tr>
       </tfoot>
    </table>
-
-   <script type="text/javascript">
-      jQuery(document).ready(function() {
-         var chartoptions = jQuery('#activityIndicChart').data('plotoptions');
-         //chartoptions.seriesColors = ["#92C5FC", "#FFC16B", "#FFF494"];
-         jQuery('#activityIndicChart').jqplot([{$activityIndic_data.jqplotData}], chartoptions);
-      });
-   </script>
-   <div id="activityIndicChart" class="pie_chart chart float" style=" top: -9px;"></div>
-
 </div>
 {else}
 <br />

@@ -362,7 +362,10 @@
 
       <div id="tabsName-4">
          <script type="text/javascript">
-            jQuery(document).ready(function(){
+            jQuery(document).ready(function() {
+
+               var chart = jQuery('#activityIndicChart');
+
                jQuery('#submit').click(function(event) {
                   /* stop form from submitting normally */
                   event.preventDefault();
@@ -376,7 +379,23 @@
                      url: url,
                      data: form.serialize(),
                      success: function(data) {
+                        form.find('input[name=action]').val('getActivityIndicatorData');
                         jQuery("#activityIndicatorDiv").html(jQuery.trim(data));
+                        jQuery.ajax({
+                           async: false,
+                           type: type,
+                           url: url,
+                           data: form.serialize(),
+                           success: function(data2) {
+                              updateChart(chart, data2);
+                           },
+                           error: function(jqXHR, textStatus, errorThrown) {
+                              if(errorThrown == 'Forbidden') {
+                                 window.location = '{$page}';
+                              }
+                           }
+                        });
+                        form.find('input[name=action]').val('getActivityIndicator');
                      },
                      error: function(jqXHR, textStatus, errorThrown) {
                         if(errorThrown == 'Forbidden') {
@@ -385,6 +404,9 @@
                      }
                   });
                });
+
+               //chartoptions.seriesColors = ["#92C5FC", "#FFC16B", "#FFF494"];
+               updateChart(chart, '{$activityIndic_data.jqplotData}');
             });
          </script>
          <div align="left" style="margin-top:1em;">
@@ -397,6 +419,7 @@
             </form>
          </div>
          {include file="plugin/activity_indicator.html"}
+         <div id="activityIndicChart" class="pie_chart chart float" style=" top: -9px;"></div>
          <div class="ui-helper-clearfix"></div>
       </div>
       {/if}
