@@ -37,20 +37,19 @@ class ServiceContractInfoController extends Controller {
          $teamid = 0;
          if (isset($_POST['teamid'])) {
             $teamid = Tools::getSecurePOSTIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
          } else if (isset($_SESSION['teamid'])) {
             $teamid = $_SESSION['teamid'];
          }
-         $_SESSION['teamid'] = $teamid;
 
-         // ---
          // use the servicecontractid set in the form, if not defined (first page call) use session servicecontractid
          $servicecontractid = 0;
          if(isset($_POST['servicecontractid'])) {
-            $servicecontractid = $_POST['servicecontractid'];
+            $servicecontractid = Tools::getSecurePOSTIntValue('servicecontractid');
+            $_SESSION['servicecontractid'] = $servicecontractid;
          } else if(isset($_SESSION['servicecontractid'])) {
             $servicecontractid = $_SESSION['servicecontractid'];
          }
-         $_SESSION['servicecontractid'] = $servicecontractid;
 
          // set TeamList (including observed teams)
          $teamList = $session_user->getTeamList();
@@ -59,8 +58,6 @@ class ServiceContractInfoController extends Controller {
 
          $this->smartyHelper->assign('servicecontractid', $servicecontractid);
          $this->smartyHelper->assign('servicecontracts', ServiceContractTools::getServiceContracts($teamid, $servicecontractid));
-
-         $action = Tools::getSecurePOSTStringValue('action', '');
 
          if (0 != $servicecontractid) {
             $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
@@ -84,6 +81,7 @@ class ServiceContractInfoController extends Controller {
             unset($_SESSION['cmdid']);
             unset($_SESSION['commandsetid']);
 
+            $action = Tools::getSecurePOSTStringValue('action', '');
             if ('displayServiceContract' == $action) {
                header('Location:servicecontract_edit.php?servicecontractid=0');
             }
@@ -97,10 +95,10 @@ class ServiceContractInfoController extends Controller {
     * @return mixed[]
     */
    private function getConsistencyErrors(ServiceContract $serviceContract) {
-      $consistencyErrors = array(); // if null, array_merge fails !
-
       $cerrList = $serviceContract->getConsistencyErrors();
       if (count($cerrList) > 0) {
+         $consistencyErrors = array();
+
          foreach ($cerrList as $cerr) {
             $issue = IssueCache::getInstance()->getIssue($cerr->bugId);
             $user = UserCache::getInstance()->getUser($cerr->userId);
@@ -112,9 +110,10 @@ class ServiceContractInfoController extends Controller {
                'severityColor' => $cerr->getSeverityColor(),
                'desc' => $cerr->desc);
          }
-      }
 
-      return $consistencyErrors;
+         return $consistencyErrors;
+      }
+      return NULL;
    }
 
 }
