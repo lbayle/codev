@@ -245,7 +245,7 @@
                {foreach $cmdsetList as $id => $commandset}
                <tr>
                   <td class="ui-state-error-text" style="width:1em;">
-                     <a class="ui-icon" title="{t}delete Contract-CommandSet association{/t}" href="{page}"
+                     <a class="ui-icon" title="{t}delete Contract-CommandSet association{/t}" href="{$page}"
                         onclick="removeCmdSet('{$id}', '{$commandset.description|escape}');return false;">
                      </a>
                   </td>
