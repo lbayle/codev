@@ -21,17 +21,22 @@ include_once('../include/session.inc.php');
 require('../path.inc.php');
 
 include_once "include/mysql_config.inc.php";
-#include_once "tools.php";
-#include_once "internal_config.inc.php";
 include_once "constants.php";
 
 require_once('classes/config.class.php');
 require_once('classes/constants.class.php');
 
 // ================ MAIN =================
-if(isset($_SESSION['userid'])) {
+#if(isset($_SESSION['userid'])) {
 
    echo "converting constants.php to config.ini";
+
+   Constants::$db_mantis_host     = $db_mantis_host;
+   Constants::$db_mantis_database = $db_mantis_database;
+   Constants::$db_mantis_user     = $db_mantis_user;
+   Constants::$db_mantis_pass     = $db_mantis_pass;
+   Constants::writeConfigFile();
+
 
    Constants::$codevInstall_timestamp = $codevInstall_timestamp;
    Constants::$codevtt_logfile        = $codevtt_logfile;
@@ -40,11 +45,6 @@ if(isset($_SESSION['userid'])) {
    Constants::$codevRootDir           = $codevRootDir;
    Constants::$mantisPath             = Config::getInstance()->getValue(Config::id_mantisPath);
    Constants::$mantisURL              = $mantisURL;
-
-   Constants::$db_mantis_host     = $db_mantis_host;
-   Constants::$db_mantis_database = $db_mantis_database;
-   Constants::$db_mantis_user     = $db_mantis_user;
-   Constants::$db_mantis_pass     = $db_mantis_pass;
 
    Constants::$statusNames      = Config::getInstance()->getValue(Config::id_statusNames);
    Constants::$priority_names   = Config::getInstance()->getValue(Config::id_priorityNames);
@@ -62,6 +62,6 @@ if(isset($_SESSION['userid'])) {
    Constants::$resolution_reopened = array_search('reopened',    Constants::$resolution_names);
 
    Constants::writeConfigFile();
-}
+#}
 
 ?>
