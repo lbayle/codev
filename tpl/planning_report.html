@@ -13,6 +13,8 @@
    }
 </script>
 {else}
+<link type="text/css" href="lib/jquery.powertip/jquery.powertip.css" rel="stylesheet" />
+<script type="text/javascript" src="lib/jquery.powertip/jquery.powertip.min.js"></script>
 <div id="content">
    <div align="center">
       <script type="text/javascript">
@@ -129,7 +131,7 @@
                   {if $j.width}<img width="{$j.width}" height="7" src="images/time_line.jpg" alt="" />{/if}
                   <img class="deadline" src="{$j.url}" alt="{$j.title}" height="7" width="10" />
                   <!-- tooltip element -->
-                  <div class="tooltip ui-helper-hidden" style="padding:30px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
+                  <div id="tooltipdeadline{$id1}" class="tooltip ui-helper-hidden" style="padding:30px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
                      <table style="margin:0;border:0">
                         <tbody>
                            <tr>
@@ -152,8 +154,8 @@
                      {foreach from=$i.scheduledTasks key=id1 item=j}
                      <a class="task" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
                      <!-- tooltip element -->
-                     <div class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
-                        <table style="margin:0;border:0">
+                     <div id="tooltiptask{$id1}" class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
+                        <table style="margin:0;border:0;padding:0;">
                            <tbody>
                               <tr>
                                  <th style="color:blue;width:35px;">{t}Task{/t}</th>
@@ -223,16 +225,13 @@
 
    <script type="text/javascript">
       jQuery(document).ready(function() {
-         jQuery.ajax({
-            url: "lib/jquery.tools/jquery.tools.min.js",
-            dataType: "script",
-            async: false,
-            cache: true
-         });
-
          jQuery(".deadline, .task").each(function() {
-            jQuery(this).tooltip({
-               effect: 'slide'
+            jQuery(this).data('powertiptarget', jQuery(this).siblings('.tooltip').attr('id'));
+            
+            jQuery(this).powerTip({
+               placement: 'n',
+               mouseOnToPopup: true,
+               smartPlacement: true
             });
          });
       });
