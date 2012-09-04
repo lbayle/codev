@@ -93,6 +93,7 @@ class CommandSetEditController extends Controller {
 
             // Display Empty Command Form
             // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
+            $this->smartyHelper->assign('cmdsetInfoFormBtText', T_('Create'));
             $this->smartyHelper->assign('cmdsetInfoFormAction', 'createCmdset');
          }
 
@@ -128,10 +129,11 @@ class CommandSetEditController extends Controller {
 
             // Display CommandSet
             $this->smartyHelper->assign('commandsetid', $commandsetid);
+            $this->smartyHelper->assign('cmdsetInfoFormBtText', T_('Save'));
             $this->smartyHelper->assign('cmdsetInfoFormAction', 'updateCmdsetInfo');
             $this->smartyHelper->assign('isAddCmdForm', true);
 
-            $cmdCandidates = getCmdSetCandidates($session_user);
+            $cmdCandidates = $this->getCmdSetCandidates($session_user);
             $this->smartyHelper->assign('cmdCandidates', $cmdCandidates);
             $this->smartyHelper->assign('isAddCmdSetForm', true);
 
