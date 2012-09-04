@@ -155,7 +155,9 @@ jQuery(document).ready(function() {
             rendererOptions: {
                // Put data labels on the pie slices.
                // By default, labels show the percentage of the slice.
-               showDataLabels: true
+               showDataLabels: true,
+               highlightMouseOver: false,
+               startAngle: "180"
             }
          },
          legend: {

@@ -365,6 +365,7 @@
             jQuery(document).ready(function() {
 
                var chart = jQuery('#activityIndicChart');
+               var chartoptions = jQuery('#activityIndicChart').data('plotoptions');
 
                jQuery('#submit').click(function(event) {
                   /* stop form from submitting normally */
@@ -405,7 +406,9 @@
                   });
                });
 
-               //chartoptions.seriesColors = ["#92C5FC", "#FFC16B", "#FFF494"];
+               chartoptions.seriesColors = ["#92C5FC", "#C2DFFF", "#75FFDA", "#A8FFBD"];
+               chartoptions.startAngle = 180;
+               chartoptions.highlightMouseOver = false;
                updateChart(chart, '{$activityIndic_data.jqplotData}');
             });
          </script>
