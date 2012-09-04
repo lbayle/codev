@@ -35,7 +35,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
                $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
                $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
 
-               $smartyHelper->display('plugin/activity_indicator');
+               $smartyHelper->display('plugin/activity_indicator_ajax1');
             } else {
                Tools::sendBadRequest("Service contract equals 0");
             }

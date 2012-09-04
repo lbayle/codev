@@ -1,0 +1,38 @@
+{if isset($activityIndic_data)}
+<div id="activityIndicatorDiv" align="left" style="margin-top: 1em;">
+   <table id="activityIndicator_table" class="display float">
+      <thead>
+         <tr>
+            <th>{t}User{/t}</th>
+            <th>{t}Elapsed{/t}</th>
+            <th>{t}Other{/t}</th>
+            <th>{t}External{/t}</th>
+            <th>{t}Inactivity{/t}</th>
+         </tr>
+      </thead>
+      <tbody>
+         {foreach $activityIndic_data.usersActivities as $user => $activityList}
+         <tr>
+            <td>{$user}</td>
+            <td>{$activityList.elapsed}</td>
+            <td>{$activityList.other}</td>
+            <td>{$activityList.external}</td>
+            <td>{$activityList.leave}</td>
+         </tr>
+         {/foreach}
+      </tbody>
+      <tfoot>
+         <tr>
+            <td>{t}TOTAL{/t}</td>
+            <td>{$activityIndic_data.totalActivity.elapsed}</td>
+            <td>{$activityIndic_data.totalActivity.other}</td>
+            <td>{$activityIndic_data.totalActivity.external}</td>
+            <td>{$activityIndic_data.totalActivity.leave}</td>
+         </tr>
+      </tfoot>
+   </table>
+</div>
+{else}
+<br />
+{t}No data{/t}
+{/if}

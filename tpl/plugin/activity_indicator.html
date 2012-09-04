@@ -1,38 +1,63 @@
-{if isset($activityIndic_data)}
-<div id="activityIndicatorDiv" align="left" style="margin-top: 1em;">
-   <table id="activityIndicator_table" class="display float">
-      <thead>
-         <tr>
-            <th>{t}User{/t}</th>
-            <th>{t}Elapsed{/t}</th>
-            <th>{t}Other{/t}</th>
-            <th>{t}External{/t}</th>
-            <th>{t}Inactivity{/t}</th>
-         </tr>
-      </thead>
-      <tbody>
-         {foreach $activityIndic_data.usersActivities as $user => $activityList}
-         <tr>
-            <td>{$user}</td>
-            <td>{$activityList.elapsed}</td>
-            <td>{$activityList.other}</td>
-            <td>{$activityList.external}</td>
-            <td>{$activityList.leave}</td>
-         </tr>
-         {/foreach}
-      </tbody>
-      <tfoot>
-         <tr>
-            <td>{t}TOTAL{/t}</td>
-            <td>{$activityIndic_data.totalActivity.elapsed}</td>
-            <td>{$activityIndic_data.totalActivity.other}</td>
-            <td>{$activityIndic_data.totalActivity.external}</td>
-            <td>{$activityIndic_data.totalActivity.leave}</td>
-         </tr>
-      </tfoot>
-   </table>
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+
+      var chart = jQuery('#activityIndicChart');
+      var chartoptions = jQuery('#activityIndicChart').data('plotoptions');
+
+      jQuery('#submit').click(function(event) {
+         /* stop form from submitting normally */
+         event.preventDefault();
+
+         var form = jQuery('#activityIndicator_dateRange_form');
+         var url = form.attr('action');
+         var type = form.attr('method');
+         jQuery.ajax({
+            async: false,
+            type: type,
+            url: url,
+            data: form.serialize(),
+            success: function(data) {
+               form.find('input[name=action]').val('getActivityIndicatorData');
+               jQuery("#activityIndicatorDiv").html(jQuery.trim(data));
+               jQuery.ajax({
+                  async: false,
+                  type: type,
+                  url: url,
+                  data: form.serialize(),
+                  success: function(data2) {
+                     updateChart(chart, data2);
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                     if(errorThrown == 'Forbidden') {
+                        window.location = '{$page}';
+                     }
+                  }
+               });
+               form.find('input[name=action]').val('getActivityIndicator');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+               if(errorThrown == 'Forbidden') {
+                  window.location = '{$page}';
+               }
+            }
+         });
+      });
+
+      chartoptions.seriesColors = ["#92C5FC", "#C2DFFF", "#75FFDA", "#A8FFBD"];
+      //chartoptions.seriesDefaults.rendererOptions.startAngle = 180;
+
+      updateChart(chart, '{$activityIndic_data.jqplotData}');
+   });
+</script>
+<div align="left" style="margin-top:1em;">
+   <form id="activityIndicator_dateRange_form" method="get" action="{$ajaxPage}">
+      <fieldset>
+         {include file="form/dateRangeSelector.html"}
+         <input id="submit" type="submit" value="{t}Display{/t}" />
+         <input type="hidden" name="action" value="getActivityIndicator" />
+      </fieldset>
+   </form>
 </div>
-{else}
-<br />
-{t}No data{/t}
-{/if}
+{include file="plugin/activity_indicator_ajax1.html"}
+<div id="activityIndicChart" class="pie_chart chart float" style=" top: -9px;"></div>
+<div class="ui-helper-clearfix"></div>
