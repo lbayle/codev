@@ -71,10 +71,10 @@ class CommandEditController extends Controller {
          $commandsetid = 0;
          if(isset($_POST['commandsetid'])) {
             $commandsetid = $_POST['commandsetid'];
+            $_SESSION['commandsetid'] = $commandsetid;
          } else if(isset($_SESSION['commandsetid'])) {
             $commandsetid = $_SESSION['commandsetid'];
          }
-         $_SESSION['commandsetid'] = $commandsetid;
 
          $action = isset($_POST['action']) ? $_POST['action'] : '';
 

@@ -35,30 +35,31 @@ class CommandInfoController extends Controller {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          // use the teamid set in the form, if not defined (first page call) use session teamid
-         $teamid = Tools::getSecurePOSTIntValue('teamid', 0);
-         if(0 == $teamid) {
-            if(isset($_SESSION['teamid'])) {
-               $teamid = $_SESSION['teamid'];
-            }
+         $teamid = 0;
+         if (isset($_POST['teamid'])) {
+            $teamid = Tools::getSecurePOSTIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
+         } else if (isset($_SESSION['teamid'])) {
+            $teamid = $_SESSION['teamid'];
          }
-         $_SESSION['teamid'] = $teamid;
 
          // if cmdid set in URL, use it. else:
-         // use the cmdid set in the form, if not defined (first page call) use session cmdid
-         $cmdid = Tools::getSecureGETIntValue('cmdid', 0);
-         if (0 == $cmdid) {
-            if(isset($_POST['cmdid'])) {
-               $cmdid = $_POST['cmdid'];
-            } else if(isset($_SESSION['cmdid'])) {
-               $cmdid = $_SESSION['cmdid'];
-            }
+         // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
+         $cmdid = 0;
+         if(isset($_POST['cmdid'])) {
+            $cmdid = Tools::getSecurePOSTIntValue('cmdid');
+            $_SESSION['cmdid'] = $cmdid;
+         } else if(isset($_SESSION['cmdid'])) {
+            $cmdid = $_SESSION['cmdid'];
          }
-         $_SESSION['cmdid'] = $cmdid;
 
          // set TeamList (including observed teams)
          $teamList = $session_user->getTeamList();
+         $this->smartyHelper->assign('teamid', $teamid);
+         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
+         $this->smartyHelper->assign('commandid', $cmdid);
+         $this->smartyHelper->assign('commands', $this->getCommands($teamid, $cmdid));
 
-         $action = isset($_POST['action']) ? $_POST['action'] : '';
 
          // ------ Display Command
          if (0 != $cmdid) {
@@ -92,16 +93,12 @@ class CommandInfoController extends Controller {
             unset($_SESSION['commandsetid']);
             unset($_SESSION['servicecontractid']);
 
+            $action = isset($_POST['action']) ? $_POST['action'] : '';
             if ('displayCommand' == $action) {
                header('Location:command_edit.php?cmdid=0');
             }
          }
 
-         $this->smartyHelper->assign('teamid', $teamid);
-         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
-
-         $this->smartyHelper->assign('commandid', $cmdid);
-         $this->smartyHelper->assign('commands', $this->getCommands($teamid, $cmdid));
       }
    }
 

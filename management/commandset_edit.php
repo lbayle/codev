@@ -42,10 +42,10 @@ class CommandSetEditController extends Controller {
          $teamid = 0;
          if (isset($_POST['teamid'])) {
             $teamid = $_POST['teamid'];
+            $_SESSION['teamid'] = $teamid;
          } else if (isset($_SESSION['teamid'])) {
             $teamid = $_SESSION['teamid'];
          }
-         $_SESSION['teamid'] = $teamid;
 
          // TODO check if $teamid is set and != 0
 
@@ -59,12 +59,13 @@ class CommandSetEditController extends Controller {
          $commandsetid = 0;
          if(isset($_POST['commandsetid'])) {
             $commandsetid = $_POST['commandsetid'];
+            $_SESSION['commandsetid'] = $commandsetid;
          } else if(isset($_GET['commandsetid'])) {
             $commandsetid = $_GET['commandsetid'];
+            $_SESSION['commandsetid'] = $commandsetid;
          } else if(isset($_SESSION['commandsetid'])) {
             $commandsetid = $_SESSION['commandsetid'];
          }
-         $_SESSION['commandsetid'] = $commandsetid;
 
          $this->smartyHelper->assign('commandsetid', $commandsetid);
          $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($teamid, $commandsetid));
