@@ -245,7 +245,7 @@ class ForecastingReportController extends Controller {
 
 // ========== MAIN ===========
 ForecastingReportController::staticInit();
-$controller = new ForecastingReportController('Forecasting','Forecasting');
+$controller = new ForecastingReportController('Forecasting','ProdReports');
 $controller->execute();
 
 ?>
