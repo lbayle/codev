@@ -146,6 +146,8 @@ class ConsistencyCheck2 {
     * @var Issue[] The issues list
     */
    protected $issueList;
+   protected $bugidList;
+   protected $formattedBugidList; // "123,234,456" (used in SQL requests)
 
    /**
     * @var int The team id
@@ -155,6 +157,14 @@ class ConsistencyCheck2 {
    function __construct(array $issueList, $teamId=NULL) {
       $this->issueList = $issueList;
       $this->teamId = $teamId;
+
+      $this->bugidList = array();
+      foreach ($issueList as $issue) {
+         $this->bugidList[] = $issue->getId();
+      }
+      $this->formattedBugidList = implode(', ', $this->bugidList);
+
+
    }
 
    /**
@@ -409,9 +419,8 @@ class ConsistencyCheck2 {
       $cerrList = array();
       
       if(count($this->issueList) > 0) {
-         $issueIds = implode(', ', array_keys($this->issueList));
-      
-         $query = "SELECT bug_id, COUNT(command_id) as count FROM `codev_command_bug_table` WHERE bug_id IN (".$issueIds.") GROUP BY bug_id;";
+
+         $query = "SELECT bug_id, COUNT(command_id) as count FROM `codev_command_bug_table` WHERE bug_id IN (".$this->formattedBugidList.") GROUP BY bug_id;";
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -422,7 +431,7 @@ class ConsistencyCheck2 {
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $commandsByIssue[$row->bug_id] = $row->count;
          }
-      
+
          foreach ($this->issueList as $issue) {
             $project = ProjectCache::getInstance()->getProject($issue->getProjectId());
 
