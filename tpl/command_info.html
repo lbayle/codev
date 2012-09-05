@@ -31,7 +31,7 @@
                {/foreach}
             </select>
             <label for="cmdid">{t}Command{/t}: </label>
-            <select id="cmdid" name="cmdid">
+            <select id="cmdid" name="cmdid" class="select2">
                {foreach from=$commands key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.reference} {$i.name}</option>
                {/foreach}
