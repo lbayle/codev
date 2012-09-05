@@ -125,7 +125,7 @@
                   <td>{$cmd.elapsed}</td>
                   <td>{$cmd.backlog}</td>
                   <td {$cmd.driftColor}>{$cmd.drift}</td>
-                  <td>{$cmd.progress}%</td>
+                  <td style="width: 110px;"><div class="progress">{$cmd.progress}%</div></td>
                </tr>
                {/foreach}
             </tbody>
@@ -140,7 +140,7 @@
                   <td>{$cmdsetDetailedMgr.elapsed}</td>
                   <td>{$cmdsetDetailedMgr.backlog}</td>
                   <td {$cmdsetDetailedMgr.driftColor}>{$cmdsetDetailedMgr.drift}</td>
-                  <td>{$cmdsetDetailedMgr.progress}%</td>
+                  <td style="width: 110px;"><div class="progress">{$cmdsetDetailedMgr.progress}%</div></td>
                </tr>
             </tfoot>
          </table>

@@ -132,7 +132,7 @@
                   <td>{$cmdset.elapsed}</td>
                   <td>{$cmdset.backlog}</td>
                   <td {$cmdset.driftColor}>{$cmdset.drift}</td>
-                  <td>{$cmdset.progress}%</td>
+                  <td style="width: 110px;"><div class="progress">{$cmdset.progress}%</div></td>
                </tr>
                {/foreach}
             </tbody>
@@ -146,7 +146,7 @@
                   <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
                   <td>{$cmdsetTotalDetailedMgr.backlog}</td>
                   <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
-                  <td>{$cmdsetTotalDetailedMgr.progress}%</td>
+                  <td style="width: 110px;"><div class="progress">{$cmdsetTotalDetailedMgr.progress}%</div></td>
                </tr>
             </tfoot>
          </table>
@@ -179,7 +179,7 @@
                   <td>{$cmd.elapsed}</td>
                   <td>{$cmd.backlog}</td>
                   <td {$cmd.driftColor}>{$cmd.drift}</td>
-                  <td>{$cmd.progress}%</td>
+                  <td style="width: 110px;"><div class="progress">{$cmd.progress}%</div></td>
                </tr>
                {/foreach}
             </tbody>
@@ -193,7 +193,7 @@
                   <td>{$cmdsetTotalDetailedMgr.elapsed}</td>
                   <td>{$cmdsetTotalDetailedMgr.backlog}</td>
                   <td {$cmdsetTotalDetailedMgr.driftColor}>{$cmdsetTotalDetailedMgr.drift}</td>
-                  <td>{$cmdsetTotalDetailedMgr.progress}%</td>
+                  <td style="width: 110px;"><div class="progress">{$cmdsetTotalDetailedMgr.progress}%</div></td>
                </tr>
             </tfoot>
          </table>

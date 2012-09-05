@@ -38,8 +38,8 @@
                <tr class="row_total">
                   <td>{t}Total{/t}</td>
                   <td></td>
-                  <td>{$i.progressMgr}%</td>
-                  <td>{$i.progress}%</td>
+                  <td><div class="progress">{$i.progressMgr}%</div></td>
+                  <td><div class="progress">{$i.progress}%</div></td>
                   <td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}%</td>
                   <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}%</td>
                </tr>
@@ -47,8 +47,8 @@
                <tr>
                   <td>{$i.name}</td>
                   <td>{$i.date}</td>
-                  <td>{$i.progressMgr}%</td>
-                  <td>{$i.progress}%</td>
+                  <td><div class="progress">{$i.progressMgr}%</div></td>
+                  <td><div class="progress">{$i.progress}%</div></td>
                   <td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}%</td>
                   <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}%</td>
                </tr>
