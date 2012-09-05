@@ -47,6 +47,9 @@ class ServiceContractInfoController extends Controller {
          if(isset($_POST['servicecontractid'])) {
             $servicecontractid = Tools::getSecurePOSTIntValue('servicecontractid');
             $_SESSION['servicecontractid'] = $servicecontractid;
+         } else if(isset($_GET['servicecontractid'])) {
+            $servicecontractid = Tools::getSecureGETIntValue('servicecontractid');
+            $_SESSION['servicecontractid'] = $servicecontractid;
          } else if(isset($_SESSION['servicecontractid'])) {
             $servicecontractid = $_SESSION['servicecontractid'];
          }

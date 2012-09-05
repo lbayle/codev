@@ -49,6 +49,9 @@ class CommandInfoController extends Controller {
          if(isset($_POST['cmdid'])) {
             $cmdid = Tools::getSecurePOSTIntValue('cmdid');
             $_SESSION['cmdid'] = $cmdid;
+         } else if(isset($_GET['cmdid'])) {
+            $cmdid = Tools::getSecureGETIntValue('cmdid');
+            $_SESSION['cmdid'] = $cmdid;
          } else if(isset($_SESSION['cmdid'])) {
             $cmdid = $_SESSION['cmdid'];
          }
