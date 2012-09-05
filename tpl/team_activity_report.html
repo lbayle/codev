@@ -90,8 +90,8 @@
                   <tr>
                      <th>{t}Task{/t}</th>
                      <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
-                     <th style="width: 1em;">{t}Progress{/t}</th>
-                     <th style="width: 1em;">{t}Project{/t}</th>
+                     <th>{t}Progress{/t}</th>
+                     <th>{t}Project{/t}</th>
                      <th style="width: 1em;" title="{t}Target version{/t}">{t}Target{/t}</th>
                      {if $isChecked}<th style="width: 1em;">{t}Job{/t}</th>{/if}
                      {foreach from=$i.weekDates item=j key=id}
@@ -107,7 +107,7 @@
                   <tr>
                      <td>{$j.url}</td>
                      <td>{$j.duration}</td>
-                     <td>{$j.progress}%</td>
+                     <td style="width: 110px;"><div class="progress">{$j.progress}%</div></td>
                      <td>{$j.projectName}</td>
                      <td>{$j.targetVersion}</td>
                      {if $isChecked}<td>{$j.jobName}</td>{/if}
