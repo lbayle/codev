@@ -158,38 +158,38 @@
                         <table style="margin:0;border:0;padding:0;">
                            <tbody>
                               <tr>
-                                 <th style="color:blue;width:35px;">{t}Task{/t}</th>
+                                 <td style="color:blue;width:35px;">{t}Task{/t}</td>
                                  <td>{$j.bugid}</td>
                               </tr>
                               <tr>
-                                 <th style="color:blue;width:35px;">{t}Project{/t}</th>
+                                 <td style="color:blue;width:35px;">{t}Project{/t}</td>
                                  <td>{$j.projectName}</td>
                               </tr>
                               <tr>
-                                 <th style="color:blue;width:35px;" VALIGN="top">{t}Summary{/t}</th>
+                                 <td style="color:blue;width:35px;" VALIGN="top">{t}Summary{/t}</td>
                                  <td>{$j.summary}</td>
                               </tr>
                               <tr>
-                                 <th style="color:blue;width:35px;">&nbsp;</th>
+                                 <td style="color:blue;width:35px;">&nbsp;</td>
                                  <td></td>
                               </tr>
                               <tr>
-                                 <th style="color:blue;width:35px;">{t}Attributes{/t}</th>
+                                 <td style="color:blue;width:35px;">{t}Attributes{/t}</td>
                                  <td>{t}Status{/t}:<strong>{$j.statusName}</strong>,&nbsp; {t}Priority{/t}:<strong>{$j.priorityName}</strong>,&nbsp; {t}Severity{/t}:<strong>{$j.severityName}</strong></td>
                               </tr>
                               <tr>
-                                 <th style="color:blue;width:35px;">{t}Duration{/t}</th>
+                                 <td style="color:blue;width:35px;">{t}Duration{/t}</td>
                                  <td>{$j.duration} {t}days{/t}</td>
                               </tr>
                               {if $j.deadLine}
                               <tr>
-                                 <th style="color:blue;width:35px;">{t}DeadLine{/t}</th>
+                                 <td style="color:blue;width:35px;">{t}DeadLine{/t}</td>
                                  <td>{$j.deadLine}</td>
                               </tr>
                               {/if}
                               {if isset($j.handlerName)}
                               <tr>
-                                 <th style="color:orange;width:35px;">{t}Monitored{/t}</th>
+                                 <td style="color:orange;width:35px;">{t}Monitored{/t}</td>
                                  <td>({$j.handlerName})</td>
                               </tr>
                               {/if}
