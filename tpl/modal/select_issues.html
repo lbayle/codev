@@ -17,25 +17,8 @@ This opens a popup window displaying an issue list.
          async: false,
          cache: true
       });
-   
-      jQuery( "#dialog_selectIssues_link" ).click(function() {
-         jQuery( "#dialog_selectIssues" ).dialog( "open" );
-         var oTable = jQuery('#selectable_issues_table').dataTable();
-         oTable.fnAdjustColumnSizing();
-         return false;
-      });
-      jQuery( "#dialog_selectIssues" ).dialog({
-         autoOpen: false,
-         modal: true,
-         hide: "fade",
-         width: "1000",
-         resize: function(event, ui) {
-            var oTable = $('#selectable_issues_table').dataTable();
-            oTable.fnAdjustColumnSizing();
-         }
-      });
-
-      jQuery('#selectable_issues_table').dataTable({
+      
+      var oTable = jQuery('#selectable_issues_table').dataTable({
          "sScrollY": "400px",
          "bPaginate": false,
          "bScrollCollapse": true,
@@ -44,12 +27,27 @@ This opens a popup window displaying an issue list.
          "bInfo": false,
          "bAutoWidth": false
       });
+      
+      var dialog = jQuery("#dialog_selectIssues").dialog({
+         autoOpen: false,
+         modal: true,
+         hide: "fade",
+         width: "1000",
+         resize: function() {
+            oTable.fnAdjustColumnSizing();
+         }
+      });
+   
+      jQuery("#dialog_selectIssues_link").click(function() {
+         dialog.dialog("open");
+         oTable.fnAdjustColumnSizing();
+         return false;
+      });
 
       // select/deselect all rows
       jQuery('#cb_selectAll').click( function() {
          var is_checked = jQuery(this).is(':checked');
 
-         var oTable = $('#selectable_issues_table').dataTable();
          oTable.$('tr').each(function () {
             if (is_checked) {
                jQuery(this).addClass('row_selected');
@@ -66,7 +64,6 @@ This opens a popup window displaying an issue list.
 
       /* send issue list */
       jQuery('#bt_selectIssuesDone').click( function() {
-         var oTable = jQuery('#selectable_issues_table').dataTable();
          var selectedRows = oTable.$('tr.row_selected');
          if (0 == selectedRows.length) {
             alert('{t}No task selected !{/t}');
@@ -78,23 +75,23 @@ This opens a popup window displaying an issue list.
             });
 
             var implodedBugidList = bugidArray.join(',');
-            jQuery( "#formSendSelectIssues" ).find("input[name=bugid_list]").val(implodedBugidList);
-            jQuery( "#confirmSendSelectIssues_dialog_form" ).dialog( "open" );
+            jQuery("#formSendSelectIssues").find("input[name=bugid_list]").val(implodedBugidList);
+            jQuery("#confirmSendSelectIssues_dialog_form").dialog("open");
          }
       });
 
       // delete track dialogBox
-      jQuery("#confirmSendSelectIssues_dialog_form" ).dialog({
+      jQuery("#confirmSendSelectIssues_dialog_form").dialog({
          autoOpen: false,
          resizable: true,
          width: "auto",
          modal: true,
          buttons: {
-            "Ok": function() {
+            "{t}OK{/t}": function() {
                jQuery("#formSendSelectIssues").submit();
             },
             Cancel: function() {
-               jQuery( this ).dialog( "close" );
+               jQuery(this).dialog("close");
             }
          }
       });
@@ -113,7 +110,7 @@ This opens a popup window displaying an issue list.
 
    {if !empty($availableIssueList)}
    <label><input id="cb_selectAll" type="checkbox"/>{t}Select all{/t}</label>
-   &nbsp;&nbsp;
+   <br />
    <button id="bt_selectIssuesDone" type="button"><img border="0" align="absmiddle" alt="Add icon" src="images/b_add.png"> {$selectIssuesDoneBtText}</button>
    {/if}
    
@@ -156,7 +153,8 @@ This opens a popup window displaying an issue list.
 
 <!-- Confirm DialogBox -->
 <div id="confirmSendSelectIssues_dialog_form" title="{$selectIssuesBoxTitle}" class="ui-helper-hidden">
-   <p><span class="ui-icon ui-icon-alert left" style="margin:0 7px 20px 0;"></span>
-      {$selectIssuesConfirmMsg}
+   <p>
+      <span class="ui-icon ui-icon-alert" style="display: inline-block;"></span>
+      <span style="display: inline-block; overflow: hidden;">{$selectIssuesConfirmMsg}</span>
    </p>
 </div>
