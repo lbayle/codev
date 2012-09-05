@@ -34,31 +34,33 @@ class CommandSetInfoController extends Controller {
       if (isset($_SESSION['userid'])) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
+
          // use the teamid set in the form, if not defined (first page call) use session teamid
-         $teamid = Tools::getSecurePOSTIntValue('teamid', 0);
-         if(0 == $teamid) {
-            if(isset($_SESSION['teamid'])) {
-               $teamid = $_SESSION['teamid'];
-            }
+         $teamid = 0;
+         if (isset($_POST['teamid'])) {
+            $teamid = Tools::getSecurePOSTIntValue('teamid');
+            $_SESSION['teamid'] = $teamid;
+         } else if (isset($_SESSION['teamid'])) {
+            $teamid = $_SESSION['teamid'];
          }
-         $_SESSION['teamid'] = $teamid;
 
          // if cmdid set in URL, use it. else:
          // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
-         $commandsetid = Tools::getSecureGETIntValue('commandsetid', 0);
-         if (0 == $commandsetid) {
-            if(isset($_POST['commandsetid'])) {
-               $commandsetid = $_POST['commandsetid'];
-            } else if(isset($_SESSION['commandsetid'])) {
-               $commandsetid = $_SESSION['commandsetid'];
-            }
+         $commandsetid = 0;
+         if(isset($_POST['commandsetid'])) {
+            $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
+            $_SESSION['commandsetid'] = $commandsetid;
+         } else if(isset($_SESSION['commandsetid'])) {
+            $commandsetid = $_SESSION['commandsetid'];
          }
-         $_SESSION['commandsetid'] = $commandsetid;
 
          // set TeamList (including observed teams)
          $teamList = $session_user->getTeamList();
+         $this->smartyHelper->assign('teamid', $teamid);
+         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
 
-         $action = Tools::getSecurePOSTStringValue('action', '');
+         $this->smartyHelper->assign('commandsetid', $commandsetid);
+         $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($teamid, $commandsetid));
 
          if (0 != $commandsetid) {
             $commandset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
@@ -93,16 +95,12 @@ class CommandSetInfoController extends Controller {
             unset($_SESSION['cmdid']);
             unset($_SESSION['servicecontractid']);
 
+            $action = Tools::getSecurePOSTStringValue('action', '');
             if ('displayCommandSet' == $action) {
                header('Location:commandset_edit.php?commandsetid=0');
             }
          }
 
-         $this->smartyHelper->assign('teamid', $teamid);
-         $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList, $teamid));
-
-         $this->smartyHelper->assign('commandsetid', $commandsetid);
-         $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($teamid, $commandsetid));
       }
    }
 

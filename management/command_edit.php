@@ -41,11 +41,11 @@ class CommandEditController extends Controller {
 
          $teamid = 0;
          if (isset($_POST['teamid'])) {
-            $teamid = $_POST['teamid'];
+            $teamid = Tools::getSecurePOSTIntValue('teamid');
++            $_SESSION['teamid'] = $teamid;
          } else if (isset($_SESSION['teamid'])) {
             $teamid = $_SESSION['teamid'];
          }
-         $_SESSION['teamid'] = $teamid;
 
          // TODO check if $teamid is set and != 0
 
@@ -58,12 +58,13 @@ class CommandEditController extends Controller {
          $cmdid = 0;
          if(isset($_POST['cmdid'])) {
             $cmdid = $_POST['cmdid'];
+            $_SESSION['cmdid'] = $cmdid;
          } else if(isset($_GET['cmdid'])) {
             $cmdid = $_GET['cmdid'];
+            $_SESSION['cmdid'] = $cmdid;
          } else if(isset($_SESSION['cmdid'])) {
             $cmdid = $_SESSION['cmdid'];
          }
-         $_SESSION['cmdid'] = $cmdid;
 
          // use the commandsetid set in the form, if not defined (first page call) use session commandsetid
          // Note: It is used for createEnv but will be overridden by the displayed command's commandsetid.
@@ -82,8 +83,8 @@ class CommandEditController extends Controller {
 
             // ------ Actions
             if ("createCmd" == $action) {
-               $teamid = Tools::getSecurePOSTIntValue('teamid');
-               $_SESSION['teamid'] = $teamid;
+               //$teamid = Tools::getSecurePOSTIntValue('teamid');
+               //$_SESSION['teamid'] = $teamid;
                self::$logger->debug("create new Command for team $teamid<br>");
 
                $cmdName = Tools::getSecurePOSTStringValue('cmdName');
@@ -159,8 +160,8 @@ class CommandEditController extends Controller {
                $cmdset = CommandSetCache::getInstance()->getCommandSet($commandsetid);
                $cmdset->removeCommand($cmdid);
             } else if ("updateCmdInfo" == $action) {
-               $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
-               $_SESSION['teamid'] = $teamid;
+               //$teamid = SmartyTools::checkNumericValue($_POST['teamid']);
+               //$_SESSION['teamid'] = $teamid;
 
                $this->updateCmdInfo($cmd);
             } else if ("deleteCommand" == $action) {

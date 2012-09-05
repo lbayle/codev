@@ -4,7 +4,7 @@
    jQuery(document).ready(function() {
       jQuery("#teamid").change(function() {
          var form = jQuery('#selectForm');
-         form.find("input[name=commandsetid]").val("0");
+         form.find("select[name=commandsetid]").val("0");
          form.find("input[name=action]").val("setTeam");
          form.submit();
       });
