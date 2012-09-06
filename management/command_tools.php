@@ -171,6 +171,44 @@ class CommandTools {
    }
 
    /**
+    * show users activity on the Command during the given period.
+    *
+    * if start & end dates not defined, the last month will be displayed.
+    *
+    * @param Command $cmd
+    * @return string
+    *
+    */
+   public static function getCommandActivity(Command $cmd, $startTimestamp = NULL, $endTimestamp = NULL) {
+      $issueSel = $cmd->getIssueSelection();
+
+      $month = date('m');
+      $year = date('Y');
+
+      if (!isset($startTimestamp)) {
+         // The first day of the current month
+         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
+         $startTimestamp = Tools::date2timestamp($startdate);
+      }
+      if (!isset($endTimestamp)) {
+         $nbDaysInMonth = date("t", $startTimestamp);
+         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
+         $endTimestamp = Tools::date2timestamp($enddate);
+      }
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'teamid' => $cmd->getTeamid()
+      );
+
+      $activityIndicator = new ActivityIndicator();
+      $activityIndicator->execute($issueSel, $params);
+
+      return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
+   }
+
+   /**
     * @param SmartyHelper $smartyHelper
     * @param Command $cmd
     */
@@ -211,6 +249,11 @@ class CommandTools {
       $smartyHelper->assign('indicators_jqplotData', $data[0]);
       $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
       $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +2 month")));
+
+      $data = self::getCommandActivity($cmd);
+      $smartyHelper->assign('activityIndic_data', $data[0]);
+      $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
+      $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
    }
 }
 

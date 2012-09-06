@@ -23,40 +23,40 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();
       if($_GET['action'] == 'getActivityIndicator') {
-         if(isset($_SESSION['commandsetid'])) {
-            $cmdid = $_SESSION['commandsetid'];
+         if(isset($_SESSION['cmdid'])) {
+            $cmdid = $_SESSION['cmdid'];
             if (0 != $cmdid) {
-               $cmdset = CommandSetCache::getInstance()->getCommandSet($cmdid);
+               $cmdset = CommandCache::getInstance()->getCommand($cmdid);
 
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
-               $data = CommandSetTools::getCommandSetActivity($cmdset, $startTimestamp, $endTimestamp);
+               $data = CommandTools::getCommandActivity($cmdset, $startTimestamp, $endTimestamp);
                $smartyHelper->assign('activityIndic_data', $data[0]);
                $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
                $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
 
                $smartyHelper->display('plugin/activity_indicator_ajax1');
             } else {
-               Tools::sendBadRequest("CommandSet equals 0");
+               Tools::sendBadRequest("Command equals 0");
             }
          } else {
-            Tools::sendBadRequest("CommandSet not set");
+            Tools::sendBadRequest("Command not set");
          }
       } else if($_GET['action'] == 'getActivityIndicatorData') {
-         if(isset($_SESSION['commandsetid'])) {
-            $cmdid = $_SESSION['commandsetid'];
+         if(isset($_SESSION['cmdid'])) {
+            $cmdid = $_SESSION['cmdid'];
             if (0 != $cmdid) {
-               $cmdset = CommandSetCache::getInstance()->getCommandSet($cmdid);
+               $cmdset = CommandCache::getInstance()->getCommand($cmdid);
 
                $startTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("startdate"));
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
-               $data = CommandSetTools::getCommandSetActivity($cmdset, $startTimestamp, $endTimestamp);
+               $data = CommandTools::getCommandActivity($cmdset, $startTimestamp, $endTimestamp);
                echo $data[0]['jqplotData'];
             } else {
-               Tools::sendBadRequest("CommandSet equals 0");
+               Tools::sendBadRequest("Command equals 0");
             }
          } else {
-            Tools::sendBadRequest("CommandSet not set");
+            Tools::sendBadRequest("Command not set");
          }
       } else {
          Tools::sendNotFoundAccess();

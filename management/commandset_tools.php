@@ -140,7 +140,7 @@ class CommandSetTools {
    }
 
    /**
-    * show users activity on the SC during the given period.
+    * show users activity on the CommandSet during the given period.
     *
     * if start & end dates not defined, the last month will be displayed.
     *
