@@ -387,7 +387,7 @@
    </div>
    <script type="text/javascript">
 
-      function updateBacklog(backlog, description, bugid, effortEstim, mgrEffortEstim, elapsed, drift, driftMgr, reestimated, reestimatedMgr, driftColor, dialogBoxTitle){
+      function updateBacklog(backlog, description, bugid, effortEstim, mgrEffortEstim, elapsed, drift, driftMgr, reestimated, reestimatedMgr, driftColor, deadline, dialogBoxTitle){
          jQuery("#backlog").val(backlog);
          jQuery("#validateTips").text(description);
 
@@ -395,6 +395,7 @@
          jQuery("#desc_elapsed").text(elapsed);
          jQuery("#desc_reestimated").text(reestimated);
          jQuery("#desc_drift").text(drift);
+         jQuery("#desc_deadline").text(deadline);
 
          jQuery("#desc_drift").css("backgroundColor", '#' + driftColor);
 
@@ -432,6 +433,7 @@
             height: 'auto',
             width: 500,
             modal: true,
+            closeOnEscape: false,
             open: function() {
                // Select input field contents
                jQuery("#backlog").select();
@@ -439,10 +441,11 @@
             buttons: {
                "Update": function() {
                   jQuery("#formUpdateBacklog").submit();
-               },
-               Cancel: function() {
-                  jQuery( this ).dialog("close");
                }
+               //,
+               //Cancel: function() {
+               //   jQuery( this ).dialog("close");
+               //}
             },
             close: function() {
                allFields.val("").removeClass("ui-state-error");
@@ -487,6 +490,7 @@
                   '{$updateBacklogRequested.reestimated}',
                   '{$updateBacklogRequested.reestimatedMgr}',
                   '{$updateBacklogRequested.driftColor}',
+                  '{$updateBacklogRequested.deadline}',
                   '{t}Task{/t} {$updateBacklogRequested.dialogBoxTitle} - {t}Update Backlog{/t}');
          {/if}
 
@@ -498,6 +502,10 @@
          <fieldset>
             <table class="invisible">
                <tbody>
+                  <tr>
+                     <th>{t}Deadline{/t} :</th>
+                     <td id="desc_deadline">date</td>
+                  </tr>
                   <tr>
                      <th>{t}Estimated effort{/t} :</th>
                      <td id="desc_effortEstim">effortEstim</td>

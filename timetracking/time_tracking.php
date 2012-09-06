@@ -124,6 +124,9 @@ class TimeTrackingController extends Controller {
                   if (($job != $job_support) &&
                      (!$project->isSideTasksProject(array_keys($teamList)) &&
                         (!$project->isExternalTasksProject()))) {
+
+                     $formatedDate = Tools::formatDate("%Y-%m-%d", $issue->getDeadLine());
+
                      $issueInfo = array(
                         'backlog' => $issue->getBacklog(),
                         'bugid' => $issue->getId(),
@@ -136,7 +139,8 @@ class TimeTrackingController extends Controller {
                         'driftMgr' => $issue->getDriftMgr(),
                         'reestimated' => $issue->getReestimated(),
                         'reestimatedMgr' => $issue->getReestimatedMgr(),
-                        'driftColor' => $issue->getDriftColor()
+                        'driftColor' => $issue->getDriftColor(),
+                        'deadline' => $formatedDate
 
                      );
 

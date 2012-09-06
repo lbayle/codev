@@ -96,6 +96,7 @@ class TimeTrackingTools {
                   'day' => $dayList[$i]
                );
             }
+            $formatedDate = Tools::formatDate("%Y-%m-%d", $issue->getDeadLine());
 
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
@@ -116,7 +117,9 @@ class TimeTrackingTools {
                'driftMgr' => $issue->getDriftMgr(),
                'reestimated' => $issue->getReestimated(),
                'reestimatedMgr' => $issue->getReestimatedMgr(),
-               'driftColor' => $issue->getDriftColor()
+               'driftColor' => $issue->getDriftColor(),
+               'deadline' => $formatedDate
+
             );
          }
       }
