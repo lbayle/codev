@@ -1,9 +1,20 @@
 <div class="menu ui-tabs ui-widget ui-widget-content ui-corner-all">
-   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" style="width:100%;">
+   <ul class="dropdown ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" style="width:100%;">
       <li class="ui-corner-top {if $page|strstr:"index.php"} ui-state-active{else} ui-state-default{/if}" style="margin-left:1em;"><a href="index.php" class="button" target="_top">{t}Home{/t}</a></li>
       <li class="ui-corner-top ui-state-default"><a href="{$mantisURL}" title="MantisBT" class="button" target="_top">Mantis</a></li>
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'TimeTracking'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="timetracking/time_tracking.php" title="{t}TimeTracking & team activity{/t}" class="button" target="_top">{t}Activity{/t}</a></li>
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Holiday'} ui-state-active{else} ui-state-default{/if}"><a href="timetracking/holidays_report.php" title="{t}Holidays Reports{/t}" class="button">{t}Holidays{/t}</a></li>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'TimeTracking'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="timetracking/time_tracking.php" title="{t}TimeTracking & team activity{/t}" class="button" target="_top">{t}Activity{/t}</a>
+         <ul class="submenu">
+            <li><a href="timetracking/time_tracking.php">{t}Time Tracking{/t}</a></li>
+            <li><a href="timetracking/team_activity_report.php">{t}Team Activity{/t}</a></li>
+            <li><a href="timetracking/project_activity_report.php">{t}Projects Activity{/t}</a></li>
+         </ul>
+      </li>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Holiday'} ui-state-active{else} ui-state-default{/if}"><a href="timetracking/holidays_report.php" title="{t}Holidays Reports{/t}" class="button">{t}Holidays{/t}</a>
+         <ul class="submenu">
+            <li><a href="timetracking/holidays_report.php">{t}Display{/t}</a></li>
+            <li><a href="timetracking/set_holidays.php">{t}Add{/t}</a></li>
+         </ul>
+      </li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'Planning'} ui-state-active{else} ui-state-default{/if}">
          <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -21,14 +32,51 @@
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'Gantt'} ui-state-active{else} ui-state-default{/if}"><a href="reports/gantt_report.php" title="{t}Gantt Chart{/t}" class="button">{t}Gantt{/t}</a></li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'IssueInfo'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="reports/issue_info.php" title="{t}Task Information{/t}" class="button">{t}Task{/t}</a></li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'ProjectInfo'} ui-state-active{else} ui-state-default{/if}"><a href="reports/project_info.php" title="{t}Project Information{/t}" class="button">{t}Project{/t}</a></li>
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ProdReports'} ui-state-active{else} ui-state-default{/if}"><a href="reports/productivity_report.php" title="{t}Team Statistics{/t}" class="button">{t}Team{/t}</a></li>
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Management'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="management/servicecontract_info.php" title="{t}Contracts & Commands{/t}" class="button">{t}Contracts{/t}</a></li>
-      
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ProdReports'} ui-state-active{else} ui-state-default{/if}"><a href="reports/productivity_report.php" title="{t}Team Statistics{/t}" class="button">{t}Team{/t}</a>
+         <ul class="submenu">
+            <li><a href="reports/forecasting_report.php" title="{t}Forecasting{/t}">{t}Forecasting{/t}</a></li>
+            <li><a href='reports/productivity_report.php'>{t}Period Statistics{/t}</a></li>
+            <li><a href='reports/statistics.php'>{t}History{/t}</a></li>
+         </ul>
+      </li>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Management'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="management/servicecontract_info.php" title="{t}Contracts & Commands{/t}" class="button">{t}Contracts{/t}</a>
+         <ul class="submenu">
+            <li><a href='management/servicecontract_info.php'>{t}ServiceContract{/t}</a></li>
+            <li><a href='management/commandset_info.php'>{t}CommandSet{/t}</a></li>
+            <li><a href='management/command_info.php'>{t}Command{/t}</a></li>
+         </ul>
+      </li>
       <!--  <li class="ui-corner-top {if $activeGlobalMenuItem == 'MantisReports'} ui-state-active{else} ui-state-default{/if}"><a href="reports/mantis_reports.php" title="{t}Mantis Reports{/t}" class="button">{t}Mantis Reports{/t}</a></li>  -->
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ImportExport'} ui-state-active{else} ui-state-default{/if}"><a href="import/import_issues.php" title="{t}Import Export{/t}" class="button">{t}Import / Export{/t}</a></li>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'ImportExport'} ui-state-active{else} ui-state-default{/if}"><a href="import/import_issues.php" title="{t}Import Export{/t}" class="button">{t}Import / Export{/t}</a>
+         <ul class="submenu">
+            <li><a href="import/import_issues.php">{t}Import Issues{/t}</a></li>
+            <li><a href="reports/export_csv_weekly.php">{t}Export Weekly Report{/t}</a></li>
+            <li><a href="reports/export_csv_monthly.php">{t}Export Monthly Report{/t}</a></li>
+         </ul>
+      </li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'ConsistencyCheck'} ui-state-active{else} ui-state-default{/if}"><a href="reports/check.php" title="{t}Consistency Check{/t}" class="button">{t}Check{/t}</a></li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'Blog'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="blog/blog.php" title="{t}Blog{/t}" class="button">Blog</a></li>
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Doc'} ui-state-active{else} ui-state-default{/if}"><a href="doc/doc.php" title="{t}Documentation{/t}" class="button">Doc</a></li>
-      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Admin'} ui-state-active{else} ui-state-default{/if}"><a href="admin/admin.php" title="{t}CoDev Administration{/t}" class="button">Admin</a></li>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Doc'} ui-state-active{else} ui-state-default{/if}"><a href="doc/doc.php" title="{t}Documentation{/t}" class="button">Doc</a>
+         <ul class="submenu">
+            <li><a href='doc/doc.php'>{t}Feedback{/t}</a></li>
+            <!--<li><a href='doc/indicateurs_de_production.php'>{t}Productivity Reports{/t}</a></li>-->
+            <li><a href='doc/phpdoc/html/index.html' >{t}PHP Doc{/t}</a></li>
+            <li><a href='doc/codev_adminguide.php' >{t}Admin Guide{/t}</a></li>
+         </ul>
+      </li>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == 'Admin'} ui-state-active{else} ui-state-default{/if}"><a href="admin/admin.php" title="{t}CoDev Administration{/t}" class="button">Admin</a>
+         <ul class="submenu">
+            <li><a href='admin/create_team.php'>{t}Create Team{/t}</a></li>
+            <li><a href='admin/edit_team.php'>{t}Edit Team{/t}</a></li>
+            <li><a href='admin/edit_jobs.php'>{t}Edit Jobs{/t}</a></li>
+            <li><a href='admin/edit_holidays.php'>{t}Edit Holidays{/t}</a></li>
+            <li><a href='admin/prepare_project.php'>{t}Prepare Projects{/t}</a></li>
+            <li><a href='admin/workflow.php'>{t}Clone Projects{/t}</a></li>
+            <li></li>
+            <li><a href='admin/logs.php'>{t}Logs{/t}</a></li>
+            <li><a href='doc/codev_adminguide.php'>{t}Admin Guide{/t}</a></li>
+            <li><a href='install/uninstall.php' title=''>{t}Uninstall{/t}</a></li>
+         </ul>
+      </li>
    </ul>
 </div>
