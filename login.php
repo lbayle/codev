@@ -44,6 +44,7 @@ function login($user, $password) {
         try {
             $user =  UserCache::getInstance()->getUser($row_login->id);
             $_SESSION['teamid'] = $user->getDefaultTeam();
+            $_SESSION['locale'] = $user->getDefaultLanguage();
          } catch (Exception $e) {
             $logger->debug("could not load defaultTeam for user $row_login->id");
          }

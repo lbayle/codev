@@ -107,6 +107,7 @@ class Config {
    const id_timetrackingFilters = "timetrackingFilters";
    const id_blogCategories = "blogCategories";
    const id_defaultTeamId = "defaultTeamId";
+   const id_defaultLanguage = "defaultLanguage";
    const id_ClientTeamid = "client_teamid"; // FDJ_teamid
 
    const default_timetrackingFilters = "onlyAssignedTo:0,hideResolved:0,hideDevProjects:0";

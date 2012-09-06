@@ -100,6 +100,11 @@ class User extends Model {
    private $defaultTeam;
 
    /**
+    * @var int the default Language on login
+    */
+   private $defaultLanguage;
+
+   /**
     *
     * @var array Cache of team menber
     */
@@ -1080,6 +1085,44 @@ class User extends Model {
       }
       return $this->defaultTeam;
    }
+
+   /**
+    * set the language to set on login
+    * @param int $lang
+    */
+   public function setDefaultLanguage($lang) {
+      self::$logger->debug("User $this->id Set defaultLanguage  : $lang");
+
+      // save new settings
+      Config::setValue(Config::id_defaultLanguage, $lang, Config::configType_int, "prefered language on login", 0, $this->id);
+
+      $this->defaultLanguage = $lang;
+   }
+
+   /**
+    * get the default team on login
+    *
+    * @return string
+    */
+   public function getDefaultLanguage() {
+      if (NULL == $this->defaultLanguage) {
+         // TODO Config class cannot handle multiple lines for same id
+         $query = "SELECT value FROM `codev_config_table` " .
+                  "WHERE config_id = '" . Config::id_defaultLanguage . "' " .
+                  "AND user_id = $this->id";
+         self::$logger->debug("query = " . $query);
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         // if not found return 'en'
+         $this->defaultLanguage = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 'en';
+      }
+      return $this->defaultLanguage;
+   }
+
 
    /**
     * Get users
