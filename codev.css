@@ -106,7 +106,7 @@ div.menu td {
 }
 
 #content {
-  margin-top: 2em;
+  margin-top: 3em;
 }
 
 #homepage_list {
@@ -241,3 +241,46 @@ table.datatable tbody tr:hover, table.display tbody tr:hover {
    -webkit-overflow-scrolling: touch;
 }
 /* END Datatable */
+
+/* DROPDOWN */
+
+/* LEVEL TWO */
+ul.submenu {
+   z-index: 1;
+   visibility: hidden;
+   position: absolute;
+   top: 100%;
+   left: 0;
+   padding-left: 0;
+}
+ul.submenu li {
+   background: #E8E8E8; 
+   border: 0; 
+   width: 100%;
+   padding:2px 10px !important; 
+   margin: 0 !important;
+   display: inline;
+}
+
+ul.submenu li:hover {
+   background-color: #C8C8E8;
+}
+
+/* IE 6 & 7 Needs Inline Block */
+ul.submenu li a {
+   font-weight: normal !important;
+   padding: 0 !important;
+   width: 100%;
+   display: inline-block;
+   border: 0; 
+}
+
+/* LEVEL THREE */
+ul.submenu ul {
+   left: 100%;
+   top: 0; 
+}
+ul.dropdown li:hover > ul.submenu {
+   visibility: visible; 
+}
+
