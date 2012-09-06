@@ -108,7 +108,15 @@ class TimeTrackingTools {
                'formattedBacklog' => $formattedBacklog,
                'jobid' => $jobid,
                'jobName' => $jobs->getJobName($jobid),
-               'dayTasks' => $dayTasks
+               'dayTasks' => $dayTasks,
+               'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+               'mgrEffortEstim' => $issue->getMgrEffortEstim(),
+               'elapsed' => $issue->getElapsed(),
+               'drift' => $issue->getDrift(),
+               'driftMgr' => $issue->getDriftMgr(),
+               'reestimated' => $issue->getReestimated(),
+               'reestimatedMgr' => $issue->getReestimatedMgr(),
+               'driftColor' => $issue->getDriftColor()
             );
          }
       }
