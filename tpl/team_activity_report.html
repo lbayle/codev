@@ -100,6 +100,7 @@
                      {foreach from=$i.weekEndDates item=j key=id}
                      <th style="background-color: #D8D8D8;">{$j|nl2br}</th>
                      {/foreach}
+                     <th>{t}Total{/t}</th>
                   </tr>
                </thead>
                <tbody>
@@ -114,6 +115,7 @@
                      {foreach from=$j.daysDetails item=k key=id}
                      <td {if $k.color}style="background-color: #{$k.color};"{/if} {if $k.title}title="{$k.title}"{/if}>{$k.duration}</td>
                      {/foreach}
+                     <td>{$j.totalDuration}</td>
                   </tr>
                   {/foreach}
                </tbody>

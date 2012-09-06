@@ -151,10 +151,13 @@ class TeamActivityReportController extends Controller {
                      $dayList = $jobList[$row2->id];
 
                      $daysDetails = array();
+                     $totalDuration = 0;
                      for ($i = 1; $i <= 7; $i++) {
-                        $daysDetails[] = $this->getDaysDetails($i, $holidays, $weekDates, $dayList[$i]);
+                        $dayDetails = $this->getDaysDetails($i, $holidays, $weekDates, $dayList[$i]);
+                        $totalDuration += $dayDetails['duration'];
+                        $daysDetails[] = $dayDetails;
                      }
-
+                     
                      $weekJobDetails[] = array(
                         "url" => Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid) . " / " . $issue->getTcId() . " : " . $issue->getSummary(),
                         "duration" => $issue->getDuration(),
@@ -162,12 +165,14 @@ class TeamActivityReportController extends Controller {
                         "projectName" => $issue->getProjectName(),
                         "targetVersion" => $issue->getTargetVersion(),
                         "jobName" => $jobName,
-                        "daysDetails" => $daysDetails
+                        "daysDetails" => $daysDetails,
+                        "totalDuration" => $totalDuration
                      );
                   }
                } else {
                   // for each day, concat jobs duration
                   $daysDetails = array();
+                  $totalDuration = 0;
                   for ($i = 1; $i <= 7; $i++) {
                      $duration = 0;
                      foreach ($jobList as $dayList) {
@@ -178,16 +183,21 @@ class TeamActivityReportController extends Controller {
                      if($duration == 0) {
                         $duration = "";
                      }
-                     $daysDetails[] = $this->getDaysDetails($i, $holidays, $weekDates, $duration);
+                     $dayDetails = $this->getDaysDetails($i, $holidays, $weekDates, $duration);
+                     
+                     $totalDuration += $dayDetails['duration'];
+                     
+                     $daysDetails[] = $dayDetails;
                   }
-
+                     
                   $weekJobDetails[] = array(
                      "url" => Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid) . " / " . $issue->getTcId() . " : " . $issue->getSummary(),
                      "duration" => $issue->getDuration(),
                      "progress" => round(100 * $issue->getProgress()),
                      "projectName" => $issue->getProjectName(),
                      "targetVersion" => $issue->getTargetVersion(),
-                     "daysDetails" => $daysDetails
+                     "daysDetails" => $daysDetails,
+                     "totalDuration" => $totalDuration
                   );
                }
             }
