@@ -96,7 +96,7 @@ class TimeTrackingTools {
                   'day' => $dayList[$i]
                );
             }
-            $formatedDate = Tools::formatDate("%Y-%m-%d", $issue->getDeadLine());
+            $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,

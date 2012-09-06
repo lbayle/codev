@@ -125,7 +125,7 @@ class TimeTrackingController extends Controller {
                      (!$project->isSideTasksProject(array_keys($teamList)) &&
                         (!$project->isExternalTasksProject()))) {
 
-                     $formatedDate = Tools::formatDate("%Y-%m-%d", $issue->getDeadLine());
+                     $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
                      $issueInfo = array(
                         'backlog' => $issue->getBacklog(),
