@@ -168,7 +168,8 @@ class CommandSetTools {
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
-         'teamid' => $cmdset->getTeamid()
+         'teamid' => $cmdset->getTeamid(),
+         'showSidetasks' => false
       );
 
       $activityIndicator = new ActivityIndicator();

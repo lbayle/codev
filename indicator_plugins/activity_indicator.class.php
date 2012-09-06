@@ -20,6 +20,7 @@ class ActivityIndicator implements IndicatorPlugin {
    private $startTimestamp;
    private $endTimestamp;
    private $teamid;
+   private $showSidetasks;
 
    protected $execData;
 
@@ -34,6 +35,11 @@ class ActivityIndicator implements IndicatorPlugin {
    public function __construct() {
       $this->startTimestamp     = NULL;
       $this->endTimestamp       = NULL;
+
+
+      // if false, sidetasks (found in IssueSel) will be included in 'elapsed'
+      // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
+      $this->showSidetasks = false;
    }
 
    public function getDesc() {
@@ -73,12 +79,21 @@ class ActivityIndicator implements IndicatorPlugin {
          if (array_key_exists('endTimestamp', $params)) {
             $this->endTimestamp = $params['endTimestamp'];
          }
+
+         if (array_key_exists('showSidetasks', $params)) {
+            // if false, sidetasks (found in IssueSel) will be included in 'elapsed'
+            // if true, sidetasks (found in IssueSel) will be displayed as 'sidetask'
+            $this->showSidetasks = $params['showSidetasks'];
+         }
       }
    }
 
 
 
    /**
+    *
+    * returns an array of [user][activity]
+    * activity in (elapsed, sidetask, other, external, leave)
     *
     * @param IssueSelection $inputIssueSel
     * @param array $params
@@ -140,10 +155,17 @@ class ActivityIndicator implements IndicatorPlugin {
 
          } else if ($issue->isSideTaskIssue($teams)) {
             #echo "sidetask ".$tt->getIssueId()."<br>";
-            #$usersActivity[$userid]['sidetask'] += $tt->getDuration();
-            $usersActivity[$userid]['elapsed'] += $tt->getDuration();
 
-         }else if (in_array($tt->getIssueId(), $bugidList)) {
+            // if sideTask is in the IssueSelection, then it is considered as 'normal',
+            // else it should not be included
+            if (in_array($tt->getIssueId(), $bugidList)) {
+               $cat = $this->showSidetasks ? 'sidetask' : 'elapsed';
+               $usersActivity[$userid][$cat] += $tt->getDuration();
+            } else {
+               $usersActivity[$userid]['other'] += $tt->getDuration();
+            }
+
+         } else if (in_array($tt->getIssueId(), $bugidList)) {
             #echo "selection ".$tt->getIssueId()."<br>";
             $usersActivity[$userid]['elapsed'] += $tt->getDuration();
 
@@ -175,6 +197,10 @@ class ActivityIndicator implements IndicatorPlugin {
           $totalActivity['external'] += $userActivity['external'];
           $totalActivity['elapsed'] += $userActivity['elapsed'];
           $totalActivity['other'] += $userActivity['other'];
+          
+          if ($this->showSidetasks) {
+            $totalActivity['sidetask'] += $userActivity['sidetask'];
+          }
       }
 
       ksort($usersActivities);
@@ -183,6 +209,7 @@ class ActivityIndicator implements IndicatorPlugin {
       $jqplotData = array(
             T_('Elapsed') => $totalActivity['elapsed'],
             T_('Other') => $totalActivity['other'],
+            T_('SideTask') => $totalActivity['sidetask'],
             T_('External') => $totalActivity['external'],
             T_('Inactivity') => $totalActivity['leave']
       );

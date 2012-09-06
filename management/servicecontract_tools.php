@@ -278,6 +278,11 @@ class ServiceContractTools {
    public static function getSContractActivity(ServiceContract $serviceContract, $startTimestamp = NULL, $endTimestamp = NULL) {
       $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
+      $sidetasksPerCategory = $serviceContract->getSidetasksPerCategory(true);
+      foreach ($sidetasksPerCategory as $iSel) {
+         $issueSel->addIssueList($iSel->getIssueList());
+      }
+
       $month = date('m');
       $year = date('Y');
 
@@ -295,7 +300,8 @@ class ServiceContractTools {
       $params = array(
          'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
          'endTimestamp' => $endTimestamp,
-         'teamid' => $serviceContract->getTeamid()
+         'teamid' => $serviceContract->getTeamid(),
+         'showSidetasks' => false
       );
 
       $activityIndicator = new ActivityIndicator();

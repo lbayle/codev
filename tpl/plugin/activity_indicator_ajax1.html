@@ -5,6 +5,9 @@
          <tr>
             <th>{t}User{/t}</th>
             <th>{t}Elapsed{/t}</th>
+            {if isset($activityIndic_data.totalActivity.sidetask)}
+            <th>{t}SideTask{/t}</th>
+            {/if}
             <th>{t}Other{/t}</th>
             <th>{t}External{/t}</th>
             <th>{t}Inactivity{/t}</th>
@@ -15,6 +18,9 @@
          <tr>
             <td>{$user}</td>
             <td>{$activityList.elapsed}</td>
+            {if isset($activityIndic_data.totalActivity.sidetask)}
+            <td>{$activityList.sidetask}</td>
+            {/if}
             <td>{$activityList.other}</td>
             <td>{$activityList.external}</td>
             <td>{$activityList.leave}</td>
@@ -25,6 +31,9 @@
          <tr>
             <td>{t}TOTAL{/t}</td>
             <td>{$activityIndic_data.totalActivity.elapsed}</td>
+            {if isset($activityIndic_data.totalActivity.sidetask)}
+            <td>{$activityIndic_data.totalActivity.sidetask}</td>
+            {/if}
             <td>{$activityIndic_data.totalActivity.other}</td>
             <td>{$activityIndic_data.totalActivity.external}</td>
             <td>{$activityIndic_data.totalActivity.leave}</td>
