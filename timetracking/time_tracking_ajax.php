@@ -37,13 +37,15 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
 
          // UTF8 problems in smarty, date encoding needs to be done in PHP
          $smartyHelper->assign('weekDates', array(
-               date('Y-m-d',$weekDates[1]) => Tools::formatDate("%A %d %B", $weekDates[1]),
-               date('Y-m-d',$weekDates[2]) => Tools::formatDate("%A %d %B", $weekDates[2]),
-               date('Y-m-d',$weekDates[3]) => Tools::formatDate("%A %d %B", $weekDates[3]),
-               date('Y-m-d',$weekDates[4]) => Tools::formatDate("%A %d %B", $weekDates[4]),
-               date('Y-m-d',$weekDates[5]) => Tools::formatDate("%A %d %B", $weekDates[5]))
+               date('Y-m-d',$weekDates[1]) => Tools::formatDate("%A\n%d %B", $weekDates[1]),
+               date('Y-m-d',$weekDates[2]) => Tools::formatDate("%A\n%d %B", $weekDates[2]),
+               date('Y-m-d',$weekDates[3]) => Tools::formatDate("%A\n%d %B", $weekDates[3]),
+               date('Y-m-d',$weekDates[4]) => Tools::formatDate("%A\n%d %B", $weekDates[4]),
+               date('Y-m-d',$weekDates[5]) => Tools::formatDate("%A\n%d %B", $weekDates[5]))
          );
-         $smartyHelper->assign('weekEndDates', array(Tools::formatDate("%A %d %B", $weekDates[6]),Tools::formatDate("%A %d %B", $weekDates[7])));
+         $smartyHelper->assign('weekEndDates', array(
+             Tools::formatDate("%A\n%d %B", $weekDates[6]),
+             Tools::formatDate("%A\n%d %B", $weekDates[7])));
 
          $smartyHelper->assign('weekTasks', TimeTrackingTools::getWeekTask($weekDates,$userid,$timeTracking));
          $smartyHelper->display('ajax/weekTaskDetails');
