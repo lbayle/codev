@@ -26,7 +26,7 @@ jQuery(document).ready(function() {
          }
 
          // Resize table in tabs
-         var table = tab.find('div.dataTables_scrollBody>table.display');
+         var table = tab.find('div.dataTables_scrollBody>table');
          if(table.length != 0) {
             var oTable = table.dataTable();
             if (oTable.length > 0) {
