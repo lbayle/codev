@@ -78,7 +78,18 @@
          <td>{$i.mantisURL} {$i.issueURL}{if $i.issueId} / {$i.issueId}{/if} : {$i.summary}</td>
          <td style="width:1px;"><img title='Add note: comming soon...' align='absmiddle' src='images/b_note_grey.png' /></td>
          <td><a title="{t}update backlog{/t}" onclick="updateBacklog('{$i.backlog}',
-               '{$i.description}', '{$i.bugid}', '{t}Task{/t} {$i.bugid}{if $i.issueId} / {$i.issueId}{/if} - {t}Update Backlog{/t}');return false;" href="{$page}">{$i.formattedBacklog}</a>
+               '{$i.description}',
+               '{$i.bugid}',
+               '{$i.effortEstim}',
+               '{$i.mgrEffortEstim}',
+               '{$i.elapsed}',
+               '{$i.drift}',
+               '{$i.driftMgr}',
+               '{$i.reestimated}',
+               '{$i.reestimatedMgr}',
+               '{$i.driftColor}',
+               '{t}Task{/t} {$i.bugid}{if $i.issueId} / {$i.issueId}{/if} - {t}Update Backlog{/t}'
+            );return false;" href="{$page}">{$i.formattedBacklog}</a>
          </td>
          <td class="job-{$i.jobid}">{$i.jobName}</td>
          {foreach from=$i.dayTasks key=day item=j}
