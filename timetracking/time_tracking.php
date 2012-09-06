@@ -128,7 +128,16 @@ class TimeTrackingController extends Controller {
                         'backlog' => $issue->getBacklog(),
                         'bugid' => $issue->getId(),
                         'description' => $issue->getSummary(),
-                        'dialogBoxTitle' => $issue->getFormattedIds()
+                        'dialogBoxTitle' => $issue->getFormattedIds(),
+                        'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+                        'mgrEffortEstim' => $issue->getMgrEffortEstim(),
+                        'elapsed' => $issue->getElapsed(),
+                        'drift' => $issue->getDrift(),
+                        'driftMgr' => $issue->getDriftMgr(),
+                        'reestimated' => $issue->getReestimated(),
+                        'reestimatedMgr' => $issue->getReestimatedMgr(),
+                        'driftColor' => $issue->getDriftColor()
+
                      );
 
                      $this->smartyHelper->assign('updateBacklogRequested', $issueInfo);

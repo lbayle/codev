@@ -213,17 +213,6 @@
             <input type="hidden" name="nextForm" value="addTrackForm" />
          </fieldset>
       </form>
-      <script type="text/javascript">
-         function updateBacklog(backlog, description, bugid, dialogBoxTitle){
-            jQuery("#backlog").val(backlog);
-            jQuery("#validateTips").text(description);
-
-            jQuery("#formUpdateBacklog").find("input[name=bugid]").val(bugid);
-
-            jQuery("#update_backlog_dialog_form").dialog("option", "title", dialogBoxTitle);
-            jQuery("#update_backlog_dialog_form").dialog("open");
-         }
-      </script>
       <div id="weekTaskDetailsDiv" style="margin-top:1em;">
          {include file="ajax/weekTaskDetails.html"}
       </div>
@@ -399,6 +388,24 @@
       </form>
    </div>
    <script type="text/javascript">
+
+      function updateBacklog(backlog, description, bugid, effortEstim, mgrEffortEstim, elapsed, drift, driftMgr, reestimated, reestimatedMgr, driftColor, dialogBoxTitle){
+         jQuery("#backlog").val(backlog);
+         jQuery("#validateTips").text(description);
+
+         jQuery("#desc_effortEstim").text(effortEstim);
+         jQuery("#desc_elapsed").text(elapsed);
+         jQuery("#desc_reestimated").text(reestimated);
+         jQuery("#desc_drift").text(drift);
+
+         jQuery("#desc_drift").css("backgroundColor", '#' + driftColor);
+
+         jQuery("#formUpdateBacklog").find("input[name=bugid]").val(bugid);
+
+         jQuery("#update_backlog_dialog_form").dialog("option", "title", dialogBoxTitle);
+         jQuery("#update_backlog_dialog_form").dialog("open");
+      }
+
       jQuery(document).ready(function() {
          var backlog = jQuery("#backlog"),
              tips = jQuery("#validateTips"),
@@ -470,9 +477,18 @@
 
          // after a click on 'AddTrack' button, raise the updateBacklog dialogBox
          {if $updateBacklogRequested}
+
             updateBacklog('{$updateBacklogRequested.backlog}',
                   '{$updateBacklogRequested.description|escape_quotes}',
                   '{$updateBacklogRequested.bugid}',
+                  '{$updateBacklogRequested.effortEstim}',
+                  '{$updateBacklogRequested.mgrEffortEstim}',
+                  '{$updateBacklogRequested.elapsed}',
+                  '{$updateBacklogRequested.drift}',
+                  '{$updateBacklogRequested.driftMgr}',
+                  '{$updateBacklogRequested.reestimated}',
+                  '{$updateBacklogRequested.reestimatedMgr}',
+                  '{$updateBacklogRequested.driftColor}',
                   '{t}Task{/t} {$updateBacklogRequested.dialogBoxTitle} - {t}Update Backlog{/t}');
          {/if}
 
@@ -482,8 +498,31 @@
       <p id="validateTips">Set new value</p>
       <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="timetracking/time_tracking_ajax.php" >
          <fieldset>
-            <label for="backlog">{t}Backlog{/t} :</label>
-            <input type="text" id="backlog" name="backlog" size="3" class="text" />
+            <table class="invisible">
+               <tbody>
+                  <tr>
+                     <th>{t}Estimated effort{/t} :</th>
+                     <td id="desc_effortEstim">effortEstim</td>
+                  </tr>
+                  <tr>
+                     <th>{t}Reestimated{/t} :</th>
+                     <td id="desc_reestimated">reestimated</td>
+                  </tr>
+                  <tr>
+                     <th>{t}Elapsed{/t} :</th>
+                     <td id="desc_elapsed">elapsed</td>
+                  </tr>
+                  <tr>
+                     <th>{t}Effort Deviation{/t} :</th>
+                     <td id="desc_drift">drift</td>
+                  </tr>
+                  <tr>
+                     <th><label for="backlog">{t}Backlog{/t} :</label> :</th>
+                     <td id="backlog"><input type="text" id="backlog" name="backlog" size="3" class="text" /></td>
+                  </tr>
+               </tbody>
+            </table>
+            
             <input type="hidden" name="bugid"  value="0" />
             <input type="hidden" name="action" value="updateBacklogAction" />
             {if $userid}<input type="hidden" name="userid" value="{$userid}" />{/if}
