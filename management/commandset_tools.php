@@ -140,6 +140,45 @@ class CommandSetTools {
    }
 
    /**
+    * show users activity on the SC during the given period.
+    *
+    * if start & end dates not defined, the last month will be displayed.
+    *
+    * @param CommandSet $cmdset
+    * @return string
+    *
+    */
+   public static function getCommandSetActivity(CommandSet $cmdset, $startTimestamp = NULL, $endTimestamp = NULL) {
+      $issueSel = $cmdset->getIssueSelection(Command::type_general);
+
+      $month = date('m');
+      $year = date('Y');
+
+      if (!isset($startTimestamp)) {
+         // The first day of the current month
+         $startdate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, 1, $year));
+         $startTimestamp = Tools::date2timestamp($startdate);
+      }
+      if (!isset($endTimestamp)) {
+         $nbDaysInMonth = date("t", $startTimestamp);
+         $enddate = Tools::formatDate("%Y-%m-%d",mktime(0, 0, 0, $month, $nbDaysInMonth, $year));
+         $endTimestamp = Tools::date2timestamp($enddate);
+      }
+
+      $params = array(
+         'startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
+         'endTimestamp' => $endTimestamp,
+         'teamid' => $cmdset->getTeamid()
+      );
+
+      $activityIndicator = new ActivityIndicator();
+      $activityIndicator->execute($issueSel, $params);
+
+      return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
+   }
+
+
+   /**
     * @param SmartyHelper $smartyHelper
     * @param CommandSet $commandset
     */
@@ -161,6 +200,11 @@ class CommandSetTools {
       $smartyHelper->assign('indicators_jqplotData', $data[0]);
       $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
       $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +2 month")));
+
+      $data = self::getCommandSetActivity($commandset);
+      $smartyHelper->assign('activityIndic_data', $data[0]);
+      $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
+      $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
    }
 
 }

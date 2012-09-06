@@ -93,6 +93,7 @@
    <div id="tabsCommandSet" class="tabs" style="margin-top:2em;">
       <ul>
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
+         <li><a href="#tabsName-4">{t}Activity{/t}</a></li>
          <li><a href="#tabsName-2">{t}Indicators{/t}</a></li>
       </ul>
       <div id="tabsName-1">
@@ -172,6 +173,11 @@
          <p>{t}No data{/t}</p>
          {/if}
       </div>
+      
+      <div id="tabsName-4">
+      {include file="plugin/activity_indicator.html"}
+      </div>
+
       {/if}
    </div>
 </div>
