@@ -39,64 +39,26 @@ class CreateTeamController extends Controller {
       $this->smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
       if(isset($_SESSION['userid'])) {
-         $is_modified = isset($_POST['is_modified']) ? $_POST['is_modified'] : "false";
-
-         // Form user selections
-         $team_name = Tools::getSecurePOSTStringValue('team_name',"");
-
-         // 'is_modified' is used because it's not possible to make a difference
-         // between an unchecked checkBox and an unset checkbox variable
-         if ("false" == $is_modified) {
-            $isCreateSTProj = true;
-            $isCatInactivity = true;
-            $isCatIncident = true;
-            $isCatTools = true;
-            $isCatOther = true;
-            $isTaskProjManagement = true;
-            $isTaskOnDuty = false;
-            $isTaskMeeting = true;
-            $isTaskIncident = false;
-            $isTaskTools = false;
-            $isTaskOther = false;
-            $stproj_name = T_("SideTasks")." my_team";
-         } else {
-            $isCreateSTProj = $_POST['cb_createSideTaskProj'];
-            $isCatInactivity = $_POST['cb_catInactivity'];
-            $isCatIncident = $_POST['cb_catIncident'];
-            $isCatTools = $_POST['cb_catTools'];
-            $isCatOther = $_POST['cb_catOther'];
-            $isTaskOnDuty = $_POST['cb_taskOnDuty'];
-            $isTaskProjManagement = $_POST['cb_taskProjManagement'];
-            $isTaskMeeting = $_POST['cb_taskMeeting'];
-            $isTaskIncident = $_POST['cb_taskIncident'];
-            $isTaskTools = $_POST['cb_taskTools'];
-            $isTaskOther = $_POST['cb_taskOther'];
-            $stproj_name = ("" == $team_name) ? $teamSideTaskProjectName : T_("SideTasks")." $team_name";
-         }
-
-         $team_desc = Tools::getSecurePOSTStringValue('team_desc',"");
-         $teamleader_id = Tools::getSecurePOSTStringValue('teamleader_id',"");
-
-         $task_projManagement = Tools::getSecurePOSTStringValue('task_projManagement',T_("(generic) Project Management"));
-         $task_meeting = Tools::getSecurePOSTStringValue('task_meeting',T_("(generic) Meeting"));
-         $task_incident = Tools::getSecurePOSTStringValue('task_incident',T_("(generic) Network is down"));
-         $task_tools = Tools::getSecurePOSTStringValue('task_tools',T_("(generic) Compilation Scripts"));
-         $task_other1 = Tools::getSecurePOSTStringValue('task_other1',T_("(generic) Update team WIKI"));
-
-         $action = Tools::getSecurePOSTStringValue('action','');
-         if ("addTeam" == $action) {
+         if (isset($_POST['team_name'])) {
+            // Form user selections
+            $team_name = Tools::getSecurePOSTStringValue('team_name');
+            
+            $team_desc = Tools::getSecurePOSTStringValue('team_desc');
+            $teamleader_id = Tools::getSecurePOSTStringValue('teamleader_id');
+            
             $formatedDate  = date("Y-m-d", time());
             $now = Tools::date2timestamp($formatedDate);
 
             // 1) --- create new Team
             $teamid = Team::create($team_name, $team_desc, $teamleader_id, $now);
 
-            if ($teamid > 0 && $isCreateSTProj) {
-
+            if ($teamid > 0) {
                $team = TeamCache::getInstance()->getTeam($teamid);
 
                // 2) --- add ExternalTasksProject
                $team->addExternalTasksProject();
+               
+               $stproj_name = Tools::getSecurePOSTStringValue("stproj_name");
 
                // 3) --- add <team> SideTaskProject
                $stproj_id = $team->createSideTaskProject($stproj_name);
@@ -115,66 +77,44 @@ class CreateTeamController extends Controller {
                   // 4) --- add SideTaskProject Categories
                   $stproj->addCategoryProjManagement(T_("Project Management"));
                   $stproj->addCategoryMngtProvision(T_("Provision"));
-
-                  if ($isCatInactivity) {
+                  
+                  if (isset($_POST['cb_catInactivity'])) {
                      $stproj->addCategoryInactivity(T_("Inactivity"));
                   }
-                  if ($isCatIncident) {
+                  if (isset($_POST['cb_catIncident'])) {
                      $stproj->addCategoryIncident(T_("Incident"));
                   }
-                  if ($isCatTools) {
+                  if (isset($_POST['cb_catTools'])) {
                      $stproj->addCategoryTools(T_("Tools"));
                   }
-                  if ($isCatOther) {
+                  if (isset($_POST['cb_catOther'])) {
                      $stproj->addCategoryWorkshop(T_("Team Workshop"));
                   }
-
+                  
                   // 5) --- add SideTaskProject default SideTasks
-                  if ($isTaskProjManagement) {
-                     $stproj->addIssueProjManagement($task_projManagement);
+                  if (isset($_POST['cb_taskProjManagement'])) {
+                     $stproj->addIssueProjManagement(Tools::getSecurePOSTStringValue('task_projManagement'));
                   }
-                  if ($isTaskMeeting) {
-                     $stproj->addIssueProjManagement($task_meeting);
+                  if (isset($_POST['cb_taskMeeting'])) {
+                     $stproj->addIssueProjManagement(Tools::getSecurePOSTStringValue('task_meeting'));
                   }
-                  if ($isTaskIncident) {
-                     $stproj->addIssueIncident($task_incident);
+                  if (isset($_POST['cb_taskIncident'])) {
+                     $stproj->addIssueIncident(Tools::getSecurePOSTStringValue('task_incident'));
                   }
-                  if ($isTaskTools) {
-                     $stproj->addIssueTools($task_tools);
+                  if (isset($_POST['cb_taskTools'])) {
+                     $stproj->addIssueTools(Tools::getSecurePOSTStringValue('task_tools'));
                   }
-                  if ($isTaskOther) {
-                     $stproj->addIssueWorkshop($task_other1);
+                  if (isset($_POST['cb_taskOther'])) {
+                     $stproj->addIssueWorkshop(Tools::getSecurePOSTStringValue('task_other1'));
                   }
                }
             }
 
             // 6) --- open EditTeam Page
             header('Location: edit_team.php?teamid='.$teamid);
+         } else {
+            $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),-1));
          }
-
-         $this->smartyHelper->assign('team_name', $team_name);
-         $this->smartyHelper->assign('team_desc', $team_desc);
-         $this->smartyHelper->assign('users', SmartyTools::getSmartyArray(User::getUsers(),$teamleader_id));
-
-         $this->smartyHelper->assign('isCreateSTProj', $isCreateSTProj);
-         $this->smartyHelper->assign('stproj_name', $stproj_name);
-         $this->smartyHelper->assign('isCatIncident', $isCatIncident);
-         $this->smartyHelper->assign('isCatTools', $isCatTools);
-         $this->smartyHelper->assign('isCatOther', $isCatOther);
-         $this->smartyHelper->assign('isCatInactivity', $isCatInactivity);
-         $this->smartyHelper->assign('isTaskProjManagement', $isTaskProjManagement);
-         $this->smartyHelper->assign('isTaskMeeting', $isTaskMeeting);
-         $this->smartyHelper->assign('isTaskIncident', $isTaskIncident);
-         $this->smartyHelper->assign('isTaskTools', $isTaskTools);
-         $this->smartyHelper->assign('isTaskOther', $isTaskOther);
-
-         $this->smartyHelper->assign('task_projManagement', $task_projManagement);
-         $this->smartyHelper->assign('task_meeting', $task_meeting);
-         $this->smartyHelper->assign('task_incident', $task_incident);
-         $this->smartyHelper->assign('task_tools', $task_tools);
-         $this->smartyHelper->assign('task_other1', $task_other1);
-
-         $this->smartyHelper->assign('is_modified', $is_modified);
       }
    }
 
