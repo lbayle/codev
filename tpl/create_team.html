@@ -1,60 +1,59 @@
 {include file="menu/admin_menu.html"}
 
-<script type="text/javascript">
-   jQuery(document).ready(function() {
-      jQuery("#addTeam").click(function() {
-         // check fields
-         var foundError = 0;
-         var msgString = "{t}Some fields are missing:{/t}\n\n";
-
-         var form = jQuery("#teamCreationForm");
-
-         if (0 == form.find("input[name=team_name]").val()) {
-            msgString += "{t}Team Name{/t}\n";
-            ++foundError;
-         }
-         if (0 == form.find("input[name=team_desc]").val()) {
-            msgString += "{t}Team Description{/t}\n";
-            ++foundError;
-         }
-         if (0 == form.find("input[name=teamleader_id]").val()) {
-            msgString += "{t}Team Leader{/t}\n";
-            ++foundError;
-         }
-
-         if (0 == foundError) {
-            form.find("input[name=action]").val("addTeam");
-            form.submit();
-         } else {
-            alert(msgString);
-         }
-      });
-   });
-
-   function updateTeamCreationForm(field) {
-      var form = jQuery("#teamCreationForm");
-      form.find("input[name=is_modified]").val("true");
-      form.find("input[name=on_load_focus]").val(jQuery(field).val());
-      form.submit();
-   }
-</script>
-
 <div id="content">
-   <!-- display form -->
+   <script type="text/javascript">
+      jQuery(document).ready(function() {
+         jQuery("#addTeam").click(function() {
+            // check fields
+            var foundError = 0;
+            var msgString = "{t}Some fields are missing:{/t}\n\n";
+
+            var form = jQuery("#teamCreationForm");
+
+            if (0 == form.find("input[name=team_name]").val()) {
+               msgString += "{t}Team Name{/t}\n";
+               ++foundError;
+            }
+            if (0 == form.find("input[name=team_desc]").val()) {
+               msgString += "{t}Team Description{/t}\n";
+               ++foundError;
+            }
+            if (0 == form.find("input[name=teamleader_id]").val()) {
+               msgString += "{t}Team Leader{/t}\n";
+               ++foundError;
+            }
+
+            if (0 == foundError) {
+               form.find("input[name=action]").val("addTeam");
+               form.submit();
+            } else {
+               alert(msgString);
+            }
+         });
+      });
+   </script>
    <form action="{$page}" method="post" name="teamCreationForm" id="teamCreationForm">
       <fieldset>
          <div style="padding: 0 1em 1em;"class="ui-widget-content">
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#team_name").blur(function() {
+                     jQuery("#teamCreationForm").find("input[name=is_modified]").val("true");
+                     jQuery("#stproj_name").val('{t}SideTasks{/t} '+jQuery(this).val());
+                  });
+               });
+            </script>
             <h2>{t}Team Info{/t}</h2>
             <!-- Team Info -->
             <table class="invisible">
                <tbody>
                   <tr>
                      <td><label for="team_name">{t}Team Name{/t}</label></td>
-                     <td><input size="30" value="{$team_name}" name="team_name" type="text" id="team_name" onblur="updateTeamCreationForm('#team_desc')" /> <span style="color:red">*</span></td>
+                     <td><input size="30" name="team_name" type="text" id="team_name" /> <span style="color:red">*</span></td>
                   </tr>
                   <tr>
                      <td><label for="team_desc">{t}Description{/t}</label></td>
-                     <td><input size="100" value="{$team_desc}" name="team_desc" type="text" id="team_desc" /> <span style="color:red">*</span></td>
+                     <td><input size="100" name="team_desc" type="text" id="team_desc" /> <span style="color:red">*</span></td>
                   </tr>
                   <tr>
                      <td><label for="teamleader_id">{t}Team Leader{/t}</label></td>
@@ -78,16 +77,29 @@
             <label><input type="checkbox" checked="checked" disabled="disabled" name="cb_commonSideTaskProj" id="cb_commonSideTaskProj" />{t}Add common ExternalTasks Project{/t} <span style="color:red">*</span></label>
             <br/><br/>
 
-            <label><input type="checkbox" {if $isCreateSTProj}checked="checked"{/if} name="cb_createSideTaskProj" id="cb_createSideTaskProj" onchange="updateTeamCreationForm('#cb_createSideTaskProj')" />{t}Create specific SideTask Project{/t}</label>
+            <script type="text/javascript">
+               jQuery(document).ready(function() {
+                  jQuery("#cb_createSideTaskProj").change(function() {
+                     jQuery("#teamCreationForm").find("input[name=is_modified]").val("true");
+                     jQuery("#sideTaskEnabled").toggle();
+                     jQuery("#sideTaskDisabled").toggle();
+                  });
+               });
+            </script>
+            
+            <label><input type="checkbox" checked="checked" name="cb_createSideTaskProj" id="cb_createSideTaskProj" />{t}Create specific SideTask Project{/t}</label>
 
-            {if !$isCreateSTProj}
-            <br /><br /><span class="error_font">{t}WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing.{/t}</span><br/>
-            {/if}
+            <div style="margin-top: 2em;" id="sideTaskDisabled" class="ui-helper-hidden">
+               <span class="error_font">{t}WARNING: Disabling SideTasks project creation is generaly NOT a good idea,so don't do it unless you know exactly what you are doing.{/t}</span><br/>
+            </div>
 
-            <div {if !$isCreateSTProj}class="ui-helper-hidden"{/if}>
+            <div id="sideTaskEnabled">
                <ul>
-                  <li><label><strong>{t}Project Name{/t}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input size="30" value="{$stproj_name}" type="text" name="stproj_name" id="stproj_name" /> <span style="color:red">*</span></label><br/><br/></li>
-                  <li><strong>{t}Categories{/t}</strong><br/>
+                  <li>
+                     <label><strong>{t}Project Name{/t}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input size="30" value="{t}SideTasks{/t} my_team" type="text" name="stproj_name" id="stproj_name" /> <span style="color:red">*</span></label><br/><br/>
+                  </li>
+                  <li>
+                     <strong>{t}Categories{/t}</strong><br/>
                      <table class="invisible">
                         <tr>
                            <td style="width:150px;"><label><input type="checkbox" checked="checked" disabled="disabled" name="cb_catProjManagement" id="cb_catProjManagement" />{t}Project Management{/t} <span style="color:red">*</span></label></td>
@@ -98,54 +110,56 @@
                            <td><span class="help_font">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({t}Budget for Management,Garantie,Risk...{/t})</span></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" {if $isCatIncident}checked="checked"{/if} name="cb_catIncident" id="cb_catIncident" />{t}Incident{/t}</label></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_catIncident" id="cb_catIncident" />{t}Incident{/t}</label></td>
                            <td><span class="help_font">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({t}Server or Platform down, ...{/t})</span></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" {if $isCatTools}checked="checked"{/if} name="cb_catTools" id="cb_catTools" />{t}Tools{/t}</label></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_catTools" id="cb_catTools" />{t}Tools{/t}</label></td>
                            <td><span class="help_font">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({t}Sys. Admin, Scritps, ...{/t})</span></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" {if $isCatOther}checked="checked"{/if} name="cb_catOther" id="cb_catOther" />{t}Team Workshop{/t}</label></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_catOther" id="cb_catOther" />{t}Team Workshop{/t}</label></td>
                            <td><span class="help_font">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({t}Support, Doc, Training, Wiki, ...{/t})</span></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox"  {if $isCatInactivity}checked="checked"{/if} name="cb_catInactivity" id="cb_catInactivity" />{t}Inactivity{/t}</label></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_catInactivity" id="cb_catInactivity" />{t}Inactivity{/t}</label></td>
                            <td><span class="help_font">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({t}On Duty, other special cases{/t})</span></td>
                         </tr>
                      </table>
                      <br/>
                   </li>
-                  <li><strong>{t}Custom Fields{/t}</strong><br/>
+                  <li>
+                     <strong>{t}Custom Fields{/t}</strong><br/>
                      <table class="invisible">
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" checked="checked" disabled="disabled" name="cb_customFields" id="cb_customFields" />{t}CodevTT custom fields{/t}<span style="color:red">*</span></label></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" disabled="disabled" name="cb_customFields" id="cb_customFields" />{t}CodevTT custom fields{/t} <span style="color:red">*</span></label></td>
                            <td><span class="help_font">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;({t}MgrEffortEstim, EffortEstim, AddEffort, Backlog, DeadLine, DeliveryDate{/t})</span></td>
                         </tr>
                      </table>
                      <br/>
                   </li>
-                  <li><strong>{t}SideTasks{/t}</strong><br/>
+                  <li>
+                     <strong>{t}SideTasks{/t}</strong><br/>
                      <table class="invisible">
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" {if $isTaskProjManagement}checked="checked"{/if} name="cb_taskProjManagement" id="cb_taskProjManagement" />{t}Project Management{/t}</label></td>
-                           <td><input size="100" type="text" name="task_projManagement" id="task_projManagement" value="{$task_projManagement}" /></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_taskProjManagement" id="cb_taskProjManagement" />{t}Project Management{/t}</label></td>
+                           <td><input size="100" type="text" name="task_projManagement" id="task_projManagement" value="{t}(generic) Project Management{/t}" /></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" {if $isTaskMeeting}checked="checked"{/if} name="cb_taskMeeting" id="cb_taskMeeting" />{t}Project Management{/t}</label></td>
-                           <td><input size="100" type="text" name="task_meeting" id="task_meeting" value="{$task_meeting}" /></td>
+                           <td style="width:150px;"><label><input type="checkbox" checked="checked" name="cb_taskMeeting" id="cb_taskMeeting" />{t}Project Management{/t}</label></td>
+                           <td><input size="100" type="text" name="task_meeting" id="task_meeting" value="{t}(generic) Meeting{/t}" /></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" {if $isTaskIncident}checked="checked"{/if} name="cb_taskIncident" id="cb_taskIncident" />{t}Incident{/t}</label></td>
-                           <td><input size="100" type="text" name="task_incident" id="task_incident" value="{$task_incident}" /></td>
+                           <td style="width:150px;"><label><input type="checkbox" name="cb_taskIncident" id="cb_taskIncident" />{t}Incident{/t}</label></td>
+                           <td><input size="100" type="text" name="task_incident" id="task_incident" value="{t}(generic) Network is down{/t}" /></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" {if $isTaskTools}checked="checked"{/if} name="cb_taskTools" id="cb_taskTools" />{t}Tools{/t}</label></td>
-                           <td><input size="100" type="text" name="task_tools" id="task_tools" value="{$task_tools}" /></td>
+                           <td style="width:150px;"><label><input type="checkbox" name="cb_taskTools" id="cb_taskTools" />{t}Tools{/t}</label></td>
+                           <td><input size="100" type="text" name="task_tools" id="task_tools" value="{t}(generic) Compilation Scripts{/t}" /></td>
                         </tr>
                         <tr>
-                           <td style="width:150px;"><label><input type="checkbox" {if $isTaskOther}checked="checked"{/if}  name="cb_taskOther" id="cb_taskOther" />{t}Team Workshop{/t}</label></td>
-                           <td><input size="100" type="text" name="task_other1" id="task_other1" value="{$task_other1}" /></td>
+                           <td style="width:150px;"><label><input type="checkbox" name="cb_taskOther" id="cb_taskOther" />{t}Team Workshop{/t}</label></td>
+                           <td><input size="100" type="text" name="task_other1" id="task_other1" value="{t}(generic) Update team WIKI{/t}" /></td>
                         </tr>
                      </table>
                   </li>
@@ -153,10 +167,7 @@
             </div>
          </div>
          <div style="margin-top: 2em;">
-            <input type="button" value="{t}Create{/t}" id="addTeam" onclick="addTeam()" />
-            <input type="hidden" name="action" value="noAction" />
-            <input type="hidden" name="is_modified" value="{$is_modified}" />
-            <input type="hidden" name="on_load_focus" value="{$team_name}" />
+            <input type="button" value="{t}Create{/t}" id="addTeam" />
          </div>
       </fieldset>
    </form>
