@@ -70,6 +70,10 @@ table.invisible tbody {
    background-color: transparent;
 }
 
+.hover:hover {
+   border: 1px solid #7096AB;
+}
+
 fieldset {
    padding: 0;
    border: 0;
