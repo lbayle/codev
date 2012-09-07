@@ -434,6 +434,9 @@
             width: 500,
             modal: true,
             closeOnEscape: false,
+            create: function(event, ui) {
+                jQuery(".ui-dialog-titlebar-close", ui.dialog).remove();
+            },
             open: function() {
                // Select input field contents
                jQuery("#backlog").select();
