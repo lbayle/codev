@@ -100,6 +100,11 @@ class User extends Model {
    private $defaultTeam;
 
    /**
+    * @var int the default Project on login
+    */
+   private $defaultProject;
+
+   /**
     * @var int the default Language on login
     */
    private $defaultLanguage;
@@ -1084,6 +1089,43 @@ class User extends Model {
          $this->defaultTeam = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
       }
       return $this->defaultTeam;
+   }
+
+   /**
+    * set the Team to set on login
+    * @param int $teamid
+    */
+   public function setDefaultProject($projectid) {
+      self::$logger->debug("User $this->id Set defaultProject  : $projectid");
+
+      // save new settings
+      Config::setValue(Config::id_defaultProjectId, $projectid, Config::configType_int, "prefered project on login", 0, $this->id);
+
+      $this->defaultProject = $projectid;
+   }
+
+   /**
+    * get the default team on login
+    *
+    * @return string
+    */
+   public function getDefaultProject() {
+      if (NULL == $this->defaultProject) {
+         // TODO Config class cannot handle multiple lines for same id
+         $query = "SELECT value FROM `codev_config_table` " .
+                  "WHERE config_id = '" . Config::id_defaultProjectId . "' " .
+                  "AND user_id = $this->id";
+         self::$logger->debug("query = " . $query);
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         // if not found return '0'
+         $this->defaultProject = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
+      }
+      return $this->defaultProject;
    }
 
    /**

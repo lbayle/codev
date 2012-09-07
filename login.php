@@ -45,8 +45,9 @@ function login($user, $password) {
             $user =  UserCache::getInstance()->getUser($row_login->id);
             $_SESSION['teamid'] = $user->getDefaultTeam();
             $_SESSION['locale'] = $user->getDefaultLanguage();
+            $_SESSION['projectid'] = $user->getDefaultProject();
          } catch (Exception $e) {
-            $logger->debug("could not load defaultTeam for user $row_login->id");
+            $logger->debug("could not load preferences for user $row_login->id");
          }
 
         $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')'.' defaultTeam = '.$user->getDefaultTeam());
