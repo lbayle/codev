@@ -11,6 +11,7 @@
                   data: "action=getProjectIssues&projectid="+projectid+"&bugid="+jQuery("#bugid").val(),
                   success: function(data) {
                      jQuery("#bugSelector").html(jQuery.trim(data));
+                     jQuery(".select2").select2();
 
                      // Hide result because the form is no more consistent with the result
                      jQuery("#result").hide();
