@@ -69,6 +69,9 @@ function do_file($file)
 	preg_match_all("/{$ldq}\s*({$cmd})\s*([^{$rdq}]*){$rdq}([^{$ldq}]*){$ldq}\/\\1{$rdq}/", $content, $matches);
 	
 	for ($i=0; $i < count($matches[0]); $i++) {
+		// TODO: add line number
+		echo "/* $file */\n"; // credit: Mike van Lammeren 2005-02-14
+                
 		if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
 			print 'ngettext("'.fs($matches[3][$i]).'","'.fs($match[1]).'",x);'."\n";
 		} else {
