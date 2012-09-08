@@ -121,25 +121,6 @@ class ServiceContract extends Model {
       $this->description = $row->description;
       $this->start_date = $row->start_date;
       $this->end_date = $row->end_date;
-
-      // CommandSets
-      $query  = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
-                "WHERE servicecontract_id = $this->id ".
-                "ORDER BY type ASC, commandset_id ASC;";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      $this->cmdsetidByTypeList = array();
-      while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         if (!array_key_exists($row->type,$this->cmdsetidByTypeList)) {
-            $this->cmdsetidByTypeList["$row->type"] = array();
-         }
-         $this->cmdsetidByTypeList["$row->type"][] = $row->commandset_id;
-      }
    }
 
    /**
@@ -328,10 +309,9 @@ class ServiceContract extends Model {
     * @return CommandSet[] : array commandset_id => CommandSet
     */
    public function getCommandSets($type) {
-      // TODO: if type==NULL return for all types
       $cmdsetList = array();
 
-      $cmdsetidList = $this->cmdsetidByTypeList[$type];
+      $cmdsetidList = $this->getCommandSetIds($type);
 
       if(($cmdsetidList) && (0 != count($cmdsetidList))) {
          foreach ($cmdsetidList as $commandset_id) {
@@ -339,6 +319,35 @@ class ServiceContract extends Model {
          }
       }
       return $cmdsetList;
+   }
+
+   private function getCommandSetIds($type = NULL) {
+      if(NULL == $this->cmdsetidByTypeList) {
+         // CommandSets
+         $query = "SELECT * FROM `codev_servicecontract_cmdset_table` ".
+                  "WHERE servicecontract_id = $this->id ".
+                  "ORDER BY type ASC, commandset_id ASC;";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+
+         $this->cmdsetidByTypeList = array();
+         while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            if (!array_key_exists($row->type,$this->cmdsetidByTypeList)) {
+               $this->cmdsetidByTypeList[$row->type] = array();
+            }
+            $this->cmdsetidByTypeList[$row->type][] = $row->commandset_id;
+         }
+      }
+
+      if(NULL == $type) {
+         return $this->cmdsetidByTypeList;
+      } else {
+         return $this->cmdsetidByTypeList[$type];
+      }
    }
 
    /**
@@ -405,7 +414,7 @@ class ServiceContract extends Model {
 
       $issueSelection = new IssueSelection();
 
-      $cmdsetidList = $this->cmdsetidByTypeList[$cset_type];
+      $cmdsetidList = $this->getCommandSetIds($cset_type);
 
       if(($cmdsetidList) && (0 != count($cmdsetidList))) {
          foreach ($cmdsetidList as $commandset_id) {
@@ -436,10 +445,10 @@ class ServiceContract extends Model {
 
       self::$logger->debug("Add CommandSet $commandset_id to ServiceContract $this->id");
 
-      if (NULL == $this->cmdsetidByTypeList["$type"]) {
-         $this->cmdsetidByTypeList["$type"] = array();
+      if (NULL == $this->getCommandSetIds($type)) {
+         $this->cmdsetidByTypeList[$type] = array();
       }
-      $this->cmdsetidByTypeList["$type"][] = $commandset_id;
+      $this->cmdsetidByTypeList[$type][] = $commandset_id;
 
       $query = "INSERT INTO `codev_servicecontract_cmdset_table` (`servicecontract_id`, `commandset_id`, `type`) VALUES ($this->id, $commandset_id, '$type');";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -457,7 +466,7 @@ class ServiceContract extends Model {
     * @param int $commandset_id
     */
    public function removeCommandSet($commandset_id) {
-      $typeList = array_keys($this->cmdsetidByTypeList);
+      $typeList = array_keys($this->getCommandSetIds());
       foreach ($typeList as $type) {
          if (NULL != $this->cmdsetidByTypeList[$type][$commandset_id]) {
             unset($this->cmdsetidByTypeList[$type][$commandset_id]);
