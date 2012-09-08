@@ -100,8 +100,6 @@ class Config {
    const id_priorityNames = "priorityNames";     // DEPRECATED since 0.99.18
    const id_severityNames = "severityNames";     // DEPRECATED since 0.99.18
    const id_resolutionNames = "resolutionNames"; // DEPRECATED since 0.99.18
-   const id_mantisFile_strings = "mantisFile_strings";
-   const id_mantisFile_custom_strings = "mantisFile_custom_strings";
    const id_mantisPath = "mantisPath";           // DEPRECATED since 0.99.18
    const id_bugResolvedStatusThreshold = "bug_resolved_status_threshold"; // DEPRECATED since 0.99.18
    const id_timetrackingFilters = "timetrackingFilters";

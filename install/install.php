@@ -49,20 +49,9 @@ if (file_exists(Constants::$config_file)) {
       exit;
    }
 
-   // check write access rights to codevTT/include directory
-   $testDir = realpath ( "../include" );
-   $error = Tools::checkWriteAccess($testDir);
-   if (strstr($error, "ERROR")) {
-      echo "<span class='error_font'>$error</span><br />";
-      echo "<br />";
-      echo "- does apache user have write access to codevTT /include directory ?<br />";
-      echo "- Are you sure SELINUX is well configured ?<br />";
-      exit;
-   }
-
    echo "Pre-install check SUCCEEDED.<br />";
    echo "<br /><br /><br />";
-   echo "Before you continue, please ensure that user '<b>".exec('whoami')."</b>' has write access to your mantis directory<br>";
+   echo "Before you continue, please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory<br>";
 }
 
 ?>

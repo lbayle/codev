@@ -41,7 +41,7 @@ function displayPage() {
       <h2>What's next ?</h2>
       <strong>CodevTT / Mantis configuration</strong>
       <ul>
-         <li>Check the 'STATUS' section in constants.php</li>
+         <li>Check the [status] section in config.ini</li>
          <li>Install the 'CodevTT' mantis plugin</li>
          <li>If you use firefox, install <a href='https://addons.mozilla.org/fr/firefox/addon/greasemonkey/' target='_blank't>greasemonkey</a></li>
          <li>Install <a href='../mantis_monkey.user.js' target='_blank't>greasemonkey script</a></li>
@@ -58,6 +58,14 @@ function displayPage() {
       </ul>
        <span class='help_font'>Note: CodevTT & Mantis share the same users</span>
    </div>
+
+   <div class='left'  style='margin-top:3em;'>
+      <strong>Troubleshooting</strong>
+      <ul>
+         <li>Please check the <a href='http://codevtt.org/site/?forum=installation' target='_blank't>Installation forum</a></li>
+      </ul>
+   </div>
+
 </div>";
 }
 

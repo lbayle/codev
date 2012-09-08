@@ -1,4 +1,8 @@
 
+DROP FUNCTION IF EXISTS get_project_resolved_status_threshold;
+DROP FUNCTION IF EXISTS get_issue_resolved_status_threshold;
+DROP FUNCTION IF EXISTS is_project_in_team;
+DROP FUNCTION IF EXISTS is_issue_in_team_commands;
 
 -- -----------------------------------------------------
 -- Get project_id bug_resolved_status_threshold value from Mantis config
