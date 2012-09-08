@@ -333,20 +333,26 @@ class Project extends Model {
       return $projectid;
    }
 
+   private static $categories = array();
+
    /**
     * @param int $id  projectVersion id in mantis_category_table
     * @return string The category name
     */
    public static function getCategoryName($id) {
-      $query = "SELECT name FROM `mantis_category_table` WHERE id = ".$id.";";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      $categoryName = SqlWrapper::getInstance()->sql_result($result, 0);
+      if(!array_key_exists($id, self::$categories)) {
+         $query = "SELECT name FROM `mantis_category_table` WHERE id = ".$id.";";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         $categoryName = SqlWrapper::getInstance()->sql_result($result, 0);
 
-      return $categoryName;
+         self::$categories[$id] = $categoryName;
+      }
+
+      return self::$categories[$id];
    }
 
    /**

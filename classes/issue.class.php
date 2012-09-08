@@ -139,6 +139,8 @@ class Issue extends Model implements Comparable {
     */
    private $elapsedCache;
 
+   private $customFieldInitialized;
+
    /**
     * @param int $id The issue id
     * @param resource $details The issue details
@@ -496,8 +498,6 @@ class Issue extends Model implements Comparable {
       return $this->target_version;
    }
 
-   private $customFieldInitialized;
-
    public function getTcId() {
       if(!$this->customFieldInitialized) {
          $this->customFieldInitialized = true;
@@ -551,13 +551,7 @@ class Issue extends Model implements Comparable {
     */
    public function getCategoryName() {
       if (NULL == $this->categoryName) {
-         $query = "SELECT name FROM `mantis_category_table` WHERE id = ".$this->categoryId.";";
-         $result = SqlWrapper::getInstance()->sql_query($query);
-         if (!$result) {
-            echo "<span style='color:red'>ERROR: Query FAILED</span>";
-            exit;
-         }
-         $this->categoryName = SqlWrapper::getInstance()->sql_result($result, 0);
+         $this->categoryName = Project::getCategoryName($this->categoryId);
       }
 
       return $this->categoryName;
@@ -593,6 +587,7 @@ class Issue extends Model implements Comparable {
       $key = 'j'.$job_id;
 
       if(!array_key_exists($key, $this->elapsedCache)) {
+
          $query = "SELECT SUM(duration) as duration ".
                   "FROM `codev_timetracking_table` ".
                   "WHERE bugid = ".$this->bugId;
@@ -1489,7 +1484,7 @@ class Issue extends Model implements Comparable {
     *
     * This returns the list of Commands where this Issue is defined.
     *
-    * @return Command[] : array[command_id] = commandName
+    * @return string[] : array[command_id] = commandName
     */
    public function getCommandList() {
       if (NULL == $this->commandList) {
@@ -1506,9 +1501,9 @@ class Issue extends Model implements Comparable {
 
          // a Command can belong to more than one commandset
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            $cmd = CommandCache::getInstance()->getCommand($row->id, $row);
-            $this->commandList[$row->id] = $cmd;
-            self::$logger->debug("Issue $this->bugId is in command $row->id (".$cmd->getName().")");
+            //$cmd = CommandCache::getInstance()->getCommand($row->id, $row);
+            $this->commandList[$row->id] = $row->name;
+            self::$logger->debug("Issue $this->bugId is in command $row->id (".$row->name.")");
          }
       }
       return $this->commandList;
