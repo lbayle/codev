@@ -145,10 +145,10 @@ class IssueInfoController extends Controller {
       $cmdList = $issue->getCommandList();
       if($cmdList != NULL) {
          // TODO return URL for 'name' ?
-         foreach ($cmdList as $cmd) {
+         foreach ($cmdList as $id => $name) {
             $commands[] = array(
-               'id' => $cmd->getId(),
-               'name' => $cmd->getName(),
+               'id' => $id,
+               'name' => $name,
                #'reference' => ,
             );
          }
