@@ -99,7 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a>  </div>
+<a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">PeriodStats Class Reference</div>  </div>
 </div>
@@ -109,32 +109,130 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa948b48cf20adb85af469f53ea35b36a"></a><!-- doxytag: member="PeriodStats::PeriodStats" ref="aa948b48cf20adb85af469f53ea35b36a" args="($startTimestamp, $endTimestamp)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>PeriodStats</b> ($startTimestamp, $endTimestamp)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afa70751aaa6c7ffa29c39cbfb7a517a9"></a><!-- doxytag: member="PeriodStats::getIssueList" ref="afa70751aaa6c7ffa29c39cbfb7a517a9" args="($status)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getIssueList</b> ($status)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a77e55568f37a7cea981bf11c9dcd4ced"></a><!-- doxytag: member="PeriodStats::getNbIssues" ref="a77e55568f37a7cea981bf11c9dcd4ced" args="($status)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getNbIssues</b> ($status)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPeriodStats.html#a7d96a3ae51a6d61e8364f908c586f059">__construct</a> ($startTimestamp, $endTimestamp)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPeriodStats.html#afa70751aaa6c7ffa29c39cbfb7a517a9">getIssueList</a> ($status)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPeriodStats.html#a77e55568f37a7cea981bf11c9dcd4ced">getNbIssues</a> ($status)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b0a5b0f3fb39f856b931e46424ebd8c"></a><!-- doxytag: member="PeriodStats::computeStats" ref="a9b0a5b0f3fb39f856b931e46424ebd8c" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>computeStats</b> ()</td></tr>
-<tr><td colspan="2"><h2><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6998ca68fd298eb6349a2282422952e2"></a><!-- doxytag: member="PeriodStats::$startTimestamp" ref="a6998ca68fd298eb6349a2282422952e2" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$startTimestamp</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a939401b11d9c45f940945f1b60ff7c15"></a><!-- doxytag: member="PeriodStats::$endTimestamp" ref="a939401b11d9c45f940945f1b60ff7c15" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$endTimestamp</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac55ffbbf261203b2b2d086c28856ea00"></a><!-- doxytag: member="PeriodStats::$statusCountList" ref="ac55ffbbf261203b2b2d086c28856ea00" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$statusCountList</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a34701456bdec77453b3587e389efc4ec"></a><!-- doxytag: member="PeriodStats::$statusIssueList" ref="a34701456bdec77453b3587e389efc4ec" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$statusIssueList</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPeriodStats.html#a48542b96030ca5458d12403afa04209b">getStatusCount</a> ($index)</td></tr>
+<tr><td colspan="2"><h2><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c24984f58071fe8648809240863e61a"></a><!-- doxytag: member="PeriodStats::$projectList" ref="a7c24984f58071fe8648809240863e61a" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$projectList</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a593d7c194d623c2ea1e22a63cecfd428"></a><!-- doxytag: member="PeriodStats::$projectTypeList" ref="a593d7c194d623c2ea1e22a63cecfd428" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$projectTypeList</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>CALCULATE DURATIONS <a class="el" href="classStatus.html">Status</a> &amp; <a class="el" href="classIssue.html">Issue</a> classes </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a7d96a3ae51a6d61e8364f908c586f059"></a><!-- doxytag: member="PeriodStats::__construct" ref="a7d96a3ae51a6d61e8364f908c586f059" args="($startTimestamp, $endTimestamp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PeriodStats::__construct </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>startTimestamp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>endTimestamp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$startTimestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$endTimestamp</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="afa70751aaa6c7ffa29c39cbfb7a517a9"></a><!-- doxytag: member="PeriodStats::getIssueList" ref="afa70751aaa6c7ffa29c39cbfb7a517a9" args="($status)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PeriodStats::getIssueList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns a list of bugId which status is $status </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$status</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a77e55568f37a7cea981bf11c9dcd4ced"></a><!-- doxytag: member="PeriodStats::getNbIssues" ref="a77e55568f37a7cea981bf11c9dcd4ced" args="($status)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PeriodStats::getNbIssues </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns the number of issues which status is $status </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$status</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a48542b96030ca5458d12403afa04209b"></a><!-- doxytag: member="PeriodStats::getStatusCount" ref="a48542b96030ca5458d12403afa04209b" args="($index)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PeriodStats::getStatusCount </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$index</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>classes/period_stats.class.php</li>
 </ul>
 </div>
@@ -157,7 +255,7 @@ Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

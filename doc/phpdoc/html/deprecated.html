@@ -94,23 +94,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_deprecated000017"></a>Member <a class="el" href="classSmartyTools.html#a9f902dc29c55f2cea5aeea0ae23c46c4">SmartyTools</a>  ($value, $allowNull=FALSE)</dt>
+<dt><a class="anchor" id="_deprecated000006"></a>Member <a class="el" href="classSmartyTools.html#a9f902dc29c55f2cea5aeea0ae23c46c4">SmartyTools</a>  ($value, $allowNull=FALSE)</dt>
 <dd>Use <a class="el" href="classTools.html#a31091a2333ff2d72916fc2d84bfd6849">Tools::getSecurePOSTIntValue</a>($key, $defaultValue)  </dd>
-<dt><a class="anchor" id="_deprecated000019"></a>Member <a class="el" href="classSmartyTools.html#a28e605a3ecd6f9a180e9b88c4056f756">SmartyTools</a>  (array $projectList, $selectedProjectId=NULL)</dt>
-<dd>Use <a class="el" href="classSmartyTools.html#aed61378034e01adde7faaaee061f9fd4">SmartyTools::getSmartyArray</a>($list, $selected)  </dd>
-<dt><a class="anchor" id="_deprecated000018"></a>Member <a class="el" href="classSmartyTools.html#a49d6c5ea94660cdae19ae74a7ebe6a81">SmartyTools</a>  (array $teamList, $selectedTeamId=NULL)</dt>
-<dd>Use <a class="el" href="classSmartyTools.html#aed61378034e01adde7faaaee061f9fd4">SmartyTools::getSmartyArray</a>($list, $selected)  </dd>
-<dt><a class="anchor" id="_deprecated000004"></a>Member <a class="el" href="classTeam.html#ab7d66b70195d3809cf3c3b754d50df21">Team</a>  ($teamid, $timestamp=NULL)</dt>
-<dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getActiveMembers($timestamp)  </dd>
-<dt><a class="anchor" id="_deprecated000006"></a>Member <a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">Team</a>  ($teamid, $addUnassignedIssues=false, $addNewIssues=false)</dt>
+<dt><a class="anchor" id="_deprecated000003"></a>Member <a class="el" href="classTeam.html#aaa2eef666fb578cc08f15c2b3f3ed1d0">Team</a>  ($teamid, $startTimestamp=NULL, $endTimestamp=NULL)</dt>
+<dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getActiveMembers($startTimestamp, $endTimestamp)  </dd>
+<dt><a class="anchor" id="_deprecated000005"></a>Member <a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">Team</a>  ($teamid, $addUnassignedIssues=false, $addNewIssues=false)</dt>
 <dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getCurrentIssueList($addUnassignedIssues, $addNewIssues)  </dd>
-<dt><a class="anchor" id="_deprecated000001"></a>Member <a class="el" href="classTeam.html#a2a4049e066778d6bdaa095ccb8400445">Team</a>  ($teamid)</dt>
-<dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;leader_id  </dd>
-<dt><a class="anchor" id="_deprecated000003"></a>Member <a class="el" href="classTeam.html#afdef853859c2854136f7841684d0b33e">Team</a>  ($teamid)</dt>
+<dt><a class="anchor" id="_deprecated000002"></a>Member <a class="el" href="classTeam.html#afdef853859c2854136f7841684d0b33e">Team</a>  ($teamid)</dt>
 <dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getMembers()  </dd>
-<dt><a class="anchor" id="_deprecated000002"></a>Member <a class="el" href="classTeam.html#a6ade9a523f80cd4e15a79aea5687ff23">Team</a>  ($teamid, $noStatsProject=true)</dt>
+<dt><a class="anchor" id="_deprecated000001"></a>Member <a class="el" href="classTeam.html#a6ade9a523f80cd4e15a79aea5687ff23">Team</a>  ($teamid, $noStatsProject=true)</dt>
 <dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getProjects($noStatsProject)  </dd>
-<dt><a class="anchor" id="_deprecated000005"></a>Member <a class="el" href="classTeam.html#a7d2774f8df23495558c8399ad94db1e6">Team</a>  ($teamid, $addUnassignedIssues=false)</dt>
+<dt><a class="anchor" id="_deprecated000004"></a>Member <a class="el" href="classTeam.html#a7d2774f8df23495558c8399ad94db1e6">Team</a>  ($teamid, $addUnassignedIssues=false)</dt>
 <dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getTeamIssueList($addUnassignedIssues) </dd>
 </dl>
 </div></div>
@@ -132,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:32 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

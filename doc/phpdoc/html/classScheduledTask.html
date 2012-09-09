@@ -99,7 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a>  </div>
+<a href="#pub-static-methods">Static Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ScheduledTask Class Reference</div>  </div>
 </div>
@@ -109,35 +109,351 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf000c94e4694d17aefac60793c21f1c"></a><!-- doxytag: member="ScheduledTask::__construct" ref="aaf000c94e4694d17aefac60793c21f1c" args="($bugId, $deadLine, $duration)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>__construct</b> ($bugId, $deadLine, $duration)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#aaf000c94e4694d17aefac60793c21f1c">__construct</a> ($bugId, $deadLine, $duration)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4a3c6f16cc6da3439d567a5fc194b421"></a><!-- doxytag: member="ScheduledTask::getPixSize" ref="a4a3c6f16cc6da3439d567a5fc194b421" args="($dayPixSize)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getPixSize</b> ($dayPixSize)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a094e1b1b32b70721617f652765757be7"></a><!-- doxytag: member="ScheduledTask::getDescription" ref="a094e1b1b32b70721617f652765757be7" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getDescription</b> ()</td></tr>
-<tr><td colspan="2"><h2><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9d062fc4ca94c02c5daa329b9f720033"></a><!-- doxytag: member="ScheduledTask::$bugId" ref="a9d062fc4ca94c02c5daa329b9f720033" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$bugId</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a220b26b1eabd082270eb0b208f9f815f"></a><!-- doxytag: member="ScheduledTask::$duration" ref="a220b26b1eabd082270eb0b208f9f815f" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$duration</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09dae4f97a70e3b85d5321e47a4db90d"></a><!-- doxytag: member="ScheduledTask::$deadLine" ref="a09dae4f97a70e3b85d5321e47a4db90d" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$deadLine</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4cc511b063e92319d97fd64fb4c0a3a"></a><!-- doxytag: member="ScheduledTask::$priorityName" ref="ae4cc511b063e92319d97fd64fb4c0a3a" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$priorityName</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74545bdf0cc9f0fc02d962f48a929a7e"></a><!-- doxytag: member="ScheduledTask::$statusName" ref="a74545bdf0cc9f0fc02d962f48a929a7e" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$statusName</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a801e00425c6ef7b338147ee7a1df7833"></a><!-- doxytag: member="ScheduledTask::$handlerName" ref="a801e00425c6ef7b338147ee7a1df7833" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$handlerName</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd68415bb9d5377dea311cd4191aa486"></a><!-- doxytag: member="ScheduledTask::$isOnTime" ref="abd68415bb9d5377dea311cd4191aa486" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$isOnTime</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a736f908dcbc8726619727309442c3894"></a><!-- doxytag: member="ScheduledTask::$summary" ref="a736f908dcbc8726619727309442c3894" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$summary</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae039890b8a7e7ab8724be7e48622eb1b"></a><!-- doxytag: member="ScheduledTask::$nbDaysToDeadLine" ref="ae039890b8a7e7ab8724be7e48622eb1b" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$nbDaysToDeadLine</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad650a46eee836c46eec88da9bcd2e481"></a><!-- doxytag: member="ScheduledTask::$isMonitored" ref="ad650a46eee836c46eec88da9bcd2e481" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$isMonitored</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a094e1b1b32b70721617f652765757be7">getDescription</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a2955336e37b727c2a0beb8de66d5cf3a">getNbDaysToDeadLine</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#ae2a4abf008e86403f680f1c715a4d8a0">isMonitored</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a916c767bd3429d9efa094c0c22fa9822">getIssueId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#ab691279c17c87a33832113c63057a5b3">getDuration</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a9201745d8d5999bb2cc38a05c4f9a78b">getDeadline</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a21e48a152f7649e2c8d2ffb93303d147">getPriorityName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a7732a4a23b866bacb8fabfbb5323f7fd">getHandlerName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#ae8a9ebded451657d843b6765fc48caac">isOnTime</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#ac90d9068e340d466942057d27e26f15f">getSummary</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#af16b7ca10fd4e059ab4748d737372424">getSeverityName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#aba9a7a5857e8f2a702900d97854fa75f">getStatusName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a1705682f25e571cf08ecd7fcccb81535">getProjectName</a> ()</td></tr>
+<tr><td colspan="2"><h2><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a92ea2d05ddc4a52cc64b4fd5520623d5">staticInit</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classScheduledTask.html#a6c501f61f449634f44b6b0429178bf63">scheduleUser</a> (<a class="el" href="classUser.html">User</a> $user, $today, $addMonitored=false)</td></tr>
 </table>
+<hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="aaf000c94e4694d17aefac60793c21f1c"></a><!-- doxytag: member="ScheduledTask::__construct" ref="aaf000c94e4694d17aefac60793c21f1c" args="($bugId, $deadLine, $duration)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::__construct </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>bugId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>deadLine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>duration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$bugId</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$deadLine</td><td></td></tr>
+    <tr><td class="paramtype">number</td><td class="paramname">$duration</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="a9201745d8d5999bb2cc38a05c4f9a78b"></a><!-- doxytag: member="ScheduledTask::getDeadline" ref="a9201745d8d5999bb2cc38a05c4f9a78b" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getDeadline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a094e1b1b32b70721617f652765757be7"></a><!-- doxytag: member="ScheduledTask::getDescription" ref="a094e1b1b32b70721617f652765757be7" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getDescription </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab691279c17c87a33832113c63057a5b3"></a><!-- doxytag: member="ScheduledTask::getDuration" ref="ab691279c17c87a33832113c63057a5b3" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getDuration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>number </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7732a4a23b866bacb8fabfbb5323f7fd"></a><!-- doxytag: member="ScheduledTask::getHandlerName" ref="a7732a4a23b866bacb8fabfbb5323f7fd" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getHandlerName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a916c767bd3429d9efa094c0c22fa9822"></a><!-- doxytag: member="ScheduledTask::getIssueId" ref="a916c767bd3429d9efa094c0c22fa9822" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getIssueId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2955336e37b727c2a0beb8de66d5cf3a"></a><!-- doxytag: member="ScheduledTask::getNbDaysToDeadLine" ref="a2955336e37b727c2a0beb8de66d5cf3a" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getNbDaysToDeadLine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a21e48a152f7649e2c8d2ffb93303d147"></a><!-- doxytag: member="ScheduledTask::getPriorityName" ref="a21e48a152f7649e2c8d2ffb93303d147" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getPriorityName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1705682f25e571cf08ecd7fcccb81535"></a><!-- doxytag: member="ScheduledTask::getProjectName" ref="a1705682f25e571cf08ecd7fcccb81535" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getProjectName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af16b7ca10fd4e059ab4748d737372424"></a><!-- doxytag: member="ScheduledTask::getSeverityName" ref="af16b7ca10fd4e059ab4748d737372424" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getSeverityName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aba9a7a5857e8f2a702900d97854fa75f"></a><!-- doxytag: member="ScheduledTask::getStatusName" ref="aba9a7a5857e8f2a702900d97854fa75f" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getStatusName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac90d9068e340d466942057d27e26f15f"></a><!-- doxytag: member="ScheduledTask::getSummary" ref="ac90d9068e340d466942057d27e26f15f" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::getSummary </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae2a4abf008e86403f680f1c715a4d8a0"></a><!-- doxytag: member="ScheduledTask::isMonitored" ref="ae2a4abf008e86403f680f1c715a4d8a0" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::isMonitored </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae8a9ebded451657d843b6765fc48caac"></a><!-- doxytag: member="ScheduledTask::isOnTime" ref="ae8a9ebded451657d843b6765fc48caac" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScheduledTask::isOnTime </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6c501f61f449634f44b6b0429178bf63"></a><!-- doxytag: member="ScheduledTask::scheduleUser" ref="a6c501f61f449634f44b6b0429178bf63" args="(User $user, $today, $addMonitored=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ScheduledTask::scheduleUser </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classUser.html">User</a> $&#160;</td>
+          <td class="paramname"><em>user</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>today</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>addMonitored</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>returns the tasks with the isOnTime attribute to definie color.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype"><a class="el" href="classUser.html">User</a></td><td class="paramname">$user</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$today</td><td>(a day AT MIDNIGHT) </td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$addMonitored</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classScheduledTask.html">ScheduledTask</a>[] array of <a class="el" href="classScheduledTask.html">ScheduledTask</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a92ea2d05ddc4a52cc64b4fd5520623d5"></a><!-- doxytag: member="ScheduledTask::staticInit" ref="a92ea2d05ddc4a52cc64b4fd5520623d5" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ScheduledTask::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>classes/scheduler.class.php</li>
 </ul>
@@ -161,7 +477,7 @@ Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

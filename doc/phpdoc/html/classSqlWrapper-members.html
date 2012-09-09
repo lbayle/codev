@@ -102,7 +102,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 This is the complete list of members for <a class="el" href="classSqlWrapper.html">SqlWrapper</a>, including all inherited members.<table>
-  <tr bgcolor="#f0f0f0"><td><b>$logger</b> (defined in <a class="el" href="classSqlWrapper.html">SqlWrapper</a>)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a7a5aea57154e7fe68ef2a39272ca6677">createInstance</a>($server, $username, $password, $database_name)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td><code> [static]</code></td></tr>
   <tr bgcolor="#f0f0f0"><td><b>getCountByQuery</b>() (defined in <a class="el" href="classSqlWrapper.html">SqlWrapper</a>)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a32ecdf92b768eacaa582ec8d427eb95e">getInstance</a>()</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td><code> [static]</code></td></tr>
@@ -111,6 +110,7 @@ This is the complete list of members for <a class="el" href="classSqlWrapper.htm
   <tr bgcolor="#f0f0f0"><td><b>logStats</b>() (defined in <a class="el" href="classSqlWrapper.html">SqlWrapper</a>)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#aa75a34122339945f14d5d21d30e8e212">sql_close</a>()</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#ac9689729c0df2639c59128398d33ed54">sql_connect</a>($server, $username, $password, $database_name)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td><code> [static]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a8ee29a8623c6c492be9700c9ca7c3bc3">sql_dump</a>($filename)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a6098fcfa269154fa988eddfa779d1510">sql_error</a>()</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a6eaa84bd81074a34f061819d30764d26">sql_fetch_array</a>($result)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#ab4346e51005c1d665d03ea83bf04e8f0">sql_fetch_assoc</a>($result)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
@@ -119,8 +119,9 @@ This is the complete list of members for <a class="el" href="classSqlWrapper.htm
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a1d883a4bdb6168026d101da3f01f770c">sql_insert_id</a>()</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a9754c9731085a52ca6ef75dd4644f684">sql_num_rows</a>($result)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a80b45945779ad1521f8e4ead3c11c34e">sql_query</a>($query)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#ad4810a5206e132f90f13ef8ea590e85c">sql_real_escape_string</a>($unescaped_string)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#ad4810a5206e132f90f13ef8ea590e85c">sql_real_escape_string</a>($unescaped_string)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#afd563694e34471cbb47bc0736fa8d5d4">sql_result</a>($result, $row=0)</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classSqlWrapper.html#a7f0a686afd710abb2724eede6fb29a98">staticInit</a>()</td><td><a class="el" href="classSqlWrapper.html">SqlWrapper</a></td><td><code> [static]</code></td></tr>
 </table></div>
 </div>
   <div id="nav-path" class="navpath">
@@ -140,7 +141,7 @@ This is the complete list of members for <a class="el" href="classSqlWrapper.htm
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

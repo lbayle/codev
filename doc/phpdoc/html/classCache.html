@@ -127,10 +127,12 @@ Inheritance diagram for Cache:</div>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a56342555ffbe161eb21c8f5532894248">exists</a> ($id)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a346dcf49e06dd13ff2fcc460c0f4a676">displayStats</a> ($verbose=FALSE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a740153926241a1c19d74820685458d0d">logStats</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#abb2d36e925c9a48c1d8c44d08272991d">__construct</a> ($cacheName)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a4ade7370ffd6c75167a6eae9030d6a2e">get</a> ($id, $details=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a4a5bc421fb3d19f16597a35773c909e3">create</a> ($id, $details=NULL)</td></tr>
 <tr><td colspan="2"><h2><a name="pro-static-methods"></a>
@@ -139,7 +141,32 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>A cache pattern (singleton / factory) </p>
-</div><hr/><h2>Member Function Documentation</h2>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="abb2d36e925c9a48c1d8c44d08272991d"></a><!-- doxytag: member="Cache::__construct" ref="abb2d36e925c9a48c1d8c44d08272991d" args="($cacheName)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Cache::__construct </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>cacheName</em></td><td>)</td>
+          <td><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Private constructor to respect the singleton pattern </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$cacheName</td><td>The cache name </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a4a5bc421fb3d19f16597a35773c909e3"></a><!-- doxytag: member="Cache::create" ref="a4a5bc421fb3d19f16597a35773c909e3" args="($id, $details=NULL)" -->
 <div class="memitem">
 <div class="memproto">
@@ -174,7 +201,7 @@ Static Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>mixed The object </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classCommandCache.html#ad1fbb7855bcbdb62311c3d66fc7d847e">CommandCache</a>, <a class="el" href="classCommandSetCache.html#aa8d72f24d7e51709ec6027dd1ae08aef">CommandSetCache</a>, <a class="el" href="classIssueCache.html#a9e2fe351d43bb942841c6ac86765aed8">IssueCache</a>, <a class="el" href="classProjectCache.html#aa6cbb126ab3d9cdc176671a0c01d75ea">ProjectCache</a>, <a class="el" href="classServiceContractCache.html#a3686db0ef537067601cc73ca402c7f04">ServiceContractCache</a>, <a class="el" href="classTimeTrackCache.html#aac87ac149e529773ae0510b55598fbba">TimeTrackCache</a>, <a class="el" href="classBlogPostCache.html#a1c6aad01d65291dcf4acba4504b16f34">BlogPostCache</a>, <a class="el" href="classTeamCache.html#a7dfa568360a332a16958675fb694d8b2">TeamCache</a>, and <a class="el" href="classUserCache.html#a104bf54fd38121c6f54501a17f0ee056">UserCache</a>.</p>
+<p>Reimplemented in <a class="el" href="classCommandCache.html#ad1fbb7855bcbdb62311c3d66fc7d847e">CommandCache</a>, <a class="el" href="classCommandSetCache.html#aa8d72f24d7e51709ec6027dd1ae08aef">CommandSetCache</a>, <a class="el" href="classIssueCache.html#a9e2fe351d43bb942841c6ac86765aed8">IssueCache</a>, <a class="el" href="classProjectCache.html#aa6cbb126ab3d9cdc176671a0c01d75ea">ProjectCache</a>, <a class="el" href="classServiceContractCache.html#a3686db0ef537067601cc73ca402c7f04">ServiceContractCache</a>, <a class="el" href="classTimeTrackCache.html#aac87ac149e529773ae0510b55598fbba">TimeTrackCache</a>, <a class="el" href="classUserCache.html#a104bf54fd38121c6f54501a17f0ee056">UserCache</a>, <a class="el" href="classTeamCache.html#a7dfa568360a332a16958675fb694d8b2">TeamCache</a>, and <a class="el" href="classBlogPostCache.html#a1c6aad01d65291dcf4acba4504b16f34">BlogPostCache</a>.</p>
 
 </div>
 </div>
@@ -224,6 +251,31 @@ Static Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a56342555ffbe161eb21c8f5532894248"></a><!-- doxytag: member="Cache::exists" ref="a56342555ffbe161eb21c8f5532894248" args="($id)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Cache::exists </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Return true if the object with this id is in the cache </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool true if the id is in the cache, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -303,7 +355,7 @@ Static Protected Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:32 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

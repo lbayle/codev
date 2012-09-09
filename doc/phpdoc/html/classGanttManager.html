@@ -98,7 +98,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">GanttManager Class Reference</div>  </div>
 </div>
@@ -109,11 +110,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGanttManager.html#ae6c080a72646534fa9a4b08f209ad171">__construct</a> ($teamId, $startT=NULL, $endT=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGanttManager.html#a651598dd4727e8734d6eef2b636c113a">setProjectFilter</a> ($projList)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a09af64fbdf2e91aceb49deac72a0a8c5"></a><!-- doxytag: member="GanttManager::getTeamActivities" ref="a09af64fbdf2e91aceb49deac72a0a8c5" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getTeamActivities</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adeb3245f23259c91aef11b6d21956efa"></a><!-- doxytag: member="GanttManager::getGanttGraph" ref="adeb3245f23259c91aef11b6d21956efa" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getGanttGraph</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGanttManager.html#a09af64fbdf2e91aceb49deac72a0a8c5">getTeamActivities</a> ()</td></tr>
+<tr><td colspan="2"><h2><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGanttManager.html#a90a7c2a91d3a059df94e3bdd412073cd">staticInit</a> ()</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>1) recupere la liste des taches finies (status &gt;= bug_resolved_status_threshold) 1.1) convertis en <a class="el" href="classGanttActivity.html">GanttActivity</a>. (aucun calcul, les dates debut/fin sont connues) et dispatch dans des userActivityList</p>
@@ -154,9 +154,9 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">$teamId</td><td></td></tr>
-    <tr><td class="paramname">$startT</td><td>start timestamp. if NULL, then now </td></tr>
-    <tr><td class="paramname">$endT</td><td>end timestamp. if NULL, shedule all remaining tasks </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$teamId</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$startT</td><td>start timestamp. if NULL, then now </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$endT</td><td>end timestamp. if NULL, shedule all backlog tasks </td></tr>
   </table>
   </dd>
 </dl>
@@ -164,21 +164,37 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a651598dd4727e8734d6eef2b636c113a"></a><!-- doxytag: member="GanttManager::setProjectFilter" ref="a651598dd4727e8734d6eef2b636c113a" args="($projList)" -->
+<a class="anchor" id="a09af64fbdf2e91aceb49deac72a0a8c5"></a><!-- doxytag: member="GanttManager::getTeamActivities" ref="a09af64fbdf2e91aceb49deac72a0a8c5" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">GanttManager::setProjectFilter </td>
+          <td class="memname">GanttManager::getTeamActivities </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>projList</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>set a list of projects that will be displayed </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classGanttActivity.html">GanttActivity</a>[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a90a7c2a91d3a059df94e3bdd412073cd"></a><!-- doxytag: member="GanttManager::staticInit" ref="a90a7c2a91d3a059df94e3bdd412073cd" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static GanttManager::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
 
 </div>
 </div>
@@ -205,7 +221,7 @@ Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -106,13 +106,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Job Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="Job" --><!-- doxytag: inherits="Comparable" --><div class="dynheader">
+<!-- doxytag: class="Job" --><!-- doxytag: inherits="Model,Comparable" --><div class="dynheader">
 Inheritance diagram for Job:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classJob.png" usemap="#Job_map" alt=""/>
   <map id="Job_map" name="Job_map">
-<area href="interfaceComparable.html" alt="Comparable" shape="rect" coords="0,0,80,24"/>
+<area href="classModel.html" alt="Model" shape="rect" coords="0,0,80,24"/>
+<area href="interfaceComparable.html" alt="Comparable" shape="rect" coords="90,0,170,24"/>
 </map>
  </div></div>
 
@@ -120,8 +121,11 @@ Inheritance diagram for Job:</div>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a72f4e7dd4b1d36100dbdd71913949b4b"></a><!-- doxytag: member="Job::__construct" ref="a72f4e7dd4b1d36100dbdd71913949b4b" args="($id, $name, $type, $color)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>__construct</b> ($id, $name, $type, $color)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJob.html#a72f4e7dd4b1d36100dbdd71913949b4b">__construct</a> ($id, $name, $type, $color)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJob.html#a5228216aacdb641e549e7ad52f1b13f9">getId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJob.html#a645e9aadf9d766669cb149b47c05e504">getName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJob.html#a317aa1e307e9d896c341fea8cbd1ae7d">getType</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJob.html#a77b52c642d3845612613bff8015c4ea0">getColor</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJob.html#a9d88a8ced8bd90d388fb89d87d7c9fae">compare</a> (<a class="el" href="interfaceComparable.html">Comparable</a> $jobA, <a class="el" href="interfaceComparable.html">Comparable</a> $jobB)</td></tr>
@@ -131,14 +135,6 @@ Public Attributes</h2></td></tr>
 const&#160;</td><td class="memItemRight" valign="bottom"><b>type_commonJob</b> = 0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a04789a646a4d884bc153eb354dea4078"></a><!-- doxytag: member="Job::type_assignedJob" ref="a04789a646a4d884bc153eb354dea4078" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>type_assignedJob</b> = 1</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f32712a2fb7954d3723dcafab25c00d"></a><!-- doxytag: member="Job::$id" ref="a0f32712a2fb7954d3723dcafab25c00d" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$id</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a85efafa845c7aa6928d1abdaf903beb4"></a><!-- doxytag: member="Job::$name" ref="a85efafa845c7aa6928d1abdaf903beb4" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$name</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa0ab8c36d74e9ddb261b764399b32104"></a><!-- doxytag: member="Job::$type" ref="aa0ab8c36d74e9ddb261b764399b32104" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$type</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0dc85419d4be45c5d1d8ca3ef5bc58cb"></a><!-- doxytag: member="Job::$color" ref="a0dc85419d4be45c5d1d8ca3ef5bc58cb" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$color</b></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><b>$typeNames</b></td></tr>
@@ -146,7 +142,56 @@ Static Public Attributes</h2></td></tr>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><dl class="author"><dt><b>Author:</b></dt><dd>LoB </dd></dl>
 <dl class="date"><dt><b>Date:</b></dt><dd>01 Feb 2011 </dd></dl>
-</div><hr/><h2>Member Function Documentation</h2>
+</div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a72f4e7dd4b1d36100dbdd71913949b4b"></a><!-- doxytag: member="Job::__construct" ref="a72f4e7dd4b1d36100dbdd71913949b4b" args="($id, $name, $type, $color)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Job::__construct </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$name</td><td></td></tr>
+    <tr><td class="paramtype"></td><td class="paramname">$type</td><td></td></tr>
+    <tr><td class="paramtype"></td><td class="paramname">$color</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a9d88a8ced8bd90d388fb89d87d7c9fae"></a><!-- doxytag: member="Job::compare" ref="a9d88a8ced8bd90d388fb89d87d7c9fae" args="(Comparable $jobA, Comparable $jobB)" -->
 <div class="memitem">
 <div class="memproto">
@@ -185,6 +230,76 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a77b52c642d3845612613bff8015c4ea0"></a><!-- doxytag: member="Job::getColor" ref="a77b52c642d3845612613bff8015c4ea0" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Job::getColor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5228216aacdb641e549e7ad52f1b13f9"></a><!-- doxytag: member="Job::getId" ref="a5228216aacdb641e549e7ad52f1b13f9" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Job::getId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classModel.html">Model</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a645e9aadf9d766669cb149b47c05e504"></a><!-- doxytag: member="Job::getName" ref="a645e9aadf9d766669cb149b47c05e504" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Job::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a317aa1e307e9d896c341fea8cbd1ae7d"></a><!-- doxytag: member="Job::getType" ref="a317aa1e307e9d896c341fea8cbd1ae7d" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Job::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
 <hr/><h2>Member Data Documentation</h2>
 <a class="anchor" id="a1123bbabbce3539e5faab982a1401295"></a><!-- doxytag: member="Job::$typeNames" ref="a1123bbabbce3539e5faab982a1401295" args="" -->
 <div class="memitem">
@@ -196,8 +311,10 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(self::type_commonJob    =&gt; <span class="stringliteral">&quot;Common&quot;</span>,
-                                   self::type_assignedJob  =&gt; <span class="stringliteral">&quot;Assigned&quot;</span>)
+<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(
+     self::type_commonJob =&gt; <span class="stringliteral">&quot;Common&quot;</span>,
+     self::type_assignedJob =&gt; <span class="stringliteral">&quot;Assigned&quot;</span>
+  )
 </pre></div>
 </div>
 </div>
@@ -224,7 +341,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

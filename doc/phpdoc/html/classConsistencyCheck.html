@@ -99,8 +99,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a>  </div>
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">ConsistencyCheck Class Reference</div>  </div>
 </div>
@@ -124,17 +124,16 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck.html#a0e14632d41bc2202ce9837481ce8a6c4">check</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck.html#a1fb98f8e6e044c051d04693d6b6c5af6">checkDeliveryDate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck.html#a1b0bb9c134cf752b6c3690ed2104901e">checkResolved</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck.html#a1975d002a1cc6b0d75602abc92993519">checkBadRemaining</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck.html#aad1bca32a256d639027c3cd8ace35de5">checkBadBacklog</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck.html#af91e6858757be39e0bc4c14e352de203">checkMgrEffortEstim</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck.html#ad2b025b9cd257d5280c1cd9c7d67ab4a">checkTimeTracksOnNewIssues</a> ()</td></tr>
+<tr><td colspan="2"><h2><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConsistencyCheck.html#af42ccebbd06d2d881fb5e64af3644554">staticInit</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9beacb0606d809ebe58905f6c4e50ee5"></a><!-- doxytag: member="ConsistencyCheck::$projectList" ref="a9beacb0606d809ebe58905f6c4e50ee5" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$projectList</b></td></tr>
-<tr><td colspan="2"><h2><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a814d271ed55bbb7b532d470dfc5c12cf"></a><!-- doxytag: member="ConsistencyCheck::$logger" ref="a814d271ed55bbb7b532d470dfc5c12cf" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$logger</b></td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a0e14632d41bc2202ce9837481ce8a6c4"></a><!-- doxytag: member="ConsistencyCheck::check" ref="a0e14632d41bc2202ce9837481ce8a6c4" args="()" -->
@@ -151,17 +150,18 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>perform all consistency checks </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError.html">ConsistencyError</a>[] </dd></dl>
 
 <p>Reimplemented in <a class="el" href="classConsistencyCheckFDJ.html#a2c33c10e3c8a2f1c49842469af9997c3">ConsistencyCheckFDJ</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1975d002a1cc6b0d75602abc92993519"></a><!-- doxytag: member="ConsistencyCheck::checkBadRemaining" ref="a1975d002a1cc6b0d75602abc92993519" args="()" -->
+<a class="anchor" id="aad1bca32a256d639027c3cd8ace35de5"></a><!-- doxytag: member="ConsistencyCheck::checkBadBacklog" ref="aad1bca32a256d639027c3cd8ace35de5" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ConsistencyCheck::checkBadRemaining </td>
+          <td class="memname">ConsistencyCheck::checkBadBacklog </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -170,6 +170,7 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>fiches NOT resolved with RAE == 0 </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError.html">ConsistencyError</a>[] </dd></dl>
 
 </div>
 </div>
@@ -187,6 +188,7 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>if $deliveryIssueCustomField is specified, then $deliveryDateCustomField should also be specified. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError.html">ConsistencyError</a>[] </dd></dl>
 
 </div>
 </div>
@@ -204,6 +206,7 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>a mgrEffortEstim should be defined when creating an <a class="el" href="classIssue.html">Issue</a> </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError.html">ConsistencyError</a>[] </dd></dl>
 
 </div>
 </div>
@@ -221,6 +224,7 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>fiches resolved dont le RAE != 0 </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError.html">ConsistencyError</a>[] </dd></dl>
 
 </div>
 </div>
@@ -238,6 +242,24 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>if you spend some time on a task, then it's status is probably 'ack' or 'open' but certainly not 'new' </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError.html">ConsistencyError</a>[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af42ccebbd06d2d881fb5e64af3644554"></a><!-- doxytag: member="ConsistencyCheck::staticInit" ref="af42ccebbd06d2d881fb5e64af3644554" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ConsistencyCheck::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
 
 </div>
 </div>
@@ -264,7 +286,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:32 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

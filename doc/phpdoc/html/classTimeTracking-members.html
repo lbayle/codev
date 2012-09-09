@@ -102,16 +102,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 This is the complete list of members for <a class="el" href="classTimeTracking.html">TimeTracking</a>, including all inherited members.<table>
-  <tr bgcolor="#f0f0f0"><td><b>$endTimestamp</b> (defined in <a class="el" href="classTimeTracking.html">TimeTracking</a>)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr bgcolor="#f0f0f0"><td><b>$prodProjectList</b> (defined in <a class="el" href="classTimeTracking.html">TimeTracking</a>)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr bgcolor="#f0f0f0"><td><b>$sideTaskprojectList</b> (defined in <a class="el" href="classTimeTracking.html">TimeTracking</a>)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr bgcolor="#f0f0f0"><td><b>$startTimestamp</b> (defined in <a class="el" href="classTimeTracking.html">TimeTracking</a>)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr bgcolor="#f0f0f0"><td><b>$team_id</b> (defined in <a class="el" href="classTimeTracking.html">TimeTracking</a>)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a25d4685cb68ca66086104137244ac775">__construct</a>($startTimestamp, $endTimestamp, $team_id=NULL)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a2e59193ff4d9b88b305066e94ec28e91">checkCompleteDays</a>($userid, $isStrictlyTimestamp=FALSE)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#aa49702f5aa0a0f0873fc74435cdfef79">checkMissingDays</a>($userid)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#aadb9302d0ac7411d60d05757cac27252">getAvailableWorkload</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#aaa4414f440d38e54736bbaa197183eb1">getEfficiencyRate</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a684b01ba2ba4d05c66e057039e8dc27a">getEndTimestamp</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#aae48e1feacb8c7cf90d40f38145ad092">getIssuesDriftStats</a>(array $issueList, $withSupport=true)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#af08a7ebedf7f1a4b80837cb34bbd1670">getIssuesTimeDriftStats</a>(array $issueList)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a644d679371351653c4bcae755c31d689">getManagementDays</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
@@ -119,19 +115,21 @@ This is the complete list of members for <a class="el" href="classTimeTracking.h
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a2b675446de25879b88c6b905b0a7b95c">getProdDaysSideTasks</a>($isDeveloppersOnly=false)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#adf49b52f23e966bf911cd790bbd51316">getProjectDetails</a>($project_id)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#ae5773a749125697ce4ec24429ffd5326">getProjectTracks</a>($isTeamProjOnly=false)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#adad837fba7b640a5747a6ca1c3d30735">getReopened</a>(array $projects=NULL, $isExtRefOnly=true)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a21765dba26d8ad494e763afdb80228e4">getReopened_old</a>(array $projects=NULL)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#ade3105cda38211f8df405630cf1d3ef1">getReopenedRate</a>(array $projects=NULL)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a63ae4aa20c6c5ecfc8aa16d144c5bafc">getReopenedRateResolved</a>(array $projects=NULL)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a203a00202040a979ad5be1f2474f7d73">getReopened</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a3ec34a29d217ed0b03eb2002d9333cfb">getReopenedRate</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a5b9c8aeb6ec909781236100d84c1e89c">getReopenedRateResolved</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#adc6a5aa51ae565c19fdb49e823d6b06b">getResolvedDriftStats</a>($withSupport=true)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a11439087310e03fa590107705c387570">getResolvedIssues</a>(array $projects=NULL)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
-  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a41c738e3074242c0561331cac6dc9e4c">getSubmitted</a>(array $projects=NULL)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#ac69e488538b0601abbcfb55946297919">getResolvedIssues</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#ad6c12857da295811b5132528dccd163d">getStartTimestamp</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a5037c97c2ce7b14d62df6e54cb7361b6">getSubmitted</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a04a37214e10d355d3a310bfe75cfabcc">getSystemDisponibilityRate</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#aef068ae86887b93b324f9329f71ff148">getTeamid</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#af0561101f6cc3b29b65d1ffa269cf504">getTimeDriftStats</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a157244c577df62db02aa9a37319076c6">getWeekDetails</a>($userid, $isTeamProjOnly=false)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a609c0dcb37e7d43a47c51ea1939fa615">getWorkingDaysPerJob</a>($job_id)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a4c04356fb6583f0515a5f3e3ad4aa56a">getWorkingDaysPerProject</a>($project_id)</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classTimeTracking.html#ac2293f93c0c747d5d1d154f95f9d7064">initialize</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classTimeTracking.html#a20640d505ccb3ba72ba32ba83ea5d2d4">staticInit</a>()</td><td><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td><code> [static]</code></td></tr>
 </table></div>
 </div>
   <div id="nav-path" class="navpath">
@@ -151,7 +149,7 @@ This is the complete list of members for <a class="el" href="classTimeTracking.h
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

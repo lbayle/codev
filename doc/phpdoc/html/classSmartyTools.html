@@ -110,8 +110,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyTools.html#a7ded5c08dfccfa799172b6951642c242">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyTools.html#a9f902dc29c55f2cea5aeea0ae23c46c4">checkNumericValue</a> ($value, $allowNull=FALSE)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyTools.html#a49d6c5ea94660cdae19ae74a7ebe6a81">getTeams</a> (array $teamList, $selectedTeamId=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyTools.html#a28e605a3ecd6f9a180e9b88c4056f756">getProjects</a> (array $projectList, $selectedProjectId=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyTools.html#aed61378034e01adde7faaaee061f9fd4">getSmartyArray</a> (array $list, $selected)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyTools.html#adf6b02fd860309047bf4ee337ec9da98">getBugs</a> ($projectid=0, $defaultBugid=0, array $projList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSmartyTools.html#ae3c11dba164c837c07b800d9c51b9d3b">getWeeks</a> ($weekid, $year)</td></tr>
@@ -148,6 +146,7 @@ Static Public Member Functions</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">int</td><td class="paramname">$value</td><td></td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$allowNull</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -158,7 +157,7 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000017">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTools.html#a31091a2333ff2d72916fc2d84bfd6849">Tools::getSecurePOSTIntValue</a>($key, $defaultValue) </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000006">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTools.html#a31091a2333ff2d72916fc2d84bfd6849">Tools::getSecurePOSTIntValue</a>($key, $defaultValue) </dd></dl>
 
 </div>
 </div>
@@ -254,43 +253,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a28e605a3ecd6f9a180e9b88c4056f756"></a><!-- doxytag: member="SmartyTools::getProjects" ref="a28e605a3ecd6f9a180e9b88c4056f756" args="(array $projectList, $selectedProjectId=NULL)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static SmartyTools::getProjects </td>
-          <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>projectList</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>selectedProjectId</em> = <code>NULL</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Convert a projectList in a Smarty comprehensible array </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"></td><td class="paramname">string[]</td><td>$projectList The projects </td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$selectedProjectId</td><td>The selected project </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] The projects </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000019">Deprecated:</a></b></dt><dd>Use <a class="el" href="classSmartyTools.html#aed61378034e01adde7faaaee061f9fd4">SmartyTools::getSmartyArray</a>($list, $selected) </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="aed61378034e01adde7faaaee061f9fd4"></a><!-- doxytag: member="SmartyTools::getSmartyArray" ref="aed61378034e01adde7faaaee061f9fd4" args="(array $list, $selected)" -->
 <div class="memitem">
 <div class="memproto">
@@ -327,43 +289,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a49d6c5ea94660cdae19ae74a7ebe6a81"></a><!-- doxytag: member="SmartyTools::getTeams" ref="a49d6c5ea94660cdae19ae74a7ebe6a81" args="(array $teamList, $selectedTeamId=NULL)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static SmartyTools::getTeams </td>
-          <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>teamList</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>selectedTeamId</em> = <code>NULL</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Convert a teamList in a Smarty comprehensible array </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"></td><td class="paramname">string[]</td><td>$teamList The teams </td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$selectedTeamId</td><td>The selected team </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000018">Deprecated:</a></b></dt><dd>Use <a class="el" href="classSmartyTools.html#aed61378034e01adde7faaaee061f9fd4">SmartyTools::getSmartyArray</a>($list, $selected) </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="ae3c11dba164c837c07b800d9c51b9d3b"></a><!-- doxytag: member="SmartyTools::getWeeks" ref="ae3c11dba164c837c07b800d9c51b9d3b" args="($weekid, $year)" -->
 <div class="memitem">
 <div class="memproto">
@@ -396,7 +321,7 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array The result </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] The result </dd></dl>
 
 </div>
 </div>
@@ -432,7 +357,7 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array The years </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] The years </dd></dl>
 
 </div>
 </div>
@@ -468,7 +393,7 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array The years </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] The years </dd></dl>
 
 </div>
 </div>
@@ -512,7 +437,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

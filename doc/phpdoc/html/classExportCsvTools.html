@@ -110,11 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExportCsvTools.html#adea4d0e4b0679b7dcb991c97a47d34ca">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExportCsvTools.html#a93747d9c4cb13fcb7fb2465d2996943f">exportManagedIssuesToCSV</a> ($teamid, $startTimestamp, $endTimestamp, $myFile)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExportCsvTools.html#a3279e3394190d41985114716bd5ce0d4">exportProjectActivityToCSV</a> (<a class="el" href="classTimeTracking.html">TimeTracking</a> $timeTracking, $myFile)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExportCsvTools.html#a9ad752638729db050d793d79bf144bc1">exportProjectMonthlyActivityToCSV</a> (<a class="el" href="classTimeTracking.html">TimeTracking</a> $timeTracking, $myFile)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExportCsvTools.html#a0e176d83a8de6611aa250fb8e8b0a33f">exportHolidaystoCSV</a> ($month, $year, $teamid, $teamName, $path=&quot;&quot;)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExportCsvTools.html#ae967a08de16dfa68756dc7d854d833b1">exportWeekActivityReportToCSV</a> ($teamid, $weekDates, $timeTracking, $myFile)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classExportCsvTools.html#aca6181550d7d7bc1bed0a4553525c707">exportWeekDetailsToCSV</a> ($userid, <a class="el" href="classTimeTracking.html">TimeTracking</a> $timeTracking, $realname, $fh)</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a0e176d83a8de6611aa250fb8e8b0a33f"></a><!-- doxytag: member="ExportCsvTools::exportHolidaystoCSV" ref="a0e176d83a8de6611aa250fb8e8b0a33f" args="($month, $year, $teamid, $teamName, $path=&quot;&quot;)" -->
@@ -223,176 +219,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3279e3394190d41985114716bd5ce0d4"></a><!-- doxytag: member="ExportCsvTools::exportProjectActivityToCSV" ref="a3279e3394190d41985114716bd5ce0d4" args="(TimeTracking $timeTracking, $myFile)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static ExportCsvTools::exportProjectActivityToCSV </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a> $&#160;</td>
-          <td class="paramname"><em>timeTracking</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>myFile</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>creates for each project a table with the following fields: TaskName | RAF | &lt;Jobs&gt; </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td class="paramname">$timeTracking</td><td></td></tr>
-    <tr><td class="paramtype">string</td><td class="paramname">$myFile</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a9ad752638729db050d793d79bf144bc1"></a><!-- doxytag: member="ExportCsvTools::exportProjectMonthlyActivityToCSV" ref="a9ad752638729db050d793d79bf144bc1" args="(TimeTracking $timeTracking, $myFile)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static ExportCsvTools::exportProjectMonthlyActivityToCSV </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a> $&#160;</td>
-          <td class="paramname"><em>timeTracking</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>myFile</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>creates for each project a table with the following fields: id | TC | startDate | endDate | status | total elapsed | elapsed + Remaining | elapsed in period | Remaining TOTAL </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td class="paramname">$timeTracking</td><td></td></tr>
-    <tr><td class="paramtype">string</td><td class="paramname">$myFile</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ae967a08de16dfa68756dc7d854d833b1"></a><!-- doxytag: member="ExportCsvTools::exportWeekActivityReportToCSV" ref="ae967a08de16dfa68756dc7d854d833b1" args="($teamid, $weekDates, $timeTracking, $myFile)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static ExportCsvTools::exportWeekActivityReportToCSV </td>
-          <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>teamid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>weekDates</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>timeTracking</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>myFile</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Export week activity </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td></td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">$weekDates</td><td></td></tr>
-    <tr><td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td class="paramname">$timeTracking</td><td></td></tr>
-    <tr><td class="paramtype">string</td><td class="paramname">$myFile</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="aca6181550d7d7bc1bed0a4553525c707"></a><!-- doxytag: member="ExportCsvTools::exportWeekDetailsToCSV" ref="aca6181550d7d7bc1bed0a4553525c707" args="($userid, TimeTracking $timeTracking, $realname, $fh)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static ExportCsvTools::exportWeekDetailsToCSV </td>
-          <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>userid</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a> $&#160;</td>
-          <td class="paramname"><em>timeTracking</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>realname</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>fh</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$userid</td><td></td></tr>
-    <tr><td class="paramtype"><a class="el" href="classTimeTracking.html">TimeTracking</a></td><td class="paramname">$timeTracking</td><td></td></tr>
-    <tr><td class="paramtype">string</td><td class="paramname">$realname</td><td></td></tr>
-    <tr><td class="paramtype">resource</td><td class="paramname">$fh</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="adea4d0e4b0679b7dcb991c97a47d34ca"></a><!-- doxytag: member="ExportCsvTools::staticInit" ref="adea4d0e4b0679b7dcb991c97a47d34ca" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -433,7 +259,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:32 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

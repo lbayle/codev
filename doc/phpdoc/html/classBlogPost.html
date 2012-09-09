@@ -110,13 +110,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13d361ca74cf37e00ea730614a0d11b3"></a><!-- doxytag: member="BlogPost::__construct" ref="a13d361ca74cf37e00ea730614a0d11b3" args="($post_id)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>__construct</b> ($post_id)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a77f61e8f5257da5ca43e07d54e53e492"></a><!-- doxytag: member="BlogPost::getActivityList" ref="a77f61e8f5257da5ca43e07d54e53e492" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getActivityList</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac000741825a6a639d5a6ecae79177864"></a><!-- doxytag: member="BlogPost::__construct" ref="ac000741825a6a639d5a6ecae79177864" args="($post_id, $details=NULL)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>__construct</b> ($post_id, $details=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#a77f61e8f5257da5ca43e07d54e53e492">getActivityList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#a159af14501195eb3cb0cbf8fdc6c0f1e">compareTo</a> ($postB)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#ae5e42e46b29404df561454a3c027b6fd">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#a76d3b88d12c0bdd17c6344a76d0a4a81">getSeverityName</a> ($severity)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#ad40045c4a342b6a2b3010066c501d952">create</a> ($src_user_id, $severity, $category, $summary, $content, $dest_user_id=0, $dest_project_id=0, $dest_team_id=0, $date_expire=0, $color=0)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlogPost.html#a5ec9a19e9af06a4725ac9b5fc83db33c">delete</a> ($blogPost_id)</td></tr>
@@ -195,13 +195,14 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$blogPost_id</td><td></td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$user_id</td><td></td></tr>
     <tr><td class="paramtype">string</td><td class="paramname">$action</td><td></td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$date</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>activity id or '0' if failed </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int activity id or '0' if failed </dd></dl>
 
 </div>
 </div>
@@ -223,10 +224,11 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
 <p>criteria: date_submission, date_expired, severity</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype"><a class="el" href="classBlogPost.html">BlogPost</a></td><td class="paramname">$postB</td><td>the object to compare to </td></tr>
+    <tr><td class="paramtype"><a class="el" href="classBlogPost.html">BlogPost</a></td><td class="paramname">$postB</td><td>the object to compare to</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
 
 </div>
 </div>
@@ -347,6 +349,23 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
 
 </div>
 </div>
+<a class="anchor" id="a77f61e8f5257da5ca43e07d54e53e492"></a><!-- doxytag: member="BlogPost::getActivityList" ref="a77f61e8f5257da5ca43e07d54e53e492" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BlogPost::getActivityList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classBlogActivity.html">BlogActivity</a>[] </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a76d3b88d12c0bdd17c6344a76d0a4a81"></a><!-- doxytag: member="BlogPost::getSeverityName" ref="a76d3b88d12c0bdd17c6344a76d0a4a81" args="($severity)" -->
 <div class="memitem">
 <div class="memproto">
@@ -369,6 +388,23 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string severityName or NULL if unknown </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae5e42e46b29404df561454a3c027b6fd"></a><!-- doxytag: member="BlogPost::staticInit" ref="ae5e42e46b29404df561454a3c027b6fd" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static BlogPost::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
 
 </div>
 </div>
@@ -395,7 +431,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>severity_high</b> = 
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:32 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

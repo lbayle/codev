@@ -100,21 +100,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">Issue Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="Issue" --><!-- doxytag: inherits="Comparable" --><div class="dynheader">
+<!-- doxytag: class="Issue" --><!-- doxytag: inherits="Model,Comparable" --><div class="dynheader">
 Inheritance diagram for Issue:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classIssue.png" usemap="#Issue_map" alt=""/>
   <map id="Issue_map" name="Issue_map">
-<area href="interfaceComparable.html" alt="Comparable" shape="rect" coords="0,0,80,24"/>
-<area href="classIssueFDJ.html" alt="IssueFDJ" shape="rect" coords="0,112,80,136"/>
+<area href="classModel.html" alt="Model" shape="rect" coords="0,0,80,24"/>
+<area href="interfaceComparable.html" alt="Comparable" shape="rect" coords="90,0,170,24"/>
+<area href="classIssueFDJ.html" alt="IssueFDJ" shape="rect" coords="45,112,125,136"/>
 </map>
  </div></div>
 
@@ -124,20 +124,21 @@ Inheritance diagram for Issue:</div>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ad7486fc0b7399552cc5d803a6ef57386">__construct</a> ($id, $details=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a7a23392b410fea828414c4a1a5cd4c63">initialize</a> ($row=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#afa7205f1a1c9986be416940f3eb21426">initializeCustomField</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#af0e687e305e31492f04ab221879bdde8">getDescription</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a947f327435b40ef598cc1d2519d34a00"></a><!-- doxytag: member="Issue::getIssueNoteList" ref="a947f327435b40ef598cc1d2519d34a00" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getIssueNoteList</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a947f327435b40ef598cc1d2519d34a00">getIssueNoteList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a0744f69738f7ad3ef46fd55bb8ce0b9d">isResolved</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9ab9c02e85661bf583efb0857e59fe8"></a><!-- doxytag: member="Issue::getBugResolvedStatusThreshold" ref="ae9ab9c02e85661bf583efb0857e59fe8" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getBugResolvedStatusThreshold</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a1617e19c12ef51bc8be0ad4a1de7ec43">isSideTaskIssue</a> ($teamidList=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a5bcfe3cfcc7465c136eb657a6c15f63d">isVacation</a> ($teamidList=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ae3698abeafe8a4be2e97eeb05cd54809">isIncident</a> ($teamidList=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a4ca6a02d948c7f399f2fea9496a759a8">isProjManagement</a> ($teamidList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a433d43e5d257dd3cbb805fb52561b0d3">isSideTaskIssue</a> (array $teamidList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a39250ecfd011de09550706c07b65e0ec">isVacation</a> (array $teamidList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a1de5bcd21a2a2ddf6cbc063d746e4362">isIncident</a> (array $teamidList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a126793bb7eb13ada0a585ea2cc86d3c2">isProjManagement</a> (array $teamidList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#acbaf7c904d9fb7623f3731495a58474f">isAstreinte</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a133ad0b6b456b26613a1c38ea020c930"></a><!-- doxytag: member="Issue::getTargetVersion" ref="a133ad0b6b456b26613a1c38ea020c930" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getTargetVersion</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a38cc815e1085afb0d28071e7a2ac0dff">getTC</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3233625cbf6e49ef94b465369d181561"></a><!-- doxytag: member="Issue::getTcId" ref="a3233625cbf6e49ef94b465369d181561" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getTcId</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aa6a48872a1f3caf5bc244fd39d033ce2">getDeadLine</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa78818c0958163abb9317a37bfcdc02f"></a><!-- doxytag: member="Issue::getProjectName" ref="aa78818c0958163abb9317a37bfcdc02f" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getProjectName</b> ()</td></tr>
@@ -146,6 +147,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>getCurrentStatusName</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a810ce9b22ee93a57ea1dd18b3501e97c"></a><!-- doxytag: member="Issue::getPriorityName" ref="a810ce9b22ee93a57ea1dd18b3501e97c" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getPriorityName</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abefc39442259e8972570e91b865d3906"></a><!-- doxytag: member="Issue::getSeverityName" ref="abefc39442259e8972570e91b865d3906" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getSeverityName</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf9259bf92d50f24150cf9e6883f87d6"></a><!-- doxytag: member="Issue::getResolutionName" ref="acf9259bf92d50f24150cf9e6883f87d6" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getResolutionName</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a15ac766e600a45679273ef60469ec12b">getElapsed</a> ($job_id=NULL)</td></tr>
@@ -157,16 +160,15 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a3896e8b9134cc119c253cdf39f59fa04">startDate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a446b7844e2abe7aa12b7f41e4ba16f42">endDate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a6a3487cd58dbe593feb540fb5b4b7093">getDriftColor</a> ($drift=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#abc56af37f9fc679a0627a63a39e4349d">getDrift_old</a> ($withSupport=true)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0004be14d076de72eb11b3fb55f47be9"></a><!-- doxytag: member="Issue::getDrift" ref="a0004be14d076de72eb11b3fb55f47be9" args="($withSupport=true)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getDrift</b> ($withSupport=true)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a4dbe0758c4682d7a23e1a70d93d91f0e">getDriftMgr</a> ($withSupport=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a49c33bbecc0df4abacdb3356829f264d">getDrift_old</a> ($withSupport=TRUE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6e175b5026b9cb89d34ad38799e5eee4"></a><!-- doxytag: member="Issue::getDrift" ref="a6e175b5026b9cb89d34ad38799e5eee4" args="($withSupport=TRUE)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getDrift</b> ($withSupport=TRUE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a6d19a67470214feb4137c3b04ca5c852">getDriftMgr</a> ($withSupport=TRUE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ad2cda77baa9a916f27a63b2c18a33ba5">getTimeDrift</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aff777520db28fdf1ff85bbae6bb56009">getTimeTracks</a> ($user_id=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ade9078766f40536b7ca9ebec03f3aba8">getStartTimestamp</a> ($user_id=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#adb61306c7ec6313be0b7c2c9b2b98230">getTimeTracks</a> ($userid=NULL, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a9d45177ab6529b95488b90dd00c33392">getInvolvedUsers</a> ($team_id=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a42d7b0ad02fe0ad35162193bb5f3da9e">getStatus</a> ($timestamp=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a4b951de8d6d36b4e2bce7d8dd27e2c14">setRemaining</a> ($remaining)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#afeb6e413a09003e5a7b636edf5617d49">setBacklog</a> ($backlog)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a1c664df8cfe7328e4004bb53669b8bad">computeDurationsPerStatus</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aedc2a0adb223dc54f0c7e5f13e0a3336">compareTo</a> ($issueB)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a8ec6f7fa92e86d8c48dd170cc6afad59">computeEstimatedDateOfArrival</a> ($beginTimestamp, $availTimeOnBeginTimestamp=NULL, $userid=NULL)</td></tr>
@@ -180,58 +182,41 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a7eccbd9b06824a92c54c0d90d8bf2f81">setEffortEstim</a> ($value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a7c6de425cd35f724596767927de147e3">setMgrEffortEstim</a> ($value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a650d0fee8778f5b902aa7696b38da137">setDeadline</a> ($value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a4f5a06248d556d4c67bd293af16415cd">getBacklog</a> ($timestamp=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a8d4a1a12750b1125ca0f3139f00ae664">getFirstTimetrack</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ac1b0521940f9c86ff6fb0a45acd34966">getLatestTimetrack</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a79411033c4efb9bf8474534493fb5307">getId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a519c38d584d5cf6acddb98bfa126b76c">getProjectId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a4e3a939a141e50fd899d2740ebaaaf94">getCategoryId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a2d7f8465b7a845b49157dcdfe830c2e6">getSummary</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a788e62000db7ad0af064a39ca764103d">getDateSubmission</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aa0505605dfc14b238021f317d92c1ccf">getCurrentStatus</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ac52f2d3b5a452a62802b5d763afcbd03">getHandlerId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafae68fd3abb8fe350fb2c3889deb0d3"></a><!-- doxytag: member="Issue::getPriority" ref="aafae68fd3abb8fe350fb2c3889deb0d3" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getPriority</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7e30b6423decc9a13f051a57cbbdc97f"></a><!-- doxytag: member="Issue::getSeverity" ref="a7e30b6423decc9a13f051a57cbbdc97f" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getSeverity</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aea022dfbed50ed6a3bf7691af07c6f7e">getReporterId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a762408ff9b5a45f3963dcb9c36c9124d"></a><!-- doxytag: member="Issue::getVersion" ref="a762408ff9b5a45f3963dcb9c36c9124d" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getVersion</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57451a3be6e4906c762c29456e48f9f2"></a><!-- doxytag: member="Issue::getLastUpdate" ref="a57451a3be6e4906c762c29456e48f9f2" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getLastUpdate</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12d51a78d0a3414f7dd178983cc72da1"></a><!-- doxytag: member="Issue::getMgrEffortEstim" ref="a12d51a78d0a3414f7dd178983cc72da1" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getMgrEffortEstim</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afd124014c286b6b434eaae0bb0688643"></a><!-- doxytag: member="Issue::getEffortEstim" ref="afd124014c286b6b434eaae0bb0688643" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getEffortEstim</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a300c46533c7e5e8ef4a26fb1fd30b5bc"></a><!-- doxytag: member="Issue::getEffortAdd" ref="a300c46533c7e5e8ef4a26fb1fd30b5bc" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getEffortAdd</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a4c91f93cb16f3a5ba98d3b4013dbfe19">getDeliveryDate</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#aa59d7a867be7d6f252affe978aadbb8d">getDeliveryId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#afba97ab05c5db7b934acd9a4178ad203">getStatusList</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a58ec1b286bad3f484ab924f41760b010">getFormattedIds</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a443cb38ca456d9cb03a13ad4ee7bb976">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a5100ab41cd37c9d6ee0f7dd1f3045687">exists</a> ($bugid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a82e14c524473b1ba28562dda34028d5e">compare</a> (<a class="el" href="interfaceComparable.html">Comparable</a> $issueA, <a class="el" href="interfaceComparable.html">Comparable</a> $issueB)</td></tr>
-<tr><td colspan="2"><h2><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad45b00906ab26bf8f300af3bbc8154e7"></a><!-- doxytag: member="Issue::$bugId" ref="ad45b00906ab26bf8f300af3bbc8154e7" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$bugId</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29af5fd84d05301a56ec918e63bfec4b"></a><!-- doxytag: member="Issue::$projectId" ref="a29af5fd84d05301a56ec918e63bfec4b" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$projectId</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a31aba7bc83ccda2fda2303219dff3be2"></a><!-- doxytag: member="Issue::$categoryId" ref="a31aba7bc83ccda2fda2303219dff3be2" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$categoryId</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08bf983e47526a197bf32b2ca95bbcb6"></a><!-- doxytag: member="Issue::$eta" ref="a08bf983e47526a197bf32b2ca95bbcb6" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$eta</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a04c7beeefa33be2631998c67cd0dc18d"></a><!-- doxytag: member="Issue::$summary" ref="a04c7beeefa33be2631998c67cd0dc18d" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$summary</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a990337ed33bac0c4761f5f76ee47049e"></a><!-- doxytag: member="Issue::$dateSubmission" ref="a990337ed33bac0c4761f5f76ee47049e" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$dateSubmission</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1b356bf125bac55230f3ad1e74409670"></a><!-- doxytag: member="Issue::$currentStatus" ref="a1b356bf125bac55230f3ad1e74409670" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$currentStatus</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0b21713e38eefca9e1dc9714c1bf5c0"></a><!-- doxytag: member="Issue::$priority" ref="ad0b21713e38eefca9e1dc9714c1bf5c0" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$priority</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca722a678336fd5ca52586d14e71b9a8"></a><!-- doxytag: member="Issue::$severity" ref="aca722a678336fd5ca52586d14e71b9a8" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$severity</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade7bf5f129a1d6263d251aade5758b46"></a><!-- doxytag: member="Issue::$handlerId" ref="ade7bf5f129a1d6263d251aade5758b46" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$handlerId</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9879cf4cbf345005c889d27c8a431cd5"></a><!-- doxytag: member="Issue::$reporterId" ref="a9879cf4cbf345005c889d27c8a431cd5" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$reporterId</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac935e65e56220c203e17068dbc733106"></a><!-- doxytag: member="Issue::$resolution" ref="ac935e65e56220c203e17068dbc733106" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$resolution</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a709d24d889494ca6053d9e4bb26a2569"></a><!-- doxytag: member="Issue::$version" ref="a709d24d889494ca6053d9e4bb26a2569" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$version</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a287cf0857e6640930605439e717b4de7"></a><!-- doxytag: member="Issue::$last_updated" ref="a287cf0857e6640930605439e717b4de7" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$last_updated</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ef549b7a61baf45dc127e7910352a75"></a><!-- doxytag: member="Issue::$tcId" ref="a0ef549b7a61baf45dc127e7910352a75" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$tcId</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75c6a8927f3ed922f2e4555fa4489ee1"></a><!-- doxytag: member="Issue::$remaining" ref="a75c6a8927f3ed922f2e4555fa4489ee1" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$remaining</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d1598f908f4dd12b54d11b9014c284f"></a><!-- doxytag: member="Issue::$mgrEffortEstim" ref="a0d1598f908f4dd12b54d11b9014c284f" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$mgrEffortEstim</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4a6bf03d02b330bc138af884a77b0569"></a><!-- doxytag: member="Issue::$effortEstim" ref="a4a6bf03d02b330bc138af884a77b0569" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$effortEstim</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5927607174103b7e2150167ccc781e67"></a><!-- doxytag: member="Issue::$effortAdd" ref="a5927607174103b7e2150167ccc781e67" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$effortAdd</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60c7cc005dd723ccfb5e04df20a4d795"></a><!-- doxytag: member="Issue::$deliveryDate" ref="a60c7cc005dd723ccfb5e04df20a4d795" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$deliveryDate</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c5237d5ad498944cd4ef89a3ee566d7"></a><!-- doxytag: member="Issue::$deliveryId" ref="a7c5237d5ad498944cd4ef89a3ee566d7" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$deliveryId</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96a1c025c8212d65ebdd4c09f20e0c12"></a><!-- doxytag: member="Issue::$elapsed" ref="a96a1c025c8212d65ebdd4c09f20e0c12" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$elapsed</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac21279ac5e5d922ed67b3197631c40e"></a><!-- doxytag: member="Issue::$statusList" ref="aac21279ac5e5d922ed67b3197631c40e" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$statusList</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#a01ef0e65a6a9902210d7907bb909a81e">getIssues</a> (array $issueIds)</td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a78f41790b3a4fadf607df52d4926c2d3"></a><!-- doxytag: member="Issue::getDurationForStatusNew" ref="a78f41790b3a4fadf607df52d4926c2d3" args="()" -->
@@ -239,8 +224,8 @@ Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssue.html#ad0429889d49f78a748ee3c48ca3de734">getDurationForStatus</a> ($status)</td></tr>
 <tr><td colspan="2"><h2><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67a861aa29a9979882b1156c8b28d617"></a><!-- doxytag: member="Issue::$logger" ref="a67a861aa29a9979882b1156c8b28d617" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$logger</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad45b00906ab26bf8f300af3bbc8154e7"></a><!-- doxytag: member="Issue::$bugId" ref="ad45b00906ab26bf8f300af3bbc8154e7" args="" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>$bugId</b></td></tr>
 </table>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ad7486fc0b7399552cc5d803a6ef57386"></a><!-- doxytag: member="Issue::__construct" ref="ad7486fc0b7399552cc5d803a6ef57386" args="($id, $details=NULL)" -->
@@ -399,13 +384,13 @@ Protected Attributes</h2></td></tr>
 <p>Returns the Estimated Date of Arrival, depending on user's holidays and other timetracks</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype"></td><td class="paramname">$beginTimestamp</td><td>the start day </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">$availTimeOnBeginTimestamp</td><td>On the start day, part of the day may already have been spent on other issues. this param defines how much time is left for this issue. if NULL, use user-&gt;getAvailableTime($beginTimestamp) </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$beginTimestamp</td><td>the start day </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$availTimeOnBeginTimestamp</td><td>On the start day, part of the day may already have been spent on other issues. this param defines how much time is left for this issue. if NULL, use user-&gt;getAvailableTime($beginTimestamp) </td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$userid</td><td>if NULL, use assignedTo user </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array(endTimestamp, $availTimeOnEndTimestamp) $availTimeOnEndTimestamp can be re-injected in the next call to this function </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] array(endTimestamp, $availTimeOnEndTimestamp) $availTimeOnEndTimestamp can be re-injected in the next call to this function </dd></dl>
 
 </div>
 </div>
@@ -422,7 +407,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>unknown_type the timestamp of the latest <a class="el" href="classTimeTrack.html">TimeTrack</a> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int the timestamp of the latest <a class="el" href="classTimeTrack.html">TimeTrack</a> </dd></dl>
 
 </div>
 </div>
@@ -447,6 +432,48 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>bool TRUE if issue exists in Mantis DB </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4f5a06248d556d4c67bd293af16415cd"></a><!-- doxytag: member="Issue::getBacklog" ref="a4f5a06248d556d4c67bd293af16415cd" args="($timestamp=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getBacklog </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>timestamp</em> = <code>NULL</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get backlog at a specific date. if date is nopt specified, return current backlog.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$timestamp</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int backlog or NULL if no backlog update found in history before timestamp </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4e3a939a141e50fd899d2740ebaaaf94"></a><!-- doxytag: member="Issue::getCategoryId" ref="a4e3a939a141e50fd899d2740ebaaaf94" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getCategoryId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int Category id </dd></dl>
 
 </div>
 </div>
@@ -486,6 +513,40 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa0505605dfc14b238021f317d92c1ccf"></a><!-- doxytag: member="Issue::getCurrentStatus" ref="aa0505605dfc14b238021f317d92c1ccf" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getCurrentStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string Current status </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a788e62000db7ad0af064a39ca764103d"></a><!-- doxytag: member="Issue::getDateSubmission" ref="a788e62000db7ad0af064a39ca764103d" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getDateSubmission </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int Submission date </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aa6a48872a1f3caf5bc244fd39d033ce2"></a><!-- doxytag: member="Issue::getDeadLine" ref="aa6a48872a1f3caf5bc244fd39d033ce2" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -501,6 +562,41 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 <p><a class="el" href="classIssue.html">Issue</a> deadLine</p>
 <p>if deadLineCustomField is set, return this value, else if TargetVersion date is specified return it, else return NULL </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4c91f93cb16f3a5ba98d3b4013dbfe19"></a><!-- doxytag: member="Issue::getDeliveryDate" ref="a4c91f93cb16f3a5ba98d3b4013dbfe19" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getDeliveryDate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa59d7a867be7d6f252affe978aadbb8d"></a><!-- doxytag: member="Issue::getDeliveryId" ref="aa59d7a867be7d6f252affe978aadbb8d" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getDeliveryId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
 
 </div>
 </div>
@@ -521,7 +617,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="abc56af37f9fc679a0627a63a39e4349d"></a><!-- doxytag: member="Issue::getDrift_old" ref="abc56af37f9fc679a0627a63a39e4349d" args="($withSupport=true)" -->
+<a class="anchor" id="a49c33bbecc0df4abacdb3356829f264d"></a><!-- doxytag: member="Issue::getDrift_old" ref="a49c33bbecc0df4abacdb3356829f264d" args="($withSupport=TRUE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -529,17 +625,17 @@ Protected Attributes</h2></td></tr>
           <td class="memname">Issue::getDrift_old </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>withSupport</em> = <code>true</code></td><td>)</td>
+          <td class="paramname"><em>withSupport</em> = <code>TRUE</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <p>Effort deviation, compares elapsed to effortEstim</p>
-<p>formula: elapsed - (effortEstim - remaining) if bug is Resolved/Closed, then remaining is not used. if EffortEstim = 0 then Drift = 0</p>
+<p>formula: elapsed - (effortEstim - backlog) if bug is Resolved/Closed, then backlog is not used. if EffortEstim = 0 then Drift = 0</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">boolean</td><td class="paramname">$withSupport</td><td></td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$withSupport</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -571,7 +667,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4dbe0758c4682d7a23e1a70d93d91f0e"></a><!-- doxytag: member="Issue::getDriftMgr" ref="a4dbe0758c4682d7a23e1a70d93d91f0e" args="($withSupport=true)" -->
+<a class="anchor" id="a6d19a67470214feb4137c3b04ca5c852"></a><!-- doxytag: member="Issue::getDriftMgr" ref="a6d19a67470214feb4137c3b04ca5c852" args="($withSupport=TRUE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -579,14 +675,14 @@ Protected Attributes</h2></td></tr>
           <td class="memname">Issue::getDriftMgr </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>withSupport</em> = <code>true</code></td><td>)</td>
+          <td class="paramname"><em>withSupport</em> = <code>TRUE</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <p>Effort deviation, compares Reestimated to mgrEffortEstim</p>
-<p>OLD formula: elapsed - (MgrEffortEstim - remaining) NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim</p>
+<p>OLD formula: elapsed - (MgrEffortEstim - backlog) NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">boolean</td><td class="paramname">$withSupport</td><td></td></tr>
@@ -610,7 +706,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>int the nb of days needed to finish the issue. if status &gt;= resolved, return 0. if the 'remaining' (RAF) field is not defined, return effortEstim </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int the nb of days needed to finish the issue. if status &gt;= resolved, return 0. if the 'backlog' (BL) field is not defined, return effortEstim </dd></dl>
 
 </div>
 </div>
@@ -630,7 +726,7 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$status</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$status</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -651,7 +747,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>int the nb of days needed to finish the issue. if status &gt;= resolved, return 0. if the 'remaining' (RAF) field is not defined, return mgrEffortEstim </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int the nb of days needed to finish the issue. if status &gt;= resolved, return 0. if the 'backlog' (BL) field is not defined, return mgrEffortEstim </dd></dl>
 
 </div>
 </div>
@@ -701,7 +797,77 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>unknown_type timestamp or NULL if not found </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int timestamp or NULL if not found </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8d4a1a12750b1125ca0f3139f00ae664"></a><!-- doxytag: member="Issue::getFirstTimetrack" ref="a8d4a1a12750b1125ca0f3139f00ae664" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getFirstTimetrack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classTimeTrack.html">TimeTrack</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a58ec1b286bad3f484ab924f41760b010"></a><!-- doxytag: member="Issue::getFormattedIds" ref="a58ec1b286bad3f484ab924f41760b010" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getFormattedIds </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string Id / ExternalId or Id </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac52f2d3b5a452a62802b5d763afcbd03"></a><!-- doxytag: member="Issue::getHandlerId" ref="ac52f2d3b5a452a62802b5d763afcbd03" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getHandlerId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int Handler id </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a79411033c4efb9bf8474534493fb5307"></a><!-- doxytag: member="Issue::getId" ref="a79411033c4efb9bf8474534493fb5307" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int Mantis id </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classModel.html">Model</a>.</p>
 
 </div>
 </div>
@@ -729,6 +895,48 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a947f327435b40ef598cc1d2519d34a00"></a><!-- doxytag: member="Issue::getIssueNoteList" ref="a947f327435b40ef598cc1d2519d34a00" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getIssueNoteList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssueNote.html">IssueNote</a>[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a01ef0e65a6a9902210d7907bb909a81e"></a><!-- doxytag: member="Issue::getIssues" ref="a01ef0e65a6a9902210d7907bb909a81e" args="(array $issueIds)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Issue::getIssues </td>
+          <td>(</td>
+          <td class="paramtype">array $&#160;</td>
+          <td class="paramname"><em>issueIds</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get issues from an issue id list </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$issueIds</td><td>The issue id list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] The issues </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a5d59c5d5f2ed889c7df8490a7b275f6c"></a><!-- doxytag: member="Issue::getLatestStatusOccurrence" ref="a5d59c5d5f2ed889c7df8490a7b275f6c" args="($status)" -->
 <div class="memitem">
 <div class="memproto">
@@ -750,7 +958,24 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>unknown_type timestamp or NULL if not found </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int timestamp or NULL if not found </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac1b0521940f9c86ff6fb0a45acd34966"></a><!-- doxytag: member="Issue::getLatestTimetrack" ref="ac1b0521940f9c86ff6fb0a45acd34966" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getLatestTimetrack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classTimeTrack.html">TimeTrack</a> </dd></dl>
 
 </div>
 </div>
@@ -767,8 +992,25 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>number a progress rate (depending on Remaining) formula2: Elapsed / (Elapsed+RAF)</dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>number a progress rate (depending on Backlog) formula2: Elapsed / (Elapsed+RAF)</dd></dl>
 <p>1 = 100% finished 0.5 = 50% done 0 = 0% done </p>
+
+</div>
+</div>
+<a class="anchor" id="a519c38d584d5cf6acddb98bfa126b76c"></a><!-- doxytag: member="Issue::getProjectId" ref="a519c38d584d5cf6acddb98bfa126b76c" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getProjectId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int <a class="el" href="classProject.html">Project</a> id </dd></dl>
 
 </div>
 </div>
@@ -833,27 +1075,20 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ade9078766f40536b7ca9ebec03f3aba8"></a><!-- doxytag: member="Issue::getStartTimestamp" ref="ade9078766f40536b7ca9ebec03f3aba8" args="($user_id=NULL)" -->
+<a class="anchor" id="aea022dfbed50ed6a3bf7691af07c6f7e"></a><!-- doxytag: member="Issue::getReporterId" ref="aea022dfbed50ed6a3bf7691af07c6f7e" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Issue::getStartTimestamp </td>
+          <td class="memname">Issue::getReporterId </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>user_id</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$user_id</td><td>The user id </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int the date of the oldest <a class="el" href="classTimeTrack.html">TimeTrack</a> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
 
 </div>
 </div>
@@ -881,12 +1116,12 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a38cc815e1085afb0d28071e7a2ac0dff"></a><!-- doxytag: member="Issue::getTC" ref="a38cc815e1085afb0d28071e7a2ac0dff" args="()" -->
+<a class="anchor" id="afba97ab05c5db7b934acd9a4178ad203"></a><!-- doxytag: member="Issue::getStatusList" ref="afba97ab05c5db7b934acd9a4178ad203" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Issue::getTC </td>
+          <td class="memname">Issue::getStatusList </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -894,7 +1129,24 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classStatus.html">Status</a>[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2d7f8465b7a845b49157dcdfe830c2e6"></a><!-- doxytag: member="Issue::getSummary" ref="a2d7f8465b7a845b49157dcdfe830c2e6" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::getSummary </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string Summary </dd></dl>
 
 </div>
 </div>
@@ -916,7 +1168,7 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aff777520db28fdf1ff85bbae6bb56009"></a><!-- doxytag: member="Issue::getTimeTracks" ref="aff777520db28fdf1ff85bbae6bb56009" args="($user_id=NULL)" -->
+<a class="anchor" id="adb61306c7ec6313be0b7c2c9b2b98230"></a><!-- doxytag: member="Issue::getTimeTracks" ref="adb61306c7ec6313be0b7c2c9b2b98230" args="($userid=NULL, $startTimestamp=NULL, $endTimestamp=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -924,19 +1176,37 @@ Protected Attributes</h2></td></tr>
           <td class="memname">Issue::getTimeTracks </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>user_id</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"><em>userid</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>startTimestamp</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>endTimestamp</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$user_id</td><td>The user id </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$userid</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$startTimestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$endTimestamp</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int[] </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classTimeTrack.html">TimeTrack</a>[] </dd></dl>
 
 </div>
 </div>
@@ -970,6 +1240,23 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="afa7205f1a1c9986be416940f3eb21426"></a><!-- doxytag: member="Issue::initializeCustomField" ref="afa7205f1a1c9986be416940f3eb21426" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::initializeCustomField </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get custom fields </p>
+
+</div>
+</div>
 <a class="anchor" id="acbaf7c904d9fb7623f3731495a58474f"></a><!-- doxytag: member="Issue::isAstreinte" ref="acbaf7c904d9fb7623f3731495a58474f" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -987,14 +1274,14 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae3698abeafe8a4be2e97eeb05cd54809"></a><!-- doxytag: member="Issue::isIncident" ref="ae3698abeafe8a4be2e97eeb05cd54809" args="($teamidList=NULL)" -->
+<a class="anchor" id="a1de5bcd21a2a2ddf6cbc063d746e4362"></a><!-- doxytag: member="Issue::isIncident" ref="a1de5bcd21a2a2ddf6cbc063d746e4362" args="(array $teamidList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Issue::isIncident </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
+          <td class="paramtype">array $&#160;</td>
           <td class="paramname"><em>teamidList</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
@@ -1003,19 +1290,31 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 <p>WARNING (best effort)</p>
 <p>check if issue is in a SideTaskProject AND in the Incident category.</p>
-<p>the project type is specific to a team, so you need to specify a team list. see <a class="el" href="classProject.html#abf873a8103db83f52e969a0bc74bb9de">Project::isSideTasksProject()</a> for more info</p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>boolean true if Incident task </dd></dl>
+<p>the project type is specific to a team, so you need to specify a team list. see <a class="el" href="classProject.html#ab33127ff9eb998bc612f229c5452dfea">Project::isSideTasksProject()</a> for more info</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">int[]</td><td>$teamidList </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool true if Incident task </dd></dl>
+<dl><dt><b>Exceptions:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a class="anchor" id="a4ca6a02d948c7f399f2fea9496a759a8"></a><!-- doxytag: member="Issue::isProjManagement" ref="a4ca6a02d948c7f399f2fea9496a759a8" args="($teamidList=NULL)" -->
+<a class="anchor" id="a126793bb7eb13ada0a585ea2cc86d3c2"></a><!-- doxytag: member="Issue::isProjManagement" ref="a126793bb7eb13ada0a585ea2cc86d3c2" args="(array $teamidList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Issue::isProjManagement </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
+          <td class="paramtype">array $&#160;</td>
           <td class="paramname"><em>teamidList</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
@@ -1024,8 +1323,20 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 <p>WARNING (best effort)</p>
 <p>check if issue is in a SideTaskProject AND in the Inactivity category.</p>
-<p>Note: the project type is specific to a team, so you need to specify a team list. see <a class="el" href="classProject.html#abf873a8103db83f52e969a0bc74bb9de">Project::isSideTasksProject()</a> for more info</p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>boolean true if ProjectManagement task </dd></dl>
+<p>Note: the project type is specific to a team, so you need to specify a team list. see <a class="el" href="classProject.html#ab33127ff9eb998bc612f229c5452dfea">Project::isSideTasksProject()</a> for more info</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">int[]</td><td>$teamidList </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool true if ProjectManagement task </dd></dl>
+<dl><dt><b>Exceptions:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1046,14 +1357,14 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1617e19c12ef51bc8be0ad4a1de7ec43"></a><!-- doxytag: member="Issue::isSideTaskIssue" ref="a1617e19c12ef51bc8be0ad4a1de7ec43" args="($teamidList=NULL)" -->
+<a class="anchor" id="a433d43e5d257dd3cbb805fb52561b0d3"></a><!-- doxytag: member="Issue::isSideTaskIssue" ref="a433d43e5d257dd3cbb805fb52561b0d3" args="(array $teamidList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Issue::isSideTaskIssue </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
+          <td class="paramtype">array $&#160;</td>
           <td class="paramname"><em>teamidList</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
@@ -1062,19 +1373,31 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 <p>WARNING (best effort)</p>
 <p>Ex: vacation or Incident tasks are not production issues. but tools and workshop are production issues.</p>
-<p>Note: the project type is specific to a team, so you need to specify a team list. see <a class="el" href="classProject.html#abf873a8103db83f52e969a0bc74bb9de">Project::isSideTasksProject()</a> for more info </p>
+<p>Note: the project type is specific to a team, so you need to specify a team list. see <a class="el" href="classProject.html#ab33127ff9eb998bc612f229c5452dfea">Project::isSideTasksProject()</a> for more info </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">int[]</td><td>$teamidList </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>bool true if <a class="el" href="classTools.html">Tools</a> or Workshop category </dd></dl>
+<dl><dt><b>Exceptions:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a class="anchor" id="a5bcfe3cfcc7465c136eb657a6c15f63d"></a><!-- doxytag: member="Issue::isVacation" ref="a5bcfe3cfcc7465c136eb657a6c15f63d" args="($teamidList=NULL)" -->
+<a class="anchor" id="a39250ecfd011de09550706c07b65e0ec"></a><!-- doxytag: member="Issue::isVacation" ref="a39250ecfd011de09550706c07b65e0ec" args="(array $teamidList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Issue::isVacation </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
+          <td class="paramtype">array $&#160;</td>
           <td class="paramname"><em>teamidList</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
@@ -1083,8 +1406,44 @@ Protected Attributes</h2></td></tr>
 <div class="memdoc">
 <p>WARNING (best effort)</p>
 <p>check if issue is in a SideTaskProject AND in the Inactivity category.</p>
-<p>Note: the project type is specific to a team, so you need to specify a team list. see <a class="el" href="classProject.html#abf873a8103db83f52e969a0bc74bb9de">Project::isSideTasksProject()</a> for more info</p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>boolean true if Inactivity task </dd></dl>
+<p>Note: the project type is specific to a team, so you need to specify a team list. see <a class="el" href="classProject.html#ab33127ff9eb998bc612f229c5452dfea">Project::isSideTasksProject()</a> for more info</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">int[]</td><td>$teamidList </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool true if Inactivity task </dd></dl>
+<dl><dt><b>Exceptions:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="afeb6e413a09003e5a7b636edf5617d49"></a><!-- doxytag: member="Issue::setBacklog" ref="afeb6e413a09003e5a7b636edf5617d49" args="($backlog)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Issue::setBacklog </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>backlog</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>updates DB with new value </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$backlog</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1153,7 +1512,7 @@ Protected Attributes</h2></td></tr>
 <p>update DB and current instance </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">type</td><td class="paramname">$value</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$value</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -1207,30 +1566,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4b951de8d6d36b4e2bce7d8dd27e2c14"></a><!-- doxytag: member="Issue::setRemaining" ref="a4b951de8d6d36b4e2bce7d8dd27e2c14" args="($remaining)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Issue::setRemaining </td>
-          <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>remaining</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>updates DB with new value </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$remaining</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="a90991ad6eacb3f4cd01cc772417814dc"></a><!-- doxytag: member="Issue::setTargetVersion" ref="a90991ad6eacb3f4cd01cc772417814dc" args="($value)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1267,7 +1602,24 @@ Protected Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>unknown_type the timestamp of the first <a class="el" href="classTimeTrack.html">TimeTrack</a> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int the timestamp of the first <a class="el" href="classTimeTrack.html">TimeTrack</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a443cb38ca456d9cb03a13ad4ee7bb976"></a><!-- doxytag: member="Issue::staticInit" ref="a443cb38ca456d9cb03a13ad4ee7bb976" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Issue::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
 
 </div>
 </div>
@@ -1294,7 +1646,7 @@ Protected Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -106,16 +106,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Team Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="Team" -->
+<!-- doxytag: class="Team" --><!-- doxytag: inherits="Model" --><div class="dynheader">
+Inheritance diagram for Team:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classTeam.png" usemap="#Team_map" alt=""/>
+  <map id="Team_map" name="Team_map">
+<area href="classModel.html" alt="Model" shape="rect" coords="0,0,47,24"/>
+</map>
+ </div></div>
+
 <p><a href="classTeam-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#aaf8fb35737fb5200f2ab6a8915f37e7e">__construct</a> ($teamid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a9a4e3583a746aa4c9397b71647d862c5">initialize</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a8506ea3359a710a5361e290343649002">getLeaderId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae0c9ab9912b586a4f23e2ceac5d445bd">isEnabled</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a6edff0b6bed79d08c5f6851cc37d6547">getLockTimetracksDate</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae3a5685357f5fa5b4ec44b68f8e542f4">setLockTimetracksDate</a> ($timestamp)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a154955627968714f1517f8a028c75bf3">getProjects</a> ($noStatsProject=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae4e5c4921d48eb74bebf8fb81b6e0177">getTrueProjects</a> ($noStatsProject=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">getMembers</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a49a180fa71d95b78ff235f61690a60ad">getActiveMembers</a> ($timestamp=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a94ad61112af8ca348736a286b01dfa06">getActiveMembers</a> ($startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#aeb80c3490b5f33ac02aea2e370e6ad67">getTeamIssueList</a> ($addUnassignedIssues=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a28e407219e71e20c821868a743545816">getCurrentIssueList</a> ($addUnassignedIssues=false, $addNewIssues=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a341e4d7f18ca9d713bdf6c782139d780">getCommands</a> ()</td></tr>
@@ -126,6 +140,7 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>setMemberDepartureDate</b> ($memberid, $departureTimestamp)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#aa29fceab68f5d448a3f676d64f1bf0dc">addMembersFrom</a> ($src_teamid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a6da1b35ceb925c662b04f132deda663f">addProject</a> ($projectid, $projecttype)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab2fffa849d26238c142741c20da1cb45">removeProject</a> ($projectid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a759cc8ae1d6b391e05dd883e224ef4f1"></a><!-- doxytag: member="Team::addExternalTasksProject" ref="a759cc8ae1d6b391e05dd883e224ef4f1" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>addExternalTasksProject</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a2e8ee9f1c20376daa1f222cd12109290">createSideTaskProject</a> ($projectName)</td></tr>
@@ -133,20 +148,25 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ade71014d7db5684b3ac89d0f830c7d2c">setLeader</a> ($leaderid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#abc138d7b92b203b91ac214fec733dba0">getProjectsType</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a1f1c1949cfceb5d184d5dd4911882718">getProjectType</a> ($projectid)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#abf1890197199e4dc148057fe1c4741b1">getSpecificTypedProjectIds</a> ($type)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab216cac95c667039349da7e7ab901bc8"></a><!-- doxytag: member="Team::isSideTasksProject" ref="ab216cac95c667039349da7e7ab901bc8" args="($projectid)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>isSideTasksProject</b> ($projectid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abe7b0194020fb133fbc71f73a97c3fc3"></a><!-- doxytag: member="Team::isNoStatsProject" ref="abe7b0194020fb133fbc71f73a97c3fc3" args="($projectid)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>isNoStatsProject</b> ($projectid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a849378c2a5762d47fc1477b7552d82b9">getName</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a4eb501d998f1ebf2ad34a1e431dd8052">getUsers</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a4d0a6e52dd30699cfaac0f6b0d02fdc0">getOtherProjects</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a78dca26e26a4d4aef992064e8894450e">getId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a97143ea09d1e4fe887483d47da24ff6a">getDate</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab71152f14a82df36c6d39a9752a667c5">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a32de459ea26caca1a370a2c5531e9ad6">create</a> ($name, $description, $leader_id, $date)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ac2460ba2c984545ba923d92875fe47a3">delete</a> ($teamidToDelete)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#adfeaac7ca3a2daf3a46d1aeddad1e9cc">getIdFromName</a> ($name)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a2a4049e066778d6bdaa095ccb8400445">getLeaderId</a> ($teamid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a6ade9a523f80cd4e15a79aea5687ff23">getProjectList</a> ($teamid, $noStatsProject=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#afdef853859c2854136f7841684d0b33e">getMemberList</a> ($teamid)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab7d66b70195d3809cf3c3b754d50df21">getActiveMemberList</a> ($teamid, $timestamp=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#aaa2eef666fb578cc08f15c2b3f3ed1d0">getActiveMemberList</a> ($teamid, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a7d2774f8df23495558c8399ad94db1e6">getTeamIssues</a> ($teamid, $addUnassignedIssues=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">getCurrentIssues</a> ($teamid, $addUnassignedIssues=false, $addNewIssues=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#acf0cc7e79cab8af8da74b626139ee561">getTeams</a> ()</td></tr>
@@ -160,16 +180,6 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_dev</b> 
 const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_observer</b> = 20</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab5703697ed98b878e81d743b85963bd0"></a><!-- doxytag: member="Team::accessLevel_manager" ref="ab5703697ed98b878e81d743b85963bd0" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>accessLevel_manager</b> = 30</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac2785ff5083d5105e072aa138f168bb6"></a><!-- doxytag: member="Team::$id" ref="ac2785ff5083d5105e072aa138f168bb6" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$id</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a93caba3bc8c333d669b5e3600d011308"></a><!-- doxytag: member="Team::$name" ref="a93caba3bc8c333d669b5e3600d011308" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$name</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa2b3da54fb8f5e3abc8fbb32ad61ba8c"></a><!-- doxytag: member="Team::$description" ref="aa2b3da54fb8f5e3abc8fbb32ad61ba8c" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$description</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a830faea34711b8842489d4f6805bb7e9"></a><!-- doxytag: member="Team::$leader_id" ref="a830faea34711b8842489d4f6805bb7e9" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$leader_id</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d311fa8114b1b2bb3f1511f84d830c6"></a><!-- doxytag: member="Team::$date" ref="a2d311fa8114b1b2bb3f1511f84d830c6" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$date</b></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><b>$accessLevelNames</b></td></tr>
@@ -238,8 +248,8 @@ Static Public Attributes</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">int</td><td class="paramname">$memberid</td><td></td></tr>
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$arrivalTimestamp</td><td></td></tr>
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$memberAccess</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$arrivalTimestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$memberAccess</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -294,10 +304,11 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Add a project to the team</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">int</td><td class="paramname">$projectid</td><td></td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">$projecttype</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$projecttype</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -348,7 +359,7 @@ Static Public Attributes</h2></td></tr>
     <tr><td class="paramtype">string</td><td class="paramname">$name</td><td></td></tr>
     <tr><td class="paramtype">string</td><td class="paramname">$description</td><td></td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$leader_id</td><td></td></tr>
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$date</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$date</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -380,7 +391,32 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab7d66b70195d3809cf3c3b754d50df21"></a><!-- doxytag: member="Team::getActiveMemberList" ref="ab7d66b70195d3809cf3c3b754d50df21" args="($teamid, $timestamp=NULL)" -->
+<a class="anchor" id="ac2460ba2c984545ba923d92875fe47a3"></a><!-- doxytag: member="Team::delete" ref="ac2460ba2c984545ba923d92875fe47a3" args="($teamidToDelete)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Team::delete </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>teamidToDelete</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>delete a team (and all it's ServiceContracts,CommandSets,Commands)</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$teamidToDelete</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aaa2eef666fb578cc08f15c2b3f3ed1d0"></a><!-- doxytag: member="Team::getActiveMemberList" ref="aaa2eef666fb578cc08f15c2b3f3ed1d0" args="($teamid, $startTimestamp=NULL, $endTimestamp=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -394,7 +430,13 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>timestamp</em> = <code>NULL</code>&#160;</td>
+          <td class="paramname"><em>startTimestamp</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>endTimestamp</em> = <code>NULL</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -413,11 +455,11 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string[] </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getActiveMembers($timestamp) </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getActiveMembers($startTimestamp, $endTimestamp) </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a49a180fa71d95b78ff235f61690a60ad"></a><!-- doxytag: member="Team::getActiveMembers" ref="a49a180fa71d95b78ff235f61690a60ad" args="($timestamp=NULL)" -->
+<a class="anchor" id="a94ad61112af8ca348736a286b01dfa06"></a><!-- doxytag: member="Team::getActiveMembers" ref="a94ad61112af8ca348736a286b01dfa06" args="($startTimestamp=NULL, $endTimestamp=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -425,16 +467,27 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">Team::getActiveMembers </td>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>timestamp</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"><em>startTimestamp</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>endTimestamp</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>team members (exept Observers) working on this team at that timestamp </p>
+<p>team members (exept Observers) working on this team at $startTimestamp or during the period.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$timestamp</td><td>date (if NULL, today) </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$startTimestamp</td><td>date (if NULL, today) </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$endTimestamp</td><td>date (if NULL, $startTimestamp) </td></tr>
   </table>
   </dd>
 </dl>
@@ -554,7 +607,43 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] : issueList </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000006">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getCurrentIssueList($addUnassignedIssues, $addNewIssues) </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getCurrentIssueList($addUnassignedIssues, $addNewIssues) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a97143ea09d1e4fe887483d47da24ff6a"></a><!-- doxytag: member="Team::getDate" ref="a97143ea09d1e4fe887483d47da24ff6a" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getDate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a78dca26e26a4d4aef992064e8894450e"></a><!-- doxytag: member="Team::getId" ref="a78dca26e26a4d4aef992064e8894450e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classModel.html">Model</a>.</p>
 
 </div>
 </div>
@@ -582,28 +671,38 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2a4049e066778d6bdaa095ccb8400445"></a><!-- doxytag: member="Team::getLeaderId" ref="a2a4049e066778d6bdaa095ccb8400445" args="($teamid)" -->
+<a class="anchor" id="a8506ea3359a710a5361e290343649002"></a><!-- doxytag: member="Team::getLeaderId" ref="a8506ea3359a710a5361e290343649002" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static Team::getLeaderId </td>
+          <td class="memname">Team::getLeaderId </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>teamid</em></td><td>)</td>
-          <td><code> [static]</code></td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;leader_id </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6edff0b6bed79d08c5f6851cc37d6547"></a><!-- doxytag: member="Team::getLockTimetracksDate" ref="a6edff0b6bed79d08c5f6851cc37d6547" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getLockTimetracksDate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>add/change timetracks before this date is not allowed </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int timestamp </dd></dl>
 
 </div>
 </div>
@@ -628,7 +727,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string[] </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;<a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">getMembers()</a> </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;<a class="el" href="classTeam.html#a0908ebc96065754b34bcd1a460b6d006">getMembers()</a> </dd></dl>
 
 </div>
 </div>
@@ -667,6 +766,24 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a4d0a6e52dd30699cfaac0f6b0d02fdc0"></a><!-- doxytag: member="Team::getOtherProjects" ref="a4d0a6e52dd30699cfaac0f6b0d02fdc0" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getOtherProjects </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get other projects </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string[] </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a6ade9a523f80cd4e15a79aea5687ff23"></a><!-- doxytag: member="Team::getProjectList" ref="a6ade9a523f80cd4e15a79aea5687ff23" args="($teamid, $noStatsProject=true)" -->
 <div class="memitem">
 <div class="memproto">
@@ -699,7 +816,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string[] : array[project_id] = project_name </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getProjects($noStatsProject) </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getProjects($noStatsProject) </dd></dl>
 
 </div>
 </div>
@@ -786,6 +903,30 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="abf1890197199e4dc148057fe1c4741b1"></a><!-- doxytag: member="Team::getSpecificTypedProjectIds" ref="abf1890197199e4dc148057fe1c4741b1" args="($type)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getSpecificTypedProjectIds </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$type</td><td>The project type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int[] The team's project ids matching the type </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aeb80c3490b5f33ac02aea2e370e6ad67"></a><!-- doxytag: member="Team::getTeamIssueList" ref="aeb80c3490b5f33ac02aea2e370e6ad67" args="($addUnassignedIssues=false)" -->
 <div class="memitem">
 <div class="memproto">
@@ -844,7 +985,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] : issueList </dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getTeamIssueList($addUnassignedIssues) </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>Use <a class="el" href="classTeamCache.html#a90ba05fc0418d71688e8bbe5d1dbe46f">TeamCache::getInstance()</a>-&gt;getTeam($teamid)-&gt;getTeamIssueList($addUnassignedIssues) </dd></dl>
 
 </div>
 </div>
@@ -863,6 +1004,30 @@ Static Public Attributes</h2></td></tr>
 <div class="memdoc">
 <p>Get all teams by name </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string[int] : name[id] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae4e5c4921d48eb74bebf8fb81b6e0177"></a><!-- doxytag: member="Team::getTrueProjects" ref="ae4e5c4921d48eb74bebf8fb81b6e0177" args="($noStatsProject=true)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::getTrueProjects </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>noStatsProject</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">bool</td><td class="paramname">$noStatsProject</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classProject.html">Project</a>[] </dd></dl>
 
 </div>
 </div>
@@ -898,6 +1063,48 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Initialize with DB </p>
+
+</div>
+</div>
+<a class="anchor" id="ae0c9ab9912b586a4f23e2ceac5d445bd"></a><!-- doxytag: member="Team::isEnabled" ref="ae0c9ab9912b586a4f23e2ceac5d445bd" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::isEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool isEnabled </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab2fffa849d26238c142741c20da1cb45"></a><!-- doxytag: member="Team::removeProject" ref="ab2fffa849d26238c142741c20da1cb45" args="($projectid)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::removeProject </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>projectid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>removes a project from the team </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$projectid</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
 
 </div>
 </div>
@@ -949,6 +1156,47 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ae3a5685357f5fa5b4ec44b68f8e542f4"></a><!-- doxytag: member="Team::setLockTimetracksDate" ref="ae3a5685357f5fa5b4ec44b68f8e542f4" args="($timestamp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::setLockTimetracksDate </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>timestamp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>add/change timetracks before this date is not allowed </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$timestamp</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ab71152f14a82df36c6d39a9752a667c5"></a><!-- doxytag: member="Team::staticInit" ref="ab71152f14a82df36c6d39a9752a667c5" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Team::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
+
+</div>
+</div>
 <hr/><h2>Member Data Documentation</h2>
 <a class="anchor" id="af91424a244cedd38ceb11c2610c9e5c2"></a><!-- doxytag: member="Team::$accessLevelNames" ref="af91424a244cedd38ceb11c2610c9e5c2" args="" -->
 <div class="memitem">
@@ -961,11 +1209,12 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <b>Initial value:</b><div class="fragment"><pre class="fragment"> array(
-                              
-                              self::accessLevel_dev      =&gt; <span class="stringliteral">&quot;Developer&quot;</span>, 
-                              self::accessLevel_observer =&gt; <span class="stringliteral">&quot;Observer&quot;</span>,  
-                              
-                              self::accessLevel_manager  =&gt; <span class="stringliteral">&quot;Manager&quot;</span>)
+      
+      self::accessLevel_dev      =&gt; <span class="stringliteral">&quot;Developer&quot;</span>, 
+      self::accessLevel_observer =&gt; <span class="stringliteral">&quot;Observer&quot;</span>,  
+      
+      self::accessLevel_manager  =&gt; <span class="stringliteral">&quot;Manager&quot;</span> 
+   )
 </pre></div>
 </div>
 </div>
@@ -992,7 +1241,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

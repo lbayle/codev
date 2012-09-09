@@ -139,9 +139,17 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a3d86f68feddafcfdcf7f1ccaf1b27b4c">sendForbiddenAccess</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a3a4667fdd96a4da2256bb4a8b6bc15b6">sendNotFoundAccess</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a8530107d703d9fc1a0a3256feb65ec2c">array2json</a> (array $arr)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#abff19c438ae7b26da60ec3b7be91de50">array2plot</a> ($values)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a0266d3b071cdf9b966aa9e994530640b">convertToUTF8</a> ($data)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a138454fe0b8a70b5e3daa7e321aac587"></a><!-- doxytag: member="Tools::bytesToSize1024" ref="a138454fe0b8a70b5e3daa7e321aac587" args="($bytes, $precision=2)" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b> ($bytes, $precision=2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a138454fe0b8a70b5e3daa7e321aac587">bytesToSize1024</a> ($bytes, $precision=2)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a3aaf47aa3a5efecbf7f61e19d67dfa0d">createTimestampList</a> ($start_timestamp, $end_timestamp, $interval)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#afbfa22b1da5aaf90a4e07d514c5ef92e">checkWriteAccess</a> ($directory)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#ae70d307540685fa3827a52bfe343bf56">html2rgb</a> ($color)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a8f95ee0e8ff4ac6edc748f94b562581e">getServerRootURL</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a0107e620ec71992a2599d1908645f219">getStartEndKeys</a> ($values)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#a498e8994c92d6da9216993ea669ae9b2">escape_string</a> ($unescaped_string)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#af7000affae115f82c13604136206aa0a">write_php_ini</a> ($array, $file)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTools.html#ad998a5e106601ef20b42d5f0e47a5a7a">safeFileRewrite</a> ($fileName, $dataToSave)</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a8530107d703d9fc1a0a3256feb65ec2c"></a><!-- doxytag: member="Tools::array2json" ref="a8530107d703d9fc1a0a3256feb65ec2c" args="(array $arr)" -->
@@ -158,10 +166,93 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Convert an array in json If you use a new version of PHP(5.2 or newer), json_encode() function will be directly called </p>
+<p>Convert an array in json If you use a new version of PHP(5.2 or newer), json_encode() function will be directly called</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">array</td><td class="paramname">$arr</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="abff19c438ae7b26da60ec3b7be91de50"></a><!-- doxytag: member="Tools::array2plot" ref="abff19c438ae7b26da60ec3b7be91de50" args="($values)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::array2plot </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>values</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$values</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a138454fe0b8a70b5e3daa7e321aac587"></a><!-- doxytag: member="Tools::bytesToSize1024" ref="a138454fe0b8a70b5e3daa7e321aac587" args="($bytes, $precision=2)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::bytesToSize1024 </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>bytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>precision</em> = <code>2</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">number</td><td class="paramname">$bytes</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$precision</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afbfa22b1da5aaf90a4e07d514c5ef92e"></a><!-- doxytag: member="Tools::checkWriteAccess" ref="afbfa22b1da5aaf90a4e07d514c5ef92e" args="($directory)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::checkWriteAccess </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>directory</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$directory</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -183,7 +274,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Convert the data in UTF-8 if it's in other encoding </p>
+<p>Convert the data in UTF-8 if it's in other encoding</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$data</td><td>The data to convert </td></tr>
@@ -191,6 +282,54 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string The converted data </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3aaf47aa3a5efecbf7f61e19d67dfa0d"></a><!-- doxytag: member="Tools::createTimestampList" ref="a3aaf47aa3a5efecbf7f61e19d67dfa0d" args="($start_timestamp, $end_timestamp, $interval)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::createTimestampList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>start_timestamp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>end_timestamp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>interval</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$start_timestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$end_timestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$interval</td><td>in days </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int[] </dd></dl>
+<dl><dt><b>Exceptions:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -371,7 +510,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
 <p>explode string to 2-dimentionnal array</p>
 <p>Usage: $myArray = doubleExplode(':', ',', "key:value,key2:value2");</p>
 <p>Example: '10:new,20:feedback,30:acknowledged,40:analyzed,45:accepted,50:openned,55:deferred,80:resolved,85:delivered,90:closed'</p>
-<p>Array ( [10] =&gt; 'new' [20] =&gt; 'feedback' [30] =&gt; 'acknowledged' ... ) </p>
+<p>Array ( [10] =&gt; 'new' [20] =&gt; 'feedback' [30] =&gt; 'acknowledged' ... )</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$del1</td><td>delimiter for key:value </td></tr>
@@ -380,7 +519,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string[] </dd></dl>
 
 </div>
 </div>
@@ -416,13 +555,38 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$del1</td><td></td></tr>
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$del2</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$del1</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$del2</td><td></td></tr>
     <tr><td class="paramtype">array</td><td class="paramname">$array</td><td></td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a498e8994c92d6da9216993ea669ae9b2"></a><!-- doxytag: member="Tools::escape_string" ref="a498e8994c92d6da9216993ea669ae9b2" args="($unescaped_string)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::escape_string </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>unescaped_string</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Escapes special characters in a string TODO Don't use mysql_escape_string</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$unescaped_string</td><td>The string that is to be escaped. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string the escaped string, or false on error. </dd></dl>
 
 </div>
 </div>
@@ -440,13 +604,14 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>parse file and execute commands via PHP mysql lib. </p>
+<p>Parse file and execute commands via PHP mysql lib.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">$sqlFile</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$sqlFile</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
 
 </div>
 </div>
@@ -464,7 +629,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>uses system to run 'mysql' cmd </p>
+<p>uses system to run 'mysql' cmd</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">String</td><td class="paramname">$sqlFile</td><td></td></tr>
@@ -499,7 +664,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Format the date in locale </p>
+<p>Format the date in locale</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$pattern</td><td>The pattern to user </td></tr>
@@ -577,7 +742,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Get a clean up Integer value by GET </p>
+<p>Get a clean up Integer value by GET</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$key</td><td>The key </td></tr>
@@ -613,7 +778,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Get a clean up Integer value by GET </p>
+<p>Get a clean up Integer value by GET</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$key</td><td>The key </td></tr>
@@ -649,7 +814,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Get a clean up String value by GET </p>
+<p>Get a clean up String value by GET</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$key</td><td>The key </td></tr>
@@ -685,7 +850,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Get a clean up Integer value by POST </p>
+<p>Get a clean up Integer value by POST</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$key</td><td>The key </td></tr>
@@ -721,7 +886,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Get a clean up Integer value by POST </p>
+<p>Get a clean up Integer value by POST</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$key</td><td>The key </td></tr>
@@ -757,7 +922,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Get a clean up String value by POST </p>
+<p>Get a clean up String value by POST</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$key</td><td>The key </td></tr>
@@ -766,6 +931,72 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string The value or die if there is a problem </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a8f95ee0e8ff4ac6edc748f94b562581e"></a><!-- doxytag: member="Tools::getServerRootURL" ref="a8f95ee0e8ff4ac6edc748f94b562581e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::getServerRootURL </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string example: <a href="http://127.0.0.1/codev/">http://127.0.0.1/codev/</a> example: <a href="http://55.7.137.27/louis/codev/">http://55.7.137.27/louis/codev/</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a0107e620ec71992a2599d1908645f219"></a><!-- doxytag: member="Tools::getStartEndKeys" ref="a0107e620ec71992a2599d1908645f219" args="($values)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::getStartEndKeys </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>values</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mixed[]</td><td>$values </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae70d307540685fa3827a52bfe343bf56"></a><!-- doxytag: member="Tools::html2rgb" ref="ae70d307540685fa3827a52bfe343bf56" args="($color)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::html2rgb </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>color</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Exemple d'utilisation de la fonction : print_r(html2rgb('B8B9B9'));</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$color</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array|bool </dd></dl>
 
 </div>
 </div>
@@ -887,6 +1118,41 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
 
 </div>
 </div>
+<a class="anchor" id="ad998a5e106601ef20b42d5f0e47a5a7a"></a><!-- doxytag: member="Tools::safeFileRewrite" ref="ad998a5e106601ef20b42d5f0e47a5a7a" args="($fileName, $dataToSave)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::safeFileRewrite </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>dataToSave</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>source: <a href="http://www.php.net/manual/en/function.parse-ini-file.php">http://www.php.net/manual/en/function.parse-ini-file.php</a></p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$fileName</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$dataToSave</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ae8fceaa2ab40c1884f24f8b48d1ff0e6"></a><!-- doxytag: member="Tools::sendBadRequest" ref="ae8fceaa2ab40c1884f24f8b48d1ff0e6" args="($message)" -->
 <div class="memitem">
 <div class="memproto">
@@ -901,7 +1167,8 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Send an 400 error  Send when a user send a bad request (like weird POST) </p>
+<p>Send an 400 error</p>
+<p>Send when a user send a bad request (like weird POST) </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a> </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -925,7 +1192,8 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Send an 403 error  Send when a user request a page without enought rights </p>
+<p>Send an 403 error</p>
+<p>Send when a user request a page without enought rights </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a> </dd></dl>
 
 </div>
@@ -943,7 +1211,8 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Send an 404 error  Send when a user request a page without enought rights </p>
+<p>Send an 404 error</p>
+<p>Send when a user request a page without enought rights </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a> </dd></dl>
 
 </div>
@@ -961,7 +1230,8 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
       </table>
 </div>
 <div class="memdoc">
-<p>Send an 401 error  Send when a not logged user request a need to be logged page </p>
+<p>Send an 401 error</p>
+<p>Send when a not logged user request a need to be logged page </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a> </dd></dl>
 
 </div>
@@ -1105,6 +1375,43 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
 
 </div>
 </div>
+<a class="anchor" id="af7000affae115f82c13604136206aa0a"></a><!-- doxytag: member="Tools::write_php_ini" ref="af7000affae115f82c13604136206aa0a" args="($array, $file)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Tools::write_php_ini </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>array</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>write ini file (read with parse_ini_file)</p>
+<p>source: <a href="http://www.php.net/manual/en/function.parse-ini-file.php">http://www.php.net/manual/en/function.parse-ini-file.php</a></p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$array</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$file</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>TRUE if write succeeded </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>tools.php</li>
 </ul>
@@ -1128,7 +1435,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>bytesToSize1024</b>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

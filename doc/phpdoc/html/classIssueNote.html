@@ -99,6 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">IssueNote Class Reference</div>  </div>
@@ -110,8 +111,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueNote.html#a1439f833450e837b16967c4fc3e5c0bd">__construct</a> ($id)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueNote.html#ae5140b15247c9e0d8f1cc4e22b3d7593">addTag</a> ($tagid, $tagComment)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueNote.html#a682d29a6af471d769d75f713db46a471">removeTag</a> ($tagid)</td></tr>
+<tr><td colspan="2"><h2><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueNote.html#aa55282e1b4f89d5b5552900ce7e72bab">staticInit</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca2a266f2d667c0480e1f792f8b8e84a"></a><!-- doxytag: member="IssueNote::tagid_trackNote" ref="aca2a266f2d667c0480e1f792f8b8e84a" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>tagid_trackNote</b> = 'CODEVTT_TAG_TALLYSHEET_NOTE'</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0b357d9350830d8b6fff8707934d5122"></a><!-- doxytag: member="IssueNote::tag_begin" ref="a0b357d9350830d8b6fff8707934d5122" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>tag_begin</b> = '&lt;==== '</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a145a8e4b70740638368748ff2024ca31"></a><!-- doxytag: member="IssueNote::tag_sep" ref="a145a8e4b70740638368748ff2024ca31" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>tag_sep</b> = ' ==== '</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac0878058ad75645a9550762192b0eafd"></a><!-- doxytag: member="IssueNote::tag_end" ref="ac0878058ad75645a9550762192b0eafd" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>tag_end</b> = ' (Do not remove this line) ====&gt;'</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a78cac3e6d83cb77415386dc4f18f671d"></a><!-- doxytag: member="IssueNote::$id" ref="a78cac3e6d83cb77415386dc4f18f671d" args="" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>$id</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad380a5e0edcd2946381b9c78fb8d936"></a><!-- doxytag: member="IssueNote::$bug_id" ref="aad380a5e0edcd2946381b9c78fb8d936" args="" -->
@@ -144,6 +158,87 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl><dt><b>Exceptions:</b></dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Exception</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="ae5140b15247c9e0d8f1cc4e22b3d7593"></a><!-- doxytag: member="IssueNote::addTag" ref="ae5140b15247c9e0d8f1cc4e22b3d7593" args="($tagid, $tagComment)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueNote::addTag </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>tagid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>tagComment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$tagid</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$tagComment</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a682d29a6af471d769d75f713db46a471"></a><!-- doxytag: member="IssueNote::removeTag" ref="a682d29a6af471d769d75f713db46a471" args="($tagid)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IssueNote::removeTag </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>tagid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$tagid</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aa55282e1b4f89d5b5552900ce7e72bab"></a><!-- doxytag: member="IssueNote::staticInit" ref="aa55282e1b4f89d5b5552900ce7e72bab" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static IssueNote::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
 
 </div>
 </div>
@@ -170,7 +265,7 @@ Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

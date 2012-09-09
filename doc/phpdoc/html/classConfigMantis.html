@@ -119,6 +119,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigMantis.html#a29319c432e9dc9426052916122fc621f">setValue</a> ($config_id, $value, $type, $project_id=0, $user_id=0, $access_reqd=90)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigMantis.html#a80b2ba9ebed7ee8b74c0ac3c6c1b66c7">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigMantis.html#a636dab22c00090a1f1b5905120dfdc0e">getInstance</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigMantis.html#af3562f8089c37d1dd313261e6987981e">setQuiet</a> ($isQuiet=false)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
@@ -146,7 +147,8 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>id_bugResolvedStatus
       </table>
 </div>
 <div class="memdoc">
-<p>get Singleton instance </p>
+<p>get Singleton instance</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConfigMantis.html">ConfigMantis</a> </dd></dl>
 
 </div>
 </div>
@@ -164,7 +166,13 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>id_bugResolvedStatus
       </table>
 </div>
 <div class="memdoc">
-<p>If true, then no info/warning messages will be displayed. this shall only be set during install procedures. </p>
+<p>If true, then no info/warning messages will be displayed. this shall only be set during install procedures.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">bool</td><td class="paramname">$isQuiet</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -221,6 +229,23 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>id_bugResolvedStatus
 
 </div>
 </div>
+<a class="anchor" id="a80b2ba9ebed7ee8b74c0ac3c6c1b66c7"></a><!-- doxytag: member="ConfigMantis::staticInit" ref="a80b2ba9ebed7ee8b74c0ac3c6c1b66c7" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ConfigMantis::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>classes/config_mantis.class.php</li>
 </ul>
@@ -244,7 +269,7 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>id_bugResolvedStatus
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:32 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

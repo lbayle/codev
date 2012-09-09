@@ -110,75 +110,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueInfoTools.html#a37f8cb0c3040349611d0ecba8fca623f">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueInfoTools.html#a0c85c7d3c3805ee4ba2b5bea5692bc18">getIssueGeneralInfo</a> (<a class="el" href="classIssue.html">Issue</a> $issue, $isManager=false, $displaySupport=false)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueInfoTools.html#a279fe481a34a4794894a1aeab6b6938f">getParentCommands</a> (<a class="el" href="classIssue.html">Issue</a> $issue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueInfoTools.html#a9edda0827579192aac0c4504a32f306a">getJobDetails</a> (array $timeTracks)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueInfoTools.html#a9a4c632da58dddc3efa1e334bfb51a5a">getTimeDrift</a> (<a class="el" href="classIssue.html">Issue</a> $issue)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueInfoTools.html#a45fd8c1a09c894c6eea8c913c03821d1">getCalendar</a> (<a class="el" href="classIssue.html">Issue</a> $issue, array $trackList)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueInfoTools.html#a77ad7e00815c593ab49741cb8613a96f">getMonth</a> ($month, $year, <a class="el" href="classIssue.html">Issue</a> $issue, array $trackList)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classIssueInfoTools.html#a9ae4353b297c2f7ba1a9389f51027926">getDurationsByStatus</a> (<a class="el" href="classIssue.html">Issue</a> $issue)</td></tr>
 </table>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a45fd8c1a09c894c6eea8c913c03821d1"></a><!-- doxytag: member="IssueInfoTools::getCalendar" ref="a45fd8c1a09c894c6eea8c913c03821d1" args="(Issue $issue, array $trackList)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static IssueInfoTools::getCalendar </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classIssue.html">Issue</a> $&#160;</td>
-          <td class="paramname"><em>issue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>trackList</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Get the calendar of an issue </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"><a class="el" href="classIssue.html">Issue</a></td><td class="paramname">$issue</td><td>The issue </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">int[]</td><td>$trackList </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a9ae4353b297c2f7ba1a9389f51027926"></a><!-- doxytag: member="IssueInfoTools::getDurationsByStatus" ref="a9ae4353b297c2f7ba1a9389f51027926" args="(Issue $issue)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static IssueInfoTools::getDurationsByStatus </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classIssue.html">Issue</a> $&#160;</td>
-          <td class="paramname"><em>issue</em></td><td>)</td>
-          <td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Table Repartition du temps par status </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"><a class="el" href="classIssue.html">Issue</a></td><td class="paramname">$issue</td><td>The issue </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a0c85c7d3c3805ee4ba2b5bea5692bc18"></a><!-- doxytag: member="IssueInfoTools::getIssueGeneralInfo" ref="a0c85c7d3c3805ee4ba2b5bea5692bc18" args="(Issue $issue, $isManager=false, $displaySupport=false)" -->
 <div class="memitem">
 <div class="memproto">
@@ -215,129 +148,6 @@ Static Public Member Functions</h2></td></tr>
     <tr><td class="paramtype"><a class="el" href="classIssue.html">Issue</a></td><td class="paramname">$issue</td><td>The issue </td></tr>
     <tr><td class="paramtype">bool</td><td class="paramname">$isManager</td><td>if true: show MgrEffortEstim column </td></tr>
     <tr><td class="paramtype">bool</td><td class="paramname">$displaySupport</td><td>If true, display support </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a9edda0827579192aac0c4504a32f306a"></a><!-- doxytag: member="IssueInfoTools::getJobDetails" ref="a9edda0827579192aac0c4504a32f306a" args="(array $timeTracks)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static IssueInfoTools::getJobDetails </td>
-          <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>timeTracks</em></td><td>)</td>
-          <td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Get job details of an issue </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$timeTracks</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a77ad7e00815c593ab49741cb8613a96f"></a><!-- doxytag: member="IssueInfoTools::getMonth" ref="a77ad7e00815c593ab49741cb8613a96f" args="($month, $year, Issue $issue, array $trackList)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static IssueInfoTools::getMonth </td>
-          <td>(</td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>month</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>year</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classIssue.html">Issue</a> $&#160;</td>
-          <td class="paramname"><em>issue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>trackList</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$month</td><td></td></tr>
-    <tr><td class="paramtype">int</td><td class="paramname">$year</td><td></td></tr>
-    <tr><td class="paramtype"><a class="el" href="classIssue.html">Issue</a></td><td class="paramname">$issue</td><td>The issue </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">int[]</td><td>$trackList </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a279fe481a34a4794894a1aeab6b6938f"></a><!-- doxytag: member="IssueInfoTools::getParentCommands" ref="a279fe481a34a4794894a1aeab6b6938f" args="(Issue $issue)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static IssueInfoTools::getParentCommands </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classIssue.html">Issue</a> $&#160;</td>
-          <td class="paramname"><em>issue</em></td><td>)</td>
-          <td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"><a class="el" href="classIssue.html">Issue</a></td><td class="paramname">$issue</td><td>The issue </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] Commands </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a9a4c632da58dddc3efa1e334bfb51a5a"></a><!-- doxytag: member="IssueInfoTools::getTimeDrift" ref="a9a4c632da58dddc3efa1e334bfb51a5a" args="(Issue $issue)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static IssueInfoTools::getTimeDrift </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classIssue.html">Issue</a> $&#160;</td>
-          <td class="paramname"><em>issue</em></td><td>)</td>
-          <td><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Get time drift of an issue </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"><a class="el" href="classIssue.html">Issue</a></td><td class="paramname">$issue</td><td>The issue </td></tr>
   </table>
   </dd>
 </dl>
@@ -385,7 +195,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

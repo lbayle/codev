@@ -99,7 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a>  </div>
+<a href="#pub-static-methods">Static Public Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">TimeTracking Class Reference</div>  </div>
 </div>
@@ -111,13 +111,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a25d4685cb68ca66086104137244ac775">__construct</a> ($startTimestamp, $endTimestamp, $team_id=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#ac2293f93c0c747d5d1d154f95f9d7064">initialize</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#ad6c12857da295811b5132528dccd163d">getStartTimestamp</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a684b01ba2ba4d05c66e057039e8dc27a">getEndTimestamp</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aef068ae86887b93b324f9329f71ff148">getTeamid</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aa8f2b41e22181bb4d8313ae4027e03e0">getProdDays</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a2b675446de25879b88c6b905b0a7b95c">getProdDaysSideTasks</a> ($isDeveloppersOnly=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a644d679371351653c4bcae755c31d689">getManagementDays</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aadb9302d0ac7411d60d05757cac27252">getAvailableWorkload</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#adc6a5aa51ae565c19fdb49e823d6b06b">getResolvedDriftStats</a> ($withSupport=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#af0561101f6cc3b29b65d1ffa269cf504">getTimeDriftStats</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a11439087310e03fa590107705c387570">getResolvedIssues</a> (array $projects=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#ac69e488538b0601abbcfb55946297919">getResolvedIssues</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#af08a7ebedf7f1a4b80837cb34bbd1670">getIssuesTimeDriftStats</a> (array $issueList)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aae48e1feacb8c7cf90d40f38145ad092">getIssuesDriftStats</a> (array $issueList, $withSupport=true)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#aaa4414f440d38e54736bbaa197183eb1">getEfficiencyRate</a> ()</td></tr>
@@ -129,23 +132,13 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#adf49b52f23e966bf911cd790bbd51316">getProjectDetails</a> ($project_id)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a157244c577df62db02aa9a37319076c6">getWeekDetails</a> ($userid, $isTeamProjOnly=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#ae5773a749125697ce4ec24429ffd5326">getProjectTracks</a> ($isTeamProjOnly=false)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a21765dba26d8ad494e763afdb80228e4">getReopened_old</a> (array $projects=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#adad837fba7b640a5747a6ca1c3d30735">getReopened</a> (array $projects=NULL, $isExtRefOnly=true)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a41c738e3074242c0561331cac6dc9e4c">getSubmitted</a> (array $projects=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#ade3105cda38211f8df405630cf1d3ef1">getReopenedRate</a> (array $projects=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a63ae4aa20c6c5ecfc8aa16d144c5bafc">getReopenedRateResolved</a> (array $projects=NULL)</td></tr>
-<tr><td colspan="2"><h2><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeec5e041c85bf3dbdbbdce5519820dc2"></a><!-- doxytag: member="TimeTracking::$startTimestamp" ref="aeec5e041c85bf3dbdbbdce5519820dc2" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$startTimestamp</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3fba8741c23036d5c30c225aef055f93"></a><!-- doxytag: member="TimeTracking::$endTimestamp" ref="a3fba8741c23036d5c30c225aef055f93" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$endTimestamp</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4a3017f415d2a674db728bf2ab7085cd"></a><!-- doxytag: member="TimeTracking::$team_id" ref="a4a3017f415d2a674db728bf2ab7085cd" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$team_id</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acec43c1ad35fefdde81490114438d696"></a><!-- doxytag: member="TimeTracking::$prodProjectList" ref="acec43c1ad35fefdde81490114438d696" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$prodProjectList</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff0374e18544103424c93aa5f6e6a76a"></a><!-- doxytag: member="TimeTracking::$sideTaskprojectList" ref="aff0374e18544103424c93aa5f6e6a76a" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$sideTaskprojectList</b></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a203a00202040a979ad5be1f2474f7d73">getReopened</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a5037c97c2ce7b14d62df6e54cb7361b6">getSubmitted</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a3ec34a29d217ed0b03eb2002d9333cfb">getReopenedRate</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a5b9c8aeb6ec909781236100d84c1e89c">getReopenedRateResolved</a> ()</td></tr>
+<tr><td colspan="2"><h2><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTimeTracking.html#a20640d505ccb3ba72ba32ba83ea5d2d4">staticInit</a> ()</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classTimeTracking.html">TimeTracking</a> facilities </p>
@@ -182,8 +175,8 @@ Public Attributes</h2></td></tr>
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$startTimestamp</td><td></td></tr>
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$endTimestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$startTimestamp</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$endTimestamp</td><td></td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$team_id</td><td></td></tr>
   </table>
   </dd>
@@ -288,6 +281,23 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a684b01ba2ba4d05c66e057039e8dc27a"></a><!-- doxytag: member="TimeTracking::getEndTimestamp" ref="a684b01ba2ba4d05c66e057039e8dc27a" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TimeTracking::getEndTimestamp </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aae48e1feacb8c7cf90d40f38145ad092"></a><!-- doxytag: member="TimeTracking::getIssuesDriftStats" ref="aae48e1feacb8c7cf90d40f38145ad092" args="(array $issueList, $withSupport=true)" -->
 <div class="memitem">
 <div class="memproto">
@@ -385,8 +395,11 @@ Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Returns the number of days worked by the team within the timestamp </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>number </dd></dl>
+<p>Returns the number of days worked by the team within the timestamp</p>
+<ul>
+<li>Observers excluded <dl class="return"><dt><b>Returns:</b></dt><dd>number </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -439,7 +452,7 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int[][] </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array[] </dd></dl>
 
 </div>
 </div>
@@ -464,117 +477,60 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int[][][] : $projectTracks[projectid][bugid][jobid] = duration </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array[][] : $projectTracks[projectid][bugid][jobid] = duration </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="adad837fba7b640a5747a6ca1c3d30735"></a><!-- doxytag: member="TimeTracking::getReopened" ref="adad837fba7b640a5747a6ca1c3d30735" args="(array $projects=NULL, $isExtRefOnly=true)" -->
+<a class="anchor" id="a203a00202040a979ad5be1f2474f7d73"></a><!-- doxytag: member="TimeTracking::getReopened" ref="a203a00202040a979ad5be1f2474f7d73" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">TimeTracking::getReopened </td>
           <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>projects</em> = <code>NULL</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>isExtRefOnly</em> = <code>true</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>returns a list of all the tasks having been reopened in the period (status changed from resolved_threshold to lower value)</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$projects</td><td></td></tr>
-    <tr><td class="paramtype">bool</td><td class="paramname">$isExtRefOnly</td><td>if true, do not return issues having no RefExt (internal bugs) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int[] </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a21765dba26d8ad494e763afdb80228e4"></a><!-- doxytag: member="TimeTracking::getReopened_old" ref="a21765dba26d8ad494e763afdb80228e4" args="(array $projects=NULL)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TimeTracking::getReopened_old </td>
-          <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>projects</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>returns a list of all the tasks hving been reopened in the period (resolution state changed from 'fixed' to 'reopened')</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$projects</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int[] </dd></dl>
+<p>returns a list of all the tasks having been reopened in the period (status changed from resolved_threshold to lower value) </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ade3105cda38211f8df405630cf1d3ef1"></a><!-- doxytag: member="TimeTracking::getReopenedRate" ref="ade3105cda38211f8df405630cf1d3ef1" args="(array $projects=NULL)" -->
+<a class="anchor" id="a3ec34a29d217ed0b03eb2002d9333cfb"></a><!-- doxytag: member="TimeTracking::getReopenedRate" ref="a3ec34a29d217ed0b03eb2002d9333cfb" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">TimeTracking::getReopenedRate </td>
           <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>projects</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>$countReopened / $countSubmitted</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$projects</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
+<p>$countReopened / $countSubmitted </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>number </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a63ae4aa20c6c5ecfc8aa16d144c5bafc"></a><!-- doxytag: member="TimeTracking::getReopenedRateResolved" ref="a63ae4aa20c6c5ecfc8aa16d144c5bafc" args="(array $projects=NULL)" -->
+<a class="anchor" id="a5b9c8aeb6ec909781236100d84c1e89c"></a><!-- doxytag: member="TimeTracking::getReopenedRateResolved" ref="a5b9c8aeb6ec909781236100d84c1e89c" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">TimeTracking::getReopenedRateResolved </td>
           <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>projects</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>$countReopened / $countResolved</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$projects</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
+<p>$countReopened / $countResolved </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>number </dd></dl>
 
 </div>
@@ -603,53 +559,56 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a11439087310e03fa590107705c387570"></a><!-- doxytag: member="TimeTracking::getResolvedIssues" ref="a11439087310e03fa590107705c387570" args="(array $projects=NULL)" -->
+<a class="anchor" id="ac69e488538b0601abbcfb55946297919"></a><!-- doxytag: member="TimeTracking::getResolvedIssues" ref="ac69e488538b0601abbcfb55946297919" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">TimeTracking::getResolvedIssues </td>
           <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>projects</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Returns all Issues resolved in the period and having not been re-opened</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$projects</td><td>if NULL: prodProjectList </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Returns all Issues resolved in the period and having not been re-opened </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] a list of <a class="el" href="classIssue.html">Issue</a> class instances </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a41c738e3074242c0561331cac6dc9e4c"></a><!-- doxytag: member="TimeTracking::getSubmitted" ref="a41c738e3074242c0561331cac6dc9e4c" args="(array $projects=NULL)" -->
+<a class="anchor" id="ad6c12857da295811b5132528dccd163d"></a><!-- doxytag: member="TimeTracking::getStartTimestamp" ref="ad6c12857da295811b5132528dccd163d" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TimeTracking::getStartTimestamp </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5037c97c2ce7b14d62df6e54cb7361b6"></a><!-- doxytag: member="TimeTracking::getSubmitted" ref="a5037c97c2ce7b14d62df6e54cb7361b6" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">TimeTracking::getSubmitted </td>
           <td>(</td>
-          <td class="paramtype">array $&#160;</td>
-          <td class="paramname"><em>projects</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>returns a list of bug_id that have been submitted in the period </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">array</td><td class="paramname">$projects</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int[] </dd></dl>
+<p>returns the number of bug that have been submitted in the period </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
 
 </div>
 </div>
@@ -668,6 +627,23 @@ Public Attributes</h2></td></tr>
 <div class="memdoc">
 <p>Returns an indication on how Environmental problems slow down the production. EnvProblems can be : Citrix Falldow, Continuous pbs, VMS shutdown, SSL connection loss, etc. systemDisponibilityRate = 100 - (nb breakdown hours / prodHours) </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>number </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aef068ae86887b93b324f9329f71ff148"></a><!-- doxytag: member="TimeTracking::getTeamid" ref="aef068ae86887b93b324f9329f71ff148" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TimeTracking::getTeamid </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
 
 </div>
 </div>
@@ -721,7 +697,7 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int[][][] </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array[][] </dd></dl>
 
 </div>
 </div>
@@ -790,6 +766,23 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a20640d505ccb3ba72ba32ba83ea5d2d4"></a><!-- doxytag: member="TimeTracking::staticInit" ref="a20640d505ccb3ba72ba32ba83ea5d2d4" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static TimeTracking::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>classes/time_tracking.class.php</li>
 </ul>
@@ -813,7 +806,7 @@ Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

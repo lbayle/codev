@@ -106,7 +106,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">CommandSet Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="CommandSet" -->
+<!-- doxytag: class="CommandSet" --><!-- doxytag: inherits="Model" --><div class="dynheader">
+Inheritance diagram for CommandSet:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classCommandSet.png" usemap="#CommandSet_map" alt=""/>
+  <map id="CommandSet_map" name="CommandSet_map">
+<area href="classModel.html" alt="Model" shape="rect" coords="0,0,85,24"/>
+</map>
+ </div></div>
+
 <p><a href="classCommandSet-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
@@ -136,8 +145,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>setState</b> ($value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3adb3602be943d04c2b4a381135d0d5c"></a><!-- doxytag: member="CommandSet::getDate" ref="a3adb3602be943d04c2b4a381135d0d5c" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getDate</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a9723734f21f98de0276ff2e95bc5e0"></a><!-- doxytag: member="CommandSet::setDate" ref="a7a9723734f21f98de0276ff2e95bc5e0" args="($value)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>setDate</b> ($value)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad87f0c29f65cc8e819cc01cd55cf7bcb"></a><!-- doxytag: member="CommandSet::setDate" ref="ad87f0c29f65cc8e819cc01cd55cf7bcb" args="($timestamp)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>setDate</b> ($timestamp)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a941a0e23c49fb2955cc1c0df2f35caf7"></a><!-- doxytag: member="CommandSet::getBudgetDays" ref="a941a0e23c49fb2955cc1c0df2f35caf7" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getBudgetDays</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae727e3ff4a1796ae5d1024ac6a911803"></a><!-- doxytag: member="CommandSet::setBudgetDays" ref="ae727e3ff4a1796ae5d1024ac6a911803" args="($value)" -->
@@ -158,7 +167,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSet.html#aae32d6ef88fba01cba23918a5fd2d41c">getConsistencyErrors</a> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSet.html#ac0e78ef2f967befeb7bc40628cb84ba3">create</a> ($name, $date, $teamid)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSet.html#a8fa0d7578665e1fa85f4e81b6c912e32">staticInit</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSet.html#a67f2090b912bee91c443d191808cc6a0">create</a> ($name, $teamid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCommandSet.html#a4d2a902a13704fc107c2c8ab95b8b3d5">delete</a> ($id)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -249,7 +259,7 @@ Static Public Attributes</h2></td></tr>
 <p>add <a class="el" href="classCommand.html">Command</a> to commandset (in DB &amp; current instance)</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">type</td><td class="paramname">$cmdid</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$cmdid</td><td></td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$type</td><td>Command::type_general </td></tr>
   </table>
   </dd>
@@ -258,7 +268,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac0e78ef2f967befeb7bc40628cb84ba3"></a><!-- doxytag: member="CommandSet::create" ref="ac0e78ef2f967befeb7bc40628cb84ba3" args="($name, $date, $teamid)" -->
+<a class="anchor" id="a67f2090b912bee91c443d191808cc6a0"></a><!-- doxytag: member="CommandSet::create" ref="a67f2090b912bee91c443d191808cc6a0" args="($name, $teamid)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -267,12 +277,6 @@ Static Public Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramtype">$&#160;</td>
           <td class="paramname"><em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>date</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -289,6 +293,13 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>create a new commandset in the DB</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$name</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$teamid</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>int $id </dd></dl>
 
 </div>
@@ -308,7 +319,13 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>delete a commandset</p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int $id </dd></dl>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
 
 </div>
 </div>
@@ -332,7 +349,7 @@ Static Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array cmdid =&gt; <a class="el" href="classCommand.html">Command</a> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classCommand.html">Command</a>[] cmdid =&gt; <a class="el" href="classCommand.html">Command</a> </dd></dl>
 
 </div>
 </div>
@@ -349,7 +366,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>array </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError2.html">ConsistencyError2</a>[] </dd></dl>
 
 </div>
 </div>
@@ -393,7 +410,7 @@ Static Public Attributes</h2></td></tr>
 <div class="memdoc">
 <p>A <a class="el" href="classCommandSet.html">CommandSet</a> can be included in several <a class="el" href="classServiceContract.html">ServiceContract</a> from different teams.</p>
 <p>This returns the list of ServiceContracts where this <a class="el" href="classCommandSet.html">CommandSet</a> is defined.</p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array[servicecontract_id] = servicecontractName </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classServiceContract.html">ServiceContract</a>[] </dd></dl>
 
 </div>
 </div>
@@ -421,6 +438,23 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8fa0d7578665e1fa85f4e81b6c912e32"></a><!-- doxytag: member="CommandSet::staticInit" ref="a8fa0d7578665e1fa85f4e81b6c912e32" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static CommandSet::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
+
+</div>
+</div>
 <hr/><h2>Member Data Documentation</h2>
 <a class="anchor" id="a2b81765c03c164cadd7dee02e5967753"></a><!-- doxytag: member="CommandSet::$stateNames" ref="a2b81765c03c164cadd7dee02e5967753" args="" -->
 <div class="memitem">
@@ -433,10 +467,10 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <b>Initial value:</b><div class="fragment"><pre class="fragment"> array(
-       CommandSet::state_toBeSent =&gt; <span class="stringliteral">&quot;A émettre&quot;</span>,
-       CommandSet::state_sent =&gt; <span class="stringliteral">&quot;Emis&quot;</span>,
-       CommandSet::state_toBeSigned =&gt; <span class="stringliteral">&quot;A signer&quot;</span>,
-       CommandSet::state_signed =&gt; <span class="stringliteral">&quot;Signé&quot;</span>)
+      self::state_toBeSent =&gt; <span class="stringliteral">&quot;A émettre&quot;</span>,
+      self::state_sent =&gt; <span class="stringliteral">&quot;Emis&quot;</span>,
+      self::state_toBeSigned =&gt; <span class="stringliteral">&quot;A signer&quot;</span>,
+      self::state_signed =&gt; <span class="stringliteral">&quot;Signé&quot;</span>)
 </pre></div>
 </div>
 </div>
@@ -463,7 +497,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:32 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

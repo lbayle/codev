@@ -106,7 +106,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">ServiceContract Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="ServiceContract" -->
+<!-- doxytag: class="ServiceContract" --><!-- doxytag: inherits="Model" --><div class="dynheader">
+Inheritance diagram for ServiceContract:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classServiceContract.png" usemap="#ServiceContract_map" alt=""/>
+  <map id="ServiceContract_map" name="ServiceContract_map">
+<area href="classModel.html" alt="Model" shape="rect" coords="0,0,104,24"/>
+</map>
+ </div></div>
+
 <p><a href="classServiceContract-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
@@ -162,6 +171,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#ad5ceebf69c8ebe77223f56294f1855ae">getSidetasksPerCategory</a> ($skipIfInCommands=false)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#aa30f15019352b5a35ca852d99057a884">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#ae25ab99e836b51ffaafc72a9be3b9387">create</a> ($name, $teamid)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContract.html#abc3b33e1679871ba88a5d04df03f5ee3">delete</a> ($id)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
@@ -170,8 +180,7 @@ Public Attributes</h2></td></tr>
 const&#160;</td><td class="memItemRight" valign="bottom"><b>state_default</b> = 1</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9aecd7e8045be834edc89ae8e13dc571"></a><!-- doxytag: member="ServiceContract::$stateNames" ref="a9aecd7e8045be834edc89ae8e13dc571" args="" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>$stateNames</b> = array(self::state_default =&gt; &quot;Default&quot;)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><b>$stateNames</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Description of <a class="el" href="classServiceContract.html">ServiceContract</a> </p>
@@ -376,12 +385,12 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$stateNames</b> = a
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">type</td><td class="paramname">$cset_type</td><td>CommandSet::type_general </td></tr>
-    <tr><td class="paramtype">type</td><td class="paramname">$cmd_type</td><td>Command::type_general </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$cset_type</td><td>CommandSet::type_general </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$cmd_type</td><td>Command::type_general </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>type </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classCommand.html">Command</a>[] </dd></dl>
 
 </div>
 </div>
@@ -422,7 +431,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$stateNames</b> = a
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>array </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classConsistencyError2.html">ConsistencyError2</a>[] </dd></dl>
 
 </div>
 </div>
@@ -453,7 +462,8 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$stateNames</b> = a
 <p>Collect the Issues of all the CommandSets (of a given type)</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$type</td><td>CommandSet::type_general</td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$cset_type</td><td>CommandSet::type_general </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$cmd_type</td><td>Command::type_general </td></tr>
   </table>
   </dd>
 </dl>
@@ -494,7 +504,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$stateNames</b> = a
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">bool</td><td class="paramname">$skipIfInCommands</td><td>SideTasks already declared in a child Commands will be skipped</td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$skipIfInCommands</td><td>SideTasks already declared in a child Commands will be skipped </td></tr>
   </table>
   </dd>
 </dl>
@@ -550,6 +560,40 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$stateNames</b> = a
 
 </div>
 </div>
+<a class="anchor" id="aa30f15019352b5a35ca852d99057a884"></a><!-- doxytag: member="ServiceContract::staticInit" ref="aa30f15019352b5a35ca852d99057a884" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ServiceContract::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
+
+</div>
+</div>
+<hr/><h2>Member Data Documentation</h2>
+<a class="anchor" id="a9aecd7e8045be834edc89ae8e13dc571"></a><!-- doxytag: member="ServiceContract::$stateNames" ref="a9aecd7e8045be834edc89ae8e13dc571" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ServiceContract::$stateNames<code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(
+      self::state_default =&gt; <span class="stringliteral">&quot;Default&quot;</span>
+   )
+</pre></div>
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>classes/servicecontract.class.php</li>
 </ul>
@@ -573,7 +617,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$stateNames</b> = a
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

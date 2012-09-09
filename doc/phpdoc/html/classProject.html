@@ -106,16 +106,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Project Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="Project" -->
+<!-- doxytag: class="Project" --><!-- doxytag: inherits="Model" --><div class="dynheader">
+Inheritance diagram for Project:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classProject.png" usemap="#Project_map" alt=""/>
+  <map id="Project_map" name="Project_map">
+<area href="classModel.html" alt="Model" shape="rect" coords="0,0,52,24"/>
+</map>
+ </div></div>
+
 <p><a href="classProject-members.html">List of all members.</a></p>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a98ea3edaa7cf1c3c7816402d3db5aa3f">__construct</a> ($id, $details)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ac64e1434c784e545a37fadcef2938126">initialize</a> ($row=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a8b7bd73acd9d84e1cdfccb3498e027e2">initializeCategories</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e0680e41f9925454d2fc12e424bf7ea"></a><!-- doxytag: member="Project::isEnabled" ref="a5e0680e41f9925454d2fc12e424bf7ea" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>isEnabled</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ab4258c6f6434815abc62e806bd1d59b3">getCategories</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a923d546f096bf0b6cc742a2a0f3d41bd">getProjectVersions</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#aeb5d81aa2607b8cdb1239c0a7d45da8b">prepareProjectToCodev</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aadc45271732b36b7850c05bf65d864d2"></a><!-- doxytag: member="Project::addCategoryProjManagement" ref="aadc45271732b36b7850c05bf65d864d2" args="($catName)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>addCategoryProjManagement</b> ($catName)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc7df60d4511110a26c5f7963f50cf24"></a><!-- doxytag: member="Project::addCategoryMngtProvision" ref="acc7df60d4511110a26c5f7963f50cf24" args="($catName)" -->
@@ -142,14 +153,13 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>addIssue</b> ($cat_id, $issueSummary, $issueDesc, $issueStatus)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a541d231b2e69abd93cec5cb9fe2f7446"></a><!-- doxytag: member="Project::getBugResolvedStatusThreshold" ref="a541d231b2e69abd93cec5cb9fe2f7446" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getBugResolvedStatusThreshold</b> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f9ea6e24af16f32ce2ca5dd82ac8641"></a><!-- doxytag: member="Project::getJobList" ref="a4f9ea6e24af16f32ce2ca5dd82ac8641" args="($type=NULL)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getJobList</b> ($type=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a024bdbeb1aa6401ca228cbe031a0b39a">getBugidList</a> ($handler_id=0, $isHideResolved=false)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ade471862d16271f28333b8ccb4048fd0">getIssues</a> ($handler_id=0, $isHideResolved=false)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a4f9ea6e24af16f32ce2ca5dd82ac8641">getJobList</a> ($type=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae4cac98f8b670129f9b4a5b5b821b31a">getBugidList</a> ($handler_id=0, $isHideResolved=FALSE)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae7347e3462392484fb33ecb35701e439">getIssues</a> ($handler_id=0, $isHideResolved=FALSE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ad2a6826dc96a3d2ac35ac5301a1f4776">getTeamTypeList</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae4bde65283ccb3f27df2651533c1d765">getProjectType</a> ($teamidList=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#abf873a8103db83f52e969a0bc74bb9de">isSideTasksProject</a> ($teamidList=NULL)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#af18692003a566729d77df17092f10dd9">isNoStatsProject</a> ($teamidList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#aa2b6ee4c5f6ef24839f238b894ee1b69">getProjectType</a> (array $teamidList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ab33127ff9eb998bc612f229c5452dfea">isSideTasksProject</a> (array $teamidList=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a7b6b2bc92c5e6a0a2f77246842840b15">isNoStatsProject</a> (array $teamidList=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a65b0f57c002bdd526d548bdf89780511">isExternalTasksProject</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ba696fda9a37c55cc9ffc5e608b2ce3"></a><!-- doxytag: member="Project::getManagementCategoryId" ref="a6ba696fda9a37c55cc9ffc5e608b2ce3" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getManagementCategoryId</b> ()</td></tr>
@@ -164,25 +174,31 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd63c1607a9ff4d96bd5d548d5c5522e"></a><!-- doxytag: member="Project::getWorkshopCategoryId" ref="abd63c1607a9ff4d96bd5d548d5c5522e" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>getWorkshopCategoryId</b> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a1b933cf1f40a7b178b5a384c7fd1eed9">getWorkflowTransitions</a> ()</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a565f69c5007dc59e80d5087af7f1195b"></a><!-- doxytag: member="Project::getProjectConfig" ref="a565f69c5007dc59e80d5087af7f1195b" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>getProjectConfig</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a565f69c5007dc59e80d5087af7f1195b">getProjectConfig</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a1c848dc4a2b5b684f178413adf7f1df5">getVersionList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ad6baa49193fbc5cf0d7131cac401e038">getVersionDate</a> ($target_version)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a8b79d577f7445413aea216033d18e83e">getProgress</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a4ae2f194a84c227f06ca1346f3cef268">getProgressMgr</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a149a6fd8e76e1244dcfbdfc0ca569417">getIssueSelection</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a8e73f25d2937278b97eef9066e75bb54">getDrift</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a010960aa0ae9d1d1e0fa1391dff173ad">getDriftMgr</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86f31d1ba16b243c9d37c56f2c7cd085"></a><!-- doxytag: member="Project::getCategory" ref="a86f31d1ba16b243c9d37c56f2c7cd085" args="($type)" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getCategory</b> ($type)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a073596b6974b955f5a028c8caa265c22">getId</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a148d5b340d1ddf04ba3bcb1a48a064ee">getName</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a601e757eaebaf9c69dba57ad704df873"></a><!-- doxytag: member="Project::getDescription" ref="a601e757eaebaf9c69dba57ad704df873" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>getDescription</b> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a453dabf2d0957b5520f37a9e27be55fa">staticInit</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a8f497335a92027b6d79a035335b6c5c0">exists</a> ($id)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa04757b8debef9e5894434351d2f2b72"></a><!-- doxytag: member="Project::getName" ref="aa04757b8debef9e5894434351d2f2b72" args="($projectId)" -->
-static&#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> ($projectId)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae933cfbb116281fa18632dc7ba3dffac">createExternalTasksProject</a> ($projectName)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ae29f9fe704b58112b954aad1a27b038d">createSideTaskProject</a> ($projectName)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a98bd4ca290f995b284fc847a343b5cea">getCategoryName</a> ($id)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a5cbeb18dd454ffeba39c7175f411a13a">getCategoryId</a> ($name)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a3bcf4206621dbfb4ee36366510075c71">getProjectVersionName</a> ($id)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#adc8f1f886daae859b0c3b8820f87a231">cloneAllProjectConfig</a> ($srcProjectId, $destProjectId, $strict=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#ac96930c695ff4ab74dbc367b69bc56ca">prepareProjectToCodev</a> ($projectid)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#aa7660aee3791f7b7bb330ed822b3b3a4">cloneAllProjectConfig</a> ($srcProjectId, $destProjectId, $strict=TRUE)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#aa403c89d3c8f38f889505137a4378c9e">getProjects</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProject.html#a793228f28090c7672bba11cf4b7455ea">getProjectIssues</a> ($projectIds)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
@@ -209,18 +225,6 @@ const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_st_workshop</b> 
 const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_mngt_provision</b> = 6</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acfc3758e327d71bf434ff510fcd5c3e4"></a><!-- doxytag: member="Project::cat_mngt_regular" ref="acfc3758e327d71bf434ff510fcd5c3e4" args="" -->
 const&#160;</td><td class="memItemRight" valign="bottom"><b>cat_mngt_regular</b> = 7</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2af9e6607f7121463fcbb668b6d44279"></a><!-- doxytag: member="Project::$id" ref="a2af9e6607f7121463fcbb668b6d44279" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$id</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5cbdc059f266651d3dec965c06f5e20"></a><!-- doxytag: member="Project::$name" ref="af5cbdc059f266651d3dec965c06f5e20" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$name</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee0d4d16fb7272b90e470c0a3f38f603"></a><!-- doxytag: member="Project::$description" ref="aee0d4d16fb7272b90e470c0a3f38f603" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$description</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a235718ce11f2ff49ba1812dfed78f321"></a><!-- doxytag: member="Project::$type" ref="a235718ce11f2ff49ba1812dfed78f321" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$type</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc92d9ef188cd0d2e5bf23300c3595f5"></a><!-- doxytag: member="Project::$jobList" ref="acc92d9ef188cd0d2e5bf23300c3595f5" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$jobList</b></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a213d28fd940699283660b009044d61d7"></a><!-- doxytag: member="Project::$categoryList" ref="a213d28fd940699283660b009044d61d7" args="" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>$categoryList</b></td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><b>$typeNames</b></td></tr>
@@ -267,7 +271,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="adc8f1f886daae859b0c3b8820f87a231"></a><!-- doxytag: member="Project::cloneAllProjectConfig" ref="adc8f1f886daae859b0c3b8820f87a231" args="($srcProjectId, $destProjectId, $strict=true)" -->
+<a class="anchor" id="aa7660aee3791f7b7bb330ed822b3b3a4"></a><!-- doxytag: member="Project::cloneAllProjectConfig" ref="aa7660aee3791f7b7bb330ed822b3b3a4" args="($srcProjectId, $destProjectId, $strict=TRUE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -287,7 +291,7 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>strict</em> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>strict</em> = <code>TRUE</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -300,10 +304,13 @@ Static Public Attributes</h2></td></tr>
 <p>apply sourceProject config (workflow, thresholds, ...) to destProject</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">strict</td><td>if true, delete all destProject config if false, only replace config found in srcProject </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$srcProjectId</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$destProjectId</td><td></td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$strict</td><td>if true, delete all destProject config if false, only replace config found in srcProject </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
 
 </div>
 </div>
@@ -323,10 +330,11 @@ Static Public Attributes</h2></td></tr>
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$projectName</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$projectName</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int|string </dd></dl>
 
 </div>
 </div>
@@ -346,10 +354,11 @@ Static Public Attributes</h2></td></tr>
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$projectName</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$projectName</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int|string </dd></dl>
 
 </div>
 </div>
@@ -377,7 +386,7 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a024bdbeb1aa6401ca228cbe031a0b39a"></a><!-- doxytag: member="Project::getBugidList" ref="a024bdbeb1aa6401ca228cbe031a0b39a" args="($handler_id=0, $isHideResolved=false)" -->
+<a class="anchor" id="ae4cac98f8b670129f9b4a5b5b821b31a"></a><!-- doxytag: member="Project::getBugidList" ref="ae4cac98f8b670129f9b4a5b5b821b31a" args="($handler_id=0, $isHideResolved=FALSE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -391,7 +400,7 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>isHideResolved</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>isHideResolved</em> = <code>FALSE</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -410,7 +419,7 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>int[] : array[bugid] </dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd>Use <a class="el" href="classProjectCache.html#a074c1e3d41e0334d2c22d1c0cde46165">ProjectCache::getInstance()</a>-&gt;getProject($id)-&gt;<a class="el" href="classProject.html#ade471862d16271f28333b8ccb4048fd0">getIssues</a>($handler_id, $isHideResolved) if you need <a class="el" href="classIssue.html">Issue</a>[] and not just the IssueId[] </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>Use <a class="el" href="classProjectCache.html#a074c1e3d41e0334d2c22d1c0cde46165">ProjectCache::getInstance()</a>-&gt;getProject($id)-&gt;<a class="el" href="classProject.html#ae7347e3462392484fb33ecb35701e439">getIssues</a>($handler_id, $isHideResolved) if you need <a class="el" href="classIssue.html">Issue</a>[] and not just the IssueId[] </dd></dl>
 
 </div>
 </div>
@@ -427,7 +436,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>array id =&gt; categoryName </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string[] id =&gt; categoryName </dd></dl>
 
 </div>
 </div>
@@ -447,7 +456,7 @@ Static Public Attributes</h2></td></tr>
 <div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td>projectVersion id in mantis_category_table </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$name</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -492,7 +501,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>array(nbDays, percent) </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>number[] array(nbDays, percent) </dd></dl>
 
 </div>
 </div>
@@ -509,11 +518,30 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>array(nbDays, percent) </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>number[] array(nbDays, percent) </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ade471862d16271f28333b8ccb4048fd0"></a><!-- doxytag: member="Project::getIssues" ref="ade471862d16271f28333b8ccb4048fd0" args="($handler_id=0, $isHideResolved=false)" -->
+<a class="anchor" id="a073596b6974b955f5a028c8caa265c22"></a><!-- doxytag: member="Project::getId" ref="a073596b6974b955f5a028c8caa265c22" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::getId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classModel.html">Model</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7347e3462392484fb33ecb35701e439"></a><!-- doxytag: member="Project::getIssues" ref="ae7347e3462392484fb33ecb35701e439" args="($handler_id=0, $isHideResolved=FALSE)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -527,7 +555,7 @@ Static Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">$&#160;</td>
-          <td class="paramname"><em>isHideResolved</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>isHideResolved</em> = <code>FALSE</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -546,6 +574,65 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssue.html">Issue</a>[] : array[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a149a6fd8e76e1244dcfbdfc0ca569417"></a><!-- doxytag: member="Project::getIssueSelection" ref="a149a6fd8e76e1244dcfbdfc0ca569417" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::getIssueSelection </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classIssueSelection.html">IssueSelection</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4f9ea6e24af16f32ce2ca5dd82ac8641"></a><!-- doxytag: member="Project::getJobList" ref="a4f9ea6e24af16f32ce2ca5dd82ac8641" args="($type=NULL)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::getJobList </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>type</em> = <code>NULL</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p><a class="el" href="classJob.html">Job</a> list depends on project type: if type=Project::type_sideTaskProject then only jobs for SideTasks are displayed. if Project::type_workingProject then all jobs which codev_project_job_table.project_id = $this-&gt;id OR codev_job_table.type = Job::type_commonJob (common jobs) </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$type</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string[] </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a148d5b340d1ddf04ba3bcb1a48a064ee"></a><!-- doxytag: member="Project::getName" ref="a148d5b340d1ddf04ba3bcb1a48a064ee" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
 
 </div>
 </div>
@@ -580,6 +667,23 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <dl class="return"><dt><b>Returns:</b></dt><dd>number </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a565f69c5007dc59e80d5087af7f1195b"></a><!-- doxytag: member="Project::getProjectConfig" ref="a565f69c5007dc59e80d5087af7f1195b" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::getProjectConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl class="return"><dt><b>Returns:</b></dt><dd>mixed[] </dd></dl>
 
 </div>
 </div>
@@ -621,18 +725,18 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Get projets </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array string[int] The projects : name[id] </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string[] The projects : name[id] </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ae4bde65283ccb3f27df2651533c1d765"></a><!-- doxytag: member="Project::getProjectType" ref="ae4bde65283ccb3f27df2651533c1d765" args="($teamidList=NULL)" -->
+<a class="anchor" id="aa2b6ee4c5f6ef24839f238b894ee1b69"></a><!-- doxytag: member="Project::getProjectType" ref="aa2b6ee4c5f6ef24839f238b894ee1b69" args="(array $teamidList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Project::getProjectType </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
+          <td class="paramtype">array $&#160;</td>
           <td class="paramname"><em>teamidList</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
@@ -650,14 +754,14 @@ Static Public Attributes</h2></td></tr>
 </ul>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">$teamidList</td><td>the teams to check. if NULL, check all teams</td></tr>
+    <tr><td class="paramname">int[]</td><td>$teamidList the teams to check. if NULL, check all teams</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int project type</dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int project type </dd></dl>
 <dl><dt><b>Exceptions:</b></dt><dd>
   <table class="exception">
-    <tr><td class="paramname">exception</td><td>if cannot determinate </td></tr>
+    <tr><td class="paramname">Exception</td><td>if cannot determinate </td></tr>
   </table>
   </dd>
 </dl>
@@ -678,6 +782,12 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$id</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>string The version name </dd></dl>
 
 </div>
@@ -695,7 +805,7 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>array id =&gt; versionName </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>sitrng[] id =&gt; versionName </dd></dl>
 
 </div>
 </div>
@@ -713,7 +823,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>returns a list of team_id where the project is defined in</p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>array[teamid] = type </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string[] array[teamid] = type </dd></dl>
 
 </div>
 </div>
@@ -758,7 +868,7 @@ Static Public Attributes</h2></td></tr>
 <p>returns an array of <a class="el" href="classProjectVersion.html">ProjectVersion</a> instances key=version, value= <a class="el" href="classProjectVersion.html">ProjectVersion</a></p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramtype">unknown_type</td><td class="paramname">$team_id</td><td>(TODO) </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$team_id</td><td>(TODO) </td></tr>
   </table>
   </dd>
 </dl>
@@ -781,6 +891,7 @@ Static Public Attributes</h2></td></tr>
 <div class="memdoc">
 <p>get Workflow transitions from Mantis DB</p>
 <p>mantis_config_table - config_id='status_enum_workflow' </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>array[] </dd></dl>
 
 </div>
 </div>
@@ -814,6 +925,23 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a8b7bd73acd9d84e1cdfccb3498e027e2"></a><!-- doxytag: member="Project::initializeCategories" ref="a8b7bd73acd9d84e1cdfccb3498e027e2" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Project::initializeCategories </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>if SideTaskProject get categories </p>
+
+</div>
+</div>
 <a class="anchor" id="a65b0f57c002bdd526d548bdf89780511"></a><!-- doxytag: member="Project::isExternalTasksProject" ref="a65b0f57c002bdd526d548bdf89780511" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -831,14 +959,14 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af18692003a566729d77df17092f10dd9"></a><!-- doxytag: member="Project::isNoStatsProject" ref="af18692003a566729d77df17092f10dd9" args="($teamidList=NULL)" -->
+<a class="anchor" id="a7b6b2bc92c5e6a0a2f77246842840b15"></a><!-- doxytag: member="Project::isNoStatsProject" ref="a7b6b2bc92c5e6a0a2f77246842840b15" args="(array $teamidList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Project::isNoStatsProject </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
+          <td class="paramtype">array $&#160;</td>
           <td class="paramname"><em>teamidList</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
@@ -857,27 +985,28 @@ Static Public Attributes</h2></td></tr>
 </ul>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">$teamidList</td><td>the teams to check. if NULL, check all teams</td></tr>
+    <tr><td class="paramname">int[]</td><td>$teamidList the teams to check. if NULL, check all teams </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
 <dl><dt><b>Exceptions:</b></dt><dd>
   <table class="exception">
-    <tr><td class="paramname">exception</td><td>if cannot determinate </td></tr>
+    <tr><td class="paramname">Exception</td><td>if cannot determinate </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="abf873a8103db83f52e969a0bc74bb9de"></a><!-- doxytag: member="Project::isSideTasksProject" ref="abf873a8103db83f52e969a0bc74bb9de" args="($teamidList=NULL)" -->
+<a class="anchor" id="ab33127ff9eb998bc612f229c5452dfea"></a><!-- doxytag: member="Project::isSideTasksProject" ref="ab33127ff9eb998bc612f229c5452dfea" args="(array $teamidList=NULL)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">Project::isSideTasksProject </td>
           <td>(</td>
-          <td class="paramtype">$&#160;</td>
+          <td class="paramtype">array $&#160;</td>
           <td class="paramname"><em>teamidList</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
@@ -896,36 +1025,61 @@ Static Public Attributes</h2></td></tr>
 </ul>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">$teamidList</td><td>the teams to check. if NULL, check all teams</td></tr>
+    <tr><td class="paramname">int[]</td><td>$teamidList the teams to check. if NULL, check all teams </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
 <dl><dt><b>Exceptions:</b></dt><dd>
   <table class="exception">
-    <tr><td class="paramname">exception</td><td>if cannot determinate </td></tr>
+    <tr><td class="paramname">Exception</td><td>if cannot determinate </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="aeb5d81aa2607b8cdb1239c0a7d45da8b"></a><!-- doxytag: member="Project::prepareProjectToCodev" ref="aeb5d81aa2607b8cdb1239c0a7d45da8b" args="()" -->
+<a class="anchor" id="ac96930c695ff4ab74dbc367b69bc56ca"></a><!-- doxytag: member="Project::prepareProjectToCodev" ref="ac96930c695ff4ab74dbc367b69bc56ca" args="($projectid)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Project::prepareProjectToCodev </td>
+          <td class="memname">static Project::prepareProjectToCodev </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>projectid</em></td><td>)</td>
+          <td><code> [static]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <p>Prepare a Mantis <a class="el" href="classProject.html">Project</a> to be used with CoDevTT:</p>
 <ul>
-<li>check/add association to CoDevTT customFields </li>
+<li>check/add association to CoDevTT customFields</li>
 </ul>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$projectid</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a453dabf2d0957b5520f37a9e27be55fa"></a><!-- doxytag: member="Project::staticInit" ref="a453dabf2d0957b5520f37a9e27be55fa" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Project::staticInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Initialize complex static variables </p>
 
 </div>
 </div>
@@ -940,10 +1094,11 @@ Static Public Attributes</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(self::type_workingProject  =&gt; <span class="stringliteral">&quot;Project&quot;</span>,
-                                   self::type_noCommonProject =&gt; <span class="stringliteral">&quot;Project (no common jobs)&quot;</span>,
-                                   self::type_noStatsProject  =&gt; <span class="stringliteral">&quot;Project (stats excluded)&quot;</span>,
-                                   self::type_sideTaskProject =&gt; <span class="stringliteral">&quot;SideTasks&quot;</span>)
+<b>Initial value:</b><div class="fragment"><pre class="fragment"> array(
+      self::type_workingProject  =&gt; <span class="stringliteral">&quot;Project&quot;</span>,
+      self::type_noCommonProject =&gt; <span class="stringliteral">&quot;Project (no common jobs)&quot;</span>,
+      self::type_noStatsProject  =&gt; <span class="stringliteral">&quot;Project (stats excluded)&quot;</span>,
+      self::type_sideTaskProject =&gt; <span class="stringliteral">&quot;SideTasks&quot;</span>)
 </pre></div>
 </div>
 </div>
@@ -970,7 +1125,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

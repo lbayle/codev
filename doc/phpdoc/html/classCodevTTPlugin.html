@@ -113,10 +113,10 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCodevTTPlugin.html#a8b3a03305c886e7302dc3b18cfc7a6a7">assignCommand</a> ($event, $t_bug_data)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47f1086e94ea14b4628b835cd8eedfa6"></a><!-- doxytag: member="CodevTTPlugin::update_bug_form" ref="a47f1086e94ea14b4628b835cd8eedfa6" args="($event, $t_bug_id)" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>update_bug_form</b> ($event, $t_bug_id)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bf9a7f3f0c9305d7031f57589886685"></a><!-- doxytag: member="CodevTTPlugin::report_bug_form" ref="a7bf9a7f3f0c9305d7031f57589886685" args="($event_id)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>report_bug_form</b> ($event_id)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCodevTTPlugin.html#a7bf9a7f3f0c9305d7031f57589886685">report_bug_form</a> ($event_id)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa121b2f514c09443bc577d0f172bfd30"></a><!-- doxytag: member="CodevTTPlugin::add_codevtt_menu" ref="aa121b2f514c09443bc577d0f172bfd30" args="()" -->
 &#160;</td><td class="memItemRight" valign="bottom"><b>add_codevtt_menu</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCodevTTPlugin.html#a4dee905c3b716985f419b2cd63897616">view_bug_form</a> ($event, $t_bug_id)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>requires MantisPlugin.class.php <a class="el" href="classCodevTTPlugin.html">CodevTTPlugin</a> Class </p>
@@ -189,6 +189,65 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a7bf9a7f3f0c9305d7031f57589886685"></a><!-- doxytag: member="CodevTTPlugin::report_bug_form" ref="a7bf9a7f3f0c9305d7031f57589886685" args="($event_id)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CodevTTPlugin::report_bug_form </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>event_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>display combobox to select the command in 'report bug' page </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$event_id</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a4dee905c3b716985f419b2cd63897616"></a><!-- doxytag: member="CodevTTPlugin::view_bug_form" ref="a4dee905c3b716985f419b2cd63897616" args="($event, $t_bug_id)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CodevTTPlugin::view_bug_form </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>t_bug_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>show bug's commands in bug view page </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">type</td><td class="paramname">$event</td><td></td></tr>
+    <tr><td class="paramtype">type</td><td class="paramname">$t_bug_id</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>mantis_plugin/CodevTT/CodevTT.php</li>
 </ul>
@@ -212,7 +271,7 @@ Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Thu Jul 19 2012 21:08:27 for CodevTT by
+    <li class="footer">Generated on Sun Sep 9 2012 23:57:32 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>
