@@ -122,23 +122,6 @@ class CommandSet extends Model {
       $this->budget_days = $row->budget_days;
       $this->cost = $row->budget;
       $this->currency = $row->currency;
-
-      $this->cmdidByTypeList = array();
-      $query = "SELECT * FROM `codev_commandset_cmd_table` " .
-               "WHERE commandset_id = $this->id ".
-               "ORDER BY type ASC, command_id ASC";
-
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         if (!array_key_exists($row->type,$this->cmdidByTypeList)) {
-            $this->cmdidByTypeList["$row->type"] = array();
-         }
-         $this->cmdidByTypeList["$row->type"][] = $row->command_id;
-      }
    }
 
    /**
@@ -349,7 +332,7 @@ class CommandSet extends Model {
 
       $cmdList = array();
 
-      $cmdidList = $this->cmdidByTypeList["$type"];
+      $cmdidList = $this->getCommandIds($type);
 
       if (($cmdidList) && (0 != count($cmdidList))) {
          foreach ($cmdidList as $cmdid) {
@@ -357,6 +340,33 @@ class CommandSet extends Model {
          }
       }
       return $cmdList;
+   }
+
+   private function getCommandIds($type = NULL) {
+      if(NULL == $this->cmdidByTypeList) {
+         $this->cmdidByTypeList = array();
+         $query = "SELECT * FROM `codev_commandset_cmd_table` " .
+            "WHERE commandset_id = $this->id ".
+            "ORDER BY type ASC, command_id ASC";
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+            if (!array_key_exists($row->type,$this->cmdidByTypeList)) {
+               $this->cmdidByTypeList[$row->type] = array();
+            }
+            $this->cmdidByTypeList[$row->type][] = $row->command_id;
+         }
+      }
+
+      if(NULL == $type) {
+         return $this->cmdidByTypeList;
+      } else {
+         return $this->cmdidByTypeList[$type];
+      }
    }
 
    /**
@@ -371,7 +381,7 @@ class CommandSet extends Model {
 
       $issueSelection = new IssueSelection();
 
-      $cmdidList = $this->cmdidByTypeList["$type"];
+      $cmdidList = $this->getCommandIds($type);
 
       if (($cmdidList) && (0 != count($cmdidList))) {
          foreach ($cmdidList as $cmdid) {
@@ -402,10 +412,10 @@ class CommandSet extends Model {
 
       self::$logger->debug("Add command $cmdid to commandset $this->id");
 
-      if (NULL == $this->cmdidByTypeList["$type"]) {
-         $this->cmdidByTypeList["$type"] = array();
+      if (NULL == $this->getCommandIds($type)) {
+         $this->cmdidByTypeList[$type] = array();
       }
-      $this->cmdidByTypeList["$type"][] = $cmdid;
+      $this->cmdidByTypeList[$type][] = $cmdid;
 
       $query = "INSERT INTO `codev_commandset_cmd_table` (`commandset_id`, `command_id`, `type`) VALUES ($this->id, $cmdid, '$type');";
       $result = SqlWrapper::getInstance()->sql_query($query);
@@ -424,7 +434,7 @@ class CommandSet extends Model {
     * @param int $cmdid
     */
    public function removeCommand($cmdid) {
-      $typeList = array_keys($this->cmdidByTypeList);
+      $typeList = array_keys($this->getCommandIds());
       foreach ($typeList as $type) {
          if (NULL != $this->cmdidByTypeList[$type][$cmdid]) {
             unset($this->cmdidByTypeList[$type][$cmdid]);
