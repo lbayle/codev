@@ -34,7 +34,7 @@
 <body>
 <div id='header'>
 
-<table id='header'>
+<table style="border: 1px solid white;" width="100%" class="invisible">
 <tr>
 <td width=300>
 <?php

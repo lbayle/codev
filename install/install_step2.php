@@ -95,30 +95,8 @@ function createConstantsFile($path_mantis) {
    return NULL;
 }
 
-function displayStepInfo() {
-   echo "<h2>".T_("Prerequisites")."</h2>\n";
-   echo "<ul>\n";
-   echo "<li>Step 1 finished.</li>";
-   echo "<li>Mantis costomization done. (Status, Workflow, Threshold, etc)</li>";
-   echo "<li>Apache has write access to codev directory</li>";
-   echo "</ul>\n";
-   echo "<br/>";
-   echo "<h2>".T_("Actions")."</h2>\n";
-   echo "<ul>\n";
-   echo "<li>Set statusNames as defined in Mantis      (status_enum_string)</li>";
-   echo "<li>Set priority Names as defined in Mantis   (priority_enum_string)</li>";
-   echo "<li>Set resolution Names as defined in Mantis (resolution_enum_string)</li>";
-   echo "<li>Set bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)</li>";
-   echo "<li>Genereate constants.php</li>";
-   echo "<li>Add 'CodevTT' to Mantis menu </li>";
-   echo "<li></li>";
-   echo "</ul>\n";
-   echo "";
-}
-
-
 function displayForm($originPage,
-                     $filename_strings, $filename_custom_strings, $path_mantis) {
+                     $filename_strings, $path_mantis) {
 
    echo "<form id='form2' name='form2' method='post' action='$originPage' >\n";
    echo "<h2>".T_("Get Mantis customizations")."</h2>\n";
@@ -132,10 +110,6 @@ function displayForm($originPage,
    echo "  <tr>\n";
    echo "    <td width='120'>".T_("Strings file")."</td>\n";
    echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='filename_strings'  id='filename_strings' value='$filename_strings'></td>\n";
-   echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td width='120'>".T_("Custom Strings file")."</td>\n";
-   echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='filename_custom_strings'  id='filename_custom_strings' value='$filename_custom_strings'></td>\n";
    echo "  </tr>\n";
    echo "</table>\n";
 
@@ -155,12 +129,13 @@ function displayForm($originPage,
 // ================ MAIN =================
 $originPage = "install_step2.php";
 
-$default_path_mantis                = "/var/www/html/mantis";
-$default_filename_strings           = "strings_english.txt";
-$default_filename_custom_strings    = "custom_strings_inc.php";
+$default_path_mantis           = "/var/www/html/mantis";
+$default_filename_strings      = "strings_english.txt";
+$filename_custom_strings       = "custom_strings_inc.php";
+$filename_custom_constant      = "custom_constant_inc.php";
+$filename_custom_relationships = "custom_relationships_inc.php";
 
 $filename_strings = Tools::getSecurePOSTStringValue('filename_strings', $default_filename_strings);
-$filename_custom_strings = Tools::getSecurePOSTStringValue('filename_custom_strings', $default_filename_custom_strings);
 $path_mantis = Tools::getSecurePOSTStringValue('path_mantis', $default_path_mantis);
 
 $action = Tools::getSecurePOSTStringValue('action', '');
@@ -168,43 +143,48 @@ $action = Tools::getSecurePOSTStringValue('action', '');
 #displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
 
-displayForm($originPage, $filename_strings, $filename_custom_strings, stripslashes($path_mantis));
+displayForm($originPage, $filename_strings, stripslashes($path_mantis));
 
 if ("proceedStep2" == $action) {
    if(!file_exists($path_mantis)) {
-      die("Path to mantis ". $path_mantis." doesn't exist");
+      echo "<span class='error_font'>Path to mantis ". $path_mantis." doesn't exist</span><br/>";
+      exit;
+   }
+   if(!is_writable($path_mantis)) {
+      echo "<span class='error_font'>Path to mantis ". $path_mantis." is NOT writable</span><br/>";
+      exit;
    }
 
    // ---- load mantis configuration files to extract the information
-   $filename_constant_inc = $path_mantis."/core/constant_inc.php";
+   $filename_constant_inc = $path_mantis.DIRECTORY_SEPARATOR."core".DIRECTORY_SEPARATOR."constant_inc.php";
    if (file_exists($filename_constant_inc)) {
       include_once($filename_constant_inc);
    } else {
       echo "File not loaded: $filename_constant_inc<br />";
    }
 
-   $filename_config_defaults_inc = $path_mantis."/config_defaults_inc.php";
+   $filename_config_defaults_inc = $path_mantis.DIRECTORY_SEPARATOR."config_defaults_inc.php";
    if (file_exists($filename_config_defaults_inc)) {
       include_once($filename_config_defaults_inc);
    } else {
       echo "File not loaded: $filename_config_defaults_inc<br />";
    }
 
-   $path_strings = $path_mantis."/lang/".$filename_strings;
+   $path_strings = $path_mantis.DIRECTORY_SEPARATOR."lang".DIRECTORY_SEPARATOR.$filename_strings;
    if (file_exists($path_strings)) {
       include_once($path_strings);
    } else {
       echo "File not loaded: $path_strings<br />";
    }
 
-   $path_custom_strings = $path_mantis."/".$filename_custom_strings;
+   $path_custom_strings = $path_mantis.DIRECTORY_SEPARATOR.$filename_custom_strings;
    if (file_exists($path_custom_strings)) {
       include_once($path_custom_strings);
    } else {
       echo "File not loaded: $path_custom_strings<br />";
    }
 
-   $filename_config_inc = $path_mantis."/config_inc.php";
+   $filename_config_inc = $path_mantis.DIRECTORY_SEPARATOR."config_inc.php";
    if (file_exists($filename_config_inc)) {
       include_once($filename_config_inc);
    } else {
@@ -224,41 +204,65 @@ if ("proceedStep2" == $action) {
 
    // and set codev Config variables
 
-   echo "DEBUG 1/7 add path_mantis<br/>";
+   echo "DEBUG 1/8 check that mantis custom files are writable<br/>";
+   $retCode = true;
+   if (file_exists($path_custom_strings)) {
+      if (!is_writable($path_custom_strings)) {
+         echo "<span class='error_font'>".$path_custom_strings." is NOT writable</span><br/>";
+         $retCode = false;
+      }
+   }
+   $path = $path_mantis.DIRECTORY_SEPARATOR.$filename_custom_constant;
+   if (file_exists($path)) {
+      if (!is_writable($path)) {
+         echo "<span class='error_font'>".$path." is NOT writable</span><br/>";
+         $retCode = false;
+      }
+   }
+   $path = $path_mantis.DIRECTORY_SEPARATOR.$filename_custom_relationships;
+   if (file_exists($path)) {
+      if (!is_writable($path)) {
+         echo "<span class='error_font'>".$path." is NOT writable</span><br/>";
+         $retCode = false;
+      }
+   }
+   if (!$retCode) { exit; }
+
+   echo "DEBUG 2/8 add path_mantis<br/>";
    $desc = T_("Path to mantis");
    Config::getInstance()->setValue(Config::id_mantisPath, $path_mantis, Config::configType_string , $desc);
 
-   echo "DEBUG 2/7 add statusNames<br/>";
+   echo "DEBUG 3/8 add statusNames<br/>";
    $desc = T_("status Names as defined in Mantis (status_enum_string)");
    Constants::$statusNames = Tools::doubleExplode(':', ',', $status_enum_string);
 
-   echo "DEBUG 3/7 add priorityNames<br/>";
+   echo "DEBUG 4/8 add priorityNames<br/>";
    $desc = T_("priority Names as defined in Mantis (priority_enum_string)");
    $formatedString = str_replace("'", " ", $priority_enum_string);
    Constants::$priority_names = Tools::doubleExplode(':', ',', $priority_enum_string);
 
-   echo "DEBUG 4/7 add severityNames<br/>";
+   echo "DEBUG 5/8 add severityNames<br/>";
    $desc = T_("severity Names as defined in Mantis (severity_enum_string)");
    $formatedString = str_replace("'", " ", $severity_enum_string);
    Constants::$severity_names = Tools::doubleExplode(':', ',', $severity_enum_string);
 
-   echo "DEBUG 5/7 add resolutionNames<br/>";
+   echo "DEBUG 6/8 add resolutionNames<br/>";
    $desc = T_("resolution Names as defined in Mantis (resolution_enum_string)");
    $formatedString = str_replace("'", " ", $resolution_enum_string);
    Constants::$resolution_names = Tools::doubleExplode(':', ',', $resolution_enum_string);
 
-   echo "DEBUG 6/7 add bug_resolved_status_threshold<br/>";
+   echo "DEBUG 7/8 add bug_resolved_status_threshold<br/>";
    $bug_resolved_status_threshold = isset($g_bug_resolved_status_threshold) ? $g_bug_resolved_status_threshold : constant("RESOLVED");
    Constants::$bug_resolved_status_threshold = Tools::doubleExplode(':', ',', $bug_resolved_status_threshold);
 
-   echo "DEBUG 7/7 create ".Constants::$config_file." file<br/>";
+   echo "DEBUG 8/8 create ".Constants::$config_file." file<br/>";
    $errStr = createConstantsFile($path_mantis);
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
       exit;
    }
 
-   // Note: constants.php is needed on step3
+   // Note: config.ini is needed on step3
 
    // everything went fine, goto step3
    echo ("<script type='text/javascript'> parent.location.replace('install_step3.php'); </script>");
