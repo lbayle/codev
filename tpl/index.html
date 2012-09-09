@@ -100,6 +100,7 @@
          });
       });
    </script>
+   {if (isset($driftedTasks) && !empty($driftedTasks))}
    <table>
       <caption>{t}Tasks in drift{/t}</caption>
       <thead>
@@ -124,6 +125,7 @@
          {/foreach}
       </tbody>
    </table>
+   {/if}
    <div id="update_backlog_dialog_form" title="Task XXX - Update Backlog" class="ui-helper-hidden">
       <p id="desc_summary"></p>
       <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="{$page}" >
