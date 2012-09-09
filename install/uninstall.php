@@ -55,7 +55,7 @@ class UninstallController extends Controller {
                $isBackup = $_POST['cb_backup'];
             }
 
-            $filename = Tools::getSecurePOSTStringValue('backup_filename', "codevtt_backup_".date("Ymj").".sql");
+            $filename = Tools::getSecurePOSTStringValue('backup_filename', "codevtt_backup_".date("Ymd").".sql");
 
             $this->smartyHelper->assign('isBackup', $isBackup);
             $this->smartyHelper->assign('filename', $filename);
@@ -170,11 +170,11 @@ class UninstallController extends Controller {
     */
    function saveConfigFiles() {
       $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
-      if (file_exists(self::$config_file)) {
-         $filename = ereg_replace(".*/", "", self::$config_file);
-         $retCode = copy(self::$config_file, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
+      if (file_exists(Constants::$config_file)) {
+         $filename = ereg_replace(".*/", "", Constants::$config_file);
+         $retCode = copy(Constants::$config_file, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
          if (!$retCode) {
-            self::$logger->error("ERROR: Could not save file: " . self::$config_file);
+            self::$logger->error("ERROR: Could not save file: " . Constants::$config_file);
             return false;
          }
       }
@@ -195,10 +195,10 @@ class UninstallController extends Controller {
     * @return bool True if success
     */
    function deleteConfigFiles() {
-      if (file_exists(self::$config_file)) {
-         $retCode = unlink(self::$config_file);
+      if (file_exists(Constants::$config_file)) {
+         $retCode = unlink(Constants::$config_file);
          if (!$retCode) {
-            self::$logger->error("ERROR: Could not delete file: " . self::$config_file);
+            self::$logger->error("ERROR: Could not delete file: " . Constants::$config_file);
             return false;
          }
       }
