@@ -199,7 +199,7 @@ if ("proceedStep2" == $action) {
 
    // and set codev Config variables
 
-   echo "DEBUG 1/8 check that mantis custom files are writable<br/>";
+   echo "DEBUG 1/7 check that mantis custom files are writable<br/>";
    $retCode = true;
    if (file_exists($path_custom_strings)) {
       if (!is_writable($path_custom_strings)) {
@@ -223,34 +223,30 @@ if ("proceedStep2" == $action) {
    }
    if (!$retCode) { exit; }
 
-   echo "DEBUG 2/8 add path_mantis<br/>";
-   $desc = T_("Path to mantis");
-   Config::getInstance()->setValue(Config::id_mantisPath, $path_mantis, Config::configType_string , $desc);
-
-   echo "DEBUG 3/8 add statusNames<br/>";
+   echo "DEBUG 2/7 add statusNames<br/>";
    $desc = T_("status Names as defined in Mantis (status_enum_string)");
    Constants::$statusNames = Tools::doubleExplode(':', ',', $status_enum_string);
 
-   echo "DEBUG 4/8 add priorityNames<br/>";
+   echo "DEBUG 3/7 add priorityNames<br/>";
    $desc = T_("priority Names as defined in Mantis (priority_enum_string)");
    $formatedString = str_replace("'", " ", $priority_enum_string);
    Constants::$priority_names = Tools::doubleExplode(':', ',', $priority_enum_string);
 
-   echo "DEBUG 5/8 add severityNames<br/>";
+   echo "DEBUG 4/7 add severityNames<br/>";
    $desc = T_("severity Names as defined in Mantis (severity_enum_string)");
    $formatedString = str_replace("'", " ", $severity_enum_string);
    Constants::$severity_names = Tools::doubleExplode(':', ',', $severity_enum_string);
 
-   echo "DEBUG 6/8 add resolutionNames<br/>";
+   echo "DEBUG 5/7 add resolutionNames<br/>";
    $desc = T_("resolution Names as defined in Mantis (resolution_enum_string)");
    $formatedString = str_replace("'", " ", $resolution_enum_string);
    Constants::$resolution_names = Tools::doubleExplode(':', ',', $resolution_enum_string);
 
-   echo "DEBUG 7/8 add bug_resolved_status_threshold<br/>";
+   echo "DEBUG 6/7 add bug_resolved_status_threshold<br/>";
    $bug_resolved_status_threshold = isset($g_bug_resolved_status_threshold) ? $g_bug_resolved_status_threshold : constant("RESOLVED");
    Constants::$bug_resolved_status_threshold = Tools::doubleExplode(':', ',', $bug_resolved_status_threshold);
 
-   echo "DEBUG 8/8 create ".Constants::$config_file." file<br/>";
+   echo "DEBUG 7/7 create ".Constants::$config_file." file<br/>";
    $errStr = createConstantsFile($path_mantis);
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
