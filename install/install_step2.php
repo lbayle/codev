@@ -95,8 +95,7 @@ function createConstantsFile($path_mantis) {
    return NULL;
 }
 
-function displayForm($originPage,
-                     $filename_strings, $path_mantis) {
+function displayForm($originPage, $path_mantis) {
 
    echo "<form id='form2' name='form2' method='post' action='$originPage' >\n";
    echo "<h2>".T_("Get Mantis customizations")."</h2>\n";
@@ -107,10 +106,7 @@ function displayForm($originPage,
    echo "    <td width='120'>".T_("Path to mantis")."</td>\n";
    echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='path_mantis'  id='path_mantis' value='$path_mantis'></td>\n";
    echo "  </tr>\n";
-   echo "  <tr>\n";
-   echo "    <td width='120'>".T_("Strings file")."</td>\n";
-   echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='filename_strings'  id='filename_strings' value='$filename_strings'></td>\n";
-   echo "  </tr>\n";
+
    echo "</table>\n";
 
    // ---
@@ -130,12 +126,11 @@ function displayForm($originPage,
 $originPage = "install_step2.php";
 
 $default_path_mantis           = "/var/www/html/mantis";
-$default_filename_strings      = "strings_english.txt";
+$filename_strings              = "strings_english.txt";
 $filename_custom_strings       = "custom_strings_inc.php";
 $filename_custom_constant      = "custom_constant_inc.php";
 $filename_custom_relationships = "custom_relationships_inc.php";
 
-$filename_strings = Tools::getSecurePOSTStringValue('filename_strings', $default_filename_strings);
 $path_mantis = Tools::getSecurePOSTStringValue('path_mantis', $default_path_mantis);
 
 $action = Tools::getSecurePOSTStringValue('action', '');
@@ -143,7 +138,7 @@ $action = Tools::getSecurePOSTStringValue('action', '');
 #displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
 
-displayForm($originPage, $filename_strings, stripslashes($path_mantis));
+displayForm($originPage, stripslashes($path_mantis));
 
 if ("proceedStep2" == $action) {
    if(!file_exists($path_mantis)) {
