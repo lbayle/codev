@@ -1054,7 +1054,7 @@ class Issue extends Model implements Comparable {
       
       if (NULL == $statusNames) {
          // if none defined, get all mantis statuses
-         $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
+         $statusNames = Constants::$statusNames;
          ksort($statusNames);
       }
 

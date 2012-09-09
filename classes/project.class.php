@@ -234,7 +234,7 @@ class Project extends Model {
 
       // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
       #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
-      $statusNames = NULL; # Config::getInstance()->getValue(Config::id_statusNames);
+      $statusNames = NULL; # Constants::$statusNames;
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
          "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
@@ -310,7 +310,7 @@ class Project extends Model {
       // when creating an new issue, the status is set to 'closed' (External Tasks have no workflow...)
       #REM first call to this function is in install step1, and $statusNames is set in step2. '90' is mantis default value for 'closed'
       Config::setQuiet(TRUE);
-      $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
+      $statusNames = Constants::$statusNames;
       Config::setQuiet(FALSE);
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".

@@ -86,7 +86,7 @@ class Config {
    const id_externalTask_leave = "externalTask_leave";
    const id_jobSupport = "job_support";
    const id_adminTeamId = "adminTeamId";
-   const id_statusNames = "statusNames";
+   const id_statusNames = "statusNames"; // DEPRECATED since 0.99.18
    const id_astreintesTaskList = "astreintesTaskList";
    const id_codevReportsDir = "codevReportsDir"; // DEPRECATED since 0.99.18
    const id_customField_ExtId  = "customField_ExtId";

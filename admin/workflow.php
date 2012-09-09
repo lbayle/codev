@@ -156,7 +156,7 @@ class WorkflowController extends Controller {
       $wfTrans = $project->getWorkflowTransitions();
       if (NULL != $wfTrans) {
          $statusTitles = $wfTrans[0];
-         $statusNames = Config::getInstance()->getValue(Config::id_statusNames);
+         $statusNames = Constants::$statusNames;
 
          $statusTitlesSmarty = array();
          foreach ($statusTitles as $sid => $sname) {
