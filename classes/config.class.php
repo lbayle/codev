@@ -95,7 +95,7 @@ class Config {
    const id_customField_backlog = "customField_backlog"; //  RAE
    const id_customField_deadLine = "customField_deadLine";
    const id_customField_addEffort = "customField_addEffort"; // BS
-   const id_customField_deliveryId = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
+   #const id_customField_deliveryId = "customField_deliveryId"; // FDL (id of the associated Delivery Issue)
    const id_customField_deliveryDate = "customField_deliveryDate";
    const id_priorityNames = "priorityNames";     // DEPRECATED since 0.99.18
    const id_severityNames = "severityNames";     // DEPRECATED since 0.99.18

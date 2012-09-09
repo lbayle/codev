@@ -219,9 +219,9 @@ class Issue extends Model implements Comparable {
       $addEffortField = Config::getInstance()->getValue(Config::id_customField_addEffort);
       $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
-      $deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
       $customFields = array(
-         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField, $deliveryIdField
+         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField #, $deliveryIdField
       );
       $query = "SELECT field_id, value FROM `mantis_custom_field_string_table` ".
                "WHERE bug_id = ".$this->bugId." ".
