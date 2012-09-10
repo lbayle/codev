@@ -152,7 +152,7 @@
                   <div style="margin-top: 2px;">
                      <img width="5" height="20" src="images/blank.png" alt="" />
                      {foreach from=$i.scheduledTasks key=id1 item=j}
-                     <a class="task" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
+                     <a class="task" target="_blank" href="reports/issue_info.php?bugid={$j.bugid}" style="margin-right: 1px;display:inline-block;"><img alt="{$j.bugid}" src="graphs/scheduledtask.png.php?height=20&width={$j.width}&text={$j.bugid}&color={$j.color}{if $j.strike}&strike{/if}" height="20" width="{$j.width}" /></a>
                      <!-- tooltip element -->
                      <div id="tooltiptask{$id1}" class="tooltip ui-helper-hidden" style="padding:30px 30px 40px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
                         <table style="margin:0;border:0;padding:0;">
@@ -242,8 +242,7 @@
             container.powerTip({
                placement: 'n',
                smartPlacement: true,
-               mouseOnToPopup: true,
-               offset: 30
+               mouseOnToPopup: true
             });
          });
       });
