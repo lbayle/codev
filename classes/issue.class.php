@@ -377,8 +377,8 @@ class Issue extends Model implements Comparable {
 
       try {
          if (($project->isSideTasksProject($teamidList)) &&
-            ($project->getToolsCategoryId() != $this->categoryId) &&
-            ($project->getWorkshopCategoryId()   != $this->categoryId)) {
+            ($project->getCategory(Project::cat_st_tools) != $this->categoryId) &&
+            ($project->getCategory(Project::cat_st_workshop)   != $this->categoryId)) {
 
             self::$logger->debug("$this->bugId is a sideTask.");
             return TRUE;
@@ -407,7 +407,7 @@ class Issue extends Model implements Comparable {
 
       try {
          if (($project->isSideTasksProject($teamidList)) &&
-            ($project->getInactivityCategoryId() == $this->categoryId)) {
+            ($project->getCategory(Project::cat_st_inactivity) == $this->categoryId)) {
 
             self::$logger->debug("$this->bugId is Vacation.");
             return TRUE;
@@ -435,7 +435,7 @@ class Issue extends Model implements Comparable {
       $project = ProjectCache::getInstance()->getProject($this->projectId);
       try {
          if (($project->isSideTasksProject($teamidList)) &&
-            ($project->getIncidentCategoryId() == $this->categoryId)) {
+            ($project->getCategory(Project::cat_st_incident) == $this->categoryId)) {
 
             self::$logger->debug("$this->bugId is a Incident.");
             return TRUE;
@@ -465,7 +465,7 @@ class Issue extends Model implements Comparable {
 
       try {
          if (($project->isSideTasksProject($teamidList)) &&
-            ($project->getManagementCategoryId() == $this->categoryId)) {
+            ($project->getCategory(Project::cat_mngt_regular) == $this->categoryId)) {
 
             self::$logger->debug("$this->bugId is a ProjectManagement task.");
             return TRUE;
