@@ -227,7 +227,7 @@
       jQuery(document).ready(function() {
          jQuery(".deadline, .task").each(function() {
             var container = jQuery(this);
-            container.data('powertiptarget', container.siblings('.tooltip').attr('id'));
+            container.data('powertiptarget', container.next().attr('id'));
             
             container.powerTip({
                placement: 'n',
