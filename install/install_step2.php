@@ -83,8 +83,11 @@ function createConstantsFile($path_mantis) {
    Constants::$resolution_fixed    = array_search('fixed',    Constants::$resolution_names);
    Constants::$resolution_reopened = array_search('reopened', Constants::$resolution_names);
 
+   // --- relationships ---
    define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', 2500 );
    define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS', 2501 );
+   Constants::$relationship_constrained_by = 2500;
+   Constants::$relationship_constrains = 2501;
 
    $retCode = Constants::writeConfigFile();
 
@@ -244,7 +247,7 @@ if ("proceedStep2" == $action) {
 
    echo "DEBUG 6/7 add bug_resolved_status_threshold<br/>";
    $bug_resolved_status_threshold = isset($g_bug_resolved_status_threshold) ? $g_bug_resolved_status_threshold : constant("RESOLVED");
-   Constants::$bug_resolved_status_threshold = Tools::doubleExplode(':', ',', $bug_resolved_status_threshold);
+   Constants::$bug_resolved_status_threshold = $bug_resolved_status_threshold;
 
    echo "DEBUG 7/7 create ".Constants::$config_file." file<br/>";
    $errStr = createConstantsFile($path_mantis);

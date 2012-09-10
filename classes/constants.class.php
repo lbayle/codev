@@ -38,6 +38,10 @@ class Constants {
    public static $resolution_fixed;
    public static $resolution_reopened;
 
+   //--- RELATIONSHIPS ---
+   public static $relationship_constrained_by;
+   public static $relationship_constrains;
+
    // --- STATUS ---
    # WARNING: CodevTT uses some status variables in the code, they need to set according to the mantis workflow.
    #          The mandatory variables are:
@@ -127,6 +131,9 @@ class Constants {
       self::$resolution_reopened = $resolution['resolution_reopened'];
 
       $relationships = $ini_array['relationships'];
+      self::$relationship_constrained_by = $relationships['relationship_constrained_by'];
+      self::$relationship_constrains = $relationships['relationship_constrains'];
+
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', $relationships['relationship_constrained_by'] );
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',     $relationships['relationship_constrains'] );
 
@@ -175,8 +182,8 @@ class Constants {
       $resolution['resolution_reopened'] = self::$resolution_reopened;
 
       $relationships = array();
-      $relationships['relationship_constrained_by'] = BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY;
-      $relationships['relationship_constrains']     = BUG_CUSTOM_RELATIONSHIP_CONSTRAINS;
+      $relationships['relationship_constrained_by'] = self::$relationship_constrained_by; // BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY;
+      $relationships['relationship_constrains']     = self::$relationship_constrains;     // BUG_CUSTOM_RELATIONSHIP_CONSTRAINS;
 
       $ini_array = array();
       $ini_array[] = '; This file is part of CodevTT.';

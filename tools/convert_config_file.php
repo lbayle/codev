@@ -64,6 +64,9 @@ require_once('classes/constants.class.php');
       Constants::$resolution_fixed    = array_search('fixed',    Constants::$resolution_names);
       Constants::$resolution_reopened = array_search('reopened',    Constants::$resolution_names);
 
+      Constants::$relationship_constrained_by = BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY;
+      Constants::$relationship_constrains     = BUG_CUSTOM_RELATIONSHIP_CONSTRAINS;
+
       $retcode = Constants::writeConfigFile();
 
       if (false != $retcode) {
