@@ -2,17 +2,17 @@
 #powerTip {
 	cursor: default;
         /* CODEVTT Modification */
-        background-color: #E8E8E8; /* fallback for browsers that dont support rgba */
+        background-color: #767676; /* fallback for browsers that dont support rgba */
 	/*background-color: #333; /* fallback for browsers that dont support rgba */
         /* CODEVTT Modification */
-	background-color: rgb(232, 232, 232);
+	background-color: rgba(118, 118, 118, 0.8);
         /*background-color: rgba(0, 0, 0, 0.8);*/
 	border-radius: 6px;
         /* CODEVTT Modification */
 	/*color: #FFF;*/
 	display: none;
         /* CODEVTT Modification */
-        padding: 5px;
+        padding: 3px;
 	/*padding: 10px;*/
 	position: absolute;
 	white-space: nowrap;
@@ -37,25 +37,25 @@
 }
 #powerTip.n:before {
         /* CODEVTT Modification */
-	border-top: 10px solid rgba(232, 232, 232, 0.8);
+	border-top: 10px solid rgba(118, 118, 118, 0.8);
 	/*border-top: 10px solid rgba(0, 0, 0, 0.8);*/
 	bottom: -10px;
 }
 #powerTip.e:before {
         /* CODEVTT Modification */
-	border-right: 10px solid rgba(232, 232, 232, 0.8);
+	border-right: 10px solid rgba(118, 118, 118, 0.8);
 	/*border-right: 10px solid rgba(0, 0, 0, 0.8);*/
 	left: -10px;
 }
 #powerTip.s:before {
         /* CODEVTT Modification */
-	border-bottom: 10px solid rgba(232, 232, 232, 0.8);
+	border-bottom: 10px solid rgba(118, 118, 118, 0.8);
 	/*border-bottom: 10px solid rgba(0, 0, 0, 0.8);*/
 	top: -10px;
 }
 #powerTip.w:before {
         /* CODEVTT Modification */
-	border-left: 10px solid rgba(232, 232, 232, 0.8);
+	border-left: 10px solid rgba(118, 118, 118, 0.8);
 	/*border-left: 10px solid rgba(0, 0, 0, 0.8);*/
 	right: -10px;
 }
@@ -71,13 +71,13 @@
 }
 #powerTip.ne:before, #powerTip.nw:before {
         /* CODEVTT Modification */
-	border-top: 10px solid rgba(232, 232, 232, 0.8);
+	border-top: 10px solid rgba(118, 118, 118, 0.8);
 	/*border-top: 10px solid rgba(0, 0, 0, 0.8);*/
 	bottom: -10px;
 }
 #powerTip.se:before, #powerTip.sw:before {
         /* CODEVTT Modification */
-	border-bottom: 10px solid rgba(232, 232, 232, 0.8);
+	border-bottom: 10px solid rgba(118, 118, 118, 0.8);
 	/*border-bottom: 10px solid rgba(0, 0, 0, 0.8);*/
 	top: -10px;
 }
