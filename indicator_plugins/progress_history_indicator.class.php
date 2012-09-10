@@ -143,7 +143,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       $startTimestamp = mktime(23, 59, 59, date('m', $params['startTimestamp']), date('d', $params['startTimestamp']), date('Y', $params['startTimestamp']));
       $endTimestamp   = mktime(23, 59, 59, date('m', $params['endTimestamp']), date('d',$params['endTimestamp']), date('Y', $params['endTimestamp']));
 
-      #echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
+      //echo "Backlog start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
       $timestampList  = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
 
 
@@ -151,13 +151,13 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       $startTimestamp = mktime(0, 0, 0, date('m', $startTimestamp), date('d', $startTimestamp), date('Y', $startTimestamp));
       $endTimestamp = mktime(23, 59, 59, date('m', $endTimestamp), date('d',$endTimestamp), date('Y', $endTimestamp));
 
-      #echo "Elapsed start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
+      //echo "Elapsed start ".date('Y-m-d H:i:s', $startTimestamp)." end ".date('Y-m-d H:i:s', $endTimestamp)." interval ".$params['interval']."<br>";
 
-      $timestampList = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
+      $timestampList2 = Tools::createTimestampList($startTimestamp, $endTimestamp, $params['interval']);
 
 
       $this->getBacklogData($inputIssueSel, $timestampList);
-      $this->getElapsedData($inputIssueSel, $timestampList);
+      $this->getElapsedData($inputIssueSel, $timestampList2);
 
       // ------ compute
       $theoBacklog = array();
@@ -200,7 +200,7 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
    public function getSmartyObject() {
       $theoBacklog = $this->execData['theo'];
       $realBacklog = $this->execData['real'];
-      return Tools::array2plot($theoBacklog).','.Tools::array2plot($realBacklog);
+      return "[".Tools::array2plot($theoBacklog).','.Tools::array2plot($realBacklog)."]";
    }
 
 }

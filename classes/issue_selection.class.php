@@ -442,34 +442,43 @@ class IssueSelection {
     * @return TimeTrack
     */
    public function getFirstTimetrack() {
-      $found = NULL;
-      $firstTimestamp = time();
-      foreach ($this->issueList as $issue) {
-         $tt = $issue->getFirstTimetrack();
-         if ((NULL != $tt) && ( $tt->getDate() < $firstTimestamp)) {
-            $firstTimestamp = $tt->getDate();
-            $found = $tt;
-         }
+      $query = "SELECT * from `codev_timetracking_table` ".
+               "WHERE bugid IN (".implode(', ',array_keys($this->issueList)).") ".
+               "ORDER BY date ASC LIMIT 1";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
-      #echo "getFirstTimetrack = $firstTimestamp<br>";
-      return $found;
+
+      $timeTrack = NULL;
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+      }
+
+      return $timeTrack;
    }
 
    /**
     * @return TimeTrack
     */
    public function getLatestTimetrack() {
-      $found = NULL;
-      $latestTimestamp = 0;
-      foreach ($this->issueList as $issue) {
-         $tt = $issue->getLatestTimetrack();
-         if ((NULL != $tt) && ($tt->getDate() > $latestTimestamp)) {
-            $latestTimestamp = $tt->getDate();
-            $found = $tt;
-         }
+      $query = "SELECT * from `codev_timetracking_table` ".
+               "WHERE bugid IN (".implode(', ',array_keys($this->issueList)).") ".
+               "ORDER BY date DESC LIMIT 1";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
       }
-      #echo "getLatestTimetrack = $latestTimestamp<br>";
-      return $found;
+
+      $timeTrack = NULL;
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+      }
+      return $timeTrack;
    }
 
 }

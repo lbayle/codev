@@ -52,6 +52,37 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
                $endTimestamp = Tools::date2timestamp(Tools::getSecureGETStringValue("enddate"));
                $data = ServiceContractTools::getSContractActivity($servicecontract, $startTimestamp, $endTimestamp);
                echo $data[0]['jqplotData'];
+               SqlWrapper::getInstance()->logStats();
+            } else {
+               Tools::sendBadRequest("Service contract equals 0");
+            }
+         } else {
+            Tools::sendBadRequest("Service contract not set");
+         }
+      } else if($_GET['action'] == 'getProgressHistoryIndicator') {
+         if(isset($_SESSION['servicecontractid'])) {
+            $servicecontractid = $_SESSION['servicecontractid'];
+            if (0 != $servicecontractid) {
+               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+               $timestamp = ServiceContractTools::getSContractProgressHistoryTimestamp($servicecontract);
+               $start = Tools::formatDate("%Y-%m-01", $timestamp[0]);
+               $end = Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d",$timestamp[1])." +1 month"));
+               $smartyHelper->assign('progress_history_plotMinDate', $start);
+               $smartyHelper->assign('progress_history_plotMaxDate', $end);
+               $smartyHelper->display('plugin/progress_history_indicator');
+            }
+         } else {
+            Tools::sendBadRequest("Service contract not set");
+         }
+      } else if($_GET['action'] == 'getProgressHistoryIndicatorData') {
+         if(isset($_SESSION['servicecontractid'])) {
+            $servicecontractid = $_SESSION['servicecontractid'];
+            if (0 != $servicecontractid) {
+               $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+               $data = ServiceContractTools::getSContractProgressHistory($servicecontract);
+               header('Content-type: application/json');
+               echo $data;
+               SqlWrapper::getInstance()->logStats();
             } else {
                Tools::sendBadRequest("Service contract equals 0");
             }
