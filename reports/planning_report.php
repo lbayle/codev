@@ -394,7 +394,7 @@ class PlanningReportController extends Controller {
          if ($scheduledTask->getDeadline() > 0) {
             $sTask["deadLine"] = date(T_("Y-m-d"), $scheduledTask->getDeadline());
          }
-         $scheduledTasks[] = $sTask;
+         $scheduledTasks[$scheduledTask->getIssueId()] = $sTask;
 
       }
 
