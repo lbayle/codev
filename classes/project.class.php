@@ -961,36 +961,6 @@ class Project extends Model {
       return $this->id == Config::getInstance()->getValue(Config::id_externalTasksProject);
    }
 
-   public function getManagementCategoryId() {
-      if (NULL == $this->categoryList) return NULL;
-      return $this->getCategory(self::cat_mngt_regular);
-   }
-
-   public function getMngtProvisionCategoryId() {
-      if (NULL == $this->categoryList) return NULL;
-      return $this->getCategory(self::cat_mngt_provision);
-   }
-
-   public function getIncidentCategoryId() {
-      if (NULL == $this->categoryList) return NULL;
-      return $this->getCategory(self::cat_st_incident);
-   }
-
-   public function getInactivityCategoryId() {
-      if (NULL == $this->categoryList) return NULL;
-      return $this->getCategory(self::cat_st_inactivity);
-   }
-
-   public function getToolsCategoryId() {
-      if (NULL == $this->categoryList) return NULL;
-      return $this->getCategory(self::cat_st_tools);
-   }
-
-   public function getWorkshopCategoryId() {
-      if (NULL == $this->categoryList) return NULL;
-      return $this->getCategory(self::cat_st_workshop);
-   }
-
    /**
     * get Workflow transitions from Mantis DB
     *

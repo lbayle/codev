@@ -294,7 +294,7 @@ class EditTeamController extends Controller {
       $inactivityCatList = array();
       foreach ($projList as $project) {
          if ($team->isSideTasksProject($project->getId())) {
-            $inactivityCatList[$project->getId()] = $project->getInactivityCategoryId();
+            $inactivityCatList[$project->getId()] = $project->getCategory(Project::cat_st_inactivity);
          }
       }
 
