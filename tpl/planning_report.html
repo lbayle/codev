@@ -132,17 +132,17 @@
                   <img class="deadline" src="{$j.url}" alt="{$j.title}" height="7" width="10" />
                   <!-- tooltip element -->
                   <div id="tooltipdeadline{$id1}" class="tooltip ui-helper-hidden" style="padding:30px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
-                     <table style="margin:0;border:0">
+                     <table style="margin:0;border:0;padding:0;">
                         <tbody>
                            <tr>
-                              <th style="color:blue;width:35px;">{t}Date{/t}</th>
+                              <td style="color:blue;width:35px;">{t}Date{/t}</td>
                               <td>{$j.date}</td></tr>
                            <tr>
-                              <th style="color:blue;width:35px;">{t}nbDaysToDeadLine{/t}</th>
+                              <td style="color:blue;width:35px;">{t}nbDaysToDeadLine{/t}</td>
                               <td>+{$j.nbDaysToDeadLine} {t}days{/t}</td>
                            </tr>
                            <tr>
-                              <th style="color:blue;width:35px;">{t}Tasks{/t}</th>
+                              <td style="color:blue;width:35px;">{t}Tasks{/t}</td>
                               <td>{$j.deadlineIssues}</td>
                            </tr>
                         </tbody>
@@ -225,13 +225,25 @@
 
    <script type="text/javascript">
       jQuery(document).ready(function() {
-         jQuery(".deadline, .task").each(function() {
-            jQuery(this).data('powertiptarget', jQuery(this).siblings('.tooltip').attr('id'));
+         jQuery(".deadline").each(function() {
+            var container = jQuery(this);
+            container.data('powertiptarget', container.siblings('.tooltip').attr('id'));
             
-            jQuery(this).powerTip({
+            container.powerTip({
                placement: 'n',
+               smartPlacement: true,
+               mouseOnToPopup: true
+            });
+         });
+         jQuery(".task").each(function() {
+            var container = jQuery(this);
+            container.data('powertiptarget', container.next().attr('id'));
+            
+            container.powerTip({
+               placement: 'n',
+               smartPlacement: true,
                mouseOnToPopup: true,
-               smartPlacement: true
+               offset: 30
             });
          });
       });

@@ -5,7 +5,7 @@
         background-color: #E8E8E8; /* fallback for browsers that dont support rgba */
 	/*background-color: #333; /* fallback for browsers that dont support rgba */
         /* CODEVTT Modification */
-	background-color: rgba(232, 232, 232, 0.8);
+	background-color: rgb(232, 232, 232);
         /*background-color: rgba(0, 0, 0, 0.8);*/
 	border-radius: 6px;
         /* CODEVTT Modification */
