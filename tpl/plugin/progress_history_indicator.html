@@ -1,0 +1,38 @@
+<script type="text/javascript" src="js/chart.js"></script>
+
+<script type="text/javascript">
+   jQuery(document).ready(function() {
+      var chartoptions = jQuery('#indicatorsChart').data('plotoptions');
+      chartoptions.title.text = '{t}Historical Progression Chart{/t}';
+      chartoptions.legend.location = 'nw';
+      chartoptions.series = [{
+         label : "{t}Theoric{/t}"
+      },{
+         label : "{t}Real{/t}"
+      }];
+      chartoptions.axes.xaxis.min = "{$progress_history_plotMinDate}";
+      chartoptions.axes.xaxis.max = "{$progress_history_plotMaxDate}";
+      chartoptions.axes.yaxis.label = '{t}% Progress{/t}';
+      chartoptions.axes.yaxis.min = 0;
+      var jsonurl = "management/servicecontract_info_ajax.php?action=getProgressHistoryIndicatorData";
+      chartoptions.dataRenderer = function(url, plot, options) {
+         if(url == null) {
+            url = jsonurl;
+         }
+         var result = null;
+         jQuery.ajax({
+            // have to use synchronous here, else the function
+            // will return before the data is fetched
+            async: false,
+            url: url,
+            dataType:"json",
+            success: function(data) {
+               result = data;
+            }
+         });
+         return result;
+      };
+      jQuery('#indicatorsChart').jqplot(jsonurl, chartoptions);
+   });
+</script>
+<div id="indicatorsChart" class="date_chart chart" style="width:100%;"></div>

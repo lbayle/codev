@@ -835,16 +835,19 @@ class Tools {
       while ($timestamp < $end_timestamp) {
          #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)." BEFORE<br>";
          // FIXME Weird, the timestamp should change at the end of the loop
-         $newTimestamp = strtotime("+$interval day",$timestamp);
 
          if (0 == $timestamp) {
             $e = new Exception("error strtotime(+$interval day, ".date("Y-m-d H:i:s", $timestamp).")");
             echo $e->getMessage();
             throw $e;
          }
+         
 
-         $timestamp = $newTimestamp;
          $timestampList[] = $timestamp;
+         
+         $newTimestamp = strtotime("+$interval day",$timestamp);
+         $timestamp = $newTimestamp;
+         
 
          #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)." AFTER<br>";
       }

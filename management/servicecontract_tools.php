@@ -231,11 +231,33 @@ class ServiceContractTools {
       return $detailledMgr;
    }
 
+   public static function getSContractProgressHistoryTimestamp(ServiceContract $serviceContract) {
+      $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
+
+      $startTT = $cmdIssueSel->getFirstTimetrack();
+      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
+         $startTimestamp = $startTT->getDate();
+      } else {
+         $startTimestamp = $serviceContract->getStartDate();
+         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
+         if (0 == $startTimestamp) {
+            $team = TeamCache::getInstance()->getTeam($serviceContract->getTeamid());
+            $startTimestamp = $team->getDate();
+            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
+         }
+      }
+
+      $endTT = $cmdIssueSel->getLatestTimetrack();
+      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
+
+      return array($startTimestamp,$endTimestamp);
+   }
+
    /**
     * @param ServiceContract $serviceContract
     * @return string
     */
-   private static function getSContractProgressHistory(ServiceContract $serviceContract) {
+   public static function getSContractProgressHistory(ServiceContract $serviceContract) {
       $cmdIssueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
 
       $startTT = $cmdIssueSel->getFirstTimetrack();
@@ -263,7 +285,7 @@ class ServiceContractTools {
       $progressIndicator = new ProgressHistoryIndicator();
       $progressIndicator->execute($cmdIssueSel, $params);
 
-      return array($progressIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
+      return $progressIndicator->getSmartyObject();
    }
 
    /**
@@ -341,11 +363,6 @@ class ServiceContractTools {
       $smartyHelper->assign('nbSidetasksList', $issueSelection->getNbIssues());
 
       $smartyHelper->assign('servicecontractTotalDetailedMgr', self::getContractTotalDetailedMgr($servicecontract->getId()));
-
-      $data = self::getSContractProgressHistory($servicecontract);
-      $smartyHelper->assign('indicators_jqplotData', $data[0]);
-      $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
-      $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +2 month")));
 
       $data = self::getSContractActivity($servicecontract);
       $smartyHelper->assign('activityIndic_data', $data[0]);
