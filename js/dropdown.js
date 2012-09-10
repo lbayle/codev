@@ -1,7 +1,7 @@
 // Dropdown for menu
 jQuery(document).ready(function() {
    jQuery("ul.dropdown li").hover(function() {
-      jQuery(this).addClass("hover");
+      //jQuery(this).addClass("hover");
       jQuery('ul:first',this).css('visibility', 'visible');
     }, function() {
       jQuery(this).removeClass("hover");
