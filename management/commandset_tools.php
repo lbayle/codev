@@ -200,7 +200,7 @@ class CommandSetTools {
       $data = self::getCSetProgressHistory($commandset);
       $smartyHelper->assign('indicators_jqplotData', $data[0]);
       $smartyHelper->assign('indicators_plotMinDate', Tools::formatDate("%Y-%m-01", $data[1]));
-      $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +2 month")));
+      $smartyHelper->assign('indicators_plotMaxDate', Tools::formatDate("%Y-%m-01", strtotime(date("Y-m-d", $data[2]) . " +1 month")));
 
       $data = self::getCommandSetActivity($commandset);
       $smartyHelper->assign('activityIndic_data', $data[0]);
