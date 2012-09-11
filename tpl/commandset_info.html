@@ -163,7 +163,7 @@
                chartoptions.axes.xaxis.max = "{$indicators_plotMaxDate}";
                chartoptions.axes.yaxis.label = '{t}% Progress{/t}';
                chartoptions.axes.yaxis.min = 0;
-               jQuery('#indicatorsChart').jqplot([{$indicators_jqplotData}], chartoptions);
+               jQuery('#indicatorsChart').jqplot({$indicators_jqplotData}, chartoptions);
             });
          </script>
          <div id="indicatorsChart" class="date_chart chart" style="width:100%;"></div>
