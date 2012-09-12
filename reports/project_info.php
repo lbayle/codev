@@ -253,13 +253,8 @@ class ProjectInfoController extends Controller {
     */
    private function getVersionsIssues(array $projectVersionList) {
       $versionsIssues = NULL;
-      $totalElapsed = 0;
-      $totalBacklog = 0;
+
       foreach ($projectVersionList as $pv) {
-         $totalElapsed += $pv->elapsed;
-         // FIXME No remaing exist on ProjectVersion neither IssueSelection
-         $totalBacklog += $pv->backlog;
-         //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
 
          // format Issues list
          $formatedResolvedList = "";
