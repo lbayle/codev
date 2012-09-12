@@ -171,18 +171,10 @@ class UninstallController extends Controller {
    function saveConfigFiles() {
       $codevReportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
       if (file_exists(Constants::$config_file)) {
-         $filename = ereg_replace(".*/", "", Constants::$config_file);
+         $filename = ereg_replace("^.*\\".DIRECTORY_SEPARATOR, "", Constants::$config_file);
          $retCode = copy(Constants::$config_file, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
          if (!$retCode) {
             self::$logger->error("ERROR: Could not save file: " . Constants::$config_file);
-            return false;
-         }
-      }
-      if (file_exists(Install::FILENAME_MYSQL_CONFIG)) {
-         $filename = ereg_replace(".*/", "", Install::FILENAME_MYSQL_CONFIG);
-         $retCode = copy(Install::FILENAME_MYSQL_CONFIG, $codevReportsDir.DIRECTORY_SEPARATOR.$filename);
-         if (!$retCode) {
-            self::$logger->error("ERROR: Could not save file: " . Install::FILENAME_MYSQL_CONFIG);
             return false;
          }
       }

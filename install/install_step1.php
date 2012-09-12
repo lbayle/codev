@@ -252,7 +252,7 @@ if ("setDatabaseInfo" == $action) {
 
    // TODO check user access (create_table, create_procedure, alter, insert,delete, ...)
 
-   echo "DEBUG 2/3 execSQLscript - create Tables<br/>";
+   echo "DEBUG 2/3 execSQLscript2 - create Tables<br/>";
    $retCode = Tools::execSQLscript2(Install::FILENAME_TABLES);
    if (0 != $retCode) {
       echo "<span class='error_font'>Could not execSQLscript: Install::FILENAME_TABLES</span><br/>";
