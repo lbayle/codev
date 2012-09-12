@@ -100,16 +100,21 @@ class IssueInfoController extends Controller {
                      $this->smartyHelper->assign('nbParentCommands', count($parentCmds));
 
                      // get Backlog history
-                     $timestampList = $this->getTimetrackDates($issue);
-                     
-                     $plotMinDate = date('Y-m-d', $issue->getFirstTimetrack()->getDate());
-                     $plotMaxDate = date('Y-m-d', $issue->getLatestTimetrack()->getDate());
-                     $this->smartyHelper->assign('backload_plotMinDate', $plotMinDate);
-                     $this->smartyHelper->assign('backload_plotMaxDate', $plotMaxDate);
-                     
-                     $this->smartyHelper->assign('backload_jqplotTitle', 'Backlog variation');
-                     $this->smartyHelper->assign('backload_jqplotYaxisLabel', 'Backlog (days)');
-                     $this->smartyHelper->assign('backload_jqplotData', $this->getBacklogGraph($issue, $timestampList));
+
+                     $firstTimetrack = $issue->getFirstTimetrack();
+                     $latestTimetrack = $issue->getLatestTimetrack();
+                     if (($latestTimetrack) && ($firstTimetrack)) {
+                        $plotMinDate = date('Y-m-d', $firstTimetrack->getDate());
+                        $plotMaxDate = date('Y-m-d', $latestTimetrack->getDate());
+                        $timestampList = $this->getTimetrackDates($issue);
+
+                        $this->smartyHelper->assign('backload_plotMinDate', $plotMinDate);
+                        $this->smartyHelper->assign('backload_plotMaxDate', $plotMaxDate);
+
+                        $this->smartyHelper->assign('backload_jqplotTitle', 'Backlog variation');
+                        $this->smartyHelper->assign('backload_jqplotYaxisLabel', 'Backlog (days)');
+                        $this->smartyHelper->assign('backload_jqplotData', $this->getBacklogGraph($issue, $timestampList));
+                     }
 
                   }
                   $projects = SmartyTools::getSmartyArray($projList,$defaultProjectid);
