@@ -43,7 +43,9 @@ function login($user, $password) {
 
         try {
             $user =  UserCache::getInstance()->getUser($row_login->id);
-            $_SESSION['locale'] = $user->getDefaultLanguage();
+
+            $locale = $user->getDefaultLanguage();
+            if (NULL != $locale) { $_SESSION['locale'] = $locale; }
 
             $teamid = $user->getDefaultTeam();
             if (0 != $teamid) { $_SESSION['teamid'] = $teamid; }

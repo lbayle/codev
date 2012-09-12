@@ -1142,7 +1142,7 @@ class User extends Model {
    }
 
    /**
-    * get the default team on login
+    * get the default llanguage on login (or NULL if not found in DB)
     *
     * @return string
     */
@@ -1159,8 +1159,8 @@ class User extends Model {
             #echo "<span style='color:red'>ERROR: Query FAILED</span>";
             exit;
          }
-         // if not found return 'en'
-         $this->defaultLanguage = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 'en';
+         // if not found return 'NULL'
+         $this->defaultLanguage = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
       }
       return $this->defaultLanguage;
    }

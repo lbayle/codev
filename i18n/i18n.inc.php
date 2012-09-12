@@ -59,7 +59,9 @@ if(!array_search("ISO-8859-1", $availableEncoding)) {
  * @return string The locale
  */
 function getLocale() {
-   $locale = 'fr';
+   
+   $locale = 'en'; // default language
+
    if (isset($_GET['locale']) && !empty($_GET['locale'])) {
       $locale = $_GET['locale'];
    } elseif (isset($_SESSION['locale']) && !empty($_SESSION['locale'])) {
