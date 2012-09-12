@@ -50,6 +50,53 @@ jQuery(document).ready(function() {
          }
       });
    });
+   
+   jQuery('.day_date_chart').each(function() {
+      jQuery(this).data("plotoptions", {
+         // animate: true,
+         // animateReplot: true,
+         title: {
+            // Nothing to do
+         },
+         legend: {
+            show: true
+         },
+         series: [{
+
+         }],
+         seriesDefaults: {
+            pointLabels: {
+               show:true
+            }
+         },
+         cursor: {
+            show: true,
+            style: "pointer"
+         },
+         highlighter: {
+            show: true,
+            showTooltip: false
+         },
+         axesDefaults: {
+            useSeriesColor:true,
+            rendererOptions: {
+               alignTicks: true
+            }
+         },
+         axes: {
+            xaxis: {
+               renderer: jQuery.jqplot.DateAxisRenderer,
+               tickOptions: {
+                  formatString: "%d %b %Y"
+               },
+               tickInterval: "1 week"
+            },
+            yaxis: {
+               // Nothing to do
+            }
+         }
+      });
+   });
 
    // Chart by date with a line on y = 0
    jQuery('.date_chart_with_horizontal_line').each(function() {

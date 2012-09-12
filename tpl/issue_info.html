@@ -333,10 +333,12 @@
                   var chartoptions = jQuery('#backloadChart').data('plotoptions');
                   chartoptions.title.text = '{t}{$backload_jqplotTitle}{/t}';
                   chartoptions.axes.yaxis.label = "{$backload_jqplotYaxisLabel}";
+                  chartoptions.axes.xaxis.min = "{$backload_plotMinDate}";
+                  chartoptions.axes.xaxis.max = "{$backload_plotMaxDate}";
                   jQuery('#backloadChart').jqplot([{$backload_jqplotData}], chartoptions);
                });
             </script>
-            <div id="backloadChart" class="category_chart chart" style="width: 100%"></div>
+            <div id="backloadChart" class="day_date_chart chart" style="width: 100%"></div>
             {else}
             <p>{t}No data{/t}</p>
             {/if}

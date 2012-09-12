@@ -101,12 +101,12 @@ class IssueInfoController extends Controller {
 
                      // get Backlog history
                      $timestampList = $this->getTimetrackDates($issue);
-                     /*
-                     $plotMinDate = date('Y-m-d', $issue->getFirstTimetrack()->date);
-                     $plotMaxDate = date('Y-m-d', $issue->getLatestTimetrack()->date);
-                     $smartyHelper->assign('plotMinDate', $plotMinDate);
-                     $smartyHelper->assign('plotMaxDate', $plotMaxDate);
-                     */
+                     
+                     $plotMinDate = date('Y-m-d', $issue->getFirstTimetrack()->getDate());
+                     $plotMaxDate = date('Y-m-d', $issue->getLatestTimetrack()->getDate());
+                     $this->smartyHelper->assign('backload_plotMinDate', $plotMinDate);
+                     $this->smartyHelper->assign('backload_plotMaxDate', $plotMaxDate);
+                     
                      $this->smartyHelper->assign('backload_jqplotTitle', 'Backlog variation');
                      $this->smartyHelper->assign('backload_jqplotYaxisLabel', 'Backlog (days)');
                      $this->smartyHelper->assign('backload_jqplotData', $this->getBacklogGraph($issue, $timestampList));
