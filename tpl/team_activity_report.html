@@ -31,7 +31,7 @@
 
             form.submit();
          });
-         jQuery("#nextWeek").click(function() {
+         jQuery("#nextWeek").click(function(event) {
             var weekidVal = weekid.val();
             if (weekidVal <= 52) {
                weekid.val(++weekidVal);
@@ -45,7 +45,7 @@
          });
       });
    </script>
-   <form id="form1" name="form1" method="post" action="{$page}">
+   <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}">
       <fieldset>
          {include file="form/teamSelector.html"}
          <label>{t}Week{/t}</label>

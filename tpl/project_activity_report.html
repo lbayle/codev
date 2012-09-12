@@ -1,7 +1,7 @@
 <div id="content" class="center">
    {if isset($teams)}
    <h2>{t}Projects Activity{/t}</h2>
-   <form method="post" action="{$page}">
+   <form method="post" class="formWithTabsHistory" action="{$page}">
       <fieldset>
          {include file="form/teamSelector.html"}
          {include file="form/dateRangeSelector.html"}
