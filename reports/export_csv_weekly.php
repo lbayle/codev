@@ -34,8 +34,14 @@ class ExportCSVWeeklyController extends Controller {
    public static function staticInit() {
       self::$logger = Logger::getLogger("check");
 
-      if (!is_dir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports')) {
-         mkdir(Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports', 0755);
+      $reportsDir = Constants::$codevOutputDir.DIRECTORY_SEPARATOR.'reports';
+
+      if (!is_dir($reportsDir)) {
+         $retCode = mkdir($reportsDir, 0755);
+         if (FALSE == $retCode) {
+            self::$logger->error("could not create reports directory:".$reportsDir);
+            echo "ERROR could not create reports directory:".$reportsDir;
+         }
       }
 
    }
