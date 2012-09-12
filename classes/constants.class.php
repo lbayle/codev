@@ -71,8 +71,7 @@ class Constants {
 
       #date_default_timezone_set('Europe/Paris');
 
-      // FIXME workaround: find correct rootDir
-      self::$config_file = dirname(__FILE__).'/../config.ini';
+      self::$config_file = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config.ini';
 
       #echo "configFile = ".self::$config_file."<br>";
 

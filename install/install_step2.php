@@ -51,14 +51,14 @@ require_once('install/install_menu.inc.php');
  *
  * @return NULL if OK, or an error message starting with 'ERROR' .
  */
-function createConstantsFile($path_mantis) {
+function createConstantsFile($mantisPath, $mantisURL) {
 
    // --- general ---
    Constants::$codevtt_logfile = '/tmp/codevtt/logs/codevtt.log';
    Constants::$homepage_title = 'Welcome';
-   Constants::$mantisURL = 'http://'.$_SERVER['HTTP_HOST'].'/mantis';
-   Constants::$mantisPath = $path_mantis;
-   Constants::$codevRootDir = dirname(__FILE__)."/.."; // FIXME: set real root dir
+   Constants::$mantisURL = $mantisURL;
+   Constants::$mantisPath = $mantisPath;
+   Constants::$codevRootDir = dirname(dirname(__FILE__));
 
    // --- database ---
    // already set...
@@ -98,7 +98,7 @@ function createConstantsFile($path_mantis) {
    return NULL;
 }
 
-function displayForm($originPage, $path_mantis) {
+function displayForm($originPage, $path_mantis, $url_mantis) {
 
    echo "<form id='form2' name='form2' method='post' action='$originPage' >\n";
    echo "<h2>".T_("Get Mantis customizations")."</h2>\n";
@@ -110,6 +110,10 @@ function displayForm($originPage, $path_mantis) {
    echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='path_mantis'  id='path_mantis' value='$path_mantis'></td>\n";
    echo "  </tr>\n";
 
+   echo "  <tr>\n";
+   echo "    <td width='120'>".T_("URL to mantis")."</td>\n";
+   echo "    <td><input size='50' type='text' style='font-family: sans-serif' name='url_mantis'  id='url_mantis' value='$url_mantis'></td>\n";
+   echo "  </tr>\n";
    echo "</table>\n";
 
    // ---
@@ -128,20 +132,22 @@ function displayForm($originPage, $path_mantis) {
 // ================ MAIN =================
 $originPage = "install_step2.php";
 
-$default_path_mantis           = "/var/www/html/mantis";
+$default_path_mantis           = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
+$default_url_mantis            = 'http://'.$_SERVER['HTTP_HOST'].'/mantis';
 $filename_strings              = "strings_english.txt";
 $filename_custom_strings       = "custom_strings_inc.php";
 $filename_custom_constant      = "custom_constant_inc.php";
 $filename_custom_relationships = "custom_relationships_inc.php";
 
 $path_mantis = Tools::getSecurePOSTStringValue('path_mantis', $default_path_mantis);
+$url_mantis = Tools::getSecurePOSTStringValue('url_mantis', $default_url_mantis);
 
 $action = Tools::getSecurePOSTStringValue('action', '');
 
 #displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
 
-displayForm($originPage, stripslashes($path_mantis));
+displayForm($originPage, stripslashes($path_mantis), stripslashes($url_mantis));
 
 if ("proceedStep2" == $action) {
    if(!file_exists($path_mantis)) {
@@ -250,7 +256,7 @@ if ("proceedStep2" == $action) {
    Constants::$bug_resolved_status_threshold = $bug_resolved_status_threshold;
 
    echo "DEBUG 7/7 create ".Constants::$config_file." file<br/>";
-   $errStr = createConstantsFile($path_mantis);
+   $errStr = createConstantsFile($path_mantis, $url_mantis);
    if (NULL != $errStr) {
       echo "<span class='error_font'>".$errStr."</span><br/>";
       exit;
