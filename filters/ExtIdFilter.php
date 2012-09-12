@@ -19,13 +19,11 @@
 
 require_once('lib/log4php/Logger.php');
 
-/* INSERT INCLUDES HERE */
-
 /**
- * Description of ProjectCategoryFilter
+ * split input in two groups: with / without externalID
  *
  */
-class ProjectCategoryFilter implements IssueSelectionFilter {
+class ExtIdFilter implements IssueSelectionFilter {
 
    /**
     * @var Logger The logger
@@ -33,7 +31,7 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
    private static $logger;
    private $id;
 
-   private $categoryList;
+   private $outputList;
 
    /**
     * Initialize complex static variables
@@ -47,42 +45,46 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
       $this->id = $id;
    }
 
+   public function getDesc() {
+      return "sort issues: with/without ExternalID";
+   }
+
+   public function getName() {
+      return "extIdFilter";
+   }
+
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
       if (NULL == $inputIssueSel) {
          throw new Exception("Missing IssueSelection");
       }
-   }   
-   
+   }
+
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
 
       $this->checkParams($inputIssueSel, $params);
 
-      if (NULL == $this->categoryList) {
-         $this->categoryList = array();
+      if (NULL == $this->outputList) {
+         $withExtIdIssueSel = new IssueSelection('with');
+         $withoutExtIdIssueSel = new IssueSelection('without');
          $issueList = $inputIssueSel->getIssueList();
          foreach ($issueList as $issue) {
-            $tag = "CATEGORY_".$issue->getCategoryId();
 
-            if (!array_key_exists($tag, $this->categoryList)) {
-               $this->categoryList[$tag] = new IssueSelection($issue->getCategoryId());
+            $extId = $issue->getTcId();
+            if (isset($extId)) {
+               $withExtIdIssueSel->addIssue($issue->getId());
+            } else {
+               $withoutExtIdIssueSel->addIssue($issue->getId());
             }
-            $this->categoryList[$tag]->addIssue($issue->getId());
          }
-         ksort($this->categoryList);
+         $this->outputList = array();
+         $this->outputList['with'] = $withExtIdIssueSel;
+         $this->outputList['without'] = $withoutExtIdIssueSel;
       }
-      return $this->categoryList;
-   }
-
-   public function getDesc() {
-      return "sort issues per project categories";
-   }
-
-   public function getName() {
-      return "ProjectCategoryFilter";
+      return $this->outputList;
    }
 
 }
 
 // Initialize complex static variables
-ProjectCategoryFilter::staticInit();
+ExtIdFilter::staticInit();
 ?>

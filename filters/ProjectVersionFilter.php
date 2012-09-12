@@ -19,13 +19,12 @@
 
 require_once('lib/log4php/Logger.php');
 
-/* INSERT INCLUDES HERE */
 
 /**
- * Description of ProjectCategoryFilter
+ * Sort issues per ProjectVersion
  *
  */
-class ProjectCategoryFilter implements IssueSelectionFilter {
+class ProjectVersionFilter implements IssueSelectionFilter {
 
    /**
     * @var Logger The logger
@@ -33,7 +32,7 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
    private static $logger;
    private $id;
 
-   private $categoryList;
+   private $outputList;
 
    /**
     * Initialize complex static variables
@@ -47,42 +46,45 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
       $this->id = $id;
    }
 
+   public function getDesc() {
+      return "Sort issues per ProjectVersion";
+   }
+
+   public function getName() {
+      return "ProjectVersionFilter";
+   }
+
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
       if (NULL == $inputIssueSel) {
          throw new Exception("Missing IssueSelection");
       }
-   }   
-   
+   }
+
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
 
       $this->checkParams($inputIssueSel, $params);
 
-      if (NULL == $this->categoryList) {
-         $this->categoryList = array();
+      if (NULL == $this->outputList) {
+
+         $this->outputList = array();
+
          $issueList = $inputIssueSel->getIssueList();
          foreach ($issueList as $issue) {
-            $tag = "CATEGORY_".$issue->getCategoryId();
+            $tagVersion = "VERSION_".$issue->getTargetVersion();
 
-            if (!array_key_exists($tag, $this->categoryList)) {
-               $this->categoryList[$tag] = new IssueSelection($issue->getCategoryId());
+            if (!array_key_exists($tagVersion, $this->outputList)) {
+               $this->outputList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
             }
-            $this->categoryList[$tag]->addIssue($issue->getId());
+            $this->outputList[$tagVersion]->addIssue($issue->getId());
          }
-         ksort($this->categoryList);
+         ksort($this->outputList);
       }
-      return $this->categoryList;
-   }
-
-   public function getDesc() {
-      return "sort issues per project categories";
-   }
-
-   public function getName() {
-      return "ProjectCategoryFilter";
+      return $this->outputList;
    }
 
 }
 
+
 // Initialize complex static variables
-ProjectCategoryFilter::staticInit();
+ProjectVersionFilter::staticInit();
 ?>
