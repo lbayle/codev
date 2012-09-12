@@ -359,7 +359,7 @@ class ConsistencyCheck2 {
          if (0 != $elapsed) {
             $cerr = new ConsistencyError2($issue->getId(), $issue->getHandlerId(), $issue->getCurrentStatus(),
                $issue->getLastUpdate(),
-               T_("Status should not be")." '".Constants::$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
+               T_("Status should not be")." '".Constants::$statusNames[Constants::$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
             $cerr->severity = ConsistencyError2::severity_error;
 
             $cerrList[] = $cerr;

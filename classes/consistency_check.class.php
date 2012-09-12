@@ -367,7 +367,7 @@ class ConsistencyCheck {
                $row->handler_id,
                $row->status,
                $row->last_updated,
-               T_("Status should not be")." '".Constants::$statusNames[$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
+               T_("Status should not be")." '".Constants::$statusNames[Constants::$status_new]."' (".T_("elapsed")." = ".$elapsed.")");
             $cerr->severity = T_("Error");
 
             $cerrList[] = $cerr;
