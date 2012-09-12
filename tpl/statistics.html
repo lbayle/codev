@@ -106,6 +106,7 @@
                   chartoptions.axes.xaxis.max = "{$timeDrift_plotMaxDate}";
                   chartoptions.axes.yaxis.min = 0;
                   chartoptions.axes.yaxis.max = 100;
+                  chartoptions.seriesDefaults.pointLabels.formatString = "%u%";
                   jQuery('#timeDriftChart').jqplot([{$timeDrift_jqplotData}], chartoptions);
                });
             </script>
@@ -196,6 +197,7 @@
                   chartoptions.axes.xaxis.max = "{$efficiency_plotMaxDate}";
                   chartoptions.axes.yaxis.min = 0;
                   chartoptions.axes.yaxis.max = 100;
+                  chartoptions.seriesDefaults.pointLabels.formatString = "%u%";
                   jQuery('#efficiencyChart').jqplot({$efficiency_jqplotData}, chartoptions);
                });
             </script>
@@ -245,6 +247,7 @@
                   chartoptions.axes.xaxis.max = "{$reopenedRate_plotMaxDate}";
                   chartoptions.axes.yaxis.min = 0;
                   chartoptions.axes.yaxis.max = 100;
+                  chartoptions.seriesDefaults.pointLabels.formatString = "%u%";
                   jQuery('#reopenedRateChart').jqplot({$reopenedRate_jqplotData}, chartoptions);
                });
             </script>
