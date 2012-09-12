@@ -22,7 +22,7 @@
             });
          });
       </script>
-      <form id="form1" name="form1" method="post" action="{$page}{if $displayNoSupport}?support{/if}">
+      <form id="form1" name="form1" class="formWithTabsHistory" method="post" action="{$page}{if $displayNoSupport}?support{/if}">
          <fieldset>
             {include file="form/teamSelector.html"}
             <label for="year">{t}Start Year{/t}</label>
