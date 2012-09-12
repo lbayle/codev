@@ -353,7 +353,7 @@ class Issue extends Model implements Comparable {
             $this->bug_resolved_status_threshold = $project->getBugResolvedStatusThreshold();
          } catch (Exception $e) {
             self::$logger->error("getBugResolvedStatusThreshold() issue $this->bugId: ".$e->getMessage());
-            $this->bug_resolved_status_threshold = Config::getInstance()->getValue(Config::id_bugResolvedStatusThreshold);
+            $this->bug_resolved_status_threshold = Config::getInstance()->getValue(Constants::$bug_resolved_status_threshold);
             self::$logger->warn("getBugResolvedStatusThreshold(): using default BugResolvedStatusThreshold ($this->bug_resolved_status_threshold)");
          }
       }
