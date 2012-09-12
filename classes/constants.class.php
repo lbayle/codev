@@ -4,6 +4,11 @@ include_once('classes/config.class.php');
 
 class Constants {
 
+   /**
+    * @var Logger The logger
+    */
+   private static $logger;
+
    private static $quiet; // do not display any warning message (used for install procedures only)
 
 
@@ -67,13 +72,11 @@ class Constants {
 
    public static function staticInit() {
 
+      self::$logger = Logger::getLogger(__CLASS__);
+
       self::$quiet = true;
 
-      #date_default_timezone_set('Europe/Paris');
-
       self::$config_file = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'config.ini';
-
-      #echo "configFile = ".self::$config_file."<br>";
 
    }
 
@@ -87,6 +90,7 @@ class Constants {
 
       if (!file_exists($file)) {
          if (!self::$quiet) {
+            self::$logger->error("ERROR: parseConfigFile() file ".$file." NOT found !");
             echo "ERROR: parseConfigFile() file ".$file." NOT found !";
          }
          return FALSE;
@@ -136,6 +140,10 @@ class Constants {
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINED_BY', $relationships['relationship_constrained_by'] );
       define( 'BUG_CUSTOM_RELATIONSHIP_CONSTRAINS',     $relationships['relationship_constrains'] );
 
+      /* FIXME WORKAROUND: SQL procedures still use codev_config_table.bug_resolved_status_threshold ! */
+      $desc = "bug resolved threshold as defined in Mantis (g_bug_resolved_status_threshold)";
+      self::$logger->warn("WORKAROUND update codev_config_table.bug_resolved_status_threshold = ".self::$bug_resolved_status_threshold);
+      Config::getInstance()->setValue(Config::id_bugResolvedStatusThreshold, self::$bug_resolved_status_threshold, Config::configType_int , $desc);
    }
 
    public static function writeConfigFile() {
