@@ -80,7 +80,7 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
             $tag = "CATEGORY_".$issue->getCategoryId();
 
             if (!array_key_exists($tag, $this->outputList)) {
-               $this->outputList[$tag] = new IssueSelection($issue->getCategoryId());
+               $this->outputList[$tag] = new IssueSelection($issue->getCategoryName());
             }
             $this->outputList[$tag]->addIssue($issue->getId());
          }

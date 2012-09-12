@@ -37,43 +37,54 @@ class FilterController extends Controller {
    }
 
 
-   private function manualFilterTest($projectVersionList) {
-            $finalIssueSelList = array();
-            foreach ($projectVersionList as $versionName => $issueSel) {
-               echo "version $versionName<br>";
-
-               $class = 'ProjectCategoryFilter';
-               $categoryFilter = new $class($versionName.'_Categories');
-               $catList = $categoryFilter->execute($issueSel, NULL);
-
-               foreach ($catList as $catName => $catIssueSel) {
-                  echo "version $versionName cat ".Project::getCategoryName($catIssueSel->name)." nbIssues=".$catIssueSel->getNbIssues()."<br>";
-
-                  $class = 'ExtIdFilter';
-                  $extIdFilter = new $class($catName.'_ExtId');
-                  $extIdList = $extIdFilter->execute($catIssueSel, NULL);
-
-                  echo "withExtId nbIssues = ".$extIdList['withExtRef']->getNbIssues()." : ".$extIdList['withExtRef']->getFormattedIssueList()."<br>";
-                  echo "withoutExtId nbIssues = ".$extIdList['withoutExtRef']->getNbIssues()." : ".$extIdList['withoutExtRef']->getFormattedIssueList()."<br>";
-
-                  $finalIssueSelList[] = $extIdList['withExtRef'];
-                  $finalIssueSelList[] = $extIdList['withoutExtRef'];
-
-               }
-            }
-
-   }
-
-
    private function testFilterManager(IssueSelection $issueSel) {
       
       $filterList = array("ProjectVersionFilter", "ProjectCategoryFilter", "ExtIdFilter");
+      #$filterList = array("ProjectVersionFilter", "ProjectCategoryFilter");
       
       $filterMgr = new FilterManager($issueSel, $filterList);
 
-      $filterMgr->execute();
+      $resultList = $filterMgr->execute();
+/*
+      echo "nbResults = ".count($resultList)."<br>";
+
+      foreach ($resultList as $tag => $issueSel) {
+         echo "[$tag]"." nbIssues = ".$issueSel->getNbIssues()." - ".$issueSel->getFormattedIssueList()."<br>";
+      }
+*/
+      return $this->explodeResults(count($filterList) + 1 , $resultList);
 
    }
+
+   private function explodeResults($nbLevels, $resultList) {
+
+      // array (filter1,filter2,filter3, issueSel)
+      $resultArray = array();
+      foreach ($resultList as $tag => $issueSel) {
+         #echo "[$tag]"." nbIssues = ".$issueSel->getNbIssues()." - ".$issueSel->getFormattedIssueList()."<br>";
+
+         $tagList = explode(',',$tag);
+         $nbTags = count($tagList);
+
+         #echo "nbLevels = $nbLevels nbTags = $nbTags - $tag<br>";
+
+
+         $line = array();
+         foreach ($tagList as $subtag) { $line[] = $subtag; }
+         for ($i=0; $i < ($nbLevels - $nbTags); $i++) { $line[] = ""; }
+
+         #echo "line ".implode(',', $line).",issueSel<br>";
+
+
+         //$line[] = $issueSel;
+         $line[] = $issueSel->getFormattedIssueList();
+
+         $resultArray[] = $line;
+
+      }
+      return $resultArray;
+   }
+
 
    protected function display() {
 
@@ -111,18 +122,13 @@ class FilterController extends Controller {
 
             $project = ProjectCache::getInstance()->getProject($projectid);
 
-            // ----
-
-            $projectVersionList = $project->getVersionList();
-
-
-
-            $this->manualFilterTest($projectVersionList);
-
-            echo "<br><br>=====================<br><br>";
+            // ---- test
 
             $projectIssueSel = $project->getIssueSelection();
-            $this->testFilterManager($projectIssueSel);
+
+            $issueSelList = $this->testFilterManager($projectIssueSel);
+
+            $this->smartyHelper->assign('filterResults', $issueSelList);
             
          }
       }

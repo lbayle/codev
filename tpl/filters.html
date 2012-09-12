@@ -11,7 +11,22 @@
    {/if}
 
 
+   {if isset($filterResults)}
 
+   <table>
+   {foreach from=$filterResults key=id item=line}
+      <tr>
+         <td>{$line[0]}</td>
+         <td>{$line[1]}</td>
+         <td>{$line[2]}</td>
+         <td>{$line[3]}</td>
+         <td>{$line[4]}</td>
+      <tr>
+   {/foreach}
+   </table>
+
+
+   {/if}
 
 
 

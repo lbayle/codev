@@ -19,7 +19,6 @@
 
 class FilterNode {
 
-   private $name;
    private $tagList;  // array("INDE","V4.1", "OPMNT", "withExtRef");
 
    /**
@@ -53,11 +52,10 @@ class FilterNode {
       self::$logger = Logger::getLogger(__CLASS__);
    }
    
-   function __construct($name, IssueSelection $issueSel, array $filterList) {
+   function __construct($tagList, IssueSelection $issueSel, array $filterList) {
 
-      $this->name = $name;
       $this->issueSelection = $issueSel;
-      //$this->tagList =
+      $this->tagList = $tagList;
 
       // if not a leaf
       if (!empty($filterList)) {
@@ -66,24 +64,27 @@ class FilterNode {
          $class_name = array_shift($filterList);
          $this->filterName = $class_name;
 
-         echo "FILTER ".$class_name." NAME ".$this->name." IS_NAME ".$this->issueSelection->name." TAG".implode(',', $this->tagList)."<br>";
+         //echo "FILTER ".$class_name." TAG ".implode(',', $this->tagList)."<br>";
 
          // execute filter
          $filter = new $class_name("param1");
          $resultList = $filter->execute($issueSel, NULL);
 
          // execute on children
+         $this->childList = array();
          foreach ($resultList as $tag => $iSel) {
-            $this->childList[$tag] = new FilterNode($this->issueSelection->name, $iSel, $filterList);
+            $nodeTagList = $tagList;
+            $nodeTagList[] = $iSel->name;
+
+            $this->childList[$tag] = new FilterNode($nodeTagList, $iSel, $filterList);
          }
-      } else {
-         // self::$logger
-         echo "NAME ".$this->name." IS_NAME ".$this->issueSelection->name." nbIssues = ".$this->issueSelection->getNbIssues()." - ".$this->issueSelection->getFormattedIssueList()."<br>";
-      }
+      } // else {
+         //echo "TAG ".implode(',', $this->tagList)." nbIssues = ".$this->issueSelection->getNbIssues()." - ".$this->issueSelection->getFormattedIssueList()."<br>";
+      // }
    }
 
-   public function getName() {
-      return $this->name;
+   public function getTagList() {
+      return $this->tagList;
    }
    public function getFilterName() {
       return $this->filterName;
@@ -124,17 +125,6 @@ class FilterManager {
       $this->filterList = $filterList;
    }
 
-   public function appendFilter($filterClassName) {
-      if (NULL != $this->filterList) {
-         $this->filterList = array();
-      }
-      $this->filterList[] = $filterClassName;
-   }
-
-   public function execute() {
-      $this->rootNode = new FilterNode("root", $this->rootIssueSelection, $this->filterList);;
-   }
-
    public function getRootNode() {
       return $this->rootNode;
    }
@@ -142,6 +132,57 @@ class FilterManager {
    public function getFilterList() {
       return $this->filterList;
    }
+
+   public function appendFilter($filterClassName) {
+      if (NULL != $this->filterList) {
+         $this->filterList = array();
+      }
+      $this->filterList[] = $filterClassName;
+   }
+
+   public function getFlattened() {
+      if ($this->rootNode) {
+         $res = self::node_flatten($this->rootNode, array(), false);
+      } else {
+         $res = array(); // hmm...throw exception ?
+      }
+      return $res;
+   }
+   
+   public function execute() {
+      $this->rootNode = new FilterNode(array($this->rootIssueSelection->name), $this->rootIssueSelection, $this->filterList);
+
+      $flatIssueSelList = $this->getFlattened();
+
+      return $flatIssueSelList;
+
+   }
+
+
+   private static function node_flatten(FilterNode $node, array $return, $isLeafOnly = false) {
+
+      // TODO $isLeafOnly
+
+      $childList = $node->getChildList();
+
+      // return data
+      $tag = implode(',', $node->getTagList());
+      $return[$tag] = $node->getIssueSelection();
+
+      //echo "node [$tag] nbIssues = ".$node->getIssueSelection()->getNbIssues()."<br>";
+
+      // check if leaf
+      if (NULL != $childList) {
+
+         foreach ($childList as $childNode) {
+            $return = self::node_flatten($childNode, $return, $isLeafOnly);
+         }
+      }
+      return $return;
+   }
+
+
+
 
 }
 

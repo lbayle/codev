@@ -26,7 +26,7 @@ require_once('lib/log4php/Logger.php');
 class ExtIdFilter implements IssueSelectionFilter {
 
    const tag_with_extRef = 'withExtRef';
-   const tag_without_extRef = 'withoutExtRef';
+   const tag_without_extRef = 'noExtRef';
 
    /**
     * @var Logger The logger
