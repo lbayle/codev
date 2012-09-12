@@ -33,7 +33,11 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
    private static $logger;
    private $id;
 
-   private $categoryList;
+   /**
+    *
+    * @var IssueSelection[] filter result
+    */
+   private $outputList;
 
    /**
     * Initialize complex static variables
@@ -47,6 +51,18 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
       $this->id = $id;
    }
 
+   public function getDesc() {
+      return "sort issues per project categories";
+   }
+
+   public function getName() {
+      return "ProjectCategoryFilter";
+   }
+
+   public function getId() {
+      return $this->id;
+   }
+
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
       if (NULL == $inputIssueSel) {
          throw new Exception("Missing IssueSelection");
@@ -57,29 +73,22 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
 
       $this->checkParams($inputIssueSel, $params);
 
-      if (NULL == $this->categoryList) {
-         $this->categoryList = array();
+      if (NULL == $this->outputList) {
+         $this->outputList = array();
          $issueList = $inputIssueSel->getIssueList();
          foreach ($issueList as $issue) {
             $tag = "CATEGORY_".$issue->getCategoryId();
 
-            if (!array_key_exists($tag, $this->categoryList)) {
-               $this->categoryList[$tag] = new IssueSelection($issue->getCategoryId());
+            if (!array_key_exists($tag, $this->outputList)) {
+               $this->outputList[$tag] = new IssueSelection($issue->getCategoryId());
             }
-            $this->categoryList[$tag]->addIssue($issue->getId());
+            $this->outputList[$tag]->addIssue($issue->getId());
          }
-         ksort($this->categoryList);
+         ksort($this->outputList);
       }
-      return $this->categoryList;
+      return $this->outputList;
    }
 
-   public function getDesc() {
-      return "sort issues per project categories";
-   }
-
-   public function getName() {
-      return "ProjectCategoryFilter";
-   }
 
 }
 

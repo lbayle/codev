@@ -36,6 +36,45 @@ class FilterController extends Controller {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
+
+   private function manualFilterTest($projectVersionList) {
+            $finalIssueSelList = array();
+            foreach ($projectVersionList as $versionName => $issueSel) {
+               echo "version $versionName<br>";
+
+               $class = 'ProjectCategoryFilter';
+               $categoryFilter = new $class($versionName.'_Categories');
+               $catList = $categoryFilter->execute($issueSel, NULL);
+
+               foreach ($catList as $catName => $catIssueSel) {
+                  echo "version $versionName cat ".Project::getCategoryName($catIssueSel->name)." nbIssues=".$catIssueSel->getNbIssues()."<br>";
+
+                  $class = 'ExtIdFilter';
+                  $extIdFilter = new $class($catName.'_ExtId');
+                  $extIdList = $extIdFilter->execute($catIssueSel, NULL);
+
+                  echo "withExtId nbIssues = ".$extIdList['withExtRef']->getNbIssues()." : ".$extIdList['withExtRef']->getFormattedIssueList()."<br>";
+                  echo "withoutExtId nbIssues = ".$extIdList['withoutExtRef']->getNbIssues()." : ".$extIdList['withoutExtRef']->getFormattedIssueList()."<br>";
+
+                  $finalIssueSelList[] = $extIdList['withExtRef'];
+                  $finalIssueSelList[] = $extIdList['withoutExtRef'];
+
+               }
+            }
+
+   }
+
+
+   private function testFilterManager(IssueSelection $issueSel) {
+      
+      $filterList = array("ProjectVersionFilter", "ProjectCategoryFilter", "ExtIdFilter");
+      
+      $filterMgr = new FilterManager($issueSel, $filterList);
+
+      $filterMgr->execute();
+
+   }
+
    protected function display() {
 
       if(isset($_SESSION['userid'])) {
@@ -74,33 +113,16 @@ class FilterController extends Controller {
 
             // ----
 
-            #$projectIssueSel = $project->getIssueSelection();
             $projectVersionList = $project->getVersionList();
 
 
-            $finalIssueSelList = array();
-            foreach ($projectVersionList as $versionName => $issueSel) {
-               echo "version $versionName<br>";
-   
-               $class = 'ProjectCategoryFilter';
-               $categoryFilter = new $class($versionName.'_Categories');
-               $catList = $categoryFilter->execute($issueSel, NULL);
-               
-               foreach ($catList as $catName => $catIssueSel) {
-                  echo "version $versionName cat ".Project::getCategoryName($catIssueSel->name)." nbIssues=".$catIssueSel->getNbIssues()."<br>";
 
-                  $class = 'ExtIdFilter';
-                  $extIdFilter = new $class($catName.'_ExtId');
-                  $extIdList = $extIdFilter->execute($catIssueSel, NULL);
-                  
-                  echo "withExtId nbIssues = ".$extIdList['with']->getNbIssues()." : ".$extIdList['with']->getFormattedIssueList()."<br>";
-                  echo "withoutExtId nbIssues = ".$extIdList['without']->getNbIssues()." : ".$extIdList['without']->getFormattedIssueList()."<br>";
-                  
-                  $finalIssueSelList[] = $extIdList['with'];
-                  $finalIssueSelList[] = $extIdList['without'];
+            $this->manualFilterTest($projectVersionList);
 
-               }
-            }
+            echo "<br><br>=====================<br><br>";
+
+            $projectIssueSel = $project->getIssueSelection();
+            $this->testFilterManager($projectIssueSel);
             
          }
       }

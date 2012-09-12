@@ -25,6 +25,9 @@ require_once('lib/log4php/Logger.php');
  */
 class ExtIdFilter implements IssueSelectionFilter {
 
+   const tag_with_extRef = 'withExtRef';
+   const tag_without_extRef = 'withoutExtRef';
+
    /**
     * @var Logger The logger
     */
@@ -53,6 +56,10 @@ class ExtIdFilter implements IssueSelectionFilter {
       return "extIdFilter";
    }
 
+   public function getId() {
+      return $this->id;
+   }
+
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
       if (NULL == $inputIssueSel) {
          throw new Exception("Missing IssueSelection");
@@ -64,8 +71,8 @@ class ExtIdFilter implements IssueSelectionFilter {
       $this->checkParams($inputIssueSel, $params);
 
       if (NULL == $this->outputList) {
-         $withExtIdIssueSel = new IssueSelection('with');
-         $withoutExtIdIssueSel = new IssueSelection('without');
+         $withExtIdIssueSel = new IssueSelection(ExtIdFilter::tag_with_extRef);
+         $withoutExtIdIssueSel = new IssueSelection(ExtIdFilter::tag_without_extRef);
          $issueList = $inputIssueSel->getIssueList();
          foreach ($issueList as $issue) {
 
@@ -77,8 +84,8 @@ class ExtIdFilter implements IssueSelectionFilter {
             }
          }
          $this->outputList = array();
-         $this->outputList['with'] = $withExtIdIssueSel;
-         $this->outputList['without'] = $withoutExtIdIssueSel;
+         $this->outputList[ExtIdFilter::tag_with_extRef] = $withExtIdIssueSel;
+         $this->outputList[ExtIdFilter::tag_without_extRef] = $withoutExtIdIssueSel;
       }
       return $this->outputList;
    }

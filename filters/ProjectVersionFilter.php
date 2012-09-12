@@ -54,6 +54,10 @@ class ProjectVersionFilter implements IssueSelectionFilter {
       return "ProjectVersionFilter";
    }
 
+   public function getId() {
+      return $this->id;
+   }
+
    private function checkParams(IssueSelection $inputIssueSel, array $params = NULL) {
       if (NULL == $inputIssueSel) {
          throw new Exception("Missing IssueSelection");
