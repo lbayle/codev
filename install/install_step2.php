@@ -131,8 +131,7 @@ function displayForm($originPage, $path_mantis, $url_mantis) {
 
 // ================ MAIN =================
 $originPage = "install_step2.php";
-
-$default_path_mantis           = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
+$default_path_mantis           = dirname(BASE_PATH).DIRECTORY_SEPARATOR."mantis"; // "/var/www/html/mantis";
 $default_url_mantis            = 'http://'.$_SERVER['HTTP_HOST'].'/mantis';
 $filename_strings              = "strings_english.txt";
 $filename_custom_strings       = "custom_strings_inc.php";
@@ -147,7 +146,7 @@ $action = Tools::getSecurePOSTStringValue('action', '');
 #displayStepInfo();
 #echo "<hr align='left' width='20%'/>\n";
 
-displayForm($originPage, stripslashes($path_mantis), stripslashes($url_mantis));
+displayForm($originPage, $path_mantis, stripslashes($url_mantis));
 
 if ("proceedStep2" == $action) {
    if(!file_exists($path_mantis)) {

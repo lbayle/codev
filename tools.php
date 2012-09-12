@@ -468,6 +468,13 @@ class Tools {
     * @return bool
     */
    public static function execSQLscript($sqlFile) {
+      $request = "SELECT LOAD_FILE('".$sqlFile."')";
+
+      if (!SqlWrapper::getInstance()->sql_query($request)) {
+         die("ERROR : ".$request." : ".SqlWrapper::getInstance()->sql_error());
+      }
+
+      /*
       $request = "";
 
       $sql=file($sqlFile);
@@ -489,6 +496,7 @@ class Tools {
             }
          }
       }
+      */
 
       return true;
    }

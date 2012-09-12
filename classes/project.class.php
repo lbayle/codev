@@ -203,7 +203,7 @@ class Project extends Model {
 
    /**
     * @static
-    * @param string $projectName
+    * @param $projectName
     * @return int|string
     */
    public static function createExternalTasksProject($projectName) {
@@ -218,12 +218,12 @@ class Project extends Model {
       $projectid = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : -1;
       if (-1 != $projectid) {
          echo "ERROR: Project name already exists ($projectName)<br/>\n";
-         return -1;
+         return $projectid;
       }
 
       // create new Project
       $query = "INSERT INTO `mantis_project_table` (`name`, `status`, `enabled`, `view_state`, `access_min`, `description`, `category_id`, `inherit_global`) ".
-         "VALUES ('$projectName','50','1','50','10','$projectDesc','1','1');";
+               "VALUES ('$projectName',50,1,50,10,'$projectDesc',1,1);";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -237,7 +237,7 @@ class Project extends Model {
       $statusNames = NULL; # Constants::$statusNames;
       $status_closed = (NULL != $statusNames) ? array_search('closed', $statusNames) : 90;
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
-         "VALUES ('bug_submit_status',  '$projectid','0', '90', '1', '$status_closed');";
+               "VALUES ('bug_submit_status', $projectid, 0, 90, 1, '$status_closed');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -246,7 +246,7 @@ class Project extends Model {
 
       // Status to set auto-assigned issues to 'closed'
       $query = "INSERT INTO `mantis_config_table` (`config_id`,`project_id`,`user_id`,`access_reqd`,`type`,`value`) ".
-               "VALUES ('bug_assigned_status',  '$projectid','0', '90', '1', '$status_closed');";
+               "VALUES ('bug_assigned_status', $projectid, 0, 90, 1, '$status_closed');";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
