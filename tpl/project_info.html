@@ -1,7 +1,7 @@
 <div id="content">
    {if isset($projects)}
    <div class="center">
-      <form name="projectForm" method="get" action="{$page}">
+      <form name="projectForm" class="formWithTabsHistory" method="get" action="{$page}">
          <fieldset>
             {include file="form/projectSelector.html"}
             <input type="submit" value="{t}Jump{/t}" />

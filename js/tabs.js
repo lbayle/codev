@@ -55,6 +55,7 @@ jQuery(document).ready(function() {
       // Get the index of this tab.
       // Set the state!
       state[id] = jQuery(this).parent().prevAll().length;
+      
       jQuery.bbq.pushState(state);
    });
 
@@ -76,6 +77,10 @@ jQuery(document).ready(function() {
          // tab each widget is on using .data, and only select a tab if it has
          // changed).
          jQuery(this).find(tab_a_selector).eq(idx).triggerHandler('change');
+      });
+      
+      jQuery(".formWithTabsHistory").each(function() {
+         jQuery(this).attr("action",document.location.href);
       });
    });
 
