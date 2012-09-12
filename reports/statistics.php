@@ -135,8 +135,8 @@ class StatisticsController extends Controller {
       $valuesTwo = array();
       $legend = array();
       foreach ($timeTrackingTable as $date => $timeTracking) {
-         $valuesOne[Tools::formatDate("%Y-%m-%d", $date)] = $formattedSubmittedList[$date];
-         $valuesTwo[Tools::formatDate("%Y-%m-%d", $date)] = $formattedResolvedList[$date];
+         $valuesOne[Tools::formatDate("%Y-%m-01", $date)] = $formattedSubmittedList[$date];
+         $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $formattedResolvedList[$date];
          $legend[Tools::formatDate("%B %Y", $date)] = array(
             "nbSubmitted" => $formattedSubmittedList[$date],
             "nbResolvedIssues" => $formattedResolvedList[$date]
@@ -145,7 +145,9 @@ class StatisticsController extends Controller {
       $values = array($valuesOne,$valuesTwo);
 
       $this->smartyHelper->assign('submittedResolved_jqplotData', Tools::array2plot($values));
-      list($start, $end) = Tools::getStartEndKeys($valuesOne);
+      $timestamp = Tools::getStartEndKeys($valuesOne);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
       $this->smartyHelper->assign('submittedResolved_plotMinDate', $start);
       $this->smartyHelper->assign('submittedResolved_plotMaxDate', $end);
       $this->smartyHelper->assign('submittedResolved_Legend', $legend);
@@ -167,12 +169,14 @@ class StatisticsController extends Controller {
       $values = array();
       $legend = array();
       foreach ($formattedTimetracks as $date => $value) {
-         $values[Tools::formatDate("%Y-%m-%d", $date)] = $value;
+         $values[Tools::formatDate("%Y-%m-01", $date)] = $value;
          $legend[Tools::formatDate("%B %Y", $date)] = round($value, 1);
       }
 
       $this->smartyHelper->assign('timeDrift_jqplotData', Tools::array2plot($values));
-      list($start, $end) = Tools::getStartEndKeys($values);
+      $timestamp = Tools::getStartEndKeys($values);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
       $this->smartyHelper->assign('timeDrift_plotMinDate', $start);
       $this->smartyHelper->assign('timeDrift_plotMaxDate', $end);
       $this->smartyHelper->assign('timeDrift_Legend', $legend);
@@ -206,8 +210,8 @@ class StatisticsController extends Controller {
       $valuesThree = array();
       $legend = array();
       foreach ($timeTrackingTable as $date => $timeTracking) {
-         $valuesOne[Tools::formatDate("%Y-%m-%d", $date)] = $val1[$date];
-         $valuesTwo[Tools::formatDate("%Y-%m-%d", $date)] = $val2[$date];
+         $valuesOne[Tools::formatDate("%Y-%m-01", $date)] = $val1[$date];
+         $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $val2[$date];
          $legend[Tools::formatDate("%B %Y", $date)] = array(
             "totalDriftETA" => round($val1[$date],2),
             "totalDrift" => round($val2[$date],2),
@@ -220,7 +224,9 @@ class StatisticsController extends Controller {
       $values = array($valuesOne,$valuesTwo,$valuesThree);
 
       $this->smartyHelper->assign('resolvedDrift_jqplotData', Tools::array2plot($values));
-      list($start, $end) = Tools::getStartEndKeys($valuesOne);
+      $timestamp = Tools::getStartEndKeys($valuesOne);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
       $this->smartyHelper->assign('resolvedDrift_plotMinDate', $start);
       $this->smartyHelper->assign('resolvedDrift_plotMaxDate', $end);
       $this->smartyHelper->assign('resolvedDrift_Legend', $legend);
@@ -242,8 +248,8 @@ class StatisticsController extends Controller {
       $valuesTwo = array();
       $legend = array();
       foreach ($timeTrackingTable as $date => $timeTracking) {
-         $valuesOne[Tools::formatDate("%Y-%m-%d", $date)] = $values1[$date];
-         $valuesTwo[Tools::formatDate("%Y-%m-%d", $date)] = $values2[$date];
+         $valuesOne[Tools::formatDate("%Y-%m-01", $date)] = $values1[$date];
+         $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $values2[$date];
          $legend[Tools::formatDate("%B %Y", $date)] = array(
             "efficiencyRate" => round($values1[$date],2),
             "systemDisponibilityRate" => round($values2[$date],2)
@@ -252,7 +258,9 @@ class StatisticsController extends Controller {
       $values = array($valuesOne,$valuesTwo);
 
       $this->smartyHelper->assign('efficiency_jqplotData', Tools::array2plot($values));
-      list($start, $end) = Tools::getStartEndKeys($valuesOne);
+      $timestamp = Tools::getStartEndKeys($valuesOne);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
       $this->smartyHelper->assign('efficiency_plotMinDate', $start);
       $this->smartyHelper->assign('efficiency_plotMaxDate', $end);
       $this->smartyHelper->assign('efficiency_Legend', $legend);
@@ -277,8 +285,8 @@ class StatisticsController extends Controller {
       $valuesThree = array();
       $legend = array();
       foreach ($timeTrackingTable as $date => $timeTracking) {
-         $valuesOne[Tools::formatDate("%Y-%m-%d", $date)] = $val1[$date];
-         $valuesTwo[Tools::formatDate("%Y-%m-%d", $date)] = $val2[$date];
+         $valuesOne[Tools::formatDate("%Y-%m-01", $date)] = $val1[$date];
+         $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $val2[$date];
          $valuesThree[Tools::formatDate("%Y-%m-%d", $date)] = $val3[$date];
          $legend[Tools::formatDate("%B %Y", $date)] = array(
             "reopenedRate" => round($val1[$date], 1),
@@ -289,7 +297,9 @@ class StatisticsController extends Controller {
       $values = array($valuesOne,$valuesTwo);
 
       $this->smartyHelper->assign('reopenedRate_jqplotData', Tools::array2plot($values));
-      list($start, $end) = Tools::getStartEndKeys($valuesOne);
+      $timestamp = Tools::getStartEndKeys($valuesOne);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
       $this->smartyHelper->assign('reopenedRate_plotMinDate', $start);
       $this->smartyHelper->assign('reopenedRate_plotMaxDate', $end);
       $this->smartyHelper->assign('reopenedRate_Legend', $legend);
@@ -311,12 +321,14 @@ class StatisticsController extends Controller {
       $values = array();
       $legend = array();
       foreach ($formattedTimetracks as $date => $value) {
-         $values[Tools::formatDate("%Y-%m-%d", $date)] = $value;
+         $values[Tools::formatDate("%Y-%m-01", $date)] = $value;
          $legend[Tools::formatDate("%B %Y", $date)] = round($value, 1);
       }
 
       $this->smartyHelper->assign('workload_jqplotData', Tools::array2plot($values));
-      list($start, $end) = Tools::getStartEndKeys($values);
+      $timestamp = Tools::getStartEndKeys($values);
+      $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
+      $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
       $this->smartyHelper->assign('workload_plotMinDate', $start);
       $this->smartyHelper->assign('workload_plotMaxDate', $end);
       $this->smartyHelper->assign('workload_Legend', $legend);
