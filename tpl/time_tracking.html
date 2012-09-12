@@ -393,7 +393,7 @@
 
          jQuery("#desc_effortEstim").text(effortEstim);
          jQuery("#desc_elapsed").text(elapsed);
-         jQuery("#desc_reestimated").text(reestimated);
+         //jQuery("#desc_reestimated").text(reestimated);
          jQuery("#desc_drift").text(drift);
          jQuery("#desc_deadline").text(deadline);
 
@@ -452,6 +452,7 @@
             },
             close: function() {
                allFields.val("").removeClass("ui-state-error");
+               allFields.css("backgroundColor", "transparent");
             }
          });
 
@@ -512,10 +513,6 @@
                   <tr>
                      <th>{t}Estimated effort{/t} :</th>
                      <td id="desc_effortEstim">effortEstim</td>
-                  </tr>
-                  <tr>
-                     <th>{t}Reestimated{/t} :</th>
-                     <td id="desc_reestimated">reestimated</td>
                   </tr>
                   <tr>
                      <th>{t}Elapsed{/t} :</th>
