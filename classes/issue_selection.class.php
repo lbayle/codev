@@ -442,43 +442,51 @@ class IssueSelection {
     * @return TimeTrack
     */
    public function getFirstTimetrack() {
-      $query = "SELECT * from `codev_timetracking_table` ".
-               "WHERE bugid IN (".implode(', ',array_keys($this->issueList)).") ".
-               "ORDER BY date ASC LIMIT 1";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      if(count($this->issueList) > 0) {
+         $query = "SELECT * from `codev_timetracking_table` ".
+            "WHERE bugid IN (".implode(', ',array_keys($this->issueList)).") ".
+            "ORDER BY date ASC LIMIT 1";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
 
-      $timeTrack = NULL;
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
-      }
+         $timeTrack = NULL;
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+            $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+         }
 
-      return $timeTrack;
+         return $timeTrack;
+      } else {
+         return 0;
+      }
    }
 
    /**
     * @return TimeTrack
     */
    public function getLatestTimetrack() {
-      $query = "SELECT * from `codev_timetracking_table` ".
-               "WHERE bugid IN (".implode(', ',array_keys($this->issueList)).") ".
-               "ORDER BY date DESC LIMIT 1";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
+      if(count($this->issueList) > 0) {
+         $query = "SELECT * from `codev_timetracking_table` ".
+            "WHERE bugid IN (".implode(', ',array_keys($this->issueList)).") ".
+            "ORDER BY date DESC LIMIT 1";
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
 
-      $timeTrack = NULL;
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+         $timeTrack = NULL;
+         if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+            $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+            $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($row->id, $row);
+         }
+         return $timeTrack;
+      } else {
+         return 0;
       }
-      return $timeTrack;
    }
 
 }

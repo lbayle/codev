@@ -41,7 +41,6 @@
       </p>
    </div>
 
-   {include file="tools/graph.html"}
    <script src="js/tabs.js" type="text/javascript"></script>
    <div id="tabsCurrentDeviationStats" class="tabs">
       <ul>
@@ -153,6 +152,7 @@
    </div>
    {/if}
    {if isset($workload_jqplotData)}
+   {include file="tools/graph.html"}
    <div style="margin-top:2em;">
       <h2>{t}Available Workload{/t}</h2>
       <span class="help_font">{t}man-day{/t}: {t}Nombre de jours-homme disponibles sur la periode (hors vacances et taches externes){/t}</span>
@@ -169,7 +169,7 @@
             });
          </script>
          <div id="workloadChart" style="width: 80%;" class="date_chart chart float"></div>
-         <table style="font-size:1.1em;margin-top:20px;">
+         <table style="font-size:1.1em;margin-top:7px;border:0;">
             <caption title="{t}Available Workload{/t}"></caption>
             <thead>
                <tr>

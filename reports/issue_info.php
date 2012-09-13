@@ -103,7 +103,7 @@ class IssueInfoController extends Controller {
 
                      $firstTimetrack = $issue->getFirstTimetrack();
                      $latestTimetrack = $issue->getLatestTimetrack();
-                     if (($latestTimetrack) && ($firstTimetrack)) {
+                     if ($latestTimetrack && $firstTimetrack && $latestTimetrack > $firstTimetrack) {
                         $plotMinDate = date('Y-m-d', $firstTimetrack->getDate());
                         $plotMaxDate = date('Y-m-d', $latestTimetrack->getDate());
                         $timestampList = $this->getTimetrackDates($issue);

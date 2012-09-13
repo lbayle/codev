@@ -187,6 +187,7 @@
             <script type="text/javascript">
                jQuery(document).ready(function() {
                   var chartoptions = jQuery('#efficiencyChart').data('plotoptions');
+                  chartoptions.legend.location = 'sw';
                   chartoptions.title.text = "{t}Efficiency{/t}";
                   chartoptions.series = [{
                      label: "{t}% Efficiency{/t}"
