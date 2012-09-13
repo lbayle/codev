@@ -230,18 +230,14 @@
          {if $reopenedRate_Legend}
          <span class="help_font">{t}Number of reopened external tasks (tasks having an ExternalRef).{/t}</span>
          <br /><br />
-         <span class="help_font"><strong>{t}% to Submitted{/t}</strong>: {t}Compare the number of reopened tasks to the number of new tasks{/t}</span>
-         <br />
-         <span class="help_font"><strong>{t}% to Resolved{/t}</strong>: {t}Compare the number of reopened tasks to the number of resolved tasks{/t}</span>
+         <span class="help_font"><strong>{t}% Reopened{/t}</strong>: {t}Compare the number of reopened tasks to the number of resolved tasks{/t}</span>
          <div style="margin-top: 1em">
             <script type="text/javascript">
                jQuery(document).ready(function() {
                   var chartoptions = jQuery('#reopenedRateChart').data('plotoptions');
                   chartoptions.title.text = "{t}Reopened Rate{/t}";
                   chartoptions.series = [{
-                     label: "{t}% to Submitted{/t}"
-                  },{
-                     label: "{t}% to Resolved{/t}"
+                     label: "{t}% Reopened{/t}"
                   }];
                   chartoptions.axes.xaxis.min = "{$reopenedRate_plotMinDate}";
                   chartoptions.axes.xaxis.max = "{$reopenedRate_plotMaxDate}";
@@ -256,8 +252,7 @@
                <thead>
                   <tr>
                      <th>{t}Date{/t}</th>
-                     <th title="{t}Reopened Rate{/t}">{t}% to Submitted{/t}</th>
-                     <th title="{t}Reopened Rate{/t}">{t}% to Resolved{/t}</th>
+                     <th title="{t}Reopened Rate{/t}">{t}% Reopened{/t}</th>
                      <th title="{t}Nb Reopened{/t}">{t}Nb Reopened{/t}</th>
                   </tr>
                </thead>
@@ -265,7 +260,6 @@
                   {foreach from=$reopenedRate_Legend key=id item=i}
                   <tr>
                      <td class="right">{$id}</td>
-                     <td class="right">{$i.reopenedRate}%</td>
                      <td class="right">{$i.reopenedRateResolved}%</td>
                      <td class="right">{$i.reopened}</td>
                   </tr>

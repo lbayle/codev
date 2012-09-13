@@ -271,33 +271,29 @@ class StatisticsController extends Controller {
     * @return string
     */
    private function generateReopenedRateGraph(array $timeTrackingTable) {
-      $val1 = array();
       $val2 = array();
       $val3 = array();
       foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
-         $val1[$startTimestamp] = $timeTracking->getReopenedRate() * 100; // x100 to get a percentage
          $val2[$startTimestamp] = $timeTracking->getReopenedRateResolved() * 100; // x100 to get a percentage;
          $val3[$startTimestamp] = count($timeTracking->getReopened());
       }
 
-      $valuesOne = array();
       $valuesTwo = array();
       $valuesThree = array();
       $legend = array();
       foreach ($timeTrackingTable as $date => $timeTracking) {
-         $valuesOne[Tools::formatDate("%Y-%m-01", $date)] = $val1[$date];
          $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $val2[$date];
          $valuesThree[Tools::formatDate("%Y-%m-%d", $date)] = $val3[$date];
          $legend[Tools::formatDate("%B %Y", $date)] = array(
-            "reopenedRate" => round($val1[$date], 1),
             "reopenedRateResolved" => round($val2[$date], 1),
             "reopened" => count($val3[$date])
          );
       }
-      $values = array($valuesOne,$valuesTwo);
+      #$values = array($valuesOne,$valuesTwo);
+      $values = array($valuesTwo);
 
       $this->smartyHelper->assign('reopenedRate_jqplotData', Tools::array2plot($values));
-      $timestamp = Tools::getStartEndKeys($valuesOne);
+      $timestamp = Tools::getStartEndKeys($valuesTwo);
       $start = Tools::formatDate("%Y-%m-01", Tools::date2timestamp($timestamp[0]));
       $end = Tools::formatDate("%Y-%m-01", strtotime($timestamp[1]." +1 month"));
       $this->smartyHelper->assign('reopenedRate_plotMinDate', $start);
