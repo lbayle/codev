@@ -181,6 +181,47 @@ class FilterManager {
       return $return;
    }
 
+   /**
+    * The result of execute() is an array of key="tag1,tag2,tag3" value=IssueSel
+    *
+    * this method will explode the tags
+    *
+    * @param array $filterList
+    * @param IssueSelection[] $resultList
+    * @param boolean $isLeafOnly
+    *
+    * @return array  array(array(root,filter1,filter2,filter3, issueSel))
+    */
+   public function explodeResults(array $resultList, $isLeafOnly=true) {
+
+      $nbLevels = count($this->filterList) + 1; // REM: the rootNode is included in the results at level '0'
+
+      // array (root,filter1,filter2,filter3, issueSel)
+
+      $resultArray = array();
+      foreach ($resultList as $tag => $issueSel) {
+
+         $tagList = explode(',',$tag);
+         $nbTags = count($tagList);
+
+         // display empty cells before&after the nodeName.
+         $line = array();
+         $nodeName = array_pop ($tagList);
+         for ($i=0; $i < ($nbTags-1); $i++) { $line[] = ""; }
+         $line[] = $nodeName;
+         for ($i=0; $i < ($nbLevels - $nbTags); $i++) { $line[] = ""; }
+
+         //if (($isLeafOnly) && (($nbTags-1) != $nbLevels)) {
+         //   $line[] = NULL;
+         //} else {
+            $line[] = $issueSel;
+         //}
+
+         $resultArray[] = $line;
+      }
+
+      return $resultArray;
+   }
 
 
 

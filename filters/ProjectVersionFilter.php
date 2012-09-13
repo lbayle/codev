@@ -75,9 +75,10 @@ class ProjectVersionFilter implements IssueSelectionFilter {
          $issueList = $inputIssueSel->getIssueList();
          foreach ($issueList as $issue) {
             $tagVersion = "VERSION_".$issue->getTargetVersion();
+               $versionName = (NULL == $issue->getTargetVersion()) ? "(no version)" : $issue->getTargetVersion();
 
             if (!array_key_exists($tagVersion, $this->outputList)) {
-               $this->outputList[$tagVersion] = new ProjectVersion($this->id, $issue->getTargetVersion());
+               $this->outputList[$tagVersion] = new ProjectVersion($this->id, $versionName);
             }
             $this->outputList[$tagVersion]->addIssue($issue->getId());
          }

@@ -37,53 +37,82 @@ class FilterController extends Controller {
    }
 
 
-   private function testFilterManager(IssueSelection $issueSel) {
+   private function testFilterManager(IssueSelection $rootIssueSel, $filterList) {
       
-      $filterList = array("ProjectVersionFilter", "ProjectCategoryFilter", "ExtIdFilter");
-      #$filterList = array("ProjectVersionFilter", "ProjectCategoryFilter");
-      
-      $filterMgr = new FilterManager($issueSel, $filterList);
+      $filterMgr = new FilterManager($rootIssueSel, $filterList);
 
       $resultList = $filterMgr->execute();
 /*
       echo "nbResults = ".count($resultList)."<br>";
-
       foreach ($resultList as $tag => $issueSel) {
-         echo "[$tag]"." nbIssues = ".$issueSel->getNbIssues()." - ".$issueSel->getFormattedIssueList()."<br>";
+         echo "[$tag]"." nbIssues = ".$issueSel->getNbIssues()."<br>";
       }
 */
-      return $this->explodeResults(count($filterList) + 1 , $resultList);
-
-   }
-
-   private function explodeResults($nbLevels, $resultList) {
-
-      // array (filter1,filter2,filter3, issueSel)
-      $resultArray = array();
-      foreach ($resultList as $tag => $issueSel) {
-         #echo "[$tag]"." nbIssues = ".$issueSel->getNbIssues()." - ".$issueSel->getFormattedIssueList()."<br>";
-
-         $tagList = explode(',',$tag);
-         $nbTags = count($tagList);
-
-         #echo "nbLevels = $nbLevels nbTags = $nbTags - $tag<br>";
+      $resultArray = $filterMgr->explodeResults($resultList, $filterList);
 
 
-         $line = array();
-         foreach ($tagList as $subtag) { $line[] = $subtag; }
-         for ($i=0; $i < ($nbLevels - $nbTags); $i++) { $line[] = ""; }
 
-         #echo "line ".implode(',', $line).",issueSel<br>";
+      
 
-
-         //$line[] = $issueSel;
-         $line[] = $issueSel->getFormattedIssueList();
-
-         $resultArray[] = $line;
-
-      }
       return $resultArray;
    }
+
+
+   private function getSmarty($explodeResults, $filterList) {
+      
+      $iselIdx = count($explodeResults[0]) -1;
+      
+      $smartyObj = array();
+      
+#echo "iselIdx $iselIdx<br>";
+
+      foreach($explodeResults as $line) {
+         $isel = $line[$iselIdx];
+         $line[$iselIdx] = self::getDetailedMgr($isel);
+         $smartyObj[] = $line;
+      }
+#var_dump($line);
+
+      // add TitleLine
+      $titles = $filterList;
+      $titles[] = "MgrEffortEstim";
+      $titles[] = "Reestimated Mgr";
+      $titles[] = "Elapsed";
+      $titles[] = "Backlog Mgr";
+      $titles[] = "Drift Mgr";
+      $smartyObj[] = $titles;
+#var_dump($titles);
+
+      return $smartyObj;
+   }
+
+
+      /**
+    * Get detailed mgr versions
+    * @param ProjectVersion[] $projectVersionList
+    * @return mixed[]
+    */
+   private static function getDetailedMgr($issueSel) {
+      $detailedMgr = NULL;
+
+      $valuesMgr = $issueSel->getDriftMgr();
+
+      $detailedMgr = array(
+         'name' => $issueSel->name,
+         //'progress' => round(100 * $pv->getProgress()),
+         'effortEstim' => $issueSel->mgrEffortEstim,
+         'reestimated' => $issueSel->getReestimatedMgr(),
+         'elapsed' => $issueSel->elapsed,
+         'backlog' => $issueSel->durationMgr,
+         'driftColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
+         'drift' => round($valuesMgr['nbDays'],2)
+      );
+
+      #var_dump($detailedMgr); echo "<br>";
+      return $detailedMgr;
+   }
+
+
 
 
    protected function display() {
@@ -126,9 +155,23 @@ class FilterController extends Controller {
 
             $projectIssueSel = $project->getIssueSelection();
 
-            $issueSelList = $this->testFilterManager($projectIssueSel);
+            $filterList = array("ProjectVersionFilter", "ProjectCategoryFilter", "ExtIdFilter");
+            #$filterList = array("ProjectVersionFilter", "ProjectCategoryFilter");
+            #$filterList = array("ProjectVersionFilter");
+            #$filterList = array("ProjectCategoryFilter");
+            #$filterList = array();
 
-            $this->smartyHelper->assign('filterResults', $issueSelList);
+
+            $issueSelList = $this->testFilterManager($projectIssueSel, $filterList);
+            $smatyObj = $this->getSmarty($issueSelList, $filterList);
+
+            $totalLine = array_shift($smatyObj); // first line is rootElem (TOTAL)
+            $titleLine = array_pop($smatyObj); // last line is the table titles
+
+            $this->smartyHelper->assign('nbFilters', count($filterList));
+            $this->smartyHelper->assign('filterResultsTitles', $titleLine);
+            $this->smartyHelper->assign('filterResults', $smatyObj);
+            $this->smartyHelper->assign('filterResultsTotal', $totalLine);
             
          }
       }

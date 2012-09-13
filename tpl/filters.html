@@ -12,17 +12,41 @@
 
 
    {if isset($filterResults)}
-
+   nbFilters = {$nbFilters}<br>
    <table>
-   {foreach from=$filterResults key=id item=line}
-      <tr>
-         <td>{$line[0]}</td>
-         <td>{$line[1]}</td>
-         <td>{$line[2]}</td>
-         <td>{$line[3]}</td>
-         <td>{$line[4]}</td>
-      <tr>
-   {/foreach}
+      <thead>
+
+      {foreach from=$filterResultsTitles key=id item=ftitle}
+            <th>{$ftitle}</th>
+      {/foreach}
+      </thead>
+
+      <tbody>
+      {foreach from=$filterResults key=id item=line}
+         <tr>
+            {for $idx=1 to $nbFilters}
+            <td>{$line[$idx]}</td>
+            {/for}
+            <td>{$line[$nbFilters+1].effortEstim}</td>
+            <td>{$line[$nbFilters+1].reestimated}</td>
+            <td>{$line[$nbFilters+1].elapsed}</td>
+            <td>{$line[$nbFilters+1].backlog}</td>
+            <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}</td>
+
+         <tr>
+      {/foreach}
+         <tr class="row_total">
+            <td>TOTAL</td>
+            {for $idx=1 to ($nbFilters-1)}
+            <td></td>
+            {/for}
+            <td>{$filterResultsTotal[$nbFilters+1].effortEstim}</td>
+            <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
+            <td>{$filterResultsTotal[$nbFilters+1].elapsed}</td>
+            <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
+            <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}</td>
+         <tr>
+      </tbody>
    </table>
 
 
