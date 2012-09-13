@@ -59,6 +59,10 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
       return "ProjectCategoryFilter";
    }
 
+   public function getDisplayName() {
+      return "Category";
+   }
+
    public function getId() {
       return $this->id;
    }

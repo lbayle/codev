@@ -64,7 +64,7 @@ class FilterNode {
          $class_name = array_shift($filterList);
          $this->filterName = $class_name;
 
-         //echo "FILTER ".$class_name." TAG ".implode(',', $this->tagList)."<br>";
+         #echo "FILTER ".$class_name." TAG ".implode(',', $this->tagList)."<br>";
 
          // execute filter
          $filter = new $class_name("param1");

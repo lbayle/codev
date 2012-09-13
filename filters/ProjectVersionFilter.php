@@ -54,6 +54,10 @@ class ProjectVersionFilter implements IssueSelectionFilter {
       return "ProjectVersionFilter";
    }
 
+   public function getDisplayName() {
+      return "Version";
+   }
+
    public function getId() {
       return $this->id;
    }

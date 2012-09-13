@@ -56,6 +56,10 @@ class ExtIdFilter implements IssueSelectionFilter {
       return "extIdFilter";
    }
 
+   public function getDisplayName() {
+      return "External Id";
+   }
+
    public function getId() {
       return $this->id;
    }

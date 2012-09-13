@@ -75,11 +75,11 @@ class FilterController extends Controller {
 
       // add TitleLine
       $titles = $filterList;
-      $titles[] = "MgrEffortEstim";
-      $titles[] = "Reestimated Mgr";
-      $titles[] = "Elapsed";
-      $titles[] = "Backlog Mgr";
-      $titles[] = "Drift Mgr";
+      $titles[] = T_("MgrEffortEstim");
+      $titles[] = T_("Reestimated Mgr");
+      $titles[] = T_("Elapsed");
+      $titles[] = T_("Backlog Mgr");
+      $titles[] = T_("Drift Mgr");
       $smartyObj[] = $titles;
 #var_dump($titles);
 
@@ -147,27 +147,56 @@ class FilterController extends Controller {
                $projectid = $projectsid[0];
             }
 
+            // get selected filters
+            if(isset($_GET['selectedFilters']) && (NULL != $_GET['selectedFilters'])) {
+               $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+
+               #echo "last = ".$selectedFilters[strlen($selectedFilters)-1];
+               if (',' == $selectedFilters[strlen($selectedFilters)-1]) {
+                  $selectedFilters = substr($selectedFilters,0,-1); // last char is a ','
+               }
+
+               $filterList = explode(',', $selectedFilters);
+
+            } else {
+               $selectedFilters="";
+              $filterList = array();
+            }
+
+
             $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$projectid));
 
             $project = ProjectCache::getInstance()->getProject($projectid);
 
-            // ---- test
+            // ---- 
+            $availFilterList = array("ProjectVersionFilter" => "Project Version",
+                                     "ProjectCategoryFilter" => "Project Category",
+                                     "ExtIdFilter" => "External ID"
+                );
+            $selectedFilterList = array();
+            foreach ($filterList as $id) {
+               $selectedFilterList[$id] = $availFilterList[$id];
+               unset($availFilterList[$id]);
+            }
 
+
+            // do the work ...
             $projectIssueSel = $project->getIssueSelection();
+            $filterMgr = new FilterManager($projectIssueSel, $filterList);
+            $resultList = $filterMgr->execute();
+            $issueSelList = $filterMgr->explodeResults($resultList, $filterList);
 
-            $filterList = array("ProjectVersionFilter", "ProjectCategoryFilter", "ExtIdFilter");
-            #$filterList = array("ProjectVersionFilter", "ProjectCategoryFilter");
-            #$filterList = array("ProjectVersionFilter");
-            #$filterList = array("ProjectCategoryFilter");
-            #$filterList = array();
+            
 
-
-            $issueSelList = $this->testFilterManager($projectIssueSel, $filterList);
             $smatyObj = $this->getSmarty($issueSelList, $filterList);
 
             $totalLine = array_shift($smatyObj); // first line is rootElem (TOTAL)
             $titleLine = array_pop($smatyObj); // last line is the table titles
 
+
+            $this->smartyHelper->assign('availFilterList', $availFilterList);
+            $this->smartyHelper->assign('selectedFilterList', $selectedFilterList);
+            $this->smartyHelper->assign('selectedFilters', $selectedFilters);
             $this->smartyHelper->assign('nbFilters', count($filterList));
             $this->smartyHelper->assign('filterResultsTitles', $titleLine);
             $this->smartyHelper->assign('filterResults', $smatyObj);

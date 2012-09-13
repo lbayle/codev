@@ -1,21 +1,42 @@
 <div id="content">
+
+   {include file="form/projectFilterDialogbox.html"}
+
    {if isset($projects)}
    <div class="center">
-      <form name="projectForm" method="get" action="{$page}">
+      <form name="projectForm" id="projectForm" method="get" action="{$page}">
          <fieldset>
-            {include file="form/projectSelector.html"}
+            <label for="projectid">{t}Project{/t}: </label>
+            <select id="projectid" name="projectid">
+               {foreach from=$projects key=id item=i}
+               <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
+               {/foreach}
+            </select>
+            <a title="{t}Set project filters{/t}" id="projectFilters" style="text-decoration: none" href="{$page}">
+               <img border="0" width="16" height="12" align="absmiddle" src="images/im-filter.png" alt="{t}Set project filters{/t}" />
+            </a>
+            <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
             <input type="submit" value="{t}Jump{/t}" />
          </fieldset>
       </form>
    </div>
    {/if}
 
+   <br>
+   <br>
+   <br>
+   <br>
+
+
 
    {if isset($filterResults)}
-   nbFilters = {$nbFilters}<br>
+   {$nbFilters} Filters: {$selectedFilters}<br>
    <table>
       <thead>
 
+      {if 0 == $nbFilters}
+      <th></th>
+      {/if}
       {foreach from=$filterResultsTitles key=id item=ftitle}
             <th>{$ftitle}</th>
       {/foreach}
@@ -51,15 +72,6 @@
 
 
    {/if}
-
-
-
-
-
-
-
-
-
 
 
 </div>
