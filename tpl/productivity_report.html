@@ -440,16 +440,16 @@
          <table>
             <thead>
                <tr>
-                  <th>{t}nb submitted{/t}</th>
+                  <th>{t}nb resolved{/t}</th>
                   <th>{t}nb reopened{/t}</th>
-                  <th title="{t}nb reopened / nb submitted{/t}">{t}Rate{/t}</th>
+                  <th title="{t}nb reopened / nb resolved{/t}">{t}Rate{/t}</th>
                   <th style="width: 400px;" title="{t}tasks having been reopened in the period{/t}">{t}Tasks{/t}</th>
                   <th>{t}Formula{/t}</th>
                </tr>
             </thead>
             <tbody>
                <tr>
-                  <td>{$timeTracking->getSubmitted()|count}</td>
+                  <td>{$timeTracking->getResolvedIssues()|count}</td>
                   <td>{$timeTracking->getReopened()|count}</td>
                   <td>{$reopenedBugsRate} %</td>
                   <td>
@@ -457,7 +457,7 @@
                      {$i}{if !$smarty.foreach.formattedReopenedTaks.last}, {/if}
                      {/foreach}
                   </td>
-                  <td>{t}nb reopened{/t} / {t}nb submitted{/t}</td>
+                  <td>{t}nb reopened{/t} / {t}nb resolved{/t}</td>
                </tr>
             </tbody>
          </table>

@@ -275,21 +275,19 @@ class StatisticsController extends Controller {
       $val3 = array();
       foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
          $val2[$startTimestamp] = $timeTracking->getReopenedRateResolved() * 100; // x100 to get a percentage;
-         $val3[$startTimestamp] = count($timeTracking->getReopened());
-      }
 
+         $nbReopened = count($timeTracking->getReopened());
+         $val3[$startTimestamp] = $nbReopened;
+      }
       $valuesTwo = array();
-      $valuesThree = array();
       $legend = array();
       foreach ($timeTrackingTable as $date => $timeTracking) {
          $valuesTwo[Tools::formatDate("%Y-%m-01", $date)] = $val2[$date];
-         $valuesThree[Tools::formatDate("%Y-%m-%d", $date)] = $val3[$date];
          $legend[Tools::formatDate("%B %Y", $date)] = array(
             "reopenedRateResolved" => round($val2[$date], 1),
-            "reopened" => count($val3[$date])
+            "reopened" => $val3[$date]
          );
       }
-      #$values = array($valuesOne,$valuesTwo);
       $values = array($valuesTwo);
 
       $this->smartyHelper->assign('reopenedRate_jqplotData', Tools::array2plot($values));

@@ -155,7 +155,7 @@ class ProductivityReportsController extends Controller {
                      $this->smartyHelper->assign('resolvedIssuesInDrift', $this->getResolvedIssuesInDrift($resolvedIssues, $isManager));
                   }
 
-                  $this->smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRate() * 100, 1));
+                  $this->smartyHelper->assign('reopenedBugsRate', round($timeTracking->getReopenedRateResolved() * 100, 1));
                   $this->smartyHelper->assign('formattedReopenedTaks', $this->getFormattedReopenedTaks($timeTracking));
 
                   // warnings
