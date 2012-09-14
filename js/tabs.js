@@ -54,7 +54,13 @@ jQuery(document).ready(function() {
 
       // Get the index of this tab.
       // Set the state!
-      state[id] = jQuery(this).parent().prevAll().length;
+      var parent = jQuery(this).parent();
+      var idParent = parent.attr('id');
+      if(idParent != null) {
+         state[id] = idParent;
+      } else {
+         state[id] = parent.prevAll().length;
+      }
       
       jQuery.bbq.pushState(state);
    });
@@ -76,7 +82,13 @@ jQuery(document).ready(function() {
          // event specified in the .tabs() init above (you could keep track of what
          // tab each widget is on using .data, and only select a tab if it has
          // changed).
-         jQuery(this).find(tab_a_selector).eq(idx).triggerHandler('change');
+         var parent = jQuery(this).find('li#'+idx);
+         console.log(parent);
+         if(parent.length) {
+            parent.find('a').triggerHandler('change');
+         } else {
+            jQuery(this).find(tab_a_selector).eq(idx).triggerHandler('change');
+         }
       });
       
       jQuery(".formWithTabsHistory").each(function() {
