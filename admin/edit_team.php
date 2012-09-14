@@ -49,7 +49,7 @@ class EditTeamController extends Controller {
 
                   $retCode = Team::delete($teamidToDelete);
                   if (!$retCode) {
-                     $this->smartyHelper->assign('error', "Couldn't delete the team");
+                     $this->smartyHelper->assign('error', T_("Couldn't delete the team"));
                   }
 
                   unset($_SESSION['teamid']);
@@ -85,7 +85,7 @@ class EditTeamController extends Controller {
                if ($action == "updateTeamLeader") {
                   $teamleader_id = Tools::getSecurePOSTIntValue('leaderid');
                   if (!$team->setLeader($teamleader_id)) {
-                     $this->smartyHelper->assign('error', "Couldn't update the team leader");
+                     $this->smartyHelper->assign('error', T_("Couldn't update the team leader"));
                   } else {
                      // --- add teamLeader as Mantis manager of the SideTaskProject
                      //$leader = UserCache::getInstance()->getUser($teamleader_id);
@@ -96,7 +96,7 @@ class EditTeamController extends Controller {
                   $formatedDate = Tools::getSecurePOSTStringValue("date_createTeam");
                   $date_create = Tools::date2timestamp($formatedDate);
                   if(!$team->setCreationDate($date_create)) {
-                     $this->smartyHelper->assign('error', "Couldn't update the creation date");
+                     $this->smartyHelper->assign('error', T_("Couldn't update the creation date"));
                   }
                } elseif ($action == "addTeamMember") {
                   $memberid = Tools::getSecurePOSTIntValue('memberid');
@@ -135,7 +135,7 @@ class EditTeamController extends Controller {
                   $query = "DELETE FROM `codev_team_user_table` WHERE id = $memberid;";
                   $result = SqlWrapper::getInstance()->sql_query($query);
                   if (!$result) {
-                     $this->smartyHelper->assign('error', "Couldn't delete the member of the team");
+                     $this->smartyHelper->assign('error', T_("Couldn't delete the member of the team"));
                   }
                } elseif (isset($_POST['addedprojectid'])) {
                   $projectid = Tools::getSecurePOSTIntValue('addedprojectid');
@@ -148,15 +148,15 @@ class EditTeamController extends Controller {
 
                      // save to DB
                      if(!$team->addProject($projectid, $projecttype)) {
-                        $this->smartyHelper->assign('error', "Couldn't add the project to the team");
+                        $this->smartyHelper->assign('error', T_("Couldn't add the project to the team"));
                      }
                   } catch (Exception $e) {
-                     $this->smartyHelper->assign('error', "Could NOT add project to the team");
+                     $this->smartyHelper->assign('error', T_("Could NOT add project to the team"));
                   }
                } elseif (isset($_POST['deletedprojectid'])) {
                   $projectid = Tools::getSecurePOSTIntValue('deletedprojectid');
                   if(!$team->removeProject($projectid)) {
-                     $this->smartyHelper->assign('error', "Could NOT remove the project from the team");
+                     $this->smartyHelper->assign('error', T_("Could NOT remove the project from the team"));
                   }
                } elseif (isset($_POST['addedastreinte_id'])) {
                   $astreinte_id = Tools::getSecurePOSTIntValue('addedastreinte_id');

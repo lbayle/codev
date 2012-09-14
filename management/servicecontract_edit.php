@@ -90,7 +90,7 @@ class ServiceContractEditController extends Controller {
 
             // Display Empty Command Form
             // Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-            $this->smartyHelper->assign('contractInfoFormBtText', 'Create');
+            $this->smartyHelper->assign('contractInfoFormBtText', T_('Create'));
             $this->smartyHelper->assign('contractInfoFormAction', 'createContract');
          }
 
@@ -133,7 +133,7 @@ class ServiceContractEditController extends Controller {
 
             // Display ServiceContract
             $this->smartyHelper->assign('servicecontractid', $servicecontractid);
-            $this->smartyHelper->assign('contractInfoFormBtText', 'Save');
+            $this->smartyHelper->assign('contractInfoFormBtText', T_('Save'));
             $this->smartyHelper->assign('contractInfoFormAction', 'updateContractInfo');
 
             $commandsetCandidates = $this->getCmdSetCandidates($session_user);

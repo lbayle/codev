@@ -172,10 +172,10 @@ class PlanningReportController extends Controller {
 
                $this->smartyHelper->assign('planning', $this->getPlanning($nbDaysToDisplay, $dayPixSize, $allTasksLists, $workloads, $teamid));
                $this->smartyHelper->assign('colors', array(
-                  "green" => "onTime",
-                  "red"   => "NOT onTime",
-                  "blue"  => "no deadLine",
-                  "grey"  => "monitored"
+                  "green" => T_("onTime"),
+                  "red"   => T_("NOT onTime"),
+                  "blue"  => T_("no deadLine"),
+                  "grey"  => T_("monitored")
                ));
                $this->smartyHelper->assign('dayPixSize', $dayPixSize-1);
             }

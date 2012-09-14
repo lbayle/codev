@@ -43,12 +43,12 @@ class EditHolidaysController extends Controller {
                $hol_desc = Tools::getSecurePOSTStringValue('hol_desc');
                $hol_color = Tools::getSecurePOSTStringValue('hol_color');
                if (!Holidays::save($timestamp, $hol_desc, $hol_color)) {
-                  $this->smartyHelper->assign('error', "Couldn't add the holiday");
+                  $this->smartyHelper->assign('error', T_("Couldn't add the holiday"));
                }
             } elseif (isset($_POST['hol_id'])) {
                $hol_id = Tools::getSecurePOSTIntValue('hol_id');
                if (!Holidays::delete($hol_id)) {
-                  $this->smartyHelper->assign('error', "Couldn't remove the holiday");
+                  $this->smartyHelper->assign('error', T_("Couldn't remove the holiday"));
                }
             }
 

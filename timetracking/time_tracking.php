@@ -167,7 +167,7 @@ class TimeTrackingController extends Controller {
 
                // delete track
                if(!$timeTrack->remove()) {
-                  $this->smartyHelper->assign('error', "Failed to delete the tasks");
+                  $this->smartyHelper->assign('error', T_("Failed to delete the tasks"));
                }
 
                try {

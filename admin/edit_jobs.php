@@ -58,7 +58,7 @@ class EditJobsController extends Controller {
                      $query = "INSERT INTO `codev_project_job_table`  (`project_id`, `job_id`) VALUES ('".$project_id."','".$job_id."');";
                      $result = SqlWrapper::getInstance()->sql_query($query);
                      if (!$result) {
-                        $this->smartyHelper->assign('error', "Couldn't add the job association");
+                        $this->smartyHelper->assign('error', T_("Couldn't add the job association"));
                      }
                   }
                }
@@ -70,13 +70,13 @@ class EditJobsController extends Controller {
                $query = "DELETE FROM `codev_project_job_table` WHERE job_id = ".$job_id.';';
                $result = SqlWrapper::getInstance()->sql_query($query);
                if (!$result) {
-                  $this->smartyHelper->assign('error', "Couldn't remove the job association");
+                  $this->smartyHelper->assign('error', T_("Couldn't remove the job association"));
                }
 
                $query = "DELETE FROM `codev_job_table` WHERE id = $job_id;";
                $result = SqlWrapper::getInstance()->sql_query($query);
                if (!$result) {
-                  $this->smartyHelper->assign('error', "Couldn't delete the job");
+                  $this->smartyHelper->assign('error', T_("Couldn't delete the job"));
                }
             } elseif (isset($_POST['asso_id'])) {
                $asso_id = Tools::getSecurePOSTIntValue('asso_id');
@@ -84,7 +84,7 @@ class EditJobsController extends Controller {
                $query = "DELETE FROM `codev_project_job_table` WHERE id = ".$asso_id.';';
                $result = SqlWrapper::getInstance()->sql_query($query);
                if (!$result) {
-                  $this->smartyHelper->assign('error', "Couldn't remove the job association");
+                  $this->smartyHelper->assign('error', T_("Couldn't remove the job association"));
                }
             }
 

@@ -385,7 +385,7 @@
                      </tr>
                      {foreach from=$resolvedDeviationStats.detailsResolvedDeviationStats key=id item=i}
                      <tr>
-                        <td>{t}{$i.type}{/t}</td>
+                        <td>{$i.type}</td>
                         <td title="{t}nb tasks{/t}">{$i.nbIssuesMgr}<span title="{t}nb days{/t}" class="floatr">{$i.nbDaysMgr}</span></td>
                         <td title="{t}nb tasks{/t}">{$i.nbIssues}<span title="{t}nb days{/t}" class="floatr">{$i.nbDays}</span></td>
                         <td title="{t}Task list for EffortEstim{/t}">{$i.formattedIssueListMgr}</td>

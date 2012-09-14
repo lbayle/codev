@@ -331,7 +331,7 @@
             <script type="text/javascript">
                jQuery(document).ready(function() {
                   var chartoptions = jQuery('#backloadChart').data('plotoptions');
-                  chartoptions.title.text = '{t}{$backload_jqplotTitle}{/t}';
+                  chartoptions.title.text = '{$backload_jqplotTitle}';
                   chartoptions.axes.yaxis.label = "{$backload_jqplotYaxisLabel}";
                   chartoptions.axes.xaxis.min = "{$backload_plotMinDate}";
                   chartoptions.axes.xaxis.max = "{$backload_plotMaxDate}";

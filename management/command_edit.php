@@ -105,7 +105,7 @@ class CommandEditController extends Controller {
 
             // ------ Display Empty Command Form
             // Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
-            $this->smartyHelper->assign('cmdInfoFormBtText', 'Create');
+            $this->smartyHelper->assign('cmdInfoFormBtText', T_('Create'));
             $this->smartyHelper->assign('cmdInfoFormAction', 'createCmd');
 
             $this->smartyHelper->assign('cmdStateList', ServiceContractTools::getServiceContractStateList());
@@ -173,7 +173,7 @@ class CommandEditController extends Controller {
 
             // Display Command
             $this->smartyHelper->assign('commandid', $cmdid);
-            $this->smartyHelper->assign('cmdInfoFormBtText', 'Save');
+            $this->smartyHelper->assign('cmdInfoFormBtText', T_('Save'));
             $this->smartyHelper->assign('cmdInfoFormAction', 'updateCmdInfo');
             $this->smartyHelper->assign('isAddIssueForm', true);
 

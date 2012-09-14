@@ -111,8 +111,8 @@ class IssueInfoController extends Controller {
                         $this->smartyHelper->assign('backload_plotMinDate', $plotMinDate);
                         $this->smartyHelper->assign('backload_plotMaxDate', $plotMaxDate);
 
-                        $this->smartyHelper->assign('backload_jqplotTitle', 'Backlog variation');
-                        $this->smartyHelper->assign('backload_jqplotYaxisLabel', 'Backlog (days)');
+                        $this->smartyHelper->assign('backload_jqplotTitle', T_('Backlog variation'));
+                        $this->smartyHelper->assign('backload_jqplotYaxisLabel', T_('Backlog (days)'));
                         $this->smartyHelper->assign('backload_jqplotData', $this->getBacklogGraph($issue, $timestampList));
                      }
 

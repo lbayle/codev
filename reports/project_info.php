@@ -148,10 +148,10 @@ class ProjectInfoController extends Controller {
                $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
                $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
             } else if ($projectid) {
-               $this->smartyHelper->assign("error", "Sorry, you are not allowed to view the details of this project");
+               $this->smartyHelper->assign("error", T_("Sorry, you are not allowed to view the details of this project"));
             }
          } else {
-            $this->smartyHelper->assign("error", "Sorry, you need to be member of a Team to access this page.");
+            $this->smartyHelper->assign("error", T_("Sorry, you need to be member of a Team to access this page."));
          }
       }
    }

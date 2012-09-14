@@ -103,7 +103,7 @@
          </table>
          <br />
          {if $servicecontractid}<button type="button" name="btDeleteContract" id="btDeleteContract"><img  border="0" align="absmiddle" src="images/b_drop.png" alt="Delete icon"/> {t}Delete{/t}</button>{/if}
-         <button type="submit"><img border="0" align="absmiddle" src="images/b_save.png" alt="Save icon"/> {t}{$contractInfoFormBtText}{/t}</button>
+         <button type="submit"><img border="0" align="absmiddle" src="images/b_save.png" alt="Save icon"/> {$contractInfoFormBtText}</button>
          <input type="hidden" name="action" value="{$contractInfoFormAction}" />
          <input type="hidden" name="servicecontractid" value="{$servicecontractid}" />
       </fieldset>

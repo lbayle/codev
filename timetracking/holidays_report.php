@@ -90,7 +90,7 @@ class HolidaysReportController extends Controller {
       for ($i = 1; $i <= $nbDaysInMonth; $i++) {
          $curDate = mktime(0, 0, 0, $month, $i, $year);
          if ($today == date("d-m-Y", $curDate)) {
-            $title = 'today';
+            $title = T_('today');
          } else {
             $title = Tools::formatDate("%A", $curDate);
          }

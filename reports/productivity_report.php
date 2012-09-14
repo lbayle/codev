@@ -276,7 +276,7 @@ class ProductivityReportsController extends Controller {
       $posDriftMgr = $posDeviationGroupMgr->getDriftMgr();
       $posDrift = $posDeviationGroup->getDrift();
       $detailsResolvedDeviationStats[] = array(
-         "type" => "Tasks in drift",
+         "type" => T_("Tasks in drift"),
          "nbIssuesMgr" => $posDeviationGroupMgr->getNbIssues(),
          "nbDaysMgr" => $posDriftMgr['nbDays'],
          "nbIssues" => $posDeviationGroup->getNbIssues(),

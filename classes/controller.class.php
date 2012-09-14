@@ -26,7 +26,7 @@ abstract class Controller {
 
    public function __construct($title, $menu = NULL) {
       $this->smartyHelper = new SmartyHelper();
-      $this->smartyHelper->assign('pageName', $title);
+      $this->smartyHelper->assign('pageName', T_($title));
       if(NULL != $menu) {
          $this->smartyHelper->assign('activeGlobalMenuItem', $menu);
       }

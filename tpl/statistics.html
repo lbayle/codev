@@ -34,7 +34,7 @@
       </form>
    </div>
          
-   {if isset($error)}{t}{$error}{/t}{/if}
+   {if isset($error)}{$error}{/if}
 
    {if isset($submittedResolved_Legend) || isset($timeDrift_Legend) || isset($resolvedDrift_Legend) || isset($efficiency_Legend) || isset($reopenedRate_Legend) || isset($developersWorkload_Legend)}
    {include file="tools/graph.html"}
