@@ -80,65 +80,6 @@ class CommandTools {
     * @param Command $cmd
     * @return string
     */
-   private static function getBacklogHistory(Command $cmd) {
-      $cmdIssueSel = $cmd->getIssueSelection();
-
-      $startTT = $cmdIssueSel->getFirstTimetrack();
-      if ((NULL != $startTT) && (0 != $startTT->getDate())) {
-         $startTimestamp = $startTT->getDate();
-      } else {
-         $startTimestamp = $cmd->getStartDate();
-         #echo "cmd getStartDate ".date("Y-m-d", $startTimestamp).'<br>';
-         if (0 == $startTimestamp) {
-            $team = TeamCache::getInstance()->getTeam($cmd->getTeamid());
-            $startTimestamp = $team->getDate();
-            #echo "team Date ".date("Y-m-d", $startTimestamp).'<br>';
-         }
-      }
-
-      $endTT = $cmdIssueSel->getLatestTimetrack();
-      $endTimestamp = ((NULL != $endTT) && (0 != $endTT->getDate())) ? $endTT->getDate() : time();
-
-      #echo "startTimestamp = ".date('Y-m-d', $startTimestamp)." endTimestamp = ".date('Y-m-d', $endTimestamp);
-
-      $params = array('startTimestamp' => $startTimestamp, // $cmd->getStartDate(),
-         'endTimestamp' => $endTimestamp,
-         'interval' => 14 );
-
-      $backlogHistoryIndicator = new BacklogHistoryIndicator();
-      $backlogData = $backlogHistoryIndicator->execute($cmdIssueSel, $params);
-
-      $elapsedHistoryIndicator = new ElapsedHistoryIndicator();
-      $elapsedData = $elapsedHistoryIndicator->execute($cmdIssueSel, $params);
-
-      $elapsedList = array();
-      $backlogList = array();
-      $bottomLabel = array();
-      foreach ($backlogData as $timestamp => $backlog) {
-         $backlogList[] = (NULL == $backlog) ? 0 : $backlog; // TODO
-         #$elapsedList[]   = (NULL == $elapsedData[$timestamp]) ? 0 : $elapsedData[$timestamp]; // TODO
-         $bottomLabel[]   = Tools::formatDate("%d %b", $timestamp);
-      }
-
-      foreach ($elapsedData as $elapsed) {
-         $elapsedList[] = (NULL == $elapsed) ? 0 : $elapsed; // TODO
-      }
-
-      $strVal1 = implode(':', array_values($backlogList));
-      $strVal2 = implode(':', array_values($elapsedList));
-
-      #echo "strVal1 $strVal1<br>";
-      $strBottomLabel = implode(':', $bottomLabel);
-
-      $smartyData = Tools::SmartUrlEncode('title='.T_('Backlog history').'&bottomLabel='.$strBottomLabel.'&leg1='.T_('Backlog').'&x1='.$strVal1.'&leg2='.T_('Elapsed').'&x2='.$strVal2);
-
-      return $smartyData;
-   }
-
-   /**
-    * @param Command $cmd
-    * @return string
-    */
    private static function getProgressHistory(Command $cmd) {
       $cmdIssueSel = $cmd->getIssueSelection();
 
