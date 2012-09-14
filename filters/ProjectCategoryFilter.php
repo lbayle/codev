@@ -52,7 +52,7 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
    }
 
    public function getDesc() {
-      return "sort issues per project categories";
+      return T_("Sort issues per project categories");
    }
 
    public function getName() {
@@ -60,7 +60,7 @@ class ProjectCategoryFilter implements IssueSelectionFilter {
    }
 
    public function getDisplayName() {
-      return "Category";
+      return T_("Project Category");
    }
 
    public function getId() {

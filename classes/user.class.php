@@ -110,6 +110,11 @@ class User extends Model {
    private $defaultLanguage;
 
    /**
+    * @var string the Filters in ProjectInfo page (comma separated class names)
+    */
+   private $projectFilters;
+
+   /**
     *
     * @var array Cache of team menber
     */
@@ -1126,6 +1131,44 @@ class User extends Model {
          $this->defaultProject = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
       }
       return $this->defaultProject;
+   }
+
+   /**
+    * set the ProjectInfo filters
+    * @param string $filters (comma separated)
+    */
+   public function setProjectFilters($filters) {
+
+      if ($filters != $this->projectFilters) {
+         self::$logger->debug("User $this->id Set ProjectFilters  : $filters");
+
+         Config::setValue(Config::id_projectFilters, $filters, Config::configType_int, "filters in ProjectInfo page", 0, $this->id);
+      }
+      $this->projectFilters = $filters;
+   }
+
+   /**
+    * get the ProjectInfo filters
+    *
+    * @return string or "" if not found
+    */
+   public function getProjectFilters() {
+      if (NULL == $this->ProjectFilters) {
+         // TODO Config class cannot handle multiple lines for same id
+         $query = "SELECT value FROM `codev_config_table` " .
+                  "WHERE config_id = '" . Config::id_projectFilters . "' " .
+                  "AND user_id = $this->id";
+         self::$logger->debug("query = " . $query);
+
+         $result = SqlWrapper::getInstance()->sql_query($query);
+         if (!$result) {
+            #echo "<span style='color:red'>ERROR: Query FAILED</span>";
+            exit;
+         }
+         // if not found return ""
+         $this->projectFilters = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : "";
+      }
+      return $this->projectFilters;
    }
 
    /**

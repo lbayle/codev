@@ -69,21 +69,20 @@ class ProjectInfoController extends Controller {
                $project = ProjectCache::getInstance()->getProject($projectid);
 
                // get selected filters
+               $selectedFilters="";
                if(isset($_GET['selectedFilters']) && (NULL != $_GET['selectedFilters'])) {
                   $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
-
-                  #echo "last = ".$selectedFilters[strlen($selectedFilters)-1];
-                  if (',' == $selectedFilters[strlen($selectedFilters)-1]) {
-                     $selectedFilters = substr($selectedFilters,0,-1); // last char is a ','
-                  }
-
-                  $filterList = explode(',', $selectedFilters);
-
                } else {
-                  $selectedFilters="";
-                  $filterList = array();
+                  $selectedFilters = $user->getProjectFilters();
                }
 
+               // cleanup filters (remove empty lines)
+               $filterList = explode(',', $selectedFilters);
+               $filterList = array_filter($filterList, create_function('$a','return $a!="";'));
+               $selectedFilters = implode(',', $filterList);
+
+               // save user preferances
+               $user->setProjectFilters($selectedFilters);
 
                // --- FILTER TABS -------------
 
@@ -91,6 +90,8 @@ class ProjectInfoController extends Controller {
                $allFilters = "ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter";
                
                $tmpList = explode(',', $allFilters);
+               $tmpList = array_filter($tmpList, create_function('$a','return $a!="";'));
+
                $allFilterList = array();
                foreach ($tmpList as $class_name) {
                   if (NULL == $class_name) { continue; } // skip trailing commas ','

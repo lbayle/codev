@@ -49,7 +49,7 @@ class IssuePublicPrivateFilter implements IssueSelectionFilter {
    }
 
    public function getDesc() {
-      return "sort issues: public / private";
+      return T_("Sort issues: public/private");
    }
 
    public function getName() {
@@ -57,7 +57,7 @@ class IssuePublicPrivateFilter implements IssueSelectionFilter {
    }
 
    public function getDisplayName() {
-      return "Public/Private";
+      return T_("Issue Public/Private");
    }
 
    public function getId() {

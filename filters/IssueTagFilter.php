@@ -52,7 +52,7 @@ class IssueTagFilter implements IssueSelectionFilter {
    }
 
    public function getDesc() {
-      return "sort issues per tags";
+      return T_("Sort issues per tags");
    }
 
    public function getName() {
@@ -60,7 +60,7 @@ class IssueTagFilter implements IssueSelectionFilter {
    }
 
    public function getDisplayName() {
-      return "Tag";
+      return T_("Issue Tag");
    }
 
    public function getId() {

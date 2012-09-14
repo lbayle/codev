@@ -49,7 +49,7 @@ class IssueExtIdFilter implements IssueSelectionFilter {
    }
 
    public function getDesc() {
-      return "sort issues: with/without ExternalID";
+      return T_("Sort issues: with/without External ID");
    }
 
    public function getName() {
@@ -57,7 +57,7 @@ class IssueExtIdFilter implements IssueSelectionFilter {
    }
 
    public function getDisplayName() {
-      return "External Id";
+      return T_("Issue External ID");
    }
 
    public function getId() {
