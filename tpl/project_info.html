@@ -3,7 +3,7 @@
 
    {if isset($projects)}
    <div class="center">
-      <form name="projectForm" id="projectForm" method="get" action="{$page}">
+      <form name="projectForm" id="projectForm" class = "formWithTabsHistory" method="get" action="{$page}">
          <fieldset>
             <label for="projectid">{t}Project{/t}: </label>
             <select id="projectid" name="projectid">
@@ -12,7 +12,7 @@
                {/foreach}
             </select>
             <a title="{t}Set project filters{/t}" id="projectFilters" style="text-decoration: none" href="{$page}">
-               <img border="0" width="16" height="12" align="absmiddle" src="images/{if isset($filterResults) && count($filterResults) > 0}im-filter-active.png{else}im-filter.png{/if}" alt="{t}Set project filters{/t}" />
+               <img border="0" width="16" height="12" align="absmiddle" src="images/{if isset($overviewTotal) && count($overviewTotal) > 0}im-filter-active.png{else}im-filter.png{/if}" alt="{t}Set project filters{/t}" />
             </a>
             <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
             <input type="submit" value="{t}Jump{/t}" />
