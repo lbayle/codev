@@ -38,7 +38,7 @@ class FilterController extends Controller {
 
 
 
-   private function getSmarty($explodeResults, $filterList) {
+   private function getDetailedMgr($explodeResults, $filterList) {
       
       $iselIdx = count($explodeResults[0]) -1;
       
@@ -46,7 +46,20 @@ class FilterController extends Controller {
       
       foreach($explodeResults as $line) {
          $isel = $line[$iselIdx];
-         $line[$iselIdx] = self::getDetailedMgr($isel);
+
+         $valuesMgr = $isel->getDriftMgr();
+         $detailedMgr = array(
+            'name' => $isel->name,
+            //'progress' => round(100 * $pv->getProgress()),
+            'effortEstim' => $isel->mgrEffortEstim,
+            'reestimated' => $isel->getReestimatedMgr(),
+            'elapsed' => $isel->elapsed,
+            'backlog' => $isel->durationMgr,
+            'driftColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
+            'drift' => round($valuesMgr['nbDays'],2)
+         );
+
+         $line[$iselIdx] = $detailedMgr;
          $smartyObj[] = $line;
       }
 
@@ -68,11 +81,10 @@ class FilterController extends Controller {
     * @param ProjectVersion[] $projectVersionList
     * @return mixed[]
     */
-   private static function getDetailedMgr($issueSel) {
+   private static function getISelDetailedMgr($issueSel) {
       $detailedMgr = NULL;
 
       $valuesMgr = $issueSel->getDriftMgr();
-
       $detailedMgr = array(
          'name' => $issueSel->name,
          //'progress' => round(100 * $pv->getProgress()),
@@ -161,11 +173,11 @@ class FilterController extends Controller {
             $projectIssueSel = $project->getIssueSelection();
             $filterMgr = new FilterManager($projectIssueSel, $filterList);
             $resultList = $filterMgr->execute();
-            $issueSelList = $filterMgr->explodeResults($resultList, $filterList);
+            $issueSelList = $filterMgr->explodeResults($resultList);
 
             
 
-            $smatyObj = $this->getSmarty($issueSelList, $filterList);
+            $smatyObj = $this->getDetailedMgr($issueSelList, $filterList);
 
             $totalLine = array_shift($smatyObj); // first line is rootElem (TOTAL)
             $titleLine = array_pop($smatyObj); // last line is the table titles

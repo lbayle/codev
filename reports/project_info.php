@@ -60,38 +60,90 @@ class ProjectInfoController extends Controller {
 
             $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$projectid));
 
+
+            // if display project allowed
             if (in_array($projectid, array_keys($projList))) {
                $isManager = true; // TODO
                $this->smartyHelper->assign("isManager", $isManager);
 
                $project = ProjectCache::getInstance()->getProject($projectid);
-               
-               $projectVersionList = $project->getVersionList();
 
-               $this->smartyHelper->assign("versionsOverview", $this->getVersionsOverview($project, $projectVersionList));
+               // get selected filters
+               if(isset($_GET['selectedFilters']) && (NULL != $_GET['selectedFilters'])) {
+                  $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
 
-               if ($isManager) {
-                  $this->smartyHelper->assign("versionsDetailedMgr", $this->getVersionsDetailedMgr($projectVersionList));
+                  #echo "last = ".$selectedFilters[strlen($selectedFilters)-1];
+                  if (',' == $selectedFilters[strlen($selectedFilters)-1]) {
+                     $selectedFilters = substr($selectedFilters,0,-1); // last char is a ','
+                  }
+
+                  $filterList = explode(',', $selectedFilters);
+
+               } else {
+                  $selectedFilters="";
+                  $filterList = array();
                }
 
-               $this->smartyHelper->assign("versionsDetailed", $this->getVersionsDetailed($projectVersionList));
 
-               $this->smartyHelper->assign("versionsIssues", $this->getVersionsIssues($projectVersionList));
+               // --- FILTER TABS -------------
+
+               // TODO: get allFilters from config.ini
+               $allFilters = "ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter";
+               
+               $tmpList = explode(',', $allFilters);
+               $allFilterList = array();
+               foreach ($tmpList as $class_name) {
+                  if (NULL == $class_name) { continue; } // skip trailing commas ','
+                  $filter = new $class_name("fake_id");
+                  $allFilterList[$class_name] = $filter->getDisplayName();
+               }
+
+               // init dialogbox lists: $availFilterList & $selectedFilterList
+               $availFilterList = $allFilterList;
+
+               $selectedFilterList = array();
+               $filterDisplayNames = array();
+               foreach ($filterList as $id) {
+                  $selectedFilterList[$id] = $availFilterList[$id];
+                  $filterDisplayNames[]    = $allFilterList[$id];
+                  unset($availFilterList[$id]);
+               }
+
+               // do the work ...
+               $projectIssueSel = $project->getIssueSelection();
+               $filterMgr = new FilterManager($projectIssueSel, $filterList);
+               $resultList = $filterMgr->execute();
+               $explodeResults = $filterMgr->explodeResults($resultList);
+
+
+               // set smarty objects
+               $this->smartyHelper->assign('availFilterList', $availFilterList);
+               $this->smartyHelper->assign('selectedFilterList', $selectedFilterList);
+               $this->smartyHelper->assign('selectedFilters', $selectedFilters);
+               $this->smartyHelper->assign('nbFilters', count($filterList));
+               $this->getOverview($explodeResults, $filterDisplayNames);
+               $this->getDetailed($explodeResults, $filterDisplayNames);
+               if ($isManager) {
+                  $this->getDetailedMgr($explodeResults, $filterDisplayNames);
+               }
+               $this->getIssues($explodeResults, $filterDisplayNames);
+
+
+               // --- DRIFT TABS -------------------
                
                $currentIssuesInDrift = NULL;
                $resolvedIssuesInDrift = NULL;
-               foreach ($projectVersionList as $pv) {
-                  foreach ($pv->getIssuesInDrift($isManager) as $issue) {
-                     $smartyIssue = $this->getSmartyDirftedIssue($issue, $isManager);
-                     if(NULL != $smartyIssue) {
-                        if ($issue->isResolved()) {
-                           $resolvedIssuesInDrift[] = $smartyIssue;
-                        } else {
-                           $currentIssuesInDrift[] = $smartyIssue;
-                        }
+               foreach ($projectIssueSel->getIssuesInDrift($isManager) as $issue) {
+                  $smartyIssue = $this->getSmartyDirftedIssue($issue, $isManager);
+                  if(NULL != $smartyIssue) {
+                     if ($issue->isResolved()) {
+                        $resolvedIssuesInDrift[] = $smartyIssue;
+                     } else {
+                        $currentIssuesInDrift[] = $smartyIssue;
                      }
                   }
                }
+
                $this->smartyHelper->assign("currentIssuesInDrift", $currentIssuesInDrift);
                $this->smartyHelper->assign("resolvedIssuesInDrift", $resolvedIssuesInDrift);
             } else if ($projectid) {
@@ -104,163 +156,194 @@ class ProjectInfoController extends Controller {
    }
 
    /**
-    * Get versions overview
-    * @param Project $project
-    * @param ProjectVersion[] $projectVersionList
-    * @return mixed[]
+    * $explodeResults contains a list of filterNames + an IssueSelection on the last column.
+    * This function will replace the IssueSelection with a smarty comprehensible array
+    * containing the info to be displayed.
+    *
+    * @param mixed[] $explodeResults
+    * @param string[] $filterDisplayNames
     */
-   private function getVersionsOverview(Project $project, array $projectVersionList) {
-      $versionsOverview = NULL;
-      
-      foreach ($projectVersionList as $pv) {
-         if (NULL == $pv) {
-            continue;
-         }
-         
-         $valuesMgr = $pv->getDriftMgr();
+   private function getOverview(array $explodeResults, array $filterDisplayNames) {
 
-         $values = $pv->getDrift();
+      $iselIdx = count($explodeResults[0]) -1;
 
-         $vdate =  $pv->getVersionDate();
+      $smartyObj = array();
+
+      foreach($explodeResults as $line) {
+         $isel = $line[$iselIdx];
+
+         // ---
+         $valuesMgr = $isel->getDriftMgr();
+         $values = $isel->getDrift();
+
+         // TODO show date only if ProjectVersion
+         /*
          $date = "";
-         if (is_numeric($vdate)) {
-            $date = date("Y-m-d",$vdate);
+         if ('ProjectVersion' == get_class($isel)) {
+            $vdate =  $isel->getVersionDate();
+            if (is_numeric($vdate)) {
+               $date = date(T_("Y-m-d"),$vdate);
+            }
          }
+         */
 
-         $versionsOverview[] = array(
-            'name' => $pv->name,
+         $smartyElem = array(
+            #'name' => $isel->name,
             'date' => $date,
-            'progressMgr' => round(100 * $pv->getProgressMgr()),
-            'progress' => round(100 * $pv->getProgress()),
+            'progressMgr' => round(100 * $isel->getProgressMgr()),
+            'progress' => round(100 * $isel->getProgress()),
             'driftMgrColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
             'driftMgr' => round(100 * $valuesMgr['percent']),
             'driftColor' => IssueSelection::getDriftColor($values['percent']),
             'drift' => round(100 * $values['percent'])
          );
-      }
-      
-      $drift = $project->getDrift();
-      $driftMgr = $project->getDriftMgr();
-      $versionsOverview[] = array(
-         'progressMgr' => round(100 * $project->getProgressMgr()),
-         'progress' => round(100 * $project->getProgress()),
-         'driftMgrColor' => IssueSelection::getDriftColor($driftMgr['percent']),
-         'driftMgr' => round(100 * $driftMgr['percent']),
-         'driftColor' => IssueSelection::getDriftColor($drift['percent']),
-         'drift' => round(100 * $drift['percent'])
-      );
 
-      return $versionsOverview;
+         // ---
+         $line[$iselIdx] = $smartyElem;
+         $smartyObj[] = $line;
+      }
+
+      // add TitleLine
+      $titles = $filterDisplayNames;
+      #$titles[] = T_("Date");
+      $titles[] = T_("Progress Mgr");
+      $titles[] = T_("Progress");
+      $titles[] = T_("Drift Mgr");
+      $titles[] = T_("Drift");
+
+      // set Smarty
+      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+
+      $this->smartyHelper->assign('overviewTitles', $titles);
+      $this->smartyHelper->assign('overviewLines', $smartyObj);
+      $this->smartyHelper->assign('overviewTotal', $totalLine);
+
    }
 
    /**
-    * Get detailed mgr versions
-    * @param ProjectVersion[] $projectVersionList
-    * @return mixed[]
+    * $explodeResults contains a list of filterNames + an IssueSelection on the last column.
+    * This function will replace the IssueSelection with a smarty comprehensible array
+    * containing the info to be displayed.
+    *
+    * @param type $explodeResults
+    * @param type $filterDisplayNames
     */
-   private function getVersionsDetailedMgr(array $projectVersionList) {
-      $versionsDetailedMgr = NULL;
-      $totalEffortEstimMgr = 0;
-      $totalElapsed = 0;
-      $totalBacklogMgr = 0;
-      $totalReestimatedMgr = 0;
-      $totalDriftMgr = 0;
+   private function getDetailedMgr($explodeResults, $filterDisplayNames) {
 
-      foreach ($projectVersionList as $pv) {
-         $totalEffortEstimMgr += $pv->mgrEffortEstim;
-         $totalElapsed += $pv->elapsed;
-         $totalBacklogMgr += $pv->durationMgr;
-         $totalReestimatedMgr += $pv->getReestimatedMgr();
-         //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
+      $iselIdx = count($explodeResults[0]) -1;
 
-         $valuesMgr = $pv->getDriftMgr();
-         $totalDriftMgr += $valuesMgr['nbDays'];
+      $smartyObj = array();
 
-         $versionsDetailedMgr[] = array(
-            'name' => $pv->name,
-            //'progress' => round(100 * $pv->getProgress()),
-            'effortEstim' => $pv->mgrEffortEstim,
-            'reestimated' => $pv->getReestimatedMgr(),
-            'elapsed' => $pv->elapsed,
-            'backlog' => $pv->durationMgr,
+      foreach($explodeResults as $line) {
+         $isel = $line[$iselIdx];
+
+         $valuesMgr = $isel->getDriftMgr();
+         $smartyElem = array(
+            #'name' => $isel->name,
+            #'progress' => round(100 * $pv->getProgress()),
+            'effortEstim' => $isel->mgrEffortEstim,
+            'reestimated' => $isel->getReestimatedMgr(),
+            'elapsed' => $isel->elapsed,
+            'backlog' => $isel->durationMgr,
             'driftColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
             'drift' => round($valuesMgr['nbDays'],2)
          );
+
+         $line[$iselIdx] = $smartyElem;
+         $smartyObj[] = $line;
       }
 
-      $versionsDetailedMgr[] = array(
-         'effortEstim' => $totalEffortEstimMgr,
-         'reestimated' => $totalReestimatedMgr,
-         'elapsed' => $totalElapsed,
-         'backlog' => $totalBacklogMgr,
-         'drift' => round($totalDriftMgr,2)
-      );
+      // add TitleLine
+      $titles = $filterDisplayNames;
+      $titles[] = T_("MgrEffortEstim");
+      $titles[] = T_("Reestimated Mgr");
+      $titles[] = T_("Elapsed");
+      $titles[] = T_("Backlog Mgr");
+      $titles[] = T_("Drift Mgr");
+      $smartyObj[] = $titles;
 
-      return $versionsDetailedMgr;
+      // set Smarty
+      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+
+      $this->smartyHelper->assign('detailedMgrTitles', $titles);
+      $this->smartyHelper->assign('detailedMgrLines', $smartyObj);
+      $this->smartyHelper->assign('detailedMgrTotal', $totalLine);
    }
 
    /**
-    * Get detailed versions
-    * @param ProjectVersion[] $projectVersionList
-    * @return mixed[]
+    * $explodeResults contains a list of filterNames + an IssueSelection on the last column.
+    * This function will replace the IssueSelection with a smarty comprehensible array
+    * containing the info to be displayed.
+    *
+    * @param type $explodeResults
+    * @param type $filterDisplayNames
     */
-   private function getVersionsDetailed(array $projectVersionList) {
-      $versionsDetailed = NULL;
-      $totalDrift = 0;
-      $totalEffortEstim = 0;
-      $totalElapsed = 0;
-      $totalBacklog = 0;
-      $totalReestimated = 0;
+   private function getDetailed($explodeResults, $filterDisplayNames) {
 
-      foreach ($projectVersionList as $pv) {
-         $totalEffortEstim += $pv->effortEstim + $pv->effortAdd;
-         $totalElapsed += $pv->elapsed;
-         $totalBacklog += $pv->duration;
-         $totalReestimated += $pv->getReestimated();
-         //$formatedList  = implode( ',', array_keys($pv->getIssueList()));
+      $iselIdx = count($explodeResults[0]) -1;
 
-         $values = $pv->getDrift();
-         $totalDrift += $values['nbDays'];
+      $smartyObj = array();
 
-         $versionsDetailed[] = array(
-            'name' => $pv->name,
-            //'progress' => round(100 * $pv->getProgress()),
-            'title' => $pv->effortEstim." + ".$pv->effortAdd,
-            'effortEstim' => ($pv->effortEstim + $pv->effortAdd),
-            'reestimated' => $pv->getReestimated(),
-            'elapsed' => $pv->elapsed,
-            'backlog' => $pv->duration,
+      foreach($explodeResults as $line) {
+         $isel = $line[$iselIdx];
+
+         $values = $isel->getDrift();
+         $smartyElem = array(
+            #'name' => $isel->name,
+            #'progress' => round(100 * $pv->getProgress()),
+            'title' => $isel->effortEstim." + ".$isel->effortAdd,
+            'effortEstim' => ($isel->effortEstim + $isel->effortAdd),
+            'reestimated' => $isel->getReestimated(),
+            'elapsed' => $isel->elapsed,
+            'backlog' => $isel->duration,
             'driftColor' => IssueSelection::getDriftColor($values['percent']),
             'drift' => round($values['nbDays'],2)
          );
+
+         $line[$iselIdx] = $smartyElem;
+         $smartyObj[] = $line;
       }
 
-      $versionsDetailed[] = array(
-         'effortEstim' => $totalEffortEstim,
-         'reestimated' => $totalReestimated,
-         'elapsed' => $totalElapsed,
-         'backlog' => $totalBacklog,
-         'drift' => $totalDrift
-      );
+      // add TitleLine
+      $titles = $filterDisplayNames;
+      $titles[] = T_("EffortEstim");
+      $titles[] = T_("Reestimated");
+      $titles[] = T_("Elapsed");
+      $titles[] = T_("Backlog");
+      $titles[] = T_("Drift");
+      $smartyObj[] = $titles;
 
-      return $versionsDetailed;
+      // set Smarty
+      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+
+      $this->smartyHelper->assign('detailedTitles', $titles);
+      $this->smartyHelper->assign('detailedLines', $smartyObj);
+      $this->smartyHelper->assign('detailedTotal', $totalLine);
    }
 
-   /**
-    * Get version issues
-    * @param ProjectVersion[] $projectVersionList
-    * @return mixed[]
-    */
-   private function getVersionsIssues(array $projectVersionList) {
-      $versionsIssues = NULL;
 
-      foreach ($projectVersionList as $pv) {
+   /**
+    * $explodeResults contains a list of filterNames + an IssueSelection on the last column.
+    * This function will replace the IssueSelection with a smarty comprehensible array
+    * containing the info to be displayed.
+    *
+    * @param type $explodeResults
+    * @param type $filterDisplayNames
+    */
+   private function getIssues($explodeResults, $filterDisplayNames) {
+
+      $iselIdx = count($explodeResults[0]) -1;
+
+      $smartyObj = array();
+
+      foreach($explodeResults as $line) {
+         $isel = $line[$iselIdx];
 
          // format Issues list
          $formatedResolvedList = "";
          $formatedOpenList = "";
          $formatedNewList = "";
-         foreach ($pv->getIssueList() as $bugid => $issue) {
+         foreach ($isel->getIssueList() as $bugid => $issue) {
 
             if (Constants::$status_new == $issue->getCurrentStatus()) {
                if ("" != $formatedNewList) {
@@ -283,26 +366,31 @@ class ProjectInfoController extends Controller {
             }
          }
 
-         $versionsIssues[] = array(
-            'name' => $pv->name,
+         $smartyElem = array(
+            #'name' => $isel->name,
             'newList' => $formatedNewList,
             'openList' => $formatedOpenList,
             'resolvedList' => $formatedResolvedList
          );
+
+         // ---
+         $line[$iselIdx] = $smartyElem;
+         $smartyObj[] = $line;
       }
 
-      /*
-      // compute total progress
-      if (0 == $totalBacklog) {
-         $totalProgress = 1;  // if no Backlog, then Project is 100% done.
-      } elseif (0 == $totalElapsed) {
-         $totalProgress = 0;  // if no time spent, then no work done.
-      } else {
-         $totalProgress = $totalElapsed / ($totalElapsed + $totalBacklog);
-      }
-      */
+      // add TitleLine
+      $titles = $filterDisplayNames;
+      $titles[] = T_("New Tasks");
+      $titles[] = T_("Current Tasks");
+      $titles[] = T_("Resolved Tasks");
+      $smartyObj[] = $titles;
 
-      return $versionsIssues;
+      // set Smarty
+      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
+
+      $this->smartyHelper->assign('issuesTitles', $titles);
+      $this->smartyHelper->assign('issuesLines', $smartyObj);
+      $this->smartyHelper->assign('issuesTotal', $totalLine);
    }
 
    /**

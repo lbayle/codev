@@ -47,7 +47,7 @@ class ProjectVersionFilter implements IssueSelectionFilter {
    }
 
    public function getDesc() {
-      return "Sort issues per ProjectVersion";
+      return "Sort issues per Project TargetVersion";
    }
 
    public function getName() {
@@ -55,7 +55,7 @@ class ProjectVersionFilter implements IssueSelectionFilter {
    }
 
    public function getDisplayName() {
-      return "Version";
+      return "TargetVersion";
    }
 
    public function getId() {
