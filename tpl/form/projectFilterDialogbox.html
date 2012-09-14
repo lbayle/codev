@@ -25,6 +25,7 @@
                   var form = jQuery("#projectForm");
                   form.find("input[name=selectedFilters]").val(filters);
                   jQuery(this).dialog( "close" );
+                  form.submit();
                },
                Cancel: function() {
                   jQuery(this).dialog( "close" );
