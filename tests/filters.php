@@ -147,7 +147,8 @@ class FilterController extends Controller {
             $availFilterList = array("ProjectVersionFilter" => "Project Version",
                                      "ProjectCategoryFilter" => "Project Category",
                                      "IssueExtIdFilter" => "Issue External ID",
-                                     "IssuePublicPrivateFilter" => "Issue Public / Private"
+                                     "IssuePublicPrivateFilter" => "Issue Public / Private",
+                                     "IssueTagFilter" => "Issue Tags"
                 );
             $selectedFilterList = array();
             foreach ($filterList as $id) {

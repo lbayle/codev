@@ -102,10 +102,6 @@ class Issue extends Model implements Comparable {
 
    // CodevTT custom fields
    private $tcId;         // TelelogicChange id
-
-   /**
-    * @var int Backlog
-    */
    private $backlog;
    private $mgrEffortEstim;  // Manager EffortEstim (ex prelEffortEstim/ETA)
    private $effortEstim;  // BI
@@ -113,6 +109,8 @@ class Issue extends Model implements Comparable {
    private $deadLine;
    private $deliveryDate;
    private $deliveryId;   // TODO FDL (FDJ specific)
+
+   private $tagList; // mantis tags
 
    // computed fields
    private $elapsed;          // total time spent on this issue
@@ -263,6 +261,23 @@ class Issue extends Model implements Comparable {
       }
    }
 
+   public function initializeTags() {
+
+      $query = "SELECT mantis_tag_table.* FROM `mantis_tag_table` ".
+               "JOIN `mantis_bug_tag_table` ON mantis_tag_table.id = mantis_bug_tag_table.tag_id ".
+               "WHERE mantis_bug_tag_table.bug_id = ".$this->bugId.";";
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      $this->tagList = array();
+      while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
+         $this->tagList[$row->id] = $row->name;
+      }
+   }
+
    /**
     * @param int $bugid
     * @return bool TRUE if issue exists in Mantis DB
@@ -319,6 +334,19 @@ class Issue extends Model implements Comparable {
       }
       return $this->description;
    }
+
+   /**
+    * Get mantis tags
+    * 
+    * @return string[]  id => tagName
+    */
+   public function getTagList() {
+      if (!$this->tagList) {
+         $this->initializeTags();
+      }
+      return $this->tagList;
+   }
+
 
    /**
     * @return IssueNote[]
