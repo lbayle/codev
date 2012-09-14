@@ -81,6 +81,7 @@ class Issue extends Model implements Comparable {
    private $resolution;
    private $version;  // Product Version
    private $last_updated;
+   private $view_state; // public = 10, private = 50
 
    private $description;
    private $target_version;
@@ -197,6 +198,7 @@ class Issue extends Model implements Comparable {
          $this->version = $row->version;
          $this->target_version = $row->target_version;
          $this->last_updated = $row->last_updated;
+         $this->view_state = $row->view_state;
 
          //DEBUG $this->getRelationships(2500);
       } else {
@@ -289,6 +291,16 @@ class Issue extends Model implements Comparable {
          self::$existsCache[$bugid] = (1 == $nbTuples);
       }
       return self::$existsCache[$bugid];
+   }
+
+
+   public function isPrivate() {
+      // public:10 private:50
+      return (50 == $this->view_state);
+   }
+   public function isPublic() {
+      // public:10 private:50
+      return (10 == $this->view_state);
    }
 
    /**

@@ -37,26 +37,6 @@ class FilterController extends Controller {
    }
 
 
-   private function testFilterManager(IssueSelection $rootIssueSel, $filterList) {
-      
-      $filterMgr = new FilterManager($rootIssueSel, $filterList);
-
-      $resultList = $filterMgr->execute();
-/*
-      echo "nbResults = ".count($resultList)."<br>";
-      foreach ($resultList as $tag => $issueSel) {
-         echo "[$tag]"." nbIssues = ".$issueSel->getNbIssues()."<br>";
-      }
-*/
-      $resultArray = $filterMgr->explodeResults($resultList, $filterList);
-
-
-
-      
-
-      return $resultArray;
-   }
-
 
    private function getSmarty($explodeResults, $filterList) {
       
@@ -64,14 +44,11 @@ class FilterController extends Controller {
       
       $smartyObj = array();
       
-#echo "iselIdx $iselIdx<br>";
-
       foreach($explodeResults as $line) {
          $isel = $line[$iselIdx];
          $line[$iselIdx] = self::getDetailedMgr($isel);
          $smartyObj[] = $line;
       }
-#var_dump($line);
 
       // add TitleLine
       $titles = $filterList;
@@ -81,7 +58,6 @@ class FilterController extends Controller {
       $titles[] = T_("Backlog Mgr");
       $titles[] = T_("Drift Mgr");
       $smartyObj[] = $titles;
-#var_dump($titles);
 
       return $smartyObj;
    }
@@ -108,7 +84,6 @@ class FilterController extends Controller {
          'drift' => round($valuesMgr['nbDays'],2)
       );
 
-      #var_dump($detailedMgr); echo "<br>";
       return $detailedMgr;
    }
 
@@ -171,7 +146,8 @@ class FilterController extends Controller {
             // ---- 
             $availFilterList = array("ProjectVersionFilter" => "Project Version",
                                      "ProjectCategoryFilter" => "Project Category",
-                                     "ExtIdFilter" => "External ID"
+                                     "ExtIdFilter" => "External ID",
+                                     "IssuePublicPrivateFilter" => "Public / Private"
                 );
             $selectedFilterList = array();
             foreach ($filterList as $id) {
@@ -213,14 +189,4 @@ class FilterController extends Controller {
 FilterController::staticInit();
 $controller = new FilterController('TEST Filters','Admin');
 $controller->execute();
-
-
-/*
-
-CHOOSE FILTERS WITH :
-
-http://jqueryui.com/demos/sortable/#empty-lists
-
-
- */
 
