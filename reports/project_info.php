@@ -260,7 +260,6 @@ class ProjectInfoController extends Controller {
       $titles[] = T_("Elapsed");
       $titles[] = T_("Backlog Mgr");
       $titles[] = T_("Drift Mgr");
-      $smartyObj[] = $titles;
 
       // set Smarty
       $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
@@ -311,7 +310,6 @@ class ProjectInfoController extends Controller {
       $titles[] = T_("Elapsed");
       $titles[] = T_("Backlog");
       $titles[] = T_("Drift");
-      $smartyObj[] = $titles;
 
       // set Smarty
       $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
@@ -383,7 +381,6 @@ class ProjectInfoController extends Controller {
       $titles[] = T_("New Tasks");
       $titles[] = T_("Current Tasks");
       $titles[] = T_("Resolved Tasks");
-      $smartyObj[] = $titles;
 
       // set Smarty
       $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
