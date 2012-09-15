@@ -151,7 +151,7 @@ class EditTeamController extends Controller {
                         $this->smartyHelper->assign('error', T_("Couldn't add the project to the team"));
                      }
                   } catch (Exception $e) {
-                     $this->smartyHelper->assign('error', T_("Could NOT add project to the team"));
+                     $this->smartyHelper->assign('error', T_("Couldn't add the project to the team"));
                   }
                } elseif (isset($_POST['deletedprojectid'])) {
                   $projectid = Tools::getSecurePOSTIntValue('deletedprojectid');

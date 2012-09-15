@@ -12,7 +12,7 @@
                {/foreach}
             </select>
             <a title="{t}Set project filters{/t}" id="projectFilters" style="text-decoration: none" href="{$page}">
-               <img border="0" width="16" height="12" align="absmiddle" src="images/{if isset($overviewTotal) && count($overviewTotal) > 0}im-filter-active.png{else}im-filter.png{/if}" alt="{t}Set project filters{/t}" />
+               <img border="0" width="16" height="12" align="absmiddle" src="images/{if isset($selectedFilters) && $selectedFilters != ""}im-filter-active.png{else}im-filter.png{/if}" alt="{t}Set project filters{/t}" />
             </a>
             <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
             <input type="submit" value="{t}Jump{/t}" />
