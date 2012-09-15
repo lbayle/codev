@@ -20,17 +20,17 @@
         var tips = jQuery("#validateTips");
 
         function updateTips(t) {
-            tips.text({t}t{/t}).addClass("ui-state-highlight");
+            tips.text(t).addClass("ui-state-highlight");
             setTimeout(function() {
                 tips.removeClass("ui-state-highlight", 1500);
-            }, 500 );
+            }, 500);
         }
 
-        function checkLength( o, n, min, max ) {
+        function checkLength(o, n, min, max) {
             if (o.val().length > max || o.val().length < min) {
-                o.addClass( "ui-state-error" );
-                updateTips( "Length of " + n + " must be between " +
-                        min + " and " + max + "." );
+                o.addClass("ui-state-error");
+                updateTips("{t}Length of{/t} " + n + " {t}must be between{/t} " +
+                        min + " {t}and{/t} " + max + "." );
                 return false;
             } else {
                 return true;
@@ -111,7 +111,7 @@
                     }
                     else {
                         jQuery(".ui-button-text").html("OK");
-                        updateTips("Unauthorized");
+                        updateTips("{t}Unauthorized{/t}");
                     }
                 }
             });
@@ -121,8 +121,8 @@
 <div id="login_container" class="ui-helper-hidden">
     <form action="login.php" method="post" name="login_form" id="login_form" target="save_login">
         <fieldset>
-            <label>{t}Login{/t}: </label><br /><input name="codev_login" type="text" id="codev_login" /><br /><br />
-            <label>{t}Password{/t}: </label><br /><input name="codev_passwd" type="password" id="codev_passwd" />
+            <label for="codev_login">{t}Login{/t}: </label><br /><input name="codev_login" type="text" id="codev_login" /><br /><br />
+            <label for="codev_passwd">{t}Password{/t}: </label><br /><input name="codev_passwd" type="password" id="codev_passwd" />
             <input type="hidden" name="action" value="login" />
         </fieldset>
     </form>

@@ -6,11 +6,11 @@
          jQuery("#formSubmit").click(function() {
             // check fields
             var foundError = 0;
-            var msgString = "{t}Les champs suivants ont ete oublies:{/t}\n\n";
+            var msgString = "{t}Some fields are missing:{/t}\n\n";
 
             var form = jQuery("#formUserAndPeriodSelect");
             if (0 == form.find("input[name=userid]").val())  {
-               msgString += "{t}Nom{/t}\n";
+               msgString += "{t}Name{/t}\n";
                ++foundError;
             }
 
@@ -63,14 +63,14 @@
                // TODO check date1 < date2
                // check fields
                var foundError = 0;
-               var msgString = "{t}Les champs suivants ont ete oublies:{/t}\n\n";
+               var msgString = "{t}Some fields are missing:{/t}\n\n";
 
                if (0 == bugid.val()) {
-                  msgString += "{t}Fiche{/t}\n";
+                  msgString += "{t}Task{/t}\n";
                   ++foundError;
                }
                if (0 == jQuery("#job").value) {
-                  msgString += "{t}Poste{/t}\n";
+                  msgString += "{t}Job{/t}\n";
                   ++foundError;
                }
 
