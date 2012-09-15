@@ -5,8 +5,6 @@ PRJ_NAME=codev
 #SRC_FILE="index.php"
 SRC_FILE="index.php login.php"
 
-
-
 LOCALE="fr"
 
 # --------------
@@ -64,8 +62,6 @@ DisplayHelp()
    echo " "
 }
 
-
-
 # generate $SRC_FILES
 f_genFileList ()
 {
@@ -74,32 +70,28 @@ f_genFileList ()
 
   echo "" > $FILE_LIST # clear
 
+  # Generate smarty i18n template
+  php ./i18n/tsmarty2c.php > i18n/locale/smarty.c
+  echo "i18n/locale/smarty.c" >> $FILE_LIST
+
   #for i in $dirList
-  for i in admin classes doc include install reports timetracking tools $(ls *.php)
+  for i in admin blog classes doc filters graphs import indicator_plugins install management reports tests timetracking tools $(ls *.php)
   do
     find "$i" -iname "*.php" -print0 | while IFS= read -rd $'\0' f
     do
-      #echo "$f"
       echo "$f" >> $FILE_LIST
     done
-    # Generate smarty i18n template
-    php ./i18n/tsmarty2c.php > i18n/locale/smarty.c
-    echo "i18n/locale/smarty.c" >> $FILE_LIST
   done
 
-  # ---
   while read filename
   do
     SRC_FILES="$SRC_FILES $filename"
   done < $FILE_LIST
   
-  # ---
   echo "  - nb php files found: $(cat $FILE_LIST | wc -l )"
 
   rm $FILE_LIST
 }
-
-
 
 # usage: f_createTemplateFile <locale>
 f_createTemplateFile ()
@@ -113,8 +105,13 @@ f_createTemplateFile ()
   echo "  - parse php files and create template"
 
   #xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -L PHP -o ${templatePoFile} $SRC_FILES
-  xgettext -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -o ${templatePoFile} $SRC_FILES
-  
+  xgettext --add-comments -kT_ngettext:1,2 -kT_gettext -kT_ -k_ -o ${templatePoFile} $SRC_FILES
+ 
+  # Remove "smarty.c" comments
+  mv ${templatePoFile} ${templatePoFile}.old
+  cat ${templatePoFile}.old | grep -v "smarty.c" > ${templatePoFile}
+  rm ${templatePoFile}.old
+
   if [ ! -f ${templatePoFile} ]  
   then
     echo "ERROR: template file ${templatePoFile} not found !"
@@ -141,8 +138,8 @@ f_createTemplateFile ()
     else
       mv ${templatePoFile} ${FILE_PO}
     fi
+    sed -i 's|#. tpl|#: tpl|g' ${FILE_PO}
   fi
-  
 }
 
 f_compileTemplateFile ()
@@ -166,10 +163,7 @@ mkdir -p "$DIR_LOCALE"
 FILE_PO="${DIR_LOCALE}/${PRJ_NAME}.po"
 FILE_MO="${DIR_LOCALE}/${PRJ_NAME}.mo"
 
-# Generate smarty i18n template
-php ./i18n/tsmarty2c.php > i18n/locale/smarty.c
-
-  f_genFileList $DIR_LIST
+f_genFileList $DIR_LIST
 
 
 if [ "Yes" == "$doTemplate" ]
