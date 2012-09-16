@@ -112,9 +112,6 @@ class Issue extends Model implements Comparable {
 
    private $tagList; // mantis tags
 
-   // computed fields
-   private $elapsed;          // total time spent on this issue
-
    /**
     * @var Status[]
     */
@@ -625,9 +622,7 @@ class Issue extends Model implements Comparable {
       }
 
       $key = 'j'.$job_id;
-
-      if(!array_key_exists($key, $this->elapsedCache)) {
-
+      if(!array_key_exists("$key", $this->elapsedCache)) {
          $query = "SELECT SUM(duration) as duration ".
                   "FROM `codev_timetracking_table` ".
                   "WHERE bugid = ".$this->bugId;
@@ -642,10 +637,12 @@ class Issue extends Model implements Comparable {
             exit;
          }
 
-         $this->elapsedCache[$key] = round(SqlWrapper::getInstance()->sql_result($result),2);
+         $this->elapsedCache["$key"] = round(SqlWrapper::getInstance()->sql_result($result),2);
+         self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
       }
 
-      return $this->elapsedCache[$key];
+      self::$logger->debug("getElapsed(job=".$job_id."): ".$this->elapsedCache["$key"]);
+      return $this->elapsedCache["$key"];
    }
 
    /**
@@ -657,16 +654,22 @@ class Issue extends Model implements Comparable {
       if ($this->isResolved()) {
          return 0;
       }
+      $issueDuration = NULL;
+
+      // WARN: in PHP '0' and NULL are same, so you need to use is_null() !
 
       // determinate issue duration (Backlog, BI, MgrEffortEstim)
-      if (NULL != $this->getBacklog()) {
-         $issueDuration = $this->getBacklog();
+      $bl = $this->getBacklog();
+      if ( !is_null($bl)) {
+         $issueDuration = $bl;
+         self::$logger->debug("getDuration(): ".$this->bugId."): return backlog : ".$issueDuration);
       }
       else {
          $issueDuration = $this->getEffortEstim();
+         self::$logger->debug("getDuration(): ".$this->bugId."): return effortEstim : ".$issueDuration);
       }
 
-      if (NULL == $this->getEffortEstim()) {
+      if (is_null( $this->getEffortEstim())) {
          self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND effortEstim == NULL)");
       }
       return $issueDuration;
@@ -681,16 +684,20 @@ class Issue extends Model implements Comparable {
       if ($this->isResolved()) {
          return 0;
       }
+      $issueDuration = NULL;
+
+      // WARN: in PHP '0' and NULL are same, so you need to use is_null() !
 
       // determinate issue duration (Backlog, BI, MgrEffortEstim)
-      if (NULL != $this->getBacklog()) {
-         $issueDuration = $this->getBacklog();
+      $bl = $this->getBacklog();
+      if ( !is_null($bl)) {
+         $issueDuration = $bl;
       }
       else {
          $issueDuration = $this->getMgrEffortEstim();
       }
 
-      if (NULL == $this->getMgrEffortEstim()) {
+      if (is_null($this->getMgrEffortEstim())) {
          self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND mgrEffortEstim == NULL)");
       }
       return $issueDuration;
@@ -701,7 +708,9 @@ class Issue extends Model implements Comparable {
     * @return int reestimated
     */
    public function getReestimated() {
-      return $this->getElapsed() + $this->getDuration();
+      $reestimated = $this->getElapsed() + $this->getDuration();;
+      self::$logger->debug("getReestimated(".$this->bugId.") = $reestimated : elapsed = ".$this->getElapsed()." + Duration = ".$this->getDuration());
+      return $reestimated;
    }
 
    /**
@@ -850,7 +859,7 @@ class Issue extends Model implements Comparable {
          $derive = $myElapsed - ($totalEstim - $this->getBacklog());
       }
 
-      self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
+      self::$logger->debug("getDrift_old(".$this->bugId.") derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
       return round($derive,3);
    }
 
@@ -858,7 +867,7 @@ class Issue extends Model implements Comparable {
       $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
       $derive = $this->getReestimated() - $totalEstim;
 
-      self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
+      self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
       return round($derive,3);
    }
 
@@ -1655,6 +1664,7 @@ class Issue extends Model implements Comparable {
             $this->customFieldInitialized = true;
             $this->initializeCustomField();
          }
+         self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
          return $this->backlog;
       }
 
@@ -1678,16 +1688,18 @@ class Issue extends Model implements Comparable {
       if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
          // the first result is the closest to the given timestamp
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $backlog = $row->new_value;
+         $this->backlog = $row->new_value;
 
          self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
 
       } else {
          // no backlog update found in history, return NULL
-         $backlog = NULL;
+         // WARN: test the result with is_null() !!!
+         $this->backlog = NULL;
       }
 
-      return $backlog;
+      self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$this->backlog);
+      return $this->backlog;
    }
 
    /**
