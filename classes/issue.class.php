@@ -690,7 +690,7 @@ class Issue extends Model implements Comparable {
 
       // determinate issue duration (Backlog, BI, MgrEffortEstim)
       $bl = $this->getBacklog();
-      if ( !is_null($bl)) {
+      if ( !is_null($bl) && is_numeric($bl)) {
          $issueDuration = $bl;
       }
       else {
