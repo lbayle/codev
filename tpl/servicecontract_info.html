@@ -22,7 +22,7 @@
                {/foreach}
             </select>
             <label for="servicecontractid">{t}ServiceContract{/t}:</label>
-            <select id="servicecontractid" name="servicecontractid" class="select2">
+            <select id="servicecontractid" name="servicecontractid" class="select2" style="width: 400px;">
                {foreach from=$servicecontracts key=id item=i}
                <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                {/foreach}
