@@ -50,6 +50,9 @@ class CommandSetInfoController extends Controller {
          if(isset($_POST['commandsetid'])) {
             $commandsetid = Tools::getSecurePOSTIntValue('commandsetid');
             $_SESSION['commandsetid'] = $commandsetid;
+         } else if(isset($_GET['commandsetid'])) {
+            $commandsetid = Tools::getSecureGETIntValue('commandsetid');
+            $_SESSION['commandsetid'] = $commandsetid;
          } else if(isset($_SESSION['commandsetid'])) {
             $commandsetid = $_SESSION['commandsetid'];
          }
