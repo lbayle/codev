@@ -830,7 +830,10 @@ class User extends Model {
       $totalBacklog = 0;
 
       if (NULL == $projList) {
-         $teamList = $this->getDevTeamList();
+         $managedTeamList = $this->getManagedTeamList();
+         $devTeamList = $this->getDevTeamList();
+         $teamList = $devTeamList + $managedTeamList;
+
          $projList = $this->getProjectList($teamList);
       }
 
@@ -848,7 +851,6 @@ class User extends Model {
                "AND handler_id = $this->id " .
                "AND status < get_project_resolved_status_threshold(project_id) " .
                "ORDER BY id DESC;";
-
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -859,6 +861,7 @@ class User extends Model {
          $totalBacklog += $issue->getDurationMgr();
       }
 
+      self::$logger->debug("user $this->id getForecastWorkload($formatedProjList) = ".$totalBacklog);
       return $totalBacklog;
    }
 
