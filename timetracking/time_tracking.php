@@ -113,7 +113,7 @@ class TimeTrackingController extends Controller {
                if ($job != $job_support) {
                   // decrease backlog (only if 'backlog' already has a value)
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  if (NULL != $issue->getBacklog()) {
+                  if (!is_null($issue->getBacklog())) {
                      $backlog = $issue->getBacklog() - $duration;
                      if ($backlog < 0) { $backlog = 0; }
                      $issue->setBacklog($backlog);
@@ -174,7 +174,7 @@ class TimeTrackingController extends Controller {
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
                   // do NOT decrease backlog if job is job_support !
                   if ($job != $job_support) {
-                     if (NULL != $issue->getBacklog()) {
+                     if (!is_null($issue->getBacklog())) {
                         $backlog = $issue->getBacklog() + $duration;
                         $issue->setBacklog($backlog);
                      }

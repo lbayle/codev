@@ -151,7 +151,7 @@ class TimeTrack extends Model {
       $bugid = $timetrack->bugId;
       $duration = $timetrack->duration;
       $issue = IssueCache::getInstance()->getIssue($bugid);
-      if (NULL != $issue->getBacklog()) {
+      if (!is_null($issue->getBacklog())) {
          $backlog = $issue->getBacklog() + $duration;
          $issue->setBacklog($backlog);
       }

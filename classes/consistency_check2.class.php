@@ -251,8 +251,8 @@ class ConsistencyCheck2 {
       foreach ($this->issueList as $issue) {
          if ((!$issue->isResolved()) &&
             ($issue->getCurrentStatus() > Constants::$status_new) &&
-            ((NULL == $issue->getBacklog()) || ($issue->getBacklog() <= 0))) {
-            if (NULL == $issue->getBacklog()) {
+            (is_null($issue->getBacklog()) || ($issue->getBacklog() <= 0))) {
+            if (is_null($issue->getBacklog())) {
                $msg = T_("Backlog must be defined !");
             } else {
                $msg = T_("Backlog == 0: Backlog may not be up to date.");

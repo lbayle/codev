@@ -86,7 +86,7 @@ class ConsistencyCheckFDJ extends ConsistencyCheck {
             $cerr->severity = T_("Error");
             $cerrList[] = $cerr;
          }
-         if (NULL == $issue->getBacklog()) {
+         if (is_null($issue->getBacklog())) {
             $cerr = new ConsistencyError($row->bug_id,
                $row->handler_id,
                $row->status,

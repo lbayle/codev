@@ -660,7 +660,7 @@ class Issue extends Model implements Comparable {
 
       // determinate issue duration (Backlog, BI, MgrEffortEstim)
       $bl = $this->getBacklog();
-      if ( !is_null($bl)) {
+      if ( !is_null($bl) && is_numeric($bl)) {
          $issueDuration = $bl;
          self::$logger->debug("getDuration(): ".$this->bugId."): return backlog : ".$issueDuration);
       }
@@ -708,7 +708,7 @@ class Issue extends Model implements Comparable {
     * @return int reestimated
     */
    public function getReestimated() {
-      $reestimated = $this->getElapsed() + $this->getDuration();;
+      $reestimated = $this->getElapsed() + $this->getDuration();
       self::$logger->debug("getReestimated(".$this->bugId.") = $reestimated : elapsed = ".$this->getElapsed()." + Duration = ".$this->getDuration());
       return $reestimated;
    }
@@ -1518,7 +1518,7 @@ class Issue extends Model implements Comparable {
       if ((NULL == $this->getElapsed()) || (0 == $this->getElapsed())) { return 0; }
 
       // if no Backlog set, 100% done (this is not a normal case, an Alert is raised by ConsistencyCheck)
-      if ((NULL == $this->getBacklog()) || (0 == $this->getBacklog())) { return 1; }
+      if (is_null($this->getBacklog()) || (0 == $this->getBacklog())) { return 1; }
 
       // nominal case
       $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
@@ -1659,7 +1659,7 @@ class Issue extends Model implements Comparable {
     * @return int backlog or NULL if no backlog update found in history before timestamp
     */
    public function getBacklog($timestamp = NULL) {
-      if (NULL == $timestamp) {
+      if (is_null($timestamp)) {
          if(!$this->customFieldInitialized) {
             $this->customFieldInitialized = true;
             $this->initializeCustomField();
