@@ -130,10 +130,14 @@ class GanttActivity {
 
       // the oldest activity should be in front of the list
       if ($this->endTimestamp > $activityB->endTimestamp) {
-         self::$logger->trace("activity.compareTo FALSE  (".date('Y-m-d', $this->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("activity.compareTo FALSE  (".date('Y-m-d', $this->endTimestamp)." > ".date('Y-m-d', $activityB->endTimestamp).")");
+         }
          return false;
       }
-      self::$logger->trace("activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
+      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         self::$logger->trace("activity.compareTo   (".date('Y-m-d', $this->endTimestamp)." < ".date('Y-m-d', $activityB->endTimestamp).")");
+      }
       return true;
    }
 }

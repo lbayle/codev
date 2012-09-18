@@ -88,7 +88,9 @@ class ConfigMantis {
          self::$configVariables["$key"] = new ConfigMantisItem($row->config_id, $row->project_id, $row->user_id, $row->access_reqd, $row->type, $row->value);
       }
 
-      self::$logger->trace("ConfigMantis ready");
+      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         self::$logger->trace("ConfigMantis ready");
+      }
       #print_r(array_keys(self::$configVariables));
    }
 

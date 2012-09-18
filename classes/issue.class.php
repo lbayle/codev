@@ -1262,73 +1262,101 @@ class Issue extends Model implements Comparable {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($this->bugId, $BconstrainsList)) {
          // B constrains A
-         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (B constrains A)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (B constrains A)");
+         }
          return FALSE;
       }
       if (in_array($issueB->bugId, $AconstrainsList)) {
          // A constrains B
-         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains B)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains B)");
+         }
          return TRUE;
       }
 
       // Tasks currently open are higher priority
       if (($this->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
-         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (status_openned)");
+         }
          return  TRUE;
       }
       if (($issueB->currentStatus == Constants::$status_open) && ($this->currentStatus != Constants::$status_open)) {
-         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (status_openned)");
+         }
          return  FALSE;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL != $this->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
-         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (B no deadline)");
+         }
          return  TRUE;
       }
       if ((NULL == $this->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
-         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (A no deadline)");
+         }
          return  FALSE;
       }
 
       // the soonest deadLine has priority
       if ($this->getDeadLine() < $issueB->getDeadLine()) {
-         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (deadline)");
+         }
          return  TRUE;
       }
       if ($this->getDeadLine() > $issueB->getDeadLine()) {
-         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (deadline)");
+         }
          return  FALSE;
       }
 
       // if same deadLine, check priority attribute
       if ($this->priority > $issueB->priority) {
-         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (priority attr)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (priority attr)");
+         }
          return  TRUE;
       }
       if ($this->priority < $issueB->priority) {
-         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (priority attr)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (priority attr)");
+         }
          return  FALSE;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($this->severity > $issueB->severity) {
-         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (severity attr)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (severity attr)");
+         }
          return  TRUE;
       }
       if ($this->severity < $issueB->severity) {
-         self::$logger->trace("compareTo $this->bugId < $issueB->bugId (severity attr)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId < $issueB->bugId (severity attr)");
+         }
          return  FALSE;
       }
 
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) > count($BconstrainsList)) {
          // A constrains more people, so A is higher priority
-         self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compareTo $this->bugId > $issueB->bugId (A constrains more people)");
+         }
          return TRUE;
       }
 
-      self::$logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
+      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         self::$logger->trace("compareTo $this->bugId <= $issueB->bugId (B constrains more people)");
+      }
       return FALSE;
    }
 
@@ -1344,81 +1372,117 @@ class Issue extends Model implements Comparable {
       $BconstrainsList = $issueB->getRelationships( BUG_CUSTOM_RELATIONSHIP_CONSTRAINS );
       if (in_array($issueA->bugId, $BconstrainsList)) {
          // B constrains A
-         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains A)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains A)");
+         }
          return 1;
       } else if (in_array($issueB->bugId, $AconstrainsList)) {
          // A constrains B
-         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains B)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains B)");
+         }
          return -1;
       }
 
       // Tasks currently open are higher priority
       if (($issueB->currentStatus == Constants::$status_open) && ($issueA->currentStatus != Constants::$status_open)) {
-         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (status_openned)");
+         }
          return 1;
       } else if (($issueA->currentStatus == Constants::$status_open) && ($issueB->currentStatus != Constants::$status_open)) {
-         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (status_openned)");
+         }
          return -1;
       }
 
       // the one that has NO deadLine is lower priority
       if ((NULL == $issueA->getDeadLine()) && (NULL != $issueB->getDeadLine())) {
-         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (A no deadline)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (A no deadline)");
+         }
          return 1;
       } else if ((NULL != $issueA->getDeadLine()) && (NULL == $issueB->getDeadLine())) {
-         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (B no deadline)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (B no deadline)");
+         }
          return -1;
       }
 
       // the soonest deadLine has priority
       if ($issueA->getDeadLine() > $issueB->getDeadLine()) {
-         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (deadline)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (deadline)");
+         }
          return 1;
       } else if ($issueA->getDeadLine() < $issueB->getDeadLine()) {
-         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (deadline)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (deadline)");
+         }
          return -1;
       }
 
       // if same deadLine, check priority attribute
       if ($issueA->priority < $issueB->priority) {
-         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (priority attr)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (priority attr)");
+         }
          return 1;
       } else if ($issueA->priority > $issueB->priority) {
-         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (priority attr)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (priority attr)");
+         }
          return -1;
       }
 
       // if same deadLine, same priority: check severity attribute
       if ($issueA->severity < $issueB->severity) {
-         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (severity attr)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (severity attr)");
+         }
          return 1;
       } else if ($issueA->severity > $issueB->severity) {
-         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (severity attr)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (severity attr)");
+         }
          return -1;
       }
 
       // if IssueA constrains nobody, and IssueB constrains IssueX, then IssueB is higher priority
       if (count($AconstrainsList) < count($BconstrainsList)) {
          // B constrains more people, so B is higher priority
-         self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains more people)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId (B constrains more people)");
+         }
          return 1;
       } else if (count($AconstrainsList) > count($BconstrainsList)) {
          // A constrains more people, so A is higher priority
-         self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains more people)");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId (A constrains more people)");
+         }
          return -1;
       }
 
-      self::$logger->trace("no important diff find, so we compare the bugid : $issueA->bugId <=> $issueB->bugId");
+      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         self::$logger->trace("no important diff find, so we compare the bugid : $issueA->bugId <=> $issueB->bugId");
+      }
 
       // Lower if the bug id, higher is the priority
       if($issueA->bugId > $issueB->bugId) {
-         self::$logger->trace("compare $issueA->bugId > $issueB->bugId");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId > $issueB->bugId");
+         }
          return 1;
       } else if($issueA->bugId < $issueB->bugId) {
-         self::$logger->trace("compare $issueA->bugId < $issueB->bugId");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId < $issueB->bugId");
+         }
          return -1;
       } else {
-         self::$logger->trace("compare $issueA->bugId = $issueB->bugId");
+         if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+            self::$logger->trace("compare $issueA->bugId = $issueB->bugId");
+         }
          return 0;
       }
    }

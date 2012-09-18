@@ -179,7 +179,9 @@ class Config {
          self::$configVariables[$row->config_id] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
 
-      self::$logger->trace("Config ready");
+      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         self::$logger->trace("Config ready");
+      }
    }
 
    /**
