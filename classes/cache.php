@@ -152,7 +152,9 @@ abstract class Cache {
          $nbCalls = array_sum($this->callCount);
          $ratio = (0 != $nbObj) ? '1:'.round($nbCalls/$nbObj) : '';
 
-         self::$logger->debug($this->cacheName.' Statistics : nbObj='.$nbObj.' nbCalls='.$nbCalls.' ratio='.$ratio);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug($this->cacheName.' Statistics : nbObj='.$nbObj.' nbCalls='.$nbCalls.' ratio='.$ratio);
+         }
       }
    }
 

@@ -79,7 +79,9 @@ class CommandSetEditController extends Controller {
             if ("createCmdset" == $action) {
                $teamid = SmartyTools::checkNumericValue($_POST['teamid']);
                $_SESSION['teamid'] = $teamid;
-               self::$logger->debug("create new CommandSet for team $teamid<br>");
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("create new CommandSet for team $teamid<br>");
+               }
 
                $cmdsetName = Tools::escape_string($_POST['commandsetName']);
 
@@ -122,7 +124,9 @@ class CommandSetEditController extends Controller {
 
                $this->updateCommandSetInfo($cmdset);
             } else if ("deleteCommandSet" == $action) {
-               self::$logger->debug("delete CommandSet $commandsetid (".$cmdset->getName().")");
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("delete CommandSet $commandsetid (".$cmdset->getName().")");
+               }
                CommandSet::delete($commandsetid);
                unset($_SESSION['commandsetid']);
                header('Location:commandset_info.php');

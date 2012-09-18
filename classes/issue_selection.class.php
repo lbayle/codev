@@ -98,7 +98,9 @@ class IssueSelection {
          $this->effortEstim += $issue->getEffortEstim();
          $this->effortAdd += $issue->getEffortAdd();
 
-         self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim() + $issue->getEffortAdd())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim() + $issue->getEffortAdd())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+         }
          $retCode = true;
       }
       return $retCode;
@@ -114,7 +116,9 @@ class IssueSelection {
       if (NULL != $this->issueList[$bugid]) {
          unset($this->issueList[$bugid]);
       } else {
-         self::$logger->debug("IssueSelection [$this->name] : removeIssue($bugid) : Issue not found !");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("IssueSelection [$this->name] : removeIssue($bugid) : Issue not found !");
+         }
       }
    }
 
@@ -132,7 +136,9 @@ class IssueSelection {
             $this->progress = $this->elapsed / $this->getReestimated();
          }
 
-         self::$logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
+         }
       }
 
       return $this->progress;
@@ -153,7 +159,9 @@ class IssueSelection {
             $this->progressMgr = $this->elapsed / $this->getReestimatedMgr();
          }
 
-         self::$logger->debug("IssueSelection [$this->name] : progressMgr = ".$this->progressMgr." = $this->elapsed / ($this->elapsed + ".$this->durationMgr.")");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("IssueSelection [$this->name] : progressMgr = ".$this->progressMgr." = $this->elapsed / ($this->elapsed + ".$this->durationMgr.")");
+         }
       }
 
       return $this->progressMgr;
@@ -272,7 +280,9 @@ class IssueSelection {
       $values['nbDays']  = round($nbDaysDrift,3);
       $values['percent'] = $percent;
 
-      self::$logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("IssueSelection [$this->name] :  getDriftMgr nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
+      }
       return $values;
    }
 
@@ -303,7 +313,9 @@ class IssueSelection {
       $values['nbDays'] = round($nbDaysDrift,3);
       $values['percent'] = $percent;
 
-      self::$logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("IssueSelection [$this->name] :  getDrift nbDays = ".$nbDaysDrift." percent = ".$percent." ($nbDaysDrift/$myEstim)");
+      }
       return $values;
    }
 

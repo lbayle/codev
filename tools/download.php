@@ -130,7 +130,9 @@ if (isset($_SESSION['userid'])) {
    // get full file path (including subfolders)
    $file_path = '';
    find_file(BASE_DIR, $fname, $file_path);
-   $logger->debug("BASE_DIR <".BASE_DIR."> file ".$fname);
+   if(self::$logger->isDebugEnabled()) {
+      $logger->debug("BASE_DIR <".BASE_DIR."> file ".$fname);
+   }
 
    if (!is_file($file_path)) {
       $logger->error("File <$file_path> does not exist.");

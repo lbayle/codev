@@ -52,7 +52,9 @@ function move_st_cat_tuples() {
          $query2 = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) ".
             "VALUES ('$row->project_id','$row->cat_inactivity','".Project::cat_st_inactivity."');";
 
-         $logger->debug("$query2");
+         if(self::$logger->isDebugEnabled()) {
+            $logger->debug("$query2");
+         }
          $result2 = execQuery($query2);
       }
 
@@ -60,7 +62,9 @@ function move_st_cat_tuples() {
       if (NULL != $row->cat_onduty) {
          $query2 = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) ".
             "VALUES ('$row->project_id','$row->cat_onduty','".Project::cat_st_onduty."');";
-         $logger->debug( "$query2");
+         if(self::$logger->isDebugEnabled()) {
+            $logger->debug( "$query2");
+         }
          $result2 = execQuery($query2);
       }
 
@@ -69,7 +73,9 @@ function move_st_cat_tuples() {
          $query2 = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) ".
             "VALUES ('$row->project_id','$row->cat_incident','".Project::cat_st_incident."');";
 
-         $logger->debug( "$query2");
+         if(self::$logger->isDebugEnabled()) {
+            $logger->debug( "$query2");
+         }
          $result2 = execQuery($query2);
       }
 
@@ -78,7 +84,9 @@ function move_st_cat_tuples() {
          $query2 = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) ".
             "VALUES ('$row->project_id','$row->cat_tools','".Project::cat_st_tools."');";
 
-         $logger->debug( "$query2");
+         if(self::$logger->isDebugEnabled()) {
+            $logger->debug( "$query2");
+         }
          $result2 = execQuery($query2);
       }
 
@@ -87,7 +95,9 @@ function move_st_cat_tuples() {
          $query2 = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) ".
             "VALUES ('$row->project_id','$row->cat_workshop','".Project::cat_st_workshop."');";
 
-         $logger->debug( "$query2");
+         if(self::$logger->isDebugEnabled()) {
+            $logger->debug( "$query2");
+         }
          $result2 = execQuery($query2);
       }
 
@@ -96,7 +106,9 @@ function move_st_cat_tuples() {
          $query2 = "INSERT INTO `codev_project_category_table`  (`project_id`, `category_id`, `type`) ".
             "VALUES ('$row->project_id','$row->cat_management','".Project::cat_mngt_regular."');";
 
-         $logger->debug( "$query2");
+         if(self::$logger->isDebugEnabled()) {
+            $logger->debug( "$query2");
+         }
          $result2 = execQuery($query2);
       }
 

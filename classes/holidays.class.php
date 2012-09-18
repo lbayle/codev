@@ -71,7 +71,9 @@ class Holiday {
       $this->description = $description;
       $this->color = $color;
 
-      self::$logger->debug("Holiday $this->id - ".date("d M Y", $this->timestamp)." $this->description $this->color");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Holiday $this->id - ".date("d M Y", $this->timestamp)." $this->description $this->color");
+      }
    }
 }
 
@@ -194,7 +196,9 @@ class Holidays {
          $timestamp = strtotime("+1 day",$timestamp);;
       }
 
-      self::$logger->debug("nbHolidays = $nbHolidays");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("nbHolidays = $nbHolidays");
+      }
       return $nbHolidays;
    }
 

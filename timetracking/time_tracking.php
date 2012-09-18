@@ -148,7 +148,9 @@ class TimeTrackingController extends Controller {
                   }
                }
 
-               self::$logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("Track $trackid added  : userid=$userid bugid=$defaultBugid job=$job duration=$duration timestamp=$timestamp");
+               }
 
                // Don't show job and duration after add track
                $job = 0;

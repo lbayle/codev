@@ -130,7 +130,9 @@ class ScheduledTaskView {
    private static function createStrikeImage($img, $width, $height) {
       global $logger;
       $strike_color = Tools::html2rgb("9E9E9E");
-      $logger->debug("imageline($img, 0, 0, $width, $height, ($strike_color[0], $strike_color[1], $strike_color[2]) )");
+      if(self::$logger->isDebugEnabled()) {
+         $logger->debug("imageline($img, 0, 0, $width, $height, ($strike_color[0], $strike_color[1], $strike_color[2]) )");
+      }
 
       $color = imagecolorallocate($img, $strike_color[0], $strike_color[1], $strike_color[2]);
 

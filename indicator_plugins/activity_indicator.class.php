@@ -63,7 +63,9 @@ class ActivityIndicator implements IndicatorPlugin {
 
       if (NULL != $params) {
 
-         self::$logger->debug("execute() ISel=".$inputIssueSel->name.' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("execute() ISel=".$inputIssueSel->name.' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+         }
          #echo "start ".date('Y-m-d', $params['startTimestamp']). " end ".date('Y-m-d', $params['endTimestamp'])."<br>";
 
          if (array_key_exists('teamid', $params)) {

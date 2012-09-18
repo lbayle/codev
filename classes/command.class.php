@@ -565,7 +565,9 @@ class Command extends Model {
 
       $id = NULL;
       if ( !array_key_exists($this->id, $issue->getCommandList())) {
-         self::$logger->debug("Add issue $bugid to command $this->id");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("Add issue $bugid to command $this->id");
+         }
 
          $query = "INSERT INTO `codev_command_bug_table` (`command_id`, `bug_id`) VALUES ($this->id, $bugid);";
          $result = SqlWrapper::getInstance()->sql_query($query);
@@ -575,7 +577,9 @@ class Command extends Model {
          }
          $id = SqlWrapper::getInstance()->sql_insert_id();
       } else {
-         self::$logger->debug("addIssue($bugid) to command $this->id: already in !");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("addIssue($bugid) to command $this->id: already in !");
+         }
       }
 
       if (!$isDBonly) {
@@ -635,7 +639,9 @@ class Command extends Model {
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $cmdset = CommandSetCache::getInstance()->getCommandSet($row->id, $row);
             $this->commandSetList[$row->id] = $cmdset;
-            self::$logger->debug("Command $this->id is in commandset $row->id (".$cmdset->getName().")");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("Command $this->id is in commandset $row->id (".$cmdset->getName().")");
+            }
          }
       }
       return $this->commandSetList;

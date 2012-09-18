@@ -82,7 +82,9 @@ class ConfigMantis {
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $key = $row->config_id."_".$row->project_id;
-         self::$logger->debug("$row->config_id = $row->value");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("$row->config_id = $row->value");
+         }
          self::$configVariables["$key"] = new ConfigMantisItem($row->config_id, $row->project_id, $row->user_id, $row->access_reqd, $row->type, $row->value);
       }
 
@@ -169,7 +171,9 @@ class ConfigMantis {
       }
       if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
 
-         self::$logger->debug("setValue $config_id: $value (type=$type)");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("setValue $config_id: $value (type=$type)");
+         }
 
          // add to DB
          $query = "INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) ".

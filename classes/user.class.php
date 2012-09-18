@@ -580,7 +580,9 @@ class User extends Model {
                      if(array_key_exists($date,$extTasks)) {
                         $extTask = $extTasks[$date];
                      }
-                     self::$logger->debug("user $this->id ExternalTasks[" . $date . "] = " . $extTask . " (+".$timeTrack->getDuration().")");
+                     if(self::$logger->isDebugEnabled()) {
+                        self::$logger->debug("user $this->id ExternalTasks[" . $date . "] = " . $extTask . " (+".$timeTrack->getDuration().")");
+                     }
                   }
                }
             } catch (Exception $e) {
@@ -623,7 +625,9 @@ class User extends Model {
       $startT = ($arrivalDate > $startTimestamp) ? $arrivalDate : $startTimestamp;
       $endT = ($departureDate < $endTimestamp) ? $departureDate : $endTimestamp;
 
-      self::$logger->debug("getAvailableWorkload user.startT=" . date("Y-m-d", $startT) . " user.endT=" . date("Y-m-d", $endT));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getAvailableWorkload user.startT=" . date("Y-m-d", $startT) . " user.endT=" . date("Y-m-d", $endT));
+      }
 
       // get $nbOpenDaysInPeriod
       for ($i = $startT; $i <= $endT; $i += (60 * 60 * 24)) {
@@ -646,8 +650,9 @@ class User extends Model {
       $nbExternal = array_sum($this->getExternalTasksInPeriod($timeTracks, $issueIds));
       $prodDaysForecast -= $nbExternal;
 
-
-      self::$logger->debug("user $this->id timestamp = " . date('Y-m-d', $startT) . " to " . date('Y-m-d', $endT) . " =>  ($nbOpenDaysInPeriod - " . $nbDaysOf . ") = $prodDaysForecast");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("user $this->id timestamp = " . date('Y-m-d', $startT) . " to " . date('Y-m-d', $endT) . " =>  ($nbOpenDaysInPeriod - " . $nbDaysOf . ") = $prodDaysForecast");
+      }
 
       return $prodDaysForecast;
    }
@@ -815,7 +820,9 @@ class User extends Model {
          }
       } else {
          // this happens if User is not a Developper (Manager or Observer)
-         //self::$logger->debug("ERROR: User $this->id is not member of any team !");
+         // if(self::$logger->isDebugEnabled()) {
+         //    self::$logger->debug("ERROR: User $this->id is not member of any team !");
+         // }
       }
 
       return $projList;
@@ -861,7 +868,9 @@ class User extends Model {
          $totalBacklog += $issue->getDurationMgr();
       }
 
-      self::$logger->debug("user $this->id getForecastWorkload($formatedProjList) = ".$totalBacklog);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("user $this->id getForecastWorkload($formatedProjList) = ".$totalBacklog);
+      }
       return $totalBacklog;
    }
 
@@ -916,7 +925,9 @@ class User extends Model {
 
       if (self::$logger->isDebugEnabled()) {
          $formatedList = implode(', ', array_keys($issueList));
-         self::$logger->debug("getAssignedIssues: List BEFORE sort = " . $formatedList);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getAssignedIssues: List BEFORE sort = " . $formatedList);
+         }
       }
 
       // quickSort the list
@@ -924,7 +935,9 @@ class User extends Model {
 
       if (self::$logger->isDebugEnabled()) {
          $formatedList = implode(', ', array_keys($sortedList));
-         self::$logger->debug("getAssignedIssues: List AFTER Sort = " . $formatedList);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getAssignedIssues: List AFTER Sort = " . $formatedList);
+         }
       }
 
       return $sortedList;
@@ -1020,7 +1033,9 @@ class User extends Model {
          $query = "SELECT value FROM `codev_config_table` " .
                   "WHERE config_id = '" . Config::id_timetrackingFilters . "' " .
                   "AND user_id = $this->id";
-         self::$logger->debug("query = " . $query);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("query = " . $query);
+         }
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -1031,13 +1046,17 @@ class User extends Model {
          // get default filters if not found
          $keyvalue = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : Config::default_timetrackingFilters;
 
-         self::$logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("user $this->id timeTrackingFilters = <$keyvalue>");
+         }
          $this->timetrackingFilters = Tools::doubleExplode(':', ',', $keyvalue);
       }
       // get value
       $value = $this->timetrackingFilters[$filterName];
 
-      self::$logger->debug("user $this->id timeTrackingFilter $filterName = <$value>");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("user $this->id timeTrackingFilter $filterName = <$value>");
+      }
 
       return $value;
    }
@@ -1056,7 +1075,9 @@ class User extends Model {
       $this->timetrackingFilters[$filterName] = $value;
 
       $keyvalue = Tools::doubleImplode(':', ',', $this->timetrackingFilters);
-      self::$logger->debug("Write filters : $keyvalue");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Write filters : $keyvalue");
+      }
 
       // save new settings
       Config::setValue(Config::id_timetrackingFilters, $keyvalue, Config::configType_keyValue, "filter for timetracking page", 0, $this->id);
@@ -1067,7 +1088,9 @@ class User extends Model {
     * @param int $teamid
     */
    public function setDefaultTeam($teamid) {
-      self::$logger->debug("User $this->id Set defaultTeam  : $teamid");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("User $this->id Set defaultTeam  : $teamid");
+      }
 
       // save new settings
       Config::setValue(Config::id_defaultTeamId, $teamid, Config::configType_int, "prefered team on login", 0, $this->id);
@@ -1086,7 +1109,9 @@ class User extends Model {
          $query = "SELECT value FROM `codev_config_table` " .
                   "WHERE config_id = '" . Config::id_defaultTeamId . "' " .
                   "AND user_id = $this->id";
-         self::$logger->debug("query = " . $query);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("query = " . $query);
+         }
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -1104,7 +1129,9 @@ class User extends Model {
     * @param int $teamid
     */
    public function setDefaultProject($projectid) {
-      self::$logger->debug("User $this->id Set defaultProject  : $projectid");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("User $this->id Set defaultProject  : $projectid");
+      }
 
       // save new settings
       Config::setValue(Config::id_defaultProjectId, $projectid, Config::configType_int, "prefered project on login", 0, $this->id);
@@ -1123,7 +1150,9 @@ class User extends Model {
          $query = "SELECT value FROM `codev_config_table` " .
                   "WHERE config_id = '" . Config::id_defaultProjectId . "' " .
                   "AND user_id = $this->id";
-         self::$logger->debug("query = " . $query);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("query = " . $query);
+         }
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -1143,7 +1172,9 @@ class User extends Model {
    public function setProjectFilters($filters) {
 
       if ($filters != $this->projectFilters) {
-         self::$logger->debug("User $this->id Set ProjectFilters  : $filters");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("User $this->id Set ProjectFilters  : $filters");
+         }
 
          Config::setValue(Config::id_projectFilters, $filters, Config::configType_int, "filters in ProjectInfo page", 0, $this->id);
       }
@@ -1161,7 +1192,9 @@ class User extends Model {
          $query = "SELECT value FROM `codev_config_table` " .
                   "WHERE config_id = '" . Config::id_projectFilters . "' " .
                   "AND user_id = $this->id";
-         self::$logger->debug("query = " . $query);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("query = " . $query);
+         }
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
@@ -1179,7 +1212,9 @@ class User extends Model {
     * @param int $lang
     */
    public function setDefaultLanguage($lang) {
-      self::$logger->debug("User $this->id Set defaultLanguage  : $lang");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("User $this->id Set defaultLanguage  : $lang");
+      }
 
       // save new settings
       Config::setValue(Config::id_defaultLanguage, $lang, Config::configType_int, "prefered language on login", 0, $this->id);
@@ -1198,7 +1233,9 @@ class User extends Model {
          $query = "SELECT value FROM `codev_config_table` " .
                   "WHERE config_id = '" . Config::id_defaultLanguage . "' " .
                   "AND user_id = $this->id";
-         self::$logger->debug("query = " . $query);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("query = " . $query);
+         }
 
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {

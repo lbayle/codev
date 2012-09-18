@@ -89,7 +89,9 @@ class SetHolidaysController extends Controller {
                      // check existing timetracks on $timestamp and adjust duration
                      $duration = $managed_user->getAvailableTime($timestamp);
                      if ($duration > 0) {
-                        self::$logger->debug(date("Y-m-d", $timestamp)." duration $duration job $job");
+                        if(self::$logger->isDebugEnabled()) {
+                           self::$logger->debug(date("Y-m-d", $timestamp)." duration $duration job $job");
+                        }
                         TimeTrack::create($managed_user->getId(), $defaultBugid, $job, $timestamp, $duration);
                      }
                   }

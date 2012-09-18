@@ -54,7 +54,9 @@ function login($user, $password) {
             if (0 != $projid) { $_SESSION['projectid'] = $projid; }
 
          } catch (Exception $e) {
-            $logger->debug("could not load preferences for user $row_login->id");
+            if(self::$logger->isDebugEnabled()) {
+               $logger->debug("could not load preferences for user $row_login->id");
+            }
          }
 
         $logger->info('user '.$row_login->id.' logged in: '.$row_login->username.' ('.$row_login->realname.')'.' defaultTeam = '.$user->getDefaultTeam());

@@ -73,16 +73,22 @@ class PrepareProjectController extends Controller {
                      $smartyProjects[$id] = $name;
                   } else {
                      // exclude SideTasksProjects
-                     self::$logger->debug("project $id: sideTaskProjects are excluded");
+                     if(self::$logger->isDebugEnabled()) {
+                        self::$logger->debug("project $id: sideTaskProjects are excluded");
+                     }
                   }
                } catch (Exception $e) {
                   // could not determinate, so the project should be included in the list
-                  self::$logger->debug("project $id: Unknown type, project included anyway.");
+                  if(self::$logger->isDebugEnabled()) {
+                     self::$logger->debug("project $id: Unknown type, project included anyway.");
+                  }
                   // nothing to do.
                }
             } else {
                // exclude ExternalTasksProject
-               self::$logger->debug("project $id: ExternalTasksProject is excluded");
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("project $id: ExternalTasksProject is excluded");
+               }
             }
          }
          return $smartyProjects;

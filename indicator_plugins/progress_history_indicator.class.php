@@ -69,7 +69,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          throw new Exception("Missing parameters: startTimestamp, endTimestamp, interval");
       }
 
-      self::$logger->debug("execute() ISel=".$inputIssueSel->name.' interval='.$params['interval'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("execute() ISel=".$inputIssueSel->name.' interval='.$params['interval'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+      }
 
       if (array_key_exists('startTimestamp', $params)) {
          $this->startTimestamp = $params['startTimestamp'];

@@ -465,7 +465,9 @@ class Team extends Model {
          $formatedMembers .= ',0';
       }
 
-      self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      }
 
       $query = "SELECT * ".
                "FROM `mantis_bug_table` ".
@@ -482,7 +484,9 @@ class Team extends Model {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      self::$logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getTeamIssues(teamid=$this->id) nbIssues=".count($issueList));
+      }
       return $issueList;
    }
 
@@ -515,7 +519,9 @@ class Team extends Model {
          $formatedMembers .= ', 0';
       }
 
-      self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
+      }
 
       // get Issues that are not Resolved/Closed
       $query = "SELECT * ".
@@ -541,7 +547,9 @@ class Team extends Model {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
 
-      self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
+      }
       return $issueList;
    }
 
@@ -579,7 +587,9 @@ class Team extends Model {
          }
       }
 
-      self::$logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getCommands(teamid=$this->id) nbEng=".count($this->commandList));
+      }
       return $this->commandList;
    }
 
@@ -604,7 +614,9 @@ class Team extends Model {
          }
       }
 
-      self::$logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getCommandSetList(teamid=$this->id) nbCommandSet=".count($this->commandSetList));
+      }
       return $this->commandSetList;
    }
 
@@ -629,7 +641,9 @@ class Team extends Model {
          }
       }
 
-      self::$logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getServiceContractList(teamid=$this->id) nbServiceContracts=".count($this->serviceContractList));
+      }
       return $this->serviceContractList;
    }
 
@@ -802,7 +816,9 @@ class Team extends Model {
             exit;
          }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            self::$logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("initialize: team $this->id proj $row->project_id type $row->type");
+            }
             $this->projTypeList[$row->project_id] = $row->type;
          }
       }
@@ -829,7 +845,9 @@ class Team extends Model {
    }
 
    public function isSideTasksProject($projectid) {
-      self::$logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("isSideTasksProject:  team $this->id proj $projectid type ".$this->getProjectType($projectid));
+      }
       return (Project::type_sideTaskProject == $this->getProjectType($projectid));
    }
 

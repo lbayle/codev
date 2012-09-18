@@ -75,7 +75,9 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
 
    $isHideResolved = true;
    $issueList = $project->getIssues($userid, $isHideResolved);
-   $logger->debug("nb issues = ".count($issueList));
+   if(self::$logger->isDebugEnabled()) {
+      $logger->debug("nb issues = ".count($issueList));
+   }
 
    $q_id = 0;
    $issueSegment = $odf->setSegment('issueSelection');
@@ -88,7 +90,9 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
          $user = UserCache::getInstance()->getUser($issue->getHandlerId());
          $userName = utf8_decode($user->getRealname());
       }
-      $logger->debug("issue ".$issue->getId().": userName = ".$userName);
+      if(self::$logger->isDebugEnabled()) {
+         $logger->debug("issue ".$issue->getId().": userName = ".$userName);
+      }
 
       if (0 == $issue->getReporterId()) {
          $reporterName = T_('unknown');
@@ -96,7 +100,9 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
          $reporter = UserCache::getInstance()->getUser($issue->getReporterId());
          $reporterName = utf8_decode($reporter->getRealname());
       }
-      $logger->debug("issue ".$issue->getId().": reporterName = ".$reporterName);
+      if(self::$logger->isDebugEnabled()) {
+         $logger->debug("issue ".$issue->getId().": reporterName = ".$reporterName);
+      }
 
       // add issue
       try { $issueSegment->q_id($q_id); } catch (Exception $e) {};
@@ -113,7 +119,9 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
       $issueNotes = $issue->getIssueNoteList();
       foreach ($issueNotes as $id => $issueNote) {
 
-         $logger->debug("issue ".$issue->getId().": note $id = $issueNote->note");
+         if(self::$logger->isDebugEnabled()) {
+            $logger->debug("issue ".$issue->getId().": note $id = $issueNote->note");
+         }
 
          $reporter     = UserCache::getInstance()->getUser($issueNote->reporter_id);
          try { $reporterName = utf8_decode($user->getRealname()); } catch (Exception $e) {};
@@ -133,7 +141,9 @@ function genProjectODT(Project $project, $odtTemplate, $userid = 0) {
 #==== MAIN =====
 $session_userid = isset($_POST['userid']) ? $_POST['userid'] : $_SESSION['userid'];
 
-$logger->debug ("session_userid = $session_userid");
+if(self::$logger->isDebugEnabled()) {
+   $logger->debug ("session_userid = $session_userid");
+}
 
 if (isset($session_userid)) {
    $session_user = UserCache::getInstance()->getUser($session_userid);
@@ -148,7 +158,9 @@ if (isset($session_userid)) {
       $projectid = Tools::getSecureGETIntValue('projectid', $defaultProject);
       $_SESSION['projectid'] = $projectid;
 
-      $logger->debug ("projectid = $projectid");
+      if(self::$logger->isDebugEnabled()) {
+         $logger->debug ("projectid = $projectid");
+      }
 
       displayProjectSelectionForm("odt.php", $projList, $projectid);
 

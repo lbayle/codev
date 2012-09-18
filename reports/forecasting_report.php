@@ -185,7 +185,9 @@ class ForecastingReportController extends Controller {
          // do not take observer's tasks
          if ((!$user->isTeamDeveloper($teamid)) &&
             (!$user->isTeamManager($teamid))) {
-            self::$logger->debug("getIssuesInDrift user $id ($name) excluded.");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getIssuesInDrift user $id ($name) excluded.");
+            }
             continue;
          }
 

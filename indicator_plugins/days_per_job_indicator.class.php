@@ -64,7 +64,9 @@ class DaysPerJobIndicator implements IndicatorPlugin {
     * @throws Exception on missing parameters or other error
     */
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
-      self::$logger->debug("execute() ISel=".$inputIssueSel->name.' teamid='.$params['teamid'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("execute() ISel=".$inputIssueSel->name.' teamid='.$params['teamid'].' startTimestamp='.$params['startTimestamp'].' endTimestamp='.$params['endTimestamp']);
+      }
 
       $startTimestamp      = NULL;
       $endTimestamp        = NULL;
@@ -128,7 +130,9 @@ class DaysPerJobIndicator implements IndicatorPlugin {
          // DEBUG
          if (self::$logger->isDebugEnabled()) {
             $u = UserCache::getInstance()->getUser($row->userid);
-            self::$logger->debug("execute() : team $teamid job $row->job_id user $row->userid ".$u->getName()." bug $row->bugid duration $row->duration");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("execute() : team $teamid job $row->job_id user $row->userid ".$u->getName()." bug $row->bugid duration $row->duration");
+            }
          }
       }
 
