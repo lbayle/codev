@@ -147,11 +147,15 @@ class Holidays {
    private function getHoliday($timestamp) {
       foreach (self::$HolidayList as $h) {
          if ($h->timestamp == $timestamp) {
-            self::$logger->trace("Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description");
+            if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+               self::$logger->trace("Holiday found  ".date("d M Y", $h->timestamp)."  - ".date("d M Y", $timestamp)."  $h->description");
+            }
             return $h;
          }
       }
-      self::$logger->trace("No Holiday defined for on: ".date("d M Y", $timestamp)."   $timestamp");
+      if(self::$logger->isEnabledFor(LoggerLevel::getLevelTrace())) {
+         self::$logger->trace("No Holiday defined for on: ".date("d M Y", $timestamp)."   $timestamp");
+      }
       return NULL;
    }
 
