@@ -417,7 +417,9 @@ class Issue extends Model implements Comparable {
             ($project->getCategory(Project::cat_st_tools) != $this->categoryId) &&
             ($project->getCategory(Project::cat_st_workshop)   != $this->categoryId)) {
 
-            self::$logger->debug("$this->bugId is a sideTask.");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("$this->bugId is a sideTask.");
+            }
             return TRUE;
          }
       } catch (Exception $e) {
@@ -446,7 +448,9 @@ class Issue extends Model implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getCategory(Project::cat_st_inactivity) == $this->categoryId)) {
 
-            self::$logger->debug("$this->bugId is Vacation.");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("$this->bugId is Vacation.");
+            }
             return TRUE;
          }
       } catch (Exception $e) {
@@ -474,7 +478,9 @@ class Issue extends Model implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getCategory(Project::cat_st_incident) == $this->categoryId)) {
 
-            self::$logger->debug("$this->bugId is a Incident.");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("$this->bugId is a Incident.");
+            }
             return TRUE;
          }
       } catch (Exception $e) {
@@ -504,7 +510,9 @@ class Issue extends Model implements Comparable {
          if (($project->isSideTasksProject($teamidList)) &&
             ($project->getCategory(Project::cat_mngt_regular) == $this->categoryId)) {
 
-            self::$logger->debug("$this->bugId is a ProjectManagement task.");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("$this->bugId is a ProjectManagement task.");
+            }
             return TRUE;
          }
       } catch (Exception $e) {
@@ -525,7 +533,9 @@ class Issue extends Model implements Comparable {
       }
 
       if (in_array($this->bugId, $astreintesTaskList)) {
-         self::$logger->debug($this->bugId." is an Astreinte.");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug($this->bugId." is an Astreinte.");
+         }
          return TRUE;
       }
       return FALSE;
@@ -638,10 +648,14 @@ class Issue extends Model implements Comparable {
          }
 
          $this->elapsedCache["$key"] = round(SqlWrapper::getInstance()->sql_result($result),2);
-         self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getElapsed(job=".$job_id."): set elapsedCache[$key] = ".$this->elapsedCache["$key"]);
+         }
       }
 
-      self::$logger->debug("getElapsed(job=".$job_id."): ".$this->elapsedCache["$key"]);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getElapsed(job=".$job_id."): ".$this->elapsedCache["$key"]);
+      }
       return $this->elapsedCache["$key"];
    }
 
@@ -662,11 +676,15 @@ class Issue extends Model implements Comparable {
       $bl = $this->getBacklog();
       if ( !is_null($bl) && is_numeric($bl)) {
          $issueDuration = $bl;
-         self::$logger->debug("getDuration(): ".$this->bugId."): return backlog : ".$issueDuration);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDuration(): ".$this->bugId."): return backlog : ".$issueDuration);
+         }
       }
       else {
          $issueDuration = $this->getEffortEstim();
-         self::$logger->debug("getDuration(): ".$this->bugId."): return effortEstim : ".$issueDuration);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDuration(): ".$this->bugId."): return effortEstim : ".$issueDuration);
+         }
       }
 
       if (is_null( $this->getEffortEstim())) {
@@ -709,7 +727,9 @@ class Issue extends Model implements Comparable {
     */
    public function getReestimated() {
       $reestimated = $this->getElapsed() + $this->getDuration();
-      self::$logger->debug("getReestimated(".$this->bugId.") = $reestimated : elapsed = ".$this->getElapsed()." + Duration = ".$this->getDuration());
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getReestimated(".$this->bugId.") = $reestimated : elapsed = ".$this->getElapsed()." + Duration = ".$this->getDuration());
+      }
       return $reestimated;
    }
 
@@ -748,11 +768,15 @@ class Issue extends Model implements Comparable {
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             if($row->source_bug_id == $this->bugId) {
                // normal
-               self::$logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("relationships: [$type] $this->bugId -> $row->destination_bug_id\n");
+               }
                $this->relationships[$type][] = $row->destination_bug_id;
             } elseif($row->destination_bug_id == $this->bugId) {
                // complementary
-               self::$logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("relationships: [$type] $this->bugId -> $row->source_bug_id\n");
+               }
                $this->relationships[$type][] = $row->source_bug_id;
             }
          }
@@ -836,7 +860,9 @@ class Issue extends Model implements Comparable {
       $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
 
       if (0 == $totalEstim) {
-         self::$logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
+         }
          return 0;
       }
 
@@ -849,7 +875,9 @@ class Issue extends Model implements Comparable {
 /*
       // if Elapsed     = 0 then Drift = 0
       if (0 == $myElapsed) {
-         self::$logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
+         }
          return 0;
       }
 */
@@ -859,7 +887,9 @@ class Issue extends Model implements Comparable {
          $derive = $myElapsed - ($totalEstim - $this->getBacklog());
       }
 
-      self::$logger->debug("getDrift_old(".$this->bugId.") derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getDrift_old(".$this->bugId.") derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
+      }
       return round($derive,3);
    }
 
@@ -867,7 +897,9 @@ class Issue extends Model implements Comparable {
       $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
       $derive = $this->getReestimated() - $totalEstim;
 
-      self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
+      }
       return round($derive,3);
    }
 
@@ -891,7 +923,9 @@ class Issue extends Model implements Comparable {
 */
       $derive = $this->getReestimatedMgr() - $this->getMgrEffortEstim();
 
-      self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->getMgrEffortEstim().")");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->getMgrEffortEstim().")");
+      }
       return round($derive,3);
    }
 
@@ -917,7 +951,9 @@ class Issue extends Model implements Comparable {
          } else {
             $nbHolidays = $holidays->getNbHolidays($this->getDeadLine(), $this->getDeliveryDate());
          }
-         self::$logger->debug("TimeDrift for issue $this->bugId = (".$this->getDeliveryDate()." - ".$this->getDeadLine().") / 86400 = $timeDrift (- $nbHolidays holidays)");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("TimeDrift for issue $this->bugId = (".$this->getDeliveryDate()." - ".$this->getDeadLine().") / 86400 = $timeDrift (- $nbHolidays holidays)");
+         }
 
          if ($timeDrift > 0) {
             $timeDrift -= $nbHolidays;
@@ -1010,7 +1046,9 @@ class Issue extends Model implements Comparable {
       $key = 't'.$timestamp;
       if(!array_key_exists($key,$this->statusCache)) {
          if (NULL == $timestamp) {
-            self::$logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getStatus(NULL) : bugId=$this->bugId, status=$this->currentStatus");
+            }
             $this->statusCache[$key] = $this->currentStatus;
          } else {
             // if a timestamp is specified, find the latest status change (strictly) before this date
@@ -1030,11 +1068,15 @@ class Issue extends Model implements Comparable {
             if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
                $row = SqlWrapper::getInstance()->sql_fetch_object($result);
 
-               self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId, old_value=$row->old_value, new_value=$row->new_value, date_modified=".date("d F Y", $row->date_modified));
+               }
 
                $this->statusCache[$key] = $row->new_value;
             } else {
-               self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("getStatus(".date("d F Y", $timestamp).") : bugId=$this->bugId not found !");
+               }
                $this->statusCache[$key] = -1;
             }
          }
@@ -1051,7 +1093,9 @@ class Issue extends Model implements Comparable {
 
       $old_backlog = $this->getBacklog();
 
-      self::$logger->debug("setBacklog old_value=$old_backlog   new_value=$backlog");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("setBacklog old_value=$old_backlog   new_value=$backlog");
+      }
 
       // TODO should be done only once... in Constants singleton ?
       $query = "SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomField";
@@ -1175,23 +1219,33 @@ class Issue extends Model implements Comparable {
       }
 
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         self::$logger->debug("id=$row->id date = $row->date_modified old_value = $row->old_value new_value = $row->new_value");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("id=$row->id date = $row->date_modified old_value = $row->old_value new_value = $row->new_value");
+         }
          $start_date = $row->date_modified;
 
          // Next line is end_date. if NULL then end_date = current_date
          if ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             $end_date = $row->date_modified;
-            self::$logger->debug("id=$row->id date = $row->date_modified  old_value = $row->old_value new_value = $row->new_value");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("id=$row->id date = $row->date_modified  old_value = $row->old_value new_value = $row->new_value");
+            }
          } else {
             $end_date = $current_date;
-            self::$logger->debug("end_date = current date = $end_date");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("end_date = current date = $end_date");
+            }
          }
          $intervale =  $end_date - $start_date;
-         self::$logger->debug("intervale = $intervale");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("intervale = $intervale");
+         }
          $time = $time + ($end_date - $start_date);
       }
 
-      self::$logger->debug("duration other $time");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("duration other $time");
+      }
       return $time;
    }
 
@@ -1400,7 +1454,9 @@ class Issue extends Model implements Comparable {
 
       $tmpDuration = $this->getDuration();
 
-      self::$logger->debug("computeEstimatedDateOfArrival: user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("computeEstimatedDateOfArrival: user=".$user->getName()." tmpDuration = $tmpDuration begindate=".date('Y-m-d', $timestamp));
+      }
 
       // first day depends only on $availTimeOnBeginTimestamp
       if (NULL == $availTimeOnBeginTimestamp) {
@@ -1409,7 +1465,9 @@ class Issue extends Model implements Comparable {
          $availTime = $availTimeOnBeginTimestamp;
       }
       $tmpDuration -= $availTime;
-      self::$logger->debug("computeEstimatedDateOfArrival: 1st ".date('Y-m-d', $timestamp)." tmpDuration (-$availTime) = $tmpDuration");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("computeEstimatedDateOfArrival: 1st ".date('Y-m-d', $timestamp)." tmpDuration (-$availTime) = $tmpDuration");
+      }
 
       // --- next days
       while ($tmpDuration > 0) {
@@ -1418,7 +1476,9 @@ class Issue extends Model implements Comparable {
          if (NULL != $user) {
             $availTime = $user->getAvailableTime($timestamp);
             $tmpDuration -= $availTime;
-            self::$logger->debug("computeEstimatedDateOfArrival: ".date('Y-m-d', $timestamp)." tmpDuration = $tmpDuration");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("computeEstimatedDateOfArrival: ".date('Y-m-d', $timestamp)." tmpDuration = $tmpDuration");
+            }
          } else {
             // if not assigned, just check for global holidays
             if (NULL == Holidays::getInstance()->isHoliday($timestamp)) {
@@ -1433,7 +1493,9 @@ class Issue extends Model implements Comparable {
       // fot the next issue to be worked on.
       $availTimeOnEndTimestamp = abs($tmpDuration);
 
-      self::$logger->debug("computeEstimatedDateOfArrival: $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("computeEstimatedDateOfArrival: $this->bugId.computeEstimatedEndTimestamp(".date('Y-m-d', $beginTimestamp).", $availTimeOnBeginTimestamp, $userid) = [".date('Y-m-d', $endTimestamp).",$availTimeOnEndTimestamp]");
+      }
       return array($endTimestamp, $availTimeOnEndTimestamp);
    }
 
@@ -1461,9 +1523,13 @@ class Issue extends Model implements Comparable {
       $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
       if (NULL == $timestamp) {
-         self::$logger->debug("issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND !");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("issue $this->bugId: getFirstStatusOccurrence($status)  NOT FOUND !");
+         }
       } else {
-         self::$logger->debug("issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("issue $this->bugId: getFirstStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
+         }
       }
 
       return $timestamp;
@@ -1493,9 +1559,13 @@ class Issue extends Model implements Comparable {
       $timestamp  = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : NULL;
 
       if (NULL == $timestamp) {
-         self::$logger->debug("issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND !");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("issue $this->bugId: getLatestStatusOccurrence($status)  NOT FOUND !");
+         }
       } else {
-         self::$logger->debug("issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("issue $this->bugId: getLatestStatusOccurrence($status) = ".date('Y-m-d', $timestamp));
+         }
       }
 
       return $timestamp;
@@ -1523,7 +1593,9 @@ class Issue extends Model implements Comparable {
       // nominal case
       $progress = $this->getElapsed() / $this->getReestimated();   // (T-R)/T
 
-      self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + ".$this->getBacklog().")");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("issue $this->bugId Progress = $progress % = ".$this->getElapsed()." / (".$this->getElapsed()." + ".$this->getBacklog().")");
+      }
 
       return $progress;
    }
@@ -1552,7 +1624,9 @@ class Issue extends Model implements Comparable {
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
             //$cmd = CommandCache::getInstance()->getCommand($row->id, $row);
             $this->commandList[$row->id] = $row->name;
-            self::$logger->debug("Issue $this->bugId is in command $row->id (".$row->name.")");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("Issue $this->bugId is in command $row->id (".$row->name.")");
+            }
          }
       }
       return $this->commandList;
@@ -1664,7 +1738,9 @@ class Issue extends Model implements Comparable {
             $this->customFieldInitialized = true;
             $this->initializeCustomField();
          }
-         self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
+         }
          return $this->backlog;
       }
 
@@ -1690,7 +1766,9 @@ class Issue extends Model implements Comparable {
          $row = SqlWrapper::getInstance()->sql_fetch_object($result);
          $this->backlog = $row->new_value;
 
-         self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
+         }
 
       } else {
          // no backlog update found in history, return NULL
@@ -1698,7 +1776,9 @@ class Issue extends Model implements Comparable {
          $this->backlog = NULL;
       }
 
-      self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$this->backlog);
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$this->backlog);
+      }
       return $this->backlog;
    }
 

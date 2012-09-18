@@ -62,7 +62,9 @@ if (isset($_SESSION['userid'])) {
          $command->addIssue($bugid, true); // DBonly
       }
 
-      $logger->debug("Import bugid=$bugid $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");
+      if(self::$logger->isDebugEnabled()) {
+         $logger->debug("Import bugid=$bugid $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");
+      }
 
       // RETURN VALUE
       echo Tools::mantisIssueURL($bugid, NULL, TRUE)." ".Tools::issueInfoURL($bugid, NULL);

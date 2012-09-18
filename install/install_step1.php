@@ -107,7 +107,9 @@ function checkDBprivileges($db_mantis_database = 'bugtracker') {
 
    while ($row = SqlWrapper::getInstance()->sql_fetch_array($result)) {
       if (FALSE != strstr($row[0], "`$db_mantis_database`")) {
-         $logger->debug("Privileges: " . $row[0]);
+         if(self::$logger->isDebugEnabled()) {
+            $logger->debug("Privileges: " . $row[0]);
+         }
 
          // all privileges should be ok !
          if (FALSE != strstr($row[0], "GRANT ALL PRIVILEGES")) {

@@ -106,7 +106,9 @@ class ScheduledTask {
 
       // get Ordered List of Issues to schedule
       $issueList = $user->getAssignedIssues();
-      self::$logger->debug("scheduleUser ".$user->getId()." : nb assigned issues = ". count($issueList));
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("scheduleUser ".$user->getId()." : nb assigned issues = ". count($issueList));
+      }
 
       // foreach task
       $sumDurations = 0;
@@ -115,12 +117,16 @@ class ScheduledTask {
          // determinate issue duration (Backlog, EffortEstim, MgrEffortEstim)
          $issueDuration = $issue->getDuration();
 
-         self::$logger->debug("issue ".$issue->getId()."  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("issue ".$issue->getId()."  Duration = $issueDuration deadLine=".date("Y-m-d", $issue->getDeadLine()));
+         }
 
          $currentST = new ScheduledTask($issue->getId(), $issue->getDeadLine(), $issueDuration);
 
-         self::$logger->debug("issue ".$issue->getId()."   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
-         self::$logger->debug("issue ".$issue->getId()." nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("issue ".$issue->getId()."   -- user->getAvailableWorkload(".$today.", ".$issue->getDeadLine().")");
+            self::$logger->debug("issue ".$issue->getId()." nbDaysToDeadLine=".$user->getAvailableWorkload($today, $issue->getDeadLine()));
+         }
          $currentST->nbDaysToDeadLine = $user->getAvailableWorkload($today, $issue->getDeadLine());
          $currentST->projectName = $issue->getProjectName();
          $currentST->summary = $issue->getSummary();

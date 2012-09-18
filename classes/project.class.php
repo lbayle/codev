@@ -616,7 +616,9 @@ class Project extends Model {
       }
       $bugt_id = SqlWrapper::getInstance()->sql_insert_id();
 
-      self::$logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("addIssue(): project_id=$this->id, category_id=$cat_id, priority=$priority, reproducibility=$reproducibility, status=$issueStatus, bug_text_id=$bug_text_id, date_submitted=$today, last_updated=$today");
+      }
       return $bugt_id;
    }
 
@@ -830,7 +832,9 @@ class Project extends Model {
             exit;
          }
          while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-            self::$logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getTeamTypeList: proj $row->project_id team $row->team_id type $row->type");
+            }
             $this->teamTypeList["$row->team_id"] = $row->type;
          }
       }
@@ -875,7 +879,9 @@ class Project extends Model {
       foreach ($teamidList as $teamid) {
          if (!array_key_exists($teamid,$this->teamTypeList)) {
             // project not defined for this team, skip it.
-            self::$logger->debug("getProjectType(): team $teamid skipped: Project $this->id not defined fot this team.");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getProjectType(): team $teamid skipped: Project $this->id not defined fot this team.");
+            }
             continue;
          }
 
@@ -895,7 +901,9 @@ class Project extends Model {
 
       if (self::$logger->isDebugEnabled()) {
          $formattedList = implode(',', $teamidList);
-         self::$logger->debug("getProjectType($formattedList): project $this->id type = $globalType");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getProjectType($formattedList): project $this->id type = $globalType");
+         }
       }
       return $globalType;
    }
@@ -971,7 +979,9 @@ class Project extends Model {
       $serialized = ConfigMantis::getInstance()->getValue('status_enum_workflow', $this->id);
 
       if ((NULL == $serialized) || ("" == $serialized)) {
-         self::$logger->debug("No workflow defined for project $this->id");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("No workflow defined for project $this->id");
+         }
          return NULL;
       }
 
@@ -1004,7 +1014,9 @@ class Project extends Model {
       // find all srcProj specific config
       $query = "SELECT config_id FROM `mantis_config_table` ".
                "WHERE project_id = ".$this->id.";";
-      self::$logger->debug("getProjectConfig: Src query=$query");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getProjectConfig: Src query=$query");
+      }
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1033,7 +1045,9 @@ class Project extends Model {
       // find all srcProj specific config
       $query = "SELECT DISTINCT config_id FROM `mantis_config_table` ".
                "WHERE project_id = ".$srcProjectId.";";
-      self::$logger->debug("cloneAllProjectConfig: Src query=$query");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("cloneAllProjectConfig: Src query=$query");
+      }
 
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
@@ -1047,7 +1061,9 @@ class Project extends Model {
 
       // remove all destProject config
       $formatedSrcConfigList = $formatedTeamMembers = implode( ', ', $srcConfigList);
-      self::$logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("cloneAllProjectConfig: SrcConfigList=$formatedSrcConfigList");
+      }
 
       $query = "DELETE FROM `mantis_config_table` ".
                "WHERE project_id=".$destProjectId." ";
@@ -1055,7 +1071,9 @@ class Project extends Model {
          // delete only config defined for srcProject
          $query .= "AND config_id IN ($formatedSrcConfigList) ";
       }
-      self::$logger->debug("cloneAllProjectConfig: deleteQuery = $query");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("cloneAllProjectConfig: deleteQuery = $query");
+      }
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1070,7 +1088,9 @@ class Project extends Model {
                   "    FROM `mantis_config_table` ".
                   "    WHERE project_id=$srcProjectId ".
                   "    AND config_id='$cid') ";
-         self::$logger->debug("cloneAllProjectConfig: cloneQuery = $query");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("cloneAllProjectConfig: cloneQuery = $query");
+         }
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -1129,7 +1149,9 @@ class Project extends Model {
          }
          $targetVersionDate = (0 != SqlWrapper::getInstance()->sql_num_rows($result)) ? SqlWrapper::getInstance()->sql_result($result, 0) : 0;
 
-         self::$logger->debug("$this->id target_version date = ".date("Y-m-d", $targetVersionDate));
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("$this->id target_version date = ".date("Y-m-d", $targetVersionDate));
+         }
          $this->versionDateCache[$target_version] = ($targetVersionDate <= 1) ? NULL : $targetVersionDate;
       }
 

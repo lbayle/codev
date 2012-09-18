@@ -106,19 +106,27 @@ class ConsistencyError2 {
     */
    function compareTo($cerrB) {
       if ($this->severity < $cerrB->severity) {
-         self::$logger->debug("activity.compareTo FALSE (".$this->bugId.'-'.$this->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("activity.compareTo FALSE (".$this->bugId.'-'.$this->getLiteralSeverity()." <  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         }
          return false;
       }
       if ($this->severity > $cerrB->severity) {
-         self::$logger->debug("activity.compareTo TRUE (".$this->bugId.'-'.$this->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("activity.compareTo TRUE (".$this->bugId.'-'.$this->getLiteralSeverity()." >  ".$cerrB->bugId.'-'.$cerrB->getLiteralSeverity().")");
+         }
          return true;
       }
 
       if ($this->bugId > $cerrB->bugId) {
-         self::$logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
+         }
          return false;
       } else {
-         self::$logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
+         }
          return true;
       }
    }
@@ -464,7 +472,9 @@ class ConsistencyCheck2 {
                $cerr->severity = ConsistencyError2::severity_warn;
                $cerrList[] = $cerr;
             }
-            self::$logger->debug("checkIssuesNotInCommand(): issue ".$issue->getId()." referenced in $nbTuples Commands.");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("checkIssuesNotInCommand(): issue ".$issue->getId()." referenced in $nbTuples Commands.");
+            }
          }
       }
 

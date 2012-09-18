@@ -406,7 +406,9 @@ class TimeTracking {
                   $this->resolvedIssues[] = $issue;
                }
             } else {
-               self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED : bugid = ".$issue->getId());
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("TimeTracking->getResolvedIssues() REOPENED : bugid = ".$issue->getId());
+               }
             }
          }
       }
@@ -526,7 +528,9 @@ class TimeTracking {
          $issueDriftMgrEE = $issue->getDriftMgr($withSupport);
          $deriveETA += $issueDriftMgrEE;
 
-         self::$logger->debug("getIssuesDriftStats() Found : bugid=".$issue->getId().", proj=".$issue->getProjectId().", effortEstim=".$issue->getEffortEstim().", BS=".$issue->getEffortAdd().", elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getIssuesDriftStats() Found : bugid=".$issue->getId().", proj=".$issue->getProjectId().", effortEstim=".$issue->getEffortEstim().", BS=".$issue->getEffortAdd().", elapsed = ".$issue->getElapsed().", drift=$issueDrift, DriftMgrEE=$issueDriftMgrEE");
+         }
 
          // get drift stats. equal is when drif = +-1
          if ($issueDrift < -1) {
@@ -719,13 +723,17 @@ class TimeTracking {
 
             if ($issue->getProjectId() == $project_id) {
                $workingDaysPerProject += $timeTrack->getDuration();
-               self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=".$timeTrack->getDuration().", bugid=".$timeTrack->getIssueId().", userid=".$timeTrack->getUserId().", ".date("Y-m-d", $timeTrack->getDate()));
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, duration=".$timeTrack->getDuration().", bugid=".$timeTrack->getIssueId().", userid=".$timeTrack->getUserId().", ".date("Y-m-d", $timeTrack->getDate()));
+               }
             }
          } catch (Exception $e) {
             self::$logger->warn("getWorkingDaysPerProject($project_id) : Issue ".$timeTrack->getIssueId()." not found in Mantis DB.");
          }
       }
-      self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getWorkingDaysPerProject: proj=$project_id, totalDuration=$workingDaysPerProject");
+      }
       return $workingDaysPerProject;
    }
 
@@ -756,7 +764,9 @@ class TimeTracking {
          $value = round($row->count, 3);
          $durations[$row->date] = round($row->count, 3);
          if ($value != 1) {
-            self::$logger->debug("user $userid incompleteDays[$row->date]=".$value);
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("user $userid incompleteDays[$row->date]=".$value);
+            }
             $incompleteDays[$row->date] = $value;
          }
       }
@@ -844,7 +854,9 @@ class TimeTracking {
             $issue = IssueCache::getInstance()->getIssue($timeTrack->getIssueId());
 
             if ($issue->getProjectId() == $project_id) {
-               self::$logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug ".$timeTrack->getIssueId().") = ".$timeTrack->getDuration());
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug ".$timeTrack->getIssueId().") = ".$timeTrack->getDuration());
+               }
 
                if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
                   $durationPerCategory[$issue->getCategoryName()] = array();
@@ -905,7 +917,9 @@ class TimeTracking {
          }
          $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] += $row->duration;
 
-         self::$logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
+         }
       }
 
       return $weekTracks;
@@ -997,12 +1011,16 @@ class TimeTracking {
             // do not include internal tasks (tasks having no ExternalReference)
             $issue = IssueCache::getInstance()->getIssue($row->id, $row);
             if ((NULL == $issue->getTcId()) || ('' == $issue->getTcId())) {
-               self::$logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
+               if(self::$logger->isDebugEnabled()) {
+                  self::$logger->debug("getReopened: issue $row->id excluded (no ExtRef)");
+               }
                continue;
             }
 
             $this->reopenedList[$row->id] = $issue;
-            self::$logger->debug("getReopened: found issue $row->id");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getReopened: found issue $row->id");
+            }
          }
       }
 

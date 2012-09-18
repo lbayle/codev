@@ -263,7 +263,9 @@ class SqlWrapper {
       exec($command, $output, $retCode);
       
       if (0 != $retCode) {
-         self::$logger->debug("Dump with mysqldump failed, so we use the PHP method");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("Dump with mysqldump failed, so we use the PHP method");
+         }
          
          //get all of the tables
          $tables = array();
@@ -372,9 +374,11 @@ class SqlWrapper {
 
          $queries = $this->getCountByQuery();
          if($queries != NULL) {
-            foreach($queries as $query => $count) {
-               if($count > 1) {
-                  self::$logger->debug($count. ' identical SQL queries on : ' . $query);
+            if(self::$logger->isDebugEnabled()) {
+               foreach($queries as $query => $count) {
+                  if($count > 1) {
+                     self::$logger->debug($count. ' identical SQL queries on : ' . $query);
+                  }
                }
             }
          }

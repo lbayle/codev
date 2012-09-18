@@ -46,9 +46,13 @@ class GanttGraphView {
          $projectIds = Tools::getSecureGETIntValue('projects', 0);
          if(0 != $projectIds) {
             $projectIds = explode(':', $projectIds);
-            self::$logger->debug("team <$teamid> projects = <$projectIds>");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("team <$teamid> projects = <$projectIds>");
+            }
          } else {
-            self::$logger->debug("team <$teamid> display all projects");
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("team <$teamid> display all projects");
+            }
             $projectIds = array();
          }
 

@@ -443,7 +443,9 @@ class ServiceContract extends Model {
          return NULL;
       }
 
-      self::$logger->debug("Add CommandSet $commandset_id to ServiceContract $this->id");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Add CommandSet $commandset_id to ServiceContract $this->id");
+      }
 
       if (NULL == $this->getCommandSetIds($type)) {
          $this->cmdsetidByTypeList[$type] = array();
@@ -498,7 +500,9 @@ class ServiceContract extends Model {
          return NULL;
       }
 
-      self::$logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("Add CommandSet $project_id to ServiceContract $this->id");
+      }
 
       if (NULL == $this->sidetasksProjectList) {
          $this->sidetasksProjectList = array();
@@ -584,7 +588,9 @@ class ServiceContract extends Model {
                   $issueCmdidList = array_keys($issue->getCommandList());
                   $isInCommands = 0 != count(array_intersect($cmdidList, $issueCmdidList));
                   if ($isInCommands) {
-                     self::$logger->debug("getSidetasksPerCategory(): skip issue ".$issue->getId()." because already declared in a Command");
+                     if(self::$logger->isDebugEnabled()) {
+                        self::$logger->debug("getSidetasksPerCategory(): skip issue ".$issue->getId()." because already declared in a Command");
+                     }
                      continue;
                   }
                }

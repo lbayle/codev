@@ -136,7 +136,9 @@ class TimeTrack extends Model {
       if (!$result) {
          return false;
       } else {
-         self::$logger->debug("Track $this->id deleted: userid=$this->userId bugid=$this->bugId job=$this->jobId duration=$this->duration timestamp=$this->date");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("Track $this->id deleted: userid=$this->userId bugid=$this->bugId job=$this->jobId duration=$this->duration timestamp=$this->date");
+         }
          return true;
       }
    }

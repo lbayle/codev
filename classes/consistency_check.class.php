@@ -68,10 +68,14 @@ class ConsistencyError {
    function compareTo($cerrB) {
       // the oldest activity should be in front of the list
       if ($this->bugId > $cerrB->bugId) {
-         self::$logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("activity.compareTo FALSE (".$this->bugId." >  ".$cerrB->bugId.")");
+         }
          return false;
       } else {
-         self::$logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("activity.compareTo TRUE  (".$this->bugId." <= ".$cerrB->bugId.")");
+         }
          return true;
       }
    }

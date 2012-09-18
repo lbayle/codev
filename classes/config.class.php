@@ -173,7 +173,9 @@ class Config {
          exit;
       }
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         self::$logger->debug("id=$row->config_id, val=$row->value, type=$row->type");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("id=$row->config_id, val=$row->value, type=$row->type");
+         }
          self::$configVariables[$row->config_id] = new ConfigItem($row->config_id, $row->value, $row->type);
       }
 
@@ -324,14 +326,18 @@ class Config {
                   "AND project_id = $project_id ".
                   "AND user_id = $user_id ".
                   "AND team_id = $team_id";
-         self::$logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
-         self::$logger->debug("UPDATE query = $query");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("UPDATE setValue $id: $value (t=$type) $desc");
+            self::$logger->debug("UPDATE query = $query");
+         }
       } else {
          $query = "INSERT INTO `codev_config_table` ".
                   "(`config_id`, `value`, `type`, `description`, `project_id`, `user_id`, `team_id`) ".
                   "VALUES ('$id', '$formattedValue', '$type', '$formattedDesc', $project_id, $user_id, $team_id);";
-         self::$logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
-         self::$logger->debug("INSERT query = $query");
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("INSERT Config::setValue $id: $value (t=$type) $desc");
+            self::$logger->debug("INSERT query = $query");
+         }
       }
 
       $result = SqlWrapper::getInstance()->sql_query($query);
