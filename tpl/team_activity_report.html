@@ -73,7 +73,7 @@
          <ul>
             {foreach from=$weekDetails item=i key=id}
             {if $i.weekJobDetails}
-            <li id="{$i.name}"><a href="#tabUser_{$i.name}">{$i.realname} &nbsp;<span style="font-size:12px;font-weight:normal;" title="{t}Backlog{/t}">({$i.forecastWorkload})</span></a></li>
+            <li id="{$i.name}"><a href="#tabUser_{$i.name}">{$i.realname}</a></li>
             {/if}
             {/foreach}
          </ul>
@@ -83,7 +83,7 @@
 
          <div id="tabUser_{$i.name}">
             <table style="width: 100%;">
-               <caption><span style="margin-left: 1em;font-size:13px;font-weight:normal;" title="{t}sum(Backlog) of current tasks{/t}">{t}Backlog{/t} = {$i.forecastWorkload}</span></caption>
+               <caption><span style="margin-left: 1em;font-size:13px;font-weight:normal;" title="{t}sum(Backlog) of assigned tasks{/t}">{t}Workload{/t} = {$i.forecastWorkload}</span></caption>
                <thead>
                   <tr>
                      <th>{t}Task{/t}</th>

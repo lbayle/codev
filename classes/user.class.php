@@ -865,7 +865,7 @@ class User extends Model {
       }
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $issue = IssueCache::getInstance()->getIssue($row->id, $row);
-         $totalBacklog += $issue->getDurationMgr();
+         $totalBacklog += $issue->getDuration();
       }
 
       if(self::$logger->isDebugEnabled()) {
