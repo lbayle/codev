@@ -607,8 +607,8 @@ class Project extends Model {
       $bug_text_id = SqlWrapper::getInstance()->sql_insert_id();
 
       $formattedIssueSummary = SqlWrapper::getInstance()->sql_real_escape_string($issueSummary);
-      $query = "INSERT INTO `mantis_bug_table`  (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
-               "VALUES ($this->id,$cat_id,'$formattedIssueSummary','$priority','$reproducibility','$issueStatus','$bug_text_id', '$today', '$today');";
+      $query = "INSERT INTO `mantis_bug_table` (`project_id`, `category_id`, `summary`, `priority`, `reproducibility`, `status`, `bug_text_id`, `date_submitted`, `last_updated`) ".
+               "VALUES ($this->id,$cat_id,'$formattedIssueSummary',$priority,$reproducibility,$issueStatus,$bug_text_id,$today,$today);";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
