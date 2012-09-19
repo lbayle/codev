@@ -196,6 +196,16 @@ div.menu td {
    background-position: -36px -12px;
 }
 
+.progress {
+   width:111px;
+}
+
+.ui-progressbar-value div {
+   position:relative;
+   left:37px;
+   top:-1px;
+}
+
 /* JQuery Hacks */
 input.datepicker, img.ui-datepicker-trigger {
   vertical-align: middle;

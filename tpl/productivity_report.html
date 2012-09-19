@@ -265,7 +265,7 @@
          <!-- Productivity indicators -->
          {if $timeTracking}
          <h3 style="margin: 0 0 0.5em 0.5em;">{t}Productivity indicators{/t}</h3>
-         <table style="width: 300px;">
+         <table>
             <thead>
                <tr>
                   <th>{t}Indicator{/t}</th>
@@ -279,11 +279,11 @@
                </tr>
                <tr>
                   <td>{t}Efficiency Rate{/t} &nbsp;&nbsp;<a id="dialog_EfficiencyRate_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></td>
-                  <td>{$efficiencyRate} %</td>
+                  <td><div class="progress">{$efficiencyRate}%</div></td>
                </tr>
                <tr>
                   <td>{t}System Availability{/t} &nbsp;&nbsp;<a id="dialog_SystemAvailability_link" class="help_link" href="{$page}"><img alt="{t}Help{/t}" title="{t}Help{/t}" src="images/help_icon.gif"/></a></td>
-                  <td>{$systemDisponibilityRate} %</td>
+                  <td><div class="progress">{$systemDisponibilityRate}%</div></td>
                </tr>
             </tbody>
          </table>
@@ -451,7 +451,7 @@
                <tr>
                   <td>{$timeTracking->getResolvedIssues()|count}</td>
                   <td>{$timeTracking->getReopened()|count}</td>
-                  <td>{$reopenedBugsRate} %</td>
+                  <td><div class="progress">{$reopenedBugsRate}%</div></td>
                   <td>
                      {foreach from=$formattedReopenedTaks key=id item=i name=formattedReopenedTaks}
                      {$i}{if !$smarty.foreach.formattedReopenedTaks.last}, {/if}
