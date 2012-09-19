@@ -62,7 +62,7 @@ if (isset($_SESSION['userid'])) {
          $command->addIssue($bugid, true); // DBonly
       }
 
-      if(self::$logger->isDebugEnabled()) {
+      if($logger->isDebugEnabled()) {
          $logger->debug("Import bugid=$bugid $extRef - $summary - $mgrEffortEstim - $effortEstim - $commandid - $categoryid - $targetversionid - $userid");
       }
 

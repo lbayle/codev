@@ -130,7 +130,7 @@ if (isset($_SESSION['userid'])) {
    // get full file path (including subfolders)
    $file_path = '';
    find_file(BASE_DIR, $fname, $file_path);
-   if(self::$logger->isDebugEnabled()) {
+   if($logger->isDebugEnabled()) {
       $logger->debug("BASE_DIR <".BASE_DIR."> file ".$fname);
    }
 
