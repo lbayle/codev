@@ -8,8 +8,6 @@ jQuery(document).ready(function() {
          value: value
       });
       //progress.find(".ui-progressbar-value").attr('title',title);
-      progress.find(".ui-progressbar-value").append(
-         "<div style='position:relative;top:-1px;left:37px;'>"+title+"</div>"
-      );
+      progress.find(".ui-progressbar-value").append("<div>"+title+"</div>");
    });
 });
