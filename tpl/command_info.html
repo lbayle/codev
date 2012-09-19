@@ -136,7 +136,7 @@
                   <td>{$cmdDetailedMgr.elapsed}</td>
                   <td>{$cmdDetailedMgr.backlog}</td>
                   <td {$cmdDetailedMgr.driftColor} title="{t}nb days{/t}">{$cmdDetailedMgr.drift}</td>
-                  <td style="width: 110px;"><div class="progress">{$cmdDetailedMgr.progress}%</div></td>
+                  <td><div class="progress">{$cmdDetailedMgr.progress}%</div></td>
                </tr>
             </tbody>
          </table>
@@ -177,11 +177,11 @@
                      <td>{$issue.project}</td>
                      <td>{$issue.target}</td>
                      <td>{$issue.status}</td>
-                     <td>{$issue.progress}%</td>
+                     <td><div class="progress">{$issue.progress}%</div></td>
                      <td>{$issue.effortEstim}</td>
                      <td>{$issue.elapsed}</td>
                      <td>{$issue.durationMgr}</td>
-                     <td {$issue.driftMgrColor} >{$issue.driftMgr}</td>
+                     <td {$issue.driftMgrColor}>{$issue.driftMgr}</td>
                      <td>{$issue.summary}</td>
                   </tr>
                   {/foreach}

@@ -110,7 +110,7 @@
                   {if $manager}<td {if $i.driftPrelEE > 1}style="background-color: #fcbdbd;"{elseif $i.driftPrelEE < -1}style="background-color: #61ed66;"{/if}>{$i.driftPrelEE}</td>{/if}
                   <td {if $i.driftEE > 1}style="background-color: #fcbdbd;"{elseif $i.driftEE < -1}style="background-color: #61ed66;"{/if}>{$i.driftEE}</td>
                   <td>{$i.backlog}</td>
-                  <td>{$i.progress}%</td>
+                  <td><div class="progress">{$i.progress}%</div></td>
                   <td>{$i.statusName}</td>
                   <td>{$i.summary}</td>
                </tr>
