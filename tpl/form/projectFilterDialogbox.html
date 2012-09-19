@@ -24,6 +24,7 @@
                jQuery(this).find('#sortableTarget').children().each(function() {
                   filters += jQuery(this).attr('id') + ',';
                });
+               filters = filters.slice(0,-1);
                var form = jQuery("#projectForm");
                form.find("input[name=selectedFilters]").val(filters);
                if(filters.length != 0) {
