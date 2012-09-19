@@ -25,198 +25,179 @@
    <script src="js/tabs.js" type="text/javascript"></script>
    <div id="tabsVersions" class="tabs">
       <ul>
+         <li><a href="#tabVersionsOverview">{t}Overview{/t}</a></li>
          <li><a href="#tabVersionsDetailedMgr">{t}Detailed Mgr{/t}</a></li>
          <li><a href="#tabVersionsDetailed">{t}Detailed{/t}</a></li>
-         <li><a href="#tabVersionsOverview">{t}Overview{/t}</a></li>
          <li><a href="#tabVersionsIssues">{t}Tasks{/t}</a></li>
       </ul>
       <div id="tabVersionsOverview">
-
          {assign var=filterResultsTitles value=$overviewTitles}
          {assign var=filterResultsLines value=$overviewLines}
          {assign var=filterResultsTotal value=$overviewTotal}
          {if isset($filterResultsTotal)}
-
-            <table>
-               <thead>
-
+         <table>
+            <thead>
                {if 0 == $nbFilters}
                <th></th>
                {/if}
                {foreach from=$filterResultsTitles key=id item=ftitle}
-                     <th style="width: 9em;">{$ftitle}</th>
+               <th>{$ftitle}</th>
                {/foreach}
-               </thead>
-
-               <tbody>
+            </thead>
+            <tbody>
                {foreach from=$filterResultsLines key=id item=line}
-                  <tr>
-                     {for $idx=1 to $nbFilters}
-                     <td>{$line[$idx]}</td>
-                     {/for}
-                     <!--<td>{$line[$nbFilters+1].date}</td>-->
-                     <td><div class="progress">{$line[$nbFilters+1].progressMgr}%</div></td>
-                     <td><div class="progress">{$line[$nbFilters+1].progress}%</div></td>
-                     <td {if $line[$nbFilters+1].driftMgrColor}style='background-color: #{$line[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].driftMgr}%</td>
-                     <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}%</td>
-
-                  <tr>
+               <tr>
+                  {for $idx=1 to $nbFilters}
+                  <td nowrap="nowrap">{$line[$idx]}</td>
+                  {/for}
+                  <!--<td>{$line[$nbFilters+1].date}</td>-->
+                  <td><div class="progress">{$line[$nbFilters+1].progressMgr}%</div></td>
+                  <td><div class="progress">{$line[$nbFilters+1].progress}%</div></td>
+                  <td {if $line[$nbFilters+1].driftMgrColor}style='background-color: #{$line[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].driftMgr}%</td>
+                  <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}%</td>
+               </tr>
                {/foreach}
-                  <tr class="row_total">
-                     <td>TOTAL</td>
-                     {for $idx=1 to ($nbFilters-1)}
-                     <td></td>
-                     {/for}
-                     <!--<td>{$filterResultsTotal[$nbFilters+1].date}</td>-->
-                     <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progressMgr}%</div></td>
-                     <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progress}%</div></td>
-                     <td {if $filterResultsTotal[$nbFilters+1].driftMgrColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].driftMgr}%</td>
-                     <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}%</td>
-                  <tr>
-               </tbody>
-            </table>
+            </tbody>
+            <tfoot>
+               <tr>
+                  <td>TOTAL</td>
+                  {for $idx=1 to ($nbFilters-1)}
+                  <td></td>
+                  {/for}
+                  <!--<td>{$filterResultsTotal[$nbFilters+1].date}</td>-->
+                  <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progressMgr}%</div></td>
+                  <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progress}%</div></td>
+                  <td {if $filterResultsTotal[$nbFilters+1].driftMgrColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].driftMgr}%</td>
+                  <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}%</td>
+               </tr>
+            </tfoot>
+         </table>
          {else}
          {t}No data{/t}
          {/if}
-
-
       </div>
       <div id="tabVersionsDetailedMgr">
-
          {assign var=filterResultsTitles value=$detailedMgrTitles}
          {assign var=filterResultsLines value=$detailedMgrLines}
          {assign var=filterResultsTotal value=$detailedMgrTotal}
          {if isset($filterResultsTotal)}
-
-            <table>
-               <thead>
-
+         <table>
+            <thead>
                {if 0 == $nbFilters}
                <th></th>
                {/if}
                {foreach from=$filterResultsTitles key=id item=ftitle}
-                     <th style="width: 9em;">{$ftitle}</th>
+               <th style="width: 9em;">{$ftitle}</th>
                {/foreach}
-               </thead>
-
-               <tbody>
+            </thead>
+            <tbody>
                {foreach from=$filterResultsLines key=id item=line}
-                  <tr>
-                     {for $idx=1 to $nbFilters}
-                     <td>{$line[$idx]}</td>
-                     {/for}
-                     <td>{$line[$nbFilters+1].effortEstim}</td>
-                     <td>{$line[$nbFilters+1].reestimated}</td>
-                     <td>{$line[$nbFilters+1].elapsed}</td>
-                     <td>{$line[$nbFilters+1].backlog}</td>
-                     <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}</td>
-
-                  <tr>
+               <tr>
+                  {for $idx=1 to $nbFilters}
+                  <td nowrap="nowrap">{$line[$idx]}</td>
+                  {/for}
+                  <td>{$line[$nbFilters+1].effortEstim}</td>
+                  <td>{$line[$nbFilters+1].reestimated}</td>
+                  <td>{$line[$nbFilters+1].elapsed}</td>
+                  <td>{$line[$nbFilters+1].backlog}</td>
+                  <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}</td>
+               </tr>
                {/foreach}
-                  <tr class="row_total">
-                     <td>TOTAL</td>
-                     {for $idx=1 to ($nbFilters-1)}
-                     <td></td>
-                     {/for}
-                     <td>{$filterResultsTotal[$nbFilters+1].effortEstim}</td>
-                     <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
-                     <td>{$filterResultsTotal[$nbFilters+1].elapsed}</td>
-                     <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
-                     <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}</td>
-                  <tr>
-               </tbody>
-            </table>
+            </tbody>
+            <tfoot>
+               <tr>
+                  <td>TOTAL</td>
+                  {for $idx=1 to ($nbFilters-1)}
+                  <td></td>
+                  {/for}
+                  <td>{$filterResultsTotal[$nbFilters+1].effortEstim}</td>
+                  <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
+                  <td>{$filterResultsTotal[$nbFilters+1].elapsed}</td>
+                  <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
+                  <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}</td>
+               <tr>
+            </tfoot>
+         </table>
          {else}
          {t}No data{/t}
          {/if}
-
       </div>
       <div id="tabVersionsDetailed">
-
          {assign var=filterResultsTitles value=$detailedTitles}
          {assign var=filterResultsLines value=$detailedLines}
          {assign var=filterResultsTotal value=$detailedTotal}
          {if isset($filterResultsTotal)}
-
-            <table>
-               <thead>
-
+         <table>
+            <thead>
                {if 0 == $nbFilters}
                <th></th>
                {/if}
                {foreach from=$filterResultsTitles key=id item=ftitle}
-                     <th style="width: 9em;">{$ftitle}</th>
+               <th style="width: 9em;">{$ftitle}</th>
                {/foreach}
-               </thead>
-
-               <tbody>
+            </thead>
+            <tbody>
                {foreach from=$filterResultsLines key=id item=line}
-                  <tr>
-                     {for $idx=1 to $nbFilters}
-                     <td>{$line[$idx]}</td>
-                     {/for}
-                     <td>{$line[$nbFilters+1].effortEstim}</td>
-                     <td>{$line[$nbFilters+1].reestimated}</td>
-                     <td>{$line[$nbFilters+1].elapsed}</td>
-                     <td>{$line[$nbFilters+1].backlog}</td>
-                     <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}</td>
-
-                  <tr>
+               <tr>
+                  {for $idx=1 to $nbFilters}
+                  <td nowrap="nowrap">{$line[$idx]}</td>
+                  {/for}
+                  <td>{$line[$nbFilters+1].effortEstim}</td>
+                  <td>{$line[$nbFilters+1].reestimated}</td>
+                  <td>{$line[$nbFilters+1].elapsed}</td>
+                  <td>{$line[$nbFilters+1].backlog}</td>
+                  <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}</td>
+               </tr>
                {/foreach}
-                  <tr class="row_total">
-                     <td>TOTAL</td>
-                     {for $idx=1 to ($nbFilters-1)}
-                     <td></td>
-                     {/for}
-                     <td>{$filterResultsTotal[$nbFilters+1].effortEstim}</td>
-                     <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
-                     <td>{$filterResultsTotal[$nbFilters+1].elapsed}</td>
-                     <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
-                     <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}</td>
-                  <tr>
-               </tbody>
-            </table>
+            </tbody>
+            <tfoot>
+               <tr>
+                  <td>TOTAL</td>
+                  {for $idx=1 to ($nbFilters-1)}
+                  <td></td>
+                  {/for}
+                  <td>{$filterResultsTotal[$nbFilters+1].effortEstim}</td>
+                  <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
+                  <td>{$filterResultsTotal[$nbFilters+1].elapsed}</td>
+                  <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
+                  <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}</td>
+               </tr>
+            </tfoot>
+         </table>
          {else}
          {t}No data{/t}
          {/if}
-
       </div>
       <div id="tabVersionsIssues">
-
          {assign var=filterResultsTitles value=$issuesTitles}
          {assign var=filterResultsLines value=$issuesLines}
          {assign var=filterResultsTotal value=$issuesTotal}
          {if isset($filterResultsTotal)}
-
-            <table>
-               <thead>
-
+         <table>
+            <thead>
                {if 0 == $nbFilters}
                <th></th>
                {/if}
                {foreach from=$filterResultsTitles key=id item=ftitle}
-                     <th>{$ftitle}</th>
+               <th>{$ftitle}</th>
                {/foreach}
-               </thead>
-
-               <tbody>
+            </thead>
+            <tbody>
                {foreach from=$filterResultsLines key=id item=line}
-                  <tr>
-                     {for $idx=1 to $nbFilters}
-                     <td>{$line[$idx]}</td>
-                     {/for}
-                     <td>{$line[$nbFilters+1].newList}</td>
-                     <td>{$line[$nbFilters+1].openList}</td>
-                     <td>{$line[$nbFilters+1].resolvedList}</td>
-
-                  <tr>
+               <tr>
+                  {for $idx=1 to $nbFilters}
+                  <td nowrap="nowrap">{$line[$idx]}</td>
+                  {/for}
+                  <td>{$line[$nbFilters+1].newList}</td>
+                  <td>{$line[$nbFilters+1].openList}</td>
+                  <td>{$line[$nbFilters+1].resolvedList}</td>
+               </tr>
                {/foreach}
-               </tbody>
-            </table>
+            </tbody>
+         </table>
          {else}
          {t}No data{/t}
          {/if}
-
       </div>
    </div>
    {/if}
@@ -247,9 +228,9 @@
             <tbody>
                {foreach from=$currentIssuesInDrift key=name item=i}
                <tr>
-                  <td>{$i.mantisURL} {$i.issueURL}</td>
+                  <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
                   <td>{$i.projectName}</td>
-                  <td>{$i.targetVersion}</td>
+                  <td nowrap="nowrap">{$i.targetVersion}</td>
                   {if $isManager}<td style="width: 6em;{if $i.driftMgrColor}background-color: #{$i.driftMgrColor};{/if}">{$i.driftMgr}</td>{/if}
                   <td style="width: 6em;{if $i.driftColor}background-color: #{$i.driftColor};{/if}">{$i.drift}</td>
                   <td>{$i.backlog}</td>
@@ -284,9 +265,9 @@
             <tbody>
                {foreach from=$resolvedIssuesInDrift key=name item=i}
                <tr>
-                  <td>{$i.mantisURL} {$i.issueURL}</td>
+                  <td nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
                   <td>{$i.projectName}</td>
-                  <td>{$i.targetVersion}</td>
+                  <td nowrap="nowrap">{$i.targetVersion}</td>
                   {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
                   <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
                   <td>{$i.backlog}</td>

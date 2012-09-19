@@ -57,6 +57,9 @@ tbody tr.row_total, tfoot tr {
 tbody tr.row_selected {
    background-color: rgb(128,128,255);
 }
+tbody td {
+   text-align: left;
+}
 table.invisible {
    background-color: transparent;
    border: none;
