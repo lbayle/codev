@@ -197,13 +197,25 @@ class Holidays {
             $nbHolidays++;
          }
 
-         $timestamp = strtotime("+1 day",$timestamp);;
+         $timestamp = strtotime("+1 day",$timestamp);
       }
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("nbHolidays = $nbHolidays");
       }
       return $nbHolidays;
+   }
+   
+   /**
+    * Get the number of workdays
+    * @param int $startT The included start day
+    * @param int $endT The included end day
+    * @return int Number of workdays in the period
+    */
+   public function getWorkdays($startT, $endT) {
+       $nbDays = floor(strtotime("+1 day",$endT - $startT) / (60 * 60 * 24));
+       $nbHolidays = $this->getNbHolidays($startT, $endT);
+       return $nbDays - $nbHolidays;
    }
 
    /**

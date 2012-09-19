@@ -368,6 +368,7 @@ class ServiceContractTools {
       $smartyHelper->assign('activityIndic_data', $data[0]);
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
+      $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
    }
 
 }

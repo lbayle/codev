@@ -34,6 +34,7 @@ if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action
                $smartyHelper->assign('activityIndic_data', $data[0]);
                $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
                $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
+               $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
 
                $smartyHelper->display('plugin/activity_indicator_ajax1');
             } else {

@@ -67,10 +67,12 @@ class HolidaysReportController extends Controller {
          for ($i = 1; $i <= 12; $i++) {
             $monthTimestamp = mktime(0, 0, 0, $i, 1, $year);
             $nbDaysInMonth = date("t", $monthTimestamp);
+            $endMonthTimestamp = mktime(0, 0, 0, $i, $nbDaysInMonth, $year);
             $months[$i] = array(
                "name" => Tools::formatDate("%B %Y", $monthTimestamp),
                "days" => $this->getDays($nbDaysInMonth, $i, $year),
-               "users" => $this->getDaysUsers($i, $year, $teamid, $users, $nbDaysInMonth, $isExternalTasks)
+               "users" => $this->getDaysUsers($i, $year, $teamid, $users, $nbDaysInMonth, $isExternalTasks),
+               "workdays" => Holidays::getInstance()->getWorkdays($monthTimestamp, $endMonthTimestamp)
             );
          }
          $this->smartyHelper->assign('months', $months);
