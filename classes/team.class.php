@@ -247,6 +247,22 @@ class Team extends Model {
    }
 
    /**
+    * @param bool isEnabled
+    */
+   public function setEnabled($isEnabled) {
+      $this->enabled = $isEnabled;
+      $val = $isEnabled ? '1' : '0';
+      
+      $query = "UPDATE `codev_team_table` SET enabled = $val WHERE id ='$this->id';";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         return false;
+      }
+      return true;
+   }
+
+   /**
     * add/change timetracks before this date is not allowed
     * @return int timestamp
     */

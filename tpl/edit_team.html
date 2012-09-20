@@ -39,6 +39,12 @@
                form.find("input[name=action]").val("updateTeamCreationDate");
                form.submit();
             });
+            jQuery("#bt_teamEnabled").click(function() {
+               var isTeamEnabled = jQuery("#cb_teamEnabled").attr('checked')?1:0;
+               form.find("input[name=isTeamEnabled]").val(isTeamEnabled);
+               form.find("input[name=action]").val("setTeamEnabled");
+               form.submit();
+            });
          });
       </script>
       <form id="updateTeamInfoForm" name="updateTeamInfoForm" method="post" action="{$page}">
@@ -72,13 +78,14 @@
                   <td><input style="width:100%" type=button name="btupdateTeamCreationDate" value="{t}Update{/t}" id="btupdateTeamCreationDate" /></td>
                </tr>
                <tr>
-                  <td><label for="cb_commonSideTaskProj">{t}Enabled{/t}</label></td>
-                  <td><input id="cb_commonSideTaskProj" type="checkbox" name="cb_commonSideTaskProj" {if $teamEnabled}checked="checked"{/if} /></td>
-                  <td><input type="button" name="btUpdateTeamLeader" value="{t}Update{/t}" id="btUpdateTeamLeader" /></td>
+                  <td><label for="cb_teamEnabled">{t}Enabled{/t}</label></td>
+                  <td><input id="cb_teamEnabled" type="checkbox" name="cb_teamEnabled" {if $teamEnabled}checked="checked"{/if} /></td>
+                  <td><input id="bt_teamEnabled" type="button" value="{t}Update{/t}" /></td>
                </tr>
             </table>
             <br/>
             <span class="help_font">{t}Note: A <em>TeamLeader</em> must also be declared as <em>TeamMember</em> to be included in the team's productivity report.{/t}</span>
+            <input type="hidden" name="isTeamEnabled" value="{$teamEnabled}"/>
             <input type="hidden" name="action" value="noAction" />
          </fieldset>
       </form>
