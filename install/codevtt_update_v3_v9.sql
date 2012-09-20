@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `codev_blog_table` (
   `color` varchar(7) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `date` (`date_submitted`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Blog posts' AUTO_INCREMENT=68 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Blog posts' ;
 
 
 CREATE TABLE IF NOT EXISTS `codev_commandset_cmd_table` (
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_cmd_table` (
   `command_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `codev_commandset_table` (
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
   `command_id` int(11) DEFAULT NULL,
   `bug_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=632 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -142,10 +142,10 @@ CREATE TABLE IF NOT EXISTS `codev_command_table` (
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 
-ALTER TABLE `codev_config_table` ADD`user_id` int(11) NOT NULL DEFAULT '0' AFTER 'type';
+ALTER TABLE `codev_config_table` ADD `user_id` int(11) NOT NULL DEFAULT '0' AFTER `type`;
 ALTER TABLE `codev_config_table` CHANGE `desc` `description` longtext;
 UPDATE `codev_config_table` SET `value`='9' WHERE `config_id`='database_version';
 
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `codev_project_category_table` (
   `category_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`,`project_id`,`category_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 
 --
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_cmdset_table` (
   `commandset_id` int(11) NOT NULL,
   `type` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_stproj_table` (
   `project_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 
@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `codev_servicecontract_table` (
   `description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 
 ALTER TABLE `codev_team_table` ADD `enabled` tinyint(4) NOT NULL DEFAULT '1' AFTER `leader_id`;
