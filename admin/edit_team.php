@@ -37,9 +37,9 @@ class EditTeamController extends Controller {
          $teamList = NULL;
          // leadedTeams only, except Admins: they can edit all teams
          if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
-            $teamList = Team::getTeams();
+            $teamList = Team::getTeams(true);
          } else {
-            $teamList = $session_user->getLeadedTeamList();
+            $teamList = $session_user->getLeadedTeamList(true);
          }
 
          if(count($teamList) > 0) {

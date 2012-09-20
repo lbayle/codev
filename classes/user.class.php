@@ -697,11 +697,16 @@ class User extends Model {
    /**
     * @return string[] the teams i'm leader of.
     */
-   public function getLeadedTeamList() {
+   public function getLeadedTeamList($withDisabled=false) {
       if(NULL == $this->leadedTeams) {
          $this->leadedTeams = array();
 
-         $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id  ORDER BY name";
+         $query = "SELECT DISTINCT id, name FROM `codev_team_table` WHERE leader_id = $this->id ";
+         if (!$withDisabled) {
+            $query .= "AND enabled = 1 ";
+         }
+         $query .= "ORDER BY name";
+
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -750,19 +755,24 @@ class User extends Model {
     * @param int $accessLevel if NULL return all teams including observed teams.
     * @return string[] array string[int] name[id]
     */
-   public function getTeamList($accessLevel = NULL) {
+   public function getTeamList($accessLevel = NULL, $withDisabled=false) {
       $teamList = array();
 
       if($accessLevel == NULL && $this->allTeamList != NULL) {
          return $this->allTeamList;
       }
+      $isEnabled = $withDisabled ? '1' : '0';
       $query = "SELECT team.id, team.name " .
                "FROM `codev_team_table` as team " .
                "JOIN `codev_team_user_table` as team_user ON team.id = team_user.team_id ".
-               "WHERE team_user.user_id = $this->id ";
-      if (NULL != $accessLevel) {
+               "WHERE   team_user.user_id = $this->id ";
+      if (!is_null($accessLevel)) {
          $query .= "AND team_user.access_level = $accessLevel ";
       }
+      if (!$withDisabled) {
+         $query .= "AND team.enabled = 1 ";
+      }
+
       $query .= "ORDER BY team.name;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {

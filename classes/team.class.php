@@ -883,8 +883,12 @@ class Team extends Model {
     * Get all teams by name
     * @return string[int] : name[id]
     */
-   public static function getTeams() {
-      $query = "SELECT id, name FROM `codev_team_table` ORDER BY name;";
+   public static function getTeams($withDisabled=false) {
+      $query = "SELECT id, name FROM `codev_team_table` ";
+      if (!$withDisabled) {
+         $query .= "WHERE enabled = 1 ";
+      }
+      $query .= "ORDER BY name;";
       $result = SqlWrapper::getInstance()->sql_query($query);
       if (!$result) {
          return NULL;
