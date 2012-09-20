@@ -73,7 +73,7 @@ class ProjectInfoController extends Controller {
                if(isset($_GET['selectedFilters'])) {
                   $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
                } else {
-                  $selectedFilters = $user->getProjectFilters();
+                  $selectedFilters = $user->getProjectFilters($projectid);
                }
 
                // cleanup filters (remove empty lines)
@@ -82,7 +82,7 @@ class ProjectInfoController extends Controller {
                $selectedFilters = implode(',', $filterList);
 
                // save user preferances
-               $user->setProjectFilters($selectedFilters);
+               $user->setProjectFilters($selectedFilters, $projectid);
 
                // --- FILTER TABS -------------
 

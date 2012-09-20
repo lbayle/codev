@@ -1169,14 +1169,14 @@ class User extends Model {
     * set the ProjectInfo filters
     * @param string $filters (comma separated)
     */
-   public function setProjectFilters($filters) {
+   public function setProjectFilters($filters, $projectid=0) {
 
       if ($filters != $this->projectFilters) {
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("User $this->id Set ProjectFilters  : $filters");
          }
 
-         Config::setValue(Config::id_projectFilters, $filters, Config::configType_int, "filters in ProjectInfo page", 0, $this->id);
+         Config::setValue(Config::id_projectFilters, $filters, Config::configType_int, "filters in ProjectInfo page", $projectid, $this->id);
       }
       $this->projectFilters = $filters;
    }
@@ -1186,12 +1186,13 @@ class User extends Model {
     *
     * @return string or "" if not found
     */
-   public function getProjectFilters() {
+   public function getProjectFilters($projectid=0) {
       if (NULL == $this->ProjectFilters) {
          // TODO Config class cannot handle multiple lines for same id
          $query = "SELECT value FROM `codev_config_table` " .
                   "WHERE config_id = '" . Config::id_projectFilters . "' " .
-                  "AND user_id = $this->id";
+                  "AND user_id = $this->id ";
+                  "AND project_id = $projectid";
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("query = " . $query);
          }
