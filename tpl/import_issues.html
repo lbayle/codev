@@ -27,7 +27,7 @@
                ++foundError;
             }
             var ext = form1.find("input[name=uploaded_csv]").val().split('.').pop().toLowerCase();
-            if($.inArray(ext, ['csv','xls']) == -1) {
+            if(jQuery.inArray(ext, ['csv']) == -1) {
                msgString += "{t}File extension{/t}\n";
                ++foundError;
             }
@@ -43,7 +43,7 @@
    <form method="post" action="{$page}" enctype="multipart/form-data" id="formUploadFile" name="formUploadFile">
       <fieldset>
          {include file="form/teamProjectSelector.html"}
-         <input type="file" name="uploaded_csv" />
+         <input type="file" name="uploaded_csv" accept=".csv, text/csv, application/csv, text/comma-separated-values" />
          <input type="button" id="btUpload" value="{t}Preview import{/t}" />
          <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
       </fieldset>
@@ -193,7 +193,7 @@
    </script>
 
    <!-- GLOBAL VALUES BUTTONS  -->
-   <div class="left" style="margin-top:6em;">
+   <div class="left" id="globalValuesDiv" style="margin-top:6em;">
 
       <script type="text/javascript">
          jQuery(document).ready(function() {
@@ -275,7 +275,7 @@
          });
       </script>
 
-      <table class='invisible'>
+      <table class='invisible' id="addInfoTable">
          <tr>
             <td>{t}Team{/t}</td>
             <td>:</td>
@@ -315,6 +315,7 @@
                   <option {if $i.selected}selected="selected"{/if} value="{$i.id}">{$i.name}</option>
                   {/foreach}
                </select>
+               <span style="color:red">*</span>
             </td>
             <td><button type='button' name="btSetAllCategories" id="btSetAllCategories">{t}Set All{/t}</button></td>
          </tr>
@@ -368,12 +369,19 @@
             var scroller = jQuery(oTable.fnSettings().nTable.parentNode);
 
             jQuery("#btImportIssues").click(function(event) {
+               var rows = oTable.find('tbody tr');
+               
+               var deadlines = rows.find('td.category');
+               for(i = 0 ; i < deadlines.length ; i++) {
+                  if(deadlines.text().length == 0) {
+                     alert('{t}Category not set on all issues{/t}');
+                     return false;
+                  }
+               }
                jQuery(this).attr("disabled", "true");
+               jQuery("#globalValuesDiv").find('input, select, button').attr("disabled", "true");
                jQuery("body").css('cursor','progress');
 
-               var issueData = jQuery('#issues_data');
-
-               var rows = oTable.find('tbody tr');
                var len = rows.length;
 
                var i = 0;
