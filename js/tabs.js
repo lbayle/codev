@@ -83,7 +83,6 @@ jQuery(document).ready(function() {
          // tab each widget is on using .data, and only select a tab if it has
          // changed).
          var parent = jQuery(this).find('li#'+idx);
-         console.log(parent);
          if(parent.length) {
             parent.find('a').triggerHandler('change');
          } else {

@@ -331,14 +331,17 @@
             <script type="text/javascript">
                jQuery(document).ready(function() {
                   var chartoptions = jQuery('#backloadChart').data('plotoptions');
+                  chartoptions.legend.show = false;
                   chartoptions.title.text = '{$backload_jqplotTitle}';
                   chartoptions.axes.yaxis.label = "{$backload_jqplotYaxisLabel}";
                   chartoptions.axes.xaxis.min = "{$backload_plotMinDate}";
                   chartoptions.axes.xaxis.max = "{$backload_plotMaxDate}";
+                  chartoptions.axes.yaxis.min = 0;
+                  chartoptions.axes.xaxis.tickInterval = "{$backload_interval} week";
                   jQuery('#backloadChart').jqplot([{$backload_jqplotData}], chartoptions);
                });
             </script>
-            <div id="backloadChart" class="day_date_chart chart" style="width: 100%"></div>
+            <div id="backloadChart" class="day_date_chart chart" style="width: 99%"></div>
             {else}
             <p>{t}No data{/t}</p>
             {/if}

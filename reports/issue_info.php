@@ -104,16 +104,21 @@ class IssueInfoController extends Controller {
                      $firstTimetrack = $issue->getFirstTimetrack();
                      $latestTimetrack = $issue->getLatestTimetrack();
                      if ($latestTimetrack && $firstTimetrack && $latestTimetrack > $firstTimetrack) {
-                        $plotMinDate = date('Y-m-d', $firstTimetrack->getDate());
-                        $plotMaxDate = date('Y-m-d', $latestTimetrack->getDate());
-                        $timestampList = $this->getTimetrackDates($issue);
+                        $startTimetrack = $firstTimetrack->getDate();
+                        $endTimetrack = $latestTimetrack->getDate();
+                        $plotMinDate = date('Y-m-d', $startTimetrack);
+                        $plotMaxDate = date('Y-m-d', $endTimetrack);
+                        
+                        // Calculate a nice week interval
+                        $nbWeeks = ($endTimetrack - $startTimetrack) / 60 / 60 / 24 / 7;
+                        $this->smartyHelper->assign('backload_interval',ceil($nbWeeks / 10));
 
                         $this->smartyHelper->assign('backload_plotMinDate', $plotMinDate);
                         $this->smartyHelper->assign('backload_plotMaxDate', $plotMaxDate);
 
                         $this->smartyHelper->assign('backload_jqplotTitle', T_('Backlog variation'));
                         $this->smartyHelper->assign('backload_jqplotYaxisLabel', T_('Backlog (days)'));
-                        $this->smartyHelper->assign('backload_jqplotData', $this->getBacklogGraph($issue, $timestampList));
+                        $this->smartyHelper->assign('backload_jqplotData', $this->getBacklogGraph($issue));
                      }
 
                   }
@@ -357,36 +362,26 @@ class IssueInfoController extends Controller {
 
    /**
     * @param Issue $issue
-    * @return int[]
+    * @param int[] $timestampList
+    * @return string
     */
-   private function getTimetrackDates(Issue $issue) {
+   private function getBacklogGraph(Issue $issue) {
+      $backlogList = array();
       $timestamps = array();
       $timeTracks = $issue->getTimeTracks();
       foreach ($timeTracks as $tt) {
          $timestamp = mktime(23, 59, 59, date('m', $tt->getDate()), date('d', $tt->getDate()), date('Y', $tt->getDate()));
          if (!in_array($timestamp, $timestamps)) {
             $timestamps[] = $timestamp;
-            #echo "createTimestampList() timestamp = ".date("Y-m-d H:i:s", $timestamp)."<br>";
+            
+            $backlog = $issue->getBacklog($timestamp);
+            if(is_null($backlog) || !is_numeric($backlog)) {
+               $backlog = $issue->getMgrEffortEstim();
+            }
+            $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = $backlog;
          }
       }
-      return $timestamps;
-   }
-
-   /**
-    * @param Issue $issue
-    * @param int[] $timestampList
-    * @return string
-    */
-   private function getBacklogGraph(Issue $issue, array $timestampList) {
-      $backlogList = array();
-      foreach ($timestampList as $timestamp) {
-         $backlog = $issue->getBacklog($timestamp);
-         if(!is_numeric($backlog)) {
-            $backlog = $issue->getMgrEffortEstim();
-         }
-         $backlogList[Tools::formatDate("%Y-%m-%d", $timestamp)] = (NULL == $backlog) ? $issue->getMgrEffortEstim() : $backlog;
-      }
-
+      
       return Tools::array2plot($backlogList);
    }
 
