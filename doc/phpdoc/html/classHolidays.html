@@ -112,6 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHolidays.html#a625fd4442d43ba12e7ddc1df538f9b27">isHoliday</a> ($timestamp)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHolidays.html#ac15930c3167e48ee09122913ff1047a5">getNbHolidays</a> ($startT, $endT)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHolidays.html#ab565d93500a17bfa7073929ea4153a19">getWorkdays</a> ($startT, $endT)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classHolidays.html#a332e33661b8c7691bb0eeda05e960b04">staticInit</a> ()</td></tr>
@@ -219,6 +220,42 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$defaultColor</b> =
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab565d93500a17bfa7073929ea4153a19"></a><!-- doxytag: member="Holidays::getWorkdays" ref="ab565d93500a17bfa7073929ea4153a19" args="($startT, $endT)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Holidays::getWorkdays </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>startT</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>endT</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Get the number of workdays </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$startT</td><td>The included start day </td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$endT</td><td>The included end day </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int Number of workdays in the period </dd></dl>
 
 </div>
 </div>
@@ -330,7 +367,7 @@ static&#160;</td><td class="memItemRight" valign="bottom"><b>$defaultColor</b> =
 </div>
 
 
-    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
+    <li class="footer">Generated on Sat Sep 22 2012 21:21:29 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

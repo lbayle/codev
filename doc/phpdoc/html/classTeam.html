@@ -124,6 +124,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a9a4e3583a746aa4c9397b71647d862c5">initialize</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a8506ea3359a710a5361e290343649002">getLeaderId</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae0c9ab9912b586a4f23e2ceac5d445bd">isEnabled</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a7fefe86f9a6824bd484aaabb52e46926">setEnabled</a> ($isEnabled)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a6edff0b6bed79d08c5f6851cc37d6547">getLockTimetracksDate</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ae3a5685357f5fa5b4ec44b68f8e542f4">setLockTimetracksDate</a> ($timestamp)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a154955627968714f1517f8a028c75bf3">getProjects</a> ($noStatsProject=true)</td></tr>
@@ -169,7 +170,7 @@ Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#aaa2eef666fb578cc08f15c2b3f3ed1d0">getActiveMemberList</a> ($teamid, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#a7d2774f8df23495558c8399ad94db1e6">getTeamIssues</a> ($teamid, $addUnassignedIssues=false)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab504b8dafb5720c3301bbc541aaca6a1">getCurrentIssues</a> ($teamid, $addUnassignedIssues=false, $addNewIssues=false)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#acf0cc7e79cab8af8da74b626139ee561">getTeams</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeam.html#ab5c73571a83a98b5481a230ec25f4e30">getTeams</a> ($withDisabled=false)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af8bd72054d4c6172ba50734b5d292359"></a><!-- doxytag: member="Team::accessLevel_nostats" ref="af8bd72054d4c6172ba50734b5d292359" args="" -->
@@ -989,14 +990,15 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="acf0cc7e79cab8af8da74b626139ee561"></a><!-- doxytag: member="Team::getTeams" ref="acf0cc7e79cab8af8da74b626139ee561" args="()" -->
+<a class="anchor" id="ab5c73571a83a98b5481a230ec25f4e30"></a><!-- doxytag: member="Team::getTeams" ref="ab5c73571a83a98b5481a230ec25f4e30" args="($withDisabled=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">static Team::getTeams </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>withDisabled</em> = <code>false</code></td><td>)</td>
           <td><code> [static]</code></td>
         </tr>
       </table>
@@ -1132,6 +1134,29 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a7fefe86f9a6824bd484aaabb52e46926"></a><!-- doxytag: member="Team::setEnabled" ref="a7fefe86f9a6824bd484aaabb52e46926" args="($isEnabled)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Team::setEnabled </td>
+          <td>(</td>
+          <td class="paramtype">$&#160;</td>
+          <td class="paramname"><em>isEnabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bool</td><td>isEnabled </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ade71014d7db5684b3ac89d0f830c7d2c"></a><!-- doxytag: member="Team::setLeader" ref="ade71014d7db5684b3ac89d0f830c7d2c" args="($leaderid)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1241,7 +1266,7 @@ Static Public Attributes</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
+    <li class="footer">Generated on Sat Sep 22 2012 21:21:29 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>

@@ -110,6 +110,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#a7c47abef55f48509158112954757c5c5">getServiceContracts</a> ($teamid, $selectedId)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#a7c0dbcf57dba0f9b1dd5f42669d194a5">getServiceContractStateList</a> (<a class="el" href="classServiceContract.html">ServiceContract</a> $contract=NULL)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2ac46e48c06544e43a1795797608776"></a><!-- doxytag: member="ServiceContractTools::getSContractProgressHistoryTimestamp" ref="ae2ac46e48c06544e43a1795797608776" args="(ServiceContract $serviceContract)" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>getSContractProgressHistoryTimestamp</b> (<a class="el" href="classServiceContract.html">ServiceContract</a> $serviceContract)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#adf4e470f1ea303708b9f827af6b54525">getSContractProgressHistory</a> (<a class="el" href="classServiceContract.html">ServiceContract</a> $serviceContract)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#a697e3c7df0be59b1e1be2c1416d38908">getSContractActivity</a> (<a class="el" href="classServiceContract.html">ServiceContract</a> $serviceContract, $startTimestamp=NULL, $endTimestamp=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classServiceContractTools.html#aa20f7cd224aee0def69a35d553dc97ec">displayServiceContract</a> (<a class="el" href="classSmartyHelper.html">SmartyHelper</a> $smartyHelper, $servicecontract)</td></tr>
 </table>
@@ -180,6 +183,30 @@ Static Public Member Functions</h2></td></tr>
 <div class="memdoc">
 <p>show users activity on the SC during the given period.</p>
 <p>if start &amp; end dates not defined, the last month will be displayed.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramtype"><a class="el" href="classServiceContract.html">ServiceContract</a></td><td class="paramname">$serviceContract</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>string </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="adf4e470f1ea303708b9f827af6b54525"></a><!-- doxytag: member="ServiceContractTools::getSContractProgressHistory" ref="adf4e470f1ea303708b9f827af6b54525" args="(ServiceContract $serviceContract)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ServiceContractTools::getSContractProgressHistory </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classServiceContract.html">ServiceContract</a> $&#160;</td>
+          <td class="paramname"><em>serviceContract</em></td><td>)</td>
+          <td><code> [static]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramtype"><a class="el" href="classServiceContract.html">ServiceContract</a></td><td class="paramname">$serviceContract</td><td></td></tr>
@@ -272,7 +299,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 
-    <li class="footer">Generated on Sun Sep 9 2012 23:57:33 for CodevTT by
+    <li class="footer">Generated on Sat Sep 22 2012 21:21:29 for CodevTT by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.5 </li>
    </ul>
