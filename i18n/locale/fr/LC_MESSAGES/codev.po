@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Codevtt 0.99.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-15 22:54+0200\n"
+"POT-Creation-Date: 2012-09-22 21:03+0200\n"
 "PO-Revision-Date: 2012-09-15 22:28+0100\n"
 "Last-Translator: NSV <nicolas_pro@velin.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
@@ -24,6 +24,11 @@ msgstr "Année"
 #: tpl/holidays_report.html
 msgid "Show external tasks"
 msgstr "Afficher taches externes"
+
+#: tpl/holidays_report.html
+#: tpl/plugin/activity_indicator_ajax1.html
+msgid "workdays"
+msgstr "jours ouvrés"
 
 #: tpl/holidays_report.html
 #: tpl/forecasting_report.html
@@ -113,7 +118,7 @@ msgstr "Identifiant"
 
 #: tpl/modal/login.html
 #: tpl/doc.html
-#: install/install_step1.php:200
+#: install/install_step1.php:202
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -340,7 +345,7 @@ msgstr "nb jours"
 #: tpl/check.html
 #: tpl/plugin/activity_indicator_ajax1.html
 #: tpl/import_issues.html
-#: install/install_step1.php:196
+#: install/install_step1.php:198
 msgid "User"
 msgstr "Utilisateur"
 
@@ -474,7 +479,7 @@ msgstr "Nbre de jours de Production"
 #: tpl/servicecontract_edit.html
 #: tpl/import_issues.html
 #: tpl/commandset_edit.html
-#: graphs/gantt_graph.php:89 graphs/gantt_graph.php:91
+#: graphs/gantt_graph.php:93 graphs/gantt_graph.php:95
 msgid "Team"
 msgstr "Equipe"
 
@@ -566,8 +571,8 @@ msgstr "Budget"
 #: tpl/commandset_info.html
 #: tpl/planning_report.html
 #: tpl/commandset_edit.html
-#: classes/scheduler.class.php:80 classes/consistency_check2.class.php:593
-#: timetracking/time_tracking.php:308
+#: classes/scheduler.class.php:80 classes/consistency_check2.class.php:603
+#: timetracking/time_tracking.php:310
 msgid "days"
 msgstr "jours"
 
@@ -628,7 +633,7 @@ msgstr "Réestimé Mgr"
 #: tpl/commandset_info.html
 #: tpl/plugin/activity_indicator_ajax1.html
 #: tpl/ajax/generalInfo.html
-#: indicator_plugins/activity_indicator.class.php:210
+#: indicator_plugins/activity_indicator.class.php:212
 #: reports/project_info.php:261 reports/project_info.php:311
 #: tests/filters.php:70
 msgid "Elapsed"
@@ -1014,8 +1019,12 @@ msgid "Detailed"
 msgstr "Détailé"
 
 #: tpl/team_activity_report.html
-msgid "sum(Backlog) of current tasks"
-msgstr "somme(RAF) des tâches en cours"
+msgid "sum(Backlog) of assigned tasks"
+msgstr "somme(RAF) des tâches assignées"
+
+#: tpl/team_activity_report.html
+msgid "Workload"
+msgstr "charge"
 
 #: tpl/team_activity_report.html
 #: tpl/project_activity_report.html
@@ -1156,8 +1165,8 @@ msgstr "Support, Doc, Formation, Wiki, ..."
 
 #: tpl/create_team.html
 #: tpl/plugin/activity_indicator_ajax1.html
-#: indicator_plugins/activity_indicator.class.php:214
-#: install/install_step3.php:207 timetracking/holidays_report.php:149
+#: indicator_plugins/activity_indicator.class.php:216
+#: install/install_step3.php:207 timetracking/holidays_report.php:151
 msgid "Inactivity"
 msgstr "Inactivité"
 
@@ -1202,7 +1211,7 @@ msgstr "(generique) Mise à jour du WIKI"
 #. Note: this will be overridden by the 'update' section if the 'createCmd' action has been called.
 #. Display Empty Command Form
 #. Note: this will be overridden by the 'update' section if the 'createCommandset' action has been called.
-#: management/servicecontract_edit.php:93 management/commandset_edit.php:97
+#: management/servicecontract_edit.php:95 management/commandset_edit.php:99
 msgid "Create"
 msgstr "Créer"
 
@@ -1417,8 +1426,8 @@ msgid "Reopened tasks are not taken into account"
 msgstr "Les fiches réouvertes ne sont pas comptabilisées"
 
 #: tpl/productivity_report.html
-#: classes/consistency_check2.class.php:362
-#: classes/consistency_check.class.php:370
+#: classes/consistency_check2.class.php:370
+#: classes/consistency_check.class.php:374
 msgid "elapsed"
 msgstr "consommé"
 
@@ -2106,7 +2115,7 @@ msgstr "réduire l'échelle"
 
 #: tpl/planning_report.html
 #: management/servicecontract_info.php:73
-#: management/servicecontract_info.php:74 management/commandset_info.php:80
+#: management/servicecontract_info.php:74 management/commandset_info.php:83
 #: management/command_info.php:81 management/command_info.php:82
 #: reports/issue_info.php:82 reports/issue_info.php:83
 #: reports/productivity_report.php:163
@@ -2168,7 +2177,7 @@ msgid "Available Filters"
 msgstr "Filtres disponibles"
 
 #: tpl/form/projectFilterDialogbox.html
-msgid "Applyed Filters"
+msgid "Applied Filters"
 msgstr "Filtres actifs"
 
 #: tpl/servicecontract_edit.html
@@ -2321,17 +2330,17 @@ msgid "Error Description"
 msgstr "Description de l'erreur"
 
 #: tpl/plugin/activity_indicator_ajax1.html
-#: indicator_plugins/activity_indicator.class.php:212
+#: indicator_plugins/activity_indicator.class.php:214
 msgid "SideTask"
 msgstr "TachesAnnexe"
 
 #: tpl/plugin/activity_indicator_ajax1.html
-#: indicator_plugins/activity_indicator.class.php:211
+#: indicator_plugins/activity_indicator.class.php:213
 msgid "Other"
 msgstr "Autre"
 
 #: tpl/plugin/activity_indicator_ajax1.html
-#: indicator_plugins/activity_indicator.class.php:213
+#: indicator_plugins/activity_indicator.class.php:215
 msgid "External"
 msgstr "Externe"
 
@@ -2414,6 +2423,10 @@ msgstr "Aperçu"
 #: tpl/import_issues.html
 msgid "Set All"
 msgstr "Appliquer à tous"
+
+#: tpl/import_issues.html
+msgid "Category not set on all issues"
+msgstr "La catégorie doit être définie pour toutes les tâches"
 
 #: tpl/import_issues.html
 msgid "Import done !"
@@ -2638,23 +2651,27 @@ msgstr "La mise à jour du team leader a échouée"
 msgid "Couldn't update the creation date"
 msgstr "La mise à jour de la date de création a échouée"
 
-#: admin/edit_team.php:138
+#: admin/edit_team.php:104
+msgid "Couldn't enable/disable team"
+msgstr "Impossible d'activer/désactiver l'équipe"
+
+#: admin/edit_team.php:143
 msgid "Couldn't delete the member of the team"
 msgstr "Le retrait de l'utilisateur à échouée"
 
-#: admin/edit_team.php:151 admin/edit_team.php:154
+#: admin/edit_team.php:156 admin/edit_team.php:159
 msgid "Couldn't add the project to the team"
 msgstr "L'ajout du projet a échouée"
 
-#: admin/edit_team.php:159
+#: admin/edit_team.php:164
 msgid "Could NOT remove the project from the team"
 msgstr "Le retrait du projet a échoué"
 
-#: admin/edit_team.php:265
+#: admin/edit_team.php:270
 msgid "enabled"
 msgstr "activé"
 
-#: admin/edit_team.php:265
+#: admin/edit_team.php:270
 msgid "disabled"
 msgstr "désactivé"
 
@@ -2674,10 +2691,10 @@ msgstr "BI non renseigné: il doit être égal à temps(Analyse + Dev + Tests)"
 #: classes/consistency_check_fdj.class.php:95
 #: classes/consistency_check_fdj.class.php:106
 #: classes/consistency_check2.class.php:74
-#: classes/consistency_check.class.php:171
-#: classes/consistency_check.class.php:215
-#: classes/consistency_check.class.php:323
-#: classes/consistency_check.class.php:371 reports/productivity_report.php:371
+#: classes/consistency_check.class.php:175
+#: classes/consistency_check.class.php:219
+#: classes/consistency_check.class.php:327
+#: classes/consistency_check.class.php:375 reports/productivity_report.php:371
 #: reports/productivity_report.php:379 reports/productivity_report.php:391
 msgid "Error"
 msgstr "Erreur"
@@ -2710,12 +2727,12 @@ msgstr "Normale"
 msgid "High"
 msgstr "Haute"
 
-#: classes/scheduler.class.php:87 reports/planning_report.php:178
+#: classes/scheduler.class.php:87 reports/planning_report.php:180
 msgid "monitored"
 msgstr "suivie"
 
 #: classes/consistency_check2.class.php:76
-#: classes/consistency_check.class.php:261 reports/planning_report.php:221
+#: classes/consistency_check.class.php:265 reports/planning_report.php:223
 msgid "Warning"
 msgstr "Alerte"
 
@@ -2723,75 +2740,75 @@ msgstr "Alerte"
 msgid "Info"
 msgstr "Info"
 
-#: classes/consistency_check2.class.php:80 reports/planning_report.php:220
-#: tests/odt.php:86 tests/odt.php:94
+#: classes/consistency_check2.class.php:80 reports/planning_report.php:222
+#: tests/odt.php:88 tests/odt.php:98
 msgid "unknown"
 msgstr "inconnu"
 
-#: classes/consistency_check2.class.php:234
-#: classes/consistency_check.class.php:214
+#: classes/consistency_check2.class.php:242
+#: classes/consistency_check.class.php:218
 msgid "Backlog should be 0 (not "
 msgstr "Le RAF devrait être = 0  (et non "
 
-#: classes/consistency_check2.class.php:256
+#: classes/consistency_check2.class.php:264
 msgid "Backlog must be defined !"
 msgstr "Le RAF doit etre défini !"
 
-#: classes/consistency_check2.class.php:258
-#: classes/consistency_check.class.php:260
+#: classes/consistency_check2.class.php:266
+#: classes/consistency_check.class.php:264
 msgid "Backlog == 0: Backlog may not be up to date."
 msgstr "RAF == 0: Il se peut que le RAF ne soit pas à jour."
 
-#: classes/consistency_check2.class.php:304
-#: classes/consistency_check.class.php:322
+#: classes/consistency_check2.class.php:312
+#: classes/consistency_check.class.php:326
 msgid "MgrEffortEstim not set."
 msgstr "Charge_Mgr non renseigné."
 
-#: classes/consistency_check2.class.php:336
+#: classes/consistency_check2.class.php:344
 msgid "EffortEstim not set."
 msgstr "Charge non renseigné."
 
-#: classes/consistency_check2.class.php:362
-#: classes/consistency_check.class.php:370
+#: classes/consistency_check2.class.php:370
+#: classes/consistency_check.class.php:374
 msgid "Status should not be"
 msgstr "Le status ne devrait pas être"
 
-#: classes/consistency_check2.class.php:400
+#: classes/consistency_check2.class.php:408
 msgid "The task is not assigned to anybody."
 msgstr "La tâche n'est assignée à personne"
 
-#: classes/consistency_check2.class.php:458
+#: classes/consistency_check2.class.php:466
 msgid "The task is not referenced in any Command."
 msgstr "La tâche n'est référencée dans aucune commande."
 
-#: classes/consistency_check2.class.php:493
+#: classes/consistency_check2.class.php:503
 msgid "is not referenced in any CommandSet"
 msgstr "n'est référencée dans aucune MacroCommande."
 
-#: classes/consistency_check2.class.php:521
+#: classes/consistency_check2.class.php:531
 msgid "is not referenced in any ServiceContract"
 msgstr "n'est référencée dans aucun Contrat de Service."
 
-#: classes/consistency_check2.class.php:591 timetracking/time_tracking.php:306
+#: classes/consistency_check2.class.php:601 timetracking/time_tracking.php:308
 msgid "incomplete (missing "
 msgstr "incomplet (manque "
 
-#: classes/consistency_check2.class.php:591 timetracking/time_tracking.php:306
+#: classes/consistency_check2.class.php:601 timetracking/time_tracking.php:308
 msgid " days"
 msgstr " jours"
 
-#: classes/consistency_check2.class.php:593
-#: reports/productivity_report.php:378 timetracking/time_tracking.php:308
+#: classes/consistency_check2.class.php:603
+#: reports/productivity_report.php:378 timetracking/time_tracking.php:310
 msgid "inconsistent"
 msgstr "incohérent"
 
 #. skip dates in the future
-#: classes/consistency_check2.class.php:606
-#: reports/productivity_report.php:390 timetracking/time_tracking.php:322
+#: classes/consistency_check2.class.php:616
+#: reports/productivity_report.php:390 timetracking/time_tracking.php:324
 msgid "not defined."
 msgstr "non défini."
 
-#: classes/consistency_check.class.php:170
+#: classes/consistency_check.class.php:174
 msgid ""
 "Delivery date not specified: If a delivery sheet is specified, then a "
 "Delivery Date is requested."
@@ -2839,11 +2856,11 @@ msgstr "Trier les tâches par version ciblée"
 msgid "Project TargetVersion"
 msgstr "Version ciblée"
 
-#: graphs/gantt_graph.php:89
+#: graphs/gantt_graph.php:93
 msgid "Project(s)"
 msgstr "Projet(s)"
 
-#: graphs/gantt_graph.php:91 reports/gantt_report.php:51
+#: graphs/gantt_graph.php:95 reports/gantt_report.php:51
 #: smarty_tools_ajax.php:33
 msgid "All projects"
 msgstr "Tous les Projets"
@@ -2860,27 +2877,27 @@ msgstr "Charge par Poste"
 msgid "Install - Step 1"
 msgstr "Installation - Etape 1"
 
-#: install/install_step1.php:164 install/install_step3.php:418
+#: install/install_step1.php:166 install/install_step3.php:418
 msgid "Prerequisites"
 msgstr "Prérequis"
 
-#: install/install_step1.php:170 install/install_step3.php:421
+#: install/install_step1.php:172 install/install_step3.php:421
 msgid "Actions"
 msgstr "Actions"
 
-#: install/install_step1.php:184
+#: install/install_step1.php:186
 msgid "Mantis Database Info"
 msgstr "Base de donées Mantis"
 
-#: install/install_step1.php:188
+#: install/install_step1.php:190
 msgid "Hostname"
 msgstr "Serveur"
 
-#: install/install_step1.php:192
+#: install/install_step1.php:194
 msgid "Database Name"
 msgstr "Base de donées"
 
-#: install/install_step1.php:208
+#: install/install_step1.php:210
 msgid "Proceed Step 1"
 msgstr "Executer étape 1"
 
@@ -3007,53 +3024,53 @@ msgstr "Spécificité des tâches annexes"
 msgid "Proceed Step 3"
 msgstr "Exécuter Etape 3"
 
-#: install/install_step3.php:586
+#: install/install_step3.php:592
 msgid "CodevTT admin"
 msgstr "CodevTT admin"
 
-#: install/install_step3.php:614
+#: install/install_step3.php:620
 msgid "Other external activity"
 msgstr "autre activité"
 
-#: install/install_step3.php:615
+#: install/install_step3.php:621
 msgid "Leave"
 msgstr "Absence"
 
-#: install/install_step3.php:616
+#: install/install_step3.php:622
 msgid "Study of the existing"
 msgstr "Etude de l'existant"
 
-#: install/install_step3.php:617
+#: install/install_step3.php:623
 msgid "Analyse"
 msgstr "Analyse"
 
-#: install/install_step3.php:618
+#: install/install_step3.php:624
 msgid "Development"
 msgstr "Dévelopement"
 
-#: install/install_step3.php:619
+#: install/install_step3.php:625
 msgid "Tests"
 msgstr "Tests"
 
-#: install/install_step3.php:664
+#: install/install_step3.php:670
 msgid "CodevTT_ExternalTasks"
 msgstr "CodevTT Taches Externes"
 
-#: install/install_step3.php:664
+#: install/install_step3.php:670
 msgid "CodevTT ExternalTasks Project"
 msgstr "CodevTT Projet de taches externes"
 
 #. cat="[All Projects] General", status="closed"
-#: install/install_step3.php:684
+#: install/install_step3.php:690
 msgid "Any external task, NOT referenced in any mantis project"
 msgstr "Toutes activités non référencées dans un projet mantis"
 
 #. --- Create the 'Leave' task in ExternalTasks Project
-#: install/install_step3.php:687
+#: install/install_step3.php:693
 msgid "On holiday, sick leave, ..."
 msgstr "Congés, Maladie, ..."
 
-#: install/install_step3.php:688
+#: install/install_step3.php:694
 msgid "Common Leave task"
 msgstr "Tâche absence commune"
 
@@ -3069,38 +3086,38 @@ msgstr "Etape 2"
 msgid "Step 3"
 msgstr "Etape 3"
 
-#: management/command_edit.php:176 management/servicecontract_edit.php:136
-#: management/commandset_edit.php:133
+#: management/command_edit.php:188 management/servicecontract_edit.php:140
+#: management/commandset_edit.php:137
 msgid "Save"
 msgstr "Enregistrer"
 
-#: management/command_edit.php:190
+#: management/command_edit.php:202
 msgid "Add tasks to Command"
 msgstr "Ajouter les tâches à la commande ?"
 
-#: management/command_edit.php:191
+#: management/command_edit.php:203
 msgid "Add multiple tasks"
 msgstr "Ajouter plusieurs tâches"
 
-#: management/command_edit.php:192
+#: management/command_edit.php:204
 msgid "Add selection"
 msgstr "Ajouter la sélection"
 
-#: management/command_edit.php:193
+#: management/command_edit.php:205
 msgid "Note: Tasks already assigned to a Command are not displayed."
 msgstr ""
 "Note : Les tâches annexes définies dans les Commandes ne sont pas affichées."
 
-#: management/command_edit.php:194
+#: management/command_edit.php:206
 msgid "Add the selected issues to the Command ?"
 msgstr "Ajouter les Tâches sélectionnées à la commande ?"
 
-#: management/commandset_info.php:81
+#: management/commandset_info.php:84
 msgid "Errors affecting the CommandSet"
 msgstr "Erreurs impactant la MacroCommande"
 
 #. TODO smarty error msg
-#: management/commandset_info.php:92
+#: management/commandset_info.php:95
 msgid "Sorry, You are not allowed to see this commandSet"
 msgstr ""
 "Désolé, vous n'êtes pas autorisé à voir le détail de cette MacroCommande"
@@ -3146,27 +3163,27 @@ msgstr "Export Congés"
 msgid "No projects in this team"
 msgstr "Aucun projet valide n'est défini pour cette équipe"
 
-#: reports/planning_report.php:175
+#: reports/planning_report.php:177
 msgid "onTime"
 msgstr "dans les temps"
 
-#: reports/planning_report.php:176
+#: reports/planning_report.php:178
 msgid "NOT onTime"
 msgstr "en retard"
 
-#: reports/planning_report.php:177
+#: reports/planning_report.php:179
 msgid "no deadLine"
 msgstr "sans deadLine"
 
-#: reports/planning_report.php:223
+#: reports/planning_report.php:225
 msgid "tasks are not assigned to anybody."
 msgstr "tâches ne sont pas assignées."
 
-#: reports/planning_report.php:313 reports/planning_report.php:395
+#: reports/planning_report.php:315 reports/planning_report.php:397
 msgid "Y-m-d"
 msgstr "d-m-Y"
 
-#: reports/issue_info.php:115
+#: reports/issue_info.php:120
 msgid "Backlog (days)"
 msgstr "RAF (jours)"
 
@@ -3207,15 +3224,15 @@ msgstr "Tâches résolues"
 msgid "Test: export to ODT"
 msgstr "Test : exporter in ODT"
 
-#: tests/odt.php:144
+#: tests/odt.php:154
 msgid "Sorry, there are no projects defined for your team."
 msgstr "Désolé, il n'y a pas de projets définis pour cette équipe."
 
-#: timetracking/holidays_report.php:93
+#: timetracking/holidays_report.php:95
 msgid "today"
 msgstr "aujourd'hui"
 
-#: timetracking/time_tracking_tools.php:59 timetracking/time_tracking.php:397
+#: timetracking/time_tracking_tools.php:59 timetracking/time_tracking.php:399
 msgid "Error: Task not found in Mantis DB !"
 msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
 
@@ -3223,7 +3240,7 @@ msgstr "Erreur : Tâche introuvable dans la BDD Mantis !"
 msgid "%Y-%m-%d"
 msgstr "%d-%m-%Y"
 
-#: timetracking/time_tracking.php:170
+#: timetracking/time_tracking.php:172
 msgid "Failed to delete the tasks"
 msgstr "Impossible de supprimer les tâches"
 
