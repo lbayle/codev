@@ -165,14 +165,16 @@ class EditTeamController extends Controller {
                   }
                } elseif (isset($_POST['addedastreinte_id'])) {
                   $astreinte_id = Tools::getSecurePOSTIntValue('addedastreinte_id');
-                  $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
-                  if (NULL == $astreintesList) {
-                     $formatedList = "$astreinte_id";
-                  } else {
-                     $formatedList  = implode( ',', $astreintesList);
-                     $formatedList .= ",$astreinte_id";
+                  if (0 != $astreinte_id) {
+                     $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
+                     if (NULL == $astreintesList) {
+                        $formatedList = "$astreinte_id";
+                     } else {
+                        $formatedList  = implode( ',', $astreintesList);
+                        $formatedList .= ",$astreinte_id";
+                     }
+                     Config::getInstance()->setValue(Config::id_astreintesTaskList, $formatedList, Config::configType_array);
                   }
-                  Config::getInstance()->setValue(Config::id_astreintesTaskList, $formatedList, Config::configType_array);
                } elseif (isset($_POST['deletedastreinte_id'])) {
                   $astreinte_id = Tools::getSecurePOSTIntValue('deletedastreinte_id');
                   $astreintesList = Config::getInstance()->getValue(Config::id_astreintesTaskList);
