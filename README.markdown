@@ -17,6 +17,6 @@
 > After 2.5 years of development and almost as much of production in several teams of our company, CodevTT has become mature enough to be presented to the community.
 
 ### Notes
-> [CodevTT](http://codevtt.org) is still under developpment and there is no real documentation right now. Installation on Linux is operational but Windows install is a little *tricky* ...
+> [CodevTT](http://codevtt.org) is still under developpment and there is no real documentation right now. The best way to understand how it works is to have a look at the demo site.
 
 > Please check the [installation forum](http://codevtt.org/site/?forum=installation) for more information.
