@@ -46,19 +46,15 @@ class TimeTrackingTools {
       foreach ($weekTracks as $bugid => $jobList) {
          try {
             $issue = IssueCache::getInstance()->getIssue($bugid);
-
             $backlog = $issue->getBacklog();
             $extRef = $issue->getTcId();
             $summary = $issue->getSummary();
-            $issueURL = Tools::issueInfoURL($bugid);
-            $mantisURL = Tools::mantisIssueURL($bugid, NULL, true);
-
+            $description = SmartyTools::getIssueDescription($bugid,$extRef,$summary);
          } catch (Exception $e) {
             $backlog = '!';
             $extRef = '';
             $summary = '<span class="error_font">'.T_('Error: Task not found in Mantis DB !').'</span>';
-            $issueURL = $bugid;
-            $mantisURL = '';
+            $description = SmartyTools::getIssueDescription($bugid,$extRef,$summary);
          }
 
          foreach ($jobList as $jobid => $dayList) {
@@ -90,22 +86,25 @@ class TimeTrackingTools {
                } else {
                   $bgColor = Holidays::$defaultColor;
                }
+
+               $day = '';
+               if(array_key_exists($i,$dayList)) {
+                  $day = $dayList[$i];
+               }
+
                $dayTasks[] = array(
                   'bgColor' => $bgColor,
                   'title' => $title,
-                  'day' => $dayList[$i]
+                  'day' => $day
                );
             }
             $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
             $weekTasks[$bugid."_".$jobid] = array(
                'bugid' => $bugid,
-               'issueURL' => $issueURL,
-               'mantisURL' => $mantisURL,
-               'issueId' => $extRef,
-               'summary' => $summary,
+               'description' => $description,
                'backlog' => $backlog,
-               'description' => addslashes(htmlspecialchars($summary)),
+               'summary' => addslashes(htmlspecialchars($summary)),
                'formattedBacklog' => $formattedBacklog,
                'jobid' => $jobid,
                'jobName' => $jobs->getJobName($jobid),
@@ -118,8 +117,8 @@ class TimeTrackingTools {
                'reestimated' => $issue->getReestimated(),
                'reestimatedMgr' => $issue->getReestimatedMgr(),
                'driftColor' => $issue->getDriftColor(),
-               'deadline' => $formatedDate
-
+               'deadline' => $formatedDate,
+               'dialogBoxTitle' => $issue->getFormattedIds(),
             );
          }
       }
