@@ -118,10 +118,7 @@ class ProjectActivityReportController extends Controller {
 
             $bugDetailedList[$bugid] = array(
                'class' => $tr_class,
-               'mantisURL' => Tools::mantisIssueURL($bugid, NULL, true),
-               'issueURL' => Tools::issueInfoURL($bugid),
-               'id' => $issue->getTcId(),
-               'summary' => $issue->getSummary(),
+               'description' => SmartyTools::getIssueDescription($bugid, $issue->getTcId(), $issue->getSummary()),
                'jobList' => $subJobList,
                'targetVersion' => $issue->getTargetVersion(),
                'currentStatusName' => $issue->getCurrentStatusName(),
