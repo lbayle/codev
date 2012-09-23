@@ -221,6 +221,17 @@ class SmartyTools {
       return $issueArray;
    }
 
+   public static function getIssueDescription($bugid, $extid, $summary) {
+      $description = Tools::mantisIssueURL($bugid, NULL, TRUE) . ' ' . Tools::issueInfoURL($bugid);
+      if($extid != NULL && strlen($extid) > 0) {
+         $description .= " / " . $extid;
+      }
+      if($summary != NULL && strlen($summary) > 0) {
+         $description .= " : " . $summary;
+      }
+      return $description;
+   }
+
 }
 
 SmartyTools::staticInit();
