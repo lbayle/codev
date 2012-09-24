@@ -1197,11 +1197,11 @@ class User extends Model {
     * @return string or "" if not found
     */
    public function getProjectFilters($projectid=0) {
-      if (NULL == $this->ProjectFilters) {
+      if (NULL == $this->projectFilters) {
          // TODO Config class cannot handle multiple lines for same id
          $query = "SELECT value FROM `codev_config_table` " .
                   "WHERE config_id = '" . Config::id_projectFilters . "' " .
-                  "AND user_id = $this->id ";
+                  "AND user_id = $this->id ".
                   "AND project_id = $projectid";
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("query = " . $query);
