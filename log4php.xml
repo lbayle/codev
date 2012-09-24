@@ -42,6 +42,7 @@
         <level value="DEBUG" />
     </logger>
 
+<!--    
     <logger name="SqlWrapper">
         <level value="INFO" />
     </logger>
@@ -50,7 +51,6 @@
         <level value="INFO" />
     </logger>
 
-<!--    
     <logger name="cache">
         <level value="DEBUG" />
     </logger>
