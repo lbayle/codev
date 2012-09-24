@@ -101,7 +101,6 @@ class ActivityIndicator implements IndicatorPlugin {
     * @param array $params
     */
    public function execute(IssueSelection $inputIssueSel, array $params = NULL) {
-
       $this->checkParams($inputIssueSel, $params);
 
       $team = TeamCache::getInstance()->getTeam($this->teamid);
@@ -141,18 +140,30 @@ class ActivityIndicator implements IndicatorPlugin {
       $usersActivity = array();
       foreach ($timeTracks as $tt) {
 
-         $issue = IssueCache::getInstance()->getIssue($tt->getIssueId());
+         $issueId = $tt->getIssueId();
+         $issue = IssueCache::getInstance()->getIssue($issueId);
          $userid = $tt->getUserId();
          
-         if (!isset($usersActivity[$userid])) { $usersActivity[$userid] = array(); }
+         if (!array_key_exists($userid, $usersActivity)) {
+            $usersActivity[$userid] = array();
+         }
          //$activityList = $usersActivity[$userid];
 
+         $duration = $tt->getDuration();
          if ($extProjId == $tt->getProjectId()) {
             #echo "external ".$tt->getIssueId()."<br>";
-            if ($leaveTaskId == $tt->getIssueId()) {
-               $usersActivity[$userid]['leave'] += $tt->getDuration();
+            if ($leaveTaskId == $issueId) {
+               if(array_key_exists('leave',$usersActivity[$userid])) {
+                  $usersActivity[$userid]['leave'] += $duration;
+               } else {
+                  $usersActivity[$userid]['leave'] = $duration;
+               }
             } else {
-               $usersActivity[$userid]['external'] += $tt->getDuration();
+               if(array_key_exists('external',$usersActivity[$userid])) {
+                  $usersActivity[$userid]['external'] += $duration;
+               } else {
+                  $usersActivity[$userid]['external'] = $duration;
+               }
             }
 
          } else if ($issue->isSideTaskIssue($teams)) {
@@ -160,70 +171,99 @@ class ActivityIndicator implements IndicatorPlugin {
 
             // if sideTask is in the IssueSelection, then it is considered as 'normal',
             // else it should not be included
-            if (in_array($tt->getIssueId(), $bugidList)) {
+            if (in_array($issueId, $bugidList)) {
                $cat = $this->showSidetasks ? 'sidetask' : 'elapsed';
-               $usersActivity[$userid][$cat] += $tt->getDuration();
+               if(array_key_exists($cat,$usersActivity[$userid])) {
+                  $usersActivity[$userid][$cat] += $duration;
+               } else {
+                  $usersActivity[$userid][$cat] = $duration;
+               }
             } else {
-               $usersActivity[$userid]['other'] += $tt->getDuration();
+               if(array_key_exists('other',$usersActivity[$userid])) {
+                  $usersActivity[$userid]['other'] += $duration;
+               } else {
+                  $usersActivity[$userid]['other'] = $duration;
+               }
             }
-
-         } else if (in_array($tt->getIssueId(), $bugidList)) {
+         } else if (in_array($issueId, $bugidList)) {
             #echo "selection ".$tt->getIssueId()."<br>";
-            $usersActivity[$userid]['elapsed'] += $tt->getDuration();
-
+            if(array_key_exists('elapsed',$usersActivity[$userid])) {
+               $usersActivity[$userid]['elapsed'] += $duration;
+            } else {
+               $usersActivity[$userid]['elapsed'] = $duration;
+            }
          } else {
             #echo "other ".$tt->getIssueId()."<br>";
-            $usersActivity[$userid]['other'] += $tt->getDuration();
+            if(array_key_exists('other',$usersActivity[$userid])) {
+               $usersActivity[$userid]['other'] += $duration;
+            } else {
+               $usersActivity[$userid]['other'] = $duration;
+            }
          }
       }
       #var_dump($usersActivity);
       $this->execData = $usersActivity;
-
    }
 
-   /**
-    *
-    */
    public function getSmartyObject() {
+      $usersActivities = array();
 
-      $smartyObj = array();
-      $totalActivity= array();
-      $usersActivities= array();
-
-
+      $totalLeave = 0;
+      $totalExternal = 0;
+      $totalElapsed = 0;
+      $totalOther = 0;
+      $totalSidetask = 0;
       foreach ($this->execData as $userid => $userActivity) {
-          $user = UserCache::getInstance()->getUser($userid);
-          $usersActivities[$user->getName()] = $userActivity;
+         $user = UserCache::getInstance()->getUser($userid);
+         $usersActivities[$user->getName()] = $userActivity;
 
-          $totalActivity['leave'] += $userActivity['leave'];
-          $totalActivity['external'] += $userActivity['external'];
-          $totalActivity['elapsed'] += $userActivity['elapsed'];
-          $totalActivity['other'] += $userActivity['other'];
-          
-          if ($this->showSidetasks) {
-            $totalActivity['sidetask'] += $userActivity['sidetask'];
-          }
+         if(array_key_exists('leave',$userActivity)) {
+            $totalLeave += $userActivity['leave'];
+         }
+         if(array_key_exists('external',$userActivity)) {
+            $totalExternal += $userActivity['external'];
+         }
+         if(array_key_exists('elapsed',$userActivity)) {
+            $totalElapsed += $userActivity['elapsed'];
+         }
+         if(array_key_exists('other',$userActivity)) {
+            $totalOther += $userActivity['other'];
+         }
+         if ($this->showSidetasks && array_key_exists('sidetask',$userActivity)) {
+            $totalSidetask += $userActivity['sidetask'];
+         }
+      }
+
+      $totalActivity = array();
+      $totalActivity['leave'] = $totalLeave;
+      $totalActivity['external'] = $totalExternal;
+      $totalActivity['elapsed'] = $totalElapsed;
+      $totalActivity['other'] = $totalOther;
+      if ($this->showSidetasks) {
+         $totalActivity['sidetask'] += $totalSidetask;
       }
 
       ksort($usersActivities);
 
       // pieChart data
       $jqplotData = array(
-            T_('Elapsed') => $totalActivity['elapsed'],
-            T_('Other') => $totalActivity['other'],
-            T_('SideTask') => $totalActivity['sidetask'],
-            T_('External') => $totalActivity['external'],
-            T_('Inactivity') => $totalActivity['leave']
+         T_('Elapsed') => $totalActivity['elapsed'],
+         T_('Other') => $totalActivity['other'],
+         T_('External') => $totalActivity['external'],
+         T_('Inactivity') => $totalActivity['leave']
       );
 
-      $smartyObj['usersActivities'] = $usersActivities;
-      $smartyObj['totalActivity'] = $totalActivity;
-      $smartyObj['jqplotData'] = Tools::array2json($jqplotData);
+      if ($this->showSidetasks) {
+         $jqplotData[T_('SideTask')] = $totalActivity['sidetask'];
+      }
 
-      return $smartyObj;
+      return array(
+         'usersActivities' => $usersActivities,
+         'totalActivity' => $totalActivity,
+         'jqplotData' => Tools::array2json($jqplotData)
+      );
    }
 }
-
 
 // Initialize complex static variables
 ActivityIndicator::staticInit();

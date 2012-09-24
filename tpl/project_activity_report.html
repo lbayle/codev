@@ -28,8 +28,8 @@
                   <tr>
                      <th>{t}Task{/t}</th>
                      {if $i.jobList}
-                     {foreach from=$i.jobList key=id item=j}
-                     <th style="width: {$j.width}%">{$j.name}</th>
+                     {foreach $i.jobList as $j}
+                     <th>{$j}</th>
                      {/foreach}
                      {/if}
                      <th style="width: 1em;" title="{t}Target version{/t}">{t}Target{/t}</th>
@@ -44,8 +44,8 @@
                   <tr>
                      <td>{$k.description}</td>
                      {if $isDetailed && $k.jobList}
-                     {foreach from=$k.jobList key=id item=l}
-                     <td style="width: {$l.width}%">{$l.id}</td>
+                     {foreach $k.jobList as $l}
+                     <td>{$l}</td>
                      {/foreach}
                      {/if}
                      <td nowrap="nowrap">{$k.targetVersion}</td>

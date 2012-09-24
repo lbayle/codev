@@ -1,3 +1,4 @@
+{if isset($error)}
 <script type="text/javascript">
    jQuery(document).ready(function() {
       if("{$error}" != "") {
@@ -5,6 +6,7 @@
       }
    });
 </script>
+{/if}
 
 <div id="content">
    {if isset($defaultColor)}
@@ -87,7 +89,7 @@
                      onclick="deleteHoliday('{$id}', '{$i.date}','{$i.desc}');return false;"></a>
                </td>
                <td title="{$id}">{$i.date}</td>
-               <td title="{$i.type}">{$i.desc}</td>
+               <td {if isset($i.type)}title="{$i.type}"{/if}>{$i.desc}</td>
                <td style="background-color: #{$i.color};">{$i.color}</td>
             </tr>
             {/foreach}

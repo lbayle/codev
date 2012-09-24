@@ -24,7 +24,7 @@
    <!-- T_("Team").": ".$teamList[$teamid]."<br/> -->
    {foreach from=$reports key=file item=i}
    <p style="margin-top: 2em">
-      <span style="font-weight: bold;" title="{$i.subtitle}">- {$i.title}...</span><br/>
+      <span style="font-weight: bold;" {if isset($i.subtitle)}title="{$i.subtitle}"{/if}>- {$i.title}...</span><br/>
       <span style="padding-left: 3em"><a href="tools/download.php?f={$i.file}">{$i.file}</a></span>
    </p>
    {/foreach}

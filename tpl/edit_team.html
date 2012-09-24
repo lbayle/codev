@@ -1,3 +1,4 @@
+{if isset($error)}
 <script type="text/javascript">
    jQuery(document).ready(function() {
       if("{$error}" != "") {
@@ -5,6 +6,7 @@
       }
    });
 </script>
+{/if}
 
 <div id="content">
    {if isset($teams)}
@@ -249,7 +251,7 @@
                   <td title="{$i.userid}">{$i.username}</td>
                   <td>{$i.realname}</td>
                   <td>{$i.arrivaldate}</td>
-                  <td>{if $i.departuredate}{$i.departuredate}{/if}</td>
+                  <td>{if isset($i.departuredate)}{$i.departuredate}{/if}</td>
                   <td>{$i.accessLevel}</td>
                </tr>
                {/foreach}
@@ -332,7 +334,7 @@
             <tbody>
                {foreach from=$teamProjects key=id item=i}
                <tr>
-                  <td class="ui-state-error-text" style="width:1em;">{if $i.delete}
+                  <td class="ui-state-error-text" style="width:1em;">{if isset($i.delete) && $i.delete}
                      <a class="ui-icon" title="{t}delete this row{/t}" href="{$page}"
                         onclick="removeTeamProject('{$id}','{$i.name}');return false;"></a>
                   {/if}</td>

@@ -271,7 +271,9 @@
             });
 
             // Set the date
+            {if isset($date)}
             jQuery("#globalDeadline").datepicker("setDate" ,"{$date}");
+            {/if}
          });
       </script>
 
@@ -344,7 +346,7 @@
             <td><button type='button' name="btSetAllUsers" id="btSetAllUsers">{t}Set All{/t}</button></td>
          </tr>
          <tr>
-            <td>{t}Deadline{/t}</td>
+            <td><label for="globalDeadline">{t}Deadline{/t}</label></td>
             <td>:</td>
             <td><input type="text" id="globalDeadline" class="datepicker" name="date" maxlength="10" size="10" title="{t}Date{/t}" /></td>
             <td><button type='button' name="btSetAllDeadlines" id="btSetAllDeadlines">{t}Set All{/t}</button></td>
@@ -480,15 +482,15 @@
             {foreach from=$newIssues key=id item=i}
             <tr id="issueTable-{$i.lineNum}">
                <td class="lineNum" align='right'>{$i.lineNum}</td>
-               <td class="summary" align='left' {$i.summary_attr} >{$i.summary}</td>
+               <td class="summary" align='left' {if isset($i.summary_attr)}{$i.summary_attr}{/if}>{$i.summary}</td>
                <td class="mgrEffortEstim" align='right'>{$i.mgrEffortEstim}</td>
                <td class="effortEstim" align='right'>{$i.effortEstim}</td>
                <td class="deadline">{$i.deadline}</td>
                <td class="extRef" align='left'>{$i.extRef}</td>
-               <td class="command" align='left'>{$i.command}</td>
-               <td class="category" align='left'>{$i.category}</td>
-               <td class="targetVersion" align='left'>{$i.targetVersion}</td>
-               <td class="userName" align='left'>{$i.userName}</td>
+               <td class="command" align='left'>{if isset($i.command)}{$i.command}{/if}</td>
+               <td class="category" align='left'>{if isset($i.category)}{$i.category}{/if}</td>
+               <td class="targetVersion" align='left'>{if isset($i.targetVersion)}{$i.targetVersion}{/if}</td>
+               <td class="userName" align='left'>{if isset($i.userName)}{$i.userName}{/if}</td>
             </tr>
             {/foreach}
          </tbody>

@@ -254,7 +254,10 @@ class ExportCSVWeeklyController extends Controller {
                   $formatedSummary.$sepChar.
                   $realname.$sepChar;
                for ($i = 1; $i <= 4; $i++) {
-                  $stringData .= $dayList[$i].$sepChar;
+                  if(array_key_exists($i, $dayList)) {
+                     $stringData .= $dayList[$i];
+                  }
+                  $stringData .= $sepChar;
                }
                $stringData .= $dayList[5]."\n";
                fwrite($fh, $stringData);

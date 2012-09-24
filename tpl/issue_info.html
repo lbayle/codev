@@ -83,7 +83,7 @@
                <td valign='top'>: </td>
                <td>
                   {foreach from=$parentCommands key=id item=i}
-                  <a href='management/command_info.php?cmdid={$i.id}'>{$i.reference} {$i.name}</a><br />
+                  <a href='management/command_info.php?cmdid={$i.id}'>{if isset($i.reference)}{$i.reference} {/if}{$i.name}</a><br />
                   {/foreach}
                </td>
             </tr>
@@ -199,7 +199,7 @@
                   });
                });
             </script>
-            <div id="update_backlog_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if $issueGeneralInfo.issueTcId} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Backlog{/t}" class="ui-helper-hidden">
+            <div id="update_backlog_dialog_form" title="{t}Task{/t} {$issueGeneralInfo.issueId}{if isset($issueGeneralInfo.issueTcId)} / {$issueGeneralInfo.issueTcId}{/if} - {t}Update Backlog{/t}" class="ui-helper-hidden">
                <p id="validateTips">{$issueGeneralInfo.issueSummary}</p>
                <form id="formUpdateBacklog" name="formUpdateBacklog" method="post" action="smarty_tools_ajax.php" >
                   <fieldset>
@@ -257,7 +257,7 @@
                      </tr>
                      <tr>
                         <td>{t}Deviation{/t}</td>
-                        <td style="background-color: #{$timeDrift.driftColor}">{if isset($timeDrift.drift)}{$timeDrift.drift} {t}days{/t}{/if}</td>
+                        <td {if isset($timeDrift.driftColor)}style="background-color: #{$timeDrift.driftColor}"{/if}>{if isset($timeDrift.drift)}{$timeDrift.drift} {t}days{/t}{/if}</td>
                      </tr>
                   </tbody>
                </table>
@@ -284,7 +284,7 @@
                   <tr>
                      <td>{$k.username}</td>
                      {foreach from=$k.jobs key=id item=l}
-                     <td style="background-color: #{$l.jobColor}; text-align: center;" title="{$l.jobDescription}">{if isset($l.jobDuration)}{$l.jobDuration}{/if}</td>
+                     <td style="{if isset($l.jobColor)}background-color: #{$l.jobColor};{/if} text-align: center;" {if isset($l.jobDescription)}title="{$l.jobDescription}"{/if}>{if isset($l.jobDuration)}{$l.jobDuration}{/if}</td>
                      {/foreach}
                   </tr>
                   {/foreach}
@@ -327,7 +327,7 @@
             {/if}
          </div>
          <div id="tabsName-4">
-            {if $backload_jqplotData}
+            {if isset($backload_jqplotData)}
             <script type="text/javascript">
                jQuery(document).ready(function() {
                   var chartoptions = jQuery('#backloadChart').data('plotoptions');

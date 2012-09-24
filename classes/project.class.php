@@ -1265,7 +1265,11 @@ class Project extends Model {
       if(NULL == $this->categoryList) {
          $this->initializeCategories();
       }
-      return $this->categoryList[$type];
+      if(array_key_exists($type,$this->categoryList)) {
+         return $this->categoryList[$type];
+      } else {
+         return NULL;
+      }
    }
 
    /**

@@ -240,8 +240,9 @@ class ExportCsvTools {
             $endBlockTimestamp = 0;
             $blockSize = 0;
 
+            $evtTimestamp = NULL;
             for ($i = 1; $i <= $nbDaysInMonth; $i++) {
-               if (NULL != $daysOf["$evtTimestamp"]) {
+               if (array_key_exists($evtTimestamp,$daysOf)) {
 
                   $evtTimestamp = mktime(0, 0, 0, $month, $i, $year);
 

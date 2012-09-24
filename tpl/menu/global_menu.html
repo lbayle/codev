@@ -1,6 +1,6 @@
 <div class="menu ui-tabs ui-widget ui-widget-content ui-corner-all">
    <ul class="dropdown ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" style="width:100%;">
-      <li class="ui-corner-top {if $page|strstr:"index.php"} ui-state-active{else} ui-state-default{/if}" style="margin-left:1em;"><a href="index.php" class="button" target="_top">{t}Home{/t}</a></li>
+      <li class="ui-corner-top {if $activeGlobalMenuItem == "index"} ui-state-active{else} ui-state-default{/if}" style="margin-left:1em;"><a href="index.php" class="button" target="_top">{t}Home{/t}</a></li>
       <li class="ui-corner-top ui-state-default"><a href="{$mantisURL}" title="MantisBT" class="button" target="_top">Mantis</a></li>
       <li class="ui-corner-top {if $activeGlobalMenuItem == 'TimeTracking'} ui-state-active{else} ui-state-default{/if}" style="margin-left:2%;"><a href="timetracking/time_tracking.php" title="{t}TimeTracking & team activity{/t}" class="button" target="_top">{t}Activity{/t}</a>
          <ul class="submenu">

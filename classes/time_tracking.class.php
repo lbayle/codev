@@ -858,7 +858,7 @@ class TimeTracking {
                   self::$logger->debug("project[$project_id][" . $issue->getCategoryName() . "]( bug ".$timeTrack->getIssueId().") = ".$timeTrack->getDuration());
                }
 
-               if (NULL == $durationPerCategory[$issue->getCategoryName()]) {
+               if (!array_key_exists($issue->getCategoryName(), $durationPerCategory)) {
                   $durationPerCategory[$issue->getCategoryName()] = array();
                }
                $durationPerCategory[$issue->getCategoryName()][$timeTrack->getIssueId()] += $timeTrack->getDuration();
@@ -912,10 +912,14 @@ class TimeTracking {
             $weekTracks[$row->bugid] = array();
             $weekTracks[$row->bugid][$row->jobid] = array();
          }
-         if (null == $weekTracks[$row->bugid][$row->jobid]) {
+         if (!array_key_exists($row->jobid, $weekTracks[$row->bugid])) {
             $weekTracks[$row->bugid][$row->jobid] = array();
          }
-         $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] += $row->duration;
+         if (array_key_exists(date('N',$row->date), $weekTracks[$row->bugid][$row->jobid])) {
+            $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] += $row->duration;
+         } else {
+            $weekTracks[$row->bugid][$row->jobid][date('N',$row->date)] = $row->duration;
+         }
 
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("weekTracks[$row->bugid][$row->jobid][".date('N',$row->date)."] = ".$weekTracks[$row->bugid][$row->jobid][date('N',$row->date)]." ( + $row->duration)");
@@ -962,11 +966,11 @@ class TimeTracking {
       $projectTracks = array();
 
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         if (NULL == $projectTracks[$row->project_id]) {
+         if (!array_key_exists($row->project_id, $projectTracks)) {
             $projectTracks[$row->project_id] = array(); // create array for bug_id
             $projectTracks[$row->project_id][$row->bugid] = array(); // create array for jobs
          }
-         if (NULL == $projectTracks[$row->project_id][$row->bugid]) {
+         if (!array_key_exists($row->bugid, $projectTracks[$row->project_id])) {
             $projectTracks[$row->project_id][$row->bugid] = array(); // create array for new jobs
          }
          $projectTracks[$row->project_id][$row->bugid][$row->jobid] = round($row->duration,2);

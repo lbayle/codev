@@ -33,12 +33,12 @@ ccheckErrList       array(array(issueURL, user, date, issueStatus, desc))
       <table class='invisible'>
       {foreach from=$ccheckErrList key=id item=i}
          <tr>
-            <td>{$i.issueURL}</td>
-            <td>{$i.user}</td>
-            <td>{$i.date}</td>
-            <td>{$i.issueStatus}</td>
+            <td>{if isset($i.issueURL)}{$i.issueURL}{/if}</td>
+            <td>{if isset($i.user)}{$i.user}{/if}</td>
+            <td>{if isset($i.date)}{$i.date}{/if}</td>
+            <td>{if isset($i.issueStatus)}{$i.issueStatus}{/if}</td>
             <td><span style='{$i.severityColor}'>[{$i.severity}]</span></td>
-            <td><span style='{$i.severityColor}' {if $i.addInfo}title='{$i.addInfo}'{/if}>{$i.desc}</span></td>
+            <td><span style='{$i.severityColor}' {if isset($i.addInfo)}title='{$i.addInfo}'{/if}>{$i.desc}</span></td>
          </tr>
       {/foreach}
       </table>

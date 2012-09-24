@@ -56,9 +56,13 @@ class GanttGraphView {
             $projectIds = array();
          }
 
-         // INFO: the following 1 line are MANDATORY and fix the following error:
-         // “The image <name> cannot be displayed because it contains errors”
-         ob_end_clean();
+         /* INFO: the following 1 line are MANDATORY and fix the following error:
+          * “The image <name> cannot be displayed because it contains errors”
+          * Can't call ob_end_clean() if zlib.output_compression is ON
+          */
+         if(!ini_get('zlib.output_compression')) {
+            ob_end_clean();
+         }
 
          $graph = $this->getGanttGraph($teamid, $startTimestamp, $endTimestamp, $projectIds);
 

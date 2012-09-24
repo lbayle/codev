@@ -43,7 +43,7 @@
                <tr>
                   <th class="left" title="{$j.realname}">{$j.username}</th>
                   {foreach from=$j.days key=day item=k}
-                  <td {if isset($k.color) || isset($k.align)}style="{if $k.color}background-color: #{$k.color};{/if}{if $k.align}text-align: center;{/if}"{/if} {if isset($k.title)}title="{$k.title}"{/if}>{if isset($k.value)}{$k.value}{/if}</td>
+                  <td {if isset($k.color) || isset($k.align)}style="{if isset($k.color)}background-color: #{$k.color};{/if}{if isset($k.align)}text-align: center;{/if}"{/if} {if isset($k.title)}title="{$k.title}"{/if}>{if isset($k.value)}{$k.value}{/if}</td>
                   {/foreach}
                </tr>
                {/foreach}

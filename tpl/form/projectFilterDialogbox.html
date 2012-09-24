@@ -77,8 +77,8 @@
                {/foreach}
             </ul>
          </div>
-         <input type="hidden" name="userid" value="{$userid}" />
-         <input type="hidden" name="projectid" value="{$projectid}" />
+         {if isset($userid)}<input type="hidden" name="userid" value="{$userid}" />{/if}
+         {if isset($projectid)}<input type="hidden" name="projectid" value="{$projectid}" />{/if}
          <input type="hidden" name="action" value="setFiltersAction" />
       </fieldset>
    </form>

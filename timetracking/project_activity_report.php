@@ -84,14 +84,10 @@ class ProjectActivityReportController extends Controller {
          $project = ProjectCache::getInstance()->getProject($projectId);
 
          $jobList = $project->getJobList($team->getProjectType($projectId));
-         $jobTypeList = "";
+         $jobTypeList = array();
          if ($isDetailed) {
-            $jobColWidth = (0 != count($jobList)) ? (100 - 50 - 10 - 6) / count($jobList) : 10;
             foreach($jobList as $jobId => $jobName) {
-               $jobTypeList[$jobId] = array(
-                  'width' => $jobColWidth,
-                  'name' => $jobName
-               );
+               $jobTypeList[$jobId] = $jobName;
             }
          }
 
@@ -103,15 +99,16 @@ class ProjectActivityReportController extends Controller {
             $totalTime = 0;
             $tr_class = ($row_id & 1) ? "row_even" : "row_odd";
 
-            $subJobList = "";
+            $subJobList = array();
             foreach($jobList as $jobId => $jobName) {
-               if ($isDetailed) {
-                  $subJobList[$jobId] = array(
-                     'width' => $jobColWidth,
-                     'id' => $jobs[$jobId]
-                  );
+               $jobTime = 0;
+               if(array_key_exists($jobId, $jobs)) {
+                  $jobTime = $jobs[$jobId];
                }
-               $totalTime += $jobs[$jobId];
+               if ($isDetailed) {
+                  $subJobList[$jobId] = $jobTime;
+               }
+               $totalTime += $jobTime;
             }
 
             $row_id += 1;

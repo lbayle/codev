@@ -126,9 +126,10 @@
             <tr>
                <td title="{t}workload{/t} = {$i.workload} {t}days{/t}">{$i.username}</td>
                <td style="font-size: 0;">
-                  {if $i.deadlines.isDeadline}<img width="5" height="1" src="images/blank.png" alt="" />{/if}
+                  {if isset($i.deadlines.isDeadline) && $i.deadlines.isDeadline}<img width="5" height="1" src="images/blank.png" alt="" />{/if}
+                  {if isset($i.deadlines.deadline)}
                   {foreach from=$i.deadlines.deadline key=id1 item=j}
-                  {if $j.width}<img width="{$j.width}" height="7" src="images/time_line.jpg" alt="" />{/if}
+                  {if isset($j.width)}<img width="{$j.width}" height="7" src="images/time_line.jpg" alt="" />{/if}
                   <img class="deadline" src="{$j.url}" alt="{$j.title}" height="7" width="10" />
                   <!-- tooltip element -->
                   <div id="tooltipdeadline{$id1}" class="tooltip ui-helper-hidden" style="padding:30px;width:310px;font-size:11px;color:#000; background:url({$j.imgUrl});">
@@ -149,6 +150,7 @@
                      </table>
                   </div>
                   {/foreach}
+                  {/if}
                   <div style="margin-top: 2px;">
                      <img width="5" height="20" src="images/blank.png" alt="" />
                      {foreach from=$i.scheduledTasks key=id1 item=j}
@@ -181,7 +183,7 @@
                                  <td style="color:blue;width:35px;">{t}Duration{/t}</td>
                                  <td>{$j.duration} {t}days{/t}</td>
                               </tr>
-                              {if $j.deadLine}
+                              {if isset($j.deadLine)}
                               <tr>
                                  <td style="color:blue;width:35px;">{t}DeadLine{/t}</td>
                                  <td>{$j.deadLine}</td>

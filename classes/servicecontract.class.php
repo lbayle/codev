@@ -595,7 +595,7 @@ class ServiceContract extends Model {
                   }
                }
 
-               if (NULL == $this->sidetasksPerCategory[$key][$issue->getCategoryId()]) {
+               if (!array_key_exists($issue->getCategoryId(), $this->sidetasksPerCategory[$key])) {
                   $this->sidetasksPerCategory[$key][$issue->getCategoryId()] = new IssueSelection($issue->getCategoryName());
                }
                $issueSel = $this->sidetasksPerCategory[$key][$issue->getCategoryId()];

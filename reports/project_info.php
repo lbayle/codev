@@ -190,7 +190,7 @@ class ProjectInfoController extends Controller {
 
          $smartyElem = array(
             #'name' => $isel->name,
-            'date' => $date,
+            #'date' => $date,
             'progressMgr' => round(100 * $isel->getProgressMgr()),
             'progress' => round(100 * $isel->getProgress()),
             'driftMgrColor' => IssueSelection::getDriftColor($valuesMgr['percent']),

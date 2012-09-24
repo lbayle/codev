@@ -101,7 +101,7 @@
             </td>
          </tr>
       </table>
-      {if $isEditGranted}
+      {if isset($isEditGranted) && $isEditGranted}
       <button onclick="location.href='management/command_edit.php'"><img  border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
       {/if}
    </div>

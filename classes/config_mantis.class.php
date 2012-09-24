@@ -118,10 +118,14 @@ class ConfigMantis {
    }
 
    public function getValue($id, $project_id = 0) {
-      $value = NULL;
-
       $key = $id."_".$project_id;
-      $variable = self::$configVariables[$key];
+      
+      $variable = NULL;
+      if(array_key_exists($key, self::$configVariables)) {
+         $variable = self::$configVariables[$key];
+      }
+      
+      $value = NULL;
 
       if (NULL != $variable) {
          $value = $variable->value;

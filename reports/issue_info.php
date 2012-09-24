@@ -176,8 +176,14 @@ class IssueInfoController extends Controller {
       $jobs = new Jobs();
       $totalDuration = 0;
       foreach ($timeTracks as $tt) {
-         $durationByJob[$tt->getJobId()] += $tt->getDuration();
-         $totalDuration += $tt->getDuration();
+         $duration = $tt->getDuration();
+         $jobid = $tt->getJobId();
+         if(array_key_exists($jobid,$durationByJob)) {
+            $durationByJob[$jobid] += $duration;
+         } else {
+            $durationByJob[$jobid] = $duration;
+         }
+         $totalDuration += $duration;
       }
 
       $jobDetails = NULL;
@@ -283,8 +289,13 @@ class IssueInfoController extends Controller {
          $jobColorByDate = array();
          foreach ($timeTracks as $tt) {
             if($tt->getUserId() == $uid) {
-               $durationByDate[$tt->getDate()] += $tt->getDuration();
-               $jobColorByDate[$tt->getDate()] = $jobs->getJobColor($tt->getJobId());
+               $date = $tt->getDate();
+               if(array_key_exists($date,$durationByDate)) {
+                  $durationByDate[$date] += $tt->getDuration();
+               } else {
+                  $durationByDate[$date] = $tt->getDuration();
+               }
+               $jobColorByDate[$date] = $jobs->getJobColor($tt->getJobId());
             }
          }
 

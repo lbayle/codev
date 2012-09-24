@@ -197,8 +197,8 @@ class StatisticsController extends Controller {
          $formattedResolvedList[$startTimestamp] = count($timeTracking->getResolvedIssues()); // returns Issue instances !
 
          $driftStats_new1 = $timeTracking->getResolvedDriftStats(TRUE);
-         $val1[$startTimestamp] = $driftStats_new1["totalDriftETA"] ? $driftStats_new1["totalDriftETA"] : 0;
-         $val2[$startTimestamp] = $driftStats_new1["totalDrift"] ? $driftStats_new1["totalDrift"] : 0;
+         $val1[$startTimestamp] = array_key_exists("totalDriftETA", $driftStats_new1) ? $driftStats_new1["totalDriftETA"] : 0;
+         $val2[$startTimestamp] = array_key_exists("totalDrift", $driftStats_new1) ? $driftStats_new1["totalDrift"] : 0;
          if ($displayNoSupport) {
             $driftStats_noSupport1 = $timeTracking->getResolvedDriftStats(FALSE);
             $val3[$startTimestamp] = $driftStats_noSupport1["totalDrift"] ? $driftStats_noSupport1["totalDrift"] : 0;

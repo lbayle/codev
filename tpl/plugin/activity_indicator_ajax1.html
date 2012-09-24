@@ -17,13 +17,13 @@
       {foreach $activityIndic_data.usersActivities as $user => $activityList}
       <tr>
          <td>{$user}</td>
-         <td>{$activityList.elapsed}</td>
+         <td>{if isset($activityList.elapsed)}{$activityList.elapsed}{/if}</td>
          {if isset($activityIndic_data.totalActivity.sidetask)}
          <td>{$activityList.sidetask}</td>
          {/if}
-         <td>{$activityList.other}</td>
-         <td>{$activityList.external}</td>
-         <td>{$activityList.leave}</td>
+         <td>{if isset($activityList.other)}{$activityList.other}{/if}</td>
+         <td>{if isset($activityList.external)}{$activityList.external}{/if}</td>
+         <td>{if isset($activityList.leave)}{$activityList.leave}{/if}</td>
       </tr>
       {/foreach}
    </tbody>

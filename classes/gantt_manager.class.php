@@ -249,7 +249,7 @@ class GanttManager {
 
          $activity = new GanttActivity($issue->getId(), $issue->getHandlerId(), $startDate, $endDate);
 
-         if (NULL == $this->activitiesByUser[$issue->getHandlerId()]) {
+         if (!array_key_exists($issue->getHandlerId(), $this->activitiesByUser)) {
             $this->activitiesByUser[$issue->getHandlerId()] = array();
          }
          $this->activitiesByUser[$issue->getHandlerId()][] = $activity;
@@ -410,7 +410,7 @@ class GanttManager {
          $user = UserCache::getInstance()->getUser($issue->getHandlerId());
 
          // init user history
-         if (NULL == $teamDispatchInfo[$issue->getHandlerId()]) {
+         if (!array_key_exists($issue->getHandlerId(),$teamDispatchInfo)) {
             // let's assume 'today' being the endTimestamp of previous activity
             $teamDispatchInfo[$issue->getHandlerId()] = array($today, $user->getAvailableTime($today));
          }
@@ -436,7 +436,7 @@ class GanttManager {
          // activitiesByUser
          $activity = new GanttActivity($issue->getId(), $issue->getHandlerId(), $startDate, $endDate);
 
-         if (NULL == $this->activitiesByUser[$issue->getHandlerId()]) {
+         if (!array_key_exists($issue->getHandlerId(),$this->activitiesByUser)) {
             $this->activitiesByUser[$issue->getHandlerId()] = array();
          }
          $this->activitiesByUser[$issue->getHandlerId()][] = $activity;

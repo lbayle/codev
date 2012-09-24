@@ -169,7 +169,9 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
 
          // RAF theorique = charge initiale - cumul consomé
-         $sumElapsed += $this->elapsedData[$midnight_timestamp];
+         if(array_key_exists($midnight_timestamp,$this->elapsedData)) {
+            $sumElapsed += $this->elapsedData[$midnight_timestamp];
+         }
          if (0 != $inputIssueSel->mgrEffortEstim) {
             $val1 = $sumElapsed / $inputIssueSel->mgrEffortEstim;
          } else {

@@ -30,11 +30,18 @@ class ProductivityReportTools {
       $durPerCat = $timeTracking->getProjectDetails($projectId);
       foreach ($durPerCat as $catName => $bugList) {
          foreach ($bugList as $bugid => $duration) {
-            $durationPerCategory[$catName] += $duration;
+            if(array_key_exists($catName,$durationPerCategory)) {
+               $durationPerCategory[$catName] += $duration;
+            } else {
+               $durationPerCategory[$catName] = $duration;
+            }
 
-            if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
             $issue = IssueCache::getInstance()->getIssue($bugid);
-            $formatedBugsPerCategory[$catName] .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+            if (array_key_exists($catName, $formatedBugsPerCategory)) {
+               $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+            } else {
+               $formatedBugsPerCategory[$catName] = Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+            }
          }
       }
 
@@ -55,13 +62,18 @@ class ProductivityReportTools {
       foreach($projectIds as $projectId) {
          $durPerCat = $timeTracking->getProjectDetails($projectId);
          foreach ($durPerCat as $catName => $bugList) {
+            $totalDuration = 0;
             foreach ($bugList as $bugid => $duration) {
-               $durationPerCategory[$catName] += $duration;
+               $totalDuration += $duration;
 
-               if ($formatedBugsPerCategory[$catName] != "") { $formatedBugsPerCategory[$catName] .= ', '; }
                $issue = IssueCache::getInstance()->getIssue($bugid);
-               $formatedBugsPerCategory[$catName] .= Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+               if (array_key_exists($catName, $formatedBugsPerCategory)) {
+                  $formatedBugsPerCategory[$catName] .= ', '.Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+               } else {
+                  $formatedBugsPerCategory[$catName] = Tools::issueInfoURL($bugid, '['.$issue->getProjectName().'] '.$issue->getSummary());
+               }
             }
+            $durationPerCategory[$catName] = $totalDuration;
          }
       }
 
