@@ -144,19 +144,21 @@ class EditTeamController extends Controller {
                   }
                } elseif (isset($_POST['addedprojectid'])) {
                   $projectid = Tools::getSecurePOSTIntValue('addedprojectid');
-                  $projecttype= Tools::getSecurePOSTIntValue('project_type');
+                  if (0 != $projectid) {
+                     $projecttype= Tools::getSecurePOSTIntValue('project_type');
 
-                  try {
-                     // prepare Project to CoDev (associate with CoDev customFields if needed)
-                     // WARN: Project constructor cannot be used in here.
-                     Project::prepareProjectToCodev($projectid);
+                     try {
+                        // prepare Project to CoDev (associate with CoDev customFields if needed)
+                        // WARN: Project constructor cannot be used in here.
+                        Project::prepareProjectToCodev($projectid);
 
-                     // save to DB
-                     if(!$team->addProject($projectid, $projecttype)) {
+                        // save to DB
+                        if(!$team->addProject($projectid, $projecttype)) {
+                           $this->smartyHelper->assign('error', T_("Couldn't add the project to the team"));
+                        }
+                     } catch (Exception $e) {
                         $this->smartyHelper->assign('error', T_("Couldn't add the project to the team"));
                      }
-                  } catch (Exception $e) {
-                     $this->smartyHelper->assign('error', T_("Couldn't add the project to the team"));
                   }
                } elseif (isset($_POST['deletedprojectid'])) {
                   $projectid = Tools::getSecurePOSTIntValue('deletedprojectid');
