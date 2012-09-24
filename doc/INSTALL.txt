@@ -80,6 +80,11 @@ max_allowed_packet      = 64M
    REM: Demarrage de httpd: httpd: Could not reliably determine the server's fully qualified domain name, using ::1 for ServerName
         -> Dans le fichier httpd.conf d'apache, renseigne le champ ServerName.
 
+5.1) /etc/php.ini
+   [Date]
+   ; Defines the default timezone used by the date functions
+   date.timezone = Europe/Paris
+
 
 6) restart services 
    service mysqld restart

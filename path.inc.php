@@ -25,9 +25,12 @@ set_include_path(BASE_PATH.PATH_SEPARATOR.get_include_path());
 // This avoids the display of some PHP errors...
 error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 
-// Set up the timezone
-// TODO Move to constants ?
-date_default_timezone_set("Europe/Paris");
+// WARN Set up the timezone
+// /etc/php.ini
+//   [Date]
+//   date.timezone = Europe/Paris
+// OR
+//date_default_timezone_set("Europe/Paris");
 
 // Set up the autoloader system
 require_once('lib/dynamic_autoloader/ClassFileMapAutoloader.php');
