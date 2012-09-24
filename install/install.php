@@ -49,6 +49,12 @@ if (file_exists(Constants::$config_file)) {
       exit;
    }
 
+   if(!date_default_timezone_get()) {
+      $error = "date_default_timezone is not set. please check your php.ini file (ex: date.timezone = Europe/Paris)";
+      echo "<span class='error_font'>$error</span><br />";
+      exit;
+   }
+
    echo "Pre-install check SUCCEEDED.<br />";
    echo "<br /><br /><br />";
    echo "Before you continue, please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory<br>";
