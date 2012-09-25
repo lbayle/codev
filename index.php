@@ -18,9 +18,7 @@ require('include/session.inc.php');
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include_once('classes/sqlwrapper.class.php');
-
-include_once('classes/constants.class.php');
+require('path.inc.php');
 
 // check if INSTALL needed
 if (!file_exists(Constants::$config_file)) {
@@ -34,11 +32,8 @@ if (!file_exists(Constants::$config_file)) {
       header('Location: tools/convert_config_file.php');
    }
 
-
    exit;
 }
-
-require('path.inc.php');
 
 class IndexController extends Controller {
 
