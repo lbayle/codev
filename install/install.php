@@ -49,9 +49,9 @@ if (file_exists(Constants::$config_file)) {
    $testDir = realpath ( ".." );
    $error = Tools::checkWriteAccess($testDir);
    if (strstr($error, "ERROR")) {
-      echo "<span class='error_font'>$error</span><br />";
+      echo "<span class='error_font'>$error</span><br/>";
       echo "<br />";
-      echo "- does apache user have write access to codevTT directory ?<br />";
+      echo "- does apache user have write access to codevTT directory ?<br/>";
       echo "- Are you sure SELINUX is well configured ?<br />";
       exit;
    }
@@ -64,7 +64,7 @@ if (file_exists(Constants::$config_file)) {
 
    echo "Pre-install check SUCCEEDED.<br />";
    echo "<br /><br /><br />";
-   echo "Before you continue, please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory<br>";
+   echo "<span class='success_font'>INFO: Before you continue, please ensure that user '<b>".exec('whoami')."</b>' has write access to your <b>mantis</b> directory</span><br>";
 }
 
 ?>

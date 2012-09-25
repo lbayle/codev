@@ -55,7 +55,7 @@ echo "  <table  style='margin-top: 2em'>\n";
 echo "    <tr>\n";
 echo "      <td><a href='http://".$_SERVER['HTTP_HOST']."/mantis' title='MantisBT'>Mantis</a></td>\n";
 echo "      <td>".$firstLink." | ".$secondLink." | ".$thirdLink." | ".$fourthLink."</td>\n";
-echo "      <td><a href='".Tools::getServerRootURL()."/doc/index.php' title='".T_("Documentation")."'>Doc</a></td>\n";
+echo "      <td><a target='blank' href='".Tools::getServerRootURL()."/doc/INSTALL.html' title='".T_("Documentation")."'>Install Doc</a></td>\n";
 echo "    </tr>\n";
 echo "  </table>\n";
 echo "<br/><br/></div>";

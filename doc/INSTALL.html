@@ -1,0 +1,204 @@
+<h1>CodevTT Installation Doc</h1>
+<h2>System Requirements:</h2>
+<blockquote>
+<ul>
+<li>128M RAM</li>
+<li>200M free HD</li>
+</ul>
+<h4>Linux</h4>
+<ul>
+<li>Apache 2.2.x</li>
+<li>MySQL 5.1.x</li>
+<li>PHP 5.3.x</li>
+<li>phpMyAdmin 3.2.x</li>
+<li>Mantis 1.2.x</li>
+</ul>
+<h4>Windows XP</h4>
+<ul>
+<li>XAMPP Lite 1.7.3</li>
+<li>Mantis 1.2.x</li>
+</ul>
+<h4>Dev tools (optional)</h4>
+<ul>
+<li>Git 1.7.x</li>
+<li>netbeans</li>
+<li>kdiff3</li>
+</ul>
+</blockquote>
+<h2>prerequisites</h2>
+<blockquote>
+<h4>install software</h4>
+<ul>
+<li>Required packages (CentOS, RedHat, Fedora)<br />
+</li>
+</ul>
+<blockquote>
+<p><code>yum install git gitosis gitk</code><br />
+<code>yum install httpd php php-pdo php-mysql php-gd php-xml mysql mysql-server phpmyadmin</code><br />
+</p>
+</blockquote>
+<ul>
+<li>MantisBT</li>
+</ul>
+<blockquote>
+<p><code>cd /opt</code><br />
+<code>unzip /tmp/mantisbt-1.2.11.zip</code><br />
+<code>mv /opt/mantisbt-1.2.11 /opt/mantis</code><br />
+<code>chgrp apache /opt/mantis</code><br />
+<code>chmod g+w /opt/mantis</code><br />
+<code>cd /var/www/html</code><br />
+<code>ln -s /opt/mantis</code><br />
+</p>
+</blockquote>
+<ul>
+<li>CodevTT</li>
+</ul>
+<blockquote>
+<p><code>cd /opt</code><br />
+<code>tar xvzf /tmp/codevtt_0.99.18.tgz</code><br />
+<code>mv /opt/codevtt_0.99.18 /opt/codevtt</code><br />
+<code>chgrp apache /opt/codevtt</code><br />
+<code>chmod g+w /opt/codevtt</code><br />
+<code>cd /var/www/html</code><br />
+<code>ln -s /opt/codevtt</code><br />
+</p>
+<p>If you choose to install the latest development sources:<br />
+</p>
+<p><code>git clone git@github.com:lbayle/codev.git /opt/codevtt</code><br />
+</p>
+</blockquote>
+<h4>configure MySQL</h4>
+<ul>
+<li>post-install config</li>
+</ul>
+<blockquote>
+<p><code>mysql_secure_installation</code></p>
+</blockquote>
+<ul>
+<li>Edit file: <code>mysql/bin/my.ini</code><br />
+</li>
+</ul>
+<blockquote>
+<p><code>#max_allowed_packet    = 1M</code><br />
+<code>max_allowed_packet      = 64M</code></p>
+</blockquote>
+<h4>Firewall</h4>
+<ul>
+<li>Open HTTP and HTTPS<blockquote><code>system-config-firewall</code><br />
+</blockquote>
+</li>
+<li>
+<p>Disable SELINUX: Edit file: <code>/etc/selinux/config</code><br />
+</p>
+<blockquote>
+<p><code>SELINUX=disabled</code></p>
+</blockquote>
+</li>
+</ul>
+<h4>configure Apache</h4>
+<ul>
+<li>Edit file: <code>/etc/httpd/conf/httpd.conf</code><br />
+</li>
+</ul>
+<blockquote>
+<p><code>ServerName codevtt:80</code><br />
+</p>
+<p><code>&lt;Directory "/var/www/html"&gt;</code><br />
+<code>(...)</code><br />
+<code># AllowOverride controls what directives may be placed in .htaccess files.</code><br />
+<code>AllowOverride All</code><br />
+<code>(...)</code><br />
+<code>&lt;/Directory&gt;</code><br />
+</p>
+</blockquote>
+<h4>configure PHP</h4>
+<ul>
+<li>Edit file: <code>/etc/php.ini</code><br />
+</li>
+</ul>
+<blockquote>
+<p><code>[Date]</code><br />
+<code>; Defines the default timezone used by the date functions</code><br />
+<code>date.timezone = Europe/Paris</code><br />
+</p>
+</blockquote>
+<h4>Restart services</h4>
+<blockquote>
+<p><code>service mysqld restart</code><br />
+<code>service httpd  restart</code><br />
+</p>
+<p>Check Apache server is up: <a href="http://localhost">http://localhost</a></p>
+</blockquote>
+</blockquote>
+<h2>Install MantisBT</h2>
+<blockquote>
+<p>Note: Mantis install is sometimes a little 'tricky' and it turns out that it works better if you first create the DB and the config file.</p>
+<h4>create mantis DB &amp; user</h4>
+<blockquote>
+<p><code>mysql --user=root --password=xxxxxx mysql</code><br />
+<code>mysql&gt; create database bugtracker;</code><br />
+<code>mysql&gt; CREATE USER 'mantis'@'localhost' IDENTIFIED BY 'secret';</code><br />
+<code>mysql&gt; GRANT ALL PRIVILEGES ON bugtracker.* TO 'mantis'@'localhost' WITH GRANT OPTION;</code><br />
+<code>mysql&gt; exit</code><br />
+</p>
+</blockquote>
+<h4>minimal mantis config</h4>
+<blockquote>
+<p><code>cp /opt/mantis/config_inc.php.sample /opt/mantis/config_inc.php</code><br />
+<code>vi /opt/mantis/config_inc.php</code><br />
+</p>
+<blockquote>
+<p><code>$g_db_username   = "mantis";</code><br />
+<code>$g_db_password   = "secret";</code><br />
+<code>$g_send_reset_password = OFF;</code><br />
+<code>$g_validate_email = OFF;</code><br />
+<code>date_default_timezone_set('Europe/Paris');</code><br />
+</p>
+</blockquote>
+</blockquote>
+<h4>mantis installation</h4>
+<blockquote>
+<p><code>http://localhost/mantis/admin/check.php</code><br />
+<code>http://path/to/mantisbt/admin/install.php</code><br />
+</p>
+</blockquote>
+<h4>first mantis login</h4>
+<blockquote>
+<p><a href="http://localhost/mantis">http://localhost/mantis</a></p>
+</blockquote>
+<ul>
+<li>login  : <code>administrator</code></li>
+<li>passwd : <code>root</code></li>
+</ul>
+<h4>customize mantis</h4>
+<p>-- IMPORTANT --<br />
+You need to configure mantis BEFORE installing CodevTT, so do it now !<br />
+</p>
+<ul>
+<li>Status</li>
+<li>Workflow</li>
+<li>Thresholds</li>
+<li>Projects</li>
+<li>etc.</li>
+</ul>
+</blockquote>
+<h2>Install CodevTT</h2>
+<blockquote>
+<h4>create mysql user</h4>
+<p>(Optional: You can use the mantis user)<br />
+</p>
+<p><code>mysql --user=root --password=xxxxxx mysql</code><br />
+</p>
+<blockquote>
+<p><code>CREATE USER 'codevtt' IDENTIFIED BY 'secret';</code><br />
+<code>GRANT ALL PRIVILEGES ON bugtracker.* TO 'codevtt' WITH GRANT OPTION;</code><br />
+<code>exit</code><br />
+</p>
+</blockquote>
+<h4>launch CodevTT install procedure</h4>
+<blockquote>
+<p><a href="http://localhost/codevtt">http://localhost/codevtt</a></p>
+<p>The installation will create <code>/opt/codevtt/config.ini</code></p>
+</blockquote>
+</blockquote>
+<h2>The End.</h2>
