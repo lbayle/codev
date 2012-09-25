@@ -22,8 +22,6 @@ require('../path.inc.php');
 
 include_once "include/mysql_config.inc.php";
 
-require_once('classes/constants.class.php');
-
 // ================ MAIN =================
 #if(isset($_SESSION['userid'])) {
 
@@ -39,7 +37,6 @@ require_once('classes/constants.class.php');
    if (false != $retcode) {
 
       include_once "constants.php";
-      require_once('classes/config.class.php');
 
       Constants::$codevInstall_timestamp = $codevInstall_timestamp;
       Constants::$codevtt_logfile        = $codevtt_logfile;

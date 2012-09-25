@@ -16,15 +16,7 @@
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/issue_selection.class.php');
-
-
-/**
- *
- * 
- */
 interface IndicatorPlugin {
-
 
    public function getName();
    public function getDesc();

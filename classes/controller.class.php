@@ -1,5 +1,4 @@
 <?php
-
 /*
    This file is part of CoDev-Timetracking.
 
@@ -16,6 +15,8 @@
    You should have received a copy of the GNU General Public License
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+require_once('i18n/i18n.inc.php');
 
 abstract class Controller {
 

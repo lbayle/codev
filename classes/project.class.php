@@ -16,21 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// TODO Remove this import
-include_once('classes/project_cache.class.php');
-
-include_once('classes/config.class.php');
-include_once('classes/config_mantis.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/issue_selection.class.php');
-include_once('classes/jobs.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/project_version.class.php');
-
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 class Project extends Model {
 
    const type_workingProject = 0; // normal projects are type 0

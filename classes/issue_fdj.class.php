@@ -1,6 +1,4 @@
 <?php
-include_once('../include/session.inc.php');
-
 /*
    This file is part of CoDev-Timetracking.
 
@@ -17,14 +15,6 @@ include_once('../include/session.inc.php');
    You should have received a copy of the GNU General Public License
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-require_once('classes/issue.class.php');
-
-require_once('classes/constants.class.php');
-
-include_once('classes/config.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/user_cache.class.php');
 
 /**
  * FDJ specificities for DurationsByStatus

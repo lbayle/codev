@@ -16,20 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('classes/comparable.interface.php');
-
-// TODO Remove this import
-include_once('classes/issue_cache.class.php');
-
-include_once('classes/command_cache.class.php');
-include_once('classes/config.class.php');
-include_once('classes/holidays.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/user_cache.class.php');
-
-require_once('lib/log4php/Logger.php');
-
 /**
  * COMPUTE DURATIONS
  * Status & Issue classes
@@ -115,7 +101,7 @@ class Issue extends Model implements Comparable {
    /**
     * @var Status[]
     */
-   private $statusList = array();       // array of statusInfo elements
+   protected $statusList = array();       // array of statusInfo elements
 
    // PRIVATE cached fields
    private $holidays;

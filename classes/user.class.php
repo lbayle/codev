@@ -16,22 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// TODO Remove this import
-include_once('classes/user_cache.class.php');
-
-include_once('classes/config.class.php');
-include_once('classes/holidays.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/project.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/team.class.php');
-include_once('classes/team_cache.class.php');
-include_once('classes/timetrack_cache.class.php');
-
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 /**
  * MANTIS CoDev User Authorization Management
  * @author LoB
