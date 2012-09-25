@@ -556,7 +556,7 @@ function getProjectList() {
       foreach($projects as $id => $name) {
          // exclude ExternalTasksProject
          if ($extproj_id == $id) {
-            if(self::$logger->isDebugEnabled()) {
+            if($logger->isDebugEnabled()) {
                $logger->debug("project $id: ExternalTasksProject is excluded");
             }
             continue;
@@ -566,14 +566,14 @@ function getProjectList() {
          try {
             $p = ProjectCache::getInstance()->getProject($id);
             if ($p->isSideTasksProject()) {
-               if(self::$logger->isDebugEnabled()) {
+               if($logger->isDebugEnabled()) {
                   $logger->debug("project $id: sideTaskProjects are excluded");
                }
                continue;
             }
          } catch (Exception $e) {
             // could not determinate, so the project should be included in the list
-            if(self::$logger->isDebugEnabled()) {
+            if($logger->isDebugEnabled()) {
                $logger->debug("project $id: Unknown type, project included anyway.");
             }
             // nothing to do.
