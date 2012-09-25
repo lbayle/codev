@@ -3,7 +3,7 @@
 
 ## System Requirements:
 >  + 128M RAM
->  + 200M free HD
+>  + 200M HD
 
 > #### Linux
   + Apache 2.2.x
@@ -63,11 +63,14 @@
 
 >>   `mysql_secure_installation`
 
->   + Edit file: `mysql/bin/my.ini`  
+>   + Edit file: `/etc/my.cnf`  
 
->>  `#max_allowed_packet    = 1M`  
+>>  `[mysqld]`  
+>>  `query_cache_limit=4M`  
+>>  `query_cache_size=32M`  
+>>  `query_cache_type=1`  
+
 >>  `max_allowed_packet      = 64M`
-
 
 > #### Firewall
 >  + Open HTTP and HTTPS
@@ -126,13 +129,12 @@
 >>>  `$g_db_password   = "secret";`  
 >>>  `$g_send_reset_password = OFF;`  
 >>>  `$g_validate_email = OFF;`  
->>>  `date_default_timezone_set('Europe/Paris'); `  
 
 
 > #### mantis installation
 
->>  `http://localhost/mantis/admin/check.php`  
->>  `http://path/to/mantisbt/admin/install.php`  
+>>  [http://localhost/mantis/admin/check.php](http://localhost/mantis/admin/check.php)  
+>>  [http://localhost/mantis/admin/install.php](http://localhost/mantis/admin/install.php)  
 
 > #### first mantis login
 >>  [http://localhost/mantis](http://localhost/mantis)

@@ -3,7 +3,7 @@
 <blockquote>
 <ul>
 <li>128M RAM</li>
-<li>200M free HD</li>
+<li>200M HD</li>
 </ul>
 <h4>Linux</h4>
 <ul>
@@ -75,12 +75,16 @@
 <p><code>mysql_secure_installation</code></p>
 </blockquote>
 <ul>
-<li>Edit file: <code>mysql/bin/my.ini</code><br />
+<li>Edit file: <code>/etc/my.cnf</code><br />
 </li>
 </ul>
 <blockquote>
-<p><code>#max_allowed_packet    = 1M</code><br />
-<code>max_allowed_packet      = 64M</code></p>
+<p><code>[mysqld]</code><br />
+<code>query_cache_limit=4M</code><br />
+<code>query_cache_size=32M</code><br />
+<code>query_cache_type=1</code><br />
+</p>
+<p><code>max_allowed_packet      = 64M</code></p>
 </blockquote>
 <h4>Firewall</h4>
 <ul>
@@ -152,14 +156,13 @@
 <code>$g_db_password   = "secret";</code><br />
 <code>$g_send_reset_password = OFF;</code><br />
 <code>$g_validate_email = OFF;</code><br />
-<code>date_default_timezone_set('Europe/Paris');</code><br />
 </p>
 </blockquote>
 </blockquote>
 <h4>mantis installation</h4>
 <blockquote>
-<p><code>http://localhost/mantis/admin/check.php</code><br />
-<code>http://path/to/mantisbt/admin/install.php</code><br />
+<p><a href="http://localhost/mantis/admin/check.php">http://localhost/mantis/admin/check.php</a><br />
+<a href="http://localhost/mantis/admin/install.php">http://localhost/mantis/admin/install.php</a><br />
 </p>
 </blockquote>
 <h4>first mantis login</h4>
