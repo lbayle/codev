@@ -27,6 +27,7 @@ require_once('install/install_header.inc.php');
 
 require_once('install/install_menu.inc.php');
 
+
 // check CodevTT already installed
 if (file_exists(Constants::$config_file)) {
    echo "CodevTT ".Config::codevVersion." already installed.<br />";
@@ -37,6 +38,12 @@ if (file_exists(Constants::$config_file)) {
 
    //echo 'Id: ' . getmyuid() . '<br />';
    //echo 'Gid: ' . getmygid() . '<br />';
+
+   if (!Tools::checkPhpVersion("5.3")) {
+      $error = "You need PHP v5.3 or higher (current PHP version is ".phpversion().')';
+      echo "<span class='error_font'>$error</span><br />";
+      exit;
+   }
 
    // check write access rights to codevTT directory
    $testDir = realpath ( ".." );

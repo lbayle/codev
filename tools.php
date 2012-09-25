@@ -37,6 +37,18 @@ class Tools {
    }
 
    /**
+    *
+    * @param string $checkVersion
+    * @return boolean true if version is recent enough
+    */
+   public static function checkPhpVersion($checkVersion = "5.3") {
+
+      return (strnatcmp(phpversion(),$checkVersion) >= 0);
+   }
+
+
+
+   /**
     * @static
     * @return string current URL (complete, with ?params=<value>)
     */
