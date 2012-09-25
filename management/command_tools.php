@@ -29,7 +29,6 @@ class CommandTools {
       foreach ($issues as $id => $issue) {
          $driftMgr = $issue->getDriftMgr();
          $driftMgrColor = $issue->getDriftColor($driftMgr);
-         $formattedDriftMgrColor = (NULL == $driftMgrColor) ? "" : "style='background-color: #".$driftMgrColor.";' ";
 
          $issueArray[$id] = array(
             "mantisLink" => Tools::mantisIssueURL($issue->getId(), NULL, true),
@@ -42,7 +41,7 @@ class CommandTools {
             "effortEstim" => $issue->getMgrEffortEstim(),
             "elapsed" => $issue->getElapsed(),
             "driftMgr" => $driftMgr,
-            "driftMgrColor" => $formattedDriftMgrColor,
+            "driftMgrColor" => $driftMgrColor,
             "durationMgr" => $issue->getDurationMgr(),
             "summary" => $issue->getSummary()
          );
