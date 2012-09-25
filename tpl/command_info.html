@@ -172,16 +172,16 @@
                   {foreach $cmdIssues as $id => $issue}
                   <tr>
                      <!--td>{$issue.mantisLink}{$issue.bugid}</td-->
-                     <td>{$issue.bugid}</td>
-                     <td>{$issue.extRef}</td>
-                     <td>{$issue.project}</td>
-                     <td>{$issue.target}</td>
-                     <td>{$issue.status}</td>
-                     <td><div class="progress">{$issue.progress}%</div></td>
-                     <td>{$issue.effortEstim}</td>
-                     <td>{$issue.elapsed}</td>
-                     <td>{$issue.durationMgr}</td>
-                     <td {$issue.driftMgrColor}>{$issue.driftMgr}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.bugid}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.extRef}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.project}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.target}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.status}</td>
+                     <td style="width:1em;" nowrap="nowrap"><div class="progress">{$issue.progress}%</div></td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.effortEstim}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.elapsed}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.durationMgr}</td>
+                     <td style="width:1em;{if isset($issue.driftMgrColor)}background-color:#{$issue.driftMgrColor}{/if}" nowrap="nowrap">{$issue.driftMgr}</td>
                      <td>{$issue.summary}</td>
                   </tr>
                   {/foreach}

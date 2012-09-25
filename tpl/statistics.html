@@ -122,7 +122,7 @@
                   {foreach from=$timeDrift_Legend key=id item=i}
                   <tr>
                      <td class="right">{$id}</td>
-                     <td class="right">{$i}%</td>
+                     <td><div class="progress">{$i}%</div></td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -215,8 +215,8 @@
                   {foreach from=$efficiency_Legend key=id item=i}
                   <tr>
                      <td class="right">{$id}</td>
-                     <td class="right">{$i.efficiencyRate}%</td>
-                     <td class="right">{$i.systemDisponibilityRate}%</td>
+                     <td><div class="progress">{$i.efficiencyRate}%</div></td>
+                     <td><div class="progress">{$i.systemDisponibilityRate}%</div></td>
                   </tr>
                   {/foreach}
                </tbody>
@@ -261,7 +261,7 @@
                   {foreach from=$reopenedRate_Legend key=id item=i}
                   <tr>
                      <td class="right">{$id}</td>
-                     <td class="right">{$i.reopenedRateResolved}%</td>
+                     <td><div class="progress">{$i.reopenedRateResolved}%</div></td>
                      <td class="right">{$i.reopened}</td>
                   </tr>
                   {/foreach}

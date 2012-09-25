@@ -23,13 +23,13 @@
       <tbody>
          {foreach from=$consistencyErrors key=id item=i}
          <tr>
-            <td>{$i.userName}</td>
-            <td>{$i.mantisURL} {$i.issueURL}</td>
-            <td>{$i.date}</td>
-            <td>{$i.severity}</td>
-            <td>{$i.status}</td>
-            <td>{$i.project}</td>
-            <td>{$i.targetVersion}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.userName}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.mantisURL} {$i.issueURL}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.date}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.severity}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.status}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.project}</td>
+            <td style="width:1em;" nowrap="nowrap">{$i.targetVersion}</td>
             <td>{$i.desc}</td>
          </tr>
          {/foreach}
