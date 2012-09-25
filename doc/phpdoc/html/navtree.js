@@ -30,8 +30,6 @@ var NAVTREE =
       [ "Comparable", "interfaceComparable.html", null ],
       [ "Config", "classConfig.html", null ],
       [ "ConfigItem", "classConfigItem.html", null ],
-      [ "ConfigMantis", "classConfigMantis.html", null ],
-      [ "ConfigMantisItem", "classConfigMantisItem.html", null ],
       [ "ConsistencyCheck", "classConsistencyCheck.html", null ],
       [ "ConsistencyCheck2", "classConsistencyCheck2.html", null ],
       [ "ConsistencyCheckFDJ", "classConsistencyCheckFDJ.html", null ],
@@ -81,6 +79,7 @@ var NAVTREE =
       [ "Jobs", "classJobs.html", null ],
       [ "LogsController", "classLogsController.html", null ],
       [ "MantisReports", "classMantisReports.html", null ],
+      [ "MantisSoap", "classMantisSoap.html", null ],
       [ "Model", "classModel.html", null ],
       [ "PeriodStats", "classPeriodStats.html", null ],
       [ "PeriodStatsReport", "classPeriodStatsReport.html", null ],
@@ -154,8 +153,6 @@ var NAVTREE =
       ] ],
       [ "Config", "classConfig.html", null ],
       [ "ConfigItem", "classConfigItem.html", null ],
-      [ "ConfigMantis", "classConfigMantis.html", null ],
-      [ "ConfigMantisItem", "classConfigMantisItem.html", null ],
       [ "ConsistencyCheck", "classConsistencyCheck.html", [
         [ "ConsistencyCheckFDJ", "classConsistencyCheckFDJ.html", null ]
       ] ],
@@ -234,6 +231,7 @@ var NAVTREE =
         [ "ProjectVersionFilter", "classProjectVersionFilter.html", null ]
       ] ],
       [ "Jobs", "classJobs.html", null ],
+      [ "MantisSoap", "classMantisSoap.html", null ],
       [ "Model", "classModel.html", [
         [ "Command", "classCommand.html", null ],
         [ "CommandSet", "classCommandSet.html", null ],

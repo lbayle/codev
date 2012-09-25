@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<title>CodevTT: EditJobsController Class Reference</title>
+<title>CodevTT: MantisSoap Class Reference</title>
 
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
@@ -93,44 +93,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-  initNavTree('classEditJobsController.html','');
+  initNavTree('classMantisSoap.html','');
 </script>
 <div id="doc-content">
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a>  </div>
+<a href="#pub-attribs">Public Attributes</a>  </div>
   <div class="headertitle">
-<div class="title">EditJobsController Class Reference</div>  </div>
+<div class="title">MantisSoap Class Reference</div>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="EditJobsController" --><!-- doxytag: inherits="Controller" --><div class="dynheader">
-Inheritance diagram for EditJobsController:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="classEditJobsController.png" usemap="#EditJobsController_map" alt=""/>
-  <map id="EditJobsController_map" name="EditJobsController_map">
-<area href="classController.html" alt="Controller" shape="rect" coords="0,0,116,24"/>
-</map>
- </div></div>
-
-<p><a href="classEditJobsController-members.html">List of all members.</a></p>
+<!-- doxytag: class="MantisSoap" -->
+<p><a href="classMantisSoap-members.html">List of all members.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18f8d8925bc18213ce7d155768d168a5"></a><!-- doxytag: member="MantisSoap::execute" ref="a18f8d8925bc18213ce7d155768d168a5" args="()" -->
+&#160;</td><td class="memItemRight" valign="bottom"><b>execute</b> ()</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEditJobsController.html#aee1df45aaab65208961cae6859c66218">staticInit</a> ()</td></tr>
-<tr><td colspan="2"><h2><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b84be2dc1498081eee72de1da301289"></a><!-- doxytag: member="EditJobsController::display" ref="a5b84be2dc1498081eee72de1da301289" args="()" -->
-&#160;</td><td class="memItemRight" valign="bottom"><b>display</b> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMantisSoap.html#aede0ee00b0bcb1fa61f09fd6fbc31217">staticInit</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abb1bdf583b0e66feaa5a368d26349932"></a><!-- doxytag: member="MantisSoap::soapRequest" ref="abb1bdf583b0e66feaa5a368d26349932" args="($args)" -->
+static&#160;</td><td class="memItemRight" valign="bottom"><b>soapRequest</b> ($args)</td></tr>
+<tr><td colspan="2"><h2><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac2c8254dbe9689196055ac9318d51e28"></a><!-- doxytag: member="MantisSoap::getIssue" ref="ac2c8254dbe9689196055ac9318d51e28" args="" -->
+const&#160;</td><td class="memItemRight" valign="bottom"><b>getIssue</b> = &quot;mc_issue_get&quot;</td></tr>
 </table>
-<hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="aee1df45aaab65208961cae6859c66218"></a><!-- doxytag: member="EditJobsController::staticInit" ref="aee1df45aaab65208961cae6859c66218" args="()" -->
+<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
+<div class="textblock"><p>Example usage (using jQuery): var url = "/path/mantisconnect_json.php?name=mc_project_get_issues&amp;project_id=0&amp;page_number=1&amp;per_page=10"; $.getJSON(url, function(data) { $.each(data, function() { console.log(data.id + ': ' data.summary); }); }); </p>
+</div><hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="aede0ee00b0bcb1fa61f09fd6fbc31217"></a><!-- doxytag: member="MantisSoap::staticInit" ref="aede0ee00b0bcb1fa61f09fd6fbc31217" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static EditJobsController::staticInit </td>
+          <td class="memname">static MantisSoap::staticInit </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [static]</code></td>
@@ -143,13 +143,13 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>admin/edit_jobs.php</li>
+<li>tests/soap.php</li>
 </ul>
 </div>
 </div>
   <div id="nav-path" class="navpath">
     <ul>
-      <li class="navelem"><a class="el" href="classEditJobsController.html">EditJobsController</a>      </li>
+      <li class="navelem"><a class="el" href="classMantisSoap.html">MantisSoap</a>      </li>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
