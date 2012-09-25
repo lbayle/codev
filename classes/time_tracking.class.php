@@ -82,14 +82,14 @@ class TimeTracking {
     * @param int $team_id
     */
    public function __construct($startTimestamp, $endTimestamp, $team_id = NULL) {
-      // Note: teamid is null in time_tracking.php because you do not specify it to set timetracks...
 
-      if ((NULL == $team_id) || ($team_id <= 0)) {
-         #echo "<span style='color:red'>ERROR: Please contact your CodevTT administrator</span>";
-         $e = new Exception("TimeTracking->team_id not set !");
-         self::$logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
-         self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
-         //throw $e;
+      // Note: teamid is null in time_tracking.php because you do not specify it to set timetracks...
+      if(self::$logger->isDebugEnabled()) {
+         if ((NULL == $team_id) || ($team_id <= 0)) {
+            $e = new Exception("TimeTracking->team_id not set !");
+            self::$logger->error("EXCEPTION TimeTracking constructor: ".$e->getMessage());
+            self::$logger->error("EXCEPTION stack-trace:\n".$e->getTraceAsString());
+         }
       }
 
       $this->startTimestamp = $startTimestamp;
