@@ -976,11 +976,30 @@ class Project extends Model {
     * @return array[]
     */
    function getWorkflowTransitions() {
-      $serialized = ConfigMantis::getInstance()->getValue('status_enum_workflow', $this->id);
+
+      // ORDER BY is important, it will ensure to return the project specific value before the generic (0) value
+      $query = "SELECT * FROM `mantis_config_table` ".
+               "WHERE project_id IN (0, $this->id) ".
+               "AND config_id = 'status_enum_workflow' ".
+               "ORDER BY project_id DESC";
+
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+      if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("No workflow defined for project $this->id");
+         }
+         return NULL;
+      }
+      $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+      $serialized = $row->value;
 
       if ((NULL == $serialized) || ("" == $serialized)) {
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("No workflow defined for project $this->id");
+            self::$logger->debug("Bad workflow defined for project $this->id");
          }
          return NULL;
       }
@@ -1012,7 +1031,7 @@ class Project extends Model {
     */
    function getProjectConfig() {
       // find all srcProj specific config
-      $query = "SELECT config_id FROM `mantis_config_table` ".
+      $query = "SELECT * FROM `mantis_config_table` ".
                "WHERE project_id = ".$this->id.";";
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("getProjectConfig: Src query=$query");
@@ -1026,7 +1045,7 @@ class Project extends Model {
 
       $configItems = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-         $configItems[$row->config_id] = ConfigMantis::getInstance()->getValue($row->config_id, $this->id);;
+         $configItems[$row->config_id] = $row->value;
       }
       return $configItems;
    }

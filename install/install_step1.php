@@ -72,12 +72,22 @@ function checkDBConnection($db_mantis_host = 'localhost',
 
    SqlWrapper::createInstance($db_mantis_host, $db_mantis_user, $db_mantis_pass, $db_mantis_database);
 
-   $database_version = ConfigMantis::getInstance()->getValue(ConfigMantis::id_database_version);
-   echo "DEBUG: Mantis database_version = $database_version<br/>";
+   $query = "SELECT * FROM `mantis_config_table` WHERE config_id = 'database_version' ";
 
-   if (NULL == $database_version) {
+   $result = SqlWrapper::getInstance()->sql_query($query);
+   if (!$result) {
+      return "ERROR: Could not access Mantis database";
+      //echo "<span style='color:red'>ERROR: Query FAILED AAA</span>";
+      //exit;
+   }
+   if (0 == SqlWrapper::getInstance()->sql_num_rows($result)) {
       return "ERROR: Could not get mantis_config_table.database_version";
    }
+   $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+   $database_version = $row->value;
+
+   echo "DEBUG: Mantis database_version = $database_version<br/>";
+
 
    return NULL;
 }
