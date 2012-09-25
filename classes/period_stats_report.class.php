@@ -16,11 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/config.class.php');
-include_once('classes/period_stats.class.php');
-include_once('classes/project.class.php');
-include_once('classes/sqlwrapper.class.php');
-
 /**
  * CALCULATE PERIOD STATS Reports
  * Status & Issue classes

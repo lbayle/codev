@@ -16,12 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/config.class.php');
-include_once('classes/project.class.php');
-include_once('classes/sqlwrapper.class.php');
-
-require_once('tools.php');
-
 /**
  * CALCULATE DURATIONS
  * Status & Issue classes
@@ -29,7 +23,7 @@ require_once('tools.php');
 class PeriodStats {
 
    // The projects NOT listed here will be excluded from statistics
-   protected $projectList;
+   public $projectList;
 
    private $startTimestamp;
    private $endTimestamp;

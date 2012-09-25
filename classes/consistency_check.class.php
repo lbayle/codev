@@ -16,16 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('classes/constants.class.php');
-
-include_once('classes/issue_cache.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 class ConsistencyError {
 
    /**

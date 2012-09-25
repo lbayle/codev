@@ -1,5 +1,4 @@
 <?php
-
 /*
   This file is part of CodevTT
 
@@ -17,13 +16,8 @@
   along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once('lib/log4php/Logger.php');
-
-/* INSERT INCLUDES HERE */
-
 /**
  * Description of ProjectCategoryFilter
- *
  */
 class IssueTagFilter implements IssueSelectionFilter {
 

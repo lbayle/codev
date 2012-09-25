@@ -16,9 +16,6 @@
    along with CodevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/issue_selection.class.php');
-
-
 interface IssueSelectionFilter {
 
    public function getName();

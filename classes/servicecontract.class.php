@@ -16,15 +16,6 @@
    along with CoDevTT.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/command.class.php');
-include_once('classes/commandset.class.php');
-include_once('classes/commandset_cache.class.php');
-include_once('classes/issue_selection.class.php');
-include_once('classes/project_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-
-require_once('lib/log4php/Logger.php');
-
 /**
  * Description of ServiceContract
  */

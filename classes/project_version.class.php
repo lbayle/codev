@@ -16,10 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('classes/issue_selection.class.php');
-
-include_once('classes/sqlwrapper.class.php');
-
 class ProjectVersion extends IssueSelection {
 
    private $projectId;

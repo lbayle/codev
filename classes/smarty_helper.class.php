@@ -16,7 +16,7 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('i18n/i18n.inc.php');
+require_once('i18n/i18n.inc.php');
 
 /**
  * Smarty helper : Construct a smarty objet for templating engine

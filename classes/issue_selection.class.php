@@ -16,13 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/consistency_check2.class.php');
-include_once('classes/issue_cache.class.php');
-
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 class IssueSelection {
 
    /**

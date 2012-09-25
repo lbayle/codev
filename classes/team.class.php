@@ -16,24 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once('classes/constants.class.php');
-
-// TODO Remove this import
-include_once('classes/team_cache.class.php');
-
-include_once('classes/command_cache.class.php');
-include_once('classes/commandset_cache.class.php');
-include_once('classes/issue_cache.class.php');
-include_once('classes/jobs.class.php');
-include_once('classes/project.class.php');
-include_once('classes/servicecontract_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-include_once('classes/user_cache.class.php');
-
-require_once('tools.php');
-
-require_once('lib/log4php/Logger.php');
-
 class Team extends Model {
 
    /**

@@ -1,7 +1,5 @@
 <?php
 
-include_once('classes/config.class.php');
-
 class Constants {
 
    /**

@@ -16,14 +16,6 @@
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-include_once('classes/command.class.php');
-include_once('classes/command_cache.class.php');
-include_once('classes/issue_selection.class.php');
-include_once('classes/servicecontract_cache.class.php');
-include_once('classes/sqlwrapper.class.php');
-
-require_once('lib/log4php/Logger.php');
-
 /**
  * Un commandset (ennonce de presta) est un ensemble de taches que l'on veut
  * piloter a l'aide d'indicateurs (cout, delai, qualite, avancement)
