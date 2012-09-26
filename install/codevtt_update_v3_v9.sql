@@ -2,40 +2,8 @@
 -- this script is to be executed to update CodevTT DB v3 to v9.
 
 -- DB v3 is for CodevTT v0.99.15 released on 2012-02-28
--- DB v9 is for CodevTT v0.99.18
+-- DB v9 is for CodevTT v0.99.18 released on 2012-09-22
 
-DELIMITER $$
-
-CREATE FUNCTION `is_issue_in_team_commands`(bugid INT, teamid INT) RETURNS int(11)
-    DETERMINISTIC
-BEGIN
-   DECLARE is_found INT DEFAULT NULL;
-
-   SELECT COUNT(codev_command_bug_table.bug_id) INTO is_found FROM `codev_command_bug_table`, `codev_command_table`
-          WHERE codev_command_table.id = codev_command_bug_table.command_id
-          AND   codev_command_table.team_id = teamid
-          AND   codev_command_bug_table.bug_id = bugid
-          LIMIT 1;
-
-   RETURN is_found;
-END$$
-
-CREATE FUNCTION `is_project_in_team`(projid INT, teamid INT) RETURNS int(11)
-    DETERMINISTIC
-BEGIN
-   DECLARE is_found INT DEFAULT NULL;
-
-
-
-   SELECT COUNT(team_id) INTO is_found FROM `codev_team_project_table`
-          WHERE team_id = teamid
-          AND   project_id = projid
-          LIMIT 1;
-
-   RETURN is_found;
-END$$
-
-DELIMITER ;
 
 --
 -- Structure de la table `codev_blog_activity_table`
@@ -215,13 +183,23 @@ ALTER TABLE `codev_team_table` ADD `lock_timetracks_date` int(11) DEFAULT NULL A
 ALTER TABLE `codev_team_table` MODIFY `name` varchar(50) NOT NULL;
 
 
-
+update `codev_config_table` SET `config_id`='customField_backlog' WHERE `config_id`='customField_remaining';
 
 INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES ('blogCategories', '1:General,2:Imputations', 3);
 
 -- Please replace '1234' with the bugid of your 'Leave' (absence) task
 -- INSERT INTO `codev_config_table` (`config_id`, `value`, `type`) VALUES ('externalTask_leave', '1234', 1);
 
+-- Move Leave task from SideTaskProject to ExternalTaskProject
+-- please replace 68 with ExternalTasksProject id and '1234' with the bugid of your 'Leave' (absence) task
+-- UPDATE `mantis_bug_table` SET `project_id`='68' WHERE id = '1234';
+
+
+-- --------------------------------------------------------
+
+-- do not forget to execute tools/move_st_cat_tuples.php
+
+-- do not forget to execute codevtt_procedures.sql
 
 
 
