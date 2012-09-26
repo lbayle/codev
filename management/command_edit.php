@@ -42,7 +42,7 @@ class CommandEditController extends Controller {
          $teamid = 0;
          if (isset($_POST['teamid'])) {
             $teamid = Tools::getSecurePOSTIntValue('teamid');
-+            $_SESSION['teamid'] = $teamid;
+            $_SESSION['teamid'] = $teamid;
          } else if (isset($_SESSION['teamid'])) {
             $teamid = $_SESSION['teamid'];
          }
