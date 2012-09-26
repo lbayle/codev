@@ -25,28 +25,31 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
       $smartyHelper = new SmartyHelper();
 
       if ($_GET['action'] == 'getTeamProjects') {
-         $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false);
+         $withDisabled = ('1' == Tools::getSecureGETIntValue('withDisabledProjects', 1)) ? true : false;
+         $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false, $withDisabled);
          $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects, 0));
          $smartyHelper->display('form/projectSelector');
          
       } elseif ($_GET['action'] == 'getTeamAllProjects') {
+         $withDisabled = ('1' == Tools::getSecureGETIntValue('withDisabledProjects', 1)) ? true : false;
          $projects[0] = T_('All projects');
-         $projects += $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false);
+         $projects += $projects = TeamCache::getInstance()->getTeam(Tools::getSecureGETIntValue('teamid'))->getProjects(false, $withDisabled);
          $smartyHelper->assign('projects', SmartyTools::getSmartyArray($projects, 0));
          $smartyHelper->display('form/projectSelector');
 
       } elseif($_GET['action'] == 'getProjectIssues') {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $withDisabled = ('1' == Tools::getSecureGETIntValue('withDisabledProjects', 1)) ? true : false;
 
          // --- define the list of tasks the user can display
          // All projects from teams where I'm a Developper or Manager AND Observer
          $allProject[0] = T_('(all)');
          $dTeamList = $user->getDevTeamList();
-         $devProjList = count($dTeamList) > 0 ? $user->getProjectList($dTeamList) : array();
+         $devProjList = count($dTeamList) > 0 ? $user->getProjectList($dTeamList, true, $withDisabled) : array();
          $managedTeamList = $user->getManagedTeamList();
-         $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList) : array();
+         $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, $withDisabled) : array();
          $oTeamList = $user->getObservedTeamList();
-         $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList) : array();
+         $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList, true, $withDisabled) : array();
          $projList = $allProject + $devProjList + $managedProjList + $observedProjList;
 
          // WORKAROUND

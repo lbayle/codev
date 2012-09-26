@@ -109,8 +109,8 @@ class SetHolidaysController extends Controller {
             }
 
             // SideTasks Project List
-            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList());
-            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
+            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList(), true, false);
+            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList(), true, false);
             $projList = $devProjList + $managedProjList;
 
             foreach ($projList as $pid => $pname) {

@@ -76,7 +76,8 @@ class ImportIssuesController extends Controller {
          }
 
          $this->smartyHelper->assign('teams', SmartyTools::getSmartyArray($teamList,$teamid));
-         $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false),$projectid));
+         // exclude noStatsProjects and disabled projects
+         $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($team->getProjects(false, false),$projectid));
 
          if (isset($_FILES['uploaded_csv'])) {
             $filename = $_FILES['uploaded_csv']['name'];

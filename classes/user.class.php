@@ -784,7 +784,7 @@ class User extends Model {
     *
     * @return string[] : array [id => project_name]
     */
-   public function getProjectList(array $teamList = NULL, $noStatsProject = true) {
+   public function getProjectList(array $teamList = NULL, $noStatsProject = true, $withDisabledProjects = true) {
       $projList = array();
 
       if (NULL == $teamList) {
@@ -800,6 +800,9 @@ class User extends Model {
 
          if (!$noStatsProject) {
             $query .= "AND team_project.type <> " . Project::type_noStatsProject . " ";
+         }
+         if (!$withDisabledProjects) {
+            $query .= "AND project.enabled = 1 ";
          }
 
          $query .= "ORDER BY project.name;";

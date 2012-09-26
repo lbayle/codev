@@ -270,7 +270,8 @@ class Team extends Model {
     * @param bool $noStatsProject
     * @return string[] : array[project_id] = project_name
     */
-   public function getProjects($noStatsProject = true) {
+   public function getProjects($noStatsProject = true, $withDisabled = true) {
+
       if(NULL == $this->projectIdsCache) {
          $this->projectIdsCache = array();
       }
@@ -286,8 +287,11 @@ class Team extends Model {
          if (!$noStatsProject) {
             $query .= "AND team_project.type <> ".Project::type_noStatsProject." ";
          }
+         if (!$withDisabled) {
+            $query .= "AND project.enabled = 1 ";
+         }
          $query .= "ORDER BY project.name;";
-
+         
          $result = SqlWrapper::getInstance()->sql_query($query);
          if (!$result) {
             echo "<span style='color:red'>ERROR: Query FAILED</span>";
@@ -345,16 +349,6 @@ class Team extends Model {
          $projects[] = ProjectCache::getInstance()->getProject($id);
       }
       return $projects;
-   }
-
-   /**
-    * @param int $teamid
-    * @param bool $noStatsProject
-    * @return string[] : array[project_id] = project_name
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getProjects($noStatsProject)
-    */
-   public static function getProjectList($teamid, $noStatsProject = true) {
-      return TeamCache::getInstance()->getTeam($teamid)->getProjects($noStatsProject);
    }
 
    /**
@@ -451,8 +445,8 @@ class Team extends Model {
     * @param bool $addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
     * @return Issue[] : issueList
     */
-   public function getTeamIssueList($addUnassignedIssues = false) {
-      $projectList = $this->getProjects();
+   public function getTeamIssueList($addUnassignedIssues = false, $withDisabledProjects = true) {
+      $projectList = $this->getProjects(true, $withDisabledProjects);
       $memberList = $this->getMembers();
 
       $formatedProjects = implode( ', ', array_keys($projectList));
@@ -489,24 +483,13 @@ class Team extends Model {
    }
 
    /**
-    * get all issues managed by the team's users on the team's projects.
-    * @param int $teamid the team
-    * @param bool $addUnassignedIssues if true, include issues on team's projects that are assigned to nobody
-    * @return Issue[] : issueList
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList($addUnassignedIssues)
-    */
-   public static function getTeamIssues($teamid, $addUnassignedIssues = false) {
-      return TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList($addUnassignedIssues);
-   }
-
-   /**
     * get all current issues managed by the team's users on the team's projects.
     * @param bool $addUnassignedIssues
     * @param bool $addNewIssues
     * @return Issue[] issueList
     */
-   public function getCurrentIssueList($addUnassignedIssues = false, $addNewIssues = false) {
-      $projectList = $this->getProjects();
+   public function getCurrentIssueList($addUnassignedIssues = false, $addNewIssues = false, $withDisabledProjects = true) {
+      $projectList = $this->getProjects(true, $withDisabledProjects);
       $memberList = $this->getMembers();
 
       $formatedProjects = implode( ', ', array_keys($projectList));
@@ -549,18 +532,6 @@ class Team extends Model {
          self::$logger->debug("Team::getCurrentIssues(teamid=$this->id) nbIssues=".count($issueList));
       }
       return $issueList;
-   }
-
-   /**
-    * get all current issues managed by the team's users on the team's projects.
-    * @param int $teamid
-    * @param boolean $addUnassignedIssues
-    * @param boolean $addNewIssues
-    * @return Issue[] : issueList
-    * @deprecated Use TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList($addUnassignedIssues, $addNewIssues)
-    */
-   public static function getCurrentIssues($teamid, $addUnassignedIssues = false, $addNewIssues = false) {
-      return TeamCache::getInstance()->getTeam($teamid)->getCurrentIssueList($addUnassignedIssues, $addNewIssues);
    }
 
    /**
@@ -919,13 +890,14 @@ class Team extends Model {
     * Get other projects
     * @return string[]
     */
-   public function getOtherProjects() {
-      $formatedCurProjList = implode( ', ', array_keys($this->getProjects()));
+   public function getOtherProjects($withDisabledProjects = true) {
+
+      $projects = $this->getProjects(true, $withDisabledProjects);
+      $formatedCurProjList = implode( ', ', array_keys($projects));
 
       $query = "SELECT id, name FROM `mantis_project_table`";
 
-      $projects = $this->getProjects();
-      if($projects != NULL && count($projects) == 0) {
+      if($projects != NULL && count($projects) != 0) {
          $query .= " WHERE id NOT IN ($formatedCurProjList)";
       }
 

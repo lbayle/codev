@@ -29,7 +29,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $issue = IssueCache::getInstance()->getIssue(Tools::getSecureGETIntValue('bugid'));
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $managedTeamList = $user->getManagedTeamList();
-         $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList) : array();
+         $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, false) : array();
          $isManager = (array_key_exists($issue->getProjectId(), $managedProjList)) ? true : false;
          $smartyHelper->assign('issueGeneralInfo', IssueInfoTools::getIssueGeneralInfo($issue, $isManager));
          $smartyHelper->display('ajax/generalInfo');
