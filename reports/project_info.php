@@ -39,11 +39,11 @@ class ProjectInfoController extends Controller {
             // define the list of tasks the user can display
             // All projects from teams where I'm a Developper or Manager AND Observers
             $dTeamList = $user->getDevTeamList();
-            $devProjList = (0 == count($dTeamList)) ? array() : $user->getProjectList($dTeamList);
+            $devProjList = (0 == count($dTeamList)) ? array() : $user->getProjectList($dTeamList, true, false);
             $managedTeamList = $user->getManagedTeamList();
-            $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList);
+            $managedProjList = (0 == count($managedTeamList)) ? array() : $user->getProjectList($managedTeamList, true, false);
             $oTeamList = $user->getObservedTeamList();
-            $observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList);
+            $observedProjList = (0 == count($oTeamList)) ? array() : $user->getProjectList($oTeamList, true, false);
             $projList = $devProjList + $managedProjList + $observedProjList;
 
             if(isset($_GET['projectid'])) {

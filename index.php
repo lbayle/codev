@@ -82,7 +82,15 @@ class IndexController extends Controller {
     * @return mixed[]
     */
    private function getIssuesInDrift(User $user) {
-      $allIssueList = $user->getAssignedIssues();
+
+      // get all teams except those where i'm Observer
+      $dTeamList = $user->getDevTeamList();
+      $mTeamList = $user->getManagedTeamList();
+      $teamList = $dTeamList + $mTeamList;           // array_merge does not work ?!
+      // except disabled projects
+      $projList = $user->getProjectList($teamList, true, false);
+
+      $allIssueList = $user->getAssignedIssues($projList);
       $issueList = array();
       $driftedTasks = array();
 
@@ -124,7 +132,9 @@ class IndexController extends Controller {
       $consistencyErrors = array(); // if null, array_merge fails !
 
       $teamList = $sessionUser->getTeamList();
-      $projList = $sessionUser->getProjectList($teamList);
+
+      // except disabled projects
+      $projList = $sessionUser->getProjectList($teamList, true, false);
 
       $issueList = $sessionUser->getAssignedIssues($projList, true);
 
@@ -160,7 +170,7 @@ class IndexController extends Controller {
 
       $issueList = array();
       foreach ($teamList as $teamid) {
-         $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true);
+         $issues = TeamCache::getInstance()->getTeam($teamid)->getTeamIssueList(true, false);
          $issueList = array_merge($issueList, $issues);
       }
 

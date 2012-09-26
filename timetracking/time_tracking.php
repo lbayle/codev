@@ -218,10 +218,10 @@ class TimeTrackingController extends Controller {
             $this->smartyHelper->assign('date', $defaultDate);
 
             // All projects from teams where I'm a Developper
-            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList());
+            $devProjList = $managed_user->getProjectList($managed_user->getDevTeamList(), true, false);
 
             // SideTasksProjects from Teams where I'm a Manager
-            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList());
+            $managedProjList = $managed_user->getProjectList($managed_user->getManagedTeamList(), true, false);
             $projList = $devProjList + $managedProjList;
 
             $this->smartyHelper->assign('projects', SmartyTools::getSmartyArray($projList,$defaultProjectid));

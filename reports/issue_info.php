@@ -45,11 +45,11 @@ class IssueInfoController extends Controller {
             // All projects from teams where I'm a Developper or Manager AND Observer
             $allProject[0] = T_('(all)');
             $dTeamList = $user->getDevTeamList();
-            $devProjList = count($dTeamList) > 0 ? $user->getProjectList($dTeamList) : array();
+            $devProjList = count($dTeamList) > 0 ? $user->getProjectList($dTeamList, true, false) : array();
             $managedTeamList = $user->getManagedTeamList();
-            $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList) : array();
+            $managedProjList = count($managedTeamList) > 0 ? $user->getProjectList($managedTeamList, true, false) : array();
             $oTeamList = $user->getObservedTeamList();
-            $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList) : array();
+            $observedProjList = count($oTeamList) > 0 ? $user->getProjectList($oTeamList, true, false) : array();
             $projList = $allProject + $devProjList + $managedProjList + $observedProjList;
 
             // if 'support' is set in the URL, display graphs for 'with/without Support'

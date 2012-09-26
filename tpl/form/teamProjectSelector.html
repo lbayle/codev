@@ -5,7 +5,7 @@
          jQuery.ajax({
             type: "GET",
             url: "smarty_tools_ajax.php",
-            data: "action=getTeamProjects&teamid="+teamid,
+            data: "action=getTeamProjects&teamid="+teamid{if isset($withDisabledProjects)}+"&withDisabledProjects={$withDisabledProjects}"{/if},
             success: function(data) {
                jQuery("#projectSelector").html(jQuery.trim(data));
             },
