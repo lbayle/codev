@@ -17,9 +17,9 @@ require('include/session.inc.php');
    along with CoDev-Timetracking.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if(isset($_SESSION['userid']) && (isset($_GET['action']) || isset($_POST['action']))) {
+require('path.inc.php');
 
-   require('path.inc.php');
+if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']))) {
 
    if(isset($_GET['action'])) {
       $smartyHelper = new SmartyHelper();

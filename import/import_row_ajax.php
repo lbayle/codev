@@ -23,7 +23,7 @@ require('../path.inc.php');
 $logger = Logger::getLogger("import_row_ajax");
 
 // ================ MAIN =================
-if (isset($_SESSION['userid'])) {
+if (Tools::isConnectedUser()) {
 
    $action = Tools::getSecurePOSTStringValue('action', '');
 

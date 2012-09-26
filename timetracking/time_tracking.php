@@ -36,7 +36,7 @@ class TimeTrackingController extends Controller {
    }
 
    protected function display() {
-      if($_SESSION['userid']) {
+      if(Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          // if first call to this page

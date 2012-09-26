@@ -47,11 +47,10 @@ class ExportCSVWeeklyController extends Controller {
    }
 
    protected function display() {
-      if(isset($_SESSION['userid'])) {
-         $userid = $_SESSION['userid'];
-
+      if(Tools::isConnectedUser()) {
+         
          // team
-         $session_user = UserCache::getInstance()->getUser($userid);
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $mTeamList = $session_user->getDevTeamList();
          $lTeamList = $session_user->getLeadedTeamList();
          $managedTeamList = $session_user->getManagedTeamList();

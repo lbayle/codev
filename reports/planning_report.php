@@ -111,7 +111,7 @@ class PlanningReportController extends Controller {
    }
 
    protected function display() {
-      if(isset($_SESSION['userid'])) {
+      if(Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          $teamList = $session_user->getTeamList();

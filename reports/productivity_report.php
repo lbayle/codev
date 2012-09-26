@@ -31,7 +31,7 @@ class ProductivityReportsController extends Controller {
    }
 
    protected function display() {
-      if(isset($_SESSION['userid'])) {
+      if(Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          $teamList = $session_user->getTeamList();
@@ -140,8 +140,16 @@ class ProductivityReportsController extends Controller {
 
                   $timeDriftStats = $timeTracking->getTimeDriftStats();
                   $this->smartyHelper->assign('timeDriftStats', $timeDriftStats);
-                  $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
-                  $percent = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
+                  $nbDriftsNeg = 0;
+                  if(array_key_exists("nbDriftsNeg", $timeDriftStats)) {
+                     $nbDriftsNeg = $timeDriftStats["nbDriftsNeg"];
+                  }
+                  $nbDriftsPos = 0;
+                  if(array_key_exists("nbDriftsPos", $timeDriftStats)) {
+                     $nbDriftsPos = $timeDriftStats["nbDriftsPos"];
+                  }
+                  $nbTasks = $nbDriftsNeg + $nbDriftsPos;
+                  $percent = (0 != $nbTasks) ? $nbDriftsNeg * 100 / $nbTasks : 100;
                   $this->smartyHelper->assign('percent', round($percent, 1));
 
                   $resolvedIssues = $timeTracking->getResolvedIssues();

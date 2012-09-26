@@ -21,7 +21,7 @@ include_once('include/session.inc.php');
 require('path.inc.php');
 
 try {
-   if (isset($_SESSION['userid']) && isset($_SESSION['teamid'])) {
+   if (Tools::isConnectedUser() && isset($_SESSION['teamid'])) {
       $user =  UserCache::getInstance()->getUser($_SESSION['userid']);
       $user->setDefaultTeam($_SESSION['teamid']);
       $user->setDefaultLanguage($_SESSION['locale']);

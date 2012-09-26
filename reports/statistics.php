@@ -31,7 +31,7 @@ class StatisticsController extends Controller {
    }
 
    protected function display() {
-      if(isset($_SESSION['userid'])) {
+      if(Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          $teamList = $session_user->getTeamList();
          if (count($teamList) > 0) {
@@ -162,8 +162,16 @@ class StatisticsController extends Controller {
       foreach ($timeTrackingTable as $startTimestamp => $timeTracking) {
          // REM: the 'normal' drifts DO include support
          $timeDriftStats = $timeTracking->getTimeDriftStats();
-         $nbTasks = $timeDriftStats["nbDriftsNeg"] + $timeDriftStats["nbDriftsPos"];
-         $formattedTimetracks[$startTimestamp] = (0 != $nbTasks) ? $timeDriftStats["nbDriftsNeg"] * 100 / $nbTasks : 100;
+         $nbDriftsNeg = 0;
+         if(array_key_exists("nbDriftsNeg", $timeDriftStats)) {
+            $nbDriftsNeg = $timeDriftStats["nbDriftsNeg"];
+         }
+         $nbDriftsPos = 0;
+         if(array_key_exists("nbDriftsPos", $timeDriftStats)) {
+            $nbDriftsPos = $timeDriftStats["nbDriftsPos"];
+         }
+         $nbTasks = $nbDriftsNeg + $nbDriftsPos;
+         $formattedTimetracks[$startTimestamp] = (0 != $nbTasks) ? $nbDriftsNeg * 100 / $nbTasks : 100;
       }
 
       $values = array();

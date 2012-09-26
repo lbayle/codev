@@ -38,7 +38,7 @@ class CreateTeamController extends Controller {
    protected function display() {
       $this->smartyHelper->assign('activeGlobalMenuItem', 'Admin');
 
-      if(isset($_SESSION['userid'])) {
+      if(Tools::isConnectedUser()) {
          if (isset($_POST['team_name'])) {
             // Form user selections
             $team_name = Tools::getSecurePOSTStringValue('team_name');

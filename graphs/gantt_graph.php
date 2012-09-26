@@ -39,7 +39,7 @@ class GanttGraphView {
    }
 
    public function execute() {
-      if (isset($_SESSION['userid'])) {
+      if (Tools::isConnectedUser()) {
          $teamid = Tools::getSecureGETIntValue('teamid');
          $startTimestamp = Tools::getSecureGETStringValue('startT');
          $endTimestamp = Tools::getSecureGETStringValue('endT');

@@ -108,7 +108,7 @@ class MantisSoap {
 MantisSoap::staticInit();
 
 // ========== MAIN ===========
-if(isset($_SESSION['userid']) && isset($_GET['action'])) {
+if(Tools::isConnectedUser() && isset($_GET['action'])) {
    $view = new MantisSoap();
    $view->execute();
 }

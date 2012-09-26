@@ -21,7 +21,7 @@ require('../include/session.inc.php');
 require('../path.inc.php');
 
 // ================ MAIN =================
-if(isset($_SESSION['userid'])) {
+if(Tools::isConnectedUser()) {
    // FIXME getPrelEffortEstimValues doesn't exist
    Issue::getPrelEffortEstimValues();
 

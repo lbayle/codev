@@ -31,7 +31,7 @@ class TeamActivityReportController extends Controller {
    }
 
    protected function display() {
-      if(isset($_SESSION['userid'])) {
+      if(Tools::isConnectedUser()) {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
          // are team members allowed to see other member's timeTracking ?
          $teamList = $user->getTeamList();

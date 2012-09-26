@@ -32,7 +32,7 @@ function execCmd($uxCommand) {
 // ================ MAIN =================
 $logger = Logger::getLogger("chmod");
 
-if (isset($_SESSION['userid'])) {
+if (Tools::isConnectedUser()) {
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
    if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {
       // /tmp/codevtt/logs
