@@ -31,7 +31,7 @@ class TeamMonthlyActivityReportController extends Controller {
    }
 
    protected function display() {
-      if (isset($_SESSION['userid'])) {
+      if (Tools::isConnectedUser()) {
          $threshold = 0.5; // for Deviation filters
 
          // use the teamid set in the form, if not defined (first page call) use session teamid

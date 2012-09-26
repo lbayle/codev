@@ -36,7 +36,7 @@ class ForecastingReportController extends Controller {
    }
 
    protected function display() {
-      if (isset($_SESSION['userid'])) {
+      if (Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          $threshold = 0.5; // for Deviation filters

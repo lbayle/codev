@@ -23,7 +23,7 @@ require('../path.inc.php');
 include_once "include/mysql_config.inc.php";
 
 // ================ MAIN =================
-#if(isset($_SESSION['userid'])) {
+#if(Tools::isConnectedUser()) {
 
    echo "convert constants.php to config.ini<br><br>";
 

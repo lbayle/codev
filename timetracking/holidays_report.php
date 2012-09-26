@@ -31,7 +31,7 @@ class HolidaysReportController extends Controller {
    }
 
    protected function display() {
-      if (isset($_SESSION['userid'])) {
+      if (Tools::isConnectedUser()) {
          $year = Tools::getSecurePOSTIntValue('year',date('Y'));
 
          $teamid = 0;

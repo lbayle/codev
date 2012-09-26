@@ -47,7 +47,7 @@ class IndexController extends Controller {
 
    protected function display() {
       // Drifted tasks
-      if($_SESSION['userid']) {
+      if(Tools::isConnectedUser()) {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          // updateBacklog DialogBox

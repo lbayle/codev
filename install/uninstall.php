@@ -36,7 +36,7 @@ class UninstallController extends Controller {
    }
 
    protected function display() {
-      if(isset($_SESSION['userid'])) {
+      if(Tools::isConnectedUser()) {
          $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
          // Admins only
          if ($session_user->isTeamMember(Config::getInstance()->getValue(Config::id_adminTeamId))) {

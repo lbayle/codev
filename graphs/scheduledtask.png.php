@@ -41,7 +41,7 @@ class ScheduledTaskView {
    }
 
    public function execute() {
-      if($_SESSION['userid']) {
+      if(Tools::isConnectedUser()) {
          header("Content-type: image/png");
 
          $height = Tools::getSecureGETIntValue('height');

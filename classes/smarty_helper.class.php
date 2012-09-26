@@ -110,8 +110,10 @@ class SmartyHelper {
    public function displayTemplate() {
       $this->smarty->assign("year", date("Y"));
       $this->smarty->assign("codevVersion", Config::codevVersion);
-      $this->smarty->assign("username", $_SESSION['username']);
-      $this->smarty->assign("realname", $_SESSION['realname']);
+      if(Tools::isConnectedUser()) {
+         $this->smarty->assign("username", $_SESSION['username']);
+         $this->smarty->assign("realname", $_SESSION['realname']);
+      }
       $this->smarty->assign('page', $_SERVER['PHP_SELF']);
       $this->smarty->assign('ajaxPage', str_replace('.php', '', $_SERVER['PHP_SELF']).'_ajax.php');
       $this->smarty->assign('tpl_name', str_replace('.php', '', substr(strrchr($_SERVER['PHP_SELF'], '/'), 1)));

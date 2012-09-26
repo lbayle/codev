@@ -17,7 +17,7 @@ require('../path.inc.php');
 
 $logger = Logger::getLogger("download");
 
-if (isset($_SESSION['userid'])) {
+if (Tools::isConnectedUser()) {
    // get user info
    $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
 

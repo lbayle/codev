@@ -37,7 +37,7 @@ class CheckController extends Controller {
 
    protected function display() {
       // Consistency errors
-      if (isset($_SESSION['userid'])) {
+      if (Tools::isConnectedUser()) {
          // use the teamid set in the form, if not defined (first page call) use session teamid
          if (isset($_GET['teamid'])) {
             $teamid = Tools::getSecureGETIntValue('teamid');

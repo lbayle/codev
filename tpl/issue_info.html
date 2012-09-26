@@ -249,7 +249,7 @@
                   <tbody>
                      <tr>
                         <td>{t}DeadLine{/t}</td>
-                        <td>{$timeDrift.deadLine}</td>
+                        <td>{if isset($timeDrift.deadLine)}{$timeDrift.deadLine}{/if}</td>
                      </tr>
                      <tr>
                         <td>{t}DeliveryDate{/t}</td>

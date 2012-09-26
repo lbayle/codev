@@ -1071,6 +1071,10 @@ class Tools {
       }
       return TRUE;
    }
+   
+   public static function isConnectedUser() {
+      return array_key_exists('userid',$_SESSION);
+   }
 
 
 

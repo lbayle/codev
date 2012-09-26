@@ -31,7 +31,7 @@ class ProjectInfoController extends Controller {
    }
 
    protected function display() {
-      if(isset($_SESSION['userid'])) {
+      if(Tools::isConnectedUser()) {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
 
          $teamList = $user->getTeamList();
