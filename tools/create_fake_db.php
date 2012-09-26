@@ -26,12 +26,19 @@ demander le projet, puis:
 
 1) rename summary (except SideTasks Projects)
 1.1) rename projects name (except SideTasks Projects)
+1.2) rename project categories
 
 2) rename ExtRef for all Issues
 3) remove notes
 4) remove attachments
+4) remove descriptions
+4.1) remove history items : all ADEL Fields
 
 5) rename users
+
+6) ServiceContracts & Contracts
+   - remove description
+   - set fake reference, reporter, Cost
 
  */
 
@@ -44,28 +51,36 @@ function execQuery($query) {
    return $result;
 }
 
-function create_fake_db($projectidList) {
-   $i = 1;
+function create_fake_db($projectidList, $formattedFieldList, $projectNames) {
+   
+   // rename project categories
+   $formattedProjList = implode(',', $projectidList);
+   $query  = "SELECT * from `mantis_category_table` WHERE `project_id` IN ($formattedProjList)";
+   $result1 = execQuery($query);
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
+      $query  = "UPDATE `mantis_category_table` SET `name`='Category_".$row->project_id.$row->id."' WHERE `id`='$row->id' ";
+      $result2 = execQuery($query);
+   }   
+   
+   $j = 0;
    foreach($projectidList as $projid) {
 
       // change project name
-      //$query  = "UPDATE SET `name`='Project_$projid' where `id`='$projid'";
-      //$result = execQuery($query);
+      $query  = "UPDATE `mantis_project_table` SET `name`='".$projectNames[$j]."' where `id`='$projid'";
+      $result = execQuery($query);
+      $j++;
 
       $query  = "DELETE FROM `mantis_email_table` ";
       $result = execQuery($query);
 
+      // clean project issues
       $query  = "SELECT * from `mantis_bug_table` WHERE `project_id`='$projid'";
       $result1 = execQuery($query);
-
-      // clean project issues
       $i = 0;
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
 
          $i++;
-
          echo "process project $projid issue $row->id <br>";
-
 
          $query  = "UPDATE `mantis_bug_table` SET `summary`='task p".$projid."_$i ' WHERE `id`='$row->id' ";
          $result = execQuery($query);
@@ -81,11 +96,66 @@ function create_fake_db($projectidList) {
 
          $query  = "UPDATE `mantis_bug_revision_table` SET `value` = 'revision on fake issue' WHERE `bug_id`='$row->id' ";
          $result = execQuery($query);
-      }
-   }
+         
+         $query  = "DELETE FROM `mantis_bug_history_table` WHERE `bug_id`='$row->id' AND `field_name` IN ($formattedFieldList)";
+         $result = execQuery($query);
+         
+         
+      } // issue
+   } // proj
 
-   while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
-   }
+   // commands
+   $query  = "UPDATE `codev_command_table` SET `reporter` = 'Joe the custommer'";
+   $result = execQuery($query);
+   
+   $query  = "SELECT * from `codev_command_table`";
+   $result1 = execQuery($query);
+   $i = 0;
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
+      $i++;
+      $query  = "UPDATE `codev_command_table` SET `name` = 'CMD_$row->id' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+
+      $query  = "UPDATE `codev_command_table` SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+      
+      $query  = "UPDATE `codev_command_table` SET `cost` = '".($i*123+1001200)."00' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+   }   
+   
+   // commandSets
+   $query  = "SELECT * from `codev_commandset_table`";
+   $result1 = execQuery($query);
+   $i = 0;
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
+      $i++;
+      $query  = "UPDATE `codev_commandset_table` SET `name` = 'CSET_0$row->id' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+
+      $query  = "UPDATE `codev_commandset_table` SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+      
+      $query  = "UPDATE `codev_commandset_table` SET `budget` = '".($i*623+2001200)."50' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+   }   
+
+   // ServiceContract
+   $query  = "UPDATE `codev_servicecontract_table` SET `reporter` = 'Joe the custommer'";
+   $result = execQuery($query);
+   
+   $query  = "SELECT * from `codev_servicecontract_table`";
+   $result1 = execQuery($query);
+   $i = 0;
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
+      $i++;
+      $query  = "UPDATE `codev_servicecontract_table` SET `name` = 'CONTRACT_$row->id' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+
+      $query  = "UPDATE `codev_servicecontract_table` SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+   }   
+
+   
 }
 
 // ================ MAIN =================
@@ -93,6 +163,64 @@ $logger = Logger::getLogger("create_fake_db");
 
 $projectidList = array(14,16,18,19,23,24,25,39);
 
-create_fake_db($projectidList);
+$projectNames = array(
+    'TSUNO',
+    'ZORGLUB',
+    'CORTO',
+    'PIZZICATO',
+    'BIMBO',
+    'ENIGMA',
+    'PURCELL',
+    'GOMAZIO',
+    'YANKEE');
+
+$fieldNamesToClear = array(
+             'Version souhaitee de realisation',
+             'Version produit interne',
+             'Version produit client',
+             'Version GEMO de réalisation décidée',
+             'Version de realisation interne',
+             'Version de realisation',
+             'Version ciblée DCNS',
+             'Traitement a appliquer',
+             'Rea_CoutRealisation',
+             'Produit niveau 1',
+             'Pièces jointes ADEL',
+#             "Phase d'analyse",
+             'Phase activite detection de la FFT',
+             'Origine',
+             'Niveau produit interne',
+             'Informations complementaires',
+             'FFT mère',
+             'FFT fille',
+             'Emetteur ADEL',
+             'Description',
+             'Dcl_AutreIdentifiant',
+             'Dci_VersionCibleeN',
+             'Dci_ProduitClientVersion',
+             'Dci_Produit',
+             'Commentaire realisation',
+             'Commentaire du controle',
+             'Commentaire de réalisation DCNS',
+             'Commentaire de décision DCNS',
+             'Avis',
+             'Attachments.filename',
+             'Attachments.description',
+             'Anomalie documentaire',
+             'Ana_TypeAnomalie',
+             'Analyse',
+             'Reference externe',
+             'Nouveau bogue du client ',
+             'Projet'
+             );
+
+$formattedFieldList = '';
+foreach ($fieldNamesToClear as $fname) {
+   if ('' != $formattedFieldList) { $formattedFieldList .= ","; }
+   $formattedFieldList .= "'".$fname."'"; // add quotes
+}
+
+
+create_fake_db($projectidList, $formattedFieldList, $projectNames);
 
 ?>
