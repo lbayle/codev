@@ -35,9 +35,19 @@ class TimeTrackingTools {
     * @param int[] $weekDates
     * @param int $userid
     * @param TimeTracking $timeTracking
+    * @param array $incompleteDays
     * @return mixed[]
     */
-   public static function getWeekTask(array $weekDates, $userid, TimeTracking $timeTracking) {
+   public static function getWeekTask(array $weekDates, $userid, TimeTracking $timeTracking, array $incompleteDays) {
+      $totalElapsed = array();
+      for ($i = 1; $i <= 7; $i++) {
+         $weekDate = $weekDates[$i];
+         $totalElapsed[$weekDate] = array(
+            "elapsed" => 0,
+            "class" => $incompleteDays[$weekDate] ? "incompleteDay" : ""
+         );
+      }
+      
       $jobs = new Jobs();
 
       $weekTasks = NULL;
@@ -97,6 +107,8 @@ class TimeTrackingTools {
                   'title' => $title,
                   'day' => $day
                );
+            
+               $totalElapsed[$weekDates[$i]]['elapsed'] += $day;
             }
             $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
@@ -123,7 +135,10 @@ class TimeTrackingTools {
          }
       }
 
-      return $weekTasks;
+      return array(
+         "weekTasks" => $weekTasks,
+         "totalElapsed" => $totalElapsed
+      );
    }
    
    /**

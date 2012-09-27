@@ -97,6 +97,17 @@
          <td {if $j.title}title="{$j.title}"{/if} class="dayTask hover" style="cursor: pointer;{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >{if $j.day != 0}{$j.day}{/if}</td>
          {/foreach}
       </tr>
+      {/foreach}
    </tbody>
-   {/foreach}
+   <tfoot>
+      <tr>
+         <td>{t}TOTAL{/t}</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         {foreach $dayTotalElapsed as $i}
+         <td class="{$i.class}">{if $i.elapsed != 0}{$i.elapsed}{/if}</td>
+         {/foreach}
+      </tr>
+   </tfoot>
 </table>
