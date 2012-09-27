@@ -258,7 +258,10 @@ class ExportCSVWeeklyController extends Controller {
                   }
                   $stringData .= $sepChar;
                }
-               $stringData .= $dayList[5]."\n";
+               if(array_key_exists(5,$dayList)) {
+                  $stringData .= $dayList[5];
+               }
+               $stringData .= "\n";
                fwrite($fh, $stringData);
             }
          } catch (Exception $e) {
