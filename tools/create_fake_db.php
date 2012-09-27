@@ -232,18 +232,18 @@ function updateUsers() {
       $result = execQuery($query);
       $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@codevtt.org' WHERE `id` ='2' ";
       $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `password` = '5ebe2294ecd0e0f08eab7690d2a6ee69' WHERE `id` ='2' ";
-      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `password` = 'e26f604637ae454f792f4fcbff878bd1' WHERE `id` ='2' ";
+      $result = execQuery($query); // passwd: manager2012
 
    // user1
       $query  = "UPDATE `mantis_user_table` SET `realname` = 'User ONE' WHERE `id` ='8' ";
       $result = execQuery($query);
       $query  = "UPDATE `mantis_user_table` SET `username` = 'user1' WHERE `id` ='8' ";
       $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@codevtt.org' WHERE `id` ='8' ";
+      $query  = "UPDATE `mantis_user_table` SET `email` = 'user1@codevtt.org' WHERE `id` ='8' ";
       $result = execQuery($query);
-      $query  = "UPDATE `mantis_user_table` SET `password` = '5ebe2294ecd0e0f08eab7690d2a6ee69' WHERE `id` ='8' ";
-      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `password` = 'ea36a50f4c8944dacadb16e6ca0dd582' WHERE `id` ='8' ";
+      $result = execQuery($query); // passwd: user2012
 
 }
 
