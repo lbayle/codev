@@ -51,8 +51,10 @@ function execQuery($query) {
    return $result;
 }
 
-function create_fake_db($projectidList, $formattedFieldList, $projectNames) {
+function create_fake_db($projectidList, $formattedFieldList, $projectNames, $StrReplacements) {
    
+   $extIdField = Config::getInstance()->getValue(Config::id_customField_ExtId);
+
    // rename project categories
    $formattedProjList = implode(',', $projectidList);
    $query  = "SELECT * from `mantis_category_table` WHERE `project_id` IN ($formattedProjList)";
@@ -99,7 +101,10 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames) {
          
          $query  = "DELETE FROM `mantis_bug_history_table` WHERE `bug_id`='$row->id' AND `field_name` IN ($formattedFieldList)";
          $result = execQuery($query);
-         
+
+         $query  = "UPDATE `mantis_custom_field_string_table` SET `value`='R".($projid*2).($i*231)."' WHERE `field_id`='".$extIdField."' AND `bug_id`='$row->id' ";
+         $result = execQuery($query);
+
          
       } // issue
    } // proj
@@ -107,31 +112,28 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames) {
    // commands
    $query  = "UPDATE `codev_command_table` SET `reporter` = 'Joe the custommer'";
    $result = execQuery($query);
-   
+   $query  = "UPDATE `codev_command_table` SET `description` = 'fake description...'";
+   $result = execQuery($query);
+
+
    $query  = "SELECT * from `codev_command_table`";
    $result1 = execQuery($query);
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      $query  = "UPDATE `codev_command_table` SET `name` = 'CMD_$row->id' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
-
-      $query  = "UPDATE `codev_command_table` SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
-      
       $query  = "UPDATE `codev_command_table` SET `cost` = '".($i*123+1001200)."00' WHERE `id` ='$row->id' ";
       $result = execQuery($query);
    }   
    
    // commandSets
+   $query  = "UPDATE `codev_commandset_table` SET `description` = 'fake description...'";
+   $result = execQuery($query);
+
    $query  = "SELECT * from `codev_commandset_table`";
    $result1 = execQuery($query);
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      $query  = "UPDATE `codev_commandset_table` SET `name` = 'CSET_0$row->id' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
-
       $query  = "UPDATE `codev_commandset_table` SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
       $result = execQuery($query);
       
@@ -142,18 +144,39 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames) {
    // ServiceContract
    $query  = "UPDATE `codev_servicecontract_table` SET `reporter` = 'Joe the custommer'";
    $result = execQuery($query);
-   
+   $query  = "UPDATE `codev_servicecontract_table` SET `description` = 'fake description...'";
+   $result = execQuery($query);
+
    $query  = "SELECT * from `codev_servicecontract_table`";
    $result1 = execQuery($query);
    $i = 0;
    while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
       $i++;
-      $query  = "UPDATE `codev_servicecontract_table` SET `name` = 'CONTRACT_$row->id' WHERE `id` ='$row->id' ";
-      $result = execQuery($query);
-
-      $query  = "UPDATE `codev_servicecontract_table` SET `reference` = 'Ref_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
+      $query  = "UPDATE `codev_servicecontract_table` SET `reference` = 'OTP_$row->id".($i*3)."' WHERE `id` ='$row->id' ";
       $result = execQuery($query);
    }   
+
+   
+   // string replacements
+   $i = 0;
+   foreach ($StrReplacements as $orig => $dest) {
+      $query  = "UPDATE codev_command_table set `name` = REPLACE(`name`,'$orig','$dest')";
+      $result = execQuery($query);
+      $query  = "UPDATE codev_command_table set `reference` = REPLACE(`reference`,'$orig','$dest')";
+      $result = execQuery($query);
+
+      $query  = "UPDATE codev_servicecontract_table set `name` = REPLACE(`name`,'$orig','$dest')";
+      $result = execQuery($query);
+      $query  = "UPDATE codev_commandset_table set `name` = REPLACE(`name`,'$orig','$dest')";
+      $result = execQuery($query);
+
+      $query  = "UPDATE mantis_bug_table set `summary` = REPLACE(`summary`,'$orig','$dest')";
+      $result = execQuery($query);
+
+      $query  = "UPDATE mantis_custom_field_string_table set `value` = REPLACE(`value`,'$orig','$dest')";
+      $result = execQuery($query);
+
+   }
 
    
 }
@@ -173,6 +196,24 @@ $projectNames = array(
     'PURCELL',
     'GOMAZIO',
     'YANKEE');
+
+$StrReplacements = array(
+    'CMS_INDE' => 'TSUNO',
+    'INDE' => 'TSUNO',
+    'BRESIL' => 'ZORGLUB',
+    'SBR' => 'ZORG',
+    'BARRACUDA' => 'CORTO',
+    'BARR' => 'CORTO',
+    'NG4' => 'PIZZICATO',
+    'DCNS' => 'PACC',
+    'OPMNT' => 'CALC',
+    'PMFL' => 'MAKI',
+    'CMSADM' => 'OMMOPO',
+    'CMS' => 'OMM',
+    'GEMO' => 'OTTO',
+    'FdP' => 'Cmd'
+);
+
 
 $fieldNamesToClear = array(
              'Version souhaitee de realisation',
@@ -221,6 +262,6 @@ foreach ($fieldNamesToClear as $fname) {
 }
 
 
-create_fake_db($projectidList, $formattedFieldList, $projectNames);
+create_fake_db($projectidList, $formattedFieldList, $projectNames, $StrReplacements);
 
 ?>
