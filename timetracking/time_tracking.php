@@ -268,7 +268,9 @@ class TimeTrackingController extends Controller {
                $smartyWeekDates[6], $smartyWeekDates[7]
             ));
 
-            $this->smartyHelper->assign('weekTasks', TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking));
+            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking, $incompleteDays);
+            $this->smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
+            $this->smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
             $this->smartyHelper->assign('warnings', $this->getCheckWarnings($userid));
             
