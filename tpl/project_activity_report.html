@@ -32,8 +32,8 @@
                      <th>{$j}</th>
                      {/foreach}
                      {/if}
-                     <th style="width: 1em;" title="{t}Target version{/t}">{t}Target{/t}</th>
-                     <th style="width: 1em;">{t}Status{/t}</th>
+                     <th style="width: 10em;" title="{t}Target version{/t}">{t}Target{/t}</th>
+                     <th style="width: 7em;">{t}Status{/t}</th>
                      <th style="width: 1em;">{t}Progress{/t}</th>
                      <th style="width: 1em;" title="{t}Backlog{/t}">{t}BL{/t}</th>
                      <th style="width: 1em;" title="{t}Total time spent on this issue{/t}">{t}Total{/t}</th>
@@ -49,7 +49,7 @@
                      {/foreach}
                      {/if}
                      <td nowrap="nowrap">{$k.targetVersion}</td>
-                     <td>{$k.currentStatusName}</td>
+                     <td nowrap="nowrap">{$k.currentStatusName}</td>
                      <td><div class="progress">{$k.progress}%</div></td>
                      <td>{$k.backlog}</td>
                      <td>{$k.totalTime}</td>
