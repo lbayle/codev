@@ -34,18 +34,17 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
 
          $userid = Tools::getSecureGETIntValue('userid',$_SESSION['userid']);
-
+         
+         $incompleteDays = $timeTracking->checkCompleteDays($userid, FALSE);
+         $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates, $incompleteDays);
+         
          // UTF8 problems in smarty, date encoding needs to be done in PHP
          $smartyHelper->assign('weekDates', array(
-               date('Y-m-d',$weekDates[1]) => Tools::formatDate("%A\n%d %b", $weekDates[1]),
-               date('Y-m-d',$weekDates[2]) => Tools::formatDate("%A\n%d %b", $weekDates[2]),
-               date('Y-m-d',$weekDates[3]) => Tools::formatDate("%A\n%d %b", $weekDates[3]),
-               date('Y-m-d',$weekDates[4]) => Tools::formatDate("%A\n%d %b", $weekDates[4]),
-               date('Y-m-d',$weekDates[5]) => Tools::formatDate("%A\n%d %b", $weekDates[5]))
-         );
+            $smartyWeekDates[1], $smartyWeekDates[2], $smartyWeekDates[3], $smartyWeekDates[4], $smartyWeekDates[5]
+         ));
          $smartyHelper->assign('weekEndDates', array(
-             Tools::formatDate("%A\n%d %b", $weekDates[6]),
-             Tools::formatDate("%A\n%d %b", $weekDates[7])));
+            $smartyWeekDates[6], $smartyWeekDates[7]
+         ));
 
          $smartyHelper->assign('weekTasks', TimeTrackingTools::getWeekTask($weekDates,$userid,$timeTracking));
          $smartyHelper->display('ajax/weekTaskDetails');

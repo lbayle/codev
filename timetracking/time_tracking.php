@@ -256,25 +256,25 @@ class TimeTrackingController extends Controller {
             $startTimestamp = $weekDates[1];
             $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
             $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
+            
+            $incompleteDays = $timeTracking->checkCompleteDays($userid, FALSE);
+            $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$incompleteDays);
 
             // UTF8 problems in smarty, date encoding needs to be done in PHP
             $this->smartyHelper->assign('weekDates', array(
-                  date('Y-m-d',$weekDates[1]) => Tools::formatDate("%A\n%d %b", $weekDates[1]),
-                  date('Y-m-d',$weekDates[2]) => Tools::formatDate("%A\n%d %b", $weekDates[2]),
-                  date('Y-m-d',$weekDates[3]) => Tools::formatDate("%A\n%d %b", $weekDates[3]),
-                  date('Y-m-d',$weekDates[4]) => Tools::formatDate("%A\n%d %b", $weekDates[4]),
-                  date('Y-m-d',$weekDates[5]) => Tools::formatDate("%A\n%d %b", $weekDates[5]))
-            );
+               $smartyWeekDates[1], $smartyWeekDates[2], $smartyWeekDates[3], $smartyWeekDates[4], $smartyWeekDates[5]
+            ));
             $this->smartyHelper->assign('weekEndDates', array(
-               date('Y-m-d',$weekDates[6]) => Tools::formatDate("%A\n%d %b", $weekDates[6]),
-               date('Y-m-d',$weekDates[7]) => Tools::formatDate("%A\n%d %b", $weekDates[7])));
+               $smartyWeekDates[6], $smartyWeekDates[7]
+            ));
 
             $this->smartyHelper->assign('weekTasks', TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking));
 
             $this->smartyHelper->assign('warnings', $this->getCheckWarnings($userid));
-
-            $this->smartyHelper->assign('weekTimetrackingTuples', $this->getTimetrackingTuples($userid, $startTimestamp, $endTimestamp));
-            $this->smartyHelper->assign('timetrackingTuples', $this->getTimetrackingTuples($userid, $endTimestamp));
+            
+            $timeTrackingTuples = $this->getTimetrackingTuples($userid, $timeTracking);
+            $this->smartyHelper->assign('weekTimetrackingTuples', $timeTrackingTuples['current']);
+            $this->smartyHelper->assign('timetrackingTuples', $timeTrackingTuples['future']);
          }
       }
    }
@@ -310,7 +310,8 @@ class TimeTrackingController extends Controller {
             $value = T_("inconsistent")." (".($value)." ".T_("days").")";
          }
 
-         $warnings[] = array('date' => date("Y-m-d", $date),
+         $warnings[] = array(
+            'date' => date("Y-m-d", $date),
             'value' => $value);
       }
 
@@ -320,7 +321,8 @@ class TimeTrackingController extends Controller {
             continue;
          }
 
-         $warnings[] = array('date' => date("Y-m-d", $date),
+         $warnings[] = array(
+            'date' => date("Y-m-d", $date),
             'value' => T_("not defined."));
       }
 
@@ -330,26 +332,21 @@ class TimeTrackingController extends Controller {
    /**
     * display Timetracking Tuples
     * @param int $userid
-    * @param int $startTimestamp
-    * @param int $endTimestamp
+    * @param TimeTracking $timeTracking
     * @return mixed[]
     */
-   private function getTimetrackingTuples($userid, $startTimestamp=NULL, $endTimestamp=NULL) {
-      $curJulian = 0;
-
+   private function getTimetrackingTuples($userid, TimeTracking $timeTracking) {
       // Display previous entries
-      $query = "SELECT id, bugid, jobid, date, duration ".
-         "FROM `codev_timetracking_table` ".
-         "WHERE userid=$userid";
-
-      if (NULL != $startTimestamp) { $query .= " AND date >= $startTimestamp"; }
-      if (NULL != $endTimestamp)   { $query .= " AND date <= $endTimestamp"; }
-      $query .= " ORDER BY date";
+      $query = "SELECT id, bugid, jobid, date, duration".
+               " FROM `codev_timetracking_table`".
+               " WHERE userid = $userid".
+               " AND date >= ".$timeTracking->getStartTimestamp().
+               " ORDER BY date";
       $result = SqlWrapper::getInstance()->sql_query($query) or die("Query failed: $query");
 
       $jobs = new Jobs();
 
-      $timetrackingTuples = NULL;
+      $timetrackingTuples = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          // get information on this bug
          try {
@@ -366,21 +363,8 @@ class TimeTrackingController extends Controller {
             $formatedSummary = str_replace('"', "\'", $formatedSummary);
             //$totalEstim = $issue->effortEstim + $issue->effortAdd;
 
-            // --- choose row color
-            $tr_class = NULL;
-            if (0 == $curJulian) {
-               // set first day displayed
-               $tr_class = "row_odd";
-               $curJulian = $row->date;
-            }
-            if ($curJulian != $row->date) {
-               // day changed, swap row color
-               $tr_class = ($tr_class == "row_odd") ? "row_even" : "row_odd";
-               $curJulian = $row->date;
-            }
-
-            $timetrackingTuples[] = array('id' => $row->id,
-               'class' => $tr_class,
+            $timetrackingTuples[$row->id] = array(
+               'timestamp' => $row->date,
                'date' => $formatedDate,
                'formatedId' => $issue->getFormattedIds(),
                'duration' => $row->duration,
@@ -397,27 +381,36 @@ class TimeTrackingController extends Controller {
                'currentStatusName' => $issue->getCurrentStatusName());
          } catch (Exception $e) {
             $summary = T_('Error: Task not found in Mantis DB !');
-            $timetrackingTuples[] = array(
-               'id' => $row->id,
-               'class' => $tr_class,
-               'date' => $formatedDate,
+            $timetrackingTuples[$row->id] = array(
                'formatedId' => $row->bugid,
                'duration' => $row->duration,
-               'formatedJobName' => $formatedJobName,
                'summary' => $summary,
-               'cosmeticDate' => $cosmeticDate,
                'mantisURL' => '',
                'issueURL' => $row->bugid,
                'issueId' => '!',
                'projectName' => '!',
                'issueSummary' => '<span class="error_font">'.$summary.'</span>',
-               'jobName' => $jobName,
                'categoryName' => '!',
                'currentStatusName' => '!'
             );
          }
       }
-      return $timetrackingTuples;
+      
+      $currentTimeTrackingTuples = array();
+      $futureTimeTrackingTuples = array();
+      foreach ($timetrackingTuples as $timeTrackingTuple) {
+         if($timeTrackingTuple['timestamp'] <= $timeTracking->getEndTimestamp()) {
+            $currentTimeTrackingTuples[] = $timeTrackingTuple;
+         } else {
+            $futureTimeTrackingTuples[] = $timeTrackingTuple;
+         }
+         unset($timeTrackingTuple['timestamp']);
+      }
+
+      return array(
+         "current" => $currentTimeTrackingTuples,
+         "future" => $futureTimeTrackingTuples
+      );
    }
 
    /**

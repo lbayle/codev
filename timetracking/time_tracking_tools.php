@@ -87,7 +87,7 @@ class TimeTrackingTools {
                   $bgColor = Holidays::$defaultColor;
                }
 
-               $day = '';
+               $day = 0;
                if(array_key_exists($i,$dayList)) {
                   $day = $dayList[$i];
                }
@@ -124,6 +124,26 @@ class TimeTrackingTools {
       }
 
       return $weekTasks;
+   }
+   
+   /**
+    * Get smarty week dates
+    * @param array $weekDates
+    * @param array $incompleteDays
+    * @return array
+    */
+   public static function getSmartyWeekDates($weekDates, $incompleteDays) {
+      $smartyWeekDates = array();
+      
+      foreach($weekDates as $key => $weekDate) {
+         $smartyWeekDates[$key] = array(
+             "date" => date('Y-m-d',$weekDate),
+             "formattedDate" => Tools::formatDate("%A\n%d %b", $weekDate),
+             "class" => $incompleteDays[$weekDate] ? "incompleteDay" : ""
+         );
+      }
+      
+      return $smartyWeekDates;
    }
 
 }
