@@ -157,6 +157,14 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
    }   
 
    
+   stringReplacements($StrReplacements);
+
+   updateUsers();
+
+
+}
+
+function stringReplacements($StrReplacements) {
    // string replacements
    $i = 0;
    foreach ($StrReplacements as $orig => $dest) {
@@ -177,8 +185,66 @@ function create_fake_db($projectidList, $formattedFieldList, $projectNames, $Str
       $result = execQuery($query);
 
    }
+}
 
-   
+
+function updateUsers() {
+
+   $userNames = array(
+      '4' => "User TWO",
+      '5' => "User THREE",
+      '6' => "User FOUR",
+      '7' => "User FIVE",
+      '8' => "User SIX",
+      '9' => "User SEVEN",
+      '10' => "User EIGHT",
+      '11' => "User NINE",
+      '12' => "User TEN",
+      '13' => "User ELEVEN",
+      '14' => "User TWELVE",
+      '15' => "User THIRTEEN",
+      '16' => "User FOURTEEN",
+      '17' => "User FIFTEEN",
+      '18' => "User SIXTEEN",
+      '19' => "User SEVENTEEN",
+      '20' => "User EIGHTEEN",
+      '21' => "User NINETEEN");
+
+   $query  = "SELECT id from `mantis_user_table` WHERE id NOT IN (1, 2, 3, 5, 8)"; // administrator, manager, lbayle, nvelin, user1
+   $result1 = execQuery($query);
+   $i = 0;
+   while($row = SqlWrapper::getInstance()->sql_fetch_object($result1))	{
+      $i++;
+      $query  = "UPDATE `mantis_user_table` SET `realname` = '".$userNames[$row->id]."' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `username` = 'user".$row->id."' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `email` = 'user".$row->id."@codevtt.org' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `password` = '5ebe2294ecd0e0f08eab7690d2a6ee69' WHERE `id` ='$row->id' ";
+      $result = execQuery($query);
+   }
+
+   // john the manager
+      $query  = "UPDATE `mantis_user_table` SET `realname` = 'John the MANAGER' WHERE `id` ='2' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `username` = 'manager' WHERE `id` ='2' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@codevtt.org' WHERE `id` ='2' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `password` = '5ebe2294ecd0e0f08eab7690d2a6ee69' WHERE `id` ='2' ";
+      $result = execQuery($query);
+
+   // user1
+      $query  = "UPDATE `mantis_user_table` SET `realname` = 'User ONE' WHERE `id` ='8' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `username` = 'user1' WHERE `id` ='8' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `email` = 'manager@codevtt.org' WHERE `id` ='8' ";
+      $result = execQuery($query);
+      $query  = "UPDATE `mantis_user_table` SET `password` = '5ebe2294ecd0e0f08eab7690d2a6ee69' WHERE `id` ='8' ";
+      $result = execQuery($query);
+
 }
 
 // ================ MAIN =================
@@ -263,5 +329,4 @@ foreach ($fieldNamesToClear as $fname) {
 
 
 create_fake_db($projectidList, $formattedFieldList, $projectNames, $StrReplacements);
-
 ?>
