@@ -235,15 +235,21 @@ table.datatable thead th, table.display thead th {
 }
 
 table.datatable thead .sorting_asc, table.display thead .sorting_asc {
-   background: url('images/sort_asc.png') no-repeat center right;
+   background-image: url('images/sort_asc.png');
+   background-repeat: no-repeat;
+   background-position: center right;
 }
 
 table.datatable thead .sorting_desc, table.display thead .sorting_desc {
-   background: url('images/sort_desc.png') no-repeat center right;
+   background-image: url('images/sort_desc.png');
+   background-repeat: no-repeat;
+   background-position: center right;
 }
 
 table.datatable thead .sorting, table.display thead .sorting {
-   background: url('images/sort_both.png') no-repeat center right;
+   background-image: url('images/sort_both.png');
+   background-repeat: no-repeat;
+   background-position: center right;
 }
 
 table.datatable tbody tr:hover, table.display tbody tr:hover {
