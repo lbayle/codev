@@ -44,7 +44,7 @@ class TimeTrackingTools {
          $weekDate = $weekDates[$i];
          $totalElapsed[$weekDate] = array(
             "elapsed" => 0,
-            "class" => $incompleteDays[$weekDate] ? "incompleteDay" : ""
+            "class" => array_key_exists($weekDate,$incompleteDays) ? "incompleteDay" : ""
          );
       }
       
@@ -154,7 +154,7 @@ class TimeTrackingTools {
          $smartyWeekDates[$key] = array(
              "date" => date('Y-m-d',$weekDate),
              "formattedDate" => Tools::formatDate("%A\n%d %b", $weekDate),
-             "class" => $incompleteDays[$weekDate] ? "incompleteDay" : ""
+             "class" => array_key_exists($weekDate,$incompleteDays) ? "incompleteDay" : ""
          );
       }
       

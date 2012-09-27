@@ -350,7 +350,11 @@ class IssueInfoController extends Controller {
 
       $statusNamesSmarty = NULL;
       foreach($issue->getStatusList() as $status_id => $status) {
-         $statusNamesSmarty[] = Constants::$statusNames[$status_id];
+         if(array_key_exists($status_id,Constants::$statusNames)) {
+            $statusNamesSmarty[] = Constants::$statusNames[$status_id];
+         } else {
+            self::$logger->error("Status ".$status_id." not found in statusNames constants");
+         }
       }
 
       // REM do not display SuiviOp tasks
