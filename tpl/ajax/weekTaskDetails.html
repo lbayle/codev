@@ -65,10 +65,10 @@
          <th title="{t}Backlog{/t}">{t}BL{/t}</th>
          <th>{t}Job{/t}</th>
          {foreach from=$weekDates key=id item=i}
-         <th id="date-{$id}">{$i|nl2br}</th>
+         <th id="date-{$i.date}" class="{$i.class}">{$i.formattedDate|nl2br}</th>
          {/foreach}
          {foreach from=$weekEndDates key=id item=i}
-         <th id="date-{$id}" style="background-color: #D8D8D8;">{$i|nl2br}</th>
+         <th id="date-{$i.date}" class="{$i.class}" style="background-color: #D8D8D8;">{$i.formattedDate|nl2br}</th>
          {/foreach}
       </tr>
    </thead>
@@ -94,7 +94,7 @@
          </td>
          <td class="job-{$i.jobid}">{$i.jobName}</td>
          {foreach from=$i.dayTasks key=day item=j}
-         <td {if $j.title}title="{$j.title}"{/if} class="dayTask hover" style="cursor: pointer;{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >{$j.day}</td>
+         <td {if $j.title}title="{$j.title}"{/if} class="dayTask hover" style="cursor: pointer;{if $j.bgColor}background-color: #{$j.bgColor};{/if}" >{if $j.day != 0}{$j.day}{/if}</td>
          {/foreach}
       </tr>
    </tbody>

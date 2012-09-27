@@ -25,7 +25,7 @@ caption {
 }
 thead th {
    text-align: center;
-   background-color: #C8C8E8 !important;
+   background-color: #C8C8E8;
    padding: .5em;
    white-space: nowrap;
 }
@@ -207,6 +207,10 @@ div.menu td {
    position:relative;
    left:37px;
    top:-1px;
+}
+
+th.incompleteDay {
+   background-color: #FF809F;
 }
 
 /* JQuery Hacks */
