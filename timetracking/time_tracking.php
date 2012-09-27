@@ -138,7 +138,6 @@ class TimeTrackingController extends Controller {
                         'drift' => $issue->getDrift(),
                         'driftMgr' => $issue->getDriftMgr(),
                         'reestimated' => $issue->getReestimated(),
-                        'reestimatedMgr' => $issue->getReestimatedMgr(),
                         'driftColor' => $issue->getDriftColor(),
                         'deadline' => $formatedDate
 
@@ -158,14 +157,11 @@ class TimeTrackingController extends Controller {
             }
             elseif ("deleteTrack" == $action) {
                $trackid = Tools::getSecurePOSTIntValue('trackid');
-
                // increase backlog (only if 'backlog' already has a value)
                $timeTrack = TimeTrackCache::getInstance()->getTimeTrack($trackid);
                $defaultBugid = $timeTrack->getIssueId();
                $duration = $timeTrack->getDuration();
                $job = $timeTrack->getJobId();
-               $trackUserid = $timeTrack->getUserId();
-               $trackDate = $timeTrack->getDate();
 
                // delete track
                if(!$timeTrack->remove()) {
@@ -400,11 +396,11 @@ class TimeTrackingController extends Controller {
       
       $currentTimeTrackingTuples = array();
       $futureTimeTrackingTuples = array();
-      foreach ($timetrackingTuples as $timeTrackingTuple) {
+      foreach ($timetrackingTuples as $trackId => $timeTrackingTuple) {
          if($timeTrackingTuple['timestamp'] <= $timeTracking->getEndTimestamp()) {
-            $currentTimeTrackingTuples[] = $timeTrackingTuple;
+            $currentTimeTrackingTuples[$trackId] = $timeTrackingTuple;
          } else {
-            $futureTimeTrackingTuples[] = $timeTrackingTuple;
+            $futureTimeTrackingTuples[$trackId] = $timeTrackingTuple;
          }
          unset($timeTrackingTuple['timestamp']);
       }

@@ -443,7 +443,7 @@
    </div>
 
    <script type="text/javascript">
-      function updateBacklog(backlog, description, bugid, effortEstim, mgrEffortEstim, elapsed, drift, driftMgr, reestimated, reestimatedMgr, driftColor, deadline, dialogBoxTitle){
+      function updateBacklog(backlog, description, bugid, effortEstim, mgrEffortEstim, elapsed, drift, driftMgr, reestimated, driftColor, deadline, dialogBoxTitle){
          jQuery("#backlog").val(backlog);
          jQuery("#validateTips").text(description);
 
@@ -548,7 +548,6 @@
                   '{$updateBacklogRequested.drift}',
                   '{$updateBacklogRequested.driftMgr}',
                   '{$updateBacklogRequested.reestimated}',
-                  '{$updateBacklogRequested.reestimatedMgr}',
                   '{$updateBacklogRequested.driftColor}',
                   '{$updateBacklogRequested.deadline}',
                   '{t}Task{/t} {$updateBacklogRequested.dialogBoxTitle} - {t}Update Backlog{/t}');

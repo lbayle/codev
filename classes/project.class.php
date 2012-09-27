@@ -1173,16 +1173,6 @@ class Project extends Model {
    }
 
    /**
-    * @return number
-    */
-   public function getProgressMgr() {
-      if (NULL == $this->progressMgr) {
-         $this->progressMgr = $this->getIssueSelection()->getProgressMgr();
-      }
-      return $this->progressMgr;
-   }
-
-   /**
     * @return IssueSelection
     */
    public function getIssueSelection() {

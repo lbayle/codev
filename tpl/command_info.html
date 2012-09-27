@@ -124,7 +124,7 @@
                   <th>{t}MgrEffortEstim{/t}</th>
                   <th title="backlogMgr + elapsed">{t}Reestimated Mgr{/t}</th>
                   <th>{t}Elapsed{/t}</th>
-                  <th>{t}Backlog Mgr{/t}</th>
+                  <th>{t}Backlog{/t}</th>
                   <th style="width: 80px">{t}Drift Mgr{/t}</th>
                   <th>{t}Progress{/t}</th>
                </tr>
@@ -180,7 +180,7 @@
                      <td style="width:1em;" nowrap="nowrap"><div class="progress">{$issue.progress}%</div></td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.effortEstim}</td>
                      <td style="width:1em;" nowrap="nowrap">{$issue.elapsed}</td>
-                     <td style="width:1em;" nowrap="nowrap">{$issue.durationMgr}</td>
+                     <td style="width:1em;" nowrap="nowrap">{$issue.duration}</td>
                      <td style="width:1em;{if isset($issue.driftMgrColor)}background-color:#{$issue.driftMgrColor}{/if}" nowrap="nowrap">{$issue.driftMgr}</td>
                      <td>{$issue.summary}</td>
                   </tr>

@@ -52,9 +52,9 @@ class FilterController extends Controller {
             'name' => $isel->name,
             //'progress' => round(100 * $pv->getProgress()),
             'effortEstim' => $isel->mgrEffortEstim,
-            'reestimated' => $isel->getReestimatedMgr(),
+            'reestimated' => $isel->getReestimated(),
             'elapsed' => $isel->elapsed,
-            'backlog' => $isel->durationMgr,
+            'backlog' => $isel->duration,
             'driftColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
             'drift' => round($valuesMgr['nbDays'],2)
          );
@@ -66,38 +66,15 @@ class FilterController extends Controller {
       // add TitleLine
       $titles = $filterList;
       $titles[] = T_("MgrEffortEstim");
-      $titles[] = T_("Reestimated Mgr");
+      $titles[] = T_("Reestimated");
       $titles[] = T_("Elapsed");
-      $titles[] = T_("Backlog Mgr");
+      $titles[] = T_("Backlog");
       $titles[] = T_("Drift Mgr");
       $smartyObj[] = $titles;
 
       return $smartyObj;
    }
 
-
-      /**
-    * Get detailed mgr versions
-    * @param ProjectVersion[] $projectVersionList
-    * @return mixed[]
-    */
-   private static function getISelDetailedMgr($issueSel) {
-      $detailedMgr = NULL;
-
-      $valuesMgr = $issueSel->getDriftMgr();
-      $detailedMgr = array(
-         'name' => $issueSel->name,
-         //'progress' => round(100 * $pv->getProgress()),
-         'effortEstim' => $issueSel->mgrEffortEstim,
-         'reestimated' => $issueSel->getReestimatedMgr(),
-         'elapsed' => $issueSel->elapsed,
-         'backlog' => $issueSel->durationMgr,
-         'driftColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
-         'drift' => round($valuesMgr['nbDays'],2)
-      );
-
-      return $detailedMgr;
-   }
 
    protected function display() {
       if(Tools::isConnectedUser()) {

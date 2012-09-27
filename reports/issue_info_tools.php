@@ -56,7 +56,6 @@ class IssueInfoTools {
       );
       if($isManager) {
          $issueGeneralInfo['issueMgrEffortEstim'] = $issue->getMgrEffortEstim();
-         $issueGeneralInfo['issueReestimatedMgr'] = $issue->getReestimatedMgr();
          $driftMgr = $issue->getDriftMgr($withSupport);
          $issueGeneralInfo['issueDriftMgrColor'] = $issue->getDriftColor($driftMgr);
          $issueGeneralInfo['issueDriftMgr'] = round($driftMgr, 2);

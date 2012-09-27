@@ -42,7 +42,7 @@ class CommandTools {
             "elapsed" => $issue->getElapsed(),
             "driftMgr" => $driftMgr,
             "driftMgrColor" => $driftMgrColor,
-            "durationMgr" => $issue->getDurationMgr(),
+            "duration" => $issue->getDuration(),
             "summary" => $issue->getSummary()
          );
       }

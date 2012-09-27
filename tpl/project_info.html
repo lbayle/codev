@@ -51,7 +51,6 @@
                   <td nowrap="nowrap">{$line[$idx]}</td>
                   {/for}
                   <!--<td>{$line[$nbFilters+1].date}</td>-->
-                  <td><div class="progress">{$line[$nbFilters+1].progressMgr}%</div></td>
                   <td><div class="progress">{$line[$nbFilters+1].progress}%</div></td>
                   <td {if $line[$nbFilters+1].driftMgrColor}style='background-color: #{$line[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].driftMgr}%</td>
                   <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}%</td>
@@ -65,7 +64,6 @@
                   <td></td>
                   {/for}
                   <!--<td>{$filterResultsTotal[$nbFilters+1].date}</td>-->
-                  <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progressMgr}%</div></td>
                   <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progress}%</div></td>
                   <td {if $filterResultsTotal[$nbFilters+1].driftMgrColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].driftMgr}%</td>
                   <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}%</td>

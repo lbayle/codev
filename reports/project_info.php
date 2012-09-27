@@ -191,7 +191,6 @@ class ProjectInfoController extends Controller {
          $smartyElem = array(
             #'name' => $isel->name,
             #'date' => $date,
-            'progressMgr' => round(100 * $isel->getProgressMgr()),
             'progress' => round(100 * $isel->getProgress()),
             'driftMgrColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
             'driftMgr' => round(100 * $valuesMgr['percent']),
@@ -207,7 +206,6 @@ class ProjectInfoController extends Controller {
       // add TitleLine
       $titles = $filterDisplayNames;
       #$titles[] = T_("Date");
-      $titles[] = T_("Progress Mgr");
       $titles[] = T_("Progress");
       $titles[] = T_("Drift Mgr");
       $titles[] = T_("Drift");
@@ -243,9 +241,9 @@ class ProjectInfoController extends Controller {
             #'name' => $isel->name,
             #'progress' => round(100 * $pv->getProgress()),
             'effortEstim' => $isel->mgrEffortEstim,
-            'reestimated' => $isel->getReestimatedMgr(),
+            'reestimated' => $isel->getReestimated(),
             'elapsed' => $isel->elapsed,
-            'backlog' => $isel->durationMgr,
+            'backlog' => $isel->duration,
             'driftColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
             'drift' => round($valuesMgr['nbDays'],2)
          );
@@ -257,9 +255,9 @@ class ProjectInfoController extends Controller {
       // add TitleLine
       $titles = $filterDisplayNames;
       $titles[] = T_("MgrEffortEstim");
-      $titles[] = T_("Reestimated Mgr");
+      $titles[] = T_("Reestimated");
       $titles[] = T_("Elapsed");
-      $titles[] = T_("Backlog Mgr");
+      $titles[] = T_("Backlog");
       $titles[] = T_("Drift Mgr");
 
       // set Smarty

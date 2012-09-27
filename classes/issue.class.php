@@ -680,34 +680,6 @@ class Issue extends Model implements Comparable {
    }
 
    /**
-    * @return int the nb of days needed to finish the issue.
-    * if status >= resolved, return 0.
-    * if the 'backlog' (BL) field is not defined, return mgrEffortEstim
-    */
-   public function getDurationMgr() {
-      if ($this->isResolved()) {
-         return 0;
-      }
-      $issueDuration = NULL;
-
-      // WARN: in PHP '0' and NULL are same, so you need to use is_null() !
-
-      // determinate issue duration (Backlog, BI, MgrEffortEstim)
-      $bl = $this->getBacklog();
-      if ( !is_null($bl) && is_numeric($bl)) {
-         $issueDuration = $bl;
-      }
-      else {
-         $issueDuration = $this->getMgrEffortEstim();
-      }
-
-      if (is_null($this->getMgrEffortEstim())) {
-         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND mgrEffortEstim == NULL)");
-      }
-      return $issueDuration;
-   }
-
-   /**
     * reestimated = elapsed + duration
     * @return int reestimated
     */
@@ -717,14 +689,6 @@ class Issue extends Model implements Comparable {
          self::$logger->debug("getReestimated(".$this->bugId.") = $reestimated : elapsed = ".$this->getElapsed()." + Duration = ".$this->getDuration());
       }
       return $reestimated;
-   }
-
-   /**
-    * reestimated = elapsed + durationMgr
-    * @return int reestimated
-    */
-   public function getReestimatedMgr() {
-      return $this->getElapsed() + $this->getDurationMgr();
    }
 
    /**
@@ -832,53 +796,12 @@ class Issue extends Model implements Comparable {
       return $color;
    }
 
+
    /**
-    * Effort deviation, compares elapsed to effortEstim
     *
-    * formula: elapsed - (effortEstim - backlog)
-    * if bug is Resolved/Closed, then backlog is not used.
-    * if EffortEstim = 0 then Drift = 0
-    *
-    * @param bool $withSupport
-    * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
+    * @param type $withSupport
+    * @return type
     */
-   public function getDrift_old($withSupport = TRUE) {
-      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
-
-      if (0 == $totalEstim) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("bugid ".$this->bugId." if EffortEstim == 0 then Drift = 0");
-         }
-         return 0;
-      }
-
-      if ($withSupport) {
-         $myElapsed = $this->getElapsed();
-      } else {
-         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $myElapsed = $this->getElapsed() - $this->getElapsed($job_support);
-      }
-/*
-      // if Elapsed     = 0 then Drift = 0
-      if (0 == $myElapsed) {
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("bugid ".$this->bugId." if Elapsed == 0 then Drift = 0");
-         }
-         return 0;
-      }
-*/
-      if ($this->currentStatus >= $this->getBugResolvedStatusThreshold()) {
-         $derive = $myElapsed - $totalEstim;
-      } else {
-         $derive = $myElapsed - ($totalEstim - $this->getBacklog());
-      }
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getDrift_old(".$this->bugId.") derive=$derive (elapsed ".$this->getElapsed()." - estim $totalEstim)");
-      }
-      return round($derive,3);
-   }
-
    public function getDrift($withSupport = TRUE) {
       $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
       $derive = $this->getReestimated() - $totalEstim;
@@ -907,10 +830,10 @@ class Issue extends Model implements Comparable {
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 */
-      $derive = $this->getReestimatedMgr() - $this->getMgrEffortEstim();
+      $derive = $this->getReestimated() - $this->getMgrEffortEstim();
 
       if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimatedMgr ".$this->getReestimatedMgr()." - estim ".$this->getMgrEffortEstim().")");
+         self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
       }
       return round($derive,3);
    }
@@ -1635,7 +1558,7 @@ class Issue extends Model implements Comparable {
       }
 
       // no time spent on task, 0% done
-      if ((NULL == $this->getElapsed()) || (0 == $this->getElapsed())) { return 0; }
+      if ((is_null($this->getElapsed())) || (0 == $this->getElapsed())) { return 0; }
 
       // if no Backlog set, 100% done (this is not a normal case, an Alert is raised by ConsistencyCheck)
       if (is_null($this->getBacklog()) || (0 == $this->getBacklog())) { return 1; }

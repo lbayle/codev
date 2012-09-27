@@ -127,7 +127,6 @@ class TimeTrackingTools {
                'drift' => $issue->getDrift(),
                'driftMgr' => $issue->getDriftMgr(),
                'reestimated' => $issue->getReestimated(),
-               'reestimatedMgr' => $issue->getReestimatedMgr(),
                'driftColor' => $issue->getDriftColor(),
                'deadline' => $formatedDate,
                'dialogBoxTitle' => $issue->getFormattedIds(),

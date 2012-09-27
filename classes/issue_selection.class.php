@@ -34,7 +34,6 @@ class IssueSelection {
    public $name; // name for this selection
    public $elapsed;
    public $duration;
-   public $durationMgr;
    public $mgrEffortEstim;
    public $effortEstim;
    public $effortAdd;
@@ -51,7 +50,6 @@ class IssueSelection {
 
       $this->elapsed = 0;
       $this->duration = 0;
-      $this->durationMgr = 0;
       $this->mgrEffortEstim = 0;
       $this->effortEstim = 0;
       $this->effortAdd = 0;    // BS
@@ -86,13 +84,12 @@ class IssueSelection {
          $this->issueList[$bugid] = $issue;
          $this->elapsed += $issue->getElapsed();
          $this->duration += $issue->getDuration();
-         $this->durationMgr += $issue->getDurationMgr();
          $this->mgrEffortEstim += $issue->getMgrEffortEstim();
          $this->effortEstim += $issue->getEffortEstim();
          $this->effortAdd += $issue->getEffortAdd();
 
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim() + $issue->getEffortAdd())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." RAF_Mgr=".$issue->getDurationMgr()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
+            self::$logger->debug("IssueSelection [$this->name] : addIssue($bugid) version = <".$issue->getTargetVersion()."> MgrEE=".$issue->getMgrEffortEstim()." BI+BS=".($issue->getEffortEstim() + $issue->getEffortAdd())." elapsed=".$issue->getElapsed()." RAF=".$issue->getDuration()." drift=".$issue->getDrift()." driftMgr=".$issue->getDriftMgr());
          }
          $retCode = true;
       }
@@ -115,12 +112,10 @@ class IssueSelection {
       }
    }
 
-   /**
-    * @return int
-    */
    public function getProgress() {
       if (NULL == $this->progress) {
          // compute total progress
+
          if (0 == $this->elapsed) {
             $this->progress = 0;  // if no time spent, then no work done.
          } elseif (0 == $this->duration) {
@@ -130,34 +125,11 @@ class IssueSelection {
          }
 
          if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("IssueSelection [$this->name] : progress = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
+            self::$logger->debug("IssueSelection [$this->name] : progressUnique = ".$this->progress." = $this->elapsed / ($this->elapsed + ".$this->duration.")");
          }
       }
 
       return $this->progress;
-   }
-
-   /**
-    * @return int
-    */
-   public function getProgressMgr() {
-      if (NULL == $this->progressMgr) {
-         // compute total progress
-
-         if (0 == $this->elapsed) {
-            $this->progressMgr = 0;  // if no time spent, then no work done.
-         } elseif (0 == $this->durationMgr) {
-            $this->progressMgr = 1;  // if no duration, then Project is 100% done.
-         } else {
-            $this->progressMgr = $this->elapsed / $this->getReestimatedMgr();
-         }
-
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("IssueSelection [$this->name] : progressMgr = ".$this->progressMgr." = $this->elapsed / ($this->elapsed + ".$this->durationMgr.")");
-         }
-      }
-
-      return $this->progressMgr;
    }
 
    /**
@@ -166,14 +138,6 @@ class IssueSelection {
     */
    public function getReestimated() {
       return $this->elapsed + $this->duration;
-   }
-
-   /**
-    * reestimated = elapsed + durationMgr
-    * @return int
-    */
-   public function getReestimatedMgr() {
-      return $this->elapsed + $this->durationMgr;
    }
 
    /**
