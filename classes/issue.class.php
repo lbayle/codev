@@ -862,7 +862,7 @@ class Issue extends Model implements Comparable {
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("getDriftMgr(".$this->bugId."): $derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
       }
-      $this->drift = round($derive,3);
+      $this->driftMgr = round($derive,3);
       return $this->driftMgr;
 
    }
