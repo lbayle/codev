@@ -654,6 +654,8 @@ class Issue extends Model implements Comparable {
     * Note: this is STRICTLY the value found in the DB,
     *       see getDuration() for a computed backlog.
     *
+    * WARN: the result must be checked with is_null() because '0' is not the same as NULL
+    *
     * @param int $timestamp
     * @return int backlog or NULL if no backlog update found in history before timestamp
     */
@@ -711,9 +713,9 @@ class Issue extends Model implements Comparable {
     * the nb of days needed to finish the issue.
     *
     * if status >= resolved, return 0.
-    * if the 'backlog' (BL) field is not defined, return max(effortEstim, mgrEffortEstim)
+    * if the 'backlog' (BL) field is not defined, return max(effortEstim+effortAdd, mgrEffortEstim)
     *
-    * @return int the nb of days needed to finish the issue or NULL if not found.
+    * @return int the nb of days needed to finish the issue or NULL if not found (rare).
     */
    public function getDuration() {
 
@@ -737,11 +739,10 @@ class Issue extends Model implements Comparable {
          if(self::$logger->isDebugEnabled()) {
             self::$logger->debug("getDuration(): ".$this->bugId."): return backlog : ".$issueDuration);
          }
-      }
-      else {
+      } else {
          // Backlog NOT defined, duration = max(effortEstim, mgrEffortEstim)
 
-         $issueEE    = $this->getEffortEstim();
+         $issueEE    = $this->getEffortEstim() + $this->getEffortAdd();
          $issueEEMgr = $this->getMgrEffortEstim();
 
          if (is_null($issueEE) && is_null($issueEEMgr)) {
@@ -760,13 +761,13 @@ class Issue extends Model implements Comparable {
 
             $issueDuration = $issueEE;
             if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstim : ".$issueDuration);
+            self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstim + EffortAdd : ".$issueDuration);
             }
          } else {
 
             $issueDuration = max(array($issueEE, $issueEEMgr));
             if(self::$logger->isDebugEnabled()) {
-               self::$logger->debug("getDuration(): ".$this->bugId."): return max(effortEstim, EffortEstimMgr) : ".$issueDuration);
+               self::$logger->debug("getDuration(): ".$this->bugId."): return max(EffortEstim+EffortAdd, EffortEstimMgr) : ".$issueDuration);
             }
          }
       }
@@ -794,18 +795,27 @@ class Issue extends Model implements Comparable {
     */
    public function getDrift($withSupport = TRUE) {
 
+      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
+
       // drift = reestimated - (effortEstim + effortAdd)
 
       // but the Reestimated depends on mgrEffortEstim, because duration = max(effortEstim, mgrEffortEstim)
       // so getReestimated cannot be used here.
 
+      $bl = $this->getBacklog();
+      // WARN: in PHP '0' and NULL are same, so you need to check with is_null() !
+      if ( !is_null($bl) && is_numeric($bl)) {
+         $localReestimated = $this->getElapsed() + $bl;
+      } else {
+         // Note: effortEstim is a mandatory field and will not be NULL
+         $localDuration = $totalEstim;
+         $localReestimated = $this->getElapsed() + $localDuration;
+      }
 
-
-      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
-      $derive = $this->getReestimated() - $totalEstim;
+      $derive = $localReestimated - $totalEstim;
 
       if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
+         self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$localReestimated." - estim ".$totalEstim.")");
       }
       return round($derive,3);
    }
