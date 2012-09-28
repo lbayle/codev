@@ -26,7 +26,7 @@
    <div id="tabsVersions" class="tabs">
       <ul>
          <li><a href="#tabVersionsOverview">{t}Overview{/t}</a></li>
-         <li><a href="#tabVersionsDetailedMgr">{t}Detailed{/t}</a></li>
+         {if $isManager}<li><a href="#tabVersionsDetailedMgr">{t}Detailed{/t}</a></li>{/if}
          <li><a href="#tabVersionsIssues">{t}Tasks{/t}</a></li>
       </ul>
       <div id="tabVersionsOverview">
@@ -51,9 +51,9 @@
                   {/for}
                   <!--<td>{$line[$nbFilters+1].date}</td>-->
                   <td><div class="progress">{$line[$nbFilters+1].progress}%</div></td>
-                  <td>{$line[$nbFilters+1].reestimated}</td>
+                  {if $isManager}<td>{$line[$nbFilters+1].reestimated}</td>{/if}
                   <td>{$line[$nbFilters+1].backlog}</td>
-                  <td {if $line[$nbFilters+1].driftMgrColor}style='background-color: #{$line[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].driftMgr}%</td>
+                  {if $isManager}<td {if $line[$nbFilters+1].driftMgrColor}style='background-color: #{$line[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].driftMgr}%</td>{/if}
                   <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}%</td>
                </tr>
                {/foreach}
@@ -66,9 +66,9 @@
                   {/for}
                   <!--<td>{$filterResultsTotal[$nbFilters+1].date}</td>-->
                   <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progress}%</div></td>
-                  <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
+                  {if $isManager}<td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>{/if}
                   <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
-                  <td {if $filterResultsTotal[$nbFilters+1].driftMgrColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].driftMgr}%</td>
+                  {if $isManager}<td {if $filterResultsTotal[$nbFilters+1].driftMgrColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].driftMgr}%</td>{/if}
                   <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}%</td>
                </tr>
             </tfoot>
@@ -77,6 +77,7 @@
          {t}No data{/t}
          {/if}
       </div>
+      {if $isManager}
       <div id="tabVersionsDetailedMgr">
          {assign var=filterResultsTitles value=$detailedMgrTitles}
          {assign var=filterResultsLines value=$detailedMgrLines}
@@ -129,6 +130,7 @@
          {t}No data{/t}
          {/if}
       </div>
+      {/if}
       <div id="tabVersionsIssues">
          {assign var=filterResultsTitles value=$issuesTitles}
          {assign var=filterResultsLines value=$issuesLines}
@@ -217,8 +219,6 @@
                   <th>{t}Target{/t}</th>
                   {if $isManager}<th style="width: 6em;" title="{t}Drift relatively to the managers Estimation{/t}">{t}Drift Mgr{/t}</th>{/if}
                   <th style="width: 6em;" title="{t}Drift relatively to (EE + AddEE){/t}">{t}Drift{/t}</th>
-                  <th title="{t}Backlog{/t}">{t}BL{/t}</th>
-                  <th>{t}Progress{/t}</th>
                   <th>{t}Status{/t}</th>
                   <th>{t}Summary{/t}</th>
                </tr>
@@ -231,8 +231,6 @@
                   <td nowrap="nowrap">{$i.targetVersion}</td>
                   {if $isManager}<td {if $i.driftMgrColor}style='background-color: #{$i.driftMgrColor};'{/if}>{$i.driftMgr}</td>{/if}
                   <td {if $i.driftColor}style='background-color: #{$i.driftColor};'{/if}>{$i.drift}</td>
-                  <td>{$i.backlog}</td>
-                  <td><div class="progress">{$i.progress}%</div></td>
                   <td>{$i.currentStatusName}</td>
                   <td>{$i.summary}</td>
                </tr>
