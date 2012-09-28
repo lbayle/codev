@@ -123,7 +123,6 @@ class ProjectInfoController extends Controller {
                $this->smartyHelper->assign('selectedFilters', $selectedFilters);
                $this->smartyHelper->assign('nbFilters', count($filterList));
                $this->getOverview($explodeResults, $filterDisplayNames);
-               $this->getDetailed($explodeResults, $filterDisplayNames);
                if ($isManager) {
                   $this->getDetailedMgr($explodeResults, $filterDisplayNames);
                }
@@ -192,6 +191,9 @@ class ProjectInfoController extends Controller {
             #'name' => $isel->name,
             #'date' => $date,
             'progress' => round(100 * $isel->getProgress()),
+            'reestimated' => $isel->getReestimated(),
+            #'elapsed' => $isel->elapsed,
+            'backlog' => $isel->duration,
             'driftMgrColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
             'driftMgr' => round(100 * $valuesMgr['percent']),
             'driftColor' => IssueSelection::getDriftColor($values['percent']),
@@ -207,6 +209,9 @@ class ProjectInfoController extends Controller {
       $titles = $filterDisplayNames;
       #$titles[] = T_("Date");
       $titles[] = T_("Progress");
+      $titles[] = T_("Reestimated");
+      #$titles[] = T_("Elapsed");
+      $titles[] = T_("Backlog");
       $titles[] = T_("Drift Mgr");
       $titles[] = T_("Drift");
 
@@ -237,63 +242,17 @@ class ProjectInfoController extends Controller {
          $isel = $line[$iselIdx];
 
          $valuesMgr = $isel->getDriftMgr();
-         $smartyElem = array(
-            #'name' => $isel->name,
-            #'progress' => round(100 * $pv->getProgress()),
-            'effortEstim' => $isel->mgrEffortEstim,
-            'reestimated' => $isel->getReestimated(),
-            'elapsed' => $isel->elapsed,
-            'backlog' => $isel->duration,
-            'driftColor' => IssueSelection::getDriftColor($valuesMgr['percent']),
-            'drift' => round($valuesMgr['nbDays'],2)
-         );
-
-         $line[$iselIdx] = $smartyElem;
-         $smartyObj[] = $line;
-      }
-
-      // add TitleLine
-      $titles = $filterDisplayNames;
-      $titles[] = T_("MgrEffortEstim");
-      $titles[] = T_("Reestimated");
-      $titles[] = T_("Elapsed");
-      $titles[] = T_("Backlog");
-      $titles[] = T_("Drift Mgr");
-
-      // set Smarty
-      $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
-
-      $this->smartyHelper->assign('detailedMgrTitles', $titles);
-      $this->smartyHelper->assign('detailedMgrLines', $smartyObj);
-      $this->smartyHelper->assign('detailedMgrTotal', $totalLine);
-   }
-
-   /**
-    * $explodeResults contains a list of filterNames + an IssueSelection on the last column.
-    * This function will replace the IssueSelection with a smarty comprehensible array
-    * containing the info to be displayed.
-    *
-    * @param type $explodeResults
-    * @param type $filterDisplayNames
-    */
-   private function getDetailed($explodeResults, $filterDisplayNames) {
-
-      $iselIdx = count($explodeResults[0]) -1;
-
-      $smartyObj = array();
-
-      foreach($explodeResults as $line) {
-         $isel = $line[$iselIdx];
-
          $values = $isel->getDrift();
          $smartyElem = array(
             #'name' => $isel->name,
-            #'progress' => round(100 * $pv->getProgress()),
-            'title' => $isel->effortEstim." + ".$isel->effortAdd,
+            'progress' => round(100 * $isel->getProgress()),
+            'effortEstimMgr' => $isel->mgrEffortEstim,
             'effortEstim' => ($isel->effortEstim + $isel->effortAdd),
             'reestimated' => $isel->getReestimated(),
             'elapsed' => $isel->elapsed,
             'backlog' => $isel->duration,
+            'driftColorMgr' => IssueSelection::getDriftColor($valuesMgr['percent']),
+            'driftMgr' => round($valuesMgr['nbDays'],2),
             'driftColor' => IssueSelection::getDriftColor($values['percent']),
             'drift' => round($values['nbDays'],2)
          );
@@ -304,20 +263,22 @@ class ProjectInfoController extends Controller {
 
       // add TitleLine
       $titles = $filterDisplayNames;
+      $titles[] = T_("Progress");
+      $titles[] = T_("MgrEffortEstim");
       $titles[] = T_("EffortEstim");
       $titles[] = T_("Reestimated");
       $titles[] = T_("Elapsed");
       $titles[] = T_("Backlog");
+      $titles[] = T_("Drift Mgr");
       $titles[] = T_("Drift");
 
       // set Smarty
       $totalLine = array_shift($smartyObj); // first line is rootElem (TOTAL)
 
-      $this->smartyHelper->assign('detailedTitles', $titles);
-      $this->smartyHelper->assign('detailedLines', $smartyObj);
-      $this->smartyHelper->assign('detailedTotal', $totalLine);
+      $this->smartyHelper->assign('detailedMgrTitles', $titles);
+      $this->smartyHelper->assign('detailedMgrLines', $smartyObj);
+      $this->smartyHelper->assign('detailedMgrTotal', $totalLine);
    }
-
 
    /**
     * $explodeResults contains a list of filterNames + an IssueSelection on the last column.

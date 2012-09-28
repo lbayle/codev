@@ -26,8 +26,7 @@
    <div id="tabsVersions" class="tabs">
       <ul>
          <li><a href="#tabVersionsOverview">{t}Overview{/t}</a></li>
-         <li><a href="#tabVersionsDetailedMgr">{t}Detailed Mgr{/t}</a></li>
-         <li><a href="#tabVersionsDetailed">{t}Detailed{/t}</a></li>
+         <li><a href="#tabVersionsDetailedMgr">{t}Detailed{/t}</a></li>
          <li><a href="#tabVersionsIssues">{t}Tasks{/t}</a></li>
       </ul>
       <div id="tabVersionsOverview">
@@ -52,6 +51,8 @@
                   {/for}
                   <!--<td>{$line[$nbFilters+1].date}</td>-->
                   <td><div class="progress">{$line[$nbFilters+1].progress}%</div></td>
+                  <td>{$line[$nbFilters+1].reestimated}</td>
+                  <td>{$line[$nbFilters+1].backlog}</td>
                   <td {if $line[$nbFilters+1].driftMgrColor}style='background-color: #{$line[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].driftMgr}%</td>
                   <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}%</td>
                </tr>
@@ -65,6 +66,8 @@
                   {/for}
                   <!--<td>{$filterResultsTotal[$nbFilters+1].date}</td>-->
                   <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progress}%</div></td>
+                  <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
+                  <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
                   <td {if $filterResultsTotal[$nbFilters+1].driftMgrColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftMgrColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].driftMgr}%</td>
                   <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}%</td>
                </tr>
@@ -94,10 +97,13 @@
                   {for $idx=1 to $nbFilters}
                   <td nowrap="nowrap">{$line[$idx]}</td>
                   {/for}
+                  <td><div class="progress">{$line[$nbFilters+1].progress}%</div></td>
+                  <td>{$line[$nbFilters+1].effortEstimMgr}</td>
                   <td>{$line[$nbFilters+1].effortEstim}</td>
                   <td>{$line[$nbFilters+1].reestimated}</td>
                   <td>{$line[$nbFilters+1].elapsed}</td>
                   <td>{$line[$nbFilters+1].backlog}</td>
+                  <td {if $line[$nbFilters+1].driftColorMgr}style='background-color: #{$line[$nbFilters+1].driftColorMgr};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].driftMgr}</td>
                   <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}</td>
                </tr>
                {/foreach}
@@ -108,58 +114,15 @@
                   {for $idx=1 to ($nbFilters-1)}
                   <td></td>
                   {/for}
+                  <td><div class="progress">{$filterResultsTotal[$nbFilters+1].progress}%</div></td>
+                  <td>{$filterResultsTotal[$nbFilters+1].effortEstimMgr}</td>
                   <td>{$filterResultsTotal[$nbFilters+1].effortEstim}</td>
                   <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
                   <td>{$filterResultsTotal[$nbFilters+1].elapsed}</td>
                   <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
+                  <td {if $filterResultsTotal[$nbFilters+1].driftColorMgr}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColorMgr};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].driftMgr}</td>
                   <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}</td>
                <tr>
-            </tfoot>
-         </table>
-         {else}
-         {t}No data{/t}
-         {/if}
-      </div>
-      <div id="tabVersionsDetailed">
-         {assign var=filterResultsTitles value=$detailedTitles}
-         {assign var=filterResultsLines value=$detailedLines}
-         {assign var=filterResultsTotal value=$detailedTotal}
-         {if isset($filterResultsTotal)}
-         <table>
-            <thead>
-               {if 0 == $nbFilters}
-               <th></th>
-               {/if}
-               {foreach from=$filterResultsTitles key=id item=ftitle}
-               <th style="width: 9em;">{$ftitle}</th>
-               {/foreach}
-            </thead>
-            <tbody>
-               {foreach from=$filterResultsLines key=id item=line}
-               <tr>
-                  {for $idx=1 to $nbFilters}
-                  <td nowrap="nowrap">{$line[$idx]}</td>
-                  {/for}
-                  <td>{$line[$nbFilters+1].effortEstim}</td>
-                  <td>{$line[$nbFilters+1].reestimated}</td>
-                  <td>{$line[$nbFilters+1].elapsed}</td>
-                  <td>{$line[$nbFilters+1].backlog}</td>
-                  <td {if $line[$nbFilters+1].driftColor}style='background-color: #{$line[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$line[$nbFilters+1].drift}</td>
-               </tr>
-               {/foreach}
-            </tbody>
-            <tfoot>
-               <tr>
-                  <td>TOTAL</td>
-                  {for $idx=1 to ($nbFilters-1)}
-                  <td></td>
-                  {/for}
-                  <td>{$filterResultsTotal[$nbFilters+1].effortEstim}</td>
-                  <td>{$filterResultsTotal[$nbFilters+1].reestimated}</td>
-                  <td>{$filterResultsTotal[$nbFilters+1].elapsed}</td>
-                  <td>{$filterResultsTotal[$nbFilters+1].backlog}</td>
-                  <td {if $filterResultsTotal[$nbFilters+1].driftColor}style='background-color: #{$filterResultsTotal[$nbFilters+1].driftColor};'{/if} title="{t}nb days{/t}">{$filterResultsTotal[$nbFilters+1].drift}</td>
-               </tr>
             </tfoot>
          </table>
          {else}
