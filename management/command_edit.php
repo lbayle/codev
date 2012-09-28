@@ -80,8 +80,6 @@ class CommandEditController extends Controller {
 
          if (0 == $cmdid) {
             // -------- CREATE CMD -------
-
-            // ------ Actions
             if ("createCmd" == $action) {
                //$teamid = Tools::getSecurePOSTIntValue('teamid');
                //$_SESSION['teamid'] = $teamid;
@@ -111,20 +109,18 @@ class CommandEditController extends Controller {
             $this->smartyHelper->assign('cmdInfoFormAction', 'createCmd');
 
             $this->smartyHelper->assign('cmdStateList', ServiceContractTools::getServiceContractStateList());
+            // FIXME id 0 doesn't exists !
             $this->smartyHelper->assign('cmdState', Command::$stateNames[0]);
 
             $this->smartyHelper->assign('commandsetid', $commandsetid);
             $this->smartyHelper->assign('commandsets', CommandSetTools::getCommandSets($teamid, $commandsetid));
-
-            $this->smartyHelper->assign('cmdName', "New command");
          }
 
          if (0 != $cmdid) {
             // -------- UPDATE CMD -------
-
             $cmd = CommandCache::getInstance()->getCommand($cmdid);
 
-            // ------ Actions
+            // Actions
             if ("addCmdIssue" == $action) {
                $bugid = Tools::getSecurePOSTIntValue('bugid');
                if(self::$logger->isDebugEnabled()) {

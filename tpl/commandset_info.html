@@ -77,11 +77,11 @@
                {foreach from=$parentContracts key=id item=i}
                <a href="management/servicecontract_info.php?servicecontractid={$id}">{$i}</a><br />
                {/foreach}
-
             </td>
          </tr>
       </table>
       {if isset($isEditGranted) && $isEditGranted}
+      <br />
       <button onclick="location.href='management/commandset_edit.php'"><img border="0" align="absmiddle" src="images/b_edit.png" alt="Edit icon"/> {t}Edit{/t}</button>
       {/if}
    </div>
