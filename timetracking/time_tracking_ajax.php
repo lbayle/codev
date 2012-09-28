@@ -46,7 +46,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
             $smartyWeekDates[6], $smartyWeekDates[7]
          ));
 
-         $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking);
+         $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking, $incompleteDays);
          $smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
          $smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
             
