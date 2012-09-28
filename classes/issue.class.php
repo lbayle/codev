@@ -98,6 +98,8 @@ class Issue extends Model implements Comparable {
 
    private $tagList; // mantis tags
 
+   private $duration; // duration = backlog or max(effortEstim, mgrEffortEstim)
+
    /**
     * @var Status[]
     */
@@ -646,20 +648,90 @@ class Issue extends Model implements Comparable {
    }
 
    /**
-    * @return int the nb of days needed to finish the issue.
+    * Get backlog at a specific date.
+    * if date is not specified, return current backlog.
+    *
+    * Note: this is STRICTLY the value found in the DB,
+    *       see getDuration() for a computed backlog.
+    *
+    * @param int $timestamp
+    * @return int backlog or NULL if no backlog update found in history before timestamp
+    */
+   public function getBacklog($timestamp = NULL) {
+      if (is_null($timestamp)) {
+         if(!$this->customFieldInitialized) {
+            $this->customFieldInitialized = true;
+            $this->initializeCustomField();
+         }
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
+         }
+         return $this->backlog;
+      }
+
+      // find the field_name for the Backlog customField
+      // (this should not be here, it's a general info that may be accessed elsewhere)
+      $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
+
+      // TODO should be done only once... in Constants singleton ?
+      // find in bug history when was the latest update of the Backlog before $timestamp
+      $query = "SELECT * FROM `mantis_bug_history_table` ".
+               "WHERE field_name = (SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomFieldId) ".
+               "AND bug_id = '$this->bugId' ".
+               "AND date_modified <= '$timestamp' ".
+               "ORDER BY date_modified DESC LIMIT 1 ";
+      $result = SqlWrapper::getInstance()->sql_query($query);
+      if (!$result) {
+         echo "<span style='color:red'>ERROR: Query FAILED</span>";
+         exit;
+      }
+
+      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
+         // the first result is the closest to the given timestamp
+         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
+         $this->backlog = $row->new_value;
+
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
+         }
+
+      } else {
+         // no backlog update found in history, return NULL
+         // WARN: test the result with is_null() !!!
+         $this->backlog = NULL;
+      }
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$this->backlog);
+      }
+      return $this->backlog;
+   }
+
+   /**
+    * the nb of days needed to finish the issue.
+    *
     * if status >= resolved, return 0.
-    * if the 'backlog' (BL) field is not defined, return effortEstim
+    * if the 'backlog' (BL) field is not defined, return max(effortEstim, mgrEffortEstim)
+    *
+    * @return int the nb of days needed to finish the issue or NULL if not found.
     */
    public function getDuration() {
-      if ($this->isResolved()) {
-         return 0;
+
+      if (!is_null($this->duration)) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDuration(): ".$this->bugId."): (from cache) ".$this->duration);
+         }
+         return $this->duration;
       }
-      $issueDuration = NULL;
 
-      // WARN: in PHP '0' and NULL are same, so you need to use is_null() !
+      if ($this->isResolved()) {
+         $this->duration = 0;
+         return $this->duration; // WARN: '0' is nut NULL !
+      }
 
-      // determinate issue duration (Backlog, BI, MgrEffortEstim)
+      // Backlog is defined, return the DB value
       $bl = $this->getBacklog();
+      // WARN: in PHP '0' and NULL are same, so you need to check with is_null() !
       if ( !is_null($bl) && is_numeric($bl)) {
          $issueDuration = $bl;
          if(self::$logger->isDebugEnabled()) {
@@ -667,15 +739,39 @@ class Issue extends Model implements Comparable {
          }
       }
       else {
-         $issueDuration = $this->getEffortEstim();
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getDuration(): ".$this->bugId."): return effortEstim : ".$issueDuration);
+         // Backlog NOT defined, duration = max(effortEstim, mgrEffortEstim)
+
+         $issueEE    = $this->getEffortEstim();
+         $issueEEMgr = $this->getMgrEffortEstim();
+
+         if (is_null($issueEE) && is_null($issueEEMgr)) {
+
+            $issueDuration = NULL;
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->warn("getDuration(".$this->bugId."): duration = NULL (because: backlog & mgrEffortEstim & effortEstim == NULL)");
+            }
+         } elseif (is_null($issueEE)) {
+
+            $issueDuration = $issueEEMgr;
+            if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstimMgr : ".$issueDuration);
+            }
+         } elseif (is_null($issueEEMgr)) {
+
+            $issueDuration = $issueEE;
+            if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDuration(): ".$this->bugId."): return EffortEstim : ".$issueDuration);
+            }
+         } else {
+
+            $issueDuration = max(array($issueEE, $issueEEMgr));
+            if(self::$logger->isDebugEnabled()) {
+               self::$logger->debug("getDuration(): ".$this->bugId."): return max(effortEstim, EffortEstimMgr) : ".$issueDuration);
+            }
          }
       }
-
-      if (is_null( $this->getEffortEstim())) {
-         self::$logger->warn("getDuration(".$this->bugId."): duration = NULL ! (because backlog AND effortEstim == NULL)");
-      }
+      $this->duration = $issueDuration;
+      
       return $issueDuration;
    }
 
@@ -690,6 +786,56 @@ class Issue extends Model implements Comparable {
       }
       return $reestimated;
    }
+
+   /**
+    *
+    * @param type $withSupport
+    * @return type
+    */
+   public function getDrift($withSupport = TRUE) {
+
+      // drift = reestimated - (effortEstim + effortAdd)
+
+      // but the Reestimated depends on mgrEffortEstim, because duration = max(effortEstim, mgrEffortEstim)
+      // so getReestimated cannot be used here.
+
+
+
+      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
+      $derive = $this->getReestimated() - $totalEstim;
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
+      }
+      return round($derive,3);
+   }
+
+   /**
+    * Effort deviation, compares Reestimated to mgrEffortEstim
+    *
+    * OLD formula: elapsed - (MgrEffortEstim - backlog)
+    * NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim
+    *
+    * @param boolean $withSupport
+    * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
+    */
+   public function getDriftMgr($withSupport = TRUE) {
+/*
+      if ($withSupport) {
+         $myElapsed = $this->elapsed;
+      } else {
+         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
+         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
+      }
+*/
+      $derive = $this->getReestimated() - $this->getMgrEffortEstim();
+
+      if(self::$logger->isDebugEnabled()) {
+         self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
+      }
+      return round($derive,3);
+   }
+
 
    /**
     * TODO: NOT FINISHED, ADAPT TO ALL RELATIONSHIP TYPES
@@ -797,46 +943,6 @@ class Issue extends Model implements Comparable {
    }
 
 
-   /**
-    *
-    * @param type $withSupport
-    * @return type
-    */
-   public function getDrift($withSupport = TRUE) {
-      $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
-      $derive = $this->getReestimated() - $totalEstim;
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$this->getReestimated()." - estim ".$totalEstim.")");
-      }
-      return round($derive,3);
-   }
-
-   /**
-    * Effort deviation, compares Reestimated to mgrEffortEstim
-    *
-    * OLD formula: elapsed - (MgrEffortEstim - backlog)
-    * NEW formula: reestimated - MgrEffortEstim = (elapsed + durationMgr) - MgrEffortEstim
-    *
-    * @param boolean $withSupport
-    * @return int drift: if NEG, then we saved time, if 0, then just in time, if POS, then there is a drift !
-    */
-   public function getDriftMgr($withSupport = TRUE) {
-/*
-      if ($withSupport) {
-         $myElapsed = $this->elapsed;
-      } else {
-         $job_support = Config::getInstance()->getValue(Config::id_jobSupport);
-         $myElapsed = $this->elapsed - $this->getElapsed($job_support);
-      }
-*/
-      $derive = $this->getReestimated() - $this->getMgrEffortEstim();
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
-      }
-      return round($derive,3);
-   }
 
    /**
     * check if the Issue has been delivered in time (before the  DeadLine)
@@ -1698,62 +1804,6 @@ class Issue extends Model implements Comparable {
       $this->deadLine = $value;
    }
    
-   /**
-    * Get backlog at a specific date.
-    * if date is nopt specified, return current backlog.
-    * 
-    * @param int $timestamp
-    * @return int backlog or NULL if no backlog update found in history before timestamp
-    */
-   public function getBacklog($timestamp = NULL) {
-      if (is_null($timestamp)) {
-         if(!$this->customFieldInitialized) {
-            $this->customFieldInitialized = true;
-            $this->initializeCustomField();
-         }
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getBacklog($this->bugId) : (from cache) ".$this->backlog);
-         }
-         return $this->backlog;
-      }
-
-      // find the field_name for the Backlog customField
-      // (this should not be here, it's a general info that may be accessed elsewhere)
-      $backlogCustomFieldId = Config::getInstance()->getValue(Config::id_customField_backlog);
-
-      // TODO should be done only once... in Constants singleton ?
-      // find in bug history when was the latest update of the Backlog before $timestamp
-      $query = "SELECT * FROM `mantis_bug_history_table` ".
-               "WHERE field_name = (SELECT name FROM `mantis_custom_field_table` WHERE id = $backlogCustomFieldId) ".
-               "AND bug_id = '$this->bugId' ".
-               "AND date_modified <= '$timestamp' ".
-               "ORDER BY date_modified DESC LIMIT 1 ";
-      $result = SqlWrapper::getInstance()->sql_query($query);
-      if (!$result) {
-         echo "<span style='color:red'>ERROR: Query FAILED</span>";
-         exit;
-      }
-
-      if (0 != SqlWrapper::getInstance()->sql_num_rows($result)) {
-         // the first result is the closest to the given timestamp
-         $row = SqlWrapper::getInstance()->sql_fetch_object($result);
-         $this->backlog = $row->new_value;
-
-         if(self::$logger->isDebugEnabled()) {
-            self::$logger->debug("getBacklog(".date("Y-m-d H:i:s", $row->date_modified).") old_value = $row->old_value new_value $row->new_value userid = $row->user_id field_name = $row->field_name");
-         }
-
-      } else {
-         // no backlog update found in history, return NULL
-         // WARN: test the result with is_null() !!!
-         $this->backlog = NULL;
-      }
-
-      if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("getBacklog($this->bugId) : (from DB) ".$this->backlog);
-      }
-      return $this->backlog;
-   }
 
    /**
     * Get issues from an issue id list
