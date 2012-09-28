@@ -90,9 +90,10 @@ jQuery(document).ready(function() {
          }
       });
       
-      jQuery(".formWithTabsHistory").each(function() {
+      // FIXME
+      /*jQuery(".formWithTabsHistory").each(function() {
          jQuery(this).attr("action",document.location.href);
-      });
+      });*/
    });
 
    // Since the event is only triggered when the hash changes, we need to trigger
