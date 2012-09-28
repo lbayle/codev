@@ -98,7 +98,10 @@ class Issue extends Model implements Comparable {
 
    private $tagList; // mantis tags
 
+   // cache computed fields
    private $duration; // duration = backlog or max(effortEstim, mgrEffortEstim)
+   private $drift;
+   private $driftMgr;
 
    /**
     * @var Status[]
@@ -795,6 +798,13 @@ class Issue extends Model implements Comparable {
     */
    public function getDrift($withSupport = TRUE) {
 
+      if (!is_null($this->drift)) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDrift(".$this->bugId."): (from cache) ".$this->drift);
+         }
+         return $this->drift;
+      }
+
       $totalEstim = $this->getEffortEstim() + $this->getEffortAdd();
 
       // drift = reestimated - (effortEstim + effortAdd)
@@ -817,7 +827,9 @@ class Issue extends Model implements Comparable {
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("getDrift(".$this->bugId.") derive=$derive (reestimated ".$localReestimated." - estim ".$totalEstim.")");
       }
-      return round($derive,3);
+
+      $this->drift = round($derive,3);
+      return $this->drift;
    }
 
    /**
@@ -838,12 +850,21 @@ class Issue extends Model implements Comparable {
          $myElapsed = $this->elapsed - $this->getElapsed($job_support);
       }
 */
+      if (!is_null($this->driftMgr)) {
+         if(self::$logger->isDebugEnabled()) {
+            self::$logger->debug("getDriftMgr(".$this->bugId."): (from cache) ".$this->driftMgr);
+         }
+         return $this->driftMgr;
+      }
+
       $derive = $this->getReestimated() - $this->getMgrEffortEstim();
 
       if(self::$logger->isDebugEnabled()) {
-         self::$logger->debug("bugid ".$this->bugId." ".$this->getCurrentStatusName()." derive=$derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
+         self::$logger->debug("getDriftMgr(".$this->bugId."): $derive (reestimated ".$this->getReestimated()." - estim ".$this->getMgrEffortEstim().")");
       }
-      return round($derive,3);
+      $this->drift = round($derive,3);
+      return $this->driftMgr;
+
    }
 
 
