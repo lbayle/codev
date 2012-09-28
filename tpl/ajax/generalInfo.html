@@ -20,11 +20,13 @@
          {if $isManager}<td>{$issueGeneralInfo.issueMgrEffortEstim}</td>{/if}
          <td title="{$issueGeneralInfo.issueEffortTitle}">{$issueGeneralInfo.issueEffort}</td>
       </tr>
+      {if $isManager}
       <tr>
          <td title="">{t}Reestimated{/t}</td>
-         {if $isManager}<td></td>{/if}
          <td title="">{$issueGeneralInfo.issueReestimated}</td>
+         <td></td>
       </tr>
+      {/if}
       <tr>
          <td>{t}Elapsed{/t}</td>
          {if $isManager}<td></td>{/if}
