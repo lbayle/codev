@@ -845,7 +845,11 @@ class TimeTracking {
                if (!array_key_exists($issue->getCategoryName(), $durationPerCategory)) {
                   $durationPerCategory[$issue->getCategoryName()] = array();
                }
-               $durationPerCategory[$issue->getCategoryName()][$timeTrack->getIssueId()] += $timeTrack->getDuration();
+               if(array_key_exists($timeTrack->getIssueId(),$durationPerCategory[$issue->getCategoryName()])) {
+                  $durationPerCategory[$issue->getCategoryName()][$timeTrack->getIssueId()] += $timeTrack->getDuration();
+               } else {
+                  $durationPerCategory[$issue->getCategoryName()][$timeTrack->getIssueId()] = $timeTrack->getDuration();
+               }
             }
          } catch (Exception $e) {
             self::$logger->warn("getProjectDetails($project_id) issue ".$timeTrack->getIssueId()." not found in Mantis DB (duration = ".$timeTrack->getDuration()." on ".date('Y-m-d', $timeTrack->getDate()).')');
