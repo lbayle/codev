@@ -159,7 +159,7 @@
                <tbody>
                   {foreach from=$consistencyErrors key=id item=i}
                   <tr>
-                     <td>{$i.issueURL}</td>
+                     <td>{if isset($i.issueURL)}{$i.issueURL}{/if}</td>
                      <td class="ui-state-error-text">{$i.status}</td>
                      <td class="ui-state-error-text" {if isset($i.addInfo)}title="{$i.addInfo}"{/if}>{$i.desc}</td>
                   </tr>
