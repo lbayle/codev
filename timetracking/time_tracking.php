@@ -253,8 +253,10 @@ class TimeTrackingController extends Controller {
             $endTimestamp = mktime(23, 59, 59, date("m", $weekDates[7]), date("d", $weekDates[7]), date("Y", $weekDates[7]));
             $timeTracking = new TimeTracking($startTimestamp, $endTimestamp);
             
-            $incompleteDays = $timeTracking->checkCompleteDays($userid, FALSE);
-            $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$incompleteDays);
+            $incompleteDays = array_keys($timeTracking->checkCompleteDays($userid, TRUE));
+            $missingDays = $timeTracking->checkMissingDays($userid);
+            $errorDays = array_merge($incompleteDays,$missingDays);
+            $smartyWeekDates = TimeTrackingTools::getSmartyWeekDates($weekDates,$errorDays);
 
             // UTF8 problems in smarty, date encoding needs to be done in PHP
             $this->smartyHelper->assign('weekDates', array(
@@ -264,7 +266,7 @@ class TimeTrackingController extends Controller {
                $smartyWeekDates[6], $smartyWeekDates[7]
             ));
 
-            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking, $incompleteDays);
+            $weekTasks = TimeTrackingTools::getWeekTask($weekDates, $userid, $timeTracking, $errorDays);
             $this->smartyHelper->assign('weekTasks', $weekTasks["weekTasks"]);
             $this->smartyHelper->assign('dayTotalElapsed', $weekTasks["totalElapsed"]);
 
