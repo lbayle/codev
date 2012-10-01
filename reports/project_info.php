@@ -89,7 +89,7 @@ class ProjectInfoController extends Controller {
                // --- FILTER TABS -------------
 
                // TODO: get allFilters from config.ini
-               $allFilters = "ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter";
+               $allFilters = "ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
                
                $tmpList = explode(',', $allFilters);
                $tmpList = array_filter($tmpList, create_function('$a','return $a!="";'));

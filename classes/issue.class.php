@@ -87,7 +87,7 @@ class Issue extends Model implements Comparable {
      */
 
    // CodevTT custom fields
-   private $tcId;         // TelelogicChange id
+   private $extRef;         // TelelogicChange id
    private $backlog;
    private $mgrEffortEstim;  // Manager EffortEstim (ex prelEffortEstim/ETA)
    private $effortEstim;  // BI
@@ -95,6 +95,7 @@ class Issue extends Model implements Comparable {
    private $deadLine;
    private $deliveryDate;
    private $deliveryId;   // TODO FDL (FDJ specific)
+   private $type; // string: "Bug" or "Task"
 
    private $tagList; // mantis tags
 
@@ -208,8 +209,10 @@ class Issue extends Model implements Comparable {
       $deadLineField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
       #$deliveryIdField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      $customField_type = Config::getInstance()->getValue(Config::id_customField_type);
+
       $customFields = array(
-         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField #, $deliveryIdField
+         $extIdField, $mgrEffortEstimField, $effortEstimField, $backlogField, $addEffortField, $deadLineField, $deliveryDateField, $customField_type #, $deliveryIdField
       );
       $query = "SELECT field_id, value FROM `mantis_custom_field_string_table` ".
                "WHERE bug_id = ".$this->bugId." ".
@@ -222,7 +225,7 @@ class Issue extends Model implements Comparable {
       while ($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          switch ($row->field_id) {
             case $extIdField:
-               $this->tcId = $row->value;
+               $this->extRef = $row->value;
                break;
             case $mgrEffortEstimField:
                $this->mgrEffortEstim = $row->value;
@@ -244,6 +247,9 @@ class Issue extends Model implements Comparable {
                break;
             case $deliveryIdField:
                $this->deliveryId = $row->value;
+               break;
+            case $customField_type:
+               $this->type = $row->value;
                break;
          }
       }
@@ -335,6 +341,13 @@ class Issue extends Model implements Comparable {
       return $this->tagList;
    }
 
+   /**
+    * value ao the CodevTT customField 'Type'
+    * @return String type "Bug" or "Task"
+    */
+   public function getType() {
+      return $this->type;
+   }
 
    /**
     * @return IssueNote[]
@@ -541,7 +554,7 @@ class Issue extends Model implements Comparable {
          $this->customFieldInitialized = true;
          $this->initializeCustomField();
       }
-      return $this->tcId;
+      return $this->extRef;
    }
 
    /**
@@ -1802,7 +1815,7 @@ class Issue extends Model implements Comparable {
    public function setExternalRef($value) {
       $extRefCustomField = Config::getInstance()->getValue(Config::id_customField_ExtId);
       $this->setCustomField($extRefCustomField, $value);
-      $this->tcId = $value;
+      $this->extRef = $value;
    }
 
    /**
