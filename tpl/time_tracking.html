@@ -10,7 +10,7 @@
       </fieldset>
    </form>
    {/if}
-   {if $otherrealname}
+   {if isset($otherrealname)}
 
    <h2>{$otherrealname}</h2>
 
@@ -191,7 +191,6 @@
    </div>
 
    <div align="center" style="display: inline-block;">
-
       <div style="margin-top: 2em;">
          <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -322,7 +321,7 @@
                   <td>{$i.projectName}</td>
                   <td>{$i.issueSummary}</td>
                   <td>{$i.jobName}</td>
-                  <td>{$i.categoryName}</td>
+                  <td nowrap="nowrap">{$i.categoryName}</td>
                   <td>{$i.currentStatusName}</td>
                </tr>
                {/foreach}
@@ -361,7 +360,7 @@
                   <td>{$i.projectName}</td>
                   <td>{$i.issueSummary}</td>
                   <td>{$i.jobName}</td>
-                  <td>{$i.categoryName}</td>
+                  <td nowrap="nowrap">{$i.categoryName}</td>
                   <td>{$i.currentStatusName}</td>
                </tr>
                {/foreach}
