@@ -89,7 +89,7 @@
                '{$i.driftColor}',
                '{$i.deadline}',
                '{t}Task{/t} {$i.dialogBoxTitle} - {t}Update Backlog{/t}'
-            );return false;" href="{$page}">{$i.formattedBacklog}</a>
+            );return false;" href="#">{$i.formattedBacklog}</a>
          </td>
          <td class="job-{$i.jobid}">{$i.jobName}</td>
          {foreach from=$i.dayTasks key=day item=j}

@@ -40,11 +40,12 @@ class TimeTrackingTools {
     */
    public static function getWeekTask(array $weekDates, $userid, TimeTracking $timeTracking, array $incompleteDays) {
       $totalElapsed = array();
+      $todayAtMidnight = mktime(0,0,0);
       for ($i = 1; $i <= 7; $i++) {
          $weekDate = $weekDates[$i];
          $totalElapsed[$weekDate] = array(
             "elapsed" => 0,
-            "class" => array_key_exists($weekDate,$incompleteDays) ? "incompleteDay" : ""
+            "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
          );
       }
       
@@ -146,15 +147,17 @@ class TimeTrackingTools {
     * @param array $incompleteDays
     * @return array
     */
-   public static function getSmartyWeekDates($weekDates, $incompleteDays) {
+   public static function getSmartyWeekDates(array $weekDates, array $incompleteDays) {
       $smartyWeekDates = array();
       
+      $todayAtMidnight = mktime(0,0,0);
+      
       foreach($weekDates as $key => $weekDate) {
-         $smartyWeekDates[$key] = array(
-             "date" => date('Y-m-d',$weekDate),
-             "formattedDate" => Tools::formatDate("%A\n%d %b", $weekDate),
-             "class" => array_key_exists($weekDate,$incompleteDays) ? "incompleteDay" : ""
-         );
+            $smartyWeekDates[$key] = array(
+               "date" => date('Y-m-d',$weekDate),
+               "formattedDate" => Tools::formatDate("%A\n%d %b", $weekDate),
+               "class" => in_array($weekDate,$incompleteDays) && $weekDate < $todayAtMidnight ? "incompleteDay" : ""
+            );
       }
       
       return $smartyWeekDates;
