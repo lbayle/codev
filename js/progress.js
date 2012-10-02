@@ -1,5 +1,9 @@
 jQuery(document).ready(function() {
-   jQuery(".progress").each(function() {
+   updateProgressBar();
+});
+
+function updateProgressBar() {
+      jQuery(".progress").each(function() {
       var progress = jQuery(this);
       var title = progress.text();
       var value = parseInt(title.replace('%',''));
@@ -10,4 +14,5 @@ jQuery(document).ready(function() {
       //progress.find(".ui-progressbar-value").attr('title',title);
       progress.find(".ui-progressbar-value").append("<div>"+title+"</div>");
    });
-});
+
+}

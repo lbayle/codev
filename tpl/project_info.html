@@ -1,9 +1,9 @@
 <div id="content">
-   {include file="form/projectFilterDialogbox.html"}
+   {include file="form/selectFiltersDialogbox.html"}
 
    {if isset($projects)}
    <div class="center">
-      <form name="projectForm" id="projectForm" class = "formWithTabsHistory" method="get" action="{$page}">
+      <form name="mainForm" id="mainForm" class = "formWithTabsHistory" method="get" action="{$page}">
          <fieldset>
             <label for="projectid">{t}Project{/t}: </label>
             <select id="projectid" name="projectid">

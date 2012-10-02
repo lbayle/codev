@@ -1,14 +1,14 @@
 <script type="text/javascript">
    jQuery(document).ready(function() {
       jQuery("#teamid").change(function() {
-         var form = jQuery('#selectForm');
+         var form = jQuery('#mainForm');
          form.find("select[name=cmdid]").val("0");
          form.find("input[name=action]").val("setTeam");
          form.submit();
       });
 
-      jQuery("#sendForm").click(function() {
-         var form = jQuery('#selectForm');
+      jQuery("#btDisplayPage").click(function() {
+         var form = jQuery('#mainForm');
          form.find("input[name=action]").val("displayCommand");
          form.submit();
       });
@@ -19,7 +19,7 @@
 
    <div align="center">
       <!-- create form -->
-      <form id="selectForm" name="selectForm" class="formWithTabsHistory" method="post" action="{$page}">
+      <form id="mainForm" name="mainForm" class="formWithTabsHistory" method="post" action="{$page}">
          <fieldset>
             <label for="teamid">{t}Team{/t}: </label>
             <select id="teamid" name="teamid">
@@ -35,8 +35,10 @@
                {/foreach}
                <option value="0">{t}--- Create New Command ---{/t}</option>
             </select>
-            <input type="button" id="sendForm" value="{t}Jump{/t}" />
+            <input type="button" id="btDisplayPage" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayCommand" />
+
+            <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
          </fieldset>
       </form>
    </div>
@@ -114,6 +116,7 @@
          <li><a href="#tabsName-4">{t}Activity{/t}</a></li>
          <li><a href="#tabsName-1">{t}Tasks{/t} ({$cmdNbIssues})</a></li>
          <li><a href="#tabsName-2">{t}Indicators{/t}</a></li>
+         <li><a href="#tabsName-5">{t}Detailed Charges{/t}</a></li>
       </ul>
 
       <div id="tabsName-3">
@@ -220,6 +223,10 @@
 
       <div id="tabsName-4">
       {include file="plugin/activity_indicator.html"}
+      </div>
+
+      <div id="tabsName-5">
+      {include file="plugin/detailed_charges_indicator.html"}
       </div>
 
       {/if}

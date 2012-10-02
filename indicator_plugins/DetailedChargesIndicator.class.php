@@ -28,7 +28,6 @@ class DetailedChargesIndicator implements IndicatorPlugin {
     * @var Logger The logger
     */
    private static $logger;
-   private $id;
 
    protected $execData;
 
@@ -48,8 +47,8 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       self::$logger = Logger::getLogger(__CLASS__);
    }
 
-   public function __construct($id) {
-      $this->id = $id;
+   public function __construct() {
+
    }
 
    public function getDesc() {
@@ -58,7 +57,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
    public function getName() {
       return __CLASS__;
    }
-   public function getSmartyFilename() {
+   public static function getSmartyFilename() {
       return "plugin/detailed_charges_indicator.html";
    }
 
@@ -135,8 +134,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       $this->checkParams($inputIssueSel, $params);
 
       // do the work ...
-      $projectIssueSel = $project->getIssueSelection();
-      $filterMgr = new FilterManager($projectIssueSel, $filterList);
+      $filterMgr = new FilterManager($inputIssueSel, $this->filterList);
       $resultList = $filterMgr->execute();
       $this->execData = $filterMgr->explodeResults($resultList);
 
@@ -156,12 +154,13 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       $smartyVariables['selectedFilterList'] = $this->selectedFilterList;
       $smartyVariables['selectedFilters'] = $this->selectedFilters;
       $smartyVariables['nbFilters'] = count($this->filterList);
-      $this->getOverview($this->execData, $this->filterDisplayNames, $this->isManager, $smartyVariables);
+      $smartyVariables = $this->getOverview($this->execData, $this->filterDisplayNames, $this->isManager, $smartyVariables);
       if ($this->isManager) {
-         $this->getDetailed($this->execData, $this->filterDisplayNames, $smartyVariables);
+         $smartyVariables = $this->getDetailed($this->execData, $this->filterDisplayNames, $smartyVariables);
       }
-      $this->getIssues($this->execData, $this->filterDisplayNames, $smartyVariables);
+      $smartyVariables = $this->getIssues($this->execData, $this->filterDisplayNames, $smartyVariables);
 
+      #var_dump($smartyVariables);
       return $smartyVariables;
    }
 
@@ -235,6 +234,7 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       $smartyVariables['overviewLines'] = $smartyObj;
       $smartyVariables['overviewTotal'] = $totalLine;
 
+      return $smartyVariables;
    }
 
    /**
@@ -291,6 +291,8 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       $smartyVariables['detailedMgrTitles'] = $titles;
       $smartyVariables['detailedMgrLines'] = $smartyObj;
       $smartyVariables['detailedMgrTotal'] = $totalLine;
+
+      return $smartyVariables;
    }
 
    /**
@@ -361,6 +363,8 @@ class DetailedChargesIndicator implements IndicatorPlugin {
       $smartyVariables['issuesTitles'] = $titles;
       $smartyVariables['issuesLines'] = $smartyObj;
       $smartyVariables['issuesTotal'] = $totalLine;
+
+      return $smartyVariables;
    }
 
 }

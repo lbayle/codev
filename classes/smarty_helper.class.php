@@ -101,7 +101,12 @@ class SmartyHelper {
       } else {
          self::$logger->error("Headers already sent");
       }
-      $this->smarty->display($template . '.html');
+
+      if (Tools::endsWith($template, '.html')) {
+         $this->smarty->display($template);
+      } else {
+         $this->smarty->display($template . '.html');
+      }
    }
 
    /**

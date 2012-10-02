@@ -148,11 +148,31 @@ class CommandTools {
       return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
    }
 
+   public static function getDetailedCharges(Command $cmd, $isManager, $selectedFilters) {
+
+      $issueSel = $cmd->getIssueSelection();
+
+      $allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
+
+      $params = array(
+         'isManager' => $isManager,
+         'selectedFilters' => $selectedFilters,
+         'allFilters' => $allFilters
+      );
+
+
+      $detailedChargesIndicator = new DetailedChargesIndicator();
+      $detailedChargesIndicator->execute($issueSel, $params);
+
+      return $detailedChargesIndicator->getSmartyObject();
+
+   }
+
    /**
     * @param SmartyHelper $smartyHelper
     * @param Command $cmd
     */
-   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd) {
+   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $selectedFilters) {
       $smartyHelper->assign('cmdid', $cmd->getId());
       $smartyHelper->assign('cmdName', $cmd->getName());
       $smartyHelper->assign('cmdReference', $cmd->getReference());
@@ -195,6 +215,13 @@ class CommandTools {
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
       $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
+
+      // DetailedChargesIndicator
+      $data = self::getDetailedCharges($cmd, $isManager, $selectedFilters);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
    }
 }
 

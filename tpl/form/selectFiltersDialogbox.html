@@ -1,3 +1,11 @@
+<!--
+
+Contains:
+- a form to call the DialogBox
+- the Filter selection DialogBox
+
+-->
+
 <style>
    .sortable { list-style-type: none; margin: 0; padding: 0; margin-right: 10px; background: #eee; padding: 5px; width: 173px;}
    .sortable li { margin: 5px; padding: 5px; font-size: 1.2em; width: 150px; }
@@ -25,14 +33,14 @@
                   filters += jQuery(this).attr('id') + ',';
                });
                filters = filters.slice(0,-1);
-               var form = jQuery("#projectForm");
+               var form = jQuery("#selectFiltersForm");
                form.find("input[name=selectedFilters]").val(filters);
                if(filters.length != 0) {
-                  form.find("#projectFilters img").attr("src","images/im-filter-active.png");
-                  form.submit();
+                  form.find("#selectFilters img").attr("src","images/im-filter-active.png");
                } else {
-                  form.find("#projectFilters img").attr("src","images/im-filter.png");
+                  form.find("#selectFilters img").attr("src","images/im-filter.png");
                }
+               form.submit();
                jQuery(this).dialog("close");
             },
             Cancel: function() {
@@ -51,9 +59,36 @@
       });
       
       jQuery(".sortable").disableSelection();
+
+      jQuery("#selectFiltersForm").submit(function(event) {
+         event.preventDefault();
+         var form = jQuery(this);
+         jQuery.ajax({
+            type: form.attr("method"),
+            url: form.attr("action"),
+            data: form.serialize(),
+            success: function(data) {
+               jQuery("#detailedChargesData").html(jQuery.trim(data));
+               // FIXME updateProgressBar();
+            }
+         });
+      });
 });
 
 </script>
+
+   <form name="selectFiltersForm" id="selectFiltersForm" method="get" action="{$ajaxPage}">
+      <fieldset>
+         <label for="selectFilters">{t}Add filters{/t}: </label>
+         <a title="{t}Set filters{/t}" id="selectFilters" style="text-decoration: none" href="{$page}">
+            <img border="0" width="16" height="12" align="absmiddle" src="images/{if isset($selectedFilters) && $selectedFilters != ""}im-filter-active.png{else}im-filter.png{/if}" alt="{t}Set filters{/t}" />
+         </a>
+         <input type="hidden" name="cmdid" value="{$cmdid}" />
+         <input type="hidden" name="action" value="updateDetailedCharges" />
+         <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
+      </fieldset>
+   </form>
+
 
 <div id="set_projectfilter_dialog" title="{t}Task Filters{/t}" class="ui-helper-hidden">
    <p id="setfilter_desc">{t}Drag & drop the filters to apply{/t}</p>

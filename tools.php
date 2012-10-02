@@ -1076,6 +1076,15 @@ class Tools {
       return array_key_exists('userid',$_SESSION);
    }
 
+   public static function endsWith($haystack, $needle)
+   {
+      $length = strlen($needle);
+      if ($length == 0) {
+         return true;
+      }
+
+      return (substr($haystack, -$length) === $needle);
+   }
 
 
 }

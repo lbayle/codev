@@ -72,7 +72,23 @@ class CommandInfoController extends Controller {
                $teamid = $cmd->getTeamid();
                $_SESSION['teamid'] = $teamid;
 
-               CommandTools::displayCommand($this->smartyHelper, $cmd);
+               $isManager = $session_user->isTeamManager($cmd->getTeamid());
+
+
+               // get selected filters
+               $selectedFilters="";
+               if(isset($_GET['selectedFilters'])) {
+                  $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
+               } else {
+                  #$selectedFilters = $session_user->getCommandFilters($cmdid);
+                  
+                  // TODO
+                  #$selectedFilters='ProjectVersionFilter,IssueCodevTypeFilter';
+
+               }
+
+
+               CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager, $selectedFilters);
 
                // ConsistencyCheck
                $consistencyErrors = $this->getConsistencyErrors($cmd);
@@ -84,7 +100,7 @@ class CommandInfoController extends Controller {
                }
 
                // access rights
-               if (($session_user->isTeamManager($cmd->getTeamid())) ||
+               if (($isManager) ||
                   ($session_user->isTeamLeader($cmd->getTeamid()))) {
                   $this->smartyHelper->assign('isEditGranted', true);
                }
