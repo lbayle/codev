@@ -164,8 +164,10 @@ class CommandTools {
       $detailedChargesIndicator = new DetailedChargesIndicator();
       $detailedChargesIndicator->execute($issueSel, $params);
 
-      return $detailedChargesIndicator->getSmartyObject();
+      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
+      $smartyVariable['selectFiltersSrcId'] = $cmd->getId();
 
+      return $smartyVariable;
    }
 
    /**

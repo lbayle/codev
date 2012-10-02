@@ -83,7 +83,7 @@ Contains:
          <a title="{t}Set filters{/t}" id="selectFilters" style="text-decoration: none" href="{$page}">
             <img border="0" width="16" height="12" align="absmiddle" src="images/{if isset($selectedFilters) && $selectedFilters != ""}im-filter-active.png{else}im-filter.png{/if}" alt="{t}Set filters{/t}" />
          </a>
-         <input type="hidden" name="cmdid" value="{$cmdid}" />
+         <input type="hidden" name="selectFiltersSrcId" value="{$selectFiltersSrcId}" />
          <input type="hidden" name="action" value="updateDetailedCharges" />
          <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
       </fieldset>

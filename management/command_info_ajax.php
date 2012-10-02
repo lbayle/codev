@@ -63,7 +63,7 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
       } else if ($_GET['action'] == 'updateDetailedCharges') {
 
 
-         $cmdid = Tools::getSecureGETIntValue('cmdid');
+         $cmdid = Tools::getSecureGETIntValue('selectFiltersSrcId');
          $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
 
 

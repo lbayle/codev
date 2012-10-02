@@ -30,6 +30,7 @@ class ProjectInfoController extends Controller {
       // Nothing special
    }
 
+
    protected function display() {
       if(Tools::isConnectedUser()) {
          $user = UserCache::getInstance()->getUser($_SESSION['userid']);
@@ -69,6 +70,9 @@ class ProjectInfoController extends Controller {
                $this->smartyHelper->assign("isManager", $isManager);
 
                $project = ProjectCache::getInstance()->getProject($projectid);
+               $projectIssueSel = $project->getIssueSelection();
+
+               // --- FILTER TABS -------------
 
                // get selected filters
                $selectedFilters="";
@@ -86,50 +90,11 @@ class ProjectInfoController extends Controller {
                // save user preferances
                $user->setProjectFilters($selectedFilters, $projectid);
 
-               // --- FILTER TABS -------------
-
                // TODO: get allFilters from config.ini
-               $allFilters = "ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
-               
-               $tmpList = explode(',', $allFilters);
-               $tmpList = array_filter($tmpList, create_function('$a','return $a!="";'));
-
-               $allFilterList = array();
-               foreach ($tmpList as $class_name) {
-                  if (NULL == $class_name) { continue; } // skip trailing commas ','
-                  $filter = new $class_name("fake_id");
-                  $allFilterList[$class_name] = $filter->getDisplayName();
+               $data = ProjectInfoTools::getDetailedCharges($projectid, $isManager, $selectedFilters);
+               foreach ($data as $smartyKey => $smartyVariable) {
+                  $this->smartyHelper->assign($smartyKey, $smartyVariable);
                }
-
-               // init dialogbox lists: $availFilterList & $selectedFilterList
-               $availFilterList = $allFilterList;
-
-               $selectedFilterList = array();
-               $filterDisplayNames = array();
-               foreach ($filterList as $id) {
-                  $selectedFilterList[$id] = $availFilterList[$id];
-                  $filterDisplayNames[]    = $allFilterList[$id];
-                  unset($availFilterList[$id]);
-               }
-
-               // do the work ...
-               $projectIssueSel = $project->getIssueSelection();
-               $filterMgr = new FilterManager($projectIssueSel, $filterList);
-               $resultList = $filterMgr->execute();
-               $explodeResults = $filterMgr->explodeResults($resultList);
-
-
-               // set smarty objects
-               $this->smartyHelper->assign('availFilterList', $availFilterList);
-               $this->smartyHelper->assign('selectedFilterList', $selectedFilterList);
-               $this->smartyHelper->assign('selectedFilters', $selectedFilters);
-               $this->smartyHelper->assign('nbFilters', count($filterList));
-               $this->getOverview($explodeResults, $filterDisplayNames, $isManager);
-               if ($isManager) {
-                  $this->getDetailedMgr($explodeResults, $filterDisplayNames);
-               }
-               $this->getIssues($explodeResults, $filterDisplayNames);
-
 
                // --- DRIFT TABS -------------------
                
