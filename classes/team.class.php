@@ -446,16 +446,30 @@ class Team extends Model {
     * @return Issue[] : issueList
     */
    public function getTeamIssueList($addUnassignedIssues = false, $withDisabledProjects = true) {
+
+      $issueList = array();
+      
       $projectList = $this->getProjects(true, $withDisabledProjects);
       $memberList = $this->getMembers();
 
-      $formatedProjects = implode( ', ', array_keys($projectList));
-      $formatedMembers = implode( ', ', array_keys($memberList));
+      $memberIdList = array_keys($memberList);
 
+      if (0 == count($memberIdList)) {
+         self::$logger->error("getTeamIssues(teamid=$this->id) : No members defined in the team !");
+      }
+      
       // add unassigned tasks
       if ($addUnassignedIssues) {
-         $formatedMembers .= ',0';
+         $memberIdList[] = '0';
       }
+
+      if (0 == count($memberIdList)) {
+         return $issueList;
+      }
+      
+      $formatedProjects = implode( ', ', array_keys($projectList));
+      $formatedMembers = implode( ', ', $memberIdList);
+
 
       if(self::$logger->isDebugEnabled()) {
          self::$logger->debug("getTeamIssues(teamid=$this->id) projects=$formatedProjects members=$formatedMembers");
@@ -471,7 +485,6 @@ class Team extends Model {
          echo "<span style='color:red'>ERROR: Query FAILED</span>";
          exit;
       }
-      $issueList = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
          $issueList[$row->id] = IssueCache::getInstance()->getIssue($row->id, $row);
       }
