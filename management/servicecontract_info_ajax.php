@@ -90,6 +90,23 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          } else {
             Tools::sendBadRequest("Service contract not set");
          }
+      } else if ($_GET['action'] == 'updateDetailedCharges') {
+
+         $servicecontractid = Tools::getSecureGETIntValue('selectFiltersSrcId');
+         $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
+
+
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $servicecontract = ServiceContractCache::getInstance()->getServiceContract($servicecontractid);
+         $isManager = $session_user->isTeamManager($servicecontract->getTeamid());
+
+         // DetailedChargesIndicator
+         $data = ServiceContractTools::getDetailedCharges($servicecontract, $isManager, $selectedFilters);
+         foreach ($data as $smartyKey => $smartyVariable) {
+            $smartyHelper->assign($smartyKey, $smartyVariable);
+         }
+         $smartyHelper->display('plugin/detailed_charges_indicator_data.html');
+
       } else {
          Tools::sendNotFoundAccess();
       }

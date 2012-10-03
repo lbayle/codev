@@ -332,11 +332,32 @@ class ServiceContractTools {
       return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
    }
 
+   public static function getDetailedCharges(ServiceContract $serviceContract, $isManager, $selectedFilters) {
+
+      $issueSel = $serviceContract->getIssueSelection(CommandSet::type_general, Command::type_general);
+
+      $allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
+
+      $params = array(
+         'isManager' => $isManager,
+         'selectedFilters' => $selectedFilters,
+         'allFilters' => $allFilters
+      );
+
+      $detailedChargesIndicator = new DetailedChargesIndicator();
+      $detailedChargesIndicator->execute($issueSel, $params);
+
+      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
+      $smartyVariable['selectFiltersSrcId'] = $serviceContract->getId();
+
+      return $smartyVariable;
+   }
+
    /**
     * @param SmartyHelper $smartyHelper
     * @param ServiceContract $servicecontract
     */
-   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract) {
+   public static function displayServiceContract(SmartyHelper $smartyHelper, $servicecontract, $isManager, $selectedFilters = '') {
       #$smartyHelper->assign('servicecontractId', $servicecontract->getId());
       $smartyHelper->assign('teamid', $servicecontract->getTeamid());
       $smartyHelper->assign('servicecontractName', $servicecontract->getName());
@@ -369,6 +390,12 @@ class ServiceContractTools {
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
       $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
+
+      // DetailedChargesIndicator
+      $data = self::getDetailedCharges($servicecontract, $isManager, $selectedFilters);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
    }
 
 }

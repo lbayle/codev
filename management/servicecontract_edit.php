@@ -143,7 +143,8 @@ class ServiceContractEditController extends Controller {
             $projectCandidates = $this->getProjectCandidates($servicecontractid);
             $this->smartyHelper->assign('projectCandidates', $projectCandidates);
 
-            ServiceContractTools::displayServiceContract($this->smartyHelper, $contract);
+            $isManager = $session_user->isTeamManager($contract->getTeamid());
+            ServiceContractTools::displayServiceContract($this->smartyHelper, $contract, $isManager);
          }
       }
    }
