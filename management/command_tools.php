@@ -198,7 +198,6 @@ class CommandTools {
 
       // set Issues that belong to me
       $cmdIssueSel = $cmd->getIssueSelection();
-      $smartyHelper->assign('cmdDetailedMgr', SmartyTools::getIssueSelectionDetailedMgr($cmdIssueSel));
       $smartyHelper->assign('cmdNbIssues', $cmdIssueSel->getNbIssues());
       $smartyHelper->assign('cmdShortIssueList', $cmdIssueSel->getFormattedIssueList());
 
