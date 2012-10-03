@@ -35,6 +35,8 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
 
          $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
 
+         // save user preferances
+         $user->setProjectFilters($selectedFilters, $projectid);
 
          // DetailedChargesIndicator
          $data = ProjectInfoTools::getDetailedCharges($projectid, $isManager, $selectedFilters);
