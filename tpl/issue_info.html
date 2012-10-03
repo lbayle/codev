@@ -277,6 +277,7 @@
                      {foreach from=$i.months key=id item=j}
                      <th>{$j}</th>
                      {/foreach}
+                     <th>TOTAL</th>
                   </tr>
                </thead>
                <tbody>
@@ -286,6 +287,7 @@
                      {foreach from=$k.jobs key=id item=l}
                      <td style="{if isset($l.jobColor)}background-color: #{$l.jobColor};{/if} text-align: center;" {if isset($l.jobDescription)}title="{$l.jobDescription}"{/if}>{if isset($l.jobDuration)}{$l.jobDuration}{/if}</td>
                      {/foreach}
+                     <th>{$k.totalDuration}</th>
                   </tr>
                   {/foreach}
                </tbody>

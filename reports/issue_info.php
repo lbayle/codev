@@ -284,6 +284,9 @@ class IssueInfoController extends Controller {
       $users = NULL;
       $timeTracks = $issue->getTimeTracks();
       foreach ($userList as $uid => $username) {
+
+         $userTotalDuration = 0;
+
          // build $durationByDate[] for this user
          $durationByDate = array();
          $jobColorByDate = array();
@@ -304,6 +307,9 @@ class IssueInfoController extends Controller {
             $todayTimestamp = mktime(0, 0, 0, $month, $i, $year);
 
             if (array_key_exists($todayTimestamp,$durationByDate)) {
+
+               $userTotalDuration += $durationByDate[$todayTimestamp];
+
                $usersDetails[] = array(
                   "jobColor" => $jobColorByDate[$todayTimestamp],
                   "jobDuration" => $durationByDate[$todayTimestamp]
@@ -325,7 +331,8 @@ class IssueInfoController extends Controller {
 
          $users[] = array(
             "username" => $username,
-            "jobs" => $usersDetails
+            "jobs" => $usersDetails,
+            'totalDuration' => (0 == $userTotalDuration ? '' : $userTotalDuration)
          );
       }
 
