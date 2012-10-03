@@ -55,6 +55,9 @@ class CreateTeamController extends Controller {
             if ($teamid > 0) {
                $team = TeamCache::getInstance()->getTeam($teamid);
 
+               // --- add teamLeader as 'manager'
+               $team->addMember($teamleader_id, $now, Team::accessLevel_manager);
+               
                // 2) --- add ExternalTasksProject
                $team->addExternalTasksProject();
                
