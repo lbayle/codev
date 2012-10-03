@@ -358,6 +358,7 @@ function createCustomFields() {
    $mType_string = 0;
    $mType_numeric = 1;
    $mType_enum = 3;
+   $mType_list = 6;
    $mType_date = 8;
 
    $access_viewer = 10;
@@ -381,6 +382,9 @@ function createCustomFields() {
    $attributes["display_report"] = 1;
    $defaultValue = 1;
    createCustomField(T_("CodevTT_EffortEstim"), $mType_numeric, "customField_effortEstim", $attributes, $defaultValue);
+   $defaultValue = NULL;
+   $possible_values = 'Bug|Task';
+   createCustomField(T_("CodevTT_Type"), $mType_list, "customField_type", $attributes, $defaultValue, $possible_values);
 
    $attributes["require_report"] = 0;
    $attributes["display_report"] = 1;

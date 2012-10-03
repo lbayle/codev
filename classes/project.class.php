@@ -448,6 +448,7 @@ class Project extends Model {
       $deadLineCustomField = Config::getInstance()->getValue(Config::id_customField_deadLine);
       $deliveryDateCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryDate);
       #$deliveryIdCustomField = Config::getInstance()->getValue(Config::id_customField_deliveryId);
+      $typeCustomField = Config::getInstance()->getValue(Config::id_customField_type);
 
       $existingFields = array();
       while($row = SqlWrapper::getInstance()->sql_fetch_object($result)) {
@@ -458,14 +459,15 @@ class Project extends Model {
                "VALUES ";
 
       $found = FALSE;
-      if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$projectid','101'),"; $found = TRUE; }
-      if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','102'),"; $found = TRUE; }
-      if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','103'),"; $found = TRUE; }
-      if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','104'),"; $found = TRUE; }
-      if (!in_array($backlogCustomField, $existingFields))    { $query .= "('$backlogCustomField',    '$projectid','105'),"; $found = TRUE; }
-      if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','106'),"; $found = TRUE; }
-      if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','107'),"; $found = TRUE; }
-      #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','108'),"; $found = true; }
+      if (!in_array($typeCustomField, $existingFields))         { $query .= "('$typeCustomField',         '$projectid','101'),"; $found = TRUE; }
+      if (!in_array($tcCustomField, $existingFields))           { $query .= "('$tcCustomField',           '$projectid','102'),"; $found = TRUE; }
+      if (!in_array($mgrEffortEstim, $existingFields))          { $query .= "('$mgrEffortEstim',          '$projectid','103'),"; $found = TRUE; }
+      if (!in_array($estimEffortCustomField, $existingFields))  { $query .= "('$estimEffortCustomField',  '$projectid','104'),"; $found = TRUE; }
+      if (!in_array($addEffortCustomField, $existingFields))    { $query .= "('$addEffortCustomField',    '$projectid','105'),"; $found = TRUE; }
+      if (!in_array($backlogCustomField, $existingFields))      { $query .= "('$backlogCustomField',      '$projectid','106'),"; $found = TRUE; }
+      if (!in_array($deadLineCustomField, $existingFields))     { $query .= "('$deadLineCustomField',     '$projectid','107'),"; $found = TRUE; }
+      if (!in_array($deliveryDateCustomField, $existingFields)) { $query .= "('$deliveryDateCustomField', '$projectid','108'),"; $found = TRUE; }
+      #if (!in_array($deliveryIdCustomField, $existingFields))   { $query .= "('$deliveryIdCustomField',   '$this->id','109'),"; $found = TRUE; }
 
       if ($found) {
          // replace last ',' with a ';' to finish query
