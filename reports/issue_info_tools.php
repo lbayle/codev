@@ -40,6 +40,7 @@ class IssueInfoTools {
       $issueGeneralInfo = array(
          "issueId" => $issue->getId(),
          "issueSummary" => htmlspecialchars($issue->getSummary()),
+         "issueDescription" => htmlspecialchars($issue->getDescription()),
          "issueExtRef" => $issue->getTcId(),
          'mantisURL'=> Tools::mantisIssueURL($issue->getId(), NULL, true),
          'issueURL' => Tools::mantisIssueURL($issue->getId()),

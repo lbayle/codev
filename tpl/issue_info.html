@@ -51,7 +51,7 @@
       <div style="margin-top:2em;">{include file="modal/consistency_check.html"}</div>
 
       <div class="center">
-         {if $issueGeneralInfo.issueExtRef}<span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>{/if}
+         <!--{if $issueGeneralInfo.issueExtRef}<span title="{t}External ID{/t}">{$issueGeneralInfo.issueExtRef}</span>{/if}-->
          <h2>{$issueGeneralInfo.mantisURL} {$issueGeneralInfo.issueURL} : {$issueGeneralInfo.issueSummary}</h2>
       </div>
 
@@ -79,6 +79,11 @@
                <td>{$issueGeneralInfo.statusName}</td>
             </tr>
             <tr>
+               <th valign="top">{t}Description{/t}</th>
+               <td valign="top">: </td>
+               <td>{$issueGeneralInfo.issueDescription|nl2br}</td>
+            </tr>
+            <tr>
                <th valign='top'>{t}Commands{/t}</th>
                <td valign='top'>: </td>
                <td>
@@ -102,7 +107,7 @@
          <div id="tabsName-1">
             <!-- General info -->
             <div id="issueGeneralInfo" class="float">
-               {include file="ajax/generalInfo.html"}
+               {include file="ajax/issueGeneralInfo.html"}
             </div>
 
             <script type="text/javascript">
