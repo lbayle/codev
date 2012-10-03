@@ -78,10 +78,8 @@ Contains:
 
    <form name="selectFiltersForm" id="selectFiltersForm" method="get" action="{$ajaxPage}">
       <fieldset>
-         <label for="selectFilters">{t}Add filters{/t}: </label>
-         <a title="{t}Set filters{/t}" id="selectFilters" style="text-decoration: none" href="{$page}">
-            <img border="0" width="16" height="12" align="absmiddle" src="images/{if isset($selectedFilters) && $selectedFilters != ""}im-filter-active.png{else}im-filter.png{/if}" alt="{t}Set filters{/t}" />
-         </a>
+         <button type="submit" id="selectFilters"><img border="0" align="absmiddle" src="images/{if isset($selectedFilters) && $selectedFilters != ""}im-filter-active.png{else}im-filter.png{/if}" alt="Filters icon"/> {t}Set filters{/t}</button>
+
          <input type="hidden" name="selectFiltersSrcId" value="{$selectFiltersSrcId}" />
          <input type="hidden" name="action" value="updateDetailedCharges" />
          <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
