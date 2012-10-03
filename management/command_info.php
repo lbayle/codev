@@ -74,17 +74,13 @@ class CommandInfoController extends Controller {
 
                $isManager = $session_user->isTeamManager($cmd->getTeamid());
 
-
                // get selected filters
                $selectedFilters="";
                if(isset($_GET['selectedFilters'])) {
                   $selectedFilters = Tools::getSecureGETStringValue('selectedFilters');
                } else {
-                  #$selectedFilters = $session_user->getCommandFilters($cmdid);
-                  
                   // TODO
-                  #$selectedFilters='ProjectVersionFilter,IssueCodevTypeFilter';
-
+                  #$selectedFilters = $session_user->getCommandFilters($cmdid);
                }
 
 

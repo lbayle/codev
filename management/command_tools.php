@@ -174,7 +174,7 @@ class CommandTools {
     * @param SmartyHelper $smartyHelper
     * @param Command $cmd
     */
-   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $selectedFilters) {
+   public static function displayCommand(SmartyHelper $smartyHelper, Command $cmd, $isManager, $selectedFilters='') {
       $smartyHelper->assign('cmdid', $cmd->getId());
       $smartyHelper->assign('cmdName', $cmd->getName());
       $smartyHelper->assign('cmdReference', $cmd->getReference());

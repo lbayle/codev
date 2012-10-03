@@ -178,12 +178,33 @@ class CommandSetTools {
       return array($activityIndicator->getSmartyObject(), $startTimestamp, $endTimestamp);
    }
 
+   public static function getDetailedCharges(CommandSet $cmdset, $isManager, $selectedFilters) {
+
+      $issueSel = $cmdset->getIssueSelection(Command::type_general);
+
+      $allFilters = "ProjectFilter,ProjectVersionFilter,ProjectCategoryFilter,IssueExtIdFilter,IssuePublicPrivateFilter,IssueTagFilter,IssueCodevTypeFilter";
+
+      $params = array(
+         'isManager' => $isManager,
+         'selectedFilters' => $selectedFilters,
+         'allFilters' => $allFilters
+      );
+
+
+      $detailedChargesIndicator = new DetailedChargesIndicator();
+      $detailedChargesIndicator->execute($issueSel, $params);
+
+      $smartyVariable = $detailedChargesIndicator->getSmartyObject();
+      $smartyVariable['selectFiltersSrcId'] = $cmdset->getId();
+
+      return $smartyVariable;
+   }
 
    /**
     * @param SmartyHelper $smartyHelper
     * @param CommandSet $commandset
     */
-   public static function displayCommandSet(SmartyHelper $smartyHelper, CommandSet $commandset) {
+   public static function displayCommandSet(SmartyHelper $smartyHelper, CommandSet $commandset, $isManager, $selectedFilters = '') {
       #$smartyHelper->assign('commandsetId', $commandset->getId());
       $smartyHelper->assign('teamid', $commandset->getTeamid());
       $smartyHelper->assign('commandsetName', $commandset->getName());
@@ -207,6 +228,13 @@ class CommandSetTools {
       $smartyHelper->assign('startDate', Tools::formatDate("%Y-%m-%d", $data[1]));
       $smartyHelper->assign('endDate', Tools::formatDate("%Y-%m-%d", $data[2]));
       $smartyHelper->assign('workdays', Holidays::getInstance()->getWorkdays($data[1], $data[2]));
+
+      // DetailedChargesIndicator
+      $data = self::getDetailedCharges($commandset, $isManager, $selectedFilters);
+      foreach ($data as $smartyKey => $smartyVariable) {
+         $smartyHelper->assign($smartyKey, $smartyVariable);
+      }
+
    }
 
 }

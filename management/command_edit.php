@@ -189,7 +189,9 @@ class CommandEditController extends Controller {
             $this->smartyHelper->assign('parentCmdSetCandidates', $parentCmdSets);
             $this->smartyHelper->assign('isAddCmdSetForm', true);
 
-            CommandTools::displayCommand($this->smartyHelper, $cmd);
+            $isManager = $session_user->isTeamManager($cmd->getTeamid());
+
+            CommandTools::displayCommand($this->smartyHelper, $cmd, $isManager);
 
             // multiple selection dialogBox
             $availableIssueList = $this->getChildIssuesCandidates($teamid);

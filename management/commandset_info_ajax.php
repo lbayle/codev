@@ -59,6 +59,23 @@ if(Tools::isConnectedUser() && (isset($_GET['action']) || isset($_POST['action']
          } else {
             Tools::sendBadRequest("CommandSet not set");
          }
+      } else if ($_GET['action'] == 'updateDetailedCharges') {
+
+         $cmdsetid = Tools::getSecureGETIntValue('selectFiltersSrcId');
+         $selectedFilters = Tools::getSecureGETStringValue('selectedFilters', '');
+
+
+         $session_user = UserCache::getInstance()->getUser($_SESSION['userid']);
+         $cmdSet = CommandSetCache::getInstance()->getCommandSet($cmdsetid);
+         $isManager = $session_user->isTeamManager($cmdSet->getTeamid());
+
+         // DetailedChargesIndicator
+         $data = CommandSetTools::getDetailedCharges($cmdSet, $isManager, $selectedFilters);
+         foreach ($data as $smartyKey => $smartyVariable) {
+            $smartyHelper->assign($smartyKey, $smartyVariable);
+         }
+         $smartyHelper->display('plugin/detailed_charges_indicator_data.html');
+
       } else {
          Tools::sendNotFoundAccess();
       }

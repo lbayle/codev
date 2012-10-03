@@ -35,6 +35,7 @@
             </select>
             <input type="button" id="sendForm" value="{t}Jump{/t}" />
             <input type="hidden" name="action" value="displayCommandSet" />
+            <input type="hidden" name="selectedFilters" value="{$selectedFilters}" />
          </fieldset>
       </form>
    </div>
@@ -93,6 +94,7 @@
          <li><a href="#tabsName-1">{t}Charges{/t}</a></li>
          <li><a href="#tabsName-4">{t}Activity{/t}</a></li>
          <li><a href="#tabsName-2">{t}Indicators{/t}</a></li>
+         <li><a href="#tabsName-3">{t}Detailed Charges{/t}</a></li>
       </ul>
       <div id="tabsName-1">
          {if $cmdList}
@@ -172,9 +174,14 @@
          {/if}
       </div>
       
+      <div id="tabsName-3">
+         {include file="plugin/detailed_charges_indicator.html"}
+      </div>
+
       <div id="tabsName-4">
       {include file="plugin/activity_indicator.html"}
       </div>
+
 
       {/if}
    </div>

@@ -140,7 +140,9 @@ class CommandSetEditController extends Controller {
             // set CommandSets I belong to
             $this->smartyHelper->assign('parentContracts', CommandSetTools::getParentContracts($cmdset));
 
-            CommandSetTools::displayCommandSet($this->smartyHelper, $cmdset);
+            $isManager = $session_user->isTeamManager($cmdset->getTeamid());
+
+            CommandSetTools::displayCommandSet($this->smartyHelper, $cmdset, $isManager);
          }
       }
    }
