@@ -76,7 +76,7 @@ class ServiceContractEditController extends Controller {
                   self::$logger->debug("create new ServiceContract for team $teamid<br>");
                }
 
-               $contractName = Tools::getSecurePOSTStringValue('contractName');
+               $contractName = Tools::getSecurePOSTStringValue('servicecontractName');
 
                $servicecontractid = ServiceContract::create($contractName, $teamid);
 
