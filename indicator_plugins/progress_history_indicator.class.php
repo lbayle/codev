@@ -165,6 +165,8 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
       $theoBacklog = array();
       $realBacklog = array();
       $sumElapsed = 0;
+      $nbZeroDivErrors1 = 0;
+      $nbZeroDivErrors2 = 0;
       foreach ($timestampList as $timestamp) {
          $midnight_timestamp = mktime(0, 0, 0, date('m', $timestamp), date('d', $timestamp), date('Y', $timestamp));
 
@@ -177,7 +179,8 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          } else {
             // TODO
             $val1 = 0;
-            self::$logger->error("Division by zero ! (mgrEffortEstim)");
+            $nbZeroDivErrors1 += 1;
+            //self::$logger->error("Division by zero ! (mgrEffortEstim)");
          }
          if ($val1 > 1) {$val1 = 1;}
          $theoBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val1 * 100, 2);
@@ -189,11 +192,20 @@ class ProgressHistoryIndicator implements IndicatorPlugin {
          } else {
             // TODO
             $val2 = 0;
-            self::$logger->error("Division by zero ! (elapsed + realBacklog)");
+            $nbZeroDivErrors2 += 1;
+            //self::$logger->error("Division by zero ! (elapsed + realBacklog)");
          }
          $realBacklog[Tools::formatDate("%Y-%m-%d", $midnight_timestamp)] = round($val2 * 100, 2);
 
          #echo "(".date('Y-m-d', $midnight_timestamp).")  rafTheo = $rafTheo sumElapsed = $sumElapsed theoBacklog = ".$theoBacklog[$midnight_timestamp]." realBacklog = ".$realBacklog[$midnight_timestamp].'<br>';
+      }
+
+      // PERF logging is slow, factorize errors
+      if ($nbZeroDivErrors1 > 0) {
+         self::$logger->error("$nbZeroDivErrors1 Division by zero ! (mgrEffortEstim)");
+      }
+      if ($nbZeroDivErrors2 > 0) {
+         self::$logger->error("$nbZeroDivErrors2 Division by zero ! (elapsed + realBacklog)");
       }
 
       $this->execData = array();
