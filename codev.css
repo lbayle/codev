@@ -253,7 +253,7 @@ table.datatable thead .sorting, table.display thead .sorting {
 }
 
 table.datatable tbody tr:hover, table.display tbody tr:hover {
-   background-color: rgb(128,128,255);
+   background-color: rgb(220,220,255);
 }
 
 .dataTables_scroll {
