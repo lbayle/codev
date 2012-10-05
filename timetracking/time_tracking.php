@@ -113,8 +113,9 @@ class TimeTrackingController extends Controller {
                if ($job != $job_support) {
                   // decrease backlog (only if 'backlog' already has a value)
                   $issue = IssueCache::getInstance()->getIssue($defaultBugid);
-                  if (!is_null($issue->getBacklog())) {
-                     $backlog = $issue->getBacklog() - $duration;
+                  $backlog = $issue->getBacklog();
+                  if (!is_null($backlog) && is_numeric($backlog)) {
+                     $backlog = $backlog - $duration;
                      if ($backlog < 0) { $backlog = 0; }
                      $issue->setBacklog($backlog);
                   }
@@ -127,18 +128,33 @@ class TimeTrackingController extends Controller {
 
                      $formatedDate = Tools::formatDate(T_("%Y-%m-%d"), $issue->getDeadLine());
 
+                     $totalEE = ($issue->getEffortEstim() + $issue->getEffortAdd());
+                     
+                     // Note: if Backlog is NULL, the values to propose in the DialogBox 
+                     //       are not the ones used for ProjectManagement
+                     $backlog = $issue->getBacklog();
+                     if ( !is_null($backlog) && is_numeric($backlog)) {
+                        // normal case
+                        $drift = $issue->getDrift();
+                     } else {
+                        // reestimated cannot be used...
+                        $backlog = $totalEE - $issue->getElapsed();
+                        if ($backlog < 0) { $backlog = 0;}
+                        $drift = ($issue->getElapsed() + $backlog) - $totalEE;
+                     }
+
                      $issueInfo = array(
-                        'backlog' => $issue->getBacklog(),
+                        'backlog' => $backlog,
                         'bugid' => $issue->getId(),
                         'description' => $issue->getSummary(),
                         'dialogBoxTitle' => $issue->getFormattedIds(),
-                        'effortEstim' => ($issue->getEffortEstim() + $issue->getEffortAdd()),
+                        'effortEstim' => $totalEE,
                         'mgrEffortEstim' => $issue->getMgrEffortEstim(),
                         'elapsed' => $issue->getElapsed(),
-                        'drift' => $issue->getDrift(),
+                        'drift' => $drift,
                         'driftMgr' => $issue->getDriftMgr(),
                         'reestimated' => $issue->getReestimated(),
-                        'driftColor' => $issue->getDriftColor(),
+                        'driftColor' => $issue->getDriftColor($drift),
                         'deadline' => $formatedDate
 
                      );
