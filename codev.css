@@ -256,6 +256,10 @@ table.datatable tbody tr:hover, table.display tbody tr:hover {
    background-color: rgb(220,220,255);
 }
 
+table tbody tr:hover, table tbody tr:hover {
+   background-color: rgb(220,220,255);
+}
+
 .dataTables_scroll {
    clear: both;
    background-color: #E8E8E8;
