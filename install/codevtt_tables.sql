@@ -21,6 +21,13 @@
 
 -- --------------------------------------------------------
 
+
+--
+-- tune MantisBT tables for CodevTT needs
+--
+CREATE INDEX `handler_id` ON `mantis_bug_table` (`handler_id`);
+
+
 --
 -- Structure de la table `codev_config_table`
 --
@@ -31,9 +38,12 @@ CREATE TABLE IF NOT EXISTS `codev_config_table` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `project_id` int(11) NOT NULL DEFAULT '0',
   `team_id` int(11) NOT NULL DEFAULT '0',
+  `servicecontract_id` int(11) NOT NULL DEFAULT '0',
+  `commandset_id` int(11) NOT NULL DEFAULT '0',
+  `command_id` int(11) NOT NULL DEFAULT '0',
   `access_reqd` int(11) DEFAULT NULL,
   `description` longtext,
-  PRIMARY KEY (`config_id`,`team_id`,`project_id`,`user_id`)
+  PRIMARY KEY (`config_id`,`team_id`,`project_id`,`user_id`,`servicecontract_id`,`commandset_id`,`command_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
@@ -157,7 +167,9 @@ CREATE TABLE IF NOT EXISTS `codev_team_project_table` (
   `project_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
   `type` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `project_id` (`project_id`),
+  KEY `team_id` (`team_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
@@ -382,7 +394,10 @@ CREATE TABLE IF NOT EXISTS `codev_command_bug_table` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `command_id` int(11) NOT NULL,
   `bug_id` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  KEY `command_id` (`command_id`),
+  KEY `bug_id` (`bug_id`)
+
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
