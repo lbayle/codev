@@ -252,12 +252,12 @@ table.datatable thead .sorting, table.display thead .sorting {
    background-position: center right;
 }
 
-table.datatable tbody tr:hover, table.display tbody tr:hover {
+table tbody tr:hover {
    background-color: rgb(220,220,255);
 }
 
-table tbody tr:hover, table tbody tr:hover {
-   background-color: rgb(220,220,255);
+table.invisible tbody tr:hover {
+   background-color: transparent;
 }
 
 .dataTables_scroll {
